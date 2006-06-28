@@ -1,0 +1,10 @@
+<h2><%= @news.title %></h2>
+
+<p>
+<b><%=_('Summary')%></b>: <%= @news.shortdescr %><br />
+<b><%=_('By')%></b>: <%= @news.author.display_name %><br />
+<b><%=_('Date')%></b>: <%= format_time(@news.created_on) %>
+</p>
+
+<%= @news.descr %>
+

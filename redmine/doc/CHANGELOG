@@ -1,0 +1,17 @@
+== redMine changelog
+
+redMine - project management software
+Copyright (C) 2006  Jean-Philippe Lang
+http://redmine.sourceforge.net/
+
+
+== 06/25/2006 - v0.1.0
+
+* multiple users/multiple projects
+* role based access control
+* issue tracking system
+* fully customizable workflow
+* documents/files repository
+* email notifications on issue creation and update
+* multilanguage support (except for error messages):english, french, spanish
+* online manual in french (unfinished)

@@ -1,0 +1,322 @@
+/* andreas08 - an open source xhtml/css website layout by Andreas Viklund - http://andreasviklund.com . Free to use in any way and for any purpose as long as the proper credits are given to the original designer. Version: 1.0, November 28, 2005 */
+/* Edited by Jean-Philippe Lang *>
+/**************** Body and tag styles ****************/
+
+
+#header * {margin:0; padding:0;}
+p, ul, ol, li {margin:0; padding:0;}
+
+
+body{
+font:76% Verdana,Tahoma,Arial,sans-serif;
+line-height:1.4em;
+text-align:center;
+color:#303030;
+background:#e8eaec;
+}
+
+a{
+color:#467aa7;
+font-weight:bold;
+text-decoration:none;
+background-color:inherit;
+}
+
+a:hover{color:#2a5a8a; text-decoration:none; background-color:inherit;}
+a img{border:none;}
+
+p{padding:0 0 1em 0;}
+p form{margin-top:0; margin-bottom:20px;}
+
+img.left,img.center,img.right{padding:4px; border:1px solid #a0a0a0;}
+img.left{float:left; margin:0 12px 5px 0;}
+img.center{display:block; margin:0 auto 5px auto;}
+img.right{float:right; margin:0 0 5px 12px;}
+
+/**************** Header and navigation styles ****************/
+
+#container{
+width:100%;
+min-width: 800px;
+margin:5px auto;
+padding:1px 0;
+text-align:left;
+background:#ffffff;
+color:#303030;
+border:2px solid #a0a0a0;
+}
+
+#header{
+height:5.5em;
+/*width:758px;*/
+margin:0 1px 1px 1px;
+background:#467aa7;
+color:#ffffff;
+}
+
+#header h1{
+padding:14px 0 0 20px;
+font-size:2.4em;
+background-color:inherit;
+color:#fff; /*rgb(152, 26, 33);*/
+letter-spacing:-2px;
+font-weight:normal;
+}
+
+#header h2{
+margin:10px 0 0 40px;
+font-size:1.4em;
+background-color:inherit;
+color:#f0f2f4;
+letter-spacing:-1px;
+font-weight:normal;
+}
+
+#navigation{
+height:2.2em;
+line-height:2.2em;
+/*width:758px;*/
+margin:0 1px;
+background:#578bb8;
+color:#ffffff;
+}
+
+#navigation li{
+float:left;
+list-style-type:none;
+border-right:1px solid #ffffff;
+white-space:nowrap;
+}
+
+#navigation li.right {
+ float:right;
+list-style-type:none;
+border-right:0;
+border-left:1px solid #ffffff;
+white-space:nowrap;
+}
+
+#navigation li a{
+display:block;
+padding:0px 10px 0px 22px;
+font-size:0.8em;
+font-weight:normal;
+/*text-transform:uppercase;*/
+text-decoration:none;
+background-color:inherit;
+color: #ffffff;
+}
+
+* html #navigation a {width:1%;}
+
+#navigation .selected,#navigation a:hover{
+color:#ffffff;
+text-decoration:none;
+background-color: #80b0da;
+}
+
+/**************** Icons links *******************/
+.picHome {	background: url(../images/home.png) no-repeat 4px 50%; }
+.picUser {	background: url(../images/user.png) no-repeat 4px 50%; }
+.picUserPage {	background: url(../images/user_page.png) no-repeat 4px 50%; }
+.picAdmin {	background: url(../images/admin.png) no-repeat 4px 50%; }
+.picProject { background: url(../images/projects.png) no-repeat 4px 50%; }
+.picLogout { background: url(../images/logout.png) no-repeat 4px 50%; }
+.picHelp { background: url(../images/help.png) no-repeat 4px 50%; }
+
+/**************** Content styles ****************/
+
+#content{
+/*float:right;*/
+/*width:530px;*/
+width: auto;
+min-height: 500px;
+font-size:0.9em;
+padding:20px 10px 10px 20px;
+/*position: absolute;*/
+margin: 0 0 0 140px;
+border-left: 1px dashed #c0c0c0;
+
+}
+
+#content h2{
+display:block;
+margin:0 0 16px 0;
+font-size:1.7em;
+font-weight:normal;
+letter-spacing:-1px;
+color:#505050;
+background-color:inherit;
+}
+
+#content h2 a{font-weight:normal;}
+#content h3{margin:0 0 5px 0; font-size:1.4em; letter-spacing:-1px;}
+#content a:hover,#subcontent a:hover{text-decoration:underline;}
+#content ul,#content ol{margin:0 5px 16px 35px;}
+#content dl{margin:0 5px 10px 25px;}
+#content dt{font-weight:bold; margin-bottom:5px;}
+#content dd{margin:0 0 10px 15px;}
+
+
+/***********************************************/
+
+/*
+form{
+	padding:15px; 
+	margin:0 0 20px 0;
+	border:1px solid #c0c0c0;
+	background-color:#CEE1ED;
+	width:600px;
+}
+*/
+
+form {
+	display: inline;
+}
+
+.noborder {
+	border:0px;
+	background-color:#fff;
+	width:100%;
+}
+
+input {
+	vertical-align: top;
+}
+
+input.button-small 
+{
+    font-size: 0.8em;
+}
+
+label {
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.required {
+	color: #bb0000;
+}
+
+table.listTableContent {
+	/*margin: 2em 2em 2em 0;	*/
+	border:1px solid #c0c0c0;
+	width:99%;
+}
+
+table.listTableContent td {
+	margin: 2px;
+	
+}
+
+tr.ListHead {
+	background-color:#467aa7; 
+	color:#FFFFFF;
+	text-align:center;
+}
+
+tr.ListHead a {
+	color:#FFFFFF;
+	text-decoration:underline;
+}
+
+tr.ListLine0 {
+	background-color: #C1E2F7;
+}
+tr.ListLine1 {
+	background-color:#CEE1ED;
+}
+
+hr { border:0px; border-bottom:1px dashed #000000; }
+
+
+/**************** Sidebar styles ****************/
+
+#subcontent{
+float:left;
+clear:both;
+width:130px;
+padding:20px 20px 10px 5px;
+line-height:1.4em;
+}
+
+#subcontent h2{
+display:block;
+margin:0 0 15px 0;
+font-size:1.6em;
+font-weight:normal;
+text-align:left;
+letter-spacing:-1px;
+color:#505050;
+background-color:inherit;
+}
+
+#subcontent p{margin:0 0 16px 0; font-size:0.9em;}
+
+/**************** Menublock styles ****************/
+
+.menublock{margin:0 0 20px 8px; font-size:0.9em;}
+.menublock li{list-style:none; display:block; padding:1px; margin-bottom:0px;}
+.menublock li a{font-weight:bold; text-decoration:none;}
+.menublock li a:hover{text-decoration:none;}
+.menublock li ul{margin:3px 0 3px 15px; font-size:1em; font-weight:normal;}
+.menublock li ul li{margin-bottom:0;}
+.menublock li ul a{font-weight:normal;}
+
+/**************** Searchbar styles ****************/
+
+#searchbar{margin:0 0 20px 0;}
+#searchbar form fieldset{margin-left:10px; border:0 solid;}
+
+#searchbar #s{
+height:1.2em;
+width:110px;
+margin:0 5px 0 0;
+border:1px solid #a0a0a0;
+}
+
+#searchbar #searchbutton{
+width:auto;
+padding:0 1px;
+border:1px solid #808080;
+font-size:0.9em;
+text-align:center;
+}
+
+/**************** Footer styles ****************/
+
+#footer{
+clear:both;
+/*width:758px;*/
+padding:5px 0;
+margin:0 1px;
+font-size:0.9em;
+color:#f0f0f0;
+background:#467aa7;
+}
+
+#footer p{padding:0; margin:0; text-align:center;}
+#footer a{color:#f0f0f0; background-color:inherit; font-weight:bold;}
+#footer a:hover{color:#ffffff; background-color:inherit; text-decoration: underline;}
+
+/**************** Misc classes and styles ****************/
+
+.splitcontentleft{float:left; width:49%;}
+.splitcontentright{float:right; width:49%;}
+.clear{clear:both;}
+.small{font-size:0.8em;line-height:1.4em;padding:0 0 0 0;}
+.hide{display:none;}
+.textcenter{text-align:center;}
+.textright{text-align:right;}
+.important{color:#f02025; background-color:inherit; font-weight:bold;}
+
+.box{
+margin:0 0 20px 0;
+padding:10px;
+border:1px solid #c0c0c0;
+background-color:#fafbfc;
+color:#505050;
+line-height:1.5em;
+}
+
+

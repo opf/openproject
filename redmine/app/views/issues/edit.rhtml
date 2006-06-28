@@ -1,0 +1,62 @@
+<h2><%=_('Issue')%> #<%= @issue.id %></h2>
+
+<%= error_messages_for 'issue' %>
+<%= start_form_tag :action => 'edit', :id => @issue %>
+
+<!--[form:issue]-->
+<p><%=_('Status')%>: <b><%= @issue.status.name %></b></p>
+
+<div style="float:left;margin-right:10px;">
+<p><label for="issue_tracker_id"><%=_('Tracker')%> <span class="required">*</span></label><br/>
+<select name="issue[tracker_id]">
+<%= options_from_collection_for_select @trackers, "id", "name", @issue.tracker_id %></p>
+</select></p>
+</div>
+
+<div style="float:left;margin-right:10px;">
+<p><label for="issue_priority_id"><%=_('Priority')%> <span class="required">*</span></label><br/>
+<select name="issue[priority_id]">
+<%= options_from_collection_for_select @priorities, "id", "name", @issue.priority_id %></p>
+</select></p>
+</div>
+
+<div style="float:left;margin-right:10px;">
+<p><label for="issue_assigned_to_id"><%=_('Assigned to')%></label><br/>
+<select name="issue[assigned_to_id]">
+<option value=""></option>
+<%= options_from_collection_for_select @issue.project.members, "user_id", "name", @issue.assigned_to_id %></p>
+</select></p>
+</div>
+
+<div>
+<p><label for="issue_category_id"><%=_('Category')%></label><br/>
+<select name="issue[category_id]">
+<option value=""></option>
+<%= options_from_collection_for_select @project.issue_categories, "id", "name", @issue.category_id %></p>
+</select></p>
+</div>
+
+<p><label for="issue_subject"><%=_('Subject')%></label><span class="required">*</span><br/>
+<%= text_field 'issue', 'subject', :size => 60  %></p>
+
+<p><label for="issue_descr"><%=_('Description')%></label><span class="required">*</span><br/>
+<%= text_area 'issue', 'descr', :cols => 60, :rows => 10  %></p>
+
+
+<% for custom_value in @custom_values %>
+	<p><%= content_tag "label", custom_value.custom_field.name %>
+	<% if custom_value.custom_field.is_required? %><span class="required">*</span><% end %>
+	<br />
+	<%= custom_field_tag custom_value %></p>
+<% end %>
+
+
+<p><label for="issue_fixed_version"><%=_('Fixed in version')%></label><br/>
+<select name="issue[fixed_version_id]">
+<option value="">--none--</option>
+<%= options_from_collection_for_select @project.versions, "id", "name", @issue.fixed_version_id %>
+</select></p>
+<!--[eoform:issue]-->
+
+<center><%= submit_tag _('Save') %></center>
+<%= end_form_tag %>

@@ -1,0 +1,45 @@
+<h2><%= @document.title %></h2>
+
+<strong><%=_('Description')%>:</strong> <%= @document.descr %><br />
+<strong><%=_('Category')%>:</strong> <%= @document.category.name %><br />
+<br />
+
+<% if authorize_for('documents', 'edit') %>
+  <%= start_form_tag ({ :controller => 'documents', :action => 'edit', :id => @document }, :method => 'get' ) %>
+  <%= submit_tag _('Edit') %>
+  <%= end_form_tag %> 
+<% end %>
+
+<% if authorize_for('documents', 'destroy') %>
+  <%= start_form_tag ({ :controller => 'documents', :action => 'destroy', :id => @document } ) %>
+  <%= submit_tag _('Delete') %>
+  <%= end_form_tag %>  
+<% end %>
+
+<br /><br />
+
+<table border="0" cellspacing="1" cellpadding="2" width="100%">  
+<% for attachment in @document.attachments %>
+  <tr style="background-color:#CEE1ED">
+  <td><%= link_to attachment.filename, :action => 'download', :id => @document, :attachment_id => attachment %></td>
+  <td align="center"><%= format_date(attachment.created_on) %></td>
+  <td align="center"><%= attachment.author.display_name %></td>
+  <td><%= human_size(attachment.size) %><br /><%= attachment.downloads %> <%=_('download')%>(s)</td>
+  <% if authorize_for('documents', 'destroy_attachment') %>
+  <td align="center">
+    <%= start_form_tag :action => 'destroy_attachment', :id => @document, :attachment_id => attachment %>
+    <%= submit_tag _('Delete'), :class => "button-small" %>
+    <%= end_form_tag %>
+  </tr>
+  <% end %>
+<% end %>
+</table>
+<br />
+
+<% if authorize_for('documents', 'add_attachment') %>
+  <%= start_form_tag ({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true) %>
+  <%=_('Add file')%><br /><%= file_field 'attachment', 'file'  %>
+  <%= submit_tag _('Add') %>
+  <%= end_form_tag %> 
+<% end %>
+

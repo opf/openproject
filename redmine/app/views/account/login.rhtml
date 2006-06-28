@@ -1,0 +1,13 @@
+<div class="box">
+<h2><%=_ 'Please login' %></h2>
+
+<%= start_form_tag :action=> "login" %>
+<p><label for="user_login"><%=_ 'Login' %>:</label><br/>
+<input type="text" name="user[login]" id="user_login" size="30" /></p>
+
+<p><label for="user_password"><%=_ 'Password' %>:</label><br/>
+<input type="password" name="user[password]" id="user_password" size="30"/></p>
+
+<p><input type="submit" name="login" value="<%=_ 'Log in' %> &#187;" class="primary" /></p>
+<%= end_form_tag %>
+</div>

@@ -1,0 +1,22 @@
+<h2><%=_('Public projects')%></h2>
+
+<table width="100%" cellspacing="1" cellpadding="2" class="listTableContent">
+  <tr class="ListHead">
+	<%= sort_header_tag('projects.name', :caption => _('Project')) %>
+	<th>Description</th>
+	<%= sort_header_tag('projects.created_on', :caption => _('Created on')) %>
+  </tr>
+  
+<% odd_or_even = 1
+	for project in @projects
+	odd_or_even = 1 - odd_or_even %>
+  <tr class="ListLine<%= odd_or_even %>">
+	<td><%= link_to project.name, :action => 'show', :id => project %>
+	<td><%= project.descr %>
+	<td align="center"><%= format_date(project.created_on) %>
+  </tr>
+<% end %>
+</table>
+
+<%= pagination_links_full @project_pages %>
+[ <%= @project_pages.current.first_item %> - <%= @project_pages.current.last_item %> / <%= @project_count %> ]

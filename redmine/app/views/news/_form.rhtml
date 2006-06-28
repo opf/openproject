@@ -1,0 +1,13 @@
+<%= error_messages_for 'news' %>
+
+<!--[form:news]-->
+<p><label for="news_title"><%=_('Title')%></label> <span class="required">*</span><br/>
+<%= text_field 'news', 'title', :size => 60  %></p>
+
+<p><label for="news_shortdescr"><%=_('Summary')%> <span class="required">*</span></label><br/>
+<%= text_area 'news', 'shortdescr', :cols => 60, :rows => 2 %></p>
+
+<p><label for="news_descr"><%=_('Description')%> <span class="required">*</span></label><br/>
+<%= text_area 'news', 'descr', :cols => 60, :rows => 10 %></p>
+<!--[eoform:news]-->
+

@@ -1,0 +1,21 @@
+# administration
+admin:
+  index:    administration.html
+  mail_options: administration.html#mail_notifications
+  info:       administration.html#app_info
+users:
+  index:    administration.html#users
+roles:
+  index:    administration.html#roles
+  workflow: administration.html#workflow
+trackers:
+  index:    administration.html#trackers
+issue_statuses:
+  index:    administration.html#issue_statuses  
+
+# projects
+projects:
+  add:        projects.html#settings
+
+
+# issues

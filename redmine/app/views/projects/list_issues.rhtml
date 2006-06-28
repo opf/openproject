@@ -1,0 +1,56 @@
+<h2><%=_('Issues')%></h2>
+
+<form method="post" class="noborder">
+	<table cellpadding=2>
+  <tr>
+    <td><%=_('Status')%>:<br /><%= search_filter_tag("issues.status_id") %></td>
+    <td><%=_('Tracker')%>:<br /><%= search_filter_tag("issues.tracker_id") %></td>
+    <td><%=_('Priority')%>:<br /><%= search_filter_tag("issues.priority_id") %></td>
+    <td><%=_('Category')%>:<br /><%= search_filter_tag("issues.category_id") %></td>
+    <td><%=_('Author')%>:<br /><%= search_filter_tag("issues.author_id") %></td>
+    <td valign="bottom">
+      <%= submit_tag _('Apply filter') %>
+      <%= end_form_tag %>
+      
+      <%= start_form_tag %>
+      <%= submit_tag _('Reset') %>
+      <%= end_form_tag %>
+    </td>
+  </tr>
+	</table>
+  
+  &nbsp;
+		
+	<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+	
+		<tr class="ListHead">	
+			<%= sort_header_tag('issues.id', :caption => '#') %>
+			<%= sort_header_tag('issue_statuses.name', :caption => _('Status')) %>
+			<%= sort_header_tag('issues.tracker_id', :caption => _('Tracker')) %>
+			<th><%=_('Subject')%></th>
+			<%= sort_header_tag('users.lastname', :caption => _('Author')) %>
+			<%= sort_header_tag('issues.created_on', :caption => _('Created on')) %>
+			<%= sort_header_tag('issues.updated_on', :caption => _('Last update')) %>
+		</tr>
+
+		<% for issue in @issues %>
+		<tr bgcolor="#<%= issue.status.html_color %>">
+			<td align="center"><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></td>
+			<td align="center"><%= issue.status.name %></td>
+			<td align="center"><%= issue.tracker.name %></td>
+			<td><%= link_to issue.subject, :controller => 'issues', :action => 'show', :id => issue %></td>
+			<td align="center"><%= issue.author.display_name %></td>
+			<td align="center"><%= format_time(issue.created_on) %></td>
+			<td align="center"><%= format_time(issue.updated_on) %></td>
+		</tr>
+		<% end %>
+	</table>
+	<p>
+	<%= pagination_links_full @issue_pages %>
+	[ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
+	</p>
+	
+
+<p>
+<%= link_to_if_authorized '&#187; ' + _('Report an issue'), :controller => 'projects', :action => 'add_issue', :id => @project %>
+</p>

@@ -1,0 +1,70 @@
+/* andreas08 - an open source xhtml/css website layout by Andreas Viklund - http://andreasviklund.com . Free to use in any way and for any purpose as long as the proper credits are given to the original designer. Version: 1.0, November 28, 2005 */
+
+/**************** Body and tag styles ****************/
+
+
+
+body{
+font:76% Verdana,Tahoma,Arial,sans-serif;
+line-height:1.4em;
+color:#303030;
+margin: 20px;
+}
+
+a{
+color:#467aa7;
+font-weight:bold;
+text-decoration:none;
+background-color:inherit;
+}
+
+a:hover{color:#2a5a8a; text-decoration:none; background-color:inherit;}
+a img{border:none;}
+
+p{padding:0 0 0.2em 0;}
+p form{margin-top:0; margin-bottom:20px;}
+
+h1 {
+display:block;
+
+font-size:1.7em;
+font-weight:normal;
+letter-spacing:-1px;
+color:#505050;
+background-color:inherit;
+}
+
+h2 {
+display:block;
+margin: 30px 0 0 0;
+font-size:1.5em;
+font-weight:normal;
+letter-spacing:-1px;
+color:#505050;
+background-color:inherit;
+}
+
+hr { border:0px; border-bottom:1px dashed #000000; }
+
+
+/**************** Misc classes and styles ****************/
+
+.splitcontentleft{float:left; width:49%;}
+.splitcontentright{float:right; width:49%;}
+.clear{clear:both;}
+.small{font-size:0.8em;line-height:1.4em;padding:0 0 0 0;}
+.hide{display:none;}
+.textcenter{text-align:center;}
+.textright{text-align:right;}
+.important{color:#f02025; background-color:inherit; }
+
+.box{
+margin:0 0 20px 0;
+padding:10px;
+border:1px solid #c0c0c0;
+background-color:#fafbfc;
+color:#505050;
+line-height:1.5em;
+}
+
+

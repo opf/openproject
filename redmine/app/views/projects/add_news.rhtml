@@ -1,0 +1,7 @@
+<h2><%=('Add news')%></h2>
+
+<%= start_form_tag :action => 'add_news', :id => @project %>
+  <%= render :partial => 'news/form' %>
+  <%= submit_tag _('Create') %>
+<%= end_form_tag %>
+

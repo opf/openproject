@@ -1,0 +1,34 @@
+<% col_width = 70 / (@statuses.length+3) %>
+
+<table border="0" cellspacing="1" cellpadding="2" width="100%">
+<tr>
+<td width="25%"></td>
+<% for status in @statuses %>
+  <td align="center" width="<%= col_width %>%" bgcolor="#<%= status.html_color %>"><small><%= status.name %></small></td>
+<% end %>
+<td align="center" width="<%= col_width %>%"><strong><%=_('Open')%></strong></td>
+<td align="center" width="<%= col_width %>%"><strong><%=_('Closed')%></strong></td>
+<td align="center" width="<%= col_width %>%"><strong><%=_('Total')%></strong></td>
+</tr>
+
+<% for row in rows %>
+<tr style="background-color:#CEE1ED">
+  <td><%= link_to row.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
+                                                :set_filter => 1, 
+                                                "issues.#{field_name}" => row.id %></td>
+  <% for status in @statuses %>
+    <td align="center"><%= link_to (aggregate data, { field_name => row.id, "status_id" => status.id }), 
+                                                :controller => 'projects', :action => 'list_issues', :id => @project, 
+                                                :set_filter => 1, 
+                                                "issues.status_id" => status.id, 
+                                                "issues.#{field_name}" => row.id %></td>
+  <% end %>
+  <td align="center"><%= aggregate data, { field_name => row.id, "closed" => 0 } %></td>
+  <td align="center"><%= aggregate data, { field_name => row.id, "closed" => 1 } %></td>
+  <td align="center"><%= link_to (aggregate data, { field_name => row.id }),
+                                                :controller => 'projects', :action => 'list_issues', :id => @project, 
+                                                :set_filter => 1, 
+                                                "issues.#{field_name}" => row.id %></td>  
+<% end %>
+</tr>
+</table>

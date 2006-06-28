@@ -1,0 +1,90 @@
+
+<h2><%=_('Issue')%> #<%= @issue.id %> - <%= @issue.subject %></h2>
+
+<div class="box">
+<p><b><%=_('Tracker')%>:</b> <%= @issue.tracker.name %></p>
+<p><b><%=_('Priority')%>:</b> <%= @issue.priority.name %></p>
+<p><b><%=_('Category')%>:</b> <%= @issue.category.name unless @issue.category_id.nil? %></p>
+<p><b><%=_('Status')%>:</b> <%= @issue.status.name %></p>
+<p><b><%=_('Author')%>:</b> <%= @issue.author.display_name %></p>
+<p><b><%=_('Assigned to')%>:</b> <%= @issue.assigned_to.display_name unless @issue.assigned_to.nil? %></p>
+
+<p><b><%=_('Subject')%>:</b> <%= @issue.subject %></p>
+<p><b><%=_('Description')%>:</b> <%= @issue.descr %></p>
+<p><b><%=_('Created on')%>:</b> <%= format_date(@issue.created_on) %></p>
+
+<% if authorize_for('issues', 'edit') %>
+  <%= start_form_tag ({:controller => 'issues', :action => 'edit', :id => @issue}, :method => "get" ) %>
+  <%= submit_tag _('Edit') %>
+  <%= end_form_tag %>
+  &nbsp;&nbsp;
+<% end %>
+
+<% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
+  <%= start_form_tag ({:controller => 'issues', :action => 'change_status', :id => @issue}) %>
+  <label for="history_status_id"><%=_('Change status')%>:</label>
+  <select name="history[status_id]">
+  <%= options_from_collection_for_select @status_options, "id", "name" %>
+  </select>
+  <%= submit_tag _ "Update..." %>
+  <%= end_form_tag %>
+  &nbsp;&nbsp;
+<% end %>
+
+<% if authorize_for('issues', 'destroy') %>
+  <%= start_form_tag ({:controller => 'issues', :action => 'destroy', :id => @issue} ) %>
+  <%= submit_tag _ "Delete" %>
+  <%= end_form_tag %>
+  &nbsp;&nbsp;
+<% end %>
+
+</div>
+
+
+<div class="splitcontentleft">
+<div class="box">
+<h3><%=_('History')%></h3>
+<table width="100%">
+<% for history in @issue.histories.find(:all, :include => :author) %>
+<tr>
+<td><%= format_date(history.created_on) %></td>
+<td><%= history.author.display_name %></td>
+<td><b><%= history.status.name %></b></td>
+</tr>
+<% if history.notes? %>
+	<tr><td colspan=3><div class="notes"><%= history.notes %></td></tr>
+<% end %>
+<% end %>
+</table>
+</div>
+</div>
+
+<div class="splitcontentright">
+<div class="box">
+<h3><%=_('Attachments')%></h3>
+<table width="100%">
+<% for attachment in @issue.attachments %>
+<tr>
+<td><%= link_to attachment.filename, :action => 'download', :id => @issue, :attachment_id => attachment %> (<%= human_size(attachment.size) %>)</td>
+<td><%= format_date(attachment.created_on) %></td>
+<td><%= attachment.author.display_name %></td>
+<% if authorize_for('issues', 'destroy_attachment') %>
+  <td>
+  <%= start_form_tag :action => 'destroy_attachment', :id => @issue, :attachment_id => attachment %>
+  <%= submit_tag _('Delete'), :class => "button-small" %>
+  <%= end_form_tag %>
+  </td>
+<% end %>
+</tr>
+<% end %>
+</table>
+<br />
+<% if authorize_for('issues', 'add_attachment') %>
+  <%= start_form_tag ({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true) %>
+  <%=_('Add file')%>: <%= file_field 'attachment', 'file'  %>
+  <%= submit_tag _('Add') %>
+  <%= end_form_tag %> 
+<% end %>
+</div>
+</div>
+

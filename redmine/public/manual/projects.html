@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<head>
+<title>redMine - Aide en ligne</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<meta name="description" content="redMine" />
+<meta name="keywords" content="issue,bug,tracker" />
+<link href="stylesheets/help.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<p align="right">[ <a href="index.html">Index</a> ]</p>
+<h1>Projets</h1>
+Sommaire:
+<ol>
+  <li><a href="projects.html#overview">Aperçu</a></li>
+  <li><a href="projects.html#issues">Demandes</a>
+    <ul>
+    <li>Liste des demandes</li>
+    <li>Nouvelle demande</li>
+    <li>Changer le statut d'une demande</li> 
+    </ul>
+  </li>  
+  <li><a href="projects.html#reports">Rapports</a></li>
+  <li><a href="projects.html#news">Annonces</a></li>
+  <li><a href="projects.html#changelog">Historique</a></li>
+  <li><a href="projects.html#documents">Documents</a></li>
+  <li><a href="projects.html#members">Membres</a></li>
+  <li><a href="projects.html#files">Fichiers</a></li>
+  <li><a href="projects.html#settings">Configuration</a></li>
+    <ul>
+    <li>Projet</li>
+    <li>Membres</li>
+    <li>Versions</li> 
+    <li>Catégories de demande</li> 
+    </ul>
+</ol>
+
+
+<h2><a name="overview"></a>1. Aperçu</h2>
+<p>L'aperçu vous présente les informations générales relatives au projet, les principaux membres, les dernières annonces, ainsi qu'une synthèse du nombre de demandes ouvertes par tracker.
+
+
+<h2><a name="issues"></a>2. Demandes</h2>
+<h3>2.1 Liste des demandes</h3>
+Par défaut, l'ensemble des demandes sont affichées. Vous pouvez utiliser les différents filtres pour limiter l'affichage à certaines demandes seulement.<br />
+Lorsque vous appliquez un filtre, il reste en place durant toute votre session. Vous pouvez le redéfinir, ou le supprimer en cliquant sur <b>Annuler</b>.
+<center><img src="images/issues_list.png"><br />
+<i><small>Liste des demandes</small></i></center>
+
+<h3>2.2 Nouvelle demande</h3>
+<p>TODO</p>
+
+<h3>2.3 Changer le statut d'une demande</h3>
+<p>TODO</p>
+
+
+<h2><a name="reports"></a>3. Rapports</h2>
+<p>Synthèse du nombre de demandes par statut et selon différents critères (tracker, priorité, catégorie).
+Des liens directs permettent d'accéder à la liste détaillée des demandes pour chaque critère.</p>
+
+
+<h2><a name="news"></a>4. Annonces</h2>
+<p>Les nouvelles vous permettent d'informer les utilisateurs sur l'activité du projet.</p>
+
+
+<h2><a name="changelog"></a>5. Historique</h2>
+<p>Cette page présente l'ensemble des demandes résolues dans chacune des versions du projet.
+Certains types de demande peuvent être exclus de cet affichage (voir <a href="administration.html#trackers">Trackers</a>).</p>
+
+
+<h2><a name="documents"></a>6. Documents</h2>
+<p>Les documents sont groupés par catégories (voir <a href="administration.html#enumerations">Listes de valeurs</a>).<br />
+Un document peut contenir plusieurs fichiers (exemple: révisions ou versions successives)</p>
+
+
+<h2><a name="members"></a>7. Membres</h2>
+<p>Affichage de l'ensemble des membres du projet, par rôle</p>
+
+
+<h2><a name="files"></a>8. Fichiers</h2>
+<p>Ce module vous permet de publier les fichiers de l'application (sources, binaires, ...) pour chaque version de l'application .</p>
+
+<h2><a name="settings"></a>9. Configuration</h2>
+<h3>9.1 Projet</h3>
+<ul>
+  <li><b>Public</b>: si le projet est public, il sera visible (consultation des demandes, des documents, ...) pour l'ensemble des utilisateurs, y compris ceux qui ne sont pas membres du projet.<br />
+  Si le projet n'est pas public, seuls les membres du projet y ont accès, en fonction de leur rôle.</li>
+  <li><b>Champs personnalisés</b>: sélectionner les champs personnalisés que vous souhaitez utiliser au sein du projet.<br />
+  Seul l'administrateur peut ajouter de nouveaux champs personnalisés.</li>
+</ul>
+<h3>9.2 Membres</h3>
+<p>Cette section vous permet de définir les membres du projet ainsi que leurs rôles respectifs.<br />
+Un utilisateur ne peut avoir qu'un rôle au sein d'un projet donné. Le rôle d'un membre détermine les permissions dont il bénéficie sur le projet.</p>
+
+<h3>9.3 Versions</h3>
+<p>Les versions vous permettent de suivre les changements survenus tout au long du projet.
+A la fermeture d'une demande, vous pouvez indiquer quelle version la prend en compte.<br />
+Vous pouvez par ailleurs publier les différentes versions de l'application (voir <a href="projects.html#files">Fichiers</a>).
+</p>
+
+
+<h3>9.4 Catégories de demande</h3>
+<p>Les catégories de demande vous permettent de typer les demandes. Les catégories peuvent par exemple correspondre aux modules de l'application.</p>
+
+
+</body>
+</html>
+

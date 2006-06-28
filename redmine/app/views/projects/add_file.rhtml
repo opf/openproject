@@ -1,0 +1,13 @@
+<h2><%=_('New file')%></h2>
+
+<%= start_form_tag ({ :action => 'add_file', :project => @project }, :multipart => true) %>
+
+<p><label for="version_id"><%=_('Version')%></label><br />
+<select name="version_id">
+<%= options_from_collection_for_select @versions, "id", "name" %>
+</select></p>
+
+<p><b><%=_('File')%><b><br /><%= file_field 'attachment', 'file'  %></p>
+<br/>
+<%= submit_tag _('Add') %>
+<%= end_form_tag %> 

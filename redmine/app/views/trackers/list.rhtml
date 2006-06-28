@@ -1,0 +1,24 @@
+<h2><%=_('Trackers')%></h2>
+
+<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+  <tr class="ListHead">
+  <th><%=_('Tracker')%></th>
+  <th></th>
+  </tr>
+  
+<% for tracker in @trackers %>
+  <tr style="background-color:#CEE1ED">
+  <td><%= link_to tracker.name, :action => 'edit', :id => tracker %></td>
+  <td align="center">
+    <%= start_form_tag :action => 'destroy', :id => tracker %>
+    <%= submit_tag _('Delete'), :class => "button-small" %>
+    <%= end_form_tag %>
+  </td>
+  </tr>
+<% end %>
+</table>
+
+<%= pagination_links_full @tracker_pages %>
+<br />
+
+<%= link_to '&#187; ' + _('New tracker'), :action => 'new' %>

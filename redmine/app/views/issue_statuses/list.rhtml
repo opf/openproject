@@ -1,0 +1,30 @@
+<h2><%=_('Issue statuses')%></h2>
+ 
+<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+  <tr class="ListHead">
+  <th><%=_('Status')%></th>
+  <th><%=_('Default status')%></th>
+  <th><%=_('Issue closed')%></th>
+  <th><%=_('Color')%></th>
+  <th></th>
+  </tr>
+  
+<% for status in @issue_statuses %>
+  <tr style="background-color:#CEE1ED">
+  <td><%= link_to status.name, :action => 'edit', :id => status %></td>
+  <td align="center"><%= image_tag 'true' if status.is_default %></td>
+  <td align="center"><%= image_tag 'true' if status.is_closed %></td>  
+  <td bgcolor="#<%= status.html_color %>">&nbsp</td>  
+  <td align="center">
+    <%= start_form_tag :action => 'destroy', :id => status %>
+    <%= submit_tag _('Delete'), :class => "button-small" %>
+    <%= end_form_tag %>
+  </td>
+  </tr>
+<% end %>
+</table>
+
+<%= pagination_links_full @issue_status_pages %>
+<br />
+
+<%= link_to '&#187; ' + _('New issue status'), :action => 'new' %>

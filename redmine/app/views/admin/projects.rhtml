@@ -1,0 +1,35 @@
+<h2><%=_('Projects')%></h2>
+
+<table width="100%" cellspacing="1" cellpadding="2" class="listTableContent">
+  <tr class="ListHead">
+	<%= sort_header_tag('projects.name', :caption => _('Project')) %>
+	<th><%=_('Description')%></th>
+	<th><%=_('Public')%></th>
+	<%= sort_header_tag('projects.created_on', :caption => _('Created on')) %>
+  <th></th>
+  </tr>
+  
+<% odd_or_even = 1
+	for project in @projects
+	odd_or_even = 1 - odd_or_even %>
+  <tr class="ListLine<%= odd_or_even %>">
+	<td><%= link_to project.name, :controller => 'projects', :action => 'settings', :id => project %>
+	<td><%= project.descr %>
+	<td align="center"><%= image_tag 'true' if project.public? %>
+	<td align="center"><%= format_date(project.created_on) %>
+  <td align="center">
+    <%= start_form_tag({:controller => 'projects', :action => 'destroy', :id => project}) %>
+    <%= submit_tag _('Delete'), :class => "button-small"  %>
+    <%= end_form_tag %>
+  </td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to ('&#171; ' + _('Previous')), { :page => @project_pages.current.previous } if @project_pages.current.previous %>
+<%= pagination_links(@project_pages) %>
+<%= link_to (_('Next') + ' &#187;'), { :page => @project_pages.current.next } if @project_pages.current.next %>
+
+<br />
+
+<%= link_to ('&#187; ' + _('New project')), :controller => 'projects', :action => 'add' %>

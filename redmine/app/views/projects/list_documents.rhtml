@@ -1,0 +1,21 @@
+<h2><%=_('Documents')%></h2>
+
+<% documents = @documents.group_by {|d| d.category } %>
+<% documents.each do |category, docs| %>
+<h3><%= category.name %></h3>
+<ul>
+<% docs.each do |d| %>
+  <li>
+    <b><%= link_to d.title, :controller => 'documents', :action => 'show', :id => d %></b>
+    <br />
+    <%=_('Desciption')%>: <%= d.descr %><br />
+    <%= format_time(d.created_on) %>    
+  </li>		
+
+<% end %>
+</ul>
+<% end %>
+
+<p>
+<%= link_to_if_authorized '&#187; ' + _('New'), :controller => 'projects', :action => 'add_document', :id => @project %>
+</p>

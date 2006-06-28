@@ -1,0 +1,6 @@
+<h2><%=_('Issue status')%></h2>
+
+<%= start_form_tag :action => 'update', :id => @issue_status %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag _('Save') %>
+<%= end_form_tag %>

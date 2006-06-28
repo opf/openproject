@@ -1,0 +1,10 @@
+<h2><%=_('Enumerations')%></h2>
+
+<%= start_form_tag :action => 'update', :id => @enumeration %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag _('Save') %>
+<%= end_form_tag %>
+
+<%= start_form_tag :action => 'destroy', :id => @enumeration %>
+  <%= submit_tag _('Delete') %>
+<%= end_form_tag %>

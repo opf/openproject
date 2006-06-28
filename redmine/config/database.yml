@@ -1,0 +1,32 @@
+# MySQL (default setup).  Versions 4.1 and 5.0 are recommended.
+#
+# Get the fast C bindings:
+#   gem install mysql
+#   (on OS X: gem install mysql -- --include=/usr/local/lib)
+# And be sure to use new-style password hashing:
+#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+development:
+  adapter: mysql
+  database: redmine_development
+  host: localhost
+  username: root
+  password:
+
+test:
+  adapter: mysql
+  database: redmine_test
+  host: localhost
+  username: root
+  password:
+
+demo:
+  adapter: sqlite3
+  dbfile: db/redmine_demo.db
+  
+production:
+  adapter: mysql
+  database: redmine
+  host: localhost
+  username: root
+  password:
+ 

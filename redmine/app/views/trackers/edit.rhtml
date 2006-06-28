@@ -1,0 +1,6 @@
+<h2><%=_('Tracker')%></h2>
+
+<%= start_form_tag :action => 'edit', :id => @tracker %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag _('Save') %>
+<%= end_form_tag %>

@@ -1,0 +1,10 @@
+<%= error_messages_for 'tracker' %>
+
+<!--[form:tracker]-->
+<p><label for="tracker_name"><%=_('Name')%></label><br/>
+<%= text_field 'tracker', 'name'  %></p>
+
+<p><%= check_box 'tracker', 'is_in_chlog' %>
+<label for="tracker_is_in_chlog"><%=_('View issues in change log')%></label></p>
+<!--[eoform:tracker]-->
+

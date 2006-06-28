@@ -1,0 +1,61 @@
+== redMine installation
+
+redMine - project management software
+Copyright (C) 2006  Jean-Philippe Lang
+http://redmine.sourceforge.net/
+
+
+== Requirements
+
+* Ruby on Rails 1.1
+* Any database supported by Rails (developped using MySQL 5)
+* (recommended) Apache/Lighttpd with FCGI support 
+
+
+== Installation
+
+1. Uncompress program archive:
+   tar zxvf <filename>
+   
+2. Create an empty database: "redmine" for example
+
+3. Configure database parameters in config/database.yml
+   for "production" environment
+
+4. Create database structure. Under application main directory:
+   rake migrate RAILS_ENV="production"
+   It will create tables and default configuration data
+
+5. Test the installation by running WEBrick web server:
+   ruby script/server -e production   
+  
+   Once WEBrick has started, point your browser to http://localhost:3000/
+   You should now see the application welcome page
+
+6. Use default administrator account to log in:
+   login: admin
+   password: admin
+
+7. Setup Apache or Lighttpd with fastcgi for best performance.
+
+
+== Configuration
+
+You can setup a few things in config/environment.rb:
+Don't forget to restart the application after any change.
+
+
+config.action_mailer.server_settings: SMTP server configuration
+config.action_mailer.perform_deliveries: set to false to disable mail delivering
+
+RDM_HOST_NAME: hostname used to provide urls in notification mails
+
+RDM_STORAGE_PATH: path for all attachments storage (default: "#{RAILS_ROOT}/files")
+  "#{RAILS_ROOT}/" represents application main directory
+  
+RDM_LOGIN_REQUIRED: set to true if you want to force users to login to access
+  any part of the application (default: false)
+  
+RDM_DEFAULT_LANG: default language for anonymous users: 'en' (default), 'es', 'fr' available
+
+

@@ -1,0 +1,54 @@
+<h2><%=_('My account')%></h2>
+
+<p><%=_('Login')%>: <strong><%= @user.login %></strong><br />
+<%=_('Created on')%>: <%= format_time(@user.created_on) %>,
+<%=_('Last update')%>: <%= format_time(@user.updated_on) %></p>
+
+<div class="splitcontentleft">
+  <div class="box">
+  <h3><%=_('Information')%></h3>
+  &nbsp;
+  <%= start_form_tag :action => 'my_account' %>
+  <%= error_messages_for 'user' %>
+
+  <!--[form:user]-->
+  <p><label for="user_firstname"><%=_('Firstname')%> <span class="required">*</span></label><br/>
+  <%= text_field 'user', 'firstname'  %></p>
+
+  <p><label for="user_lastname"><%=_('Lastname')%> <span class="required">*</span></label><br/>
+  <%= text_field 'user', 'lastname'  %></p>
+
+  <p><label for="user_mail"><%=_('Mail')%> <span class="required">*</span></label><br/>
+  <%= text_field 'user', 'mail'  %></p>
+  
+  <p><label for="user_language"><%=_('Language')%></label><br/>
+  <%= select("user", "language", Localization.langs) %></p>
+  <!--[eoform:user]-->
+
+  <p><%= check_box 'user', 'mail_notification' %> <label for="user_mail_notification"><%=_('Mail notifications')%></label></p>
+
+  <center><%= submit_tag _('Save') %></center>
+  <%= end_form_tag %>
+  </div>
+</div>
+
+
+<div class="splitcontentright">
+  <div class="box">
+  <h3><%=_('Password')%></h3>
+  &nbsp;
+  <%= start_form_tag :action => 'change_password' %>
+
+  <p><label for="old_password"><%=_('Password')%> <span class="required">*</span></label><br/>
+  <%= password_field_tag 'old_password' %></p>
+
+  <p><label for="new_password"><%=_('New password')%> <span class="required">*</span></label><br/>
+  <%= password_field_tag 'new_password' %></p>
+
+  <p><label for="new_password_confirmation"><%=_('Confirmation')%> <span class="required">*</span></label><br/>
+  <%= password_field_tag 'new_password_confirmation' %></p>
+
+  <center><%= submit_tag _('Save') %></center>
+  <%= end_form_tag %>
+  </div>
+</div>

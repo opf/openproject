@@ -1,0 +1,28 @@
+<%= error_messages_for 'project' %>
+
+<!--[form:project]-->
+<p><label for="project_name"><%=_('Name')%> <span class="required">*</span></label><br/>
+<%= text_field 'project', 'name'  %></p>
+
+<p><label for="project_descr"><%=_('Description')%> <span class="required">*</span></label><br/>
+<%= text_field 'project', 'descr', :size => 60 %></p>
+
+<p><label for="project_homepage"><%=_('Homepage')%></label><br/>
+<%= text_field 'project', 'homepage', :size => 40 %></p>
+
+<p><%= check_box 'project', 'public' %>
+<label for="project_public"><%=_('Public')%></label></p>
+
+<fieldset><legend><%=_('Custom fields')%></legend>
+<% for custom_field in @custom_fields %>
+	<input type="checkbox"
+	
+	name="custom_field_ids[]"
+	value="<%= custom_field.id %>"
+	<%if @project.custom_fields.include? custom_field%>checked="checked"<%end%>
+	> <%= custom_field.name %>
+	
+<% end %></fieldset>
+<br />
+
+<!--[eoform:project]-->

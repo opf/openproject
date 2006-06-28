@@ -1,0 +1,17 @@
+<%= error_messages_for 'issue_status' %>
+
+<!--[form:issue_status]-->
+<p><label for="issue_status_name"><%=_('Name')%></label><br/>
+<%= text_field 'issue_status', 'name'  %></p>
+
+<p><%= check_box 'issue_status', 'is_closed' %>
+<label for="issue_status_is_closed"><%=_('Issue closed')%></label></p>
+
+<p><%= check_box 'issue_status', 'is_default' %>
+<label for="issue_status_is_default"><%=_('Default status')%></label></p>
+
+<p><label for="issue_status_html_color"><%=_('Color')%></label>
+#<%= text_field 'issue_status', 'html_color', :size => 6 %></p>
+
+<!--[eoform:issue_status]-->
+

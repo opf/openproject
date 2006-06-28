@@ -1,0 +1,46 @@
+<h2><%=_('Users')%></h2>
+
+<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">		
+<tr class="ListHead">
+	<%= sort_header_tag('users.login', :caption => _('Login')) %>
+	<%= sort_header_tag('users.firstname', :caption => _('Firstname')) %>
+	<%= sort_header_tag('users.lastname', :caption => _('Lastname')) %>
+	<th><%=_('Mail')%></th>
+	<%= sort_header_tag('users.admin', :caption => _('Admin')) %>
+	<%= sort_header_tag('users.locked', :caption => _('Locked')) %>
+	<%= sort_header_tag('users.created_on', :caption => _('Created on')) %>
+	<%= sort_header_tag('users.last_login_on', :caption => _('Last login')) %>
+  <th></th>
+</tr>  
+<% for user in @users %>
+  <tr style="background-color:#CEE1ED">
+	<td><%= link_to user.login, :action => 'edit', :id => user %></td>
+	<td><%= user.firstname %></td>
+	<td><%= user.lastname %></td>
+	<td><%= user.mail %></td>
+	<td align="center"><%= image_tag 'true' if user.admin? %></td>
+	<td align="center"><%= image_tag 'locked' if user.locked? %></td>
+	<td align="center"><%= format_time(user.created_on) %></td>
+	<td align="center"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
+  <td align="center">
+    <%= start_form_tag :action => 'edit', :id => user %>
+    <% if user.locked? %>
+      <%= hidden_field_tag 'user[locked]', false %>
+      <%= submit_tag _('Unlock'), :class => "button-small"  %>
+    <% else %>
+      <%= hidden_field_tag 'user[locked]', true %>
+      <%= submit_tag _('Lock'), :class => "button-small"  %>
+    <% end %>
+    <%= end_form_tag %>  
+  </td>
+  </tr>
+<% end %>
+</table>
+
+<p><%= pagination_links_full @user_pages %>
+[ <%= @user_pages.current.first_item %> - <%= @user_pages.current.last_item %> / <%= @user_count %> ]
+</p>
+
+<p>
+<%= link_to '&#187; ' + _('New user'), :action => 'add' %>
+</p>

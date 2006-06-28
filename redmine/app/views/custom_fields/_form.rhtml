@@ -1,0 +1,26 @@
+<%= error_messages_for 'custom_field' %>
+
+<!--[form:custom_field]-->
+<p><label for="custom_field_name"><%=_('Name')%></label><br/>
+<%= text_field 'custom_field', 'name'  %></p>
+
+<p><label for="custom_field_typ"><%=_('Type')%></label><br/>
+<%= select("custom_field", "typ", CustomField::TYPES) %></p>
+
+<p><%= check_box 'custom_field', 'is_required' %>
+<label for="custom_field_is_required"><%=_('Required')%></label></p>
+
+<p><%= check_box 'custom_field', 'is_for_all' %>
+<label for="custom_field_is_for_all"><%=_('For all projects')%></label></p>
+
+<p><label for="custom_field_min_length"><%=_('Min - max length')%></label> (<%=_('0 means no restriction')%>)<br/>
+<%= text_field 'custom_field', 'min_length', :size => 5 %> -
+<%= text_field 'custom_field', 'max_length', :size => 5 %></p>
+
+<p><label for="custom_field_regexp"><%=_('Regular expression pattern')%></label> (eg. ^[A-Z0-9]+$)<br/>
+<%= text_field 'custom_field', 'regexp', :size => 50 %></p>
+
+<p><label for="custom_field_possible_values"><%=_('Possible values')%></label> (separator: |)<br/>
+<%= text_area 'custom_field', 'possible_values', :rows => 5, :cols => 60  %></p>
+<!--[eoform:custom_field]-->
+

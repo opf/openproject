@@ -1,0 +1,8 @@
+<h2><%=_('New role')%></h2> 
+
+<%= start_form_tag ({ :action => 'new' }, :id => 'role_form') %>
+<%= render :partial => 'form' %>
+
+<br /><%= submit_tag _('Create') %>
+<%= end_form_tag %>
+

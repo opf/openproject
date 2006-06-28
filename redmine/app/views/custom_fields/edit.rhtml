@@ -1,0 +1,6 @@
+<h2><%=_('Custom field')%></h2>
+
+<%= start_form_tag :action => 'edit', :id => @custom_field %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag _('Save') %>
+<%= end_form_tag %>

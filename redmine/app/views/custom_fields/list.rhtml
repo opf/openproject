@@ -1,0 +1,32 @@
+<h2><%=_('Custom fields')%></h2>
+
+<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">		
+<tr class="ListHead">	
+	<th><%=_('Name')%></th>
+	<th><%=_('Type')%></th>
+	<th><%=_('Required')%></th>
+	<th><%=_('For all projects')%></th>
+	<th><%=_('Used by')%></th>
+	<th></th>
+</tr>  
+<% for custom_field in @custom_fields %>
+  <tr style="background-color:#CEE1ED">
+	<td><%= link_to custom_field.name, :action => 'edit', :id => custom_field %></td>
+	<td align="center"><%= CustomField::TYPES[custom_field.typ][0] %></td>
+	<td align="center"><%= image_tag 'true' if custom_field.is_required? %></td>
+	<td align="center"><%= image_tag 'true' if custom_field.is_for_all? %></td>
+	<td align="center"><%= custom_field.projects.count.to_s + ' ' + _('Project') + '(s)' unless custom_field.is_for_all? %></td>
+	<td align="center">
+    <%= start_form_tag :action => 'destroy', :id => custom_field %>
+    <%= submit_tag _('Delete'), :class => "button-small"  %>
+    <%= end_form_tag %>	</td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to ('&#171; ' + _('Previous')), { :page => @custom_field_pages.current.previous } if @custom_field_pages.current.previous %>
+<%= link_to (_('Next') + ' &#187;'), { :page => @custom_field_pages.current.next } if @custom_field_pages.current.next %> 
+
+<br />
+
+<%= link_to ('&#187; ' + _('New custom field')), :action => 'new' %>

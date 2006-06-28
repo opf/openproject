@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>redMine</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="description" content="redMine" />
+<meta name="keywords" content="issue,bug,tracker" />
+<%= stylesheet_link_tag "application" %>
+<%= stylesheet_link_tag "rails" %>
+<%= javascript_include_tag :defaults %>
+</head>
+
+<body>
+<div id="container" >
+
+    <div id="header">
+    <div style="float: left;">
+        <h1><%= RDM_APP_NAME %></h1>
+        <h2>Project management</h2>
+    </div>
+    <div style="float: right; padding-right: 1em; padding-top: 0.2em;">
+      <% unless session[:user].nil? %><small><%=_('Logged as')%> <b><%= session[:user].login %></b></small><% end %>
+    </div>
+    </div> 
+	
+	<div id="navigation">
+		<ul>
+			<li class="selected"><%= link_to _('Home'), { :controller => '' }, :class => "picHome" %></li>
+			<li><%= link_to _('My page'), { :controller => 'account', :action => 'my_page'}, :class => "picUserPage" %></li>
+			<li><%= link_to _('Projects'), { :controller => 'projects' }, :class => "picProject" %></li>
+			
+			<% unless session[:user].nil? %>
+				<li><%= link_to _('My account'), { :controller => 'account', :action => 'my_account' }, :class => "picUser" %></li>
+			<% end %>
+			
+			<% if admin_loggedin? %>
+				<li><%= link_to _('Administration'), { :controller => 'admin' }, :class => "picAdmin" %></li>
+			<% end %>
+			
+			<li class="right"><%= link_to _('Help'), { :controller => 'help', :ctrl => @params[:controller], :page => @params[:action] }, :target => "new", :class => "picHelp" %></li>
+			<% if session[:user].nil? %>
+				<li class="right"><%= link_to _('Log in'), { :controller => 'account', :action => 'login' }, :class => "picUser" %></li>
+			<% else %>	
+				<li class="right"><%= link_to _('Logout'), { :controller => 'account', :action => 'logout' }, :class => "picUser" %></li>	
+			<% end %>
+		</ul>
+		
+	</div>
+	
+	<div id="subcontent">
+	
+		<% unless @project.nil? || @project.id.nil? %>
+			<h2><%= @project.name %></h2>
+			<ul class="menublock">
+				<li><%= link_to _('Overview'), :controller => 'projects', :action => 'show', :id => @project %></li>
+				<li><%= link_to _('Issues'), :controller => 'projects', :action => 'list_issues', :id => @project %></li>
+				<li><%= link_to _('Reports'), :controller => 'reports', :action => 'issue_report', :id => @project %></li>
+				<li><%= link_to _('News'), :controller => 'projects', :action => 'list_news', :id => @project %></li>
+				<li><%= link_to _('Change log'), :controller => 'projects', :action => 'changelog', :id => @project %></li>
+				<li><%= link_to _('Documents'), :controller => 'projects', :action => 'list_documents', :id => @project %></li>
+				<li><%= link_to _('Members'), :controller => 'projects', :action => 'list_members', :id => @project %></li>
+				<li><%= link_to _('Files'), :controller => 'projects', :action => 'list_files', :id => @project %></li>
+				<li><%= link_to_if_authorized _('Settings'), :controller => 'projects', :action => 'settings', :id => @project %></li>
+			</ul>
+		<% end %>
+		
+		<% unless session[:user].nil? %>
+			<h2><%=_('My projects') %></h2>
+			<ul class="menublock">
+				<% for membership in session[:user].memberships %>	
+					<li><%= link_to membership.project.name, :controller => 'projects', :action => 'show', :id => membership.project %></li>
+				<% end %>
+			</ul>
+		<% end %>
+		
+	</div>
+
+	<div id="content">
+		<% if flash[:notice] %><p style="color: green"><%= flash[:notice] %></p><% end %>		
+		<%= @content_for_layout %>	
+	</div>
+	
+	<div id="footer">
+		<p><a href="http://redmine.sourceforge.net/" target="_new"><%= RDM_APP_NAME %></a> <%= RDM_APP_VERSION %></p>
+	</div>
+
+</div>
+</body>
+</html>

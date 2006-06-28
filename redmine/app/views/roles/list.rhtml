@@ -1,0 +1,23 @@
+<h2><%=_('Roles')%></h2>
+
+<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+  <tr class="ListHead">
+    <th><%=_('Role')%></th>
+	<th></th>
+  </tr>
+  
+<% for role in @roles %>
+  <tr style="background-color:#CEE1ED">
+  <td><%= link_to role.name, :action => 'edit', :id => role %></td>
+  <td align="center">
+    <%= start_form_tag :action => 'destroy', :id => role %>
+    <%= submit_tag _('Delete'), :class => "button-small" %>
+    <%= end_form_tag %>
+  </tr>
+<% end %>
+</table>
+
+<%= pagination_links_full @role_pages %>
+<br />
+
+<%= link_to '&#187; ' + _('New role'), :action => 'new' %>

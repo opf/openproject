@@ -1,0 +1,8 @@
+<h2><%=_('Version')%></h2>
+
+<%= start_form_tag :action => 'edit', :id => @version %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag _('Save') %>
+<%= end_form_tag %>
+
+

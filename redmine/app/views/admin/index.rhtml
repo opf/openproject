@@ -1,0 +1,45 @@
+<h2><%=_('Administration')%></h2>
+
+<p>
+<%= image_tag "projects" %>
+<%= link_to _('Projects'), :controller => 'admin', :action => 'projects' %> |
+<%= link_to _('New'), :controller => 'projects', :action => 'add' %>
+</p>
+
+<p>
+<%= image_tag "users" %>
+<%= link_to _('Users'), :controller => 'users' %> |
+<%= link_to _('New'), :controller => 'users', :action => 'add' %>
+</p>
+
+<p>
+<%= image_tag "role" %>
+<%= link_to _('Roles and permissions'), :controller => 'roles' %>
+</p>
+
+<p>
+<%= image_tag "tracker" %>
+<%= link_to _('Trackers'), :controller => 'trackers' %> |
+<%= link_to _('Custom fields'), :controller => 'custom_fields' %>
+</p>
+
+<p>
+<%= image_tag "workflow" %>
+<%= link_to _('Issue Statuses'), :controller => 'issue_statuses' %> |
+<%= link_to _('Workflow'), :controller => 'roles', :action => 'workflow' %>
+</p>
+
+<p>
+<%= image_tag "options" %>
+<%= link_to _('Enumerations'), :controller => 'enumerations' %>
+</p>
+
+<p>
+<%= image_tag "mailer" %>
+<%= link_to _('Mail notifications'), :controller => 'admin', :action => 'mail_options' %>
+</p>
+
+<p>
+<%= image_tag "help" %>
+<%= link_to _('Information'), :controller => 'admin', :action => 'info' %>
+</p>

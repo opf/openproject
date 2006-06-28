@@ -1,0 +1,7 @@
+<h2><%=_('New custom field')%></h2>
+
+<%= start_form_tag :action => 'new' %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag _('Create') %>
+<%= end_form_tag %>
+

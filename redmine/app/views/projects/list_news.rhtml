@@ -1,0 +1,17 @@
+<h2><%=_('News')%></h2>
+
+<% for news in @news %>
+	<p>
+	<b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small>
+	<%= link_to_if_authorized image_tag('edit_small'), :controller => 'news', :action => 'edit', :id => news %>
+	<%= link_to_if_authorized image_tag('delete'), { :controller => 'news', :action => 'destroy', :id => news }, :confirm => 'Are you sure?' %>
+	<br />
+	<%= news.shortdescr %>
+	<small>[<%= link_to _('Read...'), :controller => 'news', :action => 'show', :id => news %>]</small>
+	</p>
+<% end %>
+
+<%= pagination_links_full @news_pages %>
+<p>
+<%= link_to_if_authorized '&#187; ' + _('Add'), :controller => 'projects', :action => 'add_news', :id => @project %>
+</p>

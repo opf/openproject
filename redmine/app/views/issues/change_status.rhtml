@@ -1,0 +1,29 @@
+<h2><%=_('Issue')%> #<%= @issue.id %>: <%= @issue.subject %></h2>
+
+<%= error_messages_for 'history' %>
+<%= start_form_tag :action => 'change_status', :id => @issue %>
+
+<%= hidden_field_tag 'confirm', 1 %>
+<%= hidden_field 'history', 'status_id' %>
+
+<p><%=_('New status')%>: <b><%= @history.status.name %></b></p>
+
+<div>
+<p><label for="issue_assigned_to_id"><%=_('Assigned to')%></label><br/>
+<select name="issue[assigned_to_id]">
+<option value=""></option>
+<%= options_from_collection_for_select @assignable_to, "id", "display_name", @issue.assigned_to_id %></p>
+</select></p>
+</div>
+
+<p><label for="issue_fixed_version"><%=_('Fixed in version')%></label><br/>
+<select name="issue[fixed_version_id]">
+<option value="">--none--</option>
+<%= options_from_collection_for_select @issue.project.versions, "id", "name", @issue.fixed_version_id %>
+</select></p>
+
+<p><label for="history_notes"><%=_('Notes')%></label><br />
+<%= text_area 'history', 'notes', :cols => 60, :rows => 10  %></p>
+
+<%= submit_tag _('Save') %>
+<%= end_form_tag %>
