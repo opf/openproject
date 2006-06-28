@@ -15,13 +15,13 @@ class Setup < ActiveRecord::Migration
   
     create_table "custom_fields", :force => true do |t|
       t.column "name", :string, :limit => 30, :default => "", :null => false
-      t.column "typ", :integer, :limit => 6, :default => 0, :null => false
+      t.column "typ", :integer, :default => 0, :null => false
       t.column "is_required", :boolean, :default => false, :null => false
       t.column "is_for_all", :boolean, :default => false, :null => false
       t.column "possible_values", :text, :default => "", :null => false
       t.column "regexp", :string, :default => "", :null => false
-      t.column "min_length", :integer, :limit => 4, :default => 0, :null => false
-      t.column "max_length", :integer, :limit => 4, :default => 0, :null => false
+      t.column "min_length", :integer, :default => 0, :null => false
+      t.column "max_length", :integer, :default => 0, :null => false
     end
   
     create_table "custom_fields_projects", :id => false, :force => true do |t|

@@ -33,7 +33,7 @@ class ReportsController < ApplicationController
                                                   i.status_id=s.id 
                                                   and i.tracker_id=t.id
                                                   and i.project_id=#{@project.id}
-                                                group by s.id, t.id")
+                                                group by s.id, s.is_closed, t.id")
     @priorities = Enumeration::get_values('IPRI')
     @issues_by_priority = 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
@@ -46,7 +46,7 @@ class ReportsController < ApplicationController
                                                   i.status_id=s.id 
                                                   and i.priority_id=p.id
                                                   and i.project_id=#{@project.id}
-                                                group by s.id, p.id")
+                                                group by s.id, s.is_closed, p.id")
     @categories = @project.issue_categories
     @issues_by_category = 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
@@ -59,7 +59,7 @@ class ReportsController < ApplicationController
                                                   i.status_id=s.id 
                                                   and i.category_id=c.id
                                                   and i.project_id=#{@project.id}
-                                                group by s.id, c.id")
+                                                group by s.id, s.is_closed, c.id")
   end
   
   

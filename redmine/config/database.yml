@@ -11,6 +11,13 @@ development:
   host: localhost
   username: root
   password:
+  
+development_pgsql:
+  adapter: postgresql
+  database: redmine
+  host: localhost
+  username: postgres
+  password: "postgres"
 
 test:
   adapter: mysql
