@@ -16,21 +16,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class ProjectsController < ApplicationController
-	layout 'base'
-	before_filter :find_project, :authorize, :except => [ :index, :list, :add ]
+  layout 'base'
+  before_filter :find_project, :authorize, :except => [ :index, :list, :add ]
   before_filter :require_admin, :only => [ :add, :destroy ]
 
   helper :sort
-	include SortHelper	
-	helper :search_filter
-	include SearchFilterHelper	
-	helper :custom_fields
-	include CustomFieldsHelper   
+  include SortHelper	
+  helper :search_filter
+  include SearchFilterHelper	
+  helper :custom_fields
+  include CustomFieldsHelper   
 
-	def index
-		list
-		render :action => 'list'
-	end
+  def index
+    list
+    render :action => 'list'
+  end
 
 	# Lists public projects
 	def list
@@ -181,29 +181,47 @@ class ProjectsController < ApplicationController
 		end	
 	end
 	
-	# Show issues list of @project
-	def list_issues
-		sort_init 'issues.id', 'desc'
-		sort_update
-		
-		search_filter_criteria 'issues.tracker_id', :values => "Tracker.find(:all)"
-		search_filter_criteria 'issues.priority_id', :values => "Enumeration.find(:all, :conditions => ['opt=?','IPRI'])"
-		search_filter_criteria 'issues.category_id', :values => "@project.issue_categories"
-		search_filter_criteria 'issues.status_id', :values => "IssueStatus.find(:all)"
-		search_filter_criteria 'issues.author_id', :values => "User.find(:all)", :label => "display_name"
-		search_filter_update if params[:set_filter] or request.post?
-						
-		@issue_count = @project.issues.count(search_filter_clause)		
-		@issue_pages = Paginator.new self, @issue_count,
-								15,
-								@params['page']								
-		@issues =  @project.issues.find :all, :order => sort_clause,
+  # Show issues list of @project
+  def list_issues
+    sort_init 'issues.id', 'desc'
+    sort_update
+
+    search_filter_init_list_issues
+    search_filter_update if params[:set_filter] or request.post?
+
+    @issue_count = Issue.count(:include => :status, :conditions => search_filter_clause)		
+    @issue_pages = Paginator.new self, @issue_count, 15, @params['page']								
+    @issues =  Issue.find :all, :order => sort_clause,
 						:include => [ :author, :status, :tracker ],
 						:conditions => search_filter_clause,
 						:limit  =>  @issue_pages.items_per_page,
 						:offset =>  @issue_pages.current.offset								
-	end
+  end
 
+  # Export filtered/sorted issues list to CSV
+  def export_issues_csv
+    sort_init 'issues.id', 'desc'
+    sort_update
+
+    search_filter_init_list_issues
+					
+    @issues =  Issue.find :all, :order => sort_clause,
+						:include => [ :author, :status, :tracker ],
+						:conditions => search_filter_clause							
+
+    export = StringIO.new
+    CSV::Writer.generate(export, ',') do |csv|
+      csv << %w(Id Status Tracker Subject Author Created Updated)
+      @issues.each do |issue|
+        csv << [issue.id, issue.status.name, issue.tracker.name, issue.subject, issue.author.display_name, _('(time)', issue.created_on),  _('(time)', issue.updated_on)]
+      end
+    end
+    export.rewind
+    send_data(export.read,
+      :type => 'text/csv; charset=utf-8; header=present',
+      :filename => 'export.csv')
+  end
+  
 	# Add a news to @project
 	def add_news
     @news = @project.news.build(params[:news])
@@ -216,9 +234,9 @@ class ProjectsController < ApplicationController
 	end
 
 	# Show news list of @project
-	def list_news
+  def list_news
     @news_pages, @news = paginate :news, :per_page => 10, :conditions => ["project_id=?", @project.id], :include => :author, :order => "news.created_on DESC"
-	end
+  end
   
   def add_file  
     if request.post?
@@ -238,13 +256,13 @@ class ProjectsController < ApplicationController
     @versions = @project.versions
   end
   
-	# Show changelog of @project
-	def changelog
-  @fixed_issues = @project.issues.find(:all, 
-                                                        :include => [ :fixed_version, :status, :tracker ], 
-                                                        :conditions => [ "issue_statuses.is_closed=? and trackers.is_in_chlog=? and issues.fixed_version_id is not null", true, true]
-                                                        )
-	end
+  # Show changelog of @project
+  def changelog
+    @fixed_issues = @project.issues.find(:all, 
+                                       :include => [ :fixed_version, :status, :tracker ], 
+                                       :conditions => [ "issue_statuses.is_closed=? and trackers.is_in_chlog=? and issues.fixed_version_id is not null", true, true]
+                                      )
+  end
 
 private
 	# Find project of id params[:id]

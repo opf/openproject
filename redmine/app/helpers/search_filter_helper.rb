@@ -17,39 +17,69 @@
 
 module SearchFilterHelper
 
-	def search_filter_criteria(field, options = {})
-		session[:search_filter] ||= {}
-		session[:search_filter][field] ||= options
-	#	session[:search_filter][field][:values] = options[:values] unless options[:values].nil?
-	#	session[:search_filter][field][:label] = options[:label] unless options[:label].nil?
-	end
+  def search_filter_criteria(name, options = {})
+    session[:search_filter] ||= {}
+    session[:search_filter][name] ||= {}
+    unless session[:search_filter][name][:options] and session[:search_filter][name][:conditions]
+      session[:search_filter][name][:options] = []
+      session[:search_filter][name][:conditions] = {}
+      yield.each { |c|
+        session[:search_filter][name][:options] << [c[0], c[1].to_s]
+        session[:search_filter][name][:conditions].store(c[1].to_s, c[2])
+      }
+    end
+  end
 
-	def search_filter_update
-		session[:search_filter].each_key {|field| session[:search_filter][field][:value] = params[field]  }
-		#@search_filter[:value] = params[@search_filter[:field]]
-	end
+  def search_filter_update
+    session[:search_filter].each_key {|field| session[:search_filter][field][:value] = params[field]  }
+  end
 	
-	def search_filter_clause
-		clause = "1=1"
-		session[:search_filter].each {|field, criteria| clause = clause + " AND " + field + "='" + session[:search_filter][field][:value] + "'" unless session[:search_filter][field][:value].nil? || session[:search_filter][field][:value].empty? }
-		clause
-		#@search_filter[:field] + "='" + @search_filter[:value] + "'" unless @search_filter[:value].nil? || @search_filter[:value].empty?
-	end
+  def search_filter_clause
+    clause = ["issues.project_id=?", @project.id]
+    session[:search_filter].each { |k, v|
+      v[:value] ||= v[:options][0][1]
+      if (!v[:conditions][v[:value]][0].empty?)
+        clause[0] = clause[0] + " AND " + v[:conditions][v[:value]][0]
+        clause << v[:conditions][v[:value]][1] if !v[:conditions][v[:value]][1].nil?
+      end    
+    }
+    clause
+  end
 	
-	def search_filter_tag(field)
-		option_values = []
-		#values = eval @search_filter[:values_expr]
-		option_values = eval session[:search_filter][field][:values]
-		
-		content_tag("select", 
-				content_tag("option", "[All]", :value => "") +
-				options_from_collection_for_select(option_values, 
-										"id",
-										session[:search_filter][field][:label]  || "name",
-										session[:search_filter][field][:value].to_i
-										),
-				:name => field
+  def search_filter_tag(criteria)
+    content_tag("select", 
+				options_for_select(session[:search_filter][criteria][:options], session[:search_filter][criteria][:value]),
+				:name => criteria
 				)
-	end
+  end
+	
+  def search_filter_init_list_issues
+	search_filter_criteria('status_id') { 
+    [ ["[Open]", "O", ["issue_statuses.is_closed=?", false]],
+      ["[All]", "A", ["", false]]
+    ] + IssueStatus.find(:all).collect {|s| [s.name, s.id, ["issues.status_id=?", s.id]] }                                                      
+    }
+    
+    search_filter_criteria('tracker_id') { 
+    [ ["[All]", "A", ["", false]]
+    ] + Tracker.find(:all).collect {|s| [s.name, s.id, ["issues.tracker_id=?", s.id]] }                                                      
+    }
+	
+    search_filter_criteria('priority_id') { 
+    [ ["[All]", "A", ["", false]]
+    ] + Enumeration.find(:all, :conditions => ['opt=?','IPRI']).collect {|s| [s.name, s.id, ["issues.priority_id=?", s.id]] }                                                      
+    }
+    
+    search_filter_criteria('category_id') { 
+    [ ["[All]", "A", ["", false]],
+      ["[None]", "N", ["issues.category_id is null"]]
+    ] + @project.issue_categories.find(:all).collect {|s| [s.name, s.id, ["issues.category_id=?", s.id]] }                                                      
+    }    
 
+    search_filter_criteria('assigned_to_id') { 
+    [ ["[All]", "A", ["", false]],
+      ["[Nobody]", "N", ["issues.assigned_to_id is null"]]
+    ] + User.find(:all).collect {|s| [s.display_name, s.id, ["issues.assigned_to_id=?", s.id]] }                                                      
+    }   	
+  end
 end
