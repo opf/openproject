@@ -1,5 +1,26 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+ecookbook:
   id: 1
-another:
+  name: eCookbook
+  descr: Recipes management application
+  homepage: http://ecookbook.somenet.foo/
+  projects_count: 1
+  created_on: 2005-01-01 01:00:00
+  updated_on: 2005-01-01 01:00:00
+onlinestore:
   id: 2
+  name: OnlineStore
+  descr: E-commerce web site
+  is_public: false
+  projects_count: 0
+  created_on: 2005-01-01 01:00:00
+  updated_on: 2005-01-01 01:00:00
+tracker:
+  id: 3
+  name: tracker
+  descr: bug tracker
+  is_public: true
+  projects_count: 0
+  parent_id: 1
+  created_on: 2005-01-01 01:00:00
+  updated_on: 2005-01-01 01:00:00

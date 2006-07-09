@@ -13,8 +13,8 @@
     <% for tracker in Tracker.find_all %>    
       <li><%= link_to tracker.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
                                                 :set_filter => 1, 
-                                                "issues.tracker_id" => tracker.id %>:
-      <%= tracker.issues.count(["project_id=?", @project.id]) %> <%=_('open')%>
+                                                "tracker_id" => tracker.id %>:
+      <%= Issue.count(:conditions => ["project_id=? and tracker_id=? and issue_statuses.is_closed=?", @project.id, tracker.id, false], :include => :status) %> <%=_('open')%>
       </li>
     <% end %>
     </ul>
@@ -32,9 +32,18 @@
 		<% end %>		
 	</div>
   
+  <% if @subprojects %>
+ 	<div class="box">
+		<h3><%= image_tag "projects" %> <%=_('Subprojects')%></h3>	
+		<% for subproject in @subprojects %>
+		<%= link_to subproject.name, :action => 'show', :id => subproject %><br />		
+		<% end %>		
+	</div>
+  <% end %>
+  
   <div class="box">
     <h3><%=_('Latest news')%></h3>  
-    <% for news in @project.news %>
+    <% for news in @news %>
       <p>
       <b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />
       <%= news.shortdescr %>

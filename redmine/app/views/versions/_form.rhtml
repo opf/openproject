@@ -1,13 +1,13 @@
 <%= error_messages_for 'version' %>
 
 <!--[form:version]-->
-<p><label for="version_name"><%=_('Version')%></label><br/>
+<p><label for="version_name"><%=_('Version')%></label> <span class="required">*</span><br/>
 <%= text_field 'version', 'name', :size => 20  %></p>
 
 <p><label for="version_descr"><%=_('Description')%></label><br/>
 <%= text_field 'version', 'descr', :size => 60  %></p>
 
-<p><label for="version_date"><%=_('Date')%></label><br/>
-<%= date_select 'version', 'date'  %></p>
+<p><label for="version_effective_date"><%=_('Date')%></label><br/>
+<%= date_select 'version', 'effective_date'  %></p>
 <!--[eoform:version]-->
 

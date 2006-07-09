@@ -10,10 +10,10 @@
   </tr>
   
 <% for status in @issue_statuses %>
-  <tr style="background-color:#CEE1ED">
+  <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to status.name, :action => 'edit', :id => status %></td>
-  <td align="center"><%= image_tag 'true' if status.is_default %></td>
-  <td align="center"><%= image_tag 'true' if status.is_closed %></td>  
+  <td align="center"><%= image_tag 'true' if status.is_default? %></td>
+  <td align="center"><%= image_tag 'true' if status.is_closed? %></td>  
   <td bgcolor="#<%= status.html_color %>">&nbsp</td>  
   <td align="center">
     <%= start_form_tag :action => 'destroy', :id => status %>

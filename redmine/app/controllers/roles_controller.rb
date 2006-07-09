@@ -62,9 +62,6 @@ class RolesController < ApplicationController
   end
   
   def workflow
-    @roles = Role.find_all
-    @trackers = Tracker.find_all
-    @statuses = IssueStatus.find_all
     
     @role = Role.find_by_id(params[:role_id])
     @tracker = Tracker.find_by_id(params[:tracker_id])    
@@ -80,5 +77,8 @@ class RolesController < ApplicationController
         flash[:notice] = 'Workflow was successfully updated.'
       end
     end
+    @roles = Role.find_all
+    @trackers = Tracker.find_all
+    @statuses = IssueStatus.find(:all, :include => :workflows)
   end
 end

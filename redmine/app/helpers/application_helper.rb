@@ -27,7 +27,7 @@ module ApplicationHelper
 	
 	def authorize_for(controller, action)  
     # check if action is allowed on public projects
-    if @project.public? and Permission.allowed_to_public "%s/%s" % [ controller, action ]
+    if @project.is_public? and Permission.allowed_to_public "%s/%s" % [ controller, action ]
       return true
     end  
     # check if user is authorized    

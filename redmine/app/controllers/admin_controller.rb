@@ -16,26 +16,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AdminController < ApplicationController
-	layout 'base'	
-	before_filter :require_admin
-  
-	helper :sort
-	include SortHelper	
+  layout 'base'	
+  before_filter :require_admin
 
-	def index	
-	end
+  helper :sort
+  include SortHelper	
+
+  def index	
+  end
 	
   def projects
-		sort_init 'projects.name', 'asc'
-		sort_update		
-    @project_pages, @projects = paginate :projects, :per_page => 15, :order => sort_clause
+    sort_init 'name', 'asc'
+    sort_update		
+    @project_count = Project.count		
+    @project_pages = Paginator.new self, @project_count,
+								15,
+								@params['page']								
+    @projects = Project.find :all, :order => sort_clause,
+						:limit  =>  @project_pages.items_per_page,
+						:offset =>  @project_pages.current.offset		
   end
-  
+
   def mail_options
-    @actions = Permission.find(:all, :conditions => ["mail_option=?", true])  || []
+    @actions = Permission.find(:all, :conditions => ["mail_option=?", true]) || []
     if request.post?
       @actions.each { |a|
-        a.mail_enabled = params[:action_ids].include? a.id.to_s 
+        a.mail_enabled = (params[:action_ids] || []).include? a.id.to_s 
         a.save
       }
       flash[:notice] = "Mail options were successfully updated."
@@ -44,6 +50,5 @@ class AdminController < ApplicationController
   
   def info
     @adapter_name = ActiveRecord::Base.connection.adapter_name
-  end
-  
+  end  
 end

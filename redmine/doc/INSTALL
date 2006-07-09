@@ -2,14 +2,22 @@
 
 redMine - project management software
 Copyright (C) 2006  Jean-Philippe Lang
-http://redmine.sourceforge.net/
+http://redmine.org/
 
 
 == Requirements
 
 * Ruby on Rails 1.1
-* Any database supported by Rails (developped using MySQL 5)
+* a database (see compatibility below)
 * (recommended) Apache/Lighttpd with FCGI support 
+
+Supported databases:
+
+* MySQL (tested with MySQL 5)
+* PostgreSQL (tested with PostgreSQL 8.1)
+* Oracle (tested with Oracle 10g)
+* SQL Server (tested with SQL Server 2005)
+* SQLite (tested with SQLite 3)
 
 
 == Installation
@@ -20,9 +28,9 @@ http://redmine.sourceforge.net/
 2. Create an empty database: "redmine" for example
 
 3. Configure database parameters in config/database.yml
-   for "production" environment
+   for "production" environment (default database is MySQL)
 
-4. Create database structure. Under application main directory:
+4. Create the database structure. Under application main directory:
    rake migrate RAILS_ENV="production"
    It will create tables and default configuration data
 

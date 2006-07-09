@@ -17,14 +17,12 @@
   <tr>
     <td colspan="7"><%= image_tag 'package' %> <b><%= version.name %></b></td>
   </tr>
-  <%  odd_or_even = 1
-        for file in version.attachments
-        odd_or_even = 1 - odd_or_even %>		
-  <tr class="ListLine<%= odd_or_even %>">
+  <% for file in version.attachments %>		
+  <tr class="<%= cycle("odd", "even") %>">
     <td></td>
     <td><%= link_to file.filename, :controller => 'versions', :action => 'download', :id => version, :attachment_id => file %></td>
     <td align="center"><%= format_date(file.created_on) %></td>
-    <td align="center"><%= human_size(file.size) %></td>
+    <td align="center"><%= human_size(file.filesize) %></td>
     <td align="center"><%= file.downloads %></td>
     <td align="center"><small><%= file.digest %></small></td>
     <% if delete_allowed %>
@@ -35,7 +33,8 @@
     </td>
     <% end %>
   </tr>		
-  <% end %>
+  <% end
+  reset_cycle %>
 <% end %>
 </table>
 

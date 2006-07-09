@@ -1,3 +1,20 @@
+# redMine - project management software
+# Copyright (C) 2006  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 class Setup < ActiveRecord::Migration
   def self.up
     create_table "attachments", :force => true do |t|
@@ -5,8 +22,8 @@ class Setup < ActiveRecord::Migration
       t.column "container_type", :string, :limit => 30, :default => "", :null => false
       t.column "filename", :string, :default => "", :null => false
       t.column "disk_filename", :string, :default => "", :null => false
-      t.column "size", :integer, :default => 0, :null => false
-      t.column "content_type", :string, :limit => 60, :default => "", :null => false
+      t.column "filesize", :integer, :default => 0, :null => false
+      t.column "content_type", :string, :limit => 60, :default => ""
       t.column "digest", :string, :limit => 40, :default => "", :null => false
       t.column "downloads", :integer, :default => 0, :null => false
       t.column "author_id", :integer, :default => 0, :null => false
@@ -18,8 +35,8 @@ class Setup < ActiveRecord::Migration
       t.column "typ", :integer, :default => 0, :null => false
       t.column "is_required", :boolean, :default => false, :null => false
       t.column "is_for_all", :boolean, :default => false, :null => false
-      t.column "possible_values", :text, :default => "", :null => false
-      t.column "regexp", :string, :default => "", :null => false
+      t.column "possible_values", :text, :default => ""
+      t.column "regexp", :string, :default => ""
       t.column "min_length", :integer, :default => 0, :null => false
       t.column "max_length", :integer, :default => 0, :null => false
     end
@@ -59,7 +76,7 @@ class Setup < ActiveRecord::Migration
       t.column "issue_id", :integer, :default => 0, :null => false
       t.column "status_id", :integer, :default => 0, :null => false
       t.column "author_id", :integer, :default => 0, :null => false
-      t.column "notes", :text, :default => "", :null => false
+      t.column "notes", :text, :default => ""
       t.column "created_on", :timestamp
     end
   
@@ -99,7 +116,7 @@ class Setup < ActiveRecord::Migration
     create_table "news", :force => true do |t|
       t.column "project_id", :integer
       t.column "title", :string, :limit => 60, :default => "", :null => false
-      t.column "shortdescr", :string, :default => "", :null => false
+      t.column "shortdescr", :string, :default => ""
       t.column "descr", :text, :default => "", :null => false
       t.column "author_id", :integer, :default => 0, :null => false
       t.column "created_on", :timestamp
@@ -109,7 +126,7 @@ class Setup < ActiveRecord::Migration
       t.column "controller", :string, :limit => 30, :default => "", :null => false
       t.column "action", :string, :limit => 30, :default => "", :null => false
       t.column "descr", :string, :limit => 60, :default => "", :null => false
-      t.column "public", :boolean, :default => false, :null => false
+      t.column "is_public", :boolean, :default => false, :null => false
       t.column "sort", :integer, :default => 0, :null => false
       t.column "mail_option", :boolean, :default => false, :null => false
       t.column "mail_enabled", :boolean, :default => false, :null => false
@@ -125,8 +142,10 @@ class Setup < ActiveRecord::Migration
     create_table "projects", :force => true do |t|
       t.column "name", :string, :limit => 30, :default => "", :null => false
       t.column "descr", :string, :default => "", :null => false
-      t.column "homepage", :string, :limit => 60, :default => "", :null => false
-      t.column "public", :boolean, :default => true, :null => false
+      t.column "homepage", :string, :limit => 60, :default => ""
+      t.column "is_public", :boolean, :default => true, :null => false
+      t.column "parent_id", :integer
+      t.column "projects_count", :integer, :default => 0
       t.column "created_on", :timestamp
       t.column "updated_on", :timestamp
     end
@@ -158,8 +177,8 @@ class Setup < ActiveRecord::Migration
     create_table "versions", :force => true do |t|
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "name", :string, :limit => 30, :default => "", :null => false
-      t.column "descr", :string, :default => "", :null => false
-      t.column "date", :date, :null => false
+      t.column "descr", :string, :default => ""
+      t.column "effective_date", :date, :null => false
       t.column "created_on", :timestamp
       t.column "updated_on", :timestamp
     end
@@ -172,13 +191,13 @@ class Setup < ActiveRecord::Migration
     end
   
     # project
-    Permission.create :controller => "projects", :action => "show", :descr => "Overview", :sort => 100, :public => true
-    Permission.create :controller => "projects", :action => "changelog", :descr => "View change log", :sort => 105, :public => true
-    Permission.create :controller => "reports", :action => "issue_report", :descr => "View reports", :sort => 110, :public => true
+    Permission.create :controller => "projects", :action => "show", :descr => "Overview", :sort => 100, :is_public => true
+    Permission.create :controller => "projects", :action => "changelog", :descr => "View change log", :sort => 105, :is_public => true
+    Permission.create :controller => "reports", :action => "issue_report", :descr => "View reports", :sort => 110, :is_public => true
     Permission.create :controller => "projects", :action => "settings", :descr => "Settings", :sort => 150
     Permission.create :controller => "projects", :action => "edit", :descr => "Edit", :sort => 151
     # members
-    Permission.create :controller => "projects", :action => "list_members", :descr => "View list", :sort => 200, :public => true
+    Permission.create :controller => "projects", :action => "list_members", :descr => "View list", :sort => 200, :is_public => true
     Permission.create :controller => "projects", :action => "add_member", :descr => "New member", :sort => 220
     Permission.create :controller => "members", :action => "edit", :descr => "Edit", :sort => 221
     Permission.create :controller => "members", :action => "destroy", :descr => "Delete", :sort => 222
@@ -191,9 +210,9 @@ class Setup < ActiveRecord::Migration
     Permission.create :controller => "issue_categories", :action => "edit", :descr => "Edit", :sort => 421
     Permission.create :controller => "issue_categories", :action => "destroy", :descr => "Delete", :sort => 422
     # issues
-    Permission.create :controller => "projects", :action => "list_issues", :descr => "View list", :sort => 1000, :public => true
-    Permission.create :controller => "issues", :action => "show", :descr => "View", :sort => 1005, :public => true
-    Permission.create :controller => "issues", :action => "download", :descr => "Download file", :sort => 1010, :public => true
+    Permission.create :controller => "projects", :action => "list_issues", :descr => "View list", :sort => 1000, :is_public => true
+    Permission.create :controller => "issues", :action => "show", :descr => "View", :sort => 1005, :is_public => true
+    Permission.create :controller => "issues", :action => "download", :descr => "Download file", :sort => 1010, :is_public => true
     Permission.create :controller => "projects", :action => "add_issue", :descr => "Report an issue", :sort => 1050, :mail_option => 1, :mail_enabled => 1
     Permission.create :controller => "issues", :action => "edit", :descr => "Edit", :sort => 1055
     Permission.create :controller => "issues", :action => "change_status", :descr => "Change status", :sort => 1060, :mail_option => 1, :mail_enabled => 1
@@ -201,28 +220,30 @@ class Setup < ActiveRecord::Migration
     Permission.create :controller => "issues", :action => "add_attachment", :descr => "Add file", :sort => 1070
     Permission.create :controller => "issues", :action => "destroy_attachment", :descr => "Delete file", :sort => 1075
     # news
-    Permission.create :controller => "projects", :action => "list_news", :descr => "View list", :sort => 1100, :public => true
-    Permission.create :controller => "news", :action => "show", :descr => "View", :sort => 1101, :public => true
+    Permission.create :controller => "projects", :action => "list_news", :descr => "View list", :sort => 1100, :is_public => true
+    Permission.create :controller => "news", :action => "show", :descr => "View", :sort => 1101, :is_public => true
     Permission.create :controller => "projects", :action => "add_news", :descr => "Add", :sort => 1120
     Permission.create :controller => "news", :action => "edit", :descr => "Edit", :sort => 1121
     Permission.create :controller => "news", :action => "destroy", :descr => "Delete", :sort => 1122
     # documents
-    Permission.create :controller => "projects", :action => "list_documents", :descr => "View list", :sort => 1200, :public => true
-    Permission.create :controller => "documents", :action => "show", :descr => "View", :sort => 1201, :public => true
-    Permission.create :controller => "documents", :action => "download", :descr => "Download", :sort => 1202, :public => true
+    Permission.create :controller => "projects", :action => "list_documents", :descr => "View list", :sort => 1200, :is_public => true
+    Permission.create :controller => "documents", :action => "show", :descr => "View", :sort => 1201, :is_public => true
+    Permission.create :controller => "documents", :action => "download", :descr => "Download", :sort => 1202, :is_public => true
     Permission.create :controller => "projects", :action => "add_document", :descr => "Add", :sort => 1220
     Permission.create :controller => "documents", :action => "edit", :descr => "Edit", :sort => 1221
     Permission.create :controller => "documents", :action => "destroy", :descr => "Delete", :sort => 1222
     Permission.create :controller => "documents", :action => "add_attachment", :descr => "Add file", :sort => 1223
     Permission.create :controller => "documents", :action => "destroy_attachment", :descr => "Delete file", :sort => 1224
     # files
-    Permission.create :controller => "projects", :action => "list_files", :descr => "View list", :sort => 1300, :public => true
-    Permission.create :controller => "versions", :action => "download", :descr => "Download", :sort => 1301, :public => true
+    Permission.create :controller => "projects", :action => "list_files", :descr => "View list", :sort => 1300, :is_public => true
+    Permission.create :controller => "versions", :action => "download", :descr => "Download", :sort => 1301, :is_public => true
     Permission.create :controller => "projects", :action => "add_file", :descr => "Add", :sort => 1320
     Permission.create :controller => "versions", :action => "destroy_file", :descr => "Delete", :sort => 1322
     
     # create default administrator account
-    user = User.create :login => "admin", :password => "admin", :firstname => "redMine", :lastname => "Admin", :mail => "admin@somenet.foo", :mail_notification => true, :language => "en"
+    user = User.create :firstname => "redMine", :lastname => "Admin", :mail => "admin@somenet.foo", :mail_notification => true, :language => "en"
+    user.login = "admin"
+    user.password = "admin"
     user.admin = true
     user.save
     

@@ -17,9 +17,10 @@
 
 class IssueCategory < ActiveRecord::Base
   before_destroy :check_integrity  
-	belongs_to :project
-  
+  belongs_to :project
+
   validates_presence_of :name
+  validates_uniqueness_of :name, :scope => [:project_id]
   
 private
   def check_integrity

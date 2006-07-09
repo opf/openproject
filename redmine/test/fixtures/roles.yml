@@ -1,5 +1,10 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+manager:
   id: 1
-another:
+  name: manager
+developer:
   id: 2
+  name: developer
+reporter:
+  id: 3
+  name: reporter

@@ -32,58 +32,62 @@ class ProjectsController < ApplicationController
     render :action => 'list'
   end
 
-	# Lists public projects
-	def list
-		sort_init 'projects.name', 'asc'
-		sort_update		
-		@project_count = Project.count(["public=?", true])		
-		@project_pages = Paginator.new self, @project_count,
+  # Lists public projects
+  def list
+    sort_init 'name', 'asc'
+    sort_update		
+    @project_count = Project.count(["is_public=?", true])		
+    @project_pages = Paginator.new self, @project_count,
 								15,
 								@params['page']								
-		@projects = Project.find :all, :order => sort_clause,
-						:conditions => ["public=?", true],
+    @projects = Project.find :all, :order => sort_clause,
+						:conditions => ["is_public=?", true],
 						:limit  =>  @project_pages.items_per_page,
 						:offset =>  @project_pages.current.offset		
   end
           
   # Add a new project
-	def add
-		@custom_fields = CustomField::find_all
-		@project = Project.new(params[:project])
-		if request.post?
-			@project.custom_fields = CustomField.find(@params[:custom_field_ids]) if @params[:custom_field_ids]
-			if @project.save
-				flash[:notice] = 'Project was successfully created.'
-				redirect_to :controller => 'admin', :action => 'projects'
-			end		
-		end	
-	end
+  def add
+    @custom_fields = CustomField::find_all
+    @root_projects = Project::find(:all, :conditions => "parent_id is null")
+    @project = Project.new(params[:project])
+    if request.post?
+      @project.custom_fields = CustomField.find(@params[:custom_field_ids]) if @params[:custom_field_ids]
+      if @project.save
+        flash[:notice] = 'Project was successfully created.'
+        redirect_to :controller => 'admin', :action => 'projects'
+	  end		
+    end	
+  end
 	
 	# Show @project
-	def show
+  def show
     @members = @project.members.find(:all, :include => [:user, :role])
-	end
+    @subprojects = @project.children if @project.children_count > 0
+    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "news.created_on DESC")
+  end
 
   def settings
-		@custom_fields = CustomField::find_all
-		@issue_category ||= IssueCategory.new
+    @root_projects = Project::find(:all, :conditions => ["parent_id is null and id <> ?", @project.id])
+    @custom_fields = CustomField::find_all
+    @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
     @roles = Role.find_all
     @users = User.find_all - @project.members.find(:all, :include => :user).collect{|m| m.user }
   end
   
-	# Edit @project
-	def edit
-		if request.post?
-			@project.custom_fields = CustomField.find(@params[:custom_field_ids]) if @params[:custom_field_ids]
-			if @project.update_attributes(params[:project])
-				flash[:notice] = 'Project was successfully updated.'
-				redirect_to :action => 'settings', :id => @project
+  # Edit @project
+  def edit
+    if request.post?
+      @project.custom_fields = CustomField.find(@params[:custom_field_ids]) if @params[:custom_field_ids]
+      if @project.update_attributes(params[:project])
+        flash[:notice] = 'Project was successfully updated.'
+        redirect_to :action => 'settings', :id => @project
       else
         settings
         render :action => 'settings'
-			end
-		end
+      end
+    end
   end
   
 	# Delete @project
@@ -181,7 +185,7 @@ class ProjectsController < ApplicationController
 		end	
 	end
 	
-  # Show issues list of @project
+  # Show filtered/sorted issues list of @project
   def list_issues
     sort_init 'issues.id', 'desc'
     sort_update
@@ -189,10 +193,10 @@ class ProjectsController < ApplicationController
     search_filter_init_list_issues
     search_filter_update if params[:set_filter] or request.post?
 
-    @issue_count = Issue.count(:include => :status, :conditions => search_filter_clause)		
+    @issue_count = Issue.count(:include => [:status, :project], :conditions => search_filter_clause)		
     @issue_pages = Paginator.new self, @issue_count, 15, @params['page']								
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker ],
+						:include => [ :author, :status, :tracker, :project ],
 						:conditions => search_filter_clause,
 						:limit  =>  @issue_pages.items_per_page,
 						:offset =>  @issue_pages.current.offset								
@@ -206,7 +210,7 @@ class ProjectsController < ApplicationController
     search_filter_init_list_issues
 					
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker ],
+						:include => [ :author, :status, :tracker, :project ],
 						:conditions => search_filter_clause							
 
     export = StringIO.new

@@ -1,4 +1,21 @@
-ENV["RAILS_ENV"] = "test"
+# redMine - project management software
+# Copyright (C) 2006  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+ENV["RAILS_ENV"] ||= "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
@@ -25,4 +42,14 @@ class Test::Unit::TestCase
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
+  
+  def log_user(login, password)
+    get "/account/login"
+    assert_equal nil, session[:user]
+    assert_response :success
+    assert_template "account/login"
+    post "/account/login", :login => login, :password => password
+    assert_redirected_to "account/my_page"
+    assert_equal login, session[:user].login
+  end
 end

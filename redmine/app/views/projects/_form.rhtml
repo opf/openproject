@@ -4,14 +4,22 @@
 <p><label for="project_name"><%=_('Name')%> <span class="required">*</span></label><br/>
 <%= text_field 'project', 'name'  %></p>
 
+<% if session[:user].admin %>
+<p><label for="project_parent_id"><%=_('Subproject of')%></label><br/>
+<select name="project[parent_id]">
+<option value=""></option>
+<%= options_from_collection_for_select @root_projects, "id", "name", @project.parent_id %>
+</select></p>
+<% end %>
+
 <p><label for="project_descr"><%=_('Description')%> <span class="required">*</span></label><br/>
-<%= text_field 'project', 'descr', :size => 60 %></p>
+<%= text_area 'project', 'descr', :cols => 60, :rows => 3 %></p>
 
 <p><label for="project_homepage"><%=_('Homepage')%></label><br/>
 <%= text_field 'project', 'homepage', :size => 40 %></p>
 
-<p><%= check_box 'project', 'public' %>
-<label for="project_public"><%=_('Public')%></label></p>
+<p><%= check_box 'project', 'is_public' %>
+<label for="project_is_public"><%=_('Public')%></label></p>
 
 <fieldset><legend><%=_('Custom fields')%></legend>
 <% for custom_field in @custom_fields %>

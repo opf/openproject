@@ -2,7 +2,7 @@
 	<h2><%=_('Welcome')%> !</h2>
 
   <div class="box">
-	<h3>Latest news</h3>
+	<h3><%=_('Latest news')%></h3>
 		<% for news in @news %>
 			<p>
 			<b><%= news.title %></b> (<%= link_to_user news.author %> <%= format_time(news.created_on) %> - <%= news.project.name %>)<br />
@@ -16,7 +16,7 @@
 
 <div class="splitcontentright">
 	<div class="box">
-	<h3>Latest projects</h3>
+	<h3><%=_('Latest projects')%></h3>
 		<ul>
 		<% for project in @projects %>
 			<li>

@@ -10,7 +10,7 @@
 <p><b><%=_('Assigned to')%>:</b> <%= @issue.assigned_to.display_name unless @issue.assigned_to.nil? %></p>
 
 <p><b><%=_('Subject')%>:</b> <%= @issue.subject %></p>
-<p><b><%=_('Description')%>:</b> <%= @issue.descr %></p>
+<p><b><%=_('Description')%>:</b> <%= simple_format auto_link @issue.descr %></p>
 <p><b><%=_('Created on')%>:</b> <%= format_date(@issue.created_on) %></p>
 
 <% if authorize_for('issues', 'edit') %>
@@ -65,7 +65,7 @@
 <table width="100%">
 <% for attachment in @issue.attachments %>
 <tr>
-<td><%= link_to attachment.filename, :action => 'download', :id => @issue, :attachment_id => attachment %> (<%= human_size(attachment.size) %>)</td>
+<td><%= link_to attachment.filename, :action => 'download', :id => @issue, :attachment_id => attachment %> (<%= human_size(attachment.filesize) %>)</td>
 <td><%= format_date(attachment.created_on) %></td>
 <td><%= attachment.author.display_name %></td>
 <% if authorize_for('issues', 'destroy_attachment') %>

@@ -7,7 +7,7 @@
   </tr>
   
 <% for tracker in @trackers %>
-  <tr style="background-color:#CEE1ED">
+  <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to tracker.name, :action => 'edit', :id => tracker %></td>
   <td align="center">
     <%= start_form_tag :action => 'destroy', :id => tracker %>

@@ -1,21 +1,62 @@
-# administration
-admin:
-  index:    administration.html
-  mail_options: administration.html#mail_notifications
-  info:       administration.html#app_info
-users:
-  index:    administration.html#users
-roles:
-  index:    administration.html#roles
-  workflow: administration.html#workflow
-trackers:
-  index:    administration.html#trackers
-issue_statuses:
-  index:    administration.html#issue_statuses  
+# redMine - project management software
+# Copyright (C) 2006  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-# projects
-projects:
-  add:        projects.html#settings
+# available languages for help pages
+langs:
+  - fr
 
-
-# issues
+# mapping between controller/action and help pages
+# if action is not defined here, 'index' page will be displayed
+pages:
+  # administration
+  admin:
+    index:          ch01.html
+    mail_options:   ch01s08.html
+    info:           ch01s09.html
+  users:
+    index:          ch01s01.html
+  roles:
+    index:          ch01s02.html
+    workflow:       ch01s06.html
+  trackers:
+    index:          ch01s03.html
+  issue_statuses:
+    index:          ch01s05.html
+  # projects
+  projects:
+    index:          ch02.html
+    add:            ch02s08.html
+    show:           ch02s01.html
+    add_document:   ch02s06.html
+    list_documents: ch02s06.html
+    add_issue:      ch02s02.html
+    list_issues:    ch02s02.html
+    add_news:       ch02s05.html
+    list_news:      ch02s05.html
+    add_file:       ch02s07.html
+    list_files:     ch02s07.html
+    changelog:      ch02s04.html
+  issues:
+    index:          ch02s02.html
+  documents:
+    index:          ch02s06.html
+  news:
+    index:          ch02s05.html
+  versions:
+    index:          ch02s08.html
+  reports:
+    index:          ch02s03.html

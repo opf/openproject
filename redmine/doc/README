@@ -2,7 +2,7 @@
 
 redMine - project management software
 Copyright (C) 2006  Jean-Philippe Lang
-http://redmine.sourceforge.net/
+http://redmine.org/
 
 == License
 
@@ -32,6 +32,12 @@ redMine is a project management software written using Ruby on Rails.
 * documents/files repository
 * email notifications
 * multilanguage support
+
+
+== User documentation
+
+User documentation for redMine is written using DocBook XML format.
+It's also avaible as HTML files in /public/manual (contextual help)
 
 
 == Versioning

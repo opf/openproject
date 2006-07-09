@@ -18,68 +18,73 @@
 module SearchFilterHelper
 
   def search_filter_criteria(name, options = {})
-    session[:search_filter] ||= {}
-    session[:search_filter][name] ||= {}
-    unless session[:search_filter][name][:options] and session[:search_filter][name][:conditions]
-      session[:search_filter][name][:options] = []
-      session[:search_filter][name][:conditions] = {}
-      yield.each { |c|
-        session[:search_filter][name][:options] << [c[0], c[1].to_s]
-        session[:search_filter][name][:conditions].store(c[1].to_s, c[2])
-      }
-    end
+    @search_filter ||= {}
+    @search_filter[name] ||= {}
+    @search_filter[name][:options] = []
+    @search_filter[name][:conditions] = {}
+    yield.each { |c|
+      @search_filter[name][:options] << [c[0], c[1].to_s]
+      @search_filter[name][:conditions].store(c[1].to_s, c[2])
+    }
   end
 
   def search_filter_update
-    session[:search_filter].each_key {|field| session[:search_filter][field][:value] = params[field]  }
+    @search_filter.each_key {|field| session[:search_filter][field] = params[field]  }
   end
 	
   def search_filter_clause
-    clause = ["issues.project_id=?", @project.id]
-    session[:search_filter].each { |k, v|
-      v[:value] ||= v[:options][0][1]
-      if (!v[:conditions][v[:value]][0].empty?)
-        clause[0] = clause[0] + " AND " + v[:conditions][v[:value]][0]
-        clause << v[:conditions][v[:value]][1] if !v[:conditions][v[:value]][1].nil?
+    clause = ["1=1"]
+    @search_filter.each { |k, v|
+      filter_value = session[:search_filter][k] || v[:options][0][1]
+      if v[:conditions][filter_value]
+        clause[0] = clause[0] + " AND " + v[:conditions][filter_value].first
+        clause += v[:conditions][filter_value][1..-1]
       end    
     }
     clause
   end
 	
-  def search_filter_tag(criteria)
+  def search_filter_tag(criteria, options = {})
+    options[:name] = criteria
     content_tag("select", 
-				options_for_select(session[:search_filter][criteria][:options], session[:search_filter][criteria][:value]),
-				:name => criteria
+				options_for_select(@search_filter[criteria][:options], session[:search_filter][criteria]),
+				options
 				)
   end
 	
   def search_filter_init_list_issues
 	search_filter_criteria('status_id') { 
-    [ ["[Open]", "O", ["issue_statuses.is_closed=?", false]],
-      ["[All]", "A", ["", false]]
+    [ [_('[Open]'), "O", ["issue_statuses.is_closed=?", false]],
+      [_('[All]'), "A", nil]
     ] + IssueStatus.find(:all).collect {|s| [s.name, s.id, ["issues.status_id=?", s.id]] }                                                      
     }
     
     search_filter_criteria('tracker_id') { 
-    [ ["[All]", "A", ["", false]]
+    [ [_('[All]'), "A", nil]
     ] + Tracker.find(:all).collect {|s| [s.name, s.id, ["issues.tracker_id=?", s.id]] }                                                      
     }
 	
     search_filter_criteria('priority_id') { 
-    [ ["[All]", "A", ["", false]]
+    [ [_('[All]'), "A", nil]
     ] + Enumeration.find(:all, :conditions => ['opt=?','IPRI']).collect {|s| [s.name, s.id, ["issues.priority_id=?", s.id]] }                                                      
     }
     
     search_filter_criteria('category_id') { 
-    [ ["[All]", "A", ["", false]],
-      ["[None]", "N", ["issues.category_id is null"]]
+    [ [_('[All]'), "A", nil],
+      [_('[None]'), "N", ["issues.category_id is null"]]
     ] + @project.issue_categories.find(:all).collect {|s| [s.name, s.id, ["issues.category_id=?", s.id]] }                                                      
     }    
 
     search_filter_criteria('assigned_to_id') { 
-    [ ["[All]", "A", ["", false]],
-      ["[Nobody]", "N", ["issues.assigned_to_id is null"]]
-    ] + User.find(:all).collect {|s| [s.display_name, s.id, ["issues.assigned_to_id=?", s.id]] }                                                      
-    }   	
+    [ [_('[All]'), "A", nil],
+      [_('[None]'), "N", ["issues.assigned_to_id is null"]]
+    ] + @project.users.collect {|s| [s.display_name, s.id, ["issues.assigned_to_id=?", s.id]] }                                                      
+    }
+
+    search_filter_criteria('subproject_id') { 
+    [ [_('[None]'), "N", ["issues.project_id=?", @project.id]],
+      [_('[All]'), "A", ["(issues.project_id=? or projects.parent_id=?)", @project.id, @project.id]]
+    ]                                                     
+    }  
   end
 end

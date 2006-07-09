@@ -1,12 +1,29 @@
+# redMine - project management software
+# Copyright (C) 2006  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 class DefaultConfiguration < ActiveRecord::Migration
   def self.up
     # roles
     r = Role.create(:name => "Manager")
     r.permissions = Permission.find(:all)
     r = Role.create :name => "Developer"
-    r.permissions = Permission.find([1, 2, 3, 6, 10, 11, 12, 16, 17, 18, 19, 20, 21, 23, 25, 26, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41])
+    r.permissions = Permission.find(:all)
     r = Role.create :name => "Reporter"
-    r.permissions = Permission.find([1, 2, 3, 6, 16, 17, 18, 19, 20, 21, 23, 25, 26, 30, 31, 32, 38, 39])
+    r.permissions = Permission.find(:all)
     # trackers
     Tracker.create(:name => "Bug", :is_in_chlog => true)
     Tracker.create(:name => "Feature request", :is_in_chlog => true)

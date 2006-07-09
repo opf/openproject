@@ -2,7 +2,7 @@
 
 <% fixed_issues = @fixed_issues.group_by {|i| i.fixed_version } %>
 <% fixed_issues.each do |version, issues| %>
-  <p><strong><%= version.name %></strong> - <%= format_date(version.date) %><br />
+  <p><strong><%= version.name %></strong> - <%= format_date(version.effective_date) %><br />
   <%=h version.descr %></p>
   <ul>  
     <% issues.each do |i| %>

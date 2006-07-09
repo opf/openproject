@@ -10,7 +10,7 @@
 	<th></th>
 </tr>  
 <% for custom_field in @custom_fields %>
-  <tr style="background-color:#CEE1ED">
+  <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to custom_field.name, :action => 'edit', :id => custom_field %></td>
 	<td align="center"><%= CustomField::TYPES[custom_field.typ][0] %></td>
 	<td align="center"><%= image_tag 'true' if custom_field.is_required? %></td>

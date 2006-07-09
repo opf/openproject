@@ -43,7 +43,7 @@ class Permission < ActiveRecord::Base
   end
   
   def self.allowed_to_public(action)
-    @@cached_perms_for_public ||= find(:all, :conditions => ["public=?", true]).collect {|p| "#{p.controller}/#{p.action}"}
+    @@cached_perms_for_public ||= find(:all, :conditions => ["is_public=?", true]).collect {|p| "#{p.controller}/#{p.action}"}
     @@cached_perms_for_public.include? action
   end
   

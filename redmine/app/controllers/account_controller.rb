@@ -16,31 +16,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AccountController < ApplicationController
-	layout 'base'	
+  layout 'base'	
+  
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required, :only => :login
-	before_filter :require_login, :except => [:show, :login]
+  before_filter :require_login, :except => [:show, :login]
 
-	def show
-		@user = User.find(params[:id])
-	end
-  
-	# Login request and validation
-	def login
-		if request.get?
-			session[:user] = nil
-			@user = User.new
-		else
-			@user = User.new(params[:user])
-			logged_in_user = @user.try_to_login
-			if logged_in_user
-				session[:user] = logged_in_user
-				redirect_back_or_default :controller => 'account', :action => 'my_page'
-			else
-				flash[:notice] = _('Invalid user/password')
-			end
-		end
-	end
+  def show
+    @user = User.find(params[:id])
+  end
+
+  # Login request and validation
+  def login
+    if request.get?
+      session[:user] = nil
+    else
+      logged_in_user = User.try_to_login(params[:login], params[:password])
+      if logged_in_user
+        session[:user] = logged_in_user
+        redirect_back_or_default :controller => 'account', :action => 'my_page'
+      else
+        flash[:notice] = _('Invalid user/password')
+      end
+    end
+  end
 	
 	# Log out current user and redirect to welcome page
 	def logout
@@ -64,20 +63,15 @@ class AccountController < ApplicationController
 		end
 	end
 	
-	# Change current user's password
-	def change_password
-		@user = User.find(session[:user].id)		
-		if @user.check_password?(@params[:old_password])		
-			if @params[:new_password] == @params[:new_password_confirmation]
-				if @user.change_password(@params[:old_password], @params[:new_password])
-					flash[:notice] = 'Password was successfully updated.'
-				end
-			else
-				flash[:notice] = 'Password confirmation doesn\'t match!'
-			end
-		else
-			flash[:notice] = 'Wrong password'
-		end
-		render :action => 'my_account'
-	end
+  # Change current user's password
+  def change_password
+    @user = User.find(session[:user].id)
+    if @user.check_password?(@params[:password])
+      @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+      flash[:notice] = 'Password was successfully updated.' if @user.save
+    else
+      flash[:notice] = 'Wrong password'
+    end
+    render :action => 'my_account'
+  end
 end

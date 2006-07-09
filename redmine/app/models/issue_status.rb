@@ -17,24 +17,26 @@
 
 class IssueStatus < ActiveRecord::Base
   before_destroy :check_integrity  
-	has_many :workflows, :foreign_key => "old_status_id"
-	
-	validates_presence_of :name
-	validates_uniqueness_of :name
+  has_many :workflows, :foreign_key => "old_status_id"
 
-	# Returns the default status for new issues
-	def self.default
-		find(:first, :conditions =>["is_default=?", true])
-	end
-	
-	# Returns an array of all statuses the given role can switch to
-	def new_statuses_allowed_to(role, tracker)
-		statuses = []
-		for workflow in self.workflows.find(:all, :include => :new_status)
-			statuses << workflow.new_status if workflow.role_id == role.id and workflow.tracker_id == tracker.id
-		end unless role.nil?
-		statuses
-	end
+  validates_presence_of :name
+  validates_uniqueness_of :name
+  validates_length_of :html_color, :is=>6
+  validates_format_of :html_color, :with => /^[a-f0-9]*$/i
+
+  # Returns the default status for new issues
+  def self.default
+    find(:first, :conditions =>["is_default=?", true])
+  end
+
+  # Returns an array of all statuses the given role can switch to
+  def new_statuses_allowed_to(role, tracker)
+    statuses = []
+    for workflow in self.workflows
+      statuses << workflow.new_status if workflow.role_id == role.id and workflow.tracker_id == tracker.id
+    end unless role.nil? or tracker.nil?
+    statuses
+  end
   
   def name
     _ self.attributes['name']

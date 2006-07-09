@@ -6,5 +6,5 @@
 <b><%=_('Date')%></b>: <%= format_time(@news.created_on) %>
 </p>
 
-<%= @news.descr %>
+<%= simple_format auto_link @news.descr %>
 

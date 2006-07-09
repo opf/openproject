@@ -3,17 +3,19 @@
 <form method="post" class="noborder">
 	<table cellpadding=2>
   <tr>
-    <td><%=_('Status')%>:<br /><%= search_filter_tag("status_id") %></td>
-    <td><%=_('Tracker')%>:<br /><%= search_filter_tag("tracker_id") %></td>
-    <td><%=_('Priority')%>:<br /><%= search_filter_tag("priority_id") %></td>
-    <td><%=_('Category')%>:<br /><%= search_filter_tag("category_id") %></td>
-    <td><%=_('Assigned to')%>:<br /><%= search_filter_tag("assigned_to_id") %></td>
+    <td><small><%=_('Status')%>:</small><br /><%= search_filter_tag 'status_id', :class => 'select-small' %></td>
+    <td><small><%=_('Tracker')%>:</small><br /><%= search_filter_tag 'tracker_id', :class => 'select-small' %></td>
+    <td><small><%=_('Priority')%>:</small><br /><%= search_filter_tag 'priority_id', :class => 'select-small' %></td>
+    <td><small><%=_('Category')%>:</small><br /><%= search_filter_tag 'category_id', :class => 'select-small' %></td>
+    <td><small><%=_('Assigned to')%>:</small><br /><%= search_filter_tag 'assigned_to_id', :class => 'select-small' %></td>
+    <td><small><%=_('Subprojects')%>:</small><br /><%= search_filter_tag 'subproject_id', :class => 'select-small' %></td>
+
     <td valign="bottom">
-      <%= submit_tag _('Apply filter') %>
+      <%= submit_tag _('Apply filter'), :class => 'button-small' %>
       <%= end_form_tag %>
       
       <%= start_form_tag %>
-      <%= submit_tag _('Reset') %>
+      <%= submit_tag _('Reset'), :class => 'button-small' %>
       <%= end_form_tag %>
     </td>
   </tr>

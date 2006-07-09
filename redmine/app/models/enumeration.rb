@@ -19,6 +19,7 @@ class Enumeration < ActiveRecord::Base
   before_destroy :check_integrity
   
 	validates_presence_of :opt, :name
+	validates_uniqueness_of :name, :scope => [:opt]
 	
 	OPTIONS = [
 		["Issue priorities", "IPRI"],

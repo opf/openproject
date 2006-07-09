@@ -24,63 +24,73 @@ class ApplicationController < ActionController::Base
   end 
   
   def set_localization
-    Localization.lang = session[:user].nil? ? RDM_DEFAULT_LANG : (session[:user].language || RDM_DEFAULT_LANG)
+    Localization.lang = begin
+      if session[:user]
+        session[:user].language
+      elsif request.env['HTTP_ACCEPT_LANGUAGE']
+        accept_lang = HTTPUtils.parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.split('-').first
+        if Localization.langs.collect{ |l| l[1] }.include? accept_lang
+          accept_lang
+        end
+      end
+    rescue
+      nil
+    end || RDM_DEFAULT_LANG
   end
   
-	def require_login
-		unless session[:user]
-			store_location
-			redirect_to(:controller => "account", :action => "login")
-		end
-	end
+  def require_login
+    unless session[:user]
+      store_location
+      redirect_to(:controller => "account", :action => "login")
+    end
+  end
 
-	def require_admin
-		if session[:user].nil?
-			store_location
-			redirect_to(:controller => "account", :action => "login")
-		else
-			unless session[:user].admin?
-				flash[:notice] = "Acces not allowed"
-				redirect_to(:controller => "projects", :action => "list")
-			end
-		end
-	end
+  def require_admin
+    if session[:user].nil?
+      store_location
+      redirect_to(:controller => "account", :action => "login")
+    else
+      unless session[:user].admin?
+        flash[:notice] = "Acces not allowed"
+        redirect_to(:controller => "projects", :action => "list")
+      end
+    end
+  end
 
-	# authorizes the user for the requested action.
-	def authorize
+  # authorizes the user for the requested action.
+  def authorize
     # check if action is allowed on public projects
-    if @project.public? and Permission.allowed_to_public "%s/%s" % [ @params[:controller], @params[:action] ]
+    if @project.is_public? and Permission.allowed_to_public "%s/%s" % [ @params[:controller], @params[:action] ]
       return true
     end  
-    # if user is not logged in, he is redirect to login form
-		unless session[:user]
-			store_location
-			redirect_to(:controller => "account", :action => "login")
-			return false
-		end
-    # check if user is authorized    
+    # if user not logged in, redirect to login form
+    unless session[:user]
+      store_location
+      redirect_to(:controller => "account", :action => "login")
+      return false
+    end
+    # if logged in, check if authorized    
     if session[:user].admin? or Permission.allowed_to_role( "%s/%s" % [ @params[:controller], @params[:action] ], session[:user].role_for_project(@project.id)  )    
       return true		
-		end		
+    end		
     flash[:notice] = "Acces denied"
     redirect_to(:controller => "")
-    return false
-	end
+    false
+  end
 	
-	# store current uri in  the session.
-	# we can return to this location by calling redirect_back_or_default
-	def store_location
-		session[:return_to] = @request.request_uri
-	end
-	
-	# move to the last store_location call or to the passed default one
-	def redirect_back_or_default(default)
-		if session[:return_to].nil?
-			redirect_to default
-		else
-			redirect_to_url session[:return_to]
-			session[:return_to] = nil
-		end
-	end
-  
+  # store current uri in session.
+  # return to this location by calling redirect_back_or_default
+  def store_location
+    session[:return_to] = @request.request_uri
+  end
+
+  # move to the last store_location call or to the passed default one
+  def redirect_back_or_default(default)
+    if session[:return_to].nil?
+      redirect_to default
+    else
+      redirect_to_url session[:return_to]
+      session[:return_to] = nil
+    end
+  end
 end

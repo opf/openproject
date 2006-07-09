@@ -16,28 +16,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class HelpController < ApplicationController
-	
-  skip_before_filter :check_if_login_required
-	before_filter :load_help_config
 
-	def index	
-		if @params[:ctrl] and @help_config[@params[:ctrl]]
-			if @params[:page] and @help_config[@params[:ctrl]][@params[:page]]
-				template = @help_config[@params[:ctrl]][@params[:page]]
-			else
-				template = @help_config[@params[:ctrl]]['index']
-			end
-		end
-		
-    if template
-      redirect_to "/manual/#{template}"
-    else
-      redirect_to "/manual/"
+  skip_before_filter :check_if_login_required
+  before_filter :load_help_config
+
+  # displays help page for the requested controller/action
+  def index	
+    # select help page to display
+    if @params[:ctrl] and @help_config['pages'][@params[:ctrl]]
+      if @params[:page] and @help_config['pages'][@params[:ctrl]][@params[:page]]
+        template = @help_config['pages'][@params[:ctrl]][@params[:page]]
+      else
+        template = @help_config['pages'][@params[:ctrl]]['index']
+      end
     end
-	end
+    # choose language according to available help translations
+    lang = (@help_config['langs'].include? Localization.lang) ? Localization.lang : @help_config['langs'].first
+	
+    if template
+      redirect_to "/manual/#{lang}/#{template}"
+    else
+      redirect_to "/manual/#{lang}/"
+    end
+  end
 
 private
-	def load_help_config
-		@help_config = YAML::load(File.open("#{RAILS_ROOT}/config/help.yml"))
-	end	
+  def load_help_config
+    @help_config = YAML::load(File.open("#{RAILS_ROOT}/config/help.yml"))
+  end	
 end

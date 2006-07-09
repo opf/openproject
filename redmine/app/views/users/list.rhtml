@@ -2,18 +2,18 @@
 
 <table border="0" cellspacing="1" cellpadding="2" class="listTableContent">		
 <tr class="ListHead">
-	<%= sort_header_tag('users.login', :caption => _('Login')) %>
-	<%= sort_header_tag('users.firstname', :caption => _('Firstname')) %>
-	<%= sort_header_tag('users.lastname', :caption => _('Lastname')) %>
+	<%= sort_header_tag('login', :caption => _('Login')) %>
+	<%= sort_header_tag('firstname', :caption => _('Firstname')) %>
+	<%= sort_header_tag('lastname', :caption => _('Lastname')) %>
 	<th><%=_('Mail')%></th>
-	<%= sort_header_tag('users.admin', :caption => _('Admin')) %>
-	<%= sort_header_tag('users.locked', :caption => _('Locked')) %>
-	<%= sort_header_tag('users.created_on', :caption => _('Created on')) %>
-	<%= sort_header_tag('users.last_login_on', :caption => _('Last login')) %>
+	<%= sort_header_tag('admin', :caption => _('Admin')) %>
+	<%= sort_header_tag('locked', :caption => _('Locked')) %>
+	<%= sort_header_tag('created_on', :caption => _('Created on')) %>
+	<%= sort_header_tag('last_login_on', :caption => _('Last login')) %>
   <th></th>
 </tr>  
 <% for user in @users %>
-  <tr style="background-color:#CEE1ED">
+  <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to user.login, :action => 'edit', :id => user %></td>
 	<td><%= user.firstname %></td>
 	<td><%= user.lastname %></td>
@@ -25,10 +25,10 @@
   <td align="center">
     <%= start_form_tag :action => 'edit', :id => user %>
     <% if user.locked? %>
-      <%= hidden_field_tag 'user[locked]', false %>
+      <%= hidden_field_tag 'user[locked]', 0 %>
       <%= submit_tag _('Unlock'), :class => "button-small"  %>
     <% else %>
-      <%= hidden_field_tag 'user[locked]', true %>
+      <%= hidden_field_tag 'user[locked]', 1 %>
       <%= submit_tag _('Lock'), :class => "button-small"  %>
     <% end %>
     <%= end_form_tag %>  

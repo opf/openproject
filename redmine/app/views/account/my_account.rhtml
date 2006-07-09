@@ -4,12 +4,13 @@
 <%=_('Created on')%>: <%= format_time(@user.created_on) %>,
 <%=_('Last update')%>: <%= format_time(@user.updated_on) %></p>
 
+<%= error_messages_for 'user' %>
+
 <div class="splitcontentleft">
   <div class="box">
   <h3><%=_('Information')%></h3>
   &nbsp;
   <%= start_form_tag :action => 'my_account' %>
-  <%= error_messages_for 'user' %>
 
   <!--[form:user]-->
   <p><label for="user_firstname"><%=_('Firstname')%> <span class="required">*</span></label><br/>
@@ -39,14 +40,14 @@
   &nbsp;
   <%= start_form_tag :action => 'change_password' %>
 
-  <p><label for="old_password"><%=_('Password')%> <span class="required">*</span></label><br/>
-  <%= password_field_tag 'old_password' %></p>
+  <p><label for="password"><%=_('Password')%> <span class="required">*</span></label><br/>
+  <%= password_field_tag 'password', nil, :size => 25 %></p>
 
   <p><label for="new_password"><%=_('New password')%> <span class="required">*</span></label><br/>
-  <%= password_field_tag 'new_password' %></p>
+  <%= password_field_tag 'new_password', nil, :size => 25 %></p>
 
   <p><label for="new_password_confirmation"><%=_('Confirmation')%> <span class="required">*</span></label><br/>
-  <%= password_field_tag 'new_password_confirmation' %></p>
+  <%= password_field_tag 'new_password_confirmation', nil, :size => 25 %></p>
 
   <center><%= submit_tag _('Save') %></center>
   <%= end_form_tag %>

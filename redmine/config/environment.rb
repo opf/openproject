@@ -73,7 +73,7 @@ end
 # application name
 RDM_APP_NAME = "redMine" 
 # application version
-RDM_APP_VERSION = "0.1.0" 
+RDM_APP_VERSION = "0.2.0" 
 # application host name
 RDM_HOST_NAME = "somenet.foo"
 # file storage path

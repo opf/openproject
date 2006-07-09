@@ -2,13 +2,22 @@
 
 redMine - project management software
 Copyright (C) 2006  Jean-Philippe Lang
-http://redmine.sourceforge.net/
+http://redmine.org/
 
 
-== xx/xx/2006
+== 07/09/2006 - v0.2.0
 
-* More filter options in issues list
-* Issues list exportable to CSV
+* new databases supported: Oracle, PostgreSQL, SQL Server
+* projects/subprojects hierarchy (1 level of subprojects only)
+* environment information display in admin/info
+* more filter options in issues list (rev6)
+* default language based on browser settings (Accept-Language HTTP header)
+* issues list exportable to CSV (rev6)
+* simple_format and auto_link on long text fields
+* more data validations
+* Fixed: error when all mail notifications are unchecked in admin/mail_options
+* Fixed: all project news are displayed on project summary
+* Fixed: Can't change user password in users/edit
 * Fixed: Error on tables creation with PostgreSQL (rev5)
 * Fixed: SQL error in "issue reports" view with PostgreSQL (rev5)
 

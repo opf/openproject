@@ -2,10 +2,13 @@
 
 <!--[form:user]-->
 <p><label for="user_login"><%=_('Login')%></label><br/>
-<%= text_field 'user', 'login'  %></p>
+<%= text_field 'user', 'login', :size => 25  %></p>
 
-<p><label for="user_password"><%=_('Password')%></label><br/>
-<%= password_field 'user', 'password'  %></p>
+<p><label for="password"><%=_('Password')%></label><br/>
+<%= password_field_tag 'password', nil, :size => 25  %></p>
+
+<p><label for="password_confirmation"><%=_('Confirmation')%></label><br/>
+<%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
 
 <p><label for="user_firstname"><%=_('Firstname')%></label><br/>
 <%= text_field 'user', 'firstname'  %></p>

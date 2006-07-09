@@ -20,6 +20,9 @@ class Tracker < ActiveRecord::Base
   has_many :issues
   has_many :workflows, :dependent => true
   
+  validates_presence_of :name
+  validates_uniqueness_of :name
+  
   def name
     _ self.attributes['name']
   end

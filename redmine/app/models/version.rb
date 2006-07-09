@@ -16,12 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Version < ActiveRecord::Base
-  before_destroy :check_integrity  
-	belongs_to :project
-	has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id'
+  before_destroy :check_integrity
+  belongs_to :project
+  has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id'
   has_many :attachments, :as => :container, :dependent => true
-	
-	validates_presence_of :name, :descr
+
+  validates_presence_of :name
+  validates_uniqueness_of :name, :scope => [:project_id]
   
 private
   def check_integrity

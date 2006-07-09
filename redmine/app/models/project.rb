@@ -16,29 +16,33 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Project < ActiveRecord::Base
-	has_many :versions, :dependent => true, :order => "versions.date DESC"
+	has_many :versions, :dependent => true, :order => "versions.effective_date DESC"
 	has_many :members, :dependent => true
+	has_many :users, :through => :members
 	has_many :issues, :dependent => true, :order => "issues.created_on DESC", :include => :status
 	has_many :documents, :dependent => true
-	has_many :news, :dependent => true, :order => "news.created_on DESC", :include => :author
+	has_many :news, :dependent => true, :include => :author
 	has_many :issue_categories, :dependent => true
 	has_and_belongs_to_many :custom_fields
+	acts_as_tree :order => "name", :counter_cache => true
 	
 	validates_presence_of :name, :descr
+	validates_uniqueness_of :name
 	
 	# returns 5 last created projects
 	def self.latest
 		find(:all, :limit => 5, :order => "created_on DESC")	
 	end	
 	
-	# Returns current version of the project
-	def current_version
-		versions.find(:first, :conditions => [ "date <= ?", Date.today ], :order => "date DESC, id DESC")
-	end
-	
 	# Returns an array of all custom fields enabled for project issues
 	# (explictly associated custom fields and custom fields enabled for all projects)
 	def custom_fields_for_issues
 		(CustomField.for_all + custom_fields).uniq
 	end
+	
+protected
+  def validate
+    errors.add(parent_id, " must be a root project") if parent and parent.parent
+    errors.add_to_base("A project with subprojects can't be a subproject") if parent and projects_count > 0
+  end
 end

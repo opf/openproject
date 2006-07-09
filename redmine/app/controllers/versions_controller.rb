@@ -38,6 +38,9 @@ class VersionsController < ApplicationController
     @attachment = @version.attachments.find(params[:attachment_id])
     @attachment.increment_download
     send_file @attachment.diskfile, :filename => @attachment.filename
+  rescue
+    flash[:notice]="Requested file doesn't exist or has been deleted."
+    redirect_to :controller => 'projects', :action => 'list_files', :id => @project
   end 
   
   def destroy_file

@@ -1,5 +1,19 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+admin:
   id: 1
-another:
+  login: admin
+  firstname: admin
+  lastname: admin
+  mail: admin@somenet.foo
+  hashed_password: d033e22ae348aeb5660fc2140aec35850c4da997
+  admin: true
+  language: en
+paulochon:
   id: 2
+  login: plochon
+  firstname: Paul
+  lastname: Ochon
+  mail: plochon@somenet.foo
+  hashed_password: d033e22ae348aeb5660fc2140aec35850c4da997
+  admin: false
+  language: en

@@ -10,7 +10,11 @@ Localization.define('fr', 'Français') do |l|
   l.store 'Resolved', 'Résolue'
   l.store 'Closed', 'Fermée'
   l.store 'Rejected', 'Rejetée'
-  l.store 'Feedback', 'Commentaire'  
+  l.store 'Feedback', 'Commentaire' 
+  # filters
+  l.store '[All]', '[Tous]'
+  l.store '[Open]', '[Ouvert]'
+  l.store '[None]', '[Aucun]'
 
   # issue priorities
   l.store 'Issue priorities', 'Priorités des demandes'
@@ -52,6 +56,9 @@ Localization.define('fr', 'Français') do |l|
   l.store 'Last login', 'Dernière connexion'
   l.store 'Reported issues', 'Demandes soumises'
   l.store 'Assigned to me', 'Demandes qui me sont assignées'
+
+  # ./script/../config/../app/views/account/login.rhtml
+  l.store 'Please login', 'Identification'
 
   # ./script/../config/../app/views/account/show.rhtml
   l.store 'Registered on', 'Inscrit le'
@@ -231,6 +238,7 @@ Localization.define('fr', 'Français') do |l|
   l.store 'New file', 'Nouveau fichier'
   
   # ./script/../config/../app/views/projects/list_issues.rhtml
+  l.store 'Subprojects', 'Sous-projets'
   l.store 'Apply filter', 'Appliquer'
   l.store 'Reset', 'Annuler'
   l.store 'Report an issue', 'Nouvelle demande'
@@ -311,6 +319,6 @@ Localization.define('fr', 'Français') do |l|
   # ./script/../config/../app/views/versions/_form.rhtml
 
   # ./script/../config/../app/views/welcome/index.rhtml
-  
+  l.store 'Latest projects', 'Derniers projets'
 
 end 
