@@ -33,6 +33,7 @@ module SearchFilterHelper
   end
 	
   def search_filter_clause
+    session[:search_filter] ||= {}
     clause = ["1=1"]
     @search_filter.each { |k, v|
       filter_value = session[:search_filter][k] || v[:options][0][1]
