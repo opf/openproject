@@ -5,7 +5,7 @@ Copyright (C) 2006  Jean-Philippe Lang
 http://redmine.org/
 
 
-== 07/09/2006 - v0.2.0
+== 07/09/2006 - v0.2.1
 
 * new databases supported: Oracle, PostgreSQL, SQL Server
 * projects/subprojects hierarchy (1 level of subprojects only)
