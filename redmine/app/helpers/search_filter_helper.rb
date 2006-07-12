@@ -29,6 +29,7 @@ module SearchFilterHelper
   end
 
   def search_filter_update
+    session[:search_filter] ||= {}
     @search_filter.each_key {|field| session[:search_filter][field] = params[field]  }
   end
 	
@@ -46,7 +47,9 @@ module SearchFilterHelper
   end
 	
   def search_filter_tag(criteria, options = {})
+    session[:search_filter] ||= {}
     options[:name] = criteria
+    options[:class] += " active-filter" if session[:search_filter][criteria] and session[:search_filter][criteria] != @search_filter[criteria][:options][0][1]
     content_tag("select", 
 				options_for_select(@search_filter[criteria][:options], session[:search_filter][criteria]),
 				options
@@ -76,12 +79,18 @@ module SearchFilterHelper
     ] + @project.issue_categories.find(:all).collect {|s| [s.name, s.id, ["issues.category_id=?", s.id]] }                                                      
     }    
 
+    search_filter_criteria('fixed_version_id') { 
+    [ [_('[All]'), "A", nil],
+      [_('[None]'), "N", ["issues.fixed_version_id is null"]]
+    ] + @project.versions.collect {|s| [s.name, s.id, ["issues.fixed_version_id=?", s.id]] }                                                      
+    }
+
     search_filter_criteria('assigned_to_id') { 
     [ [_('[All]'), "A", nil],
       [_('[None]'), "N", ["issues.assigned_to_id is null"]]
     ] + @project.users.collect {|s| [s.display_name, s.id, ["issues.assigned_to_id=?", s.id]] }                                                      
     }
-
+    
     search_filter_criteria('subproject_id') { 
     [ [_('[None]'), "N", ["issues.project_id=?", @project.id]],
       [_('[All]'), "A", ["(issues.project_id=? or projects.parent_id=?)", @project.id, @project.id]]
