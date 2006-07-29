@@ -23,21 +23,21 @@ class IssuesController < ApplicationController
 	include CustomFieldsHelper
 	
 	def show
-    @status_options = @issue.status.workflows.find(:all, :conditions => ["role_id=? and tracker_id=?", session[:user].role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if session[:user]
+    @status_options = @issue.status.workflows.find(:all, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
+    @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
 	end
 
 	def edit
-		@trackers = Tracker.find(:all)
 		@priorities = Enumeration::get_values('IPRI')
 		
 		if request.get?
-			@custom_values = @project.custom_fields_for_issues.collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
+			@custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
 		else
 			# Retrieve custom fields and values
-			@custom_values = @project.custom_fields_for_issues.collect { |x| CustomValue.new(:custom_field => x, :value => params["custom_fields"][x.id.to_s]) }
-
+			@custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
 			@issue.custom_values = @custom_values
-			if @issue.update_attributes(params[:issue])
+			@issue.attributes = params[:issue]
+			if @issue.save
 				flash[:notice] = 'Issue was successfully updated.'
 				redirect_to :action => 'show', :id => @issue
 			end
@@ -46,12 +46,11 @@ class IssuesController < ApplicationController
 	
 	def change_status
 		@history = @issue.histories.build(params[:history])	
-    @status_options = @issue.status.workflows.find(:all, :conditions => ["role_id=? and tracker_id=?", session[:user].role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if session[:user]
+    @status_options = @issue.status.workflows.find(:all, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
 		
 		if params[:confirm]
-			unless session[:user].nil?
-				@history.author = session[:user]
-			end			
+				@history.author_id = self.logged_in_user.id if self.logged_in_user
+	
 			if @history.save			
 				@issue.status = @history.status
 				@issue.fixed_version_id = (params[:issue][:fixed_version_id])
@@ -76,7 +75,7 @@ class IssuesController < ApplicationController
     # Save the attachment
     if params[:attachment][:file].size > 0
       @attachment = @issue.attachments.build(params[:attachment])      
-      @attachment.author_id = session[:user].id unless session[:user].nil?
+      @attachment.author_id = self.logged_in_user.id if self.logged_in_user
       @attachment.save
     end
     redirect_to :action => 'show', :id => @issue
@@ -86,17 +85,16 @@ class IssuesController < ApplicationController
     @issue.attachments.find(params[:attachment_id]).destroy
     redirect_to :action => 'show', :id => @issue
   end
-  
-	# Send the file in stream mode
-	def download
-		@attachment = @issue.attachments.find(params[:attachment_id])
-		send_file @attachment.diskfile, :filename => @attachment.filename
-	end
-	
+
+  # Send the file in stream mode
+  def download
+    @attachment = @issue.attachments.find(params[:attachment_id])
+    send_file @attachment.diskfile, :filename => @attachment.filename
+  end
+
 private
-	def find_project
+  def find_project
     @issue = Issue.find(params[:id])
-		@project = @issue.project
-	end  
-  
+    @project = @issue.project
+  end  
 end

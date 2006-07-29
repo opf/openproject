@@ -29,15 +29,19 @@ class Issue < ActiveRecord::Base
 	has_many :histories, :class_name => 'IssueHistory', :dependent => true, :order => "issue_histories.created_on DESC", :include => :status
 	has_many :attachments, :as => :container, :dependent => true
 	
-	has_many :custom_values, :dependent => true 
+	has_many :custom_values, :dependent => true, :as => :customized
 	has_many :custom_fields, :through => :custom_values
 	
-	validates_presence_of :subject, :descr, :priority, :tracker, :author
+  validates_presence_of :subject, :description, :priority, :tracker, :author
+  validates_associated :custom_values, :on => :update
 	
 	# set default status for new issues
+	def before_validation
+		self.status = IssueStatus.default if new_record?
+	end
+	
 	def before_create
-		self.status = IssueStatus.default
-		build_history
+	 build_history
 	end
 	
 	def long_id

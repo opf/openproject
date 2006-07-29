@@ -49,21 +49,11 @@ Supported databases:
 
 == Configuration
 
-You can setup a few things in config/environment.rb:
+A sample configuration file is provided: "config/config_custom.example.rb"
+Rename it to config_custom.rb and edit parameters.
 Don't forget to restart the application after any change.
 
 
 config.action_mailer.server_settings: SMTP server configuration
 config.action_mailer.perform_deliveries: set to false to disable mail delivering
-
-RDM_HOST_NAME: hostname used to provide urls in notification mails
-
-RDM_STORAGE_PATH: path for all attachments storage (default: "#{RAILS_ROOT}/files")
-  "#{RAILS_ROOT}/" represents application main directory
-  
-RDM_LOGIN_REQUIRED: set to true if you want to force users to login to access
-  any part of the application (default: false)
-  
-RDM_DEFAULT_LANG: default language for anonymous users: 'en' (default), 'es', 'fr' available
-
 

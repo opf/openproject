@@ -55,7 +55,7 @@ class Attachment < ActiveRecord::Base
 	
 	# Returns file's location on disk
 	def diskfile
-		"#{RDM_STORAGE_PATH}/#{self.disk_filename}"
+		"#{$RDM_STORAGE_PATH}/#{self.disk_filename}"
 	end
   
   def increment_download

@@ -1,19 +1,22 @@
-<h2><%=_('My page') %></h2>
+<h2><%=l(:label_my_page)%></h2>
 
 <p>
-<%=_('Welcome')%> <b><%= @user.firstname %></b><br />
 <% unless @user.last_before_login_on.nil? %>
-  <%=_('Last login')%>: <%= format_time(@user.last_before_login_on) %>
+  <%=l(:label_last_login)%>: <%= format_time(@user.last_before_login_on) %>
 <% end %>
 </p>
 
 <div class="splitcontentleft">
-	<h3><%=_('Reported issues')%></h3>
+	<h3><%=l(:label_reported_issues)%></h3>
 	<%= render :partial => 'issues/list_simple', :locals => { :issues => @reported_issues } %>
-	<%= "<p>(Last #{@reported_issues.length} updated)</p>" if @reported_issues.length > 0 %>
+	<% if @reported_issues.length > 0 %>
+	<p><%=lwr(:label_last_updates, @reported_issues.length)%></p>
+	<% end %>
 </div>
 <div class="splitcontentright">
-<h3><%=_('Assigned to me')%></h3>	
+<h3><%=l(:label_assigned_to_me_issues)%></h3>	
 	<%= render :partial => 'issues/list_simple', :locals => { :issues => @assigned_issues } %>
-	<%= "<p>(Last #{@assigned_issues.length} updated)</p>" if @assigned_issues.length > 0 %>
+	<% if @assigned_issues.length > 0 %>
+	<p><%=lwr(:label_last_updates, @assigned_issues.length)%></p>
+	<% end %>
 </div>

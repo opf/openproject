@@ -1,0 +1,46 @@
+<h2><%=l(:label_register)%></h2>
+
+<%= start_form_tag %>
+
+<%= error_messages_for 'user' %>
+
+<div class="box">
+<!--[form:user]-->
+<p><label for="user_login"><%=l(:field_login)%></label> <span class="required">*</span><br/>
+<%= text_field 'user', 'login', :size => 25  %></p>
+
+<p><label for="password"><%=l(:field_password)%></label> <span class="required">*</span><br/>
+<%= password_field_tag 'password', nil, :size => 25  %></p>
+
+<p><label for="password_confirmation"><%=l(:field_password_confirmation)%></label> <span class="required">*</span><br/>
+<%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
+
+<p><label for="user_firstname"><%=l(:field_firstname)%></label> <span class="required">*</span><br/>
+<%= text_field 'user', 'firstname'  %></p>
+
+<p><label for="user_lastname"><%=l(:field_lastname)%></label> <span class="required">*</span><br/>
+<%= text_field 'user', 'lastname'  %></p>
+
+<p><label for="user_mail"><%=l(:field_mail)%></label> <span class="required">*</span><br/>
+<%= text_field 'user', 'mail'  %></p>
+
+<p><label for="user_language"><%=l(:field_language)%></label><br/>
+<%= select("user", "language", Localization.langs.invert) %></p>
+
+<% for custom_value in @custom_values %>
+  <div style="float:left;margin-right:10px;">
+	<p><%= content_tag "label", custom_value.custom_field.name %>
+	<% if custom_value.custom_field.is_required? %><span class="required">*</span><% end %>
+	<br />
+	<%= custom_field_tag custom_value %></p>
+  </div>
+<% end %>
+
+<div style="clear: both;"></div>
+
+<p><%= check_box 'user', 'mail_notification' %> <label for="user_mail_notification"><%=l(:field_mail_notification)%></label></p>
+<!--[eoform:user]-->
+</div>
+
+  <%= submit_tag l(:button_submit) %>
+<%= end_form_tag %>

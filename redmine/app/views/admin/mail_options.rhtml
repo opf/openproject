@@ -1,16 +1,16 @@
-<h2><%=_('Mail notifications')%></h2>
+<h2><%=l(:field_mail_notification)%></h2>
 
-<p><%=_('Select actions for which mail notification should be enabled.')%></p>
+<p><%=l(:text_select_mail_notifications)%></p>
 
 <%= start_form_tag ({}, :id => 'mail_options_form')%>
 <% for action in @actions %>
   <%= check_box_tag "action_ids[]", action.id, action.mail_enabled? %>
-  <%= action.descr %><br />
+  <%= action.description %><br />
 <% end %>
 <br />
 <p>
-<a href="javascript:checkAll('mail_options_form', true)"><%=_('Check all')%></a> |
-<a href="javascript:checkAll('mail_options_form', false)"><%=_('Uncheck all')%></a>
+<a href="javascript:checkAll('mail_options_form', true)"><%=l(:button_check_all)%></a> |
+<a href="javascript:checkAll('mail_options_form', false)"><%=l(:button_uncheck_all)%></a>
 </p>
-<%= submit_tag _('Save') %>
+<%= submit_tag l(:button_save) %>
 <%= end_form_tag %>

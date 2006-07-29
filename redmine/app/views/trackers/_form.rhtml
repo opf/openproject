@@ -1,7 +1,7 @@
 <%= error_messages_for 'tracker' %>
 
 <!--[form:tracker]-->
-<p><label for="tracker_name"><%=_('Name')%></label><br/>
+<p><label for="tracker_name"><%=_('Name')%></label> <span class="required">*</span><br/>
 <%= text_field 'tracker', 'name'  %></p>
 
 <p><%= check_box 'tracker', 'is_in_chlog' %>

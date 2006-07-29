@@ -1,0 +1,49 @@
+<%= error_messages_for 'auth_source' %>
+
+<div class="box">
+<!--[form:auth_source]-->
+<p><label for="auth_source_name"><%=l(:field_name)%></label> <span class="required">*</span><br/>
+<%= text_field 'auth_source', 'name'  %></p>
+
+<p><label for="auth_source_host"><%=l(:field_host)%></label> <span class="required">*</span><br/>
+<%= text_field 'auth_source', 'host'  %></p>
+
+<p><label for="auth_source_port"><%=l(:field_port)%></label> <span class="required">*</span><br/>
+<%= text_field 'auth_source', 'port', :size => 6 %></p>
+
+<p><label for="auth_source_account"><%=l(:field_account)%></label><br/>
+<%= text_field 'auth_source', 'account'  %></p>
+
+<p><label for="auth_source_account_password"><%=l(:field_password)%></label><br/>
+<%= password_field 'auth_source', 'account_password'  %></p>
+
+<p><label for="auth_source_base_dn"><%=l(:field_base_dn)%></label> <span class="required">*</span><br/>
+<%= text_field 'auth_source', 'base_dn', :size => 60 %></p>
+
+<p><%= check_box 'auth_source', 'onthefly_register' %>
+<label for="auth_source_onthefly_register"><%=l(:field_onthefly)%></label></p>
+
+<fieldset><legend><%=l(:label_attribute_plural)%></legend>
+<div style="float:left;margin-right:10px;">
+<p><label for="auth_source_attr_login"><%=l(:field_login)%></label> <span class="required">*</span><br/>
+<%= text_field 'auth_source', 'attr_login', :size => 20  %></p>
+</div>
+
+<div style="float:left;margin-right:10px;">
+<p><label for="auth_source_attr_firstname"><%=l(:field_firstname)%></label><br/>
+<%= text_field 'auth_source', 'attr_firstname', :size => 20  %></p>
+</div>
+
+<div style="float:left;margin-right:10px;">
+<p><label for="auth_source_attr_lastname"><%=l(:field_lastname)%></label><br/>
+<%= text_field 'auth_source', 'attr_lastname', :size => 20  %></p>
+</div>
+
+<div>
+<p><label for="auth_source_attr_mail"><%=l(:field_mail)%></label><br/>
+<%= text_field 'auth_source', 'attr_mail', :size => 20  %></p>
+</div>
+</fieldset>
+
+<!--[eoform:auth_source]-->
+</div>

@@ -16,23 +16,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomField < ActiveRecord::Base
+  has_many :custom_values, :dependent => true
 
-	has_and_belongs_to_many :projects	
-	has_many :custom_values, :dependent => true
-	has_many :issues, :through => :issue_custom_values
+  FIELD_FORMATS = { "list" => :label_list,                    
+			        "date" => :label_date,
+			        "bool" => :label_boolean,
+			        "int" => :label_integer,
+			        "string" => :label_string,
+			        "text" => :label_text
+  }.freeze
 
-	validates_presence_of :name, :typ	
-	validates_uniqueness_of :name
+  validates_presence_of :name, :field_format
+  validates_uniqueness_of :name
+  validates_inclusion_of :field_format, :in => FIELD_FORMATS.keys
+  validates_presence_of :possible_values, :if => Proc.new { |field| field.field_format == "list" }
 
-	TYPES = [
-			[ "Integer", 0 ],
-			[ "String", 1 ],
-			[ "Date", 2 ],
-			[ "Boolean", 3 ],
-			[ "List", 4 ]
-	].freeze
-	
-	def self.for_all
-		find(:all, :conditions => ["is_for_all=?", true])
-	end
+  # to move in project_custom_field
+  def self.for_all
+    find(:all, :conditions => ["is_for_all=?", true])
+  end
+  
+  def type_name
+    nil
+  end
 end

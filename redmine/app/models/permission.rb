@@ -18,7 +18,7 @@
 class Permission < ActiveRecord::Base
 	has_and_belongs_to_many :roles
   
-	validates_presence_of :controller, :action, :descr
+	validates_presence_of :controller, :action, :description
   
   GROUPS = {
     100 => "Project",

@@ -19,7 +19,9 @@ require "digest/sha1"
 
 class User < ActiveRecord::Base
   has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :dependent => true
-	
+  has_many :custom_values, :dependent => true, :as => :customized
+  belongs_to :auth_source
+  
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
@@ -33,6 +35,12 @@ class User < ActiveRecord::Base
   # Password length between 4 and 12
   validates_length_of :password, :in => 4..12, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
+  validates_associated :custom_values, :on => :update
+
+  # Account statuses
+  STATUS_ACTIVE     = 1
+  STATUS_REGISTERED = 2
+  STATUS_LOCKED     = 3
 
   def before_save
     # update hashed_password if password was set
@@ -41,23 +49,52 @@ class User < ActiveRecord::Base
 	
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password)
-    user = find(:first, :conditions => ["login=? and hashed_password=? and locked=?", login, User.hash_password(password), false])
+    user = find(:first, :conditions => ["login=?", login])
     if user
-      user.last_before_login_on = user.last_login_on
-      user.update_attribute(:last_login_on, Time.now)
-    end
+      # user is already in local database
+      return nil if !user.active?
+      if user.auth_source
+        # user has an external authentication method
+        return nil unless user.auth_source.authenticate(login, password)
+      else
+        # local authentication
+        return nil unless User.hash_password(password) == user.hashed_password        
+      end
+    else
+      # user is not yet registered, try to authenticate with available sources
+      attrs = AuthSource.authenticate(login, password)
+      if attrs
+        onthefly = new(*attrs)
+        onthefly.login = login
+        onthefly.language = $RDM_DEFAULT_LANG
+        if onthefly.save
+          user = find(:first, :conditions => ["login=?", login])
+        end
+      end
+    end    
+    user.update_attribute(:last_login_on, Time.now) if user
     user
+    
+    rescue => text
+      raise text
   end
 	
   # Return user's full name for display
   def display_name
     firstname + " " + lastname
   end
+  
+  def active?
+    self.status == STATUS_ACTIVE
+  end
+  
+  def locked?
+    self.status == STATUS_LOCKED
+  end
 
   def check_password?(clear_password)
     User.hash_password(clear_password) == self.hashed_password
   end
-
   
   def role_for_project(project_id)
     @role_for_projects ||=

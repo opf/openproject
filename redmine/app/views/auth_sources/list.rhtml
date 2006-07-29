@@ -1,0 +1,32 @@
+<h2><%=l(:label_auth_source_plural)%></h2>
+
+<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+  <tr class="ListHead">
+  <td><%=l(:field_name)%></td>
+  <td><%=l(:field_type)%></td>
+  <td><%=l(:field_host)%></td>
+  <td></td>
+  <td></td>
+  </tr>
+  
+<% for source in @auth_sources %>
+  <tr class="<%= cycle("odd", "even") %>">
+    <td><%= link_to source.name, :action => 'edit', :id => source%></td>
+    <td align="center"><%= source.auth_method_name %></td>
+    <td align="center"><%= source.host %></td>    
+    <td align="center">
+        <%= link_to l(:button_test), :action => 'test_connection', :id => source %>
+    </td>
+    <td align="center">
+        <%= start_form_tag :action => 'destroy', :id => source %>
+        <%= submit_tag l(:button_delete), :class => "button-small" %>
+        <%= end_form_tag %>
+    </td>
+    </tr>
+<% end %>
+</table>
+
+<%= pagination_links_full @auth_source_pages %>
+<br />
+<%= link_to '&#187; ' + l(:label_auth_source_new), :action => 'new' %>
+

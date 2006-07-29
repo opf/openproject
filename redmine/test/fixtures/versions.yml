@@ -1,0 +1,17 @@
+--- 
+versions_001: 
+  created_on: 2006-07-19 21:00:07 +02:00
+  name: "0.1"
+  project_id: 1
+  updated_on: 2006-07-19 21:00:07 +02:00
+  id: 1
+  description: Beta
+  effective_date: 2006-07-01
+versions_002: 
+  created_on: 2006-07-19 21:00:33 +02:00
+  name: "1.0"
+  project_id: 1
+  updated_on: 2006-07-19 21:00:33 +02:00
+  id: 2
+  description: Stable release
+  effective_date: 2006-07-19

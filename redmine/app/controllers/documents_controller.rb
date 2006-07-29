@@ -45,7 +45,7 @@ class DocumentsController < ApplicationController
     # Save the attachment
     if params[:attachment][:file].size > 0
       @attachment = @document.attachments.build(params[:attachment])      
-      @attachment.author_id = session[:user].id unless session[:user].nil?
+      @attachment.author_id = self.logged_in_user.id if self.logged_in_user
       @attachment.save
     end
     render :action => 'show'

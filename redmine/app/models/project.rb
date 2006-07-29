@@ -16,30 +16,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Project < ActiveRecord::Base
-	has_many :versions, :dependent => true, :order => "versions.effective_date DESC"
-	has_many :members, :dependent => true
-	has_many :users, :through => :members
-	has_many :issues, :dependent => true, :order => "issues.created_on DESC", :include => :status
-	has_many :documents, :dependent => true
-	has_many :news, :dependent => true, :include => :author
-	has_many :issue_categories, :dependent => true
-	has_and_belongs_to_many :custom_fields
-	acts_as_tree :order => "name", :counter_cache => true
-	
-	validates_presence_of :name, :descr
-	validates_uniqueness_of :name
-	
-	# returns 5 last created projects
-	def self.latest
-		find(:all, :limit => 5, :order => "created_on DESC")	
-	end	
-	
-	# Returns an array of all custom fields enabled for project issues
-	# (explictly associated custom fields and custom fields enabled for all projects)
-	def custom_fields_for_issues
-		(CustomField.for_all + custom_fields).uniq
-	end
-	
+  has_many :versions, :dependent => true, :order => "versions.effective_date DESC, versions.name DESC"
+  has_many :members, :dependent => true
+  has_many :users, :through => :members
+  has_many :custom_values, :dependent => true, :as => :customized
+  has_many :issues, :dependent => true, :order => "issues.created_on DESC", :include => :status
+  has_many :documents, :dependent => true
+  has_many :news, :dependent => true, :include => :author
+  has_many :issue_categories, :dependent => true, :order => "issue_categories.name"
+  has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => 'custom_fields_projects', :association_foreign_key => 'custom_field_id'
+  acts_as_tree :order => "name", :counter_cache => true
+
+  validates_presence_of :name, :description
+  validates_uniqueness_of :name
+  validates_associated :custom_values, :on => :update
+
+  # returns 5 last created projects
+  def self.latest
+    find(:all, :limit => 5, :order => "created_on DESC")	
+  end	
+
+  # Returns an array of all custom fields enabled for project issues
+  # (explictly associated custom fields and custom fields enabled for all projects)
+  def custom_fields_for_issues(tracker)
+    tracker.custom_fields.find(:all, :include => :projects, 
+                               :conditions => ["is_for_all=? or project_id=?", true, self.id])
+    #(CustomField.for_all + custom_fields).uniq
+  end
+
 protected
   def validate
     errors.add(parent_id, " must be a root project") if parent and parent.parent

@@ -27,12 +27,36 @@ Localization.define('fr', 'Français') do |l|
   l.store 'Document categories', 'Catégories de documents'
   l.store 'Uncategorized', 'Sans catégorie'
   l.store 'User documentation', 'Documentation utilisateur'
-  l.store 'Technical documentation', 'Documentation technique'  
+  l.store 'Technical documentation', 'Documentation technique' 
+  # custom fields formats
+  l.store 'String', 'Chaîne'
+  l.store 'Integer', 'Entier'
+  l.store 'Date', 'Date'
+  l.store 'Boolean', 'Booléen'
+  l.store 'List', 'Liste'
   # dates  
   l.store '(date)', lambda { |t| t.strftime('%d/%m/%Y') }  
   l.store '(time)', lambda { |t| t.strftime('%d/%m/%Y %H:%M') }  
  
-  # ./script/../config/../app/views/account/login.rhtml
+ 
+  # error messages
+  l.store '%d errors', ['1 erreur', '%d erreurs']
+  
+  l.store "is not included in the list", "n'est pas inclus dans la liste"
+  l.store "is reserved", "est réservé"
+  l.store "is invalid", "n'est pas valide"
+  l.store "doesn't match confirmation", "ne correspond pas à la confirmation"
+  l.store "must be accepted", "doit être accepté"
+  l.store "can't be empty", "ne doit pas être vide"
+  l.store "can't be blank", "doit être renseigné"
+  l.store "is too long", "est trop long"
+  l.store "is too short", "est trop court"
+  l.store "is the wrong length", "n'est pas de la bonne longueur"
+  l.store "has already been taken", "est déjà utilisé"
+  l.store "is not a number", "doit être un nombre"
+  
+  # notice messages
+  l.store 'Invalid user/password', 'Identifiant/Mot de passe invalide'
 
   # ./script/../config/../app/views/account/my_account.rhtml
   l.store 'My account', 'Mon compte'
@@ -59,6 +83,9 @@ Localization.define('fr', 'Français') do |l|
 
   # ./script/../config/../app/views/account/login.rhtml
   l.store 'Please login', 'Identification'
+  l.store 'Register', "S'enregistrer"
+  l.store 'Password lost', 'Mot de passe perdu'
+  l.store 'Submit', 'Soumettre'
 
   # ./script/../config/../app/views/account/show.rhtml
   l.store 'Registered on', 'Inscrit le'
@@ -97,6 +124,7 @@ Localization.define('fr', 'Français') do |l|
 
   # ./script/../config/../app/views/custom_fields/list.rhtml
   l.store 'Name', 'Nom'
+  l.store 'For', 'Pour'
   l.store 'Type', 'Type'
   l.store 'Required', 'Obligatoire'
   l.store 'For all projects', 'Pour tous les projets'

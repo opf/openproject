@@ -21,57 +21,59 @@ class ProjectTest < Test::Unit::TestCase
   fixtures :projects
 
   def setup
-    @project = projects(:ecookbook)
+    @ecookbook = Project.find(1)
+    @ecookbook_sub1 = Project.find(3)
   end
   
   def test_truth
-    assert_kind_of Project, @project
-    assert_equal "eCookbook", @project.name
+    assert_kind_of Project, @ecookbook
+    assert_equal "eCookbook", @ecookbook.name
   end
   
   def test_update
-    assert_equal "eCookbook", @project.name
-    @project.name = "eCook"
-    assert @project.save, @project.errors.full_messages.join("; ")
-    @project.reload
-    assert_equal "eCook", @project.name
+    assert_equal "eCookbook", @ecookbook.name
+    @ecookbook.name = "eCook"
+    assert @ecookbook.save, @ecookbook.errors.full_messages.join("; ")
+    @ecookbook.reload
+    assert_equal "eCook", @ecookbook.name
   end
   
   def test_validate
-    @project.name = ""
-    assert !@project.save
-    assert_equal 1, @project.errors.count
-    assert_equal "can't be blank", @project.errors.on(:name)
+    @ecookbook.name = ""
+    assert !@ecookbook.save
+    assert_equal 1, @ecookbook.errors.count
+    assert_equal l(:activerecord_error_blank), @ecookbook.errors.on(:name)
   end
   
   def test_public_projects
     public_projects = Project.find(:all, :conditions => ["is_public=?", true])
-    assert_equal 2, public_projects.length
+    assert_equal 3, public_projects.length
     assert_equal true, public_projects[0].is_public?
   end
   
   def test_destroy
-    @project.destroy
-    assert_raise(ActiveRecord::RecordNotFound) { Project.find(@project.id) }
+    @ecookbook.destroy
+    assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
   end
   
   def test_subproject_ok
     sub = Project.find(2)
-    sub.parent = Project.find(1)
+    sub.parent = @ecookbook
     assert sub.save
-    assert_equal 1, sub.parent.id
-    assert_equal 2, Project.find(1).projects_count
+    assert_equal @ecookbook.id, sub.parent.id
+    @ecookbook.reload
+    assert_equal 3, @ecookbook.projects_count
   end
   
   def test_subproject_invalid
     sub = Project.find(2)
-    sub.parent = projects(:tracker)
+    sub.parent = @ecookbook_sub1
     assert !sub.save
   end
   
   def test_subproject_invalid_2
-    sub = Project.find(1)
-    sub.parent = projects(:onlinestore)
+    sub = @ecookbook
+    sub.parent = Project.find(2)
     assert !sub.save
   end
 end

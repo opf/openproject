@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: GLoc</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">GLoc</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/lib/gloc-helpers_rb.html">
+                lib/gloc-helpers.rb
+                </a>
+        <br />
+                <a href="../files/lib/gloc-internal_rb.html">
+                lib/gloc-internal.rb
+                </a>
+        <br />
+                <a href="../files/lib/gloc-version_rb.html">
+                lib/gloc-version.rb
+                </a>
+        <br />
+                <a href="../files/lib/gloc_rb.html">
+                lib/gloc.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Copyright &#169; 2005-2006 David Barri
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000004">add_localized_strings</a>&nbsp;&nbsp;
+      <a href="#M000005">backup_state</a>&nbsp;&nbsp;
+      <a href="#M000006">clear_strings</a>&nbsp;&nbsp;
+      <a href="#M000007">clear_strings_except</a>&nbsp;&nbsp;
+      <a href="#M000002">current_language</a>&nbsp;&nbsp;
+      <a href="#M000003">current_language</a>&nbsp;&nbsp;
+      <a href="#M000008">get_charset</a>&nbsp;&nbsp;
+      <a href="#M000009">get_config</a>&nbsp;&nbsp;
+      <a href="#M000010">load_gloc_default_localized_strings</a>&nbsp;&nbsp;
+      <a href="#M000011">load_localized_strings</a>&nbsp;&nbsp;
+      <a href="#M000012">restore_state</a>&nbsp;&nbsp;
+      <a href="#M000013">set_charset</a>&nbsp;&nbsp;
+      <a href="#M000014">set_config</a>&nbsp;&nbsp;
+      <a href="#M000015">set_kcode</a>&nbsp;&nbsp;
+      <a href="#M000016">similar_language</a>&nbsp;&nbsp;
+      <a href="#M000018">valid_language?</a>&nbsp;&nbsp;
+      <a href="#M000017">valid_languages</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="GLoc/InstanceMethods.html">::GLoc::InstanceMethods</a></span>
+        <span class="include-name"><a href="GLoc/InstanceMethods.html">::GLoc::InstanceMethods</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="GLoc/ClassMethods.html" class="link">GLoc::ClassMethods</a><br />
+Module <a href="GLoc/Helpers.html" class="link">GLoc::Helpers</a><br />
+Module <a href="GLoc/InstanceMethods.html" class="link">GLoc::InstanceMethods</a><br />
+
+    </div>
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">LOCALIZED_STRINGS</td>
+          <td>=</td>
+          <td class="context-item-value">{}</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">RULES</td>
+          <td>=</td>
+          <td class="context-item-value">{}</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">LOWERCASE_LANGUAGES</td>
+          <td>=</td>
+          <td class="context-item-value">{}</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">UTF_8</td>
+          <td>=</td>
+          <td class="context-item-value">'utf-8'</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">SHIFT_JIS</td>
+          <td>=</td>
+          <td class="context-item-value">'sjis'</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">EUC_JP</td>
+          <td>=</td>
+          <td class="context-item-value">'euc-jp'</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="aliases-list">
+      <h3 class="section-bar">External Aliases</h3>
+
+      <div class="name-list">
+                        <table summary="aliases">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">clear_strings</td>
+          <td>-></td>
+          <td class="context-item-value">_clear_strings</td>
+        </tr>
+                        </table>
+      </div>
+    </div>
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="#M000004" class="method-signature">
+          <span class="method-name">add_localized_strings</span><span class="method-args">(lang, symbol_hash, override=true, strings_charset=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds a collection of localized strings to the in-memory string store.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000004-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 113</span>
+113:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_localized_strings</span>(<span class="ruby-identifier">lang</span>, <span class="ruby-identifier">symbol_hash</span>, <span class="ruby-identifier">override</span>=<span class="ruby-keyword kw">true</span>, <span class="ruby-identifier">strings_charset</span>=<span class="ruby-keyword kw">nil</span>)
+114:       <span class="ruby-identifier">_verbose_msg</span> {<span class="ruby-node">&quot;Adding #{symbol_hash.size} #{lang} strings.&quot;</span>}
+115:       <span class="ruby-identifier">_add_localized_strings</span>(<span class="ruby-identifier">lang</span>, <span class="ruby-identifier">symbol_hash</span>, <span class="ruby-identifier">override</span>, <span class="ruby-identifier">strings_charset</span>)
+116:       <span class="ruby-identifier">_verbose_msg</span> <span class="ruby-identifier">:stats</span>
+117:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="#M000005" class="method-signature">
+          <span class="method-name">backup_state</span><span class="method-args">(clear=false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a backup of the internal state of <a href="GLoc.html">GLoc</a> (ie.
+strings, langs, rules, config) and optionally clears everything.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000005-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 121</span>
+121:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">backup_state</span>(<span class="ruby-identifier">clear</span>=<span class="ruby-keyword kw">false</span>)
+122:       <span class="ruby-identifier">s</span>= <span class="ruby-identifier">_get_internal_state_vars</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">o</span><span class="ruby-operator">|</span> <span class="ruby-identifier">o</span>.<span class="ruby-identifier">clone</span>}
+123:       <span class="ruby-identifier">_get_internal_state_vars</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">o</span><span class="ruby-operator">|</span> <span class="ruby-identifier">o</span>.<span class="ruby-identifier">clear</span>} <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">clear</span>
+124:       <span class="ruby-identifier">s</span>
+125:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="#M000006" class="method-signature">
+          <span class="method-name">clear_strings</span><span class="method-args">(*languages)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Removes all localized strings from memory, either of a certain language (or
+languages), or entirely.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000006-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 129</span>
+129:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clear_strings</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">languages</span>)
+130:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">languages</span>.<span class="ruby-identifier">empty?</span>
+131:         <span class="ruby-identifier">_verbose_msg</span> {<span class="ruby-value str">&quot;Clearing all strings&quot;</span>}
+132:         <span class="ruby-constant">LOCALIZED_STRINGS</span>.<span class="ruby-identifier">clear</span>
+133:         <span class="ruby-constant">LOWERCASE_LANGUAGES</span>.<span class="ruby-identifier">clear</span>
+134:       <span class="ruby-keyword kw">else</span>
+135:         <span class="ruby-identifier">languages</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span>
+136:           <span class="ruby-identifier">_verbose_msg</span> {<span class="ruby-node">&quot;Clearing :#{l} strings&quot;</span>}
+137:           <span class="ruby-identifier">l</span>= <span class="ruby-identifier">l</span>.<span class="ruby-identifier">to_sym</span>
+138:           <span class="ruby-constant">LOCALIZED_STRINGS</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">l</span>
+139:           <span class="ruby-constant">LOWERCASE_LANGUAGES</span>.<span class="ruby-identifier">each_pair</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-constant">LOWERCASE_LANGUAGES</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">k</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">v</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">l</span>}
+140:         }
+141:       <span class="ruby-keyword kw">end</span>
+142:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="#M000007" class="method-signature">
+          <span class="method-name">clear_strings_except</span><span class="method-args">(*languages)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Removes all localized strings from memory, except for those of certain
+specified languages.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000007-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 146</span>
+146:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clear_strings_except</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">languages</span>)
+147:       <span class="ruby-identifier">clear</span>= (<span class="ruby-constant">LOCALIZED_STRINGS</span>.<span class="ruby-identifier">keys</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">languages</span>)
+148:       <span class="ruby-identifier">_clear_strings</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">clear</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">clear</span>.<span class="ruby-identifier">empty?</span>
+149:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="#M000003" class="method-signature">
+          <span class="method-name">current_language</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the default language
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000003-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 108</span>
+108:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">current_language</span>
+109:       <span class="ruby-constant">GLoc</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIG</span>[<span class="ruby-identifier">:default_language</span>]
+110:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="#M000008" class="method-signature">
+          <span class="method-name">get_charset</span><span class="method-args">(lang)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the charset used to store localized strings in memory.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000008-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 152</span>
+152:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_charset</span>(<span class="ruby-identifier">lang</span>)
+153:       <span class="ruby-constant">CONFIG</span>[<span class="ruby-identifier">:internal_charset_per_lang</span>][<span class="ruby-identifier">lang</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">CONFIG</span>[<span class="ruby-identifier">:internal_charset</span>]
+154:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="#M000009" class="method-signature">
+          <span class="method-name">get_config</span><span class="method-args">(key)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a <a href="GLoc.html">GLoc</a> configuration value.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000009-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000009-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 157</span>
+157:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_config</span>(<span class="ruby-identifier">key</span>)
+158:       <span class="ruby-constant">CONFIG</span>[<span class="ruby-identifier">key</span>]
+159:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="#M000010" class="method-signature">
+          <span class="method-name">load_gloc_default_localized_strings</span><span class="method-args">(override=false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Loads the localized strings that are included in the <a
+href="GLoc.html">GLoc</a> library.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000010-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 162</span>
+162:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">load_gloc_default_localized_strings</span>(<span class="ruby-identifier">override</span>=<span class="ruby-keyword kw">false</span>)
+163:       <span class="ruby-constant">GLoc</span>.<span class="ruby-identifier">load_localized_strings</span> <span class="ruby-node">&quot;#{File.dirname(__FILE__)}/../lang&quot;</span>, <span class="ruby-identifier">override</span>
+164:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="#M000011" class="method-signature">
+          <span class="method-name">load_localized_strings</span><span class="method-args">(dir=nil, override=true)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Loads localized strings from all yml files in the specifed directory.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 167</span>
+167:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">load_localized_strings</span>(<span class="ruby-identifier">dir</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">override</span>=<span class="ruby-keyword kw">true</span>)
+168:       <span class="ruby-identifier">_charset_required</span>
+169:       <span class="ruby-identifier">_get_lang_file_list</span>(<span class="ruby-identifier">dir</span>).<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">filename</span><span class="ruby-operator">|</span>
+170:         
+171:         <span class="ruby-comment cmt"># Load file</span>
+172:         <span class="ruby-identifier">raw_hash</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">filename</span>))
+173:         <span class="ruby-identifier">raw_hash</span>={} <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">raw_hash</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Hash</span>)
+174:         <span class="ruby-identifier">filename</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/([^\/\\]+)\.ya?ml$/</span>
+175:         <span class="ruby-identifier">lang</span> = <span class="ruby-identifier">$1</span>.<span class="ruby-identifier">to_sym</span>
+176:         <span class="ruby-identifier">file_charset</span> = <span class="ruby-identifier">raw_hash</span>[<span class="ruby-value str">'file_charset'</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">UTF_8</span>
+177:   
+178:         <span class="ruby-comment cmt"># Convert string keys to symbols</span>
+179:         <span class="ruby-identifier">dest_charset</span>= <span class="ruby-identifier">get_charset</span>(<span class="ruby-identifier">lang</span>)
+180:         <span class="ruby-identifier">_verbose_msg</span> {<span class="ruby-node">&quot;Reading file #{filename} [charset: #{file_charset} --&gt; #{dest_charset}]&quot;</span>}
+181:         <span class="ruby-identifier">symbol_hash</span> = {}
+182:         <span class="ruby-constant">Iconv</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">dest_charset</span>, <span class="ruby-identifier">file_charset</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+183:           <span class="ruby-identifier">raw_hash</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+184:             <span class="ruby-identifier">symbol_hash</span>[<span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">i</span>.<span class="ruby-identifier">iconv</span>(<span class="ruby-identifier">value</span>)
+185:           }
+186:         <span class="ruby-keyword kw">end</span>
+187:   
+188:         <span class="ruby-comment cmt"># Add strings to repos</span>
+189:         <span class="ruby-identifier">_add_localized_strings</span>(<span class="ruby-identifier">lang</span>, <span class="ruby-identifier">symbol_hash</span>, <span class="ruby-identifier">override</span>)
+190:       }
+191:       <span class="ruby-identifier">_verbose_msg</span> <span class="ruby-identifier">:stats</span>
+192:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">restore_state</span><span class="method-args">(state)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Restores a backup of <a href="GLoc.html">GLoc</a>&#8217;s internal state
+that was made with <a href="GLoc.html#M000005">backup_state</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 195</span>
+195:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">restore_state</span>(<span class="ruby-identifier">state</span>)
+196:       <span class="ruby-identifier">_get_internal_state_vars</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">o</span><span class="ruby-operator">|</span>
+197:         <span class="ruby-identifier">o</span>.<span class="ruby-identifier">clear</span>
+198:         <span class="ruby-identifier">o</span>.<span class="ruby-identifier">send</span> <span class="ruby-identifier">o</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:merge!</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">:merge!</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">:concat</span>, <span class="ruby-identifier">state</span>.<span class="ruby-identifier">shift</span>
+199:       <span class="ruby-keyword kw">end</span>
+200:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="#M000013" class="method-signature">
+          <span class="method-name">set_charset</span><span class="method-args">(new_charset, *langs)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets the charset used to internally store localized strings. You can set
+the charset to use for a specific language or languages, or if none are
+specified the charset for ALL localized strings will be set.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000013-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 205</span>
+205:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_charset</span>(<span class="ruby-identifier">new_charset</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">langs</span>)
+206:       <span class="ruby-constant">CONFIG</span>[<span class="ruby-identifier">:internal_charset_per_lang</span>] <span class="ruby-operator">||=</span> {}
+207:       
+208:       <span class="ruby-comment cmt"># Convert symbol shortcuts</span>
+209:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">new_charset</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
+210:         <span class="ruby-identifier">new_charset</span>= <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">new_charset</span>
+211:           <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:utf8</span>, <span class="ruby-identifier">:utf_8</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">UTF_8</span>
+212:           <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:sjis</span>, <span class="ruby-identifier">:shift_jis</span>, <span class="ruby-identifier">:shiftjis</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">SHIFT_JIS</span>
+213:           <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:eucjp</span>, <span class="ruby-identifier">:euc_jp</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">EUC_JP</span>
+214:           <span class="ruby-keyword kw">else</span> <span class="ruby-identifier">new_charset</span>.<span class="ruby-identifier">to_s</span>
+215:           <span class="ruby-keyword kw">end</span>
+216:       <span class="ruby-keyword kw">end</span>
+217:       
+218:       <span class="ruby-comment cmt"># Convert existing strings</span>
+219:       (<span class="ruby-identifier">langs</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-value">? </span><span class="ruby-constant">LOCALIZED_STRINGS</span>.<span class="ruby-identifier">keys</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">langs</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">lang</span><span class="ruby-operator">|</span>
+220:         <span class="ruby-identifier">cur_charset</span>= <span class="ruby-identifier">get_charset</span>(<span class="ruby-identifier">lang</span>)
+221:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cur_charset</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">new_charset</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">cur_charset</span>
+222:           <span class="ruby-identifier">_verbose_msg</span> {<span class="ruby-node">&quot;Converting :#{lang} strings from #{cur_charset} to #{new_charset}&quot;</span>}
+223:           <span class="ruby-constant">Iconv</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">new_charset</span>, <span class="ruby-identifier">cur_charset</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+224:             <span class="ruby-identifier">bundle</span>= <span class="ruby-constant">LOCALIZED_STRINGS</span>[<span class="ruby-identifier">lang</span>]
+225:             <span class="ruby-identifier">bundle</span>.<span class="ruby-identifier">each_pair</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">bundle</span>[<span class="ruby-identifier">k</span>]= <span class="ruby-identifier">i</span>.<span class="ruby-identifier">iconv</span>(<span class="ruby-identifier">v</span>)}
+226:           <span class="ruby-keyword kw">end</span>
+227:         <span class="ruby-keyword kw">end</span>
+228:       <span class="ruby-keyword kw">end</span>
+229:       
+230:       <span class="ruby-comment cmt"># Set new charset value</span>
+231:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">langs</span>.<span class="ruby-identifier">empty?</span>
+232:         <span class="ruby-identifier">_verbose_msg</span> {<span class="ruby-node">&quot;Setting GLoc charset for all languages to #{new_charset}&quot;</span>}
+233:         <span class="ruby-constant">CONFIG</span>[<span class="ruby-identifier">:internal_charset</span>]= <span class="ruby-identifier">new_charset</span>
+234:         <span class="ruby-constant">CONFIG</span>[<span class="ruby-identifier">:internal_charset_per_lang</span>].<span class="ruby-identifier">clear</span>
+235:       <span class="ruby-keyword kw">else</span>
+236:         <span class="ruby-identifier">langs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">lang</span><span class="ruby-operator">|</span>
+237:           <span class="ruby-identifier">_verbose_msg</span> {<span class="ruby-node">&quot;Setting GLoc charset for :#{lang} strings to #{new_charset}&quot;</span>}
+238:           <span class="ruby-constant">CONFIG</span>[<span class="ruby-identifier">:internal_charset_per_lang</span>][<span class="ruby-identifier">lang</span>]= <span class="ruby-identifier">new_charset</span>
+239:         <span class="ruby-keyword kw">end</span>
+240:       <span class="ruby-keyword kw">end</span>
+241:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="#M000014" class="method-signature">
+          <span class="method-name">set_config</span><span class="method-args">(hash)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets <a href="GLoc.html">GLoc</a> configuration values.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000014-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000014-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 244</span>
+244:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_config</span>(<span class="ruby-identifier">hash</span>)
+245:       <span class="ruby-constant">CONFIG</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">hash</span>
+246:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="#M000015" class="method-signature">
+          <span class="method-name">set_kcode</span><span class="method-args">(charset=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets the $KCODE global variable according to a specified charset, or else
+the current default charset for the default language.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000015-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000015-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 250</span>
+250:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_kcode</span>(<span class="ruby-identifier">charset</span>=<span class="ruby-keyword kw">nil</span>)
+251:       <span class="ruby-identifier">_charset_required</span>
+252:       <span class="ruby-identifier">charset</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">get_charset</span>(<span class="ruby-identifier">current_language</span>)
+253:       <span class="ruby-identifier">$KCODE</span>= <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">charset</span>
+254:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">UTF_8</span> <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'u'</span>
+255:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">SHIFT_JIS</span> <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'s'</span>
+256:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">EUC_JP</span> <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'e'</span>
+257:         <span class="ruby-keyword kw">else</span> <span class="ruby-value str">'n'</span>
+258:         <span class="ruby-keyword kw">end</span>
+259:       <span class="ruby-identifier">_verbose_msg</span> {<span class="ruby-node">&quot;$KCODE set to #{$KCODE}&quot;</span>}
+260:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="#M000016" class="method-signature">
+          <span class="method-name">similar_language</span><span class="method-args">(lang)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Tries to find a valid language that is similar to the argument passed. Eg.
+:en, :en_au, :EN_US are all similar languages. Returns <tt>nil</tt> if no
+similar languages are found.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000016-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000016-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 265</span>
+265:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">similar_language</span>(<span class="ruby-identifier">lang</span>)
+266:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">lang</span>.<span class="ruby-identifier">nil?</span>
+267:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">lang</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">valid_language?</span>(<span class="ruby-identifier">lang</span>)
+268:       <span class="ruby-comment cmt"># Check lowercase without dashes</span>
+269:       <span class="ruby-identifier">lang</span>= <span class="ruby-identifier">lang</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">'-'</span>,<span class="ruby-value str">'_'</span>)
+270:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">LOWERCASE_LANGUAGES</span>[<span class="ruby-identifier">lang</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-constant">LOWERCASE_LANGUAGES</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">lang</span>)
+271:       <span class="ruby-comment cmt"># Check without dialect</span>
+272:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">lang</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^([a-z]+?)[^a-z].*/</span>
+273:         <span class="ruby-identifier">lang</span>= <span class="ruby-identifier">$1</span>
+274:         <span class="ruby-keyword kw">return</span> <span class="ruby-constant">LOWERCASE_LANGUAGES</span>[<span class="ruby-identifier">lang</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-constant">LOWERCASE_LANGUAGES</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">lang</span>)
+275:       <span class="ruby-keyword kw">end</span>
+276:       <span class="ruby-comment cmt"># Check other dialects</span>
+277:       <span class="ruby-identifier">lang</span>= <span class="ruby-node">&quot;#{lang}_&quot;</span>
+278:       <span class="ruby-constant">LOWERCASE_LANGUAGES</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-keyword kw">return</span> <span class="ruby-constant">LOWERCASE_LANGUAGES</span>[<span class="ruby-identifier">k</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">k</span>.<span class="ruby-identifier">starts_with?</span>(<span class="ruby-identifier">lang</span>)}
+279:       <span class="ruby-comment cmt"># Nothing found</span>
+280:       <span class="ruby-keyword kw">nil</span>
+281:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="#M000018" class="method-signature">
+          <span class="method-name">valid_language?</span><span class="method-args">(language)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns <tt>true</tt> if there are any localized strings for a specified
+language. Note that although <tt>set_langauge nil</tt> is perfectly valid,
+<tt>nil</tt> is not a valid language.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000018-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000018-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 290</span>
+290:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">valid_language?</span>(<span class="ruby-identifier">language</span>)
+291:       <span class="ruby-constant">LOCALIZED_STRINGS</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-identifier">language</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-keyword kw">rescue</span> <span class="ruby-keyword kw">false</span>
+292:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="#M000017" class="method-signature">
+          <span class="method-name">valid_languages</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an array of (currently) valid languages (ie. languages for which
+localized data exists).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000017-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000017-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc.rb, line 284</span>
+284:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">valid_languages</span>
+285:       <span class="ruby-constant">LOCALIZED_STRINGS</span>.<span class="ruby-identifier">keys</span>
+286:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="#M000002" class="method-signature">
+          <span class="method-name">current_language</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the instance-level current language, or if not set, returns the
+class-level current language.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000002-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000002-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/gloc.rb, line 77</span>
+77:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">current_language</span>
+78:     <span class="ruby-ivar">@gloc_language</span> <span class="ruby-operator">||</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">current_language</span>
+79:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

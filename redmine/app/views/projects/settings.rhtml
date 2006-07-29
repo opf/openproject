@@ -1,11 +1,11 @@
 <h2><%=_('Settings')%></h2>
 
-<div class="box">
 <%= start_form_tag :action => 'edit', :id => @project %>
 <%= render :partial => 'form' %>
 <center><%= submit_tag _('Save') %></center>
 <%= end_form_tag %>
-</div>
+
+&nbsp;
 
 <div class="box">
 <h3><%=_('Members')%></h3>
@@ -54,7 +54,7 @@
 <% for version in @project.versions %>
   <tr>
   <td><%= link_to version.name, :controller => 'versions', :action => 'edit', :id => version %></td>
-  <td><%=h version.descr %></td>
+  <td><%=h version.description %></td>
   <td>
       <%= start_form_tag :controller => 'versions', :action => 'destroy', :id => version %>
       <%= submit_tag _('Delete'), :class => "button-small" %>

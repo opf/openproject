@@ -6,6 +6,7 @@
 <%= hidden_field_tag 'confirm', 1 %>
 <%= hidden_field 'history', 'status_id' %>
 
+<div class="box">
 <p><%=_('New status')%>: <b><%= @history.status.name %></b></p>
 
 <div>
@@ -24,6 +25,8 @@
 
 <p><label for="history_notes"><%=_('Notes')%></label><br />
 <%= text_area 'history', 'notes', :cols => 60, :rows => 10  %></p>
+</div>
+
 
 <%= submit_tag _('Save') %>
 <%= end_form_tag %>

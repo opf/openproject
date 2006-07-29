@@ -1,0 +1,43 @@
+--- 
+issues_001: 
+  created_on: 2006-07-19 21:02:17 +02:00
+  project_id: 1
+  updated_on: 2006-07-19 21:04:30 +02:00
+  priority_id: 4
+  subject: Can't print recipes
+  id: 1
+  fixed_version_id: 
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 1
+issues_002: 
+  created_on: 2006-07-19 21:04:21 +02:00
+  project_id: 1
+  updated_on: 2006-07-19 21:09:50 +02:00
+  priority_id: 5
+  subject: Add ingredients categories
+  id: 2
+  fixed_version_id: 
+  category_id: 
+  description: Ingredients should be classified by categories
+  tracker_id: 2
+  assigned_to_id: 3
+  author_id: 2
+  status_id: 2
+issues_003: 
+  created_on: 2006-07-19 21:07:27 +02:00
+  project_id: 1
+  updated_on: 2006-07-19 21:07:27 +02:00
+  priority_id: 4
+  subject: Error 281 when updating a recipe
+  id: 3
+  fixed_version_id: 
+  category_id: 
+  description: Error 281 is encountered when saving a recipe
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 1

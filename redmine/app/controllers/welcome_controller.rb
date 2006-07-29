@@ -16,11 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WelcomeController < ApplicationController
-	layout 'base'
-	
-	def index
+  layout 'base'
+
+  def index
     @news = News.latest
     @projects = Project.latest
-	end
-
+  end
 end

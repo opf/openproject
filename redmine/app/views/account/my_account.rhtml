@@ -1,34 +1,34 @@
-<h2><%=_('My account')%></h2>
+<h2><%=l(:label_my_account)%></h2>
 
-<p><%=_('Login')%>: <strong><%= @user.login %></strong><br />
-<%=_('Created on')%>: <%= format_time(@user.created_on) %>,
-<%=_('Last update')%>: <%= format_time(@user.updated_on) %></p>
+<p><%=l(:field_login)%>: <strong><%= @user.login %></strong><br />
+<%=l(:field_created_on)%>: <%= format_time(@user.created_on) %>,
+<%=l(:field_updated_on)%>: <%= format_time(@user.updated_on) %></p>
 
 <%= error_messages_for 'user' %>
 
 <div class="splitcontentleft">
   <div class="box">
-  <h3><%=_('Information')%></h3>
+  <h3><%=l(:label_information_plural)%></h3>
   &nbsp;
   <%= start_form_tag :action => 'my_account' %>
 
   <!--[form:user]-->
-  <p><label for="user_firstname"><%=_('Firstname')%> <span class="required">*</span></label><br/>
+  <p><label for="user_firstname"><%=l(:field_firstname)%> <span class="required">*</span></label><br/>
   <%= text_field 'user', 'firstname'  %></p>
 
-  <p><label for="user_lastname"><%=_('Lastname')%> <span class="required">*</span></label><br/>
+  <p><label for="user_lastname"><%=l(:field_lastname)%> <span class="required">*</span></label><br/>
   <%= text_field 'user', 'lastname'  %></p>
 
-  <p><label for="user_mail"><%=_('Mail')%> <span class="required">*</span></label><br/>
-  <%= text_field 'user', 'mail'  %></p>
+  <p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label><br/>
+  <%= text_field 'user', 'mail' %></p>
   
-  <p><label for="user_language"><%=_('Language')%></label><br/>
-  <%= select("user", "language", Localization.langs) %></p>
+  <p><label for="user_language"><%=l(:field_language)%></label><br/>
+  <%= select("user", "language", Localization.langs.invert) %></p>
   <!--[eoform:user]-->
 
-  <p><%= check_box 'user', 'mail_notification' %> <label for="user_mail_notification"><%=_('Mail notifications')%></label></p>
+  <p><%= check_box 'user', 'mail_notification' %> <label for="user_mail_notification"><%=l(:field_mail_notification)%></label></p>
 
-  <center><%= submit_tag _('Save') %></center>
+  <center><%= submit_tag l(:button_save) %></center>
   <%= end_form_tag %>
   </div>
 </div>
@@ -36,20 +36,20 @@
 
 <div class="splitcontentright">
   <div class="box">
-  <h3><%=_('Password')%></h3>
+  <h3><%=l(:field_password)%></h3>
   &nbsp;
   <%= start_form_tag :action => 'change_password' %>
 
-  <p><label for="password"><%=_('Password')%> <span class="required">*</span></label><br/>
+  <p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label><br/>
   <%= password_field_tag 'password', nil, :size => 25 %></p>
 
-  <p><label for="new_password"><%=_('New password')%> <span class="required">*</span></label><br/>
+  <p><label for="new_password"><%=l(:field_new_password)%> <span class="required">*</span></label><br/>
   <%= password_field_tag 'new_password', nil, :size => 25 %></p>
 
-  <p><label for="new_password_confirmation"><%=_('Confirmation')%> <span class="required">*</span></label><br/>
+  <p><label for="new_password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label><br/>
   <%= password_field_tag 'new_password_confirmation', nil, :size => 25 %></p>
 
-  <center><%= submit_tag _('Save') %></center>
+  <center><%= submit_tag l(:button_save) %></center>
   <%= end_form_tag %>
   </div>
 </div>

@@ -1,0 +1,13 @@
+--- 
+members_001: 
+  created_on: 2006-07-19 19:35:33 +02:00
+  project_id: 1
+  role_id: 1
+  id: 1
+  user_id: 2
+members_002: 
+  created_on: 2006-07-19 19:35:36 +02:00
+  project_id: 1
+  role_id: 2
+  id: 2
+  user_id: 3

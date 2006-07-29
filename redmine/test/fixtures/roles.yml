@@ -1,10 +1,10 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-manager:
+--- 
+roles_001: 
+  name: Manager
   id: 1
-  name: manager
-developer:
+roles_002: 
+  name: Developer
   id: 2
-  name: developer
-reporter:
+roles_003: 
+  name: Reporter
   id: 3
-  name: reporter

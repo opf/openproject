@@ -20,24 +20,46 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserTest < Test::Unit::TestCase
   fixtures :users
 
-  def test_truth
-    assert_kind_of User, users(:paulochon)
+  def setup
+    @admin = User.find(1)
+    @jsmith = User.find(2)
   end
   
+  def test_truth
+    assert_kind_of User, @jsmith
+  end
+
+  def test_create
+    user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    
+    user.login = "jsmith"
+    user.password, user.password_confirmation = "password", "password"
+    # login uniqueness
+    assert !user.save
+    assert_equal 1, user.errors.count
+  
+    user.login = "newuser"
+    user.password, user.password_confirmation = "passwd", "password"
+    # password confirmation
+    assert !user.save
+    assert_equal 1, user.errors.count
+
+    user.password, user.password_confirmation = "password", "password"
+    assert user.save
+  end
+
   def test_update
-    user = User.find(1)
-    assert_equal "admin", user.login
-    user.login = "john"
-    assert user.save, user.errors.full_messages.join("; ")
-    user.reload
-    assert_equal "john", user.login
+    assert_equal "admin", @admin.login
+    @admin.login = "john"
+    assert @admin.save, @admin.errors.full_messages.join("; ")
+    @admin.reload
+    assert_equal "john", @admin.login
   end
   
   def test_validate
-    user = User.find(1)
-    user.login = ""
-    assert !user.save
-    assert_equal 2, user.errors.count
+    @admin.login = ""
+    assert !@admin.save
+    assert_equal 2, @admin.errors.count
   end
   
   def test_password
@@ -54,11 +76,13 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_lock
-    user = User.find(1)
-    user.locked = true
-    assert user.save
+    user = User.try_to_login("jsmith", "jsmith")
+    assert_equal @jsmith, user
     
-    user = User.try_to_login("admin", "admin")
+    @jsmith.status = User::STATUS_LOCKED
+    assert @jsmith.save
+    
+    user = User.try_to_login("jsmith", "jsmith")
     assert_equal nil, user  
   end
 end

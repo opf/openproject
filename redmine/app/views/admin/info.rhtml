@@ -1,8 +1,8 @@
 <h2><%=_('Information')%></h2>
 
-<p><%=_('Version')%>: <strong><%= RDM_APP_NAME %> <%= RDM_APP_VERSION %></strong></p>
+<p><%=l(:field_version)%>: <strong><%= RDM_APP_NAME %> <%= RDM_APP_VERSION %></strong></p>
 
-Environment:
+<%=l(:label_environment)%>:
 <ul>
 <% Rails::Info.properties.each do |name, value| %>
 <li><%= name %>: <%= value %></li>

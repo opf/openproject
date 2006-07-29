@@ -12,7 +12,7 @@ module Localization
   
   @@l10s = { :default => {} }
   @@lang = :default
-  @@langs = []
+  @@langs = {}
   
   def self._(string_to_localize, *args)
     translated = @@l10s[@@lang][string_to_localize] || string_to_localize
@@ -29,7 +29,7 @@ module Localization
   
   def self.define(lang = :default, name = :default)
     @@l10s[lang] ||= {}
-    @@langs << [ name, lang ]
+    @@langs[lang] = [ name ]
     yield @@l10s[lang]
   end
   

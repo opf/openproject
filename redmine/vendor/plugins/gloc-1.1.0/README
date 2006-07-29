@@ -1,0 +1,208 @@
+= About
+
+=== Preface
+I originally started designing this on weekends and after work in 2005. We started to become very interested in Rails at work and I wanted to get some experience with ruby with before we started using it full-time. I didn't have very many ideas for anything interesting to create so, because we write a lot of multilingual webapps at my company, I decided to write a localization library. That way if my little hobby project developed into something decent, I could at least put it to good use.
+And here we are in 2006, my little hobby project has come a long way and become quite a useful piece of software. Not only do I use it in production sites I write at work, but I also prefer it to other existing alternatives. Therefore I have decided to make it publicly available, and I hope that other developers will find it useful too.
+
+=== About
+GLoc is a localization library. It doesn't aim to do everything l10n-related that you can imagine, but what it does, it does very well. It was originally designed as a Rails plugin, but can also be used for plain ruby projects. Here are a list of its main features:
+* Lightweight and efficient.
+* Uses file-based string bundles. Strings can also be set directly.
+* Intelligent, cascading language configuration.
+* Create flexible rules to handle issues such as pluralization.
+* Includes a ActionController filter that auto-detects the client language.
+* Works perfectly with Rails Engines and allows strings to be overridden just as easily as controllers, models, etc.
+* Automatically localizes Rails functions such as distance_in_minutes, select_month etc
+* Supports different charsets. You can even specify the encoding to use for each language seperately.
+* Special Rails mods/helpers.
+
+=== What does GLoc mean?
+If you're wondering about the name "GLoc", I'm sure you're not alone.
+This project was originally just called "Localization" which was a bit too common, so when I decided to release it I decided to call it "Golly's Localization Library" instead (Golly is my nickname), and that was long and boring so I then abbreviated that to "GLoc". What a fun story!!
+
+=== Localization helpers
+This also includes a few helpers for common situations such as displaying localized date, time, "yes" or "no", etc.
+
+=== Rails Localization
+At the moment, unless you manually remove the <tt>require 'gloc-rails-text'</tt> line from init.rb, this plugin overrides certain Rails functions to provide multilingual versions. This automatically localizes functions such as select_date(), distance_of_time_in_words() and more...
+The strings can be found in lang/*.yml.
+NOTE: This is not complete. Timezones and countries are not currently localized.
+
+
+
+
+= Usage
+
+=== Quickstart
+
+Windows users will need to first install iconv. http://wiki.rubyonrails.com/rails/pages/iconv
+
+* Create a dir "#{RAILS_ROOT}/lang"
+* Create a file "#{RAILS_ROOT}/lang/en.yml" and write your strings. The format is "key: string". Save it as UTF-8. If you save it in a different encoding, add a key called file_charset (eg. "file_charset: iso-2022-jp")
+* Put the following in config/environment.rb and change the values as you see fit. The following example is for an app that uses English and Japanese, with Japanese being the default.
+    GLoc.set_config :default_language => :ja
+    GLoc.clear_strings_except :en, :ja
+    GLoc.set_kcode
+    GLoc.load_localized_strings
+* Add 'include GLoc' to all classes that will use localization. This is added to most Rails classes automatically.
+* Optionally, you can set the language for models and controllers by simply inserting <tt>set_language :en</tt> in classes and/or methods.
+* To use localized strings, replace text such as <tt>"Welcome"</tt> with <tt>l(:welcome_string_key)</tt>, and <tt>"Hello #{name}."</tt> with <tt>l(:hello_string_key, name)</tt>. (Of course the strings will need to exist in your string bundle.)
+
+There is more functionality provided by this plugin, that is not demonstrated above. Please read the API summary for details.
+
+=== API summary
+
+The following methods are added as both class methods and instance methods to modules/classes that include GLoc. They are also available as class methods of GLoc.
+  current_language               # Returns the current language
+  l(symbol, *arguments)          # Returns a localized string
+  ll(lang, symbol, *arguments)   # Returns a localized string in a specific language
+  ltry(possible_key)             # Returns a localized string if passed a Symbol, else returns the same argument passed
+  lwr(symbol, *arguments)        # Uses the default rule to return a localized string.
+  lwr_(rule, symbol, *arguments) # Uses a specified rule to return a localized string.
+  l_has_string?(symbol)          # Checks if a localized string exists
+  set_language(language)         # Sets the language for the current class or class instance
+  set_language_if_valid(lang)    # Sets the current language if the language passed is a valid language
+
+The GLoc module also defines the following class methods:
+  add_localized_strings(lang, symbol_hash, override=true) # Adds a hash of localized strings
+  backup_state(clear=false)                               # Creates a backup of GLoc's internal state and optionally clears everything too
+  clear_strings(*languages)                               # Removes localized strings from memory
+  clear_strings_except(*languages)                        # Removes localized strings from memory except for those of certain specified languages
+  get_charset(lang)                                       # Returns the charset used to store localized strings in memory
+  get_config(key)                                         # Returns a GLoc configuration value (see below)
+  load_localized_strings(dir=nil, override=true)          # Loads localized strings from all YML files in a given directory
+  restore_state(state)                                    # Restores a backup of GLoc's internal state
+  set_charset(new_charset, *langs)                        # Sets the charset used to internally store localized strings
+  set_config(hash)                                        # Sets GLoc configuration values (see below)
+  set_kcode(charset=nil)                                  # Sets the $KCODE global variable
+  similar_language(language)                              # Tries to find a valid language that is similar to the argument passed
+  valid_languages                                         # Returns an array of (currently) valid languages (ie. languages for which localized data exists)
+  valid_language?(language)                               # Checks whether any localized strings are in memory for a given language
+
+GLoc uses the following configuration items. They can be accessed via <tt>get_config</tt> and <tt>set_config</tt>.
+  :default_cookie_name
+  :default_language
+  :default_param_name
+  :raise_string_not_found_errors
+  :verbose
+
+The GLoc module is automatically included in the following classes:
+  ActionController::Base
+  ActionMailer::Base
+  ActionView::Base
+  ActionView::Helpers::InstanceTag
+  ActiveRecord::Base
+  ActiveRecord::Errors
+  ApplicationHelper
+  Test::Unit::TestCase
+
+The GLoc module also defines the following controller filters:
+  autodetect_language_filter
+
+GLoc also makes the following change to Rails:
+* Views for ActionMailer are now #{view_name}_#{language}.rb rather than just #{view_name}.rb
+* All ActiveRecord validation class methods now accept a localized string key (symbol) as a :message value. 
+* ActiveRecord::Errors.add now accepts symbols as valid message values. At runtime these symbols are converted to localized strings using the current_language of the base record.
+* ActiveRecord::Errors.add now accepts arrays as arguments so that printf-style strings can be generated at runtime. This also applies to the validates_* class methods.
+    Eg. validates_xxxxxx_of :name, :message => ['Your name must be at least %d characters.', MIN_LEN]
+    Eg. validates_xxxxxx_of :name, :message => [:user_error_validation_name_too_short, MIN_LEN]
+* Instances of ActiveView inherit their current_language from the controller (or mailer) creating them.
+
+This plugin also adds the following rake tasks:
+  * gloc:sort - Sorts the keys in the lang ymls (also accepts a DIR argument)
+
+=== Cascading language configuration
+
+The language can be set at three levels:
+  1. The default     # GLoc.get_config :default_language
+  2. Class level     # class A; set_language :de; end
+  3. Instance level  # b= B.new; b.set_language :zh
+
+Instance level has the highest priority and the default has the lowest.
+
+Because GLoc is included at class level too, it becomes easy to associate languages with contexts.
+For example:
+  class Student
+    set_language :en
+    def say_hello
+      puts "We say #{l :hello} but our teachers say #{Teacher.l :hello}"
+    end
+  end
+
+=== Rules
+
+There are often situations when depending on the value of one or more variables, the surrounding text
+changes. The most common case of this is pluralization. Rather than hardcode these rules, they are
+completely definable by the user so that the user can eaasily accomodate for more complicated grammatical
+rules such as those found in Russian and Polish (or so I hear). To define a rule, simply include a string
+in the string bundle whose key begins with "_gloc_rule_" and then write ruby code as the value. The ruby
+code will be converted to a Proc when the string bundle is first read, and should return a prefix that will
+be appended to the string key at runtime to point to a new string. Make sense? Probably not... Please look
+at the following example and I am sure it will all make sense.
+
+Simple example (string bundle / en.yml)
+  _gloc_rule_default: ' |n| n==1 ? "_single" : "_plural" '
+  man_count_plural: There are %d men.
+  man_count_single: There is 1 man.
+
+Simple example (code)
+  lwr(:man_count, 1)  # => There is 1 man.
+  lwr(:man_count, 8)  # => There are 8 men.
+
+To use rules other than the default simply call lwr_ instead of lwr, and specify the rule.
+
+Example #2 (string bundle / en.yml)
+  _gloc_rule_default: ' |n| n==1 ? "_single" : "_plural" '
+  _gloc_rule_custom: ' |n| return "_none" if n==0; return "_heaps" if n>100; n==1 ? "_single" : "_plural" '
+  man_count_none: There are no men.
+  man_count_heaps: There are heaps of men!!
+  man_count_plural: There are %d men.
+  man_count_single: There is 1 man.
+
+Example #2 (code)
+  lwr_(:custom, :man_count, 0)    # => There are no men.
+  lwr_(:custom, :man_count, 1)    # => There is 1 man.
+  lwr_(:custom, :man_count, 8)    # => There are 8 men.
+  lwr_(:custom, :man_count, 150)  # => There are heaps of men!!
+
+
+=== Helpers
+
+GLoc includes the following helpers:
+  l_age(age)             # Returns a localized version of an age. eg "3 years old"
+  l_date(date)           # Returns a date in a localized format
+  l_datetime(date)       # Returns a date+time in a localized format
+  l_datetime_short(date) # Returns a date+time in a localized short format.
+  l_lang_name(l,dl=nil)  # Returns the name of a language (you must supply your own strings)
+  l_strftime(date,fmt)   # Formats a date/time in a localized format.
+  l_time(date)           # Returns a time in a localized format
+  l_YesNo(value)         # Returns localized string of "Yes" or "No" depending on the arg
+  l_yesno(value)         # Returns localized string of "yes" or "no" depending on the arg
+
+=== Rails localization  
+
+Not all of Rails is covered but the following functions are:
+  distance_of_time_in_words
+  select_day
+  select_month
+  select_year
+  add_options
+
+
+
+
+= FAQ
+
+==== How do I use it in engines?
+Simply put this in your init_engine.rb
+  GLoc.load_localized_strings File.join(File.dirname(__FILE__),'lang')
+That way your engines strings will be loaded when the engine is started. Just simply make sure that you load your application strings after you start your engines to safely override any engine strings.
+
+==== Why am I getting an Iconv::IllegalSequence error when calling GLoc.set_charset?
+By default GLoc loads all of its default strings at startup. For example, calling <tt>set_charset 'iso-2022-jp'</tt> will cause this error because Russian strings are loaded by default, and the Russian strings use characters that cannot be expressed in the ISO-2022-JP charset.
+Before calling <tt>set_charset</tt> you should call <tt>clear_strings_except</tt> to remove strings from any languages that you will not be using.
+Alternatively, you can simply specify the language(s) as follows, <tt>set_charset 'iso-2022-jp', :ja</tt>.
+
+==== How do I make GLoc ignore StringNotFoundErrors?
+Disable it as follows:
+  GLoc.set_config :raise_string_not_found_errors => false

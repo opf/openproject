@@ -16,36 +16,47 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomFieldsController < ApplicationController
-	layout 'base'		
-	before_filter :require_admin
-	
+  layout 'base'		
+  before_filter :require_admin
+
   def index
     list
     render :action => 'list'
   end
 
   def list
-    @custom_field_pages, @custom_fields = paginate :custom_fields, :per_page => 10
+    @custom_field_pages, @custom_fields = paginate :custom_fields, :per_page => 15
   end
-
+  
   def new
-    if request.get?
-      @custom_field = CustomField.new
-    else
-      @custom_field = CustomField.new(params[:custom_field])
-      if @custom_field.save
-        flash[:notice] = 'CustomField was successfully created.'
+    case params[:type]
+      when "IssueCustomField" 
+        @custom_field = IssueCustomField.new(params[:custom_field])
+        @custom_field.trackers = Tracker.find(params[:tracker_ids]) if params[:tracker_ids]
+      when "UserCustomField" 
+        @custom_field = UserCustomField.new(params[:custom_field])
+      when "ProjectCustomField" 
+        @custom_field = ProjectCustomField.new(params[:custom_field])
+      else
         redirect_to :action => 'list'
-      end
+        return
+    end  
+    if request.post? and @custom_field.save
+      redirect_to :action => 'list'
     end
+    @trackers = Tracker.find(:all)
   end
 
   def edit
     @custom_field = CustomField.find(params[:id])
     if request.post? and @custom_field.update_attributes(params[:custom_field])
-      flash[:notice] = 'CustomField was successfully updated.'
+      if @custom_field.is_a? IssueCustomField
+        @custom_field.trackers = params[:tracker_ids] ? Tracker.find(params[:tracker_ids]) : []
+      end
+      flash[:notice] = 'Custom field was successfully updated.'
       redirect_to :action => 'list'
     end
+    @trackers = Tracker.find(:all)
   end
 
   def destroy

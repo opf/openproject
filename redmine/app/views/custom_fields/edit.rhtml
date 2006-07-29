@@ -1,6 +1,6 @@
-<h2><%=_('Custom field')%></h2>
+<h2><%=l(:label_custom_field)%> (<%=l(@custom_field.type_name)%>)</h2>
 
 <%= start_form_tag :action => 'edit', :id => @custom_field %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag _('Save') %>
+  <%= render :partial => 'form', :locals => { :type => @custom_field.type } %>
+  <%= submit_tag l(:button_save) %>
 <%= end_form_tag %>

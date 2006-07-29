@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: ActiveRecord::Validations::ClassMethods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">ActiveRecord::Validations::ClassMethods</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/gloc-rails_rb.html">
+                lib/gloc-rails.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000037">validates_length_of</a>&nbsp;&nbsp;
+      <a href="#M000038">validates_size_of</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000037" class="method-detail">
+        <a name="M000037"></a>
+
+        <div class="method-heading">
+          <a href="#M000037" class="method-signature">
+          <span class="method-name">validates_length_of</span><span class="method-args">(*attrs)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The default Rails version of this function creates an error message and
+then passes it to <a href="../Errors.html">ActiveRecord.Errors</a>. The <a
+href="../../GLoc.html">GLoc</a> version of this method, sends an array to
+<a href="../Errors.html">ActiveRecord.Errors</a> that will be turned into a
+string by <a href="../Errors.html">ActiveRecord.Errors</a> which in turn
+allows for the message of this validation function to be a <a
+href="../../GLoc.html">GLoc</a> string key.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000037-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000037-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/gloc-rails.rb, line 164</span>
+164:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">validates_length_of</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">attrs</span>)
+165:         <span class="ruby-comment cmt"># Merge given options with defaults.</span>
+166:         <span class="ruby-identifier">options</span> = {
+167:           <span class="ruby-identifier">:too_long</span>     =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span>.<span class="ruby-identifier">default_error_messages</span>[<span class="ruby-identifier">:too_long</span>],
+168:           <span class="ruby-identifier">:too_short</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span>.<span class="ruby-identifier">default_error_messages</span>[<span class="ruby-identifier">:too_short</span>],
+169:           <span class="ruby-identifier">:wrong_length</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span>.<span class="ruby-identifier">default_error_messages</span>[<span class="ruby-identifier">:wrong_length</span>]
+170:         }.<span class="ruby-identifier">merge</span>(<span class="ruby-constant">DEFAULT_VALIDATION_OPTIONS</span>)
+171:         <span class="ruby-identifier">options</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">pop</span>.<span class="ruby-identifier">symbolize_keys</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+172: 
+173:         <span class="ruby-comment cmt"># Ensure that one and only one range option is specified.</span>
+174:         <span class="ruby-identifier">range_options</span> = <span class="ruby-constant">ALL_RANGE_OPTIONS</span> <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">keys</span>
+175:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">range_options</span>.<span class="ruby-identifier">size</span>
+176:           <span class="ruby-keyword kw">when</span> <span class="ruby-value">0</span>
+177:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">'Range unspecified.  Specify the :within, :maximum, :minimum, or :is option.'</span>
+178:           <span class="ruby-keyword kw">when</span> <span class="ruby-value">1</span>
+179:             <span class="ruby-comment cmt"># Valid number of options; do nothing.</span>
+180:           <span class="ruby-keyword kw">else</span>
+181:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">'Too many range options specified.  Choose only one.'</span>
+182:         <span class="ruby-keyword kw">end</span>
+183: 
+184:         <span class="ruby-comment cmt"># Get range option and value.</span>
+185:         <span class="ruby-identifier">option</span> = <span class="ruby-identifier">range_options</span>.<span class="ruby-identifier">first</span>
+186:         <span class="ruby-identifier">option_value</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">range_options</span>.<span class="ruby-identifier">first</span>]
+187: 
+188:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">option</span>
+189:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:within</span>, <span class="ruby-identifier">:in</span>
+190:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;:#{option} must be a Range&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">option_value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Range</span>)
+191: 
+192:           <span class="ruby-identifier">too_short</span> = [<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:too_short</span>] , <span class="ruby-identifier">option_value</span>.<span class="ruby-identifier">begin</span>]
+193:           <span class="ruby-identifier">too_long</span>  = [<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:too_long</span>]  , <span class="ruby-identifier">option_value</span>.<span class="ruby-identifier">end</span>  ]
+194: 
+195:           <span class="ruby-identifier">validates_each</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">record</span>, <span class="ruby-identifier">attr</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+196:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">//</span>).<span class="ruby-identifier">size</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">option_value</span>.<span class="ruby-identifier">begin</span>
+197:               <span class="ruby-identifier">record</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">attr</span>, <span class="ruby-identifier">too_short</span>)
+198:             <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">//</span>).<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">option_value</span>.<span class="ruby-identifier">end</span>
+199:               <span class="ruby-identifier">record</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">attr</span>, <span class="ruby-identifier">too_long</span>)
+200:             <span class="ruby-keyword kw">end</span>
+201:           <span class="ruby-keyword kw">end</span>
+202:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:is</span>, <span class="ruby-identifier">:minimum</span>, <span class="ruby-identifier">:maximum</span>
+203:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;:#{option} must be a nonnegative Integer&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">option_value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Integer</span>) <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">option_value</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">0</span>
+204: 
+205:           <span class="ruby-comment cmt"># Declare different validations per option.</span>
+206:           <span class="ruby-identifier">validity_checks</span> = { <span class="ruby-identifier">:is</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;==&quot;</span>, <span class="ruby-identifier">:minimum</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;&gt;=&quot;</span>, <span class="ruby-identifier">:maximum</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;&lt;=&quot;</span> }
+207:           <span class="ruby-identifier">message_options</span> = { <span class="ruby-identifier">:is</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:wrong_length</span>, <span class="ruby-identifier">:minimum</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:too_short</span>, <span class="ruby-identifier">:maximum</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:too_long</span> }
+208: 
+209:           <span class="ruby-identifier">message</span> = [(<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:message</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">message_options</span>[<span class="ruby-identifier">option</span>]]) , <span class="ruby-identifier">option_value</span>]
+210: 
+211:           <span class="ruby-identifier">validates_each</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">record</span>, <span class="ruby-identifier">attr</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+212:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>)
+213:               <span class="ruby-identifier">record</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">attr</span>, <span class="ruby-identifier">message</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">//</span>).<span class="ruby-identifier">size</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">validity_checks</span>[<span class="ruby-identifier">option</span>])[<span class="ruby-identifier">option_value</span>]
+214:             <span class="ruby-keyword kw">else</span>
+215:               <span class="ruby-identifier">record</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">attr</span>, <span class="ruby-identifier">message</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">size</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">validity_checks</span>[<span class="ruby-identifier">option</span>])[<span class="ruby-identifier">option_value</span>]
+216:             <span class="ruby-keyword kw">end</span>
+217:           <span class="ruby-keyword kw">end</span>
+218:         <span class="ruby-keyword kw">end</span>
+219:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000038" class="method-detail">
+        <a name="M000038"></a>
+
+        <div class="method-heading">
+          <span class="method-name">validates_size_of</span><span class="method-args">(*attrs)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="ClassMethods.html#M000037">validates_length_of</a>
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

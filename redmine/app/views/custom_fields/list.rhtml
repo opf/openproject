@@ -1,32 +1,37 @@
-<h2><%=_('Custom fields')%></h2>
+<h2><%=l(:label_custom_field_plural)%></h2>
 
 <table border="0" cellspacing="1" cellpadding="2" class="listTableContent">		
 <tr class="ListHead">	
-	<th><%=_('Name')%></th>
-	<th><%=_('Type')%></th>
-	<th><%=_('Required')%></th>
-	<th><%=_('For all projects')%></th>
+	<th><%=l(:field_name)%></th>
+	<th><%=l(:field_type)%></th>
+	<th><%=l(:field_field_format)%></th>
+	<th><%=l(:field_is_required)%></th>
+	<th><%=l(:field_is_for_all)%></th>
 	<th><%=_('Used by')%></th>
 	<th></th>
 </tr>  
 <% for custom_field in @custom_fields %>
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to custom_field.name, :action => 'edit', :id => custom_field %></td>
-	<td align="center"><%= CustomField::TYPES[custom_field.typ][0] %></td>
+	<td align="center"><%= l(custom_field.type_name) %></td>
+	<td align="center"><%= l(CustomField::FIELD_FORMATS[custom_field.field_format]) %></td>
 	<td align="center"><%= image_tag 'true' if custom_field.is_required? %></td>
 	<td align="center"><%= image_tag 'true' if custom_field.is_for_all? %></td>
-	<td align="center"><%= custom_field.projects.count.to_s + ' ' + _('Project') + '(s)' unless custom_field.is_for_all? %></td>
+	<td align="center"><%= custom_field.projects.count.to_s + ' ' + lwr(:label_project, custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
 	<td align="center">
     <%= start_form_tag :action => 'destroy', :id => custom_field %>
-    <%= submit_tag _('Delete'), :class => "button-small"  %>
+    <%= submit_tag l(:button_delete), :class => "button-small"  %>
     <%= end_form_tag %>	</td>
   </tr>
 <% end %>
 </table>
 
-<%= link_to ('&#171; ' + _('Previous')), { :page => @custom_field_pages.current.previous } if @custom_field_pages.current.previous %>
-<%= link_to (_('Next') + ' &#187;'), { :page => @custom_field_pages.current.next } if @custom_field_pages.current.next %> 
+<%= pagination_links_full @custom_field_pages %> 
 
 <br />
-
-<%= link_to ('&#187; ' + _('New custom field')), :action => 'new' %>
+<%=l(:label_custom_field_new)%>:
+<ul>
+<li><%= link_to l(:label_issue_plural), :action => 'new', :type => 'IssueCustomField' %></li>
+<li><%= link_to l(:label_project_plural), :action => 'new', :type => 'ProjectCustomField' %></li>
+<li><%= link_to l(:label_user_plural), :action => 'new', :type => 'UserCustomField' %></li>
+</ul>

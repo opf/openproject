@@ -1,0 +1,199 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: Janvier,Février,Mars,Avril,Mai,Juin,Juillet,Août,Septembre,Octobre,Novembre,Décembre
+actionview_datehelper_select_month_names_abbr: Jan,Fév,Mars,Avril,Mai,Juin,Juil,Août,Sept,Oct,Nov,Déc
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 jour
+actionview_datehelper_time_in_words_day_plural: %d jours
+actionview_datehelper_time_in_words_hour_about: about an hour
+actionview_datehelper_time_in_words_hour_about_plural: about %d hours
+actionview_datehelper_time_in_words_hour_about_single: about an hour
+actionview_datehelper_time_in_words_minute: 1 minute
+actionview_datehelper_time_in_words_minute_half: 30 secondes
+actionview_datehelper_time_in_words_minute_less_than: moins d'une minute
+actionview_datehelper_time_in_words_minute_plural: %d minutes
+actionview_datehelper_time_in_words_minute_single: 1 minute
+actionview_datehelper_time_in_words_second_less_than: moins d'une seconde
+actionview_datehelper_time_in_words_second_less_than_plural: moins de %d secondes
+actionview_instancetag_blank_option: Choisir
+
+activerecord_error_inclusion: n'est pas inclus dans la liste
+activerecord_error_exclusion: est reservé
+activerecord_error_invalid: est invalide
+activerecord_error_confirmation: ne correspond pas à la confirmation
+activerecord_error_accepted: doit être accepté
+activerecord_error_empty: doit être renseigné
+activerecord_error_blank: doit être renseigné
+activerecord_error_too_long: est trop long
+activerecord_error_too_short: est trop court
+activerecord_error_wrong_length: n'est pas de la bonne longueur
+activerecord_error_taken: est déjà utilisé
+activerecord_error_not_a_number: n'est pas un nombre
+
+general_fmt_age: %d an
+general_fmt_age_plural: %d ans
+general_fmt_date: %%d/%%m/%%Y
+general_fmt_datetime: %%d/%%m/%%Y %%H:%%M
+general_fmt_datetime_short: %%d/%%m %%H:%%M
+general_fmt_time: %%H:%%M
+general_text_No: 'Non'
+general_text_Yes: 'Oui'
+general_text_no: 'non'
+general_text_yes: 'oui'
+
+notice_account_updated: Le compte a été mis à jour avec succès.
+notice_account_invalid_creditentials: Identifiant ou mot de passe invalide.
+notice_account_password_updated: Mot de passe mis à jour avec succès.
+notice_account_wrong_password: Mot de passe incorrect
+notice_account_register_done: Un message contenant les instructions pour activer votre compte vous a été envoyé.
+notice_account_unknown_email: Aucun compte ne correspond à cette adresse.
+notice_account_lost_email_sent: Un message contenant les instructions pour choisir un nouveau mot de passe vous a été envoyé.
+notice_account_activated: Votre compte a été activé. Vous pouvez à présent vous connecter.
+notice_successful_update: Mise à jour effectuée avec succès.
+notice_successful_create: Création effectuée avec succès.
+notice_successful_delete: Suppression effectuée avec succès.
+notice_successful_connection: Connection réussie.
+
+gui_validation_error: 1 erreur
+gui_validation_error_plural: %d erreurs
+
+field_name: Nom
+field_description: Description
+field_summary: Résumé
+field_is_required: Obligatoire
+field_firstname: Prénom
+field_lastname: Nom
+field_mail: Email
+field_filename: Fichier
+field_filesize: Taille
+field_downloads: Téléchargements
+field_author: Auteur
+field_created_on: Créé
+field_updated_on: Mis à jour
+field_field_format: Format
+field_is_for_all: Pour tous les projets
+field_possible_values: Valeurs possibles
+field_regexp: Expression régulière
+field_min_length: Longueur minimum
+field_max_length: Longueur maximum
+field_value: Valeur
+field_category: Catégorie
+field_title: Titre
+field_project: Projet
+field_issue: Demande
+field_status: Statut
+field_notes: Notes
+field_is_closed: Demande fermée
+field_is_default: Statut par défaut
+field_html_color: Couleur
+field_tracker: Tracker
+field_subject: Sujet
+field_assigned_to: Assigné à
+field_priority: Priorité
+field_fixed_version: Version corrigée
+field_user: Utilisateur
+field_role: Rôle
+field_homepage: Site web
+field_is_public: Public
+field_parent: Sous-projet de
+field_is_in_chlog: Demandes affichées dans l'historique
+field_login: Identifiant
+field_mail_notification: Notifications par mail
+field_admin: Administrateur
+field_locked: Verrouillé
+field_last_login_on: Dernière connexion
+field_language: Langue
+field_effective_date: Date
+field_password: Mot de passe
+field_new_password: Nouveau mot de passe
+field_password_confirmation: Confirmation
+field_version: Version
+field_type: Type
+field_host: Hôte
+field_port: Port
+field_account: Compte
+field_base_dn: Base DN
+field_attr_login: Attribut Identifiant
+field_attr_firstname: Attribut Prénom
+field_attr_lastname: Attribut Nom
+field_attr_mail: Attribut Email
+field_onthefly: Création des utilisateurs à la volée
+
+label_user: Utilisateur
+label_user_plural: Utilisateurs
+label_user_new: Nouvel utilisateur
+label_project: Projet
+label_project_new: Nouveau projet
+label_project_plural: Projets
+label_issue: Demande
+label_issue_new: Nouvelle demande
+label_issue_plural: Demandes
+label_role: Rôle
+label_role_plural: Rôles
+label_role_add: Nouveau rôle
+label_role_and_permissions: Rôles et permissions
+label_tracker: Tracker
+label_tracker_plural: Trackers
+label_tracker_add: Nouveau tracker
+label_workflow: Workflow
+label_issue_status: Statut de demandes
+label_issue_status_plural: Statuts de demandes
+label_issue_status_add: Nouveau statut
+label_custom_field: Champ personnalisé
+label_custom_field_plural: Champs personnalisés
+label_custom_field_new: Nouveau champ personnalisé
+label_enumerations: Listes de valeurs
+label_information: Information
+label_information_plural: Informations
+label_please_login: Identification
+label_register: S'enregistrer
+label_password_lost: Mot de passe perdu
+label_home: Accueil
+label_my_page: Ma page
+label_my_account: Mon compte
+label_administration: Administration
+label_login: Connexion
+label_logout: Déconnexion
+label_help: Aide
+label_reported_issues: Demandes soumises
+label_assigned_to_me_issues: Demandes qui me sont assignées
+label_last_login: Dernière connexion
+label_last_updates: Dernière mise à jour
+label_last_updates_plural: %d dernières mises à jour
+label_registered_on: Inscrit le
+label_activity: Activité
+label_new: Nouveau
+label_logged_as: Connecté en tant que
+label_environment: Environnement
+label_authentication: Authentification
+label_auth_source: Mode d'authentification
+label_auth_source_new: Nouveau mode d'authentification
+label_auth_source_plural: Modes d'authentification
+label_subproject: Sous-projet
+label_subproject_plural: Sous-projets
+label_min_max_length: Longueurs mini - maxi
+label_list: Liste
+label_date: Date
+label_integer: Entier
+label_boolean: Booléen
+label_string: Chaîne
+label_text: Texte
+label_attribute: Attribut
+label_attribute_plural: Attributs
+
+
+button_login: Connexion
+button_submit: Soumettre
+button_save: Valider
+button_check_all: Tout cocher
+button_uncheck_all: Tout décocher
+button_delete: Supprimer
+button_create: Créer
+button_test: Tester
+
+text_select_mail_notifications: Sélectionner les actions pour lesquelles la notification par mail doit être activée.
+text_regexp_info: eg. ^[A-Z0-9]+$
+text_min_max_length_info: 0 pour aucune restriction
+text_possible_values_info: valeurs séparées par |

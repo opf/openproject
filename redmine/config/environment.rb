@@ -68,18 +68,67 @@ end
 #   inflect.uncountable %w( fish sheep )
 # end
 
-# Include your application configuration below
+if File.exist? File.join(File.dirname(__FILE__), 'config_custom.rb')
+  begin
+    print "=> Loading config_custom.rb... "
+    require File.join(File.dirname(__FILE__), 'config_custom') 
+    puts "done."
+  rescue Exception => detail
+    puts
+    puts detail
+    puts detail.backtrace.join("\n")
+    puts "=> Error in config_custom.rb. Check your configuration."
+    exit
+  end
+end
+
+# IMPORTANT !!! DO NOT MODIFY PARAMETERS HERE
+# Instead, rename config_custom.example.rb to config_custom.rb 
+# and set your own configuration in that file
+# Parameters defined in config_custom.rb override those defined below
+
+# application host name
+$RDM_HOST_NAME ||= "localhost:3000"
+# file storage path
+$RDM_STORAGE_PATH ||= "#{RAILS_ROOT}/files"
+# if RDM_LOGIN_REQUIRED is set to true, login is required to access the application
+$RDM_LOGIN_REQUIRED ||= false
+# default langage
+$RDM_DEFAULT_LANG ||= 'en'
+
+# page title
+$RDM_HEADER_TITLE ||= "redMine"
+# page sub-title
+$RDM_HEADER_SUBTITLE ||= "Project management"
+# footer signature
+$RDM_FOOTER_SIG = "admin@somenet.foo"
 
 # application name
 RDM_APP_NAME = "redMine" 
 # application version
-RDM_APP_VERSION = "0.2.0" 
-# application host name
-RDM_HOST_NAME = "somenet.foo"
-# file storage path
-RDM_STORAGE_PATH = "#{RAILS_ROOT}/files"
-# if RDM_LOGIN_REQUIRED is set to true, login is required to access the application
-RDM_LOGIN_REQUIRED = false
-# default langage
-RDM_DEFAULT_LANG = 'en'
+RDM_APP_VERSION = "0.3.0"
+
+ActiveRecord::Errors.default_error_messages = {
+  :inclusion => "activerecord_error_inclusion",
+  :exclusion => "activerecord_error_exclusion",
+  :invalid => "activerecord_error_invalid",
+  :confirmation => "activerecord_error_confirmation",
+  :accepted  => "activerecord_error_accepted",
+  :empty => "activerecord_error_empty",
+  :blank => "activerecord_error_blank",
+  :too_long => "activerecord_error_too_long",
+  :too_short => "activerecord_error_too_short",
+  :wrong_length => "activerecord_error_wrong_length",
+  :taken => "activerecord_error_taken",
+  :not_a_number => "activerecord_error_not_a_number"
+}
+
+ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "<span class=\"fieldWithErrors\">#{html_tag}</span>" }
+    
+GLoc.set_config :default_language => $RDM_DEFAULT_LANG
+GLoc.clear_strings
+GLoc.set_kcode
+GLoc.load_localized_strings
+GLoc.set_config(:raise_string_not_found_errors => false)
+
 

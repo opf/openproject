@@ -1,10 +1,11 @@
 <%= error_messages_for 'project' %>
 
+<div class="box">
 <!--[form:project]-->
 <p><label for="project_name"><%=_('Name')%> <span class="required">*</span></label><br/>
 <%= text_field 'project', 'name'  %></p>
 
-<% if session[:user].admin %>
+<% if admin_loggedin? %>
 <p><label for="project_parent_id"><%=_('Subproject of')%></label><br/>
 <select name="project[parent_id]">
 <option value=""></option>
@@ -12,14 +13,18 @@
 </select></p>
 <% end %>
 
-<p><label for="project_descr"><%=_('Description')%> <span class="required">*</span></label><br/>
-<%= text_area 'project', 'descr', :cols => 60, :rows => 3 %></p>
+<p><label for="project_description"><%=_('Description')%> <span class="required">*</span></label><br/>
+<%= text_area 'project', 'description', :cols => 60, :rows => 3 %></p>
 
 <p><label for="project_homepage"><%=_('Homepage')%></label><br/>
 <%= text_field 'project', 'homepage', :size => 40 %></p>
 
 <p><%= check_box 'project', 'is_public' %>
 <label for="project_is_public"><%=_('Public')%></label></p>
+
+<% for custom_value in @custom_values %>
+	<p><%= custom_field_tag_with_label custom_value %></p>
+<% end %>
 
 <fieldset><legend><%=_('Custom fields')%></legend>
 <% for custom_field in @custom_fields %>
@@ -31,6 +36,6 @@
 	> <%= custom_field.name %>
 	
 <% end %></fieldset>
-<br />
 
+</div>
 <!--[eoform:project]-->

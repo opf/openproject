@@ -1,0 +1,113 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: January,February,March,April,May,June,July,August,September,October,November,December
+actionview_datehelper_select_month_names_abbr: Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 day
+actionview_datehelper_time_in_words_day_plural: %d days
+actionview_datehelper_time_in_words_hour_about: about an hour
+actionview_datehelper_time_in_words_hour_about_plural: about %d hours
+actionview_datehelper_time_in_words_hour_about_single: about an hour
+actionview_datehelper_time_in_words_minute: 1 minute
+actionview_datehelper_time_in_words_minute_half: half a minute
+actionview_datehelper_time_in_words_minute_less_than: less than a minute
+actionview_datehelper_time_in_words_minute_plural: %d minutes
+actionview_datehelper_time_in_words_minute_single: 1 minute
+actionview_datehelper_time_in_words_second_less_than: less than a second
+actionview_datehelper_time_in_words_second_less_than_plural: less than %d seconds
+actionview_instancetag_blank_option: Please select
+
+activerecord_error_inclusion: is not included in the list
+activerecord_error_exclusion: is reserved
+activerecord_error_invalid: is invalid
+activerecord_error_confirmation: doesn't match confirmation
+activerecord_error_accepted: must be accepted
+activerecord_error_empty: can't be empty
+activerecord_error_blank: can't be blank
+activerecord_error_too_long: is too long
+activerecord_error_too_short: is too short
+activerecord_error_wrong_length: is the wrong length
+activerecord_error_taken: has already been taken
+activerecord_error_not_a_number: is not a number
+
+general_fmt_age: %d yr
+general_fmt_age_plural: %d yrs
+general_fmt_date: %%b %%d, %%Y (%%a)
+general_fmt_datetime: %%b %%d, %%Y (%%a), %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: 'No'
+general_text_Yes: 'Yes'
+general_text_no: 'no'
+general_text_yes: 'yes'
+
+notice_account_updated: Account was successfully updated.
+notice_account_invalid_creditentials: Invalid user or password
+notice_account_password_updated: Password was successfully updated.
+notice_account_wrong_password: Wrong password
+notice_account_register_done: Account was successfully created.
+notice_account_unknown_email: Unknown user.
+notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
+
+gui_menu_home: Home
+gui_menu_my_page: My page
+gui_menu_projects: Projects
+gui_menu_my_account: My account
+gui_menu_admin: Administration
+gui_menu_login: Login
+gui_menu_logout: Logout
+gui_menu_help: Help
+gui_validation_error: 1 error
+gui_validation_error_plural: %d errors
+
+field_name: Name
+field_description: Description
+field_summary: Summary
+field_is_required: Required
+field_firstname: Firstname
+field_lastname: Lastname
+field_mail: Email
+field_filename: File
+field_filesize: Size
+field_downloads: Downloads
+field_author: Author
+field_created_on: Created
+field_updated_on: Updated
+field_field_format: Format
+field_is_for_all: For all projects
+field_possible_values: Possible values
+field_regexp: Regular expression
+field_min_length: Minimum length
+field_max_length: Maximum length
+field_value: Value
+field_category: Catogory
+field_title: Title
+field_project: Project
+field_issue: Issue
+field_status: Status
+field_notes: Notes
+field_is_closed: Issue closed
+field_is_default: Default status
+field_html_color: Color
+field_tracker: Tracker
+field_subject: Subject
+field_assigned_to: Assigned to
+field_priority: Priority
+field_fixed_version: Fixed version
+field_user: User
+field_role: Role
+field_homepage: Homepage
+field_is_public: Public
+field_parent: Subproject de
+field_is_in_chlog: Issues displayed in changelog
+field_login: Login
+field_mail_notification: Mail notifications
+field_admin: Administrator
+field_locked: Locked
+field_last_login_on: Last connection
+field_language: Language
+field_effective_date: Date
+field_password: Password
+field_password_confirmation: Confirmation

@@ -1,16 +1,21 @@
 <h2><%=_('Overview')%></h2> 
 	
 <div class="splitcontentleft">
-	<%= @project.descr %>	
+	<%= @project.description %>	
 	<ul>
 	<li><%=_('Homepage')%>: <%= link_to @project.homepage, @project.homepage %></li>
 	<li><%=_('Created on')%>: <%= format_date(@project.created_on) %></li>
+	<% for custom_value in @custom_values %>
+	<% if !custom_value.value.empty? %>
+	   <li><%= custom_value.custom_field.name%>: <%= custom_value.value%></li>
+	<% end %>
+	<% end %>
 	</ul>	
 
   <div class="box">
     <h3><%= image_tag "tracker" %> <%=_('Trackers')%></h3>
     <ul>
-    <% for tracker in Tracker.find_all %>    
+    <% for tracker in @trackers %>    
       <li><%= link_to tracker.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
                                                 :set_filter => 1, 
                                                 "tracker_id" => tracker.id %>:
@@ -18,8 +23,14 @@
       </li>
     <% end %>
     </ul>
-    <%= link_to_if_authorized '&#187; ' + _('Report an issue'), :controller => 'projects', :action => 'add_issue', :id => @project %>
-    <br />
+    <% if authorize_for 'projects', 'add_issue' %>
+        &#187; <%=_('Report an issue')%>:
+        <ul>
+        <% @trackers.each do |tracker| %>
+        <li><%= link_to _(tracker.name), :controller => 'projects', :action => 'add_issue', :id => @project, :tracker_id => tracker %></li>
+        <% end %>
+        </ul>
+    <% end %>
     <center><small>[ <%= link_to _('View all issues'), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %> ]</small></center>
   </div>
 </div>
@@ -46,7 +57,7 @@
     <% for news in @news %>
       <p>
       <b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />
-      <%= news.shortdescr %>
+      <%= news.summary %>
       <small>[<%= link_to _('Read...'), :controller => 'news', :action => 'show', :id => news %>]</small>
       </p>
       <hr />

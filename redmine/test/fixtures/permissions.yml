@@ -1,0 +1,379 @@
+--- 
+permissions_041: 
+  action: add_file
+  id: 41
+  description: Add
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1320
+  is_public: false
+permissions_030: 
+  action: destroy
+  id: 30
+  description: Delete
+  controller: news
+  mail_enabled: false
+  mail_option: false
+  sort: 1122
+  is_public: false
+permissions_019: 
+  action: download
+  id: 19
+  description: Download file
+  controller: issues
+  mail_enabled: false
+  mail_option: false
+  sort: 1010
+  is_public: true
+permissions_008: 
+  action: edit
+  id: 8
+  description: Edit
+  controller: members
+  mail_enabled: false
+  mail_option: false
+  sort: 221
+  is_public: false
+permissions_042: 
+  action: destroy_file
+  id: 42
+  description: Delete
+  controller: versions
+  mail_enabled: false
+  mail_option: false
+  sort: 1322
+  is_public: false
+permissions_031: 
+  action: list_documents
+  id: 31
+  description: View list
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1200
+  is_public: true
+permissions_020: 
+  action: add_issue
+  id: 20
+  description: Report an issue
+  controller: projects
+  mail_enabled: true
+  mail_option: true
+  sort: 1050
+  is_public: false
+permissions_009: 
+  action: destroy
+  id: 9
+  description: Delete
+  controller: members
+  mail_enabled: false
+  mail_option: false
+  sort: 222
+  is_public: false
+permissions_032: 
+  action: show
+  id: 32
+  description: View
+  controller: documents
+  mail_enabled: false
+  mail_option: false
+  sort: 1201
+  is_public: true
+permissions_021: 
+  action: edit
+  id: 21
+  description: Edit
+  controller: issues
+  mail_enabled: false
+  mail_option: false
+  sort: 1055
+  is_public: false
+permissions_010: 
+  action: add_version
+  id: 10
+  description: New version
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 320
+  is_public: false
+permissions_033: 
+  action: download
+  id: 33
+  description: Download
+  controller: documents
+  mail_enabled: false
+  mail_option: false
+  sort: 1202
+  is_public: true
+permissions_022: 
+  action: change_status
+  id: 22
+  description: Change status
+  controller: issues
+  mail_enabled: true
+  mail_option: true
+  sort: 1060
+  is_public: false
+permissions_011: 
+  action: edit
+  id: 11
+  description: Edit
+  controller: versions
+  mail_enabled: false
+  mail_option: false
+  sort: 321
+  is_public: false
+permissions_034: 
+  action: add_document
+  id: 34
+  description: Add
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1220
+  is_public: false
+permissions_023: 
+  action: destroy
+  id: 23
+  description: Delete
+  controller: issues
+  mail_enabled: false
+  mail_option: false
+  sort: 1065
+  is_public: false
+permissions_012: 
+  action: destroy
+  id: 12
+  description: Delete
+  controller: versions
+  mail_enabled: false
+  mail_option: false
+  sort: 322
+  is_public: false
+permissions_001: 
+  action: show
+  id: 1
+  description: Overview
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 100
+  is_public: true
+permissions_035: 
+  action: edit
+  id: 35
+  description: Edit
+  controller: documents
+  mail_enabled: false
+  mail_option: false
+  sort: 1221
+  is_public: false
+permissions_024: 
+  action: add_attachment
+  id: 24
+  description: Add file
+  controller: issues
+  mail_enabled: false
+  mail_option: false
+  sort: 1070
+  is_public: false
+permissions_013: 
+  action: add_issue_category
+  id: 13
+  description: New issue category
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 420
+  is_public: false
+permissions_002: 
+  action: changelog
+  id: 2
+  description: View change log
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 105
+  is_public: true
+permissions_036: 
+  action: destroy
+  id: 36
+  description: Delete
+  controller: documents
+  mail_enabled: false
+  mail_option: false
+  sort: 1222
+  is_public: false
+permissions_025: 
+  action: destroy_attachment
+  id: 25
+  description: Delete file
+  controller: issues
+  mail_enabled: false
+  mail_option: false
+  sort: 1075
+  is_public: false
+permissions_014: 
+  action: edit
+  id: 14
+  description: Edit
+  controller: issue_categories
+  mail_enabled: false
+  mail_option: false
+  sort: 421
+  is_public: false
+permissions_003: 
+  action: issue_report
+  id: 3
+  description: View reports
+  controller: reports
+  mail_enabled: false
+  mail_option: false
+  sort: 110
+  is_public: true
+permissions_037: 
+  action: add_attachment
+  id: 37
+  description: Add file
+  controller: documents
+  mail_enabled: false
+  mail_option: false
+  sort: 1223
+  is_public: false
+permissions_026: 
+  action: list_news
+  id: 26
+  description: View list
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1100
+  is_public: true
+permissions_015: 
+  action: destroy
+  id: 15
+  description: Delete
+  controller: issue_categories
+  mail_enabled: false
+  mail_option: false
+  sort: 422
+  is_public: false
+permissions_004: 
+  action: settings
+  id: 4
+  description: Settings
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 150
+  is_public: false
+permissions_038: 
+  action: destroy_attachment
+  id: 38
+  description: Delete file
+  controller: documents
+  mail_enabled: false
+  mail_option: false
+  sort: 1224
+  is_public: false
+permissions_027: 
+  action: show
+  id: 27
+  description: View
+  controller: news
+  mail_enabled: false
+  mail_option: false
+  sort: 1101
+  is_public: true
+permissions_016: 
+  action: list_issues
+  id: 16
+  description: View list
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1000
+  is_public: true
+permissions_005: 
+  action: edit
+  id: 5
+  description: Edit
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 151
+  is_public: false
+permissions_039: 
+  action: list_files
+  id: 39
+  description: View list
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1300
+  is_public: true
+permissions_028: 
+  action: add_news
+  id: 28
+  description: Add
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1120
+  is_public: false
+permissions_017: 
+  action: export_issues_csv
+  id: 17
+  description: Export list to CSV
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1001
+  is_public: true
+permissions_006: 
+  action: list_members
+  id: 6
+  description: View list
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 200
+  is_public: true
+permissions_040: 
+  action: download
+  id: 40
+  description: Download
+  controller: versions
+  mail_enabled: false
+  mail_option: false
+  sort: 1301
+  is_public: true
+permissions_029: 
+  action: edit
+  id: 29
+  description: Edit
+  controller: news
+  mail_enabled: false
+  mail_option: false
+  sort: 1121
+  is_public: false
+permissions_018: 
+  action: show
+  id: 18
+  description: View
+  controller: issues
+  mail_enabled: false
+  mail_option: false
+  sort: 1005
+  is_public: true
+permissions_007: 
+  action: add_member
+  id: 7
+  description: New member
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 220
+  is_public: false

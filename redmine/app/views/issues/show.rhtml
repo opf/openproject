@@ -1,17 +1,20 @@
 
-<h2><%=_('Issue')%> #<%= @issue.id %> - <%= @issue.subject %></h2>
+<h2><%=_(@issue.tracker.name)%> #<%= @issue.id %> - <%= @issue.subject %></h2>
 
 <div class="box">
-<p><b><%=_('Tracker')%>:</b> <%= @issue.tracker.name %></p>
+<p><b><%=_('Status')%>:</b> <%= @issue.status.name %></p>
 <p><b><%=_('Priority')%>:</b> <%= @issue.priority.name %></p>
 <p><b><%=_('Category')%>:</b> <%= @issue.category.name unless @issue.category_id.nil? %></p>
-<p><b><%=_('Status')%>:</b> <%= @issue.status.name %></p>
 <p><b><%=_('Author')%>:</b> <%= @issue.author.display_name %></p>
 <p><b><%=_('Assigned to')%>:</b> <%= @issue.assigned_to.display_name unless @issue.assigned_to.nil? %></p>
 
 <p><b><%=_('Subject')%>:</b> <%= @issue.subject %></p>
-<p><b><%=_('Description')%>:</b> <%= simple_format auto_link @issue.descr %></p>
+<p><b><%=_('Description')%>:</b> <%= simple_format auto_link @issue.description %></p>
 <p><b><%=_('Created on')%>:</b> <%= format_date(@issue.created_on) %></p>
+
+<% for custom_value in @custom_values %>
+<p><b><%= custom_value.custom_field.name %></b>: <%= show_value custom_value %></p>
+<% end %>
 
 <% if authorize_for('issues', 'edit') %>
   <%= start_form_tag ({:controller => 'issues', :action => 'edit', :id => @issue}, :method => "get" ) %>

@@ -1,0 +1,9 @@
+--- 
+issue_categories_001: 
+  name: Printing
+  project_id: 1
+  id: 1
+issue_categories_002: 
+  name: Recipes
+  project_id: 1
+  id: 2

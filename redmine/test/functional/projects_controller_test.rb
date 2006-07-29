@@ -22,7 +22,7 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :projects
+  fixtures :projects, :permissions
 
   def setup
     @controller = ProjectsController.new
@@ -38,10 +38,77 @@ class ProjectsControllerTest < Test::Unit::TestCase
 
   def test_list
     get :list
-
     assert_response :success
     assert_template 'list'
-
     assert_not_nil assigns(:projects)
+  end
+  
+  def test_show
+    get :show, :id => 1
+    assert_response :success
+    assert_template 'show'
+    assert_not_nil assigns(:project)
+  end
+  
+  def test_list_members
+    get :list_members, :id => 1
+    assert_response :success
+    assert_template 'list_members'
+    assert_not_nil assigns(:members)
+  end
+  
+  def test_list_documents
+    get :list_documents, :id => 1
+    assert_response :success
+    assert_template 'list_documents'
+    assert_not_nil assigns(:documents)
+  end
+  
+  def test_list_issues
+    get :list_issues, :id => 1
+    assert_response :success
+    assert_template 'list_issues'
+    assert_not_nil assigns(:issues)
+  end
+  
+  def test_list_issues_with_filter
+    get :list_issues, :id => 1, :set_filter => 1
+    assert_response :success
+    assert_template 'list_issues'
+    assert_not_nil assigns(:issues)
+  end
+  
+  def test_list_issues_reset_filter
+    post :list_issues, :id => 1
+    assert_response :success
+    assert_template 'list_issues'
+    assert_not_nil assigns(:issues)
+  end
+  
+  def test_export_issues_csv
+    get :export_issues_csv, :id => 1
+    assert_response :success
+    assert_not_nil assigns(:issues)
+  end
+
+  def test_list_news
+    get :list_news, :id => 1
+    assert_response :success
+    assert_template 'list_news'
+    assert_not_nil assigns(:news)
+  end
+
+  def test_list_files
+    get :list_files, :id => 1
+    assert_response :success
+    assert_template 'list_files'
+    assert_not_nil assigns(:versions)
+  end
+
+  def test_changelog
+    get :changelog, :id => 1
+    assert_response :success
+    assert_template 'changelog'
+    assert_not_nil assigns(:fixed_issues)
   end
 end

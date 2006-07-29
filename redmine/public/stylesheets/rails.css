@@ -1,27 +1,27 @@
 
 .fieldWithErrors {
   padding: 2px;
+  margin: 0px;
   background-color: red;
   display: table;
 }
 
 #errorExplanation {
   width: 400px;
-  border: 2px solid red;
+  border: 0;
   padding: 7px;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-  background-color: #f0f0f0;
+  padding-bottom: 3px;
+  margin-bottom: 0px;
+  /*background-color: #f0f0f0;*/
 }
 
 #errorExplanation h2 {
   text-align: left;
   font-weight: bold;
-  padding: 5px 5px 5px 15px;
-  font-size: 12px;
+  padding: 5px 5px 10px 26px;
+  font-size: 1em;
   margin: -7px;
-  background-color: #c00;
-  color: #fff;
+  background: url(../images/alert.png) no-repeat 6px 6px;
 }
 
 #errorExplanation p {
@@ -31,8 +31,9 @@
 }
 
 #errorExplanation ul li {
-  font-size: 12px;
-  list-style: square;
+  font-size: 1em;
+  list-style: none;
+  margin-left: -16px;
 }
 
 div.uploadStatus {

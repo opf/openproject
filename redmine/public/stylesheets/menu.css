@@ -1,0 +1,39 @@
+/*==========  Drop down menu  ==============*/
+div.menu {
+  background-color: #FFFFFF;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #7F9DB9;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 0;
+  visibility: hidden;
+  z-index: 101;
+}
+
+div.menu a.menuItem {
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 2em;
+  color: #000000;
+  background-color: #FFFFFF;
+  cursor: default;
+  display: block;
+  padding: 0 1em;
+  margin: 0;
+  border: 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+div.menu a.menuItem:hover, div.menu a.menuItemHighlight {
+  background-color: #80b0da;
+  color: #ffffff;
+}
+
+div.menu a.menuItem span.menuItemText {}
+
+div.menu a.menuItem span.menuItemArrow {
+  margin-right: -.75em;
+}

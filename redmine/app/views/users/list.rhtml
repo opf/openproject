@@ -7,7 +7,7 @@
 	<%= sort_header_tag('lastname', :caption => _('Lastname')) %>
 	<th><%=_('Mail')%></th>
 	<%= sort_header_tag('admin', :caption => _('Admin')) %>
-	<%= sort_header_tag('locked', :caption => _('Locked')) %>
+	<%= sort_header_tag('status', :caption => _('Status')) %>
 	<%= sort_header_tag('created_on', :caption => _('Created on')) %>
 	<%= sort_header_tag('last_login_on', :caption => _('Last login')) %>
   <th></th>
@@ -25,10 +25,10 @@
   <td align="center">
     <%= start_form_tag :action => 'edit', :id => user %>
     <% if user.locked? %>
-      <%= hidden_field_tag 'user[locked]', 0 %>
+      <%= hidden_field_tag 'user[status]', User::STATUS_ACTIVE %>
       <%= submit_tag _('Unlock'), :class => "button-small"  %>
     <% else %>
-      <%= hidden_field_tag 'user[locked]', 1 %>
+      <%= hidden_field_tag 'user[status]', User::STATUS_LOCKED %>
       <%= submit_tag _('Lock'), :class => "button-small"  %>
     <% end %>
     <%= end_form_tag %>  

@@ -24,7 +24,7 @@ class AccountTest < ActionController::IntegrationTest
   def test_login
     get "account/my_page"
     assert_redirected_to "account/login"
-    log_user('plochon', 'admin')
+    log_user('jsmith', 'jsmith')
     
     get "account/my_account"
     assert_response :success
@@ -32,12 +32,12 @@ class AccountTest < ActionController::IntegrationTest
   end
   
   def test_change_password
-    log_user('plochon', 'admin')
+    log_user('jsmith', 'jsmith')
     get "account/my_account"
     assert_response :success
     assert_template "account/my_account" 
     
-    post "account/change_password", :password => 'admin', :new_password => "hello", :new_password_confirmation => "hello2"
+    post "account/change_password", :password => 'jsmith', :new_password => "hello", :new_password_confirmation => "hello2"
     assert_response :success
     assert_tag :tag => "div", :attributes => { :class => "errorExplanation" }
     
@@ -45,13 +45,13 @@ class AccountTest < ActionController::IntegrationTest
     assert_response :success
     assert_equal 'Wrong password', flash[:notice]
     
-    post "account/change_password", :password => 'admin', :new_password => "hello", :new_password_confirmation => "hello"
+    post "account/change_password", :password => 'jsmith', :new_password => "hello", :new_password_confirmation => "hello"
     assert_response :success
-    log_user('plochon', 'hello')    
+    log_user('jsmith', 'hello')
   end
   
   def test_my_account
-    log_user('plochon', 'admin')
+    log_user('jsmith', 'jsmith')
     get "account/my_account"
     assert_response :success
     assert_template "account/my_account" 
@@ -61,16 +61,39 @@ class AccountTest < ActionController::IntegrationTest
     assert_template "account/my_account" 
     user = User.find(2)
     assert_equal "Joe", user.firstname
-    assert_equal "plochon", user.login
-    assert_equal false, user.admin?
-    
-    log_user('plochon', 'admin')    
+    assert_equal "jsmith", user.login
+    assert_equal false, user.admin?    
   end
   
   def test_my_page
-    log_user('plochon', 'admin')
+    log_user('jsmith', 'jsmith')
     get "account/my_page"
     assert_response :success
     assert_template "account/my_page"
   end
+  
+  def test_lost_password
+    get "account/lost_password"
+    assert_response :success
+    assert_template "account/lost_password"
+    
+    post "account/lost_password", :mail => 'jsmith@somenet.foo'
+    assert_redirected_to "account/login"
+    
+    token = Token.find(:first)
+    assert_equal 'recovery', token.action
+    assert_equal 'jsmith@somenet.foo', token.user.mail
+    assert !token.expired?
+    
+    get "account/lost_password", :token => token.value
+    assert_response :success
+    assert_template "account/password_recovery"
+    
+    post "account/lost_password", :token => token.value, :new_password => 'newpass', :new_password_confirmation => 'newpass'
+    assert_redirected_to "account/login"
+    assert_equal 'Password was successfully updated.', flash[:notice]
+    
+    log_user('jsmith', 'newpass')
+    assert_equal 0, Token.count    
+  end    
 end

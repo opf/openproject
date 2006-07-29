@@ -21,6 +21,8 @@ class UsersController < ApplicationController
 
   helper :sort
   include SortHelper
+  helper :custom_fields
+  include CustomFieldsHelper   
 
   def index
     list
@@ -41,12 +43,15 @@ class UsersController < ApplicationController
 
   def add
     if request.get?
-      @user = User.new
+      @user = User.new(:language => $RDM_DEFAULT_LANG)
+      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user) }
     else
       @user = User.new(params[:user])
       @user.admin = params[:user][:admin] || false
       @user.login = params[:user][:login]
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
+      @user.custom_values = @custom_values			
       if @user.save
         flash[:notice] = 'User was successfully created.'
         redirect_to :action => 'list'
@@ -56,10 +61,16 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    if request.post?
+    if request.get?
+      @custom_values = UserCustomField.find(:all).collect { |x| @user.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
+    else
       @user.admin = params[:user][:admin] if params[:user][:admin]
       @user.login = params[:user][:login] if params[:user][:login]
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless params[:password].nil? or params[:password].empty?
+      if params[:custom_fields]
+        @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
+        @user.custom_values = @custom_values
+      end
       if @user.update_attributes(params[:user])
         flash[:notice] = 'User was successfully updated.'
         redirect_to :action => 'list'

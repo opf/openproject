@@ -1,0 +1,43 @@
+--- 
+custom_values_006: 
+  customized_type: Issue
+  custom_field_id: 2
+  customized_id: 3
+  id: 9
+  value: "125"
+custom_values_007: 
+  customized_type: Project
+  custom_field_id: 3
+  customized_id: 1
+  id: 10
+  value: Stable
+custom_values_001: 
+  customized_type: User
+  custom_field_id: 4
+  customized_id: 3
+  id: 2
+  value: ""
+custom_values_002: 
+  customized_type: User
+  custom_field_id: 4
+  customized_id: 4
+  id: 3
+  value: 01 23 45 67 89
+custom_values_003: 
+  customized_type: User
+  custom_field_id: 4
+  customized_id: 2
+  id: 4
+  value: ""
+custom_values_004: 
+  customized_type: Issue
+  custom_field_id: 2
+  customized_id: 1
+  id: 7
+  value: "101"
+custom_values_005: 
+  customized_type: Issue
+  custom_field_id: 2
+  customized_id: 2
+  id: 8
+  value: ""

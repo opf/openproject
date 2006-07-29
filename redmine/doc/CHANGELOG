@@ -5,6 +5,34 @@ Copyright (C) 2006  Jean-Philippe Lang
 http://redmine.org/
 
 
+== xx/xx/2006 v0.3.0
+
+* user authentication against multiple LDAP
+* token based "lost password" functionality
+* user self-registration functionality (optional)
+* custom fields now available for issues, users and projects
+* new custom field format "text" (textarea) 
+* project & administration drop down menus in navigation bar
+* error messages internationalization
+* Localization plugin replaced with GLoc 1.1.0
+* new filter in issues list: "Fixed version"
+* colored background for active filters on issues list
+* custom configuration is now defined in config/config_custom.rb
+* user object no more stored in session (only user_id)
+* news summary field is no longer required
+* Fixed: boolean custom field not working
+* Fixed: error messages for custom fields are not displayed
+* Fixed: custom fields values are not validated on issue update
+* Fixed: user unable to choose an empty value for 'List' custom fields
+* Fixed: no issue categories sorting
+* Fixed: incorrect versions sorting
+
+
+== 07/12/2006 - v0.2.2
+
+* Fixed: bug in "issues list"
+
+
 == 07/09/2006 - v0.2.1
 
 * new databases supported: Oracle, PostgreSQL, SQL Server

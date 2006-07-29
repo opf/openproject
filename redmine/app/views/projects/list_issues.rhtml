@@ -7,6 +7,7 @@
     <td><small><%=_('Tracker')%>:</small><br /><%= search_filter_tag 'tracker_id', :class => 'select-small' %></td>
     <td><small><%=_('Priority')%>:</small><br /><%= search_filter_tag 'priority_id', :class => 'select-small' %></td>
     <td><small><%=_('Category')%>:</small><br /><%= search_filter_tag 'category_id', :class => 'select-small' %></td>
+    <td><small><%=_('Fixed in version')%>:</small><br /><%= search_filter_tag 'fixed_version_id', :class => 'select-small' %></td>
     <td><small><%=_('Assigned to')%>:</small><br /><%= search_filter_tag 'assigned_to_id', :class => 'select-small' %></td>
     <td><small><%=_('Subprojects')%>:</small><br /><%= search_filter_tag 'subproject_id', :class => 'select-small' %></td>
 
@@ -53,8 +54,3 @@
 	<%= pagination_links_full @issue_pages %>
 	[ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
     </p>
-
-
-<p>
-<%= link_to_if_authorized '&#187; ' + _('Report an issue'), :controller => 'projects', :action => 'add_issue', :id => @project %>
-</p>

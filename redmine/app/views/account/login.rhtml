@@ -1,13 +1,25 @@
-<div class="box">
-<h2><%=_('Please login') %></h2>
+<center>
+<div class="box login">
+<h2><%= image_tag 'login' %>&nbsp;&nbsp;<%=l(:label_please_login)%></h2>
 
 <%= start_form_tag :action=> "login" %>
-<p><label for="login"><%=_ 'Login' %>:</label><br/>
-<%= text_field_tag 'login', nil, :size => 25 %></p>
+<table cellpadding="4">
+  <tr>
+   <td><label for="login"><%=l(:field_login)%>:</label></td>
+   <td><%= text_field_tag 'login', nil, :size => 25 %></td>
+  </tr>
+  <tr>
+   <td><label for="password"><%=l(:field_password)%>:</label></td>
+   <td><%= password_field_tag 'password', nil, :size => 25 %></td>
+  </tr>
+</table>
 
-<p><label for="user_password"><%=_ 'Password' %>:</label><br/>
-<%= password_field_tag 'password', nil, :size => 25 %></p>
+&nbsp;
 
-<p><input type="submit" name="login" value="<%=_ 'Log in' %> &#187;" class="primary" /></p>
+<p><center><input type="submit" name="login" value="<%=l(:button_login)%> &#187;" class="primary" /></center></p>
 <%= end_form_tag %>
+<br />
+<% unless $RDM_SELF_REGISTRATION == false %><%= link_to l(:label_register), :action => 'register' %> |<% end %>
+<%= link_to l(:label_password_lost), :action => 'lost_password' %>
 </div>
+</center>

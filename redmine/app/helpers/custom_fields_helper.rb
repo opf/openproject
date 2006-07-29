@@ -16,21 +16,49 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module CustomFieldsHelper
-	def custom_field_tag(custom_value)
-	
-		custom_field = custom_value.custom_field
-		
-		field_name = "custom_fields[#{custom_field.id}]"
-		
-		case custom_field.typ
-		when 0 .. 2
-			text_field_tag field_name, custom_value.value
-		when 3
-			check_box field_name
-		when 4
-			select_tag field_name, 
-					options_for_select(custom_field.possible_values.split('|'),
-					custom_value.value)
-		end
-	end
+
+  def custom_field_tag(custom_value)	
+    custom_field = custom_value.custom_field
+    field_name = "custom_fields[#{custom_field.id}]"
+    case custom_field.field_format
+    when "string", "int", "date"
+      text_field_tag field_name, custom_value.value
+    when "text"
+      text_area_tag field_name, custom_value.value, :cols => 60, :rows => 3
+    when "bool"
+      check_box_tag(field_name, "1", custom_value.value == "1") + 
+      hidden_field_tag(field_name, "0")
+    when "list"
+      select_tag field_name, 
+                  "<option></option>" + options_for_select(custom_field.possible_values.split('|'),
+                  custom_value.value)
+    end
+  end
+  
+  def custom_field_label_tag(custom_value)
+    content_tag "label", custom_value.custom_field.name +
+	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>" : "")
+  end
+  
+  def custom_field_tag_with_label(custom_value)
+    case custom_value.custom_field.field_format
+    when "bool"
+      custom_field_tag(custom_value) + " " + custom_field_label_tag(custom_value)
+    else
+      custom_field_label_tag(custom_value) + "<br />" + custom_field_tag(custom_value)
+    end	  
+  end
+
+  def show_value(custom_value)
+    case custom_value.custom_field.field_format
+    when "bool"
+      l_YesNo(custom_value.value == "1")
+    else
+      custom_value.value
+    end	
+  end
+
+  def custom_field_formats_for_select
+    CustomField::FIELD_FORMATS.keys.collect { |k| [ l(CustomField::FIELD_FORMATS[k]), k ] }
+  end
 end

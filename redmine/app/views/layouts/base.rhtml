@@ -1,13 +1,51 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<title>redMine</title>
+<title><%= $RDM_HEADER_TITLE %></title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="redMine" />
 <meta name="keywords" content="issue,bug,tracker" />
 <%= stylesheet_link_tag "application" %>
+<%= stylesheet_link_tag "menu" %>
 <%= stylesheet_link_tag "rails" %>
 <%= javascript_include_tag :defaults %>
+<%= javascript_include_tag 'menu' %>
+
+<script type='text/javascript'>
+var menu_contenu=' \
+<div id="menuAdmin" class="menu" onmouseover="menuMouseover(event)"> \
+<a class="menuItem" href="\/admin\/projects" onmouseover="menuItemMouseover(event,\'menuProjects\');"><span class="menuItemText"><%=_('Projects')%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
+<a class="menuItem" href="\/users" onmouseover="menuItemMouseover(event,\'menuUsers\');"><span class="menuItemText"><%=_('Users')%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
+<a class="menuItem" href="\/roles"><%=_('Roles and permissions')%><\/a> \
+<a class="menuItem" href="\/trackers" onmouseover="menuItemMouseover(event,\'menuTrackers\');"><span class="menuItemText"><%=_('Trackers')%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
+<a class="menuItem" href="\/custom_fields"><%=_('Custom fields')%><\/a> \
+<a class="menuItem" href="\/enumerations"><%=_('Enumerations')%><\/a> \
+<a class="menuItem" href="\/admin\/mail_options"><%=_('Mail notifications')%><\/a> \
+<a class="menuItem" href="\/auth_sources"><%=l(:label_authentication)%><\/a> \
+<a class="menuItem" href="\/admin\/info"><%=_('Information')%><\/a> \
+<\/div> \
+<div id="menuTrackers" class="menu"> \
+<a class="menuItem" href="\/issue_statuses"><%=_('Issue Statuses')%><\/a> \
+<a class="menuItem" href="\/roles\/workflow"><%=_('Workflow')%><\/a> \
+<\/div> \
+<div id="menuProjects" class="menu"><a class="menuItem" href="\/projects\/add"><%=_('New')%><\/a><\/div> \
+<div id="menuUsers" class="menu"><a class="menuItem" href="\/users\/add"><%=_('New')%><\/a><\/div> \
+ \
+<% unless @project.nil? || @project.id.nil? %> \
+<div id="menuProject" class="menu" onmouseover="menuMouseover(event)"> \
+<%= link_to _('Issues'), {:controller => 'projects', :action => 'list_issues', :id => @project }, :class => "menuItem" %> \
+<%= link_to _('Reports'), {:controller => 'reports', :action => 'issue_report', :id => @project }, :class => "menuItem" %> \
+<%= link_to _('News'), {:controller => 'projects', :action => 'list_news', :id => @project }, :class => "menuItem" %> \
+<%= link_to _('Change log'), {:controller => 'projects', :action => 'changelog', :id => @project }, :class => "menuItem" %> \
+<%= link_to _('Documents'), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %> \
+<%= link_to _('Members'), {:controller => 'projects', :action => 'list_members', :id => @project }, :class => "menuItem" %> \
+<%= link_to _('Files'), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %> \
+<%= link_to_if_authorized _('Settings'), {:controller => 'projects', :action => 'settings', :id => @project }, :class => "menuItem" %> \
+<\/div> \
+<% end %> \
+';
+</script>
+
 </head>
 
 <body>
@@ -15,37 +53,42 @@
 
     <div id="header">
     <div style="float: left;">
-        <h1><%= RDM_APP_NAME %></h1>
-        <h2>Project management</h2>
+        <h1><%= $RDM_HEADER_TITLE %></h1>
+        <h2><%= $RDM_HEADER_SUBTITLE %></h2>
     </div>
     <div style="float: right; padding-right: 1em; padding-top: 0.2em;">
-      <% unless session[:user].nil? %><small><%=_('Logged as')%> <b><%= session[:user].login %></b></small><% end %>
+      <% if loggedin? %><small><%=l(:label_logged_as)%> <b><%= @logged_in_user.login %></b></small><% end %>
     </div>
     </div> 
 	
 	<div id="navigation">
 		<ul>
-			<li class="selected"><%= link_to _('Home'), { :controller => '' }, :class => "picHome" %></li>
-			<li><%= link_to _('My page'), { :controller => 'account', :action => 'my_page'}, :class => "picUserPage" %></li>
-			<li><%= link_to _('Projects'), { :controller => 'projects' }, :class => "picProject" %></li>
+	<li class="selected"><%= link_to l(:label_home), { :controller => '' }, :class => "picHome" %></li>
+	<li><%= link_to l(:label_my_page), { :controller => 'account', :action => 'my_page'}, :class => "picUserPage" %></li>
+	<li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "picProject" %></li>
 			
-			<% unless session[:user].nil? %>
-				<li><%= link_to _('My account'), { :controller => 'account', :action => 'my_account' }, :class => "picUser" %></li>
-			<% end %>
+    <% unless @project.nil? || @project.id.nil? %>
+        <li><%= link_to @project.name, { :controller => 'projects', :action => 'show', :id => @project }, :class => "picProject", :onmouseover => "buttonMouseover(event, 'menuProject');"  %></li>
+    <% end %>
 			
-			<% if admin_loggedin? %>
-				<li><%= link_to _('Administration'), { :controller => 'admin' }, :class => "picAdmin" %></li>
-			<% end %>
+    <% if loggedin? %>
+		<li><%= link_to l(:label_my_account), { :controller => 'account', :action => 'my_account' }, :class => "picUser" %></li>
+    <% end %>
 			
-			<li class="right"><%= link_to _('Help'), { :controller => 'help', :ctrl => @params[:controller], :page => @params[:action] }, :target => "new", :class => "picHelp" %></li>
-			<% if session[:user].nil? %>
-				<li class="right"><%= link_to _('Log in'), { :controller => 'account', :action => 'login' }, :class => "picUser" %></li>
-			<% else %>	
-				<li class="right"><%= link_to _('Logout'), { :controller => 'account', :action => 'logout' }, :class => "picUser" %></li>	
-			<% end %>
-		</ul>
-		
+	<% if admin_loggedin? %>
+		<li><%= link_to l(:label_administration), { :controller => 'admin' }, :class => "picAdmin", :onmouseover => "buttonMouseover(event, 'menuAdmin');" %></li>
+	<% end %>
+			
+	<li class="right"><%= link_to l(:label_help), { :controller => 'help', :ctrl => @params[:controller], :page => @params[:action] }, :target => "new", :class => "picHelp" %></li>
+	
+	<% if loggedin? %>
+		<li class="right"><%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => "picUser" %></li>	
+	<% else %>	
+		<li class="right"><%= link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => "picUser" %></li>
+	<% end %>
+		</ul>		
 	</div>
+	<script type='text/javascript'>if(document.getElementById) {document.write(menu_contenu);}</script>
 	
 	<div id="subcontent">
 	
@@ -64,15 +107,14 @@
 			</ul>
 		<% end %>
 		
-		<% unless session[:user].nil? %>
+		<% if loggedin? and @logged_in_user.memberships.length > 0 %>
 			<h2><%=_('My projects') %></h2>
 			<ul class="menublock">
-				<% for membership in session[:user].memberships %>	
+				<% for membership in @logged_in_user.memberships %>	
 					<li><%= link_to membership.project.name, :controller => 'projects', :action => 'show', :id => membership.project %></li>
 				<% end %>
 			</ul>
-		<% end %>
-		
+		<% end %>		
 	</div>
 
 	<div id="content">
@@ -81,7 +123,10 @@
 	</div>
 	
 	<div id="footer">
-		<p><a href="http://redmine.org/" target="_new"><%= RDM_APP_NAME %></a> <%= RDM_APP_VERSION %></p>
+		<p>
+		<%= auto_link $RDM_FOOTER_SIG %> |
+		<a href="http://redmine.org/" target="_new"><%= RDM_APP_NAME %></a> <%= RDM_APP_VERSION %>
+		</p>
 	</div>
 
 </div>

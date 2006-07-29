@@ -3,7 +3,7 @@
 <% fixed_issues = @fixed_issues.group_by {|i| i.fixed_version } %>
 <% fixed_issues.each do |version, issues| %>
   <p><strong><%= version.name %></strong> - <%= format_date(version.effective_date) %><br />
-  <%=h version.descr %></p>
+  <%=h version.description %></p>
   <ul>  
     <% issues.each do |i| %>
     <li><%= link_to i.long_id, :controller => 'issues', :action => 'show', :id => i %> [<%= i.tracker.name %>]: <%= i.subject %></li>

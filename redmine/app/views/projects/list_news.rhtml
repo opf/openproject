@@ -6,7 +6,7 @@
 	<%= link_to_if_authorized image_tag('edit_small'), :controller => 'news', :action => 'edit', :id => news %>
 	<%= link_to_if_authorized image_tag('delete'), { :controller => 'news', :action => 'destroy', :id => news }, :confirm => 'Are you sure?' %>
 	<br />
-	<%= news.shortdescr %>
+	<%= news.summary %>
 	<small>[<%= link_to _('Read...'), :controller => 'news', :action => 'show', :id => news %>]</small>
 	</p>
 <% end %>

@@ -1,0 +1,19 @@
+== Version 1.1 (28 May 2006)
+
+* The charset for each and/or all languages can now be easily configured.
+* Added a ActionController filter that auto-detects the client language.
+* The rake task "sort" now merges lines that match 100%, and warns if duplicate keys are found.
+* Rule support. Create flexible rules to handle issues such as pluralization.
+* Massive speed and stability improvements to development mode.
+* Added Russian strings. (Thanks to Evgeny Lineytsev)
+* Complete RDoc documentation.
+* Improved helpers.
+* GLoc now configurable via get_config and set_config
+* Added an option to tell GLoc to output various verbose information.
+* More useful functions such as set_language_if_valid, similar_language
+* GLoc's entire internal state can now be backed up and restored.
+
+
+== Version 1.0 (17 April 2006)
+
+* Initial public release.

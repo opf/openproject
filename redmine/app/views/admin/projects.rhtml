@@ -1,25 +1,25 @@
-<h2><%=_('Projects')%></h2>
+<h2><%=l(:label_project_plural)%></h2>
 
 <table width="100%" cellspacing="1" cellpadding="2" class="listTableContent">
   <tr class="ListHead">
-	<%= sort_header_tag('name', :caption => _('Project')) %>
-	<th><%=_('Description')%></th>
-	<th><%=_('Public')%></th>
-	<th><%=_('Subprojects')%></th>
-	<%= sort_header_tag('created_on', :caption => _('Created on')) %>
+	<%= sort_header_tag('name', :caption => l(:label_project)) %>
+	<th><%=l(:field_description)%></th>
+	<th><%=l(:field_is_public)%></th>
+	<th><%=l(:label_subproject_plural)%></th>
+	<%= sort_header_tag('created_on', :caption => l(:field_created_on)) %>
   <th></th>
   </tr>
   
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to project.name, :controller => 'projects', :action => 'settings', :id => project %>
-	<td><%= project.descr %>
+	<td><%= project.description %>
 	<td align="center"><%= image_tag 'true' if project.is_public? %>
 	<td align="center"><%= project.projects_count %>
 	<td align="center"><%= format_date(project.created_on) %>
   <td align="center">
     <%= start_form_tag({:controller => 'projects', :action => 'destroy', :id => project}) %>
-    <%= submit_tag _('Delete'), :class => "button-small"  %>
+    <%= submit_tag l(:button_delete), :class => "button-small"  %>
     <%= end_form_tag %>
   </td>
   </tr>
@@ -29,4 +29,4 @@
 <p><%= pagination_links_full @project_pages %>
 [ <%= @project_pages.current.first_item %> - <%= @project_pages.current.last_item %> / <%= @project_count %> ]</p>
 
-<p><%= link_to ('&#187; ' + _('New project')), :controller => 'projects', :action => 'add' %></p>
+<p><%= link_to ('&#187; ' + l(:label_project_new)), :controller => 'projects', :action => 'add' %></p>

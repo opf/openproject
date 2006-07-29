@@ -1,6 +1,6 @@
 <%=_('Issue')%> #<%= issue.id %> - <%= issue.subject %>
 <%=_('Author')%>: <%= issue.author.display_name %>
 
-<%= issue.descr %>
+<%= issue.description %>
 
-http://<%= RDM_HOST_NAME %>/issues/show/<%= issue.id %>
+http://<%= $RDM_HOST_NAME %>/issues/show/<%= issue.id %>

@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Sun May 28 15:19:38 E. Australia Standard Time 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>About</h1>
+<h3>Preface</h3>
+<p>
+I originally started designing this on weekends and after work in 2005. We
+started to become very interested in Rails at work and I wanted to get some
+experience with ruby with before we started using it full-time. I
+didn&#8217;t have very many ideas for anything interesting to create so,
+because we write a lot of multilingual webapps at my company, I decided to
+write a localization library. That way if my little hobby project developed
+into something decent, I could at least put it to good use. And here we are
+in 2006, my little hobby project has come a long way and become quite a
+useful piece of software. Not only do I use it in production sites I write
+at work, but I also prefer it to other existing alternatives. Therefore I
+have decided to make it publicly available, and I hope that other
+developers will find it useful too.
+</p>
+<h3>About</h3>
+<p>
+<a href="../classes/GLoc.html">GLoc</a> is a localization library. It
+doesn&#8217;t aim to do everything l10n-related that you can imagine, but
+what it does, it does very well. It was originally designed as a Rails
+plugin, but can also be used for plain ruby projects. Here are a list of
+its main features:
+</p>
+<ul>
+<li>Lightweight and efficient.
+
+</li>
+<li>Uses file-based string bundles. Strings can also be set directly.
+
+</li>
+<li>Intelligent, cascading language configuration.
+
+</li>
+<li>Create flexible rules to handle issues such as pluralization.
+
+</li>
+<li>Includes a ActionController filter that auto-detects the client language.
+
+</li>
+<li>Works perfectly with Rails Engines and allows strings to be overridden just
+as easily as controllers, models, etc.
+
+</li>
+<li>Automatically localizes Rails functions such as distance_in_minutes,
+select_month etc
+
+</li>
+<li>Supports different charsets. You can even specify the encoding to use for
+each language seperately.
+
+</li>
+<li>Special Rails mods/helpers.
+
+</li>
+</ul>
+<h3>What does <a href="../classes/GLoc.html">GLoc</a> mean?</h3>
+<p>
+If you&#8217;re wondering about the name &quot;<a
+href="../classes/GLoc.html">GLoc</a>&quot;, I&#8217;m sure you&#8217;re not
+alone. This project was originally just called &quot;Localization&quot;
+which was a bit too common, so when I decided to release it I decided to
+call it &quot;Golly&#8217;s Localization Library&quot; instead (Golly is my
+nickname), and that was long and boring so I then abbreviated that to
+&quot;<a href="../classes/GLoc.html">GLoc</a>&quot;. What a fun story!!
+</p>
+<h3>Localization helpers</h3>
+<p>
+This also includes a few helpers for common situations such as displaying
+localized date, time, &quot;yes&quot; or &quot;no&quot;, etc.
+</p>
+<h3>Rails Localization</h3>
+<p>
+At the moment, unless you manually remove the <tt>require
+&#8216;gloc-rails-text&#8217;</tt> line from init.rb, this plugin overrides
+certain Rails functions to provide multilingual versions. This
+automatically localizes functions such as select_date(),
+distance_of_time_in_words() and more&#8230; The strings can be found in
+lang/*.yml. NOTE: This is not complete. Timezones and countries are not
+currently localized.
+</p>
+<h1>Usage</h1>
+<h3>Quickstart</h3>
+<p>
+Windows users will need to first install iconv. <a
+href="http://wiki.rubyonrails.com/rails/pages/iconv">wiki.rubyonrails.com/rails/pages/iconv</a>
+</p>
+<ul>
+<li>Create a dir &quot;#{RAILS_ROOT}/lang&quot;
+
+</li>
+<li>Create a file &quot;#{RAILS_ROOT}/lang/en.yml&quot; and write your strings.
+The format is &quot;key: string&quot;. Save it as UTF-8. If you save it in
+a different encoding, add a key called file_charset (eg.
+&quot;file_charset: iso-2022-jp&quot;)
+
+</li>
+<li>Put the following in config/environment.rb and change the values as you see
+fit. The following example is for an app that uses English and Japanese,
+with Japanese being the default.
+
+<pre>
+  GLoc.set_config :default_language =&gt; :ja
+  GLoc.clear_strings_except :en, :ja
+  GLoc.set_kcode
+  GLoc.load_localized_strings
+</pre>
+</li>
+<li>Add &#8216;include <a href="../classes/GLoc.html">GLoc</a>&#8217; to all
+classes that will use localization. This is added to most Rails classes
+automatically.
+
+</li>
+<li>Optionally, you can set the language for models and controllers by simply
+inserting <tt>set_language :en</tt> in classes and/or methods.
+
+</li>
+<li>To use localized strings, replace text such as <tt>&quot;Welcome&quot;</tt>
+with <tt>l(:welcome_string_key)</tt>, and <tt>&quot;Hello
+#{name}.&quot;</tt> with <tt>l(:hello_string_key, name)</tt>. (Of course
+the strings will need to exist in your string bundle.)
+
+</li>
+</ul>
+<p>
+There is more functionality provided by this plugin, that is not
+demonstrated above. Please read the API summary for details.
+</p>
+<h3>API summary</h3>
+<p>
+The following methods are added as both class methods and instance methods
+to modules/classes that include <a href="../classes/GLoc.html">GLoc</a>.
+They are also available as class methods of <a
+href="../classes/GLoc.html">GLoc</a>.
+</p>
+<pre>
+  current_language               # Returns the current language
+  l(symbol, *arguments)          # Returns a localized string
+  ll(lang, symbol, *arguments)   # Returns a localized string in a specific language
+  ltry(possible_key)             # Returns a localized string if passed a Symbol, else returns the same argument passed
+  lwr(symbol, *arguments)        # Uses the default rule to return a localized string.
+  lwr_(rule, symbol, *arguments) # Uses a specified rule to return a localized string.
+  l_has_string?(symbol)          # Checks if a localized string exists
+  set_language(language)         # Sets the language for the current class or class instance
+  set_language_if_valid(lang)    # Sets the current language if the language passed is a valid language
+</pre>
+<p>
+The <a href="../classes/GLoc.html">GLoc</a> module also defines the
+following class methods:
+</p>
+<pre>
+  add_localized_strings(lang, symbol_hash, override=true) # Adds a hash of localized strings
+  backup_state(clear=false)                               # Creates a backup of GLoc's internal state and optionally clears everything too
+  clear_strings(*languages)                               # Removes localized strings from memory
+  clear_strings_except(*languages)                        # Removes localized strings from memory except for those of certain specified languages
+  get_charset(lang)                                       # Returns the charset used to store localized strings in memory
+  get_config(key)                                         # Returns a GLoc configuration value (see below)
+  load_localized_strings(dir=nil, override=true)          # Loads localized strings from all YML files in a given directory
+  restore_state(state)                                    # Restores a backup of GLoc's internal state
+  set_charset(new_charset, *langs)                        # Sets the charset used to internally store localized strings
+  set_config(hash)                                        # Sets GLoc configuration values (see below)
+  set_kcode(charset=nil)                                  # Sets the $KCODE global variable
+  similar_language(language)                              # Tries to find a valid language that is similar to the argument passed
+  valid_languages                                         # Returns an array of (currently) valid languages (ie. languages for which localized data exists)
+  valid_language?(language)                               # Checks whether any localized strings are in memory for a given language
+</pre>
+<p>
+<a href="../classes/GLoc.html">GLoc</a> uses the following configuration
+items. They can be accessed via <tt>get_config</tt> and
+<tt>set_config</tt>.
+</p>
+<pre>
+  :default_cookie_name
+  :default_language
+  :default_param_name
+  :raise_string_not_found_errors
+  :verbose
+</pre>
+<p>
+The <a href="../classes/GLoc.html">GLoc</a> module is automatically
+included in the following classes:
+</p>
+<pre>
+  ActionController::Base
+  ActionMailer::Base
+  ActionView::Base
+  ActionView::Helpers::InstanceTag
+  ActiveRecord::Base
+  ActiveRecord::Errors
+  ApplicationHelper
+  Test::Unit::TestCase
+</pre>
+<p>
+The <a href="../classes/GLoc.html">GLoc</a> module also defines the
+following controller filters:
+</p>
+<pre>
+  autodetect_language_filter
+</pre>
+<p>
+<a href="../classes/GLoc.html">GLoc</a> also makes the following change to
+Rails:
+</p>
+<ul>
+<li>Views for ActionMailer are now #{view_name}_#{language}.rb rather than just
+#{view_name}.rb
+
+</li>
+<li>All ActiveRecord validation class methods now accept a localized string key
+(symbol) as a :message value.
+
+</li>
+<li><a
+href="../classes/ActiveRecord/Errors.html#M000039">ActiveRecord::Errors.add</a>
+now accepts symbols as valid message values. At runtime these symbols are
+converted to localized strings using the current_language of the base
+record.
+
+</li>
+<li><a
+href="../classes/ActiveRecord/Errors.html#M000039">ActiveRecord::Errors.add</a>
+now accepts arrays as arguments so that printf-style strings can be
+generated at runtime. This also applies to the validates_* class methods.
+
+<pre>
+  Eg. validates_xxxxxx_of :name, :message =&gt; ['Your name must be at least %d characters.', MIN_LEN]
+  Eg. validates_xxxxxx_of :name, :message =&gt; [:user_error_validation_name_too_short, MIN_LEN]
+</pre>
+</li>
+<li>Instances of ActiveView inherit their current_language from the controller
+(or mailer) creating them.
+
+</li>
+</ul>
+<p>
+This plugin also adds the following rake tasks:
+</p>
+<pre>
+  * gloc:sort - Sorts the keys in the lang ymls (also accepts a DIR argument)
+</pre>
+<h3>Cascading language configuration</h3>
+<p>
+The language can be set at three levels:
+</p>
+<pre>
+  1. The default     # GLoc.get_config :default_language
+  2. Class level     # class A; set_language :de; end
+  3. Instance level  # b= B.new; b.set_language :zh
+</pre>
+<p>
+Instance level has the highest priority and the default has the lowest.
+</p>
+<p>
+Because <a href="../classes/GLoc.html">GLoc</a> is included at class level
+too, it becomes easy to associate languages with contexts. For example:
+</p>
+<pre>
+  class Student
+    set_language :en
+    def say_hello
+      puts &quot;We say #{l :hello} but our teachers say #{Teacher.l :hello}&quot;
+    end
+  end
+</pre>
+<h3>Rules</h3>
+<p>
+There are often situations when depending on the value of one or more
+variables, the surrounding text changes. The most common case of this is
+pluralization. Rather than hardcode these rules, they are completely
+definable by the user so that the user can eaasily accomodate for more
+complicated grammatical rules such as those found in Russian and Polish (or
+so I hear). To define a rule, simply include a string in the string bundle
+whose key begins with &quot;<em>gloc_rule</em>&quot; and then write ruby
+code as the value. The ruby code will be converted to a Proc when the
+string bundle is first read, and should return a prefix that will be
+appended to the string key at runtime to point to a new string. Make sense?
+Probably not&#8230; Please look at the following example and I am sure it
+will all make sense.
+</p>
+<p>
+Simple example (string bundle / en.yml)
+</p>
+<pre>
+  _gloc_rule_default: ' |n| n==1 ? &quot;_single&quot; : &quot;_plural&quot; '
+  man_count_plural: There are %d men.
+  man_count_single: There is 1 man.
+</pre>
+<p>
+Simple example (code)
+</p>
+<pre>
+  lwr(:man_count, 1)  # =&gt; There is 1 man.
+  lwr(:man_count, 8)  # =&gt; There are 8 men.
+</pre>
+<p>
+To use rules other than the default simply call lwr_ instead of lwr, and
+specify the rule.
+</p>
+<p>
+Example 2 (string bundle / en.yml)
+</p>
+<pre>
+  _gloc_rule_default: ' |n| n==1 ? &quot;_single&quot; : &quot;_plural&quot; '
+  _gloc_rule_custom: ' |n| return &quot;_none&quot; if n==0; return &quot;_heaps&quot; if n&gt;100; n==1 ? &quot;_single&quot; : &quot;_plural&quot; '
+  man_count_none: There are no men.
+  man_count_heaps: There are heaps of men!!
+  man_count_plural: There are %d men.
+  man_count_single: There is 1 man.
+</pre>
+<p>
+Example 2 (code)
+</p>
+<pre>
+  lwr_(:custom, :man_count, 0)    # =&gt; There are no men.
+  lwr_(:custom, :man_count, 1)    # =&gt; There is 1 man.
+  lwr_(:custom, :man_count, 8)    # =&gt; There are 8 men.
+  lwr_(:custom, :man_count, 150)  # =&gt; There are heaps of men!!
+</pre>
+<h3>Helpers</h3>
+<p>
+<a href="../classes/GLoc.html">GLoc</a> includes the following helpers:
+</p>
+<pre>
+  l_age(age)             # Returns a localized version of an age. eg &quot;3 years old&quot;
+  l_date(date)           # Returns a date in a localized format
+  l_datetime(date)       # Returns a date+time in a localized format
+  l_datetime_short(date) # Returns a date+time in a localized short format.
+  l_lang_name(l,dl=nil)  # Returns the name of a language (you must supply your own strings)
+  l_strftime(date,fmt)   # Formats a date/time in a localized format.
+  l_time(date)           # Returns a time in a localized format
+  l_YesNo(value)         # Returns localized string of &quot;Yes&quot; or &quot;No&quot; depending on the arg
+  l_yesno(value)         # Returns localized string of &quot;yes&quot; or &quot;no&quot; depending on the arg
+</pre>
+<h3>Rails localization</h3>
+<p>
+Not all of Rails is covered but the following functions are:
+</p>
+<pre>
+  distance_of_time_in_words
+  select_day
+  select_month
+  select_year
+  add_options
+</pre>
+<h1>FAQ</h1>
+<h4>How do I use it in engines?</h4>
+<p>
+Simply put this in your init_engine.rb
+</p>
+<pre>
+  GLoc.load_localized_strings File.join(File.dirname(__FILE__),'lang')
+</pre>
+<p>
+That way your engines strings will be loaded when the engine is started.
+Just simply make sure that you load your application strings after you
+start your engines to safely override any engine strings.
+</p>
+<h4>Why am I getting an Iconv::IllegalSequence error when calling <a href="../classes/GLoc.html#M000013">GLoc.set_charset</a>?</h4>
+<p>
+By default <a href="../classes/GLoc.html">GLoc</a> loads all of its default
+strings at startup. For example, calling <tt>set_charset
+&#8216;iso-2022-jp&#8217;</tt> will cause this error because Russian
+strings are loaded by default, and the Russian strings use characters that
+cannot be expressed in the ISO-2022-JP charset. Before calling
+<tt>set_charset</tt> you should call <tt>clear_strings_except</tt> to
+remove strings from any languages that you will not be using.
+Alternatively, you can simply specify the language(s) as follows,
+<tt>set_charset &#8216;iso-2022-jp&#8217;, :ja</tt>.
+</p>
+<h4>How do I make <a href="../classes/GLoc.html">GLoc</a> ignore StringNotFoundErrors?</h4>
+<p>
+Disable it as follows:
+</p>
+<pre>
+  GLoc.set_config :raise_string_not_found_errors =&gt; false
+</pre>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

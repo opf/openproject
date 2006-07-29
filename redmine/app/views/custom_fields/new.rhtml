@@ -1,7 +1,8 @@
-<h2><%=_('New custom field')%></h2>
+<h2><%=l(:label_custom_field_new)%> (<%=l(@custom_field.type_name)%>)</h2>
 
 <%= start_form_tag :action => 'new' %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag _('Create') %>
+  <%= render :partial => 'form', :locals => { :type => @custom_field.type } %>
+  <%= hidden_field_tag 'type', @custom_field.type %>
+  <%= submit_tag l(:button_save) %>
 <%= end_form_tag %>
 
