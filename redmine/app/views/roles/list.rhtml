@@ -1,8 +1,8 @@
-<h2><%=_('Roles')%></h2>
+<h2><%=l(:label_role_plural)%></h2>
 
 <table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
   <tr class="ListHead">
-    <th><%=_('Role')%></th>
+    <th><%=l(:label_role)%></th>
 	<th></th>
   </tr>
   
@@ -11,7 +11,7 @@
   <td><%= link_to role.name, :action => 'edit', :id => role %></td>
   <td align="center">
     <%= start_form_tag :action => 'destroy', :id => role %>
-    <%= submit_tag _('Delete'), :class => "button-small" %>
+    <%= submit_tag l(:button_delete), :class => "button-small" %>
     <%= end_form_tag %>
   </tr>
 <% end %>
@@ -20,4 +20,4 @@
 <%= pagination_links_full @role_pages %>
 <br />
 
-<%= link_to '&#187; ' + _('New role'), :action => 'new' %>
+<%= link_to '&#187; ' + l(:label_role_new), :action => 'new' %>

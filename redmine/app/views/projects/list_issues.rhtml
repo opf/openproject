@@ -1,56 +1,53 @@
-<h2><%=_('Issues')%></h2>
+<h2><%=l(:label_issue_plural)%></h2>
 
 <form method="post" class="noborder">
-	<table cellpadding=2>
+<table cellpadding=2>
   <tr>
-    <td><small><%=_('Status')%>:</small><br /><%= search_filter_tag 'status_id', :class => 'select-small' %></td>
-    <td><small><%=_('Tracker')%>:</small><br /><%= search_filter_tag 'tracker_id', :class => 'select-small' %></td>
-    <td><small><%=_('Priority')%>:</small><br /><%= search_filter_tag 'priority_id', :class => 'select-small' %></td>
-    <td><small><%=_('Category')%>:</small><br /><%= search_filter_tag 'category_id', :class => 'select-small' %></td>
-    <td><small><%=_('Fixed in version')%>:</small><br /><%= search_filter_tag 'fixed_version_id', :class => 'select-small' %></td>
-    <td><small><%=_('Assigned to')%>:</small><br /><%= search_filter_tag 'assigned_to_id', :class => 'select-small' %></td>
-    <td><small><%=_('Subprojects')%>:</small><br /><%= search_filter_tag 'subproject_id', :class => 'select-small' %></td>
+    <td><small><%=l(:field_status)%>:</small><br /><%= search_filter_tag 'status_id', :class => 'select-small' %></td>
+    <td><small><%=l(:field_tracker)%>:</small><br /><%= search_filter_tag 'tracker_id', :class => 'select-small' %></td>
+    <td><small><%=l(:field_priority)%>:</small><br /><%= search_filter_tag 'priority_id', :class => 'select-small' %></td>
+    <td><small><%=l(:field_category)%>:</small><br /><%= search_filter_tag 'category_id', :class => 'select-small' %></td>
+    <td><small><%=l(:field_fixed_version)%>:</small><br /><%= search_filter_tag 'fixed_version_id', :class => 'select-small' %></td>
+    <td><small><%=l(:field_assigned_to)%>:</small><br /><%= search_filter_tag 'assigned_to_id', :class => 'select-small' %></td>
+    <td><small><%=l(:label_subproject_plural)%>:</small><br /><%= search_filter_tag 'subproject_id', :class => 'select-small' %></td>
 
     <td valign="bottom">
-      <%= submit_tag _('Apply filter'), :class => 'button-small' %>
+      <%= submit_tag l(:button_apply), :class => 'button-small' %>
       <%= end_form_tag %>
       
       <%= start_form_tag %>
-      <%= submit_tag _('Reset'), :class => 'button-small' %>
+      <%= submit_tag l(:button_clear), :class => 'button-small' %>
       <%= end_form_tag %>
     </td>
   </tr>
 </table>
  &nbsp;
-	<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
-	
-	   <tr><td colspan="7" align="right">
-	   <small><%= link_to 'Export to CSV', :action => 'export_issues_csv', :id => @project.id %></small>
-	   </td></tr>
-	
-		<tr class="ListHead">	
-			<%= sort_header_tag('issues.id', :caption => '#') %>
-			<%= sort_header_tag('issue_statuses.name', :caption => _('Status')) %>
-			<%= sort_header_tag('issues.tracker_id', :caption => _('Tracker')) %>
-			<th><%=_('Subject')%></th>
-			<%= sort_header_tag('users.lastname', :caption => _('Author')) %>
-			<%= sort_header_tag('issues.created_on', :caption => _('Created on')) %>
-			<%= sort_header_tag('issues.updated_on', :caption => _('Last update')) %>
-		</tr>
-
-		<% for issue in @issues %>
-		<tr bgcolor="#<%= issue.status.html_color %>">
-			<td align="center"><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></td>
-			<td align="center"><%= issue.status.name %></td>
-			<td align="center"><%= issue.tracker.name %></td>
-			<td><%= link_to issue.subject, :controller => 'issues', :action => 'show', :id => issue %></td>
-			<td align="center"><%= issue.author.display_name %></td>
-			<td align="center"><%= format_time(issue.created_on) %></td>
-			<td align="center"><%= format_time(issue.updated_on) %></td>
-		</tr>
-		<% end %>
-	</table>
-	<p>
-	<%= pagination_links_full @issue_pages %>
-	[ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
-    </p>
+<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+    <tr><td colspan="7" align="right">
+    <small><%= link_to l(:label_export_csv), :action => 'export_issues_csv', :id => @project.id %></small>
+    </td></tr>	
+    <tr class="ListHead">	
+		<%= sort_header_tag('issues.id', :caption => '#') %>
+		<%= sort_header_tag('issue_statuses.name', :caption => l(:field_status)) %>
+		<%= sort_header_tag('issues.tracker_id', :caption => l(:field_tracker)) %>
+		<th><%=l(:field_subject)%></th>
+		<%= sort_header_tag('users.lastname', :caption => l(:field_author)) %>
+		<%= sort_header_tag('issues.created_on', :caption => l(:field_created_on)) %>
+		<%= sort_header_tag('issues.updated_on', :caption => l(:field_updated_on)) %>
+	</tr>
+	<% for issue in @issues %>
+	<tr bgcolor="#<%= issue.status.html_color %>">
+		<td align="center"><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></td>
+		<td align="center"><%= issue.status.name %></td>
+		<td align="center"><%= issue.tracker.name %></td>
+		<td><%= link_to issue.subject, :controller => 'issues', :action => 'show', :id => issue %></td>
+		<td align="center"><%= issue.author.display_name %></td>
+		<td align="center"><%= format_time(issue.created_on) %></td>
+		<td align="center"><%= format_time(issue.updated_on) %></td>
+	</tr>
+	<% end %>
+</table>
+<p>
+<%= pagination_links_full @issue_pages %>
+[ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
+</p>

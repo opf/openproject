@@ -37,21 +37,19 @@ class ApplicationController < ActionController::Base
   end 
   
   def set_localization
-    Localization.lang = begin
-      if self.logged_in_user and Localization.langs.keys.include? self.logged_in_user.language
+    lang = begin
+      if self.logged_in_user and self.logged_in_user.language and !self.logged_in_user.language.empty? and GLoc.valid_languages.include? self.logged_in_user.language.to_sym
         self.logged_in_user.language
       elsif request.env['HTTP_ACCEPT_LANGUAGE']
         accept_lang = HTTPUtils.parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.split('-').first
-        if Localization.langs.keys.include? accept_lang
+        if accept_lang and !accept_lang.empty? and GLoc.valid_languages.include? accept_lang.to_sym
           accept_lang
         end
       end
     rescue
       nil
     end || $RDM_DEFAULT_LANG
-
-    set_language_if_valid(Localization.lang)
-    
+    set_language_if_valid(lang)    
   end
   
   def require_login

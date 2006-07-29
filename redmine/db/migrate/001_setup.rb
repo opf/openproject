@@ -78,7 +78,7 @@ class Setup < ActiveRecord::Migration
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "category_id", :integer, :default => 0, :null => false
       t.column "title", :string, :limit => 60, :default => "", :null => false
-      t.column "description", :text, :default => "", :null => false
+      t.column "description", :text, :default => ""
       t.column "created_on", :timestamp
     end
   
@@ -114,6 +114,7 @@ class Setup < ActiveRecord::Migration
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "subject", :string, :default => "", :null => false
       t.column "description", :text, :default => "", :null => false
+      t.column "due_date", :date
       t.column "category_id", :integer
       t.column "status_id", :integer, :default => 0, :null => false
       t.column "assigned_to_id", :integer
@@ -219,55 +220,55 @@ class Setup < ActiveRecord::Migration
     end
   
     # project
-    Permission.create :controller => "projects", :action => "show", :description => "Overview", :sort => 100, :is_public => true
-    Permission.create :controller => "projects", :action => "changelog", :description => "View change log", :sort => 105, :is_public => true
-    Permission.create :controller => "reports", :action => "issue_report", :description => "View reports", :sort => 110, :is_public => true
-    Permission.create :controller => "projects", :action => "settings", :description => "Settings", :sort => 150
-    Permission.create :controller => "projects", :action => "edit", :description => "Edit", :sort => 151
+    Permission.create :controller => "projects", :action => "show", :description => "label_overview", :sort => 100, :is_public => true
+    Permission.create :controller => "projects", :action => "changelog", :description => "label_change_log", :sort => 105, :is_public => true
+    Permission.create :controller => "reports", :action => "issue_report", :description => "label_report_plural", :sort => 110, :is_public => true
+    Permission.create :controller => "projects", :action => "settings", :description => "label_settings", :sort => 150
+    Permission.create :controller => "projects", :action => "edit", :description => "button_edit", :sort => 151
     # members
-    Permission.create :controller => "projects", :action => "list_members", :description => "View list", :sort => 200, :is_public => true
-    Permission.create :controller => "projects", :action => "add_member", :description => "New member", :sort => 220
-    Permission.create :controller => "members", :action => "edit", :description => "Edit", :sort => 221
-    Permission.create :controller => "members", :action => "destroy", :description => "Delete", :sort => 222
+    Permission.create :controller => "projects", :action => "list_members", :description => "button_list", :sort => 200, :is_public => true
+    Permission.create :controller => "projects", :action => "add_member", :description => "button_add", :sort => 220
+    Permission.create :controller => "members", :action => "edit", :description => "button_edit", :sort => 221
+    Permission.create :controller => "members", :action => "destroy", :description => "button_delete", :sort => 222
     # versions
-    Permission.create :controller => "projects", :action => "add_version", :description => "New version", :sort => 320
-    Permission.create :controller => "versions", :action => "edit", :description => "Edit", :sort => 321
-    Permission.create :controller => "versions", :action => "destroy", :description => "Delete", :sort => 322
+    Permission.create :controller => "projects", :action => "add_version", :description => "button_add", :sort => 320
+    Permission.create :controller => "versions", :action => "edit", :description => "button_edit", :sort => 321
+    Permission.create :controller => "versions", :action => "destroy", :description => "button_delete", :sort => 322
     # issue categories
-    Permission.create :controller => "projects", :action => "add_issue_category", :description => "New issue category", :sort => 420
-    Permission.create :controller => "issue_categories", :action => "edit", :description => "Edit", :sort => 421
-    Permission.create :controller => "issue_categories", :action => "destroy", :description => "Delete", :sort => 422
+    Permission.create :controller => "projects", :action => "add_issue_category", :description => "button_add", :sort => 420
+    Permission.create :controller => "issue_categories", :action => "edit", :description => "button_edit", :sort => 421
+    Permission.create :controller => "issue_categories", :action => "destroy", :description => "button_delete", :sort => 422
     # issues
-    Permission.create :controller => "projects", :action => "list_issues", :description => "View list", :sort => 1000, :is_public => true
-    Permission.create :controller => "projects", :action => "export_issues_csv", :description => "Export list to CSV", :sort => 1001, :is_public => true
-    Permission.create :controller => "issues", :action => "show", :description => "View", :sort => 1005, :is_public => true
-    Permission.create :controller => "issues", :action => "download", :description => "Download file", :sort => 1010, :is_public => true
-    Permission.create :controller => "projects", :action => "add_issue", :description => "Report an issue", :sort => 1050, :mail_option => 1, :mail_enabled => 1
-    Permission.create :controller => "issues", :action => "edit", :description => "Edit", :sort => 1055
-    Permission.create :controller => "issues", :action => "change_status", :description => "Change status", :sort => 1060, :mail_option => 1, :mail_enabled => 1
-    Permission.create :controller => "issues", :action => "destroy", :description => "Delete", :sort => 1065
-    Permission.create :controller => "issues", :action => "add_attachment", :description => "Add file", :sort => 1070
-    Permission.create :controller => "issues", :action => "destroy_attachment", :description => "Delete file", :sort => 1075
+    Permission.create :controller => "projects", :action => "list_issues", :description => "button_list", :sort => 1000, :is_public => true
+    Permission.create :controller => "projects", :action => "export_issues_csv", :description => "label_export_csv", :sort => 1001, :is_public => true
+    Permission.create :controller => "issues", :action => "show", :description => "button_view", :sort => 1005, :is_public => true
+    Permission.create :controller => "issues", :action => "download", :description => "button_download", :sort => 1010, :is_public => true
+    Permission.create :controller => "projects", :action => "add_issue", :description => "button_add", :sort => 1050, :mail_option => 1, :mail_enabled => 1
+    Permission.create :controller => "issues", :action => "edit", :description => "button_edit", :sort => 1055
+    Permission.create :controller => "issues", :action => "change_status", :description => "label_change_status", :sort => 1060, :mail_option => 1, :mail_enabled => 1
+    Permission.create :controller => "issues", :action => "destroy", :description => "button_delete", :sort => 1065
+    Permission.create :controller => "issues", :action => "add_attachment", :description => "label_attachment_new", :sort => 1070
+    Permission.create :controller => "issues", :action => "destroy_attachment", :description => "label_attachment_delete", :sort => 1075
     # news
-    Permission.create :controller => "projects", :action => "list_news", :description => "View list", :sort => 1100, :is_public => true
-    Permission.create :controller => "news", :action => "show", :description => "View", :sort => 1101, :is_public => true
-    Permission.create :controller => "projects", :action => "add_news", :description => "Add", :sort => 1120
-    Permission.create :controller => "news", :action => "edit", :description => "Edit", :sort => 1121
-    Permission.create :controller => "news", :action => "destroy", :description => "Delete", :sort => 1122
+    Permission.create :controller => "projects", :action => "list_news", :description => "button_list", :sort => 1100, :is_public => true
+    Permission.create :controller => "news", :action => "show", :description => "button_view", :sort => 1101, :is_public => true
+    Permission.create :controller => "projects", :action => "add_news", :description => "button_add", :sort => 1120
+    Permission.create :controller => "news", :action => "edit", :description => "button_edit", :sort => 1121
+    Permission.create :controller => "news", :action => "destroy", :description => "button_delete", :sort => 1122
     # documents
-    Permission.create :controller => "projects", :action => "list_documents", :description => "View list", :sort => 1200, :is_public => true
-    Permission.create :controller => "documents", :action => "show", :description => "View", :sort => 1201, :is_public => true
-    Permission.create :controller => "documents", :action => "download", :description => "Download", :sort => 1202, :is_public => true
-    Permission.create :controller => "projects", :action => "add_document", :description => "Add", :sort => 1220
-    Permission.create :controller => "documents", :action => "edit", :description => "Edit", :sort => 1221
-    Permission.create :controller => "documents", :action => "destroy", :description => "Delete", :sort => 1222
-    Permission.create :controller => "documents", :action => "add_attachment", :description => "Add file", :sort => 1223
-    Permission.create :controller => "documents", :action => "destroy_attachment", :description => "Delete file", :sort => 1224
+    Permission.create :controller => "projects", :action => "list_documents", :description => "button_list", :sort => 1200, :is_public => true
+    Permission.create :controller => "documents", :action => "show", :description => "button_view", :sort => 1201, :is_public => true
+    Permission.create :controller => "documents", :action => "download", :description => "button_download", :sort => 1202, :is_public => true
+    Permission.create :controller => "projects", :action => "add_document", :description => "button_add", :sort => 1220
+    Permission.create :controller => "documents", :action => "edit", :description => "button_edit", :sort => 1221
+    Permission.create :controller => "documents", :action => "destroy", :description => "button_delete", :sort => 1222
+    Permission.create :controller => "documents", :action => "add_attachment", :description => "label_attachment_new", :sort => 1223
+    Permission.create :controller => "documents", :action => "destroy_attachment", :description => "label_attachment_delete", :sort => 1224
     # files
-    Permission.create :controller => "projects", :action => "list_files", :description => "View list", :sort => 1300, :is_public => true
-    Permission.create :controller => "versions", :action => "download", :description => "Download", :sort => 1301, :is_public => true
-    Permission.create :controller => "projects", :action => "add_file", :description => "Add", :sort => 1320
-    Permission.create :controller => "versions", :action => "destroy_file", :description => "Delete", :sort => 1322
+    Permission.create :controller => "projects", :action => "list_files", :description => "button_list", :sort => 1300, :is_public => true
+    Permission.create :controller => "versions", :action => "download", :description => "button_download", :sort => 1301, :is_public => true
+    Permission.create :controller => "projects", :action => "add_file", :description => "button_add", :sort => 1320
+    Permission.create :controller => "versions", :action => "destroy_file", :description => "button_delete", :sort => 1322
     
     # create default administrator account
     user = User.create :firstname => "redMine", :lastname => "Admin", :mail => "admin@somenet.foo", :mail_notification => true, :language => "en"

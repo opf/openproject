@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
         # user has an external authentication method
         return nil unless user.auth_source.authenticate(login, password)
       else
-        # local authentication
+        # authentication with local password
         return nil unless User.hash_password(password) == user.hashed_password        
       end
     else
@@ -69,6 +69,7 @@ class User < ActiveRecord::Base
         onthefly.language = $RDM_DEFAULT_LANG
         if onthefly.save
           user = find(:first, :conditions => ["login=?", login])
+          logger.info("User '#{user.login}' created on the fly.") if logger
         end
       end
     end    

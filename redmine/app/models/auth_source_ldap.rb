@@ -30,7 +30,7 @@ class AuthSourceLdap < AuthSource
     # get user's DN
     ldap_con = initialize_ldap_con(self.account, self.account_password)
     login_filter = Net::LDAP::Filter.eq( self.attr_login, login ) 
-    object_filter = Net::LDAP::Filter.eq( "objectClass", "organizationalPerson" ) 
+    object_filter = Net::LDAP::Filter.eq( "objectClass", "*" ) 
     dn = String.new
     ldap_con.search( :base => self.base_dn, 
                      :filter => object_filter & login_filter, 

@@ -16,27 +16,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Permission < ActiveRecord::Base
-	has_and_belongs_to_many :roles
-  
-	validates_presence_of :controller, :action, :description
-  
+  has_and_belongs_to_many :roles
+
+  validates_presence_of :controller, :action, :description
+
   GROUPS = {
-    100 => "Project",
-		200 => "Membres",
-    300 => "Versions",
-    400 => "Issue categories",
-		1000 => "Issues",
-		1100 => "News",
-		1200 => "Documents",
-    1300 => "Files",
-	}.freeze
+    100 => :label_project,
+    200 => :label_member_plural,
+    300 => :label_version_plural,
+    400 => :label_issue_category_plural,
+    1000 => :label_issue_plural,
+    1100 => :label_news_plural,
+    1200 => :label_document_plural,
+    1300 => :label_attachment_plural,
+  }.freeze
   
   @@cached_perms_for_public = nil
   @@cached_perms_for_roles = nil
   
- 	def name
-		self.controller + "/" + self.action
-	end
+  def name
+    self.controller + "/" + self.action
+  end
   
   def group_id
     (self.sort / 100)*100

@@ -1,4 +1,4 @@
-<h2><%=_('News')%></h2>
+<h2><%=l(:label_news_plural)%></h2>
 
 <% for news in @news %>
 	<p>
@@ -7,11 +7,11 @@
 	<%= link_to_if_authorized image_tag('delete'), { :controller => 'news', :action => 'destroy', :id => news }, :confirm => 'Are you sure?' %>
 	<br />
 	<%= news.summary %>
-	<small>[<%= link_to _('Read...'), :controller => 'news', :action => 'show', :id => news %>]</small>
+	<small>[<%= link_to l(:label_read), :controller => 'news', :action => 'show', :id => news %>]</small>
 	</p>
 <% end %>
 
 <%= pagination_links_full @news_pages %>
 <p>
-<%= link_to_if_authorized '&#187; ' + _('Add'), :controller => 'projects', :action => 'add_news', :id => @project %>
+<%= link_to_if_authorized '&#187; ' + l(:label_news_new), :controller => 'projects', :action => 'add_news', :id => @project %>
 </p>

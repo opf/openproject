@@ -1,7 +1,7 @@
-<h2><%=_('New tracker')%></h2>
+<h2><%=l(:label_tracker_new)%></h2>
 
 <%= start_form_tag :action => 'new' %>
   <%= render :partial => 'form' %>
-  <%= submit_tag _('Create') %>
+  <%= submit_tag l(:button_create) %>
 <%= end_form_tag %>
 

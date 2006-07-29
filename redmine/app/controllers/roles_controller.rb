@@ -37,7 +37,7 @@ class RolesController < ApplicationController
         redirect_to :action => 'list'
       end
     end
-    @permissions = Permission.find(:all, :order => 'sort ASC')
+    @permissions = Permission.find(:all, :conditions => ["is_public=?", false], :order => 'sort ASC')
   end
 
   def edit
@@ -48,7 +48,7 @@ class RolesController < ApplicationController
       flash[:notice] = 'Role was successfully updated.'
       redirect_to :action => 'list'
     end
-    @permissions = Permission.find(:all, :order => 'sort ASC')
+    @permissions = Permission.find(:all, :conditions => ["is_public=?", false], :order => 'sort ASC')
   end
 
   def destroy
@@ -61,8 +61,7 @@ class RolesController < ApplicationController
     redirect_to :action => 'list'
   end
   
-  def workflow
-    
+  def workflow    
     @role = Role.find_by_id(params[:role_id])
     @tracker = Tracker.find_by_id(params[:tracker_id])    
     

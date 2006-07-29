@@ -50,18 +50,18 @@ module ApplicationHelper
   end
 
   def format_date(date)
-    _('(date)', date) if date
+    l_date(date) if date
   end
   
   def format_time(time)
-    _('(time)', time) if time
+    l_datetime(time) if time
   end
   
   def pagination_links_full(paginator, options={}, html_options={})
     html =''
-    html << link_to(('&#171; ' + _('Previous') ), { :page => paginator.current.previous }) + ' ' if paginator.current.previous
+    html << link_to(('&#171; ' + l(:label_previous) ), { :page => paginator.current.previous }) + ' ' if paginator.current.previous
     html << (pagination_links(paginator, options, html_options) || '')
-    html << ' ' + link_to((_('Next') + ' &#187;'), { :page => paginator.current.next }) if paginator.current.next
+    html << ' ' + link_to((l(:label_next) + ' &#187;'), { :page => paginator.current.next }) if paginator.current.next
     html  
   end
   
@@ -89,5 +89,9 @@ module ApplicationHelper
     else
       ""
     end
+  end
+  
+  def lang_options_for_select
+    GLoc.valid_languages.collect {|lang| [ l_lang_name(lang.to_s, lang), lang.to_s]}
   end
 end

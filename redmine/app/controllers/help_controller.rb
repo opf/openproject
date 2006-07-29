@@ -31,7 +31,7 @@ class HelpController < ApplicationController
       end
     end
     # choose language according to available help translations
-    lang = (@help_config['langs'].include? Localization.lang) ? Localization.lang : @help_config['langs'].first
+    lang = (@help_config['langs'].include? current_language) ? current_language : @help_config['langs'].first
 	
     if template
       redirect_to "/manual/#{lang}/#{template}"

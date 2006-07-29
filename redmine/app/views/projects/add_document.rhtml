@@ -1,26 +1,12 @@
-<h2><%=_('New document')%></h2>
+<h2><%=l(:label_document_new)%></h2>
 
-<%= error_messages_for 'document' %>
 <%= start_form_tag( { :action => 'add_document', :id => @project }, :multipart => true) %>
+<%= render :partial => 'documents/form' %>
 
-<!--[form:document]-->
-<p><label for="document_category_id"><%=_('Category')%></label><br />
-<select name="document[category_id]">
-<%= options_from_collection_for_select @categories, "id", "name",@document.category_id %>
-</select></p>
-
-<p><label for="document_title"><%=_('Title')%> <span class="required">*</span></label><br />
-<%= text_field 'document', 'title', :size => 60 %></p>
-
-<p><label for="document_description"><%=_('Description')%> <span class="required">*</span></label><br />
-<%= text_area 'document', 'description', :cols => 60, :rows => 5 %></p>
-
-<p><label for="attachment_file"><%=_('File')%></label><br/>
+<p><label for="attachment_file"><%=l(:label_attachment)%></label><br/>
 <%= file_field 'attachment', 'file'  %></p>
 
-<!--[eoform:document]-->
-
-<%= submit_tag _('Create') %>
+<%= submit_tag l(:button_create) %>
 <%= end_form_tag %>
 
 

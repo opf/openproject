@@ -1,18 +1,18 @@
 <h2><%= @document.title %></h2>
 
-<strong><%=_('Description')%>:</strong> <%= @document.description %><br />
-<strong><%=_('Category')%>:</strong> <%= @document.category.name %><br />
+<strong><%=l(:field_description)%>:</strong> <%= @document.description %><br />
+<strong><%=l(:field_category)%>:</strong> <%= @document.category.name %><br />
 <br />
 
 <% if authorize_for('documents', 'edit') %>
-  <%= start_form_tag ({ :controller => 'documents', :action => 'edit', :id => @document }, :method => 'get' ) %>
-  <%= submit_tag _('Edit') %>
+  <%= start_form_tag({ :controller => 'documents', :action => 'edit', :id => @document }, :method => 'get' ) %>
+  <%= submit_tag l(:button_edit) %>
   <%= end_form_tag %> 
 <% end %>
 
 <% if authorize_for('documents', 'destroy') %>
-  <%= start_form_tag ({ :controller => 'documents', :action => 'destroy', :id => @document } ) %>
-  <%= submit_tag _('Delete') %>
+  <%= start_form_tag({ :controller => 'documents', :action => 'destroy', :id => @document } ) %>
+  <%= submit_tag l(:button_delete) %>
   <%= end_form_tag %>  
 <% end %>
 
@@ -24,12 +24,12 @@
   <td><%= link_to attachment.filename, :action => 'download', :id => @document, :attachment_id => attachment %></td>
   <td align="center"><%= format_date(attachment.created_on) %></td>
   <td align="center"><%= attachment.author.display_name %></td>
-  <td><%= human_size(attachment.filesize) %><br /><%= attachment.downloads %> <%=_('download')%>(s)</td>
+  <td><%= human_size(attachment.filesize) %><br /><%= lwr(:label_download, attachment.downloads) %></td>
   
   <% if authorize_for('documents', 'destroy_attachment') %>
   <td align="center">
     <%= start_form_tag :action => 'destroy_attachment', :id => @document, :attachment_id => attachment %>
-    <%= submit_tag _('Delete'), :class => "button-small" %>
+    <%= submit_tag l(:button_delete), :class => "button-small" %>
     <%= end_form_tag %>
   </tr>
   <% end %>
@@ -40,8 +40,8 @@
 
 <% if authorize_for('documents', 'add_attachment') %>
   <%= start_form_tag ({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true) %>
-  <%=_('Add file')%><br /><%= file_field 'attachment', 'file'  %>
-  <%= submit_tag _('Add') %>
+  <%=l(:label_attachment_new)%><br /><%= file_field 'attachment', 'file'  %>
+  <%= submit_tag l(:button_add) %>
   <%= end_form_tag %> 
 <% end %>
 

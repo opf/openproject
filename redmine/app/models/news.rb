@@ -16,13 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class News < ActiveRecord::Base
-	belongs_to :project
-	belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-	
-	validates_presence_of :title, :description
-
-	# returns last created news
-	def self.latest
-		find(:all, :limit => 5, :include => [ :author, :project ], :order => "news.created_on DESC")	
-	end	
+  belongs_to :project
+  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  
+  validates_presence_of :title, :description
+  
+  # returns last created news
+  def self.latest
+    find(:all, :limit => 5, :include => [ :author, :project ], :order => "news.created_on DESC")	
+  end
 end

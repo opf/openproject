@@ -24,10 +24,6 @@ class Tracker < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   
-  def name
-    _ self.attributes['name']
-  end
-  
 private
   def check_integrity
     raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])

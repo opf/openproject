@@ -45,6 +45,5 @@ class Mailer < ActionMailer::Base
     @from           = 'redmine@somenet.foo'
     @subject        = "redMine account activation"
     @body['token']  = token
-  end  
-
+  end
 end

@@ -58,42 +58,43 @@ module SearchFilterHelper
 	
   def search_filter_init_list_issues
 	search_filter_criteria('status_id') { 
-    [ [_('[Open]'), "O", ["issue_statuses.is_closed=?", false]],
-      [_('[All]'), "A", nil]
+    [ [('['+l(:label_open_issues_plural)+']'), "O", ["issue_statuses.is_closed=?", false]],
+      [('['+l(:label_closed_issues_plural)+']'), "C", ["issue_statuses.is_closed=?", true]],
+      [('['+l(:label_all)+']'), "A", nil]
     ] + IssueStatus.find(:all).collect {|s| [s.name, s.id, ["issues.status_id=?", s.id]] }                                                      
     }
     
     search_filter_criteria('tracker_id') { 
-    [ [_('[All]'), "A", nil]
+    [ [('['+l(:label_all)+']'), "A", nil]
     ] + Tracker.find(:all).collect {|s| [s.name, s.id, ["issues.tracker_id=?", s.id]] }                                                      
     }
 	
     search_filter_criteria('priority_id') { 
-    [ [_('[All]'), "A", nil]
+    [ [('['+l(:label_all)+']'), "A", nil]
     ] + Enumeration.find(:all, :conditions => ['opt=?','IPRI']).collect {|s| [s.name, s.id, ["issues.priority_id=?", s.id]] }                                                      
     }
     
     search_filter_criteria('category_id') { 
-    [ [_('[All]'), "A", nil],
-      [_('[None]'), "N", ["issues.category_id is null"]]
+    [ [('['+l(:label_all)+']'), "A", nil],
+      [('['+l(:label_none)+']'), "N", ["issues.category_id is null"]]
     ] + @project.issue_categories.find(:all).collect {|s| [s.name, s.id, ["issues.category_id=?", s.id]] }                                                      
     }    
 
     search_filter_criteria('fixed_version_id') { 
-    [ [_('[All]'), "A", nil],
-      [_('[None]'), "N", ["issues.fixed_version_id is null"]]
+    [ [('['+l(:label_all)+']'), "A", nil],
+      [('['+l(:label_none)+']'), "N", ["issues.fixed_version_id is null"]]
     ] + @project.versions.collect {|s| [s.name, s.id, ["issues.fixed_version_id=?", s.id]] }                                                      
     }
 
     search_filter_criteria('assigned_to_id') { 
-    [ [_('[All]'), "A", nil],
-      [_('[None]'), "N", ["issues.assigned_to_id is null"]]
+    [ [('['+l(:label_all)+']'), "A", nil],
+      [('['+l(:label_none)+']'), "N", ["issues.assigned_to_id is null"]]
     ] + @project.users.collect {|s| [s.display_name, s.id, ["issues.assigned_to_id=?", s.id]] }                                                      
     }
     
     search_filter_criteria('subproject_id') { 
-    [ [_('[None]'), "N", ["issues.project_id=?", @project.id]],
-      [_('[All]'), "A", ["(issues.project_id=? or projects.parent_id=?)", @project.id, @project.id]]
+    [ [('['+l(:label_none)+']'), "N", ["issues.project_id=?", @project.id]],
+      [('['+l(:label_all)+']'), "A", ["(issues.project_id=? or projects.parent_id=?)", @project.id, @project.id]]
     ]                                                     
     }  
   end

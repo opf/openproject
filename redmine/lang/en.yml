@@ -42,6 +42,7 @@ general_text_No: 'No'
 general_text_Yes: 'Yes'
 general_text_no: 'no'
 general_text_yes: 'yes'
+general_lang_en: 'English'
 
 notice_account_updated: Account was successfully updated.
 notice_account_invalid_creditentials: Invalid user or password

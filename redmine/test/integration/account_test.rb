@@ -41,10 +41,6 @@ class AccountTest < ActionController::IntegrationTest
     assert_response :success
     assert_tag :tag => "div", :attributes => { :class => "errorExplanation" }
     
-    post "account/change_password", :password => 'admiN', :new_password => "hello", :new_password_confirmation => "hello"
-    assert_response :success
-    assert_equal 'Wrong password', flash[:notice]
-    
     post "account/change_password", :password => 'jsmith', :new_password => "hello", :new_password_confirmation => "hello"
     assert_response :success
     log_user('jsmith', 'hello')

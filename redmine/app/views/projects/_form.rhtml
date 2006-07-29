@@ -2,31 +2,31 @@
 
 <div class="box">
 <!--[form:project]-->
-<p><label for="project_name"><%=_('Name')%> <span class="required">*</span></label><br/>
+<p><label for="project_name"><%=l(:field_name)%> <span class="required">*</span></label><br/>
 <%= text_field 'project', 'name'  %></p>
 
 <% if admin_loggedin? %>
-<p><label for="project_parent_id"><%=_('Subproject of')%></label><br/>
+<p><label for="project_parent_id"><%=l(:field_parent)%></label><br/>
 <select name="project[parent_id]">
 <option value=""></option>
 <%= options_from_collection_for_select @root_projects, "id", "name", @project.parent_id %>
 </select></p>
 <% end %>
 
-<p><label for="project_description"><%=_('Description')%> <span class="required">*</span></label><br/>
+<p><label for="project_description"><%=l(:field_description)%> <span class="required">*</span></label><br/>
 <%= text_area 'project', 'description', :cols => 60, :rows => 3 %></p>
 
-<p><label for="project_homepage"><%=_('Homepage')%></label><br/>
+<p><label for="project_homepage"><%=l(:field_homepage)%></label><br/>
 <%= text_field 'project', 'homepage', :size => 40 %></p>
 
 <p><%= check_box 'project', 'is_public' %>
-<label for="project_is_public"><%=_('Public')%></label></p>
+<label for="project_is_public"><%=l(:field_is_public)%></label></p>
 
 <% for custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label custom_value %></p>
 <% end %>
 
-<fieldset><legend><%=_('Custom fields')%></legend>
+<fieldset><legend><%=l(:label_custom_field_plural)%></legend>
 <% for custom_field in @custom_fields %>
 	<input type="checkbox"
 	

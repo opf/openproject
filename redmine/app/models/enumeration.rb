@@ -21,18 +21,14 @@ class Enumeration < ActiveRecord::Base
 	validates_presence_of :opt, :name
 	validates_uniqueness_of :name, :scope => [:opt]
 	
-	OPTIONS = [
-		["Issue priorities", "IPRI"],
-		["Document categories", "DCAT"]
-	].freeze
+	OPTIONS = {
+	  "IPRI" => :enumeration_issue_priorities,
+      "DCAT" => :enumeration_doc_categories
+	}.freeze
 	
 	def self.get_values(option)
 		find(:all, :conditions => ['opt=?', option])
 	end
-
-  def name
-    _ self.attributes['name']
-  end
   
 private
   def check_integrity

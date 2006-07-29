@@ -1,22 +1,21 @@
-<h2><%=_('Enumerations')%></h2>
+<h2><%=l(:label_enumerations)%></h2>
 
-<% for option in Enumeration::OPTIONS %>
+<% Enumeration::OPTIONS.each do |option, name| %>
 
-	<% if @params[:opt]==option[1] %>	
+	<% if @params[:opt]==option %>	
   
-		<p><%= image_tag 'dir_open' %> <b><%=_ option[0] %></b></p>		
+		<p><%= image_tag 'dir_open' %> <b><%= l(name) %></b></p>		
 		<ul>
-		<% for value in Enumeration::find(:all, :conditions => [ "opt = ?", option[1]]) %>			
+		<% for value in Enumeration.find(:all, :conditions => ["opt = ?", option]) %>			
 			<li><%= link_to value.name, :action => 'edit', :id => value %></li>	
 		<% end %>
     </ul>
     <ul>
-      <li><%= link_to ('&#187; ' + _('New')), :action => 'new', :opt => option[1] %></li>
+      <li><%= link_to ('&#187; ' + l(:label_new)), :action => 'new', :opt => option %></li>
     </ul>
     
 	<% else %>	
-		<p><%= image_tag 'dir' %> <%= link_to _(option[0]), :opt => option[1] %></p>		
+		<p><%= image_tag 'dir' %> <%= link_to l(name), :opt => option %></p>		
 	<% end %>
   
 <% end %>
-

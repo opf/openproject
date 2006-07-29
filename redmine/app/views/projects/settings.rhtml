@@ -1,14 +1,14 @@
-<h2><%=_('Settings')%></h2>
+<h2><%=l(:label_settings)%></h2>
 
 <%= start_form_tag :action => 'edit', :id => @project %>
 <%= render :partial => 'form' %>
-<center><%= submit_tag _('Save') %></center>
+<center><%= submit_tag l(:button_save) %></center>
 <%= end_form_tag %>
 
 &nbsp;
 
 <div class="box">
-<h3><%=_('Members')%></h3>
+<h3><%=l(:label_member_plural)%></h3>
 <%= error_messages_for 'member' %>
 <table>
 <% for member in @project.members.find(:all, :include => :user) %>
@@ -22,12 +22,12 @@
       </select>
     </td>
     <td>
-      <%= submit_tag _('Save'), :class => "button-small" %>
+      <%= submit_tag l(:button_change), :class => "button-small" %>
       <%= end_form_tag %>
     </td>
 		<td>
       <%= start_form_tag :controller => 'members', :action => 'destroy', :id => member %>
-      <%= submit_tag _('Delete'), :class => "button-small" %>
+      <%= submit_tag l(:button_delete), :class => "button-small" %>
       <%= end_form_tag %>
 		</td>
 	</tr>
@@ -35,7 +35,7 @@
 <% end %>
 </table>
 <hr />
-    <label><%=_('New member')%></label><br/>
+    <label><%=l(:label_member_new)%></label><br/>
       <%= start_form_tag :controller => 'projects', :action => 'add_member', :id => @project %>
       <select name="member[user_id]">
         <%= options_from_collection_for_select @users, "id", "display_name", @member.user_id %>
@@ -43,12 +43,12 @@
       <select name="member[role_id]">
         <%= options_from_collection_for_select @roles, "id", "name", @member.role_id %>
       </select>
-      <%= submit_tag _('Add') %>
+      <%= submit_tag l(:button_add) %>
       <%= end_form_tag %>
 </div>
 
 <div class="box">
-<h3><%=_('Versions')%></h3>
+<h3><%=l(:label_version_plural)%></h3>
 
 <table>
 <% for version in @project.versions %>
@@ -57,7 +57,7 @@
   <td><%=h version.description %></td>
   <td>
       <%= start_form_tag :controller => 'versions', :action => 'destroy', :id => version %>
-      <%= submit_tag _('Delete'), :class => "button-small" %>
+      <%= submit_tag l(:button_delete), :class => "button-small" %>
       <%= end_form_tag %>  
   </td>
   </tr>
@@ -65,13 +65,13 @@
 </table>
 <hr />
       <%= start_form_tag ({ :controller => 'projects', :action => 'add_version', :id => @project }, :method => 'get' ) %>
-      <%= submit_tag _('New version...') %>
+      <%= submit_tag l(:label_version_new) %>
       <%= end_form_tag %>  
 </div>
 
 
 <div class="box">
-<h3><%=_('Issue categories')%></h3>
+<h3><%=l(:label_issue_category_plural)%></h3>
 <table>
 <% for @category in @project.issue_categories %>
 	<% unless @category.new_record? %>
@@ -81,12 +81,12 @@
       <%= text_field 'category', 'name', :size => 25  %>
     </td>
 		<td>
-      <%= submit_tag _('Save'), :class => "button-small" %>
+      <%= submit_tag l(:button_save), :class => "button-small" %>
       <%= end_form_tag %>
     </td>
     <td>
       <%= start_form_tag :controller => 'issue_categories', :action => 'destroy', :id => @category %>
-      <%= submit_tag _('Delete'), :class => "button-small" %>
+      <%= submit_tag l(:button_delete), :class => "button-small" %>
       <%= end_form_tag %>
 		</td>
 	</tr>
@@ -96,10 +96,10 @@
 <hr />
 
 <%= start_form_tag :action => 'add_issue_category', :id => @project %>
+<label for="issue_category_name"><%=l(:label_issue_category_new)%></label><br/>
 <%= error_messages_for 'issue_category' %>
-<label for="issue_category_name"><%=_('New category')%></label><br/>
 <%= text_field 'issue_category', 'name', :size => 25 %>
-<%= submit_tag _('Create') %>
+<%= submit_tag l(:button_create) %>
 <%= end_form_tag %>
 
 </div>

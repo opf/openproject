@@ -1,14 +1,14 @@
 <div class="splitcontentleft">
-    <h2><%= $RDM_WELCOME_TITLE || _('Welcome') %> !</h2>
+    <h2><%= $RDM_WELCOME_TITLE || l(:label_home) %></h2>
     <p><%= $RDM_WELCOME_TEXT %></p>
     
   <div class="box">
-	<h3><%=_('Latest news')%></h3>
+	<h3><%=l(:label_news_latest)%></h3>
 		<% for news in @news %>
 			<p>
 			<b><%= news.title %></b> (<%= link_to_user news.author %> <%= format_time(news.created_on) %> - <%= news.project.name %>)<br />
 			<%= news.summary %><br />
-			[<%= link_to 'Read...', :controller => 'news', :action => 'show', :id => news %>]
+			[<%= link_to l(:label_read), :controller => 'news', :action => 'show', :id => news %>]
 			</p>
 			<hr />
 		<% end %>
@@ -17,15 +17,14 @@
 
 <div class="splitcontentright">
 	<div class="box">
-	<h3><%=_('Latest projects')%></h3>
+	<h3><%=l(:label_project_latest)%></h3>
 		<ul>
 		<% for project in @projects %>
 			<li>
-			<%= link_to project.name, :controller => 'projects', :action => 'show', :id => project %> (added <%= format_time(project.created_on) %>)<br />
+			<%= link_to project.name, :controller => 'projects', :action => 'show', :id => project %> (<%= format_time(project.created_on) %>)<br />
 			<%= project.description %>
 			</li>
 		<% end %>
 		</ul>
-	</div>
-  
+	</div>  
 </div>	

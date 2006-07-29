@@ -1,6 +1,6 @@
-<h2><%=_('New user')%></h2>
+<h2><%=l(:label_user_new)%></h2>
 
 <%= start_form_tag :action => 'add' %>
   <%= render :partial => 'form' %>
-  <%= submit_tag _('Create') %>
+  <%= submit_tag l(:button_create) %>
 <%= end_form_tag %>

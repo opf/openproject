@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book>
+  <title>Documentation redMine</title>
+
+  <chapter>
+    <title>Administration</title>
+
+    <section>
+      <title>Utilisateurs</title>
+
+      <para>Ces écrans vous permettent de gérer les utilisateurs de
+      l'application.</para>
+
+      <section>
+        <title>Liste des utilisateurs</title>
+
+        <para></para>
+
+        <screenshot>
+          <screeninfo>Liste des utilisateurs</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/users_list.png" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <para>Les boutons Lock/Unlock vous permettent de
+        vérouiller/dévérouiller les comptes utilisateurs.</para>
+
+        <para>Un utilisateur dont le compte est vérouillé ne peut plus
+        s'identifier pour accéder à l'application.</para>
+      </section>
+
+      <section>
+        <title>Création ou modification d'un utilisateur</title>
+
+        <para>En mode modification, laissez le champ Password vide pour
+        laisser le mot de passe de l'utilisateur inchangé.</para>
+
+        <para>Un utilisateur déclaré comme administrateur dispose de toutes
+        les permissions sur l'application et sur tous les projets.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><guilabel>Administrateur</guilabel>: déclare l'utilisateur
+            comme administrateur de l'application.</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Notifications par mail</guilabel>: permet
+            d'activer ou non l'envoi automatique de notifications par mail
+            pour cet utilisateur</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Vérouillé</guilabel>: désactive le compte de
+            l'utilisateur</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+
+    <section>
+      <title>Rôles et permissions</title>
+
+      <para>Les rôles permettent de définir les permissions des différents
+      membres d'un projet. Chaque membre d'un projet dispose d'un rôle unique
+      au sein d'un projet. Un utilisateur peut avoir différents rôles au sein
+      de différents projets.</para>
+
+      <para>Sur l'écran d'édition du rôle, cochez les actions que vous
+      souhaitez autoriser pour le rôle.</para>
+    </section>
+
+    <section>
+      <title>Trackers</title>
+
+      <para>Les trackers permettent de typer les demandes et de définir des
+      workflows spécifiques pour chacun de ces types.</para>
+    </section>
+
+    <section>
+      <title>Champs personnalisés</title>
+
+      <para>Les champs personnalisés vous permettent d'ajouter des
+      informations supplémentaires sur les demandes. Un champ personnalisé
+      peut être de l'un des types suivants:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><guilabel>Integer</guilabel>: entier positif ou négatif</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>String</guilabel>: chaîne de caractère</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Date</guilabel>: date</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Boolean</guilabel>: booléen (case à cocher)</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>List</guilabel>: valeur à sélectionnée parmi une
+          liste prédéfinie (liste déroulante)</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Des éléments de validation peuvent être définis:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><guilabel>Obligatoire</guilabel>: champ dont la saisie est
+          obligatoire sur les demandes</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Pour tous les projects</guilabel>: champ
+          automatiquement associé à l'ensemble des projets</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Min - max length</guilabel>: longueurs minimales et
+          maximales pour les champs en saisie libre (0 signifie qu'il n'y a
+          pas de restriction)</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Expression régulière</guilabel>: expression
+          régulière permettant de valider la valeur saisie</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Valeurs possibles</guilabel>: valeurs possibles pour
+          les champs de type "Liste". Les valeurs sont séparées par le
+          caractère |</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Si l'option <guilabel>Pour tous les projets</guilabel> n'est pas
+      activée, chaque projet pourra choisir d'utiliser ou non le champ pour
+      ses demandes.</para>
+    </section>
+
+    <section>
+      <title>Statut des demandes</title>
+
+      <para>Ces écrans vous permettent de définir les différents statuts
+      possibles des demandes.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><guilabel>Demande fermée</guilabel>: indique que le statut
+          correspond à une demande considérée comme fermée</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Statut par défaut</guilabel>: statut appliqué par
+          défaut aux nouvelles demandes (seul un statut peut être déclaré
+          comme statut par défaut)</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Couleur</guilabel>: code couleur HTML (6 caractères)
+          représentant le statut à l'affichage</para>
+        </listitem>
+      </itemizedlist>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Workflow</title>
+
+      <para>Le workflow permet de définir les changements que les différents
+      membres d'un projet sont autorisés à effectuer sur les demandes, en
+      fonction de leur type.</para>
+
+      <para>Sélectionnez le rôle et le tracker pour lesquels vous souhaitez
+      modifier le workflow, puis cliquez sur Edit. L'écran vous permet alors
+      de modifier, pour le rôle et le tracker choisi, les changements
+      autorisés. Les lignes représentent les statuts initiaux des demandes.
+      Les colonnes représentent les statuts autorisés à être appliqués.</para>
+
+      <para>Remarque: pour qu'un rôle puisse changer le statut des demandes,
+      la permission doit lui être explicitement donnée indépendemment de la
+      configuration du workflow.</para>
+
+      <para></para>
+
+      <screenshot>
+        <screeninfo>Exemple de configuration d'un workflow</screeninfo>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/workflow.png" />
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+      <para>Dans l'exemple ci-dessus, les demandes de type Bug au statut
+      Nouveau pourront être passées au statut Assignée ou Résolue par le rôle
+      Développeur. Celles au statut Assignée pourront être passées au statut
+      Résolue. Le statut de toutes les autres demandes de type Bug ne pourra
+      pas être modifié par le Développeur.</para>
+    </section>
+
+    <section>
+      <title>Listes de valeurs</title>
+
+      <para>Les listes de valeurs utilisées par l'application (exemple: les
+      priorités des demandes) peuvent être personnalisées. Cet écran vous
+      permet de définir les valeurs possibles pour chacune des listes
+      suivantes:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Priorités des demandes</para>
+        </listitem>
+
+        <listitem>
+          <para>Catégories de documents</para>
+        </listitem>
+      </itemizedlist>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Notifications par mail</title>
+
+      <para>Cet écran vous permet de sélectionner les actions qui donneront
+      lieu à une notification par mail aux membres du projet.</para>
+
+      <para>Remarque: l'envoi de mails doit être activé dans la configuration
+      de l'application si souhaitez effectuer des notifications.</para>
+    </section>
+
+    <section>
+      <title>Informations</title>
+
+      <para>Affiche des informations relatives à l'application et à son
+      environnement.</para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Projets</title>
+
+    <para></para>
+
+    <section>
+      <title>Aperçu du projet</title>
+
+      <para>L'aperçu vous présente les informations générales relatives au
+      projet, les principaux membres, les dernières annonces, ainsi qu'une
+      synthèse du nombre de demandes ouvertes par tracker.</para>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Gestion des demandes</title>
+
+      <para></para>
+
+      <section>
+        <title>Liste des demandes</title>
+
+        <para>Par défaut, l'ensemble des demandes ouvertes du projet sont
+        affichées. Différents filtres vous permettent de sélectionner les
+        demandes à afficher. Si le projet comporte des sous-projets, vous avez
+        la possibilité d'afficher également les demandes relatives aux
+        sous-projets (non affichées par défaut).</para>
+
+        <para>Une fois appliqué, un filtre reste valable durant toute votre
+        session. Vous pouvez le redéfinir, ou le supprimer en cliquant sur
+        Annuler.</para>
+
+        <para></para>
+
+        <screenshot>
+          <screeninfo>Liste des demandes</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/issues_list.png" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <para></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Rapports</title>
+
+      <para>Cet écran présente la synthèse du nombre de demandes par statut et
+      selon différents critères (tracker, priorité, catégorie). Des liens
+      directs permettent d'accéder à la liste détaillée des demandes pour
+      chaque critère.</para>
+    </section>
+
+    <section>
+      <title>Historique</title>
+
+      <para>Cette page présente l'ensemble des demandes résolues dans chacune
+      des versions du projet. Certains types de demande peuvent être exclus de
+      cet affichage.</para>
+    </section>
+
+    <section>
+      <title>Annonces</title>
+
+      <para>Les nouvelles vous permettent d'informer les utilisateurs sur
+      l'activité du projet.</para>
+    </section>
+
+    <section>
+      <title>Documents</title>
+
+      <para>Les documents sont groupés par catégories (voir Listes de
+      valeurs). Un document peut contenir plusieurs fichiers (exemple:
+      révisions ou versions successives).</para>
+    </section>
+
+    <section>
+      <title>Fichiers</title>
+
+      <para>Ce module vous permet de publier les différents fichiers (sources,
+      binaires, ...) pour chaque version de l'application.</para>
+    </section>
+
+    <section>
+      <title>Configuration du projet</title>
+
+      <para></para>
+
+      <section>
+        <title>Propriétés du projet</title>
+
+        <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><guilabel>Public</guilabel>: si le projet est public, il
+            sera visible (consultation des demandes, des documents, ...) pour
+            l'ensemble des utilisateurs, y compris ceux qui ne sont pas
+            membres du projet. Si le projet n'est pas public, seuls les
+            membres du projet y ont accès, en fonction de leur rôle.</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Champs personnalisés</guilabel>: sélectionner les
+            champs personnalisés que vous souhaitez utiliser au sein du
+            projet. Seul l'administrateur peut ajouter de nouveaux champs
+            personnalisés.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Membres</title>
+
+        <para>Cet écran vous permet de définir les membres du projet ainsi que
+        leurs rôles respectifs. Un utilisateur ne peut avoir qu'un rôle au
+        sein d'un projet donné. Le rôle d'un membre détermine les permissions
+        dont il bénéficie sur le projet.</para>
+      </section>
+
+      <section>
+        <title>Versions</title>
+
+        <para>Les versions vous permettent de suivre les changements survenus
+        tout au long du projet. A la fermeture d'une demande, vous pouvez par
+        exemple indiquer quelle version la prend en compte. Vous pouvez par
+        ailleurs publier les différentes versions de l'application (voir
+        Fichiers).</para>
+      </section>
+
+      <section>
+        <title>Catégories des demandes</title>
+
+        <para>Les catégories de demande vous permettent de typer les demandes.
+        Les catégories peuvent par exemple correspondre aux différents modules
+        du projet.</para>
+      </section>
+    </section>
+  </chapter>
+</book>

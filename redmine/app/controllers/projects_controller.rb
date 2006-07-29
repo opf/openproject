@@ -227,7 +227,7 @@ class ProjectsController < ApplicationController
     CSV::Writer.generate(export, ',') do |csv|
       csv << %w(Id Status Tracker Subject Author Created Updated)
       @issues.each do |issue|
-        csv << [issue.id, issue.status.name, issue.tracker.name, issue.subject, issue.author.display_name, _('(time)', issue.created_on),  _('(time)', issue.updated_on)]
+        csv << [issue.id, issue.status.name, issue.tracker.name, issue.subject, issue.author.display_name, l_datetime(issue.created_on),  l_datetime(issue.updated_on)]
       end
     end
     export.rewind

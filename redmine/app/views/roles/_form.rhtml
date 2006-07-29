@@ -2,22 +2,22 @@
 
 <div class="box">
 <!--[form:role]-->
-<p><label for="role_name"><%=_('Name')%> <span class="required">*</span></label><br />
+<p><label for="role_name"><%=l(:field_name)%> <span class="required">*</span></label><br />
 <%= text_field 'role', 'name' %></p>
 
-<strong><%=_('Permissions')%></strong>
+<strong><%=l(:label_permissions)%>:</strong>
 <% permissions = @permissions.group_by {|p| p.group_id } %>
 <% permissions.keys.sort.each do |group_id| %>
-<fieldset><legend><%= _(Permission::GROUPS[group_id]) %></legend>
+<fieldset style="margin-top: 6px;"><legend><strong><%= l(Permission::GROUPS[group_id]) %></strong></legend>
 <% permissions[group_id].each do |p| %>
-  <div style="width:200px;float:left;"><%= check_box_tag "permission_ids[]", p.id, (@role.permissions.include? p) %>
-  <%= _(p.description) %>
+  <div style="width:170px;float:left;"><%= check_box_tag "permission_ids[]", p.id, (@role.permissions.include? p) %>
+  <%= l(p.description.to_sym) %>
   </div>
 <% end %>
 </fieldset>
 <% end %>
 <br />
-<a href="javascript:checkAll('role_form', true)"><%=_('Check all')%></a> |
-<a href="javascript:checkAll('role_form', false)"><%=_('Uncheck all')%></a><br />
+<a href="javascript:checkAll('role_form', true)"><%=l(:button_check_all)%></a> |
+<a href="javascript:checkAll('role_form', false)"><%=l(:button_uncheck_all)%></a><br />
 <!--[eoform:role]-->
 </div>

@@ -1,22 +1,22 @@
-<h2><%=_('Workflow setup')%></h2>
+<h2><%=l(:label_workflow)%></h2>
 
-<p><%=_('Select a workflow to edit')%>:</p>
+<p><%=l(:text_workflow_edit)%>:</p>
 
 <%= start_form_tag ({:action => 'workflow'}, :method => 'get') %>
 <div style="float:left;margin-right:10px;">
-<p><label for="role_id"><%=_('Role')%></label><br/>
+<p><label for="role_id"><%=l(:label_role)%></label><br/>
 <select id="role_id" name="role_id">
   <%= options_from_collection_for_select @roles, "id", "name", (@role.id unless @role.nil?) %>
 </select></p>
 </div>
 
 <div>
-<p><label for="tracker_id"><%=_('Tracker')%></label><br/>
+<p><label for="tracker_id"><%=l(:label_tracker)%></label><br/>
 <select id="tracker_id" name="tracker_id">
   <%= options_from_collection_for_select @trackers, "id", "name", (@tracker.id unless @tracker.nil?) %>
 </select>
 
-<%= submit_tag _('Edit') %>
+<%= submit_tag l(:button_edit) %>
 </p>
 </div>
 <%= end_form_tag %>
@@ -28,8 +28,8 @@
   <%= form_tag ({:action => 'workflow', :role_id => @role, :tracker_id => @tracker }, :id => 'workflow_form' ) %>
 	<table>
 	<tr>
-	<td align="center"><strong><%=_('Issue status')%></strong></td>
-	<td align="center" colspan="<%= @statuses.length %>"><strong><%=_('New statuses allowed')%></strong></td>
+	<td align="center"><strong><%=l(:label_current_status)%></strong></td>
+	<td align="center" colspan="<%= @statuses.length %>"><strong><%=l(:label_new_statuses_allowed)%></strong></td>
 	</tr>
 	<tr>
 	<td></td>
@@ -59,11 +59,11 @@
 	</table>
 <br />
 <p>
-<a href="javascript:checkAll('workflow_form', true)"><%=_('Check all')%></a> |
-<a href="javascript:checkAll('workflow_form', false)"><%=_('Uncheck all')%></a>
+<a href="javascript:checkAll('workflow_form', true)"><%=l(:button_check_all)%></a> |
+<a href="javascript:checkAll('workflow_form', false)"><%=l(:button_uncheck_all)%></a>
 </p>
 <br />
-<%= submit_tag _('Save') %>
+<%= submit_tag l(:button_save) %>
 <%= end_form_tag %>
 
 <% end %>

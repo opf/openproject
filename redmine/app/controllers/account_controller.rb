@@ -41,7 +41,7 @@ class AccountController < ApplicationController
         self.logged_in_user = user
         redirect_back_or_default :controller => 'account', :action => 'my_page'
       else
-        flash[:notice] = l(:notice_account_invalid_creditentials)
+        flash.now[:notice] = l(:notice_account_invalid_creditentials)
       end
     end
   end
@@ -64,7 +64,7 @@ class AccountController < ApplicationController
     @user = self.logged_in_user
     if request.post? and @user.update_attributes(@params[:user])
       set_localization
-      flash[:notice] = l(:notice_account_updated)
+      flash.now[:notice] = l(:notice_account_updated)
       self.logged_in_user.reload
     end
   end
@@ -72,11 +72,12 @@ class AccountController < ApplicationController
   # Change logged in user's password
   def change_password
     @user = self.logged_in_user
+    flash.now[:notice] = l(:notice_can_t_change_password) and render :action => 'my_account' and return if @user.auth_source_id
     if @user.check_password?(@params[:password])
       @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-      flash[:notice] = l(:notice_account_password_updated) if @user.save
+      flash.now[:notice] = l(:notice_account_password_updated) if @user.save
     else
-      flash[:notice] = l(:notice_account_wrong_password)
+      flash.now[:notice] = l(:notice_account_wrong_password)
     end
     render :action => 'my_account'
   end
@@ -100,11 +101,16 @@ class AccountController < ApplicationController
       return
     else
       if request.post?
-        user = User.find_by_mail(params[:mail])      
-        flash[:notice] = l(:notice_account_unknown_email) and return unless user
+        user = User.find_by_mail(params[:mail])
+        # user not found in db
+        flash.now[:notice] = l(:notice_account_unknown_email) and return unless user
+        # user uses an external authentification
+        flash.now[:notice] = l(:notice_can_t_change_password) and return if user.auth_source_id
+        # create a new token for password recovery
         token = Token.new(:user => user, :action => "recovery")
         if token.save
-          Mailer.set_language_if_valid(Localization.lang)
+          # send token to user via email
+          Mailer.set_language_if_valid(user.language)
           Mailer.deliver_lost_password(token)
           flash[:notice] = l(:notice_account_lost_email_sent)
           redirect_to :action => 'login'
@@ -143,7 +149,7 @@ class AccountController < ApplicationController
         @user.custom_values = @custom_values
         token = Token.new(:user => @user, :action => "register")
         if @user.save and token.save
-          Mailer.set_language_if_valid(Localization.lang)
+          Mailer.set_language_if_valid(@user.language)
           Mailer.deliver_register(token)
           flash[:notice] = l(:notice_account_register_done)
           redirect_to :controller => ''

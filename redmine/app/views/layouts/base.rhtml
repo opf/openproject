@@ -14,33 +14,33 @@
 <script type='text/javascript'>
 var menu_contenu=' \
 <div id="menuAdmin" class="menu" onmouseover="menuMouseover(event)"> \
-<a class="menuItem" href="\/admin\/projects" onmouseover="menuItemMouseover(event,\'menuProjects\');"><span class="menuItemText"><%=_('Projects')%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
-<a class="menuItem" href="\/users" onmouseover="menuItemMouseover(event,\'menuUsers\');"><span class="menuItemText"><%=_('Users')%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
-<a class="menuItem" href="\/roles"><%=_('Roles and permissions')%><\/a> \
-<a class="menuItem" href="\/trackers" onmouseover="menuItemMouseover(event,\'menuTrackers\');"><span class="menuItemText"><%=_('Trackers')%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
-<a class="menuItem" href="\/custom_fields"><%=_('Custom fields')%><\/a> \
-<a class="menuItem" href="\/enumerations"><%=_('Enumerations')%><\/a> \
-<a class="menuItem" href="\/admin\/mail_options"><%=_('Mail notifications')%><\/a> \
+<a class="menuItem" href="\/admin\/projects" onmouseover="menuItemMouseover(event,\'menuProjects\');"><span class="menuItemText"><%=l(:label_project_plural)%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
+<a class="menuItem" href="\/users" onmouseover="menuItemMouseover(event,\'menuUsers\');"><span class="menuItemText"><%=l(:label_user_plural)%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
+<a class="menuItem" href="\/roles"><%=l(:label_role_and_permissions)%><\/a> \
+<a class="menuItem" href="\/trackers" onmouseover="menuItemMouseover(event,\'menuTrackers\');"><span class="menuItemText"><%=l(:label_tracker_plural)%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
+<a class="menuItem" href="\/custom_fields"><%=l(:label_custom_field_plural)%><\/a> \
+<a class="menuItem" href="\/enumerations"><%=l(:label_enumerations)%><\/a> \
+<a class="menuItem" href="\/admin\/mail_options"><%=l(:field_mail_notification)%><\/a> \
 <a class="menuItem" href="\/auth_sources"><%=l(:label_authentication)%><\/a> \
-<a class="menuItem" href="\/admin\/info"><%=_('Information')%><\/a> \
+<a class="menuItem" href="\/admin\/info"><%=l(:label_information_plural)%><\/a> \
 <\/div> \
 <div id="menuTrackers" class="menu"> \
-<a class="menuItem" href="\/issue_statuses"><%=_('Issue Statuses')%><\/a> \
-<a class="menuItem" href="\/roles\/workflow"><%=_('Workflow')%><\/a> \
+<a class="menuItem" href="\/issue_statuses"><%=l(:label_issue_status_plural)%><\/a> \
+<a class="menuItem" href="\/roles\/workflow"><%=l(:label_workflow)%><\/a> \
 <\/div> \
-<div id="menuProjects" class="menu"><a class="menuItem" href="\/projects\/add"><%=_('New')%><\/a><\/div> \
-<div id="menuUsers" class="menu"><a class="menuItem" href="\/users\/add"><%=_('New')%><\/a><\/div> \
+<div id="menuProjects" class="menu"><a class="menuItem" href="\/projects\/add"><%=l(:label_new)%><\/a><\/div> \
+<div id="menuUsers" class="menu"><a class="menuItem" href="\/users\/add"><%=l(:label_new)%><\/a><\/div> \
  \
 <% unless @project.nil? || @project.id.nil? %> \
 <div id="menuProject" class="menu" onmouseover="menuMouseover(event)"> \
-<%= link_to _('Issues'), {:controller => 'projects', :action => 'list_issues', :id => @project }, :class => "menuItem" %> \
-<%= link_to _('Reports'), {:controller => 'reports', :action => 'issue_report', :id => @project }, :class => "menuItem" %> \
-<%= link_to _('News'), {:controller => 'projects', :action => 'list_news', :id => @project }, :class => "menuItem" %> \
-<%= link_to _('Change log'), {:controller => 'projects', :action => 'changelog', :id => @project }, :class => "menuItem" %> \
-<%= link_to _('Documents'), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %> \
-<%= link_to _('Members'), {:controller => 'projects', :action => 'list_members', :id => @project }, :class => "menuItem" %> \
-<%= link_to _('Files'), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %> \
-<%= link_to_if_authorized _('Settings'), {:controller => 'projects', :action => 'settings', :id => @project }, :class => "menuItem" %> \
+<%= link_to l(:label_issue_plural), {:controller => 'projects', :action => 'list_issues', :id => @project }, :class => "menuItem" %> \
+<%= link_to l(:label_report_plural), {:controller => 'reports', :action => 'issue_report', :id => @project }, :class => "menuItem" %> \
+<%= link_to l(:label_news_plural), {:controller => 'projects', :action => 'list_news', :id => @project }, :class => "menuItem" %> \
+<%= link_to l(:label_change_log), {:controller => 'projects', :action => 'changelog', :id => @project }, :class => "menuItem" %> \
+<%= link_to l(:label_document_plural), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %> \
+<%= link_to l(:label_member_plural), {:controller => 'projects', :action => 'list_members', :id => @project }, :class => "menuItem" %> \
+<%= link_to l(:label_attachment_plural), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %> \
+<%= link_to_if_authorized l(:label_settings), {:controller => 'projects', :action => 'settings', :id => @project }, :class => "menuItem" %> \
 <\/div> \
 <% end %> \
 ';
@@ -95,20 +95,20 @@ var menu_contenu=' \
 		<% unless @project.nil? || @project.id.nil? %>
 			<h2><%= @project.name %></h2>
 			<ul class="menublock">
-				<li><%= link_to _('Overview'), :controller => 'projects', :action => 'show', :id => @project %></li>
-				<li><%= link_to _('Issues'), :controller => 'projects', :action => 'list_issues', :id => @project %></li>
-				<li><%= link_to _('Reports'), :controller => 'reports', :action => 'issue_report', :id => @project %></li>
-				<li><%= link_to _('News'), :controller => 'projects', :action => 'list_news', :id => @project %></li>
-				<li><%= link_to _('Change log'), :controller => 'projects', :action => 'changelog', :id => @project %></li>
-				<li><%= link_to _('Documents'), :controller => 'projects', :action => 'list_documents', :id => @project %></li>
-				<li><%= link_to _('Members'), :controller => 'projects', :action => 'list_members', :id => @project %></li>
-				<li><%= link_to _('Files'), :controller => 'projects', :action => 'list_files', :id => @project %></li>
-				<li><%= link_to_if_authorized _('Settings'), :controller => 'projects', :action => 'settings', :id => @project %></li>
+				<li><%= link_to l(:label_overview), :controller => 'projects', :action => 'show', :id => @project %></li>
+				<li><%= link_to l(:label_issue_plural), :controller => 'projects', :action => 'list_issues', :id => @project %></li>
+				<li><%= link_to l(:label_report_plural), :controller => 'reports', :action => 'issue_report', :id => @project %></li>
+				<li><%= link_to l(:label_news_plural), :controller => 'projects', :action => 'list_news', :id => @project %></li>
+				<li><%= link_to l(:label_change_log), :controller => 'projects', :action => 'changelog', :id => @project %></li>
+				<li><%= link_to l(:label_document_plural), :controller => 'projects', :action => 'list_documents', :id => @project %></li>
+				<li><%= link_to l(:label_member_plural), :controller => 'projects', :action => 'list_members', :id => @project %></li>
+				<li><%= link_to l(:label_attachment_plural), :controller => 'projects', :action => 'list_files', :id => @project %></li>
+				<li><%= link_to_if_authorized l(:label_settings), :controller => 'projects', :action => 'settings', :id => @project %></li>
 			</ul>
 		<% end %>
 		
 		<% if loggedin? and @logged_in_user.memberships.length > 0 %>
-			<h2><%=_('My projects') %></h2>
+			<h2><%=l(:label_my_projects) %></h2>
 			<ul class="menublock">
 				<% for membership in @logged_in_user.memberships %>	
 					<li><%= link_to membership.project.name, :controller => 'projects', :action => 'show', :id => membership.project %></li>

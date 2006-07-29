@@ -1,13 +1,13 @@
-<h2><%=_('Reports')%></h2>
+<h2><%=l(:label_report_plural)%></h2>
 
-<strong><%=_('Issues by tracker')%></strong>
+<strong><%=l(:field_tracker)%></strong>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_tracker, :field_name => "tracker_id", :rows => @trackers } %>
 <br />
 
-<strong><%=_('Issues by priority')%></strong>
+<strong><%=l(:field_priority)%></strong>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_priority, :field_name => "priority_id", :rows => @priorities } %>
 <br />
 
-<strong><%=_('Issues by category')%></strong>
+<strong><%=l(:field_category)%></strong>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_category, :field_name => "category_id", :rows => @categories } %>
 

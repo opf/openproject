@@ -1,13 +1,13 @@
-<h2><%=_('Files')%></h2>
+<h2><%=l(:label_attachment_plural)%></h2>
 
 <% delete_allowed = authorize_for('versions', 'destroy_file') %>
 
 <table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
   <tr class="ListHead">
-    <th><%=_('Version')%></th>
-    <th><%=_('File')%></th>
-    <th><%=_('Date')%></th>
-    <th><%=_('Size')%></th>
+    <th><%=l(:field_version)%></th>
+    <th><%=l(:field_filename)%></th>
+    <th><%=l(:label_date)%></th>
+    <th><%=l(:field_filesize)%></th>
     <th>D/L</th>
     <th>MD5</th>
     <% if delete_allowed %><th></th><% end %>
@@ -28,7 +28,7 @@
     <% if delete_allowed %>
     <td align="center">
       <%= start_form_tag :controller => 'versions', :action => 'destroy_file', :id => version, :attachment_id => file %>
-      <%= submit_tag _('Delete'), :class => "button-small" %>
+      <%= submit_tag l(:button_delete), :class => "button-small" %>
       <%= end_form_tag %>
     </td>
     <% end %>
@@ -40,7 +40,7 @@
 
 <br />
 <p>
-<%= link_to_if_authorized '&#187; ' + _('New'), :controller => 'projects', :action => 'add_file', :id => @project %>
+<%= link_to_if_authorized '&#187; ' + l(:label_attachment_new), :controller => 'projects', :action => 'add_file', :id => @project %>
 </p>
 
 

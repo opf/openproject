@@ -2,7 +2,7 @@
 permissions_041: 
   action: add_file
   id: 41
-  description: Add
+  description: button_add
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -11,7 +11,7 @@ permissions_041:
 permissions_030: 
   action: destroy
   id: 30
-  description: Delete
+  description: button_delete
   controller: news
   mail_enabled: false
   mail_option: false
@@ -20,7 +20,7 @@ permissions_030:
 permissions_019: 
   action: download
   id: 19
-  description: Download file
+  description: button_download
   controller: issues
   mail_enabled: false
   mail_option: false
@@ -29,7 +29,7 @@ permissions_019:
 permissions_008: 
   action: edit
   id: 8
-  description: Edit
+  description: button_edit
   controller: members
   mail_enabled: false
   mail_option: false
@@ -38,7 +38,7 @@ permissions_008:
 permissions_042: 
   action: destroy_file
   id: 42
-  description: Delete
+  description: button_delete
   controller: versions
   mail_enabled: false
   mail_option: false
@@ -47,7 +47,7 @@ permissions_042:
 permissions_031: 
   action: list_documents
   id: 31
-  description: View list
+  description: button_list
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -56,7 +56,7 @@ permissions_031:
 permissions_020: 
   action: add_issue
   id: 20
-  description: Report an issue
+  description: button_add
   controller: projects
   mail_enabled: true
   mail_option: true
@@ -65,7 +65,7 @@ permissions_020:
 permissions_009: 
   action: destroy
   id: 9
-  description: Delete
+  description: button_delete
   controller: members
   mail_enabled: false
   mail_option: false
@@ -74,7 +74,7 @@ permissions_009:
 permissions_032: 
   action: show
   id: 32
-  description: View
+  description: button_view
   controller: documents
   mail_enabled: false
   mail_option: false
@@ -83,7 +83,7 @@ permissions_032:
 permissions_021: 
   action: edit
   id: 21
-  description: Edit
+  description: button_edit
   controller: issues
   mail_enabled: false
   mail_option: false
@@ -92,7 +92,7 @@ permissions_021:
 permissions_010: 
   action: add_version
   id: 10
-  description: New version
+  description: button_add
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -101,7 +101,7 @@ permissions_010:
 permissions_033: 
   action: download
   id: 33
-  description: Download
+  description: button_download
   controller: documents
   mail_enabled: false
   mail_option: false
@@ -110,7 +110,7 @@ permissions_033:
 permissions_022: 
   action: change_status
   id: 22
-  description: Change status
+  description: label_change_status
   controller: issues
   mail_enabled: true
   mail_option: true
@@ -119,7 +119,7 @@ permissions_022:
 permissions_011: 
   action: edit
   id: 11
-  description: Edit
+  description: button_edit
   controller: versions
   mail_enabled: false
   mail_option: false
@@ -128,7 +128,7 @@ permissions_011:
 permissions_034: 
   action: add_document
   id: 34
-  description: Add
+  description: button_add
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -137,7 +137,7 @@ permissions_034:
 permissions_023: 
   action: destroy
   id: 23
-  description: Delete
+  description: button_delete
   controller: issues
   mail_enabled: false
   mail_option: false
@@ -146,7 +146,7 @@ permissions_023:
 permissions_012: 
   action: destroy
   id: 12
-  description: Delete
+  description: button_delete
   controller: versions
   mail_enabled: false
   mail_option: false
@@ -155,7 +155,7 @@ permissions_012:
 permissions_001: 
   action: show
   id: 1
-  description: Overview
+  description: label_overview
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -164,7 +164,7 @@ permissions_001:
 permissions_035: 
   action: edit
   id: 35
-  description: Edit
+  description: button_edit
   controller: documents
   mail_enabled: false
   mail_option: false
@@ -173,7 +173,7 @@ permissions_035:
 permissions_024: 
   action: add_attachment
   id: 24
-  description: Add file
+  description: label_attachment_new
   controller: issues
   mail_enabled: false
   mail_option: false
@@ -182,7 +182,7 @@ permissions_024:
 permissions_013: 
   action: add_issue_category
   id: 13
-  description: New issue category
+  description: button_add
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -191,7 +191,7 @@ permissions_013:
 permissions_002: 
   action: changelog
   id: 2
-  description: View change log
+  description: label_change_log
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -200,7 +200,7 @@ permissions_002:
 permissions_036: 
   action: destroy
   id: 36
-  description: Delete
+  description: button_delete
   controller: documents
   mail_enabled: false
   mail_option: false
@@ -209,7 +209,7 @@ permissions_036:
 permissions_025: 
   action: destroy_attachment
   id: 25
-  description: Delete file
+  description: label_attachment_delete
   controller: issues
   mail_enabled: false
   mail_option: false
@@ -218,7 +218,7 @@ permissions_025:
 permissions_014: 
   action: edit
   id: 14
-  description: Edit
+  description: button_edit
   controller: issue_categories
   mail_enabled: false
   mail_option: false
@@ -227,7 +227,7 @@ permissions_014:
 permissions_003: 
   action: issue_report
   id: 3
-  description: View reports
+  description: label_report_plural
   controller: reports
   mail_enabled: false
   mail_option: false
@@ -236,7 +236,7 @@ permissions_003:
 permissions_037: 
   action: add_attachment
   id: 37
-  description: Add file
+  description: label_attachment_new
   controller: documents
   mail_enabled: false
   mail_option: false
@@ -245,7 +245,7 @@ permissions_037:
 permissions_026: 
   action: list_news
   id: 26
-  description: View list
+  description: button_list
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -254,7 +254,7 @@ permissions_026:
 permissions_015: 
   action: destroy
   id: 15
-  description: Delete
+  description: button_delete
   controller: issue_categories
   mail_enabled: false
   mail_option: false
@@ -263,7 +263,7 @@ permissions_015:
 permissions_004: 
   action: settings
   id: 4
-  description: Settings
+  description: label_settings
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -272,7 +272,7 @@ permissions_004:
 permissions_038: 
   action: destroy_attachment
   id: 38
-  description: Delete file
+  description: label_attachment_delete
   controller: documents
   mail_enabled: false
   mail_option: false
@@ -281,7 +281,7 @@ permissions_038:
 permissions_027: 
   action: show
   id: 27
-  description: View
+  description: button_view
   controller: news
   mail_enabled: false
   mail_option: false
@@ -290,7 +290,7 @@ permissions_027:
 permissions_016: 
   action: list_issues
   id: 16
-  description: View list
+  description: button_list
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -299,7 +299,7 @@ permissions_016:
 permissions_005: 
   action: edit
   id: 5
-  description: Edit
+  description: button_edit
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -308,7 +308,7 @@ permissions_005:
 permissions_039: 
   action: list_files
   id: 39
-  description: View list
+  description: button_list
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -317,7 +317,7 @@ permissions_039:
 permissions_028: 
   action: add_news
   id: 28
-  description: Add
+  description: button_add
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -326,7 +326,7 @@ permissions_028:
 permissions_017: 
   action: export_issues_csv
   id: 17
-  description: Export list to CSV
+  description: label_export_csv
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -335,7 +335,7 @@ permissions_017:
 permissions_006: 
   action: list_members
   id: 6
-  description: View list
+  description: button_list
   controller: projects
   mail_enabled: false
   mail_option: false
@@ -344,7 +344,7 @@ permissions_006:
 permissions_040: 
   action: download
   id: 40
-  description: Download
+  description: button_download
   controller: versions
   mail_enabled: false
   mail_option: false
@@ -353,7 +353,7 @@ permissions_040:
 permissions_029: 
   action: edit
   id: 29
-  description: Edit
+  description: button_edit
   controller: news
   mail_enabled: false
   mail_option: false
@@ -362,7 +362,7 @@ permissions_029:
 permissions_018: 
   action: show
   id: 18
-  description: View
+  description: button_view
   controller: issues
   mail_enabled: false
   mail_option: false
@@ -371,7 +371,7 @@ permissions_018:
 permissions_007: 
   action: add_member
   id: 7
-  description: New member
+  description: button_add
   controller: projects
   mail_enabled: false
   mail_option: false

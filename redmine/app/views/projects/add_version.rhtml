@@ -1,7 +1,7 @@
-<h2><%=_('New version')%></h2>
+<h2><%=l(:label_version_new)%></h2>
 
 <%= start_form_tag :action => 'add_version', :id => @project  %>
   <%= render :partial => 'versions/form' %>
-  <%= submit_tag _('Create') %>
+  <%= submit_tag l(:button_create) %>
 <%= end_form_tag %>
 

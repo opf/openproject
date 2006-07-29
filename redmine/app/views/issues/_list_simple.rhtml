@@ -1,28 +1,28 @@
 <% if issues.length > 0 %>
-	<table cellspacing="0" cellpadding="1" width="100%" border="0" class="listTable">
-		<tr><td>
-		<table width="100%" border="0" cellspacing="1" cellpadding="2" class="listTableContent">		
-			<tr class="ListHead">	
-				<th>#</th>
-				<th><%=_('Tracker')%></th>
-				<th><%=_('Subject')%></th>
-			</tr>	
-			<% for issue in issues %>
-			<tr bgcolor="#<%= issue.status.html_color %>">
-				<td align="center">
-					<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %><br />
-				</td>
-				<td><p class="small"><%= issue.project.name %> - <%= issue.tracker.name %><br />
-          <%= issue.status.name %> - <%= format_time(issue.updated_on) %></p></td>
-				<td>
-          <p class="small"><%= link_to issue.subject, :controller => 'issues', :action => 'show', :id => issue %></p>
-        </td>
-			</tr>
-			<% end %>
-		</table>
-		</td>
+<table cellspacing="0" cellpadding="1" width="100%" border="0" class="listTable">
+	<tr><td>
+	<table width="100%" border="0" cellspacing="1" cellpadding="2" class="listTableContent">		
+		<tr class="ListHead">	
+		<th>#</th>
+		<th><%=l(:field_tracker)%></th>
+		<th><%=l(:field_subject)%></th>
 		</tr>	
+		<% for issue in issues %>
+		<tr bgcolor="#<%= issue.status.html_color %>">
+			<td align="center">
+				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %><br />
+			</td>
+			<td><p class="small"><%= issue.project.name %> - <%= issue.tracker.name %><br />
+                <%= issue.status.name %> - <%= format_time(issue.updated_on) %></p></td>
+			<td>
+                <p class="small"><%= link_to issue.subject, :controller => 'issues', :action => 'show', :id => issue %></p>
+            </td>
+		</tr>
+		<% end %>
 	</table>
+	</td>
+	</tr>	
+</table>
 <% else %>
-	<%=_('No issue')%>
+	<i><%=l(:label_no_data)%></i>
 <% end %>

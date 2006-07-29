@@ -1,4 +1,4 @@
-<h2><%=_('Change log')%></h2>
+<h2><%=l(:label_change_log)%></h2>
 
 <% fixed_issues = @fixed_issues.group_by {|i| i.fixed_version } %>
 <% fixed_issues.each do |version, issues| %>

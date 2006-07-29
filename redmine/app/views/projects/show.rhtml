@@ -1,10 +1,10 @@
-<h2><%=_('Overview')%></h2> 
+<h2><%=l(:label_overview)%></h2> 
 	
 <div class="splitcontentleft">
 	<%= @project.description %>	
 	<ul>
-	<li><%=_('Homepage')%>: <%= link_to @project.homepage, @project.homepage %></li>
-	<li><%=_('Created on')%>: <%= format_date(@project.created_on) %></li>
+	<li><%=l(:field_homepage)%>: <%= link_to @project.homepage, @project.homepage %></li>
+	<li><%=l(:field_created_on)%>: <%= format_date(@project.created_on) %></li>
 	<% for custom_value in @custom_values %>
 	<% if !custom_value.value.empty? %>
 	   <li><%= custom_value.custom_field.name%>: <%= custom_value.value%></li>
@@ -13,31 +13,32 @@
 	</ul>	
 
   <div class="box">
-    <h3><%= image_tag "tracker" %> <%=_('Trackers')%></h3>
+    <h3><%= image_tag "tracker" %> <%=l(:label_tracker_plural)%></h3>
     <ul>
     <% for tracker in @trackers %>    
       <li><%= link_to tracker.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
                                                 :set_filter => 1, 
                                                 "tracker_id" => tracker.id %>:
-      <%= Issue.count(:conditions => ["project_id=? and tracker_id=? and issue_statuses.is_closed=?", @project.id, tracker.id, false], :include => :status) %> <%=_('open')%>
+      <%= issue_count = Issue.count(:conditions => ["project_id=? and tracker_id=? and issue_statuses.is_closed=?", @project.id, tracker.id, false], :include => :status) %>
+      <%= lwr(:label_open_issues, issue_count) %>
       </li>
     <% end %>
     </ul>
     <% if authorize_for 'projects', 'add_issue' %>
-        &#187; <%=_('Report an issue')%>:
+        &#187; <%=l(:label_issue_new)%>:
         <ul>
         <% @trackers.each do |tracker| %>
-        <li><%= link_to _(tracker.name), :controller => 'projects', :action => 'add_issue', :id => @project, :tracker_id => tracker %></li>
+        <li><%= link_to tracker.name, :controller => 'projects', :action => 'add_issue', :id => @project, :tracker_id => tracker %></li>
         <% end %>
         </ul>
     <% end %>
-    <center><small>[ <%= link_to _('View all issues'), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %> ]</small></center>
+    <center><small>[ <%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %> ]</small></center>
   </div>
 </div>
 
 <div class="splitcontentright">
 	<div class="box">
-		<h3><%= image_tag "users" %> <%=_('Members')%></h3>	
+		<h3><%= image_tag "users" %> <%=l(:label_member_plural)%></h3>	
 		<% for member in @members %>
 		<%= link_to_user member.user %> (<%= member.role.name %>)<br />		
 		<% end %>		
@@ -45,7 +46,7 @@
   
   <% if @subprojects %>
  	<div class="box">
-		<h3><%= image_tag "projects" %> <%=_('Subprojects')%></h3>	
+		<h3><%= image_tag "projects" %> <%=l(:label_subproject_plural)%></h3>	
 		<% for subproject in @subprojects %>
 		<%= link_to subproject.name, :action => 'show', :id => subproject %><br />		
 		<% end %>		
@@ -53,16 +54,16 @@
   <% end %>
   
   <div class="box">
-    <h3><%=_('Latest news')%></h3>  
+    <h3><%=l(:label_news_latest)%></h3>  
     <% for news in @news %>
       <p>
       <b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />
       <%= news.summary %>
-      <small>[<%= link_to _('Read...'), :controller => 'news', :action => 'show', :id => news %>]</small>
+      <small>[<%= link_to l(:label_read), :controller => 'news', :action => 'show', :id => news %>]</small>
       </p>
       <hr />
     <% end %>
-    <center><small>[ <%= link_to _('View all news'), :controller => 'projects', :action => 'list_news', :id => @project %> ]</small></center>
+    <center><small>[ <%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %> ]</small></center>
   </div>  
 </div>
 

@@ -23,7 +23,7 @@
   <%= text_field 'user', 'mail' %></p>
   
   <p><label for="user_language"><%=l(:field_language)%></label><br/>
-  <%= select("user", "language", Localization.langs.invert) %></p>
+  <%= select("user", "language", lang_options_for_select) %></p>
   <!--[eoform:user]-->
 
   <p><%= check_box 'user', 'mail_notification' %> <label for="user_mail_notification"><%=l(:field_mail_notification)%></label></p>
@@ -35,6 +35,7 @@
 
 
 <div class="splitcontentright">
+<% unless @user.auth_source_id %>
   <div class="box">
   <h3><%=l(:field_password)%></h3>
   &nbsp;
@@ -52,4 +53,5 @@
   <center><%= submit_tag l(:button_save) %></center>
   <%= end_form_tag %>
   </div>
+<% end %>
 </div>

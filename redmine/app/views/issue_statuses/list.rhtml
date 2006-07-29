@@ -1,11 +1,11 @@
-<h2><%=_('Issue statuses')%></h2>
+<h2><%=l(:label_issue_status_plural)%></h2>
  
 <table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
   <tr class="ListHead">
-  <th><%=_('Status')%></th>
-  <th><%=_('Default status')%></th>
-  <th><%=_('Issue closed')%></th>
-  <th><%=_('Color')%></th>
+  <th><%=l(:field_status)%></th>
+  <th><%=l(:field_is_default)%></th>
+  <th><%=l(:field_is_closed)%></th>
+  <th><%=l(:field_html_color)%></th>
   <th></th>
   </tr>
   
@@ -17,7 +17,7 @@
   <td bgcolor="#<%= status.html_color %>">&nbsp</td>  
   <td align="center">
     <%= start_form_tag :action => 'destroy', :id => status %>
-    <%= submit_tag _('Delete'), :class => "button-small" %>
+    <%= submit_tag l(:button_delete), :class => "button-small" %>
     <%= end_form_tag %>
   </td>
   </tr>
@@ -27,4 +27,4 @@
 <%= pagination_links_full @issue_status_pages %>
 <br />
 
-<%= link_to '&#187; ' + _('New issue status'), :action => 'new' %>
+<%= link_to '&#187; ' + l(:label_issue_status_new), :action => 'new' %>

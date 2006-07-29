@@ -6,9 +6,9 @@
 <% for status in @statuses %>
   <td align="center" width="<%= col_width %>%" bgcolor="#<%= status.html_color %>"><small><%= status.name %></small></td>
 <% end %>
-<td align="center" width="<%= col_width %>%"><strong><%=_('Open')%></strong></td>
-<td align="center" width="<%= col_width %>%"><strong><%=_('Closed')%></strong></td>
-<td align="center" width="<%= col_width %>%"><strong><%=_('Total')%></strong></td>
+<td align="center" width="<%= col_width %>%"><strong><%=l(:label_open_issues_plural)%></strong></td>
+<td align="center" width="<%= col_width %>%"><strong><%=l(:label_closed_issues_plural)%></strong></td>
+<td align="center" width="<%= col_width %>%"><strong><%=l(:label_total)%></strong></td>
 </tr>
 
 <% for row in rows %>

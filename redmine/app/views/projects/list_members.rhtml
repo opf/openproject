@@ -1,4 +1,4 @@
-<h2><%=_('Project members')%></h2>
+<h2><%=l(:label_member_plural)%></h2>
 
 <% members = @members.group_by {|m| m.role } %>
 <% members.each do |role, member| %>

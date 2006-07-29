@@ -1,10 +1,10 @@
-<h2><%=_('Enumerations')%></h2>
+<h2><%=l(:label_enumerations)%></h2>
 
 <%= start_form_tag :action => 'update', :id => @enumeration %>
   <%= render :partial => 'form' %>
-  <%= submit_tag _('Save') %>
+  <%= submit_tag l(:button_save) %>
 <%= end_form_tag %>
 
 <%= start_form_tag :action => 'destroy', :id => @enumeration %>
-  <%= submit_tag _('Delete') %>
+  <%= submit_tag l(:button_delete) %>
 <%= end_form_tag %>

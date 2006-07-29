@@ -2,26 +2,26 @@
 
 <div class="box">
 <!--[form:user]-->
-<p><label for="user_login"><%=_('Login')%></label> <span class="required">*</span><br/>
+<p><label for="user_login"><%=l(:field_login)%></label> <span class="required">*</span><br/>
 <%= text_field 'user', 'login', :size => 25  %></p>
 
-<p><label for="password"><%=_('Password')%></label> <span class="required">*</span><br/>
+<p><label for="password"><%=l(:field_password)%></label> <span class="required">*</span><br/>
 <%= password_field_tag 'password', nil, :size => 25  %></p>
 
-<p><label for="password_confirmation"><%=_('Confirmation')%></label> <span class="required">*</span><br/>
+<p><label for="password_confirmation"><%=l(:field_password_confirmation)%></label> <span class="required">*</span><br/>
 <%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
 
-<p><label for="user_firstname"><%=_('Firstname')%></label> <span class="required">*</span><br/>
+<p><label for="user_firstname"><%=l(:field_firstname)%></label> <span class="required">*</span><br/>
 <%= text_field 'user', 'firstname'  %></p>
 
-<p><label for="user_lastname"><%=_('Lastname')%></label> <span class="required">*</span><br/>
+<p><label for="user_lastname"><%=l(:field_lastname)%></label> <span class="required">*</span><br/>
 <%= text_field 'user', 'lastname'  %></p>
 
-<p><label for="user_mail"><%=_('Mail')%></label> <span class="required">*</span><br/>
+<p><label for="user_mail"><%=l(:field_mail)%></label> <span class="required">*</span><br/>
 <%= text_field 'user', 'mail'  %></p>
 
-<p><label for="user_language"><%=_('Language')%></label><br/>
-<%= select("user", "language", Localization.langs.invert) %></p>
+<p><label for="user_language"><%=l(:field_language)%></label><br/>
+<%= select("user", "language", lang_options_for_select) %></p>
 
 <% for custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label custom_value %></p>
@@ -29,9 +29,9 @@
 
 <div style="clear: both;"></div>
 
-<p><%= check_box 'user', 'admin' %> <label for="user_admin"><%=_('Administrator')%></label></p>
+<p><%= check_box 'user', 'admin' %> <label for="user_admin"><%=l(:field_admin)%></label></p>
 
-<p><%= check_box 'user', 'mail_notification' %> <label for="user_mail_notification"><%=_('Mail notifications')%></label></p>
+<p><%= check_box 'user', 'mail_notification' %> <label for="user_mail_notification"><%=l(:field_mail_notification)%></label></p>
 
 <!--[eoform:user]-->
 </div>

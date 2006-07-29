@@ -1,4 +1,4 @@
-<h2><%=_('New issue')%>: <%=_(@tracker.name)%></h2>
+<h2><%=l(:label_issue_new)%>: <%= @tracker.name %></h2>
 
 <%= start_form_tag( { :action => 'add_issue', :id => @project }, :multipart => true) %>
 <%= error_messages_for 'issue' %>
@@ -9,14 +9,14 @@
 <%= hidden_field_tag 'tracker_id', @tracker.id %>
 
 <div style="float:left;margin-right:10px;">
-<p><label for="issue_priority_id"><%=_('Priority')%> <span class="required">*</span></label><br/>
+<p><label for="issue_priority_id"><%=l(:field_priority)%> <span class="required">*</span></label><br />
 <select name="issue[priority_id]">
 <%= options_from_collection_for_select @priorities, "id", "name", @issue.priority_id %></p>
 </select></p>
 </div>
 
 <div style="float:left;margin-right:10px;">
-<p><label for="issue_assigned_to_id"><%=_('Assigned to')%></label><br/>
+<p><label for="issue_assigned_to_id"><%=l(:field_assigned_to)%></label><br />
 <select name="issue[assigned_to_id]">
 <option value=""></option>
 <%= options_from_collection_for_select @issue.project.members, "user_id", "name", @issue.assigned_to_id %></p>
@@ -24,28 +24,29 @@
 </div>
 
 <div>
-<p><label for="issue_category_id"><%=_('Category')%></label><br/>
+<p><label for="issue_category_id"><%=l(:field_category)%></label><br />
 <select name="issue[category_id]">
 <option value=""></option><%= options_from_collection_for_select @project.issue_categories, "id", "name", @issue.category_id %>
 </select></p>
 </div>
 
-<p><label for="issue_subject"><%=_('Subject')%> <span class="required">*</span></label><br/>
+<p><label for="issue_subject"><%=l(:field_subject)%> <span class="required">*</span></label><br />
 <%= text_field 'issue', 'subject', :size => 80  %></p>
 
-<p><label for="issue_description"><%=_('Description')%> <span class="required">*</span></label><br/>
+<p><label for="issue_description"><%=l(:field_description)%> <span class="required">*</span></label><br />
 <%= text_area 'issue', 'description', :cols => 60, :rows => 10 %></p>
+
+<p><label for="issue_due_date"><%=l(:field_due_date)%></label><br />
+<%= date_select 'issue', 'due_date', :start_year => Date.today.year, :include_blank => true %></p>
 
 <% for custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label custom_value %></p>
 <% end %>
 
-<p><label for="attachment_file"><%=_('Attachment')%></label><br/>
+<p><label for="attachment_file"><%=l(:label_attachment)%></label><br />
 <%= file_field 'attachment', 'file'  %></p>
-
 <!--[eoform:issue]-->
 </div>
 
-
-<%= submit_tag _('Create') %>
+<%= submit_tag l(:button_create) %>
 <%= end_form_tag %>

@@ -1,7 +1,6 @@
 <h2><%=l(:label_register)%></h2>
 
 <%= start_form_tag %>
-
 <%= error_messages_for 'user' %>
 
 <div class="box">
@@ -25,22 +24,15 @@
 <%= text_field 'user', 'mail'  %></p>
 
 <p><label for="user_language"><%=l(:field_language)%></label><br/>
-<%= select("user", "language", Localization.langs.invert) %></p>
+<%= select("user", "language", lang_options_for_select) %></p>
 
 <% for custom_value in @custom_values %>
-  <div style="float:left;margin-right:10px;">
-	<p><%= content_tag "label", custom_value.custom_field.name %>
-	<% if custom_value.custom_field.is_required? %><span class="required">*</span><% end %>
-	<br />
-	<%= custom_field_tag custom_value %></p>
-  </div>
+	<p><%= custom_field_tag_with_label custom_value %></p>
 <% end %>
-
-<div style="clear: both;"></div>
 
 <p><%= check_box 'user', 'mail_notification' %> <label for="user_mail_notification"><%=l(:field_mail_notification)%></label></p>
 <!--[eoform:user]-->
 </div>
 
-  <%= submit_tag l(:button_submit) %>
+<%= submit_tag l(:button_submit) %>
 <%= end_form_tag %>

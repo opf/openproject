@@ -38,7 +38,7 @@ class EnumerationsController < ApplicationController
   def create
     @enumeration = Enumeration.new(params[:enumeration])
     if @enumeration.save
-      flash[:notice] = 'Enumeration was successfully created.'
+      flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list', :opt => @enumeration.opt
     else
       render :action => 'new'
@@ -52,7 +52,7 @@ class EnumerationsController < ApplicationController
   def update
     @enumeration = Enumeration.find(params[:id])
     if @enumeration.update_attributes(params[:enumeration])
-      flash[:notice] = 'Enumeration was successfully updated.'
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list', :opt => @enumeration.opt
     else
       render :action => 'edit'
@@ -61,6 +61,7 @@ class EnumerationsController < ApplicationController
 
   def destroy
     Enumeration.find(params[:id]).destroy
+    flash[:notice] = l(:notice_successful_delete)
     redirect_to :action => 'list'
   rescue
     flash[:notice] = "Unable to delete enumeration"

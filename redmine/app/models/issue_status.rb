@@ -38,10 +38,6 @@ class IssueStatus < ActiveRecord::Base
     statuses
   end
   
-  def name
-    _ self.attributes['name']
-  end
-  
 private
   def check_integrity
     raise "Can't delete status" if Issue.find(:first, :conditions => ["status_id=?", self.id]) or IssueHistory.find(:first, :conditions => ["status_id=?", self.id])

@@ -1,4 +1,4 @@
-_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+_gloc_rule_default: '|n| n<=1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
 actionview_datehelper_select_month_names: Janvier,Février,Mars,Avril,Mai,Juin,Juillet,Août,Septembre,Octobre,Novembre,Décembre
@@ -42,6 +42,7 @@ general_text_No: 'Non'
 general_text_Yes: 'Oui'
 general_text_no: 'non'
 general_text_yes: 'oui'
+general_lang_fr: 'Français'
 
 notice_account_updated: Le compte a été mis à jour avec succès.
 notice_account_invalid_creditentials: Identifiant ou mot de passe invalide.
@@ -49,10 +50,11 @@ notice_account_password_updated: Mot de passe mis à jour avec succès.
 notice_account_wrong_password: Mot de passe incorrect
 notice_account_register_done: Un message contenant les instructions pour activer votre compte vous a été envoyé.
 notice_account_unknown_email: Aucun compte ne correspond à cette adresse.
+notice_can_t_change_password: Ce compte utilise une authentification externe. Impossible de changer le mot de passe.
 notice_account_lost_email_sent: Un message contenant les instructions pour choisir un nouveau mot de passe vous a été envoyé.
 notice_account_activated: Votre compte a été activé. Vous pouvez à présent vous connecter.
-notice_successful_update: Mise à jour effectuée avec succès.
 notice_successful_create: Création effectuée avec succès.
+notice_successful_update: Mise à jour effectuée avec succès.
 notice_successful_delete: Suppression effectuée avec succès.
 notice_successful_connection: Connection réussie.
 
@@ -90,6 +92,7 @@ field_is_default: Statut par défaut
 field_html_color: Couleur
 field_tracker: Tracker
 field_subject: Sujet
+field_due_date: Date d'échéance
 field_assigned_to: Assigné à
 field_priority: Priorité
 field_fixed_version: Version corrigée
@@ -127,24 +130,36 @@ label_user_new: Nouvel utilisateur
 label_project: Projet
 label_project_new: Nouveau projet
 label_project_plural: Projets
+label_project_latest: Derniers projets
 label_issue: Demande
 label_issue_new: Nouvelle demande
 label_issue_plural: Demandes
+label_issue_view_all: Voir toutes les demandes
+label_document: Document
+label_document_new: Nouveau document
+label_document_plural: Documents
 label_role: Rôle
 label_role_plural: Rôles
-label_role_add: Nouveau rôle
+label_role_new: Nouveau rôle
 label_role_and_permissions: Rôles et permissions
+label_member: Membre
+label_member_new: Nouveau membre
+label_member_plural: Membres
 label_tracker: Tracker
 label_tracker_plural: Trackers
-label_tracker_add: Nouveau tracker
+label_tracker_new: Nouveau tracker
 label_workflow: Workflow
 label_issue_status: Statut de demandes
 label_issue_status_plural: Statuts de demandes
-label_issue_status_add: Nouveau statut
+label_issue_status_new: Nouveau statut
+label_issue_category: Catégorie de demandes
+label_issue_category_plural: Catégories de demandes
+label_issue_category_new: Nouvelle catégorie
 label_custom_field: Champ personnalisé
 label_custom_field_plural: Champs personnalisés
 label_custom_field_new: Nouveau champ personnalisé
 label_enumerations: Listes de valeurs
+label_enumeration_new: Nouvelle valeur
 label_information: Information
 label_information_plural: Informations
 label_please_login: Identification
@@ -153,6 +168,7 @@ label_password_lost: Mot de passe perdu
 label_home: Accueil
 label_my_page: Ma page
 label_my_account: Mon compte
+label_my_projects: Mes projets
 label_administration: Administration
 label_login: Connexion
 label_logout: Déconnexion
@@ -182,7 +198,45 @@ label_string: Chaîne
 label_text: Texte
 label_attribute: Attribut
 label_attribute_plural: Attributs
-
+label_download: %d Téléchargement
+label_download_plural: %d Téléchargements
+label_no_data: Aucune donnée à afficher
+label_change_status: Changer le statut
+label_history: Historique
+label_attachment: Fichier
+label_attachment_new: Nouveau fichier
+label_attachment_delete: Supprimer le fichier
+label_attachment_plural: Fichiers
+label_report: Rapport
+label_report_plural: Rapports
+label_news: Annonce
+label_news_new: Nouvelle annonce
+label_news_plural: Annonces
+label_news_latest: Dernières annonces
+label_news_view_all: Voir toutes les annonces
+label_change_log: Historique
+label_settings: Configuration
+label_overview: Aperçu
+label_version: Version
+label_version_new: Nouvelle version
+label_version_plural: Versions
+label_confirmation: Confirmation
+label_export_csv: Exporter en CSV
+label_read: Lire...
+label_public_projects: Projets publics
+label_open_issues: Ouverte
+label_open_issues_plural: Ouvertes
+label_closed_issues: Fermée
+label_closed_issues_plural: Fermées
+label_total: Total
+label_permissions: Permissions
+label_current_status: Statut actuel
+label_new_statuses_allowed: Nouveaux statuts autorisés
+label_all: Tous
+label_none: Aucun
+label_next: Suivant
+label_previous: Précédent
+label_used_by: Utilisé par
 
 button_login: Connexion
 button_submit: Soumettre
@@ -192,8 +246,43 @@ button_uncheck_all: Tout décocher
 button_delete: Supprimer
 button_create: Créer
 button_test: Tester
+button_edit: Modifier
+button_add: Ajouter
+button_change: Changer
+button_apply: Appliquer
+button_clear: Effacer
+button_lock: Verrouiller
+button_unlock: Déverrouiller
+button_download: Télécharger
+button_list: Lister
+button_view: Voir
 
 text_select_mail_notifications: Sélectionner les actions pour lesquelles la notification par mail doit être activée.
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 pour aucune restriction
 text_possible_values_info: valeurs séparées par |
+text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et tout ce qui lui est rattaché ?
+text_workflow_edit: Sélectionner un tracker et un rôle pour éditer le workflow
+
+default_role_manager: Manager
+default_role_developper: Développeur
+default_role_reporter: Rapporteur
+default_tracker_bug: Anomalie
+default_tracker_feature: Evolution
+default_tracker_support: Assistance
+default_issue_status_new: Nouveau
+default_issue_status_assigned: Assigné
+default_issue_status_resolved: Résolu
+default_issue_status_feedback: Commentaire
+default_issue_status_closed: Fermé
+default_issue_status_rejected: Rejeté
+default_doc_category_user: Documentation utilisateur
+default_doc_category_tech: Documentation technique
+default_priority_low: Bas
+default_priority_normal: Normal
+default_priority_high: Haut
+default_priority_urgent: Urgent
+default_priority_immediate: Immédiat
+
+enumeration_issue_priorities: Priorités des demandes
+enumeration_doc_categories: Catégories des documents
