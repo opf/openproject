@@ -258,7 +258,7 @@ button_list: Lister
 button_view: Voir
 
 text_select_mail_notifications: Sélectionner les actions pour lesquelles la notification par mail doit être activée.
-text_regexp_info: eg. ^[A-Z0-9]+$
+text_regexp_info: ex. ^[A-Z0-9]+$
 text_min_max_length_info: 0 pour aucune restriction
 text_possible_values_info: valeurs séparées par |
 text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et tout ce qui lui est rattaché ?
