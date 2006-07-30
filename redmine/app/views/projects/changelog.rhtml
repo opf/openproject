@@ -1,12 +1,25 @@
 <h2><%=l(:label_change_log)%></h2>
 
-<% fixed_issues = @fixed_issues.group_by {|i| i.fixed_version } %>
-<% fixed_issues.each do |version, issues| %>
-  <p><strong><%= version.name %></strong> - <%= format_date(version.effective_date) %><br />
-  <%=h version.description %></p>
-  <ul>  
-    <% issues.each do |i| %>
-    <li><%= link_to i.long_id, :controller => 'issues', :action => 'show', :id => i %> [<%= i.tracker.name %>]: <%= i.subject %></li>
-    <% end %>
-  </ul>
+
+<%= start_form_tag %>
+<% @trackers.each do |tracker| %>
+  <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
+  <%= tracker.name %>
 <% end %>
+&nbsp;&nbsp;<%= submit_tag l(:button_apply), :class => 'button-small' %>
+<%= end_form_tag %>
+
+<p>&nbsp;</p>
+
+<% ver_id = nil
+   @fixed_issues.each do |issue| %>   
+    <% unless ver_id == issue.fixed_version_id %>
+    <% if ver_id %></ul><% end %>
+    <p><strong><%= issue.fixed_version.name %></strong> - <%= format_date(issue.fixed_version.effective_date) %><br />
+    <%=h issue.fixed_version.description %></p>
+    <ul>
+    <% ver_id = issue.fixed_version_id
+    end %>
+    <li><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %> [<%= issue.tracker.name %>]: <%= issue.subject %></li>
+<% end %>
+

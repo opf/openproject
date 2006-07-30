@@ -276,18 +276,27 @@ class ProjectsController < ApplicationController
     @versions = @project.versions
   end
   
-  # Show changelog of @project
+  # Show changelog for @project
   def changelog
+    @trackers = Tracker.find(:all, :conditions => ["is_in_chlog=?", true])
+    if request.get?
+      @selected_tracker_ids = @trackers.collect {|t| t.id.to_s }
+    else
+      @selected_tracker_ids = params[:tracker_ids].collect { |id| id.to_i.to_s } if params[:tracker_ids] and params[:tracker_ids].is_a? Array
+    end
+    @selected_tracker_ids ||= []
     @fixed_issues = @project.issues.find(:all, 
-                                       :include => [ :fixed_version, :status, :tracker ], 
-                                       :conditions => [ "issue_statuses.is_closed=? and trackers.is_in_chlog=? and issues.fixed_version_id is not null", true, true]
-                                      )
+      :include => [ :fixed_version, :status, :tracker ], 
+      :conditions => [ "issue_statuses.is_closed=? and issues.tracker_id in (#{@selected_tracker_ids.join(',')}) and issues.fixed_version_id is not null", true],
+      :order => "versions.effective_date DESC, issues.id DESC"
+    ) unless @selected_tracker_ids.empty?
+    @fixed_issues ||= []
   end
 
 private
   # Find project of id params[:id]
   # if not found, redirect to project list
-  # used as a before_filter
+  # Used as a before_filter
   def find_project
     @project = Project.find(params[:id])		
   rescue
