@@ -33,7 +33,7 @@ class RolesController < ApplicationController
     if request.post?
       @role.permissions = Permission.find(@params[:permission_ids]) if @params[:permission_ids]
       if @role.save
-        flash[:notice] = 'Role was successfully created.'
+        flash[:notice] = l(:notice_successful_create)
         redirect_to :action => 'list'
       end
     end
@@ -45,7 +45,7 @@ class RolesController < ApplicationController
     if request.post? and @role.update_attributes(params[:role])
       @role.permissions = Permission.find(@params[:permission_ids] || [])
       Permission.allowed_to_role_expired
-      flash[:notice] = 'Role was successfully updated.'
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
     end
     @permissions = Permission.find(:all, :conditions => ["is_public=?", false], :order => 'sort ASC')
@@ -73,7 +73,7 @@ class RolesController < ApplicationController
         }
       }
       if @role.save
-        flash[:notice] = 'Workflow was successfully updated.'
+        flash[:notice] = l(:notice_successful_update)
       end
     end
     @roles = Role.find_all

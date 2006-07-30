@@ -53,7 +53,7 @@ class UsersController < ApplicationController
       @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
       @user.custom_values = @custom_values			
       if @user.save
-        flash[:notice] = 'User was successfully created.'
+        flash[:notice] = l(:notice_successful_create)
         redirect_to :action => 'list'
       end
     end
@@ -72,7 +72,7 @@ class UsersController < ApplicationController
         @user.custom_values = @custom_values
       end
       if @user.update_attributes(params[:user])
-        flash[:notice] = 'User was successfully updated.'
+        flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'list'
       end
     end

@@ -42,6 +42,7 @@ class CustomFieldsController < ApplicationController
         return
     end  
     if request.post? and @custom_field.save
+      flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
     end
     @trackers = Tracker.find(:all)
@@ -53,7 +54,7 @@ class CustomFieldsController < ApplicationController
       if @custom_field.is_a? IssueCustomField
         @custom_field.trackers = params[:tracker_ids] ? Tracker.find(params[:tracker_ids]) : []
       end
-      flash[:notice] = 'Custom field was successfully updated.'
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
     end
     @trackers = Tracker.find(:all)

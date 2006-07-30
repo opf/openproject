@@ -58,7 +58,7 @@ class ProjectsController < ApplicationController
       @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
       @project.custom_values = @custom_values			
       if @project.save
-        flash[:notice] = 'Project was successfully created.'
+        flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
 	  end		
     end	
@@ -92,7 +92,7 @@ class ProjectsController < ApplicationController
         @project.custom_values = @custom_values
       end
       if @project.update_attributes(params[:project])
-        flash[:notice] = 'Project was successfully updated.'
+        flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else
         settings
@@ -114,6 +114,7 @@ class ProjectsController < ApplicationController
     if request.post?
       @issue_category = @project.issue_categories.build(params[:issue_category])
       if @issue_category.save
+        flash[:notice] = l(:notice_successful_create)
         redirect_to :action => 'settings', :id => @project
       else
         settings
@@ -126,6 +127,7 @@ class ProjectsController < ApplicationController
   def add_version
   	@version = @project.versions.build(params[:version])
   	if request.post? and @version.save
+  	  flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'settings', :id => @project
   	end
   end
@@ -135,7 +137,7 @@ class ProjectsController < ApplicationController
     @member = @project.members.build(params[:member])
   	if request.post?
       if @member.save
-        flash[:notice] = 'Member was successfully added.'
+        flash[:notice] = l(:notice_successful_create)
         redirect_to :action => 'settings', :id => @project
       else		
         settings
@@ -160,6 +162,7 @@ class ProjectsController < ApplicationController
         @attachment.author_id = self.logged_in_user.id if self.logged_in_user
       end      
       if @document.save
+        flash[:notice] = l(:notice_successful_create)
         redirect_to :action => 'list_documents', :id => @project
       end		
     end
@@ -188,7 +191,7 @@ class ProjectsController < ApplicationController
       @custom_values = @project.custom_fields_for_issues(@tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
       @issue.custom_values = @custom_values			
       if @issue.save
-        flash[:notice] = "Issue was successfully added."
+        flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_issue_add(@issue) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
         redirect_to :action => 'list_issues', :id => @project
       end		
@@ -243,6 +246,7 @@ class ProjectsController < ApplicationController
       @news.attributes = params[:news]
       @news.author_id = self.logged_in_user.id if self.logged_in_user
       if @news.save
+        flash[:notice] = l(:notice_successful_create)
         redirect_to :action => 'list_news', :id => @project
       end
     end
@@ -260,6 +264,7 @@ class ProjectsController < ApplicationController
         @attachment = @project.versions.find(params[:version_id]).attachments.build(params[:attachment])      
         @attachment.author_id = self.logged_in_user.id if self.logged_in_user
         if @attachment.save
+          flash[:notice] = l(:notice_successful_create)
           redirect_to :controller => 'projects', :action => 'list_files', :id => @project
         end
       end
@@ -286,7 +291,6 @@ private
   def find_project
     @project = Project.find(params[:id])		
   rescue
-    flash[:notice] = 'Project not found.'
     redirect_to :action => 'list'			
   end
 end

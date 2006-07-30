@@ -47,7 +47,7 @@ class AdminTest < ActionController::IntegrationTest
     assert_template "projects/add"
     post "projects/add", :project => { :name => "blog", :description => "weblog", :is_public => 1}
     assert_redirected_to "admin/projects"
-    assert_equal 'Project was successfully created.', flash[:notice]
+    assert_equal 'Successful creation.', flash[:notice]
     
     project = Project.find_by_name("blog")
     assert_kind_of Project, project

@@ -24,7 +24,7 @@ class NewsController < ApplicationController
 
   def edit
     if request.post? and @news.update_attributes(params[:news])
-      flash[:notice] = 'News was successfully updated.'
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @news
     end
   end

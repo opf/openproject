@@ -32,16 +32,16 @@ activerecord_error_wrong_length: is the wrong length
 activerecord_error_taken: has already been taken
 activerecord_error_not_a_number: is not a number
 
-general_fmt_age: %d yr
-general_fmt_age_plural: %d yrs
-general_fmt_date: %%b %%d, %%Y (%%a)
-general_fmt_datetime: %%b %%d, %%Y (%%a), %%I:%%M %%p
-general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
-general_fmt_time: %%I:%%M %%p
+general_fmt_age: %d año
+general_fmt_age_plural: %d años
+general_fmt_date: %%d/%%m/%%Y
+general_fmt_datetime: %%d/%%m/%%Y %%H:%%M
+general_fmt_datetime_short: %%d/%%m %%H:%%M
+general_fmt_time: %%H:%%M
 general_text_No: 'No'
-general_text_Yes: 'Yes'
+general_text_Yes: 'Sí'
 general_text_no: 'no'
-general_text_yes: 'yes'
+general_text_yes: 'sí'
 general_lang_es: 'Español'
 
 notice_account_updated: Account was successfully updated.
@@ -60,7 +60,7 @@ notice_successful_connection: Successful connection.
 notice_file_not_found: Requested file doesn't exist or has been deleted.
 
 gui_validation_error: 1 error
-gui_validation_error_plural: %d errors
+gui_validation_error_plural: %d errores
 
 field_name: Nombre
 field_description: Descripción
@@ -70,12 +70,12 @@ field_firstname: Nombre
 field_lastname: Apellido
 field_mail: Email
 field_filename: Fichero
-#field_filesize: Size
+field_filesize: Tamaño
 field_downloads: Telecargas
 field_author: Autor
 field_created_on: Creado
 field_updated_on: Actualizado
-#field_field_format: Format
+field_field_format: Formato
 field_is_for_all: Para todos los proyectos
 field_possible_values: Valores posibles
 field_regexp: Expresión regular
@@ -87,7 +87,7 @@ field_title: Título
 field_project: Proyecto
 field_issue: Petición
 field_status: Estatuto
-#field_notes: Notes
+field_notes: Notas
 field_is_closed: Petición resuelta
 field_is_default: Estatuto por defecto
 field_html_color: Color
@@ -165,7 +165,7 @@ label_information: Informacion
 label_information_plural: Informaciones
 label_please_login: Conexión
 #label_register: Register
-#label_password_lost: Lost password
+label_password_lost: ¿Olvidaste la contraseña?
 label_home: Acogida
 label_my_page: Mi página
 label_my_account: Mi cuenta
@@ -222,7 +222,7 @@ label_version: Versión
 label_version_new: Nueva versión
 label_version_plural: Versiónes
 label_confirmation: Confirmación
-#label_export_csv: Export to CSV
+label_export_csv: Exportar a CSV
 label_read: Leer...
 label_public_projects: Proyectos publicos
 label_open_issues: Abierta
@@ -265,9 +265,9 @@ text_min_max_length_info: 0 para ninguna restricción
 text_project_destroy_confirmation: ¿ Estás seguro de querer eliminar el proyecto ?
 text_workflow_edit: Seleccionar un workflow para actualizar
 
-#default_role_manager: Manager
-#default_role_developper: Developer
-#default_role_reporter: Reporter
+default_role_manager: Manager
+default_role_developper: Desarrollador
+default_role_reporter: Informador
 default_tracker_bug: Anomalía
 default_tracker_feature: Evolución
 default_tracker_support: Asistencia

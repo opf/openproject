@@ -39,10 +39,15 @@ class AccountTest < ActionController::IntegrationTest
     
     post "account/change_password", :password => 'jsmith', :new_password => "hello", :new_password_confirmation => "hello2"
     assert_response :success
+    assert_template "account/my_account" 
     assert_tag :tag => "div", :attributes => { :class => "errorExplanation" }
-    
+
+    post "account/change_password", :password => 'jsmithZZ', :new_password => "hello", :new_password_confirmation => "hello"
+    assert_redirected_to "account/my_account"
+    assert_equal 'Wrong password', flash[:notice]
+        
     post "account/change_password", :password => 'jsmith', :new_password => "hello", :new_password_confirmation => "hello"
-    assert_response :success
+    assert_redirected_to "account/my_account"
     log_user('jsmith', 'hello')
   end
   

@@ -92,6 +92,6 @@ module ApplicationHelper
   end
   
   def lang_options_for_select
-    GLoc.valid_languages.collect {|lang| [ l_lang_name(lang.to_s, lang), lang.to_s]}
+    (GLoc.valid_languages.sort {|x,y| x.to_s <=> y.to_s }).collect {|lang| [ l_lang_name(lang.to_s, lang), lang.to_s]}
   end
 end

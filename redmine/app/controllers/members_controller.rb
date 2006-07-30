@@ -21,14 +21,14 @@ class MembersController < ApplicationController
 
 	def edit
 		if request.post? and @member.update_attributes(params[:member])
-			flash[:notice] = 'Member was successfully updated.'
+			flash[:notice] = l(:notice_successful_update)
 			redirect_to :controller => 'projects', :action => 'settings', :id => @project
 		end
 	end
 
 	def destroy
 		@member.destroy
-    flash[:notice] = 'Member was successfully removed.'
+    flash[:notice] = l(:notice_successful_delete)
 		redirect_to :controller => 'projects', :action => 'settings', :id => @project
 	end
 

@@ -21,7 +21,7 @@ class IssueCategoriesController < ApplicationController
 	
   def edit
     if request.post? and @category.update_attributes(params[:category])
-      flash[:notice] = 'Issue category was successfully updated.'
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :controller => 'projects', :action => 'settings', :id => @project
     end
   end

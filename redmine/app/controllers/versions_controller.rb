@@ -16,41 +16,42 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class VersionsController < ApplicationController
-	layout 'base'
-	before_filter :find_project, :authorize
-	
-	def edit
-		if request.post? and @version.update_attributes(params[:version])
-      flash[:notice] = 'Version was successfully updated.'
+  layout 'base'
+  before_filter :find_project, :authorize
+
+  def edit
+    if request.post? and @version.update_attributes(params[:version])
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :controller => 'projects', :action => 'settings', :id => @project
-		end
-	end
-	
-	def destroy
-		@version.destroy
-		redirect_to :controller => 'projects', :action => 'settings', :id => @project
+    end
+  end
+
+  def destroy
+    @version.destroy
+    redirect_to :controller => 'projects', :action => 'settings', :id => @project
   rescue
     flash[:notice] = "Unable to delete version"
-		redirect_to :controller => 'projects', :action => 'settings', :id => @project
-	end
-  
+    redirect_to :controller => 'projects', :action => 'settings', :id => @project
+  end
+
   def download
     @attachment = @version.attachments.find(params[:attachment_id])
     @attachment.increment_download
     send_file @attachment.diskfile, :filename => @attachment.filename
   rescue
-    flash[:notice]="Requested file doesn't exist or has been deleted."
+    flash[:notice] = l(:notice_file_not_found)
     redirect_to :controller => 'projects', :action => 'list_files', :id => @project
   end 
   
   def destroy_file
     @version.attachments.find(params[:attachment_id]).destroy
+    flash[:notice] = l(:notice_successful_delete)
     redirect_to :controller => 'projects', :action => 'list_files', :id => @project
   end
 
 private
-	def find_project
+  def find_project
     @version = Version.find(params[:id])
-		@project = @version.project
-	end  
+    @project = @version.project
+  end  
 end

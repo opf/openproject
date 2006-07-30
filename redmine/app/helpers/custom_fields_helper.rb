@@ -20,24 +20,27 @@ module CustomFieldsHelper
   def custom_field_tag(custom_value)	
     custom_field = custom_value.custom_field
     field_name = "custom_fields[#{custom_field.id}]"
+    field_id = "custom_fields_#{custom_field.id}"
+    
     case custom_field.field_format
     when "string", "int", "date"
-      text_field_tag field_name, custom_value.value
+      text_field_tag field_name, custom_value.value, :id => field_id
     when "text"
-      text_area_tag field_name, custom_value.value, :cols => 60, :rows => 3
+      text_area_tag field_name, custom_value.value, :id => field_id, :cols => 60, :rows => 3
     when "bool"
-      check_box_tag(field_name, "1", custom_value.value == "1") + 
+      check_box_tag(field_name, "1", custom_value.value == "1", :id => field_id) + 
       hidden_field_tag(field_name, "0")
     when "list"
       select_tag field_name, 
                   "<option></option>" + options_for_select(custom_field.possible_values.split('|'),
-                  custom_value.value)
+                  custom_value.value), :id => field_id
     end
   end
   
   def custom_field_label_tag(custom_value)
     content_tag "label", custom_value.custom_field.name +
-	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>" : "")
+	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>" : ""),
+	:for => "custom_fields_#{custom_value.custom_field.id}"
   end
   
   def custom_field_tag_with_label(custom_value)

@@ -150,7 +150,7 @@ background-color:inherit;
 }
 
 #content h2 a{font-weight:normal;}
-#content h3{margin:0 0 5px 0; font-size:1.4em; letter-spacing:-1px;}
+#content h3{margin:0 0 12px 0; font-size:1.4em; letter-spacing:-1px;}
 #content a:hover,#subcontent a:hover{text-decoration:underline;}
 #content ul,#content ol{margin:0 5px 16px 35px;}
 #content dl{margin:0 5px 10px 25px;}
@@ -255,7 +255,7 @@ tr.even {
 	background-color:#CEE1ED;
 }
 
-hr { border:0px; border-bottom:1px dashed #000000; }
+hr { border:none; border-bottom: dotted 2px #c0c0c0; }
 
 
 /**************** Sidebar styles ****************/

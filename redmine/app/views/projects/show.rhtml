@@ -56,11 +56,9 @@
   <div class="box">
     <h3><%=l(:label_news_latest)%></h3>  
     <% for news in @news %>
-      <p>
-      <b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />
+      <p><b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />
       <%= news.summary %>
-      <small>[<%= link_to l(:label_read), :controller => 'news', :action => 'show', :id => news %>]</small>
-      </p>
+      <small>[<%= link_to l(:label_read), :controller => 'news', :action => 'show', :id => news %>]</small></p>
       <hr />
     <% end %>
     <center><small>[ <%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %> ]</small></center>

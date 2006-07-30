@@ -72,14 +72,19 @@ class AccountController < ApplicationController
   # Change logged in user's password
   def change_password
     @user = self.logged_in_user
-    flash.now[:notice] = l(:notice_can_t_change_password) and render :action => 'my_account' and return if @user.auth_source_id
+    flash[:notice] = l(:notice_can_t_change_password) and redirect_to :action => 'my_account' and return if @user.auth_source_id
     if @user.check_password?(@params[:password])
       @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-      flash.now[:notice] = l(:notice_account_password_updated) if @user.save
+      if @user.save
+        flash[:notice] = l(:notice_account_password_updated)
+      else
+        render :action => 'my_account'
+        return
+      end
     else
-      flash.now[:notice] = l(:notice_account_wrong_password)
+      flash[:notice] = l(:notice_account_wrong_password)
     end
-    render :action => 'my_account'
+    redirect_to :action => 'my_account'
   end
   
   # Enable user to choose a new password

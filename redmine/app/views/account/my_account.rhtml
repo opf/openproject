@@ -9,7 +9,7 @@
 <div class="splitcontentleft">
   <div class="box">
   <h3><%=l(:label_information_plural)%></h3>
-  &nbsp;
+
   <%= start_form_tag :action => 'my_account' %>
 
   <!--[form:user]-->
@@ -20,7 +20,7 @@
   <%= text_field 'user', 'lastname'  %></p>
 
   <p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label><br/>
-  <%= text_field 'user', 'mail' %></p>
+  <%= text_field 'user', 'mail', :size => 40 %></p>
   
   <p><label for="user_language"><%=l(:field_language)%></label><br/>
   <%= select("user", "language", lang_options_for_select) %></p>
@@ -38,7 +38,7 @@
 <% unless @user.auth_source_id %>
   <div class="box">
   <h3><%=l(:field_password)%></h3>
-  &nbsp;
+
   <%= start_form_tag :action => 'change_password' %>
 
   <p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label><br/>

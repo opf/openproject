@@ -25,7 +25,7 @@ class DocumentsController < ApplicationController
   def edit
     @categories = Enumeration::get_values('DCAT')
     if request.post? and @document.update_attributes(params[:document])
-      flash[:notice] = 'Document was successfully updated.'
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
     end
   end  

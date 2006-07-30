@@ -35,7 +35,7 @@ class IssueStatusesController < ApplicationController
   def create
     @issue_status = IssueStatus.new(params[:issue_status])
     if @issue_status.save
-      flash[:notice] = 'IssueStatus was successfully created.'
+      flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -49,7 +49,7 @@ class IssueStatusesController < ApplicationController
   def update
     @issue_status = IssueStatus.find(params[:id])
     if @issue_status.update_attributes(params[:issue_status])
-      flash[:notice] = 'IssueStatus was successfully updated.'
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
     else
       render :action => 'edit'

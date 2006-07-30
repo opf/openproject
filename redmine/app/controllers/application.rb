@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   def require_login
     unless self.logged_in_user
       store_location
-      redirect_to(:controller => "account", :action => "login")
+      redirect_to :controller => "account", :action => "login"
       return false
     end
     true
@@ -64,8 +64,7 @@ class ApplicationController < ActionController::Base
   def require_admin
     return unless require_login
     unless self.logged_in_user.admin?
-      flash[:notice] = "Acces denied"
-      redirect_to:controller => ''
+      render :nothing => true, :status => 403
       return false
     end
     true
@@ -86,8 +85,7 @@ class ApplicationController < ActionController::Base
     if @user_membership and Permission.allowed_to_role( "%s/%s" % [ @params[:controller], @params[:action] ], @user_membership.role_id )    
       return true		
     end		
-    flash[:notice] = "Acces denied"
-    redirect_to :controller => ''
+    render :nothing => true, :status => 403
     false
   end
 	

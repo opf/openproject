@@ -44,7 +44,7 @@ class AdminController < ApplicationController
         a.mail_enabled = (params[:action_ids] || []).include? a.id.to_s 
         a.save
       }
-      flash[:notice] = "Mail options were successfully updated."
+      flash.now[:notice] = l(:notice_successful_update)
     end
   end
   

@@ -38,7 +38,7 @@ class IssuesController < ApplicationController
 			@issue.custom_values = @custom_values
 			@issue.attributes = params[:issue]
 			if @issue.save
-				flash[:notice] = 'Issue was successfully updated.'
+				flash[:notice] = l(:notice_successful_update)
 				redirect_to :action => 'show', :id => @issue
 			end
 		end		
@@ -56,7 +56,7 @@ class IssuesController < ApplicationController
 				@issue.fixed_version_id = (params[:issue][:fixed_version_id])
 				@issue.assigned_to_id = (params[:issue][:assigned_to_id])	
 				if @issue.save
-					flash[:notice] = 'Issue was successfully updated.'
+					flash[:notice] = l(:notice_successful_update)
 					Mailer.deliver_issue_change_status(@issue) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
 					redirect_to :action => 'show', :id => @issue
 				end

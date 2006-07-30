@@ -3,10 +3,19 @@
 <p><%=l(:text_select_mail_notifications)%></p>
 
 <%= start_form_tag ({}, :id => 'mail_options_form')%>
-<% for action in @actions %>
-  <%= check_box_tag "action_ids[]", action.id, action.mail_enabled? %>
-  <%= action.description %><br />
+
+<% actions = @actions.group_by {|p| p.group_id } %>
+<% actions.keys.sort.each do |group_id| %>
+<fieldset style="margin-top: 6px;"><legend><strong><%= l(Permission::GROUPS[group_id]) %></strong></legend>
+<% actions[group_id].each do |p| %>
+  <div style="width:170px;float:left;"><%= check_box_tag "action_ids[]", p.id, p.mail_enabled? %>
+  <%= l(p.description.to_sym) %>
+  </div>
 <% end %>
+</fieldset>
+<% end %>
+
+
 <br />
 <p>
 <a href="javascript:checkAll('mail_options_form', true)"><%=l(:button_check_all)%></a> |

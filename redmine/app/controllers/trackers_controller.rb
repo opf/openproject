@@ -16,8 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class TrackersController < ApplicationController
-	layout 'base'
-	before_filter :require_admin
+  layout 'base'
+  before_filter :require_admin
 
   def index
     list
@@ -34,7 +34,7 @@ class TrackersController < ApplicationController
   def new
     @tracker = Tracker.new(params[:tracker])
     if request.post? and @tracker.save
-      flash[:notice] = 'Tracker was successfully created.'
+      flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
     end
   end
@@ -42,7 +42,7 @@ class TrackersController < ApplicationController
   def edit
     @tracker = Tracker.find(params[:id])
     if request.post? and @tracker.update_attributes(params[:tracker])
-      flash[:notice] = 'Tracker was successfully updated.'
+      flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
     end
   end
