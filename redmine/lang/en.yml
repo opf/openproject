@@ -57,6 +57,7 @@ notice_successful_create: Successful creation.
 notice_successful_update: Successful update.
 notice_successful_delete: Successful deletion.
 notice_successful_connection: Successful connection.
+notice_file_not_found: Requested file doesn't exist or has been deleted.
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errors
@@ -124,7 +125,7 @@ field_attr_lastname: Lastname attribute
 field_attr_mail: Email attribute
 field_onthefly: On-the-fly user creation
 
-label_user: Uuser
+label_user: User
 label_user_plural: Users
 label_user_new: New user
 label_project: Project
