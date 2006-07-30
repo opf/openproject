@@ -1,5 +1,7 @@
+<% if @statuses.empty? or rows.empty? %>
+    <p><i><%=l(:label_no_data)%></i></p>
+<% else %>
 <% col_width = 70 / (@statuses.length+3) %>
-
 <table border="0" cellspacing="1" cellpadding="2" width="100%">
 <tr>
 <td width="25%"></td>
@@ -28,7 +30,11 @@
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "O" %></td>
-  <td align="center"><%= aggregate data, { field_name => row.id, "closed" => 1 } %></td>
+  <td align="center"><%= link_to (aggregate data, { field_name => row.id, "closed" => 1 }),
+                                                :controller => 'projects', :action => 'list_issues', :id => @project, 
+                                                :set_filter => 1, 
+                                                "#{field_name}" => row.id,
+                                                "status_id" => "C" %></td>
   <td align="center"><%= link_to (aggregate data, { field_name => row.id }),
                                                 :controller => 'projects', :action => 'list_issues', :id => @project, 
                                                 :set_filter => 1, 
@@ -37,3 +43,4 @@
 <% end %>
 </tr>
 </table>
+<% end %>

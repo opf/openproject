@@ -14,9 +14,8 @@
   </tr>
   
 <% for version in @versions %>	
-  <tr>
-    <td colspan="7"><%= image_tag 'package' %> <b><%= version.name %></b></td>
-  </tr>
+  <% unless version.attachments.empty? %>
+  <tr><td colspan="7"><%= image_tag 'package' %> <b><%= version.name %></b></td></tr>
   <% for file in version.attachments %>		
   <tr class="<%= cycle("odd", "even") %>">
     <td></td>
@@ -35,6 +34,7 @@
   </tr>		
   <% end
   reset_cycle %>
+  <% end %>
 <% end %>
 </table>
 
