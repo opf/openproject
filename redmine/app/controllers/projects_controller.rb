@@ -80,7 +80,7 @@ class ProjectsController < ApplicationController
     @member ||= @project.members.new
     @roles = Role.find_all
     @users = User.find_all - @project.members.find(:all, :include => :user).collect{|m| m.user }
-    @custom_values = ProjectCustomField.find(:all).collect { |x| @project.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
+    @custom_values ||= ProjectCustomField.find(:all).collect { |x| @project.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
   end
   
   # Edit @project

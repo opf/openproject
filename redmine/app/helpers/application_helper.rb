@@ -17,16 +17,17 @@
 
 module ApplicationHelper
 
-  # return current logged in user or nil
+  # Return current logged in user or nil
   def loggedin?
     @logged_in_user
   end
   
-  # return true if user is loggend in and is admin, otherwise false
+  # Return true if user is logged in and is admin, otherwise false
   def admin_loggedin?
     @logged_in_user and @logged_in_user.admin?
   end
 
+  # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)  
     # check if action is allowed on public projects
     if @project.is_public? and Permission.allowed_to_public "%s/%s" % [ controller, action ]
@@ -76,12 +77,21 @@ module ApplicationHelper
         if attr == "base"
           full_messages << l(msg)
         else
-          full_messages << "&#171; " + (l_has_string?("field_" + attr) ? l("field_" + attr) : object.class.human_attribute_name(attr)) + " &#187; " + l(msg)
+          full_messages << "&#171; " + (l_has_string?("field_" + attr) ? l("field_" + attr) : object.class.human_attribute_name(attr)) + " &#187; " + l(msg) unless attr == "custom_values"
         end
-      end   
+      end
+      # retrieve custom values error messages
+      if object.errors[:custom_values]
+        object.custom_values.each do |v| 
+          v.errors.each do |attr, msg|
+            next if msg.nil?
+            full_messages << "&#171; " + v.custom_field.name + " &#187; " + l(msg)
+          end
+        end
+      end      
       content_tag("div",
         content_tag(
-          options[:header_tag] || "h2", lwr(:gui_validation_error, object.errors.count) + " :"
+          options[:header_tag] || "h2", lwr(:gui_validation_error, full_messages.length) + " :"
         ) +
         content_tag("ul", full_messages.collect { |msg| content_tag("li", msg) }),
         "id" => options[:id] || "errorExplanation", "class" => options[:class] || "errorExplanation"

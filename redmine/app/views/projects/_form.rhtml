@@ -22,8 +22,8 @@
 <p><%= check_box 'project', 'is_public' %>
 <label for="project_is_public"><%=l(:field_is_public)%></label></p>
 
-<% for custom_value in @custom_values %>
-	<p><%= custom_field_tag_with_label custom_value %></p>
+<% for @custom_value in @custom_values %>
+	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end %>
 
 <fieldset><legend><%=l(:label_custom_field_plural)%></legend>

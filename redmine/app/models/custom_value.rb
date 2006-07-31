@@ -21,22 +21,17 @@ class CustomValue < ActiveRecord::Base
 
 protected
   def validate
-    # errors are added to customized object unless it's nil
-    object = customized || self
-    
-    object.errors.add(custom_field.name, :activerecord_error_blank) if custom_field.is_required? and value.empty?
-    object.errors.add(custom_field.name, :activerecord_error_invalid) unless custom_field.regexp.empty? or value =~ Regexp.new(custom_field.regexp)
-
-    object.errors.add(custom_field.name, :activerecord_error_too_short) if custom_field.min_length > 0 and value.length < custom_field.min_length and value.length > 0
-    object.errors.add(custom_field.name, :activerecord_error_too_long) if custom_field.max_length > 0 and value.length > custom_field.max_length
-
+    errors.add(:value, :activerecord_error_blank) and return if custom_field.is_required? and value.empty?    
+    errors.add(:value, :activerecord_error_invalid) unless custom_field.regexp.empty? or value =~ Regexp.new(custom_field.regexp)
+    errors.add(:value, :activerecord_error_too_short) if custom_field.min_length > 0 and value.length < custom_field.min_length and value.length > 0
+    errors.add(:value, :activerecord_error_too_long) if custom_field.max_length > 0 and value.length > custom_field.max_length
     case custom_field.field_format
     when "int"
-      object.errors.add(custom_field.name, :activerecord_error_not_a_number) unless value =~ /^[0-9]*$/	
+      errors.add(:value, :activerecord_error_not_a_number) unless value =~ /^[0-9]*$/	
     when "date"
-      object.errors.add(custom_field.name, :activerecord_error_invalid) unless value =~ /^(\d+)\/(\d+)\/(\d+)$/ or value.empty?
+      errors.add(:value, :activerecord_error_invalid) unless value =~ /^(\d+)\/(\d+)\/(\d+)$/ or value.empty?
     when "list"
-      object.errors.add(custom_field.name, :activerecord_error_inclusion) unless custom_field.possible_values.split('|').include? value or value.empty?
+      errors.add(:value, :activerecord_error_inclusion) unless custom_field.possible_values.split('|').include? value or value.empty?
     end
   end
 end

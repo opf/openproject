@@ -39,8 +39,8 @@
 <p><label for="issue_due_date"><%=l(:field_due_date)%></label><br />
 <%= date_select 'issue', 'due_date', :start_year => Date.today.year, :include_blank => true %></p>
 
-<% for custom_value in @custom_values %>
-	<p><%= custom_field_tag_with_label custom_value %></p>
+<% for @custom_value in @custom_values %>
+	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end %>
 
 <p><label for="attachment_file"><%=l(:label_attachment)%></label><br />

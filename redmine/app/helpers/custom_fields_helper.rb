@@ -17,6 +17,7 @@
 
 module CustomFieldsHelper
 
+  # Return custom field html tag corresponding to its format
   def custom_field_tag(custom_value)	
     custom_field = custom_value.custom_field
     field_name = "custom_fields[#{custom_field.id}]"
@@ -24,34 +25,35 @@ module CustomFieldsHelper
     
     case custom_field.field_format
     when "string", "int", "date"
-      text_field_tag field_name, custom_value.value, :id => field_id
+      text_field 'custom_value', 'value', :name => field_name, :id => field_id
     when "text"
-      text_area_tag field_name, custom_value.value, :id => field_id, :cols => 60, :rows => 3
+      text_area 'custom_value', 'value', :name => field_name, :id => field_id, :cols => 60, :rows => 3
     when "bool"
-      check_box_tag(field_name, "1", custom_value.value == "1", :id => field_id) + 
-      hidden_field_tag(field_name, "0")
+      check_box 'custom_value', 'value', :name => field_name, :id => field_id
     when "list"
-      select_tag field_name, 
-                  "<option></option>" + options_for_select(custom_field.possible_values.split('|'),
-                  custom_value.value), :id => field_id
+      select 'custom_value', 'value', custom_field.possible_values.split('|'), { :include_blank => true }, :name => field_name, :id => field_id
     end
   end
   
+  # Return custom field label tag
   def custom_field_label_tag(custom_value)
     content_tag "label", custom_value.custom_field.name +
 	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>" : ""),
 	:for => "custom_fields_#{custom_value.custom_field.id}"
   end
   
+  # Return custom field tag with its label tag
   def custom_field_tag_with_label(custom_value)
     case custom_value.custom_field.field_format
     when "bool"
+      # label is displayed inline after the checkbox
       custom_field_tag(custom_value) + " " + custom_field_label_tag(custom_value)
     else
       custom_field_label_tag(custom_value) + "<br />" + custom_field_tag(custom_value)
     end	  
   end
 
+  # Return a string used to display a custom value
   def show_value(custom_value)
     case custom_value.custom_field.field_format
     when "bool"
@@ -61,6 +63,7 @@ module CustomFieldsHelper
     end	
   end
 
+  # Return an array of custom field formats which can be used in select_tag
   def custom_field_formats_for_select
     CustomField::FIELD_FORMATS.keys.collect { |k| [ l(CustomField::FIELD_FORMATS[k]), k ] }
   end
