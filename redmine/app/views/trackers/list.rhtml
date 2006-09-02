@@ -1,6 +1,6 @@
 <h2><%=l(:label_tracker_plural)%></h2>
 
-<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+<table class="listTableContent">
   <tr class="ListHead">
   <th><%=l(:label_tracker)%></th>
   <th></th>
@@ -10,9 +10,7 @@
   <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to tracker.name, :action => 'edit', :id => tracker %></td>
   <td align="center">
-    <%= start_form_tag :action => 'destroy', :id => tracker %>
-    <%= submit_tag l(:button_delete), :class => "button-small" %>
-    <%= end_form_tag %>
+    <%= button_to l(:button_delete), { :action => 'destroy', :id => tracker }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
   </td>
   </tr>
 <% end %>

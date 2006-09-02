@@ -1,6 +1,6 @@
 <h2><%=l(:label_custom_field_new)%> (<%=l(@custom_field.type_name)%>)</h2>
 
-<%= start_form_tag :action => 'new' %>
+<%= start_form_tag({:action => 'new'}, :class => "tabular") %>
   <%= render :partial => 'form', :locals => { :type => @custom_field.type } %>
   <%= hidden_field_tag 'type', @custom_field.type %>
   <%= submit_tag l(:button_save) %>

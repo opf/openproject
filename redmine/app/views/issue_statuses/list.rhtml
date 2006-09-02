@@ -1,6 +1,6 @@
 <h2><%=l(:label_issue_status_plural)%></h2>
  
-<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+<table class="listTableContent">
   <tr class="ListHead">
   <th><%=l(:field_status)%></th>
   <th><%=l(:field_is_default)%></th>
@@ -14,11 +14,9 @@
   <td><%= link_to status.name, :action => 'edit', :id => status %></td>
   <td align="center"><%= image_tag 'true' if status.is_default? %></td>
   <td align="center"><%= image_tag 'true' if status.is_closed? %></td>  
-  <td bgcolor="#<%= status.html_color %>">&nbsp</td>  
+  <td><div style="background-color:#<%= status.html_color %>">&nbsp</div></td>  
   <td align="center">
-    <%= start_form_tag :action => 'destroy', :id => status %>
-    <%= submit_tag l(:button_delete), :class => "button-small" %>
-    <%= end_form_tag %>
+    <%= button_to l(:button_delete), { :action => 'destroy', :id => status }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
   </td>
   </tr>
 <% end %>

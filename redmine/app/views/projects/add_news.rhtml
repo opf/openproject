@@ -1,7 +1,6 @@
 <h2><%=l(:label_news_new)%></h2>
 
-<%= start_form_tag :action => 'add_news', :id => @project %>
-  <%= render :partial => 'news/form' %>
-  <%= submit_tag l(:button_create) %>
-<%= end_form_tag %>
-
+<% labelled_tabular_form_for :news, @news, :url => { :action => "add_news" } do |f| %>
+<%= render :partial => 'news/form', :locals => { :f => f } %>
+<%= submit_tag l(:button_create) %>
+<% end %>

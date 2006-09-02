@@ -1,10 +1,7 @@
 <%= error_messages_for 'tracker' %>
-
+<div class="box">
 <!--[form:tracker]-->
-<p><label for="tracker_name"><%=l(:field_name)%></label> <span class="required">*</span><br/>
-<%= text_field 'tracker', 'name'  %></p>
-
-<p><%= check_box 'tracker', 'is_in_chlog' %>
-<label for="tracker_is_in_chlog"><%=l(:field_is_in_chlog)%></label></p>
+<p><%= f.text_field :name, :required => true %></p>
+<p><%= f.check_box :is_in_chlog %></p>
 <!--[eoform:tracker]-->
-
+</div>

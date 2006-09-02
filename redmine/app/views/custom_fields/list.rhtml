@@ -1,6 +1,6 @@
 <h2><%=l(:label_custom_field_plural)%></h2>
 
-<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">		
+<table class="listTableContent">		
 <tr class="ListHead">	
 	<th><%=l(:field_name)%></th>
 	<th><%=l(:field_type)%></th>
@@ -19,9 +19,8 @@
 	<td align="center"><%= image_tag 'true' if custom_field.is_for_all? %></td>
 	<td align="center"><%= custom_field.projects.count.to_s + ' ' + lwr(:label_project, custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
 	<td align="center">
-    <%= start_form_tag :action => 'destroy', :id => custom_field %>
-    <%= submit_tag l(:button_delete), :class => "button-small"  %>
-    <%= end_form_tag %>	</td>
+	   <%= button_to l(:button_delete), { :action => 'destroy', :id => custom_field }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
+    </td>
   </tr>
 <% end %>
 </table>

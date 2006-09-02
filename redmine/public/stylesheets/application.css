@@ -13,6 +13,7 @@ line-height:1.4em;
 text-align:center;
 color:#303030;
 background:#e8eaec;
+margin:0;
 }
 
 
@@ -39,25 +40,25 @@ img.right{float:right; margin:0 0 5px 12px;}
 #container{
 width:100%;
 min-width: 800px;
-margin:5px auto;
-padding:1px 0;
+margin:0;
+padding:0;
 text-align:left;
 background:#ffffff;
 color:#303030;
-border:2px solid #a0a0a0;
 }
 
 #header{
-height:5.5em;
+height:4.5em;
 /*width:758px;*/
-margin:0 1px 1px 1px;
+margin:0;
 background:#467aa7;
 color:#ffffff;
+margin-bottom:1px;
 }
 
 #header h1{
-padding:14px 0 0 20px;
-font-size:2.4em;
+padding:10px 0 0 20px;
+font-size:1.8em;
 background-color:inherit;
 color:#fff; /*rgb(152, 26, 33);*/
 letter-spacing:-2px;
@@ -65,7 +66,7 @@ font-weight:normal;
 }
 
 #header h2{
-margin:10px 0 0 40px;
+margin:3px 0 0 40px;
 font-size:1.4em;
 background-color:inherit;
 color:#f0f2f4;
@@ -77,7 +78,7 @@ font-weight:normal;
 height:2.2em;
 line-height:2.2em;
 /*width:758px;*/
-margin:0 1px;
+margin:0;
 background:#578bb8;
 color:#ffffff;
 }
@@ -127,16 +128,22 @@ background-color: #80b0da;
 
 /**************** Content styles ****************/
 
+html>body #content {
+height: auto;
+min-height: 300px;
+} 
+
 #content{
 /*float:right;*/
 /*width:530px;*/
 width: auto;
-min-height: 500px;
+height:300px;
 font-size:0.9em;
 padding:20px 10px 10px 20px;
 /*position: absolute;*/
-margin: 0 0 0 140px;
+margin-left: 120px;
 border-left: 1px dashed #c0c0c0;
+
 }
 
 #content h2{
@@ -176,6 +183,10 @@ form {
 
 .noborder {
 	border:0px;
+Exception exceptions.AssertionError: <exceptions.AssertionError instance at 0xb7c0b20c> in <bound 
+method SubversionRepository.__del__ of <vclib.svn.SubversionRepository instance at 0xb7c1252c>> 
+ignored
+
 	background-color:#fff;
 	width:100%;
 }
@@ -186,7 +197,7 @@ textarea {
 }
 
 input {
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 input.button-small 
@@ -227,14 +238,13 @@ legend {
 }
 
 table.listTableContent {
-	/*margin: 2em 2em 2em 0;	*/
-	border:1px solid #c0c0c0;
+	border:1px solid #578bb8;
 	width:99%;
+	border-collapse: collapse;
 }
 
 table.listTableContent td {
-	margin: 2px;
-	
+	padding:4px;
 }
 
 tr.ListHead {
@@ -249,10 +259,10 @@ tr.ListHead a {
 }
 
 tr.odd {
-	background-color: #C1E2F7;
+	background-color:#f0f1f2;
 }
 tr.even {
-	background-color:#CEE1ED;
+	background-color: #fff;
 }
 
 hr { border:none; border-bottom: dotted 2px #c0c0c0; }
@@ -263,19 +273,18 @@ hr { border:none; border-bottom: dotted 2px #c0c0c0; }
 #subcontent{
 float:left;
 clear:both;
-width:130px;
+width:110px;
 padding:20px 20px 10px 5px;
-line-height:1.4em;
 }
 
 #subcontent h2{
 display:block;
-margin:0 0 15px 0;
-font-size:1.6em;
-font-weight:normal;
+margin:0 0 5px 0;
+font-size:1.0em;
+font-weight:bold;
 text-align:left;
 letter-spacing:-1px;
-color:#505050;
+color:#606060;
 background-color:inherit;
 }
 
@@ -283,11 +292,11 @@ background-color:inherit;
 
 /**************** Menublock styles ****************/
 
-.menublock{margin:0 0 20px 8px; font-size:0.9em;}
+.menublock{margin:0 0 20px 8px; font-size:0.8em;}
 .menublock li{list-style:none; display:block; padding:1px; margin-bottom:0px;}
 .menublock li a{font-weight:bold; text-decoration:none;}
 .menublock li a:hover{text-decoration:none;}
-.menublock li ul{margin:3px 0 3px 15px; font-size:1em; font-weight:normal;}
+.menublock li ul{margin:0; font-size:1em; font-weight:normal;}
 .menublock li ul li{margin-bottom:0;}
 .menublock li ul a{font-weight:normal;}
 
@@ -317,7 +326,7 @@ text-align:center;
 clear:both;
 /*width:758px;*/
 padding:5px 0;
-margin:0 1px;
+margin:0;
 font-size:0.9em;
 color:#f0f0f0;
 background:#467aa7;
@@ -352,3 +361,33 @@ width: 50%;
 text-align: left;
 }
 
+
+/***** CSS FORM ******/
+.tabular p{
+margin: 0;
+padding: 5px 0 8px 0;
+padding-left: 180px; /*width of left column containing the label elements*/
+height: 1%;
+}
+
+.tabular label{
+font-weight: bold;
+float: left;
+margin-left: -180px; /*width of left column*/
+width: 175px; /*width of labels. Should be smaller than left column to create some right 
+margin*/
+}
+
+.error {
+color: #cc0000;
+}
+
+
+/*.threepxfix class below:
+Targets IE6- ONLY. Adds 3 pixel indent for multi-line form contents.
+to account for 3 pixel bug: http://www.positioniseverything.net/explorer/threepxtest.html
+*/
+
+* html .threepxfix{
+margin-left: 3px;
+}

@@ -6,52 +6,49 @@
 
 <%= error_messages_for 'user' %>
 
-<div class="splitcontentleft">
   <div class="box">
   <h3><%=l(:label_information_plural)%></h3>
 
-  <%= start_form_tag :action => 'my_account' %>
+  <%= start_form_tag({:action => 'my_account'}, :class => "tabular") %>
 
   <!--[form:user]-->
-  <p><label for="user_firstname"><%=l(:field_firstname)%> <span class="required">*</span></label><br/>
+  <p><label for="user_firstname"><%=l(:field_firstname)%> <span class="required">*</span></label>
   <%= text_field 'user', 'firstname'  %></p>
 
-  <p><label for="user_lastname"><%=l(:field_lastname)%> <span class="required">*</span></label><br/>
+  <p><label for="user_lastname"><%=l(:field_lastname)%> <span class="required">*</span></label>
   <%= text_field 'user', 'lastname'  %></p>
 
-  <p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label><br/>
+  <p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label>
   <%= text_field 'user', 'mail', :size => 40 %></p>
   
-  <p><label for="user_language"><%=l(:field_language)%></label><br/>
+  <p><label for="user_language"><%=l(:field_language)%></label>
   <%= select("user", "language", lang_options_for_select) %></p>
   <!--[eoform:user]-->
 
-  <p><%= check_box 'user', 'mail_notification' %> <label for="user_mail_notification"><%=l(:field_mail_notification)%></label></p>
+  <p><label for="user_mail_notification"><%=l(:field_mail_notification)%></label>
+  <%= check_box 'user', 'mail_notification' %></p>
 
   <center><%= submit_tag l(:button_save) %></center>
   <%= end_form_tag %>
   </div>
-</div>
 
 
-<div class="splitcontentright">
 <% unless @user.auth_source_id %>
   <div class="box">
   <h3><%=l(:field_password)%></h3>
 
-  <%= start_form_tag :action => 'change_password' %>
+  <%= start_form_tag({:action => 'change_password'}, :class => "tabular") %>
 
-  <p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label><br/>
+  <p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label>
   <%= password_field_tag 'password', nil, :size => 25 %></p>
 
-  <p><label for="new_password"><%=l(:field_new_password)%> <span class="required">*</span></label><br/>
+  <p><label for="new_password"><%=l(:field_new_password)%> <span class="required">*</span></label>
   <%= password_field_tag 'new_password', nil, :size => 25 %></p>
 
-  <p><label for="new_password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label><br/>
+  <p><label for="new_password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
   <%= password_field_tag 'new_password_confirmation', nil, :size => 25 %></p>
 
   <center><%= submit_tag l(:button_save) %></center>
   <%= end_form_tag %>
   </div>
 <% end %>
-</div>

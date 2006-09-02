@@ -1,6 +1,6 @@
 <h2><%=l(:label_issue_category)%></h2>
 
-<%= start_form_tag :action => 'edit', :id => @category %>
+<%= start_form_tag({:action => 'edit', :id => @category}, :class => "tabular") %>
   <%= render :partial => 'form' %>
   <%= submit_tag l(:button_save) %>
 <%= end_form_tag %>

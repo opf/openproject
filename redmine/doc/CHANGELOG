@@ -7,22 +7,26 @@ http://redmine.org/
 
 == xx/xx/2006 v0.3.0
 
-* user authentication against multiple LDAP
+* user authentication against multiple LDAP (optional)
 * token based "lost password" functionality
 * user self-registration functionality (optional)
 * custom fields now available for issues, users and projects
 * new custom field format "text" (displayed as a textarea field) 
 * project & administration drop down menus in navigation bar for quicker access
 * "due date" field added on issues
-* error messages internationalization
+* tracker selection filter added on change log
 * Localization plugin replaced with GLoc 1.1.0
+* error messages internationalization
+* german translation added (thanks to Karim Trott)
 * new filter in issues list: "Fixed version"
 * active filters are displayed with colored background on issues list
 * custom configuration is now defined in config/config_custom.rb
 * user object no more stored in session (only user_id)
 * news summary field is no longer required
+* tables and forms redesign
 * Fixed: boolean custom field not working
 * Fixed: error messages for custom fields are not displayed
+* Fixed: invalid custom fields should have a red border
 * Fixed: custom fields values are not validated on issue update
 * Fixed: unable to choose an empty value for 'List' custom fields
 * Fixed: no issue categories sorting

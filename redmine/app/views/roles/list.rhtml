@@ -1,6 +1,6 @@
 <h2><%=l(:label_role_plural)%></h2>
 
-<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+<table class="listTableContent">
   <tr class="ListHead">
     <th><%=l(:label_role)%></th>
 	<th></th>
@@ -10,9 +10,7 @@
   <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to role.name, :action => 'edit', :id => role %></td>
   <td align="center">
-    <%= start_form_tag :action => 'destroy', :id => role %>
-    <%= submit_tag l(:button_delete), :class => "button-small" %>
-    <%= end_form_tag %>
+    <%= button_to l(:button_delete), { :action => 'destroy', :id => role }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
   </tr>
 <% end %>
 </table>

@@ -1,56 +1,26 @@
 <h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%= @issue.subject %></h2>
 
+<% labelled_tabular_form_for :issue, @issue, :url => {:action => 'edit'} do |f| %>
 <%= error_messages_for 'issue' %>
-<%= start_form_tag :action => 'edit', :id => @issue %>
-
 <div class="box">
 <!--[form:issue]-->
-<p><%=l(:field_status)%>: <b><%= @issue.status.name %></b></p>
+<p><label><%=l(:field_status)%></label> <%= @issue.status.name %></p>
 
-<div style="float:left;margin-right:10px;">
-<p><label for="issue_priority_id"><%=l(:field_priority)%> <span class="required">*</span></label><br/>
-<select name="issue[priority_id]">
-<%= options_from_collection_for_select @priorities, "id", "name", @issue.priority_id %></p>
-</select></p>
-</div>
-
-<div style="float:left;margin-right:10px;">
-<p><label for="issue_assigned_to_id"><%=l(:field_assigned_to)%></label><br/>
-<select name="issue[assigned_to_id]">
-<option value=""></option>
-<%= options_from_collection_for_select @issue.project.members, "user_id", "name", @issue.assigned_to_id %></p>
-</select></p>
-</div>
-
-<div>
-<p><label for="issue_category_id"><%=l(:field_category)%></label><br/>
-<select name="issue[category_id]">
-<option value=""></option>
-<%= options_from_collection_for_select @project.issue_categories, "id", "name", @issue.category_id %></p>
-</select></p>
-</div>
-
-<p><label for="issue_subject"><%=l(:field_subject)%></label><span class="required">*</span><br/>
-<%= text_field 'issue', 'subject', :size => 60  %></p>
-
-<p><label for="issue_description"><%=l(:field_description)%></label><span class="required">*</span><br/>
-<%= text_area 'issue', 'description', :cols => 60, :rows => 10  %></p>
-
-<p><label for="issue_due_date"><%=l(:field_due_date)%></label><br />
-<%= date_select 'issue', 'due_date', :start_year => Date.today.year, :include_blank => true %></p>
+<p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
+<p><%= f.select :assigned_to_id, (@issue.project.members.collect {|m| [m.name, m.user_id]}), :include_blank => true %></p>
+<p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}) %></p>
+<p><%= f.text_field :subject, :size => 80, :required => true %></p>
+<p><%= f.text_area :description, :cols => 60, :rows => 10, :required => true %></p>
+<p><%= f.date_select :due_date, :start_year => Date.today.year, :include_blank => true %></p>
 
 <% for @custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end %>
 
-<p><label for="issue_fixed_version"><%=l(:field_fixed_version)%></label><br/>
-<select name="issue[fixed_version_id]">
-<option value="">--none--</option>
-<%= options_from_collection_for_select @project.versions, "id", "name", @issue.fixed_version_id %>
+<p><%= f.select :fixed_version_id, (@project.versions.collect {|v| [v.name, v.id]}), { :include_blank => true } %>
 </select></p>
-
 <!--[eoform:issue]-->
 </div>
 
 <%= submit_tag l(:button_save) %>
-<%= end_form_tag %>
+<% end %>

@@ -1,6 +1,6 @@
 <h2><%=l(:label_enumerations)%></h2>
 
-<%= start_form_tag :action => 'update', :id => @enumeration %>
+<%= start_form_tag({:action => 'update', :id => @enumeration}, :class => "tabular") %>
   <%= render :partial => 'form' %>
   <%= submit_tag l(:button_save) %>
 <%= end_form_tag %>

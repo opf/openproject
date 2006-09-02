@@ -2,11 +2,8 @@
 
 <% for news in @news %>
 	<p>
-	<b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small>
-	<%= link_to_if_authorized image_tag('edit_small'), :controller => 'news', :action => 'edit', :id => news %>
-	<%= link_to_if_authorized image_tag('delete'), { :controller => 'news', :action => 'destroy', :id => news }, :confirm => 'Are you sure?' %>
-	<br />
-	<%= news.summary %>
+	<b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />
+	<%= news.summary %><br />
 	<small>[<%= link_to l(:label_read), :controller => 'news', :action => 'show', :id => news %>]</small>
 	</p>
 <% end %>

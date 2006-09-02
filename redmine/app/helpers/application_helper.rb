@@ -104,4 +104,47 @@ module ApplicationHelper
   def lang_options_for_select
     (GLoc.valid_languages.sort {|x,y| x.to_s <=> y.to_s }).collect {|lang| [ l_lang_name(lang.to_s, lang), lang.to_s]}
   end
+  
+  def label_tag_for(name, option_tags = nil, options = {})
+    label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
+    content_tag("label", label_text)
+  end
+  
+  def labelled_tabular_form_for(name, object, options, &proc)
+    options[:html] ||= {}
+    options[:html].store :class, "tabular"
+    form_for(name, object, options.merge({ :builder => TabularFormBuilder, :lang => current_language}), &proc)
+  end
 end
+
+class TabularFormBuilder < ActionView::Helpers::FormBuilder
+  include GLoc
+  
+  def initialize(object_name, object, template, options, proc)
+    set_language_if_valid options.delete(:lang)
+    @object_name, @object, @template, @options, @proc = object_name, object, template, options, proc        
+  end      
+      
+  (field_helpers - %w(radio_button) + %w(date_select)).each do |selector|
+    src = <<-END_SRC
+    def #{selector}(field, options = {}) 
+      label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
+      label = @template.content_tag("label", label_text, 
+                    :class => (@object.errors[field] ? "error" : nil), 
+                    :for => (@object_name.to_s + "_" + field.to_s))
+      label + super
+    end
+    END_SRC
+    class_eval src, __FILE__, __LINE__
+  end
+  
+  def select(field, choices, options = {}) 
+    label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
+    label = @template.content_tag("label", label_text, 
+                  :class => (@object.errors[field] ? "error" : nil), 
+                  :for => (@object_name.to_s + "_" + field.to_s))
+    label + super
+  end
+
+end
+

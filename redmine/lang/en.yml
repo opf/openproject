@@ -101,7 +101,7 @@ field_user: User
 field_role: Role
 field_homepage: Homepage
 field_is_public: Public
-field_parent: Subproject de
+field_parent: Subproject of
 field_is_in_chlog: Issues displayed in changelog
 field_login: Login
 field_mail_notification: Mail notifications
@@ -264,6 +264,7 @@ text_min_max_length_info: 0 means no restriction
 text_possible_values_info: values separated with |
 text_project_destroy_confirmation: Are you sure you want to delete this project and all related data ?
 text_workflow_edit: Select a role and a tracker to edit the workflow
+text_are_you_sure: Are you sure ?
 
 default_role_manager: Manager
 default_role_developper: Developer

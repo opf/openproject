@@ -1,15 +1,15 @@
 <%= error_messages_for 'document' %>
-
+<div class="box">
 <!--[form:document]-->
-<p><label for="document_category_id"><%=l(:field_category)%></label><br />
+<p><label for="document_category_id"><%=l(:field_category)%></label>
 <select name="document[category_id]">
 <%= options_from_collection_for_select @categories, "id", "name", @document.category_id %>
 </select></p>
 
-<p><label for="document_title"><%=l(:field_title)%> <span class="required">*</span></label><br />
+<p><label for="document_title"><%=l(:field_title)%> <span class="required">*</span></label>
 <%= text_field 'document', 'title', :size => 60 %></p>
 
-<p><label for="document_description"><%=l(:field_description)%></label><br />
+<p><label for="document_description"><%=l(:field_description)%></label>
 <%= text_area 'document', 'description', :cols => 60, :rows => 5 %></p>
 <!--[eoform:document]-->
-
+</div>

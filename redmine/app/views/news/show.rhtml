@@ -8,3 +8,14 @@
 
 <%= simple_format auto_link @news.description %>
 
+<% if authorize_for('news', 'edit') %>
+  <%= start_form_tag ({:controller => 'news', :action => 'edit', :id => @news}, :method => 'get' ) %>
+  <%= submit_tag l(:button_edit) %>
+  <%= end_form_tag %>
+<% end %>
+
+<% if authorize_for('news', 'destroy') %>
+  <%= start_form_tag ({:controller => 'news', :action => 'destroy', :id => @news}) %>
+  <%= submit_tag l(:button_delete) %>
+  <%= end_form_tag %>
+<% end %>

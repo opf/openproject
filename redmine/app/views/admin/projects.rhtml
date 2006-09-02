@@ -1,6 +1,6 @@
 <h2><%=l(:label_project_plural)%></h2>
 
-<table width="100%" cellspacing="1" cellpadding="2" class="listTableContent">
+<table class="listTableContent">
   <tr class="ListHead">
 	<%= sort_header_tag('name', :caption => l(:label_project)) %>
 	<th><%=l(:field_description)%></th>
@@ -18,9 +18,7 @@
 	<td align="center"><%= project.projects_count %>
 	<td align="center"><%= format_date(project.created_on) %>
   <td align="center">
-    <%= start_form_tag({:controller => 'projects', :action => 'destroy', :id => project}) %>
-    <%= submit_tag l(:button_delete), :class => "button-small"  %>
-    <%= end_form_tag %>
+    <%= button_to l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => "button-small" %>
   </td>
   </tr>
 <% end %>

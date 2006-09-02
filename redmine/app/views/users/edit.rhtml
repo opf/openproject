@@ -1,6 +1,6 @@
 <h2><%=l(:label_user)%></h2>
 
-<%= start_form_tag :action => 'edit', :id => @user %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag l(:button_save) %>  
-<%= end_form_tag %>
+<% labelled_tabular_form_for :user, @user, :url => { :action => "edit" } do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+<%= submit_tag l(:button_save) %>
+<% end %>

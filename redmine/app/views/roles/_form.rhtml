@@ -1,9 +1,7 @@
 <%= error_messages_for 'role' %> 
-
 <div class="box">
 <!--[form:role]-->
-<p><label for="role_name"><%=l(:field_name)%> <span class="required">*</span></label><br />
-<%= text_field 'role', 'name' %></p>
+<p><%= f.text_field :name, :required => true %></p>
 
 <strong><%=l(:label_permissions)%>:</strong>
 <% permissions = @permissions.group_by {|p| p.group_id } %>

@@ -39,18 +39,13 @@ module CustomFieldsHelper
   def custom_field_label_tag(custom_value)
     content_tag "label", custom_value.custom_field.name +
 	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>" : ""),
-	:for => "custom_fields_#{custom_value.custom_field.id}"
+	:for => "custom_fields_#{custom_value.custom_field.id}",
+	:class => (custom_value.errors.empty? ? nil : "error" )
   end
   
   # Return custom field tag with its label tag
   def custom_field_tag_with_label(custom_value)
-    case custom_value.custom_field.field_format
-    when "bool"
-      # label is displayed inline after the checkbox
-      custom_field_tag(custom_value) + " " + custom_field_label_tag(custom_value)
-    else
-      custom_field_label_tag(custom_value) + "<br />" + custom_field_tag(custom_value)
-    end	  
+    custom_field_label_tag(custom_value) + custom_field_tag(custom_value)
   end
 
   # Return a string used to display a custom value

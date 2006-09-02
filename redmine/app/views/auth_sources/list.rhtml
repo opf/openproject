@@ -1,6 +1,6 @@
 <h2><%=l(:label_auth_source_plural)%></h2>
 
-<table border="0" cellspacing="1" cellpadding="2" class="listTableContent">
+<table class="listTableContent">
   <tr class="ListHead">
   <td><%=l(:field_name)%></td>
   <td><%=l(:field_type)%></td>
@@ -18,9 +18,7 @@
         <%= link_to l(:button_test), :action => 'test_connection', :id => source %>
     </td>
     <td align="center">
-        <%= start_form_tag :action => 'destroy', :id => source %>
-        <%= submit_tag l(:button_delete), :class => "button-small" %>
-        <%= end_form_tag %>
+        <%= button_to l(:button_delete), { :action => 'destroy', :id => source }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
     </td>
     </tr>
 <% end %>

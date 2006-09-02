@@ -1,10 +1,12 @@
 <h2><%=l(:label_document_new)%></h2>
 
-<%= start_form_tag( { :action => 'add_document', :id => @project }, :multipart => true) %>
+<%= start_form_tag( { :action => 'add_document', :id => @project }, :class => "tabular", :multipart => true) %>
 <%= render :partial => 'documents/form' %>
 
-<p><label for="attachment_file"><%=l(:label_attachment)%></label><br/>
-<%= file_field 'attachment', 'file'  %></p>
+<div class="box">
+<p><label for="attachment_file"><%=l(:label_attachment)%></label>
+<%= file_field 'attachment', 'file' %></p>
+</div>
 
 <%= submit_tag l(:button_create) %>
 <%= end_form_tag %>

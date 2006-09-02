@@ -123,7 +123,7 @@ ActiveRecord::Errors.default_error_messages = {
   :not_a_number => "activerecord_error_not_a_number"
 }
 
-ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "<span class=\"fieldWithErrors\">#{html_tag}</span>" }
+ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "#{html_tag}" }
     
 GLoc.set_config :default_language => $RDM_DEFAULT_LANG
 GLoc.clear_strings

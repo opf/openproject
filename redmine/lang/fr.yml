@@ -264,6 +264,7 @@ text_min_max_length_info: 0 pour aucune restriction
 text_possible_values_info: valeurs séparées par |
 text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et tout ce qui lui est rattaché ?
 text_workflow_edit: Sélectionner un tracker et un rôle pour éditer le workflow
+text_are_you_sure: Etes-vous sûr ?
 
 default_role_manager: Manager
 default_role_developper: Développeur
