@@ -1,7 +1,7 @@
 <h2><%=l(:label_overview)%></h2> 
 	
 <div class="splitcontentleft">
-	<%= @project.description %>	
+	<%= simple_format auto_link @project.description %>	
 	<ul>
 	<li><%=l(:field_homepage)%>: <%= link_to @project.homepage, @project.homepage %></li>
 	<li><%=l(:field_created_on)%>: <%= format_date(@project.created_on) %></li>

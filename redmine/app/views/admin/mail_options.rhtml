@@ -1,8 +1,9 @@
 <h2><%=l(:field_mail_notification)%></h2>
 
-<p><%=l(:text_select_mail_notifications)%></p>
-
 <%= start_form_tag ({}, :id => 'mail_options_form')%>
+
+<div class="box">
+<p><%=l(:text_select_mail_notifications)%></p>
 
 <% actions = @actions.group_by {|p| p.group_id } %>
 <% actions.keys.sort.each do |group_id| %>
@@ -15,11 +16,9 @@
 </fieldset>
 <% end %>
 
-
 <br />
-<p>
-<a href="javascript:checkAll('mail_options_form', true)"><%=l(:button_check_all)%></a> |
-<a href="javascript:checkAll('mail_options_form', false)"><%=l(:button_uncheck_all)%></a>
-</p>
+<p><%= check_all_links 'mail_options_form' %></p>
+</div>
+
 <%= submit_tag l(:button_save) %>
 <%= end_form_tag %>

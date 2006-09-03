@@ -1,5 +1,7 @@
 <h2><%=l(:label_news_plural)%></h2>
 
+<% if @news.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+
 <% for news in @news %>
 	<p>
 	<b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />

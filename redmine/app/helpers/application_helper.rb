@@ -115,6 +115,12 @@ module ApplicationHelper
     options[:html].store :class, "tabular"
     form_for(name, object, options.merge({ :builder => TabularFormBuilder, :lang => current_language}), &proc)
   end
+  
+  def check_all_links(form_name)
+    link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
+    " | " +
+    link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")   
+  end
 end
 
 class TabularFormBuilder < ActionView::Helpers::FormBuilder
