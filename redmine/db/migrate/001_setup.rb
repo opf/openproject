@@ -121,6 +121,7 @@ class Setup < ActiveRecord::Migration
       t.column "priority_id", :integer, :default => 0, :null => false
       t.column "fixed_version_id", :integer
       t.column "author_id", :integer, :default => 0, :null => false
+      t.column "lock_version", :integer, :default => 0, :null => false
       t.column "created_on", :timestamp
       t.column "updated_on", :timestamp
     end

@@ -49,7 +49,7 @@
 <div class="box">
 <h3><%=l(:label_history)%></h3>
 <table width="100%">
-<% for history in @issue.histories.find(:all, :include => :author) %>
+<% for history in @issue.histories.find(:all, :include => [:author, :status]) %>
 <tr>
 <td><%= format_date(history.created_on) %></td>
 <td><%= history.author.display_name %></td>

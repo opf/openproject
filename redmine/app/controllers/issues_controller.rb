@@ -16,61 +16,66 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssuesController < ApplicationController
-	layout 'base'
-	before_filter :find_project, :authorize
+  layout 'base'
+  before_filter :find_project, :authorize
 
-	helper :custom_fields
-	include CustomFieldsHelper
-	
-	def show
-    @status_options = @issue.status.workflows.find(:all, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
+  helper :custom_fields
+  include CustomFieldsHelper
+
+  def show
+    @status_options = @issue.status.workflows.find(:all, :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
-	end
+  end
 
-	def edit
-		@priorities = Enumeration::get_values('IPRI')
-		
-		if request.get?
-			@custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
-		else
-			# Retrieve custom fields and values
-			@custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
-			@issue.custom_values = @custom_values
-			@issue.attributes = params[:issue]
-			if @issue.save
-				flash[:notice] = l(:notice_successful_update)
-				redirect_to :action => 'show', :id => @issue
-			end
-		end		
-	end
-	
-	def change_status
-		@history = @issue.histories.build(params[:history])	
+  def edit
+    @priorities = Enumeration::get_values('IPRI')
+    if request.get?
+      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
+    else
+      begin
+        # Retrieve custom fields and values
+        @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
+        @issue.custom_values = @custom_values
+        @issue.attributes = params[:issue]
+        if @issue.save
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to :action => 'show', :id => @issue
+        end
+      rescue ActiveRecord::StaleObjectError
+        # Optimistic locking exception
+        flash[:notice] = l(:notice_locking_conflict)
+      end
+    end		
+  end
+
+  def change_status
+    @history = @issue.histories.build(params[:history])	
     @status_options = @issue.status.workflows.find(:all, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
-		
-		if params[:confirm]
-				@history.author_id = self.logged_in_user.id if self.logged_in_user
-	
-			if @history.save			
-				@issue.status = @history.status
-				@issue.fixed_version_id = (params[:issue][:fixed_version_id])
-				@issue.assigned_to_id = (params[:issue][:assigned_to_id])	
-				if @issue.save
-					flash[:notice] = l(:notice_successful_update)
-					Mailer.deliver_issue_change_status(@issue) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
-					redirect_to :action => 'show', :id => @issue
-				end
-			end
-		end    
+    if params[:confirm]
+      begin
+        @history.author_id = self.logged_in_user.id if self.logged_in_user
+        @issue.status = @history.status
+        @issue.fixed_version_id = (params[:issue][:fixed_version_id])
+        @issue.assigned_to_id = (params[:issue][:assigned_to_id])
+        @issue.lock_version = (params[:issue][:lock_version])
+        if @issue.save
+          flash[:notice] = l(:notice_successful_update)
+          Mailer.deliver_issue_change_status(@issue) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
+          redirect_to :action => 'show', :id => @issue
+        end
+      rescue ActiveRecord::StaleObjectError
+        # Optimistic locking exception
+        flash[:notice] = l(:notice_locking_conflict)
+      end
+    end    
     @assignable_to = @project.members.find(:all, :include => :user).collect{ |m| m.user }
-    
-	end
-	
-	def destroy
-		@issue.destroy
-		redirect_to :controller => 'projects', :action => 'list_issues', :id => @project
-	end
-  
+  end
+
+  def destroy
+    @issue.destroy
+    redirect_to :controller => 'projects', :action => 'list_issues', :id => @project
+  end
+
   def add_attachment
     # Save the attachment
     if params[:attachment][:file].size > 0
@@ -94,7 +99,7 @@ class IssuesController < ApplicationController
 
 private
   def find_project
-    @issue = Issue.find(params[:id])
+    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
     @project = @issue.project
   end  
 end

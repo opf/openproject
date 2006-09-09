@@ -58,6 +58,7 @@ notice_successful_update: Erfolgreiches Update.
 notice_successful_delete: Erfolgreiche Auslassung.
 notice_successful_connection: Erfolgreicher Anschluß.
 notice_file_not_found: Erbetene Akte besteht nicht oder ist gelöscht worden.
+notice_locking_conflict: Data have been updated by another user.
 
 gui_validation_error: 1 Störung
 gui_validation_error_plural: %d Störungen

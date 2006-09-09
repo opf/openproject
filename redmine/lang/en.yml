@@ -58,6 +58,7 @@ notice_successful_update: Successful update.
 notice_successful_delete: Successful deletion.
 notice_successful_connection: Successful connection.
 notice_file_not_found: Requested file doesn't exist or has been deleted.
+notice_locking_conflict: Data have been updated by another user.
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errors

@@ -25,5 +25,6 @@
 <%= text_area 'history', 'notes', :cols => 60, :rows => 10  %></p>
 </div>
 
+<%= hidden_field 'issue', 'lock_version' %>
 <%= submit_tag l(:button_save) %>
 <%= end_form_tag %>
