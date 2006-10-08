@@ -8,6 +8,8 @@ http://redmine.org/
 == Requirements
 
 * Ruby on Rails 1.1
+* Iconv
+* Net::LDAP for Ruby (for LDAP authentication)
 * a database (see compatibility below)
 * (recommended) Apache/Lighttpd with FCGI support 
 
@@ -18,6 +20,11 @@ Supported databases:
 * Oracle (tested with Oracle 10g)
 * SQL Server (tested with SQL Server 2005)
 * SQLite (tested with SQLite 3)
+
+== Upgrade
+
+Due to major database changes, there is no migration support from beta 0.2.0.
+Next releases (0.3.0+) will be provided with upgrade support.
 
 
 == Installation

@@ -31,7 +31,10 @@ redMine is a project management software written using Ruby on Rails.
 * fully customizable workflow
 * documents/files repository
 * email notifications
+* custom fields for projects, users and issues
 * multilanguage support
+* multiple LDAP authentication support
+* user self-registration support
 
 
 == User documentation

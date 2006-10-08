@@ -61,6 +61,8 @@
             l'utilisateur</para>
           </listitem>
         </itemizedlist>
+
+        <para></para>
       </section>
     </section>
 
@@ -87,16 +89,17 @@
       <title>Champs personnalisés</title>
 
       <para>Les champs personnalisés vous permettent d'ajouter des
-      informations supplémentaires sur les demandes. Un champ personnalisé
-      peut être de l'un des types suivants:</para>
+      informations supplémentaires sur les projets, les demandes ou les
+      utilisateurs. Un champ personnalisé peut être de l'un des types
+      suivants:</para>
 
       <itemizedlist>
         <listitem>
-          <para><guilabel>Integer</guilabel>: entier positif ou négatif</para>
+          <para><guilabel>Entier</guilabel>: entier positif ou négatif</para>
         </listitem>
 
         <listitem>
-          <para><guilabel>String</guilabel>: chaîne de caractère</para>
+          <para><guilabel>Chaîne</guilabel>: chaîne de caractère</para>
         </listitem>
 
         <listitem>
@@ -104,11 +107,11 @@
         </listitem>
 
         <listitem>
-          <para><guilabel>Boolean</guilabel>: booléen (case à cocher)</para>
+          <para><guilabel>Booléen</guilabel>: booléen (case à cocher)</para>
         </listitem>
 
         <listitem>
-          <para><guilabel>List</guilabel>: valeur à sélectionnée parmi une
+          <para><guilabel>Liste</guilabel>: valeur à sélectionnée parmi une
           liste prédéfinie (liste déroulante)</para>
         </listitem>
       </itemizedlist>
@@ -135,6 +138,14 @@
         <listitem>
           <para><guilabel>Expression régulière</guilabel>: expression
           régulière permettant de valider la valeur saisie</para>
+
+          <para>Exemples:</para>
+
+          <para><code>^\[A-Z]{4}\d+$</code> : 4 lettres majuscules suivies
+          d'un ou plusieurs chiffres</para>
+
+          <para><code>^[^0-9]*$</code> : chaîne ne comportant pas de
+          chiffres</para>
         </listitem>
 
         <listitem>
@@ -144,9 +155,57 @@
         </listitem>
       </itemizedlist>
 
-      <para>Si l'option <guilabel>Pour tous les projets</guilabel> n'est pas
-      activée, chaque projet pourra choisir d'utiliser ou non le champ pour
-      ses demandes.</para>
+      <para></para>
+
+      <section>
+        <title>Champs pour les projets</title>
+
+        <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><guilabel>Obligatoire</guilabel>: champ dont la saisie est
+            obligatoire</para>
+          </listitem>
+        </itemizedlist>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Champs pour les demandes</title>
+
+        <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><guilabel>Pour tous les projects</guilabel>: champ
+            automatiquement associé aux demandes de l'ensemble des
+            projets</para>
+
+            <para>Si cette option n'est pas activée, chaque projet pourra
+            choisir d'utiliser ou non le champ pour ses demandes (voir
+            configuration du projet).</para>
+          </listitem>
+        </itemizedlist>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Champs pour les utilisateurs</title>
+
+        <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><guilabel>Obligatoire</guilabel>: champ dont la saisie est
+            obligatoire</para>
+          </listitem>
+        </itemizedlist>
+
+        <para></para>
+      </section>
     </section>
 
     <section>
@@ -189,9 +248,9 @@
       autorisés. Les lignes représentent les statuts initiaux des demandes.
       Les colonnes représentent les statuts autorisés à être appliqués.</para>
 
-      <para>Remarque: pour qu'un rôle puisse changer le statut des demandes,
-      la permission doit lui être explicitement donnée indépendemment de la
-      configuration du workflow.</para>
+      <para><remark>Remarque: pour qu'un rôle puisse changer le statut des
+      demandes, la permission doit lui être explicitement donnée
+      indépendemment de la configuration du workflow.</remark></para>
 
       <para></para>
 
@@ -244,6 +303,102 @@
     </section>
 
     <section>
+      <title>Authentification</title>
+
+      <para>Par défaut, redMine s'appuie sur sa propre base de données pour
+      authentifier les utilisateurs, à l'aide d'un mot de passe
+      spécifique.</para>
+
+      <para>Si vous disposez déjà d'un ou plusieurs référentiels externes
+      d'utilisateurs (annuaires LDAP), vous pouvez les déclarer afin qu'ils
+      soient utilisés pour l'authentification sur redMine. Cela permet aux
+      utilisateurs d'accéder à redMine avec leurs identifiants et mots de
+      passe habituels.</para>
+
+      <para>Pour chaque référentiel déclaré, vous pouvez spécifier si les
+      comptes peuvent être créés à la volée dans redMine. Si c'est le cas, les
+      comptes utilisateurs sont automatiquement créés à la première connexion
+      de l'utilisateur (sans droits spécifiques sur les projets), à partir des
+      informations disponibles dans le référentiel. Sinon, l'administrateur
+      doit au préalable créer le compte de l'utilisateur dans redMine.</para>
+
+      <para></para>
+
+      <section>
+        <title>Déclaration d'un annuaire LDAP</title>
+
+        <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><guilabel>Nom</guilabel>: nom d'affichage du
+            référentiel</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Hôte</guilabel>: nom d'hôte du serveur LDAP</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Port</guilabel>: port de connexion au serveur
+            LDAP</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Compte</guilabel>: DN du compte de connexion au
+            LDAP (laisser vide si l'annuaire autorise l'accès anonyme en
+            lecture)</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Mot de passe</guilabel>: mot de passe du compte de
+            connexion</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Base DN</guilabel>: DN de base utilisé pour la
+            recherche des utilisateur dans l'annuaire</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Filtre LDAP</guilabel>: Filtre de recherche des
+            utilisateurs dans l'annuaire (optionnel)</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Attributs LDAP</guilabel>:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para><guilabel>Identifiant</guilabel>: nom de l'attribut LDAP
+                utilisé comme identifiant de l'utilisateur (ex: uid)</para>
+              </listitem>
+
+              <listitem>
+                <para><guilabel>Prénom</guilabel>: nom de l'attribut LDAP
+                contenant le prénom de l'utilisateur (ex: givenName)</para>
+              </listitem>
+
+              <listitem>
+                <para><guilabel>Nom</guilabel>: nom de l'attribut LDAP
+                contenant le nom de l'utilisateur (ex: sn)</para>
+              </listitem>
+
+              <listitem>
+                <para><guilabel>Email</guilabel>: nom de l'attribut LDAP
+                contenant l'adresse mail de l'utilisateur (ex: mail)</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
+
+        <para>Les attributs "<guilabel>Prénom</guilabel>",
+        "<guilabel>Nom</guilabel>" et "<guilabel>Email</guilabel>" ne sont
+        utilisés que lorsque les comptes sont créés à la volée.</para>
+      </section>
+    </section>
+
+    <section>
       <title>Informations</title>
 
       <para>Affiche des informations relatives à l'application et à son
@@ -253,8 +408,6 @@
 
   <chapter>
     <title>Projets</title>
-
-    <para></para>
 
     <section>
       <title>Aperçu du projet</title>
@@ -360,8 +513,8 @@
 
           <listitem>
             <para><guilabel>Champs personnalisés</guilabel>: sélectionner les
-            champs personnalisés que vous souhaitez utiliser au sein du
-            projet. Seul l'administrateur peut ajouter de nouveaux champs
+            champs personnalisés que vous souhaitez utiliser pour les demandes
+            du projet. Seul l'administrateur peut définir de nouveaux champs
             personnalisés.</para>
           </listitem>
         </itemizedlist>

@@ -13,11 +13,14 @@ http://redmine.org/
 * custom fields now available for issues, users and projects
 * new custom field format "text" (displayed as a textarea field) 
 * project & administration drop down menus in navigation bar for quicker access
+* text formatting is preserved for long text fields (issues, projects and news descriptions)
+* urls and emails are turned into clickable links in long text fields
 * "due date" field added on issues
 * tracker selection filter added on change log
-* Localization plugin replaced with GLoc 1.1.0
+* Localization plugin replaced with GLoc 1.1.0 (iconv required)
 * error messages internationalization
 * german translation added (thanks to Karim Trott)
+* data locking for issues to prevent update conflicts (using ActiveRecord builtin optimistic locking)
 * new filter in issues list: "Fixed version"
 * active filters are displayed with colored background on issues list
 * custom configuration is now defined in config/config_custom.rb
