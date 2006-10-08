@@ -41,17 +41,22 @@ Next releases (0.3.0+) will be provided with upgrade support.
    rake migrate RAILS_ENV="production"
    It will create tables and default configuration data
 
-5. Test the installation by running WEBrick web server:
+5. Insert default configuration data in database:
+   rake load_default_data RAILS_ENV="production"
+   This step is optional, as you can define your own configuration 
+   (roles, trackers, statuses, workflows, enumerations) from sratch
+
+6. Test the installation by running WEBrick web server:
    ruby script/server -e production   
   
    Once WEBrick has started, point your browser to http://localhost:3000/
    You should now see the application welcome page
 
-6. Use default administrator account to log in:
+7. Use default administrator account to log in:
    login: admin
    password: admin
 
-7. Setup Apache or Lighttpd with fastcgi for best performance.
+8. Setup Apache or Lighttpd with fastcgi for best performance.
 
 
 == Configuration
