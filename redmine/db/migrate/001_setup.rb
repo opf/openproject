@@ -81,6 +81,8 @@ class Setup < ActiveRecord::Migration
       t.column "description", :text, :default => ""
       t.column "created_on", :timestamp
     end
+    
+    add_index "documents", ["project_id"], :name => "documents_project_id"
   
     create_table "enumerations", :force => true do |t|
       t.column "opt", :string, :limit => 4, :default => "", :null => false
@@ -91,6 +93,8 @@ class Setup < ActiveRecord::Migration
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "name", :string, :limit => 30, :default => "", :null => false
     end
+    
+    add_index "issue_categories", ["project_id"], :name => "issue_categories_project_id"
   
     create_table "issue_histories", :force => true do |t|
       t.column "issue_id", :integer, :default => 0, :null => false
@@ -143,6 +147,8 @@ class Setup < ActiveRecord::Migration
       t.column "author_id", :integer, :default => 0, :null => false
       t.column "created_on", :timestamp
     end
+    
+    add_index "news", ["project_id"], :name => "news_project_id"
   
     create_table "permissions", :force => true do |t|
       t.column "controller", :string, :limit => 30, :default => "", :null => false
@@ -212,6 +218,8 @@ class Setup < ActiveRecord::Migration
       t.column "created_on", :timestamp
       t.column "updated_on", :timestamp
     end
+    
+    add_index "versions", ["project_id"], :name => "versions_project_id"
   
     create_table "workflows", :force => true do |t|
       t.column "tracker_id", :integer, :default => 0, :null => false
