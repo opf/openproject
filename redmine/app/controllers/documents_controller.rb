@@ -16,10 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class DocumentsController < ApplicationController
-	layout 'base'
-	before_filter :find_project, :authorize
-  
+  layout 'base'
+  before_filter :find_project, :authorize
+
   def show
+    @attachments = @document.attachments.find(:all, :order => "created_on DESC")
   end
 
   def edit
@@ -48,18 +49,17 @@ class DocumentsController < ApplicationController
       @attachment.author_id = self.logged_in_user.id if self.logged_in_user
       @attachment.save
     end
-    render :action => 'show'
+    redirect_to :action => 'show', :id => @document
   end
   
   def destroy_attachment
     @document.attachments.find(params[:attachment_id]).destroy
-    render :action => 'show'
+    redirect_to :action => 'show', :id => @document
   end
 
 private
-	def find_project
+  def find_project
     @document = Document.find(params[:id])
-		@project = @document.project
-	end  
-  
+    @project = @document.project
+  end  
 end

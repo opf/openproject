@@ -18,11 +18,11 @@
 
 <br /><br />
 
-<table border="0" cellspacing="1" cellpadding="2" width="100%">  
-<% for attachment in @document.attachments %>
-  <tr style="background-color:#CEE1ED">
+<table class="listTableContent">  
+<% for attachment in @attachments %>
+  <tr class="<%= cycle("odd", "even") %>">
+  <td><%= format_date(attachment.created_on) %></td>
   <td><%= link_to attachment.filename, :action => 'download', :id => @document, :attachment_id => attachment %></td>
-  <td align="center"><%= format_date(attachment.created_on) %></td>
   <td align="center"><%= attachment.author.display_name %></td>
   <td><%= human_size(attachment.filesize) %><br /><%= lwr(:label_download, attachment.downloads) %></td>
   
