@@ -123,7 +123,7 @@ module ApplicationHelper
   end
   
   def calendar_for(field_id)
-    image_tag("calendar.gif", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
+    image_tag("calendar", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
     javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
   end
 end
