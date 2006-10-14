@@ -29,7 +29,7 @@ protected
     when "int"
       errors.add(:value, :activerecord_error_not_a_number) unless value =~ /^[0-9]*$/	
     when "date"
-      errors.add(:value, :activerecord_error_invalid) unless value =~ /^(\d+)\/(\d+)\/(\d+)$/ or value.empty?
+      errors.add(:value, :activerecord_error_not_a_date) unless value =~ /^\d{4}-\d{2}-\d{2}$/ or value.empty?
     when "list"
       errors.add(:value, :activerecord_error_inclusion) unless custom_field.possible_values.split('|').include? value or value.empty?
     end

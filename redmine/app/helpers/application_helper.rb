@@ -121,6 +121,11 @@ module ApplicationHelper
     " | " +
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")   
   end
+  
+  def calendar_for(field_id)
+    image_tag("calendar.gif", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
+    javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
+  end
 end
 
 class TabularFormBuilder < ActionView::Helpers::FormBuilder
@@ -131,7 +136,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     @object_name, @object, @template, @options, @proc = object_name, object, template, options, proc        
   end      
       
-  (field_helpers - %w(radio_button) + %w(date_select)).each do |selector|
+  (field_helpers - %w(radio_button hidden_field) + %w(date_select)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {}) 
       label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")

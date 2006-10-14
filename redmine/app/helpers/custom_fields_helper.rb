@@ -24,8 +24,11 @@ module CustomFieldsHelper
     field_id = "custom_fields_#{custom_field.id}"
     
     case custom_field.field_format
-    when "string", "int", "date"
+    when "string", "int"
       text_field 'custom_value', 'value', :name => field_name, :id => field_id
+    when "date"
+      text_field('custom_value', 'value', :name => field_name, :id => field_id, :size => 10) + 
+      calendar_for(field_id)
     when "text"
       text_area 'custom_value', 'value', :name => field_name, :id => field_id, :cols => 60, :rows => 3
     when "bool"

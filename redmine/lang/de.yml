@@ -31,6 +31,7 @@ activerecord_error_too_short: ist zu kurz
 activerecord_error_wrong_length: ist die falsche Länge
 activerecord_error_taken: ist bereits genommen worden
 activerecord_error_not_a_number: ist nicht eine Zahl
+#activerecord_error_not_a_date: is not a valid date
 
 general_fmt_age: %d yr
 general_fmt_age_plural: %d yrs

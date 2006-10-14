@@ -11,7 +11,7 @@
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}) %></p>
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
 <p><%= f.text_area :description, :cols => 60, :rows => 10, :required => true %></p>
-<p><%= f.date_select :due_date, :start_year => Date.today.year, :include_blank => true %></p>
+<p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('issue_due_date') %></p>
 
 <% for @custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label @custom_value %></p>
