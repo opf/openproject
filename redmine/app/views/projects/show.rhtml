@@ -3,11 +3,11 @@
 <div class="splitcontentleft">
 	<%= simple_format(auto_link(@project.description)) %>	
 	<ul>
-	<li><%=l(:field_homepage)%>: <%= link_to @project.homepage, @project.homepage %></li>
+	<% unless @project.homepage.empty? %><li><%=l(:field_homepage)%>: <%= link_to @project.homepage, @project.homepage %></li><% end %>
 	<li><%=l(:field_created_on)%>: <%= format_date(@project.created_on) %></li>
 	<% for custom_value in @custom_values %>
 	<% if !custom_value.value.empty? %>
-	   <li><%= custom_value.custom_field.name%>: <%= custom_value.value%></li>
+	   <li><%= custom_value.custom_field.name%>: <%= show_value(custom_value) %></li>
 	<% end %>
 	<% end %>
 	</ul>	

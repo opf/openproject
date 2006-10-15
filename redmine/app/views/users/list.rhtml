@@ -19,7 +19,7 @@
 	<td><%= user.lastname %></td>
 	<td><%= user.mail %></td>
 	<td align="center"><%= image_tag 'true' if user.admin? %></td>
-	<td align="center"><%= image_tag 'locked' if user.locked? %></td>
+	<td align="center"><%= image_tag 'locked' if user.locked? %><%= image_tag 'user_new' if user.registered? %></td>
 	<td align="center"><%= format_time(user.created_on) %></td>
 	<td align="center"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
   <td align="center">

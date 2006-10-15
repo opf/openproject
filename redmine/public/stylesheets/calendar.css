@@ -7,7 +7,7 @@ div.calendar { position: relative; }
   font-size: 11px;
   color: #000;
   cursor: default;
-  background: #eef;
+  background: #fafbfc;
   font-family: tahoma,verdana,sans-serif;
 }
 
@@ -19,7 +19,7 @@ div.calendar { position: relative; }
 }
 
 .calendar .nav {
-  background: #778 url(menuarrow.gif) no-repeat 100% 100%;
+  background: #467aa7 url(menuarrow.gif) no-repeat 100% 100%;
 }
 
 .calendar thead .title { /* This holds the current "month, year" */
@@ -31,7 +31,7 @@ div.calendar { position: relative; }
 }
 
 .calendar thead .headrow { /* Row <TR> containing navigation buttons */
-  background: #778;
+  background: #467aa7;
   color: #fff;
 }
 
@@ -51,9 +51,8 @@ div.calendar { position: relative; }
 }
 
 .calendar thead .hilite { /* How do the buttons in header appear when hover */
-  background-color: #aaf;
+  background-color: #80b0da;
   color: #000;
-  border: 1px solid #04f;
   padding: 1px;
 }
 
@@ -89,11 +88,11 @@ div.calendar { position: relative; }
 }
 
 .calendar tbody .rowhilite td.wn {
-  background: #eef;
+  background: #80b0da;
 }
 
 .calendar tbody td.hilite { /* Hovered cells <TD> */
-  background: #def;
+  background: #80b0da;
   padding: 1px 3px 1px 1px;
   border: 1px solid #bbb;
 }

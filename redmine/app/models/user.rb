@@ -88,7 +88,11 @@ class User < ActiveRecord::Base
   def active?
     self.status == STATUS_ACTIVE
   end
-  
+
+  def registered?
+    self.status == STATUS_REGISTERED
+  end
+    
   def locked?
     self.status == STATUS_LOCKED
   end

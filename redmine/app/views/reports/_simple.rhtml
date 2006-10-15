@@ -14,7 +14,7 @@
 </tr>
 
 <% for row in rows %>
-<tr style="background-color:#CEE1ED">
+<tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to row.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id %></td>
@@ -43,4 +43,5 @@
 <% end %>
 </tr>
 </table>
-<% end %>
+<% end
+  reset_cycle %>

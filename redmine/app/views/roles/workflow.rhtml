@@ -28,18 +28,19 @@
   <%= form_tag ({:action => 'workflow', :role_id => @role, :tracker_id => @tracker }, :id => 'workflow_form' ) %>
 	<table>
 	<tr>
-	<td align="center"><strong><%=l(:label_current_status)%></strong></td>
+	<td align="center" colspan="2"><strong><%=l(:label_current_status)%></strong></td>
 	<td align="center" colspan="<%= @statuses.length %>"><strong><%=l(:label_new_statuses_allowed)%></strong></td>
 	</tr>
 	<tr>
-	<td></td>
+	<td colspan="2"></td>
 	<% for new_status in @statuses %>
-		<td width="60" align="center"><%= new_status.name %></td>
+		<td width="80" align="center"><%= new_status.name %></td>
 	<% end %>
 	</tr>
 	
 	<% for old_status in @statuses %>
 		<tr>
+		<td width="20" align="center"><div style="background-color:#<%= old_status.html_color %>">&nbsp</div></td>
 		<td><%= old_status.name %></td>
 		
 		<% for new_status in @statuses %>
