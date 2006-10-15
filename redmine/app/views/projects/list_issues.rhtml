@@ -22,11 +22,15 @@
   </tr>
 </table>
  &nbsp;
+
+<%= start_form_tag ({:controller => 'projects', :action => 'move_issues', :id => @project}, :id => 'issues_form' ) %>
 <table class="listTableContent">
-    <tr><td colspan="7" align="right">
-    <small><%= link_to l(:label_export_csv), :action => 'export_issues_csv', :id => @project.id %></small>
-    </td></tr>	
-    <tr class="ListHead">	
+    <tr>
+    <td colspan="6" align="left"><small><%= check_all_links 'issues_form' %></small></td>
+    <td colspan="2" align="right"><small><%= link_to l(:label_export_csv), :action => 'export_issues_csv', :id => @project.id %></small></td>
+    </tr>	
+    <tr class="ListHead">
+        <td></td>
 		<%= sort_header_tag('issues.id', :caption => '#') %>
 		<%= sort_header_tag('issue_statuses.name', :caption => l(:field_status)) %>
 		<%= sort_header_tag('issues.tracker_id', :caption => l(:field_tracker)) %>
@@ -37,6 +41,7 @@
 	</tr>
 	<% for issue in @issues %>
 	<tr bgcolor="#<%= issue.status.html_color %>">
+	    <td width="15"><%= check_box_tag "issue_ids[]", issue.id %></td>
 		<td align="center"><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center"><%= issue.status.name %></td>
 		<td align="center"><%= issue.tracker.name %></td>
@@ -51,3 +56,5 @@
 <%= pagination_links_full @issue_pages %>
 [ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
 </p>
+<%= submit_tag l(:button_move) %>
+<%= end_form_tag %>

@@ -259,6 +259,7 @@ button_unlock: Déverrouiller
 button_download: Télécharger
 button_list: Lister
 button_view: Voir
+button_move: Déplacer
 
 text_select_mail_notifications: Sélectionner les actions pour lesquelles la notification par mail doit être activée.
 text_regexp_info: ex. ^[A-Z0-9]+$

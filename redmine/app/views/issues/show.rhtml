@@ -35,6 +35,14 @@
   &nbsp;&nbsp;
 <% end %>
 
+<% if authorize_for('projects', 'move_issues') %>
+  <%= start_form_tag ({:controller => 'projects', :action => 'move_issues', :id => @project} ) %>
+  <%= hidden_field_tag "issue_ids[]", @issue.id %>
+  <%= submit_tag l(:button_move) %>
+  <%= end_form_tag %>
+  &nbsp;&nbsp;
+<% end %>
+
 <% if authorize_for('issues', 'destroy') %>
   <%= start_form_tag ({:controller => 'issues', :action => 'destroy', :id => @issue} ) %>
   <%= submit_tag l(:button_delete) %>

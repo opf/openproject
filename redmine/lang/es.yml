@@ -259,6 +259,7 @@ button_unlock: Desbloquear
 button_download: Telecargar
 button_list: Listar
 button_view: Ver
+button_move: Mover
 
 text_select_mail_notifications: Seleccionar las actividades que necesitan la activación de la notificación por mail.
 text_regexp_info: eg. ^[A-Z0-9]+$

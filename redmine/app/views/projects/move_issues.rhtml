@@ -1,0 +1,24 @@
+<h2><%=l(:button_move)%></h2>
+
+
+<%= start_form_tag({:action => 'move_issues', :id => @project}, :class => "tabular") %>
+
+<div class="box">
+<p><label><%= l(:label_issue_plural) %>:</label>
+<% for issue in @issues %>
+    <b><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></b> - <%= issue.subject %>
+    <%= hidden_field_tag "issue_ids[]", issue.id %><br />
+<% end %>
+<i>(<%= @issues.length%> <%= lwr(:label_issue, @issues.length)%>)</i></p>
+
+&nbsp;
+
+<!--[form:issue]-->
+<p><label for="new_project_id"><%=l(:field_project)%></label>
+<%= select_tag "new_project_id", options_from_collection_for_select(@projects, "id", "name", @project.id) %></p>
+
+<p><label for="new_tracker_id"><%=l(:field_tracker)%></label>
+<%= select_tag "new_tracker_id", options_from_collection_for_select(@trackers, "id", "name") %></p>
+</div>
+<%= submit_tag l(:button_move) %>
+<%= end_form_tag %>

@@ -239,6 +239,30 @@ class ProjectsController < ApplicationController
       :filename => 'export.csv')
   end
 
+  def move_issues
+    @issues = @project.issues.find(params[:issue_ids]) if params[:issue_ids]
+    redirect_to :action => 'list_issues', :id => @project and return unless @issues
+    @projects = []
+    # find projects to which the user is allowed to move the issue
+    @logged_in_user.memberships.each {|m| @projects << m.project if Permission.allowed_to_role("projects/move_issues", m.role_id)}
+    # issue can be moved to any tracker
+    @trackers = Tracker.find(:all)
+    if request.post? and params[:new_project_id] and params[:new_tracker_id]    
+      new_project = Project.find(params[:new_project_id])
+      new_tracker = Tracker.find(params[:new_tracker_id])
+      @issues.each { |i|
+        # category is project dependent
+        i.category = nil unless i.project_id == new_project.id
+        # move the issue
+        i.project = new_project
+        i.tracker = new_tracker
+        i.save
+      }
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :action => 'list_issues', :id => @project
+    end
+  end
+
   # Add a news to @project
   def add_news
     @news = News.new(:project => @project)

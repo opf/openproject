@@ -35,8 +35,8 @@ activerecord_error_not_a_date: is not a valid date
 
 general_fmt_age: %d yr
 general_fmt_age_plural: %d yrs
-general_fmt_date: %%b %%d, %%Y (%%a)
-general_fmt_datetime: %%b %%d, %%Y (%%a), %%I:%%M %%p
+general_fmt_date: %%m/%%d/%%Y
+general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
 general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
 general_fmt_time: %%I:%%M %%p
 general_text_No: 'No'
@@ -84,7 +84,7 @@ field_regexp: Regular expression
 field_min_length: Minimum length
 field_max_length: Maximum length
 field_value: Value
-field_category: Catogory
+field_category: Category
 field_title: Title
 field_project: Project
 field_issue: Issue
@@ -259,6 +259,7 @@ button_unlock: Unlock
 button_download: Download
 button_list: List
 button_view: View
+button_move: Move
 
 text_select_mail_notifications: Select actions for which mail notifications should be sent.
 text_regexp_info: eg. ^[A-Z0-9]+$

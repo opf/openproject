@@ -8,7 +8,7 @@
 
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
 <p><%= f.select :assigned_to_id, (@issue.project.members.collect {|m| [m.name, m.user_id]}), :include_blank => true %></p>
-<p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}) %></p>
+<p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %></p>
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
 <p><%= f.text_area :description, :cols => 60, :rows => 10, :required => true %></p>
 <p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('issue_due_date') %></p>
