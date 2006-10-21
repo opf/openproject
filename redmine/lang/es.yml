@@ -240,6 +240,7 @@ label_none: Ninguno
 label_next: Próximo
 label_previous: Precedente
 label_used_by: Utilizado por
+#label_details: Details...
 
 button_login: Conexión
 button_submit: Someter
@@ -260,6 +261,7 @@ button_download: Telecargar
 button_list: Listar
 button_view: Ver
 button_move: Mover
+#button_back: Back
 
 text_select_mail_notifications: Seleccionar las actividades que necesitan la activación de la notificación por mail.
 text_regexp_info: eg. ^[A-Z0-9]+$

@@ -265,6 +265,16 @@ tr.even {
 	background-color: #fff;
 }
 
+table.reportTableContent {
+	border:1px solid #c0c0c0;
+	width:99%;
+	border-collapse: collapse;
+}
+
+table.reportTableContent td {
+	padding:2px;
+}
+
 hr { border:none; border-bottom: dotted 2px #c0c0c0; }
 
 

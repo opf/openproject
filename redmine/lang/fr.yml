@@ -240,6 +240,7 @@ label_none: Aucun
 label_next: Suivant
 label_previous: Précédent
 label_used_by: Utilisé par
+label_details: Détails...
 
 button_login: Connexion
 button_submit: Soumettre
@@ -260,6 +261,7 @@ button_download: Télécharger
 button_list: Lister
 button_view: Voir
 button_move: Déplacer
+button_back: Retour
 
 text_select_mail_notifications: Sélectionner les actions pour lesquelles la notification par mail doit être activée.
 text_regexp_info: ex. ^[A-Z0-9]+$

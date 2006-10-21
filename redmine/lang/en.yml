@@ -240,6 +240,7 @@ label_none: None
 label_next: Next
 label_previous: Previous
 label_used_by: Used by
+label_details: Details...
 
 button_login: Login
 button_submit: Submit
@@ -260,6 +261,7 @@ button_download: Download
 button_list: List
 button_view: View
 button_move: Move
+button_back: Back
 
 text_select_mail_notifications: Select actions for which mail notifications should be sent.
 text_regexp_info: eg. ^[A-Z0-9]+$

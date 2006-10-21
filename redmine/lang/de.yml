@@ -240,6 +240,7 @@ label_none: Kein
 label_next: Weiter
 label_previous: Zurück
 label_used_by: Benutzt von
+#label_details: Details...
 
 button_login: Einloggen
 button_submit: Einreichen
@@ -260,6 +261,7 @@ button_download: Fernzuladen
 button_list: Aufzulisten
 button_view: Siehe
 button_move: Bewegen
+#button_back: Back
 
 text_select_mail_notifications: Aktionen für die Mailbenachrichtigung aktiviert werden soll.
 text_regexp_info: eg. ^[A-Z0-9]+$

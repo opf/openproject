@@ -21,9 +21,46 @@ class ReportsController < ApplicationController
   
   def issue_report
     @statuses = IssueStatus.find_all
-    @trackers = Tracker.find_all
-    @issues_by_tracker = 
-      ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
+    
+    case params[:detail]
+    when "tracker"
+      @field = "tracker_id"
+      @rows = Tracker.find_all
+      @data = issues_by_tracker
+      @report_title = l(:field_tracker)
+      render :template => "reports/issue_report_details"
+    when "priority"
+      @field = "priority_id"
+      @rows = Enumeration::get_values('IPRI')
+      @data = issues_by_priority
+      @report_title = l(:field_priority)
+      render :template => "reports/issue_report_details"   
+    when "category"
+      @field = "category_id"
+      @rows = @project.issue_categories
+      @data = issues_by_category
+      @report_title = l(:field_category)
+      render :template => "reports/issue_report_details"   
+    else
+      @trackers = Tracker.find(:all)
+      @priorities = Enumeration::get_values('IPRI')
+      @categories = @project.issue_categories
+      issues_by_tracker
+      issues_by_priority
+      issues_by_category
+      render :template => "reports/issue_report"
+    end
+  end  
+  
+private
+	# Find project of id params[:id]
+	def find_project
+		@project = Project.find(params[:id])		
+	end
+	
+	def issues_by_tracker
+    @issues_by_tracker ||= 
+        ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
                                                   s.is_closed as closed, 
                                                   t.id as tracker_id,
                                                   count(i.id) as total 
@@ -33,9 +70,11 @@ class ReportsController < ApplicationController
                                                   i.status_id=s.id 
                                                   and i.tracker_id=t.id
                                                   and i.project_id=#{@project.id}
-                                                group by s.id, s.is_closed, t.id")
-    @priorities = Enumeration::get_values('IPRI')
-    @issues_by_priority = 
+                                                group by s.id, s.is_closed, t.id")	
+	end
+	
+	def issues_by_priority    
+    @issues_by_priority ||= 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
                                                   s.is_closed as closed, 
                                                   p.id as priority_id,
@@ -46,9 +85,11 @@ class ReportsController < ApplicationController
                                                   i.status_id=s.id 
                                                   and i.priority_id=p.id
                                                   and i.project_id=#{@project.id}
-                                                group by s.id, s.is_closed, p.id")
-    @categories = @project.issue_categories
-    @issues_by_category = 
+                                                group by s.id, s.is_closed, p.id")	
+	end
+	
+	def issues_by_category   
+    @issues_by_category ||= 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
                                                   s.is_closed as closed, 
                                                   c.id as category_id,
@@ -59,13 +100,6 @@ class ReportsController < ApplicationController
                                                   i.status_id=s.id 
                                                   and i.category_id=c.id
                                                   and i.project_id=#{@project.id}
-                                                group by s.id, s.is_closed, c.id")
-  end
-  
-  
-private
-	# Find project of id params[:id]
-	def find_project
-		@project = Project.find(params[:id])		
+                                                group by s.id, s.is_closed, c.id")	
 	end
 end
