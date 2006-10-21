@@ -85,6 +85,10 @@ class User < ActiveRecord::Base
     firstname + " " + lastname
   end
   
+  def name
+    display_name
+  end
+  
   def active?
     self.status == STATUS_ACTIVE
   end

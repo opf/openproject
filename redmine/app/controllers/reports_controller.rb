@@ -41,13 +41,21 @@ class ReportsController < ApplicationController
       @data = issues_by_category
       @report_title = l(:field_category)
       render :template => "reports/issue_report_details"   
+    when "author"
+      @field = "author_id"
+      @rows = @project.members.collect { |m| m.user }
+      @data = issues_by_author
+      @report_title = l(:field_author)
+      render :template => "reports/issue_report_details"  
     else
       @trackers = Tracker.find(:all)
       @priorities = Enumeration::get_values('IPRI')
       @categories = @project.issue_categories
+      @authors = @project.members.collect { |m| m.user }
       issues_by_tracker
       issues_by_priority
       issues_by_category
+      issues_by_author
       render :template => "reports/issue_report"
     end
   end  
@@ -101,5 +109,20 @@ private
                                                   and i.category_id=c.id
                                                   and i.project_id=#{@project.id}
                                                 group by s.id, s.is_closed, c.id")	
+	end
+	
+	def issues_by_author
+    @issues_by_author ||= 
+      ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
+                                                  s.is_closed as closed, 
+                                                  a.id as author_id,
+                                                  count(i.id) as total 
+                                                from 
+                                                  issues i, issue_statuses s, users a
+                                                where 
+                                                  i.status_id=s.id 
+                                                  and i.author_id=a.id
+                                                  and i.project_id=#{@project.id}
+                                                group by s.id, s.is_closed, a.id")	
 	end
 end

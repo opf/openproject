@@ -8,6 +8,10 @@
 <strong><%=l(:field_priority)%></strong>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_priority, :field_name => "priority_id", :rows => @priorities } %>
 <p align="right"><small><%= link_to l(:label_details), :detail => 'priority' %></small>&nbsp;</p>
+
+<strong><%=l(:field_author)%></strong>
+<%= render :partial => 'simple', :locals => { :data => @issues_by_author, :field_name => "author_id", :rows => @authors } %>
+<p align="right"><small><%= link_to l(:label_details), :detail => 'author' %></small>&nbsp;</p>
 </div>
 
 <div class="splitcontentright">
