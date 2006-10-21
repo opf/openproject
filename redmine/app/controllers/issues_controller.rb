@@ -47,6 +47,21 @@ class IssuesController < ApplicationController
       end
     end		
   end
+  
+  def add_note
+    unless params[:history][:notes].empty?
+      @history = @issue.histories.build(params[:history])
+      @history.author_id = self.logged_in_user.id if self.logged_in_user
+      @history.status = @issue.status
+      if @history.save
+        flash[:notice] = l(:notice_successful_update)
+        redirect_to :action => 'show', :id => @issue
+        return
+      end
+    end
+    show
+    render :action => 'show'
+  end
 
   def change_status
     @history = @issue.histories.build(params[:history])	

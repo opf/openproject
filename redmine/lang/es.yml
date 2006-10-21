@@ -241,6 +241,7 @@ label_next: Próximo
 label_previous: Precedente
 label_used_by: Utilizado por
 #label_details: Details...
+#label_add_note: Add a note
 
 button_login: Conexión
 button_submit: Someter

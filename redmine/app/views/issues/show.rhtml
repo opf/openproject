@@ -49,9 +49,18 @@
   <%= end_form_tag %>
   &nbsp;&nbsp;
 <% end %>
-
 </div>
 
+<% if authorize_for('issues', 'add_note') %>
+  <div class="box">
+  <h3><%= l(:label_add_note) %></h3>
+  <%= start_form_tag ({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular" ) %>
+  <p><label for="history_notes"><%=l(:field_notes)%></label>
+    <%= text_area 'history', 'notes', :cols => 60, :rows => 10  %></p>
+  <%= submit_tag l(:button_add) %>
+  <%= end_form_tag %>
+  </div>
+<% end %>
 
 <div class="splitcontentleft">
 <div class="box">
@@ -64,7 +73,7 @@
 <td><b><%= history.status.name %></b></td>
 </tr>
 <% if history.notes? %>
-	<tr><td colspan=3><div class="notes"><%= history.notes %></td></tr>
+	<tr><td colspan=3><%= simple_format auto_link history.notes %></td></tr>
 <% end %>
 <% end %>
 </table>

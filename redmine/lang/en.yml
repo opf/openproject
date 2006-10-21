@@ -241,6 +241,7 @@ label_next: Next
 label_previous: Previous
 label_used_by: Used by
 label_details: Details...
+label_add_note: Add a note
 
 button_login: Login
 button_submit: Submit
