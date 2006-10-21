@@ -21,7 +21,7 @@ class TrackersController < ApplicationController
 
   def index
     list
-    render :action => 'list'
+    render :action => 'list' unless request.xhr?
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
@@ -29,6 +29,7 @@ class TrackersController < ApplicationController
 
   def list
     @tracker_pages, @trackers = paginate :trackers, :per_page => 10
+    render :action => "list", :layout => false if request.xhr?
   end
 
   def new

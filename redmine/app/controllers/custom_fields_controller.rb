@@ -21,11 +21,12 @@ class CustomFieldsController < ApplicationController
 
   def index
     list
-    render :action => 'list'
+    render :action => 'list' unless request.xhr?
   end
 
   def list
     @custom_field_pages, @custom_fields = paginate :custom_fields, :per_page => 15
+    render :action => "list", :layout => false if request.xhr?
   end
   
   def new

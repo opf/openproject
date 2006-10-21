@@ -34,7 +34,9 @@ class AdminController < ApplicationController
 								@params['page']								
     @projects = Project.find :all, :order => sort_clause,
 						:limit  =>  @project_pages.items_per_page,
-						:offset =>  @project_pages.current.offset		
+						:offset =>  @project_pages.current.offset
+
+    render :action => "projects", :layout => false if request.xhr?
   end
 
   def mail_options

@@ -21,11 +21,12 @@ class IssueStatusesController < ApplicationController
 	
   def index
     list
-    render :action => 'list'
+    render :action => 'list' unless request.xhr?
   end
 
   def list
     @issue_status_pages, @issue_statuses = paginate :issue_statuses, :per_page => 10
+    render :action => "list", :layout => false if request.xhr?
   end
 
   def new

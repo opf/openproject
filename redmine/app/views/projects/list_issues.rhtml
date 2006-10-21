@@ -10,17 +10,17 @@
     <td><small><%=l(:field_fixed_version)%>:</small><br /><%= search_filter_tag 'fixed_version_id', :class => 'select-small' %></td>
     <td><small><%=l(:field_assigned_to)%>:</small><br /><%= search_filter_tag 'assigned_to_id', :class => 'select-small' %></td>
     <td><small><%=l(:label_subproject_plural)%>:</small><br /><%= search_filter_tag 'subproject_id', :class => 'select-small' %></td>
-
     <td valign="bottom">
+      <%= hidden_field_tag 'set_filter', 1 %>
       <%= submit_tag l(:button_apply), :class => 'button-small' %>
-      <%= end_form_tag %>
-      
-      <%= start_form_tag %>
-      <%= submit_tag l(:button_clear), :class => 'button-small' %>
-      <%= end_form_tag %>
     </td>
-  </tr>
+    <td valign="bottom">  
+      <%= link_to l(:button_clear), :action => 'list_issues', :id => @project, :set_filter => 1 %>
+    </td>
+  </tr>  
 </table>
+<%= end_form_tag %>
+
  &nbsp;
 
 <%= start_form_tag ({:controller => 'projects', :action => 'move_issues', :id => @project}, :id => 'issues_form' ) %>

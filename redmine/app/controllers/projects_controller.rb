@@ -29,7 +29,7 @@ class ProjectsController < ApplicationController
 
   def index
     list
-    render :action => 'list'
+    render :action => 'list' unless request.xhr?
   end
 
   # Lists public projects
@@ -43,7 +43,9 @@ class ProjectsController < ApplicationController
     @projects = Project.find :all, :order => sort_clause,
 						:conditions => ["is_public=?", true],
 						:limit  =>  @project_pages.items_per_page,
-						:offset =>  @project_pages.current.offset		
+						:offset =>  @project_pages.current.offset
+
+    render :action => "list", :layout => false if request.xhr?	
   end
           
   # Add a new project
@@ -204,7 +206,7 @@ class ProjectsController < ApplicationController
     sort_update
 
     search_filter_init_list_issues
-    search_filter_update if params[:set_filter] or request.post?
+    search_filter_update if params[:set_filter]
 
     @issue_count = Issue.count(:include => [:status, :project], :conditions => search_filter_clause)		
     @issue_pages = Paginator.new self, @issue_count, 15, @params['page']								
@@ -212,7 +214,9 @@ class ProjectsController < ApplicationController
 						:include => [ :author, :status, :tracker, :project ],
 						:conditions => search_filter_clause,
 						:limit  =>  @issue_pages.items_per_page,
-						:offset =>  @issue_pages.current.offset
+						:offset =>  @issue_pages.current.offset						
+    
+    render :action => "list_issues", :layout => false if request.xhr?
   end
 
   # Export filtered/sorted issues list to CSV
@@ -279,6 +283,7 @@ class ProjectsController < ApplicationController
   # Show news list of @project
   def list_news
     @news_pages, @news = paginate :news, :per_page => 10, :conditions => ["project_id=?", @project.id], :include => :author, :order => "news.created_on DESC"
+    render :action => "list_news", :layout => false if request.xhr?
   end
 
   def add_file  

@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def index
     list
-    render :action => 'list'
+    render :action => 'list' unless request.xhr?
   end
 
   def list
@@ -38,7 +38,9 @@ class UsersController < ApplicationController
 								@params['page']								
     @users =  User.find :all,:order => sort_clause,
 						:limit  =>  @user_pages.items_per_page,
-						:offset =>  @user_pages.current.offset		
+						:offset =>  @user_pages.current.offset
+
+    render :action => "list", :layout => false if request.xhr?	
   end
 
   def add

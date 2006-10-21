@@ -21,11 +21,12 @@ class RolesController < ApplicationController
 	
   def index
     list
-    render :action => 'list'
+    render :action => 'list' unless request.xhr?
   end
 
   def list
     @role_pages, @roles = paginate :roles, :per_page => 10
+    render :action => "list", :layout => false if request.xhr?
   end
 
   def new
