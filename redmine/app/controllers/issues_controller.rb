@@ -16,15 +16,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssuesController < ApplicationController
-  layout 'base'
+  layout 'base', :except => :export_pdf
   before_filter :find_project, :authorize
 
   helper :custom_fields
   include CustomFieldsHelper
+  helper :ifpdf
+  include IfpdfHelper
 
   def show
     @status_options = @issue.status.workflows.find(:all, :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
+  end
+  
+  def export_pdf
+    @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
+    @options_for_rfpdf ||= {}
+    @options_for_rfpdf[:file_name] = "#{@project.name}_#{@issue.long_id}.pdf"
   end
 
   def edit

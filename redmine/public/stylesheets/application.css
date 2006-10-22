@@ -205,10 +205,14 @@ input.button-small
     font-size: 0.8em;
 }
 
+select {
+	vertical-align: middle;
+}
+
 select.select-small 
 {
    border: 1px solid #7F9DB9;
-  padding: 1px;
+   padding: 1px;
    font-size: 0.8em;
 }
 
@@ -244,7 +248,7 @@ table.listTableContent {
 }
 
 table.listTableContent td {
-	padding:4px;
+	padding:2px;
 }
 
 tr.ListHead {
@@ -364,6 +368,12 @@ border:1px solid #c0c0c0;
 background-color:#fafbfc;
 color:#505050;
 line-height:1.5em;
+}
+
+.topright{
+position: absolute;
+right: 25px;
+top: 100px;
 }
 
 .login {

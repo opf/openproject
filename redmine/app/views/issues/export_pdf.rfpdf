@@ -1,0 +1,8 @@
+<%	pdf=IfpdfHelper::IFPDF.new
+	pdf.AliasNbPages
+	pdf.AddPage
+	
+	render :partial => 'issues/pdf', :locals => { :pdf => pdf, :issue => @issue }
+%>
+
+<%= pdf.Output %>

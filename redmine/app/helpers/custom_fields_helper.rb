@@ -53,9 +53,11 @@ module CustomFieldsHelper
 
   # Return a string used to display a custom value
   def show_value(custom_value)
+    return "" unless custom_value
+    
     case custom_value.custom_field.field_format
     when "date"
-      format_date(custom_value.value.to_date)
+      l_date(custom_value.value.to_date) if custom_value.value
     when "bool"
       l_YesNo(custom_value.value == "1")
     else

@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
     render :nothing => true, :status => 403
     false
   end
-	
+
   # store current uri in session.
   # return to this location by calling redirect_back_or_default
   def store_location

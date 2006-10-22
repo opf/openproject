@@ -44,6 +44,7 @@ general_text_Yes: 'Ja'
 general_text_no: 'nein'
 general_text_yes: 'ja'
 general_lang_de: 'Deutsch'
+general_csv_separator: ';'
 
 notice_account_updated: Konto wurde erfolgreich aktualisiert.
 notice_account_invalid_creditentials: Unzulässiger Benutzer oder Passwort
@@ -225,6 +226,7 @@ label_version_new: Neue Version
 label_version_plural: Versionen
 label_confirmation: Bestätigung
 #label_export_csv: Export to CSV
+#label_export_pdf: Export to PDF
 label_read: Lesen...
 label_public_projects: Öffentliche Projekte
 #label_open_issues: Open
@@ -242,6 +244,7 @@ label_previous: Zurück
 label_used_by: Benutzt von
 #label_details: Details...
 #label_add_note: Add a note
+#label_per_page: Per page
 
 button_login: Einloggen
 button_submit: Einreichen

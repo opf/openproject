@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class ProjectsController < ApplicationController
-  layout 'base'
+  layout 'base', :except => :export_issues_pdf
   before_filter :find_project, :authorize, :except => [ :index, :list, :add ]
   before_filter :require_admin, :only => [ :add, :destroy ]
 
@@ -26,7 +26,9 @@ class ProjectsController < ApplicationController
   include SearchFilterHelper	
   helper :custom_fields
   include CustomFieldsHelper   
-
+  helper :ifpdf
+  include IfpdfHelper
+  
   def index
     list
     render :action => 'list' unless request.xhr?
@@ -208,15 +210,23 @@ class ProjectsController < ApplicationController
     search_filter_init_list_issues
     search_filter_update if params[:set_filter]
 
+    @results_per_page_options = [ 15, 25, 50, 100 ]
+    if params[:per_page] and @results_per_page_options.include? params[:per_page].to_i
+      @results_per_page = params[:per_page].to_i
+      session[:results_per_page] = @results_per_page
+    else
+      @results_per_page = session[:results_per_page] || @results_per_page_options.first
+    end
+
     @issue_count = Issue.count(:include => [:status, :project], :conditions => search_filter_clause)		
-    @issue_pages = Paginator.new self, @issue_count, 15, @params['page']								
+    @issue_pages = Paginator.new self, @issue_count, @results_per_page, @params['page']								
     @issues = Issue.find :all, :order => sort_clause,
 						:include => [ :author, :status, :tracker, :project ],
 						:conditions => search_filter_clause,
 						:limit  =>  @issue_pages.items_per_page,
 						:offset =>  @issue_pages.current.offset						
     
-    render :action => "list_issues", :layout => false if request.xhr?
+    render :layout => false if request.xhr?
   end
 
   # Export filtered/sorted issues list to CSV
@@ -227,20 +237,44 @@ class ProjectsController < ApplicationController
     search_filter_init_list_issues
 					
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker, :project ],
+						:include => [ :author, :status, :tracker, :project, :custom_values ],
 						:conditions => search_filter_clause							
 
+    ic = Iconv.new('ISO-8859-1', 'UTF-8')    
     export = StringIO.new
-    CSV::Writer.generate(export, ',') do |csv|
-      csv << %w(Id Status Tracker Subject Author Created Updated)
+    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
+      # csv header fields
+      headers = [ "#", l(:field_status), l(:field_tracker), l(:field_subject), l(:field_author), l(:field_created_on), l(:field_updated_on) ]
+      for custom_field in @project.all_custom_fields
+        headers << custom_field.name
+      end      
+      csv << headers.collect {|c| ic.iconv(c) }
+      # csv lines
       @issues.each do |issue|
-        csv << [issue.id, issue.status.name, issue.tracker.name, issue.subject, issue.author.display_name, l_datetime(issue.created_on),  l_datetime(issue.updated_on)]
+        fields = [issue.id, issue.status.name, issue.tracker.name, issue.subject, issue.author.display_name, l_datetime(issue.created_on),  l_datetime(issue.updated_on)]
+        for custom_field in @project.all_custom_fields
+          fields << (show_value issue.custom_value_for(custom_field))
+        end
+        csv << fields.collect {|c| ic.iconv(c.to_s) }
       end
     end
     export.rewind
-    send_data(export.read,
-      :type => 'text/csv; charset=utf-8; header=present',
-      :filename => 'export.csv')
+    send_data(export.read, :type => 'text/csv; header=present', :filename => 'export.csv')
+  end
+  
+  # Export filtered/sorted issues to PDF
+  def export_issues_pdf
+    sort_init 'issues.id', 'desc'
+    sort_update
+
+    search_filter_init_list_issues
+					
+    @issues =  Issue.find :all, :order => sort_clause,
+						:include => [ :author, :status, :tracker, :project, :custom_values ],
+						:conditions => search_filter_clause
+											
+    @options_for_rfpdf ||= {}
+    @options_for_rfpdf[:file_name] = "export.pdf"
   end
 
   def move_issues

@@ -1,0 +1,10 @@
+<%	pdf=IfpdfHelper::IFPDF.new
+	pdf.AliasNbPages
+	pdf.AddPage
+	@issues.each {|i| 
+		render :partial => 'issues/pdf', :locals => { :pdf => pdf, :issue => i }
+		pdf.AddPage
+	}	
+%>
+
+<%= pdf.Output %>

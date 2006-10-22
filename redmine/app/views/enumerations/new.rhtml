@@ -1,4 +1,4 @@
-<h2><%=l(:label_enumeration_new)%></h2>
+<h2><%= l(@enumeration.option_name) %>: <%=l(:label_enumeration_new)%></h2>
 
 <%= start_form_tag({:action => 'create'}, :class => "tabular") %>
   <%= render :partial => 'form' %>

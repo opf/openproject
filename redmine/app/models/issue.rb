@@ -53,6 +53,11 @@ class Issue < ActiveRecord::Base
   def long_id
     "%05d" % self.id
   end
+  
+  def custom_value_for(custom_field)
+    self.custom_values.each {|v| return v if v.custom_field_id == custom_field.id }
+    return nil
+  end
 
 private
   # Creates an history for the issue

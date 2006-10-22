@@ -1,0 +1,95 @@
+<%	pdf.SetFont('Arial','B',11)   	
+   	pdf.Cell(190,10, "#{issue.project.name} - #{issue.tracker.name} # #{issue.long_id} - #{issue.subject}")
+    pdf.Ln
+    
+    y0 = pdf.GetY
+    
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_status) + ":","LT")
+    pdf.SetFont('Arial','',9)
+    pdf.Cell(60,5, issue.status.name,"RT")
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_priority) + ":","LT")
+    pdf.SetFont('Arial','',9)
+    pdf.Cell(60,5, issue.priority.name,"RT")        
+    pdf.Ln
+    
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_author) + ":","L")
+    pdf.SetFont('Arial','',9)
+    pdf.Cell(60,5, issue.author.name,"R")
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_category) + ":","L")
+    pdf.SetFont('Arial','',9)
+    pdf.Cell(60,5, (issue.category ? issue.category.name : "-"),"R")
+    pdf.Ln   
+    
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_created_on) + ":","L")
+    pdf.SetFont('Arial','',9)
+    pdf.Cell(60,5, format_date(issue.created_on),"R")
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_assigned_to) + ":","L")
+    pdf.SetFont('Arial','',9)
+    pdf.Cell(60,5, (issue.assigned_to ? issue.assigned_to.name : "-"),"R")
+    pdf.Ln
+    
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_updated_on) + ":","LB")
+    pdf.SetFont('Arial','',9)
+    pdf.Cell(60,5, format_date(issue.updated_on),"RB")
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_due_date) + ":","LB")
+    pdf.SetFont('Arial','',9)
+    pdf.Cell(60,5, format_date(issue.due_date),"RB")
+    pdf.Ln
+    
+	for custom_value in issue.custom_values
+	    pdf.SetFont('Arial','B',9)
+	    pdf.Cell(35,5, custom_value.custom_field.name + ":","L")
+	    pdf.SetFont('Arial','',9)
+	    pdf.MultiCell(155,5, (show_value custom_value),"R")
+	end
+    
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_subject) + ":","LTB")
+    pdf.SetFont('Arial','',9)
+    pdf.Cell(155,5, issue.subject,"RTB")
+    pdf.Ln    
+    
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(35,5, l(:field_description) + ":")
+    pdf.SetFont('Arial','',9)
+    pdf.MultiCell(155,5, issue.description,"BR")
+    
+    pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
+	pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
+
+    pdf.Ln
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(190,5, l(:label_history),"B")
+    pdf.Ln
+	for history in issue.histories.find(:all, :include => [:author, :status])
+	    pdf.SetFont('Arial','B',8)
+	    pdf.Cell(100,5, history.status.name)
+	    pdf.SetFont('Arial','',8)
+	    pdf.Cell(20,5, format_date(history.created_on))
+	    pdf.Cell(70,5, history.author.name,0,0,"R")
+	    pdf.SetFont('Arial','',8)
+	    pdf.Ln
+	    pdf.Cell(10,4, "") and pdf.MultiCell(180,4, history.notes) if history.notes?
+	end
+    pdf.Ln
+    
+    pdf.SetFont('Arial','B',9)
+    pdf.Cell(190,5, l(:label_attachment_plural), "B")
+    pdf.Ln	
+	for attachment in issue.attachments
+		pdf.SetFont('Arial','',8)
+	    pdf.Cell(80,5, attachment.filename)
+		pdf.Cell(20,5, human_size(attachment.filesize))
+		pdf.Cell(20,5, format_date(attachment.created_on))
+		pdf.Cell(70,5, attachment.author.name,0,0,"R")
+		pdf.Ln
+	end
+%>

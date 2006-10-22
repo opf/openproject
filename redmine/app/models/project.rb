@@ -43,6 +43,11 @@ class Project < ActiveRecord::Base
                                :conditions => ["is_for_all=? or project_id=?", true, self.id])
     #(CustomField.for_all + custom_fields).uniq
   end
+  
+  def all_custom_fields
+    @all_custom_fields ||= IssueCustomField.find(:all, :include => :projects, 
+                               :conditions => ["is_for_all=? or project_id=?", true, self.id])
+  end
 
 protected
   def validate

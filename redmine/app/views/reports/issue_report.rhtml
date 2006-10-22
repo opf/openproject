@@ -1,22 +1,20 @@
 <h2><%=l(:label_report_plural)%></h2>
 
 <div class="splitcontentleft">
-<strong><%=l(:field_tracker)%></strong> 
+<strong><%=l(:field_tracker)%></strong> <small>[ <%= link_to l(:label_details), :detail => 'author' %> ]</small>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_tracker, :field_name => "tracker_id", :rows => @trackers } %>
-<p align="right"><small><%= link_to l(:label_details), :detail => 'tracker' %></small>&nbsp;</p>
-
-<strong><%=l(:field_priority)%></strong>
+<br />
+<strong><%=l(:field_priority)%></strong> <small>[ <%= link_to l(:label_details), :detail => 'priority' %> ]</small>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_priority, :field_name => "priority_id", :rows => @priorities } %>
-<p align="right"><small><%= link_to l(:label_details), :detail => 'priority' %></small>&nbsp;</p>
-
-<strong><%=l(:field_author)%></strong>
+<br />
+<strong><%=l(:field_author)%></strong> <small>[ <%= link_to l(:label_details), :detail => 'author' %> ]</small>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_author, :field_name => "author_id", :rows => @authors } %>
-<p align="right"><small><%= link_to l(:label_details), :detail => 'author' %></small>&nbsp;</p>
+<br />
 </div>
 
 <div class="splitcontentright">
-<strong><%=l(:field_category)%></strong>
+<strong><%=l(:field_category)%></strong> <small>[ <%= link_to l(:label_details), :detail => 'category' %> ]</small>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_category, :field_name => "category_id", :rows => @categories } %>
-<p align="right"><small><%= link_to l(:label_details), :detail => 'category' %></small>&nbsp;</p>
+<br />
 </div>
 

@@ -86,6 +86,11 @@ module SearchFilterHelper
     ] + @project.versions.collect {|s| [s.name, s.id, ["issues.fixed_version_id=?", s.id]] }                                                      
     }
 
+    search_filter_criteria('author_id') { 
+    [ [('['+l(:label_all)+']'), "A", nil],
+    ] + @project.users.collect {|s| [s.display_name, s.id, ["issues.author_id=?", s.id]] }                                                      
+    }
+    
     search_filter_criteria('assigned_to_id') { 
     [ [('['+l(:label_all)+']'), "A", nil],
       [('['+l(:label_none)+']'), "N", ["issues.assigned_to_id is null"]]

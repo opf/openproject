@@ -1,4 +1,10 @@
 <h2><%=l(:label_issue_plural)%></h2>
+<div class="topright">
+<small>
+<%= link_to 'PDF ', :action => 'export_issues_pdf', :id => @project %> |
+<%= link_to 'CSV ', :action => 'export_issues_csv', :id => @project %>
+</small>
+</div>
 
 <form method="post" class="noborder">
 <table cellpadding=2>
@@ -8,6 +14,7 @@
     <td><small><%=l(:field_priority)%>:</small><br /><%= search_filter_tag 'priority_id', :class => 'select-small' %></td>
     <td><small><%=l(:field_category)%>:</small><br /><%= search_filter_tag 'category_id', :class => 'select-small' %></td>
     <td><small><%=l(:field_fixed_version)%>:</small><br /><%= search_filter_tag 'fixed_version_id', :class => 'select-small' %></td>
+    <td><small><%=l(:field_author)%>:</small><br /><%= search_filter_tag 'author_id', :class => 'select-small' %></td>
     <td><small><%=l(:field_assigned_to)%>:</small><br /><%= search_filter_tag 'assigned_to_id', :class => 'select-small' %></td>
     <td><small><%=l(:label_subproject_plural)%>:</small><br /><%= search_filter_tag 'subproject_id', :class => 'select-small' %></td>
     <td valign="bottom">
@@ -22,13 +29,21 @@
 <%= end_form_tag %>
 
  &nbsp;
-
-<%= start_form_tag ({:controller => 'projects', :action => 'move_issues', :id => @project}, :id => 'issues_form' ) %>
 <table class="listTableContent">
     <tr>
     <td colspan="6" align="left"><small><%= check_all_links 'issues_form' %></small></td>
-    <td colspan="2" align="right"><small><%= link_to l(:label_export_csv), :action => 'export_issues_csv', :id => @project.id %></small></td>
-    </tr>	
+    <td colspan="2" align="right">
+        <small><%= l(:label_per_page) %>:</small>
+        <%= start_form_tag %>
+        <%= select_tag 'per_page', options_for_select(@results_per_page_options, @results_per_page), :class => 'select-small'%>
+        <%= submit_tag l(:button_apply), :class => 'button-small'%>
+        <%= end_form_tag %>
+    </td>
+    </tr>
+</table>
+<%= start_form_tag ({:controller => 'projects', :action => 'move_issues', :id => @project}, :id => 'issues_form' ) %>	
+<table class="listTableContent">
+
     <tr class="ListHead">
         <td></td>
 		<%= sort_header_tag('issues.id', :caption => '#') %>

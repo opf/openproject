@@ -15,32 +15,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Enumeration < ActiveRecord::Base
-  before_destroy :check_integrity
+require 'iconv'
+
+module IfpdfHelper
+
+  class IFPDF < FPDF
   
-	validates_presence_of :opt, :name
-	validates_uniqueness_of :name, :scope => [:opt]
-	
-	OPTIONS = {
-	  "IPRI" => :enumeration_issue_priorities,
-      "DCAT" => :enumeration_doc_categories
-	}.freeze
-	
-	def self.get_values(option)
-		find(:all, :conditions => ['opt=?', option])
-	end
-	
-  def option_name
-    OPTIONS[self.opt]
-  end
-  
-private
-  def check_integrity
-    case self.opt
-    when "IPRI"
-      raise "Can't delete enumeration" if Issue.find(:first, :conditions => ["priority_id=?", self.id])
-    when "DCAT"
-      raise "Can't delete enumeration" if Document.find(:first, :conditions => ["category_id=?", self.id])
+    def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
+      @ic ||= Iconv.new('ISO-8859-1', 'UTF-8')
+      super w,h,@ic.iconv(txt),border,ln,align,fill,link
     end
+    
+    def MultiCell(w,h,txt,border=0,align='J',fill=0)
+      @ic ||= Iconv.new('ISO-8859-1', 'UTF-8')
+      super w,h,txt,border,align,fill
+    end
+    
+    def Footer
+      SetY(-15)
+      SetX(-30)
+      SetFont('Helvetica', 'I', 8)
+      Cell(0, 5, PageNo().to_s + '/{nb}', 0, 0, 'C')
+    end
+    
   end
+
 end

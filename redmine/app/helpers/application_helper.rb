@@ -49,7 +49,7 @@ module ApplicationHelper
   def link_to_user(user)
     link_to user.display_name, :controller => 'account', :action => 'show', :id => user
   end
-
+  
   def format_date(date)
     l_date(date) if date
   end
@@ -57,7 +57,7 @@ module ApplicationHelper
   def format_time(time)
     l_datetime(time) if time
   end
-  
+
   def pagination_links_full(paginator, options={}, html_options={})
     html = ''    
     html << link_to_remote(('&#171; ' + l(:label_previous)), 

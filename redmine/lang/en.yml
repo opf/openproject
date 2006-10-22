@@ -44,6 +44,7 @@ general_text_Yes: 'Yes'
 general_text_no: 'no'
 general_text_yes: 'yes'
 general_lang_en: 'English'
+general_csv_separator: ','
 
 notice_account_updated: Account was successfully updated.
 notice_account_invalid_creditentials: Invalid user or password
@@ -225,6 +226,7 @@ label_version_new: New version
 label_version_plural: Versions
 label_confirmation: Confirmation
 label_export_csv: Export to CSV
+label_export_pdf: Export to PDF
 label_read: Read...
 label_public_projects: Public projects
 label_open_issues: Open
@@ -242,6 +244,7 @@ label_previous: Previous
 label_used_by: Used by
 label_details: Details...
 label_add_note: Add a note
+label_per_page: Per page
 
 button_login: Login
 button_submit: Submit
