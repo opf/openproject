@@ -17,8 +17,9 @@
 	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end %>
 
-<p><label for="attachment_file"><%=l(:label_attachment)%></label>
-<%= file_field 'attachment', 'file'  %></p>
+<p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>
+<%= link_to_function image_tag('add', :align => "top"), "addFileField()" %></label>
+<%= file_field_tag 'attachments[]', :size => 30  %></p>
 <!--[eoform:issue]-->
 </div>
 

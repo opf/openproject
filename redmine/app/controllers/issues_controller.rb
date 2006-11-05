@@ -101,12 +101,11 @@ class IssuesController < ApplicationController
   end
 
   def add_attachment
-    # Save the attachment
-    if params[:attachment][:file].size > 0
-      @attachment = @issue.attachments.build(params[:attachment])      
-      @attachment.author_id = self.logged_in_user.id if self.logged_in_user
+    # Save the attachments
+    params[:attachments].each { |a|
+      @attachment = @issue.attachments.build(:file => a, :author => self.logged_in_user) unless a.size == 0
       @attachment.save
-    end
+    } if params[:attachments] and params[:attachments].is_a? Array
     redirect_to :action => 'show', :id => @issue
   end
 

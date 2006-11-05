@@ -77,18 +77,6 @@ end %>
 </p>
 </div>
 
-<% if authorize_for('issues', 'add_note') %>
-  <div class="box">
-  <h3><%= l(:label_add_note) %></h3>
-  <%= start_form_tag ({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular" ) %>
-  <p><label for="history_notes"><%=l(:field_notes)%></label>
-    <%= text_area 'history', 'notes', :cols => 60, :rows => 10  %></p>
-  <%= submit_tag l(:button_add) %>
-  <%= end_form_tag %>
-  </div>
-<% end %>
-
-<div class="splitcontentleft">
 <div class="box">
 <h3><%=l(:label_history)%></h3>
 <table width="100%">
@@ -104,9 +92,7 @@ end %>
 <% end %>
 </table>
 </div>
-</div>
 
-<div class="splitcontentright">
 <div class="box">
 <h3><%=l(:label_attachment_plural)%></h3>
 <table width="100%">
@@ -127,11 +113,22 @@ end %>
 </table>
 <br />
 <% if authorize_for('issues', 'add_attachment') %>
-  <%= start_form_tag ({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true) %>
-  <%=l(:label_attachment_new)%>: <%= file_field 'attachment', 'file'  %>
+  <%= start_form_tag ({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true, :class => "tabular") %>
+  <p id="attachments_p"><label><%=l(:label_attachment_new)%>
+  <%= link_to_function image_tag('add', :align => "top"), "addFileField()" %></label>
+  <%= file_field_tag 'attachments[]', :size => 30  %></p>
   <%= submit_tag l(:button_add) %>
   <%= end_form_tag %> 
 <% end %>
 </div>
-</div>
 
+<% if authorize_for('issues', 'add_note') %>
+  <div class="box">
+  <h3><%= l(:label_add_note) %></h3>
+  <%= start_form_tag ({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular" ) %>
+  <p><label for="history_notes"><%=l(:field_notes)%></label>
+    <%= text_area 'history', 'notes', :cols => 60, :rows => 10  %></p>
+  <%= submit_tag l(:button_add) %>
+  <%= end_form_tag %>
+  </div>
+<% end %>

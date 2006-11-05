@@ -6,3 +6,14 @@ function checkAll (id, checked) {
     }
 	}
 }
+
+function addFileField() {
+    var f = document.createElement("input");
+    f.type = "file";
+    f.name = "attachments[]";
+    f.size = 30;
+        
+    p = document.getElementById("attachments_p");
+    p.appendChild(document.createElement("br"));
+    p.appendChild(f);
+}
