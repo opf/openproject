@@ -63,6 +63,7 @@ class IssuesController < ApplicationController
       @history.status = @issue.status
       if @history.save
         flash[:notice] = l(:notice_successful_update)
+        Mailer.deliver_issue_add_note(@history) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
         redirect_to :action => 'show', :id => @issue
         return
       end

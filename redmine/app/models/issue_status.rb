@@ -21,9 +21,13 @@ class IssueStatus < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_length_of :html_color, :is=>6
+  validates_length_of :html_color, :is => 6
   validates_format_of :html_color, :with => /^[a-f0-9]*$/i
 
+  def before_save
+    IssueStatus.update_all "is_default=false" if self.is_default?
+  end  
+  
   # Returns the default status for new issues
   def self.default
     find(:first, :conditions =>["is_default=?", true])

@@ -20,30 +20,38 @@ class Mailer < ActionMailer::Base
   def issue_change_status(issue)
     # Sends to all project members
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
-    @from           = 'redmine@somenet.foo'
-    @subject        = "Issue ##{issue.id} has been updated"
+    @from           = $RDM_MAIL_FROM
+    @subject        = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
     @body['issue']  = issue
   end
 
   def issue_add(issue)
     # Sends to all project members
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
-    @from           = 'redmine@somenet.foo'
-    @subject        = "Issue ##{issue.id} has been reported"
+    @from           = $RDM_MAIL_FROM
+    @subject        = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
     @body['issue']  = issue
   end
 
+  def issue_add_note(history)
+    # Sends to all project members
+    @recipients     = history.issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
+    @from           = $RDM_MAIL_FROM
+    @subject        = "[#{history.issue.project.name} - #{history.issue.tracker.name} ##{history.issue.id}] #{history.issue.status.name} - #{history.issue.subject}"
+    @body['history']  = history
+  end
+  
   def lost_password(token)
     @recipients     = token.user.mail
-    @from           = 'redmine@somenet.foo'
-    @subject        = "redMine password"
+    @from           = $RDM_MAIL_FROM
+    @subject        = l(:mail_subject_lost_password)
     @body['token']  = token
   end  
 
   def register(token)
     @recipients     = token.user.mail
-    @from           = 'redmine@somenet.foo'
-    @subject        = "redMine account activation"
+    @from           = $RDM_MAIL_FROM
+    @subject        = l(:mail_subject_register)
     @body['token']  = token
   end
 end

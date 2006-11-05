@@ -1,15 +1,18 @@
 <h2><%=l(:label_change_log)%></h2>
 
+<div>
+
+<div class="rightbox" style="width:140px;">
 <%= start_form_tag %>
+<strong><%=l(:label_tracker_plural)%></strong><br />
 <% @trackers.each do |tracker| %>
   <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
-  <%= tracker.name %>
+  <%= tracker.name %><br />
 <% end %>
-&nbsp;&nbsp;<%= submit_tag l(:button_apply), :class => 'button-small' %>
-<%= end_form_tag %><br />
-&nbsp;
+<p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
+<%= end_form_tag %>
+</div>
 
-<div class="box">
 <% ver_id = nil
    @fixed_issues.each do |issue| %>   
     <% unless ver_id == issue.fixed_version_id %>
@@ -21,5 +24,4 @@
     end %>
     <li><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %> [<%= issue.tracker.name %>]: <%= issue.subject %></li>
 <% end %>
-
 </div>

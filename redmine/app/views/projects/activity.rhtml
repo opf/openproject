@@ -1,0 +1,43 @@
+<h2><%=l(:label_activity)%></h2>
+
+<div>
+<div class="rightbox">
+  <%= start_form_tag %>
+    <p>From <%= text_field_tag 'date_from', @date_from, :size => 10, :class => 'button-small' %>
+    and <%= text_field_tag 'days_back', @days_back, :size => 2, :class => 'button-small' %> days back</p>
+    <%= check_box_tag 'show_issues', 1, @show_issues %><%= hidden_field_tag 'show_issues', 0 %> <%=l(:label_issue_plural)%><br />
+    <%= check_box_tag 'show_news', 1, @show_news %><%= hidden_field_tag 'show_news', 0 %> <%=l(:label_news_plural)%><br />
+    <%= check_box_tag 'show_files', 1, @show_files %><%= hidden_field_tag 'show_files', 0 %> <%=l(:label_attachment_plural)%><br />
+    <%= check_box_tag 'show_documents', 1, @show_documents %><%= hidden_field_tag 'show_documents', 0 %> <%=l(:label_document_plural)%><br />
+    <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
+  <%= end_form_tag %>
+  </div>
+<% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>
+  <h3><%= format_date(day) %></h3>
+  <ul>
+  <% @events_by_day[day].each do |e| %>
+    <li><p>
+    <% if e.is_a? Issue %>
+      <%= e.created_on.strftime("%H:%M") %> <%= e.tracker.name %> <%= link_to e.long_id, :controller => 'issues', :action => 'show', :id => e %> (<%= e.status.name %>): <%= e.subject %><br />
+          <i><%= e.author.name %></i>
+    <% elsif e.is_a? News %>
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_news)%>: <%= link_to e.title, :controller => 'news', :action => 'show', :id => e %><br />
+          <% unless e.summary.empty? %><%= e.summary %><br /><% end %>
+          <i><%= e.author.name %></i>
+    <% elsif (e.is_a? Attachment) and (e.container.is_a? Version) %>
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_attachment)%> (Version <%= e.container.name %>): <%= link_to e.filename, :controller => 'projects', :action => 'list_files', :id => @project %><br />
+        <i><%= e.author.name %></i>
+    <% elsif (e.is_a? Attachment) and (e.container.is_a? Document) %>
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_document)%>: <%= link_to e.container.title, :controller => 'documents', :action => 'show', :id => e %><br />
+        <i><%= e.author.name %></i>
+    <% end %>
+    </p></li>
+  
+  <% end %>
+  </ul>
+<% end %>
+  <br />
+
+
+
+</div>

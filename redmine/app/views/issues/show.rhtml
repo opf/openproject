@@ -6,25 +6,42 @@
 </div>
 
 <div class="box">
+<table width="100%">
+<tr>
+    <td width="15%"><b><%=l(:field_status)%> :</b></td><td width="35%"><%= @issue.status.name %></td>
+    <td width="15%"><b><%=l(:field_priority)%> :</b></td><td width="35%"><%= @issue.priority.name %></td>
+</tr>
+<tr>
+    <td><b><%=l(:field_author)%> :</b></td><td><%= link_to_user @issue.author %></td>
+    <td><b><%=l(:field_category)%> :</b></td><td><%= @issue.category ? @issue.category.name : "-" %></td>
+</tr>
+<tr>
+    <td><b><%=l(:field_created_on)%> :</b></td><td><%= format_date(@issue.created_on) %></td>
+    <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? @issue.assigned_to.name : "-" %></td>
+</tr>
+<tr>
+    <td><b><%=l(:field_updated_on)%> :</b></td><td><%= format_date(@issue.updated_on) %></td>
+    <td><b><%=l(:field_due_date)%> :</b></td><td><%= format_date(@issue.due_date) %></td>
+</tr>
+<tr>
+<% n = 0
+for custom_value in @custom_values %>
+    <td><b><%= custom_value.custom_field.name %> :</b></td><td><%= show_value custom_value %></td>
+<% n = n + 1
+   if (n > 1) 
+        n = 0 %>
+        </tr><tr>
+ <%end
+end %>
+</tr>
+</table>
+<hr />
+<br />
+
+<b><%=l(:field_description)%> :</b><br /><br />
+<%= textilize @issue.description %>
+
 <p>
-<b><%=l(:field_status)%> :</b> <%= @issue.status.name %> &nbsp &nbsp
-<b><%=l(:field_priority)%> :</b> <%= @issue.priority.name %> &nbsp &nbsp
-<b><%=l(:field_assigned_to)%> :</b> <%= @issue.assigned_to ? @issue.assigned_to.display_name : "-" %> &nbsp &nbsp
-<b><%=l(:field_category)%> :</b> <%= @issue.category ? @issue.category.name : "-"  %>
-</p>
-<div class="tabular">
-<p><label><%=l(:field_author)%> :</label> <%= link_to_user @issue.author %>&nbsp;</p>
-<p><label><%=l(:field_created_on)%> :</label> <%= format_date(@issue.created_on) %>&nbsp;</p>
-<p><label><%=l(:field_subject)%> :</label> <%= @issue.subject %>&nbsp;</p>
-<%= simple_format ("<label>" + l(:field_description) + ": </label>" +  auto_link(@issue.description)) %>
-<p><label><%=l(:field_due_date)%> :</label> <%= format_date(@issue.due_date) %>&nbsp;</p>
-
-<% for custom_value in @custom_values %>
-<p><label><%= custom_value.custom_field.name %> :</label> <%= show_value custom_value %></p>
-<% end %>
-&nbsp;
-</div>
-
 <% if authorize_for('issues', 'edit') %>
   <%= start_form_tag ({:controller => 'issues', :action => 'edit', :id => @issue}, :method => "get" ) %>
   <%= submit_tag l(:button_edit) %>
@@ -57,6 +74,7 @@
   <%= end_form_tag %>
   &nbsp;&nbsp;
 <% end %>
+</p>
 </div>
 
 <% if authorize_for('issues', 'add_note') %>

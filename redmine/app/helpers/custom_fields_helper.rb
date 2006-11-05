@@ -57,7 +57,7 @@ module CustomFieldsHelper
     
     case custom_value.custom_field.field_format
     when "date"
-      l_date(custom_value.value.to_date) if custom_value.value
+      custom_value.value.empty? ? "" : l_date(custom_value.value.to_date)
     when "bool"
       l_YesNo(custom_value.value == "1")
     else

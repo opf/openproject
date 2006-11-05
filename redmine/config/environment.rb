@@ -95,6 +95,8 @@ $RDM_STORAGE_PATH ||= "#{RAILS_ROOT}/files"
 $RDM_LOGIN_REQUIRED ||= false
 # default langage
 $RDM_DEFAULT_LANG ||= 'en'
+# email sender adress
+$RDM_MAIL_FROM ||= "redmine@somenet.foo"
 
 # page title
 $RDM_HEADER_TITLE ||= "redMine"

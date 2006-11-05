@@ -24,3 +24,31 @@
 <%= f.hidden_field :lock_version %>
 <%= submit_tag l(:button_save) %>
 <% end %>
+
+<%= javascript_include_tag 'jstoolbar' %>
+<script type="text/javascript">
+//<![CDATA[
+jsToolBar.prototype.base_url = 'http://callmepep.org'; 
+jsToolBar.prototype.legend_msg = 'You can use the following shortcuts to format your text.'; 
+jsToolBar.prototype.elements.strong.title = 'Strong emphasis'; 
+jsToolBar.prototype.elements.em.title = 'Emphasis'; 
+jsToolBar.prototype.elements.ins.title = 'Inserted'; 
+jsToolBar.prototype.elements.del.title = 'Deleted'; 
+jsToolBar.prototype.elements.quote.title = 'Inline quote'; 
+jsToolBar.prototype.elements.code.title = 'Code'; 
+jsToolBar.prototype.elements.br.title = 'Line break'; 
+jsToolBar.prototype.elements.ul.title = 'Unordered list'; 
+jsToolBar.prototype.elements.ol.title = 'Ordered list'; 
+jsToolBar.prototype.elements.link.title = 'Link'; 
+jsToolBar.prototype.elements.link.href_prompt = 'URL?'; 
+jsToolBar.prototype.elements.link.hreflang_prompt = 'Language?'; 
+
+if (document.getElementById) { 
+	if (document.getElementById('issue_description')) { 
+		var commentTb = new jsToolBar(document.getElementById('issue_description')); 
+		commentTb.draw(); 
+	}
+}
+
+//]]>
+</script>

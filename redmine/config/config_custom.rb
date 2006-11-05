@@ -40,6 +40,9 @@
 # Default langage ('en', 'es', 'fr' are available)
 # $RDM_DEFAULT_LANG = 'en'
 
+# Email adress used to send mail notifications
+# $RDM_MAIL_FROM = "redmine@somenet.foo"
+
 # Page title
 # $RDM_HEADER_TITLE = "Title"
 

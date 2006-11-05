@@ -356,6 +356,48 @@ class ProjectsController < ApplicationController
     @fixed_issues ||= []
   end
 
+  def activity
+    @date_from = begin
+      params[:date_from].to_date
+    rescue
+    end || Date.today
+    @days_back = params[:days_back] ? params[:days_back].to_i : 15
+    @date_to = @date_from - @days_back
+    @events_by_day = {}    
+    
+    unless params[:show_issues] == "0"
+      @project.issues.find(:all, :include => [:author, :status], :conditions => ["issues.created_on<=? and issues.created_on>=?", @date_from+1, @date_to], :order => "issues.created_on asc" ).each { |i|
+        @events_by_day[i.created_on.to_date] ||= []
+        @events_by_day[i.created_on.to_date] << i
+      }
+      @show_issues = 1
+    end
+    
+    unless params[:show_news] == "0"
+      @project.news.find(:all, :conditions => ["news.created_on<=? and news.created_on>=?", @date_from+1, @date_to], :order => "news.created_on asc" ).each { |i|
+        @events_by_day[i.created_on.to_date] ||= []
+        @events_by_day[i.created_on.to_date] << i
+      }
+      @show_news = 1 
+    end
+    
+    unless params[:show_files] == "0"
+      Attachment.find(:all, :joins => "LEFT JOIN versions ON versions.id = attachments.container_id", :conditions => ["attachments.container_type='Version' and versions.project_id=? and attachments.created_on<=? and attachments.created_on>=?", @project.id, @date_from+1, @date_to], :order => "attachments.created_on asc" ).each { |i|
+        @events_by_day[i.created_on.to_date] ||= []
+        @events_by_day[i.created_on.to_date] << i
+      }
+      @show_files = 1 
+    end
+    
+    unless params[:show_documentss] == "0"
+      Attachment.find(:all, :joins => "LEFT JOIN documents ON documents.id = attachments.container_id", :conditions => ["attachments.container_type='Document' and documents.project_id=? and attachments.created_on<=? and attachments.created_on>=?", @project.id, @date_from+1, @date_to], :order => "attachments.created_on asc" ).each { |i|
+        @events_by_day[i.created_on.to_date] ||= []
+        @events_by_day[i.created_on.to_date] << i
+      }
+      @show_documents = 1 
+    end
+
+  end
 private
   # Find project of id params[:id]
   # if not found, redirect to project list

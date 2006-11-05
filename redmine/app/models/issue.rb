@@ -32,7 +32,7 @@ class Issue < ActiveRecord::Base
   has_many :custom_values, :dependent => true, :as => :customized
   has_many :custom_fields, :through => :custom_values
 
-  validates_presence_of :subject, :description, :priority, :tracker, :author
+  validates_presence_of :subject, :description, :priority, :tracker, :author, :status
   validates_associated :custom_values, :on => :update
 
   # set default status for new issues
@@ -49,7 +49,7 @@ class Issue < ActiveRecord::Base
   def before_create
     build_history
   end
-
+  
   def long_id
     "%05d" % self.id
   end
