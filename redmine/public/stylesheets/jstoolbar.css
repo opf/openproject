@@ -1,0 +1,79 @@
+.jstEditor {
+	padding-left: 0px;
+}
+.jstEditor textarea, .jstEditor iframe {
+  margin: 0;
+  border: 1;
+}
+
+.jstHandle {
+	height: 16px;
+	font-size: 0.1em;
+	cursor: s-resize;
+	background: transparent url(img/resizer.png) no-repeat 45% 50%;
+}
+
+.jstElements {
+	padding: 3px 3px;
+}
+
+.jstElements button {
+	margin-right : 6px;
+	width : 24px;
+	height: 24px;
+	padding: 4px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ddd;
+	background-color : #f7f7f7;
+	background-position : 50% 50%;
+	background-repeat: no-repeat;
+}
+.jstElements button:hover {
+	border-color : #000;
+}
+.jstElements button span {
+	display : none;	
+}
+.jstElements span {
+	display : inline;
+}
+
+.jstSpacer {
+	width : 0px;
+	font-size: 1px;
+	margin-right: 4px;
+}
+
+/* Buttons
+-------------------------------------------------------- */
+.jstb_strong {
+	background-image: url(../images/jstoolbar/bt_strong.png);
+}
+.jstb_em {
+	background-image: url(../images/jstoolbar/bt_em.png);
+}
+.jstb_ins {
+	background-image: url(../images/jstoolbar/bt_ins.png);
+}
+.jstb_del {
+	background-image: url(../images/jstoolbar/bt_del.png);
+}
+.jstb_quote {
+	background-image: url(../images/jstoolbar/bt_quote.png);
+}
+.jstb_code {
+	background-image: url(../images/jstoolbar/bt_code.png);
+}
+.jstb_br {
+	background-image: url(../images/jstoolbar/bt_br.png);
+}
+.jstb_ul {
+	background-image: url(../images/jstoolbar/bt_ul.png);
+}
+.jstb_ol {
+	background-image: url(../images/jstoolbar/bt_ol.png);
+}
+.jstb_link {
+	background-image: url(../images/jstoolbar/bt_link.png);
+}
