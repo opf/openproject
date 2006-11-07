@@ -17,6 +17,7 @@
 
 # available languages for help pages
 langs:
+  - en
   - fr
 
 # mapping between controller/action and help pages

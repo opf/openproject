@@ -1,0 +1,55 @@
+body  { 
+    background: #FFFFFF;
+    font: 0.8em Verdana,Tahoma,Arial,sans-serif;
+}
+
+h1, h2, h3, h4, h5 { 
+    color: #800000; 
+    font-family: sans-serif; 
+}
+
+table {
+  font-size: 1em;
+}
+
+a{
+color:#467aa7;
+font-weight:bold;
+text-decoration:none;
+background-color:inherit;
+}
+
+a:hover{
+  color: #800000; 
+  text-decoration:underline;
+  background-color:inherit;
+}
+
+a img{border:none;}
+
+.screenshot {
+  text-align: center;
+}
+
+.guilabel {
+  font-weight: bold;
+}
+
+span.term { 
+    font-weight: bold; 
+}
+
+div.sidebar { 
+    background: #F0F0F0; 
+    border: 1px solid gray; 
+    padding: 5px; 
+    margin: 20px; 
+}
+
+pre.programlisting { 
+    background: #F0F0F0; 
+    border: 1px solid gray; 
+    padding: 2px; 
+    font-size: 10pt;
+    white-space: pre;
+}
