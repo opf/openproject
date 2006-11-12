@@ -51,7 +51,7 @@ class UsersController < ApplicationController
       @user = User.new(params[:user])
       @user.admin = params[:user][:admin] || false
       @user.login = params[:user][:login]
-      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
       @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
       @user.custom_values = @custom_values			
       if @user.save
@@ -59,6 +59,7 @@ class UsersController < ApplicationController
         redirect_to :action => 'list'
       end
     end
+    @auth_sources = AuthSource.find(:all)
   end
 
   def edit
@@ -68,7 +69,7 @@ class UsersController < ApplicationController
     else
       @user.admin = params[:user][:admin] if params[:user][:admin]
       @user.login = params[:user][:login] if params[:user][:login]
-      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless params[:password].nil? or params[:password].empty?
+      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless params[:password].nil? or params[:password].empty? or @user.auth_source_id
       if params[:custom_fields]
         @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
         @user.custom_values = @custom_values
@@ -78,6 +79,7 @@ class UsersController < ApplicationController
         redirect_to :action => 'list'
       end
     end
+    @auth_sources = AuthSource.find(:all)
   end
 
   def destroy

@@ -20,6 +20,8 @@
  * ***** END LICENSE BLOCK *****
 */
 
+/* Modified by JP LANG for textile formatting */
+
 function jsToolBar(textarea) {
 	if (!document.createElement) { return; }
 	
@@ -344,13 +346,13 @@ jsToolBar.prototype.elements.del = {
 }
 
 // quote
-jsToolBar.prototype.elements.quote = {
-	type: 'button',
-	title: 'Inline quote',
-	fn: {
-		wiki: function() { this.singleTag('{{','}}') }
-	}
-}
+//jsToolBar.prototype.elements.quote = {
+//	type: 'button',
+//	title: 'Inline quote',
+//	fn: {
+//		wiki: function() { this.singleTag('{{','}}') }
+//	}
+//}
 
 // code
 jsToolBar.prototype.elements.code = {
@@ -362,16 +364,16 @@ jsToolBar.prototype.elements.code = {
 }
 
 // spacer
-jsToolBar.prototype.elements.space1 = {type: 'space'}
+//jsToolBar.prototype.elements.space1 = {type: 'space'}
 
 // br
-jsToolBar.prototype.elements.br = {
-	type: 'button',
-	title: 'Line break',
-	fn: {
-		wiki: function() { this.encloseSelection("%%%\n",'') }
-	}
-}
+//jsToolBar.prototype.elements.br = {
+//	type: 'button',
+//	title: 'Line break',
+//	fn: {
+//		wiki: function() { this.encloseSelection("%%%\n",'') }
+//	}
+//}
 
 // spacer
 jsToolBar.prototype.elements.space2 = {type: 'space'}
@@ -422,8 +424,7 @@ jsToolBar.prototype.elements.link = {
 		href = window.prompt(this.elements.link.href_prompt,href);
 		if (!href) { return false; }
 		
-		hreflang = window.prompt(this.elements.link.hreflang_prompt,
-		hreflang);
+		hreflang = ""
 		
 		return { href: this.stripBaseURL(href), hreflang: hreflang };
 	}
@@ -432,11 +433,8 @@ jsToolBar.prototype.elements.link = {
 jsToolBar.prototype.elements.link.fn.wiki = function() {
 	var link = this.elements.link.prompt.call(this);
 	if (link) {
-		var stag = '[';
-		var etag = '|'+link.href;
-		if (link.hreflang) { etag = etag+'|'+link.hreflang; }
-		etag = etag+']';
-		
+		var stag = '"';
+		var etag = '":'+link.href;
 		this.encloseSelection(stag,etag);
 	}
 };

@@ -81,6 +81,7 @@ class IssuesController < ApplicationController
         @issue.status = @history.status
         @issue.fixed_version_id = (params[:issue][:fixed_version_id])
         @issue.assigned_to_id = (params[:issue][:assigned_to_id])
+        @issue.done_ratio = (params[:issue][:done_ratio])
         @issue.lock_version = (params[:issue][:lock_version])
         if @issue.save
           flash[:notice] = l(:notice_successful_update)
@@ -124,5 +125,6 @@ private
   def find_project
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
     @project = @issue.project
+    @html_title = "#{@project.name} - #{@issue.tracker.name} ##{@issue.id}"
   end  
 end

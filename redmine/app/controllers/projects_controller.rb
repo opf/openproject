@@ -182,7 +182,8 @@ class ProjectsController < ApplicationController
     @tracker = Tracker.find(params[:tracker_id])
     @priorities = Enumeration::get_values('IPRI')
     @issue = Issue.new(:project => @project, :tracker => @tracker)
-    if request.get?      
+    if request.get?
+      @issue.start_date = Date.today
       @custom_values = @project.custom_fields_for_issues(@tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) }
     else
       @issue.attributes = params[:issue]
@@ -214,7 +215,7 @@ class ProjectsController < ApplicationController
       @results_per_page = params[:per_page].to_i
       session[:results_per_page] = @results_per_page
     else
-      @results_per_page = session[:results_per_page] || @results_per_page_options.first
+      @results_per_page = session[:results_per_page] || 25
     end
 
     @issue_count = Issue.count(:include => [:status, :project], :conditions => search_filter_clause)		
@@ -356,16 +357,22 @@ class ProjectsController < ApplicationController
   end
 
   def activity
-    @date_from = begin
-      params[:date_from].to_date
-    rescue
-    end || Date.today
-    @days_back = params[:days_back] ? params[:days_back].to_i : 15
-    @date_to = @date_from - @days_back
+    if params[:year] and params[:year].to_i > 1900
+      @year = params[:year].to_i
+      if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
+        @month = params[:month].to_i
+      end    
+    end
+    @year ||= Date.today.year
+    @month ||= Date.today.month
+
+    @date_from = Date.civil(@year, @month, 1)
+    @date_to = (@date_from >> 1)-1
+    
     @events_by_day = {}    
     
     unless params[:show_issues] == "0"
-      @project.issues.find(:all, :include => [:author, :status], :conditions => ["issues.created_on<=? and issues.created_on>=?", @date_from+1, @date_to], :order => "issues.created_on asc" ).each { |i|
+      @project.issues.find(:all, :include => [:author, :status], :conditions => ["issues.created_on>=? and issues.created_on<=?", @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -373,7 +380,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_news] == "0"
-      @project.news.find(:all, :conditions => ["news.created_on<=? and news.created_on>=?", @date_from+1, @date_to], :order => "news.created_on asc" ).each { |i|
+      @project.news.find(:all, :conditions => ["news.created_on>=? and news.created_on<=?", @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -381,7 +388,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_files] == "0"
-      Attachment.find(:all, :joins => "LEFT JOIN versions ON versions.id = attachments.container_id", :conditions => ["attachments.container_type='Version' and versions.project_id=? and attachments.created_on<=? and attachments.created_on>=?", @project.id, @date_from+1, @date_to], :order => "attachments.created_on asc" ).each { |i|
+      Attachment.find(:all, :joins => "LEFT JOIN versions ON versions.id = attachments.container_id", :conditions => ["attachments.container_type='Version' and versions.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -389,7 +396,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_documentss] == "0"
-      Attachment.find(:all, :joins => "LEFT JOIN documents ON documents.id = attachments.container_id", :conditions => ["attachments.container_type='Document' and documents.project_id=? and attachments.created_on<=? and attachments.created_on>=?", @project.id, @date_from+1, @date_to], :order => "attachments.created_on asc" ).each { |i|
+      Attachment.find(:all, :joins => "LEFT JOIN documents ON documents.id = attachments.container_id", :conditions => ["attachments.container_type='Document' and documents.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -397,12 +404,64 @@ class ProjectsController < ApplicationController
     end
 
   end
+  
+  def calendar
+    if params[:year] and params[:year].to_i > 1900
+      @year = params[:year].to_i
+      if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
+        @month = params[:month].to_i
+      end    
+    end
+    @year ||= Date.today.year
+    @month ||= Date.today.month
+    
+    @date_from = Date.civil(@year, @month, 1)
+    @date_to = (@date_from >> 1)-1
+    # start on monday
+    @date_from = @date_from - (@date_from.cwday-1)
+    # finish on sunday
+    @date_to = @date_to + (7-@date_to.cwday)  
+      
+    @issues = @project.issues.find(:all, :include => :tracker, :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", @date_from, @date_to, @date_from, @date_to])
+    render :layout => false if request.xhr?
+  end  
+
+  def gantt
+    if params[:year] and params[:year].to_i >0
+      @year_from = params[:year].to_i
+      if params[:month] and params[:month].to_i >=1 and params[:month].to_i <= 12
+        @month_from = params[:month].to_i
+      else
+        @month_from = 1
+      end
+    else
+      @month_from ||= (Date.today << 1).month
+      @year_from ||= (Date.today << 1).year
+    end
+    
+    @zoom = (params[:zoom].to_i > 0 and params[:zoom].to_i < 5) ? params[:zoom].to_i : 2
+    @months = (params[:months].to_i > 0 and params[:months].to_i < 25) ? params[:months].to_i : 6
+    
+    @date_from = Date.civil(@year_from, @month_from, 1)
+    @date_to = (@date_from >> @months) - 1
+    @issues = @project.issues.find(:all, :order => "start_date, due_date", :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to])
+    
+    if params[:output]=='pdf'
+      @options_for_rfpdf ||= {}
+      @options_for_rfpdf[:file_name] = "gantt.pdf"
+      render :template => "projects/gantt.rfpdf", :layout => false
+    else
+      render :template => "projects/gantt.rhtml"
+    end
+  end
+  
 private
   # Find project of id params[:id]
   # if not found, redirect to project list
   # Used as a before_filter
   def find_project
-    @project = Project.find(params[:id])		
+    @project = Project.find(params[:id])
+    @html_title = @project.name
   rescue
     redirect_to :action => 'list'			
   end

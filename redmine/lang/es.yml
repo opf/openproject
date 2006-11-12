@@ -31,7 +31,8 @@ activerecord_error_too_short: is too short
 activerecord_error_wrong_length: is the wrong length
 activerecord_error_taken: has already been taken
 activerecord_error_not_a_number: is not a number
-#activerecord_error_not_a_date: is not a valid date
+activerecord_error_not_a_date: no es una fecha válida
+activerecord_error_greater_than_start_date: debe ser la fecha mayor que del comienzo
 
 general_fmt_age: %d año
 general_fmt_age_plural: %d años
@@ -45,6 +46,7 @@ general_text_no: 'no'
 general_text_yes: 'sí'
 general_lang_es: 'Español'
 general_csv_separator: ';'
+general_day_names: Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo
 
 notice_account_updated: Account was successfully updated.
 notice_account_invalid_creditentials: Invalid user or password
@@ -62,8 +64,8 @@ notice_successful_connection: Successful connection.
 notice_file_not_found: Requested file doesn't exist or has been deleted.
 notice_locking_conflict: Data have been updated by another user.
 
-#mail_subject_lost_password: Your redMine password
-#mail_subject_register: redMine account activation
+mail_subject_lost_password: Tu contraseña del redMine
+mail_subject_register: Activación de la cuenta del redMine
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errores
@@ -85,8 +87,8 @@ field_field_format: Formato
 field_is_for_all: Para todos los proyectos
 field_possible_values: Valores posibles
 field_regexp: Expresión regular
-#field_min_length: Minimum length
-#field_max_length: Maximum length
+field_min_length: Longitud mínima
+field_max_length: Longitud máxima
 field_value: Valor
 field_category: Categoría
 field_title: Título
@@ -99,7 +101,7 @@ field_is_default: Estatuto por defecto
 field_html_color: Color
 field_tracker: Tracker
 field_subject: Tema
-#field_due_date: Due date
+field_due_date: Fecha debida
 field_assigned_to: Asignado a
 field_priority: Prioridad
 field_fixed_version: Versión corregida
@@ -107,7 +109,7 @@ field_user: Usuario
 field_role: Papel
 field_homepage: Sitio web
 field_is_public: Público
-#field_parent: Subproject de
+field_parent: Proyecto secundario de
 field_is_in_chlog: Consultar las peticiones en el histórico
 field_login: Identificador
 field_mail_notification: Notificación por mail
@@ -121,15 +123,17 @@ field_new_password: Nueva contraseña
 field_password_confirmation: Confirmación
 field_version: Versión
 field_type: Tipo
-#field_host: Host
-#field_port: Port
-#field_account: Account
-#field_base_dn: Base DN
-#field_attr_login: Login attribute
-#field_attr_firstname: Firstname attribute
-#field_attr_lastname: Lastname attribute
-#field_attr_mail: Email attribute
-#field_onthefly: On-the-fly user creation
+field_host: Anfitrión
+field_port: Puerto
+field_account: Cuenta
+field_base_dn: Base DN
+field_attr_login: Cualidad del identificador
+field_attr_firstname: Cualidad del nombre
+field_attr_lastname: Cualidad del apellido
+field_attr_mail: Cualidad del Email
+field_onthefly: Creación del usuario On-the-fly
+field_start_date: Comienzo
+field_done_ratio: %% Realizado
 
 label_user: Usuario
 label_user_plural: Usuarios
@@ -137,7 +141,7 @@ label_user_new: Nuevo usuario
 label_project: Proyecto
 label_project_new: Nuevo proyecto
 label_project_plural: Proyectos
-#label_project_latest: Latest projects
+label_project_latest: Los proyectos más últimos
 label_issue: Petición
 label_issue_new: Nueva petición
 label_issue_plural: Peticiones
@@ -170,7 +174,7 @@ label_enumeration_new: Nuevo valor
 label_information: Informacion
 label_information_plural: Informaciones
 label_please_login: Conexión
-#label_register: Register
+label_register: Registrar
 label_password_lost: ¿Olvidaste la contraseña?
 label_home: Acogida
 label_my_page: Mi página
@@ -189,33 +193,33 @@ label_registered_on: Inscrito el
 label_activity: Actividad
 label_new: Nuevo
 label_logged_as: Conectado como
-#label_environment: Environment
-#label_authentication: Authentication
-#label_auth_source: Authentification mode
-#label_auth_source_new: New authentication mode
-#label_auth_source_plural: Authentification modes
-#label_subproject: Subproject
-#label_subproject_plural: Subprojects
-#label_min_max_length: Min - Max length
-#label_list: List
+label_environment: Environment
+label_authentication: Autentificación
+label_auth_source: Modo de la autentificación
+label_auth_source_new: Nuevo modo de la autentificación
+label_auth_source_plural: Modos de la autentificación
+label_subproject: Proyecto secundario
+label_subproject_plural: Proyectos secundarios
+label_min_max_length: Longitud mín - máx
+label_list: Lista
 label_date: Fecha
-#label_integer: Integer
-#label_boolean: Boolean
-#label_string: String
-#label_text: Text
-#label_attribute: Attribute
-#label_attribute_plural: Attributes
+label_integer: Número
+label_boolean: Boleano
+label_string: Texto
+label_text: Texto largo
+label_attribute: Cualidad
+label_attribute_plural: Cualidades
 label_download: %d Telecarga
 label_download_plural: %d Telecargas
-#label_no_data: No data to display
+label_no_data: Ningunos datos a exhibir
 label_change_status: Cambiar el estatuto
 label_history: Histórico
 label_attachment: Fichero
 label_attachment_new: Nuevo fichero
-#label_attachment_delete: Delete file
+label_attachment_delete: Suprimir el fichero
 label_attachment_plural: Ficheros
-#label_report: Report
-#label_report_plural: Reports
+label_report: Informe
+label_report_plural: Informes
 label_news: Noticia
 label_news_new: Nueva noticia
 label_news_plural: Noticias
@@ -238,16 +242,20 @@ label_closed_issues: Cerrada
 label_closed_issues_plural: Cerradas
 label_total: Total
 label_permissions: Permisos
-#label_current_status: Current status
+label_current_status: Estado actual
 label_new_statuses_allowed: Nuevos estatutos autorizados
 label_all: Todos
 label_none: Ninguno
 label_next: Próximo
 label_previous: Precedente
 label_used_by: Utilizado por
-#label_details: Details...
-#label_add_note: Add a note
-#label_per_page: Per page
+label_details: Detalles...
+label_add_note: Agregar una nota
+label_per_page: Por la página
+label_calendar: Calendario
+label_months_from: meses de
+label_gantt_chart: Diagrama de Gantt
+label_internal: Interno
 
 button_login: Conexión
 button_submit: Someter
@@ -268,12 +276,12 @@ button_download: Telecargar
 button_list: Listar
 button_view: Ver
 button_move: Mover
-#button_back: Back
+button_back: Atrás
 
 text_select_mail_notifications: Seleccionar las actividades que necesitan la activación de la notificación por mail.
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 para ninguna restricción
-#text_possible_values_info: values separated with |
+text_possible_values_info: Los valores se separaron con |
 text_project_destroy_confirmation: ¿ Estás seguro de querer eliminar el proyecto ?
 text_workflow_edit: Seleccionar un workflow para actualizar
 text_are_you_sure: ¿ Estás seguro ?

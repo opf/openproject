@@ -6,22 +6,45 @@
 <!--[form:issue]-->
 <%= hidden_field_tag 'tracker_id', @tracker.id %>
 
+<div class="splitcontentleft">
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
 <p><%= f.select :assigned_to_id, (@issue.project.members.collect {|m| [m.name, m.user_id]}), :include_blank => true %></p>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %></p>
+</div>
+<div class="splitcontentright">
+<p><%= f.text_field :start_date, :size => 10 %><%= calendar_for('issue_start_date') %></p>
+<p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('issue_due_date') %></p>
+<p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
+</div>
+
+<div class="clear">
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
 <p><%= f.text_area :description, :cols => 60, :rows => 10, :required => true %></p>
-<p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('issue_due_date') %></p>
 
 <% for @custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end %>
 
-<p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>
-<%= link_to_function image_tag('add', :align => "top"), "addFileField()" %></label>
+<p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>&nbsp;
+<%= link_to_function image_tag('add'), "addFileField()" %></label>
 <%= file_field_tag 'attachments[]', :size => 30  %></p>
+
+</div>
 <!--[eoform:issue]-->
 </div>
-
 <%= submit_tag l(:button_create) %>
+<% end %>
+
+<% unless $RDM_TEXTILE_DISABLED %>
+<%= javascript_include_tag 'jstoolbar' %>
+<script type="text/javascript">
+//<![CDATA[
+if (document.getElementById) { 
+	if (document.getElementById('issue_description')) { 
+		var commentTb = new jsToolBar(document.getElementById('issue_description')); 
+		commentTb.draw(); 
+	}
+}
+//]]>
+</script>
 <% end %>

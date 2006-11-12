@@ -31,7 +31,8 @@ activerecord_error_too_short: ist zu kurz
 activerecord_error_wrong_length: ist die falsche Länge
 activerecord_error_taken: ist bereits genommen worden
 activerecord_error_not_a_number: ist nicht eine Zahl
-#activerecord_error_not_a_date: is not a valid date
+activerecord_error_not_a_date: ist nicht ein gültiges Datum
+activerecord_error_greater_than_start_date: muß als grösser sein beginnen Datum
 
 general_fmt_age: %d yr
 general_fmt_age_plural: %d yrs
@@ -45,6 +46,7 @@ general_text_no: 'nein'
 general_text_yes: 'ja'
 general_lang_de: 'Deutsch'
 general_csv_separator: ';'
+general_day_names: Montag,Dienstag,Mittwoch,Donnerstag,Freitag,Samstag,Sonntag
 
 notice_account_updated: Konto wurde erfolgreich aktualisiert.
 notice_account_invalid_creditentials: Unzulässiger Benutzer oder Passwort
@@ -62,8 +64,8 @@ notice_successful_connection: Erfolgreicher Anschluß.
 notice_file_not_found: Erbetene Akte besteht nicht oder ist gelöscht worden.
 notice_locking_conflict: Data have been updated by another user.
 
-#mail_subject_lost_password: Your redMine password
-#mail_subject_register: redMine account activation
+mail_subject_lost_password: Dein redMine Kennwort
+mail_subject_register: redMine Kontoaktivierung
 
 gui_validation_error: 1 Störung
 gui_validation_error_plural: %d Störungen
@@ -91,15 +93,15 @@ field_value: Wert
 field_category: Kategorie
 field_title: Títel
 field_project: Projekt
-#field_issue: Issue
+field_issue: Antrag
 field_status: Status
 field_notes: Anmerkungen
 field_is_closed: Problem erledigt
-#field_is_default: Default status
+field_is_default: Rückstellung status
 field_html_color: Farbe
 field_tracker: Tracker
 field_subject: Thema
-#field_due_date: Due date
+field_due_date: Abgabedatum
 field_assigned_to: Zugewiesen an
 field_priority: Priorität
 field_fixed_version: Erledigt in Version
@@ -107,11 +109,11 @@ field_user: Benutzer
 field_role: Rolle
 field_homepage: Startseite
 field_is_public: Öffentlich
-#field_parent: Subprojekt von
+field_parent: Subprojekt von
 field_is_in_chlog: Ansicht der Issues in der Historie
 field_login: Mitgliedsname
 field_mail_notification: Mailbenachrichtigung
-#field_admin: Administrator
+field_admin: Administrator
 field_locked: Gesperrt
 field_last_login_on: Letzte Anmeldung
 field_language: Sprache
@@ -122,14 +124,16 @@ field_password_confirmation: Bestätigung
 field_version: Version
 field_type: Typ
 field_host: Host
-#field_port: Port
-#field_account: Account
-#field_base_dn: Base DN
-#field_attr_login: Login attribute
-#field_attr_firstname: Firstname attribute
-#field_attr_lastname: Lastname attribute
-#field_attr_mail: Email attribute
-#field_onthefly: On-the-fly user creation
+field_port: Port
+field_account: Konto
+field_base_dn: Base DN
+field_attr_login: Mitgliedsnameattribut
+field_attr_firstname: Vornamensattribut
+field_attr_lastname: Namenattribut
+field_attr_mail: Emailattribut
+field_onthefly: On-the-fly Benutzerkreation
+field_start_date: Beginn
+field_done_ratio: %% Getan
 
 label_user: Benutzer
 label_user_plural: Benutzer
@@ -137,11 +141,11 @@ label_user_new: Neuer Benutzer
 label_project: Projekt
 label_project_new: Neues Projekt
 label_project_plural: Projekte
-#label_project_latest: Latest projects
-#label_issue: Issue
-#label_issue_new: New issue
-#label_issue_plural: Issues
-#label_issue_view_all: View all issues
+label_project_latest: Neueste Projekte
+label_issue: Antrag
+label_issue_new: Neue Antrag
+label_issue_plural: Anträge
+label_issue_view_all: Alle Anträge ansehen
 label_document: Dokument
 label_document_new: Neues Dokument
 label_document_plural: Dokumente
@@ -156,11 +160,11 @@ label_tracker: Tracker
 label_tracker_plural: Tracker
 label_tracker_new: Neuer Tracker
 label_workflow: Workflow
-label_issue_status: Problem Status
-label_issue_status_plural: Problem Stati
+label_issue_status: Antrag Status
+label_issue_status_plural: Antrag Stati
 label_issue_status_new: Neuer Status
-label_issue_category: Problem Kategorie
-label_issue_category_plural: Problem Kategorien
+label_issue_category: Antrag Kategorie
+label_issue_category_plural: Antrag Kategorien
 label_issue_category_new: Neue Kategorie
 label_custom_field: Benutzerdefiniertes Feld
 label_custom_field_plural: Benutzerdefinierte Felder
@@ -169,7 +173,7 @@ label_enumerations: Enumerationen
 label_enumeration_new: Neuer Wert
 label_information: Information
 label_information_plural: Informationen
-#label_please_login: Please login
+label_please_login: Anmelden
 label_register: Anmelden
 label_password_lost: Passwort vergessen
 label_home: Hauptseite
@@ -183,42 +187,42 @@ label_help: Hilfe
 label_reported_issues: Gemeldete Issues
 label_assigned_to_me_issues: Mir zugewiesen
 label_last_login: Letzte Anmeldung
-#label_last_updates: Last updated
-#label_last_updates_plural: %d last updated
+label_last_updates: Letztes aktualisiertes
+label_last_updates_plural: %d Letztes aktualisiertes
 label_registered_on: Angemeldet am
 label_activity: Aktivität
 label_new: Neue
 label_logged_as: Angemeldet als
-#label_environment: Environment
+label_environment: Environment
 label_authentication: Authentisierung
-#label_auth_source: Authentification mode
-#label_auth_source_new: New authentication mode
-#label_auth_source_plural: Authentification modes
-#label_subproject: Subproject
-#label_subproject_plural: Subprojects
+label_auth_source: Authentisierung Modus
+label_auth_source_new: Neuer Authentisierung Modus
+label_auth_source_plural: Authentisierung Modi
+label_subproject: Vorprojekt von
+label_subproject_plural: Vorprojekte
 label_min_max_length: Min - Max Länge
 label_list: Liste
 label_date: Date
 label_integer: Zahl
 label_boolean: Boolesch
-#label_string: String
-label_text: Text
+label_string: Text
+label_text: Langer Text
 label_attribute: Attribut
 label_attribute_plural: Attribute
-#label_download: %d Download
-#label_download_plural: %d Downloads
+label_download: %d Herunterlade
+label_download_plural: %d Herunterlade
 label_no_data: Nichts anzuzeigen
 label_change_status: Statuswechsel
 label_history: Historie
 label_attachment: Datei
 label_attachment_new: Neue Datei
-#label_attachment_delete: Delete file
+label_attachment_delete: Löschungakten
 label_attachment_plural: Dateien
 label_report: Bericht
 label_report_plural: Berichte
-#label_news: Neuigkeiten
-#label_news_new: Add news
-#label_news_plural: Neuigkeiten
+label_news: Neuigkeit
+label_news_new: Neuigkeite addieren
+label_news_plural: Neuigkeiten
 label_news_latest: Letzte Neuigkeiten
 label_news_view_all: Alle Neuigkeiten anzeigen
 label_change_log: Change log
@@ -228,14 +232,14 @@ label_version: Version
 label_version_new: Neue Version
 label_version_plural: Versionen
 label_confirmation: Bestätigung
-#label_export_csv: Export to CSV
-#label_export_pdf: Export to PDF
+label_export_csv: Export zu CSV
+label_export_pdf: Export zu PDF
 label_read: Lesen...
 label_public_projects: Öffentliche Projekte
-#label_open_issues: Open
-#label_open_issues_plural: Open
-#label_closed_issues: Closed
-#label_closed_issues_plural: Closed
+label_open_issues: Geöffnet
+label_open_issues_plural: Geöffnet
+label_closed_issues: Geschlossen
+label_closed_issues_plural: Geschlossen
 label_total: Gesamtzahl
 label_permissions: Berechtigungen
 label_current_status: Gegenwärtiger Status
@@ -245,9 +249,13 @@ label_none: Kein
 label_next: Weiter
 label_previous: Zurück
 label_used_by: Benutzt von
-#label_details: Details...
-#label_add_note: Add a note
-#label_per_page: Per page
+label_details: Details...
+label_add_note: Eine Anmerkung addieren
+label_per_page: Pro Seite
+label_calendar: Kalender
+label_months_from: Monate von
+label_gantt_chart: Gantt Diagramm
+label_internal: Intern
 
 button_login: Einloggen
 button_submit: Einreichen
@@ -268,12 +276,12 @@ button_download: Fernzuladen
 button_list: Aufzulisten
 button_view: Siehe
 button_move: Bewegen
-#button_back: Back
+button_back: Rückkehr
 
 text_select_mail_notifications: Aktionen für die Mailbenachrichtigung aktiviert werden soll.
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 heisst keine Beschränkung
-#text_possible_values_info: values separated with |
+text_possible_values_info: Werte trennten sich mit |
 text_project_destroy_confirmation: Sind sie sicher, daß sie das Projekt löschen wollen ?
 text_workflow_edit: Auswahl Workflow zum Bearbeiten
 text_are_you_sure: Sind sie sicher ?

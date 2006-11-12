@@ -15,6 +15,12 @@
 <%= options_from_collection_for_select @assignable_to, "id", "display_name", @issue.assigned_to_id %></p>
 </select></p>
 
+
+<p><label for="issue_done_ratio"><%=l(:field_done_ratio)%></label>
+<%= select("issue", "done_ratio", ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) ) %>
+</select></p>
+
+
 <p><label for="issue_fixed_version"><%=l(:field_fixed_version)%></label>
 <select name="issue[fixed_version_id]">
 <option value="">--none--</option>

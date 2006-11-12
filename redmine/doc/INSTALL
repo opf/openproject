@@ -9,17 +9,20 @@ http://redmine.org/
 
 * Ruby on Rails 1.1
 * Iconv
-* Net::LDAP for Ruby (for LDAP authentication)
 * a database (see compatibility below)
 * (recommended) Apache/Lighttpd with FCGI support 
 
-Supported databases:
+Optional:
+* RedCloth (for textile formatting)
+* Net::LDAP for Ruby (for LDAP authentication)
 
+Supported databases:
 * MySQL (tested with MySQL 5)
 * PostgreSQL (tested with PostgreSQL 8.1)
 * Oracle (tested with Oracle 10g)
 * SQL Server (tested with SQL Server 2005)
 * SQLite (tested with SQLite 3)
+
 
 == Upgrade
 

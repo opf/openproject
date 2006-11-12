@@ -5,7 +5,7 @@
 <% for news in @news %>
 	<p>
 	<b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />
-	<%= news.summary %><br />
+	<% unless news.summary.empty? %><%= news.summary %><br /><% end %>
 	<small>[<%= link_to l(:label_read), :controller => 'news', :action => 'show', :id => news %>]</small>
 	</p>
 <% end %>

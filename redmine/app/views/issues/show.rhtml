@@ -12,16 +12,20 @@
     <td width="15%"><b><%=l(:field_priority)%> :</b></td><td width="35%"><%= @issue.priority.name %></td>
 </tr>
 <tr>
-    <td><b><%=l(:field_author)%> :</b></td><td><%= link_to_user @issue.author %></td>
+    <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? @issue.assigned_to.name : "-" %></td>
     <td><b><%=l(:field_category)%> :</b></td><td><%= @issue.category ? @issue.category.name : "-" %></td>
 </tr>
 <tr>
+    <td><b><%=l(:field_author)%> :</b></td><td><%= link_to_user @issue.author %></td>
+    <td><b><%=l(:field_start_date)%> :</b></td><td><%= format_date(@issue.start_date) %></td>
+</tr>
+<tr>
     <td><b><%=l(:field_created_on)%> :</b></td><td><%= format_date(@issue.created_on) %></td>
-    <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? @issue.assigned_to.name : "-" %></td>
+    <td><b><%=l(:field_due_date)%> :</b></td><td><%= format_date(@issue.due_date) %></td>
 </tr>
 <tr>
     <td><b><%=l(:field_updated_on)%> :</b></td><td><%= format_date(@issue.updated_on) %></td>
-    <td><b><%=l(:field_due_date)%> :</b></td><td><%= format_date(@issue.due_date) %></td>
+    <td><b><%=l(:field_done_ratio)%> :</b></td><td><%= @issue.done_ratio %> %</td>
 </tr>
 <tr>
 <% n = 0
@@ -39,7 +43,7 @@ end %>
 <br />
 
 <b><%=l(:field_description)%> :</b><br /><br />
-<%= textilize @issue.description %>
+<%= textilizable @issue.description %>
 
 <p>
 <% if authorize_for('issues', 'edit') %>
@@ -98,7 +102,7 @@ end %>
 <table width="100%">
 <% for attachment in @issue.attachments %>
 <tr>
-<td><%= link_to attachment.filename, :action => 'download', :id => @issue, :attachment_id => attachment %> (<%= human_size(attachment.filesize) %>)</td>
+<td><%= image_tag('attachment') %> <%= link_to attachment.filename, :action => 'download', :id => @issue, :attachment_id => attachment %> (<%= human_size(attachment.filesize) %>)</td>
 <td><%= format_date(attachment.created_on) %></td>
 <td><%= attachment.author.display_name %></td>
 <% if authorize_for('issues', 'destroy_attachment') %>
@@ -114,8 +118,8 @@ end %>
 <br />
 <% if authorize_for('issues', 'add_attachment') %>
   <%= start_form_tag ({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true, :class => "tabular") %>
-  <p id="attachments_p"><label><%=l(:label_attachment_new)%>
-  <%= link_to_function image_tag('add', :align => "top"), "addFileField()" %></label>
+  <p id="attachments_p"><label><%=l(:label_attachment_new)%>&nbsp;
+  <%= link_to_function image_tag('add'), "addFileField()" %></label>
   <%= file_field_tag 'attachments[]', :size => 30  %></p>
   <%= submit_tag l(:button_add) %>
   <%= end_form_tag %> 

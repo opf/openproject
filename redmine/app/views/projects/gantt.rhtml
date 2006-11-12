@@ -1,0 +1,241 @@
+<h2><%= l(:label_gantt_chart) %></h2>
+<div class="topright">
+<small>
+<%= link_to 'PDF ', :zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :output => 'pdf' %>
+</small>
+</div>
+
+<table width="100%">
+<tr>
+<td align="left">
+<%= start_form_tag %>
+<input type="text" name="months" size="2" value="<%= @months %>">
+<%= l(:label_months_from) %>
+<%= select_month(@month_from, :prefix => "month", :discard_type => true) %>
+<%= select_year(@year_from, :prefix => "year", :discard_type => true) %>
+<%= hidden_field_tag 'zoom', @zoom %>
+<%= submit_tag l(:button_submit), :class => "button-small" %>
+<%= end_form_tag %>
+</td>
+<td align="right">
+<%= if @zoom < 4
+    link_to image_tag('zoom_in'), {:zoom => (@zoom+1), :year => @year_from, :month => @month_from, :months => @months}
+  else
+    image_tag 'zoom_in_g'
+  end %>
+<%= if @zoom > 1
+    link_to image_tag('zoom_out'), :zoom => (@zoom-1), :year => @year_from, :month => @month_from, :months => @months
+  else
+    image_tag 'zoom_out_g'
+  end %>
+</td>
+</tr>
+</table>
+<br />
+
+<style>
+.m_bg {
+  position:absolute;
+  top:0;
+  height:16px;
+  border-top: 1px solid #c0c0c0;
+  border-bottom: 1px solid #c0c0c0;
+  border-right: 1px solid #c0c0c0;
+  text-align: center;
+}
+
+.task {
+  position: absolute;
+  height:8px;
+  font-size:0.8em;
+  color:#888;
+  background:#aaa;
+  padding:0;
+  margin:0;
+  line-height:0.8em;
+}
+
+.task_late {
+  background:#f66;
+}
+
+.task_done {
+  background:#66f;
+}  
+</style>
+
+<% zoom = 1
+@zoom.times { zoom = zoom * 2 }
+
+subject_width = 260
+header_heigth = 18
+
+headers_heigth = header_heigth
+show_weeks = false
+show_days = false
+
+if @zoom >1
+    show_weeks = true
+    headers_heigth = 2*header_heigth
+    if @zoom > 2
+        show_days = true
+        headers_heigth = 3*header_heigth
+    end
+end
+
+g_width = (@date_to - @date_from + 1)*zoom
+g_height = [(20 * @issues.length + 6), 206].max
+t_height = g_height + headers_heigth
+%>
+
+<table width="100%" border=0 cellspacing=0 cellpading=0>
+<tr>
+<td width=260>
+
+<div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
+<div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_heigth %>px;" class="m_bg"></div>
+<div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;" class="m_bg"></div>
+<%
+#
+# Tasks subjects
+#
+top = headers_heigth + 8
+@issues.each do |i| %>
+	<div style="position: absolute;line-height:1em;height:16px;top:<%= top %>px;left:4px;width:<%= subject_width - 5 %>px;overflow:hidden;">
+	<small><%= link_to i.id, :controller => 'issues', :action => 'show', :id => i %>
+	<%= i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
+	</div>
+<% top = top + 20
+end %>
+</div>
+</td>
+<td>
+
+<div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width %>;overflow:auto;">
+<div style="width:<%= g_width-1 %>px;height:<%= headers_heigth %>px;" class="m_bg">&nbsp;</div>
+<% 
+#
+# Months headers
+#
+month_f = @date_from
+left = 0
+height = (show_weeks ? header_heigth : header_heigth + g_height)
+@months.times do 
+	width = ((month_f >> 1) - month_f) * zoom - 1
+	%>
+	<div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="m_bg">
+	<%= link_to "#{month_f.year}-#{month_f.month}", :year => month_f.year, :month => month_f.month, :zoom => @zoom, :months => @months %>
+	</div>
+	<% 
+	left = left + width + 1
+	month_f = month_f >> 1
+end %>
+
+<% 
+#
+# Weeks headers
+#
+if show_weeks
+	left = 0
+	height = (show_days ? header_heigth-1 : header_heigth-1 + g_height)
+	if @date_from.cwday == 1
+	    # @date_from is monday
+        week_f = @date_from
+	else
+	    # find next monday after @date_from
+		week_f = @date_from + (7 - @date_from.cwday + 1)
+		width = (7 - @date_from.cwday + 1) * zoom-1
+		%>
+		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="m_bg">&nbsp;</div>
+		<% 
+		left = left + width+1
+	end %>
+	<%
+	while week_f < @date_to
+		width = (week_f + 6 <= @date_to) ? 7 * zoom -1 : (@date_to - week_f + 1) * zoom-1
+		%>
+		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="m_bg">
+		<small><%= week_f.cweek %></small>
+		</div>
+		<% 
+		left = left + width+1
+		week_f = week_f+7
+	end
+end %>
+
+<% 
+#
+# Days headers
+#
+if show_days
+	left = 0
+	height = g_height + header_heigth - 1
+	wday = @date_from.cwday
+	(@date_to - @date_from + 1).to_i.times do 
+	width =  zoom - 1
+	%>
+	<div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="m_bg">
+	<%= day_name(wday)[0,1] %>
+	</div>
+	<% 
+	left = left + width+1
+	wday = wday + 1
+	wday = 1 if wday > 7
+	end
+end %>
+
+<%
+#
+# Today red line
+#
+if Date.today >= @date_from and Date.today <= @date_to %>
+    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_heigth + 1 %>px;left:<%= ((Date.today-@date_from+1)*zoom).floor()-1 %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
+<% end %>
+
+<%
+#
+# Tasks
+#
+top = headers_heigth + 12
+@issues.each do |i| %>
+	<%
+	i_start_date = (i.start_date >= @date_from ? i.start_date : @date_from )
+	i_end_date = (i.due_date <= @date_to ? i.due_date : @date_to )
+	
+	i_done_date = i.start_date + ((i.due_date - i.start_date)*i.done_ratio/100).floor
+	i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
+	i_done_date = (i_done_date >= @date_to ? @date_to : i_done_date )
+	
+	i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
+	
+	i_left = ((i_start_date - @date_from)*zoom).floor 
+	i_width = ((i_end_date - i_start_date + 1)*zoom).floor
+	d_width = ((i_done_date - i_start_date)*zoom).floor
+	l_width = ((i_late_date - i_start_date+1)*zoom).floor if i_late_date
+	l_width ||= 0
+	%>	
+	<div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;" class="task">&nbsp;</div>
+	<% if l_width > 0 %>
+	    <div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= l_width %>px;" class="task task_late">&nbsp;</div>
+	<% end %>
+	<% if d_width > 0 %>
+	    <div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= d_width %>px;" class="task task_done">&nbsp;</div>
+	<% end %>
+	<div style="top:<%= top %>px;left:<%= i_left + i_width + 5 %>px;background:#fff;" class="task">
+	<%= i.status.name %>
+	<%= (i.done_ratio).to_i %>%
+	</div>	
+	<% top = top + 20
+end %>
+</div>
+</td>
+</tr>
+</table>
+
+<table width="100%">
+<tr>
+<td align="left"><%= link_to ('&#171; ' + l(:label_previous)), :year => (@date_from << @months).year, :month => (@date_from << @months).month, :zoom => @zoom, :months => @months %></td>
+<td>
+<td align="right"><%= link_to (l(:label_next) + ' &#187;'), :year => (@date_from >> @months).year, :month => (@date_from >> @months).month, :zoom => @zoom, :months => @months %></td>
+</tr>
+</table>

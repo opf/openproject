@@ -1,11 +1,12 @@
 <h2><%=l(:label_settings)%></h2>
 
-<% labelled_tabular_form_for :project, @project, :url => { :action => "edit", :id => @project } do |f| %>
-<%= render :partial => 'form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
+<% if authorize_for('projects', 'edit') %>
+	<% labelled_tabular_form_for :project, @project, :url => { :action => "edit", :id => @project } do |f| %>
+	<%= render :partial => 'form', :locals => { :f => f } %>
+	<%= submit_tag l(:button_save) %>
+	<% end %>
+	<br />&nbsp;
 <% end %>
-
-&nbsp;
 
 <div class="box">
 <h3><%=l(:label_member_plural)%></h3>
@@ -14,59 +15,67 @@
 <% for member in @project.members.find(:all, :include => :user) %>
 	<% unless member.new_record? %>
 	<tr>
-		<td><%= member.user.display_name %></td>
+	<td><%= member.user.display_name %></td>
     <td>
-      <%= start_form_tag :controller => 'members', :action => 'edit', :id => member %>
-      <select name="member[role_id]">
+        <% if authorize_for('members', 'edit') %>
+        <%= start_form_tag :controller => 'members', :action => 'edit', :id => member %>
+        <select name="member[role_id]">
         <%= options_from_collection_for_select @roles, "id", "name", member.role_id %>
-      </select>
+        </select>
+        <%= submit_tag l(:button_change), :class => "button-small" %>
+        <%= end_form_tag %>
+        <% end %>
     </td>
     <td>
-      <%= submit_tag l(:button_change), :class => "button-small" %>
-      <%= end_form_tag %>
+		<% if authorize_for('members', 'destroy') %>
+		<%= start_form_tag :controller => 'members', :action => 'destroy', :id => member %>
+		<%= submit_tag l(:button_delete), :class => "button-small" %>
+		<%= end_form_tag %>
+        <% end %>
     </td>
-		<td>
-      <%= start_form_tag :controller => 'members', :action => 'destroy', :id => member %>
-      <%= submit_tag l(:button_delete), :class => "button-small" %>
-      <%= end_form_tag %>
-		</td>
 	</tr>
 	<% end %>
 <% end %>
 </table>
-<hr />
+<% if authorize_for('projects', 'add_member') %>
+    <hr />
     <label><%=l(:label_member_new)%></label><br/>
-      <%= start_form_tag :controller => 'projects', :action => 'add_member', :id => @project %>
-      <select name="member[user_id]">
-        <%= options_from_collection_for_select @users, "id", "display_name", @member.user_id %>
-      </select>
-      <select name="member[role_id]">
-        <%= options_from_collection_for_select @roles, "id", "name", @member.role_id %>
-      </select>
-      <%= submit_tag l(:button_add) %>
-      <%= end_form_tag %>
+    <%= start_form_tag :controller => 'projects', :action => 'add_member', :id => @project %>
+    <select name="member[user_id]">
+    <%= options_from_collection_for_select @users, "id", "display_name", @member.user_id %>
+    </select>
+    <select name="member[role_id]">
+    <%= options_from_collection_for_select @roles, "id", "name", @member.role_id %>
+    </select>
+    <%= submit_tag l(:button_add) %>
+    <%= end_form_tag %>
+<% end %>
 </div>
 
 <div class="box">
 <h3><%=l(:label_version_plural)%></h3>
-
 <table>
 <% for version in @project.versions %>
   <tr>
-  <td><%= link_to version.name, :controller => 'versions', :action => 'edit', :id => version %></td>
+  <td width="100"><strong><%=h version.name %></strong></td>
+  <td width="100"><%= format_date(version.effective_date) %></td>
   <td><%=h version.description %></td>
-  <td>
+  <td>&nbsp;&nbsp;&nbsp;
+      <%= link_to_if_authorized l(:button_edit), :controller => 'versions', :action => 'edit', :id => version %>
+      <% if authorize_for('versions', 'destroy') %>
+      &nbsp;
       <%= start_form_tag :controller => 'versions', :action => 'destroy', :id => version %>
       <%= submit_tag l(:button_delete), :class => "button-small" %>
       <%= end_form_tag %>  
+      <% end %>
   </td>
   </tr>
 <% end %>
 </table>
-<hr />
-      <%= start_form_tag ({ :controller => 'projects', :action => 'add_version', :id => @project }, :method => 'get' ) %>
-      <%= submit_tag l(:label_version_new) %>
-      <%= end_form_tag %>  
+<% if authorize_for('projects', 'add_version') %>
+    <hr />
+    <%= link_to l(:label_version_new), :controller => 'projects', :action => 'add_version', :id => @project %>
+<% end %>
 </div>
 
 
@@ -76,30 +85,34 @@
 <% for @category in @project.issue_categories %>
 	<% unless @category.new_record? %>
 	<tr>
-		<td>
-      <%= start_form_tag :controller => 'issue_categories', :action => 'edit', :id => @category %>
-      <%= text_field 'category', 'name', :size => 25  %>
-    </td>
-		<td>
-      <%= submit_tag l(:button_save), :class => "button-small" %>
-      <%= end_form_tag %>
+    <td>
+        <%= start_form_tag :controller => 'issue_categories', :action => 'edit', :id => @category %>
+        <%= text_field 'category', 'name', :size => 25  %>
     </td>
     <td>
-      <%= start_form_tag :controller => 'issue_categories', :action => 'destroy', :id => @category %>
-      <%= submit_tag l(:button_delete), :class => "button-small" %>
-      <%= end_form_tag %>
-		</td>
+        <% if authorize_for('issue_categories', 'edit') %>
+        <%= submit_tag l(:button_save), :class => "button-small" %>
+        <%= end_form_tag %>
+        <% end %>
+    </td>
+    <td>
+        <% if authorize_for('issue_categories', 'destroy') %>
+        <%= start_form_tag :controller => 'issue_categories', :action => 'destroy', :id => @category %>
+        <%= submit_tag l(:button_delete), :class => "button-small" %>
+        <%= end_form_tag %>
+        <% end %>
+    </td>
 	</tr>
 	<% end %>
 <% end %>
 </table>
-<hr />
-
-<%= start_form_tag :action => 'add_issue_category', :id => @project %>
-<label for="issue_category_name"><%=l(:label_issue_category_new)%></label><br/>
-<%= error_messages_for 'issue_category' %>
-<%= text_field 'issue_category', 'name', :size => 25 %>
-<%= submit_tag l(:button_create) %>
-<%= end_form_tag %>
-
+<% if authorize_for('projects', 'add_issue_category') %>
+    <hr />
+    <%= start_form_tag :action => 'add_issue_category', :id => @project %>
+    <label for="issue_category_name"><%=l(:label_issue_category_new)%></label><br/>
+    <%= error_messages_for 'issue_category' %>
+    <%= text_field 'issue_category', 'name', :size => 25 %>
+    <%= submit_tag l(:button_create) %>
+    <%= end_form_tag %>
+<% end %>
 </div>

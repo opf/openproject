@@ -4,3 +4,17 @@
 <p><%= f.text_area :summary, :cols => 60, :rows => 2 %></p>
 <p><%= f.text_area :description, :required => true, :cols => 60, :rows => 10 %></p>
 </div>
+
+<% unless $RDM_TEXTILE_DISABLED %>
+<%= javascript_include_tag 'jstoolbar' %>
+<script type="text/javascript">
+//<![CDATA[
+if (document.getElementById) { 
+	if (document.getElementById('news_description')) { 
+		var commentTb = new jsToolBar(document.getElementById('news_description')); 
+		commentTb.draw(); 
+	}
+}
+//]]>
+</script>
+<% end %>

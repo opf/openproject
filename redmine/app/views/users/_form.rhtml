@@ -1,15 +1,9 @@
 <%= error_messages_for 'user' %>
 
-<div class="box">
 <!--[form:user]-->
+<div class="box">
+<h3><%=l(:label_information_plural)%></h3>
 <p><%= f.text_field :login, :required => true, :size => 25  %></p>
-
-<p><label for="password"><%=l(:field_password)%><span class="required"> *</span></label>
-<%= password_field_tag 'password', nil, :size => 25  %></p>
-
-<p><label for="password_confirmation"><%=l(:field_password_confirmation)%><span class="required"> *</span></label>
-<%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
-
 <p><%= f.text_field :firstname, :required => true %></p>
 <p><%= f.text_field :lastname, :required => true %></p>
 <p><%= f.text_field :mail, :required => true %></p>
@@ -21,6 +15,16 @@
 
 <p><%= f.check_box :admin %></p>
 <p><%= f.check_box :mail_notification %></p>
-
-<!--[eoform:user]-->
 </div>
+
+<div class="box">
+<h3><%=l(:label_authentication)%></h3>
+<% unless @auth_sources.empty? %>
+<p><%= f.select :auth_source_id, [[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] } %></p>
+<% end %>
+<p><label for="password"><%=l(:field_password)%><span class="required"> *</span></label>
+<%= password_field_tag 'password', nil, :size => 25  %></p>
+<p><label for="password_confirmation"><%=l(:field_password_confirmation)%><span class="required"> *</span></label>
+<%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
+</div>
+<!--[eoform:user]-->

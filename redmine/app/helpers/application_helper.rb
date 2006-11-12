@@ -57,6 +57,10 @@ module ApplicationHelper
   def format_time(time)
     l_datetime(time) if time
   end
+  
+  def day_name(day)
+    l(:general_day_names).split(',')[day-1]
+  end
 
   def pagination_links_full(paginator, options={}, html_options={})
     html = ''    
@@ -74,6 +78,10 @@ module ApplicationHelper
                                  {:update => "content", :url => { :page => paginator.current.next }},
                                  {:href => url_for(:action => 'list', :params => @params.merge({:page => paginator.current.next}))}) if paginator.current.next
     html  
+  end
+  
+  def textilizable(text)
+    $RDM_TEXTILE_DISABLED ? text : textilize(text)
   end
   
   def error_messages_for(object_name, options = {})

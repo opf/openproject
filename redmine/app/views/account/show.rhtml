@@ -1,8 +1,15 @@
 <h2><%= @user.display_name %></h2>
 
 <p>
-<%= mail_to @user.mail %><br />
-<%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %>
+<%= mail_to @user.mail %>
+<ul>
+    <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
+<% for custom_value in @custom_values %>
+<% if !custom_value.value.empty? %>
+    <li><%= custom_value.custom_field.name%>: <%= show_value(custom_value) %></li>
+<% end %>
+<% end %>
+</ul>
 </p>
 
 <h3><%=l(:label_project_plural)%></h3>

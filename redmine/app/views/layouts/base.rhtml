@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<title><%= $RDM_HEADER_TITLE %></title>
+<title><%= $RDM_HEADER_TITLE + (@html_title ? ": #{@html_title}" : "") %></title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="redMine" />
 <meta name="keywords" content="issue,bug,tracker" />
@@ -37,6 +37,7 @@ var menu_contenu=' \
  \
 <% unless @project.nil? || @project.id.nil? %> \
 <div id="menuProject" class="menu" onmouseover="menuMouseover(event)"> \
+<%= link_to l(:label_calendar), {:controller => 'projects', :action => 'calendar', :id => @project }, :class => "menuItem" %> \
 <%= link_to l(:label_issue_plural), {:controller => 'projects', :action => 'list_issues', :id => @project }, :class => "menuItem" %> \
 <%= link_to l(:label_report_plural), {:controller => 'reports', :action => 'issue_report', :id => @project }, :class => "menuItem" %> \
 <%= link_to l(:label_activity), {:controller => 'projects', :action => 'activity', :id => @project }, :class => "menuItem" %> \
@@ -101,6 +102,7 @@ var menu_contenu=' \
 			<h2><%= @project.name %></h2>
 			<ul class="menublock">
 				<li><%= link_to l(:label_overview), :controller => 'projects', :action => 'show', :id => @project %></li>
+				<li><%= link_to l(:label_calendar), :controller => 'projects', :action => 'calendar', :id => @project %></li>
 				<li><%= link_to l(:label_issue_plural), :controller => 'projects', :action => 'list_issues', :id => @project %></li>
 				<li><%= link_to l(:label_report_plural), :controller => 'reports', :action => 'issue_report', :id => @project %></li>
 				<li><%= link_to l(:label_activity), :controller => 'projects', :action => 'activity', :id => @project %></li>
@@ -120,7 +122,7 @@ var menu_contenu=' \
 					<li><%= link_to membership.project.name, :controller => 'projects', :action => 'show', :id => membership.project %></li>
 				<% end %>
 			</ul>
-		<% end %>		
+		<% end %>
 	</div>
 
 	<div id="content">

@@ -6,7 +6,7 @@
 <b><%=l(:field_created_on)%></b>: <%= format_time(@news.created_on) %>
 </p>
 
-<%= simple_format auto_link @news.description %>
+<%= textilizable auto_link @news.description %>
 
 <% if authorize_for('news', 'edit') %>
   <%= start_form_tag ({:controller => 'news', :action => 'edit', :id => @news}, :method => 'get' ) %>

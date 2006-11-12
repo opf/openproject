@@ -32,6 +32,7 @@ activerecord_error_wrong_length: is the wrong length
 activerecord_error_taken: has already been taken
 activerecord_error_not_a_number: is not a number
 activerecord_error_not_a_date: is not a valid date
+activerecord_error_greater_than_start_date: must be greater than start date
 
 general_fmt_age: %d yr
 general_fmt_age_plural: %d yrs
@@ -45,6 +46,7 @@ general_text_no: 'no'
 general_text_yes: 'yes'
 general_lang_en: 'English'
 general_csv_separator: ','
+general_day_names: Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday
 
 notice_account_updated: Account was successfully updated.
 notice_account_invalid_creditentials: Invalid user or password
@@ -130,6 +132,8 @@ field_attr_firstname: Firstname attribute
 field_attr_lastname: Lastname attribute
 field_attr_mail: Email attribute
 field_onthefly: On-the-fly user creation
+field_start_date: Start
+field_done_ratio: %% Done
 
 label_user: User
 label_user_plural: Users
@@ -191,9 +195,9 @@ label_new: New
 label_logged_as: Logged as
 label_environment: Environment
 label_authentication: Authentication
-label_auth_source: Authentification mode
+label_auth_source: Authentication mode
 label_auth_source_new: New authentication mode
-label_auth_source_plural: Authentification modes
+label_auth_source_plural: Authentication modes
 label_subproject: Subproject
 label_subproject_plural: Subprojects
 label_min_max_length: Min - Max length
@@ -201,8 +205,8 @@ label_list: List
 label_date: Date
 label_integer: Integer
 label_boolean: Boolean
-label_string: String
-label_text: Text
+label_string: Text
+label_text: Long text
 label_attribute: Attribute
 label_attribute_plural: Attributes
 label_download: %d Download
@@ -248,6 +252,10 @@ label_used_by: Used by
 label_details: Details...
 label_add_note: Add a note
 label_per_page: Per page
+label_calendar: Calendar
+label_months_from: months from
+label_gantt_chart: Gantt chart
+label_internal: Internal
 
 button_login: Login
 button_submit: Submit

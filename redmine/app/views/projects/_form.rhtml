@@ -3,7 +3,7 @@
 <!--[form:project]-->
 <p><%= f.text_field :name, :required => true %></p>
 
-<% if admin_loggedin? %>
+<% if admin_loggedin? and !@root_projects.empty? %>
     <p><%= f.select :parent_id, (@root_projects.collect {|p| [p.name, p.id]}), { :include_blank => true } %></p>
 <% end %>
 
@@ -15,10 +15,12 @@
 	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end %>
 
+<% unless @custom_fields.empty? %>
 <p><label><%=l(:label_custom_field_plural)%></label>
 <% for custom_field in @custom_fields %>
-	<%= check_box_tag "custom_field_ids[]", custom_field.id, (@project.custom_fields.include? custom_field) %>
+	<%= check_box_tag "custom_field_ids[]", custom_field.id, ((@project.custom_fields.include? custom_field) or custom_field.is_for_all?), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
 	<%= custom_field.name %>	
 <% end %></p>
+<% end %>
 <!--[eoform:project]-->
 </div>

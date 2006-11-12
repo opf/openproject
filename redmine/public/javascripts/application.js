@@ -15,5 +15,6 @@ function addFileField() {
         
     p = document.getElementById("attachments_p");
     p.appendChild(document.createElement("br"));
+    p.appendChild(document.createElement("br"));
     p.appendChild(f);
 }

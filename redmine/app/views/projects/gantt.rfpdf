@@ -1,0 +1,161 @@
+<%
+pdf=IfpdfHelper::IFPDF.new
+pdf.AliasNbPages
+pdf.AddPage("L")
+pdf.SetFont('Arial','B',9)
+
+subject_width = 70
+header_heigth = 5
+
+headers_heigth = header_heigth
+show_weeks = false
+show_days = false
+
+if @months < 7
+    show_weeks = true
+    headers_heigth = 2*header_heigth
+    if @months < 3
+        show_days = true
+        headers_heigth = 3*header_heigth
+    end
+end
+
+g_width = 210
+zoom = (g_width) / (@date_to - @date_from + 1)
+g_height = 120
+t_height = g_height + headers_heigth
+
+
+#
+# Months headers
+#
+month_f = @date_from
+left = subject_width
+height = header_heigth
+@months.times do 
+	width = ((month_f >> 1) - month_f) * zoom 
+	pdf.SetY(20)
+	pdf.SetX(left)
+	pdf.Cell(width, height, "#{month_f.year}-#{month_f.month}", "LTR", 0, "C")
+	left = left + width
+	month_f = month_f >> 1
+end  
+
+#
+# Weeks headers
+#
+if show_weeks
+	left = subject_width
+	height = header_heigth
+	if @date_from.cwday == 1
+	    # @date_from is monday
+        week_f = @date_from
+	else
+	    # find next monday after @date_from
+		week_f = @date_from + (7 - @date_from.cwday + 1)
+		width = (7 - @date_from.cwday + 1) * zoom-1
+		pdf.SetY(25)
+		pdf.SetX(left)
+		pdf.Cell(width + 1, height, "", "LTR")
+		left = left + width+1
+	end
+	while week_f < @date_to
+		width = (week_f + 6 <= @date_to) ? 7 * zoom : (@date_to - week_f + 1) * zoom
+		pdf.SetY(25)
+		pdf.SetX(left)
+		pdf.Cell(width, height, week_f.cweek.to_s, "LTR", 0, "C")
+		left = left + width
+		week_f = week_f+7
+	end
+end
+
+#
+# Days headers
+#
+if show_days
+	left = subject_width
+	height = header_heigth
+	wday = @date_from.cwday
+	pdf.SetFont('Arial','B',7)
+	(@date_to - @date_from + 1).to_i.times do 
+		width = zoom
+		pdf.SetY(30)
+		pdf.SetX(left)
+		pdf.Cell(width, height, day_name(wday)[0,1], "LTR", 0, "C")
+		left = left + width
+		wday = wday + 1
+		wday = 1 if wday > 7
+	end
+end
+
+pdf.SetY(20)
+pdf.SetX(15)
+pdf.Cell(subject_width+g_width-15, headers_heigth, "", 1)
+
+
+#
+# Tasks
+#
+top = headers_heigth + 20
+pdf.SetFont('Arial','B',7)
+@issues.each do |i|
+	pdf.SetY(top)
+	pdf.SetX(15)
+	pdf.Cell(subject_width-15, 5, i.id.to_s + " " + i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)'), "LR")
+
+	pdf.SetY(top)
+	pdf.SetX(subject_width)
+	pdf.Cell(g_width, 5, "", "LR")
+	
+	i_start_date = (i.start_date >= @date_from ? i.start_date : @date_from )
+	i_end_date = (i.due_date <= @date_to ? i.due_date : @date_to )
+	
+	i_done_date = i.start_date + ((i.due_date - i.start_date)*i.done_ratio/100).floor
+	i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
+	i_done_date = (i_done_date >= @date_to ? @date_to : i_done_date )
+	
+	i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
+	
+	i_left = ((i_start_date - @date_from)*zoom) 
+	i_width = ((i_end_date - i_start_date + 1)*zoom)
+	d_width = ((i_done_date - i_start_date)*zoom)
+	l_width = ((i_late_date - i_start_date+1)*zoom) if i_late_date
+	l_width ||= 0
+
+	pdf.SetY(top+1.5)
+	pdf.SetX(subject_width + i_left)
+	pdf.SetFillColor(200,200,200)
+	pdf.Cell(i_width, 2, "", 0, 0, "", 1)
+
+	if l_width > 0
+		pdf.SetY(top+1.5)
+		pdf.SetX(subject_width + i_left)
+		pdf.SetFillColor(255,100,100)
+		pdf.Cell(l_width, 2, "", 0, 0, "", 1)
+	end 
+	if d_width > 0
+		pdf.SetY(top+1.5)
+		pdf.SetX(subject_width + i_left)
+		pdf.SetFillColor(100,100,255)
+		pdf.Cell(d_width, 2, "", 0, 0, "", 1)
+	end
+	
+	pdf.SetY(top+1.5)
+	pdf.SetX(subject_width + i_left + i_width)
+	pdf.Cell(30, 2, "#{i.status.name} #{i.done_ratio}%")
+	
+	top = top + 5
+	pdf.SetDrawColor(200, 200, 200)
+	pdf.Line(15, top, subject_width+g_width, top)
+	if pdf.GetY() > 180
+		pdf.AddPage("L")
+		top = 20
+		pdf.Line(15, top, subject_width+g_width, top)
+	end
+	pdf.SetDrawColor(0, 0, 0)
+end
+
+pdf.Line(15, top, subject_width+g_width, top)
+
+%>
+<%= pdf.Output %>

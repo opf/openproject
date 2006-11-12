@@ -32,6 +32,7 @@ activerecord_error_wrong_length: n'est pas de la bonne longueur
 activerecord_error_taken: est déjà utilisé
 activerecord_error_not_a_number: n'est pas un nombre
 activerecord_error_not_a_date: n'est pas une date valide
+activerecord_error_greater_than_start_date: doit être postérieur à la date de début
 
 general_fmt_age: %d an
 general_fmt_age_plural: %d ans
@@ -45,6 +46,7 @@ general_text_no: 'non'
 general_text_yes: 'oui'
 general_lang_fr: 'Français'
 general_csv_separator: ';'
+general_day_names: Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche
 
 notice_account_updated: Le compte a été mis à jour avec succès.
 notice_account_invalid_creditentials: Identifiant ou mot de passe invalide.
@@ -130,6 +132,9 @@ field_attr_firstname: Attribut Prénom
 field_attr_lastname: Attribut Nom
 field_attr_mail: Attribut Email
 field_onthefly: Création des utilisateurs à la volée
+field_start_date: Début
+field_done_ratio: %% Réalisé
+field_auth_source: Mode d'authentification
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -201,8 +206,8 @@ label_list: Liste
 label_date: Date
 label_integer: Entier
 label_boolean: Booléen
-label_string: Chaîne
-label_text: Texte
+label_string: Texte
+label_text: Texte long
 label_attribute: Attribut
 label_attribute_plural: Attributs
 label_download: %d Téléchargement
@@ -248,6 +253,10 @@ label_used_by: Utilisé par
 label_details: Détails...
 label_add_note: Ajouter une note
 label_per_page: Par page
+label_calendar: Calendrier
+label_months_from: mois depuis
+label_gantt_chart: Diagramme de Gantt
+label_internal: Interne
 
 button_login: Connexion
 button_submit: Soumettre

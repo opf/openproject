@@ -37,7 +37,7 @@
 # Uncomment to disable user self-registration
 # $RDM_SELF_REGISTRATION = false
 
-# Default langage ('en', 'es', 'fr' are available)
+# Default langage ('en', 'es', 'de', 'fr' are available)
 # $RDM_DEFAULT_LANG = 'en'
 
 # Email adress used to send mail notifications
@@ -58,3 +58,8 @@
 # Signature displayed in footer
 # Email adresses will be automatically displayed as a mailto link
 # $RDM_FOOTER_SIG = "admin@somenet.foo"
+
+# Textile formatting (only available if RedCloth is installed)
+# Textile formatting is automativaly disabled if RedCloth is not available
+# Set to true to manually disable.
+# $RDM_TEXTILE_DISABLED = true

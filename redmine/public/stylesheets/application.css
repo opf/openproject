@@ -130,14 +130,14 @@ background-color: #80b0da;
 
 html>body #content {
 height: auto;
-min-height: 300px;
+min-height: 500px;
 } 
 
 #content{
 /*float:right;*/
 /*width:530px;*/
 width: auto;
-height:300px;
+height:500px;
 font-size:0.9em;
 padding:20px 10px 10px 20px;
 /*position: absolute;*/
@@ -198,7 +198,6 @@ textarea {
 
 input {
 	vertical-align: middle;
-	margin-bottom: 4px;
 }
 
 input.button-small 
@@ -263,10 +262,10 @@ tr.ListHead a {
 	text-decoration:underline;
 }
 
-tr.odd {
+.odd {
 	background-color:#f0f1f2;
 }
-tr.even {
+.even {
 	background-color: #fff;
 }
 
@@ -280,14 +279,24 @@ table.reportTableContent td {
 	padding:2px;
 }
 
+table.calenderTable {
+	border:1px solid #578bb8;
+	width:99%;
+	border-collapse: collapse;
+}
+
+table.calenderTable td {
+	border:1px solid #578bb8;
+}
+
 hr { border:none; border-bottom: dotted 2px #c0c0c0; }
 
 
 /**************** Sidebar styles ****************/
 
 #subcontent{
-float:left;
-clear:both;
+position: absolute;
+left: 0px;
 width:110px;
 padding:20px 20px 10px 5px;
 }

@@ -105,6 +105,10 @@ $RDM_HEADER_SUBTITLE ||= "Project management"
 # footer signature
 $RDM_FOOTER_SIG = "admin@somenet.foo"
 
+# textile formatting
+# automaticaly disabled if 'textile' method is not defined (RedCloth unavailable)
+$RDM_TEXTILE_DISABLED = true unless ActionView::Helpers::TextHelper.method_defined? "textilize"
+
 # application name
 RDM_APP_NAME = "redMine" 
 # application version

@@ -3,8 +3,8 @@
 <div>
 <div class="rightbox">
   <%= start_form_tag %>
-    <p>From <%= text_field_tag 'date_from', @date_from, :size => 10, :class => 'button-small' %>
-    and <%= text_field_tag 'days_back', @days_back, :size => 2, :class => 'button-small' %> days back</p>
+<p><%= select_month(@month, :prefix => "month", :discard_type => true) %>
+<%= select_year(@year, :prefix => "year", :discard_type => true) %></p>
     <%= check_box_tag 'show_issues', 1, @show_issues %><%= hidden_field_tag 'show_issues', 0 %> <%=l(:label_issue_plural)%><br />
     <%= check_box_tag 'show_news', 1, @show_news %><%= hidden_field_tag 'show_news', 0 %> <%=l(:label_news_plural)%><br />
     <%= check_box_tag 'show_files', 1, @show_files %><%= hidden_field_tag 'show_files', 0 %> <%=l(:label_attachment_plural)%><br />
@@ -15,7 +15,7 @@
 <% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>
   <h3><%= format_date(day) %></h3>
   <ul>
-  <% @events_by_day[day].each do |e| %>
+  <% @events_by_day[day].sort {|x,y| y.created_on <=> x.created_on }.each do |e| %>
     <li><p>
     <% if e.is_a? Issue %>
       <%= e.created_on.strftime("%H:%M") %> <%= e.tracker.name %> <%= link_to e.long_id, :controller => 'issues', :action => 'show', :id => e %> (<%= e.status.name %>): <%= e.subject %><br />
@@ -36,8 +36,6 @@
   <% end %>
   </ul>
 <% end %>
-  <br />
-
-
-
+<% if @events_by_day.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+<br />
 </div>

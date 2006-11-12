@@ -33,6 +33,7 @@ class Issue < ActiveRecord::Base
   has_many :custom_fields, :through => :custom_values
 
   validates_presence_of :subject, :description, :priority, :tracker, :author, :status
+  validates_inclusion_of :done_ratio, :in => 0..100
   validates_associated :custom_values, :on => :update
 
   # set default status for new issues
@@ -43,6 +44,10 @@ class Issue < ActiveRecord::Base
   def validate
     if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
       errors.add :due_date, :activerecord_error_not_a_date
+    end
+    
+    if self.due_date and self.start_date and self.due_date < self.start_date
+      errors.add :due_date, :activerecord_error_greater_than_start_date
     end
   end
 

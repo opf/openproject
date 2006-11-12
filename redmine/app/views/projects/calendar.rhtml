@@ -1,0 +1,71 @@
+<h2><%= l(:label_calendar) %></h2>
+
+<table width="100%">
+<tr>
+<td align="left">
+<%= start_form_tag :action => 'calendar', :id => @project %>
+<%= select_month(@month, :prefix => "month", :discard_type => true) %>
+<%= select_year(@year, :prefix => "year", :discard_type => true) %>
+<%= submit_tag l(:button_submit), :class => "button-small" %>
+<%= end_form_tag %>
+</td>
+<td align="right">
+<%= image_tag 'gantt' %>
+<%= link_to l(:label_gantt_chart), :action => 'gantt', :id => @project %>&nbsp;
+</td>
+</tr>
+</table>
+<br />
+
+<table class="calenderTable">
+<tr class="ListHead">
+<td></td>
+<% 1.upto(7) do |d| %>
+    <td align="center" width="14%"><%= day_name(d) %></td>
+<% end %>
+</tr>
+<tr height="100">
+<% day = @date_from
+while day <= @date_to
+	if day.cwday == 1 %>
+	<td valign="middle"><%= day.cweek %></td>
+	<% end %>	
+	<td valign="top" width="14%" class="<%= day.month==@month ? "even" : "odd" %>">
+	<p align="right"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
+	<% day_issues = []
+	@issues.each { |i| day_issues << i if i.start_date == day or i.due_date == day } 
+	day_issues.each do |i| %>	
+		<%= if day == i.start_date and day == i.due_date
+		    image_tag('arrow_bw')
+		elsif day == i.start_date
+		    image_tag('arrow_from') 
+		elsif day == i.due_date
+		    image_tag('arrow_to') 
+		end %>
+		<%= i.tracker.name %> <%= link_to i.id, :controller => 'issues', :action => 'show', :id => i %>: <small><%= i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small><br />
+	<% end %>
+    </td>
+	<%= '</tr><tr height="100">' if day.cwday >= 7 and day!=@date_to %>
+	<%
+	day = day + 1
+end %>
+</tr>
+</table>
+
+<table width="100%">
+<tr>
+<td align="left">
+<%= link_to_remote ('&#171; ' + l(:label_previous)), 
+                    {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
+                    {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
+                    %>
+</td>
+<td align="right">
+<%= link_to_remote (l(:label_next) + ' &#187;'), 
+                    {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
+                    {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
+                    %>
+&nbsp;
+</td>
+</tr>
+</table>

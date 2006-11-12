@@ -4,14 +4,22 @@
 <%= error_messages_for 'issue' %>
 <div class="box">
 <!--[form:issue]-->
+<div class="splitcontentleft">
 <p><label><%=l(:field_status)%></label> <%= @issue.status.name %></p>
-
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
 <p><%= f.select :assigned_to_id, (@issue.project.members.collect {|m| [m.name, m.user_id]}), :include_blank => true %></p>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}) %></p>
+</div>
+
+<div class="splitcontentright">
+<p><%= f.text_field :start_date, :size => 10 %><%= calendar_for('issue_start_date') %></p>
+<p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('issue_due_date') %></p>
+<p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
+</div>
+
+<div class="clear">
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
 <p><%= f.text_area :description, :cols => 60, :rows => 10, :required => true %></p>
-<p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('issue_due_date') %></p>
 
 <% for @custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label @custom_value %></p>
@@ -19,36 +27,23 @@
 
 <p><%= f.select :fixed_version_id, (@project.versions.collect {|v| [v.name, v.id]}), { :include_blank => true } %>
 </select></p>
+</div>
 <!--[eoform:issue]-->
 </div>
 <%= f.hidden_field :lock_version %>
 <%= submit_tag l(:button_save) %>
 <% end %>
 
+<% unless $RDM_TEXTILE_DISABLED %>
 <%= javascript_include_tag 'jstoolbar' %>
 <script type="text/javascript">
 //<![CDATA[
-jsToolBar.prototype.base_url = 'http://callmepep.org'; 
-jsToolBar.prototype.legend_msg = 'You can use the following shortcuts to format your text.'; 
-jsToolBar.prototype.elements.strong.title = 'Strong emphasis'; 
-jsToolBar.prototype.elements.em.title = 'Emphasis'; 
-jsToolBar.prototype.elements.ins.title = 'Inserted'; 
-jsToolBar.prototype.elements.del.title = 'Deleted'; 
-jsToolBar.prototype.elements.quote.title = 'Inline quote'; 
-jsToolBar.prototype.elements.code.title = 'Code'; 
-jsToolBar.prototype.elements.br.title = 'Line break'; 
-jsToolBar.prototype.elements.ul.title = 'Unordered list'; 
-jsToolBar.prototype.elements.ol.title = 'Ordered list'; 
-jsToolBar.prototype.elements.link.title = 'Link'; 
-jsToolBar.prototype.elements.link.href_prompt = 'URL?'; 
-jsToolBar.prototype.elements.link.hreflang_prompt = 'Language?'; 
-
 if (document.getElementById) { 
 	if (document.getElementById('issue_description')) { 
 		var commentTb = new jsToolBar(document.getElementById('issue_description')); 
 		commentTb.draw(); 
 	}
 }
-
 //]]>
 </script>
+<% end %>

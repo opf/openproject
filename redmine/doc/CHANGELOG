@@ -5,7 +5,31 @@ Copyright (C) 2006  Jean-Philippe Lang
 http://redmine.org/
 
 
-== xx/xx/2006 v0.3.0
+== xx/xx/2006 v0.x.x
+
+* new functionality: move an issue to another project or tracker
+* new functionality: add a note to an issue
+* new report: project activity
+* "start date" and "% done" fields added on issues
+* project calendar added
+* gantt chart added (exportable to pdf)
+* single/multiple issues pdf export added
+* issues reports improvements
+* multiple file upload for issues attachments
+* textile formating of issue and news descritions (RedCloth required)
+* integration of DotClear jstoolbar for textile formatting
+* calendar date picker for date fields (LGPL DHTML Calendar http://sourceforge.net/projects/jscalendar)
+* new filter in issues list: Author
+* ajaxified paginators
+* option to set number of results per page on issues list
+* localized csv separator (comma/semicolon)
+* csv output encoded to ISO-8859-1
+* user custom field displayed on account/show
+* default configuration improved (default roles, trackers, status, permissions and workflows)
+* fixed: custom fields not in csv exports
+* fixed: project settings now displayed according to user's permissions
+
+== 10/08/2006 v0.3.0
 
 * user authentication against multiple LDAP (optional)
 * token based "lost password" functionality
