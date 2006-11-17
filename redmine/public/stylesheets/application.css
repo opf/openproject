@@ -58,20 +58,22 @@ margin-bottom:1px;
 
 #header h1{
 padding:10px 0 0 20px;
-font-size:1.8em;
+font-size:2em;
 background-color:inherit;
 color:#fff; /*rgb(152, 26, 33);*/
-letter-spacing:-2px;
-font-weight:normal;
+letter-spacing:-1px;
+font-weight:bold;
+font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 }
 
 #header h2{
 margin:3px 0 0 40px;
-font-size:1.4em;
+font-size:1.5em;
 background-color:inherit;
 color:#f0f2f4;
 letter-spacing:-1px;
 font-weight:normal;
+font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 }
 
 #navigation{
@@ -152,12 +154,13 @@ margin:0 0 16px 0;
 font-size:1.7em;
 font-weight:normal;
 letter-spacing:-1px;
-color:#505050;
+color:#606060;
 background-color:inherit;
+font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 }
 
 #content h2 a{font-weight:normal;}
-#content h3{margin:0 0 12px 0; font-size:1.4em; letter-spacing:-1px;}
+#content h3{margin:0 0 12px 0; font-size:1.4em;color:#707070;font-family: Trebuchet MS,Georgia,"Times New Roman",serif;}
 #content a:hover,#subcontent a:hover{text-decoration:underline;}
 #content ul,#content ol{margin:0 5px 16px 35px;}
 #content dl{margin:0 5px 10px 25px;}
@@ -307,9 +310,9 @@ margin:0 0 5px 0;
 font-size:1.0em;
 font-weight:bold;
 text-align:left;
-letter-spacing:-1px;
 color:#606060;
 background-color:inherit;
+font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 }
 
 #subcontent p{margin:0 0 16px 0; font-size:0.9em;}
