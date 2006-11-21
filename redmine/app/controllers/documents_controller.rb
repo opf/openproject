@@ -40,6 +40,9 @@ class DocumentsController < ApplicationController
     @attachment = @document.attachments.find(params[:attachment_id])
     @attachment.increment_download
     send_file @attachment.diskfile, :filename => @attachment.filename
+  rescue
+    flash.now[:notice] = l(:notice_file_not_found)
+    render :text => "", :layout => true, :status => 404
   end 
   
   def add_attachment

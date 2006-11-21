@@ -60,6 +60,42 @@ class ReportsController < ApplicationController
     end
   end  
   
+  def delays
+    @trackers = Tracker.find(:all)
+    if request.get?
+      @selected_tracker_ids = @trackers.collect {|t| t.id.to_s }
+    else
+      @selected_tracker_ids = params[:tracker_ids].collect { |id| id.to_i.to_s } if params[:tracker_ids] and params[:tracker_ids].is_a? Array
+    end
+    @selected_tracker_ids ||= []    
+    @raw = 
+      ActiveRecord::Base.connection.select_all("SELECT datediff( a.created_on, b.created_on ) as delay, count(a.id) as total
+      FROM issue_histories a, issue_histories b, issues i
+      WHERE a.status_id =5
+      AND a.issue_id = b.issue_id
+      AND a.issue_id = i.id
+      AND i.tracker_id in (#{@selected_tracker_ids.join(',')})
+      AND b.id = (
+      SELECT min( c.id )
+      FROM issue_histories c
+      WHERE b.issue_id = c.issue_id ) 
+      GROUP BY delay") unless @selected_tracker_ids.empty?    
+    @raw ||=[]
+    
+    @x_from = 0
+    @x_to = 0
+    @y_from = 0
+    @y_to = 0
+    @sum_total = 0
+    @sum_delay = 0
+    @raw.each do |r|
+      @x_to = [r['delay'].to_i, @x_to].max
+      @y_to = [r['total'].to_i, @y_to].max
+      @sum_total = @sum_total + r['total'].to_i
+      @sum_delay = @sum_delay + r['total'].to_i * r['delay'].to_i
+    end    
+  end
+  
 private
 	# Find project of id params[:id]
 	def find_project

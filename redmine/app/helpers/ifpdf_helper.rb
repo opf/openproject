@@ -20,7 +20,9 @@ require 'iconv'
 module IfpdfHelper
 
   class IFPDF < FPDF
-  
+
+    attr_accessor :footer_date
+      
     def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
       @ic ||= Iconv.new('ISO-8859-1', 'UTF-8')
       super w,h,@ic.iconv(txt),border,ln,align,fill,link
@@ -32,9 +34,12 @@ module IfpdfHelper
     end
     
     def Footer
+      SetFont('Helvetica', 'I', 8)
+      SetY(-15)
+      SetX(15)
+      Cell(0, 5, @footer_date, 0, 0, 'L')
       SetY(-15)
       SetX(-30)
-      SetFont('Helvetica', 'I', 8)
       Cell(0, 5, PageNo().to_s + '/{nb}', 0, 0, 'C')
     end
     

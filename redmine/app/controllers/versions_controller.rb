@@ -39,8 +39,8 @@ class VersionsController < ApplicationController
     @attachment.increment_download
     send_file @attachment.diskfile, :filename => @attachment.filename
   rescue
-    flash[:notice] = l(:notice_file_not_found)
-    redirect_to :controller => 'projects', :action => 'list_files', :id => @project
+    flash.now[:notice] = l(:notice_file_not_found)
+    render :text => "", :layout => true, :status => 404
   end 
   
   def destroy_file

@@ -17,7 +17,8 @@
    @fixed_issues.each do |issue| %>   
     <% unless ver_id == issue.fixed_version_id %>
     <% if ver_id %></ul><% end %>
-    <p><strong><%= issue.fixed_version.name %></strong> - <%= format_date(issue.fixed_version.effective_date) %><br />
+    <h3><%= l(:label_version) %>: <%= issue.fixed_version.name %></h3>
+    <p><%= format_date(issue.fixed_version.effective_date) %><br />
     <%=h issue.fixed_version.description %></p>
     <ul>
     <% ver_id = issue.fixed_version_id

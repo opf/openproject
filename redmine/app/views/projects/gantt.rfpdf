@@ -1,7 +1,12 @@
 <%
 pdf=IfpdfHelper::IFPDF.new
 pdf.AliasNbPages
+pdf.footer_date = format_date(Date.today)
 pdf.AddPage("L")
+pdf.SetFont('Arial','B',12)
+pdf.SetX(15)
+pdf.Cell(70, 20, @project.name)
+pdf.Ln
 pdf.SetFont('Arial','B',9)
 
 subject_width = 70
@@ -25,6 +30,8 @@ zoom = (g_width) / (@date_to - @date_from + 1)
 g_height = 120
 t_height = g_height + headers_heigth
 
+y_start = pdf.GetY
+
 
 #
 # Months headers
@@ -34,7 +41,7 @@ left = subject_width
 height = header_heigth
 @months.times do 
 	width = ((month_f >> 1) - month_f) * zoom 
-	pdf.SetY(20)
+	pdf.SetY(y_start)
 	pdf.SetX(left)
 	pdf.Cell(width, height, "#{month_f.year}-#{month_f.month}", "LTR", 0, "C")
 	left = left + width
@@ -54,14 +61,14 @@ if show_weeks
 	    # find next monday after @date_from
 		week_f = @date_from + (7 - @date_from.cwday + 1)
 		width = (7 - @date_from.cwday + 1) * zoom-1
-		pdf.SetY(25)
+		pdf.SetY(y_start + header_heigth)
 		pdf.SetX(left)
 		pdf.Cell(width + 1, height, "", "LTR")
 		left = left + width+1
 	end
 	while week_f < @date_to
 		width = (week_f + 6 <= @date_to) ? 7 * zoom : (@date_to - week_f + 1) * zoom
-		pdf.SetY(25)
+		pdf.SetY(y_start + header_heigth)
 		pdf.SetX(left)
 		pdf.Cell(width, height, week_f.cweek.to_s, "LTR", 0, "C")
 		left = left + width
@@ -79,7 +86,7 @@ if show_days
 	pdf.SetFont('Arial','B',7)
 	(@date_to - @date_from + 1).to_i.times do 
 		width = zoom
-		pdf.SetY(30)
+		pdf.SetY(y_start + 2 * header_heigth)
 		pdf.SetX(left)
 		pdf.Cell(width, height, day_name(wday)[0,1], "LTR", 0, "C")
 		left = left + width
@@ -88,7 +95,7 @@ if show_days
 	end
 end
 
-pdf.SetY(20)
+pdf.SetY(y_start)
 pdf.SetX(15)
 pdf.Cell(subject_width+g_width-15, headers_heigth, "", 1)
 
@@ -96,7 +103,7 @@ pdf.Cell(subject_width+g_width-15, headers_heigth, "", 1)
 #
 # Tasks
 #
-top = headers_heigth + 20
+top = headers_heigth + y_start
 pdf.SetFont('Arial','B',7)
 @issues.each do |i|
 	pdf.SetY(top)

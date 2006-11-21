@@ -119,6 +119,9 @@ class IssuesController < ApplicationController
   def download
     @attachment = @issue.attachments.find(params[:attachment_id])
     send_file @attachment.diskfile, :filename => @attachment.filename
+  rescue
+    flash.now[:notice] = l(:notice_file_not_found)
+    render :text => "", :layout => true, :status => 404
   end
 
 private

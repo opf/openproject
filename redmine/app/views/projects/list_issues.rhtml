@@ -6,17 +6,17 @@
 </small>
 </div>
 
-<form method="post" class="noborder">
+<%= start_form_tag :action => 'list_issues' %>
 <table cellpadding=2>
   <tr>
-    <td><small><%=l(:field_status)%>:</small><br /><%= search_filter_tag 'status_id', :class => 'select-small' %></td>
-    <td><small><%=l(:field_tracker)%>:</small><br /><%= search_filter_tag 'tracker_id', :class => 'select-small' %></td>
-    <td><small><%=l(:field_priority)%>:</small><br /><%= search_filter_tag 'priority_id', :class => 'select-small' %></td>
-    <td><small><%=l(:field_category)%>:</small><br /><%= search_filter_tag 'category_id', :class => 'select-small' %></td>
-    <td><small><%=l(:field_fixed_version)%>:</small><br /><%= search_filter_tag 'fixed_version_id', :class => 'select-small' %></td>
-    <td><small><%=l(:field_author)%>:</small><br /><%= search_filter_tag 'author_id', :class => 'select-small' %></td>
-    <td><small><%=l(:field_assigned_to)%>:</small><br /><%= search_filter_tag 'assigned_to_id', :class => 'select-small' %></td>
-    <td><small><%=l(:label_subproject_plural)%>:</small><br /><%= search_filter_tag 'subproject_id', :class => 'select-small' %></td>
+    <td valign="bottom"><small><%=l(:field_status)%>:</small><br /><%= search_filter_tag 'status_id', :class => 'select-small' %></td>
+    <td valign="bottom"><small><%=l(:field_tracker)%>:</small><br /><%= search_filter_tag 'tracker_id', :class => 'select-small' %></td>
+    <td valign="bottom"><small><%=l(:field_priority)%>:</small><br /><%= search_filter_tag 'priority_id', :class => 'select-small' %></td>
+    <td valign="bottom"><small><%=l(:field_category)%>:</small><br /><%= search_filter_tag 'category_id', :class => 'select-small' %></td>
+    <td valign="bottom"><small><%=l(:field_fixed_version)%>:</small><br /><%= search_filter_tag 'fixed_version_id', :class => 'select-small' %></td>
+    <td valign="bottom"><small><%=l(:field_author)%>:</small><br /><%= search_filter_tag 'author_id', :class => 'select-small' %></td>
+    <td valign="bottom"><small><%=l(:field_assigned_to)%>:</small><br /><%= search_filter_tag 'assigned_to_id', :class => 'select-small' %></td>
+    <td valign="bottom"><small><%=l(:label_subproject_plural)%>:</small><br /><%= search_filter_tag 'subproject_id', :class => 'select-small' %></td>
     <td valign="bottom">
       <%= hidden_field_tag 'set_filter', 1 %>
       <%= submit_tag l(:button_apply), :class => 'button-small' %>

@@ -13,7 +13,7 @@
   <%= end_form_tag %>
   </div>
 <% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>
-  <h3><%= format_date(day) %></h3>
+  <h3><%= day_name(day.cwday) %> <%= format_date(day) %></h3>
   <ul>
   <% @events_by_day[day].sort {|x,y| y.created_on <=> x.created_on }.each do |e| %>
     <li><p>

@@ -395,7 +395,7 @@ class ProjectsController < ApplicationController
       @show_files = 1 
     end
     
-    unless params[:show_documentss] == "0"
+    unless params[:show_documents] == "0"
       Attachment.find(:all, :joins => "LEFT JOIN documents ON documents.id = attachments.container_id", :conditions => ["attachments.container_type='Document' and documents.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
