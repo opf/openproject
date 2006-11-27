@@ -1,7 +1,7 @@
 Issue #<%= @issue.id %> has been updated.
 <%= @journal.user.name %>
 <% for detail in @journal.details %>
-<%= show_detail(detail) %>
+<%= show_detail(detail, true) %>
 <% end %>
 <%= @journal.notes if @journal.notes? %>
 ----------------------------------------

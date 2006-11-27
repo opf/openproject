@@ -17,6 +17,8 @@
 
 class Mailer < ActionMailer::Base
 
+  helper IssuesHelper
+
   def issue_add(issue)
     # Sends to all project members
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }

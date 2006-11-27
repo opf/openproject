@@ -1,7 +1,7 @@
 La demande #<%= @issue.id %> a été mise à jour.
 <%= @journal.user.name %> - <%= format_date(@journal.created_on) %>
 <% for detail in @journal.details %>
-<%= show_detail(detail) %>
+<%= show_detail(detail, true) %>
 <% end %>
 <%= journal.notes if journal.notes? %>
 ----------------------------------------

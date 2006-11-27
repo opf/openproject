@@ -93,11 +93,11 @@ class IssuesController < ApplicationController
         #@issue.assigned_to_id = (params[:issue][:assigned_to_id])
         #@issue.done_ratio = (params[:issue][:done_ratio])
         #@issue.lock_version = (params[:issue][:lock_version])
-        @issue.init_journal(self.logged_in_user, params[:notes])
+        journal = @issue.init_journal(self.logged_in_user, params[:notes])
         @issue.status = @new_status
         if @issue.update_attributes(params[:issue])
           flash[:notice] = l(:notice_successful_update)
-          Mailer.deliver_issue_change_status(@issue) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
+          Mailer.deliver_issue_edit(journal) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
           redirect_to :action => 'show', :id => @issue
         end
       rescue ActiveRecord::StaleObjectError
