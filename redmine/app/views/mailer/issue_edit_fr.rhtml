@@ -1,0 +1,8 @@
+La demande #<%= @issue.id %> a été mise à jour.
+<%= @journal.user.name %> - <%= format_date(@journal.created_on) %>
+<% for detail in @journal.details %>
+<%= show_detail(detail) %>
+<% end %>
+<%= journal.notes if journal.notes? %>
+----------------------------------------
+<%= render :file => "_issue", :use_full_path => true, :locals => { :issue => @issue } %>

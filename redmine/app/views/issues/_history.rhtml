@@ -1,0 +1,11 @@
+<% for journal in journals %>
+	<h4><%= format_time(journal.created_on) %> - <%= journal.user.name %></h4>
+	<ul>
+	<% for detail in journal.details %>
+	   <li><%= show_detail(detail) %></li>
+	<% end %>
+	</ul>
+	<% if journal.notes? %>
+    	<%= simple_format auto_link journal.notes %>
+	<% end %>
+<% end %>

@@ -28,6 +28,7 @@ class ProjectsController < ApplicationController
   include CustomFieldsHelper   
   helper :ifpdf
   include IfpdfHelper
+  helper IssuesHelper
   
   def index
     list

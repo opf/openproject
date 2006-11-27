@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
       if self.logged_in_user and self.logged_in_user.language and !self.logged_in_user.language.empty? and GLoc.valid_languages.include? self.logged_in_user.language.to_sym
         self.logged_in_user.language
       elsif request.env['HTTP_ACCEPT_LANGUAGE']
-        accept_lang = HTTPUtils.parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.split('-').first
+        accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.split('-').first
         if accept_lang and !accept_lang.empty? and GLoc.valid_languages.include? accept_lang.to_sym
           accept_lang
         end
@@ -103,5 +103,24 @@ class ApplicationController < ActionController::Base
       redirect_to_url session[:return_to]
       session[:return_to] = nil
     end
+  end
+
+  # qvalues http header parser
+  # code taken from webrick
+  def parse_qvalues(value)
+    tmp = []
+    if value
+      parts = value.split(/,\s*/)
+      parts.each {|part|
+        if m = %r{^([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?$}.match(part)
+          val = m[1]
+          q = (m[2] or 1).to_f
+          tmp.push([val, q])
+        end
+      }
+      tmp = tmp.sort_by{|val, q| -q}
+      tmp.collect!{|val, q| val}
+    end
+    return tmp
   end
 end

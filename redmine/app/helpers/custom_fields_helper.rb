@@ -54,15 +54,20 @@ module CustomFieldsHelper
   # Return a string used to display a custom value
   def show_value(custom_value)
     return "" unless custom_value
-    
-    case custom_value.custom_field.field_format
+    format_value(custom_value.value, custom_value.custom_field.field_format)
+  end
+  
+  # Return a string used to display a custom value
+  def format_value(value, field_format)
+    return "" unless value
+    case field_format
     when "date"
-      custom_value.value.empty? ? "" : l_date(custom_value.value.to_date)
+      value.empty? ? "" : l_date(value.to_date)
     when "bool"
-      l_YesNo(custom_value.value == "1")
+      l_YesNo(value == "1")
     else
-      custom_value.value
-    end	
+      value
+    end
   end
 
   # Return an array of custom field formats which can be used in select_tag

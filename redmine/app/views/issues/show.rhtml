@@ -44,8 +44,8 @@ end %>
 
 <b><%=l(:field_description)%> :</b><br /><br />
 <%= textilizable @issue.description %>
-
-<p>
+<br />
+<div style="float:left;">
 <% if authorize_for('issues', 'edit') %>
   <%= start_form_tag ({:controller => 'issues', :action => 'edit', :id => @issue}, :method => "get" ) %>
   <%= submit_tag l(:button_edit) %>
@@ -56,7 +56,7 @@ end %>
 <% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
   <%= start_form_tag ({:controller => 'issues', :action => 'change_status', :id => @issue}) %>
   <%=l(:label_change_status)%> :
-  <select name="history[status_id]">
+  <select name="new_status_id">
   <%= options_from_collection_for_select @status_options, "id", "name" %>
   </select>
   <%= submit_tag l(:button_change) %>
@@ -71,30 +71,25 @@ end %>
   <%= end_form_tag %>
   &nbsp;&nbsp;
 <% end %>
-
+</div>
+<div style="float:right;">
 <% if authorize_for('issues', 'destroy') %>
   <%= start_form_tag ({:controller => 'issues', :action => 'destroy', :id => @issue} ) %>
   <%= submit_tag l(:button_delete) %>
   <%= end_form_tag %>
   &nbsp;&nbsp;
 <% end %>
-</p>
+</div>
+<div class="clear"></div>
 </div>
 
-<div class="box">
-<h3><%=l(:label_history)%></h3>
-<table width="100%">
-<% for history in @issue.histories.find(:all, :include => [:author, :status]) %>
-<tr>
-<td><%= format_date(history.created_on) %></td>
-<td><%= history.author.display_name %></td>
-<td><b><%= history.status.name %></b></td>
-</tr>
-<% if history.notes? %>
-	<tr><td colspan=3><%= simple_format auto_link history.notes %></td></tr>
+<div id="history" class="box">
+<h3><%=l(:label_history)%>
+<% if @journals_count > @journals.length %>(<%= l(:label_last_changes, @journals.length) %>)<% end %></h3>
+<%= render :partial => 'history', :locals => { :journals => @journals } %>
+<% if @journals_count > @journals.length %>
+    <p><center><small>[ <%= link_to l(:label_change_view_all), :action => 'history', :id => @issue %> ]</small></center></p>
 <% end %>
-<% end %>
-</table>
 </div>
 
 <div class="box">
@@ -130,9 +125,9 @@ end %>
   <div class="box">
   <h3><%= l(:label_add_note) %></h3>
   <%= start_form_tag ({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular" ) %>
-  <p><label for="history_notes"><%=l(:field_notes)%></label>
-    <%= text_area 'history', 'notes', :cols => 60, :rows => 10  %></p>
+  <p><label for="notes"><%=l(:field_notes)%></label>
+    <%= text_area_tag 'notes', '', :cols => 60, :rows => 10  %></p>
   <%= submit_tag l(:button_add) %>
-  <%= end_form_tag %>
+  <%= end_form_tag %>  
   </div>
 <% end %>

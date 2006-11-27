@@ -26,7 +26,8 @@ class Issue < ActiveRecord::Base
   belongs_to :priority, :class_name => 'Enumeration', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
-  has_many :histories, :class_name => 'IssueHistory', :dependent => true, :order => "issue_histories.created_on DESC", :include => :status
+  #has_many :histories, :class_name => 'IssueHistory', :dependent => true, :order => "issue_histories.created_on DESC", :include => :status
+  has_many :journals, :as => :journalized, :dependent => true
   has_many :attachments, :as => :container, :dependent => true
 
   has_many :custom_values, :dependent => true, :as => :customized
@@ -51,8 +52,28 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def before_create
-    build_history
+  #def before_create
+  #  build_history
+  #end
+  
+  def before_save
+    if @current_journal
+      # attributes changes
+      (Issue.column_names - %w(id description)).each {|c|
+        @current_journal.details << JournalDetail.new(:property => 'attr',
+                                                      :prop_key => c,
+                                                      :old_value => @issue_before_change.send(c),
+                                                      :value => send(c)) unless send(c)==@issue_before_change.send(c)
+      }
+      # custom fields changes
+      custom_values.each {|c|
+        @current_journal.details << JournalDetail.new(:property => 'cf', 
+                                                      :prop_key => c.custom_field_id,
+                                                      :old_value => @custom_values_before_change[c.custom_field_id],
+                                                      :value => c.value) unless @custom_values_before_change[c.custom_field_id]==c.value
+      }      
+      @current_journal.save unless @current_journal.details.empty? and @current_journal.notes.empty?
+    end
   end
   
   def long_id
@@ -63,12 +84,20 @@ class Issue < ActiveRecord::Base
     self.custom_values.each {|v| return v if v.custom_field_id == custom_field.id }
     return nil
   end
+  
+  def init_journal(user, notes = "")
+    @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
+    @issue_before_change = self.clone
+    @custom_values_before_change = {}
+    self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
+    @current_journal
+  end
 
 private
   # Creates an history for the issue
-  def build_history
-    @history = self.histories.build
-    @history.status = self.status
-    @history.author = self.author
-  end
+  #def build_history
+  #  @history = self.histories.build
+  #  @history.status = self.status
+  #  @history.author = self.author
+  #end
 end

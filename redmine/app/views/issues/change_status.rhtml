@@ -1,13 +1,13 @@
 <h2><%=l(:label_issue)%> #<%= @issue.id %>: <%= @issue.subject %></h2>
 
-<%= error_messages_for 'history' %>
+<%= error_messages_for 'issue' %>
 <%= start_form_tag({:action => 'change_status', :id => @issue}, :class => "tabular") %>
 
 <%= hidden_field_tag 'confirm', 1 %>
-<%= hidden_field 'history', 'status_id' %>
+<%= hidden_field_tag 'new_status_id', @new_status.id %>
 
 <div class="box">
-<p><label><%=l(:label_issue_status_new)%></label> <%= @history.status.name %></p>
+<p><label><%=l(:label_issue_status_new)%></label> <%= @new_status.name %></p>
 
 <p><label for="issue_assigned_to_id"><%=l(:field_assigned_to)%></label>
 <select name="issue[assigned_to_id]">
@@ -27,8 +27,9 @@
 <%= options_from_collection_for_select @issue.project.versions, "id", "name", @issue.fixed_version_id %>
 </select></p>
 
-<p><label for="history_notes"><%=l(:field_notes)%></label>
-<%= text_area 'history', 'notes', :cols => 60, :rows => 10  %></p>
+<p><label for="notes"><%= l(:field_notes) %></label>
+<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10 %></p>
+
 </div>
 
 <%= hidden_field 'issue', 'lock_version' %>

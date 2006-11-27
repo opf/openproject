@@ -256,6 +256,8 @@ label_calendar: Calendario
 label_months_from: meses de
 label_gantt_chart: Diagrama de Gantt
 label_internal: Interno
+label_last_changes: %d cambios del último
+label_change_view_all: Ver todos los cambios
 
 button_login: Conexión
 button_submit: Someter
@@ -285,6 +287,9 @@ text_possible_values_info: Los valores se separaron con |
 text_project_destroy_confirmation: ¿ Estás seguro de querer eliminar el proyecto ?
 text_workflow_edit: Seleccionar un workflow para actualizar
 text_are_you_sure: ¿ Estás seguro ?
+text_journal_changed: cambiado de %s a %s
+text_journal_set_to: fijado a %s
+text_journal_deleted: suprimido
 
 default_role_manager: Manager
 default_role_developper: Desarrollador

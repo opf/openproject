@@ -7,6 +7,7 @@ http://redmine.org/
 
 == xx/xx/2006 v0.x.x
 
+* improved issues change history
 * new functionality: move an issue to another project or tracker
 * new functionality: add a note to an issue
 * new report: project activity

@@ -66,29 +66,34 @@
 	pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
 
     pdf.Ln
+
     pdf.SetFont('Arial','B',9)
-    pdf.Cell(190,5, l(:label_history),"B")
-    pdf.Ln
-	for history in issue.histories.find(:all, :include => [:author, :status])
-	    pdf.SetFont('Arial','B',8)
-	    pdf.Cell(100,5, history.status.name)
-	    pdf.SetFont('Arial','',8)
-	    pdf.Cell(20,5, format_date(history.created_on))
-	    pdf.Cell(70,5, history.author.name,0,0,"R")
-	    pdf.SetFont('Arial','',8)
+    pdf.Cell(190,5, l(:label_history), "B")
+    pdf.Ln	
+	for journal in issue.journals.find(:all, :include => :user, :order => "journals.created_on desc")
+		pdf.SetFont('Arial','B',8)
+	    pdf.Cell(190,5, format_time(journal.created_on) + " - " + journal.user.name)
 	    pdf.Ln
-	    pdf.Cell(10,4, "") and pdf.MultiCell(180,4, history.notes) if history.notes?
+		pdf.SetFont('Arial','I',8)
+		for detail in journal.details
+			pdf.Cell(190,5, "- " + show_detail(detail, true))
+			pdf.Ln
+		end
+		if journal.notes?
+			pdf.SetFont('Arial','',8)
+			pdf.MultiCell(190,5, journal.notes)
+		end		
+		pdf.Ln
 	end
-    pdf.Ln
-    
+	
     pdf.SetFont('Arial','B',9)
     pdf.Cell(190,5, l(:label_attachment_plural), "B")
-    pdf.Ln	
+	pdf.Ln
 	for attachment in issue.attachments
 		pdf.SetFont('Arial','',8)
 	    pdf.Cell(80,5, attachment.filename)
-		pdf.Cell(20,5, human_size(attachment.filesize))
-		pdf.Cell(20,5, format_date(attachment.created_on))
+		pdf.Cell(20,5, human_size(attachment.filesize),0,0,"R")
+		pdf.Cell(20,5, format_date(attachment.created_on),0,0,"R")
 		pdf.Cell(70,5, attachment.author.name,0,0,"R")
 		pdf.Ln
 	end

@@ -17,14 +17,6 @@
 
 class Mailer < ActionMailer::Base
 
-  def issue_change_status(issue)
-    # Sends to all project members
-    @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
-    @from           = $RDM_MAIL_FROM
-    @subject        = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
-    @body['issue']  = issue
-  end
-
   def issue_add(issue)
     # Sends to all project members
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
@@ -33,12 +25,14 @@ class Mailer < ActionMailer::Base
     @body['issue']  = issue
   end
 
-  def issue_add_note(history)
+  def issue_edit(journal)
     # Sends to all project members
-    @recipients     = history.issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
+    issue = journal.journalized
+    @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
     @from           = $RDM_MAIL_FROM
-    @subject        = "[#{history.issue.project.name} - #{history.issue.tracker.name} ##{history.issue.id}] #{history.issue.status.name} - #{history.issue.subject}"
-    @body['history']  = history
+    @subject        = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
+    @body['issue']  = issue
+    @body['journal']= journal
   end
   
   def lost_password(token)

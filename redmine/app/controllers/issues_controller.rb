@@ -27,6 +27,13 @@ class IssuesController < ApplicationController
   def show
     @status_options = @issue.status.workflows.find(:all, :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
+    @journals_count = @issue.journals.count
+    @journals = @issue.journals.find(:all, :include => [:user, :details], :limit => 15, :order => "journals.created_on desc")
+  end
+  
+  def history
+    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "journals.created_on desc")
+    @journals_count = @journals.length  
   end
   
   def export_pdf
@@ -41,6 +48,7 @@ class IssuesController < ApplicationController
       @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
     else
       begin
+        @issue.init_journal(self.logged_in_user)
         # Retrieve custom fields and values
         @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
         @issue.custom_values = @custom_values
@@ -57,13 +65,14 @@ class IssuesController < ApplicationController
   end
   
   def add_note
-    unless params[:history][:notes].empty?
-      @history = @issue.histories.build(params[:history])
-      @history.author_id = self.logged_in_user.id if self.logged_in_user
-      @history.status = @issue.status
-      if @history.save
+    unless params[:notes].empty?
+      journal = @issue.init_journal(self.logged_in_user, params[:notes])
+      #@history = @issue.histories.build(params[:history])
+      #@history.author_id = self.logged_in_user.id if self.logged_in_user
+      #@history.status = @issue.status
+      if @issue.save
         flash[:notice] = l(:notice_successful_update)
-        Mailer.deliver_issue_add_note(@history) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
+        Mailer.deliver_issue_edit(journal) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
         redirect_to :action => 'show', :id => @issue
         return
       end
@@ -73,17 +82,20 @@ class IssuesController < ApplicationController
   end
 
   def change_status
-    @history = @issue.histories.build(params[:history])	
+    #@history = @issue.histories.build(params[:history])	
     @status_options = @issue.status.workflows.find(:all, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
+    @new_status = IssueStatus.find(params[:new_status_id])
     if params[:confirm]
       begin
-        @history.author_id = self.logged_in_user.id if self.logged_in_user
-        @issue.status = @history.status
-        @issue.fixed_version_id = (params[:issue][:fixed_version_id])
-        @issue.assigned_to_id = (params[:issue][:assigned_to_id])
-        @issue.done_ratio = (params[:issue][:done_ratio])
-        @issue.lock_version = (params[:issue][:lock_version])
-        if @issue.save
+        #@history.author_id = self.logged_in_user.id if self.logged_in_user
+        #@issue.status = @history.status
+        #@issue.fixed_version_id = (params[:issue][:fixed_version_id])
+        #@issue.assigned_to_id = (params[:issue][:assigned_to_id])
+        #@issue.done_ratio = (params[:issue][:done_ratio])
+        #@issue.lock_version = (params[:issue][:lock_version])
+        @issue.init_journal(self.logged_in_user, params[:notes])
+        @issue.status = @new_status
+        if @issue.update_attributes(params[:issue])
           flash[:notice] = l(:notice_successful_update)
           Mailer.deliver_issue_change_status(@issue) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
           redirect_to :action => 'show', :id => @issue

@@ -186,10 +186,6 @@ form {
 
 .noborder {
 	border:0px;
-Exception exceptions.AssertionError: <exceptions.AssertionError instance at 0xb7c0b20c> in <bound 
-method SubversionRepository.__del__ of <vclib.svn.SubversionRepository instance at 0xb7c1252c>> 
-ignored
-
 	background-color:#fff;
 	width:100%;
 }
@@ -292,7 +288,7 @@ table.calenderTable td {
 	border:1px solid #578bb8;
 }
 
-hr { border:none; border-bottom: dotted 2px #c0c0c0; }
+hr { border:none; border-bottom: dotted 1px #c0c0c0; }
 
 
 /**************** Sidebar styles ****************/
@@ -409,6 +405,17 @@ img.calendar-trigger {
     margin-left: 4px;
 }
 
+#history h4 {
+    font-size: 1em;
+    margin-bottom: 12px;
+    margin-top: 20px;
+    font-weight: normal;
+    border-bottom: dotted 1px #c0c0c0;    
+}
+
+#history p {
+    margin-left: 34px;
+}
 
 /***** CSS FORM ******/
 .tabular p{

@@ -25,12 +25,12 @@ module IfpdfHelper
       
     def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
       @ic ||= Iconv.new('ISO-8859-1', 'UTF-8')
-      super w,h,@ic.iconv(txt),border,ln,align,fill,link
-    end
-    
-    def MultiCell(w,h,txt,border=0,align='J',fill=0)
-      @ic ||= Iconv.new('ISO-8859-1', 'UTF-8')
-      super w,h,txt,border,align,fill
+      txt = begin
+        @ic.iconv(txt)
+      rescue
+        txt
+      end
+      super w,h,txt,border,ln,align,fill,link
     end
     
     def Footer
