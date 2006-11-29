@@ -102,7 +102,7 @@ t_height = g_height + headers_heigth
 top = headers_heigth + 8
 @issues.each do |i| %>
 	<div style="position: absolute;line-height:1em;height:16px;top:<%= top %>px;left:4px;width:<%= subject_width - 5 %>px;overflow:hidden;">
-	<small><%= link_to i.id, :controller => 'issues', :action => 'show', :id => i %>
+	<small><%= link_to "#{i.tracker.name} ##{i.id}", :controller => 'issues', :action => 'show', :id => i %>:
 	<%= i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
 	</div>
 <% top = top + 20
