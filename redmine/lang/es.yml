@@ -232,8 +232,7 @@ label_version: Versión
 label_version_new: Nueva versión
 label_version_plural: Versiónes
 label_confirmation: Confirmación
-label_export_csv: Exportar a CSV
-label_export_pdf: Exportar a PDF
+label_export_to: Exportar a
 label_read: Leer...
 label_public_projects: Proyectos publicos
 label_open_issues: Abierta

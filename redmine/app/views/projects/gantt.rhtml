@@ -1,7 +1,7 @@
 <h2><%= l(:label_gantt_chart) %></h2>
 <div class="topright">
 <small>
-<%= link_to 'PDF ', :zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :output => 'pdf' %>
+<%= l(:label_export_to) %>&nbsp;&nbsp;<%= link_to 'PDF', :zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :output => 'pdf' %>
 </small>
 </div>
 

@@ -1,8 +1,9 @@
 <h2><%=l(:label_issue_plural)%></h2>
 <div class="topright">
 <small>
-<%= link_to 'PDF ', :action => 'export_issues_pdf', :id => @project %> |
-<%= link_to 'CSV ', :action => 'export_issues_csv', :id => @project %>
+<%= l(:label_export_to) %>&nbsp;
+<%= link_to 'CSV', :action => 'export_issues_csv', :id => @project %>,
+<%= link_to 'PDF', :action => 'export_issues_pdf', :id => @project %>
 </small>
 </div>
 
