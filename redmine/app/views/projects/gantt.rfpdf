@@ -108,7 +108,7 @@ pdf.SetFont('Arial','B',7)
 @issues.each do |i|
 	pdf.SetY(top)
 	pdf.SetX(15)
-	pdf.Cell(subject_width-15, 5, i.id.to_s + " " + i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)'), "LR")
+	pdf.Cell(subject_width-15, 5, "#{i.tracker.name} #{i.id}: #{i.subject}".sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)'), "LR")
 
 	pdf.SetY(top)
 	pdf.SetX(subject_width)
