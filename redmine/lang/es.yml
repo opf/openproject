@@ -290,6 +290,9 @@ text_are_you_sure: ¿ Estás seguro ?
 text_journal_changed: cambiado de %s a %s
 text_journal_set_to: fijado a %s
 text_journal_deleted: suprimido
+text_tip_task_begin_day: tarea que comienza este día
+text_tip_task_end_day: tarea que termina este día
+text_tip_task_begin_end_day: tarea que comienza y termina este día
 
 default_role_manager: Manager
 default_role_developper: Desarrollador

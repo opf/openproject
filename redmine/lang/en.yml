@@ -290,6 +290,9 @@ text_are_you_sure: Are you sure ?
 text_journal_changed: changed from %s to %s
 text_journal_set_to: set to %s
 text_journal_deleted: deleted
+text_tip_task_begin_day: task beginning this day
+text_tip_task_end_day: task ending this day
+text_tip_task_begin_end_day: task beginning and ending this day
 
 default_role_manager: Manager
 default_role_developper: Developer
