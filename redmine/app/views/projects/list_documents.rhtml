@@ -11,7 +11,7 @@
     <b><%= link_to d.title, :controller => 'documents', :action => 'show', :id => d %></b>
     <br />
     <%= truncate d.description, 250 %><br />
-    <em><%= format_time(d.created_on) %></em>
+    <em><%= format_time(d.created_on) %></em><br />&nbsp;
   </li>		
 
 <% end %>

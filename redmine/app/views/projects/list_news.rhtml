@@ -2,13 +2,15 @@
 
 <% if @news.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
 
+<ul>
 <% for news in @news %>
-	<p>
-	<b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />
+	<li><%= link_to news.title, :controller => 'news', :action => 'show', :id => news %><br />
 	<% unless news.summary.empty? %><%= news.summary %><br /><% end %>
-	<small>[<%= link_to l(:label_read), :controller => 'news', :action => 'show', :id => news %>]</small>
-	</p>
+	<em><%= news.author.name %>, <%= format_time(news.created_on) %></em><br />&nbsp;
+	</li>
 <% end %>
+</ul>
+
 
 <%= pagination_links_full @news_pages %>
 <p>

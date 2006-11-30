@@ -21,9 +21,9 @@
 <ul>  
 <% for attachment in @attachments %>
     <li>
-        <% if authorize_for('documents', 'destroy') %>
+        <% if authorize_for('documents', 'destroy_attachment') %>
         <div style="float:right;padding:6px;">
-        <%= start_form_tag({ :controller => 'documents', :action => 'destroy', :id => @document } ) %>
+        <%= start_form_tag({ :controller => 'documents', :action => 'destroy_attachment', :id => @document, :attachment_id => attachment } ) %>
         <%= submit_tag l(:button_delete), :class => 'button-small' %>
          <%= end_form_tag %>
          </div>

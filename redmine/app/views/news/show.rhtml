@@ -1,21 +1,16 @@
 <h2><%= @news.title %></h2>
 
-<p>
-<b><%=l(:field_summary)%></b>: <%= @news.summary %><br />
-<b><%=l(:field_author)%></b>: <%= @news.author.display_name %><br />
-<b><%=l(:field_created_on)%></b>: <%= format_time(@news.created_on) %>
-</p>
-
+<p><em><%= @news.summary %><br />
+<%= @news.author.display_name %>, <%= format_time(@news.created_on) %></em></p>
+<br />
 <%= textilizable auto_link @news.description %>
 
-<% if authorize_for('news', 'edit') %>
-  <%= start_form_tag ({:controller => 'news', :action => 'edit', :id => @news}, :method => 'get' ) %>
-  <%= submit_tag l(:button_edit) %>
-  <%= end_form_tag %>
-<% end %>
-
+<div style="float:right;">
 <% if authorize_for('news', 'destroy') %>
   <%= start_form_tag ({:controller => 'news', :action => 'destroy', :id => @news}) %>
   <%= submit_tag l(:button_delete) %>
   <%= end_form_tag %>
 <% end %>
+</div>
+
+<%= link_to_if_authorized l(:button_edit), :controller => 'news', :action => 'edit', :id => @news %>
