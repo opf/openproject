@@ -10,8 +10,8 @@
   <li>
     <b><%= link_to d.title, :controller => 'documents', :action => 'show', :id => d %></b>
     <br />
-    <%=l(:field_description)%>: <%= d.description %><br />
-    <%= format_time(d.created_on) %>    
+    <%= truncate d.description, 250 %><br />
+    <em><%= format_time(d.created_on) %></em>
   </li>		
 
 <% end %>
