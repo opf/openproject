@@ -1,0 +1,121 @@
+<script language="JavaScript">
+
+function recreateSortables() {
+    Sortable.destroy('list-top');
+    Sortable.destroy('list-left');
+    Sortable.destroy('list-right');
+    
+	Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=top', {asynchronous:true, evalScripts:true, onComplete:function(request){new Effect.Highlight("list-top",{});}, onLoaded:function(request){Element.hide('indicator')}, onLoading:function(request){Element.show('indicator')}, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
+	Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=left', {asynchronous:true, evalScripts:true, onComplete:function(request){new Effect.Highlight("list-left",{});}, onLoaded:function(request){Element.hide('indicator')}, onLoading:function(request){Element.show('indicator')}, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
+	Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=right', {asynchronous:true, evalScripts:true, onComplete:function(request){new Effect.Highlight("list-right",{});}, onLoaded:function(request){Element.hide('indicator')}, onLoading:function(request){Element.show('indicator')}, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
+}
+
+function updateSelect() {
+    s = $('block-select')
+    for (var i = 0; i < s.options.length; i++) {
+        if ($('block_' + s.options[i].value)) {
+            s.options[i].disabled = true;
+        } else {
+            s.options[i].disabled = false;
+        }
+    }
+    s.options[0].selected = true;
+}
+
+function afterAddBlock() {
+    recreateSortables();
+    updateSelect();
+}
+
+function removeBlock(block) {
+    $(block).parentNode.removeChild($(block));
+    updateSelect();
+}
+
+</script>
+
+<div style="float:right;">
+<%= start_form_tag({:action => "add_block"}, :id => "block-form") %>
+
+<%= select_tag 'block', "<option></option>" + options_for_select(@block_options), :id => "block-select", :class => "select-small" %>
+<small>
+<%= link_to_remote l(:button_add),
+            :url => { :action => "add_block" },
+            :with => "Form.serialize('block-form')",
+            :update => "list-top",
+            :position => :top,
+            :complete => "afterAddBlock();",
+            :loading => "Element.show('indicator')",
+            :loaded => "Element.hide('indicator')"
+             %>
+</small>
+<%= end_form_tag %> 
+<small>|
+<%= link_to l(:button_save), :action => 'page_layout_save' %> |
+<%= link_to l(:button_cancel), :action => 'page' %>
+</small>
+</div>
+
+<div style="float:right;margin-right:20px;">
+<span id="indicator" style="display:none"><%= image_tag "loading.gif" %></span>
+</div>
+
+<h2><%=l(:label_my_page)%></h2>
+
+<div id="list-top" class="block-receiver">
+	<% @blocks['top'].each do |b| %>
+	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+	<% end if @blocks['top'] %>
+</div>
+
+<div id="list-left" class="splitcontentleft block-receiver">
+	<% @blocks['left'].each do |b| %>
+	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+	<% end if @blocks['left'] %>
+</div>
+
+<div id="list-right" class="splitcontentright block-receiver">
+	<% @blocks['right'].each do |b| %>
+	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+	<% end if @blocks['right'] %>
+</div>
+
+<%= sortable_element 'list-top',
+      :tag => 'div',
+      :only => 'mypage-box',
+      :handle => "handle",
+      :dropOnEmpty => true,
+      :containment => ['list-top', 'list-left', 'list-right'],
+      :constraint => false,
+      :complete => visual_effect(:highlight, 'list-top'), 
+      :url => { :action => "order_blocks", :group => "top" },
+      :loading => "Element.show('indicator')",
+      :loaded => "Element.hide('indicator')"
+       %>
+      
+      
+<%= sortable_element 'list-left', 
+      :tag => 'div',
+      :only => 'mypage-box',
+      :handle => "handle",
+      :dropOnEmpty => true,
+      :containment => ['list-top', 'list-left', 'list-right'],
+      :constraint => false,
+      :complete => visual_effect(:highlight, 'list-left'), 
+      :url => { :action => "order_blocks", :group => "left" },
+      :loading => "Element.show('indicator')",
+      :loaded => "Element.hide('indicator')" %>
+      
+<%= sortable_element 'list-right', 
+      :tag => 'div',
+      :only => 'mypage-box',
+      :handle => "handle",
+      :dropOnEmpty => true,
+      :containment => ['list-top', 'list-left', 'list-right'],
+      :constraint => false,
+      :complete => visual_effect(:highlight, 'list-right'), 
+      :url => { :action => "order_blocks", :group => "right" },
+      :loading => "Element.show('indicator')",
+      :loaded => "Element.hide('indicator')" %>
+      
+<%= javascript_tag "updateSelect()" %>

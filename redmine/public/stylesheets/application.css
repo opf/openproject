@@ -379,6 +379,22 @@ color:#505050;
 line-height:1.5em;
 }
 
+a.close-icon {
+display:block;
+margin-top:3px;
+overflow:hidden;
+width:12px;
+height:12px;
+background-repeat: no-repeat;
+cursor:hand;
+cursor:pointer;
+background-image:url('../images/close.png');
+}
+
+a.close-icon:hover {
+background-image:url('../images/close_hl.png');
+}
+
 .rightbox{
 background: #fafbfc;
 border: 1px solid #c0c0c0;
@@ -386,6 +402,26 @@ float: right;
 padding: 8px;
 position: relative;
 margin: 0 5px 5px;
+}
+
+.layout-active {
+background: #ECF3E1;
+}
+
+.block-receiver {
+border:1px dashed #c0c0c0;
+margin-bottom: 20px;
+padding: 15px 0 15px 0;
+}
+
+.mypage-box {
+margin:0 0 20px 0;
+color:#505050;
+line-height:1.5em;
+}
+
+.blocks {
+cursor: move;
 }
 
 .topright{

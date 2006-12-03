@@ -1,0 +1,30 @@
+<h2><%=l(:label_my_page)%></h2>
+
+<div class="topright">
+    <small><%= link_to l(:label_personalize_page), :action => 'page_layout' %></small>
+</div>
+
+<div id="list-top">
+	<% @blocks['top'].each do |b| %>
+	<div class="mypage-box">        
+		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+	</div>
+	<% end if @blocks['top'] %>
+</div>
+
+<div id="list-left" class="splitcontentleft">
+	<% @blocks['left'].each do |b| %>
+	<div class="mypage-box">        
+		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+	</div>
+	<% end if @blocks['left'] %>
+</div>
+
+<div id="list-right" class="splitcontentright">
+	<% @blocks['right'].each do |b| %>
+	<div class="mypage-box">        
+		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+	</div>
+	<% end if @blocks['right'] %>
+</div>
+

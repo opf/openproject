@@ -19,7 +19,9 @@ require "digest/sha1"
 
 class User < ActiveRecord::Base
   has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :dependent => true
+  has_many :projects, :through => :memberships
   has_many :custom_values, :dependent => true, :as => :customized
+  has_one :preference, :dependent => true, :class_name => 'UserPreference'
   belongs_to :auth_source
   
   attr_accessor :password, :password_confirmation
@@ -113,6 +115,10 @@ class User < ActiveRecord::Base
         roles
       end
     @role_for_projects[project_id]
+  end
+  
+  def pref
+    self.preference ||= UserPreference.new(:user => self)
   end
 	
 private

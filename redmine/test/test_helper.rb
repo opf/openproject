@@ -49,7 +49,7 @@ class Test::Unit::TestCase
     assert_response :success
     assert_template "account/login"
     post "/account/login", :login => login, :password => password
-    assert_redirected_to "account/my_page"
+    assert_redirected_to "my/page"
     assert_equal login, User.find(session[:user_id]).login
   end
 end

@@ -40,7 +40,7 @@ class AccountController < ApplicationController
       user = User.try_to_login(params[:login], params[:password])
       if user
         self.logged_in_user = user
-        redirect_back_or_default :controller => 'account', :action => 'my_page'
+        redirect_back_or_default :controller => 'my', :action => 'page'
       else
         flash.now[:notice] = l(:notice_account_invalid_creditentials)
       end
@@ -51,41 +51,6 @@ class AccountController < ApplicationController
   def logout
     self.logged_in_user = nil
     redirect_to :controller => ''
-  end
-
-  # Show logged in user's page
-  def my_page
-    @user = self.logged_in_user
-    @reported_issues = Issue.find(:all, :conditions => ["author_id=?", @user.id], :limit => 10, :include => [ :status, :project, :tracker ], :order => 'issues.updated_on DESC')
-    @assigned_issues = Issue.find(:all, :conditions => ["assigned_to_id=?", @user.id], :limit => 10, :include => [ :status, :project, :tracker ], :order => 'issues.updated_on DESC')
-  end
-
-  # Edit logged in user's account
-  def my_account
-    @user = self.logged_in_user
-    if request.post? and @user.update_attributes(@params[:user])
-      set_localization
-      flash.now[:notice] = l(:notice_account_updated)
-      self.logged_in_user.reload
-    end
-  end
-	
-  # Change logged in user's password
-  def change_password
-    @user = self.logged_in_user
-    flash[:notice] = l(:notice_can_t_change_password) and redirect_to :action => 'my_account' and return if @user.auth_source_id
-    if @user.check_password?(@params[:password])
-      @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-      if @user.save
-        flash[:notice] = l(:notice_account_password_updated)
-      else
-        render :action => 'my_account'
-        return
-      end
-    else
-      flash[:notice] = l(:notice_account_wrong_password)
-    end
-    redirect_to :action => 'my_account'
   end
   
   # Enable user to choose a new password

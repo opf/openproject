@@ -1,0 +1,10 @@
+<h3><%=l(:label_assigned_to_me_issues)%></h3>
+<% assigned_issues = Issue.find(:all, 
+                                :conditions => ["assigned_to_id=?", user.id],
+                                :limit => 10, 
+                                :include => [ :status, :project, :tracker ], 
+                                :order => 'issues.updated_on DESC') %>
+<%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %>
+<% if assigned_issues.length > 0 %>
+<p><%=lwr(:label_last_updates, assigned_issues.length)%></p>
+<% end %>

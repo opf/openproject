@@ -70,7 +70,7 @@ var menu_contenu=' \
 	<div id="navigation">
 		<ul>
 	<li class="selected"><%= link_to l(:label_home), { :controller => '' }, :class => "picHome" %></li>
-	<li><%= link_to l(:label_my_page), { :controller => 'account', :action => 'my_page'}, :class => "picUserPage" %></li>
+	<li><%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'}, :class => "picUserPage" %></li>
 	<li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "picProject" %></li>
 			
     <% unless @project.nil? || @project.id.nil? %>
@@ -78,7 +78,7 @@ var menu_contenu=' \
     <% end %>
 			
     <% if loggedin? %>
-		<li><%= link_to l(:label_my_account), { :controller => 'account', :action => 'my_account' }, :class => "picUser" %></li>
+		<li><%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' }, :class => "picUser" %></li>
     <% end %>
 			
 	<% if admin_loggedin? %>

@@ -257,6 +257,7 @@ label_gantt_chart: Diagrama de Gantt
 label_internal: Interno
 label_last_changes: %d cambios del último
 label_change_view_all: Ver todos los cambios
+label_personalize_page: Personalizar esta página
 
 button_login: Conexión
 button_submit: Someter
@@ -278,6 +279,7 @@ button_list: Listar
 button_view: Ver
 button_move: Mover
 button_back: Atrás
+button_cancel: Cancelar
 
 text_select_mail_notifications: Seleccionar las actividades que necesitan la activación de la notificación por mail.
 text_regexp_info: eg. ^[A-Z0-9]+$
