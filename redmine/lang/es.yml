@@ -134,6 +134,7 @@ field_attr_mail: Cualidad del Email
 field_onthefly: Creación del usuario On-the-fly
 field_start_date: Comienzo
 field_done_ratio: %% Realizado
+field_hide_mail: Ocultar mi email address
 
 label_user: Usuario
 label_user_plural: Usuarios

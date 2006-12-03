@@ -135,6 +135,7 @@ field_onthefly: Création des utilisateurs à la volée
 field_start_date: Début
 field_done_ratio: %% Réalisé
 field_auth_source: Mode d'authentification
+field_hide_mail: Cacher mon adresse mail
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs

@@ -134,6 +134,7 @@ field_attr_mail: Email attribute
 field_onthefly: On-the-fly user creation
 field_start_date: Start
 field_done_ratio: %% Done
+field_hide_mail: Hide my email address
 
 label_user: User
 label_user_plural: Users

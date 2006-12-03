@@ -28,6 +28,9 @@
   <p><label for="user_mail_notification"><%=l(:field_mail_notification)%></label>
   <%= check_box 'user', 'mail_notification' %></p>
 
+  <p><label for="pref_hide_mail"><%=l(:field_hide_mail)%></label>
+  <%= check_box 'pref', 'hide_mail' %></p>
+
   <center><%= submit_tag l(:button_save) %></center>
   <%= end_form_tag %>
   </div>

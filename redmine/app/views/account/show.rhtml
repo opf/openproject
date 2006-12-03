@@ -1,7 +1,7 @@
 <h2><%= @user.display_name %></h2>
 
 <p>
-<%= mail_to @user.mail %>
+<%= mail_to @user.mail unless @user.pref.hide_mail %>
 <ul>
     <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
 <% for custom_value in @custom_values %>

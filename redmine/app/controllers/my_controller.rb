@@ -44,7 +44,10 @@ class MyController < ApplicationController
   # Edit user's account
   def account
     @user = self.logged_in_user
-    if request.post? and @user.update_attributes(@params[:user])
+    @pref = @user.pref
+    @user.attributes = params[:user]
+    @user.pref.attributes = params[:pref]
+    if request.post? and @user.save
       set_localization
       flash.now[:notice] = l(:notice_account_updated)
       self.logged_in_user.reload
