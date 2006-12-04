@@ -56,10 +56,10 @@
 		<%= sort_header_tag('issues.updated_on', :caption => l(:field_updated_on)) %>
 	</tr>
 	<% for issue in @issues %>
-	<tr bgcolor="#<%= issue.status.html_color %>">
+	<tr class="<%= cycle("odd", "even") %>">
 	    <td width="15"><%= check_box_tag "issue_ids[]", issue.id %></td>
 		<td align="center"><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></td>
-		<td align="center"><%= issue.status.name %></td>
+		<td align="center" style="font-weight:bold;color:#<%= issue.status.html_color %>;"><%= issue.status.name %></font></td>
 		<td align="center"><%= issue.tracker.name %></td>
 		<td><%= link_to issue.subject, :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center"><%= issue.author.display_name %></td>

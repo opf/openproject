@@ -8,8 +8,8 @@
 		<th><%=l(:field_subject)%></th>
 		</tr>	
 		<% for issue in issues %>
-		<tr bgcolor="#<%= issue.status.html_color %>">
-			<td align="center">
+		<tr class="<%= cycle("odd", "even") %>">
+			<td align="center" style="font-weight:bold;color:#<%= issue.status.html_color %>;">
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %><br />
 			</td>
 			<td><p class="small"><%= issue.project.name %> - <%= issue.tracker.name %><br />
