@@ -6,34 +6,24 @@
 
 <%= error_messages_for 'user' %>
 
-  <div class="box">
-  <h3><%=l(:label_information_plural)%></h3>
-
-  <%= start_form_tag({:action => 'account'}, :class => "tabular") %>
-
-  <!--[form:user]-->
-  <p><label for="user_firstname"><%=l(:field_firstname)%> <span class="required">*</span></label>
-  <%= text_field 'user', 'firstname'  %></p>
-
-  <p><label for="user_lastname"><%=l(:field_lastname)%> <span class="required">*</span></label>
-  <%= text_field 'user', 'lastname'  %></p>
-
-  <p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label>
-  <%= text_field 'user', 'mail', :size => 40 %></p>
+<div class="box">
+<h3><%=l(:label_information_plural)%></h3>
   
-  <p><label for="user_language"><%=l(:field_language)%></label>
-  <%= select("user", "language", lang_options_for_select) %></p>
-  <!--[eoform:user]-->
+<% labelled_tabular_form_for :user, @user, :url => { :action => "account" } do |f| %>
 
-  <p><label for="user_mail_notification"><%=l(:field_mail_notification)%></label>
-  <%= check_box 'user', 'mail_notification' %></p>
+<p><%= f.text_field :firstname, :required => true %></p>
+<p><%= f.text_field :lastname, :required => true %></p>
+<p><%= f.text_field :mail, :required => true, :size => 40 %></p>
+<p><%= f.select :language, lang_options_for_select %></p>
+<p><%= f.check_box :mail_notification %></p>
 
-  <p><label for="pref_hide_mail"><%=l(:field_hide_mail)%></label>
-  <%= check_box 'pref', 'hide_mail' %></p>
+<% fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
+<p><%= pref_fields.check_box :hide_mail %></p>
+<% end %>
 
-  <center><%= submit_tag l(:button_save) %></center>
-  <%= end_form_tag %>
-  </div>
+<center><%= submit_tag l(:button_save) %></center>
+<% end %>
+</div>
 
 
 <% unless @user.auth_source_id %>
