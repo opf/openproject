@@ -195,6 +195,11 @@ textarea {
     margin:0;
 }
 
+blockquote {
+    padding-left: 6px;
+    border-left: 2px solid #ccc;
+}
+
 input {
 	vertical-align: middle;
 }
