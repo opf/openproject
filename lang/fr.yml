@@ -255,7 +255,7 @@ label_add_note: Ajouter une note
 label_per_page: Par page
 label_calendar: Calendrier
 label_months_from: mois depuis
-label_gantt_chart: Diagramme de Gantt
+label_gantt: Gantt
 label_internal: Interne
 label_last_changes: %d derniers changements
 label_change_view_all: Voir tous les changements

@@ -38,6 +38,7 @@ var menu_contenu=' \
 <% unless @project.nil? || @project.id.nil? %> \
 <div id="menuProject" class="menu" onmouseover="menuMouseover(event)"> \
 <%= link_to l(:label_calendar), {:controller => 'projects', :action => 'calendar', :id => @project }, :class => "menuItem" %> \
+<%= link_to l(:label_gantt), {:controller => 'projects', :action => 'gantt', :id => @project }, :class => "menuItem" %> \
 <%= link_to l(:label_issue_plural), {:controller => 'projects', :action => 'list_issues', :id => @project }, :class => "menuItem" %> \
 <%= link_to l(:label_report_plural), {:controller => 'reports', :action => 'issue_report', :id => @project }, :class => "menuItem" %> \
 <%= link_to l(:label_activity), {:controller => 'projects', :action => 'activity', :id => @project }, :class => "menuItem" %> \
@@ -103,6 +104,7 @@ var menu_contenu=' \
 			<ul class="menublock">
 				<li><%= link_to l(:label_overview), :controller => 'projects', :action => 'show', :id => @project %></li>
 				<li><%= link_to l(:label_calendar), :controller => 'projects', :action => 'calendar', :id => @project %></li>
+				<li><%= link_to l(:label_gantt), :controller => 'projects', :action => 'gantt', :id => @project %></li>
 				<li><%= link_to l(:label_issue_plural), :controller => 'projects', :action => 'list_issues', :id => @project %></li>
 				<li><%= link_to l(:label_report_plural), :controller => 'reports', :action => 'issue_report', :id => @project %></li>
 				<li><%= link_to l(:label_activity), :controller => 'projects', :action => 'activity', :id => @project %></li>

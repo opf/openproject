@@ -2,16 +2,24 @@
 
 <table width="100%">
 <tr>
-<td align="left">
-<%= start_form_tag :action => 'calendar', :id => @project %>
-<%= select_month(@month, :prefix => "month", :discard_type => true) %>
-<%= select_year(@year, :prefix => "year", :discard_type => true) %>
-<%= submit_tag l(:button_submit), :class => "button-small" %>
-<%= end_form_tag %>
+<td align="left" width="150">
+    <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
+                        {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
+                        %>
 </td>
-<td align="right">
-<%= image_tag 'gantt' %>
-<%= link_to l(:label_gantt_chart), :action => 'gantt', :id => @project %>&nbsp;
+<td align="center">
+    <%= start_form_tag :action => 'calendar', :id => @project %>
+    <%= select_month(@month, :prefix => "month", :discard_type => true) %>
+    <%= select_year(@year, :prefix => "year", :discard_type => true) %>
+    <%= submit_tag l(:button_submit), :class => "button-small" %>
+    <%= end_form_tag %>
+</td>
+<td align="right" width="150">
+    <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
+                        {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
+                        %>&nbsp;
 </td>
 </tr>
 </table>
@@ -52,23 +60,6 @@ end %>
 </tr>
 </table>
 
-<table width="100%">
-<tr>
-<td align="left">
-<%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
-                    {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
-                    {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
-                    %>
-</td>
-<td align="right">
-<%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
-                    {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
-                    {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
-                    %>
-&nbsp;
-</td>
-</tr>
-</table>
 <br />
 <%= image_tag 'arrow_from' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_day) %><br />
 <%= image_tag 'arrow_to' %>&nbsp;&nbsp;<%= l(:text_tip_task_end_day) %><br />

@@ -254,7 +254,7 @@ label_add_note: Eine Anmerkung addieren
 label_per_page: Pro Seite
 label_calendar: Kalender
 label_months_from: Monate von
-label_gantt_chart: Gantt Diagramm
+label_gantt: Gantt
 label_internal: Intern
 label_last_changes: %d änderungen des Letzten
 label_change_view_all: Alle änderungen ansehen
