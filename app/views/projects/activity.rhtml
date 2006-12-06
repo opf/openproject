@@ -1,4 +1,4 @@
-<h2><%=l(:label_activity)%></h2>
+<h2><%=l(:label_activity)%>: <%= "#{month_name(@month).downcase} #{@year}" %></h2>
 
 <div>
 <div class="rightbox">
@@ -13,7 +13,7 @@
   <%= end_form_tag %>
   </div>
 <% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>
-  <h3><%= day_name(day.cwday) %> <%= format_date(day) %></h3>
+  <h3><%= day_name(day.cwday) %> <%= day.day %></h3>
   <ul>
   <% @events_by_day[day].sort {|x,y| y.created_on <=> x.created_on }.each do |e| %>
     <li><p>
@@ -37,5 +37,18 @@
   </ul>
 <% end %>
 <% if @events_by_day.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+
+<div style="float:left;">
+<%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
+                    {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
+                    {:href => url_for(:action => 'activity', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
+                    %>
+</div>
+<div style="float:right;">
+<%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
+                    {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
+                    {:href => url_for(:action => 'activity', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
+                    %>&nbsp;
+</div>
 <br />
 </div>

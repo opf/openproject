@@ -61,6 +61,10 @@ module ApplicationHelper
   def day_name(day)
     l(:general_day_names).split(',')[day-1]
   end
+  
+  def month_name(month)
+    l(:actionview_datehelper_select_month_names).split(',')[month-1]
+  end
 
   def pagination_links_full(paginator, options={}, html_options={})
     html = ''    

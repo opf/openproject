@@ -403,7 +403,8 @@ class ProjectsController < ApplicationController
       }
       @show_documents = 1 
     end
-
+    
+    render :layout => false if request.xhr?
   end
   
   def calendar
