@@ -1,6 +1,7 @@
 <h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%= @issue.subject %></h2>
 <div class="topright">
 <small>
+<%= l(:label_export_to) %>&nbsp;
 <%= link_to 'PDF', :action => 'export_pdf', :id => @issue %>
 </small>
 </div>
