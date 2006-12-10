@@ -13,4 +13,26 @@
 <% end %>
 </div>
 
-<%= link_to_if_authorized l(:button_edit), :controller => 'news', :action => 'edit', :id => @news %>
+<p><%= link_to_if_authorized l(:button_edit), :controller => 'news', :action => 'edit', :id => @news %></p>
+
+<div id="comments" style="margin-bottom:16px;">
+<h3><%= l(:label_comment_plural) %></h3>
+<% @news.comments.each do |comment| %>
+<% next if comment.new_record? %>
+<h4><%= format_time(comment.created_on) %> - <%= comment.author.name %></h4>
+<div style="float:right;">
+    <small><%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment}, :confirm => l(:text_are_you_sure), :post => true %></small>
+</div>
+<%= simple_format(auto_link(h comment.comment))%>
+<% end if @news.comments_count > 0 %>
+</div>
+
+<% if authorize_for 'news', 'add_comment' %>
+<h3><%= l(:label_comment_add) %></h3>
+<%= start_form_tag :action => 'add_comment', :id => @news %>
+<%= error_messages_for 'comment' %>
+<p><label for="comment_comment"><%= l(:field_comment) %></label><br />
+<%= text_area 'comment', 'comment', :cols => 60, :rows => 6 %></p>
+<%= submit_tag l(:button_add) %>
+<%= end_form_tag %>
+<% end %>

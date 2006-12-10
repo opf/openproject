@@ -26,11 +26,11 @@ begin
   manager.permissions = Permission.find(:all, :conditions => ["is_public=?", false])
   
   developper = Role.create :name => l(:default_role_developper)
-  perms = [150, 320, 321, 322, 420, 421, 422, 1050, 1060, 1070, 1075, 1220, 1221, 1222, 1223, 1224, 1320, 1322, 1061, 1057]
+  perms = [150, 320, 321, 322, 420, 421, 422, 1050, 1060, 1070, 1075, 1130, 1220, 1221, 1222, 1223, 1224, 1320, 1322, 1061, 1057]
   developper.permissions = Permission.find(:all, :conditions => ["sort IN (#{perms.join(',')})"])
   
   reporter = Role.create :name => l(:default_role_reporter)
-  perms = [1050, 1060, 1070, 1057]
+  perms = [1050, 1060, 1070, 1057, 1130]
   reporter.permissions = Permission.find(:all, :conditions => ["sort IN (#{perms.join(',')})"])
   
   # trackers

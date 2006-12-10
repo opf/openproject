@@ -10,6 +10,7 @@ news_001:
     Visit http://ecookbook.somenet.foo/
   summary: First version was released...
   author_id: 2
+  comments_count: 1
 news_002: 
   created_on: 2006-07-19 22:42:58 +02:00
   project_id: 1
@@ -18,3 +19,4 @@ news_002:
   description: eCookbook 1.0 have downloaded 100,000 times
   summary: eCookbook 1.0 have downloaded 100,000 times
   author_id: 2
+  comments_count: 0

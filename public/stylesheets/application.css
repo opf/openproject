@@ -446,7 +446,7 @@ img.calendar-trigger {
     margin-left: 4px;
 }
 
-#history h4 {
+#history h4, #comments h4 {
     font-size: 1em;
     margin-bottom: 12px;
     margin-top: 20px;

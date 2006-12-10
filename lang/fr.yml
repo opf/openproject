@@ -136,6 +136,7 @@ field_start_date: Début
 field_done_ratio: %% Réalisé
 field_auth_source: Mode d'authentification
 field_hide_mail: Cacher mon adresse mail
+field_comment: Commentaire
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -260,6 +261,11 @@ label_internal: Interne
 label_last_changes: %d derniers changements
 label_change_view_all: Voir tous les changements
 label_personalize_page: Personnaliser cette page
+label_comment: Commentaire
+label_comment_plural: Commentaires
+label_comment_add: Ajouter un commentaire
+label_comment_added: Commentaire ajouté
+label_comment_delete: Supprimer les commentaires
 
 button_login: Connexion
 button_submit: Soumettre

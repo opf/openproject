@@ -135,6 +135,7 @@ field_onthefly: On-the-fly Benutzerkreation
 field_start_date: Beginn
 field_done_ratio: %% Getan
 field_hide_mail: Mein email address verstecken
+field_comment: Anmerkung
 
 label_user: Benutzer
 label_user_plural: Benutzer
@@ -259,6 +260,11 @@ label_internal: Intern
 label_last_changes: %d änderungen des Letzten
 label_change_view_all: Alle änderungen ansehen
 label_personalize_page: Diese Seite personifizieren
+label_comment: Anmerkung
+label_comment_plural: Anmerkungen
+label_comment_add: Anmerkung addieren
+label_comment_added: Anmerkung fügte hinzu
+label_comment_delete: Anmerkungen löschen
 
 button_login: Einloggen
 button_submit: Einreichen

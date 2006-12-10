@@ -135,6 +135,7 @@ field_onthefly: Creación del usuario On-the-fly
 field_start_date: Comienzo
 field_done_ratio: %% Realizado
 field_hide_mail: Ocultar mi email address
+field_comment: Comentario
 
 label_user: Usuario
 label_user_plural: Usuarios
@@ -259,6 +260,11 @@ label_internal: Interno
 label_last_changes: %d cambios del último
 label_change_view_all: Ver todos los cambios
 label_personalize_page: Personalizar esta página
+label_comment: Comentario
+label_comment_plural: Comentarios
+label_comment_add: Agregar un comentario
+label_comment_added: Comentario agregó
+label_comment_delete: Suprimir comentarios
 
 button_login: Conexión
 button_submit: Someter

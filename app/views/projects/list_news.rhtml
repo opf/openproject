@@ -6,7 +6,8 @@
 <% for news in @news %>
 	<li><%= link_to news.title, :controller => 'news', :action => 'show', :id => news %><br />
 	<% unless news.summary.empty? %><%= news.summary %><br /><% end %>
-	<em><%= news.author.name %>, <%= format_time(news.created_on) %></em><br />&nbsp;
+	<em><%= news.author.name %>, <%= format_time(news.created_on) %></em><br />
+	<%= news.comments_count %> <%= lwr(:label_comment, news.comments_count).downcase %><br />&nbsp;
 	</li>
 <% end %>
 </ul>
