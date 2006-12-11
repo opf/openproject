@@ -25,11 +25,13 @@
           <% unless e.summary.empty? %><%= e.summary %><br /><% end %>
           <i><%= e.author.name %></i>
     <% elsif (e.is_a? Attachment) and (e.container.is_a? Version) %>
-      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_attachment)%> (Version <%= e.container.name %>): <%= link_to e.filename, :controller => 'projects', :action => 'list_files', :id => @project %><br />
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_attachment)%> (<%= e.container.name %>): <%= link_to e.filename, :controller => 'projects', :action => 'list_files', :id => @project %><br />
         <i><%= e.author.name %></i>
     <% elsif (e.is_a? Attachment) and (e.container.is_a? Document) %>
-      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_document)%>: <%= link_to e.container.title, :controller => 'documents', :action => 'show', :id => e %><br />
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_attachment)%>: <%= e.filename %> (<%= link_to e.container.title, :controller => 'documents', :action => 'show', :id => e.container %>)<br />
         <i><%= e.author.name %></i>
+    <% elsif e.is_a? Document %>
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_document)%>: <%= link_to e.title, :controller => 'documents', :action => 'show', :id => e %><br />
     <% end %>
     </p></li>
   

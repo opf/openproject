@@ -389,7 +389,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_files] == "0"
-      Attachment.find(:all, :joins => "LEFT JOIN versions ON versions.id = attachments.container_id", :conditions => ["attachments.container_type='Version' and versions.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to] ).each { |i|
+      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN versions ON versions.id = attachments.container_id", :conditions => ["attachments.container_type='Version' and versions.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -397,7 +397,11 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_documents] == "0"
-      Attachment.find(:all, :joins => "LEFT JOIN documents ON documents.id = attachments.container_id", :conditions => ["attachments.container_type='Document' and documents.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to] ).each { |i|
+      @project.documents.find(:all, :conditions => ["documents.created_on>=? and documents.created_on<=?", @date_from, @date_to] ).each { |i|
+        @events_by_day[i.created_on.to_date] ||= []
+        @events_by_day[i.created_on.to_date] << i
+      }
+      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN documents ON documents.id = attachments.container_id", :conditions => ["attachments.container_type='Document' and documents.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
