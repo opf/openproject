@@ -16,44 +16,6 @@
 <%= javascript_include_tag 'calendar/calendar-setup' %>
 <%= stylesheet_link_tag 'calendar' %>
 <%= stylesheet_link_tag 'jstoolbar' %>
-<script type='text/javascript'>
-var menu_contenu=' \
-<div id="menuAdmin" class="menu" onmouseover="menuMouseover(event)"> \
-<a class="menuItem" href="\/admin\/projects" onmouseover="menuItemMouseover(event,\'menuProjects\');"><span class="menuItemText"><%=l(:label_project_plural)%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
-<a class="menuItem" href="\/users" onmouseover="menuItemMouseover(event,\'menuUsers\');"><span class="menuItemText"><%=l(:label_user_plural)%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
-<a class="menuItem" href="\/roles"><%=l(:label_role_and_permissions)%><\/a> \
-<a class="menuItem" href="\/trackers" onmouseover="menuItemMouseover(event,\'menuTrackers\');"><span class="menuItemText"><%=l(:label_tracker_plural)%><\/span><span class="menuItemArrow">&#9654;<\/span><\/a> \
-<a class="menuItem" href="\/custom_fields"><%=l(:label_custom_field_plural)%><\/a> \
-<a class="menuItem" href="\/enumerations"><%=l(:label_enumerations)%><\/a> \
-<a class="menuItem" href="\/admin\/mail_options"><%=l(:field_mail_notification)%><\/a> \
-<a class="menuItem" href="\/auth_sources"><%=l(:label_authentication)%><\/a> \
-<a class="menuItem" href="\/admin\/info"><%=l(:label_information_plural)%><\/a> \
-<\/div> \
-<div id="menuTrackers" class="menu"> \
-<a class="menuItem" href="\/issue_statuses"><%=l(:label_issue_status_plural)%><\/a> \
-<a class="menuItem" href="\/roles\/workflow"><%=l(:label_workflow)%><\/a> \
-<\/div> \
-<div id="menuProjects" class="menu"><a class="menuItem" href="\/projects\/add"><%=l(:label_new)%><\/a><\/div> \
-<div id="menuUsers" class="menu"><a class="menuItem" href="\/users\/add"><%=l(:label_new)%><\/a><\/div> \
- \
-<% unless @project.nil? || @project.id.nil? %> \
-<div id="menuProject" class="menu" onmouseover="menuMouseover(event)"> \
-<%= link_to l(:label_calendar), {:controller => 'projects', :action => 'calendar', :id => @project }, :class => "menuItem" %> \
-<%= link_to l(:label_gantt), {:controller => 'projects', :action => 'gantt', :id => @project }, :class => "menuItem" %> \
-<%= link_to l(:label_issue_plural), {:controller => 'projects', :action => 'list_issues', :id => @project }, :class => "menuItem" %> \
-<%= link_to l(:label_report_plural), {:controller => 'reports', :action => 'issue_report', :id => @project }, :class => "menuItem" %> \
-<%= link_to l(:label_activity), {:controller => 'projects', :action => 'activity', :id => @project }, :class => "menuItem" %> \
-<%= link_to l(:label_news_plural), {:controller => 'projects', :action => 'list_news', :id => @project }, :class => "menuItem" %> \
-<%= link_to l(:label_change_log), {:controller => 'projects', :action => 'changelog', :id => @project }, :class => "menuItem" %> \
-<%= link_to l(:label_document_plural), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %> \
-<%= link_to l(:label_member_plural), {:controller => 'projects', :action => 'list_members', :id => @project }, :class => "menuItem" %> \
-<%= link_to l(:label_attachment_plural), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %> \
-<%= link_to_if_authorized l(:label_settings), {:controller => 'projects', :action => 'settings', :id => @project }, :class => "menuItem" %> \
-<\/div> \
-<% end %> \
-';
-</script>
-
 </head>
 
 <body>
@@ -96,7 +58,43 @@ var menu_contenu=' \
 	<% end %>
 		</ul>		
 	</div>
-	<script type='text/javascript'>if(document.getElementById) {document.write(menu_contenu);}</script>
+
+    <% if admin_loggedin? %>
+    <div id="menuAdmin" class="menu" onmouseover="menuMouseover(event)">
+        <a class="menuItem" href="/admin/projects" onmouseover="menuItemMouseover(event,'menuProjects');"><span class="menuItemText"><%=l(:label_project_plural)%></span><span class="menuItemArrow">&#9654;</span></a>
+        <a class="menuItem" href="/users" onmouseover="menuItemMouseover(event,'menuUsers');"><span class="menuItemText"><%=l(:label_user_plural)%></span><span class="menuItemArrow">&#9654;</span></a>
+        <a class="menuItem" href="/roles"><%=l(:label_role_and_permissions)%></a>
+        <a class="menuItem" href="/trackers" onmouseover="menuItemMouseover(event,'menuTrackers');"><span class="menuItemText"><%=l(:label_tracker_plural)%></span><span class="menuItemArrow">&#9654;</span></a>
+        <a class="menuItem" href="/custom_fields"><%=l(:label_custom_field_plural)%></a>
+        <a class="menuItem" href="/enumerations"><%=l(:label_enumerations)%></a>
+        <a class="menuItem" href="/admin/mail_options"><%=l(:field_mail_notification)%></a>
+        <a class="menuItem" href="/auth_sources"><%=l(:label_authentication)%></a>
+        <a class="menuItem" href="/admin/info"><%=l(:label_information_plural)%></a>
+    </div>
+    <div id="menuTrackers" class="menu">
+        <a class="menuItem" href="/issue_statuses"><%=l(:label_issue_status_plural)%></a>
+        <a class="menuItem" href="/roles/workflow"><%=l(:label_workflow)%></a>
+    </div>
+    <div id="menuProjects" class="menu"><a class="menuItem" href="/projects/add"><%=l(:label_new)%></a></div>
+    <div id="menuUsers" class="menu"><a class="menuItem" href="/users/add"><%=l(:label_new)%></a></div>
+    <% end %>
+    
+    <% unless @project.nil? || @project.id.nil? %>
+    <div id="menuProject" class="menu" onmouseover="menuMouseover(event)">
+        <%= link_to l(:label_calendar), {:controller => 'projects', :action => 'calendar', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_gantt), {:controller => 'projects', :action => 'gantt', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_issue_plural), {:controller => 'projects', :action => 'list_issues', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_report_plural), {:controller => 'reports', :action => 'issue_report', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_activity), {:controller => 'projects', :action => 'activity', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_news_plural), {:controller => 'projects', :action => 'list_news', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_change_log), {:controller => 'projects', :action => 'changelog', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_document_plural), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_member_plural), {:controller => 'projects', :action => 'list_members', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_attachment_plural), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %>
+        <%= link_to_if_authorized l(:label_settings), {:controller => 'projects', :action => 'settings', :id => @project }, :class => "menuItem" %>
+    </div>
+    <% end %>
+
 	
 	<div id="subcontent">
 	
