@@ -128,10 +128,11 @@ background-color: #80b0da;
 .picLogout { background: url(../images/logout.png) no-repeat 4px 50%; }
 .picHelp { background: url(../images/help.png) no-repeat 4px 50%; }
 
-.picEdit { background: url(../images/edit_small.png) no-repeat 4px 50%; }
+.picEdit { background: url(../images/edit.png) no-repeat 4px 50%; }
 .picDelete { background: url(../images/delete.png) no-repeat 4px 50%; }
 .picAdd { background: url(../images/add.png) no-repeat 4px 50%; }
 .picMove { background: url(../images/move.png) no-repeat 4px 50%; }
+.picCheck { background: url(../images/check.png) no-repeat 4px 70%; }
 .picPdf { background: url(../images/pdf.png) no-repeat 4px 50%;}
 .picCsv { background: url(../images/csv.png) no-repeat 4px 50%;}
 
@@ -221,7 +222,7 @@ select {
 	vertical-align: middle;
 }
 
-select.select-small 
+.select-small 
 {
    border: 1px solid #7F9DB9;
    padding: 1px;

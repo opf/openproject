@@ -265,6 +265,23 @@ label_comment_plural: Anmerkungen
 label_comment_add: Anmerkung addieren
 label_comment_added: Anmerkung fügte hinzu
 label_comment_delete: Anmerkungen löschen
+label_query: Benutzerdefiniertes Frage
+label_query_plural: Benutzerdefinierte Fragen
+label_query_new: Neue Frage
+label_filter_add: Filter addieren
+label_filter_plural: Filter
+label_equals: ist
+label_not_equals: ist nicht
+label_in_less_than: an weniger als
+label_in_more_than: an mehr als
+label_in: an
+label_today: heute
+label_less_than_ago: vor weniger als
+label_more_than_ago: vor mehr als
+label_ago: vor
+label_contains: enthält
+label_not_contains: enthält nicht
+label_day_plural: Tage
 
 button_login: Einloggen
 button_submit: Einreichen

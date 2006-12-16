@@ -265,6 +265,23 @@ label_comment_plural: Comentarios
 label_comment_add: Agregar un comentario
 label_comment_added: Comentario agregó
 label_comment_delete: Suprimir comentarios
+label_query: Pregunta personalizada
+label_query_plural: Preguntas personalizadas
+label_query_new: Nueva preguntas
+label_filter_add: Agregar el filtro
+label_filter_plural: Filtros
+label_equals: igual
+label_not_equals: no igual
+label_in_less_than: en menos que
+label_in_more_than: en más que
+label_in: en
+label_today: hoy
+label_less_than_ago: hace menos de
+label_more_than_ago: hace más de
+label_ago: hace
+label_contains: contiene 
+label_not_contains: no contiene
+label_day_plural: días
 
 button_login: Conexión
 button_submit: Someter

@@ -1,0 +1,6 @@
+<h2><%= l(:label_query_new) %></h2>
+
+<%= start_form_tag :action => 'add_query', :id => @project %>
+  <%= render :partial => 'queries/form', :locals => {:query => @query} %>
+  <%= submit_tag l(:button_create) %>
+<%= end_form_tag %>

@@ -1,34 +1,40 @@
-<div class="contextual">
-<%= l(:label_export_to) %>
-<%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'pic picCsv' %>,
-<%= link_to 'PDF', {:action => 'export_issues_pdf', :id => @project}, :class => 'pic picPdf' %>
-</div>
-
-<h2><%=l(:label_issue_plural)%></h2>
-
-<%= start_form_tag :action => 'list_issues' %>
-<table cellpadding=2>
-  <tr>
-    <td valign="bottom"><small><%=l(:field_status)%>:</small><br /><%= search_filter_tag 'status_id', :class => 'select-small' %></td>
-    <td valign="bottom"><small><%=l(:field_tracker)%>:</small><br /><%= search_filter_tag 'tracker_id', :class => 'select-small' %></td>
-    <td valign="bottom"><small><%=l(:field_priority)%>:</small><br /><%= search_filter_tag 'priority_id', :class => 'select-small' %></td>
-    <td valign="bottom"><small><%=l(:field_category)%>:</small><br /><%= search_filter_tag 'category_id', :class => 'select-small' %></td>
-    <td valign="bottom"><small><%=l(:field_fixed_version)%>:</small><br /><%= search_filter_tag 'fixed_version_id', :class => 'select-small' %></td>
-    <td valign="bottom"><small><%=l(:field_author)%>:</small><br /><%= search_filter_tag 'author_id', :class => 'select-small' %></td>
-    <td valign="bottom"><small><%=l(:field_assigned_to)%>:</small><br /><%= search_filter_tag 'assigned_to_id', :class => 'select-small' %></td>
-    <td valign="bottom"><small><%=l(:label_subproject_plural)%>:</small><br /><%= search_filter_tag 'subproject_id', :class => 'select-small' %></td>
-    <td valign="bottom">
-      <%= hidden_field_tag 'set_filter', 1 %>
-      <%= submit_tag l(:button_apply), :class => 'button-small' %>
-    </td>
-    <td valign="bottom">  
-      <%= link_to l(:button_clear), :action => 'list_issues', :id => @project, :set_filter => 1 %>
-    </td>
-  </tr>  
-</table>
-<%= end_form_tag %>
-
- &nbsp;
+<% if @query.new_record? %>
+    <h2><%=l(:label_issue_plural)%></h2>
+    
+    <%= start_form_tag({:action => 'list_issues'}, :id => 'query_form') %>
+    <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    <%= end_form_tag %>
+    <div class="contextual">
+    <%= link_to_remote l(:button_apply), 
+                       { :url => { :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 },
+                         :update => "content",
+                         :with => "Form.serialize('query_form')"
+                       }, :class => 'pic picCheck' %> 
+    
+    <%= link_to l(:button_clear), {:controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1}, :class => 'pic picDelete'  %>
+    <% if authorize_for('projects', 'add_query') %>
+    
+    <%= link_to_remote l(:button_save), 
+                       { :url => { :controller => 'projects', :action => "add_query", :id => @project },
+                         :method => 'get',
+                         :update => "content",
+                         :with => "Form.serialize('query_form')"
+                       }, :class => 'pic picEdit' %>
+    <% end %>
+    </div>
+    <br />
+<% else %>
+    <% if authorize_for('projects', 'add_query') %>
+    <div class="contextual">
+        <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'pic picEdit' %>
+        <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+    </div>    
+    <% end %>
+    <h2><%= @query.name %></h2>
+<% end %>
+<%= error_messages_for 'query' %>
+<% if @query.valid? %>
+&nbsp;
 <table class="listTableContent">
     <tr>
     <td colspan="6" align="left"><small><%= check_all_links 'issues_form' %></small></td>
@@ -67,9 +73,15 @@
 	</tr>
 	<% end %>
 </table>
+<div class="contextual">
+<%= l(:label_export_to) %>
+<%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'pic picCsv' %>,
+<%= link_to 'PDF', {:action => 'export_issues_pdf', :id => @project}, :class => 'pic picPdf' %>
+</div>
 <p>
 <%= pagination_links_full @issue_pages %>
 [ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
 </p>
 <%= submit_tag l(:button_move) %>
 <%= end_form_tag %>
+<% end %>

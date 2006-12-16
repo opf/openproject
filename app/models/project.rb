@@ -21,6 +21,7 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :members
   has_many :custom_values, :dependent => true, :as => :customized
   has_many :issues, :dependent => true, :order => "issues.created_on DESC", :include => :status
+  has_many :queries, :dependent => true
   has_many :documents, :dependent => true
   has_many :news, :dependent => true, :include => :author
   has_many :issue_categories, :dependent => true, :order => "issue_categories.name"

@@ -1,0 +1,100 @@
+<script>
+
+function add_filter() {
+    select = $('add_filter_select');
+    field = select.value
+    Element.show('tr_' +  field);
+    check_box = $('cb_' + field);
+    check_box.checked = true;
+    toggle_filter(field);
+    select.selectedIndex = 0;
+    
+    for (i=0; i<select.options.length; i++) {
+        if (select.options[i].value == field) {
+            select.options[i].disabled = true;
+        }    
+    }
+}
+
+function toggle_filter(field) {
+    check_box = $('cb_' + field);
+    
+    if (check_box.checked) {
+        Element.show("operators[" + field + "]");
+        toggle_operator(field);
+    } else {
+        Element.hide("operators[" + field + "]");
+        Element.hide("values_div[" + field + "]");
+  }
+}
+
+function toggle_operator(field) {
+  operator = $("operators[" + field + "]");
+  switch (operator.value) {
+    case "!*":
+    case "*":
+    case "t":
+    case "o":
+    case "c":
+      Element.hide("values_div[" + field + "]");
+      break;
+    default:
+      Element.show("values_div[" + field + "]");
+      break;
+  }
+}
+
+function toggle_multi_select(field) {
+    select = $('values[' + field + '][]');
+    if (select.multiple == true) {
+        select.multiple = false;
+    } else {
+        select.multiple = true;
+    }
+}
+
+</script>
+
+<fieldset style="margin:0;"><legend><%= l(:label_filter_plural) %></legend>
+<table width="100%" cellpadding=0 cellspacing=0>
+<tr>
+<td>
+<table>
+<% query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
+    <% field = filter[0]
+       options = filter[1] %>
+    <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<%= field %>">
+    <td valign="top" width="200">
+        <%= check_box_tag 'fields[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
+        <label for="cb_<%= field %>"><%= l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
+    </td>
+    <td valign="top" width="150">
+        <%= select_tag "operators[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
+    </td>
+    <td valign="top">    
+    <div id="values_div[<%= field %>]">
+    <% case options[:type]
+    when :list, :list_optional, :list_status %>
+        <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %>" name="values[<%= field %>][]" id="values[<%= field %>][]" class="select-small" style="vertical-align: top;">
+        <%= options_for_select options[:values], query.values_for(field) %>        
+        </select>
+        <%= link_to_function image_tag('expand'), "toggle_multi_select('#{field}');" %>
+    <% when :date, :date_past %>
+        <%= text_field_tag "values[#{field}][]", query.values_for(field), :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
+    <% when :text %>
+        <%= text_field_tag "values[#{field}][]", query.values_for(field), :size => 30, :class => "select-small" %>
+    <% end %>
+    </div>
+    </td>
+    </tr>
+    <script>toggle_filter('<%= field %>');</script>
+<% end %>
+</table>
+</td>
+<td align="right" valign="top">
+<%= l(:label_filter_add) %>:
+<%= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [l(("field_"+field[0].to_s.gsub(/\_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact), :onchange => "add_filter();", :class => "select-small" %>
+</td>
+</tr>
+</table>
+</fieldset>

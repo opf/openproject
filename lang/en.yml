@@ -265,6 +265,23 @@ label_comment_plural: Comments
 label_comment_add: Add a comment
 label_comment_added: Comment added
 label_comment_delete: Delete comments
+label_query: Custom query
+label_query_plural: Custom queries
+label_query_new: New query
+label_filter_add: Add filter
+label_filter_plural: Filters
+label_equals: is
+label_not_equals: is not
+label_in_less_than: in less than
+label_in_more_than: in more than
+label_in: in
+label_today: today
+label_less_than_ago: less than days ago
+label_more_than_ago: more than days ago
+label_ago: days ago
+label_contains: contains
+label_not_contains: doesn't contain
+label_day_plural: days
 
 button_login: Login
 button_submit: Submit

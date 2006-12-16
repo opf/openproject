@@ -238,16 +238,16 @@ label_confirmation: Confirmation
 label_export_to: Exporter en
 label_read: Lire...
 label_public_projects: Projets publics
-label_open_issues: Ouverte
-label_open_issues_plural: Ouvertes
-label_closed_issues: Fermée
-label_closed_issues_plural: Fermées
+label_open_issues: ouvert
+label_open_issues_plural: ouverts
+label_closed_issues: fermé
+label_closed_issues_plural: fermés
 label_total: Total
 label_permissions: Permissions
 label_current_status: Statut actuel
 label_new_statuses_allowed: Nouveaux statuts autorisés
-label_all: Tous
-label_none: Aucun
+label_all: tous
+label_none: aucun
 label_next: Suivant
 label_previous: Précédent
 label_used_by: Utilisé par
@@ -266,6 +266,23 @@ label_comment_plural: Commentaires
 label_comment_add: Ajouter un commentaire
 label_comment_added: Commentaire ajouté
 label_comment_delete: Supprimer les commentaires
+label_query: Rapport personnalisé
+label_query_plural: Rapports personnalisés
+label_query_new: Nouveau rapport
+label_filter_add: Ajouter le filtre
+label_filter_plural: Filtres
+label_equals: égal
+label_not_equals: différent
+label_in_less_than: dans moins de
+label_in_more_than: dans plus de
+label_in: dans
+label_today: aujourd'hui
+label_less_than_ago: il y a moins de
+label_more_than_ago: il y a plus de
+label_ago: il y a
+label_contains: contient
+label_not_contains: ne contient pas
+label_day_plural: jours
 
 button_login: Connexion
 button_submit: Soumettre

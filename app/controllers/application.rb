@@ -71,9 +71,9 @@ class ApplicationController < ActionController::Base
   end
 
   # authorizes the user for the requested action.
-  def authorize
+  def authorize(ctrl = @params[:controller], action = @params[:action])
     # check if action is allowed on public projects
-    if @project.is_public? and Permission.allowed_to_public "%s/%s" % [ @params[:controller], @params[:action] ]
+    if @project.is_public? and Permission.allowed_to_public "%s/%s" % [ ctrl, action ]
       return true
     end    
     # if action is not public, force login
@@ -82,7 +82,7 @@ class ApplicationController < ActionController::Base
     return true if self.logged_in_user.admin?
     # if not admin, check membership permission    
     @user_membership ||= Member.find(:first, :conditions => ["user_id=? and project_id=?", self.logged_in_user.id, @project.id])    
-    if @user_membership and Permission.allowed_to_role( "%s/%s" % [ @params[:controller], @params[:action] ], @user_membership.role_id )    
+    if @user_membership and Permission.allowed_to_role( "%s/%s" % [ ctrl, action ], @user_membership.role_id )    
       return true		
     end		
     render :nothing => true, :status => 403

@@ -25,6 +25,7 @@ class Permission < ActiveRecord::Base
     200 => :label_member_plural,
     300 => :label_version_plural,
     400 => :label_issue_category_plural,
+    600 => :label_query_plural,
     1000 => :label_issue_plural,
     1100 => :label_news_plural,
     1200 => :label_document_plural,
