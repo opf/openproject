@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= link_to l(:label_tracker_new), {:action => 'new'}, :class => 'pic picAdd' %>
+</div>
+
 <h2><%=l(:label_tracker_plural)%></h2>
 
 <table class="listTableContent">
@@ -17,6 +21,3 @@
 </table>
 
 <%= pagination_links_full @tracker_pages %>
-<br />
-
-<%= link_to '&#187; ' + l(:label_tracker_new), :action => 'new' %>

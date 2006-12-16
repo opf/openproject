@@ -128,6 +128,14 @@ background-color: #80b0da;
 .picLogout { background: url(../images/logout.png) no-repeat 4px 50%; }
 .picHelp { background: url(../images/help.png) no-repeat 4px 50%; }
 
+.picEdit { background: url(../images/edit_small.png) no-repeat 4px 50%; }
+.picDelete { background: url(../images/delete.png) no-repeat 4px 50%; }
+.picAdd { background: url(../images/add.png) no-repeat 4px 50%; }
+.picMove { background: url(../images/move.png) no-repeat 4px 50%; }
+.picPdf { background: url(../images/pdf.png) no-repeat 4px 50%;}
+.picCsv { background: url(../images/csv.png) no-repeat 4px 50%;}
+
+.pic { padding-left: 18px; margin-left: 3px; }
 /**************** Content styles ****************/
 
 html>body #content {
@@ -247,7 +255,7 @@ legend {
 
 table.listTableContent {
 	border:1px solid #578bb8;
-	width:99%;
+	width:100%;
 	border-collapse: collapse;
 }
 
@@ -457,6 +465,14 @@ img.calendar-trigger {
 #history p {
     margin-left: 34px;
 }
+
+/***** Contextual links div *****/
+.contextual {
+float: right;
+font-size: 0.8em;
+}
+
+
 
 /***** CSS FORM ******/
 .tabular p{

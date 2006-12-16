@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= link_to_if_authorized l(:label_document_new), {:controller => 'projects', :action => 'add_document', :id => @project}, :class => 'pic picAdd' %>
+</div>
+
 <h2><%=l(:label_document_plural)%></h2>
 
 <% if @documents.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
@@ -17,7 +21,3 @@
 <% end %>
 </ul>
 <% end %>
-
-<p>
-<%= link_to_if_authorized '&#187; ' + l(:label_document_new), :controller => 'projects', :action => 'add_document', :id => @project %>
-</p>

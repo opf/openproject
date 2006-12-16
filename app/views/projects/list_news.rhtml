@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= link_to_if_authorized l(:label_news_new), {:controller => 'projects', :action => 'add_news', :id => @project}, :class => 'pic picAdd' %>
+</div>
+
 <h2><%=l(:label_news_plural)%></h2>
 
 <% if @news.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
@@ -14,6 +18,3 @@
 
 
 <%= pagination_links_full @news_pages %>
-<p>
-<%= link_to_if_authorized '&#187; ' + l(:label_news_new), :controller => 'projects', :action => 'add_news', :id => @project %>
-</p>

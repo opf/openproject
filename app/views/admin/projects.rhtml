@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add'}, :class => 'pic picAdd' %>
+</div>
+
 <h2><%=l(:label_project_plural)%></h2>
 
 <table class="listTableContent">
@@ -26,5 +30,3 @@
 
 <p><%= pagination_links_full @project_pages %>
 [ <%= @project_pages.current.first_item %> - <%= @project_pages.current.last_item %> / <%= @project_count %> ]</p>
-
-<p><%= link_to ('&#187; ' + l(:label_project_new)), :controller => 'projects', :action => 'add' %></p>

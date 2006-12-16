@@ -1,29 +1,25 @@
+<div class="contextual">
+<%= link_to_if_authorized l(:button_edit), {:controller => 'news', :action => 'edit', :id => @news}, :class => 'pic picEdit' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+</div>
+
 <h2><%= @news.title %></h2>
 
 <p><em><%= @news.summary %><br />
 <%= @news.author.display_name %>, <%= format_time(@news.created_on) %></em></p>
 <br />
 <%= textilizable auto_link @news.description %>
-
-<div style="float:right;">
-<% if authorize_for('news', 'destroy') %>
-  <%= start_form_tag ({:controller => 'news', :action => 'destroy', :id => @news}) %>
-  <%= submit_tag l(:button_delete) %>
-  <%= end_form_tag %>
-<% end %>
-</div>
-
-<p><%= link_to_if_authorized l(:button_edit), :controller => 'news', :action => 'edit', :id => @news %></p>
+<br />
 
 <div id="comments" style="margin-bottom:16px;">
 <h3><%= l(:label_comment_plural) %></h3>
 <% @news.comments.each do |comment| %>
-<% next if comment.new_record? %>
-<h4><%= format_time(comment.created_on) %> - <%= comment.author.name %></h4>
-<div style="float:right;">
-    <small><%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment}, :confirm => l(:text_are_you_sure), :post => true %></small>
-</div>
-<%= simple_format(auto_link(h comment.comment))%>
+    <% next if comment.new_record? %>
+    <h4><%= format_time(comment.created_on) %> - <%= comment.author.name %></h4>
+    <div class="contextual">
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+    </div>
+    <%= simple_format(auto_link(h comment.comment))%>
 <% end if @news.comments_count > 0 %>
 </div>
 

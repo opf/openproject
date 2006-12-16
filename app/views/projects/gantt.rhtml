@@ -1,9 +1,9 @@
-<h2><%= l(:label_gantt) %></h2>
-<div class="topright">
-<small>
-<%= l(:label_export_to) %>&nbsp;&nbsp;<%= link_to 'PDF', :zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :output => 'pdf' %>
-</small>
+<div class="contextual">
+<%= l(:label_export_to) %>
+<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :output => 'pdf'}, :class => 'pic picPdf' %>
 </div>
+
+<h2><%= l(:label_gantt) %></h2>
 
 <table width="100%">
 <tr>

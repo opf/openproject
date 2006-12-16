@@ -1,34 +1,22 @@
+<div class="contextual">
+<%= link_to_if_authorized l(:button_edit), {:controller => 'documents', :action => 'edit', :id => @document}, :class => 'pic picEdit' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+</div>
+
 <h2><%= @document.title %></h2>
 
 <p><em><%= @document.category.name %><br />
 <%= format_date @document.created_on %></em></p>
 <%= textilizable @document.description %>
-
-
-<table width="100%">
-<tr><td><%= link_to_if_authorized l(:button_edit), :controller => 'documents', :action => 'edit', :id => @document %></td>
-<td align="right">
-<% if authorize_for('documents', 'destroy') %>
-  <%= start_form_tag({ :controller => 'documents', :action => 'destroy', :id => @document } ) %>
-  <%= submit_tag l(:button_delete) %>
-  <%= end_form_tag %>
-<% end %>
-</td></tr>
-</table>
 <br />
 
 <h3><%= l(:label_attachment_plural) %></h3>
 <ul>  
 <% for attachment in @attachments %>
     <li>
-        <% if authorize_for('documents', 'destroy_attachment') %>
-        <div style="float:right;padding:6px;">
-        <%= start_form_tag({ :controller => 'documents', :action => 'destroy_attachment', :id => @document, :attachment_id => attachment } ) %>
-        <%= submit_tag l(:button_delete), :class => 'button-small' %>
-         <%= end_form_tag %>
-         </div>
-         <% end %>
-
+        <div class="contextual">
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy_attachment', :id => @document, :attachment_id => attachment}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+        </div>
         <%= link_to attachment.filename, :action => 'download', :id => @document, :attachment_id => attachment %>
         (<%= human_size attachment.filesize %>)<br />
         <em><%= attachment.author.display_name %>, <%= format_date(attachment.created_on) %></em><br />

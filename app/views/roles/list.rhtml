@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= link_to l(:label_role_new), {:action => 'new'}, :class => 'pic picAdd' %>
+</div>
+
 <h2><%=l(:label_role_plural)%></h2>
 
 <table class="listTableContent">
@@ -16,6 +20,3 @@
 </table>
 
 <%= pagination_links_full @role_pages %>
-<br />
-
-<%= link_to '&#187; ' + l(:label_role_new), :action => 'new' %>

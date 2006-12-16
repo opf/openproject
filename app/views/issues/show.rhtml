@@ -1,10 +1,8 @@
-<h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%= @issue.subject %></h2>
-<div class="topright">
-<small>
-<%= l(:label_export_to) %>&nbsp;
-<%= link_to 'PDF', :action => 'export_pdf', :id => @issue %>
-</small>
+<div class="contextual">
+<%= l(:label_export_to) %><%= link_to 'PDF', {:action => 'export_pdf', :id => @issue}, :class => 'pic picPdf' %>
 </div>
+
+<h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%= @issue.subject %></h2>
 
 <div class="box">
 <table width="100%">
@@ -46,13 +44,12 @@ end %>
 <b><%=l(:field_description)%> :</b><br /><br />
 <%= textilizable @issue.description %>
 <br />
-<div style="float:left;">
-<% if authorize_for('issues', 'edit') %>
-  <%= start_form_tag ({:controller => 'issues', :action => 'edit', :id => @issue}, :method => "get" ) %>
-  <%= submit_tag l(:button_edit) %>
-  <%= end_form_tag %>
-  &nbsp;&nbsp;
-<% end %>
+
+<div class="contextual">
+<%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'pic picEdit' %>
+<%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'pic picMove' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+</div>
 
 <% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
   <%= start_form_tag ({:controller => 'issues', :action => 'change_status', :id => @issue}) %>
@@ -62,26 +59,8 @@ end %>
   </select>
   <%= submit_tag l(:button_change) %>
   <%= end_form_tag %>
-  &nbsp;&nbsp;
 <% end %>
 
-<% if authorize_for('projects', 'move_issues') %>
-  <%= start_form_tag ({:controller => 'projects', :action => 'move_issues', :id => @project} ) %>
-  <%= hidden_field_tag "issue_ids[]", @issue.id %>
-  <%= submit_tag l(:button_move) %>
-  <%= end_form_tag %>
-  &nbsp;&nbsp;
-<% end %>
-</div>
-<div style="float:right;">
-<% if authorize_for('issues', 'destroy') %>
-  <%= start_form_tag ({:controller => 'issues', :action => 'destroy', :id => @issue} ) %>
-  <%= submit_tag l(:button_delete) %>
-  <%= end_form_tag %>
-  &nbsp;&nbsp;
-<% end %>
-</div>
-<div class="clear"></div>
 </div>
 
 <div id="history" class="box">

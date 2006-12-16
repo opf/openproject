@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= link_to l(:label_auth_source_new), {:action => 'new'}, :class => 'pic picAdd' %>
+</div>
+
 <h2><%=l(:label_auth_source_plural)%></h2>
 
 <table class="listTableContent">
@@ -25,6 +29,3 @@
 </table>
 
 <%= pagination_links_full @auth_source_pages %>
-<br />
-<%= link_to '&#187; ' + l(:label_auth_source_new), :action => 'new' %>
-

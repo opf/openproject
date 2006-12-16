@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= link_to l(:label_user_new), {:action => 'add'}, :class => 'pic picAdd' %>
+</div>
+
 <h2><%=l(:label_user_plural)%></h2>
 
 <table class="listTableContent">		
@@ -39,8 +43,4 @@
 
 <p><%= pagination_links_full @user_pages %>
 [ <%= @user_pages.current.first_item %> - <%= @user_pages.current.last_item %> / <%= @user_count %> ]
-</p>
-
-<p>
-<%= link_to '&#187; ' + l(:label_user_new), :action => 'add' %>
 </p>

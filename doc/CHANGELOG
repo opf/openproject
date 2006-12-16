@@ -7,6 +7,7 @@ http://redmine.org/
 
 == xx/xx/2006 v0.x.x
 
+* comments can now be added on news
 * "my page" is now customizable 
 * improved issues change history
 * new functionality: move an issue to another project or tracker
