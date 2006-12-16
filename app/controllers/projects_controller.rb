@@ -175,7 +175,7 @@ class ProjectsController < ApplicationController
   
   # Show documents list of @project
   def list_documents
-    @documents = @project.documents
+    @documents = @project.documents.find :all, :include => :category
   end
 
   # Add a new issue to @project
@@ -398,7 +398,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_news] == "0"
-      @project.news.find(:all, :conditions => ["news.created_on>=? and news.created_on<=?", @date_from, @date_to] ).each { |i|
+      @project.news.find(:all, :conditions => ["news.created_on>=? and news.created_on<=?", @date_from, @date_to], :include => :author ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -406,7 +406,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_files] == "0"
-      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN versions ON versions.id = attachments.container_id", :conditions => ["attachments.container_type='Version' and versions.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to] ).each { |i|
+      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN versions ON versions.id = attachments.container_id", :conditions => ["attachments.container_type='Version' and versions.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to], :include => :author ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -418,7 +418,7 @@ class ProjectsController < ApplicationController
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
-      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN documents ON documents.id = attachments.container_id", :conditions => ["attachments.container_type='Document' and documents.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to] ).each { |i|
+      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN documents ON documents.id = attachments.container_id", :conditions => ["attachments.container_type='Document' and documents.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to], :include => :author ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
