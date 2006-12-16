@@ -34,6 +34,9 @@
 <% end %>
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
+<% if @issues.empty? %>
+<p><i><%= l(:label_no_data) %></i></p>
+<% else %>
 &nbsp;
 <table class="listTableContent">
     <tr>
@@ -84,4 +87,5 @@
 </p>
 <%= submit_tag l(:button_move) %>
 <%= end_form_tag %>
+<% end %>
 <% end %>
