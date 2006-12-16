@@ -1,14 +1,14 @@
 <h2><%=l(:label_attachment_new)%></h2>
 
 <%= error_messages_for 'attachment' %>
-<%= start_form_tag ({ :action => 'add_file', :project => @project }, :multipart => true) %>
+<div class="box">
+<%= start_form_tag ({ :action => 'add_file', :id => @project }, :multipart => true, :class => "tabular") %>
 
-<p><label for="version_id"><%=l(:field_version)%></label><br />
-<select name="version_id">
-<%= options_from_collection_for_select @versions, "id", "name" %>
-</select></p>
+<p><label for="version_id"><%=l(:field_version)%> <span class="required">*</span></label>
+<%= select_tag "version_id", options_from_collection_for_select(@versions, "id", "name") %></p>
 
-<p><b><%=l(:label_attachment)%><b><br /><%= file_field 'attachment', 'file'  %></p>
-<br/>
+<p><label for="attachment_file"><%=l(:label_attachment)%> <span class="required">*</span></label>
+<%= file_field 'attachment', 'file'  %></p>
+</div>
 <%= submit_tag l(:button_add) %>
 <%= end_form_tag %> 

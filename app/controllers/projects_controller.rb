@@ -340,16 +340,14 @@ class ProjectsController < ApplicationController
     render :action => "list_news", :layout => false if request.xhr?
   end
 
-  def add_file  
-    if request.post?
-      # Save the attachment
-      if params[:attachment][:file].size > 0
-        @attachment = @project.versions.find(params[:version_id]).attachments.build(params[:attachment])      
-        @attachment.author_id = self.logged_in_user.id if self.logged_in_user
-        if @attachment.save
-          flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => 'projects', :action => 'list_files', :id => @project
-        end
+  def add_file
+    @attachment = Attachment.new(params[:attachment])
+    if request.post? and params[:attachment][:file].size > 0        
+      @attachment.container = @project.versions.find_by_id(params[:version_id])
+      @attachment.author = logged_in_user
+      if @attachment.save
+        flash[:notice] = l(:notice_successful_create)
+        redirect_to :controller => 'projects', :action => 'list_files', :id => @project
       end
     end
     @versions = @project.versions

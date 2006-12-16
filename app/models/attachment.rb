@@ -21,7 +21,7 @@ class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
   
-	validates_presence_of :filename
+  validates_presence_of :container, :filename
 	
 	def file=(incomming_file)
 		unless incomming_file.nil?
@@ -33,6 +33,10 @@ class Attachment < ActiveRecord::Base
 				self.filesize = @temp_file.size
 			end
 		end
+	end
+	
+	def file
+	 nil
 	end
 	
 	# Copy temp file to its final location
