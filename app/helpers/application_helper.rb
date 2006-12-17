@@ -161,6 +161,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   (field_helpers - %w(radio_button hidden_field) + %w(date_select)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {}) 
+      return super if options.delete :no_label
       label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
       label = @template.content_tag("label", label_text, 
                     :class => (@object.errors[field] ? "error" : nil), 
@@ -171,7 +172,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     class_eval src, __FILE__, __LINE__
   end
   
-  def select(field, choices, options = {}) 
+  def select(field, choices, options = {}, html_options = {}) 
     label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
     label = @template.content_tag("label", label_text, 
                   :class => (@object.errors[field] ? "error" : nil), 

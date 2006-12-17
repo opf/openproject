@@ -1,52 +1,70 @@
 <%= error_messages_for 'custom_field' %>
 
+<script>
+function toggle_custom_field_format() {
+  format = $("custom_field_field_format");
+  p_length = $("custom_field_min_length");
+  p_regexp = $("custom_field_regexp");
+  p_values = $("custom_field_possible_values");
+  switch (format.value) {
+    case "list":
+      Element.hide(p_length.parentNode);
+      Element.hide(p_regexp.parentNode);
+      Element.show(p_values.parentNode);
+      break;
+    case "int":
+    case "string":
+    case "text":
+      Element.show(p_length.parentNode);
+      Element.show(p_regexp.parentNode);
+      Element.hide(p_values.parentNode);
+      break;
+    case "date":
+    case "bool":
+      Element.hide(p_length.parentNode);
+      Element.hide(p_regexp.parentNode);
+      Element.hide(p_values.parentNode);
+      break;
+    default:
+      Element.show(p_length.parentNode);
+      Element.show(p_regexp.parentNode);
+      Element.show(p_values.parentNode);
+      break;
+  }
+}
+</script>
+
 <!--[form:custom_field]-->
 <div class="box">
-<p><label for="custom_field_name"><%=l(:field_name)%><span class="required"> *</span></label>
-<%= text_field 'custom_field', 'name' %></p>
-
-<p><label for="custom_field_field_format"><%=l(:field_field_format)%></label>
-<%= select("custom_field", "field_format", custom_field_formats_for_select) %></p>
-
+<p><%= f.text_field :name, :required => true %></p>
+<p><%= f.select :field_format, custom_field_formats_for_select, {}, :onchange => "toggle_custom_field_format();" %></p>
 <p><label for="custom_field_min_length"><%=l(:label_min_max_length)%></label>
-<%= text_field 'custom_field', 'min_length', :size => 5 %> -
-<%= text_field 'custom_field', 'max_length', :size => 5 %><br>(<%=l(:text_min_max_length_info)%>)</p>
-
-<p><label for="custom_field_regexp"><%=l(:field_regexp)%></label>
-<%= text_field 'custom_field', 'regexp', :size => 50 %><br>(<%=l(:text_regexp_info)%>)</p>
-
-<p><label for="custom_field_possible_values"><%=l(:field_possible_values)%></label>
-<%= text_area 'custom_field', 'possible_values', :rows => 5, :cols => 60  %><br>(<%=l(:text_possible_values_info)%>)</p>
+   <%= f.text_field :min_length, :size => 5, :no_label => true %> - 
+   <%= f.text_field :max_length, :size => 5, :no_label => true %><br>(<%=l(:text_min_max_length_info)%>)</p>
+<p><%= f.text_field :regexp, :size => 50 %><br>(<%=l(:text_regexp_info)%>)</p>
+<p><%= f.text_area :possible_values, :rows => 5, :cols => 60 %><br>(<%=l(:text_possible_values_info)%>)</p>
 </div>
+<%= javascript_tag "toggle_custom_field_format();" %>
 <!--[eoform:custom_field]-->
 
 <div class="box">
-<% case type.to_s
-     when "IssueCustomField" %>
-     
-<fieldset><legend><%=l(:label_tracker_plural)%></legend>
-<% for tracker in @trackers %>
-	<input type="checkbox"	
-	name="tracker_ids[]"
-	value="<%= tracker.id %>"
-	<%if @custom_field.trackers.include? tracker%>checked="checked"<%end%>
-	> <%= tracker.name %>	
-<% end %></fieldset>
-&nbsp;
+<% case @custom_field.type.to_s
+when "IssueCustomField" %>
+    
+    <fieldset><legend><%=l(:label_tracker_plural)%></legend>
+    <% for tracker in @trackers %>
+        <%= check_box_tag "tracker_ids[]", tracker.id, (@custom_field.trackers.include? tracker) %> <%= tracker.name %>
+    <% end %>
+    </fieldset>
+    &nbsp;
+    <p><%= f.check_box :is_required %></p>
+    <p><%= f.check_box :is_for_all %></p>
+    
+<% when "UserCustomField" %>
+    <p><%= f.check_box :is_required %></p>
 
-<p><label for="custom_field_is_required"><%=l(:field_is_required)%></label>
-<%= check_box 'custom_field', 'is_required' %></p>
-
-<p><label for="custom_field_is_for_all"><%=l(:field_is_for_all)%></label>
-<%= check_box 'custom_field', 'is_for_all' %></p>
-
-<%   when "UserCustomField" %>
-<p><label for="custom_field_is_required"><%=l(:field_is_required)%></label>
-<%= check_box 'custom_field', 'is_required' %></p>
-
-<%   when "ProjectCustomField" %>
-<p><label for="custom_field_is_required"><%=l(:field_is_required)%></label>
-<%= check_box 'custom_field', 'is_required' %></p>
+<% when "ProjectCustomField" %>
+    <p><%= f.check_box :is_required %></p>
 
 <% end %>
 </div>

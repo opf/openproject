@@ -17,12 +17,12 @@
    @fixed_issues.each do |issue| %>   
     <% unless ver_id == issue.fixed_version_id %>
     <% if ver_id %></ul><% end %>
-    <h3><%= l(:label_version) %>: <%= issue.fixed_version.name %></h3>
+    <h3><%= issue.fixed_version.name %></h3>
     <p><%= format_date(issue.fixed_version.effective_date) %><br />
     <%=h issue.fixed_version.description %></p>
     <ul>
     <% ver_id = issue.fixed_version_id
     end %>
-    <li><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %> [<%= issue.tracker.name %>]: <%=h issue.subject %></li>
+    <li><%= link_to "#{issue.tracker.name} #{issue.id}", :controller => 'issues', :action => 'show', :id => issue %>: <%=h issue.subject %></li>
 <% end %>
 </div>

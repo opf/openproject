@@ -6,7 +6,7 @@
 <div class="box">
 <p><label><%= l(:label_issue_plural) %>:</label>
 <% for issue in @issues %>
-    <b><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></b> - <%= issue.subject %>
+    <b><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></b> - <%=h issue.subject %>
     <%= hidden_field_tag "issue_ids[]", issue.id %><br />
 <% end %>
 <i>(<%= @issues.length%> <%= lwr(:label_issue, @issues.length)%>)</i></p>

@@ -293,8 +293,11 @@ class ProjectsController < ApplicationController
       new_project = Project.find(params[:new_project_id])
       new_tracker = Tracker.find(params[:new_tracker_id])
       @issues.each { |i|
-        # category is project dependent
-        i.category = nil unless i.project_id == new_project.id
+        # project dependent properties
+        unless i.project_id == new_project.id
+          i.category = nil 
+          i.fixed_version = nil
+        end
         # move the issue
         i.project = new_project
         i.tracker = new_tracker

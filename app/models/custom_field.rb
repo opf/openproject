@@ -18,12 +18,12 @@
 class CustomField < ActiveRecord::Base
   has_many :custom_values, :dependent => true
 
-  FIELD_FORMATS = { "list" => :label_list,                    
-			        "date" => :label_date,
-			        "bool" => :label_boolean,
-			        "int" => :label_integer,
-			        "string" => :label_string,
-			        "text" => :label_text
+  FIELD_FORMATS = { "string" => { :name => :label_string, :order => 1 },
+                    "text" => { :name => :label_text, :order => 2 },
+                    "int" => { :name => :label_integer, :order => 3 },
+                    "list" => { :name => :label_list, :order => 4 },
+			        "date" => { :name => :label_date, :order => 5 },
+			        "bool" => { :name => :label_boolean, :order => 6 }
   }.freeze
 
   validates_presence_of :name, :field_format

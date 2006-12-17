@@ -72,6 +72,6 @@ module CustomFieldsHelper
 
   # Return an array of custom field formats which can be used in select_tag
   def custom_field_formats_for_select
-    CustomField::FIELD_FORMATS.keys.collect { |k| [ l(CustomField::FIELD_FORMATS[k]), k ] }
+    CustomField::FIELD_FORMATS.sort {|a,b| a[1][:order]<=>b[1][:order]}.collect { |k| [ l(k[1][:name]), k[0] ] }
   end
 end

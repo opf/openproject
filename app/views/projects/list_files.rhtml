@@ -31,7 +31,7 @@
     <% if delete_allowed %>
     <td align="center">
         <div class="contextual">
-        <%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy_file', :id => version, :attachment_id => file}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+        <%= link_to_if_authorized '', {:controller => 'versions', :action => 'destroy_file', :id => version, :attachment_id => file}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
         </div>
     </td>
     <% end %>

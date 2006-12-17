@@ -9,6 +9,7 @@ http://redmine.org/
 
 * comments can now be added on news
 * "my page" is now customizable 
+* more powerfull and savable filters for issues lists
 * improved issues change history
 * new functionality: move an issue to another project or tracker
 * new functionality: add a note to an issue
@@ -29,8 +30,10 @@ http://redmine.org/
 * csv output encoded to ISO-8859-1
 * user custom field displayed on account/show
 * default configuration improved (default roles, trackers, status, permissions and workflows)
+* javascript added on custom field form to show/hide fields according to the format of custom field
 * fixed: custom fields not in csv exports
 * fixed: project settings now displayed according to user's permissions
+* fixed: application error when no version is selected on projects/add_file
 
 == 10/08/2006 v0.3.0
 
