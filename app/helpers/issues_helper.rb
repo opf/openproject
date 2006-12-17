@@ -56,9 +56,9 @@ module IssuesHelper
     
     unless no_html
       label = content_tag('strong', label)
-      old_value = content_tag("i", old_value) if old_value
-      old_value = content_tag("strike", old_value) if old_value and !value
-      value = content_tag("i", value) if value
+      old_value = content_tag("i", h(old_value)) if old_value
+      old_value = content_tag("strike", h(old_value)) if old_value and !value
+      value = content_tag("i", h(value)) if value
     end
     
     if value

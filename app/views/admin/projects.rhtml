@@ -17,7 +17,7 @@
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to project.name, :controller => 'projects', :action => 'settings', :id => project %>
-	<td><%= project.description %>
+	<td><%=h project.description %>
 	<td align="center"><%= image_tag 'true' if project.is_public? %>
 	<td align="center"><%= project.projects_count %>
 	<td align="center"><%= format_date(project.created_on) %>

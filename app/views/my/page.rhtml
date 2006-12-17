@@ -1,8 +1,8 @@
-<h2><%=l(:label_my_page)%></h2>
-
-<div class="topright">
-    <small><%= link_to l(:label_personalize_page), :action => 'page_layout' %></small>
+<div class="contextual">
+    <%= link_to l(:label_personalize_page), :action => 'page_layout' %>
 </div>
+
+<h2><%=l(:label_my_page)%></h2>
 
 <div id="list-top">
 	<% @blocks['top'].each do |b| %>

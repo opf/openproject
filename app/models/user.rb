@@ -32,7 +32,8 @@ class User < ActiveRecord::Base
   validates_presence_of :login, :firstname, :lastname, :mail
   validates_uniqueness_of :login, :mail	
   # Login must contain lettres, numbers, underscores only
-  validates_format_of :login, :with => /^[a-z0-9_]+$/i
+  validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-]*$/i
+  validates_format_of :login, :with => /^[a-z0-9_\-@\.]+$/i
   validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   # Password length between 4 and 12
   validates_length_of :password, :in => 4..12, :allow_nil => true

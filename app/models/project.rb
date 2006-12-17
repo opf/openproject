@@ -31,6 +31,7 @@ class Project < ActiveRecord::Base
   validates_presence_of :name, :description
   validates_uniqueness_of :name
   validates_associated :custom_values, :on => :update
+  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
   # returns 5 last created projects
   def self.latest

@@ -34,11 +34,10 @@ function removeBlock(block) {
 
 </script>
 
-<div style="float:right;">
+<div class="contextual">
+<span id="indicator" style="display:none"><%= image_tag "loading.gif", :align => "absmiddle" %></span>
 <%= start_form_tag({:action => "add_block"}, :id => "block-form") %>
-
-<%= select_tag 'block', "<option></option>" + options_for_select(@block_options), :id => "block-select", :class => "select-small" %>
-<small>
+<%= select_tag 'block', "<option></option>" + options_for_select(@block_options), :id => "block-select" %>
 <%= link_to_remote l(:button_add),
             :url => { :action => "add_block" },
             :with => "Form.serialize('block-form')",
@@ -48,16 +47,9 @@ function removeBlock(block) {
             :loading => "Element.show('indicator')",
             :loaded => "Element.hide('indicator')"
              %>
-</small>
-<%= end_form_tag %> 
-<small>|
+<%= end_form_tag %> |
 <%= link_to l(:button_save), :action => 'page_layout_save' %> |
 <%= link_to l(:button_cancel), :action => 'page' %>
-</small>
-</div>
-
-<div style="float:right;margin-right:20px;">
-<span id="indicator" style="display:none"><%= image_tag "loading.gif" %></span>
 </div>
 
 <h2><%=l(:label_my_page)%></h2>

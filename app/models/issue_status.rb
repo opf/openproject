@@ -21,6 +21,7 @@ class IssueStatus < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
   validates_length_of :html_color, :is => 6
   validates_format_of :html_color, :with => /^[a-f0-9]*$/i
 

@@ -69,7 +69,7 @@
 		<td align="center"><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center" style="font-weight:bold;color:#<%= issue.status.html_color %>;"><%= issue.status.name %></font></td>
 		<td align="center"><%= issue.tracker.name %></td>
-		<td><%= link_to issue.subject, :controller => 'issues', :action => 'show', :id => issue %></td>
+		<td><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center"><%= issue.author.display_name %></td>
 		<td align="center"><%= format_time(issue.created_on) %></td>
 		<td align="center"><%= format_time(issue.updated_on) %></td>

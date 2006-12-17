@@ -1,13 +1,7 @@
 <h3><%=l(:label_news_latest)%></h3>
 
-<ul>
-<% for news in News.find :all,
-                         :limit => 10,
-                         :conditions => "news.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})",
-                         :include => [:project, :author] %>
-	<li><%= link_to news.title, :controller => 'news', :action => 'show', :id => news %><br />
-	<% unless news.summary.empty? %><%= news.summary %><br /><% end %>
-	<em><%= news.author.name %>, <%= format_time(news.created_on) %></em><br />&nbsp;
-	</li>
-<% end unless @user.projects.empty? %>
-</ul>
+<%= render (:partial => 'news/news', 
+            :collection => News.find(:all,
+                                     :limit => 10,
+                                     :conditions => "news.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})",
+                                     :include => [:project, :author])) unless @user.projects.empty? %>

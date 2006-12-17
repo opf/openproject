@@ -2,7 +2,7 @@
 <%= l(:label_export_to) %><%= link_to 'PDF', {:action => 'export_pdf', :id => @issue}, :class => 'pic picPdf' %>
 </div>
 
-<h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%= @issue.subject %></h2>
+<h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%=h @issue.subject %></h2>
 
 <div class="box">
 <table width="100%">
@@ -12,7 +12,7 @@
 </tr>
 <tr>
     <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? @issue.assigned_to.name : "-" %></td>
-    <td><b><%=l(:field_category)%> :</b></td><td><%= @issue.category ? @issue.category.name : "-" %></td>
+    <td><b><%=l(:field_category)%> :</b></td><td><%=h @issue.category ? @issue.category.name : "-" %></td>
 </tr>
 <tr>
     <td><b><%=l(:field_author)%> :</b></td><td><%= link_to_user @issue.author %></td>
@@ -29,7 +29,7 @@
 <tr>
 <% n = 0
 for custom_value in @custom_values %>
-    <td><b><%= custom_value.custom_field.name %> :</b></td><td><%= show_value custom_value %></td>
+    <td><b><%= custom_value.custom_field.name %> :</b></td><td><%=h show_value custom_value %></td>
 <% n = n + 1
    if (n > 1) 
         n = 0 %>

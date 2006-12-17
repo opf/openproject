@@ -23,6 +23,6 @@
     <ul>
     <% ver_id = issue.fixed_version_id
     end %>
-    <li><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %> [<%= issue.tracker.name %>]: <%= issue.subject %></li>
+    <li><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %> [<%= issue.tracker.name %>]: <%=h issue.subject %></li>
 <% end %>
 </div>

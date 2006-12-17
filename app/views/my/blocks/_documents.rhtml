@@ -1,15 +1,7 @@
 <h3><%=l(:label_document_plural)%></h3>
 
-<ul>
-<% for document in Document.find :all,
+<%= render(:partial => 'documents/document',
+           :collection => Document.find(:all,
                          :limit => 10,
                          :conditions => "documents.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})",
-                         :include => [:project] %>
-	<li>
-	<b><%= link_to document.title, :controller => 'documents', :action => 'show', :id => document %></b>
-	<br />
-	<%= truncate document.description, 150 %><br />
-	<em><%= format_time(document.created_on) %></em><br />&nbsp;
-	</li>
-<% end unless @user.projects.empty? %>
-</ul>
+                         :include => [:project])) unless @user.projects.empty? %>

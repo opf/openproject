@@ -28,6 +28,7 @@ class CustomField < ActiveRecord::Base
 
   validates_presence_of :name, :field_format
   validates_uniqueness_of :name
+  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
   validates_inclusion_of :field_format, :in => FIELD_FORMATS.keys
   validates_presence_of :possible_values, :if => Proc.new { |field| field.field_format == "list" }
 

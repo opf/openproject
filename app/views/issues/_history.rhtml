@@ -6,6 +6,6 @@
 	<% end %>
 	</ul>
 	<% if journal.notes? %>
-    	<%= simple_format auto_link journal.notes %>
+    	<%= simple_format auto_link h(journal.notes) %>
 	<% end %>
 <% end %>

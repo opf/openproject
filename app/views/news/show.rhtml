@@ -3,9 +3,9 @@
 <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
 </div>
 
-<h2><%= @news.title %></h2>
+<h2><%=h @news.title %></h2>
 
-<p><em><%= @news.summary %><br />
+<p><em><%=h @news.summary %><br />
 <%= @news.author.display_name %>, <%= format_time(@news.created_on) %></em></p>
 <br />
 <%= textilizable auto_link @news.description %>

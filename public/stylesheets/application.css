@@ -473,6 +473,9 @@ float: right;
 font-size: 0.8em;
 }
 
+.contextual select {
+font-size: 1em;
+}
 
 
 /***** CSS FORM ******/

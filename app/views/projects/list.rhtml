@@ -10,7 +10,7 @@
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to project.name, :action => 'show', :id => project %>
-	<td><%= project.description %>
+	<td><%=h project.description %>
 	<td align="center"><%= format_date(project.created_on) %>
   </tr>
 <% end %>

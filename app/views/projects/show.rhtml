@@ -1,13 +1,13 @@
 <h2><%=l(:label_overview)%></h2> 
 	
 <div class="splitcontentleft">
-	<%= simple_format(auto_link(@project.description)) %>	
+	<%= simple_format(auto_link(h @project.description)) %>	
 	<ul>
 	<% unless @project.homepage.empty? %><li><%=l(:field_homepage)%>: <%= auto_link @project.homepage %></li><% end %>
 	<li><%=l(:field_created_on)%>: <%= format_date(@project.created_on) %></li>
 	<% for custom_value in @custom_values %>
 	<% if !custom_value.value.empty? %>
-	   <li><%= custom_value.custom_field.name%>: <%= show_value(custom_value) %></li>
+	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
 	<% end %>
 	<% end %>
 	</ul>	
@@ -32,7 +32,7 @@
         <% end %>
         </ul>
     <% end %>
-    <center><small>[ <%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %> ]</small></center>
+    <center><small><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></small></center>
   </div>
 </div>
 
@@ -55,13 +55,8 @@
   
   <div class="box">
     <h3><%=l(:label_news_latest)%></h3>  
-    <% for news in @news %>
-      <p><b><%= news.title %></b> <small>(<%= link_to_user news.author %> <%= format_time(news.created_on) %>)</small><br />
-      <%= news.summary %>
-      <small>[<%= link_to l(:label_read), :controller => 'news', :action => 'show', :id => news %>]</small></p>
-      <hr />
-    <% end %>
-    <center><small>[ <%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %> ]</small></center>
+    <%= render :partial => 'news/news', :collection => @news %>
+    <center><small><%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %></small></center>
   </div>  
 </div>
 

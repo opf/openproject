@@ -1,10 +1,9 @@
 <%	pdf=IfpdfHelper::IFPDF.new
 	pdf.AliasNbPages
 	pdf.footer_date = format_date(Date.today)
-	pdf.AddPage
 	@issues.each {|i| 
-		render :partial => 'issues/pdf', :locals => { :pdf => pdf, :issue => i }
 		pdf.AddPage
+		render :partial => 'issues/pdf', :locals => { :pdf => pdf, :issue => i }
 	}	
 %>
 

@@ -1,4 +1,4 @@
-<h2><%=l(:label_issue)%> #<%= @issue.id %>: <%= @issue.subject %></h2>
+<h2><%=l(:label_issue)%> #<%= @issue.id %>: <%=h @issue.subject %></h2>
 
 <%= error_messages_for 'issue' %>
 <%= start_form_tag({:action => 'change_status', :id => @issue}, :class => "tabular") %>

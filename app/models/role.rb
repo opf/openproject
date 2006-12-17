@@ -23,6 +23,7 @@ class Role < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
 private
   def check_integrity
