@@ -58,7 +58,7 @@ module SvnRepos
                         :lastrev => Revision.new({
                           :identifier => entry.elements['commit'].attributes['revision'],
                           :time => Time.parse(entry.elements['commit'].elements['date'].text),
-                          :author => entry.elements['commit'].elements['author'].text
+                          :author => (entry.elements['commit'].elements['author'] ? entry.elements['commit'].elements['author'].text : "anonymous")
                           })
                         })
           end
@@ -92,7 +92,7 @@ module SvnRepos
             paths.sort! { |x,y| x[:path] <=> y[:path] }
             
             revisions << Revision.new({:identifier => logentry.attributes['revision'],
-                          :author => logentry.elements['author'].text,
+                          :author => (logentry.elements['author'] ? logentry.elements['author'].text : "anonymous"),
                           :time => Time.parse(logentry.elements['date'].text),
                           :message => logentry.elements['msg'].text,
                           :paths => paths
