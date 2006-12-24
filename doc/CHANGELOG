@@ -7,6 +7,7 @@ http://redmine.org/
 
 == xx/xx/2006 v0.x.x
 
+* simple SVN browser added (just needs svn binaries in PATH)
 * comments can now be added on news
 * "my page" is now customizable 
 * more powerfull and savable filters for issues lists

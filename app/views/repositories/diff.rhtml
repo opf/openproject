@@ -1,0 +1,55 @@
+<h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
+
+<%= stylesheet_link_tag "scm" %>
+
+<table class="list">
+<thead><tr><th>@<%= @rev %></th><th>@<%= @rev_to  %></th><th></th></tr></thead>
+<tbody>
+<% parsing = false
+line_num_l = 0
+line_num_r = 0 %>
+<% @diff.each do |line| %>
+<% 
+   if line =~ /^@@ (\+|\-)(\d+),\d+ (\+|\-)(\d+),\d+ @@/
+     line_num_l = $2.to_i
+     line_num_r = $4.to_i
+     if parsing %>
+     <tr class="spacing"><td colspan="3">&nbsp;</td></tr>
+  <% end
+     parsing = true
+     next
+   end
+   next unless parsing
+%>
+
+<tr>
+
+<% case line[0, 1] 
+   when " " %>
+<th class="line-num"><%= line_num_l %></th>
+<th class="line-num"><%= line_num_r %></th>
+<td class="line-code">
+<% line_num_l = line_num_l + 1
+   line_num_r = line_num_r + 1
+   
+   when "-" %>
+<th class="line-num"></th>
+<th class="line-num"><%= line_num_r %></th>
+<td class="line-code" style="background: #fdd;">
+<% line_num_r = line_num_r + 1
+
+   when "+" %>
+<th class="line-num"><%= line_num_l %></th>
+<th class="line-num"></th>
+<td class="line-code" style="background: #dfd;">
+<% line_num_l = line_num_l + 1
+
+   else
+     next
+   end %>
+   
+<%= h(line[1..-1]).gsub(/\s/, "&nbsp;") %></td></tr>
+
+<% end %>
+</tbody>
+</table>

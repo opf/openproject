@@ -1,0 +1,23 @@
+<table class="list">
+<thead><tr>
+<th><%= l(:field_name) %></th>
+<th><%= l(:field_filesize) %></th>
+<th><%= l(:label_revision) %></th>
+<th><%= l(:field_author) %></th>
+<th><%= l(:label_date) %></th>
+</tr></thead>
+<tbody>
+<% total_size = 0
+@entries.each do |entry| %>
+<tr class="<%= cycle 'odd', 'even' %>">
+<td><%= link_to h(entry.name), { :action => (entry.is_dir? ? 'browse' : 'revisions'), :id => @project, :path => entry.path, :rev => @rev }, :class => "icon " + (entry.is_dir? ? 'folder' : 'file') %></td>
+<td align="right"><%= human_size(entry.size) unless entry.is_dir? %></td>
+<td align="right"><%= link_to entry.lastrev.identifier, :action => 'revision', :id => @project, :rev => entry.lastrev.identifier %></td>
+<td align="center"><em><%=h entry.lastrev.author %></em></td>
+<td align="center"><%= format_time(entry.lastrev.time) %></td>
+</tr>
+<% total_size += entry.size
+end %>
+</tbody>
+</table>
+<p align="right"><em><%= l(:label_total) %>: <%= human_size(total_size) %></em></p>

@@ -63,6 +63,7 @@ notice_successful_delete: Erfolgreiche Auslassung.
 notice_successful_connection: Erfolgreicher Anschluß.
 notice_file_not_found: Erbetene Akte besteht nicht oder ist gelöscht worden.
 notice_locking_conflict: Data have been updated by another user.
+notice_scm_error: Eintragung und/oder Neuausgabe besteht nicht im Behälter.
 
 mail_subject_lost_password: Dein redMine Kennwort
 mail_subject_register: redMine Kontoaktivierung
@@ -136,6 +137,7 @@ field_start_date: Beginn
 field_done_ratio: %% Getan
 field_hide_mail: Mein email address verstecken
 field_comment: Anmerkung
+field_url: URL
 
 label_user: Benutzer
 label_user_plural: Benutzer
@@ -282,6 +284,17 @@ label_ago: vor
 label_contains: enthält
 label_not_contains: enthält nicht
 label_day_plural: Tage
+label_repository: SVN Behälter
+label_browse: Grasen
+label_modification: %d änderung
+label_modification_plural: %d änderungen
+label_revision: Neuausgabe
+label_revision_plural: Neuausgaben
+label_added: hinzugefügt
+label_modified: geändert
+label_deleted: gelöscht
+label_latest_revision: Neueste Neuausgabe
+label_view_revisions: Die Neuausgaben ansehen
 
 button_login: Einloggen
 button_submit: Einreichen

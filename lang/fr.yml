@@ -63,6 +63,7 @@ notice_successful_delete: Suppression effectuée avec succès.
 notice_successful_connection: Connection réussie.
 notice_file_not_found: Le fichier demandé n'existe pas ou a été supprimé.
 notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
+notice_scm_error: L'entrée et/ou la révision demandée n'existe pas dans le dépôt.
 
 mail_subject_lost_password: Votre mot de passe redMine
 mail_subject_register: Activation de votre compte redMine
@@ -137,6 +138,7 @@ field_done_ratio: %% Réalisé
 field_auth_source: Mode d'authentification
 field_hide_mail: Cacher mon adresse mail
 field_comment: Commentaire
+field_url: URL
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -283,6 +285,17 @@ label_ago: il y a
 label_contains: contient
 label_not_contains: ne contient pas
 label_day_plural: jours
+label_repository: Dépôt SVN
+label_browse: Parcourir
+label_modification: %d modification
+label_modification_plural: %d modifications
+label_revision: Révision
+label_revision_plural: Révisions
+label_added: ajouté
+label_modified: modifié
+label_deleted: supprimé
+label_latest_revision: Dernière révision
+label_view_revisions: Voir les révisions
 
 button_login: Connexion
 button_submit: Soumettre

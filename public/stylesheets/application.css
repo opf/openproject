@@ -473,7 +473,7 @@ float: right;
 font-size: 0.8em;
 }
 
-.contextual select {
+.contextual select, .contextual input {
 font-size: 1em;
 }
 

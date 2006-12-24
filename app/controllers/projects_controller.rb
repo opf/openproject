@@ -62,6 +62,10 @@ class ProjectsController < ApplicationController
       @project.custom_fields = CustomField.find(@params[:custom_field_ids]) if @params[:custom_field_ids]
       @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
       @project.custom_values = @custom_values			
+      if params[:repository_enabled] && params[:repository_enabled] == "1"
+        @project.repository = Repository.new
+        @project.repository.attributes = params[:repository]
+      end
       if @project.save
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
@@ -96,7 +100,17 @@ class ProjectsController < ApplicationController
         @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
         @project.custom_values = @custom_values
       end
-      if @project.update_attributes(params[:project])
+      if params[:repository_enabled]
+        case params[:repository_enabled]
+        when "0"
+          @project.repository = nil
+        when "1"
+          @project.repository ||= Repository.new
+          @project.repository.attributes = params[:repository]
+        end
+      end
+      @project.attributes = params[:project]
+      if @project.save
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else
