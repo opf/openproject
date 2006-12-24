@@ -10,7 +10,6 @@ ActionController::Routing::Routes.draw do |map|
   # -- just remember to delete public/index.html.
   map.connect '', :controller => "welcome"
 
-  map.connect 'repositories/:action/:id/:path', :controller => 'repositories'
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
   map.connect 'help/:ctrl/:page', :controller => 'help'
   map.connect ':controller/:action/:id/:sort_key/:sort_order'
