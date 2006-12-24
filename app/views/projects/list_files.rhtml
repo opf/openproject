@@ -6,8 +6,8 @@
 
 <% delete_allowed = authorize_for('versions', 'destroy_file') %>
 
-<table class="listTableContent">
-  <tr class="ListHead">
+<table class="list">
+  <thead><tr>
     <th><%=l(:field_version)%></th>
     <th><%=l(:field_filename)%></th>
     <th><%=l(:label_date)%></th>
@@ -15,11 +15,11 @@
     <th>D/L</th>
     <th>MD5</th>
     <% if delete_allowed %><th></th><% end %>
-  </tr>
-  
+  </tr></thead>
+  <tbody>
 <% for version in @versions %>	
   <% unless version.attachments.empty? %>
-  <tr><td colspan="7"><%= image_tag 'package' %> <b><%= version.name %></b></td></tr>
+  <tr><th colspan="7" align="left"><%= image_tag 'package' %> <b><%= version.name %></b></th></tr>
   <% for file in version.attachments %>		
   <tr class="<%= cycle("odd", "even") %>">
     <td></td>
@@ -40,4 +40,5 @@
   reset_cycle %>
   <% end %>
 <% end %>
+  </tbody>
 </table>

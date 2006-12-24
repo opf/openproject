@@ -3,7 +3,6 @@
 }
 .jstEditor textarea, .jstEditor iframe {
   margin: 0;
-  border: 1;
 }
 
 .jstHandle {

@@ -49,7 +49,6 @@ color:#303030;
 
 #header{
 height:4.5em;
-/*width:758px;*/
 margin:0;
 background:#467aa7;
 color:#ffffff;
@@ -60,7 +59,7 @@ margin-bottom:1px;
 padding:10px 0 0 20px;
 font-size:2em;
 background-color:inherit;
-color:#fff; /*rgb(152, 26, 33);*/
+color:#fff;
 letter-spacing:-1px;
 font-weight:bold;
 font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
@@ -79,7 +78,6 @@ font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 #navigation{
 height:2.2em;
 line-height:2.2em;
-/*width:758px;*/
 margin:0;
 background:#578bb8;
 color:#ffffff;
@@ -105,7 +103,6 @@ display:block;
 padding:0px 10px 0px 22px;
 font-size:0.8em;
 font-weight:normal;
-/*text-transform:uppercase;*/
 text-decoration:none;
 background-color:inherit;
 color: #ffffff;
@@ -137,6 +134,16 @@ background-color: #80b0da;
 .picCsv { background: url(../images/csv.png) no-repeat 4px 50%;}
 
 .pic { padding-left: 18px; margin-left: 3px; }
+
+.icon {
+ background-position: 0% 40%;
+ background-repeat: no-repeat;
+ padding-left: 20px;
+}
+
+.folder   { background-image: url(../images/folder.png); }
+.file     { background-image: url(../images/file.png); }
+
 /**************** Content styles ****************/
 
 html>body #content {
@@ -145,13 +152,10 @@ min-height: 500px;
 } 
 
 #content{
-/*float:right;*/
-/*width:530px;*/
 width: auto;
 height:500px;
 font-size:0.9em;
 padding:20px 10px 10px 20px;
-/*position: absolute;*/
 margin-left: 120px;
 border-left: 1px dashed #c0c0c0;
 
@@ -170,6 +174,7 @@ font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 
 #content h2 a{font-weight:normal;}
 #content h3{margin:0 0 12px 0; font-size:1.4em;color:#707070;font-family: Trebuchet MS,Georgia,"Times New Roman",serif;}
+#content h4{font-size: 1em; margin-bottom: 12px; margin-top: 20px; font-weight: normal; border-bottom: dotted 1px #c0c0c0;} 
 #content a:hover,#subcontent a:hover{text-decoration:underline;}
 #content ul,#content ol{margin:0 5px 16px 35px;}
 #content dl{margin:0 5px 10px 25px;}
@@ -179,29 +184,8 @@ font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 
 /***********************************************/
 
-/*
-form{
-	padding:15px; 
-	margin:0 0 20px 0;
-	border:1px solid #c0c0c0;
-	background-color:#CEE1ED;
-	width:600px;
-}
-*/
-
 form {
 	display: inline;
-}
-
-.noborder {
-	border:0px;
-	background-color:#fff;
-	width:100%;
-}
-
-textarea {
-    padding:0;
-    margin:0;
 }
 
 blockquote {
@@ -209,7 +193,7 @@ blockquote {
     border-left: 2px solid #ccc;
 }
 
-input {
+input, select {
 	vertical-align: middle;
 }
 
@@ -218,21 +202,9 @@ input.button-small
     font-size: 0.8em;
 }
 
-select {
-	vertical-align: middle;
-}
-
 .select-small 
 {
-   border: 1px solid #7F9DB9;
-   padding: 1px;
    font-size: 0.8em;
-}
-
-.active-filter
-{
-  background-color: #F9FA9E;
-  
 }
 
 label {
@@ -241,7 +213,7 @@ label {
 }
 
 fieldset {
-    border:1px solid #7F9DB9;
+    border:1px solid #c0c0c0;
     padding: 6px;
 }
 
@@ -254,56 +226,52 @@ legend {
 	color: #bb0000;
 }
 
-table.listTableContent {
-	border:1px solid #578bb8;
-	width:100%;
-	border-collapse: collapse;
-}
-
-table.listTableContent td {
-	padding:2px;
-}
-
-tr.ListHead {
-	background-color:#467aa7; 
-	color:#FFFFFF;
-	text-align:center;
-}
-
-tr.ListHead a {
-	color:#FFFFFF;
-	text-decoration:underline;
-}
-
 .odd {
-	background-color:#f0f1f2;
+	background-color:#f6f7f8;
 }
 .even {
 	background-color: #fff;
 }
 
-table.reportTableContent {
-	border:1px solid #c0c0c0;
-	width:99%;
-	border-collapse: collapse;
-}
-
-table.reportTableContent td {
-	padding:2px;
-}
-
-table.calenderTable {
-	border:1px solid #578bb8;
-	width:99%;
-	border-collapse: collapse;
-}
-
-table.calenderTable td {
-	border:1px solid #578bb8;
-}
-
 hr { border:none; border-bottom: dotted 1px #c0c0c0; }
 
+div.square {
+ border: 1px solid #999;
+ float: left;
+ margin: .4em .5em 0 0;
+ overflow: hidden;
+ width: .6em; height: .6em;
+}
+
+table p {
+    margin:0;
+    padding:0;
+}
+
+/********** Table used to display lists of things ***********/
+
+table.list {
+    width:100%;
+    border-collapse: collapse;
+    border: 1px dotted #d0d0d0;
+    margin-bottom: 6px;
+}
+
+table.with-cells td {
+    border: 1px solid #d7d7d7;
+}
+
+table.list thead th {
+    text-align: center;
+    background: #eee;
+    border: 1px solid #d7d7d7;
+}
+
+table.list tbody th {
+	font-weight: normal;
+    background: #eed;
+    border: 1px solid #d7d7d7;
+}
 
 /**************** Sidebar styles ****************/
 
@@ -337,31 +305,10 @@ font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 .menublock li ul li{margin-bottom:0;}
 .menublock li ul a{font-weight:normal;}
 
-/**************** Searchbar styles ****************/
-
-#searchbar{margin:0 0 20px 0;}
-#searchbar form fieldset{margin-left:10px; border:0 solid;}
-
-#searchbar #s{
-height:1.2em;
-width:110px;
-margin:0 5px 0 0;
-border:1px solid #a0a0a0;
-}
-
-#searchbar #searchbutton{
-width:auto;
-padding:0 1px;
-border:1px solid #808080;
-font-size:0.9em;
-text-align:center;
-}
-
 /**************** Footer styles ****************/
 
 #footer{
 clear:both;
-/*width:758px;*/
 padding:5px 0;
 margin:0;
 font-size:0.9em;
@@ -400,7 +347,6 @@ overflow:hidden;
 width:12px;
 height:12px;
 background-repeat: no-repeat;
-cursor:hand;
 cursor:pointer;
 background-image:url('../images/close.png');
 }
@@ -438,12 +384,6 @@ line-height:1.5em;
 cursor: move;
 }
 
-.topright{
-position: absolute;
-right: 25px;
-top: 100px;
-}
-
 .login {
 width: 50%;
 text-align: left;
@@ -453,14 +393,6 @@ img.calendar-trigger {
     cursor: pointer;
     vertical-align: middle;
     margin-left: 4px;
-}
-
-#history h4, #comments h4 {
-    font-size: 1em;
-    margin-bottom: 12px;
-    margin-top: 20px;
-    font-weight: normal;
-    border-bottom: dotted 1px #c0c0c0;    
 }
 
 #history p {

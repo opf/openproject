@@ -38,54 +38,44 @@
 <p><i><%= l(:label_no_data) %></i></p>
 <% else %>
 &nbsp;
-<table class="listTableContent">
-    <tr>
-    <td colspan="6" align="left"><small><%= check_all_links 'issues_form' %></small></td>
-    <td colspan="2" align="right">
-        <small><%= l(:label_per_page) %>:</small>
-        <%= start_form_tag %>
-        <%= select_tag 'per_page', options_for_select(@results_per_page_options, @results_per_page), :class => 'select-small'%>
-        <%= submit_tag l(:button_apply), :class => 'button-small'%>
-        <%= end_form_tag %>
-    </td>
-    </tr>
-</table>
 <%= start_form_tag({:controller => 'projects', :action => 'move_issues', :id => @project}, :id => 'issues_form' ) %>	
-<table class="listTableContent">
-
-    <tr class="ListHead">
-        <td></td>
+<table class="list">
+    <thead><tr>
+        <th></th>
 		<%= sort_header_tag('issues.id', :caption => '#') %>
-		<%= sort_header_tag('issue_statuses.name', :caption => l(:field_status)) %>
 		<%= sort_header_tag('issues.tracker_id', :caption => l(:field_tracker)) %>
+		<%= sort_header_tag('issue_statuses.name', :caption => l(:field_status)) %>
 		<th><%=l(:field_subject)%></th>
 		<%= sort_header_tag('users.lastname', :caption => l(:field_author)) %>
 		<%= sort_header_tag('issues.created_on', :caption => l(:field_created_on)) %>
 		<%= sort_header_tag('issues.updated_on', :caption => l(:field_updated_on)) %>
-	</tr>
+	</tr></thead>
+	<tbody>
 	<% for issue in @issues %>
 	<tr class="<%= cycle("odd", "even") %>">
-	    <td width="15"><%= check_box_tag "issue_ids[]", issue.id %></td>
-		<td align="center"><%= link_to issue.long_id, :controller => 'issues', :action => 'show', :id => issue %></td>
-		<td align="center" style="font-weight:bold;color:#<%= issue.status.html_color %>;"><%= issue.status.name %></font></td>
+	    <th width="15"><%= check_box_tag "issue_ids[]", issue.id %></th>
+		<td align="center"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center"><%= issue.tracker.name %></td>
+		<td><div class="square" style="background:#<%= issue.status.html_color %>;"></div> <%= issue.status.name %></td>
 		<td><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center"><%= issue.author.display_name %></td>
 		<td align="center"><%= format_time(issue.created_on) %></td>
 		<td align="center"><%= format_time(issue.updated_on) %></td>
 	</tr>
 	<% end %>
+	</tbody>
 </table>
 <div class="contextual">
 <%= l(:label_export_to) %>
-<%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'pic picCsv' %>,
+<%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'icon file' %>,
 <%= link_to 'PDF', {:action => 'export_issues_pdf', :id => @project}, :class => 'pic picPdf' %>
 </div>
-<p>
+
+<%= submit_tag l(:button_move), :class => "button-small" %>
+<%= end_form_tag %>
+&nbsp;
 <%= pagination_links_full @issue_pages %>
 [ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
-</p>
-<%= submit_tag l(:button_move) %>
-<%= end_form_tag %>
+
 <% end %>
 <% end %>

@@ -9,18 +9,19 @@
 @issues ||= []
 %>
 
-<table class="calenderTable">
-<tr class="ListHead">
-<td></td>
+<table class="list with-cells">
+<thead><tr>
+<th></th>
 <% 1.upto(7) do |d| %>
-    <td align="center" width="14%"><%= day_name(d) %></td>
+    <th align="center" width="14%"><%= day_name(d) %></th>
 <% end %>
-</tr>
+</tr></thead>
+<tbdoy>
 <tr height="100">
 <% day = @date_from
 while day <= @date_to
 	if day.cwday == 1 %>
-	<td valign="middle"><%= day.cweek %></td>
+	<th valign="middle"><%= day.cweek %></th>
 	<% end %>	
 	<td valign="top" width="14%" class="<%= day.month==@month ? "even" : "odd" %>">
 	<p align="right"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
@@ -42,4 +43,5 @@ while day <= @date_to
 	day = day + 1
 end %>
 </tr>
+</tbody>
 </table>

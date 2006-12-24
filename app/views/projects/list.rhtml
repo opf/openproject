@@ -1,12 +1,12 @@
 <h2><%=l(:label_public_projects)%></h2>
 
-<table class="listTableContent">
-  <tr class="ListHead">
+<table class="list">
+  <thead><tr>
 	<%= sort_header_tag('name', :caption => l(:label_project)) %>
 	<th><%=l(:field_description)%></th>
 	<%= sort_header_tag('created_on', :caption => l(:field_created_on)) %>
-  </tr>
-  
+  </tr></thead>
+  <tbody>
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to project.name, :action => 'show', :id => project %>
@@ -14,6 +14,7 @@
 	<td align="center"><%= format_date(project.created_on) %>
   </tr>
 <% end %>
+  </tbody>
 </table>
 
 <%= pagination_links_full @project_pages %>

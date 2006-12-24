@@ -91,7 +91,7 @@
         <%= link_to l(:label_document_plural), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_member_plural), {:controller => 'projects', :action => 'list_members', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_attachment_plural), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_repository), {:controller => 'repositories', :action => 'show', :id => @project}, :class => "menuItem" if @project.repository and !@project.repository.new_record? %></li>
+        <%= link_to l(:label_repository), {:controller => 'repositories', :action => 'show', :id => @project}, :class => "menuItem" if @project.repository and !@project.repository.new_record? %>
         <%= link_to_if_authorized l(:label_settings), {:controller => 'projects', :action => 'settings', :id => @project }, :class => "menuItem" %>
     </div>
     <% end %>

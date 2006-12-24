@@ -1,17 +1,16 @@
 <% if issues.length > 0 %>
-<table cellspacing="0" cellpadding="1" width="100%" border="0" class="listTable">
-	<tr><td>
-	<table class="listTableContent">		
-		<tr class="ListHead">	
+	<table class="list">		
+		<thead><tr>
 		<th>#</th>
 		<th><%=l(:field_tracker)%></th>
 		<th><%=l(:field_subject)%></th>
-		</tr>	
+		</tr></thead>
+		<tbody>	
 		<% for issue in issues %>
 		<tr class="<%= cycle("odd", "even") %>">
-			<td align="center" style="font-weight:bold;color:#<%= issue.status.html_color %>;">
-				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %><br />
-			</td>
+			<th align="center">
+				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
+			</th>
 			<td><p class="small"><%= issue.project.name %> - <%= issue.tracker.name %><br />
                 <%= issue.status.name %> - <%= format_time(issue.updated_on) %></p></td>
 			<td>
@@ -19,10 +18,8 @@
             </td>
 		</tr>
 		<% end %>
+		</tbody>
 	</table>
-	</td>
-	</tr>	
-</table>
 <% else %>
 	<i><%=l(:label_no_data)%></i>
 <% end %>

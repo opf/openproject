@@ -1,7 +1,7 @@
 <h2><%=l(:label_custom_field_plural)%></h2>
 
-<table class="listTableContent">		
-<tr class="ListHead">	
+<table class="list">		
+  <thead><tr>	
 	<th><%=l(:field_name)%></th>
 	<th><%=l(:field_type)%></th>
 	<th><%=l(:field_field_format)%></th>
@@ -9,7 +9,8 @@
 	<th><%=l(:field_is_for_all)%></th>
 	<th><%=l(:label_used_by)%></th>
 	<th></th>
-</tr>  
+  </tr></thead>
+  <tbody>
 <% for custom_field in @custom_fields %>
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to custom_field.name, :action => 'edit', :id => custom_field %></td>
@@ -23,6 +24,7 @@
     </td>
   </tr>
 <% end %>
+  </tbody>
 </table>
 
 <%= pagination_links_full @custom_field_pages %> 

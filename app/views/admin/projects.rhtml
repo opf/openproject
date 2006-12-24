@@ -4,16 +4,16 @@
 
 <h2><%=l(:label_project_plural)%></h2>
 
-<table class="listTableContent">
-  <tr class="ListHead">
+<table class="list">
+  <thead><tr>
 	<%= sort_header_tag('name', :caption => l(:label_project)) %>
 	<th><%=l(:field_description)%></th>
 	<th><%=l(:field_is_public)%></th>
 	<th><%=l(:label_subproject_plural)%></th>
 	<%= sort_header_tag('created_on', :caption => l(:field_created_on)) %>
-  <th></th>
-  </tr>
-  
+    <th></th>
+  </tr></thead>
+  <tbody>
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to project.name, :controller => 'projects', :action => 'settings', :id => project %>
@@ -26,6 +26,7 @@
   </td>
   </tr>
 <% end %>
+  </tbody>
 </table>
 
 <p><%= pagination_links_full @project_pages %>

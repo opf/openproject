@@ -2,17 +2,17 @@
     <p><i><%=l(:label_no_data)%></i></p>
 <% else %>
 <% col_width = 70 / (@statuses.length+3) %>
-<table class="reportTableContent">
-<tr>
-<td width="25%"></td>
+<table class="list">
+<thead><tr>
+<th width="25%"></th>
 <% for status in @statuses %>
-  <td align="center" width="<%= col_width %>%" bgcolor="#<%= status.html_color %>"><small><%= status.name %></small></td>
+<th width="<%= col_width %>%" style="text-align:left;"><div class="square" style="background:#<%= status.html_color %>;"></div> <small><%= status.name %></small></th>
 <% end %>
-<td align="center" width="<%= col_width %>%"><strong><%=l(:label_open_issues_plural)%></strong></td>
-<td align="center" width="<%= col_width %>%"><strong><%=l(:label_closed_issues_plural)%></strong></td>
-<td align="center" width="<%= col_width %>%"><strong><%=l(:label_total)%></strong></td>
-</tr>
-
+<th align="center" width="<%= col_width %>%"><strong><%=l(:label_open_issues_plural)%></strong></th>
+<th align="center" width="<%= col_width %>%"><strong><%=l(:label_closed_issues_plural)%></strong></th>
+<th align="center" width="<%= col_width %>%"><strong><%=l(:label_total)%></strong></th>
+</tr></thead>
+<tbody>
 <% for row in rows %>
 <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to row.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
@@ -40,8 +40,9 @@
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "*" %></td>  
-<% end %>
 </tr>
+<% end %>
+</tbody>
 </table>
 <% end
   reset_cycle %>

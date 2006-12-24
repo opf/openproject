@@ -1,46 +1,7 @@
 
-
-div.square {
- border: 1px solid #999;
- float: left;
- margin: .4em .5em 0 0;
- overflow: hidden;
- width: .6em; height: .6em;
-}
-
 div.action_M { background: #fd8 }
 div.action_D { background: #f88 }
 div.action_A { background: #bfb }
-
-table.list {
-    width:100%;
-    border-collapse: collapse;
-    border: 1px dotted #d0d0d0;
-    margin-bottom: 6px;
-}
-
-table.list thead th {
-    text-align: center;
-    background: #eee;
-    border: 1px solid #d7d7d7;
-}
-
-table.list tbody th {
-	font-weight: normal;
-    text-align: center;
-    background: #eed;
-    border: 1px solid #d7d7d7;
-}
-
-.icon {
- background-position: 0% 40%;
- background-repeat: no-repeat;
- padding-left: 20px;
-}
-
-.folder { background-image: url(../images/folder.png); }
-.file   { background-image: url(../images/file.png); }
-
 
 
 tr.spacing {
@@ -58,9 +19,4 @@ tr.spacing {
 .line-code {
 	font-family: "Courier New", monospace;
 	font-size: 1em;
-}
-
-table p {
-    margin:0;
-    padding:0;
 }
