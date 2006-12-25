@@ -77,16 +77,10 @@ end %>
 <table width="100%">
 <% for attachment in @issue.attachments %>
 <tr>
-<td><%= image_tag('attachment') %> <%= link_to attachment.filename, :action => 'download', :id => @issue, :attachment_id => attachment %> (<%= human_size(attachment.filesize) %>)</td>
+<td><%= link_to attachment.filename, { :action => 'download', :id => @issue, :attachment_id => attachment }, :class => 'icon attachment' %> (<%= human_size(attachment.filesize) %>)</td>
 <td><%= format_date(attachment.created_on) %></td>
 <td><%= attachment.author.display_name %></td>
-<% if authorize_for('issues', 'destroy_attachment') %>
-  <td>
-  <%= start_form_tag :action => 'destroy_attachment', :id => @issue, :attachment_id => attachment %>
-  <%= submit_tag l(:button_delete), :class => "button-small" %>
-  <%= end_form_tag %>
-  </td>
-<% end %>
+<td><div class="contextual"><%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy_attachment', :id => @issue, :attachment_id => attachment }, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %></div></td>
 </tr>
 <% end %>
 </table>

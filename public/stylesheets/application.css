@@ -143,6 +143,7 @@ background-color: #80b0da;
 
 .folder   { background-image: url(../images/folder.png); }
 .file     { background-image: url(../images/file.png); }
+.attachment  { background-image: url(../images/attachment.png); }
 
 /**************** Content styles ****************/
 
