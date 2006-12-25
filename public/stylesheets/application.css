@@ -273,6 +273,76 @@ table.list tbody th {
     border: 1px solid #d7d7d7;
 }
 
+/********** Validation error messages *************/
+#errorExplanation {
+  width: 400px;
+  border: 0;
+  padding: 7px;
+  padding-bottom: 3px;
+  margin-bottom: 0px;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 10px 26px;
+  font-size: 1em;
+  margin: -7px;
+  background: url(../images/alert.png) no-repeat 6px 6px;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 1em;
+  list-style: none;
+  margin-left: -16px;
+}
+
+/*==========  Drop down menu  ==============*/
+div.menu {
+  background-color: #FFFFFF;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #7F9DB9;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 0;
+  visibility: hidden;
+  z-index: 101;
+}
+
+div.menu a.menuItem {
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 2em;
+  color: #000000;
+  background-color: #FFFFFF;
+  cursor: default;
+  display: block;
+  padding: 0 1em;
+  margin: 0;
+  border: 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+div.menu a.menuItem:hover, div.menu a.menuItemHighlight {
+  background-color: #80b0da;
+  color: #ffffff;
+}
+
+div.menu a.menuItem span.menuItemText {}
+
+div.menu a.menuItem span.menuItemArrow {
+  margin-right: -.75em;
+}
+
 /**************** Sidebar styles ****************/
 
 #subcontent{
