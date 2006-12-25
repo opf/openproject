@@ -266,6 +266,7 @@ table.list thead th {
     text-align: center;
     background: #eee;
     border: 1px solid #d7d7d7;
+    color: #777;
 }
 
 table.list tbody th {
