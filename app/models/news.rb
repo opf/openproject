@@ -18,7 +18,7 @@
 class News < ActiveRecord::Base
   belongs_to :project
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  has_many :comments, :as => :commented, :dependent => true, :order => "created_on"
+  has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
   
   validates_presence_of :title, :description
   

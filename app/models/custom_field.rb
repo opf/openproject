@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomField < ActiveRecord::Base
-  has_many :custom_values, :dependent => true
+  has_many :custom_values, :dependent => :delete_all
 
   FIELD_FORMATS = { "string" => { :name => :label_string, :order => 1 },
                     "text" => { :name => :label_text, :order => 2 },

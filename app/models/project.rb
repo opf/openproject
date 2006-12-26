@@ -16,16 +16,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Project < ActiveRecord::Base
-  has_many :versions, :dependent => true, :order => "versions.effective_date DESC, versions.name DESC"
-  has_many :members, :dependent => true, :include => :user, :conditions => "users.status=#{User::STATUS_ACTIVE}"
+  has_many :versions, :dependent => :destroy, :order => "versions.effective_date DESC, versions.name DESC"
+  has_many :members, :dependent => :delete_all, :include => :user, :conditions => "users.status=#{User::STATUS_ACTIVE}"
   has_many :users, :through => :members
-  has_many :custom_values, :dependent => true, :as => :customized
-  has_many :issues, :dependent => true, :order => "issues.created_on DESC", :include => [:status, :tracker]
-  has_many :queries, :dependent => true
-  has_many :documents, :dependent => true
-  has_many :news, :dependent => true, :include => :author
-  has_many :issue_categories, :dependent => true, :order => "issue_categories.name"
-  has_one :repository, :dependent => true
+  has_many :custom_values, :dependent => :delete_all, :as => :customized
+  has_many :issues, :dependent => :destroy, :order => "issues.created_on DESC", :include => [:status, :tracker]
+  has_many :queries, :dependent => :delete_all
+  has_many :documents, :dependent => :destroy
+  has_many :news, :dependent => :delete_all, :include => :author
+  has_many :issue_categories, :dependent => :delete_all, :order => "issue_categories.name"
+  has_one :repository, :dependent => :destroy
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => 'custom_fields_projects', :association_foreign_key => 'custom_field_id'
   acts_as_tree :order => "name", :counter_cache => true
 

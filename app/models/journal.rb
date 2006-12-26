@@ -18,5 +18,5 @@
 class Journal < ActiveRecord::Base
   belongs_to :journalized, :polymorphic => true
   belongs_to :user
-  has_many :details, :class_name => "JournalDetail", :dependent => true
+  has_many :details, :class_name => "JournalDetail", :dependent => :delete_all
 end

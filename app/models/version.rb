@@ -19,7 +19,7 @@ class Version < ActiveRecord::Base
   before_destroy :check_integrity
   belongs_to :project
   has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id'
-  has_many :attachments, :as => :container, :dependent => true
+  has_many :attachments, :as => :container, :dependent => :destroy
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]

@@ -26,11 +26,10 @@ class Issue < ActiveRecord::Base
   belongs_to :priority, :class_name => 'Enumeration', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
-  #has_many :histories, :class_name => 'IssueHistory', :dependent => true, :order => "issue_histories.created_on DESC", :include => :status
-  has_many :journals, :as => :journalized, :dependent => true
-  has_many :attachments, :as => :container, :dependent => true
+  has_many :journals, :as => :journalized, :dependent => :destroy
+  has_many :attachments, :as => :container, :dependent => :destroy
 
-  has_many :custom_values, :dependent => true, :as => :customized
+  has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :custom_fields, :through => :custom_values
 
   validates_presence_of :subject, :description, :priority, :tracker, :author, :status

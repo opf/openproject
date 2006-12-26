@@ -18,10 +18,10 @@
 require "digest/sha1"
 
 class User < ActiveRecord::Base
-  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :dependent => true
+  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :dependent => :delete_all
   has_many :projects, :through => :memberships
-  has_many :custom_values, :dependent => true, :as => :customized
-  has_one :preference, :dependent => true, :class_name => 'UserPreference'
+  has_many :custom_values, :dependent => :delete_all, :as => :customized
+  has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   belongs_to :auth_source
   
   attr_accessor :password, :password_confirmation
