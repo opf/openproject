@@ -32,7 +32,7 @@ class RolesController < ApplicationController
   def new
     @role = Role.new(params[:role])
     if request.post?
-      @role.permissions = Permission.find(@params[:permission_ids]) if @params[:permission_ids]
+      @role.permissions = Permission.find(params[:permission_ids]) if params[:permission_ids]
       if @role.save
         flash[:notice] = l(:notice_successful_create)
         redirect_to :action => 'list'
@@ -44,7 +44,7 @@ class RolesController < ApplicationController
   def edit
     @role = Role.find(params[:id])
     if request.post? and @role.update_attributes(params[:role])
-      @role.permissions = Permission.find(@params[:permission_ids] || [])
+      @role.permissions = Permission.find(params[:permission_ids] || [])
       Permission.allowed_to_role_expired
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'

@@ -31,7 +31,7 @@ class AdminController < ApplicationController
     @project_count = Project.count		
     @project_pages = Paginator.new self, @project_count,
 								15,
-								@params['page']								
+								params['page']								
     @projects = Project.find :all, :order => sort_clause,
 						:limit  =>  @project_pages.items_per_page,
 						:offset =>  @project_pages.current.offset

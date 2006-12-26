@@ -35,7 +35,7 @@ class UsersController < ApplicationController
     @user_count = User.count		
     @user_pages = Paginator.new self, @user_count,
 								15,
-								@params['page']								
+								params['page']								
     @users =  User.find :all,:order => sort_clause,
 						:limit  =>  @user_pages.items_per_page,
 						:offset =>  @user_pages.current.offset

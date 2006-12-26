@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
   end
 
   # authorizes the user for the requested action.
-  def authorize(ctrl = @params[:controller], action = @params[:action])
+  def authorize(ctrl = params[:controller], action = params[:action])
     # check if action is allowed on public projects
     if @project.is_public? and Permission.allowed_to_public "%s/%s" % [ ctrl, action ]
       return true
@@ -92,7 +92,7 @@ class ApplicationController < ActionController::Base
   # store current uri in session.
   # return to this location by calling redirect_back_or_default
   def store_location
-    session[:return_to] = @request.request_uri
+    session[:return_to] = request.request_uri
   end
 
   # move to the last store_location call or to the passed default one

@@ -49,7 +49,7 @@
 		<li class="submenu"><%= link_to l(:label_administration), { :controller => 'admin' }, :class => "picAdmin", :onmouseover => "buttonMouseover(event, 'menuAdmin');" %></li>
 	<% end %>
 			
-	<li class="right"><%= link_to l(:label_help), { :controller => 'help', :ctrl => @params[:controller], :page => @params[:action] }, :target => "new", :class => "picHelp" %></li>
+	<li class="right"><%= link_to l(:label_help), { :controller => 'help', :ctrl => params[:controller], :page => params[:action] }, :target => "new", :class => "picHelp" %></li>
 	
 	<% if loggedin? %>
 		<li class="right"><%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => "picUser" %></li>	

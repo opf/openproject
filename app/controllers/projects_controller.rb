@@ -42,7 +42,7 @@ class ProjectsController < ApplicationController
     @project_count = Project.count(["is_public=?", true])		
     @project_pages = Paginator.new self, @project_count,
 								15,
-								@params['page']								
+								params['page']								
     @projects = Project.find :all, :order => sort_clause,
 						:conditions => ["is_public=?", true],
 						:limit  =>  @project_pages.items_per_page,
@@ -59,7 +59,7 @@ class ProjectsController < ApplicationController
     if request.get?
       @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project) }
     else
-      @project.custom_fields = CustomField.find(@params[:custom_field_ids]) if @params[:custom_field_ids]
+      @project.custom_fields = CustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
       @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
       @project.custom_values = @custom_values			
       if params[:repository_enabled] && params[:repository_enabled] == "1"
@@ -95,7 +95,7 @@ class ProjectsController < ApplicationController
   # Edit @project
   def edit
     if request.post?
-      @project.custom_fields = IssueCustomField.find(@params[:custom_field_ids]) if @params[:custom_field_ids]
+      @project.custom_fields = IssueCustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
       if params[:custom_fields]
         @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
         @project.custom_values = @custom_values
@@ -213,7 +213,7 @@ class ProjectsController < ApplicationController
       if @issue.save
         @attachments.each(&:save)
         flash[:notice] = l(:notice_successful_create)
-        Mailer.deliver_issue_add(@issue) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
+        Mailer.deliver_issue_add(@issue) if Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
         redirect_to :action => 'list_issues', :id => @project
       end		
     end	
@@ -236,7 +236,7 @@ class ProjectsController < ApplicationController
 
     if @query.valid?
       @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)		
-      @issue_pages = Paginator.new self, @issue_count, @results_per_page, @params['page']								
+      @issue_pages = Paginator.new self, @issue_count, @results_per_page, params['page']								
       @issues = Issue.find :all, :order => sort_clause,
   						:include => [ :author, :status, :tracker, :project ],
   						:conditions => @query.statement,

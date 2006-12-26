@@ -61,7 +61,7 @@ module SortHelper
   #   defaults to '<controller_name>_sort'.
   #
   def sort_init(default_key, default_order='asc', name=nil)
-    @sort_name = name || @params[:controller] + @params[:action] + '_sort'
+    @sort_name = name || params[:controller] + params[:action] + '_sort'
     @sort_default = {:key => default_key, :order => default_order}
   end
 
@@ -69,21 +69,21 @@ module SortHelper
   # sort_clause.
   #
   def sort_update()
-    if @params[:sort_key]
-      sort = {:key => @params[:sort_key], :order => @params[:sort_order]}
-    elsif @session[@sort_name]
-      sort = @session[@sort_name]   # Previous sort.
+    if params[:sort_key]
+      sort = {:key => params[:sort_key], :order => params[:sort_order]}
+    elsif session[@sort_name]
+      sort = session[@sort_name]   # Previous sort.
     else
       sort = @sort_default
     end
-    @session[@sort_name] = sort
+    session[@sort_name] = sort
   end
 
   # Returns an SQL sort clause corresponding to the current sort state.
   # Use this to sort the controller's table items collection.
   #
   def sort_clause()
-    @session[@sort_name][:key] + ' ' + @session[@sort_name][:order]
+    session[@sort_name][:key] + ' ' + session[@sort_name][:order]
   end
 
   # Returns a link which sorts by the named column.
@@ -93,7 +93,7 @@ module SortHelper
   # - A sort icon image is positioned to the right of the sort link.
   #
   def sort_link(column, caption=nil)
-    key, order = @session[@sort_name][:key], @session[@sort_name][:order]
+    key, order = session[@sort_name][:key], session[@sort_name][:order]
     if key == column
       if order.downcase == 'asc'
         icon = 'sort_asc'

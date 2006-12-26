@@ -72,7 +72,7 @@ class IssuesController < ApplicationController
       #@history.status = @issue.status
       if @issue.save
         flash[:notice] = l(:notice_successful_update)
-        Mailer.deliver_issue_edit(journal) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
+        Mailer.deliver_issue_edit(journal) if Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
         redirect_to :action => 'show', :id => @issue
         return
       end
@@ -97,7 +97,7 @@ class IssuesController < ApplicationController
         @issue.status = @new_status
         if @issue.update_attributes(params[:issue])
           flash[:notice] = l(:notice_successful_update)
-          Mailer.deliver_issue_edit(journal) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
+          Mailer.deliver_issue_edit(journal) if Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
           redirect_to :action => 'show', :id => @issue
         end
       rescue ActiveRecord::StaleObjectError

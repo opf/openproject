@@ -58,7 +58,7 @@ class MyController < ApplicationController
   def change_password
     @user = self.logged_in_user
     flash[:notice] = l(:notice_can_t_change_password) and redirect_to :action => 'account' and return if @user.auth_source_id
-    if @user.check_password?(@params[:password])
+    if @user.check_password?(params[:password])
       @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
       if @user.save
         flash[:notice] = l(:notice_account_password_updated)

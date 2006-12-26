@@ -2,7 +2,7 @@
 
 <% Enumeration::OPTIONS.each do |option, name| %>
 
-	<% if @params[:opt]==option %>	
+	<% if params[:opt]==option %>	
   
 		<p><%= image_tag 'dir_open' %> <b><%= l(name) %></b></p>		
 		<ul>

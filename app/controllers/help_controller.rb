@@ -23,11 +23,11 @@ class HelpController < ApplicationController
   # displays help page for the requested controller/action
   def index	
     # select help page to display
-    if @params[:ctrl] and @help_config['pages'][@params[:ctrl]]
-      if @params[:page] and @help_config['pages'][@params[:ctrl]][@params[:page]]
-        template = @help_config['pages'][@params[:ctrl]][@params[:page]]
+    if params[:ctrl] and @help_config['pages'][params[:ctrl]]
+      if params[:page] and @help_config['pages'][params[:ctrl]][params[:page]]
+        template = @help_config['pages'][params[:ctrl]][params[:page]]
       else
-        template = @help_config['pages'][@params[:ctrl]]['index']
+        template = @help_config['pages'][params[:ctrl]]['index']
       end
     end
     # choose language according to available help translations
