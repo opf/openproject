@@ -9,7 +9,7 @@
 <h2><%= l(:label_revision) %> <%= @revision.identifier %></h2>
 
 <p><em><%= @revision.author %>, <%= format_time(@revision.time) %></em></p>
-<%= simple_format @revision.message %>
+<%= textilizable @revision.message %>
 
 <div style="float:right;">
 <div class="square action_A"></div> <div style="float:left;"><%= l(:label_added) %>&nbsp;</div>

@@ -29,7 +29,7 @@
 <th align="center"><%= link_to revision.identifier, :action => 'revision', :id => @project, :rev => revision.identifier %></th>
 <td align="center"><em><%=h revision.author %></em></td>
 <td align="center"><%= format_time(revision.time) %></td>
-<td width="70%"><%= simple_format(h(revision.message)) %></td>
+<td width="70%"><%= textilizable(revision.message) %></td>
 <td align="center"><%= link_to 'Diff', :action => 'diff', :id => @project, :path => @path, :rev => revision.identifier if @entry.is_file? && revision != @revisions.last %></td>
 </tr>
 <% end %>

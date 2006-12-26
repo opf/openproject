@@ -85,7 +85,7 @@ module ApplicationHelper
   end
   
   def textilizable(text)
-    $RDM_TEXTILE_DISABLED ? text : RedCloth.new(text).to_html
+    $RDM_TEXTILE_DISABLED ? simple_format(auto_link(h(text))) : RedCloth.new(h(text)).to_html
   end
   
   def error_messages_for(object_name, options = {})
