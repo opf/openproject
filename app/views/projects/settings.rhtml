@@ -27,11 +27,7 @@
         <% end %>
     </td>
     <td>
-		<% if authorize_for('members', 'destroy') %>
-		<%= start_form_tag :controller => 'members', :action => 'destroy', :id => member %>
-		<%= submit_tag l(:button_delete), :class => "button-small" %>
-		<%= end_form_tag %>
-        <% end %>
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'members', :action => 'destroy', :id => member}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
     </td>
 	</tr>
 	<% end %>
@@ -60,14 +56,9 @@
   <td width="100"><strong><%=h version.name %></strong></td>
   <td width="100"><%= format_date(version.effective_date) %></td>
   <td><%=h version.description %></td>
-  <td>&nbsp;&nbsp;&nbsp;
-      <%= link_to_if_authorized l(:button_edit), :controller => 'versions', :action => 'edit', :id => version %>
-      <% if authorize_for('versions', 'destroy') %>
-      &nbsp;
-      <%= start_form_tag :controller => 'versions', :action => 'destroy', :id => version %>
-      <%= submit_tag l(:button_delete), :class => "button-small" %>
-      <%= end_form_tag %>  
-      <% end %>
+  <td>
+      <%= link_to_if_authorized l(:button_edit), { :controller => 'versions', :action => 'edit', :id => version }, :class => 'pic picEdit' %>
+      <%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
   </td>
   </tr>
 <% end %>
@@ -96,11 +87,7 @@
         <% end %>
     </td>
     <td>
-        <% if authorize_for('issue_categories', 'destroy') %>
-        <%= start_form_tag :controller => 'issue_categories', :action => 'destroy', :id => @category %>
-        <%= submit_tag l(:button_delete), :class => "button-small" %>
-        <%= end_form_tag %>
-        <% end %>
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => @category}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
     </td>
 	</tr>
 	<% end %>
