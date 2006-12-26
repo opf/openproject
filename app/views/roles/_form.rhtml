@@ -3,7 +3,7 @@
 <!--[form:role]-->
 <p><%= f.text_field :name, :required => true %></p>
 
-<strong><%=l(:label_permissions)%>:</strong>
+<h3><%=l(:label_permissions)%></h3>
 <% permissions = @permissions.group_by {|p| p.group_id } %>
 <% permissions.keys.sort.each do |group_id| %>
 <fieldset style="margin-top: 6px;"><legend><strong><%= l(Permission::GROUPS[group_id]) %></strong></legend>
