@@ -94,7 +94,7 @@ t_height = g_height + headers_heigth
 <td width=260>
 
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_heigth %>px;" class="m_bg"></div>
+<div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_heigth %>px;background: #eee;" class="m_bg"></div>
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;" class="m_bg"></div>
 <%
 #
@@ -113,7 +113,7 @@ end %>
 <td>
 
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width %>;overflow:auto;">
-<div style="width:<%= g_width-1 %>px;height:<%= headers_heigth %>px;" class="m_bg">&nbsp;</div>
+<div style="width:<%= g_width-1 %>px;height:<%= headers_heigth %>px;background: #eee;" class="m_bg">&nbsp;</div>
 <% 
 #
 # Months headers
@@ -125,7 +125,7 @@ height = (show_weeks ? header_heigth : header_heigth + g_height)
 	width = ((month_f >> 1) - month_f) * zoom - 1
 	%>
 	<div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="m_bg">
-	<%= link_to "#{month_f.year}-#{month_f.month}", :year => month_f.year, :month => month_f.month, :zoom => @zoom, :months => @months %>
+	<%= link_to "#{month_f.year}-#{month_f.month}", { :year => month_f.year, :month => month_f.month, :zoom => @zoom, :months => @months }, :title => "#{month_name(month_f.month)} #{month_f.year}"%>
 	</div>
 	<% 
 	left = left + width + 1

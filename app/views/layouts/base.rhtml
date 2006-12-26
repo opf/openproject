@@ -36,7 +36,7 @@
 	<li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "picProject" %></li>
 			
     <% unless @project.nil? || @project.id.nil? %>
-        <li><%= link_to @project.name, { :controller => 'projects', :action => 'show', :id => @project }, :class => "picProject", :onmouseover => "buttonMouseover(event, 'menuProject');"  %></li>
+        <li class="submenu"><%= link_to @project.name, { :controller => 'projects', :action => 'show', :id => @project }, :class => "picProject", :onmouseover => "buttonMouseover(event, 'menuProject');"  %></li>
     <% end %>
 			
     <% if loggedin? %>
@@ -44,7 +44,7 @@
     <% end %>
 			
 	<% if admin_loggedin? %>
-		<li><%= link_to l(:label_administration), { :controller => 'admin' }, :class => "picAdmin", :onmouseover => "buttonMouseover(event, 'menuAdmin');" %></li>
+		<li class="submenu"><%= link_to l(:label_administration), { :controller => 'admin' }, :class => "picAdmin", :onmouseover => "buttonMouseover(event, 'menuAdmin');" %></li>
 	<% end %>
 			
 	<li class="right"><%= link_to l(:label_help), { :controller => 'help', :ctrl => @params[:controller], :page => @params[:action] }, :target => "new", :class => "picHelp" %></li>

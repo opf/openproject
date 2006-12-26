@@ -108,6 +108,14 @@ background-color:inherit;
 color: #ffffff;
 }
 
+#navigation li.submenu {
+background:url(../images/arrow_down.png) 96% 80% no-repeat;
+}
+
+#navigation li.submenu a {
+padding:0px 16px 0px 22px;
+}
+
 * html #navigation a {width:1%;}
 
 #navigation .selected,#navigation a:hover{
@@ -247,6 +255,21 @@ div.square {
 table p {
     margin:0;
     padding:0;
+}
+
+ul.documents {
+list-style-type: none;
+padding: 0;
+margin: 0;
+}
+
+ul.documents li {
+background-image: url(../images/file.png);
+background-repeat: no-repeat;
+background-position: 0 .4em;
+padding-left: 20px;
+margin-bottom: 10px;
+margin-left: -37px;
 }
 
 /********** Table used to display lists of things ***********/
