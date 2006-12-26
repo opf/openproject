@@ -77,8 +77,8 @@ class RolesController < ApplicationController
         flash[:notice] = l(:notice_successful_update)
       end
     end
-    @roles = Role.find_all
-    @trackers = Tracker.find_all
+    @roles = Role.find :all
+    @trackers = Tracker.find :all
     @statuses = IssueStatus.find(:all, :include => :workflows)
   end
 end

@@ -20,12 +20,12 @@ class ReportsController < ApplicationController
 	before_filter :find_project, :authorize
   
   def issue_report
-    @statuses = IssueStatus.find_all
+    @statuses = IssueStatus.find :all
     
     case params[:detail]
     when "tracker"
       @field = "tracker_id"
-      @rows = Tracker.find_all
+      @rows = Tracker.find :all
       @data = issues_by_tracker
       @report_title = l(:field_tracker)
       render :template => "reports/issue_report_details"
