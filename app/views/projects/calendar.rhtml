@@ -53,7 +53,7 @@ while day <= @date_to
 		elsif day == i.due_date
 		    image_tag('arrow_to') 
 		end %>
-		<small><%= link_to "#{i.tracker.name} ##{i.id}", :controller => 'issues', :action => 'show', :id => i %>: <%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small><br />
+		<small><%= link_to "#{i.tracker.name} ##{i.id}", { :controller => 'issues', :action => 'show', :id => i }, :title => "#{i.subject}" %>: <%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small><br />
 	<% end %>
     </td>
 	<%= '</tr><tr height="100">' if day.cwday >= 7 and day!=@date_to %>
