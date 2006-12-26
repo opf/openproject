@@ -80,6 +80,27 @@ class UsersController < ApplicationController
       end
     end
     @auth_sources = AuthSource.find(:all)
+    @roles = Role.find :all
+    @projects = Project.find(:all) - @user.projects
+    @membership ||= Member.new
+  end
+  
+  def edit_membership
+    @user = User.find(params[:id])
+    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)
+    @membership.attributes = params[:membership]
+    if request.post? and @membership.save
+      flash[:notice] = l(:notice_successful_update)
+    end
+    redirect_to :action => 'edit', :id => @user and return
+  end
+  
+  def destroy_membership
+    @user = User.find(params[:id])
+    if request.post? and Member.find(params[:membership_id]).destroy
+      flash[:notice] = l(:notice_successful_update)
+    end
+    redirect_to :action => 'edit', :id => @user and return
   end
 
   def destroy
