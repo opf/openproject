@@ -66,11 +66,11 @@ if show_weeks
 		pdf.Cell(width + 1, height, "", "LTR")
 		left = left + width+1
 	end
-	while week_f < @date_to
+	while week_f <= @date_to
 		width = (week_f + 6 <= @date_to) ? 7 * zoom : (@date_to - week_f + 1) * zoom
 		pdf.SetY(y_start + header_heigth)
 		pdf.SetX(left)
-		pdf.Cell(width, height, week_f.cweek.to_s, "LTR", 0, "C")
+		pdf.Cell(width, height, (width >= 5 ? week_f.cweek.to_s : ""), "LTR", 0, "C")
 		left = left + width
 		week_f = week_f+7
 	end

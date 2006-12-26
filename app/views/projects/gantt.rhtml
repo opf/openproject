@@ -42,6 +42,7 @@
   border-bottom: 1px solid #c0c0c0;
   border-right: 1px solid #c0c0c0;
   text-align: center;
+  overflow: hidden;
 }
 
 .task {
@@ -102,7 +103,7 @@ t_height = g_height + headers_heigth
 top = headers_heigth + 8
 @issues.each do |i| %>
 	<div style="position: absolute;line-height:1em;height:16px;top:<%= top %>px;left:4px;width:<%= subject_width - 5 %>px;overflow:hidden;">
-	<small><%= link_to "#{i.tracker.name} ##{i.id}", :controller => 'issues', :action => 'show', :id => i %>:
+	<small><%= link_to "#{i.tracker.name} ##{i.id}", { :controller => 'issues', :action => 'show', :id => i }, :title => "#{i.subject}" %>:
 	<%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
 	</div>
 <% top = top + 20
@@ -151,11 +152,11 @@ if show_weeks
 		left = left + width+1
 	end %>
 	<%
-	while week_f < @date_to
+	while week_f <= @date_to
 		width = (week_f + 6 <= @date_to) ? 7 * zoom -1 : (@date_to - week_f + 1) * zoom-1
 		%>
 		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="m_bg">
-		<small><%= week_f.cweek %></small>
+		<small><%= week_f.cweek if width >= 16 %></small>
 		</div>
 		<% 
 		left = left + width+1
