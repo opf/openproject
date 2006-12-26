@@ -204,12 +204,14 @@ class ProjectsController < ApplicationController
       @issue.attributes = params[:issue]
       @issue.author_id = self.logged_in_user.id if self.logged_in_user
       # Multiple file upload
+      @attachments = []
       params[:attachments].each { |a|
-        @attachment = @issue.attachments.build(:file => a, :author => self.logged_in_user) unless a.size == 0
+        @attachments << Attachment.new(:container => @issue, :file => a, :author => logged_in_user) unless a.size == 0
       } if params[:attachments] and params[:attachments].is_a? Array
       @custom_values = @project.custom_fields_for_issues(@tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
-      @issue.custom_values = @custom_values			
+      @issue.custom_values = @custom_values
       if @issue.save
+        @attachments.each(&:save)
         flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_issue_add(@issue) if Permission.find_by_controller_and_action(@params[:controller], @params[:action]).mail_enabled?
         redirect_to :action => 'list_issues', :id => @project
