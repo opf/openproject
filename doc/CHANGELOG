@@ -26,6 +26,7 @@ http://redmine.org/
 * calendar date picker for date fields (LGPL DHTML Calendar http://sourceforge.net/projects/jscalendar)
 * new filter in issues list: Author
 * ajaxified paginators
+* news rss feed added
 * option to set number of results per page on issues list
 * localized csv separator (comma/semicolon)
 * csv output encoded to ISO-8859-1

@@ -21,3 +21,7 @@
 		</ul>
 	</div>  
 </div>	
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:rss, {:controller => 'feeds' , :action => 'news' }) %>
+<% end %>
