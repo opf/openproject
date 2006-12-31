@@ -56,7 +56,7 @@ class Permission < ActiveRecord::Base
         find(:all, :include => :roles).each {|p| perms.store "#{p.controller}/#{p.action}", p.roles.collect {|r| r.id } }
         perms
       end
-    @@cached_perms_for_roles[action] and @@cached_perms_for_roles[action].include? role
+    allowed_to_public(action) or (@@cached_perms_for_roles[action] and @@cached_perms_for_roles[action].include? role)
   end
   
   def self.allowed_to_role_expired
