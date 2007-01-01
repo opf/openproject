@@ -35,11 +35,20 @@ class Project < ActiveRecord::Base
   validates_associated :repository
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
-  # returns 5 last created projects
-  def self.latest
-    find(:all, :limit => 5, :order => "created_on DESC")	
+  # returns latest created projects
+  # non public projects will be returned only if user is a member of those
+  def self.latest(user=nil, count=5)
+    find(:all, :limit => count, :conditions => visible_by(user), :order => "projects.created_on DESC")	
   end	
 
+  def self.visible_by(user=nil)
+    if user && !user.memberships.empty?
+      return ["projects.is_public = ? or projects.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')})", true]
+    else
+      return ["projects.is_public = ?", true]
+    end
+  end
+  
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   def custom_fields_for_issues(tracker)
