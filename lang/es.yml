@@ -295,6 +295,7 @@ label_modified: modificado
 label_deleted: suprimido
 label_latest_revision: La revisión más última
 label_view_revisions: Ver las revisiones
+label_max_size: Tamaño máximo
 
 button_login: Conexión
 button_submit: Someter

@@ -63,3 +63,7 @@
 # Textile formatting is automativaly disabled if RedCloth is not available
 # Set to true to manually disable.
 # $RDM_TEXTILE_DISABLED = true
+
+# Maximum size for attachments (in bytes)
+# Default to 5 MB
+# $RDM_ATTACHMENT_MAX_SIZE = 5*1024*1024

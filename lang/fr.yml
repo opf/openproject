@@ -296,6 +296,7 @@ label_modified: modifié
 label_deleted: supprimé
 label_latest_revision: Dernière révision
 label_view_revisions: Voir les révisions
+label_max_size: Taille maximale
 
 button_login: Connexion
 button_submit: Soumettre

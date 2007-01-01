@@ -295,6 +295,7 @@ label_modified: geändert
 label_deleted: gelöscht
 label_latest_revision: Neueste Neuausgabe
 label_view_revisions: Die Neuausgaben ansehen
+label_max_size: Maximale Größe
 
 button_login: Einloggen
 button_submit: Einreichen

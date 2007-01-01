@@ -6,7 +6,7 @@
 <div class="box">
 <p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>&nbsp;
 <%= link_to_function image_tag('add'), "addFileField()" %></label>
-<%= file_field_tag 'attachments[]', :size => 30  %></p>
+<%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= human_size(Attachment.max_size) %>)</em></p>
 </div>
 
 <%= submit_tag l(:button_create) %>

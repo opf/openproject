@@ -21,8 +21,12 @@ class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
   
+  @@max_size = $RDM_ATTACHMENT_MAX_SIZE || 5*1024*1024
+  cattr_reader :max_size
+
   validates_presence_of :container, :filename
-	
+  validates_inclusion_of :filesize, :in => 1..@@max_size
+  
 	def file=(incomming_file)
 		unless incomming_file.nil?
 			@temp_file = incomming_file
