@@ -1,9 +1,22 @@
-desc 'Load default configuration data (using default language)'
+desc 'Load default configuration data'
 
 task :load_default_data => :environment do
   include GLoc
   set_language_if_valid($RDM_DEFAULT_LANG)
-
+  puts
+  
+  while true
+    print "Select language: "
+    print GLoc.valid_languages.sort {|x,y| x.to_s <=> y.to_s }.join(", ")
+    print " [#{GLoc.current_language}] "
+    lang = STDIN.gets.chomp!
+    break if lang.empty?
+    break if set_language_if_valid(lang)
+    puts "Unknown language!"
+  end
+    
+  puts "===================================="
+  
 begin
   # check that no data already exists
   if Role.find(:first)
@@ -19,7 +32,7 @@ begin
     raise "Some enumerations are already defined."
   end
     
-  puts "Loading default configuration for language: #{current_language}"
+  puts "Loading default configuration data for language: #{current_language}"
  
   # roles
   manager = Role.create :name => l(:default_role_manager) 
@@ -83,6 +96,6 @@ begin
   
 rescue => error
   puts "Error: " + error
-  puts "Default configuration can't be loaded."
+  puts "Default configuration data can't be loaded."
 end
 end
