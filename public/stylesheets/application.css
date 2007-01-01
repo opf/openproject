@@ -204,6 +204,7 @@ blockquote {
 
 input, select {
 	vertical-align: middle;
+	margin-bottom: 4px;
 }
 
 input.button-small 

@@ -7,8 +7,9 @@
 <p><label for="version_id"><%=l(:field_version)%> <span class="required">*</span></label>
 <%= select_tag "version_id", options_from_collection_for_select(@versions, "id", "name") %></p>
 
-<p><label for="attachment_file"><%=l(:label_attachment)%> <span class="required">*</span></label>
-<%= file_field 'attachment', 'file'  %></p>
+<p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>&nbsp;
+<%= link_to_function image_tag('add'), "addFileField()" %></label>
+<%= file_field_tag 'attachments[]', :size => 30  %></p>
 </div>
 <%= submit_tag l(:button_add) %>
 <%= end_form_tag %> 

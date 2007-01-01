@@ -4,8 +4,9 @@
 <%= render :partial => 'documents/form' %>
 
 <div class="box">
-<p><label for="attachment_file"><%=l(:label_attachment)%></label>
-<%= file_field 'attachment', 'file' %></p>
+<p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>&nbsp;
+<%= link_to_function image_tag('add'), "addFileField()" %></label>
+<%= file_field_tag 'attachments[]', :size => 30  %></p>
 </div>
 
 <%= submit_tag l(:button_create) %>

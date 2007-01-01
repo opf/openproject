@@ -46,12 +46,10 @@ class DocumentsController < ApplicationController
   end 
   
   def add_attachment
-    # Save the attachment
-    if params[:attachment][:file].size > 0
-      @attachment = @document.attachments.build(params[:attachment])      
-      @attachment.author_id = self.logged_in_user.id if self.logged_in_user
-      @attachment.save
-    end
+    # Save the attachments
+    params[:attachments].each { |a|
+      Attachment.create(:container => @document, :file => a, :author => logged_in_user) unless a.size == 0
+    } if params[:attachments] and params[:attachments].is_a? Array
     redirect_to :action => 'show', :id => @document
   end
   

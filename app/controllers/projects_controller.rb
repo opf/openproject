@@ -174,16 +174,13 @@ class ProjectsController < ApplicationController
   def add_document
     @categories = Enumeration::get_values('DCAT')
     @document = @project.documents.build(params[:document])    
-    if request.post?			
-      # Save the attachment
-      if params[:attachment][:file].size > 0
-        @attachment = @document.attachments.build(params[:attachment])				
-        @attachment.author_id = self.logged_in_user.id if self.logged_in_user
-      end      
-      if @document.save
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :action => 'list_documents', :id => @project
-      end		
+    if request.post? and @document.save	
+      # Save the attachments
+      params[:attachments].each { |a|
+        Attachment.create(:container => @document, :file => a, :author => logged_in_user) unless a.size == 0
+      } if params[:attachments] and params[:attachments].is_a? Array
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to :action => 'list_documents', :id => @project
     end
   end
   
@@ -360,14 +357,13 @@ class ProjectsController < ApplicationController
   end
 
   def add_file
-    @attachment = Attachment.new(params[:attachment])
-    if request.post? and params[:attachment][:file].size > 0        
-      @attachment.container = @project.versions.find_by_id(params[:version_id])
-      @attachment.author = logged_in_user
-      if @attachment.save
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'projects', :action => 'list_files', :id => @project
-      end
+    if request.post?
+      @version = @project.versions.find_by_id(params[:version_id])
+      # Save the attachments
+      params[:attachments].each { |a|
+        Attachment.create(:container => @version, :file => a, :author => logged_in_user) unless a.size == 0
+      } if params[:attachments] and params[:attachments].is_a? Array
+      redirect_to :controller => 'projects', :action => 'list_files', :id => @project
     end
     @versions = @project.versions
   end
