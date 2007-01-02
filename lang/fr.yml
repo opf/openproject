@@ -61,7 +61,7 @@ notice_successful_create: Création effectuée avec succès.
 notice_successful_update: Mise à jour effectuée avec succès.
 notice_successful_delete: Suppression effectuée avec succès.
 notice_successful_connection: Connection réussie.
-notice_file_not_found: Le fichier demandé n'existe pas ou a été supprimé.
+notice_file_not_found: La page à laquelle vous souhaitez accéder n'existe pas ou a été supprimée.
 notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
 notice_scm_error: L'entrée et/ou la révision demandée n'existe pas dans le dépôt.
 
