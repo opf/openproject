@@ -139,7 +139,6 @@ background-color: #80b0da;
 .picMove { background: url(../images/move.png) no-repeat 4px 50%; }
 .picCheck { background: url(../images/check.png) no-repeat 4px 70%; }
 .picPdf { background: url(../images/pdf.png) no-repeat 4px 50%;}
-.picCsv { background: url(../images/csv.png) no-repeat 4px 50%;}
 
 .pic { padding-left: 18px; margin-left: 3px; }
 
