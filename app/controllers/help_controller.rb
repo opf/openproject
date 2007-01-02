@@ -36,7 +36,7 @@ class HelpController < ApplicationController
     if template
       redirect_to "/manual/#{lang}/#{template}"
     else
-      redirect_to "/manual/#{lang}/"
+      redirect_to "/manual/#{lang}/index.html"
     end
   end
 
