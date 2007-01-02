@@ -1,4 +1,7 @@
 <% if @query.new_record? %>
+    <div class="contextual">
+    <%= render :partial => 'issues/add_shortcut', :locals => {:trackers => @trackers } %>
+    </div>
     <h2><%=l(:label_issue_plural)%></h2>
     
     <%= start_form_tag({:action => 'list_issues'}, :id => 'query_form') %>
@@ -24,12 +27,13 @@
     </div>
     <br />
 <% else %>
-    <% if authorize_for('projects', 'add_query') %>
     <div class="contextual">
-        <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'pic picEdit' %>
-        <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+        <%= render :partial => 'issues/add_shortcut', :locals => {:trackers => @trackers } %>
+        <% if authorize_for('projects', 'add_query') %>
+            <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'pic picEdit' %>
+            <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+        <% end %>
     </div>    
-    <% end %>
     <h2><%= @query.name %></h2>
 <% end %>
 <%= error_messages_for 'query' %>

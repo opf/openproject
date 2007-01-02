@@ -13,6 +13,9 @@
 	</ul>	
 
   <div class="box">
+    <div class="contextual">
+    <%= render :partial => 'issues/add_shortcut', :locals => {:trackers => @trackers } %>
+    </div>
     <h3><%= image_tag "tracker" %> <%=l(:label_tracker_plural)%></h3>
     <ul>
     <% for tracker in @trackers %>    
@@ -24,14 +27,6 @@
       </li>
     <% end %>
     </ul>
-    <% if authorize_for 'projects', 'add_issue' %>
-        &#187; <%=l(:label_issue_new)%>:
-        <ul>
-        <% @trackers.each do |tracker| %>
-        <li><%= link_to tracker.name, :controller => 'projects', :action => 'add_issue', :id => @project, :tracker_id => tracker %></li>
-        <% end %>
-        </ul>
-    <% end %>
     <center><small><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></small></center>
   </div>
 </div>

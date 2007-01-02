@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -239,7 +239,8 @@ class ProjectsController < ApplicationController
   						:conditions => @query.statement,
   						:limit  =>  @issue_pages.items_per_page,
   						:offset =>  @issue_pages.current.offset						
-    end
+    end    
+    @trackers = Tracker.find :all
     render :layout => false if request.xhr?
   end
 
