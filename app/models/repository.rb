@@ -18,7 +18,7 @@
 class Repository < ActiveRecord::Base
   belongs_to :project
   validates_presence_of :url
-  validates_format_of :url, :with => /^(http|https|svn):\/\/.+/i
+  validates_format_of :url, :with => /^(http|https|svn|file):\/\/.+/i
   
   @scm = nil
     
