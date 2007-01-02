@@ -39,8 +39,7 @@ class VersionsController < ApplicationController
     @attachment.increment_download
     send_file @attachment.diskfile, :filename => @attachment.filename
   rescue
-    flash.now[:notice] = l(:notice_file_not_found)
-    render :text => "", :layout => true, :status => 404
+    render_404
   end 
   
   def destroy_file
@@ -53,5 +52,7 @@ private
   def find_project
     @version = Version.find(params[:id])
     @project = @version.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end  
 end

@@ -500,8 +500,8 @@ private
   def find_project
     @project = Project.find(params[:id])
     @html_title = @project.name
-  rescue
-    redirect_to :action => 'list'			
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
   
   # Retrieve query from session or build a new query

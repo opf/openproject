@@ -51,8 +51,10 @@ class NewsController < ApplicationController
 	end
   
 private
-	def find_project
+  def find_project
     @news = News.find(params[:id])
-		@project = @news.project
-	end  
+    @project = @news.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end  
 end

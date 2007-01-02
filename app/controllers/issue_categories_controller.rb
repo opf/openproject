@@ -35,8 +35,10 @@ class IssueCategoriesController < ApplicationController
   end
 
 private
-	def find_project
+  def find_project
     @category = IssueCategory.find(params[:id])
-		@project = @category.project
-	end    
+    @project = @category.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end    
 end

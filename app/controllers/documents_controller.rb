@@ -41,8 +41,7 @@ class DocumentsController < ApplicationController
     @attachment.increment_download
     send_file @attachment.diskfile, :filename => @attachment.filename
   rescue
-    flash.now[:notice] = l(:notice_file_not_found)
-    render :text => "", :layout => true, :status => 404
+    render_404
   end 
   
   def add_attachment
@@ -62,5 +61,7 @@ private
   def find_project
     @document = Document.find(params[:id])
     @project = @document.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end  
 end

@@ -132,8 +132,7 @@ class IssuesController < ApplicationController
     @attachment = @issue.attachments.find(params[:attachment_id])
     send_file @attachment.diskfile, :filename => @attachment.filename
   rescue
-    flash.now[:notice] = l(:notice_file_not_found)
-    render :text => "", :layout => true, :status => 404
+    render_404
   end
 
 private
@@ -141,5 +140,7 @@ private
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
     @project = @issue.project
     @html_title = "#{@project.name} - #{@issue.tracker.name} ##{@issue.id}"
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end  
 end

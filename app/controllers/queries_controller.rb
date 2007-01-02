@@ -45,5 +45,7 @@ private
     @project = @query.project
     # check if user is allowed to manage queries (same permission as add_query)
     authorize('projects', 'add_query')
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

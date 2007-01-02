@@ -63,6 +63,8 @@ private
     @path = params[:path].squeeze('/').gsub(/^\//, '') if params[:path]
     @path ||= ''
     @rev = params[:rev].to_i if params[:rev] and params[:rev].to_i > 0
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def show_error

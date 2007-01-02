@@ -104,6 +104,12 @@ class ApplicationController < ActionController::Base
       session[:return_to] = nil
     end
   end
+  
+  def render_404
+    @html_title = "404"
+    render :template => "common/404", :layout => true, :status => 404
+    return false
+  end
 
   # qvalues http header parser
   # code taken from webrick

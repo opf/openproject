@@ -28,6 +28,8 @@ class AccountController < ApplicationController
   def show
     @user = User.find(params[:id])
     @custom_values = @user.custom_values.find(:all, :include => :custom_field)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   # Login request and validation

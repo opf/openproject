@@ -98,10 +98,12 @@ class ReportsController < ApplicationController
   end
   
 private
-	# Find project of id params[:id]
-	def find_project
-		@project = Project.find(params[:id])		
-	end
+  # Find project of id params[:id]
+  def find_project
+    @project = Project.find(params[:id])		
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
 	
 	def issues_by_tracker
     @issues_by_tracker ||= 
