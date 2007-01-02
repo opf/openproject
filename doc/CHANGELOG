@@ -1,11 +1,11 @@
 == redMine changelog
 
 redMine - project management software
-Copyright (C) 2006  Jean-Philippe Lang
-http://redmine.org/
+Copyright (C) 2006-2007  Jean-Philippe Lang
+http://redmine.rubyforge.org/
 
 
-== xx/xx/2006 v0.x.x
+== xx/xx/2006 v0.4.0
 
 * simple SVN browser added (just needs svn binaries in PATH)
 * comments can now be added on news
@@ -20,7 +20,8 @@ http://redmine.org/
 * gantt chart added (exportable to pdf)
 * single/multiple issues pdf export added
 * issues reports improvements
-* multiple file upload for issues attachments
+* multiple file upload for issues, documents and files
+* option to set maximum size of uploaded files
 * textile formating of issue and news descritions (RedCloth required)
 * integration of DotClear jstoolbar for textile formatting
 * calendar date picker for date fields (LGPL DHTML Calendar http://sourceforge.net/projects/jscalendar)
@@ -32,10 +33,14 @@ http://redmine.org/
 * csv output encoded to ISO-8859-1
 * user custom field displayed on account/show
 * default configuration improved (default roles, trackers, status, permissions and workflows)
+* language for default configuration data can now be chosen when running 'load_default_data' task
 * javascript added on custom field form to show/hide fields according to the format of custom field
 * fixed: custom fields not in csv exports
 * fixed: project settings now displayed according to user's permissions
 * fixed: application error when no version is selected on projects/add_file
+* fixed: public actions not authorized for members of non public projects
+* fixed: non public projects were shown on welcome screen even if current user is not a member
+
 
 == 10/08/2006 v0.3.0
 

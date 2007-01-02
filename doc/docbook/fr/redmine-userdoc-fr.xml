@@ -2,10 +2,16 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <book>
-  <title>Documentation redMine</title>
+  <title>Documentation</title>
 
   <chapter>
     <title>Administration</title>
+
+    <section>
+      <title>Projets</title>
+
+      <para>Ces écrans vous permettent de gérer les projets.</para>
+    </section>
 
     <section>
       <title>Utilisateurs</title>
@@ -28,18 +34,41 @@
           </mediaobject>
         </screenshot>
 
-        <para>Les boutons Lock/Unlock vous permettent de
-        vérouiller/dévérouiller les comptes utilisateurs.</para>
+        <para>Statut des comptes:</para>
 
-        <para>Un utilisateur dont le compte est vérouillé ne peut plus
-        s'identifier pour accéder à l'application.</para>
+        <itemizedlist>
+          <listitem>
+            <para>L'icône <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="images/locked.png" />
+                </imageobject>
+              </inlinemediaobject> signifie que le compte est vérouillé. Un
+            utilisateur dont le compte est vérouillé ne peut plus s'identifier
+            pour accéder à l'application.</para>
+          </listitem>
+
+          <listitem>
+            <para>L'icône <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="images/user_new.png" />
+                </imageobject>
+              </inlinemediaobject> signifie que le compte n'a pas encore été
+            activé par l'utilisateur .</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Les boutons Vérouiller/Dévérouiller vous permettent de bloquer
+        ou débloquer les comptes utilisateurs.</para>
+
+        <para></para>
       </section>
 
       <section>
         <title>Création ou modification d'un utilisateur</title>
 
-        <para>En mode modification, laissez le champ Password vide pour
-        laisser le mot de passe de l'utilisateur inchangé.</para>
+        <para>En mode modification, laissez le champ <guilabel>Mot de
+        passe</guilabel> vide pour laisser le mot de passe de l'utilisateur
+        inchangé.</para>
 
         <para>Un utilisateur déclaré comme administrateur dispose de toutes
         les permissions sur l'application et sur tous les projets.</para>
@@ -76,6 +105,20 @@
 
       <para>Sur l'écran d'édition du rôle, cochez les actions que vous
       souhaitez autoriser pour le rôle.</para>
+
+      <para></para>
+
+      <screenshot>
+        <screeninfo>Rôle et permissions</screeninfo>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/roles_edit.png" />
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+      <para></para>
     </section>
 
     <section>
@@ -99,7 +142,12 @@
         </listitem>
 
         <listitem>
-          <para><guilabel>Chaîne</guilabel>: chaîne de caractère</para>
+          <para><guilabel>Texte</guilabel>: chaîne de caractères</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Texte long</guilabel>: chaîne de caractères, avec
+          champ à plusieurs lignes</para>
         </listitem>
 
         <listitem>
@@ -325,7 +373,7 @@
       <para></para>
 
       <section>
-        <title>Déclaration d'un annuaire LDAP</title>
+        <title>Annuaire LDAP</title>
 
         <para></para>
 
@@ -420,6 +468,71 @@
     </section>
 
     <section>
+      <title>Planning</title>
+
+      <para></para>
+
+      <section>
+        <title>Calendrier du projet</title>
+
+        <para>Le calendrier présente les tâches qui commencent ou se terminent
+        au cours du mois sélectionné (mois en cours par défaut). Les tâches
+        correspondent aux demandes pour lesquelles la date de début et
+        d'échéance sont renseignées.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Le symoble <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="images/arrow_from.png" />
+                </imageobject>
+              </inlinemediaobject> représente le début d'une tâche</para>
+          </listitem>
+
+          <listitem>
+            <para>Le symbole <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="images/arrow_to.png" />
+                </imageobject>
+              </inlinemediaobject> représente la fin d'une tâche</para>
+          </listitem>
+
+          <listitem>
+            <para>Le symbole <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="images/arrow_bw.png" />
+                </imageobject>
+              </inlinemediaobject> représente une tâche qui débute et se
+            termine le jour même</para>
+          </listitem>
+        </itemizedlist>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Diagramme de Gantt</title>
+
+        <para>Le diagramme de Gantt représente pour la période choisie
+        l'ensemble des tâches et leurs taux d'avancement.</para>
+
+        <para>L'avancement est représenté en bleu. Le retard en rouge.</para>
+
+        <screenshot>
+          <screeninfo>Diagramme de Gantt</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/gantt.png" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <para></para>
+      </section>
+    </section>
+
+    <section>
       <title>Gestion des demandes</title>
 
       <para></para>
@@ -429,13 +542,11 @@
 
         <para>Par défaut, l'ensemble des demandes ouvertes du projet sont
         affichées. Différents filtres vous permettent de sélectionner les
-        demandes à afficher. Si le projet comporte des sous-projets, vous avez
-        la possibilité d'afficher également les demandes relatives aux
-        sous-projets (non affichées par défaut).</para>
+        demandes à afficher.</para>
 
         <para>Une fois appliqué, un filtre reste valable durant toute votre
         session. Vous pouvez le redéfinir, ou le supprimer en cliquant sur
-        Annuler.</para>
+        Effacer.</para>
 
         <para></para>
 
@@ -513,9 +624,9 @@
 
           <listitem>
             <para><guilabel>Champs personnalisés</guilabel>: sélectionner les
-            champs personnalisés que vous souhaitez utiliser pour les demandes
-            du projet. Seul l'administrateur peut définir de nouveaux champs
-            personnalisés.</para>
+            champs personnalisésMo que vous souhaitez utiliser pour les
+            demandes du projet. Seul l'administrateur peut définir de nouveaux
+            champs personnalisés.</para>
           </listitem>
         </itemizedlist>
 
@@ -525,8 +636,8 @@
       <section>
         <title>Membres</title>
 
-        <para>Cet écran vous permet de définir les membres du projet ainsi que
-        leurs rôles respectifs. Un utilisateur ne peut avoir qu'un rôle au
+        <para>Cett section vous permet de définir les membres du projet ainsi
+        que leurs rôles respectifs. Un utilisateur ne peut avoir qu'un rôle au
         sein d'un projet donné. Le rôle d'un membre détermine les permissions
         dont il bénéficie sur le projet.</para>
       </section>
@@ -547,7 +658,92 @@
         <para>Les catégories de demande vous permettent de typer les demandes.
         Les catégories peuvent par exemple correspondre aux différents modules
         du projet.</para>
+
+        <para>Une catégorie référencée sur des demandes ne peut pas être
+        supprimée.</para>
+
+        <para></para>
       </section>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Comptes utilisateurs</title>
+
+    <para></para>
+
+    <section>
+      <title>Mon compte</title>
+
+      <para></para>
+
+      <section>
+        <title>Informations</title>
+
+        <para>Cet écran vous permet de modifier les informations relatives à
+        votre compte: nom, prénom, adresse mail, langue (Anglais, Allemand,
+        Espagnol ou Français).</para>
+
+        <para>Si la case <guilabel>Notifications par mail</guilabel> est
+        décochée, aucune notification par mail ne vous sera envoyée.</para>
+      </section>
+
+      <section>
+        <title>Changement de mot de passe</title>
+
+        <para>Pour changer votre mot de passe, saisissez votre mot de passe
+        actuel et le nouveau mot de passe souhaité (double saisie pour
+        confirmation). Le mot de passe doit avoir une longueur comprise entre
+        4 et 12 caractères.</para>
+
+        <para>Si votre compte utilise une authentification externe (un
+        annuaire LDAP), vous ne pouvez pas changer votre mot de passe dans
+        redMine.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Ma page</title>
+
+      <para>Cette page vous permet d'afficher de manière synthétique des
+      informations sur vos projets.</para>
+
+      <para>Pour personnaliser votre page, cliquer sur le lien
+      <guilabel>Personnaliser cette page</guilabel>. Vous pouvez alors
+      sélectionner les informations à afficher et les positionner où vous le
+      souhaitez sur la page, par glisser-déposer.</para>
+    </section>
+
+    <section>
+      <title>Mot de passe perdu</title>
+
+      <para>En cas de perte de votre mot de passe, une procédure par mail vous
+      permet d'en choisir un nouveau.</para>
+
+      <para>Sur l'écran d'authentification, cliquez sur <guilabel>Mot de passe
+      perdu</guilabel>. Saisissez ensuite votre adresse mail dans le champ
+      prévu et validez. Un mail vous est alors transmis. Il contient un lien
+      qui vous permettra d'accéder à la page de choix du nouveau mot de
+      passe.</para>
+
+      <para>Si votre compte utilise une authentification externe (un annuaire
+      LDAP), cette procédure n'est pas disponible.</para>
+    </section>
+
+    <section>
+      <title>S'enregistrer</title>
+
+      <para>L'enregistrement vous permet d'obtenir un compte sans intervention
+      de l'administrateur.</para>
+
+      <para>Sur l'écran d'authentification, cliquez sur
+      <guilabel>S'enregistrer</guilabel>. Complétez le formulaire
+      d'inscription et validez. Un mail vous est alors transmis. Pour activer
+      votre compte, utilisez le lien présent dans le mail qui vous a été
+      envoyé.</para>
+
+      <para>La possibilité de s'enregistrer peut avoir été désactivée par
+      l'administrateur.</para>
     </section>
   </chapter>
 </book>
