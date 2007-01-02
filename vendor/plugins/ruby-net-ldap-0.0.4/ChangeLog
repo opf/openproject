@@ -1,0 +1,58 @@
+= Net::LDAP Changelog
+
+== Net::LDAP 0.0.4: August 15, 2006
+* Undeprecated Net::LDAP#modify. Thanks to Justin Forder for
+  providing the rationale for this.
+* Added a much-expanded set of special characters to the parser
+  for RFC-2254 filters. Thanks to Andre Nathan.
+* Changed Net::LDAP#search so you can pass it a filter in string form.
+  The conversion to a Net::LDAP::Filter now happens automatically.
+* Implemented Net::LDAP#bind_as (preliminary and subject to change).
+  Thanks for Simon Claret for valuable suggestions and for helping test.
+* Fixed bug in Net::LDAP#open that was preventing #open from being
+  called more than one on a given Net::LDAP object.
+
+== Net::LDAP 0.0.3: July 26, 2006
+* Added simple TLS encryption.
+  Thanks to Garett Shulman for suggestions and for helping test.
+
+== Net::LDAP 0.0.2: July 12, 2006
+* Fixed malformation in distro tarball and gem.
+* Improved documentation.
+* Supported "paged search control."
+* Added a range of API improvements.
+* Thanks to Andre Nathan, andre@digirati.com.br, for valuable
+  suggestions.
+* Added support for LE and GE search filters.
+* Added support for Search referrals.
+* Fixed a regression with openldap 2.2.x and higher caused
+  by the introduction of RFC-2696 controls. Thanks to Andre
+  Nathan for reporting the problem.
+* Added support for RFC-2254 filter syntax.
+
+== Net::LDAP 0.0.1: May 1, 2006
+* Initial release.
+* Client functionality is near-complete, although the APIs
+  are not guaranteed and may change depending on feedback
+  from the community.
+* We're internally working on a Ruby-based implementation
+  of a full-featured, production-quality LDAP server,
+  which will leverage the underlying LDAP and BER functionality
+  in Net::LDAP.
+* Please tell us if you would be interested in seeing a public
+  release of the LDAP server.
+* Grateful acknowledgement to Austin Ziegler, who reviewed
+  this code and provided the release framework, including
+  minitar.
+
+#--
+# Net::LDAP for Ruby.
+#   http://rubyforge.org/projects/net-ldap/
+#   Copyright (C) 2006 by Francis Cianfrocca
+#
+#   Available under the same terms as Ruby. See LICENCE in the main
+#   distribution for full licensing information.
+#
+# $Id: ChangeLog,v 1.17.2.4 2005/09/09 12:36:42 austin Exp $
+#++
+# vim: sts=2 sw=2 ts=4 et ai tw=77
