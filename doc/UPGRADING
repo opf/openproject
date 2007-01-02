@@ -1,0 +1,22 @@
+== redMine upgrade procedure
+
+redMine - project management software
+Copyright (C) 2006-2007  Jean-Philippe Lang
+http://redmine.rubyforge.org/
+
+== From 0.3.0
+
+1. Uncompress program archive in a new directory:
+   tar zxvf <filename>
+   
+3. Copy your database (database.yml) and configuration settings (config_custom.rb)
+   into the new config directory
+   
+4. Migrate your database:
+   rake migrate RAILS_ENV="production"
+   
+   
+== From 0.2.x and previous
+
+Due to major database changes since 0.2.x, there is no migration support
+from 0.2.x and previous versions.

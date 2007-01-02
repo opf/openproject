@@ -5,7 +5,7 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://redmine.rubyforge.org/
 
 
-== xx/xx/2006 v0.4.0
+== 01/02/2006 v0.4.0
 
 * simple SVN browser added (just needs svn binaries in PATH)
 * comments can now be added on news

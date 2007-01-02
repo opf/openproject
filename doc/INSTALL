@@ -12,7 +12,7 @@ http://redmine.rubyforge.org/
 * A database (see compatibility below)
 
 Optional:
-* RedCloth (for textile formatting)
+* RedCloth (to enable textile formatting)
 
 Supported databases:
 * MySQL (tested with MySQL 5)
@@ -20,12 +20,6 @@ Supported databases:
 * Oracle (tested with Oracle 10g)
 * SQL Server (tested with SQL Server 2005)
 * SQLite (tested with SQLite 3)
-
-
-== Upgrade
-
-Due to major database changes, there is no migration support from beta 0.2.0.
-Next releases (0.3.0+) will be provided with upgrade support.
 
 
 == Installation
@@ -64,10 +58,14 @@ Next releases (0.3.0+) will be provided with upgrade support.
 == Configuration
 
 A sample configuration file is provided: "config/config_custom.example.rb"
-Rename it to config_custom.rb and edit parameters.
+Rename it to config_custom.rb and set your parameters.
 Don't forget to restart the application after any change.
 
-
+In config/environment.rb, you can set parameters for your SMTP server:
 config.action_mailer.server_settings: SMTP server configuration
 config.action_mailer.perform_deliveries: set to false to disable mail delivering
 
+
+== Upgrading
+
+See UPGRADING

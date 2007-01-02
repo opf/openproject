@@ -239,16 +239,16 @@ label_confirmation: Confirmation
 label_export_to: Export to
 label_read: Read...
 label_public_projects: Public projects
-label_open_issues: Open
-label_open_issues_plural: Open
-label_closed_issues: Closed
-label_closed_issues_plural: Closed
+label_open_issues: open
+label_open_issues_plural: open
+label_closed_issues: closed
+label_closed_issues_plural: closed
 label_total: Total
 label_permissions: Permissions
 label_current_status: Current status
 label_new_statuses_allowed: New statuses allowed
-label_all: All
-label_none: None
+label_all: all
+label_none: none
 label_next: Next
 label_previous: Previous
 label_used_by: Used by
