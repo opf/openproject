@@ -5,14 +5,14 @@
 
 <h2><%=h @news.title %></h2>
 
-<p><em><%=h @news.summary %><br />
+<p><em><% unless @news.summary.empty? %><%=h @news.summary %><br /><% end %>
 <%= @news.author.display_name %>, <%= format_time(@news.created_on) %></em></p>
 <br />
 <%= textilizable auto_link @news.description %>
 <br />
 
 <div id="comments" style="margin-bottom:16px;">
-<h3><%= l(:label_comment_plural) %></h3>
+<h3 class="icon comment"><%= l(:label_comment_plural) %></h3>
 <% @news.comments.each do |comment| %>
     <% next if comment.new_record? %>
     <h4><%= format_time(comment.created_on) %> - <%= comment.author.name %></h4>
