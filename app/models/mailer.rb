@@ -21,7 +21,7 @@ class Mailer < ActionMailer::Base
 
   def issue_add(issue)
     # Sends to all project members
-    @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
+    @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }.compact
     @from           = $RDM_MAIL_FROM
     @subject        = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
     @body['issue']  = issue
@@ -30,7 +30,7 @@ class Mailer < ActionMailer::Base
   def issue_edit(journal)
     # Sends to all project members
     issue = journal.journalized
-    @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
+    @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }.compact
     @from           = $RDM_MAIL_FROM
     @subject        = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
     @body['issue']  = issue
