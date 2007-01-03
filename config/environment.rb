@@ -112,7 +112,7 @@ $RDM_TEXTILE_DISABLED = true unless ActionView::Helpers::TextHelper.method_defin
 # application name
 RDM_APP_NAME = "redMine" 
 # application version
-RDM_APP_VERSION = "0.4.0"
+RDM_APP_VERSION = "0.4.1"
 
 ActiveRecord::Errors.default_error_messages = {
   :inclusion => "activerecord_error_inclusion",
