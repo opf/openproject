@@ -9,7 +9,7 @@
 	height: 16px;
 	font-size: 0.1em;
 	cursor: s-resize;
-	background: transparent url(img/resizer.png) no-repeat 45% 50%;
+	/*background: transparent url(img/resizer.png) no-repeat 45% 50%;*/
 }
 
 .jstElements {
