@@ -5,6 +5,11 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://redmine.rubyforge.org/
 
 
+== 03/02/2006 v0.4.1
+
+* fixed: emails have no recipient when one of the project members has notifications disabled
+
+
 == 01/02/2006 v0.4.0
 
 * simple SVN browser added (just needs svn binaries in PATH)
