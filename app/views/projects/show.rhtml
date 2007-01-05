@@ -27,7 +27,7 @@
       </li>
     <% end %>
     </ul>
-    <center><small><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></small></center>
+    <p class="textcenter"><small><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></small></p>
   </div>
 </div>
 
@@ -51,12 +51,6 @@
   <div class="box">
     <h3><%=l(:label_news_latest)%></h3>  
     <%= render :partial => 'news/news', :collection => @news %>
-    <center><small><%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %></small></center>
+    <p class="textcenter"><small><%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %></small></p>
   </div>  
 </div>
-
-	
-
-
-
-	

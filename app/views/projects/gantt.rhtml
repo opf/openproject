@@ -9,12 +9,14 @@
 <tr>
 <td align="left">
 <%= start_form_tag %>
-<input type="text" name="months" size="2" value="<%= @months %>">
+<p>
+<input type="text" name="months" size="2" value="<%= @months %>" />
 <%= l(:label_months_from) %>
 <%= select_month(@month_from, :prefix => "month", :discard_type => true) %>
 <%= select_year(@year_from, :prefix => "year", :discard_type => true) %>
 <%= hidden_field_tag 'zoom', @zoom %>
 <%= submit_tag l(:button_submit), :class => "button-small" %>
+</p>
 <%= end_form_tag %>
 </td>
 <td align="right">
@@ -32,38 +34,6 @@
 </tr>
 </table>
 <br />
-
-<style>
-.m_bg {
-  position:absolute;
-  top:0;
-  height:16px;
-  border-top: 1px solid #c0c0c0;
-  border-bottom: 1px solid #c0c0c0;
-  border-right: 1px solid #c0c0c0;
-  text-align: center;
-  overflow: hidden;
-}
-
-.task {
-  position: absolute;
-  height:8px;
-  font-size:0.8em;
-  color:#888;
-  background:#aaa;
-  padding:0;
-  margin:0;
-  line-height:0.8em;
-}
-
-.task_late {
-  background:#f66;
-}
-
-.task_done {
-  background:#66f;
-}  
-</style>
 
 <% zoom = 1
 @zoom.times { zoom = zoom * 2 }
@@ -89,13 +59,13 @@ g_height = [(20 * @issues.length + 6), 206].max
 t_height = g_height + headers_heigth
 %>
 
-<table width="100%" border=0 cellspacing=0 cellpading=0>
+<table width="100%" style="border:0; border-collapse: collapse;">
 <tr>
-<td width=260>
+<td style="width:260px;">
 
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_heigth %>px;background: #eee;" class="m_bg"></div>
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;" class="m_bg"></div>
+<div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_heigth %>px;background: #eee;" class="gantt_hdr"></div>
+<div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;" class="gantt_hdr"></div>
 <%
 #
 # Tasks subjects
@@ -113,7 +83,7 @@ end %>
 <td>
 
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width %>;overflow:auto;">
-<div style="width:<%= g_width-1 %>px;height:<%= headers_heigth %>px;background: #eee;" class="m_bg">&nbsp;</div>
+<div style="width:<%= g_width-1 %>px;height:<%= headers_heigth %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
 <% 
 #
 # Months headers
@@ -124,7 +94,7 @@ height = (show_weeks ? header_heigth : header_heigth + g_height)
 @months.times do 
 	width = ((month_f >> 1) - month_f) * zoom - 1
 	%>
-	<div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="m_bg">
+	<div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
 	<%= link_to "#{month_f.year}-#{month_f.month}", { :year => month_f.year, :month => month_f.month, :zoom => @zoom, :months => @months }, :title => "#{month_name(month_f.month)} #{month_f.year}"%>
 	</div>
 	<% 
@@ -147,7 +117,7 @@ if show_weeks
 		week_f = @date_from + (7 - @date_from.cwday + 1)
 		width = (7 - @date_from.cwday + 1) * zoom-1
 		%>
-		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="m_bg">&nbsp;</div>
+		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">&nbsp;</div>
 		<% 
 		left = left + width+1
 	end %>
@@ -155,7 +125,7 @@ if show_weeks
 	while week_f <= @date_to
 		width = (week_f + 6 <= @date_to) ? 7 * zoom -1 : (@date_to - week_f + 1) * zoom-1
 		%>
-		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="m_bg">
+		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
 		<small><%= week_f.cweek if width >= 16 %></small>
 		</div>
 		<% 
@@ -175,7 +145,7 @@ if show_days
 	(@date_to - @date_from + 1).to_i.times do 
 	width =  zoom - 1
 	%>
-	<div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="m_bg">
+	<div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="gantt_hdr">
 	<%= day_name(wday)[0,1] %>
 	</div>
 	<% 
@@ -236,7 +206,6 @@ end %>
 <table width="100%">
 <tr>
 <td align="left"><%= link_to ('&#171; ' + l(:label_previous)), :year => (@date_from << @months).year, :month => (@date_from << @months).month, :zoom => @zoom, :months => @months %></td>
-<td>
 <td align="right"><%= link_to (l(:label_next) + ' &#187;'), :year => (@date_from >> @months).year, :month => (@date_from >> @months).month, :zoom => @zoom, :months => @months %></td>
 </tr>
 </table>

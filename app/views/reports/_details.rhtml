@@ -4,13 +4,13 @@
 <% col_width = 70 / (@statuses.length+3) %>
 <table class="list">
 <thead><tr>
-<th width="25%"></th>
+<th style="width:25%"></th>
 <% for status in @statuses %>
-<th width="<%= col_width %>%" style="text-align:left;"><div class="square" style="background:#<%= status.html_color %>;"></div> <small><%= status.name %></small></th>
+<th style="text-align:left;width:<%= col_width %>%"><div class="square" style="background:#<%= status.html_color %>;"></div> <small><%= status.name %></small></th>
 <% end %>
-<th align="center" width="<%= col_width %>%"><strong><%=l(:label_open_issues_plural)%></strong></th>
-<th align="center" width="<%= col_width %>%"><strong><%=l(:label_closed_issues_plural)%></strong></th>
-<th align="center" width="<%= col_width %>%"><strong><%=l(:label_total)%></strong></th>
+<th align="center" style="width:<%= col_width %>%"><strong><%=l(:label_open_issues_plural)%></strong></th>
+<th align="center" style="width:<%= col_width %>%"><strong><%=l(:label_closed_issues_plural)%></strong></th>
+<th align="center" style="width:<%= col_width %>%"><strong><%=l(:label_total)%></strong></th>
 </tr></thead>
 <tbody>
 <% for row in rows %>

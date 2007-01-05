@@ -57,7 +57,7 @@
 	<tbody>
 	<% for issue in @issues %>
 	<tr class="<%= cycle("odd", "even") %>">
-	    <th width="15"><%= check_box_tag "issue_ids[]", issue.id %></th>
+	    <th style="width:15px;"><%= check_box_tag "issue_ids[]", issue.id, false, :id => "issue_#{issue.id}" %></th>
 		<td align="center"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center"><%= issue.tracker.name %></td>
 		<td><div class="square" style="background:#<%= issue.status.html_color %>;"></div> <%= issue.status.name %></td>
@@ -74,12 +74,11 @@
 <%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'icon file' %>,
 <%= link_to 'PDF', {:action => 'export_issues_pdf', :id => @project}, :class => 'pic picPdf' %>
 </div>
-
-<%= submit_tag l(:button_move), :class => "button-small" %>
-<%= end_form_tag %>
+<p><%= submit_tag l(:button_move), :class => "button-small" %>
 &nbsp;
 <%= pagination_links_full @issue_pages %>
 [ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
-
+</p>
+<%= end_form_tag %>
 <% end %>
 <% end %>

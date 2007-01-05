@@ -1,7 +1,5 @@
 <h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
 
-<%= stylesheet_link_tag "scm" %>
-
 <table class="list">
 <thead><tr><th>@<%= @rev %></th><th>@<%= @rev_to  %></th><th></th></tr></thead>
 <tbody>
@@ -53,3 +51,7 @@ line_num_r = 0 %>
 <% end %>
 </tbody>
 </table>
+
+<% content_for :header_tags do %>
+<%= stylesheet_link_tag "scm" %>
+<% end %>

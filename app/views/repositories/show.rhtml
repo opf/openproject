@@ -1,5 +1,3 @@
-<%= stylesheet_link_tag "scm" %>
-
 <h2><%= l(:label_repository) %></h2>
 
 <h3><%= l(:label_revision_plural) %></h3>
@@ -13,3 +11,7 @@
 
 <h3><%= l(:label_browse) %></h3>
 <%= render :partial => 'dir_list' %>
+
+<% content_for :header_tags do %>
+<%= stylesheet_link_tag "scm" %>
+<% end %>

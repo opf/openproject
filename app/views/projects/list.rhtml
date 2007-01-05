@@ -9,9 +9,9 @@
   <tbody>
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
-	<td><%= link_to project.name, :action => 'show', :id => project %>
-	<td><%=h project.description %>
-	<td align="center"><%= format_date(project.created_on) %>
+	<td><%= link_to project.name, :action => 'show', :id => project %></td>
+	<td><%=h project.description %></td>
+	<td align="center"><%= format_date(project.created_on) %></td>
   </tr>
 <% end %>
   </tbody>

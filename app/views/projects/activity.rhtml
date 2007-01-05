@@ -2,16 +2,19 @@
 
 <div>
 <div class="rightbox">
-  <%= start_form_tag %>
+<%= start_form_tag %>
 <p><%= select_month(@month, :prefix => "month", :discard_type => true) %>
 <%= select_year(@year, :prefix => "year", :discard_type => true) %></p>
-    <%= check_box_tag 'show_issues', 1, @show_issues %><%= hidden_field_tag 'show_issues', 0 %> <%=l(:label_issue_plural)%><br />
-    <%= check_box_tag 'show_news', 1, @show_news %><%= hidden_field_tag 'show_news', 0 %> <%=l(:label_news_plural)%><br />
-    <%= check_box_tag 'show_files', 1, @show_files %><%= hidden_field_tag 'show_files', 0 %> <%=l(:label_attachment_plural)%><br />
-    <%= check_box_tag 'show_documents', 1, @show_documents %><%= hidden_field_tag 'show_documents', 0 %> <%=l(:label_document_plural)%><br />
-    <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
-  <%= end_form_tag %>
-  </div>
+<p>
+    <%= check_box_tag 'show_issues', 1, @show_issues %><%= hidden_field_tag 'show_issues', 0, :id => nil %> <%=l(:label_issue_plural)%><br />
+    <%= check_box_tag 'show_news', 1, @show_news %><%= hidden_field_tag 'show_news', 0, :id => nil %> <%=l(:label_news_plural)%><br />
+    <%= check_box_tag 'show_files', 1, @show_files %><%= hidden_field_tag 'show_files', 0, :id => nil %> <%=l(:label_attachment_plural)%><br />
+    <%= check_box_tag 'show_documents', 1, @show_documents %><%= hidden_field_tag 'show_documents', 0, :id => nil %> <%=l(:label_document_plural)%>
+</p>
+<p class="textcenter"><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+<%= end_form_tag %>
+</div>
+
 <% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>
   <h3><%= day_name(day.cwday) %> <%= day.day %></h3>
   <ul>

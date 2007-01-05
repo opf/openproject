@@ -1,11 +1,14 @@
-<%= stylesheet_link_tag "scm" %>
-
 <div class="contextual">
 <%= start_form_tag %>
-<%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
-<%= submit_tag 'OK' %>
+<p><%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
+<%= submit_tag 'OK' %></p>
+<%= end_form_tag %>
 </div>
 
 <h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => 'dir', :revision => @rev } %></h2>
 
 <%= render :partial => 'dir_list' %>
+
+<% content_for :header_tags do %>
+<%= stylesheet_link_tag "scm" %>
+<% end %>

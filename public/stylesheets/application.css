@@ -505,6 +505,31 @@ font-size: 0.8em;
 font-size: 1em;
 }
 
+/***** Gantt chart *****/
+.gantt_hdr {
+  position:absolute;
+  top:0;
+  height:16px;
+  border-top: 1px solid #c0c0c0;
+  border-bottom: 1px solid #c0c0c0;
+  border-right: 1px solid #c0c0c0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.task {
+  position: absolute;
+  height:8px;
+  font-size:0.8em;
+  color:#888;
+  background:#aaa;
+  padding:0;
+  margin:0;
+  line-height:0.8em;
+}
+
+.task_late { background:#f66; }
+.task_done { background:#66f; }  
 
 /***** CSS FORM ******/
 .tabular p{

@@ -1,21 +1,20 @@
 <h2><%= l(:label_calendar) %></h2>
 
+    <%= start_form_tag :action => 'calendar', :id => @project %>
 <table width="100%">
 <tr>
-<td align="left" width="150">
+<td align="left" style="width:150px">
     <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
                         {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
                         {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
                         %>
 </td>
 <td align="center">
-    <%= start_form_tag :action => 'calendar', :id => @project %>
     <%= select_month(@month, :prefix => "month", :discard_type => true) %>
     <%= select_year(@year, :prefix => "year", :discard_type => true) %>
     <%= submit_tag l(:button_submit), :class => "button-small" %>
-    <%= end_form_tag %>
 </td>
-<td align="right" width="150">
+<td align="right" style="width:150px">
     <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
                         {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
                         {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
@@ -23,6 +22,7 @@
 </td>
 </tr>
 </table>
+    <%= end_form_tag %>
 <br />
 
 <table class="list with-cells">
@@ -30,19 +30,19 @@
 <tr>
 <th></th>
 <% 1.upto(7) do |d| %>
-    <th width="14%"><%= day_name(d) %></th>
+    <th style="width:14%"><%= day_name(d) %></th>
 <% end %>
 </tr>
 </thead>
 <tbody>
-<tr height="100">
+<tr style="height:100px">
 <% day = @date_from
 while day <= @date_to
 	if day.cwday == 1 %>
 	<th><%= day.cweek %></th>
 	<% end %>	
-	<td valign="top" width="14%" class="<%= day.month==@month ? "even" : "odd" %>">
-	<p align="right"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
+	<td valign="top" style="width:14%" class="<%= day.month==@month ? "even" : "odd" %>">
+	<p class="textright"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
 	<% day_issues = []
 	@issues.each { |i| day_issues << i if i.start_date == day or i.due_date == day } 
 	day_issues.each do |i| %>	
@@ -56,7 +56,7 @@ while day <= @date_to
 		<small><%= link_to "#{i.tracker.name} ##{i.id}", { :controller => 'issues', :action => 'show', :id => i }, :title => "#{i.subject}" %>: <%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small><br />
 	<% end %>
     </td>
-	<%= '</tr><tr height="100">' if day.cwday >= 7 and day!=@date_to %>
+	<%= '</tr><tr style="height:100px">' if day.cwday >= 7 and day!=@date_to %>
 	<%
 	day = day + 1
 end %>

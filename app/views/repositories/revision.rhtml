@@ -1,9 +1,8 @@
-<%= stylesheet_link_tag "scm" %>
-
 <div class="contextual">
 <%= start_form_tag %>
-<%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
-<%= submit_tag 'OK' %>
+<p><%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
+<%= submit_tag 'OK' %></p>
+<%= end_form_tag %>
 </div>
 
 <h2><%= l(:label_revision) %> <%= @revision.identifier %></h2>
@@ -33,3 +32,7 @@
 </tbody>
 </table>
 <p><%= lwr(:label_modification, @revision.paths.length) %></p>
+
+<% content_for :header_tags do %>
+<%= stylesheet_link_tag "scm" %>
+<% end %>

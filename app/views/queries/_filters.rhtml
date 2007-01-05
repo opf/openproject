@@ -1,5 +1,5 @@
-<script>
-
+<script type="text/javascript">
+//<![CDATA[
 function add_filter() {
     select = $('add_filter_select');
     field = select.value
@@ -20,74 +20,74 @@ function toggle_filter(field) {
     check_box = $('cb_' + field);
     
     if (check_box.checked) {
-        Element.show("operators[" + field + "]");
+        Element.show("operators_" + field);
         toggle_operator(field);
     } else {
-        Element.hide("operators[" + field + "]");
-        Element.hide("values_div[" + field + "]");
+        Element.hide("operators_" + field);
+        Element.hide("div_values_" + field);
   }
 }
 
 function toggle_operator(field) {
-  operator = $("operators[" + field + "]");
+  operator = $("operators_" + field);
   switch (operator.value) {
     case "!*":
     case "*":
     case "t":
     case "o":
     case "c":
-      Element.hide("values_div[" + field + "]");
+      Element.hide("div_values_" + field);
       break;
     default:
-      Element.show("values_div[" + field + "]");
+      Element.show("div_values_" + field);
       break;
   }
 }
 
 function toggle_multi_select(field) {
-    select = $('values[' + field + '][]');
+    select = $('values_' + field);
     if (select.multiple == true) {
         select.multiple = false;
     } else {
         select.multiple = true;
     }
 }
-
+//]]>
 </script>
 
 <fieldset style="margin:0;"><legend><%= l(:label_filter_plural) %></legend>
-<table width="100%" cellpadding=0 cellspacing=0>
+<table width="100%">
 <tr>
 <td>
-<table>
+<table style="padding:0;">
 <% query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
     <% field = filter[0]
        options = filter[1] %>
     <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<%= field %>">
-    <td valign="top" width="200">
+    <td valign="top" style="width:200px;">
         <%= check_box_tag 'fields[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
         <label for="cb_<%= field %>"><%= l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
     </td>
-    <td valign="top" width="150">
-        <%= select_tag "operators[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
+    <td valign="top" style="width:150px;">
+        <%= select_tag "operators[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
     </td>
     <td valign="top">    
-    <div id="values_div[<%= field %>]">
+    <div id="div_values_<%= field %>">
     <% case options[:type]
     when :list, :list_optional, :list_status %>
-        <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %>" name="values[<%= field %>][]" id="values[<%= field %>][]" class="select-small" style="vertical-align: top;">
+        <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="values[<%= field %>][]" id="values_<%= field %>" class="select-small" style="vertical-align: top;">
         <%= options_for_select options[:values], query.values_for(field) %>        
         </select>
         <%= link_to_function image_tag('expand'), "toggle_multi_select('#{field}');" %>
     <% when :date, :date_past %>
-        <%= text_field_tag "values[#{field}][]", query.values_for(field), :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
+        <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
     <% when :text %>
-        <%= text_field_tag "values[#{field}][]", query.values_for(field), :size => 30, :class => "select-small" %>
+        <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 30, :class => "select-small" %>
     <% end %>
     </div>
+    <script type="text/javascript">toggle_filter('<%= field %>');</script>
     </td>
     </tr>
-    <script>toggle_filter('<%= field %>');</script>
 <% end %>
 </table>
 </td>

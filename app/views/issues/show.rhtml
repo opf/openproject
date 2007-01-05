@@ -7,8 +7,8 @@
 <div class="box">
 <table width="100%">
 <tr>
-    <td width="15%"><b><%=l(:field_status)%> :</b></td><td width="35%"><%= @issue.status.name %></td>
-    <td width="15%"><b><%=l(:field_priority)%> :</b></td><td width="35%"><%= @issue.priority.name %></td>
+    <td style="width:15%"><b><%=l(:field_status)%> :</b></td><td style="width:35%"><%= @issue.status.name %></td>
+    <td style="width:15%"><b><%=l(:field_priority)%> :</b></td><td style="width:35%"><%= @issue.priority.name %></td>
 </tr>
 <tr>
     <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? @issue.assigned_to.name : "-" %></td>
