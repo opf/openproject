@@ -9,13 +9,8 @@
 <%= stylesheet_link_tag "print", :media => "print" %>
 <%= javascript_include_tag :defaults %>
 <%= javascript_include_tag 'menu' %>
-<%= javascript_include_tag 'calendar/calendar' %>
-<%= javascript_include_tag "calendar/lang/calendar-#{current_language}.js" %>
-<%= javascript_include_tag 'calendar/calendar-setup' %>
-<%= stylesheet_link_tag 'calendar' %>
 <%= stylesheet_link_tag 'jstoolbar' %>
-<!-- page specific tags -->
-<%= yield :header_tags %>
+<!-- page specific tags --><%= yield :header_tags %>
 </head>
 
 <body>

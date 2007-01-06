@@ -7,3 +7,10 @@
 <p><%= f.text_field :effective_date, :size => 10, :required => true %><%= calendar_for('version_effective_date') %></p>
 <!--[eoform:version]-->
 </div>
+
+<% content_for :header_tags do %>
+<%= javascript_include_tag 'calendar/calendar' %>
+<%= javascript_include_tag "calendar/lang/calendar-#{current_language}.js" %>
+<%= javascript_include_tag 'calendar/calendar-setup' %>
+<%= stylesheet_link_tag 'calendar' %>
+<% end %>
