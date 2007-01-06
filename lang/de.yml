@@ -319,6 +319,7 @@ button_view: Siehe
 button_move: Bewegen
 button_back: Rückkehr
 button_cancel: Annullieren
+button_activate: Aktivieren
 
 text_select_mail_notifications: Aktionen für die Mailbenachrichtigung aktiviert werden soll.
 text_regexp_info: eg. ^[A-Z0-9]+$

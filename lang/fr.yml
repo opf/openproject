@@ -320,6 +320,7 @@ button_view: Voir
 button_move: Déplacer
 button_back: Retour
 button_cancel: Annuler
+button_activate: Activer
 
 text_select_mail_notifications: Sélectionner les actions pour lesquelles la notification par mail doit être activée.
 text_regexp_info: ex. ^[A-Z0-9]+$

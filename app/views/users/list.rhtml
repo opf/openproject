@@ -32,6 +32,9 @@
     <% if user.locked? %>
       <%= hidden_field_tag 'user[status]', User::STATUS_ACTIVE %>
       <%= submit_tag l(:button_unlock), :class => "button-small"  %>
+    <% elsif user.registered? %>
+      <%= hidden_field_tag 'user[status]', User::STATUS_ACTIVE %>
+      <%= submit_tag l(:button_activate), :class => "button-small"  %>
     <% else %>
       <%= hidden_field_tag 'user[status]', User::STATUS_LOCKED %>
       <%= submit_tag l(:button_lock), :class => "button-small"  %>
