@@ -296,6 +296,7 @@ label_deleted: deleted
 label_latest_revision: Latest revision
 label_view_revisions: View revisions
 label_max_size: Maximum size
+label_on: 'on'
 
 button_login: Login
 button_submit: Submit

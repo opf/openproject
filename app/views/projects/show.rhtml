@@ -22,9 +22,8 @@
       <li><%= link_to tracker.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
                                                 :set_filter => 1, 
                                                 "tracker_id" => tracker.id %>:
-      <%= issue_count = Issue.count(:conditions => ["project_id=? and tracker_id=? and issue_statuses.is_closed=?", @project.id, tracker.id, false], :include => :status) %>
-      <%= lwr(:label_open_issues, issue_count) %>
-      </li>
+      <%= @open_issues_by_tracker[tracker] || 0 %> <%= lwr(:label_open_issues, @open_issues_by_tracker[tracker] || 0) %>
+      <%= l(:label_on) %> <%= @total_issues_by_tracker[tracker] || 0 %></li>
     <% end %>
     </ul>
     <p class="textcenter"><small><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></small></p>
