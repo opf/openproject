@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:label_issue_status_new), {:action => 'new'}, :class => 'pic picAdd' %>
+<%= link_to l(:label_issue_status_new), {:action => 'new'}, :class => 'icon icon-add' %>
 </div>
 
 <h2><%=l(:label_issue_status_plural)%></h2>
@@ -15,8 +15,8 @@
 <% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
   <td><div class="square" style="background:#<%= status.html_color %>;"></div> <%= link_to status.name, :action => 'edit', :id => status %></td>
-  <td align="center"><%= image_tag 'true' if status.is_default? %></td>
-  <td align="center"><%= image_tag 'true' if status.is_closed? %></td>
+  <td align="center"><%= image_tag 'true.png' if status.is_default? %></td>
+  <td align="center"><%= image_tag 'true.png' if status.is_closed? %></td>
   <td align="center">
     <%= button_to l(:button_delete), { :action => 'destroy', :id => status }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
   </td>

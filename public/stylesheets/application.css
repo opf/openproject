@@ -27,7 +27,7 @@ background-color:inherit;
 a:hover{color:#2a5a8a; text-decoration:none; background-color:inherit;}
 a img{border:none;}
 
-p{padding:0 0 1em 0;}
+p{margin:0 0 1em 0;}
 p form{margin-top:0; margin-bottom:20px;}
 
 img.left,img.center,img.right{padding:4px; border:1px solid #a0a0a0;}
@@ -124,34 +124,57 @@ text-decoration:none;
 background-color: #80b0da;
 }
 
-/**************** Icons links *******************/
-.picHome {	background: url(../images/home.png) no-repeat 4px 50%; }
-.picUser {	background: url(../images/user.png) no-repeat 4px 50%; }
-.picUserPage {	background: url(../images/user_page.png) no-repeat 4px 50%; }
-.picAdmin {	background: url(../images/admin.png) no-repeat 4px 50%; }
-.picProject { background: url(../images/projects.png) no-repeat 4px 50%; }
-.picLogout { background: url(../images/logout.png) no-repeat 4px 50%; }
-.picHelp { background: url(../images/help.png) no-repeat 4px 50%; }
-
-.picEdit { background: url(../images/edit.png) no-repeat 4px 50%; }
-.picDelete { background: url(../images/delete.png) no-repeat 4px 50%; }
-.picAdd { background: url(../images/add.png) no-repeat 4px 50%; }
-.picMove { background: url(../images/move.png) no-repeat 4px 50%; }
-.picCheck { background: url(../images/check.png) no-repeat 4px 70%; }
-.picPdf { background: url(../images/pdf.png) no-repeat 4px 50%;}
-
-.pic { padding-left: 18px; margin-left: 3px; }
-
+/**************** Icons *******************/
 .icon {
- background-position: 0% 40%;
- background-repeat: no-repeat;
- padding-left: 20px;
+background-position: 0% 40%;
+background-repeat: no-repeat;
+padding-left: 20px;
+padding-top: 2px;
+padding-bottom: 3px;
+vertical-align: middle;
 }
 
-.folder   { background-image: url(../images/folder.png); }
-.file     { background-image: url(../images/file.png); }
-.attachment  { background-image: url(../images/attachment.png); }
-.comment  { background-image: url(../images/comment.png); }
+#navigation .icon {
+background-position: 4px 50%;
+}
+
+.icon22 {
+background-position: 0% 40%;
+background-repeat: no-repeat;
+padding-left: 24px;
+line-height: 22px;
+vertical-align: middle;
+}
+
+.icon-add { background-image: url(../images/add.png); }
+.icon-edit { background-image: url(../images/edit.png); }
+.icon-del { background-image: url(../images/delete.png); }
+.icon-move { background-image: url(../images/move.png); }
+.icon-save { background-image: url(../images/save.png); }
+.icon-pdf { background-image: url(../images/pdf.png); }
+.icon-csv { background-image: url(../images/csv.png); }
+.icon-file { background-image: url(../images/file.png); }
+.icon-folder { background-image: url(../images/folder.png); }
+.icon-package { background-image: url(../images/package.png); }
+.icon-home { background-image: url(../images/home.png); }
+.icon-user { background-image: url(../images/user.png); }
+.icon-mypage { background-image: url(../images/user_page.png); }
+.icon-admin { background-image: url(../images/admin.png); }
+.icon-projects { background-image: url(../images/projects.png); }
+.icon-logout { background-image: url(../images/logout.png); }
+.icon-help { background-image: url(../images/help.png); }
+.icon-attachment  { background-image: url(../images/attachment.png); }
+
+.icon22-projects { background-image: url(../images/22x22/projects.png); }
+.icon22-users { background-image: url(../images/22x22/users.png); }
+.icon22-tracker { background-image: url(../images/22x22/tracker.png); }
+.icon22-role { background-image: url(../images/22x22/role.png); }
+.icon22-workflow { background-image: url(../images/22x22/workflow.png); }
+.icon22-options { background-image: url(../images/22x22/options.png); }
+.icon22-notifications { background-image: url(../images/22x22/notifications.png); }
+.icon22-authent { background-image: url(../images/22x22/authent.png); }
+.icon22-info { background-image: url(../images/22x22/info.png); }
+.icon22-comment { background-image: url(../images/22x22/comment.png); }
 
 /**************** Content styles ****************/
 
@@ -220,6 +243,7 @@ input.button-small
 label {
 	font-weight: bold;
 	font-size: 1em;
+	color: #505050;
 }
 
 fieldset {
@@ -265,10 +289,10 @@ margin: 0;
 }
 
 ul.documents li {
-background-image: url(../images/file.png);
+background-image: url(../images/32x32/file.png);
 background-repeat: no-repeat;
-background-position: 0 .4em;
-padding-left: 20px;
+background-position: 0 1px;
+padding-left: 36px;
 margin-bottom: 10px;
 margin-left: -37px;
 }
@@ -499,6 +523,8 @@ img.calendar-trigger {
 .contextual {
 float: right;
 font-size: 0.8em;
+line-height: 16px;
+padding: 2px;
 }
 
 .contextual select, .contextual input {
@@ -528,8 +554,9 @@ font-size: 1em;
   line-height:0.8em;
 }
 
-.task_late { background:#f66; }
-.task_done { background:#66f; }  
+.task_late { background:#f66 url(../images/task_late.png); border: 1px solid #f66; }
+.task_done { background:#66f url(../images/task_done.png); border: 1px solid #66f; }  
+.task_todo { background:#aaa url(../images/task_todo.png); border: 1px solid #aaa; }
 
 /***** CSS FORM ******/
 .tabular p{

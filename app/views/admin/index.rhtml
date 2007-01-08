@@ -1,50 +1,41 @@
 <h2><%=l(:label_administration)%></h2>
 
-<p>
-<%= image_tag "projects" %>
+<p class="icon22 icon22-projects">
 <%= link_to l(:label_project_plural), :controller => 'admin', :action => 'projects' %> |
 <%= link_to l(:label_new), :controller => 'projects', :action => 'add' %>
 </p>
 
-<p>
-<%= image_tag "users" %>
+<p class="icon22 icon22-users">
 <%= link_to l(:label_user_plural), :controller => 'users' %> |
 <%= link_to l(:label_new), :controller => 'users', :action => 'add' %>
 </p>
 
-<p>
-<%= image_tag "role" %>
+<p class="icon22 icon22-role">
 <%= link_to l(:label_role_and_permissions), :controller => 'roles' %>
 </p>
 
-<p>
-<%= image_tag "tracker" %>
+<p class="icon22 icon22-tracker">
 <%= link_to l(:label_tracker_plural), :controller => 'trackers' %> |
-<%= link_to l(:label_custom_field_plural), :controller => 'custom_fields' %>
-</p>
-
-<p>
-<%= image_tag "workflow" %>
 <%= link_to l(:label_issue_status_plural), :controller => 'issue_statuses' %> |
 <%= link_to l(:label_workflow), :controller => 'roles', :action => 'workflow' %>
 </p>
 
-<p>
-<%= image_tag "options" %>
+<p class="icon22 icon22-workflow">
+<%= link_to l(:label_custom_field_plural), :controller => 'custom_fields' %>
+</p>
+
+<p class="icon22 icon22-options">
 <%= link_to l(:label_enumerations), :controller => 'enumerations' %>
 </p>
 
-<p>
-<%= image_tag "mailer" %>
+<p class="icon22 icon22-notifications">
 <%= link_to l(:field_mail_notification), :controller => 'admin', :action => 'mail_options' %>
 </p>
 
-<p>
-<%= image_tag "login" %>
+<p class="icon22 icon22-authent">
 <%= link_to l(:label_authentication), :controller => 'auth_sources' %>
 </p>
 
-<p>
-<%= image_tag "help" %>
+<p class="icon22 icon22-info">
 <%= link_to l(:label_information_plural), :controller => 'admin', :action => 'info' %>
 </p>

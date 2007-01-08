@@ -9,7 +9,7 @@
     <%= options_from_collection_for_select @roles, "id", "name", membership.role_id %>
     </select>
     <%= submit_tag l(:button_change), :class => "button-small" %>
-    <%= link_to l(:button_delete), {:action => 'destroy_membership', :id => @user, :membership_id => membership }, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+    <%= link_to l(:button_delete), {:action => 'destroy_membership', :id => @user, :membership_id => membership }, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
 </p>
 <%= end_form_tag %>
 <% end %>

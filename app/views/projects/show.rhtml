@@ -16,7 +16,7 @@
     <div class="contextual">
     <%= render :partial => 'issues/add_shortcut', :locals => {:trackers => @trackers } %>
     </div>
-    <h3><%= image_tag "tracker" %> <%=l(:label_tracker_plural)%></h3>
+    <h3 class="icon22 icon22-tracker"><%=l(:label_tracker_plural)%></h3>
     <ul>
     <% for tracker in @trackers %>    
       <li><%= link_to tracker.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
@@ -32,7 +32,7 @@
 
 <div class="splitcontentright">
 	<div class="box">
-		<h3><%= image_tag "users" %> <%=l(:label_member_plural)%></h3>	
+		<h3 class="icon22 icon22-users"><%=l(:label_member_plural)%></h3>	
 		<% for member in @members %>
 		<%= link_to_user member.user %> (<%= member.role.name %>)<br />		
 		<% end %>		
@@ -40,7 +40,7 @@
   
   <% if @subprojects %>
  	<div class="box">
-		<h3><%= image_tag "projects" %> <%=l(:label_subproject_plural)%></h3>	
+		<h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%></h3>	
 		<% for subproject in @subprojects %>
 		<%= link_to subproject.name, :action => 'show', :id => subproject %><br />		
 		<% end %>		

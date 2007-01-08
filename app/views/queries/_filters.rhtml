@@ -78,7 +78,7 @@ function toggle_multi_select(field) {
         <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="values[<%= field %>][]" id="values_<%= field %>" class="select-small" style="vertical-align: top;">
         <%= options_for_select options[:values], query.values_for(field) %>        
         </select>
-        <%= link_to_function image_tag('expand'), "toggle_multi_select('#{field}');" %>
+        <%= link_to_function image_tag('expand.png'), "toggle_multi_select('#{field}');" %>
     <% when :date, :date_past %>
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
     <% when :text %>

@@ -96,10 +96,10 @@ module SortHelper
     key, order = session[@sort_name][:key], session[@sort_name][:order]
     if key == column
       if order.downcase == 'asc'
-        icon = 'sort_asc'
+        icon = 'sort_asc.png'
         order = 'desc'
       else
-        icon = 'sort_desc'
+        icon = 'sort_desc.png'
         order = 'asc'
       end
     else

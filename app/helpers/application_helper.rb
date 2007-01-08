@@ -50,6 +50,14 @@ module ApplicationHelper
     link_to user.display_name, :controller => 'account', :action => 'show', :id => user
   end
   
+  def image_to_function(name, function, html_options = {})
+    html_options.symbolize_keys!
+    tag(:input, html_options.merge({ 
+        :type => "image", :src => image_path(name), 
+        :onclick => (html_options[:onclick] ? "#{html_options[:onclick]}; " : "") + "#{function};" 
+        }))
+  end
+  
   def format_date(date)
     l_date(date) if date
   end
@@ -145,7 +153,7 @@ module ApplicationHelper
   end
   
   def calendar_for(field_id)
-    image_tag("calendar", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
+    image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
     javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
   end
 end

@@ -1,6 +1,6 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_edit), {:controller => 'news', :action => 'edit', :id => @news}, :class => 'pic picEdit' %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+<%= link_to_if_authorized l(:button_edit), {:controller => 'news', :action => 'edit', :id => @news}, :class => 'icon icon-edit' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
 </div>
 
 <h2><%=h @news.title %></h2>
@@ -12,12 +12,12 @@
 <br />
 
 <div id="comments" style="margin-bottom:16px;">
-<h3 class="icon comment"><%= l(:label_comment_plural) %></h3>
+<h3 class="icon22 icon22-comment"><%= l(:label_comment_plural) %></h3>
 <% @news.comments.each do |comment| %>
     <% next if comment.new_record? %>
     <h4><%= format_time(comment.created_on) %> - <%= comment.author.name %></h4>
     <div class="contextual">
-        <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
     </div>
     <%= simple_format(auto_link(h comment.comment))%>
 <% end if @news.comments_count > 0 %>

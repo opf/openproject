@@ -29,11 +29,11 @@ while day <= @date_to
 	@issues.each { |i| day_issues << i if i.start_date == day or i.due_date == day } 
 	day_issues.each do |i| %>	
 		<%= if day == i.start_date and day == i.due_date
-		    image_tag('arrow_bw')
+		    image_tag('arrow_bw.png')
 		elsif day == i.start_date
-		    image_tag('arrow_from') 
+		    image_tag('arrow_from.png') 
 		elsif day == i.due_date
-		    image_tag('arrow_to') 
+		    image_tag('arrow_to.png') 
 		end %>
 		<small><%= link_to "#{i.tracker.name} ##{i.id}", :controller => 'issues', :action => 'show', :id => i %>: <%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small><br />
 	<% end %>

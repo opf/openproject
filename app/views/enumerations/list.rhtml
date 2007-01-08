@@ -10,7 +10,7 @@
 			<li><%= link_to value.name, :action => 'edit', :id => value %></li>	
 		<% end %>
     </ul>
-    <p><%= link_to l(:label_enumeration_new), { :action => 'new', :opt => option }, :class => "pic picAdd" %></p>&nbsp;
+    <p><%= link_to l(:label_enumeration_new), { :action => 'new', :opt => option }, :class => "icon icon-add" %></p>&nbsp;
     
 	<% else %>	
 		<h3><%= link_to l(name), :opt => option %></h3>

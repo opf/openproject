@@ -28,28 +28,28 @@
 	
 	<div id="navigation">
 		<ul>
-	<li class="selected"><%= link_to l(:label_home), { :controller => '' }, :class => "picHome" %></li>
-	<li><%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'}, :class => "picUserPage" %></li>
-	<li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "picProject" %></li>
+	<li class="selected"><%= link_to l(:label_home), { :controller => '' }, :class => "icon icon-home" %></li>
+	<li><%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'}, :class => "icon icon-mypage" %></li>
+	<li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects" %></li>
 			
     <% unless @project.nil? || @project.id.nil? %>
-        <li class="submenu"><%= link_to @project.name, { :controller => 'projects', :action => 'show', :id => @project }, :class => "picProject", :onmouseover => "buttonMouseover(event, 'menuProject');"  %></li>
+        <li class="submenu"><%= link_to @project.name, { :controller => 'projects', :action => 'show', :id => @project }, :class => "icon icon-projects", :onmouseover => "buttonMouseover(event, 'menuProject');"  %></li>
     <% end %>
 			
     <% if loggedin? %>
-		<li><%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' }, :class => "picUser" %></li>
+		<li><%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' }, :class => "icon icon-user" %></li>
     <% end %>
 			
 	<% if admin_loggedin? %>
-		<li class="submenu"><%= link_to l(:label_administration), { :controller => 'admin' }, :class => "picAdmin", :onmouseover => "buttonMouseover(event, 'menuAdmin');" %></li>
+		<li class="submenu"><%= link_to l(:label_administration), { :controller => 'admin' }, :class => "icon icon-admin", :onmouseover => "buttonMouseover(event, 'menuAdmin');" %></li>
 	<% end %>
 			
-	<li class="right"><%= link_to l(:label_help), { :controller => 'help', :ctrl => params[:controller], :page => params[:action] }, :onclick => "window.open(this.href); return false;", :class => "picHelp" %></li>
+	<li class="right"><%= link_to l(:label_help), { :controller => 'help', :ctrl => params[:controller], :page => params[:action] }, :onclick => "window.open(this.href); return false;", :class => "icon icon-help" %></li>
 	
 	<% if loggedin? %>
-		<li class="right"><%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => "picUser" %></li>	
+		<li class="right"><%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => "icon icon-user" %></li>	
 	<% else %>	
-		<li class="right"><%= link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => "picUser" %></li>
+		<li class="right"><%= link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => "icon icon-user" %></li>
 	<% end %>
 		</ul>		
 	</div>

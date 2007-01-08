@@ -12,9 +12,9 @@
                        { :url => { :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 },
                          :update => "content",
                          :with => "Form.serialize('query_form')"
-                       }, :class => 'pic picCheck' %> 
+                       }, :class => 'icon icon-edit' %> 
     
-    <%= link_to l(:button_clear), {:controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1}, :class => 'pic picDelete'  %>
+    <%= link_to l(:button_clear), {:controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1}, :class => 'icon icon-del'  %>
     <% if authorize_for('projects', 'add_query') %>
     
     <%= link_to_remote l(:button_save), 
@@ -22,7 +22,7 @@
                          :method => 'get',
                          :update => "content",
                          :with => "Form.serialize('query_form')"
-                       }, :class => 'pic picEdit' %>
+                       }, :class => 'icon icon-save' %>
     <% end %>
     </div>
     <br />
@@ -30,8 +30,8 @@
     <div class="contextual">
         <%= render :partial => 'issues/add_shortcut', :locals => {:trackers => @trackers } %>
         <% if authorize_for('projects', 'add_query') %>
-            <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'pic picEdit' %>
-            <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+            <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
+            <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
         <% end %>
     </div>    
     <h2><%= @query.name %></h2>
@@ -71,8 +71,8 @@
 </table>
 <div class="contextual">
 <%= l(:label_export_to) %>
-<%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'icon file' %>,
-<%= link_to 'PDF', {:action => 'export_issues_pdf', :id => @project}, :class => 'pic picPdf' %>
+<%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'icon icon-csv' %>,
+<%= link_to 'PDF', {:action => 'export_issues_pdf', :id => @project}, :class => 'icon icon-pdf' %>
 </div>
 <p><%= submit_tag l(:button_move), :class => "button-small" %>
 &nbsp;

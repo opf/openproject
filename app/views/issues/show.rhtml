@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= l(:label_export_to) %><%= link_to 'PDF', {:action => 'export_pdf', :id => @issue}, :class => 'pic picPdf' %>
+<%= l(:label_export_to) %><%= link_to 'PDF', {:action => 'export_pdf', :id => @issue}, :class => 'icon icon-pdf' %>
 </div>
 
 <h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%=h @issue.subject %></h2>
@@ -46,9 +46,9 @@ end %>
 <br />
 
 <div class="contextual">
-<%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'pic picEdit' %>
-<%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'pic picMove' %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+<%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit' %>
+<%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'icon icon-move' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
 </div>
 
 <% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
@@ -77,18 +77,18 @@ end %>
 <table width="100%">
 <% for attachment in @issue.attachments %>
 <tr>
-<td><%= link_to attachment.filename, { :action => 'download', :id => @issue, :attachment_id => attachment }, :class => 'icon attachment' %> (<%= human_size(attachment.filesize) %>)</td>
+<td><%= link_to attachment.filename, { :action => 'download', :id => @issue, :attachment_id => attachment }, :class => 'icon icon-attachment' %> (<%= human_size(attachment.filesize) %>)</td>
 <td><%= format_date(attachment.created_on) %></td>
 <td><%= attachment.author.display_name %></td>
-<td><div class="contextual"><%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy_attachment', :id => @issue, :attachment_id => attachment }, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %></div></td>
+<td><div class="contextual"><%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy_attachment', :id => @issue, :attachment_id => attachment }, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %></div></td>
 </tr>
 <% end %>
 </table>
 <br />
 <% if authorize_for('issues', 'add_attachment') %>
   <%= start_form_tag ({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true, :class => "tabular") %>
-  <p id="attachments_p"><label><%=l(:label_attachment_new)%>&nbsp;
-  <%= link_to_function image_tag('add'), "addFileField()" %></label>
+  <p id="attachments_p"><label><%=l(:label_attachment_new)%>
+  <%= image_to_function "add.png", "addFileField();return false" %></label>
   <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= human_size(Attachment.max_size) %>)</em></p>
   <%= submit_tag l(:button_add) %>
   <%= end_form_tag %> 

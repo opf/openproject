@@ -1,7 +1,3 @@
-#header, #navigation, #subcontent, #footer {
-display:none;
-}
-
-.menu {
-display:none;
-}
+#header, #navigation, #subcontent, #footer { display:none; }
+.menu { display:none; }
+.contextual { display:none; }

@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add'}, :class => 'pic picAdd' %>
+<%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add'}, :class => 'icon icon-add' %>
 </div>
 
 <h2><%=l(:label_project_plural)%></h2>
@@ -18,8 +18,8 @@
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to project.name, :controller => 'projects', :action => 'settings', :id => project %>
 	<td><%=h project.description %>
-	<td align="center"><%= image_tag 'true' if project.is_public? %>
-	<td align="center"><%= project.projects_count %>
+	<td align="center"><%= image_tag 'true.png' if project.is_public? %>
+	<td align="center"><%= project.children_count %>
 	<td align="center"><%= format_date(project.created_on) %>
   <td align="center">
     <%= button_to l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => "button-small" %>

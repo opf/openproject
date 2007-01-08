@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= l(:label_export_to) %>
-<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :output => 'pdf'}, :class => 'pic picPdf' %>
+<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :output => 'pdf'}, :class => 'icon icon-pdf' %>
 </div>
 
 <h2><%= l(:label_gantt) %></h2>
@@ -21,14 +21,14 @@
 </td>
 <td align="right">
 <%= if @zoom < 4
-    link_to image_tag('zoom_in'), {:zoom => (@zoom+1), :year => @year_from, :month => @month_from, :months => @months}
+    link_to image_tag('zoom_in.png'), {:zoom => (@zoom+1), :year => @year_from, :month => @month_from, :months => @months}
   else
-    image_tag 'zoom_in_g'
+    image_tag 'zoom_in_g.png'
   end %>
 <%= if @zoom > 1
-    link_to image_tag('zoom_out'), :zoom => (@zoom-1), :year => @year_from, :month => @month_from, :months => @months
+    link_to image_tag('zoom_out.png'), :zoom => (@zoom-1), :year => @year_from, :month => @month_from, :months => @months
   else
-    image_tag 'zoom_out_g'
+    image_tag 'zoom_out_g.png'
   end %>
 </td>
 </tr>
@@ -179,13 +179,12 @@ top = headers_heigth + 12
 	
 	i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
 	
-	i_left = ((i_start_date - @date_from)*zoom).floor 
-	i_width = ((i_end_date - i_start_date + 1)*zoom).floor
-	d_width = ((i_done_date - i_start_date)*zoom).floor
-	l_width = ((i_late_date - i_start_date+1)*zoom).floor if i_late_date
-	l_width ||= 0
+	i_left = ((i_start_date - @date_from)*zoom).floor 	
+	i_width = ((i_end_date - i_start_date + 1)*zoom).floor - 2                  # total width of the issue (- 2 for left and right borders)
+	d_width = ((i_done_date - i_start_date)*zoom).floor - 2                     # done width
+	l_width = i_late_date ? ((i_late_date - i_start_date+1)*zoom).floor - 2 : 0 # delay width
 	%>	
-	<div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;" class="task">&nbsp;</div>
+	<div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;" class="task task_todo">&nbsp;</div>
 	<% if l_width > 0 %>
 	    <div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= l_width %>px;" class="task task_late">&nbsp;</div>
 	<% end %>

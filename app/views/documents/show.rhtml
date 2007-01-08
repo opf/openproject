@@ -1,6 +1,6 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_edit), {:controller => 'documents', :action => 'edit', :id => @document}, :class => 'pic picEdit' %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+<%= link_to_if_authorized l(:button_edit), {:controller => 'documents', :action => 'edit', :id => @document}, :class => 'icon icon-edit' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
 </div>
 
 <h2><%= @document.title %></h2>
@@ -15,7 +15,7 @@
 <% for attachment in @attachments %>
     <li>
         <div class="contextual">
-        <%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy_attachment', :id => @document, :attachment_id => attachment}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy_attachment', :id => @document, :attachment_id => attachment}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
         </div>
         <%= link_to attachment.filename, :action => 'download', :id => @document, :attachment_id => attachment %>
         (<%= human_size attachment.filesize %>)<br />
@@ -29,8 +29,8 @@
 
 <% if authorize_for('documents', 'add_attachment') %>
   <%= start_form_tag ({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :class => "tabular") %>
-    <p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>&nbsp;
-    <%= link_to_function image_tag('add'), "addFileField()" %></label>
+    <p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>
+    <%= image_to_function "add.png", "addFileField();return false" %></label>
     <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= human_size(Attachment.max_size) %>)</em></p>
   <%= submit_tag l(:button_add) %>
   <%= end_form_tag %> 

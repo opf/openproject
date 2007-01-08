@@ -16,8 +16,8 @@
 	<td><%= link_to custom_field.name, :action => 'edit', :id => custom_field %></td>
 	<td align="center"><%= l(custom_field.type_name) %></td>
 	<td align="center"><%= l(CustomField::FIELD_FORMATS[custom_field.field_format][:name]) %></td>
-	<td align="center"><%= image_tag 'true' if custom_field.is_required? %></td>
-	<td align="center"><%= image_tag 'true' if custom_field.is_for_all? %></td>
+	<td align="center"><%= image_tag 'true.png' if custom_field.is_required? %></td>
+	<td align="center"><%= image_tag 'true.png' if custom_field.is_for_all? %></td>
 	<td align="center"><%= custom_field.projects.count.to_s + ' ' + lwr(:label_project, custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
 	<td align="center">
 	   <%= button_to l(:button_delete), { :action => 'destroy', :id => custom_field }, :confirm => l(:text_are_you_sure), :class => "button-small" %>

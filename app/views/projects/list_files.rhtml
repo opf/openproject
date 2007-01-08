@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:label_attachment_new), {:controller => 'projects', :action => 'add_file', :id => @project}, :class => 'pic picAdd' %>
+<%= link_to_if_authorized l(:label_attachment_new), {:controller => 'projects', :action => 'add_file', :id => @project}, :class => 'icon icon-add' %>
 </div>
 
 <h2><%=l(:label_attachment_plural)%></h2>
@@ -19,7 +19,7 @@
   <tbody>
 <% for version in @versions %>	
   <% unless version.attachments.empty? %>
-  <tr><th colspan="7" align="left"><%= image_tag 'package' %> <b><%= version.name %></b></th></tr>
+  <tr><th colspan="7" align="left"><span class="icon icon-package"><b><%= version.name %></b></span></th></tr>
   <% for file in version.attachments %>		
   <tr class="<%= cycle("odd", "even") %>">
     <td></td>
@@ -31,7 +31,7 @@
     <% if delete_allowed %>
     <td align="center">
         <div class="contextual">
-        <%= link_to_if_authorized '', {:controller => 'versions', :action => 'destroy_file', :id => version, :attachment_id => file}, :confirm => l(:text_are_you_sure), :post => true, :class => 'pic picDelete' %>
+        <%= link_to_if_authorized '', {:controller => 'versions', :action => 'destroy_file', :id => version, :attachment_id => file}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
         </div>
     </td>
     <% end %>
