@@ -5,6 +5,11 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="redMine" />
 <meta name="keywords" content="issue,bug,tracker" />
+<!--[if IE]>
+    <style type="text/css">
+    body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
+    </style>
+<![endif]-->
 <%= stylesheet_link_tag "application" %>
 <%= stylesheet_link_tag "print", :media => "print" %>
 <%= javascript_include_tag :defaults %>

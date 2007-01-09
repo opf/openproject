@@ -55,7 +55,7 @@ if @zoom >1
 end
 
 g_width = (@date_to - @date_from + 1)*zoom
-g_height = [(20 * @issues.length + 6), 206].max
+g_height = [(20 * @issues.length + 6)+150, 206].max
 t_height = g_height + headers_heigth
 %>
 
@@ -65,14 +65,14 @@ t_height = g_height + headers_heigth
 
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_heigth %>px;background: #eee;" class="gantt_hdr"></div>
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;" class="gantt_hdr"></div>
+<div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
 <%
 #
 # Tasks subjects
 #
 top = headers_heigth + 8
 @issues.each do |i| %>
-	<div style="position: absolute;line-height:1em;height:16px;top:<%= top %>px;left:4px;width:<%= subject_width - 5 %>px;overflow:hidden;">
+	<div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;">
 	<small><%= link_to "#{i.tracker.name} ##{i.id}", { :controller => 'issues', :action => 'show', :id => i }, :title => "#{i.subject}" %>:
 	<%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
 	</div>
@@ -82,7 +82,7 @@ end %>
 </td>
 <td>
 
-<div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width %>;overflow:auto;">
+<div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;">
 <div style="width:<%= g_width-1 %>px;height:<%= headers_heigth %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
 <% 
 #
@@ -167,7 +167,7 @@ if Date.today >= @date_from and Date.today <= @date_to %>
 #
 # Tasks
 #
-top = headers_heigth + 12
+top = headers_heigth + 10
 @issues.each do |i| %>
 	<%
 	i_start_date = (i.start_date >= @date_from ? i.start_date : @date_from )
@@ -183,7 +183,7 @@ top = headers_heigth + 12
 	i_width = ((i_end_date - i_start_date + 1)*zoom).floor - 2                  # total width of the issue (- 2 for left and right borders)
 	d_width = ((i_done_date - i_start_date)*zoom).floor - 2                     # done width
 	l_width = i_late_date ? ((i_late_date - i_start_date+1)*zoom).floor - 2 : 0 # delay width
-	%>	
+	%>
 	<div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;" class="task task_todo">&nbsp;</div>
 	<% if l_width > 0 %>
 	    <div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= l_width %>px;" class="task task_late">&nbsp;</div>
@@ -194,7 +194,16 @@ top = headers_heigth + 12
 	<div style="top:<%= top %>px;left:<%= i_left + i_width + 5 %>px;background:#fff;" class="task">
 	<%= i.status.name %>
 	<%= (i.done_ratio).to_i %>%
-	</div>	
+	</div>
+	<% # === tooltip === %>
+	<div style="position: absolute;top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;height:12px;" class="tooltip"><span class="tip">
+	   <strong><%= "#{i.tracker.name} ##{i.id}" %></strong>: <%=h i.subject %><br />
+	   <br />
+	   <strong><%= l(:field_start_date) %></strong>: <%= format_date(i.start_date) %><br />
+	   <strong><%= l(:field_due_date) %></strong>: <%= format_date(i.due_date) %><br />
+	   <strong><%= l(:field_assigned_to) %></strong>: <%= i.assigned_to ? i.assigned_to.name : "-" %><br />
+	   <strong><%=l(:field_priority)%></strong>: <%= i.priority.name %>
+	</span></div>
 	<% top = top + 20
 end %>
 </div>
