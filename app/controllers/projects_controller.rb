@@ -463,7 +463,7 @@ class ProjectsController < ApplicationController
     # finish on sunday
     @date_to = @date_to + (7-@date_to.cwday)  
       
-    @issues = @project.issues.find(:all, :include => :tracker, :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", @date_from, @date_to, @date_from, @date_to])
+    @issues = @project.issues.find(:all, :include => [:tracker, :status, :assigned_to, :priority], :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", @date_from, @date_to, @date_from, @date_to])
     render :layout => false if request.xhr?
   end  
 
@@ -485,7 +485,7 @@ class ProjectsController < ApplicationController
     
     @date_from = Date.civil(@year_from, @month_from, 1)
     @date_to = (@date_from >> @months) - 1
-    @issues = @project.issues.find(:all, :order => "start_date, due_date", :include => [:tracker, :status, :author, :priority], :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to])
+    @issues = @project.issues.find(:all, :order => "start_date, due_date", :include => [:tracker, :status, :assigned_to, :priority], :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to])
     
     if params[:output]=='pdf'
       @options_for_rfpdf ||= {}

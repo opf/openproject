@@ -196,13 +196,9 @@ top = headers_heigth + 10
 	<%= (i.done_ratio).to_i %>%
 	</div>
 	<% # === tooltip === %>
-	<div style="position: absolute;top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;height:12px;" class="tooltip"><span class="tip">
-	   <strong><%= "#{i.tracker.name} ##{i.id}" %></strong>: <%=h i.subject %><br />
-	   <br />
-	   <strong><%= l(:field_start_date) %></strong>: <%= format_date(i.start_date) %><br />
-	   <strong><%= l(:field_due_date) %></strong>: <%= format_date(i.due_date) %><br />
-	   <strong><%= l(:field_assigned_to) %></strong>: <%= i.assigned_to ? i.assigned_to.name : "-" %><br />
-	   <strong><%=l(:field_priority)%></strong>: <%= i.priority.name %>
+	<div class="tooltip" style="position: absolute;top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;height:12px;">
+	<span class="tip">
+    <%= render :partial => "issues/tooltip", :locals => { :issue => i }%>
 	</span></div>
 	<% top = top + 20
 end %>

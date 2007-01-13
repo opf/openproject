@@ -558,14 +558,14 @@ font-size: 1em;
 .task_todo { background:#aaa url(../images/task_todo.png); border: 1px solid #aaa; }
 
 /***** Tooltips ******/
-.tooltip{position:absolute;z-index:24;}
+.tooltip{position:relative;z-index:24;}
 .tooltip:hover{z-index:25;color:#000;}
 .tooltip span.tip{display: none}
 
 div.tooltip:hover span.tip{
 display:block;
 position:absolute;
-top:12px; left:20px; width:270px;
+top:12px; left:24px; width:270px;
 border:1px solid #555;
 background-color:#fff;
 padding: 4px;

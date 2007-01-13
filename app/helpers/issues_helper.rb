@@ -56,12 +56,12 @@ module IssuesHelper
     
     unless no_html
       label = content_tag('strong', label)
-      old_value = content_tag("i", h(old_value)) if old_value
-      old_value = content_tag("strike", h(old_value)) if old_value and !value
+      old_value = content_tag("i", h(old_value)) if detail.old_value
+      old_value = content_tag("strike", old_value) if detail.old_value and (!detail.value or detail.value.empty?)
       value = content_tag("i", h(value)) if value
     end
     
-    if value
+    if detail.value and !detail.value.empty?
       if old_value
         label + " " + l(:text_journal_changed, old_value, value)
       else
