@@ -4,7 +4,7 @@
 
 <div class="rightbox" style="width:140px;">
 <%= start_form_tag %>
-<strong><%=l(:label_tracker_plural)%></strong><br />
+<p><strong><%=l(:label_tracker_plural)%></strong></p>
 <% @trackers.each do |tracker| %>
   <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
   <%= tracker.name %><br />
@@ -17,7 +17,7 @@
    @fixed_issues.each do |issue| %>   
     <% unless ver_id == issue.fixed_version_id %>
     <% if ver_id %></ul><% end %>
-    <h3><%= issue.fixed_version.name %></h3>
+    <h3 class="icon22 icon22-package"><%= issue.fixed_version.name %></h3>
     <p><%= format_date(issue.fixed_version.effective_date) %><br />
     <%=h issue.fixed_version.description %></p>
     <ul>

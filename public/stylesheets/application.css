@@ -141,7 +141,7 @@ background-position: 4px 50%;
 .icon22 {
 background-position: 0% 40%;
 background-repeat: no-repeat;
-padding-left: 24px;
+padding-left: 26px;
 line-height: 22px;
 vertical-align: middle;
 }
@@ -175,6 +175,7 @@ vertical-align: middle;
 .icon22-authent { background-image: url(../images/22x22/authent.png); }
 .icon22-info { background-image: url(../images/22x22/info.png); }
 .icon22-comment { background-image: url(../images/22x22/comment.png); }
+.icon22-package { background-image: url(../images/22x22/package.png); }
 
 /**************** Content styles ****************/
 
