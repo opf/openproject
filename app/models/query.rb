@@ -72,16 +72,17 @@ class Query < ActiveRecord::Base
     @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => IssueStatus.find(:all).collect{|s| [s.name, s.id.to_s] } },       
                            "tracker_id" => { :type => :list, :order => 2, :values => Tracker.find(:all).collect{|s| [s.name, s.id.to_s] } },                                                                                                                
                            "priority_id" => { :type => :list, :order => 3, :values => Enumeration.find(:all, :conditions => ['opt=?','IPRI']).collect{|s| [s.name, s.id.to_s] } },
-                           "subject" => { :type => :text, :order => 7 },  
-                           "created_on" => { :type => :date_past, :order => 8 },                        
-                           "updated_on" => { :type => :date_past, :order => 9 },
-                           "start_date" => { :type => :date, :order => 10 },
-                           "due_date" => { :type => :date, :order => 11 } }                          
+                           "subject" => { :type => :text, :order => 8 },  
+                           "created_on" => { :type => :date_past, :order => 9 },                        
+                           "updated_on" => { :type => :date_past, :order => 10 },
+                           "start_date" => { :type => :date, :order => 11 },
+                           "due_date" => { :type => :date, :order => 12 } }                          
     unless project.nil?
       # project specific filters
       @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => @project.users.collect{|s| [s.name, s.id.to_s] } }  
       @available_filters["author_id"] = { :type => :list, :order => 5, :values => @project.users.collect{|s| [s.name, s.id.to_s] } }  
       @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
+      @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.collect{|s| [s.name, s.id.to_s] } }
       # remove category filter if no category defined
       @available_filters.delete "category_id" if @available_filters["category_id"][:values].empty?
     end
