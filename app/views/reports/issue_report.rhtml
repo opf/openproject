@@ -1,9 +1,9 @@
 <h2><%=l(:label_report_plural)%></h2>
 
-<h3><%= l(:label_query_plural) %></h3>
 <div class="contextual">
 <%= link_to_if_authorized l(:label_query_new), {:controller => 'projects', :action => 'add_query', :id => @project}, :class => 'icon icon-add' %>
 </div>
+<h3><%= l(:label_query_plural) %></h3>
 
 <% if @queries.empty? %><p><i><%=l(:label_no_data)%></i></p><% end %>
 <ul>
