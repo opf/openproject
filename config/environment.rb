@@ -59,25 +59,6 @@ Rails::Initializer.run do |config|
 	config.action_mailer.delivery_method = :smtp  
 end
 
-# Add new inflection rules using the following format 
-# (all these examples are active by default):
-# Inflector.inflections do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
-#   inflect.uncountable %w( fish sheep )
-# end
-
-# IMPORTANT !!! DO NOT MODIFY PARAMETERS HERE
-# Instead, rename config_custom.example.rb to config_custom.rb 
-# and set your own configuration in that file
-# Parameters defined in config_custom.rb override those defined below
-
-# application name
-RDM_APP_NAME = "redMine" 
-# application version
-RDM_APP_VERSION = "0.4.1"
-
 ActiveRecord::Errors.default_error_messages = {
   :inclusion => "activerecord_error_inclusion",
   :exclusion => "activerecord_error_exclusion",
