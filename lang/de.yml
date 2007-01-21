@@ -135,6 +135,7 @@ field_attr_mail: Emailattribut
 field_onthefly: On-the-fly Benutzerkreation
 field_start_date: Beginn
 field_done_ratio: %% Getan
+field_auth_source: Authentisierung Modus
 field_hide_mail: Mein email address verstecken
 field_comment: Anmerkung
 field_url: URL
