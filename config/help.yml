@@ -27,7 +27,7 @@ pages:
   admin:
     index:          ch01.html
     mail_options:   ch01s09.html
-    info:           ch01s11.html
+    info:           ch01s12.html
   users:
     index:          ch01s02.html
   roles:
@@ -37,6 +37,8 @@ pages:
     index:          ch01s04.html
   issue_statuses:
     index:          ch01s06.html
+  settings:
+    index:          ch01s11.html
   # projects
   projects:
     index:          ch02.html

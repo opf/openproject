@@ -433,6 +433,97 @@
     </section>
 
     <section>
+      <title>Settings</title>
+
+      <para>This screen allows you to modify the configuration of the
+      application.</para>
+
+      <para></para>
+
+      <itemizedlist>
+        <listitem>
+          <para><guilabel>Application title</guilabel></para>
+
+          <para>Title which appears in heading of the application.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Application subtitle</guilabel></para>
+
+          <para>Subtitle which appears in heading of the application.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Welcome text</guilabel></para>
+
+          <para>Text displayed on the home page of the application. This text
+          can contain HTML tags.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Default language</guilabel></para>
+
+          <para>The default language is selected when the application could
+          not determine the user's browser language. The default language is
+          also used when sending email to multiple users.</para>
+
+          <para><emphasis>Default: English</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Authent. required</guilabel></para>
+
+          <para>If this option is checked, no page of the application is
+          accessible in an anonymous way. The users must login to access
+          it.</para>
+
+          <para><emphasis>Default: No</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Self-registration enabled</guilabel></para>
+
+          <para>If this option is checked, self registration is
+          allowed.</para>
+
+          <para><emphasis>Default: Yes</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Attachment max. size</guilabel></para>
+
+          <para>Maximum size of uploaded files (in kylo-bytes)</para>
+
+          <para><emphasis>Default: 2048 (i.e. 2MB)</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Emission mail address</guilabel></para>
+
+          <para>Email address used in the "From" field of messages sent to
+          users.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Host name</guilabel></para>
+
+          <para>Host name of the application. This name is used to write URL
+          in emails sent to users.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Text formatting</guilabel></para>
+
+          <para>Formatting method applied to the "description" fields of the
+          issues, news, documents...</para>
+
+          <para>"Textile" option is only available if RedColth ruby library is
+          present.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Information</title>
 
       <para>Displays application and environment information.</para>

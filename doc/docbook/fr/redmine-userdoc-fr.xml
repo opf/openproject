@@ -447,6 +447,99 @@
     </section>
 
     <section>
+      <title>Configuration</title>
+
+      <para>Cet écran vous permet de modifier les paramètres de configuration
+      de l'application.</para>
+
+      <para></para>
+
+      <itemizedlist>
+        <listitem>
+          <para><guilabel>Titre de l'application</guilabel></para>
+
+          <para>Titre qui apparaît en en-tête de l'application.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Sous-titre de l'application</guilabel></para>
+
+          <para>Sous-titre qui apparaît en en-tête de l'application.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Texte d'accueil</guilabel></para>
+
+          <para>Texte affiché sur la page d'accueil de l'application. Ce texte
+          peut contenir des balises HTML.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Langue par défaut</guilabel></para>
+
+          <para>La langue par défaut est sélectionnée lorsque l'application
+          n'a pas pu déterminer la langue définie au niveau du navigateur de
+          l'utilisateur.La langue par défaut est également utilisée lors de
+          l'envoi de mail à plusieurs utilisateurs.</para>
+
+          <para><emphasis>Défaut: Anglais</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Authentif. obligatoire</guilabel></para>
+
+          <para>Si cette option est cochée, aucune page de l'application n'est
+          accessible de manière anonyme. Les utilisateurs doivent
+          obligatoirement s'identifier pour y accéder.</para>
+
+          <para><emphasis>Défaut: Non</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Enregistrement autorisé</guilabel></para>
+
+          <para>Si cette option est cochée, la procédure d'enregistrement en
+          ligne est disponible.</para>
+
+          <para><emphasis>Défaut: Oui</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Taille max des fichiers</guilabel></para>
+
+          <para>Taille maximale des fichiers pouvant être envoyés à
+          l'application (en kilo-octets).</para>
+
+          <para><emphasis>Défaut: 2048 (soit 2Mo)</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Adresse d'émission</guilabel></para>
+
+          <para>Adresse mail utilisée comme adresse d'émission (champ From des
+          mails) lors de l'envoi de messages aux utilisateurs.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Nom d'hôte</guilabel></para>
+
+          <para>Nom d'hôte de l'application. Ce nom est utilisé pour
+          l'écriture des URL dans les mails envoyés aux utilisateurs.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Formatage du texte</guilabel></para>
+
+          <para>Définit la méthode de formatage appliquée aux champs
+          "description" des demandes, annonces, documents...</para>
+
+          <para>L'option "Textile" n'est disponible que si la libraire ruby
+          RedColth est installée.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Informations</title>
 
       <para>Affiche des informations relatives à l'application et à son
