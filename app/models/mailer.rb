@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,13 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Mailer < ActionMailer::Base
-
   helper IssuesHelper
 
   def issue_add(issue)
     # Sends to all project members
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }.compact
-    @from           = $RDM_MAIL_FROM
+    @from           = Setting.mail_from
     @subject        = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
     @body['issue']  = issue
   end
@@ -31,7 +30,7 @@ class Mailer < ActionMailer::Base
     # Sends to all project members
     issue = journal.journalized
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }.compact
-    @from           = $RDM_MAIL_FROM
+    @from           = Setting.mail_from
     @subject        = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
     @body['issue']  = issue
     @body['journal']= journal
@@ -39,14 +38,14 @@ class Mailer < ActionMailer::Base
   
   def lost_password(token)
     @recipients     = token.user.mail
-    @from           = $RDM_MAIL_FROM
+    @from           = Setting.mail_from
     @subject        = l(:mail_subject_lost_password)
     @body['token']  = token
   end  
 
   def register(token)
     @recipients     = token.user.mail
-    @from           = $RDM_MAIL_FROM
+    @from           = Setting.mail_from
     @subject        = l(:mail_subject_register)
     @body['token']  = token
   end

@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
       if attrs
         onthefly = new(*attrs)
         onthefly.login = login
-        onthefly.language = $RDM_DEFAULT_LANG
+        onthefly.language = Setting.default_language
         if onthefly.save
           user = find(:first, :conditions => ["login=?", login])
           logger.info("User '#{user.login}' created on the fly.") if logger

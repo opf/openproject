@@ -1,7 +1,7 @@
-<h2><%= $RDM_WELCOME_TITLE || l(:label_home) %></h2>
+<h2><%= l(:label_home) %></h2>
 
 <div class="splitcontentleft">
-  <% if $RDM_WELCOME_TEXT %><p><%= $RDM_WELCOME_TEXT %></p><br /><% end %>
+  <p><%= Setting.welcome_text %></p>
   <div class="box">
 	<h3><%=l(:label_news_latest)%></h3>
 		<%= render :partial => 'news/news', :collection => @news %>

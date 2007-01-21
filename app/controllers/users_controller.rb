@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 
   def add
     if request.get?
-      @user = User.new(:language => $RDM_DEFAULT_LANG)
+      @user = User.new(:language => Setting.default_language)
       @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user) }
     else
       @user = User.new(params[:user])

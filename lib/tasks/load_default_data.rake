@@ -2,7 +2,7 @@ desc 'Load default configuration data'
 
 task :load_default_data => :environment do
   include GLoc
-  set_language_if_valid($RDM_DEFAULT_LANG)
+  set_language_if_valid('en')
   puts
   
   while true

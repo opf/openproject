@@ -93,7 +93,7 @@ end %>
   <%= start_form_tag ({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true, :class => "tabular") %>
   <p id="attachments_p"><label><%=l(:label_attachment_new)%>
   <%= image_to_function "add.png", "addFileField();return false" %></label>
-  <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= human_size(Attachment.max_size) %>)</em></p>
+  <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
   <%= submit_tag l(:button_add) %>
   <%= end_form_tag %> 
 <% end %>

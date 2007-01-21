@@ -13,6 +13,7 @@ http://redmine.rubyforge.org/
 
 Optional:
 * RedCloth (to enable textile formatting)
+* SVN binaries (needed for repository browsing, must be available in PATH)
 
 Supported databases:
 * MySQL (tested with MySQL 5)
@@ -57,13 +58,11 @@ Supported databases:
 
 == Configuration
 
-A sample configuration file is provided: "config/config_custom.example.rb"
-Rename it to config_custom.rb and set your parameters.
-Don't forget to restart the application after any change.
-
 In config/environment.rb, you can set parameters for your SMTP server:
 config.action_mailer.server_settings: SMTP server configuration
 config.action_mailer.perform_deliveries: set to false to disable mail delivering
+
+Don't forget to restart the application after any change.
 
 
 == Upgrading

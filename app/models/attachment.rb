@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,12 +21,15 @@ class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
   
-  @@max_size = $RDM_ATTACHMENT_MAX_SIZE || 5*1024*1024
-  cattr_reader :max_size
-
   validates_presence_of :container, :filename
-  validates_inclusion_of :filesize, :in => 1..@@max_size
   
+  cattr_accessor :storage_path
+  @@storage_path = "#{RAILS_ROOT}/files"
+  
+  def validate
+    errors.add_to_base :too_long if self.filesize > Setting.attachment_max_size.to_i.kilobytes
+  end
+
 	def file=(incomming_file)
 		unless incomming_file.nil?
 			@temp_file = incomming_file
@@ -63,7 +66,7 @@ class Attachment < ActiveRecord::Base
 	
 	# Returns file's location on disk
 	def diskfile
-		"#{$RDM_STORAGE_PATH}/#{self.disk_filename}"
+		"#{@@storage_path}/#{self.disk_filename}"
 	end
   
   def increment_download

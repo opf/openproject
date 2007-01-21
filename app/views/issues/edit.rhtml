@@ -34,7 +34,7 @@
 <%= submit_tag l(:button_save) %>
 <% end %>
 
-<% unless $RDM_TEXTILE_DISABLED %>
+<% if Setting.text_formatting == 'textile' %>
 <%= javascript_include_tag 'jstoolbar' %>
 <script type="text/javascript">
 //<![CDATA[

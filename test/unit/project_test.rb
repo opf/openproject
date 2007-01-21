@@ -42,7 +42,7 @@ class ProjectTest < Test::Unit::TestCase
     @ecookbook.name = ""
     assert !@ecookbook.save
     assert_equal 1, @ecookbook.errors.count
-    assert_equal l(:activerecord_error_blank), @ecookbook.errors.on(:name)
+    assert_equal "activerecord_error_blank", @ecookbook.errors.on(:name)
   end
   
   def test_public_projects

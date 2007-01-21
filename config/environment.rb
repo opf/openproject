@@ -68,46 +68,10 @@ end
 #   inflect.uncountable %w( fish sheep )
 # end
 
-if File.exist? File.join(File.dirname(__FILE__), 'config_custom.rb')
-  begin
-    print "=> Loading config_custom.rb... "
-    require File.join(File.dirname(__FILE__), 'config_custom') 
-    puts "done."
-  rescue Exception => detail
-    puts
-    puts detail
-    puts detail.backtrace.join("\n")
-    puts "=> Error in config_custom.rb. Check your configuration."
-    exit
-  end
-end
-
 # IMPORTANT !!! DO NOT MODIFY PARAMETERS HERE
 # Instead, rename config_custom.example.rb to config_custom.rb 
 # and set your own configuration in that file
 # Parameters defined in config_custom.rb override those defined below
-
-# application host name
-$RDM_HOST_NAME ||= "localhost:3000"
-# file storage path
-$RDM_STORAGE_PATH ||= "#{RAILS_ROOT}/files"
-# if RDM_LOGIN_REQUIRED is set to true, login is required to access the application
-$RDM_LOGIN_REQUIRED ||= false
-# default langage
-$RDM_DEFAULT_LANG ||= 'en'
-# email sender adress
-$RDM_MAIL_FROM ||= "redmine@somenet.foo"
-
-# page title
-$RDM_HEADER_TITLE ||= "redMine"
-# page sub-title
-$RDM_HEADER_SUBTITLE ||= "Project management"
-# footer signature
-$RDM_FOOTER_SIG = "admin@somenet.foo"
-
-# textile formatting
-# automaticaly disabled if 'textile' method is not defined (RedCloth unavailable)
-$RDM_TEXTILE_DISABLED = true unless ActionView::Helpers::TextHelper.method_defined? "textilize"
 
 # application name
 RDM_APP_NAME = "redMine" 
@@ -131,7 +95,7 @@ ActiveRecord::Errors.default_error_messages = {
 
 ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "#{html_tag}" }
     
-GLoc.set_config :default_language => $RDM_DEFAULT_LANG
+GLoc.set_config :default_language => :en
 GLoc.clear_strings
 GLoc.set_kcode
 GLoc.load_localized_strings

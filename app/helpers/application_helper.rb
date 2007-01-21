@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -93,7 +93,7 @@ module ApplicationHelper
   end
   
   def textilizable(text)
-    $RDM_TEXTILE_DISABLED ? simple_format(auto_link(h(text))) : RedCloth.new(h(text)).to_html
+    (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? RedCloth.new(h(text)).to_html : simple_format(auto_link(h(text)))
   end
   
   def error_messages_for(object_name, options = {})
@@ -131,8 +131,9 @@ module ApplicationHelper
     end
   end
   
-  def lang_options_for_select
-    [["(auto)", ""]] + (GLoc.valid_languages.sort {|x,y| x.to_s <=> y.to_s }).collect {|lang| [ l_lang_name(lang.to_s, lang), lang.to_s]}
+  def lang_options_for_select(blank=true)
+    (blank ? [["(auto)", ""]] : []) + 
+      (GLoc.valid_languages.sort {|x,y| x.to_s <=> y.to_s }).collect {|lang| [ l_lang_name(lang.to_s, lang), lang.to_s]}
   end
   
   def label_tag_for(name, option_tags = nil, options = {})

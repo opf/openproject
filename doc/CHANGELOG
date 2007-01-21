@@ -5,7 +5,16 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://redmine.rubyforge.org/
 
 
-== 03/02/2006 v0.4.1
+== xx/xx/2006 v0.4.2
+
+* settings are now stored in the database (config_custom.rb no more used) and editable through the application in: Admin -> Settings
+* tooltips added on Gantt chart and calender to view the details of the issues
+* all icons replaced (new icons are based on GPL icon set: "KDE Crystal Diamond 2.5" -by paolino- and "kNeu! Alpha v0.1" -by Pablo Fabregat-)
+* added back "fixed version" field on issue screen and in filters
+* fixed: subprojects count is always 0 on projects list
+
+
+== 01/03/2006 v0.4.1
 
 * fixed: emails have no recipient when one of the project members has notifications disabled
 
