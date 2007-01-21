@@ -2,34 +2,34 @@
 
 <%= start_form_tag({:action => 'edit'}, :class => "tabular") %>
 <div class="box">
-<p><label>header_title</label>
-<%= text_field_tag 'settings[header_title]', Setting.header_title, :size => 30 %></p>
+<p><label><%= l(:setting_app_title) %></label>
+<%= text_field_tag 'settings[app_title]', Setting.app_title, :size => 30 %></p>
 
-<p><label>header_subtitle</label>
-<%= text_field_tag 'settings[header_subtitle]', Setting.header_subtitle, :size => 60 %></p>
+<p><label><%= l(:setting_app_subtitle) %></label>
+<%= text_field_tag 'settings[app_subtitle]', Setting.app_subtitle, :size => 60 %></p>
 
-<p><label>welcome_text</label>
+<p><label><%= l(:setting_welcome_text) %></label>
 <%= text_area_tag 'settings[welcome_text]', Setting.welcome_text, :cols => 60, :rows => 5 %></p>
 
-<p><label>default_language</label>
+<p><label><%= l(:setting_default_language) %></label>
 <%= select_tag 'settings[default_language]', options_for_select( lang_options_for_select(false), Setting.default_language) %></p>
 
-<p><label>login_required</label>
+<p><label><%= l(:setting_login_required) %></label>
 <%= check_box_tag 'settings[login_required]', 1, Setting.login_required? %><%= hidden_field_tag 'settings[login_required]', 0 %></p>
 
-<p><label>self_registration</label>
+<p><label><%= l(:setting_self_registration) %></label>
 <%= check_box_tag 'settings[self_registration]', 1, Setting.self_registration? %><%= hidden_field_tag 'settings[self_registration]', 0 %></p>
 
-<p><label>attachment_max_size</label>
-<%= text_field_tag 'settings[attachment_max_size]', Setting.attachment_max_size, :size => 6 %></p>
+<p><label><%= l(:setting_attachment_max_size) %></label>
+<%= text_field_tag 'settings[attachment_max_size]', Setting.attachment_max_size, :size => 6 %> KB</p>
 
-<p><label>mail_from</label>
+<p><label><%= l(:setting_mail_from) %></label>
 <%= text_field_tag 'settings[mail_from]', Setting.mail_from, :size => 60 %></p>
 
-<p><label>host_name</label>
+<p><label><%= l(:setting_host_name) %></label>
 <%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %></p>
 
-<p><label>text_formatting</label>
+<p><label><%= l(:setting_text_formatting) %></label>
 <%= select_tag 'settings[text_formatting]', options_for_select( [[l(:label_none), 0], ["textile", "textile"]], Setting.text_formatting) %></p>
 
 </div>

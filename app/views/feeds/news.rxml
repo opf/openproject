@@ -1,7 +1,7 @@
 xml.instruct!
 xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml.channel do
-    xml.title "#{Setting.header_title}: #{l(:label_news_latest)}"
+    xml.title "#{Setting.app_title}: #{l(:label_news_latest)}"
     xml.link url_for(:controller => '', :only_path => false)
     xml.pubDate CGI.rfc1123_date(@news.first.created_on)
     xml.description l(:label_news_latest)

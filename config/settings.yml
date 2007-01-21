@@ -19,9 +19,9 @@
 # DO NOT MODIFY THIS FILE !!!
 # Settings can be defined through the application in Admin -> Settings
 
-header_title:
+app_title:
   default: redMine
-header_subtitle:
+app_subtitle:
   default: Project management
 welcome_text:
   default:

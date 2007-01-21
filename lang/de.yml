@@ -140,6 +140,17 @@ field_hide_mail: Mein email address verstecken
 field_comment: Anmerkung
 field_url: URL
 
+setting_app_title: Applikation Titel
+setting_app_subtitle: Applikation Untertitel
+setting_welcome_text: Willkommener Text
+setting_default_language: Rückstellung Sprache
+setting_login_required: Authent. erfordert
+setting_self_registration: Selbstausrichtung ermöglicht
+setting_attachment_max_size: Dateimaximumgröße
+setting_mail_from: Emission address
+setting_host_name: Host Name
+setting_text_formatting: Textformatierung
+
 label_user: Benutzer
 label_user_plural: Benutzer
 label_user_new: Neuer Benutzer

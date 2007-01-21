@@ -140,6 +140,17 @@ field_hide_mail: Hide my email address
 field_comment: Comment
 field_url: URL
 
+setting_app_title: Application title
+setting_app_subtitle: Application subtitle
+setting_welcome_text: Welcome text
+setting_default_language: Default language
+setting_login_required: Authent. required
+setting_self_registration: Self-registration enabled
+setting_attachment_max_size: Attachment max. size
+setting_mail_from: Emission mail address
+setting_host_name: Host name
+setting_text_formatting: Text formatting
+
 label_user: User
 label_user_plural: Users
 label_user_new: New user
