@@ -115,7 +115,20 @@ module ActionView #:nodoc:
 
         select_html(options[:field_name] || 'year', year_options, options[:prefix], options[:include_blank], options[:discard_type], options[:disabled])
       end
-      
+
+      # added by JP Lang
+      # select_html is a rails private method and changed in 1.2
+      # implementation added here for compatibility
+      def select_html(type, options, prefix = nil, include_blank = false, discard_type = false, disabled = false)
+        select_html  = %(<select name="#{prefix || "date"})
+        select_html << "[#{type}]" unless discard_type
+        select_html << %(")
+        select_html << %( disabled="disabled") if disabled
+        select_html << %(>\n)
+        select_html << %(<option value=""></option>\n) if include_blank
+        select_html << options.to_s
+        select_html << "</select>\n"
+      end
     end
     
     # The private method <tt>add_options</tt> is overridden so that "Please select" is localized.
