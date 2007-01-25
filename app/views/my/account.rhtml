@@ -1,8 +1,7 @@
 <h2><%=l(:label_my_account)%></h2>
 
 <p><%=l(:field_login)%>: <strong><%= @user.login %></strong><br />
-<%=l(:field_created_on)%>: <%= format_time(@user.created_on) %>,
-<%=l(:field_updated_on)%>: <%= format_time(@user.updated_on) %></p>
+<%=l(:field_created_on)%>: <%= format_time(@user.created_on) %></p>
 
 <%= error_messages_for 'user' %>
 
