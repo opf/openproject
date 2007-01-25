@@ -92,16 +92,16 @@ class ApplicationController < ActionController::Base
   # store current uri in session.
   # return to this location by calling redirect_back_or_default
   def store_location
-    session[:return_to] = request.request_uri
+    session[:return_to_params] = params
   end
 
   # move to the last store_location call or to the passed default one
   def redirect_back_or_default(default)
-    if session[:return_to].nil?
+    if session[:return_to_params].nil?
       redirect_to default
     else
-      redirect_to_url session[:return_to]
-      session[:return_to] = nil
+      redirect_to session[:return_to_params]
+      session[:return_to_params] = nil
     end
   end
   

@@ -52,14 +52,14 @@ class AccountController < ApplicationController
   # Log out current user and redirect to welcome page
   def logout
     self.logged_in_user = nil
-    redirect_to :controller => ''
+    redirect_to :controller => 'welcome'
   end
   
   # Enable user to choose a new password
   def lost_password
     if params[:token]
       @token = Token.find_by_action_and_value("recovery", params[:token])
-      redirect_to :controller => '' and return unless @token and !@token.expired?
+      redirect_to :controller => 'welcome' and return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
@@ -95,12 +95,12 @@ class AccountController < ApplicationController
   
   # User self-registration
   def register
-    redirect_to :controller => '' and return unless Setting.self_registration?
+    redirect_to :controller => 'welcome' and return unless Setting.self_registration?
     if params[:token]
       token = Token.find_by_action_and_value("register", params[:token])
-      redirect_to :controller => '' and return unless token and !token.expired?
+      redirect_to :controller => 'welcome' and return unless token and !token.expired?
       user = token.user
-      redirect_to :controller => '' and return unless user.status == User::STATUS_REGISTERED
+      redirect_to :controller => 'welcome' and return unless user.status == User::STATUS_REGISTERED
       user.status = User::STATUS_ACTIVE
       if user.save
         token.destroy
@@ -125,7 +125,7 @@ class AccountController < ApplicationController
           Mailer.set_language_if_valid(@user.language)
           Mailer.deliver_register(token)
           flash[:notice] = l(:notice_account_register_done)
-          redirect_to :controller => ''
+          redirect_to :controller => 'welcome' and return
         end
       end
     end
