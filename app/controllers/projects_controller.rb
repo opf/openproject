@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'csv'
+
 class ProjectsController < ApplicationController
   layout 'base'
   before_filter :find_project, :authorize, :except => [ :index, :list, :add ]
@@ -255,21 +257,41 @@ class ProjectsController < ApplicationController
     render :action => 'list_issues' and return unless @query.valid?
 					
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker, :project, :custom_values ],
-						:conditions => @query.statement				
+						:include => [ :author, :status, :tracker, :priority, {:custom_values => :custom_field} ],
+						:conditions => @query.statement
 
     ic = Iconv.new('ISO-8859-1', 'UTF-8')    
     export = StringIO.new
     CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
       # csv header fields
-      headers = [ "#", l(:field_status), l(:field_tracker), l(:field_subject), l(:field_author), l(:field_created_on), l(:field_updated_on) ]
+      headers = [ "#", l(:field_status), 
+                       l(:field_tracker),
+                       l(:field_priority),
+                       l(:field_subject),
+                       l(:field_author),
+                       l(:field_start_date),
+                       l(:field_due_date),
+                       l(:field_done_ratio),
+                       l(:field_created_on),
+                       l(:field_updated_on)
+                       ]
       for custom_field in @project.all_custom_fields
         headers << custom_field.name
       end      
       csv << headers.collect {|c| ic.iconv(c) }
       # csv lines
       @issues.each do |issue|
-        fields = [issue.id, issue.status.name, issue.tracker.name, issue.subject, issue.author.display_name, l_datetime(issue.created_on),  l_datetime(issue.updated_on)]
+        fields = [issue.id, issue.status.name, 
+                            issue.tracker.name, 
+                            issue.priority.name,
+                            issue.subject, 
+                            issue.author.display_name,
+                            issue.start_date ? l_date(issue.start_date) : nil,
+                            issue.due_date ? l_date(issue.due_date) : nil,
+                            issue.done_ratio,
+                            l_datetime(issue.created_on),  
+                            l_datetime(issue.updated_on)
+                            ]
         for custom_field in @project.all_custom_fields
           fields << (show_value issue.custom_value_for(custom_field))
         end
