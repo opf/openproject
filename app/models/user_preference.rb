@@ -17,7 +17,7 @@
 
 class UserPreference < ActiveRecord::Base
   belongs_to :user
-  serialize :others, Hash
+  serialize :others
   
   attr_protected :others
   
