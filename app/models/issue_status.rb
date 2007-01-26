@@ -26,7 +26,7 @@ class IssueStatus < ActiveRecord::Base
   validates_format_of :html_color, :with => /^[a-f0-9]*$/i
 
   def before_save
-    IssueStatus.update_all "is_default=false" if self.is_default?
+    IssueStatus.update_all "is_default=#{connection.quoted_false}" if self.is_default?
   end  
   
   # Returns the default status for new issues
