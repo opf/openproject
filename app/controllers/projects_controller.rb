@@ -79,7 +79,7 @@ class ProjectsController < ApplicationController
   def show
     @custom_values = @project.custom_values.find(:all, :include => :custom_field)
     @members = @project.members.find(:all, :include => [:user, :role])
-    @subprojects = @project.children if @project.children_count > 0
+    @subprojects = @project.children if @project.children.size > 0
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "news.created_on DESC")
     @trackers = Tracker.find(:all)
     @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN issue_statuses ON issue_statuses.id = issues.status_id", :conditions => ["project_id=? and issue_statuses.is_closed=?", @project.id, false])

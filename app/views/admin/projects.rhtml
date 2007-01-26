@@ -19,7 +19,7 @@
 	<td><%= link_to project.name, :controller => 'projects', :action => 'settings', :id => project %>
 	<td><%=h project.description %>
 	<td align="center"><%= image_tag 'true.png' if project.is_public? %>
-	<td align="center"><%= project.children_count %>
+	<td align="center"><%= project.children.size %>
 	<td align="center"><%= format_date(project.created_on) %>
   <td align="center">
     <%= button_to l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => "button-small" %>
