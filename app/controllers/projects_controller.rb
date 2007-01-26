@@ -138,7 +138,7 @@ class ProjectsController < ApplicationController
       @issue_category = @project.issue_categories.build(params[:issue_category])
       if @issue_category.save
         flash[:notice] = l(:notice_successful_create)
-        redirect_to :action => 'settings', :id => @project
+        redirect_to :action => 'settings', :tab => 'categories', :id => @project
       else
         settings
         render :action => 'settings'
@@ -151,7 +151,7 @@ class ProjectsController < ApplicationController
   	@version = @project.versions.build(params[:version])
   	if request.post? and @version.save
   	  flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'settings', :id => @project
+      redirect_to :action => 'settings', :tab => 'versions', :id => @project
   	end
   end
 
@@ -161,7 +161,7 @@ class ProjectsController < ApplicationController
   	if request.post?
       if @member.save
         flash[:notice] = l(:notice_successful_create)
-        redirect_to :action => 'settings', :id => @project
+        redirect_to :action => 'settings', :tab => 'members', :id => @project
       else		
         settings
         render :action => 'settings'

@@ -215,6 +215,30 @@ font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 #content dt{font-weight:bold; margin-bottom:5px;}
 #content dd{margin:0 0 10px 15px;}
 
+#content .tabs{height: 2.6em;}
+#content .tabs ul{margin:0;}
+#content .tabs ul li{
+float:left;
+list-style-type:none;
+white-space:nowrap;
+margin-right:8px;
+background:#fff;
+}
+#content .tabs ul li a{
+display:block;
+font-size: 0.9em;
+text-decoration:none;
+line-height:1em;
+padding:4px;
+border: 1px solid #c0c0c0;
+}
+
+#content .tabs ul li a.selected, #content .tabs ul li a:hover{
+background-color: #80b0da;
+border: 1px solid #80b0da;
+color: #fff;
+text-decoration:none;
+}
 
 /***********************************************/
 

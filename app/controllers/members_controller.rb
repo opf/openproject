@@ -16,21 +16,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MembersController < ApplicationController
-	layout 'base'
-	before_filter :find_project, :authorize
+  layout 'base'
+  before_filter :find_project, :authorize
 
-	def edit
-		if request.post? and @member.update_attributes(params[:member])
-			flash[:notice] = l(:notice_successful_update)
-			redirect_to :controller => 'projects', :action => 'settings', :id => @project
-		end
-	end
+  def edit
+    if request.post? and @member.update_attributes(params[:member])
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project
+    end
+  end
 
-	def destroy
-		@member.destroy
+  def destroy
+    @member.destroy
     flash[:notice] = l(:notice_successful_delete)
-		redirect_to :controller => 'projects', :action => 'settings', :id => @project
-	end
+    redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project
+  end
 
 private
   def find_project

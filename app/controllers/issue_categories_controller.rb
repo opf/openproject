@@ -22,16 +22,16 @@ class IssueCategoriesController < ApplicationController
   def edit
     if request.post? and @category.update_attributes(params[:category])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => 'projects', :action => 'settings', :id => @project
+      redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
     end
   end
 
   def destroy
     @category.destroy
-    redirect_to :controller => 'projects', :action => 'settings', :id => @project
+    redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
   rescue
     flash[:notice] = "Categorie can't be deleted"
-    redirect_to :controller => 'projects', :action => 'settings', :id => @project
+    redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
   end
 
 private

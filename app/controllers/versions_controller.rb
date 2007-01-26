@@ -22,16 +22,16 @@ class VersionsController < ApplicationController
   def edit
     if request.post? and @version.update_attributes(params[:version])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => 'projects', :action => 'settings', :id => @project
+      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
     end
   end
 
   def destroy
     @version.destroy
-    redirect_to :controller => 'projects', :action => 'settings', :id => @project
+    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
   rescue
     flash[:notice] = "Unable to delete version"
-    redirect_to :controller => 'projects', :action => 'settings', :id => @project
+    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
   end
 
   def download

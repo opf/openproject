@@ -1,13 +1,24 @@
 <h2><%=l(:label_settings)%></h2>
 
+<div class="tabs">
+<ul>
+<li><%= link_to l(:label_information_plural), {}, :id=> "tab-info", :onclick => "showTab('info'); this.blur(); return false;" %></li>
+<li><%= link_to l(:label_member_plural), {}, :id=> "tab-members", :onclick => "showTab('members'); this.blur(); return false;" %></li>
+<li><%= link_to l(:label_version_plural), {}, :id=> "tab-versions", :onclick => "showTab('versions'); this.blur(); return false;" %></li>
+<li><%= link_to l(:label_issue_category_plural), {}, :id=> "tab-categories", :onclick => "showTab('categories'); this.blur(); return false;" %></li>
+</ul>
+</div>
+
+<div id="tab-content-info" class="tab-content">
 <% if authorize_for('projects', 'edit') %>
 	<% labelled_tabular_form_for :project, @project, :url => { :action => "edit", :id => @project } do |f| %>
 	<%= render :partial => 'form', :locals => { :f => f } %>
 	<%= submit_tag l(:button_save) %>
 	<% end %>
-	<br />&nbsp;
 <% end %>
+</div>
 
+<div id="tab-content-members" class="tab-content" style="display:none;">
 <div class="box">
 <h3><%=l(:label_member_plural)%></h3>
 <%= error_messages_for 'member' %>
@@ -36,7 +47,7 @@
 <% if authorize_for('projects', 'add_member') %>
     <hr />
     <label><%=l(:label_member_new)%></label><br/>
-    <%= start_form_tag :controller => 'projects', :action => 'add_member', :id => @project %>
+    <%= start_form_tag :controller => 'projects', :action => 'add_member', :tab => 'members', :id => @project %>
     <select name="member[user_id]">
     <%= options_from_collection_for_select @users, "id", "display_name", @member.user_id %>
     </select>
@@ -47,7 +58,9 @@
     <%= end_form_tag %>
 <% end %>
 </div>
+</div>
 
+<div id="tab-content-versions" class="tab-content" style="display:none;">
 <div class="box">
 <h3><%=l(:label_version_plural)%></h3>
 <table>
@@ -68,8 +81,9 @@
     <%= link_to l(:label_version_new), :controller => 'projects', :action => 'add_version', :id => @project %>
 <% end %>
 </div>
+</div>
 
-
+<div id="tab-content-categories" class="tab-content" style="display:none;">
 <div class="box">
 <h3><%=l(:label_issue_category_plural)%></h3>
 <table>
@@ -95,7 +109,7 @@
 </table>
 <% if authorize_for('projects', 'add_issue_category') %>
     <hr />
-    <%= start_form_tag :action => 'add_issue_category', :id => @project %>
+    <%= start_form_tag :action => 'add_issue_category', :tab => 'categories', :id => @project %>
     <label for="issue_category_name"><%=l(:label_issue_category_new)%></label><br/>
     <%= error_messages_for 'issue_category' %>
     <%= text_field 'issue_category', 'name', :size => 25 %>
@@ -103,3 +117,7 @@
     <%= end_form_tag %>
 <% end %>
 </div>
+</div>
+
+<%= tab = params[:tab] ? h(params[:tab]) : 'info'
+javascript_tag "showTab('#{tab}');" %>
