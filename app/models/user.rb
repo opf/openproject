@@ -49,7 +49,19 @@ class User < ActiveRecord::Base
     # update hashed_password if password was set
     self.hashed_password = User.hash_password(self.password) if self.password
   end
-	
+
+  def self.active
+    with_scope :find => { :conditions => [ "status = ?", STATUS_ACTIVE ] } do 
+      yield 
+    end 
+  end
+  
+  def self.find_active(*args)
+    active do
+      find(*args)
+    end
+  end
+  
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password)
     user = find(:first, :conditions => ["login=?", login])
