@@ -533,6 +533,7 @@ private
   def retrieve_query
     if params[:query_id]
       @query = @project.queries.find(params[:query_id])
+      session[:query] = @query
     else
       if params[:set_filter] or !session[:query] or session[:query].project_id != @project.id
         # Give it a name, required to be valid
