@@ -336,6 +336,10 @@ table.with-cells td {
     border: 1px solid #d7d7d7;
 }
 
+table.list td {
+    padding:2px;
+}
+
 table.list thead th {
     text-align: center;
     background: #eee;

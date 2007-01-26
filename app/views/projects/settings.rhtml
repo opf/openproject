@@ -19,15 +19,15 @@
 </div>
 
 <div id="tab-content-members" class="tab-content" style="display:none;">
-<div class="box">
-<h3><%=l(:label_member_plural)%></h3>
 <%= error_messages_for 'member' %>
-<table>
-<% for member in @project.members.find(:all, :include => :user) %>
+<table class="list">
+	<thead><th><%= l(:label_user) %></th><th><%= l(:label_role) %></th><th></th></thead>
+	<tbody>
+	<% for member in @project.members.find(:all, :include => :user) %>
 	<% unless member.new_record? %>
-	<tr>
+	<tr class="<%= cycle 'odd', 'even' %>">
 	<td><%= member.user.display_name %></td>
-    <td>
+    <td align="center">
         <% if authorize_for('members', 'edit') %>
         <%= start_form_tag :controller => 'members', :action => 'edit', :id => member %>
         <select name="member[role_id]">
@@ -37,15 +37,15 @@
         <%= end_form_tag %>
         <% end %>
     </td>
-    <td>
+    <td align="center">
         <%= link_to_if_authorized l(:button_delete), {:controller => 'members', :action => 'destroy', :id => member}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
     </td>
-	</tr>
+	</tr>	
 	<% end %>
-<% end %>
+	</tbody>
+<% end; reset_cycle %>
 </table>
 <% if authorize_for('projects', 'add_member') %>
-    <hr />
     <label><%=l(:label_member_new)%></label><br/>
     <%= start_form_tag :controller => 'projects', :action => 'add_member', :tab => 'members', :id => @project %>
     <select name="member[user_id]">
@@ -58,57 +58,50 @@
     <%= end_form_tag %>
 <% end %>
 </div>
-</div>
 
 <div id="tab-content-versions" class="tab-content" style="display:none;">
-<div class="box">
-<h3><%=l(:label_version_plural)%></h3>
-<table>
+<table class="list">
+	<thead><th><%= l(:label_version) %></th><th><%= l(:field_effective_date) %></th><th><%= l(:field_description) %></th><th></th><th></th></thead>
+	<tbody>
 <% for version in @project.versions %>
-  <tr>
-  <td width="100"><strong><%=h version.name %></strong></td>
-  <td width="100"><%= format_date(version.effective_date) %></td>
-  <td><%=h version.description %></td>
-  <td>
-      <%= link_to_if_authorized l(:button_edit), { :controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>
-      <%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
-  </td>
-  </tr>
-<% end %>
+    <tr class="<%= cycle 'odd', 'even' %>">
+    <td><strong><%=h version.name %></strong></td>
+    <td align="center"><%= format_date(version.effective_date) %></td>
+    <td><%=h version.description %></td>
+    <td align="center"><%= link_to_if_authorized l(:button_edit), { :controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %></td>
+    <td align="center"><%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %></td>
+    </td>
+    </tr>
+<% end; reset_cycle %>
+    </tbody>
 </table>
-<% if authorize_for('projects', 'add_version') %>
-    <hr />
-    <%= link_to l(:label_version_new), :controller => 'projects', :action => 'add_version', :id => @project %>
-<% end %>
-</div>
+<%= link_to_if_authorized l(:label_version_new), :controller => 'projects', :action => 'add_version', :id => @project %>
 </div>
 
 <div id="tab-content-categories" class="tab-content" style="display:none;">
-<div class="box">
-<h3><%=l(:label_issue_category_plural)%></h3>
-<table>
+<table class="list">
+	<thead><th><%= l(:label_issue_status) %></th><th></th></thead>
+	<tbody>
 <% for @category in @project.issue_categories %>
 	<% unless @category.new_record? %>
-	<tr>
+	<tr class="<%= cycle 'odd', 'even' %>">
     <td>
         <%= start_form_tag :controller => 'issue_categories', :action => 'edit', :id => @category %>
         <%= text_field 'category', 'name', :size => 25  %>
-    </td>
-    <td>
         <% if authorize_for('issue_categories', 'edit') %>
         <%= submit_tag l(:button_save), :class => "button-small" %>
         <%= end_form_tag %>
         <% end %>
     </td>
-    <td>
+    <td align="center">
         <%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => @category}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
     </td>
 	</tr>
 	<% end %>
 <% end %>
+    </tbody>
 </table>
 <% if authorize_for('projects', 'add_issue_category') %>
-    <hr />
     <%= start_form_tag :action => 'add_issue_category', :tab => 'categories', :id => @project %>
     <label for="issue_category_name"><%=l(:label_issue_category_new)%></label><br/>
     <%= error_messages_for 'issue_category' %>
@@ -116,7 +109,6 @@
     <%= submit_tag l(:button_create) %>
     <%= end_form_tag %>
 <% end %>
-</div>
 </div>
 
 <%= tab = params[:tab] ? h(params[:tab]) : 'info'
