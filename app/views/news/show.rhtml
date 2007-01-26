@@ -24,10 +24,10 @@
 </div>
 
 <% if authorize_for 'news', 'add_comment' %>
-<%= start_form_tag :action => 'add_comment', :id => @news %>
+<% form_tag({:action => 'add_comment', :id => @news}) do %>
 <%= error_messages_for 'comment' %>
 <p><label for="comment_comment"><%= l(:label_comment_add) %></label><br />
 <%= text_area 'comment', 'comment', :cols => 60, :rows => 6 %></p>
 <%= submit_tag l(:button_add) %>
-<%= end_form_tag %>
+<% end %>
 <% end %>

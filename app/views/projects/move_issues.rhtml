@@ -1,7 +1,7 @@
 <h2><%=l(:button_move)%></h2>
 
 
-<%= start_form_tag({:action => 'move_issues', :id => @project}, :class => "tabular") %>
+<% form_tag({:action => 'move_issues', :id => @project}, :class => "tabular") do %>
 
 <div class="box">
 <p><label><%= l(:label_issue_plural) %>:</label>
@@ -21,4 +21,4 @@
 <%= select_tag "new_tracker_id", options_from_collection_for_select(@trackers, "id", "name") %></p>
 </div>
 <%= submit_tag l(:button_move) %>
-<%= end_form_tag %>
+<% end %>

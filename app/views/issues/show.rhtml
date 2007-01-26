@@ -56,13 +56,13 @@ end %>
 </div>
 
 <% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
-  <%= start_form_tag ({:controller => 'issues', :action => 'change_status', :id => @issue}) %>
+  <% form_tag ({:controller => 'issues', :action => 'change_status', :id => @issue}) do %>
   <%=l(:label_change_status)%> :
   <select name="new_status_id">
   <%= options_from_collection_for_select @status_options, "id", "name" %>
   </select>
   <%= submit_tag l(:button_change) %>
-  <%= end_form_tag %>
+  <% end %>
 <% end %>
 &nbsp;
 </div>
@@ -90,22 +90,22 @@ end %>
 </table>
 <br />
 <% if authorize_for('issues', 'add_attachment') %>
-  <%= start_form_tag ({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true, :class => "tabular") %>
+  <% form_tag ({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true, :class => "tabular") do %>
   <p id="attachments_p"><label><%=l(:label_attachment_new)%>
   <%= image_to_function "add.png", "addFileField();return false" %></label>
   <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
   <%= submit_tag l(:button_add) %>
-  <%= end_form_tag %> 
+  <% end %> 
 <% end %>
 </div>
 
 <% if authorize_for('issues', 'add_note') %>
   <div class="box">
   <h3><%= l(:label_add_note) %></h3>
-  <%= start_form_tag ({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular" ) %>
+  <% form_tag ({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular" ) do %>
   <p><label for="notes"><%=l(:field_notes)%></label>
     <%= text_area_tag 'notes', '', :cols => 60, :rows => 10  %></p>
   <%= submit_tag l(:button_add) %>
-  <%= end_form_tag %>  
+  <% end %>  
   </div>
 <% end %>

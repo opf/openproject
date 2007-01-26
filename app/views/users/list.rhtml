@@ -28,7 +28,7 @@
 	<td align="center"><%= format_time(user.created_on) %></td>
 	<td align="center"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
   <td align="center">
-    <%= start_form_tag :action => 'edit', :id => user %>
+    <% form_tag({:action => 'edit', :id => user}) do %>
     <% if user.locked? %>
       <%= hidden_field_tag 'user[status]', User::STATUS_ACTIVE %>
       <%= submit_tag l(:button_unlock), :class => "button-small"  %>
@@ -39,7 +39,7 @@
       <%= hidden_field_tag 'user[status]', User::STATUS_LOCKED %>
       <%= submit_tag l(:button_lock), :class => "button-small"  %>
     <% end %>
-    <%= end_form_tag %>  
+    <% end %>  
   </td>
   </tr>
 <% end %>

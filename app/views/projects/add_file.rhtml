@@ -2,7 +2,7 @@
 
 <%= error_messages_for 'attachment' %>
 <div class="box">
-<%= start_form_tag ({ :action => 'add_file', :id => @project }, :multipart => true, :class => "tabular") %>
+<% form_tag({ :action => 'add_file', :id => @project }, :multipart => true, :class => "tabular") do %>
 
 <p><label for="version_id"><%=l(:field_version)%> <span class="required">*</span></label>
 <%= select_tag "version_id", options_from_collection_for_select(@versions, "id", "name") %></p>
@@ -12,4 +12,4 @@
 <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
 </div>
 <%= submit_tag l(:button_add) %>
-<%= end_form_tag %> 
+<% end %> 

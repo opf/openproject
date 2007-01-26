@@ -2,7 +2,7 @@
 
 <div>
 <div class="rightbox">
-<%= start_form_tag %>
+<% form_tag do %>
 <p><%= select_month(@month, :prefix => "month", :discard_type => true) %>
 <%= select_year(@year, :prefix => "year", :discard_type => true) %></p>
 <p>
@@ -12,7 +12,7 @@
     <%= check_box_tag 'show_documents', 1, @show_documents %><%= hidden_field_tag 'show_documents', 0, :id => nil %> <%=l(:label_document_plural)%>
 </p>
 <p class="textcenter"><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
-<%= end_form_tag %>
+<% end %>
 </div>
 
 <% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>

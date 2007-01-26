@@ -2,7 +2,7 @@
 
 <p><%=l(:text_workflow_edit)%>:</p>
 
-<%= start_form_tag ({:action => 'workflow'}, :method => 'get') %>
+<% form_tag ({:action => 'workflow'}, :method => 'get') do %>
 <div style="float:left;margin-right:10px;">
 <p><label for="role_id"><%=l(:label_role)%></label><br/>
 <select id="role_id" name="role_id">
@@ -19,13 +19,13 @@
 <%= submit_tag l(:button_edit) %>
 </p>
 </div>
-<%= end_form_tag %>
+<% end %>
   
   
 
 <% unless @tracker.nil? or @role.nil? %>
 <div class="box">
-  <%= form_tag ({:action => 'workflow', :role_id => @role, :tracker_id => @tracker }, :id => 'workflow_form' ) %>
+  <% form_tag ({:action => 'workflow', :role_id => @role, :tracker_id => @tracker }, :id => 'workflow_form' ) do %>
 	<table>
 	<tr>
 	<td align="center"><strong><%=l(:label_current_status)%></strong></td>
@@ -63,7 +63,7 @@
 </p>
 <br />
 <%= submit_tag l(:button_save) %>
-<%= end_form_tag %>
+<% end %>
 
 <% end %>
 </div>

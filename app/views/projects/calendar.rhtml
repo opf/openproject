@@ -1,6 +1,6 @@
 <h2><%= l(:label_calendar) %></h2>
 
-    <%= start_form_tag :action => 'calendar', :id => @project %>
+<% form_tag({:action => 'calendar', :id => @project}) do %>
 <table width="100%">
 <tr>
 <td align="left" style="width:150px">
@@ -22,7 +22,7 @@
 </td>
 </tr>
 </table>
-    <%= end_form_tag %>
+<% end %>
 <br />
 
 <table class="list with-cells">

@@ -2,7 +2,7 @@
 <h3><%= l(:label_project_plural) %></h3>
 
 <% @user.memberships.each do |membership| %>
-<%= start_form_tag({ :action => 'edit_membership', :id => @user, :membership_id => membership }, :class => "tabular") %>
+<% form_tag({ :action => 'edit_membership', :id => @user, :membership_id => membership }, :class => "tabular") do %>
 <p style="margin:0;padding-top:0;">
     <label><%= membership.project.name %></label>
     <select name="membership[role_id]">
@@ -11,12 +11,12 @@
     <%= submit_tag l(:button_change), :class => "button-small" %>
     <%= link_to l(:button_delete), {:action => 'destroy_membership', :id => @user, :membership_id => membership }, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
 </p>
-<%= end_form_tag %>
+<% end %>
 <% end %>
 <hr />
 <p>
 <label><%=l(:label_project_new)%></label><br/>
-<%= start_form_tag({ :action => 'edit_membership', :id => @user }) %>
+<% form_tag({ :action => 'edit_membership', :id => @user }) do %>
 <select name="membership[project_id]">
 <%= options_from_collection_for_select @projects, "id", "name", @membership.project_id %>
 </select>
@@ -24,6 +24,6 @@
 <%= options_from_collection_for_select @roles, "id", "name", @membership.role_id %>
 </select>
 <%= submit_tag l(:button_add) %>
-<%= end_form_tag %>
+<% end %>
 </p>
 </div>

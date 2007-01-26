@@ -5,10 +5,10 @@
 <%=l(:text_project_destroy_confirmation)%></p>
 
 <p>
-    <%= start_form_tag({:controller => 'projects', :action => 'destroy', :id => @project}) %>
+    <% form_tag({:controller => 'projects', :action => 'destroy', :id => @project}) do %>
     <%= hidden_field_tag "confirm", 1 %>
     <%= submit_tag l(:button_delete) %>
-    <%= end_form_tag %>
+    <% end %>
 </p>
 </center>
 </div>

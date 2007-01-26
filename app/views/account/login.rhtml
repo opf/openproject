@@ -2,7 +2,7 @@
 <div class="box login">
 <h2 class="icon22 icon22-authent"><%=l(:label_please_login)%></h2>
 
-<%= start_form_tag({:action=> "login"}, :class => "tabular") %>
+<% form_tag ({:action=> "login"}, :class => "tabular") do %>
 <p><label for="login"><%=l(:field_login)%>:</label>
 <%= text_field_tag 'login', nil, :size => 25 %></p>
 
@@ -10,7 +10,7 @@
 <%= password_field_tag 'password', nil, :size => 25 %></p>
 
 <p><center><input type="submit" name="login" value="<%=l(:button_login)%> &#187;" class="primary" /></center>
-<%= end_form_tag %>
+<% end %>
 
 <br><% if Setting.self_registration? %><%= link_to l(:label_register), :action => 'register' %> |<% end %>
 <%= link_to l(:label_password_lost), :action => 'lost_password' %></p>

@@ -1,6 +1,6 @@
 <h2><%=l(:label_auth_source_new)%> (<%= @auth_source.auth_method_name %>)</h2>
 
-<%= start_form_tag({:action => 'create'}, :class => "tabular") %>
+<% form_tag({:action => 'create'}, :class => "tabular") do %>
   <%= render :partial => 'form' %>
   <%= submit_tag l(:button_create) %>
-<%= end_form_tag %>
+<% end %>

@@ -36,7 +36,7 @@ function removeBlock(block) {
 
 <div class="contextual">
 <span id="indicator" style="display:none"><%= image_tag "loading.gif", :align => "absmiddle" %></span>
-<%= start_form_tag({:action => "add_block"}, :id => "block-form") %>
+<% form_tag({:action => "add_block"}, :id => "block-form") do %>
 <%= select_tag 'block', "<option></option>" + options_for_select(@block_options), :id => "block-select" %>
 <%= link_to_remote l(:button_add),
             :url => { :action => "add_block" },
@@ -47,7 +47,7 @@ function removeBlock(block) {
             :loading => "Element.show('indicator')",
             :loaded => "Element.hide('indicator')"
              %>
-<%= end_form_tag %> |
+<% end %> |
 <%= link_to l(:button_save), :action => 'page_layout_save' %> |
 <%= link_to l(:button_cancel), :action => 'page' %>
 </div>

@@ -3,14 +3,14 @@
 <div>
 
 <div class="rightbox" style="width:140px;">
-<%= start_form_tag %>
+<% form_tag do %>
 <p><strong><%=l(:label_tracker_plural)%></strong></p>
 <% @trackers.each do |tracker| %>
   <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
   <%= tracker.name %><br />
 <% end %>
 <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
-<%= end_form_tag %>
+<% end %>
 </div>
 
 <% ver_id = nil

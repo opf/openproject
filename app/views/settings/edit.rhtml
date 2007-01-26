@@ -1,6 +1,6 @@
 <h2><%= l(:label_settings) %></h2>
 
-<%= start_form_tag({:action => 'edit'}, :class => "tabular") %>
+<% form_tag({:action => 'edit'}, :class => "tabular") do %>
 <div class="box">
 <p><label><%= l(:setting_app_title) %></label>
 <%= text_field_tag 'settings[app_title]', Setting.app_title, :size => 30 %></p>
@@ -34,4 +34,4 @@
 
 </div>
 <%= submit_tag l(:button_save) %>
-<%= end_form_tag %>
+<% end %>

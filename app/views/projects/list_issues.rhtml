@@ -4,9 +4,9 @@
     </div>
     <h2><%=l(:label_issue_plural)%></h2>
     
-    <%= start_form_tag({:action => 'list_issues'}, :id => 'query_form') %>
+    <% form_tag({:action => 'list_issues'}, :id => 'query_form') do %>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
-    <%= end_form_tag %>
+    <% end %>
     <div class="contextual">
     <%= link_to_remote l(:button_apply), 
                        { :url => { :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 },
@@ -42,7 +42,7 @@
 <p><i><%= l(:label_no_data) %></i></p>
 <% else %>
 &nbsp;
-<%= start_form_tag({:controller => 'projects', :action => 'move_issues', :id => @project}, :id => 'issues_form' ) %>	
+<% form_tag({:controller => 'projects', :action => 'move_issues', :id => @project}, :id => 'issues_form' ) do %>	
 <table class="list">
     <thead><tr>
         <th></th>
@@ -79,6 +79,6 @@
 <%= pagination_links_full @issue_pages %>
 [ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
 </p>
-<%= end_form_tag %>
+<% end %>
 <% end %>
 <% end %>

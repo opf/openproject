@@ -1,8 +1,8 @@
 <div class="contextual">
-<%= start_form_tag %>
+<% form_tag do %>
 <p><%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
 <%= submit_tag 'OK' %></p>
-<%= end_form_tag %>
+<% end %>
 </div>
 
 <h2><%= l(:label_revision) %> <%= @revision.identifier %></h2>

@@ -1,7 +1,7 @@
 <h2><%=l(:label_issue)%> #<%= @issue.id %>: <%=h @issue.subject %></h2>
 
 <%= error_messages_for 'issue' %>
-<%= start_form_tag({:action => 'change_status', :id => @issue}, :class => "tabular") %>
+<% form_tag({:action => 'change_status', :id => @issue}, :class => "tabular") do %>
 
 <%= hidden_field_tag 'confirm', 1 %>
 <%= hidden_field_tag 'new_status_id', @new_status.id %>
@@ -34,4 +34,4 @@
 
 <%= hidden_field 'issue', 'lock_version' %>
 <%= submit_tag l(:button_save) %>
-<%= end_form_tag %>
+<% end %>

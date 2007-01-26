@@ -29,12 +29,12 @@
 	<td><%= member.user.display_name %></td>
     <td align="center">
         <% if authorize_for('members', 'edit') %>
-        <%= start_form_tag :controller => 'members', :action => 'edit', :id => member %>
+        <% form_tag({:controller => 'members', :action => 'edit', :id => member}) do %>
         <select name="member[role_id]">
         <%= options_from_collection_for_select @roles, "id", "name", member.role_id %>
         </select>
         <%= submit_tag l(:button_change), :class => "button-small" %>
-        <%= end_form_tag %>
+        <% end %>
         <% end %>
     </td>
     <td align="center">
@@ -47,7 +47,7 @@
 </table>
 <% if authorize_for('projects', 'add_member') %>
     <label><%=l(:label_member_new)%></label><br/>
-    <%= start_form_tag :controller => 'projects', :action => 'add_member', :tab => 'members', :id => @project %>
+    <% form_tag({:controller => 'projects', :action => 'add_member', :tab => 'members', :id => @project}) do %>
     <select name="member[user_id]">
     <%= options_from_collection_for_select @users, "id", "display_name", @member.user_id %>
     </select>
@@ -55,7 +55,7 @@
     <%= options_from_collection_for_select @roles, "id", "name", @member.role_id %>
     </select>
     <%= submit_tag l(:button_add) %>
-    <%= end_form_tag %>
+    <% end %>
 <% end %>
 </div>
 
@@ -80,17 +80,17 @@
 
 <div id="tab-content-categories" class="tab-content" style="display:none;">
 <table class="list">
-	<thead><th><%= l(:label_issue_status) %></th><th></th></thead>
+	<thead><th><%= l(:label_issue_category) %></th><th></th></thead>
 	<tbody>
 <% for @category in @project.issue_categories %>
 	<% unless @category.new_record? %>
 	<tr class="<%= cycle 'odd', 'even' %>">
     <td>
-        <%= start_form_tag :controller => 'issue_categories', :action => 'edit', :id => @category %>
+        <% form_tag({:controller => 'issue_categories', :action => 'edit', :id => @category}) do %>
         <%= text_field 'category', 'name', :size => 25  %>
         <% if authorize_for('issue_categories', 'edit') %>
         <%= submit_tag l(:button_save), :class => "button-small" %>
-        <%= end_form_tag %>
+        <% end %>
         <% end %>
     </td>
     <td align="center">
@@ -102,12 +102,12 @@
     </tbody>
 </table>
 <% if authorize_for('projects', 'add_issue_category') %>
-    <%= start_form_tag :action => 'add_issue_category', :tab => 'categories', :id => @project %>
+    <% form_tag({:action => 'add_issue_category', :tab => 'categories', :id => @project}) do %>
     <label for="issue_category_name"><%=l(:label_issue_category_new)%></label><br/>
     <%= error_messages_for 'issue_category' %>
     <%= text_field 'issue_category', 'name', :size => 25 %>
     <%= submit_tag l(:button_create) %>
-    <%= end_form_tag %>
+    <% end %>
 <% end %>
 </div>
 

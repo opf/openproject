@@ -29,7 +29,7 @@
   <div class="box">
   <h3><%=l(:field_password)%></h3>
 
-  <%= start_form_tag({:action => 'change_password'}, :class => "tabular") %>
+  <% form_tag({:action => 'change_password'}, :class => "tabular") do %>
 
   <p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label>
   <%= password_field_tag 'password', nil, :size => 25 %></p>
@@ -41,6 +41,6 @@
   <%= password_field_tag 'new_password_confirmation', nil, :size => 25 %></p>
 
   <center><%= submit_tag l(:button_save) %></center>
-  <%= end_form_tag %>
+  <% end %>
   </div>
 <% end %>

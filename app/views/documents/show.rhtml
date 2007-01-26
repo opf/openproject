@@ -28,10 +28,10 @@
 
 
 <% if authorize_for('documents', 'add_attachment') %>
-  <%= start_form_tag ({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :class => "tabular") %>
+  <% form_tag ({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :class => "tabular") do %>
     <p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>
     <%= image_to_function "add.png", "addFileField();return false" %></label>
     <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
   <%= submit_tag l(:button_add) %>
-  <%= end_form_tag %> 
+  <% end %> 
 <% end %>

@@ -1,6 +1,6 @@
 <h2><%=l(:field_mail_notification)%></h2>
 
-<%= start_form_tag ({}, :id => 'mail_options_form')%>
+<% form_tag ({:action => 'mail_options'}, :id => 'mail_options_form') do %>
 
 <div class="box">
 <p><%=l(:text_select_mail_notifications)%></p>
@@ -21,4 +21,4 @@
 </div>
 
 <%= submit_tag l(:button_save) %>
-<%= end_form_tag %>
+<% end %>

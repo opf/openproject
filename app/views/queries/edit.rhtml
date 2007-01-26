@@ -1,6 +1,6 @@
 <h2><%= l(:label_query) %></h2>
 
-<%= start_form_tag :action => 'edit', :id => @query %>
+<% form_tag({:action => 'edit', :id => @query}) do %>
   <%= render :partial => 'form', :locals => {:query => @query} %>
   <%= submit_tag l(:button_save) %>
-<%= end_form_tag %>
+<% end %>
