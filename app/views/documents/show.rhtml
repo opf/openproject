@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= link_to_if_authorized l(:button_edit), {:controller => 'documents', :action => 'edit', :id => @document}, :class => 'icon icon-edit' %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
 <h2><%= @document.title %></h2>
@@ -15,7 +15,7 @@
 <% for attachment in @attachments %>
     <li>
         <div class="contextual">
-        <%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy_attachment', :id => @document, :attachment_id => attachment}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy_attachment', :id => @document, :attachment_id => attachment}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
         </div>
         <%= link_to attachment.filename, :action => 'download', :id => @document, :attachment_id => attachment %>
         (<%= number_to_human_size attachment.filesize %>)<br />

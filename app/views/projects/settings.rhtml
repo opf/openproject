@@ -38,7 +38,7 @@
         <% end %>
     </td>
     <td align="center">
-        <%= link_to_if_authorized l(:button_delete), {:controller => 'members', :action => 'destroy', :id => member}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'members', :action => 'destroy', :id => member}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
     </td>
 	</tr>	
 	<% end %>
@@ -69,7 +69,7 @@
     <td align="center"><%= format_date(version.effective_date) %></td>
     <td><%=h version.description %></td>
     <td align="center"><%= link_to_if_authorized l(:button_edit), { :controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %></td>
-    <td align="center"><%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %></td>
+    <td align="center"><%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></td>
     </td>
     </tr>
 <% end; reset_cycle %>
@@ -94,7 +94,7 @@
         <% end %>
     </td>
     <td align="center">
-        <%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => @category}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => @category}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
     </td>
 	</tr>
 	<% end %>

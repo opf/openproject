@@ -52,7 +52,7 @@ end %>
 <div class="contextual">
 <%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit' %>
 <%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'icon icon-move' %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
 <% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
@@ -84,7 +84,7 @@ end %>
 <td><%= link_to attachment.filename, { :action => 'download', :id => @issue, :attachment_id => attachment }, :class => 'icon icon-attachment' %> (<%= number_to_human_size(attachment.filesize) %>)</td>
 <td><%= format_date(attachment.created_on) %></td>
 <td><%= attachment.author.display_name %></td>
-<td><div class="contextual"><%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy_attachment', :id => @issue, :attachment_id => attachment }, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %></div></td>
+<td><div class="contextual"><%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy_attachment', :id => @issue, :attachment_id => attachment }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></div></td>
 </tr>
 <% end %>
 </table>

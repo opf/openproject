@@ -31,7 +31,7 @@
         <%= render :partial => 'issues/add_shortcut', :locals => {:trackers => @trackers } %>
         <% if authorize_for('projects', 'add_query') %>
             <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
-            <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
+            <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
         <% end %>
     </div>    
     <h2><%= @query.name %></h2>
