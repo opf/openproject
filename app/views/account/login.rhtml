@@ -2,7 +2,7 @@
 <div class="box login">
 <h2 class="icon22 icon22-authent"><%=l(:label_please_login)%></h2>
 
-<% form_tag ({:action=> "login"}, :class => "tabular") do %>
+<% form_tag({:action=> "login"}, :class => "tabular") do %>
 <p><label for="login"><%=l(:field_login)%>:</label>
 <%= text_field_tag 'login', nil, :size => 25 %></p>
 
