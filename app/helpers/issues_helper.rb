@@ -61,7 +61,7 @@ module IssuesHelper
       value = content_tag("i", h(value)) if value
     end
     
-    if detail.value and !detail.value.empty?
+    if detail.value and !detail.value.to_s.empty?
       if old_value
         label + " " + l(:text_journal_changed, old_value, value)
       else
