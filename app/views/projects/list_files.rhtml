@@ -25,7 +25,7 @@
     <td></td>
     <td><%= link_to file.filename, :controller => 'versions', :action => 'download', :id => version, :attachment_id => file %></td>
     <td align="center"><%= format_date(file.created_on) %></td>
-    <td align="center"><%= human_size(file.filesize) %></td>
+    <td align="center"><%= number_to_human_size(file.filesize) %></td>
     <td align="center"><%= file.downloads %></td>
     <td align="center"><small><%= file.digest %></small></td>
     <% if delete_allowed %>

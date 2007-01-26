@@ -18,7 +18,7 @@
         <%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy_attachment', :id => @document, :attachment_id => attachment}, :confirm => l(:text_are_you_sure), :post => true, :class => 'icon icon-del' %>
         </div>
         <%= link_to attachment.filename, :action => 'download', :id => @document, :attachment_id => attachment %>
-        (<%= human_size attachment.filesize %>)<br />
+        (<%= number_to_human_size attachment.filesize %>)<br />
         <em><%= attachment.author.display_name %>, <%= format_date(attachment.created_on) %></em><br />
         <%= lwr(:label_download, attachment.downloads) %>
     </li>
@@ -31,7 +31,7 @@
   <% form_tag ({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :class => "tabular") do %>
     <p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>
     <%= image_to_function "add.png", "addFileField();return false" %></label>
-    <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
+    <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
   <%= submit_tag l(:button_add) %>
   <% end %> 
 <% end %>

@@ -92,7 +92,7 @@
 	for attachment in issue.attachments
 		pdf.SetFont('Arial','',8)
 	    pdf.Cell(80,5, attachment.filename)
-		pdf.Cell(20,5, human_size(attachment.filesize),0,0,"R")
+		pdf.Cell(20,5, number_to_human_size(attachment.filesize),0,0,"R")
 		pdf.Cell(20,5, format_date(attachment.created_on),0,0,"R")
 		pdf.Cell(70,5, attachment.author.name,0,0,"R")
 		pdf.Ln
