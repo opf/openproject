@@ -41,7 +41,7 @@ class ProjectsController < ApplicationController
   def list
     sort_init 'name', 'asc'
     sort_update		
-    @project_count = Project.count(["is_public=?", true])		
+    @project_count = Project.count(:all, :conditions => ["is_public=?", true])		
     @project_pages = Paginator.new self, @project_count,
 								15,
 								params['page']								
