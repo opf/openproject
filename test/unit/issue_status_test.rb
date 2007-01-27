@@ -17,31 +17,33 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class CommentTest < Test::Unit::TestCase
-  fixtures :users, :news, :comments
+class IssueStatusTest < Test::Unit::TestCase
+  fixtures :issue_statuses
 
-  def setup
-    @jsmith = User.find(2)
-    @news = News.find(1)
-  end
-  
   def test_create
-    comment = Comment.new(:commented => @news, :author => @jsmith, :comment => "my comment")
-    assert comment.save
-    @news.reload
-    assert_equal 2, @news.comments_count
-  end
-
-  def test_validate
-    comment = Comment.new(:commented => @news)
-    assert !comment.save
-    assert_equal 2, comment.errors.length
+    status = IssueStatus.new :name => "Assigned"
+    assert !status.save
+    # status name uniqueness
+    assert_equal 1, status.errors.count
+    
+    status.name = "Test Status"
+    assert status.save
+    assert !status.is_default
   end
   
-  def test_destroy
-    comment = Comment.find(1)
-    assert comment.destroy
-    @news.reload
-    assert_equal 0, @news.comments_count
+  def test_default
+    status = IssueStatus.default
+    assert_kind_of IssueStatus, status
+  end
+  
+  def test_change_default
+    status = IssueStatus.find(2)
+    assert !status.is_default
+    status.is_default = true
+    assert status.save
+    status.reload
+    
+    assert_equal status, IssueStatus.default
+    assert !IssueStatus.find(1).is_default
   end
 end

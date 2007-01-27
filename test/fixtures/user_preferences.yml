@@ -1,5 +1,24 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+--- 
+user_preferences_001: 
+  others: |
+    --- 
+    :my_page_layout: 
+      left: 
+      - latest_news
+      - documents
+      right: 
+      - issues_assigned_to_me
+      - issues_reported_by_me
+      top: 
+      - calendar
+
   id: 1
-another:
+  user_id: 1
+  hide_mail: true
+user_preferences_002: 
+  others: |+
+    --- {}
+    
   id: 2
+  user_id: 3
+  hide_mail: false
