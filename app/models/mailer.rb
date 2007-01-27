@@ -19,6 +19,7 @@ class Mailer < ActionMailer::Base
   helper IssuesHelper
 
   def issue_add(issue)
+    set_language_if_valid(Setting.default_language)
     # Sends to all project members
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }.compact
     @from           = Setting.mail_from
@@ -27,6 +28,7 @@ class Mailer < ActionMailer::Base
   end
 
   def issue_edit(journal)
+    set_language_if_valid(Setting.default_language)
     # Sends to all project members
     issue = journal.journalized
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }.compact
@@ -37,6 +39,7 @@ class Mailer < ActionMailer::Base
   end
   
   def document_add(document)
+    set_language_if_valid(Setting.default_language)
     @recipients     = document.project.users.collect { |u| u.mail if u.mail_notification }.compact
     @from           = Setting.mail_from
     @subject        = "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
@@ -44,6 +47,7 @@ class Mailer < ActionMailer::Base
   end
   
   def attachments_add(attachments)
+    set_language_if_valid(Setting.default_language)
     container = attachments.first.container
     url = "http://#{Setting.host_name}/"
     added_to = ""
@@ -67,6 +71,7 @@ class Mailer < ActionMailer::Base
   end
   
   def lost_password(token)
+    set_language_if_valid(token.user.language)
     @recipients     = token.user.mail
     @from           = Setting.mail_from
     @subject        = l(:mail_subject_lost_password)
@@ -74,6 +79,7 @@ class Mailer < ActionMailer::Base
   end  
 
   def register(token)
+    set_language_if_valid(token.user.language)
     @recipients     = token.user.mail
     @from           = Setting.mail_from
     @subject        = l(:mail_subject_register)

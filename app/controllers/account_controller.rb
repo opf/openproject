@@ -82,8 +82,6 @@ class AccountController < ApplicationController
         # create a new token for password recovery
         token = Token.new(:user => user, :action => "recovery")
         if token.save
-          # send token to user via email
-          Mailer.set_language_if_valid(user.language)
           Mailer.deliver_lost_password(token)
           flash[:notice] = l(:notice_account_lost_email_sent)
           redirect_to :action => 'login'
@@ -122,7 +120,6 @@ class AccountController < ApplicationController
         @user.custom_values = @custom_values
         token = Token.new(:user => @user, :action => "register")
         if @user.save and token.save
-          Mailer.set_language_if_valid(@user.language)
           Mailer.deliver_register(token)
           flash[:notice] = l(:notice_account_register_done)
           redirect_to :controller => 'welcome' and return
