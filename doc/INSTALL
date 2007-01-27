@@ -7,7 +7,7 @@ http://redmine.rubyforge.org/
 
 == Requirements
 
-* Ruby on Rails 1.1
+* Ruby on Rails 1.2
 * Iconv
 * A database (see compatibility below)
 

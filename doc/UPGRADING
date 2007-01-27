@@ -5,7 +5,9 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://redmine.rubyforge.org/
 
 
-== From 0.3.0 and above
+Note that Rails 1.2 is required for version 0.4.2 and later
+
+== Upgrading from 0.3.0 and above
 
 1. Uncompress program archive in a new directory:
    tar zxvf <filename>
