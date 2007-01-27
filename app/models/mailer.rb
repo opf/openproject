@@ -36,6 +36,36 @@ class Mailer < ActionMailer::Base
     @body['journal']= journal
   end
   
+  def document_add(document)
+    @recipients     = document.project.users.collect { |u| u.mail if u.mail_notification }.compact
+    @from           = Setting.mail_from
+    @subject        = "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
+    @body['document'] = document
+  end
+  
+  def attachments_add(attachments)
+    container = attachments.first.container
+    url = "http://#{Setting.host_name}/"
+    added_to = ""
+    case container.class.to_s
+    when 'Version'
+      url << "projects/list_files/#{container.project_id}"
+      added_to = "#{l(:label_version)}: #{container.name}"
+    when 'Document'
+      url << "documents/show/#{container.id}"
+      added_to = "#{l(:label_document)}: #{container.title}"
+    when 'Issue'
+      url << "issues/show/#{container.id}"
+      added_to = "#{container.tracker.name} ##{container.id}: #{container.subject}"
+    end
+    @recipients     = container.project.users.collect { |u| u.mail if u.mail_notification }.compact
+    @from           = Setting.mail_from
+    @subject        = "[#{container.project.name}] #{l(:label_attachment_new)}"
+    @body['attachments'] = attachments
+    @body['url']    = url
+    @body['added_to'] = added_to
+  end
+  
   def lost_password(token)
     @recipients     = token.user.mail
     @from           = Setting.mail_from

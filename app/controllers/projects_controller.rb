@@ -184,6 +184,7 @@ class ProjectsController < ApplicationController
         Attachment.create(:container => @document, :file => a, :author => logged_in_user) unless a.size == 0
       } if params[:attachments] and params[:attachments].is_a? Array
       flash[:notice] = l(:notice_successful_create)
+      Mailer.deliver_document_add(@document) if Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
       redirect_to :action => 'list_documents', :id => @project
     end
   end
@@ -385,9 +386,13 @@ class ProjectsController < ApplicationController
     if request.post?
       @version = @project.versions.find_by_id(params[:version_id])
       # Save the attachments
-      params[:attachments].each { |a|
-        Attachment.create(:container => @version, :file => a, :author => logged_in_user) unless a.size == 0
+      @attachments = []
+      params[:attachments].each { |file|
+        next unless file.size > 0
+        a = Attachment.create(:container => @version, :file => file, :author => logged_in_user)
+        @attachments << a unless a.new_record?
       } if params[:attachments] and params[:attachments].is_a? Array
+      Mailer.deliver_attachments_add(@attachments) if !@attachments.empty? and Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
       redirect_to :controller => 'projects', :action => 'list_files', :id => @project
     end
     @versions = @project.versions

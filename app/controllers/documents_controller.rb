@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,9 +46,13 @@ class DocumentsController < ApplicationController
   
   def add_attachment
     # Save the attachments
-    params[:attachments].each { |a|
-      Attachment.create(:container => @document, :file => a, :author => logged_in_user) unless a.size == 0
+    @attachments = []
+    params[:attachments].each { |file|
+      next unless file.size > 0
+      a = Attachment.create(:container => @document, :file => file, :author => logged_in_user)
+      @attachments << a unless a.new_record?
     } if params[:attachments] and params[:attachments].is_a? Array
+    Mailer.deliver_attachments_add(@attachments) if !@attachments.empty? and Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
     redirect_to :action => 'show', :id => @document
   end
   
