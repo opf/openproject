@@ -16,9 +16,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueStatusesController < ApplicationController
-	layout 'base'	
-	before_filter :require_admin
-	
+  layout 'base'	
+  before_filter :require_admin
+
   def index
     list
     render :action => 'list' unless request.xhr?
@@ -63,7 +63,5 @@ class IssueStatusesController < ApplicationController
   rescue
     flash[:notice] = "Unable to delete issue status"
     redirect_to :action => 'list'
-  end
-  
-  	
+  end  	
 end

@@ -38,6 +38,5 @@ private
     @project = @member.project
   rescue ActiveRecord::RecordNotFound
     render_404
-  end  
-  
+  end
 end

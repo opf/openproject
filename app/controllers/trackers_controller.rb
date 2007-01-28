@@ -56,6 +56,5 @@ class TrackersController < ApplicationController
       @tracker.destroy
     end
     redirect_to :action => 'list'
-  end
-  
+  end  
 end

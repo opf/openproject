@@ -16,9 +16,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class RolesController < ApplicationController
-	layout 'base'	
-	before_filter :require_admin
-	
+  layout 'base'	
+  before_filter :require_admin
+
   def index
     list
     render :action => 'list' unless request.xhr?

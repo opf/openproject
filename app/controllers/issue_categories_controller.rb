@@ -16,9 +16,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueCategoriesController < ApplicationController
-	layout 'base'
-	before_filter :find_project, :authorize
-	
+  layout 'base'
+  before_filter :find_project, :authorize
+
   def edit
     if request.post? and @category.update_attributes(params[:category])
       flash[:notice] = l(:notice_successful_update)

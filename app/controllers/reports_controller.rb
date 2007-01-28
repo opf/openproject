@@ -16,9 +16,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class ReportsController < ApplicationController
- 	layout 'base'
-	before_filter :find_project, :authorize
-  
+  layout 'base'
+  before_filter :find_project, :authorize
+
   def issue_report
     @statuses = IssueStatus.find :all
     
@@ -104,8 +104,8 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-	
-	def issues_by_tracker
+
+  def issues_by_tracker
     @issues_by_tracker ||= 
         ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
                                                   s.is_closed as closed, 
@@ -118,9 +118,9 @@ private
                                                   and i.tracker_id=t.id
                                                   and i.project_id=#{@project.id}
                                                 group by s.id, s.is_closed, t.id")	
-	end
+  end
 	
-	def issues_by_priority    
+  def issues_by_priority    
     @issues_by_priority ||= 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
                                                   s.is_closed as closed, 
@@ -133,9 +133,9 @@ private
                                                   and i.priority_id=p.id
                                                   and i.project_id=#{@project.id}
                                                 group by s.id, s.is_closed, p.id")	
-	end
+  end
 	
-	def issues_by_category   
+  def issues_by_category   
     @issues_by_category ||= 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
                                                   s.is_closed as closed, 
@@ -148,9 +148,9 @@ private
                                                   and i.category_id=c.id
                                                   and i.project_id=#{@project.id}
                                                 group by s.id, s.is_closed, c.id")	
-	end
+  end
 	
-	def issues_by_author
+  def issues_by_author
     @issues_by_author ||= 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
                                                   s.is_closed as closed, 
@@ -163,5 +163,5 @@ private
                                                   and i.author_id=a.id
                                                   and i.project_id=#{@project.id}
                                                 group by s.id, s.is_closed, a.id")	
-	end
+  end
 end
