@@ -53,3 +53,17 @@ pre.programlisting {
     font-size: 10pt;
     white-space: pre;
 }
+
+li p {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+div.toc dt {
+    margin-bottom:4px;
+}
+
+.chapter {
+    display:block;
+    margin-top:2em;
+}
