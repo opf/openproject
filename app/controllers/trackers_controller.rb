@@ -25,7 +25,7 @@ class TrackersController < ApplicationController
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :list }
+  verify :method => :post, :only => [ :destroy, :move ], :redirect_to => { :action => :list }
 
   def list
     @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
