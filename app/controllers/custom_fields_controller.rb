@@ -47,7 +47,7 @@ class CustomFieldsController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list', :tab => @custom_field.type
     end
-    @trackers = Tracker.find(:all)
+    @trackers = Tracker.find(:all, :order => 'position')
   end
 
   def edit
@@ -59,7 +59,7 @@ class CustomFieldsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list', :tab => @custom_field.type
     end
-    @trackers = Tracker.find(:all)
+    @trackers = Tracker.find(:all, :order => 'position')
   end
 
   def destroy

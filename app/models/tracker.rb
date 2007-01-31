@@ -20,6 +20,7 @@ class Tracker < ActiveRecord::Base
   has_many :issues
   has_many :workflows, :dependent => :delete_all
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => 'custom_fields_trackers', :association_foreign_key => 'custom_field_id'
+  acts_as_list
 
   validates_presence_of :name
   validates_uniqueness_of :name

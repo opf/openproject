@@ -28,7 +28,7 @@ class TrackersController < ApplicationController
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :list }
 
   def list
-    @tracker_pages, @trackers = paginate :trackers, :per_page => 10
+    @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
     render :action => "list", :layout => false if request.xhr?
   end
 
@@ -48,6 +48,21 @@ class TrackersController < ApplicationController
     end
   end
 
+  def move
+    @tracker = Tracker.find(params[:id])
+    case params[:position]
+    when 'highest'
+      @tracker.move_to_top
+    when 'higher'
+      @tracker.move_higher
+    when 'lower'
+      @tracker.move_lower
+    when 'lowest'
+      @tracker.move_to_bottom
+    end if params[:position]
+    redirect_to :action => 'list'
+  end
+  
   def destroy
     @tracker = Tracker.find(params[:id])
     unless @tracker.issues.empty?

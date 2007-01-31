@@ -96,7 +96,7 @@ class RolesController < ApplicationController
       end
     end
     @roles = Role.find(:all, :order => 'position')
-    @trackers = Tracker.find :all
+    @trackers = Tracker.find(:all, :order => 'position')
     @statuses = IssueStatus.find(:all, :include => :workflows, :order => 'position')
   end
 end

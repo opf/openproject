@@ -81,7 +81,7 @@ class ProjectsController < ApplicationController
     @members = @project.members.find(:all, :include => [:user, :role])
     @subprojects = @project.children if @project.children.size > 0
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "news.created_on DESC")
-    @trackers = Tracker.find(:all)
+    @trackers = Tracker.find(:all, :order => 'position')
     @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN issue_statuses ON issue_statuses.id = issues.status_id", :conditions => ["project_id=? and issue_statuses.is_closed=?", @project.id, false])
     @total_issues_by_tracker = Issue.count(:group => :tracker, :conditions => ["project_id=?", @project.id])
   end
@@ -245,7 +245,7 @@ class ProjectsController < ApplicationController
   						:limit  =>  @issue_pages.items_per_page,
   						:offset =>  @issue_pages.current.offset						
     end    
-    @trackers = Tracker.find :all
+    @trackers = Tracker.find :all, :order => 'position'
     render :layout => false if request.xhr?
   end
 
@@ -404,7 +404,7 @@ class ProjectsController < ApplicationController
   
   # Show changelog for @project
   def changelog
-    @trackers = Tracker.find(:all, :conditions => ["is_in_chlog=?", true])
+    @trackers = Tracker.find(:all, :conditions => ["is_in_chlog=?", true], :order => 'position')
     if request.get?
       @selected_tracker_ids = @trackers.collect {|t| t.id.to_s }
     else

@@ -25,7 +25,7 @@ class ReportsController < ApplicationController
     case params[:detail]
     when "tracker"
       @field = "tracker_id"
-      @rows = Tracker.find :all
+      @rows = Tracker.find :all, :order => 'position'
       @data = issues_by_tracker
       @report_title = l(:field_tracker)
       render :template => "reports/issue_report_details"
@@ -49,7 +49,7 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"  
     else
       @queries = @project.queries.find :all, :conditions => ["is_public=? or user_id=?", true, (logged_in_user ? logged_in_user.id : 0)]
-      @trackers = Tracker.find(:all)
+      @trackers = Tracker.find(:all, :order => 'position')
       @priorities = Enumeration::get_values('IPRI')
       @categories = @project.issue_categories
       @authors = @project.members.collect { |m| m.user }
