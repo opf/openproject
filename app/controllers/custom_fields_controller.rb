@@ -25,7 +25,8 @@ class CustomFieldsController < ApplicationController
   end
 
   def list
-    @custom_field_pages, @custom_fields = paginate :custom_fields, :per_page => 15
+    @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.type.to_s }
+    @tab = params[:tab] || 'IssueCustomField'
     render :action => "list", :layout => false if request.xhr?
   end
   
@@ -44,7 +45,7 @@ class CustomFieldsController < ApplicationController
     end  
     if request.post? and @custom_field.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'list'
+      redirect_to :action => 'list', :tab => @custom_field.type
     end
     @trackers = Tracker.find(:all)
   end
@@ -56,14 +57,14 @@ class CustomFieldsController < ApplicationController
         @custom_field.trackers = params[:tracker_ids] ? Tracker.find(params[:tracker_ids]) : []
       end
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list'
+      redirect_to :action => 'list', :tab => @custom_field.type
     end
     @trackers = Tracker.find(:all)
   end
 
   def destroy
-    CustomField.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    @custom_field = CustomField.find(params[:id]).destroy
+    redirect_to :action => 'list', :tab => @custom_field.type
   rescue
     flash[:notice] = "Unable to delete custom field"
     redirect_to :action => 'list'
