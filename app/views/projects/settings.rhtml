@@ -23,7 +23,7 @@
 <table class="list">
 	<thead><th><%= l(:label_user) %></th><th><%= l(:label_role) %></th><th></th></thead>
 	<tbody>
-	<% for member in @project.members.find(:all, :include => :user) %>
+	<% @project.members.find(:all, :include => [:role, :user]).sort{|x,y| x.role.position <=> y.role.position}.each do |member| %>
 	<% unless member.new_record? %>
 	<tr class="<%= cycle 'odd', 'even' %>">
 	<td><%= member.user.display_name %></td>

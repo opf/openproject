@@ -20,6 +20,7 @@ class Role < ActiveRecord::Base
   has_and_belongs_to_many :permissions
   has_many :workflows, :dependent => :delete_all
   has_many :members
+  acts_as_list
 
   validates_presence_of :name
   validates_uniqueness_of :name

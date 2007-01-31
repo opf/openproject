@@ -19,13 +19,16 @@ class RolesController < ApplicationController
   layout 'base'	
   before_filter :require_admin
 
+  verify :method => :post, :only => [ :destroy, :move ],
+         :redirect_to => { :action => :list }
+
   def index
     list
     render :action => 'list' unless request.xhr?
   end
 
   def list
-    @role_pages, @roles = paginate :roles, :per_page => 10
+    @role_pages, @roles = paginate :roles, :per_page => 10, :order => "position"
     render :action => "list", :layout => false if request.xhr?
   end
 
@@ -62,6 +65,21 @@ class RolesController < ApplicationController
     redirect_to :action => 'list'
   end
   
+  def move
+    @role = Role.find(params[:id])
+    case params[:position]
+    when 'highest'
+      @role.move_to_top
+    when 'higher'
+      @role.move_higher
+    when 'lower'
+      @role.move_lower
+    when 'lowest'
+      @role.move_to_bottom
+    end if params[:position]
+    redirect_to :action => 'list'
+  end
+  
   def workflow    
     @role = Role.find_by_id(params[:role_id])
     @tracker = Tracker.find_by_id(params[:tracker_id])    
@@ -77,7 +95,7 @@ class RolesController < ApplicationController
         flash[:notice] = l(:notice_successful_update)
       end
     end
-    @roles = Role.find :all
+    @roles = Role.find(:all, :order => 'position')
     @trackers = Tracker.find :all
     @statuses = IssueStatus.find(:all, :include => :workflows, :order => 'position')
   end

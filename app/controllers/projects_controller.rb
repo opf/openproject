@@ -91,7 +91,7 @@ class ProjectsController < ApplicationController
     @custom_fields = IssueCustomField.find(:all)
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
-    @roles = Role.find(:all)
+    @roles = Role.find(:all, :order => 'position')
     @users = User.find_active(:all) - @project.users
     @custom_values ||= ProjectCustomField.find(:all).collect { |x| @project.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
   end

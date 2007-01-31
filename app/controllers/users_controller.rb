@@ -80,7 +80,7 @@ class UsersController < ApplicationController
       end
     end
     @auth_sources = AuthSource.find(:all)
-    @roles = Role.find :all
+    @roles = Role.find(:all, :order => 'position')
     @projects = Project.find(:all) - @user.projects
     @membership ||= Member.new
   end

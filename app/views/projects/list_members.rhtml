@@ -1,10 +1,10 @@
 <h2><%=l(:label_member_plural)%></h2>
 
 <% members = @members.group_by {|m| m.role } %>
-<% members.each do |role, member| %>
+<% members.keys.sort{|x,y| x.position <=> y.position}.each do |role| %>
 <h3><%= role.name %></h3>
 <ul>
-<% member.each do |m| %>
+<% members[role].each do |m| %>
 <li><%= link_to m.user.display_name, :controller => 'account', :action => 'show', :id => m.user %> (<%= format_date m.created_on %>)</li>
 <% end %>
 </ul>
