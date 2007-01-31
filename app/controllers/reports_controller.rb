@@ -20,7 +20,7 @@ class ReportsController < ApplicationController
   before_filter :find_project, :authorize
 
   def issue_report
-    @statuses = IssueStatus.find :all
+    @statuses = IssueStatus.find(:all, :order => 'position')
     
     case params[:detail]
     when "tracker"

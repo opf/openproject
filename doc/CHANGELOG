@@ -11,6 +11,7 @@ http://redmine.rubyforge.org/
 * settings are now stored in the database and editable through the application in: Admin -> Settings (config_custom.rb is no longer used)
 * mail notifications added when a document, a file or an attachment is added
 * tooltips added on Gantt chart and calender to view the details of the issues
+* ability to set the sort order for issue statuses
 * added missing fields to csv export: priority, start date, due date, done ratio
 * all icons replaced (new icons are based on GPL icon set: "KDE Crystal Diamond 2.5" -by paolino- and "kNeu! Alpha v0.1" -by Pablo Fabregat-)
 * added back "fixed version" field on issue screen and in filters

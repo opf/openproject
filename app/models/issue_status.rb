@@ -18,6 +18,7 @@
 class IssueStatus < ActiveRecord::Base
   before_destroy :check_integrity  
   has_many :workflows, :foreign_key => "old_status_id"
+  acts_as_list
 
   validates_presence_of :name
   validates_uniqueness_of :name

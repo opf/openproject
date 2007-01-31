@@ -309,6 +309,10 @@ label_latest_revision: Neueste Neuausgabe
 label_view_revisions: Die Neuausgaben ansehen
 label_max_size: Maximale Größe
 label_on: auf
+label_sort_highest: Erste
+label_sort_higher: Aufzurichten
+label_sort_lower: Herabzusteigen
+label_sort_lowest: Letzter
 
 button_login: Einloggen
 button_submit: Einreichen
@@ -332,6 +336,7 @@ button_move: Bewegen
 button_back: Rückkehr
 button_cancel: Annullieren
 button_activate: Aktivieren
+button_sort: Sortieren
 
 text_select_mail_notifications: Aktionen für die Mailbenachrichtigung aktiviert werden soll.
 text_regexp_info: eg. ^[A-Z0-9]+$

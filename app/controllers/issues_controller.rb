@@ -25,7 +25,7 @@ class IssuesController < ApplicationController
   include IfpdfHelper
 
   def show
-    @status_options = @issue.status.workflows.find(:all, :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
+    @status_options = @issue.status.workflows.find(:all, :order => 'position', :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
     @journals_count = @issue.journals.count
     @journals = @issue.journals.find(:all, :include => [:user, :details], :limit => 15, :order => "journals.created_on desc")
@@ -83,7 +83,7 @@ class IssuesController < ApplicationController
 
   def change_status
     #@history = @issue.histories.build(params[:history])	
-    @status_options = @issue.status.workflows.find(:all, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
+    @status_options = @issue.status.workflows.find(:all, :order => 'position', :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status } if self.logged_in_user
     @new_status = IssueStatus.find(params[:new_status_id])
     if params[:confirm]
       begin
