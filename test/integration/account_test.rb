@@ -74,6 +74,8 @@ class AccountTest < ActionController::IntegrationTest
   end
   
   def test_lost_password
+    Token.delete_all
+    
     get "account/lost_password"
     assert_response :success
     assert_template "account/lost_password"
