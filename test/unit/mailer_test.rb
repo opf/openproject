@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MailerTest < Test::Unit::TestCase
-  fixtures :projects, :issues, :users, :members, :documents, :attachments, :tokens, :journals, :journal_details
+  fixtures :projects, :issues, :users, :members, :documents, :attachments, :tokens, :journals, :journal_details, :trackers, :issue_statuses, :enumerations
   
   # test mailer methods for each language
   def test_issue_add
