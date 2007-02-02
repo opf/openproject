@@ -49,9 +49,9 @@
 		<%= sort_header_tag('issues.id', :caption => '#') %>
 		<%= sort_header_tag('issues.tracker_id', :caption => l(:field_tracker)) %>
 		<%= sort_header_tag('issue_statuses.name', :caption => l(:field_status)) %>
+		<%= sort_header_tag('issues.priority_id', :caption => l(:field_priority)) %>
 		<th><%=l(:field_subject)%></th>
 		<%= sort_header_tag('users.lastname', :caption => l(:field_author)) %>
-		<%= sort_header_tag('issues.created_on', :caption => l(:field_created_on)) %>
 		<%= sort_header_tag('issues.updated_on', :caption => l(:field_updated_on)) %>
 	</tr></thead>
 	<tbody>
@@ -61,9 +61,9 @@
 		<td align="center"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center"><%= issue.tracker.name %></td>
 		<td><div class="square" style="background:#<%= issue.status.html_color %>;"></div> <%= issue.status.name %></td>
+		<td align="center"><%= issue.priority.name %></td>
 		<td><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center"><%= issue.author.display_name %></td>
-		<td align="center"><%= format_time(issue.created_on) %></td>
 		<td align="center"><%= format_time(issue.updated_on) %></td>
 	</tr>
 	<% end %>
