@@ -37,7 +37,7 @@ class Setting < ActiveRecord::Base
   
   def self.[]=(name, value)
     setting = get(name)
-    setting.value = value
+    setting.value = (value ? value.to_s : "")
     setting.save
     setting.value
   end
@@ -53,7 +53,7 @@ class Setting < ActiveRecord::Base
     end
 
     def self.#{name}=(value)
-      self[:#{name}] = values
+      self[:#{name}] = value
     end
     END_SRC
     class_eval src, __FILE__, __LINE__
