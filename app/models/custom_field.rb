@@ -17,7 +17,8 @@
 
 class CustomField < ActiveRecord::Base
   has_many :custom_values, :dependent => :delete_all
-
+  serialize :possible_values
+  
   FIELD_FORMATS = { "string" => { :name => :label_string, :order => 1 },
                     "text" => { :name => :label_text, :order => 2 },
                     "int" => { :name => :label_integer, :order => 3 },
@@ -30,7 +31,23 @@ class CustomField < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
   validates_inclusion_of :field_format, :in => FIELD_FORMATS.keys
-  validates_presence_of :possible_values, :if => Proc.new { |field| field.field_format == "list" }
+
+  def initialize(attributes = nil)
+    super
+    self.possible_values ||= []
+  end
+  
+  def before_validation
+    # remove empty values
+    self.possible_values = self.possible_values.collect{|v| v unless v.empty?}.compact
+  end
+  
+  def validate
+    if self.field_format == "list"
+      errors.add(:possible_values, :activerecord_error_blank) if self.possible_values.nil? || self.possible_values.empty?
+      errors.add(:possible_values, :activerecord_error_invalid) unless self.possible_values.is_a? Array
+    end
+  end
 
   # to move in project_custom_field
   def self.for_all

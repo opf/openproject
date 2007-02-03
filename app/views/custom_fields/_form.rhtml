@@ -1,6 +1,7 @@
 <%= error_messages_for 'custom_field' %>
 
-<script>
+<script type="text/javascript">
+//<![CDATA[
 function toggle_custom_field_format() {
   format = $("custom_field_field_format");
   p_length = $("custom_field_min_length");
@@ -10,28 +11,47 @@ function toggle_custom_field_format() {
     case "list":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
-      Element.show(p_values.parentNode);
+      Element.show(p_values);
       break;
     case "int":
     case "string":
     case "text":
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
-      Element.hide(p_values.parentNode);
+      Element.hide(p_values);
       break;
     case "date":
     case "bool":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
-      Element.hide(p_values.parentNode);
+      Element.hide(p_values);
       break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
-      Element.show(p_values.parentNode);
+      Element.show(p_values);
       break;
   }
 }
+
+function addValueField() {
+    var f = $$('p#custom_field_possible_values span');
+    p = document.getElementById("custom_field_possible_values");
+    var v = f[0].cloneNode(true);
+    v.childNodes[0].value = "";
+    p.appendChild(v);
+}
+
+function deleteValueField(e) {
+    var f = $$('p#custom_field_possible_values span');
+    if (f.length == 1) {
+        e.parentNode.childNodes[0].value = "";    
+    } else {
+        Element.remove(e.parentNode);
+    }
+}
+
+//]]>
 </script>
 
 <!--[form:custom_field]-->
@@ -42,7 +62,12 @@ function toggle_custom_field_format() {
    <%= f.text_field :min_length, :size => 5, :no_label => true %> - 
    <%= f.text_field :max_length, :size => 5, :no_label => true %><br>(<%=l(:text_min_max_length_info)%>)</p>
 <p><%= f.text_field :regexp, :size => 50 %><br>(<%=l(:text_regexp_info)%>)</p>
-<p><%= f.text_area :possible_values, :rows => 5, :cols => 60 %><br>(<%=l(:text_possible_values_info)%>)</p>
+<p id="custom_field_possible_values"><label><%= l(:field_possible_values) %> <%= image_to_function "add.png", "addValueField();return false" %></label>
+<% (@custom_field.possible_values.to_a + [""]).each do |value| %>
+<span><%= text_field_tag 'custom_field[possible_values][]', value, :size => 30 %> <%= image_to_function "delete.png", "deleteValueField(this);return false" %><br /></span>
+<% end %>
+
+</p>
 </div>
 <%= javascript_tag "toggle_custom_field_format();" %>
 <!--[eoform:custom_field]-->

@@ -34,7 +34,7 @@ module CustomFieldsHelper
     when "bool"
       check_box 'custom_value', 'value', :name => field_name, :id => field_id
     when "list"
-      select 'custom_value', 'value', custom_field.possible_values.split('|'), { :include_blank => true }, :name => field_name, :id => field_id
+      select 'custom_value', 'value', custom_field.possible_values, { :include_blank => true }, :name => field_name, :id => field_id
     end
   end
   
