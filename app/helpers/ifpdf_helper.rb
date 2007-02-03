@@ -22,6 +22,11 @@ module IfpdfHelper
   class IFPDF < FPDF
 
     attr_accessor :footer_date
+    
+    def initialize
+      super
+      SetCreator("redMine #{Redmine::VERSION}")
+    end
       
     def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
       @ic ||= Iconv.new('ISO-8859-1', 'UTF-8')
