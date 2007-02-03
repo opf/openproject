@@ -130,29 +130,29 @@ module ActiveRecord #:nodoc:
     include GLoc
   end
   
-  class Errors
-    include GLoc
-    alias :add_without_gloc :add
-    # The GLoc version of this method provides two extra features
-    # * If <tt>msg</tt> is a string, it will be considered a GLoc string key.
-    # * If <tt>msg</tt> is an array, the first element will be considered
-    #   the string and the remaining elements will be considered arguments for the
-    #   string. Eg. <tt>['Hi %s.','John']</tt>
-    def add(attribute, msg= @@default_error_messages[:invalid])
-      if msg.is_a?(Array)
-        args= msg.clone
-        msg= args.shift
-        args= nil if args.empty?
-      end
-      msg= ltry(msg)
-      msg= msg % args unless args.nil?
-      add_without_gloc(attribute, msg)
-    end
-    # Inherits the current language from the base record.
-    def current_language
-      @base.current_language
-    end
-  end
+#  class Errors
+#    include GLoc
+#    alias :add_without_gloc :add
+#    # The GLoc version of this method provides two extra features
+#    # * If <tt>msg</tt> is a string, it will be considered a GLoc string key.
+#    # * If <tt>msg</tt> is an array, the first element will be considered
+#    #   the string and the remaining elements will be considered arguments for the
+#    #   string. Eg. <tt>['Hi %s.','John']</tt>
+#    def add(attribute, msg= @@default_error_messages[:invalid])
+#      if msg.is_a?(Array)
+#        args= msg.clone
+#        msg= args.shift
+#        args= nil if args.empty?
+#      end
+#      msg= ltry(msg)
+#      msg= msg % args unless args.nil?
+#      add_without_gloc(attribute, msg)
+#    end
+#    # Inherits the current language from the base record.
+#    def current_language
+#      @base.current_language
+#    end
+#  end
   
   module Validations #:nodoc:
     module ClassMethods
