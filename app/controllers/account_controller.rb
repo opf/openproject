@@ -22,7 +22,7 @@ class AccountController < ApplicationController
   
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required, :only => [:login, :lost_password, :register]
-  before_filter :require_login, :except => [:show, :login, :lost_password, :register]
+  before_filter :require_login, :only => :logout
 
   # Show user's account
   def show
@@ -57,6 +57,7 @@ class AccountController < ApplicationController
   
   # Enable user to choose a new password
   def lost_password
+    redirect_to :controller => 'welcome' and return unless Setting.lost_password?
     if params[:token]
       @token = Token.find_by_action_and_value("recovery", params[:token])
       redirect_to :controller => 'welcome' and return unless @token and !@token.expired?
