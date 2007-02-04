@@ -34,6 +34,9 @@ password_lost:
 attachment_max_size:
   format: int
   default: 5120
+issues_export_limit:
+  format: int
+  default: 500
 mail_from:
   default: redmine@somenet.foo
 text_formatting:
