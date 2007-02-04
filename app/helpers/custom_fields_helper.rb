@@ -59,10 +59,10 @@ module CustomFieldsHelper
   
   # Return a string used to display a custom value
   def format_value(value, field_format)
-    return "" unless value
+    return "" unless value && !value.empty?
     case field_format
     when "date"
-      value.empty? ? "" : l_date(value.to_date)
+      begin; l_date(value.to_date); rescue; value end
     when "bool"
       l_YesNo(value == "1")
     else
