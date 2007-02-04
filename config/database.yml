@@ -19,24 +19,6 @@ development:
   host: localhost
   username: root
   password:
-  
-development_pgsql:
-  adapter: postgresql
-  database: redmine
-  host: localhost
-  username: postgres
-  password: "postgres"
-
-development_oracle:
-  adapter: oci
-  host: 192.168.0.14
-  username: rails
-  password: "rails"
-
-development_sqlserver:
-  adapter: sqlserver
-  host: localhost,1157
-  database: redmine
 
 test:
   adapter: mysql
