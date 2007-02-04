@@ -313,7 +313,7 @@ class ProjectsController < ApplicationController
     render :action => 'list_issues' and return unless @query.valid?
 					
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker, :project, :custom_values ],
+						:include => [ :author, :status, :tracker, :priority ],
 						:conditions => @query.statement,
 						:limit => 500
 											
