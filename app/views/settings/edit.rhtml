@@ -20,6 +20,9 @@
 <p><label><%= l(:setting_self_registration) %></label>
 <%= check_box_tag 'settings[self_registration]', 1, Setting.self_registration? %><%= hidden_field_tag 'settings[self_registration]', 0 %></p>
 
+<p><label><%= l(:label_password_lost) %></label>
+<%= check_box_tag 'settings[password_lost]', 1, Setting.password_lost? %><%= hidden_field_tag 'settings[password_lost]', 0 %></p>
+
 <p><label><%= l(:setting_attachment_max_size) %></label>
 <%= text_field_tag 'settings[attachment_max_size]', Setting.attachment_max_size, :size => 6 %> KB</p>
 

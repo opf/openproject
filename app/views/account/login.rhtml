@@ -12,7 +12,13 @@
 <p><center><input type="submit" name="login" value="<%=l(:button_login)%> &#187;" class="primary" /></center>
 <% end %>
 
-<br><% if Setting.self_registration? %><%= link_to l(:label_register), :action => 'register' %> |<% end %>
-<%= link_to l(:label_password_lost), :action => 'lost_password' %></p>
+<br>
+<% links = []
+   links << link_to(l(:label_register), :action => 'register') if Setting.self_registration?
+   links << link_to(l(:label_password_lost), :action => 'password_lost') if Setting.password_lost?
+%>
+<%= links.join(" | ") %>
+</p>
+
 </div>
 </center>
