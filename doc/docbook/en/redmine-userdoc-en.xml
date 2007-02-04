@@ -490,11 +490,29 @@
         </listitem>
 
         <listitem>
+          <para><guilabel>Lost password</guilabel></para>
+
+          <para>If this option is checked, lost password functionality is
+          available.</para>
+
+          <para><emphasis>Default: Yes</emphasis></para>
+        </listitem>
+
+        <listitem>
           <para><guilabel>Attachment max. size</guilabel></para>
 
           <para>Maximum size of uploaded files (in kylo-bytes)</para>
 
           <para><emphasis>Default: 2048 (i.e. 2MB)</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Issues export limit</guilabel></para>
+
+          <para>Maximum number of issues contained in CSV and PDF
+          exports.</para>
+
+          <para><emphasis>Default: 500</emphasis></para>
         </listitem>
 
         <listitem>

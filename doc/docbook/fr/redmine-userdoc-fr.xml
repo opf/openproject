@@ -505,12 +505,30 @@
         </listitem>
 
         <listitem>
+          <para><guilabel>Mot de passe perdu</guilabel></para>
+
+          <para>Si cette option est cochée, la procédure de changement de mot
+          de passe est disponible.</para>
+
+          <para><emphasis>Défaut: Oui</emphasis></para>
+        </listitem>
+
+        <listitem>
           <para><guilabel>Taille max des fichiers</guilabel></para>
 
           <para>Taille maximale des fichiers pouvant être envoyés à
           l'application (en kilo-octets).</para>
 
           <para><emphasis>Défaut: 2048 (soit 2Mo)</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Limite export demandes</guilabel></para>
+
+          <para>Nombre maximale de demandes contenues dans les exports CSV et
+          PDF.</para>
+
+          <para><emphasis>Défaut: 500</emphasis></para>
         </listitem>
 
         <listitem>
