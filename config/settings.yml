@@ -29,7 +29,7 @@ login_required:
   default: 0
 self_registration:
   default: 1
-password_lost:
+lost_password:
   default: 1
 attachment_max_size:
   format: int

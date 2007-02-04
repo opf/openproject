@@ -15,7 +15,7 @@
 <br>
 <% links = []
    links << link_to(l(:label_register), :action => 'register') if Setting.self_registration?
-   links << link_to(l(:label_password_lost), :action => 'password_lost') if Setting.password_lost?
+   links << link_to(l(:label_password_lost), :action => 'lost_password') if Setting.lost_password?
 %>
 <%= links.join(" | ") %>
 </p>
