@@ -342,7 +342,6 @@ button_sort: Clasificar
 text_select_mail_notifications: Seleccionar las actividades que necesitan la activación de la notificación por mail.
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 para ninguna restricción
-text_possible_values_info: Los valores se separaron con |
 text_project_destroy_confirmation: ¿ Estás seguro de querer eliminar el proyecto ?
 text_workflow_edit: Seleccionar un workflow para actualizar
 text_are_you_sure: ¿ Estás seguro ?
