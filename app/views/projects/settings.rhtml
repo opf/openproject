@@ -65,7 +65,7 @@
 	<tbody>
 <% for version in @project.versions %>
     <tr class="<%= cycle 'odd', 'even' %>">
-    <td><strong><%=h version.name %></strong></td>
+    <td><%=h version.name %></td>
     <td align="center"><%= format_date(version.effective_date) %></td>
     <td><%=h version.description %></td>
     <td align="center"><%= link_to_if_authorized l(:button_edit), { :controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %></td>
