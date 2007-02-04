@@ -89,6 +89,7 @@
         <%= link_to l(:label_activity), {:controller => 'projects', :action => 'activity', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_news_plural), {:controller => 'projects', :action => 'list_news', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_change_log), {:controller => 'projects', :action => 'changelog', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_roadmap), {:controller => 'projects', :action => 'roadmap', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_document_plural), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_member_plural), {:controller => 'projects', :action => 'list_members', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_attachment_plural), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %>
@@ -111,6 +112,7 @@
 				<li><%= link_to l(:label_activity), :controller => 'projects', :action => 'activity', :id => @project %></li>
 				<li><%= link_to l(:label_news_plural), :controller => 'projects', :action => 'list_news', :id => @project %></li>
 				<li><%= link_to l(:label_change_log), :controller => 'projects', :action => 'changelog', :id => @project %></li>
+				<li><%= link_to l(:label_roadmap), :controller => 'projects', :action => 'roadmap', :id => @project %></li>
 				<li><%= link_to l(:label_document_plural), :controller => 'projects', :action => 'list_documents', :id => @project %></li>
 				<li><%= link_to l(:label_member_plural), :controller => 'projects', :action => 'list_members', :id => @project %></li>
 				<li><%= link_to l(:label_attachment_plural), :controller => 'projects', :action => 'list_files', :id => @project %></li>

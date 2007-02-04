@@ -313,6 +313,7 @@ label_sort_highest: Move to top
 label_sort_higher: Move up
 label_sort_lower: Move down
 label_sort_lowest: Move to bottom
+label_roadmap: Roadmap
 
 button_login: Login
 button_submit: Submit

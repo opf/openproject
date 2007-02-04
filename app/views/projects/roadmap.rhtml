@@ -1,0 +1,26 @@
+<h2><%=l(:label_roadmap)%></h2>
+
+<div>
+
+<div class="rightbox" style="width:140px;">
+<% form_tag do %>
+<p><strong><%=l(:label_tracker_plural)%></strong></p>
+<% @trackers.each do |tracker| %>
+  <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
+  <%= tracker.name %><br />
+<% end %>
+<p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
+<% end %>
+</div>
+
+<% @versions.each do |version| %>   
+    <h3 class="icon22 icon22-package"><%= version.name %></h3>
+    <p><%= format_date(version.effective_date) %><br />
+    <%=h version.description %></p>
+    <ul>
+    <% version.fixed_issues.find(:all, :conditions => ["issues.tracker_id in (#{@selected_tracker_ids.join(',')})"]).each do |issue| %>
+    <li><%= link_to "#{issue.tracker.name} #{issue.id}", :controller => 'issues', :action => 'show', :id => issue %>: <%=h issue.subject %></li>
+    <% end %>
+    </ul>
+<% end %>
+</div>

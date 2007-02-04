@@ -421,6 +421,20 @@ class ProjectsController < ApplicationController
     @fixed_issues ||= []
   end
 
+  def roadmap
+    @trackers = Tracker.find(:all, :conditions => ["is_in_roadmap=?", true], :order => 'position')
+    if request.get?
+      @selected_tracker_ids = @trackers.collect {|t| t.id.to_s }
+    else
+      @selected_tracker_ids = params[:tracker_ids].collect { |id| id.to_i.to_s } if params[:tracker_ids] and params[:tracker_ids].is_a? Array
+    end
+    @selected_tracker_ids ||= []
+    @versions = @project.versions.find(:all,
+      :conditions => [ "versions.effective_date>?", Date.today],
+      :order => "versions.effective_date ASC"
+    )
+  end
+  
   def activity
     if params[:year] and params[:year].to_i > 1900
       @year = params[:year].to_i
