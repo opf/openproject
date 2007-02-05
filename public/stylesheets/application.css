@@ -151,6 +151,7 @@ vertical-align: middle;
 .icon-del { background-image: url(../images/delete.png); }
 .icon-move { background-image: url(../images/move.png); }
 .icon-save { background-image: url(../images/save.png); }
+.icon-cancel { background-image: url(../images/cancel.png); }
 .icon-pdf { background-image: url(../images/pdf.png); }
 .icon-csv { background-image: url(../images/csv.png); }
 .icon-file { background-image: url(../images/file.png); }
