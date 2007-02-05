@@ -2,10 +2,8 @@
 /* Edited by Jean-Philippe Lang *>
 /**************** Body and tag styles ****************/
 
-
 #header * {margin:0; padding:0;}
 p, ul, ol, li {margin:0; padding:0;}
-
 
 body{
 font:76% Verdana,Tahoma,Arial,sans-serif;
@@ -16,14 +14,7 @@ background:#e8eaec;
 margin:0;
 }
 
-
-a{
-color:#467aa7;
-font-weight:bold;
-text-decoration:none;
-background-color:inherit;
-}
-
+a{color:#467aa7;font-weight:bold;text-decoration:none;background-color:inherit;}
 a:hover{color:#2a5a8a; text-decoration:none; background-color:inherit;}
 a img{border:none;}
 
@@ -108,14 +99,8 @@ background-color:inherit;
 color: #ffffff;
 }
 
-#navigation li.submenu {
-background:url(../images/arrow_down.png) 96% 80% no-repeat;
-}
-
-#navigation li.submenu a {
-padding:0px 16px 0px 22px;
-}
-
+#navigation li.submenu {background:url(../images/arrow_down.png) 96% 80% no-repeat;}
+#navigation li.submenu a {padding:0px 16px 0px 22px;}
 * html #navigation a {width:1%;}
 
 #navigation .selected,#navigation a:hover{
@@ -243,58 +228,20 @@ text-decoration:none;
 
 /***********************************************/
 
-form {
-	display: inline;
-}
+form {display: inline;}
+blockquote {padding-left: 6px; border-left: 2px solid #ccc;}
+input, select {vertical-align: middle; margin-bottom: 4px;}
 
-blockquote {
-    padding-left: 6px;
-    border-left: 2px solid #ccc;
-}
-
-input, select {
-	vertical-align: middle;
-	margin-bottom: 4px;
-}
-
-input.button-small 
-{
-    font-size: 0.8em;
-}
-
-.select-small 
-{
-   font-size: 0.8em;
-}
-
-label {
-	font-weight: bold;
-	font-size: 1em;
-	color: #505050;
-}
-
-fieldset {
-    border:1px solid #c0c0c0;
-    padding: 6px;
-}
-
-legend {
-    color: #505050;
-
-}
-
-.required {
-	color: #bb0000;
-}
-
-.odd {
-	background-color:#f6f7f8;
-}
-.even {
-	background-color: #fff;
-}
-
+input.button-small {font-size: 0.8em;}
+.select-small {font-size: 0.8em;}
+label {font-weight: bold; font-size: 1em; color: #505050;}
+fieldset {border:1px solid #c0c0c0; padding: 6px;}
+legend {color: #505050;}
+.required {color: #bb0000;}
+.odd {background-color:#f6f7f8;}
+.even {background-color: #fff;}
 hr { border:none; border-bottom: dotted 1px #c0c0c0; }
+table p {margin:0; padding:0;}
 
 div.square {
  border: 1px solid #999;
@@ -302,11 +249,6 @@ div.square {
  margin: .4em .5em 0 0;
  overflow: hidden;
  width: .6em; height: .6em;
-}
-
-table p {
-    margin:0;
-    padding:0;
 }
 
 ul.documents {
