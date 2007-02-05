@@ -19,12 +19,16 @@ class MyController < ApplicationController
   layout 'base'
   before_filter :require_login
 
-  BLOCKS = { 'issues_assigned_to_me' => :label_assigned_to_me_issues,
-             'issues_reported_by_me' => :label_reported_issues,
-             'latest_news' => :label_news_latest,
+  BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
+             'issuesreportedbyme' => :label_reported_issues,
+             'news' => :label_news_latest,
              'calendar' => :label_calendar,
              'documents' => :label_document_plural
            }.freeze
+
+  DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'], 
+                      'right' => ['issuesreportedbyme'] 
+                   }.freeze
 
   verify :xhr => true,
          :session => :page_layout,
@@ -38,7 +42,7 @@ class MyController < ApplicationController
   # Show user's page
   def page
     @user = self.logged_in_user
-    @blocks = @user.pref[:my_page_layout] || { 'left' => ['issues_assigned_to_me'], 'right' => ['issues_reported_by_me'] }
+    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
   end
 
   # Edit user's account
@@ -75,7 +79,7 @@ class MyController < ApplicationController
   # User's page layout configuration
   def page_layout
     @user = self.logged_in_user
-    @blocks = @user.pref[:my_page_layout] || { 'left' => ['issues_assigned_to_me'], 'right' => ['issues_reported_by_me'] }
+    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
     session[:page_layout] = @blocks
     %w(top left right).each {|f| session[:page_layout][f] ||= [] }
     @block_options = []
