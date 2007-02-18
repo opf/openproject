@@ -17,6 +17,9 @@ Note that Rails 1.2.2 is required for version 0.4.2 and later
 4. Migrate your database:
    rake migrate RAILS_ENV="production"
    
+Note: settings previously defined in custom_config.rb are now stored
+in database, as of version 0.4.2. Go to "Admin -> Settings" to edit them.
+
    
 == From 0.2.x and below
 
