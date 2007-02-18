@@ -171,7 +171,7 @@ class ProjectsController < ApplicationController
 
   # Show members list of @project
   def list_members
-    @members = @project.members
+    @members = @project.members.find(:all)
   end
 
   # Add a new document to @project

@@ -1,5 +1,7 @@
 <h2><%=l(:label_member_plural)%></h2>
 
+<% if @members.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+
 <% members = @members.group_by {|m| m.role } %>
 <% members.keys.sort{|x,y| x.position <=> y.position}.each do |role| %>
 <h3><%= role.name %></h3>
