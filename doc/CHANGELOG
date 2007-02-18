@@ -5,7 +5,7 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://redmine.rubyforge.org/
 
 
-== xx/xx/2006 v0.4.2
+== 02/18/2006 v0.4.2
 
 * Rails 1.2 is now required
 * settings are now stored in the database and editable through the application in: Admin -> Settings (config_custom.rb is no longer used)
@@ -30,6 +30,8 @@ http://redmine.rubyforge.org/
 * fixed: filters ignored when exporting a predefined query to csv/pdf
 * fixed: crash when french "issue_edit" email notification is sent
 * fixed: hide mail preference not saved (my/account)
+* fixed: crash when a new user try to edit its "my page" layout
+
 
 == 01/03/2006 v0.4.1
 
