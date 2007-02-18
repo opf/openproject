@@ -5,7 +5,12 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://redmine.rubyforge.org/
 
 
-== 02/18/2006 v0.4.2
+== xx/xx/2007 v0.4.3
+
+* fixed: error when clicking "add" with no block selected on my/page_layout
+
+
+== 02/18/2007 v0.4.2
 
 * Rails 1.2 is now required
 * settings are now stored in the database and editable through the application in: Admin -> Settings (config_custom.rb is no longer used)
@@ -33,12 +38,12 @@ http://redmine.rubyforge.org/
 * fixed: crash when a new user try to edit its "my page" layout
 
 
-== 01/03/2006 v0.4.1
+== 01/03/2007 v0.4.1
 
 * fixed: emails have no recipient when one of the project members has notifications disabled
 
 
-== 01/02/2006 v0.4.0
+== 01/02/2007 v0.4.0
 
 * simple SVN browser added (just needs svn binaries in PATH)
 * comments can now be added on news

@@ -90,8 +90,9 @@ class MyController < ApplicationController
   # The block is added on top of the page
   # params[:block] : id of the block to add
   def add_block
-    @user = self.logged_in_user
     block = params[:block]
+    render(:nothing => true) and return unless block && (BLOCKS.keys.include? block)
+    @user = self.logged_in_user
     # remove if already present in a group
     %w(top left right).each {|f| (session[:page_layout][f] ||= []).delete block }
     # add it on top
