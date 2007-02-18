@@ -41,7 +41,7 @@ Rails::Initializer.run do |config|
   # See Rails::Configuration for more options
   
 	# SMTP server configuration
-	config.action_mailer.server_settings = {
+	config.action_mailer.smtp_settings = {
 		:address => "127.0.0.1",
 		:port => 25,
 		:domain => "somenet.foo",
