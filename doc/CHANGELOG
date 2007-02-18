@@ -29,7 +29,7 @@ http://redmine.rubyforge.org/
 * fixed: unable to delete an issue status even if it's not used yet
 * fixed: filters ignored when exporting a predefined query to csv/pdf
 * fixed: crash when french "issue_edit" email notification is sent
-
+* fixed: hide mail preference not saved (my/account)
 
 == 01/03/2006 v0.4.1
 

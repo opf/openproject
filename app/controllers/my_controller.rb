@@ -51,7 +51,7 @@ class MyController < ApplicationController
     @pref = @user.pref
     @user.attributes = params[:user]
     @user.pref.attributes = params[:pref]
-    if request.post? and @user.save
+    if request.post? and @user.save and @user.pref.save
       set_localization
       flash.now[:notice] = l(:notice_account_updated)
       self.logged_in_user.reload
