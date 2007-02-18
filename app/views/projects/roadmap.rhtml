@@ -13,6 +13,8 @@
 <% end %>
 </div>
 
+<% if @versions.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+
 <% @versions.each do |version| %>   
     <h3 class="icon22 icon22-package"><%= version.name %></h3>
     <p><%= format_date(version.effective_date) %><br />
