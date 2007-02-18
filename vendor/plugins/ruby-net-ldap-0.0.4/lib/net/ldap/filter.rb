@@ -307,8 +307,8 @@ class FilterParser #:nodoc:
   end
 
   def parse_paren_expression scanner
-    if scanner.scan /\s*\(\s*/
-      b = if scanner.scan /\s*\&\s*/
+    if scanner.scan(/\s*\(\s*/)
+      b = if scanner.scan(/\s*\&\s*/)
         a = nil
         branches = []
         while br = parse_paren_expression(scanner)
@@ -321,7 +321,7 @@ class FilterParser #:nodoc:
           end
           a
         end
-      elsif scanner.scan /\s*\|\s*/
+      elsif scanner.scan(/\s*\|\s*/)
         # TODO: DRY!
         a = nil
         branches = []
@@ -335,7 +335,7 @@ class FilterParser #:nodoc:
           end
           a
         end
-      elsif scanner.scan /\s*\!\s*/
+      elsif scanner.scan(/\s*\!\s*/)
         br = parse_paren_expression(scanner)
         if br
           ~ br
@@ -353,11 +353,11 @@ class FilterParser #:nodoc:
   # Added a greatly-augmented filter contributed by Andre Nathan
   # for detecting special characters in values. (15Aug06)
   def parse_filter_branch scanner
-    scanner.scan /\s*/
+    scanner.scan(/\s*/)
     if token = scanner.scan( /[\w\-_]+/ )
-      scanner.scan /\s*/
+      scanner.scan(/\s*/)
       if op = scanner.scan( /\=|\<\=|\<|\>\=|\>|\!\=/ )
-        scanner.scan /\s*/
+        scanner.scan(/\s*/)
         #if value = scanner.scan( /[\w\*\.]+/ ) (ORG)
         if value = scanner.scan( /[\w\*\.\+\-@=#\$%&!]+/ )
           case op
