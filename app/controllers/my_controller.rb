@@ -79,7 +79,7 @@ class MyController < ApplicationController
   # User's page layout configuration
   def page_layout
     @user = self.logged_in_user
-    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
+    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
     session[:page_layout] = @blocks
     %w(top left right).each {|f| session[:page_layout][f] ||= [] }
     @block_options = []
