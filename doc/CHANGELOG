@@ -9,17 +9,26 @@ http://redmine.rubyforge.org/
 
 * Rails 1.2 is now required
 * settings are now stored in the database and editable through the application in: Admin -> Settings (config_custom.rb is no longer used)
+* added project roadmap view
 * mail notifications added when a document, a file or an attachment is added
 * tooltips added on Gantt chart and calender to view the details of the issues
 * ability to set the sort order for roles, trackers, issue statuses
 * added missing fields to csv export: priority, start date, due date, done ratio
+* added total number of issues per tracker on project overview
 * all icons replaced (new icons are based on GPL icon set: "KDE Crystal Diamond 2.5" -by paolino- and "kNeu! Alpha v0.1" -by Pablo Fabregat-)
 * added back "fixed version" field on issue screen and in filters
 * project settings screen split in 4 tabs
+* custom fields screen split in 3 tabs (one for each kind of custom field)
+* multiple issues pdf export now rendered as a table
+* added a button on users/list to manually activate an account
+* added a setting option to disable "password lost" functionality
+* added a setting option to set max number of issues in csv/pdf exports
 * fixed: subprojects count is always 0 on projects list
+* fixed: locked users are proposed when adding a member to a project
 * fixed: setting an issue status as default status leads to an sql error with SQLite
 * fixed: unable to delete an issue status even if it's not used yet
 * fixed: filters ignored when exporting a predefined query to csv/pdf
+* fixed: crash when french "issue_edit" email notification is sent
 
 
 == 01/03/2006 v0.4.1

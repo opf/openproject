@@ -7,7 +7,7 @@ http://redmine.rubyforge.org/
 
 == Requirements
 
-* Ruby on Rails 1.2
+* Ruby on Rails 1.2.2
 * Iconv
 * A database (see compatibility below)
 
@@ -52,14 +52,16 @@ Supported databases:
 7. Use default administrator account to log in:
    login: admin
    password: admin
+   
+8. You can go to "Admin -> Settings" to modify application settings.
 
-8. Setup Apache or Lighttpd with fastcgi for best performance.
+9. Setup Apache or Lighttpd with fastcgi for best performance.
 
 
-== Configuration
+== SMTP server Configuration
 
 In config/environment.rb, you can set parameters for your SMTP server:
-config.action_mailer.server_settings: SMTP server configuration
+config.action_mailer.smtp_settings: SMTP server configuration
 config.action_mailer.perform_deliveries: set to false to disable mail delivering
 
 Don't forget to restart the application after any change.
