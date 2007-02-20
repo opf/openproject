@@ -51,5 +51,6 @@ class AdminController < ApplicationController
   end
   
   def info
+    @db_adapter_name = ActiveRecord::Base.connection.adapter_name
   end  
 end
