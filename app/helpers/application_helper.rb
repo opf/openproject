@@ -93,7 +93,9 @@ module ApplicationHelper
   end
   
   def textilizable(text)
-    (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? RedCloth.new(h(text)).to_html : simple_format(auto_link(h(text)))
+    text = (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? RedCloth.new(h(text)).to_html : simple_format(auto_link(h(text)))
+    # turn "#id" patterns into links to issues
+    text = text.gsub(/#(\d+)([^;\d])/, "<a href='/issues/show/\\1'>#\\1</a>\\2")
   end
   
   def error_messages_for(object_name, options = {})
