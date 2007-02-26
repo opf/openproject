@@ -110,7 +110,7 @@ class ProjectsController < ApplicationController
           @project.repository = nil
         when "1"
           @project.repository ||= Repository.new
-          @project.repository.attributes = params[:repository]
+          @project.repository.update_attributes params[:repository]
         end
       end
       @project.attributes = params[:project]
