@@ -8,9 +8,9 @@ line_num_l = 0
 line_num_r = 0 %>
 <% @diff.each do |line| %>
 <% 
-   if line =~ /^@@ (\+|\-)(\d+),\d+ (\+|\-)(\d+),\d+ @@/
+   if line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
      line_num_l = $2.to_i
-     line_num_r = $4.to_i
+     line_num_r = $5.to_i
      if parsing %>
      <tr class="spacing"><td colspan="3">&nbsp;</td></tr>
   <% end
