@@ -1,0 +1,4 @@
+文書が <%= @document.project.name %> (<%= @document.category.name %>) に追加されました:
+<%= l(:field_title) %>: <%= @document.title %>
+
+http://<%= Setting.host_name %>/documents/show/<%= @document.id %>

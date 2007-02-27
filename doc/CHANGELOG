@@ -7,6 +7,7 @@ http://redmine.rubyforge.org/
 
 == xx/xx/2007 v0.4.3
 
+* japanese translation added (thanks to Satoru Kurashiki)
 * fixed: error when clicking "add" with no block selected on my/page_layout
 
 

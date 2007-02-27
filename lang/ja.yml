@@ -1,0 +1,378 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月
+actionview_datehelper_select_month_names_abbr: 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_select_year_suffix: 月
+actionview_datehelper_time_in_words_day: 1日
+actionview_datehelper_time_in_words_day_plural: %d日間
+actionview_datehelper_time_in_words_hour_about: 約1時間
+actionview_datehelper_time_in_words_hour_about_plural: 約%d時間
+actionview_datehelper_time_in_words_hour_about_single: 約1時間
+actionview_datehelper_time_in_words_minute: 1分
+actionview_datehelper_time_in_words_minute_half: 約30秒
+actionview_datehelper_time_in_words_minute_less_than: 1分以内
+actionview_datehelper_time_in_words_minute_plural: %d分
+actionview_datehelper_time_in_words_minute_single: 1分
+actionview_datehelper_time_in_words_second_less_than: 1秒以内
+actionview_datehelper_time_in_words_second_less_than_plural: %d秒以内
+actionview_instancetag_blank_option: 選んでください
+
+activerecord_error_inclusion: がリストに含まれていません
+activerecord_error_exclusion: が予約されています
+activerecord_error_invalid: が無効です
+activerecord_error_confirmation: 確認のパスワードと合っていません
+activerecord_error_accepted: must be accepted
+activerecord_error_empty: が空です
+activerecord_error_blank: が空白です
+activerecord_error_too_long: が長すぎます
+activerecord_error_too_short: が短かすぎます
+activerecord_error_wrong_length: の長さが間違っています
+activerecord_error_taken: has already been taken
+activerecord_error_not_a_number: が数字ではありません
+activerecord_error_not_a_date: の日付が間違っています
+activerecord_error_greater_than_start_date: を開始日より後にしてください
+
+general_fmt_age: %d歳
+general_fmt_age_plural: %d歳
+general_fmt_date: %%Y年%%m月%%d日
+general_fmt_datetime: %%Y年%%月%%d日 %%H:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%H:%%M %%p
+general_fmt_time: %%H:%%M %%p
+general_text_No: 'いいえ'
+general_text_Yes: 'はい'
+general_text_no: 'いいえ'
+general_text_yes: 'はい'
+general_lang_ja: 'Japanese (日本語)'
+general_csv_separator: ','
+general_day_names: 日曜日, 月曜日, 火曜日, 水曜日, 木曜日, 金曜日, 土曜日
+
+notice_account_updated: アカウントが更新されました。
+notice_account_invalid_creditentials: ユーザ名もしくはパスワードが無効
+notice_account_password_updated: パスワードが更新されました。
+notice_account_wrong_password: パスワードが違います
+notice_account_register_done: アカウントが作成されました。
+notice_account_unknown_email: ユーザが存在しません。
+notice_can_t_change_password: このアカウントでは外部認証を使っています。パスワードは変更できません。
+notice_account_lost_email_sent: 新しいパスワードのメールを送信しました。
+notice_account_activated: アカウントが有効になりました。ログインできます。
+notice_successful_create: 作成しました。
+notice_successful_update: 更新しました。
+notice_successful_delete: 削除しました。
+notice_successful_connection: 接続しました。
+notice_file_not_found: アクセスしようとしたページは存在しないか削除されています。
+notice_locking_conflict: 別のユーザがデータを更新しています。
+notice_scm_error: リポジトリに、エントリ/リビジョンが存在しません。
+
+mail_subject_lost_password: redMine パスワード
+mail_subject_register: redMine アカウントが有効になりました
+
+gui_validation_error: 1 件のエラー
+gui_validation_error_plural: %d 件のエラー
+
+field_name: 名前
+field_description: 説明
+field_summary: サマリ
+field_is_required: 必須
+field_firstname: 名前
+field_lastname: 苗字
+field_mail: Email
+field_filename: ファイル
+field_filesize: サイズ
+field_downloads: ダウンロード
+field_author: 起票者
+field_created_on: 作成日
+field_updated_on: 更新日
+field_field_format: 書式
+field_is_for_all: 全プロジェクト向け
+field_possible_values: 選択肢
+field_regexp: 正規表現
+field_min_length: 最小値
+field_max_length: 最大値
+field_value: 値
+field_category: カテゴリ
+field_title: タイトル
+field_project: プロジェクト
+field_issue: 問題
+field_status: ステータス
+field_notes: 注記
+field_is_closed: 終了した問題
+field_is_default: デフォルトのステータス
+field_html_color: 色
+field_tracker: トラッカー
+field_subject: 題名
+field_due_date: 期限日
+field_assigned_to: 担当者
+field_priority: 優先度
+field_fixed_version: 修正されたバージョン
+field_user: ユーザ
+field_role: 役割
+field_homepage: ホームページ
+field_is_public: 公開
+field_parent: 親プロジェクト名
+field_is_in_chlog: 変更記録に表示されている問題
+field_login: ログイン
+field_mail_notification: メール通知
+field_admin: 管理者
+field_locked: Locked
+field_last_login_on: 最終接続日
+field_language: 言語
+field_effective_date: Date
+field_password: パスワード
+field_new_password: 新しいパスワード
+field_password_confirmation: パスワードの確認
+field_version: バージョン
+field_type: Type
+field_host: ホスト
+field_port: ポート
+field_account: アカウント
+field_base_dn: Base DN
+field_attr_login: ログイン名属性
+field_attr_firstname: 名前属性
+field_attr_lastname: 苗字属性
+field_attr_mail: メール属性
+field_onthefly: On-the-fly user creation
+field_start_date: 開始日
+field_done_ratio: 進捗 %%
+field_auth_source: 認証モード
+field_hide_mail: Emailアドレスを隠す
+field_comment: コメント
+field_url: URL
+
+setting_app_title: アプリケーションのタイトル
+setting_app_subtitle: アプリケーションのサブタイトル
+setting_welcome_text: ウェルカムメッセージ
+setting_default_language: 既定の言語
+setting_login_required: 認証が必要
+setting_self_registration: ユーザは自分で登録できる
+setting_attachment_max_size: 添付の最大サイズ
+setting_issues_export_limit: 出力する問題数の上限
+setting_mail_from: Emission メールアドレス
+setting_host_name: ホスト名
+setting_text_formatting: テキストの書式
+
+label_user: ユーザ
+label_user_plural: ユーザ
+label_user_new: 新しいユーザ
+label_project: プロジェクト
+label_project_new: 新しいプロジェクト
+label_project_plural: プロジェクト
+label_project_latest: 最近のプロジェクト
+label_issue: 問題
+label_issue_new: 新しい問題
+label_issue_plural: 問題
+label_issue_view_all: 問題を全て見る
+label_document: 文書
+label_document_new: 新しい文書
+label_document_plural: 文書
+label_role: ロール
+label_role_plural: ロール
+label_role_new: 新しいロール
+label_role_and_permissions: ロールと権限
+label_member: メンバー
+label_member_new: 新しいメンバー
+label_member_plural: メンバー
+label_tracker: トラッカー
+label_tracker_plural: トラッカー
+label_tracker_new: 新しいトラッカーを作成
+label_workflow: ワークフロー
+label_issue_status: 問題の状態
+label_issue_status_plural: 問題の状態
+label_issue_status_new: 新しい状態
+label_issue_category: 問題のカテゴリ
+label_issue_category_plural: 問題のカテゴリ
+label_issue_category_new: 新しいカテゴリ
+label_custom_field: カスタムフィールド
+label_custom_field_plural: カスタムフィールド
+label_custom_field_new: 新しいカスタムフィールドを作成
+label_enumerations: 列挙項目
+label_enumeration_new: 新しい値
+label_information: 情報
+label_information_plural: 情報
+label_please_login: ログインしてください
+label_register: 登録する
+label_password_lost: パスワードの再発行
+label_home: ホーム
+label_my_page: マイページ
+label_my_account: マイアカウント
+label_my_projects: マイプロジェクト
+label_administration: 管理
+label_login: ログイン
+label_logout: ログアウト
+label_help: ヘルプ
+label_reported_issues: 報告されている問題
+label_assigned_to_me_issues: 担当している問題
+label_last_login: 最近の接続
+label_last_updates: 最近の更新 1 件
+label_last_updates_plural: 最近の更新 %d 件
+label_registered_on: 登録日
+label_activity: 活動
+label_new: 新しく作成
+label_logged_as: ログイン中：
+label_environment: 環境
+label_authentication: 認証
+label_auth_source: 認証モード
+label_auth_source_new: 新しい認証モード
+label_auth_source_plural: 認証モード
+label_subproject: サブプロジェクト
+label_subproject_plural: サブプロジェクト
+label_min_max_length: 最小値 - 最大値の長さ
+label_list: リストから選択
+label_date: 日付
+label_integer: 整数
+label_boolean: 真偽値
+label_string: テキスト
+label_text: 長いテキスト
+label_attribute: 属性
+label_attribute_plural: 属性
+label_download: %d ダウンロード
+label_download_plural: %d ダウンロード
+label_no_data: 表示するデータがありません
+label_change_status: 変更の状況
+label_history: 履歴
+label_attachment: ファイル
+label_attachment_new: 新しいファイル
+label_attachment_delete: ファイルを削除
+label_attachment_plural: ファイル
+label_report: レポート
+label_report_plural: レポート
+label_news: ニュース
+label_news_new: ニュースを追加
+label_news_plural: ニュース
+label_news_latest: 最新ニュース
+label_news_view_all: 全てのニュースを見る
+label_change_log: 変更記録
+label_settings: 設定
+label_overview: 概要
+label_version: バージョン
+label_version_new: 新しいバージョン
+label_version_plural: バージョン
+label_confirmation: 確認
+label_export_to: 他の形式に出力
+label_read: 読む...
+label_public_projects: 公開プロジェクト
+label_open_issues: 未着手
+label_open_issues_plural: 未着手
+label_closed_issues: 終了
+label_closed_issues_plural: 終了
+label_total: 合計
+label_permissions: 権限
+label_current_status: 現在の状態
+label_new_statuses_allowed: 状態の移行先
+label_all: 全て
+label_none: なし
+label_next: 次
+label_previous: 前
+label_used_by: 使用中
+label_details: 詳細...
+label_add_note: 注記を追加
+label_per_page: ページ毎
+label_calendar: カレンダー
+label_months_from: ヶ月 from
+label_gantt: ガントチャート
+label_internal: Internal
+label_last_changes: 最新の変更 %d 件
+label_change_view_all: 全ての変更を見る
+label_personalize_page: このページをパーソナライズする
+label_comment: コメント
+label_comment_plural: コメント
+label_comment_add: コメント追加
+label_comment_added: 追加されたコメント
+label_comment_delete: コメント削除
+label_query: カスタムクエリ
+label_query_plural: カスタムクエリ
+label_query_new: 新しいクエリ
+label_filter_add: フィルタ追加
+label_filter_plural: フィルタ
+label_equals: 等しい
+label_not_equals: 等しくない
+label_in_less_than: 残日数がこれより多い
+label_in_more_than: 残日数がこれより少ない
+label_in: 残日数
+label_today: 今日
+label_less_than_ago: 経過日数がこれより少ない
+label_more_than_ago: 経過日数がこれより多い
+label_ago: 日前
+label_contains: 含む
+label_not_contains: 含まない
+label_day_plural: 日
+label_repository: SVNリポジトリ
+label_browse: ブラウズ
+label_modification: %d点の変更
+label_modification_plural: %d点の変更
+label_revision: リビジョン
+label_revision_plural: リビジョン
+label_added: 追加された
+label_modified: 変更された
+label_deleted: 削除された
+label_latest_revision: 最新リビジョン
+label_view_revisions: リビジョンを見る
+label_max_size: 最大サイズ
+label_on: 他
+label_sort_highest: 一番上へ
+label_sort_higher: 上へ
+label_sort_lower: 下へ
+label_sort_lowest: 一番下へ
+label_roadmap: ロードマップ
+
+button_login: ログイン
+button_submit: 変更
+button_save: 保存
+button_check_all: チェックを全部つける
+button_uncheck_all: チェックを全部外す
+button_delete: 削除
+button_create: 作成
+button_test: テスト
+button_edit: 編集
+button_add: 追加
+button_change: 変更
+button_apply: 適用
+button_clear: クリア
+button_lock: ロック
+button_unlock: アンロック
+button_download: ダウンロード
+button_list: 一覧
+button_view: 見る
+button_move: 移動
+button_back: 戻る
+button_cancel: キャンセル
+button_activate: 有効にする
+button_sort: ソート
+
+text_select_mail_notifications: どのメール通知を送信するかアクションを選択してください。
+text_regexp_info: 例) ^[A-Z0-9]+$
+text_min_max_length_info: 0だと無制限になります
+text_project_destroy_confirmation: 本当にこのプロジェクトと関連データを削除したいのですか？
+text_workflow_edit: ワークフローを編集するロールとtrackerを選んでください
+text_are_you_sure: 本当に？
+text_journal_changed: %s から %s への変更
+text_journal_set_to: %s にセット
+text_journal_deleted: 削除
+text_tip_task_begin_day: この日に開始するタスク
+text_tip_task_end_day: この日に終了するタスク
+text_tip_task_begin_end_day: この日のうちに開始して終了するタスク
+
+default_role_manager: 管理者
+default_role_developper: 開発者
+default_role_reporter: 報告者
+default_tracker_bug: バグ
+default_tracker_feature: 機能
+default_tracker_support: サポート
+default_issue_status_new: 新規
+default_issue_status_assigned: 分担
+default_issue_status_resolved: 解決
+default_issue_status_feedback: フィードバック
+default_issue_status_closed: 終了
+default_issue_status_rejected: 却下
+default_doc_category_user: ユーザ文書
+default_doc_category_tech: 技術文書
+default_priority_low: 低め
+default_priority_normal: 通常
+default_priority_high: 高め
+default_priority_urgent: 急いで
+default_priority_immediate: 今すぐ
+
+enumeration_issue_priorities: 問題の優先度
+enumeration_doc_categories: 文書カテゴリ
