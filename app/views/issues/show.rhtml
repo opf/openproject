@@ -72,7 +72,7 @@ end %>
 <% if @journals_count > @journals.length %>(<%= l(:label_last_changes, @journals.length) %>)<% end %></h3>
 <%= render :partial => 'history', :locals => { :journals => @journals } %>
 <% if @journals_count > @journals.length %>
-    <p><center><small>[ <%= link_to l(:label_change_view_all), :action => 'history', :id => @issue %> ]</small></center></p>
+    <p><center><small><%= link_to l(:label_change_view_all), :action => 'history', :id => @issue %></small></center></p>
 <% end %>
 </div>
 
