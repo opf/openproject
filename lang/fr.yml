@@ -315,6 +315,9 @@ label_sort_higher: Remonter
 label_sort_lower: Descendre
 label_sort_lowest: Descendre en dernier
 label_roadmap: Roadmap
+label_search: Recherche
+label_result: %d résultat
+label_result_plural: %d résultats
 
 button_login: Connexion
 button_submit: Soumettre

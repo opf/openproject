@@ -539,6 +539,18 @@ class ProjectsController < ApplicationController
     end
   end
   
+  def search
+    @token = params[:token]
+    @scope = params[:scope] || (params[:submit] ? [] : %w(issues news documents) )
+
+    if @token and @token.length > 2
+      @results = []
+      @results += @project.issues.find(:all, :include => :author, :conditions => ["issues.subject like ?", "%#{@token}%"] ) if @scope.include? 'issues'
+      @results += @project.news.find(:all, :conditions => ["news.title like ?", "%#{@token}%"], :include => :author ) if @scope.include? 'news'
+      @results += @project.documents.find(:all, :conditions => ["title like ?", "%#{@token}%"] ) if @scope.include? 'documents'
+    end
+  end
+  
 private
   # Find project of id params[:id]
   # if not found, redirect to project list
