@@ -106,6 +106,7 @@ module ApplicationHelper
       full_messages = []
       object.errors.each do |attr, msg|
         next if msg.nil?
+        msg = msg.first if msg.is_a? Array
         if attr == "base"
           full_messages << l(msg)
         else
@@ -117,6 +118,7 @@ module ApplicationHelper
         object.custom_values.each do |v| 
           v.errors.each do |attr, msg|
             next if msg.nil?
+            msg = msg.first if msg.is_a? Array
             full_messages << "&#171; " + v.custom_field.name + " &#187; " + l(msg)
           end
         end
