@@ -1,19 +1,25 @@
 <h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
 
-<table class="list">
-<thead><tr><th>@<%= @rev %></th><th>@<%= @rev_to  %></th><th></th></tr></thead>
-<tbody>
 <% parsing = false
 line_num_l = 0
 line_num_r = 0 %>
 <% @diff.each do |line| %>
 <% 
-   if line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
+   if line =~ /^Index: (.*)$/
+     if parsing %>
+       </tbody></table>
+     <%
+     end
+     parsing = false %>
+       <table class="list"><thead>
+         <tr><th colspan="3" class="list-filename"><%= l(:label_attachment) %>: <%= $1 %></th></tr>
+         <tr><th>@<%= @rev %></th><th>@<%= @rev_to %></th><th></th></tr>
+	</thead><tbody>
+     <%
+     next
+   elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
      line_num_l = $2.to_i
      line_num_r = $5.to_i
-     if parsing %>
-     <tr class="spacing"><td colspan="3">&nbsp;</td></tr>
-  <% end
      parsing = true
      next
    end

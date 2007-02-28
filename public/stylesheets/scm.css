@@ -20,3 +20,9 @@ tr.spacing {
 	font-family: "Courier New", monospace;
 	font-size: 1em;
 }
+
+table.list thead th.list-filename {
+	background-color: #ddc;
+	font-weight: bolder;
+	text-align: left;
+}
