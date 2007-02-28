@@ -22,6 +22,10 @@ line_num_r = 0 %>
      line_num_r = $5.to_i
      parsing = true
      next
+   elsif line =~ /^_+$/
+     # We have reached the 'Properties' section.
+     parsing = false
+     next
    end
    next unless parsing
 %>
