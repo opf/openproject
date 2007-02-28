@@ -111,4 +111,14 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_template 'changelog'
     assert_not_nil assigns(:fixed_issues)
   end
+  
+  def test_search
+    get :search, :id => 1
+    assert_response :success
+    assert_template 'search'
+    
+    get :search, :id => 1, :token => "can", :scope => ["issues", "news", "documents"]
+    assert_response :success
+    assert_template 'search'
+  end
 end

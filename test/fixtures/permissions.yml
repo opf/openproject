@@ -1,11 +1,20 @@
 --- 
+permissions_052: 
+  action: destroy_comment
+  id: 52
+  description: label_comment_delete
+  controller: news
+  mail_enabled: false
+  mail_option: false
+  sort: 1133
+  is_public: false
 permissions_041: 
   action: add_file
   id: 41
   description: button_add
   controller: projects
   mail_enabled: false
-  mail_option: false
+  mail_option: true
   sort: 1320
   is_public: false
 permissions_030: 
@@ -34,6 +43,15 @@ permissions_008:
   mail_enabled: false
   mail_option: false
   sort: 221
+  is_public: false
+permissions_053: 
+  action: add_query
+  id: 53
+  description: button_create
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 600
   is_public: false
 permissions_042: 
   action: destroy_file
@@ -71,6 +89,24 @@ permissions_009:
   mail_option: false
   sort: 222
   is_public: false
+permissions_054: 
+  action: show
+  id: 54
+  description: button_view
+  controller: repositories
+  mail_enabled: false
+  mail_option: false
+  sort: 1450
+  is_public: true
+permissions_043: 
+  action: move_issues
+  id: 43
+  description: button_move
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1061
+  is_public: false
 permissions_032: 
   action: show
   id: 32
@@ -97,6 +133,24 @@ permissions_010:
   mail_enabled: false
   mail_option: false
   sort: 320
+  is_public: false
+permissions_055: 
+  action: browse
+  id: 55
+  description: label_browse
+  controller: repositories
+  mail_enabled: false
+  mail_option: false
+  sort: 1460
+  is_public: true
+permissions_044: 
+  action: add_note
+  id: 44
+  description: label_add_note
+  controller: issues
+  mail_enabled: false
+  mail_option: true
+  sort: 1057
   is_public: false
 permissions_033: 
   action: download
@@ -125,13 +179,31 @@ permissions_011:
   mail_option: false
   sort: 321
   is_public: false
+permissions_056: 
+  action: entry
+  id: 56
+  description: entry
+  controller: repositories
+  mail_enabled: false
+  mail_option: false
+  sort: 1462
+  is_public: true
+permissions_045: 
+  action: export_issues_pdf
+  id: 45
+  description: label_export_pdf
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 1002
+  is_public: true
 permissions_034: 
   action: add_document
   id: 34
   description: button_add
   controller: projects
   mail_enabled: false
-  mail_option: false
+  mail_option: true
   sort: 1220
   is_public: false
 permissions_023: 
@@ -161,6 +233,24 @@ permissions_001:
   mail_option: false
   sort: 100
   is_public: true
+permissions_057: 
+  action: revisions
+  id: 57
+  description: label_view_revisions
+  controller: repositories
+  mail_enabled: false
+  mail_option: false
+  sort: 1470
+  is_public: true
+permissions_046: 
+  action: export_pdf
+  id: 46
+  description: label_export_pdf
+  controller: issues
+  mail_enabled: false
+  mail_option: false
+  sort: 1015
+  is_public: true
 permissions_035: 
   action: edit
   id: 35
@@ -176,7 +266,7 @@ permissions_024:
   description: label_attachment_new
   controller: issues
   mail_enabled: false
-  mail_option: false
+  mail_option: true
   sort: 1070
   is_public: false
 permissions_013: 
@@ -196,6 +286,24 @@ permissions_002:
   mail_enabled: false
   mail_option: false
   sort: 105
+  is_public: true
+permissions_058: 
+  action: revision
+  id: 58
+  description: label_view_revisions
+  controller: repositories
+  mail_enabled: false
+  mail_option: false
+  sort: 1472
+  is_public: true
+permissions_047: 
+  action: activity
+  id: 47
+  description: label_activity
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 160
   is_public: true
 permissions_036: 
   action: destroy
@@ -233,13 +341,31 @@ permissions_003:
   mail_option: false
   sort: 110
   is_public: true
+permissions_059: 
+  action: diff
+  id: 59
+  description: diff
+  controller: repositories
+  mail_enabled: false
+  mail_option: false
+  sort: 1480
+  is_public: true
+permissions_048: 
+  action: calendar
+  id: 48
+  description: label_calendar
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 165
+  is_public: true
 permissions_037: 
   action: add_attachment
   id: 37
   description: label_attachment_new
   controller: documents
   mail_enabled: false
-  mail_option: false
+  mail_option: true
   sort: 1223
   is_public: false
 permissions_026: 
@@ -269,6 +395,24 @@ permissions_004:
   mail_option: false
   sort: 150
   is_public: false
+permissions_060: 
+  action: search
+  id: 61
+  description: label_search
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 130
+  is_public: true
+permissions_049: 
+  action: gantt
+  id: 49
+  description: label_gantt
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 166
+  is_public: true
 permissions_038: 
   action: destroy_attachment
   id: 38
@@ -305,6 +449,15 @@ permissions_005:
   mail_option: false
   sort: 151
   is_public: false
+permissions_050: 
+  action: history
+  id: 50
+  description: label_history
+  controller: issues
+  mail_enabled: false
+  mail_option: false
+  sort: 1006
+  is_public: true
 permissions_039: 
   action: list_files
   id: 39
@@ -341,6 +494,15 @@ permissions_006:
   mail_option: false
   sort: 200
   is_public: true
+permissions_051: 
+  action: add_comment
+  id: 51
+  description: label_comment_add
+  controller: news
+  mail_enabled: false
+  mail_option: false
+  sort: 1130
+  is_public: false
 permissions_040: 
   action: download
   id: 40

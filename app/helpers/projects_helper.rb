@@ -16,4 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module ProjectsHelper
+  def result_overview(text, token)
+    match = excerpt(text, token)
+    match ? highlight(match, token) : truncate(text, 150)
+  end
 end

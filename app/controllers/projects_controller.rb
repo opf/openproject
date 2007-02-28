@@ -544,10 +544,12 @@ class ProjectsController < ApplicationController
     @scope = params[:scope] || (params[:submit] ? [] : %w(issues news documents) )
 
     if @token and @token.length > 2
+      @token.strip!
+      like_token = "%#{@token}%"
       @results = []
-      @results += @project.issues.find(:all, :include => :author, :conditions => ["issues.subject like ?", "%#{@token}%"] ) if @scope.include? 'issues'
-      @results += @project.news.find(:all, :conditions => ["news.title like ?", "%#{@token}%"], :include => :author ) if @scope.include? 'news'
-      @results += @project.documents.find(:all, :conditions => ["title like ?", "%#{@token}%"] ) if @scope.include? 'documents'
+      @results += @project.issues.find(:all, :include => :author, :conditions => ["issues.subject like ? or issues.description like ?", like_token, like_token] ) if @scope.include? 'issues'
+      @results += @project.news.find(:all, :conditions => ["news.title like ? or news.description like ?", like_token, like_token], :include => :author ) if @scope.include? 'news'
+      @results += @project.documents.find(:all, :conditions => ["title like ? or description like ?", like_token, like_token] ) if @scope.include? 'documents'
     end
   end
   

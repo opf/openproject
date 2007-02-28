@@ -16,15 +16,17 @@
       <% @results.each do |e| %>
         <li><p>
         <% if e.is_a? Issue %>
-          <%= link_to "#{e.tracker.name} ##{e.id}", :controller => 'issues', :action => 'show', :id => e %>: <%= highlight(h(e.subject), @token) %><br />
-              <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
+            <%= link_to "#{e.tracker.name} ##{e.id}", :controller => 'issues', :action => 'show', :id => e %>: <%= highlight(h(e.subject), @token) %><br />
+            <%= result_overview(e.description, @token) %><br />
+            <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
         <% elsif e.is_a? News %>
-          <%=l(:label_news)%>: <%= link_to highlight(h(e.title), @token), :controller => 'news', :action => 'show', :id => e %><br />
-              <% unless e.summary.empty? %><%=h e.summary %><br /><% end %>
-              <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
+            <%=l(:label_news)%>: <%= link_to highlight(h(e.title), @token), :controller => 'news', :action => 'show', :id => e %><br />
+            <%= result_overview(e.description, @token) %><br />
+            <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
         <% elsif e.is_a? Document %>
-          <%=l(:label_document)%>: <%= link_to highlight(h(e.title), @token), :controller => 'documents', :action => 'show', :id => e %><br />
-              <i><%= format_time(e.created_on) %></i>
+            <%=l(:label_document)%>: <%= link_to highlight(h(e.title), @token), :controller => 'documents', :action => 'show', :id => e %><br />
+            <%= result_overview(e.description, @token) %><br />
+            <i><%= format_time(e.created_on) %></i>
         <% end %>
         </p></li>  
       <% end %>
