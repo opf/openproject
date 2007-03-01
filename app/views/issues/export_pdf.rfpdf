@@ -1,4 +1,4 @@
-<%	pdf=IfpdfHelper::IFPDF.new
+<%	pdf=IfpdfHelper::IFPDF.new(current_language)
 	pdf.SetTitle("#{@project.name} - ##{@issue.tracker.name} #{@issue.id}")
 	pdf.AliasNbPages
 	pdf.footer_date = format_date(Date.today)

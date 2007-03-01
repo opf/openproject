@@ -16,20 +16,37 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'iconv'
+require 'rfpdf/chinese'
 
-module IfpdfHelper
-
+module IfpdfHelper  
+  
   class IFPDF < FPDF
-
+    include GLoc
     attr_accessor :footer_date
     
-    def initialize
-      super
+    def initialize(lang)
+      super()
+      set_language_if_valid lang
+      case current_language
+      when :ja
+        extend(PDF_Japanese)
+        AddSJISFont()
+        @font_for_content = 'SJIS'
+        @font_for_footer = 'SJIS'
+      else
+        @font_for_content = 'Arial'
+        @font_for_footer = 'Helvetica'              
+      end
       SetCreator("redMine #{Redmine::VERSION}")
+      SetFont(@font_for_content)
+    end
+    
+    def SetFontStyle(style, size)
+      SetFont(@font_for_content, style, size)
     end
       
     def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
-      @ic ||= Iconv.new('ISO-8859-1', 'UTF-8')
+      @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
       txt = begin
         @ic.iconv(txt)
       rescue
@@ -39,7 +56,7 @@ module IfpdfHelper
     end
     
     def Footer
-      SetFont('Helvetica', 'I', 8)
+      SetFont(@font_for_footer, 'I', 8)
       SetY(-15)
       SetX(15)
       Cell(0, 5, @footer_date, 0, 0, 'L')

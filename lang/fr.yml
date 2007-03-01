@@ -46,6 +46,8 @@ general_text_no: 'non'
 general_text_yes: 'oui'
 general_lang_fr: 'Français'
 general_csv_separator: ';'
+general_csv_encoding: ISO-8859-1
+general_pdf_encoding: ISO-8859-1
 general_day_names: Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche
 
 notice_account_updated: Le compte a été mis à jour avec succès.

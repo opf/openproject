@@ -46,6 +46,8 @@ general_text_no: 'no'
 general_text_yes: 'sí'
 general_lang_es: 'Español'
 general_csv_separator: ';'
+general_csv_encoding: ISO-8859-1
+general_pdf_encoding: ISO-8859-1
 general_day_names: Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo
 
 notice_account_updated: Account was successfully updated.

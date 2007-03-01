@@ -38,7 +38,7 @@ activerecord_error_greater_than_start_date: を開始日より後にしてくだ
 general_fmt_age: %d歳
 general_fmt_age_plural: %d歳
 general_fmt_date: %%Y年%%m月%%d日
-general_fmt_datetime: %%Y年%%月%%d日 %%H:%%M %%p
+general_fmt_datetime: %%Y年%%m月%%d日 %%H:%%M %%p
 general_fmt_datetime_short: %%b %%d, %%H:%%M %%p
 general_fmt_time: %%H:%%M %%p
 general_text_No: 'いいえ'
@@ -47,6 +47,8 @@ general_text_no: 'いいえ'
 general_text_yes: 'はい'
 general_lang_ja: 'Japanese (日本語)'
 general_csv_separator: ','
+general_csv_encoding: SJIS
+general_pdf_encoding: SJIS
 general_day_names: 日曜日, 月曜日, 火曜日, 水曜日, 木曜日, 金曜日, 土曜日
 
 notice_account_updated: アカウントが更新されました。
@@ -78,7 +80,7 @@ field_summary: サマリ
 field_is_required: 必須
 field_firstname: 名前
 field_lastname: 苗字
-field_mail: Email
+field_mail: メールアドレス
 field_filename: ファイル
 field_filesize: サイズ
 field_downloads: ダウンロード
@@ -116,15 +118,15 @@ field_is_in_chlog: 変更記録に表示されている問題
 field_login: ログイン
 field_mail_notification: メール通知
 field_admin: 管理者
-field_locked: Locked
+field_locked: ロック済
 field_last_login_on: 最終接続日
 field_language: 言語
-field_effective_date: Date
+field_effective_date: 日付
 field_password: パスワード
 field_new_password: 新しいパスワード
 field_password_confirmation: パスワードの確認
 field_version: バージョン
-field_type: Type
+field_type: タイプ
 field_host: ホスト
 field_port: ポート
 field_account: アカウント
@@ -133,7 +135,7 @@ field_attr_login: ログイン名属性
 field_attr_firstname: 名前属性
 field_attr_lastname: 苗字属性
 field_attr_mail: メール属性
-field_onthefly: On-the-fly user creation
+field_onthefly: あわせてユーザを作成
 field_start_date: 開始日
 field_done_ratio: 進捗 %%
 field_auth_source: 認証モード
@@ -300,8 +302,8 @@ label_not_contains: 含まない
 label_day_plural: 日
 label_repository: SVNリポジトリ
 label_browse: ブラウズ
-label_modification: %d点の変更
-label_modification_plural: %d点の変更
+label_modification: %d 点の変更
+label_modification_plural: %d 点の変更
 label_revision: リビジョン
 label_revision_plural: リビジョン
 label_added: 追加された
@@ -316,9 +318,9 @@ label_sort_higher: 上へ
 label_sort_lower: 下へ
 label_sort_lowest: 一番下へ
 label_roadmap: ロードマップ
-label_search: Search
-label_result: %d result
-label_result_plural: %d results
+label_search: 検索
+label_result: %d 件の結果
+label_result_plural: %d 件の結果
 
 button_login: ログイン
 button_submit: 変更
@@ -344,11 +346,11 @@ button_cancel: キャンセル
 button_activate: 有効にする
 button_sort: ソート
 
-text_select_mail_notifications: どのメール通知を送信するかアクションを選択してください。
+text_select_mail_notifications: どのメール通知を送信するか、アクションを選択してください。
 text_regexp_info: 例) ^[A-Z0-9]+$
 text_min_max_length_info: 0だと無制限になります
 text_project_destroy_confirmation: 本当にこのプロジェクトと関連データを削除したいのですか？
-text_workflow_edit: ワークフローを編集するロールとtrackerを選んでください
+text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
 text_are_you_sure: 本当に？
 text_journal_changed: %s から %s への変更
 text_journal_set_to: %s にセット

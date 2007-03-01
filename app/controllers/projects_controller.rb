@@ -262,7 +262,7 @@ class ProjectsController < ApplicationController
 						:conditions => @query.statement,
 						:limit => Setting.issues_export_limit
 
-    ic = Iconv.new('ISO-8859-1', 'UTF-8')    
+    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
     export = StringIO.new
     CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
       # csv header fields

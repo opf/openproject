@@ -1,14 +1,14 @@
 <%
-pdf=IfpdfHelper::IFPDF.new
+pdf=IfpdfHelper::IFPDF.new(current_language)
 pdf.SetTitle("#{@project.name} - #{l(:label_gantt)}")
 pdf.AliasNbPages
 pdf.footer_date = format_date(Date.today)
 pdf.AddPage("L")
-pdf.SetFont('Arial','B',12)
+pdf.SetFontStyle('B',12)
 pdf.SetX(15)
 pdf.Cell(70, 20, @project.name)
 pdf.Ln
-pdf.SetFont('Arial','B',9)
+pdf.SetFontStyle('B',9)
 
 subject_width = 70
 header_heigth = 5
@@ -84,7 +84,7 @@ if show_days
 	left = subject_width
 	height = header_heigth
 	wday = @date_from.cwday
-	pdf.SetFont('Arial','B',7)
+	pdf.SetFontStyle('B',7)
 	(@date_to - @date_from + 1).to_i.times do 
 		width = zoom
 		pdf.SetY(y_start + 2 * header_heigth)
@@ -105,7 +105,7 @@ pdf.Cell(subject_width+g_width-15, headers_heigth, "", 1)
 # Tasks
 #
 top = headers_heigth + y_start
-pdf.SetFont('Arial','B',7)
+pdf.SetFontStyle('B',7)
 @issues.each do |i|
 	pdf.SetY(top)
 	pdf.SetX(15)
