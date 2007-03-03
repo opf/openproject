@@ -61,23 +61,23 @@
 
     <% if admin_loggedin? %>
     <div id="menuAdmin" class="menu" onmouseover="menuMouseover(event)">
-        <a class="menuItem" href="/admin/projects" onmouseover="menuItemMouseover(event,'menuProjects');"><span class="menuItemText"><%=l(:label_project_plural)%></span><span class="menuItemArrow">&#9654;</span></a>
-        <a class="menuItem" href="/users" onmouseover="menuItemMouseover(event,'menuUsers');"><span class="menuItemText"><%=l(:label_user_plural)%></span><span class="menuItemArrow">&#9654;</span></a>
-        <a class="menuItem" href="/roles"><%=l(:label_role_and_permissions)%></a>
-        <a class="menuItem" href="/trackers" onmouseover="menuItemMouseover(event,'menuTrackers');"><span class="menuItemText"><%=l(:label_tracker_plural)%></span><span class="menuItemArrow">&#9654;</span></a>
-        <a class="menuItem" href="/custom_fields"><%=l(:label_custom_field_plural)%></a>
-        <a class="menuItem" href="/enumerations"><%=l(:label_enumerations)%></a>
-        <a class="menuItem" href="/admin/mail_options"><%=l(:field_mail_notification)%></a>
-        <a class="menuItem" href="/auth_sources"><%=l(:label_authentication)%></a>
-        <a class="menuItem" href="/settings"><%=l(:label_settings)%></a>
-        <a class="menuItem" href="/admin/info"><%=l(:label_information_plural)%></a>
+        <a class="menuItem" href="<%= url_for :controller => 'admin', :action => 'projects' %>" onmouseover="menuItemMouseover(event,'menuProjects');"><span class="menuItemText"><%=l(:label_project_plural)%></span><span class="menuItemArrow">&#9654;</span></a>
+        <a class="menuItem" href="<%= url_for :controller => 'users' %>" onmouseover="menuItemMouseover(event,'menuUsers');"><span class="menuItemText"><%=l(:label_user_plural)%></span><span class="menuItemArrow">&#9654;</span></a>
+        <%= link_to l(:label_role_and_permissions), {:controller => 'roles' }, :class => "menuItem" %>
+        <a class="menuItem" href="<%= url_for :controller => 'trackers' %>" onmouseover="menuItemMouseover(event,'menuTrackers');"><span class="menuItemText"><%=l(:label_tracker_plural)%></span><span class="menuItemArrow">&#9654;</span></a>
+        <%= link_to l(:label_custom_field_plural), {:controller => 'custom_fields' }, :class => "menuItem" %>
+        <%= link_to l(:label_enumerations), {:controller => 'enumerations' }, :class => "menuItem" %>
+        <%= link_to l(:field_mail_notification), {:controller => 'admin', :action => 'mail_options' }, :class => "menuItem" %>
+        <%= link_to l(:label_authentication), {:controller => 'auth_sources' }, :class => "menuItem" %>
+        <%= link_to l(:label_settings), {:controller => 'settings' }, :class => "menuItem" %>
+        <%= link_to l(:label_information_plural), {:controller => 'admin', :action => 'info' }, :class => "menuItem" %>
     </div>
     <div id="menuTrackers" class="menu">
-        <a class="menuItem" href="/issue_statuses"><%=l(:label_issue_status_plural)%></a>
-        <a class="menuItem" href="/roles/workflow"><%=l(:label_workflow)%></a>
+        <%= link_to l(:label_issue_status_plural), {:controller => 'issue_statuses' }, :class => "menuItem" %>
+        <%= link_to l(:label_workflow), {:controller => 'roles', :action => 'workflow' }, :class => "menuItem" %>
     </div>
-    <div id="menuProjects" class="menu"><a class="menuItem" href="/projects/add"><%=l(:label_new)%></a></div>
-    <div id="menuUsers" class="menu"><a class="menuItem" href="/users/add"><%=l(:label_new)%></a></div>
+    <div id="menuProjects" class="menu"><%= link_to l(:label_new), {:controller => 'projects', :action => 'add' }, :class => "menuItem" %></div>
+    <div id="menuUsers" class="menu"><%= link_to l(:label_new), {:controller => 'users', :action => 'add' }, :class => "menuItem" %></a></div>
     <% end %>
     
     <% unless @project.nil? || @project.id.nil? %>
