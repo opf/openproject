@@ -114,6 +114,7 @@ field_homepage: Startseite
 field_is_public: Öffentlich
 field_parent: Subprojekt von
 field_is_in_chlog: Ansicht der Issues in der Historie
+field_is_in_roadmap: Ansicht der Issues in der Roadmap
 field_login: Mitgliedsname
 field_mail_notification: Mailbenachrichtigung
 field_admin: Administrator

@@ -114,6 +114,7 @@ field_homepage: Sitio web
 field_is_public: Público
 field_parent: Proyecto secundario de
 field_is_in_chlog: Consultar las peticiones en el histórico
+field_is_in_roadmap: Consultar las peticiones en el roadmap
 field_login: Identificador
 field_mail_notification: Notificación por mail
 field_admin: Administrador

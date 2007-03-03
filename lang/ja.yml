@@ -115,6 +115,7 @@ field_homepage: ホームページ
 field_is_public: 公開
 field_parent: 親プロジェクト名
 field_is_in_chlog: 変更記録に表示されている問題
+field_is_in_roadmap: Issues displayed in roadmap
 field_login: ログイン
 field_mail_notification: メール通知
 field_admin: 管理者
