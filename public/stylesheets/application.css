@@ -240,7 +240,7 @@ legend {color: #505050;}
 .required {color: #bb0000;}
 .odd {background-color:#f6f7f8;}
 .even {background-color: #fff;}
-hr { border:none; border-bottom: dotted 1px #c0c0c0; }
+hr { border:0; border-top: dotted 1px #fff; border-bottom: dotted 1px #c0c0c0; }
 table p {margin:0; padding:0;}
 
 strong.highlight { background-color: #FCFD8D;}
