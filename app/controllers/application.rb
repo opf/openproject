@@ -17,6 +17,7 @@
 
 class ApplicationController < ActionController::Base
   before_filter :check_if_login_required, :set_localization
+  filter_parameter_logging :password
   
   def logged_in_user=(user)
     @logged_in_user = user
