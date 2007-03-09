@@ -23,9 +23,6 @@ module SvnRepos
   end
 
   class Base
-    @url = nil
-    @login = nil
-    @password = nil
         
     def initialize(url, login=nil, password=nil)
       @url = url
@@ -47,6 +44,7 @@ module SvnRepos
       identifier = 'HEAD' unless identifier and identifier > 0
       entries = Entries.new
       cmd = "svn list --xml #{target(path)}@#{identifier}"
+      cmd << " --username #{@login} --password #{@password}" if @login
       shellout(cmd) do |io|
         begin
           doc = REXML::Document.new(io)
@@ -76,8 +74,9 @@ module SvnRepos
       identifier_from = 'HEAD' unless identifier_from and identifier_from.to_i > 0
       identifier_to = 1 unless identifier_to and identifier_to.to_i > 0
       revisions = Revisions.new
-      cmd = "svn log --xml -r #{identifier_from}:#{identifier_to} "
-      cmd << "--verbose " if  options[:with_paths]
+      cmd = "svn log --xml -r #{identifier_from}:#{identifier_to}"
+      cmd << " --username #{@login} --password #{@password}" if @login
+      cmd << " --verbose " if  options[:with_paths]
       cmd << target(path)
       shellout(cmd) do |io|
         begin
@@ -118,6 +117,7 @@ module SvnRepos
       cmd << "#{identifier_to}:"
       cmd << "#{identifier_from}"
       cmd << "#{target(path)}@#{identifier_from}"
+      cmd << " --username #{@login} --password #{@password}" if @login
       diff = []
       shellout(cmd) do |io|
         io.each_line do |line|
@@ -133,6 +133,7 @@ module SvnRepos
     def cat(path, identifier=nil)
       identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
       cmd = "svn cat #{target(path)}@#{identifier}"
+      cmd << " --username #{@login} --password #{@password}" if @login
       cat = nil
       shellout(cmd) do |io|
         cat = io.read
@@ -154,7 +155,8 @@ module SvnRepos
     
     def shellout(cmd, &block)
       logger.debug "Shelling out: #{cmd}" if logger && logger.debug?
-      IO.popen(cmd) do |io|
+      IO.popen(cmd, "r+") do |io|
+        io.close_write
         block.call(io) if block_given?
       end
     end

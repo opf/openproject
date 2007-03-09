@@ -23,6 +23,6 @@ class Repository < ActiveRecord::Base
   @scm = nil
     
   def scm
-    @scm ||= SvnRepos::Base.new url
+    @scm ||= SvnRepos::Base.new url, login, password
   end
 end
