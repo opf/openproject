@@ -556,7 +556,7 @@ class ProjectsController < ApplicationController
     @question = params[:q] || ""
     @question.strip!
     @all_words = params[:all_words] || (params[:submit] ? false : true)
-    @scope = params[:scope] || (params[:submit] ? [] : %w(issues news documents) )
+    @scope = params[:scope] || (params[:submit] ? [] : %w(issues news documents wiki) )
     if !@question.empty?
       # tokens must be at least 3 character long
       @tokens = @question.split.uniq.select {|w| w.length > 2 }
@@ -570,6 +570,7 @@ class ProjectsController < ApplicationController
       @results += @project.issues.find(:all, :limit => limit, :include => :author, :conditions => [ (["(LOWER(issues.subject) like ? OR LOWER(issues.description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'issues'
       @results += @project.news.find(:all, :limit => limit, :conditions => [ (["(LOWER(news.title) like ? OR LOWER(news.description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort], :include => :author ) if @scope.include? 'news'
       @results += @project.documents.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'documents'
+      @results += @project.wiki.pages.find(:all, :limit => limit, :include => :content, :conditions => [ (["(LOWER(wiki_pages.title) like ? OR LOWER(wiki_contents.text) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @project.wiki && @scope.include?('wiki')
       @question = @tokens.join(" ")
     end
   end
