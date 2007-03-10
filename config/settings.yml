@@ -41,6 +41,8 @@ mail_from:
   default: redmine@somenet.foo
 text_formatting:
   default: textile
+wiki_compression:
+  default: ""
 default_language:
   default: en
 host_name:

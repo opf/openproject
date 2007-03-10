@@ -1,0 +1,30 @@
+<div class="contextual">
+<%= link_to(l(:button_edit), {:action => 'edit', :page => @page.title}, :class => 'icon icon-edit') if @content.version == @page.content.version %>
+<%= link_to(l(:label_history), {:action => 'history', :page => @page.title}, :class => 'icon icon-history') %>
+<%= link_to(l(:label_page_index), {:action => 'special', :page => 'Page_index'}, :class => 'icon icon-index') %>
+</div>
+
+<% if @content.version != @page.content.version %>
+    <p>    
+    <%= link_to(('&#171; ' + l(:label_previous)), :action => 'index', :page => @page.title, :version => (@content.version - 1)) + " - " if @content.version > 1 %>
+    <%= "#{l(:label_version)} #{@content.version}/#{@page.content.version}"  %> - 
+    <%= link_to((l(:label_next) + ' &#187;'), :action => 'index', :page => @page.title, :version => (@content.version + 1)) + " - " if @content.version < @page.content.version %>
+    <%= link_to(l(:label_current_version), :action => 'index', :page => @page.title) %>
+    <br />
+    <em><%= @content.author ? @content.author.name : "anonyme" %>, <%= format_time(@content.updated_on) %> </em><br />
+    <%=h @content.comment %>
+    </p>
+    <hr />
+<% end %>
+
+<div class="wiki">
+<% cache "wiki/show/#{@page.id}/#{@content.version}" do %>
+<%= textilizable @content.text %>
+<% end %>
+</div>
+
+<div class="contextual">
+<%= l(:label_export_to) %>
+<%= link_to 'HTML', {:export => 'html', :version => @content.version}, :class => 'icon icon-html' %>,
+<%= link_to 'TXT', {:export => 'txt', :version => @content.version}, :class => 'icon icon-txt' %>
+</div>

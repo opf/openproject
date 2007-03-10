@@ -1,0 +1,12 @@
+--- 
+wiki_contents_001: 
+  text: |-
+    h1. CookBook documentation
+    
+    Some updated [[documentation]] here with gzipped history
+  updated_on: 2007-03-07 00:10:51 +01:00
+  page_id: 1
+  id: 1
+  version: 3
+  author_id: 1
+  comment: Gzip compression activated

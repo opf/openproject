@@ -1,0 +1,13 @@
+<div class="contextual">
+<% unless @pages.empty? %>
+<%= l(:label_export_to) %> <%= link_to 'HTML', {:action => 'special', :page => 'export'}, :class => 'icon icon-html' %>
+<% end %>
+</div>
+
+<h2><%= l(:label_page_index) %></h2>
+
+<% if @pages.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+<ul><% @pages.each do |page| %>
+    <li><%= link_to page.pretty_title, :action => 'index', :page => page.title %> -
+    <%= l(:label_last_updates) %>: <%= format_time(page.updated_on) %></li>
+<% end %></ul>

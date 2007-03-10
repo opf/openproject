@@ -63,7 +63,7 @@ module ApplicationHelper
   end
   
   def format_time(time)
-    l_datetime(time) if time
+    l_datetime((time.is_a? String) ? time.to_time : time) if time
   end
   
   def day_name(day)
@@ -92,10 +92,42 @@ module ApplicationHelper
     html  
   end
   
-  def textilizable(text)
-    text = (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? RedCloth.new(h(text)).to_html : simple_format(auto_link(h(text)))
-    # turn "#id" patterns into links to issues
-    text = text.gsub(/#(\d+)([^;\d])/, "<a href='/issues/show/\\1'>#\\1</a>\\2")
+  # textilize text according to system settings and RedCloth availability
+  def textilizable(text, options = {})
+    # different methods for formatting wiki links
+    case options[:wiki_links]
+    when :local
+      # used for local links to html files
+      format_wiki_link = Proc.new {|title| "#{title}.html" }
+    when :anchor
+      # used for single-file wiki export
+      format_wiki_link = Proc.new {|title| "##{title}" }
+    else
+      if @project
+        format_wiki_link = Proc.new {|title| url_for :controller => 'wiki', :action => 'index', :id => @project, :page => title }
+      else
+        format_wiki_link = Proc.new {|title| title }
+      end
+    end
+    
+    # turn wiki links into textile links: 
+    # example:
+    #   [[link]] -> "link":link
+    #   [[link|title]] -> "title":link
+    text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) {|m| "\"#{$3 || $1}\":" + format_wiki_link.call(Wiki.titleize($1)) }
+
+    # turn issue ids to textile links
+    # example:
+    #   #52 -> "#52":/issues/show/52
+    text = text.gsub(/#(\d+)([\s\.\(\)\-,:;])/) {|m| "\"##{$1}\":" + url_for(:controller => 'issues', :action => 'show', :id => $1) + $2 }
+       
+    # turn revision ids to textile links (@project needed)
+    # example:
+    #   r52 -> "r52":/repositories/revision/6?rev=52 (@project.id is 6)
+    text = text.gsub(/r(\d+)([\s\.\(\)\-,:;])/) {|m| "\"r#{$1}\":" + url_for(:controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1) + $2 } if @project
+   
+    # finally textilize text
+    text = (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? auto_link(RedCloth.new(text, [:filter_html]).to_html) : simple_format(auto_link(h(text)))
   end
   
   def error_messages_for(object_name, options = {})

@@ -68,6 +68,10 @@ class ProjectsController < ApplicationController
         @project.repository = Repository.new
         @project.repository.attributes = params[:repository]
       end
+      if "1" == params[:wiki_enabled]
+        @project.wiki = Wiki.new
+        @project.wiki.attributes = params[:wiki]
+      end
       if @project.save
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
@@ -113,6 +117,15 @@ class ProjectsController < ApplicationController
           @project.repository.update_attributes params[:repository]
         end
       end
+      if params[:wiki_enabled]
+        case params[:wiki_enabled]
+        when "0"
+          @project.wiki.destroy
+        when "1"
+          @project.wiki ||= Wiki.new
+          @project.wiki.update_attributes params[:wiki]
+        end
+      end      
       @project.attributes = params[:project]
       if @project.save
         flash[:notice] = l(:notice_successful_update)

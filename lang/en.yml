@@ -142,6 +142,7 @@ field_auth_source: Authentication mode
 field_hide_mail: Hide my email address
 field_comment: Comment
 field_url: URL
+field_start_page: Start page
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle
@@ -154,6 +155,7 @@ setting_issues_export_limit: Issues export limit
 setting_mail_from: Emission mail address
 setting_host_name: Host name
 setting_text_formatting: Text formatting
+setting_wiki_compression: Wiki history compression
 
 label_user: User
 label_user_plural: Users
@@ -322,6 +324,10 @@ label_search: Search
 label_result: %d result
 label_result_plural: %d results
 label_all_words: All words
+label_wiki: Wiki
+label_page_index: Index
+label_current_version: Current version
+label_preview: Preview
 
 button_login: Login
 button_submit: Submit

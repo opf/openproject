@@ -449,6 +449,15 @@ permissions_005:
   mail_option: false
   sort: 151
   is_public: false
+permissions_061: 
+  action: search
+  id: 62
+  description: label_search
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 130
+  is_public: true
 permissions_050: 
   action: history
   id: 50

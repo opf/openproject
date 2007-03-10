@@ -38,6 +38,9 @@
 <p><label><%= l(:setting_text_formatting) %></label>
 <%= select_tag 'settings[text_formatting]', options_for_select( [[l(:label_none), 0], ["textile", "textile"]], Setting.text_formatting) %></p>
 
+<p><label><%= l(:setting_wiki_compression) %></label>
+<%= select_tag 'settings[wiki_compression]', options_for_select( [[l(:label_none), 0], ["gzip", "gzip"]], Setting.wiki_compression) %></p>
+
 </div>
 <%= submit_tag l(:button_save) %>
 <% end %>

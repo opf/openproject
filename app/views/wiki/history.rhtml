@@ -1,0 +1,28 @@
+<div class="contextual">
+<%= link_to(l(:label_page_index), {:action => 'special', :page => 'Page_index'}, :class => 'icon icon-index') %>
+</div>
+
+<h2><%= @page.pretty_title %></h2>
+
+<h3><%= l(:label_history) %></h3>
+
+<table class="list">
+<thead><tr>
+    <th>#</th>
+    <th><%= l(:field_updated_on) %></th>
+    <th><%= l(:field_author) %></th>
+    <th><%= l(:field_comment) %></th>
+</tr></thead>
+<tbody>
+<% @versions.each do |ver| %>
+<tr class="<%= cycle("odd", "even") %>">
+    <th align="center"><%= link_to ver.version, :action => 'index', :page => @page.title, :version => ver.version %></th>
+    <td align="center"><%= format_time(ver.updated_on) %></td>
+    <td><em><%= ver.author ? ver.author.name : "anonyme" %></em></td>
+    <td><%=h ver.comment %></td>
+</tr>
+<% end %>
+</tbody>
+</table>
+
+<p><%= link_to l(:button_back), :action => 'index', :page => @page.title %></p>

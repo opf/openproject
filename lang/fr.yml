@@ -142,6 +142,7 @@ field_auth_source: Mode d'authentification
 field_hide_mail: Cacher mon adresse mail
 field_comment: Commentaire
 field_url: URL
+field_start_page: Page de démarrage
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -154,6 +155,7 @@ setting_issues_export_limit: Limite export demandes
 setting_mail_from: Adresse d'émission
 setting_host_name: Nom d'hôte
 setting_text_formatting: Formatage du texte
+setting_wiki_compression: Compression historique wiki
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -322,6 +324,10 @@ label_search: Recherche
 label_result: %d résultat
 label_result_plural: %d résultats
 label_all_words: Tous les mots
+label_wiki: Wiki
+label_page_index: Index
+label_current_version: Version actuelle
+label_preview: Prévisualisation
 
 button_login: Connexion
 button_submit: Soumettre

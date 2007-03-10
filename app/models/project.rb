@@ -26,13 +26,14 @@ class Project < ActiveRecord::Base
   has_many :news, :dependent => :delete_all, :include => :author
   has_many :issue_categories, :dependent => :delete_all, :order => "issue_categories.name"
   has_one :repository, :dependent => :destroy
+  has_one :wiki, :dependent => :destroy
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => 'custom_fields_projects', :association_foreign_key => 'custom_field_id'
   acts_as_tree :order => "name", :counter_cache => true
 
   validates_presence_of :name, :description
   validates_uniqueness_of :name
   validates_associated :custom_values, :on => :update
-  validates_associated :repository
+  validates_associated :repository, :wiki
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
   # returns latest created projects

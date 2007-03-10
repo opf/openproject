@@ -139,6 +139,8 @@ vertical-align: middle;
 .icon-cancel { background-image: url(../images/cancel.png); }
 .icon-pdf { background-image: url(../images/pdf.png); }
 .icon-csv { background-image: url(../images/csv.png); }
+.icon-html { background-image: url(../images/html.png); }
+.icon-txt { background-image: url(../images/txt.png); }
 .icon-file { background-image: url(../images/file.png); }
 .icon-folder { background-image: url(../images/folder.png); }
 .icon-package { background-image: url(../images/package.png); }
@@ -150,6 +152,8 @@ vertical-align: middle;
 .icon-logout { background-image: url(../images/logout.png); }
 .icon-help { background-image: url(../images/help.png); }
 .icon-attachment  { background-image: url(../images/attachment.png); }
+.icon-index  { background-image: url(../images/index.png); }
+.icon-history  { background-image: url(../images/history.png); }
 
 .icon22-projects { background-image: url(../images/22x22/projects.png); }
 .icon22-users { background-image: url(../images/22x22/users.png); }
@@ -181,7 +185,7 @@ border-left: 1px dashed #c0c0c0;
 
 }
 
-#content h2{
+#content h2, #content div.wiki h1 {
 display:block;
 margin:0 0 16px 0;
 font-size:1.7em;
@@ -577,3 +581,22 @@ to account for 3 pixel bug: http://www.positioniseverything.net/explorer/threepx
 * html .threepxfix{
 margin-left: 3px;
 }
+
+/***** Wiki sections ****/
+#content div.wiki { font-size: 110%}
+
+#content div.wiki h2, div.wiki h3 { font-family: Trebuchet MS,Georgia,"Times New Roman",serif; color:#606060; }
+#content div.wiki h2 { font-size: 1.4em;}
+#content div.wiki h3 { font-size: 1.2em;}
+
+div.wiki table {
+    border: 1px solid #505050;
+    border-collapse: collapse;
+}
+
+div.wiki table, div.wiki td {
+    border: 1px solid #bbb;
+    padding: 4px;
+}
+
+#preview .preview { background: #fafbfc url(../images/draft.png); }

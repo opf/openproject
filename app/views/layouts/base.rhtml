@@ -91,6 +91,7 @@
         <%= link_to l(:label_change_log), {:controller => 'projects', :action => 'changelog', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_roadmap), {:controller => 'projects', :action => 'roadmap', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_document_plural), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_wiki), {:controller => 'wiki', :id => @project, :page => nil }, :class => "menuItem" if @project.wiki and !@project.wiki.new_record? %>
         <%= link_to l(:label_member_plural), {:controller => 'projects', :action => 'list_members', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_attachment_plural), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_search), {:controller => 'projects', :action => 'search', :id => @project }, :class => "menuItem" %>
@@ -115,6 +116,7 @@
 				<li><%= link_to l(:label_change_log), :controller => 'projects', :action => 'changelog', :id => @project %></li>
 				<li><%= link_to l(:label_roadmap), :controller => 'projects', :action => 'roadmap', :id => @project %></li>
 				<li><%= link_to l(:label_document_plural), :controller => 'projects', :action => 'list_documents', :id => @project %></li>
+				<li><%= link_to l(:label_wiki), :controller => 'wiki', :id => @project, :page => nil if @project.wiki and !@project.wiki.new_record? %></li>
 				<li><%= link_to l(:label_member_plural), :controller => 'projects', :action => 'list_members', :id => @project %></li>
 				<li><%= link_to l(:label_attachment_plural), :controller => 'projects', :action => 'list_files', :id => @project %></li>
 				<li><%= link_to l(:label_search), :controller => 'projects', :action => 'search', :id => @project %></li>

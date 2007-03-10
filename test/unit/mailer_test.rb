@@ -24,7 +24,7 @@ class MailerTest < Test::Unit::TestCase
   def test_issue_add
     issue = Issue.find(1)
     GLoc.valid_languages.each do |lang|
-      Setting.default_language = lang
+      Setting.default_language = lang.to_s
       assert Mailer.deliver_issue_add(issue)
     end
   end
@@ -32,7 +32,7 @@ class MailerTest < Test::Unit::TestCase
   def test_issue_edit
     journal = Journal.find(1)
     GLoc.valid_languages.each do |lang|
-      Setting.default_language = lang
+      Setting.default_language = lang.to_s
       assert Mailer.deliver_issue_edit(journal)
     end
   end
@@ -40,7 +40,7 @@ class MailerTest < Test::Unit::TestCase
   def test_document_add
     document = Document.find(1)
     GLoc.valid_languages.each do |lang|
-      Setting.default_language = lang
+      Setting.default_language = lang.to_s
       assert Mailer.deliver_document_add(document)
     end
   end
@@ -48,7 +48,7 @@ class MailerTest < Test::Unit::TestCase
   def test_lost_password
     token = Token.find(2)
     GLoc.valid_languages.each do |lang|
-      token.user.update_attribute :language, lang
+      token.user.update_attribute :language, lang.to_s
       assert Mailer.deliver_lost_password(token)
     end
   end
@@ -56,7 +56,7 @@ class MailerTest < Test::Unit::TestCase
   def test_register
     token = Token.find(1)
     GLoc.valid_languages.each do |lang|
-      token.user.update_attribute :language, lang
+      token.user.update_attribute :language, lang.to_s
       assert Mailer.deliver_register(token)
     end
   end

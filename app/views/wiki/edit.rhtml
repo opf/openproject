@@ -1,0 +1,39 @@
+<div class="contextual">
+<%= link_to(l(:label_page_index), {:action => 'special', :page => 'Page_index'}, :class => 'icon icon-index') %>
+</div>
+
+<h2><%= @page.pretty_title %></h2>
+
+<% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:id => 'wiki_form'} do |f| %>
+<%= error_messages_for 'content' %>
+<p><%= f.text_area :text, :cols => 100, :rows => 25, :style => "width:99%;" %></p>
+<p><label><%= l(:field_comment) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
+<p><%= submit_tag l(:button_save) %>
+   <%= link_to_remote l(:label_preview), 
+                       { :url => { :controller => 'wiki', :action => 'preview' },
+                         :method => 'get',
+                         :update => 'preview',
+                         :with => "Form.serialize('wiki_form')",
+                         :loading => "Element.show('indicator')",
+                         :loaded => "Element.hide('indicator')"
+                       } %>
+   <span id="indicator" style="display:none"><%= image_tag "loading.gif", :align => "absmiddle" %></span>
+</p>
+
+<% end %>
+
+<% if Setting.text_formatting == 'textile' %>
+<%= javascript_include_tag 'jstoolbar' %>
+<script type="text/javascript">
+//<![CDATA[
+if (document.getElementById) { 
+	if (document.getElementById('content_text')) { 
+		var commentTb = new jsToolBar(document.getElementById('content_text')); 
+		commentTb.draw(); 
+	}
+}
+//]]>
+</script>
+<% end %>
+
+<div id="preview" class="wiki"></div>

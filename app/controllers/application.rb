@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def logged_in_user_membership
+    @user_membership ||= Member.find(:first, :conditions => ["user_id=? and project_id=?", self.logged_in_user.id, @project.id])
+  end
+  
   # check if login is globally required to access the application
   def check_if_login_required
     require_login if Setting.login_required?
@@ -86,6 +90,16 @@ class ApplicationController < ActionController::Base
     if @user_membership and Permission.allowed_to_role( "%s/%s" % [ ctrl, action ], @user_membership.role_id )    
       return true		
     end		
+    render :nothing => true, :status => 403
+    false
+  end
+  
+  # make sure that the user is a member of the project (or admin) if project is private
+  # used as a before_filter for actions that do not require any particular permission on the project
+  def check_project_privacy
+    return true if @project.is_public?
+    return false unless logged_in_user
+    return true if logged_in_user.admin? || logged_in_user_membership
     render :nothing => true, :status => 403
     false
   end

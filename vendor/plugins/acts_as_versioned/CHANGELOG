@@ -1,0 +1,74 @@
+*SVN* (version numbers are overrated)
+
+* (5 Oct 2006) Allow customization of #versions association options [Dan Peterson]
+
+*0.5.1*
+
+* (8 Aug 2006) Versioned models now belong to the unversioned model.  @article_version.article.class => Article [Aslak Hellesoy]
+
+*0.5* # do versions even matter for plugins?
+
+* (21 Apr 2006) Added without_locking and without_revision methods.
+
+  Foo.without_revision do
+    @foo.update_attributes ...
+  end
+
+*0.4*
+
+* (28 March 2006) Rename non_versioned_fields to non_versioned_columns (old one is kept for compatibility).
+* (28 March 2006) Made explicit documentation note that string column names are required for non_versioned_columns.
+
+*0.3.1*
+
+* (7 Jan 2006) explicitly set :foreign_key option for the versioned model's belongs_to assocation for STI [Caged]
+* (7 Jan 2006) added tests to prove has_many :through joins work
+
+*0.3*
+
+* (2 Jan 2006) added ability to share a mixin with versioned class
+* (2 Jan 2006) changed the dynamic version model to MyModel::Version
+
+*0.2.4*
+
+* (27 Nov 2005) added note about possible destructive behavior of if_changed? [Michael Schuerig]
+
+*0.2.3*
+
+* (12 Nov 2005) fixed bug with old behavior of #blank? [Michael Schuerig]
+* (12 Nov 2005) updated tests to use ActiveRecord Schema
+
+*0.2.2*
+
+* (3 Nov 2005) added documentation note to #acts_as_versioned [Martin Jul]
+
+*0.2.1*
+
+* (6 Oct 2005) renamed dirty? to changed? to keep it uniform.  it was aliased to keep it backwards compatible.
+
+*0.2* 
+
+* (6 Oct 2005)  added find_versions and find_version class methods.
+
+* (6 Oct 2005)  removed transaction from create_versioned_table().  
+  this way you can specify your own transaction around a group of operations.
+
+* (30 Sep 2005) fixed bug where find_versions() would order by 'version' twice. (found by Joe Clark)
+
+* (26 Sep 2005) added :sequence_name option to acts_as_versioned to set the sequence name on the versioned model
+
+*0.1.3* (18 Sep 2005)
+
+* First RubyForge release
+
+*0.1.2*
+
+* check if module is already included when acts_as_versioned is called
+
+*0.1.1*
+
+* Adding tests and rdocs
+
+*0.1* 
+
+* Initial transfer from Rails ticket: http://dev.rubyonrails.com/ticket/1974
