@@ -321,6 +321,7 @@ label_roadmap: Roadmap
 label_search: Búsqueda
 label_result: %d resultado
 label_result_plural: %d resultados
+label_all_words: Todas las palabras
 
 button_login: Conexión
 button_submit: Someter

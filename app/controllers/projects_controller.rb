@@ -540,16 +540,24 @@ class ProjectsController < ApplicationController
   end
   
   def search
-    @token = params[:token]
+    @question = params[:q] || ""
+    @question.strip!
+    @all_words = params[:all_words] || (params[:submit] ? false : true)
     @scope = params[:scope] || (params[:submit] ? [] : %w(issues news documents) )
-
-    if @token and @token.length > 2
-      @token.strip!
-      like_token = "%#{@token}%"
+    if !@question.empty?
+      # tokens must be at least 3 character long
+      @tokens = @question.split.uniq.select {|w| w.length > 2 }
+      # no more than 5 tokens to search for
+      @tokens.slice! 5..-1 if @tokens.size > 5
+      # strings used in sql like statement
+      like_tokens = @tokens.collect {|w| "%#{w}%"}
+      operator = @all_words ? " AND " : " OR "
+      limit = 10
       @results = []
-      @results += @project.issues.find(:all, :include => :author, :conditions => ["issues.subject like ? or issues.description like ?", like_token, like_token] ) if @scope.include? 'issues'
-      @results += @project.news.find(:all, :conditions => ["news.title like ? or news.description like ?", like_token, like_token], :include => :author ) if @scope.include? 'news'
-      @results += @project.documents.find(:all, :conditions => ["title like ? or description like ?", like_token, like_token] ) if @scope.include? 'documents'
+      @results += @project.issues.find(:all, :limit => limit, :include => :author, :conditions => [ (["(LOWER(issues.subject) like ? OR LOWER(issues.description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'issues'
+      @results += @project.news.find(:all, :limit => limit, :conditions => [ (["(LOWER(news.title) like ? OR LOWER(news.description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort], :include => :author ) if @scope.include? 'news'
+      @results += @project.documents.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'documents'
+      @question = @tokens.join(" ")
     end
   end
   

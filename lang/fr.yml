@@ -321,6 +321,7 @@ label_roadmap: Roadmap
 label_search: Recherche
 label_result: %d résultat
 label_result_plural: %d résultats
+label_all_words: Tous les mots
 
 button_login: Connexion
 button_submit: Soumettre

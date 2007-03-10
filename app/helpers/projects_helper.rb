@@ -16,8 +16,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module ProjectsHelper
-  def result_overview(text, token)
-    match = excerpt(text, token)
-    match ? highlight(match, token) : truncate(text, 150)
+
+  def highlight_tokens(text, tokens)
+    return text unless tokens && !tokens.empty?
+    regexp = Regexp.new "(#{tokens.join('|')})", Regexp::IGNORECASE    
+    result = ''
+    text.split(regexp).each_with_index do |words, i|
+      result << (i.even? ? (words.length > 100 ? "#{words[0..44]} ... #{words[-45..-1]}" : words) : content_tag('span', words, :class => 'highlight'))
+    end
+    result
   end
 end

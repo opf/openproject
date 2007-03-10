@@ -322,6 +322,7 @@ label_roadmap: ロードマップ
 label_search: 検索
 label_result: %d 件の結果
 label_result_plural: %d 件の結果
+label_all_words: すべての単語
 
 button_login: ログイン
 button_submit: 変更

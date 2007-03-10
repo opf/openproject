@@ -2,10 +2,11 @@
 
 <div class="box">
 <% form_tag({:action => 'search', :id => @project}, :method => :get) do %>
-<p><%= text_field_tag 'token', @token, :size => 30 %>
+<p><%= text_field_tag 'q', @question, :size => 30 %>
 <%= check_box_tag 'scope[]', 'issues', (@scope.include? 'issues') %> <label><%= l(:label_issue_plural) %></label>
 <%= check_box_tag 'scope[]', 'news', (@scope.include? 'news') %> <label><%= l(:label_news_plural) %></label>
-<%= check_box_tag 'scope[]', 'documents', (@scope.include? 'documents') %> <label><%= l(:label_document_plural) %></label></p>
+<%= check_box_tag 'scope[]', 'documents', (@scope.include? 'documents') %> <label><%= l(:label_document_plural) %></label><br />
+<%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></p>
 <%= submit_tag l(:button_submit), :name => 'submit' %>
 <% end %>
 </div>
@@ -16,16 +17,16 @@
       <% @results.each do |e| %>
         <li><p>
         <% if e.is_a? Issue %>
-            <%= link_to "#{e.tracker.name} ##{e.id}", :controller => 'issues', :action => 'show', :id => e %>: <%= highlight(h(e.subject), @token) %><br />
-            <%= result_overview(e.description, @token) %><br />
+            <%= link_to "#{e.tracker.name} ##{e.id}", :controller => 'issues', :action => 'show', :id => e %>: <%= highlight_tokens(h(e.subject), @tokens) %><br />
+            <%= highlight_tokens(e.description, @tokens) %><br />
             <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
         <% elsif e.is_a? News %>
-            <%=l(:label_news)%>: <%= link_to highlight(h(e.title), @token), :controller => 'news', :action => 'show', :id => e %><br />
-            <%= result_overview(e.description, @token) %><br />
+            <%=l(:label_news)%>: <%= link_to highlight_tokens(h(e.title), @tokens), :controller => 'news', :action => 'show', :id => e %><br />
+            <%= highlight_tokens(e.description, @tokens) %><br />
             <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
         <% elsif e.is_a? Document %>
-            <%=l(:label_document)%>: <%= link_to highlight(h(e.title), @token), :controller => 'documents', :action => 'show', :id => e %><br />
-            <%= result_overview(e.description, @token) %><br />
+            <%=l(:label_document)%>: <%= link_to highlight_tokens(h(e.title), @tokens), :controller => 'documents', :action => 'show', :id => e %><br />
+            <%= highlight_tokens(e.description, @tokens) %><br />
             <i><%= format_time(e.created_on) %></i>
         <% end %>
         </p></li>  
