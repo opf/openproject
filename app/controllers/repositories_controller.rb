@@ -60,6 +60,7 @@ private
   def find_project
     @project = Project.find(params[:id])
     @repository = @project.repository
+    render_404 and return false unless @repository
     @path = params[:path].squeeze('/').gsub(/^\//, '') if params[:path]
     @path ||= ''
     @rev = params[:rev].to_i if params[:rev] and params[:rev].to_i > 0
