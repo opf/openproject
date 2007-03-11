@@ -6,7 +6,12 @@
 
 <% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:id => 'wiki_form'} do |f| %>
 <%= error_messages_for 'content' %>
-<p><%= f.text_area :text, :cols => 100, :rows => 25, :style => "width:99%;" %></p>
+<div class="contextual">
+<%= l(:setting_text_formatting) %>:
+<%= link_to l(:label_help), {:controller => 'help', :ctrl => 'wiki', :page => 'syntax' },
+                            :onclick => "window.open('#{ url_for :controller => 'help', :ctrl => 'wiki', :page => 'syntax' }', '', 'resizable=yes, location=no, width=300, height=500, menubar=no, status=no, scrollbars=yes'); return false;" %>
+</div>
+<p><%= f.text_area :text, :cols => 100, :rows => 25, :style => "width:99.5%;" %></p>
 <p><label><%= l(:field_comment) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview), 

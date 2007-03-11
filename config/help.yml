@@ -74,3 +74,5 @@ pages:
     index:          ch03.html
     lost_password:  ch03s03.html
     register:       ch03s04.html
+  wiki:
+    syntax:         wiki_syntax.html

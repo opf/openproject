@@ -599,4 +599,8 @@ div.wiki table, div.wiki td {
     padding: 4px;
 }
 
+div.wiki code {
+    font-size: 1.2em;
+}
+
 #preview .preview { background: #fafbfc url(../images/draft.png); }

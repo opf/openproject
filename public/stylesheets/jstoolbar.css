@@ -67,6 +67,9 @@
 .jstb_br {
 	background-image: url(../images/jstoolbar/bt_br.png);
 }
+.jstb_heading {
+	background-image: url(../images/jstoolbar/bt_heading.png);
+}
 .jstb_ul {
 	background-image: url(../images/jstoolbar/bt_ul.png);
 }

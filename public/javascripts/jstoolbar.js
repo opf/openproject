@@ -346,13 +346,13 @@ jsToolBar.prototype.elements.del = {
 }
 
 // quote
-//jsToolBar.prototype.elements.quote = {
-//	type: 'button',
-//	title: 'Inline quote',
-//	fn: {
-//		wiki: function() { this.singleTag('{{','}}') }
-//	}
-//}
+jsToolBar.prototype.elements.quote = {
+	type: 'button',
+	title: 'Inline quote',
+	fn: {
+		wiki: function() { this.singleTag('??') }
+	}
+}
 
 // code
 jsToolBar.prototype.elements.code = {
@@ -364,7 +364,21 @@ jsToolBar.prototype.elements.code = {
 }
 
 // spacer
-//jsToolBar.prototype.elements.space1 = {type: 'space'}
+jsToolBar.prototype.elements.space1 = {type: 'space'}
+
+// heading
+jsToolBar.prototype.elements.heading = {
+	type: 'button',
+	title: 'Heading',
+	fn: {
+		wiki: function() {
+			this.encloseSelection('','',function(str) {
+				str = str.replace(/\r/g,'');
+				return 'h2. '+str.replace(/\n/g,"\n* ");
+			});
+		}
+	}
+}
 
 // br
 //jsToolBar.prototype.elements.br = {
@@ -410,6 +424,7 @@ jsToolBar.prototype.elements.ol = {
 jsToolBar.prototype.elements.space3 = {type: 'space'}
 
 // link
+/*
 jsToolBar.prototype.elements.link = {
 	type: 'button',
 	title: 'Link',
@@ -438,3 +453,12 @@ jsToolBar.prototype.elements.link.fn.wiki = function() {
 		this.encloseSelection(stag,etag);
 	}
 };
+*/
+// link or wiki page
+jsToolBar.prototype.elements.link = {
+	type: 'button',
+	title: 'Link',
+	fn: {
+		wiki: function() { this.encloseSelection("[[", "]]") }
+	}
+}
