@@ -237,6 +237,7 @@ blockquote {padding-left: 6px; border-left: 2px solid #ccc;}
 input, select {vertical-align: middle; margin-bottom: 4px;}
 
 input.button-small {font-size: 0.8em;}
+textarea.wiki-edit { width: 99.5%; }
 .select-small {font-size: 0.8em;}
 label {font-weight: bold; font-size: 1em; color: #505050;}
 fieldset {border:1px solid #c0c0c0; padding: 6px;}

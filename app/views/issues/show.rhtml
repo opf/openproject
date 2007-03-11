@@ -104,7 +104,7 @@ end %>
   <h3><%= l(:label_add_note) %></h3>
   <% form_tag ({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular" ) do %>
   <p><label for="notes"><%=l(:field_notes)%></label>
-    <%= text_area_tag 'notes', '', :cols => 60, :rows => 10  %></p>
+    <%= text_area_tag 'notes', '', :cols => 60, :rows => 10, :class => 'wiki-edit'  %></p>
   <%= submit_tag l(:button_add) %>
   <% end %>  
   </div>
