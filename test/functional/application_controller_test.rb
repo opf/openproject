@@ -28,9 +28,9 @@ class ApplicationControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  # check that all 4 supported languages are valid
+  # check that all 6 supported languages are valid
   def test_localization
-    assert_equal 5, GLoc.valid_languages.size
+    assert_equal 6, GLoc.valid_languages.size
     GLoc.valid_languages.each do |lang|
       assert set_language_if_valid(lang)
     end
