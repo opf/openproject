@@ -120,7 +120,7 @@ class ProjectsController < ApplicationController
       if params[:wiki_enabled]
         case params[:wiki_enabled]
         when "0"
-          @project.wiki.destroy
+          @project.wiki.destroy if @project.wiki
         when "1"
           @project.wiki ||= Wiki.new
           @project.wiki.update_attributes params[:wiki]
