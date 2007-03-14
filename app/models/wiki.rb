@@ -19,7 +19,7 @@ class Wiki < ActiveRecord::Base
   belongs_to :project
   has_many :pages, :class_name => 'WikiPage', :dependent => :destroy
   
-  validates_presence_of :project_id, :start_page
+  validates_presence_of :start_page
   
   # find the page with the given title
   # if page doesn't exist, return a new page
