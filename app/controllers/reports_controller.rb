@@ -112,7 +112,7 @@ private
                                                   t.id as tracker_id,
                                                   count(i.id) as total 
                                                 from 
-                                                  issues i, issue_statuses s, trackers t
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{Tracker.table_name} t
                                                 where 
                                                   i.status_id=s.id 
                                                   and i.tracker_id=t.id
@@ -127,7 +127,7 @@ private
                                                   p.id as priority_id,
                                                   count(i.id) as total 
                                                 from 
-                                                  issues i, issue_statuses s, enumerations p
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{Enumeration.table_name} p
                                                 where 
                                                   i.status_id=s.id 
                                                   and i.priority_id=p.id
@@ -142,7 +142,7 @@ private
                                                   c.id as category_id,
                                                   count(i.id) as total 
                                                 from 
-                                                  issues i, issue_statuses s, issue_categories c
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{IssueCategory.table_name} c
                                                 where 
                                                   i.status_id=s.id 
                                                   and i.category_id=c.id
@@ -157,7 +157,7 @@ private
                                                   a.id as author_id,
                                                   count(i.id) as total 
                                                 from 
-                                                  issues i, issue_statuses s, users a
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{User.table_name} a
                                                 where 
                                                   i.status_id=s.id 
                                                   and i.author_id=a.id

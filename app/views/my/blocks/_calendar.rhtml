@@ -4,7 +4,7 @@
 @date_from = Date.today - (Date.today.cwday-1)
 @date_to = Date.today + (7-Date.today.cwday)
 @issues = Issue.find :all,
-                     :conditions => ["issues.project_id in (#{@user.projects.collect{|m| m.id}.join(',')}) AND ((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", @date_from, @date_to, @date_from, @date_to],
+                     :conditions => ["#{Issue.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')}) AND ((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", @date_from, @date_to, @date_from, @date_to],
                      :include => [:project, :tracker]  unless @user.projects.empty?
 @issues ||= []
 %>

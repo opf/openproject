@@ -46,13 +46,13 @@
 <table class="list">
     <thead><tr>
         <th></th>
-		<%= sort_header_tag('issues.id', :caption => '#') %>
-		<%= sort_header_tag('issues.tracker_id', :caption => l(:field_tracker)) %>
-		<%= sort_header_tag('issue_statuses.name', :caption => l(:field_status)) %>
-		<%= sort_header_tag('issues.priority_id', :caption => l(:field_priority)) %>
+		<%= sort_header_tag("#{Issue.table_name}.id", :caption => '#') %>
+		<%= sort_header_tag("#{Issue.table_name}.tracker_id", :caption => l(:field_tracker)) %>
+		<%= sort_header_tag("#{IssueStatus.table_name}.name", :caption => l(:field_status)) %>
+		<%= sort_header_tag("#{Issue.table_name}.priority_id", :caption => l(:field_priority)) %>
 		<th><%=l(:field_subject)%></th>
-		<%= sort_header_tag('users.lastname', :caption => l(:field_author)) %>
-		<%= sort_header_tag('issues.updated_on', :caption => l(:field_updated_on)) %>
+		<%= sort_header_tag("#{User.table_name}.lastname", :caption => l(:field_author)) %>
+		<%= sort_header_tag("#{Issue.table_name}.updated_on", :caption => l(:field_updated_on)) %>
 	</tr></thead>
 	<tbody>
 	<% for issue in @issues %>

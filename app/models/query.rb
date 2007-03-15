@@ -124,42 +124,42 @@ class Query < ActiveRecord::Base
   
   def statement
     sql = "1=1" 
-    sql << " AND issues.project_id=%d" % project.id if project
+    sql << " AND #{Issue.table_name}.project_id=%d" % project.id if project
     filters.each_key do |field|
       v = values_for field
       next unless v and !v.empty?  
       sql = sql + " AND " unless sql.empty?      
       case operator_for field
       when "="
-        sql = sql + "issues.#{field} IN (" + v.each(&:to_i).join(",") + ")"
+        sql = sql + "#{Issue.table_name}.#{field} IN (" + v.each(&:to_i).join(",") + ")"
       when "!"
-        sql = sql + "issues.#{field} NOT IN (" + v.each(&:to_i).join(",") + ")"
+        sql = sql + "#{Issue.table_name}.#{field} NOT IN (" + v.each(&:to_i).join(",") + ")"
       when "!*"
-        sql = sql + "issues.#{field} IS NULL"
+        sql = sql + "#{Issue.table_name}.#{field} IS NULL"
       when "*"
-        sql = sql + "issues.#{field} IS NOT NULL"
+        sql = sql + "#{Issue.table_name}.#{field} IS NOT NULL"
       when "o"
-        sql = sql + "issue_statuses.is_closed=#{connection.quoted_false}" if field == "status_id"
+        sql = sql + "#{IssueStatus.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
       when "c"
-        sql = sql + "issue_statuses.is_closed=#{connection.quoted_true}" if field == "status_id"
+        sql = sql + "#{IssueStatus.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
       when ">t-"
-        sql = sql + "issues.#{field} >= '%s'" % connection.quoted_date(Date.today - v.first.to_i)
+        sql = sql + "#{Issue.table_name}.#{field} >= '%s'" % connection.quoted_date(Date.today - v.first.to_i)
       when "<t-"
-        sql = sql + "issues.#{field} <= '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{Issue.table_name}.#{field} <= '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
       when "t-"
-        sql = sql + "issues.#{field} = '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{Issue.table_name}.#{field} = '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
       when ">t+"
-        sql = sql + "issues.#{field} >= '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{Issue.table_name}.#{field} >= '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
       when "<t+"
-        sql = sql + "issues.#{field} <= '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{Issue.table_name}.#{field} <= '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
       when "t+"
-        sql = sql + "issues.#{field} = '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{Issue.table_name}.#{field} = '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
       when "t"
-        sql = sql + "issues.#{field} = '%s'" % connection.quoted_date(Date.today)
+        sql = sql + "#{Issue.table_name}.#{field} = '%s'" % connection.quoted_date(Date.today)
       when "~"
-        sql = sql + "issues.#{field} LIKE '%#{connection.quote_string(v.first)}%'"
+        sql = sql + "#{Issue.table_name}.#{field} LIKE '%#{connection.quote_string(v.first)}%'"
       when "!~"
-        sql = sql + "issues.#{field} NOT LIKE '%#{connection.quote_string(v.first)}%'"
+        sql = sql + "#{Issue.table_name}.#{field} NOT LIKE '%#{connection.quote_string(v.first)}%'"
       end
     end if filters and valid?
     sql

@@ -79,8 +79,8 @@ class WikiController < ApplicationController
     # show pages index, sorted by title
     when 'page_index'
       # eager load information about last updates, without loading text
-      @pages = @wiki.pages.find :all, :select => "wiki_pages.*, wiki_contents.updated_on",
-                                      :joins => "LEFT JOIN wiki_contents ON wiki_contents.page_id = wiki_pages.id",
+      @pages = @wiki.pages.find :all, :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
+                                      :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id",
                                       :order => 'title'
     # export wiki to a single html file
     when 'export'

@@ -84,9 +84,9 @@ class ProjectsController < ApplicationController
     @custom_values = @project.custom_values.find(:all, :include => :custom_field)
     @members = @project.members.find(:all, :include => [:user, :role])
     @subprojects = @project.children if @project.children.size > 0
-    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "news.created_on DESC")
+    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = Tracker.find(:all, :order => 'position')
-    @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN issue_statuses ON issue_statuses.id = issues.status_id", :conditions => ["project_id=? and issue_statuses.is_closed=?", @project.id, false])
+    @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN #{IssueStatus.table_name} ON #{IssueStatus.table_name}.id = #{Issue.table_name}.status_id", :conditions => ["project_id=? and #{IssueStatus.table_name}.is_closed=?", @project.id, false])
     @total_issues_by_tracker = Issue.count(:group => :tracker, :conditions => ["project_id=?", @project.id])
   end
 
@@ -236,7 +236,7 @@ class ProjectsController < ApplicationController
 
   # Show filtered/sorted issues list of @project
   def list_issues
-    sort_init 'issues.id', 'desc'
+    sort_init "#{Issue.table_name}.id", "desc"
     sort_update
 
     retrieve_query
@@ -264,7 +264,7 @@ class ProjectsController < ApplicationController
 
   # Export filtered/sorted issues list to CSV
   def export_issues_csv
-    sort_init 'issues.id', 'desc'
+    sort_init "#{Issue.table_name}.id", "desc"
     sort_update
 
     retrieve_query
@@ -319,7 +319,7 @@ class ProjectsController < ApplicationController
   
   # Export filtered/sorted issues to PDF
   def export_issues_pdf
-    sort_init 'issues.id', 'desc'
+    sort_init "#{Issue.table_name}.id", "desc"
     sort_update
 
     retrieve_query
@@ -393,7 +393,7 @@ class ProjectsController < ApplicationController
 
   # Show news list of @project
   def list_news
-    @news_pages, @news = paginate :news, :per_page => 10, :conditions => ["project_id=?", @project.id], :include => :author, :order => "news.created_on DESC"
+    @news_pages, @news = paginate :news, :per_page => 10, :conditions => ["project_id=?", @project.id], :include => :author, :order => "#{News.table_name}.created_on DESC"
     render :action => "list_news", :layout => false if request.xhr?
   end
 
@@ -428,8 +428,8 @@ class ProjectsController < ApplicationController
     @selected_tracker_ids ||= []
     @fixed_issues = @project.issues.find(:all, 
       :include => [ :fixed_version, :status, :tracker ], 
-      :conditions => [ "issue_statuses.is_closed=? and issues.tracker_id in (#{@selected_tracker_ids.join(',')}) and issues.fixed_version_id is not null", true],
-      :order => "versions.effective_date DESC, issues.id DESC"
+      :conditions => [ "#{IssueStatus.table_name}.is_closed=? and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}) and #{Issue.table_name}.fixed_version_id is not null", true],
+      :order => "#{Version.table_name}.effective_date DESC, #{Issue.table_name}.id DESC"
     ) unless @selected_tracker_ids.empty?
     @fixed_issues ||= []
   end
@@ -443,8 +443,8 @@ class ProjectsController < ApplicationController
     end
     @selected_tracker_ids ||= []
     @versions = @project.versions.find(:all,
-      :conditions => [ "versions.effective_date>?", Date.today],
-      :order => "versions.effective_date ASC"
+      :conditions => [ "#{Version.table_name}.effective_date>?", Date.today],
+      :order => "#{Version.table_name}.effective_date ASC"
     )
   end
   
@@ -464,7 +464,7 @@ class ProjectsController < ApplicationController
     @events_by_day = {}    
     
     unless params[:show_issues] == "0"
-      @project.issues.find(:all, :include => [:author, :status], :conditions => ["issues.created_on>=? and issues.created_on<=?", @date_from, @date_to] ).each { |i|
+      @project.issues.find(:all, :include => [:author, :status], :conditions => ["#{Issue.table_name}.created_on>=? and #{Issue.table_name}.created_on<=?", @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -472,7 +472,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_news] == "0"
-      @project.news.find(:all, :conditions => ["news.created_on>=? and news.created_on<=?", @date_from, @date_to], :include => :author ).each { |i|
+      @project.news.find(:all, :conditions => ["#{News.table_name}.created_on>=? and #{News.table_name}.created_on<=?", @date_from, @date_to], :include => :author ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -480,7 +480,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_files] == "0"
-      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN versions ON versions.id = attachments.container_id", :conditions => ["attachments.container_type='Version' and versions.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to], :include => :author ).each { |i|
+      Attachment.find(:all, :select => "#{Attachment.table_name}.*", :joins => "LEFT JOIN #{Version.table_name} ON #{Version.table_name}.id = #{Attachment.table_name}.container_id", :conditions => ["#{Attachment.table_name}.container_type='Version' and #{Version.table_name}.project_id=? and #{Attachment.table_name}.created_on>=? and #{Attachment.table_name}.created_on<=?", @project.id, @date_from, @date_to], :include => :author ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -488,11 +488,11 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_documents] == "0"
-      @project.documents.find(:all, :conditions => ["documents.created_on>=? and documents.created_on<=?", @date_from, @date_to] ).each { |i|
+      @project.documents.find(:all, :conditions => ["#{Document.table_name}.created_on>=? and #{Document.table_name}.created_on<=?", @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
-      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN documents ON documents.id = attachments.container_id", :conditions => ["attachments.container_type='Document' and documents.project_id=? and attachments.created_on>=? and attachments.created_on<=?", @project.id, @date_from, @date_to], :include => :author ).each { |i|
+      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN #{Document.table_name} ON #{Document.table_name}.id = #{Attachment.table_name}.container_id", :conditions => ["#{Attachment.table_name}.container_type='Document' and #{Document.table_name}.project_id=? and #{Attachment.table_name}.created_on>=? and #{Attachment.table_name}.created_on<=?", @project.id, @date_from, @date_to], :include => :author ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -567,10 +567,10 @@ class ProjectsController < ApplicationController
       operator = @all_words ? " AND " : " OR "
       limit = 10
       @results = []
-      @results += @project.issues.find(:all, :limit => limit, :include => :author, :conditions => [ (["(LOWER(issues.subject) like ? OR LOWER(issues.description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'issues'
-      @results += @project.news.find(:all, :limit => limit, :conditions => [ (["(LOWER(news.title) like ? OR LOWER(news.description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort], :include => :author ) if @scope.include? 'news'
+      @results += @project.issues.find(:all, :limit => limit, :include => :author, :conditions => [ (["(LOWER(subject) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'issues'
+      @results += @project.news.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort], :include => :author ) if @scope.include? 'news'
       @results += @project.documents.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'documents'
-      @results += @project.wiki.pages.find(:all, :limit => limit, :include => :content, :conditions => [ (["(LOWER(wiki_pages.title) like ? OR LOWER(wiki_contents.text) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @project.wiki && @scope.include?('wiki')
+      @results += @project.wiki.pages.find(:all, :limit => limit, :include => :content, :conditions => [ (["(LOWER(title) like ? OR LOWER(text) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @project.wiki && @scope.include?('wiki')
       @question = @tokens.join(" ")
     end
   end

@@ -19,7 +19,7 @@ class FeedsController < ApplicationController
   session :off
   
   def news
-    @news = News.find :all, :order => 'news.created_on DESC', :limit => 10, :include => [ :author, :project ]
+    @news = News.find :all, :order => "#{News.table_name}.created_on DESC", :limit => 10, :include => [ :author, :project ]
     headers["Content-Type"] = "application/rss+xml"
   end
 end

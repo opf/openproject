@@ -19,7 +19,7 @@ class Tracker < ActiveRecord::Base
   before_destroy :check_integrity  
   has_many :issues
   has_many :workflows, :dependent => :delete_all
-  has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => 'custom_fields_trackers', :association_foreign_key => 'custom_field_id'
+  has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_list
 
   validates_presence_of :name
