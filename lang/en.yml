@@ -328,6 +328,8 @@ label_wiki: Wiki
 label_page_index: Index
 label_current_version: Current version
 label_preview: Preview
+label_feed_plural: Feeds
+label_changes_details: Details of all changes
 
 button_login: Login
 button_submit: Submit

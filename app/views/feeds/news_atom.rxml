@@ -1,0 +1,22 @@
+xml.instruct!
+xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
+  xml.title   "#{Setting.app_title}: #{l(:label_news_latest)}"
+  xml.link    "rel" => "self", "href" => url_for(:controller => 'feeds', :action => 'news', :format => 'atom', :only_path => false)
+  xml.link    "rel" => "alternate", "href" => url_for(:controller => 'welcome', :only_path => false)
+  xml.id      url_for(:controller => 'welcome', :only_path => false)
+  xml.updated CGI.rfc1123_date(@news.first.created_on) if @news.any?
+  xml.author  { xml.name "#{Setting.app_title}" }
+  @news.each do |news|
+    xml.entry do
+      xml.title   news.title
+      xml.link    "rel" => "alternate", "href" => url_for(:controller => 'news' , :action => 'show', :id => news, :only_path => false)
+      xml.id      url_for(:controller => 'news' , :action => 'show', :id => news, :only_path => false)
+      xml.updated CGI.rfc1123_date(news.created_on)
+      xml.author  { xml.name news.author.name }
+      xml.summary h(news.summary)
+      xml.content "type" => "html" do
+        xml.text! news.description
+      end
+    end
+  end
+end

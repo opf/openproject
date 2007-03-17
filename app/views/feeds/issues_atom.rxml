@@ -1,0 +1,22 @@
+xml.instruct!
+xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
+  xml.title   @title
+  xml.link    "rel" => "self", "href" => url_for(:controller => 'feeds', :action => 'issues', :format => 'atom', :only_path => false)
+  xml.link    "rel" => "alternate", "href" => url_for(:controller => 'welcome', :only_path => false)
+  xml.id      url_for(:controller => 'welcome', :only_path => false)
+  xml.updated CGI.rfc1123_date(@issues.first.updated_on) if @issues.any?
+  xml.author  { xml.name "#{Setting.app_title}" }
+  @issues.each do |issue|
+    xml.entry do
+      xml.title   "#{issue.project.name} - #{issue.tracker.name} ##{issue.id}: #{issue.subject}"
+      xml.link    "rel" => "alternate", "href" => url_for(:controller => 'issues' , :action => 'show', :id => issue, :only_path => false)
+      xml.id      url_for(:controller => 'issues' , :action => 'show', :id => issue, :only_path => false)
+      xml.updated CGI.rfc1123_date(issue.updated_on)
+      xml.author  { xml.name issue.author.name }
+      xml.summary issue.description
+      xml.content "type" => "html" do
+        xml.text! issue.description
+      end
+    end
+  end
+end

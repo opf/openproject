@@ -575,6 +575,11 @@ class ProjectsController < ApplicationController
     end
   end
   
+  def feeds
+    @queries = @project.queries.find :all, :conditions => ["is_public=? or user_id=?", true, (logged_in_user ? logged_in_user.id : 0)]
+    @key = logged_in_user.get_or_create_rss_key.value if logged_in_user
+  end
+  
 private
   # Find project of id params[:id]
   # if not found, redirect to project list

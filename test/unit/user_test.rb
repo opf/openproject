@@ -85,4 +85,17 @@ class UserTest < Test::Unit::TestCase
     user = User.try_to_login("jsmith", "jsmith")
     assert_equal nil, user  
   end
+  
+  def test_rss_key
+    assert_nil @jsmith.rss_key
+    key = @jsmith.get_or_create_rss_key
+    assert_kind_of Token, key
+    assert_equal 40, key.value.length
+    
+    @jsmith.reload
+    assert_equal key.value, @jsmith.get_or_create_rss_key.value
+    
+    @jsmith.reload
+    assert_equal key.value, @jsmith.rss_key.value
+  end
 end

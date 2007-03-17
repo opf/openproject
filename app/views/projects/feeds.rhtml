@@ -1,0 +1,33 @@
+<h2><%= l(:label_feed_plural) %> (<%=h @project.name %>)</h2>
+
+<table>
+
+<tr><td colspan="3"><h3><%= l(:label_issue_plural) %></h3></td></tr>
+<tr><td><%= l(:label_reported_issues) %></td>
+<td><%= link_to 'RSS', {:controller => 'feeds', :action => 'issues', :project_id => @project, :key => @key}, :class => 'icon icon-feed' %></td>
+<td><%= link_to 'Atom', {:controller => 'feeds', :action => 'issues', :project_id => @project, :key => @key, :format => 'atom'}, :class => 'icon icon-feed' %></td>
+</tr>
+<tr><td><%= l(:label_changes_details) %></td>
+<td><%= link_to 'RSS', {:controller => 'feeds', :action => 'history', :project_id => @project, :key => @key}, :class => 'icon icon-feed' %></td>
+<td><%= link_to 'Atom', {:controller => 'feeds', :action => 'history', :project_id => @project, :key => @key, :format => 'atom'}, :class => 'icon icon-feed' %></td>
+</tr>
+
+<% @queries.each do |query| %>
+<tr><td colspan="3"><h4><%=h query.name %></h4></td></tr>
+<tr><td><%= l(:label_reported_issues) %></td>
+<td><%= link_to 'RSS', {:controller => 'feeds', :action => 'issues', :project_id => @project, :query_id => query, :key => @key}, :class => 'icon icon-feed' %></td>
+<td><%= link_to 'Atom', {:controller => 'feeds', :action => 'issues', :project_id => @project, :query_id => query, :key => @key, :format => 'atom'}, :class => 'icon icon-feed' %></td>
+</tr>
+<tr><td><%= l(:label_changes_details) %></td>
+<td><%= link_to 'RSS', {:controller => 'feeds', :action => 'history', :project_id => @project, :query_id => query, :key => @key}, :class => 'icon icon-feed' %></td>
+<td><%= link_to 'Atom', {:controller => 'feeds', :action => 'history', :project_id => @project, :query_id => query, :key => @key, :format => 'atom'}, :class => 'icon icon-feed' %></td>
+</tr>
+<% end %>
+
+<tr><td colspan="3">&nbsp;<h3><%= l(:label_news_plural) %></h3></td></tr>
+<tr><td><%= l(:label_news_latest) %></td>
+<td><%= link_to 'RSS', {:controller => 'feeds', :action => 'news', :project_id => @project, :key => @key}, :class => 'icon icon-feed' %></td>
+<td><%= link_to 'Atom', {:controller => 'feeds', :action => 'news', :project_id => @project, :key => @key, :format => 'atom'}, :class => 'icon icon-feed' %></td>
+</tr>
+
+</table>

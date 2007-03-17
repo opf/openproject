@@ -328,6 +328,8 @@ label_wiki: Wiki
 label_page_index: Índice
 label_current_version: Versión actual
 label_preview: Previo
+label_feed_plural: Feeds
+label_changes_details: Detalles de todos los cambios
 
 button_login: Conexión
 button_submit: Someter

@@ -154,6 +154,7 @@ vertical-align: middle;
 .icon-attachment  { background-image: url(../images/attachment.png); }
 .icon-index  { background-image: url(../images/index.png); }
 .icon-history  { background-image: url(../images/history.png); }
+.icon-feed  { background-image: url(../images/feed.png); }
 
 .icon22-projects { background-image: url(../images/22x22/projects.png); }
 .icon22-users { background-image: url(../images/22x22/users.png); }
@@ -247,6 +248,7 @@ legend {color: #505050;}
 .even {background-color: #fff;}
 hr { border:0; border-top: dotted 1px #fff; border-bottom: dotted 1px #c0c0c0; }
 table p {margin:0; padding:0;}
+table td {padding-right: 1em;}
 
 .highlight { background-color: #FCFD8D;}
 

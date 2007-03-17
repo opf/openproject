@@ -1,0 +1,28 @@
+xml.instruct!
+xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
+  xml.channel do
+    xml.title @title
+    xml.link url_for(:controller => 'welcome', :only_path => false)
+    xml.pubDate CGI.rfc1123_date(@journals.first ? @journals.first.created_on : Time.now)
+    xml.description l(:label_reported_issues)
+    @journals.each do |journal|
+      issue = journal.issue
+      xml.item do
+        xml.title "#{issue.project.name} - #{issue.tracker.name} ##{issue.id}: #{issue.subject}"
+        url = url_for(:controller => 'issues' , :action => 'show', :id => issue, :only_path => false)
+        xml.link url
+        xml.description do
+          xml.text! h(journal.notes)
+          xml.text! "<ul>"
+          journal.details.each do |detail|
+            xml.text! "<li>" + show_detail(detail, false) + "</li>"
+          end
+          xml.text! "</ul>"
+        end
+        xml.pubDate CGI.rfc1123_date(journal.created_on)
+        xml.guid url
+        xml.author h(journal.user.name)
+      end
+    end
+  end
+end

@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   has_many :projects, :through => :memberships
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
+  has_one :rss_key, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   belongs_to :auth_source
   
   attr_accessor :password, :password_confirmation
@@ -132,6 +133,15 @@ class User < ActiveRecord::Base
   
   def pref
     self.preference ||= UserPreference.new(:user => self)
+  end
+  
+  def get_or_create_rss_key
+    self.rss_key || Token.create(:user => self, :action => 'feeds')
+  end
+  
+  def self.find_by_rss_key(key)
+    token = Token.find_by_value(key)
+    token && token.user.active? ? token.user : nil
   end
 	
 private
