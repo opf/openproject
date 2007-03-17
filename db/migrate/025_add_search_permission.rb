@@ -4,6 +4,6 @@ class AddSearchPermission < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find_by_controller_and_action('projects', 'roadmap').destroy
+    Permission.find_by_controller_and_action('projects', 'search').destroy
   end
 end
