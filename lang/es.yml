@@ -118,7 +118,6 @@ field_is_in_roadmap: Consultar las peticiones en el roadmap
 field_login: Identificador
 field_mail_notification: Notificación por mail
 field_admin: Administrador
-field_locked: Cerrado
 field_last_login_on: Última conexión
 field_language: Lengua
 field_effective_date: Fecha
@@ -356,6 +355,10 @@ button_back: Atrás
 button_cancel: Cancelar
 button_activate: Activar
 button_sort: Clasificar
+
+status_active: active
+status_registered: registered
+status_locked: locked
 
 text_select_mail_notifications: Seleccionar las actividades que necesitan la activación de la notificación por mail.
 text_regexp_info: eg. ^[A-Z0-9]+$

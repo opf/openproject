@@ -119,7 +119,6 @@ field_is_in_roadmap: Issues displayed in roadmap
 field_login: ログイン
 field_mail_notification: メール通知
 field_admin: 管理者
-field_locked: ロック済
 field_last_login_on: 最終接続日
 field_language: 言語
 field_effective_date: 日付
@@ -357,6 +356,10 @@ button_back: 戻る
 button_cancel: キャンセル
 button_activate: 有効にする
 button_sort: ソート
+
+status_active: active
+status_registered: registered
+status_locked: ロック済
 
 text_select_mail_notifications: どのメール通知を送信するか、アクションを選択してください。
 text_regexp_info: 例) ^[A-Z0-9]+$

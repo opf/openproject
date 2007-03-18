@@ -4,6 +4,15 @@
 
 <h2><%=l(:label_user_plural)%></h2>
 
+<% form_tag() do %>
+<fieldset><legend><%= l(:label_filter_plural) %></legend>
+<label><%= l(:field_status) %> :</label>
+<%= select_tag 'status', status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
+<%= submit_tag l(:button_apply), :class => "small" %>
+</fieldset>
+<% end %>
+&nbsp;
+
 <table class="list">		
   <thead><tr>
 	<%= sort_header_tag('login', :caption => l(:field_login)) %>

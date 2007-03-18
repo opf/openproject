@@ -118,7 +118,6 @@ field_is_in_roadmap: Contesti mostrati nel roadmap
 field_login: Login
 field_mail_notification: Notifiche via e-mail
 field_admin: Amministratore
-field_locked: Bloccato
 field_last_login_on: Ultima connessione
 field_language: Lingua
 field_effective_date: Data
@@ -356,6 +355,10 @@ button_back: Indietro
 button_cancel: Annulla
 button_activate: Attiva
 button_sort: Ordina
+
+status_active: active
+status_registered: registered
+status_locked: bloccato
 
 text_select_mail_notifications: Select actions for which mail notifications should be sent.
 text_regexp_info: eg. ^[A-Z0-9]+$

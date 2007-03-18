@@ -118,7 +118,6 @@ field_is_in_roadmap: Ansicht der Issues in der Roadmap
 field_login: Mitgliedsname
 field_mail_notification: Mailbenachrichtigung
 field_admin: Administrator
-field_locked: Gesperrt
 field_last_login_on: Letzte Anmeldung
 field_language: Sprache
 field_effective_date: Datum
@@ -356,6 +355,10 @@ button_back: Rückkehr
 button_cancel: Annullieren
 button_activate: Aktivieren
 button_sort: Sortieren
+
+status_active: active
+status_registered: registered
+status_locked: locked
 
 text_select_mail_notifications: Aktionen für die Mailbenachrichtigung aktiviert werden soll.
 text_regexp_info: eg. ^[A-Z0-9]+$

@@ -77,7 +77,7 @@ module ApplicationHelper
   def pagination_links_full(paginator, options={}, html_options={})
     html = ''    
     html << link_to_remote(('&#171; ' + l(:label_previous)), 
-                            {:update => "content", :url => { :page => paginator.current.previous }},
+                            {:update => "content", :url => params.merge({ :page => paginator.current.previous })},
                             {:href => url_for(:action => 'list', :params => params.merge({:page => paginator.current.previous}))}) + ' ' if paginator.current.previous
                             
     html << (pagination_links_each(paginator, options) do |n|
@@ -87,7 +87,7 @@ module ApplicationHelper
     end || '')
     
     html << ' ' + link_to_remote((l(:label_next) + ' &#187;'), 
-                                 {:update => "content", :url => { :page => paginator.current.next }},
+                                 {:update => "content", :url => params.merge({ :page => paginator.current.next })},
                                  {:href => url_for(:action => 'list', :params => params.merge({:page => paginator.current.next}))}) if paginator.current.next
     html  
   end
