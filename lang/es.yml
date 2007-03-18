@@ -330,6 +330,7 @@ label_current_version: Versión actual
 label_preview: Previo
 label_feed_plural: Feeds
 label_changes_details: Detalles de todos los cambios
+label_issue_tracking: Issue tracking
 
 button_login: Conexión
 button_submit: Someter

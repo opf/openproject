@@ -331,6 +331,7 @@ label_current_version: 最近版
 label_preview: 下検分
 label_feed_plural: Feeds
 label_changes_details: Details of all changes
+label_issue_tracking: Issue tracking
 
 button_login: ログイン
 button_submit: 変更
