@@ -157,6 +157,7 @@ setting_mail_from: Emission メールアドレス
 setting_host_name: ホスト名
 setting_text_formatting: テキストの書式
 setting_wiki_compression: Wiki history compression
+setting_feeds_limit: Feed content limit
 
 label_user: ユーザ
 label_user_plural: ユーザ

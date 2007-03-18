@@ -156,6 +156,7 @@ setting_mail_from: Email de la emisión
 setting_host_name: Nombre de anfitrión
 setting_text_formatting: Formato de texto
 setting_wiki_compression: Compresión de la historia de Wiki
+setting_feeds_limit: Feed content limit
 
 label_user: Usuario
 label_user_plural: Usuarios

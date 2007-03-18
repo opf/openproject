@@ -1,5 +1,6 @@
 <h2><%= l(:label_settings) %></h2>
 
+<div id="settings">
 <% form_tag({:action => 'edit'}, :class => "tabular") do %>
 <div class="box">
 <p><label><%= l(:setting_app_title) %></label>
@@ -41,6 +42,10 @@
 <p><label><%= l(:setting_wiki_compression) %></label>
 <%= select_tag 'settings[wiki_compression]', options_for_select( [[l(:label_none), 0], ["gzip", "gzip"]], Setting.wiki_compression) %></p>
 
+<p><label><%= l(:setting_feeds_limit) %></label>
+<%= text_field_tag 'settings[feeds_limit]', Setting.feeds_limit, :size => 6 %></p>
+
 </div>
 <%= submit_tag l(:button_save) %>
+</div>
 <% end %>

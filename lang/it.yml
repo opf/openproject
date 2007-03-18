@@ -156,6 +156,7 @@ setting_mail_from: Indirizzo sorgente e-mail
 setting_host_name: Nome host
 setting_text_formatting: Formattazione testo
 setting_wiki_compression: Compressione di storia di Wiki
+setting_feeds_limit: Feed content limit
 
 label_user: Utente
 label_user_plural: Utenti

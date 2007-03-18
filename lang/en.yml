@@ -156,6 +156,7 @@ setting_mail_from: Emission mail address
 setting_host_name: Host name
 setting_text_formatting: Text formatting
 setting_wiki_compression: Wiki history compression
+setting_feeds_limit: Feed content limit
 
 label_user: User
 label_user_plural: Users

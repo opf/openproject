@@ -27,7 +27,7 @@ class FeedsController < ApplicationController
   # news feeds
   def news
     News.with_scope(:find => @find_options) do
-      @news = News.find :all, :order => "#{News.table_name}.created_on DESC", :limit => 10, :include => [ :author, :project ]
+      @news = News.find :all, :order => "#{News.table_name}.created_on DESC", :include => [ :author, :project ]
     end
     headers["Content-Type"] = "application/rss+xml"
     render :action => 'news_atom' if 'atom' == params[:format]
@@ -94,7 +94,7 @@ private
       # global feed
       scope = ["#{Project.table_name}.is_public=?", true]
     end
-    @find_options = {:conditions => scope, :limit => 10}
+    @find_options = {:conditions => scope, :limit => Setting.feeds_limit}
     return true
   end
 end

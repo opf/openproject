@@ -156,6 +156,7 @@ setting_mail_from: Adresse d'émission
 setting_host_name: Nom d'hôte
 setting_text_formatting: Formatage du texte
 setting_wiki_compression: Compression historique wiki
+setting_feeds_limit: Limite du contenu des flux RSS
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
