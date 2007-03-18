@@ -24,7 +24,7 @@
 <td><div class="square action_<%= path[:action] %>"></div> <%= path[:path] %></td>
 <td>
 <% if path[:action] == "M" %>
-<%= link_to 'View diff', :action => 'diff', :id => @project, :path => path[:path].gsub(/^\//, ''), :rev => @revision.identifier %>
+<%= link_to 'View diff', :action => 'diff', :id => @project, :path => path[:path], :rev => @revision.identifier %>
 <% end %>
 </td>
 </tr>

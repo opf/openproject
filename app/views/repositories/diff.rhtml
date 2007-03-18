@@ -1,4 +1,4 @@
-<h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
+<h2><%= l(:label_revision) %> <%= @rev %>: <%= @path.gsub(/^.*\//, '') %></h2>
 
 <% parsing = false
 line_num_l = 0

@@ -24,10 +24,37 @@ module SvnRepos
 
   class Base
         
-    def initialize(url, login=nil, password=nil)
+    def initialize(url, root_url=nil, login=nil, password=nil)
       @url = url
       @login = login if login && !login.empty?
       @password = (password || "") if @login    
+      @root_url = root_url.blank? ? retrieve_root_url : root_url
+    end
+    
+    def root_url
+      @root_url
+    end
+    
+    def url
+      @url
+    end
+
+    # finds the root url of the svn repository
+    def retrieve_root_url
+      cmd = "svn info --xml #{target('')}"
+      cmd << " --username #{@login} --password #{@password}" if @login
+      root_url = nil
+      shellout(cmd) do |io|
+        begin
+          doc = REXML::Document.new(io)
+          root_url = doc.elements["info/entry/repository/root"].text
+        rescue
+        end
+      end
+      return nil if $? && $?.exitstatus != 0
+      root_url
+    rescue Errno::ENOENT => e
+      return nil
     end
     
     # Returns the entry identified by path and revision identifier
@@ -146,7 +173,9 @@ module SvnRepos
   
   private
     def target(path)
-      " \"" << "#{@url}/#{path}".gsub(/["'?<>\*]/, '') << "\""
+      path ||= ""
+      base = path.match(/^\//) ? root_url : url    
+      " \"" << "#{base}/#{path}".gsub(/["'?<>\*]/, '') << "\""
     end
     
     def logger

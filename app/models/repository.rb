@@ -19,10 +19,18 @@ class Repository < ActiveRecord::Base
   belongs_to :project
   validates_presence_of :url
   validates_format_of :url, :with => /^(http|https|svn|file):\/\/.+/i
-  
-  @scm = nil
     
   def scm
-    @scm ||= SvnRepos::Base.new url, login, password
+    @scm ||= SvnRepos::Base.new url, root_url, login, password
+    update_attribute(:root_url, @scm.root_url) if root_url.blank?
+    @scm
+  end
+  
+  def url=(str)
+    unless str == self.url
+      self.attributes = {:root_url => nil }
+      @scm = nil
+    end
+    super
   end
 end
