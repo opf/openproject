@@ -19,6 +19,7 @@ h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
 
 <% @pages.each do |page| %>
 <hr />
+<a name="<%= page.title %>" />
 <%= textilizable page.content.text, :wiki_links => :anchor %>
 <% end %>
 
