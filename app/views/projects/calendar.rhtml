@@ -43,9 +43,7 @@ while day <= @date_to
 	<% end %>	
 	<td valign="top" class="<%= day.month==@month ? "even" : "odd" %>" style="width:14%; <%= Date.today == day ? 'background:#FDFED0;' : '' %>">
 	<p class="textright"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
-	<% day_issues = []
-	@issues.each { |i| day_issues << i if i.start_date == day or i.due_date == day } 
-	day_issues.each do |i| %>
+	<% ((@ending_issues_by_days[day] || []) + (@starting_issues_by_days[day] || [])).uniq.each do |i| %>
 	    <div class="tooltip">
 		<%= if day == i.start_date and day == i.due_date
 		    image_tag('arrow_bw.png')

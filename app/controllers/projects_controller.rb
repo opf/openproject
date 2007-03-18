@@ -519,7 +519,12 @@ class ProjectsController < ApplicationController
     # finish on sunday
     @date_to = @date_to + (7-@date_to.cwday)  
       
-    @issues = @project.issues.find(:all, :include => [:tracker, :status, :assigned_to, :priority], :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", @date_from, @date_to, @date_from, @date_to])
+    @issues = @project.issues.find(:all, :include => [:tracker, :status, :assigned_to, :priority], 
+                                         :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", @date_from, @date_to, @date_from, @date_to])
+
+    @ending_issues_by_days = @issues.group_by {|issue| issue.due_date}
+    @starting_issues_by_days = @issues.group_by {|issue| issue.start_date}
+     
     render :layout => false if request.xhr?
   end  
 
