@@ -142,6 +142,7 @@ field_hide_mail: Ocultar mi email address
 field_comment: Comentario
 field_url: URL
 field_start_page: Página principal
+field_subproject: Proyecto secundario
 
 setting_app_title: Título del aplicación
 setting_app_subtitle: Subtítulo del aplicación
@@ -220,7 +221,6 @@ label_authentication: Autentificación
 label_auth_source: Modo de la autentificación
 label_auth_source_new: Nuevo modo de la autentificación
 label_auth_source_plural: Modos de la autentificación
-label_subproject: Proyecto secundario
 label_subproject_plural: Proyectos secundarios
 label_min_max_length: Longitud mín - máx
 label_list: Lista

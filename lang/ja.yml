@@ -143,6 +143,7 @@ field_hide_mail: Emailアドレスを隠す
 field_comment: コメント
 field_url: URL
 field_start_page: メインページ
+field_subproject: サブプロジェクト
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -221,7 +222,6 @@ label_authentication: 認証
 label_auth_source: 認証モード
 label_auth_source_new: 新しい認証モード
 label_auth_source_plural: 認証モード
-label_subproject: サブプロジェクト
 label_subproject_plural: サブプロジェクト
 label_min_max_length: 最小値 - 最大値の長さ
 label_list: リストから選択
