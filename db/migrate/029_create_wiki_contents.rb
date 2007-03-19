@@ -3,7 +3,7 @@ class CreateWikiContents < ActiveRecord::Migration
     create_table :wiki_contents do |t|
       t.column :page_id, :integer, :null => false
       t.column :author_id, :integer
-      t.column :text, :text, :default => "", :null => false
+      t.column :text, :text
       t.column :comment, :string, :limit => 255, :default => ""
       t.column :updated_on, :datetime, :null => false
       t.column :version, :integer, :null => false

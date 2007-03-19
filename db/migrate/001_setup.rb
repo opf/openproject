@@ -49,7 +49,7 @@ class Setup < ActiveRecord::Migration
       t.column "type", :string, :limit => 30, :default => "", :null => false
       t.column "name", :string, :limit => 30, :default => "", :null => false
       t.column "field_format", :string, :limit => 30, :default => "", :null => false
-      t.column "possible_values", :text, :default => ""
+      t.column "possible_values", :text
       t.column "regexp", :string, :default => ""
       t.column "min_length", :integer, :default => 0, :null => false
       t.column "max_length", :integer, :default => 0, :null => false
@@ -71,14 +71,14 @@ class Setup < ActiveRecord::Migration
       t.column "customized_type", :string, :limit => 30, :default => "", :null => false
       t.column "customized_id", :integer, :default => 0, :null => false
       t.column "custom_field_id", :integer, :default => 0, :null => false
-      t.column "value", :text, :default => "", :null => false
+      t.column "value", :text
     end
   
     create_table "documents", :force => true do |t|
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "category_id", :integer, :default => 0, :null => false
       t.column "title", :string, :limit => 60, :default => "", :null => false
-      t.column "description", :text, :default => ""
+      t.column "description", :text
       t.column "created_on", :timestamp
     end
     
@@ -100,7 +100,7 @@ class Setup < ActiveRecord::Migration
       t.column "issue_id", :integer, :default => 0, :null => false
       t.column "status_id", :integer, :default => 0, :null => false
       t.column "author_id", :integer, :default => 0, :null => false
-      t.column "notes", :text, :default => ""
+      t.column "notes", :text
       t.column "created_on", :timestamp
     end
   
@@ -117,7 +117,7 @@ class Setup < ActiveRecord::Migration
       t.column "tracker_id", :integer, :default => 0, :null => false
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "subject", :string, :default => "", :null => false
-      t.column "description", :text, :default => "", :null => false
+      t.column "description", :text
       t.column "due_date", :date
       t.column "category_id", :integer
       t.column "status_id", :integer, :default => 0, :null => false
@@ -143,7 +143,7 @@ class Setup < ActiveRecord::Migration
       t.column "project_id", :integer
       t.column "title", :string, :limit => 60, :default => "", :null => false
       t.column "summary", :string, :limit => 255, :default => ""
-      t.column "description", :text, :default => "", :null => false
+      t.column "description", :text
       t.column "author_id", :integer, :default => 0, :null => false
       t.column "created_on", :timestamp
     end
