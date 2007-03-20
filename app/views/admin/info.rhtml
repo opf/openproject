@@ -1,3 +1,8 @@
 <h2><%=l(:label_information_plural)%></h2>
 
 <p><%=l(:field_version)%>: <strong>redMine <%= Redmine::VERSION %></strong> (<%= @db_adapter_name %>)</p>
+
+<table class="list">
+<tr class="odd"><td>File repository writable</td><td><%= image_tag (@file_repository_writable ? 'true' : 'false'), :style => "vertical-align:bottom;" %></td></tr>
+<tr class="even"><td>Default administrator account changed</td><td><%= image_tag (@default_admin_changed ? 'true' : 'false'), :style => "vertical-align:bottom;" %></td></tr>
+</table>
