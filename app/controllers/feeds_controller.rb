@@ -35,19 +35,17 @@ class FeedsController < ApplicationController
   
   # issue feeds
   def issues
-    conditions = nil
-    
-    if params[:query_id]
+    if @project && params[:query_id]
       query = Query.find(params[:query_id])
       # ignore query if it's not valid
       query = nil unless query.valid?
-      conditions = query.statement if query
+      # override with query conditions
+      @find_options[:conditions] = query.statement if query.valid? and @project == query.project
     end
 
     Issue.with_scope(:find => @find_options) do
       @issues = Issue.find :all, :include => [:project, :author, :tracker, :status], 
-                                 :order => "#{Issue.table_name}.created_on DESC",
-                                 :conditions => conditions
+                                 :order => "#{Issue.table_name}.created_on DESC"
     end
     @title = (@project ? @project.name : Setting.app_title) + ": " + (query ? query.name : l(:label_reported_issues))
     headers["Content-Type"] = "application/rss+xml"
@@ -55,20 +53,18 @@ class FeedsController < ApplicationController
   end
   
   # issue changes feeds
-  def history
-    conditions = nil
-    
-    if params[:query_id]
+  def history    
+    if @project && params[:query_id]
       query = Query.find(params[:query_id])
       # ignore query if it's not valid
       query = nil unless query.valid?
-      conditions = query.statement if query
+      # override with query conditions
+      @find_options[:conditions] = query.statement if query.valid? and @project == query.project
     end
 
     Journal.with_scope(:find => @find_options) do
       @journals = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status]} ], 
-                                     :order => "#{Journal.table_name}.created_on DESC",
-                                     :conditions => conditions
+                                     :order => "#{Journal.table_name}.created_on DESC"
     end
     
     @title = (@project ? @project.name : Setting.app_title) + ": " + (query ? query.name : l(:label_reported_issues))
