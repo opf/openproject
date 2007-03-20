@@ -15,7 +15,7 @@ production:
  
 development:
   adapter: mysql
-  database: redmine_development
+  database: redmine_development2
   host: localhost
   username: root
   password:
