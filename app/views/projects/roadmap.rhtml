@@ -20,8 +20,12 @@
     <p><%= format_date(version.effective_date) %><br />
     <%=h version.description %></p>
     <ul>
-    <% version.fixed_issues.find(:all, :conditions => ["issues.tracker_id in (#{@selected_tracker_ids.join(',')})"]).each do |issue| %>
-    <li><%= link_to "#{issue.tracker.name} #{issue.id}", :controller => 'issues', :action => 'show', :id => issue %>: <%=h issue.subject %></li>
+    <% version.fixed_issues.find(:all,
+                                 :include => :status,
+                                 :conditions => ["tracker_id in (#{@selected_tracker_ids.join(',')})"],
+                                 :order => "position").each do |issue| %>
+        <li><%= link_to "#{issue.tracker.name} #{issue.id}", :controller => 'issues', :action => 'show', :id => issue %>: <%=h issue.subject %>
+        <%= content_tag "em", "(#{l(:label_closed_issues)})" if issue.status.is_closed? %></li>
     <% end %>
     </ul>
 <% end %>
