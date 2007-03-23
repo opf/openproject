@@ -34,7 +34,7 @@
 <tr>
 <% n = 0
 for custom_value in @custom_values %>
-    <td><b><%= custom_value.custom_field.name %> :</b></td><td><%=h show_value custom_value %></td>
+    <td><b><%= custom_value.custom_field.name %> :</b></td><td><%= h(show_value(custom_value)) %></td>
 <% n = n + 1
    if (n > 1) 
         n = 0 %>
