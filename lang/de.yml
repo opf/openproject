@@ -1,45 +1,45 @@
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
-actionview_datehelper_select_month_names: January,February,March,April,May,June,July,August,September,October,November,December
-actionview_datehelper_select_month_names_abbr: Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec
+actionview_datehelper_select_month_names: Januar,Februar,März,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember
+actionview_datehelper_select_month_names_abbr: Jan,Feb,Mär,Apr,Mai,Jun,Jul,Aug,Sep,Okt,Nov,Dez
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
-actionview_datehelper_time_in_words_day: 1 day
-actionview_datehelper_time_in_words_day_plural: %d days
-actionview_datehelper_time_in_words_hour_about: about an hour
-actionview_datehelper_time_in_words_hour_about_plural: about %d hours
-actionview_datehelper_time_in_words_hour_about_single: about an hour
-actionview_datehelper_time_in_words_minute: 1 minute
-actionview_datehelper_time_in_words_minute_half: half a minute
-actionview_datehelper_time_in_words_minute_less_than: less than a minute
-actionview_datehelper_time_in_words_minute_plural: %d minutes
-actionview_datehelper_time_in_words_minute_single: 1 minute
-actionview_datehelper_time_in_words_second_less_than: less than a second
-actionview_datehelper_time_in_words_second_less_than_plural: less than %d seconds
-actionview_instancetag_blank_option: Bitte auserwählt
+actionview_datehelper_time_in_words_day: 1 Tag
+actionview_datehelper_time_in_words_day_plural: %d Tage
+actionview_datehelper_time_in_words_hour_about: ungefähr eine Stunde
+actionview_datehelper_time_in_words_hour_about_plural: ungefähr %d Stunden
+actionview_datehelper_time_in_words_hour_about_single: ungefähr eine Stunde
+actionview_datehelper_time_in_words_minute: 1 Minute
+actionview_datehelper_time_in_words_minute_half: halbe Minute
+actionview_datehelper_time_in_words_minute_less_than: weniger als eine Minute
+actionview_datehelper_time_in_words_minute_plural: %d Minuten
+actionview_datehelper_time_in_words_minute_single: 1 Minute
+actionview_datehelper_time_in_words_second_less_than: Weniger als eine Sekunde
+actionview_datehelper_time_in_words_second_less_than_plural: weniger als %d Sekunden
+actionview_instancetag_blank_option: Bitte auswählen
 
-activerecord_error_inclusion: ist nicht in der Liste eingeschlossen
+activerecord_error_inclusion: ist nicht inbegriffen
 activerecord_error_exclusion: ist reserviert
 activerecord_error_invalid: ist unzulässig
-activerecord_error_confirmation: bringt nicht Bestätigung zusammen
+activerecord_error_confirmation: Bestätigung nötig
 activerecord_error_accepted: muß angenommen werden
 activerecord_error_empty: kann nicht leer sein
 activerecord_error_blank: kann nicht leer sein
 activerecord_error_too_long: ist zu lang
 activerecord_error_too_short: ist zu kurz
-activerecord_error_wrong_length: ist die falsche Länge
-activerecord_error_taken: ist bereits genommen worden
-activerecord_error_not_a_number: ist nicht eine Zahl
-activerecord_error_not_a_date: ist nicht ein gültiges Datum
-activerecord_error_greater_than_start_date: muß als grösser sein beginnen Datum
+activerecord_error_wrong_length: hat die falsche Länge
+activerecord_error_taken: ist bereits vergeben
+activerecord_error_not_a_number: ist keine Zahl
+activerecord_error_not_a_date: ist kein gültiges Datum
+activerecord_error_greater_than_start_date: muss größer als Anfangsdatum sein
 
-general_fmt_age: %d yr
-general_fmt_age_plural: %d yrs
-general_fmt_date: %%b %%d, %%Y (%%a)
-general_fmt_datetime: %%b %%d, %%Y (%%a), %%I:%%M %%p
-general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
-general_fmt_time: %%I:%%M %%p
+general_fmt_age: %d Jahr
+general_fmt_age_plural: %d Jahre
+general_fmt_date: %%d.%%m.%%y
+general_fmt_datetime: %%d.%%m.%%y, %%H:%%M
+general_fmt_datetime_short: %%d.%%m, %%H:%%M
+general_fmt_time: %%H:%%M
 general_text_No: 'Nein'
 general_text_Yes: 'Ja'
 general_text_no: 'nein'
@@ -54,18 +54,18 @@ notice_account_updated: Konto wurde erfolgreich aktualisiert.
 notice_account_invalid_creditentials: Unzulässiger Benutzer oder Passwort
 notice_account_password_updated: Passwort wurde erfolgreich aktualisiert.
 notice_account_wrong_password: Falsches Passwort
-notice_account_register_done: Konto wurde erfolgreich verursacht.
+notice_account_register_done: Konto wurde erfolgreich angelegt.
 notice_account_unknown_email: Unbekannter Benutzer.
-notice_can_t_change_password: Dieses Konto verwendet eine externe Authentisierung Quelle. Unmöglich, das Kennwort zu ändern.
-notice_account_lost_email_sent: Ein email mit Anweisungen, ein neues Kennwort zu wählen ist dir geschickt worden.
-notice_account_activated: Dein Konto ist aktiviert worden. Du kannst jetzt einloggen.
-notice_successful_create: Erfolgreiche Kreation. 
+notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs Quelle. Unmöglich, das Kennwort zu ändern.
+notice_account_lost_email_sent: Eine Email mit Anweisungen, ein neues Kennwort zu wählen ist dir geschickt worden.
+notice_account_activated: Dein Konto ist aktiviert. Du kannst jetzt einloggen.
+notice_successful_create: Erfolgreich angelegt 
 notice_successful_update: Erfolgreiches Update.
 notice_successful_delete: Erfolgreiche Auslassung.
-notice_successful_connection: Erfolgreicher Anschluß.
-notice_file_not_found: Erbetene Akte besteht nicht oder ist gelöscht worden.
-notice_locking_conflict: Data have been updated by another user.
-notice_scm_error: Eintragung und/oder Neuausgabe besteht nicht im Behälter.
+notice_successful_connection: Verbindung erfolgreich.
+notice_file_not_found: Anhang besteht nicht oder ist gelöscht worden.
+notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
+notice_scm_error: Eintrag und/oder Revision besteht nicht im SVN.
 
 mail_subject_lost_password: Dein redMine Kennwort
 mail_subject_register: redMine Kontoaktivierung
@@ -81,11 +81,11 @@ field_firstname: Vorname
 field_lastname: Nachname
 field_mail: Email
 field_filename: Datei
-field_filesize: Grootte
+field_filesize: Größe
 field_downloads: Downloads
 field_author: Autor
 field_created_on: Angelegt
-field_updated_on: aktualisiert
+field_updated_on: Aktualisiert
 field_field_format: Format
 field_is_for_all: Für alle Projekte
 field_possible_values: Mögliche Werte
@@ -94,13 +94,13 @@ field_min_length: Minimale Länge
 field_max_length: Maximale Länge
 field_value: Wert
 field_category: Kategorie
-field_title: Títel
+field_title: Titel
 field_project: Projekt
-field_issue: Antrag
+field_issue: Ticket
 field_status: Status
-field_notes: Anmerkungen
+field_notes: Kommentare
 field_is_closed: Problem erledigt
-field_is_default: Rückstellung status
+field_is_default: Default
 field_html_color: Farbe
 field_tracker: Tracker
 field_subject: Thema
@@ -113,8 +113,8 @@ field_role: Rolle
 field_homepage: Startseite
 field_is_public: Öffentlich
 field_parent: Subprojekt von
-field_is_in_chlog: Ansicht der Issues in der Historie
-field_is_in_roadmap: Ansicht der Issues in der Roadmap
+field_is_in_chlog: Ansicht in der Changelog
+field_is_in_roadmap: Ansicht in der Roadmap
 field_login: Mitgliedsname
 field_mail_notification: Mailbenachrichtigung
 field_admin: Administrator
@@ -136,27 +136,27 @@ field_attr_lastname: Namenattribut
 field_attr_mail: Emailattribut
 field_onthefly: On-the-fly Benutzerkreation
 field_start_date: Beginn
-field_done_ratio: %% Getan
-field_auth_source: Authentisierung Modus
-field_hide_mail: Mein email address verstecken
-field_comment: Anmerkung
+field_done_ratio: %% erledigt
+field_auth_source: Authentifizierungs Modus
+field_hide_mail: Email Adresse nicht anzeigen
+field_comment: Kommentar
 field_url: URL
 field_start_page: Hauptseite
-field_subproject: Vorprojekt von
+field_subproject: Subprojekt von
 
 setting_app_title: Applikation Titel
 setting_app_subtitle: Applikation Untertitel
-setting_welcome_text: Willkommener Text
-setting_default_language: Rückstellung Sprache
+setting_welcome_text: Willkommenstext
+setting_default_language: Default Sprache
 setting_login_required: Authent. erfordert
-setting_self_registration: Selbstausrichtung ermöglicht
-setting_attachment_max_size: Dateimaximumgröße
-setting_issues_export_limit: Issues export limit
-setting_mail_from: Emission address
+setting_self_registration: Anmeldung ermöglicht
+setting_attachment_max_size: max. Dateigröße
+setting_issues_export_limit: Limit Export Tickets
+setting_mail_from: Mail Absender
 setting_host_name: Host Name
 setting_text_formatting: Textformatierung
-setting_wiki_compression: Wiki Geschichte Kompression
-setting_feeds_limit: Feed content limit
+setting_wiki_compression: Wiki Historie komprimieren
+setting_feeds_limit: Limit Feed Inhalt
 
 label_user: Benutzer
 label_user_plural: Benutzer
@@ -165,10 +165,10 @@ label_project: Projekt
 label_project_new: Neues Projekt
 label_project_plural: Projekte
 label_project_latest: Neueste Projekte
-label_issue: Antrag
-label_issue_new: Neue Antrag
-label_issue_plural: Anträge
-label_issue_view_all: Alle Anträge ansehen
+label_issue: Ticket
+label_issue_new: Neues Ticket
+label_issue_plural: Tickets
+label_issue_view_all: Alle Tickets ansehen
 label_document: Dokument
 label_document_new: Neues Dokument
 label_document_plural: Dokumente
@@ -183,11 +183,11 @@ label_tracker: Tracker
 label_tracker_plural: Tracker
 label_tracker_new: Neuer Tracker
 label_workflow: Workflow
-label_issue_status: Antrag Status
-label_issue_status_plural: Antrag Stati
+label_issue_status: Ticket Status
+label_issue_status_plural: Ticket Stati
 label_issue_status_new: Neuer Status
-label_issue_category: Antrag Kategorie
-label_issue_category_plural: Antrag Kategorien
+label_issue_category: Ticket Kategorie
+label_issue_category_plural: Ticket Kategorien
 label_issue_category_new: Neue Kategorie
 label_custom_field: Benutzerdefiniertes Feld
 label_custom_field_plural: Benutzerdefinierte Felder
@@ -207,46 +207,46 @@ label_administration: Administration
 label_login: Einloggen
 label_logout: Abmelden
 label_help: Hilfe
-label_reported_issues: Gemeldete Issues
+label_reported_issues: Gemeldete Tickets
 label_assigned_to_me_issues: Mir zugewiesen
 label_last_login: Letzte Anmeldung
-label_last_updates: Letztes aktualisiertes
-label_last_updates_plural: %d Letztes aktualisiertes
+label_last_updates: zuletzt aktualisiert
+label_last_updates_plural: %d zuletzt aktualisierten
 label_registered_on: Angemeldet am
 label_activity: Aktivität
-label_new: Neue
+label_new: Neu
 label_logged_as: Angemeldet als
 label_environment: Environment
-label_authentication: Authentisierung
-label_auth_source: Authentisierung Modus
-label_auth_source_new: Neuer Authentisierung Modus
-label_auth_source_plural: Authentisierung Modi
-label_subproject_plural: Vorprojekte
+label_authentication: Authentifizierung
+label_auth_source: Authentifizierungs Modus
+label_auth_source_new: Neuer Authentifizierungs Modus
+label_auth_source_plural: Authentifizierungs Arten
+label_subproject_plural: Sub Projekte
 label_min_max_length: Min - Max Länge
 label_list: Liste
-label_date: Date
+label_date: Datum
 label_integer: Zahl
-label_boolean: Boolesch
+label_boolean: Boolean
 label_string: Text
 label_text: Langer Text
 label_attribute: Attribut
 label_attribute_plural: Attribute
-label_download: %d Herunterlade
-label_download_plural: %d Herunterlade
+label_download: %d Download
+label_download_plural: %d Downloads
 label_no_data: Nichts anzuzeigen
 label_change_status: Statuswechsel
 label_history: Historie
 label_attachment: Datei
 label_attachment_new: Neue Datei
-label_attachment_delete: Löschungakten
+label_attachment_delete: Anhang löschen
 label_attachment_plural: Dateien
 label_report: Bericht
 label_report_plural: Berichte
-label_news: Neuigkeit
-label_news_new: Neuigkeite addieren
-label_news_plural: Neuigkeiten
-label_news_latest: Letzte Neuigkeiten
-label_news_view_all: Alle Neuigkeiten anzeigen
+label_news: News
+label_news_new: News hinzufügen
+label_news_plural: News
+label_news_latest: Letzte News
+label_news_view_all: Alle News anzeigen
 label_change_log: Change log
 label_settings: Konfiguration
 label_overview: Übersicht
@@ -257,43 +257,43 @@ label_confirmation: Bestätigung
 label_export_to: Export zu
 label_read: Lesen...
 label_public_projects: Öffentliche Projekte
-label_open_issues: geöffnet
-label_open_issues_plural: geöffnet
+label_open_issues: offen
+label_open_issues_plural: offen
 label_closed_issues: geschlossen
 label_closed_issues_plural: geschlossen
 label_total: Gesamtzahl
 label_permissions: Berechtigungen
 label_current_status: Gegenwärtiger Status
-label_new_statuses_allowed: Neue Status gewährten
+label_new_statuses_allowed: Neue Berechtigungen
 label_all: alle
 label_none: kein
 label_next: Weiter
 label_previous: Zurück
 label_used_by: Benutzt von
 label_details: Details...
-label_add_note: Eine Anmerkung addieren
+label_add_note: Kommentar hinzufügen
 label_per_page: Pro Seite
 label_calendar: Kalender
-label_months_from: Monate von
+label_months_from: Monate ab
 label_gantt: Gantt
 label_internal: Intern
-label_last_changes: %d änderungen des Letzten
-label_change_view_all: Alle änderungen ansehen
-label_personalize_page: Diese Seite personifizieren
-label_comment: Anmerkung
-label_comment_plural: Anmerkungen
-label_comment_add: Anmerkung addieren
-label_comment_added: Anmerkung fügte hinzu
-label_comment_delete: Anmerkungen löschen
-label_query: Benutzerdefiniertes Frage
-label_query_plural: Benutzerdefinierte Fragen
-label_query_new: Neue Frage
-label_filter_add: Filter addieren
+label_last_changes: %d letzte Änderungen
+label_change_view_all: Alle Änderungen ansehen
+label_personalize_page: Diese Seite anpassen
+label_comment: Kommentar
+label_comment_plural: Kommentare
+label_comment_add: Kommentar hinzufügen
+label_comment_added: Kommentar hinzugefügt
+label_comment_delete: Kommentar löschen
+label_query: Benutzerdefinierte Abfrage
+label_query_plural: Benutzerdefinierte Berichte
+label_query_new: Neuer Bericht
+label_filter_add: Filter hinzufügen
 label_filter_plural: Filter
 label_equals: ist
 label_not_equals: ist nicht
-label_in_less_than: an weniger als
-label_in_more_than: an mehr als
+label_in_less_than: in weniger als
+label_in_more_than: in mehr als
 label_in: an
 label_today: heute
 label_less_than_ago: vor weniger als
@@ -302,23 +302,23 @@ label_ago: vor
 label_contains: enthält
 label_not_contains: enthält nicht
 label_day_plural: Tage
-label_repository: SVN Behälter
-label_browse: Grasen
-label_modification: %d änderung
-label_modification_plural: %d änderungen
-label_revision: Neuausgabe
-label_revision_plural: Neuausgaben
+label_repository: SVN
+label_browse: Codebrowser
+label_modification: %d Änderung
+label_modification_plural: %d Änderungen
+label_revision: Revision
+label_revision_plural: Revisionen
 label_added: hinzugefügt
 label_modified: geändert
 label_deleted: gelöscht
-label_latest_revision: Neueste Neuausgabe
-label_view_revisions: Die Neuausgaben ansehen
+label_latest_revision: Aktuelleste Revision
+label_view_revisions: Revisionen anzeigen
 label_max_size: Maximale Größe
-label_on: auf
-label_sort_highest: Erste
-label_sort_higher: Aufzurichten
-label_sort_lower: Herabzusteigen
-label_sort_lowest: Letzter
+label_on: von
+label_sort_highest: Anfang
+label_sort_higher: eins höher
+label_sort_lower: eins tiefer
+label_sort_lowest: Ende
 label_roadmap: Roadmap
 label_search: Suche
 label_result: %d Resultat
@@ -327,13 +327,13 @@ label_all_words: Alle Wörter
 label_wiki: Wiki
 label_page_index: Index
 label_current_version: Gegenwärtige Version
-label_preview: Vorbetrachtung
+label_preview: Preview
 label_feed_plural: Feeds
-label_changes_details: Details of all changes
-label_issue_tracking: Issue tracking
+label_changes_details: Details aller Änderungen
+label_issue_tracking: Tickets
 
 button_login: Einloggen
-button_submit: Einreichen
+button_submit: OK
 button_save: Speichern
 button_check_all: Alles auswählen
 button_uncheck_all: Alles abwählen
@@ -345,26 +345,26 @@ button_add: Hinzufügen
 button_change: Wechseln
 button_apply: Anwenden
 button_clear: Zurücksetzen
-button_lock: Verriegeln
+button_lock: Sperren
 button_unlock: Entriegeln
-button_download: Fernzuladen
-button_list: Aufzulisten
+button_download: Download
+button_list: Liste
 button_view: Siehe
-button_move: Bewegen
-button_back: Rückkehr
-button_cancel: Annullieren
+button_move: Gehe zu
+button_back: Zurück
+button_cancel: Abbrechen
 button_activate: Aktivieren
 button_sort: Sortieren
 
-status_active: active
-status_registered: registered
-status_locked: locked
+status_active: aktiv
+status_registered: angemeldet
+status_locked: gesperrt
 
 text_select_mail_notifications: Aktionen für die Mailbenachrichtigung aktiviert werden soll.
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 heisst keine Beschränkung
 text_project_destroy_confirmation: Sind sie sicher, daß sie das Projekt löschen wollen ?
-text_workflow_edit: Auswahl Workflow zum Bearbeiten
+text_workflow_edit: Workflow zum Bearbeiten auswählen
 text_are_you_sure: Sind sie sicher ?
 text_journal_changed: geändert von %s zu %s
 text_journal_set_to: gestellt zu %s
@@ -393,5 +393,5 @@ default_priority_high: Hoch
 default_priority_urgent: Dringend
 default_priority_immediate: Sofort
 
-enumeration_issue_priorities: Issue-Prioritäten
+enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
