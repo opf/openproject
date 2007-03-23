@@ -1,6 +1,6 @@
 <h2><%=l(:field_mail_notification)%></h2>
 
-<% form_tag ({:action => 'mail_options'}, :id => 'mail_options_form') do %>
+<% form_tag({:action => 'mail_options'}, :id => 'mail_options_form') do %>
 
 <div class="box">
 <p><%=l(:text_select_mail_notifications)%></p>
@@ -18,7 +18,7 @@
 <% end %>
 
 <br />
-<p><%= check_all_links 'mail_options_form' %></p>
+<p><%= check_all_links('mail_options_form') %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>
