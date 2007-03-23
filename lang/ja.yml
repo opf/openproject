@@ -329,6 +329,8 @@ label_result: %d 件の結果
 label_result_plural: %d 件の結果
 label_all_words: すべての単語
 label_wiki: Wiki
+label_wiki_edit: Wiki edit
+label_wiki_edit_plural: Wiki edits
 label_page_index: 索引
 label_current_version: 最近版
 label_preview: 下検分

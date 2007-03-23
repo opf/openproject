@@ -9,7 +9,8 @@
     <%= check_box_tag 'show_issues', 1, @show_issues %><%= hidden_field_tag 'show_issues', 0, :id => nil %> <%=l(:label_issue_plural)%><br />
     <%= check_box_tag 'show_news', 1, @show_news %><%= hidden_field_tag 'show_news', 0, :id => nil %> <%=l(:label_news_plural)%><br />
     <%= check_box_tag 'show_files', 1, @show_files %><%= hidden_field_tag 'show_files', 0, :id => nil %> <%=l(:label_attachment_plural)%><br />
-    <%= check_box_tag 'show_documents', 1, @show_documents %><%= hidden_field_tag 'show_documents', 0, :id => nil %> <%=l(:label_document_plural)%>
+    <%= check_box_tag 'show_documents', 1, @show_documents %><%= hidden_field_tag 'show_documents', 0, :id => nil %> <%=l(:label_document_plural)%><br />
+    <%= check_box_tag 'show_wiki_edits', 1, @show_wiki_edits %><%= hidden_field_tag 'show_wiki_edits', 0, :id => nil %> <%=l(:label_wiki_edit_plural)%>
 </p>
 <p class="textcenter"><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
 <% end %>
@@ -35,6 +36,9 @@
         <i><%= e.author.name %></i>
     <% elsif e.is_a? Document %>
       <%= e.created_on.strftime("%H:%M") %> <%=l(:label_document)%>: <%= link_to h(e.title), :controller => 'documents', :action => 'show', :id => e %><br />
+    <% elsif e.is_a? WikiContent.versioned_class %>
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_wiki_edit)%>: <%= link_to h(WikiPage.pretty_title(e.title)), :controller => 'wiki', :page => e.title %> (<%= link_to '#' + e.version.to_s, :controller => 'wiki', :page => e.title, :version => e.version %>)<br />
+      <% unless e.comment.blank? %><em><%=h e.comment %></em><% end %>
     <% end %>
     </p></li>
   

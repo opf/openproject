@@ -328,6 +328,8 @@ label_result: %d resultado
 label_result_plural: %d resultados
 label_all_words: Todas las palabras
 label_wiki: Wiki
+label_wiki_edit: Wiki edit
+label_wiki_edit_plural: Wiki edits
 label_page_index: Índice
 label_current_version: Versión actual
 label_preview: Previo

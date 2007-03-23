@@ -29,6 +29,10 @@ class WikiPage < ActiveRecord::Base
   end
   
   def pretty_title
-    title.tr '_', ' '
+    WikiPage.pretty_title(title)
+  end
+  
+  def self.pretty_title(str)
+    (str && str.is_a?(String)) ? str.tr('_', ' ') : str
   end
 end

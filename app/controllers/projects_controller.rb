@@ -499,6 +499,26 @@ class ProjectsController < ApplicationController
       @show_documents = 1 
     end
     
+    unless params[:show_wiki_edits] == "0"
+      select = "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comment, " +
+               "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title"
+      joins = "LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
+              "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id "
+      conditions = ["#{Wiki.table_name}.project_id = ? AND #{WikiContent.versioned_table_name}.updated_on BETWEEN ? AND ?",
+                    @project.id, @date_from, @date_to]
+
+      WikiContent.versioned_class.find(:all, :select => select, :joins => joins, :conditions => conditions).each { |i|
+        # We provide this alias so all events can be treated in the same manner
+        def i.created_on
+          self.updated_on
+        end
+
+        @events_by_day[i.created_on.to_date] ||= []
+        @events_by_day[i.created_on.to_date] << i
+      }
+      @show_wiki_edits = 1
+    end
+
     render :layout => false if request.xhr?
   end
   
