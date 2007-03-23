@@ -458,6 +458,15 @@ permissions_061:
   mail_option: false
   sort: 130
   is_public: true
+permissions_062: 
+  action: roadmap
+  id: 63
+  description: label_roadmap
+  controller: projects
+  mail_enabled: false
+  mail_option: false
+  sort: 107
+  is_public: true
 permissions_050: 
   action: history
   id: 50

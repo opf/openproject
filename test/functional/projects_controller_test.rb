@@ -112,6 +112,20 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:fixed_issues)
   end
   
+  def test_roadmap
+    get :roadmap, :id => 1
+    assert_response :success
+    assert_template 'roadmap'
+    assert_not_nil assigns(:versions)
+  end
+
+  def test_activity
+    get :activity, :id => 1
+    assert_response :success
+    assert_template 'activity'
+    assert_not_nil assigns(:events_by_day)
+  end
+  
   def test_search
     get :search, :id => 1
     assert_response :success
