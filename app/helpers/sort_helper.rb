@@ -107,10 +107,10 @@ module SortHelper
       order = 'desc' # changed for desc order by default
     end
     caption = titleize(Inflector::humanize(column)) unless caption
-    params = {:params => {:sort_key => column, :sort_order => order}}
+    #params = {:params => {:sort_key => column, :sort_order => order}}
     link_to_remote(caption,
-                  {:update => "content", :url => { :sort_key => column, :sort_order => order}},
-                  {:href => url_for(:params => { :sort_key => column, :sort_order => order})}) +
+                  {:update => "content", :url => params.update( :sort_key => column, :sort_order => order)},
+                  {:href => url_for(:params => params.update(:sort_key => column, :sort_order => order))}) +
     (icon ? nbsp(2) + image_tag(icon) : '')
   end
 

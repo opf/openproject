@@ -143,6 +143,9 @@ field_comment: Commento
 field_url: URL
 field_start_page: Pagina principale
 field_subproject: Sottoprogetto
+field_hours: Hours
+field_activity: Activity
+field_spent_on: Data
 
 setting_app_title: Titolo applicazione
 setting_app_subtitle: Sottotitolo applicazione
@@ -331,6 +334,10 @@ label_preview: Previsione
 label_feed_plural: Feeds
 label_changes_details: Particolari di tutti i cambiamenti
 label_issue_tracking: Issue tracking
+label_spent_time: Spent time
+label_f_hour: %.2f hour
+label_f_hour_plural: %.2f hours
+label_time_tracking: Time tracking
 
 button_login: Login
 button_submit: Invia
@@ -355,6 +362,7 @@ button_back: Indietro
 button_cancel: Annulla
 button_activate: Attiva
 button_sort: Ordina
+button_log_time: Log time
 
 status_active: active
 status_registered: registered
@@ -392,6 +400,9 @@ default_priority_normal: Normale
 default_priority_high: Alta
 default_priority_urgent: Urgente
 default_priority_immediate: Immediata
+default_activity_design: Design
+default_activity_development: Development
 
 enumeration_issue_priorities: Priorità contesti
 enumeration_doc_categories: Categorie di documenti
+enumeration_activities: Activities (time tracking)

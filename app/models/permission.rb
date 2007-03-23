@@ -30,7 +30,8 @@ class Permission < ActiveRecord::Base
     1100 => :label_news_plural,
     1200 => :label_document_plural,
     1300 => :label_attachment_plural,
-    1400 => :label_repository
+    1400 => :label_repository,
+    1500 => :label_time_tracking
   }.freeze
   
   @@cached_perms_for_public = nil

@@ -39,7 +39,7 @@ begin
   manager.permissions = Permission.find(:all, :conditions => ["is_public=?", false])
   
   developper = Role.create :name => l(:default_role_developper), :position => 2
-  perms = [150, 320, 321, 322, 420, 421, 422, 1050, 1060, 1070, 1075, 1130, 1220, 1221, 1222, 1223, 1224, 1320, 1322, 1061, 1057]
+  perms = [150, 320, 321, 322, 420, 421, 422, 1050, 1060, 1070, 1075, 1130, 1220, 1221, 1222, 1223, 1224, 1320, 1322, 1061, 1057, 1520]
   developper.permissions = Permission.find(:all, :conditions => ["sort IN (#{perms.join(',')})"])
   
   reporter = Role.create :name => l(:default_role_reporter), :position => 3
@@ -88,12 +88,16 @@ begin
   # enumerations
   Enumeration.create(:opt => "DCAT", :name => l(:default_doc_category_user))
   Enumeration.create(:opt => "DCAT", :name => l(:default_doc_category_tech))
+
   Enumeration.create(:opt => "IPRI", :name => l(:default_priority_low))
   Enumeration.create(:opt => "IPRI", :name => l(:default_priority_normal))
   Enumeration.create(:opt => "IPRI", :name => l(:default_priority_high))
   Enumeration.create(:opt => "IPRI", :name => l(:default_priority_urgent))
   Enumeration.create(:opt => "IPRI", :name => l(:default_priority_immediate))
-  
+
+  Enumeration.create(:opt => "ACTI", :name => l(:default_activity_design))
+  Enumeration.create(:opt => "ACTI", :name => l(:default_activity_development))
+ 
 rescue => error
   puts "Error: " + error
   puts "Default configuration data can't be loaded."

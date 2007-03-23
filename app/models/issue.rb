@@ -28,7 +28,7 @@ class Issue < ActiveRecord::Base
 
   has_many :journals, :as => :journalized, :dependent => :destroy
   has_many :attachments, :as => :container, :dependent => :destroy
-
+  has_many :time_entries
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :custom_fields, :through => :custom_values
 
@@ -90,6 +90,10 @@ class Issue < ActiveRecord::Base
     @custom_values_before_change = {}
     self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
     @current_journal
+  end
+  
+  def spent_hours
+    @spent_hours ||= time_entries.sum(:hours) || 0
   end
 
 private

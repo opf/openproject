@@ -21,6 +21,7 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :members
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_on DESC", :include => [:status, :tracker]
+  has_many :time_entries, :dependent => :delete_all
   has_many :queries, :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :delete_all, :include => :author

@@ -24,7 +24,8 @@ class Enumeration < ActiveRecord::Base
 	
 	OPTIONS = {
 	  "IPRI" => :enumeration_issue_priorities,
-      "DCAT" => :enumeration_doc_categories
+      "DCAT" => :enumeration_doc_categories,
+      "ACTI" => :enumeration_activities
 	}.freeze
 	
 	def self.get_values(option)
@@ -42,6 +43,8 @@ private
       raise "Can't delete enumeration" if Issue.find(:first, :conditions => ["priority_id=?", self.id])
     when "DCAT"
       raise "Can't delete enumeration" if Document.find(:first, :conditions => ["category_id=?", self.id])
+    when "ACTI"
+      raise "Can't delete enumeration" if TimeEntry.find(:first, :conditions => ["activity_id=?", self.id])
     end
   end
 end

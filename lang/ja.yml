@@ -144,6 +144,9 @@ field_comment: コメント
 field_url: URL
 field_start_page: メインページ
 field_subproject: サブプロジェクト
+field_hours: Hours
+field_activity: Activity
+field_spent_on: 日付
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -332,6 +335,10 @@ label_preview: 下検分
 label_feed_plural: Feeds
 label_changes_details: Details of all changes
 label_issue_tracking: Issue tracking
+label_spent_time: Spent time
+label_f_hour: %.2f hour
+label_f_hour_plural: %.2f hours
+label_time_tracking: Time tracking
 
 button_login: ログイン
 button_submit: 変更
@@ -356,6 +363,7 @@ button_back: 戻る
 button_cancel: キャンセル
 button_activate: 有効にする
 button_sort: ソート
+button_log_time: Log time
 
 status_active: active
 status_registered: registered
@@ -393,6 +401,9 @@ default_priority_normal: 通常
 default_priority_high: 高め
 default_priority_urgent: 急いで
 default_priority_immediate: 今すぐ
+default_activity_design: Design
+default_activity_development: Development
 
 enumeration_issue_priorities: 問題の優先度
 enumeration_doc_categories: 文書カテゴリ
+enumeration_activities: Activities (time tracking)

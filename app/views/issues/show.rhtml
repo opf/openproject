@@ -28,7 +28,8 @@
 </tr>
 <tr>
     <td><b><%=l(:field_fixed_version)%> :</b></td><td><%= @issue.fixed_version ? @issue.fixed_version.name : "-" %></td>
-    <td></td><td></td>
+    <td><b><%=l(:label_spent_time)%> :</b></td>
+    <td><%= @issue.spent_hours > 0 ? (link_to lwr(:label_f_hour, @issue.spent_hours), {:controller => 'timelog', :action => 'details', :issue_id => @issue}, :class => 'icon icon-time') : "-" %></td>
 </tr>
 <tr>
 <% n = 0
@@ -51,6 +52,7 @@ end %>
 
 <div class="contextual">
 <%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit' %>
+<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
 <%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'icon icon-move' %>
 <%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
