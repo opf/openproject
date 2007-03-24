@@ -127,7 +127,8 @@ module ApplicationHelper
     text = text.gsub(/r(\d+)(?=\b)/) {|m| "\"r#{$1}\":" + url_for(:controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1) } if @project
    
     # finally textilize text
-    text = (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize") ? auto_link(RedCloth.new(text, [:filter_html]).to_html) : simple_format(auto_link(h(text)))
+    @do_textilize ||= (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize")
+    text = @do_textilize ? auto_link(RedCloth.new(text, [:filter_html]).to_html) : simple_format(auto_link(h(text)))
   end
   
   def error_messages_for(object_name, options = {})
