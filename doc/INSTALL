@@ -34,7 +34,7 @@ Supported databases:
    for "production" environment (default database is MySQL)
 
 4. Create the database structure. Under the application main directory:
-   rake migrate RAILS_ENV="production"
+   rake db:migrate RAILS_ENV="production"
    It will create tables and an administrator account.
 
 5. Insert default configuration data in database:
