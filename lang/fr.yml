@@ -325,6 +325,8 @@ label_sort_higher: Remonter
 label_sort_lower: Descendre
 label_sort_lowest: Descendre en dernier
 label_roadmap: Roadmap
+label_roadmap_due_in: Echéance dans
+label_roadmap_no_issues: Aucune demande pour cette version
 label_search: Recherche
 label_result: %d résultat
 label_result_plural: %d résultats

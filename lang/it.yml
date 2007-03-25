@@ -325,6 +325,8 @@ label_sort_higher: Su
 label_sort_lower: Giù
 label_sort_lowest: Sposta in fondo
 label_roadmap: Roadmap
+label_roadmap_due_in: Due in 
+label_roadmap_no_issues: No issues for this version
 label_search: Ricerca
 label_result: %d risultato
 label_result_plural: %d risultati

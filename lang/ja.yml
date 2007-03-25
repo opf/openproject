@@ -326,6 +326,8 @@ label_sort_higher: 上へ
 label_sort_lower: 下へ
 label_sort_lowest: 一番下へ
 label_roadmap: ロードマップ
+label_roadmap_due_in: Due in 
+label_roadmap_no_issues: No issues for this version
 label_search: 検索
 label_result: %d 件の結果
 label_result_plural: %d 件の結果

@@ -501,6 +501,20 @@ img.calendar-trigger {
     margin-left: 34px;
 }
 
+.progress {
+    border: 1px solid #D7D7D7;
+    border-collapse: collapse;
+    border-spacing: 0pt;
+    empty-cells: show;
+    padding: 3px;
+    width: 40em;
+    text-align: center;
+}
+
+.progress td { height: 1em; }
+.progress .closed { background: #BAE0BA none repeat scroll 0%; }
+.progress .open { background: #FFF none repeat scroll 0%; }
+
 /***** Contextual links div *****/
 .contextual {
 float: right;
