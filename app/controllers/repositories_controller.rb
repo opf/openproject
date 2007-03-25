@@ -47,7 +47,16 @@ class RepositoriesController < ApplicationController
       @entry = @repository.scm.entry(@path, @rev)  
       show_error and return unless @entry
     end
-    @changesets = @repository.changesets_for_path(@path)
+    @repository.changesets_with_path @path do
+      @changeset_count = @repository.changesets.count
+      @changeset_pages = Paginator.new self, @changeset_count,
+  								      25,
+  								      params['page']								
+      @changesets = @repository.changesets.find(:all,
+  						:limit  =>  @changeset_pages.items_per_page,
+  						:offset =>  @changeset_pages.current.offset)
+    end
+    render :action => "revisions", :layout => false if request.xhr?
   end
   
   def entry

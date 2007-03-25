@@ -36,6 +36,15 @@ class Repository < ActiveRecord::Base
     super if root_url.blank?
   end
   
+  def changesets_with_path(path="")
+    path = "/#{path}%"
+    path = url.gsub(/^#{root_url}/, '') + path if root_url && root_url != url
+    path.squeeze!("/")
+    Changeset.with_scope(:find => { :include => :changes, :conditions => ["#{Change.table_name}.path LIKE ?", path] }) do 
+      yield
+    end 
+  end
+  
   def changesets_for_path(path="")
     path = "/#{path}%"
     path = url.gsub(/^#{root_url}/, '') + path if root_url && root_url != url
