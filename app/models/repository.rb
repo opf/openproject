@@ -45,14 +45,6 @@ class Repository < ActiveRecord::Base
     end 
   end
   
-  def changesets_for_path(path="")
-    path = "/#{path}%"
-    path = url.gsub(/^#{root_url}/, '') + path if root_url && root_url != url
-    path.squeeze!("/")
-    changesets.find(:all, :include => :changes,
-                          :conditions => ["#{Change.table_name}.path LIKE ?", path])
-  end
-  
   def fetch_changesets
     scm_info = scm.info
     if scm_info
@@ -80,7 +72,7 @@ class Repository < ActiveRecord::Base
                               :from_revision => change[:from_revision])
               end
             end
-          end
+          end unless revisions.nil?
           identifier_from = identifier_to + 1
         end
       end
