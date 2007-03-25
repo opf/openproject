@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -39,20 +39,27 @@ module SvnRepos
       @url
     end
 
-    # finds the root url of the svn repository
-    def retrieve_root_url
+    # get info about the svn repository
+    def info
       cmd = "svn info --xml #{target('')}"
       cmd << " --username #{@login} --password #{@password}" if @login
-      root_url = nil
+      info = nil
       shellout(cmd) do |io|
         begin
           doc = REXML::Document.new(io)
-          root_url = doc.elements["info/entry/repository/root"].text
+          #root_url = doc.elements["info/entry/repository/root"].text          
+          info = Info.new({:root_url => doc.elements["info/entry/repository/root"].text,
+                           :lastrev => Revision.new({
+                             :identifier => doc.elements["info/entry/commit"].attributes['revision'],
+                             :time => Time.parse(doc.elements["info/entry/commit/date"].text),
+                             :author => (doc.elements["info/entry/commit/author"] ? doc.elements["info/entry/commit/author"].text : "")
+                           })
+                         })
         rescue
         end
       end
       return nil if $? && $?.exitstatus != 0
-      root_url
+      info
     rescue Errno::ENOENT => e
       return nil
     end
@@ -83,7 +90,7 @@ module SvnRepos
                         :lastrev => Revision.new({
                           :identifier => entry.elements['commit'].attributes['revision'],
                           :time => Time.parse(entry.elements['commit'].elements['date'].text),
-                          :author => (entry.elements['commit'].elements['author'] ? entry.elements['commit'].elements['author'].text : "anonymous")
+                          :author => (entry.elements['commit'].elements['author'] ? entry.elements['commit'].elements['author'].text : "")
                           })
                         })
           end
@@ -112,13 +119,15 @@ module SvnRepos
             paths = []
             logentry.elements.each("paths/path") do |path|
               paths << {:action => path.attributes['action'],
-                        :path => path.text
+                        :path => path.text,
+                        :from_path => path.attributes['copyfrom-path'],
+                        :from_revision => path.attributes['copyfrom-rev']
                         }
             end
             paths.sort! { |x,y| x[:path] <=> y[:path] }
             
             revisions << Revision.new({:identifier => logentry.attributes['revision'],
-                          :author => (logentry.elements['author'] ? logentry.elements['author'].text : "anonymous"),
+                          :author => (logentry.elements['author'] ? logentry.elements['author'].text : ""),
                           :time => Time.parse(logentry.elements['date'].text),
                           :message => logentry.elements['msg'].text,
                           :paths => paths
@@ -171,7 +180,12 @@ module SvnRepos
       raise CommandFailed    
     end
   
-  private
+  private    
+    def retrieve_root_url
+      info = self.info
+      info ? info.root_url : nil
+    end
+    
     def target(path)
       path ||= ""
       base = path.match(/^\//) ? root_url : url    
@@ -204,6 +218,14 @@ module SvnRepos
     
     def revisions
       revisions ||= Revisions.new(collect{|entry| entry.lastrev})
+    end
+  end
+  
+  class Info
+    attr_accessor :root_url, :lastrev
+    def initialize(attributes={})
+      self.root_url = attributes[:root_url] if attributes[:root_url]
+      self.lastrev = attributes[:lastrev]
     end
   end
   

@@ -50,3 +50,5 @@ host_name:
 feeds_limit:
   format: int
   default: 15
+autofetch_changesets:
+  default: 1

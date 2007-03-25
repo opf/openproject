@@ -30,7 +30,7 @@
 <%= hidden_field_tag "repository_enabled", 0 %>
 <div id="repository">
 <% fields_for :repository, @project.repository, { :builder => TabularFormBuilder, :lang => current_language} do |repository| %>
-<p><%= repository.text_field :url, :size => 60, :required => true %><br />(http://, https://, svn://, file:///)</p>
+<p><%= repository.text_field :url, :size => 60, :required => true, :disabled => (@project.repository && !@project.repository.root_url.blank?) %><br />(http://, https://, svn://, file:///)</p>
 <p><%= repository.text_field :login, :size => 30 %></p>
 <p><%= repository.password_field :password, :size => 30 %></p>
 <% end %>

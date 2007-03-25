@@ -160,6 +160,7 @@ setting_host_name: Nome host
 setting_text_formatting: Formattazione testo
 setting_wiki_compression: Compressione di storia di Wiki
 setting_feeds_limit: Feed content limit
+setting_autofetch_changesets: Autofetch SVN commits
 
 label_user: Utente
 label_user_plural: Utenti
@@ -315,6 +316,7 @@ label_added: aggiunto
 label_modified: modificato
 label_deleted: eliminato
 label_latest_revision: Ultima versione
+label_latest_revision_plural: Latest revisions
 label_view_revisions: Mostra versioni
 label_max_size: Dimensione massima
 label_on: 'on'

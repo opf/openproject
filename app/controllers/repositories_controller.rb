@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,9 +20,16 @@ class RepositoriesController < ApplicationController
   before_filter :find_project, :authorize
 
   def show
+    # get entries for the browse frame
     @entries = @repository.scm.entries('')
     show_error and return unless @entries
-    @latest_revision = @entries.revisions.latest
+    # check if new revisions have been committed in the repository
+    scm_latestrev = @entries.revisions.latest
+    if Setting.autofetch_changesets? && scm_latestrev && ((@repository.latest_changeset.nil?) || (@repository.latest_changeset.revision < scm_latestrev.identifier.to_i))
+      @repository.fetch_changesets
+      @repository.reload
+    end
+    @changesets = @repository.changesets.find(:all, :limit => 5, :order => "committed_on DESC")
   end
   
   def browse
@@ -31,9 +38,11 @@ class RepositoriesController < ApplicationController
   end
   
   def revisions
-    @entry = @repository.scm.entry(@path, @rev)
-    @revisions = @repository.scm.revisions(@path, @rev)
-    show_error and return unless @entry && @revisions
+    unless @path == ''
+      @entry = @repository.scm.entry(@path, @rev)  
+      show_error and return unless @entry
+    end
+    @changesets = @repository.changesets_for_path(@path)
   end
   
   def entry
@@ -45,9 +54,8 @@ class RepositoriesController < ApplicationController
   end
   
   def revision
-    @revisions = @repository.scm.revisions '', @rev, @rev, :with_paths => true
-    show_error and return unless @revisions
-    @revision = @revisions.first  
+    @changeset = @repository.changesets.find_by_revision(@rev)
+    show_error and return unless @changeset
   end
   
   def diff

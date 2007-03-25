@@ -161,6 +161,7 @@ setting_host_name: ホスト名
 setting_text_formatting: テキストの書式
 setting_wiki_compression: Wiki history compression
 setting_feeds_limit: Feed content limit
+setting_autofetch_changesets: Autofetch SVN commits
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -316,6 +317,7 @@ label_added: 追加された
 label_modified: 変更された
 label_deleted: 削除された
 label_latest_revision: 最新リビジョン
+label_latest_revision_plural: Latest revisions
 label_view_revisions: リビジョンを見る
 label_max_size: 最大サイズ
 label_on: 他

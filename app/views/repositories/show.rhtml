@@ -1,16 +1,13 @@
 <h2><%= l(:label_repository) %></h2>
 
-<h3><%= l(:label_revision_plural) %></h3>
-<% if @latest_revision %>
-    <p><%= l(:label_latest_revision) %>:
-    <%= link_to @latest_revision.identifier, :action => 'revision', :id => @project, :rev => @latest_revision.identifier %><br />
-    <em><%= @latest_revision.author %>, <%= format_time(@latest_revision.time) %></em></p>
-<% end %>
-<p><%= link_to l(:label_view_revisions), :action => 'revisions', :id => @project %></p>
-
-
 <h3><%= l(:label_browse) %></h3>
 <%= render :partial => 'dir_list' %>
+
+<% unless @changesets.empty? %>
+<h3><%= l(:label_latest_revision_plural) %></h3>
+<%= render :partial => 'revisions', :locals => {:project => @project, :path => '', :changesets => @changesets, :entry => nil }%>
+<p><%= link_to l(:label_view_revisions), :action => 'revisions', :id => @project %></p>
+<% end %>
 
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>

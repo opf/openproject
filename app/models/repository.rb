@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,6 +17,11 @@
 
 class Repository < ActiveRecord::Base
   belongs_to :project
+  has_many :changesets, :dependent => :destroy, :order => 'revision DESC'
+  has_one  :latest_changeset, :class_name => 'Changeset', :foreign_key => :repository_id, :order => 'revision DESC'
+  
+  attr_protected :root_url
+  
   validates_presence_of :url
   validates_format_of :url, :with => /^(http|https|svn|file):\/\/.+/i
     
@@ -27,10 +32,55 @@ class Repository < ActiveRecord::Base
   end
   
   def url=(str)
-    unless str == self.url
-      self.attributes = {:root_url => nil }
-      @scm = nil
+    super if root_url.blank?
+  end
+  
+  def changesets_for_path(path="")
+    path = "/#{path}%"
+    path = url.gsub(/^#{root_url}/, '') + path if root_url && root_url != url
+    path.squeeze!("/")
+    changesets.find(:all, :include => :changes,
+                          :conditions => ["#{Change.table_name}.path LIKE ?", path])
+  end
+  
+  def fetch_changesets
+    scm_info = scm.info
+    if scm_info
+      lastrev_identifier = scm_info.lastrev.identifier.to_i
+      if latest_changeset.nil? || latest_changeset.revision < lastrev_identifier
+        logger.debug "Fetching changesets for repository #{url}" if logger && logger.debug?
+        identifier_from = latest_changeset ? latest_changeset.revision + 1 : 1
+        while (identifier_from <= lastrev_identifier)
+          # loads changesets by batches of 200
+          identifier_to = [identifier_from + 199, lastrev_identifier].min
+          revisions = scm.revisions('', identifier_to, identifier_from, :with_paths => true)
+          transaction do
+            revisions.reverse_each do |revision|
+              changeset = Changeset.create(:repository => self,
+                                           :revision => revision.identifier, 
+                                           :committer => revision.author, 
+                                           :committed_on => revision.time,
+                                           :comment => revision.message)
+              
+              revision.paths.each do |change|
+                Change.create(:changeset => changeset,
+                              :action => change[:action],
+                              :path => change[:path],
+                              :from_path => change[:from_path],
+                              :from_revision => change[:from_revision])
+              end
+            end
+          end
+          identifier_from = identifier_to + 1
+        end
+      end
     end
-    super
+  end
+  
+  # fetch new changesets for all repositories
+  # can be called periodically by an external script
+  # eg. ruby script/runner "Repository.fetch_changesets"
+  def self.fetch_changesets
+    find(:all).each(&:fetch_changesets)
   end
 end
