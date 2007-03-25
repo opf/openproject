@@ -19,7 +19,12 @@ class Changeset < ActiveRecord::Base
   belongs_to :repository
   has_many :changes, :dependent => :delete_all
   
-  validates_presence_of :repository_id, :revision, :committed_on
+  validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_numericality_of :revision, :only_integer => true
   validates_uniqueness_of :revision, :scope => :repository_id
+  
+  def committed_on=(date)
+    self.commit_date = date
+    super
+  end
 end

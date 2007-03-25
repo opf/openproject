@@ -18,6 +18,7 @@
 class Repository < ActiveRecord::Base
   belongs_to :project
   has_many :changesets, :dependent => :destroy, :order => 'revision DESC'
+  has_many :changes, :through => :changesets
   has_one  :latest_changeset, :class_name => 'Changeset', :foreign_key => :repository_id, :order => 'revision DESC'
   
   attr_protected :root_url

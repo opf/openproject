@@ -344,6 +344,10 @@ label_spent_time: Temps passé
 label_f_hour: %.2f heure
 label_f_hour_plural: %.2f heures
 label_time_tracking: Suivi du temps
+label_change_plural: Changements
+label_statistics: Statistiques
+label_commits_per_month: Commits par mois
+label_commits_per_author: Commits par auteur
 
 button_login: Connexion
 button_submit: Soumettre

@@ -1,0 +1,11 @@
+<h2><%= l(:label_statistics) %></h2>
+
+<table width="100%">
+<tr><td>
+<%= tag("embed", :width => 500, :height => 300, :type => "image/svg+xml", :src => url_for(:controller => 'repositories', :action => 'graph', :id => @project, :graph => "commits_per_month")) %>
+</td><td>
+<%= tag("embed", :width => 500, :height => 300, :type => "image/svg+xml", :src => url_for(:controller => 'repositories', :action => 'graph', :id => @project, :graph => "commits_per_author")) %>
+</td></tr>
+</table>
+<br />
+<p><%= link_to l(:button_back), :action => 'show', :id => @project %></p>
