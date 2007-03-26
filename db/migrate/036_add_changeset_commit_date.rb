@@ -1,6 +1,6 @@
 class AddChangesetCommitDate < ActiveRecord::Migration
   def self.up
-    add_column :changesets, :commit_date, :date, :null => false
+    add_column :changesets, :commit_date, :date
     Changeset.update_all "commit_date = committed_on"
   end
 
