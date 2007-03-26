@@ -157,12 +157,17 @@ private
   def graph_commits_per_author(repository)
     commits_by_author = repository.changesets.count(:all, :group => :committer)
     commits_by_author.sort! {|x, y| x.last <=> y.last}
+
+    changes_by_author = repository.changes.count(:all, :group => :committer)
+    h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}
     
     fields = commits_by_author.collect {|r| r.first}
-    data = commits_by_author.collect {|r| r.last}
+    commits_data = commits_by_author.collect {|r| r.last}
+    changes_data = commits_by_author.collect {|r| h[r.first] || 0}
     
     fields = fields + [""]*(10 - fields.length) if fields.length<10
-    data = data + [0]*(10 - data.length) if data.length<10
+    commits_data = commits_data + [0]*(10 - commits_data.length) if commits_data.length<10
+    changes_data = changes_data + [0]*(10 - changes_data.length) if changes_data.length<10
     
     graph = SVG::Graph::BarHorizontal.new(
       :height => 300,
@@ -177,10 +182,15 @@ private
     )
     
     graph.add_data(
-      :data => data,
+      :data => commits_data,
       :title => l(:label_revision_plural)
     )
-    
+
+    graph.add_data(
+      :data => changes_data,
+      :title => l(:label_change_plural)
+    )
+       
     graph.burn
   end
 
