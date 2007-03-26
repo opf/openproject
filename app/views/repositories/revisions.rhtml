@@ -12,7 +12,7 @@
 <p><%= link_to 'Download', {:action => 'entry', :id => @project, :path => @path, :rev => @rev, :format => 'raw' }, :class => "icon file" %> (<%= number_to_human_size @entry.size %>)</p>
 <% end %>
 
-<h3>Revisions</h3>
+<h3><%= l(:label_revision_plural) %></h3>
 
 <%= render :partial => 'revisions', :locals => {:project => @project, :path => @path, :changesets => @changesets, :entry => @entry }%>
 
