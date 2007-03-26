@@ -105,7 +105,7 @@ module SVG
 
         init_with({
           :width                => 500,
-          :height                => 300,
+          :height               => 300,
           :show_x_guidelines    => false,
           :show_y_guidelines    => true,
           :show_data_values     => true,
@@ -137,14 +137,14 @@ module SVG
           :key                  => true, 
           :key_position          => :right, # bottom or right
 
-          :font_size            =>11,
+          :font_size            =>10,
           :title_font_size      =>12,
           :subtitle_font_size   =>14,
-          :x_label_font_size    =>12,
+          :x_label_font_size    =>11,
           :x_title_font_size    =>14,
-          :y_label_font_size    =>12,
+          :y_label_font_size    =>11,
           :y_title_font_size    =>14,
-          :key_font_size        =>10,
+          :key_font_size        => 9,
           
           :no_css               =>false,
           :add_popups           =>false,
@@ -392,7 +392,7 @@ module SVG
         @border_right = 7
         if key and key_position == :right
           val = keys.max { |a,b| a.length <=> b.length }
-          @border_right += val.length * key_font_size * 0.6 
+          @border_right += val.length * key_font_size * 0.7 
           @border_right += KEY_BOX_SIZE
           @border_right += 10    # Some padding around the box
         end
@@ -723,7 +723,7 @@ module SVG
             })
             group.add_element( "text", {
               "x" => (KEY_BOX_SIZE + 5).to_s,
-              "y" => (y_offset + KEY_BOX_SIZE).to_s,
+              "y" => (y_offset + KEY_BOX_SIZE - 2).to_s,
               "class" => "keyText"
             }).text = key_name.to_s
             key_count += 1
@@ -883,7 +883,7 @@ module SVG
   fill:#ffffff;
 }
 .graphBackground{
-  fill:#f0f0f0;
+  fill:#f5f5f5;
 }
 
 /* graphs titles */
@@ -898,26 +898,26 @@ module SVG
   text-anchor: middle;
   fill: #999999;
   font-size: #{subtitle_font_size}px;
-  font-family: "Arial", sans-serif;
+  font-family: "Verdana", sans-serif;
   font-weight: normal;
 }
 
 .axis{
-  stroke: #000000;
+  stroke: #666666;
   stroke-width: 1px;
 }
 
 .guideLines{
   stroke: #666666;
   stroke-width: 1px;
-  stroke-dasharray: 5 5;
+  stroke-dasharray:2,2,2;
 }
 
 .xAxisLabels{
   text-anchor: middle;
   fill: #000000;
   font-size: #{x_label_font_size}px;
-  font-family: "Arial", sans-serif;
+  font-family: "Verdana", sans-serif;
   font-weight: normal;
 }
 
@@ -925,7 +925,7 @@ module SVG
   text-anchor: end;
   fill: #000000;
   font-size: #{y_label_font_size}px;
-  font-family: "Arial", sans-serif;
+  font-family: "Verdana", sans-serif;
   font-weight: normal;
 }
 
@@ -933,7 +933,7 @@ module SVG
   text-anchor: middle;
   fill: #ff0000;
   font-size: #{x_title_font_size}px;
-  font-family: "Arial", sans-serif;
+  font-family: "Verdana", sans-serif;
   font-weight: normal;
 }
 
@@ -941,7 +941,7 @@ module SVG
   fill: #ff0000;
   text-anchor: middle;
   font-size: #{y_title_font_size}px;
-  font-family: "Arial", sans-serif;
+  font-family: "Verdana", sans-serif;
   font-weight: normal;
 }
 
@@ -949,7 +949,7 @@ module SVG
   fill: #000000;
   text-anchor:middle;
   font-size: 10px;
-  font-family: "Arial", sans-serif;
+  font-family: "Verdana", sans-serif;
   font-weight: normal;
 }
 
@@ -965,7 +965,7 @@ module SVG
   fill: #000000;
   text-anchor:start;
   font-size: #{key_font_size}px;
-  font-family: "Arial", sans-serif;
+  font-family: "Verdana", sans-serif;
   font-weight: normal;
 }
 /* End copy for external style sheet */
