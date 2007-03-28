@@ -23,9 +23,9 @@ activerecord_error_inclusion: ist nicht inbegriffen
 activerecord_error_exclusion: ist reserviert
 activerecord_error_invalid: ist unzulässig
 activerecord_error_confirmation: Bestätigung nötig
-activerecord_error_accepted: muß angenommen werden
-activerecord_error_empty: kann nicht leer sein
-activerecord_error_blank: kann nicht leer sein
+activerecord_error_accepted: muss angenommen werden
+activerecord_error_empty: darf nicht leer sein
+activerecord_error_blank: darf nicht leer sein
 activerecord_error_too_long: ist zu lang
 activerecord_error_too_short: ist zu kurz
 activerecord_error_wrong_length: hat die falsche Länge
@@ -51,27 +51,27 @@ general_pdf_encoding: ISO-8859-1
 general_day_names: Montag,Dienstag,Mittwoch,Donnerstag,Freitag,Samstag,Sonntag
 
 notice_account_updated: Konto wurde erfolgreich aktualisiert.
-notice_account_invalid_creditentials: Unzulässiger Benutzer oder Passwort
-notice_account_password_updated: Passwort wurde erfolgreich aktualisiert.
-notice_account_wrong_password: Falsches Passwort
+notice_account_invalid_creditentials: Benutzer oder Kennwort unzulässig
+notice_account_password_updated: Kennwort wurde erfolgreich aktualisiert.
+notice_account_wrong_password: Falsches Kennwort
 notice_account_register_done: Konto wurde erfolgreich angelegt.
 notice_account_unknown_email: Unbekannter Benutzer.
-notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs Quelle. Unmöglich, das Kennwort zu ändern.
-notice_account_lost_email_sent: Eine Email mit Anweisungen, ein neues Kennwort zu wählen ist dir geschickt worden.
-notice_account_activated: Dein Konto ist aktiviert. Du kannst jetzt einloggen.
+notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs-Quelle. Unmöglich, das Kennwort zu ändern.
+notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt.
+notice_account_activated: Dein Konto ist aktiviert. Sie können sich jetzt einloggen.
 notice_successful_create: Erfolgreich angelegt 
-notice_successful_update: Erfolgreiches Update.
-notice_successful_delete: Erfolgreiche Auslassung.
+notice_successful_update: Erfolgreiche Aktualisierung.
+notice_successful_delete: Erfolgreiche Löschung.
 notice_successful_connection: Verbindung erfolgreich.
 notice_file_not_found: Anhang besteht nicht oder ist gelöscht worden.
 notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
 notice_scm_error: Eintrag und/oder Revision besteht nicht im SVN.
 
-mail_subject_lost_password: Dein redMine Kennwort
+mail_subject_lost_password: Ihr redMine Kennwort
 mail_subject_register: redMine Kontoaktivierung
 
-gui_validation_error: 1 Störung
-gui_validation_error_plural: %d Störungen
+gui_validation_error: 1 Fehler
+gui_validation_error_plural: %d Fehler
 
 field_name: Name
 field_description: Beschreibung
@@ -112,8 +112,8 @@ field_user: Benutzer
 field_role: Rolle
 field_homepage: Startseite
 field_is_public: Öffentlich
-field_parent: Subprojekt von
-field_is_in_chlog: Ansicht in der Changelog
+field_parent: Unterprojekt von
+field_is_in_chlog: Ansicht im Change-Log
 field_is_in_roadmap: Ansicht in der Roadmap
 field_login: Mitgliedsname
 field_mail_notification: Mailbenachrichtigung
@@ -121,8 +121,8 @@ field_admin: Administrator
 field_last_login_on: Letzte Anmeldung
 field_language: Sprache
 field_effective_date: Datum
-field_password: Passwort
-field_new_password: Neues Passwort
+field_password: Kennwort
+field_new_password: Neues Kennwort
 field_password_confirmation: Bestätigung
 field_version: Version
 field_type: Typ
@@ -137,14 +137,14 @@ field_attr_mail: Emailattribut
 field_onthefly: On-the-fly Benutzerkreation
 field_start_date: Beginn
 field_done_ratio: %% erledigt
-field_auth_source: Authentifizierungs Modus
+field_auth_source: Authentifizierungs-Modus
 field_hide_mail: Email Adresse nicht anzeigen
 field_comment: Kommentar
 field_url: URL
 field_start_page: Hauptseite
 field_subproject: Subprojekt von
-field_hours: Hours
-field_activity: Activity
+field_hours: Stunden
+field_activity: Aktivität
 field_spent_on: Datum
 
 setting_app_title: Applikation Titel
@@ -158,7 +158,7 @@ setting_issues_export_limit: Limit Export Tickets
 setting_mail_from: Mail Absender
 setting_host_name: Host Name
 setting_text_formatting: Textformatierung
-setting_wiki_compression: Wiki Historie komprimieren
+setting_wiki_compression: Wiki-Historie komprimieren
 setting_feeds_limit: Limit Feed Inhalt
 setting_autofetch_changesets: Autofetch SVN commits
 
@@ -187,22 +187,22 @@ label_tracker: Tracker
 label_tracker_plural: Tracker
 label_tracker_new: Neuer Tracker
 label_workflow: Workflow
-label_issue_status: Ticket Status
-label_issue_status_plural: Ticket Stati
+label_issue_status: Ticket-Status
+label_issue_status_plural: Ticket-Status
 label_issue_status_new: Neuer Status
-label_issue_category: Ticket Kategorie
-label_issue_category_plural: Ticket Kategorien
+label_issue_category: Ticket-Kategorie
+label_issue_category_plural: Ticket-Kategorien
 label_issue_category_new: Neue Kategorie
 label_custom_field: Benutzerdefiniertes Feld
 label_custom_field_plural: Benutzerdefinierte Felder
 label_custom_field_new: Neues Feld
-label_enumerations: Enumerationen
+label_enumerations: Aufzählungen
 label_enumeration_new: Neuer Wert
 label_information: Information
 label_information_plural: Informationen
 label_please_login: Anmelden
 label_register: Anmelden
-label_password_lost: Passwort vergessen
+label_password_lost: Kennwort vergessen
 label_home: Hauptseite
 label_my_page: Meine Seite
 label_my_account: Mein Konto
@@ -222,9 +222,9 @@ label_new: Neu
 label_logged_as: Angemeldet als
 label_environment: Environment
 label_authentication: Authentifizierung
-label_auth_source: Authentifizierungs Modus
-label_auth_source_new: Neuer Authentifizierungs Modus
-label_auth_source_plural: Authentifizierungs Arten
+label_auth_source: Authentifizierungs-Modus
+label_auth_source_new: Neuer Authentifizierungs-Modus
+label_auth_source_plural: Authentifizierungs-Arten
 label_subproject_plural: Sub Projekte
 label_min_max_length: Min - Max Länge
 label_list: Liste
@@ -251,7 +251,7 @@ label_news_new: News hinzufügen
 label_news_plural: News
 label_news_latest: Letzte News
 label_news_view_all: Alle News anzeigen
-label_change_log: Change log
+label_change_log: Change-Log
 label_settings: Konfiguration
 label_overview: Übersicht
 label_version: Version
@@ -306,7 +306,7 @@ label_ago: vor
 label_contains: enthält
 label_not_contains: enthält nicht
 label_day_plural: Tage
-label_repository: SVN
+label_repository: SVN Projektarchiv
 label_browse: Codebrowser
 label_modification: %d Änderung
 label_modification_plural: %d Änderungen
@@ -315,8 +315,8 @@ label_revision_plural: Revisionen
 label_added: hinzugefügt
 label_modified: geändert
 label_deleted: gelöscht
-label_latest_revision: Aktuelleste Revision
-label_latest_revision_plural: Aktuelleste Revisionen
+label_latest_revision: Aktuellste Revision
+label_latest_revision_plural: Aktuellste Revisionen
 label_view_revisions: Revisionen anzeigen
 label_max_size: Maximale Größe
 label_on: von
@@ -325,29 +325,29 @@ label_sort_higher: eins höher
 label_sort_lower: eins tiefer
 label_sort_lowest: Ende
 label_roadmap: Roadmap
-label_roadmap_due_in: Due in 
-label_roadmap_no_issues: No issues for this version
+label_roadmap_due_in: Fällig in
+label_roadmap_no_issues: Keine Tickets für diese Version
 label_search: Suche
 label_result: %d Resultat
 label_result_plural: %d Resultate
 label_all_words: Alle Wörter
 label_wiki: Wiki
-label_wiki_edit: Wiki edit
-label_wiki_edit_plural: Wiki edits
+label_wiki_edit: Wiki Bearbeitung
+label_wiki_edit_plural: Wiki Bearbeitungen
 label_page_index: Index
 label_current_version: Gegenwärtige Version
-label_preview: Preview
+label_preview: Vorschau
 label_feed_plural: Feeds
 label_changes_details: Details aller Änderungen
 label_issue_tracking: Tickets
-label_spent_time: Spent time
-label_f_hour: %.2f hour
-label_f_hour_plural: %.2f hours
-label_time_tracking: Time tracking
-label_change_plural: Changes
-label_statistics: Statistics
-label_commits_per_month: Commits per month
-label_commits_per_author: Commits per author
+label_spent_time: Aufgewendete Zeit
+label_f_hour: %.2f Stunde
+label_f_hour_plural: %.2f Stunden
+label_time_tracking: Zeiterfassung
+label_change_plural: Änderungen
+label_statistics: Statistiken
+label_commits_per_month: Übertragungen pro Monat
+label_commits_per_author: Übertragungen pro Autor
 
 button_login: Einloggen
 button_submit: OK
@@ -363,11 +363,11 @@ button_change: Wechseln
 button_apply: Anwenden
 button_clear: Zurücksetzen
 button_lock: Sperren
-button_unlock: Entriegeln
+button_unlock: Entsperren
 button_download: Download
 button_list: Liste
 button_view: Siehe
-button_move: Gehe zu
+button_move: Verschieben
 button_back: Zurück
 button_cancel: Abbrechen
 button_activate: Aktivieren
@@ -380,10 +380,10 @@ status_locked: gesperrt
 
 text_select_mail_notifications: Aktionen für die Mailbenachrichtigung aktiviert werden soll.
 text_regexp_info: eg. ^[A-Z0-9]+$
-text_min_max_length_info: 0 heisst keine Beschränkung
-text_project_destroy_confirmation: Sind sie sicher, daß sie das Projekt löschen wollen ?
+text_min_max_length_info: 0 heißt keine Beschränkung
+text_project_destroy_confirmation: Sind Sie sicher, dass sie das Projekt löschen wollen?
 text_workflow_edit: Workflow zum Bearbeiten auswählen
-text_are_you_sure: Sind sie sicher ?
+text_are_you_sure: Sind Sie sicher?
 text_journal_changed: geändert von %s zu %s
 text_journal_set_to: gestellt zu %s
 text_journal_deleted: gelöscht
@@ -415,4 +415,4 @@ default_activity_development: Development
 
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
-enumeration_activities: Activities (time tracking)
+enumeration_activities: Aktivitäten (Zeiterfassung)
