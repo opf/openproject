@@ -74,7 +74,8 @@ class RepositoriesController < ApplicationController
   
   def diff
     @rev_to = params[:rev_to] || (@rev-1)
-    @diff = @repository.scm.diff(params[:path], @rev, @rev_to)
+    type = params[:type] || 'inline'
+    @diff = @repository.scm.diff(params[:path], @rev, @rev_to, type)
     show_error and return unless @diff
   end
   

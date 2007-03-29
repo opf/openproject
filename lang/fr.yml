@@ -348,6 +348,9 @@ label_change_plural: Changements
 label_statistics: Statistiques
 label_commits_per_month: Commits par mois
 label_commits_per_author: Commits par auteur
+label_view_diff: Voir les différences
+label_diff_inline: en ligne
+label_diff_side_by_side: côte à côte
 
 button_login: Connexion
 button_submit: Soumettre

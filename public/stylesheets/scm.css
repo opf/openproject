@@ -26,3 +26,11 @@ table.list thead th.list-filename {
 	font-weight: bolder;
 	text-align: left;
 }
+
+.diff_out{
+  background: #fdd;
+}
+
+.diff_in{
+  background: #dfd;
+}

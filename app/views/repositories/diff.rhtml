@@ -1,66 +1,88 @@
 <h2><%= l(:label_revision) %> <%= @rev %>: <%= @path.gsub(/^.*\//, '') %></h2>
 
-<% parsing = false
-line_num_l = 0
-line_num_r = 0 %>
-<% @diff.each do |line| %>
-<% 
-   if line =~ /^Index: (.*)$/
-     if parsing %>
-       </tbody></table>
-     <%
-     end
-     parsing = false %>
-       <table class="list"><thead>
-         <tr><th colspan="3" class="list-filename"><%= l(:label_attachment) %>: <%= $1 %></th></tr>
-         <tr><th>@<%= @rev %></th><th>@<%= @rev_to %></th><th></th></tr>
-	</thead><tbody>
-     <%
-     next
-   elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
-     line_num_l = $2.to_i
-     line_num_r = $5.to_i
-     parsing = true
-     next
-   elsif line =~ /^_+$/
-     # We have reached the 'Properties' section.
-     parsing = false
-     next
-   end
-   next unless parsing
-%>
-
-<tr>
-
-<% case line[0, 1] 
-   when " " %>
-<th class="line-num"><%= line_num_l %></th>
-<th class="line-num"><%= line_num_r %></th>
-<td class="line-code">
-<% line_num_l = line_num_l + 1
-   line_num_r = line_num_r + 1
-   
-   when "-" %>
-<th class="line-num"></th>
-<th class="line-num"><%= line_num_r %></th>
-<td class="line-code" style="background: #fdd;">
-<% line_num_r = line_num_r + 1
-
-   when "+" %>
-<th class="line-num"><%= line_num_l %></th>
-<th class="line-num"></th>
-<td class="line-code" style="background: #dfd;">
-<% line_num_l = line_num_l + 1
-
-   else
-     next
-   end %>
-   
-<%= h(line[1..-1]).gsub(/\s/, "&nbsp;") %></td></tr>
-
+<!-- Choose view type -->
+<% form_tag({ :controller => 'repositories', :action => 'diff'}, :method => 'get') do %>
+  <% params.each do |k, p| %>
+    <% if k != "type" %>
+      <%= hidden_field_tag(k,p) %>
+    <% end %>
+    <% end %>
+  <p><label><%= l(:label_view_diff) %></label>
+  <%= select_tag 'type', options_for_select([[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], params[:type]), :onchange => "if (this.value != '') {this.form.submit()}" %>
+  <%= submit_tag l(:button_apply) %></p>
 <% end %>
-</tbody>
-</table>
+<% @diff.each do |table_file| %>
+<% if params[:type] == 'sbs' %>
+    <table class="list">
+      <thead>
+        <tr>
+          <th colspan="4" class="list-filename">
+            <%= l(:label_attachment) %>: <%= table_file.file_name %>
+          </th>
+        </tr>
+        <tr>
+          <th colspan="2"><%= l(:label_revision) %> <%= @rev %></th>
+          <th colspan="2"><%= l(:label_revision) %> <%= @rev_to %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% table_file.keys.sort.each do |key| %>
+          <tr>
+            <th class="line-num">
+              <%= table_file[key].nb_line_left %>
+            </th>
+            <td class="line-code <%= table_file[key].type_diff_left %>">
+              <%= table_file[key].line_left %>
+            </td>
+            <th class="line-num">
+              <%= table_file[key].nb_line_right %>
+            </th>
+            <td class="line-code <%= table_file[key].type_diff_right %>">
+              <%= table_file[key].line_right %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+<% else %>
+    <table class="list">
+      <thead>
+        <tr>
+          <th colspan="3" class="list-filename">
+            <%= l(:label_attachment) %>: <%= table_file.file_name %>
+          </th>
+        </tr>
+        <tr>
+          <th>@<%= @rev %></th>
+          <th>@<%= @rev_to %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% table_file.keys.sort.each do |key, line| %>
+          <tr>
+            <th class="line-num">
+              <%= table_file[key].nb_line_left %>
+            </th>
+            <th class="line-num">
+              <%= table_file[key].nb_line_right %>
+            </th>
+            <% if table_file[key].line_left.empty? %>
+              <td class="line-code <%= table_file[key].type_diff_right %>">
+                <%= table_file[key].line_right %>
+              </td>
+            <% else %>
+              <td class="line-code <%= table_file[key].type_diff_left %>">
+                <%= table_file[key].line_left %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+<% end %>
+<% end %>
 
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>

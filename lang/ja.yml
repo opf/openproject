@@ -349,6 +349,9 @@ label_change_plural: Changes
 label_statistics: Statistics
 label_commits_per_month: Commits per month
 label_commits_per_author: Commits per author
+label_view_diff: View differences
+label_diff_inline: inline
+label_diff_side_by_side: side by side
 
 button_login: ログイン
 button_submit: 変更
