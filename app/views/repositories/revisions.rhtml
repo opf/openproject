@@ -9,7 +9,7 @@
 
 <% if @entry && @entry.is_file? %>
 <h3><%=h @entry.name %></h3>
-<p><%= link_to 'Download', {:action => 'entry', :id => @project, :path => @path, :rev => @rev, :format => 'raw' }, :class => "icon file" %> (<%= number_to_human_size @entry.size %>)</p>
+<p><%= link_to l(:button_download), {:action => 'entry', :id => @project, :path => @path, :rev => @rev, :format => 'raw' }, :class => "icon file" %> (<%= number_to_human_size @entry.size %>)</p>
 <% end %>
 
 <h3><%= l(:label_revision_plural) %></h3>

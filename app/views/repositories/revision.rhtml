@@ -22,9 +22,9 @@
 <% @changeset.changes.each do |change| %>
 <tr class="<%= cycle 'odd', 'even' %>">
 <td><div class="square action_<%= change.action %>"></div> <%= change.path %></td>
-<td>
+<td align="right">
 <% if change.action == "M" %>
-<%= link_to 'View diff', :action => 'diff', :id => @project, :path => change.path, :rev => @changeset.revision %>
+<%= link_to l(:label_view_diff), :action => 'diff', :id => @project, :path => change.path, :rev => @changeset.revision %>
 <% end %>
 </td>
 </tr>
