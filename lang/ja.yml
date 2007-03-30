@@ -24,13 +24,13 @@ activerecord_error_inclusion: がリストに含まれていません
 activerecord_error_exclusion: が予約されています
 activerecord_error_invalid: が無効です
 activerecord_error_confirmation: 確認のパスワードと合っていません
-activerecord_error_accepted: must be accepted
+activerecord_error_accepted: を承諾してください
 activerecord_error_empty: が空です
 activerecord_error_blank: が空白です
 activerecord_error_too_long: が長すぎます
 activerecord_error_too_short: が短かすぎます
 activerecord_error_wrong_length: の長さが間違っています
-activerecord_error_taken: has already been taken
+activerecord_error_taken: はすでに登録されています
 activerecord_error_not_a_number: が数字ではありません
 activerecord_error_not_a_date: の日付が間違っています
 activerecord_error_greater_than_start_date: を開始日より後にしてください
@@ -115,7 +115,7 @@ field_homepage: ホームページ
 field_is_public: 公開
 field_parent: 親プロジェクト名
 field_is_in_chlog: 変更記録に表示されている問題
-field_is_in_roadmap: Issues displayed in roadmap
+field_is_in_roadmap: ロードマップに表示されている問題
 field_login: ログイン
 field_mail_notification: メール通知
 field_admin: 管理者
@@ -139,13 +139,13 @@ field_onthefly: あわせてユーザを作成
 field_start_date: 開始日
 field_done_ratio: 進捗 %%
 field_auth_source: 認証モード
-field_hide_mail: Emailアドレスを隠す
+field_hide_mail: メールアドレスを隠す
 field_comment: コメント
 field_url: URL
 field_start_page: メインページ
 field_subproject: サブプロジェクト
-field_hours: Hours
-field_activity: Activity
+field_hours: 時間
+field_activity: 活動
 field_spent_on: 日付
 
 setting_app_title: アプリケーションのタイトル
@@ -156,12 +156,12 @@ setting_login_required: 認証が必要
 setting_self_registration: ユーザは自分で登録できる
 setting_attachment_max_size: 添付の最大サイズ
 setting_issues_export_limit: 出力する問題数の上限
-setting_mail_from: Emission メールアドレス
+setting_mail_from: 送信元メールアドレス
 setting_host_name: ホスト名
 setting_text_formatting: テキストの書式
-setting_wiki_compression: Wiki history compression
-setting_feeds_limit: Feed content limit
-setting_autofetch_changesets: Autofetch SVN commits
+setting_wiki_compression:  Wiki履歴を圧縮する
+setting_feeds_limit: フィード内容の上限
+setting_autofetch_changesets: SVNコミットを自動取得する
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -313,11 +313,11 @@ label_modification: %d 点の変更
 label_modification_plural: %d 点の変更
 label_revision: リビジョン
 label_revision_plural: リビジョン
-label_added: 追加された
-label_modified: 変更された
-label_deleted: 削除された
+label_added: 追加
+label_modified: 変更
+label_deleted: 削除
 label_latest_revision: 最新リビジョン
-label_latest_revision_plural: Latest revisions
+label_latest_revision_plural: 最新リビジョン
 label_view_revisions: リビジョンを見る
 label_max_size: 最大サイズ
 label_on: 他
@@ -326,32 +326,32 @@ label_sort_higher: 上へ
 label_sort_lower: 下へ
 label_sort_lowest: 一番下へ
 label_roadmap: ロードマップ
-label_roadmap_due_in: Due in 
-label_roadmap_no_issues: No issues for this version
+label_roadmap_due_in: 期日まで
+label_roadmap_no_issues: このバージョンに向けての問題はありません
 label_search: 検索
 label_result: %d 件の結果
 label_result_plural: %d 件の結果
 label_all_words: すべての単語
 label_wiki: Wiki
-label_wiki_edit: Wiki edit
-label_wiki_edit_plural: Wiki edits
+label_wiki_edit: Wiki編集
+label_wiki_edit_plural: Wiki編集
 label_page_index: 索引
-label_current_version: 最近版
-label_preview: 下検分
-label_feed_plural: Feeds
-label_changes_details: Details of all changes
-label_issue_tracking: Issue tracking
-label_spent_time: Spent time
-label_f_hour: %.2f hour
-label_f_hour_plural: %.2f hours
-label_time_tracking: Time tracking
-label_change_plural: Changes
-label_statistics: Statistics
-label_commits_per_month: Commits per month
-label_commits_per_author: Commits per author
-label_view_diff: View differences
-label_diff_inline: inline
-label_diff_side_by_side: side by side
+label_current_version: 最新版
+label_preview: プレビュー
+label_feed_plural: フィード
+label_changes_details: 全変更の詳細
+label_issue_tracking: 問題トラッキング
+label_spent_time: 経過時間
+label_f_hour: %.2f 時間
+label_f_hour_plural: %.2f 時間
+label_time_tracking: 時間トラッキング
+label_change_plural: 変更
+label_statistics: 統計
+label_commits_per_month: 月別のコミット
+label_commits_per_author: 起票者別のコミット
+label_view_diff: 差分を見る
+label_diff_inline: インライン
+label_diff_side_by_side: 横に並べる
 
 button_login: ログイン
 button_submit: 変更
@@ -376,11 +376,11 @@ button_back: 戻る
 button_cancel: キャンセル
 button_activate: 有効にする
 button_sort: ソート
-button_log_time: Log time
+button_log_time: 時間を記録
 
-status_active: active
-status_registered: registered
-status_locked: ロック済
+status_active: 有効
+status_registered: 登録
+status_locked: ロック
 
 text_select_mail_notifications: どのメール通知を送信するか、アクションを選択してください。
 text_regexp_info: 例) ^[A-Z0-9]+$
@@ -414,9 +414,9 @@ default_priority_normal: 通常
 default_priority_high: 高め
 default_priority_urgent: 急いで
 default_priority_immediate: 今すぐ
-default_activity_design: Design
-default_activity_development: Development
+default_activity_design: デザイン作業
+default_activity_development: 開発作業
 
 enumeration_issue_priorities: 問題の優先度
 enumeration_doc_categories: 文書カテゴリ
-enumeration_activities: Activities (time tracking)
+enumeration_activities: 作業分類 (時間トラッキング)
