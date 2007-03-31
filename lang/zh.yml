@@ -1,0 +1,424 @@
+# translated by andy wu
+# email:andywu.zh@gmail.com
+
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月
+actionview_datehelper_select_month_names_abbr: 一,二,三,四,五,六,七,八,九,十,十一,十二
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 天
+actionview_datehelper_time_in_words_day_plural: %d 天
+actionview_datehelper_time_in_words_hour_about: 约1小时
+actionview_datehelper_time_in_words_hour_about_plural: 约 %d 小时
+actionview_datehelper_time_in_words_hour_about_single: 约1小时
+actionview_datehelper_time_in_words_minute: 1分钟
+actionview_datehelper_time_in_words_minute_half: 半分钟
+actionview_datehelper_time_in_words_minute_less_than: 1分钟以内
+actionview_datehelper_time_in_words_minute_plural: %d 分钟
+actionview_datehelper_time_in_words_minute_single: 1分钟
+actionview_datehelper_time_in_words_second_less_than: 1秒以内
+actionview_datehelper_time_in_words_second_less_than_plural:  %d 秒以内
+actionview_instancetag_blank_option: 请选择
+
+activerecord_error_inclusion: 未包含在列表中
+activerecord_error_exclusion: 保留的
+activerecord_error_invalid: 无效的
+activerecord_error_confirmation: 和确认输入不匹配
+activerecord_error_accepted: 必需被接受
+activerecord_error_empty: 不能为空
+activerecord_error_blank: 不能是空格
+activerecord_error_too_long: 太长
+activerecord_error_too_short: 太短
+activerecord_error_wrong_length: 长度有问题
+activerecord_error_taken: has already been taken
+activerecord_error_not_a_number: 不是数字
+activerecord_error_not_a_date: 不是有效的日期
+activerecord_error_greater_than_start_date: 必需大于开始日期
+
+general_fmt_age: %d yr
+general_fmt_age_plural: %d yrs
+general_fmt_date: %%m/%%d/%%Y
+general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: '否'
+general_text_Yes: '是'
+general_text_no: '否'
+general_text_yes: '是'
+general_lang_zh: 'Chinese (简体中文)'
+general_csv_separator: ','
+general_csv_encoding: gb2312
+general_pdf_encoding: Big5
+general_day_names: 一,二,三,四,五,六,日
+
+notice_account_updated: 帐户更新成功。
+notice_account_invalid_creditentials: 用户名或密码不正确
+notice_account_password_updated: 成功更新口令
+notice_account_wrong_password: 错误的口令
+notice_account_register_done: 帐户已创建成功
+notice_account_unknown_email: 未知用户
+notice_can_t_change_password: 该帐户使用了外部认证。无法更改口令。
+notice_account_lost_email_sent: 邮件已被发送，邮件中有关于选择新口令的指导
+notice_account_activated: 您的帐号已被激活。您现在可以登录了。
+notice_successful_create: 创建成功
+notice_successful_update: 更新成功
+notice_successful_delete: 删除成功
+notice_successful_connection: 连接成功
+notice_file_not_found: 您访问的页面不存在或已被删除。
+notice_locking_conflict: 数据已被另一个用户更新
+notice_scm_error: 在版本库中不存在该条目或修订
+
+mail_subject_lost_password: 您的redMine口令
+mail_subject_register: redMine帐户激活
+
+gui_validation_error: 1 个错误
+gui_validation_error_plural: %d 个错误
+
+field_name: 名称
+field_description: 描述
+field_summary: 摘要
+field_is_required: 必填
+field_firstname: 名字
+field_lastname: 姓
+field_mail: 邮件地址
+field_filename: 文件
+field_filesize: 大小
+field_downloads: 下载次数
+field_author: 作者
+field_created_on: 创建于
+field_updated_on: 更新于
+field_field_format: 格式
+field_is_for_all: 应用于所有项目
+field_possible_values: 可能的值
+field_regexp: 正则表达式
+field_min_length: 最小长度
+field_max_length: 最大长度
+field_value: 值
+field_category: 分类
+field_title: 标题
+field_project: 项目
+field_issue: 任务
+field_status: 状态
+field_notes: 说明
+field_is_closed: 已关闭的任务
+field_is_default: 默认状态
+field_html_color: 颜色
+field_tracker: 跟踪
+field_subject: 主题
+field_due_date: 到期日
+field_assigned_to: 指派
+field_priority: 优先级
+field_fixed_version: 修订版本
+field_user: 用户
+field_role: 角色
+field_homepage: 主页
+field_is_public: 公开
+field_parent: 上级项目
+field_is_in_chlog: 在更新日志中显示任务
+field_is_in_roadmap: 在路线图中显示任务
+field_login: 登录名
+field_mail_notification: 邮件通知
+field_admin: 管理员
+field_last_login_on: 最后登录
+field_language: 语言
+field_effective_date: 日期
+field_password: 口令
+field_new_password: 新口令
+field_password_confirmation: 确认
+field_version: 版本
+field_type: 类别
+field_host: 主机
+field_port: 端口
+field_account: 帐号
+field_base_dn: Base DN
+field_attr_login: 登录名属性
+field_attr_firstname: 名字属性
+field_attr_lastname: 姓属性
+field_attr_mail: 邮件属性
+field_onthefly: On-the-fly user creation
+field_start_date: 开始
+field_done_ratio: %% 完成
+field_auth_source: 认证模式
+field_hide_mail: 隐藏我的邮件
+field_comment: 注释
+field_url: URL
+field_start_page: 起始页
+field_subproject: 子项目
+field_hours: Hours
+field_activity: 活动
+field_spent_on: 日期
+
+setting_app_title: 应用程序标题
+setting_app_subtitle: 应用程序子标题
+setting_welcome_text: 欢迎文字
+setting_default_language: 默认语言
+setting_login_required: 要求认证
+setting_self_registration: 允许自注册
+setting_attachment_max_size: 附件最大尺寸
+setting_issues_export_limit: Issues export limit
+setting_mail_from: Emission mail address
+setting_host_name: 主机名称
+setting_text_formatting: 文本格式
+setting_wiki_compression: Wiki history compression
+setting_feeds_limit: Feed content limit
+setting_autofetch_changesets: Autofetch SVN commits
+
+label_user: 用户
+label_user_plural: 用户列表
+label_user_new: 新建用户
+label_project: 项目
+label_project_new: 新建项目
+label_project_plural: 项目列表
+label_project_latest: 最近的项目列表
+label_issue: 任务
+label_issue_new: 新建任务
+label_issue_plural: 任务列表
+label_issue_view_all: 查看所有任务
+label_document: 文档
+label_document_new: 新建文档
+label_document_plural: 文档列表
+label_role: 角色
+label_role_plural: 角色列表
+label_role_new: 新建角色
+label_role_and_permissions: 角色和权限
+label_member: 成员
+label_member_new: 新建成员
+label_member_plural: 成员列表
+label_tracker: 跟踪标签
+label_tracker_plural: 跟踪标签列表
+label_tracker_new: 新建跟踪标签
+label_workflow: 工作流
+label_issue_status: 任务状态列表
+label_issue_status_plural: 任务状态列表
+label_issue_status_new: 新建任务状态列表
+label_issue_category: 任务类别
+label_issue_category_plural: 任务类别列表
+label_issue_category_new: 新建任务类别
+label_custom_field: 自定义字段
+label_custom_field_plural: 自定义字段列表
+label_custom_field_new: 新建自定义字段
+label_enumerations: 枚举列表
+label_enumeration_new: 新建枚举值
+label_information: 信息
+label_information_plural: 信息
+label_please_login: 请登录
+label_register: 注册
+label_password_lost: 忘记口令
+label_home: 主页
+label_my_page: 我的工作台
+label_my_account: 我的帐号
+label_my_projects: 我的项目列表
+label_administration: 管理
+label_login: 登录
+label_logout: 退出
+label_help: 帮助
+label_reported_issues: 已报告的问题
+label_assigned_to_me_issues: 分配给我的任务
+label_last_login: 最后登录
+label_last_updates: 最后更新
+label_last_updates_plural: %d 最后更新
+label_registered_on: 注册于
+label_activity: 活动
+label_new: 新建
+label_logged_as: 登录为
+label_environment: 环境
+label_authentication: 认证
+label_auth_source: 认证模式
+label_auth_source_new: 新建认证模式
+label_auth_source_plural: 认证模式列表
+label_subproject_plural: 子项目列表
+label_min_max_length: 最小 - 最大 长度
+label_list: list
+label_date: Date
+label_integer: Integer
+label_boolean: Boolean
+label_string: Text
+label_text: Long text
+label_attribute: 属性
+label_attribute_plural: 属性
+label_download: %d 个下载次数
+label_download_plural: %d 个下载次数
+label_no_data: 没有数据用于显示
+label_change_status: 改变状态
+label_history: 历史记录
+label_attachment: 文件
+label_attachment_new: 新建文件
+label_attachment_delete: 删除文件
+label_attachment_plural: 文件列表
+label_report: 报表
+label_report_plural: 报表列表
+label_news: 新闻
+label_news_new: 增加新闻
+label_news_plural: 新闻列表
+label_news_latest: 最近的新闻
+label_news_view_all: 查看所有新闻
+label_change_log: 更新日志
+label_settings: 配置
+label_overview: 概述
+label_version: 版本
+label_version_new: 新建版本
+label_version_plural: 版本列表
+label_confirmation: 确认
+label_export_to: 导出
+label_read: 读取...
+label_public_projects: 公开的项目列表
+label_open_issues: 打开
+label_open_issues_plural: 打开
+label_closed_issues: 已关闭
+label_closed_issues_plural: 已关闭
+label_total: 合计
+label_permissions: 权限列表
+label_current_status: 当前状态
+label_new_statuses_allowed: New statuses allowed
+label_all: 全部
+label_none: 无
+label_next: 下一个
+label_previous: 上一个
+label_used_by: 使用中
+label_details: 详情...
+label_add_note: 添加说明
+label_per_page: 每面
+label_calendar: 日历
+label_months_from: months from
+label_gantt: 甘特图(Gantt)
+label_internal: 内部
+label_last_changes: 最近的 %d 次更改
+label_change_view_all: 查看所有更改
+label_personalize_page: 个性化定制本页
+label_comment: 注释
+label_comment_plural: 注释列表
+label_comment_add: 添加注释
+label_comment_added: 已加入注释
+label_comment_delete: 删除注释
+label_query: 自定义查询
+label_query_plural: 自定义查询列表
+label_query_new: 新建查询
+label_filter_add: 增加过滤器
+label_filter_plural: 过滤器列表
+label_equals: 等于
+label_not_equals: 不等于
+label_in_less_than: 剩余天数小于
+label_in_more_than: 剩余天数大于
+label_in: 剩余天数
+label_today: 今天
+label_less_than_ago: 之前天数少于
+label_more_than_ago: 之前天数大于
+label_ago: 之前天数
+label_contains: 包含
+label_not_contains: 不包含
+label_day_plural: 天数
+label_repository: SVN 版本库
+label_browse: 浏览
+label_modification: %d 个更新
+label_modification_plural: %d 个更新
+label_revision: 修订
+label_revision_plural: 修订
+label_added: 已增加
+label_modified: 已修改
+label_deleted: 已删除
+label_latest_revision: 最近的版本
+label_latest_revision_plural: 最近的版本列表
+label_view_revisions: 查看修订列表
+label_max_size: 最大尺寸
+label_on: 'on'
+label_sort_highest: 置顶
+label_sort_higher: 上移
+label_sort_lower: 下移
+label_sort_lowest: 置底
+label_roadmap: 路线图
+label_roadmap_due_in: Due in 
+label_roadmap_no_issues: 该版本没有任务
+label_search: 查找
+label_result: %d 个结果
+label_result_plural: %d 个结果
+label_all_words: 所有单词
+label_wiki: Wiki
+label_wiki_edit: Wiki edit
+label_wiki_edit_plural: Wiki edits
+label_page_index: 索引
+label_current_version: 当前版本
+label_preview: 预览
+label_feed_plural: Feeds
+label_changes_details: 所有更改的详情
+label_issue_tracking: 任务跟踪
+label_spent_time: 耗时
+label_f_hour: %.2f 小时
+label_f_hour_plural: %.2f 小时
+label_time_tracking: 时间跟踪
+label_change_plural: 更改列表
+label_statistics: 统计
+label_commits_per_month: Commits per month
+label_commits_per_author: Commits per author
+label_view_diff: View differences
+label_diff_inline: inline
+label_diff_side_by_side: side by side
+
+button_login: 登录
+button_submit: 提交
+button_save: 保存
+button_check_all: 全选
+button_uncheck_all: 清除
+button_delete: 删除
+button_create: 创建
+button_test: 测试
+button_edit: 编辑
+button_add: 新增
+button_change: 修改
+button_apply: 应用
+button_clear: 清除
+button_lock: 锁定
+button_unlock: 解锁
+button_download: 下载
+button_list: 列表
+button_view: 查看
+button_move: 移动
+button_back: 返回
+button_cancel: 取消
+button_activate: 激活
+button_sort: 排序
+button_log_time: 登记工时
+
+status_active: 激活
+status_registered: 已注册
+status_locked: 已锁定
+
+text_select_mail_notifications: 选择需要发送邮件通知的动作。
+text_regexp_info: eg. ^[A-Z0-9]+$
+text_min_max_length_info: 0 表示没有限制
+text_project_destroy_confirmation: 您确信要删除这个项目以及所有相关的数据吗？
+text_workflow_edit: 选择一个角色和跟踪标签来编辑这个工作流
+text_are_you_sure: 您确定？
+text_journal_changed: 从 %s 更改为 %s
+text_journal_set_to: 设置为 %s
+text_journal_deleted: 已删除
+text_tip_task_begin_day: 开始于此
+text_tip_task_end_day: 在此结束
+text_tip_task_begin_end_day: 开始并结束于此
+
+default_role_manager: 管理员
+default_role_developper: 开发人员
+default_role_reporter: 报告人员
+default_tracker_bug: 问题
+default_tracker_feature: 功能
+default_tracker_support: 支持
+default_issue_status_new: 新建
+default_issue_status_assigned: 已分配
+default_issue_status_resolved: 已解决
+default_issue_status_feedback: 回复
+default_issue_status_closed: 已关闭
+default_issue_status_rejected: 已打回
+default_doc_category_user: 用户文档
+default_doc_category_tech: 技术文档
+default_priority_low: 低
+default_priority_normal: 普通
+default_priority_high: 高
+default_priority_urgent: 紧急
+default_priority_immediate: 立刻
+default_activity_design: 设计
+default_activity_development: 开发
+
+enumeration_issue_priorities: 任务优先级
+enumeration_doc_categories: 文档类别
+enumeration_activities: Activities (time tracking)

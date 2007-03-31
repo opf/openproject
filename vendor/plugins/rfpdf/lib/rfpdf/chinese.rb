@@ -132,7 +132,7 @@ module PDF_Chinese
   	while(i<nb)
   		c=s[i]
   		if(c<128)
-  			l+=cw[c.chr]
+  			l+=cw[c.chr] if cw[c.chr]
   			i+=1
   		else
   			l+=1000
@@ -170,13 +170,13 @@ module PDF_Chinese
   			b2='LR'
   		else
   			b2=''
-  			if(border.index('L').nil?)
+  			if(border.to_s.index('L'))
   				b2+='L'
 				end
-  			if(border.index('R').nil?)
+  			if(border.to_s.index('R'))
   				b2+='R'
 				end
-  			b=border.index('T').nil? ? b2+'T' : b2
+  			b=border.to_s.index('T') ? b2+'T' : b2
   		end
   	end
   	sep=-1
@@ -209,7 +209,7 @@ module PDF_Chinese
   			sep=i
   			ls=l
   		end
-  		l+=ascii ? cw[c.chr] : 1000
+  		l+=ascii ? (cw[c.chr] || 0) : 1000
   		if(l>wmax)
   			#Automatic line break
   			if(sep==-1 or i==j)
@@ -233,7 +233,7 @@ module PDF_Chinese
   		end
   	end
   	#Last chunk
-  	if(border and not border.index('B').nil?)
+  	if(border and not border.to_s.index('B').nil?)
   		b+='B'
 		end
   	Cell(w,h,s[j,i-j],b,2,align,fill)

@@ -33,6 +33,11 @@ module IfpdfHelper
         AddSJISFont()
         @font_for_content = 'SJIS'
         @font_for_footer = 'SJIS'
+      when :zh
+        extend(PDF_Chinese)
+        AddBig5Font()
+        @font_for_content = 'Big5'
+        @font_for_footer = 'Big5'
       else
         @font_for_content = 'Arial'
         @font_for_footer = 'Helvetica'              
