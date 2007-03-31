@@ -351,6 +351,7 @@ label_commits_per_author: Commits par auteur
 label_view_diff: Voir les différences
 label_diff_inline: en ligne
 label_diff_side_by_side: côte à côte
+label_options: Options
 
 button_login: Connexion
 button_submit: Soumettre

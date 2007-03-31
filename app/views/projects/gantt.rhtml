@@ -1,39 +1,47 @@
 <div class="contextual">
 <%= l(:label_export_to) %>
-<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :output => 'pdf'}, :class => 'icon icon-pdf' %>
+<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :output => 'pdf'}, :class => 'icon icon-pdf' %>
 </div>
 
 <h2><%= l(:label_gantt) %></h2>
 
+<% form_tag do %>
 <table width="100%">
 <tr>
 <td align="left">
-<% form_tag do %>
-<p>
-<input type="text" name="months" size="2" value="<%= @months %>" />
-<%= l(:label_months_from) %>
-<%= select_month(@month_from, :prefix => "month", :discard_type => true) %>
-<%= select_year(@year_from, :prefix => "year", :discard_type => true) %>
-<%= hidden_field_tag 'zoom', @zoom %>
-<%= submit_tag l(:button_submit), :class => "button-small" %>
-</p>
-<% end %>
+    <input type="text" name="months" size="2" value="<%= @months %>" />
+    <%= l(:label_months_from) %>
+    <%= select_month(@month_from, :prefix => "month", :discard_type => true) %>
+    <%= select_year(@year_from, :prefix => "year", :discard_type => true) %>
+    <%= hidden_field_tag 'zoom', @zoom %>
+    <%= submit_tag l(:button_submit), :class => "button-small" %>    
+</td>
+<td>
+    <a href="#" onclick="Element.toggle('trackerselect')"><%= l(:label_options) %></a>
+    <div id="trackerselect" class="rightbox overlay" style="width:140px; display: none;">
+    <p><strong><%=l(:label_tracker_plural)%></strong></p>
+    <% @trackers.each do |tracker| %>
+      <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
+      <%= tracker.name %><br />
+    <% end %>
+    <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
+    </div>
 </td>
 <td align="right">
 <%= if @zoom < 4
-    link_to image_tag('zoom_in.png'), {:zoom => (@zoom+1), :year => @year_from, :month => @month_from, :months => @months}
+    link_to image_tag('zoom_in.png'), {:zoom => (@zoom+1), :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids}
   else
     image_tag 'zoom_in_g.png'
   end %>
 <%= if @zoom > 1
-    link_to image_tag('zoom_out.png'), :zoom => (@zoom-1), :year => @year_from, :month => @month_from, :months => @months
+    link_to image_tag('zoom_out.png'),{:zoom => (@zoom-1), :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids}
   else
     image_tag 'zoom_out_g.png'
   end %>
 </td>
 </tr>
 </table>
-<br />
+<% end %>
 
 <% zoom = 1
 @zoom.times { zoom = zoom * 2 }
@@ -41,22 +49,22 @@
 subject_width = 260
 header_heigth = 18
 
-headers_heigth = header_heigth
+headers_height = header_heigth
 show_weeks = false
 show_days = false
 
 if @zoom >1
     show_weeks = true
-    headers_heigth = 2*header_heigth
+    headers_height = 2*header_heigth
     if @zoom > 2
         show_days = true
-        headers_heigth = 3*header_heigth
+        headers_height = 3*header_heigth
     end
 end
 
 g_width = (@date_to - @date_from + 1)*zoom
 g_height = [(20 * @issues.length + 6)+150, 206].max
-t_height = g_height + headers_heigth
+t_height = g_height + headers_height
 %>
 
 <table width="100%" style="border:0; border-collapse: collapse;">
@@ -64,26 +72,26 @@ t_height = g_height + headers_heigth
 <td style="width:260px;">
 
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
-<div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_heigth %>px;background: #eee;" class="gantt_hdr"></div>
+<div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr"></div>
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
 <%
 #
 # Tasks subjects
 #
-top = headers_heigth + 8
+top = headers_height + 8
 @issues.each do |i| %>
-	<div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;">
-	<small><%= link_to "#{i.tracker.name} ##{i.id}", { :controller => 'issues', :action => 'show', :id => i }, :title => "#{i.subject}" %>:
-	<%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
-	</div>
-<% top = top + 20
+    <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;">
+  	<small><%= link_to "#{i.tracker.name} ##{i.id}", { :controller => 'issues', :action => 'show', :id => i }, :title => "#{i.subject}" %>:
+  	<%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
+  	</div>
+    <% top = top + 20
 end %>
 </div>
 </td>
 <td>
 
 <div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;">
-<div style="width:<%= g_width-1 %>px;height:<%= headers_heigth %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
+<div style="width:<%= g_width-1 %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
 <% 
 #
 # Months headers
@@ -160,14 +168,14 @@ end %>
 # Today red line
 #
 if Date.today >= @date_from and Date.today <= @date_to %>
-    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_heigth + 1 %>px;left:<%= ((Date.today-@date_from+1)*zoom).floor()-1 %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
+    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= ((Date.today-@date_from+1)*zoom).floor()-1 %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
 <% end %>
 
 <%
 #
 # Tasks
 #
-top = headers_heigth + 10
+top = headers_height + 10
 @issues.each do |i| %>
 	<%
 	i_start_date = (i.start_date >= @date_from ? i.start_date : @date_from )
@@ -209,7 +217,7 @@ end %>
 
 <table width="100%">
 <tr>
-<td align="left"><%= link_to ('&#171; ' + l(:label_previous)), :year => (@date_from << @months).year, :month => (@date_from << @months).month, :zoom => @zoom, :months => @months %></td>
-<td align="right"><%= link_to (l(:label_next) + ' &#187;'), :year => (@date_from >> @months).year, :month => (@date_from >> @months).month, :zoom => @zoom, :months => @months %></td>
+<td align="left"><%= link_to ('&#171; ' + l(:label_previous)), :year => (@date_from << @months).year, :month => (@date_from << @months).month, :zoom => @zoom, :months => @months, :tracker_ids => @selected_tracker_ids %></td>
+<td align="right"><%= link_to (l(:label_next) + ' &#187;'), :year => (@date_from >> @months).year, :month => (@date_from >> @months).month, :zoom => @zoom, :months => @months, :tracker_ids => @selected_tracker_ids %></td>
 </tr>
 </table>

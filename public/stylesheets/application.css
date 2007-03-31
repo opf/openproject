@@ -467,6 +467,12 @@ position: relative;
 margin: 0 5px 5px;
 }
 
+.overlay{ 
+position: absolute;
+margin-left:0;
+z-index: 50;
+}
+
 .layout-active {
 background: #ECF3E1;
 }

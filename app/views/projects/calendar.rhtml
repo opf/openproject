@@ -1,29 +1,39 @@
 <h2><%= l(:label_calendar) %></h2>
 
-<% form_tag({:action => 'calendar', :id => @project}) do %>
+<% form_tag do %>
 <table width="100%">
 <tr>
-<td align="left" style="width:150px">
+<td align="left" style="width:15%">
     <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
-                        {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
-                        {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
+                        {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1), :tracker_ids => @selected_tracker_ids }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1), :tracker_ids => @selected_tracker_ids)}
                         %>
 </td>
-<td align="center">
+<td align="center" style="width:55%">
     <%= select_month(@month, :prefix => "month", :discard_type => true) %>
     <%= select_year(@year, :prefix => "year", :discard_type => true) %>
     <%= submit_tag l(:button_submit), :class => "button-small" %>
 </td>
-<td align="right" style="width:150px">
+<td align="left" style="width:15%">
+    <a href="#" onclick="Element.toggle('trackerselect')"><%= l(:label_options) %></a>
+    <div id="trackerselect" class="rightbox overlay" style="width:140px; display:none;">
+    <p><strong><%=l(:label_tracker_plural)%></strong></p>
+    <% @trackers.each do |tracker| %>
+      <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
+      <%= tracker.name %><br />
+    <% end %>
+    <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
+    </div>
+</td>
+<td align="right" style="width:15%">
     <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
-                        {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
-                        {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
+                        {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1), :tracker_ids => @selected_tracker_ids }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1), :tracker_ids => @selected_tracker_ids)}
                         %>&nbsp;
 </td>
 </tr>
 </table>
 <% end %>
-<br />
 
 <table class="list with-cells">
 <thead>

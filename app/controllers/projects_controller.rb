@@ -420,12 +420,8 @@ class ProjectsController < ApplicationController
   # Show changelog for @project
   def changelog
     @trackers = Tracker.find(:all, :conditions => ["is_in_chlog=?", true], :order => 'position')
-    if request.get?
-      @selected_tracker_ids = @trackers.collect {|t| t.id.to_s }
-    else
-      @selected_tracker_ids = params[:tracker_ids].collect { |id| id.to_i.to_s } if params[:tracker_ids] and params[:tracker_ids].is_a? Array
-    end
-    @selected_tracker_ids ||= []
+    retrieve_selected_tracker_ids(@trackers)
+    
     @fixed_issues = @project.issues.find(:all, 
       :include => [ :fixed_version, :status, :tracker ], 
       :conditions => [ "#{IssueStatus.table_name}.is_closed=? and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}) and #{Issue.table_name}.fixed_version_id is not null", true],
@@ -436,12 +432,8 @@ class ProjectsController < ApplicationController
 
   def roadmap
     @trackers = Tracker.find(:all, :conditions => ["is_in_roadmap=?", true], :order => 'position')
-    if request.get?
-      @selected_tracker_ids = @trackers.collect {|t| t.id.to_s }
-    else
-      @selected_tracker_ids = params[:tracker_ids].collect { |id| id.to_i.to_s } if params[:tracker_ids] and params[:tracker_ids].is_a? Array
-    end
-    @selected_tracker_ids ||= []
+    retrieve_selected_tracker_ids(@trackers)
+    
     @versions = @project.versions.find(:all,
       :conditions => [ "#{Version.table_name}.effective_date>?", Date.today],
       :order => "#{Version.table_name}.effective_date ASC"
@@ -534,6 +526,9 @@ class ProjectsController < ApplicationController
   end
   
   def calendar
+    @trackers = Tracker.find(:all, :order => 'position')
+    retrieve_selected_tracker_ids(@trackers)
+    
     if params[:year] and params[:year].to_i > 1900
       @year = params[:year].to_i
       if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
@@ -548,18 +543,24 @@ class ProjectsController < ApplicationController
     # start on monday
     @date_from = @date_from - (@date_from.cwday-1)
     # finish on sunday
-    @date_to = @date_to + (7-@date_to.cwday)  
-      
-    @issues = @project.issues.find(:all, :include => [:tracker, :status, :assigned_to, :priority], 
-                                         :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", @date_from, @date_to, @date_from, @date_to])
-
+    @date_to = @date_to + (7-@date_to.cwday)        
+    
+    @issues = @project.issues.find(:all, 
+                                   :include => [:tracker, :status, :assigned_to, :priority], 
+                                   :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)) and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", @date_from, @date_to, @date_from, @date_to]
+                                   ) unless @selected_tracker_ids.empty?
+    @issues ||=[]
+    
     @ending_issues_by_days = @issues.group_by {|issue| issue.due_date}
     @starting_issues_by_days = @issues.group_by {|issue| issue.start_date}
-     
+    
     render :layout => false if request.xhr?
   end  
 
   def gantt
+    @trackers = Tracker.find(:all, :order => 'position')
+    retrieve_selected_tracker_ids(@trackers)
+    
     if params[:year] and params[:year].to_i >0
       @year_from = params[:year].to_i
       if params[:month] and params[:month].to_i >=1 and params[:month].to_i <= 12
@@ -577,7 +578,13 @@ class ProjectsController < ApplicationController
     
     @date_from = Date.civil(@year_from, @month_from, 1)
     @date_to = (@date_from >> @months) - 1
-    @issues = @project.issues.find(:all, :order => "start_date, due_date", :include => [:tracker, :status, :assigned_to, :priority], :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to])
+    
+    @issues = @project.issues.find(:all, 
+                                   :order => "start_date, due_date",
+                                   :include => [:tracker, :status, :assigned_to, :priority], 
+                                   :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}))", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to]
+                                   ) unless @selected_tracker_ids.empty?
+    @issues ||=[]
     
     if params[:output]=='pdf'
       @options_for_rfpdf ||= {}
@@ -628,6 +635,14 @@ private
     @html_title = @project.name
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+  
+  def retrieve_selected_tracker_ids(selectable_trackers)
+    if ids = params[:tracker_ids]
+      @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
+    else
+      @selected_tracker_ids = selectable_trackers.collect {|t| t.id.to_s }
+    end
   end
   
   # Retrieve query from session or build a new query

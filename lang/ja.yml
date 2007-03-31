@@ -352,6 +352,7 @@ label_commits_per_author: 起票者別のコミット
 label_view_diff: 差分を見る
 label_diff_inline: インライン
 label_diff_side_by_side: 横に並べる
+label_options: Options
 
 button_login: ログイン
 button_submit: 変更
