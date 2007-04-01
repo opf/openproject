@@ -30,13 +30,23 @@ class Project < ActiveRecord::Base
   has_one :wiki, :dependent => :destroy
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_tree :order => "name", :counter_cache => true
-
-  validates_presence_of :name, :description
-  validates_uniqueness_of :name
+  
+  validates_presence_of :name, :description, :identifier
+  validates_uniqueness_of :name, :identifier
   validates_associated :custom_values, :on => :update
   validates_associated :repository, :wiki
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
-
+  validates_length_of :identifier, :maximum => 12
+  validates_format_of :identifier, :with => /^[a-z0-9\-]*$/
+  
+  def identifier=(identifier)
+    super unless identifier_frozen?
+  end
+  
+  def identifier_frozen?
+    errors[:identifier].nil? && !(new_record? || identifier.blank?)
+  end
+  
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)

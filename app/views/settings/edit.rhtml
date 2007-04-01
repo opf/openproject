@@ -48,6 +48,9 @@
 <p><label><%= l(:setting_autofetch_changesets) %></label>
 <%= check_box_tag 'settings[autofetch_changesets]', 1, Setting.autofetch_changesets? %><%= hidden_field_tag 'settings[autofetch_changesets]', 0 %></p>
 
+<p><label><%= l(:setting_sys_api_enabled) %></label>
+<%= check_box_tag 'settings[sys_api_enabled]', 1, Setting.sys_api_enabled? %><%= hidden_field_tag 'settings[sys_api_enabled]', 0 %></p>
+
 </div>
 <%= submit_tag l(:button_save) %>
 </div>

@@ -52,3 +52,5 @@ feeds_limit:
   default: 15
 autofetch_changesets:
   default: 1
+sys_api_enabled:
+  default: 0

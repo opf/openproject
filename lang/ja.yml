@@ -147,6 +147,7 @@ field_subproject: サブプロジェクト
 field_hours: 時間
 field_activity: 活動
 field_spent_on: 日付
+field_identifier: Identifier
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -162,6 +163,7 @@ setting_text_formatting: テキストの書式
 setting_wiki_compression:  Wiki履歴を圧縮する
 setting_feeds_limit: フィード内容の上限
 setting_autofetch_changesets: SVNコミットを自動取得する
+setting_sys_api_enabled: Enable WS for repository management
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -395,6 +397,7 @@ text_journal_deleted: 削除
 text_tip_task_begin_day: この日に開始するタスク
 text_tip_task_end_day: この日に終了するタスク
 text_tip_task_begin_end_day: この日のうちに開始して終了するタスク
+text_project_identifier_info: '12 characters maximum. Letters (a-z), numbers (0-9) and dashes allowed.<br />Once saved, the identifier can not be changed.'
 
 default_role_manager: 管理者
 default_role_developper: 開発者

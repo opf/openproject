@@ -149,6 +149,7 @@ field_subproject: 子项目
 field_hours: Hours
 field_activity: 活动
 field_spent_on: 日期
+field_identifier: Identifier
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题
@@ -164,6 +165,7 @@ setting_text_formatting: 文本格式
 setting_wiki_compression: Wiki history compression
 setting_feeds_limit: Feed content limit
 setting_autofetch_changesets: Autofetch SVN commits
+setting_sys_api_enabled: Enable WS for repository management
 
 label_user: 用户
 label_user_plural: 用户列表
@@ -397,6 +399,7 @@ text_journal_deleted: 已删除
 text_tip_task_begin_day: 开始于此
 text_tip_task_end_day: 在此结束
 text_tip_task_begin_end_day: 开始并结束于此
+text_project_identifier_info: '12 characters maximum. Letters (a-z), numbers (0-9) and dashes allowed.<br />Once saved, the identifier can not be changed.'
 
 default_role_manager: 管理员
 default_role_developper: 开发人员

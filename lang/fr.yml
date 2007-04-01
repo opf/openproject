@@ -146,6 +146,7 @@ field_subproject: Sous-projet
 field_hours: Heures
 field_activity: Activité
 field_spent_on: Date
+field_identifier: Identifiant
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -161,6 +162,7 @@ setting_text_formatting: Formatage du texte
 setting_wiki_compression: Compression historique wiki
 setting_feeds_limit: Limite du contenu des flux RSS
 setting_autofetch_changesets: Récupération auto. des commits SVN
+setting_sys_api_enabled: Activer les WS pour la gestion des dépôts
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -394,6 +396,7 @@ text_journal_deleted: supprimé
 text_tip_task_begin_day: tâche commençant ce jour
 text_tip_task_end_day: tâche finissant ce jour
 text_tip_task_begin_end_day: tâche commençant et finissant ce jour
+text_project_identifier_info: '12 caractères maximum. Lettres (a-z), chiffres (0-9) et tirets autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
 
 default_role_manager: Manager
 default_role_developper: Développeur

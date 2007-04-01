@@ -8,6 +8,7 @@ projects_001:
   description: Recipes management application
   homepage: http://ecookbook.somenet.foo/
   is_public: true
+  identifier: ecookbook
   parent_id: 
 projects_002: 
   created_on: 2006-07-19 19:14:19 +02:00
@@ -18,6 +19,7 @@ projects_002:
   description: E-commerce web site
   homepage: ""
   is_public: false
+  identifier: onlinestore
   parent_id: 
 projects_003: 
   created_on: 2006-07-19 19:15:21 +02:00
@@ -28,6 +30,7 @@ projects_003:
   description: eCookBook Subproject 1
   homepage: ""
   is_public: true
+  identifier: subproject1
   parent_id: 1
 projects_004: 
   created_on: 2006-07-19 19:15:51 +02:00
@@ -38,4 +41,5 @@ projects_004:
   description: eCookbook Subproject 2
   homepage: ""
   is_public: true
+  identifier: subproject1
   parent_id: 1
