@@ -35,7 +35,8 @@
   <%= password_field_tag 'password', nil, :size => 25 %></p>
 
   <p><label for="new_password"><%=l(:field_new_password)%> <span class="required">*</span></label>
-  <%= password_field_tag 'new_password', nil, :size => 25 %></p>
+  <%= password_field_tag 'new_password', nil, :size => 25 %><br />
+  <em><%= l(:text_length_between, 4, 12) %></em></p>
 
   <p><label for="new_password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
   <%= password_field_tag 'new_password_confirmation', nil, :size => 25 %></p>

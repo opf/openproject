@@ -398,7 +398,9 @@ text_journal_deleted: 削除
 text_tip_task_begin_day: この日に開始するタスク
 text_tip_task_end_day: この日に終了するタスク
 text_tip_task_begin_end_day: この日のうちに開始して終了するタスク
-text_project_identifier_info: '12 characters maximum. Letters (a-z), numbers (0-9) and dashes allowed.<br />Once saved, the identifier can not be changed.'
+text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
+text_caracters_maximum: %d characters maximum.
+text_length_between: Length between %d and %d characters.
 
 default_role_manager: 管理者
 default_role_developper: 開発者

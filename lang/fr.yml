@@ -397,7 +397,9 @@ text_journal_deleted: supprimé
 text_tip_task_begin_day: tâche commençant ce jour
 text_tip_task_end_day: tâche finissant ce jour
 text_tip_task_begin_end_day: tâche commençant et finissant ce jour
-text_project_identifier_info: '12 caractères maximum. Lettres (a-z), chiffres (0-9) et tirets autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+text_project_identifier_info: 'Lettres minuscules (a-z), chiffres et tirets autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+text_caracters_maximum: %d caractères maximum.
+text_length_between: Longueur comprise entre %d et %d caractères.
 
 default_role_manager: Manager
 default_role_developper: Développeur

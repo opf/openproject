@@ -23,7 +23,8 @@
 <p><%= f.select :auth_source_id, [[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] } %></p>
 <% end %>
 <p><label for="password"><%=l(:field_password)%><span class="required"> *</span></label>
-<%= password_field_tag 'password', nil, :size => 25  %></p>
+<%= password_field_tag 'password', nil, :size => 25  %><br />
+<em><%= l(:text_length_between, 4, 12) %></em></p>
 <p><label for="password_confirmation"><%=l(:field_password_confirmation)%><span class="required"> *</span></label>
 <%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
 </div>

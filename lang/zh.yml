@@ -400,7 +400,9 @@ text_journal_deleted: 已删除
 text_tip_task_begin_day: 开始于此
 text_tip_task_end_day: 在此结束
 text_tip_task_begin_end_day: 开始并结束于此
-text_project_identifier_info: '12 characters maximum. Letters (a-z), numbers (0-9) and dashes allowed.<br />Once saved, the identifier can not be changed.'
+text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
+text_caracters_maximum: %d characters maximum.
+text_length_between: Length between %d and %d characters.
 
 default_role_manager: 管理员
 default_role_developper: 开发人员

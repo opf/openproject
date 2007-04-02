@@ -35,8 +35,10 @@ class Project < ActiveRecord::Base
   validates_uniqueness_of :name, :identifier
   validates_associated :custom_values, :on => :update
   validates_associated :repository, :wiki
+  validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
-  validates_length_of :identifier, :maximum => 12
+  validates_length_of :description, :maximum => 255
+  validates_length_of :identifier, :in => 3..12
   validates_format_of :identifier, :with => /^[a-z0-9\-]*$/
   
   def identifier=(identifier)
