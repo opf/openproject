@@ -2,15 +2,17 @@
 
 <table class="list">
   <thead><tr>
-	<%= sort_header_tag('name', :caption => l(:label_project)) %>
+	<%= sort_header_tag("#{Project.table_name}.name", :caption => l(:label_project)) %>
 	<th><%=l(:field_description)%></th>
-	<%= sort_header_tag('created_on', :caption => l(:field_created_on)) %>
+	<th><%=l(:field_parent)%></th>
+	<%= sort_header_tag("#{Project.table_name}.created_on", :caption => l(:field_created_on)) %>
   </tr></thead>
   <tbody>
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to project.name, :action => 'show', :id => project %></td>
 	<td><%=h project.description %></td>
+	<td><%= link_to(project.parent.name, :action => 'show', :id => project.parent) unless project.parent.nil? %></td>
 	<td align="center"><%= format_date(project.created_on) %></td>
   </tr>
 <% end %>
