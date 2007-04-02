@@ -5,8 +5,8 @@
 <tr>
 <td align="left" style="width:15%">
     <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
-                        {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1), :tracker_ids => @selected_tracker_ids }},
-                        {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1), :tracker_ids => @selected_tracker_ids)}
+                        {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1), :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects] }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1), :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects])}
                         %>
 </td>
 <td align="center" style="width:55%">
@@ -22,13 +22,17 @@
       <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
       <%= tracker.name %><br />
     <% end %>
+    <% if @project.children.any? %>
+    <p><strong><%=l(:label_subproject_plural)%></strong></p>
+    <%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%= l(:general_text_Yes) %>
+    <% end %>
     <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
     </div>
 </td>
 <td align="right" style="width:15%">
     <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
-                        {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1), :tracker_ids => @selected_tracker_ids }},
-                        {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1), :tracker_ids => @selected_tracker_ids)}
+                        {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1), :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects] }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1), :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects])}
                         %>&nbsp;
 </td>
 </tr>

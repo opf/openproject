@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= l(:label_export_to) %>
-<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :output => 'pdf'}, :class => 'icon icon-pdf' %>
+<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :output => 'pdf'}, :class => 'icon icon-pdf' %>
 </div>
 
 <h2><%= l(:label_gantt) %></h2>
@@ -24,17 +24,21 @@
       <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
       <%= tracker.name %><br />
     <% end %>
+    <% if @project.children.any? %>
+    <p><strong><%=l(:label_subproject_plural)%></strong></p>
+    <%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%= l(:general_text_Yes) %>
+    <% end %>
     <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
     </div>
 </td>
 <td align="right">
 <%= if @zoom < 4
-    link_to image_tag('zoom_in.png'), {:zoom => (@zoom+1), :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids}
+    link_to image_tag('zoom_in.png'), {:zoom => (@zoom+1), :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects]}
   else
     image_tag 'zoom_in_g.png'
   end %>
 <%= if @zoom > 1
-    link_to image_tag('zoom_out.png'),{:zoom => (@zoom-1), :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids}
+    link_to image_tag('zoom_out.png'),{:zoom => (@zoom-1), :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects]}
   else
     image_tag 'zoom_out_g.png'
   end %>
@@ -103,7 +107,7 @@ height = (show_weeks ? header_heigth : header_heigth + g_height)
 	width = ((month_f >> 1) - month_f) * zoom - 1
 	%>
 	<div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
-	<%= link_to "#{month_f.year}-#{month_f.month}", { :year => month_f.year, :month => month_f.month, :zoom => @zoom, :months => @months }, :title => "#{month_name(month_f.month)} #{month_f.year}"%>
+	<%= link_to "#{month_f.year}-#{month_f.month}", { :year => month_f.year, :month => month_f.month, :zoom => @zoom, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects] }, :title => "#{month_name(month_f.month)} #{month_f.year}"%>
 	</div>
 	<% 
 	left = left + width + 1
@@ -217,7 +221,7 @@ end %>
 
 <table width="100%">
 <tr>
-<td align="left"><%= link_to ('&#171; ' + l(:label_previous)), :year => (@date_from << @months).year, :month => (@date_from << @months).month, :zoom => @zoom, :months => @months, :tracker_ids => @selected_tracker_ids %></td>
-<td align="right"><%= link_to (l(:label_next) + ' &#187;'), :year => (@date_from >> @months).year, :month => (@date_from >> @months).month, :zoom => @zoom, :months => @months, :tracker_ids => @selected_tracker_ids %></td>
+<td align="left"><%= link_to ('&#171; ' + l(:label_previous)), :year => (@date_from << @months).year, :month => (@date_from << @months).month, :zoom => @zoom, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects] %></td>
+<td align="right"><%= link_to (l(:label_next) + ' &#187;'), :year => (@date_from >> @months).year, :month => (@date_from >> @months).month, :zoom => @zoom, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects] %></td>
 </tr>
 </table>

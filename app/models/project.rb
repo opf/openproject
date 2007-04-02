@@ -47,6 +47,19 @@ class Project < ActiveRecord::Base
     errors[:identifier].nil? && !(new_record? || identifier.blank?)
   end
   
+  def issues_with_subprojects(include_subprojects=false)
+    conditions = nil
+    if include_subprojects && children.size > 0
+      ids = [id] + children.collect {|c| c.id}
+      conditions = ["#{Issue.table_name}.project_id IN (#{ids.join(',')})"]
+    else
+      conditions = ["#{Issue.table_name}.project_id = ?", id]
+    end
+    Issue.with_scope :find => { :conditions => conditions } do 
+      yield
+    end 
+  end
+  
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)

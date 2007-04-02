@@ -545,10 +545,12 @@ class ProjectsController < ApplicationController
     # finish on sunday
     @date_to = @date_to + (7-@date_to.cwday)        
     
-    @issues = @project.issues.find(:all, 
-                                   :include => [:tracker, :status, :assigned_to, :priority], 
-                                   :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)) and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", @date_from, @date_to, @date_from, @date_to]
-                                   ) unless @selected_tracker_ids.empty?
+    @project.issues_with_subprojects(params[:with_subprojects]) do
+      @issues = Issue.find(:all, 
+                           :include => [:tracker, :status, :assigned_to, :priority], 
+                           :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)) and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", @date_from, @date_to, @date_from, @date_to]
+                           ) unless @selected_tracker_ids.empty?
+    end
     @issues ||=[]
     
     @ending_issues_by_days = @issues.group_by {|issue| issue.due_date}
@@ -579,11 +581,13 @@ class ProjectsController < ApplicationController
     @date_from = Date.civil(@year_from, @month_from, 1)
     @date_to = (@date_from >> @months) - 1
     
-    @issues = @project.issues.find(:all, 
-                                   :order => "start_date, due_date",
-                                   :include => [:tracker, :status, :assigned_to, :priority], 
-                                   :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}))", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to]
-                                   ) unless @selected_tracker_ids.empty?
+    @project.issues_with_subprojects(params[:with_subprojects]) do
+      @issues = Issue.find(:all, 
+                           :order => "start_date, due_date",
+                           :include => [:tracker, :status, :assigned_to, :priority], 
+                           :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}))", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to]
+                           ) unless @selected_tracker_ids.empty?
+    end
     @issues ||=[]
     
     if params[:output]=='pdf'
