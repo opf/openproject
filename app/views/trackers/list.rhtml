@@ -14,13 +14,13 @@
 <% for tracker in @trackers %>
   <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to tracker.name, :action => 'edit', :id => tracker %></td>
-  <td align="center">
+  <td align="center" style="width:15%;">
     <%= link_to image_tag('2uparrow.png', :alt => l(:label_sort_highest)), {:action => 'move', :id => tracker, :position => 'highest'}, :method => :post, :title => l(:label_sort_highest) %>
     <%= link_to image_tag('1uparrow.png', :alt => l(:label_sort_higher)), {:action => 'move', :id => tracker, :position => 'higher'}, :method => :post, :title => l(:label_sort_higher) %> -
     <%= link_to image_tag('1downarrow.png', :alt => l(:label_sort_lower)), {:action => 'move', :id => tracker, :position => 'lower'}, :method => :post, :title => l(:label_sort_lower) %>
     <%= link_to image_tag('2downarrow.png', :alt => l(:label_sort_lowest)), {:action => 'move', :id => tracker, :position => 'lowest'}, :method => :post, :title => l(:label_sort_lowest) %>
   </td>
-  <td align="center">
+  <td align="center" style="width:10%;">
     <%= button_to l(:button_delete), { :action => 'destroy', :id => tracker }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
   </td>
   </tr>
