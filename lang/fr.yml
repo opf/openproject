@@ -354,6 +354,7 @@ label_view_diff: Voir les différences
 label_diff_inline: en ligne
 label_diff_side_by_side: côte à côte
 label_options: Options
+label_copy_workflow_from: Copier le workflow de
 
 button_login: Connexion
 button_submit: Soumettre

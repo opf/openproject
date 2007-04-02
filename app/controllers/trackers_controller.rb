@@ -35,9 +35,16 @@ class TrackersController < ApplicationController
   def new
     @tracker = Tracker.new(params[:tracker])
     if request.post? and @tracker.save
+      # workflow copy
+      if params[:copy_workflow_from] && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
+        copy_from.workflows.each do |w|
+          @tracker.workflows << w.clone
+        end
+      end
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
     end
+    @trackers = Tracker.find :all
   end
 
   def edit
