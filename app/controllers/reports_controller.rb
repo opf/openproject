@@ -47,16 +47,24 @@ class ReportsController < ApplicationController
       @data = issues_by_author
       @report_title = l(:field_author)
       render :template => "reports/issue_report_details"  
+    when "subproject"
+      @field = "project_id"
+      @rows = @project.children
+      @data = issues_by_subproject
+      @report_title = l(:field_subproject)
+      render :template => "reports/issue_report_details"  
     else
       @queries = @project.queries.find :all, :conditions => ["is_public=? or user_id=?", true, (logged_in_user ? logged_in_user.id : 0)]
       @trackers = Tracker.find(:all, :order => 'position')
       @priorities = Enumeration::get_values('IPRI')
       @categories = @project.issue_categories
       @authors = @project.members.collect { |m| m.user }
+      @subprojects = @project.children
       issues_by_tracker
       issues_by_priority
       issues_by_category
       issues_by_author
+      issues_by_subproject
       @total_hours = @project.time_entries.sum(:hours)
       render :template => "reports/issue_report"
     end
@@ -164,5 +172,20 @@ private
                                                   and i.author_id=a.id
                                                   and i.project_id=#{@project.id}
                                                 group by s.id, s.is_closed, a.id")	
+  end
+  
+  def issues_by_subproject
+    @issues_by_subproject ||= 
+      ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
+                                                  s.is_closed as closed, 
+                                                  i.project_id as project_id,
+                                                  count(i.id) as total 
+                                                from 
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s
+                                                where 
+                                                  i.status_id=s.id 
+                                                  and i.project_id IN (#{@project.children.collect{|p| p.id}.join(',')})
+                                                group by s.id, s.is_closed, i.project_id") if @project.children.any?
+    @issues_by_subproject ||= []
   end
 end

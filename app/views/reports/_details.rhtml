@@ -15,28 +15,28 @@
 <tbody>
 <% for row in rows %>
 <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to row.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
+  <td><%= link_to row.name, :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id %></td>
   <% for status in @statuses %>
     <td align="center"><%= link_to (aggregate data, { field_name => row.id, "status_id" => status.id }), 
-                                                :controller => 'projects', :action => 'list_issues', :id => @project, 
+                                                :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "status_id" => status.id, 
                                                 "#{field_name}" => row.id %></td>
   <% end %>
   <td align="center"><%= link_to (aggregate data, { field_name => row.id, "closed" => 0 }),
-                                                :controller => 'projects', :action => 'list_issues', :id => @project, 
+                                                :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "o" %></td>
   <td align="center"><%= link_to (aggregate data, { field_name => row.id, "closed" => 1 }),
-                                                :controller => 'projects', :action => 'list_issues', :id => @project, 
+                                                :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "c" %></td>
   <td align="center"><%= link_to (aggregate data, { field_name => row.id }),
-                                                :controller => 'projects', :action => 'list_issues', :id => @project, 
+                                                :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "*" %></td>  

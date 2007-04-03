@@ -36,6 +36,11 @@
 <h3><%=l(:field_priority)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :detail => 'priority' %></h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_priority, :field_name => "priority_id", :rows => @priorities } %>
 <br />
+<% if @project.children.any? %>
+<h3><%=l(:field_subproject)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :detail => 'subproject' %></h3>
+<%= render :partial => 'simple', :locals => { :data => @issues_by_subproject, :field_name => "project_id", :rows => @subprojects } %>
+<br />
+<% end %>
 <h3><%=l(:field_category)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :detail => 'category' %></h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_category, :field_name => "category_id", :rows => @categories } %>
 <br />
