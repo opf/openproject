@@ -55,6 +55,6 @@
   </tbody>
 </table>
 
-<p><%= pagination_links_full @user_pages %>
+<p><%= pagination_links_full @user_pages, :status => @status %>
 [ <%= @user_pages.current.first_item %> - <%= @user_pages.current.last_item %> / <%= @user_count %> ]
 </p>
