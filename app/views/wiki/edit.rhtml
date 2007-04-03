@@ -15,7 +15,7 @@
 <p><label><%= l(:field_comment) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview), 
-                       { :url => { :controller => 'wiki', :action => 'preview', :id => @project },
+                       { :url => { :controller => 'wiki', :action => 'preview', :id => @project, :page => @page.title },
                          :method => 'get',
                          :update => 'preview',
                          :with => "Form.serialize('wiki_form')",
