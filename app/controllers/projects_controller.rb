@@ -212,12 +212,20 @@ class ProjectsController < ApplicationController
   def add_issue
     @tracker = Tracker.find(params[:tracker_id])
     @priorities = Enumeration::get_values('IPRI')
-    @issue = Issue.new(:project => @project, :tracker => @tracker)
+    
+    default_status = IssueStatus.default
+    @issue = Issue.new(:project => @project, :tracker => @tracker, :status => default_status)    
+    @allowed_statuses = [default_status] + default_status.workflows.find(:all, :order => 'position', :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status }
+    
     if request.get?
       @issue.start_date = Date.today
       @custom_values = @project.custom_fields_for_issues(@tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) }
     else
       @issue.attributes = params[:issue]
+      
+      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
+      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
+      
       @issue.author_id = self.logged_in_user.id if self.logged_in_user
       # Multiple file upload
       @attachments = []

@@ -38,7 +38,7 @@ class Issue < ActiveRecord::Base
 
   # set default status for new issues
   def before_validation
-    self.status = IssueStatus.default if new_record?
+    self.status = IssueStatus.default if status.nil?
   end
 
   def validate
