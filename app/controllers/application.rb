@@ -32,8 +32,10 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  # Returns the role that the logged in user has on the current project
+  # or nil if current user is not a member of the project
   def logged_in_user_membership
-    @user_membership ||= Member.find(:first, :conditions => ["user_id=? and project_id=?", self.logged_in_user.id, @project.id])
+    @user_membership ||= logged_in_user.role_for_project(@project)
   end
   
   # check if login is globally required to access the application
@@ -86,8 +88,7 @@ class ApplicationController < ActionController::Base
     # admin is always authorized
     return true if self.logged_in_user.admin?
     # if not admin, check membership permission    
-    @user_membership ||= logged_in_user.role_for_project(@project)
-    if @user_membership and Permission.allowed_to_role( "%s/%s" % [ ctrl, action ], @user_membership )    
+    if logged_in_user_membership and Permission.allowed_to_role( "%s/%s" % [ ctrl, action ], logged_in_user_membership )    
       return true		
     end		
     render :nothing => true, :status => 403
