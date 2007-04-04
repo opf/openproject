@@ -214,7 +214,8 @@ class ProjectsController < ApplicationController
     @priorities = Enumeration::get_values('IPRI')
     
     default_status = IssueStatus.default
-    @issue = Issue.new(:project => @project, :tracker => @tracker, :status => default_status)    
+    @issue = Issue.new(:project => @project, :tracker => @tracker)    
+    @issue.status = default_status
     @allowed_statuses = default_status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
     if request.get?
       @issue.start_date = Date.today
