@@ -125,7 +125,8 @@ class User < ActiveRecord::Base
   end
   
   def role_for_project(project)
-    memberships.detect {|m| m.project_id == project.id}
+    member = memberships.detect {|m| m.project_id == project.id}
+    member ? member.role : nil 
   end
   
   def pref
