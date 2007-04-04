@@ -124,14 +124,8 @@ class User < ActiveRecord::Base
     User.hash_password(clear_password) == self.hashed_password
   end
   
-  def role_for_project(project_id)
-    @role_for_projects ||=
-      begin
-        roles = {}
-        self.memberships.each { |m| roles.store m.project_id, m.role_id }
-        roles
-      end
-    @role_for_projects[project_id]
+  def role_for_project(project)
+    memberships.detect {|m| m.project_id == project.id}
   end
   
   def pref

@@ -25,7 +25,7 @@ class IssuesController < ApplicationController
   include IfpdfHelper
 
   def show
-    @status_options = ([@issue.status] + @issue.status.workflows.find(:all, :order => 'position', :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status }) if self.logged_in_user
+    @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
     @journals_count = @issue.journals.count
     @journals = @issue.journals.find(:all, :include => [:user, :details], :limit => 15, :order => "#{Journal.table_name}.created_on desc")
@@ -67,9 +67,6 @@ class IssuesController < ApplicationController
   def add_note
     unless params[:notes].empty?
       journal = @issue.init_journal(self.logged_in_user, params[:notes])
-      #@history = @issue.histories.build(params[:history])
-      #@history.author_id = self.logged_in_user.id if self.logged_in_user
-      #@history.status = @issue.status
       if @issue.save
         flash[:notice] = l(:notice_successful_update)
         Mailer.deliver_issue_edit(journal) if Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
@@ -82,17 +79,10 @@ class IssuesController < ApplicationController
   end
 
   def change_status
-    #@history = @issue.histories.build(params[:history])	
-    @status_options = ([@issue.status] + @issue.status.workflows.find(:all, :order => 'position', :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status }) if self.logged_in_user
+    @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
     @new_status = IssueStatus.find(params[:new_status_id])
     if params[:confirm]
       begin
-        #@history.author_id = self.logged_in_user.id if self.logged_in_user
-        #@issue.status = @history.status
-        #@issue.fixed_version_id = (params[:issue][:fixed_version_id])
-        #@issue.assigned_to_id = (params[:issue][:assigned_to_id])
-        #@issue.done_ratio = (params[:issue][:done_ratio])
-        #@issue.lock_version = (params[:issue][:lock_version])
         journal = @issue.init_journal(self.logged_in_user, params[:notes])
         @issue.status = @new_status
         if @issue.update_attributes(params[:issue])

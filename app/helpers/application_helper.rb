@@ -34,7 +34,7 @@ module ApplicationHelper
       return true
     end
     # check if user is authorized    
-    if @logged_in_user and (@logged_in_user.admin? or Permission.allowed_to_role( "%s/%s" % [ controller, action ], @logged_in_user.role_for_project(@project.id)  )  )
+    if @logged_in_user and (@logged_in_user.admin? or Permission.allowed_to_role( "%s/%s" % [ controller, action ], @logged_in_user.role_for_project(@project)  )  )
       return true
     end
     return false

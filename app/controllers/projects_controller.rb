@@ -215,8 +215,7 @@ class ProjectsController < ApplicationController
     
     default_status = IssueStatus.default
     @issue = Issue.new(:project => @project, :tracker => @tracker, :status => default_status)    
-    @allowed_statuses = [default_status] + default_status.workflows.find(:all, :order => 'position', :include => :new_status, :conditions => ["role_id=? and tracker_id=?", self.logged_in_user.role_for_project(@project.id), @issue.tracker.id]).collect{ |w| w.new_status }
-    
+    @allowed_statuses = default_status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
     if request.get?
       @issue.start_date = Date.today
       @custom_values = @project.custom_fields_for_issues(@tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) }
@@ -349,7 +348,7 @@ class ProjectsController < ApplicationController
     redirect_to :action => 'list_issues', :id => @project and return unless @issues
     @projects = []
     # find projects to which the user is allowed to move the issue
-    @logged_in_user.memberships.each {|m| @projects << m.project if Permission.allowed_to_role("projects/move_issues", m.role_id)}
+    @logged_in_user.memberships.each {|m| @projects << m.project if Permission.allowed_to_role("projects/move_issues", m.role)}
     # issue can be moved to any tracker
     @trackers = Tracker.find(:all)
     if request.post? and params[:new_project_id] and params[:new_tracker_id]    

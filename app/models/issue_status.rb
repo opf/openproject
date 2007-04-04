@@ -36,12 +36,19 @@ class IssueStatus < ActiveRecord::Base
   end
 
   # Returns an array of all statuses the given role can switch to
+  # Uses association cache when called more than one time
   def new_statuses_allowed_to(role, tracker)
-    statuses = []
-    for workflow in self.workflows
-      statuses << workflow.new_status if workflow.role_id == role.id and workflow.tracker_id == tracker.id
-    end unless role.nil? or tracker.nil?
-    statuses
+    new_statuses = [self] + workflows.select {|w| w.role_id == role.id && w.tracker_id == tracker.id}.collect{|w| w.new_status}
+    new_statuses.sort{|x, y| x.position <=> y.position }
+  end
+  
+  # Same thing as above but uses a database query
+  # More efficient than the previous method if called just once
+  def find_new_statuses_allowed_to(role, tracker)  
+    new_statuses = [self] + workflows.find(:all, 
+                                           :include => :new_status,
+                                           :conditions => ["role_id=? and tracker_id=?", role.id, tracker.id]).collect{ |w| w.new_status }
+    new_statuses.sort{|x, y| x.position <=> y.position }
   end
   
 private

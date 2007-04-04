@@ -86,8 +86,8 @@ class ApplicationController < ActionController::Base
     # admin is always authorized
     return true if self.logged_in_user.admin?
     # if not admin, check membership permission    
-    @user_membership ||= Member.find(:first, :conditions => ["user_id=? and project_id=?", self.logged_in_user.id, @project.id])    
-    if @user_membership and Permission.allowed_to_role( "%s/%s" % [ ctrl, action ], @user_membership.role_id )    
+    @user_membership ||= logged_in_user.role_for_project(@project)
+    if @user_membership and Permission.allowed_to_role( "%s/%s" % [ ctrl, action ], @user_membership )    
       return true		
     end		
     render :nothing => true, :status => 403

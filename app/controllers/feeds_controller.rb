@@ -84,7 +84,7 @@ private
       # project feed
       # check if project is public or if the user is a member
       @project = Project.find(params[:project_id])
-      render(:nothing => true, :status => 403) and return false unless @project.is_public? || (@user && @user.role_for_project(@project.id))
+      render(:nothing => true, :status => 403) and return false unless @project.is_public? || (@user && @user.role_for_project(@project))
       scope = ["#{Project.table_name}.id=?", params[:project_id].to_i]
     else
       # global feed
