@@ -1,31 +1,17 @@
 <h2><%=l(:label_issue)%> #<%= @issue.id %>: <%=h @issue.subject %></h2>
 
 <%= error_messages_for 'issue' %>
-<% form_tag({:action => 'change_status', :id => @issue}, :multipart => true, :class => "tabular") do %>
+<% labelled_tabular_form_for(:issue, @issue, :url => {:action => 'change_status', :id => @issue}, :html => {:multipart => true}) do |f| %>
 
 <%= hidden_field_tag 'confirm', 1 %>
 <%= hidden_field_tag 'new_status_id', @new_status.id %>
+<%= f.hidden_field :lock_version %>
 
 <div class="box">
 <p><label><%=l(:label_issue_status_new)%></label> <%= @new_status.name %></p>
-
-<p><label for="issue_assigned_to_id"><%=l(:field_assigned_to)%></label>
-<select name="issue[assigned_to_id]">
-<option value=""></option>
-<%= options_from_collection_for_select @assignable_to, "id", "display_name", @issue.assigned_to_id %></p>
-</select></p>
-
-
-<p><label for="issue_done_ratio"><%=l(:field_done_ratio)%></label>
-<%= select("issue", "done_ratio", ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) ) %>
-</select></p>
-
-
-<p><label for="issue_fixed_version"><%=l(:field_fixed_version)%></label>
-<select name="issue[fixed_version_id]">
-<option value="">--none--</option>
-<%= options_from_collection_for_select @issue.project.versions, "id", "name", @issue.fixed_version_id %>
-</select></p>
+<p><%= f.select :assigned_to_id, (@issue.project.members.collect {|m| [m.name, m.user_id]}), :include_blank => true %></p>
+<p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
+<p><%= f.select :fixed_version_id, (@project.versions.collect {|v| [v.name, v.id]}), { :include_blank => true } %></p>
 
 <p><label for="notes"><%= l(:field_notes) %></label>
 <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %></p>
@@ -35,9 +21,7 @@
 <%= image_to_function "add.png", "addFileField();return false" %></label>
 <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
 <% end %>
-
 </div>
 
-<%= hidden_field 'issue', 'lock_version' %>
 <%= submit_tag l(:button_save) %>
 <% end %>
