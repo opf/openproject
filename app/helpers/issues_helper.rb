@@ -48,6 +48,8 @@ module IssuesHelper
         value = format_value(detail.value, custom_field.field_format) if detail.value
         old_value = format_value(detail.old_value, custom_field.field_format) if detail.old_value
       end
+    when 'attachment'
+      label = l(:label_attachment)
     end
        
     label ||= detail.prop_key
@@ -62,13 +64,23 @@ module IssuesHelper
     end
     
     if detail.value and !detail.value.to_s.empty?
-      if old_value
-        label + " " + l(:text_journal_changed, old_value, value)
-      else
-        label + " " + l(:text_journal_set_to, value)
+      case detail.property
+      when 'attr', 'cf'
+        if old_value
+          label + " " + l(:text_journal_changed, old_value, value)
+        else
+          label + " " + l(:text_journal_set_to, value)
+        end
+      when 'attachment'
+        "#{label} #{value} #{l(:label_added)}"
       end
     else
-      label + " " + l(:text_journal_deleted) + " (#{old_value})"
+      case detail.property
+      when 'attr', 'cf'
+        label + " " + l(:text_journal_deleted) + " (#{old_value})"
+      when 'attachment'
+        "#{label} #{old_value} #{l(:label_deleted)}"
+      end
     end
   end
 end

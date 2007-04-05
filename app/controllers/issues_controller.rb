@@ -86,6 +86,15 @@ class IssuesController < ApplicationController
         journal = @issue.init_journal(self.logged_in_user, params[:notes])
         @issue.status = @new_status
         if @issue.update_attributes(params[:issue])
+          # Save attachments
+          params[:attachments].each { |file|
+            next unless file.size > 0
+            a = Attachment.create(:container => @issue, :file => file, :author => logged_in_user)            
+            journal.details << JournalDetail.new(:property => 'attachment',
+                                                 :prop_key => a.id,
+                                                 :value => a.filename) unless a.new_record?
+          } if params[:attachments] and params[:attachments].is_a? Array
+        
           flash[:notice] = l(:notice_successful_update)
           Mailer.deliver_issue_edit(journal) if Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
           redirect_to :action => 'show', :id => @issue
@@ -106,17 +115,28 @@ class IssuesController < ApplicationController
   def add_attachment
     # Save the attachments
     @attachments = []
+    journal = @issue.init_journal(self.logged_in_user)
     params[:attachments].each { |file|
       next unless file.size > 0
       a = Attachment.create(:container => @issue, :file => file, :author => logged_in_user)
       @attachments << a unless a.new_record?
+      journal.details << JournalDetail.new(:property => 'attachment',
+                                           :prop_key => a.id,
+                                           :value => a.filename) unless a.new_record?
     } if params[:attachments] and params[:attachments].is_a? Array
+    journal.save if journal.details.any?
     Mailer.deliver_attachments_add(@attachments) if !@attachments.empty? and Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
     redirect_to :action => 'show', :id => @issue
   end
 
   def destroy_attachment
-    @issue.attachments.find(params[:attachment_id]).destroy
+    a = @issue.attachments.find(params[:attachment_id])
+    a.destroy
+    journal = @issue.init_journal(self.logged_in_user)
+    journal.details << JournalDetail.new(:property => 'attachment',
+                                         :prop_key => a.id,
+                                         :old_value => a.filename)
+    journal.save
     redirect_to :action => 'show', :id => @issue
   end
 
