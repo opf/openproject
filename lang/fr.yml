@@ -380,6 +380,7 @@ button_cancel: Annuler
 button_activate: Activer
 button_sort: Trier
 button_log_time: Saisir temps
+button_rollback: Revenir à cette version
 
 status_active: actif
 status_registered: enregistré

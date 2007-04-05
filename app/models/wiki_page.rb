@@ -32,6 +32,12 @@ class WikiPage < ActiveRecord::Base
     WikiPage.pretty_title(title)
   end
   
+  def content_for_version(version=nil)
+    result = content.versions.find_by_version(version.to_i) if version
+    result ||= content
+    result
+  end
+  
   def self.pretty_title(str)
     (str && str.is_a?(String)) ? str.tr('_', ' ') : str
   end

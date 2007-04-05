@@ -381,6 +381,7 @@ button_cancel: キャンセル
 button_activate: 有効にする
 button_sort: ソート
 button_log_time: 時間を記録
+button_rollback: Rollback to this version
 
 status_active: 有効
 status_registered: 登録

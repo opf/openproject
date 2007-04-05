@@ -380,6 +380,7 @@ button_cancel: Annulla
 button_activate: Attiva
 button_sort: Ordina
 button_log_time: Log time
+button_rollback: Rollback to this version
 
 status_active: active
 status_registered: registered

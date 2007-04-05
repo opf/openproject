@@ -27,7 +27,7 @@ class WikiController < ApplicationController
       edit
       render :action => 'edit' and return
     end
-    @content = (params[:version] ? @page.content.versions.find_by_version(params[:version]) : @page.content)
+    @content = @page.content_for_version(params[:version])
     if params[:export] == 'html'
       export = render_to_string :action => 'export', :layout => false
       send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
@@ -43,7 +43,8 @@ class WikiController < ApplicationController
   def edit
     @page = @wiki.find_or_new_page(params[:page])    
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
-    @content = @page.content
+    
+    @content = @page.content_for_version(params[:version])
     @content.text = "h1. #{@page.pretty_title}" if @content.text.blank?
     # don't keep previous comment
     @content.comment = nil

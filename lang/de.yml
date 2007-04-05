@@ -380,6 +380,7 @@ button_cancel: Abbrechen
 button_activate: Aktivieren
 button_sort: Sortieren
 button_log_time: Log time
+button_rollback: Rollback to this version
 
 status_active: aktiv
 status_registered: angemeldet

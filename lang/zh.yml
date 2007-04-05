@@ -383,6 +383,7 @@ button_cancel: 取消
 button_activate: 激活
 button_sort: 排序
 button_log_time: 登记工时
+button_rollback: Rollback to this version
 
 status_active: 激活
 status_registered: 已注册
