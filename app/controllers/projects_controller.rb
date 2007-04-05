@@ -262,7 +262,7 @@ class ProjectsController < ApplicationController
       @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)		
       @issue_pages = Paginator.new self, @issue_count, @results_per_page, params['page']								
       @issues = Issue.find :all, :order => sort_clause,
-  						:include => [ :author, :status, :tracker, :project, :priority ],
+  						:include => [ :assigned_to, :status, :tracker, :project, :priority ],
   						:conditions => @query.statement,
   						:limit  =>  @issue_pages.items_per_page,
   						:offset =>  @issue_pages.current.offset						
@@ -280,7 +280,7 @@ class ProjectsController < ApplicationController
     render :action => 'list_issues' and return unless @query.valid?
 					
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker, :priority, {:custom_values => :custom_field} ],
+						:include => [ :assigned_to, :author, :status, :tracker, :priority, {:custom_values => :custom_field} ],
 						:conditions => @query.statement,
 						:limit => Setting.issues_export_limit
 
@@ -292,6 +292,7 @@ class ProjectsController < ApplicationController
                        l(:field_tracker),
                        l(:field_priority),
                        l(:field_subject),
+                       l(:field_assigned_to),
                        l(:field_author),
                        l(:field_start_date),
                        l(:field_due_date),
@@ -309,7 +310,8 @@ class ProjectsController < ApplicationController
                             issue.tracker.name, 
                             issue.priority.name,
                             issue.subject, 
-                            issue.author.display_name,
+                            (issue.assigned_to ? issue.assigned_to.name : ""),
+                            issue.author.name,
                             issue.start_date ? l_date(issue.start_date) : nil,
                             issue.due_date ? l_date(issue.due_date) : nil,
                             issue.done_ratio,

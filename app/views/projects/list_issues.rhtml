@@ -51,7 +51,7 @@
 		<%= sort_header_tag("#{IssueStatus.table_name}.name", :caption => l(:field_status)) %>
 		<%= sort_header_tag("#{Issue.table_name}.priority_id", :caption => l(:field_priority)) %>
 		<th><%=l(:field_subject)%></th>
-		<%= sort_header_tag("#{User.table_name}.lastname", :caption => l(:field_author)) %>
+		<%= sort_header_tag("#{User.table_name}.lastname", :caption => l(:field_assigned_to)) %>
 		<%= sort_header_tag("#{Issue.table_name}.updated_on", :caption => l(:field_updated_on)) %>
 	</tr></thead>
 	<tbody>
@@ -63,7 +63,7 @@
 		<td><div class="square" style="background:#<%= issue.status.html_color %>;"></div> <%= issue.status.name %></td>
 		<td align="center"><%= issue.priority.name %></td>
 		<td><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></td>
-		<td align="center"><%= issue.author.display_name %></td>
+		<td align="center"><%= issue.assigned_to.name if issue.assigned_to %></td>
 		<td align="center"><%= format_time(issue.updated_on) %></td>
 	</tr>
 	<% end %>
