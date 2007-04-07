@@ -356,6 +356,7 @@ label_diff_inline: インライン
 label_diff_side_by_side: 横に並べる
 label_options: Options
 label_copy_workflow_from: Copy workflow from
+label_permissions_report: Permissions report
 
 button_login: ログイン
 button_submit: 変更

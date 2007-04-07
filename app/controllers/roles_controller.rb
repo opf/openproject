@@ -99,4 +99,17 @@ class RolesController < ApplicationController
     @trackers = Tracker.find(:all, :order => 'position')
     @statuses = IssueStatus.find(:all, :include => :workflows, :order => 'position')
   end
+  
+  def report    
+    @roles = Role.find :all
+    @permissions = Permission.find :all, :conditions => ["is_public=?", false], :order => 'sort'
+    if request.post?
+      @roles.each do |role|
+        role.permissions = Permission.find(params[:permission_ids] ? (params[:permission_ids][role.id.to_s] || []) : [] )
+      end
+      Permission.allowed_to_role_expired
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :action => 'list'
+    end
+  end
 end

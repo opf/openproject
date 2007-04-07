@@ -302,9 +302,10 @@ table.list thead th {
 }
 
 table.list tbody th {
-	font-weight: normal;
+	font-weight: bold;
     background: #eed;
     border: 1px solid #d7d7d7;
+    color: #777;
 }
 
 /********** Validation error messages *************/
