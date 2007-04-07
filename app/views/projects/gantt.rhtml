@@ -67,7 +67,7 @@ if @zoom >1
 end
 
 g_width = (@date_to - @date_from + 1)*zoom
-g_height = [(20 * @issues.length + 6)+150, 206].max
+g_height = [(20 * @events.length + 6)+150, 206].max
 t_height = g_height + headers_height
 %>
 
@@ -83,11 +83,15 @@ t_height = g_height + headers_height
 # Tasks subjects
 #
 top = headers_height + 8
-@issues.each do |i| %>
-    <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;">
-  	<small><%= link_to "#{i.tracker.name} ##{i.id}", { :controller => 'issues', :action => 'show', :id => i }, :title => "#{i.subject}" %>:
-  	<%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
-  	</div>
+@events.each do |i| %>
+    <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;"><small>    
+    <% if i.is_a? Issue %>
+      	<%= link_to "#{i.tracker.name} ##{i.id}", { :controller => 'issues', :action => 'show', :id => i }, :title => "#{i.subject}" %>:
+      	<%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %>
+  	<% else %>
+      	<strong><%= "#{l(:label_version)}: #{i.name}" %></strong>
+  	<% end %>  	
+  	</small></div>
     <% top = top + 20
 end %>
 </div>
@@ -180,8 +184,8 @@ if Date.today >= @date_from and Date.today <= @date_to %>
 # Tasks
 #
 top = headers_height + 10
-@issues.each do |i| %>
-	<%
+@events.each do |i| 
+  if i.is_a? Issue 
 	i_start_date = (i.start_date >= @date_from ? i.start_date : @date_from )
 	i_end_date = (i.due_date <= @date_to ? i.due_date : @date_to )
 	
@@ -212,6 +216,14 @@ top = headers_height + 10
 	<span class="tip">
     <%= render :partial => "issues/tooltip", :locals => { :issue => i }%>
 	</span></div>
+<% else 
+    i_left = ((i.start_date - @date_from)*zoom).floor
+    %>
+    <div style="top:<%= top %>px;left:<%= i_left %>px;width:15px;" class="task milestone">&nbsp;</div>
+	<div style="top:<%= top %>px;left:<%= i_left + 12 %>px;background:#fff;" class="task">
+	<strong><%= i.name %></strong>
+	</div>
+<% end %>
 	<% top = top + 20
 end %>
 </div>

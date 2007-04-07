@@ -106,51 +106,70 @@ pdf.Cell(subject_width+g_width-15, headers_heigth, "", 1)
 #
 top = headers_heigth + y_start
 pdf.SetFontStyle('B',7)
-@issues.each do |i|
+@events.each do |i|
 	pdf.SetY(top)
 	pdf.SetX(15)
-	pdf.Cell(subject_width-15, 5, "#{i.tracker.name} #{i.id}: #{i.subject}".sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)'), "LR")
+	
+	if i.is_a? Issue
+		pdf.Cell(subject_width-15, 5, "#{i.tracker.name} #{i.id}: #{i.subject}".sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)'), "LR")
+	else
+		pdf.Cell(subject_width-15, 5, "#{l(:label_version)}: #{i.name}", "LR")
+	end
 
 	pdf.SetY(top)
 	pdf.SetX(subject_width)
 	pdf.Cell(g_width, 5, "", "LR")
-	
-	i_start_date = (i.start_date >= @date_from ? i.start_date : @date_from )
-	i_end_date = (i.due_date <= @date_to ? i.due_date : @date_to )
-	
-	i_done_date = i.start_date + ((i.due_date - i.start_date+1)*i.done_ratio/100).floor
-	i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
-	i_done_date = (i_done_date >= @date_to ? @date_to : i_done_date )
-	
-	i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
-	
-	i_left = ((i_start_date - @date_from)*zoom) 
-	i_width = ((i_end_date - i_start_date + 1)*zoom)
-	d_width = ((i_done_date - i_start_date)*zoom)
-	l_width = ((i_late_date - i_start_date+1)*zoom) if i_late_date
-	l_width ||= 0
 
 	pdf.SetY(top+1.5)
-	pdf.SetX(subject_width + i_left)
-	pdf.SetFillColor(200,200,200)
-	pdf.Cell(i_width, 2, "", 0, 0, "", 1)
+	
+	if i.is_a? Issue
+		i_start_date = (i.start_date >= @date_from ? i.start_date : @date_from )
+		i_end_date = (i.due_date <= @date_to ? i.due_date : @date_to )
+		
+		i_done_date = i.start_date + ((i.due_date - i.start_date+1)*i.done_ratio/100).floor
+		i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
+		i_done_date = (i_done_date >= @date_to ? @date_to : i_done_date )
+		
+		i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
+		
+		i_left = ((i_start_date - @date_from)*zoom) 
+		i_width = ((i_end_date - i_start_date + 1)*zoom)
+		d_width = ((i_done_date - i_start_date)*zoom)
+		l_width = ((i_late_date - i_start_date+1)*zoom) if i_late_date
+		l_width ||= 0
+	
+		pdf.SetX(subject_width + i_left)
+		pdf.SetFillColor(200,200,200)
+		pdf.Cell(i_width, 2, "", 0, 0, "", 1)
+	
+		if l_width > 0
+			pdf.SetY(top+1.5)
+			pdf.SetX(subject_width + i_left)
+			pdf.SetFillColor(255,100,100)
+			pdf.Cell(l_width, 2, "", 0, 0, "", 1)
+		end 
+		if d_width > 0
+			pdf.SetY(top+1.5)
+			pdf.SetX(subject_width + i_left)
+			pdf.SetFillColor(100,100,255)
+			pdf.Cell(d_width, 2, "", 0, 0, "", 1)
+		end
+		
+		pdf.SetY(top+1.5)
+		pdf.SetX(subject_width + i_left + i_width)
+		pdf.Cell(30, 2, "#{i.status.name} #{i.done_ratio}%")
+	else
+		i_left = ((i.start_date - @date_from)*zoom) 
+		
+		pdf.SetX(subject_width + i_left)
+		pdf.SetFillColor(50,200,50)
+		pdf.Cell(2, 2, "", 0, 0, "", 1)	
 
-	if l_width > 0
 		pdf.SetY(top+1.5)
-		pdf.SetX(subject_width + i_left)
-		pdf.SetFillColor(255,100,100)
-		pdf.Cell(l_width, 2, "", 0, 0, "", 1)
-	end 
-	if d_width > 0
-		pdf.SetY(top+1.5)
-		pdf.SetX(subject_width + i_left)
-		pdf.SetFillColor(100,100,255)
-		pdf.Cell(d_width, 2, "", 0, 0, "", 1)
+		pdf.SetX(subject_width + i_left + 3)
+		pdf.Cell(30, 2, "#{i.name}")
 	end
 	
-	pdf.SetY(top+1.5)
-	pdf.SetX(subject_width + i_left + i_width)
-	pdf.Cell(30, 2, "#{i.status.name} #{i.done_ratio}%")
 	
 	top = top + 5
 	pdf.SetDrawColor(200, 200, 200)

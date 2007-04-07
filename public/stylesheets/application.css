@@ -559,6 +559,7 @@ font-size: 1em;
 .task_late { background:#f66 url(../images/task_late.png); border: 1px solid #f66; }
 .task_done { background:#66f url(../images/task_done.png); border: 1px solid #66f; }  
 .task_todo { background:#aaa url(../images/task_todo.png); border: 1px solid #aaa; }
+.milestone { background-image:url(../images/milestone.png); background-repeat: no-repeat; border: 0; }
 
 /***** Tooltips ******/
 .tooltip{position:relative;z-index:24;}

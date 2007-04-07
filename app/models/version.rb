@@ -25,6 +25,14 @@ class Version < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => [:project_id]
   validates_format_of :effective_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :activerecord_error_not_a_date
   
+  def start_date
+    effective_date
+  end
+  
+  def due_date
+    effective_date
+  end
+  
 private
   def check_integrity
     raise "Can't delete version" if self.fixed_issues.find(:first)
