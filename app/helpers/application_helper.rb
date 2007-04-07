@@ -54,6 +54,13 @@ module ApplicationHelper
     link_to "#{issue.tracker.name} ##{issue.id}", :controller => "issues", :action => "show", :id => issue
   end
   
+  def toggle_link(name, id, options={})
+    onclick = "Element.toggle('#{id}'); "
+    onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
+    onclick << "return false;"
+    link_to(name, "#", :onclick => onclick)
+  end
+  
   def image_to_function(name, function, html_options = {})
     html_options.symbolize_keys!
     tag(:input, html_options.merge({ 

@@ -15,7 +15,7 @@
     <%= submit_tag l(:button_submit), :class => "button-small" %>
 </td>
 <td align="left" style="width:15%">
-    <a href="#" onclick="Element.toggle('trackerselect')"><%= l(:label_options) %></a>
+    <%= toggle_link l(:label_options), "trackerselect" %>
     <div id="trackerselect" class="rightbox overlay" style="width:140px; display:none;">
     <p><strong><%=l(:label_tracker_plural)%></strong></p>
     <% @trackers.each do |tracker| %>

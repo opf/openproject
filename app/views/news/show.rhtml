@@ -24,10 +24,9 @@
 </div>
 
 <% if authorize_for 'news', 'add_comment' %>
-<% form_tag({:action => 'add_comment', :id => @news}) do %>
-<%= error_messages_for 'comment' %>
-<p><label for="comment_comment"><%= l(:label_comment_add) %></label><br />
-<%= text_area 'comment', 'comment', :cols => 60, :rows => 6 %></p>
-<%= submit_tag l(:button_add) %>
+<p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comment" %></p>
+<% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
+<%= text_area 'comment', 'comment', :cols => 60, :rows => 6 %>
+<p><%= submit_tag l(:button_add) %></p>
 <% end %>
 <% end %>
