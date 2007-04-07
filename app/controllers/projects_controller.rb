@@ -467,7 +467,7 @@ class ProjectsController < ApplicationController
     @events_by_day = {}    
     
     unless params[:show_issues] == "0"
-      @project.issues.find(:all, :include => [:author, :status], :conditions => ["#{Issue.table_name}.created_on>=? and #{Issue.table_name}.created_on<=?", @date_from, @date_to] ).each { |i|
+      @project.issues.find(:all, :include => [:author], :conditions => ["#{Issue.table_name}.created_on>=? and #{Issue.table_name}.created_on<=?", @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }

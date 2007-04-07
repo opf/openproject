@@ -25,6 +25,6 @@
     <ul>
     <% ver_id = issue.fixed_version_id
     end %>
-    <li><%= link_to "#{issue.tracker.name} #{issue.id}", :controller => 'issues', :action => 'show', :id => issue %>: <%=h issue.subject %></li>
+    <li><%= link_to_issue issue %>: <%=h issue.subject %></li>
 <% end %>
 </div>

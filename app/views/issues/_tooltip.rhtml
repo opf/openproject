@@ -1,4 +1,4 @@
-<%= link_to "#{issue.tracker.name} ##{issue.id}", { :controller => 'issues', :action => 'show', :id => issue } %></strong>: <%=h issue.subject %><br />
+<%= link_to_issue issue %></strong>: <%=h issue.subject %><br />
 <br />
 <strong><%= l(:field_start_date) %></strong>: <%= format_date(issue.start_date) %><br />
 <strong><%= l(:field_due_date) %></strong>: <%= format_date(issue.due_date) %><br />

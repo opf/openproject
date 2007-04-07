@@ -23,7 +23,7 @@
   <% @events_by_day[day].sort {|x,y| y.created_on <=> x.created_on }.each do |e| %>
     <li><p>
     <% if e.is_a? Issue %>
-      <%= e.created_on.strftime("%H:%M") %> <%= link_to "#{e.tracker.name} ##{e.id}", :controller => 'issues', :action => 'show', :id => e %> (<%= e.status.name %>): <%=h e.subject %><br />
+      <%= e.created_on.strftime("%H:%M") %> <%= link_to_issue e %>: <%=h e.subject %><br />
           <i><%= e.author.name %></i>
     <% elsif e.is_a? News %>
       <%= e.created_on.strftime("%H:%M") %> <%=l(:label_news)%>: <%= link_to h(e.title), :controller => 'news', :action => 'show', :id => e %><br />

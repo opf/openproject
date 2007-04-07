@@ -86,7 +86,7 @@ top = headers_height + 8
 @events.each do |i| %>
     <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;"><small>    
     <% if i.is_a? Issue %>
-      	<%= link_to "#{i.tracker.name} ##{i.id}", { :controller => 'issues', :action => 'show', :id => i }, :title => "#{i.subject}" %>:
+      	<%= link_to_issue i %>:
       	<%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %>
   	<% else %>
       	<strong><%= "#{l(:label_version)}: #{i.name}" %></strong>

@@ -24,7 +24,7 @@
       <% @results.each do |e| %>
         <li><p>
         <% if e.is_a? Issue %>
-            <%= link_to "#{e.tracker.name} ##{e.id}", :controller => 'issues', :action => 'show', :id => e %>: <%= highlight_tokens(h(e.subject), @tokens) %><br />
+            <%= link_to_issue e %>: <%= highlight_tokens(h(e.subject), @tokens) %><br />
             <%= highlight_tokens(e.description, @tokens) %><br />
             <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
         <% elsif e.is_a? News %>

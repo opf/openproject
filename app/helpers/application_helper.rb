@@ -50,6 +50,10 @@ module ApplicationHelper
     link_to user.display_name, :controller => 'account', :action => 'show', :id => user
   end
   
+  def link_to_issue(issue)
+    link_to "#{issue.tracker.name} ##{issue.id}", :controller => "issues", :action => "show", :id => issue
+  end
+  
   def image_to_function(name, function, html_options = {})
     html_options.symbolize_keys!
     tag(:input, html_options.merge({ 

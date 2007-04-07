@@ -48,9 +48,8 @@
       <% else %>
         <% issues.each do |issue| %>
           <li>
-            <%= link = link_to("#{issue.tracker.name} ##{issue.id}", :controller => 'issues', :action => 'show', :id => issue)
-                       issue.status.is_closed? ? content_tag("del", link) : link %>
-            : <%=h issue.subject %>
+            <%= link = link_to_issue(issue)
+                issue.status.is_closed? ? content_tag("del", link) : link %>: <%=h issue.subject %>
             <%= content_tag "em", "(#{l(:label_closed_issues)})" if issue.status.is_closed? %>
           </li>
         <% end %>
