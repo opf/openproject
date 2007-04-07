@@ -95,7 +95,6 @@ foreach my $project (@{$projects}) {
 	        warn("\tunable to create $repos_path : $?\n"), next;
 
 	    Log(text => "\trepository $repos_path created");
-	    my $call = $service->RepositoryCreated($project->{id}, "svn://host/$repos_name");
 	}
 }
 
