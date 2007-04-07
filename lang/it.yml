@@ -401,6 +401,7 @@ text_tip_task_begin_end_day: task beginning and ending this day
 text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
 text_caracters_maximum: %d characters maximum.
 text_length_between: Length between %d and %d characters.
+text_tracker_no_workflow: No workflow defined for this tracker
 
 default_role_manager: Manager
 default_role_developper: Sviluppatore

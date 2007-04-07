@@ -157,6 +157,7 @@ vertical-align: middle;
 .icon-feed  { background-image: url(../images/feed.png); }
 .icon-time  { background-image: url(../images/time.png); }
 .icon-stats  { background-image: url(../images/stats.png); }
+.icon-warning  { background-image: url(../images/warning.png); }
 
 .icon22-projects { background-image: url(../images/22x22/projects.png); }
 .icon22-users { background-image: url(../images/22x22/users.png); }
