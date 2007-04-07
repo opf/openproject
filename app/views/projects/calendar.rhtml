@@ -57,7 +57,8 @@ while day <= @date_to
 	<% end %>	
 	<td valign="top" class="<%= day.month==@month ? "even" : "odd" %>" style="width:14%; <%= Date.today == day ? 'background:#FDFED0;' : '' %>">
 	<p class="textright"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
-	<% ((@ending_issues_by_days[day] || []) + (@starting_issues_by_days[day] || [])).uniq.each do |i| %>
+	<% ((@ending_events_by_days[day] || []) + (@starting_events_by_days[day] || [])).uniq.each do |i| %>
+	    <% if i.is_a? Issue %>
 	    <div class="tooltip">
 		<%= if day == i.start_date and day == i.due_date
 		    image_tag('arrow_bw.png')
@@ -71,6 +72,9 @@ while day <= @date_to
         <%= render :partial => "issues/tooltip", :locals => { :issue => i }%>
         </span>		
 		</div>
+		<% else %>
+        <%= image_tag('milestone.png') %> <small><%= "#{l(:label_version)}: #{i.name}" %></small>
+		<% end %>
 	<% end %>
     </td>
 	<%= '</tr><tr style="height:100px">' if day.cwday >= 7 and day!=@date_to %>

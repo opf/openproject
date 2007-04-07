@@ -556,16 +556,17 @@ class ProjectsController < ApplicationController
     # finish on sunday
     @date_to = @date_to + (7-@date_to.cwday)        
     
+    @events = []
     @project.issues_with_subprojects(params[:with_subprojects]) do
-      @issues = Issue.find(:all, 
+      @events += Issue.find(:all, 
                            :include => [:tracker, :status, :assigned_to, :priority], 
                            :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)) and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", @date_from, @date_to, @date_from, @date_to]
                            ) unless @selected_tracker_ids.empty?
     end
-    @issues ||=[]
+    @events += @project.versions.find(:all, :conditions => ["effective_date BETWEEN ? AND ?", @date_from, @date_to])
     
-    @ending_issues_by_days = @issues.group_by {|issue| issue.due_date}
-    @starting_issues_by_days = @issues.group_by {|issue| issue.start_date}
+    @ending_events_by_days = @events.group_by {|event| event.due_date}
+    @starting_events_by_days = @events.group_by {|event| event.start_date}
     
     render :layout => false if request.xhr?
   end  
