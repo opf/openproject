@@ -118,7 +118,7 @@
 
 	<div id="content">
 		<% if flash[:notice] %><p style="color: green"><%= flash[:notice] %></p><% end %>		
-		<%= @content_for_layout %>	
+		<%= yield %>	
 	</div>
 	
 	<div id="footer">
