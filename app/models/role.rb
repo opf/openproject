@@ -26,6 +26,10 @@ class Role < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
+  def <=>(role)
+    position <=> role.position
+  end
+  
 private
   def check_integrity
     raise "Can't delete role" if Member.find(:first, :conditions =>["role_id=?", self.id])

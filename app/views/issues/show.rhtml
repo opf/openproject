@@ -11,7 +11,7 @@
     <td style="width:15%"><b><%=l(:field_priority)%> :</b></td><td style="width:35%"><%= @issue.priority.name %></td>
 </tr>
 <tr>
-    <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? @issue.assigned_to.name : "-" %></td>
+    <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
     <td><b><%=l(:field_category)%> :</b></td><td><%=h @issue.category ? @issue.category.name : "-" %></td>
 </tr>
 <tr>

@@ -5,7 +5,7 @@
 <h2><%=l(:label_overview)%></h2> 
 	
 <div class="splitcontentleft">
-	<%= simple_format(auto_link(h(@project.description))) %>	
+	<%= textilizable @project.description %>	
 	<ul>
 	<% unless @project.homepage.empty? %><li><%=l(:field_homepage)%>: <%= auto_link @project.homepage %></li><% end %>
 	<li><%=l(:field_created_on)%>: <%= format_date(@project.created_on) %></li>
@@ -40,17 +40,15 @@
 <div class="splitcontentright">
 	<div class="box">
 		<h3 class="icon22 icon22-users"><%=l(:label_member_plural)%></h3>	
-		<% for member in @members %>
-		<%= link_to_user member.user %> (<%= member.role.name %>)<br />		
+		<% @members_by_role.keys.sort.each do |role| %>
+		<%= role.name %>: <%= @members_by_role[role].collect(&:user).sort.collect{|u| link_to_user u}.join(", ") %><br />
 		<% end %>		
 	</div>
   
   <% if @subprojects %>
  	<div class="box">
 		<h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%></h3>	
-		<% for subproject in @subprojects %>
-		<%= link_to subproject.name, :action => 'show', :id => subproject %><br />		
-		<% end %>		
+		<%= @subprojects.collect{|p| link_to(p.name, :action => 'show', :id => p)}.join(", ") %>
 	</div>
   <% end %>
   

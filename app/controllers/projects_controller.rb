@@ -83,7 +83,7 @@ class ProjectsController < ApplicationController
   # Show @project
   def show
     @custom_values = @project.custom_values.find(:all, :include => :custom_field)
-    @members = @project.members.find(:all, :include => [:user, :role], :order => 'position')
+    @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
     @subprojects = @project.children if @project.children.size > 0
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = Tracker.find(:all, :order => 'position')

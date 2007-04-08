@@ -141,7 +141,11 @@ class User < ActiveRecord::Base
     token = Token.find_by_value(key)
     token && token.user.active? ? token.user : nil
   end
-	
+
+  def <=>(user)
+    lastname <=> user.lastname
+  end
+  
 private
   # Return password digest
   def self.hash_password(clear_password)

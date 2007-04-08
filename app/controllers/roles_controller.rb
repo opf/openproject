@@ -28,7 +28,7 @@ class RolesController < ApplicationController
   end
 
   def list
-    @role_pages, @roles = paginate :roles, :per_page => 10, :order => "position"
+    @role_pages, @roles = paginate :roles, :per_page => 25, :order => "position"
     render :action => "list", :layout => false if request.xhr?
   end
 
@@ -101,7 +101,7 @@ class RolesController < ApplicationController
   end
   
   def report    
-    @roles = Role.find :all
+    @roles = Role.find(:all, :order => 'position')
     @permissions = Permission.find :all, :conditions => ["is_public=?", false], :order => 'sort'
     if request.post?
       @roles.each do |role|
