@@ -33,11 +33,8 @@ class HelpController < ApplicationController
     # choose language according to available help translations
     lang = (@help_config['langs'].include? current_language.to_s) ? current_language.to_s : @help_config['langs'].first
 	
-    if template
-      redirect_to "/manual/#{lang}/#{template}"
-    else
-      redirect_to "/manual/#{lang}/index.html"
-    end
+    url = "/manual/#{lang}/" + (template || "index.html")
+    redirect_to(request.relative_url_root + url)
   end
 
 private
