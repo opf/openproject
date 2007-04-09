@@ -42,7 +42,7 @@
       <% unless e.comment.blank? %><em><%=h e.comment %></em><% end %>
     <% elsif e.is_a? Changeset %>
       <%= e.created_on.strftime("%H:%M") %> <%=l(:label_revision)%> <%= link_to h(e.revision), :controller => 'repositories', :action => 'revision', :id => @project, :rev => e.revision %><br />
-      <em><%=h e.committer.blank? ? "anonymous" : e.committer %><%= h(": #{e.comment}") unless e.comment.blank? %></em>
+      <em><%=h e.committer.blank? ? "anonymous" : e.committer %><%= h(": #{truncate(e.comment, 500)}") unless e.comment.blank? %></em>
     <% end %>
     </p></li>
   
