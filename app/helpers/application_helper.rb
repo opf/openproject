@@ -93,7 +93,7 @@ module ApplicationHelper
                             
     html << (pagination_links_each(paginator, options) do |n|
       link_to_remote(n.to_s, 
-                      {:url => {:action => 'list', :params => options.merge(:page => n)}, :update => 'content'},
+                      {:url => {:params => options.merge(:page => n)}, :update => 'content'},
                       {:href => url_for(:params => options.merge(:page => n))})
     end || '')
     
