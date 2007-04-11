@@ -147,7 +147,7 @@ field_subproject: サブプロジェクト
 field_hours: 時間
 field_activity: 活動
 field_spent_on: 日付
-field_identifier: Identifier
+field_identifier: 識別子
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -163,7 +163,7 @@ setting_text_formatting: テキストの書式
 setting_wiki_compression:  Wiki履歴を圧縮する
 setting_feeds_limit: フィード内容の上限
 setting_autofetch_changesets: SVNコミットを自動取得する
-setting_sys_api_enabled: Enable WS for repository management
+setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効化する
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -190,9 +190,9 @@ label_tracker: トラッカー
 label_tracker_plural: トラッカー
 label_tracker_new: 新しいトラッカーを作成
 label_workflow: ワークフロー
-label_issue_status: 問題の状態
-label_issue_status_plural: 問題の状態
-label_issue_status_new: 新しい状態
+label_issue_status: 問題のステータス
+label_issue_status_plural: 問題のステータス
+label_issue_status_new: 新しいステータス
 label_issue_category: 問題のカテゴリ
 label_issue_category_plural: 問題のカテゴリ
 label_issue_category_new: 新しいカテゴリ
@@ -214,7 +214,7 @@ label_administration: 管理
 label_login: ログイン
 label_logout: ログアウト
 label_help: ヘルプ
-label_reported_issues: 報告されている問題
+label_reported_issues: 報告した問題
 label_assigned_to_me_issues: 担当している問題
 label_last_login: 最近の接続
 label_last_updates: 最近の更新 1 件
@@ -241,7 +241,7 @@ label_attribute_plural: 属性
 label_download: %d ダウンロード
 label_download_plural: %d ダウンロード
 label_no_data: 表示するデータがありません
-label_change_status: 変更の状況
+label_change_status: ステータスの変更
 label_history: 履歴
 label_attachment: ファイル
 label_attachment_new: 新しいファイル
@@ -264,14 +264,14 @@ label_confirmation: 確認
 label_export_to: 他の形式に出力
 label_read: 読む...
 label_public_projects: 公開プロジェクト
-label_open_issues: 未着手
-label_open_issues_plural: 未着手
+label_open_issues: 未完了
+label_open_issues_plural: 未完了
 label_closed_issues: 終了
 label_closed_issues_plural: 終了
 label_total: 合計
 label_permissions: 権限
-label_current_status: 現在の状態
-label_new_statuses_allowed: 状態の移行先
+label_current_status: 現在のステータス
+label_new_statuses_allowed: ステータスの移行先
 label_all: 全て
 label_none: なし
 label_next: 次
@@ -354,9 +354,9 @@ label_commits_per_author: 起票者別のコミット
 label_view_diff: 差分を見る
 label_diff_inline: インライン
 label_diff_side_by_side: 横に並べる
-label_options: Options
-label_copy_workflow_from: Copy workflow from
-label_permissions_report: Permissions report
+label_options: オプション
+label_copy_workflow_from: ワークフローをここからコピー
+label_permissions_report: 権限レポート
 
 button_login: ログイン
 button_submit: 変更
@@ -382,7 +382,7 @@ button_cancel: キャンセル
 button_activate: 有効にする
 button_sort: ソート
 button_log_time: 時間を記録
-button_rollback: Rollback to this version
+button_rollback: このバージョンにロールバック
 
 status_active: 有効
 status_registered: 登録
@@ -400,10 +400,10 @@ text_journal_deleted: 削除
 text_tip_task_begin_day: この日に開始するタスク
 text_tip_task_end_day: この日に終了するタスク
 text_tip_task_begin_end_day: この日のうちに開始して終了するタスク
-text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
-text_caracters_maximum: %d characters maximum.
-text_length_between: Length between %d and %d characters.
-text_tracker_no_workflow: No workflow defined for this tracker
+text_project_identifier_info: '英小文字(a-z)と数字とダッシュ(-)が使えます。<br />一度保存すると、識別子は変更できません。'
+text_caracters_maximum: 最大 %d 文字です。
+text_length_between: 長さは %d から %d 文字までです。
+text_tracker_no_workflow: このトラッカーにワークフローが定義されていません
 
 default_role_manager: 管理者
 default_role_developper: 開発者
@@ -412,7 +412,7 @@ default_tracker_bug: バグ
 default_tracker_feature: 機能
 default_tracker_support: サポート
 default_issue_status_new: 新規
-default_issue_status_assigned: 分担
+default_issue_status_assigned: 担当
 default_issue_status_resolved: 解決
 default_issue_status_feedback: フィードバック
 default_issue_status_closed: 終了
