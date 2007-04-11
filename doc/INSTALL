@@ -8,7 +8,6 @@ http://redmine.rubyforge.org/
 == Requirements
 
 * Ruby on Rails 1.2.2
-* Iconv
 * A database (see compatibility below)
 
 Optional:

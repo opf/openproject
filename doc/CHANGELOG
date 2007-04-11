@@ -5,10 +5,36 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://redmine.rubyforge.org/
 
 
-== xx/xx/2007 v0.4.3
+== 04/11/2007 v0.5.0
 
-* japanese translation added (thanks to Satoru Kurashiki)
+* added per project Wiki
+* added rss/atom feeds at project level (custom queries can be used as feeds)
+* added search engine (search in issues, news, commits, wiki pages, documents)
+* simple time tracking functionality added
+* added version due dates on calendar and gantt
+* added subprojects issue count on project Reports page
+* added the ability to copy an existing workflow when creating a new tracker
+* added the ability to include subprojects on calendar and gantt
+* added the ability to select trackers to display on calendar and gantt (Jeffrey Jones)
+* added side by side svn diff view (Cyril Mougel)
+* added back subproject filter on issue list
+* added permissions report in admin area
+* added a status filter on users list
+* support for password-protected SVN repositories
+* SVN commits are now stored in the database
+* added simple svn statistics SVG graphs
+* progress bars for roadmap versions (Nick Read)
+* issue history now shows file uploads and deletions
+* #id patterns are turned into links to issues in descriptions and commit messages
+* japanese translation added (Satoru Kurashiki)
+* chinese simplified translation added (Andy Wu)
+* italian translation added (Alessio Spadaro)
+* added scripts to manage SVN repositories creation and user access control using ssh+svn (Nicolas Chuche)
+* better calendar rendering time
+* fixed migration scripts to work with mysql 5 running in strict mode
 * fixed: error when clicking "add" with no block selected on my/page_layout
+* fixed: hard coded links in navigation bar
+* fixed: table_name pre/suffix support
 
 
 == 02/18/2007 v0.4.2

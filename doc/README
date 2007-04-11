@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 == Main features
 
-redMine is a project management software written using Ruby on Rails.
+redMine is a flexible project management web application written using Ruby on Rails.
 
 * Multiple users/multiple projects
 * Fully customizable role based access control
@@ -31,13 +31,15 @@ redMine is a project management software written using Ruby on Rails.
 * Fully customizable workflow
 * Documents/files repository
 * News management
+* Per project Wiki
+* Time tracking
 * SVN browser and diff viewer
 * Email notifications
 * Custom fields for projects, users and issues
 * Multiple LDAP authentication support
 * User self-registration support
-* Multilanguage support (english, french, german, spanish)
-* Multiple databases support: MySQL, PostgreSQL, Oracle, SQL Server, SQLite
+* Multilanguage support
+* Multiple databases support
 
 
 == User documentation
@@ -61,3 +63,6 @@ may not be provided for these versions.
 * Todd McGrath (help with english translation)
 * Satoru Kurashiki (japanese translation)
 * Alessio Spadaro (italian translation)
+* Andy Wu (chinese simplified translation)
+* Thomas Löber (german translation)
+* Daniel Weinand (german translation)
