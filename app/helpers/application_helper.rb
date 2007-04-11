@@ -135,7 +135,7 @@ module ApplicationHelper
     # turn revision ids to textile links (@project needed)
     # example:
     #   r52 -> "r52":/repositories/revision/6?rev=52 (@project.id is 6)
-    text = text.gsub(/r(\d+)(?=\b)/) {|m| "\"r#{$1}\":" + url_for(:controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1) } if @project
+    text = text.gsub(/(?=\b)r(\d+)(?=\b)/) {|m| "\"r#{$1}\":" + url_for(:controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1) } if @project
    
     # finally textilize text
     @do_textilize ||= (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize")
