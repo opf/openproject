@@ -143,7 +143,7 @@ class User < ActiveRecord::Base
   end
 
   def <=>(user)
-    lastname <=> user.lastname
+    lastname == user.lastname ? firstname <=> user.firstname : lastname <=> user.lastname
   end
   
 private
