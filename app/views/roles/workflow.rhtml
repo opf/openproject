@@ -48,7 +48,6 @@
       name="issue_status[<%= old_status.id %>][]"
       value="<%= new_status.id %>"
       <%if old_status.new_statuses_allowed_to(@role, @tracker).include? new_status%>checked="checked"<%end%>
-      <%if old_status==new_status%>disabled<%end%>
       >			
 			</td>
 		<% end %>		
