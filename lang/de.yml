@@ -147,6 +147,7 @@ field_hours: Stunden
 field_activity: Aktivität
 field_spent_on: Datum
 field_identifier: Identifier
+field_is_filter: Used as a filter
 
 setting_app_title: Applikation Titel
 setting_app_subtitle: Applikation Untertitel

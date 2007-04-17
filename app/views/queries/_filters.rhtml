@@ -66,7 +66,7 @@ function toggle_multi_select(field) {
     <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<%= field %>">
     <td valign="top" style="width:200px;">
         <%= check_box_tag 'fields[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
-        <label for="cb_<%= field %>"><%= l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
+        <label for="cb_<%= field %>"><%= filter[1][:name] || l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
     </td>
     <td valign="top" style="width:150px;">
         <%= select_tag "operators[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
@@ -81,7 +81,7 @@ function toggle_multi_select(field) {
         <%= link_to_function image_tag('expand.png'), "toggle_multi_select('#{field}');" %>
     <% when :date, :date_past %>
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
-    <% when :text %>
+    <% when :string, :text %>
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 30, :class => "select-small" %>
     <% end %>
     </div>
@@ -93,7 +93,7 @@ function toggle_multi_select(field) {
 </td>
 <td align="right" valign="top">
 <%= l(:label_filter_add) %>:
-<%= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [l(("field_"+field[0].to_s.gsub(/\_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact), :onchange => "add_filter();", :class => "select-small" %>
+<%= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/\_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact), :onchange => "add_filter();", :class => "select-small" %>
 </td>
 </tr>
 </table>

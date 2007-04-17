@@ -150,6 +150,7 @@ field_hours: Hours
 field_activity: 活动
 field_spent_on: 日期
 field_identifier: Identifier
+field_is_filter: Used as a filter
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题

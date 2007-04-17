@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,6 +48,7 @@ class Query < ActiveRecord::Base
                                  :list_one_or_more => [ "*", "=" ],
                                  :date => [ "<t+", ">t+", "t+", "t", ">t-", "<t-", "t-" ],
                                  :date_past => [ ">t-", "<t-", "t-", "t" ],
+                                 :string => [ "=", "~", "!", "!~" ],
                                  :text => [  "~", "!~" ] }
 
   cattr_reader :operators_by_filter_type
@@ -60,7 +61,7 @@ class Query < ActiveRecord::Base
   
   def validate
     filters.each_key do |field|
-      errors.add field.gsub(/\_id$/, ""), :activerecord_error_blank unless 
+      errors.add label_for(field), :activerecord_error_blank unless 
           # filter requires one or more values
           (values_for(field) and !values_for(field).first.empty?) or 
           # filter doesn't require any value
@@ -86,6 +87,21 @@ class Query < ActiveRecord::Base
       @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.collect{|s| [s.name, s.id.to_s] } }
       unless @project.children.empty?
         @available_filters["subproject_id"] = { :type => :list_one_or_more, :order => 13, :values => @project.children.collect{|s| [s.name, s.id.to_s] } }
+      end
+      @project.all_custom_fields.select(&:is_filter?).each do |field|
+        case field.field_format
+        when "string", "int"
+          options = { :type => :string, :order => 20 }
+        when "text"
+          options = { :type => :text, :order => 20 }
+        when "list"
+          options = { :type => :list_optional, :values => field.possible_values, :order => 20}
+        when "date"
+          options = { :type => :date, :order => 20 }
+        when "bool"
+          options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
+        end          
+        @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
       end
       # remove category filter if no category defined
       @available_filters.delete "category_id" if @available_filters["category_id"][:values].empty?
@@ -126,6 +142,11 @@ class Query < ActiveRecord::Base
     has_filter?(field) ? filters[field][:values] : nil
   end
   
+  def label_for(field)
+    label = @available_filters[field][:name] if @available_filters.has_key?(field)
+    label ||= field.gsub(/\_id$/, "")
+  end
+  
   def statement
     sql = "1=1"
     if has_filter?("subproject_id")
@@ -142,40 +163,56 @@ class Query < ActiveRecord::Base
     filters.each_key do |field|
       next if field == "subproject_id"
       v = values_for field
-      next unless v and !v.empty?  
+      next unless v and !v.empty?
+        
       sql = sql + " AND " unless sql.empty?      
+      sql << "("
+      
+      if field =~ /^cf_(\d+)$/
+        # custom field
+        db_table = CustomValue.table_name
+        db_field = "value"
+        sql << "#{db_table}.custom_field_id = #{$1} AND "
+      else
+        # regular field
+        db_table = Issue.table_name
+        db_field = field
+      end
+      
       case operator_for field
       when "="
-        sql = sql + "#{Issue.table_name}.#{field} IN (" + v.each(&:to_i).join(",") + ")"
+        sql = sql + "#{db_table}.#{db_field} IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
       when "!"
-        sql = sql + "#{Issue.table_name}.#{field} NOT IN (" + v.each(&:to_i).join(",") + ")"
+        sql = sql + "#{db_table}.#{db_field} NOT IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
       when "!*"
-        sql = sql + "#{Issue.table_name}.#{field} IS NULL"
+        sql = sql + "#{db_table}.#{db_field} IS NULL"
       when "*"
-        sql = sql + "#{Issue.table_name}.#{field} IS NOT NULL"
+        sql = sql + "#{db_table}.#{db_field} IS NOT NULL"
       when "o"
         sql = sql + "#{IssueStatus.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
       when "c"
         sql = sql + "#{IssueStatus.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
       when ">t-"
-        sql = sql + "#{Issue.table_name}.#{field} >= '%s'" % connection.quoted_date(Date.today - v.first.to_i)
+        sql = sql + "#{db_table}.#{db_field} >= '%s'" % connection.quoted_date(Date.today - v.first.to_i)
       when "<t-"
-        sql = sql + "#{Issue.table_name}.#{field} <= '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} BETWEEN '#{connection.quoted_date(Date.new(0))}' AND '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
       when "t-"
-        sql = sql + "#{Issue.table_name}.#{field} = '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} = '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
       when ">t+"
-        sql = sql + "#{Issue.table_name}.#{field} >= '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} >= '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
       when "<t+"
-        sql = sql + "#{Issue.table_name}.#{field} <= '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} BETWEEN '#{connection.quoted_date(Date.new(0))}' AND '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
       when "t+"
-        sql = sql + "#{Issue.table_name}.#{field} = '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} = '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
       when "t"
-        sql = sql + "#{Issue.table_name}.#{field} = '%s'" % connection.quoted_date(Date.today)
+        sql = sql + "#{db_table}.#{db_field} = '%s'" % connection.quoted_date(Date.today)
       when "~"
-        sql = sql + "#{Issue.table_name}.#{field} LIKE '%#{connection.quote_string(v.first)}%'"
+        sql = sql + "#{db_table}.#{db_field} LIKE '%#{connection.quote_string(v.first)}%'"
       when "!~"
-        sql = sql + "#{Issue.table_name}.#{field} NOT LIKE '%#{connection.quote_string(v.first)}%'"
+        sql = sql + "#{db_table}.#{db_field} NOT LIKE '%#{connection.quote_string(v.first)}%'"
       end
+      sql << ")"
+      
     end if filters and valid?
     sql
   end
