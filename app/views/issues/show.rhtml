@@ -58,7 +58,7 @@ end %>
 </div>
 
 <% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
-  <% form_tag ({:controller => 'issues', :action => 'change_status', :id => @issue}) do %>
+  <% form_tag({:controller => 'issues', :action => 'change_status', :id => @issue}) do %>
   <%=l(:label_change_status)%> :
   <select name="new_status_id">
   <%= options_from_collection_for_select @status_options, "id", "name" %>
@@ -104,7 +104,7 @@ end %>
 <% if authorize_for('issues', 'add_note') %>
   <div class="box">
   <h3><%= l(:label_add_note) %></h3>
-  <% form_tag ({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular" ) do %>
+  <% form_tag({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular" ) do %>
   <p><label for="notes"><%=l(:field_notes)%></label>
     <%= text_area_tag 'notes', '', :cols => 60, :rows => 10, :class => 'wiki-edit'  %></p>
   <%= submit_tag l(:button_add) %>
