@@ -52,9 +52,11 @@
 	</div>
   <% end %>
   
+  <% if @news.any? %>
   <div class="box">
     <h3><%=l(:label_news_latest)%></h3>  
     <%= render :partial => 'news/news', :collection => @news %>
     <p class="textcenter"><small><%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %></small></p>
   </div>  
+  <% end %>
 </div>
