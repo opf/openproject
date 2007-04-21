@@ -383,6 +383,8 @@ button_activate: Aktivieren
 button_sort: Sortieren
 button_log_time: Log time
 button_rollback: Rollback to this version
+button_watch: Watch
+button_unwatch: Unwatch
 
 status_active: aktiv
 status_registered: angemeldet

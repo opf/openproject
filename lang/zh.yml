@@ -386,6 +386,8 @@ button_activate: 激活
 button_sort: 排序
 button_log_time: 登记工时
 button_rollback: Rollback to this version
+button_watch: Watch
+button_unwatch: Unwatch
 
 status_active: 激活
 status_registered: 已注册

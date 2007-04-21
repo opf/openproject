@@ -384,6 +384,8 @@ button_activate: 有効にする
 button_sort: ソート
 button_log_time: 時間を記録
 button_rollback: このバージョンにロールバック
+button_watch: Watch
+button_unwatch: Unwatch
 
 status_active: 有効
 status_registered: 登録

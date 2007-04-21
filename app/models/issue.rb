@@ -32,6 +32,8 @@ class Issue < ActiveRecord::Base
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :custom_fields, :through => :custom_values
 
+  acts_as_watchable
+  
   validates_presence_of :subject, :description, :priority, :tracker, :author, :status
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_associated :custom_values, :on => :update

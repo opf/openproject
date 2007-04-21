@@ -32,6 +32,8 @@ class Mailer < ActionMailer::Base
     # Sends to all project members
     issue = journal.journalized
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }.compact
+    # Watchers in cc
+    @cc             = issue.watcher_recipients - @recipients
     @from           = Setting.mail_from
     @subject        = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
     @body['issue']  = issue

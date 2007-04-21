@@ -383,6 +383,8 @@ button_activate: Activer
 button_sort: Trier
 button_log_time: Saisir temps
 button_rollback: Revenir à cette version
+button_watch: Surveiller
+button_unwatch: Ne plus surveiller
 
 status_active: actif
 status_registered: enregistré
