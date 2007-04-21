@@ -41,12 +41,12 @@ class ProjectsController < ApplicationController
   def list
     sort_init "#{Project.table_name}.name", "asc"
     sort_update		
-    @project_count = Project.count(:all, :conditions => ["is_public=?", true])		
+    @project_count = Project.count(:all, :conditions => Project.visible_by(logged_in_user))		
     @project_pages = Paginator.new self, @project_count,
 								15,
 								params['page']								
     @projects = Project.find :all, :order => sort_clause,
-						:conditions => ["#{Project.table_name}.is_public=?", true],
+						:conditions => Project.visible_by(logged_in_user),
 						:include => :parent,
 						:limit  =>  @project_pages.items_per_page,
 						:offset =>  @project_pages.current.offset

@@ -1,23 +1,30 @@
-<h2><%=l(:label_public_projects)%></h2>
+<h2><%=l(:label_project_plural)%></h2>
 
 <table class="list">
   <thead><tr>
 	<%= sort_header_tag("#{Project.table_name}.name", :caption => l(:label_project)) %>
-	<th><%=l(:field_description)%></th>
 	<th><%=l(:field_parent)%></th>
 	<%= sort_header_tag("#{Project.table_name}.created_on", :caption => l(:field_created_on)) %>
   </tr></thead>
   <tbody>
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
-	<td><%= link_to project.name, :action => 'show', :id => project %></td>
-	<td><%=h project.description %></td>
+	<td>
+	  <%= link_to project.name, {:action => 'show', :id => project}, :class => (@logged_in_user && @logged_in_user.role_for_project(project) ? "icon icon-fav" : "") %><br />
+	  <%=h project.description %>
+	</td>
 	<td><%= link_to(project.parent.name, :action => 'show', :id => project.parent) unless project.parent.nil? %></td>
 	<td align="center"><%= format_date(project.created_on) %></td>
   </tr>
 <% end %>
   </tbody>
 </table>
+
+<% if @logged_in_user %>
+<div class="contextual">
+<span class="icon icon-fav"><%= l(:label_my_projects) %></span>
+</div>
+<% end %>
 
 <%= pagination_links_full @project_pages %>
 [ <%= @project_pages.current.first_item %> - <%= @project_pages.current.last_item %> / <%= @project_count %> ]
