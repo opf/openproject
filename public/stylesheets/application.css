@@ -384,8 +384,9 @@ div.menu a.menuItem span.menuItemArrow {
 #subcontent{
 position: absolute;
 left: 0px;
-width:110px;
+width:95px;
 padding:20px 20px 10px 5px;
+overflow: hidden;
 }
 
 #subcontent h2{
