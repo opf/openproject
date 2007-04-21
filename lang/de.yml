@@ -357,6 +357,7 @@ label_diff_side_by_side: side by side
 label_options: Options
 label_copy_workflow_from: Copy workflow from
 label_permissions_report: Permissions report
+label_watched_issues: Watched issues
 
 button_login: Einloggen
 button_submit: OK

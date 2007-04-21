@@ -358,6 +358,7 @@ label_diff_side_by_side: 横に並べる
 label_options: オプション
 label_copy_workflow_from: ワークフローをここからコピー
 label_permissions_report: 権限レポート
+label_watched_issues: Watched issues
 
 button_login: ログイン
 button_submit: 変更
