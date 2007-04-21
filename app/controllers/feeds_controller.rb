@@ -44,7 +44,7 @@ class FeedsController < ApplicationController
     end
 
     Issue.with_scope(:find => @find_options) do
-      @issues = Issue.find :all, :include => [:project, :author, :tracker, :status], 
+      @issues = Issue.find :all, :include => [:project, :author, :tracker, :status, :custom_values], 
                                  :order => "#{Issue.table_name}.created_on DESC"
     end
     @title = (@project ? @project.name : Setting.app_title) + ": " + (query ? query.name : l(:label_reported_issues))
@@ -63,7 +63,7 @@ class FeedsController < ApplicationController
     end
 
     Journal.with_scope(:find => @find_options) do
-      @journals = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status]} ], 
+      @journals = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status, :custom_values]} ], 
                                      :order => "#{Journal.table_name}.created_on DESC"
     end
     
