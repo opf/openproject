@@ -19,6 +19,7 @@
 langs:
   - en
   - fr
+  - ja
 
 # mapping between controller/action and help pages
 # if action is not defined here, 'index' page will be displayed
