@@ -337,7 +337,7 @@ class ProjectsController < ApplicationController
     render :action => 'list_issues' and return unless @query.valid?
 					
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker, :priority ],
+						:include => [ :author, :status, :tracker, :priority, :custom_values ],
 						:conditions => @query.statement,
 						:limit => Setting.issues_export_limit
 											
