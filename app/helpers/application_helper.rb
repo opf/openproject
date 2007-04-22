@@ -135,15 +135,15 @@ module ApplicationHelper
     #   [[link|title]] -> "title":link
     text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) {|m| "\"#{$3 || $1}\":" + format_wiki_link.call(Wiki.titleize($1)) }
 
-    # turn issue ids to textile links
+    # turn issue ids into links
     # example:
-    #   #52 -> "#52":/issues/show/52
-    text = text.gsub(/#(\d+)(?=\b)/) {|m| "\"##{$1}\":" + url_for(:controller => 'issues', :action => 'show', :id => $1) }
+    #   #52 -> <a href="/issues/show/52">#52</a>
+    text = text.gsub(/#(\d+)(?=\b)/) {|m| link_to "##{$1}", :controller => 'issues', :action => 'show', :id => $1}
        
-    # turn revision ids to textile links (@project needed)
+    # turn revision ids into links (@project needed)
     # example:
-    #   r52 -> "r52":/repositories/revision/6?rev=52 (@project.id is 6)
-    text = text.gsub(/(?=\b)r(\d+)(?=\b)/) {|m| "\"r#{$1}\":" + url_for(:controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1) } if @project
+    #   r52 -> <a href="/repositories/revision/6?rev=52">r52</a> (@project.id is 6)
+    text = text.gsub(/(?=\b)r(\d+)(?=\b)/) {|m| link_to "r#{$1}", :controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1} if @project
    
     # finally textilize text
     @do_textilize ||= (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize")
