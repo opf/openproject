@@ -407,6 +407,7 @@ text_project_identifier_info: 'Letras minusculas (a-z), numeros e tracos permiti
 text_caracters_maximum: %d maximo de caracteres
 text_length_between: Tamanho entre %d e %d caracteres.
 text_tracker_no_workflow: Sem workflow definido para este tipo.
+text_unallowed_characters: Unallowed characters
 
 default_role_manager: Analista de Negocio ou Gerente de Projeto
 default_role_developper: Desenvolvedor

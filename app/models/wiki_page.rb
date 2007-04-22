@@ -20,7 +20,7 @@ class WikiPage < ActiveRecord::Base
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
   
   validates_presence_of :title
-  validates_format_of :title, :with => /^[^,\s]*$/
+  validates_format_of :title, :with => /^[^,\.\/\?\;\|\s]*$/
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
   

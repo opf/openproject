@@ -408,6 +408,7 @@ text_project_identifier_info: '英小文字(a-z)と数字とダッシュ(-)が�
 text_caracters_maximum: 最大 %d 文字です。
 text_length_between: 長さは %d から %d 文字までです。
 text_tracker_no_workflow: このトラッカーにワークフローが定義されていません
+text_unallowed_characters: Unallowed characters
 
 default_role_manager: 管理者
 default_role_developper: 開発者

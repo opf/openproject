@@ -20,6 +20,7 @@ class Wiki < ActiveRecord::Base
   has_many :pages, :class_name => 'WikiPage', :dependent => :destroy
   
   validates_presence_of :start_page
+  validates_format_of :start_page, :with => /^[^,\.\/\?\;\|]*$/
   
   # find the page with the given title
   # if page doesn't exist, return a new page
@@ -36,7 +37,7 @@ class Wiki < ActiveRecord::Base
   # turn a string into a valid page title
   def self.titleize(title)
     # replace spaces with _ and remove unwanted caracters
-    title = title.gsub(/\s+/, '_').delete(',;|') if title
+    title = title.gsub(/\s+/, '_').delete(',./?;|') if title
     # upcase the first letter
     title = title[0..0].upcase + title[1..-1] if title
     title

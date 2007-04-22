@@ -44,7 +44,7 @@
 <%= hidden_field_tag "wiki_enabled", 0 %>
 <div id="wiki">
 <% fields_for :wiki, @project.wiki, { :builder => TabularFormBuilder, :lang => current_language} do |wiki| %>
-<p><%= wiki.text_field :start_page, :size => 60, :required => true %></p>
+<p><%= wiki.text_field :start_page, :size => 60, :required => true %><br /><em><%= l(:text_unallowed_characters) %>: , . / ? ; |</em></p>
 <% # content_tag("div", "", :id => "wiki_start_page_auto_complete", :class => "auto_complete") +
    # auto_complete_field("wiki_start_page", { :url => { :controller => 'wiki', :action => 'auto_complete_for_wiki_page', :id => @project } })
 %>

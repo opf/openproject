@@ -407,6 +407,7 @@ text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allo
 text_caracters_maximum: %d characters maximum.
 text_length_between: Length between %d and %d characters.
 text_tracker_no_workflow: No workflow defined for this tracker
+text_unallowed_characters: Unallowed characters
 
 default_role_manager: Manager
 default_role_developper: Desarrollador
