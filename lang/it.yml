@@ -22,7 +22,7 @@ actionview_instancetag_blank_option: Scegli
 activerecord_error_inclusion: non è incluso nella lista
 activerecord_error_exclusion: e' riservato
 activerecord_error_invalid: non e' valido
-activerecord_error_confirmation: doesn't match confirmation
+activerecord_error_confirmation: non coincide con la conferma
 activerecord_error_accepted: deve essere accettato
 activerecord_error_empty: non puo' essere vuoto
 activerecord_error_blank: non puo' essere blank
@@ -56,16 +56,16 @@ notice_account_password_updated: La password è stata aggiornata.
 notice_account_wrong_password: Password errata
 notice_account_register_done: L'utenza è stata creata.
 notice_account_unknown_email: Utente sconosciuto.
-notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
-notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
-notice_account_activated: Your account has been activated. You can now log in.
-notice_successful_create: Successful creation.
-notice_successful_update: Successful update.
-notice_successful_delete: Successful deletion.
-notice_successful_connection: Successful connection.
-notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
-notice_locking_conflict: Data have been updated by another user.
-notice_scm_error: Entry and/or revision doesn't exist in the repository.
+notice_can_t_change_password: Questa utenza utilizza un metodo di autenticazione esterno. Impossibile cambiare la password.
+notice_account_lost_email_sent: Ti è stata spedita una email con le istruzioni per cambiare la password.
+notice_account_activated: Il tuo account è stato attivato. Ora puoi effettuare l'accesso.
+notice_successful_create: Creazione effettuata.
+notice_successful_update: Modifica effettuata.
+notice_successful_delete: Eliminazione effettuata.
+notice_successful_connection: Connessione effettuata.
+notice_file_not_found: La pagina desiderata non esiste o è stata rimossa.
+notice_locking_conflict: Le informazioni sono state modificate da un altro utente.
+notice_scm_error: La risorsa e/o la versione non esistono nel repository.
 
 mail_subject_lost_password: Password redMine
 mail_subject_register: Attivazione utenza redMine
@@ -82,7 +82,7 @@ field_lastname: Cognome
 field_mail: Email
 field_filename: File
 field_filesize: Dimensione
-field_downloads: Downloads
+field_downloads: Download
 field_author: Autore
 field_created_on: Creato
 field_updated_on: Aggiornato
@@ -161,15 +161,15 @@ setting_mail_from: Indirizzo sorgente e-mail
 setting_host_name: Nome host
 setting_text_formatting: Formattazione testo
 setting_wiki_compression: Compressione di storia di Wiki
-setting_feeds_limit: Feed content limit
-setting_autofetch_changesets: Autofetch SVN commits
-setting_sys_api_enabled: Enable WS for repository management
+setting_feeds_limit: Limite contenuti del feed
+setting_autofetch_changesets: Acquisisci automaticamente le commit SVN
+setting_sys_api_enabled: Abilita WS per la gestione del repository
 
 label_user: Utente
 label_user_plural: Utenti
 label_user_new: Nuovo utente
 label_project: Progetto
-label_project_new: New project
+label_project_new: Nuovo progetto
 label_project_plural: Progetti
 label_project_latest: Ultimi progetti registrati
 label_issue: Contesto
@@ -187,7 +187,7 @@ label_member: Membro
 label_member_new: Nuovo membro
 label_member_plural: Membri
 label_tracker: Tracker
-label_tracker_plural: Trackers
+label_tracker_plural: Tracker
 label_tracker_new: Nuovo tracker
 label_workflow: Workflow
 label_issue_status: Stato contesti
@@ -319,7 +319,7 @@ label_added: aggiunto
 label_modified: modificato
 label_deleted: eliminato
 label_latest_revision: Ultima versione
-label_latest_revision_plural: Latest revisions
+label_latest_revision_plural: Ultime versioni
 label_view_revisions: Mostra versioni
 label_max_size: Dimensione massima
 label_on: 'on'
@@ -328,35 +328,35 @@ label_sort_higher: Su
 label_sort_lower: Giù
 label_sort_lowest: Sposta in fondo
 label_roadmap: Roadmap
-label_roadmap_due_in: Due in 
-label_roadmap_no_issues: No issues for this version
+label_roadmap_due_in: Da ultimare in 
+label_roadmap_no_issues: Nessun contesto per questa versione
 label_search: Ricerca
 label_result: %d risultato
 label_result_plural: %d risultati
 label_all_words: Tutte le parole
 label_wiki: Wiki
-label_wiki_edit: Wiki edit
-label_wiki_edit_plural: Wiki edits
+label_wiki_edit: Modifica Wiki
+label_wiki_edit_plural: Modfiche wiki
 label_page_index: Indice
 label_current_version: Versione corrente
-label_preview: Previsione
-label_feed_plural: Feeds
+label_preview: Anteprima
+label_feed_plural: Feed
 label_changes_details: Particolari di tutti i cambiamenti
-label_issue_tracking: Issue tracking
-label_spent_time: Spent time
-label_f_hour: %.2f hour
-label_f_hour_plural: %.2f hours
-label_time_tracking: Time tracking
-label_change_plural: Changes
-label_statistics: Statistics
-label_commits_per_month: Commits per month
-label_commits_per_author: Commits per author
-label_view_diff: View differences
+label_issue_tracking: tracking dei contesti
+label_spent_time: Tempo impiegato
+label_f_hour: %.2f ora
+label_f_hour_plural: %.2f ore
+label_time_tracking: Tracking del tempo
+label_change_plural: Modifiche
+label_statistics: Statistiche
+label_commits_per_month: Commit per mese
+label_commits_per_author: Commit per autore
+label_view_diff: mostra differenze
 label_diff_inline: inline
 label_diff_side_by_side: side by side
-label_options: Options
-label_copy_workflow_from: Copy workflow from
-label_permissions_report: Permissions report
+label_options: Opzioni
+label_copy_workflow_from: Copia workflow da
+label_permissions_report: Report permessi
 label_watched_issues: Watched issues
 
 button_login: Login
@@ -382,31 +382,31 @@ button_back: Indietro
 button_cancel: Annulla
 button_activate: Attiva
 button_sort: Ordina
-button_log_time: Log time
-button_rollback: Rollback to this version
+button_log_time: Registra tempo
+button_rollback: Ripristina questa versione
 button_watch: Watch
 button_unwatch: Unwatch
 
-status_active: active
-status_registered: registered
+status_active: attivo
+status_registered: registrato
 status_locked: bloccato
 
-text_select_mail_notifications: Select actions for which mail notifications should be sent.
+text_select_mail_notifications: Seleziona le azioni per cui deve essere inviata una notifica.
 text_regexp_info: eg. ^[A-Z0-9]+$
-text_min_max_length_info: 0 means no restriction
-text_project_destroy_confirmation: Are you sure you want to delete this project and all related data ?
-text_workflow_edit: Select a role and a tracker to edit the workflow
-text_are_you_sure: Are you sure ?
-text_journal_changed: changed from %s to %s
-text_journal_set_to: set to %s
-text_journal_deleted: deleted
-text_tip_task_begin_day: task beginning this day
-text_tip_task_end_day: task ending this day
-text_tip_task_begin_end_day: task beginning and ending this day
+text_min_max_length_info: 0 significa nessuna restrizione
+text_project_destroy_confirmation: Sei sicuro di voler cancellare il progetti e tutti i dati ad esso collegati?
+text_workflow_edit: Seleziona un ruolo ed un tracker per modificare il workflow
+text_are_you_sure: Sei sicuro ?
+text_journal_changed: cambiato da %s a %s
+text_journal_set_to: impostato a %s
+text_journal_deleted: cancellato
+text_tip_task_begin_day: attività che iniziano in questa giornata
+text_tip_task_end_day: attività che terminano in questa giornata
+text_tip_task_begin_end_day: attività che iniziano e terminano in questa giornata
 text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
-text_caracters_maximum: %d characters maximum.
-text_length_between: Length between %d and %d characters.
-text_tracker_no_workflow: No workflow defined for this tracker
+text_caracters_maximum: massimo %d caratteri.
+text_length_between: Lunghezza compresa tra %d e %d caratteri.
+text_tracker_no_workflow: Nessun workflow definito per questo tracker
 text_unallowed_characters: Unallowed characters
 
 default_role_manager: Manager
@@ -433,4 +433,4 @@ default_activity_development: Development
 
 enumeration_issue_priorities: Priorità contesti
 enumeration_doc_categories: Categorie di documenti
-enumeration_activities: Activities (time tracking)
+enumeration_activities: Attività (time tracking)
