@@ -16,7 +16,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       xml.author  { xml.name journal.user.name }
       xml.summary journal.notes
       xml.content "type" => "html" do
-        xml.text! journal.notes
+        xml.text! journal.notes if journal.notes
         xml.text! "<ul>"
         journal.details.each do |detail|
           xml.text! "<li>" + show_detail(detail, false) + "</li>"
