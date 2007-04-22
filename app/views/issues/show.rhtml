@@ -57,7 +57,7 @@ end %>
   <% if @issue.watched_by?(@logged_in_user) %>
 <%= link_to l(:button_unwatch), {:controller => 'watchers', :action => 'remove', :issue_id => @issue}, :class => 'icon icon-fav' %>
   <% else %>
-<%= link_to l(:button_watch), {:controller => 'watchers', :action => 'add', :issue_id => @issue}, :class => 'icon icon-fav' %>
+<%= link_to l(:button_watch), {:controller => 'watchers', :action => 'add', :issue_id => @issue}, :class => 'icon icon-fav-off' %>
   <% end %>
 <% end %>
 <%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'icon icon-move' %>
