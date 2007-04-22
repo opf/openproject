@@ -15,6 +15,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+class RedCloth
+  # Patch for RedCloth.  Fixed in RedCloth r128 but _why hasn't released it yet.
+  # <a href="http://code.whytheluckystiff.net/redcloth/changeset/128">http://code.whytheluckystiff.net/redcloth/changeset/128</a>
+  def hard_break( text ) 
+    text.gsub!( /(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks 
+  end 
+end
+
 module ApplicationHelper
 
   # Return current logged in user or nil
@@ -139,7 +147,7 @@ module ApplicationHelper
    
     # finally textilize text
     @do_textilize ||= (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize")
-    text = @do_textilize ? auto_link(RedCloth.new(text).to_html) : simple_format(auto_link(h(text)))
+    text = @do_textilize ? auto_link(RedCloth.new(text, [:hard_breaks]).to_html) : simple_format(auto_link(h(text)))
   end
   
   def error_messages_for(object_name, options = {})
