@@ -25,7 +25,7 @@
 
 <% unless @tracker.nil? or @role.nil? %>
 <div class="box">
-  <% form_tag ({:action => 'workflow', :role_id => @role, :tracker_id => @tracker }, :id => 'workflow_form' ) do %>
+  <% form_tag({:action => 'workflow', :role_id => @role, :tracker_id => @tracker }, :id => 'workflow_form' ) do %>
 	<table>
 	<tr>
 	<td align="center"><strong><%=l(:label_current_status)%></strong></td>
