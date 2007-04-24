@@ -216,7 +216,7 @@ class ProjectsController < ApplicationController
     default_status = IssueStatus.default
     @issue = Issue.new(:project => @project, :tracker => @tracker)    
     @issue.status = default_status
-    @allowed_statuses = (default_status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) || [default_status])if logged_in_user
+    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker))if logged_in_user
     if request.get?
       @issue.start_date = Date.today
       @custom_values = @project.custom_fields_for_issues(@tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) }
