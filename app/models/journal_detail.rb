@@ -17,4 +17,9 @@
 
 class JournalDetail < ActiveRecord::Base
   belongs_to :journal
+  
+  def before_save
+    self.value = value[0..254] if value
+    self.old_value = old_value[0..254] if old_value
+  end
 end
