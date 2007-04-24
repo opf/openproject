@@ -165,6 +165,8 @@ setting_wiki_compression:  Wiki履歴を圧縮する
 setting_feeds_limit: フィード内容の上限
 setting_autofetch_changesets: SVNコミットを自動取得する
 setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効化する
+setting_commit_ref_keywords: Referencing keywords
+setting_commit_fix_keywords: Fixing keywords
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -359,6 +361,8 @@ label_options: オプション
 label_copy_workflow_from: ワークフローをここからコピー
 label_permissions_report: 権限レポート
 label_watched_issues: Watched issues
+label_related_issues: Related issues
+label_applied_status: Applied status
 
 button_login: ログイン
 button_submit: 変更
@@ -409,6 +413,8 @@ text_caracters_maximum: 最大 %d 文字です。
 text_length_between: 長さは %d から %d 文字までです。
 text_tracker_no_workflow: このトラッカーにワークフローが定義されていません
 text_unallowed_characters: Unallowed characters
+text_coma_separated: Multiple values allowed (coma separated).
+text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
 
 default_role_manager: 管理者
 default_role_developper: 開発者

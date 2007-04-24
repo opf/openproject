@@ -79,10 +79,19 @@ class Repository < ActiveRecord::Base
     end
   end
   
+  def scan_changesets_for_issue_ids
+    self.changesets.each(&:scan_comment_for_issue_ids)
+  end
+  
   # fetch new changesets for all repositories
   # can be called periodically by an external script
   # eg. ruby script/runner "Repository.fetch_changesets"
   def self.fetch_changesets
     find(:all).each(&:fetch_changesets)
+  end
+  
+  # scan changeset comments to find related and fixed issues for all repositories
+  def self.scan_changesets_for_issue_ids
+    find(:all).each(&:scan_changesets_for_issue_ids)
   end
 end

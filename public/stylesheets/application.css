@@ -602,8 +602,8 @@ margin*/
 color: #cc0000;
 }
 
-#settings .tabular p{ padding-left: 250px; }
-#settings .tabular label{ margin-left: -250px; width: 245px; }
+#settings .tabular p{ padding-left: 300px; }
+#settings .tabular label{ margin-left: -300px; width: 295px; }
 
 /*.threepxfix class below:
 Targets IE6- ONLY. Adds 3 pixel indent for multi-line form contents.

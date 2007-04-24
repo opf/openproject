@@ -54,3 +54,11 @@ autofetch_changesets:
   default: 1
 sys_api_enabled:
   default: 0
+commit_ref_keywords:
+  default: 'refs,references,IssueID'
+commit_fix_keywords:
+  default: 'fixes,closes'
+commit_fix_status_id:
+  format: int
+  default: 0
+  

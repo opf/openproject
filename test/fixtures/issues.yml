@@ -41,3 +41,18 @@ issues_003:
   assigned_to_id: 
   author_id: 2
   status_id: 1
+issues_004: 
+  created_on: 2006-07-19 21:07:27 +02:00
+  project_id: 2
+  updated_on: 2006-07-19 21:07:27 +02:00
+  priority_id: 4
+  subject: Issue on project 2
+  id: 4
+  fixed_version_id: 
+  category_id: 
+  description: Issue on project 2
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 1
+  

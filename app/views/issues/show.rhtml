@@ -44,7 +44,12 @@ end %>
 </tr>
 </table>
 <hr />
-<br />
+
+<% if @issue.changesets.any? %>
+<div style="float:right;">
+  <em><%= l(:label_revision_plural) %>: <%= @issue.changesets.collect{|changeset| link_to(changeset.revision, :controller => 'repositories', :action => 'revision', :id => @project, :rev => changeset.revision)}.join(", ") %></em>
+</div>
+<% end %>
 
 <b><%=l(:field_description)%> :</b><br /><br />
 <%= textilizable @issue.description %>

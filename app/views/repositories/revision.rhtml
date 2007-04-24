@@ -10,6 +10,15 @@
 <p><em><%= @changeset.committer %>, <%= format_time(@changeset.committed_on) %></em></p>
 <%= textilizable @changeset.comment %>
 
+<% if @changeset.issues.any? %>
+<h3><%= l(:label_related_issues) %></h3>
+<ul>
+<% @changeset.issues.each do |issue| %>
+  <li><%= link_to_issue issue %>: <%=h issue.subject %></li>
+<% end %>
+</ul>
+<% end %>
+
 <div style="float:right;">
 <div class="square action_A"></div> <div style="float:left;"><%= l(:label_added) %>&nbsp;</div>
 <div class="square action_M"></div> <div style="float:left;"><%= l(:label_modified) %>&nbsp;</div>

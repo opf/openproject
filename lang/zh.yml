@@ -167,6 +167,8 @@ setting_wiki_compression: Wiki history compression
 setting_feeds_limit: Feed content limit
 setting_autofetch_changesets: Autofetch SVN commits
 setting_sys_api_enabled: Enable WS for repository management
+setting_commit_ref_keywords: Referencing keywords
+setting_commit_fix_keywords: Fixing keywords
 
 label_user: 用户
 label_user_plural: 用户列表
@@ -361,6 +363,8 @@ label_options: Options
 label_copy_workflow_from: Copy workflow from
 label_permissions_report: Permissions report
 label_watched_issues: Watched issues
+label_related_issues: Related issues
+label_applied_status: Applied status
 
 button_login: 登录
 button_submit: 提交
@@ -411,6 +415,8 @@ text_caracters_maximum: %d characters maximum.
 text_length_between: Length between %d and %d characters.
 text_tracker_no_workflow: No workflow defined for this tracker
 text_unallowed_characters: Unallowed characters
+text_coma_separated: Multiple values allowed (coma separated).
+text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
 
 default_role_manager: 管理员
 default_role_developper: 开发人员

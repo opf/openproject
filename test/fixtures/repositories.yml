@@ -1,0 +1,8 @@
+--- 
+repositories_001: 
+  project_id: 1
+  url: svn://localhost/test
+  id: 10
+  root_url: svn://localhost
+  password: ""
+  login: ""
