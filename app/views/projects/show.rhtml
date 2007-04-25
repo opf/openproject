@@ -7,7 +7,7 @@
 <div class="splitcontentleft">
 	<%= textilizable @project.description %>	
 	<ul>
-	<% unless @project.homepage.empty? %><li><%=l(:field_homepage)%>: <%= auto_link @project.homepage %></li><% end %>
+	<% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= auto_link @project.homepage %></li><% end %>
 	<li><%=l(:field_created_on)%>: <%= format_date(@project.created_on) %></li>
 	<% unless @project.parent.nil? %>
 	<li><%=l(:field_parent)%>: <%= link_to @project.parent.name, :controller => 'projects', :action => 'show', :id => @project.parent %></li>

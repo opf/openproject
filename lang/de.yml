@@ -139,7 +139,7 @@ field_start_date: Beginn
 field_done_ratio: %% erledigt
 field_auth_source: Authentifizierungs-Modus
 field_hide_mail: Email Adresse nicht anzeigen
-field_comment: Kommentar
+field_comments: Kommentar
 field_url: URL
 field_start_page: Hauptseite
 field_subproject: Subprojekt von

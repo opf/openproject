@@ -5,7 +5,7 @@ class CreateTimeEntries < ActiveRecord::Migration
       t.column :user_id,     :integer,  :null => false
       t.column :issue_id,    :integer
       t.column :hours,       :float,    :null => false
-      t.column :comment,     :string,   :limit => 255
+      t.column :comments,    :string,   :limit => 255
       t.column :activity_id, :integer,  :null => false
       t.column :spent_on,    :date,     :null => false
       t.column :tyear,       :integer,  :null => false

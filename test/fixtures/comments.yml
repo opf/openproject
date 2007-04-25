@@ -4,7 +4,7 @@ comments_001:
   commented_id: 1
   id: 1
   author_id: 1
-  comment: my first comment
+  comments: my first comment
   created_on: 2006-12-10 18:10:10 +01:00
   updated_on: 2006-12-10 18:10:10 +01:00
   

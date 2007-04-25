@@ -26,7 +26,7 @@ class CommentTest < Test::Unit::TestCase
   end
   
   def test_create
-    comment = Comment.new(:commented => @news, :author => @jsmith, :comment => "my comment")
+    comment = Comment.new(:commented => @news, :author => @jsmith, :comments => "my comment")
     assert comment.save
     @news.reload
     assert_equal 2, @news.comments_count

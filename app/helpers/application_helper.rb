@@ -113,6 +113,8 @@ module ApplicationHelper
   
   # textilize text according to system settings and RedCloth availability
   def textilizable(text, options = {})
+    return "" if text.blank?
+    
     # different methods for formatting wiki links
     case options[:wiki_links]
     when :local

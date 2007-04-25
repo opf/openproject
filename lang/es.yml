@@ -139,7 +139,7 @@ field_start_date: Comienzo
 field_done_ratio: %% Realizado
 field_auth_source: Modo de la autentificación
 field_hide_mail: Ocultar mi email address
-field_comment: Comentario
+field_comments: Comentario
 field_url: URL
 field_start_page: Página principal
 field_subproject: Proyecto secundario

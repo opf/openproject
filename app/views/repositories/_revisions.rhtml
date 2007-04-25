@@ -3,7 +3,7 @@
 <th>#</th>
 <th><%= l(:label_date) %></th>
 <th><%= l(:field_author) %></th>
-<th><%= l(:field_comment) %></th>
+<th><%= l(:field_comments) %></th>
 <th></th>
 </tr></thead>
 <tbody>
@@ -12,7 +12,7 @@
 <th align="center" style="width:5%"><%= link_to changeset.revision, :action => 'revision', :id => project, :rev => changeset.revision %></th>
 <td align="center" style="width:15%"><%= format_time(changeset.committed_on) %></td>
 <td align="center" style="width:15%"><em><%=h changeset.committer %></em></td>
-<td align="left"><%= textilizable(changeset.comment) %></td>
+<td align="left"><%= textilizable(changeset.comments) %></td>
 <td align="center"><%= link_to l(:label_view_diff), :action => 'diff', :id => project, :path => path, :rev => changeset.revision if entry && entry.is_file? && changeset != changesets.last %></td>
 </tr>
 <% end %>

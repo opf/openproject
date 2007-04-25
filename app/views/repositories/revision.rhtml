@@ -8,7 +8,7 @@
 <h2><%= l(:label_revision) %> <%= @changeset.revision %></h2>
 
 <p><em><%= @changeset.committer %>, <%= format_time(@changeset.committed_on) %></em></p>
-<%= textilizable @changeset.comment %>
+<%= textilizable @changeset.comments %>
 
 <% if @changeset.issues.any? %>
 <h3><%= l(:label_related_issues) %></h3>

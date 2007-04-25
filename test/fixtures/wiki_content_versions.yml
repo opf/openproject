@@ -5,7 +5,7 @@ wiki_content_versions_001:
   id: 1
   version: 1
   author_id: 1
-  comment: Page creation
+  comments: Page creation
   wiki_content_id: 1
   compression: ""
   data: |-
@@ -18,7 +18,7 @@ wiki_content_versions_002:
   id: 2
   version: 2
   author_id: 1
-  comment: Small update
+  comments: Small update
   wiki_content_id: 1
   compression: ""
   data: |-
@@ -31,7 +31,7 @@ wiki_content_versions_003:
   id: 3
   version: 3
   author_id: 1
-  comment: ""
+  comments: ""
   wiki_content_id: 1
   compression: ""
   data: |-

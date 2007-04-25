@@ -47,7 +47,7 @@ class WikiController < ApplicationController
     @content = @page.content_for_version(params[:version])
     @content.text = "h1. #{@page.pretty_title}" if @content.text.blank?
     # don't keep previous comment
-    @content.comment = nil
+    @content.comments = nil
     if request.post?      
       if @content.text == params[:content][:text]
         # don't save if text wasn't changed
@@ -55,7 +55,7 @@ class WikiController < ApplicationController
         return
       end
       @content.text = params[:content][:text]
-      @content.comment = params[:content][:comment]
+      @content.comments = params[:content][:comments]
       @content.author = logged_in_user
       # if page is new @page.save will also save content, but not if page isn't a new record
       if (@page.new_record? ? @page.save : @content.save)
@@ -69,7 +69,7 @@ class WikiController < ApplicationController
     @page = @wiki.find_page(params[:page])
     # don't load text
     @versions = @page.content.versions.find :all, 
-                                            :select => "id, author_id, comment, updated_on, version",
+                                            :select => "id, author_id, comments, updated_on, version",
                                             :order => 'version DESC'
   end
 

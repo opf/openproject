@@ -503,7 +503,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_wiki_edits] == "0"
-      select = "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comment, " +
+      select = "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
                "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title"
       joins = "LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
               "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id "
@@ -624,7 +624,7 @@ class ProjectsController < ApplicationController
       # no more than 5 tokens to search for
       @tokens.slice! 5..-1 if @tokens.size > 5
       # strings used in sql like statement
-      like_tokens = @tokens.collect {|w| "%#{w}%"}
+      like_tokens = @tokens.collect {|w| "%#{w.downcase}%"}
       operator = @all_words ? " AND " : " OR "
       limit = 10
       @results = []
@@ -632,7 +632,7 @@ class ProjectsController < ApplicationController
       @results += @project.news.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort], :include => :author ) if @scope.include? 'news'
       @results += @project.documents.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'documents'
       @results += @project.wiki.pages.find(:all, :limit => limit, :include => :content, :conditions => [ (["(LOWER(title) like ? OR LOWER(text) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @project.wiki && @scope.include?('wiki')
-      @results += @project.repository.changesets.find(:all, :limit => limit, :conditions => [ (["(LOWER(comment) like ?)"] * like_tokens.size).join(operator), * (like_tokens).sort] ) if @project.repository && @scope.include?('changesets')
+      @results += @project.repository.changesets.find(:all, :limit => limit, :conditions => [ (["(LOWER(comments) like ?)"] * like_tokens.size).join(operator), * (like_tokens).sort] ) if @project.repository && @scope.include?('changesets')
       @question = @tokens.join(" ")
     else
       @question = ""

@@ -41,7 +41,7 @@
             <i><%= e.content.author ? e.content.author.name : "Anonymous" %>, <%= format_time(e.content.updated_on) %></i>
         <% elsif e.is_a? Changeset %>
             <%=l(:label_revision)%> <%= link_to h(e.revision), :controller => 'repositories', :action => 'revision', :id => @project, :rev => e.revision %><br />
-            <%= highlight_tokens(e.comment, @tokens) %><br />
+            <%= highlight_tokens(e.comments, @tokens) %><br />
             <em><%= e.committer.blank? ? e.committer : "Anonymous" %>, <%= format_time(e.committed_on) %></em>
         <% end %>
         </p></li>  

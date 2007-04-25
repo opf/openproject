@@ -142,7 +142,7 @@ field_start_date: 开始
 field_done_ratio: %% 完成
 field_auth_source: 认证模式
 field_hide_mail: 隐藏我的邮件
-field_comment: 注释
+field_comments: 注释
 field_url: URL
 field_start_page: 起始页
 field_subproject: 子项目

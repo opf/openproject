@@ -140,7 +140,7 @@ field_start_date: 開始日
 field_done_ratio: 進捗 %%
 field_auth_source: 認証モード
 field_hide_mail: メールアドレスを隠す
-field_comment: コメント
+field_comments: コメント
 field_url: URL
 field_start_page: メインページ
 field_subproject: サブプロジェクト

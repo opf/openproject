@@ -13,7 +13,7 @@
     <%= link_to(l(:label_current_version), :action => 'index', :page => @page.title) %>
     <br />
     <em><%= @content.author ? @content.author.name : "anonyme" %>, <%= format_time(@content.updated_on) %> </em><br />
-    <%=h @content.comment %>
+    <%=h @content.comments %>
     </p>
     <hr />
 <% end %>

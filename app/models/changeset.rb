@@ -34,7 +34,7 @@ class Changeset < ActiveRecord::Base
   end
   
   def scan_comment_for_issue_ids
-    return if comment.blank?
+    return if comments.blank?
     # keywords used to reference issues
     ref_keywords = Setting.commit_ref_keywords.downcase.split(",")
     # keywords used to fix issues
@@ -48,7 +48,7 @@ class Changeset < ActiveRecord::Base
     # remove any associated issues
     self.issues.clear
     
-    comment.scan(Regexp.new("(#{kw_regexp})[\s:]+(([\s,;&]*#?\\d+)+)", Regexp::IGNORECASE)).each do |match|
+    comments.scan(Regexp.new("(#{kw_regexp})[\s:]+(([\s,;&]*#?\\d+)+)", Regexp::IGNORECASE)).each do |match|
       action = match[0]
       target_issue_ids = match[1].scan(/\d+/)
       target_issues = repository.project.issues.find_all_by_id(target_issue_ids)

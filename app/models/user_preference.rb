@@ -26,11 +26,15 @@ class UserPreference < ActiveRecord::Base
     self.others ||= {}
   end
   
+  def before_save
+    self.others ||= {}
+  end
+  
   def [](attr_name)
     if attribute_present? attr_name
       super
     else
-      others[attr_name]
+      others ? others[attr_name] : nil
     end
   end
   
@@ -38,7 +42,8 @@ class UserPreference < ActiveRecord::Base
     if attribute_present? attr_name
       super
     else
-      others.store attr_name, value
+      self.others ||= {}
+      self.others.store attr_name, value
     end
   end
 end

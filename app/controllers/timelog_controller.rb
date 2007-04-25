@@ -59,7 +59,7 @@ private
                  l(:field_activity),
                  l(:field_issue),
                  l(:field_hours),
-                 l(:field_comment)
+                 l(:field_comments)
                  ]
       csv << headers.collect {|c| ic.iconv(c) }
       # csv lines
@@ -69,7 +69,7 @@ private
                   entry.activity.name,
                   (entry.issue ? entry.issue.id : nil),
                   entry.hours,
-                  entry.comment
+                  entry.comments
                   ]
         csv << fields.collect {|c| ic.iconv(c.to_s) }
       end

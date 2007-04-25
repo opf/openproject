@@ -4,7 +4,7 @@ class CreateWikiContents < ActiveRecord::Migration
       t.column :page_id, :integer, :null => false
       t.column :author_id, :integer
       t.column :text, :text
-      t.column :comment, :string, :limit => 255, :default => ""
+      t.column :comments, :string, :limit => 255, :default => ""
       t.column :updated_on, :datetime, :null => false
       t.column :version, :integer, :null => false
     end
@@ -16,7 +16,7 @@ class CreateWikiContents < ActiveRecord::Migration
       t.column :author_id, :integer
       t.column :data, :binary
       t.column :compression, :string, :limit => 6, :default => ""
-      t.column :comment, :string, :limit => 255, :default => ""
+      t.column :comments, :string, :limit => 255, :default => ""
       t.column :updated_on, :datetime, :null => false
       t.column :version, :integer, :null => false
     end

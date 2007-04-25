@@ -7,7 +7,7 @@
 <p><%= f.text_field :issue_id, :size => 6 %> <em><%= h("#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}") if @time_entry.issue %></em></p>
 <p><%= f.text_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
 <p><%= f.text_field :hours, :size => 6, :required => true %></p>
-<p><%= f.text_field :comment, :size => 100 %></p>
+<p><%= f.text_field :comments, :size => 100 %></p>
 <p><%= f.select :activity_id, (@activities.collect {|p| [p.name, p.id]}), :required => true %></p>
 </div>
 

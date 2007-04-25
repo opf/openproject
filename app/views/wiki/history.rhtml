@@ -11,7 +11,7 @@
     <th>#</th>
     <th><%= l(:field_updated_on) %></th>
     <th><%= l(:field_author) %></th>
-    <th><%= l(:field_comment) %></th>
+    <th><%= l(:field_comments) %></th>
 </tr></thead>
 <tbody>
 <% @versions.each do |ver| %>
@@ -19,7 +19,7 @@
     <th align="center"><%= link_to ver.version, :action => 'index', :page => @page.title, :version => ver.version %></th>
     <td align="center"><%= format_time(ver.updated_on) %></td>
     <td><em><%= ver.author ? ver.author.name : "anonyme" %></em></td>
-    <td><%=h ver.comment %></td>
+    <td><%=h ver.comments %></td>
 </tr>
 <% end %>
 </tbody>

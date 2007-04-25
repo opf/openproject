@@ -10,7 +10,7 @@ class TimeEntry < ActiveRecord::Base
   
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true
-  validates_length_of :comment, :maximum => 255
+  validates_length_of :comments, :maximum => 255
 
   def before_validation
     self.project = issue.project if issue && project.nil?
@@ -28,6 +28,6 @@ class TimeEntry < ActiveRecord::Base
     super
     self.tyear = spent_on ? spent_on.year : nil
     self.tmonth = spent_on ? spent_on.month : nil
-    self.tweek = spent_on ? spent_on.cweek : nil
+    self.tweek = spent_on ? Date.civil(spent_on.year, spent_on.month, spent_on.day).cweek : nil
   end  
 end

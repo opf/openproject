@@ -16,7 +16,7 @@
 <%= sort_header_tag('user_id', :caption => l(:label_member)) %>
 <%= sort_header_tag('activity_id', :caption => l(:label_activity)) %>
 <%= sort_header_tag('issue_id', :caption => l(:label_issue)) %>
-<th><%= l(:label_comment) %></th>
+<th><%= l(:label_comments) %></th>
 <%= sort_header_tag('hours', :caption => l(:field_hours)) %>
 <th></th>
 </thead>
@@ -36,7 +36,7 @@
 	</div>
 	<% end %>
 </td>
-<td><%=h entry.comment %></td>
+<td><%=h entry.comments %></td>
 <td align="center"><strong><%= entry.hours %></strong></td>
 <td align="center"><%= link_to_if_authorized(l(:button_edit), {:controller => 'timelog', :action => 'edit', :id => entry}, :class => "icon icon-edit") if entry.user_id == @owner_id %></td>
 </tr>

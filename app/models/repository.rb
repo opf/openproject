@@ -62,7 +62,7 @@ class Repository < ActiveRecord::Base
                                            :revision => revision.identifier, 
                                            :committer => revision.author, 
                                            :committed_on => revision.time,
-                                           :comment => revision.message)
+                                           :comments => revision.message)
               
               revision.paths.each do |change|
                 Change.create(:changeset => changeset,
