@@ -57,6 +57,8 @@ Rails::Initializer.run do |config|
 	# ActionMailer::Base.deliveries array.
 	#config.action_mailer.delivery_method = :test
 	config.action_mailer.delivery_method = :smtp  
+	
+	config.active_record.table_name_prefix = "rdm_"
 end
 
 ActiveRecord::Errors.default_error_messages = {
