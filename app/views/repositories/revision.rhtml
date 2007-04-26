@@ -19,13 +19,13 @@
 </ul>
 <% end %>
 
+<h3><%= l(:label_attachment_plural) %></h3>
 <div style="float:right;">
 <div class="square action_A"></div> <div style="float:left;"><%= l(:label_added) %>&nbsp;</div>
 <div class="square action_M"></div> <div style="float:left;"><%= l(:label_modified) %>&nbsp;</div>
 <div class="square action_D"></div> <div style="float:left;"><%= l(:label_deleted) %>&nbsp;</div>
 </div>
-
-<h3><%= l(:label_attachment_plural) %></h3>
+<p><%= link_to(l(:label_view_diff), :action => 'diff', :id => @project, :path => "", :rev => @changeset.revision) if @changeset.changes.any? %></p>
 <table class="list">
 <tbody>
 <% @changeset.changes.each do |change| %>
