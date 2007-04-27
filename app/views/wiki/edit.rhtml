@@ -18,12 +18,8 @@
                        { :url => { :controller => 'wiki', :action => 'preview', :id => @project, :page => @page.title },
                          :method => 'get',
                          :update => 'preview',
-                         :with => "Form.serialize('wiki_form')",
-                         :loading => "Element.show('indicator')",
-                         :loaded => "Element.hide('indicator')"
-                       } %>
-   <span id="indicator" style="display:none"><%= image_tag "loading.gif", :align => "absmiddle" %></span>
-</p>
+                         :with => "Form.serialize('wiki_form')"
+                       } %></p>
 
 <% end %>
 

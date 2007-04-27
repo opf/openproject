@@ -115,12 +115,16 @@
 			</ul>
 		<% end %>
 	</div>
-
+	
 	<div id="content">
 		<% if flash[:notice] %><p style="color: green"><%= flash[:notice] %></p><% end %>		
 		<%= yield %>	
 	</div>
 	
+	<div id="ajax-indicator" style="display:none;">
+	   <span><%= l(:label_loading) %></span>
+	</div>
+
 	<div id="footer">
 		<p><a href="http://redmine.rubyforge.org/">redMine</a> <small><%= Redmine::VERSION %> &copy 2006-2007 Jean-Philippe Lang</small></p>
 	</div>

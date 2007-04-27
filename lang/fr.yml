@@ -362,6 +362,7 @@ label_permissions_report: Synthèse des permissions
 label_watched_issues: Demandes surveillées
 label_related_issues: Demandes liées
 label_applied_status: Statut appliqué
+label_loading: Chargement...
 
 button_login: Connexion
 button_submit: Soumettre

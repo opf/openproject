@@ -362,6 +362,7 @@ label_permissions_report: Report permessi
 label_watched_issues: Watched issues
 label_related_issues: Related issues
 label_applied_status: Applied status
+label_loading: Loading...
 
 button_login: Login
 button_submit: Invia

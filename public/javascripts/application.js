@@ -31,3 +31,17 @@ function showTab(name) {
 	Element.addClassName('tab-' + name, "selected");
 	return false;
 }
+
+/* shows and hides ajax indicator */
+Ajax.Responders.register({
+    onCreate: function(){
+        if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
+            Element.show('ajax-indicator');
+        }
+    },
+    onComplete: function(){
+        if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
+            Element.hide('ajax-indicator');
+        }
+    }
+});

@@ -3,9 +3,7 @@
     <div style="float:right;margin-right:16px;z-index:500;">
     <%= link_to_remote "", {
         :url => { :action => "remove_block", :block => block_name },
-        :complete => "removeBlock('block_#{block_name}')",
-        :loading => "Element.show('indicator')",
-        :loaded => "Element.hide('indicator')" },
+        :complete => "removeBlock('block_#{block_name}')" },
         :class => "close-icon"
          %>        
     </div>

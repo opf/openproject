@@ -5,9 +5,9 @@ function recreateSortables() {
     Sortable.destroy('list-left');
     Sortable.destroy('list-right');
     
-	Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=top', {asynchronous:true, evalScripts:true, onComplete:function(request){new Effect.Highlight("list-top",{});}, onLoaded:function(request){Element.hide('indicator')}, onLoading:function(request){Element.show('indicator')}, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
-	Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=left', {asynchronous:true, evalScripts:true, onComplete:function(request){new Effect.Highlight("list-left",{});}, onLoaded:function(request){Element.hide('indicator')}, onLoading:function(request){Element.show('indicator')}, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
-	Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=right', {asynchronous:true, evalScripts:true, onComplete:function(request){new Effect.Highlight("list-right",{});}, onLoaded:function(request){Element.hide('indicator')}, onLoading:function(request){Element.show('indicator')}, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
+	Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=top', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
+	Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=left', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
+	Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=right', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
 }
 
 function updateSelect() {
@@ -35,7 +35,6 @@ function removeBlock(block) {
 </script>
 
 <div class="contextual">
-<span id="indicator" style="display:none"><%= image_tag "loading.gif", :align => "absmiddle" %></span>
 <% form_tag({:action => "add_block"}, :id => "block-form") do %>
 <%= select_tag 'block', "<option></option>" + options_for_select(@block_options), :id => "block-select" %>
 <%= link_to_remote l(:button_add),
@@ -43,9 +42,7 @@ function removeBlock(block) {
             :with => "Form.serialize('block-form')",
             :update => "list-top",
             :position => :top,
-            :complete => "afterAddBlock();",
-            :loading => "Element.show('indicator')",
-            :loaded => "Element.hide('indicator')"
+            :complete => "afterAddBlock();"
            }, :class => 'icon icon-add'
              %>
 <% end %>
@@ -83,10 +80,7 @@ function removeBlock(block) {
       :dropOnEmpty => true,
       :containment => ['list-top', 'list-left', 'list-right'],
       :constraint => false,
-      :complete => visual_effect(:highlight, 'list-top'), 
-      :url => { :action => "order_blocks", :group => "top" },
-      :loading => "Element.show('indicator')",
-      :loaded => "Element.hide('indicator')"
+      :url => { :action => "order_blocks", :group => "top" }
        %>
       
       
@@ -97,10 +91,8 @@ function removeBlock(block) {
       :dropOnEmpty => true,
       :containment => ['list-top', 'list-left', 'list-right'],
       :constraint => false,
-      :complete => visual_effect(:highlight, 'list-left'), 
-      :url => { :action => "order_blocks", :group => "left" },
-      :loading => "Element.show('indicator')",
-      :loaded => "Element.hide('indicator')" %>
+      :url => { :action => "order_blocks", :group => "left" }
+       %>
       
 <%= sortable_element 'list-right', 
       :tag => 'div',
@@ -109,9 +101,7 @@ function removeBlock(block) {
       :dropOnEmpty => true,
       :containment => ['list-top', 'list-left', 'list-right'],
       :constraint => false,
-      :complete => visual_effect(:highlight, 'list-right'), 
-      :url => { :action => "order_blocks", :group => "right" },
-      :loading => "Element.show('indicator')",
-      :loaded => "Element.hide('indicator')" %>
+      :url => { :action => "order_blocks", :group => "right" }
+       %>
       
 <%= javascript_tag "updateSelect()" %>
