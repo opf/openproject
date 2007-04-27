@@ -559,7 +559,7 @@ class ProjectsController < ApplicationController
     @events = []
     @project.issues_with_subprojects(params[:with_subprojects]) do
       @events += Issue.find(:all, 
-                           :include => [:tracker, :status, :assigned_to, :priority], 
+                           :include => [:tracker, :status, :assigned_to, :priority, :project], 
                            :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)) and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", @date_from, @date_to, @date_from, @date_to]
                            ) unless @selected_tracker_ids.empty?
     end
@@ -597,7 +597,7 @@ class ProjectsController < ApplicationController
     @project.issues_with_subprojects(params[:with_subprojects]) do
       @events += Issue.find(:all, 
                            :order => "start_date, due_date",
-                           :include => [:tracker, :status, :assigned_to, :priority], 
+                           :include => [:tracker, :status, :assigned_to, :priority, :project], 
                            :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}))", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to]
                            ) unless @selected_tracker_ids.empty?
     end

@@ -67,7 +67,7 @@ while day <= @date_to
 		elsif day == i.due_date
 		    image_tag('arrow_to.png') 
 		end %>
-		<small><%= link_to_issue i %>: <%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
+		<small><%= link_to_issue i %><%= " (#{i.project.name})" unless @project && @project == i.project %>: <%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
         <span class="tip">
         <%= render :partial => "issues/tooltip", :locals => { :issue => i }%>
         </span>		
