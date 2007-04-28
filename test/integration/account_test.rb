@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,48 +29,6 @@ class AccountTest < ActionController::IntegrationTest
     get "my/account"
     assert_response :success
     assert_template "my/account"    
-  end
-  
-  def test_change_password
-    log_user('jsmith', 'jsmith')
-    get "my/account"
-    assert_response :success
-    assert_template "my/account" 
-    
-    post "my/change_password", :password => 'jsmith', :new_password => "hello", :new_password_confirmation => "hello2"
-    assert_response :success
-    assert_template "my/account" 
-    assert_tag :tag => "div", :attributes => { :class => "errorExplanation" }
-
-    post "my/change_password", :password => 'jsmithZZ', :new_password => "hello", :new_password_confirmation => "hello"
-    assert_redirected_to "my/account"
-    assert_equal 'Wrong password', flash[:notice]
-        
-    post "my/change_password", :password => 'jsmith', :new_password => "hello", :new_password_confirmation => "hello"
-    assert_redirected_to "my/account"
-    log_user('jsmith', 'hello')
-  end
-  
-  def test_my_account
-    log_user('jsmith', 'jsmith')
-    get "my/account"
-    assert_response :success
-    assert_template "my/account" 
-    
-    post "my/account", :user => {:firstname => "Joe", :login => "root", :admin => 1}
-    assert_response :success
-    assert_template "my/account" 
-    user = User.find(2)
-    assert_equal "Joe", user.firstname
-    assert_equal "jsmith", user.login
-    assert_equal false, user.admin?    
-  end
-  
-  def test_my_page
-    log_user('jsmith', 'jsmith')
-    get "my/page"
-    assert_response :success
-    assert_template "my/page"
   end
   
   def test_lost_password
