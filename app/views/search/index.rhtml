@@ -1,0 +1,58 @@
+<h2><%= l(:label_search) %></h2>
+
+<div class="box">
+<% form_tag({}, :method => :get) do %>
+<p><%= text_field_tag 'q', @question, :size => 30 %>
+
+<% if @project %>
+  <%= check_box_tag 'scope[]', 'issues', (@scope.include? 'issues') %> <label><%= l(:label_issue_plural) %></label>
+  <% if @project.repository %>
+  <%= check_box_tag 'scope[]', 'changesets', (@scope.include? 'changesets') %> <label><%= l(:label_revision_plural) %></label>
+  <% end %>
+  <%= check_box_tag 'scope[]', 'news', (@scope.include? 'news') %> <label><%= l(:label_news_plural) %></label>
+  <%= check_box_tag 'scope[]', 'documents', (@scope.include? 'documents') %> <label><%= l(:label_document_plural) %></label>
+  <% if @project.wiki %>
+  <%= check_box_tag 'scope[]', 'wiki', (@scope.include? 'wiki') %> <label><%= l(:label_wiki) %></label>
+  <% end %>
+<% else %>
+  <%= check_box_tag 'scope[]', 'projects', (@scope.include? 'projects') %> <label><%= l(:label_project_plural) %></label>
+<% end %>
+<br />
+<%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></p>
+<%= submit_tag l(:button_submit), :name => 'submit' %>
+<% end %>
+</div>
+
+<% if @results %>
+    <h3><%= lwr(:label_result, @results.length) %></h3>
+    <ul>
+      <% @results.each do |e| %>
+        <li><p>
+        <% if e.is_a? Project %>
+            <%= link_to highlight_tokens(h(e.name), @tokens), :controller => 'projects', :action => 'show', :id => e %><br />
+            <%= highlight_tokens(e.description, @tokens) %>
+        <% elsif e.is_a? Issue %>
+            <%= link_to_issue e %>: <%= highlight_tokens(h(e.subject), @tokens) %><br />
+            <%= highlight_tokens(e.description, @tokens) %><br />
+            <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
+        <% elsif e.is_a? News %>
+            <%=l(:label_news)%>: <%= link_to highlight_tokens(h(e.title), @tokens), :controller => 'news', :action => 'show', :id => e %><br />
+            <%= highlight_tokens(e.description, @tokens) %><br />
+            <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
+        <% elsif e.is_a? Document %>
+            <%=l(:label_document)%>: <%= link_to highlight_tokens(h(e.title), @tokens), :controller => 'documents', :action => 'show', :id => e %><br />
+            <%= highlight_tokens(e.description, @tokens) %><br />
+            <i><%= format_time(e.created_on) %></i>
+        <% elsif e.is_a? WikiPage %>
+            <%=l(:label_wiki)%>: <%= link_to highlight_tokens(h(e.pretty_title), @tokens), :controller => 'wiki', :action => 'index', :id => @project, :page => e.title %><br />
+            <%= highlight_tokens(e.content.text, @tokens) %><br />
+            <i><%= e.content.author ? e.content.author.name : "Anonymous" %>, <%= format_time(e.content.updated_on) %></i>
+        <% elsif e.is_a? Changeset %>
+            <%=l(:label_revision)%> <%= link_to h(e.revision), :controller => 'repositories', :action => 'revision', :id => @project, :rev => e.revision %><br />
+            <%= highlight_tokens(e.comments, @tokens) %><br />
+            <em><%= e.committer.blank? ? e.committer : "Anonymous" %>, <%= format_time(e.committed_on) %></em>
+        <% end %>
+        </p></li>  
+      <% end %>
+    </ul>
+<% end %>

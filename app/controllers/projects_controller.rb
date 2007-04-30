@@ -612,33 +612,7 @@ class ProjectsController < ApplicationController
       render :template => "projects/gantt.rhtml"
     end
   end
-  
-  def search
-    @question = params[:q] || ""
-    @question.strip!
-    @all_words = params[:all_words] || (params[:submit] ? false : true)
-    @scope = params[:scope] || (params[:submit] ? [] : %w(issues changesets news documents wiki) )
-    # tokens must be at least 3 character long
-    @tokens = @question.split.uniq.select {|w| w.length > 2 }
-    if !@tokens.empty?
-      # no more than 5 tokens to search for
-      @tokens.slice! 5..-1 if @tokens.size > 5
-      # strings used in sql like statement
-      like_tokens = @tokens.collect {|w| "%#{w.downcase}%"}
-      operator = @all_words ? " AND " : " OR "
-      limit = 10
-      @results = []
-      @results += @project.issues.find(:all, :limit => limit, :include => :author, :conditions => [ (["(LOWER(subject) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'issues'
-      @results += @project.news.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort], :include => :author ) if @scope.include? 'news'
-      @results += @project.documents.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'documents'
-      @results += @project.wiki.pages.find(:all, :limit => limit, :include => :content, :conditions => [ (["(LOWER(title) like ? OR LOWER(text) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @project.wiki && @scope.include?('wiki')
-      @results += @project.repository.changesets.find(:all, :limit => limit, :conditions => [ (["(LOWER(comments) like ?)"] * like_tokens.size).join(operator), * (like_tokens).sort] ) if @project.repository && @scope.include?('changesets')
-      @question = @tokens.join(" ")
-    else
-      @question = ""
-    end
-  end
-  
+    
   def feeds
     @queries = @project.queries.find :all, :conditions => ["is_public=? or user_id=?", true, (logged_in_user ? logged_in_user.id : 0)]
     @key = logged_in_user.get_or_create_rss_key.value if logged_in_user

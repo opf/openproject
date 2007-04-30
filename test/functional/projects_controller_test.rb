@@ -125,14 +125,4 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_template 'activity'
     assert_not_nil assigns(:events_by_day)
   end
-  
-  def test_search
-    get :search, :id => 1
-    assert_response :success
-    assert_template 'search'
-    
-    get :search, :id => 1, :token => "can", :scope => ["issues", "news", "documents"]
-    assert_response :success
-    assert_template 'search'
-  end
 end

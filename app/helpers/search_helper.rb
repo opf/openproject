@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,5 +15,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module ProjectsHelper
+module SearchHelper
+  def highlight_tokens(text, tokens)
+    return text unless tokens && !tokens.empty?
+    regexp = Regexp.new "(#{tokens.join('|')})", Regexp::IGNORECASE    
+    result = ''
+    text.split(regexp).each_with_index do |words, i|
+      result << (i.even? ? (words.length > 100 ? "#{words[0..44]} ... #{words[-45..-1]}" : words) : content_tag('span', words, :class => 'highlight'))
+    end
+    result
+  end
 end

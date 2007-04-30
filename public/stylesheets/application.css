@@ -66,6 +66,8 @@ font-weight:normal;
 font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
 }
 
+#header a {color:#fff;}
+
 #navigation{
 height:2.2em;
 line-height:2.2em;

@@ -27,9 +27,13 @@
         <h2><%= Setting.app_subtitle %></h2>
     </div>
     <div style="float: right; padding-right: 1em; padding-top: 0.2em;">
-      <% if loggedin? %><small><%=l(:label_logged_as)%> <b><%= @logged_in_user.login %></b></small><% end %>
+      <% if loggedin? %><small><%=l(:label_logged_as)%> <strong><%= @logged_in_user.login %></strong> -</small><% end %>
+      <small><%= toggle_link 'Search', 'quick-search-form', :focus => 'quick-search-input' %></small>
+      <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :id => 'quick-search-form', :style => "display:none;" ) do %>
+        <%= text_field_tag 'q', @question, :size => 15, :class => 'small', :id => 'quick-search-input' %>
+      <% end %>
     </div>
-    </div> 
+    </div>
 	
 	<div id="navigation">
 		<ul>
@@ -56,6 +60,12 @@
 	<% else %>	
 		<li class="right"><%= link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => "icon icon-user" %></li>
 	<% end %>
+	
+	<% unless @project.nil? || @project.id.nil? %>
+      <li class="right" style="padding-right:0.8em;">
+      </li>
+    <% end %>
+	
 		</ul>		
 	</div>
 
@@ -76,7 +86,7 @@
         <%= link_to l(:label_document_plural), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_wiki), {:controller => 'wiki', :id => @project, :page => nil }, :class => "menuItem" if @project.wiki and !@project.wiki.new_record? %>        
         <%= link_to l(:label_attachment_plural), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_search), {:controller => 'projects', :action => 'search', :id => @project }, :class => "menuItem" %>
+        <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_repository), {:controller => 'repositories', :action => 'show', :id => @project}, :class => "menuItem" if @project.repository and !@project.repository.new_record? %>
         <%= link_to_if_authorized l(:label_settings), {:controller => 'projects', :action => 'settings', :id => @project }, :class => "menuItem" %>
     </div>
@@ -100,7 +110,7 @@
 				<li><%= link_to l(:label_document_plural), :controller => 'projects', :action => 'list_documents', :id => @project %></li>
 				<%= content_tag("li", link_to(l(:label_wiki), :controller => 'wiki', :id => @project, :page => nil)) if @project.wiki and !@project.wiki.new_record? %>
 				<li><%= link_to l(:label_attachment_plural), :controller => 'projects', :action => 'list_files', :id => @project %></li>
-				<li><%= link_to l(:label_search), :controller => 'projects', :action => 'search', :id => @project %></li>
+				<li><%= link_to l(:label_search), :controller => 'search', :action => 'index', :id => @project %></li>
 				<%= content_tag("li", link_to(l(:label_repository), :controller => 'repositories', :action => 'show', :id => @project)) if @project.repository and !@project.repository.new_record? %>
 				<li><%= link_to_if_authorized l(:label_settings), :controller => 'projects', :action => 'settings', :id => @project %></li>
 			</ul>
