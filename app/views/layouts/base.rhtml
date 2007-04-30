@@ -59,13 +59,7 @@
 		<li class="right"><%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => "icon icon-user" %></li>	
 	<% else %>	
 		<li class="right"><%= link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => "icon icon-user" %></li>
-	<% end %>
-	
-	<% unless @project.nil? || @project.id.nil? %>
-      <li class="right" style="padding-right:0.8em;">
-      </li>
-    <% end %>
-	
+	<% end %>	
 		</ul>		
 	</div>
 
