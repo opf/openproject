@@ -28,7 +28,7 @@ function afterAddBlock() {
 }
 
 function removeBlock(block) {
-    $(block).parentNode.removeChild($(block));
+    Effect.DropOut(block);
     updateSelect();
 }
 //]]>
