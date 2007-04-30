@@ -28,7 +28,7 @@
     </div>
     <div style="float: right; padding-right: 1em; padding-top: 0.2em;">
       <% if loggedin? %><small><%=l(:label_logged_as)%> <strong><%= @logged_in_user.login %></strong> -</small><% end %>
-      <small><%= toggle_link 'Search', 'quick-search-form', :focus => 'quick-search-input' %></small>
+      <small><%= toggle_link l(:label_search), 'quick-search-form', :focus => 'quick-search-input' %></small>
       <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :id => 'quick-search-form', :style => "display:none;" ) do %>
         <%= text_field_tag 'q', @question, :size => 15, :class => 'small', :id => 'quick-search-input' %>
       <% end %>
