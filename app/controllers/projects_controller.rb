@@ -462,7 +462,7 @@ class ProjectsController < ApplicationController
     @month ||= Date.today.month
 
     @date_from = Date.civil(@year, @month, 1)
-    @date_to = (@date_from >> 1)-1
+    @date_to = @date_from >> 1
     
     @events_by_day = {}    
     
