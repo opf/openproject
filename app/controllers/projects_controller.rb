@@ -280,7 +280,7 @@ class ProjectsController < ApplicationController
     render :action => 'list_issues' and return unless @query.valid?
 					
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :assigned_to, :author, :status, :tracker, :priority, {:custom_values => :custom_field} ],
+						:include => [ :assigned_to, :author, :status, :tracker, :priority, :project, {:custom_values => :custom_field} ],
 						:conditions => @query.statement,
 						:limit => Setting.issues_export_limit
 
@@ -289,6 +289,7 @@ class ProjectsController < ApplicationController
     CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [ "#", l(:field_status), 
+                       l(:field_project),
                        l(:field_tracker),
                        l(:field_priority),
                        l(:field_subject),
@@ -307,9 +308,10 @@ class ProjectsController < ApplicationController
       # csv lines
       @issues.each do |issue|
         fields = [issue.id, issue.status.name, 
+                            issue.project.name,
                             issue.tracker.name, 
                             issue.priority.name,
-                            issue.subject, 
+                            issue.subject,
                             (issue.assigned_to ? issue.assigned_to.name : ""),
                             issue.author.name,
                             issue.start_date ? l_date(issue.start_date) : nil,
@@ -337,7 +339,7 @@ class ProjectsController < ApplicationController
     render :action => 'list_issues' and return unless @query.valid?
 					
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker, :priority, :custom_values ],
+						:include => [ :author, :status, :tracker, :priority, :project, :custom_values ],
 						:conditions => @query.statement,
 						:limit => Setting.issues_export_limit
 											

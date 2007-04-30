@@ -41,7 +41,7 @@
 	   	pdf.Cell(30, row_height, issue.priority.name, 0, 0, 'L', 1)
 	   	pdf.Cell(40, row_height, issue.author.name, 0, 0, 'L', 1)
 	   	pdf.Cell(25, row_height, format_date(issue.updated_on), 0, 0, 'L', 1)
-	   	pdf.MultiCell(0, row_height, issue.subject)
+	   	pdf.MultiCell(0, row_height, (@project == issue.project ? issue.subject : "#{issue.project.name} - #{issue.subject}"))
    		pdf.Line(10, pdf.GetY, 287, pdf.GetY)
    		pdf.SetY(pdf.GetY() + 1)
 	end
