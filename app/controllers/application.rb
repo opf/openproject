@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
   def require_admin
     return unless require_login
     unless self.logged_in_user.admin?
-      render :nothing => true, :status => 403
+      render_403
       return false
     end
     true
@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
     if logged_in_user_membership and Permission.allowed_to_role( "%s/%s" % [ ctrl, action ], logged_in_user_membership )    
       return true		
     end		
-    render :nothing => true, :status => 403
+    render_403
     false
   end
   
@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
     return true if @project.is_public?
     return false unless logged_in_user
     return true if logged_in_user.admin? || logged_in_user_membership
-    render :nothing => true, :status => 403
+    render_403
     false
   end
 
@@ -121,6 +121,13 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def render_403
+    @html_title = "403"
+    @project = nil
+    render :template => "common/403", :layout => true, :status => 403
+    return false
+  end
+    
   def render_404
     @html_title = "404"
     render :template => "common/404", :layout => true, :status => 404

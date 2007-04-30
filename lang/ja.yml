@@ -67,6 +67,7 @@ notice_successful_connection: 接続しました。
 notice_file_not_found: アクセスしようとしたページは存在しないか削除されています。
 notice_locking_conflict: 別のユーザがデータを更新しています。
 notice_scm_error: リポジトリに、エントリ/リビジョンが存在しません。
+notice_not_authorized: You are not authorized to access this page.
 
 mail_subject_lost_password: redMine パスワード
 mail_subject_register: redMine アカウントが有効になりました

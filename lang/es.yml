@@ -66,6 +66,7 @@ notice_successful_connection: Successful connection.
 notice_file_not_found: La página que intentabas tener acceso no existe ni se ha quitado.
 notice_locking_conflict: Data have been updated by another user.
 notice_scm_error: La entrada y/o la revisión no existe en el depósito.
+notice_not_authorized: You are not authorized to access this page.
 
 mail_subject_lost_password: Tu contraseña del redMine
 mail_subject_register: Activación de la cuenta del redMine
