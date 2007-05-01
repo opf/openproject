@@ -8,21 +8,22 @@
     <% end %>
     <% end %>
   <p><label><%= l(:label_view_diff) %></label>
-  <%= select_tag 'type', options_for_select([[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], params[:type]), :onchange => "if (this.value != '') {this.form.submit()}" %>
-  <%= submit_tag l(:button_apply) %></p>
+  <%= select_tag 'type', options_for_select([[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], params[:type]), :onchange => "if (this.value != '') {this.form.submit()}" %></p>
 <% end %>
+
+<% cache(@cache_key) do %>
 <% @diff.each do |table_file| %>
-<% if params[:type] == 'sbs' %>
+<% if @diff_type == 'sbs' %>
     <table class="list">
       <thead>
         <tr>
           <th colspan="4" class="list-filename">
-            <%= l(:label_attachment) %>: <%= table_file.file_name %>
+            <%= table_file.file_name %>
           </th>
         </tr>
         <tr>
-          <th colspan="2"><%= l(:label_revision) %> <%= @rev %></th>
-          <th colspan="2"><%= l(:label_revision) %> <%= @rev_to %></th>
+          <th colspan="2">@<%= @rev %></th>
+          <th colspan="2">@<%= @rev_to %></th>
         </tr>
       </thead>
       <tbody>
@@ -50,7 +51,7 @@
       <thead>
         <tr>
           <th colspan="3" class="list-filename">
-            <%= l(:label_attachment) %>: <%= table_file.file_name %>
+            <%= table_file.file_name %>
           </th>
         </tr>
         <tr>
@@ -81,6 +82,7 @@
         <% end %>
       </tbody>
     </table>
+<% end %>
 <% end %>
 <% end %>
 

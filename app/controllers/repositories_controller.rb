@@ -17,6 +17,7 @@
 
 require 'SVG/Graph/Bar'
 require 'SVG/Graph/BarHorizontal'
+require 'digest/sha1'
 
 class RepositoriesController < ApplicationController
   layout 'base'
@@ -73,10 +74,14 @@ class RepositoriesController < ApplicationController
   end
   
   def diff
-    @rev_to = params[:rev_to] || (@rev-1)
-    type = params[:type] || 'inline'
-    @diff = @repository.scm.diff(params[:path], @rev, @rev_to, type)
-    show_error and return unless @diff
+    @rev_to = (params[:rev_to] && params[:rev_to].to_i > 0) ? params[:rev_to].to_i : (@rev - 1)
+    @diff_type = ('sbs' == params[:type]) ? 'sbs' : 'inline'
+    
+    @cache_key = "repositories/diff/#{@repository.id}/" + Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")    
+    unless read_fragment(@cache_key)
+      @diff = @repository.scm.diff(@path, @rev, @rev_to, type)
+      show_error and return unless @diff
+    end
   end
   
   def stats  
