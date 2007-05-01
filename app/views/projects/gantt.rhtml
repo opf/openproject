@@ -50,7 +50,7 @@
 <% zoom = 1
 @zoom.times { zoom = zoom * 2 }
 
-subject_width = 260
+subject_width = 330
 header_heigth = 18
 
 headers_height = header_heigth
@@ -73,7 +73,7 @@ t_height = g_height + headers_height
 
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>
-<td style="width:260px;">
+<td style="width:<%= subject_width %>px;">
 
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr"></div>
@@ -87,7 +87,7 @@ top = headers_height + 8
     <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;"><small>    
     <% if i.is_a? Issue %>
       	<%= link_to_issue i %><%= " (#{i.project.name})" unless @project && @project == i.project %>:
-      	<%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %>
+      	<%=h i.subject %>
   	<% else %>
       	<strong><%= "#{l(:label_version)}: #{i.name}" %></strong>
   	<% end %>  	
