@@ -30,7 +30,7 @@ class ApplicationControllerTest < Test::Unit::TestCase
 
   # check that all 6 supported languages are valid
   def test_localization
-    assert_equal 8, GLoc.valid_languages.size
+    assert_equal 9, GLoc.valid_languages.size
     GLoc.valid_languages.each do |lang|
       assert set_language_if_valid(lang)
     end

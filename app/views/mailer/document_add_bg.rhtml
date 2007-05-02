@@ -1,0 +1,4 @@
+Добавен е документ в <%= @document.project.name %> (<%= @document.category.name %>):
+<%= l(:field_title) %>: <%= @document.title %>
+
+http://<%= Setting.host_name %>/documents/show/<%= @document.id %>
