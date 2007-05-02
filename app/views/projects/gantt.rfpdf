@@ -89,7 +89,7 @@ if show_days
 		width = zoom
 		pdf.SetY(y_start + 2 * header_heigth)
 		pdf.SetX(left)
-		pdf.Cell(width, height, day_name(wday)[0,1], "LTR", 0, "C")
+		pdf.Cell(width, height, day_name(wday).first, "LTR", 0, "C")
 		left = left + width
 		wday = wday + 1
 		wday = 1 if wday > 7

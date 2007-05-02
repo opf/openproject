@@ -162,7 +162,7 @@ if show_days
 	width =  zoom - 1
 	%>
 	<div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="gantt_hdr">
-	<%= day_name(wday)[0,1] %>
+	<%= day_name(wday).first %>
 	</div>
 	<% 
 	left = left + width+1
