@@ -516,7 +516,7 @@ function getPageOffsetTop(el) {
 
 //-- debut ajout ci ----
 function cicacheselect(){
-  if (browser.isIE) {
+  if (browser.isIE && browser.version < 7) {
 	 oSelects = document.getElementsByTagName('SELECT');
 	 if (oSelects.length > 0) {
 	  for (i = 0; i < oSelects.length; i++) {
@@ -535,7 +535,7 @@ function cicacheselect(){
 }	
 
 function cimontreselect(){
-  if (browser.isIE) {
+  if (browser.isIE && browser.version < 7) {
 	 oSelects = document.getElementsByTagName('SELECT');
 	 if (oSelects.length > 0) {
 	  for (i = 0; i < oSelects.length; i++) {
