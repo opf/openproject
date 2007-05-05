@@ -24,7 +24,7 @@
 
 <div id="tab-content-versions" class="tab-content" style="display:none;">
 <table class="list">
-	<thead><th><%= l(:label_version) %></th><th><%= l(:field_effective_date) %></th><th><%= l(:field_description) %></th><th></th><th></th></thead>
+	<thead><th><%= l(:label_version) %></th><th><%= l(:field_effective_date) %></th><th><%= l(:field_description) %></th><th style="width:15%"></th><th style="width:15%"></th></thead>
 	<tbody>
 <% for version in @project.versions %>
     <tr class="<%= cycle 'odd', 'even' %>">
@@ -38,12 +38,13 @@
 <% end; reset_cycle %>
     </tbody>
 </table>
-<%= link_to_if_authorized l(:label_version_new), :controller => 'projects', :action => 'add_version', :id => @project %>
+&nbsp;
+<p><%= link_to_if_authorized l(:label_version_new), :controller => 'projects', :action => 'add_version', :id => @project %></p>
 </div>
 
 <div id="tab-content-categories" class="tab-content" style="display:none;">
 <table class="list">
-	<thead><th><%= l(:label_issue_category) %></th><th></th></thead>
+	<thead><th><%= l(:label_issue_category) %></th><th style="width:15%"></th></thead>
 	<tbody>
 <% for @category in @project.issue_categories %>
 	<% unless @category.new_record? %>
@@ -64,12 +65,13 @@
 <% end %>
     </tbody>
 </table>
+&nbsp;
 <% if authorize_for('projects', 'add_issue_category') %>
     <% form_tag({:action => 'add_issue_category', :tab => 'categories', :id => @project}) do %>
-    <label for="issue_category_name"><%=l(:label_issue_category_new)%></label><br/>
+    <p><label for="issue_category_name"><%=l(:label_issue_category_new)%></label><br />
     <%= error_messages_for 'issue_category' %>
     <%= text_field 'issue_category', 'name', :size => 25 %>
-    <%= submit_tag l(:button_create) %>
+    <%= submit_tag l(:button_add) %></p>
     <% end %>
 <% end %>
 </div>
