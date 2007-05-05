@@ -17,7 +17,7 @@
     <%= link_to_remote l(:button_clear),
                        { :url => {:controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1}, 
                          :update => "content",
-                       }, :class => 'icon icon-del'  %>
+                       }, :class => 'icon icon-reload'  %>
                        
     <% if authorize_for('projects', 'add_query') %>    
     <%= link_to_remote l(:button_save), 
@@ -32,10 +32,11 @@
 <% else %>
     <div class="contextual">
         <%= render :partial => 'issues/add_shortcut', :locals => {:trackers => @trackers } %>
+        <%= link_to l(:button_clear), {:controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1}, :class => 'icon icon-reload' %>
         <% if authorize_for('projects', 'add_query') %>
             <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
             <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
-        <% end %>
+        <% end %>        
     </div>    
     <h2><%= @query.name %></h2>
 <% end %>
