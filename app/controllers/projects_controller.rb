@@ -364,6 +364,9 @@ class ProjectsController < ApplicationController
         unless i.project_id == new_project.id
           i.category = nil 
           i.fixed_version = nil
+          # delete issue relations
+          i.relations_from.clear
+          i.relations_to.clear
         end
         # move the issue
         i.project = new_project

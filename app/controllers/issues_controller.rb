@@ -23,6 +23,8 @@ class IssuesController < ApplicationController
   include CustomFieldsHelper
   helper :ifpdf
   include IfpdfHelper
+  helper :issue_relations
+  include IssueRelationsHelper
 
   def show
     @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user

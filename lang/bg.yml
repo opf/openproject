@@ -33,6 +33,8 @@ activerecord_error_taken: вече съществува
 activerecord_error_not_a_number: не е число
 activerecord_error_not_a_date: е невалидна дата
 activerecord_error_greater_than_start_date: трябва да е след началната дата
+activerecord_error_not_same_project: doesn't belong to the same project
+activerecord_error_circular_dependency: This relation would create a circular dependency
 
 general_fmt_age: %d yr
 general_fmt_age_plural: %d yrs
@@ -149,6 +151,8 @@ field_activity: Дейност
 field_spent_on: Дата
 field_identifier: Идентификатор
 field_is_filter: Използва се за филтър
+field_issue_to_id: Related issue
+field_delay: Delay
 
 setting_app_title: Заглавие
 setting_app_subtitle: Описание
@@ -364,6 +368,18 @@ label_watched_issues: Наблюдавани задачи
 label_related_issues: Свързани задачи
 label_applied_status: Промени статуса на
 label_loading: Зареждане...
+label_relation_new: New relation
+label_relation_delete: Delete relation
+label_relates_to: related tp
+label_duplicates: duplicates
+label_blocks: blocks
+label_blocked_by: blocked by
+label_precedes: precedes
+label_follows: follows
+label_end_to_start: start to end
+label_end_to_end: end to end
+label_start_to_start: start to start
+label_start_to_end: start to end
 
 button_login: Вход
 button_submit: Изпращане

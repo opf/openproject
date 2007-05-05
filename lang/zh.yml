@@ -36,6 +36,8 @@ activerecord_error_taken: has already been taken
 activerecord_error_not_a_number: 不是数字
 activerecord_error_not_a_date: 不是有效的日期
 activerecord_error_greater_than_start_date: 必需大于开始日期
+activerecord_error_not_same_project: doesn't belong to the same project
+activerecord_error_circular_dependency: This relation would create a circular dependency
 
 general_fmt_age: %d yr
 general_fmt_age_plural: %d yrs
@@ -152,6 +154,8 @@ field_activity: 活动
 field_spent_on: 日期
 field_identifier: Identifier
 field_is_filter: Used as a filter
+field_issue_to_id: Related issue
+field_delay: Delay
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题
@@ -367,6 +371,18 @@ label_watched_issues: Watched issues
 label_related_issues: Related issues
 label_applied_status: Applied status
 label_loading: Loading...
+label_relation_new: New relation
+label_relation_delete: Delete relation
+label_relates_to: related tp
+label_duplicates: duplicates
+label_blocks: blocks
+label_blocked_by: blocked by
+label_precedes: precedes
+label_follows: follows
+label_end_to_start: start to end
+label_end_to_end: end to end
+label_start_to_start: start to start
+label_start_to_end: start to end
 
 button_login: 登录
 button_submit: 提交

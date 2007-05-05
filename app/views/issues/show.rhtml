@@ -81,6 +81,12 @@ end %>
 &nbsp;
 </div>
 
+<% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
+<div id="relations" class="box">
+<%= render :partial => 'relations' %>
+</div>
+<% end %>
+
 <div id="history" class="box">
 <h3><%=l(:label_history)%>
 <% if @journals_count > @journals.length %>(<%= l(:label_last_changes, @journals.length) %>)<% end %></h3>

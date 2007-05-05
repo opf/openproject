@@ -1,4 +1,4 @@
-_gloc_rule_default: '|n| n<=1 ? "" : "_plural" '
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
 actionview_datehelper_select_month_names: Janvier,Février,Mars,Avril,Mai,Juin,Juillet,Août,Septembre,Octobre,Novembre,Décembre
@@ -33,6 +33,8 @@ activerecord_error_taken: est déjà utilisé
 activerecord_error_not_a_number: n'est pas un nombre
 activerecord_error_not_a_date: n'est pas une date valide
 activerecord_error_greater_than_start_date: doit être postérieur à la date de début
+activerecord_error_not_same_project: n'appartient pas au même projet
+activerecord_error_circular_dependency: Cette relation créerait une dépendance circulaire
 
 general_fmt_age: %d an
 general_fmt_age_plural: %d ans
@@ -149,6 +151,8 @@ field_activity: Activité
 field_spent_on: Date
 field_identifier: Identifiant
 field_is_filter: Utilisé comme filtre
+field_issue_to_id: Demande liée
+field_delay: Retard
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -364,6 +368,18 @@ label_watched_issues: Demandes surveillées
 label_related_issues: Demandes liées
 label_applied_status: Statut appliqué
 label_loading: Chargement...
+label_relation_new: Nouvelle relation
+label_relation_delete: Supprimer la relation
+label_relates_to: lié à
+label_duplicates: doublon de
+label_blocks: bloque
+label_blocked_by: bloqué par
+label_precedes: précède
+label_follows: suit
+label_end_to_start: début à fin
+label_end_to_end: fin à fin
+label_start_to_start: début à début
+label_start_to_end: début à fin
 
 button_login: Connexion
 button_submit: Soumettre

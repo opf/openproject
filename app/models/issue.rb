@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Issue < ActiveRecord::Base
-
   belongs_to :project
   belongs_to :tracker
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
@@ -32,6 +31,9 @@ class Issue < ActiveRecord::Base
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :custom_fields, :through => :custom_values
   has_and_belongs_to_many :changesets, :order => "revision ASC"
+  
+  has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
+  has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
   acts_as_watchable
   
@@ -52,13 +54,13 @@ class Issue < ActiveRecord::Base
     if self.due_date and self.start_date and self.due_date < self.start_date
       errors.add :due_date, :activerecord_error_greater_than_start_date
     end
+    
+    if start_date && soonest_start && start_date < soonest_start
+      errors.add :start_date, :activerecord_error_invalid
+    end
   end
-
-  #def before_create
-  #  build_history
-  #end
   
-  def before_save
+  def before_save  
     if @current_journal
       # attributes changes
       (Issue.column_names - %w(id description)).each {|c|
@@ -77,6 +79,10 @@ class Issue < ActiveRecord::Base
       @current_journal.save unless @current_journal.details.empty? and @current_journal.notes.empty?
     end
   end
+  
+  def after_save
+    relations_from.each(&:set_issue_to_dates)
+  end  
   
   def long_id
     "%05d" % self.id
@@ -98,12 +104,25 @@ class Issue < ActiveRecord::Base
   def spent_hours
     @spent_hours ||= time_entries.sum(:hours) || 0
   end
-
-private
-  # Creates an history for the issue
-  #def build_history
-  #  @history = self.histories.build
-  #  @history.status = self.status
-  #  @history.author = self.author
-  #end
+  
+  def relations
+    (relations_from + relations_to).sort
+  end
+  
+  def all_dependent_issues
+    dependencies = []
+    relations_from.each do |relation|
+      dependencies << relation.issue_to
+      dependencies += relation.issue_to.all_dependent_issues
+    end
+    dependencies
+  end
+  
+  def duration
+    (start_date && due_date) ? due_date - start_date : 0
+  end
+  
+  def soonest_start
+    @soonest_start ||= relations_to.collect{|relation| relation.successor_soonest_start}.compact.min
+  end
 end

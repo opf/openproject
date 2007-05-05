@@ -34,6 +34,8 @@ activerecord_error_taken: はすでに登録されています
 activerecord_error_not_a_number: が数字ではありません
 activerecord_error_not_a_date: の日付が間違っています
 activerecord_error_greater_than_start_date: を開始日より後にしてください
+activerecord_error_not_same_project: doesn't belong to the same project
+activerecord_error_circular_dependency: This relation would create a circular dependency
 
 general_fmt_age: %d歳
 general_fmt_age_plural: %d歳
@@ -150,6 +152,8 @@ field_activity: 活動
 field_spent_on: 日付
 field_identifier: 識別子
 field_is_filter: Used as a filter
+field_issue_to_id: Related issue
+field_delay: Delay
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -365,6 +369,18 @@ label_watched_issues: Watched issues
 label_related_issues: Related issues
 label_applied_status: Applied status
 label_loading: Loading...
+label_relation_new: New relation
+label_relation_delete: Delete relation
+label_relates_to: related tp
+label_duplicates: duplicates
+label_blocks: blocks
+label_blocked_by: blocked by
+label_precedes: precedes
+label_follows: follows
+label_end_to_start: start to end
+label_end_to_end: end to end
+label_start_to_start: start to start
+label_start_to_end: start to end
 
 button_login: ログイン
 button_submit: 変更

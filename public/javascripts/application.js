@@ -32,6 +32,15 @@ function showTab(name) {
 	return false;
 }
 
+function setPredecessorFieldsVisibility() {
+    relationType = $('relation_relation_type');
+    if (relationType && relationType.value == "precedes") {
+        Element.show('predecessor_fields');
+    } else {
+        Element.hide('predecessor_fields');
+    }
+}
+
 /* shows and hides ajax indicator */
 Ajax.Responders.register({
     onCreate: function(){

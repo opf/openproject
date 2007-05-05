@@ -33,6 +33,8 @@ activerecord_error_taken: ja esta examinado
 activerecord_error_not_a_number: nao e um numero
 activerecord_error_not_a_date: nao e uma data valida
 activerecord_error_greater_than_start_date: deve ser maior que a data inicial
+activerecord_error_not_same_project: doesn't belong to the same project
+activerecord_error_circular_dependency: This relation would create a circular dependency
 
 general_fmt_age: %d yr
 general_fmt_age_plural: %d yrs
@@ -149,6 +151,8 @@ field_activity: Atividade
 field_spent_on: Data
 field_identifier: Identificador
 field_is_filter: Used as a filter
+field_issue_to_id: Related issue
+field_delay: Delay
 
 setting_app_title: Titulo da aplicacao
 setting_app_subtitle: Sub-titulo da aplicacao
@@ -364,6 +368,18 @@ label_watched_issues: Watched issues
 label_related_issues: Related issues
 label_applied_status: Applied status
 label_loading: Loading...
+label_relation_new: New relation
+label_relation_delete: Delete relation
+label_relates_to: related tp
+label_duplicates: duplicates
+label_blocks: blocks
+label_blocked_by: blocked by
+label_precedes: precedes
+label_follows: follows
+label_end_to_start: start to end
+label_end_to_end: end to end
+label_start_to_start: start to start
+label_start_to_end: start to end
 
 button_login: Login
 button_submit: Enviar
