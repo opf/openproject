@@ -1,5 +1,5 @@
 <%	pdf.SetFontStyle('B',11)   	
-   	pdf.Cell(190,10, "#{issue.project.name} - #{issue.tracker.name} # #{issue.long_id} - #{issue.subject}")
+   	pdf.Cell(190,10, "#{issue.project.name} - #{issue.tracker.name} # #{issue.id}: #{issue.subject}")
     pdf.Ln
     
     y0 = pdf.GetY

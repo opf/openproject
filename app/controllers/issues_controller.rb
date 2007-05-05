@@ -41,7 +41,7 @@ class IssuesController < ApplicationController
   def export_pdf
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
     @options_for_rfpdf ||= {}
-    @options_for_rfpdf[:file_name] = "#{@project.name}_#{@issue.long_id}.pdf"
+    @options_for_rfpdf[:file_name] = "#{@project.name}_#{@issue.id}.pdf"
   end
 
   def edit

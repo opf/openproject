@@ -82,10 +82,6 @@ class Issue < ActiveRecord::Base
   
   def after_save
     relations_from.each(&:set_issue_to_dates)
-  end  
-  
-  def long_id
-    "%05d" % self.id
   end
   
   def custom_value_for(custom_field)
