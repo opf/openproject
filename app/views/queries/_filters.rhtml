@@ -72,7 +72,7 @@ function toggle_multi_select(field) {
         <%= select_tag "operators[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
     </td>
     <td valign="top">    
-    <div id="div_values_<%= field %>">
+    <div id="div_values_<%= field %>" style="display:none;">
     <% case options[:type]
     when :list, :list_optional, :list_status, :list_one_or_more %>
         <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="values[<%= field %>][]" id="values_<%= field %>" class="select-small" style="vertical-align: top;">
