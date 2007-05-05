@@ -21,15 +21,19 @@ class MembersController < ApplicationController
 
   def edit
     if request.post? and @member.update_attributes(params[:member])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project
+  	 respond_to do |format|
+        format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+        format.js { render(:update) {|page| page.replace_html "tab-content-members", :partial => 'projects/members'} }
+      end
     end
   end
 
   def destroy
     @member.destroy
-    flash[:notice] = l(:notice_successful_delete)
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project
+	respond_to do |format|
+      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.js { render(:update) {|page| page.replace_html "tab-content-members", :partial => 'projects/members'} }
+    end
   end
 
 private

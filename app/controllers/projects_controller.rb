@@ -96,8 +96,6 @@ class ProjectsController < ApplicationController
     @custom_fields = IssueCustomField.find(:all)
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
-    @roles = Role.find(:all, :order => 'position')
-    @users = User.find_active(:all) - @project.users
     @custom_values ||= ProjectCustomField.find(:all).collect { |x| @project.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
   end
   
@@ -172,14 +170,14 @@ class ProjectsController < ApplicationController
   # Add a new member to @project
   def add_member
     @member = @project.members.build(params[:member])
-  	if request.post?
-      if @member.save
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :action => 'settings', :tab => 'members', :id => @project
-      else		
-        settings
-        render :action => 'settings'
+  	if request.post? && @member.save
+  	  respond_to do |format|
+        format.html { redirect_to :action => 'settings', :tab => 'members', :id => @project }
+        format.js { render(:update) {|page| page.replace_html "tab-content-members", :partial => 'members'} }
       end
+    else		
+      settings
+      render :action => 'settings'
     end
   end
 

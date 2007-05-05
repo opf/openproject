@@ -1,0 +1,43 @@
+<%= error_messages_for 'member' %>
+<% roles = Role.find(:all, :order => 'position') %>
+<% users = User.find_active(:all) - @project.users %>
+
+<table class="list">
+	<thead>
+	  <th><%= l(:label_user) %></th>
+	  <th><%= l(:label_role) %></th>
+	  <th></th>
+	</thead>
+	<tbody>
+	<% @project.members.find(:all, :include => [:role, :user]).sort{|x,y| x.role.position <=> y.role.position}.each do |member| %>
+	<% next if member.new_record? %>
+	<tr class="<%= cycle 'odd', 'even' %>">
+	<td><%= member.user.display_name %></td>
+    <td align="center">
+    <% if authorize_for('members', 'edit') %>
+      <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member}, :method => :post) do |f| %>
+        <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, {}, :class => "small" %>
+        <%= submit_tag l(:button_change), :class => "small" %>
+      <% end %>
+    <% end %>
+    </td>
+    <td align="center">
+      <small><%= link_to_remote l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
+                                              :method => :post
+                                            }, :title => l(:button_delete),
+                                               :class => 'icon icon-del' %></small>
+    </td>
+	</tr>
+	</tbody>
+<% end; reset_cycle %>
+</table>
+&nbsp;
+
+<% if authorize_for('projects', 'add_member') && !users.empty? %>
+  <p><label for="member_user_id"><%=l(:label_member_new)%></label></p>
+  <% remote_form_for(:member, @member, :url => {:controller => 'projects', :action => 'add_member', :tab => 'members', :id => @project}, :method => :post) do |f| %>
+    <%= f.select :user_id, users.collect{|user| [user.name, user.id]} %>
+    <%= l(:label_role) %>: <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, :selected => nil %>
+    <%= submit_tag l(:button_add) %>
+  <% end %>
+<% end %>

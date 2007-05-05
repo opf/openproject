@@ -242,7 +242,7 @@ text-decoration:none;
 
 form {display: inline;}
 blockquote {padding-left: 6px; border-left: 2px solid #ccc;}
-input, select {vertical-align: middle; margin-bottom: 4px;}
+input, select {vertical-align: middle; margin-top: 1px; margin-bottom: 1px;}
 
 input.button-small {font-size: 0.8em;}
 textarea.wiki-edit { width: 99.5%; }
