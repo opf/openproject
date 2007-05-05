@@ -12,11 +12,14 @@
                        { :url => { :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 },
                          :update => "content",
                          :with => "Form.serialize('query_form')"
-                       }, :class => 'icon icon-edit' %> 
-    
-    <%= link_to l(:button_clear), {:controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1}, :class => 'icon icon-del'  %>
-    <% if authorize_for('projects', 'add_query') %>
-    
+                       }, :class => 'icon icon-edit' %>
+                       
+    <%= link_to_remote l(:button_clear),
+                       { :url => {:controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1}, 
+                         :update => "content",
+                       }, :class => 'icon icon-del'  %>
+                       
+    <% if authorize_for('projects', 'add_query') %>    
     <%= link_to_remote l(:button_save), 
                        { :url => { :controller => 'projects', :action => "add_query", :id => @project },
                          :method => 'get',
