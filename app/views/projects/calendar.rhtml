@@ -1,3 +1,4 @@
+<% cache(:year => @year, :month => @month, :tracker_ids => @selected_tracker_ids, :subprojects => params[:with_subprojects], :lang => current_language) do %>
 <h2><%= l(:label_calendar) %></h2>
 
 <% form_tag do %>
@@ -88,3 +89,4 @@ end %>
 <%= image_tag 'arrow_from.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_day) %><br />
 <%= image_tag 'arrow_to.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_end_day) %><br />
 <%= image_tag 'arrow_bw.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_end_day) %><br />
+<% end %>

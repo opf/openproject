@@ -18,6 +18,8 @@
 class IssuesController < ApplicationController
   layout 'base', :except => :export_pdf
   before_filter :find_project, :authorize
+  
+  cache_sweeper :issue_sweeper, :only => [ :edit, :change_status, :destroy ]
 
   helper :custom_fields
   include CustomFieldsHelper

@@ -1,3 +1,28 @@
+<% zoom = 1
+@zoom.times { zoom = zoom * 2 }
+
+subject_width = 330
+header_heigth = 18
+
+headers_height = header_heigth
+show_weeks = false
+show_days = false
+
+if @zoom >1
+    show_weeks = true
+    headers_height = 2*header_heigth
+    if @zoom > 2
+        show_days = true
+        headers_height = 3*header_heigth
+    end
+end
+
+g_width = (@date_to - @date_from + 1)*zoom
+g_height = [(20 * @events.length + 6)+150, 206].max
+t_height = g_height + headers_height
+%>
+
+<% cache(:year => @year_from, :month => @month_from, :months => @months, :zoom => @zoom, :tracker_ids => @selected_tracker_ids, :subprojects => params[:with_subprojects], :lang => current_language) do %>
 <div class="contextual">
 <%= l(:label_export_to) %>
 <%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :output => 'pdf'}, :class => 'icon icon-pdf' %>
@@ -46,30 +71,6 @@
 </tr>
 </table>
 <% end %>
-
-<% zoom = 1
-@zoom.times { zoom = zoom * 2 }
-
-subject_width = 330
-header_heigth = 18
-
-headers_height = header_heigth
-show_weeks = false
-show_days = false
-
-if @zoom >1
-    show_weeks = true
-    headers_height = 2*header_heigth
-    if @zoom > 2
-        show_days = true
-        headers_height = 3*header_heigth
-    end
-end
-
-g_width = (@date_to - @date_from + 1)*zoom
-g_height = [(20 * @events.length + 6)+150, 206].max
-t_height = g_height + headers_height
-%>
 
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>
@@ -173,14 +174,6 @@ end %>
 
 <%
 #
-# Today red line
-#
-if Date.today >= @date_from and Date.today <= @date_to %>
-    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= ((Date.today-@date_from+1)*zoom).floor()-1 %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
-<% end %>
-
-<%
-#
 # Tasks
 #
 top = headers_height + 10
@@ -226,6 +219,18 @@ top = headers_height + 10
 <% end %>
 	<% top = top + 20
 end %>
+
+<% end # cache 
+%>
+
+<%
+#
+# Today red line (excluded from cache)
+#
+if Date.today >= @date_from and Date.today <= @date_to %>
+    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= ((Date.today-@date_from+1)*zoom).floor()-1 %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
+<% end %>
+
 </div>
 </td>
 </tr>

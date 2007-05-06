@@ -21,6 +21,8 @@ class ProjectsController < ApplicationController
   layout 'base'
   before_filter :find_project, :authorize, :except => [ :index, :list, :add ]
   before_filter :require_admin, :only => [ :add, :destroy ]
+  
+  cache_sweeper :issue_sweeper, :only => [ :add_issue ]
 
   helper :sort
   include SortHelper
