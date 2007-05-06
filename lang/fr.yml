@@ -171,6 +171,7 @@ setting_autofetch_changesets: Récupération auto. des commits SVN
 setting_sys_api_enabled: Activer les WS pour la gestion des dépôts
 setting_commit_ref_keywords: Mot-clés de référencement
 setting_commit_fix_keywords: Mot-clés de résolution
+setting_autologin: Autologin
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -380,6 +381,8 @@ label_end_to_start: début à fin
 label_end_to_end: fin à fin
 label_start_to_start: début à début
 label_start_to_end: début à fin
+label_stay_logged_in: Rester connecté
+label_disabled: désactivé
 
 button_login: Connexion
 button_submit: Soumettre

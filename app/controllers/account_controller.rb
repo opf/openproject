@@ -42,6 +42,11 @@ class AccountController < ApplicationController
       user = User.try_to_login(params[:login], params[:password])
       if user
         self.logged_in_user = user
+        # generate a key and set cookie if autologin
+        if params[:autologin] && Setting.autologin?
+          token = Token.create(:user => user, :action => 'autologin')
+          cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
+        end
         redirect_back_or_default :controller => 'my', :action => 'page'
       else
         flash.now[:notice] = l(:notice_account_invalid_creditentials)
@@ -51,6 +56,8 @@ class AccountController < ApplicationController
 
   # Log out current user and redirect to welcome page
   def logout
+    cookies.delete :autologin
+    Token.delete_all(["user_id = ? AND action = ?", logged_in_user.id, "autologin"]) if logged_in_user
     self.logged_in_user = nil
     redirect_to :controller => 'welcome'
   end

@@ -49,7 +49,7 @@ class Setting < ActiveRecord::Base
     end
 
     def self.#{name}?
-      self[:#{name}].to_s == "1"
+      self[:#{name}].to_i > 0
     end
 
     def self.#{name}=(value)

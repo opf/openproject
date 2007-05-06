@@ -141,6 +141,11 @@ class User < ActiveRecord::Base
     token = Token.find_by_value(key)
     token && token.user.active? ? token.user : nil
   end
+  
+  def self.find_by_autologin_key(key)
+    token = Token.find_by_action_and_value('autologin', key)
+    token && (token.created_on > Setting.autologin.to_i.day.ago) && token.user.active? ? token.user : nil
+  end
 
   def <=>(user)
     lastname == user.lastname ? firstname <=> user.firstname : lastname <=> user.lastname

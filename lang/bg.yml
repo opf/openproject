@@ -171,6 +171,7 @@ setting_autofetch_changesets: Автоматично обработване на
 setting_sys_api_enabled: Разрешаване на WS за управление на SVN склада
 setting_commit_ref_keywords: Отбелязващи ключови думи
 setting_commit_fix_keywords: Приключващи ключови думи
+setting_autologin: Autologin
 
 label_user: Потребител
 label_user_plural: Потребители
@@ -380,6 +381,8 @@ label_end_to_start: start to end
 label_end_to_end: end to end
 label_start_to_start: start to start
 label_start_to_end: start to end
+label_stay_logged_in: Stay logged in
+label_disabled: disabled
 
 button_login: Вход
 button_submit: Изпращане

@@ -15,15 +15,6 @@
 <p><label><%= l(:setting_default_language) %></label>
 <%= select_tag 'settings[default_language]', options_for_select( lang_options_for_select(false), Setting.default_language) %></p>
 
-<p><label><%= l(:setting_login_required) %></label>
-<%= check_box_tag 'settings[login_required]', 1, Setting.login_required? %><%= hidden_field_tag 'settings[login_required]', 0 %></p>
-
-<p><label><%= l(:setting_self_registration) %></label>
-<%= check_box_tag 'settings[self_registration]', 1, Setting.self_registration? %><%= hidden_field_tag 'settings[self_registration]', 0 %></p>
-
-<p><label><%= l(:label_password_lost) %></label>
-<%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %><%= hidden_field_tag 'settings[lost_password]', 0 %></p>
-
 <p><label><%= l(:setting_attachment_max_size) %></label>
 <%= text_field_tag 'settings[attachment_max_size]', Setting.attachment_max_size, :size => 6 %> KB</p>
 
@@ -51,6 +42,20 @@
 <p><label><%= l(:setting_sys_api_enabled) %></label>
 <%= check_box_tag 'settings[sys_api_enabled]', 1, Setting.sys_api_enabled? %><%= hidden_field_tag 'settings[sys_api_enabled]', 0 %></p>
 </div>
+
+<fieldset class="box"><legend><%= l(:label_authentication) %></legend>
+<p><label><%= l(:setting_login_required) %></label>
+<%= check_box_tag 'settings[login_required]', 1, Setting.login_required? %><%= hidden_field_tag 'settings[login_required]', 0 %></p>
+
+<p><label><%= l(:setting_autologin) %></label>
+<%= select_tag 'settings[autologin]', options_for_select( [[l(:label_disabled), "0"]] + [1, 7, 30, 365].collect{|days| [lwr(:actionview_datehelper_time_in_words_day, days), days.to_s]}, Setting.autologin) %></p>
+
+<p><label><%= l(:setting_self_registration) %></label>
+<%= check_box_tag 'settings[self_registration]', 1, Setting.self_registration? %><%= hidden_field_tag 'settings[self_registration]', 0 %></p>
+
+<p><label><%= l(:label_password_lost) %></label>
+<%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %><%= hidden_field_tag 'settings[lost_password]', 0 %></p>
+</fieldset>
 
 <fieldset class="box"><legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
 <p><label><%= l(:setting_commit_ref_keywords) %></label>

@@ -40,6 +40,13 @@ class ApplicationController < ActionController::Base
   
   # check if login is globally required to access the application
   def check_if_login_required
+    # no check needed if user is already logged in
+    return true if logged_in_user
+    # auto-login feature
+    autologin_key = cookies[:autologin]
+    if autologin_key && Setting.autologin?
+      self.logged_in_user = User.find_by_autologin_key(autologin_key)
+    end
     require_login if Setting.login_required?
   end 
   
