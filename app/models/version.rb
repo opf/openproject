@@ -33,6 +33,10 @@ class Version < ActiveRecord::Base
     effective_date
   end
   
+  def completed?
+    effective_date && effective_date <= Date.today
+  end
+  
 private
   def check_integrity
     raise "Can't delete version" if self.fixed_issues.find(:first)

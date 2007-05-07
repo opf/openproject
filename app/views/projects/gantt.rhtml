@@ -90,7 +90,7 @@ top = headers_height + 8
       	<%= link_to_issue i %><%= " (#{i.project.name})" unless @project && @project == i.project %>:
       	<%=h i.subject %>
   	<% else %>
-      	<strong><%= "#{l(:label_version)}: #{i.name}" %></strong>
+      	<%= link_to_version i, :class => "icon icon-package" %>
   	<% end %>  	
   	</small></div>
     <% top = top + 20

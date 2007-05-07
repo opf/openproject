@@ -383,6 +383,7 @@ label_start_to_start: début à début
 label_start_to_end: début à fin
 label_stay_logged_in: Rester connecté
 label_disabled: désactivé
+label_show_completed_versions: Voire les versions passées
 
 button_login: Connexion
 button_submit: Soumettre

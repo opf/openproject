@@ -74,7 +74,7 @@ while day <= @date_to
         </span>		
 		</div>
 		<% else %>
-        <%= image_tag('milestone.png') %> <small><%= "#{l(:label_version)}: #{i.name}" %></small>
+        <small><%= link_to_version i, :class => "icon icon-package" %></small>
 		<% end %>
 	<% end %>
     </td>

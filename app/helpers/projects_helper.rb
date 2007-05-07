@@ -16,4 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module ProjectsHelper
+  def link_to_version(version, options = {})
+    return '' unless version && version.is_a?(Version)
+    link_to version.name, {:controller => 'projects',
+                           :action => 'roadmap',
+                           :id => version.project_id,
+                           :completed => (version.completed? ? 1 : nil),
+                           :anchor => version.name
+                          }, options
+  end
 end

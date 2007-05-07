@@ -448,10 +448,11 @@ class ProjectsController < ApplicationController
 
   def roadmap
     @trackers = Tracker.find(:all, :conditions => ["is_in_roadmap=?", true], :order => 'position')
-    retrieve_selected_tracker_ids(@trackers)
+    retrieve_selected_tracker_ids(@trackers)    
+    conditions = ("1" == params[:completed] ? nil : [ "#{Version.table_name}.effective_date > ?", Date.today])
     
     @versions = @project.versions.find(:all,
-      :conditions => [ "#{Version.table_name}.effective_date>?", Date.today],
+      :conditions => conditions,
       :order => "#{Version.table_name}.effective_date ASC"
     )
   end

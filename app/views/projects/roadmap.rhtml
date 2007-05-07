@@ -1,14 +1,13 @@
 <h2><%=l(:label_roadmap)%></h2>
 
-<div>
-
-<div class="rightbox" style="width:140px;">
+<div class="rightbox">
 <% form_tag do %>
-<p><strong><%=l(:label_tracker_plural)%></strong></p>
+<p><strong><%=l(:label_tracker_plural)%></strong><br />
 <% @trackers.each do |tracker| %>
   <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
   <%= tracker.name %><br />
-<% end %>
+<% end %></p>
+<p class="small"><label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label></p>
 <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
 <% end %>
 </div>
@@ -16,13 +15,17 @@
 <% if @versions.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
 
 <% @versions.each do |version| %>   
-    <h3 class="icon22 icon22-package"><%= version.name %></h3>
+    <a name="<%= version.name %>"><h3 class="icon22 icon22-package"><%= version.name %></h3></a>
+    <% if version.completed? %>
+      <p><%= format_date(version.effective_date) %></p>
+    <% else %>
+      <p><strong><%=l(:label_roadmap_due_in)%> <%= distance_of_time_in_words Time.now, version.effective_date %> (<%= format_date(version.effective_date) %>)</strong></p>
+    <% end %>
     <p><%=h version.description %></p>
-    <p><strong><%=l(:label_roadmap_due_in)%> <%= distance_of_time_in_words Time.now, version.effective_date %> (<%= format_date(version.effective_date) %>)</strong></p>    
     <% issues = version.fixed_issues.find(:all,
-                                 :include => :status,
+                                 :include => [:status, :tracker],
                                  :conditions => ["tracker_id in (#{@selected_tracker_ids.join(',')})"],
-                                 :order => "position")
+                                 :order => "#{Tracker.table_name}.position")
 
        total = issues.size
        complete = issues.inject(0) {|c,i| i.status.is_closed? ? c + 1 : c } 
@@ -56,4 +59,3 @@
       <% end %>
     </ul>
 <% end %>
-</div>
