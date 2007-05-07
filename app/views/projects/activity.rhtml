@@ -11,7 +11,7 @@
     <%= check_box_tag 'show_news', 1, @show_news %><%= hidden_field_tag 'show_news', 0, :id => nil %> <%=l(:label_news_plural)%><br />
     <%= check_box_tag 'show_files', 1, @show_files %><%= hidden_field_tag 'show_files', 0, :id => nil %> <%=l(:label_attachment_plural)%><br />
     <%= check_box_tag 'show_documents', 1, @show_documents %><%= hidden_field_tag 'show_documents', 0, :id => nil %> <%=l(:label_document_plural)%><br />
-    <%= check_box_tag 'show_wiki_edits', 1, @show_wiki_edits %><%= hidden_field_tag 'show_wiki_edits', 0, :id => nil %> <%=l(:label_wiki_edit_plural)%>
+    <% if @project.wiki %><%= check_box_tag 'show_wiki_edits', 1, @show_wiki_edits %><%= hidden_field_tag 'show_wiki_edits', 0, :id => nil %> <%=l(:label_wiki_edit_plural)%><% end %>
 </p>
 <p class="textcenter"><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
 <% end %>

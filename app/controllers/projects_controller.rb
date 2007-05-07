@@ -508,7 +508,7 @@ class ProjectsController < ApplicationController
       @show_documents = 1 
     end
     
-    unless params[:show_wiki_edits] == "0"
+    unless @project.wiki.nil? || params[:show_wiki_edits] == "0"
       select = "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
                "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title"
       joins = "LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
