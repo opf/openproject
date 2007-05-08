@@ -42,6 +42,7 @@ class QueriesController < ApplicationController
 private
   def find_query
     @query = Query.find(params[:id])
+    @query.executed_by = logged_in_user
     @project = @query.project
     # check if user is allowed to manage queries (same permission as add_query)
     authorize('projects', 'add_query')

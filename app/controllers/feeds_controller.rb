@@ -37,6 +37,7 @@ class FeedsController < ApplicationController
   def issues
     if @project && params[:query_id]
       query = Query.find(params[:query_id])
+      query.executed_by = @user
       # ignore query if it's not valid
       query = nil unless query.valid?
       # override with query conditions
@@ -56,6 +57,7 @@ class FeedsController < ApplicationController
   def history    
     if @project && params[:query_id]
       query = Query.find(params[:query_id])
+      query.executed_by = @user
       # ignore query if it's not valid
       query = nil unless query.valid?
       # override with query conditions

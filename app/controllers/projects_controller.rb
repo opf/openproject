@@ -647,11 +647,12 @@ private
   def retrieve_query
     if params[:query_id]
       @query = @project.queries.find(params[:query_id])
+      @query.executed_by = logged_in_user
       session[:query] = @query
     else
       if params[:set_filter] or !session[:query] or session[:query].project_id != @project.id
         # Give it a name, required to be valid
-        @query = Query.new(:name => "_")
+        @query = Query.new(:name => "_", :executed_by => logged_in_user)
         @query.project = @project
         if params[:fields] and params[:fields].is_a? Array
           params[:fields].each do |field|

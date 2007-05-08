@@ -384,6 +384,7 @@ label_start_to_end: inícia ao fim
 label_stay_logged_in: Rester connecté
 label_disabled: désactivé
 label_show_completed_versions: Voire les versions passées
+label_me: me
 
 button_login: Login
 button_submit: Enviar

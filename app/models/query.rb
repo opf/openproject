@@ -21,6 +21,7 @@ class Query < ActiveRecord::Base
   serialize :filters
   
   attr_protected :project, :user
+  attr_accessor :executed_by
   
   validates_presence_of :name, :on => :save
     
@@ -59,6 +60,11 @@ class Query < ActiveRecord::Base
     self.is_public = true
   end
   
+  def executed_by=(user)
+    @executed_by = user
+    set_language_if_valid(user.language) if user
+  end
+  
   def validate
     filters.each_key do |field|
       errors.add label_for(field), :activerecord_error_blank unless 
@@ -81,8 +87,12 @@ class Query < ActiveRecord::Base
                            "due_date" => { :type => :date, :order => 12 } }                          
     unless project.nil?
       # project specific filters
-      @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => @project.users.collect{|s| [s.name, s.id.to_s] } }  
-      @available_filters["author_id"] = { :type => :list, :order => 5, :values => @project.users.collect{|s| [s.name, s.id.to_s] } }  
+      user_values = []
+      user_values << ["<< #{l(:label_me)} >>", "me"] if executed_by
+      user_values += @project.users.collect{|s| [s.name, s.id.to_s] }
+      
+      @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values }  
+      @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values }  
       @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
       @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.collect{|s| [s.name, s.id.to_s] } }
       unless @project.children.empty?
@@ -162,7 +172,7 @@ class Query < ActiveRecord::Base
     end
     filters.each_key do |field|
       next if field == "subproject_id"
-      v = values_for field
+      v = values_for(field).clone
       next unless v and !v.empty?
         
       sql = sql + " AND " unless sql.empty?      
@@ -177,6 +187,11 @@ class Query < ActiveRecord::Base
         # regular field
         db_table = Issue.table_name
         db_field = field
+      end
+      
+      # "me" value subsitution
+      if %w(assigned_to_id author_id).include?(field)
+        v.push(executed_by ? executed_by.id.to_s : "0") if v.delete("me")
       end
       
       case operator_for field

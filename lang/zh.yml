@@ -387,6 +387,7 @@ label_start_to_end: start to end
 label_stay_logged_in: Stay logged in
 label_disabled: disabled
 label_show_completed_versions: Show completed versions
+label_me: me
 
 button_login: 登录
 button_submit: 提交
