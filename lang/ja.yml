@@ -1,8 +1,8 @@
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
-actionview_datehelper_select_month_names: 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月
-actionview_datehelper_select_month_names_abbr: 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月
+actionview_datehelper_select_month_names: 1月,2月,3月,4月,5月,6月,7月,8月,9月,10月,11月,12月
+actionview_datehelper_select_month_names_abbr: 1月,2月,3月,4月,5月,6月,7月,8月,9月,10月,11月,12月
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
 actionview_datehelper_select_year_suffix: 月
@@ -51,7 +51,7 @@ general_lang_name: 'Japanese (日本語)'
 general_csv_separator: ','
 general_csv_encoding: SJIS
 general_pdf_encoding: SJIS
-general_day_names: 日曜日, 月曜日, 火曜日, 水曜日, 木曜日, 金曜日, 土曜日
+general_day_names: 月曜日,火曜日,水曜日,木曜日,金曜日,土曜日,日曜日
 
 notice_account_updated: アカウントが更新されました。
 notice_account_invalid_creditentials: ユーザ名もしくはパスワードが無効
