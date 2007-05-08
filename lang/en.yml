@@ -46,7 +46,7 @@ general_text_No: 'No'
 general_text_Yes: 'Yes'
 general_text_no: 'no'
 general_text_yes: 'yes'
-general_lang_en: 'English'
+general_lang_name: 'English'
 general_csv_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1

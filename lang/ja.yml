@@ -47,7 +47,7 @@ general_text_No: 'いいえ'
 general_text_Yes: 'はい'
 general_text_no: 'いいえ'
 general_text_yes: 'はい'
-general_lang_ja: 'Japanese (日本語)'
+general_lang_name: 'Japanese (日本語)'
 general_csv_separator: ','
 general_csv_encoding: SJIS
 general_pdf_encoding: SJIS

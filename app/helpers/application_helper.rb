@@ -191,7 +191,7 @@ module ApplicationHelper
   
   def lang_options_for_select(blank=true)
     (blank ? [["(auto)", ""]] : []) + 
-      (GLoc.valid_languages.sort {|x,y| x.to_s <=> y.to_s }).collect {|lang| [ l_lang_name(lang.to_s, lang), lang.to_s]}
+      GLoc.valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.first <=> y.first }
   end
   
   def label_tag_for(name, option_tags = nil, options = {})

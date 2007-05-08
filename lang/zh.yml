@@ -49,7 +49,7 @@ general_text_No: '否'
 general_text_Yes: '是'
 general_text_no: '否'
 general_text_yes: '是'
-general_lang_zh: 'Chinese (简体中文)'
+general_lang_name: 'Chinese (简体中文)'
 general_csv_separator: ','
 general_csv_encoding: gb2312
 general_pdf_encoding: Big5

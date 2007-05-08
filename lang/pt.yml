@@ -1,87 +1,87 @@
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
-actionview_datehelper_select_month_names: Janeiro,Fevereiro,Marco,Abrill,Maio,Junho,Julho,Agosto,Setembro,Outubro,Novembro,Dezembro
+actionview_datehelper_select_month_names: Janeiro,Fevereiro,Março,Abril,Maio,Junho,Julho,Agosto,Setembro,Outubro,Novembro,Dezembro
 actionview_datehelper_select_month_names_abbr: Jan,Fev,Mar,Abr,Mai,Jun,Jul,Ago,Set,Out,Nov,Dez
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
 actionview_datehelper_time_in_words_day: 1 dia
 actionview_datehelper_time_in_words_day_plural: %d dias
-actionview_datehelper_time_in_words_hour_about: sobre uma hora
-actionview_datehelper_time_in_words_hour_about_plural: sobra %d horas
-actionview_datehelper_time_in_words_hour_about_single: sobre uma hora
+actionview_datehelper_time_in_words_hour_about: em torno de uma hora
+actionview_datehelper_time_in_words_hour_about_plural: em torno de %d horas
+actionview_datehelper_time_in_words_hour_about_single: em torno de uma hora
 actionview_datehelper_time_in_words_minute: 1 minuto
 actionview_datehelper_time_in_words_minute_half: meio minuto
-actionview_datehelper_time_in_words_minute_less_than: menos que um minuto
+actionview_datehelper_time_in_words_minute_less_than: menos de um minuto
 actionview_datehelper_time_in_words_minute_plural: %d minutos
 actionview_datehelper_time_in_words_minute_single: 1 minuto
-actionview_datehelper_time_in_words_second_less_than: menos que um segundo
-actionview_datehelper_time_in_words_second_less_than_plural: menos que %d segundos
+actionview_datehelper_time_in_words_second_less_than: menos de um segundo
+actionview_datehelper_time_in_words_second_less_than_plural: menos de %d segundos
 actionview_instancetag_blank_option: Selecione
 
-activerecord_error_inclusion: nao esta incluido na lista
-activerecord_error_exclusion: esta reservado
-activerecord_error_invalid: e invalido
-activerecord_error_confirmation: confirmacao nao confere
+activerecord_error_inclusion: não existe na lista
+activerecord_error_exclusion: já existe na lista
+activerecord_error_invalid: é inválido
+activerecord_error_confirmation: não confere com sua confirmação
 activerecord_error_accepted: deve ser aceito
-activerecord_error_empty: nao pode ser vazio
-activerecord_error_blank: nao pode estar em branco
-activerecord_error_too_long: e muito longo
-activerecord_error_too_short: e muito comprido
-activerecord_error_wrong_length: esta com o comprimento errado
-activerecord_error_taken: ja esta examinado
-activerecord_error_not_a_number: nao e um numero
-activerecord_error_not_a_date: nao e uma data valida
+activerecord_error_empty: não pode ser vazio
+activerecord_error_blank: não pode estar em branco
+activerecord_error_too_long: é muito longo
+activerecord_error_too_short: é muito curto
+activerecord_error_wrong_length: possui o comprimento errado
+activerecord_error_taken: já foi usado em outro registro
+activerecord_error_not_a_number: não é um número
+activerecord_error_not_a_date: não é uma data válida
 activerecord_error_greater_than_start_date: deve ser maior que a data inicial
-activerecord_error_not_same_project: doesn't belong to the same project
-activerecord_error_circular_dependency: This relation would create a circular dependency
+activerecord_error_not_same_project: não pertence ao mesmo projeto
+activerecord_error_circular_dependency: Este relaão pode criar uma dependência circular
 
-general_fmt_age: %d yr
-general_fmt_age_plural: %d yrs
-general_fmt_date: %%m/%%d/%%Y
-general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
+general_fmt_age: %d ano
+general_fmt_age_plural: %d anos
+general_fmt_date: %%d/%%m/%%Y
+general_fmt_datetime: %%d/%%m/%%Y %%I:%%M %%p
 general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
 general_fmt_time: %%I:%%M %%p
-general_text_No: 'Nao'
+general_text_No: 'Não'
 general_text_Yes: 'Sim'
-general_text_no: 'nao'
+general_text_no: 'não'
 general_text_yes: 'sim'
-general_lang_pt: 'Portugues'
+general_lang_name: 'Português'
 general_csv_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
-general_day_names: Segunda,Terca,Quarta,Quinta,Sexta,Sabado,Domingo
+general_day_names: Segunda,Terça,Quarta,Quinta,Sexta,Sábado,Domingo
 
-notice_account_updated: Conta foi alterada com sucesso.
-notice_account_invalid_creditentials: Usuario ou senha invalido.
+notice_account_updated: Conta foi atualizada com sucesso.
+notice_account_invalid_creditentials: Usuário ou senha inválidos.
 notice_account_password_updated: Senha foi alterada com sucesso.
 notice_account_wrong_password: Senha errada.
 notice_account_register_done: Conta foi criada com sucesso.
-notice_account_unknown_email: Usuario desconhecido.
-notice_can_t_change_password: Esta conta usa autenticacao externa. E impossivel trocar a senha.
-notice_account_lost_email_sent: Um email com instrucoes para escolher uma nova senha foi enviado para voce.
-notice_account_activated: Sua conta foi ativada. Voce pode logar agora
+notice_account_unknown_email: Usuário desconhecido.
+notice_can_t_change_password: Esta conta usa autenticação externa. E impossível trocar a senha.
+notice_account_lost_email_sent: Um email com as instruções para escolher uma nova senha foi enviado para você.
+notice_account_activated: Sua conta foi ativada. Você pode logar agora
 notice_successful_create: Criado com sucesso.
 notice_successful_update: Alterado com sucesso.
 notice_successful_delete: Apagado com sucesso.
 notice_successful_connection: Conectado com sucesso.
-notice_file_not_found: A pagina que voce esta tentando acessar nao existe ou foi excluida.
-notice_locking_conflict: Os dados foram atualizados por um outro usuario.
-notice_scm_error: A entrada e/ou a revisao nao existem no repositorio.
-notice_not_authorized: You are not authorized to access this page.
+notice_file_not_found: A página que você está tentando acessar não existe ou foi excluída.
+notice_locking_conflict: Os dados foram atualizados por um outro usuário.
+notice_scm_error: A entrada e/ou a revisão não existem no repositório.
+notice_not_authorized: Você não está autorizado a acessar esta página.
 
 mail_subject_lost_password: Sua senha do redMine.
-mail_subject_register: Ativacao de conta do redMine.
+mail_subject_register: Ativação de conta do redMine.
 
 gui_validation_error: 1 erro
 gui_validation_error_plural: %d erros
 
 field_name: Nome
-field_description: Descricao
-field_summary: Sumario
-field_is_required: Obrigatorio
+field_description: Descrição
+field_summary: Sumário
+field_is_required: Obrigatório
 field_firstname: Primeiro nome
-field_lastname: Ultimo nome
+field_lastname: Último nome
 field_mail: Email
 field_filename: Arquivo
 field_filesize: Tamanho
@@ -91,43 +91,43 @@ field_created_on: Criado
 field_updated_on: Alterado
 field_field_format: Formato
 field_is_for_all: Para todos os projetos
-field_possible_values: Possiveis valores
-field_regexp: Expressao regular
-field_min_length: Tamanho minimo
-field_max_length: Tamanho maximo
+field_possible_values: Possíveis valores
+field_regexp: Expressão regular
+field_min_length: Tamanho mínimo
+field_max_length: Tamanho máximo
 field_value: Valor
 field_category: Categoria
-field_title: Titulo
+field_title: Título
 field_project: Projeto
 field_issue: Tarefa 
 field_status: Status
 field_notes: Notas
 field_is_closed: Tarefa fechada
-field_is_default: Status padrao
+field_is_default: Status padrão
 field_html_color: Cor
 field_tracker: Tipo
-field_subject: Titulo
-field_due_date: Data devida
-field_assigned_to: Atribuido para
+field_subject: Assunto
+field_due_date: Data final
+field_assigned_to: Atribuído para
 field_priority: Prioridade
-field_fixed_version: Versao corrigida
-field_user: Usuario
+field_fixed_version: Versão corrigida
+field_user: Usuário
 field_role: Regra
-field_homepage: Pagina inicial
-field_is_public: Publico
+field_homepage: Página inicial
+field_is_public: Público
 field_parent: Sub-projeto de
 field_is_in_chlog: Tarefas mostradas no changelog
 field_is_in_roadmap: Tarefas mostradas no roadmap
 field_login: Login
-field_mail_notification: Notificacoes por email
+field_mail_notification: Notificações por email
 field_admin: Administrador
-field_last_login_on: Ultima conexao
-field_language: Lingua
+field_last_login_on: Última conexão
+field_language: Língua
 field_effective_date: Data
 field_password: Senha
 field_new_password: Nova senha
-field_password_confirmation: Confirmacao
-field_version: Versao
+field_password_confirmation: Confirmação
+field_version: Versão
 field_type: Tipo
 field_host: Servidor
 field_port: Porta
@@ -135,51 +135,51 @@ field_account: Conta
 field_base_dn: Base DN
 field_attr_login: Atributo login
 field_attr_firstname: Atributo primeiro nome
-field_attr_lastname: Atributo ultimo nome
+field_attr_lastname: Atributo último nome
 field_attr_mail: Atributo email
-field_onthefly: Criacao de usuario on-the-fly
-field_start_date: Inicio
+field_onthefly: Criação de usuário sob-demanda
+field_start_date: Início
 field_done_ratio: %% Terminado
-field_auth_source: Modo de autenticacao
-field_hide_mail: Esconder meu email
-field_comments: Comentario
+field_auth_source: Modo de autenticação
+field_hide_mail: Esconda meu email
+field_comments: Comentário
 field_url: URL
-field_start_page: Pagina inicial
+field_start_page: Página inicial
 field_subproject: Sub-projeto
 field_hours: Horas
 field_activity: Atividade
 field_spent_on: Data
 field_identifier: Identificador
-field_is_filter: Used as a filter
-field_issue_to_id: Related issue
-field_delay: Delay
+field_is_filter: Usado como filtro
+field_issue_to_id: Tarefa relacionada
+field_delay: Atraso
 
-setting_app_title: Titulo da aplicacao
-setting_app_subtitle: Sub-titulo da aplicacao
-setting_welcome_text: Texto de boa-vinda
-setting_default_language: Lingua padrao
-setting_login_required: Autenticacao obrigatoria
-setting_self_registration: Registro de si mesmo permitido
-setting_attachment_max_size: Tamanho maximo do anexo
-setting_issues_export_limit: Limite de exportacao das tarefas
+setting_app_title: Título da aplicação
+setting_app_subtitle: Sub-título da aplicação
+setting_welcome_text: Texto de boas-vindas
+setting_default_language: Linguagem padrão
+setting_login_required: Autenticação obrigatória
+setting_self_registration: Registro permitido
+setting_attachment_max_size: Tamanho máximo do anexo
+setting_issues_export_limit: Limite de exportação das tarefas
 setting_mail_from: Email enviado de
 setting_host_name: Servidor
 setting_text_formatting: Formato do texto
-setting_wiki_compression: Compactacao do historio do Wiki
+setting_wiki_compression: Compactação do histórico do Wiki
 setting_feeds_limit: Limite do Feed
-setting_autofetch_changesets: Autofetch SVN commits
-setting_sys_api_enabled: Ativa WS para gerenciamento do repositorio
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
+setting_autofetch_changesets: Buscar automaticamente commits do SVN
+setting_sys_api_enabled: Ativa WS para gerenciamento do repositório
+setting_commit_ref_keywords: Palavras-chave de referôncia
+setting_commit_fix_keywords: Palavras-chave fixas
 setting_autologin: Autologin
 
-label_user: Usuario
-label_user_plural: Usuarios
-label_user_new: Novo usuario
+label_user: Usuário
+label_user_plural: Usuários
+label_user_new: Novo usuário
 label_project: Projeto
 label_project_new: Novo projeto
 label_project_plural: Projetos
-label_project_latest: Ultimos projetos
+label_project_latest: Últimos projetos
 label_issue: Tarefa
 label_issue_new: Nova tarefa
 label_issue_plural: Tarefas
@@ -190,7 +190,7 @@ label_document_plural: Documentos
 label_role: Regra
 label_role_plural: Regras
 label_role_new: Nova regra
-label_role_and_permissions: Regras e permissoes
+label_role_and_permissions: Regras e permissões
 label_member: Membro
 label_member_new: Novo membro
 label_member_plural: Membros
@@ -201,47 +201,47 @@ label_workflow: Workflow
 label_issue_status: Status da tarefa
 label_issue_status_plural: Status das tarefas
 label_issue_status_new: Novo status
-label_issue_category: Categoria de tarefa
-label_issue_category_plural: Categorias de tarefa
+label_issue_category: Categoria da tarefa
+label_issue_category_plural: Categorias das tarefas
 label_issue_category_new: Nova categoria
 label_custom_field: Campo personalizado
-label_custom_field_plural: Campos personalizado
+label_custom_field_plural: Campos personalizados
 label_custom_field_new: Novo campo personalizado
-label_enumerations: Enumeracao
+label_enumerations: Enumeração
 label_enumeration_new: Novo valor
-label_information: Informacao
-label_information_plural: Informacoes
+label_information: Informação
+label_information_plural: Informações
 label_please_login: Efetue login
 label_register: Registre-se
 label_password_lost: Perdi a senha
-label_home: Pagina inicial
-label_my_page: Minha pagina
+label_home: Página inicial
+label_my_page: Minha página
 label_my_account: Minha conta
 label_my_projects: Meus projetos
-label_administration: Administracao
+label_administration: Administração
 label_login: Login
 label_logout: Logout
 label_help: Ajuda
 label_reported_issues: Tarefas reportadas
-label_assigned_to_me_issues: Tarefas atribuidas a mim
-label_last_login: Utima conexao
-label_last_updates: Ultima alteracao
-label_last_updates_plural: %d Ultimas alteracoes
+label_assigned_to_me_issues: Tarefas atribuídas à mim
+label_last_login: Útima conexão
+label_last_updates: Última alteração
+label_last_updates_plural: %d Últimas alterações
 label_registered_on: Registrado em
 label_activity: Atividade
 label_new: Novo
 label_logged_as: Logado como
 label_environment: Ambiente
-label_authentication: Autenticacao
-label_auth_source: Modo de autenticacao
-label_auth_source_new: Novo modo de autenticacao
-label_auth_source_plural: Modos de autenticacao
+label_authentication: Autenticação
+label_auth_source: Modo de autenticação
+label_auth_source_new: Novo modo de autenticação
+label_auth_source_plural: Modos de autenticação
 label_subproject_plural: Sub-projetos
 label_min_max_length: Tamanho min-max
 label_list: Lista
 label_date: Data
 label_integer: Inteiro
-label_boolean: Boleano
+label_boolean: Booleano
 label_string: Texto
 label_text: Texto longo
 label_attribute: Atributo
@@ -250,94 +250,94 @@ label_download: %d Download
 label_download_plural: %d Downloads
 label_no_data: Sem dados para mostrar
 label_change_status: Mudar status
-label_history: Historico
+label_history: Histórico
 label_attachment: Arquivo
 label_attachment_new: Novo arquivo
 label_attachment_delete: Apagar arquivo
 label_attachment_plural: Arquivos
-label_report: Relatorio
-label_report_plural: Relatorio
-label_news: Noticias
-label_news_new: Adicionar noticias
-label_news_plural: Noticias
-label_news_latest: Ultimas noticias
-label_news_view_all: Ver todas as noticias
-label_change_log: Change log
-label_settings: Ajustes
-label_overview: Visao geral
-label_version: Versao
-label_version_new: Nova versao
-label_version_plural: Versoes
-label_confirmation: Confirmacao
+label_report: Relatório
+label_report_plural: Relatório
+label_news: Notícias
+label_news_new: Adicionar notícias
+label_news_plural: Notícias
+label_news_latest: Últimas notícias
+label_news_view_all: Ver todas as notícias
+label_change_log: Log de mudanças
+label_settings: Configurações
+label_overview: Visão geral
+label_version: Versão
+label_version_new: Nova versão
+label_version_plural: Versões
+label_confirmation: Confirmação
 label_export_to: Exportar para
 label_read: Ler...
-label_public_projects: Projetos publicos
+label_public_projects: Projetos públicos
 label_open_issues: Aberto
 label_open_issues_plural:  Abertos
 label_closed_issues: Fechado
 label_closed_issues_plural: Fechados
 label_total: Total
-label_permissions: Permissoes
+label_permissions: Permissões
 label_current_status: Status atual
 label_new_statuses_allowed: Novo status permitido
 label_all: todos
 label_none: nenhum
-label_next: Proximo
+label_next: Próximo
 label_previous: Anterior
 label_used_by: Usado por
 label_details: Detalhes...
 label_add_note: Adicionar nota
-label_per_page: Por pagina
-label_calendar: Calendario
+label_per_page: Por página
+label_calendar: Calendário
 label_months_from: Meses de
 label_gantt: Gantt
 label_internal: Interno
-label_last_changes: utlimas %d mudancas
-label_change_view_all: Mostrar todas as mudancas
-label_personalize_page: Personalizar esta pagina
-label_comment: Comentario
-label_comment_plural: Comentarios
-label_comment_add: Adicionar comentario
-label_comment_added: Comentario adicionado
-label_comment_delete: Apagar comentario
+label_last_changes: últimas %d mudanças
+label_change_view_all: Mostrar todas as mudanças
+label_personalize_page: Personalizar esta página
+label_comment: Comentário
+label_comment_plural: Comentários
+label_comment_add: Adicionar comentário
+label_comment_added: Comentário adicionado
+label_comment_delete: Apagar comentário
 label_query: Consulta personalizada
 label_query_plural: Consultas personalizadas
 label_query_new: Nova consulta
 label_filter_add: Adicionar filtro
 label_filter_plural: Filtros
-label_equals: e
-label_not_equals: nao e
-label_in_less_than: e maior que
-label_in_more_than: e menor que
+label_equals: é
+label_not_equals: não e
+label_in_less_than: é maior que
+label_in_more_than: é menor que
 label_in: em
 label_today: hoje
 label_less_than_ago: faz menos de
 label_more_than_ago: faz mais de
-label_ago: dias atras
-label_contains: contem
-label_not_contains: nao contem
+label_ago: dias atrás
+label_contains: contém
+label_not_contains: não contém
 label_day_plural: dias
-label_repository: SVN Repository
-label_browse: Browse
-label_modification: %d change
-label_modification_plural: %d changes
-label_revision: Revision
-label_revision_plural: Revisions
-label_added: added
-label_modified: modified
-label_deleted: deleted
-label_latest_revision: Latest revision
-label_latest_revision_plural: Latest revisions
-label_view_revisions: View revisions
-label_max_size: Maximum size
-label_on: 'em'
-label_sort_highest: Mover para o inicio
+label_repository: Repositório SVN
+label_browse: Procurar
+label_modification: %d mudança
+label_modification_plural: %d mudanças
+label_revision: Revisão
+label_revision_plural: Revisões
+label_added: adicionado
+label_modified: modificado
+label_deleted: deletado
+label_latest_revision: Última revisão
+label_latest_revision_plural: Últimas revisões
+label_view_revisions: Ver revisões
+label_max_size: Tamanho máximo
+label_on: em
+label_sort_highest: Mover para o início
 label_sort_higher: Mover para cima
 label_sort_lower: Mover para baixo
 label_sort_lowest: Mover para o fim
 label_roadmap: Roadmap
-label_roadmap_due_in: Due in 
-label_roadmap_no_issues: Sem tarefas para essa versao
+label_roadmap_due_in: Termina em
+label_roadmap_no_issues: Sem tarefas para essa versão
 label_search: Busca
 label_result: %d resultado
 label_result_plural: %d resultados
@@ -346,44 +346,44 @@ label_wiki: Wiki
 label_wiki_edit: Wiki edit
 label_wiki_edit_plural: Wiki edits
 label_page_index: Index
-label_current_version: Versao atual
-label_preview: Previa
+label_current_version: Versão atual
+label_preview: Prévia
 label_feed_plural: Feeds
-label_changes_details: Detalhes de todas as mudancas
+label_changes_details: Detalhes de todas as mudanças
 label_issue_tracking: Tarefas
 label_spent_time: Tempo gasto
 label_f_hour: %.2f hora
 label_f_hour_plural: %.2f horas
 label_time_tracking: Tempo trabalhado
-label_change_plural: Mudancas
-label_statistics: Estatisticas
-label_commits_per_month: Commits por mes
+label_change_plural: Mudanças
+label_statistics: Estatísticas
+label_commits_per_month: Commits por mês
 label_commits_per_author: Commits por autor
-label_view_diff: Ver diferencas
+label_view_diff: Ver diferenças
 label_diff_inline: inline
-label_diff_side_by_side: side by side
-label_options: Opcoes
+label_diff_side_by_side: lado a lado
+label_options: Opções
 label_copy_workflow_from: Copiar workflow de
-label_permissions_report: Relatorio de permissoes
-label_watched_issues: Watched issues
-label_related_issues: Related issues
-label_applied_status: Applied status
-label_loading: Loading...
-label_relation_new: New relation
-label_relation_delete: Delete relation
-label_relates_to: related tp
-label_duplicates: duplicates
-label_blocks: blocks
-label_blocked_by: blocked by
-label_precedes: precedes
-label_follows: follows
-label_end_to_start: start to end
-label_end_to_end: end to end
-label_start_to_start: start to start
-label_start_to_end: start to end
-label_stay_logged_in: Stay logged in
-label_disabled: disabled
-label_show_completed_versions: Show completed versions
+label_permissions_report: Relatório de permissões
+label_watched_issues: Tarefas observadas
+label_related_issues: tarefas relacionadas
+label_applied_status: Status aplicado
+label_loading: Carregando...
+label_relation_new: Nova relação
+label_relation_delete: Deletar relação
+label_relates_to: relacionado à
+label_duplicates: duplicadas
+label_blocks: bloqueios
+label_blocked_by: bloqueado por
+label_precedes: procede
+label_follows: segue
+label_end_to_start: fim ao início
+label_end_to_end: fim ao fim
+label_start_to_start: ínícia ao inícia
+label_start_to_end: inícia ao fim
+label_stay_logged_in: Rester connecté
+label_disabled: désactivé
+label_show_completed_versions: Voire les versions passées
 
 button_login: Login
 button_submit: Enviar
@@ -409,48 +409,48 @@ button_cancel: Cancelar
 button_activate: Ativar
 button_sort: Ordenar
 button_log_time: Tempo de trabalho
-button_rollback: Voltar para esta versao
-button_watch: Watch
-button_unwatch: Unwatch
+button_rollback: Voltar para esta versão
+button_watch: Observar
+button_unwatch: Não observar
 
 status_active: ativo
 status_registered: registrado
 status_locked: bloqueado
 
-text_select_mail_notifications: Selecionar acoes para ser enviado uma notificacao por email
-text_regexp_info: eg. ^[A-Z0-9]+$
-text_min_max_length_info: 0 siginifica sem restricao
-text_project_destroy_confirmation: Voce tem certeza que deseja deletar este projeto e todas os dados relacionados?
+text_select_mail_notifications: Selecionar ações para ser enviada uma notificação por email
+text_regexp_info: ex. ^[A-Z0-9]+$
+text_min_max_length_info: 0 siginifica sem restrição
+text_project_destroy_confirmation: Você tem certeza que deseja deletar este projeto e todos os dados relacionados?
 text_workflow_edit: Selecione uma regra e um tipo de tarefa para editar o workflow
-text_are_you_sure: Voce tem certeza ?
+text_are_you_sure: Você tem certeza ?
 text_journal_changed: alterado de %s para %s
-text_journal_set_to: setar para %s
+text_journal_set_to: alterar para %s
 text_journal_deleted: apagado
-text_tip_task_begin_day: tarefa comeca neste dia
+text_tip_task_begin_day: tarefa começa neste dia
 text_tip_task_end_day: tarefa termina neste dia
-text_tip_task_begin_end_day: tarefa comeca e termina neste dia
-text_project_identifier_info: 'Letras minusculas (a-z), numeros e tracos permitido.<br />Uma vez salvo, o identificador nao pode ser mudado.'
-text_caracters_maximum: %d maximo de caracteres
+text_tip_task_begin_end_day: tarefa começa e termina neste dia
+text_project_identifier_info: 'Letras minúsculas (a-z), números e traços permitido.<br />Uma vez salvo, o identificador nao pode ser mudado.'
+text_caracters_maximum: %d móximo de caracteres
 text_length_between: Tamanho entre %d e %d caracteres.
 text_tracker_no_workflow: Sem workflow definido para este tipo.
-text_unallowed_characters: Unallowed characters
-text_coma_separated: Multiple values allowed (coma separated).
-text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+text_unallowed_characters: Caracteres não permitidos
+text_coma_separated: Permitido múltiplos valores (separados por vírgula).
+text_issues_ref_in_commit_messages: Referenciando e arrumando tarefas nas mensagens de commit
 
-default_role_manager: Analista de Negocio ou Gerente de Projeto
+default_role_manager: Analista de Negócio ou Gerente de Projeto
 default_role_developper: Desenvolvedor
 default_role_reporter: Analista de Suporte
 default_tracker_bug: Bug
-default_tracker_feature: Implementacao
+default_tracker_feature: Implementaçõo
 default_tracker_support: Suporte
 default_issue_status_new: Novo
-default_issue_status_assigned: Atribuido
+default_issue_status_assigned: Atribuído
 default_issue_status_resolved: Resolvido
 default_issue_status_feedback: Feedback
 default_issue_status_closed: Fechado
 default_issue_status_rejected: Rejeitado
-default_doc_category_user: Documentacao do usuario
-default_doc_category_tech: Documentacao do tecnica
+default_doc_category_user: Documentação do usuário
+default_doc_category_tech: Documentação técnica
 default_priority_low: Baixo
 default_priority_normal: Normal
 default_priority_high: Alto

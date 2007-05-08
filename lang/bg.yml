@@ -46,7 +46,7 @@ general_text_No: 'Не'
 general_text_Yes: 'Да'
 general_text_no: 'не'
 general_text_yes: 'да'
-general_lang_bg: 'Bulgarian'
+general_lang_name: 'Bulgarian'
 general_csv_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
