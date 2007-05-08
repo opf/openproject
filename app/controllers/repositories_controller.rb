@@ -61,10 +61,10 @@ class RepositoriesController < ApplicationController
   end
   
   def entry
-    if 'raw' == params[:format]
-      content = @repository.scm.cat(@path, @rev)
-      show_error and return unless content
-      send_data content, :filename => @path.split('/').last
+    @content = @repository.scm.cat(@path, @rev)
+    show_error and return unless @content
+    if 'raw' == params[:format]      
+      send_data @content, :filename => @path.split('/').last
     end
   end
   

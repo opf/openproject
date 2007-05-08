@@ -174,6 +174,7 @@ module SvnRepos
       cmd << " --username #{@login} --password #{@password}" if @login
       cat = nil
       shellout(cmd) do |io|
+        io.binmode
         cat = io.read
       end
       return nil if $? && $?.exitstatus != 0
@@ -247,6 +248,10 @@ module SvnRepos
     
     def is_dir?
       'dir' == self.kind
+    end
+    
+    def is_text?
+      Redmine::MimeType.is_type?('text', name)
     end
   end
   
