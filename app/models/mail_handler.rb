@@ -18,7 +18,7 @@
 class MailHandler < ActionMailer::Base
   
   # Processes incoming emails
-  # Currently, it only supports adding notes to an existing issue
+  # Currently, it only supports adding a note to an existing issue
   # by replying to the initial notification message
   def receive(email)
     # find related issue by parsing the subject
@@ -33,8 +33,8 @@ class MailHandler < ActionMailer::Base
     # check permission
     return unless Permission.allowed_to_role("issues/add_note", user.role_for_project(issue.project))
     
-    # add the notes
-    issue.init_journal(user, email.body)
+    # add the note
+    issue.init_journal(user, email.body.chomp)
     issue.save
   end
 end

@@ -1,0 +1,14 @@
+x-sender: <jsmith@somenet.foo>
+x-receiver: <redmine@somenet.foo>
+Received: from somenet.foo ([127.0.0.1]) by somenet.foo;
+	Sun, 25 Feb 2007 09:57:56 GMT
+Date: Sun, 25 Feb 2007 10:57:56 +0100
+From: jsmith@somenet.foo
+To: redmine@somenet.foo
+Message-Id: <45e15df440c00_b90238570a27b@osiris.tmail>
+In-Reply-To: <45e15df440c29_b90238570a27b@osiris.tmail>
+Subject: [Cookbook - Feature #2]
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Note added by mail
