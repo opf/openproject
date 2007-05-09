@@ -192,7 +192,7 @@ module SvnRepos
     def target(path)
       path ||= ""
       base = path.match(/^\//) ? root_url : url    
-      " \"" << "#{base}/#{path}".gsub(/["'?<>\*]/, '') << "\""
+      " \"" << "#{base}/#{path}".gsub(/["?<>\*]/, '') << "\""
     end
     
     def logger
