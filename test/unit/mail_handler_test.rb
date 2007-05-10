@@ -36,7 +36,7 @@ class MailHandlerTest < Test::Unit::TestCase
   end
   
   def test_add_note_to_issue
-    raw = read_fixture("add_note_to_issue_2.txt").join
+    raw = read_fixture("add_note_to_issue.txt").join
     MailHandler.receive(raw)
 
     issue = Issue.find(2)
