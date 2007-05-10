@@ -1,20 +1,29 @@
+<% form_tag({:controller => 'repositories', :action => 'diff', :id => @project}, :method => :get) do %>
 <table class="list">
 <thead><tr>
 <th>#</th>
+<th></th>
+<th></th>
 <th><%= l(:label_date) %></th>
 <th><%= l(:field_author) %></th>
 <th><%= l(:field_comments) %></th>
-<th></th>
 </tr></thead>
 <tbody>
+<% show_diff = entry && entry.is_file? && changesets.size > 1 %>
+<% line_num = 1 %>
 <% changesets.each do |changeset| %>
 <tr class="<%= cycle 'odd', 'even' %>">
-<th align="center" style="width:5%"><%= link_to changeset.revision, :action => 'revision', :id => project, :rev => changeset.revision %></th>
+<th align="center" style="width:3em;"><%= link_to changeset.revision, :action => 'revision', :id => project, :rev => changeset.revision %></th>
+<td align="center" style="width:1em;"><%= radio_button_tag('rev', changeset.revision, (line_num==1), :id => "cb-#{line_num}", :onclick => "$('cbto-#{line_num+1}').checked=true;") if show_diff && (line_num < changesets.size) %></td>
+<td align="center" style="width:1em;"><%= radio_button_tag('rev_to', changeset.revision, (line_num==2), :id => "cbto-#{line_num}") if show_diff && (line_num > 1) %></td>
 <td align="center" style="width:15%"><%= format_time(changeset.committed_on) %></td>
 <td align="center" style="width:15%"><em><%=h changeset.committer %></em></td>
 <td align="left"><%= textilizable(changeset.comments) %></td>
-<td align="center"><%= link_to l(:label_view_diff), :action => 'diff', :id => project, :path => path, :rev => changeset.revision if entry && entry.is_file? && changeset != changesets.last %></td>
 </tr>
+<% line_num += 1 %>
 <% end %>
 </tbody>
 </table>
+<%= hidden_field_tag 'path', path %>
+<%= submit_tag(l(:label_view_diff), :class => 'small', :name => nil) if show_diff %>
+<% end %>
