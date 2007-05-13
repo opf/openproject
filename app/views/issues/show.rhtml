@@ -58,13 +58,7 @@ end %>
 <div class="contextual">
 <%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit' %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
-<% if @logged_in_user %>
-  <% if @issue.watched_by?(@logged_in_user) %>
-<%= link_to l(:button_unwatch), {:controller => 'watchers', :action => 'remove', :issue_id => @issue}, :class => 'icon icon-fav' %>
-  <% else %>
-<%= link_to l(:button_watch), {:controller => 'watchers', :action => 'add', :issue_id => @issue}, :class => 'icon icon-fav-off' %>
-  <% end %>
-<% end %>
+<%= watcher_tag(@issue, @logged_in_user) %>
 <%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'icon icon-move' %>
 <%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>

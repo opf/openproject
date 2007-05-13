@@ -25,6 +25,8 @@ class BoardsController < ApplicationController
   include MessagesHelper
   helper :sort
   include SortHelper
+  helper :watchers
+  include WatchersHelper
  
   def index
     @boards = @project.boards

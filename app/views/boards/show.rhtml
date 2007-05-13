@@ -1,5 +1,6 @@
 <div class="contextual">
 <%= link_to l(:label_message_new), {:controller => 'messages', :action => 'new', :board_id => @board}, :class => "icon icon-add" %>
+<%= watcher_tag(@board, @logged_in_user) %>
 </div>
 
 <h2><%=h @board.name %></h2>

@@ -21,6 +21,7 @@ class Board < ActiveRecord::Base
   has_many :messages, :dependent => :delete_all, :order => "#{Message.table_name}.created_on DESC"
   belongs_to :last_message, :class_name => 'Message', :foreign_key => :last_message_id
   acts_as_list :scope => :project_id
+  acts_as_watchable
   
   validates_presence_of :name, :description
   validates_length_of :name, :maximum => 30
