@@ -385,6 +385,14 @@ label_stay_logged_in: Rester connecté
 label_disabled: désactivé
 label_show_completed_versions: Voire les versions passées
 label_me: me
+label_board: Forum
+label_board_new: New forum
+label_board_plural: Forums
+label_topic_plural: Topics
+label_message_plural: Messages
+label_message_last: Last message
+label_message_new: New message
+label_reply_plural: Replies
 
 button_login: Login
 button_submit: Enviar
@@ -413,6 +421,7 @@ button_log_time: Tempo de trabalho
 button_rollback: Voltar para esta versão
 button_watch: Observar
 button_unwatch: Não observar
+button_reply: Reply
 
 status_active: ativo
 status_registered: registrado

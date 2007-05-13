@@ -1,0 +1,29 @@
+<h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%=h @message.subject %></h2>
+
+<p><em><%= @message.author.name %>, <%= format_time(@message.created_on) %></em></p>
+<div class="wiki">
+<%= textilizable(@message.content) %>
+</div>
+<div class="attachments">
+<% @message.attachments.each do |attachment| %>
+<%= link_to attachment.filename, { :action => 'download', :id => @message, :attachment_id => attachment }, :class => 'icon icon-attachment' %>
+(<%= number_to_human_size(attachment.filesize) %>)<br />
+<% end %>
+</div>
+<br />
+<h3 class="icon22 icon22-comment"><%= l(:label_reply_plural) %></h3>
+<% @message.children.each do |message| %>
+  <a name="<%= "message-#{message.id}" %>"></a>
+  <h4><%=h message.subject %> - <%= message.author.name %>, <%= format_time(message.created_on) %></h4>
+  <div class="wiki"><p><%= textilizable message.content %></p></div>
+<% end %>
+
+<p><%= toggle_link l(:button_reply), "reply", :focus => "reply_content" %></p>
+<div id="reply" style="display:none;">
+<%= error_messages_for 'message' %>
+<% form_for :reply, @reply, :url => {:action => 'reply', :id => @message} do |f| %>
+  <p><%= f.text_field :subject, :required => true, :size => 60 %></p>
+  <p><%= f.text_area :content, :required => true, :cols => 80, :rows => 10 %></p>
+  <p><%= submit_tag l(:button_submit) %></p>
+<% end %>
+</div>

@@ -31,7 +31,8 @@ class Permission < ActiveRecord::Base
     1200 => :label_document_plural,
     1300 => :label_attachment_plural,
     1400 => :label_repository,
-    1500 => :label_time_tracking
+    1500 => :label_time_tracking,
+    2000 => :label_board_plural
   }.freeze
   
   @@cached_perms_for_public = nil

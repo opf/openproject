@@ -388,6 +388,14 @@ label_stay_logged_in: Stay logged in
 label_disabled: disabled
 label_show_completed_versions: Show completed versions
 label_me: me
+label_board: Forum
+label_board_new: New forum
+label_board_plural: Forums
+label_topic_plural: Topics
+label_message_plural: Messages
+label_message_last: Last message
+label_message_new: New message
+label_reply_plural: Replies
 
 button_login: 登录
 button_submit: 提交
@@ -416,6 +424,7 @@ button_log_time: 登记工时
 button_rollback: Rollback to this version
 button_watch: Watch
 button_unwatch: Unwatch
+button_reply: Reply
 
 status_active: 激活
 status_registered: 已注册

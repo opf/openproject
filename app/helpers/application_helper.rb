@@ -215,6 +215,11 @@ module ApplicationHelper
     image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
     javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
   end
+  
+  def wikitoolbar_for(field_id)
+    return '' unless Setting.text_formatting == 'textile'
+    javascript_include_tag('jstoolbar') + javascript_tag("var toolbar = new jsToolBar($('#{field_id}')); toolbar.draw();")
+  end
 end
 
 class TabularFormBuilder < ActionView::Helpers::FormBuilder

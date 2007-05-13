@@ -1,0 +1,36 @@
+<div class="contextual">
+<%= link_to l(:label_message_new), {:controller => 'messages', :action => 'new', :board_id => @board}, :class => "icon icon-add" %>
+</div>
+
+<h2><%=h @board.name %></h2>
+
+<table class="list">
+  <thead><tr>
+    <th><%= l(:field_subject) %></th>
+    <th><%= l(:field_author) %></th>
+    <%= sort_header_tag("#{Message.table_name}.created_on", :caption => l(:field_created_on)) %>
+    <th><%= l(:label_reply_plural) %></th>
+    <%= sort_header_tag("#{Message.table_name}.updated_on", :caption => l(:label_message_last)) %>
+  </tr></thead>  
+  <tbody>
+  <% @topics.each do |topic| %>
+    <tr class="<%= cycle 'odd', 'even' %>">
+      <td><%= link_to h(topic.subject), :controller => 'messages', :action => 'show', :board_id => @board, :id => topic %></td>
+      <td align="center"><%= link_to_user topic.author %></td>
+      <td align="center"><%= format_time(topic.created_on) %></td>
+      <td align="center"><%= topic.replies_count %></td>
+      <td>
+      <small>
+        <% if topic.last_reply %>
+        <%= topic.last_reply.author.name %>, <%= format_time(topic.last_reply.created_on) %><br />
+        <%= link_to_message topic.last_reply %>
+        <% end %>
+      </small>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<p><%= pagination_links_full @topic_pages %>
+[ <%= @topic_pages.current.first_item %> - <%= @topic_pages.current.last_item %> / <%= @topic_count %> ]</p>

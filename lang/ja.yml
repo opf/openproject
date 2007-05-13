@@ -386,6 +386,14 @@ label_stay_logged_in: Stay logged in
 label_disabled: disabled
 label_show_completed_versions: Show completed versions
 label_me: me
+label_board: Forum
+label_board_new: New forum
+label_board_plural: Forums
+label_topic_plural: Topics
+label_message_plural: Messages
+label_message_last: Last message
+label_message_new: New message
+label_reply_plural: Replies
 
 button_login: ログイン
 button_submit: 変更
@@ -414,6 +422,7 @@ button_log_time: 時間を記録
 button_rollback: このバージョンにロールバック
 button_watch: Watch
 button_unwatch: Unwatch
+button_reply: Reply
 
 status_active: 有効
 status_registered: 登録

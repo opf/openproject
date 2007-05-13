@@ -1,0 +1,19 @@
+--- 
+boards_001: 
+  name: Help
+  project_id: 1
+  topics_count: 1
+  id: 1
+  description: Help board
+  position: 1
+  last_message_id: 2
+  messages_count: 2
+boards_002: 
+  name: Discussion
+  project_id: 1
+  topics_count: 0
+  id: 2
+  description: Discussion board
+  position: 2
+  last_message_id: 
+  messages_count: 0

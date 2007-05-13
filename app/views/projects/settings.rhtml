@@ -6,6 +6,7 @@
 <li><%= link_to l(:label_member_plural), {}, :id=> "tab-members", :onclick => "showTab('members'); this.blur(); return false;" %></li>
 <li><%= link_to l(:label_version_plural), {}, :id=> "tab-versions", :onclick => "showTab('versions'); this.blur(); return false;" %></li>
 <li><%= link_to l(:label_issue_category_plural), {}, :id=> "tab-categories", :onclick => "showTab('categories'); this.blur(); return false;" %></li>
+<li><%= link_to l(:label_board_plural), {}, :id=> "tab-boards", :onclick => "showTab('boards'); this.blur(); return false;" %></li>
 </ul>
 </div>
 
@@ -74,6 +75,10 @@
     <%= submit_tag l(:button_add) %></p>
     <% end %>
 <% end %>
+</div>
+
+<div id="tab-content-boards" class="tab-content" style="display:none;">
+  <%= render :partial => 'boards' %>
 </div>
 
 <%= tab = params[:tab] ? h(params[:tab]) : 'info'
