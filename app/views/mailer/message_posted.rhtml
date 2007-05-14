@@ -1,0 +1,4 @@
+<%= l(:field_author) %>: <%= @message.author.name %>
+<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'messages', :action => 'show', :board_id => @message.board_id, :id => @message.root %>
+
+<%= @message.content %>

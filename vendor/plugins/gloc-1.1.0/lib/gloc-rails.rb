@@ -92,7 +92,8 @@ module ActionMailer #:nodoc:
     private
     alias :render_message_without_gloc :render_message
     def render_message(method_name, body)
-      render_message_without_gloc("#{method_name}_#{current_language}", body)
+      template = File.exist?("#{template_path}/#{method_name}_#{current_language}.rhtml") ? "#{method_name}_#{current_language}" : "#{method_name}"
+      render_message_without_gloc(template, body)
     end
   end
 end
