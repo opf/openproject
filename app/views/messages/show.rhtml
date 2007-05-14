@@ -18,6 +18,7 @@
   <div class="wiki"><p><%= textilizable message.content %></p></div>
 <% end %>
 
+<% if @logged_in_user %>
 <p><%= toggle_link l(:button_reply), "reply", :focus => "reply_content" %></p>
 <div id="reply" style="display:none;">
 <%= error_messages_for 'message' %>
@@ -27,3 +28,4 @@
   <p><%= submit_tag l(:button_submit) %></p>
 <% end %>
 </div>
+<% end %>
