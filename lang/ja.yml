@@ -180,6 +180,7 @@ label_user_new: 新しいユーザ
 label_project: プロジェクト
 label_project_new: 新しいプロジェクト
 label_project_plural: プロジェクト
+label_project_all: All Projects
 label_project_latest: 最近のプロジェクト
 label_issue: 問題
 label_issue_new: 新しい問題

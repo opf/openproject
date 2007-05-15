@@ -182,6 +182,7 @@ label_user_new: 新建用户
 label_project: 项目
 label_project_new: 新建项目
 label_project_plural: 项目列表
+label_project_all: All Projects
 label_project_latest: 最近的项目列表
 label_issue: 任务
 label_issue_new: 新建任务

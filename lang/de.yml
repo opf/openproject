@@ -179,6 +179,7 @@ label_user_new: Neuer Benutzer
 label_project: Projekt
 label_project_new: Neues Projekt
 label_project_plural: Projekte
+label_project_all: All Projects
 label_project_latest: Neueste Projekte
 label_issue: Ticket
 label_issue_new: Neues Ticket

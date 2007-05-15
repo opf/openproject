@@ -39,8 +39,19 @@
 		<ul>
 	<li><%= link_to l(:label_home), { :controller => 'welcome' }, :class => "icon icon-home" %></li>
 	<li><%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'}, :class => "icon icon-mypage" %></li>
-	<li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects" %></li>
-			
+	
+	<% if loggedin? and @logged_in_user.memberships.any? %>
+      <li class="submenu"><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects", :onmouseover => "buttonMouseover(event, 'menuAllProjects');" %></li>
+      <div id="menuAllProjects" class="menu" onmouseover="menuMouseover(event)">
+      <%= link_to l(:label_project_all), {:controller => 'projects' }, :class => "menuItem" %>
+      <% @logged_in_user.memberships.find(:all, :limit => 20).each do |membership| %>
+        <%= link_to membership.project.name, {:controller => 'projects',:action => 'show', :id => membership.project }, :class => "menuItem" %>
+      <% end %>
+      </div>
+	<% else %>
+	  <li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects" %></li>
+	<% end %>
+
     <% unless @project.nil? || @project.id.nil? %>
         <li class="submenu"><%= link_to @project.name, { :controller => 'projects', :action => 'show', :id => @project }, :class => "icon icon-projects", :onmouseover => "buttonMouseover(event, 'menuProject');"  %></li>
     <% end %>
@@ -109,15 +120,6 @@
 				<li><%= link_to l(:label_search), :controller => 'search', :action => 'index', :id => @project %></li>
 				<%= content_tag("li", link_to(l(:label_repository), :controller => 'repositories', :action => 'show', :id => @project)) if @project.repository and !@project.repository.new_record? %>
 				<li><%= link_to_if_authorized l(:label_settings), :controller => 'projects', :action => 'settings', :id => @project %></li>
-			</ul>
-		<% end %>
-		
-		<% if loggedin? and @logged_in_user.memberships.length > 0 %>
-			<h2><%=l(:label_my_projects) %></h2>
-			<ul class="menublock">
-				<% for membership in @logged_in_user.memberships %>	
-					<li><%= link_to membership.project.name, :controller => 'projects', :action => 'show', :id => membership.project %></li>
-				<% end %>
 			</ul>
 		<% end %>
 	</div>

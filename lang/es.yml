@@ -179,6 +179,7 @@ label_user_new: Nuevo usuario
 label_project: Proyecto
 label_project_new: Nuevo proyecto
 label_project_plural: Proyectos
+label_project_all: All Projects
 label_project_latest: Los proyectos más últimos
 label_issue: Petición
 label_issue_new: Nueva petición
