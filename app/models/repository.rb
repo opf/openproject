@@ -40,7 +40,9 @@ class Repository < ActiveRecord::Base
     path = "/#{path}%"
     path = url.gsub(/^#{root_url}/, '') + path if root_url && root_url != url
     path.squeeze!("/")
-    Changeset.with_scope(:find => { :include => :changes, :conditions => ["#{Change.table_name}.path LIKE ?", path] }) do 
+    # Custom select and joins is done to allow conditions on changes table without loading associated Change objects
+    # Required for changesets with a great number of changes (eg. 100,000)
+    Changeset.with_scope(:find => { :select => "DISTINCT #{Changeset.table_name}.*", :joins => "LEFT OUTER JOIN #{Change.table_name} ON #{Change.table_name}.changeset_id = #{Changeset.table_name}.id", :conditions => ["#{Change.table_name}.path LIKE ?", path] }) do 
       yield
     end 
   end

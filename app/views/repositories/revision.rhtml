@@ -28,7 +28,7 @@
 <p><%= link_to(l(:label_view_diff), :action => 'diff', :id => @project, :path => "", :rev => @changeset.revision) if @changeset.changes.any? %></p>
 <table class="list">
 <tbody>
-<% @changeset.changes.each do |change| %>
+<% @changes.each do |change| %>
 <tr class="<%= cycle 'odd', 'even' %>">
 <td><div class="square action_<%= change.action %>"></div> <%= change.path %></td>
 <td align="right">
@@ -40,7 +40,8 @@
 <% end %>
 </tbody>
 </table>
-<p><%= lwr(:label_modification, @changeset.changes.length) %></p>
+<p><%= pagination_links_full @changes_pages, :rev => @changeset.revision %>
+[ <%= @changes_pages.current.first_item %> - <%= @changes_pages.current.last_item %> / <%= @changes_count %> ]</p>
 
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>

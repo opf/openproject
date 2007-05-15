@@ -49,7 +49,7 @@ class RepositoriesController < ApplicationController
       show_error and return unless @entry
     end
     @repository.changesets_with_path @path do
-      @changeset_count = @repository.changesets.count
+      @changeset_count = @repository.changesets.count(:select => "DISTINCT #{Changeset.table_name}.id")
       @changeset_pages = Paginator.new self, @changeset_count,
   								      25,
   								      params['page']								
@@ -71,6 +71,13 @@ class RepositoriesController < ApplicationController
   def revision
     @changeset = @repository.changesets.find_by_revision(@rev)
     show_error and return unless @changeset
+    @changes_count = @changeset.changes.size
+    @changes_pages = Paginator.new self, @changes_count, 150, params['page']								
+    @changes = @changeset.changes.find(:all,
+  						:limit  =>  @changes_pages.items_per_page,
+  						:offset =>  @changes_pages.current.offset)
+  	
+  	render :action => "revision", :layout => false if request.xhr?	
   end
   
   def diff

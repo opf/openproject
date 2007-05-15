@@ -18,7 +18,11 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class RepositoryTest < Test::Unit::TestCase
-  fixtures :projects, :repositories, :issues, :issue_statuses, :changesets
+  fixtures :projects, :repositories, :issues, :issue_statuses, :changesets, :changes
+  
+  def setup
+    @repository = Project.find(1).repository
+  end
   
   def test_create
     repository = Repository.new(:project => Project.find(2))
@@ -33,10 +37,9 @@ class RepositoryTest < Test::Unit::TestCase
   end
 
   def test_cant_change_url
-    repository = Project.find(1).repository
-    url = repository.url
-    repository.url = "svn://anotherhost"
-    assert_equal  url, repository.url
+    url = @repository.url
+    @repository.url = "svn://anotherhost"
+    assert_equal  url, @repository.url
   end
   
   def test_scan_changesets_for_issue_ids
@@ -55,5 +58,13 @@ class RepositoryTest < Test::Unit::TestCase
     
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets
+  end
+  
+  def test_changesets_with_path
+    @repository.changesets_with_path '/some/path' do
+      assert_equal 1, @repository.changesets.count(:select => "DISTINCT #{Changeset.table_name}.id")
+      changesets = @repository.changesets.find(:all)
+      assert_equal 1, changesets.size
+    end
   end
 end
