@@ -59,12 +59,12 @@
 
 <fieldset class="box"><legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
 <p><label><%= l(:setting_commit_ref_keywords) %></label>
-<%= text_field_tag 'settings[commit_ref_keywords]', Setting.commit_ref_keywords, :size => 30 %><br /><em><%= l(:text_coma_separated) %></em></p>
+<%= text_field_tag 'settings[commit_ref_keywords]', Setting.commit_ref_keywords, :size => 30 %><br /><em><%= l(:text_comma_separated) %></em></p>
 
 <p><label><%= l(:setting_commit_fix_keywords) %></label>
 <%= text_field_tag 'settings[commit_fix_keywords]', Setting.commit_fix_keywords, :size => 30 %>
 &nbsp;<%= l(:label_applied_status) %>: <%= select_tag 'settings[commit_fix_status_id]', options_for_select( [["", 0]] + IssueStatus.find(:all).collect{|status| [status.name, status.id.to_s]}, Setting.commit_fix_status_id) %>
-<br /><em><%= l(:text_coma_separated) %></em></p>
+<br /><em><%= l(:text_comma_separated) %></em></p>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

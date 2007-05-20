@@ -445,7 +445,7 @@ text_caracters_maximum: %d caractères maximum.
 text_length_between: Longueur comprise entre %d et %d caractères.
 text_tracker_no_workflow: Aucun worflow n'est défini pour ce tracker
 text_unallowed_characters: Caractères non autorisés
-text_coma_separated: Plusieurs valeurs possibles (séparées par des virgules).
+text_comma_separated: Plusieurs valeurs possibles (séparées par des virgules).
 text_issues_ref_in_commit_messages: Référencement et résolution des demandes dans les commentaires SVN
 
 default_role_manager: Manager

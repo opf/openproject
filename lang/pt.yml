@@ -445,7 +445,7 @@ text_caracters_maximum: %d móximo de caracteres
 text_length_between: Tamanho entre %d e %d caracteres.
 text_tracker_no_workflow: Sem workflow definido para este tipo.
 text_unallowed_characters: Caracteres não permitidos
-text_coma_separated: Permitido múltiplos valores (separados por vírgula).
+text_comma_separated: Permitido múltiplos valores (separados por vírgula).
 text_issues_ref_in_commit_messages: Referenciando e arrumando tarefas nas mensagens de commit
 
 default_role_manager: Analista de Negócio ou Gerente de Projeto

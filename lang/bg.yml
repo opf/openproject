@@ -372,7 +372,7 @@ label_applied_status: Промени статуса на
 label_loading: Зареждане...
 label_relation_new: New relation
 label_relation_delete: Delete relation
-label_relates_to: related tp
+label_relates_to: related to
 label_duplicates: duplicates
 label_blocks: blocks
 label_blocked_by: blocked by
@@ -445,7 +445,7 @@ text_caracters_maximum: До %d символа.
 text_length_between: От %d до %d символа.
 text_tracker_no_workflow: Няма дефиниран workflow за този тракер
 text_unallowed_characters: Непозволени символи
-text_coma_separated: Позволено е изброяване (с разделител запетая).
+text_comma_separated: Позволено е изброяване (с разделител запетая).
 text_issues_ref_in_commit_messages: Отбелязване и приключване на задачи от commit съобщения
 
 default_role_manager: Мениджър

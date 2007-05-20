@@ -375,7 +375,7 @@ label_applied_status: Applied status
 label_loading: Loading...
 label_relation_new: New relation
 label_relation_delete: Delete relation
-label_relates_to: related tp
+label_relates_to: related to
 label_duplicates: duplicates
 label_blocks: blocks
 label_blocked_by: blocked by
@@ -448,7 +448,7 @@ text_caracters_maximum: %d characters maximum.
 text_length_between: Length between %d and %d characters.
 text_tracker_no_workflow: No workflow defined for this tracker
 text_unallowed_characters: Unallowed characters
-text_coma_separated: Multiple values allowed (coma separated).
+text_comma_separated: Multiple values allowed (comma separated).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
 
 default_role_manager: 管理员
