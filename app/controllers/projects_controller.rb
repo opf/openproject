@@ -426,35 +426,25 @@ class ProjectsController < ApplicationController
       Mailer.deliver_attachments_add(@attachments) if !@attachments.empty? and Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
       redirect_to :controller => 'projects', :action => 'list_files', :id => @project
     end
-    @versions = @project.versions
+    @versions = @project.versions.sort
   end
   
   def list_files
-    @versions = @project.versions
+    @versions = @project.versions.sort
   end
   
   # Show changelog for @project
   def changelog
     @trackers = Tracker.find(:all, :conditions => ["is_in_chlog=?", true], :order => 'position')
-    retrieve_selected_tracker_ids(@trackers)
-    
-    @fixed_issues = @project.issues.find(:all, 
-      :include => [ :fixed_version, :status, :tracker ], 
-      :conditions => [ "#{IssueStatus.table_name}.is_closed=? and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}) and #{Issue.table_name}.fixed_version_id is not null", true],
-      :order => "#{Version.table_name}.effective_date DESC, #{Issue.table_name}.id DESC"
-    ) unless @selected_tracker_ids.empty?
-    @fixed_issues ||= []
+    retrieve_selected_tracker_ids(@trackers)    
+    @versions = @project.versions.sort
   end
 
   def roadmap
     @trackers = Tracker.find(:all, :conditions => ["is_in_roadmap=?", true], :order => 'position')
-    retrieve_selected_tracker_ids(@trackers)    
-    conditions = ("1" == params[:completed] ? nil : [ "#{Version.table_name}.effective_date > ?", Date.today])
-    
-    @versions = @project.versions.find(:all,
-      :conditions => conditions,
-      :order => "#{Version.table_name}.effective_date ASC"
-    )
+    retrieve_selected_tracker_ids(@trackers)
+    conditions = ("1" == params[:completed] ? nil : [ "#{Version.table_name}.effective_date > ? OR #{Version.table_name}.effective_date IS NULL", Date.today])
+    @versions = @project.versions.find(:all, :conditions => conditions).sort
   end
   
   def activity

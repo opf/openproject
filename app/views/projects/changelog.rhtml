@@ -11,17 +11,26 @@
 <% end %>
 </div>
 
-<% if @fixed_issues.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+<% if @versions.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
 
-<% ver_id = nil
-   @fixed_issues.each do |issue| %>   
-    <% unless ver_id == issue.fixed_version_id %>
-    <% if ver_id %></ul><% end %>
-    <h3 class="icon22 icon22-package"><%= issue.fixed_version.name %></h3>
-    <p><%= format_date(issue.fixed_version.effective_date) %><br />
-    <%=h issue.fixed_version.description %></p>
+<% @versions.each do |version| %>   
+    <a name="<%= version.name %>"><h3 class="icon22 icon22-package"><%= version.name %></h3></a>
+    <% if version.completed? %>
+      <p><%= format_date(version.effective_date) %></p>
+    <% elsif version.effective_date %>
+      <p><strong><%=l(:label_roadmap_due_in)%> <%= distance_of_time_in_words Time.now, version.effective_date %> (<%= format_date(version.effective_date) %>)</strong></p>
+    <% end %>
+    <p><%=h version.description %></p>
+    <% issues = version.fixed_issues.find(:all,
+                                 :include => [:status, :tracker],
+                                 :conditions => ["#{IssueStatus.table_name}.is_closed=? AND #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", true],
+                                 :order => "#{Tracker.table_name}.position")
+    %>
+    <% if !issues.empty? %>
     <ul>
-    <% ver_id = issue.fixed_version_id
-    end %>
-    <li><%= link_to_issue issue %>: <%=h issue.subject %></li>
+      <% issues.each do |issue| %>
+        <li><%= link_to_issue(issue) %>: <%=h issue.subject %></li>
+      <% end %>
+    </ul>
+    <% end %>
 <% end %>

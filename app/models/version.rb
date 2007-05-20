@@ -23,7 +23,7 @@ class Version < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
-  validates_format_of :effective_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :activerecord_error_not_a_date
+  validates_format_of :effective_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :activerecord_error_not_a_date, :allow_nil => true
   
   def start_date
     effective_date
@@ -35,6 +35,16 @@ class Version < ActiveRecord::Base
   
   def completed?
     effective_date && effective_date <= Date.today
+  end
+  
+  # Versions are sorted by effective_date 
+  # Those with no effective_date are at the end, sorted by name
+  def <=>(version)
+    if self.effective_date
+      version.effective_date ? (self.effective_date <=> version.effective_date) : -1
+    else
+      version.effective_date ? 1 : (self.name <=> version.name)
+    end
   end
   
 private

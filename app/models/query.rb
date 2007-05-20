@@ -94,7 +94,7 @@ class Query < ActiveRecord::Base
       @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values }  
       @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values }  
       @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
-      @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.collect{|s| [s.name, s.id.to_s] } }
+      @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.sort.collect{|s| [s.name, s.id.to_s] } }
       unless @project.children.empty?
         @available_filters["subproject_id"] = { :type => :list_one_or_more, :order => 13, :values => @project.children.collect{|s| [s.name, s.id.to_s] } }
       end

@@ -109,7 +109,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :changelog, :id => 1
     assert_response :success
     assert_template 'changelog'
-    assert_not_nil assigns(:fixed_issues)
+    assert_not_nil assigns(:versions)
   end
   
   def test_roadmap

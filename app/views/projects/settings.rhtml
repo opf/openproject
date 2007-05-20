@@ -27,7 +27,7 @@
 <table class="list">
 	<thead><th><%= l(:label_version) %></th><th><%= l(:field_effective_date) %></th><th><%= l(:field_description) %></th><th style="width:15%"></th><th style="width:15%"></th></thead>
 	<tbody>
-<% for version in @project.versions %>
+<% for version in @project.versions.sort %>
     <tr class="<%= cycle 'odd', 'even' %>">
     <td><%=h version.name %></td>
     <td align="center"><%= format_date(version.effective_date) %></td>
