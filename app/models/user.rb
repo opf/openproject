@@ -18,7 +18,12 @@
 require "digest/sha1"
 
 class User < ActiveRecord::Base
-  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :dependent => :delete_all
+  # Account statuses
+  STATUS_ACTIVE     = 1
+  STATUS_REGISTERED = 2
+  STATUS_LOCKED     = 3
+
+  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :order => "#{Project.table_name}.name", :dependent => :delete_all
   has_many :projects, :through => :memberships
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
@@ -43,11 +48,6 @@ class User < ActiveRecord::Base
   validates_length_of :password, :in => 4..12, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
   validates_associated :custom_values, :on => :update
-
-  # Account statuses
-  STATUS_ACTIVE     = 1
-  STATUS_REGISTERED = 2
-  STATUS_LOCKED     = 3
 
   def before_save
     # update hashed_password if password was set
