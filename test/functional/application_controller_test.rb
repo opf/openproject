@@ -28,9 +28,10 @@ class ApplicationControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  # check that all 6 supported languages are valid
+  # check that all language files are valid
   def test_localization
-    assert_equal 10, GLoc.valid_languages.size
+    lang_files_count = Dir["#{RAILS_ROOT}/lang/*.yml"].size
+    assert_equal lang_files_count, GLoc.valid_languages.size
     GLoc.valid_languages.each do |lang|
       assert set_language_if_valid(lang)
     end
