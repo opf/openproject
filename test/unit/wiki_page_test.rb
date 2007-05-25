@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class WikiPageTest < Test::Unit::TestCase
-  fixtures :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
+  fixtures :projects, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
 
   def setup
     @wiki = Wiki.find(1)
@@ -46,5 +46,14 @@ class WikiPageTest < Test::Unit::TestCase
     page = @wiki.find_or_new_page("Non existing page")
     assert_kind_of WikiPage, page
     assert page.new_record?
+  end
+  
+  def test_destroy
+    page = WikiPage.find(1)
+    page.destroy
+    assert_nil WikiPage.find_by_id(1)
+    # make sure that page content and its history are deleted
+    assert WikiContent.find_all_by_page_id(1).empty?
+    assert WikiContent.versioned_class.find_all_by_page_id(1).empty?
   end
 end

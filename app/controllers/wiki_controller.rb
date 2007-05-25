@@ -18,7 +18,10 @@
 class WikiController < ApplicationController
   layout 'base'
   before_filter :find_wiki, :check_project_privacy, :except => [:preview]
-    
+  before_filter :authorize, :only => :destroy
+  
+  verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :index }
+  
   # display a page (in editing mode if it doesn't exist)
   def index
     page_title = params[:page]
@@ -71,6 +74,13 @@ class WikiController < ApplicationController
     @versions = @page.content.versions.find :all, 
                                             :select => "id, author_id, comments, updated_on, version",
                                             :order => 'version DESC'
+  end
+  
+  # remove a wiki page and its history
+  def destroy
+    @page = @wiki.find_page(params[:page])
+    @page.destroy if @page
+    redirect_to :action => 'special', :id => @project, :page => 'Page_index'
   end
 
   # display special pages

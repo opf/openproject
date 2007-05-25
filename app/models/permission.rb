@@ -32,6 +32,7 @@ class Permission < ActiveRecord::Base
     1300 => :label_attachment_plural,
     1400 => :label_repository,
     1500 => :label_time_tracking,
+    1700 => :label_wiki_page_plural,
     2000 => :label_board_plural
   }.freeze
   
