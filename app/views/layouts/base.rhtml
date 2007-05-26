@@ -42,12 +42,6 @@
 	
 	<% if loggedin? and @logged_in_user.memberships.any? %>
       <li class="submenu"><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects", :onmouseover => "buttonMouseover(event, 'menuAllProjects');" %></li>
-      <div id="menuAllProjects" class="menu" onmouseover="menuMouseover(event)">
-      <%= link_to l(:label_project_all), {:controller => 'projects' }, :class => "menuItem" %>
-      <% @logged_in_user.memberships.find(:all, :limit => 20).each do |membership| %>
-        <%= link_to membership.project.name, {:controller => 'projects',:action => 'show', :id => membership.project }, :class => "menuItem" %>
-      <% end %>
-      </div>
 	<% else %>
 	  <li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects" %></li>
 	<% end %>
@@ -98,6 +92,14 @@
     </div>
     <% end %>
 
+    <% if loggedin? and @logged_in_user.memberships.any? %>
+        <div id="menuAllProjects" class="menu" onmouseover="menuMouseover(event)">
+        <%= link_to l(:label_project_all), {:controller => 'projects' }, :class => "menuItem" %>
+        <% @logged_in_user.memberships.find(:all, :limit => 20).each do |membership| %>
+            <%= link_to membership.project.name, {:controller => 'projects',:action => 'show', :id => membership.project }, :class => "menuItem" %>
+        <% end %>
+        </div>
+    <% end %>
 	
 	<div id="subcontent">
 	
