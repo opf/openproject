@@ -29,6 +29,12 @@ class ReportsController < ApplicationController
       @data = issues_by_tracker
       @report_title = l(:field_tracker)
       render :template => "reports/issue_report_details"
+    when "version"
+      @field = "fixed_version_id"
+      @rows = @project.versions.sort
+      @data = issues_by_version
+      @report_title = l(:field_version)
+      render :template => "reports/issue_report_details"
     when "priority"
       @field = "priority_id"
       @rows = Enumeration::get_values('IPRI')
@@ -56,11 +62,13 @@ class ReportsController < ApplicationController
     else
       @queries = @project.queries.find :all, :conditions => ["is_public=? or user_id=?", true, (logged_in_user ? logged_in_user.id : 0)]
       @trackers = Tracker.find(:all, :order => 'position')
+      @versions = @project.versions.sort
       @priorities = Enumeration::get_values('IPRI')
       @categories = @project.issue_categories
       @authors = @project.members.collect { |m| m.user }
       @subprojects = @project.children
       issues_by_tracker
+      issues_by_version
       issues_by_priority
       issues_by_category
       issues_by_author
@@ -128,7 +136,22 @@ private
                                                   and i.project_id=#{@project.id}
                                                 group by s.id, s.is_closed, t.id")	
   end
-	
+
+  def issues_by_version
+    @issues_by_version ||= 
+        ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
+                                                  s.is_closed as closed, 
+                                                  v.id as fixed_version_id,
+                                                  count(i.id) as total 
+                                                from 
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{Version.table_name} v
+                                                where 
+                                                  i.status_id=s.id 
+                                                  and i.fixed_version_id=v.id
+                                                  and i.project_id=#{@project.id}
+                                                group by s.id, s.is_closed, v.id")	
+  end
+  	
   def issues_by_priority    
     @issues_by_priority ||= 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
