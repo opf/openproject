@@ -52,7 +52,7 @@ end %>
 <% end %>
 
 <b><%=l(:field_description)%> :</b><br /><br />
-<%= textilizable @issue.description %>
+<%= textilizable @issue.description, :attachments => @issue.attachments %>
 <br />
 
 <div class="contextual">
@@ -92,24 +92,14 @@ end %>
 
 <div class="box">
 <h3><%=l(:label_attachment_plural)%></h3>
-<table width="100%">
-<% for attachment in @issue.attachments %>
-<tr>
-<td><%= link_to attachment.filename, { :action => 'download', :id => @issue, :attachment_id => attachment }, :class => 'icon icon-attachment' %> (<%= number_to_human_size(attachment.filesize) %>)</td>
-<td><%= format_date(attachment.created_on) %></td>
-<td><%= attachment.author.display_name %></td>
-<td><div class="contextual"><%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy_attachment', :id => @issue, :attachment_id => attachment }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></div></td>
-</tr>
-<% end %>
-</table>
-<br />
+<%= link_to_attachments @issue.attachments, :delete_url => (authorize_for('issues', 'destroy_attachment') ? {:controller => 'issues', :action => 'destroy_attachment', :id => @issue} : nil) %>
+
 <% if authorize_for('issues', 'add_attachment') %>
-  <% form_tag({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true, :class => "tabular") do %>
-  <p id="attachments_p"><label><%=l(:label_attachment_new)%>
-  <%= image_to_function "add.png", "addFileField();return false" %></label>
-  <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
-  <%= submit_tag l(:button_add) %>
-  <% end %> 
+<p><%= toggle_link l(:label_attachment_new), "add_attachment_form" %></p>
+<% form_tag({ :controller => 'issues', :action => 'add_attachment', :id => @issue }, :multipart => true, :class => "tabular", :id => "add_attachment_form", :style => "display:none;") do %>
+  <%= render :partial => 'attachments/form' %>
+<%= submit_tag l(:button_add) %>
+<% end %>
 <% end %>
 </div>
 

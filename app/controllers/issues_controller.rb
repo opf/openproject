@@ -29,6 +29,8 @@ class IssuesController < ApplicationController
   include IssueRelationsHelper
   helper :watchers
   include WatchersHelper
+  helper :attachments
+  include AttachmentsHelper   
 
   def show
     @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
@@ -144,14 +146,6 @@ class IssuesController < ApplicationController
                                          :old_value => a.filename)
     journal.save
     redirect_to :action => 'show', :id => @issue
-  end
-
-  # Send the file in stream mode
-  def download
-    @attachment = @issue.attachments.find(params[:attachment_id])
-    send_file @attachment.diskfile, :filename => @attachment.filename
-  rescue
-    render_404
   end
 
 private

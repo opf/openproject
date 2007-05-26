@@ -475,7 +475,8 @@ position: relative;
 margin: 0 5px 5px;
 }
 
-div.attachments {padding-left: 6px; border-left: 2px solid #ccc;}
+div.attachments {padding-left: 6px; border-left: 2px solid #ccc; margin-bottom: 8px;}
+div.attachments p {margin-bottom:2px;}
 
 .overlay{ 
 position: absolute;

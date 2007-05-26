@@ -17,10 +17,13 @@
 
 class WikiController < ApplicationController
   layout 'base'
-  before_filter :find_wiki, :check_project_privacy, :except => [:preview]
-  before_filter :authorize, :only => :destroy
+  before_filter :find_wiki, :check_project_privacy
+  before_filter :authorize, :only => [:destroy, :add_attachment, :destroy_attachment]
   
-  verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :index }
+  verify :method => :post, :only => [:destroy, :destroy_attachment], :redirect_to => { :action => :index }
+
+  helper :attachments
+  include AttachmentsHelper   
   
   # display a page (in editing mode if it doesn't exist)
   def index
@@ -107,8 +110,26 @@ class WikiController < ApplicationController
   end
   
   def preview
+    page = @wiki.find_page(params[:page])
+    @attachements = page.attachments if page
     @text = params[:content][:text]
     render :partial => 'preview'
+  end
+
+  def add_attachment
+    @page = @wiki.find_page(params[:page])
+    # Save the attachments
+    params[:attachments].each { |file|
+      next unless file.size > 0
+      a = Attachment.create(:container => @page, :file => file, :author => logged_in_user)
+    } if params[:attachments] and params[:attachments].is_a? Array
+    redirect_to :action => 'index', :page => @page.title
+  end
+
+  def destroy_attachment
+    @page = @wiki.find_page(params[:page])
+    @page.attachments.find(params[:attachment_id]).destroy
+    redirect_to :action => 'index', :page => @page.title
   end
 
 private

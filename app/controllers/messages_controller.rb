@@ -22,6 +22,9 @@ class MessagesController < ApplicationController
 
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
 
+  helper :attachments
+  include AttachmentsHelper   
+
   def show
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?
@@ -46,13 +49,6 @@ class MessagesController < ApplicationController
     @reply.board = @board
     @message.children << @reply
     redirect_to :action => 'show', :id => @message
-  end
-  
-  def download
-    @attachment = @message.attachments.find(params[:attachment_id])
-    send_file @attachment.diskfile, :filename => @attachment.filename
-  rescue
-    render_404
   end
   
 private

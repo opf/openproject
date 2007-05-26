@@ -21,12 +21,22 @@
 
 <div class="wiki">
 <% cache "wiki/show/#{@page.id}/#{@content.version}" do %>
-<%= textilizable @content.text %>
+<%= textilizable @content.text, :attachments => @page.attachments %>
 <% end %>
 </div>
+
+<%= link_to_attachments @page.attachments, :delete_url => (authorize_for('wiki', 'destroy_attachment') ? {:controller => 'wiki', :action => 'destroy_attachment', :page => @page.title} : nil) %>
 
 <div class="contextual">
 <%= l(:label_export_to) %>
 <%= link_to 'HTML', {:export => 'html', :version => @content.version}, :class => 'icon icon-html' %>,
 <%= link_to 'TXT', {:export => 'txt', :version => @content.version}, :class => 'icon icon-txt' %>
 </div>
+
+<% if authorize_for('wiki', 'add_attachment') %>
+<p><%= toggle_link l(:label_attachment_new), "add_attachment_form" %></p>
+<% form_tag({ :controller => 'wiki', :action => 'add_attachment', :page => @page.title }, :multipart => true, :class => "tabular", :id => "add_attachment_form", :style => "display:none;") do %>
+  <%= render :partial => 'attachments/form' %>
+<%= submit_tag l(:button_add) %>
+<% end %>
+<% end %>

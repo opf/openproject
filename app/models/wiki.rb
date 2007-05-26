@@ -31,7 +31,8 @@ class Wiki < ActiveRecord::Base
   
   # find the page with the given title
   def find_page(title)
-    pages.find_by_title(Wiki.titleize(title || start_page))
+    title = start_page if title.blank?
+    pages.find_by_title(Wiki.titleize(title))
   end
   
   # turn a string into a valid page title

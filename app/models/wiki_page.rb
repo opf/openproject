@@ -18,6 +18,7 @@
 class WikiPage < ActiveRecord::Base
   belongs_to :wiki
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
+  has_many :attachments, :as => :container, :dependent => :destroy
   
   validates_presence_of :title
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\s]*$/
@@ -40,5 +41,9 @@ class WikiPage < ActiveRecord::Base
   
   def self.pretty_title(str)
     (str && str.is_a?(String)) ? str.tr('_', ' ') : str
+  end
+  
+  def project
+    wiki.project
   end
 end

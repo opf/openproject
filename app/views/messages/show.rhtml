@@ -2,15 +2,10 @@
 
 <p><em><%= @message.author.name %>, <%= format_time(@message.created_on) %></em></p>
 <div class="wiki">
-<%= textilizable(@message.content) %>
+<%= textilizable(@message.content, :attachments => @message.attachments) %>
 </div>
-<div class="attachments">
-<% @message.attachments.each do |attachment| %>
-<%= link_to attachment.filename, { :action => 'download', :id => @message, :attachment_id => attachment }, :class => 'icon icon-attachment' %>
-(<%= number_to_human_size(attachment.filesize) %>)<br />
-<% end %>
-</div>
-<br />
+<%= link_to_attachments @message.attachments, :no_author => true %>
+
 <h3 class="icon22 icon22-comment"><%= l(:label_reply_plural) %></h3>
 <% @message.children.each do |message| %>
   <a name="<%= "message-#{message.id}" %>"></a>

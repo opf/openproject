@@ -77,7 +77,11 @@ class Attachment < ActiveRecord::Base
 	def self.most_downloaded
 		find(:all, :limit => 5, :order => "downloads DESC")	
 	end
-	
+
+  def project
+    container.is_a?(Project) ? container : container.project
+  end
+  
 private
   def sanitize_filename(value)
       # get only the filename, not the whole path

@@ -146,7 +146,24 @@ module ApplicationHelper
     # example:
     #   r52 -> <a href="/repositories/revision/6?rev=52">r52</a> (@project.id is 6)
     text = text.gsub(/(?=\b)r(\d+)(?=\b)/) {|m| link_to "r#{$1}", :controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1} if @project
-   
+    
+    # when using an image link, try to use an attachment, if possible
+    attachments = options[:attachments]
+    if attachments
+      text = text.gsub(/!([<>=]*)(\S+\.(gif|jpg|jpeg|png))!/) do |m|
+        align = $1
+        filename = $2
+        rf = Regexp.new(filename,  Regexp::IGNORECASE)
+        # search for the picture in attachments
+        if found = attachments.detect { |att| att.filename =~ rf }
+          image_url = url_for :controller => 'attachments', :action => 'show', :id => found.id
+          "!#{align}#{image_url}!"
+        else
+          "!#{align}#{filename}!"
+        end
+      end
+    end
+
     # finally textilize text
     @do_textilize ||= (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize")
     text = @do_textilize ? auto_link(RedCloth.new(text, [:hard_breaks]).to_html) : simple_format(auto_link(h(text)))
