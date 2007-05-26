@@ -5,6 +5,7 @@
 <h2><%= @page.pretty_title %></h2>
 
 <% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:id => 'wiki_form'} do |f| %>
+<%= f.hidden_field :version %>
 <%= error_messages_for 'content' %>
 <div class="contextual">
 <%= l(:setting_text_formatting) %>:
