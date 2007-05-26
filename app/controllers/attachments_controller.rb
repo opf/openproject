@@ -16,17 +16,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AttachmentsController < ApplicationController
+  layout 'base'
   before_filter :find_project, :check_project_privacy
 
   # sends an attachment
   def download
     send_file @attachment.diskfile, :filename => @attachment.filename
+  rescue
+    render_404
   end
     
   # sends an image to be displayed inline
   def show
     render(:nothing => true, :status => 404) and return unless @attachment.diskfile =~ /\.(jpeg|jpg|gif|png)$/i
     send_file @attachment.diskfile, :type => "image/#{$1}", :disposition => 'inline'
+  rescue
+    render_404
   end
  
 private
