@@ -7,9 +7,7 @@
 <p><label for="version_id"><%=l(:field_version)%> <span class="required">*</span></label>
 <%= select_tag "version_id", options_from_collection_for_select(@versions, "id", "name") %></p>
 
-<p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>
-<%= image_to_function "add.png", "addFileField();return false" %></label>
-<%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
+<%= render :partial => 'attachments/form' %>
 </div>
 <%= submit_tag l(:button_add) %>
 <% end %> 

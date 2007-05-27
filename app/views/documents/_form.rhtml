@@ -14,16 +14,4 @@
 <!--[eoform:document]-->
 </div>
 
-<% if Setting.text_formatting == 'textile' %>
-<%= javascript_include_tag 'jstoolbar' %>
-<script type="text/javascript">
-//<![CDATA[
-if (document.getElementById) { 
-	if (document.getElementById('document_description')) { 
-		var commentTb = new jsToolBar(document.getElementById('document_description')); 
-		commentTb.draw(); 
-	}
-}
-//]]>
-</script>
-<% end %>
+<%= wikitoolbar_for 'document_description' %>

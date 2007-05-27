@@ -5,7 +5,7 @@
 <p><label><%= l(:field_subject) %></label><br />
 <%= f.text_field :subject, :required => true, :size => 80 %></p>
 
-<p><%= f.text_area :content, :required => true, :cols => 80, :rows => 15 %></p>
+<p><%= f.text_area :content, :required => true, :cols => 80, :rows => 15, :class => 'wiki-edit' %></p>
 <%= wikitoolbar_for 'message_content' %>
 <!--[eoform:message]-->
 

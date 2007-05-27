@@ -38,19 +38,7 @@
 <%= submit_tag l(:button_create) %>
 <% end %>
 
-<% if Setting.text_formatting == 'textile' %>
-<%= javascript_include_tag 'jstoolbar' %>
-<script type="text/javascript">
-//<![CDATA[
-if (document.getElementById) { 
-	if (document.getElementById('issue_description')) { 
-		var commentTb = new jsToolBar(document.getElementById('issue_description')); 
-		commentTb.draw(); 
-	}
-}
-//]]>
-</script>
-<% end %>
+<%= wikitoolbar_for 'issue_description' %>
 
 <% content_for :header_tags do %>
 <%= javascript_include_tag 'calendar/calendar' %>
