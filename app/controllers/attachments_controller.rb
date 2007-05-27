@@ -29,7 +29,7 @@ class AttachmentsController < ApplicationController
   # sends an image to be displayed inline
   def show
     render(:nothing => true, :status => 404) and return unless @attachment.diskfile =~ /\.(jpeg|jpg|gif|png)$/i
-    send_file @attachment.diskfile, :type => "image/#{$1}", :disposition => 'inline'
+    send_file @attachment.diskfile, :filename => @attachment.filename, :type => "image/#{$1}", :disposition => 'inline'
   rescue
     render_404
   end
