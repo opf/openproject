@@ -425,6 +425,8 @@ button_rollback: Върни се към тази ревизия
 button_watch: Наблюдавай
 button_unwatch: Спри наблюдението
 button_reply: Reply
+button_archive: Archive
+button_unarchive: Unarchive
 
 status_active: активен
 status_registered: регистриран

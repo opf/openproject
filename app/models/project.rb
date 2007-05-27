@@ -16,6 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Project < ActiveRecord::Base
+  # Project statuses
+  STATUS_ACTIVE     = 1
+  STATUS_ARCHIVED   = 9
+  
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :members, :dependent => :delete_all, :include => :user, :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :users, :through => :members
@@ -31,6 +35,8 @@ class Project < ActiveRecord::Base
   has_one :wiki, :dependent => :destroy
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_tree :order => "name", :counter_cache => true
+  
+  attr_protected :status
   
   validates_presence_of :name, :description, :identifier
   validates_uniqueness_of :name, :identifier
@@ -52,12 +58,11 @@ class Project < ActiveRecord::Base
   
   def issues_with_subprojects(include_subprojects=false)
     conditions = nil
-    if include_subprojects && children.size > 0
-      ids = [id] + children.collect {|c| c.id}
+    if include_subprojects && !active_children.empty?
+      ids = [id] + active_children.collect {|c| c.id}
       conditions = ["#{Issue.table_name}.project_id IN (#{ids.join(',')})"]
-    else
-      conditions = ["#{Issue.table_name}.project_id = ?", id]
     end
+    conditions ||= ["#{Issue.table_name}.project_id = ?", id]
     Issue.with_scope :find => { :conditions => conditions } do 
       yield
     end 
@@ -71,12 +76,33 @@ class Project < ActiveRecord::Base
 
   def self.visible_by(user=nil)
     if user && user.admin?
-      return nil
+      return ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
     elsif user && !user.memberships.empty?
-      return ["#{Project.table_name}.is_public = ? or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')})", true]
+      return ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = ? or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))", true]
     else
-      return ["#{Project.table_name}.is_public = ?", true]
+      return ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = ?", true]
     end
+  end
+  
+  def active?
+    self.status == STATUS_ACTIVE
+  end
+  
+  def archive
+    # Archive subprojects if any
+    children.each do |subproject|
+      subproject.archive
+    end
+    update_attribute :status, STATUS_ARCHIVED
+  end
+  
+  def unarchive
+    return false if parent && !parent.active?
+    update_attribute :status, STATUS_ACTIVE
+  end
+  
+  def active_children
+    children.select {|child| child.active?}
   end
   
   # Returns an array of all custom fields enabled for project issues

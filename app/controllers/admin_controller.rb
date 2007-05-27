@@ -27,12 +27,18 @@ class AdminController < ApplicationController
 	
   def projects
     sort_init 'name', 'asc'
-    sort_update		
-    @project_count = Project.count		
+    sort_update
+    
+    @status = params[:status] ? params[:status].to_i : 0
+    conditions = nil
+    conditions = ["status=?", @status] unless @status == 0
+    
+    @project_count = Project.count(:conditions => conditions)
     @project_pages = Paginator.new self, @project_count,
-								15,
+								25,
 								params['page']								
     @projects = Project.find :all, :order => sort_clause,
+                        :conditions => conditions,
 						:limit  =>  @project_pages.items_per_page,
 						:offset =>  @project_pages.current.offset
 

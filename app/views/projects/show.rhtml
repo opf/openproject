@@ -45,7 +45,7 @@
 		<% end %>		
 	</div>
   
-  <% if @subprojects %>
+  <% if @subprojects.any? %>
  	<div class="box">
 		<h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%></h3>	
 		<%= @subprojects.collect{|p| link_to(p.name, :action => 'show', :id => p)}.join(", ") %>

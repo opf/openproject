@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   STATUS_REGISTERED = 2
   STATUS_LOCKED     = 3
 
-  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :order => "#{Project.table_name}.name", :dependent => :delete_all
+  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name", :dependent => :delete_all
   has_many :projects, :through => :memberships
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'

@@ -425,6 +425,8 @@ button_rollback: Voltar para esta versao
 button_watch: Watch
 button_unwatch: Unwatch
 button_reply: Reply
+button_archive: Archive
+button_unarchive: Unarchive
 
 status_active: ativo
 status_registered: registrado

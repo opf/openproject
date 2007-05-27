@@ -425,6 +425,8 @@ button_rollback: Revenir à cette version
 button_watch: Surveiller
 button_unwatch: Ne plus surveiller
 button_reply: Répondre
+button_archive: Archiver
+button_unarchive: Désarchiver
 
 status_active: actif
 status_registered: enregistré

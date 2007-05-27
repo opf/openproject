@@ -426,6 +426,8 @@ button_rollback: このバージョンにロールバック
 button_watch: Watch
 button_unwatch: Unwatch
 button_reply: Reply
+button_archive: Archive
+button_unarchive: Unarchive
 
 status_active: 有効
 status_registered: 登録

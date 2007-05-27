@@ -86,6 +86,11 @@ class ApplicationController < ActionController::Base
 
   # authorizes the user for the requested action.
   def authorize(ctrl = params[:controller], action = params[:action])
+    unless @project.active?
+      @project = nil
+      render_404
+      return false
+    end
     # check if action is allowed on public projects
     if @project.is_public? and Permission.allowed_to_public "%s/%s" % [ ctrl, action ]
       return true
@@ -105,6 +110,11 @@ class ApplicationController < ActionController::Base
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy
+    unless @project.active?
+      @project = nil
+      render_404
+      return false
+    end
     return true if @project.is_public?
     return false unless logged_in_user
     return true if logged_in_user.admin? || logged_in_user_membership

@@ -4,6 +4,15 @@
 
 <h2><%=l(:label_project_plural)%></h2>
 
+<% form_tag() do %>
+<fieldset><legend><%= l(:label_filter_plural) %></legend>
+<label><%= l(:field_status) %> :</label>
+<%= select_tag 'status', project_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
+<%= submit_tag l(:button_apply), :class => "small" %>
+</fieldset>
+<% end %>
+&nbsp;
+
 <table class="list">
   <thead><tr>
 	<%= sort_header_tag('name', :caption => l(:label_project)) %>
@@ -12,22 +21,29 @@
 	<th><%=l(:label_subproject_plural)%></th>
 	<%= sort_header_tag('created_on', :caption => l(:field_created_on)) %>
     <th></th>
+    <th></th>
   </tr></thead>
   <tbody>
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
-	<td><%= link_to project.name, :controller => 'projects', :action => 'settings', :id => project %>
+	<td><%= project.active? ? link_to(project.name, :controller => 'projects', :action => 'settings', :id => project) : h(project.name) %>
 	<td><%=h project.description %>
 	<td align="center"><%= image_tag 'true.png' if project.is_public? %>
 	<td align="center"><%= project.children.size %>
 	<td align="center"><%= format_date(project.created_on) %>
-  <td align="center">
-    <%= button_to l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => "button-small" %>
+  <td align="center" style="width:10%">
+    <small>
+    <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project }, :method => :post, :class => 'icon icon-lock') if project.active? %>
+    <%= link_to(l(:button_unarchive), { :controller => 'projects', :action => 'unarchive', :id => project }, :method => :post, :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+    </small>
+  </td>
+  <td align="center" style="width:10%">
+    <small><%= link_to(l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => 'icon icon-del') %></small>
   </td>
   </tr>
 <% end %>
   </tbody>
 </table>
 
-<p><%= pagination_links_full @project_pages %>
+<p><%= pagination_links_full @project_pages, :status => @status %>
 [ <%= @project_pages.current.first_item %> - <%= @project_pages.current.last_item %> / <%= @project_count %> ]</p>

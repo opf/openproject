@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -124,5 +124,20 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'activity'
     assert_not_nil assigns(:events_by_day)
+  end
+  
+  def test_archive    
+    @request.session[:user_id] = 1 # admin
+    post :archive, :id => 1
+    assert_redirected_to 'admin/projects'
+    assert !Project.find(1).active?
+  end
+  
+  def test_unarchive
+    @request.session[:user_id] = 1 # admin
+    Project.find(1).archive
+    post :unarchive, :id => 1
+    assert_redirected_to 'admin/projects'
+    assert Project.find(1).active?
   end
 end

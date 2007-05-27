@@ -425,6 +425,8 @@ button_rollback: Rollback naar deze versie
 button_watch: Monitor
 button_unwatch: Niet meer monitoren
 button_reply: Antwoord
+button_archive: Archive
+button_unarchive: Unarchive
 
 status_active: Actief
 status_registered: geregistreerd

@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -49,6 +49,34 @@ class ProjectTest < Test::Unit::TestCase
     public_projects = Project.find(:all, :conditions => ["is_public=?", true])
     assert_equal 3, public_projects.length
     assert_equal true, public_projects[0].is_public?
+  end
+  
+  def test_archive
+    user = @ecookbook.members.first.user
+    @ecookbook.archive
+    @ecookbook.reload
+    
+    assert !@ecookbook.active?
+    assert !user.projects.include?(@ecookbook)
+    # Subproject are also archived
+    assert !@ecookbook.children.empty?
+    assert @ecookbook.active_children.empty?
+  end
+  
+  def test_unarchive
+    user = @ecookbook.members.first.user
+    @ecookbook.archive
+    # A subproject of an archived project can not be unarchived
+    assert !@ecookbook_sub1.unarchive
+    
+    # Unarchive project
+    assert @ecookbook.unarchive
+    @ecookbook.reload
+    assert @ecookbook.active?
+    assert user.projects.include?(@ecookbook)
+    # Subproject can now be unarchived
+    @ecookbook_sub1.reload
+    assert @ecookbook_sub1.unarchive
   end
   
   def test_destroy

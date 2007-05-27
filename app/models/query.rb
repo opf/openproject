@@ -95,8 +95,8 @@ class Query < ActiveRecord::Base
       @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values }  
       @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
       @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.sort.collect{|s| [s.name, s.id.to_s] } }
-      unless @project.children.empty?
-        @available_filters["subproject_id"] = { :type => :list_one_or_more, :order => 13, :values => @project.children.collect{|s| [s.name, s.id.to_s] } }
+      unless @project.active_children.empty?
+        @available_filters["subproject_id"] = { :type => :list_one_or_more, :order => 13, :values => @project.active_children.collect{|s| [s.name, s.id.to_s] } }
       end
       @project.all_custom_fields.select(&:is_filter?).each do |field|
         case field.field_format
@@ -164,7 +164,7 @@ class Query < ActiveRecord::Base
       if operator_for("subproject_id") == "="
         subproject_ids = values_for("subproject_id").each(&:to_i)
       else
-        subproject_ids = project.children.collect{|p| p.id}
+        subproject_ids = project.active_children.collect{|p| p.id}
       end
       sql << " AND #{Issue.table_name}.project_id IN (%d,%s)" % [project.id, subproject_ids.join(",")] if project
     else

@@ -55,7 +55,7 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"  
     when "subproject"
       @field = "project_id"
-      @rows = @project.children
+      @rows = @project.active_children
       @data = issues_by_subproject
       @report_title = l(:field_subproject)
       render :template => "reports/issue_report_details"  
@@ -66,7 +66,7 @@ class ReportsController < ApplicationController
       @priorities = Enumeration::get_values('IPRI')
       @categories = @project.issue_categories
       @authors = @project.members.collect { |m| m.user }
-      @subprojects = @project.children
+      @subprojects = @project.active_children
       issues_by_tracker
       issues_by_version
       issues_by_priority
@@ -207,8 +207,8 @@ private
                                                   #{Issue.table_name} i, #{IssueStatus.table_name} s
                                                 where 
                                                   i.status_id=s.id 
-                                                  and i.project_id IN (#{@project.children.collect{|p| p.id}.join(',')})
-                                                group by s.id, s.is_closed, i.project_id") if @project.children.any?
+                                                  and i.project_id IN (#{@project.active_children.collect{|p| p.id}.join(',')})
+                                                group by s.id, s.is_closed, i.project_id") if @project.active_children.any?
     @issues_by_subproject ||= []
   end
 end

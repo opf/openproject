@@ -49,7 +49,7 @@ t_height = g_height + headers_height
       <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
       <%= tracker.name %><br />
     <% end %>
-    <% if @project.children.any? %>
+    <% if @project.active_children.any? %>
     <p><strong><%=l(:label_subproject_plural)%></strong></p>
     <%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%= l(:general_text_Yes) %>
     <% end %>

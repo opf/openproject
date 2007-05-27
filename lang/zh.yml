@@ -428,6 +428,8 @@ button_rollback: Rollback to this version
 button_watch: Watch
 button_unwatch: Unwatch
 button_reply: Reply
+button_archive: Archive
+button_unarchive: Unarchive
 
 status_active: 激活
 status_registered: 已注册

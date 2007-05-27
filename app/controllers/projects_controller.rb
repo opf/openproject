@@ -19,9 +19,11 @@ require 'csv'
 
 class ProjectsController < ApplicationController
   layout 'base'
-  before_filter :find_project, :authorize, :except => [ :index, :list, :add ]
-  before_filter :require_admin, :only => [ :add, :destroy ]
+  before_filter :find_project, :except => [ :index, :list, :add ]
+  before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy ]
+  before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
   
+  cache_sweeper :project_sweeper, :only => [ :add, :edit, :archive, :unarchive, :destroy ]
   cache_sweeper :issue_sweeper, :only => [ :add_issue ]
 
   helper :sort
@@ -86,7 +88,7 @@ class ProjectsController < ApplicationController
   def show
     @custom_values = @project.custom_values.find(:all, :include => :custom_field)
     @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
-    @subprojects = @project.children if @project.children.size > 0
+    @subprojects = @project.active_children
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = Tracker.find(:all, :order => 'position')
     @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN #{IssueStatus.table_name} ON #{IssueStatus.table_name}.id = #{Issue.table_name}.status_id", :conditions => ["project_id=? and #{IssueStatus.table_name}.is_closed=?", @project.id, false])
@@ -138,12 +140,25 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def archive
+    @project.archive if request.post? && @project.active?
+    redirect_to :controller => 'admin', :action => 'projects'
+  end
+  
+  def unarchive
+    @project.unarchive if request.post? && !@project.active?
+    redirect_to :controller => 'admin', :action => 'projects'
+  end
+  
   # Delete @project
   def destroy
+    @project_to_destroy = @project
     if request.post? and params[:confirm]
-      @project.destroy
+      @project_to_destroy.destroy
       redirect_to :controller => 'admin', :action => 'projects'
     end
+    # hide project in layout
+    @project = nil
   end
 	
   # Add a new issue category to @project

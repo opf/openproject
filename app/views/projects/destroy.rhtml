@@ -1,11 +1,11 @@
 <h2><%=l(:label_confirmation)%></h2>
 <div class="box">
 <center>
-<p><strong><%= @project.name %></strong><br />
+<p><strong><%= @project_to_destroy.name %></strong><br />
 <%=l(:text_project_destroy_confirmation)%></p>
 
 <p>
-    <% form_tag({:controller => 'projects', :action => 'destroy', :id => @project}) do %>
+    <% form_tag({:controller => 'projects', :action => 'destroy', :id => @project_to_destroy}) do %>
     <%= hidden_field_tag "confirm", 1 %>
     <%= submit_tag l(:button_delete) %>
     <% end %>
