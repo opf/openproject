@@ -398,6 +398,7 @@ label_message_plural: Messages
 label_message_last: Last message
 label_message_new: New message
 label_reply_plural: Replies
+label_send_information: Send account information to the user
 
 button_login: 登录
 button_submit: 提交

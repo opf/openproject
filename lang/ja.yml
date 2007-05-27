@@ -396,6 +396,7 @@ label_message_plural: Messages
 label_message_last: Last message
 label_message_new: New message
 label_reply_plural: Replies
+label_send_information: Send account information to the user
 
 button_login: ログイン
 button_submit: 変更

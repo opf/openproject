@@ -395,6 +395,7 @@ label_message_plural: Messages
 label_message_last: Dernier message
 label_message_new: Nouveau message
 label_reply_plural: Réponses
+label_send_information: Envoyer les informations à l'utilisateur
 
 button_login: Connexion
 button_submit: Soumettre

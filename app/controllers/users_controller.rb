@@ -61,6 +61,7 @@ class UsersController < ApplicationController
       @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
       @user.custom_values = @custom_values			
       if @user.save
+        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
         flash[:notice] = l(:notice_successful_create)
         redirect_to :action => 'list'
       end

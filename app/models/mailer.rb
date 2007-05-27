@@ -17,6 +17,14 @@
 
 class Mailer < ActionMailer::Base
   helper IssuesHelper
+  
+  def account_information(user, password)
+    set_language_if_valid user.language
+    recipients user.mail
+    from Setting.mail_from
+    subject l(:mail_subject_register)
+    body :user => user, :password => password
+  end
 
   def issue_add(issue)
     set_language_if_valid(Setting.default_language)

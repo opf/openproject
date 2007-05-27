@@ -1,0 +1,9 @@
+<% if @user.auth_source %>You can use your "<%= @user.auth_source.name %>" account to log into Redmine.
+<% else %>Your Redmine account information:
+* Login:    <%= @user.login %>
+* Password: <%= @password %>
+<% end %>
+Log in: <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'account', :action => 'login' %>
+<% unless @user.auth_source %>
+You can change your password here: <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'my', :action => 'account' %>
+<% end %>

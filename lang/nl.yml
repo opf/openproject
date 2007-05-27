@@ -395,6 +395,7 @@ label_message_plural: Berichten
 label_message_last: Laatste bericht
 label_message_new: Nieuw bericht
 label_reply_plural: Antwoorden
+label_send_information: Send account information to the user
 
 button_login: Inloggen
 button_submit: Toevoegen
