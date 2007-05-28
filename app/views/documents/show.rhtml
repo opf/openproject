@@ -7,7 +7,7 @@
 
 <p><em><%= @document.category.name %><br />
 <%= format_date @document.created_on %></em></p>
-<%= textilizable @document.description %>
+<%= textilizable @document.description, :attachments => @document.attachments %>
 <br />
 
 <h3><%= l(:label_attachment_plural) %></h3>
