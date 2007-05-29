@@ -92,7 +92,7 @@ private
       # global feed
       scope = ["#{Project.table_name}.is_public=?", true]
     end
-    @find_options = {:conditions => scope, :limit => Setting.feeds_limit}
+    @find_options = {:conditions => scope, :limit => Setting.feeds_limit.to_i}
     return true
   end
 end

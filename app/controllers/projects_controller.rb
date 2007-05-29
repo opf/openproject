@@ -297,7 +297,7 @@ class ProjectsController < ApplicationController
     @issues =  Issue.find :all, :order => sort_clause,
 						:include => [ :assigned_to, :author, :status, :tracker, :priority, :project, {:custom_values => :custom_field} ],
 						:conditions => @query.statement,
-						:limit => Setting.issues_export_limit
+						:limit => Setting.issues_export_limit.to_i
 
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
     export = StringIO.new
@@ -356,7 +356,7 @@ class ProjectsController < ApplicationController
     @issues =  Issue.find :all, :order => sort_clause,
 						:include => [ :author, :status, :tracker, :priority, :project, :custom_values ],
 						:conditions => @query.statement,
-						:limit => Setting.issues_export_limit
+						:limit => Setting.issues_export_limit.to_i
 											
     @options_for_rfpdf ||= {}
     @options_for_rfpdf[:file_name] = "export.pdf"
