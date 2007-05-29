@@ -1,0 +1,478 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: Januari,Februari,Mars,April,Maj,Juni,Juli,Augusti,September,Oktober,November,December
+actionview_datehelper_select_month_names_abbr: Jan,Feb,Mar,Apr,Maj,Jun,Jul,Aug,Sep,Okt,Nov,Dec
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 dag
+actionview_datehelper_time_in_words_day_plural: %d dagar
+actionview_datehelper_time_in_words_hour_about: cirka en timme
+actionview_datehelper_time_in_words_hour_about_plural: cirka %d timmar
+actionview_datehelper_time_in_words_hour_about_single: cirka en timme
+actionview_datehelper_time_in_words_minute: 1 minut
+actionview_datehelper_time_in_words_minute_half: en halv minute
+actionview_datehelper_time_in_words_minute_less_than: mindre än en minut
+actionview_datehelper_time_in_words_minute_plural: %d minuter
+actionview_datehelper_time_in_words_minute_single: 1 minut
+actionview_datehelper_time_in_words_second_less_than: mindre än en sekund
+actionview_datehelper_time_in_words_second_less_than_plural: mindre än %d sekunder
+actionview_instancetag_blank_option: Var god välj
+
+activerecord_error_inclusion: finns inte i listan
+activerecord_error_exclusion: är reserverad
+activerecord_error_invalid: är ogiltig
+activerecord_error_confirmation: överränsstämmer inte med bekräftelsen
+activerecord_error_accepted: måste accepteras
+activerecord_error_empty: får inte vara tom
+activerecord_error_blank: får inte vara tom
+activerecord_error_too_long: är för lång
+activerecord_error_too_short: är för kort
+activerecord_error_wrong_length: har fel längd
+activerecord_error_taken: har redan blivit tagen
+activerecord_error_not_a_number: är inte ett nummer
+activerecord_error_not_a_date: är inte ett korrekt datum
+activerecord_error_greater_than_start_date: måste vara senare än startdatumet
+activerecord_error_not_same_project: doesn't belong to the same project
+activerecord_error_circular_dependency: This relation would create a circular dependency
+
+general_fmt_age: %d år
+general_fmt_age_plural: %d år
+general_fmt_date: %%Y-%%m-%%d
+general_fmt_datetime: %%Y-%%m-%%d %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: 'Nej'
+general_text_Yes: 'Ja'
+general_text_no: 'nej'
+general_text_yes: 'ja'
+general_lang_name: 'Svenska'
+general_csv_separator: ','
+general_csv_encoding: ISO-8859-1
+general_pdf_encoding: ISO-8859-1
+general_day_names: Måndag,Tisdag,Onsdag,Torsdag,Fredag,Lördag,Söndag
+
+notice_account_updated: Kontot har uppdaterats
+notice_account_invalid_creditentials: Fel användarnamn eller lösenord
+notice_account_password_updated: Lösenordet har uppdaterats
+notice_account_wrong_password: Fel lösenord
+notice_account_register_done: Kontot har skapats.
+notice_account_unknown_email: Okäns användare.
+notice_can_t_change_password: Detta konto använder en extern authentikeringskälla. Det går inte att byta lösenord.
+notice_account_lost_email_sent: Ett email med instruktioner om hur man väljer ett nytt lösenord har skickats till dig.
+notice_account_activated: Ditt konto har blivit aktiverat. Du kan nu logga in.
+notice_successful_create: Lyckat skapande.
+notice_successful_update: Lyckad uppdatering.
+notice_successful_delete: Lyckad borttagning.
+notice_successful_connection: Lyckad uppkoppling.
+notice_file_not_found: Sidan du försökte komma åt existerar inte eller har blivit borttagen.
+notice_locking_conflict: Data har uppdaterats av en annan användare.
+notice_scm_error: Inlägg och/eller revision finns inte i repositoriet.
+notice_not_authorized: You are not authorized to access this page.
+
+mail_subject_lost_password: Ditt redMine lösenord
+mail_subject_register: redMine kontoaktivering
+
+gui_validation_error: 1 fel
+gui_validation_error_plural: %d fel
+
+field_name: Namn
+field_description: Beskrivning
+field_summary: Sammanfattning
+field_is_required: Obligatorisk
+field_firstname: Förnamn
+field_lastname: Efternamn
+field_mail: Email
+field_filename: Fil
+field_filesize: Storlek
+field_downloads: Nerladdningar
+field_author: Författare
+field_created_on: Skapad
+field_updated_on: Uppdaterad
+field_field_format: Format
+field_is_for_all: För alla projekt
+field_possible_values: Möjliga värden
+field_regexp: Regular expression
+field_min_length: Minimilängd
+field_max_length: Maximumlängd
+field_value: Värde
+field_category: Kategori
+field_title: Titel
+field_project: Projekt
+field_issue: Brist
+field_status: Status
+field_notes: Anteckningar
+field_is_closed: Brist stängd
+field_is_default: Defaultstatus
+field_html_color: Färg
+field_tracker: Tracker
+field_subject: Rubrik
+field_due_date: Färdigdatum
+field_assigned_to: Tilldelad
+field_priority: Prioritet
+field_fixed_version: Fixed version
+field_user: Användare
+field_role: Roll
+field_homepage: Hemsida
+field_is_public: Offentlig
+field_parent: Delprojekt av
+field_is_in_chlog: Brister visade i ändringslogg
+field_is_in_roadmap: Bsiter visade i roadmap
+field_login: Inloggning
+field_mail_notification: Emailnotifieringar
+field_admin: Administratör
+field_last_login_on: Senaste inloggning
+field_language: Språk
+field_effective_date: Datum
+field_password: Lösenord
+field_new_password: Nytt lösenord
+field_password_confirmation: Bekräfta
+field_version: Version
+field_type: Typ
+field_host: Värddator
+field_port: Port
+field_account: Konto
+field_base_dn: Bas DN
+field_attr_login: Inloggningsattribut
+field_attr_firstname: Förnamnattribut
+field_attr_lastname: Efternamnattribut
+field_attr_mail: Emailattribut
+field_onthefly: On-the-fly användarskapning
+field_start_date: Start
+field_done_ratio: %% Done
+field_auth_source: Authentikeringsläge
+field_hide_mail: Dölj min emailadress
+field_comment: Kommentar
+field_url: URL
+field_start_page: Startsida
+field_subproject: Delprojekt
+field_hours: Timmar
+field_activity: Aktivitet
+field_spent_on: Datum
+field_identifier: Identifierare
+field_is_filter: Used as a filter
+field_issue_to_id: Related issue
+field_delay: Delay
+
+setting_app_title: Applikationstitel
+setting_app_subtitle: Applicationsunderrubrik
+setting_welcome_text: Välkommentext
+setting_default_language: Default språk
+setting_login_required: Authent. obligatoriskt
+setting_self_registration: Självregistrering påslaget
+setting_attachment_max_size: Bifogad maxstorlek
+setting_issues_export_limit: Brist exportgräns
+setting_mail_from: Emailavsändare
+setting_host_name: Värddatornamn
+setting_text_formatting: Textformattering
+setting_wiki_compression: Wiki historiekomprimering
+setting_feeds_limit: Feed innehållsgräns
+setting_autofetch_changesets: Automatisk hämtning av SVN commits
+setting_sys_api_enabled: Aktivera WS för repository management
+setting_commit_ref_keywords: Referencing keywords
+setting_commit_fix_keywords: Fixing keywords
+setting_autologin: Autologin
+
+label_user: Användare
+label_user_plural: Användare
+label_user_new: Ny användare
+label_project: Projekt
+label_project_new: Nytt projekt
+label_project_plural: Projekt
+label_project_all: All Projects
+label_project_latest: Senaste projekt
+label_issue: Brist
+label_issue_new: Ny brist
+label_issue_plural: Brister
+label_issue_view_all: Visa alla brister
+label_document: Dokument
+label_document_new: Nytt dokument
+label_document_plural: Dokument
+label_role: Roll
+label_role_plural: Roller
+label_role_new: Ny roll
+label_role_and_permissions: Roller och rättigheter
+label_member: Medlem
+label_member_new: Ny medlem
+label_member_plural: Medlemmar
+label_tracker: Tracker
+label_tracker_plural: Trackers
+label_tracker_new: Ny tracker
+label_workflow: Workflow
+label_issue_status: Briststatus
+label_issue_status_plural: Briststatusar
+label_issue_status_new: Ny status
+label_issue_category: Bristkategori
+label_issue_category_plural: Bristkategorier
+label_issue_category_new: Ny kategori
+label_custom_field: Användardefinerat fält
+label_custom_field_plural: Användardefinerade fält
+label_custom_field_new: Nytt Användardefinerat fält
+label_enumerations: Uppräkningar
+label_enumeration_new: Nytt värde
+label_information: Information
+label_information_plural: Information
+label_please_login: Var god logga in
+label_register: Registrera
+label_password_lost: Glömt lösenord
+label_home: Hem
+label_my_page: Min sida
+label_my_account: Mitt konto
+label_my_projects: Mina projekt
+label_administration: Administration
+label_login: Logga in
+label_logout: Logga ut
+label_help: Hjälp
+label_reported_issues: Rapporterade brister
+label_assigned_to_me_issues: Brister tilldelade mig
+label_last_login: Senaste inloggning
+label_last_updates: Senast uppdaterad
+label_last_updates_plural: %d senaste uppdateringarna
+label_registered_on: Registrerad
+label_activity: Aktivitet
+label_new: Ny
+label_logged_as: Loggad som
+label_environment: Miljö
+label_authentication: Authentikering
+label_auth_source: Authentikeringsläge
+label_auth_source_new: Nytt authentikeringsläge
+label_auth_source_plural: Authentikeringslägen
+label_subproject_plural: Delprojekt
+label_min_max_length: Min - Max längd
+label_list: Lista
+label_date: Datum
+label_integer: Heltal
+label_boolean: Boolean
+label_string: Text
+label_text: Long text
+label_attribute: Attribut
+label_attribute_plural: Attribut
+label_download: %d Nerladdning
+label_download_plural: %d Nerladdningar
+label_no_data: Ingen data att visa
+label_change_status: Ändra status
+label_history: Historia
+label_attachment: Fil
+label_attachment_new: Ny fil
+label_attachment_delete: Ta bort fil
+label_attachment_plural: Filer
+label_report: Rapport
+label_report_plural: Rapporter
+label_news: Nyhet
+label_news_new: Lägg till nyhet
+label_news_plural: Nyheter
+label_news_latest: Senaste neheten
+label_news_view_all: Visa alla nyheter
+label_change_log: Ändringslogg
+label_settings: Inställningar
+label_overview: Överblick
+label_version: Version
+label_version_new: Ny version
+label_version_plural: Versioner
+label_confirmation: Bekräftelse
+label_export_to: Exportera till
+label_read: Läs...
+label_public_projects: Offentligt projekt
+label_open_issues: öppen
+label_open_issues_plural: öppna
+label_closed_issues: stängd
+label_closed_issues_plural: stängda
+label_total: Total
+label_permissions: Rättigheter
+label_current_status: Nuvarande status
+label_new_statuses_allowed: Nya statusar tillåtna
+label_all: alla
+label_none: inga
+label_next: Nästa
+label_previous: Föregående
+label_used_by: Använd av
+label_details: Detaljer...
+label_add_note: Lägg till anteckning
+label_per_page: Per sida
+label_calendar: Kalender
+label_months_from: månader från
+label_gantt: Gantt
+label_internal: Intern
+label_last_changes: senaste %d ändringar
+label_change_view_all: Visa alla ändringar
+label_personalize_page: Anpassa denna sida
+label_comment: Kommentar
+label_comment_plural: Kommentarer
+label_comment_add: Lägg till kommentar
+label_comment_added: Kommentar tillagd
+label_comment_delete: Ta bort kommentar
+label_query: Användardefinerad fråga
+label_query_plural: Användardefinerade frågor
+label_query_new: Ny fråga
+label_filter_add: Lägg till filter
+label_filter_plural: Filter
+label_equals: är
+label_not_equals: är inte
+label_in_less_than: i mindre än
+label_in_more_than: i mer än
+label_in: i
+label_today: idag
+label_less_than_ago: mindre än dagar sedan
+label_more_than_ago: mer än dagar sedan
+label_ago: dagar sedan
+label_contains: innehåller
+label_not_contains: innehåller inte
+label_day_plural: dagar
+label_repository: SVN Repositorie
+label_browse: Bläddra
+label_modification: %d ändring
+label_modification_plural: %d ändringar
+label_revision: Revision
+label_revision_plural: Revisioner
+label_added: tillagd
+label_modified: modifierad
+label_deleted: borttagen
+label_latest_revision: Senaste revisionen
+label_latest_revision_plural: Senaste revisionerna
+label_view_revisions: Visa revisioner
+label_max_size: Maximumstorlek
+label_on: 'på'
+label_sort_highest: Flytta till top
+label_sort_higher: Flytta up
+label_sort_lower: Flytta ner
+label_sort_lowest: Flytta till botten
+label_roadmap: Roadmap
+label_roadmap_due_in: Färdig om
+label_roadmap_no_issues: Inga brister för denna version
+label_search: Sök
+label_result: %d resultat
+label_result_plural: %d resultat
+label_all_words: Alla ord
+label_wiki: Wiki
+label_wiki_edit: Wiki editera
+label_wiki_edit_plural: Wiki editeringar
+label_page_index: Index
+label_current_version: Nuvarande version
+label_preview: Preview
+label_feed_plural: Feeder
+label_changes_details: Detaljer om alla ändringar
+label_issue_tracking: Bristspårning
+label_spent_time: Spenderad tid
+label_f_hour: %.2f timmar
+label_f_hour_plural: %.2f timmar
+label_time_tracking: Tidsspårning
+label_change_plural: Ändringar
+label_statistics: Statistik
+label_commits_per_month: Commit per månad
+label_commits_per_author: Commit per författare
+label_view_diff: Visa skillnader
+label_diff_inline: inline
+label_diff_side_by_side: sida vid sida
+label_options: Inställningar
+label_copy_workflow_from: Kopiera workflow från
+label_permissions_report: Rättighetsrapport
+label_watched_issues: Watched issues
+label_related_issues: Related issues
+label_applied_status: Applied status
+label_loading: Loading...
+label_relation_new: New relation
+label_relation_delete: Delete relation
+label_relates_to: related to
+label_duplicates: duplicates
+label_blocks: blocks
+label_blocked_by: blocked by
+label_precedes: precedes
+label_follows: follows
+label_end_to_start: start to end
+label_end_to_end: end to end
+label_start_to_start: start to start
+label_start_to_end: start to end
+label_stay_logged_in: Stay logged in
+label_disabled: disabled
+label_show_completed_versions: Show completed versions
+label_me: me
+label_board: Forum
+label_board_new: New forum
+label_board_plural: Forums
+label_topic_plural: Topics
+label_message_plural: Messages
+label_message_last: Last message
+label_message_new: New message
+label_reply_plural: Replies
+label_send_information: Send account information to the user
+
+button_login: Logga in
+button_submit: Skicka
+button_save: Spara
+button_check_all: Markera alla
+button_uncheck_all: Avmarkera alla
+button_delete: Ta bort
+button_create: Skapa
+button_test: Testa
+button_edit: Editera
+button_add: Lägg till
+button_change: Ändra
+button_apply: Värkställ
+button_clear: Rensa
+button_lock: Lås
+button_unlock: Lås upp
+button_download: Ladda ner
+button_list: Lista
+button_view: Visa
+button_move: Flytta
+button_back: Tillbaka
+button_cancel: Avbryt
+button_activate: Aktivera
+button_sort: Sortera
+button_log_time: Logga tid
+button_rollback: Rulla tillbaka till denna version
+button_watch: Watch
+button_unwatch: Unwatch
+button_reply: Reply
+button_archive: Archive
+button_unarchive: Unarchive
+
+status_active: activ
+status_registered: registrerad
+status_locked: låst
+
+text_select_mail_notifications: Väl action för vilka email ska skickas.
+text_regexp_info: eg. ^[A-Z0-9]+$
+text_min_max_length_info: 0 betyder ingen gräns
+text_project_destroy_confirmation: Är du säker på att du vill ta bort detta projekt och all relaterad data?
+text_workflow_edit: Väl en roll och en tracker för att editera workflow.
+text_are_you_sure: Är du säker?
+text_journal_changed: ändrad från %s till %s
+text_journal_set_to: satt till %s
+text_journal_deleted: borttagen
+text_tip_task_begin_day: arbetsuppgift börjar denna dag
+text_tip_task_end_day: arbetsuppgift slutar denna dag
+text_tip_task_begin_end_day: arbetsuppgift börjar och slutar denna dag
+text_project_identifier_info: 'Små bokstäver (a-z), siffror och streck tillåtna.<br />När den är sparad kan identifieraren inte ändras.'
+text_caracters_maximum: %d tecken maximum.
+text_length_between: Längd mellan %d och %d tecken.
+text_tracker_no_workflow: Inget workflow definerat för denna tracker
+text_unallowed_characters: Unallowed characters
+text_comma_separated: Multiple values allowed (comma separated).
+text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+
+default_role_manager: Förvaltare
+default_role_developper: Utvecklare
+default_role_reporter: Rapporterare
+default_tracker_bug: Bugg
+default_tracker_feature: Finess
+default_tracker_support: Support
+default_issue_status_new: Ny
+default_issue_status_assigned: Tilldelad
+default_issue_status_resolved: Löst
+default_issue_status_feedback: Feedback
+default_issue_status_closed: Stängd
+default_issue_status_rejected: Avslagen
+default_doc_category_user: Användardokumentation
+default_doc_category_tech: Teknisk dokumentation
+default_priority_low: Låg
+default_priority_normal: Normal
+default_priority_high: Hög
+default_priority_urgent: Bråttom
+default_priority_immediate: Omedelbar
+default_activity_design: Design
+default_activity_development: Utveckling
+
+enumeration_issue_priorities: Bristprioriteringar
+enumeration_doc_categories: Dokumentkategorier
+enumeration_activities: Aktiviteter (tidsspårning)
