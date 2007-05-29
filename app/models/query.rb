@@ -208,19 +208,19 @@ class Query < ActiveRecord::Base
       when "c"
         sql = sql + "#{IssueStatus.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
       when ">t-"
-        sql = sql + "#{db_table}.#{db_field} >= '%s'" % connection.quoted_date(Date.today - v.first.to_i)
+        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date((Date.today - v.first.to_i).to_time), connection.quoted_date((Date.today + 1).to_time)]
       when "<t-"
-        sql = sql + "#{db_table}.#{db_field} BETWEEN '#{connection.quoted_date(Date.new(0))}' AND '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} <= '%s'" % connection.quoted_date((Date.today - v.first.to_i).to_time)
       when "t-"
-        sql = sql + "#{db_table}.#{db_field} = '" + (Date.today - v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date((Date.today - v.first.to_i).to_time), connection.quoted_date((Date.today - v.first.to_i + 1).to_time)]
       when ">t+"
-        sql = sql + "#{db_table}.#{db_field} >= '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} >= '%s'" % connection.quoted_date((Date.today + v.first.to_i).to_time)
       when "<t+"
-        sql = sql + "#{db_table}.#{db_field} BETWEEN '#{connection.quoted_date(Date.new(0))}' AND '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(Date.today.to_time), connection.quoted_date((Date.today + v.first.to_i + 1).to_time)]
       when "t+"
-        sql = sql + "#{db_table}.#{db_field} = '" + (Date.today + v.first.to_i).strftime("%Y-%m-%d") + "'"
+        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date((Date.today + v.first.to_i).to_time), connection.quoted_date((Date.today + v.first.to_i + 1).to_time)]
       when "t"
-        sql = sql + "#{db_table}.#{db_field} = '%s'" % connection.quoted_date(Date.today)
+        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(Date.today.to_time), connection.quoted_date((Date.today+1).to_time)]
       when "~"
         sql = sql + "#{db_table}.#{db_field} LIKE '%#{connection.quote_string(v.first)}%'"
       when "!~"
