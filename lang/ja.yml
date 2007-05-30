@@ -34,8 +34,8 @@ activerecord_error_taken: はすでに登録されています
 activerecord_error_not_a_number: が数字ではありません
 activerecord_error_not_a_date: の日付が間違っています
 activerecord_error_greater_than_start_date: を開始日より後にしてください
-activerecord_error_not_same_project: doesn't belong to the same project
-activerecord_error_circular_dependency: This relation would create a circular dependency
+activerecord_error_not_same_project: 同じプロジェクトに属していません
+activerecord_error_circular_dependency: この関係では、循環依存になります
 
 general_fmt_age: %d歳
 general_fmt_age_plural: %d歳
@@ -69,13 +69,13 @@ notice_successful_connection: 接続しました。
 notice_file_not_found: アクセスしようとしたページは存在しないか削除されています。
 notice_locking_conflict: 別のユーザがデータを更新しています。
 notice_scm_error: リポジトリに、エントリ/リビジョンが存在しません。
-notice_not_authorized: You are not authorized to access this page.
+notice_not_authorized: このページにアクセスするには認証が必要です。
 
-mail_subject_lost_password: redMine パスワード
-mail_subject_register: redMine アカウントが有効になりました
+mail_subject_lost_password: redMineパスワード
+mail_subject_register: redMineアカウントが有効になりました
 
-gui_validation_error: 1 件のエラー
-gui_validation_error_plural: %d 件のエラー
+gui_validation_error: 1件のエラー
+gui_validation_error_plural: %d件のエラー
 
 field_name: 名前
 field_description: 説明
@@ -151,9 +151,9 @@ field_hours: 時間
 field_activity: 活動
 field_spent_on: 日付
 field_identifier: 識別子
-field_is_filter: Used as a filter
-field_issue_to_id: Related issue
-field_delay: Delay
+field_is_filter: フィルタとして使う
+field_issue_to_id: 関連する問題
+field_delay: 遅延
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -166,13 +166,13 @@ setting_issues_export_limit: 出力する問題数の上限
 setting_mail_from: 送信元メールアドレス
 setting_host_name: ホスト名
 setting_text_formatting: テキストの書式
-setting_wiki_compression:  Wiki履歴を圧縮する
+setting_wiki_compression: Wiki履歴を圧縮する
 setting_feeds_limit: フィード内容の上限
 setting_autofetch_changesets: SVNコミットを自動取得する
 setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効化する
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
-setting_autologin: Autologin
+setting_commit_ref_keywords: 参照用キーワード
+setting_commit_fix_keywords: 修正用キーワード
+setting_autologin: 自動ログイン
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -180,7 +180,7 @@ label_user_new: 新しいユーザ
 label_project: プロジェクト
 label_project_new: 新しいプロジェクト
 label_project_plural: プロジェクト
-label_project_all: All Projects
+label_project_all: 全プロジェクト
 label_project_latest: 最近のプロジェクト
 label_issue: 問題
 label_issue_new: 新しい問題
@@ -227,8 +227,8 @@ label_help: ヘルプ
 label_reported_issues: 報告した問題
 label_assigned_to_me_issues: 担当している問題
 label_last_login: 最近の接続
-label_last_updates: 最近の更新 1 件
-label_last_updates_plural: 最近の更新 %d 件
+label_last_updates: 最近の更新1件
+label_last_updates_plural: 最近の更新%d件
 label_registered_on: 登録日
 label_activity: 活動
 label_new: 新しく作成
@@ -294,7 +294,7 @@ label_calendar: カレンダー
 label_months_from: ヶ月 from
 label_gantt: ガントチャート
 label_internal: Internal
-label_last_changes: 最新の変更 %d 件
+label_last_changes: 最新の変更%d件
 label_change_view_all: 全ての変更を見る
 label_personalize_page: このページをパーソナライズする
 label_comment: コメント
@@ -321,8 +321,8 @@ label_not_contains: 含まない
 label_day_plural: 日
 label_repository: SVNリポジトリ
 label_browse: ブラウズ
-label_modification: %d 点の変更
-label_modification_plural: %d 点の変更
+label_modification: %d点の変更
+label_modification_plural: %d点の変更
 label_revision: リビジョン
 label_revision_plural: リビジョン
 label_added: 追加
@@ -332,7 +332,7 @@ label_latest_revision: 最新リビジョン
 label_latest_revision_plural: 最新リビジョン
 label_view_revisions: リビジョンを見る
 label_max_size: 最大サイズ
-label_on: 他
+label_on: 合計
 label_sort_highest: 一番上へ
 label_sort_higher: 上へ
 label_sort_lower: 下へ
@@ -341,13 +341,13 @@ label_roadmap: ロードマップ
 label_roadmap_due_in: 期日まで
 label_roadmap_no_issues: このバージョンに向けての問題はありません
 label_search: 検索
-label_result: %d 件の結果
-label_result_plural: %d 件の結果
+label_result: %d件の結果
+label_result_plural: %d件の結果
 label_all_words: すべての単語
 label_wiki: Wiki
 label_wiki_edit: Wiki編集
 label_wiki_edit_plural: Wiki編集
-label_wiki_page_plural: Wiki pages
+label_wiki_page_plural: Wikiページ
 label_page_index: 索引
 label_current_version: 最新版
 label_preview: プレビュー
@@ -368,35 +368,35 @@ label_diff_side_by_side: 横に並べる
 label_options: オプション
 label_copy_workflow_from: ワークフローをここからコピー
 label_permissions_report: 権限レポート
-label_watched_issues: Watched issues
-label_related_issues: Related issues
-label_applied_status: Applied status
-label_loading: Loading...
-label_relation_new: New relation
-label_relation_delete: Delete relation
-label_relates_to: related to
-label_duplicates: duplicates
-label_blocks: blocks
-label_blocked_by: blocked by
-label_precedes: precedes
-label_follows: follows
+label_watched_issues: ウォッチ中の問題
+label_related_issues: 関連する問題
+label_applied_status: 適用されたステータス
+label_loading: ロード中...
+label_relation_new: 新しい関連
+label_relation_delete: 関連の削除
+label_relates_to: 関係している
+label_duplicates: 重複している
+label_blocks: ブロックしている
+label_blocked_by: ブロックされている
+label_precedes: 先行する
+label_follows: 後続する
 label_end_to_start: start to end
 label_end_to_end: end to end
 label_start_to_start: start to start
 label_start_to_end: start to end
-label_stay_logged_in: Stay logged in
-label_disabled: disabled
-label_show_completed_versions: Show completed versions
-label_me: me
-label_board: Forum
-label_board_new: New forum
-label_board_plural: Forums
-label_topic_plural: Topics
-label_message_plural: Messages
-label_message_last: Last message
-label_message_new: New message
-label_reply_plural: Replies
-label_send_information: Send account information to the user
+label_stay_logged_in: ログインを維持
+label_disabled: 無効
+label_show_completed_versions: 完了したバージョンを表示
+label_me: 自分
+label_board: フォーラム
+label_board_new: 新しいフォーラム
+label_board_plural: フォーラム
+label_topic_plural: トピック
+label_message_plural: メッセージ
+label_message_last: 最新のメッセージ
+label_message_new: 新しいメッセージ
+label_reply_plural: 返答
+label_send_information: アカウント情報をユーザに送信
 
 button_login: ログイン
 button_submit: 変更
@@ -423,11 +423,11 @@ button_activate: 有効にする
 button_sort: ソート
 button_log_time: 時間を記録
 button_rollback: このバージョンにロールバック
-button_watch: Watch
-button_unwatch: Unwatch
-button_reply: Reply
-button_archive: Archive
-button_unarchive: Unarchive
+button_watch: ウォッチ
+button_unwatch: ウォッチをやめる
+button_reply: 返答
+button_archive: 書庫に保存
+button_unarchive: 書庫から戻す
 
 status_active: 有効
 status_registered: 登録
@@ -439,8 +439,8 @@ text_min_max_length_info: 0だと無制限になります
 text_project_destroy_confirmation: 本当にこのプロジェクトと関連データを削除したいのですか？
 text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
 text_are_you_sure: 本当に？
-text_journal_changed: %s から %s への変更
-text_journal_set_to: %s にセット
+text_journal_changed: %sから%sに変更
+text_journal_set_to: %sにセット
 text_journal_deleted: 削除
 text_tip_task_begin_day: この日に開始するタスク
 text_tip_task_end_day: この日に終了するタスク
@@ -449,9 +449,9 @@ text_project_identifier_info: '英小文字(a-z)と数字とダッシュ(-)が�
 text_caracters_maximum: 最大 %d 文字です。
 text_length_between: 長さは %d から %d 文字までです。
 text_tracker_no_workflow: このトラッカーにワークフローが定義されていません
-text_unallowed_characters: Unallowed characters
-text_comma_separated: Multiple values allowed (comma separated).
-text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+text_unallowed_characters: 使えない文字です
+text_comma_separated: (カンマで区切った)複数の値が使えます
+text_issues_ref_in_commit_messages: コミットメッセージ内で問題の参照/修正
 
 default_role_manager: 管理者
 default_role_developper: 開発者
