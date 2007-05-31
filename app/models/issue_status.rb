@@ -17,7 +17,7 @@
 
 class IssueStatus < ActiveRecord::Base
   before_destroy :check_integrity  
-  has_many :workflows, :foreign_key => "old_status_id"
+  has_many :workflows, :foreign_key => "old_status_id", :dependent => :delete_all
   acts_as_list
 
   validates_presence_of :name
@@ -47,7 +47,7 @@ class IssueStatus < ActiveRecord::Base
   def find_new_statuses_allowed_to(role, tracker)  
     new_statuses = workflows.find(:all, 
                                    :include => :new_status,
-                                   :conditions => ["role_id=? and tracker_id=?", role.id, tracker.id]).collect{ |w| w.new_status }  if role && tracker
+                                   :conditions => ["role_id=? and tracker_id=?", role.id, tracker.id]).collect{ |w| w.new_status }.compact  if role && tracker
     new_statuses ? new_statuses.sort{|x, y| x.position <=> y.position } : []
   end
   
