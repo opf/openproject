@@ -167,7 +167,7 @@ setting_host_name: Host naam
 setting_text_formatting: Tekst formaat
 setting_wiki_compression: Wiki geschiedenis comprimeren
 setting_feeds_limit: Feed inhoud limiet
-setting_autofetch_changesets: Haal SVN commits automatisch op
+setting_autofetch_changesets: Haal commits automatisch op
 setting_sys_api_enabled: Gebruik WS voor repository beheer
 setting_commit_ref_keywords: Referencing keywords
 setting_commit_fix_keywords: Fixing keywords
@@ -318,7 +318,7 @@ label_ago: dagen geleden
 label_contains: bevat
 label_not_contains: bevat niet
 label_day_plural: dagen
-label_repository: SVN Repository
+label_repository: Repository
 label_browse: Blader
 label_modification: %d wijziging
 label_modification_plural: %d wijzigingen

@@ -167,7 +167,7 @@ setting_host_name: Nom d'hôte
 setting_text_formatting: Formatage du texte
 setting_wiki_compression: Compression historique wiki
 setting_feeds_limit: Limite du contenu des flux RSS
-setting_autofetch_changesets: Récupération auto. des commits SVN
+setting_autofetch_changesets: Récupération auto. des commits
 setting_sys_api_enabled: Activer les WS pour la gestion des dépôts
 setting_commit_ref_keywords: Mot-clés de référencement
 setting_commit_fix_keywords: Mot-clés de résolution
@@ -318,7 +318,7 @@ label_ago: il y a
 label_contains: contient
 label_not_contains: ne contient pas
 label_day_plural: jours
-label_repository: Dépôt SVN
+label_repository: Dépôt
 label_browse: Parcourir
 label_modification: %d modification
 label_modification_plural: %d modifications
@@ -450,7 +450,7 @@ text_length_between: Longueur comprise entre %d et %d caractères.
 text_tracker_no_workflow: Aucun worflow n'est défini pour ce tracker
 text_unallowed_characters: Caractères non autorisés
 text_comma_separated: Plusieurs valeurs possibles (séparées par des virgules).
-text_issues_ref_in_commit_messages: Référencement et résolution des demandes dans les commentaires SVN
+text_issues_ref_in_commit_messages: Référencement et résolution des demandes dans les commentaires de commits
 
 default_role_manager: Manager
 default_role_developper: Développeur

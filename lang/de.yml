@@ -67,7 +67,7 @@ notice_successful_delete: Erfolgreiche Löschung.
 notice_successful_connection: Verbindung erfolgreich.
 notice_file_not_found: Anhang besteht nicht oder ist gelöscht worden.
 notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
-notice_scm_error: Eintrag und/oder Revision besteht nicht im SVN.
+notice_scm_error: Eintrag und/oder Revision besteht nicht im Projektarchiv.
 notice_not_authorized: You are not authorized to access this page.
 
 mail_subject_lost_password: Ihr redMine Kennwort
@@ -167,7 +167,7 @@ setting_host_name: Host Name
 setting_text_formatting: Textformatierung
 setting_wiki_compression: Wiki-Historie komprimieren
 setting_feeds_limit: Limit Feed Inhalt
-setting_autofetch_changesets: Autofetch SVN commits
+setting_autofetch_changesets: Autofetch commits
 setting_sys_api_enabled: Enable WS for repository management
 setting_commit_ref_keywords: Referencing keywords
 setting_commit_fix_keywords: Fixing keywords
@@ -318,7 +318,7 @@ label_ago: vor
 label_contains: enthält
 label_not_contains: enthält nicht
 label_day_plural: Tage
-label_repository: SVN Projektarchiv
+label_repository: Projektarchiv
 label_browse: Codebrowser
 label_modification: %d Änderung
 label_modification_plural: %d Änderungen

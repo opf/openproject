@@ -170,7 +170,7 @@ setting_host_name: 主机名称
 setting_text_formatting: 文本格式
 setting_wiki_compression: Wiki history compression
 setting_feeds_limit: Feed content limit
-setting_autofetch_changesets: Autofetch SVN commits
+setting_autofetch_changesets: Autofetch commits
 setting_sys_api_enabled: Enable WS for repository management
 setting_commit_ref_keywords: Referencing keywords
 setting_commit_fix_keywords: Fixing keywords
@@ -321,7 +321,7 @@ label_ago: 之前天数
 label_contains: 包含
 label_not_contains: 不包含
 label_day_plural: 天数
-label_repository: SVN 版本库
+label_repository: 版本库
 label_browse: 浏览
 label_modification: %d 个更新
 label_modification_plural: %d 个更新

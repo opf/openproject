@@ -7,7 +7,9 @@
 
 <h2><%= l(:label_revision) %> <%= @changeset.revision %></h2>
 
-<p><em><%= @changeset.committer %>, <%= format_time(@changeset.committed_on) %></em></p>
+<p><% if @changeset.scmid %>ID: <%= @changeset.scmid %><br /><% end %>
+<em><%= @changeset.committer %>, <%= format_time(@changeset.committed_on) %></em></p>
+
 <%= textilizable @changeset.comments %>
 
 <% if @changeset.issues.any? %>
@@ -30,7 +32,7 @@
 <tbody>
 <% @changes.each do |change| %>
 <tr class="<%= cycle 'odd', 'even' %>">
-<td><div class="square action_<%= change.action %>"></div> <%= change.path %></td>
+<td><div class="square action_<%= change.action %>"></div> <%= change.path %> <%= "(#{change.revision})" unless change.revision.blank?  %></td>
 <td align="right">
 <% if change.action == "M" %>
 <%= link_to l(:label_view_diff), :action => 'diff', :id => @project, :path => change.path, :rev => @changeset.revision %>

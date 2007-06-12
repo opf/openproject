@@ -1,0 +1,13 @@
+<h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => (@entry ? @entry.kind : nil), :revision => @rev } %></h2>
+
+<h3><%=h @entry.name %></h3>
+
+<p>
+<% if @entry.is_text? %>
+<%= link_to l(:button_view), {:action => 'entry', :id => @project, :path => @path, :rev => @rev } %> |
+<% end %>
+<%= link_to l(:button_download), {:action => 'entry', :id => @project, :path => @path, :rev => @rev, :format => 'raw' } %>
+<%= "(#{number_to_human_size(@entry.size)})" if @entry.size %>
+</p>
+
+<%= render :partial => 'revisions', :locals => {:project => @project, :path => @path, :revisions => @changes, :entry => @entry }%>

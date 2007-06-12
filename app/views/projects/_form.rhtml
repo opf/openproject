@@ -27,17 +27,17 @@
 <!--[eoform:project]-->
 </div>
 
-<div class="box"><h3><%= check_box_tag "repository_enabled", 1, !@project.repository.nil?, :onclick => "Element.toggle('repository');" %> <%= l(:label_repository) %></h3>
-<%= hidden_field_tag "repository_enabled", 0 %>
-<div id="repository">
-<% fields_for :repository, @project.repository, { :builder => TabularFormBuilder, :lang => current_language} do |repository| %>
-<p><%= repository.text_field :url, :size => 60, :required => true, :disabled => (@project.repository && !@project.repository.root_url.blank?) %><br />(http://, https://, svn://, file:///)</p>
-<p><%= repository.text_field :login, :size => 30 %></p>
-<p><%= repository.password_field :password, :size => 30 %></p>
-<% end %>
+<div class="box">
+    <h3><%= check_box_tag "repository_enabled", 1, !@project.repository.nil?, :onclick => "Element.toggle('repository');" %> <%= l(:label_repository) %></h3>
+    <%= hidden_field_tag "repository_enabled", 0 %>    
+    <div id="repository">
+    <p class="tabular"><label>SCM</label><%= scm_select_tag %></p>
+    <div id="repository_fields">
+    <%= render :partial => 'projects/repository', :locals => {:repository => @project.repository} if @project.repository %>
+    </div>
+    </div>
 </div>
 <%= javascript_tag "Element.hide('repository');" if @project.repository.nil? %>
-</div>
 
 <div class="box">
 <h3><%= check_box_tag "wiki_enabled", 1, !@project.wiki.nil?, :onclick => "Element.toggle('wiki');" %> <%= l(:label_wiki) %></h3>

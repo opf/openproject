@@ -5,7 +5,8 @@ if 'file' == kind
     filename = dirs.pop
 end
 link_path = ''
-dirs.each do |dir| 
+dirs.each do |dir|
+    next if dir.blank?
     link_path << '/' unless link_path.empty?
     link_path << "#{dir}" 
     %>

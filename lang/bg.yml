@@ -167,8 +167,8 @@ setting_host_name: Хост
 setting_text_formatting: Форматиране на текста
 setting_wiki_compression: Wiki компресиране на историята
 setting_feeds_limit: Лимит на Feeds
-setting_autofetch_changesets: Автоматично обработване на commits в SVN склада
-setting_sys_api_enabled: Разрешаване на WS за управление на SVN склада
+setting_autofetch_changesets: Автоматично обработване на commits в склада
+setting_sys_api_enabled: Разрешаване на WS за управление на склада
 setting_commit_ref_keywords: Отбелязващи ключови думи
 setting_commit_fix_keywords: Приключващи ключови думи
 setting_autologin: Autologin
@@ -318,7 +318,7 @@ label_ago: преди дни
 label_contains: съдържа
 label_not_contains: не съдържа
 label_day_plural: дни
-label_repository: SVN Склад
+label_repository: Склад
 label_browse: Разглеждане
 label_modification: %d промяна
 label_modification_plural: %d промени

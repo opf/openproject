@@ -167,7 +167,7 @@ setting_host_name: Servidor
 setting_text_formatting: Formato do texto
 setting_wiki_compression: Compactacao do historio do Wiki
 setting_feeds_limit: Limite do Feed
-setting_autofetch_changesets: Autofetch SVN commits
+setting_autofetch_changesets: Autofetch commits
 setting_sys_api_enabled: Ativa WS para gerenciamento do repositorio
 setting_commit_ref_keywords: Referencing keywords
 setting_commit_fix_keywords: Fixing keywords
@@ -318,7 +318,7 @@ label_ago: dias atras
 label_contains: contem
 label_not_contains: nao contem
 label_day_plural: dias
-label_repository: SVN Repository
+label_repository: Repository
 label_browse: Browse
 label_modification: %d change
 label_modification_plural: %d changes

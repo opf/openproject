@@ -21,42 +21,42 @@ require 'digest/sha1'
 
 class RepositoriesController < ApplicationController
   layout 'base'
-  before_filter :find_project
-  before_filter :authorize, :except => [:stats, :graph]
+  before_filter :find_project, :except => [:update_form]
+  before_filter :authorize, :except => [:update_form, :stats, :graph]
   before_filter :check_project_privacy, :only => [:stats, :graph]
   
   def show
-    # get entries for the browse frame
-    @entries = @repository.scm.entries('')
-    show_error and return unless @entries
     # check if new revisions have been committed in the repository
-    scm_latestrev = @entries.revisions.latest
-    if Setting.autofetch_changesets? && scm_latestrev && ((@repository.latest_changeset.nil?) || (@repository.latest_changeset.revision < scm_latestrev.identifier.to_i))
-      @repository.fetch_changesets
-      @repository.reload
-    end
-    @changesets = @repository.changesets.find(:all, :limit => 5, :order => "committed_on DESC")
+    @repository.fetch_changesets if Setting.autofetch_changesets?
+    # get entries for the browse frame
+    @entries = @repository.entries('')
+    show_error and return unless @entries
+    # latest changesets
+    @changesets = @repository.changesets.find(:all, :limit => 10, :order => "committed_on DESC")
   end
   
   def browse
-    @entries = @repository.scm.entries(@path, @rev)
-    show_error and return unless @entries
+    @entries = @repository.entries(@path, @rev)
+    show_error and return unless @entries    
+  end
+  
+  def changes
+    @entry = @repository.scm.entry(@path, @rev)
+    show_error and return unless @entry
+    @changes = Change.find(:all, :include => :changeset, 
+                                 :conditions => ["repository_id = ? AND path = ?", @repository.id, @path.with_leading_slash],
+                                 :order => "committed_on DESC")
   end
   
   def revisions
-    unless @path == ''
-      @entry = @repository.scm.entry(@path, @rev)  
-      show_error and return unless @entry
-    end
-    @repository.changesets_with_path @path do
-      @changeset_count = @repository.changesets.count(:select => "DISTINCT #{Changeset.table_name}.id")
-      @changeset_pages = Paginator.new self, @changeset_count,
-  								      25,
-  								      params['page']								
-      @changesets = @repository.changesets.find(:all,
-  						:limit  =>  @changeset_pages.items_per_page,
-  						:offset =>  @changeset_pages.current.offset)
-    end
+    @changeset_count = @repository.changesets.count
+    @changeset_pages = Paginator.new self, @changeset_count,
+								      25,
+								      params['page']								
+    @changesets = @repository.changesets.find(:all,
+						:limit  =>  @changeset_pages.items_per_page,
+						:offset =>  @changeset_pages.current.offset)
+
     render :action => "revisions", :layout => false if request.xhr?
   end
   
@@ -81,12 +81,12 @@ class RepositoriesController < ApplicationController
   end
   
   def diff
-    @rev_to = (params[:rev_to] && params[:rev_to].to_i > 0) ? params[:rev_to].to_i : (@rev - 1)
+    @rev_to = params[:rev_to] ? params[:rev_to].to_i : (@rev - 1)
     @diff_type = ('sbs' == params[:type]) ? 'sbs' : 'inline'
     
     @cache_key = "repositories/diff/#{@repository.id}/" + Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")    
     unless read_fragment(@cache_key)
-      @diff = @repository.scm.diff(@path, @rev, @rev_to, type)
+      @diff = @repository.diff(@path, @rev, @rev_to, type)
       show_error and return unless @diff
     end
   end
@@ -110,6 +110,11 @@ class RepositoriesController < ApplicationController
     end
   end
   
+  def update_form
+    @repository = Repository.factory(params[:repository_scm])
+    render :partial => 'projects/repository', :locals => {:repository => @repository}
+  end
+  
 private
   def find_project
     @project = Project.find(params[:id])
@@ -117,7 +122,7 @@ private
     render_404 and return false unless @repository
     @path = params[:path].squeeze('/') if params[:path]
     @path ||= ''
-    @rev = params[:rev].to_i if params[:rev] and params[:rev].to_i > 0
+    @rev = params[:rev].to_i if params[:rev]
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -216,5 +221,11 @@ class Date
 
   def weeks_ago(date = Date.today)
     (date.year - self.year)*52 + (date.cweek - self.cweek)
+  end
+end
+
+class String
+  def with_leading_slash
+    starts_with?('/') ? self : "/#{self}"
   end
 end

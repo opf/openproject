@@ -2,14 +2,16 @@
 <%= link_to l(:label_statistics), {:action => 'stats', :id => @project}, :class => 'icon icon-stats' %>
 </div>
 
-<h2><%= l(:label_repository) %></h2>
+<h2><%= l(:label_repository) %> (<%= @repository.scm_name %>)</h2>
 
+<% unless @entries.nil? %>
 <h3><%= l(:label_browse) %></h3>
 <%= render :partial => 'dir_list' %>
+<% end %>
 
 <% unless @changesets.empty? %>
 <h3><%= l(:label_latest_revision_plural) %></h3>
-<%= render :partial => 'revisions', :locals => {:project => @project, :path => '', :changesets => @changesets, :entry => nil }%>
+<%= render :partial => 'revisions', :locals => {:project => @project, :path => '', :revisions => @changesets, :entry => nil }%>
 <p><%= link_to l(:label_view_revisions), :action => 'revisions', :id => @project %></p>
 <% end %>
 

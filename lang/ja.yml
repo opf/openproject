@@ -168,7 +168,7 @@ setting_host_name: ホスト名
 setting_text_formatting: テキストの書式
 setting_wiki_compression: Wiki履歴を圧縮する
 setting_feeds_limit: フィード内容の上限
-setting_autofetch_changesets: SVNコミットを自動取得する
+setting_autofetch_changesets: コミットを自動取得する
 setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効化する
 setting_commit_ref_keywords: 参照用キーワード
 setting_commit_fix_keywords: 修正用キーワード
@@ -319,7 +319,7 @@ label_ago: 日前
 label_contains: 含む
 label_not_contains: 含まない
 label_day_plural: 日
-label_repository: SVNリポジトリ
+label_repository: リポジトリ
 label_browse: ブラウズ
 label_modification: %d点の変更
 label_modification_plural: %d点の変更

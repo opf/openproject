@@ -167,7 +167,7 @@ setting_host_name: Nombre de anfitrión
 setting_text_formatting: Formato de texto
 setting_wiki_compression: Compresión de la historia de Wiki
 setting_feeds_limit: Feed content limit
-setting_autofetch_changesets: Autofetch SVN commits
+setting_autofetch_changesets: Autofetch commits
 setting_sys_api_enabled: Enable WS for repository management
 setting_commit_ref_keywords: Referencing keywords
 setting_commit_fix_keywords: Fixing keywords
@@ -318,7 +318,7 @@ label_ago: hace
 label_contains: contiene 
 label_not_contains: no contiene
 label_day_plural: días
-label_repository: Depósito SVN
+label_repository: Depósito
 label_browse: Hojear
 label_modification: %d modificación
 label_modification_plural: %d modificaciones

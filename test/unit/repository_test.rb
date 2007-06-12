@@ -25,7 +25,7 @@ class RepositoryTest < Test::Unit::TestCase
   end
   
   def test_create
-    repository = Repository.new(:project => Project.find(2))
+    repository = Repository::Subversion.new(:project => Project.find(2))
     assert !repository.save
   
     repository.url = "svn://localhost"
@@ -34,12 +34,6 @@ class RepositoryTest < Test::Unit::TestCase
     
     project = Project.find(2)
     assert_equal repository, project.repository
-  end
-
-  def test_cant_change_url
-    url = @repository.url
-    @repository.url = "svn://anotherhost"
-    assert_equal  url, @repository.url
   end
   
   def test_scan_changesets_for_issue_ids
@@ -58,13 +52,5 @@ class RepositoryTest < Test::Unit::TestCase
     
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets
-  end
-  
-  def test_changesets_with_path
-    @repository.changesets_with_path '/some/path' do
-      assert_equal 1, @repository.changesets.count(:select => "DISTINCT #{Changeset.table_name}.id")
-      changesets = @repository.changesets.find(:all)
-      assert_equal 1, changesets.size
-    end
   end
 end

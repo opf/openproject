@@ -17,70 +17,31 @@
 
 class Repository < ActiveRecord::Base
   belongs_to :project
-  has_many :changesets, :dependent => :destroy, :order => 'revision DESC'
+  has_many :changesets, :dependent => :destroy, :order => "#{Changeset.table_name}.revision DESC"
   has_many :changes, :through => :changesets
-  has_one  :latest_changeset, :class_name => 'Changeset', :foreign_key => :repository_id, :order => 'revision DESC'
-  
-  attr_protected :root_url
-  
-  validates_presence_of :url
-  validates_format_of :url, :with => /^(http|https|svn|file):\/\/.+/i
     
   def scm
-    @scm ||= SvnRepos::Base.new url, root_url, login, password
+    @scm ||= self.scm_adapter.new url, root_url, login, password
     update_attribute(:root_url, @scm.root_url) if root_url.blank?
     @scm
   end
   
-  def url=(str)
-    super if root_url.blank?
+  def scm_name
+    self.class.scm_name
   end
   
-  def changesets_with_path(path="")
-    path = "/#{path}%"
-    path = url.gsub(/^#{root_url}/, '') + path if root_url && root_url != url
-    path.squeeze!("/")
-    # Custom select and joins is done to allow conditions on changes table without loading associated Change objects
-    # Required for changesets with a great number of changes (eg. 100,000)
-    Changeset.with_scope(:find => { :select => "DISTINCT #{Changeset.table_name}.*", :joins => "LEFT OUTER JOIN #{Change.table_name} ON #{Change.table_name}.changeset_id = #{Changeset.table_name}.id", :conditions => ["#{Change.table_name}.path LIKE ?", path] }) do 
-      yield
-    end 
+  def entries(path=nil, identifier=nil)
+    scm.entries(path, identifier)
   end
   
-  def fetch_changesets
-    scm_info = scm.info
-    if scm_info
-      lastrev_identifier = scm_info.lastrev.identifier.to_i
-      if latest_changeset.nil? || latest_changeset.revision < lastrev_identifier
-        logger.debug "Fetching changesets for repository #{url}" if logger && logger.debug?
-        identifier_from = latest_changeset ? latest_changeset.revision + 1 : 1
-        while (identifier_from <= lastrev_identifier)
-          # loads changesets by batches of 200
-          identifier_to = [identifier_from + 199, lastrev_identifier].min
-          revisions = scm.revisions('', identifier_to, identifier_from, :with_paths => true)
-          transaction do
-            revisions.reverse_each do |revision|
-              changeset = Changeset.create(:repository => self,
-                                           :revision => revision.identifier, 
-                                           :committer => revision.author, 
-                                           :committed_on => revision.time,
-                                           :comments => revision.message)
-              
-              revision.paths.each do |change|
-                Change.create(:changeset => changeset,
-                              :action => change[:action],
-                              :path => change[:path],
-                              :from_path => change[:from_path],
-                              :from_revision => change[:from_revision])
-              end
-            end
-          end unless revisions.nil?
-          identifier_from = identifier_to + 1
-        end
-      end
-    end
+  def diff(path, rev, rev_to, type)
+    scm.diff(path, rev, rev_to, type)
   end
   
+  def latest_changeset
+    @latest_changeset ||= changesets.find(:first)
+  end
+    
   def scan_changesets_for_issue_ids
     self.changesets.each(&:scan_comment_for_issue_ids)
   end
@@ -95,5 +56,20 @@ class Repository < ActiveRecord::Base
   # scan changeset comments to find related and fixed issues for all repositories
   def self.scan_changesets_for_issue_ids
     find(:all).each(&:scan_changesets_for_issue_ids)
+  end
+
+  def self.scm_name
+    'Abstract'
+  end
+  
+  def self.available_scm
+    subclasses.collect {|klass| [klass.scm_name, klass.name]}
+  end
+  
+  def self.factory(klass_name, *args)
+    klass = "Repository::#{klass_name}".constantize
+    klass.new(*args)
+  rescue
+    nil
   end
 end

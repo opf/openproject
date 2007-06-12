@@ -167,7 +167,7 @@ setting_host_name: Värddatornamn
 setting_text_formatting: Textformattering
 setting_wiki_compression: Wiki historiekomprimering
 setting_feeds_limit: Feed innehållsgräns
-setting_autofetch_changesets: Automatisk hämtning av SVN commits
+setting_autofetch_changesets: Automatisk hämtning av commits
 setting_sys_api_enabled: Aktivera WS för repository management
 setting_commit_ref_keywords: Referencing keywords
 setting_commit_fix_keywords: Fixing keywords
@@ -318,7 +318,7 @@ label_ago: dagar sedan
 label_contains: innehåller
 label_not_contains: innehåller inte
 label_day_plural: dagar
-label_repository: SVN Repositorie
+label_repository: Repositorie
 label_browse: Bläddra
 label_modification: %d ändring
 label_modification_plural: %d ändringar

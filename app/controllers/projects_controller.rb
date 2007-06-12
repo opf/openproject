@@ -35,6 +35,8 @@ class ProjectsController < ApplicationController
   helper IssuesHelper
   helper :queries
   include QueriesHelper
+  helper :repositories
+  include RepositoriesHelper
   
   def index
     list
@@ -70,7 +72,7 @@ class ProjectsController < ApplicationController
       @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
       @project.custom_values = @custom_values			
       if params[:repository_enabled] && params[:repository_enabled] == "1"
-        @project.repository = Repository.new
+        @project.repository = Repository.factory(params[:repository_scm])
         @project.repository.attributes = params[:repository]
       end
       if "1" == params[:wiki_enabled]
@@ -116,8 +118,8 @@ class ProjectsController < ApplicationController
         when "0"
           @project.repository = nil
         when "1"
-          @project.repository ||= Repository.new
-          @project.repository.update_attributes params[:repository]
+          @project.repository ||= Repository.factory(params[:repository_scm])
+          @project.repository.update_attributes params[:repository] if @project.repository
         end
       end
       if params[:wiki_enabled]
