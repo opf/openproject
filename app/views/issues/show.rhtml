@@ -27,7 +27,7 @@
     <td><b><%=l(:field_done_ratio)%> :</b></td><td><%= @issue.done_ratio %> %</td>
 </tr>
 <tr>
-    <td><b><%=l(:field_fixed_version)%> :</b></td><td><%= @issue.fixed_version ? @issue.fixed_version.name : "-" %></td>
+    <td><b><%=l(:field_fixed_version)%> :</b></td><td><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
     <td><b><%=l(:label_spent_time)%> :</b></td>
     <td><%= @issue.spent_hours > 0 ? (link_to lwr(:label_f_hour, @issue.spent_hours), {:controller => 'timelog', :action => 'details', :issue_id => @issue}, :class => 'icon icon-time') : "-" %></td>
 </tr>
