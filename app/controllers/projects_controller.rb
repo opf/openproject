@@ -231,6 +231,11 @@ class ProjectsController < ApplicationController
     @priorities = Enumeration::get_values('IPRI')
     
     default_status = IssueStatus.default
+    unless default_status
+      flash.now[:notice] = 'No default issue status defined. Please check your configuration.'
+      render :nothing => true, :layout => true
+      return
+    end
     @issue = Issue.new(:project => @project, :tracker => @tracker)    
     @issue.status = default_status
     @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker))if logged_in_user
