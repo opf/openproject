@@ -346,6 +346,7 @@ label_all_words: Tous les mots
 label_wiki: Wiki
 label_wiki_edit: Révision wiki
 label_wiki_edit_plural: Révisions wiki
+label_wiki_page: Page wiki
 label_wiki_page_plural: Pages wiki
 label_page_index: Index
 label_current_version: Version actuelle

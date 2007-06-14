@@ -141,6 +141,7 @@ private
   def find_wiki
     @project = Project.find(params[:id])
     @wiki = @project.wiki
+    render_404 unless @wiki
   rescue ActiveRecord::RecordNotFound
     render_404
   end

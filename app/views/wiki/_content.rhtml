@@ -1,0 +1,5 @@
+<div class="wiki">
+  <% cache "wiki/show/#{content.page.id}/#{content.version}" do %>
+    <%= textilizable content.text, :attachments => content.page.attachments %>
+  <% end %>
+</div>

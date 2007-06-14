@@ -37,6 +37,13 @@ class Version < ActiveRecord::Base
     effective_date && effective_date <= Date.today
   end
   
+  def wiki_page
+    if project.wiki && !wiki_page_title.blank?
+      @wiki_page ||= project.wiki.find_page(wiki_page_title)
+    end
+    @wiki_page
+  end
+  
   # Versions are sorted by effective_date 
   # Those with no effective_date are at the end, sorted by name
   def <=>(version)

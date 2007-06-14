@@ -19,11 +19,7 @@
     <hr />
 <% end %>
 
-<div class="wiki">
-<% cache "wiki/show/#{@page.id}/#{@content.version}" do %>
-<%= textilizable @content.text, :attachments => @page.attachments %>
-<% end %>
-</div>
+<%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
 <%= link_to_attachments @page.attachments, :delete_url => (authorize_for('wiki', 'destroy_attachment') ? {:controller => 'wiki', :action => 'destroy_attachment', :page => @page.title} : nil) %>
 
