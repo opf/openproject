@@ -125,8 +125,15 @@ class User < ActiveRecord::Base
   end
   
   def role_for_project(project)
+    return nil unless project
     member = memberships.detect {|m| m.project_id == project.id}
     member ? member.role : nil 
+  end
+  
+  def authorized_to(project, action)
+    return true if self.admin?
+    role = role_for_project(project)
+    role && Permission.allowed_to_role(action, role)
   end
   
   def pref

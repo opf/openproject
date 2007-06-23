@@ -57,7 +57,6 @@ class Query < ActiveRecord::Base
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
-    self.is_public = true
   end
   
   def executed_by=(user)
@@ -73,6 +72,12 @@ class Query < ActiveRecord::Base
           # filter doesn't require any value
           ["o", "c", "!*", "*", "t"].include? operator_for(field)
     end if filters
+  end
+  
+  def editable_by?(user)
+    return false unless user
+    return true if !is_public && self.user_id == user.id
+    is_public && user.authorized_to(project, "projects/add_query")
   end
   
   def available_filters

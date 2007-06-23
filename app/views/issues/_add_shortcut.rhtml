@@ -1,5 +1,0 @@
-<% if authorize_for('projects', 'add_issue') %>
-<% form_tag({ :controller => 'projects', :action => 'add_issue', :id => @project }, :method => 'get') do %>
-<%= l(:label_issue_new) %>: <%= select_tag 'tracker_id', ("<option></option>" + options_from_collection_for_select(trackers, 'id', 'name')), :onchange => "if (this.value!='') {this.form.submit();}" %>
-<% end %>
-<% end %>

@@ -20,9 +20,6 @@
 	</ul>	
 
   <div class="box">
-    <div class="contextual">
-    <%= render :partial => 'issues/add_shortcut', :locals => {:trackers => @trackers } %>
-    </div>
     <h3 class="icon22 icon22-tracker"><%=l(:label_issue_tracking)%></h3>
     <ul>
     <% for tracker in @trackers %>    

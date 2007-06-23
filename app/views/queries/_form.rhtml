@@ -1,12 +1,15 @@
 <%= error_messages_for 'query' %>
 
-<!--[form:query]-->
 <div class="box">
 <div class="tabular">
 <p><label for="query_name"><%=l(:field_name)%></label>
 <%= text_field 'query', 'name', :size => 80 %></p>
+
+<% if authorize_for('projects', 'add_query') %>
+  <p><label for="query_is_public"><%=l(:field_is_public)%></label>
+  <%= check_box 'query', 'is_public' %></p>
+<% end %>
 </div>
 
 <%= render :partial => 'queries/filters', :locals => {:query => query}%>
 </div>
-<!--[eoform:query]-->

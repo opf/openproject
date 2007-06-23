@@ -77,6 +77,9 @@
         <%= link_to l(:label_calendar), {:controller => 'projects', :action => 'calendar', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_gantt), {:controller => 'projects', :action => 'gantt', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_issue_plural), {:controller => 'projects', :action => 'list_issues', :id => @project }, :class => "menuItem" %>
+        <% if @project && authorize_for('projects', 'add_issue') %>
+          <a class="menuItem" href="#" onmouseover="menuItemMouseover(event,'menuNewIssue');" onclick="this.blur(); return false;"><span class="menuItemText"><%= l(:label_issue_new) %></span><span class="menuItemArrow">&#9654;</span></a>
+        <% end %>
         <%= link_to l(:label_report_plural), {:controller => 'reports', :action => 'issue_report', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_activity), {:controller => 'projects', :action => 'activity', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_news_plural), {:controller => 'projects', :action => 'list_news', :id => @project }, :class => "menuItem" %>
@@ -90,6 +93,14 @@
         <%= link_to l(:label_repository), {:controller => 'repositories', :action => 'show', :id => @project}, :class => "menuItem" if @project.repository and !@project.repository.new_record? %>
         <%= link_to_if_authorized l(:label_settings), {:controller => 'projects', :action => 'settings', :id => @project }, :class => "menuItem" %>
     </div>
+    <% end %>
+    
+    <% if @project && authorize_for('projects', 'add_issue') %>
+        <div id="menuNewIssue" class="menu" onmouseover="menuMouseover(event)">
+        <% Tracker.find(:all, :order => 'position').each do |tracker| %>
+            <%= link_to tracker.name, {:controller => 'projects', :action => 'add_issue', :id => @project, :tracker_id => tracker}, :class => "menuItem" %>
+        <% end %>
+        </div>
     <% end %>
 
     <% if loggedin? and @logged_in_user.memberships.any? %>

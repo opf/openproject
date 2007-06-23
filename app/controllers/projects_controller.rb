@@ -288,8 +288,7 @@ class ProjectsController < ApplicationController
   						:conditions => @query.statement,
   						:limit  =>  @issue_pages.items_per_page,
   						:offset =>  @issue_pages.current.offset						
-    end    
-    @trackers = Tracker.find :all, :order => 'position'
+    end
     render :layout => false if request.xhr?
   end
 
@@ -398,22 +397,6 @@ class ProjectsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list_issues', :id => @project
     end
-  end
-
-  def add_query
-    @query = Query.new(params[:query])
-    @query.project = @project
-    @query.user = logged_in_user
-    
-    params[:fields].each do |field|
-      @query.add_filter(field, params[:operators][field], params[:values][field])
-    end if params[:fields]
-    
-    if request.post? and @query.save
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to :controller => 'reports', :action => 'issue_report', :id => @project
-    end    
-    render :layout => false if request.xhr?
   end
 
   # Add a news to @project

@@ -60,7 +60,6 @@ class ReportsController < ApplicationController
       @report_title = l(:field_subproject)
       render :template => "reports/issue_report_details"  
     else
-      @queries = @project.queries.find :all, :conditions => ["is_public=? or user_id=?", true, (logged_in_user ? logged_in_user.id : 0)]
       @trackers = Tracker.find(:all, :order => 'position')
       @versions = @project.versions.sort
       @priorities = Enumeration::get_values('IPRI')

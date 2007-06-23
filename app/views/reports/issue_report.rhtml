@@ -1,27 +1,10 @@
 <h2><%=l(:label_report_plural)%></h2>
 
-<div class="splitcontentleft">
-<div class="contextual">
-<%= link_to_if_authorized l(:label_query_new), {:controller => 'projects', :action => 'add_query', :id => @project}, :class => 'icon icon-add' %>
-</div>
-<h3><%= l(:label_query_plural) %></h3>
-
-<% if @queries.empty? %><p><i><%=l(:label_no_data)%></i></p><% end %>
-<ul>
-<% @queries.each do |query| %>
-    <li><%= link_to query.name, :controller => 'projects', :action => 'list_issues', :id => @project, :query_id => query %></li>
-<% end %>
-</ul>
-</div>
-<div class="splitcontentright">
 <% if @total_hours %>
 <h3 class="textright"><%= l(:label_spent_time) %>:
 <%= link_to(lwr(:label_f_hour, @total_hours), {:controller => 'timelog', :action => 'details', :project_id => @project}, :class => 'icon icon-time') %>
 </h3>
 <% end %>
-</div>
-
-<div class="clear"></div>
 
 <div class="splitcontentleft">
 <h3><%=l(:field_tracker)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :detail => 'tracker' %></h3>
