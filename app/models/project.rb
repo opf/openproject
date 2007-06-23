@@ -77,7 +77,7 @@ class Project < ActiveRecord::Base
   def self.visible_by(user=nil)
     if user && user.admin?
       return ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
-    elsif user && !user.memberships.any?
+    elsif user && user.memberships.any?
       return ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = ? or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))", true]
     else
       return ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = ?", true]
