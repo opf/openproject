@@ -325,7 +325,7 @@ class ProjectsController < ApplicationController
       for custom_field in @project.all_custom_fields
         headers << custom_field.name
       end      
-      csv << headers.collect {|c| ic.iconv(c) }
+      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       # csv lines
       @issues.each do |issue|
         fields = [issue.id, issue.status.name, 
@@ -344,7 +344,7 @@ class ProjectsController < ApplicationController
         for custom_field in @project.all_custom_fields
           fields << (show_value issue.custom_value_for(custom_field))
         end
-        csv << fields.collect {|c| ic.iconv(c.to_s) }
+        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       end
     end
     export.rewind

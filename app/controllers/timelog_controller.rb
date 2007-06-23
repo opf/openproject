@@ -61,7 +61,7 @@ private
                  l(:field_hours),
                  l(:field_comments)
                  ]
-      csv << headers.collect {|c| ic.iconv(c) }
+      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       # csv lines
       @entries.each do |entry|
         fields = [l_date(entry.spent_on),
@@ -71,7 +71,7 @@ private
                   entry.hours,
                   entry.comments
                   ]
-        csv << fields.collect {|c| ic.iconv(c.to_s) }
+        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       end
     end
     export.rewind
