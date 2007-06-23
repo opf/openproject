@@ -12,6 +12,7 @@
 </ul>
 </p>
 
+<% unless @memberships.empty? %>
 <h3><%=l(:label_project_plural)%></h3>
 <ul>
 <% for membership in @memberships %>
@@ -19,6 +20,7 @@
     (<%= membership.role.name %>, <%= format_date(membership.created_on) %>)</li>
 <% end %>
 </ul>
+<% end %>
 
 <h3><%=l(:label_activity)%></h3>
 <p>
