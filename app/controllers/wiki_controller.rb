@@ -77,10 +77,17 @@ class WikiController < ApplicationController
   # show page history
   def history
     @page = @wiki.find_page(params[:page])
-    # don't load text
+    
+    @version_count = @page.content.versions.count
+    @version_pages = Paginator.new self, @version_count, 25, params['p']
+    # don't load text    
     @versions = @page.content.versions.find :all, 
                                             :select => "id, author_id, comments, updated_on, version",
-                                            :order => 'version DESC'
+                                            :order => 'version DESC',
+                                            :limit  =>  @version_pages.items_per_page,
+                                            :offset =>  @version_pages.current.offset
+
+    render :layout => false if request.xhr?
   end
   
   # remove a wiki page and its history

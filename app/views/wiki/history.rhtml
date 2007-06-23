@@ -25,4 +25,7 @@
 </tbody>
 </table>
 
+<p><%= pagination_links_full @version_pages, :page_param => :p %>
+[ <%= @version_pages.current.first_item %> - <%= @version_pages.current.last_item %> / <%= @version_count %> ]</p>
+
 <p><%= link_to l(:button_back), :action => 'index', :page => @page.title %></p>

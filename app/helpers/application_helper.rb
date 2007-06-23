@@ -94,20 +94,22 @@ module ApplicationHelper
   end
 
   def pagination_links_full(paginator, options={}, html_options={})
+    page_param = options.delete(:page_param) || :page
+  
     html = ''    
     html << link_to_remote(('&#171; ' + l(:label_previous)), 
-                            {:update => "content", :url => options.merge(:page => paginator.current.previous)},
-                            {:href => url_for(:params => options.merge(:page => paginator.current.previous))}) + ' ' if paginator.current.previous
+                            {:update => "content", :url => options.merge(page_param => paginator.current.previous)},
+                            {:href => url_for(:params => options.merge(page_param => paginator.current.previous))}) + ' ' if paginator.current.previous
                             
     html << (pagination_links_each(paginator, options) do |n|
       link_to_remote(n.to_s, 
-                      {:url => {:params => options.merge(:page => n)}, :update => 'content'},
-                      {:href => url_for(:params => options.merge(:page => n))})
+                      {:url => {:params => options.merge(page_param => n)}, :update => 'content'},
+                      {:href => url_for(:params => options.merge(page_param => n))})
     end || '')
     
     html << ' ' + link_to_remote((l(:label_next) + ' &#187;'), 
-                                 {:update => "content", :url => options.merge(:page => paginator.current.next)},
-                                 {:href => url_for(:params => options.merge(:page => paginator.current.next))}) if paginator.current.next
+                                 {:update => "content", :url => options.merge(page_param => paginator.current.next)},
+                                 {:href => url_for(:params => options.merge(page_param => paginator.current.next))}) if paginator.current.next
     html  
   end
   
