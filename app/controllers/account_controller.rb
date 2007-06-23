@@ -28,6 +28,11 @@ class AccountController < ApplicationController
   def show
     @user = User.find(params[:id])
     @custom_values = @user.custom_values.find(:all, :include => :custom_field)
+    
+    # show only public projects and private projects that the logged in user is also a member of
+    @memberships = @user.memberships.select do |membership|
+      membership.project.is_public? || (logged_in_user && logged_in_user.role_for_project(membership.project))
+    end
   rescue ActiveRecord::RecordNotFound
     render_404
   end

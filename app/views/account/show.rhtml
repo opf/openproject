@@ -13,12 +13,12 @@
 </p>
 
 <h3><%=l(:label_project_plural)%></h3>
-<p>
-<% for membership in @user.memberships %>
-	<%= membership.project.name %> (<%= membership.role.name %>, <%= format_date(membership.created_on) %>)
-	<br />
+<ul>
+<% for membership in @memberships %>
+	<li><%= link_to membership.project.name, :controller => 'projects', :action => 'show', :id => membership.project %>
+    (<%= membership.role.name %>, <%= format_date(membership.created_on) %>)</li>
 <% end %>
-</p>
+</ul>
 
 <h3><%=l(:label_activity)%></h3>
 <p>
