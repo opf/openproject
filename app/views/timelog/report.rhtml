@@ -1,0 +1,52 @@
+<h2><%= l(:label_spent_time) %></h2>
+
+<% form_remote_tag(:url => {:project_id => @project}, :update => 'content') do %>
+  <% @criterias.each do |criteria| %>
+    <%= hidden_field_tag 'criterias[]', criteria %>
+  <% end %>
+  <p>
+  <%= l(:label_date_from) %>: <%= text_field_tag 'date_from', @date_from, :size => 10 %><%= calendar_for('date_from') %>
+  &nbsp;
+  <%= l(:label_date_to) %>: <%= text_field_tag 'date_to', @date_to, :size => 10 %><%= calendar_for('date_to') %>
+  &nbsp;
+  <%= l(:label_details) %>:
+  <%= select_tag 'period', options_for_select([[l(:label_year), 'year'],
+                                               [l(:label_month), 'month'],
+                                               [l(:label_week), 'week']], @columns) %>
+  &nbsp;
+  <%= submit_tag l(:button_apply) %>
+  <%= link_to_remote l(:button_clear), {:url => {:project_id => @project}, :update => 'content'}, :class => 'icon icon-reload' %>
+  </p>
+
+  <% if @criterias.length < 3 %>
+  <p><%= l(:button_add) %>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l(@available_criterias[k][:label]), k]}), :onchange => "this.form.onsubmit();") %></p>
+  <% end %>
+  
+<br />
+
+<% unless @criterias.empty? %>  
+<table class="list">
+<thead>
+<tr>
+<% @criterias.each do |criteria| %>
+  <th width="15%"><%= l(@available_criterias[criteria][:label]) %></th>
+<% end %>
+<% @periods.each do |period| %>
+  <th width="<%= ((100 - @criterias.length * 15 - 15 ) / @periods.length).to_i %>%"><%= period %></th>
+<% end %>
+</tr>
+</thead>
+
+<tbody>
+<%= render :partial => 'report_criteria', :locals => {:criterias => @criterias, :hours => @hours, :level => 0} %>
+</tbody>
+</table>
+<% end %>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= javascript_include_tag 'calendar/calendar' %>
+<%= javascript_include_tag "calendar/lang/calendar-#{current_language}.js" %>
+<%= javascript_include_tag 'calendar/calendar-setup' %>
+<%= stylesheet_link_tag 'calendar' %>
+<% end %>

@@ -287,7 +287,7 @@ label_none: なし
 label_next: 次
 label_previous: 前
 label_used_by: 使用中
-label_details: 詳細...
+label_details: 詳細
 label_add_note: 注記を追加
 label_per_page: ページ毎
 label_calendar: カレンダー
@@ -398,6 +398,11 @@ label_message_last: 最新のメッセージ
 label_message_new: 新しいメッセージ
 label_reply_plural: 返答
 label_send_information: アカウント情報をユーザに送信
+label_year: Year
+label_month: Month
+label_week: Week
+label_date_from: From
+label_date_to: To
 
 button_login: ログイン
 button_submit: 変更

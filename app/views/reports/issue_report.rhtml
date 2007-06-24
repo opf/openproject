@@ -1,10 +1,12 @@
-<h2><%=l(:label_report_plural)%></h2>
-
 <% if @total_hours %>
-<h3 class="textright"><%= l(:label_spent_time) %>:
-<%= link_to(lwr(:label_f_hour, @total_hours), {:controller => 'timelog', :action => 'details', :project_id => @project}, :class => 'icon icon-time') %>
-</h3>
+<div style="float:right;text-align:right;">
+<strong><%= l(:label_spent_time) %></strong>: <span class="icon icon-time"><%= lwr(:label_f_hour, @total_hours) %></span><br />
+<%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |
+<%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}) %>
+</div>
 <% end %>
+
+<h2><%=l(:label_report_plural)%></h2>
 
 <div class="splitcontentleft">
 <h3><%=l(:field_tracker)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :detail => 'tracker' %></h3>

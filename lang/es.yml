@@ -286,7 +286,7 @@ label_none: ninguno
 label_next: Próximo
 label_previous: Precedente
 label_used_by: Utilizado por
-label_details: Detalles...
+label_details: Detalles
 label_add_note: Agregar una nota
 label_per_page: Por la página
 label_calendar: Calendario
@@ -397,6 +397,11 @@ label_message_last: Last message
 label_message_new: New message
 label_reply_plural: Replies
 label_send_information: Send account information to the user
+label_year: Year
+label_month: Month
+label_week: Week
+label_date_from: From
+label_date_to: To
 
 button_login: Conexión
 button_submit: Someter

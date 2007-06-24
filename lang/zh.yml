@@ -289,7 +289,7 @@ label_none: 无
 label_next: 下一个
 label_previous: 上一个
 label_used_by: 使用中
-label_details: 详情...
+label_details: 详情
 label_add_note: 添加说明
 label_per_page: 每面
 label_calendar: 日历
@@ -399,6 +399,11 @@ label_message_last: Last message
 label_message_new: New message
 label_reply_plural: Replies
 label_send_information: Send account information to the user
+label_year: Year
+label_month: Month
+label_week: Week
+label_date_from: From
+label_date_to: To
 
 button_login: 登录
 button_submit: 提交

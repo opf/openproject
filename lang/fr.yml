@@ -286,7 +286,7 @@ label_none: aucun
 label_next: Suivant
 label_previous: Précédent
 label_used_by: Utilisé par
-label_details: Détails...
+label_details: Détails
 label_add_note: Ajouter une note
 label_per_page: Par page
 label_calendar: Calendrier
@@ -397,6 +397,11 @@ label_message_last: Dernier message
 label_message_new: Nouveau message
 label_reply_plural: Réponses
 label_send_information: Envoyer les informations à l'utilisateur
+label_year: Année
+label_month: Mois
+label_week: Semaine
+label_date_from: Du
+label_date_to: Au
 
 button_login: Connexion
 button_submit: Soumettre

@@ -286,7 +286,7 @@ label_none: kein
 label_next: Weiter
 label_previous: Zurück
 label_used_by: Benutzt von
-label_details: Details...
+label_details: Details
 label_add_note: Kommentar hinzufügen
 label_per_page: Pro Seite
 label_calendar: Kalender
@@ -397,6 +397,11 @@ label_message_last: Last message
 label_message_new: New message
 label_reply_plural: Replies
 label_send_information: Send account information to the user
+label_year: Year
+label_month: Month
+label_week: Week
+label_date_from: From
+label_date_to: To
 
 button_login: Einloggen
 button_submit: OK

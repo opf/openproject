@@ -1,0 +1,17 @@
+<% @available_criterias[criterias[level]][:values].each do |value| %>
+<tr class="<%= cycle('odd', 'even') if criterias.length < level + 2 %>">
+<%= '<td></td>' * level %>
+<td><%= value.name %></td>
+<%= '<td></td>' * (criterias.length - level - 1) %>
+<% hours_for_value = select_hours(hours, criterias[level], value.id) %>
+  <% @periods.each do |period| %>
+    <% sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s)) %>
+    <td align="center"><%= sum > 0 ? sum : "-" %></td>
+  <% end %>
+</tr>
+<% if criterias.length > level+1 %>
+  <%= render(:partial => 'report_criteria', :locals => {:criterias => criterias, :hours => hours_for_value, :level => (level + 1)}) %>
+<% end %>
+
+<% end %>
+<% reset_cycle %>

@@ -286,7 +286,7 @@ label_none: geen
 label_next: Volgende
 label_previous: Vorige
 label_used_by: Gebruikt door
-label_details: Details...
+label_details: Details
 label_add_note: Voeg een notitie toe
 label_per_page: Per pagina
 label_calendar: Kalender
@@ -397,6 +397,11 @@ label_message_last: Laatste bericht
 label_message_new: Nieuw bericht
 label_reply_plural: Antwoorden
 label_send_information: Send account information to the user
+label_year: Year
+label_month: Month
+label_week: Week
+label_date_from: From
+label_date_to: To
 
 button_login: Inloggen
 button_submit: Toevoegen

@@ -286,7 +286,7 @@ label_none: inga
 label_next: Nästa
 label_previous: Föregående
 label_used_by: Använd av
-label_details: Detaljer...
+label_details: Detaljer
 label_add_note: Lägg till anteckning
 label_per_page: Per sida
 label_calendar: Kalender
@@ -397,6 +397,11 @@ label_message_last: Last message
 label_message_new: New message
 label_reply_plural: Replies
 label_send_information: Send account information to the user
+label_year: Year
+label_month: Month
+label_week: Week
+label_date_from: From
+label_date_to: To
 
 button_login: Logga in
 button_submit: Skicka

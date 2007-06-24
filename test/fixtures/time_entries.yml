@@ -1,0 +1,43 @@
+--- 
+time_entries_001: 
+  created_on: 2007-03-23 12:54:18 +01:00
+  tweek: 12
+  tmonth: 3
+  project_id: 1
+  comments: My hours
+  updated_on: 2007-03-23 12:54:18 +01:00
+  activity_id: 8
+  spent_on: 2007-03-23
+  issue_id: 1
+  id: 1
+  hours: 4.25
+  user_id: 2
+  tyear: 2007
+time_entries_002: 
+  created_on: 2007-03-23 14:11:04 +01:00
+  tweek: 12
+  tmonth: 3
+  project_id: 1
+  comments: ""
+  updated_on: 2007-03-23 14:11:04 +01:00
+  activity_id: 8
+  spent_on: 2007-03-23
+  issue_id: 1
+  id: 2
+  hours: 150.0
+  user_id: 1
+  tyear: 2007
+time_entries_003: 
+  created_on: 2007-04-21 12:20:48 +02:00
+  tweek: 16
+  tmonth: 4
+  project_id: 1
+  comments: ""
+  updated_on: 2007-04-21 12:20:48 +02:00
+  activity_id: 8
+  spent_on: 2007-04-21
+  issue_id: 2
+  id: 3
+  hours: 1.0
+  user_id: 1
+  tyear: 2007
