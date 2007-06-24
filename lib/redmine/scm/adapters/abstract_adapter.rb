@@ -35,6 +35,10 @@ module Redmine
           'Abstract'
         end
         
+        def supports_cat?
+          true
+        end
+        
         def root_url
           @root_url
         end
@@ -209,7 +213,7 @@ module Redmine
         def initialize (diff, type="inline")
             diff_table = DiffTable.new type
             diff.each do |line|
-                if line =~ /^(Index:|diff) (.*)$/
+                if line =~ /^(---|\+\+\+) (.*)$/
                     self << diff_table if diff_table.length > 1
                     diff_table = DiffTable.new type
                 end
@@ -237,7 +241,7 @@ module Redmine
         # Function for add a line of this Diff
         def add_line(line)
           unless @parsing
-            if line =~ /^(Index:|diff) (.*)$/
+            if line =~ /^(---|\+\+\+) (.*)$/
               @file_name = $2
               return false
             elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/

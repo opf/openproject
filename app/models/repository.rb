@@ -30,6 +30,10 @@ class Repository < ActiveRecord::Base
     self.class.scm_name
   end
   
+  def supports_cat?
+    scm.supports_cat?
+  end
+  
   def entries(path=nil, identifier=nil)
     scm.entries(path, identifier)
   end

@@ -23,6 +23,7 @@ class Changeset < ActiveRecord::Base
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_numericality_of :revision, :only_integer => true
   validates_uniqueness_of :revision, :scope => :repository_id
+  validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
   
   def committed_on=(date)
     self.commit_date = date

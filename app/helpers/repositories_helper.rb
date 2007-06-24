@@ -43,6 +43,10 @@ module RepositoriesHelper
       content_tag('p', form.password_field(:password, :size => 30))
   end
 
+  def darcs_field_tags(form, repository)
+      content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.new_record?)))
+  end
+  
   def mercurial_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
   end
