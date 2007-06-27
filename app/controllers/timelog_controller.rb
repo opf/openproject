@@ -64,7 +64,8 @@ class TimelogController < ApplicationController
       
       sql = "SELECT #{sql_select}, tyear, tmonth, tweek, SUM(hours) AS hours"
       sql << " FROM #{TimeEntry.table_name} LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
-      sql << " WHERE spent_on BETWEEN '%s' AND '%s'" % [ActiveRecord::Base.connection.quoted_date(@date_from.to_time), ActiveRecord::Base.connection.quoted_date(@date_to.to_time)]
+      sql << " WHERE #{TimeEntry.table_name}.project_id = %s" % @project.id
+      sql << " AND spent_on BETWEEN '%s' AND '%s'" % [ActiveRecord::Base.connection.quoted_date(@date_from.to_time), ActiveRecord::Base.connection.quoted_date(@date_to.to_time)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek"
       
       @hours = ActiveRecord::Base.connection.select_all(sql)
