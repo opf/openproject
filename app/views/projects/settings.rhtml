@@ -53,36 +53,27 @@
 
 <div id="tab-content-categories" class="tab-content" style="display:none;">
 <table class="list">
-	<thead><th><%= l(:label_issue_category) %></th><th style="width:15%"></th></thead>
+	<thead>
+	<th><%= l(:label_issue_category) %></th>
+	<th><%= l(:field_assigned_to) %></th>
+	<th style="width:15%"></th>
+	<th style="width:15%"></th>
+	</thead>
 	<tbody>
-<% for @category in @project.issue_categories %>
-	<% unless @category.new_record? %>
+<% for category in @project.issue_categories %>
+	<% unless category.new_record? %>
 	<tr class="<%= cycle 'odd', 'even' %>">
-    <td>
-        <% form_tag({:controller => 'issue_categories', :action => 'edit', :id => @category}) do %>
-        <%= text_field 'category', 'name', :size => 25  %>
-        <% if authorize_for('issue_categories', 'edit') %>
-        <%= submit_tag l(:button_save), :class => "button-small" %>
-        <% end %>
-        <% end %>
-    </td>
-    <td align="center">
-      <small><%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => @category}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></small>
-    </td>
+    <td><%=h(category.name) %></td>
+    <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
+    <td align="center"><small><%= link_to_if_authorized l(:button_edit), { :controller => 'issue_categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %></small></td>
+    <td align="center"><small><%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => category}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></small></td>
 	</tr>
 	<% end %>
 <% end %>
     </tbody>
 </table>
 &nbsp;
-<% if authorize_for('projects', 'add_issue_category') %>
-    <% form_tag({:action => 'add_issue_category', :tab => 'categories', :id => @project}) do %>
-    <p><label for="issue_category_name"><%=l(:label_issue_category_new)%></label><br />
-    <%= error_messages_for 'issue_category' %>
-    <%= text_field 'issue_category', 'name', :size => 25 %>
-    <%= submit_tag l(:button_add) %></p>
-    <% end %>
-<% end %>
+<p><%= link_to_if_authorized l(:label_issue_category_new), :controller => 'projects', :action => 'add_issue_category', :id => @project %></p>
 </div>
 
 <div id="tab-content-boards" class="tab-content" style="display:none;">

@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2007  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,20 +15,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Member < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :role
-  belongs_to :project
+require File.dirname(__FILE__) + '/../test_helper'
 
-  validates_presence_of :role, :user, :project
-  validates_uniqueness_of :user_id, :scope => :project_id
+class IssueTest < Test::Unit::TestCase
+  fixtures :projects, :users, :members, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues
 
-  def name
-    self.user.display_name
-  end
-  
-  def before_destroy
-    # remove category based auto assignments for this member
-    project.issue_categories.update_all "assigned_to_id = NULL", ["assigned_to_id = ?", self.user.id]
+  def test_category_based_assignment
+    issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'Assignment test', :description => 'Assignment test', :category_id => 1)
+    assert_equal IssueCategory.find(1).assigned_to, issue.assigned_to
   end
 end

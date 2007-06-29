@@ -1,6 +1,6 @@
 <h2><%=l(:label_issue_category)%></h2>
 
-<% form_tag({:action => 'edit', :id => @category}, :class => "tabular") do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag l(:button_save) %>
+<% labelled_tabular_form_for :category, @category, :url => { :action => 'edit', :id => @category } do |f| %>
+<%= render :partial => 'issue_categories/form', :locals => { :f => f } %>
+<%= submit_tag l(:button_create) %>
 <% end %>

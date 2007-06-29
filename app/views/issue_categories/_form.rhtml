@@ -1,7 +1,6 @@
-<%= error_messages_for 'issue_category' %>
+<%= error_messages_for 'category' %>
 
-<!--[form:issue_category]-->
-<p><label for="issue_category_name"><%l(:field_name)%></label>
-<%= text_field 'issue_category', 'name'  %></p>
-<!--[eoform:issue_category]-->
-
+<div class="box">
+<p><%= f.text_field :name, :size => 30, :required => true %></p>
+<p><%= f.select :assigned_to_id, @project.users.collect{|u| [u.name, u.id]}, :include_blank => true %></p>
+</div>

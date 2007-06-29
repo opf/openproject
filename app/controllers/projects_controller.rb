@@ -165,17 +165,12 @@ class ProjectsController < ApplicationController
 	
   # Add a new issue category to @project
   def add_issue_category
-    if request.post?
-      @issue_category = @project.issue_categories.build(params[:issue_category])
-      if @issue_category.save
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :action => 'settings', :tab => 'categories', :id => @project
-      else
-        settings
-        render :action => 'settings'
-      end
+    @category = @project.issue_categories.build(params[:category])
+    if request.post? and @category.save
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to :action => 'settings', :tab => 'categories', :id => @project
     end
-  end	
+  end
 	
   # Add a new version to @project
   def add_version

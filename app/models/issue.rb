@@ -60,6 +60,13 @@ class Issue < ActiveRecord::Base
     end
   end
   
+  def before_create
+    # default assignment based on category
+    if assigned_to.nil? && category && category.assigned_to
+      self.assigned_to = category.assigned_to
+    end
+  end
+  
   def before_save  
     if @current_journal
       # attributes changes

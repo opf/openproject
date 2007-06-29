@@ -18,6 +18,7 @@
 class IssueCategory < ActiveRecord::Base
   before_destroy :check_integrity  
   belongs_to :project
+  belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
