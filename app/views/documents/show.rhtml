@@ -19,7 +19,7 @@
         </div>
         <%= link_to attachment.filename, :action => 'download', :id => @document, :attachment_id => attachment %>
         (<%= number_to_human_size attachment.filesize %>)<br />
-        <em><%= attachment.author.display_name %>, <%= format_date(attachment.created_on) %></em><br />
+        <em><%= attachment.author.name %>, <%= format_date(attachment.created_on) %></em><br />
         <%= lwr(:label_download, attachment.downloads) %>
     </li>
 <% end %>

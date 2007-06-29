@@ -24,7 +24,7 @@ class Member < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope => :project_id
 
   def name
-    self.user.display_name
+    self.user.name
   end
   
   def before_destroy

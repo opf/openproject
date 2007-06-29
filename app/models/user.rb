@@ -101,12 +101,8 @@ class User < ActiveRecord::Base
   end
 	
   # Return user's full name for display
-  def display_name
-    firstname + " " + lastname
-  end
-  
   def name
-    display_name
+    "#{firstname} #{lastname}"
   end
   
   def active?

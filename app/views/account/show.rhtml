@@ -1,4 +1,4 @@
-<h2><%= @user.display_name %></h2>
+<h2><%=h @user.name %></h2>
 
 <p>
 <%= mail_to @user.mail unless @user.pref.hide_mail %>

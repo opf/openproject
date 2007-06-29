@@ -12,7 +12,7 @@
 	<% @project.members.find(:all, :include => [:role, :user]).sort{|x,y| x.role.position <=> y.role.position}.each do |member| %>
 	<% next if member.new_record? %>
 	<tr class="<%= cycle 'odd', 'even' %>">
-	<td><%= member.user.display_name %></td>
+	<td><%= member.name %></td>
     <td align="center">
     <% if authorize_for('members', 'edit') %>
       <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member}, :method => :post) do |f| %>

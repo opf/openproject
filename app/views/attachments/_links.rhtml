@@ -3,7 +3,7 @@
   <p><%= link_to attachment.filename, {:controller => 'attachments', :action => 'download', :id => attachment }, :class => 'icon icon-attachment' %>
   (<%= number_to_human_size attachment.filesize %>)
   <% unless options[:no_author] %>
-    <em><%= attachment.author.display_name %>, <%= format_date(attachment.created_on) %></em>
+    <em><%= attachment.author.name %>, <%= format_date(attachment.created_on) %></em>
   <% end %>
   <% if options[:delete_url] %>
     <%= link_to image_tag('delete.png'), options[:delete_url].update({:attachment_id => attachment}), :confirm => l(:text_are_you_sure), :method => :post %>
