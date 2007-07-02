@@ -643,6 +643,10 @@ div.wiki code {
     font-size: 1.2em;
 }
 
+div.wiki img {
+    margin: 6px;
+}
+
 #preview .preview { background: #fafbfc url(../images/draft.png); }
 
 #ajax-indicator {
