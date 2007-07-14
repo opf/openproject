@@ -172,6 +172,7 @@ setting_sys_api_enabled: Activer les WS pour la gestion des dépôts
 setting_commit_ref_keywords: Mot-clés de référencement
 setting_commit_fix_keywords: Mot-clés de résolution
 setting_autologin: Autologin
+setting_date_format: Format de date
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -402,6 +403,7 @@ label_month: Mois
 label_week: Semaine
 label_date_from: Du
 label_date_to: Au
+label_language_based: Basé sur la langue
 
 button_login: Connexion
 button_submit: Soumettre

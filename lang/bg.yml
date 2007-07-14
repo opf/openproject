@@ -172,6 +172,7 @@ setting_sys_api_enabled: Разрешаване на WS за управлени�
 setting_commit_ref_keywords: Отбелязващи ключови думи
 setting_commit_fix_keywords: Приключващи ключови думи
 setting_autologin: Autologin
+setting_date_format: Date format
 
 label_user: Потребител
 label_user_plural: Потребители
@@ -402,6 +403,7 @@ label_month: Month
 label_week: Week
 label_date_from: From
 label_date_to: To
+label_language_based: Language based
 
 button_login: Вход
 button_submit: Изпращане

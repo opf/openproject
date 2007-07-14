@@ -66,3 +66,9 @@ commit_fix_status_id:
 autologin:
   format: int
   default: 0
+# date format
+# 0: language based
+# 1: ISO format
+date_format:
+  format: int
+  default: 0

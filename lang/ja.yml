@@ -173,6 +173,7 @@ setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効化す�
 setting_commit_ref_keywords: 参照用キーワード
 setting_commit_fix_keywords: 修正用キーワード
 setting_autologin: 自動ログイン
+setting_date_format: Date format
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -403,6 +404,7 @@ label_month: Month
 label_week: Week
 label_date_from: From
 label_date_to: To
+label_language_based: Language based
 
 button_login: ログイン
 button_submit: 変更

@@ -78,11 +78,16 @@ module ApplicationHelper
   end
   
   def format_date(date)
-    l_date(date) if date
+    return nil unless date
+    @date_format_setting ||= Setting.date_format.to_i
+    @date_format_setting == 0 ? l_date(date) : date.strftime("%Y-%m-%d")
   end
   
   def format_time(time)
-    l_datetime((time.is_a? String) ? time.to_time : time) if time
+    return nil unless time
+    @date_format_setting ||= Setting.date_format.to_i
+    time = time.to_time if time.is_a?(String)
+    @date_format_setting == 0 ? l_datetime(time) : (time.strftime("%Y-%m-%d") + ' ' + l_time(time))
   end
   
   def day_name(day)

@@ -172,6 +172,7 @@ setting_sys_api_enabled: Aktivera WS för repository management
 setting_commit_ref_keywords: Referencing keywords
 setting_commit_fix_keywords: Fixing keywords
 setting_autologin: Autologin
+setting_date_format: Date format
 
 label_user: Användare
 label_user_plural: Användare
@@ -402,6 +403,7 @@ label_month: Month
 label_week: Week
 label_date_from: From
 label_date_to: To
+label_language_based: Language based
 
 button_login: Logga in
 button_submit: Skicka
