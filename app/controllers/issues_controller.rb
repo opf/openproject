@@ -105,6 +105,13 @@ class IssuesController < ApplicationController
                                                  :value => a.filename) unless a.new_record?
           } if params[:attachments] and params[:attachments].is_a? Array
         
+          # Log time
+          if logged_in_user.authorized_to(@project, "timelog/edit")
+            @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => logged_in_user, :spent_on => Date.today)
+            @time_entry.attributes = params[:time_entry]
+            @time_entry.save
+          end
+          
           flash[:notice] = l(:notice_successful_update)
           Mailer.deliver_issue_edit(journal) if Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
           redirect_to :action => 'show', :id => @issue
@@ -115,6 +122,7 @@ class IssuesController < ApplicationController
       end
     end    
     @assignable_to = @project.members.find(:all, :include => :user).collect{ |m| m.user }
+    @activities = Enumeration::get_values('ACTI')
   end
 
   def destroy

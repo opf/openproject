@@ -8,10 +8,23 @@
 <%= f.hidden_field :lock_version %>
 
 <div class="box">
+<div class="splitcontentleft">
 <p><label><%=l(:label_issue_status_new)%></label> <%= @new_status.name %></p>
 <p><%= f.select :assigned_to_id, (@issue.project.members.collect {|m| [m.name, m.user_id]}), :include_blank => true %></p>
 <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
 <p><%= f.select :fixed_version_id, (@project.versions.collect {|v| [v.name, v.id]}), { :include_blank => true } %></p>
+</div>
+<div class="splitcontentright">
+<% if authorize_for('timelog', 'edit') %>
+<% fields_for :time_entry, @time_entry, { :builder => TabularFormBuilder, :lang => current_language} do |time_entry| %>
+<p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
+<p><%= time_entry.text_field :comments, :size => 40 %></p>
+<p><%= time_entry.select :activity_id, (@activities.collect {|p| [p.name, p.id]}) %></p>
+<% end %>
+<% end %>
+</div>
+
+<div class="clear"></div>
 
 <p><label for="notes"><%= l(:field_notes) %></label>
 <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %></p>
