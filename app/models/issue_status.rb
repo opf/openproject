@@ -39,7 +39,7 @@ class IssueStatus < ActiveRecord::Base
   # Uses association cache when called more than one time
   def new_statuses_allowed_to(role, tracker)
     new_statuses = workflows.select {|w| w.role_id == role.id && w.tracker_id == tracker.id}.collect{|w| w.new_status} if role && tracker
-    new_statuses ? new_statuses.sort{|x, y| x.position <=> y.position } : []
+    new_statuses ? new_statuses.compact.sort{|x, y| x.position <=> y.position } : []
   end
   
   # Same thing as above but uses a database query
