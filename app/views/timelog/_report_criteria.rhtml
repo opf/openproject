@@ -6,7 +6,7 @@
 <% hours_for_value = select_hours(hours, criterias[level], value.id) %>
   <% @periods.each do |period| %>
     <% sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s)) %>
-    <td align="center"><%= sum > 0 ? sum : "-" %></td>
+    <td align="center"><%= sum > 0 ? "%.2f" % sum : "-" %></td>
   <% end %>
 </tr>
 <% if criterias.length > level+1 %>
