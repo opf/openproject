@@ -38,7 +38,7 @@ module Redmine
               info = Info.new({:root_url => doc.elements["info/entry/repository/root"].text,
                                :lastrev => Revision.new({
                                  :identifier => doc.elements["info/entry/commit"].attributes['revision'],
-                                 :time => Time.parse(doc.elements["info/entry/commit/date"].text),
+                                 :time => Time.parse(doc.elements["info/entry/commit/date"].text).localtime,
                                  :author => (doc.elements["info/entry/commit/author"] ? doc.elements["info/entry/commit/author"].text : "")
                                })
                              })
@@ -76,7 +76,7 @@ module Redmine
                             :size => (entry.elements['size'] and entry.elements['size'].text).to_i,
                             :lastrev => Revision.new({
                               :identifier => entry.elements['commit'].attributes['revision'],
-                              :time => Time.parse(entry.elements['commit'].elements['date'].text),
+                              :time => Time.parse(entry.elements['commit'].elements['date'].text).localtime,
                               :author => (entry.elements['commit'].elements['author'] ? entry.elements['commit'].elements['author'].text : "")
                               })
                             })
@@ -115,7 +115,7 @@ module Redmine
                 
                 revisions << Revision.new({:identifier => logentry.attributes['revision'],
                               :author => (logentry.elements['author'] ? logentry.elements['author'].text : ""),
-                              :time => Time.parse(logentry.elements['date'].text),
+                              :time => Time.parse(logentry.elements['date'].text).localtime,
                               :message => logentry.elements['msg'].text,
                               :paths => paths
                             })
