@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'diff'
+
 class WikiPage < ActiveRecord::Base
   belongs_to :wiki
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
@@ -39,11 +41,36 @@ class WikiPage < ActiveRecord::Base
     result
   end
   
+  def diff(version_to=nil, version_from=nil)
+    version_to = version_to ? version_to.to_i : self.content.version
+    version_from = version_from ? version_from.to_i : version_to - 1
+    version_to, version_from = version_from, version_to unless version_from < version_to
+    
+    content_to = content.versions.find_by_version(version_to)
+    content_from = content.versions.find_by_version(version_from)
+    
+    (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
+  end
+  
   def self.pretty_title(str)
     (str && str.is_a?(String)) ? str.tr('_', ' ') : str
   end
   
   def project
     wiki.project
+  end
+end
+
+class WikiDiff
+  attr_reader :diff, :words, :content_to, :content_from
+  
+  def initialize(content_to, content_from)
+    @content_to = content_to
+    @content_from = content_from
+    @words = content_to.text.split(/(\s+)/)
+    @words = @words.select {|word| word != ' '}
+    words_from = content_from.text.split(/(\s+)/)
+    words_from = words_from.select {|word| word != ' '}    
+    @diff = words_from.diff @words
   end
 end

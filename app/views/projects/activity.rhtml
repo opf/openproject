@@ -38,7 +38,8 @@
     <% elsif e.is_a? Document %>
       <%= e.created_on.strftime("%H:%M") %> <%=l(:label_document)%>: <%= link_to h(e.title), :controller => 'documents', :action => 'show', :id => e %><br />
     <% elsif e.is_a? WikiContent.versioned_class %>
-      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_wiki_edit)%>: <%= link_to h(WikiPage.pretty_title(e.title)), :controller => 'wiki', :page => e.title %> (<%= link_to '#' + e.version.to_s, :controller => 'wiki', :page => e.title, :version => e.version %>)<br />
+      <%= e.created_on.strftime("%H:%M") %> <%=l(:label_wiki_edit)%>: <%= link_to h(WikiPage.pretty_title(e.title)), :controller => 'wiki', :page => e.title %>
+      (<%= link_to '#' + e.version.to_s, :controller => 'wiki', :page => e.title, :version => e.version %><%= ', ' + link_to('diff', :controller => 'wiki', :action => 'diff', :page => e.title, :version => e.version) if e.version > 1 %>)<br />
       <% unless e.comments.blank? %><em><%=h e.comments %></em><% end %>
     <% elsif e.is_a? Changeset %>
       <%= e.created_on.strftime("%H:%M") %> <%=l(:label_revision)%> <%= link_to h(e.revision), :controller => 'repositories', :action => 'revision', :id => @project, :rev => e.revision %><br />

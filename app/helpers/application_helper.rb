@@ -171,6 +171,14 @@ module ApplicationHelper
     text = @do_textilize ? auto_link(RedCloth.new(text, [:hard_breaks]).to_html) : simple_format(auto_link(h(text)))
   end
   
+  # Same as Rails' simple_format helper without using paragraphs
+  def simple_format_without_paragraph(text)
+    text.to_s.
+      gsub(/\r\n?/, "\n").                    # \r\n and \r -> \n
+      gsub(/\n\n+/, "<br /><br />").          # 2+ newline  -> 2 br
+      gsub(/([^\n]\n)(?=[^\n])/, '\1<br />')  # 1 newline   -> br
+  end
+  
   def error_messages_for(object_name, options = {})
     options = options.symbolize_keys
     object = instance_variable_get("@#{object_name}")

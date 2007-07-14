@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'diff'
+
 class WikiController < ApplicationController
   layout 'base'
   before_filter :find_wiki, :check_project_privacy
@@ -84,10 +86,16 @@ class WikiController < ApplicationController
     @versions = @page.content.versions.find :all, 
                                             :select => "id, author_id, comments, updated_on, version",
                                             :order => 'version DESC',
-                                            :limit  =>  @version_pages.items_per_page,
+                                            :limit  =>  @version_pages.items_per_page + 1,
                                             :offset =>  @version_pages.current.offset
 
     render :layout => false if request.xhr?
+  end
+  
+  def diff
+    @page = @wiki.find_page(params[:page])
+    @diff = @page.diff(params[:version], params[:version_from])
+    render_404 unless @diff
   end
   
   # remove a wiki page and its history

@@ -647,6 +647,14 @@ div.wiki img {
     margin: 6px;
 }
 
+.diff_out{
+  background: #fcc;
+}
+
+.diff_in{
+  background: #cfc;
+}
+
 #preview .preview { background: #fafbfc url(../images/draft.png); }
 
 #ajax-indicator {

@@ -16,4 +16,41 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module WikiHelper
+
+  def html_diff(wdiff)
+    words = wdiff.words.collect{|word| h(word)}
+    words_add = 0
+    words_del = 0
+    dels = 0
+    del_off = 0
+    wdiff.diff.diffs.each do |diff|
+      add_at = nil
+      add_to = nil
+      del_at = nil
+      deleted = ""	    
+      diff.each do |change|
+        pos = change[1]
+        if change[0] == "+"
+          add_at = pos + dels unless add_at
+          add_to = pos + dels
+          words_add += 1
+        else
+          del_at = pos unless del_at
+          deleted << ' ' + change[2]
+          words_del	 += 1
+        end
+      end
+      if add_at
+        words[add_at] = '<span class="diff_in">' + words[add_at]
+        words[add_to] = words[add_to] + '</span>'
+      end
+      if del_at
+        words.insert del_at - del_off + dels + words_add, '<span class="diff_out">' + deleted + '</span>'
+        dels += 1
+        del_off += words_del
+        words_del = 0
+      end
+    end
+    simple_format_without_paragraph(words.join(' '))
+  end
 end
