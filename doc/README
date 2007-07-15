@@ -30,15 +30,17 @@ redMine is a flexible project management web application written using Ruby on R
 * Issue tracking system
 * Fully customizable workflow
 * Documents/files repository
+* Forums
 * News management
 * Per project Wiki
 * Time tracking
-* SVN browser and diff viewer
+* Repository browser and diff viewer
 * Email notifications
 * Custom fields for projects, users and issues
 * Multiple LDAP authentication support
 * User self-registration support
 * Multilanguage support
+* Multiple repositories support
 * Multiple databases support
 
 
@@ -66,3 +68,10 @@ may not be provided for these versions.
 * Andy Wu (chinese simplified translation)
 * Thomas Löber (german translation)
 * Daniel Weinand (german translation)
+* Joao Carlos Clementoni (portuguese translation)
+* Cyril Mougel (side by side diff)
+* Nikolay Solakov (Bulgarian translation)
+* Linda van den Brink (Dutch translation)
+* Pavol Murin (Wiki attachments)
+* Thomas Habets (Swedish translation)
+* Ralph Vater (CVS adapter)

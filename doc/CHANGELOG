@@ -5,7 +5,66 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://redmine.rubyforge.org/
 
 
-== 04/11/2007 v0.5.0
+== 2007-07-15 v0.5.1
+
+* per project forums added
+* added the ability to archive projects
+* added “Watch” functionality on issues. It allows users to receive notifications about issue changes
+* custom fields for issues can now be used as filters on issue list
+* added per user custom queries
+* commit messages are now scanned for referenced or fixed issue IDs (keywords defined in Admin -> Settings)
+* projects list now shows the list of public projects and private projects for which the user is a member
+* versions can now be created with no date
+* added issue count details for versions on Reports view
+* added time report, by member/activity/tracker/version and year/month/week for the selected period
+* each category can now be associated to a user, so that new issues in that category are automatically assigned to that user
+* added autologin feature (disabled by default)
+* optimistic locking added for wiki edits
+* added wiki diff
+* added the ability to destroy wiki pages (requires permission)
+* a wiki page can now be attached to each version, and displayed on the roadmap
+* attachments can now be added to wiki pages (original patch by Pavol Murin) and displayed online
+* added an option to see all versions in the roadmap view (including completed ones)
+* added basic issue relations
+* added the ability to log time when changing an issue status
+* account information can now be sent to the user when creating an account
+* author and assignee of an issue always receive notifications (even if they turned of mail notifications)
+* added a quick search form in page header
+* added 'me' value for 'assigned to' and 'author' query filters
+* added a link on revision screen to see the entire diff for the revision
+* added last commit message for each entry in repository browser
+* added the ability to view a file diff with free to/from revision selection.
+* text files can now be viewed online when browsing the repository
+* added basic support for other SCM: CVS (Ralph Vater), Mercurial and Darcs
+* added fragment caching for svn diffs
+* added fragment caching for calendar and gantt views
+* login field automatically focused on login form
+* subproject name displayed on issue list, calendar and gantt
+* added an option to choose the date format: language based or ISO 8601
+* added a simple mail handler. It lets users add notes to an existing issue by replying to the initial notification email.
+* a 403 error page is now displayed (instead of a blank page) when trying to access a protected page
+* added portuguese translation (Joao Carlos Clementoni)
+* added partial online help japanese translation (Ken Date)
+* added bulgarian translation (Nikolay Solakov)
+* added dutch translation (Linda van den Brink)
+* added swedish translation (Thomas Habets)
+* italian translation update (Alessio Spadaro)
+* japanese translation update (Satoru Kurashiki)
+* fixed: error on history atom feed when there’s no notes on an issue change
+* fixed: error in journalizing an issue with longtext custom fields (Postgresql)
+* fixed: creation of Oracle schema
+* fixed: last day of the month not included in project activity
+* fixed: files with an apostrophe in their names can't be accessed in SVN repository
+* fixed: performance issue on RepositoriesController#revisions when a changeset has a great number of changes (eg. 100,000)
+* fixed: open/closed issue counts are always 0 on reports view (postgresql)
+* fixed: date query filters (wrong results and sql error with postgresql)
+* fixed: confidentiality issue on account/show (private project names displayed to anyone)
+* fixed: Long text custom fields displayed without line breaks
+* fixed: Error when editing the wokflow after deleting a status
+* fixed: SVN commit dates are now stored as local time
+
+
+== 2007-04-11 v0.5.0
 
 * added per project Wiki
 * added rss/atom feeds at project level (custom queries can be used as feeds)
@@ -37,7 +96,7 @@ http://redmine.rubyforge.org/
 * fixed: table_name pre/suffix support
 
 
-== 02/18/2007 v0.4.2
+== 2007-02-18 v0.4.2
 
 * Rails 1.2 is now required
 * settings are now stored in the database and editable through the application in: Admin -> Settings (config_custom.rb is no longer used)
@@ -65,12 +124,12 @@ http://redmine.rubyforge.org/
 * fixed: crash when a new user try to edit its "my page" layout
 
 
-== 01/03/2007 v0.4.1
+== 2007-01-03 v0.4.1
 
 * fixed: emails have no recipient when one of the project members has notifications disabled
 
 
-== 01/02/2007 v0.4.0
+== 2007-01-02 v0.4.0
 
 * simple SVN browser added (just needs svn binaries in PATH)
 * comments can now be added on news
@@ -107,7 +166,7 @@ http://redmine.rubyforge.org/
 * fixed: non public projects were shown on welcome screen even if current user is not a member
 
 
-== 10/08/2006 v0.3.0
+== 2006-10-08 v0.3.0
 
 * user authentication against multiple LDAP (optional)
 * token based "lost password" functionality
@@ -138,12 +197,12 @@ http://redmine.rubyforge.org/
 * Fixed: incorrect versions sorting
 
 
-== 07/12/2006 - v0.2.2
+== 2006-07-12 - v0.2.2
 
 * Fixed: bug in "issues list"
 
 
-== 07/09/2006 - v0.2.1
+== 2006-07-09 - v0.2.1
 
 * new databases supported: Oracle, PostgreSQL, SQL Server
 * projects/subprojects hierarchy (1 level of subprojects only)
@@ -160,7 +219,7 @@ http://redmine.rubyforge.org/
 * Fixed: SQL error in "issue reports" view with PostgreSQL (rev5)
 
 
-== 06/25/2006 - v0.1.0
+== 2006-06-25 - v0.1.0
 
 * multiple users/multiple projects
 * role based access control
