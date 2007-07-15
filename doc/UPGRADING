@@ -5,8 +5,6 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://redmine.rubyforge.org/
 
 
-Note that Rails 1.2.2 is required for version 0.4.2 and later
-
 == Upgrading from 0.3.0 and above
 
 1. Uncompress program archive in a new directory:
@@ -15,9 +13,14 @@ Note that Rails 1.2.2 is required for version 0.4.2 and later
 3. Copy your database settings (database.yml) into the new config directory
    
 4. Migrate your database:
-   rake migrate RAILS_ENV="production"
-   
-Note: settings previously defined in custom_config.rb are now stored
+   rake db:migrate RAILS_ENV="production"
+
+Note 1: Rails 1.2.2 is required for version 0.4.2 and later.
+
+Note 2: when upgrading your code with svn update, don't forget to clear
+the application cache (RAILS_ROOT/tmp/cache) before restarting.
+
+Note 3: settings previously defined in custom_config.rb are now stored
 in database, as of version 0.4.2. Go to "Admin -> Settings" to edit them.
 
    

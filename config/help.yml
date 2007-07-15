@@ -27,6 +27,7 @@ pages:
   # administration
   admin:
     index:          ch01.html
+    projects:       ch01s01.html
     mail_options:   ch01s09.html
     info:           ch01s12.html
   users:
@@ -43,10 +44,13 @@ pages:
   # projects
   projects:
     index:          ch02.html
+    settings:       ch01s01.html
     add:            ch01s01.html
     show:           ch02s01.html
     gantt:          ch02s02.html
     calendar:       ch02s02.html
+    changelog:      ch02s06.html
+    roadmap:        ch02s07.html
     add_document:   ch02s07.html
     list_documents: ch02s07.html
     add_issue:      ch02s03.html

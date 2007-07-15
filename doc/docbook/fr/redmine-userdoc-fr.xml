@@ -11,6 +11,149 @@
       <title>Projets</title>
 
       <para>Ces écrans vous permettent de gérer les projets.</para>
+
+      <para></para>
+
+      <section>
+        <title>Liste des projets</title>
+
+        <para>Sur cet écran, vous pouvez archiver ou supprimer un
+        projet.</para>
+
+        <para>Un projet archivé est conservé mais n'est plus visible, y
+        compris par ses membres. Il peut être restauré par
+        l'administrateur.</para>
+      </section>
+
+      <section>
+        <title>Création ou modification d'un projet</title>
+
+        <para></para>
+
+        <section>
+          <title>Propriétés du projet</title>
+
+          <para></para>
+
+          <itemizedlist>
+            <listitem>
+              <para><guilabel>Public</guilabel>: si le projet est public, il
+              sera visible par tous les utilisateurs, y compris ceux qui ne
+              sont pas membres du projet. Si le projet n'est pas public, seuls
+              les membres du projet y ont accès, en fonction de leur
+              rôle.</para>
+            </listitem>
+
+            <listitem>
+              <para><guilabel>Sous-projet de</guilabel>: permet de définir le
+              projet parent. La hiérarchie des projets est limitée à 2
+              niveaux. Un projet parent ne peut pas être lui-même un
+              sous-projet.</para>
+            </listitem>
+
+            <listitem>
+              <para><guilabel>Nom</guilabel>: nom d'affichage du projet (doit
+              être unique)</para>
+            </listitem>
+
+            <listitem>
+              <para><guilabel>Description</guilabel>: texte qui apparaît sur
+              l'écran d'aperçu du projet</para>
+            </listitem>
+
+            <listitem>
+              <para><guilabel>Identifiant</guilabel>: nom du projet utilisé de
+              manière interne par l'application (doit être unique). Une fois
+              le projet créé, cet identifiant ne peut pas être modifié.</para>
+            </listitem>
+
+            <listitem>
+              <para><guilabel>Champs personnalisés</guilabel>: sélectionner
+              les champs personnalisés que vous souhaitez utiliser pour les
+              demandes du projet. Seul l'administrateur peut définir de
+              nouveaux champs personnalisés.</para>
+            </listitem>
+          </itemizedlist>
+
+          <para></para>
+        </section>
+
+        <section>
+          <title>Dépôt</title>
+
+          <para>Un dépôt de sources peut être associé à chaque projet. Une
+          fois le dépôt du projet configuré, vous pourrez le parcourir et
+          consulter les révisions. Les révisions du dépôt apparaissent dans la
+          vue <guilabel>Activité</guilabel> du projet.</para>
+
+          <para>Pour associer un dépôt au projet, cocher l'option
+          <guilabel>Dépôt</guilabel> dans la configuration du projet. Choisir
+          le type de dépôt et saisir ses propriétés (exemple:
+          <code>svn://hote/mondepot/</code> pour un dépôt SVN).</para>
+        </section>
+
+        <section>
+          <title>Wiki</title>
+
+          <para>Chaque projet peut bénéficier d'un wiki.</para>
+
+          <para>Pour l'activer, cocher l'option <guilabel>Wiki</guilabel> dans
+          la configuration du projet. Un nom de page principale doit être
+          identiqué. Cette page sera la première page affichée lors de la
+          consultation du wiki.</para>
+        </section>
+
+        <section>
+          <title>Membres</title>
+
+          <para>Cett section vous permet de définir les membres du projet
+          ainsi que leurs rôles respectifs. Un utilisateur ne peut avoir qu'un
+          rôle au sein d'un projet donné. Le rôle d'un membre détermine les
+          permissions dont il bénéficie sur le projet.</para>
+        </section>
+
+        <section>
+          <title>Versions</title>
+
+          <para>Les versions vous permettent de suivre les changements
+          survenus tout au long du projet. La date figurant sur la version
+          correspond à sa date d'échéance. Les versions pour lesquelles la
+          date n'est pas encore passée sont affichées sur la vue
+          "Roadmap".</para>
+
+          <para>Vous pouvez associer une page wiki à chaque version du projet.
+          Le contenu de chaque page apparaîtra sur la
+          <guilabel>Roadmap</guilabel>.</para>
+
+          <para>Sur chaque demande, vous pouvez indiquer quelle version la
+          prend en compte. La demande apparaîtra alors sur l'
+          <guilabel>Historique</guilabel> (lorsque la demande sera fermée) et
+          la <guilabel>Roadmap</guilabel>.</para>
+
+          <para>Vous pouvez également publier les fichiers associés aux
+          différentes versions de l'application (voir Fichiers).</para>
+        </section>
+
+        <section>
+          <title>Catégories des demandes</title>
+
+          <para>Les catégories de demande vous permettent de typer les
+          demandes. Les catégories peuvent par exemple correspondre aux
+          différents modules du projet.</para>
+
+          <para>Une catégorie référencée sur des demandes ne peut pas être
+          supprimée.</para>
+        </section>
+
+        <section>
+          <title>Forums</title>
+
+          <para>Chaque projet peut contenir un ou plusieurs forums de
+          discussion.</para>
+
+          <para></para>
+        </section>
+      </section>
     </section>
 
     <section>
@@ -53,12 +196,14 @@
                   <imagedata fileref="images/user_new.png" />
                 </imageobject>
               </inlinemediaobject> signifie que le compte n'a pas encore été
-            activé par l'utilisateur .</para>
+            activé par l'utilisateur (Voir S'enregistrer).</para>
           </listitem>
         </itemizedlist>
 
         <para>Les boutons Vérouiller/Dévérouiller vous permettent de bloquer
-        ou débloquer les comptes utilisateurs.</para>
+        ou débloquer les comptes utilisateurs. Le bouton Activer vous permet
+        d'activer manuellement le compte d'un utilisateur qui s'est enregistré
+        en ligne.</para>
 
         <para></para>
       </section>
@@ -125,7 +270,18 @@
       <title>Trackers</title>
 
       <para>Les trackers permettent de typer les demandes et de définir des
-      workflows spécifiques pour chacun de ces types.</para>
+      workflows spécifiques pour chacun de ces types de demandes (voir
+      Workflow). Un tracker peut être exclu des vues "Historique" et "Roadmap"
+      (en décochant les options correspondantes dans les paramètres du
+      tracker).</para>
+
+      <para>Lorsque vous créez un nouveau tracker, vous pouvez choisir de
+      copier le workflow d'un tracker existant. Cela permet d'initialiser
+      facilement le workflow du nouveau tracker et de n'y apporter que les
+      modifications nécessaires.</para>
+
+      <para>Si aucun workflow n'est défini pour un tracker, aucun utilisateur
+      ne pourra changer le statut des demandes liés à ce tracker.</para>
     </section>
 
     <section>
@@ -146,8 +302,8 @@
         </listitem>
 
         <listitem>
-          <para><guilabel>Texte long</guilabel>: chaîne de caractères, avec
-          champ à plusieurs lignes</para>
+          <para><guilabel>Texte long</guilabel>: chaîne de caractères
+          (saisissable sur plusieurs lignes)</para>
         </listitem>
 
         <listitem>
@@ -155,11 +311,11 @@
         </listitem>
 
         <listitem>
-          <para><guilabel>Booléen</guilabel>: booléen (case à cocher)</para>
+          <para><guilabel>Booléen</guilabel>: oui/non (case à cocher)</para>
         </listitem>
 
         <listitem>
-          <para><guilabel>Liste</guilabel>: valeur à sélectionnée parmi une
+          <para><guilabel>Liste</guilabel>: valeur à sélectionner parmi une
           liste prédéfinie (liste déroulante)</para>
         </listitem>
       </itemizedlist>
@@ -167,16 +323,6 @@
       <para>Des éléments de validation peuvent être définis:</para>
 
       <itemizedlist>
-        <listitem>
-          <para><guilabel>Obligatoire</guilabel>: champ dont la saisie est
-          obligatoire sur les demandes</para>
-        </listitem>
-
-        <listitem>
-          <para><guilabel>Pour tous les projects</guilabel>: champ
-          automatiquement associé à l'ensemble des projets</para>
-        </listitem>
-
         <listitem>
           <para><guilabel>Min - max length</guilabel>: longueurs minimales et
           maximales pour les champs en saisie libre (0 signifie qu'il n'y a
@@ -198,8 +344,8 @@
 
         <listitem>
           <para><guilabel>Valeurs possibles</guilabel>: valeurs possibles pour
-          les champs de type "Liste". Les valeurs sont séparées par le
-          caractère |</para>
+          les champs de type "Liste". Cliquer sur l'icône + pour ajouter une
+          nouvelle valeur possible.</para>
         </listitem>
       </itemizedlist>
 
@@ -228,12 +374,22 @@
         <itemizedlist>
           <listitem>
             <para><guilabel>Pour tous les projects</guilabel>: champ
-            automatiquement associé aux demandes de l'ensemble des
-            projets</para>
+            automatiquement associé aux demandes de tous les projets</para>
 
             <para>Si cette option n'est pas activée, chaque projet pourra
             choisir d'utiliser ou non le champ pour ses demandes (voir
             configuration du projet).</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Obligatoire</guilabel>: champ dont la saisie est
+            obligatoire sur chaque demande</para>
+          </listitem>
+
+          <listitem>
+            <para><guilabel>Utilisé comme filtre</guilabel>: si l'option est
+            cochée, le champ pourra être utilisé comme filtre sur l'écran des
+            demandes</para>
           </listitem>
         </itemizedlist>
 
@@ -312,11 +468,11 @@
         </mediaobject>
       </screenshot>
 
-      <para>Dans l'exemple ci-dessus, les demandes de type Bug au statut
-      Nouveau pourront être passées au statut Assignée ou Résolue par le rôle
-      Développeur. Celles au statut Assignée pourront être passées au statut
-      Résolue. Le statut de toutes les autres demandes de type Bug ne pourra
-      pas être modifié par le Développeur.</para>
+      <para>Dans l'exemple ci-dessus, les demandes de type Anomalie qui sont
+      au statut Nouveau pourront être passées au statut Assignée ou Résolue
+      par le rôle Développeur. Celles au statut Assignée pourront être passées
+      au statut Résolue. Le statut de toutes les autres demandes de type
+      Anomalie ne pourra pas être modifié par le Développeur.</para>
     </section>
 
     <section>
@@ -328,6 +484,10 @@
       suivantes:</para>
 
       <itemizedlist>
+        <listitem>
+          <para>Activités (utilisées pour le suivi du temps passé)</para>
+        </listitem>
+
         <listitem>
           <para>Priorités des demandes</para>
         </listitem>
@@ -441,8 +601,8 @@
         </itemizedlist>
 
         <para>Les attributs "<guilabel>Prénom</guilabel>",
-        "<guilabel>Nom</guilabel>" et "<guilabel>Email</guilabel>" ne sont
-        utilisés que lorsque les comptes sont créés à la volée.</para>
+        "<guilabel>Nom</guilabel>" et "<guilabel>Email</guilabel>" doivent
+        être renseigné si les comptes sont créés à la volée.</para>
       </section>
     </section>
 
@@ -450,7 +610,9 @@
       <title>Configuration</title>
 
       <para>Cet écran vous permet de modifier les paramètres de configuration
-      de l'application.</para>
+      de l'application. Tous ces paramètres sont conservés dans la base de
+      données de l'application. Ils sont donc conservés lorsque vous effectuez
+      une mise à jour de votre installation.</para>
 
       <para></para>
 
@@ -458,13 +620,15 @@
         <listitem>
           <para><guilabel>Titre de l'application</guilabel></para>
 
-          <para>Titre qui apparaît en en-tête de l'application.</para>
+          <para>Titre qui apparaît en en-tête des pages de
+          l'application.</para>
         </listitem>
 
         <listitem>
           <para><guilabel>Sous-titre de l'application</guilabel></para>
 
-          <para>Sous-titre qui apparaît en en-tête de l'application.</para>
+          <para>Sous-titre qui apparaît en en-tête des pages de
+          l'application.</para>
         </listitem>
 
         <listitem>
@@ -486,11 +650,34 @@
         </listitem>
 
         <listitem>
+          <para><guilabel>Format de date</guilabel></para>
+
+          <para>Cette option permet de choisir le format d'affichage des dates
+          dans l'application:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Basé sur la langue : les dates seront affichées selon le
+              format de date défini pour chaque langue (JJ/MM/AAAA pour le
+              français)</para>
+            </listitem>
+
+            <listitem>
+              <para>ISO 8601: les dates seront toujours affichées au format
+              ISO (AAAA-MM-JJ)</para>
+            </listitem>
+          </itemizedlist>
+
+          <para><emphasis>Défaut: Basé sur la langue</emphasis></para>
+        </listitem>
+
+        <listitem>
           <para><guilabel>Authentif. obligatoire</guilabel></para>
 
           <para>Si cette option est cochée, aucune page de l'application n'est
-          accessible de manière anonyme. Les utilisateurs doivent
-          obligatoirement s'identifier pour y accéder.</para>
+          accessible sans s'être identifié. Elle permet donc ne rendre
+          accessible l'application qu'aux utilisateurs qui disposent d'un
+          compte valide.</para>
 
           <para><emphasis>Défaut: Non</emphasis></para>
         </listitem>
@@ -499,7 +686,9 @@
           <para><guilabel>Enregistrement autorisé</guilabel></para>
 
           <para>Si cette option est cochée, la procédure d'enregistrement en
-          ligne est disponible.</para>
+          ligne est disponible. L'envoi de mails doit être correctement
+          configuré pour que les utilisateurs puissent activer leur compte
+          (voir S'enregistrer)</para>
 
           <para><emphasis>Défaut: Oui</emphasis></para>
         </listitem>
@@ -508,7 +697,9 @@
           <para><guilabel>Mot de passe perdu</guilabel></para>
 
           <para>Si cette option est cochée, la procédure de changement de mot
-          de passe est disponible.</para>
+          de passe est disponible. L'envoi de mails doit être correctement
+          configuré pour que les utilisateurs puissent choisir un nouveau mot
+          de passe.</para>
 
           <para><emphasis>Défaut: Oui</emphasis></para>
         </listitem>
@@ -552,7 +743,56 @@
           "description" des demandes, annonces, documents...</para>
 
           <para>L'option "Textile" n'est disponible que si la libraire ruby
-          RedColth est installée.</para>
+          RedColth est installée. Consulter la page d'information pour savoir
+          si vous disposez de cette librairie.</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Compression historique wiki</guilabel></para>
+
+          <para>Permet d'activer la compression de l'historique des pages wiki
+          stockées dans la base de données (diminution de l'espace
+          occupé).</para>
+
+          <para><emphasis>Défaut: désactivé</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Limite du contenu des flux RSS</guilabel></para>
+
+          <para>Nombre maximal d'enregistrements contenus dans les flux
+          RSS.</para>
+
+          <para><emphasis>Défaut: 15</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Récupération auto. des commits</guilabel></para>
+
+          <para>Si cette option est activée, l'application récupère
+          automatiquement les nouvelles révisions apportées sur le dépôt de
+          sources du projet lorsqu'un utilisateur consulte le dépôt.</para>
+
+          <para><emphasis>Défaut: Oui</emphasis></para>
+
+          <para>Vous pouvez désactiver cette option et automatiser l'appel à
+          Repository#fetch_changesets pour récupérer régulièrement les
+          révisions de l'ensemble des dépôts en arrière plan.</para>
+
+          <para>Exemple : <code>ruby script/runner
+          "Repository.fetch_changesets"</code></para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Activer les WS de gestion des
+          dépôts</guilabel></para>
+
+          <para>Cette option ne doit être activée que si vous avez installé le
+          script de création automatique des dépôts.</para>
+
+          <para><emphasis>Défaut: Non</emphasis></para>
+
+          <para></para>
         </listitem>
       </itemizedlist>
     </section>
@@ -618,7 +858,10 @@
           </listitem>
         </itemizedlist>
 
-        <para></para>
+        <para>En cliquant sur le lien <guilabel>Options</guilabel>, vous
+        pouvez sélectionner les trackers que vous souhaitez afficher. Si le
+        projet contient des sous-projets, vous pouvez également afficher
+        l'ensemble des demandes du projet et de ses sous-projets.</para>
       </section>
 
       <section>
@@ -638,6 +881,13 @@
             </imageobject>
           </mediaobject>
         </screenshot>
+
+        <para></para>
+
+        <para>En cliquant sur le lien <guilabel>Options</guilabel>, vous
+        pouvez sélectionner les trackers que vous souhaitez afficher. Si le
+        projet contient des sous-projets, vous pouvez également afficher
+        l'ensemble des demandes du projet et de ses sous-projets.</para>
 
         <para></para>
       </section>
@@ -679,24 +929,78 @@
       <title>Rapports</title>
 
       <para>Cet écran présente la synthèse du nombre de demandes par statut et
-      selon différents critères (tracker, priorité, catégorie). Des liens
-      directs permettent d'accéder à la liste détaillée des demandes pour
-      chaque critère.</para>
+      selon différents critères (tracker, sous-projet, priorité, catégorie,
+      auteur). Des liens permettent d'accéder à la liste détaillée des
+      demandes pour chaque critère.</para>
+    </section>
+
+    <section>
+      <title>Activité</title>
+
+      <para>Cette page présente par mois (le mois en cours par défaut) et par
+      jour, les événements intervenus sur le projet.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Nouvelles demandes</para>
+        </listitem>
+
+        <listitem>
+          <para>Révisions apportées sur le dépôt (si le projet dispote d'un
+          dépôt SVN)</para>
+        </listitem>
+
+        <listitem>
+          <para>Annonces publiées</para>
+        </listitem>
+
+        <listitem>
+          <para>Fichiers ajoutés</para>
+        </listitem>
+
+        <listitem>
+          <para>Documents ajoutés</para>
+        </listitem>
+
+        <listitem>
+          <para>Modifications apportées aux pages wiki (sir le projet a activé
+          son wiki)</para>
+        </listitem>
+      </itemizedlist>
+
+      <para></para>
     </section>
 
     <section>
       <title>Historique</title>
 
       <para>Cette page présente l'ensemble des demandes résolues dans chacune
-      des versions du projet. Certains types de demande peuvent être exclus de
-      cet affichage.</para>
+      des versions du projet.</para>
+
+      <para><remark>Remarque: certains trackers peuvent être exclus de la vue
+      "Historique". Les demandes correpondantes n'y seront alors pas
+      affichées.</remark></para>
+    </section>
+
+    <section>
+      <title>Roadmap</title>
+
+      <para>Cette page présente la liste des versions du projets dont la date
+      n'est pas encore passée. Pour chaque version, la liste des demandes
+      liées à cette version est affichée. Le ratio demandes fermées / demandes
+      ouvertes est représenté sous forme d'une barre de progression.</para>
+
+      <para><remark>Remarque: certains trackers peuvent être exclus de la vue
+      "Roadmap". Les demandes correpondantes n'y seront alors pas
+      affichées.</remark></para>
     </section>
 
     <section>
       <title>Annonces</title>
 
       <para>Les nouvelles vous permettent d'informer les utilisateurs sur
-      l'activité du projet.</para>
+      l'activité du projet. Les membres autorisés peuvent soumettre des
+      commentaires sur les annonces publiées.</para>
     </section>
 
     <section>
@@ -711,70 +1015,9 @@
       <title>Fichiers</title>
 
       <para>Ce module vous permet de publier les différents fichiers (sources,
-      binaires, ...) pour chaque version de l'application.</para>
-    </section>
-
-    <section>
-      <title>Configuration du projet</title>
+      binaires, ...) pour chaque version du projet.</para>
 
       <para></para>
-
-      <section>
-        <title>Propriétés du projet</title>
-
-        <para></para>
-
-        <itemizedlist>
-          <listitem>
-            <para><guilabel>Public</guilabel>: si le projet est public, il
-            sera visible (consultation des demandes, des documents, ...) pour
-            l'ensemble des utilisateurs, y compris ceux qui ne sont pas
-            membres du projet. Si le projet n'est pas public, seuls les
-            membres du projet y ont accès, en fonction de leur rôle.</para>
-          </listitem>
-
-          <listitem>
-            <para><guilabel>Champs personnalisés</guilabel>: sélectionner les
-            champs personnalisésMo que vous souhaitez utiliser pour les
-            demandes du projet. Seul l'administrateur peut définir de nouveaux
-            champs personnalisés.</para>
-          </listitem>
-        </itemizedlist>
-
-        <para></para>
-      </section>
-
-      <section>
-        <title>Membres</title>
-
-        <para>Cett section vous permet de définir les membres du projet ainsi
-        que leurs rôles respectifs. Un utilisateur ne peut avoir qu'un rôle au
-        sein d'un projet donné. Le rôle d'un membre détermine les permissions
-        dont il bénéficie sur le projet.</para>
-      </section>
-
-      <section>
-        <title>Versions</title>
-
-        <para>Les versions vous permettent de suivre les changements survenus
-        tout au long du projet. A la fermeture d'une demande, vous pouvez par
-        exemple indiquer quelle version la prend en compte. Vous pouvez par
-        ailleurs publier les différentes versions de l'application (voir
-        Fichiers).</para>
-      </section>
-
-      <section>
-        <title>Catégories des demandes</title>
-
-        <para>Les catégories de demande vous permettent de typer les demandes.
-        Les catégories peuvent par exemple correspondre aux différents modules
-        du projet.</para>
-
-        <para>Une catégorie référencée sur des demandes ne peut pas être
-        supprimée.</para>
-
-        <para></para>
-      </section>
     </section>
   </chapter>
 
