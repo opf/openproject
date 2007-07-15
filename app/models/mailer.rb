@@ -31,8 +31,8 @@ class Mailer < ActionMailer::Base
     # Sends to all project members
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }.compact
     # Sends to author and assignee (even if they turned off mail notification)
-    @recipients     << issue.author.mail
-    @recipients     << issue.assigned_to.mail
+    @recipients     << issue.author.mail if issue.author
+    @recipients     << issue.assigned_to.mail if issue.assigned_to
     @recipients.compact!
     @recipients.uniq!
     @from           = Setting.mail_from
@@ -46,8 +46,8 @@ class Mailer < ActionMailer::Base
     issue = journal.journalized
     @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
     # Sends to author and assignee (even if they turned off mail notification)
-    @recipients     << issue.author.mail
-    @recipients     << issue.assigned_to.mail
+    @recipients     << issue.author.mail if issue.author
+    @recipients     << issue.assigned_to.mail if issue.assigned_to
     @recipients.compact!
     @recipients.uniq!
     # Watchers in cc
