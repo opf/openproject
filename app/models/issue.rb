@@ -38,6 +38,7 @@ class Issue < ActiveRecord::Base
   acts_as_watchable
   
   validates_presence_of :subject, :description, :priority, :tracker, :author, :status
+  validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_associated :custom_values, :on => :update
 

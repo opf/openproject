@@ -21,6 +21,8 @@ class News < ActiveRecord::Base
   has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
   
   validates_presence_of :title, :description
+  validates_length_of :title, :maximum => 60
+  validates_length_of :summary, :maximum => 255
   
   # returns latest news for projects visible by user
   def self.latest(user=nil, count=5)

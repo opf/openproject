@@ -21,4 +21,5 @@ class Document < ActiveRecord::Base
   has_many :attachments, :as => :container, :dependent => :destroy
 
   validates_presence_of :project, :title, :category
+  validates_length_of :title, :maximum => 60
 end

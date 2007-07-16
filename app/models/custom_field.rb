@@ -29,6 +29,7 @@ class CustomField < ActiveRecord::Base
 
   validates_presence_of :name, :field_format
   validates_uniqueness_of :name
+  validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
   validates_inclusion_of :field_format, :in => FIELD_FORMATS.keys
 

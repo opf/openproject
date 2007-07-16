@@ -24,6 +24,7 @@ class Query < ActiveRecord::Base
   attr_accessor :executed_by
   
   validates_presence_of :name, :on => :save
+  validates_length_of :name, :maximum => 255
     
   @@operators = { "="   => :label_equals, 
                   "!"   => :label_not_equals,

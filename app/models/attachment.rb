@@ -22,7 +22,9 @@ class Attachment < ActiveRecord::Base
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
   
   validates_presence_of :container, :filename
-  
+  validates_length_of :filename, :maximum => 255
+  validates_length_of :disk_filename, :maximum => 255
+    
   cattr_accessor :storage_path
   @@storage_path = "#{RAILS_ROOT}/files"
   
