@@ -639,6 +639,18 @@ div.wiki table, div.wiki td {
     padding: 4px;
 }
 
+div.wiki a {
+    background-position: 0% 60%;
+    background-repeat: no-repeat;
+    padding-left: 12px;
+    background-image: url(../images/external.png);
+}
+
+div.wiki a.wiki-page, div.wiki a.issue, div.wiki a.changeset {
+    padding-left: 0;
+    background-image: none;
+}
+
 div.wiki code {
     font-size: 1.2em;
 }

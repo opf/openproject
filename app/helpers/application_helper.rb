@@ -142,17 +142,17 @@ module ApplicationHelper
     # example:
     #   [[link]] -> "link":link
     #   [[link|title]] -> "title":link
-    text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) {|m| "\"#{$3 || $1}\":" + format_wiki_link.call(Wiki.titleize($1)) }
+    text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) {|m| link_to(($3 || $1), format_wiki_link.call(Wiki.titleize($1)), :class => 'wiki-page') }
 
     # turn issue ids into links
     # example:
     #   #52 -> <a href="/issues/show/52">#52</a>
-    text = text.gsub(/#(\d+)(?=\b)/) {|m| link_to "##{$1}", :controller => 'issues', :action => 'show', :id => $1}
+    text = text.gsub(/#(\d+)(?=\b)/) {|m| link_to "##{$1}", {:controller => 'issues', :action => 'show', :id => $1}, :class => 'issue' }
        
     # turn revision ids into links (@project needed)
     # example:
     #   r52 -> <a href="/repositories/revision/6?rev=52">r52</a> (@project.id is 6)
-    text = text.gsub(/(?=\b)r(\d+)(?=\b)/) {|m| link_to "r#{$1}", :controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1} if @project
+    text = text.gsub(/(?=\b)r(\d+)(?=\b)/) {|m| link_to "r#{$1}", {:controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1}, :class => 'changeset' } if @project
     
     # when using an image link, try to use an attachment, if possible
     attachments = options[:attachments]
