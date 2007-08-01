@@ -100,7 +100,7 @@ class Repository::Cvs < Repository
         # is not exclusive at all. 
         unless changes.find_by_path_and_revision(scm.with_leading_slash(revision.paths[0][:path]), revision.paths[0][:revision])
           revision
-          cs=Changeset.find(:first, :conditions=>{
+          cs = changesets.find(:first, :conditions=>{
             :committed_on=>revision.time-time_delta..revision.time+time_delta,
             :committer=>revision.author,
             :comments=>revision.message
