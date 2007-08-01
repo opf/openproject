@@ -5,7 +5,7 @@
 <h2><%= l(:label_spent_time) %></h2>
 
 <h3><%= link_to(@project.name, {:action => 'details', :project_id => @project}) if @project %>
-<%= "/ " + link_to("#{@issue.tracker.name} ##{@issue.id}", {:action => 'details', :issue_id => @issue }) + ": #{h(@issue.subject)}" if @issue %></h3>
+<%= "/ " + link_to_issue(@issue) + h(": #{@issue.subject}") if @issue %></h3>
 
 <h3 class="textright"><%= l(:label_total) %>: <%= lwr(:label_f_hour, @total_hours) %></h3>
 
