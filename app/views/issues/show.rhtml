@@ -81,6 +81,7 @@ end %>
 </div>
 <% end %>
 
+<% if @journals_count > 0 %>
 <div id="history" class="box">
 <h3><%=l(:label_history)%>
 <% if @journals_count > @journals.length %>(<%= l(:label_last_changes, @journals.length) %>)<% end %></h3>
@@ -89,6 +90,7 @@ end %>
     <p><center><small><%= link_to l(:label_change_view_all), :action => 'history', :id => @issue %></small></center></p>
 <% end %>
 </div>
+<% end %>
 
 <div class="box">
 <h3><%=l(:label_attachment_plural)%></h3>
