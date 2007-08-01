@@ -36,7 +36,7 @@ class TrackersController < ApplicationController
     @tracker = Tracker.new(params[:tracker])
     if request.post? and @tracker.save
       # workflow copy
-      if params[:copy_workflow_from] && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
+      if !params[:copy_workflow_from].blank? && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
         copy_from.workflows.each do |w|
           @tracker.workflows << w.clone
         end
