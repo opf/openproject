@@ -56,7 +56,7 @@ notice_account_updated: Account was successfully updated.
 notice_account_invalid_creditentials: Invalid user or password
 notice_account_password_updated: Password was successfully updated.
 notice_account_wrong_password: Wrong password
-notice_account_register_done: Account was successfully created.
+notice_account_register_done: Account was successfully created. To activate your account, click on the link that was emailed to you.
 notice_account_unknown_email: Unknown user.
 notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
 notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.

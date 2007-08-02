@@ -135,7 +135,7 @@ class AccountController < ApplicationController
         if @user.save and token.save
           Mailer.deliver_register(token)
           flash[:notice] = l(:notice_account_register_done)
-          redirect_to :controller => 'welcome' and return
+          redirect_to :controller => 'account', :action => 'login'
         end
       end
     end
