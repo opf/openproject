@@ -58,7 +58,7 @@ class RolesController < ApplicationController
   def destroy
     @role = Role.find(params[:id])
     unless @role.members.empty?
-      flash[:notice] = 'Some members have this role. Can\'t delete it.'
+      flash[:error] = 'Some members have this role. Can\'t delete it.'
     else
       @role.destroy
     end

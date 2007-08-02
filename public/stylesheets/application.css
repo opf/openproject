@@ -695,3 +695,25 @@ background-image: url(../images/loading.gif);
 padding-left: 26px;
 vertical-align: bottom;
 }
+
+/***** Flash messages ****/
+#flash {
+    padding: 4px 4px 4px 30px;
+    margin-bottom: 16px;
+	font-size: 1.2em;
+	border: 2px solid;
+}
+
+#flash.error {
+    background: url(../images/false.png) 8px 50% no-repeat;
+	background-color: #ffe3e3;
+	border-color: #dd0000;
+	color: #550000;
+}
+
+#flash.notice {
+    background: url(../images/true.png) 8px 50% no-repeat;
+	background-color: #dfffdf;
+	border-color: #9fcf9f;
+	color: #005f00;
+}

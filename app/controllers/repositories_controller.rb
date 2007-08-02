@@ -128,7 +128,7 @@ private
   end
 
   def show_error
-    flash.now[:notice] = l(:notice_scm_error)
+    flash.now[:error] = l(:notice_scm_error)
     render :nothing => true, :layout => true
   end
   

@@ -138,8 +138,9 @@
 	</div>
 	
 	<div id="content">
-		<% if flash[:notice] %><p style="color: green"><%= flash[:notice] %></p><% end %>		
-		<%= yield %>	
+		<%= content_tag('div', flash[:error], :id => 'flash', :class => 'error') if flash[:error] %>
+		<%= content_tag('div', flash[:notice], :id => 'flash', :class => 'notice') if flash[:notice] %>
+		<%= yield %>
 	</div>
 	
 	<div id="ajax-indicator" style="display:none;">

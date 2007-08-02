@@ -227,7 +227,7 @@ class ProjectsController < ApplicationController
     
     default_status = IssueStatus.default
     unless default_status
-      flash.now[:notice] = 'No default issue status defined. Please check your configuration.'
+      flash.now[:error] = 'No default issue status defined. Please check your configuration.'
       render :nothing => true, :layout => true
       return
     end

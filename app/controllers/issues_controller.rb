@@ -69,7 +69,7 @@ class IssuesController < ApplicationController
         end
       rescue ActiveRecord::StaleObjectError
         # Optimistic locking exception
-        flash[:notice] = l(:notice_locking_conflict)
+        flash[:error] = l(:notice_locking_conflict)
       end
     end		
   end
@@ -118,7 +118,7 @@ class IssuesController < ApplicationController
         end
       rescue ActiveRecord::StaleObjectError
         # Optimistic locking exception
-        flash[:notice] = l(:notice_locking_conflict)
+        flash[:error] = l(:notice_locking_conflict)
       end
     end    
     @assignable_to = @project.members.find(:all, :include => :user).collect{ |m| m.user }

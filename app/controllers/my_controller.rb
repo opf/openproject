@@ -62,7 +62,7 @@ class MyController < ApplicationController
   # Change user's password
   def change_password
     @user = self.logged_in_user
-    flash[:notice] = l(:notice_can_t_change_password) and redirect_to :action => 'account' and return if @user.auth_source_id
+    flash[:error] = l(:notice_can_t_change_password) and redirect_to :action => 'account' and return if @user.auth_source_id
     if @user.check_password?(params[:password])
       @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
       if @user.save
@@ -72,7 +72,7 @@ class MyController < ApplicationController
         return
       end
     else
-      flash[:notice] = l(:notice_account_wrong_password)
+      flash[:error] = l(:notice_account_wrong_password)
     end
     redirect_to :action => 'account'
   end

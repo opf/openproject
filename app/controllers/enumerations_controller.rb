@@ -64,7 +64,7 @@ class EnumerationsController < ApplicationController
     flash[:notice] = l(:notice_successful_delete)
     redirect_to :action => 'list'
   rescue
-    flash[:notice] = "Unable to delete enumeration"
+    flash[:error] = "Unable to delete enumeration"
     redirect_to :action => 'list'
   end
 end

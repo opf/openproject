@@ -66,7 +66,7 @@ class CustomFieldsController < ApplicationController
     @custom_field = CustomField.find(params[:id]).destroy
     redirect_to :action => 'list', :tab => @custom_field.type
   rescue
-    flash[:notice] = "Unable to delete custom field"
+    flash[:error] = "Unable to delete custom field"
     redirect_to :action => 'list'
   end
 end

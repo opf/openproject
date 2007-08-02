@@ -30,7 +30,7 @@ class IssueCategoriesController < ApplicationController
     @category.destroy
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
   rescue
-    flash[:notice] = "Categorie can't be deleted"
+    flash[:error] = "Categorie can't be deleted"
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
   end
 

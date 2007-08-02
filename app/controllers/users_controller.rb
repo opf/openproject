@@ -114,7 +114,7 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     redirect_to :action => 'list'
   rescue
-    flash[:notice] = "Unable to delete user"
+    flash[:error] = "Unable to delete user"
     redirect_to :action => 'list'
   end  
 end

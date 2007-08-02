@@ -73,7 +73,7 @@ class WikiController < ApplicationController
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash[:notice] = l(:notice_locking_conflict)
+    flash[:error] = l(:notice_locking_conflict)
   end
   
   # show page history
