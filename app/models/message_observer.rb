@@ -17,8 +17,11 @@
 
 class MessageObserver < ActiveRecord::Observer
   def after_create(message)
-    # send notification to board watchers
-    recipients = message.board.watcher_recipients
+    # send notification to the authors of the thread
+    recipients = ([message.root] + message.root.children).collect {|m| m.author.mail if m.author}
+    # send notification to the board watchers
+    recipients += message.board.watcher_recipients
+    recipients = recipients.compact.uniq
     Mailer.deliver_message_posted(message, recipients) unless recipients.empty?
   end
 end
