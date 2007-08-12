@@ -342,6 +342,7 @@ label_sort_lower: 下移
 label_sort_lowest: 置底
 label_roadmap: 路线图
 label_roadmap_due_in: Due in 
+label_roadmap_overdue: %s late
 label_roadmap_no_issues: 该版本没有任务
 label_search: 查找
 label_result: %d 个结果

@@ -34,8 +34,22 @@ class Version < ActiveRecord::Base
     effective_date
   end
   
+  # Returns true if the version is completed: due date reached and no open issues
   def completed?
-    effective_date && effective_date <= Date.today
+    effective_date && (effective_date <= Date.today) && (open_issues_count == 0)
+  end
+  
+  # Returns true if the version is overdue: due date reached and some open issues
+  def overdue?
+    effective_date && (effective_date < Date.today) && (open_issues_count > 0)
+  end
+  
+  def open_issues_count
+    @open_issues_count ||= Issue.count(:all, :conditions => ["fixed_version_id = ? AND is_closed = ?", self.id, false], :include => :status)
+  end
+
+  def closed_issues_count
+    @closed_issues_count ||= Issue.count(:all, :conditions => ["fixed_version_id = ? AND is_closed = ?", self.id, true], :include => :status)
   end
   
   def wiki_page

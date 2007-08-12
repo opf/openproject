@@ -443,8 +443,8 @@ class ProjectsController < ApplicationController
   def roadmap
     @trackers = Tracker.find(:all, :conditions => ["is_in_roadmap=?", true], :order => 'position')
     retrieve_selected_tracker_ids(@trackers)
-    conditions = ("1" == params[:completed] ? nil : [ "#{Version.table_name}.effective_date > ? OR #{Version.table_name}.effective_date IS NULL", Date.today])
-    @versions = @project.versions.find(:all, :conditions => conditions).sort
+    @versions = @project.versions.sort
+    @versions = @versions.select {|v| !v.completed? } unless params[:completed]
   end
   
   def activity

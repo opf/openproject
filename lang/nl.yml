@@ -339,6 +339,7 @@ label_sort_lower: Verplaats naar beneden
 label_sort_lowest: Verplaats naar eind
 label_roadmap: Roadmap
 label_roadmap_due_in: Due in 
+label_roadmap_overdue: %s late
 label_roadmap_no_issues: Geen issues voor deze versie
 label_search: Zoeken
 label_result: %d resultaat

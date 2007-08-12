@@ -339,6 +339,7 @@ label_sort_lower: Премести по-долу
 label_sort_lowest: Премести най-долу
 label_roadmap: Пътна карта
 label_roadmap_due_in: Излиза след
+label_roadmap_overdue: %s late
 label_roadmap_no_issues: Няма задачи за тази версия
 label_search: Търсене
 label_result: %d резултат

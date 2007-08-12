@@ -339,6 +339,7 @@ label_sort_lower: Bajar
 label_sort_lowest: Último
 label_roadmap: Roadmap
 label_roadmap_due_in: Due in 
+label_roadmap_overdue: %s late
 label_roadmap_no_issues: No issues for this version
 label_search: Búsqueda
 label_result: %d resultado

@@ -339,6 +339,7 @@ label_sort_lower: eins tiefer
 label_sort_lowest: Ende
 label_roadmap: Roadmap
 label_roadmap_due_in: Fällig in
+label_roadmap_overdue: %s late
 label_roadmap_no_issues: Keine Tickets für diese Version
 label_search: Suche
 label_result: %d Resultat
