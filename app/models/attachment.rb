@@ -38,7 +38,7 @@ class Attachment < ActiveRecord::Base
 			if @temp_file.size > 0
 				self.filename = sanitize_filename(@temp_file.original_filename)
 				self.disk_filename = DateTime.now.strftime("%y%m%d%H%M%S") + "_" + self.filename
-				self.content_type = @temp_file.content_type
+				self.content_type = @temp_file.content_type.chomp
 				self.filesize = @temp_file.size
 			end
 		end
