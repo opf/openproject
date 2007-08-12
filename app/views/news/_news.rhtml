@@ -1,4 +1,5 @@
-<p><%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %><br />
+<p><%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless @project %>
+<%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %><br />
 <% unless news.summary.blank? %><%=h news.summary %><br /><% end %>
 <em><%= news.author.name %>, <%= format_time(news.created_on) %></em><br />
 <%= news.comments_count %> <%= lwr(:label_comment, news.comments_count).downcase %><br /></p>
