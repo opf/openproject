@@ -214,7 +214,7 @@ class Setup < ActiveRecord::Migration
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "name", :string, :limit => 30, :default => "", :null => false
       t.column "description", :string, :default => ""
-      t.column "effective_date", :date, :null => false
+      t.column "effective_date", :date
       t.column "created_on", :timestamp
       t.column "updated_on", :timestamp
     end
