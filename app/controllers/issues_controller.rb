@@ -37,13 +37,7 @@ class IssuesController < ApplicationController
   def show
     @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
-    @journals_count = @issue.journals.count
-    @journals = @issue.journals.find(:all, :include => [:user, :details], :limit => 15, :order => "#{Journal.table_name}.created_on desc")
-  end
-  
-  def history
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on desc")
-    @journals_count = @journals.length  
   end
   
   def export_pdf

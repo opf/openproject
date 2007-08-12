@@ -1,11 +1,13 @@
+<% note_id = journals.length %>
 <% for journal in journals %>
-	<h4><%= format_time(journal.created_on) %> - <%= journal.user.name %></h4>
+	<h4><div style="float:right;"><%= link_to "##{note_id}", :anchor => "note-#{note_id}" %></div>
+	<%= content_tag('a', '', :name => "note-#{note_id}")%>
+	<%= format_time(journal.created_on) %> - <%= journal.user.name %></h4>
 	<ul>
 	<% for detail in journal.details %>
 	   <li><%= show_detail(detail) %></li>
 	<% end %>
 	</ul>
-	<% if journal.notes? %>
-    	<%= textilizable(journal.notes) %>
-	<% end %>
+  	<%= textilizable(journal.notes) unless journal.notes.blank? %>
+  	<% note_id -= 1 %>
 <% end %>

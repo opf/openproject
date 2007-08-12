@@ -81,14 +81,10 @@ end %>
 </div>
 <% end %>
 
-<% if @journals_count > 0 %>
+<% if @journals.any? %>
 <div id="history" class="box">
-<h3><%=l(:label_history)%>
-<% if @journals_count > @journals.length %>(<%= l(:label_last_changes, @journals.length) %>)<% end %></h3>
+<h3><%=l(:label_history)%></h3>
 <%= render :partial => 'history', :locals => { :journals => @journals } %>
-<% if @journals_count > @journals.length %>
-    <p><center><small><%= link_to l(:label_change_view_all), :action => 'history', :id => @issue %></small></center></p>
-<% end %>
 </div>
 <% end %>
 
