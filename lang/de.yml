@@ -33,8 +33,8 @@ activerecord_error_taken: ist bereits vergeben
 activerecord_error_not_a_number: ist keine Zahl
 activerecord_error_not_a_date: ist kein gültiges Datum
 activerecord_error_greater_than_start_date: muss größer als Anfangsdatum sein
-activerecord_error_not_same_project: doesn't belong to the same project
-activerecord_error_circular_dependency: This relation would create a circular dependency
+activerecord_error_not_same_project: gehört nicht zum selben Projekt
+activerecord_error_circular_dependency: diese Relation würde eine zyklische Abhängigkeit erzeugen
 
 general_fmt_age: %d Jahr
 general_fmt_age_plural: %d Jahre
@@ -68,7 +68,7 @@ notice_successful_connection: Verbindung erfolgreich.
 notice_file_not_found: Anhang besteht nicht oder ist gelöscht worden.
 notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
 notice_scm_error: Eintrag und/oder Revision besteht nicht im Projektarchiv.
-notice_not_authorized: You are not authorized to access this page.
+notice_not_authorized: Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 
 mail_subject_lost_password: Ihr redMine Kennwort
 mail_subject_register: redMine Kontoaktivierung
@@ -133,15 +133,15 @@ field_host: Host
 field_port: Port
 field_account: Konto
 field_base_dn: Base DN
-field_attr_login: Mitgliedsnameattribut
-field_attr_firstname: Vornamensattribut
-field_attr_lastname: Namenattribut
-field_attr_mail: Emailattribut
-field_onthefly: On-the-fly Benutzerkreation
+field_attr_login: Mitgliedsname-Attribut
+field_attr_firstname: Vorname-Attribut
+field_attr_lastname: Name-Attribut
+field_attr_mail: Email-Attribut
+field_onthefly: On-the-fly-Benutzererstellung
 field_start_date: Beginn
 field_done_ratio: %% erledigt
 field_auth_source: Authentifizierungs-Modus
-field_hide_mail: Email Adresse nicht anzeigen
+field_hide_mail: Email-Adresse nicht anzeigen
 field_comments: Kommentar
 field_url: URL
 field_start_page: Hauptseite
@@ -391,19 +391,19 @@ label_disabled: disabled
 label_show_completed_versions: Show completed versions
 label_me: me
 label_board: Forum
-label_board_new: New forum
-label_board_plural: Forums
-label_topic_plural: Topics
-label_message_plural: Messages
-label_message_last: Last message
-label_message_new: New message
-label_reply_plural: Replies
-label_send_information: Send account information to the user
-label_year: Year
-label_month: Month
-label_week: Week
-label_date_from: From
-label_date_to: To
+label_board_new: Neues Forum
+label_board_plural: Foren
+label_topic_plural: Themen
+label_message_plural: Nachrichten
+label_message_last: Letzte Nachricht
+label_message_new: Neue Nachricht
+label_reply_plural: Antworten
+label_send_information: Sende Kontoinformationen zum Benutzer
+label_year: Jahr
+label_month: Monat
+label_week: Woche
+label_date_from: Von
+label_date_to: Bis
 label_language_based: Language based
 
 button_login: Einloggen
