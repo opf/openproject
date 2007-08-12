@@ -77,7 +77,7 @@ class MyControllerTest < Test::Unit::TestCase
                            :new_password => 'hello',
                            :new_password_confirmation => 'hello'
     assert_redirected_to 'my/account'
-    assert_equal 'Wrong password', flash[:notice]
+    assert_equal 'Wrong password', flash[:error]
     
     # good password
     post :change_password, :password => 'jsmith',
