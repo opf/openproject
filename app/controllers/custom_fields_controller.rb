@@ -25,7 +25,7 @@ class CustomFieldsController < ApplicationController
   end
 
   def list
-    @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.type.to_s }
+    @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.class.name }
     @tab = params[:tab] || 'IssueCustomField'
     render :action => "list", :layout => false if request.xhr?
   end
