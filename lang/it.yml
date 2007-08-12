@@ -405,6 +405,7 @@ label_week: Week
 label_date_from: From
 label_date_to: To
 label_language_based: Language based
+label_sort_by: Sort by "%s"
 
 button_login: Login
 button_submit: Invia

@@ -137,13 +137,8 @@ module SortHelper
   #   </th>
   #
   def sort_header_tag(column, options = {})
-    if options[:caption]
-      caption = options[:caption]
-      options.delete(:caption)
-    else
-      caption = titleize(Inflector::humanize(column))
-    end
-    options[:title]= "Sort by #{caption}" unless options[:title]
+    caption = options.delete(:caption) || titleize(Inflector::humanize(column))
+    options[:title]= l(:label_sort_by, caption) unless options[:title]
     content_tag('th', sort_link(column, caption), options)
   end
 

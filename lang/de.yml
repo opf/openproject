@@ -405,6 +405,7 @@ label_week: Woche
 label_date_from: Von
 label_date_to: Bis
 label_language_based: Language based
+label_sort_by: Sort by "%s"
 
 button_login: Einloggen
 button_submit: OK

@@ -405,6 +405,7 @@ label_week: Semaine
 label_date_from: Du
 label_date_to: Au
 label_language_based: Basé sur la langue
+label_sort_by: Trier par "%s"
 
 button_login: Connexion
 button_submit: Soumettre
