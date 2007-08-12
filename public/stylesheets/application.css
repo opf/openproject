@@ -315,36 +315,6 @@ table.list tbody th {
     color: #777;
 }
 
-/********** Validation error messages *************/
-#errorExplanation {
-  width: 400px;
-  border: 0;
-  padding: 7px;
-  padding-bottom: 3px;
-  margin-bottom: 0px;
-}
-
-#errorExplanation h2 {
-  text-align: left;
-  font-weight: bold;
-  padding: 5px 5px 10px 26px;
-  font-size: 1em;
-  margin: -7px;
-  background: url(../images/alert.png) no-repeat 6px 6px;
-}
-
-#errorExplanation p {
-  color: #333;
-  margin-bottom: 0;
-  padding: 5px;
-}
-
-#errorExplanation ul li {
-  font-size: 1em;
-  list-style: none;
-  margin-left: -16px;
-}
-
 /*==========  Drop down menu  ==============*/
 div.menu {
   background-color: #FFFFFF;
@@ -696,24 +666,27 @@ padding-left: 26px;
 vertical-align: bottom;
 }
 
-/***** Flash messages ****/
-#flash {
+/***** Flash & error messages ****/
+#flash div, #errorExplanation {
     padding: 4px 4px 4px 30px;
     margin-bottom: 16px;
-	font-size: 1.2em;
+	font-size: 1.1em;
 	border: 2px solid;
 }
 
-#flash.error {
-    background: url(../images/false.png) 8px 50% no-repeat;
+#flash div.error, #errorExplanation {
+    background: url(../images/false.png) 8px 5px no-repeat;
 	background-color: #ffe3e3;
 	border-color: #dd0000;
 	color: #550000;
 }
 
-#flash.notice {
-    background: url(../images/true.png) 8px 50% no-repeat;
+#flash div.notice {
+    background: url(../images/true.png) 8px 5px no-repeat;
 	background-color: #dfffdf;
 	border-color: #9fcf9f;
 	color: #005f00;
 }
+
+#errorExplanation ul { margin-bottom: 0px; }
+#errorExplanation ul li { list-style: none; margin-left: -16px;}

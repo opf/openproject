@@ -211,7 +211,7 @@ module ApplicationHelper
       end      
       content_tag("div",
         content_tag(
-          options[:header_tag] || "h2", lwr(:gui_validation_error, full_messages.length) + " :"
+          options[:header_tag] || "span", lwr(:gui_validation_error, full_messages.length) + ":"
         ) +
         content_tag("ul", full_messages.collect { |msg| content_tag("li", msg) }),
         "id" => options[:id] || "errorExplanation", "class" => options[:class] || "errorExplanation"

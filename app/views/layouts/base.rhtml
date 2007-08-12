@@ -138,8 +138,10 @@
 	</div>
 	
 	<div id="content">
-		<%= content_tag('div', flash[:error], :id => 'flash', :class => 'error') if flash[:error] %>
-		<%= content_tag('div', flash[:notice], :id => 'flash', :class => 'notice') if flash[:notice] %>
+	    <div id="flash">
+		  <%= content_tag('div', flash[:error], :class => 'error') if flash[:error] %>
+		  <%= content_tag('div', flash[:notice], :class => 'notice') if flash[:notice] %>
+		</div>
 		<%= yield %>
 	</div>
 	
