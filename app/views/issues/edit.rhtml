@@ -25,7 +25,7 @@
 	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end %>
 
-<p><%= f.select :fixed_version_id, (@project.versions.collect {|v| [v.name, v.id]}), { :include_blank => true } %></p>
+<p><%= f.select :fixed_version_id, (@project.versions.sort.collect {|v| [v.name, v.id]}), { :include_blank => true } %></p>
 </div>
 <!--[eoform:issue]-->
 </div>
