@@ -72,3 +72,5 @@ autologin:
 date_format:
   format: int
   default: 0
+cross_project_issue_relations:
+  default: 0

@@ -38,7 +38,7 @@ class IssueRelation < ActiveRecord::Base
   def validate
     if issue_from && issue_to
       errors.add :issue_to_id, :activerecord_error_invalid if issue_from_id == issue_to_id
-      errors.add :issue_to_id, :activerecord_error_not_same_project unless issue_from.project_id == issue_to.project_id
+      errors.add :issue_to_id, :activerecord_error_not_same_project unless issue_from.project_id == issue_to.project_id || Setting.cross_project_issue_relations?
       errors.add_to_base :activerecord_error_circular_dependency if issue_to.all_dependent_issues.include? issue_from
     end
   end
