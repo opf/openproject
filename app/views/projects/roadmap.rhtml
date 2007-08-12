@@ -31,7 +31,7 @@
 
        total = issues.size
        complete = issues.inject(0) {|c,i| i.status.is_closed? ? c + 1 : c } 
-       percentComplete = total == 0 ? 100 : (100 / total * complete).floor 
+       percentComplete = total == 0 ? 100 : (100.0 / total * complete).floor 
        percentIncomplete = 100 - percentComplete
     %>
     <table class="progress">
