@@ -25,23 +25,28 @@ task :migrate_from_mantis => :environment do
   module MantisMigrate
    
       default_status = IssueStatus.default
-      closed_status = IssueStatus.find :first, :conditions => { :is_closed => true }  
-      STATUS_MAPPING = {10 => default_status, # new
-                        20 => default_status, # feedback
-                        30 => default_status, # acknowledged
-                        40 => default_status, # confirmed
-                        50 => default_status, # assigned
-                        80 => default_status, # resolved
-                        90 => closed_status   # closed
+      assigned_status = IssueStatus.find_by_position(2)
+      resolved_status = IssueStatus.find_by_position(3)
+      feedback_status = IssueStatus.find_by_position(4)
+      closed_status = IssueStatus.find :first, :conditions => { :is_closed => true }
+      STATUS_MAPPING = {10 => default_status,  # new
+                        20 => feedback_status, # feedback
+                        30 => default_status,  # acknowledged
+                        40 => default_status,  # confirmed
+                        50 => assigned_status, # assigned
+                        80 => resolved_status, # resolved
+                        90 => closed_status    # closed
                         }
     
-      default_role = Role.find :first
-      ROLE_MAPPING = {10 => default_role, # viewer
-                      25 => default_role, # reporter
-                      40 => default_role, # updater
-                      55 => default_role, # developer
-                      70 => default_role, # manager
-                      90 => default_role  # administrator
+      default_role = Role.find_by_position(3)
+      manager_role = Role.find_by_position(1)
+      developer_role = Role.find_by_position(2)
+      ROLE_MAPPING = {10 => default_role,   # viewer
+                      25 => default_role,   # reporter
+                      40 => default_role,   # updater
+                      55 => developer_role, # developer
+                      70 => manager_role,   # manager
+                      90 => manager_role    # administrator
                       }
       
       CUSTOM_FIELD_TYPE_MAPPING = {0 => 'string', # String
