@@ -133,6 +133,7 @@ task :migrate_from_mantis => :environment do
       belongs_to :bug_text, :class_name => "MantisBugText", :foreign_key => :bug_text_id
       has_many :bug_notes, :class_name => "MantisBugNote", :foreign_key => :bug_id
       has_many :bug_files, :class_name => "MantisBugFile", :foreign_key => :bug_id
+      has_many :bug_monitors, :class_name => "MantisBugMonitor", :foreign_key => :bug_id
     end
     
     class MantisBugText < ActiveRecord::Base
@@ -171,6 +172,10 @@ task :migrate_from_mantis => :environment do
     
     class MantisBugRelationship < ActiveRecord::Base
       set_table_name :mantis_bug_relationship_table
+    end
+    
+    class MantisBugMonitor < ActiveRecord::Base
+      set_table_name :mantis_bug_monitor_table
     end
     
     class MantisNews < ActiveRecord::Base
@@ -307,6 +312,11 @@ task :migrate_from_mantis => :environment do
           a.container = i
           a.save
         end
+        
+        # Bug monitors
+        bug.bug_monitors.each do |monitor|
+          i.add_watcher(User.find_by_id(users_map[monitor.user_id]))
+        end
       end
       puts
       
@@ -320,6 +330,7 @@ task :migrate_from_mantis => :environment do
         pp r unless r.save
         print '.'
       end
+      puts
       
       # News
       print "Migrating news"
@@ -378,6 +389,7 @@ task :migrate_from_mantis => :environment do
       puts "Bug notes:       #{Journal.count}/#{MantisBugNote.count}"
       puts "Bug files:       #{Attachment.count}/#{MantisBugFile.count}"
       puts "Bug relations:   #{IssueRelation.count}/#{MantisBugRelationship.count}"
+      puts "Bug monitors:    #{Watcher.count}/#{MantisBugMonitor.count}"
       puts "News:            #{News.count}/#{MantisNews.count}"
       puts "Custom fields:   #{IssueCustomField.count}/#{MantisCustomField.count}"
     end
