@@ -10,10 +10,13 @@ http://redmine.rubyforge.org/
 1. Uncompress program archive in a new directory:
    tar zxvf <filename>
    
-3. Copy your database settings (database.yml) into the new config directory
+3. Copy your database settings (RAILS_ROOT/config/database.yml)
+   into the new config directory
    
 4. Migrate your database:
    rake db:migrate RAILS_ENV="production"
+
+5. Copy the RAILS_ROOT/files directory content into your new installation
 
 Note 1: Rails 1.2.2 is required for version 0.4.2 and later.
 
