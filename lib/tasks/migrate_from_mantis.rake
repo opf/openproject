@@ -137,7 +137,16 @@ task :migrate_from_mantis => :environment do
     end
     
     class MantisBugText < ActiveRecord::Base
-      set_table_name :mantis_bug_text_table	
+      set_table_name :mantis_bug_text_table
+      
+      # Adds Mantis steps_to_reproduce and additional_information fields
+      # to description if any
+      def full_description
+        full_description = description
+        full_description += "\n\n*Steps to reproduce:*\n\n#{steps_to_reproduce}" unless steps_to_reproduce.blank?
+        full_description += "\n\n*Additional information:*\n\n#{additional_information}" unless additional_information.blank?
+        full_description
+      end
     end
     
     class MantisBugNote < ActiveRecord::Base
@@ -279,7 +288,7 @@ task :migrate_from_mantis => :environment do
         next unless projects_map[bug.project_id]
     	i = Issue.new :project_id => projects_map[bug.project_id], 
                       :subject => encode(bug.summary),
-                      :description => encode(bug.bug_text.description),
+                      :description => encode(bug.bug_text.full_description),
                       # TODO
                       :priority => Enumeration.get_values('IPRI').first,
                       :created_on => bug.date_submitted,
