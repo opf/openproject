@@ -19,6 +19,7 @@ desc 'Mantis migration script'
 
 require 'active_record'
 require 'iconv'
+require 'pp'
 
 task :migrate_from_mantis => :environment do
   
@@ -58,7 +59,14 @@ task :migrate_from_mantis => :environment do
                                    6 => 'list',   # List
                                    7 => 'list',   # Multiselection list
                                    8 => 'date',   # Date
-                                   }  
+                                   }
+                                   
+      RELATION_TYPE_MAPPING = {1 => IssueRelation::TYPE_RELATES,    # related to
+                               2 => IssueRelation::TYPE_RELATES,    # parent of
+                               3 => IssueRelation::TYPE_RELATES,    # child of
+                               0 => IssueRelation::TYPE_DUPLICATES, # duplicate of
+                               4 => IssueRelation::TYPE_DUPLICATES  # has duplicate
+                               }
                                                                    
     class MantisUser < ActiveRecord::Base
       set_table_name :mantis_user_table
@@ -159,6 +167,10 @@ task :migrate_from_mantis => :environment do
       def read
         content
       end
+    end
+    
+    class MantisBugRelationship < ActiveRecord::Base
+      set_table_name :mantis_bug_relationship_table
     end
     
     class MantisNews < ActiveRecord::Base
@@ -298,6 +310,17 @@ task :migrate_from_mantis => :environment do
       end
       puts
       
+      # Bug relationships
+      print "Migrating bug relations"
+      MantisBugRelationship.find(:all).each do |relation|
+        next unless issues_map[relation.source_bug_id] && issues_map[relation.destination_bug_id]
+        r = IssueRelation.new :relation_type => RELATION_TYPE_MAPPING[relation.relationship_type]
+        r.issue_from = Issue.find_by_id(issues_map[relation.source_bug_id])
+        r.issue_to = Issue.find_by_id(issues_map[relation.destination_bug_id])
+        pp r unless r.save
+        print '.'
+      end
+      
       # News
       print "Migrating news"
       News.destroy_all
@@ -354,6 +377,7 @@ task :migrate_from_mantis => :environment do
       puts "Bugs:            #{Issue.count}/#{MantisBug.count}"
       puts "Bug notes:       #{Journal.count}/#{MantisBugNote.count}"
       puts "Bug files:       #{Attachment.count}/#{MantisBugFile.count}"
+      puts "Bug relations:   #{IssueRelation.count}/#{MantisBugRelationship.count}"
       puts "News:            #{News.count}/#{MantisNews.count}"
       puts "Custom fields:   #{IssueCustomField.count}/#{MantisCustomField.count}"
     end
@@ -385,7 +409,7 @@ task :migrate_from_mantis => :environment do
   print "Are you sure you want to continue ? [y/N] "
   break unless STDIN.gets.match(/^y$/i)
   
-  # default Mantis database settings
+  # Default Mantis database settings
   db_params = {:adapter => 'mysql', 
                :database => 'bugtracker', 
                :host => 'localhost', 
@@ -408,6 +432,9 @@ task :migrate_from_mantis => :environment do
     puts "Invalid encoding!"
   end
   puts
+  
+  # Make sure bugs can refer bugs in other projects
+  Setting.cross_project_issue_relations = 1
   
   MantisMigrate.establish_connection db_params
   MantisMigrate.migrate
