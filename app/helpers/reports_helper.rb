@@ -29,4 +29,8 @@ module ReportsHelper
     a
   end
   
+  def aggregate_link(data, criteria, *args)
+    a = aggregate data, criteria
+    a > 0 ? link_to(a, *args) : '-'
+  end  
 end

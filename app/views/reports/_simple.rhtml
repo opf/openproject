@@ -14,17 +14,17 @@
   <td><%= link_to row.name, :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id %></td>
-  <td align="center"><%= link_to (aggregate data, { field_name => row.id, "closed" => 0 }),
+  <td align="center"><%= aggregate_link data, { field_name => row.id, "closed" => 0 },
                                                 :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "o" %></td>
-  <td align="center"><%= link_to (aggregate data, { field_name => row.id, "closed" => 1 }),
+  <td align="center"><%= aggregate_link data, { field_name => row.id, "closed" => 1 },
                                                 :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "c" %></td>
-  <td align="center"><%= link_to (aggregate data, { field_name => row.id }),
+  <td align="center"><%= aggregate_link data, { field_name => row.id },
                                                 :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
