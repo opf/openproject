@@ -38,7 +38,18 @@ task :migrate_from_mantis => :environment do
                         80 => resolved_status, # resolved
                         90 => closed_status    # closed
                         }
+                        
+      priorities = Enumeration.get_values('IPRI')
+      PRIORITY_MAPPING = {10 => priorities[1], # none
+                          20 => priorities[1], # low
+                          30 => priorities[2], # normal
+                          40 => priorities[3], # high
+                          50 => priorities[4], # urgent
+                          60 => priorities[5]  # immediate
+                          }
     
+      TARGET_TRACKER = Tracker.find :first
+      
       default_role = Role.find_by_position(3)
       manager_role = Role.find_by_position(1)
       developer_role = Role.find_by_position(2)
@@ -289,8 +300,7 @@ task :migrate_from_mantis => :environment do
     	i = Issue.new :project_id => projects_map[bug.project_id], 
                       :subject => encode(bug.summary),
                       :description => encode(bug.bug_text.full_description),
-                      # TODO
-                      :priority => Enumeration.get_values('IPRI').first,
+                      :priority => PRIORITY_MAPPING[bug.priority],
                       :created_on => bug.date_submitted,
                       :updated_on => bug.last_updated
     	i.author = User.find(users_map[bug.reporter_id] || :first)
@@ -298,8 +308,7 @@ task :migrate_from_mantis => :environment do
     	i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category) unless bug.category.blank?
     	i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
     	i.status = STATUS_MAPPING[bug.status] || default_status
-    	# TODO
-    	i.tracker = Tracker.find(:first)
+    	i.tracker = TARGET_TRACKER
     	next unless i.save
     	issues_map[bug.id] = i.id
     	print '.'
