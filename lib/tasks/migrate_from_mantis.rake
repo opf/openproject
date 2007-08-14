@@ -471,7 +471,7 @@ task :migrate_from_mantis => :environment do
   puts
   
   # Make sure bugs can refer bugs in other projects
-  Setting.cross_project_issue_relations = 1
+  Setting.cross_project_issue_relations = 1 if Setting.respond_to? 'cross_project_issue_relations'
   
   MantisMigrate.establish_connection db_params
   MantisMigrate.migrate
