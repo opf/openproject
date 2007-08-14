@@ -20,7 +20,8 @@ require 'iconv'
 
 class AuthSourceLdap < AuthSource 
   validates_presence_of :host, :port, :attr_login
-
+  validates_presence_of :attr_firstname, :attr_lastname, :attr_mail, :if => Proc.new { |a| a.onthefly_register? }
+  
   def after_initialize
     self.port = 389 if self.port == 0
   end
