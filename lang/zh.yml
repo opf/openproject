@@ -72,6 +72,8 @@ notice_file_not_found: 您访问的页面不存在或已被删除。
 notice_locking_conflict: 数据已被另一个用户更新
 notice_scm_error: 在版本库中不存在该条目或修订
 notice_not_authorized: You are not authorized to access this page.
+notice_email_sent: An email was sent to %s
+notice_email_error: An error occurred while sending mail (%s)"
 
 mail_subject_lost_password: 您的redMine口令
 mail_subject_register: redMine帐户激活
@@ -409,6 +411,7 @@ label_date_from: From
 label_date_to: To
 label_language_based: Language based
 label_sort_by: Sort by "%s"
+label_send_test_email: Send a test email
 
 button_login: 登录
 button_submit: 提交

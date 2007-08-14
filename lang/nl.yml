@@ -69,6 +69,8 @@ notice_file_not_found: De pagina die U probeerde te benaderen bestaat niet of is
 notice_locking_conflict: De gegevens zijn gewijzigd door een andere gebruiker.
 notice_scm_error: Deze ingang of revisie bestaat niet in de repository.
 notice_not_authorized: Het is U niet toegestaan om deze pagina te raadplegen.
+notice_email_sent: An email was sent to %s
+notice_email_error: An error occurred while sending mail (%s)"
 
 mail_subject_lost_password: Uw redMine wachtwoord
 mail_subject_register: redMine account activatie
@@ -407,6 +409,7 @@ label_date_from: From
 label_date_to: To
 label_language_based: Language based
 label_sort_by: Sort by "%s"
+label_send_test_email: Send a test email
 
 button_login: Inloggen
 button_submit: Toevoegen

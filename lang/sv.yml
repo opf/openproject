@@ -69,6 +69,8 @@ notice_file_not_found: Sidan du försökte komma åt existerar inte eller har bl
 notice_locking_conflict: Data har uppdaterats av en annan användare.
 notice_scm_error: Inlägg och/eller revision finns inte i repositoriet.
 notice_not_authorized: You are not authorized to access this page.
+notice_email_sent: An email was sent to %s
+notice_email_error: An error occurred while sending mail (%s)"
 
 mail_subject_lost_password: Ditt redMine lösenord
 mail_subject_register: redMine kontoaktivering
@@ -407,6 +409,7 @@ label_date_from: From
 label_date_to: To
 label_language_based: Language based
 label_sort_by: Sort by "%s"
+label_send_test_email: Send a test email
 
 button_login: Logga in
 button_submit: Skicka

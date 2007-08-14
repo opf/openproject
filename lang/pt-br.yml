@@ -69,6 +69,8 @@ notice_file_not_found: A pagina que voce esta tentando acessar nao existe ou foi
 notice_locking_conflict: Os dados foram atualizados por um outro usuario.
 notice_scm_error: A entrada e/ou a revisao nao existem no repositorio.
 notice_not_authorized: You are not authorized to access this page.
+notice_email_sent: An email was sent to %s
+notice_email_error: An error occurred while sending mail (%s)"
 
 mail_subject_lost_password: Sua senha do redMine.
 mail_subject_register: Ativacao de conta do redMine.
@@ -407,6 +409,7 @@ label_date_from: From
 label_date_to: To
 label_language_based: Language based
 label_sort_by: Sort by "%s"
+label_send_test_email: Send a test email
 
 button_login: Login
 button_submit: Enviar

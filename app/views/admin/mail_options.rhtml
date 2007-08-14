@@ -16,10 +16,11 @@
 <div class="clear"></div>
 </fieldset>
 <% end %>
-
 <br />
-<p><%= check_all_links('mail_options_form') %></p>
+<%= check_all_links('mail_options_form') %>
 </div>
 
-<%= submit_tag l(:button_save) %>
+<p><%= submit_tag l(:button_save) %></p>
 <% end %>
+
+<%= link_to l(:label_send_test_email), :action => 'test_email' %>

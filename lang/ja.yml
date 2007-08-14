@@ -70,6 +70,8 @@ notice_file_not_found: アクセスしようとしたページは存在しない
 notice_locking_conflict: 別のユーザがデータを更新しています。
 notice_scm_error: リポジトリに、エントリ/リビジョンが存在しません。
 notice_not_authorized: このページにアクセスするには認証が必要です。
+notice_email_sent: An email was sent to %s
+notice_email_error: An error occurred while sending mail (%s)"
 
 mail_subject_lost_password: redMineパスワード
 mail_subject_register: redMineアカウントが有効になりました
@@ -408,6 +410,7 @@ label_date_from: From
 label_date_to: To
 label_language_based: Language based
 label_sort_by: Sort by "%s"
+label_send_test_email: Send a test email
 
 button_login: ログイン
 button_submit: 変更

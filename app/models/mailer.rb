@@ -113,4 +113,11 @@ class Mailer < ActionMailer::Base
     @subject        = "[#{message.board.project.name} - #{message.board.name}] #{message.subject}"
     @body['message'] = message
   end
+  
+  def test(user)
+    set_language_if_valid(user.language)
+    @recipients     = user.mail
+    @from           = Setting.mail_from
+    @subject        = 'Redmine'
+  end
 end

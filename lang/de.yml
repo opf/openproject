@@ -69,6 +69,8 @@ notice_file_not_found: Anhang besteht nicht oder ist gelöscht worden.
 notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
 notice_scm_error: Eintrag und/oder Revision besteht nicht im Projektarchiv.
 notice_not_authorized: Sie sind nicht berechtigt auf diese Seite zuzugreifen.
+notice_email_sent: An email was sent to %s
+notice_email_error: An error occurred while sending mail (%s)"
 
 mail_subject_lost_password: Ihr redMine Kennwort
 mail_subject_register: redMine Kontoaktivierung
@@ -407,6 +409,7 @@ label_date_from: Von
 label_date_to: Bis
 label_language_based: Language based
 label_sort_by: Sort by "%s"
+label_send_test_email: Send a test email
 
 button_login: Einloggen
 button_submit: OK

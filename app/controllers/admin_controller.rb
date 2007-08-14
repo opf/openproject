@@ -56,6 +56,20 @@ class AdminController < ApplicationController
     end
   end
   
+  def test_email
+    raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
+    # Force ActionMailer to raise delivery errors so we can catch it
+    ActionMailer::Base.raise_delivery_errors = true
+    begin
+      @test = Mailer.deliver_test(logged_in_user)
+      flash[:notice] = l(:notice_email_sent, logged_in_user.mail)
+    rescue Exception => e
+      flash[:error] = l(:notice_email_error, e.message)
+    end
+    ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
+    redirect_to :action => 'mail_options'
+  end
+  
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @flags = Hash.new
