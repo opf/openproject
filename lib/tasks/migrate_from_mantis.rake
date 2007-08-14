@@ -25,21 +25,22 @@ task :migrate_from_mantis => :environment do
   
   module MantisMigrate
    
-      default_status = IssueStatus.default
+      DEFAULT_STATUS = IssueStatus.default
       assigned_status = IssueStatus.find_by_position(2)
       resolved_status = IssueStatus.find_by_position(3)
       feedback_status = IssueStatus.find_by_position(4)
       closed_status = IssueStatus.find :first, :conditions => { :is_closed => true }
-      STATUS_MAPPING = {10 => default_status,  # new
+      STATUS_MAPPING = {10 => DEFAULT_STATUS,  # new
                         20 => feedback_status, # feedback
-                        30 => default_status,  # acknowledged
-                        40 => default_status,  # confirmed
+                        30 => DEFAULT_STATUS,  # acknowledged
+                        40 => DEFAULT_STATUS,  # confirmed
                         50 => assigned_status, # assigned
                         80 => resolved_status, # resolved
                         90 => closed_status    # closed
                         }
                         
       priorities = Enumeration.get_values('IPRI')
+      DEFAULT_PRIORITY = priorities[2]
       PRIORITY_MAPPING = {10 => priorities[1], # none
                           20 => priorities[1], # low
                           30 => priorities[2], # normal
@@ -96,6 +97,10 @@ task :migrate_from_mantis => :environment do
         else
           "#{username}@foo.bar"
         end
+      end
+      
+      def username
+        read_attribute(:username)[0..29].gsub(/[^a-zA-Z0-9_\-@\.]/, '-')
       end
     end
     
@@ -296,18 +301,18 @@ task :migrate_from_mantis => :environment do
       Issue.destroy_all
       issues_map = {}
       MantisBug.find(:all).each do |bug|
-        next unless projects_map[bug.project_id]
+        next unless projects_map[bug.project_id] && users_map[bug.reporter_id]
     	i = Issue.new :project_id => projects_map[bug.project_id], 
                       :subject => encode(bug.summary),
                       :description => encode(bug.bug_text.full_description),
-                      :priority => PRIORITY_MAPPING[bug.priority],
+                      :priority => PRIORITY_MAPPING[bug.priority] || DEFAULT_PRIORITY,
                       :created_on => bug.date_submitted,
                       :updated_on => bug.last_updated
     	i.author = User.find_by_id(users_map[bug.reporter_id])
     	i.assigned_to = User.find_by_id(users_map[bug.handler_id]) if bug.handler_id && users_map[bug.handler_id]
     	i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category) unless bug.category.blank?
     	i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
-    	i.status = STATUS_MAPPING[bug.status] || default_status
+    	i.status = STATUS_MAPPING[bug.status] || DEFAULT_STATUS
     	i.tracker = TARGET_TRACKER
     	next unless i.save
     	issues_map[bug.id] = i.id
@@ -315,6 +320,7 @@ task :migrate_from_mantis => :environment do
     	
     	# Bug notes
     	bug.bug_notes.each do |note|
+    	  next unless users_map[note.reporter_id]
           n = Journal.new :notes => encode(note.bug_note_text.note),
                           :created_on => note.date_submitted
           n.user = User.find_by_id(users_map[note.reporter_id])
@@ -333,6 +339,7 @@ task :migrate_from_mantis => :environment do
         
         # Bug monitors
         bug.bug_monitors.each do |monitor|
+          next unless users_map[monitor.user_id]
           i.add_watcher(User.find_by_id(users_map[monitor.user_id]))
         end
       end
@@ -375,7 +382,7 @@ task :migrate_from_mantis => :environment do
                                  :max_length => field.length_max,
                                  :regexp => field.valid_regexp,
                                  :possible_values => field.possible_values.split('|'),
-                                 :is_required => (field.require_report > 0)
+                                 :is_required => field.require_report?
         next unless f.save
         print '.'
         
@@ -455,9 +462,9 @@ task :migrate_from_mantis => :environment do
   end
     
   while true
-    print "encoding [ISO-8859-1]: "
+    print "encoding [UTF-8]: "
     encoding = STDIN.gets.chomp!
-    encoding = 'ISO-8859-1' if encoding.blank?
+    encoding = 'UTF-8' if encoding.blank?
     break if MantisMigrate.encoding encoding
     puts "Invalid encoding!"
   end
