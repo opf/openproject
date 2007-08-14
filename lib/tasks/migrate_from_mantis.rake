@@ -83,11 +83,11 @@ task :migrate_from_mantis => :environment do
       set_table_name :mantis_user_table
       
       def firstname
-        realname.blank? ? username : realname.split.first
+        realname.blank? ? username : realname.split.first[0..29]
       end
       
       def lastname
-        realname.blank? ? username : realname.split[1..-1].join(' ')
+        realname.blank? ? username : realname.split[1..-1].join(' ')[0..29]
       end
       
       def email
@@ -265,7 +265,7 @@ task :migrate_from_mantis => :environment do
     	
     	# Project members
     	project.members.each do |member|
-          m = Member.new :user => User.find(users_map[member.user_id]),
+          m = Member.new :user => User.find_by_id(users_map[member.user_id]),
     	                 :role => ROLE_MAPPING[member.access_level] || default_role
     	  m.project = p
     	  m.save
@@ -303,8 +303,8 @@ task :migrate_from_mantis => :environment do
                       :priority => PRIORITY_MAPPING[bug.priority],
                       :created_on => bug.date_submitted,
                       :updated_on => bug.last_updated
-    	i.author = User.find(users_map[bug.reporter_id] || :first)
-    	i.assigned_to = User.find(users_map[bug.handler_id]) if bug.handler_id && users_map[bug.handler_id]
+    	i.author = User.find_by_id(users_map[bug.reporter_id])
+    	i.assigned_to = User.find_by_id(users_map[bug.handler_id]) if bug.handler_id && users_map[bug.handler_id]
     	i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category) unless bug.category.blank?
     	i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
     	i.status = STATUS_MAPPING[bug.status] || default_status
@@ -317,7 +317,7 @@ task :migrate_from_mantis => :environment do
     	bug.bug_notes.each do |note|
           n = Journal.new :notes => encode(note.bug_note_text.note),
                           :created_on => note.date_submitted
-          n.user = User.find(users_map[note.reporter_id] || :first)
+          n.user = User.find_by_id(users_map[note.reporter_id])
           n.journalized = i
           n.save
     	end
@@ -359,7 +359,7 @@ task :migrate_from_mantis => :environment do
                      :title => encode(news.headline[0..59]),
                      :description => encode(news.body),
                      :created_on => news.date_posted
-        n.author = User.find(users_map[news.poster_id] || :first)
+        n.author = User.find_by_id(users_map[news.poster_id])
         n.save
         print '.'
       end
