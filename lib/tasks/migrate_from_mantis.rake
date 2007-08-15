@@ -51,12 +51,12 @@ task :migrate_from_mantis => :environment do
     
       TARGET_TRACKER = Tracker.find :first
       
-      default_role = Role.find_by_position(3)
+      DEFAULT_ROLE = Role.find_by_position(3)
       manager_role = Role.find_by_position(1)
       developer_role = Role.find_by_position(2)
-      ROLE_MAPPING = {10 => default_role,   # viewer
-                      25 => default_role,   # reporter
-                      40 => default_role,   # updater
+      ROLE_MAPPING = {10 => DEFAULT_ROLE,   # viewer
+                      25 => DEFAULT_ROLE,   # reporter
+                      40 => DEFAULT_ROLE,   # updater
                       55 => developer_role, # developer
                       70 => manager_role,   # manager
                       90 => manager_role    # administrator
@@ -271,7 +271,7 @@ task :migrate_from_mantis => :environment do
     	# Project members
     	project.members.each do |member|
           m = Member.new :user => User.find_by_id(users_map[member.user_id]),
-    	                 :role => ROLE_MAPPING[member.access_level] || default_role
+    	                 :role => ROLE_MAPPING[member.access_level] || DEFAULT_ROLE
     	  m.project = p
     	  m.save
     	end	
