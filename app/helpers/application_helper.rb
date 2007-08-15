@@ -126,23 +126,33 @@ module ApplicationHelper
     case options[:wiki_links]
     when :local
       # used for local links to html files
-      format_wiki_link = Proc.new {|title| "#{title}.html" }
+      format_wiki_link = Proc.new {|project, title| "#{title}.html" }
     when :anchor
       # used for single-file wiki export
-      format_wiki_link = Proc.new {|title| "##{title}" }
+      format_wiki_link = Proc.new {|project, title| "##{title}" }
     else
-      if @project
-        format_wiki_link = Proc.new {|title| url_for :controller => 'wiki', :action => 'index', :id => @project, :page => title }
-      else
-        format_wiki_link = Proc.new {|title| title }
-      end
+      format_wiki_link = Proc.new {|project, title| url_for :controller => 'wiki', :action => 'index', :id => project, :page => title }
     end
     
-    # turn wiki links into textile links: 
+    # turn wiki links into html links
     # example:
-    #   [[link]] -> "link":link
-    #   [[link|title]] -> "title":link
-    text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) {|m| link_to(($3 || $1), format_wiki_link.call(Wiki.titleize($1)), :class => 'wiki-page') }
+    #   [[mypage]]
+    #   [[mypage|mytext]]
+    # wiki links can refer other project wikis, using project name or identifier:
+    #   [[project:]] -> wiki starting page
+    #   [[project:mypage]]
+    #   [[project:mypage|mytext]]
+    text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) do |m|
+      project = @project
+      page = $1
+      title = $3
+      if page =~ /^([^\:]+)\:(.*)$/
+        project = Project.find_by_name($1) || Project.find_by_identifier($1)
+        page = $2
+        title = $1 if page.blank?
+      end
+      link_to((title || page), format_wiki_link.call(project, Wiki.titleize(page)), :class => 'wiki-page')
+    end
 
     # turn issue ids into links
     # example:
