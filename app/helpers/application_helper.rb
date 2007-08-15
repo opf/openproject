@@ -163,7 +163,7 @@ module ApplicationHelper
         rf = Regexp.new(filename,  Regexp::IGNORECASE)
         # search for the picture in attachments
         if found = attachments.detect { |att| att.filename =~ rf }
-          image_url = url_for :controller => 'attachments', :action => 'show', :id => found.id
+          image_url = url_for :controller => 'attachments', :action => 'download', :id => found.id
           "!#{align}#{image_url}!"
         else
           "!#{align}#{filename}!"

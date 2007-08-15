@@ -84,6 +84,10 @@ class Attachment < ActiveRecord::Base
     container.is_a?(Project) ? container : container.project
   end
   
+  def image?
+    self.filename =~ /\.(jpeg|jpg|gif|png)$/i
+  end
+  
 private
   def sanitize_filename(value)
       # get only the filename, not the whole path
