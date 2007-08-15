@@ -134,12 +134,13 @@ private
   
   def graph_commits_per_month(repository)
     @date_to = Date.today
-    @date_from = @date_to << 12
+    @date_from = @date_to << 11
+    @date_from = Date.civil(@date_from.year, @date_from.month, 1)
     commits_by_day = repository.changesets.count(:all, :group => :commit_date, :conditions => ["commit_date BETWEEN ? AND ?", @date_from, @date_to])
     commits_by_month = [0] * 12
     commits_by_day.each {|c| commits_by_month[c.first.to_date.months_ago] += c.last }
 
-    changes_by_day = repository.changes.count(:all, :group => :commit_date)
+    changes_by_day = repository.changes.count(:all, :group => :commit_date, :conditions => ["commit_date BETWEEN ? AND ?", @date_from, @date_to])
     changes_by_month = [0] * 12
     changes_by_day.each {|c| changes_by_month[c.first.to_date.months_ago] += c.last }
    
