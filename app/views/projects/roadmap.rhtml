@@ -27,7 +27,8 @@
     <% issues = version.fixed_issues.find(:all,
                                  :include => [:status, :tracker],
                                  :conditions => ["tracker_id in (#{@selected_tracker_ids.join(',')})"],
-                                 :order => "#{Tracker.table_name}.position")
+                                 :order => "#{Tracker.table_name}.position") unless @selected_tracker_ids.empty?
+       issues ||= []
 
        total = issues.size
        complete = issues.inject(0) {|c,i| i.status.is_closed? ? c + 1 : c } 
