@@ -1,4 +1,4 @@
-有一个文档已被加入到项目中 <%= @document.project.name %> (<%= @document.category.name %>):
+锟斤拷一锟斤拷锟侥碉拷锟窖憋拷锟斤拷锟诫到锟斤拷目锟斤拷 <%= @document.project.name %> (<%= @document.category.name %>):
 <%= l(:field_title) %>: <%= @document.title %>
 
-http://<%= Setting.host_name %>/documents/show/<%= @document.id %>
+<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'documents', :action => 'show', :id => @document %>

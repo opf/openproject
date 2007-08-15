@@ -1,3 +1,3 @@
-F�r att aktivera ditt redMine-konto, använd följande länk.
+För att aktivera ditt redMine-konto, använd följande länk.
 
-http://<%= Setting.host_name %>/account/register?token=<%= @token.value %>
+<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'account', :action => 'register', :token => @token.value %>

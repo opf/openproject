@@ -5,4 +5,4 @@
 
 <%= issue.description %>
 
-http://<%= Setting.host_name %>/issues/show/<%= issue.id %>
+<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'issues', :action => 'show', :id => issue %>

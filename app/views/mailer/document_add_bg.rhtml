@@ -1,4 +1,4 @@
 Добавен е документ в <%= @document.project.name %> (<%= @document.category.name %>):
 <%= l(:field_title) %>: <%= @document.title %>
 
-http://<%= Setting.host_name %>/documents/show/<%= @document.id %>
+<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'documents', :action => 'show', :id => @document %>
