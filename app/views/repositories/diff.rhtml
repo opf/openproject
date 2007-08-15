@@ -14,7 +14,7 @@
 <% cache(@cache_key) do %>
 <% @diff.each do |table_file| %>
 <% if @diff_type == 'sbs' %>
-    <table class="list">
+    <table class="list CodeRay">
       <thead>
         <tr>
           <th colspan="4" class="list-filename">
@@ -33,13 +33,13 @@
               <%= table_file[key].nb_line_left %>
             </th>
             <td class="line-code <%= table_file[key].type_diff_left %>">
-              <%= table_file[key].line_left %>
+              <pre><%= table_file[key].line_left %></pre>
             </td>
             <th class="line-num">
               <%= table_file[key].nb_line_right %>
             </th>
             <td class="line-code <%= table_file[key].type_diff_right %>">
-              <%= table_file[key].line_right %>
+              <pre><%= table_file[key].line_right %></pre>
             </td>
           </tr>
         <% end %>
@@ -47,7 +47,7 @@
     </table>
 
 <% else %>
-    <table class="list">
+    <table class="list CodeRay">
       <thead>
         <tr>
           <th colspan="3" class="list-filename">
@@ -71,11 +71,11 @@
             </th>
             <% if table_file[key].line_left.empty? %>
               <td class="line-code <%= table_file[key].type_diff_right %>">
-                <%= table_file[key].line_right %>
+                <pre><%= table_file[key].line_right %></pre>
               </td>
             <% else %>
               <td class="line-code <%= table_file[key].type_diff_left %>">
-                <%= table_file[key].line_left %>
+                <pre><%= table_file[key].line_left %></pre>
               </td>
             <% end %>
           </tr>

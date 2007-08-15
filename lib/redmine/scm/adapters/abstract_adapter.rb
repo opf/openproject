@@ -301,7 +301,7 @@ module Redmine
     
         # Escape the HTML for the diff
         def escapeHTML(line)
-            CGI.escapeHTML(line).gsub(/\s/, '&nbsp;')
+            CGI.escapeHTML(line)
         end
     
         def parse_line (line, type="inline")

@@ -1,6 +1,6 @@
 <h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
 
-<table class="list">
+<table class="list CodeRay">
   <thead>
     <tr>
       <th colspan="2" class="list-filename"><%= @path %></th>
@@ -8,10 +8,10 @@
   </thead>
   <tbody>
     <% line_num = 1 %>
-    <% @content.each_line do |line| %>
+    <% syntax_highlight(@path, @content).each_line do |line| %>
     <tr>
       <th class="line-num"><%= line_num %></th>
-      <td class="line-code"><%= h(line).gsub(/\s/, '&nbsp;') %></td>
+      <td class="line-code"><pre><%= line %></pre></td>
     </tr>
     <% line_num += 1 %>
     <% end %>

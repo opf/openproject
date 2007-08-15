@@ -15,7 +15,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'coderay'
+require 'coderay/helpers/file_type'
+
 module RepositoriesHelper
+  def syntax_highlight(name, content)
+    type = CodeRay::FileType[name]
+    type ? CodeRay.scan(content, type).html : h(content)
+  end
+    
   def repository_field_tags(form, repository)    
     method = repository.class.name.demodulize.underscore + "_field_tags"
     send(method, form, repository) if repository.is_a?(Repository) && respond_to?(method)

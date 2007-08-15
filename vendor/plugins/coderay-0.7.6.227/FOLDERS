@@ -1,0 +1,53 @@
+= CodeRay - Trunk folder structure
+
+== bench - Benchmarking system
+
+All benchmarking stuff goes here.
+
+Test inputs are stored in files named <code>example.<lang></code>.
+Test outputs go to <code>bench/test.<encoder-default-file-extension></code>.
+
+Run <code>bench/bench.rb</code> to get a usage description.
+
+Run <code>rake bench</code> to perform an example benchmark.
+
+
+== bin - Scripts
+
+Executional files for CodeRay.
+
+
+== demo - Demos and functional tests
+
+Demonstrational scripts to show of CodeRay's features.
+
+Run them as functional tests with <code>rake test:demos</code>.
+
+
+== etc - Lots of stuff
+
+Some addidtional files for CodeRay, mainly graphics and Vim scripts.
+
+
+== gem_server - Gem output folder
+
+For <code>rake gem</code>.
+
+
+== lib - CodeRay library code
+
+This is the base directory for the CodeRay library.
+
+
+== rake_helpers - Rake helper libraries
+
+Some files to enhance Rake, including the Autumnal Rdoc template and some scripts.
+
+
+== test - Tests
+
+Tests for the scanners.
+
+Each language has its own subfolder and sub-suite.
+
+Run with <code>rake test</code>.
