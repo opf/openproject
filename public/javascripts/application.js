@@ -41,6 +41,14 @@ function setPredecessorFieldsVisibility() {
     }
 }
 
+function promptToRemote(text, param, url) {
+    value = prompt(text + ':');
+    if (value) {
+        new Ajax.Request(url + '?' + param + '=' + value, {asynchronous:true, evalScripts:true});
+        return false;
+    }
+}
+
 /* shows and hides ajax indicator */
 Ajax.Responders.register({
     onCreate: function(){

@@ -10,7 +10,11 @@
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
 <p><%= f.select :assigned_to_id, (@issue.project.members.collect {|m| [m.name, m.user_id]}), :include_blank => true %></p>
-<p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %></p>
+<p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
+<%= prompt_to_remote(l(:label_issue_category_new),
+                     l(:label_issue_category_new), 'category[name]', 
+                     {:controller => 'projects', :action => 'add_issue_category', :id => @project},
+                     :class => 'small') if authorize_for('projects', 'add_issue_category') %></p>
 </div>
 <div class="splitcontentright">
 <p><%= f.text_field :start_date, :size => 10 %><%= calendar_for('issue_start_date') %></p>

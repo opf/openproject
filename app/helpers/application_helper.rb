@@ -77,6 +77,11 @@ module ApplicationHelper
         }))
   end
   
+  def prompt_to_remote(name, text, param, url, html_options = {})
+    html_options[:onclick] = "promptToRemote('#{text}', '#{param}', '#{url_for(url)}'); return false;"
+    link_to name, {}, html_options
+  end
+  
   def format_date(date)
     return nil unless date
     @date_format_setting ||= Setting.date_format.to_i
