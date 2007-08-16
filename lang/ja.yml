@@ -156,6 +156,7 @@ field_identifier: 識別子
 field_is_filter: フィルタとして使う
 field_issue_to_id: 関連する問題
 field_delay: 遅延
+field_assignable: Issues can be assigned to this role
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル

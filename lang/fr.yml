@@ -155,6 +155,7 @@ field_identifier: Identifiant
 field_is_filter: Utilisé comme filtre
 field_issue_to_id: Demande liée
 field_delay: Retard
+field_assignable: Demandes assignables à ce rôle
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application

@@ -10,7 +10,7 @@
 <div class="box">
 <div class="splitcontentleft">
 <p><label><%=l(:label_issue_status_new)%></label> <%= @new_status.name %></p>
-<p><%= f.select :assigned_to_id, (@issue.project.members.collect {|m| [m.name, m.user_id]}), :include_blank => true %></p>
+<p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
 <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
 <p><%= f.select :fixed_version_id, (@project.versions.sort.collect {|v| [v.name, v.id]}), { :include_blank => true } %></p>
 </div>

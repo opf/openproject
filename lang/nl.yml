@@ -155,6 +155,7 @@ field_identifier: Identificatiecode
 field_is_filter: Gebruikt als een filter
 field_issue_to_id: Gerelateerd issue
 field_delay: Vertraging
+field_assignable: Issues can be assigned to this role
 
 setting_app_title: Applicatie titel
 setting_app_subtitle: Applicatie ondertitel

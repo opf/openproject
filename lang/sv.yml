@@ -155,6 +155,7 @@ field_identifier: Identifierare
 field_is_filter: Used as a filter
 field_issue_to_id: Related issue
 field_delay: Delay
+field_assignable: Issues can be assigned to this role
 
 setting_app_title: Applikationstitel
 setting_app_subtitle: Applicationsunderrubrik

@@ -59,6 +59,11 @@ class Issue < ActiveRecord::Base
     if start_date && soonest_start && start_date < soonest_start
       errors.add :start_date, :activerecord_error_invalid
     end
+    
+    # validate assignment
+    if assigned_to && !assignable_users.include?(assigned_to)
+      errors.add :assigned_to_id, :activerecord_error_invalid
+    end
   end
   
   def before_create
@@ -103,6 +108,11 @@ class Issue < ActiveRecord::Base
     @custom_values_before_change = {}
     self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
     @current_journal
+  end
+  
+  # Users the issue can be assigned to
+  def assignable_users
+    project.members.select {|m| m.role.assignable?}.collect {|m| m.user}
   end
   
   def spent_hours
