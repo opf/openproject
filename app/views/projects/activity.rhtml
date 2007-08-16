@@ -25,6 +25,10 @@
     <% if e.is_a? Issue %>
       <%= e.created_on.strftime("%H:%M") %> <%= link_to_issue e %>: <%=h e.subject %><br />
           <i><%= e.author.name %></i>
+    <% elsif e.is_a? Journal %>
+      <%= e.created_on.strftime("%H:%M") %> <%= link_to_issue e.journalized %>
+          (<%=h (status = IssueStatus.find_by_id(e.details.first.value)) ? status.name : '?' %>): <%=h e.journalized.subject %><br />
+          <em><%=h e.user.name %><%=h ": #{truncate(e.notes, 500)}" unless e.notes.blank? %></em>
     <% elsif e.is_a? News %>
       <%= e.created_on.strftime("%H:%M") %> <%=l(:label_news)%>: <%= link_to h(e.title), :controller => 'news', :action => 'show', :id => e %><br />
           <% unless e.summary.empty? %><%=h e.summary %><br /><% end %>
@@ -53,16 +57,15 @@
 <% if @events_by_day.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
 
 <div style="float:left;">
+<% prev_params = params.clone.update :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) %>
 <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
-                    {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
-                    {:href => url_for(:action => 'activity', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
-                    %>
+                    {:update => "content", :url => prev_params}, {:href => url_for(prev_params)} %>
 </div>
 <div style="float:right;">
+<% next_params = params.clone.update :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) %>
 <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
-                    {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
-                    {:href => url_for(:action => 'activity', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
-                    %>&nbsp;
+                    {:update => "content", :url => next_params}, {:href => url_for(next_params)} %>
+&nbsp;
 </div>
 <br />
 </div>

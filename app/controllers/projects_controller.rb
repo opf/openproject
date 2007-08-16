@@ -463,7 +463,11 @@ class ProjectsController < ApplicationController
     @events_by_day = {}    
     
     unless params[:show_issues] == "0"
-      @project.issues.find(:all, :include => [:author], :conditions => ["#{Issue.table_name}.created_on>=? and #{Issue.table_name}.created_on<=?", @date_from, @date_to] ).each { |i|
+      @project.issues.find(:all, :include => [:author], :conditions => ["#{Issue.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to] ).each { |i|
+        @events_by_day[i.created_on.to_date] ||= []
+        @events_by_day[i.created_on.to_date] << i
+      }
+      @project.issue_changes.find(:all, :include => :details, :conditions => ["(#{Journal.table_name}.created_on BETWEEN ? AND ?) AND (#{JournalDetail.table_name}.prop_key = 'status_id')", @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -471,7 +475,7 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_news] == "0"
-      @project.news.find(:all, :conditions => ["#{News.table_name}.created_on>=? and #{News.table_name}.created_on<=?", @date_from, @date_to], :include => :author ).each { |i|
+      @project.news.find(:all, :conditions => ["#{News.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to], :include => :author ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -479,7 +483,10 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_files] == "0"
-      Attachment.find(:all, :select => "#{Attachment.table_name}.*", :joins => "LEFT JOIN #{Version.table_name} ON #{Version.table_name}.id = #{Attachment.table_name}.container_id", :conditions => ["#{Attachment.table_name}.container_type='Version' and #{Version.table_name}.project_id=? and #{Attachment.table_name}.created_on>=? and #{Attachment.table_name}.created_on<=?", @project.id, @date_from, @date_to], :include => :author ).each { |i|
+      Attachment.find(:all, :select => "#{Attachment.table_name}.*",
+                            :joins => "LEFT JOIN #{Version.table_name} ON #{Version.table_name}.id = #{Attachment.table_name}.container_id",
+                            :conditions => ["#{Attachment.table_name}.container_type='Version' and #{Version.table_name}.project_id=? and #{Attachment.table_name}.created_on BETWEEN ? AND ?", @project.id, @date_from, @date_to],
+                            :include => :author ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
@@ -487,11 +494,14 @@ class ProjectsController < ApplicationController
     end
     
     unless params[:show_documents] == "0"
-      @project.documents.find(:all, :conditions => ["#{Document.table_name}.created_on>=? and #{Document.table_name}.created_on<=?", @date_from, @date_to] ).each { |i|
+      @project.documents.find(:all, :conditions => ["#{Document.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to] ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
-      Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN #{Document.table_name} ON #{Document.table_name}.id = #{Attachment.table_name}.container_id", :conditions => ["#{Attachment.table_name}.container_type='Document' and #{Document.table_name}.project_id=? and #{Attachment.table_name}.created_on>=? and #{Attachment.table_name}.created_on<=?", @project.id, @date_from, @date_to], :include => :author ).each { |i|
+      Attachment.find(:all, :select => "attachments.*",
+                            :joins => "LEFT JOIN #{Document.table_name} ON #{Document.table_name}.id = #{Attachment.table_name}.container_id",
+                            :conditions => ["#{Attachment.table_name}.container_type='Document' and #{Document.table_name}.project_id=? and #{Attachment.table_name}.created_on BETWEEN ? AND ?", @project.id, @date_from, @date_to],
+                            :include => :author ).each { |i|
         @events_by_day[i.created_on.to_date] ||= []
         @events_by_day[i.created_on.to_date] << i
       }
