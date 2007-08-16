@@ -69,7 +69,7 @@ class FeedsController < ApplicationController
                                      :order => "#{Journal.table_name}.created_on DESC"
     end
     
-    @title = (@project ? @project.name : Setting.app_title) + ": " + (query ? query.name : l(:label_reported_issues))
+    @title = (@project ? @project.name : Setting.app_title) + ": " + (query ? query.name : l(:label_changes_details))
     headers["Content-Type"] = "application/rss+xml"
     render :action => 'history_atom' if 'atom' == params[:format]
   end

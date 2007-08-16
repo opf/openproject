@@ -95,6 +95,8 @@ class ProjectsController < ApplicationController
     @trackers = Tracker.find(:all, :order => 'position')
     @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN #{IssueStatus.table_name} ON #{IssueStatus.table_name}.id = #{Issue.table_name}.status_id", :conditions => ["project_id=? and #{IssueStatus.table_name}.is_closed=?", @project.id, false])
     @total_issues_by_tracker = Issue.count(:group => :tracker, :conditions => ["project_id=?", @project.id])
+
+    @key = logged_in_user.get_or_create_rss_key.value if logged_in_user
   end
 
   def settings

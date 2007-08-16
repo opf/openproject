@@ -23,5 +23,6 @@
 </div>	
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:rss, {:controller => 'feeds' , :action => 'news' }) %>
+<%= auto_discovery_link_tag(:rss,  {:controller => 'feeds', :action => 'news', :key => @key}, {:title => l(:label_news_latest)}) %>
+<%= auto_discovery_link_tag(:atom, {:controller => 'feeds', :action => 'news', :key => @key, :format => 'atom'}, {:title => l(:label_news_latest)}) %>
 <% end %>

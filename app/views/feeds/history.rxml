@@ -4,7 +4,7 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
     xml.title @title
     xml.link url_for(:controller => 'welcome', :only_path => false)
     xml.pubDate CGI.rfc1123_date(@journals.first ? @journals.first.created_on : Time.now)
-    xml.description l(:label_reported_issues)
+    xml.description l(:label_changes_details)
     @journals.each do |journal|
       issue = journal.issue
       xml.item do

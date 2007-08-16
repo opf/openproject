@@ -57,3 +57,14 @@
   </div>  
   <% end %>
 </div>
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:rss,  {:controller => 'feeds', :action => 'issues', :project_id => @project, :key => @key}, {:title => l(:label_reported_issues)}) %>
+<%= auto_discovery_link_tag(:atom, {:controller => 'feeds', :action => 'issues', :project_id => @project, :key => @key, :format => 'atom'}, {:title => l(:label_reported_issues)}) %>
+
+<%= auto_discovery_link_tag(:rss,  {:controller => 'feeds', :action => 'history', :project_id => @project, :key => @key }, {:title => l(:label_changes_details)}) %>
+<%= auto_discovery_link_tag(:atom, {:controller => 'feeds', :action => 'history', :project_id => @project, :key => @key, :format => 'atom'}, {:title => l(:label_changes_details)}) %>
+
+<%= auto_discovery_link_tag(:rss,  {:controller => 'feeds', :action => 'news', :project_id => @project, :key => @key}, {:title => l(:label_news_latest)}) %>
+<%= auto_discovery_link_tag(:atom, {:controller => 'feeds', :action => 'news', :project_id => @project, :key => @key, :format => 'atom'}, {:title => l(:label_news_latest)}) %>
+<% end %>
