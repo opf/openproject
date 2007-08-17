@@ -259,8 +259,12 @@ jsToolBar.prototype = {
 		subst = prefix + res + suffix;
 		
 		if (typeof(document["selection"]) != "undefined") {
-			var range = document.selection.createRange().text = subst;
-			this.textarea.caretPos -= suffix.length;
+			document.selection.createRange().text = subst;
+			var range = this.textarea.createTextRange();
+			range.collapse(false);
+			range.move('character', -suffix.length);
+			range.select();
+//			this.textarea.caretPos -= suffix.length;
 		} else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
 			this.textarea.value = this.textarea.value.substring(0, start) + subst +
 			this.textarea.value.substring(end);
