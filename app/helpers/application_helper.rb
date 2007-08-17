@@ -147,6 +147,7 @@ module ApplicationHelper
     #   [[mypage|mytext]]
     # wiki links can refer other project wikis, using project name or identifier:
     #   [[project:]] -> wiki starting page
+    #   [[project:|mytext]]
     #   [[project:mypage]]
     #   [[project:mypage|mytext]]
     text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) do |m|
@@ -155,7 +156,7 @@ module ApplicationHelper
       title = $3
       if page =~ /^([^\:]+)\:(.*)$/
         link_project = Project.find_by_name($1) || Project.find_by_identifier($1)
-        page = $2
+        page = title || $2
         title = $1 if page.blank?
       end
       link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)), :class => 'wiki-page')
