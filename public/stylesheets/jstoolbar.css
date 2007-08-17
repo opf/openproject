@@ -6,7 +6,7 @@
 }
 
 .jstHandle {
-	height: 16px;
+	height: 10px;
 	font-size: 0.1em;
 	cursor: s-resize;
 	/*background: transparent url(img/resizer.png) no-repeat 45% 50%;*/

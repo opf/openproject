@@ -11,7 +11,7 @@
   <tr class="<%= cycle("odd", "even") %>">
 	<td>
 	  <%= link_to project.name, {:action => 'show', :id => project}, :class => (@logged_in_user && @logged_in_user.role_for_project(project) ? "icon icon-fav" : "") %><br />
-	  <%=h project.description %>
+	  <%= textilizable project.description, :project => project %>
 	</td>
 	<td><%= link_to(project.parent.name, :action => 'show', :id => project.parent) unless project.parent.nil? %></td>
 	<td align="center"><%= format_date(project.created_on) %></td>

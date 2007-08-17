@@ -8,10 +8,11 @@
     <p><%= f.select :parent_id, (@root_projects.collect {|p| [p.name, p.id]}), { :include_blank => true } %></p>
 <% end %>
 
-<p><%= f.text_area :description, :required => true, :cols => 60, :rows => 3 %><br /><em><%= l(:text_caracters_maximum, 255) %></em></p>
+<p><%= f.text_area :description, :required => true, :cols => 60, :rows => 5 %><em><%= l(:text_caracters_maximum, 255) %></em></p>
 <p><%= f.text_field :identifier, :required => true, :size => 15, :disabled => @project.identifier_frozen? %><br /><em><%= l(:text_length_between, 3, 12) %> <%= l(:text_project_identifier_info) unless @project.identifier_frozen? %></em></p>
 <p><%= f.text_field :homepage, :size => 40 %></p>
 <p><%= f.check_box :is_public %></p>
+<%= wikitoolbar_for 'project_description' %>
 
 <% for @custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label @custom_value %></p>

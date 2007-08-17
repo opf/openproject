@@ -139,6 +139,8 @@ module ApplicationHelper
       format_wiki_link = Proc.new {|project, title| url_for :controller => 'wiki', :action => 'index', :id => project, :page => title }
     end
     
+    project = options[:project] || @project
+    
     # turn wiki links into html links
     # example:
     #   [[mypage]]
@@ -148,15 +150,15 @@ module ApplicationHelper
     #   [[project:mypage]]
     #   [[project:mypage|mytext]]
     text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) do |m|
-      project = @project
+      link_project = project
       page = $1
       title = $3
       if page =~ /^([^\:]+)\:(.*)$/
-        project = Project.find_by_name($1) || Project.find_by_identifier($1)
+        link_project = Project.find_by_name($1) || Project.find_by_identifier($1)
         page = $2
         title = $1 if page.blank?
       end
-      link_to((title || page), format_wiki_link.call(project, Wiki.titleize(page)), :class => 'wiki-page')
+      link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)), :class => 'wiki-page')
     end
 
     # turn issue ids into links
@@ -167,7 +169,7 @@ module ApplicationHelper
     # turn revision ids into links (@project needed)
     # example:
     #   r52 -> <a href="/repositories/revision/6?rev=52">r52</a> (@project.id is 6)
-    text = text.gsub(/(?=\b)r(\d+)(?=\b)/) {|m| link_to "r#{$1}", {:controller => 'repositories', :action => 'revision', :id => @project.id, :rev => $1}, :class => 'changeset' } if @project
+    text = text.gsub(/(?=\b)r(\d+)(?=\b)/) {|m| link_to "r#{$1}", {:controller => 'repositories', :action => 'revision', :id => project.id, :rev => $1}, :class => 'changeset' } if project
     
     # when using an image link, try to use an attachment, if possible
     attachments = options[:attachments]

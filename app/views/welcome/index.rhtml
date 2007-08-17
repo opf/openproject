@@ -15,7 +15,7 @@
 		<% for project in @projects %>
 			<li>
 			<%= link_to project.name, :controller => 'projects', :action => 'show', :id => project %> (<%= format_time(project.created_on) %>)<br />
-			<%=h project.description %>
+			<%= textilizable project.description, :project => project %>
 			</li>
 		<% end %>
 		</ul>
