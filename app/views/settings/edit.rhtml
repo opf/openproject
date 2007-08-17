@@ -10,7 +10,8 @@
 <%= text_field_tag 'settings[app_subtitle]', Setting.app_subtitle, :size => 60 %></p>
 
 <p><label><%= l(:setting_welcome_text) %></label>
-<%= text_area_tag 'settings[welcome_text]', Setting.welcome_text, :cols => 60, :rows => 5 %></p>
+<%= text_area_tag 'settings[welcome_text]', Setting.welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit' %></p>
+<%= wikitoolbar_for 'settings[welcome_text]' %>
 
 <p><label><%= l(:setting_default_language) %></label>
 <%= select_tag 'settings[default_language]', options_for_select( lang_options_for_select(false), Setting.default_language) %></p>

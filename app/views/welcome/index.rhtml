@@ -1,7 +1,7 @@
 <h2><%= l(:label_home) %></h2>
 
 <div class="splitcontentleft">
-  <p><%= Setting.welcome_text %></p>
+  <%= textilizable Setting.welcome_text %>
   <div class="box">
 	<h3><%=l(:label_news_latest)%></h3>
 		<%= render :partial => 'news/news', :collection => @news %>
