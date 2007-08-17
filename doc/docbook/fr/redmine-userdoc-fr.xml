@@ -1012,6 +1012,148 @@
     </section>
 
     <section>
+      <title>Wiki</title>
+
+      <para></para>
+
+      <section>
+        <title>Syntaxe wiki</title>
+
+        <para></para>
+
+        <section>
+          <title>Mise en forme</title>
+
+          <para></para>
+
+          <itemizedlist>
+            <listitem>
+              <para><code>*gras*</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>_italique_</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>+souligné+</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>-rayé-</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>??citation??</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>@code@</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>h1. titre de la page</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>h2. titre de niveau 2</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>h3. titre de niveau 3</code></para>
+            </listitem>
+          </itemizedlist>
+
+          <para></para>
+        </section>
+
+        <section>
+          <title>Liens</title>
+
+          <para></para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Lien externe : <code>http://www.redmine.org</code></para>
+            </listitem>
+
+            <listitem>
+              <para>Lien externe avec texte spécifique :
+              <code>"Redmine":http://www.redmine.org</code></para>
+            </listitem>
+
+            <listitem>
+              <para>Lien vers une page wiki (éventuellement d'un autre projet)
+              :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para><code>[[Nom de page]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Nom de page|Titre]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Projet:]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Projet:|Titre]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Projet:Nom de page]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Projet:Nom de page|Titre]]</code></para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </itemizedlist>
+
+          <itemizedlist>
+            <listitem>
+              <para>Lien vers une demande : <code>#52</code></para>
+            </listitem>
+
+            <listitem>
+              <para>Lien vers une révision du dépôt (commit) :
+              <code>r52</code></para>
+            </listitem>
+          </itemizedlist>
+        </section>
+
+        <section>
+          <title>Images</title>
+
+          <para></para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Image externe :
+              <code>!http://foo.bar/mon_image.jpg!</code></para>
+            </listitem>
+
+            <listitem>
+              <para>Image attachée à la page wiki :
+              <code>!mon_image.jpg!</code></para>
+            </listitem>
+
+            <listitem>
+              <para>Image flotante à droite :
+              <code>!&gt;mon_image.jpg!</code></para>
+            </listitem>
+          </itemizedlist>
+
+          <para></para>
+        </section>
+      </section>
+    </section>
+
+    <section>
       <title>Fichiers</title>
 
       <para>Ce module vous permet de publier les différents fichiers (sources,

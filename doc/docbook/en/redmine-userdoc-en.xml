@@ -908,6 +908,147 @@
     </section>
 
     <section>
+      <title>Wiki</title>
+
+      <para></para>
+
+      <section>
+        <title>Wiki syntax</title>
+
+        <para></para>
+
+        <section>
+          <title>Formatting</title>
+
+          <para></para>
+
+          <itemizedlist>
+            <listitem>
+              <para><code>*bold*</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>_italic_</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>+underline+</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>-strike-</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>??inline quote??</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>@code@</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>h1. page title</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>h2. level 2 title</code></para>
+            </listitem>
+
+            <listitem>
+              <para><code>h3. level 3 title</code></para>
+            </listitem>
+          </itemizedlist>
+
+          <para></para>
+        </section>
+
+        <section>
+          <title>Links</title>
+
+          <para></para>
+
+          <itemizedlist>
+            <listitem>
+              <para>External link : <code>http://www.redmine.org</code></para>
+            </listitem>
+
+            <listitem>
+              <para>External link with specific text :
+              <code>"Redmine":http://www.redmine.org</code></para>
+            </listitem>
+
+            <listitem>
+              <para>Link to an other wiki page (can be a page from an other
+              project wiki) :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para><code>[[Page name]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Page name|Title]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Project:]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Project:|Title]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Project:Page name]]</code></para>
+                </listitem>
+
+                <listitem>
+                  <para><code>[[Project:Page name|Title]]</code></para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </itemizedlist>
+
+          <itemizedlist>
+            <listitem>
+              <para>Link to an issue : <code>#52</code></para>
+            </listitem>
+
+            <listitem>
+              <para>Link to a changeset : <code>r52</code></para>
+            </listitem>
+          </itemizedlist>
+        </section>
+
+        <section>
+          <title>Embedded images</title>
+
+          <para></para>
+
+          <itemizedlist>
+            <listitem>
+              <para>External image :
+              <code>!http://foo.bar/my_image.jpg!</code></para>
+            </listitem>
+
+            <listitem>
+              <para>Image attached to the wiki page :
+              <code>!my_image.jpg!</code></para>
+            </listitem>
+
+            <listitem>
+              <para>Right floating image :
+              <code>!&gt;my_image.jpg!</code></para>
+            </listitem>
+          </itemizedlist>
+
+          <para></para>
+        </section>
+      </section>
+    </section>
+
+    <section>
       <title>Files</title>
 
       <para>This module allows you to display various folders (sources,

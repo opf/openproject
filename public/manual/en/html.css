@@ -54,6 +54,12 @@ pre.programlisting {
     white-space: pre;
 }
 
+code.code {
+    padding: 2px; 
+    font-size: 10pt;
+    white-space: pre;
+}
+
 li p {
     margin-top: 3px;
     margin-bottom: 3px;

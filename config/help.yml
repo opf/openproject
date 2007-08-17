@@ -57,13 +57,13 @@ pages:
     list_issues:    ch02s03.html
     add_news:       ch02s06.html
     list_news:      ch02s06.html
-    add_file:       ch02s08.html
-    list_files:     ch02s08.html
+    add_file:       ch02s11.html
+    list_files:     ch02s11.html
     changelog:      ch02s05.html
   issues:
     index:          ch02s03.html
   documents:
-    index:          ch02s07.html
+    index:          ch02s09.html
   news:
     index:          ch02s06.html
   versions:
@@ -80,4 +80,5 @@ pages:
     lost_password:  ch03s03.html
     register:       ch03s04.html
   wiki:
+    index:          ch02s10.html
     syntax:         wiki_syntax.html
