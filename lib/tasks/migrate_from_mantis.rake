@@ -49,7 +49,8 @@ task :migrate_from_mantis => :environment do
                           60 => priorities[5]  # immediate
                           }
     
-      TARGET_TRACKER = Tracker.find :first
+      TRACKER_BUG = Tracker.find_by_position(1)
+      TRACKER_FEATURE = Tracker.find_by_position(2)
       
       DEFAULT_ROLE = Role.find_by_position(3)
       manager_role = Role.find_by_position(1)
@@ -309,14 +310,20 @@ task :migrate_from_mantis => :environment do
                       :created_on => bug.date_submitted,
                       :updated_on => bug.last_updated
     	i.author = User.find_by_id(users_map[bug.reporter_id])
-    	i.assigned_to = User.find_by_id(users_map[bug.handler_id]) if bug.handler_id && users_map[bug.handler_id]
     	i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category) unless bug.category.blank?
     	i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
     	i.status = STATUS_MAPPING[bug.status] || DEFAULT_STATUS
-    	i.tracker = TARGET_TRACKER
+    	i.tracker = (bug.severity == 10 ? TRACKER_FEATURE : TRACKER_BUG)
     	next unless i.save
     	issues_map[bug.id] = i.id
     	print '.'
+
+        # Assignee
+        # Redmine checks that the assignee is a project member
+        if (bug.handler_id && users_map[bug.handler_id])
+          i.assigned_to = User.find_by_id(users_map[bug.handler_id])
+          i.save_with_validation(false)
+        end        
     	
     	# Bug notes
     	bug.bug_notes.each do |note|
