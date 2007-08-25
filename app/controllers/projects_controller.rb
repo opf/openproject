@@ -25,6 +25,7 @@ class ProjectsController < ApplicationController
   
   cache_sweeper :project_sweeper, :only => [ :add, :edit, :archive, :unarchive, :destroy ]
   cache_sweeper :issue_sweeper, :only => [ :add_issue ]
+  cache_sweeper :version_sweeper, :only => [ :add_version ]
 
   helper :sort
   include SortHelper
