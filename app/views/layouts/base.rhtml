@@ -87,7 +87,7 @@
         <%= link_to l(:label_roadmap), {:controller => 'projects', :action => 'roadmap', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_document_plural), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_wiki), {:controller => 'wiki', :id => @project, :page => nil }, :class => "menuItem" if @project.wiki and !@project.wiki.new_record? %>        
-        <%= link_to l(:label_board_plural), {:controller => 'boards', :project_id => @project }, :class => "menuItem" unless @project.boards.empty? %>
+        <%= link_to l(:label_board_plural), {:controller => 'boards', :action => 'index', :project_id => @project, :id => nil }, :class => "menuItem" unless @project.boards.empty? %>
         <%= link_to l(:label_attachment_plural), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project }, :class => "menuItem" %>
         <%= link_to l(:label_repository), {:controller => 'repositories', :action => 'show', :id => @project}, :class => "menuItem" if @project.repository and !@project.repository.new_record? %>
@@ -128,7 +128,7 @@
 				<li><%= link_to l(:label_roadmap), :controller => 'projects', :action => 'roadmap', :id => @project %></li>
 				<li><%= link_to l(:label_document_plural), :controller => 'projects', :action => 'list_documents', :id => @project %></li>
 				<%= content_tag("li", link_to(l(:label_wiki), :controller => 'wiki', :id => @project, :page => nil)) if @project.wiki and !@project.wiki.new_record? %>
-				<%= content_tag("li", link_to(l(:label_board_plural), :controller => 'boards', :project_id => @project)) unless @project.boards.empty? %>
+				<%= content_tag("li", link_to(l(:label_board_plural), :controller => 'boards', :action => 'index', :project_id => @project, :id => nil)) unless @project.boards.empty? %>
 				<li><%= link_to l(:label_attachment_plural), :controller => 'projects', :action => 'list_files', :id => @project %></li>
 				<li><%= link_to l(:label_search), :controller => 'search', :action => 'index', :id => @project %></li>
 				<%= content_tag("li", link_to(l(:label_repository), :controller => 'repositories', :action => 'show', :id => @project)) if @project.repository and !@project.repository.new_record? %>
