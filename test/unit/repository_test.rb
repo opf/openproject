@@ -53,4 +53,19 @@ class RepositoryTest < Test::Unit::TestCase
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets
   end
+  
+  def test_for_changeset_comments_strip
+    repository = Repository::Mercurial.create( :project => Project.find( 4 ), :url => '/foo/bar/baz' )
+    comment = <<-COMMENT
+    This is a loooooooooooooooooooooooooooong comment                                                   
+                                                                                                       
+                                                                                            
+    COMMENT
+    changeset = Changeset.new(
+      :comments => comment, :commit_date => Time.now, :revision => 0, :scmid => 'f39b7922fb3c',
+      :committer => 'foo <foo@example.com>', :committed_on => Time.now, :repository_id => repository )
+    assert( changeset.save )
+    assert_not_equal( comment, changeset.comments )
+    assert_equal( 'This is a loooooooooooooooooooooooooooong comment', changeset.comments )
+  end
 end

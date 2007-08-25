@@ -25,6 +25,10 @@ class Changeset < ActiveRecord::Base
   validates_uniqueness_of :revision, :scope => :repository_id
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
   
+  def comments=(comment)
+    write_attribute(:comments, comment.strip)
+  end
+
   def committed_on=(date)
     self.commit_date = date
     super
