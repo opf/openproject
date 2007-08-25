@@ -94,7 +94,19 @@ class Issue < ActiveRecord::Base
   end
   
   def after_save
+    # Update start/due dates of following issues
     relations_from.each(&:set_issue_to_dates)
+    
+    # Close duplicates if the issue was closed
+    if @issue_before_change && !@issue_before_change.closed? && self.closed?
+      duplicates.each do |duplicate|
+        # Don't re-close it if it's already closed
+        next if duplicate.closed?
+        # Same user and notes
+        duplicate.init_journal(@current_journal.user, @current_journal.notes)
+        duplicate.update_attribute :status, self.status
+      end
+    end
   end
   
   def custom_value_for(custom_field)
@@ -108,6 +120,11 @@ class Issue < ActiveRecord::Base
     @custom_values_before_change = {}
     self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
     @current_journal
+  end
+  
+  # Return true if the issue is closed, otherwise false
+  def closed?
+    self.status.is_closed?
   end
   
   # Users the issue can be assigned to
@@ -130,6 +147,11 @@ class Issue < ActiveRecord::Base
       dependencies += relation.issue_to.all_dependent_issues
     end
     dependencies
+  end
+  
+  # Returns an array of the duplicate issues
+  def duplicates
+    relations.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.other_issue(self)}
   end
   
   def duration

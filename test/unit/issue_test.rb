@@ -24,4 +24,29 @@ class IssueTest < Test::Unit::TestCase
     issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'Assignment test', :description => 'Assignment test', :category_id => 1)
     assert_equal IssueCategory.find(1).assigned_to, issue.assigned_to
   end
+  
+  def test_close_duplicates
+    # Create 3 issues
+    issue1 = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'Duplicates test', :description => 'Duplicates test')
+    assert issue1.save
+    issue2 = issue1.clone
+    assert issue2.save
+    issue3 = issue1.clone
+    assert issue3.save
+    
+    # 2 is a dupe of 1
+    IssueRelation.create(:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    # And 3 is a dupe of 2
+    IssueRelation.create(:issue_from => issue2, :issue_to => issue3, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    
+    assert issue1.reload.duplicates.include?(issue2)
+    
+    # Closing issue 1
+    issue1.init_journal(User.find(:first), "Closing issue1")
+    issue1.status = IssueStatus.find :first, :conditions => {:is_closed => true}
+    assert issue1.save
+    # 2 and 3 should be also closed
+    assert issue2.reload.closed?
+    assert issue3.reload.closed?    
+  end
 end
