@@ -17,25 +17,11 @@
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview), 
                        { :url => { :controller => 'wiki', :action => 'preview', :id => @project, :page => @page.title },
-                         :method => 'get',
+                         :method => 'post',
                          :update => 'preview',
                          :with => "Form.serialize('wiki_form')"
                        } %></p>
-
-<% end %>
-
-<% if Setting.text_formatting == 'textile' %>
-<%= javascript_include_tag 'jstoolbar' %>
-<script type="text/javascript">
-//<![CDATA[
-if (document.getElementById) { 
-	if (document.getElementById('content_text')) { 
-		var commentTb = new jsToolBar(document.getElementById('content_text')); 
-		commentTb.draw(); 
-	}
-}
-//]]>
-</script>
+<%= wikitoolbar_for 'content_text' %>
 <% end %>
 
 <div id="preview" class="wiki"></div>
