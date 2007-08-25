@@ -288,7 +288,7 @@ task :migrate_from_mantis => :environment do
     	
     	# Project categories
     	project.categories.each do |category|
-          g = IssueCategory.new :name => category.category
+          g = IssueCategory.new :name => category.category[0,30]
           g.project = p
           g.save
           categories_map[category.category] = g.id
