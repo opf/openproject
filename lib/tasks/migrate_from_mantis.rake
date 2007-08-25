@@ -310,7 +310,7 @@ task :migrate_from_mantis => :environment do
                       :created_on => bug.date_submitted,
                       :updated_on => bug.last_updated
     	i.author = User.find_by_id(users_map[bug.reporter_id])
-    	i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category) unless bug.category.blank?
+    	i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category[0,30]) unless bug.category.blank?
     	i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
     	i.status = STATUS_MAPPING[bug.status] || DEFAULT_STATUS
     	i.tracker = (bug.severity == 10 ? TRACKER_FEATURE : TRACKER_BUG)
