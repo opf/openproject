@@ -69,17 +69,17 @@ class Mailer < ActionMailer::Base
   def attachments_add(attachments)
     set_language_if_valid(Setting.default_language)
     container = attachments.first.container
-    url = "http://#{Setting.host_name}/"
-    added_to = ""
-    case container.class.to_s
+    url = ''
+    added_to = ''
+    case container.class.name
     when 'Version'
-      url << "projects/list_files/#{container.project_id}"
+      url = url_for(:only_path => false, :host => Setting.host_name, :controller => 'projects', :action => 'list_files', :id => container.project_id)
       added_to = "#{l(:label_version)}: #{container.name}"
     when 'Document'
-      url << "documents/show/#{container.id}"
+      url = url_for(:only_path => false, :host => Setting.host_name, :controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
     when 'Issue'
-      url << "issues/show/#{container.id}"
+      url = url = url_for(:only_path => false, :host => Setting.host_name, :controller => 'issues', :action => 'show', :id => container.id)
       added_to = "#{container.tracker.name} ##{container.id}: #{container.subject}"
     end
     @recipients     = container.project.users.collect { |u| u.mail if u.mail_notification }.compact
