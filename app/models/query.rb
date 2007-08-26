@@ -164,7 +164,8 @@ class Query < ActiveRecord::Base
   end
   
   def statement
-    sql = "1=1"
+    # project/subprojects clause
+    clause = ''
     if has_filter?("subproject_id")
       subproject_ids = []
       if operator_for("subproject_id") == "="
@@ -172,27 +173,29 @@ class Query < ActiveRecord::Base
       else
         subproject_ids = project.active_children.collect{|p| p.id}
       end
-      sql << " AND #{Issue.table_name}.project_id IN (%d,%s)" % [project.id, subproject_ids.join(",")] if project
+      clause << "#{Issue.table_name}.project_id IN (%d,%s)" % [project.id, subproject_ids.join(",")] if project
     else
-      sql << " AND #{Issue.table_name}.project_id=%d" % project.id if project
+      clause << "#{Issue.table_name}.project_id=%d" % project.id if project
     end
+    
+    # filters clauses
+    filters_clauses = []
     filters.each_key do |field|
       next if field == "subproject_id"
       v = values_for(field).clone
       next unless v and !v.empty?
-        
-      sql = sql + " AND " unless sql.empty?      
-      sql << "("
-      
+            
+      sql = ''      
       if field =~ /^cf_(\d+)$/
         # custom field
         db_table = CustomValue.table_name
-        db_field = "value"
-        sql << "#{db_table}.custom_field_id = #{$1} AND "
+        db_field = 'value'
+        sql << "#{Issue.table_name}.id IN (SELECT #{db_table}.customized_id FROM #{db_table} where #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} AND "
       else
         # regular field
         db_table = Issue.table_name
         db_field = field
+        sql << '('
       end
       
       # "me" value subsitution
@@ -232,9 +235,11 @@ class Query < ActiveRecord::Base
       when "!~"
         sql = sql + "#{db_table}.#{db_field} NOT LIKE '%#{connection.quote_string(v.first)}%'"
       end
-      sql << ")"
-      
+      sql << ')'
+      filters_clauses << sql
     end if filters and valid?
-    sql
+    
+    clause << (' AND ' + filters_clauses.join(' AND ')) unless filters_clauses.empty?
+    clause
   end
 end

@@ -34,10 +34,16 @@ custom_values_004:
   custom_field_id: 2
   customized_id: 1
   id: 7
-  value: "101"
+  value: "125"
 custom_values_005: 
   customized_type: Issue
   custom_field_id: 2
   customized_id: 2
   id: 8
   value: ""
+custom_values_008: 
+  customized_type: Issue
+  custom_field_id: 1
+  customized_id: 3
+  id: 11
+  value: "MySQL"

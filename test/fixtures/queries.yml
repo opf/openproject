@@ -1,0 +1,22 @@
+--- 
+queries_001: 
+  name: Multiple custom fields query
+  project_id: 1
+  filters: |
+    --- 
+    cf_1: 
+      :values: 
+      - MySQL
+      :operator: "="
+    status_id: 
+      :values: 
+      - "1"
+      :operator: o
+    cf_2: 
+      :values: 
+      - "125"
+      :operator: "="
+
+  id: 1
+  is_public: true
+  user_id: 1

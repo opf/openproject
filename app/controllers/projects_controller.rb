@@ -290,10 +290,10 @@ class ProjectsController < ApplicationController
     end
 
     if @query.valid?
-      @issue_count = Issue.count(:include => [:status, :project, :custom_values], :conditions => @query.statement)		
+      @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)		
       @issue_pages = Paginator.new self, @issue_count, @results_per_page, params['page']								
       @issues = Issue.find :all, :order => sort_clause,
-  						:include => [ :assigned_to, :status, :tracker, :project, :priority, :custom_values ],
+  						:include => [ :assigned_to, :status, :tracker, :project, :priority ],
   						:conditions => @query.statement,
   						:limit  =>  @issue_pages.items_per_page,
   						:offset =>  @issue_pages.current.offset						
@@ -369,7 +369,7 @@ class ProjectsController < ApplicationController
     render :action => 'list_issues' and return unless @query.valid?
 					
     @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker, :priority, :project, :custom_values ],
+						:include => [ :author, :status, :tracker, :priority, :project ],
 						:conditions => @query.statement,
 						:limit => Setting.issues_export_limit.to_i
 											
