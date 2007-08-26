@@ -22,10 +22,10 @@ g_height = [(20 * @events.length + 6)+150, 206].max
 t_height = g_height + headers_height
 %>
 
-<% cache(:year => @year_from, :month => @month_from, :months => @months, :zoom => @zoom, :tracker_ids => @selected_tracker_ids, :subprojects => params[:with_subprojects], :lang => current_language) do %>
 <div class="contextual">
 <%= l(:label_export_to) %>
-<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :output => 'pdf'}, :class => 'icon icon-pdf' %>
+<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'pdf'}, :class => 'icon icon-pdf' %>
+<%= link_to 'PNG', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'png'}, :class => 'icon icon-image' if respond_to?('gantt_image') %>
 </div>
 
 <h2><%= l(:label_gantt) %></h2>
@@ -71,6 +71,8 @@ t_height = g_height + headers_height
 </tr>
 </table>
 <% end %>
+
+<% cache(:year => @year_from, :month => @month_from, :months => @months, :zoom => @zoom, :tracker_ids => @selected_tracker_ids, :subprojects => params[:with_subprojects], :lang => current_language) do %>
 
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>

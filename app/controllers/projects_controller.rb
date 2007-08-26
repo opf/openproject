@@ -38,6 +38,7 @@ class ProjectsController < ApplicationController
   include QueriesHelper
   helper :repositories
   include RepositoriesHelper
+  include ProjectsHelper
   
   def index
     list
@@ -614,10 +615,14 @@ class ProjectsController < ApplicationController
     @events += @project.versions.find(:all, :conditions => ["effective_date BETWEEN ? AND ?", @date_from, @date_to])
     @events.sort! {|x,y| x.start_date <=> y.start_date }
     
-    if params[:output]=='pdf'
+    if params[:format]=='pdf'
       @options_for_rfpdf ||= {}
-      @options_for_rfpdf[:file_name] = "gantt.pdf"
+      @options_for_rfpdf[:file_name] = "#{@project.identifier}-gantt.pdf"
       render :template => "projects/gantt.rfpdf", :layout => false
+    elsif params[:format]=='png' && respond_to?('gantt_image')
+      image = gantt_image(@events, @date_from, @months, @zoom)
+      image.format = 'PNG'
+      send_data(image.to_blob, :disposition => 'inline', :type => 'image/png', :filename => "#{@project.identifier}-gantt.png")
     else
       render :template => "projects/gantt.rhtml"
     end
