@@ -7,9 +7,9 @@ actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
 actionview_datehelper_time_in_words_day: 1 jour
 actionview_datehelper_time_in_words_day_plural: %d jours
-actionview_datehelper_time_in_words_hour_about: about an hour
-actionview_datehelper_time_in_words_hour_about_plural: about %d hours
-actionview_datehelper_time_in_words_hour_about_single: about an hour
+actionview_datehelper_time_in_words_hour_about: environ une heure
+actionview_datehelper_time_in_words_hour_about_plural: environ %d heures
+actionview_datehelper_time_in_words_hour_about_single: environ une heure
 actionview_datehelper_time_in_words_minute: 1 minute
 actionview_datehelper_time_in_words_minute_half: 30 secondes
 actionview_datehelper_time_in_words_minute_less_than: moins d'une minute
