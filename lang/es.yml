@@ -70,7 +70,8 @@ notice_locking_conflict: Data have been updated by another user.
 notice_scm_error: La entrada y/o la revisión no existe en el depósito.
 notice_not_authorized: You are not authorized to access this page.
 notice_email_sent: An email was sent to %s
-notice_email_error: An error occurred while sending mail (%s)"
+notice_email_error: An error occurred while sending mail (%s)
+notice_feeds_access_key_reseted: Your RSS access key was reseted.
 
 mail_subject_lost_password: Tu contraseña del redMine
 mail_subject_register: Activación de la cuenta del redMine
@@ -411,6 +412,7 @@ label_date_to: To
 label_language_based: Language based
 label_sort_by: Sort by "%s"
 label_send_test_email: Send a test email
+label_feeds_access_key_created_on: RSS access key created %s ago
 
 button_login: Conexión
 button_submit: Someter
@@ -442,6 +444,7 @@ button_unwatch: Unwatch
 button_reply: Reply
 button_archive: Archive
 button_unarchive: Unarchive
+button_reset: Reset
 
 status_active: active
 status_registered: registered

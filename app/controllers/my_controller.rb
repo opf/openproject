@@ -52,10 +52,9 @@ class MyController < ApplicationController
     @pref = @user.pref
     @user.attributes = params[:user]
     @user.pref.attributes = params[:pref]
-    if request.post? and @user.save and @user.pref.save
-      set_localization
-      flash.now[:notice] = l(:notice_account_updated)
-      self.logged_in_user.reload
+    if request.post? && @user.save && @user.pref.save
+      flash[:notice] = l(:notice_account_updated)
+      redirect_to :action => 'account'
     end
   end
 
@@ -73,6 +72,15 @@ class MyController < ApplicationController
       end
     else
       flash[:error] = l(:notice_account_wrong_password)
+    end
+    redirect_to :action => 'account'
+  end
+  
+  # Create a new feeds key
+  def reset_rss_key
+    if request.post? && User.current.rss_token
+      User.current.rss_token.destroy
+      flash[:notice] = l(:notice_feeds_access_key_reseted)
     end
     redirect_to :action => 'account'
   end

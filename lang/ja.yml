@@ -71,7 +71,8 @@ notice_locking_conflict: 別のユーザがデータを更新しています。
 notice_scm_error: リポジトリに、エントリ/リビジョンが存在しません。
 notice_not_authorized: このページにアクセスするには認証が必要です。
 notice_email_sent: An email was sent to %s
-notice_email_error: An error occurred while sending mail (%s)"
+notice_email_error: An error occurred while sending mail (%s)
+notice_feeds_access_key_reseted: Your RSS access key was reseted.
 
 mail_subject_lost_password: redMineパスワード
 mail_subject_register: redMineアカウントが有効になりました
@@ -412,6 +413,7 @@ label_date_to: To
 label_language_based: Language based
 label_sort_by: Sort by "%s"
 label_send_test_email: Send a test email
+label_feeds_access_key_created_on: RSS access key created %s ago
 
 button_login: ログイン
 button_submit: 変更
@@ -443,6 +445,7 @@ button_unwatch: ウォッチをやめる
 button_reply: 返答
 button_archive: 書庫に保存
 button_unarchive: 書庫から戻す
+button_reset: Reset
 
 status_active: 有効
 status_registered: 登録

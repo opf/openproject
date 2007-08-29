@@ -71,6 +71,7 @@ notice_scm_error: "L'entrée et/ou la révision demandée n'existe pas dans le d
 notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
 notice_email_sent: "Un email a été envoyé à %s"
 notice_email_error: "Erreur lors de l'envoi de l'email (%s)"
+notice_feeds_access_key_reseted: Votre clé d'accès aux flux RSS a été réinitialisée.
 
 mail_subject_lost_password: Votre mot de passe redMine
 mail_subject_register: Activation de votre compte redMine
@@ -411,6 +412,7 @@ label_date_to: Au
 label_language_based: Basé sur la langue
 label_sort_by: Trier par "%s"
 label_send_test_email: Envoyer un email de test
+label_feeds_access_key_created_on: Clé d'accès RSS créée il y a %s
 
 button_login: Connexion
 button_submit: Soumettre
@@ -442,6 +444,7 @@ button_unwatch: Ne plus surveiller
 button_reply: Répondre
 button_archive: Archiver
 button_unarchive: Désarchiver
+button_reset: Réinitialiser
 
 status_active: actif
 status_registered: enregistré

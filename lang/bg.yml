@@ -70,7 +70,8 @@ notice_locking_conflict: Друг потребител променя тези �
 notice_scm_error: Несъществуващ обект в склада.
 notice_not_authorized: Нямате право на достъп до тази страница.
 notice_email_sent: An email was sent to %s
-notice_email_error: An error occurred while sending mail (%s)"
+notice_email_error: An error occurred while sending mail (%s)
+notice_feeds_access_key_reseted: Your RSS access key was reseted.
 
 mail_subject_lost_password: Вашата парола
 mail_subject_register: Активация на акаунт
@@ -411,6 +412,7 @@ label_date_to: To
 label_language_based: Language based
 label_sort_by: Sort by "%s"
 label_send_test_email: Send a test email
+label_feeds_access_key_created_on: RSS access key created %s ago
 
 button_login: Вход
 button_submit: Изпращане
@@ -442,6 +444,7 @@ button_unwatch: Спри наблюдението
 button_reply: Reply
 button_archive: Archive
 button_unarchive: Unarchive
+button_reset: Reset
 
 status_active: активен
 status_registered: регистриран
