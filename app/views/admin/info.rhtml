@@ -1,6 +1,6 @@
 <h2><%=l(:label_information_plural)%></h2>
 
-<p><%=l(:field_version)%>: <strong>redMine <%= Redmine::VERSION %></strong> (<%= @db_adapter_name %>)</p>
+<p><%=l(:field_version)%>: <strong><%= Redmine::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</p>
 
 <table class="list">
 <tr class="odd"><td>File repository writable</td><td><%= image_tag (@flags[:file_repository_writable] ? 'true.png' : 'false.png'), :style => "vertical-align:bottom;" %></td></tr>

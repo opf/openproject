@@ -1,4 +1,3 @@
-require 'redmine/version'
 require 'redmine/access_control'
 require 'redmine/menu_manager'
 require 'redmine/mime_type'
