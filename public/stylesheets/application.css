@@ -607,7 +607,7 @@ div.wiki table {
     border-collapse: collapse;
 }
 
-div.wiki table, div.wiki td {
+div.wiki table, div.wiki td, div.wiki th {
     border: 1px solid #bbb;
     padding: 4px;
 }
