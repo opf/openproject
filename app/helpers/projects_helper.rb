@@ -178,9 +178,9 @@ module ProjectsHelper
   
   def new_issue_selector
     trackers = Tracker.find(:all, :order => 'position')
-    form_tag({:controller => 'projects', :action => 'add_issue', :id => @project}, :method => :get) +
-      select_tag('tracker_id', '<option></option' + options_from_collection_for_select(trackers, 'id', 'name'),
-        :onchange => "if (this.value != '') {this.form.submit()}") +
-      end_form_tag
+    # can't use form tag inside helper
+    content_tag('form',
+      select_tag('tracker_id', '<option></option' + options_from_collection_for_select(trackers, 'id', 'name'), :onchange => "if (this.value != '') {this.form.submit()}"),
+      :action => url_for(:controller => 'projects', :action => 'add_issue', :id => @project), :method => 'get')
   end
 end

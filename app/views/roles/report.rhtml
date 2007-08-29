@@ -1,6 +1,6 @@
 <h2><%=l(:label_permissions_report)%></h2>
 
-<%= start_form_tag({:action => 'report'}, :id => 'permissions_form') %>
+<% form_tag({:action => 'report'}, :id => 'permissions_form') do %>
 <%= hidden_field_tag 'permissions[0]', '' %>
 <table class="list">
 <thead>
@@ -28,4 +28,4 @@
 </table>
 <p><%= check_all_links 'permissions_form' %></p>
 <p><%= submit_tag l(:button_save) %></p>
-<%= end_form_tag %>
+<% end %>
