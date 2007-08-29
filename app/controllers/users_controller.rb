@@ -58,7 +58,7 @@ class UsersController < ApplicationController
       @user.admin = params[:user][:admin] || false
       @user.login = params[:user][:login]
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
-      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
+      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
       @user.custom_values = @custom_values			
       if @user.save
         Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]

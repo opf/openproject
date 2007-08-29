@@ -21,7 +21,7 @@ class CustomValue < ActiveRecord::Base
 
 protected
   def validate
-    errors.add(:value, :activerecord_error_blank) and return if custom_field.is_required? and value.empty?    
+    errors.add(:value, :activerecord_error_blank) and return if custom_field.is_required? and value.blank?    
     errors.add(:value, :activerecord_error_invalid) unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
     errors.add(:value, :activerecord_error_too_short) if custom_field.min_length > 0 and value.length < custom_field.min_length and value.length > 0
     errors.add(:value, :activerecord_error_too_long) if custom_field.max_length > 0 and value.length > custom_field.max_length
