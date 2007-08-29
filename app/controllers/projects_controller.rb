@@ -66,7 +66,7 @@ class ProjectsController < ApplicationController
   # Add a new project
   def add
     @custom_fields = IssueCustomField.find(:all)
-    @root_projects = Project.find(:all, :conditions => "parent_id is null")
+    @root_projects = Project.find(:all, :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}")
     @project = Project.new(params[:project])
     if request.get?
       @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project) }
@@ -102,7 +102,7 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @root_projects = Project::find(:all, :conditions => ["parent_id is null and id <> ?", @project.id])
+    @root_projects = Project::find(:all, :conditions => ["parent_id IS NULL AND status = #{Project::STATUS_ACTIVE} AND id <> ?", @project.id])
     @custom_fields = IssueCustomField.find(:all)
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
