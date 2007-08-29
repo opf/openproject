@@ -19,6 +19,12 @@ class Changeset < ActiveRecord::Base
   belongs_to :repository
   has_many :changes, :dependent => :delete_all
   has_and_belongs_to_many :issues
+
+  acts_as_event :title => Proc.new {|o| "#{l(:label_revision)} #{o.revision}" + (o.comments.blank? ? '' : (': ' + o.comments))},
+                :description => :comments,
+                :datetime => :committed_on,
+                :author => :committer,
+                :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project_id, :rev => o.revision}}
   
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_numericality_of :revision, :only_integer => true

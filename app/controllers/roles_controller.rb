@@ -28,40 +28,35 @@ class RolesController < ApplicationController
   end
 
   def list
-    @role_pages, @roles = paginate :roles, :per_page => 25, :order => "position"
+    @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
     render :action => "list", :layout => false if request.xhr?
   end
 
   def new
     @role = Role.new(params[:role])
-    if request.post?
-      @role.permissions = Permission.find(params[:permission_ids]) if params[:permission_ids]
-      if @role.save
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :action => 'list'
-      end
+    if request.post? && @role.save
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to :action => 'list'
     end
-    @permissions = Permission.find(:all, :conditions => ["is_public=?", false], :order => 'sort ASC')
+    @permissions = @role.setable_permissions
   end
 
   def edit
     @role = Role.find(params[:id])
     if request.post? and @role.update_attributes(params[:role])
-      @role.permissions = Permission.find(params[:permission_ids] || [])
-      Permission.allowed_to_role_expired
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
     end
-    @permissions = Permission.find(:all, :conditions => ["is_public=?", false], :order => 'sort ASC')
+    @permissions = @role.setable_permissions
   end
 
   def destroy
     @role = Role.find(params[:id])
-    unless @role.members.empty?
-      flash[:error] = 'Some members have this role. Can\'t delete it.'
-    else
+    #unless @role.members.empty?
+    #  flash[:error] = 'Some members have this role. Can\'t delete it.'
+    #else
       @role.destroy
-    end
+    #end
     redirect_to :action => 'list'
   end
   
@@ -95,19 +90,19 @@ class RolesController < ApplicationController
         flash[:notice] = l(:notice_successful_update)
       end
     end
-    @roles = Role.find(:all, :order => 'position')
+    @roles = Role.find(:all, :order => 'builtin, position')
     @trackers = Tracker.find(:all, :order => 'position')
     @statuses = IssueStatus.find(:all, :include => :workflows, :order => 'position')
   end
   
   def report    
-    @roles = Role.find(:all, :order => 'position')
-    @permissions = Permission.find :all, :conditions => ["is_public=?", false], :order => 'sort'
+    @roles = Role.find(:all, :order => 'builtin, position')
+    @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
     if request.post?
       @roles.each do |role|
-        role.permissions = Permission.find(params[:permission_ids] ? (params[:permission_ids][role.id.to_s] || []) : [] )
+        role.permissions = params[:permissions][role.id.to_s]
+        role.save
       end
-      Permission.allowed_to_role_expired
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
     end

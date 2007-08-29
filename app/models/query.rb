@@ -78,7 +78,7 @@ class Query < ActiveRecord::Base
   def editable_by?(user)
     return false unless user
     return true if !is_public && self.user_id == user.id
-    is_public && user.authorized_to(project, "projects/add_query")
+    is_public && user.allowed_to?(:manage_pulic_queries, project)
   end
   
   def available_filters

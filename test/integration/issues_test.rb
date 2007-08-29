@@ -1,7 +1,7 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
 class IssuesTest < ActionController::IntegrationTest
-  fixtures :projects, :users, :trackers, :issue_statuses, :issues, :permissions, :permissions_roles, :enumerations
+  fixtures :projects, :users, :trackers, :issue_statuses, :issues,  :enumerations
 
   # create an issue
   def test_add_issue
@@ -38,7 +38,7 @@ class IssuesTest < ActionController::IntegrationTest
   def test_issue_attachements
     log_user('jsmith', 'jsmith')
 
-    post "issues/add_attachment/1", { 'attachments[]' => ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + '/files/testfile.txt', 'text/plain') }
+    post "issues/add_note/1", { :notes => 'Some notes', 'attachments[]' => ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + '/files/testfile.txt', 'text/plain') }
     assert_redirected_to "issues/show/1"
     
     # make sure attachment was saved

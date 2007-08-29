@@ -1,6 +1,7 @@
 <% if @query.new_record? %>
     <div class="contextual">
       <%= link_to l(:label_query_plural), :controller => 'queries', :project_id => @project %>
+      <% if authorize_for('projects', 'add_issues') %>| <%= l(:label_issue_new) %>: <%= new_issue_selector %><% end %>
     </div>
     <h2><%=l(:label_issue_plural)%></h2>
     
@@ -19,7 +20,7 @@
                          :update => "content",
                        }, :class => 'icon icon-reload'  %>
                        
-    <% if loggedin? %>    
+    <% if current_role.allowed_to?(:save_queries) %>
     <%= link_to_remote l(:button_save), 
                        { :url => { :controller => 'queries', :action => 'new', :project_id => @project },
                          :method => 'get',
@@ -33,6 +34,7 @@
     <div class="contextual">
         <%= link_to l(:label_query_plural), {:controller => 'queries', :project_id => @project} %> |
         <%= link_to l(:label_issue_view_all), {:controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1} %>
+        <% if authorize_for('projects', 'add_issues') %>| <%= l(:label_issue_new) %>: <%= new_issue_selector %><% end %>
     </div>    
     <h2><%= @query.name %></h2>
 <% end %>

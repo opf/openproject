@@ -58,7 +58,7 @@ class FeedsControllerTest < Test::Unit::TestCase
   
   def test_rss_key
     user = User.find(2)
-    key = user.get_or_create_rss_key.value
+    key = user.rss_key
     
     get :news, :project_id => 2, :key => key
     assert_response :success

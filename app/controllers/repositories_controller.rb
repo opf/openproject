@@ -22,8 +22,8 @@ require 'digest/sha1'
 class RepositoriesController < ApplicationController
   layout 'base'
   before_filter :find_project, :except => [:update_form]
-  before_filter :authorize, :except => [:update_form, :stats, :graph]
-  before_filter :check_project_privacy, :only => [:stats, :graph]
+  before_filter :authorize, :except => [:update_form]
+  accept_key_auth :revisions
   
   def show
     # check if new revisions have been committed in the repository
@@ -57,7 +57,10 @@ class RepositoriesController < ApplicationController
 						:limit  =>  @changeset_pages.items_per_page,
 						:offset =>  @changeset_pages.current.offset)
 
-    render :action => "revisions", :layout => false if request.xhr?
+    respond_to do |format|
+      format.html { render :layout => false if request.xhr? }
+      format.atom { render_feed(@changesets, :title => "#{@project.name}: #{l(:label_revision_plural)}") }
+    end
   end
   
   def entry

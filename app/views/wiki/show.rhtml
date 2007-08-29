@@ -1,7 +1,7 @@
 <div class="contextual">
-<%= link_to(l(:button_edit), {:action => 'edit', :page => @page.title}, :class => 'icon icon-edit') if @content.version == @page.content.version %>
+<%= link_to_if_authorized(l(:button_edit), {:action => 'edit', :page => @page.title}, :class => 'icon icon-edit') if @content.version == @page.content.version %>
 <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy', :page => @page.title}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del') %>
-<%= link_to(l(:button_rollback), {:action => 'edit', :page => @page.title, :version => @content.version }, :class => 'icon icon-cancel') if @content.version < @page.content.version %>
+<%= link_to_if_authorized(l(:button_rollback), {:action => 'edit', :page => @page.title, :version => @content.version }, :class => 'icon icon-cancel') if @content.version < @page.content.version %>
 <%= link_to(l(:label_history), {:action => 'history', :page => @page.title}, :class => 'icon icon-history') %>
 <%= link_to(l(:label_page_index), {:action => 'special', :page => 'Page_index'}, :class => 'icon icon-index') %>
 </div>

@@ -8,4 +8,11 @@ module Redmine
     
     def self.to_s; STRING end    
   end
+  
+  module Info
+    class << self
+      def name; 'Redmine' end
+      def url; 'http://www.redmine.org/' end
+    end
+  end
 end

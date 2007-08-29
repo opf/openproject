@@ -16,9 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class QueriesController < ApplicationController
-  layout 'base'  
-  before_filter :require_login, :except => :index
-  before_filter :find_project, :check_project_privacy
+  layout 'base'
+  before_filter :find_project, :authorize
 
   def index
     @queries = @project.queries.find(:all, 
@@ -31,7 +30,7 @@ class QueriesController < ApplicationController
     @query.project = @project
     @query.user = logged_in_user
     @query.executed_by = logged_in_user
-    @query.is_public = false unless logged_in_user.authorized_to(@project, 'projects/add_query')
+    @query.is_public = false unless current_role.allowed_to?(:manage_pulic_queries)
     
     params[:fields].each do |field|
       @query.add_filter(field, params[:operators][field], params[:values][field])
@@ -52,7 +51,7 @@ class QueriesController < ApplicationController
         @query.add_filter(field, params[:operators][field], params[:values][field])
       end if params[:fields]
       @query.attributes = params[:query]
-      @query.is_public = false unless logged_in_user.authorized_to(@project, 'projects/add_query')
+      @query.is_public = false unless current_role.allowed_to?(:manage_pulic_queries)
           
       if @query.save
         flash[:notice] = l(:notice_successful_update)

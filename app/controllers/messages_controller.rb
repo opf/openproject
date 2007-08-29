@@ -17,8 +17,7 @@
 
 class MessagesController < ApplicationController
   layout 'base'
-  before_filter :find_project, :check_project_privacy
-  before_filter :require_login, :only => [:new, :reply]
+  before_filter :find_project, :authorize
 
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
 

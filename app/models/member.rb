@@ -23,6 +23,10 @@ class Member < ActiveRecord::Base
   validates_presence_of :role, :user, :project
   validates_uniqueness_of :user_id, :scope => :project_id
 
+  def validate
+    errors.add :role_id, :activerecord_error_invalid if role && !role.member?
+  end
+  
   def name
     self.user.name
   end

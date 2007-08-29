@@ -46,14 +46,6 @@ class AdminController < ApplicationController
   end
 
   def mail_options
-    @actions = Permission.find(:all, :conditions => ["mail_option=?", true]) || []
-    if request.post?
-      @actions.each { |a|
-        a.mail_enabled = (params[:action_ids] || []).include? a.id.to_s 
-        a.save
-      }
-      flash.now[:notice] = l(:notice_successful_update)
-    end
   end
   
   def test_email
@@ -61,8 +53,8 @@ class AdminController < ApplicationController
     # Force ActionMailer to raise delivery errors so we can catch it
     ActionMailer::Base.raise_delivery_errors = true
     begin
-      @test = Mailer.deliver_test(logged_in_user)
-      flash[:notice] = l(:notice_email_sent, logged_in_user.mail)
+      @test = Mailer.deliver_test(User.current)
+      flash[:notice] = l(:notice_email_sent, User.current.mail)
     rescue Exception => e
       flash[:error] = l(:notice_email_error, e.message)
     end

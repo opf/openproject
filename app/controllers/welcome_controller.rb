@@ -21,7 +21,5 @@ class WelcomeController < ApplicationController
   def index
     @news = News.latest logged_in_user
     @projects = Project.latest logged_in_user
-    
-    @key = logged_in_user.get_or_create_rss_key.value if logged_in_user
   end
 end

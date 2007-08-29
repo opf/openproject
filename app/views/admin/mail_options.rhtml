@@ -1,26 +1,3 @@
 <h2><%=l(:field_mail_notification)%></h2>
 
-<% form_tag({:action => 'mail_options'}, :id => 'mail_options_form') do %>
-
-<div class="box">
-<p><%=l(:text_select_mail_notifications)%></p>
-
-<% actions = @actions.group_by {|p| p.group_id } %>
-<% actions.keys.sort.each do |group_id| %>
-<fieldset style="margin-top: 6px;"><legend><strong><%= l(Permission::GROUPS[group_id]) %></strong></legend>
-<% actions[group_id].each do |p| %>
-  <div style="width:170px;float:left;"><%= check_box_tag "action_ids[]", p.id, p.mail_enabled? %>
-  <%= l(p.description.to_sym) %>
-  </div>
-<% end %>
-<div class="clear"></div>
-</fieldset>
-<% end %>
-<br />
-<%= check_all_links('mail_options_form') %>
-</div>
-
-<p><%= submit_tag l(:button_save) %></p>
-<% end %>
-
 <%= link_to l(:label_send_test_email), :action => 'test_email' %>

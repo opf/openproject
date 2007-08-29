@@ -20,7 +20,7 @@ class WatchersController < ApplicationController
   before_filter :require_login, :find_project, :check_project_privacy
   
   def add
-    user = logged_in_user
+    user = User.current
     @watched.add_watcher(user)
     respond_to do |format|
       format.html { render :text => 'Watcher added.', :layout => true }
@@ -29,7 +29,7 @@ class WatchersController < ApplicationController
   end
   
   def remove
-    user = logged_in_user
+    user = User.current
     @watched.remove_watcher(user)
     respond_to do |format|
       format.html { render :text => 'Watcher removed.', :layout => true }

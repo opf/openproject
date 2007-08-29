@@ -20,6 +20,8 @@ class Document < ActiveRecord::Base
   belongs_to :category, :class_name => "Enumeration", :foreign_key => "category_id"
   has_many :attachments, :as => :container, :dependent => :destroy
 
+  acts_as_event :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}
+
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60
 end

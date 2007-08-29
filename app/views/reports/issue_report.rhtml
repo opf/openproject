@@ -1,4 +1,4 @@
-<% if @total_hours %>
+<% if @total_hours && authorize_for('timelog', 'reports') %>
 <div style="float:right;text-align:right;">
 <strong><%= l(:label_spent_time) %></strong>: <span class="icon icon-time"><%= lwr(:label_f_hour, @total_hours) %></span><br />
 <%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |

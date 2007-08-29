@@ -1,23 +1,20 @@
 <%= error_messages_for 'role' %> 
+
 <div class="box">
-<!--[form:role]-->
-<p><%= f.text_field :name, :required => true %></p>
+<p><%= f.text_field :name, :required => true, :disabled => @role.builtin? %></p>
+</div>
 <p><%= f.check_box :assignable %></p>
 <div class="clear"></div>
 
-<h3><%=l(:label_permissions)%></h3>
-<% permissions = @permissions.group_by {|p| p.group_id } %>
-<% permissions.keys.sort.each do |group_id| %>
-<fieldset style="margin-top: 6px;"><legend><strong><%= l(Permission::GROUPS[group_id]) %></strong></legend>
-<% permissions[group_id].each do |p| %>
-  <div style="width:170px;float:left;"><%= check_box_tag "permission_ids[]", p.id, (@role.permissions.include? p) %>
-  <%= l(p.description.to_sym) %>
-  </div>
+<fieldset class="box"><legend><%=l(:label_permissions)%></legend>
+<% @permissions.each do |permission| %>    
+    <div style="width:220px;float:left;">
+    <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
+    <%= permission.name.to_s.humanize %>
+    </div>
 <% end %>
+<%= hidden_field_tag 'role[permissions][]', '' %>
 <div class="clear"></div>
-</fieldset>
-<% end %>
 <br />
 <%= check_all_links 'role_form' %>
-<!--[eoform:role]-->
-</div>
+</fieldset>

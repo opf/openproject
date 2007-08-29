@@ -22,7 +22,6 @@ class AccountController < ApplicationController
   
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required, :only => [:login, :lost_password, :register]
-  before_filter :require_login, :only => :logout
 
   # Show user's account
   def show
@@ -31,7 +30,7 @@ class AccountController < ApplicationController
     
     # show only public projects and private projects that the logged in user is also a member of
     @memberships = @user.memberships.select do |membership|
-      membership.project.is_public? || (logged_in_user && logged_in_user.role_for_project(membership.project))
+      membership.project.is_public? || (User.current.role_for_project(membership.project))
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -41,12 +40,12 @@ class AccountController < ApplicationController
   def login
     if request.get?
       # Logout user
-      self.logged_in_user = nil
+      self.logged_user = nil
     else
       # Authenticate user
       user = User.try_to_login(params[:login], params[:password])
       if user
-        self.logged_in_user = user
+        self.logged_user = user
         # generate a key and set cookie if autologin
         if params[:autologin] && Setting.autologin?
           token = Token.create(:user => user, :action => 'autologin')
@@ -62,8 +61,8 @@ class AccountController < ApplicationController
   # Log out current user and redirect to welcome page
   def logout
     cookies.delete :autologin
-    Token.delete_all(["user_id = ? AND action = ?", logged_in_user.id, "autologin"]) if logged_in_user
-    self.logged_in_user = nil
+    Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin']) if User.current.logged?
+    self.logged_user = nil
     redirect_to :controller => 'welcome'
   end
   
@@ -138,6 +137,17 @@ class AccountController < ApplicationController
           redirect_to :controller => 'account', :action => 'login'
         end
       end
+    end
+  end
+  
+private
+  def logged_user=(user)
+    if user && user.is_a?(User)
+      User.current = user
+      session[:user_id] = user.id
+    else
+      User.current = User.anonymous
+      session[:user_id] = nil
     end
   end
 end

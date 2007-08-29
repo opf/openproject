@@ -4,7 +4,7 @@
 <!--[form:project]-->
 <p><%= f.text_field :name, :required => true %><br /><em><%= l(:text_caracters_maximum, 30) %></em></p>
 
-<% if admin_loggedin? and !@root_projects.empty? %>
+<% if User.current.admin? and !@root_projects.empty? %>
     <p><%= f.select :parent_id, (@root_projects.collect {|p| [p.name, p.id]}), { :include_blank => true } %></p>
 <% end %>
 

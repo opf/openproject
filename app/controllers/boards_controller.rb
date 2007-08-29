@@ -17,9 +17,7 @@
 
 class BoardsController < ApplicationController
   layout 'base'
-  before_filter :find_project
-  before_filter :authorize, :except => [:index, :show]
-  before_filter :check_project_privacy, :only => [:index, :show]
+  before_filter :find_project, :authorize
 
   helper :messages
   include MessagesHelper

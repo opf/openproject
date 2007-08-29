@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
-  has_one :rss_key, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
+  has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   belongs_to :auth_source
   
   attr_accessor :password, :password_confirmation
@@ -121,24 +121,14 @@ class User < ActiveRecord::Base
     User.hash_password(clear_password) == self.hashed_password
   end
   
-  def role_for_project(project)
-    return nil unless project
-    member = memberships.detect {|m| m.project_id == project.id}
-    member ? member.role : nil 
-  end
-  
-  def authorized_to(project, action)
-    return true if self.admin?
-    role = role_for_project(project)
-    role && Permission.allowed_to_role(action, role)
-  end
-  
   def pref
     self.preference ||= UserPreference.new(:user => self)
   end
   
-  def get_or_create_rss_key
-    self.rss_key || Token.create(:user => self, :action => 'feeds')
+  # Return user's RSS key (a 40 chars long string), used to access feeds
+  def rss_key
+    token = self.rss_token || Token.create(:user => self, :action => 'feeds')
+    token.value
   end
   
   def self.find_by_rss_key(key)
@@ -155,9 +145,72 @@ class User < ActiveRecord::Base
     lastname == user.lastname ? firstname <=> user.firstname : lastname <=> user.lastname
   end
   
+  def to_s
+    name
+  end
+  
+  def logged?
+    true
+  end
+  
+  # Return user's role for project
+  def role_for_project(project)
+    # No role on archived projects
+    return nil unless project && project.active?
+    # Find project membership
+    membership = memberships.detect {|m| m.project_id == project.id}
+    if membership
+      membership.role
+    elsif logged?
+      Role.non_member
+    else
+      Role.anonymous
+    end
+  end
+  
+  # Return true if the user is a member of project
+  def member_of?(project)
+    role_for_project(project).member?
+  end
+  
+  # Return true if the user is allowed to do the specified action on project
+  # action can be:
+  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
+  # * a permission Symbol (eg. :edit_project)
+  def allowed_to?(action, project)
+    return false unless project.active?
+    return true if admin?
+    role = role_for_project(project)
+    return false unless role
+    role.allowed_to?(action) && (project.is_public? || role.member?)
+  end
+  
+  def self.current=(user)
+    @current_user = user
+  end
+  
+  def self.current
+    @current_user ||= AnonymousUser.new
+  end
+  
+  def self.anonymous
+    AnonymousUser.new
+  end
+  
 private
   # Return password digest
   def self.hash_password(clear_password)
     Digest::SHA1.hexdigest(clear_password || "")
+  end
+end
+
+class AnonymousUser < User
+  def logged?
+    false
+  end
+  
+  # Anonymous user has no RSS key
+  def rss_key
+    nil
   end
 end

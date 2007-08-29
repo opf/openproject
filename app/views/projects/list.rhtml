@@ -10,7 +10,7 @@
 <% for project in @projects %>
   <tr class="<%= cycle("odd", "even") %>">
 	<td>
-	  <%= link_to project.name, {:action => 'show', :id => project}, :class => (@logged_in_user && @logged_in_user.role_for_project(project) ? "icon icon-fav" : "") %><br />
+	  <%= link_to project.name, {:action => 'show', :id => project}, :class => (User.current.member_of?(project) ? "icon icon-fav" : "") %><br />
 	  <%= textilizable project.description, :project => project %>
 	</td>
 	<td><%= link_to(project.parent.name, :action => 'show', :id => project.parent) unless project.parent.nil? %></td>
@@ -20,7 +20,7 @@
   </tbody>
 </table>
 
-<% if @logged_in_user %>
+<% if User.current.logged? %>
 <div class="contextual">
 <span class="icon icon-fav"><%= l(:label_my_projects) %></span>
 </div>

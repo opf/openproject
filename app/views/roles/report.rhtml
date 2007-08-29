@@ -1,30 +1,29 @@
 <h2><%=l(:label_permissions_report)%></h2>
 
 <%= start_form_tag({:action => 'report'}, :id => 'permissions_form') %>
-
+<%= hidden_field_tag 'permissions[0]', '' %>
 <table class="list">
-<thead><tr>
-  <th><%=l(:label_permissions)%></th>
-  <th colspan="<%= @roles.length %>"><%= l(:label_role_plural) %></th>
-</tr>
+<thead>
+    <tr>
+    <th><%=l(:label_permissions)%></th>
+    <% @roles.each do |role| %>
+    <th><%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %></th>
+    <% end %>
+    </tr>
 </thead>
 <tbody>
-<% permissions = @permissions.group_by {|p| p.group_id } %>
-<% permissions.keys.sort.each do |group_id| %>
-    <tr>
-    <th><%= l(Permission::GROUPS[group_id]) %></th>
-    <% @roles.each do |role| %><th align="center"><small><%= role.name %></small></th><% end %>
-    </tr>
-    <% permissions[group_id].each do |p| %>
-    <tr class="<%= cycle("odd", "even") %>">
-    <td><%= l(p.description.to_sym) %></td>
+<% @permissions.each do |permission| %>
+    <tr class="<%= cycle('odd', 'even') %>">
+    <td><%= permission.name.to_s.humanize %></td>
     <% @roles.each do |role| %>
-      <td align="center"><%= check_box_tag "permission_ids[#{role.id}][]", p.id, (role.permissions.include? p) %></td>
+    <td align="center">
+    <% if role.setable_permissions.include? permission %>
+      <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name) %>
+    <% end %>
+    </td>
     <% end %>
     </tr>
-    <% end %>
-<% reset_cycle
-end %>
+<% end %>
 </tbody>
 </table>
 <p><%= check_all_links 'permissions_form' %></p>

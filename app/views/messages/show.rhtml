@@ -13,7 +13,7 @@
   <div class="wiki"><p><%= textilizable message.content %></p></div>
 <% end %>
 
-<% if @logged_in_user %>
+<% if authorize_for('messages', 'reply') %>
 <p><%= toggle_link l(:button_reply), "reply", :focus => "reply_content" %></p>
 <div id="reply" style="display:none;">
 <%= error_messages_for 'message' %>

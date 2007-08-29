@@ -14,4 +14,5 @@
 
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>
+<%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
 <% end %>

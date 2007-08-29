@@ -28,7 +28,12 @@ class WikiContent < ActiveRecord::Base
     belongs_to :page, :class_name => 'WikiPage', :foreign_key => 'page_id'
     belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
     attr_protected :data
-    
+
+    acts_as_event :title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
+                  :description => :comments,
+                  :datetime => :updated_on,
+                  :url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}}
+
     def text=(plain)
       case Setting.wiki_compression
       when 'gzip'

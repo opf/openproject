@@ -25,32 +25,18 @@ end
 
 module ApplicationHelper
 
-  # Return current logged in user or nil
-  def loggedin?
-    @logged_in_user
+  def current_role
+    @current_role ||= User.current.role_for_project(@project)
   end
   
-  # Return true if user is logged in and is admin, otherwise false
-  def admin_loggedin?
-    @logged_in_user and @logged_in_user.admin?
-  end
-
   # Return true if user is authorized for controller/action, otherwise false
-  def authorize_for(controller, action)  
-    # check if action is allowed on public projects
-    if @project.is_public? and Permission.allowed_to_public "%s/%s" % [ controller, action ]
-      return true
-    end
-    # check if user is authorized    
-    if @logged_in_user and (@logged_in_user.admin? or Permission.allowed_to_role( "%s/%s" % [ controller, action ], @logged_in_user.role_for_project(@project)  )  )
-      return true
-    end
-    return false
+  def authorize_for(controller, action)
+    User.current.allowed_to?({:controller => controller, :action => action}, @project)
   end
 
   # Display a link if user is authorized
   def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
-    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller], options[:action])
+    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
 
   # Display a link to user's account page

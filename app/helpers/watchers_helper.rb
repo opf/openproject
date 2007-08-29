@@ -21,7 +21,7 @@ module WatchersHelper
   end
   
   def watcher_link(object, user)
-    return '' unless user && object.respond_to?('watched_by?')
+    return '' unless user && user.logged? && object.respond_to?('watched_by?')
     watched = object.watched_by?(user)
     url = {:controller => 'watchers',
            :action => (watched ? 'remove' : 'add'),

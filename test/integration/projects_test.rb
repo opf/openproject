@@ -31,9 +31,9 @@ class ProjectsTest < ActionController::IntegrationTest
     assert !Project.find(1).active?
     
     get "projects/show", :id => 1
-    assert_response :missing
+    assert_response 403
     get "projects/show", :id => subproject.id
-    assert_response :missing
+    assert_response 403
     
     post "projects/unarchive", :id => 1
     assert_redirected_to "admin/projects"    

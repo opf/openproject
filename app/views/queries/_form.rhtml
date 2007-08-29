@@ -5,7 +5,7 @@
 <p><label for="query_name"><%=l(:field_name)%></label>
 <%= text_field 'query', 'name', :size => 80 %></p>
 
-<% if authorize_for('projects', 'add_query') %>
+<% if current_role.allowed_to?(:manage_pulic_queries) %>
   <p><label for="query_is_public"><%=l(:field_is_public)%></label>
   <%= check_box 'query', 'is_public' %></p>
 <% end %>

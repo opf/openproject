@@ -11,6 +11,7 @@ class SearchControllerTest < Test::Unit::TestCase
     @controller = SearchController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    User.current = nil
   end
   
   def test_search_for_projects

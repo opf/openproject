@@ -20,6 +20,7 @@
 	</ul>	
 
   <div class="box">
+    <div class="contextual"><% if authorize_for('projects', 'add_issues') %><%= l(:label_issue_new) %>: <%= new_issue_selector %><% end %></div>
     <h3 class="icon22 icon22-tracker"><%=l(:label_issue_tracking)%></h3>
     <ul>
     <% for tracker in @trackers %>    
@@ -49,7 +50,7 @@
 	</div>
   <% end %>
   
-  <% if @news.any? %>
+  <% if @news.any? && authorize_for('projects', 'list_news') %>
   <div class="box">
     <h3><%=l(:label_news_latest)%></h3>  
     <%= render :partial => 'news/news', :collection => @news %>

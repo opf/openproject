@@ -16,6 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Setup < ActiveRecord::Migration
+
+  # model removed
+  class Permission < ActiveRecord::Base; end
+  
   def self.up
     create_table "attachments", :force => true do |t|
       t.column "container_id", :integer, :default => 0, :null => false

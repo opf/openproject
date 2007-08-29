@@ -31,7 +31,7 @@ class MailHandler < ActionMailer::Base
     user = User.find_active(:first, :conditions => {:mail => email.from.first})
     return unless user
     # check permission
-    return unless Permission.allowed_to_role("issues/add_note", user.role_for_project(issue.project))
+    return unless user.allowed_to?(:add_issue_notes, issue.project)
     
     # add the note
     issue.init_journal(user, email.body.chomp)

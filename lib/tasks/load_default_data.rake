@@ -19,7 +19,7 @@ task :load_default_data => :environment do
   
 begin
   # check that no data already exists
-  if Role.find(:first)
+  if Role.find(:first, :conditions => {:builtin => 0})
     raise "Some roles are already defined."
   end
   if Tracker.find(:first)
@@ -35,17 +35,78 @@ begin
   puts "Loading default configuration data for language: #{current_language}"
  
   # roles
-  manager = Role.create :name => l(:default_role_manager), :position => 1
-  manager.permissions = Permission.find(:all, :conditions => ["is_public=?", false])
+  manager = Role.create :name => l(:default_role_manager), 
+                        :position => 1
+  manager.permissions = manager.setable_permissions.collect {|p| p.name}
+  manager.save
   
-  developper = Role.create :name => l(:default_role_developper), :position => 2
-  perms = [150, 320, 321, 322, 420, 421, 422, 1050, 1060, 1070, 1075, 1130, 1220, 1221, 1222, 1223, 1224, 1320, 1322, 1061, 1057, 1520]
-  developper.permissions = Permission.find(:all, :conditions => ["sort IN (#{perms.join(',')})"])
+  developper = Role.create :name => l(:default_role_developper), 
+                           :position => 2, 
+                           :permissions => [:manage_versions, 
+                                            :manage_categories,
+                                            :add_issues,
+                                            :edit_issues,
+                                            :manage_issue_relations,
+                                            :add_issue_notes,
+                                            :change_issue_status,
+                                            :save_queries,
+                                            :view_gantt,
+                                            :view_calendar,
+                                            :log_time,
+                                            :view_time_entries,
+                                            :comment_news,
+                                            :view_documents,
+                                            :view_wiki_pages,
+                                            :edit_wiki_pages,
+                                            :delete_wiki_pages,
+                                            :add_messages,
+                                            :view_files,
+                                            :manage_files,
+                                            :browse_repository,
+                                            :view_changesets]
   
-  reporter = Role.create :name => l(:default_role_reporter), :position => 3
-  perms = [1050, 1060, 1070, 1057, 1130]
-  reporter.permissions = Permission.find(:all, :conditions => ["sort IN (#{perms.join(',')})"])
-  
+  reporter = Role.create :name => l(:default_role_reporter),
+                         :position => 3,
+                         :permissions => [:add_issues,
+                                          :add_issue_notes,
+                                          :change_issue_status,
+                                          :save_queries,
+                                          :view_gantt,
+                                          :view_calendar,
+                                          :log_time,
+                                          :view_time_entries,
+                                          :comment_news,
+                                          :view_documents,
+                                          :view_wiki_pages,
+                                          :add_messages,
+                                          :view_files,
+                                          :browse_repository,
+                                          :view_changesets]
+              
+  Role.non_member.update_attribute :permissions, [:add_issues,
+                                                  :add_issue_notes,
+                                                  :change_issue_status,
+                                                  :save_queries,
+                                                  :view_gantt,
+                                                  :view_calendar,
+                                                  :view_time_entries,
+                                                  :comment_news,
+                                                  :view_documents,
+                                                  :view_wiki_pages,
+                                                  :add_messages,
+                                                  :view_files,
+                                                  :browse_repository,
+                                                  :view_changesets]
+
+  Role.anonymous.update_attribute :permissions, [:view_gantt,
+                                                 :view_calendar,
+                                                 :view_time_entries,
+                                                 :view_documents,
+                                                 :view_wiki_pages,
+                                                 :view_files,
+                                                 :browse_repository,
+                                                 :view_changesets]
+                                                   
   # trackers
   Tracker.create(:name => l(:default_tracker_bug), :is_in_chlog => true, :is_in_roadmap => false, :position => 1)
   Tracker.create(:name => l(:default_tracker_feature), :is_in_chlog => true, :is_in_roadmap => true, :position => 2)

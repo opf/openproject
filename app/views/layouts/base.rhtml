@@ -27,7 +27,7 @@
         <h2><%= Setting.app_subtitle %></h2>
     </div>
     <div style="float: right; padding-right: 1em; padding-top: 0.2em;">
-      <% if loggedin? %><small><%=l(:label_logged_as)%> <strong><%= @logged_in_user.login %></strong> -</small><% end %>
+      <% if User.current.logged? %><small><%=l(:label_logged_as)%> <strong><%= User.current.login %></strong> -</small><% end %>
       <small><%= toggle_link l(:label_search), 'quick-search-form', :focus => 'quick-search-input' %></small>
       <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :id => 'quick-search-form', :style => "display:none;" ) do %>
         <%= text_field_tag 'q', @question, :size => 15, :class => 'small', :id => 'quick-search-input' %>
@@ -40,27 +40,23 @@
 	<li><%= link_to l(:label_home), { :controller => 'welcome' }, :class => "icon icon-home" %></li>
 	<li><%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'}, :class => "icon icon-mypage" %></li>
 	
-	<% if loggedin? and @logged_in_user.memberships.any? %>
+	<% if User.current.memberships.any? %>
       <li class="submenu"><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects", :onmouseover => "buttonMouseover(event, 'menuAllProjects');" %></li>
 	<% else %>
 	  <li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects" %></li>
 	<% end %>
-
-    <% unless @project.nil? || @project.id.nil? %>
-        <li class="submenu"><%= link_to @project.name, { :controller => 'projects', :action => 'show', :id => @project }, :class => "icon icon-projects", :onmouseover => "buttonMouseover(event, 'menuProject');"  %></li>
-    <% end %>
 			
-    <% if loggedin? %>
+    <% if User.current.logged? %>
 		<li><%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' }, :class => "icon icon-user" %></li>
     <% end %>
 			
-	<% if admin_loggedin? %>
+	<% if User.current.admin? %>
 		<li class="submenu"><%= link_to l(:label_administration), { :controller => 'admin' }, :class => "icon icon-admin", :onmouseover => "buttonMouseover(event, 'menuAdmin');" %></li>
 	<% end %>
 			
 	<li class="right"><%= link_to l(:label_help), { :controller => 'help', :ctrl => params[:controller], :page => params[:action] }, :onclick => "window.open(this.href); return false;", :class => "icon icon-help" %></li>
 	
-	<% if loggedin? %>
+	<% if User.current.logged? %>
 		<li class="right"><%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => "icon icon-user" %></li>	
 	<% else %>	
 		<li class="right"><%= link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => "icon icon-user" %></li>
@@ -68,71 +64,28 @@
 		</ul>		
 	</div>
 
-    <% if admin_loggedin? %>
+    <% if User.current.admin? %>
 		<%= render :partial => 'admin/menu' %>        
     <% end %>
-    
-    <% unless @project.nil? || @project.id.nil? %>
-    <div id="menuProject" class="menu" onmouseover="menuMouseover(event)">
-        <%= link_to l(:label_calendar), {:controller => 'projects', :action => 'calendar', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_gantt), {:controller => 'projects', :action => 'gantt', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_issue_plural), {:controller => 'projects', :action => 'list_issues', :id => @project }, :class => "menuItem" %>
-        <% if @project && authorize_for('projects', 'add_issue') %>
-          <a class="menuItem" href="#" onmouseover="menuItemMouseover(event,'menuNewIssue');" onclick="this.blur(); return false;"><span class="menuItemText"><%= l(:label_issue_new) %></span><span class="menuItemArrow">&#9654;</span></a>
-        <% end %>
-        <%= link_to l(:label_report_plural), {:controller => 'reports', :action => 'issue_report', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_activity), {:controller => 'projects', :action => 'activity', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_news_plural), {:controller => 'projects', :action => 'list_news', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_change_log), {:controller => 'projects', :action => 'changelog', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_roadmap), {:controller => 'projects', :action => 'roadmap', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_document_plural), {:controller => 'projects', :action => 'list_documents', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_wiki), {:controller => 'wiki', :id => @project, :page => nil }, :class => "menuItem" if @project.wiki and !@project.wiki.new_record? %>        
-        <%= link_to l(:label_board_plural), {:controller => 'boards', :action => 'index', :project_id => @project, :id => nil }, :class => "menuItem" unless @project.boards.empty? %>
-        <%= link_to l(:label_attachment_plural), {:controller => 'projects', :action => 'list_files', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project }, :class => "menuItem" %>
-        <%= link_to l(:label_repository), {:controller => 'repositories', :action => 'show', :id => @project}, :class => "menuItem" if @project.repository and !@project.repository.new_record? %>
-        <%= link_to_if_authorized l(:label_settings), {:controller => 'projects', :action => 'settings', :id => @project }, :class => "menuItem" %>
-    </div>
-    <% end %>
-    
-    <% if @project && authorize_for('projects', 'add_issue') %>
-        <div id="menuNewIssue" class="menu" onmouseover="menuMouseover(event)">
-        <% Tracker.find(:all, :order => 'position').each do |tracker| %>
-            <%= link_to tracker.name, {:controller => 'projects', :action => 'add_issue', :id => @project, :tracker_id => tracker}, :class => "menuItem" %>
-        <% end %>
-        </div>
-    <% end %>
 
-    <% if loggedin? and @logged_in_user.memberships.any? %>
+    <% if User.current.memberships.any? %>
         <div id="menuAllProjects" class="menu" onmouseover="menuMouseover(event)">
         <%= link_to l(:label_project_all), {:controller => 'projects' }, :class => "menuItem" %>
-        <% @logged_in_user.memberships.find(:all, :limit => 20).each do |membership| %>
+        <% User.current.memberships.find(:all, :limit => 20).each do |membership| %>
             <%= link_to membership.project.name, {:controller => 'projects',:action => 'show', :id => membership.project }, :class => "menuItem" %>
         <% end %>
         </div>
     <% end %>
 	
-	<div id="subcontent">
-	
-		<% unless @project.nil? || @project.id.nil? %>
+	<div id="subcontent">	
+		<% if @project && !@project.new_record? %>
 			<h2><%= @project.name %></h2>
 			<ul class="menublock">
-				<li><%= link_to l(:label_overview), :controller => 'projects', :action => 'show', :id => @project %></li>
-				<li><%= link_to l(:label_calendar), :controller => 'projects', :action => 'calendar', :id => @project %></li>
-				<li><%= link_to l(:label_gantt), :controller => 'projects', :action => 'gantt', :id => @project %></li>
-				<li><%= link_to l(:label_issue_plural), :controller => 'projects', :action => 'list_issues', :id => @project %></li>
-				<li><%= link_to l(:label_report_plural), :controller => 'reports', :action => 'issue_report', :id => @project %></li>
-				<li><%= link_to l(:label_activity), :controller => 'projects', :action => 'activity', :id => @project %></li>
-				<li><%= link_to l(:label_news_plural), :controller => 'projects', :action => 'list_news', :id => @project %></li>
-				<li><%= link_to l(:label_change_log), :controller => 'projects', :action => 'changelog', :id => @project %></li>
-				<li><%= link_to l(:label_roadmap), :controller => 'projects', :action => 'roadmap', :id => @project %></li>
-				<li><%= link_to l(:label_document_plural), :controller => 'projects', :action => 'list_documents', :id => @project %></li>
-				<%= content_tag("li", link_to(l(:label_wiki), :controller => 'wiki', :id => @project, :page => nil)) if @project.wiki and !@project.wiki.new_record? %>
-				<%= content_tag("li", link_to(l(:label_board_plural), :controller => 'boards', :action => 'index', :project_id => @project, :id => nil)) unless @project.boards.empty? %>
-				<li><%= link_to l(:label_attachment_plural), :controller => 'projects', :action => 'list_files', :id => @project %></li>
-				<li><%= link_to l(:label_search), :controller => 'search', :action => 'index', :id => @project %></li>
-				<%= content_tag("li", link_to(l(:label_repository), :controller => 'repositories', :action => 'show', :id => @project)) if @project.repository and !@project.repository.new_record? %>
-				<li><%= link_to_if_authorized l(:label_settings), :controller => 'projects', :action => 'settings', :id => @project %></li>
+            <% Redmine::MenuManager.allowed_items(:project_menu, current_role).each do |item| %>
+            <% unless item.condition && !item.condition.call(@project) %>
+                <li><%= link_to l(item.name), {item.param => @project}.merge(item.url) %></li>
+            <% end %>
+            <% end %>
 			</ul>
 		<% end %>
 	</div>

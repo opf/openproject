@@ -22,7 +22,7 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :permissions
+  fixtures :projects, :users, :roles
 
   def setup
     @controller = ProjectsController.new
@@ -48,13 +48,6 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:project)
-  end
-  
-  def test_list_members
-    get :list_members, :id => 1
-    assert_response :success
-    assert_template 'list_members'
-    assert_not_nil assigns(:members)
   end
   
   def test_list_documents

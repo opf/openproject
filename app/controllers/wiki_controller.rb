@@ -19,8 +19,7 @@ require 'diff'
 
 class WikiController < ApplicationController
   layout 'base'
-  before_filter :find_wiki, :check_project_privacy
-  before_filter :authorize, :only => [:destroy, :add_attachment, :destroy_attachment]
+  before_filter :find_wiki, :authorize
   
   verify :method => :post, :only => [:destroy, :destroy_attachment], :redirect_to => { :action => :index }
 

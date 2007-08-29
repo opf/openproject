@@ -88,16 +88,12 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_rss_key
-    assert_nil @jsmith.rss_key
-    key = @jsmith.get_or_create_rss_key
-    assert_kind_of Token, key
-    assert_equal 40, key.value.length
+    assert_nil @jsmith.rss_token
+    key = @jsmith.rss_key
+    assert_equal 40, key.length
     
     @jsmith.reload
-    assert_equal key.value, @jsmith.get_or_create_rss_key.value
-    
-    @jsmith.reload
-    assert_equal key.value, @jsmith.rss_key.value
+    assert_equal key, @jsmith.rss_key
   end
   
   def test_role_for_project
@@ -107,6 +103,6 @@ class UserTest < Test::Unit::TestCase
     assert_equal "Manager", role.name
     
     # user with no role
-    assert_nil @dlopper.role_for_project(Project.find(2))
+    assert !@dlopper.role_for_project(Project.find(2)).member?
   end
 end

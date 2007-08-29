@@ -1,5 +1,5 @@
 <%= error_messages_for 'member' %>
-<% roles = Role.find(:all, :order => 'position') %>
+<% roles = Role.find_all_givable %>
 <% users = User.find_active(:all) - @project.users %>
 
 <table class="list">
