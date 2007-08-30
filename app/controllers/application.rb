@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
       User.current = User.find(session[:user_id])
     elsif cookies[:autologin] && Setting.autologin?
       # auto-login feature
-      User.current = User.find_by_autologin_key(autologin_key)
+      User.current = User.find_by_autologin_key(cookies[:autologin])
     elsif params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication
       User.current = User.find_by_rss_key(params[:key])
