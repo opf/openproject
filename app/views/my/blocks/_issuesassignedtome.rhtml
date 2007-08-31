@@ -3,8 +3,8 @@
                                 :conditions => ["assigned_to_id=? AND #{IssueStatus.table_name}.is_closed=? AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE}", user.id, false],
                                 :limit => 10, 
                                 :include => [ :status, :project, :tracker ], 
-                                :order => "#{Issue.table_name}.updated_on DESC") %>
+                                :order => "#{Issue.table_name}.priority_id DESC, #{Issue.table_name}.updated_on DESC") %>
 <%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %>
 <% if assigned_issues.length > 0 %>
-<p><%=lwr(:label_last_updates, assigned_issues.length)%></p>
+<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => 'me' %></p>
 <% end %>

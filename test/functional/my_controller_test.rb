@@ -22,6 +22,8 @@ require 'my_controller'
 class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < Test::Unit::TestCase
+  fixtures :users
+  
   def setup
     @controller = MyController.new
     @request    = ActionController::TestRequest.new
@@ -50,8 +52,7 @@ class MyControllerTest < Test::Unit::TestCase
 
   def test_update_account
     post :account, :user => {:firstname => "Joe", :login => "root", :admin => 1}
-    assert_response :success
-    assert_template 'account'
+    assert_redirected_to 'my/account'
     user = User.find(2)
     assert_equal user, assigns(:user)
     assert_equal "Joe", user.firstname

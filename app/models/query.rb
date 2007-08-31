@@ -91,14 +91,20 @@ class Query < ActiveRecord::Base
                            "updated_on" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
                            "due_date" => { :type => :date, :order => 12 } }                          
-    unless project.nil?
-      # project specific filters
-      user_values = []
+    
+    user_values = []
+    if project
+      user_values += project.users.collect{|s| [s.name, s.id.to_s] }
+    elsif executed_by
       user_values << ["<< #{l(:label_me)} >>", "me"] if executed_by
-      user_values += @project.users.collect{|s| [s.name, s.id.to_s] }
-      
-      @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values }  
-      @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values }  
+      # members of the user's projects
+      user_values += executed_by.projects.collect(&:users).flatten.uniq.sort.collect{|s| [s.name, s.id.to_s] }
+    end
+    @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values } unless user_values.empty?
+    @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
+  
+    if project
+      # project specific filters      
       @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
       @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.sort.collect{|s| [s.name, s.id.to_s] } }
       unless @project.active_children.empty?
@@ -166,7 +172,7 @@ class Query < ActiveRecord::Base
   def statement
     # project/subprojects clause
     clause = ''
-    if has_filter?("subproject_id")
+    if project && has_filter?("subproject_id")
       subproject_ids = []
       if operator_for("subproject_id") == "="
         subproject_ids = values_for("subproject_id").each(&:to_i)
@@ -174,8 +180,10 @@ class Query < ActiveRecord::Base
         subproject_ids = project.active_children.collect{|p| p.id}
       end
       clause << "#{Issue.table_name}.project_id IN (%d,%s)" % [project.id, subproject_ids.join(",")] if project
+    elsif project
+      clause << "#{Issue.table_name}.project_id=%d" % project.id
     else
-      clause << "#{Issue.table_name}.project_id=%d" % project.id if project
+      clause << Project.visible_by(executed_by)
     end
     
     # filters clauses
@@ -239,7 +247,8 @@ class Query < ActiveRecord::Base
       filters_clauses << sql
     end if filters and valid?
     
-    clause << (' AND ' + filters_clauses.join(' AND ')) unless filters_clauses.empty?
+    clause << ' AND ' unless clause.empty?
+    clause << filters_clauses.join(' AND ') unless filters_clauses.empty?
     clause
   end
 end

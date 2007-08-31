@@ -17,7 +17,7 @@
 
 class IssuesController < ApplicationController
   layout 'base', :except => :export_pdf
-  before_filter :find_project, :authorize
+  before_filter :find_project, :authorize, :except => :index
   
   cache_sweeper :issue_sweeper, :only => [ :edit, :change_status, :destroy ]
 
@@ -32,8 +32,27 @@ class IssuesController < ApplicationController
   helper :watchers
   include WatchersHelper
   helper :attachments
-  include AttachmentsHelper   
+  include AttachmentsHelper
+  helper :queries
+  helper :sort
+  include SortHelper
 
+  def index
+    sort_init "#{Issue.table_name}.id", "desc"
+    sort_update
+    retrieve_query
+    if @query.valid?
+      @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)		
+      @issue_pages = Paginator.new self, @issue_count, 25, params['page']								
+      @issues = Issue.find :all, :order => sort_clause,
+                           :include => [ :assigned_to, :status, :tracker, :project, :priority ],
+                           :conditions => @query.statement,
+                           :limit  =>  @issue_pages.items_per_page,
+                           :offset =>  @issue_pages.current.offset						
+    end
+    render :layout => false if request.xhr?
+  end
+  
   def show
     @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
@@ -149,5 +168,25 @@ private
     @html_title = "#{@project.name} - #{@issue.tracker.name} ##{@issue.id}"
   rescue ActiveRecord::RecordNotFound
     render_404
-  end  
+  end
+  
+  # Retrieve query from session or build a new query
+  def retrieve_query
+    if params[:set_filter] or !session[:query] or session[:query].project_id
+      # Give it a name, required to be valid
+      @query = Query.new(:name => "_", :executed_by => logged_in_user)
+      if params[:fields] and params[:fields].is_a? Array
+        params[:fields].each do |field|
+          @query.add_filter(field, params[:operators][field], params[:values][field])
+        end
+      else
+        @query.available_filters.keys.each do |field|
+          @query.add_short_filter(field, params[field]) if params[field]
+        end
+      end
+      session[:query] = @query
+    else
+      @query = session[:query]
+    end
+  end
 end
