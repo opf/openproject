@@ -18,6 +18,7 @@
 class IssuesController < ApplicationController
   layout 'base', :except => :export_pdf
   before_filter :find_project, :authorize, :except => :index
+  accept_key_auth :index
   
   cache_sweeper :issue_sweeper, :only => [ :edit, :change_status, :destroy ]
 
@@ -50,7 +51,10 @@ class IssuesController < ApplicationController
                            :limit  =>  @issue_pages.items_per_page,
                            :offset =>  @issue_pages.current.offset						
     end
-    render :layout => false if request.xhr?
+    respond_to do |format|
+      format.html { render :layout => false if request.xhr? }
+      format.atom { render_feed(@issues, :title => l(:label_issue_plural)) }
+    end
   end
   
   def show

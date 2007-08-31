@@ -135,8 +135,9 @@ class ApplicationController < ActionController::Base
     return false
   end
   
-  def render_feed(items, options={})
-    @items = items.sort {|x,y| y.event_datetime <=> x.event_datetime }
+  def render_feed(items, options={})    
+    @items = items || []
+    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
     @title = options[:title] || Setting.app_title
     render :template => "common/feed.atom.rxml", :layout => false, :content_type => 'application/atom+xml'
   end
