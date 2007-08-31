@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
   end
   
   def user_setup
+    Setting.check_cache
     if session[:user_id]
       # existing session
       User.current = User.find(session[:user_id])

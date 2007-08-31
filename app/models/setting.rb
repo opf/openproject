@@ -23,25 +23,28 @@ class Setting < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_inclusion_of :name, :in => @@available_settings.keys
   validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }  
-  
-  def self.get(name)
-    name = name.to_s
-    setting = find_by_name(name)
-    setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
-    setting
-  end
-  
+
+  # Hash used to cache setting values
+  @cached_settings = {}
+  @cached_cleared_on = Time.now
+    
+  # Returns the value of the setting named name
   def self.[](name)
-    get(name).value
+    value = @cached_settings[name]
+    value ? value : (@cached_settings[name] = find_or_default(name).value)
   end
   
   def self.[]=(name, value)
-    setting = get(name)
+    setting = find_or_default(name)
     setting.value = (value ? value.to_s : "")
+    @cached_settings[name] = nil
     setting.save
     setting.value
   end
   
+  # Defines getter and setter for each setting
+  # Then setting values can be read using: Setting.some_setting_name
+  # or set using Setting.some_setting_name = "some value"
   @@available_settings.each do |name, params|
     src = <<-END_SRC
     def self.#{name}
@@ -57,5 +60,27 @@ class Setting < ActiveRecord::Base
     end
     END_SRC
     class_eval src, __FILE__, __LINE__
+  end
+  
+  # Checks if settings have changed since the values were read
+  # and clears the cache hash if it's the case
+  # Called once per request
+  def self.check_cache
+    settings_updated_on = Setting.maximum(:updated_on)
+    if settings_updated_on && @cached_cleared_on <= settings_updated_on
+      @cached_settings.clear
+      @cached_cleared_on = Time.now
+      logger.info "Settings cache cleared." if logger
+    end
+  end
+  
+private
+  # Returns the Setting instance for the setting named name
+  # (record found in database or new record with default value)
+  def self.find_or_default(name)
+    name = name.to_s
+    raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)    
+    setting = find_by_name(name)
+    setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
   end
 end
