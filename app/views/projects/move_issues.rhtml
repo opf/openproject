@@ -4,7 +4,7 @@
 <% form_tag({:action => 'move_issues', :id => @project}, :class => "tabular") do %>
 
 <div class="box">
-<p><label><%= l(:label_issue_plural) %>:</label>
+<p><label><%= l(:label_issue_plural) %> :</label>
 <% for issue in @issues %>
     <%= link_to_issue issue %>: <%=h issue.subject %>
     <%= hidden_field_tag "issue_ids[]", issue.id %><br />
@@ -14,11 +14,11 @@
 &nbsp;
 
 <!--[form:issue]-->
-<p><label for="new_project_id"><%=l(:field_project)%></label>
+<p><label for="new_project_id"><%=l(:field_project)%> :</label>
 <%= select_tag "new_project_id", options_from_collection_for_select(@projects, "id", "name", @project.id) %></p>
 
-<p><label for="new_tracker_id"><%=l(:field_tracker)%></label>
-<%= select_tag "new_tracker_id", options_from_collection_for_select(@trackers, "id", "name") %></p>
+<p><label for="new_tracker_id"><%=l(:field_tracker)%> :</label>
+<%= select_tag "new_tracker_id", '<option></option>' + options_from_collection_for_select(@trackers, "id", "name") %></p>
 </div>
 <%= submit_tag l(:button_move) %>
 <% end %>

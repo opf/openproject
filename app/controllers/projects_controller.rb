@@ -387,22 +387,23 @@ class ProjectsController < ApplicationController
     # issue can be moved to any tracker
     @trackers = Tracker.find(:all)
     if request.post? and params[:new_project_id] and params[:new_tracker_id]    
-      new_project = Project.find(params[:new_project_id])
-      new_tracker = Tracker.find(params[:new_tracker_id])
-      @issues.each { |i|
-        # project dependent properties
-        unless i.project_id == new_project.id
+      new_project = Project.find_by_id(params[:new_project_id])
+      new_tracker = Tracker.find_by_id(params[:new_tracker_id])
+      @issues.each do |i|
+        if new_project && i.project_id != new_project.id
+          # issue is moved to another project
           i.category = nil 
           i.fixed_version = nil
           # delete issue relations
           i.relations_from.clear
           i.relations_to.clear
+          i.project = new_project
         end
-        # move the issue
-        i.project = new_project
-        i.tracker = new_tracker
+        if new_tracker        
+          i.tracker = new_tracker
+        end
         i.save
-      }
+      end
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list_issues', :id => @project
     end

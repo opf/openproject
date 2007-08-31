@@ -46,6 +46,7 @@ class Project < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
   validates_length_of :description, :maximum => 255
+  validates_length_of :homepage, :maximum => 30
   validates_length_of :identifier, :in => 3..12
   validates_format_of :identifier, :with => /^[a-z0-9\-]*$/
   
