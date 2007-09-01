@@ -177,7 +177,7 @@ module ApplicationHelper
 
     # finally textilize text
     @do_textilize ||= (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize")
-    text = @do_textilize ? auto_link(RedCloth.new(text, [:hard_breaks]).to_html) : simple_format(auto_link(h(text)))
+    text = @do_textilize ? RedCloth.new(auto_link(text), [:hard_breaks]).to_html : simple_format(auto_link(h(text)))
   end
   
   # Same as Rails' simple_format helper without using paragraphs
