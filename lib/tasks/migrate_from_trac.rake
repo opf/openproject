@@ -136,7 +136,7 @@ namespace :redmine do
         def trac_fullpath
           attachment_type = read_attribute(:type)
           trac_file = filename.gsub( /[^a-zA-Z0-9\-_\.!~*']/n ) {|x| sprintf('%%%02x', x[0]) }
-          "#{TracMigrate.trac_directory}/attachments/#{attachment_type}/#{id}/#{trac_file}"
+          "#{TracMigrate.trac_attachments_directory}/#{attachment_type}/#{id}/#{trac_file}"
         end
       end
       
@@ -350,19 +350,38 @@ namespace :redmine do
       def self.encoding(charset)
         @ic = Iconv.new('UTF-8', charset)
       rescue Iconv::InvalidEncoding
-        return false      
+        puts "Invalid encoding!"
+        return false
       end
       
-      def self.trac_directory=(path)
-        @trac_directory = path if File.directory?(path)      
+      def self.set_trac_directory(path)
+        @trac_directory = path
+        raise "This directory doesn't exist!" unless File.directory?(path)
+        raise "#{trac_db_path} doesn't exist!" unless File.exist?(trac_db_path)
+        raise "#{trac_attachments_directory} doesn't exist!" unless File.directory?(trac_attachments_directory)
+        @trac_directory
+      rescue Exception => e
+        puts e
+        return false
       end
       
       def self.trac_directory
         @trac_directory
       end
       
+      def self.trac_db_path; "#{trac_directory}/db/trac.db" end
+      def self.trac_attachments_directory; "#{trac_directory}/attachments" end
+      
       def self.target_project_identifier(identifier)
-        @target_project = Project.find_by_identifier(identifier)
+        project = Project.find_by_identifier(identifier)        
+        if !project
+          # create the target project
+          project = Project.new :name => identifier.humanize,
+                                :description => identifier.humanize
+          project.identifier = identifier
+          puts "Unable to create a project with identifier '#{identifier}'!" unless project.save
+        end        
+        @target_project = project.new_record? ? nil : project
       end
       
       def self.establish_connection(params)
@@ -386,31 +405,24 @@ namespace :redmine do
     print "Are you sure you want to continue ? [y/N] "
     break unless STDIN.gets.match(/^y$/i)  
     puts
-  
-    while true
-      print "Trac directory: "
-      directory = STDIN.gets.chomp!
-      TracMigrate.trac_directory = directory
-      break if TracMigrate.trac_directory
-      puts "  This directory doesn't exist!"
+
+    def prompt(text, options = {}, &block)
+      default = options[:default] || ''
+      while true
+        print "#{text} [#{default}]: "
+        value = STDIN.gets.chomp!
+        value = default if value.blank?
+        break if yield value
+      end
     end
-    while true
-      print "Database encoding [UTF-8]: "
-      encoding = STDIN.gets.chomp!
-      encoding = 'UTF-8' if encoding.blank?
-      break if TracMigrate.encoding encoding
-      puts "  Invalid encoding!"
-    end
-    while true
-      print "Target project identifier: "
-      identifier = STDIN.gets.chomp!
-      break if TracMigrate.target_project_identifier identifier
-      puts "  Project not found in Redmine database!"
-    end
+    
+    prompt('Trac directory') {|directory| TracMigrate.set_trac_directory directory}
+    prompt('Database encoding', :default => 'UTF-8') {|encoding| TracMigrate.encoding encoding}
+    prompt('Target project identifier') {|identifier| TracMigrate.target_project_identifier identifier}
     puts
     
     TracMigrate.establish_connection({:adapter => 'sqlite', 
-                                      :database => "#{TracMigrate.trac_directory}/db/trac.db"})
+                                      :database => "#{TracMigrate.trac_db_path}"})
     TracMigrate.migrate
   end
 end
