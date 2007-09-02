@@ -85,7 +85,8 @@ namespace :redmine do
         set_table_name :ticket
         set_inheritance_column :none
         
-        has_many :comments, :class_name => "TracTicketChange", :foreign_key => :ticket, :conditions => "field = 'comment'"
+        # ticket changes: only migrate status changes and comments
+        has_many :changes, :class_name => "TracTicketChange", :foreign_key => :ticket, :conditions => "field = 'comment' OR field='status'"
         has_many :attachments, :class_name => "TracAttachment", :foreign_key => :id, :conditions => "type = 'ticket'"
         has_many :customs, :class_name => "TracTicketCustom", :foreign_key => :ticket
         
@@ -202,9 +203,7 @@ namespace :redmine do
         migrated_components = 0
         migrated_milestones = 0
         migrated_tickets = 0
-        migrated_ticket_comments = 0
         migrated_custom_values = 0
-        trac_ticket_comments = 0
         migrated_ticket_attachments = 0
         migrated_wiki_edits = 0      
   
@@ -238,15 +237,15 @@ namespace :redmine do
         
         # Custom fields
         # TODO: read trac.ini instead
-        print "Custom fields"
+        print "Migrating custom fields"
         custom_field_map = {}
         TracTicketCustom.find_by_sql("SELECT DISTINCT name FROM #{TracTicketCustom.table_name}").each do |field|
           print '.'
-          f = IssueCustomField.new :name => encode(field.name[0, limit_for(IssueCustomField, 'name')]),
-                                   :field_format => 'string',
-                                   :is_for_all => true
+          f = IssueCustomField.new :name => encode(field.name[0, limit_for(IssueCustomField, 'name')]).humanize,
+                                   :field_format => 'string'
           next unless f.save
           f.trackers = Tracker.find(:all)
+          f.projects << @target_project
           custom_field_map[field.name] = f
         end
         puts
@@ -270,21 +269,30 @@ namespace :redmine do
         	migrated_tickets += 1
         	
         	# Owner
-        	unless ticket.owner.blank?
-            i.assigned_to = find_or_create_user(ticket.owner, true)
-            i.save
-          end
+            unless ticket.owner.blank?
+              i.assigned_to = find_or_create_user(ticket.owner, true)
+              i.save
+            end
       	
-        	# Comments
-        	# TODO: migrate status changes history
-        	ticket.comments.each do |comment|
-        	  next if comment.newvalue.blank?
-        	  trac_ticket_comments += 1
-              n = Journal.new :notes => convert_wiki_text(encode(comment.newvalue)),
-                              :created_on => comment.time
-              n.user = find_or_create_user(comment.author)
+        	# Comments and status changes
+        	ticket.changes.group_by(&:time).each do |time, changeset|
+              status_change = changeset.select {|change| change.field == 'status'}.first
+              comment_change = changeset.select {|change| change.field == 'comment'}.first
+              
+              n = Journal.new :notes => (comment_change ? convert_wiki_text(encode(comment_change.newvalue)) : ''),
+                              :created_on => time
+              n.user = find_or_create_user(changeset.first.author)
               n.journalized = i
-              migrated_ticket_comments += 1 if n.save
+              if status_change && 
+                   STATUS_MAPPING[status_change.oldvalue] &&
+                   STATUS_MAPPING[status_change.newvalue] &&
+                   (STATUS_MAPPING[status_change.oldvalue] != STATUS_MAPPING[status_change.newvalue])
+                n.details << JournalDetail.new(:property => 'attr',
+                                               :prop_key => 'status_id',
+                                               :old_value => STATUS_MAPPING[status_change.oldvalue].id,
+                                               :value => STATUS_MAPPING[status_change.newvalue].id)
+              end
+              n.save
         	end
         	
         	# Attachments
@@ -337,7 +345,6 @@ namespace :redmine do
         puts "Components:      #{migrated_components}/#{TracComponent.count}"
         puts "Milestones:      #{migrated_milestones}/#{TracMilestone.count}"
         puts "Tickets:         #{migrated_tickets}/#{TracTicket.count}"
-        puts "Ticket comments: #{migrated_ticket_comments}/#{trac_ticket_comments}"
         puts "Ticket files:    #{migrated_ticket_attachments}/" + TracAttachment.count("type = 'ticket'").to_s
         puts "Custom values:   #{migrated_custom_values}/#{TracTicketCustom.count}"
         puts "Wiki edits:      #{migrated_wiki_edits}/#{TracWikiPage.count}"
