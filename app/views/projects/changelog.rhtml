@@ -15,10 +15,8 @@
 
 <% @versions.each do |version| %>   
     <a name="<%= version.name %>"><h3 class="icon22 icon22-package"><%= version.name %></h3></a>
-    <% if version.completed? %>
+    <% if version.effective_date %>
       <p><%= format_date(version.effective_date) %></p>
-    <% elsif version.effective_date %>
-      <p><strong><%=l(:label_roadmap_due_in)%> <%= distance_of_time_in_words Time.now, version.effective_date %> (<%= format_date(version.effective_date) %>)</strong></p>
     <% end %>
     <p><%=h version.description %></p>
     <% issues = version.fixed_issues.find(:all,
