@@ -20,7 +20,7 @@
 # Settings can be defined through the application in Admin -> Settings
 
 app_title:
-  default: redMine
+  default: Redmine
 app_subtitle:
   default: Project management
 welcome_text:
