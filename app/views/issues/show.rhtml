@@ -1,5 +1,9 @@
 <div class="contextual">
-<%= l(:label_export_to) %><%= link_to 'PDF', {:action => 'export_pdf', :id => @issue}, :class => 'icon icon-pdf' %>
+<%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit' %>
+<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
+<%= watcher_tag(@issue, User.current) %>
+<%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'icon icon-move' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
 <h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%=h @issue.subject %></h2>
@@ -53,14 +57,8 @@ end %>
 
 <b><%=l(:field_description)%> :</b><br /><br />
 <%= textilizable @issue.description, :attachments => @issue.attachments %>
-<br />
 
 <div class="contextual">
-<%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit' %>
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
-<%= watcher_tag(@issue, User.current) %>
-<%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'icon icon-move' %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
 <% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
@@ -72,7 +70,6 @@ end %>
   <%= submit_tag l(:button_change) %>
   <% end %>
 <% end %>
-&nbsp;
 </div>
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
@@ -107,3 +104,8 @@ end %>
   <% end %>  
   </div>
 <% end %>
+
+<div class="contextual">
+<%= l(:label_export_to) %><%= link_to 'PDF', {:action => 'export_pdf', :id => @issue}, :class => 'icon icon-pdf' %>
+</div>
+&nbsp;
