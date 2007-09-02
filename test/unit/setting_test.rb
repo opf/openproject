@@ -20,7 +20,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SettingTest < Test::Unit::TestCase
   
   def test_read_default
-    assert_equal "redMine", Setting.app_title
+    assert_equal "Redmine", Setting.app_title
     assert Setting.self_registration?
     assert !Setting.login_required?
   end

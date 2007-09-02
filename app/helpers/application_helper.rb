@@ -15,14 +15,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class RedCloth
-  # Patch for RedCloth.  Fixed in RedCloth r128 but _why hasn't released it yet.
-  # <a href="http://code.whytheluckystiff.net/redcloth/changeset/128">http://code.whytheluckystiff.net/redcloth/changeset/128</a>
-  def hard_break( text ) 
-    text.gsub!( /(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks 
-  end 
-end
-
 module ApplicationHelper
 
   def current_role
@@ -112,7 +104,27 @@ module ApplicationHelper
   # textilize text according to system settings and RedCloth availability
   def textilizable(text, options = {})
     return "" if text.blank?
+
+    # when using an image link, try to use an attachment, if possible
+    attachments = options[:attachments]
+    if attachments
+      text = text.gsub(/!([<>=]*)(\S+\.(gif|jpg|jpeg|png))!/) do |m|
+        align = $1
+        filename = $2
+        rf = Regexp.new(filename,  Regexp::IGNORECASE)
+        # search for the picture in attachments
+        if found = attachments.detect { |att| att.filename =~ rf }
+          image_url = url_for :controller => 'attachments', :action => 'download', :id => found.id
+          "!#{align}#{image_url}!"
+        else
+          "!#{align}#{filename}!"
+        end
+      end
+    end
     
+    text = (Setting.text_formatting == 'textile') ?
+      Redmine::WikiFormatting.to_html(text) : simple_format(auto_link(h(text)))
+
     # different methods for formatting wiki links
     case options[:wiki_links]
     when :local
@@ -148,36 +160,22 @@ module ApplicationHelper
       link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)), :class => 'wiki-page')
     end
 
-    # turn issue ids into links
+    # turn issue and revision ids into links
     # example:
     #   #52 -> <a href="/issues/show/52">#52</a>
-    text = text.gsub(/#(\d+)(?=\b)/) {|m| link_to "##{$1}", {:controller => 'issues', :action => 'show', :id => $1}, :class => 'issue' }
-       
-    # turn revision ids into links (@project needed)
-    # example:
-    #   r52 -> <a href="/repositories/revision/6?rev=52">r52</a> (@project.id is 6)
-    text = text.gsub(/(?=\b)r(\d+)(?=\b)/) {|m| link_to "r#{$1}", {:controller => 'repositories', :action => 'revision', :id => project.id, :rev => $1}, :class => 'changeset' } if project
-    
-    # when using an image link, try to use an attachment, if possible
-    attachments = options[:attachments]
-    if attachments
-      text = text.gsub(/!([<>=]*)(\S+\.(gif|jpg|jpeg|png))!/) do |m|
-        align = $1
-        filename = $2
-        rf = Regexp.new(filename,  Regexp::IGNORECASE)
-        # search for the picture in attachments
-        if found = attachments.detect { |att| att.filename =~ rf }
-          image_url = url_for :controller => 'attachments', :action => 'download', :id => found.id
-          "!#{align}#{image_url}!"
-        else
-          "!#{align}#{filename}!"
-        end
+    #   r52 -> <a href="/repositories/revision/6?rev=52">r52</a> (project.id is 6)
+    text = text.gsub(%r{([\s,-^])(#|r)(\d+)(?=[[:punct:]]|\s|<|$)}) do |m|
+      leading, otype, oid = $1, $2, $3
+      link = nil
+      if otype == 'r'
+        link = link_to("r#{oid}", {:controller => 'repositories', :action => 'revision', :id => project.id, :rev => oid}, :class => 'changeset') if project
+      else
+        link = link_to("##{oid}", {:controller => 'issues', :action => 'show', :id => oid}, :class => 'issue')
       end
+      leading + (link || "#{otype}#{oid}")
     end
-
-    # finally textilize text
-    @do_textilize ||= (Setting.text_formatting == 'textile') && (ActionView::Helpers::TextHelper.method_defined? "textilize")
-    text = @do_textilize ? auto_link(RedCloth.new(text, [:hard_breaks]).to_html) : simple_format(auto_link(h(text)))
+    
+    text
   end
   
   # Same as Rails' simple_format helper without using paragraphs

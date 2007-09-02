@@ -615,11 +615,11 @@ div.wiki table, div.wiki td, div.wiki th {
 div.wiki a {
     background-position: 0% 60%;
     background-repeat: no-repeat;
-    padding-left: 12px;
+    padding-left: 14px;
     background-image: url(../images/external.png);
 }
 
-div.wiki a.wiki-page, div.wiki a.issue, div.wiki a.changeset {
+div.wiki a.wiki-page, div.wiki a.issue, div.wiki a.changeset, div.wiki a.email {
     padding-left: 0;
     background-image: none;
 }
