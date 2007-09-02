@@ -81,36 +81,6 @@ namespace :redmine do
         set_table_name :ticket_custom
       end
       
-      class TracTicket < ActiveRecord::Base
-        set_table_name :ticket
-        set_inheritance_column :none
-        
-        # ticket changes: only migrate status changes and comments
-        has_many :changes, :class_name => "TracTicketChange", :foreign_key => :ticket, :conditions => "field = 'comment' OR field='status'"
-        has_many :attachments, :class_name => "TracAttachment", :foreign_key => :id, :conditions => "type = 'ticket'"
-        has_many :customs, :class_name => "TracTicketCustom", :foreign_key => :ticket
-        
-        def ticket_type
-          read_attribute(:type)
-        end
-        
-        def summary
-          read_attribute(:summary).blank? ? "(no subject)" : read_attribute(:summary)
-        end
-        
-        def description
-          read_attribute(:description).blank? ? summary : read_attribute(:description)
-        end
-        
-        def time; Time.at(read_attribute(:time)) end
-      end
-      
-      class TracTicketChange < ActiveRecord::Base
-        set_table_name :ticket_change
-        
-        def time; Time.at(read_attribute(:time)) end
-      end
-      
       class TracAttachment < ActiveRecord::Base
         set_table_name :attachment
         set_inheritance_column :none
@@ -139,6 +109,36 @@ namespace :redmine do
           trac_file = filename.gsub( /[^a-zA-Z0-9\-_\.!~*']/n ) {|x| sprintf('%%%02x', x[0]) }
           "#{TracMigrate.trac_attachments_directory}/#{attachment_type}/#{id}/#{trac_file}"
         end
+      end
+      
+      class TracTicket < ActiveRecord::Base
+        set_table_name :ticket
+        set_inheritance_column :none
+        
+        # ticket changes: only migrate status changes and comments
+        has_many :changes, :class_name => "TracTicketChange", :foreign_key => :ticket
+        has_many :attachments, :class_name => "TracAttachment", :foreign_key => :id, :conditions => "#{TracMigrate::TracAttachment.table_name}.type = 'ticket'"
+        has_many :customs, :class_name => "TracTicketCustom", :foreign_key => :ticket
+        
+        def ticket_type
+          read_attribute(:type)
+        end
+        
+        def summary
+          read_attribute(:summary).blank? ? "(no subject)" : read_attribute(:summary)
+        end
+        
+        def description
+          read_attribute(:description).blank? ? summary : read_attribute(:description)
+        end
+        
+        def time; Time.at(read_attribute(:time)) end
+      end
+      
+      class TracTicketChange < ActiveRecord::Base
+        set_table_name :ticket_change
+        
+        def time; Time.at(read_attribute(:time)) end
       end
       
       class TracWikiPage < ActiveRecord::Base
@@ -249,6 +249,15 @@ namespace :redmine do
           custom_field_map[field.name] = f
         end
         puts
+        
+        # Trac 'resolution' field as a Redmine custom field
+        r = IssueCustomField.new :name => 'Resolution',
+                                 :field_format => 'list',
+                                 :is_filter => true
+        r.trackers = Tracker.find(:all)
+        r.projects << @target_project
+        r.possible_values = %w(fixed invalid wontfix duplicate worksforme)
+        custom_field_map['resolution'] = r if r.save
             
         # Tickets
         print "Migrating tickets"
@@ -265,6 +274,7 @@ namespace :redmine do
         	i.status = STATUS_MAPPING[ticket.status] || DEFAULT_STATUS
         	i.tracker = TRACKER_MAPPING[ticket.ticket_type] || DEFAULT_TRACKER
         	i.id = ticket.id
+        	i.custom_values << CustomValue.new(:custom_field => custom_field_map['resolution'], :value => ticket.resolution) unless ticket.resolution.blank?
         	next unless i.save
         	migrated_tickets += 1
         	
@@ -274,9 +284,10 @@ namespace :redmine do
               i.save
             end
       	
-        	# Comments and status changes
+        	# Comments and status/resolution changes
         	ticket.changes.group_by(&:time).each do |time, changeset|
               status_change = changeset.select {|change| change.field == 'status'}.first
+              resolution_change = changeset.select {|change| change.field == 'resolution'}.first
               comment_change = changeset.select {|change| change.field == 'comment'}.first
               
               n = Journal.new :notes => (comment_change ? convert_wiki_text(encode(comment_change.newvalue)) : ''),
@@ -292,7 +303,13 @@ namespace :redmine do
                                                :old_value => STATUS_MAPPING[status_change.oldvalue].id,
                                                :value => STATUS_MAPPING[status_change.newvalue].id)
               end
-              n.save
+              if resolution_change
+                n.details << JournalDetail.new(:property => 'cf',
+                                               :prop_key => custom_field_map['resolution'].id,
+                                               :old_value => resolution_change.oldvalue,
+                                               :value => resolution_change.newvalue)
+              end
+              n.save unless n.details.empty? && n.notes.blank?
         	end
         	
         	# Attachments
@@ -424,7 +441,7 @@ namespace :redmine do
     end
     
     prompt('Trac directory') {|directory| TracMigrate.set_trac_directory directory}
-    prompt('Database encoding', :default => 'UTF-8') {|encoding| TracMigrate.encoding encoding}
+    prompt('Trac database encoding', :default => 'UTF-8') {|encoding| TracMigrate.encoding encoding}
     prompt('Target project identifier') {|identifier| TracMigrate.target_project_identifier identifier}
     puts
     
