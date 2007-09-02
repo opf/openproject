@@ -37,7 +37,7 @@ Supported databases:
    It will create tables and an administrator account.
 
 5. Insert default configuration data in database:
-   rake load_default_data RAILS_ENV="production"
+   rake redmine:load_default_data RAILS_ENV="production"
    It will load default roles, trackers, statuses, workflows and enumerations.
    This step is optional (but recommended), as you can define your
    own configuration from sratch.

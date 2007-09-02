@@ -21,6 +21,7 @@ require 'active_record'
 require 'iconv'
 require 'pp'
 
+namespace :redmine do
 task :migrate_from_mantis => :environment do
   
   module MantisMigrate
@@ -482,4 +483,5 @@ task :migrate_from_mantis => :environment do
   
   MantisMigrate.establish_connection db_params
   MantisMigrate.migrate
+end
 end

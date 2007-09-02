@@ -1,5 +1,6 @@
-desc 'Load default configuration data'
+desc 'Load Redmine default configuration data'
 
+namespace :redmine do
 task :load_default_data => :environment do
   include GLoc
   set_language_if_valid('en')
@@ -162,5 +163,6 @@ begin
 rescue => error
   puts "Error: " + error
   puts "Default configuration data can't be loaded."
+end
 end
 end
