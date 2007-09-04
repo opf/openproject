@@ -44,7 +44,7 @@ class Mailer < ActionMailer::Base
     set_language_if_valid(Setting.default_language)
     # Sends to all project members
     issue = journal.journalized
-    @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }
+    @recipients     = issue.project.members.collect { |m| m.user.mail if m.user.mail_notification }.compact
     # Sends to author and assignee (even if they turned off mail notification)
     @recipients     << issue.author.mail if issue.author
     @recipients     << issue.assigned_to.mail if issue.assigned_to
