@@ -116,6 +116,10 @@ class Project < ActiveRecord::Base
   def all_custom_fields
     @all_custom_fields ||= (IssueCustomField.for_all + custom_fields).uniq
   end
+  
+  def <=>(project)
+    name <=> project.name
+  end
 
 protected
   def validate

@@ -64,18 +64,8 @@
 		</ul>		
 	</div>
 
-    <% if User.current.admin? %>
-		<%= render :partial => 'admin/menu' %>        
-    <% end %>
-
-    <% if User.current.memberships.any? %>
-        <div id="menuAllProjects" class="menu" onmouseover="menuMouseover(event)">
-        <%= link_to l(:label_project_all), {:controller => 'projects' }, :class => "menuItem" %>
-        <% User.current.memberships.find(:all, :limit => 20).each do |membership| %>
-            <%= link_to membership.project.name, {:controller => 'projects',:action => 'show', :id => membership.project }, :class => "menuItem" %>
-        <% end %>
-        </div>
-    <% end %>
+    <%= render(:partial => 'admin/menu') if User.current.admin? %>
+    <%= render(:partial => 'layouts/projects_menu') if User.current.memberships.any? %>
 	
 	<div id="subcontent">	
 		<% if @project && !@project.new_record? %>
