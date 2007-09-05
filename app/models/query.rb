@@ -36,6 +36,7 @@ class Query < ActiveRecord::Base
                   ">t+" => :label_in_more_than,
                   "t+"  => :label_in,
                   "t"   => :label_today,
+                  "w"   => :label_this_week,
                   ">t-" => :label_less_than_ago,
                   "<t-" => :label_more_than_ago,
                   "t-"  => :label_ago,
@@ -48,8 +49,8 @@ class Query < ActiveRecord::Base
                                  :list_status => [ "o", "=", "!", "c", "*" ],
                                  :list_optional => [ "=", "!", "!*", "*" ],
                                  :list_one_or_more => [ "*", "=" ],
-                                 :date => [ "<t+", ">t+", "t+", "t", ">t-", "<t-", "t-" ],
-                                 :date_past => [ ">t-", "<t-", "t-", "t" ],
+                                 :date => [ "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ],
+                                 :date_past => [ ">t-", "<t-", "t-", "t", "w" ],
                                  :string => [ "=", "~", "!", "!~" ],
                                  :text => [  "~", "!~" ] }
 
@@ -71,7 +72,7 @@ class Query < ActiveRecord::Base
           # filter requires one or more values
           (values_for(field) and !values_for(field).first.empty?) or 
           # filter doesn't require any value
-          ["o", "c", "!*", "*", "t"].include? operator_for(field)
+          ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
     end if filters
   end
   
@@ -238,6 +239,8 @@ class Query < ActiveRecord::Base
         sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date((Date.today + v.first.to_i).to_time), connection.quoted_date((Date.today + v.first.to_i + 1).to_time)]
       when "t"
         sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(Date.today.to_time), connection.quoted_date((Date.today+1).to_time)]
+      when "w"
+        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(Time.now.at_beginning_of_week), connection.quoted_date(Time.now.next_week)]
       when "~"
         sql = sql + "#{db_table}.#{db_field} LIKE '%#{connection.quote_string(v.first)}%'"
       when "!~"

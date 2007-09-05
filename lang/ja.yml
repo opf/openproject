@@ -319,6 +319,7 @@ label_in_less_than: 残日数がこれより多い
 label_in_more_than: 残日数がこれより少ない
 label_in: 残日数
 label_today: 今日
+label_this_week: this week
 label_less_than_ago: 経過日数がこれより少ない
 label_more_than_ago: 経過日数がこれより多い
 label_ago: 日前

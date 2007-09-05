@@ -321,6 +321,7 @@ label_in_less_than: 剩余天数小于
 label_in_more_than: 剩余天数大于
 label_in: 剩余天数
 label_today: 今天
+label_this_week: this week
 label_less_than_ago: 之前天数少于
 label_more_than_ago: 之前天数大于
 label_ago: 之前天数

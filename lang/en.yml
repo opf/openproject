@@ -318,6 +318,7 @@ label_in_less_than: in less than
 label_in_more_than: in more than
 label_in: in
 label_today: today
+label_this_week: this week
 label_less_than_ago: less than days ago
 label_more_than_ago: more than days ago
 label_ago: days ago
