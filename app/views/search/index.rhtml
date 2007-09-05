@@ -2,7 +2,8 @@
 
 <div class="box">
 <% form_tag({}, :method => :get) do %>
-<p><%= text_field_tag 'q', @question, :size => 30 %>
+<p><%= text_field_tag 'q', @question, :size => 30, :id => 'search-input' %>
+<%= javascript_tag "Field.focus('search-input')" %>
 
 <% if @project %>
   <%= check_box_tag 'scope[]', 'issues', (@scope.include? 'issues') %> <label><%= l(:label_issue_plural) %></label>
