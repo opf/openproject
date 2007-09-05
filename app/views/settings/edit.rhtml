@@ -35,7 +35,7 @@
 <%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %></p>
 
 <p><label><%= l(:setting_text_formatting) %></label>
-<%= select_tag 'settings[text_formatting]', options_for_select([[l(:label_none), 0], ["textile", "textile"]], (@textile_available ? Setting.text_formatting : 0)), :disabled => !@textile_available %></p>
+<%= select_tag 'settings[text_formatting]', options_for_select([[l(:label_none), "0"], ["textile", "textile"]], Setting.text_formatting) %></p>
 
 <p><label><%= l(:setting_wiki_compression) %></label>
 <%= select_tag 'settings[wiki_compression]', options_for_select( [[l(:label_none), 0], ["gzip", "gzip"]], Setting.wiki_compression) %></p>

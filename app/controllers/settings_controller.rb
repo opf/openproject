@@ -29,6 +29,5 @@ class SettingsController < ApplicationController
       params[:settings].each { |name, value| Setting[name] = value }
       redirect_to :action => 'edit' and return
     end
-    @textile_available = ActionView::Helpers::TextHelper.method_defined?("textilize")
   end
 end

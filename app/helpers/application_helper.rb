@@ -101,7 +101,7 @@ module ApplicationHelper
     html  
   end
   
-  # textilize text according to system settings and RedCloth availability
+  # format text according to system settings
   def textilizable(text, options = {})
     return "" if text.blank?
 

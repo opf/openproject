@@ -67,6 +67,5 @@ class AdminController < ApplicationController
     @flags = Hash.new
     @flags[:default_admin_changed] = User.find(:first, :conditions => ["login=? and hashed_password=?", 'admin', User.hash_password('admin')]).nil?
     @flags[:file_repository_writable] = File.writable?(Attachment.storage_path)
-    @flags[:textile_available] = ActionView::Helpers::TextHelper.method_defined? "textilize"
   end  
 end
