@@ -51,6 +51,10 @@ class SearchController < ApplicationController
       @results = []
       if @project
         @results += @project.issues.find(:all, :limit => limit, :include => :author, :conditions => [ (["(LOWER(subject) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'issues'
+        Journal.with_scope :find => {:conditions => ["#{Issue.table_name}.project_id = ?", @project.id]} do
+          @results += Journal.find(:all, :include => :issue, :limit => limit, :conditions => [ (["(LOWER(notes) like ? OR LOWER(notes) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ).collect(&:issue) if @scope.include? 'issues'
+        end
+        @results.uniq!
         @results += @project.news.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort], :include => :author ) if @scope.include? 'news'
         @results += @project.documents.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'documents'
         @results += @project.wiki.pages.find(:all, :limit => limit, :include => :content, :conditions => [ (["(LOWER(title) like ? OR LOWER(text) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @project.wiki && @scope.include?('wiki')

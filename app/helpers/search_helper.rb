@@ -21,7 +21,12 @@ module SearchHelper
     regexp = Regexp.new "(#{tokens.join('|')})", Regexp::IGNORECASE    
     result = ''
     text.split(regexp).each_with_index do |words, i|
-      result << (i.even? ? (words.length > 100 ? "#{words[0..44]} ... #{words[-45..-1]}" : words) : content_tag('span', words, :class => 'highlight'))
+      if result.length > 1200
+        # maximum length of the preview reached
+        result << '...'
+        break
+      end
+      result << (i.even? ? h(words.length > 100 ? "#{words[0..44]} ... #{words[-45..-1]}" : words) : content_tag('span', h(words), :class => 'highlight'))
     end
     result
   end
