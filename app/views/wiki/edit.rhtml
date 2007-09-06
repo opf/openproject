@@ -19,11 +19,13 @@
                        { :url => { :controller => 'wiki', :action => 'preview', :id => @project, :page => @page.title },
                          :method => 'post',
                          :update => 'preview',
-                         :with => "Form.serialize('wiki_form')"
+                         :with => "Form.serialize('wiki_form')",
+                         :complete => "location.href='#preview-top'"
                        } %></p>
 <%= wikitoolbar_for 'content_text' %>
 <% end %>
 
+<a name="preview-top"></a>
 <div id="preview" class="wiki"></div>
 
 <% content_for :header_tags do %>
