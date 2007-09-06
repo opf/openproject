@@ -29,7 +29,7 @@ table.list thead th.list-filename {
 
 /************* Coderay styles *************/
 
-.CodeRay {
+table.CodeRay {
   background-color: #fafafa;
 }
 .CodeRay pre { margin: 0px }

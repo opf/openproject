@@ -25,6 +25,10 @@ module Encoders
   #
   # == Options
   #
+  # === :escape
+  # Escape html entities
+  # Default: true
+  #
   # === :tab_width
   # Convert \t characters to +n+ spaces (a number.)
   # Default: 8
@@ -70,6 +74,7 @@ module Encoders
     FILE_EXTENSION = 'html'
 
     DEFAULT_OPTIONS = {
+      :escape => true,
       :tab_width => 8,
 
       :level => :xhtml,
@@ -145,6 +150,7 @@ module Encoders
       @HTML_ESCAPE = HTML_ESCAPE.dup
       @HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
 
+      @escape = options[:escape]
       @opened = [nil]
       @css = CSS.new options[:style]
 
@@ -222,7 +228,7 @@ module Encoders
 
     def token text, type
       if text.is_a? ::String
-        if text =~ /#{HTML_ESCAPE_PATTERN}/o
+        if @escape && (text =~ /#{HTML_ESCAPE_PATTERN}/o)
           text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
         end
         @opened[0] = type

@@ -1,4 +1,5 @@
 require 'redcloth'
+require 'coderay'
 
 module Redmine
   module WikiFormatting
@@ -24,7 +25,22 @@ module Redmine
       def hard_break( text ) 
         text.gsub!( /(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks 
       end
-  
+      
+      # Patch to add code highlighting support to RedCloth
+      def smooth_offtags( text )
+        unless @pre_list.empty?
+          ## replace <pre> content
+          text.gsub!(/<redpre#(\d+)>/) do
+            content = @pre_list[$1.to_i]
+            if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
+              content = "<code class=\"#{$1} CodeRay\">" + 
+                CodeRay.scan($2, $1).html(:escape => false, :line_numbers => :inline)
+            end
+            content
+          end
+        end
+      end
+      
       AUTO_LINK_RE = %r{
                         (                          # leading text
                           <\w+.*?>|                # leading HTML tag, or
