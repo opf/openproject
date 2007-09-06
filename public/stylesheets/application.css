@@ -632,6 +632,13 @@ div.wiki img {
     margin: 6px;
 }
 
+div.wiki pre  {
+    margin: 1em 1em 1em 1.6em;
+    padding: 2px;
+    background-color: #fafafa;
+    border: 1px solid #dadada;
+}
+
 .diff_out{
   background: #fcc;
 }
