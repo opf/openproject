@@ -157,7 +157,16 @@ module ApplicationHelper
         page = title || $2
         title = $1 if page.blank?
       end
-      link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)), :class => 'wiki-page')
+      
+      if link_project && link_project.wiki
+        # check if page exists
+        wiki_page = link_project.wiki.find_page(page)
+        link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)),
+                                 :class => ('wiki-page' + (wiki_page ? '' : ' new')))
+      else
+        # project or wiki doesn't exist
+        title || page
+      end
     end
 
     # turn issue and revision ids into links
@@ -168,9 +177,16 @@ module ApplicationHelper
       leading, otype, oid = $1, $2, $3
       link = nil
       if otype == 'r'
-        link = link_to("r#{oid}", {:controller => 'repositories', :action => 'revision', :id => project.id, :rev => oid}, :class => 'changeset') if project
+        if project && (changeset = project.changesets.find_by_revision(oid))
+          link = link_to("r#{oid}", {:controller => 'repositories', :action => 'revision', :id => project.id, :rev => oid}, :class => 'changeset',
+                                    :title => truncate(changeset.comments, 100))
+        end
       else
-        link = link_to("##{oid}", {:controller => 'issues', :action => 'show', :id => oid}, :class => 'issue')
+        if issue = Issue.find_by_id(oid.to_i, :include => [:project, :status], :conditions => Project.visible_by(User.current))        
+          link = link_to("##{oid}", {:controller => 'issues', :action => 'show', :id => oid}, :class => 'issue',
+                                    :title => "#{truncate(issue.subject, 100)} (#{issue.status.name})")
+          link = content_tag('del', link) if issue.closed?
+        end
       end
       leading + (link || "#{otype}#{oid}")
     end

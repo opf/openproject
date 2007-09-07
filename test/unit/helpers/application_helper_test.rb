@@ -19,7 +19,8 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 class ApplicationHelperTest < HelperTestCase
   include ApplicationHelper
-  fixtures :projects
+  include ActionView::Helpers::TextHelper
+  fixtures :projects, :repositories, :changesets, :trackers, :issue_statuses, :issues
 
   def setup
     super
@@ -53,12 +54,14 @@ class ApplicationHelperTest < HelperTestCase
   end
   
   def test_redmine_links
-    issue_link = link_to('#52', {:controller => 'issues', :action => 'show', :id => 52}, :class => 'issue')
-    changeset_link = link_to('r19', {:controller => 'repositories', :action => 'revision', :id => 1, :rev => 19}, :class => 'changeset')
+    issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3}, 
+                               :class => 'issue', :title => 'Error 281 when updating a recipe (New)')
+    changeset_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 1, :rev => 1},
+                                   :class => 'changeset', :title => 'My very first commit')
     
     to_test = {
-      '#52, #52 and #52.' => "#{issue_link}, #{issue_link} and #{issue_link}.",
-      'r19' => changeset_link
+      '#3, #3 and #3.' => "#{issue_link}, #{issue_link} and #{issue_link}.",
+      'r1' => changeset_link
     }
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
