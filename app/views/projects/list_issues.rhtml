@@ -76,8 +76,7 @@
 <%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'icon icon-csv' %>,
 <%= link_to 'PDF', {:action => 'export_issues_pdf', :id => @project}, :class => 'icon icon-pdf' %>
 </div>
-<p><%= submit_tag l(:button_move), :class => "button-small" %>
-&nbsp;
+<p><%= submit_tag(l(:button_move), :class => "button-small") if authorize_for('projects', 'move_issues') %>
 <%= pagination_links_full @issue_pages %>
 [ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
 </p>
