@@ -78,7 +78,6 @@ class SearchController < ApplicationController
 private  
   def find_project
     @project = Project.find(params[:id])
-    @html_title = @project.name
   rescue ActiveRecord::RecordNotFound
     render_404
   end

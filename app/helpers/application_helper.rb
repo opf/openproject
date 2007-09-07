@@ -101,6 +101,18 @@ module ApplicationHelper
     html  
   end
   
+  def set_html_title(text)
+    @html_header_title = text
+  end
+  
+  def html_title
+    title = []
+    title << @project.name if @project
+    title << @html_header_title
+    title << Setting.app_title
+    title.compact.join(' - ')
+  end
+  
   # format text according to system settings
   def textilizable(text, options = {})
     return "" if text.blank?

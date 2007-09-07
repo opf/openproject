@@ -109,3 +109,5 @@ end %>
 <%= l(:label_export_to) %><%= link_to 'PDF', {:action => 'export_pdf', :id => @issue}, :class => 'icon icon-pdf' %>
 </div>
 &nbsp;
+
+<% set_html_title "#{@issue.tracker.name} ##{@issue.id}" %>

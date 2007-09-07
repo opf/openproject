@@ -169,7 +169,6 @@ private
   def find_project
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
     @project = @issue.project
-    @html_title = "#{@project.name} - #{@issue.tracker.name} ##{@issue.id}"
   rescue ActiveRecord::RecordNotFound
     render_404
   end

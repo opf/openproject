@@ -123,14 +123,12 @@ class ApplicationController < ActionController::Base
   end
   
   def render_403
-    @html_title = "403"
     @project = nil
     render :template => "common/403", :layout => true, :status => 403
     return false
   end
     
   def render_404
-    @html_title = "404"
     render :template => "common/404", :layout => true, :status => 404
     return false
   end

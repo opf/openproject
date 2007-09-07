@@ -631,7 +631,6 @@ private
   # Used as a before_filter
   def find_project
     @project = Project.find(params[:id])
-    @html_title = @project.name
   rescue ActiveRecord::RecordNotFound
     render_404
   end

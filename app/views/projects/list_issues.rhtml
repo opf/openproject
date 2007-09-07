@@ -4,6 +4,7 @@
       <% if authorize_for('projects', 'add_issue') %>| <%= l(:label_issue_new) %>: <%= new_issue_selector %><% end %>
     </div>
     <h2><%=l(:label_issue_plural)%></h2>
+    <% set_html_title l(:label_issue_plural) %>
     
     <% form_tag({:action => 'list_issues'}, :id => 'query_form') do %>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
@@ -37,6 +38,7 @@
         <% if authorize_for('projects', 'add_issue') %>| <%= l(:label_issue_new) %>: <%= new_issue_selector %><% end %>
     </div>    
     <h2><%= @query.name %></h2>
+    <% set_html_title @query.name %>
 <% end %>
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
