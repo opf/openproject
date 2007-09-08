@@ -11,14 +11,11 @@ http://redmine.rubyforge.org/
 * A database (see compatibility below)
 
 Optional:
-* RedCloth (to enable textile formatting)
-* SVN binaries (needed for repository browsing, must be available in PATH)
+* SVN binaries >= 1.3 (needed for repository browsing, must be available in PATH)
 
 Supported databases:
 * MySQL (tested with MySQL 5)
 * PostgreSQL (tested with PostgreSQL 8.1)
-* Oracle (tested with Oracle 10g)
-* SQL Server (tested with SQL Server 2005)
 * SQLite (tested with SQLite 3)
 
 
