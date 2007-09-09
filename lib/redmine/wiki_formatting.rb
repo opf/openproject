@@ -56,7 +56,7 @@ module Redmine
       alias :textile_h3 :textile_p_withtoc
       
       def inline_toc(text)
-        text.gsub!(/<p>\{\{(<>?)toc\}\}<\/p>/i) do
+        text.gsub!(/<p>\{\{([<>]?)toc\}\}<\/p>/i) do
           div_class = 'toc'
           div_class << ' right' if $1 == '>'
           out = "<div class=\"#{div_class}\">"
