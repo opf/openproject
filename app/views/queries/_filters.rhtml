@@ -84,6 +84,8 @@ function toggle_multi_select(field) {
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
     <% when :string, :text %>
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 30, :class => "select-small" %>
+    <% when :integer %>
+        <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %>
     <% end %>
     </div>
     <script type="text/javascript">toggle_filter('<%= field %>');</script>

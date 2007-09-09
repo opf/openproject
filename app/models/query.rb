@@ -32,6 +32,8 @@ class Query < ActiveRecord::Base
                   "c"   => :label_closed_issues,
                   "!*"  => :label_none,
                   "*"   => :label_all,
+                  ">="   => '>=',
+                  "<="   => '<=',
                   "<t+" => :label_in_less_than,
                   ">t+" => :label_in_more_than,
                   "t+"  => :label_in,
@@ -52,7 +54,8 @@ class Query < ActiveRecord::Base
                                  :date => [ "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ],
                                  :date_past => [ ">t-", "<t-", "t-", "t", "w" ],
                                  :string => [ "=", "~", "!", "!~" ],
-                                 :text => [  "~", "!~" ] }
+                                 :text => [  "~", "!~" ],
+                                 :integer => [ "=", ">=", "<=" ] }
 
   cattr_reader :operators_by_filter_type
 
@@ -91,7 +94,8 @@ class Query < ActiveRecord::Base
                            "created_on" => { :type => :date_past, :order => 9 },                        
                            "updated_on" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
-                           "due_date" => { :type => :date, :order => 12 } }                          
+                           "due_date" => { :type => :date, :order => 12 },
+                           "done_ratio" =>  { :type => :integer, :order => 13 }}                          
     
     user_values = []
     if project
@@ -221,6 +225,10 @@ class Query < ActiveRecord::Base
         sql = sql + "#{db_table}.#{db_field} IS NULL"
       when "*"
         sql = sql + "#{db_table}.#{db_field} IS NOT NULL"
+      when ">="
+        sql = sql + "#{db_table}.#{db_field} >= #{v.first.to_i}"
+      when "<="
+        sql = sql + "#{db_table}.#{db_field} <= #{v.first.to_i}"
       when "o"
         sql = sql + "#{IssueStatus.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
       when "c"
