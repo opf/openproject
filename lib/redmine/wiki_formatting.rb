@@ -7,14 +7,15 @@ module Redmine
   private
   
     class TextileFormatter < RedCloth      
-      RULES = [:inline_auto_link, :inline_auto_mailto, :textile ]
-
+      RULES = [:inline_auto_link, :inline_auto_mailto, :textile, :inline_toc]
+      
       def initialize(*args)
         super
         self.hard_breaks=true
       end
       
       def to_html
+        @toc = []
         super(*RULES).to_s
       end
 
@@ -38,6 +39,32 @@ module Redmine
             end
             content
           end
+        end
+      end
+      
+      # Patch to add 'table of content' support to RedCloth
+      def textile_p_withtoc(tag, atts, cite, content)
+        if tag =~ /^h(\d)$/
+          @toc << [$1.to_i, content]
+        end
+        content = "<a name=\"#{@toc.length}-#{content}\" class=\"wiki-page\"></a>" + content
+        textile_p(tag, atts, cite, content)
+      end
+
+      alias :textile_h1 :textile_p_withtoc
+      alias :textile_h2 :textile_p_withtoc
+      alias :textile_h3 :textile_p_withtoc
+      
+      def inline_toc(text)
+        text.gsub!(/<p>\{\{(<>?)toc\}\}<\/p>/i) do
+          div_class = 'toc'
+          div_class << ' right' if $1 == '>'
+          out = "<div class=\"#{div_class}\">"
+          @toc.each_with_index do |heading, index|
+            out << "<a href=\"##{index+1}-#{heading.last}\" class=\"heading#{heading.first}\">#{heading.last}</a>"
+          end
+          out << '</div>'
+          out
         end
       end
       

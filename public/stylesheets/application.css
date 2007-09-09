@@ -619,7 +619,7 @@ div.wiki a {
     background-image: url(../images/external.png);
 }
 
-div.wiki a.wiki-page, div.wiki a.issue, div.wiki a.changeset, div.wiki a.email {
+div.wiki a.wiki-page, div.wiki a.issue, div.wiki a.changeset, div.wiki a.email, div.wiki div.toc a {
     padding-left: 0;
     background-image: none;
 }
@@ -642,6 +642,34 @@ div.wiki pre  {
     background-color: #fafafa;
     border: 1px solid #dadada;
 }
+
+div.wiki div.toc {
+    background-color: #fdfed0;
+    border: 1px solid #dadada;
+    padding: 4px;
+    line-height: 1.1em;
+    margin-bottom: 12px;
+    float: left;
+    margin-right: 12px;
+}
+
+div.wiki div.toc.right {
+    float: right;
+    margin-left: 12px;
+    margin-right: 0;
+}
+
+div.wiki div.toc a {
+    display: block;
+    font-size: 0.9em;
+    font-weight: normal;
+    color: #606060;
+}
+
+div.wiki div.toc a.heading2 { margin-left: 6px; }
+div.wiki div.toc a.heading3 { margin-left: 12px; font-size: 0.8em; }
+
+div.wiki
 
 .diff_out{
   background: #fcc;
