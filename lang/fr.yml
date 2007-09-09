@@ -157,6 +157,7 @@ field_is_filter: Utilisé comme filtre
 field_issue_to_id: Demande liée
 field_delay: Retard
 field_assignable: Demandes assignables à ce rôle
+field_redirect_existing_links: Rediriger les liens existants
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -446,6 +447,7 @@ button_reply: Répondre
 button_archive: Archiver
 button_unarchive: Désarchiver
 button_reset: Réinitialiser
+button_rename: Renommer
 
 status_active: actif
 status_registered: enregistré

@@ -53,6 +53,7 @@ Redmine::AccessControl.map do |map|
   # Wiki
   map.permission :view_wiki_pages, :wiki => [:index, :history, :diff, :special]
   map.permission :edit_wiki_pages, :wiki => [:edit, :preview, :add_attachment, :destroy_attachment]
+  map.permission :rename_wiki_pages, {:wiki => :rename}, :require => :member
   map.permission :delete_wiki_pages, {:wiki => :destroy}, :require => :member
   # Message boards
   map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true

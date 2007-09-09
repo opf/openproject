@@ -75,6 +75,18 @@ class WikiController < ApplicationController
     flash[:error] = l(:notice_locking_conflict)
   end
   
+  # rename a page
+  def rename
+    @page = @wiki.find_page(params[:page])    
+    @page.redirect_existing_links = true
+    # used to display the *original* title if some AR validation errors occur
+    @original_title = @page.pretty_title
+    if request.post? && @page.update_attributes(params[:wiki_page])
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :action => 'index', :id => @project, :page => @page.title
+    end
+  end
+  
   # show page history
   def history
     @page = @wiki.find_page(params[:page])

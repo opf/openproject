@@ -18,6 +18,7 @@
 class Wiki < ActiveRecord::Base
   belongs_to :project
   has_many :pages, :class_name => 'WikiPage', :dependent => :destroy
+  has_many :redirects, :class_name => 'WikiRedirect', :dependent => :delete_all
   
   validates_presence_of :start_page
   validates_format_of :start_page, :with => /^[^,\.\/\?\;\|\:]*$/
@@ -25,14 +26,20 @@ class Wiki < ActiveRecord::Base
   # find the page with the given title
   # if page doesn't exist, return a new page
   def find_or_new_page(title)
-    title = Wiki.titleize(title || start_page)
-    find_page(title) || WikiPage.new(:wiki => self, :title => title)  
+    find_page(title) || WikiPage.new(:wiki => self, :title => Wiki.titleize(title))
   end
   
   # find the page with the given title
-  def find_page(title)
+  def find_page(title, options = {})
     title = start_page if title.blank?
-    pages.find_by_title(Wiki.titleize(title))
+    title = Wiki.titleize(title)
+    page = pages.find_by_title(title)
+    if !page && !(options[:with_redirect] == false)
+      # search for a redirect
+      redirect = redirects.find_by_title(title)
+      page = find_page(redirect.redirects_to, :with_redirect => false) if redirect
+    end
+    page
   end
   
   # turn a string into a valid page title

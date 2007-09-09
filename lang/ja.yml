@@ -158,6 +158,7 @@ field_is_filter: フィルタとして使う
 field_issue_to_id: 関連する問題
 field_delay: 遅延
 field_assignable: Issues can be assigned to this role
+field_redirect_existing_links: Redirect existing links
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -447,6 +448,7 @@ button_reply: 返答
 button_archive: 書庫に保存
 button_unarchive: 書庫から戻す
 button_reset: Reset
+button_rename: Rename
 
 status_active: 有効
 status_registered: 登録

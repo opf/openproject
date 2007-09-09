@@ -22,13 +22,39 @@ class WikiPage < ActiveRecord::Base
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
   has_many :attachments, :as => :container, :dependent => :destroy
   
+  attr_accessor :redirect_existing_links
+  
   validates_presence_of :title
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\s]*$/
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
-  
+
+  def title=(value)
+    value = Wiki.titleize(value)
+    @previous_title = read_attribute(:title) if @previous_title.blank?
+    write_attribute(:title, value)
+  end
+
   def before_save
-    self.title = Wiki.titleize(title)
+    self.title = Wiki.titleize(title)    
+    # Manage redirects if the title has changed
+    if !@previous_title.blank? && (@previous_title != title) && !new_record?
+      # Update redirects that point to the old title
+      wiki.redirects.find_all_by_redirects_to(@previous_title).each do |r|
+        r.redirects_to = title
+        r.title == r.redirects_to ? r.destroy : r.save
+      end
+      # Remove redirects for the new title
+      wiki.redirects.find_all_by_title(title).each(&:destroy)
+      # Create a redirect to the new title
+      wiki.redirects << WikiRedirect.new(:title => @previous_title, :redirects_to => title) unless redirect_existing_links == "0"
+      @previous_title = nil
+    end
+  end
+  
+  def before_destroy
+    # Remove redirects to this page
+    wiki.redirects.find_all_by_redirects_to(title).each(&:destroy)
   end
   
   def pretty_title

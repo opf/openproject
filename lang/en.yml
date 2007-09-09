@@ -157,6 +157,7 @@ field_is_filter: Used as a filter
 field_issue_to_id: Related issue
 field_delay: Delay
 field_assignable: Issues can be assigned to this role
+field_redirect_existing_links: Redirect existing links
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle
@@ -446,6 +447,7 @@ button_reply: Reply
 button_archive: Archive
 button_unarchive: Unarchive
 button_reset: Reset
+button_rename: Rename
 
 status_active: active
 status_registered: registered
