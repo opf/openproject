@@ -1,8 +1,8 @@
-任务 #<%= @issue.id %> 已更新。
+<%= l(:text_issue_updated, "##{@issue.id}") %>
 <%= @journal.user.name %>
 <% for detail in @journal.details %>
 <%= show_detail(detail, true) %>
 <% end %>
 <%= @journal.notes if @journal.notes? %>
 ----------------------------------------
-<%= render :file => "_issue", :use_full_path => true, :locals => { :issue => @issue } %>
+<%= render :file => "_issue_text_plain", :use_full_path => true, :locals => { :issue => @issue } %>

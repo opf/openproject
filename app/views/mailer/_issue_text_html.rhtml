@@ -1,0 +1,10 @@
+<%= link_to "#{issue.tracker.name} ##{issue.id}",  :only_path => false, :host => Setting.host_name, :controller => 'issues', :action => 'show', :id => issue %>:
+<%= issue.subject %>
+
+<ul>
+    <li><%=l(:field_author)%>: <%= issue.author.name %></li>
+    <li><%=l(:field_assigned_to)%>: <%= issue.assigned_to ? issue.assigned_to.name : "-" %></li>
+    <li><%=l(:field_status)%>: <%= issue.status.name %></li>
+</ul>
+
+<%= textilizable(issue.description) %>

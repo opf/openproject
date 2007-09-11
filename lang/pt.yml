@@ -472,6 +472,8 @@ text_tracker_no_workflow: Sem workflow definido para este tipo.
 text_unallowed_characters: Caracteres não permitidos
 text_comma_separated: Permitido múltiplos valores (separados por vírgula).
 text_issues_ref_in_commit_messages: Referenciando e arrumando tarefas nas mensagens de commit
+text_issue_added: Tarefa %s foi incluída.
+text_issue_updated: Tarefa %s foi alterada.
 
 default_role_manager: Analista de Negócio ou Gerente de Projeto
 default_role_developper: Desenvolvedor

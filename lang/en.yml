@@ -472,6 +472,8 @@ text_tracker_no_workflow: No workflow defined for this tracker
 text_unallowed_characters: Unallowed characters
 text_comma_separated: Multiple values allowed (comma separated).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+text_issue_added: Issue %s has been reported.
+text_issue_updated: Issue %s has been updated.
 
 default_role_manager: Manager
 default_role_developper: Developer

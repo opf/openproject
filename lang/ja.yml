@@ -473,6 +473,8 @@ text_tracker_no_workflow: このトラッカーにワークフローが定義さ
 text_unallowed_characters: 使えない文字です
 text_comma_separated: (カンマで区切った)複数の値が使えます
 text_issues_ref_in_commit_messages: コミットメッセージ内で問題の参照/修正
+text_issue_added: 問題 %s が報告されました。
+text_issue_updated: 問題 %s が更新されました。
 
 default_role_manager: 管理者
 default_role_developper: 開発者
