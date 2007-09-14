@@ -74,3 +74,9 @@ date_format:
   default: 0
 cross_project_issue_relations:
   default: 0
+notified_events:
+  serialized: true
+  default: --
+  - issue_added
+  - issue_updated
+  

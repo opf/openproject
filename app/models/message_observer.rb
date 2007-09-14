@@ -22,6 +22,6 @@ class MessageObserver < ActiveRecord::Observer
     # send notification to the board watchers
     recipients += message.board.watcher_recipients
     recipients = recipients.compact.uniq
-    Mailer.deliver_message_posted(message, recipients) unless recipients.empty?
+    Mailer.deliver_message_posted(message, recipients) if !recipients.empty? && Setting.notified_events.include?('message_posted')
   end
 end

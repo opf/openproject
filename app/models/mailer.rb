@@ -90,6 +90,14 @@ class Mailer < ActionMailer::Base
     @body['url']    = url
     @body['added_to'] = added_to
   end
+
+  def news_added(news)
+    set_language_if_valid(Setting.default_language)
+    @recipients     = news.project.users.collect { |u| u.mail if u.mail_notification }.compact
+    @from           = Setting.mail_from
+    @subject        = "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
+    @body['news'] = news
+  end
   
   def lost_password(token)
     set_language_if_valid(token.user.language)

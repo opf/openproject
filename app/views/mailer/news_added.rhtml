@@ -1,0 +1,6 @@
+<%= @news.title %>
+<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'news', :action => 'show', :id => @news %>
+<%= @news.author.name %>
+
+<%= @news.description %>
+

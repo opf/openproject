@@ -103,7 +103,7 @@ class IssuesController < ApplicationController
                                                :value => a.filename) unless a.new_record?
         } if params[:attachments] and params[:attachments].is_a? Array
         flash[:notice] = l(:notice_successful_update)
-        Mailer.deliver_issue_edit(journal) #if Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
+        Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
         redirect_to :action => 'show', :id => @issue
         return
       end
@@ -137,7 +137,7 @@ class IssuesController < ApplicationController
           end
           
           flash[:notice] = l(:notice_successful_update)
-          Mailer.deliver_issue_edit(journal) #if Permission.find_by_controller_and_action(params[:controller], params[:action]).mail_enabled?
+          Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
           redirect_to :action => 'show', :id => @issue
         end
       rescue ActiveRecord::StaleObjectError

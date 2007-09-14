@@ -27,16 +27,23 @@ class Setting < ActiveRecord::Base
   # Hash used to cache setting values
   @cached_settings = {}
   @cached_cleared_on = Time.now
-    
-  # Returns the value of the setting named name
-  def self.[](name)
-    value = @cached_settings[name]
-    value ? value : (@cached_settings[name] = find_or_default(name).value)
+  
+  def value
+    v = read_attribute(:value)
+    # Unserialize serialized settings
+    v = YAML::load(v) if @@available_settings[name]['serialized'] && v.is_a?(String)
+    v
   end
   
-  def self.[]=(name, value)
+  # Returns the value of the setting named name
+  def self.[](name)
+    v = @cached_settings[name]
+    v ? v : (@cached_settings[name] = find_or_default(name).value)
+  end
+  
+  def self.[]=(name, v)
     setting = find_or_default(name)
-    setting.value = (value ? value.to_s : "")
+    setting.value = (v ? v : "")
     @cached_settings[name] = nil
     setting.save
     setting.value

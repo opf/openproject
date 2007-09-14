@@ -46,6 +46,12 @@ class AdminController < ApplicationController
   end
 
   def mail_options
+    @notifiables = %w(issue_added issue_updated news_added document_added file_added message_posted)
+    if request.post?
+      Setting.notified_events = (params[:notified_events] || [])
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :controller => 'admin', :action => 'mail_options'
+    end
   end
   
   def test_email

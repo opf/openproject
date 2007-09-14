@@ -1,3 +1,19 @@
+<div class="contextual">
+<%= link_to l(:label_send_test_email), :action => 'test_email' %>
+</div>
+
 <h2><%=l(:field_mail_notification)%></h2>
 
-<%= link_to l(:label_send_test_email), :action => 'test_email' %>
+<% form_tag({:action => 'mail_options'}, :id => 'mail-options-form') do %>
+
+<fieldset class="box"><legend><%=l(:text_select_mail_notifications)%></legend>
+<% @notifiables.each do |notifiable| %>
+  <p><label><%= check_box_tag "notified_events[]", notifiable, Setting.notified_events.include?(notifiable) %>
+  <%= notifiable.humanize %></label></p>
+<% end %>
+<div class="clear"></div>
+</fieldset>
+
+<p><%= check_all_links('mail-options-form') %></p>
+<%= submit_tag l(:button_save) %>
+<% end %>
