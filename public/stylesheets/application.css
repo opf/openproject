@@ -118,7 +118,6 @@ background-repeat: no-repeat;
 padding-left: 20px;
 padding-top: 2px;
 padding-bottom: 3px;
-vertical-align: middle;
 }
 
 #navigation .icon {
@@ -544,6 +543,9 @@ font-size: 1em;
 .task_done { background:#66f url(../images/task_done.png); border: 1px solid #66f; }  
 .task_todo { background:#aaa url(../images/task_todo.png); border: 1px solid #aaa; }
 .milestone { background-image:url(../images/milestone.png); background-repeat: no-repeat; border: 0; }
+
+/***** project list *****/
+dl.projects dt { font-size: 120%; margin-top:1.2em; padding: 2px 2px 4px 2px; background-color:#fafbfc; }
 
 /***** Tooltips ******/
 .tooltip{position:relative;z-index:24;}

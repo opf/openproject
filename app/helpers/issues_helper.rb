@@ -60,7 +60,12 @@ module IssuesHelper
       label = content_tag('strong', label)
       old_value = content_tag("i", h(old_value)) if detail.old_value
       old_value = content_tag("strike", old_value) if detail.old_value and (!detail.value or detail.value.empty?)
-      value = content_tag("i", h(value)) if value
+      if detail.property == 'attachment' && !value.blank? && Attachment.find_by_id(detail.prop_key)
+        # Link to the attachment if it has not been removed
+        value = link_to(value, :controller => 'attachments', :action => 'download', :id => detail.prop_key)
+      else
+        value = content_tag("i", h(value)) if value
+      end
     end
     
     if !detail.value.blank?

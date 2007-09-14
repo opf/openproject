@@ -1,30 +1,21 @@
 <h2><%=l(:label_project_plural)%></h2>
 
-<table class="list">
-  <thead><tr>
-	<%= sort_header_tag("#{Project.table_name}.name", :caption => l(:label_project)) %>
-	<th><%=l(:field_parent)%></th>
-	<%= sort_header_tag("#{Project.table_name}.created_on", :caption => l(:field_created_on)) %>
-  </tr></thead>
-  <tbody>
-<% for project in @projects %>
-  <tr class="<%= cycle("odd", "even") %>">
-	<td>
-	  <%= link_to project.name, {:action => 'show', :id => project}, :class => (User.current.member_of?(project) ? "icon icon-fav" : "") %><br />
-	  <%= textilizable project.description, :project => project %>
-	</td>
-	<td><%= link_to(project.parent.name, :action => 'show', :id => project.parent) unless project.parent.nil? %></td>
-	<td align="center"><%= format_date(project.created_on) %></td>
-  </tr>
+<dl class="projects">
+<% @project_tree.keys.sort.each do |project| %>
+<dt><%= link_to project.name, {:action => 'show', :id => project}, :class => (User.current.member_of?(project) ? "icon icon-fav" : "") %>
+<dd><%= textilizable(project.description, :project => project) %>
+
+<% if @project_tree[project].any? %>
+    <%= l(:label_subproject_plural) %>:
+    <%= @project_tree[project].sort.collect {|subproject| 
+       link_to(subproject.name, {:action => 'show', :id => subproject}, :class => (User.current.member_of?(subproject) ? "icon icon-fav" : ""))}.join(', ') %>
 <% end %>
-  </tbody>
-</table>
+</dd></dt>
+<% end %>
+</dl>
 
 <% if User.current.logged? %>
 <div class="contextual">
 <span class="icon icon-fav"><%= l(:label_my_projects) %></span>
 </div>
 <% end %>
-
-<%= pagination_links_full @project_pages %>
-[ <%= @project_pages.current.first_item %> - <%= @project_pages.current.last_item %> / <%= @project_count %> ]

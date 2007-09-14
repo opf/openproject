@@ -46,23 +46,15 @@ class ProjectsController < ApplicationController
     render :action => 'list' unless request.xhr?
   end
 
-  # Lists public projects
+  # Lists visible projects
   def list
-    sort_init "#{Project.table_name}.name", "asc"
-    sort_update		
-    @project_count = Project.count(:all, :conditions => Project.visible_by(logged_in_user))		
-    @project_pages = Paginator.new self, @project_count,
-								15,
-								params['page']								
-    @projects = Project.find :all, :order => sort_clause,
-						:conditions => Project.visible_by(logged_in_user),
-						:include => :parent,
-						:limit  =>  @project_pages.items_per_page,
-						:offset =>  @project_pages.current.offset
-
-    render :action => "list", :layout => false if request.xhr?	
+    projects = Project.find :all,
+                            :conditions => Project.visible_by(logged_in_user),
+                            :include => :parent
+    @project_tree = projects.group_by {|p| p.parent || p}
+    @project_tree.each_key {|p| @project_tree[p] -= [p]}
   end
-          
+  
   # Add a new project
   def add
     @custom_fields = IssueCustomField.find(:all)
