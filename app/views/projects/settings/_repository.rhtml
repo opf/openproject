@@ -1,0 +1,20 @@
+<% remote_form_for :repository, @repository, 
+                   :url => { :controller => 'repositories', :action => 'edit', :id => @project },
+                   :builder => TabularFormBuilder do |f| %>
+
+<%= error_messages_for 'repository' %>
+
+<div class="box tabular">
+<p><label>SCM</label><%= scm_select_tag(@repository) %></p>
+<%= repository_field_tags(f, @repository) if @repository %>
+</div>
+
+<div class="contextual">
+<%= link_to(l(:button_delete), {:controller => 'repositories', :action => 'destroy', :id => @project},
+            :confirm => l(:text_are_you_sure),
+            :method => :post,
+            :class => 'icon icon-del') if @repository && !@repository.new_record? %>
+</div>
+
+<%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save)) %>
+<% end %>

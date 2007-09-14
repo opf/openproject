@@ -73,16 +73,9 @@ class ProjectsController < ApplicationController
     else
       @project.custom_fields = CustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
       @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
-      @project.custom_values = @custom_values			
-      if params[:repository_enabled] && params[:repository_enabled] == "1"
-        @project.repository = Repository.factory(params[:repository_scm])
-        @project.repository.attributes = params[:repository]
-      end
-      if "1" == params[:wiki_enabled]
-        @project.wiki = Wiki.new
-        @project.wiki.attributes = params[:wiki]
-      end
+      @project.custom_values = @custom_values
       if @project.save
+        @project.enabled_module_names = params[:enabled_modules]
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
 	  end		
@@ -107,6 +100,8 @@ class ProjectsController < ApplicationController
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
     @custom_values ||= ProjectCustomField.find(:all).collect { |x| @project.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
+    @repository ||= @project.repository
+    @wiki ||= @project.wiki
   end
   
   # Edit @project
@@ -117,24 +112,6 @@ class ProjectsController < ApplicationController
         @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
         @project.custom_values = @custom_values
       end
-      if params[:repository_enabled]
-        case params[:repository_enabled]
-        when "0"
-          @project.repository = nil
-        when "1"
-          @project.repository ||= Repository.factory(params[:repository_scm])
-          @project.repository.update_attributes params[:repository] if @project.repository
-        end
-      end
-      if params[:wiki_enabled]
-        case params[:wiki_enabled]
-        when "0"
-          @project.wiki.destroy if @project.wiki
-        when "1"
-          @project.wiki ||= Wiki.new
-          @project.wiki.update_attributes params[:wiki]
-        end
-      end      
       @project.attributes = params[:project]
       if @project.save
         flash[:notice] = l(:notice_successful_update)
@@ -144,6 +121,11 @@ class ProjectsController < ApplicationController
         render :action => 'settings'
       end
     end
+  end
+  
+  def modules
+    @project.enabled_module_names = params[:enabled_modules]
+    redirect_to :action => 'settings', :id => @project, :tab => 'modules'
   end
 
   def archive
@@ -193,25 +175,6 @@ class ProjectsController < ApplicationController
   	  flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'settings', :tab => 'versions', :id => @project
   	end
-  end
-
-  # Add a new member to @project
-  def add_member
-    @member = @project.members.build(params[:member])
-  	if request.post? && @member.save
-  	  respond_to do |format|
-        format.html { redirect_to :action => 'settings', :tab => 'members', :id => @project }
-        format.js { render(:update) {|page| page.replace_html "tab-content-members", :partial => 'members'} }
-      end
-    else		
-      settings
-      render :action => 'settings'
-    end
-  end
-
-  # Show members list of @project
-  def list_members
-    @members = @project.members.find(:all)
   end
 
   # Add a new document to @project

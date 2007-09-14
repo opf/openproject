@@ -415,6 +415,7 @@ label_language_based: Language based
 label_sort_by: Sort by "%s"
 label_send_test_email: Send a test email
 label_feeds_access_key_created_on: RSS access key created %s ago
+label_module_plural: Modules
 
 button_login: Einloggen
 button_submit: OK
@@ -474,6 +475,7 @@ text_comma_separated: Multiple values allowed (comma separated).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
 text_issue_added: Ticket %s wurde erstellt.
 text_issue_updated: Ticket %s wurde aktualisiert.
+text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
 
 default_role_manager: Manager
 default_role_developper: Developer

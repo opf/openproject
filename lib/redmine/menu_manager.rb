@@ -31,8 +31,8 @@ module Redmine
         @items[menu_name.to_sym] || []
       end
       
-      def allowed_items(menu_name, role)
-        items(menu_name).select {|item| role && role.allowed_to?(item.url)}
+      def allowed_items(menu_name, user, project)
+        items(menu_name).select {|item| user && user.allowed_to?(item.url, project)}
       end
     end
     

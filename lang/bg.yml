@@ -415,6 +415,7 @@ label_language_based: Language based
 label_sort_by: Sort by "%s"
 label_send_test_email: Send a test email
 label_feeds_access_key_created_on: RSS access key created %s ago
+label_module_plural: Modules
 
 button_login: Вход
 button_submit: Изпращане
@@ -474,6 +475,7 @@ text_comma_separated: Позволено е изброяване (с разде�
 text_issues_ref_in_commit_messages: Отбелязване и приключване на задачи от commit съобщения
 text_issue_added: Публикувана е нова задача с номер %s.
 text_issue_updated: Задача %s е обновена.
+text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
 
 default_role_manager: Мениджър
 default_role_developper: Разработчик

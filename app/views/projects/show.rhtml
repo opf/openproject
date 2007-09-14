@@ -19,6 +19,7 @@
 	<% end %>
 	</ul>	
 
+  <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="box">
     <div class="contextual"><% if authorize_for('projects', 'add_issue') %><%= l(:label_issue_new) %>: <%= new_issue_selector %><% end %></div>
     <h3 class="icon22 icon22-tracker"><%=l(:label_issue_tracking)%></h3>
@@ -33,6 +34,7 @@
     </ul>
     <p class="textcenter"><small><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></small></p>
   </div>
+  <% end %>
 </div>
 
 <div class="splitcontentright">

@@ -46,12 +46,31 @@ module Redmine
       def loggedin_only_permissions
         @loggedin_only_permissions ||= @permissions.select {|p| p.require_loggedin?}
       end
+      
+      def available_project_modules
+        @available_project_modules ||= @permissions.collect(&:project_module).uniq.compact
+      end
+      
+      def modules_permissions(modules)
+        @permissions.select {|p| p.project_module.nil? || modules.include?(p.project_module.to_s)}
+      end
     end
     
     class Mapper
+      def initialize
+        @project_module = nil
+      end
+      
       def permission(name, hash, options={})
         @permissions ||= []
+        options.merge!(:project_module => @project_module)
         @permissions << Permission.new(name, hash, options)
+      end
+      
+      def project_module(name, options={})
+        @project_module = name
+        yield self
+        @project_module = nil
       end
       
       def mapped_permissions
@@ -60,13 +79,14 @@ module Redmine
     end
     
     class Permission
-      attr_reader :name, :actions
+      attr_reader :name, :actions, :project_module
       
       def initialize(name, hash, options)
         @name = name
         @actions = []
         @public = options[:public] || false
         @require = options[:require]
+        @project_module = options[:project_module]
         hash.each do |controller, actions|
           if actions.is_a? Array
             @actions << actions.collect {|action| "#{controller}/#{action}"}

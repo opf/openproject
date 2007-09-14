@@ -178,8 +178,13 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project)
+    # No action allowed on archived projects
     return false unless project.active?
+    # No action allowed on disabled modules
+    return false unless project.allows_to?(action)
+    # Admin users are authorized for anything else
     return true if admin?
+    
     role = role_for_project(project)
     return false unless role
     role.allowed_to?(action) && (project.is_public? || role.member?)

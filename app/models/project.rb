@@ -23,6 +23,7 @@ class Project < ActiveRecord::Base
   has_many :members, :dependent => :delete_all, :include => :user, :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :users, :through => :members
   has_many :custom_values, :dependent => :delete_all, :as => :customized
+  has_many :enabled_modules, :dependent => :delete_all
   has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_on DESC", :include => [:status, :tracker]
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
@@ -38,7 +39,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_tree :order => "name", :counter_cache => true
   
-  attr_protected :status
+  attr_protected :status, :enabled_module_names
   
   validates_presence_of :name, :description, :identifier
   validates_uniqueness_of :name, :identifier
@@ -121,10 +122,43 @@ class Project < ActiveRecord::Base
   def <=>(project)
     name <=> project.name
   end
+  
+  def allows_to?(action)
+    if action.is_a? Hash
+      allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
+    else
+      allowed_permissions.include? action
+    end
+  end
+  
+  def module_enabled?(module_name)
+    module_name = module_name.to_s
+    enabled_modules.detect {|m| m.name == module_name}
+  end
+  
+  def enabled_module_names=(module_names)
+    enabled_modules.clear
+    module_names = [] unless module_names && module_names.is_a?(Array)
+    module_names.each do |name|
+      enabled_modules << EnabledModule.new(:name => name.to_s)
+    end
+  end
 
 protected
   def validate
     errors.add(parent_id, " must be a root project") if parent and parent.parent
     errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
+  end
+  
+private
+  def allowed_permissions
+    @allowed_permissions ||= begin
+      module_names = enabled_modules.collect {|m| m.name}
+      Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
+    end
+  end
+
+  def allowed_actions
+    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
   end
 end

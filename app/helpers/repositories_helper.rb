@@ -29,13 +29,13 @@ module RepositoriesHelper
     send(method, form, repository) if repository.is_a?(Repository) && respond_to?(method)
   end
   
-  def scm_select_tag
+  def scm_select_tag(repository)
     container = [[]]
     REDMINE_SUPPORTED_SCM.each {|scm| container << ["Repository::#{scm}".constantize.scm_name, scm]}
     select_tag('repository_scm', 
-               options_for_select(container, @project.repository.class.name.demodulize),
-               :disabled => (@project.repository && !@project.repository.new_record?),
-               :onchange => remote_function(:update => "repository_fields", :url => { :controller => 'repositories', :action => 'update_form', :id => @project }, :with => "Form.serialize(this.form)")
+               options_for_select(container, repository.class.name.demodulize),
+               :disabled => (repository && !repository.new_record?),
+               :onchange => remote_function(:url => { :controller => 'repositories', :action => 'edit', :id => @project }, :method => :get, :with => "Form.serialize(this.form)")
                )
   end
   

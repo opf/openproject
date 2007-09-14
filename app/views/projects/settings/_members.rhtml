@@ -33,8 +33,8 @@
 </table>
 &nbsp;
 
-<% if authorize_for('projects', 'add_member') && !users.empty? %>
-  <% remote_form_for(:member, @member, :url => {:controller => 'projects', :action => 'add_member', :tab => 'members', :id => @project}, :method => :post) do |f| %>
+<% if authorize_for('members', 'new') && !users.empty? %>
+  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
     <p><label for="member_user_id"><%=l(:label_member_new)%></label><br />
     <%= f.select :user_id, users.collect{|user| [user.name, user.id]} %>
     <%= l(:label_role) %>: <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, :selected => nil %>

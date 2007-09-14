@@ -2,5 +2,14 @@
 
 <% labelled_tabular_form_for :project, @project, :url => { :action => "add" } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
+
+<div class="box">
+<p><label><%= l(:label_module_plural) %></label>
+<% Redmine::AccessControl.available_project_modules.each do |m| %>
+<%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %> <%= m.to_s.humanize %>
+<% end %></p>
+</div>
+
+
 <%= submit_tag l(:button_save) %>
 <% end %>

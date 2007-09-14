@@ -1,0 +1,18 @@
+<% remote_form_for :wiki, @wiki,
+                   :url => { :controller => 'wikis', :action => 'edit', :id => @project },
+                   :builder => TabularFormBuilder do |f| %>
+
+<%= error_messages_for 'wiki' %>
+
+<div class="box tabular">
+<p><%= f.text_field :start_page, :size => 60, :required => true %><br />
+<em><%= l(:text_unallowed_characters) %>: , . / ? ; : |</em></p>
+</div>
+
+<div class="contextual">
+<%= link_to(l(:button_delete), {:controller => 'wikis', :action => 'destroy', :id => @project},
+            :class => 'icon icon-del') if @wiki && !@wiki.new_record? %>
+</div>
+
+<%= submit_tag((@wiki.nil? || @wiki.new_record?) ? l(:button_create) : l(:button_save)) %>
+<% end %>

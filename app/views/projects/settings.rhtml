@@ -2,83 +2,15 @@
 
 <div class="tabs">
 <ul>
-<li><%= link_to l(:label_information_plural), {}, :id=> "tab-info", :onclick => "showTab('info'); this.blur(); return false;" %></li>
-<li><%= link_to l(:label_member_plural), {}, :id=> "tab-members", :onclick => "showTab('members'); this.blur(); return false;" %></li>
-<li><%= link_to l(:label_version_plural), {}, :id=> "tab-versions", :onclick => "showTab('versions'); this.blur(); return false;" %></li>
-<li><%= link_to l(:label_issue_category_plural), {}, :id=> "tab-categories", :onclick => "showTab('categories'); this.blur(); return false;" %></li>
-<li><%= link_to l(:label_board_plural), {}, :id=> "tab-boards", :onclick => "showTab('boards'); this.blur(); return false;" %></li>
+<% project_settings_tabs.each do |tab| %>
+  <li><%= link_to l(tab[:label]), {}, :id => "tab-#{tab[:name]}", :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;" %></li>
+<% end %>
 </ul>
 </div>
 
-<div id="tab-content-info" class="tab-content">
-<% if authorize_for('projects', 'edit') %>
-	<% labelled_tabular_form_for :project, @project, :url => { :action => "edit", :id => @project } do |f| %>
-	<%= render :partial => 'form', :locals => { :f => f } %>
-	<%= submit_tag l(:button_save) %>
-	<% end %>
+<% project_settings_tabs.each do |tab| %>
+<%= content_tag('div', render(:partial => tab[:partial]), :id => "tab-content-#{tab[:name]}", :class => 'tab-content') %>
 <% end %>
-</div>
 
-<div id="tab-content-members" class="tab-content" style="display:none;">
-  <%= render :partial => 'members' %>
-</div>
-
-<div id="tab-content-versions" class="tab-content" style="display:none;">
-<table class="list">
-	<thead>
-    <th><%= l(:label_version) %></th>
-    <th><%= l(:field_effective_date) %></th>
-    <th><%= l(:field_description) %></th>
-    <th><%= l(:label_wiki_page) unless @project.wiki.nil? %></th>
-    <th style="width:15%"></th>
-    <th style="width:15%"></th>
-    </thead>
-	<tbody>
-<% for version in @project.versions.sort %>
-    <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%=h version.name %></td>
-    <td align="center"><%= format_date(version.effective_date) %></td>
-    <td><%=h version.description %></td>
-    <td><%= link_to(version.wiki_page_title, :controller => 'wiki', :page => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %></td>
-    <td align="center"><small><%= link_to_if_authorized l(:button_edit), { :controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %></small></td>
-    <td align="center"><small><%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></small></td>
-    </td>
-    </tr>
-<% end; reset_cycle %>
-    </tbody>
-</table>
-&nbsp;
-<p><%= link_to_if_authorized l(:label_version_new), :controller => 'projects', :action => 'add_version', :id => @project %></p>
-</div>
-
-<div id="tab-content-categories" class="tab-content" style="display:none;">
-<table class="list">
-	<thead>
-	<th><%= l(:label_issue_category) %></th>
-	<th><%= l(:field_assigned_to) %></th>
-	<th style="width:15%"></th>
-	<th style="width:15%"></th>
-	</thead>
-	<tbody>
-<% for category in @project.issue_categories %>
-	<% unless category.new_record? %>
-	<tr class="<%= cycle 'odd', 'even' %>">
-    <td><%=h(category.name) %></td>
-    <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
-    <td align="center"><small><%= link_to_if_authorized l(:button_edit), { :controller => 'issue_categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %></small></td>
-    <td align="center"><small><%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => category}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></small></td>
-	</tr>
-	<% end %>
-<% end %>
-    </tbody>
-</table>
-&nbsp;
-<p><%= link_to_if_authorized l(:label_issue_category_new), :controller => 'projects', :action => 'add_issue_category', :id => @project %></p>
-</div>
-
-<div id="tab-content-boards" class="tab-content" style="display:none;">
-  <%= render :partial => 'boards' %>
-</div>
-
-<%= tab = params[:tab] ? h(params[:tab]) : 'info'
+<%= tab = params[:tab] ? h(params[:tab]) : project_settings_tabs.first[:name]
 javascript_tag "showTab('#{tab}');" %>

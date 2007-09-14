@@ -21,9 +21,28 @@ require 'digest/sha1'
 
 class RepositoriesController < ApplicationController
   layout 'base'
-  before_filter :find_project, :except => [:update_form]
-  before_filter :authorize, :except => [:update_form]
+  before_filter :find_repository, :except => :edit
+  before_filter :find_project, :only => :edit
+  before_filter :authorize
   accept_key_auth :revisions
+  
+  def edit
+    @repository = @project.repository
+    if !@repository
+      @repository = Repository.factory(params[:repository_scm])
+      @repository.project = @project
+    end
+    if request.post?
+      @repository.attributes = params[:repository]
+      @repository.save
+    end
+    render(:update) {|page| page.replace_html "tab-content-repository", :partial => 'projects/settings/repository'}
+  end
+  
+  def destroy
+    @repository.destroy
+    redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'repository'
+  end
   
   def show
     # check if new revisions have been committed in the repository
@@ -113,13 +132,14 @@ class RepositoriesController < ApplicationController
     end
   end
   
-  def update_form
-    @repository = Repository.factory(params[:repository_scm])
-    render :partial => 'projects/repository', :locals => {:repository => @repository}
-  end
-  
 private
   def find_project
+    @project = Project.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
+  def find_repository
     @project = Project.find(params[:id])
     @repository = @project.repository
     render_404 and return false unless @repository

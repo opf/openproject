@@ -12,17 +12,23 @@
     </tr>
 </thead>
 <tbody>
-<% @permissions.each do |permission| %>
-    <tr class="<%= cycle('odd', 'even') %>">
-    <td><%= permission.name.to_s.humanize %></td>
-    <% @roles.each do |role| %>
-    <td align="center">
-    <% if role.setable_permissions.include? permission %>
-      <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name) %>
+<% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
+<% perms_by_module.keys.sort.each do |mod| %>
+    <% unless mod.blank? %>
+        <tr><%= content_tag('th', mod.humanize, :colspan => (@roles.size + 1)) %></th></tr>
     <% end %>
-    </td>
+    <% perms_by_module[mod].each do |permission| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= permission.name.to_s.humanize %></td>
+        <% @roles.each do |role| %>
+        <td align="center">
+        <% if role.setable_permissions.include? permission %>
+          <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name) %>
+        <% end %>
+        </td>
+        <% end %>
+        </tr>
     <% end %>
-    </tr>
 <% end %>
 </tbody>
 </table>

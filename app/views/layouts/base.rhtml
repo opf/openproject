@@ -71,7 +71,7 @@
 		<% if @project && !@project.new_record? %>
 			<h2><%= @project.name %></h2>
 			<ul class="menublock">
-            <% Redmine::MenuManager.allowed_items(:project_menu, current_role).each do |item| %>
+            <% Redmine::MenuManager.allowed_items(:project_menu, User.current, @project).each do |item| %>
             <% unless item.condition && !item.condition.call(@project) %>
                 <li><%= link_to l(item.name), {item.param => @project}.merge(item.url) %></li>
             <% end %>
