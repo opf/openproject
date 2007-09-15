@@ -73,6 +73,10 @@ module ApplicationHelper
     @date_format_setting == 0 ? l_datetime(time) : (time.strftime("%Y-%m-%d") + ' ' + l_time(time))
   end
   
+  def authoring(created, author)
+    l(:label_added_time_by, author.name, distance_of_time_in_words(Time.now, created))
+  end
+  
   def day_name(day)
     l(:general_day_names).split(',')[day-1]
   end

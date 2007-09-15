@@ -6,7 +6,7 @@
 <h2><%=h @news.title %></h2>
 
 <p><em><% unless @news.summary.empty? %><%=h @news.summary %><br /><% end %>
-<%= @news.author.name %>, <%= format_time(@news.created_on) %></em></p>
+<span class="author"><%= authoring @news.created_on, @news.author %></span></em></p>
 <%= textilizable(@news.description) %>
 <br />
 

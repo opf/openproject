@@ -417,7 +417,7 @@ label_sort_by: Sort by "%s"
 label_send_test_email: Send a test email
 label_feeds_access_key_created_on: RSS access key created %s ago
 label_module_plural: Modules
-label_added_time_by: Added %s ago by %s
+label_added_time_by: Added by %s %s ago
 label_updated_time: Updated %s ago
 
 button_login: Login

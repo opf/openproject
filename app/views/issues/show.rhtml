@@ -8,7 +8,7 @@
 
 <h2><%= @issue.tracker.name %> #<%= @issue.id %>: <%=h @issue.subject %></h2>
         <p class="author">
-        <%= l(:label_added_time_by, distance_of_time_in_words(Time.now, @issue.created_on), link_to_user(@issue.author)) %>.
+        <%= authoring @issue.created_on, @issue.author %>.
         <%= l(:label_updated_time, distance_of_time_in_words(Time.now, @issue.updated_on)) if @issue.created_on != @issue.updated_on %>.
         </p>
 <div class="box">
