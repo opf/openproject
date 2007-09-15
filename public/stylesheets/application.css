@@ -258,6 +258,7 @@ legend {color: #505050;}
 .even {background-color: #fff;}
 hr { border:0; border-top: dotted 1px #fff; border-bottom: dotted 1px #c0c0c0; }
 table p {margin:0; padding:0;}
+acronym {border-bottom:0;}
 
 .highlight { background-color: #FCFD8D;}
 

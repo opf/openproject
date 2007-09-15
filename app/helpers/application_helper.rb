@@ -74,7 +74,8 @@ module ApplicationHelper
   end
   
   def authoring(created, author)
-    l(:label_added_time_by, author.name, distance_of_time_in_words(Time.now, created))
+    time_tag = content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created))
+    l(:label_added_time_by, author.name, time_tag)
   end
   
   def day_name(day)
