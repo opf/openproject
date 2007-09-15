@@ -42,6 +42,7 @@ class Issue < ActiveRecord::Base
   validates_presence_of :subject, :description, :priority, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
+  validates_numericality_of :estimated_hours, :allow_nil => true
   validates_associated :custom_values, :on => :update
 
   # set default status for new issues

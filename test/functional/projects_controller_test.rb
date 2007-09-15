@@ -40,7 +40,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :list
     assert_response :success
     assert_template 'list'
-    assert_not_nil assigns(:projects)
+    assert_not_nil assigns(:project_tree)
   end
   
   def test_show

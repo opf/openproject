@@ -6,34 +6,37 @@
 <%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
-<h2><%= @issue.tracker.name %> #<%= @issue.id %> - <%=h @issue.subject %></h2>
-
+<h2><%= @issue.tracker.name %> #<%= @issue.id %>: <%=h @issue.subject %></h2>
+        <p class="author">
+        <%= l(:label_added_time_by, distance_of_time_in_words(Time.now, @issue.created_on), link_to_user(@issue.author)) %>.
+        <%= l(:label_updated_time, distance_of_time_in_words(Time.now, @issue.updated_on)) if @issue.created_on != @issue.updated_on %>.
+        </p>
 <div class="box">
 <table width="100%">
 <tr>
     <td style="width:15%"><b><%=l(:field_status)%> :</b></td><td style="width:35%"><%= @issue.status.name %></td>
-    <td style="width:15%"><b><%=l(:field_priority)%> :</b></td><td style="width:35%"><%= @issue.priority.name %></td>
+    <td style="width:15%"><b><%=l(:field_start_date)%> :</b></td><td style="width:35%"><%= format_date(@issue.start_date) %></td>
 </tr>
 <tr>
-    <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
-    <td><b><%=l(:field_category)%> :</b></td><td><%=h @issue.category ? @issue.category.name : "-" %></td>
-</tr>
-<tr>
-    <td><b><%=l(:field_author)%> :</b></td><td><%= link_to_user @issue.author %></td>
-    <td><b><%=l(:field_start_date)%> :</b></td><td><%= format_date(@issue.start_date) %></td>
-</tr>
-<tr>
-    <td><b><%=l(:field_created_on)%> :</b></td><td><%= format_date(@issue.created_on) %></td>
+    <td><b><%=l(:field_priority)%> :</b></td><td><%= @issue.priority.name %></td>
     <td><b><%=l(:field_due_date)%> :</b></td><td><%= format_date(@issue.due_date) %></td>
 </tr>
 <tr>
-    <td><b><%=l(:field_updated_on)%> :</b></td><td><%= format_date(@issue.updated_on) %></td>
+    <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
     <td><b><%=l(:field_done_ratio)%> :</b></td><td><%= @issue.done_ratio %> %</td>
 </tr>
 <tr>
-    <td><b><%=l(:field_fixed_version)%> :</b></td><td><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
+    <td><b><%=l(:field_category)%> :</b></td><td><%=h @issue.category ? @issue.category.name : "-" %></td>
+    <% if User.current.allowed_to?(:view_time_entries, @project) %>
     <td><b><%=l(:label_spent_time)%> :</b></td>
     <td><%= @issue.spent_hours > 0 ? (link_to lwr(:label_f_hour, @issue.spent_hours), {:controller => 'timelog', :action => 'details', :issue_id => @issue}, :class => 'icon icon-time') : "-" %></td>
+    <% end %>
+</tr>
+<tr>
+    <td><b><%=l(:field_fixed_version)%> :</b></td><td><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
+    <% if @issue.estimated_hours %>
+    <td><b><%=l(:field_estimated_hours)%> :</b></td><td><%= lwr(:label_f_hour, @issue.estimated_hours) %></td>
+    <% end %>
 </tr>
 <tr>
 <% n = 0

@@ -414,6 +414,8 @@ background:#467aa7;
 .textright{text-align:right;}
 .important{color:#f02025; background-color:inherit; font-weight:bold;}
 
+#content .author {color:#888; font-style:italic;}
+
 .box{
 margin:0 0 20px 0;
 padding:10px;

@@ -18,6 +18,7 @@
 <div class="splitcontentright">
 <p><%= f.text_field :start_date, :size => 10 %><%= calendar_for('issue_start_date') %></p>
 <p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('issue_due_date') %></p>
+<p><%= f.text_field :estimated_hours, :size => 3 %> <%= l(:field_hours) %></p>
 <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
 </div>
 
