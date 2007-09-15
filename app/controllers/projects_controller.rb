@@ -60,6 +60,7 @@ class ProjectsController < ApplicationController
     @custom_fields = IssueCustomField.find(:all)
     @root_projects = Project.find(:all, :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}")
     @project = Project.new(params[:project])
+    @project.enabled_module_names = Redmine::AccessControl.available_project_modules
     if request.get?
       @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project) }
     else
