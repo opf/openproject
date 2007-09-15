@@ -839,7 +839,7 @@ class RedCloth < String
         end
     end
 
-    TEXTILE_REFS_RE =  /(^ *)\[([^\n]+?)\](#{HYPERLINK})(?=\s|$)/
+    TEXTILE_REFS_RE =  /(^ *)\[([^\[\n]+?)\](#{HYPERLINK})(?=\s|$)/
     MARKDOWN_REFS_RE = /(^ *)\[([^\n]+?)\]:\s+<?(#{HYPERLINK})>?(?:\s+"((?:[^"]|\\")+)")?(?=\s|$)/m
 
     def refs( text )
