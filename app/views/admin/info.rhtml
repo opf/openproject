@@ -3,6 +3,7 @@
 <p><%=l(:field_version)%>: <strong><%= Redmine::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</p>
 
 <table class="list">
-<tr class="odd"><td>File repository writable</td><td><%= image_tag (@flags[:file_repository_writable] ? 'true.png' : 'false.png'), :style => "vertical-align:bottom;" %></td></tr>
-<tr class="even"><td>Default administrator account changed</td><td><%= image_tag (@flags[:default_admin_changed] ? 'true.png' : 'false.png'), :style => "vertical-align:bottom;" %></td></tr>
+<tr class="odd"><td>Default administrator account changed</td><td><%= image_tag (@flags[:default_admin_changed] ? 'true.png' : 'false.png'), :style => "vertical-align:bottom;" %></td></tr>
+<tr class="even"><td>File repository writable</td><td><%= image_tag (@flags[:file_repository_writable] ? 'true.png' : 'false.png'), :style => "vertical-align:bottom;" %></td></tr>
+<tr class="odd"><td>RMagick available</td><td><%= image_tag (@flags[:rmagick_available] ? 'true.png' : 'false.png'), :style => "vertical-align:bottom;" %></td></tr>
 </table>

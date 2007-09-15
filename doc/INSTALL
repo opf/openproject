@@ -12,6 +12,7 @@ http://redmine.rubyforge.org/
 
 Optional:
 * SVN binaries >= 1.3 (needed for repository browsing, must be available in PATH)
+* RMagick (gantt export to png)
 
 Supported databases:
 * MySQL (tested with MySQL 5)

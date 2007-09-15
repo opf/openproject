@@ -70,8 +70,10 @@ class AdminController < ApplicationController
   
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
-    @flags = Hash.new
-    @flags[:default_admin_changed] = User.find(:first, :conditions => ["login=? and hashed_password=?", 'admin', User.hash_password('admin')]).nil?
-    @flags[:file_repository_writable] = File.writable?(Attachment.storage_path)
+    @flags = {
+      :default_admin_changed => User.find(:first, :conditions => ["login=? and hashed_password=?", 'admin', User.hash_password('admin')]).nil?,
+      :file_repository_writable => File.writable?(Attachment.storage_path),
+      :rmagick_available => Object.const_defined?(:Magick)
+      }
   end  
 end
