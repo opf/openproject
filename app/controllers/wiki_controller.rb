@@ -56,7 +56,7 @@ class WikiController < ApplicationController
     # don't keep previous comment
     @content.comments = nil
     if request.post?      
-      if @content.text == params[:content][:text]
+      if !@page.new_record? && @content.text == params[:content][:text]
         # don't save if text wasn't changed
         redirect_to :action => 'index', :id => @project, :page => @page.title
         return
