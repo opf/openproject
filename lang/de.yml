@@ -34,7 +34,7 @@ activerecord_error_not_a_number: ist keine Zahl
 activerecord_error_not_a_date: ist kein gültiges Datum
 activerecord_error_greater_than_start_date: muss größer als Anfangsdatum sein
 activerecord_error_not_same_project: gehört nicht zum selben Projekt
-activerecord_error_circular_dependency: diese Relation würde eine zyklische Abhängigkeit erzeugen
+activerecord_error_circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen
 
 general_fmt_age: %d Jahr
 general_fmt_age_plural: %d Jahre
@@ -60,21 +60,21 @@ notice_account_register_done: Konto wurde erfolgreich angelegt.
 notice_account_unknown_email: Unbekannter Benutzer.
 notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs-Quelle. Unmöglich, das Kennwort zu ändern.
 notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt.
-notice_account_activated: Dein Konto ist aktiviert. Sie können sich jetzt einloggen.
+notice_account_activated: Ihr Konto ist aktiviert. Sie können sich jetzt anmelden.
 notice_successful_create: Erfolgreich angelegt 
-notice_successful_update: Erfolgreiche Aktualisierung.
-notice_successful_delete: Erfolgreiche Löschung.
+notice_successful_update: Erfolgreich aktualisiert.
+notice_successful_delete: Erfolgreich gelöscht.
 notice_successful_connection: Verbindung erfolgreich.
 notice_file_not_found: Anhang besteht nicht oder ist gelöscht worden.
 notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
 notice_scm_error: Eintrag und/oder Revision besteht nicht im Projektarchiv.
-notice_not_authorized: Sie sind nicht berechtigt auf diese Seite zuzugreifen.
-notice_email_sent: An email was sent to %s
-notice_email_error: An error occurred while sending mail (%s)
-notice_feeds_access_key_reseted: Your RSS access key was reseted.
+notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
+notice_email_sent: Eine E-Mail wurde an %s gesendet.
+notice_email_error: Beim Senden einer E-Mail ist ein Fehler aufgetreten (%s).
+notice_feeds_access_key_reseted: Ihr RSS-Zugriffsschlüssel wurde zurückgesetzt.
 
-mail_subject_lost_password: Ihr redMine Kennwort
-mail_subject_register: redMine Kontoaktivierung
+mail_subject_lost_password: Ihr Redmine Kennwort
+mail_subject_register: Redmine Kontoaktivierung
 
 gui_validation_error: 1 Fehler
 gui_validation_error_plural: %d Fehler
@@ -139,7 +139,7 @@ field_base_dn: Base DN
 field_attr_login: Mitgliedsname-Attribut
 field_attr_firstname: Vorname-Attribut
 field_attr_lastname: Name-Attribut
-field_attr_mail: Email-Attribut
+field_attr_mail: E-Mail-Attribut
 field_onthefly: On-the-fly-Benutzererstellung
 field_start_date: Beginn
 field_done_ratio: %% erledigt
@@ -152,34 +152,34 @@ field_subproject: Subprojekt von
 field_hours: Stunden
 field_activity: Aktivität
 field_spent_on: Datum
-field_identifier: Identifier
-field_is_filter: Used as a filter
-field_issue_to_id: Related issue
-field_delay: Delay
-field_assignable: Issues can be assigned to this role
-field_redirect_existing_links: Redirect existing links
-field_estimated_hours: Estimated time
+field_identifier: Kennung
+field_is_filter: Als Fiter benutzen
+field_issue_to_id: Zugehöriges Ticket
+field_delay: Pufferzeit
+field_assignable: Tickets können dieser Rolle zugewiesen werden
+field_redirect_existing_links: Existierende Links umleiten
+field_estimated_hours: Geschätzter Aufwand
 
-setting_app_title: Applikation Titel
-setting_app_subtitle: Applikation Untertitel
+setting_app_title: Applikations-Titel
+setting_app_subtitle: Applikations-Untertitel
 setting_welcome_text: Willkommenstext
-setting_default_language: Default Sprache
-setting_login_required: Authent. erfordert
+setting_default_language: Default-Sprache
+setting_login_required: Authentisierung erforderlich
 setting_self_registration: Anmeldung ermöglicht
-setting_attachment_max_size: max. Dateigröße
-setting_issues_export_limit: Limit Export Tickets
-setting_mail_from: Mail Absender
-setting_host_name: Host Name
+setting_attachment_max_size: Max. Dateigröße
+setting_issues_export_limit: Max. Anzahl Tickets bei CSV/PDF-Export
+setting_mail_from: E-Mail-Absender
+setting_host_name: Hostname
 setting_text_formatting: Textformatierung
 setting_wiki_compression: Wiki-Historie komprimieren
-setting_feeds_limit: Limit Feed Inhalt
-setting_autofetch_changesets: Autofetch commits
-setting_sys_api_enabled: Enable WS for repository management
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
-setting_autologin: Autologin
-setting_date_format: Date format
-setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_feeds_limit: Feed-Inhalt begrenzen
+setting_autofetch_changesets: Commits automatisch abrufen
+setting_sys_api_enabled: Webservice für Repository-Verwaltung benutzen
+setting_commit_ref_keywords: Schlüsselwörter (Beziehungen)
+setting_commit_fix_keywords: Schlüsselwörter (Status)
+setting_autologin: Automatische Anmeldung
+setting_date_format: Datumsformat
+setting_cross_project_issue_relations: Ticket-Beziehungen zwischen Projekten erlauben
 
 label_user: Benutzer
 label_user_plural: Benutzer
@@ -187,7 +187,7 @@ label_user_new: Neuer Benutzer
 label_project: Projekt
 label_project_new: Neues Projekt
 label_project_plural: Projekte
-label_project_all: All Projects
+label_project_all: Alle Projekte
 label_project_latest: Neueste Projekte
 label_issue: Ticket
 label_issue_new: Neues Ticket
@@ -221,14 +221,14 @@ label_enumeration_new: Neuer Wert
 label_information: Information
 label_information_plural: Informationen
 label_please_login: Anmelden
-label_register: Anmelden
+label_register: Registrieren
 label_password_lost: Kennwort vergessen
 label_home: Hauptseite
 label_my_page: Meine Seite
 label_my_account: Mein Konto
 label_my_projects: Meine Projekte
 label_administration: Administration
-label_login: Einloggen
+label_login: Anmelden
 label_logout: Abmelden
 label_help: Hilfe
 label_reported_issues: Gemeldete Tickets
@@ -245,8 +245,8 @@ label_authentication: Authentifizierung
 label_auth_source: Authentifizierungs-Modus
 label_auth_source_new: Neuer Authentifizierungs-Modus
 label_auth_source_plural: Authentifizierungs-Arten
-label_subproject_plural: Sub Projekte
-label_min_max_length: Min - Max Länge
+label_subproject_plural: Unterprojekte
+label_min_max_length: Länge (Min. - Max.)
 label_list: Liste
 label_date: Datum
 label_integer: Zahl
@@ -320,7 +320,7 @@ label_in_less_than: in weniger als
 label_in_more_than: in mehr als
 label_in: an
 label_today: heute
-label_this_week: this week
+label_this_week: diese Woche
 label_less_than_ago: vor weniger als
 label_more_than_ago: vor mehr als
 label_ago: vor
@@ -347,17 +347,17 @@ label_sort_lower: eins tiefer
 label_sort_lowest: Ende
 label_roadmap: Roadmap
 label_roadmap_due_in: Fällig in
-label_roadmap_overdue: %s late
+label_roadmap_overdue: %s verspätet
 label_roadmap_no_issues: Keine Tickets für diese Version
 label_search: Suche
 label_result: %d Resultat
 label_result_plural: %d Resultate
 label_all_words: Alle Wörter
 label_wiki: Wiki
-label_wiki_edit: Wiki Bearbeitung
-label_wiki_edit_plural: Wiki Bearbeitungen
-label_wiki_page: Wiki page
-label_wiki_page_plural: Wiki pages
+label_wiki_edit: Wiki-Bearbeitung
+label_wiki_edit_plural: Wiki-Bearbeitungen
+label_wiki_page: Wiki-Seite
+label_wiki_page_plural: Wiki-Seiten
 label_page_index: Index
 label_current_version: Gegenwärtige Version
 label_preview: Vorschau
@@ -372,32 +372,32 @@ label_change_plural: Änderungen
 label_statistics: Statistiken
 label_commits_per_month: Übertragungen pro Monat
 label_commits_per_author: Übertragungen pro Autor
-label_view_diff: View differences
+label_view_diff: Unterschiede anzeigen
 label_diff_inline: inline
-label_diff_side_by_side: side by side
-label_options: Options
-label_copy_workflow_from: Copy workflow from
-label_permissions_report: Permissions report
-label_watched_issues: Watched issues
-label_related_issues: Related issues
-label_applied_status: Applied status
-label_loading: Loading...
-label_relation_new: New relation
-label_relation_delete: Delete relation
-label_relates_to: related to
-label_duplicates: duplicates
-label_blocks: blocks
-label_blocked_by: blocked by
-label_precedes: precedes
-label_follows: follows
-label_end_to_start: start to end
-label_end_to_end: end to end
-label_start_to_start: start to start
-label_start_to_end: start to end
-label_stay_logged_in: Stay logged in
-label_disabled: disabled
-label_show_completed_versions: Show completed versions
-label_me: me
+label_diff_side_by_side: nebeneinander
+label_options: Optionen
+label_copy_workflow_from: Workflow kopieren von
+label_permissions_report: Berechtigungsübersicht
+label_watched_issues: Beobachtete Tickets
+label_related_issues: Zugehörige Tickets
+label_applied_status: Zugewiesener Status
+label_loading: Lade...
+label_relation_new: Neue Beziehung
+label_relation_delete: Beziehung löschen
+label_relates_to: Beziehung mit
+label_duplicates: Duplikat von
+label_blocks: Blockiert
+label_blocked_by: Blockiert durch
+label_precedes: Vorgänger von
+label_follows: folgt
+label_end_to_start: Ende - Anfang
+label_end_to_end: Ende - Ende
+label_start_to_start: Anfang - Anfang
+label_start_to_end: Anfang - Ende
+label_stay_logged_in: Angemeldet bleiben
+label_disabled: gesperrt
+label_show_completed_versions: Abgeschlossene Versionen anzeigen
+label_me: ich
 label_board: Forum
 label_board_new: Neues Forum
 label_board_plural: Foren
@@ -412,15 +412,15 @@ label_month: Monat
 label_week: Woche
 label_date_from: Von
 label_date_to: Bis
-label_language_based: Language based
-label_sort_by: Sort by "%s"
-label_send_test_email: Send a test email
-label_feeds_access_key_created_on: RSS access key created %s ago
-label_module_plural: Modules
-label_added_time_by: Added by %s %s ago
-label_updated_time: Updated %s ago
+label_language_based: Sprachabhängig
+label_sort_by: Sortiert nach "%s"
+label_send_test_email: Test-E-Mail senden
+label_feeds_access_key_created_on: RSS-Zugriffsschlüssel vor %s erstellt
+label_module_plural: Module
+label_added_time_by: Von %s vor %s hinzugefügt
+label_updated_time: Vor %s aktualisiert
 
-button_login: Einloggen
+button_login: Anmelden
 button_submit: OK
 button_save: Speichern
 button_check_all: Alles auswählen
@@ -443,22 +443,22 @@ button_back: Zurück
 button_cancel: Abbrechen
 button_activate: Aktivieren
 button_sort: Sortieren
-button_log_time: Log time
-button_rollback: Rollback to this version
-button_watch: Watch
-button_unwatch: Unwatch
-button_reply: Reply
-button_archive: Archive
-button_unarchive: Unarchive
-button_reset: Reset
-button_rename: Rename
+button_log_time: Aufwand buchen
+button_rollback: Auf diese Version zurücksetzen
+button_watch: Beobachten
+button_unwatch: Nicht beobachten
+button_reply: Antworten
+button_archive: Archivieren
+button_unarchive: Entarchivieren
+button_reset: Zurücksetzen
+button_rename: Umbenennen
 
 status_active: aktiv
 status_registered: angemeldet
 status_locked: gesperrt
 
-text_select_mail_notifications: Aktionen für die Mailbenachrichtigung aktiviert werden soll.
-text_regexp_info: eg. ^[A-Z0-9]+$
+text_select_mail_notifications: Aktionen, für die Mailbenachrichtigung aktiviert werden soll.
+text_regexp_info: z. B. ^[A-Z0-9]+$
 text_min_max_length_info: 0 heißt keine Beschränkung
 text_project_destroy_confirmation: Sind Sie sicher, dass sie das Projekt löschen wollen?
 text_workflow_edit: Workflow zum Bearbeiten auswählen
@@ -469,16 +469,16 @@ text_journal_deleted: gelöscht
 text_tip_task_begin_day: Aufgabe, die an diesem Tag beginnt
 text_tip_task_end_day: Aufgabe, die an diesem Tag beendet
 text_tip_task_begin_end_day: Aufgabe, die an diesem Tag beginnt und beendet
-text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
-text_caracters_maximum: %d characters maximum.
-text_length_between: Length between %d and %d characters.
-text_tracker_no_workflow: No workflow defined for this tracker
-text_unallowed_characters: Unallowed characters
-text_comma_separated: Multiple values allowed (comma separated).
-text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern und Bindestriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
+text_caracters_maximum: Max. %d Zeichen.
+text_length_between: Länge zwischen %d und %d Zeichen.
+text_tracker_no_workflow: Kein Workflow für diesen Tracker definiert.
+text_unallowed_characters: Nicht erlaubte Zeichen
+text_comma_separated: Mehrere Werte erlaubt (durch Komma getrennt).
+text_issues_ref_in_commit_messages: Ticket-Beziehungen und -Status in Commit-Log-Meldungen
 text_issue_added: Ticket %s wurde erstellt.
 text_issue_updated: Ticket %s wurde aktualisiert.
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
+text_wiki_destroy_confirmation: Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?
 text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
 text_issue_category_destroy_assignments: Remove category assignments
 text_issue_category_reassign_to: Reassing issues to this category
