@@ -479,6 +479,9 @@ text_issues_ref_in_commit_messages: Referencing and fixing issues in commit mess
 text_issue_added: Ticket %s wurde erstellt.
 text_issue_updated: Ticket %s wurde aktualisiert.
 text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
+text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
+text_issue_category_destroy_assignments: Remove category assignments
+text_issue_category_reassign_to: Reassing issues to this category
 
 default_role_manager: Manager
 default_role_developper: Developer

@@ -479,6 +479,9 @@ text_issues_ref_in_commit_messages: Référencement et résolution des demandes 
 text_issue_added: La demande %s a été soumise.
 text_issue_updated: La demande %s a été mise à jour.
 text_wiki_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce wiki et tout son contenu ?
+text_issue_category_destroy_question: Des demandes (%d) sont affectées à cette catégories. Que voulez-vous faire ?
+text_issue_category_destroy_assignments: N'affecter les demandes à aucune autre catégorie
+text_issue_category_reassign_to: Réaffecter les demandes à cette catégorie
 
 default_role_manager: Manager
 default_role_developper: Développeur

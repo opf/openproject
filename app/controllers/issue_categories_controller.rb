@@ -18,6 +18,8 @@
 class IssueCategoriesController < ApplicationController
   layout 'base'
   before_filter :find_project, :authorize
+  
+  verify :method => :post, :only => :destroy
 
   def edit
     if request.post? and @category.update_attributes(params[:category])
@@ -27,11 +29,17 @@ class IssueCategoriesController < ApplicationController
   end
 
   def destroy
-    @category.destroy
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
-  rescue
-    flash[:error] = "Categorie can't be deleted"
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
+    @issue_count = @category.issues.size
+    if @issue_count == 0
+      # No issue assigned to this category
+      @category.destroy
+      redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories'
+    elsif params[:todo]
+      reassign_to = @project.issue_categories.find_by_id(params[:reassign_to_id]) if params[:todo] == 'reassign'
+      @category.destroy(reassign_to)
+      redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories'
+    end
+    @categories = @project.issue_categories - [@category]
   end
 
 private
