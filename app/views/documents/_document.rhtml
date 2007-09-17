@@ -1,3 +1,3 @@
 <p><%= link_to h(document.title), :controller => 'documents', :action => 'show', :id => document %><br />
-<% unless document.description.empty? %><%=h(truncate(document.description, 250)) %><br /><% end %>
+<% unless document.description.blank? %><%=h(truncate(document.description, 250)) %><br /><% end %>
 <em><%= format_time(document.created_on) %></em></p>
