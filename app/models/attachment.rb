@@ -61,6 +61,10 @@ class Attachment < ActiveRecord::Base
 			end
 			self.digest = Digest::MD5.hexdigest(File.read(diskfile))
 		end
+		# Don't save the content type if it's longer than the authorized length
+		if self.content_type && self.content_type.length > 255
+		  self.content_type = nil
+		end
 	end
 	
 	# Deletes file on the disk
