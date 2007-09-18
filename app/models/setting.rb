@@ -35,6 +35,11 @@ class Setting < ActiveRecord::Base
     v
   end
   
+  def value=(v)
+    v = v.to_yaml if @@available_settings[name]['serialized'] && v.is_a?(String)
+    write_attribute(:value, v)
+  end
+  
   # Returns the value of the setting named name
   def self.[](name)
     v = @cached_settings[name]

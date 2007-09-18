@@ -36,4 +36,10 @@ class SettingTest < Test::Unit::TestCase
     # make sure db has been updated (UPDATE)
     assert_equal "My other title", Setting.find_by_name('app_title').value
   end
+  
+  def test_serialized_setting
+    Setting.notified_events = ['issue_added', 'issue_updated', 'news_added']    
+    assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.notified_events
+    assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.find_by_name('notified_events').value
+  end
 end
