@@ -81,10 +81,12 @@ module Redmine
                               })
                             })
               end
-            rescue
+            rescue Exception => e
+              logger.info("Error parsing svn output: #{e.message}")
             end
           end
           return nil if $? && $?.exitstatus != 0
+          logger.debug("Found #{entries.size} entries in the repository for #{target(path)}") if logger && logger.debug?
           entries.sort_by_name
         rescue Errno::ENOENT => e
           raise CommandFailed
