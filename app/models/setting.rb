@@ -36,7 +36,7 @@ class Setting < ActiveRecord::Base
   end
   
   def value=(v)
-    v = v.to_yaml if @@available_settings[name]['serialized'] && v.is_a?(String)
+    v = v.to_yaml if v && @@available_settings[name]['serialized']
     write_attribute(:value, v)
   end
   
