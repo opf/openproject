@@ -392,7 +392,7 @@ label_blocks: blocks
 label_blocked_by: blocked by
 label_precedes: precedes
 label_follows: follows
-label_end_to_start: start to end
+label_end_to_start: end to start
 label_end_to_end: end to end
 label_start_to_start: start to start
 label_start_to_end: start to end

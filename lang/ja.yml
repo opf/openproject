@@ -391,7 +391,7 @@ label_blocks: ブロックしている
 label_blocked_by: ブロックされている
 label_precedes: 先行する
 label_follows: 後続する
-label_end_to_start: start to end
+label_end_to_start: end to start
 label_end_to_end: end to end
 label_start_to_start: start to start
 label_start_to_end: start to end
