@@ -1,15 +1,31 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:label_news_new), {:controller => 'projects', :action => 'add_news', :id => @project}, :class => 'icon icon-add' %>
+<%= link_to_if_authorized l(:label_news_new),
+                          {:controller => 'projects', :action => 'add_news', :id => @project},
+                          :class => 'icon icon-add',
+                          :onclick => 'Element.show("add-news"); return false;' %>
+</div>
+
+<div id="add-news" style="display:none;">
+<h2><%=l(:label_news_new)%></h2>
+<% labelled_tabular_form_for :news, @news, :url => { :action => "add_news", :id => @project } do |f| %>
+<%= render :partial => 'news/form', :locals => { :f => f } %>
+<%= submit_tag l(:button_create) %>
+<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-news")' %>
+<% end %>
 </div>
 
 <h2><%=l(:label_news_plural)%></h2>
 
-<% if @news.empty? %>
+<% if @newss.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<% @newss.each do |news| %>
+    <h3><%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
+    <%= "(#{news.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if news.comments_count > 0 %></h3>
+    <p><span class="author"><%= authoring news.created_on, news.author %></p>
+    <%= textilizable(news.description) %>
 <% end %>
-
-
-<%= render :partial => 'news/news', :collection => @news %>
+<% end %>
 <%= pagination_links_full @news_pages %>
 
 <% content_for :header_tags do %>

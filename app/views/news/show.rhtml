@@ -1,9 +1,20 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_edit), {:controller => 'news', :action => 'edit', :id => @news}, :class => 'icon icon-edit' %>
+<%= link_to_if_authorized l(:button_edit), 
+                          {:controller => 'news', :action => 'edit', :id => @news},
+                          :class => 'icon icon-edit',
+                          :onclick => 'Element.show("edit-news"); return false;' %>
 <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
 <h2><%=h @news.title %></h2>
+
+<div id="edit-news" style="display:none;">
+<% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news } do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+<%= submit_tag l(:button_save) %>
+<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news")' %>
+<% end %>
+</div>
 
 <p><em><% unless @news.summary.empty? %><%=h @news.summary %><br /><% end %>
 <span class="author"><%= authoring @news.created_on, @news.author %></span></em></p>

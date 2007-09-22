@@ -383,11 +383,11 @@ class ProjectsController < ApplicationController
 
   # Show news list of @project
   def list_news
-    @news_pages, @news = paginate :news, :per_page => 10, :conditions => ["project_id=?", @project.id], :include => :author, :order => "#{News.table_name}.created_on DESC"
+    @news_pages, @newss = paginate :news, :per_page => 10, :conditions => ["project_id=?", @project.id], :include => :author, :order => "#{News.table_name}.created_on DESC"
     
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
-      format.atom { render_feed(@news, :title => "#{@project.name}: #{l(:label_news_plural)}") }
+      format.atom { render_feed(@newss, :title => "#{@project.name}: #{l(:label_news_plural)}") }
     end
   end
 

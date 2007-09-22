@@ -88,7 +88,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :list_news, :id => 1
     assert_response :success
     assert_template 'list_news'
-    assert_not_nil assigns(:news)
+    assert_not_nil assigns(:newss)
   end
 
   def test_list_files
