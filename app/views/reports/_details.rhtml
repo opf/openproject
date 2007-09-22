@@ -6,7 +6,7 @@
 <thead><tr>
 <th style="width:25%"></th>
 <% for status in @statuses %>
-<th style="text-align:left;width:<%= col_width %>%"><div class="square" style="background:#<%= status.html_color %>;"></div> <small><%= status.name %></small></th>
+<th style="width:<%= col_width %>%"><%= status.name %></th>
 <% end %>
 <th align="center" style="width:<%= col_width %>%"><strong><%=l(:label_open_issues_plural)%></strong></th>
 <th align="center" style="width:<%= col_width %>%"><strong><%=l(:label_closed_issues_plural)%></strong></th>

@@ -40,7 +40,7 @@
 		<td align="center" valign="top"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center" valign="top" nowrap><%=h issue.project.name %></td>
 		<td align="center" valign="top" nowrap><%= issue.tracker.name %></td>
-		<td  valign="top"nowrap><div class="square" style="background:#<%= issue.status.html_color %>;"></div> <%= issue.status.name %></td>
+		<td  valign="top"nowrap><%= issue.status.name %></td>
 		<td align="center" valign="top"><%= issue.priority.name %></td>
 		<td><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></td>
 		<td align="center" valign="top" nowrap><%= issue.assigned_to.name if issue.assigned_to %></td>

@@ -15,7 +15,7 @@
   <tbody>  
 <% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td><div class="square" style="background:#<%= status.html_color %>;"></div> <%= link_to status.name, :action => 'edit', :id => status %></td>
+  <td><%= link_to status.name, :action => 'edit', :id => status %></td>
   <td align="center"><%= image_tag 'true.png' if status.is_default? %></td>
   <td align="center"><%= image_tag 'true.png' if status.is_closed? %></td>
   <td align="center" style="width:15%;">

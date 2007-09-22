@@ -4,7 +4,6 @@
 <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy', :page => @page.title}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del') %>
 <%= link_to_if_authorized(l(:button_rollback), {:action => 'edit', :page => @page.title, :version => @content.version }, :class => 'icon icon-cancel') if @content.version < @page.content.version %>
 <%= link_to(l(:label_history), {:action => 'history', :page => @page.title}, :class => 'icon icon-history') %>
-<%= link_to(l(:label_page_index), {:action => 'special', :page => 'Page_index'}, :class => 'icon icon-index') %>
 </div>
 
 <% if @content.version != @page.content.version %>
@@ -41,6 +40,10 @@
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'sidebar' %>
 <% end %>
 
 <% set_html_title @page.pretty_title %>

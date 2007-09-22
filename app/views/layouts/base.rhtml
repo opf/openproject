@@ -5,97 +5,76 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
-<!--[if IE]>
-    <style type="text/css">
-    body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
-    </style>
-<![endif]-->
 <%= stylesheet_link_tag "application" %>
 <%= stylesheet_link_tag "print", :media => "print" %>
 <%= javascript_include_tag :defaults %>
-<%= javascript_include_tag 'menu' %>
 <%= stylesheet_link_tag 'jstoolbar' %>
+<!--[if IE]>
+    <style type="text/css">
+      * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
+      body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
+    </style>
+<![endif]-->
+
 <!-- page specific tags --><%= yield :header_tags %>
 </head>
-
 <body>
-<div id="container" >
-
-    <div id="header">
-    <div style="float: left;">
-        <h1><%= Setting.app_title %></h1>
-        <h2><%= Setting.app_subtitle %></h2>
+<div id="top-menu">
+    <div id="account">
+        <% if User.current.logged? %>
+            <%=l(:label_logged_as)%> <%= User.current.login %> -
+            <%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' } %>
+            <%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' } %>
+        <% else %>
+            <%= link_to l(:label_login), { :controller => 'account', :action => 'login' } %>
+            <%= link_to(l(:label_register), :controller => 'account',:action => 'register') if Setting.self_registration? %>
+        <% end %>
     </div>
-    <div style="float: right; padding-right: 1em; padding-top: 0.2em;">
-      <% if User.current.logged? %><small><%=l(:label_logged_as)%> <strong><%= User.current.login %></strong> -</small><% end %>
-      <small><%= toggle_link l(:label_search), 'quick-search-form', :focus => 'quick-search-input' %></small>
-      <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :id => 'quick-search-form', :style => "display:none;" ) do %>
-        <%= text_field_tag 'q', @question, :size => 15, :class => 'small', :id => 'quick-search-input' %>
-      <% end %>
+    <%= link_to l(:label_home), { :controller => 'welcome' } %>
+    <%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'} if User.current.logged? %>
+    <%= link_to l(:label_project_plural), { :controller => 'projects' } %>
+    <%= link_to l(:label_administration), { :controller => 'admin' } if User.current.admin? %>
+</div>
+      
+<div id="header">
+    <div id="quick-search">
+        <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+        <%= link_to l(:label_search), :controller => 'search', :action => 'index', :id => @project %>: <%= text_field_tag 'q', @question, :size => 20, :class => 'small' %>
+        <% end %>
+        <%= render :partial => 'layouts/project_selector' if User.current.memberships.any? %>
     </div>
-    </div>
-	
-	<div id="navigation">
-		<ul>
-	<li><%= link_to l(:label_home), { :controller => 'welcome' }, :class => "icon icon-home" %></li>
-	<li><%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'}, :class => "icon icon-mypage" %></li>
-	
-	<% if User.current.memberships.any? %>
-      <li class="submenu"><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects", :onmouseover => "buttonMouseover(event, 'menuAllProjects');" %></li>
-	<% else %>
-	  <li><%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => "icon icon-projects" %></li>
-	<% end %>
-			
-    <% if User.current.logged? %>
-		<li><%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' }, :class => "icon icon-user" %></li>
-    <% end %>
-			
-	<% if User.current.admin? %>
-		<li class="submenu"><%= link_to l(:label_administration), { :controller => 'admin' }, :class => "icon icon-admin", :onmouseover => "buttonMouseover(event, 'menuAdmin');" %></li>
-	<% end %>
-			
-	<li class="right"><%= link_to l(:label_help), { :controller => 'help', :ctrl => params[:controller], :page => params[:action] }, :onclick => "window.open(this.href); return false;", :class => "icon icon-help" %></li>
-	
-	<% if User.current.logged? %>
-		<li class="right"><%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => "icon icon-user" %></li>	
-	<% else %>	
-		<li class="right"><%= link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => "icon icon-user" %></li>
-	<% end %>	
-		</ul>		
-	</div>
-
-    <%= render(:partial => 'admin/menu') if User.current.admin? %>
-    <%= render(:partial => 'layouts/projects_menu') if User.current.memberships.any? %>
-	
-	<div id="subcontent">	
-		<% if @project && !@project.new_record? %>
-			<h2><%= @project.name %></h2>
-			<ul class="menublock">
+    
+    <h1><%= h(@project ? @project.name : Setting.app_title) %></h1>
+    
+    <div id="main-menu">
+        <ul>
             <% Redmine::MenuManager.allowed_items(:project_menu, User.current, @project).each do |item| %>
             <% unless item.condition && !item.condition.call(@project) %>
                 <li><%= link_to l(item.name), {item.param => @project}.merge(item.url) %></li>
             <% end %>
-            <% end %>
-			</ul>
-		<% end %>
-	</div>
-	
-	<div id="content">
-	    <div id="flash">
-		  <%= content_tag('div', flash[:error], :class => 'error') if flash[:error] %>
-		  <%= content_tag('div', flash[:notice], :class => 'notice') if flash[:notice] %>
-		</div>
-		<%= yield %>
-	</div>
-	
-	<div id="ajax-indicator" style="display:none;">
-	   <span><%= l(:label_loading) %></span>
-	</div>
+            <% end if @project && !@project.new_record? %>
+        </ul>
+    </div>
+</div>
 
-	<div id="footer">
-		<p><%= link_to Redmine::Info.app_name, Redmine::Info.url %> <small><%= Redmine::VERSION %> &copy 2006-2007 Jean-Philippe Lang</small></p>
-	</div>
+<%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
+    <div id="sidebar">        
+        <%= yield :sidebar %>
+    </div>
+    
+    <div id="content">
+        <div id="flash">
+            <%= content_tag('div', flash[:error], :class => 'error') if flash[:error] %>
+            <%= content_tag('div', flash[:notice], :class => 'notice') if flash[:notice] %>
+        </div>
+        <%= yield %>
+    </div>
+</div>
 
+<div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
+	
+<div id="footer">
+    <%= link_to Redmine::Info.app_name, Redmine::Info.url %> <%= Redmine::VERSION %> &copy 2006-2007 Jean-Philippe Lang
 </div>
 </body>
 </html>

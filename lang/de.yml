@@ -419,6 +419,7 @@ label_feeds_access_key_created_on: RSS-Zugriffsschlüssel vor %s erstellt
 label_module_plural: Module
 label_added_time_by: Von %s vor %s hinzugefügt
 label_updated_time: Vor %s aktualisiert
+label_jump_to_a_project: Jump to a project...
 
 button_login: Anmelden
 button_submit: OK

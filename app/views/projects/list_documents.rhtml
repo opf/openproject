@@ -4,7 +4,9 @@
 
 <h2><%=l(:label_document_plural)%></h2>
 
-<% if @documents.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+<% if @documents.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
 
 <% documents = @documents.group_by {|d| d.category } %>
 <% documents.each do |category, docs| %>

@@ -1,18 +1,8 @@
 <h2><%=l(:label_roadmap)%></h2>
 
-<div class="rightbox">
-<% form_tag do %>
-<p><strong><%=l(:label_tracker_plural)%></strong><br />
-<% @trackers.each do |tracker| %>
-  <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
-  <%= tracker.name %><br />
-<% end %></p>
-<p class="small"><label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label></p>
-<p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
+<% if @versions.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-</div>
-
-<% if @versions.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
 
 <% @versions.each do |version| %>   
     <a name="<%= version.name %>"><h3 class="icon22 icon22-package"><%= version.name %></h3></a>
@@ -62,4 +52,22 @@
         <% end %>
       <% end %>
     </ul>
+<% end %>
+
+<% content_for :sidebar do %>
+<% form_tag do %>
+<h3><%= l(:label_roadmap) %></h3>
+<% @trackers.each do |tracker| %>
+  <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
+  <%= tracker.name %><br />
+<% end %>
+<br />
+<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %>
+<p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+<% end %>
+
+<h3><%= l(:label_version_plural) %></h3>
+<% @versions.each do |version| %>
+<%= link_to version.name, :anchor => version.name %><br />
+<% end %>
 <% end %>

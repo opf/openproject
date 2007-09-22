@@ -3,6 +3,8 @@
             :html => {:id => 'modules-form'} do |f| %>
             
 <div class=box>
+<strong>Select modules to enable for this project:</strong>
+<br />
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
 <p><label><%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %> <%= m.to_s.humanize %></label></p>
 <% end %>

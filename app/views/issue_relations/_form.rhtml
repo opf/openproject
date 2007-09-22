@@ -5,6 +5,8 @@
 <span id="predecessor_fields" style="display:none;">
 <%= l(:field_delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
 </span>
-<%= submit_tag l(:button_add) %></p>
+<%= submit_tag l(:button_add) %>
+<%= toggle_link l(:button_cancel), 'new-relation-form'%>
+</p>
 
 <%= javascript_tag "setPredecessorFieldsVisibility();" %>

@@ -1,15 +1,13 @@
-<div class="contextual">
-<%= link_to l(:label_feed_plural), {:action => 'feeds', :id => @project}, :class => 'icon icon-feed' %>
-</div>
-
 <h2><%=l(:label_overview)%></h2> 
 	
 <div class="splitcontentleft">
 	<%= textilizable @project.description %>	
 	<ul>
 	<% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= auto_link @project.homepage %></li><% end %>
-	<li><%=l(:field_created_on)%>: <%= format_date(@project.created_on) %></li>
-	<% unless @project.parent.nil? %>
+    <% if @subprojects.any? %>
+ 	<li><%=l(:label_subproject_plural)%>: <%= @subprojects.collect{|p| link_to(p.name, :action => 'show', :id => p)}.join(", ") %></li>
+    <% end %>
+	<% if @project.parent %>
 	<li><%=l(:field_parent)%>: <%= link_to @project.parent.name, :controller => 'projects', :action => 'show', :id => @project.parent %></li>
 	<% end %>
 	<% for custom_value in @custom_values %>
@@ -20,8 +18,7 @@
 	</ul>	
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
-  <div class="box">
-    <div class="contextual"><% if authorize_for('projects', 'add_issue') %><%= l(:label_issue_new) %>: <%= new_issue_selector %><% end %></div>
+  <div class="box">    
     <h3 class="icon22 icon22-tracker"><%=l(:label_issue_tracking)%></h3>
     <ul>
     <% for tracker in @trackers %>    
@@ -32,34 +29,52 @@
       <%= l(:label_on) %> <%= @total_issues_by_tracker[tracker] || 0 %></li>
     <% end %>
     </ul>
-    <p class="textcenter"><small><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></small></p>
+    <p><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></p>
   </div>
   <% end %>
 </div>
 
 <div class="splitcontentright">
+    <% if @members_by_role.any? %>
 	<div class="box">
 		<h3 class="icon22 icon22-users"><%=l(:label_member_plural)%></h3>	
-		<% @members_by_role.keys.sort.each do |role| %>
-		<%= role.name %>: <%= @members_by_role[role].collect(&:user).sort.collect{|u| link_to_user u}.join(", ") %><br />
-		<% end %>		
+		<p><% @members_by_role.keys.sort.each do |role| %>
+		<%= role.name %>:
+		<%= @members_by_role[role].collect(&:user).sort.collect{|u| link_to_user u}.join(", ") %>
+		<br />
+		<% end %></p>
 	</div>
-  
-  <% if @subprojects.any? %>
- 	<div class="box">
-		<h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%></h3>	
-		<%= @subprojects.collect{|p| link_to(p.name, :action => 'show', :id => p)}.join(", ") %>
-	</div>
-  <% end %>
-  
+	<% end %>
+    
   <% if @news.any? && authorize_for('projects', 'list_news') %>
   <div class="box">
     <h3><%=l(:label_news_latest)%></h3>  
     <%= render :partial => 'news/news', :collection => @news %>
-    <p class="textcenter"><small><%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %></small></p>
+    <p><%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %></p>
   </div>  
   <% end %>
 </div>
+
+<% content_for :sidebar do %>
+    <% if authorize_for('projects', 'add_issue') %>
+    <h3><%= l(:label_issue_new) %></h3>
+    <%= l(:label_tracker) %>: <%= new_issue_selector %>
+    <% end %>
+    
+    <h3>Planning</h3>
+    <p><%= link_to_if_authorized l(:label_calendar), :action => 'calendar', :id => @project %> |
+    <%= link_to_if_authorized l(:label_gantt), :action => 'gantt', :id => @project %></p>
+    
+    <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
+    <h3><%= l(:label_spent_time) %></h3>
+    <p><span class="icon icon-time"><%= lwr(:label_f_hour, @total_hours) %></span></p>
+    <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |
+    <%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}) %></p>
+    <% end %>
+
+    <hr />
+    <p><%= link_to l(:label_feed_plural), {:action => 'feeds', :id => @project}, :class => 'icon icon-feed' %></p>
+<% end %>
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:rss,  {:controller => 'feeds', :action => 'issues', :project_id => @project, :key => @key}, {:title => l(:label_reported_issues)}) %>

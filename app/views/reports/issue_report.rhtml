@@ -1,11 +1,3 @@
-<% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
-<div style="float:right;text-align:right;">
-<strong><%= l(:label_spent_time) %></strong>: <span class="icon icon-time"><%= lwr(:label_f_hour, @total_hours) %></span><br />
-<%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |
-<%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}) %>
-</div>
-<% end %>
-
 <h2><%=l(:label_report_plural)%></h2>
 
 <div class="splitcontentleft">

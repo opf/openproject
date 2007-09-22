@@ -1,7 +1,10 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable %>
 <% users = User.find_active(:all) - @project.users %>
-
+<% # members sorted by role position
+   members = @project.members.find(:all, :include => [:role, :user]).sort{|x,y| x.role.position <=> y.role.position} %>
+   
+<% if members.any? %>
 <table class="list">
 	<thead>
 	  <th><%= l(:label_user) %></th>
@@ -9,7 +12,7 @@
 	  <th style="width:15%"></th>
 	</thead>
 	<tbody>
-	<% @project.members.find(:all, :include => [:role, :user]).sort{|x,y| x.role.position <=> y.role.position}.each do |member| %>
+	<% members.each do |member| %>
 	<% next if member.new_record? %>
 	<tr class="<%= cycle 'odd', 'even' %>">
 	<td><%= member.name %></td>
@@ -22,16 +25,18 @@
     <% end %>
     </td>
     <td align="center">
-      <small><%= link_to_remote l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
+      <%= link_to_remote l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
                                               :method => :post
                                             }, :title => l(:button_delete),
-                                               :class => 'icon icon-del' %></small>
+                                               :class => 'icon icon-del' %>
     </td>
 	</tr>
 	</tbody>
 <% end; reset_cycle %>
 </table>
-&nbsp;
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
 
 <% if authorize_for('members', 'new') && !users.empty? %>
   <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>

@@ -3,29 +3,24 @@
 <p><%=l(:text_workflow_edit)%>:</p>
 
 <% form_tag({:action => 'workflow'}, :method => 'get') do %>
-<div style="float:left;margin-right:10px;">
-<p><label for="role_id"><%=l(:label_role)%></label><br/>
+<p><label for="role_id"><%=l(:label_role)%>:</label>
 <select id="role_id" name="role_id">
   <%= options_from_collection_for_select @roles, "id", "name", (@role.id unless @role.nil?) %>
-</select></p>
-</div>
+</select>
 
-<div>
-<p><label for="tracker_id"><%=l(:label_tracker)%></label><br/>
+<label for="tracker_id"><%=l(:label_tracker)%>:</label>
 <select id="tracker_id" name="tracker_id">
   <%= options_from_collection_for_select @trackers, "id", "name", (@tracker.id unless @tracker.nil?) %>
 </select>
-
 <%= submit_tag l(:button_edit) %>
 </p>
-</div>
 <% end %>
   
   
 
 <% unless @tracker.nil? or @role.nil? %>
+<% form_tag({:action => 'workflow', :role_id => @role, :tracker_id => @tracker }, :id => 'workflow_form' ) do %>
 <div class="box">
-  <% form_tag({:action => 'workflow', :role_id => @role, :tracker_id => @tracker }, :id => 'workflow_form' ) do %>
 	<table>
 	<tr>
 	<td align="center"><strong><%=l(:label_current_status)%></strong></td>
@@ -40,7 +35,7 @@
 	
 	<% for old_status in @statuses %>
 		<tr>
-		<td><div class="square" style="background:#<%= old_status.html_color %>;"></div> <%= old_status.name %></td>		
+		<td><%= old_status.name %></td>		
 		<% for new_status in @statuses %>
 			<td align="center">
       
@@ -55,14 +50,9 @@
 		</tr>
 	<% end %>
 	</table>
-<br />
-<p>
-<a href="javascript:checkAll('workflow_form', true)"><%=l(:button_check_all)%></a> |
-<a href="javascript:checkAll('workflow_form', false)"><%=l(:button_uncheck_all)%></a>
-</p>
-<br />
+    <p><%= check_all_links 'workflow_form' %></p>
+</div>
 <%= submit_tag l(:button_save) %>
 <% end %>
 
 <% end %>
-</div>

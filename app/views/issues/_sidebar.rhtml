@@ -1,0 +1,18 @@
+<% if authorize_for('projects', 'add_issue') %>
+<h3><%= l(:label_issue_new) %></h3>
+<%= l(:label_tracker) %>: <%= new_issue_selector %>
+<% end %>
+
+<h3><%= l(:label_issue_plural) %></h3>
+<%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %><br />
+<%= link_to l(:field_summary), :controller => 'reports', :action => 'issue_report', :id => @project %><br />
+<%= link_to l(:label_change_log), :controller => 'projects', :action => 'changelog', :id => @project %>
+
+<h3><%= l(:label_query_plural) %></h3>
+
+<% queries = @project.queries.find(:all, 
+                                   :order => "name ASC",
+                                   :conditions => ["is_public = ? or user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
+   queries.each do |query| %>
+<%= link_to query.name, :controller => 'projects', :action => 'list_issues', :id => @project, :query_id => query %><br />
+<% end %>

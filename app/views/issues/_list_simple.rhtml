@@ -11,7 +11,7 @@
 			<th align="center">
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
 			</th>
-			<td><div class="square" style="background:#<%= issue.status.html_color %>;"></div> <p class="small"><%= issue.project.name %> - <%= issue.tracker.name %><br />
+			<td><p class="small"><%= issue.project.name %> - <%= issue.tracker.name %><br />
                 <%= issue.status.name %> - <%= format_time(issue.updated_on) %></p></td>
 			<td>
                 <p class="small"><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></p>

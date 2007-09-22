@@ -1,11 +1,18 @@
-<h3><%=l(:label_related_issues)%></h3>
+<div class="contextual">
+<% if authorize_for('issue_relations', 'new') %>
+    <%= toggle_link l(:button_add), 'new-relation-form'%>
+<% end %>
+</div>
 
+<p><strong><%=l(:label_related_issues)%></strong></p>
+
+<% if @issue.relations.any? %>
 <table style="width:100%">
 <% @issue.relations.each do |relation| %>
 <tr>
 <td><%= l(relation.label_for(@issue)) %> <%= "(#{lwr(:actionview_datehelper_time_in_words_day, relation.delay)})" if relation.delay && relation.delay != 0 %> <%= link_to_issue relation.other_issue(@issue) %></td>
 <td><%=h relation.other_issue(@issue).subject %></td>
-<td><div class="square" style="background:#<%= relation.other_issue(@issue).status.html_color %>;"></div> <%= relation.other_issue(@issue).status.name %></td>
+<td><%= relation.other_issue(@issue).status.name %></td>
 <td><%= format_date(relation.other_issue(@issue).start_date) %></td>
 <td><%= format_date(relation.other_issue(@issue).due_date) %></td>
 <td><%= link_to_remote(image_tag('delete.png'), { :url => {:controller => 'issue_relations', :action => 'destroy', :issue_id => @issue, :id => relation},                                              
@@ -14,9 +21,11 @@
 </tr>
 <% end %>
 </table>
+<% end %>
 
-<% if authorize_for('issue_relations', 'new') %>&nbsp;  
-  <% remote_form_for(:relation, @relation, :url => {:controller => 'issue_relations', :action => 'new', :issue_id => @issue}, :method => :post) do |f| %>
-    <%= render :partial => 'issue_relations/form', :locals => {:f => f}%>
-  <% end %>
+<% remote_form_for(:relation, @relation, 
+                 :url => {:controller => 'issue_relations', :action => 'new', :issue_id => @issue},
+                 :method => :post,
+                 :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}) do |f| %>
+<%= render :partial => 'issue_relations/form', :locals => {:f => f}%>
 <% end %>

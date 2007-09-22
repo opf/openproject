@@ -1,31 +1,20 @@
 
+table.filecontent { border: 1px solid #ccc;  border-collapse: collapse; width:98%; }
+table.filecontent th { border: 1px solid #ccc; background-color: #eee; }
+table.filecontent th.filename {	background-color: #ddc;	text-align: left; }
 div.action_M { background: #fd8 }
 div.action_D { background: #f88 }
 div.action_A { background: #bfb }
 
+table.filecontent tr.spacing { border: 1px solid #d7d7d7; }
 
-tr.spacing {
-    border: 1px solid #d7d7d7;
-}
-
-.line-num {
+table.filecontent .line-num {
     border: 1px solid #d7d7d7;
 	font-size: 0.8em;
 	text-align: right;
 	width: 3em;
 	padding-right: 3px;
 }
-
-.line-code {
-	font-size: 1.4em;
-}
-
-table.list thead th.list-filename {
-	background-color: #ddc;
-	font-weight: bolder;
-	text-align: left;
-}
-
 
 /************* Coderay styles *************/
 
@@ -37,7 +26,7 @@ table.CodeRay {
 span.CodeRay { white-space: pre; border: 0px; padding: 2px }
 
 .CodeRay .no { padding: 0px 4px }
-.CodeRay .code { width: 100% }
+.CodeRay .code {  }
 
 ol.CodeRay { font-size: 10pt }
 ol.CodeRay li { white-space: pre }

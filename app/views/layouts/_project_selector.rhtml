@@ -1,0 +1,12 @@
+<% user_projects_by_root = User.current.projects.find(:all, :include => :parent).group_by(&:root) %>
+<select onchange="if (this.value != '') { window.location = this.value; }">
+<option selected><%= l(:label_jump_to_a_project) %></option>
+<option disabled>---</option>
+<% user_projects_by_root.keys.sort.each do |root| %>
+    <%= content_tag('option', root.name, :value => url_for(:controller => 'projects', :action => 'show', :id => root)) %>
+    <% user_projects_by_root[root].sort.each do |project| %>
+        <% next if project == root %>
+        <%= content_tag('option', ('&#187; ' + project.name), :value => url_for(:controller => 'projects', :action => 'show', :id => project)) %>
+    <% end %>
+<% end %>
+</select>

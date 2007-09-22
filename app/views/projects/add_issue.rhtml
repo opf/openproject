@@ -23,7 +23,7 @@
 <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
 </div>
 
-<div class="clear">
+<div style="clear: left;">
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
 <p><%= f.text_area :description, :cols => 60, :rows => 10, :required => true, :class => 'wiki-edit' %></p>
 
@@ -36,7 +36,6 @@
 <p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>
 <%= image_to_function "add.png", "addFileField();return false" %></label>
 <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
-
 </div>
 <!--[eoform:issue]-->
 </div>

@@ -72,7 +72,7 @@ class ReportsController < ApplicationController
       issues_by_category
       issues_by_author
       issues_by_subproject
-      @total_hours = @project.time_entries.sum(:hours)
+      
       render :template => "reports/issue_report"
     end
   end  

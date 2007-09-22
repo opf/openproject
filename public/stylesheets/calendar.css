@@ -1,6 +1,12 @@
 /* The main calendar widget.  DIV containing a table. */
 
-div.calendar { position: relative; }
+img.calendar-trigger {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+div.calendar { position: relative; z-index: 15;}
 
 .calendar, .calendar table {
   border: 1px solid #556;

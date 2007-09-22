@@ -4,7 +4,11 @@
 
 <h2><%=l(:label_news_plural)%></h2>
 
-<% if @news.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+<% if @news.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+
 <%= render :partial => 'news/news', :collection => @news %>
 <%= pagination_links_full @news_pages %>
 

@@ -1,19 +1,5 @@
 <h2><%=l(:label_activity)%>: <%= "#{month_name(@month).downcase} #{@year}" %></h2>
 
-<div>
-<div class="rightbox">
-<% form_tag do %>
-<p><%= select_month(@month, :prefix => "month", :discard_type => true) %>
-<%= select_year(@year, :prefix => "year", :discard_type => true) %></p>
-
-<p><% @event_types.each do |t| %>
-<%= check_box_tag "show_#{t}", 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%><br />
-<% end %></p>
-
-<p class="textcenter"><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
-<% end %>
-</div>
-
 <% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>
   <h3><%= day_name(day.cwday) %> <%= day.day %></h3>
   <ul>
@@ -51,7 +37,10 @@
   <% end %>
   </ul>
 <% end %>
-<% if @events_by_day.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+
+<% if @events_by_day.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
 
 <div style="float:left;">
 <% prev_params = params.clone.update :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) %>
@@ -65,8 +54,17 @@
 &nbsp;
 </div>
 <br />
-</div>
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :year => nil, :month => nil, :key => User.current.rss_key})) %>
+<% end %>
+
+<% content_for :sidebar do %>
+<% form_tag do %>
+<h3><%= l(:label_activity) %></h3>
+<p><% @event_types.each do |t| %>
+<%= check_box_tag "show_#{t}", 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%><br />
+<% end %></p>
+<p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+<% end %>
 <% end %>

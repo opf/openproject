@@ -1,9 +1,10 @@
 <h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
 
-<table class="list CodeRay">
+<div class="autoscroll">
+<table class="filecontent CodeRay">
   <thead>
     <tr>
-      <th colspan="2" class="list-filename"><%= @path %></th>
+      <th colspan="2" class="filename"><%= @path %></th>
     </tr>
   </thead>
   <tbody>
@@ -17,6 +18,7 @@
     <% end %>
   <tbody>
 </table>
+</div>
 
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>

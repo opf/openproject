@@ -84,6 +84,7 @@ class ProjectsController < ApplicationController
     @trackers = Tracker.find(:all, :order => 'position')
     @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN #{IssueStatus.table_name} ON #{IssueStatus.table_name}.id = #{Issue.table_name}.status_id", :conditions => ["project_id=? and #{IssueStatus.table_name}.is_closed=?", @project.id, false])
     @total_issues_by_tracker = Issue.count(:group => :tracker, :conditions => ["project_id=?", @project.id])
+    @total_hours = @project.time_entries.sum(:hours)
     @key = User.current.rss_key
   end
 
@@ -254,6 +255,7 @@ class ProjectsController < ApplicationController
   						:limit  =>  @issue_pages.items_per_page,
   						:offset =>  @issue_pages.current.offset						
     end
+    
     render :layout => false if request.xhr?
   end
 

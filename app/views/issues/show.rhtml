@@ -1,4 +1,5 @@
 <div class="contextual">
+<%= show_and_goto_link(l(:label_add_note), 'add-note', :class => 'icon icon-note') if authorize_for('issues', 'add_note') %>
 <%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit' %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
 <%= watcher_tag(@issue, User.current) %>
@@ -6,12 +7,15 @@
 <%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
-<h2><%= @issue.tracker.name %> #<%= @issue.id %>: <%=h @issue.subject %></h2>
+<h2><%= @issue.tracker.name %> #<%= @issue.id %></h2>
+
+<div class="issue">
+        <h3><%=h @issue.subject %></h3>
         <p class="author">
         <%= authoring @issue.created_on, @issue.author %>.
         <%= l(:label_updated_time, distance_of_time_in_words(Time.now, @issue.updated_on)) if @issue.created_on != @issue.updated_on %>.
         </p>
-<div class="box">
+
 <table width="100%">
 <tr>
     <td style="width:15%"><b><%=l(:field_status)%> :</b></td><td style="width:35%"><%= @issue.status.name %></td>
@@ -58,45 +62,42 @@ end %>
 </div>
 <% end %>
 
-<b><%=l(:field_description)%> :</b><br /><br />
+<p><b><%=l(:field_description)%></b></p>
 <%= textilizable @issue.description, :attachments => @issue.attachments %>
 
-<div class="contextual">
-</div>
-
-<% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
-  <% form_tag({:controller => 'issues', :action => 'change_status', :id => @issue}) do %>
-  <%=l(:label_change_status)%> :
-  <select name="new_status_id">
-  <%= options_from_collection_for_select @status_options, "id", "name" %>
-  </select>
-  <%= submit_tag l(:button_change) %>
-  <% end %>
-<% end %>
-</div>
-
 <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
-<div id="relations" class="box">
+<hr />
+<div id="relations">
 <%= render :partial => 'relations' %>
 </div>
 <% end %>
 
 <% if @issue.attachments.any? %>
-<div class="box">
-<h3><%=l(:label_attachment_plural)%></h3>
 <%= link_to_attachments @issue.attachments, :delete_url => (authorize_for('issues', 'destroy_attachment') ? {:controller => 'issues', :action => 'destroy_attachment', :id => @issue} : nil) %>
+<% end %>
+
 </div>
+
+<% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
+  <% form_tag({:controller => 'issues', :action => 'change_status', :id => @issue}) do %>
+  <p><%=l(:label_change_status)%> :
+  <select name="new_status_id">
+  <%= options_from_collection_for_select @status_options, "id", "name" %>
+  </select>
+  <%= submit_tag l(:button_change) %></p>
+  <% end %>
 <% end %>
 
 <% if @journals.any? %>
-<div id="history" class="box">
+<div id="history">
 <h3><%=l(:label_history)%></h3>
 <%= render :partial => 'history', :locals => { :journals => @journals } %>
 </div>
 <% end %>
 
 <% if authorize_for('issues', 'add_note') %>
-  <div class="box">
+  <a name="add-note-anchor"></a>
+  <div id="add-note" class="box" style="display:none;">
   <h3><%= l(:label_add_note) %></h3>
   <% form_tag({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular", :multipart => true) do %>
   <p><label for="notes"><%=l(:field_notes)%></label>
@@ -104,6 +105,7 @@ end %>
     <%= wikitoolbar_for 'notes' %>
     <%= render :partial => 'attachments/form' %>
   <%= submit_tag l(:button_add) %>
+  <%= toggle_link l(:button_cancel), 'add-note' %>
   <% end %>  
   </div>
 <% end %>
@@ -113,4 +115,8 @@ end %>
 </div>
 &nbsp;
 
-<% set_html_title "#{@issue.tracker.name} ##{@issue.id}" %>
+<% set_html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
+
+<% content_for :sidebar do %>
+    <%= render :partial => 'issues/sidebar' %>
+<% end %>

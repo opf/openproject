@@ -5,9 +5,9 @@
 <p><%= f.check_box :assignable %></p>
 </div>
 
-<div class="box">
-<h3><%= l(:label_permissions) %></h3>
 
+<h3><%= l(:label_permissions) %></h3>
+<div class="box">
 <% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
 <% perms_by_module.keys.sort.each do |mod| %>
     <fieldset><legend><%= mod.blank? ? l(:label_project) : mod.humanize %></legend>

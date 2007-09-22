@@ -47,6 +47,14 @@ module ApplicationHelper
     link_to(name, "#", :onclick => onclick)
   end
   
+  def show_and_goto_link(name, id, options={})
+    onclick = "Element.show('#{id}'); "
+    onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
+    onclick << "location.href='##{id}-anchor'; "
+    onclick << "return false;"
+    link_to(name, "#", options.merge(:onclick => onclick))
+  end
+  
   def image_to_function(name, function, html_options = {})
     html_options.symbolize_keys!
     tag(:input, html_options.merge({ 
@@ -286,6 +294,16 @@ module ApplicationHelper
   def wikitoolbar_for(field_id)
     return '' unless Setting.text_formatting == 'textile'
     javascript_include_tag('jstoolbar') + javascript_tag("var toolbar = new jsToolBar($('#{field_id}')); toolbar.draw();")
+  end
+  
+  def content_for(name, content = nil, &block)
+    @has_content ||= {}
+    @has_content[name] = true
+    super(name, content, &block)
+  end
+  
+  def has_content?(name)
+    (@has_content && @has_content[name]) || false
   end
 end
 

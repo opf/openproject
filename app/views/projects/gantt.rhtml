@@ -23,14 +23,11 @@ t_height = g_height + headers_height
 %>
 
 <div class="contextual">
-<%= l(:label_export_to) %>
-<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'pdf'}, :class => 'icon icon-pdf' %>
-<%= link_to 'PNG', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'png'}, :class => 'icon icon-image' if respond_to?('gantt_image') %>
 </div>
 
 <h2><%= l(:label_gantt) %></h2>
 
-<% form_tag do %>
+<% form_tag(params.merge(:month => nil, :year => nil, :years => nil)) do %>
 <table width="100%">
 <tr>
 <td align="left">
@@ -41,21 +38,7 @@ t_height = g_height + headers_height
     <%= hidden_field_tag 'zoom', @zoom %>
     <%= submit_tag l(:button_submit), :class => "button-small" %>    
 </td>
-<td>
-    <%= toggle_link l(:label_options), "trackerselect" %>
-    <div id="trackerselect" class="rightbox overlay" style="width:140px; display: none;">
-    <p><strong><%=l(:label_tracker_plural)%></strong></p>
-    <% @trackers.each do |tracker| %>
-      <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
-      <%= tracker.name %><br />
-    <% end %>
-    <% if @project.active_children.any? %>
-    <p><strong><%=l(:label_subproject_plural)%></strong></p>
-    <%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%= l(:general_text_Yes) %>
-    <% end %>
-    <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
-    </div>
-</td>
+
 <td align="right">
 <%= if @zoom < 4
     link_to image_tag('zoom_in.png'), {:zoom => (@zoom+1), :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects]}
@@ -244,3 +227,21 @@ if Date.today >= @date_from and Date.today <= @date_to %>
 <td align="right"><%= link_to (l(:label_next) + ' &#187;'), :year => (@date_from >> @months).year, :month => (@date_from >> @months).month, :zoom => @zoom, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects] %></td>
 </tr>
 </table>
+
+<div class="contextual"><%= l(:label_export_to) %>
+<%= link_to 'PDF', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'pdf'}, :class => 'icon icon-pdf' %>
+<%= link_to 'PNG', {:zoom => @zoom, :year => @year_from, :month => @month_from, :months => @months, :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects], :format => 'png'}, :class => 'icon icon-image' if respond_to?('gantt_image') %>
+</div>
+
+<% content_for :sidebar do %>
+    <h3><%= l(:label_gantt) %></h3>
+    <% form_tag(params.merge(:tracker_ids => nil, :with_subprojects => nil)) do %>
+    <% @trackers.each do |tracker| %>
+      <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %> <%= tracker.name %><br />
+    <% end %>
+    <% if @project.active_children.any? %>
+    <br /><%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%=l(:label_subproject_plural)%>
+    <% end %>
+    <p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+    <% end %>
+<% end %>

@@ -1,28 +1,33 @@
-<center>
-<div class="box login">
-<h2 class="icon22 icon22-authent"><%=l(:label_please_login)%></h2>
-
-<% form_tag({:action=> "login"}, :class => "tabular") do %>
-
-<p><label for="login"><%=l(:field_login)%>:</label>
-<%= text_field_tag 'login', nil, :size => 25 %></p>
-
-<p><label for="password"><%=l(:field_password)%>:</label>
-<%= password_field_tag 'password', nil, :size => 25 %></p>
-
-<% if Setting.autologin? %>
-<p><label for="autologin"><%= check_box_tag 'autologin' %> <%= l(:label_stay_logged_in) %></label></p>
-<% end %>
-
-<p><input type="submit" name="login" value="<%=l(:button_login)%> &#187;" class="primary" /></p>
-<% end %>
+<div id="login-form">
+<% form_tag({:action=> "login"}) do %>
+<table>
+<tr>
+    <td align="right"><label for="login"><%=l(:field_login)%>:</label></td>
+    <td align="left"><p><%= text_field_tag 'login', nil, :size => 40 %></p></td>
+</tr>
+<tr>
+    <td align="right"><label for="password"><%=l(:field_password)%>:</label></td>
+    <td align="left"><%= password_field_tag 'password', nil, :size => 40 %></td>
+</tr>
+<tr>
+    <td></td>
+    <td align="left">
+        <% if Setting.autologin? %>
+        <label for="autologin"><%= check_box_tag 'autologin' %> <%= l(:label_stay_logged_in) %></label>
+        <% end %>
+    </td>
+</tr>
+<tr>
+    <td align="left">
+        <% if Setting.lost_password? %>
+            <%= link_to l(:label_password_lost), :controller => 'account', :action => 'lost_password' %>
+        <% end %>
+    </td>
+    <td align="right">
+        <input type="submit" name="login" value="<%=l(:button_login)%> &#187;" />
+    </td>
+</tr>
+</table>
 <%= javascript_tag "Form.Element.focus('login');" %>
-
-<% links = []
-   links << link_to(l(:label_register), :action => 'register') if Setting.self_registration?
-   links << link_to(l(:label_password_lost), :action => 'lost_password') if Setting.lost_password?
-%>
-<%= links.join(" | ") %>
-
+<% end %>
 </div>
-</center>

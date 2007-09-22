@@ -1,49 +1,24 @@
 <% cache(:year => @year, :month => @month, :tracker_ids => @selected_tracker_ids, :subprojects => params[:with_subprojects], :lang => current_language) do %>
-<h2><%= l(:label_calendar) %></h2>
+<h2><%= l(:label_calendar) %>: <%= "#{month_name(@month).downcase} #{@year}" %></h2>
 
-<% form_tag do %>
 <table width="100%">
-<tr>
-<td align="left" style="width:15%">
+<tr><td align="left">
     <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
                         {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1), :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects] }},
                         {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1), :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects])}
                         %>
-</td>
-<td align="center" style="width:55%">
-    <%= select_month(@month, :prefix => "month", :discard_type => true) %>
-    <%= select_year(@year, :prefix => "year", :discard_type => true) %>
-    <%= submit_tag l(:button_submit), :class => "button-small" %>
-</td>
-<td align="left" style="width:15%">
-    <%= toggle_link l(:label_options), "trackerselect" %>
-    <div id="trackerselect" class="rightbox overlay" style="width:140px; display:none;">
-    <p><strong><%=l(:label_tracker_plural)%></strong></p>
-    <% @trackers.each do |tracker| %>
-      <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
-      <%= tracker.name %><br />
-    <% end %>
-    <% if @project.active_children.any? %>
-    <p><strong><%=l(:label_subproject_plural)%></strong></p>
-    <%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%= l(:general_text_Yes) %>
-    <% end %>
-    <p><center><%= submit_tag l(:button_apply), :class => 'button-small' %></center></p>
-    </div>
-</td>
-<td align="right" style="width:15%">
+</td><td align="right">
     <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
                         {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1), :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects] }},
                         {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1), :tracker_ids => @selected_tracker_ids, :with_subprojects => params[:with_subprojects])}
-                        %>&nbsp;
-</td>
-</tr>
+                        %>
+</td></tr>
 </table>
-<% end %>
 
-<table class="list with-cells">
+<table class="cal">
 <thead>
 <tr>
-<th></th>
+<td></td>
 <% 1.upto(7) do |d| %>
     <th style="width:14%"><%= day_name(d) %></th>
 <% end %>
@@ -56,7 +31,7 @@ while day <= @date_to
 	if day.cwday == 1 %>
 	<th><%= day.cweek %></th>
 	<% end %>	
-	<td valign="top" class="<%= day.month==@month ? "even" : "odd" %>" style="width:14%; <%= Date.today == day ? 'background:#FDFED0;' : '' %>">
+	<td valign="top" class="<%= day.month==@month ? "even" : "odd" %> <%= Date.today == day ? 'today' : '' %>" style="width:14%;">
 	<p class="textright"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
 	<% ((@ending_events_by_days[day] || []) + (@starting_events_by_days[day] || [])).uniq.each do |i| %>
 	    <% if i.is_a? Issue %>
@@ -68,7 +43,11 @@ while day <= @date_to
 		elsif day == i.due_date
 		    image_tag('arrow_to.png') 
 		end %>
-		<small><%= link_to_issue i %><%= " (#{i.project.name})" unless @project && @project == i.project %>: <%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small>
+		<small>
+		<%= h("#{i.project.name} -") unless @project && @project == i.project %>
+		<%= link_to_issue i %>:
+        <%= h(truncate(i.subject, 30)) %>
+		</small>
         <span class="tip">
         <%= render :partial => "issues/tooltip", :locals => { :issue => i }%>
         </span>		
@@ -89,4 +68,21 @@ end %>
 <%= image_tag 'arrow_from.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_day) %><br />
 <%= image_tag 'arrow_to.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_end_day) %><br />
 <%= image_tag 'arrow_bw.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_end_day) %><br />
+<% end %>
+
+<% content_for :sidebar do %>
+    <h3><%= l(:label_calendar) %></h3>
+    
+    <% form_tag() do %>
+    <p><%= select_month(@month, :prefix => "month", :discard_type => true) %>
+    <%= select_year(@year, :prefix => "year", :discard_type => true) %></p>
+    
+    <% @trackers.each do |tracker| %>
+      <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %> <%= tracker.name %><br />
+    <% end %>
+    <% if @project.active_children.any? %>
+    <br /><%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%=l(:label_subproject_plural)%>
+    <% end %>
+    <p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+    <% end %>
 <% end %>

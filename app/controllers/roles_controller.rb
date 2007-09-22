@@ -88,6 +88,7 @@ class RolesController < ApplicationController
       }
       if @role.save
         flash[:notice] = l(:notice_successful_update)
+        redirect_to :action => 'workflow', :role_id => @role, :tracker_id => @tracker
       end
     end
     @roles = Role.find(:all, :order => 'builtin, position')

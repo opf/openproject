@@ -419,6 +419,7 @@ label_feeds_access_key_created_on: RSS access key created %s ago
 label_module_plural: Modules
 label_added_time_by: Added by %s %s ago
 label_updated_time: Updated %s ago
+label_jump_to_a_project: Jump to a project...
 
 button_login: Вход
 button_submit: Изпращане

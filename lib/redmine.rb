@@ -89,19 +89,14 @@ end
 # Project menu configuration
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :label_overview, :controller => 'projects', :action => 'show'
-  menu.push :label_calendar, :controller => 'projects', :action => 'calendar'
-  menu.push :label_gantt, :controller => 'projects', :action => 'gantt'
-  menu.push :label_issue_plural, :controller => 'projects', :action => 'list_issues'
-  menu.push :label_report_plural, :controller => 'reports', :action => 'issue_report'
   menu.push :label_activity, :controller => 'projects', :action => 'activity'
-  menu.push :label_news_plural, :controller => 'projects', :action => 'list_news'
-  menu.push :label_change_log, :controller => 'projects', :action => 'changelog'
   menu.push :label_roadmap, :controller => 'projects', :action => 'roadmap'
+  menu.push :label_issue_plural, :controller => 'projects', :action => 'list_issues'
+  menu.push :label_news_plural, :controller => 'projects', :action => 'list_news'
   menu.push :label_document_plural, :controller => 'projects', :action => 'list_documents'
   menu.push :label_wiki, { :controller => 'wiki', :action => 'index', :page => nil }, :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
   menu.push :label_board_plural, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :if => Proc.new { |p| p.boards.any? }
   menu.push :label_attachment_plural, :controller => 'projects', :action => 'list_files'
-  menu.push :label_search, :controller => 'search', :action => 'index'
   menu.push :label_repository, { :controller => 'repositories', :action => 'show' }, :if => Proc.new { |p| p.repository && !p.repository.new_record? }
   menu.push :label_settings, :controller => 'projects', :action => 'settings'
 end

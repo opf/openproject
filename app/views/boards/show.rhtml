@@ -5,6 +5,7 @@
 
 <h2><%=h @board.name %></h2>
 
+<% if @topics.any? %>
 <table class="list">
   <thead><tr>
     <th><%= l(:field_subject) %></th>
@@ -32,6 +33,8 @@
   <% end %>
   </tbody>
 </table>
-
 <p><%= pagination_links_full @topic_pages %>
 [ <%= @topic_pages.current.first_item %> - <%= @topic_pages.current.last_item %> / <%= @topic_count %> ]</p>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

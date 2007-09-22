@@ -1,3 +1,4 @@
+<% if @project.boards.any? %>
 <table class="list">
 	<thead><th><%= l(:label_board) %></th><th><%= l(:field_description) %></th><th style="width:15%"></th><th style="width:15%"></th><th style="width:15%"></th></thead>
 	<tbody>
@@ -14,11 +15,14 @@
     <%= link_to image_tag('2downarrow.png', :alt => l(:label_sort_lowest)), {:controller => 'boards', :action => 'edit', :project_id => @project, :id => board, :position => 'lowest'}, :method => :post, :title => l(:label_sort_lowest) %>
     <% end %>
     </td>    
-    <td align="center"><small><%= link_to_if_authorized l(:button_edit), {:controller => 'boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %></small></td>
-    <td align="center"><small><%= link_to_if_authorized l(:button_delete), {:controller => 'boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></small></td>
+    <td align="center"><%= link_to_if_authorized l(:button_edit), {:controller => 'boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %></td>
+    <td align="center"><%= link_to_if_authorized l(:button_delete), {:controller => 'boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></td>
 	</tr>
 <% end %>
     </tbody>
 </table>
-&nbsp;
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
 <p><%= link_to_if_authorized l(:label_board_new), {:controller => 'boards', :action => 'new', :project_id => @project} %></p>

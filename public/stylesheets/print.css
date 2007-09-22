@@ -1,3 +1,2 @@
-#header, #navigation, #subcontent, #footer { display:none; }
-.menu { display:none; }
-.contextual, .rightbox { display:none; }
+#top-menu, #header, #main-menu, #sidebar, #footer { display:none; }
+.contextual { display:none; }
