@@ -509,3 +509,4 @@ default_activity_development: Development
 enumeration_issue_priorities: Issue prioriteiten
 enumeration_doc_categories: Document categorieën
 enumeration_activities: Activiteiten (tijd tracking)
+text_comma_separated: Multiple values allowed (comma separated).

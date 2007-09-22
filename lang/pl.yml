@@ -1,0 +1,511 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: Styczeń,Luty,Marzec,Kwiecień,Maj,Czerwiec,Lipiec,Sierpień,Wrzesień,Październik,Listopad,Grudzień
+actionview_datehelper_select_month_names_abbr: Sty,Lut,Mar,Kwi,Maj,Cze,Lip,Sie,Wrz,Paź,Lis,Gru
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 dzień
+actionview_datehelper_time_in_words_day_plural: %d dni
+actionview_datehelper_time_in_words_hour_about: około godziny
+actionview_datehelper_time_in_words_hour_about_plural: około %d godzin
+actionview_datehelper_time_in_words_hour_about_single: około godziny
+actionview_datehelper_time_in_words_minute: 1 minuta
+actionview_datehelper_time_in_words_minute_half: pół minuty
+actionview_datehelper_time_in_words_minute_less_than: mniej niż minuta
+actionview_datehelper_time_in_words_minute_plural: %d minut
+actionview_datehelper_time_in_words_minute_single: 1 minuta
+actionview_datehelper_time_in_words_second_less_than: mniej niż sekunda
+actionview_datehelper_time_in_words_second_less_than_plural: mniej niż %d sekund
+actionview_instancetag_blank_option: Proszę wybierz
+
+activerecord_error_inclusion: nie jest zawarte na liście
+activerecord_error_exclusion: jest zarezerwowane
+activerecord_error_invalid: jest nieprawidłowe
+activerecord_error_confirmation: nie pasuje do potwierdzenia
+activerecord_error_accepted: musi być zaakceptowane
+activerecord_error_empty: nie może być puste
+activerecord_error_blank: nie może być czyste
+activerecord_error_too_long: jest za długie
+activerecord_error_too_short: jest za krótkie
+activerecord_error_wrong_length: ma złą długość
+activerecord_error_taken: jest już wybrane
+activerecord_error_not_a_number: nie jest numerem
+activerecord_error_not_a_date: nie jest prawidłową datą
+activerecord_error_greater_than_start_date: musi być większe niż początkowa data
+activerecord_error_not_same_project: nie należy do tego samego projektu
+activerecord_error_circular_dependency: Ta relacja może wytworzyć kołową zależność
+
+general_fmt_age: %d lat
+general_fmt_age_plural: %d lat
+general_fmt_date: %%m/%%d/%%Y
+general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: 'Nie'
+general_text_Yes: 'Tak'
+general_text_no: 'nie'
+general_text_yes: 'tak'
+general_lang_name: 'Polski'
+general_csv_separator: ','
+general_csv_encoding: ISO-8859-2
+general_pdf_encoding: ISO-8859-2
+general_day_names: Poniedziałek,Wtorek,Środa,Czwartek,Piątek,Sobota,Niedziela
+
+notice_account_updated: Konto prawidłowo zaktualizowane.
+notice_account_invalid_creditentials: Zły użytkownik lub hasło
+notice_account_password_updated: Hasło prawidłowo zmienione.
+notice_account_wrong_password: Złe hasło
+notice_account_register_done: Konto prawidłowo stworzone.
+notice_account_unknown_email: Nieznany użytkownik.
+notice_can_t_change_password: To konto ma zewnętrzne źródło identyfikacji. Nie możesz zmienić hasła.
+notice_account_lost_email_sent: Email z instrukcjami zmiany hasła został wysłany do Ciebie.
+notice_account_activated: Twoje konto zostało aktywowane. Możesz się zalogować.
+notice_successful_create: Udane stworzenie.
+notice_successful_update: Udane poprawienie.
+notice_successful_delete: Udane usunięcie.
+notice_successful_connection: Udane nawiązanie połączenia.
+notice_file_not_found: Strona do której próbujesz się dostać nie istnieje lub została usunięta.
+notice_locking_conflict: Dane poprawione przez innego użytkownika.
+notice_scm_error: Wejście i/lub zmiana nie istnieje w repozytorium.
+notice_not_authorized: Nie jesteś autoryzowany by zobaczyć stronę.
+
+mail_subject_lost_password: Twoje hasło do redMine
+mail_subject_register: Aktywacja konta w redMine
+
+gui_validation_error: 1 błąd
+gui_validation_error_plural: %d błędów
+
+field_name: Nazwa
+field_description: Opis
+field_summary: Podsumowanie
+field_is_required: Wymagane
+field_firstname: Imię
+field_lastname: Nazwisko
+field_mail: Email
+field_filename: Plik
+field_filesize: Rozmiar
+field_downloads: Pobrań
+field_author: Autor
+field_created_on: Stworzone
+field_updated_on: Zmienione
+field_field_format: Format
+field_is_for_all: Dla wszystkich projektów
+field_possible_values: Możliwe wartości
+field_regexp: Wyrażenie regularne
+field_min_length: Minimalna długość
+field_max_length: Maksymalna długość
+field_value: Wartość
+field_category: Kategoria
+field_title: Tytuł
+field_project: Projekt
+field_issue: Zgłoszenie
+field_status: Status
+field_notes: Notatki
+field_is_closed: Zgłoszenie zamknięte
+field_is_default: Domyślny status
+field_html_color: Kolor
+field_tracker: Tracker
+field_subject: Temat
+field_due_date: Data oddania
+field_assigned_to: Przydzielony do
+field_priority: Priorytet
+field_fixed_version: Stała wersja
+field_user: Użytkownik
+field_role: Rola
+field_homepage: Strona www
+field_is_public: Publiczny
+field_parent: Subprojekt
+field_is_in_chlog: Zgłoszenia pokazane w zapisie zmian
+field_is_in_roadmap: Zgłoszenia pokazane na mapie
+field_login: Login
+field_mail_notification: Powiadomienia Email
+field_admin: Administrator
+field_last_login_on: Ostatnie połączenie
+field_language: Język
+field_effective_date: Data
+field_password: Hasło
+field_new_password: Nowe hasło
+field_password_confirmation: Potwierdzenie
+field_version: Wersja
+field_type: Typ
+field_host: Host
+field_port: Port
+field_account: Konto
+field_base_dn: Base DN
+field_attr_login: Login atrybut
+field_attr_firstname: Imię atrybut
+field_attr_lastname: Nazwisko atrybut
+field_attr_mail: Email atrybut
+field_onthefly: Tworzenie użytkownika w locie
+field_start_date: Start
+field_done_ratio: %% Wykonane
+field_auth_source: Tryb identyfikacji
+field_hide_mail: Ukryj mój adres email
+field_comments: Komentarz
+field_url: URL
+field_start_page: Strona startowa
+field_subproject: Podprojekt
+field_hours: Godzin
+field_activity: Aktywność
+field_spent_on: Data
+field_identifier: Identifikator
+field_is_filter: Używane jako filter
+field_issue_to_id: Powiązane zgłoszenie
+field_delay: Opóźnienie
+
+setting_app_title: Tytuł aplikacji
+setting_app_subtitle: Podtytuł aplikacji
+setting_welcome_text: Tekst powitalny
+setting_default_language: Domyślny język
+setting_login_required: Identyfikacja wymagana
+setting_self_registration: Własna rejestracja umożliwiona
+setting_attachment_max_size: Maks. rozm. załącznika
+setting_issues_export_limit: Limit eksportu zgłoszeń
+setting_mail_from: Adres email wysyłki
+setting_host_name: Nazwa hosta
+setting_text_formatting: Formatowanie tekstu
+setting_wiki_compression: Kompresja historii Wiki
+setting_feeds_limit: Limit danych RSS
+setting_autofetch_changesets: Auto-odświeżanie CVS
+setting_sys_api_enabled: Włączenie WS do zarządzania repozytorium
+setting_commit_ref_keywords: Terminy odnoszące (CVS)
+setting_commit_fix_keywords: Terminy ustalające (CVS)
+setting_autologin: Auto logowanie
+setting_date_format: Format daty
+
+label_user: Użytkownik
+label_user_plural: Użytkownicy
+label_user_new: Nowy użytkownik
+label_project: Projekt
+label_project_new: Nowy projekt
+label_project_plural: Projekty
+label_project_all: Wszystkie projekty
+label_project_latest: Ostatnie projekty
+label_issue: Zgłoszenie
+label_issue_new: Nowe zgłoszenie
+label_issue_plural: Zgłoszenia
+label_issue_view_all: Zobacz wszystkie zgłoszenia
+label_document: Dokument
+label_document_new: Nowy dokument
+label_document_plural: Dokumenty
+label_role: Rola
+label_role_plural: Role
+label_role_new: Nowa rola
+label_role_and_permissions: Role i Uprawnienia
+label_member: Uczestnik
+label_member_new: Nowy uczestnik
+label_member_plural: Uczestnicy
+label_tracker: Ślad
+label_tracker_plural: Ślady
+label_tracker_new: Nowy ślad
+label_workflow: Przepływ
+label_issue_status: Status zgłoszenia
+label_issue_status_plural: Statusy zgłoszeń
+label_issue_status_new: Nowy status
+label_issue_category: Kategoria zgłoszenia
+label_issue_category_plural: Kategorie zgłoszeń
+label_issue_category_new: Nowa kategoria
+label_custom_field: Dowolne pole
+label_custom_field_plural: Dowolne pola
+label_custom_field_new: Nowe dowolne pole
+label_enumerations: Wyliczenia
+label_enumeration_new: Nowa wartość
+label_information: Informacja
+label_information_plural: Informacje
+label_please_login: Zaloguj się
+label_register: Rejestracja
+label_password_lost: Zapomniane hasło
+label_home: Główna
+label_my_page: Moja strona
+label_my_account: Moje konto
+label_my_projects: Moje projekty
+label_administration: Administracja
+label_login: Login
+label_logout: Wylogowanie
+label_help: Pomoc
+label_reported_issues: Zaraportowane zgłoszenia
+label_assigned_to_me_issues: Zgłoszenia przypisane do mnie
+label_last_login: Ostatnie połączenie
+label_last_updates: Ostatnia zmieniana
+label_last_updates_plural: %d ostatnie zmiany
+label_registered_on: Zarejestrowany
+label_activity: Aktywność
+label_new: Nowy
+label_logged_as: Zalogowany jako
+label_environment: Środowisko
+label_authentication: Identyfikacja
+label_auth_source: Tryb identyfikacji
+label_auth_source_new: Nowy tryb identyfikacji
+label_auth_source_plural: Tryby identyfikacji
+label_subproject_plural: Podprojekty
+label_min_max_length: Min - Maks długość
+label_list: Lista
+label_date: Data
+label_integer: L. pojedyńcza
+label_boolean: Wart. logiczna
+label_string: Tekst
+label_text: Długi tekst
+label_attribute: Atrybut
+label_attribute_plural: Atrybuty
+label_download: %d Pobranie
+label_download_plural: %d Pobrania
+label_no_data: Brak danych do pokazania
+label_change_status: Status zmian
+label_history: Historia
+label_attachment: Plik
+label_attachment_new: Nowy plik
+label_attachment_delete: Skasuj plik
+label_attachment_plural: Pliki
+label_report: Raport
+label_report_plural: Raporty
+label_news: Nowość
+label_news_new: Dodaj nowość
+label_news_plural: Nowości
+label_news_latest: Ostatnie nowości
+label_news_view_all: Pokaż wszystkie nowości
+label_change_log: Lista zmian
+label_settings: Ustawienia
+label_overview: Przegląd
+label_version: Wersja
+label_version_new: Nowa wersja
+label_version_plural: Wersje
+label_confirmation: Potwierdzenie
+label_export_to: Eksportuj do
+label_read: Czytanie...
+label_public_projects: Projekty publiczne
+label_open_issues: otwarte
+label_open_issues_plural: otwarte
+label_closed_issues: zamknięte
+label_closed_issues_plural: zamknięte
+label_total: Ogółem
+label_permissions: Uprawnienia
+label_current_status: Obecny status
+label_new_statuses_allowed: Uprawnione nowe statusy
+label_all: wszystko
+label_none: brak
+label_next: Następne
+label_previous: Poprzednie
+label_used_by: Używane przez
+label_details: Szczegóły
+label_add_note: Dodaj notatkę
+label_per_page: Na stronę
+label_calendar: Kalendarz
+label_months_from: miesiące od
+label_gantt: Gantt
+label_internal: Wewnętrzny
+label_last_changes: ostatnie %d zmian
+label_change_view_all: Pokaż wszystkie zmiany
+label_personalize_page: Personalizuj tą stronę
+label_comment: Komentarz
+label_comment_plural: Komentarze
+label_comment_add: Dodaj komentarz
+label_comment_added: Komentarz dodany
+label_comment_delete: Usuń komentarze
+label_query: Dowolne zapytanie
+label_query_plural: Dowolne zapytania
+label_query_new: Nowe zapytanie
+label_filter_add: Dodaj filter
+label_filter_plural: Filtry
+label_equals: jest
+label_not_equals: nie jest
+label_in_less_than: w mniejszych od
+label_in_more_than: w większych niż
+label_in: w
+label_today: dzisiaj
+label_less_than_ago: dni mniej
+label_more_than_ago: dni więcej
+label_ago: dni temu
+label_contains: zawiera
+label_not_contains: nie zawiera
+label_day_plural: dni
+label_repository: Repozytorium
+label_browse: Przegląd
+label_modification: %d modyfikacja
+label_modification_plural: %d modyfikacja
+label_revision: Zmiana
+label_revision_plural: Zmiany
+label_added: dodane
+label_modified: zmodufikowane
+label_deleted: usunięte
+label_latest_revision: Ostatnia zmiana
+label_latest_revision_plural: Ostatnie zmiany
+label_view_revisions: Pokaż zmiany
+label_max_size: Kamsymalny rozmiar
+label_on: 'włączone'
+label_sort_highest: Przesuń na górę
+label_sort_higher: Do góry
+label_sort_lower: Do dołu
+label_sort_lowest: Przesuń na dół
+label_roadmap: Mapa
+label_roadmap_due_in: W czasie 
+label_roadmap_no_issues: Brak zgłoszeń do tej wersji
+label_search: Szukaj
+label_result: %d rezultat
+label_result_plural: %d rezultatów
+label_all_words: Wszystkie słowa
+label_wiki: Wiki
+label_wiki_edit: Edycja wiki
+label_wiki_edit_plural: Edycje wiki
+label_wiki_page: Strona wiki
+label_wiki_page_plural: Strony wiki
+label_page_index: Indeks
+label_current_version: Obecna wersja
+label_preview: Podgląd
+label_feed_plural: Ilość RSS
+label_changes_details: Szczegóły wszystkich zmian
+label_issue_tracking: Śledzenie zgłoszeń
+label_spent_time: Spędzony czas
+label_f_hour: %.2f godzina
+label_f_hour_plural: %.2f godzin
+label_time_tracking: Śledzenie czasu
+label_change_plural: Zmiany
+label_statistics: Statystyki
+label_commits_per_month: Wrzutek CVS w miesiącu
+label_commits_per_author: Wrzutek CVS przez autora
+label_view_diff: Pokaż różnice
+label_diff_inline: w linii
+label_diff_side_by_side: obok siebie
+label_options: Opcje
+label_copy_workflow_from: Kopiuj przepływ z 
+label_permissions_report: Raport uprawnień
+label_watched_issues: Obserwowane zgłoszenia
+label_related_issues: Powiązane zgłoszenia
+label_applied_status: Stosowany status
+label_loading: Ładowanie...
+label_relation_new: Nowe powiązanie
+label_relation_delete: Usuń powiązanie
+label_relates_to: powiązane z
+label_duplicates: duplikaty
+label_blocks: blokady
+label_blocked_by: zablokowane przez
+label_precedes: poprzedza
+label_follows: podąża
+label_end_to_start: koniec do początku
+label_end_to_end: koniec do końca
+label_start_to_start: początek do początku
+label_start_to_end: początek do końca
+label_stay_logged_in: Pozostań zalogowany
+label_disabled: zablokowany
+label_show_completed_versions: Pokaż kompletne wersje
+label_me: ja
+label_board: Forum
+label_board_new: Nowe forum
+label_board_plural: Fora
+label_topic_plural: Tematy
+label_message_plural: Wiadomości
+label_message_last: Ostatnia wiadomość
+label_message_new: Nowa wiadomość
+label_reply_plural: Odpowiedzi
+label_send_information: Wyślij informację użytkownikowi
+label_year: Rok
+label_month: Miesiąc
+label_week: Tydzień
+label_date_from: Z
+label_date_to: Do
+label_language_based: Na podstawie języka
+
+button_login: Login
+button_submit: Wyślij
+button_save: Nagraj
+button_check_all: Zaznacz wszystko
+button_uncheck_all: Odznacz wszystko
+button_delete: Usuń
+button_create: Stwórz
+button_test: Testuj
+button_edit: Edytuj
+button_add: Dodaj
+button_change: Zmień
+button_apply: Ustaw
+button_clear: Wyczyść
+button_lock: Zablokuj
+button_unlock: Odblokuj
+button_download: Pobierz
+button_list: Lista
+button_view: Pokaż
+button_move: Przenieś
+button_back: Wstecz
+button_cancel: Anuluj
+button_activate: Aktywuj
+button_sort: Sortuj
+button_log_time: Czas logowania
+button_rollback: Przywróc do tej wersji
+button_watch: Obserwuj
+button_unwatch: Nie obserwuj
+button_reply: Odpowiedz
+button_archive: Orchiwizuj
+button_unarchive: Przywróc z archiwum
+
+status_active: aktywny
+status_registered: zarejestrowany
+status_locked: zablokowany
+
+text_select_mail_notifications: Zaznacz czynności przy których użytkownik powinien być powiadomiony mailem.
+text_regexp_info: np. ^[A-Z0-9]+$
+text_min_max_length_info: 0 oznacza brak restrykcji
+text_project_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten projekt i wszyskie powiązane dane?
+text_workflow_edit: Zaznacz rolę i ślad do edycji przepływu
+text_are_you_sure: Jesteś pewien ?
+text_journal_changed: zmienione %s do %s
+text_journal_set_to: ustawione na %s
+text_journal_deleted: usunięte
+text_tip_task_begin_day: zadanie zaczynające się dzisiaj
+text_tip_task_end_day: zadanie kończące się dzisiaj
+text_tip_task_begin_end_day: zadanie zaczynające i kończące się dzisiaj
+text_project_identifier_info: 'Małe litery (a-z), liczby i myślniki dozwolone.<br />Raz zapisany, identyfikator nie może być zmieniony.'
+text_caracters_maximum: %d znaków maksymalnie.
+text_length_between: Długość pomiędzy %d i %d znaków.
+text_tracker_no_workflow: Brak przepływu zefiniowanego dla tego śladu
+text_unallowed_characters: Niedozwolone znaki
+text_comma_separated: Wielokrotne wartości dozwolone (rozdzielone przecinkami).
+text_issues_ref_in_commit_messages: Zgłoszenia odnoszące i ustalające we wrzutkach CVS
+
+default_role_manager: Manager
+default_role_developper: Developer
+default_role_reporter: Reporter
+default_tracker_bug: Błąd
+default_tracker_feature: Funkcjonalność
+default_tracker_support: Wsparcie
+default_issue_status_new: Nowy
+default_issue_status_assigned: Przypisany
+default_issue_status_resolved: Rozwiązany
+default_issue_status_feedback: Odpowiedź
+default_issue_status_closed: Zamknięty
+default_issue_status_rejected: Odrzucony
+default_doc_category_user: Dokumentacja użytkownika
+default_doc_category_tech: Dokumentacja techniczna
+default_priority_low: Niski
+default_priority_normal: Normalny
+default_priority_high: Wysoki
+default_priority_urgent: Pilny
+default_priority_immediate: Natyczmiastowy
+default_activity_design: Projektowanie
+default_activity_development: Rozwój
+
+enumeration_issue_priorities: Priorytety zgłoszeń
+enumeration_doc_categories: Kategorie dokumentów
+enumeration_activities: Działania (śledzenie czasu)
+button_rename: Rename
+text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
+label_feeds_access_key_created_on: RSS access key created %s ago
+setting_cross_project_issue_relations: Allow cross-project issue relations
+label_roadmap_overdue: %s late
+label_module_plural: Modules
+label_this_week: this week
+label_jump_to_a_project: Jump to a project...
+field_assignable: Issues can be assigned to this role
+label_sort_by: Sort by "%s"
+text_issue_updated: Issue %s has been updated.
+notice_feeds_access_key_reseted: Your RSS access key was reseted.
+field_redirect_existing_links: Redirect existing links
+text_issue_category_reassign_to: Reassing issues to this category
+notice_email_sent: An email was sent to %s
+text_issue_added: Issue %s has been reported.
+text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
+notice_email_error: An error occurred while sending mail (%s)
+label_updated_time: Updated %s ago
+text_issue_category_destroy_assignments: Remove category assignments
+label_send_test_email: Send a test email
+button_reset: Reset
+label_added_time_by: Added by %s %s ago
+field_estimated_hours: Estimated time

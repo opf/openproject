@@ -511,3 +511,4 @@ default_activity_development: 开发
 enumeration_issue_priorities: 任务优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: Activities (time tracking)
+label_wiki_page: Wiki page
