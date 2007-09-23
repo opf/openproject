@@ -1,0 +1,9 @@
+<p class="icon icon-example-works"><%= l(:text_say_hello) %></p>
+
+<p><label>Example setting</label>: <%= @value %></p>
+
+<%= link_to_if_authorized 'Good bye', :action => 'say_goodbye', :id => @project %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "example.css", :plugin => "sample_plugin", :media => "screen" %>
+<% end %>

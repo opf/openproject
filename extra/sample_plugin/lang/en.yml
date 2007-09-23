@@ -1,0 +1,4 @@
+# Sample plugin
+label_plugin_example: Sample Plugin
+text_say_hello: Plugin say 'Hello'
+text_say_goodbye: Plugin say 'Good bye'

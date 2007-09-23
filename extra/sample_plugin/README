@@ -1,0 +1,24 @@
+== Sample plugin
+
+This is a sample plugin for Redmine
+
+== Installation
+
+=== Adding plugin support to Redmine
+
+1. Install engines plugin
+   See: http://rails-engines.org/
+
+2. Uncomment this line in config/environment.rb:
+   config.plugins = ["engines", "*"]
+
+=== Plugin installation
+
+1. Copy the plugin directory into the vendor/plugins directory
+
+2. Migrate plugin:
+   rake db:migrate_plugins
+
+3. Start Redmine
+
+Installed plugins are listed on 'Admin -> Information' screen.
