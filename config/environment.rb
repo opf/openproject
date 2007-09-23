@@ -58,6 +58,10 @@ Rails::Initializer.run do |config|
 	# ActionMailer::Base.deliveries array.
 	#config.action_mailer.delivery_method = :test
 	config.action_mailer.delivery_method = :smtp  
+
+  # Uncomment this line if the engines plugin is installed.
+  # This will ensure that engines is loaded first.
+  # config.plugins = ["engines", "*"]
 end
 
 ActiveRecord::Errors.default_error_messages = {

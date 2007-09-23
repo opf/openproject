@@ -73,7 +73,7 @@ module GLoc
     end
     
     def _get_lang_file_list(dir) #:nodoc:
-      dir= File.join(RAILS_ROOT,'lang') if dir.nil?
+      dir= File.join(RAILS_ROOT,'{.,vendor/plugins/*}','lang') if dir.nil?
       Dir[File.join(dir,'*.{yaml,yml}')]
     end
     

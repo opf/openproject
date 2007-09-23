@@ -7,3 +7,19 @@
 <tr class="even"><td>File repository writable</td><td><%= image_tag (@flags[:file_repository_writable] ? 'true.png' : 'false.png'), :style => "vertical-align:bottom;" %></td></tr>
 <tr class="odd"><td>RMagick available</td><td><%= image_tag (@flags[:rmagick_available] ? 'true.png' : 'false.png'), :style => "vertical-align:bottom;" %></td></tr>
 </table>
+
+<% if @plugins.any? %>
+&nbsp;
+<h3 class="icon22 icon22-plugin">Plugins</h3>
+<table class="list">
+    <% @plugins.keys.sort.each do |plugin| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+        <td><%=h @plugins[plugin].name %></td>
+        <td><%=h @plugins[plugin].description %></td>
+        <td><%=h @plugins[plugin].author %></td>
+        <td><%=h @plugins[plugin].version %></td>
+        <td><%= link_to('Configure', :controller => 'settings', :action => 'plugin', :id => plugin.to_s) if @plugins[plugin].configurable? %></td>
+        </tr>
+    <% end %>
+</table>
+<% end %>

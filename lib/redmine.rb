@@ -3,6 +3,7 @@ require 'redmine/menu_manager'
 require 'redmine/mime_type'
 require 'redmine/acts_as_watchable/init'
 require 'redmine/acts_as_event/init'
+require 'redmine/plugin'
 
 begin
   require_library_or_gem 'RMagick' unless Object.const_defined?(:Magick)
