@@ -131,6 +131,8 @@ margin*/
 .required {color: #bb0000;}
 .summary {font-style: italic;}
 
+div.attachments p { margin:4px 0 2px 0; }
+
 /***** Flash & error messages ****/
 #flash div, #errorExplanation, .nodata {
     padding: 4px 4px 4px 30px;

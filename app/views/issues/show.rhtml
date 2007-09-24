@@ -62,18 +62,18 @@ end %>
 </div>
 <% end %>
 
-<p><b><%=l(:field_description)%></b></p>
+<p><strong><%=l(:field_description)%></strong></p>
 <%= textilizable @issue.description, :attachments => @issue.attachments %>
+
+<% if @issue.attachments.any? %>
+<%= link_to_attachments @issue.attachments, :delete_url => (authorize_for('issues', 'destroy_attachment') ? {:controller => 'issues', :action => 'destroy_attachment', :id => @issue} : nil) %>
+<% end %>
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
 <hr />
 <div id="relations">
 <%= render :partial => 'relations' %>
 </div>
-<% end %>
-
-<% if @issue.attachments.any? %>
-<%= link_to_attachments @issue.attachments, :delete_url => (authorize_for('issues', 'destroy_attachment') ? {:controller => 'issues', :action => 'destroy_attachment', :id => @issue} : nil) %>
 <% end %>
 
 </div>
