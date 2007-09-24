@@ -1,16 +1,17 @@
 <h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%=h @message.subject %></h2>
 
-<p><em><%= @message.author.name %>, <%= format_time(@message.created_on) %></em></p>
+<p><span class="author"><%= authoring @message.created_on, @message.author %></span></p>
 <div class="wiki">
 <%= textilizable(@message.content, :attachments => @message.attachments) %>
 </div>
 <%= link_to_attachments @message.attachments, :no_author => true %>
+<br />
 
 <h3 class="icon22 icon22-comment"><%= l(:label_reply_plural) %></h3>
 <% @message.children.each do |message| %>
   <a name="<%= "message-#{message.id}" %>"></a>
   <h4><%=h message.subject %> - <%= message.author.name %>, <%= format_time(message.created_on) %></h4>
-  <div class="wiki"><p><%= textilizable message.content %></p></div>
+  <div class="wiki"><%= textilizable message.content %></div>
 <% end %>
 
 <% if authorize_for('messages', 'reply') %>
