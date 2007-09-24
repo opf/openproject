@@ -30,7 +30,7 @@
             <%= link_to(l(:label_register), :controller => 'account',:action => 'register') if Setting.self_registration? %>
         <% end %>
     </div>
-    <%= link_to l(:label_home), { :controller => 'welcome' } %>
+    <%= link_to l(:label_home), home_url %>
     <%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'} if User.current.logged? %>
     <%= link_to l(:label_project_plural), { :controller => 'projects' } %>
     <%= link_to l(:label_administration), { :controller => 'admin' } if User.current.admin? %>

@@ -63,15 +63,15 @@ class AccountController < ApplicationController
     cookies.delete :autologin
     Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin']) if User.current.logged?
     self.logged_user = nil
-    redirect_to :controller => 'welcome'
+    redirect_to home_url
   end
   
   # Enable user to choose a new password
   def lost_password
-    redirect_to :controller => 'welcome' and return unless Setting.lost_password?
+    redirect_to(home_url) && return unless Setting.lost_password?
     if params[:token]
       @token = Token.find_by_action_and_value("recovery", params[:token])
-      redirect_to :controller => 'welcome' and return unless @token and !@token.expired?
+      redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
@@ -105,12 +105,12 @@ class AccountController < ApplicationController
   
   # User self-registration
   def register
-    redirect_to :controller => 'welcome' and return unless Setting.self_registration?
+    redirect_to(home_url) && return unless Setting.self_registration?
     if params[:token]
       token = Token.find_by_action_and_value("register", params[:token])
-      redirect_to :controller => 'welcome' and return unless token and !token.expired?
+      redirect_to(home_url) && return unless token and !token.expired?
       user = token.user
-      redirect_to :controller => 'welcome' and return unless user.status == User::STATUS_REGISTERED
+      redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
       user.status = User::STATUS_ACTIVE
       if user.save
         token.destroy
