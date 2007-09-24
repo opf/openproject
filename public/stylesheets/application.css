@@ -7,15 +7,15 @@ h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; bord
 h4, .wiki h3 {font-size: 11px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb; color: #444;}
 
 /***** Layout *****/
-#top-menu {background: #22344A;color: #fff;height:1.5em; padding: 2px 6px 0px 6px;}
+#top-menu {background: #2C4056;color: #fff;height:1.5em; padding: 2px 6px 0px 6px;}
 #top-menu a {color: #fff; padding-right: 4px;}
 #account {float:right;}
 
-#header {height:5.3em;margin:0;background-color:#507AAA;color:#f8f8f8; padding: 4px 6px 0px 6px;}
+#header {height:5.3em;margin:0;background-color:#507AAA;color:#f8f8f8; padding: 4px 8px 0px 6px;}
 #header a {color:#f8f8f8;}
 #quick-search {float:right;}
 
-#main-menu {position: absolute;  top: 5.5em;  left:8px;}
+#main-menu {position: absolute;  top: 5.5em;  left:6px;}
 #main-menu ul {margin: 0;  padding: 0;}
 #main-menu li {
   float:left;
@@ -30,7 +30,7 @@ h4, .wiki h3 {font-size: 11px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   text-decoration: none;
   margin: 0;
   padding: 4px 4px 4px 4px;
-  background: #22344A;
+  background: #2C4056;
 }
 #main-menu li a:hover {background:#759FCF;}
 
