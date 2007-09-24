@@ -509,3 +509,5 @@ default_activity_development: Development
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
+label_file_plural: Files
+label_changeset_plural: Changesets

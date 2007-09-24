@@ -509,3 +509,5 @@ label_send_test_email: Send a test email
 button_reset: Reset
 label_added_time_by: Added by %s %s ago
 field_estimated_hours: Estimated time
+label_file_plural: Files
+label_changeset_plural: Changesets

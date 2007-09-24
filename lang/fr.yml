@@ -420,6 +420,8 @@ label_module_plural: Modules
 label_added_time_by: Ajouté par %s il y a %s
 label_updated_time: Mis à jour il y a %s
 label_jump_to_a_project: Aller à un projet...
+label_file_plural: Fichiers
+label_changeset_plural: Révisions
 
 button_login: Connexion
 button_submit: Soumettre

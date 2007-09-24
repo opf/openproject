@@ -512,3 +512,5 @@ enumeration_issue_priorities: 任务优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: Activities (time tracking)
 label_wiki_page: Wiki page
+label_file_plural: Files
+label_changeset_plural: Changesets

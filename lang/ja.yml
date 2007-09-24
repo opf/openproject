@@ -510,3 +510,5 @@ default_activity_development: 開発作業
 enumeration_issue_priorities: 問題の優先度
 enumeration_doc_categories: 文書カテゴリ
 enumeration_activities: 作業分類 (時間トラッキング)
+label_file_plural: Files
+label_changeset_plural: Changesets

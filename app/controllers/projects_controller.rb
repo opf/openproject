@@ -446,13 +446,15 @@ class ProjectsController < ApplicationController
       @date_to = @date_from >> 1
     end
     
-    @event_types = %w(issues news attachments documents wiki_edits revisions)
-    @event_types.delete('wiki_edits') unless @project.wiki
+    @event_types = %w(issues news files documents wiki_pages changesets)
+    @event_types.delete('wiki_pages') unless @project.wiki
     @event_types.delete('changesets') unless @project.repository
+    # only show what the user is allowed to view
+    @event_types = @event_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, @project)}
     
     @scope = @event_types.select {|t| params["show_#{t}"]}
     # default events if none is specified in parameters
-    @scope = (@event_types - %w(wiki_edits))if @scope.empty?
+    @scope = (@event_types - %w(wiki_pages))if @scope.empty?
     
     @events = []    
     
@@ -464,7 +466,7 @@ class ProjectsController < ApplicationController
       @events += @project.news.find(:all, :conditions => ["#{News.table_name}.created_on>=? and #{News.table_name}.created_on<=?", @date_from, @date_to], :include => :author )
     end
     
-    if @scope.include?('attachments')
+    if @scope.include?('files')
       @events += Attachment.find(:all, :select => "#{Attachment.table_name}.*", :joins => "LEFT JOIN #{Version.table_name} ON #{Version.table_name}.id = #{Attachment.table_name}.container_id", :conditions => ["#{Attachment.table_name}.container_type='Version' and #{Version.table_name}.project_id=? and #{Attachment.table_name}.created_on>=? and #{Attachment.table_name}.created_on<=?", @project.id, @date_from, @date_to], :include => :author )
     end
     
@@ -473,7 +475,7 @@ class ProjectsController < ApplicationController
       @events += Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN #{Document.table_name} ON #{Document.table_name}.id = #{Attachment.table_name}.container_id", :conditions => ["#{Attachment.table_name}.container_type='Document' and #{Document.table_name}.project_id=? and #{Attachment.table_name}.created_on>=? and #{Attachment.table_name}.created_on<=?", @project.id, @date_from, @date_to], :include => :author )
     end
     
-    if @scope.include?('wiki_edits') && @project.wiki
+    if @scope.include?('wiki_pages')
       select = "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
                "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title, " +
                "#{WikiContent.versioned_table_name}.page_id, #{WikiContent.versioned_table_name}.author_id, " +
@@ -486,7 +488,7 @@ class ProjectsController < ApplicationController
       @events += WikiContent.versioned_class.find(:all, :select => select, :joins => joins, :conditions => conditions)
     end
 
-    if @scope.include?('revisions') && @project.repository
+    if @scope.include?('changesets')
       @events += @project.repository.changesets.find(:all, :conditions => ["#{Changeset.table_name}.committed_on BETWEEN ? AND ?", @date_from, @date_to])
     end
     

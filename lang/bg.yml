@@ -509,3 +509,5 @@ default_activity_development: Разработка
 enumeration_issue_priorities: Приоритети на задачи
 enumeration_doc_categories: Категории документи
 enumeration_activities: Дейности (time tracking)
+label_file_plural: Files
+label_changeset_plural: Changesets

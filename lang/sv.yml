@@ -510,3 +510,5 @@ enumeration_issue_priorities: Bristprioriteringar
 enumeration_doc_categories: Dokumentkategorier
 enumeration_activities: Aktiviteter (tidsspårning)
 field_comments: Comment
+label_file_plural: Files
+label_changeset_plural: Changesets
