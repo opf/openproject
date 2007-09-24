@@ -5,21 +5,8 @@
 <p><%= text_field_tag 'q', @question, :size => 30, :id => 'search-input' %>
 <%= javascript_tag "Field.focus('search-input')" %>
 
-<% if @project %>
-  <%= check_box_tag 'scope[]', 'issues', (@scope.include? 'issues') %> <label><%= l(:label_issue_plural) %></label>
-  <% if @project.repository %>
-  <%= check_box_tag 'scope[]', 'changesets', (@scope.include? 'changesets') %> <label><%= l(:label_revision_plural) %></label>
-  <% end %>
-  <%= check_box_tag 'scope[]', 'news', (@scope.include? 'news') %> <label><%= l(:label_news_plural) %></label>
-  <%= check_box_tag 'scope[]', 'documents', (@scope.include? 'documents') %> <label><%= l(:label_document_plural) %></label>
-  <% if @project.wiki %>
-  <%= check_box_tag 'scope[]', 'wiki', (@scope.include? 'wiki') %> <label><%= l(:label_wiki) %></label>
-  <% end %>
-  <% if @project.boards.any? %>
-  <%= check_box_tag 'scope[]', 'messages', (@scope.include? 'messages') %> <label><%= l(:label_message_plural) %></label>
-  <% end %>
-<% else %>
-  <%= check_box_tag 'scope[]', 'projects', (@scope.include? 'projects') %> <label><%= l(:label_project_plural) %></label>
+<% @object_types.each do |t| %>
+<label><%= check_box_tag t, 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label>
 <% end %>
 <br />
 <%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></p>

@@ -25,10 +25,9 @@ class SearchController < ApplicationController
     @question = params[:q] || ""
     @question.strip!
     @all_words = params[:all_words] || (params[:submit] ? false : true)
-    @scope = params[:scope] || (params[:submit] ? [] : %w(projects issues changesets news documents wiki messages) )
     
     # quick jump to an issue
-    if @scope.include?('issues') && @question.match(/^#?(\d+)$/) && Issue.find_by_id($1, :include => :project, :conditions => Project.visible_by(logged_in_user))
+    if @question.match(/^#?(\d+)$/) && Issue.find_by_id($1, :include => :project, :conditions => Project.visible_by(logged_in_user))
       redirect_to :controller => "issues", :action => "show", :id => $1
       return
     end
@@ -36,6 +35,20 @@ class SearchController < ApplicationController
     if params[:id]
       find_project
       return unless check_project_privacy
+    end
+    
+    if @project
+      @object_types = %w(projects issues changesets news documents wiki_pages messages)
+      @object_types.delete('wiki_pages') unless @project.wiki
+      @object_types.delete('changesets') unless @project.repository
+      # only show what the user is allowed to view
+      @object_types = @object_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, @project)}
+      
+      @scope = @object_types.select {|t| params[t]}
+      # default objects to search if none is specified in parameters
+      @scope = @object_types if @scope.empty?
+    else
+      @scope = %w(projects)
     end
     
     # tokens must be at least 3 character long
@@ -49,7 +62,7 @@ class SearchController < ApplicationController
       operator = @all_words ? " AND " : " OR "
       limit = 10
       @results = []
-      if @project
+      if @project        
         @results += @project.issues.find(:all, :limit => limit, :include => :author, :conditions => [ (["(LOWER(subject) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'issues'
         Journal.with_scope :find => {:conditions => ["#{Issue.table_name}.project_id = ?", @project.id]} do
           @results += Journal.find(:all, :include => :issue, :limit => limit, :conditions => [ (["(LOWER(notes) like ? OR LOWER(notes) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ).collect(&:issue) if @scope.include? 'issues'
@@ -57,7 +70,7 @@ class SearchController < ApplicationController
         @results.uniq!
         @results += @project.news.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort], :include => :author ) if @scope.include? 'news'
         @results += @project.documents.find(:all, :limit => limit, :conditions => [ (["(LOWER(title) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'documents'
-        @results += @project.wiki.pages.find(:all, :limit => limit, :include => :content, :conditions => [ (["(LOWER(title) like ? OR LOWER(text) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @project.wiki && @scope.include?('wiki')
+        @results += @project.wiki.pages.find(:all, :limit => limit, :include => :content, :conditions => [ (["(LOWER(title) like ? OR LOWER(text) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @project.wiki && @scope.include?('wiki_pages')
         @results += @project.repository.changesets.find(:all, :limit => limit, :conditions => [ (["(LOWER(comments) like ?)"] * like_tokens.size).join(operator), * (like_tokens).sort] ) if @project.repository && @scope.include?('changesets')
         Message.with_scope :find => {:conditions => ["#{Board.table_name}.project_id = ?", @project.id]} do
           @results += Message.find(:all, :include => :board, :limit => limit, :conditions => [ (["(LOWER(subject) like ? OR LOWER(content) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'messages'
