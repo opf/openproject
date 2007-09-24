@@ -48,7 +48,7 @@ class SearchController < ApplicationController
       # default objects to search if none is specified in parameters
       @scope = @object_types if @scope.empty?
     else
-      @scope = %w(projects)
+      @object_types = @scope = %w(projects)
     end
     
     # tokens must be at least 3 character long
