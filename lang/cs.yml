@@ -1,0 +1,513 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: Leden,Únor,Březen,Duben,Květen,Červen,Červenec,Srpen,Září,Říjen,Listopad,Prosinec
+actionview_datehelper_select_month_names_abbr: Led,Úno,Bře,Dub,Kvě,Čer,Čvc,Srp,Zář,Říj,Lis,Pro
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 den
+actionview_datehelper_time_in_words_day_plural: %d dny
+actionview_datehelper_time_in_words_hour_about: asi hodinu
+actionview_datehelper_time_in_words_hour_about_plural: asi %d hodin
+actionview_datehelper_time_in_words_hour_about_single: asi hodinu
+actionview_datehelper_time_in_words_minute: 1 minuta
+actionview_datehelper_time_in_words_minute_half: půl minuty
+actionview_datehelper_time_in_words_minute_less_than: méně než minutu
+actionview_datehelper_time_in_words_minute_plural: %d minut
+actionview_datehelper_time_in_words_minute_single: 1 minuta
+actionview_datehelper_time_in_words_second_less_than: méně než sekunda
+actionview_datehelper_time_in_words_second_less_than_plural: méně než %d sekund
+actionview_instancetag_blank_option: Prosím vyberte
+
+activerecord_error_inclusion: není zahrnuto v seznamu
+activerecord_error_exclusion: je rezervováno
+activerecord_error_invalid: je neplatné
+activerecord_error_confirmation: doesn't match confirmation
+activerecord_error_accepted: must be accepted
+activerecord_error_empty: nemůže být prázdný
+activerecord_error_blank: nemůže být prázdný
+activerecord_error_too_long: je příliš dlouhý
+activerecord_error_too_short: je příliš krátký
+activerecord_error_wrong_length: má chybnou délku
+activerecord_error_taken: has already been taken
+activerecord_error_not_a_number: není číslo
+activerecord_error_not_a_date: není platný datum
+activerecord_error_greater_than_start_date: musí být větší než počáteční datum
+activerecord_error_not_same_project: nepatří stejnému projektu
+activerecord_error_circular_dependency: Tento vztah by vytvořil cyklickou závislost
+
+general_fmt_age: %d rok
+general_fmt_age_plural: %d roků
+general_fmt_date: %%m/%%d/%%Y
+general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: 'Ne'
+general_text_Yes: 'Ano'
+general_text_no: 'ne'
+general_text_yes: 'Ano'
+general_lang_name: 'Čeština'
+general_csv_separator: ','
+general_csv_encoding: UTF-8
+general_pdf_encoding: UTF-8
+general_day_names: Pondělí,Úterý,Středa,Čtvrtek,Pátek,Sobota,Neděle
+
+notice_account_updated: Účet byl úspěšně změněn.
+notice_account_invalid_creditentials: Chybné jméno nebo heslo
+notice_account_password_updated: Heslo bylo úspěšně změněno.
+notice_account_wrong_password: Chybné heslo
+notice_account_register_done: Účet byl úspěšně vytvořen. Pro aktivaci účtu klikněte na odkaz v emailu, který vám byl zaslán.
+notice_account_unknown_email: Neznámý uživatel.
+notice_can_t_change_password: Tento účet používá externí autentifikaci. Zde heslo změnit nemůžete.
+notice_account_lost_email_sent: Byl vám zaslán email s intrukcemi jak si nastavíte nové heslo.
+notice_account_activated: Váš účet byl aktivován. Nyní se můžete přihlásit.
+notice_successful_create: Úspěšné vytvoření.
+notice_successful_update: Úspěšná aktualizace.
+notice_successful_delete: Úspěšné smazání.
+notice_successful_connection: Úspěšné připojení.
+notice_file_not_found: Stránka na kterou se snažíte zobrazit neexistuje nebo byla smazána.
+notice_locking_conflict: Údaje byly změněny jiným uživatelem.
+notice_scm_error: Entry and/or revision doesn't exist in the repository.
+notice_not_authorized: Nemáte dostatečná práva pro zobrazení této stránky.
+notice_email_sent: Na adresu %s byl odeslán email
+notice_email_error: Při odesílání emailu nastala chyba (%s)
+notice_feeds_access_key_reseted: Váš klíč pro přístup k RSS byl resetován.
+
+mail_subject_lost_password: Vaše heslo
+mail_subject_register: aktivace účtu
+
+gui_validation_error: 1 chyba
+gui_validation_error_plural: %d chyb(y)
+
+field_name: Jméno
+field_description: Popis
+field_summary: Shrnutí
+field_is_required: Požadovaný
+field_firstname: Jméno
+field_lastname: Příjmení
+field_mail: Email
+field_filename: Soubor
+field_filesize: Velikost
+field_downloads: Staženo
+field_author: Autor
+field_created_on: Vytvořeno
+field_updated_on: Aktualizováno
+field_field_format: Formát
+field_is_for_all: Pro všechny projekty
+field_possible_values: Možné hodnoty
+field_regexp: Regulární výraz
+field_min_length: Minimální délka
+field_max_length: Maximální délka
+field_value: Hodnota
+field_category: Kategorie
+field_title: Titulek
+field_project: Projekt
+field_issue: Požadavek
+field_status: Stav
+field_notes: Poznámka
+field_is_closed: Požadavek uzavřen
+field_is_default: Výchozí stav
+field_html_color: Barva
+field_tracker: Fronta
+field_subject: Předmět
+field_due_date: Po lhůtě
+field_assigned_to: Přiřazeno
+field_priority: Priorita
+field_fixed_version: Pevná verze
+field_user: Uživatel
+field_role: Role
+field_homepage: Úvodní
+field_is_public: Veřejný
+field_parent: Podprojekt
+field_is_in_chlog: Požadavky zobrazené v změnovém logu
+field_is_in_roadmap: Požadavky zobrazené v roadmapě
+field_login: Přihlášení
+field_mail_notification: Emailové oznámení
+field_admin: Administrátor
+field_last_login_on: Poslední připojení
+field_language: Jazyk
+field_effective_date: Datum
+field_password: Heslo
+field_new_password: Nové heslo
+field_password_confirmation: Potvrzení
+field_version: Verze
+field_type: Typ
+field_host: Host
+field_port: Port
+field_account: Účet
+field_base_dn: Base DN
+field_attr_login: Login attribute
+field_attr_firstname: Firstname attribute
+field_attr_lastname: Lastname attribute
+field_attr_mail: Email attribute
+field_onthefly: Automatické vytváření uživatelů
+field_start_date: Start
+field_done_ratio: %% Hotovo
+field_auth_source: Autentifikační mód
+field_hide_mail: Nezobrazovat můj email
+field_comments: Komentář
+field_url: URL
+field_start_page: Výchozí stránka
+field_subproject: Podprojekt
+field_hours: Hodiny
+field_activity: Aktivita
+field_spent_on: Datum
+field_identifier: Identifikátor
+field_is_filter: Used as a filter
+field_issue_to_id: Vztažený požadavek
+field_delay: Zpoždění
+field_assignable: Požadavky mohou být přiřazeny této roli
+
+setting_app_title: Titulek aplikace
+setting_app_subtitle: Podtitulek aplikace
+setting_welcome_text: Uvítací text
+setting_default_language: Výchozí jazyk
+setting_login_required: Auten. vyžadována
+setting_self_registration: Povolena automatická registrace
+setting_attachment_max_size: Maximální velikost přílohy
+setting_issues_export_limit: Limit pro export požadavků
+setting_mail_from: Emission mail adresa
+setting_host_name: Host name
+setting_text_formatting: Formátování textu
+setting_wiki_compression: Komperese historie Wiki
+setting_feeds_limit: Feed content limit
+setting_autofetch_changesets: Autofetch commits
+setting_sys_api_enabled: Povolit WS pro správu repozitory
+setting_commit_ref_keywords: Referencing keywords
+setting_commit_fix_keywords: Fixing keywords
+setting_autologin: Automatické přihlašování
+setting_date_format: Formát datumu
+setting_cross_project_issue_relations: Povolit vztahy požadavků mezi projekty
+
+label_user: Uživatel
+label_user_plural: Uživatelé
+label_user_new: Nový uživatel
+label_project: Projekt
+label_project_new: Nový projekt
+label_project_plural: Projekty
+label_project_all: Všechny projekty
+label_project_latest: Poslední projekty
+label_issue: Požadavek
+label_issue_new: Nový požadavek
+label_issue_plural: Požadavky
+label_issue_view_all: Všechny požadavky
+label_document: Dokument
+label_document_new: Nový dokument
+label_document_plural: Dokumenty
+label_role: Role
+label_role_plural: Role
+label_role_new: Nová role
+label_role_and_permissions: Role a práva
+label_member: Člen
+label_member_new: Nový člen
+label_member_plural: Členové
+label_tracker: Fronta
+label_tracker_plural: Fronty
+label_tracker_new: Nová fronta
+label_workflow: Workflow
+label_issue_status: Stav požadavku
+label_issue_status_plural: Stavy požadavku
+label_issue_status_new: Nový stav
+label_issue_category: Kategorie požadavku
+label_issue_category_plural: Kategorie požadavku
+label_issue_category_new: Nová kategorie
+label_custom_field: Uživatelské pole
+label_custom_field_plural: Uživatelské pole
+label_custom_field_new: Nové uživatelské pole
+label_enumerations: Číselníky
+label_enumeration_new: Nová hodnota
+label_information: Informace
+label_information_plural: Informace
+label_please_login: Prosím přihlašte se
+label_register: Registrovat
+label_password_lost: Zapomenuté heslo
+label_home: Úvodní
+label_my_page: Moje stránka
+label_my_account: Můj účet
+label_my_projects: Moje projekty
+label_administration: Administrace
+label_login: Přihlášení
+label_logout: Odhlášení
+label_help: Nápověda
+label_reported_issues: Nahlášené požadavky
+label_assigned_to_me_issues: Moje požadavky
+label_last_login: Poslední přihlášení
+label_last_updates: Poslední změna
+label_last_updates_plural: %d poslední změny
+label_registered_on: Registered on
+label_activity: Aktivita
+label_new: Nový
+label_logged_as: Přihlášen jako
+label_environment: Prostředí
+label_authentication: Autentifikace
+label_auth_source: Mód autentifikace
+label_auth_source_new: Nový mód autentifikace
+label_auth_source_plural: Módy autentifikace
+label_subproject_plural: Podprojekty
+label_min_max_length: Min - Max délka
+label_list: Seznam
+label_date: Datum
+label_integer: Integer
+label_boolean: Boolean
+label_string: Text
+label_text: Dlouhý text
+label_attribute: Atribut
+label_attribute_plural: Atributy
+label_download: %d Download
+label_download_plural: %d Downloads
+label_no_data: Žádná data k zobrazení
+label_change_status: Změnit stav
+label_history: Historie
+label_attachment: Soubor
+label_attachment_new: Nový soubor
+label_attachment_delete: Smazat soubor
+label_attachment_plural: Soubory
+label_report: Report
+label_report_plural: Reporty
+label_news: Novinky
+label_news_new: Přidat novinku
+label_news_plural: Novinky
+label_news_latest: Poslední novinky
+label_news_view_all: Zobrazit všechny novinky
+label_change_log: Change log
+label_settings: Nastavení
+label_overview: Přehled
+label_version: Verze
+label_version_new: Nová verze
+label_version_plural: Verze
+label_confirmation: Potvrzení
+label_export_to: Exportovat do
+label_read: Načítá se...
+label_public_projects: Veřejné projekty
+label_open_issues: otevřený
+label_open_issues_plural: otevřené
+label_closed_issues: uzavřený
+label_closed_issues_plural: uzavřené
+label_total: Celkem
+label_permissions: Práva
+label_current_status: Aktuální stav
+label_new_statuses_allowed: Nové povolené stavy
+label_all: vše
+label_none: nic
+label_next: Další 
+label_previous: Předchozí
+label_used_by: Použito
+label_details: Detaily
+label_add_note: Přidat poznánku
+label_per_page: Na stránku
+label_calendar: Kalendář
+label_months_from: měsíců od
+label_gantt: Gantův graf
+label_internal: Interní
+label_last_changes: posledních %d změn
+label_change_view_all: Zobrazit všechny změny
+label_personalize_page: Přizpůsobit tuto stránku
+label_comment: Komentář
+label_comment_plural: Komentáře
+label_comment_add: Přidat komentáře
+label_comment_added: Komentář přidán
+label_comment_delete: Smazat komentář
+label_query: Uživatelský dotaz
+label_query_plural: Uživatelské dotazy
+label_query_new: Nový dotaz
+label_filter_add: Přidat filtr
+label_filter_plural: Filtry
+label_equals: je
+label_not_equals: není
+label_in_less_than: je měší než
+label_in_more_than: je větší než
+label_in: v
+label_today: dnes
+label_this_week: tento týden
+label_less_than_ago: před méně jak (dny)
+label_more_than_ago: před více jak (dny)
+label_ago: před (dny)
+label_contains: obsahuje
+label_not_contains: neobsahuje
+label_day_plural: dny
+label_repository: Repository
+label_browse: Procházet
+label_modification: %d změna
+label_modification_plural: %d změn
+label_revision: Revize
+label_revision_plural: Revizí
+label_added: přidáno
+label_modified: změněno
+label_deleted: smazáno
+label_latest_revision: Poslední revize
+label_latest_revision_plural: Poslední revize
+label_view_revisions: Zobrazit revize
+label_max_size: Maximální velikost
+label_on: 'on'
+label_sort_highest: Posunout na vrchol
+label_sort_higher: Posunout nahoru
+label_sort_lower: Posunout dolů
+label_sort_lowest: Posunout dospod
+label_roadmap: Plán
+label_roadmap_due_in: Due in 
+label_roadmap_overdue: %s pozdě
+label_roadmap_no_issues: Pro tuto verzi nejsou žádné požadavky
+label_search: Hledej
+label_result: %d výsledek
+label_result_plural: %d výsledky
+label_all_words: Všechna slova
+label_wiki: Wiki
+label_wiki_edit: Wiki úprava
+label_wiki_edit_plural: Wiki úpravy
+label_wiki_page: Wiki stránka
+label_wiki_page_plural: Wiki stránky
+label_page_index: Rejstřík
+label_current_version: Aktuální verze
+label_preview: Náhled
+label_feed_plural: Feeds
+label_changes_details: Detail všech změn
+label_issue_tracking: Sledování požadavků
+label_spent_time: Strávený čas
+label_f_hour: %.2f hodina
+label_f_hour_plural: %.2f hodin
+label_time_tracking: Sledování času
+label_change_plural: Změny
+label_statistics: Statistika
+label_commits_per_month: Pořízení za měsíc
+label_commits_per_author: Pořízení za autora
+label_view_diff: Zobrazit rozdíly
+label_diff_inline: uvnitř
+label_diff_side_by_side: vedle sebe
+label_options: Nastavení
+label_copy_workflow_from: Kopírovat workflow z
+label_permissions_report: Opis práv
+label_watched_issues: Prohlédnuté požadavky
+label_related_issues: Vztažené požadavky
+label_applied_status: Použitý stav
+label_loading: Nahrávám...
+label_relation_new: Nový vztah
+label_relation_delete: Smazat vztah
+label_relates_to: vztažený k
+label_duplicates: duplicity
+label_blocks: zámků
+label_blocked_by: zamčeno
+label_precedes: předchází
+label_follows: následuje
+label_end_to_start: od konce do začátku
+label_end_to_end: od konce do konce
+label_start_to_start: od začátku do začátku
+label_start_to_end: od začátku do konce
+label_stay_logged_in: Zůstat přihlášený
+label_disabled: zakázáno
+label_show_completed_versions: Ukaž dokončené verze
+label_me: já
+label_board: Fórum
+label_board_new: Nové fórum
+label_board_plural: Fora
+label_topic_plural: Témata
+label_message_plural: Zprávy
+label_message_last: Poslední zpráva
+label_message_new: Nové zprávy
+label_reply_plural: Odpovědi
+label_send_information: Zaslat informace o účtu uživateli
+label_year: Rok
+label_month: Měsíc
+label_week: Týden
+label_date_from: Od
+label_date_to: Do
+label_language_based: Language based
+label_sort_by: Seřadit podle "%s"
+label_send_test_email: Poslat testovací email
+label_feeds_access_key_created_on: Přístupový klíč pro RSS byl vytvořen před %s
+
+button_login: Přihlásit
+button_submit: Potvrdit
+button_save: Uložit
+button_check_all: Zašrtnout vše
+button_uncheck_all: Odšrtnout vše
+button_delete: Smazat
+button_create: Vytvořit
+button_test: Test
+button_edit: Upravit
+button_add: Přidat
+button_change: Změnit
+button_apply: Použít
+button_clear: Odstranit
+button_lock: Zamknout
+button_unlock: Odemknout
+button_download: Stáhnout
+button_list: Vypsat
+button_view: Zobrazit
+button_move: Přesunout
+button_back: Zpět
+button_cancel: Storno
+button_activate: Activovat
+button_sort: Seřadit
+button_log_time: Čas přihlášení
+button_rollback: Zpět k této verzi
+button_watch: Sledovat
+button_unwatch: Unwatch
+button_reply: Odpovědět
+button_archive: Archivovat
+button_unarchive: Odarchivovat
+button_reset: Reset
+
+status_active: aktivní
+status_registered: registrovaný
+status_locked: uzamčený
+
+text_select_mail_notifications: Vyberte akci při které bude zasláno upozornění emailem.
+text_regexp_info: např. ^[A-Z0-9]+$
+text_min_max_length_info: 0 znamená bez limitu
+text_project_destroy_confirmation: Jste si jistí, že chcete smazat tento projekt a všechna související data ?
+text_workflow_edit: Vyberte roli a frontu k editaci workflow
+text_are_you_sure: Jste si jist ?
+text_journal_changed: změněno z %s na %s
+text_journal_set_to: nastaveno na %s
+text_journal_deleted: smazáno
+text_tip_task_begin_day: úkol začíná v tento den
+text_tip_task_end_day: úkol končí v tento den
+text_tip_task_begin_end_day: úkol začíná a končí v tento den
+text_project_identifier_info: 'Jsou povolena malá písmena (a-z), čísla a pomlčky.<br />Po uložení již není možné identifikátor změnit.'
+text_caracters_maximum: %d znaků maximálně.
+text_length_between: Délka mezi %d a %d znaky.
+text_tracker_no_workflow: Pro tuto frontu není definováno žádné workflow
+text_unallowed_characters: Nepovolené znaky
+text_comma_separated: Povoleno více hodnot (oddělěné čárkou).
+text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+
+default_role_manager: Manažer
+default_role_developper: Agent
+default_role_reporter: Reporter
+default_tracker_bug: Reklamace
+default_tracker_feature: Vlastnost
+default_tracker_support: Požadavek
+default_issue_status_new: Nový
+default_issue_status_assigned: Přiřazený
+default_issue_status_resolved: Vyřešený
+default_issue_status_feedback: Čeká se
+default_issue_status_closed: Uzavřený
+default_issue_status_rejected: Odmítnutý
+default_doc_category_user: Uživatelská dokumentace
+default_doc_category_tech: Technická dokumentace
+default_priority_low: Nízká
+default_priority_normal: Normální
+default_priority_high: Vysoká
+default_priority_urgent: Urgentní
+default_priority_immediate: Bezodkladné
+default_activity_design: Návrh
+default_activity_development: Vývoj
+
+enumeration_issue_priorities: Priority požadavků
+enumeration_doc_categories: Kategorie dokumentů
+enumeration_activities: Aktivity (sledování času)
+button_rename: Rename
+text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
+label_module_plural: Modules
+label_jump_to_a_project: Jump to a project...
+text_issue_updated: Issue %s has been updated.
+field_redirect_existing_links: Redirect existing links
+text_issue_category_reassign_to: Reassing issues to this category
+text_issue_added: Issue %s has been reported.
+label_file_plural: Files
+text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
+label_updated_time: Updated %s ago
+text_issue_category_destroy_assignments: Remove category assignments
+label_added_time_by: Added by %s %s ago
+field_estimated_hours: Estimated time
+label_changeset_plural: Changesets
