@@ -1,10 +1,10 @@
 body { font-family: Verdana, sans-serif; font-size: 12px; color:#484848; margin: 0; padding: 0; min-width: 900px; }
 
-h1, h2, h3 { font-family: "Trebuchet MS", Verdana, sans-serif;}
+h1, h2, h3, h4 { font-family: "Trebuchet MS", Verdana, sans-serif;}
 h1 {margin:0; padding:0; font-size: 24px;}
 h2, .wiki h1 {font-size: 20px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; color: #444;}
 h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; color: #444;}
-h4, .wiki h3 {font-size: 11px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb; color: #444;}
+h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb; color: #444;}
 
 /***** Layout *****/
 #top-menu {background: #2C4056;color: #fff;height:1.5em; padding: 2px 6px 0px 6px;}
@@ -52,7 +52,7 @@ min-height: 600px;
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto; border-right: 0; }
 
-#footer {clear: both; border-top: 1px solid #bbb; font-size: 11px; padding: 5px; text-align:center; background:#fff;}
+#footer {clear: both; border-top: 1px solid #bbb; font-size: 0.9em; color: #aaa; padding: 5px; text-align:center; background:#fff;}
 
 #login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
 #login-form table td {padding: 6px;}
