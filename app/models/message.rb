@@ -22,7 +22,10 @@ class Message < ActiveRecord::Base
   has_many :attachments, :as => :container, :dependent => :destroy
   belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
   
-  acts_as_searchable :columns => ['subject', 'content'], :include => :board, :project_key => "project_id"
+  acts_as_searchable :columns => ['subject', 'content'],
+                     :include => :board,
+                     :project_key => 'project_id',
+                     :date_column => 'created_on'
   acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
                 :description => :content,
                 :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id, :id => o.id}}
