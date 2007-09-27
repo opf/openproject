@@ -1,13 +1,17 @@
-<h2><%= l(:label_index_by_title) %></h2>
+<h2><%= l(:label_index_by_date) %></h2>
 
 <% if @pages.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 
-<ul><% @pages.each do |page| %>
-    <li><%= link_to page.pretty_title, :action => 'index', :page => page.title %> -
-    <%= l(:label_last_updates) %>: <%= format_time(page.updated_on) %></li>
-<% end %></ul>
+<% @pages_by_date.keys.sort.reverse.each do |date| %>
+<h3><%= format_date(date) %></h3>
+<ul>
+<% @pages_by_date[date].each do |page| %>
+    <li><%= link_to page.pretty_title, :action => 'index', :page => page.title %></li>
+<% end %>
+</ul>
+<% end %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>

@@ -357,7 +357,8 @@ label_wiki_edit: Wiki-Bearbeitung
 label_wiki_edit_plural: Wiki-Bearbeitungen
 label_wiki_page: Wiki-Seite
 label_wiki_page_plural: Wiki-Seiten
-label_page_index: Index
+label_index_by_title: Index by title
+label_index_by_date: Index by date
 label_current_version: Gegenwärtige Version
 label_preview: Vorschau
 label_feed_plural: Feeds

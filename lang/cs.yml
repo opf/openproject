@@ -355,7 +355,8 @@ label_wiki_edit: Wiki úprava
 label_wiki_edit_plural: Wiki úpravy
 label_wiki_page: Wiki stránka
 label_wiki_page_plural: Wiki stránky
-label_page_index: Rejstřík
+label_index_by_title: Rejstřík
+label_index_by_date: Index by date
 label_current_version: Aktuální verze
 label_preview: Náhled
 label_feed_plural: Feeds
