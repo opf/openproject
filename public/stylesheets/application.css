@@ -68,7 +68,7 @@ a img{ border: 0; }
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
 table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
-table.list tbody th { text-align: left; padding: 0px; }
+table.list tbody th { padding: 0px; }
 table.list td { overflow: hidden; text-overflow: ellipsis; vertical-align: top;}
 table.list tbody tr:hover { background-color:#ffffdd; }
 table td {padding:2px;}
