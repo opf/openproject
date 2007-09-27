@@ -36,8 +36,9 @@ class Issue < ActiveRecord::Base
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
   acts_as_watchable
+  acts_as_searchable :columns => ['subject', 'description'], :with => {:journal => :issue}
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id}: #{o.subject}"},
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}}
+                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}}                
   
   validates_presence_of :subject, :description, :priority, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255

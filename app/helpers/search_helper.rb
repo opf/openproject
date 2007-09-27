@@ -17,7 +17,7 @@
 
 module SearchHelper
   def highlight_tokens(text, tokens)
-    return text unless tokens && !tokens.empty?
+    return text unless text && tokens && !tokens.empty?
     regexp = Regexp.new "(#{tokens.join('|')})", Regexp::IGNORECASE    
     result = ''
     text.split(regexp).each_with_index do |words, i|

@@ -25,6 +25,11 @@ class Changeset < ActiveRecord::Base
                 :datetime => :committed_on,
                 :author => :committer,
                 :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project_id, :rev => o.revision}}
+                
+  acts_as_searchable :columns => 'comments',
+                     :include => :repository,
+                     :project_key => "#{Repository.table_name}.project_id",
+                     :date_column => 'committed_on'
   
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_numericality_of :revision, :only_integer => true

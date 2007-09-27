@@ -1,8 +1,6 @@
 require 'redmine/access_control'
 require 'redmine/menu_manager'
 require 'redmine/mime_type'
-require 'redmine/acts_as_watchable/init'
-require 'redmine/acts_as_event/init'
 require 'redmine/plugin'
 
 begin

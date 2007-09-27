@@ -21,7 +21,16 @@ class WikiPage < ActiveRecord::Base
   belongs_to :wiki
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
   has_many :attachments, :as => :container, :dependent => :destroy
-  
+
+  acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
+                :description => :text,
+                :datetime => :created_on,
+                :url => Proc.new {|o| {:controller => 'wiki', :id => o.wiki.project_id, :page => o.title}}
+
+  acts_as_searchable :columns => ['title', 'text'],
+                     :include => [:wiki, :content],
+                     :project_key => "#{Wiki.table_name}.project_id"
+
   attr_accessor :redirect_existing_links
   
   validates_presence_of :title
@@ -84,6 +93,10 @@ class WikiPage < ActiveRecord::Base
   
   def project
     wiki.project
+  end
+  
+  def text
+    content.text if content
   end
 end
 

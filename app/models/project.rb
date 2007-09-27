@@ -38,7 +38,11 @@ class Project < ActiveRecord::Base
   has_one :wiki, :dependent => :destroy
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_tree :order => "name", :counter_cache => true
-  
+
+  acts_as_searchable :columns => ['name', 'description'], :project_key => 'id'
+  acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
+                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}}
+
   attr_protected :status, :enabled_module_names
   
   validates_presence_of :name, :description, :identifier

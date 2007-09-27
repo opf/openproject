@@ -31,7 +31,7 @@ class SearchControllerTest < Test::Unit::TestCase
     assert_template 'index'
     assert_not_nil assigns(:project)
     
-    get :index, :id => 1, :q => "can", :scope => ["issues", "news", "documents"]
+    get :index, :id => 1, :q => "can"
     assert_response :success
     assert_template 'index'
   end

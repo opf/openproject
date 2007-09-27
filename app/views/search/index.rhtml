@@ -15,39 +15,27 @@
 </div>
 
 <% if @results %>
-    <h3><%= lwr(:label_result, @results.length) %></h3>
+    <h3><%= l(:label_result_plural) %></h3>
     <ul>
       <% @results.each do |e| %>
-        <li><p>
-        <% if e.is_a? Project %>
-            <%= link_to highlight_tokens(h(e.name), @tokens), :controller => 'projects', :action => 'show', :id => e %><br />
-            <%= highlight_tokens(e.description, @tokens) %>
-        <% elsif e.is_a? Issue %>
-            <%= link_to_issue e %>: <%= highlight_tokens(h(e.subject), @tokens) %><br />
-            <%= highlight_tokens(e.description, @tokens) %><br />
-            <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
-        <% elsif e.is_a? News %>
-            <%=l(:label_news)%>: <%= link_to highlight_tokens(h(e.title), @tokens), :controller => 'news', :action => 'show', :id => e %><br />
-            <%= highlight_tokens(e.description, @tokens) %><br />
-            <i><%= e.author.name %>, <%= format_time(e.created_on) %></i>
-        <% elsif e.is_a? Document %>
-            <%=l(:label_document)%>: <%= link_to highlight_tokens(h(e.title), @tokens), :controller => 'documents', :action => 'show', :id => e %><br />
-            <%= highlight_tokens(e.description, @tokens) %><br />
-            <i><%= format_time(e.created_on) %></i>
-        <% elsif e.is_a? WikiPage %>
-            <%=l(:label_wiki)%>: <%= link_to highlight_tokens(h(e.pretty_title), @tokens), :controller => 'wiki', :action => 'index', :id => @project, :page => e.title %><br />
-            <%= highlight_tokens(e.content.text, @tokens) %><br />
-            <i><%= e.content.author ? e.content.author.name : "Anonymous" %>, <%= format_time(e.content.updated_on) %></i>
-        <% elsif e.is_a? Changeset %>
-            <%=l(:label_revision)%> <%= link_to h(e.revision), :controller => 'repositories', :action => 'revision', :id => @project, :rev => e.revision %><br />
-            <%= highlight_tokens(e.comments, @tokens) %><br />
-            <em><%= e.committer.blank? ? e.committer : "Anonymous" %>, <%= format_time(e.committed_on) %></em>
-        <% elsif e.is_a? Message %>
-            <%=h e.board.name %>: <%= link_to_message e %><br />
-            <%= highlight_tokens(e.content, @tokens) %><br />
-            <em><%= e.author ? e.author.name : "Anonymous" %>, <%= format_time(e.created_on) %></em>
-        <% end %>
-        </p></li>  
+        <li><p><%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url %><br />
+        <%= highlight_tokens(e.event_description, @tokens) %><br />
+        <span class="author"><%= format_time(e.event_datetime) %></span></p></li>
       <% end %>
     </ul>
 <% end %>
+
+<p><center>
+<% if @pagination_previous_date %>
+<%= link_to_remote ('&#171; ' + l(:label_previous)),
+                   {:update => :content,
+                    :url => params.merge(:previous => 1, :offset => @pagination_previous_date.strftime("%Y%m%d%H%M%S"))
+                   }, :href => url_for(params.merge(:previous => 1, :offset => @pagination_previous_date.strftime("%Y%m%d%H%M%S"))) %>&nbsp;
+<% end %>
+<% if @pagination_next_date %>
+<%= link_to_remote (l(:label_next) + ' &#187;'),
+                   {:update => :content,
+                    :url => params.merge(:previous => nil, :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))
+                   }, :href => url_for(params.merge(:previous => nil, :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))) %>
+<% end %>
+</center></p>
