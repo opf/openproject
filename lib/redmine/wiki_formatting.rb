@@ -47,7 +47,7 @@ module Redmine
         if tag =~ /^h(\d)$/
           @toc << [$1.to_i, content]
         end
-        content = "<a name=\"#{@toc.length}-#{content}\" class=\"wiki-page\"></a>" + content
+        content = "<a name=\"#{@toc.length}\" class=\"wiki-page\"></a>" + content
         textile_p(tag, atts, cite, content)
       end
 
@@ -61,7 +61,9 @@ module Redmine
           div_class << ' right' if $1 == '>'
           out = "<div class=\"#{div_class}\">"
           @toc.each_with_index do |heading, index|
-            out << "<a href=\"##{index+1}-#{heading.last}\" class=\"heading#{heading.first}\">#{heading.last}</a>"
+            # remove wiki links from the item
+            toc_item = heading.last.gsub(/(\[\[|\]\])/, '')
+            out << "<a href=\"##{index+1}\" class=\"heading#{heading.first}\">#{toc_item}</a>"
           end
           out << '</div>'
           out
