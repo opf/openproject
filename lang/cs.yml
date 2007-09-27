@@ -348,8 +348,7 @@ label_roadmap_due_in: Due in
 label_roadmap_overdue: %s pozdě
 label_roadmap_no_issues: Pro tuto verzi nejsou žádné požadavky
 label_search: Hledej
-label_result: %d výsledek
-label_result_plural: %d výsledky
+label_result_plural: Výsledky
 label_all_words: Všechna slova
 label_wiki: Wiki
 label_wiki_edit: Wiki úprava

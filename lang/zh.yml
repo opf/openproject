@@ -353,8 +353,7 @@ label_roadmap_due_in: Due in
 label_roadmap_overdue: %s late
 label_roadmap_no_issues: 该版本没有任务
 label_search: 查找
-label_result: %d 个结果
-label_result_plural: %d 个结果
+label_result_plural: 个结果
 label_all_words: 所有单词
 label_wiki: Wiki
 label_wiki_edit: Wiki edit

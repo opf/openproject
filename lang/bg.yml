@@ -350,8 +350,7 @@ label_roadmap_due_in: Излиза след
 label_roadmap_overdue: %s late
 label_roadmap_no_issues: Няма задачи за тази версия
 label_search: Търсене
-label_result: %d резултат
-label_result_plural: %d резултати
+label_result_plural: Pезултати
 label_all_words: Всички думи
 label_wiki: Wiki
 label_wiki_edit: Wiki редакция

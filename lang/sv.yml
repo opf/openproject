@@ -350,8 +350,7 @@ label_roadmap_due_in: Färdig om
 label_roadmap_overdue: %s late
 label_roadmap_no_issues: Inga brister för denna version
 label_search: Sök
-label_result: %d resultat
-label_result_plural: %d resultat
+label_result_plural: Resultat
 label_all_words: Alla ord
 label_wiki: Wiki
 label_wiki_edit: Wiki editera

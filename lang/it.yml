@@ -350,8 +350,7 @@ label_roadmap_due_in: Da ultimare in
 label_roadmap_overdue: %s late
 label_roadmap_no_issues: Nessun contesto per questa versione
 label_search: Ricerca
-label_result: %d risultato
-label_result_plural: %d risultati
+label_result_plural: Risultati
 label_all_words: Tutte le parole
 label_wiki: Wiki
 label_wiki_edit: Modifica Wiki
