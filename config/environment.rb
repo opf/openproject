@@ -15,8 +15,6 @@ Rails::Initializer.run do |config|
 
   # Add additional load paths for sweepers
   config.load_paths += %W( #{RAILS_ROOT}/app/sweepers )
-  
-  config.plugin_paths = ['lib/plugins', 'vendor/plugins']
 
   # Force all environments to use the same logger level 
   # (by default production uses :info, the others :debug)
@@ -61,9 +59,6 @@ Rails::Initializer.run do |config|
 	#config.action_mailer.delivery_method = :test
 	config.action_mailer.delivery_method = :smtp  
 
-  # Uncomment this line if the engines plugin is installed.
-  # This will ensure that engines is loaded first.
-  # config.plugins = ["engines", "*"]
 end
 
 ActiveRecord::Errors.default_error_messages = {

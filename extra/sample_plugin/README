@@ -6,11 +6,8 @@ This is a sample plugin for Redmine
 
 === Adding plugin support to Redmine
 
-1. Install engines plugin
+To add plugin support to Redmine, install engines plugin:
    See: http://rails-engines.org/
-
-2. Uncomment this line in config/environment.rb:
-   config.plugins = ["engines", "*"]
 
 === Plugin installation
 
