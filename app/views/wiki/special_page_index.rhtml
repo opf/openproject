@@ -5,8 +5,9 @@
 <% end %>
 
 <ul><% @pages.each do |page| %>
-    <li><%= link_to page.pretty_title, :action => 'index', :page => page.title %> -
-    <%= l(:label_last_updates) %>: <%= format_time(page.updated_on) %></li>
+    <li><%= link_to page.pretty_title, {:action => 'index', :page => page.title},
+                                       :title => l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) %>
+    </li>
 <% end %></ul>
 
 <% content_for :sidebar do %>

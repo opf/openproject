@@ -10,7 +10,7 @@ h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
 </head>
 <body>
 
-<strong><%= l(:label_page_index) %></strong>
+<strong><%= l(:label_index_by_title) %></strong>
 <ul>
 <% @pages.each do |page| %>
     <li><a href="#<%= page.title %>"><%= page.pretty_title %></a></li>
