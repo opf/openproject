@@ -36,7 +36,7 @@ Redmine::AccessControl.map do |map|
     map.permission :move_issues, {:projects => :move_issues}, :require => :loggedin
     map.permission :delete_issues, {:issues => :destroy}, :require => :member
     # Queries
-    map.permission :manage_pulic_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
+    map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
     # Gantt & calendar
     map.permission :view_gantt, :projects => :gantt

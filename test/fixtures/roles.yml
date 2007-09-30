@@ -62,7 +62,7 @@ roles_001:
     - :change_issue_status
     - :move_issues
     - :delete_issues
-    - :manage_pulic_queries
+    - :manage_public_queries
     - :save_queries
     - :view_gantt
     - :view_calendar
@@ -100,7 +100,7 @@ roles_002:
     - :change_issue_status
     - :move_issues
     - :delete_issues
-    - :manage_pulic_queries
+    - :manage_public_queries
     - :save_queries
     - :view_gantt
     - :view_calendar
@@ -138,7 +138,7 @@ roles_003:
     - :change_issue_status
     - :move_issues
     - :delete_issues
-    - :manage_pulic_queries
+    - :manage_public_queries
     - :save_queries
     - :view_gantt
     - :view_calendar
