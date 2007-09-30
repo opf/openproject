@@ -70,7 +70,7 @@ private
   def initialize_ldap_con(ldap_user, ldap_password)
     Net::LDAP.new( {:host => self.host, 
                     :port => self.port, 
-                    :auth => { :method => :simple, :username => Iconv.new('iso-8859-15', 'utf-8').iconv(ldap_user), :password => Iconv.new('iso-8859-15', 'utf-8').iconv(ldap_password) }} 
+                    :auth => { :method => :simple, :username => ldap_user, :password => ldap_password }} 
     ) 
   end
   
