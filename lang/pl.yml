@@ -105,12 +105,12 @@ field_notes: Notatki
 field_is_closed: Zgłoszenie zamknięte
 field_is_default: Domyślny status
 field_html_color: Kolor
-field_tracker: Tracker
+field_tracker: Typ zgłoszenia
 field_subject: Temat
 field_due_date: Data oddania
 field_assigned_to: Przydzielony do
 field_priority: Priorytet
-field_fixed_version: Stała wersja
+field_fixed_version: Wersja
 field_user: Użytkownik
 field_role: Rola
 field_homepage: Strona www
@@ -196,9 +196,9 @@ label_role_and_permissions: Role i Uprawnienia
 label_member: Uczestnik
 label_member_new: Nowy uczestnik
 label_member_plural: Uczestnicy
-label_tracker: Ślad
-label_tracker_plural: Ślady
-label_tracker_new: Nowy ślad
+label_tracker: Typ zgłoszenia
+label_tracker_plural: Typy zgłoszeń
+label_tracker_new: Nowy typ zgłoszenia
 label_workflow: Przepływ
 label_issue_status: Status zgłoszenia
 label_issue_status_plural: Statusy zgłoszeń
@@ -305,7 +305,7 @@ label_comment_delete: Usuń komentarze
 label_query: Dowolne zapytanie
 label_query_plural: Dowolne zapytania
 label_query_new: Nowe zapytanie
-label_filter_add: Dodaj filter
+label_filter_add: Dodaj filtr
 label_filter_plural: Filtry
 label_equals: jest
 label_not_equals: nie jest
@@ -433,7 +433,7 @@ button_rollback: Przywróc do tej wersji
 button_watch: Obserwuj
 button_unwatch: Nie obserwuj
 button_reply: Odpowiedz
-button_archive: Orchiwizuj
+button_archive: Archiwizuj
 button_unarchive: Przywróc z archiwum
 
 status_active: aktywny
@@ -444,7 +444,7 @@ text_select_mail_notifications: Zaznacz czynności przy których użytkownik pow
 text_regexp_info: np. ^[A-Z0-9]+$
 text_min_max_length_info: 0 oznacza brak restrykcji
 text_project_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten projekt i wszyskie powiązane dane?
-text_workflow_edit: Zaznacz rolę i ślad do edycji przepływu
+text_workflow_edit: Zaznacz rolę i typ zgłoszenia do edycji przepływu
 text_are_you_sure: Jesteś pewien ?
 text_journal_changed: zmienione %s do %s
 text_journal_set_to: ustawione na %s
@@ -455,7 +455,7 @@ text_tip_task_begin_end_day: zadanie zaczynające i kończące się dzisiaj
 text_project_identifier_info: 'Małe litery (a-z), liczby i myślniki dozwolone.<br />Raz zapisany, identyfikator nie może być zmieniony.'
 text_caracters_maximum: %d znaków maksymalnie.
 text_length_between: Długość pomiędzy %d i %d znaków.
-text_tracker_no_workflow: Brak przepływu zefiniowanego dla tego śladu
+text_tracker_no_workflow: Brak przepływu zefiniowanego dla tego typu zgłoszenia
 text_unallowed_characters: Niedozwolone znaki
 text_comma_separated: Wielokrotne wartości dozwolone (rozdzielone przecinkami).
 text_issues_ref_in_commit_messages: Zgłoszenia odnoszące i ustalające we wrzutkach CVS
@@ -464,7 +464,7 @@ default_role_manager: Manager
 default_role_developper: Developer
 default_role_reporter: Reporter
 default_tracker_bug: Błąd
-default_tracker_feature: Funkcjonalność
+default_tracker_feature: Cecha
 default_tracker_support: Wsparcie
 default_issue_status_new: Nowy
 default_issue_status_assigned: Przypisany
@@ -485,29 +485,29 @@ default_activity_development: Rozwój
 enumeration_issue_priorities: Priorytety zgłoszeń
 enumeration_doc_categories: Kategorie dokumentów
 enumeration_activities: Działania (śledzenie czasu)
-button_rename: Rename
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-label_feeds_access_key_created_on: RSS access key created %s ago
-setting_cross_project_issue_relations: Allow cross-project issue relations
-label_roadmap_overdue: %s late
-label_module_plural: Modules
-label_this_week: this week
-label_jump_to_a_project: Jump to a project...
-field_assignable: Issues can be assigned to this role
-label_sort_by: Sort by "%s"
-text_issue_updated: Issue %s has been updated.
-notice_feeds_access_key_reseted: Your RSS access key was reseted.
-field_redirect_existing_links: Redirect existing links
-text_issue_category_reassign_to: Reassing issues to this category
-notice_email_sent: An email was sent to %s
-text_issue_added: Issue %s has been reported.
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-notice_email_error: An error occurred while sending mail (%s)
-label_updated_time: Updated %s ago
-text_issue_category_destroy_assignments: Remove category assignments
-label_send_test_email: Send a test email
-button_reset: Reset
-label_added_time_by: Added by %s %s ago
-field_estimated_hours: Estimated time
-label_file_plural: Files
-label_changeset_plural: Changesets
+button_rename: Zmień nazwę
+text_issue_category_destroy_question: Zgłoszenia (%d) są przypisane do tej kategorii. Co chcesz uczynić?
+label_feeds_access_key_created_on: Klucz dostępu RSS stworzony %s dni temu
+setting_cross_project_issue_relations: Zezwól na powiązania zgłoszeń między projektami
+label_roadmap_overdue: %s spóźnienia
+label_module_plural: Moduły
+label_this_week: ten tydzień
+label_jump_to_a_project: Skocz do projektu...
+field_assignable: Zgłoszenia mogą być przypisane do tej roli
+label_sort_by: Sortuj po "%s"
+text_issue_updated: Zgłoszenie %s zostało zaktualizowane.
+notice_feeds_access_key_reseted: Twój klucz dostępu RSS został zrestetowany.
+field_redirect_existing_links: Przekierowanie istniejących odnośników
+text_issue_category_reassign_to: Przywróć zgłoszenia do tej kategorii
+notice_email_sent: Email został wysłany do %s
+text_issue_added: Zgłoszenie %s zostało zaraportowane.
+text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i całą jego zawartość ?
+notice_email_error: Wystąpił błąd w trakcie wysyłania maila (%s)
+label_updated_time: Zaktualizowane %s temu
+text_issue_category_destroy_assignments: Usuń przydziały kategorii
+label_send_test_email: Wyślij próbny email
+button_reset: Resetuj
+label_added_time_by: Dodane przez %s %s temu
+field_estimated_hours: Szacowany czas
+label_file_plural: Pliki
+label_changeset_plural: Zestawienia zmian
