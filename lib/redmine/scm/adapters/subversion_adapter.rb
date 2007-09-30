@@ -66,9 +66,11 @@ module Redmine
           entries = Entries.new
           cmd = "#{SVN_BIN} list --xml #{target(path)}@#{identifier}"
           cmd << " --username #{@login} --password #{@password}" if @login
+          cmd << " 2>&1"
           shellout(cmd) do |io|
+            output = io.read
             begin
-              doc = REXML::Document.new(io)
+              doc = REXML::Document.new(output)
               doc.elements.each("lists/list/entry") do |entry|
                 entries << Entry.new({:name => entry.elements['name'].text,
                             :path => ((path.empty? ? "" : "#{path}/") + entry.elements['name'].text),
@@ -82,7 +84,8 @@ module Redmine
                             })
               end
             rescue Exception => e
-              logger.info("Error parsing svn output: #{e.message}")
+              logger.error("Error parsing svn output: #{e.message}")
+              logger.error("Output was:\n #{output}")
             end
           end
           return nil if $? && $?.exitstatus != 0
