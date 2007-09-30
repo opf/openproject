@@ -1,6 +1,6 @@
 require 'redcloth'
 require 'coderay'
-
+require 'pp'
 module Redmine
   module WikiFormatting
   
@@ -79,29 +79,25 @@ module Redmine
                         (
                           (?:https?://)|           # protocol spec, or
                           (?:www\.)                # www.*
-                        ) 
-                        (
-                          [-\w]+                   # subdomain or domain
-                          (?:\.[-\w]+)*            # remaining subdomains or domain
-                          (?::\d+)?                # port
-                          (?:/(?:(?:[~\w\+%-]|(?:[,.;:][^\s$]))+)?)* # path
-                          (?:\?[\w\+%&=.;-]+)?     # query string
-                          (?:\#[\w\-]*)?           # trailing anchor
                         )
-                        ([[:punct:]]|\s|<|$)       # trailing text
+                        (
+                          (\S+?)                   # url
+                          (\/)?                    # slash
+                        )
+                        ([^\w\=\/;]*?)               # post
+                        (?=<|\s|$)
                        }x unless const_defined?(:AUTO_LINK_RE)
 
       # Turns all urls into clickable links (code from Rails).
       def inline_auto_link(text)
         text.gsub!(AUTO_LINK_RE) do
-          all, a, b, c, d = $&, $1, $2, $3, $4
-          if a =~ /<a\s/i || a =~ /![<>=]?/
+          all, leading, proto, url, post = $&, $1, $2, $3, $6
+          if leading =~ /<a\s/i || leading =~ /![<>=]?/
             # don't replace URL's that are already linked
             # and URL's prefixed with ! !> !< != (textile images)
             all
-          else
-            text = b + c
-            %(#{a}<a href="#{b=="www."?"http://www.":b}#{c}">#{text}</a>#{d})
+          else            
+            %(#{leading}<a href="#{proto=="www."?"http://www.":proto}#{url}">#{proto + url}</a>#{post})
           end
         end
       end
