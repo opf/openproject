@@ -60,6 +60,7 @@ module Redmine
         text.gsub!(/<p>\{\{([<>]?)toc\}\}<\/p>/i) do
           div_class = 'toc'
           div_class << ' right' if $1 == '>'
+          div_class << ' left' if $1 == '<'
           out = "<div class=\"#{div_class}\">"
           @toc.each_with_index do |heading, index|
             # remove wiki links from the item

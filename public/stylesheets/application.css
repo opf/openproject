@@ -310,14 +310,12 @@ div.wiki div.toc {
     line-height: 1.2em;
     margin-bottom: 12px;
     margin-right: 12px;
-    float: left;
+    display: table
 }
+* html div.wiki div.toc { width: 50%; } /* IE6 doesn't autosize div */
 
-div.wiki div.toc.right {
-    float: right;
-    margin-left: 12px;
-    margin-right: 0;
-}
+div.wiki div.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; }
+div.wiki div.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; }
 
 div.wiki div.toc a {
     display: block;
