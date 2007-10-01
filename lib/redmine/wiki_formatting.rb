@@ -12,6 +12,7 @@ module Redmine
       def initialize(*args)
         super
         self.hard_breaks=true
+        self.no_span_caps=true
       end
       
       def to_html
