@@ -436,7 +436,7 @@ class ProjectsController < ApplicationController
     @month ||= Date.today.month
 
     case params[:format]
-    when 'rss'
+    when 'atom'
       # 30 last days
       @date_from = Date.today - 30
       @date_to = Date.today + 1
