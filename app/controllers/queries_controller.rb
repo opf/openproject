@@ -31,6 +31,7 @@ class QueriesController < ApplicationController
     @query.user = logged_in_user
     @query.executed_by = logged_in_user
     @query.is_public = false unless current_role.allowed_to?(:manage_public_queries)
+    @query.column_names = nil if params[:default_columns]
     
     params[:fields].each do |field|
       @query.add_filter(field, params[:operators][field], params[:values][field])
@@ -52,7 +53,8 @@ class QueriesController < ApplicationController
       end if params[:fields]
       @query.attributes = params[:query]
       @query.is_public = false unless current_role.allowed_to?(:manage_public_queries)
-          
+      @query.column_names = nil if params[:default_columns]
+      
       if @query.save
         flash[:notice] = l(:notice_successful_update)
         redirect_to :controller => 'projects', :action => 'list_issues', :id => @project, :query_id => @query

@@ -208,11 +208,10 @@ class Query < ActiveRecord::Base
   end
   
   def columns
-    if column_names && !column_names.empty?
-      available_columns.select {|c| column_names.include?(c.name) }
-    else
-      # default columns
+    if has_default_columns?
       available_columns.select {|c| c.default? }
+    else
+      available_columns.select {|c| column_names.include?(c.name) }
     end
   end
   
@@ -224,6 +223,10 @@ class Query < ActiveRecord::Base
   
   def has_column?(column)
     column_names && column_names.include?(column.name)
+  end
+  
+  def has_default_columns?
+    column_names.nil? || column_names.empty?
   end
 
   def statement

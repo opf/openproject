@@ -10,13 +10,11 @@
   <%= check_box 'query', 'is_public' %></p>
 <% end %>
 
-<p><label for="query_column_names"><%=l(:field_column_names)%></label>
-<% @query.available_columns.each do |column| %>
-<%= check_box_tag  'query[column_names][]', column.name, @query.has_column?(column) %> <%= l("field_#{column.name}") %><br />
-<% end %>
-<%= hidden_field_tag 'query[column_names][]', '' %>
-</p>
+<p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
+<%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
+      :onchange => 'if (this.checked) {Element.hide("columns")} else {Element.show("columns")}' %></p>
 </div>
 
+<%= render :partial => 'queries/columns', :locals => {:query => query}%>
 <%= render :partial => 'queries/filters', :locals => {:query => query}%>
 </div>

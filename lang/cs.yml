@@ -512,3 +512,4 @@ label_added_time_by: Added by %s %s ago
 field_estimated_hours: Estimated time
 label_changeset_plural: Changesets
 field_column_names: Columns
+label_default_columns: Default columns

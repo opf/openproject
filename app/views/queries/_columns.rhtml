@@ -1,0 +1,7 @@
+<% content_tag 'fieldset', :id => 'columns', :style => (query.has_default_columns? ? 'display:none;' : nil) do %>
+<legend><%= l(:field_column_names) %></legend>
+<% query.available_columns.each do |column| %>
+<label><%= check_box_tag  'query[column_names][]', column.name, query.has_column?(column) %> <%= l("field_#{column.name}") %></label><br />
+<% end %>
+<%= hidden_field_tag 'query[column_names][]', '' %>
+<% end %>

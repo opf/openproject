@@ -513,3 +513,4 @@ enumeration_activities: 作業分類 (時間トラッキング)
 label_file_plural: Files
 label_changeset_plural: Changesets
 field_column_names: Columns
+label_default_columns: Default columns

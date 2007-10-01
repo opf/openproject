@@ -423,6 +423,7 @@ label_updated_time: Updated %s ago
 label_jump_to_a_project: Jump to a project...
 label_file_plural: Files
 label_changeset_plural: Changesets
+label_default_columns: Default columns
 
 button_login: Login
 button_submit: Submit

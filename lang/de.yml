@@ -512,3 +512,4 @@ enumeration_activities: Aktivitäten (Zeiterfassung)
 label_file_plural: Files
 label_changeset_plural: Changesets
 field_column_names: Columns
+label_default_columns: Default columns
