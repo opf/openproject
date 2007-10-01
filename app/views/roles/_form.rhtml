@@ -1,10 +1,11 @@
 <%= error_messages_for 'role' %> 
 
+<% unless @role.builtin? %>
 <div class="box">
-<p><%= f.text_field :name, :required => true, :disabled => @role.builtin? %></p>
+<p><%= f.text_field :name, :required => true %></p>
 <p><%= f.check_box :assignable %></p>
 </div>
-
+<% end %>
 
 <h3><%= l(:label_permissions) %></h3>
 <div class="box">
