@@ -580,11 +580,6 @@ class ProjectsController < ApplicationController
       render :template => "projects/gantt.rhtml"
     end
   end
-    
-  def feeds
-    @queries = @project.queries.find :all, :conditions => ["is_public=? or user_id=?", true, (logged_in_user ? logged_in_user.id : 0)]
-    @key = User.current.rss_key
-  end
   
 private
   # Find project of id params[:id]

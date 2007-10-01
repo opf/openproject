@@ -76,18 +76,8 @@
     <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |
     <%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}) %></p>
     <% end %>
-
-    <hr />
-    <p><%= link_to l(:label_feed_plural), {:action => 'feeds', :id => @project}, :class => 'icon icon-feed' %></p>
 <% end %>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:rss,  {:controller => 'feeds', :action => 'issues', :project_id => @project, :key => @key}, {:title => l(:label_reported_issues)}) %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'feeds', :action => 'issues', :project_id => @project, :key => @key, :format => 'atom'}, {:title => l(:label_reported_issues)}) %>
-
-<%= auto_discovery_link_tag(:rss,  {:controller => 'feeds', :action => 'history', :project_id => @project, :key => @key }, {:title => l(:label_changes_details)}) %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'feeds', :action => 'history', :project_id => @project, :key => @key, :format => 'atom'}, {:title => l(:label_changes_details)}) %>
-
-<%= auto_discovery_link_tag(:rss,  {:controller => 'feeds', :action => 'news', :project_id => @project, :key => @key}, {:title => l(:label_news_latest)}) %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'feeds', :action => 'news', :project_id => @project, :key => @key, :format => 'atom'}, {:title => l(:label_news_latest)}) %>
+<%= auto_discovery_link_tag(:atom, {:action => 'activity', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
