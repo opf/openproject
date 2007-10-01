@@ -29,8 +29,8 @@
 <% form_tag do %>
 <h3><%= l(:label_change_log) %></h3>
 <% @trackers.each do |tracker| %>
-  <%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
-  <%= tracker.name %><br />
+  <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
+  <%= tracker.name %></label><br />
 <% end %>
 <p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
 <% end %>

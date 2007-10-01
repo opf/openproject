@@ -63,7 +63,7 @@
 <% form_tag do %>
 <h3><%= l(:label_activity) %></h3>
 <p><% @event_types.each do |t| %>
-<%= check_box_tag "show_#{t}", 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%><br />
+<label><%= check_box_tag "show_#{t}", 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label><br />
 <% end %></p>
 <p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
 <% end %>
