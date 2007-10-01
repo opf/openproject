@@ -511,3 +511,4 @@ enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
 label_file_plural: Files
 label_changeset_plural: Changesets
+field_column_names: Columns

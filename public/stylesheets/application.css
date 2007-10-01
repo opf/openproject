@@ -133,6 +133,12 @@ margin*/
 
 div.attachments p { margin:4px 0 2px 0; }
 
+/***** Issue list ****/
+tr.issue { text-align: center; white-space: nowrap; }
+tr.issue th.checkbox { width: 15px; }
+tr.issue td.subject, tr.issue td.category { white-space: normal; }
+tr.issue td.subject { text-align: left; }
+
 /***** Flash & error messages ****/
 #flash div, #errorExplanation, .nodata {
     padding: 4px 4px 4px 30px;

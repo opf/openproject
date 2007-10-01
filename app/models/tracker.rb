@@ -27,6 +27,8 @@ class Tracker < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
+  def to_s; name end
+  
 private
   def check_integrity
     raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])

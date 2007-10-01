@@ -511,3 +511,4 @@ label_index_by_date: Index by date
 label_index_by_title: Index by title
 label_file_plural: Files
 label_changeset_plural: Changesets
+field_column_names: Columns

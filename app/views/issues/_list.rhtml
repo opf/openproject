@@ -1,0 +1,20 @@
+<table class="list">
+    <thead><tr>
+        <th></th>
+		<%= sort_header_tag("#{Issue.table_name}.id", :caption => '#') %>
+        <% query.columns.each do |column| %>
+          <%= column_header(column) %>
+        <% end %>
+	</tr></thead>
+	<tbody>
+	<% issues.each do |issue| %>
+	<tr class="issue <%= cycle('odd', 'even') %>">
+	    <th class="checkbox"><%= check_box_tag "issue_ids[]", issue.id, false, :id => "issue_#{issue.id}" %></th>
+		<td><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
+        <% query.columns.each do |column| %>
+          <%= content_tag 'td', column_content(column, issue), :class => column.name %>
+        <% end %>
+	</tr>
+	<% end %>
+	</tbody>
+</table>

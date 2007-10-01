@@ -45,32 +45,7 @@
 <% else %>
 &nbsp;
 <% form_tag({:controller => 'projects', :action => 'move_issues', :id => @project}, :id => 'issues_form' ) do %>	
-<table class="list">
-    <thead><tr>
-        <th></th>
-		<%= sort_header_tag("#{Issue.table_name}.id", :caption => '#') %>
-		<%= sort_header_tag("#{Issue.table_name}.tracker_id", :caption => l(:field_tracker)) %>
-		<%= sort_header_tag("#{IssueStatus.table_name}.name", :caption => l(:field_status)) %>
-		<%= sort_header_tag("#{Issue.table_name}.priority_id", :caption => l(:field_priority)) %>
-		<th><%=l(:field_subject)%></th>
-		<%= sort_header_tag("#{User.table_name}.lastname", :caption => l(:field_assigned_to)) %>
-		<%= sort_header_tag("#{Issue.table_name}.updated_on", :caption => l(:field_updated_on)) %>
-	</tr></thead>
-	<tbody>
-	<% for issue in @issues %>
-	<tr class="<%= cycle("odd", "even") %>">
-	    <th style="width:15px;"><%= check_box_tag "issue_ids[]", issue.id, false, :id => "issue_#{issue.id}" %></th>
-		<td align="center"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
-		<td align="center"><%= issue.tracker.name %></td>
-		<td><%= issue.status.name %></td>
-		<td align="center"><%= issue.priority.name %></td>
-		<td><%= "#{issue.project.name} - " unless @project && @project == issue.project %><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></td>
-		<td align="center"><%= issue.assigned_to.name if issue.assigned_to %></td>
-		<td align="center"><%= format_time(issue.updated_on) %></td>
-	</tr>
-	<% end %>
-	</tbody>
-</table>
+<%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <div class="contextual">
 <%= l(:label_export_to) %>
 <%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'icon icon-csv' %>,

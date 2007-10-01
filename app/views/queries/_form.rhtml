@@ -9,6 +9,13 @@
   <p><label for="query_is_public"><%=l(:field_is_public)%></label>
   <%= check_box 'query', 'is_public' %></p>
 <% end %>
+
+<p><label for="query_column_names"><%=l(:field_column_names)%></label>
+<% @query.available_columns.each do |column| %>
+<%= check_box_tag  'query[column_names][]', column.name, @query.has_column?(column) %> <%= l("field_#{column.name}") %><br />
+<% end %>
+<%= hidden_field_tag 'query[column_names][]', '' %>
+</p>
 </div>
 
 <%= render :partial => 'queries/filters', :locals => {:query => query}%>

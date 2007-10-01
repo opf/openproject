@@ -512,3 +512,4 @@ enumeration_activities: Activiteiten (tijd tracking)
 text_comma_separated: Multiple values allowed (comma separated).
 label_file_plural: Files
 label_changeset_plural: Changesets
+field_column_names: Columns

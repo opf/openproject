@@ -51,7 +51,9 @@ class IssueStatus < ActiveRecord::Base
                                    :conditions => ["role_id=? and tracker_id=?", role.id, tracker.id]).collect{ |w| w.new_status }.compact  if role && tracker
     new_statuses ? new_statuses.sort{|x, y| x.position <=> y.position } : []
   end
-  
+
+  def to_s; name end
+
 private
   def check_integrity
     raise "Can't delete status" if Issue.find(:first, :conditions => ["status_id=?", self.id])

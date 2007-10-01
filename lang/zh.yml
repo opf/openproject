@@ -514,3 +514,4 @@ enumeration_activities: Activities (time tracking)
 label_wiki_page: Wiki page
 label_file_plural: Files
 label_changeset_plural: Changesets
+field_column_names: Columns

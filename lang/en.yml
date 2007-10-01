@@ -159,6 +159,7 @@ field_delay: Delay
 field_assignable: Issues can be assigned to this role
 field_redirect_existing_links: Redirect existing links
 field_estimated_hours: Estimated time
+field_column_names: Columns
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle

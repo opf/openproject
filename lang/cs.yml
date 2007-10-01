@@ -511,3 +511,4 @@ text_issue_category_destroy_assignments: Remove category assignments
 label_added_time_by: Added by %s %s ago
 field_estimated_hours: Estimated time
 label_changeset_plural: Changesets
+field_column_names: Columns

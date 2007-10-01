@@ -23,32 +23,8 @@
 <p><i><%= l(:label_no_data) %></i></p>
 <% else %>
 &nbsp;
-<table class="list">
-    <thead><tr>
-		<%= sort_header_tag("#{Issue.table_name}.id", :caption => '#') %>
-		<%= sort_header_tag("#{Project.table_name}.name", :caption => l(:field_project)) %>
-		<%= sort_header_tag("#{Issue.table_name}.tracker_id", :caption => l(:field_tracker)) %>
-		<%= sort_header_tag("#{IssueStatus.table_name}.name", :caption => l(:field_status)) %>
-		<%= sort_header_tag("#{Issue.table_name}.priority_id", :caption => l(:field_priority)) %>
-		<th><%=l(:field_subject)%></th>
-		<%= sort_header_tag("#{User.table_name}.lastname", :caption => l(:field_assigned_to)) %>
-		<%= sort_header_tag("#{Issue.table_name}.updated_on", :caption => l(:field_updated_on)) %>
-	</tr></thead>
-	<tbody>
-	<% for issue in @issues %>
-	<tr class="<%= cycle("odd", "even") %>">
-		<td align="center" valign="top"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
-		<td align="center" valign="top" nowrap><%=h issue.project.name %></td>
-		<td align="center" valign="top" nowrap><%= issue.tracker.name %></td>
-		<td  valign="top"nowrap><%= issue.status.name %></td>
-		<td align="center" valign="top"><%= issue.priority.name %></td>
-		<td><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></td>
-		<td align="center" valign="top" nowrap><%= issue.assigned_to.name if issue.assigned_to %></td>
-		<td align="center" valign="top" nowrap><%= format_time(issue.updated_on) %></td>
-	</tr>
-	<% end %>
-	</tbody>
-</table>
+<%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
+
 <p><%= pagination_links_full @issue_pages %>
 [ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]</p>
 <% end %>

@@ -28,4 +28,17 @@ class QueryTest < Test::Unit::TestCase
     assert_equal 1, issues.length
     assert_equal Issue.find(3), issues.first
   end
+  
+  def test_default_columns
+    q = Query.new
+    assert !q.columns.empty? 
+  end
+  
+  def test_set_column_names
+    q = Query.new
+    q.column_names = ['tracker', :subject, '', 'unknonw_column']
+    assert_equal [:tracker, :subject], q.columns.collect {|c| c.name}
+    c = q.columns.first
+    assert q.has_column?(c)
+  end
 end

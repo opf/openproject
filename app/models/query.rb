@@ -15,10 +15,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+class QueryColumn  
+  attr_accessor :name, :sortable, :default
+  
+  def initialize(name, options={})
+    self.name = name
+    self.sortable = options[:sortable]
+    self.default = options[:default]
+  end
+  
+  def default?; default end
+end
+
 class Query < ActiveRecord::Base
   belongs_to :project
   belongs_to :user
   serialize :filters
+  serialize :column_names
   
   attr_protected :project, :user
   attr_accessor :executed_by
@@ -59,6 +72,22 @@ class Query < ActiveRecord::Base
 
   cattr_reader :operators_by_filter_type
 
+  @@available_columns = [
+    QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :default => true),
+    QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :default => true),
+    QueryColumn.new(:priority, :sortable => "#{Issue.table_name}.priority_id", :default => true),
+    QueryColumn.new(:subject, :default => true),
+    QueryColumn.new(:assigned_to, :sortable => "#{User.table_name}.lastname", :default => true),
+    QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default => true),
+    QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name"),
+    QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
+    QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
+    QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
+    QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio"),
+    QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on"),
+  ]
+  cattr_reader :available_columns
+  
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
@@ -173,7 +202,30 @@ class Query < ActiveRecord::Base
     label = @available_filters[field][:name] if @available_filters.has_key?(field)
     label ||= field.gsub(/\_id$/, "")
   end
+
+  def available_columns
+    cols = Query.available_columns
+  end
   
+  def columns
+    if column_names && !column_names.empty?
+      available_columns.select {|c| column_names.include?(c.name) }
+    else
+      # default columns
+      available_columns.select {|c| c.default? }
+    end
+  end
+  
+  def column_names=(names)
+    names = names.select {|n| n.is_a?(Symbol) || !n.blank? } if names
+    names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym } if names
+    write_attribute(:column_names, names)
+  end
+  
+  def has_column?(column)
+    column_names && column_names.include?(column.name)
+  end
+
   def statement
     # project/subprojects clause
     clause = ''

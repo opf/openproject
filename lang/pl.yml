@@ -511,3 +511,4 @@ label_added_time_by: Dodane przez %s %s temu
 field_estimated_hours: Szacowany czas
 label_file_plural: Pliki
 label_changeset_plural: Zestawienia zmian
+field_column_names: Columns

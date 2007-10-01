@@ -37,6 +37,8 @@ class Enumeration < ActiveRecord::Base
     OPTIONS[self.opt]
   end
   
+  def to_s; name end
+  
 private
   def check_integrity
     case self.opt
