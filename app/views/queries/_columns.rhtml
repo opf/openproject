@@ -1,7 +1,27 @@
 <% content_tag 'fieldset', :id => 'columns', :style => (query.has_default_columns? ? 'display:none;' : nil) do %>
 <legend><%= l(:field_column_names) %></legend>
-<% query.available_columns.each do |column| %>
-<label><%= check_box_tag  'query[column_names][]', column.name, query.has_column?(column) %> <%= l("field_#{column.name}") %></label><br />
-<% end %>
+
 <%= hidden_field_tag 'query[column_names][]', '' %>
+<table margin=0>
+	<tr>
+		<td><%= select_tag 'available_columns',
+		          options_for_select((query.available_columns - query.columns).collect {|column| [l("field_#{column.name}"), column.name]}),
+		          :multiple => true, :size => 10, :style => "width:150px" %>
+		</td>
+		<td align="center" valign="middle">
+			<input type="button" value="--&gt;"
+			 onclick="moveOptions(this.form.available_columns, this.form.selected_columns);" /><br />
+			<input type="button" value="&lt;--"
+			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
+		</td>
+		<td><%= select_tag 'query[column_names][]',
+		          options_for_select(@query.columns.collect {|column| [l("field_#{column.name}"), column.name]}),
+		          :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
+		</td>
+	</tr>
+</table>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= javascript_include_tag 'select_list_move' %>
 <% end %>

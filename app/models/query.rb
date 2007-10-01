@@ -211,7 +211,8 @@ class Query < ActiveRecord::Base
     if has_default_columns?
       available_columns.select {|c| c.default? }
     else
-      available_columns.select {|c| column_names.include?(c.name) }
+      # preserve the column_names order
+      column_names.collect {|name| available_columns.find {|col| col.name == name}}.compact
     end
   end
   
