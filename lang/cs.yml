@@ -513,3 +513,4 @@ field_estimated_hours: Estimated time
 label_changeset_plural: Changesets
 field_column_names: Columns
 label_default_columns: Default columns
+setting_issue_list_default_columns: Default columns displayed on the issue list

@@ -181,6 +181,7 @@ setting_commit_fix_keywords: Mot-clés de résolution
 setting_autologin: Autologin
 setting_date_format: Format de date
 setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
+setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs

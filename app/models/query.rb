@@ -16,12 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class QueryColumn  
-  attr_accessor :name, :sortable, :default
+  attr_accessor :name, :sortable
   
   def initialize(name, options={})
     self.name = name
     self.sortable = options[:sortable]
-    self.default = options[:default]
   end
   
   def default?; default end
@@ -73,12 +72,12 @@ class Query < ActiveRecord::Base
   cattr_reader :operators_by_filter_type
 
   @@available_columns = [
-    QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :default => true),
-    QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :default => true),
-    QueryColumn.new(:priority, :sortable => "#{Issue.table_name}.priority_id", :default => true),
-    QueryColumn.new(:subject, :default => true),
-    QueryColumn.new(:assigned_to, :sortable => "#{User.table_name}.lastname", :default => true),
-    QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default => true),
+    QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position"),
+    QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position"),
+    QueryColumn.new(:priority, :sortable => "#{Issue.table_name}.priority_id"),
+    QueryColumn.new(:subject),
+    QueryColumn.new(:assigned_to, :sortable => "#{User.table_name}.lastname"),
+    QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on"),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name"),
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
@@ -209,7 +208,7 @@ class Query < ActiveRecord::Base
   
   def columns
     if has_default_columns?
-      available_columns.select {|c| c.default? }
+      available_columns.select {|c| Setting.issue_list_default_columns.include?(c.name.to_s) }
     else
       # preserve the column_names order
       column_names.collect {|name| available_columns.find {|col| col.name == name}}.compact

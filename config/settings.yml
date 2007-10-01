@@ -79,4 +79,13 @@ notified_events:
   default: --
   - issue_added
   - issue_updated
+issue_list_default_columns:
+  serialized: true
+  default: --
+  - tracker
+  - status
+  - priority
+  - subject
+  - assigned_to
+  - updated_on
   

@@ -1,8 +1,8 @@
 <h2><%= l(:label_settings) %></h2>
 
 <div id="settings">
-<% form_tag({:action => 'edit'}, :class => "tabular") do %>
-<div class="box">
+<% form_tag({:action => 'edit'}) do %>
+<div class="box tabular">
 <p><label><%= l(:setting_app_title) %></label>
 <%= text_field_tag 'settings[app_title]', Setting.app_title, :size => 30 %></p>
 
@@ -50,7 +50,15 @@
 <%= check_box_tag 'settings[sys_api_enabled]', 1, Setting.sys_api_enabled? %><%= hidden_field_tag 'settings[sys_api_enabled]', 0 %></p>
 </div>
 
-<fieldset class="box"><legend><%= l(:label_authentication) %></legend>
+<fieldset class="box"><legend><%= l(:setting_issue_list_default_columns) %></legend>
+<%= hidden_field_tag 'settings[issue_list_default_columns][]', '' %>
+<p><% Query.available_columns.each do |column| %>
+  <label><%= check_box_tag 'settings[issue_list_default_columns][]', column.name, Setting.issue_list_default_columns.include?(column.name.to_s) %>
+  <%= l("field_#{column.name}") %></label>
+<% end %></p>
+</fieldset>
+
+<fieldset class="box tabular"><legend><%= l(:label_authentication) %></legend>
 <p><label><%= l(:setting_login_required) %></label>
 <%= check_box_tag 'settings[login_required]', 1, Setting.login_required? %><%= hidden_field_tag 'settings[login_required]', 0 %></p>
 
@@ -64,7 +72,7 @@
 <%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %><%= hidden_field_tag 'settings[lost_password]', 0 %></p>
 </fieldset>
 
-<fieldset class="box"><legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
+<fieldset class="box tabular"><legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
 <p><label><%= l(:setting_commit_ref_keywords) %></label>
 <%= text_field_tag 'settings[commit_ref_keywords]', Setting.commit_ref_keywords, :size => 30 %><br /><em><%= l(:text_comma_separated) %></em></p>
 

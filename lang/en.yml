@@ -181,6 +181,7 @@ setting_commit_fix_keywords: Fixing keywords
 setting_autologin: Autologin
 setting_date_format: Date format
 setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_issue_list_default_columns: Default columns displayed on the issue list
 
 label_user: User
 label_user_plural: Users
