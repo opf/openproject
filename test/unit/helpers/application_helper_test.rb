@@ -28,12 +28,12 @@ class ApplicationHelperTest < HelperTestCase
   
   def test_auto_links
     to_test = {
-      'http://foo.bar' => '<a href="http://foo.bar">http://foo.bar</a>',
-      'http://foo.bar.' => '<a href="http://foo.bar">http://foo.bar</a>.',
-      'http://foo.bar/foo.bar#foo.bar.' => '<a href="http://foo.bar/foo.bar#foo.bar">http://foo.bar/foo.bar#foo.bar</a>.',
-      'www.foo.bar' => '<a href="http://www.foo.bar">www.foo.bar</a>',
-      'http://foo.bar/page?p=1&t=z&s=' => '<a href="http://foo.bar/page?p=1&#38;t=z&#38;s=">http://foo.bar/page?p=1&#38;t=z&#38;s=</a>',
-      'http://foo.bar/page#125' => '<a href="http://foo.bar/page#125">http://foo.bar/page#125</a>'
+      'http://foo.bar' => '<a class="external" href="http://foo.bar">http://foo.bar</a>',
+      'http://foo.bar.' => '<a class="external" href="http://foo.bar">http://foo.bar</a>.',
+      'http://foo.bar/foo.bar#foo.bar.' => '<a class="external" href="http://foo.bar/foo.bar#foo.bar">http://foo.bar/foo.bar#foo.bar</a>.',
+      'www.foo.bar' => '<a class="external" href="http://www.foo.bar">www.foo.bar</a>',
+      'http://foo.bar/page?p=1&t=z&s=' => '<a class="external" href="http://foo.bar/page?p=1&#38;t=z&#38;s=">http://foo.bar/page?p=1&#38;t=z&#38;s=</a>',
+      'http://foo.bar/page#125' => '<a class="external" href="http://foo.bar/page#125">http://foo.bar/page#125</a>'
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
@@ -49,8 +49,9 @@ class ApplicationHelperTest < HelperTestCase
       '!http://foo.bar/image.jpg!' => '<img src="http://foo.bar/image.jpg" alt="" />',
       'floating !>http://foo.bar/image.jpg!' => 'floating <div style="float:right"><img src="http://foo.bar/image.jpg" alt="" /></div>',
       # textile links
-      'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar">link</a>',
-      '"link (Link title)":http://foo.bar' => '<a href="http://foo.bar" title="Link title">link</a>'
+      'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
+      'This is an intern "link":/foo/bar' => 'This is an intern <a href="/foo/bar">link</a>',
+      '"link (Link title)":http://foo.bar' => '<a href="http://foo.bar" title="Link title" class="external">link</a>'
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end

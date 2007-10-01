@@ -278,16 +278,11 @@ div.wiki table, div.wiki td, div.wiki th {
     padding: 4px;
 }
 
-div.wiki a {
+div.wiki .external {
     background-position: 0% 60%;
     background-repeat: no-repeat;
     padding-left: 12px;
     background-image: url(../images/external.png);
-}
-
-div.wiki a.wiki-page, div.wiki a.issue, div.wiki a.changeset, div.wiki a.email, div.wiki div.toc a {
-    padding-left: 0;
-    background-image: none;
 }
 
 div.wiki a.new {

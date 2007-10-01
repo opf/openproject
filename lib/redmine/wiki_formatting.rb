@@ -99,7 +99,7 @@ module Redmine
             # and URL's prefixed with ! !> !< != (textile images)
             all
           else            
-            %(#{leading}<a href="#{proto=="www."?"http://www.":proto}#{url}">#{proto + url}</a>#{post})
+            %(#{leading}<a class="external" href="#{proto=="www."?"http://www.":proto}#{url}">#{proto + url}</a>#{post})
           end
         end
       end
