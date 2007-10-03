@@ -22,7 +22,7 @@
 <% @newss.each do |news| %>
     <h3><%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
     <%= "(#{news.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if news.comments_count > 0 %></h3>
-    <p><span class="author"><%= authoring news.created_on, news.author %></p>
+    <p class="author"><%= authoring news.created_on, news.author %></p>
     <%= textilizable(news.description) %>
 <% end %>
 <% end %>
