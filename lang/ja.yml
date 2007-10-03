@@ -70,9 +70,9 @@ notice_file_not_found: アクセスしようとしたページは存在しない
 notice_locking_conflict: 別のユーザがデータを更新しています。
 notice_scm_error: リポジトリに、エントリ/リビジョンが存在しません。
 notice_not_authorized: このページにアクセスするには認証が必要です。
-notice_email_sent: An email was sent to %s
-notice_email_error: An error occurred while sending mail (%s)
-notice_feeds_access_key_reseted: Your RSS access key was reseted.
+notice_email_sent: %s宛にメールを送信しました。
+notice_email_error: メール送信中にエラーが発生しました (%s)
+notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
 
 mail_subject_lost_password: redMineパスワード
 mail_subject_register: redMineアカウントが有効になりました
@@ -159,7 +159,7 @@ field_issue_to_id: 関連する問題
 field_delay: 遅延
 field_assignable: Issues can be assigned to this role
 field_redirect_existing_links: Redirect existing links
-field_estimated_hours: Estimated time
+field_estimated_hours: 予定工数
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル
@@ -179,8 +179,8 @@ setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効化す�
 setting_commit_ref_keywords: 参照用キーワード
 setting_commit_fix_keywords: 修正用キーワード
 setting_autologin: 自動ログイン
-setting_date_format: Date format
-setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_date_format: 日付の形式
+setting_cross_project_issue_relations: 異なるプロジェクトの問題間で関係の設定を許可
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -351,7 +351,7 @@ label_roadmap_due_in: 期日まで
 label_roadmap_overdue: %s late
 label_roadmap_no_issues: このバージョンに向けての問題はありません
 label_search: 検索
-label_result_plural: 件の結果
+label_result_plural: 結果
 label_all_words: すべての単語
 label_wiki: Wiki
 label_wiki_edit: Wiki編集
@@ -413,14 +413,14 @@ label_month: Month
 label_week: Week
 label_date_from: From
 label_date_to: To
-label_language_based: Language based
+label_language_based: 既定の言語の設定に従う
 label_sort_by: Sort by "%s"
-label_send_test_email: Send a test email
+label_send_test_email: テストメールを送信
 label_feeds_access_key_created_on: RSS access key created %s ago
 label_module_plural: Modules
 label_added_time_by: Added by %s %s ago
 label_updated_time: Updated %s ago
-label_jump_to_a_project: Jump to a project...
+label_jump_to_a_project: プロジェクトへ移動...
 
 button_login: ログイン
 button_submit: 変更
@@ -464,7 +464,7 @@ text_regexp_info: 例) ^[A-Z0-9]+$
 text_min_max_length_info: 0だと無制限になります
 text_project_destroy_confirmation: 本当にこのプロジェクトと関連データを削除したいのですか？
 text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
-text_are_you_sure: 本当に？
+text_are_you_sure: よろしいですか？
 text_journal_changed: %sから%sに変更
 text_journal_set_to: %sにセット
 text_journal_deleted: 削除
@@ -514,4 +514,4 @@ label_file_plural: Files
 label_changeset_plural: Changesets
 field_column_names: Columns
 label_default_columns: Default columns
-setting_issue_list_default_columns: Default columns displayed on the issue list
+setting_issue_list_default_columns: 問題の一覧で表示する項目
