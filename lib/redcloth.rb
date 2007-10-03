@@ -359,16 +359,16 @@ class RedCloth < String
     ]
 
     QTAGS = [
-        ['**', 'b'],
-        ['*', 'strong'],
+        ['**', 'b', :limit],
+        ['*', 'strong', :limit],
         ['??', 'cite', :limit],
         ['-', 'del', :limit],
-        ['__', 'i'],
+        ['__', 'i', :limit],
         ['_', 'em', :limit],
         ['%', 'span', :limit],
         ['+', 'ins', :limit],
-        ['^', 'sup'],
-        ['~', 'sub']
+        ['^', 'sup', :limit],
+        ['~', 'sub', :limit]
     ] 
     QTAGS.collect! do |rc, ht, rtype|
         rcq = Regexp::quote rc

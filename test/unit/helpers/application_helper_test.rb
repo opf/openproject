@@ -29,6 +29,7 @@ class ApplicationHelperTest < HelperTestCase
   def test_auto_links
     to_test = {
       'http://foo.bar' => '<a class="external" href="http://foo.bar">http://foo.bar</a>',
+      'http://foo.bar/~user' => '<a class="external" href="http://foo.bar/~user">http://foo.bar/~user</a>',
       'http://foo.bar.' => '<a class="external" href="http://foo.bar">http://foo.bar</a>.',
       'http://foo.bar/foo.bar#foo.bar.' => '<a class="external" href="http://foo.bar/foo.bar#foo.bar">http://foo.bar/foo.bar#foo.bar</a>.',
       'www.foo.bar' => '<a class="external" href="http://www.foo.bar">www.foo.bar</a>',
