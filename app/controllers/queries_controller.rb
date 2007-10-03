@@ -37,7 +37,7 @@ class QueriesController < ApplicationController
       @query.add_filter(field, params[:operators][field], params[:values][field])
     end if params[:fields]
     
-    if request.post? and @query.save
+    if request.post? && params[:confirm] && @query.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :controller => 'projects', :action => 'list_issues', :id => @project, :query_id => @query
       return

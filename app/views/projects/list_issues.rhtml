@@ -2,7 +2,7 @@
     <h2><%=l(:label_issue_plural)%></h2>
     <% set_html_title l(:label_issue_plural) %>
     
-    <% form_tag({:action => 'list_issues'}, :id => 'query_form') do %>
+    <% form_tag({ :controller => 'queries', :action => 'new', :project_id => @project }, :id => 'query_form') do %>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     <% end %>
     <div class="contextual">
@@ -18,12 +18,7 @@
                        }, :class => 'icon icon-reload'  %>
                        
     <% if current_role.allowed_to?(:save_queries) %>
-    <%= link_to_remote l(:button_save), 
-                       { :url => { :controller => 'queries', :action => 'new', :project_id => @project },
-                         :method => 'get',
-                         :update => "content",
-                         :with => "Form.serialize('query_form')"
-                       }, :class => 'icon icon-save' %>
+    <%= link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save' %>
     <% end %>
     </div>
     <br />
