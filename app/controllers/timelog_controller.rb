@@ -21,6 +21,7 @@ class TimelogController < ApplicationController
 
   helper :sort
   include SortHelper
+  helper :issues
   
   def report
     @available_criterias = { 'version' => {:sql => "#{Issue.table_name}.fixed_version_id",

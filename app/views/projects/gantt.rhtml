@@ -192,7 +192,7 @@ top = headers_height + 10
 	<% # === tooltip === %>
 	<div class="tooltip" style="position: absolute;top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;height:12px;">
 	<span class="tip">
-    <%= render :partial => "issues/tooltip", :locals => { :issue => i }%>
+    <%= render_issue_tooltip i %>
 	</span></div>
 <% else 
     i_left = ((i.start_date - @date_from)*zoom).floor

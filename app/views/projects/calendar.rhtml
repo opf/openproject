@@ -49,7 +49,7 @@ while day <= @date_to
         <%= h(truncate(i.subject, 30)) %>
 		</small>
         <span class="tip">
-        <%= render :partial => "issues/tooltip", :locals => { :issue => i }%>
+        <%= render_issue_tooltip i %>
         </span>		
 		</div>
 		<% else %>

@@ -70,8 +70,8 @@ module ApplicationHelper
   
   def format_date(date)
     return nil unless date
-    @date_format_setting ||= Setting.date_format.to_i
-    @date_format_setting == 0 ? l_date(date) : date.strftime("%Y-%m-%d")
+    @date_format ||= (Setting.date_format.to_i == 0 ? l(:general_fmt_date) : date.strftime("%Y-%m-%d"))
+    date.strftime(@date_format)
   end
   
   def format_time(time)

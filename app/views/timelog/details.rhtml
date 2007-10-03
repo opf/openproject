@@ -29,9 +29,9 @@
 <td align="center">
     <% if entry.issue %>
     <div class="tooltip">
-    <%= link_to "#{entry.issue.tracker.name} ##{entry.issue.id}", {:action => 'details', :issue_id => entry.issue } %>
+    <%= link_to_issue entry.issue %>
     <span class="tip">
-    <%= render :partial => "issues/tooltip", :locals => { :issue => entry.issue }%>
+    <%= render_issue_tooltip entry.issue %>
     </span>		
 	</div>
 	<% end %>
