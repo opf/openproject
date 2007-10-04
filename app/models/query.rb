@@ -74,7 +74,7 @@ class Query < ActiveRecord::Base
   @@available_columns = [
     QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position"),
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position"),
-    QueryColumn.new(:priority, :sortable => "#{Issue.table_name}.priority_id"),
+    QueryColumn.new(:priority, :sortable => "#{Enumeration.table_name}.position"),
     QueryColumn.new(:subject),
     QueryColumn.new(:assigned_to, :sortable => "#{User.table_name}.lastname"),
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on"),
