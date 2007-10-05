@@ -73,7 +73,7 @@ Redmine::AccessControl.map do |map|
   end
     
   map.project_module :repository do |map|
-    map.permission :manage_repository, :repositories => [:edit, :destroy]
+    map.permission :manage_repository, {:repositories => [:edit, :destroy]}, :require => :member
     map.permission :browse_repository, :repositories => [:show, :browse, :entry, :changes, :diff, :stats, :graph]
     map.permission :view_changesets, :repositories => [:show, :revisions, :revision]
   end
