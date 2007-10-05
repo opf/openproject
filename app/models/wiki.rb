@@ -48,7 +48,7 @@ class Wiki < ActiveRecord::Base
     # replace spaces with _ and remove unwanted caracters
     title = title.gsub(/\s+/, '_').delete(',./?;|:') if title
     # upcase the first letter
-    title = (title.length > 1 ? title.first.upcase + title[1..-1] : title.upcase) if title
+    title = (title.slice(0..0).upcase + (title.slice(1..-1) || '')) if title
     title
   end  
 end
