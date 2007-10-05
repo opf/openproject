@@ -8,9 +8,9 @@
 		<tbody>	
 		<% for issue in issues %>
 		<tr class="<%= cycle("odd", "even") %>">
-			<th align="center">
+			<td class="id">
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
-			</th>
+			</td>
 			<td><p class="small"><%= issue.project.name %> - <%= issue.tracker.name %><br />
                 <%= issue.status.name %> - <%= format_time(issue.updated_on) %></p></td>
 			<td>

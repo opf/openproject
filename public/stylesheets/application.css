@@ -68,8 +68,14 @@ a img{ border: 0; }
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
 table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
-table.list tbody th { padding: 0px; }
 table.list td { overflow: hidden; text-overflow: ellipsis; vertical-align: top;}
+table.list td.id { width: 2%; text-align: center;}
+table.list td.checkbox { width: 15px; padding: 0px;}
+
+tr.issue { text-align: center; white-space: nowrap; }
+tr.issue td.subject, tr.issue td.category { white-space: normal; }
+tr.issue td.subject { text-align: left; }
+
 table.list tbody tr:hover { background-color:#ffffdd; }
 table td {padding:2px;}
 table p {margin:0;}
@@ -101,6 +107,7 @@ div.square {
 form {display: inline;}
 input, select {vertical-align: middle; margin-top: 1px; margin-bottom: 1px;}
 fieldset {border: 1px solid #e4e4e4; margin:0;}
+legend {color: #484848;}
 hr { width: 100%; height: 1px; background: #ccc; border: 0;}
 textarea.wiki-edit { width: 99%; }
 li p {margin-top: 0;}
@@ -139,12 +146,6 @@ width: 200px;
 .summary {font-style: italic;}
 
 div.attachments p { margin:4px 0 2px 0; }
-
-/***** Issue list ****/
-tr.issue { text-align: center; white-space: nowrap; }
-tr.issue th.checkbox { width: 15px; }
-tr.issue td.subject, tr.issue td.category { white-space: normal; }
-tr.issue td.subject { text-align: left; }
 
 /***** Flash & error messages ****/
 #flash div, #errorExplanation, .nodata {
