@@ -46,9 +46,17 @@ class Issue < ActiveRecord::Base
   validates_numericality_of :estimated_hours, :allow_nil => true
   validates_associated :custom_values, :on => :update
 
-  # set default status for new issues
-  def before_validation
-    self.status = IssueStatus.default if status.nil?
+  def after_initialize
+    if new_record?
+      # set default values for new records only
+      self.status ||= IssueStatus.default
+      self.priority ||= Enumeration.default('IPRI')
+    end
+  end
+  
+  def priority_id=(pid)
+    self.priority = nil
+    write_attribute(:priority_id, pid)
   end
 
   def validate

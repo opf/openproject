@@ -106,7 +106,7 @@ field_issue: Issue
 field_status: Status
 field_notes: Notes
 field_is_closed: Issue closed
-field_is_default: Default status
+field_is_default: Default value
 field_html_color: Color
 field_tracker: Tracker
 field_subject: Subject

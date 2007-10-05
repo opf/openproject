@@ -34,14 +34,18 @@ class Enumeration < ActiveRecord::Base
   def self.get_values(option)
     find(:all, :conditions => {:opt => option}, :order => 'position')
   end
+  
+  def self.default(option)  
+    find(:first, :conditions => {:opt => option, :is_default => true}, :order => 'position')
+  end
 
   def option_name
     OPTIONS[self.opt]
   end
-  
-  #def <=>(enumeration)
-  #  position <=> enumeration.position
-  #end
+
+  def before_save
+    Enumeration.update_all("is_default = #{connection.quoted_false}", {:opt => opt}) if is_default?
+  end
   
   def to_s; name end
   
