@@ -13,10 +13,10 @@
 <% perms_by_module.keys.sort.each do |mod| %>
     <fieldset><legend><%= mod.blank? ? l(:label_project) : mod.humanize %></legend>
     <% perms_by_module[mod].each do |permission| %>
-        <div style="width:220px;float:left;">
+        <label class="floating">
         <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
         <%= permission.name.to_s.humanize %>
-        </div>
+        </label>
     <% end %>
     </fieldset>
 <% end %>

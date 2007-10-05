@@ -125,6 +125,13 @@ width: 175px; /*width of labels. Should be smaller than left column to create so
 margin*/
 }
 
+.tabular label.floating{
+font-weight: normal;
+margin-left: 0px;
+text-align: left;
+width: 200px;
+}
+
 #settings .tabular p{ padding-left: 300px; }
 #settings .tabular label{ margin-left: -300px; width: 295px; }
 
