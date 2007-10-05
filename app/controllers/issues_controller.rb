@@ -58,15 +58,17 @@ class IssuesController < ApplicationController
   end
   
   def show
-    @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
-  end
-  
-  def export_pdf
-    @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
-    @options_for_rfpdf ||= {}
-    @options_for_rfpdf[:file_name] = "#{@project.name}_#{@issue.id}.pdf"
+
+    if params[:format]=='pdf'
+      @options_for_rfpdf ||= {}
+      @options_for_rfpdf[:file_name] = "#{@project.identifier}-#{@issue.id}.pdf"
+      render :template => 'issues/show.rfpdf', :layout => false
+    else
+      @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
+      render :template => 'issues/show.rhtml'
+    end
   end
 
   def edit
