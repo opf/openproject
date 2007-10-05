@@ -38,7 +38,8 @@
 <div id="header">
     <div id="quick-search">
         <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-        <%= link_to l(:label_search), :controller => 'search', :action => 'index', :id => @project %>: <%= text_field_tag 'q', @question, :size => 20, :class => 'small' %>
+        <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>:
+        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
         <% end %>
         <%= render :partial => 'layouts/project_selector' if User.current.memberships.any? %>
     </div>

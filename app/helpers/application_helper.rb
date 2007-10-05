@@ -126,6 +126,16 @@ module ApplicationHelper
     title.compact.join(' - ')
   end
   
+  ACCESSKEYS = {:edit => 'e',
+                :preview => 'r',
+                :quick_search => 'f',
+                :search => '4',
+                }.freeze
+
+  def accesskey(s)
+    ACCESSKEYS[s]
+  end
+
   # format text according to system settings
   def textilizable(text, options = {})
     return "" if text.blank?

@@ -2,6 +2,7 @@
 <%= link_to_if_authorized l(:button_edit), 
                           {:controller => 'news', :action => 'edit', :id => @news},
                           :class => 'icon icon-edit',
+                          :accesskey => accesskey(:edit),
                           :onclick => 'Element.show("edit-news"); return false;' %>
 <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
