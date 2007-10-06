@@ -25,7 +25,11 @@
 </div>
 
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
-<p><%= f.text_area :description, :required => true, :cols => 60, :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min), :class => 'wiki-edit' %></p>
+<p><%= f.text_area :description, :required => true,
+                   :cols => 60,
+                   :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
+                   :accesskey => accesskey(:edit),
+                   :class => 'wiki-edit' %></p>
 <p><%= f.select :fixed_version_id, (@project.versions.sort.collect {|v| [v.name, v.id]}), { :include_blank => true } %></p>
 <% for @custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label @custom_value %></p>

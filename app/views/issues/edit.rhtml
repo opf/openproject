@@ -1,7 +1,19 @@
 <h2><%=h "#{@issue.tracker.name} ##{@issue.id}" %></h2>
 
-<% labelled_tabular_form_for :issue, @issue, :url => {:action => 'edit'} do |f| %>
+<% labelled_tabular_form_for :issue, @issue,
+                             :url => {:action => 'edit'},
+                             :html => {:id => 'issue-form'} do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>
     <%= f.hidden_field :lock_version %>
     <%= submit_tag l(:button_save) %>
+    <%= link_to_remote l(:label_preview), 
+                       { :url => { :controller => 'issues', :action => 'preview', :id => @issue },
+                         :method => 'post',
+                         :update => 'preview',
+                         :with => "Form.serialize('issue-form')",
+                         :complete => "location.href='#preview-top'"
+                       }, :accesskey => accesskey(:preview) %>
 <% end %>
+
+<a name="preview-top"></a>
+<div id="preview" class="wiki"></div>

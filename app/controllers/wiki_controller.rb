@@ -144,7 +144,7 @@ class WikiController < ApplicationController
     page = @wiki.find_page(params[:page])
     @attachements = page.attachments if page
     @text = params[:content][:text]
-    render :partial => 'preview'
+    render :partial => 'common/preview'
   end
 
   def add_attachment

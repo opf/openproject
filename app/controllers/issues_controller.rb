@@ -17,7 +17,7 @@
 
 class IssuesController < ApplicationController
   layout 'base', :except => :export_pdf
-  before_filter :find_project, :authorize, :except => :index
+  before_filter :find_project, :authorize, :except => [:index, :preview]
   accept_key_auth :index
   
   cache_sweeper :issue_sweeper, :only => [ :edit, :change_status, :destroy ]
@@ -167,6 +167,13 @@ class IssuesController < ApplicationController
     redirect_to :action => 'show', :id => @issue
   end
 
+  def preview
+    issue = Issue.find_by_id(params[:id])
+    @attachements = issue.attachments if issue
+    @text = params[:issue][:description]
+    render :partial => 'common/preview'
+  end
+  
 private
   def find_project
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])

@@ -139,6 +139,8 @@ text-align: left;
 width: 200px;
 }
 
+#preview fieldset {margin-top: 1em; background: url(../images/draft.png)}
+
 #settings .tabular p{ padding-left: 300px; }
 #settings .tabular label{ margin-left: -300px; width: 295px; }
 
