@@ -34,13 +34,13 @@
               <%= table_file[key].nb_line_left %>
             </th>
             <td class="line-code <%= table_file[key].type_diff_left %>">
-              <pre><%= table_file[key].line_left %></pre>
+              <pre><%=to_utf8 table_file[key].line_left %></pre>
             </td>
             <th class="line-num">
               <%= table_file[key].nb_line_right %>
             </th>
             <td class="line-code <%= table_file[key].type_diff_right %>">
-              <pre><%= table_file[key].line_right %></pre>
+              <pre><%=to_utf8 table_file[key].line_right %></pre>
             </td>
           </tr>
         <% end %>
@@ -72,11 +72,11 @@
             </th>
             <% if table_file[key].line_left.empty? %>
               <td class="line-code <%= table_file[key].type_diff_right %>">
-                <pre><%= table_file[key].line_right %></pre>
+                <pre><%=to_utf8 table_file[key].line_right %></pre>
               </td>
             <% else %>
               <td class="line-code <%= table_file[key].type_diff_left %>">
-                <pre><%= table_file[key].line_left %></pre>
+                <pre><%=to_utf8 table_file[key].line_left %></pre>
               </td>
             <% end %>
           </tr>

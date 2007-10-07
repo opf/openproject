@@ -517,3 +517,4 @@ button_reset: Reset
 label_added_time_by: Added by %s %s ago
 field_estimated_hours: Estimated time
 label_changeset_plural: Changesets
+setting_repositories_encodings: Repositories encodings

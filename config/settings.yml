@@ -88,4 +88,8 @@ issue_list_default_columns:
   - subject
   - assigned_to
   - updated_on
+# encodings used to convert repository files content to UTF-8
+# multiple values accepted, comma separated
+repositories_encodings:
+  default: ''
   

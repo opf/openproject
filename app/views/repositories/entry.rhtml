@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     <% line_num = 1 %>
-    <% syntax_highlight(@path, @content).each_line do |line| %>
+    <% syntax_highlight(@path, to_utf8(@content)).each_line do |line| %>
     <tr>
       <th class="line-num"><%= line_num %></th>
       <td class="line-code"><pre><%= line %></pre></td>

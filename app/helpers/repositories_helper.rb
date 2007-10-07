@@ -17,13 +17,27 @@
 
 require 'coderay'
 require 'coderay/helpers/file_type'
+require 'iconv'
 
 module RepositoriesHelper
   def syntax_highlight(name, content)
     type = CodeRay::FileType[name]
     type ? CodeRay.scan(content, type).html : h(content)
   end
-    
+  
+  def to_utf8(str)
+    return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+    @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)
+    @encodings.each do |encoding|
+      begin
+        return Iconv.conv('UTF-8', encoding, str)
+      rescue Iconv::Failure
+        # do nothing here and try the next encoding
+      end
+    end
+    str
+  end
+  
   def repository_field_tags(form, repository)    
     method = repository.class.name.demodulize.underscore + "_field_tags"
     send(method, form, repository) if repository.is_a?(Repository) && respond_to?(method)
