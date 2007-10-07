@@ -51,6 +51,7 @@ general_csv_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday
+general_first_day_of_week: '7'
 
 notice_account_updated: Account was successfully updated.
 notice_account_invalid_creditentials: Invalid user or password

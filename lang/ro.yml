@@ -51,6 +51,7 @@ general_csv_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Luni,Marti,Miercuri,Joi,Vineri,Sambata,Duminica
+general_first_day_of_week: '7'
 
 notice_account_updated: Contul a fost creat cu succes.
 notice_account_invalid_creditentials: Numele utilizator sau parola este invalida.

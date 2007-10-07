@@ -1,47 +1,8 @@
 <h3><%= l(:label_calendar) %></h3>
 
-<%
-@date_from = Date.today - (Date.today.cwday-1)
-@date_to = Date.today + (7-Date.today.cwday)
-@issues = Issue.find :all,
-                     :conditions => ["#{Issue.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')}) AND ((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", @date_from, @date_to, @date_from, @date_to],
-                     :include => [:project, :tracker]  unless @user.projects.empty?
-@issues ||= []
-%>
+<% calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
+   calendar.events = Issue.find :all,
+                     :conditions => ["#{Issue.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')}) AND ((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt],
+                     :include => [:project, :tracker, :priority, :assigned_to] unless @user.projects.empty? %>
 
-<table class="cal">
-<thead><tr>
-<td></td>
-<% 1.upto(7) do |d| %>
-    <th align="center" width="14%"><%= day_name(d) %></th>
-<% end %>
-</tr></thead>
-<tbdoy>
-<tr height="100">
-<% day = @date_from
-while day <= @date_to
-	if day.cwday == 1 %>
-	<th valign="middle"><%= day.cweek %></th>
-	<% end %>	
-	<td valign="top" width="14%" class="<%= day.month==@month ? "even" : "odd" %>">
-	<p align="right"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
-	<% day_issues = []
-	@issues.each { |i| day_issues << i if i.start_date == day or i.due_date == day } 
-	day_issues.each do |i| %>	
-		<%= if day == i.start_date and day == i.due_date
-		    image_tag('arrow_bw.png')
-		elsif day == i.start_date
-		    image_tag('arrow_from.png') 
-		elsif day == i.due_date
-		    image_tag('arrow_to.png') 
-		end %>
-		<small><%= link_to_issue i %>: <%=h i.subject.sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)') %></small><br />
-	<% end %>
-    </td>
-	<%= '</tr><tr height="100">' if day.cwday >= 7 and day!=@date_to %>
-	<%
-	day = day + 1
-end %>
-</tr>
-</tbody>
-</table>
+<%= render :partial => 'common/calendar', :locals => {:calendar => calendar } %>

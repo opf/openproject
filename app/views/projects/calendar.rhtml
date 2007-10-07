@@ -15,55 +15,7 @@
 </td></tr>
 </table>
 
-<table class="cal">
-<thead>
-<tr>
-<td></td>
-<% 1.upto(7) do |d| %>
-    <th style="width:14%"><%= day_name(d) %></th>
-<% end %>
-</tr>
-</thead>
-<tbody>
-<tr style="height:100px">
-<% day = @date_from
-while day <= @date_to
-	if day.cwday == 1 %>
-	<th><%= day.cweek %></th>
-	<% end %>	
-	<td valign="top" class="<%= day.month==@month ? "even" : "odd" %> <%= Date.today == day ? 'today' : '' %>" style="width:14%;">
-	<p class="textright"><%= day==Date.today ? "<b>#{day.day}</b>" : day.day %></p>	
-	<% ((@ending_events_by_days[day] || []) + (@starting_events_by_days[day] || [])).uniq.each do |i| %>
-	    <% if i.is_a? Issue %>
-	    <div class="tooltip">
-		<%= if day == i.start_date and day == i.due_date
-		    image_tag('arrow_bw.png')
-		elsif day == i.start_date
-		    image_tag('arrow_from.png') 
-		elsif day == i.due_date
-		    image_tag('arrow_to.png') 
-		end %>
-		<small>
-		<%= h("#{i.project.name} -") unless @project && @project == i.project %>
-		<%= link_to_issue i %>:
-        <%= h(truncate(i.subject, 30)) %>
-		</small>
-        <span class="tip">
-        <%= render_issue_tooltip i %>
-        </span>		
-		</div>
-		<% else %>
-        <small><%= link_to_version i, :class => "icon icon-package" %></small>
-		<% end %>
-	<% end %>
-    </td>
-	<%= '</tr><tr style="height:100px">' if day.cwday >= 7 and day!=@date_to %>
-	<%
-	day = day + 1
-end %>
-</tr>
-</tbody>
-</table>
+<%= render :partial => 'common/calendar', :locals => {:calendar => @calendar} %>
 
 <%= image_tag 'arrow_from.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_begin_day) %><br />
 <%= image_tag 'arrow_to.png' %>&nbsp;&nbsp;<%= l(:text_tip_task_end_day) %><br />

@@ -51,6 +51,7 @@ general_csv_separator: ','
 general_csv_encoding: ISO-8859-2
 general_pdf_encoding: ISO-8859-2
 general_day_names: Poniedziałek,Wtorek,Środa,Czwartek,Piątek,Sobota,Niedziela
+general_first_day_of_week: '1'
 
 notice_account_updated: Konto prawidłowo zaktualizowane.
 notice_account_invalid_creditentials: Zły użytkownik lub hasło

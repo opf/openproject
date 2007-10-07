@@ -51,6 +51,7 @@ general_csv_separator: ','
 general_csv_encoding: UTF-8
 general_pdf_encoding: UTF-8
 general_day_names: Pondělí,Úterý,Středa,Čtvrtek,Pátek,Sobota,Neděle
+general_first_day_of_week: '1'
 
 notice_account_updated: Účet byl úspěšně změněn.
 notice_account_invalid_creditentials: Chybné jméno nebo heslo

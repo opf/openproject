@@ -51,6 +51,7 @@ general_csv_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Segunda,Terca,Quarta,Quinta,Sexta,Sabado,Domingo
+general_first_day_of_week: '1'
 
 notice_account_updated: Conta foi alterada com sucesso.
 notice_account_invalid_creditentials: Usuario ou senha invalido.

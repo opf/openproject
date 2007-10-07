@@ -1,0 +1,36 @@
+<table class="cal">
+<thead>
+<tr><td></td><% 7.times do |i| %><th><%= day_name( (calendar.first_wday+i)%7 ) %></th><% end %></tr>
+</thead>
+<tbody>
+<tr>
+<% day = calendar.startdt
+while day <= calendar.enddt %>
+<%= "<th>#{day.cweek}</th>" if day.cwday == calendar.first_wday %>
+<td class="<%= day.month==calendar.month ? 'even' : 'odd' %><%= ' today' if Date.today == day %>">
+<p class="day-num"><%= day.day %></p>	
+<% calendar.events_on(day).each do |i| %>
+  <% if i.is_a? Issue %>
+  <div class="tooltip">
+  <%= if day == i.start_date && day == i.due_date
+        image_tag('arrow_bw.png')
+      elsif day == i.start_date
+        image_tag('arrow_from.png') 
+      elsif day == i.due_date
+		image_tag('arrow_to.png') 
+      end %>
+  <%= h("#{i.project.name} -") unless @project && @project == i.project %>
+  <%= link_to_issue i %>: <%= h(truncate(i.subject, 30)) %>
+  <span class="tip"><%= render_issue_tooltip i %></span>
+  </div>
+  <% else %>
+  <%= link_to_version i, :class => "icon icon-package" %>
+  <% end %>
+<% end %>
+</td>
+<%= '</tr><tr>' if day.cwday==calendar.last_wday and day!=calendar.enddt %>
+<% day = day + 1
+end %>
+</tr>
+</tbody>
+</table>

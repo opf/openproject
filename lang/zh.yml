@@ -54,6 +54,7 @@ general_csv_separator: ','
 general_csv_encoding: gb2312
 general_pdf_encoding: Big5
 general_day_names: 一,二,三,四,五,六,日
+general_first_day_of_week: '7'
 
 notice_account_updated: 帐户更新成功。
 notice_account_invalid_creditentials: 用户名或密码不正确

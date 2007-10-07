@@ -212,9 +212,14 @@ vertical-align: bottom;
 
 /***** Calendar *****/
 table.cal {border-collapse: collapse; width: 100%; margin: 8px 0 6px 0;border: 1px solid #d7d7d7;}
+table.cal thead th {width: 14%;}
+table.cal tbody tr {height: 100px;}
 table.cal th { background-color:#EEEEEE; padding: 4px; }
-table.cal td {border: 1px solid #d7d7d7;}
+table.cal td {border: 1px solid #d7d7d7; vertical-align: top; font-size: 0.9em;}
+table.cal td p.day-num {font-size: 1.1em; text-align:right;}
+table.cal td.odd p.day-num {color: #bbb;}
 table.cal td.today {background:#ffffdd;}
+table.cal td.today p.day-num {font-weight: bold;}
 
 /***** Tooltips ******/
 .tooltip{position:relative;z-index:24;}

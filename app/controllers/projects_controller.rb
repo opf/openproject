@@ -512,26 +512,18 @@ class ProjectsController < ApplicationController
       end    
     end
     @year ||= Date.today.year
-    @month ||= Date.today.month
+    @month ||= Date.today.month    
+    @calendar = Redmine::Helpers::Calendar.new(Date.civil(@year, @month, 1), current_language, :month)
     
-    @date_from = Date.civil(@year, @month, 1)
-    @date_to = (@date_from >> 1)-1
-    # start on monday
-    @date_from = @date_from - (@date_from.cwday-1)
-    # finish on sunday
-    @date_to = @date_to + (7-@date_to.cwday)        
-    
-    @events = []
+    events = []
     @project.issues_with_subprojects(params[:with_subprojects]) do
-      @events += Issue.find(:all, 
+      events += Issue.find(:all, 
                            :include => [:tracker, :status, :assigned_to, :priority, :project], 
-                           :conditions => ["((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)) and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", @date_from, @date_to, @date_from, @date_to]
+                           :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?)) AND #{Issue.table_name}.tracker_id IN (#{@selected_tracker_ids.join(',')})", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
                            ) unless @selected_tracker_ids.empty?
     end
-    @events += @project.versions.find(:all, :conditions => ["effective_date BETWEEN ? AND ?", @date_from, @date_to])
-    
-    @ending_events_by_days = @events.group_by {|event| event.due_date}
-    @starting_events_by_days = @events.group_by {|event| event.start_date}
+    events += @project.versions.find(:all, :conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
+    @calendar.events = events
     
     render :layout => false if request.xhr?
   end  
