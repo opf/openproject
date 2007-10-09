@@ -517,3 +517,7 @@ field_column_names: Columns
 label_default_columns: Default columns
 setting_issue_list_default_columns: Default columns displayed on the issue list
 setting_repositories_encodings: Repositories encodings
+notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
+label_bulk_edit_selected_issues: Bulk edit selected issues
+label_no_change_option: (No change)
+notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."

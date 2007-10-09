@@ -29,7 +29,8 @@ Redmine::AccessControl.map do |map|
                                   :queries => :index,
                                   :reports => :issue_report}, :public => true                    
     map.permission :add_issues, {:projects => :add_issue}, :require => :loggedin
-    map.permission :edit_issues, {:issues => [:edit, :destroy_attachment]}, :require => :loggedin
+    map.permission :edit_issues, {:projects => :bulk_edit_issues,
+                                  :issues => [:edit, :destroy_attachment]}, :require => :loggedin
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}, :require => :loggedin
     map.permission :add_issue_notes, {:issues => :add_note}, :require => :loggedin
     map.permission :change_issue_status, {:issues => :change_status}, :require => :loggedin

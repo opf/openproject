@@ -336,6 +336,36 @@ class ProjectsController < ApplicationController
     @options_for_rfpdf[:file_name] = "export.pdf"
     render :layout => false
   end
+  
+  # Bulk edit issues
+  def bulk_edit_issues
+    if request.post?
+      priority = Enumeration.find_by_id(params[:priority_id])
+      assigned_to = User.find_by_id(params[:assigned_to_id])
+      issues = @project.issues.find_all_by_id(params[:issue_ids])
+      unsaved_issue_ids = []
+      issues.each do |issue|
+        issue.init_journal(User.current, params[:notes])
+        issue.priority = priority if priority
+        issue.assigned_to = assigned_to if assigned_to
+        issue.start_date = params[:start_date] unless params[:start_date].blank?
+        issue.due_date = params[:due_date] unless params[:due_date].blank?
+        issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
+        unsaved_issue_ids << issue.id unless issue.save
+      end
+      if unsaved_issue_ids.empty?
+        flash[:notice] = l(:notice_successful_update) unless issues.empty?
+      else
+        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, issues.size, '#' + unsaved_issue_ids.join(', #'))
+      end
+      redirect_to :action => 'list_issues', :id => @project
+      return
+    end
+    render :update do |page|
+      page.hide 'query_form'
+      page.replace_html  'bulk-edit', :partial => 'issues/bulk_edit_form'
+    end
+  end
 
   def move_issues
     @issues = @project.issues.find(params[:issue_ids]) if params[:issue_ids]

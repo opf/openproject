@@ -49,6 +49,16 @@ function promptToRemote(text, param, url) {
     }
 }
 
+/* checks that at least one checkbox is checked (used when submitting bulk edit form) */
+function checkBulkEdit(form) {
+	for (var i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].checked) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /* shows and hides ajax indicator */
 Ajax.Responders.register({
     onCreate: function(){

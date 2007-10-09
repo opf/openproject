@@ -4,7 +4,6 @@
     
     <% form_tag({ :controller => 'queries', :action => 'new', :project_id => @project }, :id => 'query_form') do %>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
-    <% end %>
     <div class="contextual">
     <%= link_to_remote l(:button_apply), 
                        { :url => { :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 },
@@ -22,6 +21,8 @@
     <% end %>
     </div>
     <br />
+    &nbsp;
+    <% end %>
 <% else %>
     <div class="contextual">
     <% if @query.editable_by?(User.current) %>
@@ -31,6 +32,7 @@
     </div>
     
     <h2><%= @query.name %></h2>
+    <div id="query_form"></div>
     <% set_html_title @query.name %>
 <% end %>
 <%= error_messages_for 'query' %>
@@ -38,15 +40,14 @@
 <% if @issues.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-&nbsp;
-<% form_tag({:controller => 'projects', :action => 'move_issues', :id => @project}, :id => 'issues_form' ) do %>	
+<% form_tag({:controller => 'projects', :action => 'bulk_edit_issues', :id => @project}, :id => 'issues_form', :onsubmit => "if (!checkBulkEdit(this)) {alert('#{l(:notice_no_issue_selected)}'); return false;}" ) do %>	
 <%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <div class="contextual">
 <%= l(:label_export_to) %>
 <%= link_to 'CSV', {:action => 'export_issues_csv', :id => @project}, :class => 'icon icon-csv' %>,
 <%= link_to 'PDF', {:action => 'export_issues_pdf', :id => @project}, :class => 'icon icon-pdf' %>
 </div>
-<p><%= submit_tag(l(:button_move), :class => "button-small") if authorize_for('projects', 'move_issues') %>
+<p>
 <%= pagination_links_full @issue_pages %>
 [ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]
 </p>
@@ -56,4 +57,11 @@
 
 <% content_for :sidebar do %>
     <%= render :partial => 'issues/sidebar' %>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= javascript_include_tag 'calendar/calendar' %>
+    <%= javascript_include_tag "calendar/lang/calendar-#{current_language}.js" %>
+    <%= javascript_include_tag 'calendar/calendar-setup' %>
+    <%= stylesheet_link_tag 'calendar' %>
 <% end %>

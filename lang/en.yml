@@ -73,6 +73,8 @@ notice_not_authorized: You are not authorized to access this page.
 notice_email_sent: An email was sent to %s
 notice_email_error: An error occurred while sending mail (%s)
 notice_feeds_access_key_reseted: Your RSS access key was reseted.
+notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
+notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
 
 mail_subject_lost_password: Your redMine password
 mail_subject_register: redMine account activation
@@ -427,6 +429,8 @@ label_jump_to_a_project: Jump to a project...
 label_file_plural: Files
 label_changeset_plural: Changesets
 label_default_columns: Default columns
+label_no_change_option: (No change)
+label_bulk_edit_selected_issues: Bulk edit selected issues
 
 button_login: Login
 button_submit: Submit

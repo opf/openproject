@@ -143,7 +143,7 @@ class Issue < ActiveRecord::Base
   
   # Users the issue can be assigned to
   def assignable_users
-    project.members.select {|m| m.role.assignable?}.collect {|m| m.user}
+    project.assignable_users
   end
   
   def spent_hours

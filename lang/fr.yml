@@ -73,6 +73,8 @@ notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
 notice_email_sent: "Un email a été envoyé à %s"
 notice_email_error: "Erreur lors de l'envoi de l'email (%s)"
 notice_feeds_access_key_reseted: Votre clé d'accès aux flux RSS a été réinitialisée.
+notice_failed_to_save_issues: "%d demande(s) sur les %d sélectionnées n'ont pas pu être mise(s) à jour: %s."
+notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
 
 mail_subject_lost_password: Votre mot de passe redMine
 mail_subject_register: Activation de votre compte redMine
@@ -427,6 +429,8 @@ label_jump_to_a_project: Aller à un projet...
 label_file_plural: Fichiers
 label_changeset_plural: Révisions
 label_default_columns: Colonnes par défaut
+label_no_change_option: (Pas de changement)
+label_bulk_edit_selected_issues: Modifier les demandes sélectionnées
 
 button_login: Connexion
 button_submit: Soumettre

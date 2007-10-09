@@ -519,3 +519,7 @@ label_added_time_by: Added by %s %s ago
 field_estimated_hours: Estimated time
 label_changeset_plural: Changesets
 setting_repositories_encodings: Repositories encodings
+notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
+label_bulk_edit_selected_issues: Bulk edit selected issues
+label_no_change_option: (No change)
+notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."

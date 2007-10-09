@@ -83,6 +83,16 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_not_nil assigns(:issues)
   end
+  
+  def test_bulk_edit_issues
+    @request.session[:user_id] = 2
+    # update issues priority
+    post :bulk_edit_issues, :id => 1, :issue_ids => [1, 2], :priority_id => 7, :notes => "Bulk editing"
+    assert_response 302
+    # check that the issues were updated
+    assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
+    assert_equal "Bulk editing", Issue.find(1).journals.last.notes
+  end
 
   def test_list_news
     get :list_news, :id => 1

@@ -113,6 +113,11 @@ class Project < ActiveRecord::Base
     children.select {|child| child.active?}
   end
   
+  # Users issues can be assigned to
+  def assignable_users
+    members.select {|m| m.role.assignable?}.collect {|m| m.user}
+  end
+  
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   def custom_fields_for_issues(tracker)
