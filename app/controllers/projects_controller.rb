@@ -342,12 +342,16 @@ class ProjectsController < ApplicationController
     if request.post?
       priority = Enumeration.find_by_id(params[:priority_id])
       assigned_to = User.find_by_id(params[:assigned_to_id])
+      category = @project.issue_categories.find_by_id(params[:category_id])
+      fixed_version = @project.versions.find_by_id(params[:fixed_version_id])
       issues = @project.issues.find_all_by_id(params[:issue_ids])
       unsaved_issue_ids = []
       issues.each do |issue|
         issue.init_journal(User.current, params[:notes])
         issue.priority = priority if priority
         issue.assigned_to = assigned_to if assigned_to
+        issue.category = category if category
+        issue.fixed_version = fixed_version if fixed_version
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
         issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
