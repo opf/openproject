@@ -31,8 +31,13 @@ class WikiController < ApplicationController
     page_title = params[:page]
     @page = @wiki.find_or_new_page(page_title)
     if @page.new_record?
-      edit
-      render :action => 'edit' and return
+      if User.current.allowed_to?(:edit_wiki_pages, @project)
+        edit
+        render :action => 'edit'
+      else
+        render_404
+      end
+      return
     end
     @content = @page.content_for_version(params[:version])
     if params[:export] == 'html'
