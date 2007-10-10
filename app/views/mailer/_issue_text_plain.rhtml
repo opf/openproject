@@ -1,8 +1,13 @@
 <%= "#{issue.tracker.name} ##{issue.id}: #{issue.subject}" %>
 <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'issues', :action => 'show', :id => issue %>
 
-<%=l(:field_author)%>: <%= issue.author.name %>
-<%=l(:field_assigned_to)%>: <%= issue.assigned_to ? issue.assigned_to.name : "-" %>
-<%=l(:field_status)%>: <%= issue.status.name %>
+<%=l(:field_author)%>: <%= issue.author %>
+<%=l(:field_status)%>: <%= issue.status %>
+<%=l(:field_priority)%>: <%= issue.priority %>
+<%=l(:field_assigned_to)%>: <%= issue.assigned_to %>
+<%=l(:field_category)%>: <%= issue.category %>
+<%=l(:field_fixed_version)%>: <%= issue.fixed_version %>
+<% issue.custom_values.each do |c| %><%= c.custom_field.name %>: <%= show_value(c) %>
+<% end %>
 
 <%= issue.description %>

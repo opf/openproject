@@ -18,6 +18,7 @@
 class Mailer < ActionMailer::Base
   helper ApplicationHelper
   helper IssuesHelper
+  helper CustomFieldsHelper
   
   def account_information(user, password)
     set_language_if_valid user.language

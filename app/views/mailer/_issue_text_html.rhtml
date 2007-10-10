@@ -2,9 +2,15 @@
 <%= issue.subject %>
 
 <ul>
-    <li><%=l(:field_author)%>: <%= issue.author.name %></li>
-    <li><%=l(:field_assigned_to)%>: <%= issue.assigned_to ? issue.assigned_to.name : "-" %></li>
-    <li><%=l(:field_status)%>: <%= issue.status.name %></li>
+<li><%=l(:field_author)%>: <%= issue.author %></li>
+<li><%=l(:field_status)%>: <%= issue.status %></li>
+<li><%=l(:field_priority)%>: <%= issue.priority %></li>
+<li><%=l(:field_assigned_to)%>: <%= issue.assigned_to %></li>
+<li><%=l(:field_category)%>: <%= issue.category %></li>
+<li><%=l(:field_fixed_version)%>: <%= issue.fixed_version %></li>
+<% issue.custom_values.each do |c| %>
+  <li><%= c.custom_field.name %>: <%= show_value(c) %></li>
+<% end %>
 </ul>
 
 <%= textilizable(issue.description) %>

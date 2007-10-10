@@ -59,6 +59,8 @@ class Version < ActiveRecord::Base
     @wiki_page
   end
   
+  def to_s; name end
+  
   # Versions are sorted by effective_date 
   # Those with no effective_date are at the end, sorted by name
   def <=>(version)
