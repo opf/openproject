@@ -13,6 +13,9 @@
 <%= text_area_tag 'settings[welcome_text]', Setting.welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit' %></p>
 <%= wikitoolbar_for 'settings[welcome_text]' %>
 
+<p><label><%= l(:label_theme) %></label>
+<%= select_tag 'settings[ui_theme]', options_for_select( ([[l(:label_default), '']] + Redmine::Themes.themes.collect {|t| [t.name, t.id]}), Setting.ui_theme) %></p>
+
 <p><label><%= l(:setting_default_language) %></label>
 <%= select_tag 'settings[default_language]', options_for_select( lang_options_for_select(false), Setting.default_language) %></p>
 

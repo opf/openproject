@@ -92,4 +92,6 @@ issue_list_default_columns:
 # multiple values accepted, comma separated
 repositories_encodings:
   default: ''
+ui_theme:
+  default: ''
   
