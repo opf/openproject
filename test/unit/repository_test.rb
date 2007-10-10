@@ -39,7 +39,8 @@ class RepositoryTest < Test::Unit::TestCase
   def test_scan_changesets_for_issue_ids
     # choosing a status to apply to fix issues
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
-    
+    Setting.commit_fix_done_ratio = "90"
+
     # make sure issue 1 is not already closed
     assert !Issue.find(1).status.is_closed?
         
@@ -47,8 +48,10 @@ class RepositoryTest < Test::Unit::TestCase
     assert_equal [101, 102], Issue.find(3).changeset_ids
     
     # fixed issues
-    assert Issue.find(1).status.is_closed?
-    assert_equal [101], Issue.find(1).changeset_ids
+    fixed_issue = Issue.find(1)
+    assert fixed_issue.status.is_closed?
+    assert_equal 90, fixed_issue.done_ratio
+    assert_equal [101], fixed_issue.changeset_ids
     
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets

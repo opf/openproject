@@ -55,8 +55,9 @@ class Changeset < ActiveRecord::Base
     ref_keywords = Setting.commit_ref_keywords.downcase.split(",")
     # keywords used to fix issues
     fix_keywords = Setting.commit_fix_keywords.downcase.split(",")
-    # status applied
+    # status and optional done ratio applied
     fix_status = IssueStatus.find_by_id(Setting.commit_fix_status_id)
+    done_ratio = Setting.commit_fix_done_ratio.blank? ? nil : Setting.commit_fix_done_ratio.to_i
     
     kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw.strip)}.join("|")
     return if kw_regexp.blank?
@@ -75,6 +76,7 @@ class Changeset < ActiveRecord::Base
           # don't change the status is the issue is already closed
           next if issue.status.is_closed?
           issue.status = fix_status
+          issue.done_ratio = done_ratio if done_ratio
           issue.save
         end
       end

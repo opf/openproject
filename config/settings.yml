@@ -61,6 +61,9 @@ commit_fix_keywords:
 commit_fix_status_id:
   format: int
   default: 0
+commit_fix_done_ratio:
+  format: int
+  default: 100
 # autologin duration in days
 # 0 means autologin is disabled 
 autologin:
