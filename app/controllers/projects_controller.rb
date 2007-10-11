@@ -347,7 +347,7 @@ class ProjectsController < ApplicationController
       issues = @project.issues.find_all_by_id(params[:issue_ids])
       unsaved_issue_ids = []
       issues.each do |issue|
-        issue.init_journal(User.current, params[:notes])
+        journal = issue.init_journal(User.current, params[:notes])
         issue.priority = priority if priority
         issue.assigned_to = assigned_to if assigned_to
         issue.category = category if category
@@ -355,7 +355,12 @@ class ProjectsController < ApplicationController
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
         issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
-        unsaved_issue_ids << issue.id unless issue.save
+        if issue.save
+          # Send notification for each issue (if changed)
+          Mailer.deliver_issue_edit(journal) if journal.details.any? && Setting.notified_events.include?('issue_updated')
+        else
+          unsaved_issue_ids << issue.id
+        end
       end
       if unsaved_issue_ids.empty?
         flash[:notice] = l(:notice_successful_update) unless issues.empty?
