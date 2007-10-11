@@ -579,12 +579,20 @@ class ProjectsController < ApplicationController
         @month_from = 1
       end
     else
-      @month_from ||= (Date.today << 1).month
-      @year_from ||= (Date.today << 1).year
+      @month_from ||= Date.today.month
+      @year_from ||= Date.today.year
     end
     
-    @zoom = (params[:zoom].to_i > 0 and params[:zoom].to_i < 5) ? params[:zoom].to_i : 2
-    @months = (params[:months].to_i > 0 and params[:months].to_i < 25) ? params[:months].to_i : 6
+    zoom = (params[:zoom] || User.current.pref[:gantt_zoom]).to_i
+    @zoom = (zoom > 0 && zoom < 5) ? zoom : 2    
+    months = (params[:months] || User.current.pref[:gantt_months]).to_i
+    @months = (months > 0 && months < 25) ? months : 6
+    
+    # Save gantt paramters as user preference (zoom and months count)
+    if (User.current.logged? && (@zoom != User.current.pref[:gantt_zoom] || @months != User.current.pref[:gantt_months]))
+      User.current.pref[:gantt_zoom], User.current.pref[:gantt_months] = @zoom, @months
+      User.current.preference.save
+    end
     
     @date_from = Date.civil(@year_from, @month_from, 1)
     @date_to = (@date_from >> @months) - 1
