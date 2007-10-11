@@ -513,13 +513,13 @@ enumeration_doc_categories: 文書カテゴリ
 enumeration_activities: 作業分類 (時間トラッキング)
 label_file_plural: Files
 label_changeset_plural: Changesets
-field_column_names: Columns
-label_default_columns: Default columns
+field_column_names: 項目
+label_default_columns: 既定の項目
 setting_issue_list_default_columns: 問題の一覧で表示する項目
-setting_repositories_encodings: Repositories encodings
-notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
-label_bulk_edit_selected_issues: Bulk edit selected issues
-label_no_change_option: (No change)
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-label_theme: Theme
-label_default: Default
+setting_repositories_encodings: リポジトリのエンコーディング
+notice_no_issue_selected: "問題が選択されていません! 更新対象の問題を選択してください。"
+label_bulk_edit_selected_issues: 問題の一括編集
+label_no_change_option: (変更無し)
+notice_failed_to_save_issues: "%d件の問題が保存できませんでした(%d件選択のうち) : %s."
+label_theme: テーマ
+label_default: 既定
