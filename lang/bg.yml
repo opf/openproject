@@ -75,7 +75,9 @@ notice_email_error: An error occurred while sending mail (%s)
 notice_feeds_access_key_reseted: Your RSS access key was reseted.
 
 mail_subject_lost_password: Вашата парола
+mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
 mail_subject_register: Активация на акаунт
+mail_body_register: 'За да активирате акаунта си използвайте следния линк:'
 
 gui_validation_error: 1 грешка
 gui_validation_error_plural: %d грешки

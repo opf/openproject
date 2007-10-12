@@ -76,8 +76,10 @@ notice_feeds_access_key_reseted: Your RSS access key was reseted.
 notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
 notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
 
-mail_subject_lost_password: Your redMine password
-mail_subject_register: redMine account activation
+mail_subject_lost_password: Your Redmine password
+mail_body_lost_password: 'To change your Redmine password, click on the following link:'
+mail_subject_register: Redmine account activation
+mail_body_register: 'To activate your Redmine account, click on the following link:'
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errors

@@ -75,7 +75,9 @@ notice_email_error: An error occurred while sending mail (%s)
 notice_feeds_access_key_reseted: Your RSS access key was reseted.
 
 mail_subject_lost_password: Password redMine
+mail_body_lost_password: 'Per cambiare la password, usate il seguente collegamento:'
 mail_subject_register: Attivazione utenza redMine
+mail_body_register: 'Per attivare la vostra utenza Redmine, usate il seguente collegamento:'
 
 gui_validation_error: 1 errore
 gui_validation_error_plural: %d errori

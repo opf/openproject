@@ -75,7 +75,9 @@ notice_email_error: Při odesílání emailu nastala chyba (%s)
 notice_feeds_access_key_reseted: Váš klíč pro přístup k RSS byl resetován.
 
 mail_subject_lost_password: Vaše heslo
+mail_body_lost_password: 'To change your Redmine password, click on the following link:'
 mail_subject_register: aktivace účtu
+mail_body_register: 'To activate your Redmine account, click on the following link:'
 
 gui_validation_error: 1 chyba
 gui_validation_error_plural: %d chyb(y)

@@ -1,3 +1,2 @@
-To activate your redMine account, use the following link:
-
+<%= l(:mail_body_register) %>
 <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'account', :action => 'register', :token => @token.value %>

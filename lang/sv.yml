@@ -75,7 +75,9 @@ notice_email_error: An error occurred while sending mail (%s)
 notice_feeds_access_key_reseted: Your RSS access key was reseted.
 
 mail_subject_lost_password: Ditt redMine lösenord
+mail_body_lost_password: 'För att ändra lösenord, följ denna länk:'
 mail_subject_register: redMine kontoaktivering
+mail_body_register: 'För att aktivera ditt Redmine-konto, använd följande länk.'
 
 gui_validation_error: 1 fel
 gui_validation_error_plural: %d fel

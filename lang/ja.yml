@@ -76,7 +76,9 @@ notice_email_error: メール送信中にエラーが発生しました (%s)
 notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
 
 mail_subject_lost_password: redMineパスワード
+mail_body_lost_password: 'パスワードを変更するには、以下のリンクをたどってください:'
 mail_subject_register: redMineアカウントが有効になりました
+mail_body_register: 'Redmine アカウントをアクティブにするには、以下のリンクをたどってください:'
 
 gui_validation_error: 1件のエラー
 gui_validation_error_plural: %d件のエラー

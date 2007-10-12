@@ -72,7 +72,9 @@ notice_scm_error: La entrada y/o la revisión no existe en el depósito.
 notice_not_authorized: No tiene autorización para acceder a esta página.
 
 mail_subject_lost_password: Tu contraseña del CIYAT - Gestor de Solicitudes
+mail_body_lost_password: 'To change your Redmine password, click on the following link:'
 mail_subject_register: Activación de la cuenta del CIYAT - Gestor de Solicitudes
+mail_body_register: 'To activate your Redmine account, click on the following link:'
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errores

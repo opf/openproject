@@ -75,7 +75,9 @@ notice_email_error: Beim Senden einer E-Mail ist ein Fehler aufgetreten (%s).
 notice_feeds_access_key_reseted: Ihr RSS-Zugriffsschlüssel wurde zurückgesetzt.
 
 mail_subject_lost_password: Ihr Redmine Kennwort
+mail_body_lost_password: 'Benutzen Sie folgenden Link, um das Password zu Ãndern:'
 mail_subject_register: Redmine Kontoaktivierung
+mail_body_register: 'Um Ihren Account zu aktivieren, benutzen Sie folgenden Link:'
 
 gui_validation_error: 1 Fehler
 gui_validation_error_plural: %d Fehler

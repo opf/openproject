@@ -75,7 +75,9 @@ notice_email_error: Eroare in trimiterea e-mailului (%s)
 notice_feeds_access_key_reseted: Parola de acces RSS a fost resetat.
 
 mail_subject_lost_password: Parola clair.ro|PM
+mail_body_lost_password: 'To change your Redmine password, click on the following link:'
 mail_subject_register: Activare cont clair.ro|PM
+mail_body_register: 'To activate your Redmine account, click on the following link:'
 
 gui_validation_error: 1 eroare
 gui_validation_error_plural: %d erori

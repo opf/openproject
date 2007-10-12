@@ -72,7 +72,9 @@ notice_scm_error: Wejście i/lub zmiana nie istnieje w repozytorium.
 notice_not_authorized: Nie jesteś autoryzowany by zobaczyć stronę.
 
 mail_subject_lost_password: Twoje hasło do redMine
+mail_body_lost_password: 'W celu zmiany swojego hasła użyj poniższego odnośnika:'
 mail_subject_register: Aktywacja konta w redMine
+mail_body_register: 'W celu aktywacji Twojego konta w Redmine, użyj poniższego odnośnika:'
 
 gui_validation_error: 1 błąd
 gui_validation_error_plural: %d błędów

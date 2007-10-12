@@ -77,7 +77,9 @@ notice_failed_to_save_issues: "%d demande(s) sur les %d sélectionnées n'ont pa
 notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
 
 mail_subject_lost_password: Votre mot de passe redMine
+mail_body_lost_password: 'Pour changer votre mot de passe Redmine, cliquez sur le lien suivant:'
 mail_subject_register: Activation de votre compte redMine
+mail_body_register: 'Pour activer votre compte Redmine, cliquez sur le lien suivant:'
 
 gui_validation_error: 1 erreur
 gui_validation_error_plural: %d erreurs
