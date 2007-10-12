@@ -51,6 +51,12 @@ class IssueStatus < ActiveRecord::Base
                                    :conditions => ["role_id=? and tracker_id=?", role.id, tracker.id]).collect{ |w| w.new_status }.compact  if role && tracker
     new_statuses ? new_statuses.sort{|x, y| x.position <=> y.position } : []
   end
+  
+  def new_status_allowed_to?(status, role, tracker)
+    status && role && tracker ?
+      !workflows.find(:first, :conditions => {:new_status_id => status.id, :role_id => role.id, :tracker_id => tracker.id}).nil? :
+      false
+  end
 
   def to_s; name end
 

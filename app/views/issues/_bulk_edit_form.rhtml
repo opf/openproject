@@ -2,12 +2,18 @@
 <fieldset class="box"><legend><%= l(:label_bulk_edit_selected_issues) %></legend>
 
 <p>
+<% if @available_statuses %>
+<label><%= l(:field_status) %>: 
+<%= select_tag('status_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@available_statuses, :id, :name)) %></label>
+<% end %>
 <label><%= l(:field_priority) %>: 
 <%= select_tag('priority_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(Enumeration.get_values('IPRI'), :id, :name)) %></label>
-<label><%= l(:field_assigned_to) %>: 
-<%= select_tag('assigned_to_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@project.assignable_users, :id, :name)) %></label>
 <label><%= l(:field_category) %>: 
 <%= select_tag('category_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@project.issue_categories, :id, :name)) %></label>
+</p>
+<p>
+<label><%= l(:field_assigned_to) %>: 
+<%= select_tag('assigned_to_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@project.assignable_users, :id, :name)) %></label>
 <label><%= l(:field_fixed_version) %>: 
 <%= select_tag('fixed_version_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@project.versions, :id, :name)) %></label>
 </p>

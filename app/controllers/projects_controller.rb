@@ -340,12 +340,13 @@ class ProjectsController < ApplicationController
   # Bulk edit issues
   def bulk_edit_issues
     if request.post?
+      status = IssueStatus.find_by_id(params[:status_id])
       priority = Enumeration.find_by_id(params[:priority_id])
       assigned_to = User.find_by_id(params[:assigned_to_id])
       category = @project.issue_categories.find_by_id(params[:category_id])
       fixed_version = @project.versions.find_by_id(params[:fixed_version_id])
       issues = @project.issues.find_all_by_id(params[:issue_ids])
-      unsaved_issue_ids = []
+      unsaved_issue_ids = []      
       issues.each do |issue|
         journal = issue.init_journal(User.current, params[:notes])
         issue.priority = priority if priority
@@ -355,10 +356,12 @@ class ProjectsController < ApplicationController
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
         issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
-        if issue.save
+        # Don't save any change to the issue if the user is not authorized to apply the requested status
+        if (status.nil? || (issue.status.new_status_allowed_to?(status, current_role, issue.tracker) && issue.status = status)) && issue.save
           # Send notification for each issue (if changed)
           Mailer.deliver_issue_edit(journal) if journal.details.any? && Setting.notified_events.include?('issue_updated')
         else
+          # Keep unsaved issue ids to display them in flash error
           unsaved_issue_ids << issue.id
         end
       end
@@ -369,6 +372,11 @@ class ProjectsController < ApplicationController
       end
       redirect_to :action => 'list_issues', :id => @project
       return
+    end
+    if current_role && User.current.allowed_to?(:change_issue_status, @project)
+      # Find potential statuses the user could be allowed to switch issues to
+      @available_statuses = Workflow.find(:all, :include => :new_status,
+                                                :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq
     end
     render :update do |page|
       page.hide 'query_form'
