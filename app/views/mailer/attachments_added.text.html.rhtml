@@ -1,0 +1,5 @@
+<%= link_to @added_to, @url %><br />
+
+<ul><% @attachments.each do |attachment | %>
+<li><%= attachment.filename %></li>
+<% end %></ul>

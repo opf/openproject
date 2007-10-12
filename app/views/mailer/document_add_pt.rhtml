@@ -1,4 +1,0 @@
-Um documento foi adicionado no projeto <%= @document.project.name %> (<%= @document.category.name %>):
-<%= l(:field_title) %>: <%= @document.title %>
-
-<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'documents', :action => 'show', :id => @document %>

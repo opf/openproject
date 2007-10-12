@@ -1,0 +1,4 @@
+<%= link_to @document.title, :only_path => false, :host => Setting.host_name, :controller => 'documents', :action => 'show', :id => @document %>
+(<%= @document.category.name %>)<br />
+<br />
+<%= textilizable(@document.description) %>

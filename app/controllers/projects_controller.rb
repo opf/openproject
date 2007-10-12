@@ -182,7 +182,7 @@ class ProjectsController < ApplicationController
         Attachment.create(:container => @document, :file => a, :author => logged_in_user) unless a.size == 0
       } if params[:attachments] and params[:attachments].is_a? Array
       flash[:notice] = l(:notice_successful_create)
-      Mailer.deliver_document_add(@document) if Setting.notified_events.include?('document_added')
+      Mailer.deliver_document_added(@document) if Setting.notified_events.include?('document_added')
       redirect_to :action => 'list_documents', :id => @project
     end
   end
@@ -449,7 +449,7 @@ class ProjectsController < ApplicationController
         a = Attachment.create(:container => @version, :file => file, :author => logged_in_user)
         @attachments << a unless a.new_record?
       } if params[:attachments] and params[:attachments].is_a? Array
-      Mailer.deliver_attachments_add(@attachments) if !@attachments.empty? && Setting.notified_events.include?('file_added')
+      Mailer.deliver_attachments_added(@attachments) if !@attachments.empty? && Setting.notified_events.include?('file_added')
       redirect_to :controller => 'projects', :action => 'list_files', :id => @project
     end
     @versions = @project.versions.sort

@@ -1,0 +1,4 @@
+<%= @document.title %> (<%= @document.category.name %>)
+<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'documents', :action => 'show', :id => @document %>
+
+<%= @document.description %>

@@ -41,7 +41,7 @@ class MailerTest < Test::Unit::TestCase
     document = Document.find(1)
     GLoc.valid_languages.each do |lang|
       Setting.default_language = lang.to_s
-      assert Mailer.deliver_document_add(document)
+      assert Mailer.deliver_document_added(document)
     end
   end
 

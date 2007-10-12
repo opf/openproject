@@ -52,7 +52,7 @@ class DocumentsController < ApplicationController
       a = Attachment.create(:container => @document, :file => file, :author => logged_in_user)
       @attachments << a unless a.new_record?
     } if params[:attachments] and params[:attachments].is_a? Array
-    Mailer.deliver_attachments_add(@attachments) if !@attachments.empty? && Setting.notified_events.include?('document_added')
+    Mailer.deliver_attachments_added(@attachments) if !@attachments.empty? && Setting.notified_events.include?('document_added')
     redirect_to :action => 'show', :id => @document
   end
   
