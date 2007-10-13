@@ -33,6 +33,7 @@
     <%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'} if User.current.logged? %>
     <%= link_to l(:label_project_plural), { :controller => 'projects' } %>
     <%= link_to l(:label_administration), { :controller => 'admin' } if User.current.admin? %>
+    <%= link_to l(:label_help), Redmine::Info.help_url %>
 </div>
       
 <div id="header">
