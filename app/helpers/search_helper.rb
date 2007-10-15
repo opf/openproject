@@ -26,7 +26,12 @@ module SearchHelper
         result << '...'
         break
       end
-      result << (i.even? ? h(words.length > 100 ? "#{words[0..44]} ... #{words[-45..-1]}" : words) : content_tag('span', h(words), :class => 'highlight'))
+      if i.even?
+        result << h(words.length > 100 ? "#{words[0..44]} ... #{words[-45..-1]}" : words)
+      else
+        t = (tokens.index(words.downcase) || 0) % 4
+        result << content_tag('span', h(words), :class => "highlight token-#{t}")
+      end
     end
     result
   end

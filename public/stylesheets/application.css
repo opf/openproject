@@ -83,6 +83,9 @@ table p {margin:0;}
 .even {background-color: #fff;}
 
 .highlight { background-color: #FCFD8D;}
+.highlight.token-1 { background-color: #faa;}
+.highlight.token-2 { background-color: #afa;}
+.highlight.token-3 { background-color: #aaf;}
 
 .box{
 padding:6px;

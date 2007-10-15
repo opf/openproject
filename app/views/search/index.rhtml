@@ -9,7 +9,7 @@
 <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label>
 <% end %>
 <br />
-<%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></p>
+<label><%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></label></p>
 <%= submit_tag l(:button_submit), :name => 'submit' %>
 <% end %>
 </div>
