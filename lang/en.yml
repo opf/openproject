@@ -435,6 +435,7 @@ label_no_change_option: (No change)
 label_bulk_edit_selected_issues: Bulk edit selected issues
 label_theme: Theme
 label_default: Default
+label_search_titles_only: Search titles only
 
 button_login: Login
 button_submit: Submit

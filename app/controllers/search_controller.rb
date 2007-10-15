@@ -25,6 +25,7 @@ class SearchController < ApplicationController
     @question = params[:q] || ""
     @question.strip!
     @all_words = params[:all_words] || (params[:submit] ? false : true)
+    @titles_only = !params[:titles_only].nil?
     
     offset = nil
     begin; offset = params[:offset].to_time if params[:offset]; rescue; end
@@ -58,14 +59,17 @@ class SearchController < ApplicationController
       # no more than 5 tokens to search for
       @tokens.slice! 5..-1 if @tokens.size > 5
       # strings used in sql like statement
-      like_tokens = @tokens.collect {|w| "%#{w.downcase}%"}
-      operator = @all_words ? " AND " : " OR "
+      like_tokens = @tokens.collect {|w| "%#{w.downcase}%"}      
       @results = []
       limit = 10
       if @project        
         @scope.each do |s|
-          @results += s.singularize.camelcase.constantize.search(like_tokens, @all_words, @project, 
-          :limit => (limit+1), :offset => offset, :before => params[:previous].nil?)
+          @results += s.singularize.camelcase.constantize.search(like_tokens, @project,
+            :all_words => @all_words,
+            :titles_only => @titles_only,
+            :limit => (limit+1),
+            :offset => offset,
+            :before => params[:previous].nil?)
         end
         @results = @results.sort {|a,b| b.event_datetime <=> a.event_datetime}
         if params[:previous].nil?
@@ -82,6 +86,7 @@ class SearchController < ApplicationController
           end
         end
       else
+        operator = @all_words ? ' AND ' : ' OR '
         Project.with_scope(:find => {:conditions => Project.visible_by(logged_in_user)}) do
           @results += Project.find(:all, :limit => limit, :conditions => [ (["(LOWER(name) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'projects'
         end

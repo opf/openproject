@@ -525,3 +525,4 @@ label_no_change_option: (変更無し)
 notice_failed_to_save_issues: "%d件の問題が保存できませんでした(%d件選択のうち) : %s."
 label_theme: テーマ
 label_default: 既定
+label_search_titles_only: Search titles only

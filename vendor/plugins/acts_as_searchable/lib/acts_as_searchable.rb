@@ -59,24 +59,26 @@ module Redmine
         end
 
         module ClassMethods
-          def search(tokens, all_tokens, project, options={})
+          def search(tokens, project, options={})
             tokens = [] << tokens unless tokens.is_a?(Array)
             find_options = {:include => searchable_options[:include]}
             find_options[:limit] = options[:limit] if options[:limit]
             find_options[:order] = "#{searchable_options[:date_column]} " + (options[:before] ? 'DESC' : 'ASC')
-
-            sql = ([ '(' + searchable_options[:columns].collect {|column| "(LOWER(#{column}) LIKE ?)"}.join(' OR ') + ')' ] * tokens.size).join(all_tokens ? ' AND ' : ' OR ')
+            columns = searchable_options[:columns]
+            columns.slice!(1..-1) if options[:titles_only]
+            
+            sql = ([ '(' + columns.collect {|column| "(LOWER(#{column}) LIKE ?)"}.join(' OR ') + ')' ] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
             if options[:offset]
               sql = "(#{sql}) AND (#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')"
             end
-            find_options[:conditions] = [sql, * (tokens * searchable_options[:columns].size).sort]
+            find_options[:conditions] = [sql, * (tokens * columns.size).sort]
             
             results = with_scope(:find => {:conditions => ["#{searchable_options[:project_key]} = ?", project.id]}) do
               find(:all, find_options)
             end            
-            if searchable_options[:with]
+            if searchable_options[:with] && !options[:titles_only]
               searchable_options[:with].each do |model, assoc|
-                results += model.to_s.camelcase.constantize.search(tokens, all_tokens, project, options).collect {|r| r.send assoc}
+                results += model.to_s.camelcase.constantize.search(tokens, project, options).collect {|r| r.send assoc}
               end
               results.uniq!
             end

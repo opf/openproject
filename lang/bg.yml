@@ -524,3 +524,4 @@ label_no_change_option: (No change)
 notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
 label_theme: Theme
 label_default: Default
+label_search_titles_only: Search titles only
