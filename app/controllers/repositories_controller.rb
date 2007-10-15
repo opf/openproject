@@ -62,9 +62,7 @@ class RepositoriesController < ApplicationController
   def changes
     @entry = @repository.scm.entry(@path, @rev)
     show_error and return unless @entry
-    @changes = Change.find(:all, :include => :changeset, 
-                                 :conditions => ["repository_id = ? AND path = ?", @repository.id, @path.with_leading_slash],
-                                 :order => "committed_on DESC")
+    @changesets = @repository.changesets_for_path(@path)
   end
   
   def revisions

@@ -42,6 +42,14 @@ class Repository < ActiveRecord::Base
     scm.diff(path, rev, rev_to, type)
   end
   
+  # Default behaviour: we search in cached changesets
+  def changesets_for_path(path)
+    path = "/#{path}" unless path.starts_with?('/')
+    Change.find(:all, :include => :changeset, 
+      :conditions => ["repository_id = ? AND path = ?", id, path],
+      :order => "committed_on DESC, #{Changeset.table_name}.revision DESC").collect(&:changeset)
+  end
+  
   def latest_changeset
     @latest_changeset ||= changesets.find(:first)
   end

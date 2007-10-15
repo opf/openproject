@@ -30,6 +30,11 @@ class Repository::Subversion < Repository
     'Subversion'
   end
 
+  def changesets_for_path(path)
+    revisions = scm.revisions(path)
+    revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), :order => "committed_on DESC") : []
+  end
+  
   def fetch_changesets
     scm_info = scm.info
     if scm_info
