@@ -65,10 +65,10 @@ class AuthSourcesController < ApplicationController
     @auth_method = AuthSource.find(params[:id])
     begin
       @auth_method.test_connection
+      flash[:notice] = l(:notice_successful_connection)
     rescue => text
-      flash[:notice] = text
+      flash[:error] = "Unable to connect (#{text})"
     end
-    flash[:notice] ||= l(:notice_successful_connection)
     redirect_to :action => 'list'
   end
 
