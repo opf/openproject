@@ -9,7 +9,7 @@
 <%= text_field 'auth_source', 'host'  %></p>
 
 <p><label for="auth_source_port"><%=l(:field_port)%> <span class="required">*</span></label>
-<%= text_field 'auth_source', 'port', :size => 6 %></p>
+<%= text_field 'auth_source', 'port', :size => 6 %> <%= check_box 'auth_source', 'tls'  %> LDAPS</p>
 
 <p><label for="auth_source_account"><%=l(:field_account)%></label>
 <%= text_field 'auth_source', 'account'  %></p>
