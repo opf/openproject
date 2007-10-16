@@ -1,0 +1,527 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: ינואר,פברואר,מרץ,אפריל,מאי,יוני,יולי,אוגוסט,ספטמבר,אוקטובר,נובמבר,דצבמבר
+actionview_datehelper_select_month_names_abbr: ינו',פבו',מרץ,אפר',מאי,יונ',יול',אוג',ספט',אוקט',נוב',דצמ'
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: יום 1
+actionview_datehelper_time_in_words_day_plural: %d ימים
+actionview_datehelper_time_in_words_hour_about: כשעה
+actionview_datehelper_time_in_words_hour_about_plural: כ-%d שעות
+actionview_datehelper_time_in_words_hour_about_single: כשעה
+actionview_datehelper_time_in_words_minute: דקה 1 
+actionview_datehelper_time_in_words_minute_half: חצי דקה
+actionview_datehelper_time_in_words_minute_less_than: פחות מדקה
+actionview_datehelper_time_in_words_minute_plural: %d דקות
+actionview_datehelper_time_in_words_minute_single: דקה 1
+actionview_datehelper_time_in_words_second_less_than: פחות משניה
+actionview_datehelper_time_in_words_second_less_than_plural: פחות מ-%d שניות
+actionview_instancetag_blank_option: בחר בבקשה
+
+activerecord_error_inclusion: לא כלול ברשימה
+activerecord_error_exclusion: שמור
+activerecord_error_invalid: לא קביל
+activerecord_error_confirmation: לא מתאים לאישור
+activerecord_error_accepted: חייב להסכים
+activerecord_error_empty: לא יכול להיות ריק
+activerecord_error_blank: לא יכול להיות חסר
+activerecord_error_too_long: ארוך מדי
+activerecord_error_too_short: קצר מדי
+activerecord_error_wrong_length: בארוך שגוי
+activerecord_error_taken: כבר נלקח
+activerecord_error_not_a_number: אינו מספר
+activerecord_error_not_a_date: אינו תאריך קביל
+activerecord_error_greater_than_start_date: חייב להיות מאוחר יותר מתאריך ההתחלה
+activerecord_error_not_same_project: לא שייך לאותו הפרויקט
+activerecord_error_circular_dependency: הקשר הזה יצור תלות מעגלית
+
+general_fmt_age: שנה %d
+general_fmt_age_plural: %d שנים
+general_fmt_date: %%d/%%m/%%Y
+general_fmt_datetime: %%d/%%m/%%Y %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: 'לא'
+general_text_Yes: 'כן'
+general_text_no: 'לא'
+general_text_yes: 'כן'
+general_lang_name: 'Hebrew (עברית)'
+general_csv_separator: ','
+general_csv_encoding: ISO-8859-8-I
+general_pdf_encoding: ISO-8859-8-I
+general_day_names: שני,שלישי,רביעי,חמישי,שישי,שבת,ראשון
+general_first_day_of_week: '7'
+
+notice_account_updated: החשבון עודכן בהצלחה!
+notice_account_invalid_creditentials: שם משתמש או סיסמה שגויים
+notice_account_password_updated: הסיסמה עודכנה בהצלחה!
+notice_account_wrong_password: סיסמה שגויה
+notice_account_register_done: החשבון נוצר בהצלחה. להפעלת החשבון לחץ על הקישור שנשלח לדוא"ל שלך.
+notice_account_unknown_email: משתמש לא מוכר.
+notice_can_t_change_password: החשבון הזה משתמש במקור אימות חיצוני. שינוי סיסמה הינו בילתי אפשר
+notice_account_lost_email_sent: דוא"ל עם הוראות לבחירת סיסמה חדשה נשלח אליך.
+notice_account_activated: חשבונך הופעל. אתה יכול להתחבר כעת.
+notice_successful_create: יצירה מוצלחת.
+notice_successful_update: עידכון מוצלח.
+notice_successful_delete: מחיקה מוצלחת.
+notice_successful_connection: חיבור מוצלח.
+notice_file_not_found: הדף שאת\ה מנסה לגשת אליו אינו קיים או שהוסר.
+notice_locking_conflict: המידע עודכן על ידי משתמש אחר.
+notice_scm_error: כניסה ו\או גירסא אינם קיימים במאגר.
+notice_not_authorized: אינך מורשה לראות דף זה.
+notice_email_sent: דוא"ל נשלח לכתובת %s
+notice_email_error: ארעה שגיאה בעט שליחת הדוא"ל (%s)
+notice_feeds_access_key_reseted: מפתח ה-RSS שלך אופס.
+notice_failed_to_save_issues: "נכשרת בשמירת %d נושא\ים ב %d נבחרו: %s."
+notice_no_issue_selected: "לא נבחר אף נושא! בחר בבקשה את הנושאים שברצונך לערוך."
+
+mail_subject_lost_password: סיסמת ה-Redmine שלך
+mail_body_lost_password: 'לשינו סיסמת ה-Redmine שלך,לחץ על הקישור הבא:'
+mail_subject_register: הפעלת חשבון Redmine
+mail_body_register: 'להפעלת חשבון ה-Redmine שלך, לחץ על הקישור הבא:'
+
+gui_validation_error: שגיאה 1
+gui_validation_error_plural: %d שגיאות
+
+field_name: שם
+field_description: תיאור
+field_summary: תקציר
+field_is_required: נדרש
+field_firstname: שם פרטי
+field_lastname: שם משפחה
+field_mail: דוא"ל
+field_filename: קובץ
+field_filesize: גודל
+field_downloads: הורדות
+field_author: כותב
+field_created_on: נוצר
+field_updated_on: עודגן
+field_field_format: פורמט
+field_is_for_all: לכל הפרויקטים
+field_possible_values: ערכים אפשריים
+field_regexp: ביטוי רגיל
+field_min_length: אורך מינימאלי
+field_max_length: אורך מקסימאלי
+field_value: ערך
+field_category: קטגוריה
+field_title: כותרת
+field_project: פרויקט
+field_issue: נושא
+field_status: מצב
+field_notes: הערות
+field_is_closed: נושא סגור
+field_is_default: ערך ברירת מחדל
+field_html_color: צבע
+field_tracker: עוקב
+field_subject: שם נושא
+field_due_date: תאריך סיום
+field_assigned_to: מוצב ל
+field_priority: עדיפות
+field_fixed_version: גירסא מקובעת
+field_user: מתשמש
+field_role: תפקיד
+field_homepage: דף הבית
+field_is_public: פומבי
+field_parent: תת פרויקט של
+field_is_in_chlog: נושאים המוצגים בדו"ח השינויים
+field_is_in_roadmap: נושאים המוצגים במפת הדרכים
+field_login: שם משתמש
+field_mail_notification: הודעות דוא"ל
+field_admin: אדמיניסטרציה
+field_last_login_on: חיבור אחרון
+field_language: שפה
+field_effective_date: תאריך
+field_password: סיסמה
+field_new_password: סיסמה חדשה
+field_password_confirmation: אישור
+field_version: גירסא
+field_type: סוג
+field_host: שרת
+field_port: פורט
+field_account: חשבום
+field_base_dn: בסיס DN
+field_attr_login: תכונת התחברות
+field_attr_firstname: תכונת שם פרטים
+field_attr_lastname: תכונת שם משפחה
+field_attr_mail: תכונת דוא"ל
+field_onthefly: יצירת משתמשים זריזה
+field_start_date: התחל
+field_done_ratio: %% גמור
+field_auth_source: מצב אימות
+field_hide_mail: החבא את כתובת הדוא"ל שלי
+field_comments: הערות
+field_url: URL
+field_start_page: דף התחלתי
+field_subproject: תת פרויקט
+field_hours: שעות
+field_activity: פעילות
+field_spent_on: תאריך
+field_identifier: מזהה
+field_is_filter: משמש כמסנן
+field_issue_to_id: נושאים קשורים
+field_delay: עיקוב
+field_assignable: ניתן להקצות נושאים לתפקיד זה
+field_redirect_existing_links: העבר קישורים קיימים
+field_estimated_hours: זמן משוער
+field_column_names: עמודות
+
+setting_app_title: כותרת ישום
+setting_app_subtitle: תת-כותרת ישום
+setting_welcome_text: טקסט "ברוך הבא"
+setting_default_language: שפת ברירת מחדל
+setting_login_required: דרוש אימות
+setting_self_registration: אפשר הרשמות עצמית
+setting_attachment_max_size: גודל דבוקה מקסימאלי
+setting_issues_export_limit: גבול יצוא נושאים
+setting_mail_from: כתובת שליחת דוא"ל
+setting_host_name: שם שרת
+setting_text_formatting: עיצוב טקסט
+setting_wiki_compression: כיווץ היסטורית WIKI
+setting_feeds_limit: גבול תוכן הזנות
+setting_autofetch_changesets: משיכה אוטומתי של עידכונים
+setting_sys_api_enabled: Enable WS for repository management
+setting_commit_ref_keywords: מילות מפתח מקשרות
+setting_commit_fix_keywords: מילות מפתח מתקנות
+setting_autologin: חיבור אוטומטי
+setting_date_format: פורמט תאריך
+setting_cross_project_issue_relations: הרשה קישור נושאים בין פרויקטים
+setting_issue_list_default_columns: עמודות ברירת מחדל המוצגות ברשימת הנושאים
+setting_repositories_encodings: קידוד המאגרים
+
+label_user: משתמש
+label_user_plural: משתמשים
+label_user_new: משתמש חדש
+label_project: פרויקט
+label_project_new: פרויקט חדש
+label_project_plural: פרויקטים
+label_project_all: כל הפרויקטים
+label_project_latest: הפרויקטים החדשים ביותר
+label_issue: נושא
+label_issue_new: נושא חדש
+label_issue_plural: נושאים
+label_issue_view_all: צפה בכל הנושאים
+label_document: מסמך
+label_document_new: מסמך חדש
+label_document_plural: מסמכים
+label_role: תפקיד
+label_role_plural: תפקידים
+label_role_new: תפקיד חדש
+label_role_and_permissions: תפקידים והרשאות
+label_member: חבר
+label_member_new: חבר חדש
+label_member_plural: חברים
+label_tracker: עוקב
+label_tracker_plural: עוקבים
+label_tracker_new: עוקב חדש
+label_workflow: זרימת עבודה
+label_issue_status: מצב נושא
+label_issue_status_plural: מצבי נושא
+label_issue_status_new: מצב חדש
+label_issue_category: קטגורית נושא
+label_issue_category_plural: קטגוריות נושא
+label_issue_category_new: קטגוריה חדשה
+label_custom_field: שדה אישי
+label_custom_field_plural: שדות אישיים
+label_custom_field_new: שדה אישי חדש
+label_enumerations: אינומרציות
+label_enumeration_new: ערך חדש
+label_information: מידע
+label_information_plural: מידע
+label_please_login: התחבר בבקשה
+label_register: הרשמה
+label_password_lost: אבדה הסיסמה?
+label_home: דך הבית
+label_my_page: הדף שלי
+label_my_account: השבון שלי
+label_my_projects: הפרויקטים שלי
+label_administration: אדמיניסטרציה
+label_login: התחבר
+label_logout: התנתק
+label_help: עזרה
+label_reported_issues: נושאים שדווחו
+label_assigned_to_me_issues: נושאים שהוצבו לי
+label_last_login: חיבור אחרון
+label_last_updates: עידכון אחרון
+label_last_updates_plural: %d עידכונים אחרונים
+label_registered_on: נרשם בתאריך
+label_activity: פעילות
+label_new: חדש
+label_logged_as: מחובר כ
+label_environment: סביבה
+label_authentication: אישור
+label_auth_source: מצב אישור
+label_auth_source_new: מצב אישור חדש
+label_auth_source_plural: מצבי אישור
+label_subproject_plural: תת-פרויקטים
+label_min_max_length: אורך מינימאלי - מקסימאלי
+label_list: רשימה
+label_date: תאריך
+label_integer: מספר שלים
+label_boolean: ערך בוליאני
+label_string: טקסט
+label_text: טקסט ארוך
+label_attribute: תכונה
+label_attribute_plural: תכונות
+label_download: הורדה %d
+label_download_plural: %d הורדות
+label_no_data: אין מידע להציג
+label_change_status: שנה מצב
+label_history: הידטוריה
+label_attachment: קובץ
+label_attachment_new: קובץ חדש
+label_attachment_delete: מחק קובץ
+label_attachment_plural: קבצים
+label_report: דו"ח
+label_report_plural: דו"חות
+label_news: חדשות
+label_news_new: הוסף חדשות
+label_news_plural: חדשות
+label_news_latest: חדשות חדשות
+label_news_view_all: צפה בכל החדשות
+label_change_log: דו"ח שינויים
+label_settings: הגדרות
+label_overview: מבט רחב
+label_version: גירסא
+label_version_new: גירסא חדשה
+label_version_plural: גירסאות
+label_confirmation: אישור
+label_export_to: יצא ל
+label_read: קרא...
+label_public_projects: פרויקטים פומביים
+label_open_issues: פותח
+label_open_issues_plural: פתוחים
+label_closed_issues: סגור
+label_closed_issues_plural: סגורים
+label_total: סה"כ
+label_permissions: הרשאות
+label_current_status: מצב נוכחי
+label_new_statuses_allowed: מצבים חדשים אפשריים
+label_all: הכל
+label_none: כלום
+label_next: הבא
+label_previous: הקודם
+label_used_by: בשימוש ע"י
+label_details: פרטים
+label_add_note: הוסף הערה
+label_per_page: לכל דף
+label_calendar: לו"ח שנה
+label_months_from: חודשים מ
+label_gantt: גאנט
+label_internal: פנימי
+label_last_changes: %d שינוים אחרונים
+label_change_view_all: צפה בכל השינוים
+label_personalize_page: הפוך דף זה לשלך
+label_comment: תגובה
+label_comment_plural: תגובות
+label_comment_add: הוסף תגובה
+label_comment_added: תגובה הוספה
+label_comment_delete: מחק תגובות
+label_query: שאילתה אישית
+label_query_plural: שאילתות אישיות
+label_query_new: שאילתה חדשה
+label_filter_add: הוסף מסנן
+label_filter_plural: מסננים
+label_equals: הוא
+label_not_equals: הוא לא
+label_in_less_than: בפחות מ
+label_in_more_than: ביותר מ
+label_in: ב
+label_today: היום
+label_this_week: השבוע
+label_less_than_ago: פחות ממספר ימים
+label_more_than_ago: יותר ממספר ימים
+label_ago: מספר ימים
+label_contains: מכיל
+label_not_contains: לא מכיל
+label_day_plural: ימים
+label_repository: מאגר
+label_browse: סייר
+label_modification: שינוי %d
+label_modification_plural: %d שינויים
+label_revision: גירסא
+label_revision_plural: גירסאות
+label_added: הוסף
+label_modified: שונה
+label_deleted: נמחק
+label_latest_revision: גירסא אחרונה
+label_latest_revision_plural: גירסאות אחרונות
+label_view_revisions: צפה בגירסאות
+label_max_size: גודל מקסימאלי
+label_on: 'ב'
+label_sort_highest: הזז לראשית
+label_sort_higher: הזז למעלה
+label_sort_lower: הזז למטה
+label_sort_lowest: הזז לתחתית
+label_roadmap: מפת הדרכים
+label_roadmap_due_in: נגמר בעוד
+label_roadmap_overdue: %s מאחר
+label_roadmap_no_issues: אין נושאים לגירסא זו
+label_search: חפש
+label_result_plural: תוצאות
+label_all_words: כל המילים
+label_wiki: Wiki
+label_wiki_edit: ערוך Wiki
+label_wiki_edit_plural: עריכות Wiki
+label_wiki_page: דף Wiki
+label_wiki_page_plural: דפי Wiki
+label_index_by_title: סדר עך פי כותרת
+label_index_by_date: סדר על פי תאריך
+label_current_version: גירסא נוכאית
+label_preview: תצוגה מקדימה
+label_feed_plural: הזנות
+label_changes_details: פירוט כל השינויים
+label_issue_tracking: מעקב אחר נושאים
+label_spent_time: זמן שבוזבז
+label_f_hour: %.2f שעה
+label_f_hour_plural: %.2f שעות
+label_time_tracking: מעקב זמנים
+label_change_plural: שינויים
+label_statistics: סטטיסטיקות
+label_commits_per_month: הפקדות לפי חודש
+label_commits_per_author: הפקדות לפי כותב
+label_view_diff: צפה בהבדלים
+label_diff_inline: בתוך השורה
+label_diff_side_by_side: צד לצד
+label_options: אפשרויות
+label_copy_workflow_from: העתק זירמת עבודה מ
+label_permissions_report: דו"ח הרשאות
+label_watched_issues: נושאים שנצפו
+label_related_issues: נושאים קשורים
+label_applied_status: מוצב מוחל
+label_loading: טוען...
+label_relation_new: קשר חדש
+label_relation_delete: מחק קשר
+label_relates_to: קשור ל
+label_duplicates: מכפיל את
+label_blocks: חוסם את
+label_blocked_by: חסום ע"י
+label_precedes: מקדים את
+label_follows: עוקב אחרי
+label_end_to_start: מהתחלה לסוף
+label_end_to_end: מהסוף לסוף
+label_start_to_start: מהתחלה להתחלה
+label_start_to_end: מהתחלה לסוף
+label_stay_logged_in: השאר מחובר
+label_disabled: מבוטל
+label_show_completed_versions: הצג גירזאות גמורות
+label_me: אני
+label_board: פורום
+label_board_new: פורום חדש
+label_board_plural: פורומים
+label_topic_plural: נושאים
+label_message_plural: הודעות
+label_message_last: הודעה אחרונה
+label_message_new: הודעה חדשה
+label_reply_plural: השבות
+label_send_information: שלח מידע על חשבון למשתמש
+label_year: שנה
+label_month: חודש
+label_week: שבו
+label_date_from: מאת
+label_date_to: אל
+label_language_based: מבוסס שפה
+label_sort_by: מין לפי "%s"
+label_send_test_email: שלח דו"ל בדיקה
+label_feeds_access_key_created_on: מפתח הזנת RSS נוצר לפני%s
+label_module_plural: מודולים
+label_added_time_by: הוסף על ידי %s לפני %s 
+label_updated_time: עודכן לפני %s 
+label_jump_to_a_project: קפוץ לפרויקט...
+label_file_plural: קבצים
+label_changeset_plural: אוסף שינוים
+label_default_columns: עמודת ברירת מחדל
+label_no_change_option: (אין שינוים)
+label_bulk_edit_selected_issues: ערוך את הנושאים המסומנים
+label_theme: ערכת נושא
+label_default: ברירת מחדש
+
+button_login: התחבר
+button_submit: הגש
+button_save: שמור
+button_check_all: בחר הכל
+button_uncheck_all: בחר כלום
+button_delete: מחק
+button_create: צוק
+button_test: בדוק
+button_edit: ערוך
+button_add: הוסף
+button_change: שנה
+button_apply: הוצא לפועל
+button_clear: נקה
+button_lock: נעל
+button_unlock: בטל נעילה
+button_download: הורד
+button_list: קשימה
+button_view: צפה
+button_move: הזז
+button_back: הקודם
+button_cancel: בטח
+button_activate: הפעל
+button_sort: מין
+button_log_time: זמן לוג
+button_rollback: חזור לגירסא זו
+button_watch: צפה
+button_unwatch: בטל צפיה
+button_reply: השב
+button_archive: ארכיון
+button_unarchive: הוצא מהארכיון
+button_reset: אפס
+button_rename: שנה שם
+
+status_active: פעיל
+status_registered: רשום
+status_locked: נעול
+
+text_select_mail_notifications: בחר פעולת שבגללן ישלח דוא"ל.
+text_regexp_info: כגון. ^[A-Z0-9]+$
+text_min_max_length_info: 0 משמעו ללא הגבלות
+text_project_destroy_confirmation: האם אתה בטוח שברצונך למחוק את הפרויקט ואת כל המידע הקשור אליו ?
+text_workflow_edit: בחר תפקיד ועוקב כדי לערות את זרימת העבודה
+text_are_you_sure: האם אתה בטוח ?
+text_journal_changed: שונה מ %s ל %s
+text_journal_set_to: שונה ל %s
+text_journal_deleted: נמחק
+text_tip_task_begin_day: מטלה המתחילה היום
+text_tip_task_end_day: מטלה המסתיימת היום
+text_tip_task_begin_end_day: מתלה המתחילה ומסתיימת היום
+text_project_identifier_info: 'אותיות לטיניות (a-z), מספרים ומקפים.<br />ברגע שנשמר, לא ניתן לשנות את המזהה.'
+text_caracters_maximum: מקסימום %d תווים.
+text_length_between: אורך בין %d ל %d תווים.
+text_tracker_no_workflow: זרימת עבודה לא הוגדרה עבור עוקב זה
+text_unallowed_characters: תווים לא מורשים
+text_comma_separated: הכנסת ערכים מרובים מותרת (מופרדים בפסיקים).
+text_issues_ref_in_commit_messages: קישור ותיקום נושאים בהודעות הפקדות
+text_issue_added: הנושא %s דווח.
+text_issue_updated: הנושא %s עודכן.
+text_wiki_destroy_confirmation: האם אתה בטוח שברצונך למחוק את הWIKI הזה ואת כל תוכנו?
+text_issue_category_destroy_question: כמה נושאים (%d) מוצבים לקטגוריה הזו. מה ברצונך לעשות?
+text_issue_category_destroy_assignments: הסר הצבת קטגוריה
+text_issue_category_reassign_to: הצב מחדש את הקטגוריה לנושאים
+
+default_role_manager: מנהל
+default_role_developper: מפתח
+default_role_reporter: מדווח
+default_tracker_bug: באג
+default_tracker_feature: פיצ'ר
+default_tracker_support: תמיכה
+default_issue_status_new: חדש
+default_issue_status_assigned: מוצב
+default_issue_status_resolved: פתור
+default_issue_status_feedback: משוב
+default_issue_status_closed: סגור
+default_issue_status_rejected: דחוי
+default_doc_category_user: תיעוד משתמש
+default_doc_category_tech: תיעוד טכני
+default_priority_low: נמוכה
+default_priority_normal: רגילה
+default_priority_high: גהבוה
+default_priority_urgent: דחופה
+default_priority_immediate: מידית
+default_activity_design: עיצוב
+default_activity_development: פיתוח
+
+enumeration_issue_priorities: עדיפות נושאים
+enumeration_doc_categories: קטגוריות מסמכים
+enumeration_activities: פעילויות (מעקב אחר זמנים)
+label_search_titles_only: Search titles only
