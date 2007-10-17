@@ -1,3 +1,4 @@
 User-agent: *
 Disallow: /projects/gantt
 Disallow: /projects/calendar
+Disallow: /repositories/diff
