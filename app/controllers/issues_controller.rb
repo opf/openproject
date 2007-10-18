@@ -111,7 +111,6 @@ class IssuesController < ApplicationController
       end
     end
     show
-    render :action => 'show'
   end
 
   def change_status
