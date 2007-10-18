@@ -174,7 +174,6 @@ class ProjectsController < ApplicationController
 
   # Add a new document to @project
   def add_document
-    @categories = Enumeration::get_values('DCAT')
     @document = @project.documents.build(params[:document])    
     if request.post? and @document.save	
       # Save the attachments

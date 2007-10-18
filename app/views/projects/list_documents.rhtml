@@ -1,5 +1,20 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:label_document_new), {:controller => 'projects', :action => 'add_document', :id => @project}, :class => 'icon icon-add' %>
+<%= link_to_if_authorized l(:label_document_new),
+                          {:controller => 'projects', :action => 'add_document', :id => @project},
+                          :class => 'icon icon-add',
+                          :onclick => 'Element.show("add-document"); return false;' %>
+</div>
+
+<div id="add-document" style="display:none;">
+<h2><%=l(:label_document_new)%></h2>
+<% form_tag({:action => 'add_document', :id => @project}, :class => "tabular", :multipart => true) do %>
+<%= render :partial => 'documents/form' %>
+<div class="box">
+<%= render :partial => 'common/attachments_form'%>
+</div>
+<%= submit_tag l(:button_create) %>
+<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-document")' %>
+<% end %>
 </div>
 
 <h2><%=l(:label_document_plural)%></h2>
