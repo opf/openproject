@@ -410,7 +410,7 @@ label_language_based: Na podstawie języka
 
 button_login: Login
 button_submit: Wyślij
-button_save: Nagraj
+button_save: Zapisz
 button_check_all: Zaznacz wszystko
 button_uncheck_all: Odznacz wszystko
 button_delete: Usuń
@@ -431,7 +431,7 @@ button_back: Wstecz
 button_cancel: Anuluj
 button_activate: Aktywuj
 button_sort: Sortuj
-button_log_time: Czas logowania
+button_log_time: Logowanie czasu
 button_rollback: Przywróc do tej wersji
 button_watch: Obserwuj
 button_unwatch: Nie obserwuj
@@ -463,9 +463,9 @@ text_unallowed_characters: Niedozwolone znaki
 text_comma_separated: Wielokrotne wartości dozwolone (rozdzielone przecinkami).
 text_issues_ref_in_commit_messages: Zgłoszenia odnoszące i ustalające we wrzutkach CVS
 
-default_role_manager: Manager
-default_role_developper: Developer
-default_role_reporter: Reporter
+default_role_manager: Kierownik
+default_role_developper: Programista
+default_role_reporter: Raportujący
 default_tracker_bug: Błąd
 default_tracker_feature: Cecha
 default_tracker_support: Wsparcie
@@ -514,14 +514,14 @@ label_added_time_by: Dodane przez %s %s temu
 field_estimated_hours: Szacowany czas
 label_file_plural: Pliki
 label_changeset_plural: Zestawienia zmian
-field_column_names: Columns
-label_default_columns: Default columns
-setting_issue_list_default_columns: Default columns displayed on the issue list
-setting_repositories_encodings: Repositories encodings
-notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
+field_column_names: Nazwy kolumn
+label_default_columns: Domyślne kolumny
+setting_issue_list_default_columns: Domyślne kolumny wiświetlane na liście zagadnień
+setting_repositories_encodings: Kodowanie repozytoriów
+notice_no_issue_selected: "Nie wybrano zagadnienia! Zaznacz zagadnienie, które chcesz edytować."
 label_bulk_edit_selected_issues: Bulk edit selected issues
-label_no_change_option: (No change)
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-label_theme: Theme
-label_default: Default
-label_search_titles_only: Search titles only
+label_no_change_option: (Bez zmian)
+notice_failed_to_save_issues: "Błąd podczas zapisu zagadnień %d z %d zaznaczonych: %s."
+label_theme: Temat
+label_default: Domyślne
+label_search_titles_only: Przeszukuj tylko tytuły
