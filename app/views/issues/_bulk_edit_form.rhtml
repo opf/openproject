@@ -13,7 +13,9 @@
 </p>
 <p>
 <label><%= l(:field_assigned_to) %>: 
-<%= select_tag('assigned_to_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@project.assignable_users, :id, :name)) %></label>
+<%= select_tag('assigned_to_id', content_tag('option', l(:label_no_change_option)) +
+                                 content_tag('option', l(:label_nobody), :value => 'none') +
+                                 options_from_collection_for_select(@project.assignable_users, :id, :name)) %></label>
 <label><%= l(:field_fixed_version) %>: 
 <%= select_tag('fixed_version_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@project.versions, :id, :name)) %></label>
 </p>

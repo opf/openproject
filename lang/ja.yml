@@ -526,3 +526,4 @@ notice_failed_to_save_issues: "%d件の問題が保存できませんでした(%
 label_theme: テーマ
 label_default: 既定
 label_search_titles_only: Search titles only
+label_nobody: nobody

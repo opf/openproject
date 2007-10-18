@@ -299,6 +299,7 @@ label_current_status: Current status
 label_new_statuses_allowed: New statuses allowed
 label_all: all
 label_none: none
+label_nobody: nobody
 label_next: Next
 label_previous: Previous
 label_used_by: Used by

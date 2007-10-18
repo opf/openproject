@@ -525,3 +525,4 @@ notice_failed_to_save_issues: "Błąd podczas zapisu zagadnień %d z %d zaznaczo
 label_theme: Temat
 label_default: Domyślne
 label_search_titles_only: Przeszukuj tylko tytuły
+label_nobody: nobody

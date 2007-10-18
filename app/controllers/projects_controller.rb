@@ -350,7 +350,7 @@ class ProjectsController < ApplicationController
       issues.each do |issue|
         journal = issue.init_journal(User.current, params[:notes])
         issue.priority = priority if priority
-        issue.assigned_to = assigned_to if assigned_to
+        issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
         issue.category = category if category
         issue.fixed_version = fixed_version if fixed_version
         issue.start_date = params[:start_date] unless params[:start_date].blank?

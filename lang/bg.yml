@@ -525,3 +525,4 @@ notice_failed_to_save_issues: "Неуспешен запис на %d задач�
 label_theme: Тема
 label_default: По подразбиране
 label_search_titles_only: Само в заглавията
+label_nobody: nobody
