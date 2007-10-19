@@ -40,7 +40,7 @@ class AuthSourceLdap < AuthSource
       attrs = [:firstname => AuthSourceLdap.get_attr(entry, self.attr_firstname),
                :lastname => AuthSourceLdap.get_attr(entry, self.attr_lastname),
                :mail => AuthSourceLdap.get_attr(entry, self.attr_mail),
-               :auth_source_id => self.id ]
+               :auth_source_id => self.id ] if onthefly_register?
     end
     return nil if dn.empty?
     logger.debug "DN found for #{login}: #{dn}" if logger && logger.debug?
