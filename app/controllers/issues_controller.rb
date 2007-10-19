@@ -94,21 +94,19 @@ class IssuesController < ApplicationController
   end
   
   def add_note
-    unless params[:notes].empty?
-      journal = @issue.init_journal(self.logged_in_user, params[:notes])
-      if @issue.save
-        params[:attachments].each { |file|
-          next unless file.size > 0
-          a = Attachment.create(:container => @issue, :file => file, :author => logged_in_user)
-          journal.details << JournalDetail.new(:property => 'attachment',
-                                               :prop_key => a.id,
-                                               :value => a.filename) unless a.new_record?
-        } if params[:attachments] and params[:attachments].is_a? Array
-        flash[:notice] = l(:notice_successful_update)
-        Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
-        redirect_to :action => 'show', :id => @issue
-        return
-      end
+    journal = @issue.init_journal(User.current, params[:notes])
+    params[:attachments].each { |file|
+      next unless file.size > 0
+      a = Attachment.create(:container => @issue, :file => file, :author => logged_in_user)
+      journal.details << JournalDetail.new(:property => 'attachment',
+                                           :prop_key => a.id,
+                                           :value => a.filename) unless a.new_record?
+    } if params[:attachments] and params[:attachments].is_a? Array
+    if journal.save
+      flash[:notice] = l(:notice_successful_update)
+      Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
+      redirect_to :action => 'show', :id => @issue
+      return
     end
     show
   end

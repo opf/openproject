@@ -98,8 +98,10 @@ class Issue < ActiveRecord::Base
                                                       :old_value => @custom_values_before_change[c.custom_field_id],
                                                       :value => c.value)
       }      
-      @current_journal.save unless @current_journal.details.empty? and @current_journal.notes.empty?
+      @current_journal.save
     end
+    # Save the issue even if the journal is not saved (because empty)
+    true
   end
   
   def after_save
