@@ -29,7 +29,7 @@ module Redmine
         # Get info about the svn repository
         def info
           cmd = "#{SVN_BIN} info --xml #{target('')}"
-          cmd << " --username #{@login} --password #{@password}" if @login
+          cmd << credentials_string
           info = nil
           shellout(cmd) do |io|
             begin
@@ -65,7 +65,7 @@ module Redmine
           identifier = 'HEAD' unless identifier and identifier > 0
           entries = Entries.new
           cmd = "#{SVN_BIN} list --xml #{target(path)}@#{identifier}"
-          cmd << " --username #{@login} --password #{@password}" if @login
+          cmd << credentials_string
           cmd << " 2>&1"
           shellout(cmd) do |io|
             output = io.read
@@ -101,7 +101,7 @@ module Redmine
           identifier_to = 1 unless identifier_to and identifier_to.to_i > 0
           revisions = Revisions.new
           cmd = "#{SVN_BIN} log --xml -r #{identifier_from}:#{identifier_to}"
-          cmd << " --username #{@login} --password #{@password}" if @login
+          cmd << credentials_string
           cmd << " --verbose " if  options[:with_paths]
           cmd << target(path)
           shellout(cmd) do |io|
@@ -145,7 +145,7 @@ module Redmine
           cmd << "#{identifier_to}:"
           cmd << "#{identifier_from}"
           cmd << "#{target(path)}@#{identifier_from}"
-          cmd << " --username #{@login} --password #{@password}" if @login
+          cmd << credentials_string
           diff = []
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -161,7 +161,7 @@ module Redmine
         def cat(path, identifier=nil)
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
           cmd = "#{SVN_BIN} cat #{target(path)}@#{identifier}"
-          cmd << " --username #{@login} --password #{@password}" if @login
+          cmd << credentials_string
           cat = nil
           shellout(cmd) do |io|
             io.binmode
@@ -171,6 +171,15 @@ module Redmine
           cat
         rescue Errno::ENOENT => e
           raise CommandFailed    
+        end
+        
+        private
+        
+        def credentials_string
+          str = ''
+          str << " --username #{shell_quote(@login)}" unless @login.blank?
+          str << " --password #{shell_quote(@password)}" unless @login.blank? || @password.blank?
+          str
         end
       end
     end

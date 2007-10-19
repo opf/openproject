@@ -81,6 +81,14 @@ module Redmine
           path ||= ''
           (path[0,1]!="/") ? "/#{path}" : path
         end
+        
+        def shell_quote(str)
+          if RUBY_PLATFORM =~ /mswin/
+            '"' + str.gsub(/"/, '\\"') + '"'
+          else
+            "'" + str.gsub(/'/, "'\"'\"'") + "'"
+          end
+        end
               
       private
         def retrieve_root_url
