@@ -7,7 +7,7 @@
 		</tr></thead>
 		<tbody>	
 		<% for issue in issues %>
-		<tr class="<%= cycle("odd", "even") %>">
+		<tr class="<%= cycle("odd", "even") %> <%= "status-#{issue.status.position} priority-#{issue.priority.position}" %>">
 			<td class="id">
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
 			</td>
