@@ -118,6 +118,11 @@ class Project < ActiveRecord::Base
     members.select {|m| m.role.assignable?}.collect {|m| m.user}
   end
   
+  # Returns the mail adresses of users that should be always notified on project events
+  def recipients
+    members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user.mail}
+  end
+  
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   def custom_fields_for_issues(tracker)

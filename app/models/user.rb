@@ -50,6 +50,11 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, :allow_nil => true
   validates_associated :custom_values, :on => :update
 
+  def before_create
+    self.mail_notification = false
+    true
+  end
+  
   def before_save
     # update hashed_password if password was set
     self.hashed_password = User.hash_password(self.password) if self.password
@@ -129,6 +134,18 @@ class User < ActiveRecord::Base
   def rss_key
     token = self.rss_token || Token.create(:user => self, :action => 'feeds')
     token.value
+  end
+  
+  # Return an array of project ids for which the user has explicitly turned mail notifications on
+  def notified_projects_ids
+    @notified_projects_ids ||= memberships.select {|m| m.mail_notification?}.collect(&:project_id)
+  end
+  
+  def notified_project_ids=(ids)
+    Member.update_all("mail_notification = #{connection.quoted_false}", ['user_id = ?', id])
+    Member.update_all("mail_notification = #{connection.quoted_true}", ['user_id = ? AND project_id IN (?)', id, ids]) if ids && !ids.empty?
+    @notified_projects_ids = nil
+    notified_projects_ids
   end
   
   def self.find_by_rss_key(key)

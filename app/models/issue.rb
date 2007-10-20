@@ -143,6 +143,15 @@ class Issue < ActiveRecord::Base
     project.assignable_users
   end
   
+  # Returns the mail adresses of users that should be notified for the issue
+  def recipients
+    recipients = project.recipients
+    # Author and assignee are always notified
+    recipients << author.mail if author
+    recipients << assigned_to.mail if assigned_to
+    recipients.compact.uniq
+  end
+  
   def spent_hours
     @spent_hours ||= time_entries.sum(:hours) || 0
   end

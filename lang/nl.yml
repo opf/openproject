@@ -527,3 +527,8 @@ label_theme: Theme
 label_default: Default
 label_search_titles_only: Search titles only
 label_nobody: nobody
+button_change_password: Change password
+text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+label_user_mail_option_selected: "For any event on the selected projects only..."
+label_user_mail_option_all: "For any event on all my projects"
+label_user_mail_option_none: "Only for things I watch or I'm involved in"

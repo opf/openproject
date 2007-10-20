@@ -116,6 +116,7 @@ textarea.wiki-edit { width: 99%; }
 li p {margin-top: 0;}
 div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid #d7d7d7;}
 .autoscroll {overflow-x: auto; padding:1px; width:100%;}
+#user_firstname, #user_lastname, #user_mail, #notification_option { width: 90%; }
 
 /***** Tabular forms ******/
 .tabular p{

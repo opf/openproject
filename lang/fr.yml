@@ -437,6 +437,9 @@ label_bulk_edit_selected_issues: Modifier les demandes sélectionnées
 label_theme: Thème
 label_default: Défaut
 label_search_titles_only: Uniquement dans les titres
+label_user_mail_option_all: "Pour tous les événements de tous mes projets"
+label_user_mail_option_selected: "Pour tous les événements des projets sélectionnés..."
+label_user_mail_option_none: "Seulement pour ce que je surveille ou à quoi je participe"
 
 button_login: Connexion
 button_submit: Soumettre
@@ -470,6 +473,7 @@ button_archive: Archiver
 button_unarchive: Désarchiver
 button_reset: Réinitialiser
 button_rename: Renommer
+button_change_password: Changer de mot de passe
 
 status_active: actif
 status_registered: enregistré
@@ -500,6 +504,7 @@ text_wiki_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce wiki et t
 text_issue_category_destroy_question: Des demandes (%d) sont affectées à cette catégories. Que voulez-vous faire ?
 text_issue_category_destroy_assignments: N'affecter les demandes à aucune autre catégorie
 text_issue_category_reassign_to: Réaffecter les demandes à cette catégorie
+text_user_mail_option: "Pour les projets non sélectionnés, vous recevrez seulement des notifications pour ce que vous surveillez ou à quoi vous participez (exemple: demandes dont vous êtes l'auteur ou la personne assignée)."
 
 default_role_manager: Manager
 default_role_developper: Développeur

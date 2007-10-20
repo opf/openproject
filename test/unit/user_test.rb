@@ -105,4 +105,28 @@ class UserTest < Test::Unit::TestCase
     # user with no role
     assert !@dlopper.role_for_project(Project.find(2)).member?
   end
+  
+  def test_mail_notification_all
+    @jsmith.mail_notification = true
+    @jsmith.notified_project_ids = []
+    @jsmith.save
+    @jsmith.reload
+    assert @jsmith.projects.first.recipients.include?(@jsmith.mail)
+  end
+  
+  def test_mail_notification_selected
+    @jsmith.mail_notification = false
+    @jsmith.notified_project_ids = [@jsmith.projects.first.id]
+    @jsmith.save
+    @jsmith.reload
+    assert @jsmith.projects.first.recipients.include?(@jsmith.mail)
+  end
+  
+  def test_mail_notification_none
+    @jsmith.mail_notification = false
+    @jsmith.notified_project_ids = []
+    @jsmith.save
+    @jsmith.reload
+    assert !@jsmith.projects.first.recipients.include?(@jsmith.mail)
+  end
 end

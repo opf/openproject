@@ -127,7 +127,7 @@ field_parent: Subproject of
 field_is_in_chlog: Issues displayed in changelog
 field_is_in_roadmap: Issues displayed in roadmap
 field_login: Login
-field_mail_notification: Mail notifications
+field_mail_notification: Email notifications
 field_admin: Administrator
 field_last_login_on: Last connection
 field_language: Language
@@ -174,7 +174,7 @@ setting_login_required: Authent. required
 setting_self_registration: Self-registration enabled
 setting_attachment_max_size: Attachment max. size
 setting_issues_export_limit: Issues export limit
-setting_mail_from: Emission mail address
+setting_mail_from: Emission email address
 setting_host_name: Host name
 setting_text_formatting: Text formatting
 setting_wiki_compression: Wiki history compression
@@ -437,6 +437,9 @@ label_bulk_edit_selected_issues: Bulk edit selected issues
 label_theme: Theme
 label_default: Default
 label_search_titles_only: Search titles only
+label_user_mail_option_all: "For any event on all my projects"
+label_user_mail_option_selected: "For any event on the selected projects only..."
+label_user_mail_option_none: "Only for things I watch or I'm involved in"
 
 button_login: Login
 button_submit: Submit
@@ -470,12 +473,13 @@ button_archive: Archive
 button_unarchive: Unarchive
 button_reset: Reset
 button_rename: Rename
+button_change_password: Change password
 
 status_active: active
 status_registered: registered
 status_locked: locked
 
-text_select_mail_notifications: Select actions for which mail notifications should be sent.
+text_select_mail_notifications: Select actions for which email notifications should be sent.
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 means no restriction
 text_project_destroy_confirmation: Are you sure you want to delete this project and all related data ?
@@ -500,6 +504,7 @@ text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and al
 text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
 text_issue_category_destroy_assignments: Remove category assignments
 text_issue_category_reassign_to: Reassign issues to this category
+text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
 
 default_role_manager: Manager
 default_role_developper: Developer

@@ -50,32 +50,44 @@ class MyController < ApplicationController
 
   # Edit user's account
   def account
-    @user = self.logged_in_user
+    @user = User.current
     @pref = @user.pref
-    @user.attributes = params[:user]
-    @user.pref.attributes = params[:pref]
-    if request.post? && @user.save && @user.pref.save
-      flash[:notice] = l(:notice_account_updated)
-      redirect_to :action => 'account'
-    end
-  end
-
-  # Change user's password
-  def change_password
-    @user = self.logged_in_user
-    flash[:error] = l(:notice_can_t_change_password) and redirect_to :action => 'account' and return if @user.auth_source_id
-    if @user.check_password?(params[:password])
-      @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+    if request.post?
+      @user.attributes = params[:user]
+      @user.mail_notification = (params[:notification_option] == 'all')
+      @user.pref.attributes = params[:pref]
       if @user.save
-        flash[:notice] = l(:notice_account_password_updated)
-      else
-        render :action => 'account'
+        @user.pref.save
+        @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
+        set_language_if_valid @user.language
+        flash[:notice] = l(:notice_account_updated)
+        redirect_to :action => 'account'
         return
       end
-    else
-      flash[:error] = l(:notice_account_wrong_password)
     end
-    redirect_to :action => 'account'
+    @notification_options = [[l(:label_user_mail_option_all), 'all'],
+                             [l(:label_user_mail_option_none), 'none']]
+    # Only users that belong to more than 1 project can select projects for which they are notified
+    # Note that @user.membership.size would fail since AR ignores :include association option when doing a count
+    @notification_options.insert 1, [l(:label_user_mail_option_selected), 'selected'] if @user.memberships.length > 1
+    @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')    
+  end
+
+  # Manage user's password
+  def password
+    @user = self.logged_in_user
+    flash[:error] = l(:notice_can_t_change_password) and redirect_to :action => 'account' and return if @user.auth_source_id
+    if request.post?
+      if @user.check_password?(params[:password])
+        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+        if @user.save
+          flash[:notice] = l(:notice_account_password_updated)
+          redirect_to :action => 'account'
+        end
+      else
+        flash[:error] = l(:notice_account_wrong_password)
+      end
+    end
   end
   
   # Create a new feeds key
