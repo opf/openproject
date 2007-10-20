@@ -11,11 +11,11 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #top-menu a {color: #fff; padding-right: 4px;}
 #account {float:right;}
 
-#header {height:5.3em;margin:0;background-color:#507AAA;color:#f8f8f8; padding: 4px 8px 0px 6px;}
+#header {height:5.3em;margin:0;background-color:#507AAA;color:#f8f8f8; padding: 4px 8px 0px 6px; position:relative;}
 #header a {color:#f8f8f8;}
 #quick-search {float:right;}
 
-#main-menu {position: absolute;  top: 5.5em;  left:6px;}
+#main-menu {position: absolute;  bottom: 0px;  left:6px;}
 #main-menu ul {margin: 0;  padding: 0;}
 #main-menu li {
   float:left;
