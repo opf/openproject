@@ -22,18 +22,21 @@ class SysController < ActionController::Base
   
   before_invocation :check_enabled
   
+  # Returns the projects list, with their repositories
   def projects
     Project.find(:all, :include => :repository)
   end
 
-  def repository_created(project_id, url)
-    project = Project.find_by_id(project_id)
+  # Registers a repository for the given project identifier
+  # (Subversion specific)
+  def repository_created(identifier, url)
+    project = Project.find_by_identifier(identifier)
+    # Do not create the repository if the project has already one
     return 0 unless project && project.repository.nil?
-    logger.debug "Repository for #{project.name} created"
-    repository = Repository.new(:project => project, :url => url)
-    repository.root_url = url
+    logger.debug "Repository for #{project.name} was created"
+    repository = Repository.factory('Subversion', :project => project, :url => url)
     repository.save
-    repository.id
+    repository.id || 0
   end
 
 protected
