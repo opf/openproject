@@ -64,10 +64,8 @@
     </div>
     
     <div id="content">
-        <div id="flash">
-            <%= content_tag('div', flash[:error], :class => 'error') if flash[:error] %>
-            <%= content_tag('div', flash[:notice], :class => 'notice') if flash[:notice] %>
-        </div>
+            <%= content_tag('div', flash[:error], :class => 'flash error') if flash[:error] %>
+            <%= content_tag('div', flash[:notice], :class => 'flash notice') if flash[:notice] %>
         <%= yield %>
     </div>
 </div>

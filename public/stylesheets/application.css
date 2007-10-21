@@ -154,23 +154,23 @@ width: 200px;
 div.attachments p { margin:4px 0 2px 0; }
 
 /***** Flash & error messages ****/
-#flash div, #errorExplanation, .nodata {
+#errorExplanation, div.flash, div.nodata {
     padding: 4px 4px 4px 30px;
     margin-bottom: 12px;
 	font-size: 1.1em;
 	border: 2px solid;
 }
 
-#flash div {margin-top: 6px;}
+div.flash {margin-top: 8px;}
 
-#flash div.error, #errorExplanation {
+div.flash.error, #errorExplanation {
     background: url(../images/false.png) 8px 5px no-repeat;
 	background-color: #ffe3e3;
 	border-color: #dd0000;
 	color: #550000;
 }
 
-#flash div.notice {
+div.flash.notice {
     background: url(../images/true.png) 8px 5px no-repeat;
 	background-color: #dfffdf;
 	border-color: #9fcf9f;

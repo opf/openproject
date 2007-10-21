@@ -14,7 +14,7 @@
 <p><%= check_all_links('mail-options-form') %></p>
 </fieldset>
 
-<fieldset class="box"><legend>Emails footer</legend>
+<fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>
 <%= text_area_tag 'emails_footer', Setting.emails_footer, :class => 'wiki-edit', :rows => 5 %>
 </fieldset>
 
