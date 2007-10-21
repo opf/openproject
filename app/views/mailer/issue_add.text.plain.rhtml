@@ -1,3 +1,5 @@
 <%= l(:text_issue_added, "##{@issue.id}") %>
 ----------------------------------------
 <%= render :file => "_issue_text_plain", :use_full_path => true, :locals => { :issue => @issue } %>
+----------------------------------------
+<%= Setting.emails_footer %>

@@ -7,3 +7,6 @@ Pour se connecter à l'application: <%= url_for :only_path => false, :host => Se
 <% unless @user.auth_source %>
 Vous pouvez changer votre mot de passe à l'adresse: <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'my', :action => 'account' %>
 <% end %>
+
+----------------------------------------
+<%= Setting.emails_footer %>

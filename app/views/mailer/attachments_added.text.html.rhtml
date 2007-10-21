@@ -3,3 +3,5 @@
 <ul><% @attachments.each do |attachment | %>
 <li><%= attachment.filename %></li>
 <% end %></ul>
+<hr />
+<small><em><%= textilizable Setting.emails_footer %></em></small>

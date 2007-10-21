@@ -8,12 +8,15 @@
 
 <fieldset class="box"><legend><%=l(:text_select_mail_notifications)%></legend>
 <% @notifiables.each do |notifiable| %>
-  <p><label><%= check_box_tag "notified_events[]", notifiable, Setting.notified_events.include?(notifiable) %>
-  <%= notifiable.humanize %></label></p>
+  <label><%= check_box_tag "notified_events[]", notifiable, Setting.notified_events.include?(notifiable) %>
+  <%= notifiable.humanize %></label><br />
 <% end %>
-<div class="clear"></div>
+<p><%= check_all_links('mail-options-form') %></p>
 </fieldset>
 
-<p><%= check_all_links('mail-options-form') %></p>
+<fieldset class="box"><legend>Emails footer</legend>
+<%= text_area_tag 'emails_footer', Setting.emails_footer, :class => 'wiki-edit', :rows => 5 %>
+</fieldset>
+
 <%= submit_tag l(:button_save) %>
 <% end %>

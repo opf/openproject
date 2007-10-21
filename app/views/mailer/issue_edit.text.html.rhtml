@@ -8,3 +8,5 @@
 <%= textilizable(@journal.notes) %>
 <hr />
 <%= render :file => "_issue_text_html", :use_full_path => true, :locals => { :issue => @issue } %>
+<hr />
+<small><em><%= textilizable Setting.emails_footer %></em></small>

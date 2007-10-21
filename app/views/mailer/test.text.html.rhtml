@@ -1,0 +1,5 @@
+<p>This is a test email sent by Redmine.<br />
+Redmine URL: <%= link_to url_for(:only_path => false, :host => Setting.host_name, :controller => 'welcome'),
+                         url_for(:only_path => false, :host => Setting.host_name, :controller => 'welcome') %></p>
+<hr />
+<small><em><%= textilizable Setting.emails_footer %></em></small>

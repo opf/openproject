@@ -2,3 +2,5 @@
 <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'documents', :action => 'show', :id => @document %>
 
 <%= @document.description %>
+----------------------------------------
+<%= Setting.emails_footer %>

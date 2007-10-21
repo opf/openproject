@@ -7,3 +7,6 @@ Log in: <%= url_for :only_path => false, :host => Setting.host_name, :controller
 <% unless @user.auth_source %>
 You can change your password here: <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'my', :action => 'account' %>
 <% end %>
+
+----------------------------------------
+<%= Setting.emails_footer %>

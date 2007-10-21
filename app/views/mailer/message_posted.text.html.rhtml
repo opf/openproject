@@ -1,0 +1,6 @@
+<%=h @message.board.project.name %> - <%=h @message.board.name %>: <%= link_to @message.subject, :only_path => false, :host => Setting.host_name, :controller => 'messages', :action => 'show', :board_id => @message.board_id, :id => @message.root %><br />
+<em><%= @message.author.name %></em>
+
+<%= textilizable @message.content %>
+<hr />
+<small><em><%= textilizable Setting.emails_footer %></em></small>

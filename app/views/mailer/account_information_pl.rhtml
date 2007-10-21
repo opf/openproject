@@ -7,3 +7,6 @@ Zaloguj: <%= url_for :only_path => false, :host => Setting.host_name, :controlle
 <% unless @user.auth_source %>
 Możesz zmienić swoje hasło tutaj: <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'my', :action => 'account' %>
 <% end %>
+
+----------------------------------------
+<%= Setting.emails_footer %>
