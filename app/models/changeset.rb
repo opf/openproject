@@ -52,19 +52,17 @@ class Changeset < ActiveRecord::Base
   def scan_comment_for_issue_ids
     return if comments.blank?
     # keywords used to reference issues
-    ref_keywords = Setting.commit_ref_keywords.downcase.split(",")
+    ref_keywords = Setting.commit_ref_keywords.downcase.split(",").collect(&:strip)
     # keywords used to fix issues
-    fix_keywords = Setting.commit_fix_keywords.downcase.split(",")
+    fix_keywords = Setting.commit_fix_keywords.downcase.split(",").collect(&:strip)
     # status and optional done ratio applied
     fix_status = IssueStatus.find_by_id(Setting.commit_fix_status_id)
     done_ratio = Setting.commit_fix_done_ratio.blank? ? nil : Setting.commit_fix_done_ratio.to_i
     
-    kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw.strip)}.join("|")
+    kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw)}.join("|")
     return if kw_regexp.blank?
     
-    # remove any associated issues
-    self.issues.clear
-    
+    referenced_issues = []
     comments.scan(Regexp.new("(#{kw_regexp})[\s:]+(([\s,;&]*#?\\d+)+)", Regexp::IGNORECASE)).each do |match|
       action = match[0]
       target_issue_ids = match[1].scan(/\d+/)
@@ -80,7 +78,8 @@ class Changeset < ActiveRecord::Base
           issue.save
         end
       end
-      self.issues << target_issues
+      referenced_issues += target_issues
     end
+    self.issues = referenced_issues.uniq
   end
 end
