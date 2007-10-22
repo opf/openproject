@@ -4,7 +4,7 @@ class CreateBoards < ActiveRecord::Migration
       t.column :project_id, :integer, :null => false
       t.column :name, :string, :default => "", :null => false
       t.column :description, :string
-      t.column :position, :integer, :default => 1, :null => false
+      t.column :position, :integer, :default => 1
       t.column :topics_count, :integer, :default => 0, :null => false
       t.column :messages_count, :integer, :default => 0, :null => false
       t.column :last_message_id, :integer

@@ -1,6 +1,6 @@
 class AddIssueStatusPosition < ActiveRecord::Migration
   def self.up
-    add_column :issue_statuses, :position, :integer, :default => 1, :null => false
+    add_column :issue_statuses, :position, :integer, :default => 1
     IssueStatus.find(:all).each_with_index {|status, i| status.update_attribute(:position, i+1)}
   end
 
