@@ -59,6 +59,40 @@ function checkBulkEdit(form) {
     return false;
 }
 
+function collapseScmEntry(id) {
+    var els = document.getElementsByClassName(id, 'browser');
+	for (var i = 0; i < els.length; i++) {
+	   collapseScmEntry(els[i].id);
+       Element.hide(els[i]);
+    }
+    $(id).removeClassName('open');
+}
+
+function expandScmEntry(id) {
+    var els = document.getElementsByClassName(id, 'browser');
+	for (var i = 0; i < els.length; i++) {
+       Element.show(els[i]);
+    }
+    $(id).addClassName('open');
+}
+
+function scmEntryClick(id) {
+    el = $(id);
+    if (el.hasClassName('open')) {
+        collapseScmEntry(id);
+        return false;
+    } else if (el.hasClassName('loaded')) {
+        expandScmEntry(id);
+        return false;
+    }
+    return true;
+}
+
+function scmEntryLoaded(id) {
+    Element.addClassName(id, 'open');
+    Element.addClassName(id, 'loaded');
+}
+
 /* shows and hides ajax indicator */
 Ajax.Responders.register({
     onCreate: function(){

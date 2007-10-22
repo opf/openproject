@@ -1,15 +1,15 @@
 <% @entries.each do |entry| %>
 <% tr_id = Digest::MD5.hexdigest(entry.path)
    depth = params[:depth].to_i %>
-<tr id="<%= tr_id %>">
+<tr id="<%= tr_id %>" class="<%= params[:parent_id] %>">
 <td>
 <%= if entry.is_dir?
   link_to_remote h(entry.name),
-                 {:url => {:action => 'browse', :id => @project, :path => entry.path, :rev => @rev, :depth => (depth + 1)},
+                 {:url => {:action => 'browse', :id => @project, :path => entry.path, :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
                   :update => tr_id,
                   :position => :after,
-                  :success => "Element.addClassName('#{tr_id}', 'open');",
-                  :condition => "!Element.hasClassName('#{tr_id}', 'open')"
+                  :success => "scmEntryLoaded('#{tr_id}')",
+                  :condition => "scmEntryClick('#{tr_id}')"
                  },
                  {:href => url_for({:action => 'browse', :id => @project, :path => entry.path, :rev => @rev}),
                   :class => ('icon icon-folder'),
