@@ -1629,7 +1629,7 @@ Abstract.Insertion.prototype = {
       } catch (e) {
         var tagName = this.element.tagName.toUpperCase();
         if (['TBODY', 'TR'].include(tagName)) {
-          this.insertContent(this.contentFromAnonymousTable());
+          this.insertContent(this.contentFromAnonymousTable()._reverse());
         } else {
           throw e;
         }

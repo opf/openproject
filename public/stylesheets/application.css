@@ -432,6 +432,7 @@ vertical-align: middle;
 .icon-txt { background-image: url(../images/txt.png); }
 .icon-file { background-image: url(../images/file.png); }
 .icon-folder { background-image: url(../images/folder.png); }
+.open .icon-folder { background-image: url(../images/folder_open.png); }
 .icon-package { background-image: url(../images/package.png); }
 .icon-home { background-image: url(../images/home.png); }
 .icon-user { background-image: url(../images/user.png); }

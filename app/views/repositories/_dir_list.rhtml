@@ -1,26 +1,15 @@
 <table class="list">
-<thead><tr>
+<thead>
+<tr id="root">
 <th><%= l(:field_name) %></th>
 <th><%= l(:field_filesize) %></th>
 <th><%= l(:label_revision) %></th>
 <th><%= l(:label_date) %></th>
 <th><%= l(:field_author) %></th>
 <th><%= l(:field_comments) %></th>
-</tr></thead>
-<tbody>
-<% total_size = 0
-@entries.each do |entry| %>
-<tr class="<%= cycle 'odd', 'even' %>">
-<td><%= link_to h(entry.name), { :action => (entry.is_dir? ? 'browse' : 'changes'), :id => @project, :path => entry.path, :rev => @rev }, :class => ("icon " + (entry.is_dir? ? 'icon-folder' : 'icon-file')) %></td>
-<td align="right"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.is_dir? %></td>
-<td align="right"><%= link_to(entry.lastrev.name, :action => 'revision', :id => @project, :rev => entry.lastrev.identifier) if entry.lastrev && entry.lastrev.identifier %></td>
-<td align="center"><%= format_time(entry.lastrev.time) if entry.lastrev %></td>
-<td align="center"><em><%=h(entry.lastrev.author) if entry.lastrev %></em></td>
-<% changeset = @project.repository.changesets.find_by_revision(entry.lastrev.identifier) if entry.lastrev %>
-<td><%=h truncate(changeset.comments, 100) unless changeset.nil? %></td>
 </tr>
-<% total_size += entry.size if entry.size
-end %>
+</thead>
+<tbody>
+<%= render :partial => 'dir_list_content' %>
 </tbody>
 </table>
-<p class="textright"><em><%= l(:label_total) %>: <%= number_to_human_size(total_size) %></em></p>

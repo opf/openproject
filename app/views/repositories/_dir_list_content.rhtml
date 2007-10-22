@@ -1,0 +1,32 @@
+<% @entries.each do |entry| %>
+<% tr_id = Digest::MD5.hexdigest(entry.path)
+   depth = params[:depth].to_i %>
+<tr id="<%= tr_id %>">
+<td>
+<%= if entry.is_dir?
+  link_to_remote h(entry.name),
+                 {:url => {:action => 'browse', :id => @project, :path => entry.path, :rev => @rev, :depth => (depth + 1)},
+                  :update => tr_id,
+                  :position => :after,
+                  :success => "Element.addClassName('#{tr_id}', 'open');",
+                  :condition => "!Element.hasClassName('#{tr_id}', 'open')"
+                 },
+                 {:href => url_for({:action => 'browse', :id => @project, :path => entry.path, :rev => @rev}),
+                  :class => ('icon icon-folder'),
+                  :style => "margin-left: #{18 * depth}px;"
+                 }
+else
+  link_to h(entry.name),
+          {:action => (entry.is_dir? ? 'browse' : 'changes'), :id => @project, :path => entry.path, :rev => @rev},
+          :class => 'icon icon-file',
+          :style => "margin-left: #{18 * depth}px;"
+end %>
+</td>
+<td align="right"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.is_dir? %></td>
+<td align="right"><%= link_to(entry.lastrev.name, :action => 'revision', :id => @project, :rev => entry.lastrev.identifier) if entry.lastrev && entry.lastrev.identifier %></td>
+<td align="center"><%= format_time(entry.lastrev.time) if entry.lastrev %></td>
+<td align="center"><em><%=h(entry.lastrev.author) if entry.lastrev %></em></td>
+<% changeset = @project.repository.changesets.find_by_revision(entry.lastrev.identifier) if entry.lastrev %>
+<td><%=h truncate(changeset.comments, 50) unless changeset.nil? %></td>
+</tr>
+<% end %>

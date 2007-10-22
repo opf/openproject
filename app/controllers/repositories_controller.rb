@@ -56,7 +56,11 @@ class RepositoriesController < ApplicationController
   
   def browse
     @entries = @repository.entries(@path, @rev)
-    show_error and return unless @entries    
+    if request.xhr?
+      @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
+    else
+      show_error unless @entries
+    end
   end
   
   def changes
