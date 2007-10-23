@@ -22,7 +22,7 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :roles, :enabled_modules
+  fixtures :projects, :users, :roles, :enabled_modules, :enumerations
 
   def setup
     @controller = ProjectsController.new
@@ -87,11 +87,11 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_bulk_edit_issues
     @request.session[:user_id] = 2
     # update issues priority
-    post :bulk_edit_issues, :id => 1, :issue_ids => [1, 2], :priority_id => 7, :notes => "Bulk editing"
+    post :bulk_edit_issues, :id => 1, :issue_ids => [1, 2], :priority_id => 7, :notes => 'Bulk editing', :assigned_to_id => ''
     assert_response 302
     # check that the issues were updated
     assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
-    assert_equal "Bulk editing", Issue.find(1).journals.last.notes
+    assert_equal 'Bulk editing', Issue.find(1).journals.find(:first, :order => 'created_on DESC').notes
   end
 
   def test_list_news

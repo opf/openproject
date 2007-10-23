@@ -13,7 +13,7 @@
 </p>
 <p>
 <label><%= l(:field_assigned_to) %>: 
-<%= select_tag('assigned_to_id', content_tag('option', l(:label_no_change_option)) +
+<%= select_tag('assigned_to_id', content_tag('option', l(:label_no_change_option), :value => '') +
                                  content_tag('option', l(:label_nobody), :value => 'none') +
                                  options_from_collection_for_select(@project.assignable_users, :id, :name)) %></label>
 <label><%= l(:field_fixed_version) %>: 

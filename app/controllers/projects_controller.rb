@@ -339,11 +339,11 @@ class ProjectsController < ApplicationController
   # Bulk edit issues
   def bulk_edit_issues
     if request.post?
-      status = IssueStatus.find_by_id(params[:status_id])
-      priority = Enumeration.find_by_id(params[:priority_id])
-      assigned_to = User.find_by_id(params[:assigned_to_id])
-      category = @project.issue_categories.find_by_id(params[:category_id])
-      fixed_version = @project.versions.find_by_id(params[:fixed_version_id])
+      status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
+      priority = params[:priority_id].blank? ? nil : Enumeration.find_by_id(params[:priority_id])
+      assigned_to = params[:assigned_to_id].blank? ? nil : User.find_by_id(params[:assigned_to_id])
+      category = params[:category_id].blank? ? nil : @project.issue_categories.find_by_id(params[:category_id])
+      fixed_version = params[:fixed_version_id].blank? ? nil : @project.versions.find_by_id(params[:fixed_version_id])
       issues = @project.issues.find_all_by_id(params[:issue_ids])
       unsaved_issue_ids = []      
       issues.each do |issue|
