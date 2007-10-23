@@ -62,7 +62,9 @@ function checkBulkEdit(form) {
 function collapseScmEntry(id) {
     var els = document.getElementsByClassName(id, 'browser');
 	for (var i = 0; i < els.length; i++) {
-	   collapseScmEntry(els[i].id);
+	   if (els[i].hasClassName('open')) {
+	       collapseScmEntry(els[i].id);
+	   }
        Element.hide(els[i]);
     }
     $(id).removeClassName('open');
