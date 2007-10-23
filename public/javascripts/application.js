@@ -74,6 +74,9 @@ function expandScmEntry(id) {
     var els = document.getElementsByClassName(id, 'browser');
 	for (var i = 0; i < els.length; i++) {
        Element.show(els[i]);
+       if (els[i].hasClassName('loaded') && !els[i].hasClassName('collapsed')) {
+            expandScmEntry(els[i].id);
+       }
     }
     $(id).addClassName('open');
 }
@@ -82,17 +85,24 @@ function scmEntryClick(id) {
     el = $(id);
     if (el.hasClassName('open')) {
         collapseScmEntry(id);
+        el.addClassName('collapsed');
         return false;
     } else if (el.hasClassName('loaded')) {
         expandScmEntry(id);
+        el.removeClassName('collapsed');
         return false;
     }
+    if (el.hasClassName('loading')) {
+        return false;
+    }
+    el.addClassName('loading');
     return true;
 }
 
 function scmEntryLoaded(id) {
     Element.addClassName(id, 'open');
     Element.addClassName(id, 'loaded');
+    Element.removeClassName(id, 'loading');
 }
 
 /* shows and hides ajax indicator */
