@@ -533,3 +533,4 @@ default_activity_development: Razvoj
 enumeration_issue_priorities: Prioriteti kartica
 enumeration_doc_categories: Kategorija dokumenata
 enumeration_activities: Aktivnosti (praćenje vremena))
+label_float: Float

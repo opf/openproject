@@ -22,9 +22,10 @@ class CustomField < ActiveRecord::Base
   FIELD_FORMATS = { "string" => { :name => :label_string, :order => 1 },
                     "text" => { :name => :label_text, :order => 2 },
                     "int" => { :name => :label_integer, :order => 3 },
-                    "list" => { :name => :label_list, :order => 4 },
-			        "date" => { :name => :label_date, :order => 5 },
-			        "bool" => { :name => :label_boolean, :order => 6 }
+                    "float" => { :name => :label_float, :order => 4 },
+                    "list" => { :name => :label_list, :order => 5 },
+			        "date" => { :name => :label_date, :order => 6 },
+			        "bool" => { :name => :label_boolean, :order => 7 }
   }.freeze
 
   validates_presence_of :name, :field_format

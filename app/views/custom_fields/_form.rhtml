@@ -13,13 +13,6 @@ function toggle_custom_field_format() {
       Element.hide(p_regexp.parentNode);
       Element.show(p_values);
       break;
-    case "int":
-    case "string":
-    case "text":
-      Element.show(p_length.parentNode);
-      Element.show(p_regexp.parentNode);
-      Element.hide(p_values);
-      break;
     case "date":
     case "bool":
       Element.hide(p_length.parentNode);
@@ -29,7 +22,7 @@ function toggle_custom_field_format() {
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
-      Element.show(p_values);
+      Element.hide(p_values);
       break;
   }
 }

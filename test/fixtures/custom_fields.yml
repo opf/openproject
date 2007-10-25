@@ -43,3 +43,15 @@ custom_fields_004:
   id: 4
   is_required: false
   field_format: string
+custom_fields_005: 
+  name: Money
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  type: UserCustomField
+  max_length: 0
+  possible_values: ""
+  id: 5
+  is_required: false
+  field_format: float
+  

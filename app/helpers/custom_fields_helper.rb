@@ -24,8 +24,6 @@ module CustomFieldsHelper
     field_id = "custom_fields_#{custom_field.id}"
     
     case custom_field.field_format
-    when "string", "int"
-      text_field 'custom_value', 'value', :name => field_name, :id => field_id
     when "date"
       text_field('custom_value', 'value', :name => field_name, :id => field_id, :size => 10) + 
       calendar_for(field_id)
@@ -35,6 +33,8 @@ module CustomFieldsHelper
       check_box 'custom_value', 'value', :name => field_name, :id => field_id
     when "list"
       select 'custom_value', 'value', custom_field.possible_values, { :include_blank => true }, :name => field_name, :id => field_id
+    else
+      text_field 'custom_value', 'value', :name => field_name, :id => field_id
     end
   end
   

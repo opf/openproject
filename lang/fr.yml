@@ -259,6 +259,7 @@ label_min_max_length: Longueurs mini - maxi
 label_list: Liste
 label_date: Date
 label_integer: Entier
+label_float: Nombre décimal
 label_boolean: Booléen
 label_string: Texte
 label_text: Texte long
