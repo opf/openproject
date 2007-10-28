@@ -6,7 +6,7 @@
 <%= if entry.is_dir?
   link_to_remote h(entry.name),
                  {:url => {:action => 'browse', :id => @project, :path => entry.path, :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
-                  :update => tr_id,
+                  :update => { :success => tr_id },
                   :position => :after,
                   :success => "scmEntryLoaded('#{tr_id}')",
                   :condition => "scmEntryClick('#{tr_id}')"

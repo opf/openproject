@@ -124,12 +124,12 @@ class ApplicationController < ActionController::Base
   
   def render_403
     @project = nil
-    render :template => "common/403", :layout => true, :status => 403
+    render :template => "common/403", :layout => !request.xhr?, :status => 403
     return false
   end
     
   def render_404
-    render :template => "common/404", :layout => true, :status => 404
+    render :template => "common/404", :layout => !request.xhr?, :status => 404
     return false
   end
   
