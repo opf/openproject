@@ -64,4 +64,9 @@
     <%= javascript_include_tag "calendar/lang/calendar-#{current_language}.js" %>
     <%= javascript_include_tag 'calendar/calendar-setup' %>
     <%= stylesheet_link_tag 'calendar' %>
+    <%= javascript_include_tag 'context_menu' %>
+    <%= stylesheet_link_tag 'context_menu' %>
 <% end %>
+
+<div id="context-menu" style="display: none;"></div>
+<%= javascript_tag 'new ContextMenu({})' %>

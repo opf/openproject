@@ -1,0 +1,52 @@
+#context-menu { position: absolute; }
+
+#context-menu ul, #context-menu li, #context-menu a {
+	display:block;
+	margin:0;
+	padding:0;
+	border:0;
+}
+
+#context-menu ul {
+	width:150px;
+	border-top:1px solid #ddd;
+	border-left:1px solid #ddd;
+	border-bottom:1px solid #777;
+	border-right:1px solid #777;
+	background:white;
+	list-style:none;
+}
+
+#context-menu li {
+	position:relative;
+	padding:1px;
+	z-index:9;
+}
+#context-menu li.folder ul {
+	position:absolute;
+	left:128px; /* IE */
+	top:-2px;
+}
+#context-menu li.folder>ul { left:148px; }
+
+#context-menu a {
+	border:1px solid white;
+	text-decoration:none;
+	background-repeat: no-repeat;
+	background-position: 1px 50%;
+	padding: 2px 0px 2px 20px;
+	width:100%; /* IE */
+}
+#context-menu li>a { width:auto; } /* others */
+#context-menu a.disabled, #context-menu a.disabled:hover {color: #ccc;}
+#context-menu li a.submenu { background:url("../images/sub.gif") right no-repeat; }
+#context-menu a:hover { border-color:gray; background-color:#eee; color:#2A5685; }
+#context-menu li.folder a:hover { background-color:#eee; }	
+#context-menu li.folder:hover { z-index:10; }		
+#context-menu ul ul, #context-menu  li:hover ul ul { display:none; }
+#context-menu li:hover ul, #context-menu li:hover li:hover ul {	display:block; }
+
+/* selected element */
+.context-menu-selection { background-color:#507AAA !important; color:#f8f8f8 !important; }
+.context-menu-selection a, .context-menu-selection a:hover { color:#f8f8f8 !important; }
+.context-menu-selection:hover { background-color:#507AAA !important; color:#f8f8f8  !important; }

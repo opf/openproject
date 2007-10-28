@@ -26,7 +26,7 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_categories, {:projects => [:settings, :add_issue_category], :issue_categories => [:edit, :destroy]}, :require => :member
     # Issues
     map.permission :view_issues, {:projects => [:list_issues, :export_issues_csv, :export_issues_pdf, :changelog, :roadmap], 
-                                  :issues => :show,
+                                  :issues => [:show, :context_menu],
                                   :queries => :index,
                                   :reports => :issue_report}, :public => true                    
     map.permission :add_issues, {:projects => :add_issue}, :require => :loggedin

@@ -13,7 +13,7 @@
 	</tr></thead>
 	<tbody>
 	<% issues.each do |issue| %>
-	<tr class="issue <%= cycle('odd', 'even') %> <%= "status-#{issue.status.position} priority-#{issue.priority.position}" %>">
+	<tr id="issue-<%= issue.id %>" class="issue hascontextmenu <%= cycle('odd', 'even') %> <%= "status-#{issue.status.position} priority-#{issue.priority.position}" %>">
 	    <td class="checkbox"><%= check_box_tag("issue_ids[]", issue.id, false, :id => "issue_#{issue.id}", :disabled => (!@project || @project != issue.project)) %></td>
 		<td><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
         <% query.columns.each do |column| %>

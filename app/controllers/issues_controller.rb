@@ -79,12 +79,14 @@ class IssuesController < ApplicationController
       begin
         @issue.init_journal(self.logged_in_user)
         # Retrieve custom fields and values
-        @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
-        @issue.custom_values = @custom_values
+        if params["custom_fields"]
+          @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
+          @issue.custom_values = @custom_values
+        end
         @issue.attributes = params[:issue]
         if @issue.save
           flash[:notice] = l(:notice_successful_update)
-          redirect_to :action => 'show', :id => @issue
+          redirect_to(params[:back_to] || {:action => 'show', :id => @issue})
         end
       rescue ActiveRecord::StaleObjectError
         # Optimistic locking exception
@@ -162,6 +164,19 @@ class IssuesController < ApplicationController
                                          :old_value => a.filename)
     journal.save
     redirect_to :action => 'show', :id => @issue
+  end
+  
+  def context_menu
+    @priorities = Enumeration.get_values('IPRI').reverse
+    @statuses = IssueStatus.find(:all, :order => 'position')
+    @allowed_statuses = @issue.status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)
+    @assignables = @issue.assignable_users
+    @assignables << @issue.assigned_to if @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
+    @can = {:edit => User.current.allowed_to?(:edit_issues, @project),
+            :change_status => User.current.allowed_to?(:change_issue_status, @project),
+            :move => User.current.allowed_to?(:move_issues, @project),
+            :delete => User.current.allowed_to?(:delete_issues, @project)}
+    render :layout => false
   end
 
   def preview

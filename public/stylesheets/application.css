@@ -42,7 +42,7 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
 * html #sidebar hr{ width: 95%; position: relative; left: -6px; color: #ccc; }
 
-#content { width: 80%; background: url(../images/contentbg.png) repeat-x; background-color: #fff; margin: 0px; border-right: 1px solid #ddd; padding: 6px 10px 10px 10px; position: relative; z-index: 10; height:600px; min-height: 600px;}
+#content { width: 80%; background: url(../images/contentbg.png) repeat-x; background-color: #fff; margin: 0px; border-right: 1px solid #ddd; padding: 6px 10px 10px 10px; z-index: 10; height:600px; min-height: 600px;}
 * html #content{ width: 80%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
 html>body #content {
 height: auto;
@@ -154,7 +154,7 @@ width: 200px;
 div.attachments p { margin:4px 0 2px 0; }
 
 /***** Flash & error messages ****/
-#errorExplanation, div.flash, div.nodata {
+#errorExplanation, div.flash, .nodata {
     padding: 4px 4px 4px 30px;
     margin-bottom: 12px;
 	font-size: 1.1em;
@@ -454,6 +454,7 @@ vertical-align: middle;
 .icon-lock  { background-image: url(../images/locked.png); }
 .icon-unlock  { background-image: url(../images/unlock.png); }
 .icon-note  { background-image: url(../images/note.png); }
+.icon-checked  { background-image: url(../images/true.png); }
 
 .icon22-projects { background-image: url(../images/22x22/projects.png); }
 .icon22-users { background-image: url(../images/22x22/users.png); }

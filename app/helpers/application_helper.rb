@@ -296,6 +296,22 @@ module ApplicationHelper
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")   
   end
   
+  def context_menu_link(name, url, options={})
+    options[:class] ||= ''
+    if options.delete(:selected)
+      options[:class] << ' icon-checked disabled'
+      options[:disabled] = true
+    end
+    if options.delete(:disabled)
+      options.delete(:method)
+      options.delete(:confirm)
+      options.delete(:onclick)
+      options[:class] << ' disabled'
+      url = '#'
+    end
+    link_to name, url, options
+  end
+  
   def calendar_for(field_id)
     image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
     javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
