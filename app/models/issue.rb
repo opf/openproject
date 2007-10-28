@@ -54,6 +54,13 @@ class Issue < ActiveRecord::Base
     end
   end
   
+  def copy_from(arg)
+    issue = arg.is_a?(Issue) ? arg : Issue.find(arg)
+    self.attributes = issue.attributes.dup
+    self.custom_values = issue.custom_values.collect {|v| v.clone}
+    self
+  end
+  
   def priority_id=(pid)
     self.priority = nil
     write_attribute(:priority_id, pid)

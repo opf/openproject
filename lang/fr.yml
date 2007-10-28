@@ -476,6 +476,7 @@ button_unarchive: Désarchiver
 button_reset: Réinitialiser
 button_rename: Renommer
 button_change_password: Changer de mot de passe
+button_copy: Copier
 
 status_active: actif
 status_registered: enregistré

@@ -18,11 +18,21 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IssueTest < Test::Unit::TestCase
-  fixtures :projects, :users, :members, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues
+  fixtures :projects, :users, :members, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values
 
   def test_category_based_assignment
     issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'Assignment test', :description => 'Assignment test', :category_id => 1)
     assert_equal IssueCategory.find(1).assigned_to, issue.assigned_to
+  end
+  
+  def test_copy
+    issue = Issue.new.copy_from(1)
+    assert issue.save
+    issue.reload
+    orig = Issue.find(1)
+    assert_equal orig.subject, issue.subject
+    assert_equal orig.tracker, issue.tracker
+    assert_equal orig.custom_values.first.value, issue.custom_values.first.value
   end
   
   def test_close_duplicates

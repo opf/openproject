@@ -421,6 +421,7 @@ vertical-align: middle;
 
 .icon-add { background-image: url(../images/add.png); }
 .icon-edit { background-image: url(../images/edit.png); }
+.icon-copy { background-image: url(../images/copy.png); }
 .icon-del { background-image: url(../images/delete.png); }
 .icon-move { background-image: url(../images/move.png); }
 .icon-save { background-image: url(../images/save.png); }

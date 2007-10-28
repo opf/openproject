@@ -174,6 +174,7 @@ class IssuesController < ApplicationController
     @assignables << @issue.assigned_to if @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
     @can = {:edit => User.current.allowed_to?(:edit_issues, @project),
             :change_status => User.current.allowed_to?(:change_issue_status, @project),
+            :add => User.current.allowed_to?(:add_issues, @project),
             :move => User.current.allowed_to?(:move_issues, @project),
             :delete => User.current.allowed_to?(:delete_issues, @project)}
     render :layout => false

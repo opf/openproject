@@ -22,7 +22,7 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :roles, :enabled_modules, :enumerations
+  fixtures :projects, :users, :roles, :members, :issues, :enabled_modules, :enumerations
 
   def setup
     @controller = ProjectsController.new
@@ -142,5 +142,24 @@ class ProjectsControllerTest < Test::Unit::TestCase
     post :unarchive, :id => 1
     assert_redirected_to 'admin/projects'
     assert Project.find(1).active?
+  end
+  
+  def test_add_issue
+    @request.session[:user_id] = 2
+    get :add_issue, :id => 1, :tracker_id => 1
+    assert_response :success
+    assert_template 'add_issue'
+    post :add_issue, :id => 1, :issue => {:tracker_id => 1, :subject => 'This is the test_add_issue issue', :description => 'This is the description', :priority_id => 5}
+    assert_redirected_to 'projects/list_issues'
+    assert Issue.find_by_subject('This is the test_add_issue issue')
+  end
+  
+  def test_copy_issue
+    @request.session[:user_id] = 2
+    get :add_issue, :id => 1, :copy_from => 1
+    assert_template 'add_issue'
+    assert_not_nil assigns(:issue)
+    orig = Issue.find(1)
+    assert_equal orig.subject, assigns(:issue).subject
   end
 end

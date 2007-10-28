@@ -192,43 +192,45 @@ class ProjectsController < ApplicationController
   end
 
   # Add a new issue to @project
+  # The new issue will be created from an existing one if copy_from parameter is given
   def add_issue
-    @tracker = Tracker.find(params[:tracker_id])
-    @priorities = Enumeration::get_values('IPRI')
+    @issue = params[:copy_from] ? Issue.new.copy_from(params[:copy_from]) : Issue.new(params[:issue])
+    @issue.project = @project
+    @issue.author = User.current
+    @issue.tracker ||= Tracker.find(params[:tracker_id])
     
     default_status = IssueStatus.default
     unless default_status
-      flash.now[:error] = 'No default issue status defined. Please check your configuration.'
+      flash.now[:error] = 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
       render :nothing => true, :layout => true
       return
-    end
-    @issue = Issue.new(:project => @project, :tracker => @tracker)    
+    end    
     @issue.status = default_status
     @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker))if logged_in_user
+    
     if request.get?
-      @issue.start_date = Date.today
-      @custom_values = @project.custom_fields_for_issues(@tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) }
+      @issue.start_date ||= Date.today
+      @custom_values = @issue.custom_values.empty? ?
+        @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) } :
+        @issue.custom_values
     else
-      @issue.attributes = params[:issue]
-      
       requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
+      # Check that the user is allowed to apply the requested status
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
-      
-      @issue.author_id = self.logged_in_user.id if self.logged_in_user
-      # Multiple file upload
-      @attachments = []
-      params[:attachments].each { |a|
-        @attachments << Attachment.new(:container => @issue, :file => a, :author => logged_in_user) unless a.size == 0
-      } if params[:attachments] and params[:attachments].is_a? Array
-      @custom_values = @project.custom_fields_for_issues(@tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
+      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
       @issue.custom_values = @custom_values
       if @issue.save
-        @attachments.each(&:save)
+        if params[:attachments] && params[:attachments].is_a?(Array)
+          # Save attachments
+          params[:attachments].each {|a| Attachment.create(:container => @issue, :file => a, :author => User.current) unless a.size == 0}
+        end
         flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
         redirect_to :action => 'list_issues', :id => @project
+        return
       end		
     end	
+    @priorities = Enumeration::get_values('IPRI')
   end
 
   # Show filtered/sorted issues list of @project

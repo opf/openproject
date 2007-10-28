@@ -3,6 +3,7 @@
 <%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
 <%= watcher_tag(@issue, User.current) %>
+<%= link_to_if_authorized l(:button_copy), {:controller => 'projects', :action => 'add_issue', :id => @project, :copy_from => @issue }, :class => 'icon icon-copy' %>
 <%= link_to_if_authorized l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id }, :class => 'icon icon-move' %>
 <%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
