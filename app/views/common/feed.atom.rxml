@@ -13,7 +13,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       xml.link "rel" => "alternate", "href" => url_for(item.event_url(:only_path => false))
       xml.id url_for(item.event_url(:only_path => false))
       xml.updated item.event_datetime.xmlschema
-      author = item.event_author
+      author = item.event_author if item.respond_to?(:author)
       xml.author do
         xml.name(author.is_a?(User) ? author.name : author)
         xml.email(author.mail) if author.is_a?(User)

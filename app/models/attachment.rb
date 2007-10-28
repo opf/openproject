@@ -27,7 +27,7 @@ class Attachment < ActiveRecord::Base
 
   acts_as_event :title => :filename,
                 :description => :filename,
-                :url => Proc.new {|o| {:controller => 'attachment', :action => 'download', :id => o.id}}
+                :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id}}
 
   cattr_accessor :storage_path
   @@storage_path = "#{RAILS_ROOT}/files"

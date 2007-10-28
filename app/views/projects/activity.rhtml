@@ -4,43 +4,14 @@
   <h3><%= day_name(day.cwday) %> <%= day.day %></h3>
   <ul>
   <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| %>
-    <li><p>
-    <% if e.is_a? Issue %>
-      <%= e.event_datetime.strftime("%H:%M") %> <%= link_to_issue e %>: <%=h e.subject %><br />
-          <i><%= e.author.name %></i>
-    <% elsif e.is_a? Journal %>
-      <%= e.created_on.strftime("%H:%M") %> <%= link_to_issue e.journalized %>
-          (<%=h (status = IssueStatus.find_by_id(e.details.first.value)) ? status.name : '?' %>): <%=h e.journalized.subject %><br />
-          <em><%=h e.user.name %><%=h ": #{truncate(e.notes, 500)}" unless e.notes.blank? %></em>
-    <% elsif e.is_a? News %>
-      <%= e.event_datetime.strftime("%H:%M") %> <%=l(:label_news)%>: <%= link_to h(e.title), :controller => 'news', :action => 'show', :id => e %><br />
-          <% unless e.summary.empty? %><%=h e.summary %><br /><% end %>
-          <i><%= e.author.name %></i>
-    <% elsif (e.is_a? Attachment) and (e.container.is_a? Version) %>
-      <%= e.event_datetime.strftime("%H:%M") %> <%=l(:label_attachment)%> (<%=h e.container.name %>): <%= link_to e.filename, :controller => 'projects', :action => 'list_files', :id => @project %><br />
-        <i><%= e.author.name %></i>
-    <% elsif (e.is_a? Attachment) and (e.container.is_a? Document) %>
-      <%= e.event_datetime.strftime("%H:%M") %> <%=l(:label_attachment)%>: <%= e.filename %> (<%= link_to h(e.container.title), :controller => 'documents', :action => 'show', :id => e.container %>)<br />
-        <i><%= e.author.name %></i>
-    <% elsif e.is_a? Document %>
-      <%= e.event_datetime.strftime("%H:%M") %> <%=l(:label_document)%>: <%= link_to h(e.title), :controller => 'documents', :action => 'show', :id => e %><br />
-    <% elsif e.is_a? WikiContent.versioned_class %>
-      <%= e.event_datetime.strftime("%H:%M") %> <%=l(:label_wiki_edit)%>: <%= link_to h(WikiPage.pretty_title(e.title)), :controller => 'wiki', :page => e.title %>
-      (<%= link_to '#' + e.version.to_s, :controller => 'wiki', :page => e.title, :version => e.version %><%= ', ' + link_to('diff', :controller => 'wiki', :action => 'diff', :page => e.title, :version => e.version) if e.version > 1 %>)<br />
-      <% unless e.comments.blank? %><em><%=h e.comments %></em><% end %>
-    <% elsif e.is_a? Changeset %>
-      <%= e.event_datetime.strftime("%H:%M") %> <%=l(:label_revision)%> <%= link_to h(e.revision), :controller => 'repositories', :action => 'revision', :id => @project, :rev => e.revision %><br />
-      <em><%=h e.committer.blank? ? "anonymous" : e.committer %><%= h(": #{truncate(e.comments, 500)}") unless e.comments.blank? %></em>
-    <% end %>
-    </p></li>
-  
+    <li><p><%= e.event_datetime.strftime("%H:%M") %> <%= link_to truncate(e.event_title, 100), e.event_url %><br />
+    <% unless e.event_description.blank? %><em><%= truncate(e.event_description, 500) %></em><br /><% end %>
+    <span class="author"><%= e.event_author if e.respond_to?(:author) %></span></p></li>
   <% end %>
   </ul>
 <% end %>
 
-<% if @events_by_day.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
+<% if @events_by_day.empty? %><p class="nodata"><%= l(:label_no_data) %></p><% end %>
 
 <div style="float:left;">
 <% prev_params = params.clone.update :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) %>
