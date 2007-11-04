@@ -110,7 +110,7 @@ class RepositoriesController < ApplicationController
     
     @cache_key = "repositories/diff/#{@repository.id}/" + Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")    
     unless read_fragment(@cache_key)
-      @diff = @repository.diff(@path, @rev, @rev_to, type)
+      @diff = @repository.diff(@path, @rev, @rev_to, @diff_type)
       show_error and return unless @diff
     end
   end
@@ -145,7 +145,7 @@ private
     @project = Project.find(params[:id])
     @repository = @project.repository
     render_404 and return false unless @repository
-    @path = params[:path].squeeze('/') if params[:path]
+    @path = params[:path].join('/') unless params[:path].nil?
     @path ||= ''
     @rev = params[:rev].to_i if params[:rev]
   rescue ActiveRecord::RecordNotFound

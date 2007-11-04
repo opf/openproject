@@ -16,6 +16,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
   map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
   map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
+
+  map.with_options :controller => 'repositories' do |omap|
+    omap.repositories_show 'repositories/browse/:id/*path', :action => 'browse'
+    omap.repositories_changes 'repositories/changes/:id/*path', :action => 'changes'
+    omap.repositories_diff 'repositories/diff/:id/*path', :action => 'diff'
+    omap.repositories_entry 'repositories/entry/:id/*path', :action => 'entry'
+  end
   
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'
