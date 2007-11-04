@@ -35,7 +35,8 @@ class AuthSourceLdap < AuthSource
     dn = String.new
     ldap_con.search( :base => self.base_dn, 
                      :filter => object_filter & login_filter, 
-                     :attributes=> ['dn', self.attr_firstname, self.attr_lastname, self.attr_mail]) do |entry|
+                     # only ask for the DN if on-the-fly registration is disabled
+                     :attributes=> (onthefly_register? ? ['dn', self.attr_firstname, self.attr_lastname, self.attr_mail] : ['dn'])) do |entry|
       dn = entry.dn
       attrs = [:firstname => AuthSourceLdap.get_attr(entry, self.attr_firstname),
                :lastname => AuthSourceLdap.get_attr(entry, self.attr_lastname),
