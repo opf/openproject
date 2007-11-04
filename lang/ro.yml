@@ -414,7 +414,7 @@ label_week: Saptamana
 label_date_from: De la
 label_date_to: Pentru
 label_language_based: Bazat pe limbaj
-label_sort_by: Sortare dupa "%s"
+label_sort_by: Sortare dupa %s
 label_send_test_email: trimite un e-mail de test
 label_feeds_access_key_created_on: Parola de acces RSS creat cu %s mai devreme
 label_module_plural: Module

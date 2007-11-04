@@ -416,7 +416,7 @@ label_week: Woche
 label_date_from: Von
 label_date_to: Bis
 label_language_based: Sprachabhängig
-label_sort_by: Sortiert nach "%s"
+label_sort_by: Sortiert nach %s
 label_send_test_email: Test-E-Mail senden
 label_feeds_access_key_created_on: RSS-Zugriffsschlüssel vor %s erstellt
 label_module_plural: Module

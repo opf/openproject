@@ -188,7 +188,19 @@ class ProjectsController < ApplicationController
   
   # Show documents list of @project
   def list_documents
-    @documents = @project.documents.find :all, :include => :category
+    @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
+    documents = @project.documents.find :all, :include => [:attachments, :category]
+    case @sort_by
+    when 'date'
+      @grouped = documents.group_by {|d| d.created_on.to_date }
+    when 'title'
+      @grouped = documents.group_by {|d| d.title.first.upcase}
+    when 'author'
+      @grouped = documents.select{|d| d.attachments.any?}.group_by {|d| d.attachments.last.author}
+    else
+      @grouped = documents.group_by(&:category)
+    end
+    render :layout => false if request.xhr?
   end
 
   # Add a new issue to @project

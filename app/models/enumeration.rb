@@ -47,6 +47,10 @@ class Enumeration < ActiveRecord::Base
     Enumeration.update_all("is_default = #{connection.quoted_false}", {:opt => opt}) if is_default?
   end
   
+  def <=>(enumeration)
+    position <=> enumeration.position
+  end
+  
   def to_s; name end
   
 private

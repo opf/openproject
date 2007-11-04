@@ -497,7 +497,7 @@ label_module_plural: Moduły
 label_this_week: ten tydzień
 label_jump_to_a_project: Skocz do projektu...
 field_assignable: Zgłoszenia mogą być przypisane do tej roli
-label_sort_by: Sortuj po "%s"
+label_sort_by: Sortuj po %s
 text_issue_updated: Zgłoszenie %s zostało zaktualizowane.
 notice_feeds_access_key_reseted: Twój klucz dostępu RSS został zrestetowany.
 field_redirect_existing_links: Przekierowanie istniejących odnośników

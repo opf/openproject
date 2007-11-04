@@ -426,7 +426,7 @@ label_week: Nedelja
 label_date_from: Od
 label_date_to: Do
 label_language_based: Bazirano na jeziku
-label_sort_by: Sortiraj po "%s"
+label_sort_by: Sortiraj po %s
 label_send_test_email: Pošalji probni email
 label_feeds_access_key_created_on: RSS ključ za pristup je kreiran pre %s 
 label_module_plural: Modulovi

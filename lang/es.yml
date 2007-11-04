@@ -501,7 +501,7 @@ label_this_week: this week
 label_index_by_title: Index by title
 label_jump_to_a_project: Jump to a project...
 field_assignable: Issues can be assigned to this role
-label_sort_by: Sort by "%s"
+label_sort_by: Sort by %s
 setting_issue_list_default_columns: Default columns displayed on the issue list
 text_issue_updated: Issue %s has been updated.
 notice_feeds_access_key_reseted: Your RSS access key was reseted.

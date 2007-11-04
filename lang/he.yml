@@ -421,7 +421,7 @@ label_week: שבו
 label_date_from: מאת
 label_date_to: אל
 label_language_based: מבוסס שפה
-label_sort_by: מין לפי "%s"
+label_sort_by: מין לפי %s
 label_send_test_email: שלח דו"ל בדיקה
 label_feeds_access_key_created_on: מפתח הזנת RSS נוצר לפני%s
 label_module_plural: מודולים
