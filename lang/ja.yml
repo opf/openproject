@@ -525,16 +525,16 @@ label_no_change_option: (変更無し)
 notice_failed_to_save_issues: "%d件の問題が保存できませんでした(%d件選択のうち) : %s."
 label_theme: テーマ
 label_default: 既定
-label_search_titles_only: Search titles only
+label_search_titles_only: タイトルのみ
 label_nobody: nobody
-button_change_password: Change password
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
-setting_emails_footer: Emails footer
-label_float: Float
-button_copy: Copy
+button_change_password: パスワード変更
+text_user_mail_option: "未選択のプロジェクトでは、ウォッチまたは関係している問題(例: 自分が報告者もしくは担当者である問題)のみメールが送信されます。"
+label_user_mail_option_selected: "選択したプロジェクト..."
+label_user_mail_option_all: "参加しているプロジェクトの全ての問題"
+label_user_mail_option_none: "ウォッチまたは関係している問題のみ"
+setting_emails_footer: メールのフッタ
+label_float: 小数
+button_copy: コピー
 mail_body_account_information_external: You can use your "%s" account to log into Redmine.
 mail_body_account_information: Your Redmine account information
 setting_protocol: Protocol
