@@ -1,6 +1,4 @@
-<%= link_to @news.title, :only_path => false, :host => Setting.host_name, :controller => 'news', :action => 'show', :id => @news %><br />
+<h1><%= link_to @news.title, @news_url %></h1>
 <em><%= @news.author.name %></em>
 
 <%= textilizable(@news.description) %>
-<hr />
-<small><em><%= textilizable Setting.emails_footer %></em></small>

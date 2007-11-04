@@ -1,6 +1,4 @@
-<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'messages', :action => 'show', :board_id => @message.board_id, :id => @message.root %>
+<%= @message_url %>
 <%= @message.author.name %>
 
 <%= @message.content %>
-----------------------------------------
-<%= Setting.emails_footer %>

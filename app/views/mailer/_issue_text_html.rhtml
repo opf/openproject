@@ -1,5 +1,4 @@
-<%= link_to "#{issue.tracker.name} ##{issue.id}",  :only_path => false, :host => Setting.host_name, :controller => 'issues', :action => 'show', :id => issue %>:
-<%= issue.subject %>
+<h1><%= link_to "#{issue.tracker.name} ##{issue.id}: #{issue.subject}", issue_url %></h1>
 
 <ul>
 <li><%=l(:field_author)%>: <%= issue.author %></li>

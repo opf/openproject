@@ -1,6 +1,4 @@
 <%= @added_to %><% @attachments.each do |attachment | %>
 - <%= attachment.filename %><% end %>
 
-<%= url_for @url %>
-----------------------------------------
-<%= Setting.emails_footer %>
+<%= @added_to_url %>

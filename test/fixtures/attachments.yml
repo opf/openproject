@@ -11,3 +11,16 @@ attachments_001:
   filesize: 28
   filename: error281.txt
   author_id: 2
+attachments_002: 
+  created_on: 2006-07-19 21:07:27 +02:00
+  downloads: 0
+  content_type: text/plain
+  disk_filename: 060719210727_document.txt
+  container_id: 1
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 2
+  container_type: Document
+  filesize: 28
+  filename: document.txt
+  author_id: 2
+  

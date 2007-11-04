@@ -1,7 +1,5 @@
 <%= @news.title %>
-<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'news', :action => 'show', :id => @news %>
+<%= @news_url %>
 <%= @news.author.name %>
 
 <%= @news.description %>
-----------------------------------------
-<%= Setting.emails_footer %>

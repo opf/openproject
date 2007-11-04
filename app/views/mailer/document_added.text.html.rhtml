@@ -1,6 +1,3 @@
-<%= link_to @document.title, :only_path => false, :host => Setting.host_name, :controller => 'documents', :action => 'show', :id => @document %>
-(<%= @document.category.name %>)<br />
+<%= link_to @document.title, @document_url %> (<%= @document.category.name %>)<br />
 <br />
 <%= textilizable(@document.description) %>
-<hr />
-<small><em><%= textilizable Setting.emails_footer %></em></small>

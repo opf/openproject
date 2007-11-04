@@ -80,6 +80,8 @@ mail_subject_lost_password: Votre mot de passe redMine
 mail_body_lost_password: 'Pour changer votre mot de passe Redmine, cliquez sur le lien suivant:'
 mail_subject_register: Activation de votre compte redMine
 mail_body_register: 'Pour activer votre compte Redmine, cliquez sur le lien suivant:'
+mail_body_account_information_external: Vous pouvez utiliser votre compte "%s" pour vous connecter à Redmine.
+mail_body_account_information: Paramètres de connexion de votre compte Redmine
 
 gui_validation_error: 1 erreur
 gui_validation_error_plural: %d erreurs
@@ -189,6 +191,7 @@ setting_cross_project_issue_relations: Autoriser les relations entre demandes de
 setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
 setting_repositories_encodings: Encodages des dépôts
 setting_emails_footer: Pied-de-page des emails
+setting_protocol: Protocole
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs

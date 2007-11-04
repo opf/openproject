@@ -80,6 +80,8 @@ mail_subject_lost_password: Your Redmine password
 mail_body_lost_password: 'To change your Redmine password, click on the following link:'
 mail_subject_register: Redmine account activation
 mail_body_register: 'To activate your Redmine account, click on the following link:'
+mail_body_account_information_external: You can use your "%s" account to log into Redmine.
+mail_body_account_information: Your Redmine account information
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errors
@@ -189,6 +191,7 @@ setting_cross_project_issue_relations: Allow cross-project issue relations
 setting_issue_list_default_columns: Default columns displayed on the issue list
 setting_repositories_encodings: Repositories encodings
 setting_emails_footer: Emails footer
+setting_protocol: Protocol
 
 label_user: User
 label_user_plural: Users

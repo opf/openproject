@@ -1,9 +1,0 @@
-<% if @user.auth_source %>Mozete koristiti vas "<%= @user.auth_source.name %>" nalog da bi ste se prikljucili na Redmine.
-<% else %>Informacije o vasem Redmine nalogu:
-* Login:    <%= @user.login %>
-* Password: <%= @password %>
-<% end %>
-Log in: <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'account', :action => 'login' %>
-<% unless @user.auth_source %>
-Ovde mozete izmeniti svoju lozinku: <%= url_for :only_path => false, :host => Setting.host_name, :controller => 'my', :action => 'account' %>
-<% end %>

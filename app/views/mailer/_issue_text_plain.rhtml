@@ -1,5 +1,5 @@
 <%= "#{issue.tracker.name} ##{issue.id}: #{issue.subject}" %>
-<%= url_for :only_path => false, :host => Setting.host_name, :controller => 'issues', :action => 'show', :id => issue %>
+<%= issue_url %>
 
 <%=l(:field_author)%>: <%= issue.author %>
 <%=l(:field_status)%>: <%= issue.status %>

@@ -535,3 +535,6 @@ label_user_mail_option_none: "Only for things I watch or I'm involved in"
 setting_emails_footer: Emails footer
 label_float: Float
 button_copy: Copy
+mail_body_account_information_external: You can use your "%s" account to log into Redmine.
+mail_body_account_information: Your Redmine account information
+setting_protocol: Protocol

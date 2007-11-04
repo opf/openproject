@@ -80,6 +80,8 @@ mail_subject_lost_password: Vaša redMine lozinka
 mail_body_lost_password: 'Da biste izmenili vašu Redmine lozinku, kliknite na sledeći link:'
 mail_subject_register: aktivacija redMine naloga
 mail_body_register: 'Da biste aktivirali vaš Redmine nalog, kliknite na sledeći link:'
+mail_body_account_information_external: Mozete koristiti vas "%s" nalog da bi ste se prikljucili na Redmine.
+mail_body_account_information: Informacije o vasem Redmine nalogu
 
 gui_validation_error: 1 greška
 gui_validation_error_plural: %d grešaka
@@ -535,3 +537,4 @@ enumeration_doc_categories: Kategorija dokumenata
 enumeration_activities: Aktivnosti (praćenje vremena))
 label_float: Float
 button_copy: Copy
+setting_protocol: Protocol
