@@ -1,8 +1,86 @@
-== redMine changelog
+== Redmine changelog
 
-redMine - project management software
+Redmine - project management software
 Copyright (C) 2006-2007  Jean-Philippe Lang
-http://redmine.rubyforge.org/
+http://www.redmine.org/
+
+
+== 2007-11-04 v0.6.0
+
+* Permission model refactoring.
+* Permissions: there are now 2 builtin roles that can be used to specify permissions given to other users than members of projects
+* Permissions: some permissions (eg. browse the repository) can be removed for certain roles
+* Permissions: modules (eg. issue tracking, news, documents...) can be enabled/disabled at project level
+* Added Mantis and Trac importers
+* New application layout
+* Added "Bulk edit" functionality on the issue list
+* More flexible mail notifications settings at user level
+* Added AJAX based context menu on the project issue list that provide shortcuts for editing, re-assigning, changing the status or the priority, moving or deleting an issue
+* Added the hability to copy an issue. It can be done from the "issue/show" view or from the context menu on the issue list
+* Added the ability to customize issue list columns (at application level or for each saved query)
+* Overdue versions (date reached and open issues > 0) are now always displayed on the roadmap
+* Added the ability to rename wiki pages (specific permission required)
+* Search engines now supports pagination. Results are sorted in reverse chronological order
+* Added "Estimated hours" attribute on issues
+* A category with assigned issue can now be deleted. 2 options are proposed: remove assignments or reassign issues to another category
+* Forum notifications are now also sent to the authors of the thread, even if they don’t watch the board
+* Added an application setting to specify the application protocol (http or https) used to generate urls in emails
+* Gantt chart: now starts at the current month by default
+* Gantt chart: month count and zoom factor are automatically saved as user preferences
+* Wiki links can now refer to other project wikis
+* Added wiki index by date
+* Added preview on add/edit issue form
+* Emails footer can now be customized from the admin interface (Admin -> Email notifications)
+* Default encodings for repository files can now be set in application settings (used to convert files content and diff to UTF-8 so that they’re properly displayed)
+* Calendar: first day of week can now be set in lang files
+* Automatic closing of duplicate issues
+* Added a cross-project issue list
+* AJAXified the SCM browser (tree view)
+* Pretty URL for the repository browser (Cyril Mougel)
+* Search engine: added a checkbox to search titles only
+* Added "% done" in the filter list
+* Enumerations: values can now be reordered and a default value can be specified (eg. default issue priority)
+* Added some accesskeys
+* Added "Float" as a custom field format
+* Added basic Theme support
+* Added the ability to set the “done ratio” of issues fixed by commit (Nikolay Solakov)
+* Added custom fields in issue related mail notifications
+* Email notifications are now sent in plain text and html
+* Gantt chart can now be exported to a graphic file (png). This functionality is only available if RMagick is installed.
+* Added syntax highlightment for repository files and wiki
+* Improved automatic Redmine links
+* Added automatic table of content support on wiki pages
+* Added radio buttons on the documents list to sort documents by category, date, title or author
+* Added basic plugin support, with a sample plugin
+* Added a link to add a new category when creating or editing an issue
+* Added a "Assignable" boolean on the Role model. If unchecked, issues can not be assigned to users having this role.
+* Added an option to be able to relate issues in different projects
+* Added the ability to move issues (to another project) without changing their trackers.
+* Atom feeds added on project activity, news and changesets
+* Added the ability to reset its own RSS access key
+* Main project list now displays root projects with their subprojects
+* Added anchor links to issue notes
+* Added reposman Ruby version. This script can now register created repositories in Redmine (Nicolas Chuche)
+* Issue notes are now included in search
+* Added email sending test functionality
+* Added LDAPS support for LDAP authentication
+* Removed hard-coded URLs in mail templates
+* Subprojects are now grouped by projects in the navigation drop-down menu
+* Added a new value for date filters: this week
+* Added cache for application settings
+* Added Polish translation (Tomasz Gawryl)
+* Added Czech translation (Jan Kadlecek)
+* Added Romanian translation (Csongor Bartus)
+* Added Hebrew translation (Bob Builder)
+* Added Serbian translation (Dragan Matic)
+* Added Korean translation (Choi Jong Yoon)
+* Fixed: the link to delete issue relations is displayed even if the user is not authorized to delete relations
+* Performance improvement on calendar and gantt
+* Fixed: wiki preview doesn’t work on long entries
+* Fixed: queries with multiple custom fields return no result
+* Fixed: Can not authenticate user against LDAP if its DN contains non-ascii characters
+* Fixed: URL with ~ broken in wiki formatting
+* Fixed: some quotation marks are rendered as strange characters in pdf
 
 
 == 2007-07-15 v0.5.1

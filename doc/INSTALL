@@ -1,13 +1,13 @@
-== redMine installation
+== Redmine installation
 
-redMine - project management software
+Redmine - project management software
 Copyright (C) 2006-2007  Jean-Philippe Lang
-http://redmine.rubyforge.org/
+http://www.redmine.org/
 
 
 == Requirements
 
-* Ruby on Rails 1.2.2
+* Ruby on Rails 1.2.2 or higher (this release won't work with Rails 2.0)
 * A database (see compatibility below)
 
 Optional:
@@ -22,8 +22,7 @@ Supported databases:
 
 == Installation
 
-1. Uncompress program archive:
-   tar zxvf <filename>
+1. Uncompress the program archive
    
 2. Create an empty database: "redmine" for example
 
@@ -34,11 +33,10 @@ Supported databases:
    rake db:migrate RAILS_ENV="production"
    It will create tables and an administrator account.
 
-5. Insert default configuration data in database:
+5. Insert default configuration data in the database:
    rake redmine:load_default_data RAILS_ENV="production"
    It will load default roles, trackers, statuses, workflows and enumerations.
-   This step is optional (but recommended), as you can define your
-   own configuration from sratch.
+   This step is optional but *highly recommended*
 
 6. Test the installation by running WEBrick web server:
    ruby script/server -e production   
@@ -61,9 +59,4 @@ In config/environment.rb, you can set parameters for your SMTP server:
 config.action_mailer.smtp_settings: SMTP server configuration
 config.action_mailer.perform_deliveries: set to false to disable mail delivering
 
-Don't forget to restart the application after any change.
-
-
-== Upgrading
-
-See UPGRADING
+Don't forget to restart the application after any change to this file.
