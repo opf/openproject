@@ -110,7 +110,6 @@ field_status: Status
 field_notes: Notities
 field_is_closed: Issue gesloten
 field_is_default: Default status
-field_html_color: Kleur
 field_tracker: Tracker
 field_subject: Onderwerp
 field_due_date: Verwachte datum gereed

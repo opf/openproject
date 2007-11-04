@@ -107,7 +107,6 @@ field_status: Estado
 field_notes: Notas
 field_is_closed: Petición resuelta
 field_is_default: Estado por defecto
-field_html_color: Color
 field_tracker: Tracker
 field_subject: Tema
 field_due_date: Fecha debida

@@ -114,7 +114,6 @@ field_status: Status
 field_notes: Beleške
 field_is_closed: Greška zatvorena
 field_is_default: Podrazumevana vrednost
-field_html_color: Boja
 field_tracker: Tracker
 field_subject: Subjekat
 field_due_date: Do datuma

@@ -2,36 +2,30 @@
 issue_statuses_006: 
   name: Rejected
   is_default: false
-  html_color: F5C28B
   is_closed: true
   id: 6
 issue_statuses_001: 
   name: New
   is_default: true
-  html_color: F98787
   is_closed: false
   id: 1
 issue_statuses_002: 
   name: Assigned
   is_default: false
-  html_color: C0C0FF
   is_closed: false
   id: 2
 issue_statuses_003: 
   name: Resolved
   is_default: false
-  html_color: 88E0B3
   is_closed: false
   id: 3
 issue_statuses_004: 
   name: Feedback
   is_default: false
-  html_color: F3A4F4
   is_closed: false
   id: 4
 issue_statuses_005: 
   name: Closed
   is_default: false
-  html_color: DBDBDB
   is_closed: true
   id: 5

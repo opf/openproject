@@ -110,7 +110,6 @@ field_status: Статус
 field_notes: Бележка
 field_is_closed: Затворена задача
 field_is_default: Статус по подразбиране
-field_html_color: Цвят
 field_tracker: Тракер
 field_subject: Тема
 field_due_date: Крайна дата

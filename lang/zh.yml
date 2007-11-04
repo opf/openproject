@@ -113,7 +113,6 @@ field_status: 状态
 field_notes: 说明
 field_is_closed: 已关闭的任务
 field_is_default: 默认状态
-field_html_color: 颜色
 field_tracker: 跟踪
 field_subject: 主题
 field_due_date: 到期日

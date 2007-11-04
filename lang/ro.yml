@@ -110,7 +110,6 @@ field_status: Statut
 field_notes: Note
 field_is_closed: Tichet rezolvat
 field_is_default: Statut de baza
-field_html_color: Culoare
 field_tracker: Tip tichet
 field_subject: Subiect
 field_due_date: Data finalizarii 

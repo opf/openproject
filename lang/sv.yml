@@ -110,7 +110,6 @@ field_status: Status
 field_notes: Anteckningar
 field_is_closed: Brist stängd
 field_is_default: Defaultstatus
-field_html_color: Färg
 field_tracker: Tracker
 field_subject: Rubrik
 field_due_date: Färdigdatum

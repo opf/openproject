@@ -110,7 +110,6 @@ field_status: Status
 field_notes: Notas
 field_is_closed: Tarefa fechada
 field_is_default: Status padrao
-field_html_color: Cor
 field_tracker: Tipo
 field_subject: Titulo
 field_due_date: Data devida

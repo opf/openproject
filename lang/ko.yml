@@ -112,7 +112,6 @@ field_status: 상태
 field_notes: 노트
 field_is_closed: 완료된 문제
 field_is_default: 기본값
-field_html_color: 색상
 field_tracker: 구분
 field_subject: 제목
 field_due_date: 완료 기한

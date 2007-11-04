@@ -114,12 +114,12 @@ begin
   Tracker.create(:name => l(:default_tracker_support), :is_in_chlog => false, :is_in_roadmap => false, :position => 3)
   
   # issue statuses
-  new       = IssueStatus.create(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :html_color => 'F98787', :position => 1)
-  assigned  = IssueStatus.create(:name => l(:default_issue_status_assigned), :is_closed => false, :is_default => false, :html_color => 'C0C0FF', :position => 2)
-  resolved  = IssueStatus.create(:name => l(:default_issue_status_resolved), :is_closed => false, :is_default => false, :html_color => '88E0B3', :position => 3)
-  feedback  = IssueStatus.create(:name => l(:default_issue_status_feedback), :is_closed => false, :is_default => false, :html_color => 'F3A4F4', :position => 4)
-  closed    = IssueStatus.create(:name => l(:default_issue_status_closed), :is_closed => true, :is_default => false, :html_color => 'DBDBDB', :position => 5)
-  rejected  = IssueStatus.create(:name => l(:default_issue_status_rejected), :is_closed => true, :is_default => false, :html_color => 'F5C28B', :position => 6)
+  new       = IssueStatus.create(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :position => 1)
+  assigned  = IssueStatus.create(:name => l(:default_issue_status_assigned), :is_closed => false, :is_default => false, :position => 2)
+  resolved  = IssueStatus.create(:name => l(:default_issue_status_resolved), :is_closed => false, :is_default => false, :position => 3)
+  feedback  = IssueStatus.create(:name => l(:default_issue_status_feedback), :is_closed => false, :is_default => false, :position => 4)
+  closed    = IssueStatus.create(:name => l(:default_issue_status_closed), :is_closed => true, :is_default => false, :position => 5)
+  rejected  = IssueStatus.create(:name => l(:default_issue_status_rejected), :is_closed => true, :is_default => false, :position => 6)
   
   # workflow
   Tracker.find(:all).each { |t|

@@ -110,7 +110,6 @@ field_status: Stav
 field_notes: Poznámka
 field_is_closed: Požadavek uzavřen
 field_is_default: Výchozí stav
-field_html_color: Barva
 field_tracker: Fronta
 field_subject: Předmět
 field_due_date: Po lhůtě

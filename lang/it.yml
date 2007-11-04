@@ -110,7 +110,6 @@ field_status: Stato
 field_notes: Note
 field_is_closed: Chiude il contesto
 field_is_default: Stato predefinito
-field_html_color: Colore
 field_tracker: Tracker
 field_subject: Oggetto
 field_due_date: Data ultima

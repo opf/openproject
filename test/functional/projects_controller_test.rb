@@ -54,7 +54,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :list_documents, :id => 1
     assert_response :success
     assert_template 'list_documents'
-    assert_not_nil assigns(:documents)
+    assert_not_nil assigns(:grouped)
   end
   
   def test_list_issues

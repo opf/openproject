@@ -107,7 +107,6 @@ field_status: Status
 field_notes: Notatki
 field_is_closed: Zgłoszenie zamknięte
 field_is_default: Domyślny status
-field_html_color: Kolor
 field_tracker: Typ zgłoszenia
 field_subject: Temat
 field_due_date: Data oddania

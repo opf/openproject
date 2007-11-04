@@ -114,7 +114,6 @@ field_status: Statut
 field_notes: Notes
 field_is_closed: Demande fermée
 field_is_default: Valeur par défaut
-field_html_color: Couleur
 field_tracker: Tracker
 field_subject: Sujet
 field_due_date: Date d'échéance

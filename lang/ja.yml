@@ -111,7 +111,6 @@ field_status: ステータス
 field_notes: 注記
 field_is_closed: 終了した問題
 field_is_default: デフォルトのステータス
-field_html_color: 色
 field_tracker: トラッカー
 field_subject: 題名
 field_due_date: 期限日
