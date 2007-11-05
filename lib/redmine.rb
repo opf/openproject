@@ -25,8 +25,8 @@ Redmine::AccessControl.map do |map|
     # Issue categories
     map.permission :manage_categories, {:projects => [:settings, :add_issue_category], :issue_categories => [:edit, :destroy]}, :require => :member
     # Issues
-    map.permission :view_issues, {:projects => [:list_issues, :export_issues_csv, :export_issues_pdf, :changelog, :roadmap], 
-                                  :issues => [:show, :context_menu],
+    map.permission :view_issues, {:projects => [:changelog, :roadmap], 
+                                  :issues => [:index, :changes, :show, :context_menu],
                                   :queries => :index,
                                   :reports => :issue_report}, :public => true                    
     map.permission :add_issues, {:projects => :add_issue}, :require => :loggedin
@@ -92,7 +92,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :label_overview, :controller => 'projects', :action => 'show'
   menu.push :label_activity, :controller => 'projects', :action => 'activity'
   menu.push :label_roadmap, :controller => 'projects', :action => 'roadmap'
-  menu.push :label_issue_plural, :controller => 'projects', :action => 'list_issues'
+  menu.push :label_issue_plural, { :controller => 'issues', :action => 'index' }, :param => :project_id
   menu.push :label_news_plural, :controller => 'projects', :action => 'list_news'
   menu.push :label_document_plural, :controller => 'projects', :action => 'list_documents'
   menu.push :label_wiki, { :controller => 'wiki', :action => 'index', :page => nil }, :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }

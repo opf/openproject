@@ -1,4 +1,4 @@
-<% back_to = url_for(:controller => 'projects', :action => 'list_issues', :id => @project) %>
+<% back_to = url_for(:controller => 'issues', :action => 'index', :project_id => @project) %>
 <ul>
 	<li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue},
 	        :class => 'icon-edit', :disabled => !@can[:edit] %></li>

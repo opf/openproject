@@ -11,21 +11,21 @@
 <tbody>
 <% for row in rows %>
 <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to row.name, :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
+  <td><%= link_to row.name, :controller => 'issues', :action => 'index', :project_id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id %></td>
   <td align="center"><%= aggregate_link data, { field_name => row.id, "closed" => 0 },
-                                                :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
+                                                :controller => 'issues', :action => 'index', :project_id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "o" %></td>
   <td align="center"><%= aggregate_link data, { field_name => row.id, "closed" => 1 },
-                                                :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
+                                                :controller => 'issues', :action => 'index', :project_id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "c" %></td>
   <td align="center"><%= aggregate_link data, { field_name => row.id },
-                                                :controller => 'projects', :action => 'list_issues', :id => ((row.is_a?(Project) ? row : @project)), 
+                                                :controller => 'issues', :action => 'index', :project_id => ((row.is_a?(Project) ? row : @project)), 
                                                 :set_filter => 1, 
                                                 "#{field_name}" => row.id,
                                                 "status_id" => "*" %></td>  

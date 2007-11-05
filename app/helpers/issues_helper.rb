@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'csv'
+
 module IssuesHelper
 
   def render_issue_tooltip(issue)
@@ -100,5 +102,55 @@ module IssuesHelper
         "#{label} #{old_value} #{l(:label_deleted)}"
       end
     end
+  end
+  
+  def issues_to_csv(issues, project = nil)
+    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
+    export = StringIO.new
+    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
+      # csv header fields
+      headers = [ "#",
+                  l(:field_status), 
+                  l(:field_project),
+                  l(:field_tracker),
+                  l(:field_priority),
+                  l(:field_subject),
+                  l(:field_assigned_to),
+                  l(:field_author),
+                  l(:field_start_date),
+                  l(:field_due_date),
+                  l(:field_done_ratio),
+                  l(:field_created_on),
+                  l(:field_updated_on)
+                  ]
+      # only export custom fields if project is given
+      for custom_field in project.all_custom_fields
+        headers << custom_field.name
+      end if project
+      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+      # csv lines
+      issues.each do |issue|
+        fields = [issue.id,
+                  issue.status.name, 
+                  issue.project.name,
+                  issue.tracker.name, 
+                  issue.priority.name,
+                  issue.subject,
+                  (issue.assigned_to ? issue.assigned_to.name : ""),
+                  issue.author.name,
+                  issue.start_date ? l_date(issue.start_date) : nil,
+                  issue.due_date ? l_date(issue.due_date) : nil,
+                  issue.done_ratio,
+                  l_datetime(issue.created_on),  
+                  l_datetime(issue.updated_on)
+                  ]
+        for custom_field in project.all_custom_fields
+          fields << (show_value issue.custom_value_for(custom_field))
+        end if project
+        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+      end
+    end
+    export.rewind
+    export
   end
 end

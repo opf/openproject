@@ -57,33 +57,6 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:grouped)
   end
   
-  def test_list_issues
-    get :list_issues, :id => 1
-    assert_response :success
-    assert_template 'list_issues'
-    assert_not_nil assigns(:issues)
-  end
-  
-  def test_list_issues_with_filter
-    get :list_issues, :id => 1, :set_filter => 1
-    assert_response :success
-    assert_template 'list_issues'
-    assert_not_nil assigns(:issues)
-  end
-  
-  def test_list_issues_reset_filter
-    post :list_issues, :id => 1
-    assert_response :success
-    assert_template 'list_issues'
-    assert_not_nil assigns(:issues)
-  end
-  
-  def test_export_issues_csv
-    get :export_issues_csv, :id => 1
-    assert_response :success
-    assert_not_nil assigns(:issues)
-  end
-  
   def test_bulk_edit_issues
     @request.session[:user_id] = 2
     # update issues priority
@@ -150,7 +123,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'add_issue'
     post :add_issue, :id => 1, :issue => {:tracker_id => 1, :subject => 'This is the test_add_issue issue', :description => 'This is the description', :priority_id => 5}
-    assert_redirected_to 'projects/list_issues'
+    assert_redirected_to 'projects/1/issues'
     assert Issue.find_by_subject('This is the test_add_issue issue')
   end
   

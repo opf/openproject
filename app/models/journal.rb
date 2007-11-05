@@ -29,6 +29,10 @@ class Journal < ActiveRecord::Base
                      :project_key => "#{Issue.table_name}.project_id",
                      :date_column => "#{Issue.table_name}.created_on"
   
+  acts_as_event :title => Proc.new {|o| "#{o.issue.tracker.name} ##{o.issue.id}: #{o.issue.subject}"},
+                :description => :notes,
+                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id}}
+
   def save
     # Do not save an empty journal
     (details.empty? && notes.blank?) ? false : super

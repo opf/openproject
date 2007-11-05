@@ -39,7 +39,7 @@ class QueriesController < ApplicationController
     
     if request.post? && params[:confirm] && @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :controller => 'projects', :action => 'list_issues', :id => @project, :query_id => @query
+      redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
       return
     end
     render :layout => false if request.xhr?
@@ -57,7 +57,7 @@ class QueriesController < ApplicationController
       
       if @query.save
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :controller => 'projects', :action => 'list_issues', :id => @project, :query_id => @query
+        redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
       end
     end
   end

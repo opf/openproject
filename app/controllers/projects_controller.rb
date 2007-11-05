@@ -15,8 +15,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'csv'
-
 class ProjectsController < ApplicationController
   layout 'base'
   before_filter :find_project, :except => [ :index, :list, :add ]
@@ -238,118 +236,13 @@ class ProjectsController < ApplicationController
         end
         flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-        redirect_to :action => 'list_issues', :id => @project
+        redirect_to :controller => 'issues', :action => 'index', :project_id => @project
         return
       end		
     end	
     @priorities = Enumeration::get_values('IPRI')
   end
 
-  # Show filtered/sorted issues list of @project
-  def list_issues
-    sort_init "#{Issue.table_name}.id", "desc"
-    sort_update
-
-    retrieve_query
-
-    @results_per_page_options = [ 15, 25, 50, 100 ]
-    if params[:per_page] and @results_per_page_options.include? params[:per_page].to_i
-      @results_per_page = params[:per_page].to_i
-      session[:results_per_page] = @results_per_page
-    else
-      @results_per_page = session[:results_per_page] || 25
-    end
-
-    if @query.valid?
-      @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)		
-      @issue_pages = Paginator.new self, @issue_count, @results_per_page, params['page']								
-      @issues = Issue.find :all, :order => sort_clause,
-  						:include => [ :assigned_to, :status, :tracker, :project, :priority, :category ],
-  						:conditions => @query.statement,
-  						:limit  =>  @issue_pages.items_per_page,
-  						:offset =>  @issue_pages.current.offset						
-    end
-    
-    render :layout => false if request.xhr?
-  end
-
-  # Export filtered/sorted issues list to CSV
-  def export_issues_csv
-    sort_init "#{Issue.table_name}.id", "desc"
-    sort_update
-
-    retrieve_query
-    render :action => 'list_issues' and return unless @query.valid?
-					
-    @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :assigned_to, :author, :status, :tracker, :priority, :project, {:custom_values => :custom_field} ],
-						:conditions => @query.statement,
-						:limit => Setting.issues_export_limit.to_i
-
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
-    export = StringIO.new
-    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
-      # csv header fields
-      headers = [ "#", l(:field_status), 
-                       l(:field_project),
-                       l(:field_tracker),
-                       l(:field_priority),
-                       l(:field_subject),
-                       l(:field_assigned_to),
-                       l(:field_author),
-                       l(:field_start_date),
-                       l(:field_due_date),
-                       l(:field_done_ratio),
-                       l(:field_created_on),
-                       l(:field_updated_on)
-                       ]
-      for custom_field in @project.all_custom_fields
-        headers << custom_field.name
-      end      
-      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
-      # csv lines
-      @issues.each do |issue|
-        fields = [issue.id, issue.status.name, 
-                            issue.project.name,
-                            issue.tracker.name, 
-                            issue.priority.name,
-                            issue.subject,
-                            (issue.assigned_to ? issue.assigned_to.name : ""),
-                            issue.author.name,
-                            issue.start_date ? l_date(issue.start_date) : nil,
-                            issue.due_date ? l_date(issue.due_date) : nil,
-                            issue.done_ratio,
-                            l_datetime(issue.created_on),  
-                            l_datetime(issue.updated_on)
-                            ]
-        for custom_field in @project.all_custom_fields
-          fields << (show_value issue.custom_value_for(custom_field))
-        end
-        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
-      end
-    end
-    export.rewind
-    send_data(export.read, :type => 'text/csv; header=present', :filename => 'export.csv')
-  end
-  
-  # Export filtered/sorted issues to PDF
-  def export_issues_pdf
-    sort_init "#{Issue.table_name}.id", "desc"
-    sort_update
-
-    retrieve_query
-    render :action => 'list_issues' and return unless @query.valid?
-					
-    @issues =  Issue.find :all, :order => sort_clause,
-						:include => [ :author, :status, :tracker, :priority, :project ],
-						:conditions => @query.statement,
-						:limit => Setting.issues_export_limit.to_i
-											
-    @options_for_rfpdf ||= {}
-    @options_for_rfpdf[:file_name] = "export.pdf"
-    render :layout => false
-  end
-  
   # Bulk edit issues
   def bulk_edit_issues
     if request.post?
@@ -383,7 +276,7 @@ class ProjectsController < ApplicationController
       else
         flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, issues.size, '#' + unsaved_issue_ids.join(', #'))
       end
-      redirect_to :action => 'list_issues', :id => @project
+      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
       return
     end
     if current_role && User.current.allowed_to?(:change_issue_status, @project)
@@ -399,7 +292,7 @@ class ProjectsController < ApplicationController
 
   def move_issues
     @issues = @project.issues.find(params[:issue_ids]) if params[:issue_ids]
-    redirect_to :action => 'list_issues', :id => @project and return unless @issues
+    redirect_to :controller => 'issues', :action => 'index', :project_id => @project and return unless @issues
     @projects = []
     # find projects to which the user is allowed to move the issue
     User.current.memberships.each {|m| @projects << m.project if m.role.allowed_to?(:controller => 'projects', :action => 'move_issues')}
@@ -424,7 +317,7 @@ class ProjectsController < ApplicationController
         i.save
       end
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list_issues', :id => @project
+      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
     end
   end
 
@@ -658,32 +551,5 @@ private
     else
       @selected_tracker_ids = selectable_trackers.collect {|t| t.id.to_s }
     end
-  end
-  
-  # Retrieve query from session or build a new query
-  def retrieve_query
-    if params[:query_id]
-      @query = @project.queries.find(params[:query_id])
-      @query.executed_by = logged_in_user
-      session[:query] = @query
-    else
-      if params[:set_filter] or !session[:query] or session[:query].project_id != @project.id
-        # Give it a name, required to be valid
-        @query = Query.new(:name => "_", :executed_by => logged_in_user)
-        @query.project = @project
-        if params[:fields] and params[:fields].is_a? Array
-          params[:fields].each do |field|
-            @query.add_filter(field, params[:operators][field], params[:values][field])
-          end
-        else
-          @query.available_filters.keys.each do |field|
-            @query.add_short_filter(field, params[field]) if params[field]
-          end
-        end
-        session[:query] = @query
-      else
-        @query = session[:query]
-      end
-    end  
   end
 end

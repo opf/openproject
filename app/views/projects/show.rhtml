@@ -22,14 +22,14 @@
     <h3 class="icon22 icon22-tracker"><%=l(:label_issue_tracking)%></h3>
     <ul>
     <% for tracker in @trackers %>    
-      <li><%= link_to tracker.name, :controller => 'projects', :action => 'list_issues', :id => @project, 
+      <li><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
                                                 :set_filter => 1, 
                                                 "tracker_id" => tracker.id %>:
       <%= @open_issues_by_tracker[tracker] || 0 %> <%= lwr(:label_open_issues, @open_issues_by_tracker[tracker] || 0) %>
       <%= l(:label_on) %> <%= @total_issues_by_tracker[tracker] || 0 %></li>
     <% end %>
     </ul>
-    <p><%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'list_issues', :id => @project, :set_filter => 1 %></p>
+    <p><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 %></p>
   </div>
   <% end %>
 </div>

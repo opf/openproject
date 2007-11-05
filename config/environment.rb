@@ -77,7 +77,10 @@ ActiveRecord::Errors.default_error_messages = {
 }
 
 ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "#{html_tag}" }
-    
+
+Mime::Type.register 'text/csv', :csv
+Mime::Type.register 'application/pdf', :pdf
+
 GLoc.set_config :default_language => :en
 GLoc.clear_strings
 GLoc.set_kcode
