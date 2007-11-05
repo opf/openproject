@@ -46,11 +46,11 @@
 	</div>
 	<% end %>
     
-  <% if @news.any? && authorize_for('projects', 'list_news') %>
+  <% if @news.any? && authorize_for('news', 'index') %>
   <div class="box">
     <h3><%=l(:label_news_latest)%></h3>  
     <%= render :partial => 'news/news', :collection => @news %>
-    <p><%= link_to l(:label_news_view_all), :controller => 'projects', :action => 'list_news', :id => @project %></p>
+    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
   </div>  
   <% end %>
 </div>

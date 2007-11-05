@@ -16,51 +16,33 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.dirname(__FILE__) + '/../test_helper'
-require 'feeds_controller'
+require 'news_controller'
 
 # Re-raise errors caught by the controller.
-class FeedsController; def rescue_action(e) raise e end; end
+class NewsController; def rescue_action(e) raise e end; end
 
-class FeedsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :members, :roles
-
+class NewsControllerTest < Test::Unit::TestCase
+  fixtures :projects, :users, :roles, :members, :enabled_modules
+  
   def setup
-    @controller = FeedsController.new
+    @controller = NewsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    User.current = nil
+  end
+  
+  def test_index
+    get :index
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:newss)
+    assert_nil assigns(:project)
   end
 
-  def test_news
-    get :news
+  def test_index_with_project
+    get :index, :project_id => 1
     assert_response :success
-    assert_template 'news'
-    assert_not_nil assigns(:news)
-  end
-  
-  def test_issues
-    get :issues
-    assert_response :success
-    assert_template 'issues'
-    assert_not_nil assigns(:issues)
-  end
-  
-  def test_history
-    get :history
-    assert_response :success
-    assert_template 'history'
-    assert_not_nil assigns(:journals)
-  end
-  
-  def test_project_privacy
-    get :news, :project_id => 2
-    assert_response 403
-  end
-  
-  def test_rss_key
-    user = User.find(2)
-    key = user.rss_key
-    
-    get :news, :project_id => 2, :key => key
-    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:newss)
   end
 end

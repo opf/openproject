@@ -1,17 +1,17 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:label_news_new),
+<%= link_to_if_authorized(l(:label_news_new),
                           {:controller => 'projects', :action => 'add_news', :id => @project},
                           :class => 'icon icon-add',
-                          :onclick => 'Element.show("add-news"); return false;' %>
+                          :onclick => 'Element.show("add-news"); return false;') if @project %>
 </div>
 
 <div id="add-news" style="display:none;">
 <h2><%=l(:label_news_new)%></h2>
-<% labelled_tabular_form_for :news, @news, :url => { :action => "add_news", :id => @project } do |f| %>
+<% labelled_tabular_form_for :news, @news, :url => { :controller => 'projects', :action => "add_news", :id => @project } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_create) %>
 <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-news")' %>
-<% end %>
+<% end if @project %>
 </div>
 
 <h2><%=l(:label_news_plural)%></h2>
@@ -20,7 +20,8 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
 <% @newss.each do |news| %>
-    <h3><%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
+    <h3><%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless news.project == @project %>
+    <%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
     <%= "(#{news.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if news.comments_count > 0 %></h3>
     <p class="author"><%= authoring news.created_on, news.author %></p>
     <%= textilizable(news.description) %>

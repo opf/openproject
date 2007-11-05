@@ -17,8 +17,22 @@
 
 class NewsController < ApplicationController
   layout 'base'
-  before_filter :find_project, :authorize
-
+  before_filter :find_project, :authorize, :except => :index
+  before_filter :find_optional_project, :only => :index
+  accept_key_auth :index
+  
+  def index
+    @news_pages, @newss = paginate :news,
+                                   :per_page => 10,
+                                   :conditions => (@project ? {:project_id => @project.id} : Project.visible_by(User.current)),
+                                   :include => [:author, :project],
+                                   :order => "#{News.table_name}.created_on DESC"    
+    respond_to do |format|
+      format.html { render :layout => false if request.xhr? }
+      format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
+    end
+  end
+  
   def show
   end
 
@@ -47,7 +61,7 @@ class NewsController < ApplicationController
 
   def destroy
     @news.destroy
-    redirect_to :controller => 'projects', :action => 'list_news', :id => @project
+    redirect_to :action => 'index', :project_id => @project
   end
   
 private
@@ -56,5 +70,13 @@ private
     @project = @news.project
   rescue ActiveRecord::RecordNotFound
     render_404
-  end  
+  end
+  
+  def find_optional_project
+    return true unless params[:project_id]
+    @project = Project.find(params[:project_id])
+    authorize
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
 end

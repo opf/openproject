@@ -330,18 +330,8 @@ class ProjectsController < ApplicationController
       if @news.save
         flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_news_added(@news) if Setting.notified_events.include?('news_added')
-        redirect_to :action => 'list_news', :id => @project
+        redirect_to :controller => 'news', :action => 'index', :project_id => @project
       end
-    end
-  end
-
-  # Show news list of @project
-  def list_news
-    @news_pages, @newss = paginate :news, :per_page => 10, :conditions => ["project_id=?", @project.id], :include => :author, :order => "#{News.table_name}.created_on DESC"
-    
-    respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
-      format.atom { render_feed(@newss, :title => "#{@project.name}: #{l(:label_news_plural)}") }
     end
   end
 

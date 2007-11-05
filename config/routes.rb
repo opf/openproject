@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect 'issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
   map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
+  map.connect 'projects/:project_id/news/:action', :controller => 'news'
   map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
   map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
 

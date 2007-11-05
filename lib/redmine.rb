@@ -52,7 +52,7 @@ Redmine::AccessControl.map do |map|
   
   map.project_module :news do |map|
     map.permission :manage_news, {:projects => :add_news, :news => [:edit, :destroy, :destroy_comment]}, :require => :member
-    map.permission :view_news, {:projects => :list_news, :news => :show}, :public => true
+    map.permission :view_news, {:news => [:index, :show]}, :public => true
     map.permission :comment_news, {:news => :add_comment}, :require => :loggedin
   end
 
@@ -93,7 +93,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :label_activity, :controller => 'projects', :action => 'activity'
   menu.push :label_roadmap, :controller => 'projects', :action => 'roadmap'
   menu.push :label_issue_plural, { :controller => 'issues', :action => 'index' }, :param => :project_id
-  menu.push :label_news_plural, :controller => 'projects', :action => 'list_news'
+  menu.push :label_news_plural, { :controller => 'news', :action => 'index' }, :param => :project_id
   menu.push :label_document_plural, :controller => 'projects', :action => 'list_documents'
   menu.push :label_wiki, { :controller => 'wiki', :action => 'index', :page => nil }, :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
   menu.push :label_board_plural, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :if => Proc.new { |p| p.boards.any? }

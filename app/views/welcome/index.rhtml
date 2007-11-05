@@ -2,10 +2,13 @@
 
 <div class="splitcontentleft">
   <%= textilizable Setting.welcome_text %>
+  <% if @news.any? %>
   <div class="box">
 	<h3><%=l(:label_news_latest)%></h3>
 		<%= render :partial => 'news/news', :collection => @news %>
-	</div>
+		<%= link_to l(:label_issue_view_all), :controller => 'news' %>
+  </div>
+  <% end %>
 </div>
 
 <div class="splitcontentright">

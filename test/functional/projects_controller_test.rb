@@ -67,13 +67,6 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_equal 'Bulk editing', Issue.find(1).journals.find(:first, :order => 'created_on DESC').notes
   end
 
-  def test_list_news
-    get :list_news, :id => 1
-    assert_response :success
-    assert_template 'list_news'
-    assert_not_nil assigns(:newss)
-  end
-
   def test_list_files
     get :list_files, :id => 1
     assert_response :success
