@@ -390,15 +390,16 @@ class ProjectsController < ApplicationController
       @date_to = @date_from >> 1
     end
     
-    @event_types = %w(issues news files documents wiki_pages changesets)
+    @event_types = %w(issues news files documents changesets wiki_pages messages)
     @event_types.delete('wiki_pages') unless @project.wiki
     @event_types.delete('changesets') unless @project.repository
+    @event_types.delete('messages') unless @project.boards.any?
     # only show what the user is allowed to view
     @event_types = @event_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, @project)}
     
     @scope = @event_types.select {|t| params["show_#{t}"]}
     # default events if none is specified in parameters
-    @scope = (@event_types - %w(wiki_pages))if @scope.empty?
+    @scope = (@event_types - %w(wiki_pages messages))if @scope.empty?
     
     @events = []    
     
@@ -434,6 +435,12 @@ class ProjectsController < ApplicationController
 
     if @scope.include?('changesets')
       @events += @project.repository.changesets.find(:all, :conditions => ["#{Changeset.table_name}.committed_on BETWEEN ? AND ?", @date_from, @date_to])
+    end
+    
+    if @scope.include?('messages')
+      @events += Message.find(:all, 
+                              :include => [:board, :author], 
+                              :conditions => ["#{Board.table_name}.project_id=? AND #{Message.table_name}.parent_id IS NULL AND #{Message.table_name}.created_on BETWEEN ? AND ?", @project.id, @date_from, @date_to])
     end
     
     @events_by_day = @events.group_by(&:event_date)
