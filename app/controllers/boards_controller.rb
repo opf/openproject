@@ -32,7 +32,6 @@ class BoardsController < ApplicationController
     if @boards.size == 1
       @board = @boards.first
       show
-      render :action => 'show'
     end
   end
 
@@ -46,7 +45,7 @@ class BoardsController < ApplicationController
                                   :include => [:author, {:last_reply => :author}],
                                   :limit  =>  @topic_pages.items_per_page,
                                   :offset =>  @topic_pages.current.offset
-    render :action => 'show', :layout => false if request.xhr?
+    render :action => 'show', :layout => !request.xhr?
   end
   
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :index }
