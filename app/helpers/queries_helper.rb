@@ -22,24 +22,25 @@ module QueriesHelper
   end
   
   def column_header(column)
-    if column.sortable
-      sort_header_tag(column.sortable, :caption => l("field_#{column.name}"))
-    else
-      content_tag('th', l("field_#{column.name}"))
-    end
+    column.sortable ? sort_header_tag(column.sortable, :caption => column.caption) : content_tag('th', column.caption)
   end
   
   def column_content(column, issue)
-    value = issue.send(column.name)
-    if value.is_a?(Date)
-      format_date(value)
-    elsif value.is_a?(Time)
-      format_time(value)
-    elsif column.name == :subject
-      ((@project.nil? || @project != issue.project) ? "#{issue.project.name} - " : '') +
-        link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
+    if column.is_a?(QueryCustomFieldColumn)
+      cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
+      show_value(cv)
     else
-      h(value)
+      value = issue.send(column.name)
+      if value.is_a?(Date)
+        format_date(value)
+      elsif value.is_a?(Time)
+        format_time(value)
+      elsif column.name == :subject
+        ((@project.nil? || @project != issue.project) ? "#{issue.project.name} - " : '') +
+          link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
+      else
+        h(value)
+      end
     end
   end
 end

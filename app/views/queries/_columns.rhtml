@@ -5,7 +5,7 @@
 <table margin=0>
 	<tr>
 		<td><%= select_tag 'available_columns',
-		          options_for_select((query.available_columns - query.columns).collect {|column| [l("field_#{column.name}"), column.name]}),
+		          options_for_select((query.available_columns - query.columns).collect {|column| [column.caption, column.name]}),
 		          :multiple => true, :size => 10, :style => "width:150px" %>
 		</td>
 		<td align="center" valign="middle">
@@ -15,7 +15,7 @@
 			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
 		</td>
 		<td><%= select_tag 'query[column_names][]',
-		          options_for_select(@query.columns.collect {|column| [l("field_#{column.name}"), column.name]}),
+		          options_for_select(@query.columns.collect {|column| [column.caption, column.name]}),
 		          :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
 		</td>
 	</tr>

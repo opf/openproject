@@ -61,9 +61,9 @@
 
 <fieldset class="box"><legend><%= l(:setting_issue_list_default_columns) %></legend>
 <%= hidden_field_tag 'settings[issue_list_default_columns][]', '' %>
-<p><% Query.available_columns.each do |column| %>
+<p><% Query.new.available_columns.each do |column| %>
   <label><%= check_box_tag 'settings[issue_list_default_columns][]', column.name, Setting.issue_list_default_columns.include?(column.name.to_s) %>
-  <%= l("field_#{column.name}") %></label>
+  <%= column.caption %></label>
 <% end %></p>
 </fieldset>
 

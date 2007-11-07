@@ -17,13 +17,33 @@
 
 class QueryColumn  
   attr_accessor :name, :sortable
+  include GLoc
   
   def initialize(name, options={})
     self.name = name
     self.sortable = options[:sortable]
   end
   
-  def default?; default end
+  def caption
+    l("field_#{name}")
+  end
+end
+
+class QueryCustomFieldColumn < QueryColumn
+
+  def initialize(custom_field)
+    self.name = "cf_#{custom_field.id}".to_sym
+    self.sortable = false
+    @cf = custom_field
+  end
+  
+  def caption
+    @cf.name
+  end
+  
+  def custom_field
+    @cf
+  end
 end
 
 class Query < ActiveRecord::Base
@@ -203,7 +223,12 @@ class Query < ActiveRecord::Base
   end
 
   def available_columns
-    cols = Query.available_columns
+    return @available_columns if @available_columns
+    @available_columns = Query.available_columns
+    @available_columns += (project ? 
+                            project.custom_fields :
+                            IssueCustomField.find(:all, :conditions => {:is_for_all => true})
+                           ).collect {|cf| QueryCustomFieldColumn.new(cf) }      
   end
   
   def columns
