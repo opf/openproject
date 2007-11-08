@@ -75,7 +75,17 @@ class Project < ActiveRecord::Base
       yield
     end 
   end
-  
+
+  # Return all issues status changes for the project between the 2 given dates
+  def issues_status_changes(from, to)
+    Journal.find(:all, :include => [:issue, :details, :user],
+                       :conditions => ["#{Journal.table_name}.journalized_type = 'Issue'" +
+                                       " AND #{Issue.table_name}.project_id = ?" +
+                                       " AND #{JournalDetail.table_name}.prop_key = 'status_id'" +
+                                       " AND #{Journal.table_name}.created_on BETWEEN ? AND ?",
+                                       id, from, to+1])
+  end
+
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)

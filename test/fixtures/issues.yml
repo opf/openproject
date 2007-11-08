@@ -1,8 +1,8 @@
 --- 
 issues_001: 
-  created_on: 2006-07-19 21:02:17 +02:00
+  created_on: <%= 3.days.ago.to_date.to_s(:db) %>
   project_id: 1
-  updated_on: 2006-07-19 21:04:30 +02:00
+  updated_on: <%= 1.day.ago.to_date.to_s(:db) %>
   priority_id: 4
   subject: Can't print recipes
   id: 1

@@ -29,12 +29,19 @@ class Journal < ActiveRecord::Base
                      :project_key => "#{Issue.table_name}.project_id",
                      :date_column => "#{Issue.table_name}.created_on"
   
-  acts_as_event :title => Proc.new {|o| "#{o.issue.tracker.name} ##{o.issue.id}: #{o.issue.subject}"},
+  acts_as_event :title => Proc.new {|o| "#{o.issue.tracker.name} ##{o.issue.id}: #{o.issue.subject}" + ((s = o.new_status) ? " (#{s})" : '') },
                 :description => :notes,
+                :author => :user,
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id}}
 
   def save
     # Do not save an empty journal
     (details.empty? && notes.blank?) ? false : super
+  end
+  
+  # Returns the new status if the journal contains a status change, otherwise nil
+  def new_status
+    c = details.detect {|detail| detail.prop_key == 'status_id'}
+    (c && c.value) ? IssueStatus.find_by_id(c.value.to_i) : nil
   end
 end

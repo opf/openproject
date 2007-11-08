@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ProjectTest < Test::Unit::TestCase
-  fixtures :projects
+  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details
 
   def setup
     @ecookbook = Project.find(1)
@@ -103,5 +103,14 @@ class ProjectTest < Test::Unit::TestCase
     sub = @ecookbook
     sub.parent = Project.find(2)
     assert !sub.save
+  end
+
+  def test_issues_status_changes
+    journals = @ecookbook.issues_status_changes 3.days.ago.to_date, Date.today
+    assert_equal 1, journals.size
+    assert_kind_of Journal, journals.first
+    
+    journals = @ecookbook.issues_status_changes 30.days.ago.to_date, 10.days.ago.to_date
+    assert_equal 0, journals.size
   end
 end

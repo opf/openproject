@@ -405,6 +405,7 @@ class ProjectsController < ApplicationController
     
     if @scope.include?('issues')
       @events += @project.issues.find(:all, :include => [:author, :tracker], :conditions => ["#{Issue.table_name}.created_on>=? and #{Issue.table_name}.created_on<=?", @date_from, @date_to] )
+      @events += @project.issues_status_changes(@date_from, @date_to)
     end
     
     if @scope.include?('news')

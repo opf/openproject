@@ -22,7 +22,7 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :roles, :members, :issues, :enabled_modules, :enumerations
+  fixtures :projects, :users, :roles, :members, :issues, :journals, :journal_details, :trackers, :issue_statuses, :enabled_modules, :enumerations
 
   def setup
     @controller = ProjectsController.new
@@ -93,6 +93,24 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'activity'
     assert_not_nil assigns(:events_by_day)
+    
+    assert_tag :tag => "h3", 
+               :content => /#{2.days.ago.to_date.day}/,
+               :sibling => { :tag => "ul",
+                 :child => { :tag => "li",
+                   :child => { :tag => "p",
+                     :content => /(#{IssueStatus.find(2).name})/,
+                   }
+                 }
+               }
+    assert_tag :tag => "h3", 
+               :content => /#{3.day.ago.to_date.day}/,
+               :sibling => { :tag => "ul",                 :child => { :tag => "li",
+                   :child => { :tag => "p",
+                     :content => /#{Issue.find(1).subject}/,
+                   }
+                 }
+               }
   end
   
   def test_archive    

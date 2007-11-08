@@ -1,6 +1,6 @@
 --- 
 journals_001: 
-  created_on: 2007-01-26 19:58:40 +01:00
+  created_on: <%= 2.days.ago.to_date.to_s(:db) %>
   notes: "Journal notes"
   id: 1
   journalized_type: Issue
