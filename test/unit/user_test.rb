@@ -116,10 +116,10 @@ class UserTest < Test::Unit::TestCase
   
   def test_mail_notification_selected
     @jsmith.mail_notification = false
-    @jsmith.notified_project_ids = [@jsmith.projects.first.id]
+    @jsmith.notified_project_ids = [1]
     @jsmith.save
     @jsmith.reload
-    assert @jsmith.projects.first.recipients.include?(@jsmith.mail)
+    assert Project.find(1).recipients.include?(@jsmith.mail)
   end
   
   def test_mail_notification_none

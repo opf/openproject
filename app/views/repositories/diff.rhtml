@@ -8,7 +8,7 @@
     <% end %>
     <% end %>
   <p><label><%= l(:label_view_diff) %></label>
-  <%= select_tag 'type', options_for_select([[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], params[:type]), :onchange => "if (this.value != '') {this.form.submit()}" %></p>
+  <%= select_tag 'type', options_for_select([[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], @diff_type), :onchange => "if (this.value != '') {this.form.submit()}" %></p>
 <% end %>
 
 <div class="autoscroll">

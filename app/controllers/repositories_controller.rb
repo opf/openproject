@@ -106,7 +106,14 @@ class RepositoriesController < ApplicationController
   
   def diff
     @rev_to = params[:rev_to] ? params[:rev_to].to_i : (@rev - 1)
-    @diff_type = ('sbs' == params[:type]) ? 'sbs' : 'inline'
+    @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
+    @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
+    
+    # Save diff type as user preference
+    if User.current.logged? && @diff_type != User.current.pref[:diff_type]
+      User.current.pref[:diff_type] = @diff_type
+      User.current.preference.save
+    end
     
     @cache_key = "repositories/diff/#{@repository.id}/" + Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")    
     unless read_fragment(@cache_key)
