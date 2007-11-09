@@ -190,6 +190,9 @@ namespace :redmine do
       end
     
       def self.migrate
+        establish_connection({:adapter => trac_adapter, 
+                              :database => trac_db_path})
+
         # Quick database test before clearing Redmine data
         TracComponent.count
         
@@ -370,7 +373,7 @@ namespace :redmine do
       def self.limit_for(klass, attribute)
         klass.columns_hash[attribute.to_s].limit
       end
-    
+      
       def self.encoding(charset)
         @ic = Iconv.new('UTF-8', charset)
       rescue Iconv::InvalidEncoding
@@ -388,11 +391,17 @@ namespace :redmine do
         puts e
         return false
       end
-      
+
       def self.trac_directory
         @trac_directory
       end
+
+      def self.set_trac_adapter(adapter)
+        return false unless %w(sqlite sqlite3).include?(adapter)
+        @trac_adapter = adapter
+      end
       
+      def self.trac_adapter; @trac_adapter end
       def self.trac_db_path; "#{trac_directory}/db/trac.db" end
       def self.trac_attachments_directory; "#{trac_directory}/attachments" end
       
@@ -404,6 +413,8 @@ namespace :redmine do
                                 :description => identifier.humanize
           project.identifier = identifier
           puts "Unable to create a project with identifier '#{identifier}'!" unless project.save
+          # enable issues and wiki for the created project
+          project.enabled_module_names = ['issue_tracking', 'wiki']
         end        
         @target_project = project.new_record? ? nil : project
       end
@@ -441,12 +452,11 @@ namespace :redmine do
     end
     
     prompt('Trac directory') {|directory| TracMigrate.set_trac_directory directory}
+    prompt('Trac database adapter (sqlite, sqlite3)', :default => 'sqlite') {|adapter| TracMigrate.set_trac_adapter adapter}
     prompt('Trac database encoding', :default => 'UTF-8') {|encoding| TracMigrate.encoding encoding}
     prompt('Target project identifier') {|identifier| TracMigrate.target_project_identifier identifier}
     puts
     
-    TracMigrate.establish_connection({:adapter => 'sqlite', 
-                                      :database => "#{TracMigrate.trac_db_path}"})
     TracMigrate.migrate
   end
 end

@@ -2,7 +2,8 @@
     <h2><%=l(:label_issue_plural)%></h2>
     <% set_html_title l(:label_issue_plural) %>
     
-    <% form_tag({ :controller => 'queries', :action => 'new', :project_id => @project }, :id => 'query_form') do %>
+    <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
+    <%= hidden_field_tag('project_id', @project.id) if @project %>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     <div class="contextual">
     <%= link_to_remote l(:button_apply), 
