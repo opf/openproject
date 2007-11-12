@@ -70,4 +70,9 @@ class ApplicationHelperTest < HelperTestCase
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
+  
+  def test_macro_hello_world
+    text = "{{hello_world}}"
+    assert textilizable(text).match(/Hello world!/)
+  end
 end

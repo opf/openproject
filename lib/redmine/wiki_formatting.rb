@@ -1,13 +1,31 @@
+# redMine - project management software
+# Copyright (C) 2006-2007  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require 'redcloth'
 require 'coderay'
-require 'pp'
+
 module Redmine
   module WikiFormatting
   
   private
   
-    class TextileFormatter < RedCloth      
-      RULES = [:inline_auto_link, :inline_auto_mailto, :textile, :inline_toc]
+    class TextileFormatter < RedCloth
+      
+      RULES = [:inline_auto_link, :inline_auto_mailto, :textile, :inline_toc, :inline_macros]
       
       def initialize(*args)
         super
@@ -15,8 +33,9 @@ module Redmine
         self.no_span_caps=true
       end
       
-      def to_html
+      def to_html(*rules, &block)
         @toc = []
+        @macros_runner = block
         super(*RULES).to_s
       end
 
@@ -72,6 +91,25 @@ module Redmine
         end
       end
       
+      MACROS_RE = /
+                    \{\{                        # opening tag
+                    ([\w]+)                     # macro name
+                    (\(([^\}]*)\))?             # optional arguments
+                    \}\}                        # closing tag
+                  /x unless const_defined?(:MACROS_RE)
+      
+      def inline_macros(text)
+        text.gsub!(MACROS_RE) do
+          all, macro = $&, $1.downcase
+          args = ($3 || '').split(',').each(&:strip)
+          begin
+            @macros_runner.call(macro, args)
+          rescue => e
+            "<div class=\"flash error\">Error executing the <strong>#{macro}</strong> macro (#{e})</div>"
+          end || all
+        end
+      end
+      
       AUTO_LINK_RE = %r{
                         (                          # leading text
                           <\w+.*?>|                # leading HTML tag, or
@@ -115,8 +153,8 @@ module Redmine
     
   public
   
-    def self.to_html(text, options = {})
-      TextileFormatter.new(text).to_html    
+    def self.to_html(text, options = {}, &block)
+      TextileFormatter.new(text).to_html(&block)
     end
   end
 end

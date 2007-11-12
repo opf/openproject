@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module ApplicationHelper
+  include Redmine::WikiFormatting::Macros::Definitions
 
   def current_role
     @current_role ||= User.current.role_for_project(@project)
@@ -130,15 +131,28 @@ module ApplicationHelper
                 :preview => 'r',
                 :quick_search => 'f',
                 :search => '4',
-                }.freeze
+                }.freeze unless const_defined?(:ACCESSKEYS)
 
   def accesskey(s)
     ACCESSKEYS[s]
   end
 
-  # format text according to system settings
-  def textilizable(text, options = {})
-    return "" if text.blank?
+  # Formats text according to system settings.
+  # 2 ways to call this method:
+  # * with a String: textilizable(text, options)
+  # * with an object and one of its attribute: textilizable(issue, :description, options)
+  def textilizable(*args)
+    options = args.last.is_a?(Hash) ? args.pop : {}
+    case args.size
+    when 1
+      obj = nil
+      text = args.shift || ''
+    when 2
+      obj = args.shift
+      text = obj.send(args.shift)
+    else
+      raise ArgumentError, 'invalid arguments to textilizable'
+    end
 
     # when using an image link, try to use an attachment, if possible
     attachments = options[:attachments]
@@ -158,7 +172,8 @@ module ApplicationHelper
     end
     
     text = (Setting.text_formatting == 'textile') ?
-      Redmine::WikiFormatting.to_html(text) : simple_format(auto_link(h(text)))
+      Redmine::WikiFormatting.to_html(text) { |macro, args| exec_macro(macro, obj, args) } :
+      simple_format(auto_link(h(text)))
 
     # different methods for formatting wiki links
     case options[:wiki_links]
