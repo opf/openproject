@@ -39,7 +39,7 @@ class DocumentsController < ApplicationController
   def download
     @attachment = @document.attachments.find(params[:attachment_id])
     @attachment.increment_download
-    send_file @attachment.diskfile, :filename => @attachment.filename
+    send_file @attachment.diskfile, :filename => @attachment.filename, :type => @attachment.content_type
   rescue
     render_404
   end 
