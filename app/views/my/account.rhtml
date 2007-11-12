@@ -32,7 +32,7 @@
 <% end %></p>
 <p><em><%= l(:text_user_mail_option) %></em></p>
 <% end %>
-<p><label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %> I don't want to be notified of changes that I make myself.</label></p>
+<p><label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %> <%= l(:label_user_mail_no_self_notified) %></label></p>
 </div>
 </div>
 <% end %>

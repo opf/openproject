@@ -444,6 +444,7 @@ label_search_titles_only: Uniquement dans les titres
 label_user_mail_option_all: "Pour tous les événements de tous mes projets"
 label_user_mail_option_selected: "Pour tous les événements des projets sélectionnés..."
 label_user_mail_option_none: "Seulement pour ce que je surveille ou à quoi je participe"
+label_user_mail_no_self_notified: "Je ne veux pas être notifié des changements que j'effectue"
 
 button_login: Connexion
 button_submit: Soumettre

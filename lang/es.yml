@@ -539,3 +539,4 @@ button_copy: Copy
 mail_body_account_information_external: You can use your "%s" account to log into Redmine.
 mail_body_account_information: Your Redmine account information
 setting_protocol: Protocol
+label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"

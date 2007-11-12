@@ -444,6 +444,7 @@ label_search_titles_only: Search titles only
 label_user_mail_option_all: "For any event on all my projects"
 label_user_mail_option_selected: "For any event on the selected projects only..."
 label_user_mail_option_none: "Only for things I watch or I'm involved in"
+label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
 
 button_login: Login
 button_submit: Submit

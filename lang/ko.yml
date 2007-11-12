@@ -536,3 +536,4 @@ button_change_password: Change password
 label_nobody: nobody
 setting_protocol: Protocol
 mail_body_account_information: Your Redmine account information
+label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
