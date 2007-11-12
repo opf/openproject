@@ -36,7 +36,13 @@ class Project < ActiveRecord::Base
   has_one :repository, :dependent => :destroy
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
-  has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
+  # Custom field for the project issues
+  has_and_belongs_to_many :custom_fields, 
+                          :class_name => 'IssueCustomField',
+                          :order => "#{CustomField.table_name}.position",
+                          :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+                          :association_foreign_key => 'custom_field_id'
+                          
   acts_as_tree :order => "name", :counter_cache => true
 
   acts_as_searchable :columns => ['name', 'description'], :project_key => 'id'

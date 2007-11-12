@@ -56,15 +56,15 @@ class ProjectsController < ApplicationController
   
   # Add a new project
   def add
-    @custom_fields = IssueCustomField.find(:all)
+    @custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @root_projects = Project.find(:all, :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}")
     @project = Project.new(params[:project])
     @project.enabled_module_names = Redmine::AccessControl.available_project_modules
     if request.get?
-      @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project) }
+      @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project) }
     else
       @project.custom_fields = CustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
-      @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
+      @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
       @project.custom_values = @custom_values
       if @project.save
         @project.enabled_module_names = params[:enabled_modules]
@@ -76,7 +76,7 @@ class ProjectsController < ApplicationController
 	
   # Show @project
   def show
-    @custom_values = @project.custom_values.find(:all, :include => :custom_field)
+    @custom_values = @project.custom_values.find(:all, :include => :custom_field, :order => "#{CustomField.table_name}.position")
     @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
     @subprojects = @project.active_children
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
@@ -92,7 +92,7 @@ class ProjectsController < ApplicationController
     @custom_fields = IssueCustomField.find(:all)
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
-    @custom_values ||= ProjectCustomField.find(:all).collect { |x| @project.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
+    @custom_values ||= ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| @project.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
     @repository ||= @project.repository
     @wiki ||= @project.wiki
   end
@@ -102,7 +102,7 @@ class ProjectsController < ApplicationController
     if request.post?
       @project.custom_fields = IssueCustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
       if params[:custom_fields]
-        @custom_values = ProjectCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
+        @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
         @project.custom_values = @custom_values
       end
       @project.attributes = params[:project]

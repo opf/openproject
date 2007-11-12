@@ -52,13 +52,13 @@ class UsersController < ApplicationController
   def add
     if request.get?
       @user = User.new(:language => Setting.default_language)
-      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user) }
+      @custom_values = UserCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @user) }
     else
       @user = User.new(params[:user])
       @user.admin = params[:user][:admin] || false
       @user.login = params[:user][:login]
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
-      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
+      @custom_values = UserCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
       @user.custom_values = @custom_values			
       if @user.save
         Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
@@ -72,13 +72,13 @@ class UsersController < ApplicationController
   def edit
     @user = User.find(params[:id])
     if request.get?
-      @custom_values = UserCustomField.find(:all).collect { |x| @user.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
+      @custom_values = UserCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| @user.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
     else
       @user.admin = params[:user][:admin] if params[:user][:admin]
       @user.login = params[:user][:login] if params[:user][:login]
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless params[:password].nil? or params[:password].empty? or @user.auth_source_id
       if params[:custom_fields]
-        @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
+        @custom_values = UserCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
         @user.custom_values = @custom_values
       end
       if @user.update_attributes(params[:user])

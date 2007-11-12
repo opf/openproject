@@ -45,7 +45,7 @@ class CustomFieldsController < ApplicationController
     end  
     if request.post? and @custom_field.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'list', :tab => @custom_field.type
+      redirect_to :action => 'list', :tab => @custom_field.class.name
     end
     @trackers = Tracker.find(:all, :order => 'position')
   end
@@ -57,14 +57,29 @@ class CustomFieldsController < ApplicationController
         @custom_field.trackers = params[:tracker_ids] ? Tracker.find(params[:tracker_ids]) : []
       end
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list', :tab => @custom_field.type
+      redirect_to :action => 'list', :tab => @custom_field.class.name
     end
     @trackers = Tracker.find(:all, :order => 'position')
   end
 
+  def move
+    @custom_field = CustomField.find(params[:id])
+    case params[:position]
+    when 'highest'
+      @custom_field.move_to_top
+    when 'higher'
+      @custom_field.move_higher
+    when 'lower'
+      @custom_field.move_lower
+    when 'lowest'
+      @custom_field.move_to_bottom
+    end if params[:position]
+    redirect_to :action => 'list', :tab => @custom_field.class.name
+  end
+  
   def destroy
     @custom_field = CustomField.find(params[:id]).destroy
-    redirect_to :action => 'list', :tab => @custom_field.type
+    redirect_to :action => 'list', :tab => @custom_field.class.name
   rescue
     flash[:error] = "Unable to delete custom field"
     redirect_to :action => 'list'

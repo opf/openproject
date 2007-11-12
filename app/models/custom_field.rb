@@ -17,6 +17,7 @@
 
 class CustomField < ActiveRecord::Base
   has_many :custom_values, :dependent => :delete_all
+  acts_as_list :scope => 'type = \'#{self.class}\''
   serialize :possible_values
   
   FIELD_FORMATS = { "string" => { :name => :label_string, :order => 1 },
@@ -51,6 +52,10 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def <=>(field)
+    position <=> field.position
+  end
+  
   # to move in project_custom_field
   def self.for_all
     find(:all, :conditions => ["is_for_all=?", true])

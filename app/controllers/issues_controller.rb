@@ -80,7 +80,7 @@ class IssuesController < ApplicationController
   end
   
   def show
-    @custom_values = @issue.custom_values.find(:all, :include => :custom_field)
+    @custom_values = @issue.custom_values.find(:all, :include => :custom_field, :order => "#{CustomField.table_name}.position")
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
     @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
     respond_to do |format|
