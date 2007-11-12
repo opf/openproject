@@ -121,6 +121,14 @@ class Mailer < ActionMailer::Base
     default_url_options[:protocol] = Setting.protocol
   end
   
+  # Overrides the create_mail method to remove the current user from the recipients and cc
+  # if he doesn't want to receive notifications about what he does
+  def create_mail
+    recipients.delete(User.current.mail) if recipients && User.current.pref[:no_self_notified]
+    cc.delete(User.current.mail) if cc && User.current.pref[:no_self_notified]
+    super
+  end
+  
   # Renders a message with the corresponding layout
   def render_message(method_name, body)
     layout = method_name.match(%r{text\.html\.(rhtml|rxml)}) ? 'layout.text.html.rhtml' : 'layout.text.plain.rhtml'
