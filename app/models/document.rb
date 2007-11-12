@@ -22,6 +22,7 @@ class Document < ActiveRecord::Base
 
   acts_as_searchable :columns => ['title', 'description']
   acts_as_event :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},
+                :author => Proc.new {|o| (a = o.attachments.find(:first, :order => "#{Attachment.table_name}.created_on ASC")) ? a.author : nil },
                 :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}
 
   validates_presence_of :project, :title, :category
