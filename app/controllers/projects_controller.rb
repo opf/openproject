@@ -295,10 +295,15 @@ class ProjectsController < ApplicationController
     redirect_to :controller => 'issues', :action => 'index', :project_id => @project and return unless @issues
     @projects = []
     # find projects to which the user is allowed to move the issue
-    User.current.memberships.each {|m| @projects << m.project if m.role.allowed_to?(:controller => 'projects', :action => 'move_issues')}
+    if User.current.admin?
+      # admin is allowed to move issues to any active (visible) project
+      @projects = Project.find(:all, :conditions => Project.visible_by(User.current), :order => 'name')
+    else
+      User.current.memberships.each {|m| @projects << m.project if m.role.allowed_to?(:controller => 'projects', :action => 'move_issues')}
+    end
     # issue can be moved to any tracker
     @trackers = Tracker.find(:all)
-    if request.post? and params[:new_project_id] and params[:new_tracker_id]    
+    if request.post? && params[:new_project_id] && @projects.collect(&:id).include?(params[:new_project_id].to_i) && params[:new_tracker_id]    
       new_project = Project.find_by_id(params[:new_project_id])
       new_tracker = Tracker.find_by_id(params[:new_tracker_id])
       @issues.each do |i|

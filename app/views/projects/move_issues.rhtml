@@ -18,7 +18,7 @@
 <%= select_tag "new_project_id", options_from_collection_for_select(@projects, "id", "name", @project.id) %></p>
 
 <p><label for="new_tracker_id"><%=l(:field_tracker)%> :</label>
-<%= select_tag "new_tracker_id", '<option></option>' + options_from_collection_for_select(@trackers, "id", "name") %></p>
+<%= select_tag "new_tracker_id", "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, "id", "name") %></p>
 </div>
 <%= submit_tag l(:button_move) %>
 <% end %>
