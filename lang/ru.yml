@@ -1,0 +1,539 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: Январь,Февраль,Март,Апрель,Май,Июнь,Июль,Август,Сентябрь,Октябрь,Ноябрь,Декабрь
+actionview_datehelper_select_month_names_abbr: Янв,Фев,Мар,Апр,Май,Июн,Июл,Авг,Сен,Окт,Нояб,Дек
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 день
+actionview_datehelper_time_in_words_day_plural: %d дней(я)
+actionview_datehelper_time_in_words_hour_about: около часа
+actionview_datehelper_time_in_words_hour_about_plural: около %d часов
+actionview_datehelper_time_in_words_hour_about_single: около часа
+actionview_datehelper_time_in_words_minute: 1 минута
+actionview_datehelper_time_in_words_minute_half: полминуты
+actionview_datehelper_time_in_words_minute_less_than: менее минуты
+actionview_datehelper_time_in_words_minute_plural: %d минут(ы)
+actionview_datehelper_time_in_words_minute_single: 1 минута
+actionview_datehelper_time_in_words_second_less_than: менее секунды
+actionview_datehelper_time_in_words_second_less_than_plural: менее %d секунд
+actionview_instancetag_blank_option: Выберите
+
+activerecord_error_inclusion: нет в списке 
+activerecord_error_exclusion: зарезервировано 
+activerecord_error_invalid: неверное значение
+activerecord_error_confirmation: ошибка в подтверждении
+activerecord_error_accepted: необходимо принять
+activerecord_error_empty: необходимо заполнить 
+activerecord_error_blank: необходимо заполнить
+activerecord_error_too_long: слишком длинное значение
+activerecord_error_too_short: слишком короткое значение
+activerecord_error_wrong_length: не соответствует длине
+activerecord_error_taken: уже был принят
+activerecord_error_not_a_number: не является числом
+activerecord_error_not_a_date: дата недействительна
+activerecord_error_greater_than_start_date: должна быть позднее даты начала
+activerecord_error_not_same_project: не относятся к одному проекту
+activerecord_error_circular_dependency: Такая связь приведет к циклической зависимости
+
+general_fmt_age: %d г.
+general_fmt_age_plural: %d гг.
+general_fmt_date: %%m/%%d/%%Y
+general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: 'Нет'
+general_text_Yes: 'Да'
+general_text_no: 'Нет'
+general_text_yes: 'Да'
+general_lang_name: 'Russian (Русский)'
+general_csv_separator: ','
+general_csv_encoding: ISO-8859-1
+general_pdf_encoding: ISO-8859-1
+general_day_names: Понедельник,Вторник,Среда,Четверг,Пятница,Суббота,Воскресенье
+general_first_day_of_week: '7'
+
+notice_account_updated: Учетная запись успешно обновлена.
+notice_account_invalid_creditentials: Неправильное имя пользователя или пароль
+notice_account_password_updated: Пароль успешно обновлен.
+notice_account_wrong_password: Неверный пароль
+notice_account_register_done: Учетная запись успешно создана. Для активации Вашей учетной записи зайдите по ссылке, которая выслана вам по электронной почте.
+notice_account_unknown_email: Неизвестный пользователь.
+notice_can_t_change_password: Для данной учетной записи используется источник внешней аутентификации. Невозможно изменить пароль.
+notice_account_lost_email_sent: Вам отправлено письмо с инструкциями по выбору нового пароля.
+notice_account_activated: Ваша учетная запись активирована. Вы можете войти.
+notice_successful_create: Создание успешно завершено.
+notice_successful_update: Обновление успешно завершено.
+notice_successful_delete: Удаление успешно завершено.
+notice_successful_connection: Подключение успешно установлено.
+notice_file_not_found: Страница, на которую вы пытаетесь зайти, не существует или удалена.
+notice_locking_conflict: Информация обновлена другим пользователем.
+notice_scm_error: Записи и/или исправления нет в репозитории.
+notice_not_authorized: У вас нет прав для посещения данной страницы.
+notice_email_sent: Отправлено письмо %s
+notice_email_error: Во время отправки письма произошла ошибка (%s)
+notice_feeds_access_key_reseted: Ваш ключ доступа RSS был перезапущен.
+notice_failed_to_save_issues: "Не удалось сохранить %d пункт(ов)из %d выбранных: %s."
+notice_no_issue_selected: "Не выбрано ни одной задачи! Пожалуйста, отметьте задачи, которые вы хотите отредактировать."
+
+mail_subject_lost_password: Ваш Redmine пароль
+mail_body_lost_password: 'Для изменения Redmine пароля, зайдите по следующей ссылке:'
+mail_subject_register: Активация учетной записи Redmine
+mail_body_register: 'Для активации учетной записи Redmine, зайдите по следующей ссылке:'
+mail_body_account_information_external: Вы можете использовать вашу "%s" учетную запись для входа в Redmine.
+mail_body_account_information: Информация по Вашей учетной записи Redmine
+
+gui_validation_error: 1 ошибка
+gui_validation_error_plural: %d ошибки(ок)
+
+field_name: Имя
+field_description: Описание
+field_summary: Краткое описание
+field_is_required: Необходимо
+field_firstname: Имя
+field_lastname: Фамилия
+field_mail: Email
+field_filename: Файл
+field_filesize: Размер
+field_downloads: Загрузки
+field_author: Автор
+field_created_on: Создано
+field_updated_on: Обновлено
+field_field_format: Формат
+field_is_for_all: Для всех форматов
+field_possible_values: Возможные значения 
+field_regexp: Регулярное выражение
+field_min_length: Минимальная длина
+field_max_length: Максимальная длина
+field_value: Значение
+field_category: Категория
+field_title: Название
+field_project: Проект
+field_issue: Задача
+field_status: Статус
+field_notes: Примечания
+field_is_closed: Задача закрыта
+field_is_default: Значение по умолчанию
+field_tracker: Трекер
+field_subject: Тема
+field_due_date: Дата выполнения
+field_assigned_to: Назначена
+field_priority: Приоритет
+field_fixed_version: Фиксированная версия
+field_user: Пользователь
+field_role: Роль
+field_homepage: Стартовая страница
+field_is_public: Публичный
+field_parent: Подпроект 
+field_is_in_chlog: Задачи, отображаемые в журнале изменений
+field_is_in_roadmap: Задачи, отображаемые в оперативном плане
+field_login: Вход
+field_mail_notification: Уведомления по Email
+field_admin: Администратор
+field_last_login_on: Последнее подключение
+field_language: Язык
+field_effective_date: Дата
+field_password: Пароль
+field_new_password: Новый пароль
+field_password_confirmation: Подтверждение
+field_version: Версия
+field_type: Тип
+field_host: Компьютер
+field_port: Порт
+field_account: Учетная запись
+field_base_dn: Базовое отличительное имя
+field_attr_login: Атрибут Регистрация
+field_attr_firstname: Атрибут Имя
+field_attr_lastname: Атрибут Фамилия
+field_attr_mail: Атрибут Email
+field_onthefly: Создание пользователя на лету
+field_start_date: Начало
+field_done_ratio: %% Готовности
+field_auth_source: Режим аутентификации
+field_hide_mail: Скрывать мой email адрес
+field_comments: Комментарий
+field_url: URL
+field_start_page: Стартовая страница
+field_subproject: Подпроект
+field_hours: Часы
+field_activity: Деятельность
+field_spent_on: Дата
+field_identifier: Признак
+field_is_filter: Используется в качестве фильтра
+field_issue_to_id: Относящиеся задачи
+field_delay: Отложить
+field_assignable: Задача может быть назначена этой роли
+field_redirect_existing_links: Перенаправить существующие ссылки
+field_estimated_hours: Оцененное время
+field_column_names: Колонки
+
+setting_app_title: Название приложения
+setting_app_subtitle: Подзаголовок приложения 
+setting_welcome_text: Текст приветствия
+setting_default_language: Язык по умолчанию
+setting_login_required: Необходима аутентификация
+setting_self_registration: Возможна само-регистрация
+setting_attachment_max_size: Максимальный размер вложения
+setting_issues_export_limit: Ограничение по экспортируемым задачам
+setting_mail_from: email адрес для передачи информации
+setting_host_name: Имя компьютера
+setting_text_formatting: Форматирование текста
+setting_wiki_compression: Сжатие истории Wiki
+setting_feeds_limit: Ограничения вводимого содержания
+setting_autofetch_changesets: Autofetch коммиты
+setting_sys_api_enabled: Разрешить WS для управления репозиторием
+setting_commit_ref_keywords: Ключевые слова для поиска
+setting_commit_fix_keywords: Назначение ключевых слов
+setting_autologin: Автоматический вход
+setting_date_format: Формат даты
+setting_cross_project_issue_relations: Разрешить пересечение задач по проектам
+setting_issue_list_default_columns: Колонки, отображаемые в списке задач по умолчанию
+setting_repositories_encodings: Кодировки репозитория
+setting_emails_footer: Подстрочные примечания Emailов
+setting_protocol: Протокол
+
+label_user: Пользователь
+label_user_plural: Пользователи
+label_user_new: Новый пользователь
+label_project: Проект
+label_project_new: Новый проект
+label_project_plural: Проекты
+label_project_all: Все проекты
+label_project_latest: Последние проекты
+label_issue: Задача
+label_issue_new: Новая задача
+label_issue_plural: Задачи
+label_issue_view_all: Просмотреть все задачи
+label_document: Документ
+label_document_new: Новый документ
+label_document_plural: Документы
+label_role: Роль
+label_role_plural: Роли
+label_role_new: Новая роль
+label_role_and_permissions: Роли и права доступа
+label_member: Участник
+label_member_new: Новый участник
+label_member_plural: Участники
+label_tracker: Трекер
+label_tracker_plural: Трекеры
+label_tracker_new: Новый трекер
+label_workflow: Последовательность действий
+label_issue_status: Статус задачи
+label_issue_status_plural: Статусы задачи
+label_issue_status_new: Новый статус
+label_issue_category: Категория задачи
+label_issue_category_plural: Категории задачи
+label_issue_category_new: Новая категория
+label_custom_field: Поле клиента
+label_custom_field_plural: Поля клиента
+label_custom_field_new: Новое поле клиента
+label_enumerations: Справочники
+label_enumeration_new: Новое значение
+label_information: Информация
+label_information_plural: Информация
+label_please_login: Пожалуйста, войдите.
+label_register: Зарегистрироваться
+label_password_lost: Забыли пароль 
+label_home: Домашняя страница
+label_my_page: Моя страница
+label_my_account: Моя учетная запись
+label_my_projects: Мои проекты
+label_administration: Администрирование
+label_login: Войти
+label_logout: Выйти
+label_help: Помощь
+label_reported_issues: Задачи, по которым предоставлен отчет
+label_assigned_to_me_issues: Мои задачи
+label_last_login: Последнее подключение
+label_last_updates: Последнее обновление
+label_last_updates_plural: %d последние обновления
+label_registered_on: Зарегистрировано на 
+label_activity: Активность
+label_new: Новый
+label_logged_as: Вошел как
+label_environment: Окружение
+label_authentication: Аутентификация
+label_auth_source: Режим аутентификации
+label_auth_source_new: Новый режим аутентификации
+label_auth_source_plural: Режимы аутентификации
+label_subproject_plural: Подпроекты
+label_min_max_length: Min - Максимальная длина
+label_list: Список
+label_date: Дата
+label_integer: Целый
+label_float: Свободный
+label_boolean: Логический
+label_string: Текст
+label_text: Длинный текст
+label_attribute: Атрибут
+label_attribute_plural: атрибуты
+label_download: %d Загружено
+label_download_plural: %d Загрузок
+label_no_data: Нет данных для отображения
+label_change_status: Изменить статус
+label_history: История
+label_attachment: Файл
+label_attachment_new: Новый файл
+label_attachment_delete: Удалить файл
+label_attachment_plural: Файлы
+label_report: Отчет
+label_report_plural: Отчеты
+label_news: Новости
+label_news_new: Добавить новость
+label_news_plural: Новости
+label_news_latest: Последние новости
+label_news_view_all: Посмотреть все новости
+label_change_log: Журнал изменений
+label_settings: Настройки
+label_overview: Просмотр
+label_version: Версия
+label_version_new: Новая версия
+label_version_plural: Версии
+label_confirmation: Подтверждение
+label_export_to: Экспортировать в
+label_read: Чтение...
+label_public_projects: Общие проекты
+label_open_issues: открытый
+label_open_issues_plural: открытые
+label_closed_issues: закрытый
+label_closed_issues_plural: закрытые
+label_total: Всего
+label_permissions: Права доступа
+label_current_status: Текущий статус
+label_new_statuses_allowed: Разрешены новые статусы
+label_all: Все
+label_none: Никому
+label_nobody: Никто
+label_next: Следующий
+label_previous: Предыдущий
+label_used_by: Используется
+label_details: Подробности
+label_add_note: Добавить замечание
+label_per_page: На страницу
+label_calendar: Календарь
+label_months_from: месяцев(ца) с
+label_gantt: Диаграмма Гантта
+label_internal: Внутренний
+label_last_changes: менее %d изменений
+label_change_view_all: Просмотреть все изменения
+label_personalize_page: Персонализировать данную страницу
+label_comment: Комментировать
+label_comment_plural: Комментарии
+label_comment_add: Оставить комментарий
+label_comment_added: Добавленный комментарий
+label_comment_delete: Удалить комментарии
+label_query: Запрос клиента
+label_query_plural: Запросы клиентов
+label_query_new: Новый запрос
+label_filter_add: Добавить фильтр
+label_filter_plural: Фильтры
+label_equals: есть
+label_not_equals: нет
+label_in_less_than: менее чем
+label_in_more_than: более чем
+label_in: в
+label_today: сегодня
+label_this_week: на этой неделе
+label_less_than_ago: менее чем дней(я) назад 
+label_more_than_ago: более чем дней(я) назад 
+label_ago: дней(я) назад
+label_contains: содержит
+label_not_contains: не содержит
+label_day_plural: дней(я)
+label_repository: Репозиторий
+label_browse: Искать
+label_modification: %d изменение
+label_modification_plural: %d изменений
+label_revision: Версия
+label_revision_plural: Версии
+label_added: добавлено
+label_modified: изменено
+label_deleted: удалено
+label_latest_revision: Последняя версия
+label_latest_revision_plural: Последние версии
+label_view_revisions: Просмотреть версии
+label_max_size: Максимальный размер
+label_on: 'из'
+label_sort_highest: В начало
+label_sort_higher: Вверх
+label_sort_lower: Вниз
+label_sort_lowest: В конец
+label_roadmap: Оперативный план
+label_roadmap_due_in: Вовремя 
+label_roadmap_overdue: %s опоздание
+label_roadmap_no_issues: Нет задач для данной версии
+label_search: Поиск
+label_result_plural: Результаты
+label_all_words: Все слова
+label_wiki: Wiki
+label_wiki_edit: Редактирование Wiki
+label_wiki_edit_plural: Редактирования Wiki
+label_wiki_page: Страница Wiki
+label_wiki_page_plural: Страницы Wiki
+label_index_by_title: Индекс по названию
+label_index_by_date: Индекс по дате
+label_current_version: Текущая версия
+label_preview: Предварительный просмотр
+label_feed_plural: Вводы
+label_changes_details: Подробности по всем изменениям
+label_issue_tracking: Ситуация по задачам
+label_spent_time: Затраченное время
+label_f_hour: %.2f час
+label_f_hour_plural: %.2f часов(а)
+label_time_tracking: Учет времени
+label_change_plural: Изменения
+label_statistics: Статистика
+label_commits_per_month: Коммиты на месяц
+label_commits_per_author: Коммиты на пользователя
+label_view_diff: Просмотреть отличия
+label_diff_inline: подключенный
+label_diff_side_by_side: рядом
+label_options: Опции
+label_copy_workflow_from: Скопировать последовательность действий из 
+label_permissions_report: Отчет о правах доступа
+label_watched_issues: Просмотренные задачи 
+label_related_issues: Относящиеся задачи
+label_applied_status: Применимый статус
+label_loading: Загрузка...
+label_relation_new: Новое отношение
+label_relation_delete: Удалить отношение
+label_relates_to: относится к
+label_duplicates: дубликаты
+label_blocks: блоки 
+label_blocked_by: заблокировано 
+label_precedes: предыдущий
+label_follows: следующий
+label_end_to_start: с конца к началу
+label_end_to_end: с конца к концу
+label_start_to_start: с начала к началу
+label_start_to_end: с начала к концу
+label_stay_logged_in: Оставаться в системе 
+label_disabled: отключен
+label_show_completed_versions: Показать завершенную версию
+label_me: Я
+label_board: Форум
+label_board_new: Новый форум
+label_board_plural: Форумы
+label_topic_plural: Темы
+label_message_plural: Сообщения
+label_message_last: Последнее сообщение
+label_message_new: Новое сообщение
+label_reply_plural: Ответы
+label_send_information: Отправить пользователю информацию по учетной записи
+label_year: Год
+label_month: Месяц
+label_week: Неделя
+label_date_from: От
+label_date_to: Кому
+label_language_based: На основе языка
+label_sort_by: Сортировать по %s
+label_send_test_email: Послать email для проверки
+label_feeds_access_key_created_on: Ключ доступа RSS создан %s назад
+label_module_plural: Модули
+label_added_time_by: Добавлен %s %s назад
+label_updated_time: Обновлен %s назад
+label_jump_to_a_project: Перейти к проекту...
+label_file_plural: Файлы
+label_changeset_plural: Наборы изменений
+label_default_columns: Колонки по умолчанию
+label_no_change_option: (Нет изменений)
+label_bulk_edit_selected_issues: Редактировать все выбранные вопросы
+label_theme: Тема
+label_default: По умолчанию
+label_search_titles_only: Искать только в названиях
+label_user_mail_option_all: "Для всех событий во всех моих проектах"
+label_user_mail_option_selected: "Для всех событий только в выбранном проекте..."
+label_user_mail_option_none: "Только для того, что я просматриваю или в чем я участвую"
+label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
+
+button_login: Вход
+button_submit: Принять
+button_save: Сохранить
+button_check_all: Отметить все
+button_uncheck_all: Очистить 
+button_delete: Удалить
+button_create: Создать
+button_test: Проверить
+button_edit: Редактировать
+button_add: Добавить
+button_change: Изменить
+button_apply: Применить
+button_clear: Очистить
+button_lock: Закрыть
+button_unlock: Открыть
+button_download: Загрузить
+button_list: Список
+button_view: Просмотреть
+button_move: Переместить
+button_back: Назад
+button_cancel: Отмена
+button_activate: Активировать
+button_sort: Сортировать
+button_log_time: Время в системе
+button_rollback: Вернуться к данной версии
+button_watch: Смотреть
+button_unwatch: Не смотреть
+button_reply: Ответить
+button_archive: Архивировать
+button_unarchive: Разархивировать
+button_reset: Перезапустить
+button_rename: Переименовать
+button_change_password: Изменить пароль
+button_copy: Копировать
+
+status_active: Активен
+status_registered: Зарегистрирован
+status_locked: Закрыт
+
+text_select_mail_notifications: Выберите действия, на которые будет отсылаться уведомление на электронную почту.
+text_regexp_info: eg. ^[A-Z0-9]+$
+text_min_max_length_info: 0 означает отсутствие запретов
+text_project_destroy_confirmation: Вы настаиваете на удалении данного проекта и всей относящейся к нему информации?
+text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний.
+text_are_you_sure: Подтвердите
+text_journal_changed: параметр изменился с %s на %s
+text_journal_set_to: параметр изменился на %s
+text_journal_deleted: удалено
+text_tip_task_begin_day: дата начала задачи
+text_tip_task_end_day: дата завершения задачи
+text_tip_task_begin_end_day: начало задачи и окончание ее в этот день
+text_project_identifier_info: 'Строчные буквы (a-z), допустимы цифры и дефис.<br />Сохраненный идентификатор не может быть изменен.'
+text_caracters_maximum: %d символов(а) максимум.
+text_length_between: Длина между %d и %d символов.
+text_tracker_no_workflow: Для этого трекера последовательность действий не определена
+text_unallowed_characters: Запрещенные символы
+text_comma_separated: Допустимы несколько значений (разделенные запятой).
+text_issues_ref_in_commit_messages: Сопоставление и изменение статуса задач исходя из текста сообщений
+text_issue_added: О вопросе %s был создает отчет.
+text_issue_updated: Вопрос %s был обновлен.
+text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную вики и все содержание? 
+text_issue_category_destroy_question: Несколько задач (%d) назначено в данную категорию. Что вы хотите предпринять?
+text_issue_category_destroy_assignments: Удалить назначения категории
+text_issue_category_reassign_to: Переназначить задачи для данной категории
+text_user_mail_option: "Для невыбранных проектов, вы будете получать уведомления только о том что просматриваете или в чем участвуете (например, вопросы автором которых вы являетесь или которые вам назначенАы)."
+
+default_role_manager: Менеджер
+default_role_developper: Разработчик
+default_role_reporter: Генератор отчетов
+default_tracker_bug: Bug Ошибка
+default_tracker_feature: Характеристика
+default_tracker_support: Поддержка
+default_issue_status_new: Новый
+default_issue_status_assigned: Назначен
+default_issue_status_resolved: Заблокирован
+default_issue_status_feedback: Обратная связь 
+default_issue_status_closed: Закрыт
+default_issue_status_rejected: Отказ 
+default_doc_category_user: Документация пользователя
+default_doc_category_tech: Техническая документация 
+default_priority_low: Низкий
+default_priority_normal: Нормальный
+default_priority_high: Высокий
+default_priority_urgent: Срочный
+default_priority_immediate: Немедленный
+default_activity_design: Проектирование
+default_activity_development: Разработка
+
+enumeration_issue_priorities: Приоритеты задач
+enumeration_doc_categories: Категории документов
+enumeration_activities: Действия (учет времени)
