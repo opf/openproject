@@ -75,4 +75,32 @@ class ApplicationHelperTest < HelperTestCase
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)
   end
+  
+  def test_date_format_default
+    today = Date.today
+    Setting.date_format = ''    
+    assert_equal l_date(today), format_date(today)
+  end
+  
+  def test_date_format
+    today = Date.today
+    Setting.date_format = '%d %m %Y'
+    assert_equal today.strftime('%d %m %Y'), format_date(today)
+  end
+  
+  def test_time_format_default
+    now = Time.now
+    Setting.date_format = ''
+    Setting.time_format = ''    
+    assert_equal l_datetime(now), format_time(now)
+    assert_equal l_time(now), format_time(now, false)
+  end
+  
+  def test_time_format
+    now = Time.now
+    Setting.date_format = '%d %m %Y'
+    Setting.time_format = '%H %M'
+    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
+    assert_equal now.strftime('%H %M'), format_time(now, false)
+  end
 end

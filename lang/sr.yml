@@ -538,3 +538,4 @@ label_float: Float
 button_copy: Copy
 setting_protocol: Protocol
 label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
+setting_time_format: Time format

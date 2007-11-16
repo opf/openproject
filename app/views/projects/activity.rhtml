@@ -4,7 +4,7 @@
   <h3><%= day_name(day.cwday) %> <%= day.day %></h3>
   <ul>
   <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| %>
-    <li><p><%= e.event_datetime.strftime("%H:%M") %> <%= link_to truncate(e.event_title, 100), e.event_url %><br />
+    <li><p><%= format_time(e.event_datetime, false) %> <%= link_to truncate(e.event_title, 100), e.event_url %><br />
     <% unless e.event_description.blank? %><em><%= truncate(e.event_description, 500) %></em><br /><% end %>
     <span class="author"><%= e.event_author if e.respond_to?(:event_author) %></span></p></li>
   <% end %>

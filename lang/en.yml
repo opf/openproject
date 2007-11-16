@@ -186,6 +186,7 @@ setting_commit_ref_keywords: Referencing keywords
 setting_commit_fix_keywords: Fixing keywords
 setting_autologin: Autologin
 setting_date_format: Date format
+setting_time_format: Time format
 setting_cross_project_issue_relations: Allow cross-project issue relations
 setting_issue_list_default_columns: Default columns displayed on the issue list
 setting_repositories_encodings: Repositories encodings
@@ -425,7 +426,7 @@ label_month: Month
 label_week: Week
 label_date_from: From
 label_date_to: To
-label_language_based: Language based
+label_language_based: Based on user's language
 label_sort_by: Sort by %s
 label_send_test_email: Send a test email
 label_feeds_access_key_created_on: RSS access key created %s ago

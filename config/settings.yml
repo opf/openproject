@@ -71,11 +71,10 @@ autologin:
   format: int
   default: 0
 # date format
-# 0: language based
-# 1: ISO format
 date_format:
-  format: int
-  default: 0
+  default: ''
+time_format:
+  default: ''
 cross_project_issue_relations:
   default: 0
 notified_events:

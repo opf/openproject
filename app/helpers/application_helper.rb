@@ -71,15 +71,17 @@ module ApplicationHelper
   
   def format_date(date)
     return nil unless date
-    @date_format ||= (Setting.date_format.to_i == 0 ? l(:general_fmt_date) : "%Y-%m-%d")
+    # "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
+    @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
     date.strftime(@date_format)
   end
   
-  def format_time(time)
+  def format_time(time, include_date = true)
     return nil unless time
-    @date_format_setting ||= Setting.date_format.to_i
     time = time.to_time if time.is_a?(String)
-    @date_format_setting == 0 ? l_datetime(time) : (time.strftime("%Y-%m-%d") + ' ' + l_time(time))
+    @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
+    @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
+    include_date ? time.strftime("#{@date_format} #{@time_format}") : time.strftime(@time_format)
   end
   
   def authoring(created, author)

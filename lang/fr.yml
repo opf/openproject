@@ -186,6 +186,7 @@ setting_commit_ref_keywords: Mot-clés de référencement
 setting_commit_fix_keywords: Mot-clés de résolution
 setting_autologin: Autologin
 setting_date_format: Format de date
+setting_time_format: Format d'heure
 setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
 setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
 setting_repositories_encodings: Encodages des dépôts
@@ -425,7 +426,7 @@ label_month: Mois
 label_week: Semaine
 label_date_from: Du
 label_date_to: Au
-label_language_based: Basé sur la langue
+label_language_based: Basé sur la langue de l'utilisateur
 label_sort_by: Trier par %s
 label_send_test_email: Envoyer un email de test
 label_feeds_access_key_created_on: Clé d'accès RSS créée il y a %s

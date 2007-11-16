@@ -17,6 +17,23 @@
 
 class Setting < ActiveRecord::Base
 
+  DATE_FORMATS = [
+	'%Y-%m-%d',
+	'%d/%m/%Y',
+	'%d.%m.%Y',
+	'%d-%m-%Y',
+	'%m/%d/%Y',
+	'%d %b %Y',
+	'%d %B %Y',
+	'%b %d, %Y',
+	'%B %d, %Y'
+    ]
+    
+  TIME_FORMATS = [
+    '%H:%M',
+    '%I:%M %p'
+    ]
+  
   cattr_accessor :available_settings
   @@available_settings = YAML::load(File.open("#{RAILS_ROOT}/config/settings.yml"))
   Redmine::Plugin.registered_plugins.each do |id, plugin|
