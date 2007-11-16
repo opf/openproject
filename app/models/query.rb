@@ -25,6 +25,7 @@ class QueryColumn
   end
   
   def caption
+    set_language_if_valid(User.current.language)
     l("field_#{name}")
   end
 end

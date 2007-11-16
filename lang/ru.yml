@@ -51,7 +51,7 @@ general_csv_separator: ','
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Понедельник,Вторник,Среда,Четверг,Пятница,Суббота,Воскресенье
-general_first_day_of_week: '7'
+general_first_day_of_week: '1'
 
 notice_account_updated: Учетная запись успешно обновлена.
 notice_account_invalid_creditentials: Неправильное имя пользователя или пароль
@@ -150,7 +150,7 @@ field_onthefly: Создание пользователя на лету
 field_start_date: Начало
 field_done_ratio: %% Готовности
 field_auth_source: Режим аутентификации
-field_hide_mail: Скрывать мой email адрес
+field_hide_mail: Скрывать мой email
 field_comments: Комментарий
 field_url: URL
 field_start_page: Стартовая страница
@@ -160,7 +160,7 @@ field_activity: Деятельность
 field_spent_on: Дата
 field_identifier: Признак
 field_is_filter: Используется в качестве фильтра
-field_issue_to_id: Относящиеся задачи
+field_issue_to_id: Связанные задачи
 field_delay: Отложить
 field_assignable: Задача может быть назначена этой роли
 field_redirect_existing_links: Перенаправить существующие ссылки
@@ -186,6 +186,7 @@ setting_commit_ref_keywords: Ключевые слова для поиска
 setting_commit_fix_keywords: Назначение ключевых слов
 setting_autologin: Автоматический вход
 setting_date_format: Формат даты
+setting_time_format: Time format
 setting_cross_project_issue_relations: Разрешить пересечение задач по проектам
 setting_issue_list_default_columns: Колонки, отображаемые в списке задач по умолчанию
 setting_repositories_encodings: Кодировки репозитория
@@ -248,7 +249,7 @@ label_last_login: Последнее подключение
 label_last_updates: Последнее обновление
 label_last_updates_plural: %d последние обновления
 label_registered_on: Зарегистрировано на 
-label_activity: Активность
+label_activity: События
 label_new: Новый
 label_logged_as: Вошел как
 label_environment: Окружение
@@ -392,16 +393,16 @@ label_options: Опции
 label_copy_workflow_from: Скопировать последовательность действий из 
 label_permissions_report: Отчет о правах доступа
 label_watched_issues: Просмотренные задачи 
-label_related_issues: Относящиеся задачи
+label_related_issues: Связанные задачи
 label_applied_status: Применимый статус
 label_loading: Загрузка...
 label_relation_new: Новое отношение
-label_relation_delete: Удалить отношение
-label_relates_to: относится к
-label_duplicates: дубликаты
-label_blocks: блоки 
+label_relation_delete: Удалить связь
+label_relates_to: связана с
+label_duplicates: дублицирует
+label_blocks: блокирует 
 label_blocked_by: заблокировано 
-label_precedes: предыдущий
+label_precedes: предшествует
 label_follows: следующий
 label_end_to_start: с конца к началу
 label_end_to_end: с конца к концу
@@ -444,7 +445,7 @@ label_search_titles_only: Искать только в названиях
 label_user_mail_option_all: "Для всех событий во всех моих проектах"
 label_user_mail_option_selected: "Для всех событий только в выбранном проекте..."
 label_user_mail_option_none: "Только для того, что я просматриваю или в чем я участвую"
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
+label_user_mail_no_self_notified: "Не извещать об изменениях которые я сделал сам"
 
 button_login: Вход
 button_submit: Принять
@@ -489,7 +490,7 @@ text_select_mail_notifications: Выберите действия, на кото
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 означает отсутствие запретов
 text_project_destroy_confirmation: Вы настаиваете на удалении данного проекта и всей относящейся к нему информации?
-text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний.
+text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 text_are_you_sure: Подтвердите
 text_journal_changed: параметр изменился с %s на %s
 text_journal_set_to: параметр изменился на %s
@@ -537,4 +538,3 @@ default_activity_development: Разработка
 enumeration_issue_priorities: Приоритеты задач
 enumeration_doc_categories: Категории документов
 enumeration_activities: Действия (учет времени)
-setting_time_format: Time format
