@@ -313,6 +313,17 @@ module ApplicationHelper
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")   
   end
   
+  def progress_bar(pct, options={})
+    width = options[:width] || '100px;'
+    legend = options[:legend] || ''
+    content_tag('table',
+      content_tag('tr',
+        (pct > 0 ? content_tag('td', '', :width => "#{pct.floor}%;", :class => 'closed') : '') +
+        (pct < 100 ? content_tag('td', '', :width => "#{100-pct.floor}%;", :class => 'open') : '')
+      ), :class => 'progress', :style => "width: #{width};") +
+      content_tag('p', legend, :class => 'pourcent')
+  end
+  
   def context_menu_link(name, url, options={})
     options[:class] ||= ''
     if options.delete(:selected)

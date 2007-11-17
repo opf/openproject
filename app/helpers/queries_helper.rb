@@ -35,11 +35,16 @@ module QueriesHelper
         format_date(value)
       elsif value.is_a?(Time)
         format_time(value)
-      elsif column.name == :subject
+      else
+        case column.name
+        when :subject
         ((@project.nil? || @project != issue.project) ? "#{issue.project.name} - " : '') +
           link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
-      else
-        h(value)
+        when :done_ratio
+          progress_bar(value, :width => '80px')
+        else
+          h(value)
+        end
       end
     end
   end

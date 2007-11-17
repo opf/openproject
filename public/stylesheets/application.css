@@ -75,6 +75,7 @@ table.list td.checkbox { width: 15px; padding: 0px;}
 tr.issue { text-align: center; white-space: nowrap; }
 tr.issue td.subject, tr.issue td.category { white-space: normal; }
 tr.issue td.subject { text-align: left; }
+tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 
 table.list tbody tr:hover { background-color:#ffffdd; }
 table td {padding:2px;}
@@ -242,19 +243,21 @@ color:#505050;
 }
 
 /***** Progress bar *****/
-.progress {
+table.progress {
     border: 1px solid #D7D7D7;
     border-collapse: collapse;
     border-spacing: 0pt;
     empty-cells: show;
-    padding: 3px;
-    width: 40em;
     text-align: center;
+    float:left;
+    margin: 1px 6px 1px 0px;
 }
 
-.progress td { height: 1em; }
-.progress .closed { background: #BAE0BA none repeat scroll 0%; }
-.progress .open { background: #FFF none repeat scroll 0%; }
+table.progress td { height: 0.9em; }
+table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
+table.progress td.open { background: #FFF none repeat scroll 0%; }
+p.pourcent {font-size: 80%;}
+p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
 /***** Tabs *****/
 #content .tabs{height: 2.6em;}

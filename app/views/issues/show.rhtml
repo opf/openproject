@@ -28,7 +28,7 @@
 </tr>
 <tr>
     <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
-    <td><b><%=l(:field_done_ratio)%> :</b></td><td><%= @issue.done_ratio %> %</td>
+    <td><b><%=l(:field_done_ratio)%> :</b></td><td><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
 </tr>
 <tr>
     <td><b><%=l(:field_category)%> :</b></td><td><%=h @issue.category ? @issue.category.name : "-" %></td>
