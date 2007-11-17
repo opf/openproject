@@ -299,29 +299,22 @@ class ProjectsController < ApplicationController
       # admin is allowed to move issues to any active (visible) project
       @projects = Project.find(:all, :conditions => Project.visible_by(User.current), :order => 'name')
     else
-      User.current.memberships.each {|m| @projects << m.project if m.role.allowed_to?(:controller => 'projects', :action => 'move_issues')}
+      User.current.memberships.each {|m| @projects << m.project if m.role.allowed_to?(:move_issues)}
     end
     # issue can be moved to any tracker
     @trackers = Tracker.find(:all)
     if request.post? && params[:new_project_id] && @projects.collect(&:id).include?(params[:new_project_id].to_i) && params[:new_tracker_id]    
       new_project = Project.find_by_id(params[:new_project_id])
-      new_tracker = Tracker.find_by_id(params[:new_tracker_id])
-      @issues.each do |i|
-        if new_project && i.project_id != new_project.id
-          # issue is moved to another project
-          i.category = nil 
-          i.fixed_version = nil
-          # delete issue relations
-          i.relations_from.clear
-          i.relations_to.clear
-          i.project = new_project
-        end
-        if new_tracker        
-          i.tracker = new_tracker
-        end
-        i.save
+      new_tracker = params[:new_tracker_id].blank? ? nil : Tracker.find_by_id(params[:new_tracker_id])
+      unsaved_issue_ids = []
+      @issues.each do |issue|
+        unsaved_issue_ids << issue.id unless issue.move_to(new_project, new_tracker)
       end
-      flash[:notice] = l(:notice_successful_update)
+      if unsaved_issue_ids.empty?
+        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
+      else
+        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
+      end
       redirect_to :controller => 'issues', :action => 'index', :project_id => @project
     end
   end

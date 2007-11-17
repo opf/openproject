@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IssueTest < Test::Unit::TestCase
-  fixtures :projects, :users, :members, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values
+  fixtures :projects, :users, :members, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :time_entries
 
   def test_category_based_assignment
     issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'Assignment test', :description => 'Assignment test', :category_id => 1)
@@ -58,5 +58,16 @@ class IssueTest < Test::Unit::TestCase
     # 2 and 3 should be also closed
     assert issue2.reload.closed?
     assert issue3.reload.closed?    
+  end
+  
+  def test_move_to_another_project
+    issue = Issue.find(1)
+    assert issue.move_to(Project.find(2))
+    issue.reload
+    assert_equal 2, issue.project_id
+    # Category removed
+    assert_nil issue.category
+    # Make sure time entries were move to the target project
+    assert_equal 2, issue.time_entries.first.project_id
   end
 end

@@ -61,6 +61,32 @@ class Issue < ActiveRecord::Base
     self
   end
   
+  # Move an issue to a new project and tracker
+  def move_to(new_project, new_tracker = nil)
+    transaction do
+      if new_project && project_id != new_project.id
+        # delete issue relations
+        self.relations_from.clear
+        self.relations_to.clear
+        # issue is moved to another project
+        self.category = nil 
+        self.fixed_version = nil
+        self.project = new_project
+      end
+      if new_tracker
+        self.tracker = new_tracker
+      end
+      if save
+        # Manually update project_id on related time entries
+        TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
+      else
+        rollback_db_transaction
+        return false
+      end
+    end
+    return true
+  end
+  
   def priority_id=(pid)
     self.priority = nil
     write_attribute(:priority_id, pid)
