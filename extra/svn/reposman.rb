@@ -37,6 +37,8 @@
 #    -u file:///var/svn/                       # if the repository is local
 #    if this option isn't set, reposman won't register the repository
 #
+# -t, --test
+#    only show what should be done
 #
 # -h, --help:
 #    show help and exit
@@ -64,6 +66,7 @@ opts = GetoptLong.new(
                       ['--redmine-host', '-r', GetoptLong::REQUIRED_ARGUMENT],
                       ['--owner',        '-o', GetoptLong::REQUIRED_ARGUMENT],
                       ['--url',          '-u', GetoptLong::REQUIRED_ARGUMENT],
+                      ['--test',         '-t', GetoptLong::NO_ARGUMENT],
                       ['--verbose',      '-v', GetoptLong::NO_ARGUMENT],
                       ['--version',      '-V', GetoptLong::NO_ARGUMENT],
                       ['--help'   ,      '-h', GetoptLong::NO_ARGUMENT],
@@ -76,6 +79,7 @@ $redmine_host = ''
 $repos_base   = ''
 $svn_owner    = 'root'
 $svn_url      = false
+$test         = false
 
 def log(text,level=0, exit=false)
   return if $quiet or level > $verbose
@@ -91,6 +95,7 @@ begin
     when '--owner';          $svn_owner    = arg.dup
     when '--url';            $svn_url      = arg.dup
     when '--verbose';        $verbose += 1
+    when '--test';           $test = true
     when '--version';        puts Version; exit
     when '--help';           RDoc::usage
     when '--quiet';          $quiet = true
@@ -98,6 +103,10 @@ begin
   end
 rescue
   exit 1
+end
+
+if $test
+  log("running in test mode")
 end
 
 $svn_url += "/" if $svn_url and not $svn_url.match(/\/$/)
@@ -136,7 +145,7 @@ def set_owner_and_rights(project, repos_path, &block)
     yield if block_given?
   else
     uid, gid = Etc.getpwnam($svn_owner).uid, Etc.getgrnam(project.identifier).gid
-    right = project.is_public ? 0575 : 0570
+    right = project.is_public ? 0775 : 0770
     yield if block_given?
     Find.find(repos_path) do |f|
       File.chmod right, f
@@ -176,6 +185,11 @@ projects.each do |project|
     owner      = owner_name(repos_path)
     next if project.is_public == other_read and owner == $svn_owner
 
+    if $test
+      log("\tchange mode on #{repos_path}")
+      next
+    end
+
     begin
       set_owner_and_rights(project, repos_path)
     rescue Errno::EPERM => e
@@ -186,7 +200,13 @@ projects.each do |project|
     log("\tmode change on #{repos_path}");
 
   else
-    project.is_public ? File.umask(0202) : File.umask(0207)
+    project.is_public ? File.umask(0002) : File.umask(0007)
+
+    if $test
+      log("\tcreate repository #{repos_path}")
+      log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project.identifier}") if $svn_url;
+      next
+    end
 
     begin
       set_owner_and_rights(project, repos_path) do

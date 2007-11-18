@@ -23,6 +23,11 @@ use vars qw/$VERSION/;
 
 $VERSION = "1.0";
 
+my $warning = "This program is now deprecated. Use the reposman.rb for new features";
+print STDERR "*" x length($warning), "\n",
+    $warning, "\n",
+    "*" x length($warning), "\n\n";
+
 my %opts = (verbose => 0);
 GetOptions(\%opts, 'verbose|v+', 'version|V', 'help|h', 'man|m', 'quiet|q', 'svn-dir|s=s', 'redmine-host|r=s') or pod2usage(2);
 
