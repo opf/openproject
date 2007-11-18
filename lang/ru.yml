@@ -538,3 +538,9 @@ default_activity_development: Разработка
 enumeration_issue_priorities: Приоритеты задач
 enumeration_doc_categories: Категории документов
 enumeration_activities: Действия (учет времени)
+label_registration_activation_by_email: account activation by email
+mail_subject_account_activation_request: Redmine account activation request
+mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
+label_registration_automatic_activation: automatic account activation
+label_registration_manual_activation: manual account activation
+notice_account_pending: "Your account was created and is now pending administrator approval."

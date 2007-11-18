@@ -88,6 +88,14 @@ class Mailer < ActionMailer::Base
          :password => password,
          :login_url => url_for(:controller => 'account', :action => 'login')
   end
+  
+  def account_activation_request(user)
+    # Send the email to all active administrators
+    recipients User.find_active(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
+    subject l(:mail_subject_account_activation_request)
+    body :user => user,
+         :url => url_for(:controller => 'users', :action => 'index', :status => User::STATUS_REGISTERED, :sort_key => 'created_on', :sort_order => 'desc')
+  end
 
   def lost_password(token)
     set_language_if_valid(token.user.language)
@@ -102,7 +110,7 @@ class Mailer < ActionMailer::Base
     recipients token.user.mail
     subject l(:mail_subject_register)
     body :token => token,
-         :url => url_for(:controller => 'account', :action => 'register', :token => token.value)
+         :url => url_for(:controller => 'account', :action => 'activate', :token => token.value)
   end
   
   def test(user)

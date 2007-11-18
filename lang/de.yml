@@ -538,3 +538,9 @@ mail_body_account_information: Your Redmine account information
 setting_protocol: Protocol
 label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
 setting_time_format: Time format
+label_registration_activation_by_email: account activation by email
+mail_subject_account_activation_request: Redmine account activation request
+mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
+label_registration_automatic_activation: automatic account activation
+label_registration_manual_activation: manual account activation
+notice_account_pending: "Your account was created and is now pending administrator approval."

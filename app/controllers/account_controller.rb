@@ -21,7 +21,7 @@ class AccountController < ApplicationController
   include CustomFieldsHelper   
   
   # prevents login action to be filtered by check_if_login_required application scope filter
-  skip_before_filter :check_if_login_required, :only => [:login, :lost_password, :register]
+  skip_before_filter :check_if_login_required, :only => [:login, :lost_password, :register, :activate]
 
   # Show user's account
   def show
@@ -106,38 +106,60 @@ class AccountController < ApplicationController
   # User self-registration
   def register
     redirect_to(home_url) && return unless Setting.self_registration?
-    if params[:token]
-      token = Token.find_by_action_and_value("register", params[:token])
-      redirect_to(home_url) && return unless token and !token.expired?
-      user = token.user
-      redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
-      user.status = User::STATUS_ACTIVE
-      if user.save
-        token.destroy
-        flash[:notice] = l(:notice_account_activated)
-        redirect_to :action => 'login'
-        return
-      end      
+    if request.get?
+      @user = User.new(:language => Setting.default_language)
+      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user) }
     else
-      if request.get?
-        @user = User.new(:language => Setting.default_language)
-        @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user) }
-      else
-        @user = User.new(params[:user])
-        @user.admin = false
-        @user.login = params[:user][:login]
-        @user.status = User::STATUS_REGISTERED
-        @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+      @user = User.new(params[:user])
+      @user.admin = false
+      @user.login = params[:user][:login]
+      @user.status = User::STATUS_REGISTERED
+      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+      if params["custom_fields"]
         @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
         @user.custom_values = @custom_values
+      end
+      case Setting.self_registration
+      when '1'
+        # Email activation
         token = Token.new(:user => @user, :action => "register")
         if @user.save and token.save
           Mailer.deliver_register(token)
           flash[:notice] = l(:notice_account_register_done)
-          redirect_to :controller => 'account', :action => 'login'
+          redirect_to :action => 'login'
+        end
+      when '3'
+        # Automatic activation
+        @user.status = User::STATUS_ACTIVE
+        if @user.save
+          flash[:notice] = l(:notice_account_activated)
+          redirect_to :action => 'login'
+        end
+      else
+        # Manual activation by the administrator
+        if @user.save
+          # Sends an email to the administrators
+          Mailer.deliver_account_activation_request(@user)
+          flash[:notice] = l(:notice_account_pending)
+          redirect_to :action => 'login'
         end
       end
     end
+  end
+  
+  # Token based account activation
+  def activate
+    redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
+    token = Token.find_by_action_and_value('register', params[:token])
+    redirect_to(home_url) && return unless token and !token.expired?
+    user = token.user
+    redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
+    user.status = User::STATUS_ACTIVE
+    if user.save
+      token.destroy
+      flash[:notice] = l(:notice_account_activated)
+    end
+    redirect_to :action => 'login'
   end
   
 private

@@ -75,6 +75,7 @@ notice_email_error: An error occurred while sending mail (%s)
 notice_feeds_access_key_reseted: Your RSS access key was reseted.
 notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
 notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
+notice_account_pending: "Your account was created and is now pending administrator approval."
 
 mail_subject_lost_password: Your Redmine password
 mail_body_lost_password: 'To change your Redmine password, click on the following link:'
@@ -82,6 +83,8 @@ mail_subject_register: Redmine account activation
 mail_body_register: 'To activate your Redmine account, click on the following link:'
 mail_body_account_information_external: You can use your "%s" account to log into Redmine.
 mail_body_account_information: Your Redmine account information
+mail_subject_account_activation_request: Redmine account activation request
+mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errors
@@ -171,8 +174,8 @@ setting_app_title: Application title
 setting_app_subtitle: Application subtitle
 setting_welcome_text: Welcome text
 setting_default_language: Default language
-setting_login_required: Authent. required
-setting_self_registration: Self-registration enabled
+setting_login_required: Authentication required
+setting_self_registration: Self-registration
 setting_attachment_max_size: Attachment max. size
 setting_issues_export_limit: Issues export limit
 setting_mail_from: Emission email address
@@ -446,6 +449,9 @@ label_user_mail_option_all: "For any event on all my projects"
 label_user_mail_option_selected: "For any event on the selected projects only..."
 label_user_mail_option_none: "Only for things I watch or I'm involved in"
 label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
+label_registration_activation_by_email: account activation by email
+label_registration_manual_activation: manual account activation
+label_registration_automatic_activation: automatic account activation
 
 button_login: Login
 button_submit: Submit

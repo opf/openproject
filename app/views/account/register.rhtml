@@ -29,9 +29,6 @@
 <% for @custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end %>
-
-<p><label for="user_mail_notification"><%=l(:field_mail_notification)%></label>
-<%= check_box 'user', 'mail_notification' %></p>
 <!--[eoform:user]-->
 </div>
 

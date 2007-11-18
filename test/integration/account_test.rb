@@ -56,5 +56,46 @@ class AccountTest < ActionController::IntegrationTest
     
     log_user('jsmith', 'newpass')
     assert_equal 0, Token.count    
-  end    
+  end
+  
+  def test_register_with_automatic_activation
+    Setting.self_registration = '3'
+    
+    get 'account/register'
+    assert_response :success
+    assert_template 'account/register'
+    
+    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"}, 
+                             :password => "newpass", :password_confirmation => "newpass"
+    assert_redirected_to 'account/login'
+    log_user('newuser', 'newpass')
+  end
+  
+  def test_register_with_manual_activation
+    Setting.self_registration = '2'
+    
+    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"}, 
+                             :password => "newpass", :password_confirmation => "newpass"
+    assert_redirected_to 'account/login'
+    assert !User.find_by_login('newuser').active?
+  end
+  
+  def test_register_with_email_activation
+    Setting.self_registration = '1'
+    Token.delete_all
+    
+    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"}, 
+                             :password => "newpass", :password_confirmation => "newpass"
+    assert_redirected_to 'account/login'
+    assert !User.find_by_login('newuser').active?
+    
+    token = Token.find(:first)
+    assert_equal 'register', token.action
+    assert_equal 'newuser@foo.bar', token.user.mail
+    assert !token.expired?
+    
+    get 'account/activate', :token => token.value
+    assert_redirected_to 'account/login'
+    log_user('newuser', 'newpass')
+  end
 end

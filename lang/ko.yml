@@ -170,7 +170,7 @@ setting_app_subtitle: Application subtitle
 setting_welcome_text: Welcome text
 setting_default_language: Default language
 setting_login_required: Authent. required
-setting_self_registration: Self-registration enabled
+setting_self_registration: Self-registration
 setting_attachment_max_size: Attachment max. size
 setting_issues_export_limit: Issues export limit
 setting_mail_from: Emission mail address
@@ -538,3 +538,9 @@ setting_protocol: Protocol
 mail_body_account_information: Your Redmine account information
 label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
 setting_time_format: Time format
+label_registration_activation_by_email: account activation by email
+mail_subject_account_activation_request: Redmine account activation request
+mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
+label_registration_automatic_activation: automatic account activation
+label_registration_manual_activation: manual account activation
+notice_account_pending: "Your account was created and is now pending administrator approval."
