@@ -547,3 +547,4 @@ mail_body_account_activation_request: 'A new user (%s) has registered. His accou
 label_registration_automatic_activation: automatic account activation
 label_registration_manual_activation: manual account activation
 notice_account_pending: "Your account was created and is now pending administrator approval."
+field_time_zone: Time zone

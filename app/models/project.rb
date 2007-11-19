@@ -150,7 +150,7 @@ class Project < ActiveRecord::Base
   end
   
   def <=>(project)
-    name <=> project.name
+    name.downcase <=> project.name.downcase
   end
   
   def allows_to?(action)

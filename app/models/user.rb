@@ -130,6 +130,10 @@ class User < ActiveRecord::Base
     self.preference ||= UserPreference.new(:user => self)
   end
   
+  def time_zone
+    self.pref.time_zone.nil? ? nil : TimeZone[self.pref.time_zone]
+  end
+  
   # Return user's RSS key (a 40 chars long string), used to access feeds
   def rss_key
     token = self.rss_token || Token.create(:user => self, :action => 'feeds')
@@ -229,6 +233,10 @@ end
 class AnonymousUser < User
   def logged?
     false
+  end
+  
+  def time_zone
+    nil
   end
   
   # Anonymous user has no RSS key

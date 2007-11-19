@@ -102,12 +102,12 @@ field_value: Wartość
 field_category: Kategoria
 field_title: Tytuł
 field_project: Projekt
-field_issue: Zgłoszenie
+field_issue: Zagadnienie
 field_status: Status
 field_notes: Notatki
-field_is_closed: Zgłoszenie zamknięte
+field_is_closed: Zagadnienie zamknięte
 field_is_default: Domyślny status
-field_tracker: Typ zgłoszenia
+field_tracker: Typ zagadnienia
 field_subject: Temat
 field_due_date: Data oddania
 field_assigned_to: Przydzielony do
@@ -117,9 +117,9 @@ field_user: Użytkownik
 field_role: Rola
 field_homepage: Strona www
 field_is_public: Publiczny
-field_parent: Subprojekt
-field_is_in_chlog: Zgłoszenia pokazane w zapisie zmian
-field_is_in_roadmap: Zgłoszenia pokazane na mapie
+field_parent: Podprojekt
+field_is_in_chlog: Zagadnienie pokazywane w zapisie zmian
+field_is_in_roadmap: Zagadnienie pokazywane na mapie
 field_login: Login
 field_mail_notification: Powiadomienia Email
 field_admin: Administrator
@@ -152,8 +152,8 @@ field_hours: Godzin
 field_activity: Aktywność
 field_spent_on: Data
 field_identifier: Identifikator
-field_is_filter: Używane jako filter
-field_issue_to_id: Powiązane zgłoszenie
+field_is_filter: Atrybut filtrowania
+field_issue_to_id: Powiązania zagadnienia
 field_delay: Opóźnienie
 
 setting_app_title: Tytuł aplikacji
@@ -163,7 +163,7 @@ setting_default_language: Domyślny język
 setting_login_required: Identyfikacja wymagana
 setting_self_registration: Własna rejestracja umożliwiona
 setting_attachment_max_size: Maks. rozm. załącznika
-setting_issues_export_limit: Limit eksportu zgłoszeń
+setting_issues_export_limit: Limit eksportu zagadnień
 setting_mail_from: Adres email wysyłki
 setting_host_name: Nazwa hosta
 setting_text_formatting: Formatowanie tekstu
@@ -184,10 +184,10 @@ label_project_new: Nowy projekt
 label_project_plural: Projekty
 label_project_all: Wszystkie projekty
 label_project_latest: Ostatnie projekty
-label_issue: Zgłoszenie
-label_issue_new: Nowe zgłoszenie
-label_issue_plural: Zgłoszenia
-label_issue_view_all: Zobacz wszystkie zgłoszenia
+label_issue: Zagadnienie
+label_issue_new: Nowe zagadnienie
+label_issue_plural: Zagadnienia
+label_issue_view_all: Zobacz wszystkie zagadnienia
 label_document: Dokument
 label_document_new: Nowy dokument
 label_document_plural: Dokumenty
@@ -198,15 +198,15 @@ label_role_and_permissions: Role i Uprawnienia
 label_member: Uczestnik
 label_member_new: Nowy uczestnik
 label_member_plural: Uczestnicy
-label_tracker: Typ zgłoszenia
-label_tracker_plural: Typy zgłoszeń
-label_tracker_new: Nowy typ zgłoszenia
+label_tracker: Typ zagadnienia
+label_tracker_plural: Typy zagadnień
+label_tracker_new: Nowy typ zagadnienia
 label_workflow: Przepływ
-label_issue_status: Status zgłoszenia
-label_issue_status_plural: Statusy zgłoszeń
+label_issue_status: Status zagadnienia
+label_issue_status_plural: Statusy zagadnień
 label_issue_status_new: Nowy status
-label_issue_category: Kategoria zgłoszenia
-label_issue_category_plural: Kategorie zgłoszeń
+label_issue_category: Kategoria zagadnienia
+label_issue_category_plural: Kategorie zagadnień
 label_issue_category_new: Nowa kategoria
 label_custom_field: Dowolne pole
 label_custom_field_plural: Dowolne pola
@@ -226,8 +226,8 @@ label_administration: Administracja
 label_login: Login
 label_logout: Wylogowanie
 label_help: Pomoc
-label_reported_issues: Zaraportowane zgłoszenia
-label_assigned_to_me_issues: Zgłoszenia przypisane do mnie
+label_reported_issues: Wprowadzone zagadnienia
+label_assigned_to_me_issues: Zagadnienia przypisane do mnie
 label_last_login: Ostatnie połączenie
 label_last_updates: Ostatnia zmieniana
 label_last_updates_plural: %d ostatnie zmiany
@@ -244,8 +244,8 @@ label_subproject_plural: Podprojekty
 label_min_max_length: Min - Maks długość
 label_list: Lista
 label_date: Data
-label_integer: L. pojedyńcza
-label_boolean: Wart. logiczna
+label_integer: Liczba całkowita
+label_boolean: Wartość logiczna
 label_string: Tekst
 label_text: Długi tekst
 label_attribute: Atrybut
@@ -333,7 +333,7 @@ label_deleted: usunięte
 label_latest_revision: Ostatnia zmiana
 label_latest_revision_plural: Ostatnie zmiany
 label_view_revisions: Pokaż zmiany
-label_max_size: Kamsymalny rozmiar
+label_max_size: Maksymalny rozmiar
 label_on: 'włączone'
 label_sort_highest: Przesuń na górę
 label_sort_higher: Do góry
@@ -341,7 +341,7 @@ label_sort_lower: Do dołu
 label_sort_lowest: Przesuń na dół
 label_roadmap: Mapa
 label_roadmap_due_in: W czasie 
-label_roadmap_no_issues: Brak zgłoszeń do tej wersji
+label_roadmap_no_issues: Brak zagadnień do tej wersji
 label_search: Szukaj
 label_result_plural: Rezultatów
 label_all_words: Wszystkie słowa
@@ -356,7 +356,7 @@ label_current_version: Obecna wersja
 label_preview: Podgląd
 label_feed_plural: Ilość RSS
 label_changes_details: Szczegóły wszystkich zmian
-label_issue_tracking: Śledzenie zgłoszeń
+label_issue_tracking: Śledzenie zagadnień
 label_spent_time: Spędzony czas
 label_f_hour: %.2f godzina
 label_f_hour_plural: %.2f godzin
@@ -371,8 +371,8 @@ label_diff_side_by_side: obok siebie
 label_options: Opcje
 label_copy_workflow_from: Kopiuj przepływ z 
 label_permissions_report: Raport uprawnień
-label_watched_issues: Obserwowane zgłoszenia
-label_related_issues: Powiązane zgłoszenia
+label_watched_issues: Obserwowane zagadnienia
+label_related_issues: Powiązane zagadnienia
 label_applied_status: Stosowany status
 label_loading: Ładowanie...
 label_relation_new: Nowe powiązanie
@@ -446,7 +446,7 @@ text_select_mail_notifications: Zaznacz czynności przy których użytkownik pow
 text_regexp_info: np. ^[A-Z0-9]+$
 text_min_max_length_info: 0 oznacza brak restrykcji
 text_project_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten projekt i wszyskie powiązane dane?
-text_workflow_edit: Zaznacz rolę i typ zgłoszenia do edycji przepływu
+text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu
 text_are_you_sure: Jesteś pewien ?
 text_journal_changed: zmienione %s do %s
 text_journal_set_to: ustawione na %s
@@ -457,14 +457,14 @@ text_tip_task_begin_end_day: zadanie zaczynające i kończące się dzisiaj
 text_project_identifier_info: 'Małe litery (a-z), liczby i myślniki dozwolone.<br />Raz zapisany, identyfikator nie może być zmieniony.'
 text_caracters_maximum: %d znaków maksymalnie.
 text_length_between: Długość pomiędzy %d i %d znaków.
-text_tracker_no_workflow: Brak przepływu zefiniowanego dla tego typu zgłoszenia
+text_tracker_no_workflow: Brak przepływu zefiniowanego dla tego typu zagadnienia
 text_unallowed_characters: Niedozwolone znaki
 text_comma_separated: Wielokrotne wartości dozwolone (rozdzielone przecinkami).
-text_issues_ref_in_commit_messages: Zgłoszenia odnoszące i ustalające we wrzutkach CVS
+text_issues_ref_in_commit_messages: Zagadnienia odnoszące i ustalające we wrzutkach CVS
 
 default_role_manager: Kierownik
 default_role_developper: Programista
-default_role_reporter: Raportujący
+default_role_reporter: Wprowadzajacy
 default_tracker_bug: Błąd
 default_tracker_feature: Cecha
 default_tracker_support: Wsparcie
@@ -484,25 +484,25 @@ default_priority_immediate: Natyczmiastowy
 default_activity_design: Projektowanie
 default_activity_development: Rozwój
 
-enumeration_issue_priorities: Priorytety zgłoszeń
+enumeration_issue_priorities: Priorytety zagadnień
 enumeration_doc_categories: Kategorie dokumentów
 enumeration_activities: Działania (śledzenie czasu)
 button_rename: Zmień nazwę
-text_issue_category_destroy_question: Zgłoszenia (%d) są przypisane do tej kategorii. Co chcesz uczynić?
+text_issue_category_destroy_question: Zagadnienia (%d) są przypisane do tej kategorii. Co chcesz uczynić?
 label_feeds_access_key_created_on: Klucz dostępu RSS stworzony %s dni temu
-setting_cross_project_issue_relations: Zezwól na powiązania zgłoszeń między projektami
+setting_cross_project_issue_relations: Zezwól na powiązania zagadnień między projektami
 label_roadmap_overdue: %s spóźnienia
 label_module_plural: Moduły
 label_this_week: ten tydzień
 label_jump_to_a_project: Skocz do projektu...
-field_assignable: Zgłoszenia mogą być przypisane do tej roli
+field_assignable: Zagadnienia mogą być przypisane do tej roli
 label_sort_by: Sortuj po %s
-text_issue_updated: Zgłoszenie %s zostało zaktualizowane.
+text_issue_updated: Zagadnienie %s zostało zaktualizowane.
 notice_feeds_access_key_reseted: Twój klucz dostępu RSS został zrestetowany.
 field_redirect_existing_links: Przekierowanie istniejących odnośników
-text_issue_category_reassign_to: Przywróć zgłoszenia do tej kategorii
+text_issue_category_reassign_to: Przydziel zagadnienie do tej kategorii
 notice_email_sent: Email został wysłany do %s
-text_issue_added: Zgłoszenie %s zostało zaraportowane.
+text_issue_added: Zagadnienie %s zostało wprowadzone.
 text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i całą jego zawartość ?
 notice_email_error: Wystąpił błąd w trakcie wysyłania maila (%s)
 label_updated_time: Zaktualizowane %s temu
@@ -518,29 +518,30 @@ label_default_columns: Domyślne kolumny
 setting_issue_list_default_columns: Domyślne kolumny wiświetlane na liście zagadnień
 setting_repositories_encodings: Kodowanie repozytoriów
 notice_no_issue_selected: "Nie wybrano zagadnienia! Zaznacz zagadnienie, które chcesz edytować."
-label_bulk_edit_selected_issues: Bulk edit selected issues
+label_bulk_edit_selected_issues: Zbiorowa edycja zagadnień
 label_no_change_option: (Bez zmian)
 notice_failed_to_save_issues: "Błąd podczas zapisu zagadnień %d z %d zaznaczonych: %s."
 label_theme: Temat
 label_default: Domyślne
 label_search_titles_only: Przeszukuj tylko tytuły
-label_nobody: nobody
-button_change_password: Change password
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
-setting_emails_footer: Emails footer
-label_float: Float
-button_copy: Copy
+label_nobody: nikt
+button_change_password: Zmień hasło
+text_user_mail_option: "W przypadku niezaznaczonych projektów, będziesz otrzymywał powiadomienia tylko na temat zagadnien, które obserwujesz, lub w których bierzesz udział (np. jesteś autorem lub adresatem)."
+label_user_mail_option_selected: "Tylko dla każdego zdarzenia w wybranych projektach..."
+label_user_mail_option_all: "Dla każdego zdarzenia w każdym moim projekcie"
+label_user_mail_option_none: "Tylko to co obserwuje lub w czym biorę udział"
+setting_emails_footer: Stopka e-mail
+label_float: Liczba rzeczywista
+button_copy: Kopia
 mail_body_account_information_external: Możesz użyć twojego "%s" konta do zalogowania do Redmine.
 mail_body_account_information: Twoje konto w Redmine
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
+setting_protocol: Protokoł
+label_user_mail_no_self_notified: "Nie chcę powiadomień o zmianach, które sam wprowadzam."
+setting_time_format: Format czasu
+label_registration_activation_by_email: aktywacja konta przez e-mail
+mail_subject_account_activation_request: Zapytanie aktywacyjne konta Redmine
+mail_body_account_activation_request: 'Zarejestrowano nowego użytkownika: (%s). Konto oczekuje na twoje zatwierdzenie:'
+label_registration_automatic_activation: automatyczna aktywacja kont
+label_registration_manual_activation: manualna aktywacja kont
+notice_account_pending: "Twoje konto zostało utworzone i oczekuje na zatwierdzenie administratora."
+field_time_zone: Time zone

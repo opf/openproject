@@ -79,9 +79,15 @@ module ApplicationHelper
   def format_time(time, include_date = true)
     return nil unless time
     time = time.to_time if time.is_a?(String)
+    zone = User.current.time_zone
+    if time.utc?
+      local = zone ? zone.adjust(time) : time.getlocal
+    else
+      local = zone ? zone.adjust(time.getutc) : time
+    end
     @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
     @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
-    include_date ? time.strftime("#{@date_format} #{@time_format}") : time.strftime(@time_format)
+    include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
   end
   
   def authoring(created, author)

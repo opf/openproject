@@ -14,6 +14,7 @@
 <p><%= f.select :language, lang_options_for_select %></p>
 
 <% fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
+<p><%= pref_fields.select :time_zone, TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :include_blank => true %></p>
 <p><%= pref_fields.check_box :hide_mail %></p>
 <% end %>
 </div>
