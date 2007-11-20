@@ -63,6 +63,14 @@ class Changeset < ActiveRecord::Base
     return if kw_regexp.blank?
     
     referenced_issues = []
+    
+    if ref_keywords.delete('*')
+      # find any issue ID in the comments
+      target_issue_ids = []
+      comments.scan(%r{([\s\(,-^])#(\d+)(?=[[:punct:]]|\s|<|$)}).each { |m| target_issue_ids << m[1] }
+      referenced_issues += repository.project.issues.find_all_by_id(target_issue_ids)
+    end
+    
     comments.scan(Regexp.new("(#{kw_regexp})[\s:]+(([\s,;&]*#?\\d+)+)", Regexp::IGNORECASE)).each do |match|
       action = match[0]
       target_issue_ids = match[1].scan(/\d+/)
@@ -80,6 +88,7 @@ class Changeset < ActiveRecord::Base
       end
       referenced_issues += target_issues
     end
+    
     self.issues = referenced_issues.uniq
   end
 end

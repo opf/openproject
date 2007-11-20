@@ -261,11 +261,11 @@ label_attachment_delete: Skasuj plik
 label_attachment_plural: Pliki
 label_report: Raport
 label_report_plural: Raporty
-label_news: Nowość
-label_news_new: Dodaj nowość
-label_news_plural: Nowości
-label_news_latest: Ostatnie nowości
-label_news_view_all: Pokaż wszystkie nowości
+label_news: Wiadomość
+label_news_new: Dodaj wiadomość
+label_news_plural: Wiadomości
+label_news_latest: Ostatnie wiadomości
+label_news_view_all: Pokaż wszystkie wiadomości
 label_change_log: Lista zmian
 label_settings: Ustawienia
 label_overview: Przegląd
@@ -334,7 +334,7 @@ label_latest_revision: Ostatnia zmiana
 label_latest_revision_plural: Ostatnie zmiany
 label_view_revisions: Pokaż zmiany
 label_max_size: Maksymalny rozmiar
-label_on: 'włączone'
+label_on: 'z'
 label_sort_highest: Przesuń na górę
 label_sort_higher: Do góry
 label_sort_lower: Do dołu
@@ -544,4 +544,4 @@ mail_body_account_activation_request: 'Zarejestrowano nowego użytkownika: (%s).
 label_registration_automatic_activation: automatyczna aktywacja kont
 label_registration_manual_activation: manualna aktywacja kont
 notice_account_pending: "Twoje konto zostało utworzone i oczekuje na zatwierdzenie administratora."
-field_time_zone: Time zone
+field_time_zone: Strefa czasowa

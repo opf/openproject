@@ -231,7 +231,7 @@ module ApplicationHelper
     # example:
     #   #52 -> <a href="/issues/show/52">#52</a>
     #   r52 -> <a href="/repositories/revision/6?rev=52">r52</a> (project.id is 6)
-    text = text.gsub(%r{([\s,-^])(#|r)(\d+)(?=[[:punct:]]|\s|<|$)}) do |m|
+    text = text.gsub(%r{([\s\(,-^])(#|r)(\d+)(?=[[:punct:]]|\s|<|$)}) do |m|
       leading, otype, oid = $1, $2, $3
       link = nil
       if otype == 'r'

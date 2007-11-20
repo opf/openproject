@@ -68,7 +68,7 @@ class RepositoryTest < Test::Unit::TestCase
     COMMENT
     changeset = Changeset.new(
       :comments => comment, :commit_date => Time.now, :revision => 0, :scmid => 'f39b7922fb3c',
-      :committer => 'foo <foo@example.com>', :committed_on => Time.now, :repository_id => repository )
+      :committer => 'foo <foo@example.com>', :committed_on => Time.now, :repository => repository )
     assert( changeset.save )
     assert_not_equal( comment, changeset.comments )
     assert_equal( 'This is a loooooooooooooooooooooooooooong comment', changeset.comments )
