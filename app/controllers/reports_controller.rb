@@ -25,7 +25,7 @@ class ReportsController < ApplicationController
     case params[:detail]
     when "tracker"
       @field = "tracker_id"
-      @rows = Tracker.find :all, :order => 'position'
+      @rows = @project.trackers
       @data = issues_by_tracker
       @report_title = l(:field_tracker)
       render :template => "reports/issue_report_details"
@@ -60,7 +60,7 @@ class ReportsController < ApplicationController
       @report_title = l(:field_subproject)
       render :template => "reports/issue_report_details"  
     else
-      @trackers = Tracker.find(:all, :order => 'position')
+      @trackers = @project.trackers
       @versions = @project.versions.sort
       @priorities = Enumeration::get_values('IPRI')
       @categories = @project.issue_categories

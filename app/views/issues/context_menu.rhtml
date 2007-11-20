@@ -32,7 +32,7 @@
 		</ul>
 	</li>
 	<li><%= context_menu_link l(:button_copy), {:controller => 'projects', :action => 'add_issue', :id => @project, :copy_from => @issue},
-	        :class => 'icon-copy', :disabled => !@can[:add] %></li>
+	        :class => 'icon-copy', :disabled => !@can[:copy] %></li>
 	<li><%= context_menu_link l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id },
 	                          :class => 'icon-move', :disabled => !@can[:move]  %>
     <li><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue},

@@ -31,9 +31,9 @@ protected
     when 'float'
       begin; !value.blank? && Kernel.Float(value); rescue; errors.add(:value, :activerecord_error_invalid) end
     when 'date'
-      errors.add(:value, :activerecord_error_not_a_date) unless value =~ /^\d{4}-\d{2}-\d{2}$/ or value.empty?
+      errors.add(:value, :activerecord_error_not_a_date) unless value =~ /^\d{4}-\d{2}-\d{2}$/ or value.blank?
     when 'list'
-      errors.add(:value, :activerecord_error_inclusion) unless custom_field.possible_values.include? value or value.empty?
+      errors.add(:value, :activerecord_error_inclusion) unless custom_field.possible_values.include?(value) or value.blank?
     end
   end
 end

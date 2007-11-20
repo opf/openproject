@@ -194,6 +194,7 @@ class IssuesController < ApplicationController
             :change_status => User.current.allowed_to?(:change_issue_status, @project),
             :add => User.current.allowed_to?(:add_issues, @project),
             :move => User.current.allowed_to?(:move_issues, @project),
+            :copy => (@project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),
             :delete => User.current.allowed_to?(:delete_issues, @project)}
     render :layout => false
   end

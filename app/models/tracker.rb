@@ -29,6 +29,10 @@ class Tracker < ActiveRecord::Base
 
   def to_s; name end
   
+  def self.all
+    find(:all, :order => 'position')
+  end
+  
 private
   def check_integrity
     raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])

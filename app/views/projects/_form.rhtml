@@ -17,16 +17,32 @@
 <% for @custom_value in @custom_values %>
 	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end %>
+</div>
+
+<% unless @trackers.empty? %>
+<fieldset class="box"><legend><%=l(:label_tracker_plural)%></legend>
+<% @trackers.each do |tracker| %>
+    <label class="floating">
+    <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.include?(tracker) %>
+    <%= tracker %>
+    </label>
+<% end %>
+<%= hidden_field_tag 'project[tracker_ids][]', '' %>
+</fieldset>
+<% end %>
 
 <% unless @custom_fields.empty? %>
-<p><label><%=l(:label_custom_field_plural)%></label>
+<fieldset class="box"><legend><%=l(:label_custom_field_plural)%></legend>
 <% for custom_field in @custom_fields %>
+    <label class="floating">
 	<%= check_box_tag "custom_field_ids[]", custom_field.id, ((@project.custom_fields.include? custom_field) or custom_field.is_for_all?), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
-	<%= custom_field.name %>	
-<% end %></p>
+	<%= custom_field.name %>
+	</label>
+<% end %>
+</fieldset>
 <% end %>
 <!--[eoform:project]-->
-</div>
+
 
 <% content_for :header_tags do %>
 <%= javascript_include_tag 'calendar/calendar' %>

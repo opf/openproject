@@ -56,7 +56,7 @@
 </div>
 
 <% content_for :sidebar do %>
-    <% if authorize_for('projects', 'add_issue') %>
+    <% if authorize_for('projects', 'add_issue') && @project.trackers.any? %>
     <h3><%= l(:label_issue_new) %></h3>
     <%= l(:label_tracker) %>: <%= new_issue_selector %>
     <% end %>

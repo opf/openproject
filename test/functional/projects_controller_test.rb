@@ -22,7 +22,7 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :roles, :members, :issues, :journals, :journal_details, :trackers, :issue_statuses, :enabled_modules, :enumerations
+  fixtures :projects, :users, :roles, :members, :issues, :journals, :journal_details, :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations
 
   def setup
     @controller = ProjectsController.new

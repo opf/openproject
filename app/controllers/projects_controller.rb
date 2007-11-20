@@ -57,11 +57,13 @@ class ProjectsController < ApplicationController
   # Add a new project
   def add
     @custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @trackers = Tracker.all
     @root_projects = Project.find(:all, :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}")
     @project = Project.new(params[:project])
     @project.enabled_module_names = Redmine::AccessControl.available_project_modules
     if request.get?
       @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project) }
+      @project.trackers = Tracker.all
     else
       @project.custom_fields = CustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
       @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
@@ -80,7 +82,7 @@ class ProjectsController < ApplicationController
     @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
     @subprojects = @project.active_children
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
-    @trackers = Tracker.find(:all, :order => 'position')
+    @trackers = @project.trackers
     @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN #{IssueStatus.table_name} ON #{IssueStatus.table_name}.id = #{Issue.table_name}.status_id", :conditions => ["project_id=? and #{IssueStatus.table_name}.is_closed=?", @project.id, false])
     @total_issues_by_tracker = Issue.count(:group => :tracker, :conditions => ["project_id=?", @project.id])
     @total_hours = @project.time_entries.sum(:hours)
@@ -92,6 +94,7 @@ class ProjectsController < ApplicationController
     @custom_fields = IssueCustomField.find(:all)
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
+    @trackers = Tracker.all
     @custom_values ||= ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| @project.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x) }
     @repository ||= @project.repository
     @wiki ||= @project.wiki
@@ -207,7 +210,7 @@ class ProjectsController < ApplicationController
     @issue = params[:copy_from] ? Issue.new.copy_from(params[:copy_from]) : Issue.new(params[:issue])
     @issue.project = @project
     @issue.author = User.current
-    @issue.tracker ||= Tracker.find(params[:tracker_id])
+    @issue.tracker ||= @project.trackers.find(params[:tracker_id])
     
     default_status = IssueStatus.default
     unless default_status
@@ -293,6 +296,7 @@ class ProjectsController < ApplicationController
   def move_issues
     @issues = @project.issues.find(params[:issue_ids]) if params[:issue_ids]
     redirect_to :controller => 'issues', :action => 'index', :project_id => @project and return unless @issues
+    
     @projects = []
     # find projects to which the user is allowed to move the issue
     if User.current.admin?
@@ -301,14 +305,14 @@ class ProjectsController < ApplicationController
     else
       User.current.memberships.each {|m| @projects << m.project if m.role.allowed_to?(:move_issues)}
     end
-    # issue can be moved to any tracker
-    @trackers = Tracker.find(:all)
-    if request.post? && params[:new_project_id] && @projects.collect(&:id).include?(params[:new_project_id].to_i) && params[:new_tracker_id]    
-      new_project = Project.find_by_id(params[:new_project_id])
-      new_tracker = params[:new_tracker_id].blank? ? nil : Tracker.find_by_id(params[:new_tracker_id])
+    @target_project = @projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
+    @target_project ||= @project    
+    @trackers = @target_project.trackers
+    if request.post?
+      new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
       unsaved_issue_ids = []
       @issues.each do |issue|
-        unsaved_issue_ids << issue.id unless issue.move_to(new_project, new_tracker)
+        unsaved_issue_ids << issue.id unless issue.move_to(@target_project, new_tracker)
       end
       if unsaved_issue_ids.empty?
         flash[:notice] = l(:notice_successful_update) unless @issues.empty?
@@ -316,7 +320,9 @@ class ProjectsController < ApplicationController
         flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
       end
       redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+      return
     end
+    render :layout => false if request.xhr?
   end
 
   # Add a news to @project
@@ -354,13 +360,13 @@ class ProjectsController < ApplicationController
   
   # Show changelog for @project
   def changelog
-    @trackers = Tracker.find(:all, :conditions => ["is_in_chlog=?", true], :order => 'position')
+    @trackers = @project.trackers.find(:all, :conditions => ["is_in_chlog=?", true], :order => 'position')
     retrieve_selected_tracker_ids(@trackers)    
     @versions = @project.versions.sort
   end
 
   def roadmap
-    @trackers = Tracker.find(:all, :conditions => ["is_in_roadmap=?", true], :order => 'position')
+    @trackers = @project.trackers.find(:all, :conditions => ["is_in_roadmap=?", true])
     retrieve_selected_tracker_ids(@trackers)
     @versions = @project.versions.sort
     @versions = @versions.select {|v| !v.completed? } unless params[:completed]

@@ -40,7 +40,7 @@ class Issue < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id}: #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}}                
   
-  validates_presence_of :subject, :description, :priority, :tracker, :author, :status
+  validates_presence_of :subject, :description, :priority, :project, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
@@ -104,6 +104,10 @@ class Issue < ActiveRecord::Base
     if start_date && soonest_start && start_date < soonest_start
       errors.add :start_date, :activerecord_error_invalid
     end
+  end
+  
+  def validate_on_create
+    errors.add :tracker_id, :activerecord_error_invalid unless project.trackers.include?(tracker)
   end
   
   def before_create
