@@ -31,7 +31,7 @@ class SearchController < ApplicationController
     begin; offset = params[:offset].to_time if params[:offset]; rescue; end
     
     # quick jump to an issue
-    if @question.match(/^#?(\d+)$/) && Issue.find_by_id($1, :include => :project, :conditions => Project.visible_by(logged_in_user))
+    if @question.match(/^#?(\d+)$/) && Issue.find_by_id($1, :include => :project, :conditions => Project.visible_by(User.current))
       redirect_to :controller => "issues", :action => "show", :id => $1
       return
     end
@@ -87,7 +87,7 @@ class SearchController < ApplicationController
         end
       else
         operator = @all_words ? ' AND ' : ' OR '
-        Project.with_scope(:find => {:conditions => Project.visible_by(logged_in_user)}) do
+        Project.with_scope(:find => {:conditions => Project.visible_by(User.current)}) do
           @results += Project.find(:all, :limit => limit, :conditions => [ (["(LOWER(name) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'projects'
         end
         # if only one project is found, user is redirected to its overview

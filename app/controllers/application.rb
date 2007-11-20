@@ -23,10 +23,6 @@ class ApplicationController < ActionController::Base
     require_dependency "repository/#{scm.underscore}"
   end
   
-  def logged_in_user
-    User.current.logged? ? User.current : nil
-  end
-  
   def current_role
     @current_role ||= User.current.role_for_project(@project)
   end

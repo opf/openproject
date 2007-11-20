@@ -112,11 +112,8 @@ class Query < ActiveRecord::Base
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
-  end
-  
-  def executed_by=(user)
-    @executed_by = user
-    set_language_if_valid(user.language) if user
+    @executed_by = User.current.logged? ? User.current : nil
+    set_language_if_valid(executed_by.language) if executed_by
   end
   
   def validate

@@ -45,7 +45,7 @@ class NewsController < ApplicationController
   
   def add_comment
     @comment = Comment.new(params[:comment])
-    @comment.author = logged_in_user
+    @comment.author = User.current
     if @news.comments << @comment
       flash[:notice] = l(:label_comment_added)
       redirect_to :action => 'show', :id => @news

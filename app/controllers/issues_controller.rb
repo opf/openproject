@@ -82,7 +82,7 @@ class IssuesController < ApplicationController
   def show
     @custom_values = @issue.custom_values.find(:all, :include => :custom_field, :order => "#{CustomField.table_name}.position")
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
-    @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
+    @status_options = @issue.status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml' }
       format.pdf  { send_data(render(:template => 'issues/show.rfpdf', :layout => false), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
@@ -95,7 +95,7 @@ class IssuesController < ApplicationController
       @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
     else
       begin
-        @issue.init_journal(self.logged_in_user)
+        @issue.init_journal(User.current)
         # Retrieve custom fields and values
         if params["custom_fields"]
           @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
@@ -117,7 +117,7 @@ class IssuesController < ApplicationController
     journal = @issue.init_journal(User.current, params[:notes])
     params[:attachments].each { |file|
       next unless file.size > 0
-      a = Attachment.create(:container => @issue, :file => file, :author => logged_in_user)
+      a = Attachment.create(:container => @issue, :file => file, :author => User.current)
       journal.details << JournalDetail.new(:property => 'attachment',
                                            :prop_key => a.id,
                                            :value => a.filename) unless a.new_record?
@@ -132,17 +132,17 @@ class IssuesController < ApplicationController
   end
 
   def change_status
-    @status_options = @issue.status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker) if logged_in_user
+    @status_options = @issue.status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)
     @new_status = IssueStatus.find(params[:new_status_id])
     if params[:confirm]
       begin
-        journal = @issue.init_journal(self.logged_in_user, params[:notes])
+        journal = @issue.init_journal(User.current, params[:notes])
         @issue.status = @new_status
         if @issue.update_attributes(params[:issue])
           # Save attachments
           params[:attachments].each { |file|
             next unless file.size > 0
-            a = Attachment.create(:container => @issue, :file => file, :author => logged_in_user)            
+            a = Attachment.create(:container => @issue, :file => file, :author => User.current)            
             journal.details << JournalDetail.new(:property => 'attachment',
                                                  :prop_key => a.id,
                                                  :value => a.filename) unless a.new_record?
@@ -150,7 +150,7 @@ class IssuesController < ApplicationController
         
           # Log time
           if current_role.allowed_to?(:log_time)
-            @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => logged_in_user, :spent_on => Date.today)
+            @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
             @time_entry.attributes = params[:time_entry]
             @time_entry.save
           end
@@ -176,7 +176,7 @@ class IssuesController < ApplicationController
   def destroy_attachment
     a = @issue.attachments.find(params[:attachment_id])
     a.destroy
-    journal = @issue.init_journal(self.logged_in_user)
+    journal = @issue.init_journal(User.current)
     journal.details << JournalDetail.new(:property => 'attachment',
                                          :prop_key => a.id,
                                          :old_value => a.filename)
@@ -225,12 +225,11 @@ private
   def retrieve_query
     if params[:query_id]
       @query = Query.find(params[:query_id], :conditions => {:project_id => (@project ? @project.id : nil)})
-      @query.executed_by = logged_in_user
       session[:query] = @query
     else
       if params[:set_filter] or !session[:query] or session[:query].project != @project
         # Give it a name, required to be valid
-        @query = Query.new(:name => "_", :executed_by => logged_in_user)
+        @query = Query.new(:name => "_")
         @query.project = @project
         if params[:fields] and params[:fields].is_a? Array
           params[:fields].each do |field|

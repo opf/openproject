@@ -31,12 +31,12 @@ class MessagesController < ApplicationController
   
   def new
     @message = Message.new(params[:message])
-    @message.author = logged_in_user
+    @message.author = User.current
     @message.board = @board 
     if request.post? && @message.save
       params[:attachments].each { |file|
         next unless file.size > 0
-        Attachment.create(:container => @message, :file => file, :author => logged_in_user)
+        Attachment.create(:container => @message, :file => file, :author => User.current)
       } if params[:attachments] and params[:attachments].is_a? Array    
       redirect_to :action => 'show', :id => @message
     end
@@ -44,7 +44,7 @@ class MessagesController < ApplicationController
 
   def reply
     @reply = Message.new(params[:reply])
-    @reply.author = logged_in_user
+    @reply.author = User.current
     @reply.board = @board
     @message.children << @reply
     redirect_to :action => 'show', :id => @message

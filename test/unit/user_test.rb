@@ -60,7 +60,7 @@ class UserTest < Test::Unit::TestCase
   def test_validate
     @admin.login = ""
     assert !@admin.save
-    assert_equal 2, @admin.errors.count
+    assert_equal 1, @admin.errors.count
   end
   
   def test_password
@@ -85,6 +85,13 @@ class UserTest < Test::Unit::TestCase
     
     user = User.try_to_login("jsmith", "jsmith")
     assert_equal nil, user  
+  end
+  
+  def test_create_anonymous
+    AnonymousUser.delete_all
+    anon = User.anonymous
+    assert !anon.new_record?
+    assert_kind_of AnonymousUser, anon
   end
   
   def test_rss_key

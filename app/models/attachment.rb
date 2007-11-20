@@ -21,7 +21,7 @@ class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
   
-  validates_presence_of :container, :filename
+  validates_presence_of :container, :filename, :author
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
 
@@ -82,11 +82,6 @@ class Attachment < ActiveRecord::Base
   def increment_download
     increment!(:downloads)
   end
-	
-	# returns last created projects
-	def self.most_downloaded
-		find(:all, :limit => 5, :order => "downloads DESC")	
-	end
 
   def project
     container.is_a?(Project) ? container : container.project

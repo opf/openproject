@@ -22,14 +22,13 @@ class QueriesController < ApplicationController
   def index
     @queries = @project.queries.find(:all, 
                                      :order => "name ASC",
-                                     :conditions => ["is_public = ? or user_id = ?", true, (logged_in_user ? logged_in_user.id : 0)])
+                                     :conditions => ["is_public = ? or user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
   end
   
   def new
     @query = Query.new(params[:query])
     @query.project = @project
-    @query.user = logged_in_user
-    @query.executed_by = logged_in_user
+    @query.user = User.current
     @query.is_public = false unless current_role.allowed_to?(:manage_public_queries)
     @query.column_names = nil if params[:default_columns]
     
@@ -71,9 +70,8 @@ private
   def find_project
     if params[:id]
       @query = Query.find(params[:id])
-      @query.executed_by = logged_in_user
       @project = @query.project
-      render_403 unless @query.editable_by?(logged_in_user)
+      render_403 unless @query.editable_by?(User.current)
     else
       @project = Project.find(params[:project_id])
     end

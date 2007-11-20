@@ -49,7 +49,7 @@ class DocumentsController < ApplicationController
     @attachments = []
     params[:attachments].each { |file|
       next unless file.size > 0
-      a = Attachment.create(:container => @document, :file => file, :author => logged_in_user)
+      a = Attachment.create(:container => @document, :file => file, :author => User.current)
       @attachments << a unless a.new_record?
     } if params[:attachments] and params[:attachments].is_a? Array
     Mailer.deliver_attachments_added(@attachments) if !@attachments.empty? && Setting.notified_events.include?('document_added')

@@ -44,7 +44,7 @@ class MyController < ApplicationController
 
   # Show user's page
   def page
-    @user = self.logged_in_user
+    @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
   end
 
@@ -76,7 +76,7 @@ class MyController < ApplicationController
 
   # Manage user's password
   def password
-    @user = self.logged_in_user
+    @user = User.current
     flash[:error] = l(:notice_can_t_change_password) and redirect_to :action => 'account' and return if @user.auth_source_id
     if request.post?
       if @user.check_password?(params[:password])
@@ -102,7 +102,7 @@ class MyController < ApplicationController
 
   # User's page layout configuration
   def page_layout
-    @user = self.logged_in_user
+    @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
     session[:page_layout] = @blocks
     %w(top left right).each {|f| session[:page_layout][f] ||= [] }
@@ -116,7 +116,7 @@ class MyController < ApplicationController
   def add_block
     block = params[:block]
     render(:nothing => true) and return unless block && (BLOCKS.keys.include? block)
-    @user = self.logged_in_user
+    @user = User.current
     # remove if already present in a group
     %w(top left right).each {|f| (session[:page_layout][f] ||= []).delete block }
     # add it on top
@@ -151,7 +151,7 @@ class MyController < ApplicationController
   
   # Save user's page layout  
   def page_layout_save
-    @user = self.logged_in_user
+    @user = User.current
     @user.pref[:my_page_layout] = session[:page_layout] if session[:page_layout]
     @user.pref.save
     session[:page_layout] = nil

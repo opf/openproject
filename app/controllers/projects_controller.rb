@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
   # Lists visible projects
   def list
     projects = Project.find :all,
-                            :conditions => Project.visible_by(logged_in_user),
+                            :conditions => Project.visible_by(User.current),
                             :include => :parent
     @project_tree = projects.group_by {|p| p.parent || p}
     @project_tree.each_key {|p| @project_tree[p] -= [p]}
@@ -176,7 +176,7 @@ class ProjectsController < ApplicationController
     if request.post? and @document.save	
       # Save the attachments
       params[:attachments].each { |a|
-        Attachment.create(:container => @document, :file => a, :author => logged_in_user) unless a.size == 0
+        Attachment.create(:container => @document, :file => a, :author => User.current) unless a.size == 0
       } if params[:attachments] and params[:attachments].is_a? Array
       flash[:notice] = l(:notice_successful_create)
       Mailer.deliver_document_added(@document) if Setting.notified_events.include?('document_added')
@@ -216,7 +216,7 @@ class ProjectsController < ApplicationController
       return
     end    
     @issue.status = default_status
-    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(logged_in_user.role_for_project(@project), @issue.tracker))if logged_in_user
+    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker))
     
     if request.get?
       @issue.start_date ||= Date.today
@@ -321,10 +321,9 @@ class ProjectsController < ApplicationController
 
   # Add a news to @project
   def add_news
-    @news = News.new(:project => @project)
+    @news = News.new(:project => @project, :author => User.current)
     if request.post?
       @news.attributes = params[:news]
-      @news.author_id = self.logged_in_user.id if self.logged_in_user
       if @news.save
         flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_news_added(@news) if Setting.notified_events.include?('news_added')
@@ -340,7 +339,7 @@ class ProjectsController < ApplicationController
       @attachments = []
       params[:attachments].each { |file|
         next unless file.size > 0
-        a = Attachment.create(:container => @version, :file => file, :author => logged_in_user)
+        a = Attachment.create(:container => @version, :file => file, :author => User.current)
         @attachments << a unless a.new_record?
       } if params[:attachments] and params[:attachments].is_a? Array
       Mailer.deliver_attachments_added(@attachments) if !@attachments.empty? && Setting.notified_events.include?('file_added')
