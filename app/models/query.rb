@@ -164,8 +164,6 @@ class Query < ActiveRecord::Base
       end
       @project.all_custom_fields.select(&:is_filter?).each do |field|
         case field.field_format
-        when "string", "int"
-          options = { :type => :string, :order => 20 }
         when "text"
           options = { :type => :text, :order => 20 }
         when "list"
@@ -174,6 +172,8 @@ class Query < ActiveRecord::Base
           options = { :type => :date, :order => 20 }
         when "bool"
           options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
+        else
+          options = { :type => :string, :order => 20 }
         end          
         @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
       end
