@@ -1,27 +1,30 @@
 <h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%=h @message.subject %></h2>
 
+<div class="message">
 <p><span class="author"><%= authoring @message.created_on, @message.author %></span></p>
 <div class="wiki">
 <%= textilizable(@message.content, :attachments => @message.attachments) %>
 </div>
 <%= link_to_attachments @message.attachments, :no_author => true %>
+</div>
 <br />
 
+<div class="message reply">
 <h3 class="icon22 icon22-comment"><%= l(:label_reply_plural) %></h3>
 <% @message.children.each do |message| %>
   <a name="<%= "message-#{message.id}" %>"></a>
-  <h4><%=h message.subject %> - <%= message.author.name %>, <%= format_time(message.created_on) %></h4>
+  <h4><%=h message.subject %> - <%= authoring message.created_on, message.author %></h4>
   <div class="wiki"><%= textilizable message.content %></div>
+  <%= link_to_attachments message.attachments, :no_author => true %>
 <% end %>
+</div>
 
 <% if authorize_for('messages', 'reply') %>
-<p><%= toggle_link l(:button_reply), "reply", :focus => "reply_content" %></p>
+<p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
 <div id="reply" style="display:none;">
-<%= error_messages_for 'message' %>
-<% form_for :reply, @reply, :url => {:action => 'reply', :id => @message} do |f| %>
-  <p><%= f.text_field :subject, :required => true, :size => 60 %></p>
-  <p><%= f.text_area :content, :required => true, :cols => 80, :rows => 10 %></p>
-  <p><%= submit_tag l(:button_submit) %></p>
+<% form_for :reply, @reply, :url => {:action => 'reply', :id => @message}, :html => {:multipart => true} do |f| %>
+    <%= render :partial => 'form', :locals => {:f => f} %>
+    <%= submit_tag l(:button_submit) %>
 <% end %>
 </div>
 <% end %>

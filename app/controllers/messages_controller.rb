@@ -35,8 +35,7 @@ class MessagesController < ApplicationController
     @message.board = @board 
     if request.post? && @message.save
       params[:attachments].each { |file|
-        next unless file.size > 0
-        Attachment.create(:container => @message, :file => file, :author => User.current)
+        Attachment.create(:container => @message, :file => file, :author => User.current) if file.size > 0
       } if params[:attachments] and params[:attachments].is_a? Array    
       redirect_to :action => 'show', :id => @message
     end
@@ -47,6 +46,11 @@ class MessagesController < ApplicationController
     @reply.author = User.current
     @reply.board = @board
     @message.children << @reply
+    if !@reply.new_record?
+      params[:attachments].each { |file|
+        Attachment.create(:container => @reply, :file => file, :author => User.current) if file.size > 0
+      } if params[:attachments] and params[:attachments].is_a? Array
+    end
     redirect_to :action => 'show', :id => @message
   end
   
