@@ -54,7 +54,7 @@ module Redmine
     private
         
     def self.scan_themes
-      dirs = Dir.glob('public/themes/*').select do |f|
+      dirs = Dir.glob("#{RAILS_ROOT}/public/themes/*").select do |f|
         # A theme should at least override application.css
         File.directory?(f) && File.exist?("#{f}/stylesheets/application.css")
       end

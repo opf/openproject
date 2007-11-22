@@ -22,18 +22,18 @@
     <div id="account">
         <% if User.current.logged? %>
             <%=l(:label_logged_as)%> <%= User.current.login %> -
-            <%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' } %>
-            <%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' } %>
+            <%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' }, :class => 'myaccount' %>
+            <%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => 'logout' %>
         <% else %>
-            <%= link_to l(:label_login), { :controller => 'account', :action => 'login' } %>
-            <%= link_to(l(:label_register), :controller => 'account',:action => 'register') if Setting.self_registration? %>
+            <%= link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => 'signin' %>
+            <%= link_to(l(:label_register), { :controller => 'account',:action => 'register' }, :class => 'register') if Setting.self_registration? %>
         <% end %>
     </div>
-    <%= link_to l(:label_home), home_url %>
-    <%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'} if User.current.logged? %>
-    <%= link_to l(:label_project_plural), { :controller => 'projects' } %>
-    <%= link_to l(:label_administration), { :controller => 'admin' } if User.current.admin? %>
-    <%= link_to l(:label_help), Redmine::Info.help_url %>
+    <%= link_to l(:label_home), home_url, :class => 'home' %>
+    <%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'}, :class => 'mypage' if User.current.logged? %>
+    <%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => 'projects' %>
+    <%= link_to l(:label_administration), { :controller => 'admin' }, :class => 'admin' if User.current.admin? %>
+    <%= link_to l(:label_help), Redmine::Info.help_url, :class => 'help' %>
 </div>
       
 <div id="header">
