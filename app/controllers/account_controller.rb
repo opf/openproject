@@ -115,10 +115,10 @@ class AccountController < ApplicationController
       @user.login = params[:user][:login]
       @user.status = User::STATUS_REGISTERED
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
-      if params["custom_fields"]
-        @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user, :value => params["custom_fields"][x.id.to_s]) }
-        @user.custom_values = @custom_values
-      end
+      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, 
+                                                                                :customized => @user, 
+                                                                                :value => (params["custom_fields"] ? params["custom_fields"][x.id.to_s] : nil)) }
+      @user.custom_values = @custom_values
       case Setting.self_registration
       when '1'
         # Email activation
