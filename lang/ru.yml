@@ -29,7 +29,7 @@ activerecord_error_blank: необходимо заполнить
 activerecord_error_too_long: слишком длинное значение
 activerecord_error_too_short: слишком короткое значение
 activerecord_error_wrong_length: не соответствует длине
-activerecord_error_taken: уже был принят
+activerecord_error_taken: уже используется
 activerecord_error_not_a_number: не является числом
 activerecord_error_not_a_date: дата недействительна
 activerecord_error_greater_than_start_date: должна быть позднее даты начала
@@ -48,8 +48,8 @@ general_text_no: 'Нет'
 general_text_yes: 'Да'
 general_lang_name: 'Russian (Русский)'
 general_csv_separator: ','
-general_csv_encoding: ISO-8859-1
-general_pdf_encoding: ISO-8859-1
+general_csv_encoding: UTF-8
+general_pdf_encoding: UTF-8
 general_day_names: Понедельник,Вторник,Среда,Четверг,Пятница,Суббота,Воскресенье
 general_first_day_of_week: '1'
 
@@ -148,17 +148,17 @@ field_attr_lastname: Атрибут Фамилия
 field_attr_mail: Атрибут Email
 field_onthefly: Создание пользователя на лету
 field_start_date: Начало
-field_done_ratio: %% Готовности
+field_done_ratio: Готовность в %%
 field_auth_source: Режим аутентификации
 field_hide_mail: Скрывать мой email
 field_comments: Комментарий
 field_url: URL
 field_start_page: Стартовая страница
 field_subproject: Подпроект
-field_hours: Часы
+field_hours: Час(а)(ов)
 field_activity: Деятельность
 field_spent_on: Дата
-field_identifier: Признак
+field_identifier: Ун. идентификатор
 field_is_filter: Используется в качестве фильтра
 field_issue_to_id: Связанные задачи
 field_delay: Отложить
@@ -243,13 +243,13 @@ label_administration: Администрирование
 label_login: Войти
 label_logout: Выйти
 label_help: Помощь
-label_reported_issues: Задачи, по которым предоставлен отчет
+label_reported_issues: Созданые задачи
 label_assigned_to_me_issues: Мои задачи
 label_last_login: Последнее подключение
 label_last_updates: Последнее обновление
 label_last_updates_plural: %d последние обновления
-label_registered_on: Зарегистрировано на 
-label_activity: События
+label_registered_on: Зарегистрирован(а) 
+label_activity: Активность
 label_new: Новый
 label_logged_as: Вошел как
 label_environment: Окружение
@@ -460,7 +460,7 @@ button_add: Добавить
 button_change: Изменить
 button_apply: Применить
 button_clear: Очистить
-button_lock: Закрыть
+button_lock: Заблокировать
 button_unlock: Открыть
 button_download: Загрузить
 button_list: Список
@@ -538,10 +538,10 @@ default_activity_development: Разработка
 enumeration_issue_priorities: Приоритеты задач
 enumeration_doc_categories: Категории документов
 enumeration_activities: Действия (учет времени)
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
-field_time_zone: Time zone
+label_registration_activation_by_email: активация аккаунтов по email
+mail_subject_account_activation_request: Запрос на активацию пользователя в системе Redmine
+mail_body_account_activation_request: 'Новый пользователь (%s) зарегистирован. Аккаунт ожидает вашего утверждения:'
+label_registration_automatic_activation: автоматическая активация аккаунтов
+label_registration_manual_activation: активировать аккаунты вручную
+notice_account_pending: "Ваш аккаунт уже создан и ожидает подтверждения администратора."
+field_time_zone: Часовой пояс
