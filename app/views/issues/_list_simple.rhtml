@@ -7,14 +7,14 @@
 		</tr></thead>
 		<tbody>	
 		<% for issue in issues %>
-		<tr class="<%= cycle("odd", "even") %> <%= "status-#{issue.status.position} priority-#{issue.priority.position}" %>">
+		<tr id="issue-<%= issue.id %>" class="issue hascontextmenu <%= cycle('odd', 'even') %> <%= "status-#{issue.status.position} priority-#{issue.priority.position}" %>">
 			<td class="id">
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
 			</td>
-			<td><p class="small"><%= issue.project.name %> - <%= issue.tracker.name %><br />
-                <%= issue.status.name %> - <%= format_time(issue.updated_on) %></p></td>
-			<td>
-                <p class="small"><%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %></p>
+			<td><%= issue.project.name %> - <%= issue.tracker.name %><br />
+                <%= issue.status.name %> - <%= format_time(issue.updated_on) %></td>
+			<td class="subject">
+                <%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %>
             </td>
 		</tr>
 		<% end %>
