@@ -176,7 +176,7 @@ sub is_member {
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
 
   my $sth = $dbh->prepare(
-      "SELECT hashed_password FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND login=? AND identifier=?;"
+      "SELECT hashed_password FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND users.status=1 AND login=? AND identifier=?;"
   );
   $sth->execute($redmine_user, $project_id);
 
