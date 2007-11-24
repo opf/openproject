@@ -46,8 +46,7 @@ class User < ActiveRecord::Base
   validates_length_of :firstname, :lastname, :maximum => 30
   validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
-  # Password length between 4 and 12
-  validates_length_of :password, :in => 4..12, :allow_nil => true
+  validates_length_of :password, :minimum => 4, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
   validates_associated :custom_values, :on => :update
 

@@ -507,6 +507,7 @@ text_tip_task_end_day: tâche finissant ce jour
 text_tip_task_begin_end_day: tâche commençant et finissant ce jour
 text_project_identifier_info: 'Lettres minuscules (a-z), chiffres et tirets autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
 text_caracters_maximum: %d caractères maximum.
+text_caracters_minimum: %d caractères minimum.
 text_length_between: Longueur comprise entre %d et %d caractères.
 text_tracker_no_workflow: Aucun worflow n'est défini pour ce tracker
 text_unallowed_characters: Caractères non autorisés

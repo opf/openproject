@@ -9,7 +9,8 @@
 <%= text_field 'user', 'login', :size => 25  %></p>
 
 <p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label>
-<%= password_field_tag 'password', nil, :size => 25  %></p>
+<%= password_field_tag 'password', nil, :size => 25  %><br />
+<em><%= l(:text_caracters_minimum, 4) %></em></p>
 
 <p><label for="password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
 <%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>

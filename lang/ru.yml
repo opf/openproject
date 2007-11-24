@@ -545,3 +545,4 @@ label_registration_automatic_activation: автоматическая актив
 label_registration_manual_activation: активировать аккаунты вручную
 notice_account_pending: "Ваш аккаунт уже создан и ожидает подтверждения администратора."
 field_time_zone: Часовой пояс
+text_caracters_minimum: Must be at least %d characters long.
