@@ -178,14 +178,16 @@ class User < ActiveRecord::Base
   def role_for_project(project)
     # No role on archived projects
     return nil unless project && project.active?
-    # Find project membership
-    membership = memberships.detect {|m| m.project_id == project.id}
-    if membership
-      membership.role
-    elsif logged?
-      Role.non_member
+    if logged?
+      # Find project membership
+      membership = memberships.detect {|m| m.project_id == project.id}
+      if membership
+        membership.role
+      else
+        @role_non_member ||= Role.non_member
+      end
     else
-      Role.anonymous
+      @role_anonymous ||= Role.anonymous
     end
   end
   
