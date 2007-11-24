@@ -1,28 +1,37 @@
-<h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%=h @message.subject %></h2>
+<div class="contextual">
+    <%= link_to_if_authorized l(:button_edit), {:action => 'edit', :id => @topic}, :class => 'icon icon-edit' %>
+    <%= link_to_if_authorized l(:button_delete), {:action => 'destroy', :id => @topic}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del' %>
+</div>
+
+<h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%=h @topic.subject %></h2>
 
 <div class="message">
-<p><span class="author"><%= authoring @message.created_on, @message.author %></span></p>
+<p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
 <div class="wiki">
-<%= textilizable(@message.content, :attachments => @message.attachments) %>
+<%= textilizable(@topic.content, :attachments => @topic.attachments) %>
 </div>
-<%= link_to_attachments @message.attachments, :no_author => true %>
+<%= link_to_attachments @topic.attachments, :no_author => true %>
 </div>
 <br />
 
-<div class="message reply">
 <h3 class="icon22 icon22-comment"><%= l(:label_reply_plural) %></h3>
-<% @message.children.each do |message| %>
+<% @topic.children.each do |message| %>
   <a name="<%= "message-#{message.id}" %>"></a>
+  <div class="contextual">
+    <%= link_to_if_authorized l(:button_edit), {:action => 'edit', :id => message}, :class => 'icon icon-edit' %>
+    <%= link_to_if_authorized l(:button_delete), {:action => 'destroy', :id => message}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del' %>
+  </div>
+  <div class="message reply">
   <h4><%=h message.subject %> - <%= authoring message.created_on, message.author %></h4>
   <div class="wiki"><%= textilizable message.content %></div>
   <%= link_to_attachments message.attachments, :no_author => true %>
+  </div>
 <% end %>
-</div>
 
-<% if authorize_for('messages', 'reply') %>
+<% if !@topic.locked? && authorize_for('messages', 'reply') %>
 <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
 <div id="reply" style="display:none;">
-<% form_for :reply, @reply, :url => {:action => 'reply', :id => @message}, :html => {:multipart => true} do |f| %>
+<% form_for :reply, @reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true} do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>
     <%= submit_tag l(:button_submit) %>
 <% end %>

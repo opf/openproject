@@ -2,12 +2,12 @@
 boards_001: 
   name: Help
   project_id: 1
-  topics_count: 1
+  topics_count: 2
   id: 1
   description: Help board
   position: 1
-  last_message_id: 2
-  messages_count: 2
+  last_message_id: 5
+  messages_count: 5
 boards_002: 
   name: Discussion
   project_id: 1

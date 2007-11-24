@@ -17,22 +17,30 @@
 
 class MessagesController < ApplicationController
   layout 'base'
-  before_filter :find_project, :authorize
+  before_filter :find_board, :only => :new
+  before_filter :find_message, :except => :new
+  before_filter :authorize
 
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
 
   helper :attachments
   include AttachmentsHelper   
 
+  # Show a topic and its replies
   def show
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?
   end
   
+  # Create a new topic
   def new
     @message = Message.new(params[:message])
     @message.author = User.current
-    @message.board = @board 
+    @message.board = @board
+    if params[:message] && User.current.allowed_to?(:edit_messages, @project)
+      @message.locked = params[:message]['locked']
+      @message.sticky = params[:message]['sticky']
+    end
     if request.post? && @message.save
       params[:attachments].each { |file|
         Attachment.create(:container => @message, :file => file, :author => User.current) if file.size > 0
@@ -41,24 +49,55 @@ class MessagesController < ApplicationController
     end
   end
 
+  # Reply to a topic
   def reply
     @reply = Message.new(params[:reply])
     @reply.author = User.current
     @reply.board = @board
-    @message.children << @reply
+    @topic.children << @reply
     if !@reply.new_record?
       params[:attachments].each { |file|
         Attachment.create(:container => @reply, :file => file, :author => User.current) if file.size > 0
       } if params[:attachments] and params[:attachments].is_a? Array
     end
-    redirect_to :action => 'show', :id => @message
+    redirect_to :action => 'show', :id => @topic
+  end
+
+  # Edit a message
+  def edit
+    if params[:message] && User.current.allowed_to?(:edit_messages, @project)
+      @message.locked = params[:message]['locked']
+      @message.sticky = params[:message]['sticky']
+    end
+    if request.post? && @message.update_attributes(params[:message])
+      params[:attachments].each { |file|
+        Attachment.create(:container => @message, :file => file, :author => User.current) if file.size > 0
+      } if params[:attachments] and params[:attachments].is_a? Array
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :action => 'show', :id => @topic
+    end
+  end
+  
+  # Delete a messages
+  def destroy
+    @message.destroy
+    redirect_to @message.parent.nil? ?
+      { :controller => 'boards', :action => 'show', :project_id => @project, :id => @board } :
+      { :action => 'show', :id => @message.parent }
   end
   
 private
-  def find_project
+  def find_message
+    find_board
+    @message = @board.messages.find(params[:id], :include => :parent)
+    @topic = @message.root
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
+  def find_board
     @board = Board.find(params[:board_id], :include => :project)
     @project = @board.project
-    @message = @board.topics.find(params[:id]) if params[:id]
   rescue ActiveRecord::RecordNotFound
     render_404
   end

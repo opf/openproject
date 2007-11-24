@@ -77,6 +77,11 @@ tr.issue td.subject, tr.issue td.category { white-space: normal; }
 tr.issue td.subject { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 
+tr.message { height: 2.6em; }
+tr.message td.last_message { font-size: 80%; }
+tr.message.locked td.subject a { background-image: url(../images/locked.png); }
+tr.message.sticky td.subject a { background-image: url(../images/sticky.png); font-weight: bold; }
+
 table.list tbody tr:hover { background-color:#ffffdd; }
 table td {padding:2px;}
 table p {margin:0;}

@@ -30,8 +30,14 @@ class Message < ActiveRecord::Base
                 :description => :content,
                 :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id, :id => o.id}}
   
+  attr_protected :locked, :sticky
   validates_presence_of :subject, :content
   validates_length_of :subject, :maximum => 255
+  
+  def validate_on_create
+    # Can not reply to a locked topic
+    errors.add_to_base 'Topic is locked' if root.locked?
+  end
   
   def after_create
     board.update_attribute(:last_message_id, self.id)
@@ -41,6 +47,18 @@ class Message < ActiveRecord::Base
     else
       board.increment! :topics_count
     end
+  end
+  
+  def after_destroy
+    # The following line is required so that the previous counter
+    # updates (due to children removal) are not overwritten
+    board.reload
+    board.decrement! :messages_count
+    board.decrement! :topics_count unless parent
+  end
+  
+  def sticky?
+    sticky == 1
   end
   
   def project

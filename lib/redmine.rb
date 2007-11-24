@@ -84,6 +84,8 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_boards, {:boards => [:new, :edit, :destroy]}, :require => :member
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
     map.permission :add_messages, {:messages => [:new, :reply]}
+    map.permission :edit_messages, {:messages => :edit}, :require => :member
+    map.permission :delete_messages, {:messages => :destroy}, :require => :member
   end
 end
 

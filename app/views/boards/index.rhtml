@@ -19,7 +19,7 @@
     <td>
     <small>
       <% if board.last_message %>
-      <%= board.last_message.author.name %>, <%= format_time(board.last_message.created_on) %><br />
+      <%= authoring board.last_message.created_on, board.last_message.author %><br />
       <%= link_to_message board.last_message %>  
       <% end %>
     </small>

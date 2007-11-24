@@ -34,7 +34,7 @@ module ApplicationHelper
 
   # Display a link to user's account page
   def link_to_user(user)
-    link_to user.name, :controller => 'account', :action => 'show', :id => user
+    user ? link_to(user, :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
   end
   
   def link_to_issue(issue)
@@ -92,7 +92,7 @@ module ApplicationHelper
   
   def authoring(created, author)
     time_tag = content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created))
-    l(:label_added_time_by, author.name, time_tag)
+    l(:label_added_time_by, author || 'Anonymous', time_tag)
   end
   
   def day_name(day)
