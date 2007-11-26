@@ -5,8 +5,8 @@ actionview_datehelper_select_month_names: Enero,Febrero,Marzo,Abril,Mayo,Junio,J
 actionview_datehelper_select_month_names_abbr: Ene,Feb,Mar,Abr,Mayo,Jun,Jul,Ago,Sep,Oct,Nov,Dic
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
-actionview_datehelper_time_in_words_day: 1 day
-actionview_datehelper_time_in_words_day_plural: %d days
+actionview_datehelper_time_in_words_day: 1 día
+actionview_datehelper_time_in_words_day_plural: %d días
 actionview_datehelper_time_in_words_hour_about: una hora aproximadamente
 actionview_datehelper_time_in_words_hour_about_plural: aproximadamente %d horas
 actionview_datehelper_time_in_words_hour_about_single: una hora aproximadamente
@@ -17,15 +17,15 @@ actionview_datehelper_time_in_words_minute_plural: %d minutos
 actionview_datehelper_time_in_words_minute_single: 1 minuto
 actionview_datehelper_time_in_words_second_less_than: menos de un segundo
 actionview_datehelper_time_in_words_second_less_than_plural: menos de %d segundos
-actionview_instancetag_blank_option: Por favor selecciona
+actionview_instancetag_blank_option: Por favor seleccione
 
-activerecord_error_inclusion: is not included in the list
-activerecord_error_exclusion: is reserved
-activerecord_error_invalid: is invalid
-activerecord_error_confirmation: doesn't match confirmation
-activerecord_error_accepted: must be accepted
-activerecord_error_empty: can't be empty
-activerecord_error_blank: can't be blank
+activerecord_error_inclusion: no está incluído en la lista
+activerecord_error_exclusion: está reservado
+activerecord_error_invalid: no es válido
+activerecord_error_confirmation: la confirmación no coincide
+activerecord_error_accepted: debe ser aceptado
+activerecord_error_empty: no puede estar vacío
+activerecord_error_blank: no puede estar en blanco
 activerecord_error_too_long: es demasiado largo
 activerecord_error_too_short: es demasiado corto
 activerecord_error_wrong_length: la longitud es incorrecta
@@ -54,27 +54,27 @@ general_day_names: Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo
 general_first_day_of_week: '1'
 
 notice_account_updated: Cuenta creada correctamente.
-notice_account_invalid_creditentials: Inválido usuario o contraseña
+notice_account_invalid_creditentials: Usuario o contraseña inválido.
 notice_account_password_updated: Contraseña modificada correctamente.
-notice_account_wrong_password: Contraseña incorrecta
+notice_account_wrong_password: Contraseña incorrecta.
 notice_account_register_done: Cuenta creada correctamente.
 notice_account_unknown_email: Usuario desconocido.
-notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
+notice_can_t_change_password: Esta cuenta utiliza una fuente de autenticación externa. No es posible cambiar la contraseña.
 notice_account_lost_email_sent: Un correo con instrucciones para elegir una nueva contraseña le ha sido enviado.
-notice_account_activated: Tu cuenta ha sido activada. Ahora se encuentra conectado.
+notice_account_activated: Su cuenta ha sido activada. Ahora se encuentra conectado.
 notice_successful_create: Creación correcta.
 notice_successful_update: Modificación correcta.
 notice_successful_delete: Borrado correcto.
 notice_successful_connection: Conexión correcta.
-notice_file_not_found: La página que intentabas tener acceso no existe ni se ha quitado.
+notice_file_not_found: La página a la que intentas acceder no existe.
 notice_locking_conflict: Los datos han sido modificados por otro usuario.
-notice_scm_error: La entrada y/o la revisión no existe en el depósito.
+notice_scm_error: La entrada y/o la revisión no existe en el repositorio.
 notice_not_authorized: No tiene autorización para acceder a esta página.
 
 mail_subject_lost_password: Tu contraseña del CIYAT - Gestor de Solicitudes
-mail_body_lost_password: 'To change your Redmine password, click on the following link:'
+mail_body_lost_password: 'Para cambiar su contraseña de Redmine, haga click en el siguiente enlace:'
 mail_subject_register: Activación de la cuenta del CIYAT - Gestor de Solicitudes
-mail_body_register: 'To activate your Redmine account, click on the following link:'
+mail_body_register: 'Para activar su cuenta Redmine, haga click en el siguiente enlace:'
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errores
@@ -85,7 +85,7 @@ field_summary: Resumen
 field_is_required: Obligatorio
 field_firstname: Nombre
 field_lastname: Apellido
-field_mail: Email
+field_mail: Correo electrónico 
 field_filename: Fichero
 field_filesize: Tamaño
 field_downloads: Descargas
@@ -109,7 +109,7 @@ field_is_closed: Petición resuelta
 field_is_default: Estado por defecto
 field_tracker: Tracker
 field_subject: Tema
-field_due_date: Fecha debida
+field_due_date: Fecha fin
 field_assigned_to: Asignado a
 field_priority: Prioridad
 field_fixed_version: Versión corregida
@@ -117,11 +117,11 @@ field_user: Usuario
 field_role: Perfil
 field_homepage: Sitio web
 field_is_public: Público
-field_parent: Proyecto secundario de
+field_parent: Proyecto padre
 field_is_in_chlog: Consultar las peticiones en el histórico
 field_is_in_roadmap: Consultar las peticiones en el roadmap
 field_login: Identificador
-field_mail_notification: Notificación por mail
+field_mail_notification: Notificaciones por correo
 field_admin: Administrador
 field_last_login_on: Última conexión
 field_language: Idioma
@@ -139,11 +139,11 @@ field_attr_login: Cualidad del identificador
 field_attr_firstname: Cualidad del nombre
 field_attr_lastname: Cualidad del apellido
 field_attr_mail: Cualidad del Email
-field_onthefly: Creación del usuario On-the-fly
-field_start_date: Comienzo
+field_onthefly: Creación del usuario "al vuelo"
+field_start_date: Fecha de inicio 
 field_done_ratio: %% Realizado
-field_auth_source: Modo de la autentificación
-field_hide_mail: Ocultar mi dirección de email 
+field_auth_source: Modo de identificación
+field_hide_mail: Ocultar mi dirección de correo
 field_comment: Comentario
 field_url: URL
 field_start_page: Página principal
@@ -156,24 +156,24 @@ field_is_filter: Usado como filtro
 field_issue_to_id: Petición Relacionada
 field_delay: Retraso
 
-setting_app_title: Título del aplicación
-setting_app_subtitle: Subtítulo del aplicación
-setting_welcome_text: Texto bienvenida
+setting_app_title: Título de la aplicación
+setting_app_subtitle: Subtítulo de la aplicación
+setting_welcome_text: Texto de bienvenida
 setting_default_language: Idioma por defecto
-setting_login_required: Autentif. requerida
+setting_login_required: Se requiere identificación
 setting_self_registration: Registro permitido
 setting_attachment_max_size: Tamaño máximo del fichero
-setting_issues_export_limit: Issues export limit
-setting_mail_from: Email de la emisión
-setting_host_name: Nombre de anfitrión
+setting_issues_export_limit: Límite de exportación de peticiones
+setting_mail_from: Correo desde el que enviar mensajes
+setting_host_name: Nombre de host 
 setting_text_formatting: Formato de texto
-setting_wiki_compression: Compresión de la historia de Wiki
-setting_feeds_limit: Feed content limit
-setting_autofetch_changesets: Autofetch SVN commits
+setting_wiki_compression: Compresión del historial de Wiki
+setting_feeds_limit: Límite de contenido para sindicación
+setting_autofetch_changesets: Autorellenar los commits del repositorio
 setting_sys_api_enabled: Enable WS for repository management
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
-setting_autologin: Autologin
+setting_commit_ref_keywords: Palabras clave para la referencia
+setting_commit_fix_keywords: Palabras clave para la corrección
+setting_autologin: Conexión automática 
 setting_date_format: Formato de la fecha
 
 label_user: Usuario
@@ -183,7 +183,7 @@ label_project: Proyecto
 label_project_new: Nuevo proyecto
 label_project_plural: Proyectos
 label_project_all: Todos los proyectos
-label_project_latest: Los proyectos más últimos
+label_project_latest: Últimos proyectos
 label_issue: Petición
 label_issue_new: Nueva petición
 label_issue_plural: Peticiones
@@ -201,7 +201,7 @@ label_member_plural: Miembros
 label_tracker: Tracker
 label_tracker_plural: Trackers
 label_tracker_new: Nuevo tracker
-label_workflow: Workflow
+label_workflow: Flujo de trabajo
 label_issue_status: Estado de petición
 label_issue_status_plural: Estados de las peticiones
 label_issue_status_new: Nuevo estado
@@ -213,12 +213,12 @@ label_custom_field_plural: Campos personalizados
 label_custom_field_new: Nuevo campo personalizado
 label_enumerations: Listas de valores
 label_enumeration_new: Nuevo valor
-label_information: Informacion
-label_information_plural: Informaciones
+label_information: Información
+label_information_plural: Información
 label_please_login: Conexión
 label_register: Registrar
 label_password_lost: ¿Olvidaste la contraseña?
-label_home: Principal
+label_home: Inicio
 label_my_page: Mi página
 label_my_account: Mi cuenta
 label_my_projects: Mis proyectos
@@ -290,7 +290,7 @@ label_next: Próximo
 label_previous: Anterior
 label_used_by: Utilizado por
 label_details: Detalles
-label_add_note: Agregar una nota
+label_add_note: Añadir una nota
 label_per_page: Por la página
 label_calendar: Calendario
 label_months_from: meses de
@@ -307,7 +307,7 @@ label_comment_delete: Suprimir comentarios
 label_query: Pregunta personalizada
 label_query_plural: Preguntas personalizadas
 label_query_new: Nueva pregunta
-label_filter_add: Agregar el filtro
+label_filter_add: Añadir el filtro
 label_filter_plural: Filtros
 label_equals: igual
 label_not_equals: no igual
@@ -321,7 +321,7 @@ label_ago: hace
 label_contains: contiene 
 label_not_contains: no contiene
 label_day_plural: días
-label_repository: Depósito SVN
+label_repository: Repositorio
 label_browse: Hojear
 label_modification: %d modificación
 label_modification_plural: %d modificaciones
@@ -356,7 +356,7 @@ label_current_version: Versión actual
 label_preview: Previo
 label_feed_plural: Feeds
 label_changes_details: Detalles de todos los cambios
-label_issue_tracking: Petición tracking
+label_issue_tracking: Peticiones
 label_spent_time: Tiempo dedicado
 label_f_hour: %.2f hora
 label_f_hour_plural: %.2f horas
@@ -367,7 +367,7 @@ label_commits_per_month: Commits por mes
 label_commits_per_author: Commits por autor
 label_view_diff: Ver diferencias
 label_diff_inline: inline
-label_diff_side_by_side: side by side
+label_diff_side_by_side: cara a cara
 label_options: Opciones
 label_copy_workflow_from: Copiar workflow desde
 label_permissions_report: Informe de permisos
@@ -387,7 +387,7 @@ label_end_to_start: fin a principio
 label_end_to_end: fin a fin
 label_start_to_start: principio a principio
 label_start_to_end: principio a fin
-label_stay_logged_in: Stay logged in
+label_stay_logged_in: Recordar conexión 
 label_disabled: deshabilitado
 label_show_completed_versions: Muestra las versiones completas
 label_me: me
@@ -405,7 +405,7 @@ label_month: Mes
 label_week: Semana
 label_date_from: Desde
 label_date_to: Hasta
-label_language_based: Idioma basado
+label_language_based: Badado en el idioma
 
 button_login: Conexión
 button_submit: Aceptar
@@ -442,11 +442,11 @@ status_active: activo
 status_registered: registrado
 status_locked: bloqueado
 
-text_select_mail_notifications: Seleccionar las actividades que necesitan la activación de la notificación por mail.
+text_select_mail_notifications: Seleccionar los eventos a notificar
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 para ninguna restricción
 text_project_destroy_confirmation: ¿ Estás seguro de querer eliminar el proyecto ?
-text_workflow_edit: Seleccionar un workflow para actualizar
+text_workflow_edit: Seleccionar un flujo de trabajo para actualizar
 text_are_you_sure: ¿ Estás seguro ?
 text_journal_changed: cambiado de %s a %s
 text_journal_set_to: fijado a %s
@@ -487,65 +487,65 @@ default_activity_development: Desarrollo
 enumeration_issue_priorities: Prioridad de las peticiones
 enumeration_doc_categories: Categorías del documento
 enumeration_activities: Actividades (tiempo dedicado)
-label_index_by_date: Index by date
-field_column_names: Columns
-button_rename: Rename
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-label_feeds_access_key_created_on: RSS access key created %s ago
-label_default_columns: Default columns
-setting_cross_project_issue_relations: Allow cross-project issue relations
+label_index_by_date: Índice por fecha
+field_column_names: Columnas
+button_rename: Renombrar
+text_issue_category_destroy_question: Algunas peticiones (%d) están asignadas a esta categoría. ¿Qué desea hacer?
+label_feeds_access_key_created_on: Clave de acceso por RSS creada hace %s
+label_default_columns: Columnas por defecto
+setting_cross_project_issue_relations: Permitir relacionar peticiones de distintos proyectos
 label_roadmap_overdue: %s late
-label_module_plural: Modules
+label_module_plural: Módulos
 label_this_week: this week
 label_index_by_title: Index by title
-label_jump_to_a_project: Jump to a project...
-field_assignable: Issues can be assigned to this role
+label_jump_to_a_project: Ir al proyecto...
+field_assignable: Se pueden asignar peticiones a este perfil
 label_sort_by: Sort by %s
-setting_issue_list_default_columns: Default columns displayed on the issue list
-text_issue_updated: Issue %s has been updated.
-notice_feeds_access_key_reseted: Your RSS access key was reseted.
-field_redirect_existing_links: Redirect existing links
-text_issue_category_reassign_to: Reassign issues to this category
-notice_email_sent: An email was sent to %s
-text_issue_added: Issue %s has been reported.
-field_comments: Comment
-label_file_plural: Files
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-notice_email_error: An error occurred while sending mail (%s)
-label_updated_time: Updated %s ago
-text_issue_category_destroy_assignments: Remove category assignments
-label_send_test_email: Send a test email
+setting_issue_list_default_columns: Columnas por defecto para la lista de peticiones
+text_issue_updated: La petición %s ha sido actualizada.
+notice_feeds_access_key_reseted: Su clave de acceso para RSS ha sido reiniciada
+field_redirect_existing_links: Redireccionar enlaces existentes
+text_issue_category_reassign_to: Reasignar las peticiones a la categoría
+notice_email_sent: Se ha enviado un correo a %s
+text_issue_added: Petición añadida
+field_comments: Comentario
+label_file_plural: Archivos
+text_wiki_destroy_confirmation: ¿Seguro que quiere borrar el wiki y todo su contenido?
+notice_email_error: Ha ocurrido un error mientras enviando el correo (%s)
+label_updated_time: Actualizado hace %s
+text_issue_category_destroy_assignments: Dejar las peticiones sin categoría
+label_send_test_email: Enviar un correo de prueba
 button_reset: Reset
-label_added_time_by: Added by %s %s ago
-field_estimated_hours: Estimated time
+label_added_time_by: Añadido por %s hace %s
+field_estimated_hours: Tiempo estimado
 label_changeset_plural: Changesets
-setting_repositories_encodings: Repositories encodings
-notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
+setting_repositories_encodings: Codificaciones del repositorio
+notice_no_issue_selected: "Ninguna petición seleccionada. Por favor, compruebe la petición que quiere modificar"
 label_bulk_edit_selected_issues: Bulk edit selected issues
 label_no_change_option: (No change)
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-label_theme: Theme
-label_default: Default
-label_search_titles_only: Search titles only
-label_nobody: nobody
-button_change_password: Change password
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
-setting_emails_footer: Emails footer
-label_float: Float
-button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
+notice_failed_to_save_issues: "Imposible salvar %s peticion(es) en %d seleccionado: %s."
+label_theme: Tema
+label_default: Por defecto
+label_search_titles_only: Buscar sólo en títulos
+label_nobody: nadie
+button_change_password: Cambiar contraseña
+text_user_mail_option: "En los proyectos no seleccionados, sólo recibirá notificaciones sobre elementos monitorizados o elementos en los que esté involucrado (por ejemplo, peticiones de las que usted sea autor o asignadas a usted)." 
+label_user_mail_option_selected: "Para cualquier evento del proyecto seleccionado..."
+label_user_mail_option_all: "Para cualquier evento en todos mis proyectos"
+label_user_mail_option_none: "Sólo para elementos monitorizados o relacionados conmigo" 
+setting_emails_footer: Pie de mensajes
+label_float: Flotante
+button_copy: Copiar
+mail_body_account_information_external: Puede usar su cuenta "%s" para conectarse a Redmine.
+mail_body_account_information: Información sobre su cuenta de Redmine
+setting_protocol: Protocolo
+text_caracters_minimum: Must be at least %d characters long.
+field_time_zone: Time zone
 label_registration_activation_by_email: account activation by email
+label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
 mail_subject_account_activation_request: Redmine account activation request
 mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
 label_registration_automatic_activation: automatic account activation
 label_registration_manual_activation: manual account activation
 notice_account_pending: "Your account was created and is now pending administrator approval."
-field_time_zone: Time zone
-text_caracters_minimum: Must be at least %d characters long.
+setting_time_format: Time format
