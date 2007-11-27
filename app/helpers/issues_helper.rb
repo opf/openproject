@@ -125,10 +125,10 @@ module IssuesHelper
                   l(:field_created_on),
                   l(:field_updated_on)
                   ]
-      # only export custom fields if project is given
-      for custom_field in project.all_custom_fields
-        headers << custom_field.name
-      end if project
+      # Export project custom fields if project is given
+      # otherwise export custom fields marked as "For all projects"
+      custom_fields = project.nil? ? IssueCustomField.for_all : project.all_custom_fields
+      custom_fields.each {|f| headers << f.name}
       csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       # csv lines
       issues.each do |issue|
@@ -148,9 +148,7 @@ module IssuesHelper
                   l_datetime(issue.created_on),  
                   l_datetime(issue.updated_on)
                   ]
-        for custom_field in project.all_custom_fields
-          fields << (show_value issue.custom_value_for(custom_field))
-        end if project
+        custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       end
     end
