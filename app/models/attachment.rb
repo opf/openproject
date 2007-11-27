@@ -84,7 +84,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def project
-    container.is_a?(Project) ? container : container.project
+    container.project
   end
   
   def image?

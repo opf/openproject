@@ -1,6 +1,13 @@
 # General Apache options
-AddHandler fastcgi-script .fcgi
-AddHandler cgi-script .cgi
+<IfModule mod_fastcgi.c>
+	AddHandler fastcgi-script .fcgi
+</IfModule>
+<IfModule mod_fcgid.c>
+	AddHandler fcgid-script .fcgi
+</IfModule>
+<IfModule mod_cgi.c>
+	AddHandler cgi-script .cgi
+</IfModule>
 Options +FollowSymLinks +ExecCGI
 
 # If you don't want Rails to look in certain directories,
@@ -29,7 +36,15 @@ RewriteEngine On
 RewriteRule ^$ index.html [QSA]
 RewriteRule ^([^.]+)$ $1.html [QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ dispatch.cgi [QSA,L]
+<IfModule mod_fastcgi.c>
+	RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+</IfModule>
+<IfModule mod_fcgid.c>
+	RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+</IfModule>
+<IfModule mod_cgi.c>
+	RewriteRule ^(.*)$ dispatch.cgi [QSA,L]
+</IfModule>
 
 # In case Rails experiences terminal errors
 # Instead of displaying this message you can supply a file here which will be rendered instead

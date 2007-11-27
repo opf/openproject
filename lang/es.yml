@@ -29,7 +29,7 @@ activerecord_error_blank: no puede estar en blanco
 activerecord_error_too_long: es demasiado largo
 activerecord_error_too_short: es demasiado corto
 activerecord_error_wrong_length: la longitud es incorrecta
-activerecord_error_taken: has already been taken
+activerecord_error_taken: ya está siendo usado
 activerecord_error_not_a_number: no es un número
 activerecord_error_not_a_date: no es una fecha válida
 activerecord_error_greater_than_start_date: debe ser la fecha mayor que del comienzo
@@ -60,7 +60,7 @@ notice_account_wrong_password: Contraseña incorrecta.
 notice_account_register_done: Cuenta creada correctamente.
 notice_account_unknown_email: Usuario desconocido.
 notice_can_t_change_password: Esta cuenta utiliza una fuente de autenticación externa. No es posible cambiar la contraseña.
-notice_account_lost_email_sent: Un correo con instrucciones para elegir una nueva contraseña le ha sido enviado.
+notice_account_lost_email_sent: Se le ha enviado un correo con instrucciones para elegir una nueva contraseña.
 notice_account_activated: Su cuenta ha sido activada. Ahora se encuentra conectado.
 notice_successful_create: Creación correcta.
 notice_successful_update: Modificación correcta.
@@ -226,7 +226,7 @@ label_administration: Administración
 label_login: Conexión
 label_logout: Desconexión
 label_help: Ayuda
-label_reported_issues: Peticiones registradas
+label_reported_issues: Peticiones registradas por mí
 label_assigned_to_me_issues: Peticiones que me están asignadas
 label_last_login: Última conexión
 label_last_updates: Actualizado
@@ -257,7 +257,7 @@ label_change_status: Cambiar el estado
 label_history: Histórico
 label_attachment: Fichero
 label_attachment_new: Nuevo fichero
-label_attachment_delete: Suprimir el fichero
+label_attachment_delete: Borrar el fichero
 label_attachment_plural: Ficheros
 label_report: Informe
 label_report_plural: Informes
@@ -303,10 +303,10 @@ label_comment: Comentario
 label_comment_plural: Comentarios
 label_comment_add: Añadir un comentario
 label_comment_added: Comentario añadido
-label_comment_delete: Suprimir comentarios
-label_query: Pregunta personalizada
-label_query_plural: Preguntas personalizadas
-label_query_new: Nueva pregunta
+label_comment_delete: Borrar comentarios
+label_query: Consulta personalizada
+label_query_plural: Consultas personalizadas
+label_query_new: Nueva consulta
 label_filter_add: Añadir el filtro
 label_filter_plural: Filtros
 label_equals: igual
@@ -334,7 +334,7 @@ label_latest_revision: La revisión más actual
 label_latest_revision_plural: Las revisiones más actuales
 label_view_revisions: Ver las revisiones
 label_max_size: Tamaño máximo
-label_on: en
+label_on: de
 label_sort_highest: Primero
 label_sort_higher: Subir
 label_sort_lower: Bajar
@@ -344,7 +344,7 @@ label_roadmap_due_in: Realizado en
 label_roadmap_no_issues: No hay peticiones para esta versión
 label_search: Búsqueda
 label_result: %d resultado
-label_result_plural: %d resultados
+label_result_plural: Resultados
 label_all_words: Todas las palabras
 label_wiki: Wiki
 label_wiki_edit: Wiki edicción
@@ -353,7 +353,7 @@ label_wiki_page: Wiki página
 label_wiki_page_plural: Wiki páginas
 label_page_index: Índice
 label_current_version: Versión actual
-label_preview: Previo
+label_preview: Previsualizar
 label_feed_plural: Feeds
 label_changes_details: Detalles de todos los cambios
 label_issue_tracking: Peticiones
@@ -391,10 +391,10 @@ label_stay_logged_in: Recordar conexión
 label_disabled: deshabilitado
 label_show_completed_versions: Muestra las versiones completas
 label_me: me
-label_board: Forum
-label_board_new: Nuevo forum
-label_board_plural: Forums
-label_topic_plural: Topics
+label_board: Foro
+label_board_new: Nuevo foro
+label_board_plural: Foros
+label_topic_plural: Temas
 label_message_plural: Mensajes
 label_message_last: Último mensaje
 label_message_new: Nuevo mensaje
@@ -409,10 +409,10 @@ label_language_based: Badado en el idioma
 
 button_login: Conexión
 button_submit: Aceptar
-button_save: Validar
+button_save: Guardar
 button_check_all: Seleccionar todo
 button_uncheck_all: No seleccionar nada
-button_delete: Suprimir
+button_delete: Borrar
 button_create: Crear
 button_test: Testar
 button_edit: Modificar
@@ -455,30 +455,30 @@ text_tip_task_begin_day: tarea que comienza este día
 text_tip_task_end_day: tarea que termina este día
 text_tip_task_begin_end_day: tarea que comienza y termina este día
 text_project_identifier_info: 'Letras minúsculas (a-z), números y signos de puntuación permitidos.<br />Una vez guardado, el identificador no puede modificarse.'
-text_caracters_maximum: %d caracteres máximo.
-text_length_between: Longitud entre %d y %d caracteres.
+text_caracters_maximum: %d carácteres como máximo.
+text_length_between: Longitud entre %d y %d carácteres.
 text_tracker_no_workflow: No hay ningún workflow definido para este tracker
-text_unallowed_characters: Caracteres no permitidos
+text_unallowed_characters: Carácteres no permitidos
 text_comma_separated: Múltiples valores permitidos (separados por coma).
 text_issues_ref_in_commit_messages: Referencia y petición de corrección en los mensajes
 
-default_role_manager: Manager
+default_role_manager: Jefe de proyecto
 default_role_developper: Desarrollador
 default_role_reporter: Informador
-default_tracker_bug: Anomalía
-default_tracker_feature: Evolución
-default_tracker_support: Asistencia
-default_issue_status_new: Nuevo
+default_tracker_bug: Errores
+default_tracker_feature: Tareas
+default_tracker_support: Soporte
+default_issue_status_new: Nueva
 default_issue_status_assigned: Asignada
 default_issue_status_resolved: Resuelta
-default_issue_status_feedback: Comentario
+default_issue_status_feedback: Comentarios
 default_issue_status_closed: Cerrada
 default_issue_status_rejected: Rechazada
-default_doc_category_user: Documentación del usuario
+default_doc_category_user: Documentación de usuario
 default_doc_category_tech: Documentación tecnica
-default_priority_low: Bajo
+default_priority_low: Baja
 default_priority_normal: Normal
-default_priority_high: Alto
+default_priority_high: Alta
 default_priority_urgent: Urgente
 default_priority_immediate: Inmediata
 default_activity_design: Diseño
@@ -494,13 +494,13 @@ text_issue_category_destroy_question: Algunas peticiones (%d) están asignadas a
 label_feeds_access_key_created_on: Clave de acceso por RSS creada hace %s
 label_default_columns: Columnas por defecto
 setting_cross_project_issue_relations: Permitir relacionar peticiones de distintos proyectos
-label_roadmap_overdue: %s late
+label_roadmap_overdue: %s tarde
 label_module_plural: Módulos
-label_this_week: this week
-label_index_by_title: Index by title
+label_this_week: esta semana
+label_index_by_title: Índice por título
 label_jump_to_a_project: Ir al proyecto...
 field_assignable: Se pueden asignar peticiones a este perfil
-label_sort_by: Sort by %s
+label_sort_by: Ordenar por %s
 setting_issue_list_default_columns: Columnas por defecto para la lista de peticiones
 text_issue_updated: La petición %s ha sido actualizada.
 notice_feeds_access_key_reseted: Su clave de acceso para RSS ha sido reiniciada
@@ -518,7 +518,7 @@ label_send_test_email: Enviar un correo de prueba
 button_reset: Reset
 label_added_time_by: Añadido por %s hace %s
 field_estimated_hours: Tiempo estimado
-label_changeset_plural: Changesets
+label_changeset_plural: Cambios
 setting_repositories_encodings: Codificaciones del repositorio
 notice_no_issue_selected: "Ninguna petición seleccionada. Por favor, compruebe la petición que quiere modificar"
 label_bulk_edit_selected_issues: Bulk edit selected issues
@@ -539,13 +539,13 @@ button_copy: Copiar
 mail_body_account_information_external: Puede usar su cuenta "%s" para conectarse a Redmine.
 mail_body_account_information: Información sobre su cuenta de Redmine
 setting_protocol: Protocolo
-text_caracters_minimum: Must be at least %d characters long.
-field_time_zone: Time zone
-label_registration_activation_by_email: account activation by email
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
-setting_time_format: Time format
+text_caracters_minimum: %d carácteres como mínimo
+field_time_zone: Zona horaria
+label_registration_activation_by_email: activación de cuenta por correo
+label_user_mail_no_self_notified: "No quiero ser avisado de cambios hechos por mí"
+mail_subject_account_activation_request: Petición de activación de cuenta Redmine
+mail_body_account_activation_request: "Un nuevo usuario (%s) ha sido registrado. Esta cuenta está pendiende de aprobación"
+label_registration_automatic_activation: activación automática de cuenta
+label_registration_manual_activation: activación manual de cuenta
+notice_account_pending: "Su cuenta ha sido creada y está pendiende de la aprobación por parte de administrador"
+setting_time_format: Formato de hora

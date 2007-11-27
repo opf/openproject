@@ -6,16 +6,16 @@ actionview_datehelper_select_month_names_abbr: Jan,Feb,Mär,Apr,Mai,Jun,Jul,Aug,
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
 actionview_datehelper_time_in_words_day: 1 Tag
-actionview_datehelper_time_in_words_day_plural: %d Tage
-actionview_datehelper_time_in_words_hour_about: ungefähr eine Stunde
+actionview_datehelper_time_in_words_day_plural: %d Tagen
+actionview_datehelper_time_in_words_hour_about: ungefähr einer Stunde
 actionview_datehelper_time_in_words_hour_about_plural: ungefähr %d Stunden
-actionview_datehelper_time_in_words_hour_about_single: ungefähr eine Stunde
+actionview_datehelper_time_in_words_hour_about_single: ungefähr einer Stunde
 actionview_datehelper_time_in_words_minute: 1 Minute
-actionview_datehelper_time_in_words_minute_half: halbe Minute
-actionview_datehelper_time_in_words_minute_less_than: weniger als eine Minute
+actionview_datehelper_time_in_words_minute_half: einer halben Minute
+actionview_datehelper_time_in_words_minute_less_than: weniger als einer Minute
 actionview_datehelper_time_in_words_minute_plural: %d Minuten
 actionview_datehelper_time_in_words_minute_single: 1 Minute
-actionview_datehelper_time_in_words_second_less_than: Weniger als eine Sekunde
+actionview_datehelper_time_in_words_second_less_than: weniger als einer Sekunde
 actionview_datehelper_time_in_words_second_less_than_plural: weniger als %d Sekunden
 actionview_instancetag_blank_option: Bitte auswählen
 
@@ -74,10 +74,10 @@ notice_email_sent: Eine E-Mail wurde an %s gesendet.
 notice_email_error: Beim Senden einer E-Mail ist ein Fehler aufgetreten (%s).
 notice_feeds_access_key_reseted: Ihr RSS-Zugriffsschlüssel wurde zurückgesetzt.
 
-mail_subject_lost_password: Ihr Redmine Kennwort
-mail_body_lost_password: 'Benutzen Sie folgenden Link, um das Password zu Ãndern:'
+mail_subject_lost_password: Ihr Redmine-Kennwort
+mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
 mail_subject_register: Redmine Kontoaktivierung
-mail_body_register: 'Um Ihren Account zu aktivieren, benutzen Sie folgenden Link:'
+mail_body_register: 'Um Ihr Konto zu aktivieren, benutzen Sie folgenden Link:'
 
 gui_validation_error: 1 Fehler
 gui_validation_error_plural: %d Fehler
@@ -88,7 +88,7 @@ field_summary: Zusammenfassung
 field_is_required: Erforderlich
 field_firstname: Vorname
 field_lastname: Nachname
-field_mail: Email
+field_mail: E-Mail
 field_filename: Datei
 field_filesize: Größe
 field_downloads: Downloads
@@ -146,7 +146,7 @@ field_onthefly: On-the-fly-Benutzererstellung
 field_start_date: Beginn
 field_done_ratio: %% erledigt
 field_auth_source: Authentifizierungs-Modus
-field_hide_mail: Email-Adresse nicht anzeigen
+field_hide_mail: E-Mail-Adresse nicht anzeigen
 field_comments: Kommentar
 field_url: URL
 field_start_page: Hauptseite
@@ -421,7 +421,7 @@ label_feeds_access_key_created_on: RSS-Zugriffsschlüssel vor %s erstellt
 label_module_plural: Module
 label_added_time_by: Von %s vor %s hinzugefügt
 label_updated_time: Vor %s aktualisiert
-label_jump_to_a_project: Jump to a project...
+label_jump_to_a_project: Zu einem Projekt springen...
 
 button_login: Anmelden
 button_submit: OK
@@ -470,8 +470,8 @@ text_journal_changed: geändert von %s zu %s
 text_journal_set_to: gestellt zu %s
 text_journal_deleted: gelöscht
 text_tip_task_begin_day: Aufgabe, die an diesem Tag beginnt
-text_tip_task_end_day: Aufgabe, die an diesem Tag beendet
-text_tip_task_begin_end_day: Aufgabe, die an diesem Tag beginnt und beendet
+text_tip_task_end_day: Aufgabe, die an diesem Tag endet
+text_tip_task_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
 text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern und Bindestriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
 text_caracters_maximum: Max. %d Zeichen.
 text_length_between: Länge zwischen %d und %d Zeichen.
@@ -482,9 +482,9 @@ text_issues_ref_in_commit_messages: Ticket-Beziehungen und -Status in Commit-Log
 text_issue_added: Ticket %s wurde erstellt.
 text_issue_updated: Ticket %s wurde aktualisiert.
 text_wiki_destroy_confirmation: Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-text_issue_category_destroy_assignments: Remove category assignments
-text_issue_category_reassign_to: Reassing issues to this category
+text_issue_category_destroy_question: Einige Tickets (%d) sind dieser Kategorie zugeodnet. Was möchten Sie tun?
+text_issue_category_destroy_assignments: Kategorie-Zuordnung entfernen
+text_issue_category_reassign_to: Tickets dieser Kategorie zuordnen
 
 default_role_manager: Manager
 default_role_developper: Developer
@@ -511,38 +511,38 @@ default_activity_development: Development
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
-label_file_plural: Files
+label_file_plural: Dateien
 label_changeset_plural: Changesets
-field_column_names: Columns
-label_default_columns: Default columns
-setting_issue_list_default_columns: Default columns displayed on the issue list
-setting_repositories_encodings: Repositories encodings
-notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
-label_bulk_edit_selected_issues: Bulk edit selected issues
-label_no_change_option: (No change)
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-label_theme: Theme
+field_column_names: Spalten
+label_default_columns: Default-Spalten
+setting_issue_list_default_columns: Default-Spalten in der Ticket-Auflistung
+setting_repositories_encodings: Repository-Kodierung
+notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
+label_bulk_edit_selected_issues: Alle ausgewählten Tickets bearbeiten
+label_no_change_option: (Keine Änderung)
+notice_failed_to_save_issues: "%d von %d ausgewählten Tickets konnte(n) nicht gespeichert werden: %s."
+label_theme: Stil
 label_default: Default
-label_search_titles_only: Search titles only
-label_nobody: nobody
-button_change_password: Change password
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
-setting_emails_footer: Emails footer
-label_float: Float
-button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
-field_time_zone: Time zone
-text_caracters_minimum: Must be at least %d characters long.
+label_search_titles_only: Nur Titel durchsuchen
+label_nobody: Niemand
+button_change_password: Kennwort ändern
+text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z.B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
+label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
+label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
+label_user_mail_option_none: "Nur für Dinge, die ich beobachte oder an denen ich beteiligt bin"
+setting_emails_footer: E-Mail-Fußzeile
+label_float: Fließkommazahl
+button_copy: Kopieren
+mail_body_account_information_external: Sie können sich mit Ihrem Konto "%s" an Redmine anmelden.
+mail_body_account_information: Ihre Redmine Konto-Informationen
+setting_protocol: Protokoll
+label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
+setting_time_format: Zeitformat
+label_registration_activation_by_email: Kontoaktivierung durch E-Mail
+mail_subject_account_activation_request: Antrag auf Redmine Kontoaktivierung
+mail_body_account_activation_request: 'Ein neuer Benutzer (%s) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:'
+label_registration_automatic_activation: Automatische Kontoaktivierung
+label_registration_manual_activation: Manuelle Kontoaktivierung
+notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
+field_time_zone: Zeitzone
+text_caracters_minimum: Muss mindestens %d Zeichen lang sein.
