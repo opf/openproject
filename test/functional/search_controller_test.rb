@@ -46,4 +46,9 @@ class SearchControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'index'
   end
+  
+  def test_tokens_with_quotes
+    get :index, :id => 1, :q => '"good bye" hello "bye bye"'
+    assert_equal ["good bye", "hello", "bye bye"], assigns(:tokens)
+  end
 end

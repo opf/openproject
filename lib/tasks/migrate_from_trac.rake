@@ -54,10 +54,11 @@ namespace :redmine do
                            'task' => TRACKER_FEATURE,
                            'patch' =>TRACKER_FEATURE
                            }
-                            
-        DEFAULT_ROLE = Role.find_by_position(3)
-        manager_role = Role.find_by_position(1)
-        developer_role = Role.find_by_position(2)
+        
+        roles = Role.find(:all, :conditions => {:builtin => 0}, :order => 'position ASC')
+        manager_role = roles[0]
+        developer_role = roles[1]
+        DEFAULT_ROLE = roles.last
         ROLE_MAPPING = {'admin' => manager_role,
                         'developer' => developer_role
                         }
@@ -173,7 +174,7 @@ namespace :redmine do
           elsif TracPermission.find_by_username_and_action(username, 'developer')
             role = ROLE_MAPPING['developer']
           end
-          Member.create(:user => u, :project => @target_project, :role => DEFAULT_ROLE)
+          Member.create(:user => u, :project => @target_project, :role => role)
           u.reload
         end
         u
