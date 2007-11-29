@@ -4,7 +4,7 @@
 <% end %>
 
 <h3><%= l(:label_issue_plural) %></h3>
-<%= link_to l(:label_issue_view_all), { :set_filter => 1 } %><br />
+<%= link_to l(:label_issue_view_all), { :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 } %><br />
 <%= link_to l(:field_summary), :controller => 'reports', :action => 'issue_report', :id => @project %><br />
 <%= link_to l(:label_change_log), :controller => 'projects', :action => 'changelog', :id => @project %>
 
