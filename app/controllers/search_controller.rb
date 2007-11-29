@@ -52,8 +52,11 @@ class SearchController < ApplicationController
       @object_types = @scope = %w(projects)
     end
     
+    # extract tokens from the question
+    # eg. hello "bye bye" => ["hello", "bye bye"]
+    @tokens = @question.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
     # tokens must be at least 3 character long
-    @tokens = @question.split.uniq.select {|w| w.length > 2 }
+    @tokens = @tokens.uniq.select {|w| w.length > 2 }
     
     if !@tokens.empty?
       # no more than 5 tokens to search for
@@ -93,7 +96,6 @@ class SearchController < ApplicationController
         # if only one project is found, user is redirected to its overview
         redirect_to :controller => 'projects', :action => 'show', :id => @results.first and return if @results.size == 1
       end
-      @question = @tokens.join(" ")
     else
       @question = ""
     end
