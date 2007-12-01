@@ -147,7 +147,7 @@ class Query < ActiveRecord::Base
     user_values = []
     user_values << ["<< #{l(:label_me)} >>", "me"] if executed_by
     if project
-      user_values += project.users.collect{|s| [s.name, s.id.to_s] }
+      user_values += project.users.sort.collect{|s| [s.name, s.id.to_s] }
     elsif executed_by
       # members of the user's projects
       user_values += executed_by.projects.collect(&:users).flatten.uniq.sort.collect{|s| [s.name, s.id.to_s] }

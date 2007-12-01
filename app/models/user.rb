@@ -163,7 +163,7 @@ class User < ActiveRecord::Base
   end
 
   def <=>(user)
-    lastname == user.lastname ? firstname <=> user.firstname : lastname <=> user.lastname
+    user.nil? ? -1 : (lastname == user.lastname ? firstname <=> user.firstname : lastname <=> user.lastname)
   end
   
   def to_s
