@@ -111,6 +111,8 @@ div.square {
 }
 
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px;font-size:0.9em;}
+.contextual input {font-size:0.9em;}
+
 .splitcontentleft{float:left; width:49%;}
 .splitcontentright{float:right; width:49%;}
 form {display: inline;}

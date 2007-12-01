@@ -39,4 +39,24 @@ class ChangesetTest < Test::Unit::TestCase
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
   end
+
+  def test_previous
+    changeset = Changeset.find_by_revision(3)
+    assert_equal Changeset.find_by_revision(2), changeset.previous
+  end
+
+  def test_previous_nil
+    changeset = Changeset.find_by_revision(1)
+    assert_nil changeset.previous
+  end
+
+  def test_next
+    changeset = Changeset.find_by_revision(2)
+    assert_equal Changeset.find_by_revision(3), changeset.next
+  end
+
+  def test_next_nil
+    changeset = Changeset.find_by_revision(4)
+    assert_nil changeset.next
+  end
 end

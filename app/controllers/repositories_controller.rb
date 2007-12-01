@@ -19,6 +19,9 @@ require 'SVG/Graph/Bar'
 require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
 
+class ChangesetNotFound < Exception
+end
+
 class RepositoriesController < ApplicationController
   layout 'base'
   before_filter :find_repository, :except => :edit
@@ -94,14 +97,19 @@ class RepositoriesController < ApplicationController
   
   def revision
     @changeset = @repository.changesets.find_by_revision(@rev)
-    show_error and return unless @changeset
+    raise ChangesetNotFound unless @changeset
     @changes_count = @changeset.changes.size
     @changes_pages = Paginator.new self, @changes_count, 150, params['page']								
     @changes = @changeset.changes.find(:all,
   						:limit  =>  @changes_pages.items_per_page,
   						:offset =>  @changes_pages.current.offset)
-  	
-  	render :action => "revision", :layout => false if request.xhr?	
+
+    respond_to do |format|
+      format.html
+      format.js {render :layout => false}
+    end
+  rescue ChangesetNotFound
+    show_error
   end
   
   def diff

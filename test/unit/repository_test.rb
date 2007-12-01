@@ -25,14 +25,14 @@ class RepositoryTest < Test::Unit::TestCase
   end
   
   def test_create
-    repository = Repository::Subversion.new(:project => Project.find(2))
+    repository = Repository::Subversion.new(:project => Project.find(3))
     assert !repository.save
   
     repository.url = "svn://localhost"
     assert repository.save
     repository.reload
     
-    project = Project.find(2)
+    project = Project.find(3)
     assert_equal repository, project.repository
   end
   

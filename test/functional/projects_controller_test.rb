@@ -89,7 +89,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   end
 
   def test_activity
-    get :activity, :id => 1
+    get :activity, :id => 1, :year => 2.days.ago.to_date.year, :month => 2.days.ago.to_date.month
     assert_response :success
     assert_template 'activity'
     assert_not_nil assigns(:events_by_day)

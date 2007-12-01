@@ -1,8 +1,22 @@
 <div class="contextual">
-<% form_tag do %>
-<%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
-<%= submit_tag 'OK' %>
-<% end %>
+  &#171;
+  <% unless @changeset.previous.nil? -%>
+    <%= link_to l(:label_previous), :controller => 'repositories', :action => 'revision', :id => @project, :rev => @changeset.previous.revision %>
+  <% else -%>
+    <%= l(:label_previous) %>
+  <% end -%>
+|
+  <% unless @changeset.next.nil? -%>
+    <%= link_to l(:label_next), :controller => 'repositories', :action => 'revision', :id => @project, :rev => @changeset.next.revision %>
+  <% else -%>
+    <%= l(:label_next) %>
+  <% end -%>
+  &#187;&nbsp;
+  
+  <% form_tag do %>
+    <%= text_field_tag 'rev', @rev, :size => 5 %>
+    <%= submit_tag 'OK' %>
+  <% end %>
 </div>
 
 <h2><%= l(:label_revision) %> <%= @changeset.revision %></h2>

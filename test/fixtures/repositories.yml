@@ -6,3 +6,10 @@ repositories_001:
   root_url: svn://localhost
   password: ""
   login: ""
+repositories_002: 
+  project_id: 2
+  url: svn://localhost/test
+  id: 11
+  root_url: svn://localhost
+  password: ""
+  login: ""

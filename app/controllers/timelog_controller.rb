@@ -54,7 +54,7 @@ class TimelogController < ApplicationController
       begin; @date_to = params[:date_to].to_date; rescue; end
     end
     @date_from ||= Date.civil(Date.today.year, 1, 1)
-    @date_to ||= Date.civil(Date.today.year, Date.today.month+1, 1) - 1
+    @date_to ||= (Date.civil(Date.today.year, Date.today.month, 1) >> 1) - 1
     
     unless @criterias.empty?
       sql_select = @criterias.collect{|criteria| @available_criterias[criteria][:sql] + " AS " + criteria}.join(', ')

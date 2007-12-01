@@ -91,4 +91,14 @@ class Changeset < ActiveRecord::Base
     
     self.issues = referenced_issues.uniq
   end
+
+  # Returns the previous changeset
+  def previous
+    @previous ||= Changeset.find(:first, :conditions => ['revision < ? AND repository_id = ?', self.revision, self.repository_id], :order => 'revision DESC')
+  end
+
+  # Returns the next changeset
+  def next
+    @next ||= Changeset.find(:first, :conditions => ['revision > ? AND repository_id = ?', self.revision, self.repository_id], :order => 'revision ASC')
+  end
 end
