@@ -13,7 +13,7 @@ dirs.each do |dir|
     / <%= link_to h(dir), :action => 'browse', :id => @project, :path => link_path, :rev => @rev %>
 <% end %>
 <% if filename %>
-    / <%= link_to h(filename), :action => 'revisions', :id => @project, :path => "#{link_path}/#{filename}", :rev => @rev %>
+    / <%= link_to h(filename), :action => 'changes', :id => @project, :path => "#{link_path}/#{filename}", :rev => @rev %>
 <% end %>
 
 <%= "@ #{revision}" if revision %>
