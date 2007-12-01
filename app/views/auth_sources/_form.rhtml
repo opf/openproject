@@ -15,7 +15,10 @@
 <%= text_field 'auth_source', 'account'  %></p>
 
 <p><label for="auth_source_account_password"><%=l(:field_password)%></label>
-<%= password_field 'auth_source', 'account_password'  %></p>
+<%= password_field 'auth_source', 'account_password', :name => 'ignore',
+                                           :value => ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('x'*15)),
+                                           :onfocus => "this.value=''; this.name='auth_source[account_password]';",
+                                           :onchange => "this.name='auth_source[account_password]';" %></p>
 
 <p><label for="auth_source_base_dn"><%=l(:field_base_dn)%> <span class="required">*</span></label>
 <%= text_field 'auth_source', 'base_dn', :size => 60 %></p>
