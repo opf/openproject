@@ -18,6 +18,7 @@
 require 'csv'
 
 module IssuesHelper
+  include ApplicationHelper
 
   def render_issue_tooltip(issue)
     @cached_label_start_date ||= l(:field_start_date)
@@ -142,11 +143,11 @@ module IssuesHelper
                   issue.category,
                   issue.fixed_version,
                   issue.author.name,
-                  issue.start_date ? l_date(issue.start_date) : nil,
-                  issue.due_date ? l_date(issue.due_date) : nil,
+                  format_date(issue.start_date),
+                  format_date(issue.due_date),
                   issue.done_ratio,
-                  l_datetime(issue.created_on),  
-                  l_datetime(issue.updated_on)
+                  format_time(issue.created_on),  
+                  format_time(issue.updated_on)
                   ]
         custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
