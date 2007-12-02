@@ -12,7 +12,7 @@
 &nbsp;
 <h3 class="icon22 icon22-plugin">Plugins</h3>
 <table class="list">
-    <% @plugins.keys.sort.each do |plugin| %>
+    <% @plugins.keys.sort {|x,y| x.to_s <=> y.to_s}.each do |plugin| %>
         <tr class="<%= cycle('odd', 'even') %>">
         <td><%=h @plugins[plugin].name %></td>
         <td><%=h @plugins[plugin].description %></td>
