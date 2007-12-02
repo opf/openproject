@@ -33,7 +33,8 @@ class RolesController < ApplicationController
   end
 
   def new
-    @role = Role.new(params[:role])
+    # Prefills the form with 'Non member' role permissions
+    @role = Role.new(params[:role] || {:permissions => Role.non_member.permissions})
     if request.post? && @role.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
