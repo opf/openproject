@@ -20,6 +20,9 @@ class AuthSource < ActiveRecord::Base
   
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_length_of :name, :host, :account_password, :maximum => 60
+  validates_length_of :account, :base_dn, :maximum => 255
+  validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30
 
   def authenticate(login, password)
   end
