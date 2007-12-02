@@ -129,11 +129,20 @@ class Mailer < ActionMailer::Base
     default_url_options[:protocol] = Setting.protocol
   end
   
-  # Overrides the create_mail method to remove the current user from the recipients and cc
-  # if he doesn't want to receive notifications about what he does
+  # Overrides the create_mail method
   def create_mail
-    recipients.delete(User.current.mail) if recipients && User.current.pref[:no_self_notified]
-    cc.delete(User.current.mail) if cc && User.current.pref[:no_self_notified]
+    # Removes the current user from the recipients and cc
+    # if he doesn't want to receive notifications about what he does
+    if User.current.pref[:no_self_notified]
+      recipients.delete(User.current.mail) if recipients
+      cc.delete(User.current.mail) if cc
+    end
+    # Blind carbon copy recipients
+    if Setting.bcc_recipients?
+      bcc([recipients, cc].flatten.compact.uniq)
+      recipients []
+      cc []
+    end    
     super
   end
   

@@ -549,3 +549,4 @@ label_registration_automatic_activation: activación automática de cuenta
 label_registration_manual_activation: activación manual de cuenta
 notice_account_pending: "Su cuenta ha sido creada y está pendiende de la aprobación por parte de administrador"
 setting_time_format: Formato de hora
+setting_bcc_recipients: Blind carbon copy recipients (bcc)

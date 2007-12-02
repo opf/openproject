@@ -39,6 +39,8 @@ issues_export_limit:
   default: 500
 mail_from:
   default: redmine@somenet.foo
+bcc_recipients:
+  default: 1
 text_formatting:
   default: textile
 wiki_compression:

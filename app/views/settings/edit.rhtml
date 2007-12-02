@@ -1,8 +1,7 @@
 <h2><%= l(:label_settings) %></h2>
 
-<div id="settings">
 <% form_tag({:action => 'edit'}) do %>
-<div class="box tabular">
+<div class="box tabular settings">
 <p><label><%= l(:setting_app_title) %></label>
 <%= text_field_tag 'settings[app_title]', Setting.app_title, :size => 30 %></p>
 
@@ -33,9 +32,6 @@
 
 <p><label><%= l(:setting_cross_project_issue_relations) %></label>
 <%= check_box_tag 'settings[cross_project_issue_relations]', 1, Setting.cross_project_issue_relations? %><%= hidden_field_tag 'settings[cross_project_issue_relations]', 0 %></p>
-
-<p><label><%= l(:setting_mail_from) %></label>
-<%= text_field_tag 'settings[mail_from]', Setting.mail_from, :size => 60 %></p>
 
 <p><label><%= l(:setting_host_name) %></label>
 <%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %></p>
@@ -101,5 +97,4 @@
 </fieldset>
 
 <%= submit_tag l(:button_save) %>
-</div>
 <% end %>

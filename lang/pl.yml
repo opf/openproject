@@ -546,3 +546,4 @@ label_registration_manual_activation: manualna aktywacja kont
 notice_account_pending: "Twoje konto zostało utworzone i oczekuje na zatwierdzenie administratora."
 field_time_zone: Strefa czasowa
 text_caracters_minimum: Must be at least %d characters long.
+setting_bcc_recipients: Blind carbon copy recipients (bcc)

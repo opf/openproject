@@ -546,3 +546,4 @@ label_registration_manual_activation: Manuelle Kontoaktivierung
 notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
 field_time_zone: Zeitzone
 text_caracters_minimum: Muss mindestens %d Zeichen lang sein.
+setting_bcc_recipients: Blind carbon copy recipients (bcc)
