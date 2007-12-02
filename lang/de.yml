@@ -547,3 +547,4 @@ notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Geneh
 field_time_zone: Zeitzone
 text_caracters_minimum: Muss mindestens %d Zeichen lang sein.
 setting_bcc_recipients: Blind carbon copy recipients (bcc)
+button_annotate: Annotate

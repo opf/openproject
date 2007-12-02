@@ -547,3 +547,4 @@ notice_account_pending: "Twoje konto zostało utworzone i oczekuje na zatwierdze
 field_time_zone: Strefa czasowa
 text_caracters_minimum: Must be at least %d characters long.
 setting_bcc_recipients: Blind carbon copy recipients (bcc)
+button_annotate: Annotate

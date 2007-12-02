@@ -2,11 +2,6 @@
 
 <div class="autoscroll">
 <table class="filecontent CodeRay">
-  <thead>
-    <tr>
-      <th colspan="2" class="filename"><%= @path %></th>
-    </tr>
-  </thead>
   <tbody>
     <% line_num = 1 %>
     <% syntax_highlight(@path, to_utf8(@content)).each_line do |line| %>

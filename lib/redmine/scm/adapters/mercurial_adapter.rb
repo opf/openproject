@@ -157,6 +157,25 @@ module Redmine
         rescue Errno::ENOENT => e
           raise CommandFailed
         end
+        
+        def annotate(path, identifier=nil)
+          path ||= ''
+          cmd = "#{HG_BIN} -R #{target('')}"
+          cmd << " annotate -n -u"
+          cmd << " -r #{identifier.to_i}" if identifier
+          cmd << " #{target(path)}"
+          blame = Annotate.new
+          shellout(cmd) do |io|
+            io.each_line do |line|
+              next unless line =~ %r{^([^:]+)\s(\d+):(.*)$}
+              blame.add_line($3.rstrip, Revision.new(:identifier => $2.to_i, :author => $1.strip))
+            end
+          end
+          return nil if $? && $?.exitstatus != 0
+          blame
+        rescue Errno::ENOENT => e
+          raise CommandFailed
+        end
       end
     end
   end

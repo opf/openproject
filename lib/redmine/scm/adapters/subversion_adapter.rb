@@ -173,6 +173,23 @@ module Redmine
           raise CommandFailed    
         end
         
+        def annotate(path, identifier=nil)
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+          cmd = "#{SVN_BIN} blame #{target(path)}@#{identifier}"
+          cmd << credentials_string
+          blame = Annotate.new
+          shellout(cmd) do |io|
+            io.each_line do |line|
+              next unless line =~ %r{^\s*(\d+)\s*(\S+)\s(.*)$}
+              blame.add_line($3.rstrip, Revision.new(:identifier => $1.to_i, :author => $2.strip))
+            end
+          end
+          return nil if $? && $?.exitstatus != 0
+          blame
+        rescue Errno::ENOENT => e
+          raise CommandFailed
+        end
+        
         private
         
         def credentials_string

@@ -95,6 +95,11 @@ class RepositoriesController < ApplicationController
     end
   end
   
+  def annotate
+    @annotate = @repository.scm.annotate(@path, @rev)
+    show_error and return if @annotate.nil? || @annotate.empty?
+  end
+  
   def revision
     @changeset = @repository.changesets.find_by_revision(@rev)
     raise ChangesetNotFound unless @changeset

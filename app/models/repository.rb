@@ -33,6 +33,10 @@ class Repository < ActiveRecord::Base
   def supports_cat?
     scm.supports_cat?
   end
+
+  def supports_annotate?
+    scm.supports_annotate?
+  end
   
   def entries(path=nil, identifier=nil)
     scm.entries(path, identifier)

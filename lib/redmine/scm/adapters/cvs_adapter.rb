@@ -268,7 +268,25 @@ module Redmine
         rescue Errno::ENOENT => e
           raise CommandFailed    
         end  
-        
+
+        def annotate(path, identifier=nil)
+          identifier = (identifier) ? identifier : "HEAD"
+          logger.debug "<cvs> annotate path:'#{path}',identifier #{identifier}"
+          path_with_project="#{url}#{with_leading_slash(path)}"
+          cmd = "#{CVS_BIN} -d #{root_url} rannotate -r#{identifier} #{path_with_project}"
+          blame = Annotate.new
+          shellout(cmd) do |io|
+            io.each_line do |line|
+              next unless line =~ %r{^([\d\.]+)\s+\(([^\)]+)\s+[^\)]+\):\s(.*)$}
+              blame.add_line($3.rstrip, Revision.new(:revision => $1, :author => $2.strip))
+            end
+          end
+          return nil if $? && $?.exitstatus != 0
+          blame
+        rescue Errno::ENOENT => e
+          raise CommandFailed    
+        end
+         
         private
 
         # convert a date/time into the CVS-format

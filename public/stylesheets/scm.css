@@ -2,19 +2,51 @@
 table.filecontent { border: 1px solid #ccc;  border-collapse: collapse; width:98%; }
 table.filecontent th { border: 1px solid #ccc; background-color: #eee; }
 table.filecontent th.filename {	background-color: #ddc;	text-align: left; }
-div.action_M { background: #fd8 }
-div.action_D { background: #f88 }
-div.action_A { background: #bfb }
-
 table.filecontent tr.spacing { border: 1px solid #d7d7d7; }
-
-table.filecontent .line-num {
+table.filecontent th.line-num {
     border: 1px solid #d7d7d7;
 	font-size: 0.8em;
 	text-align: right;
-	width: 3em;
+	width: 2%;
 	padding-right: 3px;
 }
+
+/* 12 different colors for the annonate view */
+table.annotate tr.bloc-0 {background: #FFFFBF;}
+table.annotate tr.bloc-1 {background: #EABFFF;}
+table.annotate tr.bloc-2 {background: #BFFFFF;}
+table.annotate tr.bloc-3 {background: #FFD9BF;}
+table.annotate tr.bloc-4 {background: #E6FFBF;}
+table.annotate tr.bloc-5 {background: #BFCFFF;}
+table.annotate tr.bloc-6 {background: #FFBFEF;}
+table.annotate tr.bloc-7 {background: #FFE6BF;}
+table.annotate tr.bloc-8 {background: #FFE680;}
+table.annotate tr.bloc-9 {background: #AA80FF;}
+table.annotate tr.bloc-10 {background: #FFBFDC;}
+table.annotate tr.bloc-11 {background: #BFE4FF;}
+
+table.annotate td.revision {
+    text-align: center;
+    width: 2%;
+    padding-left: 1em;
+    background: inherit;
+}
+    
+table.annotate td.author {
+    text-align: center;
+    border-right: 1px solid #d7d7d7;
+    white-space: nowrap;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 3%;
+    background: inherit;
+}
+
+table.annotate td.line-code { background-color: #fafafa; }
+
+div.action_M { background: #fd8 }
+div.action_D { background: #f88 }
+div.action_A { background: #bfb }
 
 /************* Coderay styles *************/
 

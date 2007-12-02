@@ -24,6 +24,7 @@ ActionController::Routing::Routes.draw do |map|
     omap.repositories_changes 'repositories/changes/:id/*path', :action => 'changes'
     omap.repositories_diff 'repositories/diff/:id/*path', :action => 'diff'
     omap.repositories_entry 'repositories/entry/:id/*path', :action => 'entry'
+    omap.repositories_entry 'repositories/annotate/:id/*path', :action => 'annotate'
   end
   
   # Allow downloading Web Service WSDL as a file with an extension

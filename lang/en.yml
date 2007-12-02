@@ -489,6 +489,7 @@ button_reset: Reset
 button_rename: Rename
 button_change_password: Change password
 button_copy: Copy
+button_annotate: Annotate
 
 status_active: active
 status_registered: registered
