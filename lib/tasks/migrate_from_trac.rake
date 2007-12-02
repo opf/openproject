@@ -24,7 +24,7 @@ namespace :redmine do
   task :migrate_from_trac => :environment do
     
     module TracMigrate
-        TICKET_MAP = [];
+        TICKET_MAP = []
      
         DEFAULT_STATUS = IssueStatus.default
         assigned_status = IssueStatus.find_by_position(2)
@@ -187,7 +187,7 @@ namespace :redmine do
         # External Links
         text = text.gsub(/\[(http[^\s]+)\s+([^\]]+)\]/) {|s| "\"#{$2}\":#{$1}"}
         # Internal Links
-        text = text.gsub(/[[BR]]/, "\n") # This has to go before the rules below
+        text = text.gsub(/\[\[BR\]\]/, "\n") # This has to go before the rules below
         text = text.gsub(/\[\"(.+)\".*\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
         text = text.gsub(/\[wiki:\"(.+)\".*\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
         text = text.gsub(/\[wiki:\"(.+)\".*\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
@@ -197,7 +197,7 @@ namespace :redmine do
         # Ticket number re-writing
         text = text.gsub(/#(\d+)/) do |s|
           TICKET_MAP[$1.to_i] ||= $1
-          "\##{TICKET_MAP[$1.to_i]}"
+          "\##{TICKET_MAP[$1.to_i] || $1}"
         end
         # Preformatted blocks
         text = text.gsub(/\{\{\{/, '<pre>')
@@ -213,14 +213,12 @@ namespace :redmine do
         text = text.gsub(/,,/, '~')        
         # Lists
         text = text.gsub(/^([ ]+)\* /) {|s| '*' * $1.length + " "}
-        
 
         text
       end
     
       def self.migrate
-        establish_connection({:adapter => trac_adapter, 
-                              :database => trac_db_path})
+        establish_connection
 
         # Quick database test
         TracComponent.count
@@ -418,26 +416,55 @@ namespace :redmine do
       end
       
       def self.set_trac_directory(path)
-        @trac_directory = path
+        @@trac_directory = path
         raise "This directory doesn't exist!" unless File.directory?(path)
-        raise "#{trac_db_path} doesn't exist!" unless File.exist?(trac_db_path)
         raise "#{trac_attachments_directory} doesn't exist!" unless File.directory?(trac_attachments_directory)
-        @trac_directory
+        @@trac_directory
       rescue Exception => e
         puts e
         return false
       end
 
       def self.trac_directory
-        @trac_directory
+        @@trac_directory
       end
 
       def self.set_trac_adapter(adapter)
-        return false unless %w(sqlite sqlite3).include?(adapter)
-        @trac_adapter = adapter
+        return false if adapter.blank?
+        raise "Unknown adapter: #{adapter}!" unless %w(sqlite sqlite3 mysql postgresql).include?(adapter)
+        # If adapter is sqlite or sqlite3, make sure that trac.db exists
+        raise "#{trac_db_path} doesn't exist!" if %w(sqlite sqlite3).include?(adapter) && !File.exist?(trac_db_path)
+        @@trac_adapter = adapter
+      rescue Exception => e
+        puts e
+        return false
       end
       
-      def self.trac_adapter; @trac_adapter end
+      def self.set_trac_db_host(host)
+        return nil if host.blank?
+        @@trac_db_host = host
+      end
+
+      def self.set_trac_db_port(port)
+        return nil if port.to_i == 0
+        @@trac_db_port = port.to_i
+      end
+      
+      def self.set_trac_db_name(name)
+        return nil if name.blank?
+        @@trac_db_name = name
+      end
+
+      def self.set_trac_db_username(username)
+        @@trac_db_username = username
+      end
+      
+      def self.set_trac_db_password(password)
+        @@trac_db_password = password
+      end
+      
+      mattr_reader :trac_directory, :trac_adapter, :trac_db_host, :trac_db_port, :trac_db_name, :trac_db_username, :trac_db_password
+      
       def self.trac_db_path; "#{trac_directory}/db/trac.db" end
       def self.trac_attachments_directory; "#{trac_directory}/attachments" end
       
@@ -451,17 +478,31 @@ namespace :redmine do
           puts "Unable to create a project with identifier '#{identifier}'!" unless project.save
           # enable issues and wiki for the created project
           project.enabled_module_names = ['issue_tracking', 'wiki']
-          project.trackers << TRACKER_BUG
-          project.trackers << TRACKER_FEATURE          
         end        
+        project.trackers << TRACKER_BUG
+        project.trackers << TRACKER_FEATURE          
         @target_project = project.new_record? ? nil : project
       end
       
-      def self.establish_connection(params)
+      def self.connection_params
+        if %w(sqlite sqlite3).include?(trac_adapter)
+          {:adapter => trac_adapter, 
+           :database => trac_db_path}
+        else
+          {:adapter => trac_adapter,
+           :database => trac_db_name,
+           :host => trac_db_host,
+           :port => trac_db_port,
+           :username => trac_db_username,
+           :password => trac_db_password}
+        end
+      end
+      
+      def self.establish_connection
         constants.each do |const|
           klass = const_get(const)
           next unless klass.respond_to? 'establish_connection'
-          klass.establish_connection params
+          klass.establish_connection connection_params
         end
       end
       
@@ -474,7 +515,7 @@ namespace :redmine do
     end
     
     puts
-    puts "WARNING: Your Redmine install will have a new project added during this process."
+    puts "WARNING: a new project will be added to Redmine during this process."
     print "Are you sure you want to continue ? [y/N] "
     break unless STDIN.gets.match(/^y$/i)  
     puts
@@ -489,8 +530,17 @@ namespace :redmine do
       end
     end
     
+    DEFAULT_PORTS = {'mysql' => 3306, 'postgresl' => 5432}
+    
     prompt('Trac directory') {|directory| TracMigrate.set_trac_directory directory}
-    prompt('Trac database adapter (sqlite, sqlite3)', :default => 'sqlite') {|adapter| TracMigrate.set_trac_adapter adapter}
+    prompt('Trac database adapter (sqlite, sqlite3, mysql, postgresql)', :default => 'sqlite') {|adapter| TracMigrate.set_trac_adapter adapter}
+    unless %w(sqlite sqlite3).include?(TracMigrate.trac_adapter)
+      prompt('Trac database host', :default => 'localhost') {|host| TracMigrate.set_trac_db_host host}
+      prompt('Trac database port', :default => DEFAULT_PORTS[TracMigrate.trac_adapter]) {|port| TracMigrate.set_trac_db_port port}
+      prompt('Trac database name') {|name| TracMigrate.set_trac_db_name name}
+      prompt('Trac database username') {|username| TracMigrate.set_trac_db_username username}
+      prompt('Trac database password') {|password| TracMigrate.set_trac_db_password password}
+    end
     prompt('Trac database encoding', :default => 'UTF-8') {|encoding| TracMigrate.encoding encoding}
     prompt('Target project identifier') {|identifier| TracMigrate.target_project_identifier identifier}
     puts
