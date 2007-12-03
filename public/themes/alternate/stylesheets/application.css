@@ -63,6 +63,7 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hove
 input[type="text"], textarea, select { padding: 2px; border: 1px solid #d7d7d7; }
 input[type="text"] { padding: 3px; }
 input[type="text"]:focus, textarea:focus, select:focus { border: 1px solid #888866; }
+option { border-bottom: 1px dotted #d7d7d7; }
 
 /* Misc */
 .box { background-color: #fcfcfc; }

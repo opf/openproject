@@ -115,7 +115,7 @@ task :migrate_from_mantis => :environment do
       has_many :members, :class_name => "MantisProjectUser", :foreign_key => :project_id
       
       def name
-        read_attribute(:name)[0..29].gsub(/[^\w\s\'\-]/, '-')
+        read_attribute(:name)[0..29]
       end
       
       def description
@@ -123,7 +123,7 @@ task :migrate_from_mantis => :environment do
       end
       
       def identifier
-        read_attribute(:name).underscore[0..11].gsub(/[^a-z0-9\-]/, '-')
+        read_attribute(:name).underscore[0..19].gsub(/[^a-z0-9\-]/, '-')
       end
     end
     

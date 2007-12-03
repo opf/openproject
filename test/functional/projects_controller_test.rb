@@ -103,9 +103,16 @@ class ProjectsControllerTest < Test::Unit::TestCase
                    }
                  }
                }
+               
+    get :activity, :id => 1, :year => 3.days.ago.to_date.year, :month => 3.days.ago.to_date.month
+    assert_response :success
+    assert_template 'activity'
+    assert_not_nil assigns(:events_by_day)
+               
     assert_tag :tag => "h3", 
                :content => /#{3.day.ago.to_date.day}/,
-               :sibling => { :tag => "ul",                 :child => { :tag => "li",
+               :sibling => { :tag => "ul",
+                 :child => { :tag => "li",
                    :child => { :tag => "p",
                      :content => /#{Issue.find(1).subject}/,
                    }

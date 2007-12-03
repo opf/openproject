@@ -58,7 +58,9 @@ class ProjectsController < ApplicationController
   def add
     @custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
-    @root_projects = Project.find(:all, :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}")
+    @root_projects = Project.find(:all,
+                                  :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
+                                  :order => 'name')
     @project = Project.new(params[:project])
     @project.enabled_module_names = Redmine::AccessControl.available_project_modules
     if request.get?
@@ -90,7 +92,9 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @root_projects = Project::find(:all, :conditions => ["parent_id IS NULL AND status = #{Project::STATUS_ACTIVE} AND id <> ?", @project.id])
+    @root_projects = Project.find(:all,
+                                  :conditions => ["parent_id IS NULL AND status = #{Project::STATUS_ACTIVE} AND id <> ?", @project.id],
+                                  :order => 'name')
     @custom_fields = IssueCustomField.find(:all)
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new

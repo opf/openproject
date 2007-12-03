@@ -5,10 +5,10 @@
 	<ul>
 	<% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= auto_link @project.homepage %></li><% end %>
     <% if @subprojects.any? %>
- 	<li><%=l(:label_subproject_plural)%>: <%= @subprojects.collect{|p| link_to(p.name, :action => 'show', :id => p)}.join(", ") %></li>
+ 	<li><%=l(:label_subproject_plural)%>: <%= @subprojects.collect{|p| link_to(h(p.name), :action => 'show', :id => p)}.join(", ") %></li>
     <% end %>
 	<% if @project.parent %>
-	<li><%=l(:field_parent)%>: <%= link_to @project.parent.name, :controller => 'projects', :action => 'show', :id => @project.parent %></li>
+	<li><%=l(:field_parent)%>: <%= link_to h(@project.parent.name), :controller => 'projects', :action => 'show', :id => @project.parent %></li>
 	<% end %>
 	<% for custom_value in @custom_values %>
 	<% if !custom_value.value.empty? %>

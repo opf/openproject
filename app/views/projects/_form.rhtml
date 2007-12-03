@@ -9,7 +9,7 @@
 <% end %>
 
 <p><%= f.text_area :description, :required => true, :cols => 60, :rows => 5 %><em><%= l(:text_caracters_maximum, 255) %></em></p>
-<p><%= f.text_field :identifier, :required => true, :size => 15, :disabled => @project.identifier_frozen? %><br /><em><%= l(:text_length_between, 3, 12) %> <%= l(:text_project_identifier_info) unless @project.identifier_frozen? %></em></p>
+<p><%= f.text_field :identifier, :required => true, :disabled => @project.identifier_frozen? %><br /><em><%= l(:text_length_between, 3, 20) %> <%= l(:text_project_identifier_info) unless @project.identifier_frozen? %></em></p>
 <p><%= f.text_field :homepage, :size => 40 %></p>
 <p><%= f.check_box :is_public %></p>
 <%= wikitoolbar_for 'project_description' %>

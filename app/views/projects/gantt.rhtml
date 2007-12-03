@@ -72,8 +72,8 @@ top = headers_height + 8
 @events.each do |i| %>
     <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;"><small>    
     <% if i.is_a? Issue %>
-      	<%= link_to_issue i %><%= " (#{i.project.name})" unless @project && @project == i.project %>:
-      	<%=h i.subject %>
+      	<%= h("#{i.project.name} -") unless @project && @project == i.project %>
+      	<%= link_to_issue i %>:	<%=h i.subject %>
   	<% else %>
       	<%= link_to_version i, :class => "icon icon-package" %>
   	<% end %>  	
