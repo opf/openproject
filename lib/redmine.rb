@@ -10,7 +10,7 @@ rescue LoadError
   # RMagick is not available
 end
 
-REDMINE_SUPPORTED_SCM = %w( Subversion Darcs Mercurial Cvs )
+REDMINE_SUPPORTED_SCM = %w( Subversion Darcs Mercurial Cvs Bazaar )
 
 # Permissions
 Redmine::AccessControl.map do |map|
