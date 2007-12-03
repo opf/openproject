@@ -1,0 +1,13 @@
+Creating test repositories
+===================
+
+mkdir tmp/test
+
+Subversion
+----------
+svnadmin create tmp/test/subversion_repository
+gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load tmp/test/subversion_repository
+
+Bazaar
+------
+gunzip < test/fixtures/repositories/bazaar_repository.tar.gz | tar -xv -C tmp/test
