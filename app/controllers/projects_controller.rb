@@ -442,7 +442,7 @@ class ProjectsController < ApplicationController
     end
 
     if @scope.include?('changesets')
-      @events += @project.repository.changesets.find(:all, :conditions => ["#{Changeset.table_name}.committed_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += Changeset.find(:all, :include => :repository, :conditions => ["#{Repository.table_name}.project_id = ? AND #{Changeset.table_name}.committed_on BETWEEN ? AND ?", @project.id, @date_from, @date_to])
     end
     
     if @scope.include?('messages')
