@@ -49,6 +49,14 @@ class Version < ActiveRecord::Base
     end
   end
   
+  def closed_pourcent
+    if fixed_issues.count == 0
+      0
+    else
+      closed_issues_count * 100.0 / fixed_issues.count
+    end
+  end
+  
   # Returns true if the version is overdue: due date reached and some open issues
   def overdue?
     effective_date && (effective_date < Date.today) && (open_issues_count > 0)

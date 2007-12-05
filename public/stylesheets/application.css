@@ -262,6 +262,7 @@ table.progress {
 
 table.progress td { height: 0.9em; }
 table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
+table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
 table.progress td.open { background: #FFF none repeat scroll 0%; }
 p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}

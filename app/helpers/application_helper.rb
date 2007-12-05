@@ -319,13 +319,17 @@ module ApplicationHelper
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")   
   end
   
-  def progress_bar(pct, options={})
+  def progress_bar(pcts, options={})
+    pcts = [pcts, pcts] unless pcts.is_a?(Array)
+    pcts[1] = pcts[1] - pcts[0]
+    pcts << (100 - pcts[1] - pcts[0])
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
     content_tag('table',
       content_tag('tr',
-        (pct > 0 ? content_tag('td', '', :width => "#{pct.floor}%;", :class => 'closed') : '') +
-        (pct < 100 ? content_tag('td', '', :width => "#{100-pct.floor}%;", :class => 'open') : '')
+        (pcts[0] > 0 ? content_tag('td', '', :width => "#{pcts[0].floor}%;", :class => 'closed') : '') +
+        (pcts[1] > 0 ? content_tag('td', '', :width => "#{pcts[1].floor}%;", :class => 'done') : '') +
+        (pcts[2] > 0 ? content_tag('td', '', :width => "#{pcts[2].floor}%;", :class => 'todo') : '')
       ), :class => 'progress', :style => "width: #{width};") +
       content_tag('p', legend, :class => 'pourcent')
   end
