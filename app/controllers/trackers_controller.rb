@@ -37,8 +37,10 @@ class TrackersController < ApplicationController
     if request.post? and @tracker.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
-        copy_from.workflows.each do |w|
-          @tracker.workflows << w.clone
+        Workflow.transaction do
+          copy_from.workflows.find(:all, :include => [:role, :old_status, :new_status]).each do |w|
+            Workflow.create(:tracker_id => @tracker.id, :role => w.role, :old_status => w.old_status, :new_status => w.new_status)
+          end
         end
       end
       flash[:notice] = l(:notice_successful_create)
