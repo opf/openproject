@@ -4,7 +4,7 @@
 
 <h2><%= h(@version.name) %></h2>
 
-<div id="status_by" style="float:right;">
+<div id="status_by">
 <%= render_issue_status_by(@version, params[:status_by]) if @version.fixed_issues.count > 0 %>
 </div>
 
