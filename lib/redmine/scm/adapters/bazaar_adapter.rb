@@ -110,9 +110,12 @@ module Redmine
                   revision.scmid = $1.strip
                 elsif line =~ /^timestamp: (.+)$/
                   revision.time = Time.parse($1).localtime
+                elsif line =~ /^    -----/
+                  # partial revisions
+                  parsing = nil unless parsing == 'message'
                 elsif line =~ /^(message|added|modified|removed|renamed):/
                   parsing = $1
-                elsif line =~ /^  (.+)$/
+                elsif line =~ /^  (.*)$/
                   if parsing == 'message'
                     revision.message << "#{$1}\n"
                   else
