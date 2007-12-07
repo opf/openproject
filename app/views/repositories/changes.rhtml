@@ -16,3 +16,5 @@
 </p>
 
 <%= render :partial => 'revisions', :locals => {:project => @project, :path => @path, :revisions => @changesets, :entry => @entry }%>
+
+<% set_html_title(h(@entry.name)) -%>

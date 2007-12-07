@@ -3,9 +3,9 @@
 <%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
-<h2><%= @document.title %></h2>
+<h2><%=h @document.title %></h2>
 
-<p><em><%= @document.category.name %><br />
+<p><em><%=h @document.category.name %><br />
 <%= format_date @document.created_on %></em></p>
 <%= textilizable @document.description, :attachments => @document.attachments %>
 <br />
@@ -34,3 +34,5 @@
   <%= submit_tag l(:button_add) %>
   <% end %> 
 <% end %>
+
+<% set_html_title h(@document.title) -%>

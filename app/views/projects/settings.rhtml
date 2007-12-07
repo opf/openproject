@@ -14,3 +14,5 @@
 
 <%= tab = params[:tab] ? h(params[:tab]) : project_settings_tabs.first[:name]
 javascript_tag "showTab('#{tab}');" %>
+
+<% set_html_title l(:label_settings) -%>

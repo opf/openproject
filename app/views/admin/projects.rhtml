@@ -47,3 +47,5 @@
 
 <p><%= pagination_links_full @project_pages, :status => @status %>
 [ <%= @project_pages.current.first_item %> - <%= @project_pages.current.last_item %> / <%= @project_count %> ]</p>
+
+<% set_html_title l(:label_project_plural) -%>
