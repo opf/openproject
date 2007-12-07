@@ -35,18 +35,16 @@
 	
 	<% for old_status in @statuses %>
 		<tr>
-		<td><%= old_status.name %></td>		
-		<% for new_status in @statuses %>
+		<td><%= old_status.name %></td>
+		<% new_status_ids_allowed = old_status.find_new_statuses_allowed_to(@role, @tracker).collect(&:id) -%>
+		<% for new_status in @statuses -%>
 			<td align="center">
-      
-     <input type="checkbox"
+      <input type="checkbox"
       name="issue_status[<%= old_status.id %>][]"
       value="<%= new_status.id %>"
-      <%if old_status.new_statuses_allowed_to(@role, @tracker).include? new_status%>checked="checked"<%end%>
-      >			
+      <%= 'checked="checked"' if new_status_ids_allowed.include? new_status.id %>>			
 			</td>
-		<% end %>		
-		
+		<% end -%>
 		</tr>
 	<% end %>
 	</table>
