@@ -1,0 +1,14 @@
+<div class="contextual">
+<%= link_to_if_authorized l(:button_edit), {:controller => 'versions', :action => 'edit', :id => @version}, :class => 'icon icon-edit' %>
+</div>
+
+<h2><%= h(@version.name) %></h2>
+
+<div id="status_by" style="float:right;">
+<%= render_issue_status_by(@version, params[:status_by]) if @version.fixed_issues.count > 0 %>
+</div>
+
+<%= render :partial => 'versions/overview', :locals => {:version => @version} %>
+<%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
+
+<% set_html_title h(@version.name) %>

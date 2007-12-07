@@ -11,7 +11,7 @@
 	<tbody>
 <% for version in @project.versions.sort %>
     <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%=h version.name %></td>
+    <td><%= link_to h(version.name), :controller => 'versions', :action => 'show', :id => version %></td>
     <td align="center"><%= format_date(version.effective_date) %></td>
     <td><%=h version.description %></td>
     <td><%= link_to(version.wiki_page_title, :controller => 'wiki', :page => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %></td>

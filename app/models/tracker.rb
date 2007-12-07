@@ -29,6 +29,10 @@ class Tracker < ActiveRecord::Base
 
   def to_s; name end
   
+  def <=>(tracker)
+    name <=> tracker.name
+  end
+
   def self.all
     find(:all, :order => 'position')
   end

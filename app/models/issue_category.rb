@@ -35,5 +35,9 @@ class IssueCategory < ActiveRecord::Base
     destroy_without_reassign
   end
   
+  def <=>(category)
+    name <=> category.name
+  end
+  
   def to_s; name end
 end

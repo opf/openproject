@@ -551,3 +551,4 @@ field_time_zone: Time zone
 text_caracters_minimum: Must be at least %d characters long.
 setting_bcc_recipients: Blind carbon copy recipients (bcc)
 button_annotate: Annotate
+label_issues_by: Issues by %s

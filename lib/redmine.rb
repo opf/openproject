@@ -27,6 +27,7 @@ Redmine::AccessControl.map do |map|
     # Issues
     map.permission :view_issues, {:projects => [:changelog, :roadmap], 
                                   :issues => [:index, :changes, :show, :context_menu],
+                                  :versions => [:show, :status_by],
                                   :queries => :index,
                                   :reports => :issue_report}, :public => true                    
     map.permission :add_issues, {:projects => :add_issue}

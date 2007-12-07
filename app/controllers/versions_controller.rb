@@ -21,6 +21,9 @@ class VersionsController < ApplicationController
 
   cache_sweeper :version_sweeper, :only => [ :edit, :destroy ]
   
+  def show
+  end
+  
   def edit
     if request.post? and @version.update_attributes(params[:version])
       flash[:notice] = l(:notice_successful_update)
@@ -48,6 +51,13 @@ class VersionsController < ApplicationController
     @version.attachments.find(params[:attachment_id]).destroy
     flash[:notice] = l(:notice_successful_delete)
     redirect_to :controller => 'projects', :action => 'list_files', :id => @project
+  end
+  
+  def status_by
+    respond_to do |format|
+      format.html { render :action => 'show' }
+      format.js { render(:update) {|page| page.replace_html 'status_by', render_issue_status_by(@version, params[:status_by])} }
+    end
   end
 
 private

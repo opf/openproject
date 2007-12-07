@@ -267,6 +267,8 @@ table.progress td.open { background: #FFF none repeat scroll 0%; }
 p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
+div#status_by { margin-left: 16px; margin-bottom: 16px; }
+
 /***** Tabs *****/
 #content .tabs{height: 2.6em;}
 #content .tabs ul{margin:0;}

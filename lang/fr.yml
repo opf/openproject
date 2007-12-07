@@ -210,6 +210,7 @@ label_issue: Demande
 label_issue_new: Nouvelle demande
 label_issue_plural: Demandes
 label_issue_view_all: Voir toutes les demandes
+label_issues_by: Demandes par %s
 label_document: Document
 label_document_new: Nouveau document
 label_document_plural: Documents
