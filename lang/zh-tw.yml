@@ -1,0 +1,551 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月
+actionview_datehelper_select_month_names_abbr: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 日
+actionview_datehelper_time_in_words_day_plural: %d 日
+actionview_datehelper_time_in_words_hour_about: 約 1 小時
+actionview_datehelper_time_in_words_hour_about_plural: 約 %d 小時
+actionview_datehelper_time_in_words_hour_about_single: 約 1 小時
+actionview_datehelper_time_in_words_minute: 1 分鐘
+actionview_datehelper_time_in_words_minute_half: 半分鐘
+actionview_datehelper_time_in_words_minute_less_than: 小於 1 分鐘
+actionview_datehelper_time_in_words_minute_plural: %d 分鐘
+actionview_datehelper_time_in_words_minute_single: 1 分鐘
+actionview_datehelper_time_in_words_second_less_than: 小於 1 秒
+actionview_datehelper_time_in_words_second_less_than_plural: 小於 %d 秒
+actionview_instancetag_blank_option: 請選擇
+
+activerecord_error_inclusion: is not included in the list
+activerecord_error_exclusion: is reserved
+activerecord_error_invalid: is invalid
+activerecord_error_confirmation: doesn't match confirmation
+activerecord_error_accepted: must be accepted
+activerecord_error_empty: 不可為空值
+activerecord_error_blank: 不可為空白
+activerecord_error_too_long: 長度過長
+activerecord_error_too_short: 長度太短
+activerecord_error_wrong_length: is the wrong length
+activerecord_error_taken: has already been taken
+activerecord_error_not_a_number: is not a number
+activerecord_error_not_a_date: is not a valid date
+activerecord_error_greater_than_start_date: must be greater than start date
+activerecord_error_not_same_project: doesn't belong to the same project
+activerecord_error_circular_dependency: This relation would create a circular dependency
+
+general_fmt_age: %d 年
+general_fmt_age_plural: %d yrs
+general_fmt_date: %%m/%%d/%%Y
+general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: 'No'
+general_text_Yes: 'Yes'
+general_text_no: 'no'
+general_text_yes: 'yes'
+general_lang_name: 'Traditional Chinese (繁體中文)'
+general_csv_separator: ','
+general_csv_encoding: ISO-8859-1
+general_pdf_encoding: big5
+general_day_names: 星期一,星期二,星期三,星期四,星期五,星期六,星期日
+general_first_day_of_week: '7'
+
+notice_account_updated: 帳戶更新資訊已儲存
+notice_account_invalid_creditentials: 帳戶或密碼不正確
+notice_account_password_updated: 帳戶新密碼已儲存
+notice_account_wrong_password: 密碼不正確
+notice_account_register_done: Account was successfully created. To activate your account, click on the link that was emailed to you.
+notice_account_unknown_email: Unknown user.
+notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
+notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
+notice_account_activated: Your account has been activated. You can now log in.
+notice_successful_create: Successful creation.
+notice_successful_update: Successful update.
+notice_successful_delete: Successful deletion.
+notice_successful_connection: Successful connection.
+notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
+notice_locking_conflict: Data have been updated by another user.
+notice_scm_error: Entry and/or revision doesn't exist in the repository.
+notice_not_authorized: You are not authorized to access this page.
+notice_email_sent: An email was sent to %s
+notice_email_error: An error occurred while sending mail (%s)
+notice_feeds_access_key_reseted: Your RSS access key was reseted.
+notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
+notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
+notice_account_pending: "Your account was created and is now pending administrator approval."
+
+mail_subject_lost_password: Your Redmine password
+mail_body_lost_password: 'To change your Redmine password, click on the following link:'
+mail_subject_register: Redmine account activation
+mail_body_register: 'To activate your Redmine account, click on the following link:'
+mail_body_account_information_external: You can use your "%s" account to log into Redmine.
+mail_body_account_information: Your Redmine account information
+mail_subject_account_activation_request: Redmine account activation request
+mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
+
+gui_validation_error: 1 個錯誤
+gui_validation_error_plural: %d 個錯誤
+
+field_name: 名稱
+field_description: 概述
+field_summary: 摘要
+field_is_required: 必填
+field_firstname: 名字
+field_lastname: 姓氏
+field_mail: 電子郵件
+field_filename: 檔案名稱
+field_filesize: 大小
+field_downloads: 下載次數
+field_author: 作者
+field_created_on: 建立日期
+field_updated_on: 更新
+field_field_format: 格式
+field_is_for_all: 給所有專案
+field_possible_values: Possible values
+field_regexp: 正規表示式
+field_min_length: 最小長度
+field_max_length: 最大長度
+field_value: 值
+field_category: 分類
+field_title: 標題
+field_project: 專案
+field_issue: 項目
+field_status: 狀態
+field_notes: 筆記
+field_is_closed: 項目結束
+field_is_default: 預設值
+field_tracker: 追蹤標籤
+field_subject: 主旨
+field_due_date: 完成日期
+field_assigned_to: 分派給
+field_priority: 重要性
+field_fixed_version: Fixed version
+field_user: 用戶
+field_role: 角色
+field_homepage: 網站首頁
+field_is_public: 公開
+field_parent: 父專案
+field_is_in_chlog: Issues displayed in changelog
+field_is_in_roadmap: Issues displayed in roadmap
+field_login: 帳戶名稱
+field_mail_notification: 電子郵件提醒選項
+field_admin: 管理者
+field_last_login_on: 最近連線日期
+field_language: 語系
+field_effective_date: 日期
+field_password: 目前密碼
+field_new_password: 新密碼
+field_password_confirmation: 確認新密碼
+field_version: 版本
+field_type: Type
+field_host: Host
+field_port: 連接埠
+field_account: 帳戶
+field_base_dn: Base DN
+field_attr_login: 登入屬性
+field_attr_firstname: 名字屬性
+field_attr_lastname: Lastname attribute
+field_attr_mail: Email attribute
+field_onthefly: On-the-fly user creation
+field_start_date: 開始日期
+field_done_ratio: %% 已完成
+field_auth_source: 認證模式
+field_hide_mail: 隱藏我的電子郵件
+field_comments: 註解
+field_url: URL
+field_start_page: Start page
+field_subproject: 子專案
+field_hours: 小時
+field_activity: Activity
+field_spent_on: 日期
+field_identifier: 代碼
+field_is_filter: Used as a filter
+field_issue_to_id: Related issue
+field_delay: 逾期
+field_assignable: Issues can be assigned to this role
+field_redirect_existing_links: Redirect existing links
+field_estimated_hours: 預估工時
+field_column_names: Columns
+field_time_zone: 時區
+
+setting_app_title: 標題
+setting_app_subtitle: 副標題
+setting_welcome_text: 歡迎詞
+setting_default_language: 預設語系
+setting_login_required: 需要驗證
+setting_self_registration: 註冊選項
+setting_attachment_max_size: 附件大小限制
+setting_issues_export_limit: 項目匯出限制
+setting_mail_from: 寄件者電子郵件
+setting_bcc_recipients: 使用密件副本 (BCC)
+setting_host_name: 主機名稱
+setting_text_formatting: 文字格式
+setting_wiki_compression: 壓縮 Wiki 歷史文章
+setting_feeds_limit: Feed content limit
+setting_autofetch_changesets: Autofetch commits
+setting_sys_api_enabled: Enable WS for repository management
+setting_commit_ref_keywords: Referencing keywords
+setting_commit_fix_keywords: Fixing keywords
+setting_autologin: 自動登入
+setting_date_format: 日期格式
+setting_time_format: 時間格式
+setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_issue_list_default_columns: 預設顯示於項目清單的欄位
+setting_repositories_encodings: Repositories encodings
+setting_emails_footer: 電子郵件附帶說明
+setting_protocol: 協定
+
+label_user: 用戶
+label_user_plural: 用戶清單
+label_user_new: 建立新的帳戶
+label_project: 專案
+label_project_new: 建立新的專案
+label_project_plural: 專案清單
+label_project_all: 全部的專案
+label_project_latest: 最近的專案
+label_issue: 項目
+label_issue_new: 建立新的項目
+label_issue_plural: 項目清單
+label_issue_view_all: 檢視所有項目
+label_issues_by: Issues by %s
+label_document: 文件
+label_document_new: 建立新的文件
+label_document_plural: 文件
+label_role: 角色
+label_role_plural: 角色
+label_role_new: 建立新角色
+label_role_and_permissions: 角色與權限
+label_member: 成員
+label_member_new: 建立新的成員
+label_member_plural: 成員
+label_tracker: 追蹤標籤
+label_tracker_plural: 追蹤標籤清單
+label_tracker_new: 建立新的追蹤標籤
+label_workflow: 流程
+label_issue_status: 項目狀態
+label_issue_status_plural: 項目狀態清單
+label_issue_status_new: 建立新的狀態
+label_issue_category: 項目分類
+label_issue_category_plural: 項目分類清單
+label_issue_category_new: 建立新的分類
+label_custom_field: 自訂欄位
+label_custom_field_plural: 自訂欄位清單
+label_custom_field_new: 建立新的自訂欄位
+label_enumerations: 列舉值清單
+label_enumeration_new: 建立新的列舉值
+label_information: 資訊
+label_information_plural: 資訊
+label_please_login: 請先登入
+label_register: 註冊
+label_password_lost: 遺失密碼
+label_home: 網站首頁
+label_my_page: 帳戶首頁
+label_my_account: 我的帳戶
+label_my_projects: 我的專案
+label_administration: 網站管理
+label_login: 登入
+label_logout: 登出
+label_help: 說明
+label_reported_issues: 我通報的項目
+label_assigned_to_me_issues: 分派給我的項目
+label_last_login: 最近一次連線
+label_last_updates: 最近更新
+label_last_updates_plural: %d 個最近更新
+label_registered_on: 註冊於
+label_activity: 活動
+label_new: 建立新的...
+label_logged_as: 目前登入
+label_environment: 環境
+label_authentication: 認證
+label_auth_source: 認證模式
+label_auth_source_new: 建立新認證模式
+label_auth_source_plural: 認證模式清單
+label_subproject_plural: 子專案
+label_min_max_length: 最小 - 最大 長度
+label_list: 清單
+label_date: 日期
+label_integer: 整數
+label_float: 福點數
+label_boolean: 布林
+label_string: 文字
+label_text: 長文字
+label_attribute: 屬性
+label_attribute_plural: 屬性
+label_download: %d 個下載
+label_download_plural: %d 個下載
+label_no_data: 沒有任何資料可供顯示
+label_change_status: 變更狀態
+label_history: 歷史
+label_attachment: 檔案
+label_attachment_new: 建立新的檔案
+label_attachment_delete: 刪除檔案
+label_attachment_plural: 檔案
+label_report: 報告
+label_report_plural: 報告
+label_news: 新聞
+label_news_new: 建立新的新聞
+label_news_plural: 新聞
+label_news_latest: 最近新聞
+label_news_view_all: 檢視所有新聞
+label_change_log: 變更記錄
+label_settings: 設定
+label_overview: 概觀
+label_version: 版本
+label_version_new: 建立新的版本
+label_version_plural: 版本
+label_confirmation: 確認
+label_export_to: 匯出至
+label_read: Read...
+label_public_projects: 公開專案
+label_open_issues: 進行中
+label_open_issues_plural: 進行中
+label_closed_issues: 已結束
+label_closed_issues_plural: 已結束
+label_total: Total
+label_permissions: 權限
+label_current_status: Current status
+label_new_statuses_allowed: New statuses allowed
+label_all: 全部
+label_none: 空值
+label_nobody: nobody
+label_next: Next
+label_previous: Previous
+label_used_by: Used by
+label_details: Details
+label_add_note: 加入一個新筆記
+label_per_page: 每頁
+label_calendar: 日曆
+label_months_from: months from
+label_gantt: 甘特圖
+label_internal: Internal
+label_last_changes: 最近 %d 個變更
+label_change_view_all: 檢視所有變更
+label_personalize_page: 自訂版面
+label_comment: 註解
+label_comment_plural: 註解
+label_comment_add: 加入新註解
+label_comment_added: 新註解已加入
+label_comment_delete: 刪除註解
+label_query: 自訂查詢
+label_query_plural: 自訂查詢
+label_query_new: 建立新的查詢
+label_filter_add: 加入新篩選條件
+label_filter_plural: 篩選條件
+label_equals: 等於
+label_not_equals: 不等於
+label_in_less_than: 在小於
+label_in_more_than: 在大於
+label_in: 在
+label_today: 今天
+label_this_week: 本週
+label_less_than_ago: 小於幾天之前
+label_more_than_ago: 大於幾天之前
+label_ago: 天以前
+label_contains: 包含
+label_not_contains: 不包含
+label_day_plural: 天
+label_repository: 版本控管
+label_browse: 瀏覽
+label_modification: %d 變更
+label_modification_plural: %d 變更
+label_revision: 版次
+label_revision_plural: 版次清單
+label_added: 已新增
+label_modified: 已修改
+label_deleted: 已刪除
+label_latest_revision: 最新版次
+label_latest_revision_plural: 最近版次清單
+label_view_revisions: 檢視版次清單
+label_max_size: 最大長度
+label_on: 'on'
+label_sort_highest: 移動至開頭
+label_sort_higher: 往上移動
+label_sort_lower: 往下移動
+label_sort_lowest: 移動至結尾
+label_roadmap: 版本藍圖
+label_roadmap_due_in: 倒數天數： 
+label_roadmap_overdue: %s 逾期
+label_roadmap_no_issues: No issues for this version
+label_search: 搜尋
+label_result_plural: 結果
+label_all_words: All words
+label_wiki: Wiki
+label_wiki_edit: Wiki 編輯
+label_wiki_edit_plural: Wiki 編輯
+label_wiki_page: Wiki 網頁
+label_wiki_page_plural: Wiki 網頁
+label_index_by_title: 依標題索引
+label_index_by_date: 依日期索引
+label_current_version: 現行版本
+label_preview: 預覽
+label_feed_plural: Feeds
+label_changes_details: Details of all changes
+label_issue_tracking: 項目追蹤
+label_spent_time: 耗用時間
+label_f_hour: %.2f hour
+label_f_hour_plural: %.2f hours
+label_time_tracking: Time tracking
+label_change_plural: Changes
+label_statistics: Statistics
+label_commits_per_month: Commits per month
+label_commits_per_author: Commits per author
+label_view_diff: View differences
+label_diff_inline: inline
+label_diff_side_by_side: side by side
+label_options: 選項清單
+label_copy_workflow_from: Copy workflow from
+label_permissions_report: 權限報表
+label_watched_issues: 觀察中的項目清單
+label_related_issues: 相關的項目清單
+label_applied_status: 已套用狀態
+label_loading: 載入中...
+label_relation_new: 建立新關聯
+label_relation_delete: 刪除關聯
+label_relates_to: 關聯至
+label_duplicates: duplicates
+label_blocks: blocks
+label_blocked_by: blocked by
+label_precedes: precedes
+label_follows: follows
+label_end_to_start: end to start
+label_end_to_end: end to end
+label_start_to_start: start to start
+label_start_to_end: start to end
+label_stay_logged_in: Stay logged in
+label_disabled: 關閉
+label_show_completed_versions: 顯示已完成的版本
+label_me: 我自己
+label_board: 論壇
+label_board_new: 建立新論壇
+label_board_plural: 論壇
+label_topic_plural: 討論主題
+label_message_plural: 訊息
+label_message_last: 上一封訊息
+label_message_new: 建立新的訊息
+label_reply_plural: 回應
+label_send_information: 寄送帳戶資訊電子郵件給用戶
+label_year: 年
+label_month: 月
+label_week: 週
+label_date_from: 開始
+label_date_to: 結束
+label_language_based: 依用戶之語系決定
+label_sort_by: 按 %s 排序
+label_send_test_email: 寄送測試郵件
+label_feeds_access_key_created_on: RSS 存取鍵建立於 %s 之前
+label_module_plural: 模組
+label_added_time_by: Added by %s %s ago
+label_updated_time: Updated %s ago
+label_jump_to_a_project: 選擇欲前往的專案...
+label_file_plural: 檔案清單
+label_changeset_plural: Changesets
+label_default_columns: 預設欄位清單
+label_no_change_option: (No change)
+label_bulk_edit_selected_issues: Bulk edit selected issues
+label_theme: 畫面主題
+label_default: Default
+label_search_titles_only: Search titles only
+label_user_mail_option_all: "提醒與我的專案有關的所有事件"
+label_user_mail_option_selected: "只停醒我所選擇專案中的事件..."
+label_user_mail_option_none: "只提醒我觀察中或參與中的事件"
+label_user_mail_no_self_notified: "不提醒我自己所做的變更"
+label_registration_activation_by_email: 透過電子郵件啟用帳戶
+label_registration_manual_activation: 手動啟用帳戶
+label_registration_automatic_activation: 自動啟用帳戶
+
+button_login: 登入
+button_submit: 送出
+button_save: 儲存
+button_check_all: 全選
+button_uncheck_all: 全不選
+button_delete: 刪除
+button_create: 建立
+button_test: 測試
+button_edit: 編輯
+button_add: 新增
+button_change: 修改
+button_apply: 套用
+button_clear: 清除
+button_lock: 鎖定
+button_unlock: 解除鎖定
+button_download: 下載
+button_list: List
+button_view: 檢視
+button_move: 移動
+button_back: Back
+button_cancel: 取消
+button_activate: 啟用
+button_sort: 排序
+button_log_time: 記錄時間
+button_rollback: 還原至此版本
+button_watch: 觀察
+button_unwatch: 取消觀察
+button_reply: 回應
+button_archive: 歸檔
+button_unarchive: 取消歸檔
+button_reset: 回復
+button_rename: 重新命名
+button_change_password: 變更密碼
+button_copy: 複製
+button_annotate: 加注
+
+status_active: 活動中
+status_registered: 註冊完成
+status_locked: 鎖定中
+
+text_select_mail_notifications: 選擇欲寄送提醒通知郵件之動作
+text_regexp_info: eg. ^[A-Z0-9]+$
+text_min_max_length_info: 0 means no restriction
+text_project_destroy_confirmation: Are you sure you want to delete this project and all related data ?
+text_workflow_edit: Select a role and a tracker to edit the workflow
+text_are_you_sure: Are you sure ?
+text_journal_changed: changed from %s to %s
+text_journal_set_to: set to %s
+text_journal_deleted: deleted
+text_tip_task_begin_day: task beginning this day
+text_tip_task_end_day: task ending this day
+text_tip_task_begin_end_day: task beginning and ending this day
+text_project_identifier_info: '只允許小寫英文字母（a-z）、阿拉伯數字與連字符號（-）。<br />儲存後，代碼不可再被更改。'
+text_caracters_maximum: %d characters maximum.
+text_caracters_minimum: Must be at least %d characters long.
+text_length_between: Length between %d and %d characters.
+text_tracker_no_workflow: No workflow defined for this tracker
+text_unallowed_characters: Unallowed characters
+text_comma_separated: Multiple values allowed (comma separated).
+text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+text_issue_added: 已通報 %s 個項目
+text_issue_updated: 已更新 %s 個項目
+text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
+text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
+text_issue_category_destroy_assignments: Remove category assignments
+text_issue_category_reassign_to: Reassign issues to this category
+text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+
+default_role_manager: 管理人員
+default_role_developper: 開發人員
+default_role_reporter: 報告人員
+default_tracker_bug: 臭蟲
+default_tracker_feature: 功能
+default_tracker_support: 支援
+default_issue_status_new: 新建立
+default_issue_status_assigned: 已指派
+default_issue_status_resolved: 已解決
+default_issue_status_feedback: 回應
+default_issue_status_closed: 已結束
+default_issue_status_rejected: 已拒絕
+default_doc_category_user: 使用手冊
+default_doc_category_tech: 技術文件
+default_priority_low: 低
+default_priority_normal: 正常
+default_priority_high: 高
+default_priority_urgent: 急
+default_priority_immediate: 特急
+default_activity_design: 設計
+default_activity_development: 開發
+
+enumeration_issue_priorities: 項目重要性
+enumeration_doc_categories: 文件分類
+enumeration_activities: 活動 (time tracking)
