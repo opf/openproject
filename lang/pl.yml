@@ -545,7 +545,7 @@ label_registration_automatic_activation: automatyczna aktywacja kont
 label_registration_manual_activation: manualna aktywacja kont
 notice_account_pending: "Twoje konto zostało utworzone i oczekuje na zatwierdzenie administratora."
 field_time_zone: Strefa czasowa
-text_caracters_minimum: Must be at least %d characters long.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-button_annotate: Annotate
-label_issues_by: Issues by %s
+text_caracters_minimum: Musi być nie krótsze niż %d znaków.
+setting_bcc_recipients: Odbiorcy kopii tajnej (kt/bcc)
+button_annotate: Adnotuj
+label_issues_by: Zagadnienia wprowadzone przez %s
