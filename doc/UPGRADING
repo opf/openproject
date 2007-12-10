@@ -21,7 +21,6 @@ http://www.redmine.org/
 6. Copy the RAILS_ROOT/files directory content into your new installation
 
 Note 1: Rails 1.2.2 or higher is required for version 0.4.2 and later.
-This release won't work with Rails 2.0
 
 Note 2: when upgrading your code with svn update, don't forget to clear
 the application cache (RAILS_ROOT/tmp/cache) before restarting.

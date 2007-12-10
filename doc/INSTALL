@@ -7,7 +7,7 @@ http://www.redmine.org/
 
 == Requirements
 
-* Ruby on Rails 1.2.2 or higher (this release won't work with Rails 2.0)
+* Ruby on Rails 1.2.5 or 2.0.1
 * A database (see compatibility below)
 
 Optional:

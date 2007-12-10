@@ -5,6 +5,65 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2007-12-10 v0.6.1
+
+* Rails 2.0 compatibility
+* Custom fields can now be displayed as columns on the issue list
+* Added version details view (accessible from the roadmap)
+* Roadmap: more accurate completion percentage calculation (done ratio of open issues is now taken into account)
+* Added per-project tracker selection. Trackers can be selected on project settings
+* Anonymous users can now be allowed to create, edit, comment issues, comment news and post messages in the forums
+* Forums: messages can now be edited/deleted (explicit permissions need to be given)
+* Forums: topics can be locked so that no reply can be added
+* Forums: topics can be marked as sticky so that they always appear at the top of the list
+* Forums: attachments can now be added to replies
+* Added time zone support
+* Added a setting to choose the account activation strategy (available in application settings)
+* Added 'Classic' theme (inspired from the v0.51 design)
+* Added an alternate theme which provides issue list colorization based on issues priority
+* Added Bazaar SCM adapter
+* Added Annotate/Blame view in the repository browser (except for Darcs SCM)
+* Diff style (inline or side by side) automatically saved as a user preference
+* Added issues status changes on the activity view (by Cyril Mougel)
+* Added forums topics on the activity view (disabled by default)
+* Added an option on 'My account' for users who don’t want to be notified of changes that they make
+* Trac importer now supports mysql and postgresql databases
+* Trac importer improvements (by Mat Trudel)
+* 'fixed version' field can now be displayed on the issue list
+* Added a couple of new formats for the 'date format' setting
+* Added Traditional Chinese translation (by Shortie Lo)
+* Added Russian translation (iGor kMeta)
+* Project name format limitation removed (name can now contain any character)
+* Project identifier maximum length changed from 12 to 20
+* Changed the maximum length of LDAP account to 255 characters
+* Removed the 12 characters limit on passwords
+* Added wiki macros support
+* Performance improvement on workflow setup screen
+* More detailed html title on several views
+* Custom fields can now be reordered
+* Search engine: search can be restricted to an exact phrase by using quotation marks
+* Added custom fields marked as 'For all projects' to the csv export of the cross project issue list
+* Email notifications are now sent as Blind carbon copy by default
+* Fixed: all members (including non active) should be deleted when deleting a project
+* Fixed: Error on wiki syntax link (accessible from wiki/edit)
+* Fixed: 'quick jump to a revision' form on the revisions list
+* Fixed: error on admin/info if there's more than 1 plugin installed
+* Fixed: svn or ldap password can be found in clear text in the html source in editing mode
+* Fixed: 'Assigned to' drop down list is not sorted
+* Fixed: 'View all issues' link doesn't work on issues/show
+* Fixed: error on account/register when validation fails
+* Fixed: Error when displaying the issue list if a float custom field is marked as 'used as filter'
+* Fixed: Mercurial adapter breaks on missing :files entry in changeset hash (James Britt)
+* Fixed: Wrong feed URLs on the home page
+* Fixed: Update of time entry fails when the issue has been moved to an other project
+* Fixed: Error when moving an issue without changing its tracker (Postgresql)
+* Fixed: Changes not recorded when using :pserver string (CVS adapter)
+* Fixed: admin should be able to move issues to any project
+* Fixed: adding an attachment is not possible when changing the status of an issue
+* Fixed: No mime-types in documents/files downloading
+* Fixed: error when sorting the messages if there’s only one board for the project
+* Fixed: 'me' doesn't appear in the drop down filters on a project issue list.
+
 == 2007-11-04 v0.6.0
 
 * Permission model refactoring.
