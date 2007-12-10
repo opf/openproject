@@ -7,4 +7,4 @@
 </ul>
 <%= textilizable(@journal.notes) %>
 <hr />
-<%= render :file => "_issue_text_html", :use_full_path => true, :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<%= render :partial => "issue_text_html", :locals => { :issue => @issue, :issue_url => @issue_url } %>

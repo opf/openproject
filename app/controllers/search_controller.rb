@@ -90,9 +90,10 @@ class SearchController < ApplicationController
         end
       else
         operator = @all_words ? ' AND ' : ' OR '
-        Project.with_scope(:find => {:conditions => Project.visible_by(User.current)}) do
-          @results += Project.find(:all, :limit => limit, :conditions => [ (["(LOWER(name) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort] ) if @scope.include? 'projects'
-        end
+        @results += Project.find(:all, 
+                                 :limit => limit,
+                                 :conditions => [ (["(#{Project.visible_by(User.current)}) AND (LOWER(name) like ? OR LOWER(description) like ?)"] * like_tokens.size).join(operator), * (like_tokens * 2).sort]
+                                 ) if @scope.include? 'projects'
         # if only one project is found, user is redirected to its overview
         redirect_to :controller => 'projects', :action => 'show', :id => @results.first and return if @results.size == 1
       end

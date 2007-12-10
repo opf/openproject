@@ -5,4 +5,4 @@
 <% end %>
 <%= @journal.notes if @journal.notes? %>
 ----------------------------------------
-<%= render :file => "_issue_text_plain", :use_full_path => true, :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<%= render :partial => "issue_text_plain", :locals => { :issue => @issue, :issue_url => @issue_url } %>

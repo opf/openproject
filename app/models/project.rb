@@ -20,7 +20,7 @@ class Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
   
-  has_many :members, :dependent => :delete_all, :include => :user, :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :members, :include => :user, :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :users, :through => :members
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :enabled_modules, :dependent => :delete_all
@@ -61,6 +61,8 @@ class Project < ActiveRecord::Base
   validates_length_of :homepage, :maximum => 60
   validates_length_of :identifier, :in => 3..20
   validates_format_of :identifier, :with => /^[a-z0-9\-]*$/
+  
+  before_destroy :delete_all_members
   
   def identifier=(identifier)
     super unless identifier_frozen?
@@ -127,6 +129,11 @@ class Project < ActiveRecord::Base
   
   def active_children
     children.select {|child| child.active?}
+  end
+  
+  # Deletes all project's members
+  def delete_all_members
+    Member.delete_all(['project_id = ?', id])
   end
   
   # Users issues can be assigned to

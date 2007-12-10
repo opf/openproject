@@ -17,4 +17,11 @@ members_003:
   role_id: 2
   id: 3
   user_id: 2
+members_004: 
+  id: 4
+  created_on: 2006-07-19 19:35:36 +02:00
+  project_id: 1
+  role_id: 2
+  # Locked user
+  user_id: 5
   

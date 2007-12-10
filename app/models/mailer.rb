@@ -150,6 +150,11 @@ class Mailer < ActionMailer::Base
   def render_message(method_name, body)
     layout = method_name.match(%r{text\.html\.(rhtml|rxml)}) ? 'layout.text.html.rhtml' : 'layout.text.plain.rhtml'
     body[:content_for_layout] = render(:file => method_name, :body => body)
-    ActionView::Base.new(File.join(template_root, 'mailer'), body, self).render(:file => layout)
+    ActionView::Base.new(template_root, body, self).render(:file => "mailer/#{layout}")
   end
+  
+  # Makes partial rendering work with Rails 1.2 (retro-compatibility)
+  def self.controller_path
+    ''
+  end unless respond_to?('controller_path')
 end
