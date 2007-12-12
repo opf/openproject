@@ -5,8 +5,8 @@ actionview_datehelper_select_month_names: 一月,二月,三月,四月,五月,六
 actionview_datehelper_select_month_names_abbr: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
-actionview_datehelper_time_in_words_day: 1 日
-actionview_datehelper_time_in_words_day_plural: %d 日
+actionview_datehelper_time_in_words_day: 1 天
+actionview_datehelper_time_in_words_day_plural: %d 天
 actionview_datehelper_time_in_words_hour_about: 約 1 小時
 actionview_datehelper_time_in_words_hour_about_plural: 約 %d 小時
 actionview_datehelper_time_in_words_hour_about_single: 約 1 小時
@@ -46,10 +46,10 @@ general_text_No: 'No'
 general_text_Yes: 'Yes'
 general_text_no: 'no'
 general_text_yes: 'yes'
-general_lang_name: 'Traditional Chinese (繁體中文)'
+general_lang_name: 'Chinese (繁體中文)'
 general_csv_separator: ','
-general_csv_encoding: ISO-8859-1
-general_pdf_encoding: big5
+general_csv_encoding: Big5
+general_pdf_encoding: Big5
 general_day_names: 星期一,星期二,星期三,星期四,星期五,星期六,星期日
 general_first_day_of_week: '7'
 
@@ -62,9 +62,9 @@ notice_account_unknown_email: Unknown user.
 notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
 notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
 notice_account_activated: Your account has been activated. You can now log in.
-notice_successful_create: Successful creation.
-notice_successful_update: Successful update.
-notice_successful_delete: Successful deletion.
+notice_successful_create: 建立成功
+notice_successful_update: 更新成功
+notice_successful_delete: 刪除成功
 notice_successful_connection: Successful connection.
 notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
 notice_locking_conflict: Data have been updated by another user.
@@ -122,7 +122,7 @@ field_subject: 主旨
 field_due_date: 完成日期
 field_assigned_to: 分派給
 field_priority: 重要性
-field_fixed_version: Fixed version
+field_fixed_version: 版本
 field_user: 用戶
 field_role: 角色
 field_homepage: 網站首頁
@@ -151,21 +151,21 @@ field_attr_lastname: Lastname attribute
 field_attr_mail: Email attribute
 field_onthefly: On-the-fly user creation
 field_start_date: 開始日期
-field_done_ratio: %% 已完成
+field_done_ratio: 完成百分比
 field_auth_source: 認證模式
 field_hide_mail: 隱藏我的電子郵件
 field_comments: 註解
 field_url: URL
-field_start_page: Start page
+field_start_page: 首頁
 field_subproject: 子專案
 field_hours: 小時
-field_activity: Activity
+field_activity: 活動
 field_spent_on: 日期
 field_identifier: 代碼
 field_is_filter: Used as a filter
 field_issue_to_id: Related issue
 field_delay: 逾期
-field_assignable: Issues can be assigned to this role
+field_assignable: 項目可被分派至此角色
 field_redirect_existing_links: Redirect existing links
 field_estimated_hours: 預估工時
 field_column_names: Columns
@@ -304,9 +304,9 @@ label_open_issues: 進行中
 label_open_issues_plural: 進行中
 label_closed_issues: 已結束
 label_closed_issues_plural: 已結束
-label_total: Total
+label_total: 總計
 label_permissions: 權限
-label_current_status: Current status
+label_current_status: 目前狀態
 label_new_statuses_allowed: New statuses allowed
 label_all: 全部
 label_none: 空值
@@ -314,11 +314,11 @@ label_nobody: nobody
 label_next: Next
 label_previous: Previous
 label_used_by: Used by
-label_details: Details
+label_details: 明細
 label_add_note: 加入一個新筆記
 label_per_page: 每頁
 label_calendar: 日曆
-label_months_from: months from
+label_months_from: 個月, 開始月份
 label_gantt: 甘特圖
 label_internal: Internal
 label_last_changes: 最近 %d 個變更
@@ -360,7 +360,7 @@ label_latest_revision: 最新版次
 label_latest_revision_plural: 最近版次清單
 label_view_revisions: 檢視版次清單
 label_max_size: 最大長度
-label_on: 'on'
+label_on: 總共
 label_sort_highest: 移動至開頭
 label_sort_higher: 往上移動
 label_sort_lower: 往下移動
@@ -368,7 +368,7 @@ label_sort_lowest: 移動至結尾
 label_roadmap: 版本藍圖
 label_roadmap_due_in: 倒數天數： 
 label_roadmap_overdue: %s 逾期
-label_roadmap_no_issues: No issues for this version
+label_roadmap_no_issues: 此版本尚未包含任何項目
 label_search: 搜尋
 label_result_plural: 結果
 label_all_words: All words
@@ -382,13 +382,13 @@ label_index_by_date: 依日期索引
 label_current_version: 現行版本
 label_preview: 預覽
 label_feed_plural: Feeds
-label_changes_details: Details of all changes
+label_changes_details: 所有變更的明細
 label_issue_tracking: 項目追蹤
 label_spent_time: 耗用時間
-label_f_hour: %.2f hour
-label_f_hour_plural: %.2f hours
+label_f_hour: %.2f 小時
+label_f_hour_plural: %.2f 小時
 label_time_tracking: Time tracking
-label_change_plural: Changes
+label_change_plural: 變更
 label_statistics: Statistics
 label_commits_per_month: Commits per month
 label_commits_per_author: Commits per author
@@ -405,11 +405,11 @@ label_loading: 載入中...
 label_relation_new: 建立新關聯
 label_relation_delete: 刪除關聯
 label_relates_to: 關聯至
-label_duplicates: duplicates
-label_blocks: blocks
-label_blocked_by: blocked by
-label_precedes: precedes
-label_follows: follows
+label_duplicates: 已重複
+label_blocks: 阻擋
+label_blocked_by: 被阻擋
+label_precedes: 優先於
+label_follows: 跟隨於
 label_end_to_start: end to start
 label_end_to_end: end to end
 label_start_to_start: start to start
@@ -501,9 +501,9 @@ text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 means no restriction
 text_project_destroy_confirmation: Are you sure you want to delete this project and all related data ?
 text_workflow_edit: Select a role and a tracker to edit the workflow
-text_are_you_sure: Are you sure ?
-text_journal_changed: changed from %s to %s
-text_journal_set_to: set to %s
+text_are_you_sure: 確定執行？
+text_journal_changed: 從 %s 變更為 %s
+text_journal_set_to: 設定為 %s
 text_journal_deleted: deleted
 text_tip_task_begin_day: task beginning this day
 text_tip_task_end_day: task ending this day
@@ -541,8 +541,8 @@ default_doc_category_tech: 技術文件
 default_priority_low: 低
 default_priority_normal: 正常
 default_priority_high: 高
-default_priority_urgent: 急
-default_priority_immediate: 特急
+default_priority_urgent: 速
+default_priority_immediate: 急
 default_activity_design: 設計
 default_activity_development: 開發
 
