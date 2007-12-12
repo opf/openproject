@@ -79,7 +79,8 @@ class Project < ActiveRecord::Base
       conditions = ["#{Issue.table_name}.project_id IN (#{ids.join(',')})"]
     end
     conditions ||= ["#{Issue.table_name}.project_id = ?", id]
-    Issue.with_scope :find => { :conditions => conditions } do 
+    # Quick and dirty fix for Rails 2 compatibility
+    Issue.send(:with_scope, :find => { :conditions => conditions }) do 
       yield
     end 
   end
