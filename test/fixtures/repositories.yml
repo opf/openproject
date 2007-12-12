@@ -1,11 +1,12 @@
 --- 
 repositories_001: 
   project_id: 1
-  url: svn://localhost/test
+  url: file:///<%= RAILS_ROOT.gsub(%r{config\/\.\.}, '') %>/tmp/test/subversion_repository
   id: 10
-  root_url: svn://localhost
+  root_url: file:///<%= RAILS_ROOT.gsub(%r{config\/\.\.}, '') %>/tmp/test/subversion_repository
   password: ""
   login: ""
+  type: Subversion
 repositories_002: 
   project_id: 2
   url: svn://localhost/test
@@ -13,3 +14,4 @@ repositories_002:
   root_url: svn://localhost
   password: ""
   login: ""
+  type: Subversion

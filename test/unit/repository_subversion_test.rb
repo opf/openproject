@@ -49,7 +49,7 @@ class RepositorySubversionTest < Test::Unit::TestCase
       assert_equal 8, @repository.changesets.count
     end
   else
-    puts "Subversion test repository NOT FOUND. Skipping tests !!!"
+    puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
   end
 end

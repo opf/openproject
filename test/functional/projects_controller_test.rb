@@ -22,7 +22,7 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :roles, :members, :issues, :journals, :journal_details, :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations
+  fixtures :projects, :versions, :users, :roles, :members, :issues, :journals, :journal_details, :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations
 
   def setup
     @controller = ProjectsController.new
@@ -41,6 +41,10 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'list'
     assert_not_nil assigns(:project_tree)
+    # Root project as hash key
+    assert assigns(:project_tree).has_key?(Project.find(1))
+    # Subproject in corresponding value
+    assert assigns(:project_tree)[Project.find(1)].include?(Project.find(3))
   end
   
   def test_show
@@ -86,6 +90,21 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'roadmap'
     assert_not_nil assigns(:versions)
+    # Version with no date set appears
+    assert assigns(:versions).include?(Version.find(3))
+    # Completed version doesn't appear
+    assert !assigns(:versions).include?(Version.find(1))
+  end
+  
+  def test_roadmap_with_completed_versions
+    get :roadmap, :id => 1, :completed => 1
+    assert_response :success
+    assert_template 'roadmap'
+    assert_not_nil assigns(:versions)
+    # Version with no date set appears
+    assert assigns(:versions).include?(Version.find(3))
+    # Completed version appears
+    assert assigns(:versions).include?(Version.find(1))
   end
 
   def test_activity
@@ -118,6 +137,42 @@ class ProjectsControllerTest < Test::Unit::TestCase
                    }
                  }
                }
+  end
+  
+  def test_calendar
+    get :calendar, :id => 1
+    assert_response :success
+    assert_template 'calendar'
+    assert_not_nil assigns(:calendar)
+  end
+
+  def test_calendar_with_subprojects
+    get :calendar, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
+    assert_response :success
+    assert_template 'calendar'
+    assert_not_nil assigns(:calendar)
+  end
+
+  def test_gantt
+    get :gantt, :id => 1
+    assert_response :success
+    assert_template 'gantt.rhtml'
+    assert_not_nil assigns(:events)
+  end
+
+  def test_gantt_with_subprojects
+    get :gantt, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
+    assert_response :success
+    assert_template 'gantt.rhtml'
+    assert_not_nil assigns(:events)
+  end
+  
+  def test_gantt_export_to_pdf
+    get :gantt, :id => 1, :format => 'pdf'
+    assert_response :success
+    assert_template 'gantt.rfpdf'
+    assert_equal 'application/pdf', @response.content_type
+    assert_not_nil assigns(:events)
   end
   
   def test_archive    

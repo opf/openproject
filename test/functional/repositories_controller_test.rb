@@ -31,6 +31,13 @@ class RepositoriesControllerTest < Test::Unit::TestCase
     User.current = nil
   end
   
+  def test_revisions
+    get :revisions, :id => 1
+    assert_response :success
+    assert_template 'revisions'
+    assert_not_nil assigns(:changesets)
+  end
+  
   def test_revision_with_before_nil_and_afer_normal
     get :revision, {:id => 1, :rev => 1}
     assert_response :success
@@ -43,4 +50,15 @@ class RepositoriesControllerTest < Test::Unit::TestCase
     }
   end
 
+  def test_graph_commits_per_month
+    get :graph, :id => 1, :graph => 'commits_per_month'
+    assert_response :success
+    assert_equal 'image/svg+xml', @response.content_type
+  end
+  
+  def test_graph_commits_per_author
+    get :graph, :id => 1, :graph => 'commits_per_author'
+    assert_response :success
+    assert_equal 'image/svg+xml', @response.content_type
+  end
 end
