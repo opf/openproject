@@ -30,16 +30,17 @@
     <div class="contextual">
         <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
     </div>
-    <%= simple_format(auto_link(h(comment.comments)))%>
+    <%= textilizable(comment.comments) %>
 <% end if @news.comments_count > 0 %>
 </div>
 
 <% if authorize_for 'news', 'add_comment' %>
 <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
 <% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
-<%= text_area 'comment', 'comments', :cols => 60, :rows => 6 %>
+<%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
+<%= wikitoolbar_for 'comment_comments' %>
 <p><%= submit_tag l(:button_add) %></p>
 <% end %>
 <% end %>
 
-<% set_html_title h(@news.title) -%>
+<% set_html_title(h(@news.title)) -%>
