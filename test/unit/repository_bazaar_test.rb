@@ -21,7 +21,7 @@ class RepositoryBazaarTest < Test::Unit::TestCase
   fixtures :projects
   
   # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + 'tmp/test/bazaar_repository'
+  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
   
   def setup
     @project = Project.find(1)
