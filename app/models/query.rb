@@ -54,7 +54,6 @@ class Query < ActiveRecord::Base
   serialize :column_names
   
   attr_protected :project, :user
-  attr_accessor :executed_by
   
   validates_presence_of :name, :on => :save
   validates_length_of :name, :maximum => 255
@@ -112,8 +111,7 @@ class Query < ActiveRecord::Base
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
-    @executed_by = User.current.logged? ? User.current : nil
-    set_language_if_valid(executed_by.language) if executed_by
+    set_language_if_valid(User.current.language)
   end
   
   def validate
@@ -145,12 +143,12 @@ class Query < ActiveRecord::Base
                            "done_ratio" =>  { :type => :integer, :order => 13 }}                          
     
     user_values = []
-    user_values << ["<< #{l(:label_me)} >>", "me"] if executed_by
+    user_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
     if project
       user_values += project.users.sort.collect{|s| [s.name, s.id.to_s] }
-    elsif executed_by
+    else
       # members of the user's projects
-      user_values += executed_by.projects.collect(&:users).flatten.uniq.sort.collect{|s| [s.name, s.id.to_s] }
+      user_values += User.current.projects.collect(&:users).flatten.uniq.sort.collect{|s| [s.name, s.id.to_s] }
     end
     @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values } unless user_values.empty?
     @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
@@ -267,7 +265,7 @@ class Query < ActiveRecord::Base
     elsif project
       clause << "#{Issue.table_name}.project_id=%d" % project.id
     else
-      clause << Project.visible_by(executed_by)
+      clause << Project.visible_by(User.current)
     end
     
     # filters clauses
@@ -292,7 +290,7 @@ class Query < ActiveRecord::Base
       
       # "me" value subsitution
       if %w(assigned_to_id author_id).include?(field)
-        v.push(executed_by ? executed_by.id.to_s : "0") if v.delete("me")
+        v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
       end
       
       case operator_for field
