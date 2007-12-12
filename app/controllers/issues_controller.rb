@@ -91,6 +91,7 @@ class IssuesController < ApplicationController
 
   def edit
     @priorities = Enumeration::get_values('IPRI')
+    @custom_values = []
     if request.get?
       @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
     else
