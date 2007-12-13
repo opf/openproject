@@ -109,12 +109,4 @@ class UsersController < ApplicationController
     end
     redirect_to :action => 'edit', :id => @user and return
   end
-
-  def destroy
-    User.find(params[:id]).destroy
-    redirect_to :action => 'list'
-  rescue
-    flash[:error] = "Unable to delete user"
-    redirect_to :action => 'list'
-  end  
 end
