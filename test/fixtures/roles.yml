@@ -76,6 +76,8 @@ roles_001:
     - :edit_wiki_pages
     - :delete_wiki_pages
     - :add_messages
+    - :edit_messages
+    - :delete_messages
     - :manage_boards
     - :view_files
     - :manage_files

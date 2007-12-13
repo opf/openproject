@@ -48,7 +48,7 @@ class AdminController < ApplicationController
   def mail_options
     @notifiables = %w(issue_added issue_updated news_added document_added file_added message_posted)
     if request.post?
-      settings = (params[:settings] || {}).dup
+      settings = (params[:settings] || {}).dup.symbolize_keys
       settings[:notified_events] ||= []
       settings.each { |name, value| Setting[name] = value }
       flash[:notice] = l(:notice_successful_update)

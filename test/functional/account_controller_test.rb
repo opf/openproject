@@ -16,16 +16,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.dirname(__FILE__) + '/../test_helper'
-require 'versions_controller'
+require 'account_controller'
 
 # Re-raise errors caught by the controller.
-class VersionsController; def rescue_action(e) raise e end; end
+class AccountController; def rescue_action(e) raise e end; end
 
-class VersionsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :versions, :users, :roles, :members, :enabled_modules
+class AccountControllerTest < Test::Unit::TestCase
+  fixtures :users
   
   def setup
-    @controller = VersionsController.new
+    @controller = AccountController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
@@ -35,39 +35,39 @@ class VersionsControllerTest < Test::Unit::TestCase
     get :show, :id => 2
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:version)
-    
-    assert_tag :tag => 'h2', :content => /1.0/
+    assert_not_nil assigns(:user)
   end
   
-  def test_get_edit
-    @request.session[:user_id] = 2
-    get :edit, :id => 2
+  def test_show_inactive
+    get :show, :id => 5
+    assert_response 404
+    assert_nil assigns(:user)
+  end
+  
+  def test_login_with_wrong_password
+    post :login, :login => 'admin', :password => 'bad'
     assert_response :success
-    assert_template 'edit'
+    assert_template 'login'
+    assert_tag 'div',
+               :attributes => { :class => "flash error" },
+               :content => /Invalid user or password/
   end
   
-  def test_post_edit
-    @request.session[:user_id] = 2
-    post :edit, :id => 2, 
-                :version => { :name => 'New version name', 
-                              :effective_date => Date.today.strftime("%Y-%m-%d")}
-    assert_redirected_to 'projects/settings/1'
-    version = Version.find(2)
-    assert_equal 'New version name', version.name
-    assert_equal Date.today, version.effective_date
-  end
-
-  def test_destroy
-    @request.session[:user_id] = 2
-    post :destroy, :id => 2
-    assert_redirected_to 'projects/settings/1'
-    assert_nil Version.find_by_id(2)
+  def test_autologin
+    Setting.autologin = "7"
+    Token.delete_all
+    post :login, :login => 'admin', :password => 'admin', :autologin => 1
+    assert_redirected_to 'my/page'
+    token = Token.find :first
+    assert_not_nil token
+    assert_equal User.find_by_login('admin'), token.user
+    assert_equal 'autologin', token.action
   end
   
-  def test_issue_status_by
-    xhr :get, :status_by, :id => 2
-    assert_response :success
-    assert_template '_issue_counts'
+  def test_logout
+    @request.session[:user_id] = 2
+    get :logout
+    assert_redirected_to ''
+    assert_nil @request.session[:user_id]
   end
 end

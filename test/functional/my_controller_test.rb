@@ -22,7 +22,7 @@ require 'my_controller'
 class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < Test::Unit::TestCase
-  fixtures :users
+  fixtures :users, :issues, :issue_statuses, :trackers, :enumerations
   
   def setup
     @controller = MyController.new

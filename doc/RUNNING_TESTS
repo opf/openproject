@@ -8,6 +8,10 @@ Subversion
 svnadmin create tmp/test/subversion_repository
 gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load tmp/test/subversion_repository
 
+CVS
+---
+gunzip < test/fixtures/repositories/cvs_repository.tar.gz | tar -xv -C tmp/test
+
 Bazaar
 ------
 gunzip < test/fixtures/repositories/bazaar_repository.tar.gz | tar -xv -C tmp/test
