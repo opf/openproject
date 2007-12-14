@@ -145,6 +145,11 @@ namespace :redmine do
       
       class TracWikiPage < ActiveRecord::Base
         set_table_name :wiki  
+        
+        def self.columns
+          # Hides readonly Trac field to prevent clash with AR readonly? method (Rails 2.0)
+          super.select {|column| column.name.to_s != 'readonly'}
+        end
       end
       
       class TracPermission < ActiveRecord::Base
