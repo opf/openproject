@@ -7,21 +7,32 @@ function toggle_custom_field_format() {
   p_length = $("custom_field_min_length");
   p_regexp = $("custom_field_regexp");
   p_values = $("custom_field_possible_values");
+  p_searchable = $("custom_field_searchable");
   switch (format.value) {
     case "list":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
+      Element.show(p_searchable.parentNode);
       Element.show(p_values);
       break;
     case "date":
     case "bool":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
+      Element.hide(p_searchable.parentNode);
+      Element.hide(p_values);
+      break;
+    case "float":
+    case "int":
+      Element.show(p_length.parentNode);
+      Element.show(p_regexp.parentNode);
+      Element.hide(p_searchable.parentNode);
       Element.hide(p_values);
       break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
+      Element.show(p_searchable.parentNode);
       Element.hide(p_values);
       break;
   }
@@ -47,7 +58,6 @@ function deleteValueField(e) {
 //]]>
 </script>
 
-<!--[form:custom_field]-->
 <div class="box">
 <p><%= f.text_field :name, :required => true %></p>
 <p><%= f.select :field_format, custom_field_formats_for_select, {}, :onchange => "toggle_custom_field_format();" %></p>
@@ -59,11 +69,8 @@ function deleteValueField(e) {
 <% (@custom_field.possible_values.to_a + [""]).each do |value| %>
 <span><%= text_field_tag 'custom_field[possible_values][]', value, :size => 30 %> <%= image_to_function "delete.png", "deleteValueField(this);return false" %><br /></span>
 <% end %>
-
 </p>
 </div>
-<%= javascript_tag "toggle_custom_field_format();" %>
-<!--[eoform:custom_field]-->
 
 <div class="box">
 <% case @custom_field.type.to_s
@@ -78,6 +85,7 @@ when "IssueCustomField" %>
     <p><%= f.check_box :is_required %></p>
     <p><%= f.check_box :is_for_all %></p>
     <p><%= f.check_box :is_filter %></p>
+    <p><%= f.check_box :searchable %></p>
     
 <% when "UserCustomField" %>
     <p><%= f.check_box :is_required %></p>
@@ -87,3 +95,4 @@ when "IssueCustomField" %>
 
 <% end %>
 </div>
+<%= javascript_tag "toggle_custom_field_format();" %>

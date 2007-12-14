@@ -552,3 +552,4 @@ setting_time_format: Formato de hora
 setting_bcc_recipients: Blind carbon copy recipients (bcc)
 button_annotate: Annotate
 label_issues_by: Issues by %s
+field_searchable: Searchable

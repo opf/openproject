@@ -5,7 +5,7 @@ require 'search_controller'
 class SearchController; def rescue_action(e) raise e end; end
 
 class SearchControllerTest < Test::Unit::TestCase
-  fixtures :projects, :issues
+  fixtures :projects, :issues, :custom_fields, :custom_values
   
   def setup
     @controller = SearchController.new
@@ -25,7 +25,9 @@ class SearchControllerTest < Test::Unit::TestCase
     assert assigns(:results).include?(Project.find(1))
   end
   
-  def test_search_in_project
+  def test_search_without_searchable_custom_fields
+    CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
+    
     get :index, :id => 1
     assert_response :success
     assert_template 'index'
@@ -34,6 +36,15 @@ class SearchControllerTest < Test::Unit::TestCase
     get :index, :id => 1, :q => "can"
     assert_response :success
     assert_template 'index'
+  end
+  
+  def test_search_with_searchable_custom_fields
+    get :index, :id => 1, :q => "stringforcustomfield"
+    assert_response :success
+    results = assigns(:results)
+    assert_not_nil results
+    assert_equal 1, results.size
+    assert results.include?(Issue.find(3))
   end
   
   def test_quick_jump_to_issue

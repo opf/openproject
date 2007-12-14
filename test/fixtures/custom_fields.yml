@@ -11,16 +11,17 @@ custom_fields_001:
   is_required: false
   field_format: list
 custom_fields_002: 
-  name: Build
+  name: Searchable field
   min_length: 1
   regexp: ""
   is_for_all: true
   type: IssueCustomField
-  max_length: 10
+  max_length: 100
   possible_values: ""
   id: 2
   is_required: false
   field_format: string
+  searchable: true
 custom_fields_003: 
   name: Development status
   min_length: 0

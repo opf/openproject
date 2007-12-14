@@ -552,3 +552,4 @@ text_caracters_minimum: Must be at least %d characters long.
 setting_bcc_recipients: Blind carbon copy recipients (bcc)
 button_annotate: Annotate
 label_issues_by: Issues by %s
+field_searchable: Searchable

@@ -47,3 +47,10 @@ custom_values_008:
   customized_id: 3
   id: 11
   value: "MySQL"
+custom_values_009: 
+  customized_type: Issue
+  custom_field_id: 2
+  customized_id: 3
+  id: 12
+  value: "this is a stringforcustomfield search"
+  

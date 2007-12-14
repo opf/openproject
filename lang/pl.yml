@@ -549,3 +549,4 @@ text_caracters_minimum: Musi być nie krótsze niż %d znaków.
 setting_bcc_recipients: Odbiorcy kopii tajnej (kt/bcc)
 button_annotate: Adnotuj
 label_issues_by: Zagadnienia wprowadzone przez %s
+field_searchable: Searchable

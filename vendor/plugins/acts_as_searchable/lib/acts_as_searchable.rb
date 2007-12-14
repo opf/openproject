@@ -49,6 +49,9 @@ module Redmine
             raise 'No date column defined defined.'
           end
           
+          # Should we search custom fields on this model ?
+          searchable_options[:search_custom_fields] = !reflect_on_association(:custom_values).nil?
+          
           send :include, Redmine::Acts::Searchable::InstanceMethods
         end
       end
@@ -67,11 +70,27 @@ module Redmine
             columns = searchable_options[:columns]
             columns.slice!(1..-1) if options[:titles_only]
             
-            sql = ([ '(' + columns.collect {|column| "(LOWER(#{column}) LIKE ?)"}.join(' OR ') + ')' ] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
+            token_clauses = columns.collect {|column| "(LOWER(#{column}) LIKE ?)"}
+            
+            if !options[:titles_only] && searchable_options[:search_custom_fields]
+              searchable_custom_field_ids = CustomField.find(:all,
+                                                             :select => 'id',
+                                                             :conditions => { :type => "#{self.name}CustomField",
+                                                                              :searchable => true }).collect(&:id)
+              if searchable_custom_field_ids.any?
+                custom_field_sql = "#{table_name}.id IN (SELECT customized_id FROM #{CustomValue.table_name}" +
+                  " WHERE customized_type='#{self.name}' AND customized_id=#{table_name}.id AND LOWER(value) LIKE ?" +
+                  " AND #{CustomValue.table_name}.custom_field_id IN (#{searchable_custom_field_ids.join(',')}))"
+                token_clauses << custom_field_sql
+              end
+            end
+            
+            sql = ([token_clauses.join(' OR ')] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
+            
             if options[:offset]
               sql = "(#{sql}) AND (#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')"
             end
-            find_options[:conditions] = [sql, * (tokens * columns.size).sort]
+            find_options[:conditions] = [sql, * (tokens * token_clauses.size).sort]
             
             results = with_scope(:find => {:conditions => ["#{searchable_options[:project_key]} = ?", project.id]}) do
               find(:all, find_options)
