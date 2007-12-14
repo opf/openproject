@@ -45,6 +45,7 @@ class CustomField < ActiveRecord::Base
     self.possible_values = self.possible_values.collect{|v| v unless v.empty?}.compact
     # make sure these fields are not searchable
     self.searchable = false if %w(int float date bool).include?(field_format)
+    true
   end
   
   def validate
