@@ -35,4 +35,8 @@ enabled_modules_009:
   name: repository
   project_id: 3
   id: 9
+enabled_modules_010: 
+  name: wiki
+  project_id: 3
+  id: 10
   

@@ -15,30 +15,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class WikisController < ApplicationController
-  layout 'base'
-  before_filter :find_project, :authorize
-  
-  # Create or update a project's wiki
-  def edit
-    @wiki = @project.wiki || Wiki.new(:project => @project)
-    @wiki.attributes = params[:wiki]
-    @wiki.save if request.post?
-    render(:update) {|page| page.replace_html "tab-content-wiki", :partial => 'projects/settings/wiki'}
-  end
+require File.dirname(__FILE__) + '/../test_helper'
+require 'wikis_controller'
 
-  # Delete a project's wiki
-  def destroy
-    if request.post? && params[:confirm] && @project.wiki
-      @project.wiki.destroy
-      redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'wiki'
-    end    
+# Re-raise errors caught by the controller.
+class WikisController; def rescue_action(e) raise e end; end
+
+class WikisControllerTest < Test::Unit::TestCase
+  fixtures :projects, :users, :roles, :members, :enabled_modules, :wikis
+  
+  def setup
+    @controller = WikisController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+    User.current = nil
   end
   
-private
-  def find_project
-    @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
+  def test_create_wiki
+    @request.session[:user_id] = 1
+    assert_nil Project.find(3).wiki
+    post :edit, :id => 3, :wiki => { :start_page => 'Start page' }
+    assert_response :success
+    wiki = Project.find(3).wiki
+    assert_not_nil wiki
+    assert_equal 'Start page', wiki.start_page
   end
 end
