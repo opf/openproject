@@ -92,6 +92,9 @@ class RepositoriesController < ApplicationController
     show_error and return unless @content
     if 'raw' == params[:format]      
       send_data @content, :filename => @path.split('/').last
+    else
+      # Prevent empty lines when displaying a file with Windows style eol
+      @content.gsub!("\r\n", "\n")
     end
   end
   
