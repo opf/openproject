@@ -22,7 +22,8 @@ class RepositoryBazaarTest < Test::Unit::TestCase
   
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
-  
+  REPOSITORY_PATH.gsub!(/\/+/, '/')
+
   def setup
     @project = Project.find(1)
     assert @repository = Repository::Bazaar.create(:project => @project, :url => "file:///#{REPOSITORY_PATH}")
