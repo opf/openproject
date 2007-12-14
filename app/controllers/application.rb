@@ -144,6 +144,19 @@ class ApplicationController < ActionController::Base
   def accept_key_auth_actions
     self.class.read_inheritable_attribute('accept_key_auth_actions') || []
   end
+  
+  # TODO: move to model
+  def attach_files(obj, files)
+    attachments = []
+    if files && files.is_a?(Array)
+      files.each do |file|
+        next unless file.size > 0
+        a = Attachment.create(:container => obj, :file => file, :author => User.current)
+        attachments << a unless a.new_record?
+      end
+    end
+    attachments
+  end
 
   # qvalues http header parser
   # code taken from webrick

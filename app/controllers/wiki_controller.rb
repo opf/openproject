@@ -154,11 +154,7 @@ class WikiController < ApplicationController
 
   def add_attachment
     @page = @wiki.find_page(params[:page])
-    # Save the attachments
-    params[:attachments].each { |file|
-      next unless file.size > 0
-      a = Attachment.create(:container => @page, :file => file, :author => User.current)
-    } if params[:attachments] and params[:attachments].is_a? Array
+    attach_files(@page, params[:attachments])
     redirect_to :action => 'index', :page => @page.title
   end
 

@@ -42,9 +42,7 @@ class MessagesController < ApplicationController
       @message.sticky = params[:message]['sticky']
     end
     if request.post? && @message.save
-      params[:attachments].each { |file|
-        Attachment.create(:container => @message, :file => file, :author => User.current) if file.size > 0
-      } if params[:attachments] and params[:attachments].is_a? Array    
+      attach_files(@message, params[:attachments])
       redirect_to :action => 'show', :id => @message
     end
   end
@@ -56,9 +54,7 @@ class MessagesController < ApplicationController
     @reply.board = @board
     @topic.children << @reply
     if !@reply.new_record?
-      params[:attachments].each { |file|
-        Attachment.create(:container => @reply, :file => file, :author => User.current) if file.size > 0
-      } if params[:attachments] and params[:attachments].is_a? Array
+      attach_files(@reply, params[:attachments])
     end
     redirect_to :action => 'show', :id => @topic
   end
@@ -70,9 +66,7 @@ class MessagesController < ApplicationController
       @message.sticky = params[:message]['sticky']
     end
     if request.post? && @message.update_attributes(params[:message])
-      params[:attachments].each { |file|
-        Attachment.create(:container => @message, :file => file, :author => User.current) if file.size > 0
-      } if params[:attachments] and params[:attachments].is_a? Array
+      attach_files(@message, params[:attachments])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @topic
     end

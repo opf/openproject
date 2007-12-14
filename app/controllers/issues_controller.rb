@@ -116,13 +116,8 @@ class IssuesController < ApplicationController
   
   def add_note
     journal = @issue.init_journal(User.current, params[:notes])
-    params[:attachments].each { |file|
-      next unless file.size > 0
-      a = Attachment.create(:container => @issue, :file => file, :author => User.current)
-      journal.details << JournalDetail.new(:property => 'attachment',
-                                           :prop_key => a.id,
-                                           :value => a.filename) unless a.new_record?
-    } if params[:attachments] and params[:attachments].is_a? Array
+    attachments = attach_files(@issue, params[:attachments])
+    attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
     if journal.save
       flash[:notice] = l(:notice_successful_update)
       Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
@@ -140,15 +135,8 @@ class IssuesController < ApplicationController
         journal = @issue.init_journal(User.current, params[:notes])
         @issue.status = @new_status
         if @issue.update_attributes(params[:issue])
-          # Save attachments
-          params[:attachments].each { |file|
-            next unless file.size > 0
-            a = Attachment.create(:container => @issue, :file => file, :author => User.current)            
-            journal.details << JournalDetail.new(:property => 'attachment',
-                                                 :prop_key => a.id,
-                                                 :value => a.filename) unless a.new_record?
-          } if params[:attachments] and params[:attachments].is_a? Array
-        
+          attachments = attach_files(@issue, params[:attachments])
+          attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
           # Log time
           if current_role.allowed_to?(:log_time)
             @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)

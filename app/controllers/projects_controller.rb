@@ -181,10 +181,7 @@ class ProjectsController < ApplicationController
   def add_document
     @document = @project.documents.build(params[:document])    
     if request.post? and @document.save	
-      # Save the attachments
-      params[:attachments].each { |a|
-        Attachment.create(:container => @document, :file => a, :author => User.current) unless a.size == 0
-      } if params[:attachments] and params[:attachments].is_a? Array
+      attach_files(@document, params[:attachments])
       flash[:notice] = l(:notice_successful_create)
       Mailer.deliver_document_added(@document) if Setting.notified_events.include?('document_added')
       redirect_to :action => 'list_documents', :id => @project
@@ -237,10 +234,7 @@ class ProjectsController < ApplicationController
       @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
       @issue.custom_values = @custom_values
       if @issue.save
-        if params[:attachments] && params[:attachments].is_a?(Array)
-          # Save attachments
-          params[:attachments].each {|a| Attachment.create(:container => @issue, :file => a, :author => User.current) unless a.size == 0}
-        end
+        attach_files(@issue, params[:attachments])
         flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
         redirect_to :controller => 'issues', :action => 'index', :project_id => @project
@@ -345,14 +339,8 @@ class ProjectsController < ApplicationController
   def add_file
     if request.post?
       @version = @project.versions.find_by_id(params[:version_id])
-      # Save the attachments
-      @attachments = []
-      params[:attachments].each { |file|
-        next unless file.size > 0
-        a = Attachment.create(:container => @version, :file => file, :author => User.current)
-        @attachments << a unless a.new_record?
-      } if params[:attachments] and params[:attachments].is_a? Array
-      Mailer.deliver_attachments_added(@attachments) if !@attachments.empty? && Setting.notified_events.include?('file_added')
+      attachments = attach_files(@issue, params[:attachments])
+      Mailer.deliver_attachments_added(attachments) if !attachments.empty? && Setting.notified_events.include?('file_added')
       redirect_to :controller => 'projects', :action => 'list_files', :id => @project
     end
     @versions = @project.versions.sort
