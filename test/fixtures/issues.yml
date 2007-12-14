@@ -41,6 +41,8 @@ issues_003:
   assigned_to_id: 
   author_id: 2
   status_id: 1
+  start_date: <%= 1.day.from_now.to_date.to_s(:db) %>
+  due_date: <%= 40.day.ago.to_date.to_s(:db) %>
 issues_004: 
   created_on: 2006-07-19 21:07:27 +02:00
   project_id: 2

@@ -179,9 +179,9 @@ module ProjectsHelper
     end
     
     # today red line
-    if Date.today >= @date_from and Date.today <= @date_to
+    if Date.today >= date_from and Date.today <= date_to
       gc.stroke('red')
-      x = (Date.today-@date_from+1)*zoom + subject_width
+      x = (Date.today-date_from+1)*zoom + subject_width
       gc.line(x, headers_heigth, x, headers_heigth + g_height-1)      
     end    
     

@@ -54,6 +54,36 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:project)
   end
   
+  def test_settings
+    @request.session[:user_id] = 2 # manager
+    get :settings, :id => 1
+    assert_response :success
+    assert_template 'settings'
+  end
+  
+  def test_edit
+    @request.session[:user_id] = 2 # manager
+    post :edit, :id => 1, :project => {:name => 'Test changed name'}
+    assert_redirected_to 'projects/settings/1'
+    project = Project.find(1)
+    assert_equal 'Test changed name', project.name
+  end
+  
+  def test_get_destroy
+    @request.session[:user_id] = 1 # admin
+    get :destroy, :id => 1
+    assert_response :success
+    assert_template 'destroy'
+    assert_not_nil Project.find_by_id(1)
+  end
+
+  def test_post_destroy
+    @request.session[:user_id] = 1 # admin
+    post :destroy, :id => 1, :confirm => 1
+    assert_redirected_to 'admin/projects'
+    assert_nil Project.find_by_id(1)
+  end
+  
   def test_list_documents
     get :list_documents, :id => 1
     assert_response :success
@@ -71,6 +101,22 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_equal 'Bulk editing', Issue.find(1).journals.find(:first, :order => 'created_on DESC').notes
   end
 
+  def test_move_issues_to_another_project
+    @request.session[:user_id] = 1
+    post :move_issues, :id => 1, :issue_ids => [1, 2], :new_project_id => 2
+    assert_redirected_to 'projects/1/issues'
+    assert_equal 2, Issue.find(1).project_id
+    assert_equal 2, Issue.find(2).project_id
+  end
+  
+  def test_move_issues_to_another_tracker
+    @request.session[:user_id] = 1
+    post :move_issues, :id => 1, :issue_ids => [1, 2], :new_tracker_id => 3
+    assert_redirected_to 'projects/1/issues'
+    assert_equal 3, Issue.find(1).tracker_id
+    assert_equal 3, Issue.find(2).tracker_id
+  end
+  
   def test_list_files
     get :list_files, :id => 1
     assert_response :success
