@@ -31,3 +31,8 @@ enabled_modules_008:
   name: boards
   project_id: 1
   id: 8
+enabled_modules_009: 
+  name: repository
+  project_id: 3
+  id: 9
+  

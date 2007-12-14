@@ -15,3 +15,7 @@ gunzip < test/fixtures/repositories/cvs_repository.tar.gz | tar -xv -C tmp/test
 Bazaar
 ------
 gunzip < test/fixtures/repositories/bazaar_repository.tar.gz | tar -xv -C tmp/test
+
+Mercurial
+---------
+gunzip < test/fixtures/repositories/mercurial_repository.tar.gz | tar -xv -C tmp/test
