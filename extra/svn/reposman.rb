@@ -78,6 +78,7 @@ $quiet        = false
 $redmine_host = ''
 $repos_base   = ''
 $svn_owner    = 'root'
+$use_groupid  = true
 $svn_url      = false
 $test         = false
 
@@ -92,7 +93,7 @@ begin
     case opt
     when '--svn-dir';        $repos_base   = arg.dup
     when '--redmine-host';   $redmine_host = arg.dup
-    when '--owner';          $svn_owner    = arg.dup
+    when '--owner';          $svn_owner    = arg.dup; $use_groupid = false;
     when '--url';            $svn_url      = arg.dup
     when '--verbose';        $verbose += 1
     when '--test';           $test = true
@@ -144,7 +145,7 @@ def set_owner_and_rights(project, repos_path, &block)
   if RUBY_PLATFORM =~ /mswin/
     yield if block_given?
   else
-    uid, gid = Etc.getpwnam($svn_owner).uid, Etc.getgrnam(project.identifier).gid
+    uid, gid = Etc.getpwnam($svn_owner).uid, ($use_groupid ? Etc.getgrnam(project.identifier).gid : 0)
     right = project.is_public ? 0775 : 0770
     yield if block_given?
     Find.find(repos_path) do |f|
