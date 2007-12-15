@@ -10,3 +10,15 @@ wiki_contents_001:
   version: 3
   author_id: 1
   comments: Gzip compression activated
+wiki_contents_002: 
+  text: |-
+    h1. Another page
+    
+    This is a link to a ticket: #2
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 2
+  id: 2
+  version: 1
+  author_id: 1
+  comments: 
+  

@@ -4,3 +4,9 @@ wiki_pages_001:
   title: CookBook_documentation
   id: 1
   wiki_id: 1
+wiki_pages_002: 
+  created_on: 2007-03-08 00:18:07 +01:00
+  title: Another_page
+  id: 2
+  wiki_id: 1
+  

@@ -39,7 +39,6 @@ roles_005:
     - :view_time_entries
     - :view_documents
     - :view_wiki_pages
-    - :edit_wiki_pages
     - :view_files
     - :browse_repository
     - :view_changesets
@@ -75,6 +74,7 @@ roles_001:
     - :view_wiki_pages
     - :edit_wiki_pages
     - :delete_wiki_pages
+    - :rename_wiki_pages
     - :add_messages
     - :edit_messages
     - :delete_messages

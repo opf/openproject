@@ -31,7 +31,7 @@ class WikisControllerTest < Test::Unit::TestCase
     User.current = nil
   end
   
-  def test_create_wiki
+  def test_create
     @request.session[:user_id] = 1
     assert_nil Project.find(3).wiki
     post :edit, :id => 3, :wiki => { :start_page => 'Start page' }
@@ -39,5 +39,18 @@ class WikisControllerTest < Test::Unit::TestCase
     wiki = Project.find(3).wiki
     assert_not_nil wiki
     assert_equal 'Start page', wiki.start_page
+  end
+  
+  def test_destroy
+    @request.session[:user_id] = 1
+    post :destroy, :id => 1, :confirm => 1
+    assert_redirected_to 'projects/settings/1'
+    assert_nil Project.find(1).wiki
+  end
+  
+  def test_not_found
+    @request.session[:user_id] = 1
+    post :destroy, :id => 999, :confirm => 1
+    assert_response 404
   end
 end
