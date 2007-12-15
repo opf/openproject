@@ -25,8 +25,8 @@ class WikiContent < ActiveRecord::Base
   
   acts_as_versioned
   class Version
-    belongs_to :page, :class_name => 'WikiPage', :foreign_key => 'page_id'
-    belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+    belongs_to :page, :class_name => '::WikiPage', :foreign_key => 'page_id'
+    belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
     attr_protected :data
 
     acts_as_event :title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
