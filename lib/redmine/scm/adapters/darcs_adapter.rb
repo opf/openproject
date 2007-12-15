@@ -70,8 +70,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           entries.sort_by_name
-        rescue Errno::ENOENT => e
-          raise CommandFailed
         end
     
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
@@ -99,8 +97,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           revisions
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end
         
         def diff(path, identifier_from, identifier_to=nil, type="inline")
@@ -117,8 +113,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           DiffTableList.new diff, type    
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end
         
         private
@@ -154,7 +148,7 @@ module Redmine
             end
           end
           paths
-        rescue Errno::ENOENT => e
+        rescue CommandFailed
           paths
         end
       end

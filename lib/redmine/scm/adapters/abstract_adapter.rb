@@ -112,9 +112,15 @@ module Redmine
       
         def shellout(cmd, &block)
           logger.debug "Shelling out: #{cmd}" if logger && logger.debug?
-          IO.popen(cmd, "r+") do |io|
-            io.close_write
-            block.call(io) if block_given?
+          begin
+            IO.popen(cmd, "r+") do |io|
+              io.close_write
+              block.call(io) if block_given?
+            end
+          rescue Errno::ENOENT => e
+            # The command failed, log it and re-raise
+            log.error("SCM command failed: #{cmd}\n  with: #{e.message}")
+            raise CommandFailed
           end
         end  
       end

@@ -47,7 +47,7 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           info
-        rescue Errno::ENOENT => e
+        rescue CommandFailed
           return nil
         end
         
@@ -91,8 +91,6 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           logger.debug("Found #{entries.size} entries in the repository for #{target(path)}") if logger && logger.debug?
           entries.sort_by_name
-        rescue Errno::ENOENT => e
-          raise CommandFailed
         end
     
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
@@ -130,8 +128,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           revisions
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end
         
         def diff(path, identifier_from, identifier_to=nil, type="inline")
@@ -154,8 +150,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           DiffTableList.new diff, type    
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end
         
         def cat(path, identifier=nil)
@@ -169,8 +163,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           cat
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end
         
         def annotate(path, identifier=nil)
@@ -186,8 +178,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           blame
-        rescue Errno::ENOENT => e
-          raise CommandFailed
         end
         
         private

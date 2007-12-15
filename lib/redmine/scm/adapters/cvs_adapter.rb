@@ -103,8 +103,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           entries.sort_by_name
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end  
 
         STARTLOG="----------------------------"
@@ -234,8 +232,6 @@ module Redmine
               end 
             end
           end
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end  
         
         def diff(path, identifier_from, identifier_to=nil, type="inline")
@@ -250,8 +246,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           DiffTableList.new diff, type
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end  
         
         def cat(path, identifier=nil)
@@ -265,8 +259,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           cat
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end  
 
         def annotate(path, identifier=nil)
@@ -283,8 +275,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           blame
-        rescue Errno::ENOENT => e
-          raise CommandFailed    
         end
          
         private
