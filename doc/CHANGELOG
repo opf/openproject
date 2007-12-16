@@ -5,6 +5,24 @@ Copyright (C) 2006-2007  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2007-12-16 v0.6.2
+
+* Search engine: issue custom fields can now be searched
+* News comments are now textilized
+* Updated Japanese translation (Satoru Kurashiki)
+* Updated Chinese translation (Shortie Lo)
+* Fixed Rails 2.0 compatibility bugs:
+  * Unable to create a wiki
+  * Gantt and calendar error
+  * Trac importer error (readonly? is defined by ActiveRecord)
+* Fixed: 'assigned to me' filter broken
+* Fixed: crash when validation fails on issue edition with no custom fields
+* Fixed: reposman "can't find group" error
+* Fixed: 'LDAP account password is too long' error when leaving the field empty on creation
+* Fixed: empty lines when displaying repository files with Windows style eol
+* Fixed: missing body closing tag in repository annotate and entry views
+
+
 == 2007-12-10 v0.6.1
 
 * Rails 2.0 compatibility
@@ -26,7 +44,7 @@ http://www.redmine.org/
 * Diff style (inline or side by side) automatically saved as a user preference
 * Added issues status changes on the activity view (by Cyril Mougel)
 * Added forums topics on the activity view (disabled by default)
-* Added an option on 'My account' for users who don’t want to be notified of changes that they make
+* Added an option on 'My account' for users who don't want to be notified of changes that they make
 * Trac importer now supports mysql and postgresql databases
 * Trac importer improvements (by Mat Trudel)
 * 'fixed version' field can now be displayed on the issue list
@@ -61,7 +79,7 @@ http://www.redmine.org/
 * Fixed: admin should be able to move issues to any project
 * Fixed: adding an attachment is not possible when changing the status of an issue
 * Fixed: No mime-types in documents/files downloading
-* Fixed: error when sorting the messages if there’s only one board for the project
+* Fixed: error when sorting the messages if there's only one board for the project
 * Fixed: 'me' doesn't appear in the drop down filters on a project issue list.
 
 == 2007-11-04 v0.6.0
