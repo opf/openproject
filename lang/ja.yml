@@ -72,13 +72,13 @@ notice_locking_conflict: 別のユーザがデータを更新しています。
 notice_scm_error: リポジトリに、エントリ/リビジョンが存在しません。
 notice_not_authorized: このページにアクセスするには認証が必要です。
 notice_email_sent: %s宛にメールを送信しました。
-notice_email_error: メール送信中にエラーが発生しました (%s)
+notice_email_error: メール送信中にエラーが発生しました(%s)
 notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
 
-mail_subject_lost_password: redMineパスワード
+mail_subject_lost_password: Redmineパスワード
 mail_body_lost_password: 'パスワードを変更するには、以下のリンクをたどってください:'
-mail_subject_register: redMineアカウントが有効になりました
-mail_body_register: 'Redmine アカウントをアクティブにするには、以下のリンクをたどってください:'
+mail_subject_register: Redmineアカウントが有効になりました
+mail_body_register: 'Redmineアカウントをアクティブにするには、以下のリンクをたどってください:'
 
 gui_validation_error: 1件のエラー
 gui_validation_error_plural: %d件のエラー
@@ -159,8 +159,8 @@ field_identifier: 識別子
 field_is_filter: フィルタとして使う
 field_issue_to_id: 関連する問題
 field_delay: 遅延
-field_assignable: Issues can be assigned to this role
-field_redirect_existing_links: Redirect existing links
+field_assignable: 問題はこのロールに割り当てることができます
+field_redirect_existing_links: 既存のリンクをリダイレクトする
 field_estimated_hours: 予定工数
 
 setting_app_title: アプリケーションのタイトル
@@ -410,18 +410,18 @@ label_message_last: 最新のメッセージ
 label_message_new: 新しいメッセージ
 label_reply_plural: 返答
 label_send_information: アカウント情報をユーザに送信
-label_year: Year
-label_month: Month
-label_week: Week
-label_date_from: From
-label_date_to: To
+label_year: 年
+label_month: 月
+label_week: 週
+label_date_from: から
+label_date_to: まで
 label_language_based: 既定の言語の設定に従う
-label_sort_by: Sort by %s
+label_sort_by: %sで並び替え
 label_send_test_email: テストメールを送信
-label_feeds_access_key_created_on: RSS access key created %s ago
-label_module_plural: Modules
-label_added_time_by: Added by %s %s ago
-label_updated_time: Updated %s ago
+label_feeds_access_key_created_on: RSSアクセスキーは%s前に作成されました
+label_module_plural: モジュール
+label_added_time_by: %sが%s前に追加しました
+label_updated_time: %s前に更新されました
 label_jump_to_a_project: プロジェクトへ移動...
 
 button_login: ログイン
@@ -454,8 +454,8 @@ button_unwatch: ウォッチをやめる
 button_reply: 返答
 button_archive: 書庫に保存
 button_unarchive: 書庫から戻す
-button_reset: Reset
-button_rename: Rename
+button_reset: リセット
+button_rename: 名前変更
 
 status_active: 有効
 status_registered: 登録
@@ -482,10 +482,10 @@ text_comma_separated: (カンマで区切った)複数の値が使えます
 text_issues_ref_in_commit_messages: コミットメッセージ内で問題の参照/修正
 text_issue_added: 問題 %s が報告されました。
 text_issue_updated: 問題 %s が更新されました。
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-text_issue_category_destroy_assignments: Remove category assignments
-text_issue_category_reassign_to: Reassing issues to this category
+text_wiki_destroy_confirmation: 本当にこのwikiとその内容の全てを削除しますか？
+text_issue_category_destroy_question: このカテゴリに割り当て済みの問題(%d)があります。何をしようとしていますか？
+text_issue_category_destroy_assignments: カテゴリの割り当てを削除する
+text_issue_category_reassign_to: 問題をこのカテゴリに再割り当てする
 
 default_role_manager: 管理者
 default_role_developper: 開発者
@@ -512,8 +512,8 @@ default_activity_development: 開発作業
 enumeration_issue_priorities: 問題の優先度
 enumeration_doc_categories: 文書カテゴリ
 enumeration_activities: 作業分類 (時間トラッキング)
-label_file_plural: Files
-label_changeset_plural: Changesets
+label_file_plural: ファイル
+label_changeset_plural: チェンジセット
 field_column_names: 項目
 label_default_columns: 既定の項目
 setting_issue_list_default_columns: 問題の一覧で表示する項目
@@ -534,20 +534,20 @@ label_user_mail_option_none: "ウォッチまたは関係している問題の�
 setting_emails_footer: メールのフッタ
 label_float: 小数
 button_copy: コピー
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
-field_time_zone: Time zone
-text_caracters_minimum: Must be at least %d characters long.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-button_annotate: Annotate
-label_issues_by: Issues by %s
+mail_body_account_information_external: 「%s」アカウントを使ってRedmineにログインできます。
+mail_body_account_information: Redmineアカウント情報
+setting_protocol: プロトコル
+label_user_mail_no_self_notified: 自分自身による変更の通知は不要です
+setting_time_format: 時刻の形式
+label_registration_activation_by_email: メールでアカウントを有効化
+mail_subject_account_activation_request: Redminアカウントの有効化要求
+mail_body_account_activation_request: 新しいユーザ(%s)が登録しています。このアカウントはあなたの承認待ちです：
+label_registration_automatic_activation: 自動でアカウントを有効化
+label_registration_manual_activation: 手動でアカウントを有効化
+notice_account_pending: アカウントは作成済みで、管理者の承認待ちです。
+field_time_zone: タイムゾーン
+text_caracters_minimum: 最低%d文字の長さが必要です
+setting_bcc_recipients: ブラインドカーボンコピーで受信(bcc)
+button_annotate: 注釈
+label_issues_by: %s別の問題
 field_searchable: Searchable
