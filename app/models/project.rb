@@ -111,6 +111,20 @@ class Project < ActiveRecord::Base
     end
   end
   
+  def self.find(*args)
+    if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
+      project = find_by_identifier(*args)
+      raise ActiveRecord::RecordNotFound, "Couldn't find Project with identifier=#{args.first}" if project.nil?
+      project
+    else
+      super
+    end
+  end
+ 
+  def to_param
+    identifier
+  end
+  
   def active?
     self.status == STATUS_ACTIVE
   end

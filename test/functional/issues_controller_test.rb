@@ -144,7 +144,7 @@ class IssuesControllerTest < Test::Unit::TestCase
   def test_destroy
     @request.session[:user_id] = 2
     post :destroy, :id => 1
-    assert_redirected_to 'projects/1/issues'
+    assert_redirected_to 'projects/ecookbook/issues'
     assert_nil Issue.find_by_id(1)
   end
 

@@ -41,5 +41,5 @@ projects_004:
   description: eCookbook Subproject 2
   homepage: ""
   is_public: true
-  identifier: subproject1
+  identifier: subproject2
   parent_id: 1

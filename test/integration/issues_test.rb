@@ -24,7 +24,7 @@ class IssuesTest < ActionController::IntegrationTest
     assert_kind_of Issue, issue
 
     # check redirection
-    assert_redirected_to "projects/1/issues"
+    assert_redirected_to "projects/ecookbook/issues"
     follow_redirect!
     assert assigns(:issues).include?(issue)
 

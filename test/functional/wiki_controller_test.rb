@@ -64,7 +64,7 @@ class WikiControllerTest < Test::Unit::TestCase
                 :content => {:comments => 'Created the page',
                              :text => "h1. New page\n\nThis is a new page",
                              :version => 0}
-    assert_redirected_to 'wiki/1/New_page'
+    assert_redirected_to 'wiki/ecookbook/New_page'
     page = Project.find(1).wiki.find_page('New page')
     assert !page.new_record?
     assert_not_nil page.content
@@ -103,7 +103,7 @@ class WikiControllerTest < Test::Unit::TestCase
     post :rename, :id => 1, :page => 'Another_page',
                             :wiki_page => { :title => 'Another renamed page',
                                             :redirect_existing_links => 1 }
-    assert_redirected_to 'wiki/1/Another_renamed_page'
+    assert_redirected_to 'wiki/ecookbook/Another_renamed_page'
     wiki = Project.find(1).wiki
     # Check redirects
     assert_not_nil wiki.find_page('Another page')
@@ -115,7 +115,7 @@ class WikiControllerTest < Test::Unit::TestCase
     post :rename, :id => 1, :page => 'Another_page',
                             :wiki_page => { :title => 'Another renamed page',
                                             :redirect_existing_links => "0" }
-    assert_redirected_to 'wiki/1/Another_renamed_page'
+    assert_redirected_to 'wiki/ecookbook/Another_renamed_page'
     wiki = Project.find(1).wiki
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')
@@ -124,17 +124,17 @@ class WikiControllerTest < Test::Unit::TestCase
   def test_destroy
     @request.session[:user_id] = 2
     post :destroy, :id => 1, :page => 'CookBook_documentation'
-    assert_redirected_to 'wiki/1/Page_index/special'
+    assert_redirected_to 'wiki/ecookbook/Page_index/special'
   end
   
   def test_page_index
-    get :special, :id => 1, :page => 'Page_index'
+    get :special, :id => 'ecookbook', :page => 'Page_index'
     assert_response :success
     assert_template 'special_page_index'
     pages = assigns(:pages)
     assert_not_nil pages
     assert_equal 2, pages.size
-    assert_tag :tag => 'a', :attributes => { :href => '/wiki/1/CookBook_documentation' },
+    assert_tag :tag => 'a', :attributes => { :href => '/wiki/ecookbook/CookBook_documentation' },
                             :content => /CookBook documentation/
   end
   

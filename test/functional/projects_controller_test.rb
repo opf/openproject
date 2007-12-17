@@ -47,11 +47,19 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert assigns(:project_tree)[Project.find(1)].include?(Project.find(3))
   end
   
-  def test_show
+  def test_show_by_id
     get :show, :id => 1
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:project)
+  end
+
+  def test_show_by_identifier
+    get :show, :id => 'ecookbook'
+    assert_response :success
+    assert_template 'show'
+    assert_not_nil assigns(:project)
+    assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
   end
   
   def test_settings
@@ -64,7 +72,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_edit
     @request.session[:user_id] = 2 # manager
     post :edit, :id => 1, :project => {:name => 'Test changed name'}
-    assert_redirected_to 'projects/settings/1'
+    assert_redirected_to 'projects/settings/ecookbook'
     project = Project.find(1)
     assert_equal 'Test changed name', project.name
   end
@@ -104,7 +112,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_move_issues_to_another_project
     @request.session[:user_id] = 1
     post :move_issues, :id => 1, :issue_ids => [1, 2], :new_project_id => 2
-    assert_redirected_to 'projects/1/issues'
+    assert_redirected_to 'projects/ecookbook/issues'
     assert_equal 2, Issue.find(1).project_id
     assert_equal 2, Issue.find(2).project_id
   end
@@ -112,7 +120,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_move_issues_to_another_tracker
     @request.session[:user_id] = 1
     post :move_issues, :id => 1, :issue_ids => [1, 2], :new_tracker_id => 3
-    assert_redirected_to 'projects/1/issues'
+    assert_redirected_to 'projects/ecookbook/issues'
     assert_equal 3, Issue.find(1).tracker_id
     assert_equal 3, Issue.find(2).tracker_id
   end
@@ -242,7 +250,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'add_issue'
     post :add_issue, :id => 1, :issue => {:tracker_id => 1, :subject => 'This is the test_add_issue issue', :description => 'This is the description', :priority_id => 5}
-    assert_redirected_to 'projects/1/issues'
+    assert_redirected_to 'projects/ecookbook/issues'
     assert Issue.find_by_subject('This is the test_add_issue issue')
   end
   
