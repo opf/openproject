@@ -1,6 +1,6 @@
 <h2><%=l(:label_document_new)%></h2>
 
-<% form_tag( { :action => 'add_document', :id => @project }, :class => "tabular", :multipart => true) do %>
+<% form_tag({:controller => 'documents', :action => 'new', :project_id => @project}, :class => "tabular", :multipart => true) do %>
 <%= render :partial => 'documents/form' %>
 
 <div class="box">

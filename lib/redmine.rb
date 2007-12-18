@@ -58,8 +58,8 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :documents do |map|
-    map.permission :manage_documents, {:projects => :add_document, :documents => [:edit, :destroy, :add_attachment, :destroy_attachment]}, :require => :loggedin
-    map.permission :view_documents, :projects => :list_documents, :documents => [:show, :download]
+    map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment, :destroy_attachment]}, :require => :loggedin
+    map.permission :view_documents, :documents => [:index, :show, :download]
   end
   
   map.project_module :files do |map|
@@ -97,7 +97,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :label_roadmap, :controller => 'projects', :action => 'roadmap'
   menu.push :label_issue_plural, { :controller => 'issues', :action => 'index' }, :param => :project_id
   menu.push :label_news_plural, { :controller => 'news', :action => 'index' }, :param => :project_id
-  menu.push :label_document_plural, :controller => 'projects', :action => 'list_documents'
+  menu.push :label_document_plural, { :controller => 'documents', :action => 'index' }, :param => :project_id
   menu.push :label_wiki, { :controller => 'wiki', :action => 'index', :page => nil }, :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
   menu.push :label_board_plural, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :if => Proc.new { |p| p.boards.any? }
   menu.push :label_attachment_plural, :controller => 'projects', :action => 'list_files'
