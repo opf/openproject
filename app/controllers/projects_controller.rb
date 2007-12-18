@@ -311,7 +311,7 @@ class ProjectsController < ApplicationController
   def add_file
     if request.post?
       @version = @project.versions.find_by_id(params[:version_id])
-      attachments = attach_files(@issue, params[:attachments])
+      attachments = attach_files(@version, params[:attachments])
       Mailer.deliver_attachments_added(attachments) if !attachments.empty? && Setting.notified_events.include?('file_added')
       redirect_to :controller => 'projects', :action => 'list_files', :id => @project
     end
