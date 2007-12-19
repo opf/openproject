@@ -83,7 +83,7 @@ end %>
   <% form_tag({:controller => 'issues', :action => 'change_status', :id => @issue}) do %>
   <p><%=l(:label_change_status)%> :
   <select name="new_status_id">
-  <%= options_from_collection_for_select @status_options, "id", "name" %>
+  <%= options_from_collection_for_select @status_options, "id", "name", @issue.status_id %>
   </select>
   <%= submit_tag l(:button_change) %></p>
   <% end %>
