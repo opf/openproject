@@ -237,7 +237,8 @@ module Redmine
                 end
                 a = diff_table.add_line line
             end
-            self << diff_table
+            self << diff_table unless diff_table.empty?
+            self
         end
       end
     
