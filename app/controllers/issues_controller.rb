@@ -96,7 +96,7 @@ class IssuesController < ApplicationController
       @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
     else
       begin
-        @issue.init_journal(User.current)
+        journal = @issue.init_journal(User.current)
         # Retrieve custom fields and values
         if params["custom_fields"]
           @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
@@ -105,6 +105,7 @@ class IssuesController < ApplicationController
         @issue.attributes = params[:issue]
         if @issue.save
           flash[:notice] = l(:notice_successful_update)
+          Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
           redirect_to(params[:back_to] || {:action => 'show', :id => @issue})
         end
       rescue ActiveRecord::StaleObjectError

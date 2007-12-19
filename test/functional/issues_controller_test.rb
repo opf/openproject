@@ -112,9 +112,21 @@ class IssuesControllerTest < Test::Unit::TestCase
 
   def test_post_edit
     @request.session[:user_id] = 2
-    post :edit, :id => 1, :issue => {:subject => 'Modified subject'}
+    ActionMailer::Base.deliveries.clear
+    
+    issue = Issue.find(1)
+    old_subject = issue.subject
+    new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
+    
+    post :edit, :id => 1, :issue => {:subject => new_subject}
     assert_redirected_to 'issues/show/1'
-    assert_equal 'Modified subject', Issue.find(1).subject
+    issue.reload
+    assert_equal new_subject, issue.subject
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert_kind_of TMail::Mail, mail
+    assert mail.subject.starts_with?("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]")
+    assert mail.body.include?("Subject changed from #{old_subject} to #{new_subject}")
   end
   
   def test_post_change_status
