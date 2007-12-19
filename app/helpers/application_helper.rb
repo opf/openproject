@@ -165,16 +165,16 @@ module ApplicationHelper
     # when using an image link, try to use an attachment, if possible
     attachments = options[:attachments]
     if attachments
-      text = text.gsub(/!([<>=]*)(\S+\.(gif|jpg|jpeg|png))!/) do |m|
-        align = $1
-        filename = $2
+      text = text.gsub(/!((\<|\=|\>)?(\([^\)]+\))?(\[[^\]]+\])?(\{[^\}]+\})?)(\S+\.(gif|jpg|jpeg|png))!/) do |m|
+        style = $1
+        filename = $6
         rf = Regexp.new(filename,  Regexp::IGNORECASE)
         # search for the picture in attachments
         if found = attachments.detect { |att| att.filename =~ rf }
           image_url = url_for :controller => 'attachments', :action => 'download', :id => found.id
-          "!#{align}#{image_url}!"
+          "!#{style}#{image_url}!"
         else
-          "!#{align}#{filename}!"
+          "!#{style}#{filename}!"
         end
       end
     end

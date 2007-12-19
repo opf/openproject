@@ -44,12 +44,18 @@ class ApplicationHelperTest < HelperTestCase
       textilizable('test@foo.bar')
   end
   
-  def test_textile_tags
+  def test_inline_images
     to_test = {
-      # inline images
       '!http://foo.bar/image.jpg!' => '<img src="http://foo.bar/image.jpg" alt="" />',
       'floating !>http://foo.bar/image.jpg!' => 'floating <div style="float:right"><img src="http://foo.bar/image.jpg" alt="" /></div>',
-      # textile links
+      'with class !(some-class)http://foo.bar/image.jpg!' => 'with class <img src="http://foo.bar/image.jpg" class="some-class" alt="" />',
+      'with style !{width:100px;height100px}http://foo.bar/image.jpg!' => 'with style <img src="http://foo.bar/image.jpg" style="width:100px;height100px;" alt="" />',
+    }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+  
+  def test_textile_external_links
+    to_test = {
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="/foo/bar">link</a>',
       '"link (Link title)":http://foo.bar' => '<a href="http://foo.bar" title="Link title" class="external">link</a>'
