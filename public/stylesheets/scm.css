@@ -10,6 +10,11 @@ table.filecontent th.line-num {
 	width: 2%;
 	padding-right: 3px;
 }
+table.filecontent td.line-code pre {
+    white-space: pre-wrap; /* CSS2.1 compliant */
+    white-space: -moz-pre-wrap; /* Mozilla-based browsers */
+    white-space: -o-pre-wrap; /* Opera 7+ */
+}
 
 /* 12 different colors for the annonate view */
 table.annotate tr.bloc-0 {background: #FFFFBF;}
@@ -40,6 +45,7 @@ table.annotate td.author {
     padding-right: 1em;
     width: 3%;
     background: inherit;
+    font-size: 90%;
 }
 
 table.annotate td.line-code { background-color: #fafafa; }

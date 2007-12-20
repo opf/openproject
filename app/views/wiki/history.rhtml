@@ -11,6 +11,7 @@
     <th><%= l(:field_updated_on) %></th>
     <th><%= l(:field_author) %></th>
     <th><%= l(:field_comments) %></th>
+    <th></th>
 </tr></thead>
 <tbody>
 <% show_diff = @versions.size > 1 %>
@@ -23,6 +24,7 @@
     <td align="center"><%= format_time(ver.updated_on) %></td>
     <td><em><%= ver.author ? ver.author.name : "anonyme" %></em></td>
     <td><%=h ver.comments %></td>
+    <td align="center"><%= link_to l(:button_annotate), :action => 'annotate', :page => @page.title, :version => ver.version %></td>
 </tr>
 <% line_num += 1 %>
 <% end %>

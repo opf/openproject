@@ -98,6 +98,20 @@ class WikiControllerTest < Test::Unit::TestCase
                                :content => /updated/
   end
   
+  def test_annotate
+    get :annotate, :id => 1, :page =>  'CookBook_documentation', :version => 2
+    assert_response :success
+    assert_template 'annotate'
+    # Line 1
+    assert_tag :tag => 'tr', :child => { :tag => 'th', :attributes => {:class => 'line-num'}, :content => '1' },
+                             :child => { :tag => 'td', :attributes => {:class => 'author'}, :content => /John Smith/ },
+                             :child => { :tag => 'td', :content => /h1\. CookBook documentation/ }
+    # Line 2
+    assert_tag :tag => 'tr', :child => { :tag => 'th', :attributes => {:class => 'line-num'}, :content => '2' },
+                             :child => { :tag => 'td', :attributes => {:class => 'author'}, :content => /redMine Admin/ },
+                             :child => { :tag => 'td', :content => /Some updated \[\[documentation\]\] here/ }
+  end
+  
   def test_rename_with_redirect
     @request.session[:user_id] = 2
     post :rename, :id => 1, :page => 'Another_page',

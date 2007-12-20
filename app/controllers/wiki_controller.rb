@@ -114,6 +114,11 @@ class WikiController < ApplicationController
     render_404 unless @diff
   end
   
+  def annotate
+    @page = @wiki.find_page(params[:page])
+    @annotate = @page.annotate(params[:version])
+  end
+  
   # remove a wiki page and its history
   def destroy
     @page = @wiki.find_page(params[:page])

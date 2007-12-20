@@ -60,6 +60,14 @@ class WikiContent < ActiveRecord::Base
         data
       end      
     end
+    
+    # Returns the previous version or nil
+    def previous
+      @previous ||= WikiContent::Version.find(:first, 
+                                              :order => 'version DESC',
+                                              :include => :author,
+                                              :conditions => ["wiki_content_id = ? AND version < ?", wiki_content_id, version])
+    end
   end
   
 end
