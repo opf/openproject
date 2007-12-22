@@ -24,12 +24,6 @@
 
 <%= link_to_attachments @page.attachments, :delete_url => (authorize_for('wiki', 'destroy_attachment') ? {:controller => 'wiki', :action => 'destroy_attachment', :page => @page.title} : nil) %>
 
-<div class="contextual">
-<%= l(:label_export_to) %>
-<%= link_to 'HTML', {:page => @page.title, :export => 'html', :version => @content.version}, :class => 'icon icon-html' %>,
-<%= link_to 'TXT', {:page => @page.title, :export => 'txt', :version => @content.version}, :class => 'icon icon-txt' %>
-</div>
-
 <% if authorize_for('wiki', 'add_attachment') %>
 <p><%= toggle_link l(:label_attachment_new), "add_attachment_form" %></p>
 <% form_tag({ :controller => 'wiki', :action => 'add_attachment', :page => @page.title }, :multipart => true, :class => "tabular", :id => "add_attachment_form", :style => "display:none;") do %>
@@ -37,6 +31,13 @@
 <%= submit_tag l(:button_add) %>
 <% end %>
 <% end %>
+
+<div class="contextual">
+<%= l(:label_export_to) %>
+<%= link_to 'HTML', {:page => @page.title, :export => 'html', :version => @content.version}, :class => 'icon icon-html' %>,
+<%= link_to 'TXT', {:page => @page.title, :export => 'txt', :version => @content.version}, :class => 'icon icon-txt' %>
+</div>
+&nbsp;
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>
