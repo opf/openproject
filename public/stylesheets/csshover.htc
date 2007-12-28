@@ -117,4 +117,6 @@ function getElementsBySelect(rule) {
 		
 		return nodes;
 	}
+
+window.parseStylesheets = parseStylesheets;
 </script>

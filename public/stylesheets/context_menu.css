@@ -24,7 +24,7 @@
 }
 #context-menu li.folder ul {
 	position:absolute;
-	left:128px; /* IE */
+	left:168px; /* IE6 */
 	top:-2px;
 }
 #context-menu li.folder>ul { left:148px; }
