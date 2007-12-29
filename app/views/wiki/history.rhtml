@@ -31,6 +31,5 @@
 </tbody>
 </table>
 <%= submit_tag l(:label_view_diff), :class => 'small' %>
-<%= pagination_links_full @version_pages, :page_param => :p %>
-[ <%= @version_pages.current.first_item %> - <%= @version_pages.current.last_item %> / <%= @version_count %> ]
+<span class="pagination"><%= pagination_links_full @version_pages, @version_count, :page_param => :p %></span>
 <% end %>

@@ -198,6 +198,7 @@ setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste
 setting_repositories_encodings: Encodages des dépôts
 setting_emails_footer: Pied-de-page des emails
 setting_protocol: Protocole
+setting_per_page_options: Options d'objets affichés par page
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
@@ -456,6 +457,7 @@ label_user_mail_no_self_notified: "Je ne veux pas être notifié des changements
 label_registration_activation_by_email: activation du compte par email
 label_registration_manual_activation: activation manuelle du compte
 label_registration_automatic_activation: activation automatique du compte
+label_display_per_page: 'Par page: %s'
 
 button_login: Connexion
 button_submit: Soumettre

@@ -45,7 +45,7 @@ class IssuesController < ApplicationController
     sort_update
     retrieve_query
     if @query.valid?
-      limit = %w(pdf csv).include?(params[:format]) ? Setting.issues_export_limit.to_i : 25
+      limit = %w(pdf csv).include?(params[:format]) ? Setting.issues_export_limit.to_i : per_page_option
       @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
       @issues = Issue.find :all, :order => sort_clause,

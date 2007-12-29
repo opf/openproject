@@ -55,8 +55,6 @@
   </tbody>
 </table>
 
-<p><%= pagination_links_full @user_pages, :status => @status %>
-[ <%= @user_pages.current.first_item %> - <%= @user_pages.current.last_item %> / <%= @user_count %> ]
-</p>
+<p class="pagination"><%= pagination_links_full @user_pages, @user_count %></p>
 
 <% set_html_title(l(:label_user_plural)) -%>

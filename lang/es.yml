@@ -553,3 +553,5 @@ setting_bcc_recipients: Blind carbon copy recipients (bcc)
 button_annotate: Annotate
 label_issues_by: Issues by %s
 field_searchable: Searchable
+label_display_per_page: 'Per page: %s'
+setting_per_page_options: Objects per page options

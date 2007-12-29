@@ -97,7 +97,7 @@ class WikiController < ApplicationController
     @page = @wiki.find_page(params[:page])
     
     @version_count = @page.content.versions.count
-    @version_pages = Paginator.new self, @version_count, 25, params['p']
+    @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
     # don't load text    
     @versions = @page.content.versions.find :all, 
                                             :select => "id, author_id, comments, updated_on, version",

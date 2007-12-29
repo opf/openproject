@@ -48,8 +48,7 @@
 <%= link_to 'CSV', {:format => 'csv'}, :class => 'icon icon-csv' %>,
 <%= link_to 'PDF', {:format => 'pdf'}, :class => 'icon icon-pdf' %>
 </div>
-<p><%= pagination_links_full @issue_pages %>
-[ <%= @issue_pages.current.first_item %> - <%= @issue_pages.current.last_item %> / <%= @issue_count %> ]</p>
+<p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 <% end %>
 <% end %>
 <% end %>

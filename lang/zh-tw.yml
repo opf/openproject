@@ -550,3 +550,5 @@ enumeration_issue_priorities: 項目重要性
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (time tracking)
 field_searchable: Searchable
+label_display_per_page: 'Per page: %s'
+setting_per_page_options: Objects per page options

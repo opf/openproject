@@ -37,6 +37,8 @@ attachment_max_size:
 issues_export_limit:
   format: int
   default: 500
+per_page_options:
+  default: '25,50,100'
 mail_from:
   default: redmine@somenet.foo
 bcc_recipients:

@@ -75,7 +75,7 @@ class RepositoriesController < ApplicationController
   def revisions
     @changeset_count = @repository.changesets.count
     @changeset_pages = Paginator.new self, @changeset_count,
-								      25,
+								      per_page_option,
 								      params['page']								
     @changesets = @repository.changesets.find(:all,
 						:limit  =>  @changeset_pages.items_per_page,

@@ -27,7 +27,7 @@
     <%= textilizable(news.description) %>
 <% end %>
 <% end %>
-<%= pagination_links_full @news_pages %>
+<p class="pagination"><%= pagination_links_full @news_pages %></p>
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>

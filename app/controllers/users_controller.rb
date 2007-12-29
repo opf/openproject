@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     
     @user_count = User.count(:conditions => conditions)
     @user_pages = Paginator.new self, @user_count,
-								15,
+								per_page_option,
 								params['page']								
     @users =  User.find :all,:order => sort_clause,
                         :conditions => conditions,

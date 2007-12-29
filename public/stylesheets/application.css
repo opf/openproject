@@ -126,6 +126,9 @@ div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid 
 .autoscroll {overflow-x: auto; padding:1px; width:100%; margin-bottom: 1.2em;}
 #user_firstname, #user_lastname, #user_mail, #my_account_form select { width: 90%; }
 
+.pagination {font-size: 90%}
+p.pagination {margin-top:8px;}
+
 /***** Tabular forms ******/
 .tabular p{
 margin: 0;

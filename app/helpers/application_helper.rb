@@ -103,24 +103,38 @@ module ApplicationHelper
     l(:actionview_datehelper_select_month_names).split(',')[month-1]
   end
 
-  def pagination_links_full(paginator, options={}, html_options={})
+  def pagination_links_full(paginator, count=nil, options={})
     page_param = options.delete(:page_param) || :page
-  
+    url_param = params.dup
+    
     html = ''    
     html << link_to_remote(('&#171; ' + l(:label_previous)), 
-                            {:update => "content", :url => options.merge(page_param => paginator.current.previous)},
-                            {:href => url_for(:params => options.merge(page_param => paginator.current.previous))}) + ' ' if paginator.current.previous
+                            {:update => "content", :url => url_param.merge(page_param => paginator.current.previous)},
+                            {:href => url_for(:params => url_param.merge(page_param => paginator.current.previous))}) + ' ' if paginator.current.previous
                             
     html << (pagination_links_each(paginator, options) do |n|
       link_to_remote(n.to_s, 
-                      {:url => {:params => options.merge(page_param => n)}, :update => 'content'},
-                      {:href => url_for(:params => options.merge(page_param => n))})
+                      {:url => {:params => url_param.merge(page_param => n)}, :update => 'content'},
+                      {:href => url_for(:params => url_param.merge(page_param => n))})
     end || '')
     
     html << ' ' + link_to_remote((l(:label_next) + ' &#187;'), 
-                                 {:update => "content", :url => options.merge(page_param => paginator.current.next)},
-                                 {:href => url_for(:params => options.merge(page_param => paginator.current.next))}) if paginator.current.next
+                                 {:update => "content", :url => url_param.merge(page_param => paginator.current.next)},
+                                 {:href => url_for(:params => url_param.merge(page_param => paginator.current.next))}) if paginator.current.next
+    
+    unless count.nil?
+      html << [" (#{paginator.current.first_item}-#{paginator.current.last_item}/#{count})", per_page_links(paginator.items_per_page)].compact.join(' | ')
+    end
+    
     html  
+  end
+  
+  def per_page_links(selected=nil)
+    links = Setting.per_page_options_array.collect do |n|
+      n == selected ? n : link_to_remote(n, {:update => "content", :url => params.dup.merge(:per_page => n)}, 
+                                            {:href => url_for(params.dup.merge(:per_page => n))})
+    end
+    links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
   
   def set_html_title(text)

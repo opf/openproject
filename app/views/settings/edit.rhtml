@@ -27,6 +27,9 @@
 <p><label><%= l(:setting_attachment_max_size) %></label>
 <%= text_field_tag 'settings[attachment_max_size]', Setting.attachment_max_size, :size => 6 %> KB</p>
 
+<p><label><%= l(:setting_per_page_options) %></label>
+<%= text_field_tag 'settings[per_page_options]', Setting.per_page_options_array.join(', '), :size => 20 %><br /><em><%= l(:text_comma_separated) %></em></p>
+
 <p><label><%= l(:setting_issues_export_limit) %></label>
 <%= text_field_tag 'settings[issues_export_limit]', Setting.issues_export_limit, :size => 6 %></p>
 

@@ -95,6 +95,11 @@ class Setting < ActiveRecord::Base
     class_eval src, __FILE__, __LINE__
   end
   
+  # Helper that returns an array based on per_page_options setting
+  def self.per_page_options_array
+    per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
+  end
+  
   # Checks if settings have changed since the values were read
   # and clears the cache hash if it's the case
   # Called once per request

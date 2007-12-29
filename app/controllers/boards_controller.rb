@@ -40,7 +40,7 @@ class BoardsController < ApplicationController
     sort_update	
       
     @topic_count = @board.topics.count
-    @topic_pages = Paginator.new self, @topic_count, 25, params['page']
+    @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
     @topics =  @board.topics.find :all, :order => "#{Message.table_name}.sticky DESC, #{sort_clause}",
                                   :include => [:author, {:last_reply => :author}],
                                   :limit  =>  @topic_pages.items_per_page,

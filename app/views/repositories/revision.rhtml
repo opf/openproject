@@ -56,8 +56,7 @@
 <% end %>
 </tbody>
 </table>
-<p><%= pagination_links_full @changes_pages, :rev => @changeset.revision %>
-[ <%= @changes_pages.current.first_item %> - <%= @changes_pages.current.last_item %> / <%= @changes_count %> ]</p>
+<p class="pagination"><%= pagination_links_full @changes_pages %></p>
 
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>
