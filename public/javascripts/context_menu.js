@@ -39,6 +39,9 @@ ContextMenu.prototype = {
 		this.selection = tr;
 		var id = tr.id.substring(6, tr.id.length);
 		/* TODO: do not hard code path */
-		new Ajax.Updater({success:'context-menu'}, '../../issues/context_menu/' + id, {asynchronous:true, evalScripts:true, onComplete:function(request){Effect.Appear('context-menu', {duration: 0.20})}})		
+		new Ajax.Updater({success:'context-menu'}, '../../issues/context_menu/' + id, {asynchronous:true, evalScripts:true, onComplete:function(request){
+		  Effect.Appear('context-menu', {duration: 0.20});
+		  if (window.parseStylesheets) { window.parseStylesheets(); }
+		}})		
 	}
 }
