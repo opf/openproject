@@ -23,9 +23,9 @@
         <% if User.current.logged? %>
             <%=l(:label_logged_as)%> <%= User.current.login %> -
             <%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' }, :class => 'myaccount' %>
-            <%= link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => 'logout' %>
+            <%= link_to_signout %>
         <% else %>
-            <%= link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => 'signin' %>
+            <%= link_to_signin %>
             <%= link_to(l(:label_register), { :controller => 'account',:action => 'register' }, :class => 'register') if Setting.self_registration? %>
         <% end %>
     </div>
