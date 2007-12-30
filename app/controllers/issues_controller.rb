@@ -216,9 +216,9 @@ private
   def retrieve_query
     if params[:query_id]
       @query = Query.find(params[:query_id], :conditions => {:project_id => (@project ? @project.id : nil)})
-      session[:query] = @query
+      session[:query] = {:id => @query.id, :project_id => @query.project_id}
     else
-      if params[:set_filter] or !session[:query] or session[:query].project != @project
+      if params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)
         # Give it a name, required to be valid
         @query = Query.new(:name => "_")
         @query.project = @project
@@ -231,9 +231,10 @@ private
             @query.add_short_filter(field, params[field]) if params[field]
           end
         end
-        session[:query] = @query
+        session[:query] = {:project_id => @query.project_id, :filters => @query.filters}
       else
-        @query = session[:query]
+        @query = Query.find_by_id(session[:query][:id]) if session[:query][:id]
+        @query ||= Query.new(:name => "_", :project => @project, :filters => session[:query][:filters])
       end
     end
   end
