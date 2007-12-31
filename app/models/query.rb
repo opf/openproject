@@ -53,7 +53,7 @@ class Query < ActiveRecord::Base
   serialize :filters
   serialize :column_names
   
-  attr_protected :project, :user
+  attr_protected :project_id, :user_id
   
   validates_presence_of :name, :on => :save
   validates_length_of :name, :maximum => 255
