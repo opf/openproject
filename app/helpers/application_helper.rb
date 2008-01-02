@@ -145,16 +145,17 @@ module ApplicationHelper
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
   
-  def set_html_title(text)
-    @html_header_title = text
-  end
-  
-  def html_title
-    title = []
-    title << @project.name if @project
-    title << @html_header_title
-    title << Setting.app_title
-    title.compact.join(' - ')
+  def html_title(*args)
+    if args.empty?
+      title = []
+      title << @project.name if @project
+      title += @html_title if @html_title
+      title << Setting.app_title
+      title.compact.join(' - ')
+    else
+      @html_title ||= []
+      @html_title += args
+    end
   end
   
   ACCESSKEYS = {:edit => 'e',

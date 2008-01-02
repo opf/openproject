@@ -17,4 +17,4 @@
 
 <%= render :partial => 'revisions', :locals => {:project => @project, :path => @path, :revisions => @changesets, :entry => @entry }%>
 
-<% set_html_title(h(@entry.name)) -%>
+<% html_title(l(:label_change_plural)) -%>

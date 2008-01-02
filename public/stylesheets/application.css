@@ -77,6 +77,16 @@ tr.issue td.subject, tr.issue td.category { white-space: normal; }
 tr.issue td.subject { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 
+tr.entry { border: 1px solid #f8f8f8; }
+tr.entry td { white-space: nowrap; }
+tr.entry td.filename { width: 30%; }
+tr.entry td.size { text-align: right; font-size: 90%; }
+tr.entry td.revision, tr.entry td.author { text-align: center; }
+tr.entry td.age { text-align: right; }
+
+tr.changeset td.author { text-align: center; width: 15%; }
+tr.changeset td.committed_on { text-align: center; width: 15%; }
+
 tr.message { height: 2.6em; }
 tr.message td.last_message { font-size: 80%; }
 tr.message.locked td.subject a { background-image: url(../images/locked.png); }

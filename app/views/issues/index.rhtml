@@ -1,6 +1,6 @@
 <% if @query.new_record? %>
     <h2><%=l(:label_issue_plural)%></h2>
-    <% set_html_title l(:label_issue_plural) %>
+    <% html_title(l(:label_issue_plural)) %>
     
     <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
     <%= hidden_field_tag('project_id', @project.id) if @project %>
@@ -32,9 +32,9 @@
     <% end %>
     </div>
     
-    <h2><%= @query.name %></h2>
+    <h2><%=h @query.name %></h2>
     <div id="query_form"></div>
-    <% set_html_title @query.name %>
+    <% html_title @query.name %>
 <% end %>
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>

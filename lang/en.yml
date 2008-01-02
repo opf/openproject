@@ -458,6 +458,7 @@ label_registration_activation_by_email: account activation by email
 label_registration_manual_activation: manual account activation
 label_registration_automatic_activation: automatic account activation
 label_display_per_page: 'Per page: %s'
+label_age: Age
 
 button_login: Login
 button_submit: Submit

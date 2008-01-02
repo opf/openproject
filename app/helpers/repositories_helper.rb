@@ -55,7 +55,7 @@ module RepositoriesHelper
   
   def with_leading_slash(path)
     path ||= ''
-    path.starts_with?("/") ? "/#{path}" : path
+    path.starts_with?('/') ? path : "/#{path}"
   end
 
   def subversion_field_tags(form, repository)

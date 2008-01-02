@@ -82,4 +82,4 @@
 <%= auto_discovery_link_tag(:atom, {:action => 'activity', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
 
-<% set_html_title l(:label_overview) -%>
+<% html_title(l(:label_overview)) -%>

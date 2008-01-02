@@ -11,4 +11,4 @@
 <%= render :partial => 'versions/overview', :locals => {:version => @version} %>
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
 
-<% set_html_title h(@version.name) %>
+<% html_title @version.name %>
