@@ -53,7 +53,7 @@ general_pdf_encoding: ISO-8859-15
 general_day_names: Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo
 general_first_day_of_week: '1'
 
-notice_account_updated: Cuenta creada correctamente.
+notice_account_updated: Cuenta actualizada correctamente.
 notice_account_invalid_creditentials: Usuario o contraseña inválido.
 notice_account_password_updated: Contraseña modificada correctamente.
 notice_account_wrong_password: Contraseña incorrecta.
@@ -112,7 +112,7 @@ field_subject: Tema
 field_due_date: Fecha fin
 field_assigned_to: Asignado a
 field_priority: Prioridad
-field_fixed_version: Versión corregida
+field_fixed_version: Versión
 field_user: Usuario
 field_role: Perfil
 field_homepage: Sitio web
@@ -134,7 +134,7 @@ field_type: Tipo
 field_host: Anfitrión
 field_port: Puerto
 field_account: Cuenta
-field_base_dn: Base DN
+field_base_dn: DN base
 field_attr_login: Cualidad del identificador
 field_attr_firstname: Cualidad del nombre
 field_attr_lastname: Cualidad del apellido
@@ -170,7 +170,7 @@ setting_text_formatting: Formato de texto
 setting_wiki_compression: Compresión del historial de Wiki
 setting_feeds_limit: Límite de contenido para sindicación
 setting_autofetch_changesets: Autorellenar los commits del repositorio
-setting_sys_api_enabled: Enable WS for repository management
+setting_sys_api_enabled: Habilitar WS para la gestión del repositorio
 setting_commit_ref_keywords: Palabras clave para la referencia
 setting_commit_fix_keywords: Palabras clave para la corrección
 setting_autologin: Conexión automática 
@@ -236,10 +236,10 @@ label_activity: Actividad
 label_new: Nuevo
 label_logged_as: Conectado como
 label_environment: Entorno
-label_authentication: Autentificación
-label_auth_source: Modo de la autentificación
-label_auth_source_new: Nuevo modo de la autentificación
-label_auth_source_plural: Modos de la autentificación
+label_authentication: Autenticación
+label_auth_source: Modo de autenticación
+label_auth_source_new: Nuevo modo de autenticación
+label_auth_source_plural: Modos de autenticación
 label_subproject_plural: Proyectos secundarios
 label_min_max_length: Longitud mín - máx
 label_list: Lista
@@ -340,7 +340,7 @@ label_sort_higher: Subir
 label_sort_lower: Bajar
 label_sort_lowest: Último
 label_roadmap: Roadmap
-label_roadmap_due_in: Realizado en 
+label_roadmap_due_in: Finaliza en 
 label_roadmap_no_issues: No hay peticiones para esta versión
 label_search: Búsqueda
 label_result: %d resultado
@@ -366,7 +366,7 @@ label_statistics: Estadísticas
 label_commits_per_month: Commits por mes
 label_commits_per_author: Commits por autor
 label_view_diff: Ver diferencias
-label_diff_inline: inline
+label_diff_inline: en línea
 label_diff_side_by_side: cara a cara
 label_options: Opciones
 label_copy_workflow_from: Copiar workflow desde
@@ -377,12 +377,12 @@ label_applied_status: Aplicar estado
 label_loading: Cargando...
 label_relation_new: Nueva relación
 label_relation_delete: Eliminar relación
-label_relates_to: relacionado a
-label_duplicates: duplicados
-label_blocks: bloques
+label_relates_to: relacionada con
+label_duplicates: duplicada de
+label_blocks: bloquea a
 label_blocked_by: bloqueado por
-label_precedes: anteriores
-label_follows: siguientes
+label_precedes: anterior a
+label_follows: posterior a 
 label_end_to_start: fin a principio
 label_end_to_end: fin a fin
 label_start_to_start: principio a principio
@@ -390,7 +390,7 @@ label_start_to_end: principio a fin
 label_stay_logged_in: Recordar conexión 
 label_disabled: deshabilitado
 label_show_completed_versions: Muestra las versiones completas
-label_me: me
+label_me: yo mismo 
 label_board: Foro
 label_board_new: Nuevo foro
 label_board_plural: Foros
@@ -399,7 +399,7 @@ label_message_plural: Mensajes
 label_message_last: Último mensaje
 label_message_new: Nuevo mensaje
 label_reply_plural: Respuestas
-label_send_information: Enviada información de la cuenta al usuario
+label_send_information: Enviar información de la cuenta al usuario
 label_year: Año
 label_month: Mes
 label_week: Semana
@@ -414,7 +414,7 @@ button_check_all: Seleccionar todo
 button_uncheck_all: No seleccionar nada
 button_delete: Borrar
 button_create: Crear
-button_test: Testar
+button_test: Probar
 button_edit: Modificar
 button_add: Añadir
 button_change: Cambiar
@@ -475,7 +475,7 @@ default_issue_status_feedback: Comentarios
 default_issue_status_closed: Cerrada
 default_issue_status_rejected: Rechazada
 default_doc_category_user: Documentación de usuario
-default_doc_category_tech: Documentación tecnica
+default_doc_category_tech: Documentación técnica
 default_priority_low: Baja
 default_priority_normal: Normal
 default_priority_high: Alta
@@ -515,14 +515,14 @@ notice_email_error: Ha ocurrido un error mientras enviando el correo (%s)
 label_updated_time: Actualizado hace %s
 text_issue_category_destroy_assignments: Dejar las peticiones sin categoría
 label_send_test_email: Enviar un correo de prueba
-button_reset: Reset
+button_reset: Reestablecer
 label_added_time_by: Añadido por %s hace %s
 field_estimated_hours: Tiempo estimado
 label_changeset_plural: Cambios
 setting_repositories_encodings: Codificaciones del repositorio
 notice_no_issue_selected: "Ninguna petición seleccionada. Por favor, compruebe la petición que quiere modificar"
-label_bulk_edit_selected_issues: Bulk edit selected issues
-label_no_change_option: (No change)
+label_bulk_edit_selected_issues: Editar las peticiones seleccionadas
+label_no_change_option: (Sin cambios)
 notice_failed_to_save_issues: "Imposible salvar %s peticion(es) en %d seleccionado: %s."
 label_theme: Tema
 label_default: Por defecto
@@ -549,10 +549,10 @@ label_registration_automatic_activation: activación automática de cuenta
 label_registration_manual_activation: activación manual de cuenta
 notice_account_pending: "Su cuenta ha sido creada y está pendiende de la aprobación por parte de administrador"
 setting_time_format: Formato de hora
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-button_annotate: Annotate
-label_issues_by: Issues by %s
-field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
+setting_bcc_recipients: Ocultar las copias de carbon (bcc)
+button_annotate: Anotar
+label_issues_by: Peticiones por %s
+field_searchable: Incluir en las búsquedas 
+label_display_per_page: 'Por página: %s'
+setting_per_page_options: Objetos por página
+label_age: Edad
