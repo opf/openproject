@@ -547,7 +547,7 @@ label_registration_manual_activation: ručna aktivacija naloga
 notice_account_pending: "Vaš nalog je kreiran i čeka odobrenje administratora."
 field_time_zone: Vremenska zona
 text_caracters_minimum: Mora biti minimum %d karaktera dugačka.
-setting_bcc_recipients: "Blind carbon copy" primaoci (bcc)
+setting_bcc_recipients: '"Blind carbon copy" primaoci (bcc)'
 button_annotate: Annotate
 label_issues_by: Kartice od %s
 field_searchable: Searchable
