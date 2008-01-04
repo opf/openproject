@@ -1,7 +1,7 @@
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
-actionview_datehelper_select_month_names: Januar,Februar,Mart,April,Maj,Jue,Jul,Avgust,Septembar,Oktobar,Novembar,Decembar
+actionview_datehelper_select_month_names: Januar,Februar,Mart,April,Maj,Jun,Jul,Avgust,Septembar,Oktobar,Novembar,Decembar
 actionview_datehelper_select_month_names_abbr: Jan,Feb,Mar,Apr,Maj,Jun,Jul,Avg,Sep,Okt,Nov,Dec
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
@@ -19,7 +19,7 @@ actionview_datehelper_time_in_words_second_less_than: manje od sekunde
 actionview_datehelper_time_in_words_second_less_than_plural: manje od %d sekundi
 actionview_instancetag_blank_option: Molim izaberite
 
-activerecord_error_inclusion: nije ukljucen u listu
+activerecord_error_inclusion: nije uključen u listu
 activerecord_error_exclusion: je rezervisan
 activerecord_error_invalid: je pogrešan
 activerecord_error_confirmation: Ne slaže se sa potvrdom
@@ -29,7 +29,7 @@ activerecord_error_blank: ne sme biti prazno
 activerecord_error_too_long: je suvise dugačko
 activerecord_error_too_short: je suvise kratko
 activerecord_error_wrong_length: je pogrešne dužine
-activerecord_error_taken: je vež zauzeto
+activerecord_error_taken: je već zauzeto
 activerecord_error_not_a_number: nije broj
 activerecord_error_not_a_date: nije datum
 activerecord_error_greater_than_start_date: mora biti veći od početnog datuma
@@ -59,7 +59,7 @@ notice_account_password_updated: Lozinka je uspešno izmenjena.
 notice_account_wrong_password: Pogrešna lozinka
 notice_account_register_done: Nalog je uspešno kreiran. Da bi ste aktivirali vaš nalog kliknite na link koji vam je poslat. 
 notice_account_unknown_email: Nepoznati korisnik.
-notice_can_t_change_password: Ovaj nalog koristi eksterni izvor autentifikacije. Ne mogu da promenim šifru.
+notice_can_t_change_password: Ovaj nalog koristi eksterni izvor prijavljivanja. Ne mogu da promenim šifru.
 notice_account_lost_email_sent: Email sa uputstvima o izboru nove šifre je poslat na vašu adresu.
 notice_account_activated: Vaš nalog je aktiviran. Možete se ulogovati.
 notice_successful_create: Uspešna kreacija.
@@ -68,7 +68,7 @@ notice_successful_delete: Uspešno brisanje.
 notice_successful_connection: Uspešna konekcija.
 notice_file_not_found: Stranica kojoj pokušavate da pristupite ne postoji ili je uklonjena.
 notice_locking_conflict: Podaci su izmenjeni od strane drugog korisnika.
-notice_scm_error: Unos i/ili revizija ne postoji u repository-ju.
+notice_scm_error: Unos i/ili revizija ne postoji u spremištu.
 notice_not_authorized: Niste ovlašćeni da pristupite ovoj stranici.
 notice_email_sent: Email je poslat %s
 notice_email_error: Došlo je do greške pri slanju maila (%s)
@@ -149,7 +149,7 @@ field_attr_mail: Atribut email-a
 field_onthefly: Kreacija naloga "On-the-fly"
 field_start_date: Start
 field_done_ratio: %% Završeno
-field_auth_source: Vrsta autentifikacije
+field_auth_source: Vrsta prijavljivanja
 field_hide_mail: Sakrij moju email adresu
 field_comments: Komentar
 field_url: URL
@@ -171,7 +171,7 @@ setting_app_title: Naziv aplikacije
 setting_app_subtitle: Podnaslov aplikacije
 setting_welcome_text: Tekst dobrodošlice
 setting_default_language: Podrazumevani jezik
-setting_login_required: Autentifikacija obavezna
+setting_login_required: Prijavljivanje obaveyno
 setting_self_registration: Samoregistracija je dozvoljena
 setting_attachment_max_size: Maksimalna velicina Attachment-a
 setting_issues_export_limit: Max broj kartica u exportu
@@ -181,14 +181,14 @@ setting_text_formatting: Formatiranje teksta
 setting_wiki_compression: Kompresija wiki history-a
 setting_feeds_limit: Feed content limit
 setting_autofetch_changesets: Autofetch commits
-setting_sys_api_enabled: Ukljuci WS za menadžment repository-ja
+setting_sys_api_enabled: Ukljuci WS za menadžment spremišta
 setting_commit_ref_keywords: Referentne ključne reči
 setting_commit_fix_keywords: Fiksne ključne reči
 setting_autologin: Autologin
 setting_date_format: Format datuma
 setting_cross_project_issue_relations: Dozvoli relacije kartica između različitih projekata
 setting_issue_list_default_columns: Podrazumevana kolona se prikazuje na listi kartica
-setting_repositories_encodings: Kodna stranica repository-ja
+setting_repositories_encodings: Kodna stranica spremišta
 setting_emails_footer: Zaglavlje emaila
 
 label_user: Korisnik
@@ -249,12 +249,12 @@ label_last_updates_plural: %d poslednje izmenjene
 label_registered_on: Registrovano
 label_activity: Aktivnost
 label_new: Novo
-label_logged_as: Logged as
+label_logged_as: Prijavljen kao
 label_environment: Environment
-label_authentication: Autentifikacija
-label_auth_source: Način autentifikacije
-label_auth_source_new: Novi način autentifikacije
-label_auth_source_plural: Načini autentifikacije
+label_authentication: Prijavljivanje
+label_auth_source: Način prijavljivanja
+label_auth_source_new: Novi način prijavljivanja
+label_auth_source_plural: Načini prijavljivanja
 label_subproject_plural: Podprojekti
 label_min_max_length: Min - Max velicina
 label_list: Liste
@@ -339,7 +339,7 @@ label_ago: pre dana
 label_contains: Sadrži
 label_not_contains: ne sadrži
 label_day_plural: dana
-label_repository: Repository
+label_repository: Spremište
 label_browse: Pregled
 label_modification: %d izmena
 label_modification_plural: %d izmena
@@ -520,7 +520,7 @@ default_issue_status_assigned: Dodeljeno
 default_issue_status_resolved: Rešeno
 default_issue_status_feedback: Povratna informacija
 default_issue_status_closed: Zatvoreno
-default_issue_status_rejected: Odbaceno
+default_issue_status_rejected: Odbačeno
 default_doc_category_user: Korisnička dokumentacija
 default_doc_category_tech: Tehnička dokumentacija
 default_priority_low: Nizak
@@ -537,20 +537,20 @@ enumeration_activities: Aktivnosti (praćenje vremena))
 label_float: Float
 button_copy: Copy
 setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
-field_time_zone: Time zone
-text_caracters_minimum: Must be at least %d characters long.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
+label_user_mail_no_self_notified: "Ne želim da budem obaveštavan o izmenama koje sam pravim"
+setting_time_format: Format vremena
+label_registration_activation_by_email: aktivacija naloga putem email-a
+mail_subject_account_activation_request: Redmine zahtev za aktivacijom naloga
+mail_body_account_activation_request: 'Novi korisnik (%s) se registrovao. Njegov nalog čeka vaše odobrenje:'
+label_registration_automatic_activation: automatska aktivacija naloga
+label_registration_manual_activation: ručna aktivacija naloga
+notice_account_pending: "Vaš nalog je kreiran i čeka odobrenje administratora."
+field_time_zone: Vremenska zona
+text_caracters_minimum: Mora biti minimum %d karaktera dugačka.
+setting_bcc_recipients: "Blind carbon copy" primaoci (bcc)
 button_annotate: Annotate
-label_issues_by: Issues by %s
+label_issues_by: Kartice od %s
 field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
+label_display_per_page: 'Po stranici: %s'
+setting_per_page_options: Objekata po stranici opcija
+label_age: Starost
