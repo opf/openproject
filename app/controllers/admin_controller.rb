@@ -22,7 +22,8 @@ class AdminController < ApplicationController
   helper :sort
   include SortHelper	
 
-  def index	
+  def index
+    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
   end
 	
   def projects
@@ -54,6 +55,20 @@ class AdminController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to :controller => 'admin', :action => 'mail_options'
     end
+  end
+  
+  # Loads the default configuration
+  # (roles, trackers, statuses, workflow, enumerations)
+  def default_configuration
+    if request.post?
+      begin
+        Redmine::DefaultData::Loader::load(params[:lang])
+        flash[:notice] = l(:notice_default_data_loaded)
+      rescue Exception => e
+        flash[:error] = l(:error_can_t_load_default_data, e.message)
+      end
+    end
+    redirect_to :action => 'index'
   end
   
   def test_email

@@ -76,6 +76,9 @@ notice_feeds_access_key_reseted: Your RSS access key was reseted.
 notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
 notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
 notice_account_pending: "Your account was created and is now pending administrator approval."
+notice_default_data_loaded: Default configuration successfully loaded.
+
+error_can_t_load_default_data: "Default configuration could not be loaded: %s"
 
 mail_subject_lost_password: Your Redmine password
 mail_body_lost_password: 'To change your Redmine password, click on the following link:'
@@ -527,6 +530,8 @@ text_issue_category_destroy_question: Some issues (%d) are assigned to this cate
 text_issue_category_destroy_assignments: Remove category assignments
 text_issue_category_reassign_to: Reassign issues to this category
 text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+text_load_default_configuration: Load the default configuration
 
 default_role_manager: Manager
 default_role_developper: Developer

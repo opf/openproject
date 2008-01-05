@@ -556,3 +556,7 @@ field_searchable: Incluir en las búsquedas
 label_display_per_page: 'Por página: %s'
 setting_per_page_options: Objetos por página
 label_age: Edad
+notice_default_data_loaded: Default configuration successfully loaded.
+text_load_default_configuration: Load the default configuration
+text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+error_can_t_load_default_data: "Default configuration could not be loaded: %s"

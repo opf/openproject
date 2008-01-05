@@ -1,5 +1,7 @@
 <h2><%=l(:label_administration)%></h2>
 
+<%= render :partial => 'no_data' if @no_configuration_data %>
+
 <p class="icon22 icon22-projects">
 <%= link_to l(:label_project_plural), :controller => 'admin', :action => 'projects' %> |
 <%= link_to l(:label_new), :controller => 'projects', :action => 'add' %>
