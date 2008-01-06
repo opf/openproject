@@ -16,60 +16,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.dirname(__FILE__) + '/../test_helper'
-require 'admin_controller'
+require 'settings_controller'
 
 # Re-raise errors caught by the controller.
-class AdminController; def rescue_action(e) raise e end; end
+class SettingsController; def rescue_action(e) raise e end; end
 
-class AdminControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :roles
+class SettingsControllerTest < Test::Unit::TestCase
+  fixtures :users
   
   def setup
-    @controller = AdminController.new
+    @controller = SettingsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
   
-  def test_index
-    get :index
-    assert_no_tag :tag => 'div',
-                  :attributes => { :class => /nodata/ }
-  end
-  
-  def test_index_with_no_configuration_data
-    delete_configuration_data
-    get :index
-    assert_tag :tag => 'div',
-               :attributes => { :class => /nodata/ }
-  end
-  
-  def test_load_default_configuration_data
-    delete_configuration_data
-    post :default_configuration, :lang => 'fr'
-    assert IssueStatus.find_by_name('Nouveau')
-  end
-  
-  def test_test_email
-    get :test_email
-    assert_redirected_to 'settings/edit'
-    mail = ActionMailer::Base.deliveries.last
-    assert_kind_of TMail::Mail, mail
-    user = User.find(1)
-    assert_equal [user.mail], mail.bcc
-  end
-
-  def test_info
-    get :info
+  def test_get_edit
+    get :edit
     assert_response :success
-    assert_template 'info'
+    assert_template 'edit'
   end
   
-  def delete_configuration_data
-    Role.delete_all('builtin = 0')
-    Tracker.delete_all
-    IssueStatus.delete_all
-    Enumeration.delete_all
+  def test_post_edit_notifications
+    post :edit, :settings => {:mail_from => 'functional@test.foo',
+                              :bcc_recipients  => '0',
+                              :notified_events => %w(issue_added issue_updated news_added),
+                              :emails_footer => 'Test footer'
+                              }
+    assert_redirected_to 'settings/edit'
+    assert_equal 'functional@test.foo', Setting.mail_from
+    assert !Setting.bcc_recipients?
+    assert_equal %w(issue_added issue_updated news_added), Setting.notified_events
+    assert_equal 'Test footer', Setting.emails_footer
   end
 end

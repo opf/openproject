@@ -1,0 +1,26 @@
+<% form_tag({:action => 'edit', :tab => 'repositories'}) do %>
+
+<div class="box tabular settings">
+<p><label><%= l(:setting_autofetch_changesets) %></label>
+<%= check_box_tag 'settings[autofetch_changesets]', 1, Setting.autofetch_changesets? %><%= hidden_field_tag 'settings[autofetch_changesets]', 0 %></p>
+
+<p><label><%= l(:setting_sys_api_enabled) %></label>
+<%= check_box_tag 'settings[sys_api_enabled]', 1, Setting.sys_api_enabled? %><%= hidden_field_tag 'settings[sys_api_enabled]', 0 %></p>
+
+<p><label><%= l(:setting_repositories_encodings) %></label>
+<%= text_field_tag 'settings[repositories_encodings]', Setting.repositories_encodings, :size => 60 %><br /><em><%= l(:text_comma_separated) %></em></p>
+</div>
+
+<fieldset class="box tabular settings"><legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
+<p><label><%= l(:setting_commit_ref_keywords) %></label>
+<%= text_field_tag 'settings[commit_ref_keywords]', Setting.commit_ref_keywords, :size => 30 %><br /><em><%= l(:text_comma_separated) %></em></p>
+
+<p><label><%= l(:setting_commit_fix_keywords) %></label>
+<%= text_field_tag 'settings[commit_fix_keywords]', Setting.commit_fix_keywords, :size => 30 %>
+&nbsp;<%= l(:label_applied_status) %>: <%= select_tag 'settings[commit_fix_status_id]', options_for_select( [["", 0]] + IssueStatus.find(:all).collect{|status| [status.name, status.id.to_s]}, Setting.commit_fix_status_id) %>
+&nbsp;<%= l(:field_done_ratio) %>: <%= select_tag 'settings[commit_fix_done_ratio]', options_for_select( [[l(:label_no_change_option), '']] + ((0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }), Setting.commit_fix_done_ratio) %>
+<br /><em><%= l(:text_comma_separated) %></em></p>
+</fieldset>
+
+<%= submit_tag l(:button_save) %>
+<% end %>

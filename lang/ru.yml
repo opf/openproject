@@ -559,3 +559,5 @@ text_no_configuration_data: "Roles, trackers, issue statuses and workflow have n
 error_can_t_load_default_data: "Default configuration could not be loaded: %s"
 button_update: Update
 label_change_properties: Change properties
+label_general: General
+label_repository_plural: Repositories

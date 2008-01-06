@@ -353,6 +353,7 @@ label_contains: contient
 label_not_contains: ne contient pas
 label_day_plural: jours
 label_repository: Dépôt
+label_repository_plural: Dépôts
 label_browse: Parcourir
 label_modification: %d modification
 label_modification_plural: %d modifications
@@ -463,6 +464,7 @@ label_registration_automatic_activation: activation automatique du compte
 label_display_per_page: 'Par page: %s'
 label_age: Age
 label_change_properties: Changer les propriétés
+label_general: Général
 
 button_login: Connexion
 button_submit: Soumettre

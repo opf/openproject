@@ -16,4 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module SettingsHelper
+  def administration_settings_tabs
+    tabs = [{:name => 'general', :partial => 'settings/general', :label => :label_general},
+            {:name => 'authentication', :partial => 'settings/authentication', :label => :label_authentication},
+            {:name => 'issues', :partial => 'settings/issues', :label => :label_issue_tracking},
+            {:name => 'notifications', :partial => 'settings/notifications', :label => l(:field_mail_notification)},
+            {:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
+            ]
+  end
 end

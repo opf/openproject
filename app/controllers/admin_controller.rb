@@ -45,17 +45,6 @@ class AdminController < ApplicationController
 
     render :action => "projects", :layout => false if request.xhr?
   end
-
-  def mail_options
-    @notifiables = %w(issue_added issue_updated news_added document_added file_added message_posted)
-    if request.post?
-      settings = (params[:settings] || {}).dup.symbolize_keys
-      settings[:notified_events] ||= []
-      settings.each { |name, value| Setting[name] = value }
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => 'admin', :action => 'mail_options'
-    end
-  end
   
   # Loads the default configuration
   # (roles, trackers, statuses, workflow, enumerations)
@@ -82,7 +71,7 @@ class AdminController < ApplicationController
       flash[:error] = l(:notice_email_error, e.message)
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
-    redirect_to :action => 'mail_options'
+    redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
   end
   
   def info

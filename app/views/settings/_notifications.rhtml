@@ -1,25 +1,20 @@
-<div class="contextual">
-<%= link_to l(:label_send_test_email), :action => 'test_email' %>
-</div>
+<% form_tag({:action => 'edit', :tab => 'notifications'}) do %>
 
-<h2><%=l(:field_mail_notification)%></h2>
-
-<% form_tag({:action => 'mail_options'}, :id => 'mail-options-form') do %>
-
-<fieldset class="box tabular settings"><legend><%=l(:label_settings)%></legend>
+<div class="box tabular settings">
 <p><label><%= l(:setting_mail_from) %></label>
 <%= text_field_tag 'settings[mail_from]', Setting.mail_from, :size => 60 %></p>
 
 <p><label><%= l(:setting_bcc_recipients) %></label>
 <%= check_box_tag 'settings[bcc_recipients]', 1, Setting.bcc_recipients? %>
 <%= hidden_field_tag 'settings[bcc_recipients]', 0 %></p>
-</fieldset>
+</div>
 
 <fieldset class="box"><legend><%=l(:text_select_mail_notifications)%></legend>
 <% @notifiables.each do |notifiable| %>
   <label><%= check_box_tag 'settings[notified_events][]', notifiable, Setting.notified_events.include?(notifiable) %>
   <%= notifiable.humanize %></label><br />
 <% end %>
+<%= hidden_field_tag 'settings[notified_events][]', '' %>
 <p><%= check_all_links('mail-options-form') %></p>
 </fieldset>
 
@@ -27,7 +22,9 @@
 <%= text_area_tag 'settings[emails_footer]', Setting.emails_footer, :class => 'wiki-edit', :rows => 5 %>
 </fieldset>
 
+<div style="float:right;">
+<%= link_to l(:label_send_test_email), :controller => 'admin', :action => 'test_email' %>
+</div>
+
 <%= submit_tag l(:button_save) %>
 <% end %>
-
-<% html_title(l(:field_mail_notification)) -%>

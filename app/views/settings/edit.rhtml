@@ -1,105 +1,18 @@
 <h2><%= l(:label_settings) %></h2>
 
-<% form_tag({:action => 'edit'}) do %>
-<div class="box tabular settings">
-<p><label><%= l(:setting_app_title) %></label>
-<%= text_field_tag 'settings[app_title]', Setting.app_title, :size => 30 %></p>
-
-<p><label><%= l(:setting_app_subtitle) %></label>
-<%= text_field_tag 'settings[app_subtitle]', Setting.app_subtitle, :size => 60 %></p>
-
-<p><label><%= l(:setting_welcome_text) %></label>
-<%= text_area_tag 'settings[welcome_text]', Setting.welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit' %></p>
-<%= wikitoolbar_for 'settings[welcome_text]' %>
-
-<p><label><%= l(:label_theme) %></label>
-<%= select_tag 'settings[ui_theme]', options_for_select( ([[l(:label_default), '']] + Redmine::Themes.themes.collect {|t| [t.name, t.id]}), Setting.ui_theme) %></p>
-
-<p><label><%= l(:setting_default_language) %></label>
-<%= select_tag 'settings[default_language]', options_for_select( lang_options_for_select(false), Setting.default_language) %></p>
-
-<p><label><%= l(:setting_date_format) %></label>
-<%= select_tag 'settings[date_format]', options_for_select( [[l(:label_language_based), '']] + Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, Setting.date_format) %></p>
-
-<p><label><%= l(:setting_time_format) %></label>
-<%= select_tag 'settings[time_format]', options_for_select( [[l(:label_language_based), '']] + Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, Setting.time_format) %></p>
-
-<p><label><%= l(:setting_attachment_max_size) %></label>
-<%= text_field_tag 'settings[attachment_max_size]', Setting.attachment_max_size, :size => 6 %> KB</p>
-
-<p><label><%= l(:setting_per_page_options) %></label>
-<%= text_field_tag 'settings[per_page_options]', Setting.per_page_options_array.join(', '), :size => 20 %><br /><em><%= l(:text_comma_separated) %></em></p>
-
-<p><label><%= l(:setting_issues_export_limit) %></label>
-<%= text_field_tag 'settings[issues_export_limit]', Setting.issues_export_limit, :size => 6 %></p>
-
-<p><label><%= l(:setting_cross_project_issue_relations) %></label>
-<%= check_box_tag 'settings[cross_project_issue_relations]', 1, Setting.cross_project_issue_relations? %><%= hidden_field_tag 'settings[cross_project_issue_relations]', 0 %></p>
-
-<p><label><%= l(:setting_host_name) %></label>
-<%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %></p>
-
-<p><label><%= l(:setting_protocol) %></label>
-<%= select_tag 'settings[protocol]', options_for_select(['http', 'https'], Setting.protocol) %></p>
-
-<p><label><%= l(:setting_text_formatting) %></label>
-<%= select_tag 'settings[text_formatting]', options_for_select([[l(:label_none), "0"], ["textile", "textile"]], Setting.text_formatting) %></p>
-
-<p><label><%= l(:setting_wiki_compression) %></label>
-<%= select_tag 'settings[wiki_compression]', options_for_select( [[l(:label_none), 0], ["gzip", "gzip"]], Setting.wiki_compression) %></p>
-
-<p><label><%= l(:setting_feeds_limit) %></label>
-<%= text_field_tag 'settings[feeds_limit]', Setting.feeds_limit, :size => 6 %></p>
-
-<p><label><%= l(:setting_autofetch_changesets) %></label>
-<%= check_box_tag 'settings[autofetch_changesets]', 1, Setting.autofetch_changesets? %><%= hidden_field_tag 'settings[autofetch_changesets]', 0 %></p>
-
-<p><label><%= l(:setting_sys_api_enabled) %></label>
-<%= check_box_tag 'settings[sys_api_enabled]', 1, Setting.sys_api_enabled? %><%= hidden_field_tag 'settings[sys_api_enabled]', 0 %></p>
-
-<p><label><%= l(:setting_repositories_encodings) %></label>
-<%= text_field_tag 'settings[repositories_encodings]', Setting.repositories_encodings, :size => 60 %><br /><em><%= l(:text_comma_separated) %></em></p>
+<div class="tabs">
+    <ul>
+    <% administration_settings_tabs.each do |tab| -%>
+        <li><%= link_to l(tab[:label]), {}, :id => "tab-#{tab[:name]}", :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;" %></li>
+    <% end -%>
+    </ul>
 </div>
 
-<fieldset class="box"><legend><%= l(:setting_issue_list_default_columns) %></legend>
-<%= hidden_field_tag 'settings[issue_list_default_columns][]', '' %>
-<p><% Query.new.available_columns.each do |column| %>
-  <label><%= check_box_tag 'settings[issue_list_default_columns][]', column.name, Setting.issue_list_default_columns.include?(column.name.to_s) %>
-  <%= column.caption %></label>
-<% end %></p>
-</fieldset>
-
-<fieldset class="box tabular"><legend><%= l(:label_authentication) %></legend>
-<p><label><%= l(:setting_login_required) %></label>
-<%= check_box_tag 'settings[login_required]', 1, Setting.login_required? %><%= hidden_field_tag 'settings[login_required]', 0 %></p>
-
-<p><label><%= l(:setting_autologin) %></label>
-<%= select_tag 'settings[autologin]', options_for_select( [[l(:label_disabled), "0"]] + [1, 7, 30, 365].collect{|days| [lwr(:actionview_datehelper_time_in_words_day, days), days.to_s]}, Setting.autologin) %></p>
-
-<p><label><%= l(:setting_self_registration) %></label>
-<%= select_tag 'settings[self_registration]',
-      options_for_select( [[l(:label_disabled), "0"],
-                           [l(:label_registration_activation_by_email), "1"],
-                           [l(:label_registration_manual_activation), "2"],
-                           [l(:label_registration_automatic_activation), "3"]
-                          ], Setting.self_registration ) %></p>
-
-<p><label><%= l(:label_password_lost) %></label>
-<%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %><%= hidden_field_tag 'settings[lost_password]', 0 %></p>
-</fieldset>
-
-<fieldset class="box tabular"><legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
-<p><label><%= l(:setting_commit_ref_keywords) %></label>
-<%= text_field_tag 'settings[commit_ref_keywords]', Setting.commit_ref_keywords, :size => 30 %><br /><em><%= l(:text_comma_separated) %></em></p>
-
-<p><label><%= l(:setting_commit_fix_keywords) %></label>
-<%= text_field_tag 'settings[commit_fix_keywords]', Setting.commit_fix_keywords, :size => 30 %>
-&nbsp;<%= l(:label_applied_status) %>: <%= select_tag 'settings[commit_fix_status_id]', options_for_select( [["", 0]] + IssueStatus.find(:all).collect{|status| [status.name, status.id.to_s]}, Setting.commit_fix_status_id) %>
-&nbsp;<%= l(:field_done_ratio) %>: <%= select_tag 'settings[commit_fix_done_ratio]', options_for_select( [[l(:label_no_change_option), '']] + ((0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }), Setting.commit_fix_done_ratio) %>
-<br /><em><%= l(:text_comma_separated) %></em></p>
-</fieldset>
-
-<%= submit_tag l(:button_save) %>
+<% administration_settings_tabs.each do |tab| %>
+    <%= content_tag('div', render(:partial => tab[:partial]), :id => "tab-content-#{tab[:name]}", :class => 'tab-content') %>
 <% end %>
 
-<% html_title(l(:label_settings)) -%>
+<%= tab = params[:tab] ? h(params[:tab]) : administration_settings_tabs.first[:name]
+javascript_tag "showTab('#{tab}');" %>
+
+<% html_title(l(:label_settings), l(:label_administration)) -%>
