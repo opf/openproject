@@ -38,7 +38,9 @@ class IssuesTest < ActionController::IntegrationTest
   def test_issue_attachements
     log_user('jsmith', 'jsmith')
 
-    post "issues/add_note/1", { :notes => 'Some notes', 'attachments[]' => ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + '/files/testfile.txt', 'text/plain') }
+    post 'issues/update/1',
+         :notes => 'Some notes',
+         :attachments => ([] << ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + '/files/testfile.txt', 'text/plain'))
     assert_redirected_to "issues/show/1"
     
     # make sure attachment was saved

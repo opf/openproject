@@ -558,3 +558,5 @@ notice_default_data_loaded: Default configuration successfully loaded.
 text_load_default_configuration: Load the default configuration
 text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
 error_can_t_load_default_data: "Default configuration could not be loaded: %s"
+button_update: Update
+label_change_properties: Change properties

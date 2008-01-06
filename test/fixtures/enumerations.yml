@@ -31,3 +31,12 @@ enumerations_008:
   name: Immediate
   id: 8
   opt: IPRI
+enumerations_009: 
+  name: Design
+  id: 9
+  opt: ACTI
+enumerations_010: 
+  name: Development
+  id: 10
+  opt: ACTI
+  

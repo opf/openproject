@@ -14,6 +14,7 @@ users_004:
   auth_source_id: 
   mail_notification: true
   login: rhill
+  type: User
 users_001: 
   created_on: 2006-07-19 19:12:21 +02:00
   status: 1
@@ -29,6 +30,7 @@ users_001:
   auth_source_id: 
   mail_notification: true
   login: admin
+  type: User
 users_002: 
   created_on: 2006-07-19 19:32:09 +02:00
   status: 1
@@ -44,6 +46,7 @@ users_002:
   auth_source_id: 
   mail_notification: true
   login: jsmith
+  type: User
 users_003: 
   created_on: 2006-07-19 19:33:19 +02:00
   status: 1
@@ -59,6 +62,7 @@ users_003:
   auth_source_id: 
   mail_notification: true
   login: dlopper
+  type: User
 users_005: 
   id: 5
   created_on: 2006-07-19 19:33:19 +02:00
@@ -75,3 +79,22 @@ users_005:
   auth_source_id: 
   mail_notification: true
   login: dlopper2
+  type: User
+users_006: 
+  id: 6
+  created_on: 2006-07-19 19:33:19 +02:00
+  status: 1
+  last_login_on: 
+  language: ''
+  hashed_password: 1
+  updated_on: 2006-07-19 19:33:19 +02:00
+  admin: false
+  mail: ''
+  lastname: Anonymous
+  firstname: ''
+  auth_source_id: 
+  mail_notification: false
+  login: ''
+  type: AnonymousUser
+
+  

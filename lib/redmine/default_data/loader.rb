@@ -53,7 +53,6 @@ module Redmine
                                                       :edit_issues,
                                                       :manage_issue_relations,
                                                       :add_issue_notes,
-                                                      :change_issue_status,
                                                       :save_queries,
                                                       :view_gantt,
                                                       :view_calendar,
@@ -74,7 +73,6 @@ module Redmine
                                     :position => 3,
                                     :permissions => [:add_issues,
                                                     :add_issue_notes,
-                                                    :change_issue_status,
                                                     :save_queries,
                                                     :view_gantt,
                                                     :view_calendar,
@@ -90,7 +88,6 @@ module Redmine
                         
             Role.non_member.update_attribute :permissions, [:add_issues,
                                                             :add_issue_notes,
-                                                            :change_issue_status,
                                                             :save_queries,
                                                             :view_gantt,
                                                             :view_calendar,

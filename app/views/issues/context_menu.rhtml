@@ -6,8 +6,8 @@
 		<a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
 		<ul>
 		<% @statuses.each do |s| %>
-		    <li><%= context_menu_link s.name, {:controller => 'issues', :action => 'change_status', :id => @issue, :new_status_id => s},
-		                              :selected => (s == @issue.status), :disabled => !(@can[:change_status] && @allowed_statuses.include?(s)) %></li>
+		    <li><%= context_menu_link s.name, {:controller => 'issues', :action => 'update', :id => @issue, :issue => {:status_id => s}},
+		                              :selected => (s == @issue.status), :disabled => !(@allowed_statuses.include?(s)) %></li>
 		<% end %>
 		</ul>
 	</li>
@@ -24,11 +24,11 @@
 		<a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
 		<ul>
 		<% @assignables.each do |u| %>
-		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'edit', :id => @issue, 'issue[assigned_to_id]' => u, :back_to => back_to}, :method => :post,
-		                              :selected => (u == @issue.assigned_to), :disabled => !(@can[:edit] || @can[:change_status]) %></li>
+		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'update', :id => @issue, :issue => {:assigned_to_id => u}, :back_to => back_to}, :method => :post,
+		                              :selected => (u == @issue.assigned_to), :disabled => !@can[:assign] %></li>
 		<% end %>
-		    <li><%= context_menu_link l(:label_nobody), {:controller => 'issues', :action => 'edit', :id => @issue, 'issue[assigned_to_id]' => '', :back_to => back_to}, :method => :post,
-		                              :selected => @issue.assigned_to.nil?, :disabled => !(@can[:edit] || @can[:change_status]) %></li>
+		    <li><%= context_menu_link l(:label_nobody), {:controller => 'issues', :action => 'update', :id => @issue, :issue => {:assigned_to_id => nil}, :back_to => back_to}, :method => :post,
+		                              :selected => @issue.assigned_to.nil?, :disabled => !@can[:assign] %></li>
 		</ul>
 	</li>
 	<li><%= context_menu_link l(:button_copy), {:controller => 'projects', :action => 'add_issue', :id => @project, :copy_from => @issue},

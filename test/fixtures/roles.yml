@@ -9,7 +9,6 @@ roles_004:
     - :edit_issues
     - :manage_issue_relations
     - :add_issue_notes
-    - :change_issue_status
     - :move_issues
     - :save_queries
     - :view_gantt
@@ -34,6 +33,7 @@ roles_005:
   builtin: 2
   permissions: |
     --- 
+    - :add_issue_notes
     - :view_gantt
     - :view_calendar
     - :view_time_entries
@@ -58,7 +58,6 @@ roles_001:
     - :edit_issues
     - :manage_issue_relations
     - :add_issue_notes
-    - :change_issue_status
     - :move_issues
     - :delete_issues
     - :manage_public_queries
@@ -99,7 +98,6 @@ roles_002:
     - :edit_issues
     - :manage_issue_relations
     - :add_issue_notes
-    - :change_issue_status
     - :move_issues
     - :delete_issues
     - :manage_public_queries
@@ -137,7 +135,6 @@ roles_003:
     - :edit_issues
     - :manage_issue_relations
     - :add_issue_notes
-    - :change_issue_status
     - :move_issues
     - :delete_issues
     - :manage_public_queries

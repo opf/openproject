@@ -1,0 +1,4 @@
+<h2><%= @issue.tracker.name %> #<%= @issue.id %>: <%=h @issue.subject %></h2>
+
+<%= error_messages_for 'issue' %>
+<%= render :partial => 'update' %>

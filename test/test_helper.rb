@@ -53,6 +53,10 @@ class Test::Unit::TestCase
     assert_redirected_to "my/page"
     assert_equal login, User.find(session[:user_id]).login
   end
+  
+  def test_uploaded_file(name, mime)
+    ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + "/files/#{name}", mime)
+  end
 end
 
 

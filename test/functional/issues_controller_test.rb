@@ -32,7 +32,8 @@ class IssuesControllerTest < Test::Unit::TestCase
            :issue_categories,
            :enabled_modules,
            :enumerations,
-           :attachments
+           :attachments,
+           :workflows
   
   def setup
     @controller = IssuesController.new
@@ -94,13 +95,37 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 'application/atom+xml', @response.content_type
   end
   
-  def test_show
+  def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
     assert_template 'show.rhtml'
     assert_not_nil assigns(:issue)
+    assert_equal Issue.find(1), assigns(:issue)
+    
+    # anonymous role is allowed to add a note
+    assert_tag :tag => 'form',
+               :descendant => { :tag => 'fieldset',
+                                :child => { :tag => 'legend', 
+                                            :content => /Notes/ } }
   end
   
+  def test_show_by_manager
+    @request.session[:user_id] = 2
+    get :show, :id => 1
+    assert_response :success
+    
+    assert_tag :tag => 'form',
+               :descendant => { :tag => 'fieldset',
+                                :child => { :tag => 'legend', 
+                                            :content => /Change properties/ } },
+               :descendant => { :tag => 'fieldset',
+                                :child => { :tag => 'legend', 
+                                            :content => /Log time/ } },
+               :descendant => { :tag => 'fieldset',
+                                :child => { :tag => 'legend', 
+                                            :content => /Notes/ } }
+  end
+
   def test_get_edit
     @request.session[:user_id] = 2
     get :edit, :id => 1
@@ -129,21 +154,100 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert mail.body.include?("Subject changed from #{old_subject} to #{new_subject}")
   end
   
-  def test_post_change_status
+  def test_get_update
+    @request.session[:user_id] = 2
+    get :update, :id => 1
+    assert_response :success
+    assert_template 'update'
+  end
+  
+  def test_update_with_status_and_assignee_change
     issue = Issue.find(1)
     assert_equal 1, issue.status_id
     @request.session[:user_id] = 2
-    post :change_status, :id => 1,
-                         :new_status_id => 2,
-                         :issue => { :assigned_to_id => 3 },
-                         :notes => 'Assigned to dlopper',
-                         :confirm => 1
+    post :update,
+         :id => 1,
+         :issue => { :status_id => 2, :assigned_to_id => 3 },
+         :notes => 'Assigned to dlopper'
     assert_redirected_to 'issues/show/1'
     issue.reload
     assert_equal 2, issue.status_id
-    j = issue.journals.find(:first, :order => 'created_on DESC')
+    j = issue.journals.find(:first, :order => 'id DESC')
     assert_equal 'Assigned to dlopper', j.notes
     assert_equal 2, j.details.size
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.body.include?("Status changed from New to Assigned")
+  end
+  
+  def test_update_with_note_only
+    notes = 'Note added by IssuesControllerTest#test_update_with_note_only'
+    # anonymous user
+    post :update,
+         :id => 1,
+         :notes => notes
+    assert_redirected_to 'issues/show/1'
+    j = Issue.find(1).journals.find(:first, :order => 'id DESC')
+    assert_equal notes, j.notes
+    assert_equal 0, j.details.size
+    assert_equal User.anonymous, j.user
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.body.include?(notes)
+  end
+  
+  def test_update_with_note_and_spent_time
+    @request.session[:user_id] = 2
+    spent_hours_before = Issue.find(1).spent_hours
+    post :update,
+         :id => 1,
+         :notes => '2.5 hours added',
+         :time_entry => { :hours => '2.5', :comments => '', :activity_id => Enumeration.get_values('ACTI').first }
+    assert_redirected_to 'issues/show/1'
+    
+    issue = Issue.find(1)
+    
+    j = issue.journals.find(:first, :order => 'id DESC')
+    assert_equal '2.5 hours added', j.notes
+    assert_equal 0, j.details.size
+    
+    t = issue.time_entries.find(:first, :order => 'id DESC')
+    assert_not_nil t
+    assert_equal 2.5, t.hours
+    assert_equal spent_hours_before + 2.5, issue.spent_hours
+  end
+  
+  def test_update_with_attachment_only
+    # anonymous user
+    post :update,
+         :id => 1,
+         :notes => '',
+         :attachments => [ test_uploaded_file('testfile.txt', 'text/plain') ]
+    assert_redirected_to 'issues/show/1'
+    j = Issue.find(1).journals.find(:first, :order => 'id DESC')
+    assert j.notes.blank?
+    assert_equal 1, j.details.size
+    assert_equal 'testfile.txt', j.details.first.value
+    assert_equal User.anonymous, j.user
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.body.include?('testfile.txt')
+  end
+  
+  def test_update_with_no_change
+    issue = Issue.find(1)
+    issue.journals.clear
+    ActionMailer::Base.deliveries.clear
+    
+    post :update,
+         :id => 1,
+         :notes => ''
+    assert_redirected_to 'issues/show/1'
+    
+    issue.reload
+    assert issue.journals.empty?
+    # No email should be sent
+    assert ActionMailer::Base.deliveries.empty?
   end
   
   def test_context_menu

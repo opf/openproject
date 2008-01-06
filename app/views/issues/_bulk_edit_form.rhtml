@@ -2,7 +2,7 @@
 <fieldset class="box"><legend><%= l(:label_bulk_edit_selected_issues) %></legend>
 
 <p>
-<% if @available_statuses %>
+<% if @available_statuses.any? %>
 <label><%= l(:field_status) %>: 
 <%= select_tag('status_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@available_statuses, :id, :name)) %></label>
 <% end %>

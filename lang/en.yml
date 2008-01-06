@@ -462,6 +462,7 @@ label_registration_manual_activation: manual account activation
 label_registration_automatic_activation: automatic account activation
 label_display_per_page: 'Per page: %s'
 label_age: Age
+label_change_properties: Change properties
 
 button_login: Login
 button_submit: Submit
@@ -498,6 +499,7 @@ button_rename: Rename
 button_change_password: Change password
 button_copy: Copy
 button_annotate: Annotate
+button_update: Update
 
 status_active: active
 status_registered: registered

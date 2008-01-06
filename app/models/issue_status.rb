@@ -56,6 +56,10 @@ class IssueStatus < ActiveRecord::Base
       false
   end
 
+  def <=>(status)
+    position <=> status.position
+  end
+  
   def to_s; name end
 
 private

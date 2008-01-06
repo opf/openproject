@@ -252,11 +252,9 @@ class ProjectsController < ApplicationController
       redirect_to :controller => 'issues', :action => 'index', :project_id => @project
       return
     end
-    if current_role && User.current.allowed_to?(:change_issue_status, @project)
-      # Find potential statuses the user could be allowed to switch issues to
-      @available_statuses = Workflow.find(:all, :include => :new_status,
-                                                :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq
-    end
+    # Find potential statuses the user could be allowed to switch issues to
+    @available_statuses = Workflow.find(:all, :include => :new_status,
+                                              :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq
     render :update do |page|
       page.hide 'query_form'
       page.replace_html  'bulk-edit', :partial => 'issues/bulk_edit_form'

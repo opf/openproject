@@ -155,6 +155,27 @@ module ActiveRecord #:nodoc:
 #    end
 #  end
   
+  class Errors
+    include GLoc
+    
+    def full_messages
+      full_messages = []
+
+      @errors.each_key do |attr|
+        @errors[attr].each do |msg|
+          next if msg.nil?
+
+          if attr == "base"
+            full_messages << (msg.is_a?(Symbol) ? l(msg) : msg)
+          else
+            full_messages << @base.class.human_attribute_name(attr) + " " + (msg.is_a?(Symbol) ? l(msg) : msg)
+          end
+        end
+      end
+      full_messages
+    end
+  end
+  
   module Validations #:nodoc:
     module ClassMethods
       # The default Rails version of this function creates an error message and then

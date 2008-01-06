@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= show_and_goto_link(l(:label_add_note), 'add-note', :class => 'icon icon-note') if authorize_for('issues', 'add_note') %>
+<%= show_and_goto_link(l(:button_update), 'update', :class => 'icon icon-note') if authorize_for('issues', 'update') %>
 <%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
 <%= watcher_tag(@issue, User.current) %>
@@ -81,16 +81,6 @@ end %>
 
 </div>
 
-<% if authorize_for('issues', 'change_status') and @status_options and !@status_options.empty? %>
-  <% form_tag({:controller => 'issues', :action => 'change_status', :id => @issue}) do %>
-  <p><%=l(:label_change_status)%> :
-  <select name="new_status_id">
-  <%= options_from_collection_for_select @status_options, "id", "name", @issue.status_id %>
-  </select>
-  <%= submit_tag l(:button_change) %></p>
-  <% end %>
-<% end %>
-
 <% if @journals.any? %>
 <div id="history">
 <h3><%=l(:label_history)%></h3>
@@ -98,18 +88,12 @@ end %>
 </div>
 <% end %>
 
-<% if authorize_for('issues', 'add_note') %>
-  <a name="add-note-anchor"></a>
-  <div id="add-note" class="box" style="display:none;">
-  <h3><%= l(:label_add_note) %></h3>
-  <% form_tag({:controller => 'issues', :action => 'add_note', :id => @issue}, :class => "tabular", :multipart => true) do %>
-  <p><label for="notes"><%=l(:field_notes)%></label>
-    <%= text_area_tag 'notes', '', :cols => 60, :rows => 10, :class => 'wiki-edit'  %></p>
-    <%= wikitoolbar_for 'notes' %>
-    <%= render :partial => 'attachments/form' %>
-  <%= submit_tag l(:button_add) %>
-  <%= toggle_link l(:button_cancel), 'add-note' %>
-  <% end %>  
+<% if authorize_for('issues', 'update') %>
+  <a name="update-anchor"></a>
+  <div id="update" style="display:none;">
+  <h3><%= l(:button_update) %></h3>
+  <%= render :partial => 'update' %>
+  <%= toggle_link l(:button_cancel), 'update' %>
   </div>
 <% end %>
 
