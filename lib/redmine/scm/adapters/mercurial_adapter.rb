@@ -112,7 +112,7 @@ module Redmine
                                        :author => changeset[:user],
                                        :time => Time.parse(changeset[:date]),
                                        :message => changeset[:description],
-                                       :paths => changeset[:files].split.collect{|path| {:action => 'X', :path => "/#{path}"}}
+                                       :paths => changeset[:files].to_s.split.collect{|path| {:action => 'X', :path => "/#{path}"}}
             })
           end
           return nil if $? && $?.exitstatus != 0
