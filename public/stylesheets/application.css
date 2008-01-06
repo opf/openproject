@@ -7,6 +7,8 @@ h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; bord
 h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb; color: #444;}
 
 /***** Layout *****/
+#wrapper {background: white;}
+
 #top-menu {background: #2C4056;color: #fff;height:1.5em; padding: 2px 6px 0px 6px;}
 #top-menu a {color: #fff; padding-right: 4px;}
 #account {float:right;}

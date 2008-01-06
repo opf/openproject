@@ -18,6 +18,7 @@
 <!-- page specific tags --><%= yield :header_tags %>
 </head>
 <body>
+<div id="wrapper">
 <div id="top-menu">
     <div id="account">
         <% if User.current.logged? %>
@@ -74,6 +75,7 @@
 	
 <div id="footer">
     Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> <%= Redmine::VERSION %> &copy; 2006-2007 Jean-Philippe Lang
+</div>
 </div>
 </body>
 </html>
