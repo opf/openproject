@@ -69,4 +69,8 @@ module ApplicationHelper
     super((@current_theme && @current_theme.stylesheets.include?(source)) ?
       "/themes/#{@current_theme.dir}/stylesheets/#{source}" : source)
   end
+  
+  def path_to_stylesheet(source)
+    stylesheet_path source
+  end
 end
