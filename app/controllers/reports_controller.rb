@@ -47,6 +47,12 @@ class ReportsController < ApplicationController
       @data = issues_by_category
       @report_title = l(:field_category)
       render :template => "reports/issue_report_details"   
+    when "assigned_to"
+      @field = "assigned_to_id"
+      @rows = @project.members.collect { |m| m.user }
+      @data = issues_by_assigned_to
+      @report_title = l(:field_assigned_to)
+      render :template => "reports/issue_report_details"
     when "author"
       @field = "author_id"
       @rows = @project.members.collect { |m| m.user }
@@ -64,12 +70,14 @@ class ReportsController < ApplicationController
       @versions = @project.versions.sort
       @priorities = Enumeration::get_values('IPRI')
       @categories = @project.issue_categories
+      @assignees = @project.members.collect { |m| m.user }
       @authors = @project.members.collect { |m| m.user }
       @subprojects = @project.active_children
       issues_by_tracker
       issues_by_version
       issues_by_priority
       issues_by_category
+      issues_by_assigned_to
       issues_by_author
       issues_by_subproject
       
@@ -180,7 +188,22 @@ private
                                                   and i.project_id=#{@project.id}
                                                 group by s.id, s.is_closed, c.id")	
   end
-	
+  
+  def issues_by_assigned_to
+    @issues_by_assigned_to ||= 
+      ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
+                                                  s.is_closed as closed, 
+                                                  a.id as assigned_to_id,
+                                                  count(i.id) as total 
+                                                from 
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{User.table_name} a
+                                                where 
+                                                  i.status_id=s.id 
+                                                  and i.assigned_to_id=a.id
+                                                  and i.project_id=#{@project.id}
+                                                group by s.id, s.is_closed, a.id")
+  end
+  
   def issues_by_author
     @issues_by_author ||= 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
