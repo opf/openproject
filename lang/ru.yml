@@ -180,13 +180,13 @@ setting_host_name: Имя компьютера
 setting_text_formatting: Форматирование текста
 setting_wiki_compression: Сжатие истории Wiki
 setting_feeds_limit: Ограничения вводимого содержания
-setting_autofetch_changesets: Autofetch коммиты
+setting_autofetch_changesets: Автоматически следить за коммитами
 setting_sys_api_enabled: Разрешить WS для управления репозиторием
 setting_commit_ref_keywords: Ключевые слова для поиска
 setting_commit_fix_keywords: Назначение ключевых слов
 setting_autologin: Автоматический вход
 setting_date_format: Формат даты
-setting_time_format: Time format
+setting_time_format: Формат времени 
 setting_cross_project_issue_relations: Разрешить пересечение задач по проектам
 setting_issue_list_default_columns: Колонки, отображаемые в списке задач по умолчанию
 setting_repositories_encodings: Кодировки репозитория
@@ -534,7 +534,6 @@ default_priority_urgent: Срочный
 default_priority_immediate: Немедленный
 default_activity_design: Проектирование
 default_activity_development: Разработка
-
 enumeration_issue_priorities: Приоритеты задач
 enumeration_doc_categories: Категории документов
 enumeration_activities: Действия (учет времени)
@@ -545,19 +544,19 @@ label_registration_automatic_activation: автоматическая актив
 label_registration_manual_activation: активировать аккаунты вручную
 notice_account_pending: "Ваш аккаунт уже создан и ожидает подтверждения администратора."
 field_time_zone: Часовой пояс
-text_caracters_minimum: Must be at least %d characters long.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-button_annotate: Annotate
-label_issues_by: Issues by %s
-field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
-label_general: General
-label_repository_plural: Repositories
+text_caracters_minimum: Должно быть не менее %d знаков.
+setting_bcc_recipients: Использовать скрытые списки (bcc)
+button_annotate: Авторство
+label_issues_by: Сортировать по %s
+field_searchable: Доступно для поиска 
+label_display_per_page: 'На страницу: %s'
+setting_per_page_options: Кол-во строк на страницу
+label_age: Возраст 
+notice_default_data_loaded: Была загружена конфигурация по-умолчанию.
+text_load_default_configuration: Загрузить конфигурацию по-умолчанию
+text_no_configuration_data: "Роли, трекеры, статусы задач и оперативный план не были сконфигурированны.\nНастоятельно рекомендуется загрузить конфигурацию по-умолчанию. Вы сможете её изменить потом."
+error_can_t_load_default_data: "Конфигурация по умолчанию не была загружена: %s"
+button_update: Обновить
+label_change_properties: Изменить свойства
+label_general: Общее
+label_repository_plural: Репозитории

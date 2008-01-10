@@ -19,22 +19,22 @@ actionview_datehelper_time_in_words_second_less_than: 小於 1 秒
 actionview_datehelper_time_in_words_second_less_than_plural: 小於 %d 秒
 actionview_instancetag_blank_option: 請選擇
 
-activerecord_error_inclusion: is not included in the list
-activerecord_error_exclusion: is reserved
-activerecord_error_invalid: is invalid
-activerecord_error_confirmation: doesn't match confirmation
-activerecord_error_accepted: must be accepted
+activerecord_error_inclusion: 必須被包含
+activerecord_error_exclusion: 必須被排除
+activerecord_error_invalid: 不正確
+activerecord_error_confirmation: 與確認欄位不相符
+activerecord_error_accepted: 必須被接受
 activerecord_error_empty: 不可為空值
 activerecord_error_blank: 不可為空白
 activerecord_error_too_long: 長度過長
 activerecord_error_too_short: 長度太短
-activerecord_error_wrong_length: is the wrong length
-activerecord_error_taken: has already been taken
+activerecord_error_wrong_length: 長度不正確
+activerecord_error_taken: 已經被使用
 activerecord_error_not_a_number: is not a number
-activerecord_error_not_a_date: is not a valid date
-activerecord_error_greater_than_start_date: must be greater than start date
-activerecord_error_not_same_project: doesn't belong to the same project
-activerecord_error_circular_dependency: This relation would create a circular dependency
+activerecord_error_not_a_date: 日期格式不正確
+activerecord_error_greater_than_start_date: 必須在起始日期之後
+activerecord_error_not_same_project: 不屬於同一個專案
+activerecord_error_circular_dependency: 這個關聯會導致環狀相依
 
 general_fmt_age: %d 年
 general_fmt_age_plural: %d yrs
@@ -46,7 +46,7 @@ general_text_No: 'No'
 general_text_Yes: 'Yes'
 general_text_no: 'no'
 general_text_yes: 'yes'
-general_lang_name: 'Chinese (繁體中文)'
+general_lang_name: 'Traditional Chinese (繁體中文)'
 general_csv_separator: ','
 general_csv_encoding: Big5
 general_pdf_encoding: Big5
@@ -68,23 +68,26 @@ notice_successful_delete: 刪除成功
 notice_successful_connection: Successful connection.
 notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
 notice_locking_conflict: Data have been updated by another user.
-notice_scm_error: Entry and/or revision doesn't exist in the repository.
-notice_not_authorized: You are not authorized to access this page.
-notice_email_sent: An email was sent to %s
-notice_email_error: An error occurred while sending mail (%s)
-notice_feeds_access_key_reseted: Your RSS access key was reseted.
+notice_scm_error: SCM 儲存庫中找不到這個專案或版本。
+notice_not_authorized: 你未被授權存取此頁面。
+notice_email_sent: 郵件已經成功寄送至以下收件者： %s
+notice_email_error: 寄送郵件的過程中發生錯誤 (%s)
+notice_feeds_access_key_reseted: 您的 RSS 存取鍵已被重新設定。
 notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
 notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
-notice_account_pending: "Your account was created and is now pending administrator approval."
+notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
+notice_default_data_loaded: Default configuration successfully loaded.
 
-mail_subject_lost_password: Your Redmine password
-mail_body_lost_password: 'To change your Redmine password, click on the following link:'
-mail_subject_register: Redmine account activation
-mail_body_register: 'To activate your Redmine account, click on the following link:'
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
+error_can_t_load_default_data: "Default configuration could not be loaded: %s"
+
+mail_subject_lost_password: 您的 Redmine 網站密碼
+mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
+mail_subject_register: 啟用您的 Redmine 帳號
+mail_body_register: '欲啟用您的 Redmine 帳號, 請點選以下鏈結:'
+mail_body_account_information_external: 您可以使用 "%s" 帳號登入 Redmine 網站。
+mail_body_account_information: 您的 Redmine 帳號資訊
+mail_subject_account_activation_request: Redmine 帳號啟用需求通知
+mail_body_account_activation_request: '有位新用戶 (%s) 已經完成註冊，正等候您的審核：'
 
 gui_validation_error: 1 個錯誤
 gui_validation_error_plural: %d 個錯誤
@@ -170,6 +173,7 @@ field_redirect_existing_links: Redirect existing links
 field_estimated_hours: 預估工時
 field_column_names: Columns
 field_time_zone: 時區
+field_searchable: 可用做搜尋條件
 
 setting_app_title: 標題
 setting_app_subtitle: 副標題
@@ -192,11 +196,12 @@ setting_commit_fix_keywords: Fixing keywords
 setting_autologin: 自動登入
 setting_date_format: 日期格式
 setting_time_format: 時間格式
-setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_cross_project_issue_relations: 允許關聯至其它專案的項目
 setting_issue_list_default_columns: 預設顯示於項目清單的欄位
 setting_repositories_encodings: Repositories encodings
 setting_emails_footer: 電子郵件附帶說明
 setting_protocol: 協定
+setting_per_page_options: 每頁顯示個數選項
 
 label_user: 用戶
 label_user_plural: 用戶清單
@@ -210,7 +215,7 @@ label_issue: 項目
 label_issue_new: 建立新的項目
 label_issue_plural: 項目清單
 label_issue_view_all: 檢視所有項目
-label_issues_by: Issues by %s
+label_issues_by: 項目按 %s 分組顯示
 label_document: 文件
 label_document_new: 建立新的文件
 label_document_plural: 文件
@@ -311,8 +316,8 @@ label_new_statuses_allowed: New statuses allowed
 label_all: 全部
 label_none: 空值
 label_nobody: nobody
-label_next: Next
-label_previous: Previous
+label_next: 下一頁
+label_previous: 上一頁
 label_used_by: Used by
 label_details: 明細
 label_add_note: 加入一個新筆記
@@ -348,6 +353,7 @@ label_contains: 包含
 label_not_contains: 不包含
 label_day_plural: 天
 label_repository: 版本控管
+label_repository_plural: 版本控管
 label_browse: 瀏覽
 label_modification: %d 變更
 label_modification_plural: %d 變更
@@ -437,17 +443,17 @@ label_sort_by: 按 %s 排序
 label_send_test_email: 寄送測試郵件
 label_feeds_access_key_created_on: RSS 存取鍵建立於 %s 之前
 label_module_plural: 模組
-label_added_time_by: Added by %s %s ago
-label_updated_time: Updated %s ago
+label_added_time_by: 是由 %s 於 %s 前加入
+label_updated_time: 於 %s 前更新
 label_jump_to_a_project: 選擇欲前往的專案...
 label_file_plural: 檔案清單
-label_changeset_plural: Changesets
+label_changeset_plural: 變更集清單
 label_default_columns: 預設欄位清單
-label_no_change_option: (No change)
-label_bulk_edit_selected_issues: Bulk edit selected issues
+label_no_change_option: (維持不變)
+label_bulk_edit_selected_issues: 編輯選定的項目
 label_theme: 畫面主題
-label_default: Default
-label_search_titles_only: Search titles only
+label_default: 預設
+label_search_titles_only: 僅搜尋標題
 label_user_mail_option_all: "提醒與我的專案有關的所有事件"
 label_user_mail_option_selected: "只停醒我所選擇專案中的事件..."
 label_user_mail_option_none: "只提醒我觀察中或參與中的事件"
@@ -455,6 +461,10 @@ label_user_mail_no_self_notified: "不提醒我自己所做的變更"
 label_registration_activation_by_email: 透過電子郵件啟用帳戶
 label_registration_manual_activation: 手動啟用帳戶
 label_registration_automatic_activation: 自動啟用帳戶
+label_display_per_page: '每頁顯示: %s 個'
+label_age: Age
+label_change_properties: Change properties
+label_general: 一般
 
 button_login: 登入
 button_submit: 送出
@@ -491,6 +501,7 @@ button_rename: 重新命名
 button_change_password: 變更密碼
 button_copy: 複製
 button_annotate: 加注
+button_update: 更新
 
 status_active: 活動中
 status_registered: 註冊完成
@@ -509,12 +520,12 @@ text_tip_task_begin_day: task beginning this day
 text_tip_task_end_day: task ending this day
 text_tip_task_begin_end_day: task beginning and ending this day
 text_project_identifier_info: '只允許小寫英文字母（a-z）、阿拉伯數字與連字符號（-）。<br />儲存後，代碼不可再被更改。'
-text_caracters_maximum: %d characters maximum.
-text_caracters_minimum: Must be at least %d characters long.
-text_length_between: Length between %d and %d characters.
+text_caracters_maximum: 最多 %d 個字元.
+text_caracters_minimum: 長度必須大於 %d 個字元.
+text_length_between: 長度必須介於 %d 至 %d 個字元之間.
 text_tracker_no_workflow: No workflow defined for this tracker
 text_unallowed_characters: Unallowed characters
-text_comma_separated: Multiple values allowed (comma separated).
+text_comma_separated: 可輸入多個值 (以逗號分隔).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
 text_issue_added: 已通報 %s 個項目
 text_issue_updated: 已更新 %s 個項目
@@ -523,6 +534,8 @@ text_issue_category_destroy_question: Some issues (%d) are assigned to this cate
 text_issue_category_destroy_assignments: Remove category assignments
 text_issue_category_reassign_to: Reassign issues to this category
 text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+text_load_default_configuration: Load the default configuration
 
 default_role_manager: 管理人員
 default_role_developper: 開發人員
@@ -533,7 +546,7 @@ default_tracker_support: 支援
 default_issue_status_new: 新建立
 default_issue_status_assigned: 已指派
 default_issue_status_resolved: 已解決
-default_issue_status_feedback: 回應
+default_issue_status_feedback: 已回應
 default_issue_status_closed: 已結束
 default_issue_status_rejected: 已拒絕
 default_doc_category_user: 使用手冊
@@ -549,15 +562,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目重要性
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (time tracking)
-field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
-label_general: General
-label_repository_plural: Repositories

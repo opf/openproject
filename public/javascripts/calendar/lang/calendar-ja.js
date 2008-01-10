@@ -58,10 +58,10 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "- or click and drag for faster selection.";
 
 Calendar._TT["PREV_YEAR"] = "前年 (長押しでメニュー表示)";
-Calendar._TT["PREV_MONTH"] = "翌年 (長押しでメニュー表示)";
+Calendar._TT["PREV_MONTH"] = "前月 (長押しでメニュー表示)";
 Calendar._TT["GO_TODAY"] = "今日の日付を選択";
-Calendar._TT["NEXT_MONTH"] = "前月 (長押しでメニュー表示)";
-Calendar._TT["NEXT_YEAR"] = "翌月 (長押しでメニュー表示)";
+Calendar._TT["NEXT_MONTH"] = "翌月 (長押しでメニュー表示)";
+Calendar._TT["NEXT_YEAR"] = "翌年 (長押しでメニュー表示)";
 Calendar._TT["SEL_DATE"] = "日付を選択してください";
 Calendar._TT["DRAG_TO_MOVE"] = "ドラッグで移動";
 Calendar._TT["PART_TODAY"] = " (今日)";

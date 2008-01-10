@@ -549,15 +549,15 @@ text_caracters_minimum: Musi być nie krótsze niż %d znaków.
 setting_bcc_recipients: Odbiorcy kopii tajnej (kt/bcc)
 button_annotate: Adnotuj
 label_issues_by: Zagadnienia wprowadzone przez %s
-field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
-label_general: General
-label_repository_plural: Repositories
+field_searchable: Przeszukiwalne
+label_display_per_page: 'Na stronę: %s'
+setting_per_page_options: Opcje ilości obiektów na stronie
+label_age: Wiek
+notice_default_data_loaded: Domyślna konfiguracja została pomyślnie załadowana.
+text_load_default_configuration: Załaduj domyślną konfigurację
+text_no_configuration_data: "Role użytkowników, typy zagadnień, statusy zagadnień oraz przepływ pracy nie zostały jeszcze skonfigurowane.\nJest wysoce rekomendowane by załadować domyślną konfigurację. Po załadowaniu będzie możliwość edycji tych danych."
+error_can_t_load_default_data: "Domyślna konfiguracja nie może być załadowana: %s"
+button_update: Uaktualnij
+label_change_properties: Zmień właściwości
+label_general: Ogólne
+label_repository_plural: Repozytoria
