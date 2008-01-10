@@ -21,7 +21,7 @@ class AttachmentsController < ApplicationController
 
   def download
     # images are sent inline
-    send_file @attachment.diskfile, :filename => @attachment.filename, 
+    send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                     :type => @attachment.content_type, 
                                     :disposition => (@attachment.image? ? 'inline' : 'attachment')
   rescue

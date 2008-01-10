@@ -196,4 +196,9 @@ class ApplicationController < ActionController::Base
     end
     return tmp
   end
+  
+  # Returns a string that can be used as filename value in Content-Disposition header
+  def filename_for_content_disposition(name)
+    request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
+  end
 end
