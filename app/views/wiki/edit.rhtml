@@ -5,8 +5,8 @@
 <%= error_messages_for 'content' %>
 <div class="contextual">
 <%= l(:setting_text_formatting) %>:
-<%= link_to l(:label_help), '/help/wiki_syntax.html',
-                            :onclick => "window.open('#{ url_for '/help/wiki_syntax.html' }', '', 'resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes'); return false;" %>
+<%= link_to l(:label_help), compute_public_path('wiki_syntax', 'help', 'html'),
+                            :onclick => "window.open('#{ compute_public_path('wiki_syntax', 'help', 'html') }', '', 'resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes'); return false;" %>
 </div>
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
 <p><label><%= l(:field_comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
