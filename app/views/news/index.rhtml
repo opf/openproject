@@ -24,7 +24,9 @@
     <%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
     <%= "(#{news.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if news.comments_count > 0 %></h3>
     <p class="author"><%= authoring news.created_on, news.author %></p>
+    <div class="wiki">
     <%= textilizable(news.description) %>
+    </div>
 <% end %>
 <% end %>
 <p class="pagination"><%= pagination_links_full @news_pages %></p>
