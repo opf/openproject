@@ -67,8 +67,14 @@
 .jstb_br {
 	background-image: url(../images/jstoolbar/bt_br.png);
 }
-.jstb_heading {
-	background-image: url(../images/jstoolbar/bt_heading.png);
+.jstb_h1 {
+	background-image: url(../images/jstoolbar/bt_h1.png);
+}
+.jstb_h2 {
+	background-image: url(../images/jstoolbar/bt_h2.png);
+}
+.jstb_h3 {
+	background-image: url(../images/jstoolbar/bt_h3.png);
 }
 .jstb_ul {
 	background-image: url(../images/jstoolbar/bt_ul.png);
@@ -76,6 +82,12 @@
 .jstb_ol {
 	background-image: url(../images/jstoolbar/bt_ol.png);
 }
+.jstb_pre {
+	background-image: url(../images/jstoolbar/bt_pre.png);
+}
 .jstb_link {
 	background-image: url(../images/jstoolbar/bt_link.png);
+}
+.jstb_img {
+	background-image: url(../images/jstoolbar/bt_img.png);
 }

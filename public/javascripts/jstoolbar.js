@@ -228,6 +228,58 @@ jsToolBar.prototype = {
 		this.encloseSelection(stag,etag);
 	},
 	
+	encloseLineSelection: function(prefix, suffix, fn) {
+		this.textarea.focus();
+		
+		prefix = prefix || '';
+		suffix = suffix || '';
+		
+		var start, end, sel, scrollPos, subst, res;
+		
+		if (typeof(document["selection"]) != "undefined") {
+			sel = document.selection.createRange().text;
+		} else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
+			start = this.textarea.selectionStart;
+			end = this.textarea.selectionEnd;
+			scrollPos = this.textarea.scrollTop;
+			// go to the start of the line
+			start = this.textarea.value.substring(0, start).replace(/[^\r\n]*$/g,'').length;
+			// go to the end of the line
+            end = this.textarea.value.length - this.textarea.value.substring(end, this.textarea.value.length).replace(/^[^\r\n]*/, '').length;
+			sel = this.textarea.value.substring(start, end);
+		}
+		
+		if (sel.match(/ $/)) { // exclude ending space char, if any
+			sel = sel.substring(0, sel.length - 1);
+			suffix = suffix + " ";
+		}
+		
+		if (typeof(fn) == 'function') {
+			res = (sel) ? fn.call(this,sel) : fn('');
+		} else {
+			res = (sel) ? sel : '';
+		}
+		
+		subst = prefix + res + suffix;
+		
+		if (typeof(document["selection"]) != "undefined") {
+			document.selection.createRange().text = subst;
+			var range = this.textarea.createTextRange();
+			range.collapse(false);
+			range.move('character', -suffix.length);
+			range.select();
+		} else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
+			this.textarea.value = this.textarea.value.substring(0, start) + subst +
+			this.textarea.value.substring(end);
+			if (sel) {
+				this.textarea.setSelectionRange(start + subst.length, start + subst.length);
+			} else {
+				this.textarea.setSelectionRange(start + prefix.length, start + prefix.length);
+			}
+			this.textarea.scrollTop = scrollPos;
+		}
+	},
+	
 	encloseSelection: function(prefix, suffix, fn) {
 		this.textarea.focus();
 		
@@ -370,28 +422,43 @@ jsToolBar.prototype.elements.code = {
 // spacer
 jsToolBar.prototype.elements.space1 = {type: 'space'}
 
-// heading
-jsToolBar.prototype.elements.heading = {
+// headings
+jsToolBar.prototype.elements.h1 = {
 	type: 'button',
-	title: 'Heading',
+	title: 'Heading 1',
 	fn: {
-		wiki: function() {
-			this.encloseSelection('','',function(str) {
-				str = str.replace(/\r/g,'');
-				return 'h2. '+str.replace(/\n/g,"\n* ");
-			});
+		wiki: function() { 
+		  this.encloseLineSelection('h1. ', '',function(str) {
+		    str = str.replace(/^h\d+\.\s+/, '')
+		    return str;
+		  });
 		}
 	}
 }
-
-// br
-//jsToolBar.prototype.elements.br = {
-//	type: 'button',
-//	title: 'Line break',
-//	fn: {
-//		wiki: function() { this.encloseSelection("%%%\n",'') }
-//	}
-//}
+jsToolBar.prototype.elements.h2 = {
+	type: 'button',
+	title: 'Heading 2',
+	fn: {
+		wiki: function() { 
+		  this.encloseLineSelection('h2. ', '',function(str) {
+		    str = str.replace(/^h\d+\.\s+/, '')
+		    return str;
+		  });
+		}
+	}
+}
+jsToolBar.prototype.elements.h3 = {
+	type: 'button',
+	title: 'Heading 3',
+	fn: {
+		wiki: function() { 
+		  this.encloseLineSelection('h3. ', '',function(str) {
+		    str = str.replace(/^h\d+\.\s+/, '')
+		    return str;
+		  });
+		}
+	}
+}
 
 // spacer
 jsToolBar.prototype.elements.space2 = {type: 'space'}
@@ -402,9 +469,9 @@ jsToolBar.prototype.elements.ul = {
 	title: 'Unordered list',
 	fn: {
 		wiki: function() {
-			this.encloseSelection('','',function(str) {
+			this.encloseLineSelection('','',function(str) {
 				str = str.replace(/\r/g,'');
-				return '* '+str.replace(/\n/g,"\n* ");
+				return str.replace(/(\n|^)[#-]?\s*/g,"$1* ");
 			});
 		}
 	}
@@ -416,53 +483,39 @@ jsToolBar.prototype.elements.ol = {
 	title: 'Ordered list',
 	fn: {
 		wiki: function() {
-			this.encloseSelection('','',function(str) {
+			this.encloseLineSelection('','',function(str) {
 				str = str.replace(/\r/g,'');
-				return '# '+str.replace(/\n/g,"\n# ");
+				return str.replace(/(\n|^)[*-]?\s*/g,"$1# ");
 			});
 		}
+	}
+}
+
+// pre
+jsToolBar.prototype.elements.pre = {
+	type: 'button',
+	title: 'Preformatted text',
+	fn: {
+		wiki: function() { this.encloseLineSelection('<pre>\n', '\n</pre>') }
 	}
 }
 
 // spacer
 jsToolBar.prototype.elements.space3 = {type: 'space'}
 
-// link
-/*
+// wiki page
 jsToolBar.prototype.elements.link = {
 	type: 'button',
-	title: 'Link',
-	fn: {},
-	href_prompt: 'Please give page URL:',
-	hreflang_prompt: 'Language of this page:',
-	default_hreflang: '',
-	prompt: function(href,hreflang) {
-		href = href || '';
-		hreflang = hreflang || this.elements.link.default_hreflang;
-		
-		href = window.prompt(this.elements.link.href_prompt,href);
-		if (!href) { return false; }
-		
-		hreflang = ""
-		
-		return { href: this.stripBaseURL(href), hreflang: hreflang };
-	}
-}
-
-jsToolBar.prototype.elements.link.fn.wiki = function() {
-	var link = this.elements.link.prompt.call(this);
-	if (link) {
-		var stag = '"';
-		var etag = '":'+link.href;
-		this.encloseSelection(stag,etag);
-	}
-};
-*/
-// link or wiki page
-jsToolBar.prototype.elements.link = {
-	type: 'button',
-	title: 'Link',
+	title: 'Wiki Page Link',
 	fn: {
 		wiki: function() { this.encloseSelection("[[", "]]") }
+	}
+}
+// image
+jsToolBar.prototype.elements.img = {
+	type: 'button',
+	title: 'Inline image',
+	fn: {
+		wiki: function() { this.encloseSelection("!", "!") }
 	}
 }
