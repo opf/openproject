@@ -32,7 +32,7 @@
 <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
 <div id="reply" style="display:none;">
 <% form_for :reply, @reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true} do |f| %>
-    <%= render :partial => 'form', :locals => {:f => f} %>
+    <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
     <%= submit_tag l(:button_submit) %>
 <% end %>
 </div>
