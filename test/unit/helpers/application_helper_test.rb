@@ -20,7 +20,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class ApplicationHelperTest < HelperTestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
-  fixtures :projects, :repositories, :changesets, :trackers, :issue_statuses, :issues
+  fixtures :projects, :repositories, :changesets, :trackers, :issue_statuses, :issues, :documents, :versions, :wikis, :wiki_pages, :wiki_contents
 
   def setup
     super
@@ -66,12 +66,52 @@ class ApplicationHelperTest < HelperTestCase
   def test_redmine_links
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3}, 
                                :class => 'issue', :title => 'Error 281 when updating a recipe (New)')
+    
     changeset_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 1, :rev => 1},
                                    :class => 'changeset', :title => 'My very first commit')
     
+    document_link = link_to('Test document', {:controller => 'documents', :action => 'show', :id => 1},
+                                             :class => 'document')
+    
+    version_link = link_to('1.0', {:controller => 'versions', :action => 'show', :id => 2},
+                                  :class => 'version')
+    
     to_test = {
       '#3, #3 and #3.' => "#{issue_link}, #{issue_link} and #{issue_link}.",
-      'r1' => changeset_link
+      'r1' => changeset_link,
+      'document#1' => document_link,
+      'document:"Test document"' => document_link,
+      'version#2' => version_link,
+      'version:1.0' => version_link,
+      'version:"1.0"' => version_link,
+      # escaping
+      '!#3.' => '#3.',
+      '!r1' => 'r1',
+      '!document#1' => 'document#1',
+      '!document:"Test document"' => 'document:"Test document"',
+      '!version#2' => 'version#2',
+      '!version:1.0' => 'version:1.0',
+      '!version:"1.0"' => 'version:"1.0"',
+    }
+    @project = Project.find(1)
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+  
+  def test_wiki_links
+    to_test = {
+      '[[CookBook documentation]]' => '<a href="/wiki/ecookbook/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
+      '[[Another page|Page]]' => '<a href="/wiki/ecookbook/Another_page" class="wiki-page">Page</a>',
+      # page that doesn't exist
+      '[[Unknown page]]' => '<a href="/wiki/ecookbook/Unknown_page" class="wiki-page new">Unknown page</a>',
+      '[[Unknown page|404]]' => '<a href="/wiki/ecookbook/Unknown_page" class="wiki-page new">404</a>',
+      # link to another project wiki
+      '[[onlinestore:]]' => '<a href="/wiki/onlinestore/" class="wiki-page">onlinestore</a>',
+      '[[onlinestore:|Wiki]]' => '<a href="/wiki/onlinestore/" class="wiki-page">Wiki</a>',
+      '[[onlinestore:Start page]]' => '<a href="/wiki/onlinestore/Start_page" class="wiki-page">Start page</a>',
+      '[[onlinestore:Start page|Text]]' => '<a href="/wiki/onlinestore/Start_page" class="wiki-page">Text</a>',
+      '[[onlinestore:Unknown page]]' => '<a href="/wiki/onlinestore/Unknown_page" class="wiki-page new">Unknown page</a>',
+      # escaping
+      '![[Another page|Page]]' => '[[Another page|Page]]',
     }
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }

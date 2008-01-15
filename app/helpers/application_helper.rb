@@ -220,8 +220,9 @@ module ApplicationHelper
     
     project = options[:project] || @project
     
-    # turn wiki links into html links
-    # example:
+    # Wiki links
+    # 
+    # Examples:
     #   [[mypage]]
     #   [[mypage|mytext]]
     # wiki links can refer other project wikis, using project name or identifier:
@@ -229,47 +230,94 @@ module ApplicationHelper
     #   [[project:|mytext]]
     #   [[project:mypage]]
     #   [[project:mypage|mytext]]
-    text = text.gsub(/\[\[([^\]\|]+)(\|([^\]\|]+))?\]\]/) do |m|
+    text = text.gsub(/(!)?(\[\[([^\]\|]+)(\|([^\]\|]+))?\]\])/) do |m|
       link_project = project
-      page = $1
-      title = $3
-      if page =~ /^([^\:]+)\:(.*)$/
-        link_project = Project.find_by_name($1) || Project.find_by_identifier($1)
-        page = title || $2
-        title = $1 if page.blank?
-      end
-      
-      if link_project && link_project.wiki
-        # check if page exists
-        wiki_page = link_project.wiki.find_page(page)
-        link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)),
-                                 :class => ('wiki-page' + (wiki_page ? '' : ' new')))
+      esc, all, page, title = $1, $2, $3, $5
+      if esc.nil?
+        if page =~ /^([^\:]+)\:(.*)$/
+          link_project = Project.find_by_name($1) || Project.find_by_identifier($1)
+          page = $2
+          title ||= $1 if page.blank?
+        end
+        
+        if link_project && link_project.wiki
+          # check if page exists
+          wiki_page = link_project.wiki.find_page(page)
+          link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)),
+                                   :class => ('wiki-page' + (wiki_page ? '' : ' new')))
+        else
+          # project or wiki doesn't exist
+          title || page
+        end
       else
-        # project or wiki doesn't exist
-        title || page
+        all
       end
     end
 
-    # turn issue and revision ids into links
-    # example:
-    #   #52 -> <a href="/issues/show/52">#52</a>
-    #   r52 -> <a href="/repositories/revision/6?rev=52">r52</a> (project.id is 6)
-    text = text.gsub(%r{([\s\(,-^])(#|r)(\d+)(?=[[:punct:]]|\s|<|$)}) do |m|
-      leading, otype, oid = $1, $2, $3
+    # Redmine links
+    # 
+    # Examples:
+    #   Issues:
+    #     #52 -> Link to issue #52
+    #   Changesets:
+    #     r52 -> Link to revision 52
+    #   Documents:
+    #     document#17 -> Link to document with id 17
+    #     document:Greetings -> Link to the document with title "Greetings"
+    #     document:"Some document" -> Link to the document with title "Some document"
+    #   Versions:
+    #     version#3 -> Link to version with id 3
+    #     version:1.0.0 -> Link to version named "1.0.0"
+    #     version:"1.0 beta 2" -> Link to version named "1.0 beta 2"
+    #   Attachments:
+    #     attachment:file.zip -> Link to the attachment of the current object named file.zip
+    text = text.gsub(%r{([\s\(,-^])(!)?(attachment|document|version)?((#|r)(\d+)|(:)([^"][^\s<>]+|"[^"]+"))(?=[[:punct:]]|\s|<|$)}) do |m|
+      leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
       link = nil
-      if otype == 'r'
-        if project && (changeset = project.changesets.find_by_revision(oid))
-          link = link_to("r#{oid}", {:controller => 'repositories', :action => 'revision', :id => project.id, :rev => oid}, :class => 'changeset',
-                                    :title => truncate(changeset.comments, 100))
-        end
-      else
-        if issue = Issue.find_by_id(oid.to_i, :include => [:project, :status], :conditions => Project.visible_by(User.current))        
-          link = link_to("##{oid}", {:controller => 'issues', :action => 'show', :id => oid}, :class => 'issue',
-                                    :title => "#{truncate(issue.subject, 100)} (#{issue.status.name})")
-          link = content_tag('del', link) if issue.closed?
+      if esc.nil?
+        if prefix.nil? && sep == 'r'
+          if project && (changeset = project.changesets.find_by_revision(oid))
+            link = link_to("r#{oid}", {:controller => 'repositories', :action => 'revision', :id => project.id, :rev => oid}, :class => 'changeset',
+                                      :title => truncate(changeset.comments, 100))
+          end
+        elsif sep == '#'
+          oid = oid.to_i
+          case prefix
+          when nil
+            if issue = Issue.find_by_id(oid, :include => [:project, :status], :conditions => Project.visible_by(User.current))        
+              link = link_to("##{oid}", {:controller => 'issues', :action => 'show', :id => oid}, :class => 'issue',
+                                        :title => "#{truncate(issue.subject, 100)} (#{issue.status.name})")
+              link = content_tag('del', link) if issue.closed?
+            end
+          when 'document'
+            if document = Document.find_by_id(oid, :include => [:project], :conditions => Project.visible_by(User.current))
+              link = link_to h(document.title), {:controller => 'documents', :action => 'show', :id => document}, :class => 'document'
+            end
+          when 'version'
+            if version = Version.find_by_id(oid, :include => [:project], :conditions => Project.visible_by(User.current))
+              link = link_to h(version.name), {:controller => 'versions', :action => 'show', :id => version}, :class => 'version'
+            end
+          end
+        elsif sep == ':'
+          # removes the double quotes if any
+          name = oid.gsub(%r{^"(.*)"$}, "\\1")
+          case prefix
+          when 'document'
+            if project && document = project.documents.find_by_title(name)
+              link = link_to h(document.title), {:controller => 'documents', :action => 'show', :id => document}, :class => 'document'
+            end
+          when 'version'
+            if project && version = project.versions.find_by_name(name)
+              link = link_to h(version.name), {:controller => 'versions', :action => 'show', :id => version}, :class => 'version'
+            end
+          when 'attachment'
+            if attachments && attachment = attachments.detect {|a| a.filename == name }
+              link = link_to h(attachment.filename), {:controller => 'attachments', :action => 'download', :id => attachment}, :class => 'attachment'
+            end
+          end
         end
       end
-      leading + (link || "#{otype}#{oid}")
+      leading + (link || "#{prefix}#{sep}#{oid}")
     end
     
     text

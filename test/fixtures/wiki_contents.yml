@@ -21,4 +21,14 @@ wiki_contents_002:
   version: 1
   author_id: 1
   comments: 
-  
+wiki_contents_003: 
+  text: |-
+    h1. Start page
+    
+    E-commerce web site start page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 3
+  id: 3
+  version: 1
+  author_id: 1
+  comments: 
