@@ -62,7 +62,7 @@ module CustomFieldsHelper
     return "" unless value && !value.empty?
     case field_format
     when "date"
-      begin; l_date(value.to_date); rescue; value end
+      begin; format_date(value.to_date); rescue; value end
     when "bool"
       l_YesNo(value == "1")
     else
