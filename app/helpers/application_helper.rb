@@ -114,6 +114,8 @@ module ApplicationHelper
   def pagination_links_full(paginator, count=nil, options={})
     page_param = options.delete(:page_param) || :page
     url_param = params.dup
+    # don't reuse params if filters are present
+    url_param.clear if url_param.has_key?(:set_filter)
     
     html = ''    
     html << link_to_remote(('&#171; ' + l(:label_previous)), 
@@ -138,9 +140,12 @@ module ApplicationHelper
   end
   
   def per_page_links(selected=nil)
+    url_param = params.dup
+    url_param.clear if url_param.has_key?(:set_filter)
+    
     links = Setting.per_page_options_array.collect do |n|
       n == selected ? n : link_to_remote(n, {:update => "content", :url => params.dup.merge(:per_page => n)}, 
-                                            {:href => url_for(params.dup.merge(:per_page => n))})
+                                            {:href => url_for(url_param.merge(:per_page => n))})
     end
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
