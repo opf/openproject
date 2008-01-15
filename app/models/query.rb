@@ -223,7 +223,7 @@ class Query < ActiveRecord::Base
     return @available_columns if @available_columns
     @available_columns = Query.available_columns
     @available_columns += (project ? 
-                            project.custom_fields :
+                            project.all_custom_fields :
                             IssueCustomField.find(:all, :conditions => {:is_for_all => true})
                            ).collect {|cf| QueryCustomFieldColumn.new(cf) }      
   end
