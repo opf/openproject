@@ -19,13 +19,18 @@ module Redmine
   module MimeType
 
     MIME_TYPES = {
-      'text/plain' => 'txt',
+      'text/plain' => 'txt,tpl,properties',
       'text/css' => 'css',
       'text/html' => 'html,htm,xhtml',
       'text/x-c' => 'c,cpp,h',
+      'text/x-java' => 'java',
       'text/x-javascript' => 'js',
       'text/x-html-template' => 'rhtml',
+      'text/x-perl' => 'pl,pm',
+      'text/x-php' => 'php,php3,php4,php5',
+      'text/x-python' => 'py',
       'text/x-ruby' => 'rb,rbw,ruby,rake',
+      'text/x-sh' => 'sh',
       'text/xml' => 'xml',
       'text/yaml' => 'yml,yaml',
       'image/gif' => 'gif',
