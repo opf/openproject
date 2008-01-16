@@ -132,8 +132,11 @@ class Query < ActiveRecord::Base
   
   def available_filters
     return @available_filters if @available_filters
+    
+    trackers = project.nil? ? Tracker.find(:all, :order => 'position') : project.rolled_up_trackers
+    
     @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => IssueStatus.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },       
-                           "tracker_id" => { :type => :list, :order => 2, :values => Tracker.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },                                                                                                                
+                           "tracker_id" => { :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] } },                                                                                                                
                            "priority_id" => { :type => :list, :order => 3, :values => Enumeration.find(:all, :conditions => ['opt=?','IPRI']).collect{|s| [s.name, s.id.to_s] } },
                            "subject" => { :type => :text, :order => 8 },  
                            "created_on" => { :type => :date_past, :order => 9 },                        

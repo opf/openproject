@@ -112,10 +112,10 @@ class ProjectsControllerTest < Test::Unit::TestCase
   
   def test_move_issues_to_another_tracker
     @request.session[:user_id] = 1
-    post :move_issues, :id => 1, :issue_ids => [1, 2], :new_tracker_id => 3
+    post :move_issues, :id => 1, :issue_ids => [1, 2], :new_tracker_id => 2
     assert_redirected_to 'projects/ecookbook/issues'
-    assert_equal 3, Issue.find(1).tracker_id
-    assert_equal 3, Issue.find(2).tracker_id
+    assert_equal 2, Issue.find(1).tracker_id
+    assert_equal 2, Issue.find(2).tracker_id
   end
   
   def test_list_files

@@ -146,6 +146,15 @@ class Project < ActiveRecord::Base
     children.select {|child| child.active?}
   end
   
+  # Returns an array of the trackers used by the project and its sub projects
+  def rolled_up_trackers
+    @rolled_up_trackers ||=
+      Tracker.find(:all, :include => :projects,
+                         :select => "DISTINCT #{Tracker.table_name}.*",
+                         :conditions => ["#{Project.table_name}.id = ? OR #{Project.table_name}.parent_id = ?", id, id],
+                         :order => "#{Tracker.table_name}.position")
+  end
+  
   # Deletes all project's members
   def delete_all_members
     Member.delete_all(['project_id = ?', id])

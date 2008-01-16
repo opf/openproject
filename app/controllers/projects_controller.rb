@@ -418,7 +418,7 @@ class ProjectsController < ApplicationController
   end
   
   def calendar
-    @trackers = Tracker.find(:all, :order => 'position')
+    @trackers = @project.rolled_up_trackers
     retrieve_selected_tracker_ids(@trackers)
     
     if params[:year] and params[:year].to_i > 1900
@@ -445,7 +445,7 @@ class ProjectsController < ApplicationController
   end  
 
   def gantt
-    @trackers = Tracker.find(:all, :order => 'position')
+    @trackers = @project.rolled_up_trackers
     retrieve_selected_tracker_ids(@trackers)
     
     if params[:year] and params[:year].to_i >0
