@@ -1,6 +1,6 @@
 @import url(../../../stylesheets/application.css);
 
-body { background-color:#EEEEEE; }
+body, #wrapper { background-color:#EEEEEE; }
 #header, #top-menu { margin: 0px 10px 0px 11px; }
 #main { background: #EEEEEE; margin: 8px 10px 0px 10px; }
 #content { background: #fff; border-right: 1px solid #bbb; border-bottom: 1px solid #bbb; border-left: 1px solid #d7d7d7; border-top: 1px solid #d7d7d7; }

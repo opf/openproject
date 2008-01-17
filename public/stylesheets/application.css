@@ -285,9 +285,10 @@ p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 div#status_by { float:right; width:380px; margin-left: 16px; margin-bottom: 16px; }
 
 /***** Tabs *****/
-#content .tabs{height: 2.6em;}
-#content .tabs ul{margin:0;}
-#content .tabs ul li{
+#content .tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative;}
+#content .tabs ul {margin:0; position:absolute; bottom:-2px; padding-left:1em;}
+#content .tabs>ul { bottom:-1px; } /* others */
+#content .tabs ul li {
 float:left;
 list-style-type:none;
 white-space:nowrap;
@@ -298,16 +299,28 @@ background:#fff;
 display:block;
 font-size: 0.9em;
 text-decoration:none;
-line-height:1em;
-padding:4px;
-border: 1px solid #c0c0c0;
+line-height:1.3em;
+padding:4px 6px 4px 6px;
+border: 1px solid #ccc;
+border-bottom: 1px solid #bbbbbb;
+background-color: #eeeeee;
+color:#777;
+font-weight:bold;
 }
 
-#content .tabs ul li a.selected, #content .tabs ul li a:hover{
-background-color: #507AAA;
-border: 1px solid #507AAA;
-color: #fff;
+#content .tabs ul li a:hover {
+background-color: #ffffdd;
 text-decoration:none;
+}
+
+#content .tabs ul li a.selected {
+background-color: #fff;
+border: 1px solid #bbbbbb;
+border-bottom: 1px solid #fff;
+}
+
+#content .tabs ul li a.selected:hover {
+background-color: #fff;
 }
 
 /***** Diff *****/
