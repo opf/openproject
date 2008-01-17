@@ -1,0 +1,15 @@
+jsToolBar.strings = {};
+jsToolBar.strings['Strong'] = 'Gras';
+jsToolBar.strings['Italic'] = 'Italique';
+jsToolBar.strings['Underline'] = 'Souligné';
+jsToolBar.strings['Deleted'] = 'Rayé';
+jsToolBar.strings['Inline quote'] = 'Citation';
+jsToolBar.strings['Code'] = 'Code';
+jsToolBar.strings['Heading 1'] = 'Titre niveau 1';
+jsToolBar.strings['Heading 2'] = 'Titre niveau 2';
+jsToolBar.strings['Heading 3'] = 'Titre niveau 3';
+jsToolBar.strings['Unordered list'] = 'Liste à puces';
+jsToolBar.strings['Ordered list'] = 'Liste numérotée';
+jsToolBar.strings['Preformatted text'] = 'Texte préformaté';
+jsToolBar.strings['Wiki link'] = 'Lien vers une page Wiki';
+jsToolBar.strings['Image'] = 'Image';

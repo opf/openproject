@@ -433,7 +433,9 @@ module ApplicationHelper
   
   def wikitoolbar_for(field_id)
     return '' unless Setting.text_formatting == 'textile'
-    javascript_include_tag('jstoolbar') + javascript_tag("var toolbar = new jsToolBar($('#{field_id}')); toolbar.draw();")
+    javascript_include_tag('jstoolbar/jstoolbar') +
+      javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language}") +
+      javascript_tag("var toolbar = new jsToolBar($('#{field_id}')); toolbar.draw();")
   end
   
   def content_for(name, content = nil, &block)

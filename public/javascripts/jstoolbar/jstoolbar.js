@@ -67,7 +67,11 @@ function jsToolBar(textarea) {
 }
 
 function jsButton(title, fn, scope, className) {
-	this.title = title || null;
+    if(typeof jsToolBar.strings == 'undefined') {
+      this.title = title || null;
+    } else {
+      this.title = jsToolBar.strings[title] || title || null;
+    }
 	this.fn = fn || function(){};
 	this.scope = scope || null;
 	this.className = className || null;
@@ -368,7 +372,7 @@ jsToolBar.prototype.resizeDragStop = function(event) {
 // strong
 jsToolBar.prototype.elements.strong = {
 	type: 'button',
-	title: 'Strong emphasis',
+	title: 'Strong',
 	fn: {
 		wiki: function() { this.singleTag('*') }
 	}
@@ -377,7 +381,7 @@ jsToolBar.prototype.elements.strong = {
 // em
 jsToolBar.prototype.elements.em = {
 	type: 'button',
-	title: 'Emphasis',
+	title: 'Italic',
 	fn: {
 		wiki: function() { this.singleTag("_") }
 	}
@@ -386,7 +390,7 @@ jsToolBar.prototype.elements.em = {
 // ins
 jsToolBar.prototype.elements.ins = {
 	type: 'button',
-	title: 'Inserted',
+	title: 'Underline',
 	fn: {
 		wiki: function() { this.singleTag('+') }
 	}
@@ -506,7 +510,7 @@ jsToolBar.prototype.elements.space3 = {type: 'space'}
 // wiki page
 jsToolBar.prototype.elements.link = {
 	type: 'button',
-	title: 'Wiki Page Link',
+	title: 'Wiki link',
 	fn: {
 		wiki: function() { this.encloseSelection("[[", "]]") }
 	}
@@ -514,7 +518,7 @@ jsToolBar.prototype.elements.link = {
 // image
 jsToolBar.prototype.elements.img = {
 	type: 'button',
-	title: 'Inline image',
+	title: 'Image',
 	fn: {
 		wiki: function() { this.encloseSelection("!", "!") }
 	}
