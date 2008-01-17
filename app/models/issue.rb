@@ -190,9 +190,9 @@ class Issue < ActiveRecord::Base
   # Returns the mail adresses of users that should be notified for the issue
   def recipients
     recipients = project.recipients
-    # Author and assignee are always notified
-    recipients << author.mail if author
-    recipients << assigned_to.mail if assigned_to
+    # Author and assignee are always notified unless they have been locked
+    recipients << author.mail if author && author.active?
+    recipients << assigned_to.mail if assigned_to && assigned_to.active?
     recipients.compact.uniq
   end
   

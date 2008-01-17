@@ -37,7 +37,7 @@ module Redmine
         end
         
         def watcher_recipients
-          self.watchers.collect { |w| w.user.mail }
+          self.watchers.collect { |w| w.user.mail if w.user.active? }.compact
         end
 
         module ClassMethods
