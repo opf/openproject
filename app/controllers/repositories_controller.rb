@@ -24,6 +24,7 @@ end
 
 class RepositoriesController < ApplicationController
   layout 'base'
+  menu_item :repository
   before_filter :find_repository, :except => :edit
   before_filter :find_project, :only => :edit
   before_filter :authorize

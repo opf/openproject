@@ -17,6 +17,7 @@
 
 class ReportsController < ApplicationController
   layout 'base'
+  menu_item :issues
   before_filter :find_project, :authorize
 
   def issue_report

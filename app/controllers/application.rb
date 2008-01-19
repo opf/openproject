@@ -19,6 +19,9 @@ class ApplicationController < ActionController::Base
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
   
+  include Redmine::MenuManager::MenuController
+  helper Redmine::MenuManager::MenuHelper
+  
   REDMINE_SUPPORTED_SCM.each do |scm|
     require_dependency "repository/#{scm.underscore}"
   end

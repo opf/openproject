@@ -17,6 +17,13 @@
 
 class ProjectsController < ApplicationController
   layout 'base'
+  menu_item :overview
+  menu_item :activity, :only => :activity
+  menu_item :roadmap, :only => :roadmap
+  menu_item :files, :only => [:list_files, :add_file]
+  menu_item :settings, :only => :settings
+  menu_item :issues, :only => [:add_issue, :bulk_edit_issues, :changelog, :move_issues]
+  
   before_filter :find_project, :except => [ :index, :list, :add ]
   before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy ]
   before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]

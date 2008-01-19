@@ -91,15 +91,18 @@ end
 
 # Project menu configuration
 Redmine::MenuManager.map :project_menu do |menu|
-  menu.push :label_overview, :controller => 'projects', :action => 'show'
-  menu.push :label_activity, :controller => 'projects', :action => 'activity'
-  menu.push :label_roadmap, :controller => 'projects', :action => 'roadmap'
-  menu.push :label_issue_plural, { :controller => 'issues', :action => 'index' }, :param => :project_id
-  menu.push :label_news_plural, { :controller => 'news', :action => 'index' }, :param => :project_id
-  menu.push :label_document_plural, { :controller => 'documents', :action => 'index' }, :param => :project_id
-  menu.push :label_wiki, { :controller => 'wiki', :action => 'index', :page => nil }, :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
-  menu.push :label_board_plural, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :if => Proc.new { |p| p.boards.any? }
-  menu.push :label_attachment_plural, :controller => 'projects', :action => 'list_files'
-  menu.push :label_repository, { :controller => 'repositories', :action => 'show' }, :if => Proc.new { |p| p.repository && !p.repository.new_record? }
-  menu.push :label_settings, :controller => 'projects', :action => 'settings'
+  menu.push :overview, { :controller => 'projects', :action => 'show' }, :caption => :label_overview
+  menu.push :activity, { :controller => 'projects', :action => 'activity' }, :caption => :label_activity
+  menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, :caption => :label_roadmap
+  menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
+  menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
+  menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
+  menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }, 
+              :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }, :caption => :label_wiki
+  menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
+              :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
+  menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
+  menu.push :repository, { :controller => 'repositories', :action => 'show' },
+              :if => Proc.new { |p| p.repository && !p.repository.new_record? }, :caption => :label_repository
+  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :caption => :label_settings
 end

@@ -16,7 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class TimelogController < ApplicationController
-  layout 'base'  
+  layout 'base'
+  menu_item :issues
   before_filter :find_project, :authorize
 
   helper :sort

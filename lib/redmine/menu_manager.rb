@@ -17,6 +17,63 @@
 
 module Redmine
   module MenuManager
+    module MenuController
+      def self.included(base)
+        base.extend(ClassMethods)
+      end
+
+      module ClassMethods
+        @@menu_items = Hash.new {|hash, key| hash[key] = {:default => key, :actions => {}}}
+        mattr_accessor :menu_items
+        
+        # Set the menu item name for a controller or specific actions
+        # Examples:
+        #   * menu_item :tickets # => sets the menu name to :tickets for the whole controller
+        #   * menu_item :tickets, :only => :list # => sets the menu name to :tickets for the 'list' action only
+        #   * menu_item :tickets, :only => [:list, :show] # => sets the menu name to :tickets for 2 actions only
+        #   
+        # The default menu item name for a controller is controller_name by default
+        # Eg. the default menu item name for ProjectsController is :projects
+        def menu_item(id, options = {})
+          if actions = options[:only]
+            actions = [] << actions unless actions.is_a?(Array)
+            actions.each {|a| menu_items[controller_name.to_sym][:actions][a.to_sym] = id}
+          else
+            menu_items[controller_name.to_sym][:default] = id
+          end
+        end
+      end
+      
+      def menu_items
+        self.class.menu_items
+      end
+      
+      # Returns the menu item name according to the current action
+      def current_menu_item
+        menu_items[controller_name.to_sym][:actions][action_name.to_sym] ||
+          menu_items[controller_name.to_sym][:default]
+      end
+    end
+    
+    module MenuHelper
+      # Returns the current menu item name
+      def current_menu_item
+        @controller.current_menu_item
+      end
+      
+      # Renders the application main menu as a ul element
+      def render_main_menu(project)
+        links = []
+        Redmine::MenuManager.allowed_items(:project_menu, User.current, project).each do |item|
+          unless item.condition && !item.condition.call(project)
+            links << content_tag('li', 
+                       link_to(l(item.caption), {item.param => project}.merge(item.url),
+                               :class => (current_menu_item == item.name ? 'selected' : nil)))
+          end
+        end if project && !project.new_record?
+        links.empty? ? nil : content_tag('ul', links.join("\n"))
+      end
+    end
     
     class << self
       def map(menu_name)
@@ -48,13 +105,14 @@ module Redmine
     end
     
     class MenuItem
-      attr_reader :name, :url, :param, :condition
+      attr_reader :name, :url, :param, :condition, :caption
       
       def initialize(name, url, options)
         @name = name
         @url = url
         @condition = options[:if]
         @param = options[:param] || :id
+        @caption = options[:caption] || name.to_s.humanize
       end
     end    
   end

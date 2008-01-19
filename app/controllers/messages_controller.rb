@@ -17,6 +17,7 @@
 
 class MessagesController < ApplicationController
   layout 'base'
+  menu_item :boards
   before_filter :find_board, :only => :new
   before_filter :find_message, :except => :new
   before_filter :authorize

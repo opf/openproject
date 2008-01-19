@@ -17,6 +17,7 @@
 
 class IssueCategoriesController < ApplicationController
   layout 'base'
+  menu_item :settings
   before_filter :find_project, :authorize
   
   verify :method => :post, :only => :destroy

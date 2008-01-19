@@ -49,13 +49,7 @@
     <h1><%= h(@project ? @project.name : Setting.app_title) %></h1>
     
     <div id="main-menu">
-        <ul>
-            <% Redmine::MenuManager.allowed_items(:project_menu, User.current, @project).each do |item| %>
-            <% unless item.condition && !item.condition.call(@project) %>
-                <li><%= link_to l(item.name), {item.param => @project}.merge(item.url) %></li>
-            <% end %>
-            <% end if @project && !@project.new_record? %>
-        </ul>
+        <%= render_main_menu(@project) %>
     </div>
 </div>
 

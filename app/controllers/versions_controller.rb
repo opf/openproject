@@ -17,6 +17,7 @@
 
 class VersionsController < ApplicationController
   layout 'base'
+  menu_item :roadmap
   before_filter :find_project, :authorize
 
   cache_sweeper :version_sweeper, :only => [ :edit, :destroy ]

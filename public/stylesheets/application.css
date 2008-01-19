@@ -34,7 +34,7 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   padding: 4px 4px 4px 4px;
   background: #2C4056;
 }
-#main-menu li a:hover {background:#759FCF;}
+#main-menu li a:hover, #main-menu li a.selected {background:#759FCF;}
 
 #main {background: url(../images/mainbg.png) repeat-x; background-color:#EEEEEE;}
 
