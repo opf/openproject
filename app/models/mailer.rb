@@ -31,6 +31,7 @@ class Mailer < ActionMailer::Base
 
   def issue_edit(journal)
     issue = journal.journalized
+    issue.reload
     recipients issue.recipients
     # Watchers in cc
     cc(issue.watcher_recipients - @recipients)
