@@ -1,9 +1,11 @@
 <div class="splitcontentleft">
-<% values.each_with_index do |value, i| %>
-	<p><%= custom_field_tag_with_label value %></p>
-    <% if i >= values.size / 2 - 1 %>
+<% i = 1 %>
+<% for @custom_value in values %>
+	<p><%= custom_field_tag_with_label @custom_value %></p>
+    <% if i >= values.size / 2 %>
 </div><div class="splitcontentright">
     <% end %>
+    <% i += 1 %>
 <% end %>
 </div>
 <div style="clear:both;"> </div>
