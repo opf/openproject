@@ -29,23 +29,16 @@ test:
 
 test_pgsql:
   adapter: postgresql
-  database: redmine
+  database: redmine_test
   host: localhost
   username: postgres
   password: "postgres"
 
-test_oracle:
-  adapter: oci
-  host: 192.168.0.14
-  username: rails_test
-  password: "rails"
-  
-test_sqlserver:
-  adapter: sqlserver
-  host: localhost,1157
-  database: redmine_test
+test_sqlite3:
+  adapter: sqlite3
+  dbfile: db/test.db
   
 demo:
   adapter: sqlite3
-  dbfile: db/redmine_demo.db
+  dbfile: db/demo.db
   

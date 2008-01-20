@@ -4,4 +4,4 @@ require 'action_web_service'
 Dependencies.load_paths += ["#{RAILS_ROOT}/app/apis"]
   
 # AWS Test helpers
-require 'action_web_service/test_invoke' if ENV['RAILS_ENV'] == 'test'
+require 'action_web_service/test_invoke' if ENV['RAILS_ENV'] && ENV['RAILS_ENV'] =~ /^test/
