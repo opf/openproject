@@ -24,7 +24,7 @@ class Mailer < ActionMailer::Base
   
   def issue_add(issue)    
     recipients issue.recipients    
-    subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
+    subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
     body :issue => issue,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
   end
@@ -35,7 +35,10 @@ class Mailer < ActionMailer::Base
     recipients issue.recipients
     # Watchers in cc
     cc(issue.watcher_recipients - @recipients)
-    subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.status.name} - #{issue.subject}"
+    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
+    s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
+    s << issue.subject
+    subject s
     body :issue => issue,
          :journal => journal,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)

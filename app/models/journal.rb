@@ -44,4 +44,9 @@ class Journal < ActiveRecord::Base
     c = details.detect {|detail| detail.prop_key == 'status_id'}
     (c && c.value) ? IssueStatus.find_by_id(c.value.to_i) : nil
   end
+  
+  def new_value_for(prop)
+    c = details.detect {|detail| detail.prop_key == prop}
+    c ? c.value : nil
+  end
 end
