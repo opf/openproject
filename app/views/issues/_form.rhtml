@@ -38,9 +38,8 @@
                    :accesskey => accesskey(:edit),
                    :class => 'wiki-edit' %></p>
 <p><%= f.select :fixed_version_id, (@project.versions.sort.collect {|v| [v.name, v.id]}), { :include_blank => true } %></p>
-<% for @custom_value in @custom_values %>
-	<p><%= custom_field_tag_with_label @custom_value %></p>
-<% end %>
+
+<%= render :partial => 'form_custom_fields', :locals => {:values => @custom_values} %>
 
 <% if @issue.new_record? %>
 <p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>

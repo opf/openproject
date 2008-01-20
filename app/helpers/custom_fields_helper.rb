@@ -28,7 +28,7 @@ module CustomFieldsHelper
       text_field('custom_value', 'value', :name => field_name, :id => field_id, :size => 10) + 
       calendar_for(field_id)
     when "text"
-      text_area 'custom_value', 'value', :name => field_name, :id => field_id, :cols => 60, :rows => 3
+      text_area 'custom_value', 'value', :name => field_name, :id => field_id, :rows => 3, :style => 'width:99%'
     when "bool"
       check_box 'custom_value', 'value', :name => field_name, :id => field_id
     when "list"
