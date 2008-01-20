@@ -2,7 +2,7 @@
 
 <% @project_tree.keys.sort.each do |project| %>
 <h3><%= link_to h(project.name), {:action => 'show', :id => project}, :class => (User.current.member_of?(project) ? "icon icon-fav" : "") %></h3>
-<%= textilizable(project.description, :project => project) %>
+<%= textilizable(project.short_description, :project => project) %>
 
 <% if @project_tree[project].any? %>
     <p><%= l(:label_subproject_plural) %>:

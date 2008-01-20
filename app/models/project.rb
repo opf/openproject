@@ -52,12 +52,11 @@ class Project < ActiveRecord::Base
 
   attr_protected :status, :enabled_module_names
   
-  validates_presence_of :name, :description, :identifier
+  validates_presence_of :name, :identifier
   validates_uniqueness_of :name, :identifier
   validates_associated :custom_values, :on => :update
   validates_associated :repository, :wiki
   validates_length_of :name, :maximum => 30
-  validates_length_of :description, :maximum => 255
   validates_length_of :homepage, :maximum => 60
   validates_length_of :identifier, :in => 3..20
   validates_format_of :identifier, :with => /^[a-z0-9\-]*$/
@@ -182,6 +181,15 @@ class Project < ActiveRecord::Base
   
   def <=>(project)
     name.downcase <=> project.name.downcase
+  end
+  
+  def to_s
+    name
+  end
+  
+  # Returns a short description of the projects (first lines)
+  def short_description(length = 255)
+    description.gsub(/^(.{#{length}}[^\n]*).*$/m, '\1').strip if description
   end
   
   def allows_to?(action)
