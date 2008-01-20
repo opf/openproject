@@ -164,6 +164,7 @@ field_assignable: 이 역할에 할당될수 있는 티켓
 field_redirect_existing_links: Redirect existing links
 field_estimated_hours: 추정시간
 field_column_names: 컬럼
+field_default_value: 기본값
 
 setting_app_title: 레드마인 제목
 setting_app_subtitle: 레드마인 부제목

@@ -19,6 +19,12 @@ class CustomValue < ActiveRecord::Base
   belongs_to :custom_field
   belongs_to :customized, :polymorphic => true
 
+  def after_initialize
+    if custom_field && new_record? && (customized_type.blank? || (customized && customized.new_record?))
+      self.value ||= custom_field.default_value
+    end
+  end
+  
 protected
   def validate
     errors.add(:value, :activerecord_error_blank) and return if custom_field.is_required? and value.blank?    

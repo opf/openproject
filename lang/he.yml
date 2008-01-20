@@ -164,6 +164,7 @@ field_assignable: ניתן להקצות נושאים לתפקיד זה
 field_redirect_existing_links: העבר קישורים קיימים
 field_estimated_hours: זמן משוער
 field_column_names: עמודות
+field_default_value: ערך ברירת מחדל
 
 setting_app_title: כותרת ישום
 setting_app_subtitle: תת-כותרת ישום

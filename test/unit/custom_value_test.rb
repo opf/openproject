@@ -31,4 +31,15 @@ class CustomValueTest < Test::Unit::TestCase
     v.value = '6a'
     assert !v.save
   end
+  
+  def test_default_value
+    field = CustomField.find_by_default_value('Default string')
+    assert_not_nil field
+    
+    v = CustomValue.new(:custom_field => field)
+    assert_equal 'Default string', v.value
+
+    v = CustomValue.new(:custom_field => field, :value => 'Not empty')
+    assert_equal 'Not empty', v.value
+  end
 end

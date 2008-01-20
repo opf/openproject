@@ -166,6 +166,7 @@ field_assignable: Задача может быть назначена этой �
 field_redirect_existing_links: Перенаправить существующие ссылки
 field_estimated_hours: Оцененное время
 field_column_names: Колонки
+field_default_value: Default value
 
 setting_app_title: Название приложения
 setting_app_subtitle: Подзаголовок приложения 

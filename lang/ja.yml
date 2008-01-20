@@ -162,6 +162,7 @@ field_delay: 遅延
 field_assignable: 問題はこのロールに割り当てることができます
 field_redirect_existing_links: 既存のリンクをリダイレクトする
 field_estimated_hours: 予定工数
+field_default_value: デフォルトのステータス
 
 setting_app_title: アプリケーションのタイトル
 setting_app_subtitle: アプリケーションのサブタイトル

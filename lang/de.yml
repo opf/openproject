@@ -161,6 +161,7 @@ field_delay: Pufferzeit
 field_assignable: Tickets können dieser Rolle zugewiesen werden
 field_redirect_existing_links: Existierende Links umleiten
 field_estimated_hours: Geschätzter Aufwand
+field_default_value: Default
 
 setting_app_title: Applikations-Titel
 setting_app_subtitle: Applikations-Untertitel

@@ -164,6 +164,7 @@ field_delay: Delay
 field_assignable: Issues can be assigned to this role
 field_redirect_existing_links: Redirect existing links
 field_estimated_hours: Estimated time
+field_default_value: Default value
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题

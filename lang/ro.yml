@@ -161,6 +161,7 @@ field_delay: Intarziere
 field_assignable: La acest rol se poate atribui tichete
 field_redirect_existing_links: Redirectare linkuri existente
 field_estimated_hours: Timpul estimat
+field_default_value: Default value
 
 setting_app_title: Titlul aplicatiei
 setting_app_subtitle: Subtitlul aplicatiei

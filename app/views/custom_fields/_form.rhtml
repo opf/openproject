@@ -8,31 +8,42 @@ function toggle_custom_field_format() {
   p_regexp = $("custom_field_regexp");
   p_values = $("custom_field_possible_values");
   p_searchable = $("custom_field_searchable");
+  p_default = $("custom_field_default_value");
+  
+  p_default.setAttribute('type','text');
+  Element.show(p_default.parentNode);
+  
   switch (format.value) {
     case "list":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
-      Element.show(p_searchable.parentNode);
+      if (p_searchable) Element.show(p_searchable.parentNode);
       Element.show(p_values);
       break;
-    case "date":
     case "bool":
+      p_default.setAttribute('type','checkbox');
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
-      Element.hide(p_searchable.parentNode);
+      if (p_searchable) Element.hide(p_searchable.parentNode);
+      Element.hide(p_values);
+      break;
+    case "date":
+      Element.hide(p_length.parentNode);
+      Element.hide(p_regexp.parentNode);
+      if (p_searchable) Element.hide(p_searchable.parentNode);
       Element.hide(p_values);
       break;
     case "float":
     case "int":
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
-      Element.hide(p_searchable.parentNode);
+      if (p_searchable) Element.hide(p_searchable.parentNode);
       Element.hide(p_values);
       break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
-      Element.show(p_searchable.parentNode);
+      if (p_searchable) Element.show(p_searchable.parentNode);
       Element.hide(p_values);
       break;
   }
@@ -70,6 +81,7 @@ function deleteValueField(e) {
 <span><%= text_field_tag 'custom_field[possible_values][]', value, :size => 30 %> <%= image_to_function "delete.png", "deleteValueField(this);return false" %><br /></span>
 <% end %>
 </p>
+<p><%= @custom_field.field_format == 'bool' ? f.check_box(:default_value) : f.text_field(:default_value) %></p>
 </div>
 
 <div class="box">

@@ -161,6 +161,7 @@ field_delay: Atraso
 field_assignable: Issues can be assigned to this role
 field_redirect_existing_links: Redirect existing links
 field_estimated_hours: Estimated time
+field_default_value: Padrão
 
 setting_app_title: Título da aplicação
 setting_app_subtitle: Sub-título da aplicação

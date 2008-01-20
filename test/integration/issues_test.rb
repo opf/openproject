@@ -1,7 +1,16 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
 class IssuesTest < ActionController::IntegrationTest
-  fixtures :projects, :users, :trackers, :issue_statuses, :issues,  :enumerations
+  fixtures :projects, 
+           :users,
+           :trackers,
+           :projects_trackers,
+           :issue_statuses,
+           :issues,
+           :enumerations,
+           :custom_fields,
+           :custom_values,
+           :custom_fields_trackers
 
   # create an issue
   def test_add_issue
@@ -18,7 +27,8 @@ class IssuesTest < ActionController::IntegrationTest
                                              :description => "new issue", 
                                              :done_ratio => "0",
                                              :due_date => "",
-                                             :assigned_to_id => "" }
+                                             :assigned_to_id => "" },
+                                 :custom_fields => {'2' => 'Value for field 2'}
     # find created issue
     issue = Issue.find_by_subject("new test issue")
     assert_kind_of Issue, issue

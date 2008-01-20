@@ -166,6 +166,7 @@ field_assignable: Kartice mogu biti dodeljene ovoj ulozi
 field_redirect_existing_links: Redirekcija postojećih linkova
 field_estimated_hours: Procenjeno vreme
 field_column_names: Kolone
+field_default_value: Default value
 
 setting_app_title: Naziv aplikacije
 setting_app_subtitle: Podnaslov aplikacije

@@ -155,6 +155,7 @@ field_identifier: Identifikator
 field_is_filter: Atrybut filtrowania
 field_issue_to_id: Powiązania zagadnienia
 field_delay: Opóźnienie
+field_default_value: Domyślny
 
 setting_app_title: Tytuł aplikacji
 setting_app_subtitle: Podtytuł aplikacji

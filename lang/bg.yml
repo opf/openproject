@@ -161,6 +161,7 @@ field_delay: Отместване
 field_assignable: Възможно е възлагане на задачи за тази роля
 field_redirect_existing_links: Пренасочване на съществуващи линкове
 field_estimated_hours: Изчислено време
+field_default_value: Статус по подразбиране
 
 setting_app_title: Заглавие
 setting_app_subtitle: Описание

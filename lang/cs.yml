@@ -159,6 +159,7 @@ field_is_filter: Used as a filter
 field_issue_to_id: Vztažený požadavek
 field_delay: Zpoždění
 field_assignable: Požadavky mohou být přiřazeny této roli
+field_default_value: Výchozí stav
 
 setting_app_title: Titulek aplikace
 setting_app_subtitle: Podtitulek aplikace

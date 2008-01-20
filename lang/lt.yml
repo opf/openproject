@@ -171,7 +171,8 @@ field_estimated_hours: Apskaičiuotas laikas
 field_column_names: Skiltys 
 field_time_zone: Laiko juosta 
 field_searchable: Randamas 
- 
+field_default_value: Numatytoji vertė 
+
 setting_app_title: Programos pavadinimas 
 setting_app_subtitle: Programos paantraštė 
 setting_welcome_text: Pasveikinimas 

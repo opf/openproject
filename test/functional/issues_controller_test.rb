@@ -34,7 +34,10 @@ class IssuesControllerTest < Test::Unit::TestCase
            :enabled_modules,
            :enumerations,
            :attachments,
-           :workflows
+           :workflows,
+           :custom_fields,
+           :custom_values,
+           :custom_fields_trackers
   
   def setup
     @controller = IssuesController.new
@@ -132,6 +135,9 @@ class IssuesControllerTest < Test::Unit::TestCase
     get :new, :project_id => 1, :tracker_id => 1
     assert_response :success
     assert_template 'new'
+    
+    assert_tag :tag => 'input', :attributes => { :name => 'custom_fields[2]',
+                                                 :value => 'Default string' }
   end
 
   def test_get_new_without_tracker_id
@@ -162,9 +168,16 @@ class IssuesControllerTest < Test::Unit::TestCase
                :issue => {:tracker_id => 1,
                           :subject => 'This is the test_new issue',
                           :description => 'This is the description',
-                          :priority_id => 5}
+                          :priority_id => 5},
+               :custom_fields => {'2' => 'Value for field 2'}
     assert_redirected_to 'projects/ecookbook/issues'
-    assert Issue.find_by_subject('This is the test_new issue')
+    
+    issue = Issue.find_by_subject('This is the test_new issue')
+    assert_not_nil issue
+    assert_equal 2, issue.author_id
+    v = issue.custom_values.find_by_custom_field_id(2)
+    assert_not_nil v
+    assert_equal 'Value for field 2', v.value
   end
   
   def test_copy_issue

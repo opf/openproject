@@ -174,6 +174,7 @@ field_estimated_hours: Estimated time
 field_column_names: Columns
 field_time_zone: Time zone
 field_searchable: Searchable
+field_default_value: Default value
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle

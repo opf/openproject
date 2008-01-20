@@ -53,6 +53,11 @@ class CustomField < ActiveRecord::Base
       errors.add(:possible_values, :activerecord_error_blank) if self.possible_values.nil? || self.possible_values.empty?
       errors.add(:possible_values, :activerecord_error_invalid) unless self.possible_values.is_a? Array
     end
+    
+    # validate default value
+    v = CustomValue.new(:custom_field => self.dup, :value => default_value, :customized => nil)
+    v.custom_field.is_required = false
+    errors.add(:default_value, :activerecord_error_invalid) unless v.valid?
   end
 
   def <=>(field)

@@ -109,7 +109,7 @@ field_issue: Issue
 field_status: Status
 field_notes: Notities
 field_is_closed: Issue gesloten
-field_is_default: Default status
+field_is_default: Default
 field_tracker: Tracker
 field_subject: Onderwerp
 field_due_date: Verwachte datum gereed
@@ -161,6 +161,7 @@ field_delay: Vertraging
 field_assignable: Issues can be assigned to this role
 field_redirect_existing_links: Redirect existing links
 field_estimated_hours: Estimated time
+field_default_value: Default value
 
 setting_app_title: Applicatie titel
 setting_app_subtitle: Applicatie ondertitel

@@ -155,6 +155,7 @@ field_identifier: Identificador
 field_is_filter: Usado como filtro
 field_issue_to_id: Petición Relacionada
 field_delay: Retraso
+field_default_value: Estado por defecto
 
 setting_app_title: Título de la aplicación
 setting_app_subtitle: Subtítulo de la aplicación
