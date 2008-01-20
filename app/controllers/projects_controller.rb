@@ -113,7 +113,6 @@ class ProjectsController < ApplicationController
   # Edit @project
   def edit
     if request.post?
-      @project.custom_fields = IssueCustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
       if params[:custom_fields]
         @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => params["custom_fields"][x.id.to_s]) }
         @project.custom_values = @custom_values
