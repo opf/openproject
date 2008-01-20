@@ -81,6 +81,7 @@ jsButton.prototype.draw = function() {
 	
 	var button = document.createElement('button');
 	button.setAttribute('type','button');
+	button.tabIndex = 200;
 	if (this.className) button.className = this.className;
 	button.title = this.title;
 	var span = document.createElement('span');

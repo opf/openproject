@@ -21,7 +21,7 @@
 <%= prompt_to_remote(l(:label_issue_category_new),
                      l(:label_issue_category_new), 'category[name]', 
                      {:controller => 'projects', :action => 'add_issue_category', :id => @project},
-                     :class => 'small') if authorize_for('projects', 'add_issue_category') %></p>
+                     :class => 'small', :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
 </div>
 
 <div class="splitcontentright">
