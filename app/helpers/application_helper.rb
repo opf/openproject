@@ -162,15 +162,9 @@ module ApplicationHelper
       @html_title += args
     end
   end
-  
-  ACCESSKEYS = {:edit => 'e',
-                :preview => 'r',
-                :quick_search => 'f',
-                :search => '4',
-                }.freeze unless const_defined?(:ACCESSKEYS)
 
   def accesskey(s)
-    ACCESSKEYS[s]
+    Redmine::AccessKeys.key_for s
   end
 
   # Formats text according to system settings.

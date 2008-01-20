@@ -17,7 +17,7 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #header a {color:#f8f8f8;}
 #quick-search {float:right;}
 
-#main-menu {position: absolute;  bottom: 0px;  left:6px;}
+#main-menu {position: absolute;  bottom: 0px;  left:6px; margin-right: -500px;}
 #main-menu ul {margin: 0;  padding: 0;}
 #main-menu li {
   float:left;

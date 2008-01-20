@@ -68,7 +68,7 @@ module Redmine
           unless item.condition && !item.condition.call(project)
             links << content_tag('li', 
                        link_to(l(item.caption), {item.param => project}.merge(item.url),
-                               :class => (current_menu_item == item.name ? 'selected' : nil)))
+                               (current_menu_item == item.name ? item.html_options.merge(:class => 'selected') : item.html_options)))
           end
         end if project && !project.new_record?
         links.empty? ? nil : content_tag('ul', links.join("\n"))
@@ -94,6 +94,11 @@ module Redmine
     end
     
     class Mapper
+      # Adds an item at the end of the menu. Available options:
+      # * param: the parameter name that is used for the project id (default is :id)
+      # * condition: a proc that is called before rendering the item, the item is displayed only if it returns true
+      # * caption: the localized string key that is used as the item label
+      # * html_options: a hash of html options that are passed to link_to
       def push(name, url, options={})
         @items ||= []
         @items << MenuItem.new(name, url, options)
@@ -105,7 +110,7 @@ module Redmine
     end
     
     class MenuItem
-      attr_reader :name, :url, :param, :condition, :caption
+      attr_reader :name, :url, :param, :condition, :caption, :html_options
       
       def initialize(name, url, options)
         @name = name
@@ -113,6 +118,7 @@ module Redmine
         @condition = options[:if]
         @param = options[:param] || :id
         @caption = options[:caption] || name.to_s.humanize
+        @html_options = options[:html] || {}
       end
     end    
   end

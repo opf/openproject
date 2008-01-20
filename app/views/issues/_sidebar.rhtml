@@ -1,8 +1,3 @@
-<% if authorize_for('issues', 'new') && @project.trackers.any? %>
-<h3><%= l(:label_issue_new) %></h3>
-<%= l(:label_tracker) %>: <%= new_issue_selector %>
-<% end %>
-
 <h3><%= l(:label_issue_plural) %></h3>
 <%= link_to l(:label_issue_view_all), { :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 } %><br />
 <%= link_to l(:field_summary), :controller => 'reports', :action => 'issue_report', :id => @project %><br />

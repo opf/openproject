@@ -95,6 +95,8 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :activity, { :controller => 'projects', :action => 'activity' }, :caption => :label_activity
   menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, :caption => :label_roadmap
   menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
+  menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new,
+              :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }, 

@@ -17,6 +17,8 @@
 
 class IssuesController < ApplicationController
   layout 'base'
+  menu_item :new_issue, :only => :new
+  
   before_filter :find_issue, :except => [:index, :changes, :preview, :new, :update_form]
   before_filter :find_project, :only => [:new, :update_form]
   before_filter :authorize, :except => [:index, :changes, :preview, :update_form]
