@@ -6,11 +6,11 @@ class IssuesTest < ActionController::IntegrationTest
   # create an issue
   def test_add_issue
     log_user('jsmith', 'jsmith')
-    get "projects/add_issue/1", :tracker_id => "1"
+    get 'projects/1/issues/new', :tracker_id => '1'
     assert_response :success
-    assert_template "projects/add_issue"
+    assert_template 'issues/new'
     
-    post "projects/add_issue/1", :tracker_id => "1",
+    post 'projects/1/issues/new', :tracker_id => "1",
                                  :issue => { :start_date => "2006-12-26", 
                                              :priority_id => "3", 
                                              :subject => "new test issue", 

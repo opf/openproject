@@ -29,6 +29,7 @@ class IssuesControllerTest < Test::Unit::TestCase
            :issues,
            :issue_statuses,
            :trackers,
+           :projects_trackers,
            :issue_categories,
            :enabled_modules,
            :enumerations,
@@ -126,6 +127,55 @@ class IssuesControllerTest < Test::Unit::TestCase
                                             :content => /Notes/ } }
   end
 
+  def test_get_new
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :tracker_id => 1
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_get_new_without_tracker_id
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+    
+    issue = assigns(:issue)
+    assert_not_nil issue
+    assert_equal Project.find(1).trackers.first, issue.tracker
+  end
+  
+  def test_update_new_form
+    @request.session[:user_id] = 2
+    xhr :post, :new, :project_id => 1,
+                     :issue => {:tracker_id => 2, 
+                                :subject => 'This is the test_new issue',
+                                :description => 'This is the description',
+                                :priority_id => 5}
+    assert_response :success
+    assert_template 'new'
+  end
+  
+  def test_post_new
+    @request.session[:user_id] = 2
+    post :new, :project_id => 1, 
+               :issue => {:tracker_id => 1,
+                          :subject => 'This is the test_new issue',
+                          :description => 'This is the description',
+                          :priority_id => 5}
+    assert_redirected_to 'projects/ecookbook/issues'
+    assert Issue.find_by_subject('This is the test_new issue')
+  end
+  
+  def test_copy_issue
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :copy_from => 1
+    assert_template 'new'
+    assert_not_nil assigns(:issue)
+    orig = Issue.find(1)
+    assert_equal orig.subject, assigns(:issue).subject
+  end
+  
   def test_get_edit
     @request.session[:user_id] = 2
     get :edit, :id => 1

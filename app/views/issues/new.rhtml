@@ -1,9 +1,7 @@
 <h2><%=l(:label_issue_new)%>: <%= @issue.tracker %></h2>
 
 <% labelled_tabular_form_for :issue, @issue, 
-                             :url => {:action => 'add_issue'},
                              :html => {:multipart => true, :id => 'issue-form'} do |f| %>
-    <%= f.hidden_field :tracker_id %>
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
     <%= submit_tag l(:button_create) %>
     <%= link_to_remote l(:label_preview), 

@@ -1,4 +1,4 @@
-<% if authorize_for('projects', 'add_issue') && @project.trackers.any? %>
+<% if authorize_for('issues', 'new') && @project.trackers.any? %>
 <h3><%= l(:label_issue_new) %></h3>
 <%= l(:label_tracker) %>: <%= new_issue_selector %>
 <% end %>

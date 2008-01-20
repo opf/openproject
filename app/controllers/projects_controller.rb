@@ -22,7 +22,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :files, :only => [:list_files, :add_file]
   menu_item :settings, :only => :settings
-  menu_item :issues, :only => [:add_issue, :bulk_edit_issues, :changelog, :move_issues]
+  menu_item :issues, :only => [:bulk_edit_issues, :changelog, :move_issues]
   
   before_filter :find_project, :except => [ :index, :list, :add ]
   before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy ]
@@ -30,7 +30,6 @@ class ProjectsController < ApplicationController
   accept_key_auth :activity, :calendar
   
   cache_sweeper :project_sweeper, :only => [ :add, :edit, :archive, :unarchive, :destroy ]
-  cache_sweeper :issue_sweeper, :only => [ :add_issue ]
   cache_sweeper :version_sweeper, :only => [ :add_version ]
 
   helper :sort
@@ -182,45 +181,6 @@ class ProjectsController < ApplicationController
   	  flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'settings', :tab => 'versions', :id => @project
   	end
-  end
-
-  # Add a new issue to @project
-  # The new issue will be created from an existing one if copy_from parameter is given
-  def add_issue
-    @issue = params[:copy_from] ? Issue.new.copy_from(params[:copy_from]) : Issue.new(params[:issue])
-    @issue.project = @project
-    @issue.author = User.current
-    @issue.tracker ||= @project.trackers.find(params[:tracker_id])
-    
-    default_status = IssueStatus.default
-    unless default_status
-      flash.now[:error] = 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
-      render :nothing => true, :layout => true
-      return
-    end    
-    @issue.status = default_status
-    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker))
-    
-    if request.get?
-      @issue.start_date ||= Date.today
-      @custom_values = @issue.custom_values.empty? ?
-        @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) } :
-        @issue.custom_values
-    else
-      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
-      # Check that the user is allowed to apply the requested status
-      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
-      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
-      @issue.custom_values = @custom_values
-      if @issue.save
-        attach_files(@issue, params[:attachments])
-        flash[:notice] = l(:notice_successful_create)
-        Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-        redirect_to :controller => 'issues', :action => 'index', :project_id => @project
-        return
-      end		
-    end	
-    @priorities = Enumeration::get_values('IPRI')
   end
 
   # Bulk edit issues

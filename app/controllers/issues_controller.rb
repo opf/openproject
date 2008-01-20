@@ -17,11 +17,13 @@
 
 class IssuesController < ApplicationController
   layout 'base'
-  before_filter :find_project, :authorize, :except => [:index, :changes, :preview]
+  before_filter :find_issue, :except => [:index, :changes, :preview, :new, :update_form]
+  before_filter :find_project, :only => [:new, :update_form]
+  before_filter :authorize, :except => [:index, :changes, :preview, :update_form]
   before_filter :find_optional_project, :only => [:index, :changes]
   accept_key_auth :index, :changes
   
-  cache_sweeper :issue_sweeper, :only => [ :edit, :update, :destroy ]
+  cache_sweeper :issue_sweeper, :only => [ :new, :edit, :update, :destroy ]
 
   helper :projects
   include ProjectsHelper   
@@ -90,6 +92,51 @@ class IssuesController < ApplicationController
     end
   end
 
+  # Add a new issue
+  # The new issue will be created from an existing one if copy_from parameter is given
+  def new
+    @issue = params[:copy_from] ? Issue.new.copy_from(params[:copy_from]) : Issue.new(params[:issue])
+    @issue.project = @project
+    @issue.author = User.current
+    @issue.tracker ||= @project.trackers.find(params[:tracker_id] ? params[:tracker_id] : :first)
+    if @issue.tracker.nil?
+      flash.now[:error] = 'No tracker is associated to this project. Please check the Project settings.'
+      render :nothing => true, :layout => true
+      return
+    end
+    
+    default_status = IssueStatus.default
+    unless default_status
+      flash.now[:error] = 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
+      render :nothing => true, :layout => true
+      return
+    end    
+    @issue.status = default_status
+    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker))
+    
+    if request.get? || request.xhr?
+      @issue.start_date ||= Date.today
+      @custom_values = @issue.custom_values.empty? ?
+        @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) } :
+        @issue.custom_values
+    else
+      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
+      # Check that the user is allowed to apply the requested status
+      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
+      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
+      @issue.custom_values = @custom_values
+      if @issue.save
+        attach_files(@issue, params[:attachments])
+        flash[:notice] = l(:notice_successful_create)
+        Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
+        redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+        return
+      end		
+    end	
+    @priorities = Enumeration::get_values('IPRI')
+    render :layout => !request.xhr?
+  end
+  
   def edit
     @priorities = Enumeration::get_values('IPRI')
     @custom_values = []
@@ -185,6 +232,11 @@ class IssuesController < ApplicationController
     render :layout => false
   end
 
+  def update_form
+    @issue = Issue.new(params[:issue])
+    render :action => :new, :layout => false
+  end
+  
   def preview
     issue = Issue.find_by_id(params[:id])
     @attachements = issue.attachments if issue
@@ -193,9 +245,15 @@ class IssuesController < ApplicationController
   end
   
 private
-  def find_project
+  def find_issue
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
     @project = @issue.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
+  def find_project
+    @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

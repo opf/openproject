@@ -31,7 +31,7 @@
 		                              :selected => @issue.assigned_to.nil?, :disabled => !@can[:assign] %></li>
 		</ul>
 	</li>
-	<li><%= context_menu_link l(:button_copy), {:controller => 'projects', :action => 'add_issue', :id => @project, :copy_from => @issue},
+	<li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
 	        :class => 'icon-copy', :disabled => !@can[:copy] %></li>
 	<li><%= context_menu_link l(:button_move), {:controller => 'projects', :action => 'move_issues', :id => @project, "issue_ids[]" => @issue.id },
 	                          :class => 'icon-move', :disabled => !@can[:move]  %>

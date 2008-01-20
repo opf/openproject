@@ -1,6 +1,13 @@
 <%= error_messages_for 'issue' %>
 <div class="box">
 
+<% if @issue.new_record? %>
+<p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
+<%= observe_field :issue_tracker_id, :url => { :action => :new },
+                                     :update => :content,
+                                     :with => "Form.serialize('issue-form')" %>
+<% end %>
+
 <div class="splitcontentleft">
 <% if @issue.new_record? %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
