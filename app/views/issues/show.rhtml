@@ -57,12 +57,6 @@ end %>
 </table>
 <hr />
 
-<% if @issue.changesets.any? %>
-<div style="float:right;">
-  <em><%= l(:label_revision_plural) %>: <%= @issue.changesets.collect{|changeset| link_to(changeset.revision, :controller => 'repositories', :action => 'revision', :id => @project, :rev => changeset.revision)}.join(", ") %></em>
-</div>
-<% end %>
-
 <p><strong><%=l(:field_description)%></strong></p>
 <div class="wiki">
 <%= textilizable @issue, :description, :attachments => @issue.attachments %>
@@ -80,6 +74,13 @@ end %>
 <% end %>
 
 </div>
+
+<% if @issue.changesets.any? && User.current.allowed_to?(:view_changesets, @project) %>
+<div id="issue-changesets">
+<h3><%=l(:label_associated_revisions)%></h3>
+<%= render :partial => 'changesets', :locals => { :changesets => @issue.changesets} %>
+</div>
+<% end %>
 
 <% if @journals.any? %>
 <div id="history">

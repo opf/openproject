@@ -562,3 +562,4 @@ button_update: Update
 label_change_properties: Change properties
 label_general: General
 label_repository_plural: Repositories
+label_associated_revisions: Associated revisions

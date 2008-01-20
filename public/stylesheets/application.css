@@ -135,6 +135,11 @@ hr { width: 100%; height: 1px; background: #ccc; border: 0;}
 textarea.wiki-edit { width: 99%; }
 li p {margin-top: 0;}
 div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid #d7d7d7;}
+
+div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em;}
+div#issue-changesets ul {list-style-position: outside; list-style-type:none; margin: 0;  padding: 0;}
+div#issue-changesets li { padding: 4px; }
+
 .autoscroll {overflow-x: auto; padding:1px; width:100%; margin-bottom: 1.2em;}
 #user_firstname, #user_lastname, #user_mail, #my_account_form select { width: 90%; }
 

@@ -359,6 +359,7 @@ label_modification: %d modification
 label_modification_plural: %d modifications
 label_revision: Révision
 label_revision_plural: Révisions
+label_associated_revisions: Révisions associées
 label_added: ajouté
 label_modified: modifié
 label_deleted: supprimé

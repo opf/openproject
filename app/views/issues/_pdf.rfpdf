@@ -66,8 +66,24 @@
 	pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
 
     pdf.Ln
-
-    pdf.SetFontStyle('B',9)
+    
+    if @issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
+    	pdf.SetFontStyle('B',9)
+	    pdf.Cell(190,5, l(:label_associated_revisions), "B")
+	    pdf.Ln	
+		for changeset in @issue.changesets
+			pdf.SetFontStyle('B',8)
+		    pdf.Cell(190,5, format_time(changeset.committed_on) + " - " + changeset.committer)
+		    pdf.Ln
+			unless changeset.comments.blank?
+				pdf.SetFontStyle('',8)
+				pdf.MultiCell(190,5, changeset.comments)
+			end		
+			pdf.Ln
+		end
+	end
+	
+	pdf.SetFontStyle('B',9)
     pdf.Cell(190,5, l(:label_history), "B")
     pdf.Ln	
 	for journal in issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")

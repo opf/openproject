@@ -566,3 +566,4 @@ default_activity_development: Kehitys
 enumeration_issue_priorities: Tapahtuman prioriteetit
 enumeration_doc_categories: Dokumentin luokat
 enumeration_activities: Aktiviteetit (ajan seuranta)
+label_associated_revisions: Associated revisions
