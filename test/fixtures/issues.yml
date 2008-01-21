@@ -22,7 +22,7 @@ issues_002:
   id: 2
   fixed_version_id: 
   category_id: 
-  description: Ingredients should be classified by categories
+  description: Ingredients of the recipe should be classified by categories
   tracker_id: 2
   assigned_to_id: 3
   author_id: 2

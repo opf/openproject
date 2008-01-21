@@ -85,7 +85,7 @@ module Redmine
               end
             end
             
-            sql = ([token_clauses.join(' OR ')] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
+            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
             
             if options[:offset]
               sql = "(#{sql}) AND (#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')"
