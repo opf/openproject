@@ -8,6 +8,13 @@
                                      :with => "Form.serialize('issue-form')" %>
 <% end %>
 
+<p><%= f.text_field :subject, :size => 80, :required => true %></p>
+<p><%= f.text_area :description, :required => true,
+                   :cols => 60,
+                   :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
+                   :accesskey => accesskey(:edit),
+                   :class => 'wiki-edit' %></p>
+
 <div class="splitcontentleft">
 <% if @issue.new_record? %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
@@ -22,6 +29,9 @@
                      l(:label_issue_category_new), 'category[name]', 
                      {:controller => 'projects', :action => 'add_issue_category', :id => @project},
                      :class => 'small', :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
+<%= content_tag('p', f.select(:fixed_version_id, 
+                              (@project.versions.sort.collect {|v| [v.name, v.id]}),
+                              { :include_blank => true })) unless @project.versions.empty? %>
 </div>
 
 <div class="splitcontentright">
@@ -31,14 +41,7 @@
 <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
 </div>
 
-<p><%= f.text_field :subject, :size => 80, :required => true %></p>
-<p><%= f.text_area :description, :required => true,
-                   :cols => 60,
-                   :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
-                   :accesskey => accesskey(:edit),
-                   :class => 'wiki-edit' %></p>
-<p><%= f.select :fixed_version_id, (@project.versions.sort.collect {|v| [v.name, v.id]}), { :include_blank => true } %></p>
-
+<div style="clear:both;"> </div>
 <%= render :partial => 'form_custom_fields', :locals => {:values => @custom_values} %>
 
 <% if @issue.new_record? %>

@@ -2,7 +2,7 @@
 <% i = 1 %>
 <% for @custom_value in values %>
 	<p><%= custom_field_tag_with_label @custom_value %></p>
-    <% if i >= values.size / 2 %>
+    <% if i == values.size / 2 %>
 </div><div class="splitcontentright">
     <% end %>
     <% i += 1 %>
