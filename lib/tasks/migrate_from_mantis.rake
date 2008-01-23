@@ -118,10 +118,6 @@ task :migrate_from_mantis => :environment do
         read_attribute(:name)[0..29]
       end
       
-      def description
-        read_attribute(:description).blank? ? read_attribute(:name) : read_attribute(:description)[0..254]
-      end
-      
       def identifier
         read_attribute(:name).underscore[0..19].gsub(/[^a-z0-9\-]/, '-')
       end
@@ -186,7 +182,7 @@ task :migrate_from_mantis => :environment do
       end
       
       def original_filename
-        filename
+        MantisMigrate.encode(filename)
       end
       
       def content_type
@@ -445,7 +441,6 @@ task :migrate_from_mantis => :environment do
       end
     end
     
-  private
     def self.encode(text)
       @ic.iconv text
     rescue
