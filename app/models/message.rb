@@ -36,7 +36,7 @@ class Message < ActiveRecord::Base
   
   def validate_on_create
     # Can not reply to a locked topic
-    errors.add_to_base 'Topic is locked' if root.locked?
+    errors.add_to_base 'Topic is locked' if root.locked? && self != root
   end
   
   def after_create
