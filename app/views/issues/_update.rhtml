@@ -1,4 +1,6 @@
-<% labelled_tabular_form_for(:issue, @issue, :url => {:action => 'update', :id => @issue}, :html => {:multipart => true}) do |f| %>
+<% labelled_tabular_form_for(:issue, @issue, :url => {:action => 'update', :id => @issue},
+                                             :html => {:multipart => true,
+                                                       :id => 'issue-form'}) do |f| %>
 
 <div class="box">
 <% unless @status_options.empty? %>
@@ -39,4 +41,14 @@
 </div>
 
 <%= submit_tag l(:button_submit) %>
+<%= link_to_remote l(:label_preview), 
+                   { :url => { :controller => 'issues', :action => 'preview', :id => @issue },
+                     :method => 'post',
+                     :update => 'preview',
+                     :with => "Form.serialize('issue-form')",
+                     :complete => "window.location.hash='preview'"
+                   }, :accesskey => accesskey(:preview) %> |
+<%= toggle_link l(:button_cancel), 'update' %>
 <% end %>
+
+<div id="preview" class="wiki"></div>
