@@ -68,11 +68,13 @@ notice_successful_delete: Успешно изтриване.
 notice_successful_connection: Успешно свързване.
 notice_file_not_found: Несъществуваща или преместена страница.
 notice_locking_conflict: Друг потребител променя тези данни в момента.
-notice_scm_error: Несъществуващ обект в склада.
 notice_not_authorized: Нямате право на достъп до тази страница.
 notice_email_sent: Изпратен e-mail на %s
 notice_email_error: Грешка при изпращане на e-mail (%s)
 notice_feeds_access_key_reseted: Вашия ключ за RSS достъп беше променен.
+
+error_scm_not_found: Несъществуващ обект в склада.
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Вашата парола
 mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'

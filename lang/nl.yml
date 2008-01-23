@@ -68,11 +68,13 @@ notice_successful_delete: Verwijderen succesvol.
 notice_successful_connection: Verbinding succesvol.
 notice_file_not_found: De pagina die U probeerde te benaderen bestaat niet of is verwijderd.
 notice_locking_conflict: De gegevens zijn gewijzigd door een andere gebruiker.
-notice_scm_error: Deze ingang of revisie bestaat niet in de repository.
 notice_not_authorized: Het is U niet toegestaan om deze pagina te raadplegen.
 notice_email_sent: An email was sent to %s
 notice_email_error: An error occurred while sending mail (%s)
 notice_feeds_access_key_reseted: Your RSS access key was reseted.
+
+error_scm_not_found: "Deze ingang of revisie bestaat niet in de repository."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Uw redMine wachtwoord
 mail_body_lost_password: 'Gebruik de volgende link om Uw wachtwoord te wijzigen:'

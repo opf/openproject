@@ -68,13 +68,15 @@ notice_successful_delete: Удаление успешно завершено.
 notice_successful_connection: Подключение успешно установлено.
 notice_file_not_found: Страница, на которую вы пытаетесь зайти, не существует или удалена.
 notice_locking_conflict: Информация обновлена другим пользователем.
-notice_scm_error: Записи и/или исправления нет в репозитории.
 notice_not_authorized: У вас нет прав для посещения данной страницы.
 notice_email_sent: Отправлено письмо %s
 notice_email_error: Во время отправки письма произошла ошибка (%s)
 notice_feeds_access_key_reseted: Ваш ключ доступа RSS был перезапущен.
 notice_failed_to_save_issues: "Не удалось сохранить %d пункт(ов)из %d выбранных: %s."
 notice_no_issue_selected: "Не выбрано ни одной задачи! Пожалуйста, отметьте задачи, которые вы хотите отредактировать."
+
+error_scm_not_found: Записи и/или исправления нет в репозитории.
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Ваш Redmine пароль
 mail_body_lost_password: 'Для изменения Redmine пароля, зайдите по следующей ссылке:'

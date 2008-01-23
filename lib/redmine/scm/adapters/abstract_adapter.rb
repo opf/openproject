@@ -120,7 +120,7 @@ module Redmine
           rescue Errno::ENOENT => e
             # The command failed, log it and re-raise
             logger.error("SCM command failed: #{cmd}\n  with: #{e.message}")
-            raise CommandFailed
+            raise CommandFailed.new(e.message)
           end
         end  
       end

@@ -56,6 +56,8 @@ class RepositoriesController < ApplicationController
     # latest changesets
     @changesets = @repository.changesets.find(:all, :limit => 10, :order => "committed_on DESC")
     show_error and return unless @entries || @changesets.any?
+  rescue Redmine::Scm::Adapters::CommandFailed => e
+    show_error_command_failed(e.message)
   end
   
   def browse
@@ -65,12 +67,16 @@ class RepositoriesController < ApplicationController
     else
       show_error unless @entries
     end
+  rescue Redmine::Scm::Adapters::CommandFailed => e
+    show_error_command_failed(e.message)
   end
   
   def changes
     @entry = @repository.scm.entry(@path, @rev)
     show_error and return unless @entry
     @changesets = @repository.changesets_for_path(@path)
+  rescue Redmine::Scm::Adapters::CommandFailed => e
+    show_error_command_failed(e.message)
   end
   
   def revisions
@@ -97,11 +103,15 @@ class RepositoriesController < ApplicationController
       # Prevent empty lines when displaying a file with Windows style eol
       @content.gsub!("\r\n", "\n")
     end
+  rescue Redmine::Scm::Adapters::CommandFailed => e
+    show_error_command_failed(e.message)
   end
   
   def annotate
     @annotate = @repository.scm.annotate(@path, @rev)
     show_error and return if @annotate.nil? || @annotate.empty?
+  rescue Redmine::Scm::Adapters::CommandFailed => e
+    show_error_command_failed(e.message)
   end
   
   def revision
@@ -119,6 +129,8 @@ class RepositoriesController < ApplicationController
     end
   rescue ChangesetNotFound
     show_error
+  rescue Redmine::Scm::Adapters::CommandFailed => e
+    show_error_command_failed(e.message)
   end
   
   def diff
@@ -137,6 +149,8 @@ class RepositoriesController < ApplicationController
       @diff = @repository.diff(@path, @rev, @rev_to, @diff_type)
       show_error and return unless @diff
     end
+  rescue Redmine::Scm::Adapters::CommandFailed => e
+    show_error_command_failed(e.message)
   end
   
   def stats  
@@ -176,9 +190,12 @@ private
     render_404
   end
 
-  def show_error
-    flash.now[:error] = l(:notice_scm_error)
-    render :nothing => true, :layout => true
+  def show_error_not_found
+    render_error l(:error_scm_not_found)
+  end
+  
+  def show_error_command_failed(msg)
+    render_error l(:error_scm_command_failed, msg)
   end
   
   def graph_commits_per_month(repository)

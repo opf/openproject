@@ -68,7 +68,6 @@ notice_successful_delete: Sėkmingas panaikinimas.
 notice_successful_connection: Sėkmingas susijungimas. 
 notice_file_not_found: Puslapis, į kurį ketinate įeiti, neegzistuoja arba pašalintas. 
 notice_locking_conflict: Duomenys atnaujinti kito vartotojo. 
-notice_scm_error: Duomenys ir/ar pakeitimai saugykloje(repozitorojoje) neegzistuoja.
 notice_not_authorized: Jūs neturite teisių gauti prieigą prie šio puslapio. 
 notice_email_sent: Laiškas išsiųstas %s
 notice_email_error: Laiško siųntimo metu įvyko klaida (%s)
@@ -76,7 +75,10 @@ notice_feeds_access_key_reseted: Jūsų RSS raktas buvo atnaujintas.
 notice_failed_to_save_issues: "Nepavyko išsaugoti %d problemos(ų) iš %d pasirinkto: %s."
 notice_no_issue_selected: "Nepasirinkta nė viena problema! Prašom pažymėti problemą, kurią norite redaguoti."
 notice_account_pending: "Jūsų paskyra buvo sukūrta ir dabar laukiama administratoriaus patvirtinimo."
- 
+
+error_scm_not_found: "Duomenys ir/ar pakeitimai saugykloje(repozitorojoje) neegzistuoja."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+
 mail_subject_lost_password: Jūsų Redmine slaptažodis
 mail_body_lost_password: 'Norėdami pakeisti Redmine slaptažodį, spauskite nuorodą:'
 mail_subject_register: 'Redmine paskyros aktyvavymas'

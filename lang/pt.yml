@@ -68,11 +68,13 @@ notice_successful_delete: Apagado com sucesso.
 notice_successful_connection: Conectado com sucesso.
 notice_file_not_found: A página que você está tentando acessar não existe ou foi excluída.
 notice_locking_conflict: Os dados foram atualizados por um outro usuário.
-notice_scm_error: A entrada e/ou a revisão não existem no repositório.
 notice_not_authorized: Você não está autorizado a acessar esta página.
 notice_email_sent: An email was sent to %s
 notice_email_error: An error occurred while sending mail (%s)
 notice_feeds_access_key_reseted: Your RSS access key was reseted.
+
+error_scm_not_found: "A entrada e/ou a revisão não existem no repositório."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Sua senha do redMine.
 mail_body_lost_password: 'Para mudar sua senha, clique no link abaixo:'

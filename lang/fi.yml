@@ -68,7 +68,6 @@ notice_successful_delete: Poisto onnistui.
 notice_successful_connection: Yhteyden muodostus onnistui.
 notice_file_not_found: Hakemaasi sivua ei löytynyt tai se on poistettu.
 notice_locking_conflict: Toinen käyttäjä on päivittänyt tiedot.
-notice_scm_error: Syötettä ja/tai versiota ei löydy säiliöstä.
 notice_not_authorized: Sinulla ei ole oikeutta näyttää tätä sivua.
 notice_email_sent: Sähköposti on lähetty osoitteeseen %s
 notice_email_error: Sähköpostilähetyksessä tapahtui virhe (%s)
@@ -79,6 +78,8 @@ notice_account_pending: "Tilisi on luotu ja odottaa ylläpitäjän hyväksyntä�
 notice_default_data_loaded: Vakio asetusten palautus onnistui.
 
 error_can_t_load_default_data: "Vakio asetuksia ei voitu ladata: %s"
+error_scm_not_found: "Syötettä ja/tai versiota ei löydy säiliöstä."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Sinun Redmine salasanasi
 mail_body_lost_password: 'Vaihtaaksesi Redmine salasanasi, paina seuraavaa linkkiä:'

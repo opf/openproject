@@ -68,11 +68,13 @@ notice_successful_delete: Stergere cu succes.
 notice_successful_connection: Conectare cu succes.
 notice_file_not_found: Pagina dorita nu exista sau nu mai este valabila.
 notice_locking_conflict: Informatiile au fost modificate de un alt utilizator.
-notice_scm_error: Articolul sau reviziunea nu exista in stoc (Repository).
 notice_not_authorized: Nu aveti autorizatia sa accesati aceasta pagina.
 notice_email_sent: Un e-mail a fost trimis la adresa %s
 notice_email_error: Eroare in trimiterea e-mailului (%s)
 notice_feeds_access_key_reseted: Parola de acces RSS a fost resetat.
+
+error_scm_not_found: "Articolul sau reviziunea nu exista in stoc (Repository)."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Your Redmine password
 mail_body_lost_password: 'To change your Redmine password, click on the following link:'

@@ -68,7 +68,6 @@ notice_successful_delete: 刪除成功
 notice_successful_connection: Successful connection.
 notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
 notice_locking_conflict: Data have been updated by another user.
-notice_scm_error: SCM 儲存庫中找不到這個專案或版本。
 notice_not_authorized: 你未被授權存取此頁面。
 notice_email_sent: 郵件已經成功寄送至以下收件者： %s
 notice_email_error: 寄送郵件的過程中發生錯誤 (%s)
@@ -77,6 +76,9 @@ notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
 notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
 notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
 notice_default_data_loaded: Default configuration successfully loaded.
+
+error_scm_not_found: SCM 儲存庫中找不到這個專案或版本。
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 error_can_t_load_default_data: "Default configuration could not be loaded: %s"
 

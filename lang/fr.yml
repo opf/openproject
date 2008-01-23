@@ -79,6 +79,8 @@ notice_account_pending: "Votre compte a été créé et attend l'approbation de 
 notice_default_data_loaded: Paramétrage par défaut chargé avec succès.
 
 error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage: %s"
+error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
+error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt: %s"
 
 mail_subject_lost_password: Votre mot de passe redMine
 mail_body_lost_password: 'Pour changer votre mot de passe Redmine, cliquez sur le lien suivant:'

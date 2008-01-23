@@ -68,8 +68,10 @@ notice_successful_delete: Borrado correcto.
 notice_successful_connection: Conexión correcta.
 notice_file_not_found: La página a la que intentas acceder no existe.
 notice_locking_conflict: Los datos han sido modificados por otro usuario.
-notice_scm_error: La entrada y/o la revisión no existe en el repositorio.
 notice_not_authorized: No tiene autorización para acceder a esta página.
+
+error_scm_not_found: "La entrada y/o la revisión no existe en el repositorio."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Tu contraseña del CIYAT - Gestor de Solicitudes
 mail_body_lost_password: 'Para cambiar su contraseña de Redmine, haga click en el siguiente enlace:'

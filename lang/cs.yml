@@ -68,11 +68,13 @@ notice_successful_delete: Úspěšné smazání.
 notice_successful_connection: Úspěšné připojení.
 notice_file_not_found: Stránka na kterou se snažíte zobrazit neexistuje nebo byla smazána.
 notice_locking_conflict: Údaje byly změněny jiným uživatelem.
-notice_scm_error: Entry and/or revision doesn't exist in the repository.
 notice_not_authorized: Nemáte dostatečná práva pro zobrazení této stránky.
 notice_email_sent: Na adresu %s byl odeslán email
 notice_email_error: Při odesílání emailu nastala chyba (%s)
 notice_feeds_access_key_reseted: Váš klíč pro přístup k RSS byl resetován.
+
+error_scm_not_found: "Entry and/or revision doesn't exist in the repository."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Vaše heslo
 mail_body_lost_password: 'To change your Redmine password, click on the following link:'

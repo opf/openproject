@@ -66,7 +66,6 @@ module Redmine
           entries = Entries.new
           cmd = "#{SVN_BIN} list --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
-          cmd << " 2>&1"
           shellout(cmd) do |io|
             output = io.read
             begin

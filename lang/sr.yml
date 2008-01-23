@@ -68,13 +68,15 @@ notice_successful_delete: Uspešno brisanje.
 notice_successful_connection: Uspešna konekcija.
 notice_file_not_found: Stranica kojoj pokušavate da pristupite ne postoji ili je uklonjena.
 notice_locking_conflict: Podaci su izmenjeni od strane drugog korisnika.
-notice_scm_error: Unos i/ili revizija ne postoji u spremištu.
 notice_not_authorized: Niste ovlašćeni da pristupite ovoj stranici.
 notice_email_sent: Email je poslat %s
 notice_email_error: Došlo je do greške pri slanju maila (%s)
 notice_feeds_access_key_reseted: Vaš RSS pristup je resetovan.
 notice_failed_to_save_issues: "Neuspešno snimanje %d kartica na %d izabrano: %s."
 notice_no_issue_selected: "Nijedna kartica nije izabrana! Molim, izaberite kartice koje želite za editujete."
+
+error_scm_not_found: "Unos i/ili revizija ne postoji u spremištu."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Vaša redMine lozinka
 mail_body_lost_password: 'Da biste izmenili vašu Redmine lozinku, kliknite na sledeći link:'

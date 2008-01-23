@@ -68,7 +68,6 @@ notice_successful_delete: Successful deletion.
 notice_successful_connection: Successful connection.
 notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
 notice_locking_conflict: Data have been updated by another user.
-notice_scm_error: Entry and/or revision doesn't exist in the repository.
 notice_not_authorized: You are not authorized to access this page.
 notice_email_sent: An email was sent to %s
 notice_email_error: An error occurred while sending mail (%s)
@@ -79,6 +78,8 @@ notice_account_pending: "Your account was created and is now pending administrat
 notice_default_data_loaded: Default configuration successfully loaded.
 
 error_can_t_load_default_data: "Default configuration could not be loaded: %s"
+error_scm_not_found: "Entry and/or revision doesn't exist in the repository."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Your Redmine password
 mail_body_lost_password: 'To change your Redmine password, click on the following link:'

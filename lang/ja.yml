@@ -69,11 +69,13 @@ notice_successful_delete: 削除しました。
 notice_successful_connection: 接続しました。
 notice_file_not_found: アクセスしようとしたページは存在しないか削除されています。
 notice_locking_conflict: 別のユーザがデータを更新しています。
-notice_scm_error: リポジトリに、エントリ/リビジョンが存在しません。
 notice_not_authorized: このページにアクセスするには認証が必要です。
 notice_email_sent: %s宛にメールを送信しました。
 notice_email_error: メール送信中にエラーが発生しました(%s)
 notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
+
+error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Redmineパスワード
 mail_body_lost_password: 'パスワードを変更するには、以下のリンクをたどってください:'
