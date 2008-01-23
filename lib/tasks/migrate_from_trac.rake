@@ -372,6 +372,17 @@ namespace :redmine do
               migrated_custom_values += 1
         	end
         end
+        
+        # update issue id sequence if needed
+        begin
+          case ActiveRecord::Base.connection.adapter_name.downcase
+          when 'mysql'
+            # nothing to do
+          when 'postgresql'
+            sql = "SELECT setval('#{Issue.table_name}_id_seq', (SELECT MAX(id) FROM #{Issue.table_name}))"
+            ActiveRecord::Base.connection.execute(sql)
+          end
+        end
         puts
         
         # Wiki      
@@ -478,7 +489,7 @@ namespace :redmine do
         if !project
           # create the target project
           project = Project.new :name => identifier.humanize,
-                                :description => identifier.humanize
+                                :description => ''
           project.identifier = identifier
           puts "Unable to create a project with identifier '#{identifier}'!" unless project.save
           # enable issues and wiki for the created project
