@@ -300,7 +300,7 @@ class Query < ActiveRecord::Base
       when "="
         sql = sql + "#{db_table}.#{db_field} IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
       when "!"
-        sql = sql + "#{db_table}.#{db_field} NOT IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
+        sql = sql + "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
       when "!*"
         sql = sql + "#{db_table}.#{db_field} IS NULL"
       when "*"
