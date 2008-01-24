@@ -27,19 +27,24 @@ class CustomValue < ActiveRecord::Base
   
 protected
   def validate
-    errors.add(:value, :activerecord_error_blank) and return if custom_field.is_required? and value.blank?    
-    errors.add(:value, :activerecord_error_invalid) unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
-    errors.add(:value, :activerecord_error_too_short) if custom_field.min_length > 0 and value.length < custom_field.min_length and value.length > 0
-    errors.add(:value, :activerecord_error_too_long) if custom_field.max_length > 0 and value.length > custom_field.max_length
-    case custom_field.field_format
-    when 'int'
-      errors.add(:value, :activerecord_error_not_a_number) unless value.blank? || value =~ /^[+-]?\d+$/	
-    when 'float'
-      begin; !value.blank? && Kernel.Float(value); rescue; errors.add(:value, :activerecord_error_invalid) end
-    when 'date'
-      errors.add(:value, :activerecord_error_not_a_date) unless value =~ /^\d{4}-\d{2}-\d{2}$/ or value.blank?
-    when 'list'
-      errors.add(:value, :activerecord_error_inclusion) unless custom_field.possible_values.include?(value) or value.blank?
+    if value.blank?
+      errors.add(:value, :activerecord_error_blank) if custom_field.is_required? and value.blank?    
+    else
+      errors.add(:value, :activerecord_error_invalid) unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
+      errors.add(:value, :activerecord_error_too_short) if custom_field.min_length > 0 and value.length < custom_field.min_length
+      errors.add(:value, :activerecord_error_too_long) if custom_field.max_length > 0 and value.length > custom_field.max_length
+    
+      # Format specific validations
+      case custom_field.field_format
+      when 'int'
+        errors.add(:value, :activerecord_error_not_a_number) unless value =~ /^[+-]?\d+$/	
+      when 'float'
+        begin; Kernel.Float(value); rescue; errors.add(:value, :activerecord_error_invalid) end
+      when 'date'
+        errors.add(:value, :activerecord_error_not_a_date) unless value =~ /^\d{4}-\d{2}-\d{2}$/
+      when 'list'
+        errors.add(:value, :activerecord_error_inclusion) unless custom_field.possible_values.include?(value)
+      end
     end
   end
 end
