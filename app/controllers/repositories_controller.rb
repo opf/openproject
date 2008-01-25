@@ -55,7 +55,7 @@ class RepositoriesController < ApplicationController
     @entries = @repository.entries('')    
     # latest changesets
     @changesets = @repository.changesets.find(:all, :limit => 10, :order => "committed_on DESC")
-    show_error and return unless @entries || @changesets.any?
+    show_error_not_found unless @entries || @changesets.any?
   rescue Redmine::Scm::Adapters::CommandFailed => e
     show_error_command_failed(e.message)
   end
@@ -65,7 +65,7 @@ class RepositoriesController < ApplicationController
     if request.xhr?
       @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
     else
-      show_error unless @entries
+      show_error_not_found unless @entries
     end
   rescue Redmine::Scm::Adapters::CommandFailed => e
     show_error_command_failed(e.message)
@@ -73,7 +73,7 @@ class RepositoriesController < ApplicationController
   
   def changes
     @entry = @repository.scm.entry(@path, @rev)
-    show_error and return unless @entry
+    show_error_not_found and return unless @entry
     @changesets = @repository.changesets_for_path(@path)
   rescue Redmine::Scm::Adapters::CommandFailed => e
     show_error_command_failed(e.message)
@@ -96,7 +96,7 @@ class RepositoriesController < ApplicationController
   
   def entry
     @content = @repository.scm.cat(@path, @rev)
-    show_error and return unless @content
+    show_error_not_found and return unless @content
     if 'raw' == params[:format]      
       send_data @content, :filename => @path.split('/').last
     else
@@ -109,7 +109,7 @@ class RepositoriesController < ApplicationController
   
   def annotate
     @annotate = @repository.scm.annotate(@path, @rev)
-    show_error and return if @annotate.nil? || @annotate.empty?
+    show_error_not_found and return if @annotate.nil? || @annotate.empty?
   rescue Redmine::Scm::Adapters::CommandFailed => e
     show_error_command_failed(e.message)
   end
@@ -128,7 +128,7 @@ class RepositoriesController < ApplicationController
       format.js {render :layout => false}
     end
   rescue ChangesetNotFound
-    show_error
+    show_error_not_found
   rescue Redmine::Scm::Adapters::CommandFailed => e
     show_error_command_failed(e.message)
   end
@@ -147,7 +147,7 @@ class RepositoriesController < ApplicationController
     @cache_key = "repositories/diff/#{@repository.id}/" + Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")    
     unless read_fragment(@cache_key)
       @diff = @repository.diff(@path, @rev, @rev_to, @diff_type)
-      show_error and return unless @diff
+      show_error_not_found unless @diff
     end
   rescue Redmine::Scm::Adapters::CommandFailed => e
     show_error_command_failed(e.message)

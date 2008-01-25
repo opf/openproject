@@ -67,6 +67,12 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       assert_response :success
       assert_template 'entry'
     end
+    
+    def test_entry_not_found
+      get :entry, :id => 1, :path => ['subversion_test', 'zzz.c']
+      assert_tag :tag => 'div', :attributes => { :class => /error/ },
+                                :content => /Entry and\/or revision doesn't exist/
+    end
   
     def test_entry_download
       get :entry, :id => 1, :path => ['subversion_test', 'helloworld.c'], :format => 'raw'
