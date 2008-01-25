@@ -20,6 +20,9 @@
 <p><label><%= l(:setting_time_format) %></label>
 <%= select_tag 'settings[time_format]', options_for_select( [[l(:label_language_based), '']] + Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, Setting.time_format) %></p>
 
+<p><label><%= l(:setting_user_format) %></label>
+<%= select_tag 'settings[user_format]', options_for_select( @options[:user_format], Setting.user_format.to_s ) %></p>
+
 <p><label><%= l(:setting_attachment_max_size) %></label>
 <%= text_field_tag 'settings[attachment_max_size]', Setting.attachment_max_size, :size => 6 %> KB</p>
 

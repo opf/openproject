@@ -35,7 +35,10 @@ class SettingsController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'edit', :tab => params[:tab]
+      return
     end
+    @options = {}
+    @options[:user_format] = User::USER_FORMATS.keys.collect {|f| [User.current.name(f), f.to_s] }
   end
   
   def plugin

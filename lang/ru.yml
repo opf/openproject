@@ -567,3 +567,4 @@ enumeration_doc_categories: Категории документов
 enumeration_activities: Действия (учет времени)
 
 error_can_t_load_default_data: "Конфигурация по умолчанию не была загружена: %s"
+setting_user_format: Users display format

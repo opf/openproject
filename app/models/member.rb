@@ -31,6 +31,10 @@ class Member < ActiveRecord::Base
     self.user.name
   end
   
+  def <=>(member)
+    role == member.role ? (user <=> member.user) : (role <=> member.role)
+  end
+  
   def before_destroy
     # remove category based auto assignments for this member
     IssueCategory.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project.id, user.id]

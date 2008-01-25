@@ -204,6 +204,7 @@ setting_repositories_encodings: Repositories encodings
 setting_emails_footer: Emails footer
 setting_protocol: Protocol
 setting_per_page_options: Objects per page options
+setting_user_format: Users display format
 
 label_user: User
 label_user_plural: Users

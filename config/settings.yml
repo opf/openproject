@@ -79,6 +79,9 @@ date_format:
   default: ''
 time_format:
   default: ''
+user_format:
+  default: :firstname_lastname
+  format: symbol
 cross_project_issue_relations:
   default: 0
 notified_events:

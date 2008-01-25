@@ -23,6 +23,14 @@ class User < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_REGISTERED = 2
   STATUS_LOCKED     = 3
+  
+  USER_FORMATS = {
+    :firstname_lastname => '#{firstname} #{lastname}',
+    :firstname => '#{firstname}',
+    :lastname_firstname => '#{lastname} #{firstname}',
+    :lastname_coma_firstname => '#{lastname}, #{firstname}',
+    :username => '#{login}'
+  }
 
   has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name", :dependent => :delete_all
   has_many :projects, :through => :memberships
@@ -107,8 +115,9 @@ class User < ActiveRecord::Base
   end
 	
   # Return user's full name for display
-  def name
-    "#{firstname} #{lastname}"
+  def name(formatter = nil)
+    f = USER_FORMATS[formatter || Setting.user_format] || USER_FORMATS[:firstname_lastname]
+    eval '"' + f + '"'
   end
   
   def active?
@@ -164,7 +173,13 @@ class User < ActiveRecord::Base
   end
 
   def <=>(user)
-    user.nil? ? -1 : (lastname == user.lastname ? firstname <=> user.firstname : lastname <=> user.lastname)
+    if user.nil?
+      -1
+    elsif lastname.to_s.downcase == user.lastname.to_s.downcase
+      firstname.to_s.downcase <=> user.firstname.to_s.downcase
+    else
+      lastname.to_s.downcase <=> user.lastname.to_s.downcase
+    end
   end
   
   def to_s

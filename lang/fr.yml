@@ -205,6 +205,7 @@ setting_repositories_encodings: Encodages des dépôts
 setting_emails_footer: Pied-de-page des emails
 setting_protocol: Protocole
 setting_per_page_options: Options d'objets affichés par page
+setting_user_format: Format d'affichage des utilisateurs
 
 label_user: Utilisateur
 label_user_plural: Utilisateurs
