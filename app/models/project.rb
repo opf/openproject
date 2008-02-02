@@ -217,6 +217,7 @@ protected
   def validate
     errors.add(parent_id, " must be a root project") if parent and parent.parent
     errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
+    errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
   end
   
 private
