@@ -27,6 +27,7 @@ class IssuesController < ApplicationController
   
   cache_sweeper :issue_sweeper, :only => [ :new, :edit, :update, :destroy ]
 
+  helper :journals
   helper :projects
   include ProjectsHelper   
   helper :custom_fields

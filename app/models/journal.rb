@@ -49,4 +49,8 @@ class Journal < ActiveRecord::Base
     c = details.detect {|detail| detail.prop_key == prop}
     c ? c.value : nil
   end
+  
+  def editable_by?(usr)
+    usr && usr.admin?
+  end
 end

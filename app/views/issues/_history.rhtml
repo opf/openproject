@@ -8,6 +8,6 @@
 	   <li><%= show_detail(detail) %></li>
 	<% end %>
 	</ul>
-  	<%= textilizable(journal.notes) unless journal.notes.blank? %>
+	<%= render_notes(journal) unless journal.notes.blank? %>
   	<% note_id += 1 %>
 <% end %>

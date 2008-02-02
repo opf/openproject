@@ -122,7 +122,7 @@ div.square {
  width: .6em; height: .6em;
 }
 
-.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px;font-size:0.9em;}
+.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px; padding-left: 10px; font-size:0.9em;}
 .contextual input {font-size:0.9em;}
 
 .splitcontentleft{float:left; width:49%;}
@@ -227,7 +227,6 @@ text-align:center;
 padding:0.6em;
 z-index:100;
 filter:alpha(opacity=50);
--moz-opacity:0.5;
 opacity: 0.5;
 -khtml-opacity: 0.5;
 }

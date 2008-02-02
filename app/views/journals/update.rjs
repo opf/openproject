@@ -1,0 +1,3 @@
+page.replace "journal-#{@journal.id}-notes", render_notes(@journal)
+page.show "journal-#{@journal.id}-notes"
+page.remove "journal-#{@journal.id}-form"
