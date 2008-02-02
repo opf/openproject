@@ -271,7 +271,7 @@ private
   
   # Retrieve query from session or build a new query
   def retrieve_query
-    if params[:query_id]
+    if !params[:query_id].blank?
       @query = Query.find(params[:query_id], :conditions => {:project_id => (@project ? @project.id : nil)})
       session[:query] = {:id => @query.id, :project_id => @query.project_id}
     else
