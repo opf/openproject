@@ -72,14 +72,23 @@ notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
 notice_email_sent: Eine E-Mail wurde an %s gesendet.
 notice_email_error: Beim Senden einer E-Mail ist ein Fehler aufgetreten (%s).
 notice_feeds_access_key_reseted: Ihr RSS-Zugriffsschlüssel wurde zurückgesetzt.
+notice_failed_to_save_issues: "%d von %d ausgewählten Tickets konnte(n) nicht gespeichert werden: %s."
+notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
+notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
+notice_default_data_loaded: Die Standard-Konfiguration wurde erfolgreich geladen.
 
-error_scm_not_found: "Eintrag und/oder Revision besteht nicht im Projektarchiv."
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %s"
+error_scm_not_found: Eintrag und/oder Revision besteht nicht im Projektarchiv.
+error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %s"
 
 mail_subject_lost_password: Ihr Redmine-Kennwort
 mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
 mail_subject_register: Redmine Kontoaktivierung
 mail_body_register: 'Um Ihr Konto zu aktivieren, benutzen Sie folgenden Link:'
+mail_body_account_information_external: Sie können sich mit Ihrem Konto "%s" an Redmine anmelden.
+mail_body_account_information: Ihre Redmine Konto-Informationen
+mail_subject_account_activation_request: Antrag auf Redmine Kontoaktivierung
+mail_body_account_activation_request: 'Ein neuer Benutzer (%s) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:'
 
 gui_validation_error: 1 Fehler
 gui_validation_error_plural: %d Fehler
@@ -120,7 +129,7 @@ field_priority: Priorität
 field_fixed_version: Erledigt in Version
 field_user: Benutzer
 field_role: Rolle
-field_homepage: Startseite
+field_homepage: Projekt-Homepage
 field_is_public: Öffentlich
 field_parent: Unterprojekt von
 field_is_in_chlog: Ansicht im Change-Log
@@ -157,13 +166,16 @@ field_hours: Stunden
 field_activity: Aktivität
 field_spent_on: Datum
 field_identifier: Kennung
-field_is_filter: Als Fiter benutzen
+field_is_filter: Als Filter benutzen
 field_issue_to_id: Zugehöriges Ticket
 field_delay: Pufferzeit
 field_assignable: Tickets können dieser Rolle zugewiesen werden
 field_redirect_existing_links: Existierende Links umleiten
 field_estimated_hours: Geschätzter Aufwand
-field_default_value: Default
+field_column_names: Spalten
+field_time_zone: Zeitzone
+field_searchable: Durchsuchbar
+field_default_value: Standardwert
 
 setting_app_title: Applikations-Titel
 setting_app_subtitle: Applikations-Untertitel
@@ -174,17 +186,25 @@ setting_self_registration: Anmeldung ermöglicht
 setting_attachment_max_size: Max. Dateigröße
 setting_issues_export_limit: Max. Anzahl Tickets bei CSV/PDF-Export
 setting_mail_from: E-Mail-Absender
+setting_bcc_recipients: E-Mails als Blindkopie (BCC) senden
 setting_host_name: Hostname
 setting_text_formatting: Textformatierung
 setting_wiki_compression: Wiki-Historie komprimieren
 setting_feeds_limit: Feed-Inhalt begrenzen
-setting_autofetch_changesets: Commits automatisch abrufen
-setting_sys_api_enabled: Webservice für Repository-Verwaltung benutzen
+setting_autofetch_changesets: Changesets automatisch abrufen
+setting_sys_api_enabled: Webservice zur Verwaltung der Projektarchive benutzen
 setting_commit_ref_keywords: Schlüsselwörter (Beziehungen)
 setting_commit_fix_keywords: Schlüsselwörter (Status)
 setting_autologin: Automatische Anmeldung
 setting_date_format: Datumsformat
+setting_time_format: Zeitformat
 setting_cross_project_issue_relations: Ticket-Beziehungen zwischen Projekten erlauben
+setting_issue_list_default_columns: Default-Spalten in der Ticket-Auflistung
+setting_repositories_encodings: Kodierungen der Projektarchive
+setting_emails_footer: E-Mail-Fußzeile
+setting_protocol: Protokoll
+setting_per_page_options: Objekte pro Seite
+setting_user_format: Benutzer-Anzeigeformat
 
 label_user: Benutzer
 label_user_plural: Benutzer
@@ -198,6 +218,7 @@ label_issue: Ticket
 label_issue_new: Neues Ticket
 label_issue_plural: Tickets
 label_issue_view_all: Alle Tickets ansehen
+label_issues_by: Tickets von %s
 label_document: Dokument
 label_document_new: Neues Dokument
 label_document_plural: Dokumente
@@ -255,6 +276,7 @@ label_min_max_length: Länge (Min. - Max.)
 label_list: Liste
 label_date: Datum
 label_integer: Zahl
+label_float: Fließkommazahl
 label_boolean: Boolean
 label_string: Text
 label_text: Langer Text
@@ -296,6 +318,7 @@ label_current_status: Gegenwärtiger Status
 label_new_statuses_allowed: Neue Berechtigungen
 label_all: alle
 label_none: kein
+label_nobody: Niemand
 label_next: Weiter
 label_previous: Zurück
 label_used_by: Benutzt von
@@ -333,11 +356,13 @@ label_contains: enthält
 label_not_contains: enthält nicht
 label_day_plural: Tage
 label_repository: Projektarchiv
+label_repository_plural: Projektarchive
 label_browse: Codebrowser
 label_modification: %d Änderung
 label_modification_plural: %d Änderungen
 label_revision: Revision
 label_revision_plural: Revisionen
+label_associated_revisions: Zugehörige Revisionen
 label_added: hinzugefügt
 label_modified: geändert
 label_deleted: gelöscht
@@ -346,10 +371,10 @@ label_latest_revision_plural: Aktuellste Revisionen
 label_view_revisions: Revisionen anzeigen
 label_max_size: Maximale Größe
 label_on: von
-label_sort_highest: Anfang
-label_sort_higher: eins höher
-label_sort_lower: eins tiefer
-label_sort_lowest: Ende
+label_sort_highest: An den Anfang
+label_sort_higher: Eins höher
+label_sort_lower: Eins tiefer
+label_sort_lowest: Ans Ende
 label_roadmap: Roadmap
 label_roadmap_due_in: Fällig in
 label_roadmap_overdue: %s verspätet
@@ -362,8 +387,8 @@ label_wiki_edit: Wiki-Bearbeitung
 label_wiki_edit_plural: Wiki-Bearbeitungen
 label_wiki_page: Wiki-Seite
 label_wiki_page_plural: Wiki-Seiten
-label_index_by_title: Index by title
-label_index_by_date: Index by date
+label_index_by_title: Seiten nach Titel sortiert
+label_index_by_date: Seiten nach Datum sortiert
 label_current_version: Gegenwärtige Version
 label_preview: Vorschau
 label_feed_plural: Feeds
@@ -425,6 +450,25 @@ label_module_plural: Module
 label_added_time_by: Von %s vor %s hinzugefügt
 label_updated_time: Vor %s aktualisiert
 label_jump_to_a_project: Zu einem Projekt springen...
+label_file_plural: Dateien
+label_changeset_plural: Changesets
+label_default_columns: Default-Spalten
+label_no_change_option: (Keine Änderung)
+label_bulk_edit_selected_issues: Alle ausgewählten Tickets bearbeiten
+label_theme: Stil
+label_default: Default
+label_search_titles_only: Nur Titel durchsuchen
+label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
+label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
+label_user_mail_option_none: "Nur für Dinge, die ich beobachte oder an denen ich beteiligt bin"
+label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
+label_registration_activation_by_email: Kontoaktivierung durch E-Mail
+label_registration_manual_activation: Manuelle Kontoaktivierung
+label_registration_automatic_activation: Automatische Kontoaktivierung
+label_display_per_page: 'Pro Seite: %s'
+label_age: Alter
+label_change_properties: Eigenschaften ändern
+label_general: Allgemein
 
 button_login: Anmelden
 button_submit: OK
@@ -443,7 +487,7 @@ button_lock: Sperren
 button_unlock: Entsperren
 button_download: Download
 button_list: Liste
-button_view: Siehe
+button_view: Ansehen
 button_move: Verschieben
 button_back: Zurück
 button_cancel: Abbrechen
@@ -458,6 +502,10 @@ button_archive: Archivieren
 button_unarchive: Entarchivieren
 button_reset: Zurücksetzen
 button_rename: Umbenennen
+button_change_password: Kennwort ändern
+button_copy: Kopieren
+button_annotate: Mit Anmerkungen versehen
+button_update: Aktualisieren
 
 status_active: aktiv
 status_registered: angemeldet
@@ -477,6 +525,7 @@ text_tip_task_end_day: Aufgabe, die an diesem Tag endet
 text_tip_task_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
 text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern und Bindestriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
 text_caracters_maximum: Max. %d Zeichen.
+text_caracters_minimum: Muss mindestens %d Zeichen lang sein.
 text_length_between: Länge zwischen %d und %d Zeichen.
 text_tracker_no_workflow: Kein Workflow für diesen Tracker definiert.
 text_unallowed_characters: Nicht erlaubte Zeichen
@@ -488,13 +537,16 @@ text_wiki_destroy_confirmation: Sind Sie sicher, dass Sie dieses Wiki mit sämtl
 text_issue_category_destroy_question: Einige Tickets (%d) sind dieser Kategorie zugeodnet. Was möchten Sie tun?
 text_issue_category_destroy_assignments: Kategorie-Zuordnung entfernen
 text_issue_category_reassign_to: Tickets dieser Kategorie zuordnen
+text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z. B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
+text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie sie abändern."
+text_load_default_configuration: Standard-Konfiguration laden
 
 default_role_manager: Manager
-default_role_developper: Developer
+default_role_developper: Entwickler
 default_role_reporter: Reporter
 default_tracker_bug: Fehler
 default_tracker_feature: Feature
-default_tracker_support: Support
+default_tracker_support: Unterstützung
 default_issue_status_new: Neu
 default_issue_status_assigned: Zugewiesen
 default_issue_status_resolved: Gelöst
@@ -509,60 +561,8 @@ default_priority_high: Hoch
 default_priority_urgent: Dringend
 default_priority_immediate: Sofort
 default_activity_design: Design
-default_activity_development: Development
+default_activity_development: Entwicklung
 
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
-label_file_plural: Dateien
-label_changeset_plural: Changesets
-field_column_names: Spalten
-label_default_columns: Default-Spalten
-setting_issue_list_default_columns: Default-Spalten in der Ticket-Auflistung
-setting_repositories_encodings: Repository-Kodierung
-notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
-label_bulk_edit_selected_issues: Alle ausgewählten Tickets bearbeiten
-label_no_change_option: (Keine Änderung)
-notice_failed_to_save_issues: "%d von %d ausgewählten Tickets konnte(n) nicht gespeichert werden: %s."
-label_theme: Stil
-label_default: Default
-label_search_titles_only: Nur Titel durchsuchen
-label_nobody: Niemand
-button_change_password: Kennwort ändern
-text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z.B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
-label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
-label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
-label_user_mail_option_none: "Nur für Dinge, die ich beobachte oder an denen ich beteiligt bin"
-setting_emails_footer: E-Mail-Fußzeile
-label_float: Fließkommazahl
-button_copy: Kopieren
-mail_body_account_information_external: Sie können sich mit Ihrem Konto "%s" an Redmine anmelden.
-mail_body_account_information: Ihre Redmine Konto-Informationen
-setting_protocol: Protokoll
-label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
-setting_time_format: Zeitformat
-label_registration_activation_by_email: Kontoaktivierung durch E-Mail
-mail_subject_account_activation_request: Antrag auf Redmine Kontoaktivierung
-mail_body_account_activation_request: 'Ein neuer Benutzer (%s) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:'
-label_registration_automatic_activation: Automatische Kontoaktivierung
-label_registration_manual_activation: Manuelle Kontoaktivierung
-notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
-field_time_zone: Zeitzone
-text_caracters_minimum: Muss mindestens %d Zeichen lang sein.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-button_annotate: Annotate
-label_issues_by: Issues by %s
-field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
-label_general: General
-label_repository_plural: Repositories
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format

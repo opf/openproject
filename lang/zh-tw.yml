@@ -30,22 +30,22 @@ activerecord_error_too_long: 長度過長
 activerecord_error_too_short: 長度太短
 activerecord_error_wrong_length: 長度不正確
 activerecord_error_taken: 已經被使用
-activerecord_error_not_a_number: is not a number
+activerecord_error_not_a_number: 不是一個數字
 activerecord_error_not_a_date: 日期格式不正確
 activerecord_error_greater_than_start_date: 必須在起始日期之後
 activerecord_error_not_same_project: 不屬於同一個專案
 activerecord_error_circular_dependency: 這個關聯會導致環狀相依
 
 general_fmt_age: %d 年
-general_fmt_age_plural: %d yrs
+general_fmt_age_plural: %d 年
 general_fmt_date: %%m/%%d/%%Y
 general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
 general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
 general_fmt_time: %%I:%%M %%p
-general_text_No: 'No'
-general_text_Yes: 'Yes'
-general_text_no: 'no'
-general_text_yes: 'yes'
+general_text_No: '否'
+general_text_Yes: '是'
+general_text_no: '否'
+general_text_yes: '是'
 general_lang_name: 'Traditional Chinese (繁體中文)'
 general_csv_separator: ','
 general_csv_encoding: Big5
@@ -57,30 +57,29 @@ notice_account_updated: 帳戶更新資訊已儲存
 notice_account_invalid_creditentials: 帳戶或密碼不正確
 notice_account_password_updated: 帳戶新密碼已儲存
 notice_account_wrong_password: 密碼不正確
-notice_account_register_done: Account was successfully created. To activate your account, click on the link that was emailed to you.
-notice_account_unknown_email: Unknown user.
-notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
-notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
-notice_account_activated: Your account has been activated. You can now log in.
+notice_account_register_done: 帳號已建立成功。欲啟用您的帳號，請點擊系統確認信函中的啟用連結。
+notice_account_unknown_email: 未知的使用者
+notice_can_t_change_password: 這個帳號使用外部認證方式，無法變更其密碼。
+notice_account_lost_email_sent: 包含選擇新密碼指示的電子郵件，已經寄出給您。
+notice_account_activated: 您的帳號已經啟用，可用它登入系統。
 notice_successful_create: 建立成功
 notice_successful_update: 更新成功
 notice_successful_delete: 刪除成功
-notice_successful_connection: Successful connection.
-notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
-notice_locking_conflict: Data have been updated by another user.
+notice_successful_connection: 連線成功
+notice_file_not_found: 您想要存取的頁面已經不存在或被搬移至其他位置。
+notice_locking_conflict: 資料已被其他使用者更新。
 notice_not_authorized: 你未被授權存取此頁面。
 notice_email_sent: 郵件已經成功寄送至以下收件者： %s
 notice_email_error: 寄送郵件的過程中發生錯誤 (%s)
 notice_feeds_access_key_reseted: 您的 RSS 存取鍵已被重新設定。
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
+notice_failed_to_save_issues: " %d 個項目儲存失敗 (總共選取 %d 個項目): %s."
+notice_no_issue_selected: "未選擇任何項目！請勾選您想要編輯的項目。"
 notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
-notice_default_data_loaded: Default configuration successfully loaded.
+notice_default_data_loaded: 預設組態已載入成功。
 
-error_scm_not_found: SCM 儲存庫中找不到這個專案或版本。
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
-
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
+error_can_t_load_default_data: "無法載入預設組態： %s"
+error_scm_not_found: SCM 儲存庫中找不到這個專案與(或)版本。
+error_scm_command_failed: "嘗試存取儲存庫時發生錯誤：: %s"
 
 mail_subject_lost_password: 您的 Redmine 網站密碼
 mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
@@ -133,8 +132,8 @@ field_role: 角色
 field_homepage: 網站首頁
 field_is_public: 公開
 field_parent: 父專案
-field_is_in_chlog: Issues displayed in changelog
-field_is_in_roadmap: Issues displayed in roadmap
+field_is_in_chlog: 項目顯示於變更記錄中
+field_is_in_roadmap: 項目顯示於版本藍圖中
 field_login: 帳戶名稱
 field_mail_notification: 電子郵件提醒選項
 field_admin: 管理者
@@ -176,7 +175,7 @@ field_estimated_hours: 預估工時
 field_column_names: Columns
 field_time_zone: 時區
 field_searchable: 可用做搜尋條件
-field_default_value: Default value
+field_default_value: 預設值
 
 setting_app_title: 標題
 setting_app_subtitle: 副標題
@@ -205,6 +204,7 @@ setting_repositories_encodings: Repositories encodings
 setting_emails_footer: 電子郵件附帶說明
 setting_protocol: 協定
 setting_per_page_options: 每頁顯示個數選項
+setting_user_format: 使用者顯示格式
 
 label_user: 用戶
 label_user_plural: 用戶清單
@@ -315,7 +315,7 @@ label_closed_issues_plural: 已結束
 label_total: 總計
 label_permissions: 權限
 label_current_status: 目前狀態
-label_new_statuses_allowed: New statuses allowed
+label_new_statuses_allowed: 可變更至以下狀態
 label_all: 全部
 label_none: 空值
 label_nobody: nobody
@@ -362,6 +362,7 @@ label_modification: %d 變更
 label_modification_plural: %d 變更
 label_revision: 版次
 label_revision_plural: 版次清單
+label_associated_revisions: Associated revisions
 label_added: 已新增
 label_modified: 已修改
 label_deleted: 已刪除
@@ -405,7 +406,7 @@ label_view_diff: View differences
 label_diff_inline: inline
 label_diff_side_by_side: side by side
 label_options: 選項清單
-label_copy_workflow_from: Copy workflow from
+label_copy_workflow_from: 從以下追蹤標籤複製工作流程
 label_permissions_report: 權限報表
 label_watched_issues: 觀察中的項目清單
 label_related_issues: 相關的項目清單
@@ -466,7 +467,7 @@ label_registration_manual_activation: 手動啟用帳戶
 label_registration_automatic_activation: 自動啟用帳戶
 label_display_per_page: '每頁顯示: %s 個'
 label_age: Age
-label_change_properties: Change properties
+label_change_properties: 變更屬性
 label_general: 一般
 
 button_login: 登入
@@ -512,33 +513,33 @@ status_locked: 鎖定中
 
 text_select_mail_notifications: 選擇欲寄送提醒通知郵件之動作
 text_regexp_info: eg. ^[A-Z0-9]+$
-text_min_max_length_info: 0 means no restriction
-text_project_destroy_confirmation: Are you sure you want to delete this project and all related data ?
-text_workflow_edit: Select a role and a tracker to edit the workflow
+text_min_max_length_info: 0 代表「不限制」
+text_project_destroy_confirmation: 您確定要刪除這個專案和其他相關資料？
+text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
 text_are_you_sure: 確定執行？
 text_journal_changed: 從 %s 變更為 %s
 text_journal_set_to: 設定為 %s
-text_journal_deleted: deleted
-text_tip_task_begin_day: task beginning this day
-text_tip_task_end_day: task ending this day
-text_tip_task_begin_end_day: task beginning and ending this day
+text_journal_deleted: 已刪除
+text_tip_task_begin_day: 今天起始的工作
+text_tip_task_end_day: 今天截止的的工作
+text_tip_task_begin_end_day: 今天起始與截止的工作
 text_project_identifier_info: '只允許小寫英文字母（a-z）、阿拉伯數字與連字符號（-）。<br />儲存後，代碼不可再被更改。'
 text_caracters_maximum: 最多 %d 個字元.
 text_caracters_minimum: 長度必須大於 %d 個字元.
 text_length_between: 長度必須介於 %d 至 %d 個字元之間.
-text_tracker_no_workflow: No workflow defined for this tracker
-text_unallowed_characters: Unallowed characters
+text_tracker_no_workflow: 此追蹤標籤尚未定義工作流程
+text_unallowed_characters: 不允許的字元
 text_comma_separated: 可輸入多個值 (以逗號分隔).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
 text_issue_added: 已通報 %s 個項目
 text_issue_updated: 已更新 %s 個項目
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-text_issue_category_destroy_assignments: Remove category assignments
-text_issue_category_reassign_to: Reassign issues to this category
+text_wiki_destroy_confirmation: 您確定要刪除這個 wiki 和其中的所有內容？
+text_issue_category_destroy_question: 有 (%d) 個項目被指派到此分類. 請選擇您想要的動作？
+text_issue_category_destroy_assignments: 移除這些項目的分類
+text_issue_category_reassign_to: 重新指派這些項目至其它分類
 text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
 text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-text_load_default_configuration: Load the default configuration
+text_load_default_configuration: 載入預設組態
 
 default_role_manager: 管理人員
 default_role_developper: 開發人員
@@ -565,5 +566,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目重要性
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (time tracking)
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format

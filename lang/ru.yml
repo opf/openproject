@@ -78,7 +78,8 @@ notice_account_pending: "Ваша учетная запись уже созда�
 notice_default_data_loaded: Была загружена конфигурация по-умолчанию.
 
 error_scm_not_found: Хранилилище не содержит записи и/или исправления.
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "Ошибка доступа к хранилищу: %s"
+error_can_t_load_default_data: "Конфигурация по умолчанию не была загружена: %s"
 
 mail_subject_lost_password: Ваш Redmine пароль
 mail_body_lost_password: 'Для изменения Redmine пароля, зайдите по следующей ссылке:'
@@ -204,6 +205,7 @@ setting_emails_footer: Подстрочные примечания Emailов
 setting_protocol: Протокол
 setting_bcc_recipients: Использовать скрытые списки (bcc)
 setting_per_page_options: Кол-во строк на страницу
+setting_user_format: Формат отображения имени
 
 label_user: Пользователь
 label_user_plural: Пользователи
@@ -354,7 +356,7 @@ label_contains: содержит
 label_not_contains: не содержит
 label_day_plural: дней(я)
 label_repository: Хранилище
-label_browse: Искать
+label_browse: Обзор
 label_modification: %d изменение
 label_modification_plural: %d изменений
 label_revision: Редакция
@@ -565,6 +567,3 @@ default_activity_development: Разработка
 enumeration_issue_priorities: Приоритеты задач
 enumeration_doc_categories: Категории документов
 enumeration_activities: Действия (учет времени)
-
-error_can_t_load_default_data: "Конфигурация по умолчанию не была загружена: %s"
-setting_user_format: Users display format
