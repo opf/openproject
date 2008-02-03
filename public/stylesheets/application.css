@@ -94,6 +94,12 @@ tr.message td.last_message { font-size: 80%; }
 tr.message.locked td.subject a { background-image: url(../images/locked.png); }
 tr.message.sticky td.subject a { background-image: url(../images/sticky.png); font-weight: bold; }
 
+tr.user td { width:13%; }
+tr.user td.email { width:18%; }
+tr.user td { white-space: nowrap; }
+tr.user.locked, tr.user.registered { color: #aaa; }
+tr.user.locked a, tr.user.registered a { color: #aaa; }
+
 table.list tbody tr:hover { background-color:#ffffdd; }
 table td {padding:2px;}
 table p {margin:0;}

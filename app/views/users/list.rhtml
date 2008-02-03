@@ -4,11 +4,10 @@
 
 <h2><%=l(:label_user_plural)%></h2>
 
-<% form_tag() do %>
+<% form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
 <label><%= l(:field_status) %> :</label>
 <%= select_tag 'status', status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
-<%= submit_tag l(:button_apply), :class => "small" %>
 </fieldset>
 <% end %>
 &nbsp;
@@ -20,38 +19,33 @@
 	<%= sort_header_tag('lastname', :caption => l(:field_lastname)) %>
 	<th><%=l(:field_mail)%></th>
 	<%= sort_header_tag('admin', :caption => l(:field_admin)) %>
-	<%= sort_header_tag('status', :caption => l(:field_status)) %>
 	<%= sort_header_tag('created_on', :caption => l(:field_created_on)) %>
 	<%= sort_header_tag('last_login_on', :caption => l(:field_last_login_on)) %>
     <th></th>
   </tr></thead>
   <tbody>
-<% for user in @users %>
-  <tr class="<%= cycle("odd", "even") %>">
-	<td><%= link_to user.login, :action => 'edit', :id => user %></td>
-	<td><%= user.firstname %></td>
-	<td><%= user.lastname %></td>
-	<td><%= user.mail %></td>
-	<td align="center"><%= image_tag 'true.png' if user.admin? %></td>
-	<td align="center"><%= image_tag 'locked.png' if user.locked? %><%= image_tag 'user_new.png' if user.registered? %></td>
-	<td align="center"><%= format_time(user.created_on) %></td>
-	<td align="center"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
-  <td align="center">
-    <% form_tag({:action => 'edit', :id => user}) do %>
-    <% if user.locked? %>
-      <%= hidden_field_tag 'user[status]', User::STATUS_ACTIVE %>
-      <%= submit_tag l(:button_unlock), :class => "button-small"  %>
-    <% elsif user.registered? %>
-      <%= hidden_field_tag 'user[status]', User::STATUS_ACTIVE %>
-      <%= submit_tag l(:button_activate), :class => "button-small"  %>
-    <% else %>
-      <%= hidden_field_tag 'user[status]', User::STATUS_LOCKED %>
-      <%= submit_tag l(:button_lock), :class => "button-small"  %>
-    <% end %>
-    <% end %>  
-  </td>
+<% for user in @users -%>
+  <tr class="user <%= cycle("odd", "even") %> <%= %w(anon active registered locked)[user.status] %>">
+	<td class="username"><%= link_to user.login, :action => 'edit', :id => user %></td>
+	<td class="firstname"><%= user.firstname %></td>
+	<td class="lastname"><%= user.lastname %></td>
+	<td class="email"><%= user.mail %></td>
+	<td align="center"><%= image_tag('true.png') if user.admin? %></td>
+	<td class="created_on" align="center"><%= format_time(user.created_on) %></td>
+	<td class="last_login_on" align="center"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
+    <td>
+    <small>
+    <% if user.locked? -%>
+        <%= link_to l(:button_unlock), {:action => 'edit', :id => user, :user => {:status => User::STATUS_ACTIVE}}, :method => :post, :class => 'icon icon-unlock' %>
+    <% elsif user.registered? -%>
+        <%= link_to l(:button_activate), {:action => 'edit', :id => user, :user => {:status => User::STATUS_ACTIVE}}, :method => :post, :class => 'icon icon-unlock' %>
+    <% else -%>
+        <%= link_to l(:button_lock), {:action => 'edit', :id => user, :user => {:status => User::STATUS_LOCKED}}, :method => :post, :class => 'icon icon-lock' %>
+    <% end -%>
+    </small>
+    </td>
   </tr>
-<% end %>
+<% end -%>
   </tbody>
 </table>
 

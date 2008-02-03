@@ -33,8 +33,8 @@ class UsersController < ApplicationController
     sort_init 'login', 'asc'
     sort_update
     
-    @status = params[:status] ? params[:status].to_i : 1    
-    conditions = nil
+    @status = params[:status] ? params[:status].to_i : 1
+    conditions = "status <> 0"
     conditions = ["status=?", @status] unless @status == 0
     
     @user_count = User.count(:conditions => conditions)
