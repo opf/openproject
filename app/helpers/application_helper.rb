@@ -119,17 +119,23 @@ module ApplicationHelper
     
     html = ''    
     html << link_to_remote(('&#171; ' + l(:label_previous)), 
-                            {:update => "content", :url => url_param.merge(page_param => paginator.current.previous)},
+                            {:update => 'content',
+                             :url => url_param.merge(page_param => paginator.current.previous),
+                             :complete => 'window.scrollTo(0,0)'},
                             {:href => url_for(:params => url_param.merge(page_param => paginator.current.previous))}) + ' ' if paginator.current.previous
                             
     html << (pagination_links_each(paginator, options) do |n|
       link_to_remote(n.to_s, 
-                      {:url => {:params => url_param.merge(page_param => n)}, :update => 'content'},
+                      {:url => {:params => url_param.merge(page_param => n)},
+                       :update => 'content',
+                       :complete => 'window.scrollTo(0,0)'},
                       {:href => url_for(:params => url_param.merge(page_param => n))})
     end || '')
     
     html << ' ' + link_to_remote((l(:label_next) + ' &#187;'), 
-                                 {:update => "content", :url => url_param.merge(page_param => paginator.current.next)},
+                                 {:update => 'content',
+                                  :url => url_param.merge(page_param => paginator.current.next),
+                                  :complete => 'window.scrollTo(0,0)'},
                                  {:href => url_for(:params => url_param.merge(page_param => paginator.current.next))}) if paginator.current.next
     
     unless count.nil?
