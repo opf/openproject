@@ -3,7 +3,6 @@ jsToolBar.strings['Strong'] = 'Жирный';
 jsToolBar.strings['Italic'] = 'Курсив';
 jsToolBar.strings['Underline'] = 'Подчеркнутый';
 jsToolBar.strings['Deleted'] = 'Зачеркнутый';
-jsToolBar.strings['Inline quote'] = 'Цитата';
 jsToolBar.strings['Code'] = 'Вставка кода';
 jsToolBar.strings['Heading 1'] = 'Заголовок 1';
 jsToolBar.strings['Heading 2'] = 'Заголовок 2';

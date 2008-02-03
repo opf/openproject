@@ -406,15 +406,6 @@ jsToolBar.prototype.elements.del = {
 	}
 }
 
-// quote
-jsToolBar.prototype.elements.quote = {
-	type: 'button',
-	title: 'Inline quote',
-	fn: {
-		wiki: function() { this.singleTag('??') }
-	}
-}
-
 // code
 jsToolBar.prototype.elements.code = {
 	type: 'button',

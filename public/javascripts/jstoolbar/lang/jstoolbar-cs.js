@@ -3,7 +3,6 @@ jsToolBar.strings['Strong'] = 'Tučné';
 jsToolBar.strings['Italic'] = 'Kurzíva';
 jsToolBar.strings['Underline'] = 'Podtržené';
 jsToolBar.strings['Deleted'] = 'Přeškrtnuté ';
-jsToolBar.strings['Inline quote'] = 'Citace';
 jsToolBar.strings['Code'] = 'Zobrazení kódu';
 jsToolBar.strings['Heading 1'] = 'Záhlaví 1';
 jsToolBar.strings['Heading 2'] = 'Záhlaví 2';

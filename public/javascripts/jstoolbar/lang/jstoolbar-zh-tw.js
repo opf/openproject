@@ -3,7 +3,6 @@ jsToolBar.strings['Strong'] = '粗體';
 jsToolBar.strings['Italic'] = '斜體';
 jsToolBar.strings['Underline'] = '底線';
 jsToolBar.strings['Deleted'] = '刪除線';
-jsToolBar.strings['Inline quote'] = '內嵌引文';
 jsToolBar.strings['Code'] = '程式碼';
 jsToolBar.strings['Heading 1'] = '標題 1';
 jsToolBar.strings['Heading 2'] = '標題 2';

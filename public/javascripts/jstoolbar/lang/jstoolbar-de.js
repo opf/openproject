@@ -3,7 +3,6 @@ jsToolBar.strings['Strong'] = 'Fett';
 jsToolBar.strings['Italic'] = 'Kursiv';
 jsToolBar.strings['Underline'] = 'Unterstrichen';
 jsToolBar.strings['Deleted'] = 'Durchgestrichen';
-jsToolBar.strings['Inline quote'] = 'Inline-Zitat';
 jsToolBar.strings['Code'] = 'Quelltext';
 jsToolBar.strings['Heading 1'] = 'Überschrift 1. Ordnung';
 jsToolBar.strings['Heading 2'] = 'Überschrift 2. Ordnung';
