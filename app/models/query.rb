@@ -96,6 +96,7 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position"),
     QueryColumn.new(:priority, :sortable => "#{Enumeration.table_name}.position"),
     QueryColumn.new(:subject),
+    QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => "#{User.table_name}.lastname"),
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on"),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name"),
