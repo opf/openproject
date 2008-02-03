@@ -10,11 +10,19 @@
 <h2><%=h @news.title %></h2>
 
 <div id="edit-news" style="display:none;">
-<% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news } do |f| %>
+<% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news },
+                                           :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
+<%= link_to_remote l(:label_preview), 
+                   { :url => { :controller => 'news', :action => 'preview' },
+                     :method => 'post',
+                     :update => 'preview',
+                     :with => "Form.serialize('news-form')"
+                   }, :accesskey => accesskey(:preview) %> |
 <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news")' %>
 <% end %>
+<div id="preview" class="wiki"></div>
 </div>
 
 <p><em><% unless @news.summary.empty? %><%=h @news.summary %><br /><% end %>

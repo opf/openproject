@@ -1,17 +1,25 @@
 <div class="contextual">
 <%= link_to_if_authorized(l(:label_news_new),
-                          {:controller => 'projects', :action => 'add_news', :id => @project},
+                          {:controller => 'news', :action => 'new', :project_id => @project},
                           :class => 'icon icon-add',
                           :onclick => 'Element.show("add-news"); return false;') if @project %>
 </div>
 
 <div id="add-news" style="display:none;">
 <h2><%=l(:label_news_new)%></h2>
-<% labelled_tabular_form_for :news, @news, :url => { :controller => 'projects', :action => "add_news", :id => @project } do |f| %>
+<% labelled_tabular_form_for :news, @news, :url => { :controller => 'news', :action => 'new', :project_id => @project },
+                                           :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_create) %>
+<%= link_to_remote l(:label_preview), 
+                   { :url => { :controller => 'news', :action => 'preview' },
+                     :method => 'post',
+                     :update => 'preview',
+                     :with => "Form.serialize('news-form')"
+                   }, :accesskey => accesskey(:preview) %> |
 <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-news")' %>
 <% end if @project %>
+<div id="preview" class="wiki"></div>
 </div>
 
 <h2><%=l(:label_news_plural)%></h2>

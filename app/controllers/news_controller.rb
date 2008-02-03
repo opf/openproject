@@ -17,7 +17,9 @@
 
 class NewsController < ApplicationController
   layout 'base'
-  before_filter :find_project, :authorize, :except => :index
+  before_filter :find_news, :except => [:new, :index, :preview]
+  before_filter :find_project, :only => :new
+  before_filter :authorize, :except => [:index, :preview]
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
   
@@ -36,6 +38,18 @@ class NewsController < ApplicationController
   def show
   end
 
+  def new
+    @news = News.new(:project => @project, :author => User.current)
+    if request.post?
+      @news.attributes = params[:news]
+      if @news.save
+        flash[:notice] = l(:notice_successful_create)
+        Mailer.deliver_news_added(@news) if Setting.notified_events.include?('news_added')
+        redirect_to :controller => 'news', :action => 'index', :project_id => @project
+      end
+    end
+  end
+  
   def edit
     if request.post? and @news.update_attributes(params[:news])
       flash[:notice] = l(:notice_successful_update)
@@ -64,10 +78,21 @@ class NewsController < ApplicationController
     redirect_to :action => 'index', :project_id => @project
   end
   
+  def preview
+    @text = (params[:news] ? params[:news][:description] : nil)
+    render :partial => 'common/preview'
+  end
+  
 private
-  def find_project
+  def find_news
     @news = News.find(params[:id])
     @project = @news.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
+  def find_project
+    @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

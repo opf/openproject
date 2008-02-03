@@ -259,19 +259,6 @@ class ProjectsController < ApplicationController
     render :layout => false if request.xhr?
   end
 
-  # Add a news to @project
-  def add_news
-    @news = News.new(:project => @project, :author => User.current)
-    if request.post?
-      @news.attributes = params[:news]
-      if @news.save
-        flash[:notice] = l(:notice_successful_create)
-        Mailer.deliver_news_added(@news) if Setting.notified_events.include?('news_added')
-        redirect_to :controller => 'news', :action => 'index', :project_id => @project
-      end
-    end
-  end
-
   def add_file
     if request.post?
       @version = @project.versions.find_by_id(params[:version_id])

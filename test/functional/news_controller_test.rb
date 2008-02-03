@@ -45,4 +45,15 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_template 'index'
     assert_not_nil assigns(:newss)
   end
+  
+  def test_preview
+    get :preview, :project_id => 1,
+                  :news => {:title => '',
+                            :description => 'News description',
+                            :summary => ''}
+    assert_response :success
+    assert_template 'common/_preview'
+    assert_tag :tag => 'fieldset', :attributes => { :class => 'preview' },
+                                   :content => /News description/
+  end
 end
