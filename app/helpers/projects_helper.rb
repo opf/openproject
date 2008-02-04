@@ -26,6 +26,10 @@ module ProjectsHelper
                           }, options
   end
   
+  def format_activity_description(text)
+    h(truncate(text, 250))
+  end
+  
   def project_settings_tabs
     tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},

@@ -147,6 +147,12 @@ div#issue-changesets .changeset { padding: 4px;}
 div#issue-changesets .changeset { border-bottom: 1px solid #ddd; }
 div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
 
+div#activity dl { margin-left: 2em; }
+div#activity dd { margin-bottom: 1em; }
+div#activity dt { margin-bottom: 1px; }
+div#activity dt .time { color: #777; font-size: 80%; }
+div#activity dd .description { font-style: italic; }
+
 .autoscroll {overflow-x: auto; padding:1px; width:100%; margin-bottom: 1.2em;}
 #user_firstname, #user_lastname, #user_mail, #my_account_form select { width: 90%; }
 

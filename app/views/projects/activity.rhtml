@@ -1,17 +1,22 @@
 <h2><%=l(:label_activity)%>: <%= "#{month_name(@month).downcase} #{@year}" %></h2>
 
+<div id="activity">
 <% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>
-  <h3><%= day_name(day.cwday) %> <%= day.day %></h3>
-  <ul>
-  <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| %>
-    <li><p><%= format_time(e.event_datetime, false) %> <%= link_to truncate(e.event_title, 100), e.event_url %><br />
-    <% unless e.event_description.blank? %><em><%= truncate(e.event_description, 500) %></em><br /><% end %>
-    <span class="author"><%= e.event_author if e.respond_to?(:event_author) %></span></p></li>
+<h3><%= day_name(day.cwday) %> <%= day.day %></h3>
+<dl>
+<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+  <dt class="<%= e.class.name.downcase %>"><span class="time"><%= format_time(e.event_datetime, false) %></span>
+  <%= link_to truncate(e.event_title, 100), e.event_url %></dt>
+  <dd><% unless e.event_description.blank? -%>
+  <span class="description"><%= format_activity_description(e.event_description) %></span><br />
   <% end %>
-  </ul>
-<% end %>
+  <span class="author"><%= e.event_author if e.respond_to?(:event_author) %></span></dd>
+<% end -%>
+</dl>
+<% end -%>
+</div>
 
-<% if @events_by_day.empty? %><p class="nodata"><%= l(:label_no_data) %></p><% end %>
+<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>
 
 <div style="float:left;">
 <% prev_params = params.clone.update :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) %>
