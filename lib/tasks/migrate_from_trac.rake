@@ -373,16 +373,8 @@ namespace :redmine do
         	end
         end
         
-        # update issue id sequence if needed
-        begin
-          case ActiveRecord::Base.connection.adapter_name.downcase
-          when 'mysql'
-            # nothing to do
-          when 'postgresql'
-            sql = "SELECT setval('#{Issue.table_name}_id_seq', (SELECT MAX(id) FROM #{Issue.table_name}))"
-            ActiveRecord::Base.connection.execute(sql)
-          end
-        end
+        # update issue id sequence if needed (postgresql)
+        Issue.connection.reset_pk_sequence!(Issue.table_name) if Issue.connection.respond_to?('reset_pk_sequence!')
         puts
         
         # Wiki      
