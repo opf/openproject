@@ -533,8 +533,8 @@ text_tracker_no_workflow: Ei työnkulkua määritelty tälle tiketille
 text_unallowed_characters: Kiellettyjä merkkejä
 text_comma_separated: Useat arvot sallittu (pilkku eroteltuna).
 text_issues_ref_in_commit_messages: Liitän ja korjaan ongelmia syötetyssä viestissä
-text_issue_added: Tapahtuma %s on kirjattu.
-text_issue_updated: Tapahtuma %s on päivitetty.
+text_issue_added: Tapahtuma %s on kirjattu by %s.
+text_issue_updated: Tapahtuma %s on päivitetty by %s.
 text_wiki_destroy_confirmation: Oletko varma että haluat poistaa tämän wiki:n ja kaikki sen sisältämän tiedon?
 text_issue_category_destroy_question: Jotkut tapahtumat (%d) ovat nimetty tälle luokalle. Mitä haluat tehdä?
 text_issue_category_destroy_assignments: Poista luokan tehtävät

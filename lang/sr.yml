@@ -504,8 +504,8 @@ text_tracker_no_workflow: Tok rada nije definisan za ovaj tracker
 text_unallowed_characters: Nedozvoljeni karakteri
 text_comma_separated: Višestruke vrednosti su dozvoljene (razdvojene zarezom).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-text_issue_added: Kartica %s je prijavljena.
-text_issue_updated: Kartica %s je izmenjena.
+text_issue_added: Kartica %s je prijavljena (by %s).
+text_issue_updated: Kartica %s je izmenjena (by %s).
 text_wiki_destroy_confirmation: Da li ste sigurni da želite da izbrišete ovaj wiki i svu njegovu sadržinu ?
 text_issue_category_destroy_question: Neke kartice (%d) su dodeljene ovoj kategoriji. Šta želite da uradite ?
 text_issue_category_destroy_assignments: Ukloni dodeljivanje kategorija

@@ -191,16 +191,16 @@ setting_host_name: 主機名稱
 setting_text_formatting: 文字格式
 setting_wiki_compression: 壓縮 Wiki 歷史文章
 setting_feeds_limit: Feed content limit
-setting_autofetch_changesets: Autofetch commits
-setting_sys_api_enabled: Enable WS for repository management
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
+setting_autofetch_changesets: 自動取得送交版次
+setting_sys_api_enabled: 啟用管理版本庫之網頁服務 (Web Service)
+setting_commit_ref_keywords: 用於參照項目之關鍵字
+setting_commit_fix_keywords: 用於修正項目之關鍵字
 setting_autologin: 自動登入
 setting_date_format: 日期格式
 setting_time_format: 時間格式
 setting_cross_project_issue_relations: 允許關聯至其它專案的項目
 setting_issue_list_default_columns: 預設顯示於項目清單的欄位
-setting_repositories_encodings: Repositories encodings
+setting_repositories_encodings: 版本庫編碼
 setting_emails_footer: 電子郵件附帶說明
 setting_protocol: 協定
 setting_per_page_options: 每頁顯示個數選項
@@ -362,7 +362,7 @@ label_modification: %d 變更
 label_modification_plural: %d 變更
 label_revision: 版次
 label_revision_plural: 版次清單
-label_associated_revisions: Associated revisions
+label_associated_revisions: 相關版次
 label_added: 已新增
 label_modified: 已修改
 label_deleted: 已刪除
@@ -530,9 +530,9 @@ text_length_between: 長度必須介於 %d 至 %d 個字元之間.
 text_tracker_no_workflow: 此追蹤標籤尚未定義工作流程
 text_unallowed_characters: 不允許的字元
 text_comma_separated: 可輸入多個值 (以逗號分隔).
-text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-text_issue_added: 已通報 %s 個項目
-text_issue_updated: 已更新 %s 個項目
+text_issues_ref_in_commit_messages: 送交訊息中參照(或修正)項目之關鍵字
+text_issue_added: 已通報 %s 個項目 (by %s)
+text_issue_updated: 已更新 %s 個項目 (by %s)
 text_wiki_destroy_confirmation: 您確定要刪除這個 wiki 和其中的所有內容？
 text_issue_category_destroy_question: 有 (%d) 個項目被指派到此分類. 請選擇您想要的動作？
 text_issue_category_destroy_assignments: 移除這些項目的分類

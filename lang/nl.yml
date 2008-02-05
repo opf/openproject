@@ -482,8 +482,8 @@ text_tracker_no_workflow: Geen workflow gedefinieerd voor deze tracker
 text_unallowed_characters: Niet toegestane tekens
 text_coma_separated: Meerdere waarden toegestaan (door komma's gescheiden).
 text_issues_ref_in_commit_messages: Opzoeken en aanpassen van issues in commit berichten
-text_issue_added: Issue %s is gerapporteerd.
-text_issue_updated: Issue %s is gewijzigd.
+text_issue_added: Issue %s is gerapporteerd (by %s).
+text_issue_updated: Issue %s is gewijzigd (by %s).
 text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
 text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
 text_issue_category_destroy_assignments: Remove category assignments

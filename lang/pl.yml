@@ -500,12 +500,12 @@ label_this_week: ten tydzień
 label_jump_to_a_project: Skocz do projektu...
 field_assignable: Zagadnienia mogą być przypisane do tej roli
 label_sort_by: Sortuj po %s
-text_issue_updated: Zagadnienie %s zostało zaktualizowane.
+text_issue_updated: Zagadnienie %s zostało zaktualizowane (by %s).
 notice_feeds_access_key_reseted: Twój klucz dostępu RSS został zrestetowany.
 field_redirect_existing_links: Przekierowanie istniejących odnośników
 text_issue_category_reassign_to: Przydziel zagadnienie do tej kategorii
 notice_email_sent: Email został wysłany do %s
-text_issue_added: Zagadnienie %s zostało wprowadzone.
+text_issue_added: Zagadnienie %s zostało wprowadzone (by %s).
 text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i całą jego zawartość ?
 notice_email_error: Wystąpił błąd w trakcie wysyłania maila (%s)
 label_updated_time: Zaktualizowane %s temu

@@ -531,8 +531,8 @@ text_tracker_no_workflow: Kein Workflow für diesen Tracker definiert.
 text_unallowed_characters: Nicht erlaubte Zeichen
 text_comma_separated: Mehrere Werte erlaubt (durch Komma getrennt).
 text_issues_ref_in_commit_messages: Ticket-Beziehungen und -Status in Commit-Log-Meldungen
-text_issue_added: Ticket %s wurde erstellt.
-text_issue_updated: Ticket %s wurde aktualisiert.
+text_issue_added: Ticket %s wurde erstellt by %s.
+text_issue_updated: Ticket %s wurde aktualisiert by %s.
 text_wiki_destroy_confirmation: Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?
 text_issue_category_destroy_question: Einige Tickets (%d) sind dieser Kategorie zugeodnet. Was möchten Sie tun?
 text_issue_category_destroy_assignments: Kategorie-Zuordnung entfernen

@@ -480,8 +480,8 @@ text_tracker_no_workflow: Nu este definit nici un workflow pentru acest tip de t
 text_unallowed_characters: Caractere nepermise
 text_comma_separated: Se poate folosi valori multiple (separate de virgula).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-text_issue_added: Tichetul %s a fost raportat.
-text_issue_updated: tichetul %s a fost modificat.
+text_issue_added: Tichetul %s a fost raportat (by %s).
+text_issue_updated: tichetul %s a fost modificat (by %s).
 text_wiki_destroy_confirmation: Sunteti sigur ca vreti sa stergeti acest wiki si continutul ei ?
 text_issue_category_destroy_question: Cateva tichete (%d) apartin acestei categorii. Cum vreti sa procedati ?
 text_issue_category_destroy_assignments: Remove category assignments

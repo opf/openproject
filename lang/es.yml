@@ -505,12 +505,12 @@ label_jump_to_a_project: Ir al proyecto...
 field_assignable: Se pueden asignar peticiones a este perfil
 label_sort_by: Ordenar por %s
 setting_issue_list_default_columns: Columnas por defecto para la lista de peticiones
-text_issue_updated: La petición %s ha sido actualizada.
+text_issue_updated: La petición %s ha sido actualizada por %s.
 notice_feeds_access_key_reseted: Su clave de acceso para RSS ha sido reiniciada
 field_redirect_existing_links: Redireccionar enlaces existentes
 text_issue_category_reassign_to: Reasignar las peticiones a la categoría
 notice_email_sent: Se ha enviado un correo a %s
-text_issue_added: Petición añadida
+text_issue_added: Petición añadida por %s.
 field_comments: Comentario
 label_file_plural: Archivos
 text_wiki_destroy_confirmation: ¿Seguro que quiere borrar el wiki y todo su contenido?

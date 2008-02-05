@@ -482,8 +482,8 @@ text_tracker_no_workflow: Inget workflow definerat för denna tracker
 text_unallowed_characters: Unallowed characters
 text_comma_separated: Multiple values allowed (comma separated).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-text_issue_added: Brist %s har rapporterats.
-text_issue_updated: Brist %s har uppdaterats.
+text_issue_added: Brist %s har rapporterats (by %s).
+text_issue_updated: Brist %s har uppdaterats (by %s).
 text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
 text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
 text_issue_category_destroy_assignments: Remove category assignments

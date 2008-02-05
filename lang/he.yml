@@ -494,8 +494,8 @@ text_tracker_no_workflow: זרימת עבודה לא הוגדרה עבור עו�
 text_unallowed_characters: תווים לא מורשים
 text_comma_separated: הכנסת ערכים מרובים מותרת (מופרדים בפסיקים).
 text_issues_ref_in_commit_messages: קישור ותיקום נושאים בהודעות הפקדות
-text_issue_added: הנושא %s דווח.
-text_issue_updated: הנושא %s עודכן.
+text_issue_added: הנושא %s דווח (by %s).
+text_issue_updated: הנושא %s עודכן (by %s).
 text_wiki_destroy_confirmation: האם אתה בטוח שברצונך למחוק את הWIKI הזה ואת כל תוכנו?
 text_issue_category_destroy_question: כמה נושאים (%d) מוצבים לקטגוריה הזו. מה ברצונך לעשות?
 text_issue_category_destroy_assignments: הסר הצבת קטגוריה

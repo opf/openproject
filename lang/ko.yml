@@ -500,8 +500,8 @@ text_tracker_no_workflow: 이 추적타입(tracker)에 워크플로우가 정의
 text_unallowed_characters: 허용되지 않는 문자열
 text_comma_separated: 복수의 값들이 허용됩니다.(구분자 ,)
 text_issues_ref_in_commit_messages: 커밋메시지에서 티켓을 참조하거나 해결하기
-text_issue_added: 티켓[%s]이 보고되었습니다.
-text_issue_updated: 티켓[%s]이 수정되었습니다.
+text_issue_added: 티켓[%s]이 보고되었습니다 (by %s).
+text_issue_updated: 티켓[%s]이 수정되었습니다 (by %s).
 text_wiki_destroy_confirmation: 이 위키와 모든 내용을 지우시겠습니까?
 text_issue_category_destroy_question: 일부 티켓들(%d개)이 이 카테고리에 할당되어 있습니다. 어떻게 하시겠습니까?
 text_issue_category_destroy_assignments: 카테고리 할당 지우기

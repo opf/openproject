@@ -1,5 +1,5 @@
-# translated by andy wu
-# email:andywu.zh@gmail.com
+# Originally translated by andy wu (email:andywu.zh@gmail.com)
+# new translations added by the translation team from 72pines at http://code.72pines.org/projects/show/72pines-redmine/
 
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
@@ -32,12 +32,12 @@ activerecord_error_blank: 不能是空格
 activerecord_error_too_long: 太长
 activerecord_error_too_short: 太短
 activerecord_error_wrong_length: 长度有问题
-activerecord_error_taken: has already been taken
+activerecord_error_taken: 已经存在了
 activerecord_error_not_a_number: 不是数字
 activerecord_error_not_a_date: 不是有效的日期
 activerecord_error_greater_than_start_date: 必需大于开始日期
-activerecord_error_not_same_project: doesn't belong to the same project
-activerecord_error_circular_dependency: This relation would create a circular dependency
+activerecord_error_not_same_project: 不属于同一个项目
+activerecord_error_circular_dependency: 这个设置会造成循环关系的错误
 
 general_fmt_age: %d yr
 general_fmt_age_plural: %d yrs
@@ -58,12 +58,12 @@ general_first_day_of_week: '7'
 
 notice_account_updated: 帐户更新成功。
 notice_account_invalid_creditentials: 用户名或密码不正确
-notice_account_password_updated: 成功更新口令
-notice_account_wrong_password: 错误的口令
+notice_account_password_updated: 成功更新密码
+notice_account_wrong_password: 错误的密码
 notice_account_register_done: 帐户已创建成功
 notice_account_unknown_email: 未知用户
-notice_can_t_change_password: 该帐户使用了外部认证。无法更改口令。
-notice_account_lost_email_sent: 邮件已被发送，邮件中有关于选择新口令的指导
+notice_can_t_change_password: 该帐户使用了外部认证。无法更改密码。
+notice_account_lost_email_sent: 邮件已被发送，邮件中有关于选择新密码的指导
 notice_account_activated: 您的帐号已被激活。您现在可以登录了。
 notice_successful_create: 创建成功
 notice_successful_update: 更新成功
@@ -71,18 +71,18 @@ notice_successful_delete: 删除成功
 notice_successful_connection: 连接成功
 notice_file_not_found: 您访问的页面不存在或已被删除。
 notice_locking_conflict: 数据已被另一个用户更新
-notice_not_authorized: You are not authorized to access this page.
-notice_email_sent: An email was sent to %s
-notice_email_error: An error occurred while sending mail (%s)
-notice_feeds_access_key_reseted: Your RSS access key was reseted.
+notice_not_authorized: 对不起，您无权访问此页面.
+notice_email_sent: 已经成功发送email到 %s
+notice_email_error: 发送email时发生错误 (%s)
+notice_feeds_access_key_reseted: 您的RSS访问代码已经被重置了.
 
-error_scm_not_found: 在版本库中不存在该条目或修订
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_not_found: 在源代码库中不存在该条目或修订
+error_scm_command_failed: "访问源代码库的时候发生错误: %s"
 
-mail_subject_lost_password: 您的redMine口令
-mail_body_lost_password: 'To change your Redmine password, click on the following link:'
+mail_subject_lost_password: 您的redMine密码
+mail_body_lost_password: '点击以下的链接来修改您在redmine系统的密码:'
 mail_subject_register: redMine帐户激活
-mail_body_register: 'To activate your Redmine account, click on the following link:'
+mail_body_register: '点击以下的链接来激活您的redMine帐号:'
 
 gui_validation_error: 1 个错误
 gui_validation_error_plural: %d 个错误
@@ -110,10 +110,10 @@ field_value: 值
 field_category: 分类
 field_title: 标题
 field_project: 项目
-field_issue: 任务
+field_issue: 问题
 field_status: 状态
 field_notes: 说明
-field_is_closed: 已关闭的任务
+field_is_closed: 已关闭的问题
 field_is_default: 默认状态
 field_tracker: 跟踪
 field_subject: 主题
@@ -126,16 +126,16 @@ field_role: 角色
 field_homepage: 主页
 field_is_public: 公开
 field_parent: 上级项目
-field_is_in_chlog: 在更新日志中显示任务
-field_is_in_roadmap: 在路线图中显示任务
+field_is_in_chlog: 在更新日志中显示问题
+field_is_in_roadmap: 在路线图中显示问题
 field_login: 登录名
 field_mail_notification: 邮件通知
 field_admin: 管理员
 field_last_login_on: 最后登录
 field_language: 语言
 field_effective_date: 日期
-field_password: 口令
-field_new_password: 新口令
+field_password: 密码
+field_new_password: 新密码
 field_password_confirmation: 确认
 field_version: 版本
 field_type: 类别
@@ -147,7 +147,7 @@ field_attr_login: 登录名属性
 field_attr_firstname: 名字属性
 field_attr_lastname: 姓属性
 field_attr_mail: 邮件属性
-field_onthefly: On-the-fly user creation
+field_onthefly: 即时的用户生成
 field_start_date: 开始
 field_done_ratio: %% 完成
 field_auth_source: 认证模式
@@ -159,14 +159,14 @@ field_subproject: 子项目
 field_hours: Hours
 field_activity: 活动
 field_spent_on: 日期
-field_identifier: Identifier
-field_is_filter: Used as a filter
-field_issue_to_id: Related issue
-field_delay: Delay
-field_assignable: Issues can be assigned to this role
-field_redirect_existing_links: Redirect existing links
-field_estimated_hours: Estimated time
-field_default_value: Default value
+field_identifier: 标识
+field_is_filter: 作为过滤条件
+field_issue_to_id: 相关的问题报告
+field_delay: 延期
+field_assignable: 是否可以分配到问题
+field_redirect_existing_links: 重定向现有的链接
+field_estimated_hours: 预期时间
+field_default_value: 默认值
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题
@@ -175,19 +175,19 @@ setting_default_language: 默认语言
 setting_login_required: 要求认证
 setting_self_registration: 允许自注册
 setting_attachment_max_size: 附件最大尺寸
-setting_issues_export_limit: Issues export limit
-setting_mail_from: Emission mail address
+setting_issues_export_limit: 问题输出条目的限制
+setting_mail_from: 邮件发送人的地址
 setting_host_name: 主机名称
 setting_text_formatting: 文本格式
-setting_wiki_compression: Wiki history compression
-setting_feeds_limit: Feed content limit
-setting_autofetch_changesets: Autofetch commits
-setting_sys_api_enabled: Enable WS for repository management
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
-setting_autologin: Autologin
-setting_date_format: Date format
-setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_wiki_compression: Wiki文档的历史记录压缩
+setting_feeds_limit: RSS Feed内容条数
+setting_autofetch_changesets: 自动获取程序变动
+setting_sys_api_enabled: 启用后台的WS代码用于管理
+setting_commit_ref_keywords: 提交变动时引用问题号码的关键字
+setting_commit_fix_keywords: 提交变动时自动标志问题状态的关键字
+setting_autologin: 自动登录
+setting_date_format: 日期格式
+setting_cross_project_issue_relations: 允许不同项目之间的问题关联
 
 label_user: 用户
 label_user_plural: 用户列表
@@ -195,12 +195,12 @@ label_user_new: 新建用户
 label_project: 项目
 label_project_new: 新建项目
 label_project_plural: 项目列表
-label_project_all: All Projects
-label_project_latest: 最近的项目列表
-label_issue: 任务
-label_issue_new: 新建任务
-label_issue_plural: 任务列表
-label_issue_view_all: 查看所有任务
+label_project_all: 所有的项目
+label_project_latest: 最近更新的项目
+label_issue: 问题
+label_issue_new: 新建问题
+label_issue_plural: 问题列表
+label_issue_view_all: 查看所有问题
 label_document: 文档
 label_document_new: 新建文档
 label_document_plural: 文档列表
@@ -214,13 +214,13 @@ label_member_plural: 成员列表
 label_tracker: 跟踪标签
 label_tracker_plural: 跟踪标签列表
 label_tracker_new: 新建跟踪标签
-label_workflow: 工作流
-label_issue_status: 任务状态列表
-label_issue_status_plural: 任务状态列表
-label_issue_status_new: 新建任务状态列表
-label_issue_category: 任务类别
-label_issue_category_plural: 任务类别列表
-label_issue_category_new: 新建任务类别
+label_workflow: 工作流程
+label_issue_status: 问题状态列表
+label_issue_status_plural: 问题状态列表
+label_issue_status_new: 新建问题状态列表
+label_issue_category: 问题类别
+label_issue_category_plural: 问题类别列表
+label_issue_category_new: 新建问题类别
 label_custom_field: 自定义字段
 label_custom_field_plural: 自定义字段列表
 label_custom_field_new: 新建自定义字段
@@ -230,7 +230,7 @@ label_information: 信息
 label_information_plural: 信息
 label_please_login: 请登录
 label_register: 注册
-label_password_lost: 忘记口令
+label_password_lost: 忘记密码
 label_home: 主页
 label_my_page: 我的工作台
 label_my_account: 我的帐号
@@ -240,7 +240,7 @@ label_login: 登录
 label_logout: 退出
 label_help: 帮助
 label_reported_issues: 已报告的问题
-label_assigned_to_me_issues: 分配给我的任务
+label_assigned_to_me_issues: 分配给我的问题
 label_last_login: 最后登录
 label_last_updates: 最后更新
 label_last_updates_plural: %d 最后更新
@@ -255,12 +255,12 @@ label_auth_source_new: 新建认证模式
 label_auth_source_plural: 认证模式列表
 label_subproject_plural: 子项目列表
 label_min_max_length: 最小 - 最大 长度
-label_list: list
-label_date: Date
-label_integer: Integer
-label_boolean: Boolean
-label_string: Text
-label_text: Long text
+label_list: 列表
+label_date: 日期
+label_integer: 整数
+label_boolean: 是否
+label_string: 文字
+label_text: 长段文字
 label_attribute: 属性
 label_attribute_plural: 属性
 label_download: %d 个下载次数
@@ -296,7 +296,7 @@ label_closed_issues_plural: 已关闭
 label_total: 合计
 label_permissions: 权限列表
 label_current_status: 当前状态
-label_new_statuses_allowed: New statuses allowed
+label_new_statuses_allowed: 启用了新状态
 label_all: 全部
 label_none: 无
 label_next: 下一个
@@ -306,7 +306,7 @@ label_details: 详情
 label_add_note: 添加说明
 label_per_page: 每面
 label_calendar: 日历
-label_months_from: months from
+label_months_from: 个月以来
 label_gantt: 甘特图(Gantt)
 label_internal: 内部
 label_last_changes: 最近的 %d 次更改
@@ -328,14 +328,14 @@ label_in_less_than: 剩余天数小于
 label_in_more_than: 剩余天数大于
 label_in: 剩余天数
 label_today: 今天
-label_this_week: this week
+label_this_week: 本周
 label_less_than_ago: 之前天数少于
 label_more_than_ago: 之前天数大于
 label_ago: 之前天数
 label_contains: 包含
 label_not_contains: 不包含
 label_day_plural: 天数
-label_repository: 版本库
+label_repository: 源代码库
 label_browse: 浏览
 label_modification: %d 个更新
 label_modification_plural: %d 个更新
@@ -354,45 +354,45 @@ label_sort_higher: 上移
 label_sort_lower: 下移
 label_sort_lowest: 置底
 label_roadmap: 路线图
-label_roadmap_due_in: Due in 
+label_roadmap_due_in: 截止日期到 
 label_roadmap_overdue: %s late
-label_roadmap_no_issues: 该版本没有任务
+label_roadmap_no_issues: 该版本没有问题
 label_search: 查找
 label_result_plural: 个结果
 label_all_words: 所有单词
 label_wiki: Wiki
-label_wiki_edit: Wiki edit
-label_wiki_edit_plural: Wiki edits
-label_wiki_page_plural: Wiki pages
+label_wiki_edit: Wiki 编辑
+label_wiki_edit_plural: Wiki 编辑记录
+label_wiki_page_plural: Wiki 页面
 label_index_by_title: 索引
-label_index_by_date: Index by date
+label_index_by_date: 按照日期排序的索引
 label_current_version: 当前版本
 label_preview: 预览
 label_feed_plural: Feeds
 label_changes_details: 所有更改的详情
-label_issue_tracking: 任务跟踪
+label_issue_tracking: 问题跟踪
 label_spent_time: 耗时
 label_f_hour: %.2f 小时
 label_f_hour_plural: %.2f 小时
 label_time_tracking: 时间跟踪
 label_change_plural: 更改列表
 label_statistics: 统计
-label_commits_per_month: Commits per month
-label_commits_per_author: Commits per author
-label_view_diff: View differences
+label_commits_per_month: Commits/月
+label_commits_per_author: Commits/用户
+label_view_diff: 查看变动
 label_diff_inline: inline
 label_diff_side_by_side: side by side
-label_options: Options
-label_copy_workflow_from: Copy workflow from
-label_permissions_report: Permissions report
-label_watched_issues: Watched issues
-label_related_issues: Related issues
-label_applied_status: Applied status
-label_loading: Loading...
-label_relation_new: New relation
-label_relation_delete: Delete relation
-label_relates_to: related to
-label_duplicates: duplicates
+label_options: 选项
+label_copy_workflow_from: 从以下项目复制工作流程
+label_permissions_report: 权限设置列表
+label_watched_issues: 跟踪的问题
+label_related_issues: 相关的问题
+label_applied_status: 修改了状态
+label_loading: 载入中...
+label_relation_new: 新的关联
+label_relation_delete: 删除关联
+label_relates_to: 关联到
+label_duplicates: 重复
 label_blocks: blocks
 label_blocked_by: blocked by
 label_precedes: precedes
@@ -401,32 +401,32 @@ label_end_to_start: end to start
 label_end_to_end: end to end
 label_start_to_start: start to start
 label_start_to_end: start to end
-label_stay_logged_in: Stay logged in
-label_disabled: disabled
-label_show_completed_versions: Show completed versions
-label_me: me
-label_board: Forum
-label_board_new: New forum
-label_board_plural: Forums
-label_topic_plural: Topics
-label_message_plural: Messages
-label_message_last: Last message
-label_message_new: New message
-label_reply_plural: Replies
-label_send_information: Send account information to the user
-label_year: Year
-label_month: Month
-label_week: Week
-label_date_from: From
-label_date_to: To
-label_language_based: Language based
-label_sort_by: Sort by %s
-label_send_test_email: Send a test email
-label_feeds_access_key_created_on: RSS access key created %s ago
-label_module_plural: Modules
-label_added_time_by: Added by %s %s ago
-label_updated_time: Updated %s ago
-label_jump_to_a_project: Jump to a project...
+label_stay_logged_in: 保持一直登录
+label_disabled: 禁用了
+label_show_completed_versions: 显示已经完成的版本
+label_me: 我
+label_board: 讨论区
+label_board_new: 新的版面
+label_board_plural: 讨论区
+label_topic_plural: 主题
+label_message_plural: 帖子
+label_message_last: 最新的帖子
+label_message_new: 新贴
+label_reply_plural: 回复
+label_send_information: 给用户发送帐号信息
+label_year: 年
+label_month: 月
+label_week: 周
+label_date_from: 从
+label_date_to: 到
+label_language_based: 语言
+label_sort_by: 根据 %s 排序 
+label_send_test_email: 发送测试email
+label_feeds_access_key_created_on: RSS 访问代码是在 %s 之前建立的
+label_module_plural: 模块
+label_added_time_by: 由 %s 在 %s 之前添加
+label_updated_time:  更新于 %s 前
+label_jump_to_a_project: 选择一个项目...
 
 button_login: 登录
 button_submit: 提交
@@ -452,14 +452,14 @@ button_cancel: 取消
 button_activate: 激活
 button_sort: 排序
 button_log_time: 登记工时
-button_rollback: Rollback to this version
-button_watch: Watch
-button_unwatch: Unwatch
-button_reply: Reply
-button_archive: Archive
-button_unarchive: Unarchive
-button_reset: Reset
-button_rename: Rename
+button_rollback: 恢复到这个版本
+button_watch: 跟踪
+button_unwatch: 取消跟踪
+button_reply: 回复
+button_archive: 存档
+button_unarchive: 取消存档
+button_reset: 重置
+button_rename: 重命名
 
 status_active: 激活
 status_registered: 已注册
@@ -469,7 +469,7 @@ text_select_mail_notifications: 选择需要发送邮件通知的动作。
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 表示没有限制
 text_project_destroy_confirmation: 您确信要删除这个项目以及所有相关的数据吗？
-text_workflow_edit: 选择一个角色和跟踪标签来编辑这个工作流
+text_workflow_edit: 选择一个角色和跟踪标签来编辑这个工作流程
 text_are_you_sure: 您确定？
 text_journal_changed: 从 %s 更改为 %s
 text_journal_set_to: 设置为 %s
@@ -477,19 +477,19 @@ text_journal_deleted: 已删除
 text_tip_task_begin_day: 开始于此
 text_tip_task_end_day: 在此结束
 text_tip_task_begin_end_day: 开始并结束于此
-text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
-text_caracters_maximum: %d characters maximum.
-text_length_between: Length between %d and %d characters.
-text_tracker_no_workflow: No workflow defined for this tracker
-text_unallowed_characters: Unallowed characters
-text_comma_separated: Multiple values allowed (comma separated).
-text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-text_issue_added: %s ѱ
-text_issue_updated: %s Ѹ
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-text_issue_category_destroy_assignments: Remove category assignments
-text_issue_category_reassign_to: Reassing issues to this category
+text_project_identifier_info: '只允许使用小写字母 (a-z), 数字和-短横号.<br />注意，保存以后, 标志名就不能修改了.'
+text_caracters_maximum: 最多 %d 个字符.
+text_length_between: 字符长度应该在 %d 和 %d 个之间.
+text_tracker_no_workflow: 还没有定义工作流程
+text_unallowed_characters: 有不符合规定的字符
+text_comma_separated: 可以使用多个值 (用逗号,分开).
+text_issues_ref_in_commit_messages: 信息里面直接可以使用的ref关联或者是fix修复标签设置
+text_issue_added: 问题 %s 成功提交 (by %s).
+text_issue_updated: 问题 %s 成功更新 (by %s).
+text_wiki_destroy_confirmation: 您是否确定要删除以下的 wiki 页面及其内容?
+text_issue_category_destroy_question: 有一些问题 (%d 个) 属于这个分类. 您还想继续操作吗?
+text_issue_category_destroy_assignments: 取消分类的设置
+text_issue_category_reassign_to: 重新添加到分类
 
 default_role_manager: 管理员
 default_role_developper: 开发人员
@@ -513,59 +513,59 @@ default_priority_immediate: 立刻
 default_activity_design: 设计
 default_activity_development: 开发
 
-enumeration_issue_priorities: 任务优先级
+enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
-enumeration_activities: Activities (time tracking)
-label_wiki_page: Wiki page
-label_file_plural: Files
-label_changeset_plural: Changesets
-field_column_names: Columns
-label_default_columns: Default columns
-setting_issue_list_default_columns: Default columns displayed on the issue list
-setting_repositories_encodings: Repositories encodings
-notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
-label_bulk_edit_selected_issues: Bulk edit selected issues
-label_no_change_option: (No change)
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-label_theme: Theme
-label_default: Default
-label_search_titles_only: Search titles only
+enumeration_activities: 活动情况 (时间跟踪)
+label_wiki_page: Wiki 页面
+label_file_plural: 文件
+label_changeset_plural: 程序变动
+field_column_names: 列
+label_default_columns: 默认列
+setting_issue_list_default_columns: 问题列表中显示的默认列
+setting_repositories_encodings: 源代码库编码
+notice_no_issue_selected: "没有选择任何的问题! 请选择您要编辑的问题."
+label_bulk_edit_selected_issues: 批量修改已选择的问题
+label_no_change_option: (不变)
+notice_failed_to_save_issues: "在保存 %d 个问题时(总共 %d 个)失败: %s."
+label_theme: 主题
+label_default: 默认
+label_search_titles_only: 仅在标题中搜索
 label_nobody: nobody
-button_change_password: Change password
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
-setting_emails_footer: Emails footer
+button_change_password: 修改密码
+text_user_mail_option: "对于没有选择的项目, 您将只会收到您已经跟踪或者是参与的项目的通知 (比如说，您是问题的报告者, 或是负责解决这个问题的)."
+label_user_mail_option_selected: "对于所选择的项目，收取任何相关的通知..."
+label_user_mail_option_all: "对于我参与的项目，收取任何相关的通知"
+label_user_mail_option_none: "只收取和我跟踪或者参与的项目的通知"
+setting_emails_footer: Emails 末尾的信息
 label_float: Float
-button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
-field_time_zone: Time zone
-text_caracters_minimum: Must be at least %d characters long.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-button_annotate: Annotate
+button_copy: 复制
+mail_body_account_information_external: 您可以使用 "%s" 帐号登录了.
+mail_body_account_information: 您的帐号信息
+setting_protocol: 协议(Protocol)
+label_user_mail_no_self_notified: "对于我提交的修改，不要给我发送通知"
+setting_time_format: 时间格式
+label_registration_activation_by_email: 通过email认证激活帐号
+mail_subject_account_activation_request: Redmine 帐号激活请求
+mail_body_account_activation_request: '新用户 (%s) 已经注册成功. 他的帐号需要您的认可后生效:'
+label_registration_automatic_activation: 自动激活帐号
+label_registration_manual_activation: 手动激活帐号
+notice_account_pending: "您的帐号已经成功建立, 但是还需要等待管理员的认可后才能激活."
+field_time_zone: 时区
+text_caracters_minimum: "至少需要 %d 个字符."
+setting_bcc_recipients: 抄送地址 (bcc)
+button_annotate: 注释
 label_issues_by: Issues by %s
 field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
+label_display_per_page: '每页显示: %s'
+setting_per_page_options: 每页显示条目的设置
 label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
-label_general: General
-label_repository_plural: Repositories
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format
+notice_default_data_loaded: 成功载入默认设置.
+text_load_default_configuration: 载入默认设置
+text_no_configuration_data: "用户权限，跟踪标签, 问题状态列表和工作流程还没有设置好.\n强烈推荐载入默认的设置. 载入后您可以再进行定制."
+error_can_t_load_default_data: "不能载入默认设置: %s"
+button_update: 更新
+label_change_properties: 修改属性
+label_general: 一般
+label_repository_plural: 源代码库
+label_associated_revisions: 相关的版本
+setting_user_format: 用户显示格式

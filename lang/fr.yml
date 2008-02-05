@@ -532,8 +532,8 @@ text_tracker_no_workflow: Aucun worflow n'est défini pour ce tracker
 text_unallowed_characters: Caractères non autorisés
 text_comma_separated: Plusieurs valeurs possibles (séparées par des virgules).
 text_issues_ref_in_commit_messages: Référencement et résolution des demandes dans les commentaires de commits
-text_issue_added: La demande %s a été soumise.
-text_issue_updated: La demande %s a été mise à jour.
+text_issue_added: La demande %s a été soumise par %s.
+text_issue_updated: La demande %s a été mise à jour par %s.
 text_wiki_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce wiki et tout son contenu ?
 text_issue_category_destroy_question: Des demandes (%d) sont affectées à cette catégories. Que voulez-vous faire ?
 text_issue_category_destroy_assignments: N'affecter les demandes à aucune autre catégorie
