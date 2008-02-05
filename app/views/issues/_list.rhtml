@@ -6,7 +6,7 @@
                                 :method => :get},
                                {:title => l(:label_bulk_edit_selected_issues)}) if @project && User.current.allowed_to?(:edit_issues, @project) %>
         </th>
-		<%= sort_header_tag("#{Issue.table_name}.id", :caption => '#') %>
+		<%= sort_header_tag("#{Issue.table_name}.id", :caption => '#', :default_order => 'desc') %>
         <% query.columns.each do |column| %>
           <%= column_header(column) %>
         <% end %>

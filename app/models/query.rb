@@ -16,12 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class QueryColumn  
-  attr_accessor :name, :sortable
+  attr_accessor :name, :sortable, :default_order
   include GLoc
   
   def initialize(name, options={})
     self.name = name
     self.sortable = options[:sortable]
+    self.default_order = options[:default_order]
   end
   
   def caption
@@ -94,18 +95,18 @@ class Query < ActiveRecord::Base
   @@available_columns = [
     QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position"),
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position"),
-    QueryColumn.new(:priority, :sortable => "#{Enumeration.table_name}.position"),
-    QueryColumn.new(:subject),
+    QueryColumn.new(:priority, :sortable => "#{Enumeration.table_name}.position", :default_order => 'desc'),
+    QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => "#{User.table_name}.lastname"),
-    QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on"),
+    QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name"),
     QueryColumn.new(:fixed_version),
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
     QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio"),
-    QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on"),
+    QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
   ]
   cattr_reader :available_columns
   

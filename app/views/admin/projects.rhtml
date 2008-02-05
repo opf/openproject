@@ -17,9 +17,9 @@
   <thead><tr>
 	<%= sort_header_tag('name', :caption => l(:label_project)) %>
 	<th><%=l(:field_description)%></th>
-	<th><%=l(:field_is_public)%></th>
 	<th><%=l(:label_subproject_plural)%></th>
-	<%= sort_header_tag('created_on', :caption => l(:field_created_on)) %>
+	<%= sort_header_tag('is_public', :caption => l(:field_is_public), :default_order => 'desc') %>
+	<%= sort_header_tag('created_on', :caption => l(:field_created_on), :default_order => 'desc') %>
     <th></th>
     <th></th>
   </tr></thead>
@@ -28,8 +28,8 @@
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= project.active? ? link_to(h(project.name), :controller => 'projects', :action => 'settings', :id => project) : h(project.name) %>
 	<td><%= textilizable project.short_description, :project => project %>
-	<td align="center"><%= image_tag 'true.png' if project.is_public? %>
 	<td align="center"><%= project.children.size %>
+	<td align="center"><%= image_tag 'true.png' if project.is_public? %>
 	<td align="center"><%= format_date(project.created_on) %>
   <td align="center" style="width:10%">
     <small>
