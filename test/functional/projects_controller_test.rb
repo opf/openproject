@@ -163,9 +163,10 @@ class ProjectsControllerTest < Test::Unit::TestCase
     
     assert_tag :tag => "h3", 
                :content => /#{2.days.ago.to_date.day}/,
-               :sibling => { :tag => "ul",
-                 :child => { :tag => "li",
-                   :child => { :tag => "p",
+               :sibling => { :tag => "dl",
+                 :child => { :tag => "dt",
+                   :attributes => { :class => 'journal' },
+                   :child => { :tag => "a",
                      :content => /(#{IssueStatus.find(2).name})/,
                    }
                  }
@@ -178,9 +179,10 @@ class ProjectsControllerTest < Test::Unit::TestCase
                
     assert_tag :tag => "h3", 
                :content => /#{3.day.ago.to_date.day}/,
-               :sibling => { :tag => "ul",
-                 :child => { :tag => "li",
-                   :child => { :tag => "p",
+               :sibling => { :tag => "dl",
+                 :child => { :tag => "dt",
+                   :attributes => { :class => 'issue' },
+                   :child => { :tag => "a",
                      :content => /#{Issue.find(1).subject}/,
                    }
                  }
