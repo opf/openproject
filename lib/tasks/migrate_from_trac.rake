@@ -157,6 +157,8 @@ namespace :redmine do
       end
       
       def self.find_or_create_user(username, project_member = false)
+        return User.anonymous if username.blank?
+        
         u = User.find_by_login(username)
         if !u
           # Create a new user if not found
