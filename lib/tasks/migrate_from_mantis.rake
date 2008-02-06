@@ -87,18 +87,24 @@ task :migrate_from_mantis => :environment do
       set_table_name :mantis_user_table
       
       def firstname
-        realname.blank? ? username : realname.split.first[0..29]
+        @firstname = realname.blank? ? username : realname.split.first[0..29]
+        @firstname.gsub!(/[^\w\s\'\-]/i, '')
+        @firstname
       end
       
       def lastname
-        realname.blank? ? username : realname.split[1..-1].join(' ')[0..29]
+        @lastname = realname.blank? ? username : realname.split[1..-1].join(' ')[0..29]
+        @lastname.gsub!(/[^\w\s\'\-]/i, '')
+        @lastname = '-' if @lastname.blank?
+        @lastname
       end
       
       def email
-        if read_attribute(:email).match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
-          read_attribute(:email)
+        if read_attribute(:email).match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i) &&
+             !User.find_by_mail(read_attribute(:email))
+          @email = read_attribute(:email)
         else
-          "#{username}@foo.bar"
+          @email = "#{username}@foo.bar"
         end
       end
       
@@ -246,7 +252,7 @@ task :migrate_from_mantis => :environment do
     	u.password = 'mantis'
     	u.status = User::STATUS_LOCKED if user.enabled != 1
     	u.admin = true if user.access_level == 90
-    	next unless u.save
+    	next unless u.save!
     	users_migrated += 1
     	users_map[user.id] = u.id
     	print '.'
