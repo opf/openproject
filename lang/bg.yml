@@ -566,3 +566,4 @@ label_general: Основни
 label_repository_plural: Хранилища
 label_associated_revisions: Асоциирани ревизии
 setting_user_format: Потребителски формат
+text_status_changed_by_changeset: Applied in changeset %s.

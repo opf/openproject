@@ -18,7 +18,16 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class RepositoryTest < Test::Unit::TestCase
-  fixtures :projects, :repositories, :issues, :issue_statuses, :changesets, :changes
+  fixtures :projects,
+           :trackers,
+           :projects_trackers,
+           :repositories,
+           :issues,
+           :issue_statuses,
+           :changesets,
+           :changes,
+           :users,
+           :enumerations
   
   def setup
     @repository = Project.find(1).repository
@@ -42,18 +51,34 @@ class RepositoryTest < Test::Unit::TestCase
     Setting.commit_fix_done_ratio = "90"
     Setting.commit_ref_keywords = 'refs , references, IssueID'
     Setting.commit_fix_keywords = 'fixes , closes'
-
+    Setting.default_language = 'en'
+    ActionMailer::Base.deliveries.clear
+    
     # make sure issue 1 is not already closed
-    assert !Issue.find(1).status.is_closed?
+    fixed_issue = Issue.find(1)
+    assert !fixed_issue.status.is_closed?
+    old_status = fixed_issue.status
         
     Repository.scan_changesets_for_issue_ids
     assert_equal [101, 102], Issue.find(3).changeset_ids
     
     # fixed issues
-    fixed_issue = Issue.find(1)
+    fixed_issue.reload
     assert fixed_issue.status.is_closed?
     assert_equal 90, fixed_issue.done_ratio
     assert_equal [101], fixed_issue.changeset_ids
+    
+    # issue change
+    journal = fixed_issue.journals.find(:first, :order => 'created_on desc')
+    assert_equal User.find_by_login('dlopper'), journal.user
+    assert_equal 'Applied in changeset r2.', journal.notes
+    
+    # 2 email notifications
+    assert_equal 2, ActionMailer::Base.deliveries.size
+    mail = ActionMailer::Base.deliveries.first
+    assert_kind_of TMail::Mail, mail
+    assert mail.subject.starts_with?("[#{fixed_issue.project.name} - #{fixed_issue.tracker.name} ##{fixed_issue.id}]")
+    assert mail.body.include?("Status changed from #{old_status} to #{fixed_issue.status}")
     
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets

@@ -567,3 +567,4 @@ label_repository_plural: Saugiklos
 error_can_t_load_default_data: "Numatytoji konfiguracija negali būti užkrauta: %s"
 label_associated_revisions: susijusios revizijos
 setting_user_format: Vartotojo atvaizdavimo formatas
+text_status_changed_by_changeset: Applied in changeset %s.

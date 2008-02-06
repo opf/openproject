@@ -567,3 +567,4 @@ default_activity_development: Разработка
 enumeration_issue_priorities: Приоритеты задач
 enumeration_doc_categories: Категории документов
 enumeration_activities: Действия (учет времени)
+text_status_changed_by_changeset: Applied in changeset %s.

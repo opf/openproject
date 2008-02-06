@@ -566,3 +566,4 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目重要性
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (time tracking)
+text_status_changed_by_changeset: Applied in changeset %s.

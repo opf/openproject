@@ -566,3 +566,4 @@ label_general: Ogólne
 label_repository_plural: Repozytoria
 label_associated_revisions: Associated revisions
 setting_user_format: Users display format
+text_status_changed_by_changeset: Applied in changeset %s.
