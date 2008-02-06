@@ -86,12 +86,12 @@ cross_project_issue_relations:
   default: 0
 notified_events:
   serialized: true
-  default: --
+  default: 
   - issue_added
   - issue_updated
 issue_list_default_columns:
   serialized: true
-  default: --
+  default: 
   - tracker
   - status
   - priority
