@@ -32,9 +32,9 @@ Redmine::AccessControl.map do |map|
                                   :reports => :issue_report}, :public => true                    
     map.permission :add_issues, {:issues => :new}
     map.permission :edit_issues, {:projects => :bulk_edit_issues,
-                                  :issues => [:edit, :update, :destroy_attachment]}
+                                  :issues => [:edit, :destroy_attachment]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
-    map.permission :add_issue_notes, {:issues => :update}
+    map.permission :add_issue_notes, {:issues => :edit}
     map.permission :move_issues, {:projects => :move_issues}, :require => :loggedin
     map.permission :delete_issues, {:issues => :destroy}, :require => :member
     # Queries

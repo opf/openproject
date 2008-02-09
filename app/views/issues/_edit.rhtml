@@ -1,0 +1,39 @@
+<% labelled_tabular_form_for :issue, @issue,
+                             :url => {:action => 'edit', :id => @issue},
+                             :html => {:id => 'issue-form',
+                                       :multipart => true} do |f| %>
+    <%= error_messages_for 'issue' %>
+    <div class="box">
+    <% if @edit_allowed || !@allowed_statuses.empty? %>
+        <fieldset>
+        <legend><%= l(:label_change_properties) %>
+        <% if !@issue.new_record? && !@issue.errors.any? && @edit_allowed %>
+        <small>(<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("issue_descr_fields", "appear", {duration:0.3}); return false;' %>)</small>
+        <% end %>
+        </legend>
+        <%= render :partial => (@edit_allowed ? 'form' : 'form_update'), :locals => {:f => f} %>
+        </fieldset>
+    <% end %>
+    
+    <fieldset><legend><%= l(:field_notes) %></legend>
+    <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+    <%= wikitoolbar_for 'notes' %>
+    
+    <p id="attachments_p"><label><%=l(:label_attachment_new)%>
+    <%= image_to_function 'add.png', 'addFileField();return false;' %></label>
+    <%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
+    </fieldset>
+    </div>
+    
+    <%= f.hidden_field :lock_version %>
+    <%= submit_tag l(:button_submit) %>
+    <%= link_to_remote l(:label_preview), 
+                       { :url => { :controller => 'issues', :action => 'preview', :id => @issue },
+                         :method => 'post',
+                         :update => 'preview',
+                         :with => 'Form.serialize("issue-form")',
+                         :complete => "location.hash='preview'"
+                       }, :accesskey => accesskey(:preview) %>
+<% end %>
+
+<div id="preview" class="wiki"></div>

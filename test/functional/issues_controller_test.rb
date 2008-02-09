@@ -217,18 +217,11 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert mail.body.include?("Subject changed from #{old_subject} to #{new_subject}")
   end
   
-  def test_get_update
-    @request.session[:user_id] = 2
-    get :update, :id => 1
-    assert_response :success
-    assert_template 'update'
-  end
-  
-  def test_update_with_status_and_assignee_change
+  def test_post_edit_with_status_and_assignee_change
     issue = Issue.find(1)
     assert_equal 1, issue.status_id
     @request.session[:user_id] = 2
-    post :update,
+    post :edit,
          :id => 1,
          :issue => { :status_id => 2, :assigned_to_id => 3 },
          :notes => 'Assigned to dlopper'
@@ -243,10 +236,10 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert mail.body.include?("Status changed from New to Assigned")
   end
   
-  def test_update_with_note_only
+  def test_post_edit_with_note_only
     notes = 'Note added by IssuesControllerTest#test_update_with_note_only'
     # anonymous user
-    post :update,
+    post :edit,
          :id => 1,
          :notes => notes
     assert_redirected_to 'issues/show/1'
@@ -259,10 +252,10 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert mail.body.include?(notes)
   end
   
-  def test_update_with_note_and_spent_time
+  def test_post_edit_with_note_and_spent_time
     @request.session[:user_id] = 2
     spent_hours_before = Issue.find(1).spent_hours
-    post :update,
+    post :edit,
          :id => 1,
          :notes => '2.5 hours added',
          :time_entry => { :hours => '2.5', :comments => '', :activity_id => Enumeration.get_values('ACTI').first }
@@ -280,9 +273,9 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal spent_hours_before + 2.5, issue.spent_hours
   end
   
-  def test_update_with_attachment_only
+  def test_post_edit_with_attachment_only
     # anonymous user
-    post :update,
+    post :edit,
          :id => 1,
          :notes => '',
          :attachments => [ test_uploaded_file('testfile.txt', 'text/plain') ]
@@ -297,12 +290,12 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert mail.body.include?('testfile.txt')
   end
   
-  def test_update_with_no_change
+  def test_post_edit_with_no_change
     issue = Issue.find(1)
     issue.journals.clear
     ActionMailer::Base.deliveries.clear
     
-    post :update,
+    post :edit,
          :id => 1,
          :notes => ''
     assert_redirected_to 'issues/show/1'

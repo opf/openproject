@@ -25,7 +25,7 @@ class IssuesController < ApplicationController
   before_filter :find_optional_project, :only => [:index, :changes]
   accept_key_auth :index, :changes
   
-  cache_sweeper :issue_sweeper, :only => [ :new, :edit, :update, :destroy ]
+  cache_sweeper :issue_sweeper, :only => [ :new, :edit, :destroy ]
 
   helper :journals
   helper :projects
@@ -85,10 +85,12 @@ class IssuesController < ApplicationController
   end
   
   def show
-    @custom_values = @issue.custom_values.find(:all, :include => :custom_field, :order => "#{CustomField.table_name}.position")
+    @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
-    @status_options = @issue.new_statuses_allowed_to(User.current)
+    @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @activities = Enumeration::get_values('ACTI')
+    @priorities = Enumeration::get_values('IPRI')
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml' }
       format.pdf  { send_data(render(:template => 'issues/show.rfpdf', :layout => false), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
@@ -140,48 +142,33 @@ class IssuesController < ApplicationController
     render :layout => !request.xhr?
   end
   
-  def edit
-    @priorities = Enumeration::get_values('IPRI')
-    @custom_values = []
-    if request.get?
-      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
-    else
-      begin
-        journal = @issue.init_journal(User.current)
-        # Retrieve custom fields and values
-        if params["custom_fields"]
-          @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
-          @issue.custom_values = @custom_values
-        end
-        @issue.attributes = params[:issue]
-        if @issue.save
-          flash[:notice] = l(:notice_successful_update)
-          Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
-          redirect_to(params[:back_to] || {:action => 'show', :id => @issue})
-        end
-      rescue ActiveRecord::StaleObjectError
-        # Optimistic locking exception
-        flash[:error] = l(:notice_locking_conflict)
-      end
-    end		
-  end
-  
-  # Attributes that can be updated on workflow transition
+  # Attributes that can be updated on workflow transition (without :edit permission)
   # TODO: make it configurable (at least per role)
   UPDATABLE_ATTRS_ON_TRANSITION = %w(status_id assigned_to_id fixed_version_id done_ratio) unless const_defined?(:UPDATABLE_ATTRS_ON_TRANSITION)
   
-  def update
-    @status_options = @issue.new_statuses_allowed_to(User.current)
+  def edit
+    @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @activities = Enumeration::get_values('ACTI')
-    journal = @issue.init_journal(User.current, params[:notes])
-    # User can change issue attributes only if a workflow transition is allowed
-    if !@status_options.empty? && params[:issue]
-      attrs = params[:issue].dup
-      attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) }
-      attrs.delete(:status_id) unless @status_options.detect {|s| s.id.to_s == attrs[:status_id].to_s}
-      @issue.attributes = attrs
-    end
-    if request.post?
+    @priorities = Enumeration::get_values('IPRI')
+    @custom_values = []
+    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+    if request.get?
+      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
+    else
+      @notes = params[:notes]
+      journal = @issue.init_journal(User.current, @notes)
+      # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
+      if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
+        attrs = params[:issue].dup
+        attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
+        attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
+        @issue.attributes = attrs
+      end
+      # Update custom fields if user has :edit permission
+      if @edit_allowed && params[:custom_fields]
+        @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
+        @issue.custom_values = @custom_values
+      end
       attachments = attach_files(@issue, params[:attachments])
       attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
       if @issue.save
@@ -243,7 +230,7 @@ class IssuesController < ApplicationController
   def preview
     issue = Issue.find_by_id(params[:id])
     @attachements = issue.attachments if issue
-    @text = (params[:issue] ? params[:issue][:description] : nil) || params[:notes]
+    @text = params[:notes] || (params[:issue] ? params[:issue][:description] : nil)
     render :partial => 'common/preview'
   end
   

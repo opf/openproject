@@ -570,3 +570,4 @@ label_repository_plural: 源代码库
 label_associated_revisions: 相关的版本
 setting_user_format: 用户显示格式
 text_status_changed_by_changeset: Applied in changeset %s.
+label_more: More

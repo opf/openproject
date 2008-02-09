@@ -2,7 +2,10 @@
 
 <% labelled_tabular_form_for :issue, @issue, 
                              :html => {:multipart => true, :id => 'issue-form'} do |f| %>
+    <%= error_messages_for 'issue' %>
+    <div class="box">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
+    </div>
     <%= submit_tag l(:button_create) %>
     <%= link_to_remote l(:label_preview), 
                        { :url => { :controller => 'issues', :action => 'preview', :id => @issue },

@@ -469,6 +469,7 @@ label_display_per_page: 'Per page: %s'
 label_age: Age
 label_change_properties: Change properties
 label_general: General
+label_more: More
 
 button_login: Login
 button_submit: Submit

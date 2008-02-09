@@ -567,3 +567,4 @@ enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
 text_status_changed_by_changeset: Applied in changeset %s.
+label_more: More

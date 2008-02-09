@@ -1,6 +1,5 @@
 <div class="contextual">
-<%= show_and_goto_link(l(:button_update), 'update', :class => 'icon icon-note') if authorize_for('issues', 'update') %>
-<%= link_to_if_authorized l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+<%= show_and_goto_link(l(:button_update), 'update', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) if authorize_for('issues', 'edit') %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
 <%= watcher_tag(@issue, User.current) %>
 <%= link_to_if_authorized l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-copy' %>
@@ -89,11 +88,11 @@ end %>
 </div>
 <% end %>
 
-<% if authorize_for('issues', 'update') %>
+<% if authorize_for('issues', 'edit') %>
   <a name="update-anchor"></a>
   <div id="update" style="display:none;">
   <h3><%= l(:button_update) %></h3>
-  <%= render :partial => 'update' %>
+  <%= render :partial => 'edit' %>
   </div>
 <% end %>
 
