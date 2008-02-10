@@ -543,6 +543,7 @@ text_user_mail_option: "Pour les projets non sélectionnés, vous recevrez seule
 text_no_configuration_data: "Les rôles, trackers, statuts et le workflow ne sont pas encore paramétrés.\nIl est vivement recommandé de charger le paramétrage par defaut. Vous pourrez le modifier une fois chargé."
 text_load_default_configuration: Charger le paramétrage par défaut
 text_status_changed_by_changeset: Appliqué par commit %s.
+text_issues_destroy_confirmation: 'Etes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
 
 default_role_manager: Manager
 default_role_developper: Développeur

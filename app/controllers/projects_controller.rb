@@ -22,7 +22,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :files, :only => [:list_files, :add_file]
   menu_item :settings, :only => :settings
-  menu_item :issues, :only => [:bulk_edit_issues, :changelog, :move_issues]
+  menu_item :issues, :only => [:changelog]
   
   before_filter :find_project, :except => [ :index, :list, :add ]
   before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy ]
@@ -180,83 +180,6 @@ class ProjectsController < ApplicationController
   	  flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'settings', :tab => 'versions', :id => @project
   	end
-  end
-
-  # Bulk edit issues
-  def bulk_edit_issues
-    if request.post?
-      status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
-      priority = params[:priority_id].blank? ? nil : Enumeration.find_by_id(params[:priority_id])
-      assigned_to = params[:assigned_to_id].blank? ? nil : User.find_by_id(params[:assigned_to_id])
-      category = params[:category_id].blank? ? nil : @project.issue_categories.find_by_id(params[:category_id])
-      fixed_version = params[:fixed_version_id].blank? ? nil : @project.versions.find_by_id(params[:fixed_version_id])
-      issues = @project.issues.find_all_by_id(params[:issue_ids])
-      unsaved_issue_ids = []      
-      issues.each do |issue|
-        journal = issue.init_journal(User.current, params[:notes])
-        issue.priority = priority if priority
-        issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
-        issue.category = category if category
-        issue.fixed_version = fixed_version if fixed_version
-        issue.start_date = params[:start_date] unless params[:start_date].blank?
-        issue.due_date = params[:due_date] unless params[:due_date].blank?
-        issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
-        # Don't save any change to the issue if the user is not authorized to apply the requested status
-        if (status.nil? || (issue.status.new_status_allowed_to?(status, current_role, issue.tracker) && issue.status = status)) && issue.save
-          # Send notification for each issue (if changed)
-          Mailer.deliver_issue_edit(journal) if journal.details.any? && Setting.notified_events.include?('issue_updated')
-        else
-          # Keep unsaved issue ids to display them in flash error
-          unsaved_issue_ids << issue.id
-        end
-      end
-      if unsaved_issue_ids.empty?
-        flash[:notice] = l(:notice_successful_update) unless issues.empty?
-      else
-        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, issues.size, '#' + unsaved_issue_ids.join(', #'))
-      end
-      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
-      return
-    end
-    # Find potential statuses the user could be allowed to switch issues to
-    @available_statuses = Workflow.find(:all, :include => :new_status,
-                                              :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq
-    render :update do |page|
-      page.hide 'query_form'
-      page.replace_html  'bulk-edit', :partial => 'issues/bulk_edit_form'
-    end
-  end
-
-  def move_issues
-    @issues = @project.issues.find(params[:issue_ids]) if params[:issue_ids]
-    redirect_to :controller => 'issues', :action => 'index', :project_id => @project and return unless @issues
-    
-    @projects = []
-    # find projects to which the user is allowed to move the issue
-    if User.current.admin?
-      # admin is allowed to move issues to any active (visible) project
-      @projects = Project.find(:all, :conditions => Project.visible_by(User.current), :order => 'name')
-    else
-      User.current.memberships.each {|m| @projects << m.project if m.role.allowed_to?(:move_issues)}
-    end
-    @target_project = @projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
-    @target_project ||= @project    
-    @trackers = @target_project.trackers
-    if request.post?
-      new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
-      unsaved_issue_ids = []
-      @issues.each do |issue|
-        unsaved_issue_ids << issue.id unless issue.move_to(@target_project, new_tracker)
-      end
-      if unsaved_issue_ids.empty?
-        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
-      else
-        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
-      end
-      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
-      return
-    end
-    render :layout => false if request.xhr?
   end
 
   def add_file

@@ -1,3 +1,6 @@
+/* redMine - project management software
+   Copyright (C) 2006-2008  Jean-Philippe Lang */
+
 function checkAll (id, checked) {
 	var el = document.getElementById(id);
 	for (var i = 0; i < el.elements.length; i++) {
@@ -47,16 +50,6 @@ function promptToRemote(text, param, url) {
         new Ajax.Request(url + '?' + param + '=' + value, {asynchronous:true, evalScripts:true});
         return false;
     }
-}
-
-/* checks that at least one checkbox is checked (used when submitting bulk edit form) */
-function checkBulkEdit(form) {
-	for (var i = 0; i < form.elements.length; i++) {
-        if (form.elements[i].checked) {
-            return true;
-        }
-    }
-    return false;
 }
 
 function collapseScmEntry(id) {

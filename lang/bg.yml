@@ -568,3 +568,4 @@ label_associated_revisions: Асоциирани ревизии
 setting_user_format: Потребителски формат
 text_status_changed_by_changeset: Applied in changeset %s.
 label_more: More
+text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'

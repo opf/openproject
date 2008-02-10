@@ -93,32 +93,6 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_nil Project.find_by_id(1)
   end
   
-  def test_bulk_edit_issues
-    @request.session[:user_id] = 2
-    # update issues priority
-    post :bulk_edit_issues, :id => 1, :issue_ids => [1, 2], :priority_id => 7, :notes => 'Bulk editing', :assigned_to_id => ''
-    assert_response 302
-    # check that the issues were updated
-    assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
-    assert_equal 'Bulk editing', Issue.find(1).journals.find(:first, :order => 'created_on DESC').notes
-  end
-
-  def test_move_issues_to_another_project
-    @request.session[:user_id] = 1
-    post :move_issues, :id => 1, :issue_ids => [1, 2], :new_project_id => 2
-    assert_redirected_to 'projects/ecookbook/issues'
-    assert_equal 2, Issue.find(1).project_id
-    assert_equal 2, Issue.find(2).project_id
-  end
-  
-  def test_move_issues_to_another_tracker
-    @request.session[:user_id] = 1
-    post :move_issues, :id => 1, :issue_ids => [1, 2], :new_tracker_id => 2
-    assert_redirected_to 'projects/ecookbook/issues'
-    assert_equal 2, Issue.find(1).tracker_id
-    assert_equal 2, Issue.find(2).tracker_id
-  end
-  
   def test_list_files
     get :list_files, :id => 1
     assert_response :success

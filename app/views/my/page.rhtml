@@ -37,6 +37,6 @@
 <% end %>
 
 <div id="context-menu" style="display: none;"></div>
-<%= javascript_tag 'new ContextMenu({})' %>
+<%= javascript_tag "new ContextMenu('#{url_for(:controller => 'issues', :action => 'context_menu')}')" %>
 
 <% html_title(l(:label_my_page)) -%>

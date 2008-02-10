@@ -197,6 +197,28 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:issue)
     assert_equal Issue.find(1), assigns(:issue)
   end
+  
+  def test_get_edit_with_params
+    @request.session[:user_id] = 2
+    get :edit, :id => 1, :issue => { :status_id => 5, :priority_id => 7 }
+    assert_response :success
+    assert_template 'edit'
+    
+    issue = assigns(:issue)
+    assert_not_nil issue
+    
+    assert_equal 5, issue.status_id
+    assert_tag :select, :attributes => { :name => 'issue[status_id]' },
+                        :child => { :tag => 'option', 
+                                    :content => 'Closed',
+                                    :attributes => { :selected => 'selected' } }
+                                    
+    assert_equal 7, issue.priority_id
+    assert_tag :select, :attributes => { :name => 'issue[priority_id]' },
+                        :child => { :tag => 'option', 
+                                    :content => 'Urgent',
+                                    :attributes => { :selected => 'selected' } }
+  end
 
   def test_post_edit
     @request.session[:user_id] = 2
@@ -305,12 +327,105 @@ class IssuesControllerTest < Test::Unit::TestCase
     # No email should be sent
     assert ActionMailer::Base.deliveries.empty?
   end
-  
-  def test_context_menu
+
+  def test_bulk_edit
     @request.session[:user_id] = 2
-    get :context_menu, :id => 1
+    # update issues priority
+    post :bulk_edit, :ids => [1, 2], :priority_id => 7, :notes => 'Bulk editing', :assigned_to_id => ''
+    assert_response 302
+    # check that the issues were updated
+    assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
+    assert_equal 'Bulk editing', Issue.find(1).journals.find(:first, :order => 'created_on DESC').notes
+  end
+
+  def test_move_one_issue_to_another_project
+    @request.session[:user_id] = 1
+    post :move, :id => 1, :new_project_id => 2
+    assert_redirected_to 'projects/ecookbook/issues'
+    assert_equal 2, Issue.find(1).project_id
+  end
+
+  def test_bulk_move_to_another_project
+    @request.session[:user_id] = 1
+    post :move, :ids => [1, 2], :new_project_id => 2
+    assert_redirected_to 'projects/ecookbook/issues'
+    # Issues moved to project 2
+    assert_equal 2, Issue.find(1).project_id
+    assert_equal 2, Issue.find(2).project_id
+    # No tracker change
+    assert_equal 1, Issue.find(1).tracker_id
+    assert_equal 2, Issue.find(2).tracker_id
+  end
+ 
+  def test_bulk_move_to_another_tracker
+    @request.session[:user_id] = 1
+    post :move, :ids => [1, 2], :new_tracker_id => 2
+    assert_redirected_to 'projects/ecookbook/issues'
+    assert_equal 2, Issue.find(1).tracker_id
+    assert_equal 2, Issue.find(2).tracker_id
+  end
+  
+  def test_context_menu_one_issue
+    @request.session[:user_id] = 2
+    get :context_menu, :ids => [1]
     assert_response :success
     assert_template 'context_menu'
+    assert_tag :tag => 'a', :content => 'Edit',
+                            :attributes => { :href => '/issues/edit/1',
+                                             :class => 'icon-edit' }
+    assert_tag :tag => 'a', :content => 'Closed',
+                            :attributes => { :href => '/issues/edit/1?issue%5Bstatus_id%5D=5',
+                                             :class => '' }
+    assert_tag :tag => 'a', :content => 'Immediate',
+                            :attributes => { :href => '/issues/edit/1?issue%5Bpriority_id%5D=8',
+                                             :class => '' }
+    assert_tag :tag => 'a', :content => 'Dave Lopper',
+                            :attributes => { :href => '/issues/edit/1?issue%5Bassigned_to_id%5D=3',
+                                             :class => '' }
+    assert_tag :tag => 'a', :content => 'Copy',
+                            :attributes => { :href => '/projects/ecookbook/issues/new?copy_from=1',
+                                             :class => 'icon-copy' }
+    assert_tag :tag => 'a', :content => 'Move',
+                            :attributes => { :href => '/issues/move?ids%5B%5D=1',
+                                             :class => 'icon-move' }
+    assert_tag :tag => 'a', :content => 'Delete',
+                            :attributes => { :href => '/issues/destroy?ids%5B%5D=1',
+                                             :class => 'icon-del' }
+  end
+
+  def test_context_menu_one_issue_by_anonymous
+    get :context_menu, :ids => [1]
+    assert_response :success
+    assert_template 'context_menu'
+    assert_tag :tag => 'a', :content => 'Delete',
+                            :attributes => { :href => '#',
+                                             :class => 'icon-del disabled' }
+  end
+  
+  def test_context_menu_multiple_issues_of_same_project
+    @request.session[:user_id] = 2
+    get :context_menu, :ids => [1, 2]
+    assert_response :success
+    assert_template 'context_menu'
+    assert_tag :tag => 'a', :content => 'Edit',
+                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;ids%5B%5D=2',
+                                             :class => 'icon-edit' }
+    assert_tag :tag => 'a', :content => 'Move',
+                            :attributes => { :href => '/issues/move?ids%5B%5D=1&amp;ids%5B%5D=2',
+                                             :class => 'icon-move' }
+    assert_tag :tag => 'a', :content => 'Delete',
+                            :attributes => { :href => '/issues/destroy?ids%5B%5D=1&amp;ids%5B%5D=2',
+                                             :class => 'icon-del' }
+  end
+
+  def test_context_menu_multiple_issues_of_different_project
+    @request.session[:user_id] = 2
+    get :context_menu, :ids => [1, 2, 4]
+    assert_response :success
+    assert_template 'context_menu'
+    assert_tag :tag => 'a', :content => 'Delete',
+                            :attributes => { :href => '#',
+                                             :class => 'icon-del disabled' }
   end
   
   def test_destroy

@@ -1,6 +1,12 @@
-<div id="bulk-edit-fields">
-<fieldset class="box"><legend><%= l(:label_bulk_edit_selected_issues) %></legend>
+<h2><%= l(:label_bulk_edit_selected_issues) %></h2>
 
+<ul><%= @issues.collect {|i| content_tag('li', link_to(h("#{i.tracker} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n") %></ul>
+
+<% form_tag() do %>
+<%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
+<div class="box">
+<fieldset>
+<legend><%= l(:label_change_properties) %></legend>
 <p>
 <% if @available_statuses.any? %>
 <label><%= l(:field_status) %>: 
@@ -28,11 +34,12 @@
 <label><%= l(:field_done_ratio) %>: 
 <%= select_tag 'done_ratio', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></label>
 </p>
-
-<label for="notes"><%= l(:field_notes) %></label><br />
-<%= text_area_tag 'notes', '', :cols => 80, :rows => 5 %>
-
 </fieldset>
-<p><%= submit_tag l(:button_apply) %>
-<%= link_to l(:button_cancel), {}, :onclick => 'Element.hide("bulk-edit-fields"); if ($("query_form")) {Element.show("query_form")}; return false;' %></p>
+
+<fieldset><legend><%= l(:field_notes) %></legend>
+<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+<%= wikitoolbar_for 'notes' %>
 </div>
+
+<p><%= submit_tag l(:button_submit) %>
+<% end %>

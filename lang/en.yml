@@ -542,6 +542,7 @@ text_user_mail_option: "For unselected projects, you will only receive notificat
 text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
 text_load_default_configuration: Load the default configuration
 text_status_changed_by_changeset: Applied in changeset %s.
+text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
 
 default_role_manager: Manager
 default_role_developper: Developer

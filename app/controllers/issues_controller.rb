@@ -19,13 +19,14 @@ class IssuesController < ApplicationController
   layout 'base'
   menu_item :new_issue, :only => :new
   
-  before_filter :find_issue, :except => [:index, :changes, :preview, :new, :update_form]
+  before_filter :find_issue, :only => [:show, :edit, :destroy_attachment]
+  before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form]
-  before_filter :authorize, :except => [:index, :changes, :preview, :update_form]
+  before_filter :authorize, :except => [:index, :changes, :preview, :update_form, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes]
   accept_key_auth :index, :changes
   
-  cache_sweeper :issue_sweeper, :only => [ :new, :edit, :destroy ]
+  cache_sweeper :issue_sweeper, :only => [ :new, :edit, :bulk_edit, :destroy ]
 
   helper :journals
   helper :projects
@@ -152,18 +153,20 @@ class IssuesController < ApplicationController
     @priorities = Enumeration::get_values('IPRI')
     @custom_values = []
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+    
+    @notes = params[:notes]
+    journal = @issue.init_journal(User.current, @notes)
+    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
+    if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
+      attrs = params[:issue].dup
+      attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
+      attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
+      @issue.attributes = attrs
+    end
+
     if request.get?
       @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
     else
-      @notes = params[:notes]
-      journal = @issue.init_journal(User.current, @notes)
-      # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
-      if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
-        attrs = params[:issue].dup
-        attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
-        attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
-        @issue.attributes = attrs
-      end
       # Update custom fields if user has :edit permission
       if @edit_allowed && params[:custom_fields]
         @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
@@ -191,8 +194,78 @@ class IssuesController < ApplicationController
     flash.now[:error] = l(:notice_locking_conflict)
   end
 
+  # Bulk edit a set of issues
+  def bulk_edit
+    if request.post?
+      status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
+      priority = params[:priority_id].blank? ? nil : Enumeration.find_by_id(params[:priority_id])
+      assigned_to = params[:assigned_to_id].blank? ? nil : User.find_by_id(params[:assigned_to_id])
+      category = params[:category_id].blank? ? nil : @project.issue_categories.find_by_id(params[:category_id])
+      fixed_version = params[:fixed_version_id].blank? ? nil : @project.versions.find_by_id(params[:fixed_version_id])
+      
+      unsaved_issue_ids = []      
+      @issues.each do |issue|
+        journal = issue.init_journal(User.current, params[:notes])
+        issue.priority = priority if priority
+        issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
+        issue.category = category if category
+        issue.fixed_version = fixed_version if fixed_version
+        issue.start_date = params[:start_date] unless params[:start_date].blank?
+        issue.due_date = params[:due_date] unless params[:due_date].blank?
+        issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
+        # Don't save any change to the issue if the user is not authorized to apply the requested status
+        if (status.nil? || (issue.status.new_status_allowed_to?(status, current_role, issue.tracker) && issue.status = status)) && issue.save
+          # Send notification for each issue (if changed)
+          Mailer.deliver_issue_edit(journal) if journal.details.any? && Setting.notified_events.include?('issue_updated')
+        else
+          # Keep unsaved issue ids to display them in flash error
+          unsaved_issue_ids << issue.id
+        end
+      end
+      if unsaved_issue_ids.empty?
+        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
+      else
+        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
+      end
+      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+      return
+    end
+    # Find potential statuses the user could be allowed to switch issues to
+    @available_statuses = Workflow.find(:all, :include => :new_status,
+                                              :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq
+  end
+
+  def move
+    @allowed_projects = []
+    # find projects to which the user is allowed to move the issue
+    if User.current.admin?
+      # admin is allowed to move issues to any active (visible) project
+      @allowed_projects = Project.find(:all, :conditions => Project.visible_by(User.current), :order => 'name')
+    else
+      User.current.memberships.each {|m| @allowed_projects << m.project if m.role.allowed_to?(:move_issues)}
+    end
+    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
+    @target_project ||= @project    
+    @trackers = @target_project.trackers
+    if request.post?
+      new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
+      unsaved_issue_ids = []
+      @issues.each do |issue|
+        unsaved_issue_ids << issue.id unless issue.move_to(@target_project, new_tracker)
+      end
+      if unsaved_issue_ids.empty?
+        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
+      else
+        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
+      end
+      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+      return
+    end
+    render :layout => false if request.xhr?
+  end
+  
   def destroy
-    @issue.destroy
+    @issues.each(&:destroy)
     redirect_to :action => 'index', :project_id => @project
   end
 
@@ -208,17 +281,27 @@ class IssuesController < ApplicationController
   end
   
   def context_menu
+    @issues = Issue.find_all_by_id(params[:ids], :include => :project)
+    if (@issues.size == 1)
+      @issue = @issues.first
+      @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+      @assignables = @issue.assignable_users
+      @assignables << @issue.assigned_to if @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
+    end
+    projects = @issues.collect(&:project).compact.uniq
+    @project = projects.first if projects.size == 1
+
+    @can = {:edit => (@project && User.current.allowed_to?(:edit_issues, @project)),
+            :update => (@issue && (User.current.allowed_to?(:edit_issues, @project) || (User.current.allowed_to?(:change_status, @project) && !@allowed_statuses.empty?))),
+            :move => (@project && User.current.allowed_to?(:move_issues, @project)),
+            :copy => (@issue && @project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),
+            :delete => (@project && User.current.allowed_to?(:delete_issues, @project))
+            }
+
     @priorities = Enumeration.get_values('IPRI').reverse
     @statuses = IssueStatus.find(:all, :order => 'position')
-    @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-    @assignables = @issue.assignable_users
-    @assignables << @issue.assigned_to if @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
-    @can = {:edit => User.current.allowed_to?(:edit_issues, @project),
-            :assign => (@allowed_statuses.any? || User.current.allowed_to?(:edit_issues, @project)),
-            :add => User.current.allowed_to?(:add_issues, @project),
-            :move => User.current.allowed_to?(:move_issues, @project),
-            :copy => (@project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),
-            :delete => User.current.allowed_to?(:delete_issues, @project)}
+    @back = request.env['HTTP_REFERER']
+    
     render :layout => false
   end
 
@@ -238,6 +321,21 @@ private
   def find_issue
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
     @project = @issue.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
+  # Filter for bulk operations
+  def find_issues
+    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
+    raise ActiveRecord::RecordNotFound if @issues.empty?
+    projects = @issues.collect(&:project).compact.uniq
+    if projects.size == 1
+      @project = projects.first
+    else
+      # TODO: let users bulk edit/move/destroy issues from different projects
+      render_error 'Can not bulk edit/move/destroy issues from different projects' and return false
+    end
   rescue ActiveRecord::RecordNotFound
     render_404
   end

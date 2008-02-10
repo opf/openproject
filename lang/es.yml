@@ -571,3 +571,4 @@ label_associated_revisions: Associated revisions
 setting_user_format: Users display format
 text_status_changed_by_changeset: Applied in changeset %s.
 label_more: More
+text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'

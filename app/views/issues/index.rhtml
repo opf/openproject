@@ -31,7 +31,6 @@
     <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
     <% end %>
     </div>
-    
     <h2><%=h @query.name %></h2>
     <div id="query_form"></div>
     <% html_title @query.name %>
@@ -41,7 +40,6 @@
 <% if @issues.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<% form_tag({:controller => 'projects', :action => 'bulk_edit_issues', :id => @project}, :id => 'issues_form', :onsubmit => "if (!checkBulkEdit(this)) {alert('#{l(:notice_no_issue_selected)}'); return false;}" ) do %>	
 <%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <div class="contextual">
 <%= l(:label_export_to) %>
@@ -49,7 +47,6 @@
 <%= link_to 'PDF', {:format => 'pdf'}, :class => 'icon icon-pdf' %>
 </div>
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
-<% end %>
 <% end %>
 <% end %>
 
@@ -60,13 +57,4 @@
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_issue_plural)) %>
     <%= auto_discovery_link_tag(:atom, {:action => 'changes', :query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_changes_details)) %>
-    <%= javascript_include_tag 'calendar/calendar' %>
-    <%= javascript_include_tag "calendar/lang/calendar-#{current_language}.js" %>
-    <%= javascript_include_tag 'calendar/calendar-setup' %>
-    <%= stylesheet_link_tag 'calendar' %>
-    <%= javascript_include_tag 'context_menu' %>
-    <%= stylesheet_link_tag 'context_menu' %>
 <% end %>
-
-<div id="context-menu" style="display: none;"></div>
-<%= javascript_tag 'new ContextMenu({})' %>
