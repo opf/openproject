@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
       elsif request.env['HTTP_ACCEPT_LANGUAGE']
         accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.split('-').first
         if accept_lang and !accept_lang.empty? and GLoc.valid_languages.include? accept_lang.to_sym
-          accept_lang
+          User.current.language = accept_lang
         end
       end
     rescue
