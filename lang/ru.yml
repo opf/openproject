@@ -531,9 +531,9 @@ text_tracker_no_workflow: Для этого трекера последоват�
 text_unallowed_characters: Запрещенные символы
 text_comma_separated: Допустимы несколько значений (разделенные запятой).
 text_issues_ref_in_commit_messages: Сопоставление и изменение статуса задач исходя из текста сообщений
-text_issue_added: О вопросе %s был создает отчет (by %s).
-text_issue_updated: Вопрос %s был обновлен (by %s).
-text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную вики и все содержание? 
+text_issue_added: По задаче %s был создан отчет (%s).
+text_issue_updated: Задача %s была обновлена (%s).
+text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную вики и все содержимое?
 text_issue_category_destroy_question: Несколько задач (%d) назначено в данную категорию. Что вы хотите предпринять?
 text_issue_category_destroy_assignments: Удалить назначения категории
 text_issue_category_reassign_to: Переназначить задачи для данной категории
@@ -567,6 +567,6 @@ default_activity_development: Разработка
 enumeration_issue_priorities: Приоритеты задач
 enumeration_doc_categories: Категории документов
 enumeration_activities: Действия (учет времени)
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
+text_status_changed_by_changeset: Реализовано в %s редакции.
+label_more: Больше
 text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'

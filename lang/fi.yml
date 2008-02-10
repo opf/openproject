@@ -79,7 +79,7 @@ notice_default_data_loaded: Vakio asetusten palautus onnistui.
 
 error_can_t_load_default_data: "Vakio asetuksia ei voitu ladata: %s"
 error_scm_not_found: "Syötettä ja/tai versiota ei löydy säiliöstä."
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "Säiliöön pääsyssä tapahtui virhe: %s"
 
 mail_subject_lost_password: Sinun Redmine salasanasi
 mail_body_lost_password: 'Vaihtaaksesi Redmine salasanasi, paina seuraavaa linkkiä:'
@@ -533,8 +533,8 @@ text_tracker_no_workflow: Ei työnkulkua määritelty tälle tiketille
 text_unallowed_characters: Kiellettyjä merkkejä
 text_comma_separated: Useat arvot sallittu (pilkku eroteltuna).
 text_issues_ref_in_commit_messages: Liitän ja korjaan ongelmia syötetyssä viestissä
-text_issue_added: Tapahtuma %s on kirjattu by %s.
-text_issue_updated: Tapahtuma %s on päivitetty by %s.
+text_issue_added: Tapahtuma %s on kirjattu.
+text_issue_updated: Tapahtuma %s on päivitetty.
 text_wiki_destroy_confirmation: Oletko varma että haluat poistaa tämän wiki:n ja kaikki sen sisältämän tiedon?
 text_issue_category_destroy_question: Jotkut tapahtumat (%d) ovat nimetty tälle luokalle. Mitä haluat tehdä?
 text_issue_category_destroy_assignments: Poista luokan tehtävät
@@ -569,7 +569,7 @@ enumeration_issue_priorities: Tapahtuman prioriteetit
 enumeration_doc_categories: Dokumentin luokat
 enumeration_activities: Aktiviteetit (ajan seuranta)
 label_associated_revisions: Liittyvät versiot
-setting_user_format: Users display format
+setting_user_format: Käyttäjien esitysmuoto
 text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
 text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+label_more: More
