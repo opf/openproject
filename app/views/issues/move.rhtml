@@ -9,7 +9,7 @@
 <p><label for="new_project_id"><%=l(:field_project)%> :</label>
 <%= select_tag "new_project_id",
                options_from_collection_for_select(@allowed_projects, 'id', 'name', @target_project.id),
-               :onchange => remote_function(:url => {:action => 'move' , :id => @project},
+               :onchange => remote_function(:url => { :action => 'move' },
                                             :method => :get,
                                             :update => 'content',
                                             :with => "Form.serialize('move_form')") %></p>
