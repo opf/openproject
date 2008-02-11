@@ -59,7 +59,7 @@ module ApplicationHelper
   def show_and_goto_link(name, id, options={})
     onclick = "Element.show('#{id}'); "
     onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
-    onclick << "location.href='##{id}-anchor'; "
+    onclick << "Element.scrollTo('#{id}'); "
     onclick << "return false;"
     link_to(name, "#", options.merge(:onclick => onclick))
   end

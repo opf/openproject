@@ -89,7 +89,6 @@ end %>
 <% end %>
 
 <% if authorize_for('issues', 'edit') %>
-  <a name="update-anchor"></a>
   <div id="update" style="display:none;">
   <h3><%= l(:button_update) %></h3>
   <%= render :partial => 'edit' %>

@@ -32,7 +32,7 @@
                          :method => 'post',
                          :update => 'preview',
                          :with => 'Form.serialize("issue-form")',
-                         :complete => "location.hash='preview'"
+                         :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %>
 <% end %>
 

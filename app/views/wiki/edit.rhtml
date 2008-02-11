@@ -16,12 +16,11 @@
                          :method => 'post',
                          :update => 'preview',
                          :with => "Form.serialize('wiki_form')",
-                         :complete => "location.href='#preview-top'"
+                         :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %></p>
 <%= wikitoolbar_for 'content_text' %>
 <% end %>
 
-<a name="preview-top"></a>
 <div id="preview" class="wiki"></div>
 
 <% content_for :header_tags do %>

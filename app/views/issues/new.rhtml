@@ -12,9 +12,8 @@
                          :method => 'post',
                          :update => 'preview',
                          :with => "Form.serialize('issue-form')",
-                         :complete => "location.href='#preview-top'"
+                         :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %>
 <% end %>
 
-<a name="preview-top"></a>
 <div id="preview" class="wiki"></div>
