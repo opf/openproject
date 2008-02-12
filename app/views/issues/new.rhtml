@@ -8,7 +8,7 @@
     </div>
     <%= submit_tag l(:button_create) %>
     <%= link_to_remote l(:label_preview), 
-                       { :url => { :controller => 'issues', :action => 'preview', :id => @issue },
+                       { :url => { :controller => 'issues', :action => 'preview', :project_id => @project, :id => @issue },
                          :method => 'post',
                          :update => 'preview',
                          :with => "Form.serialize('issue-form')",

@@ -21,7 +21,7 @@ class IssuesController < ApplicationController
   
   before_filter :find_issue, :only => [:show, :edit, :destroy_attachment]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
-  before_filter :find_project, :only => [:new, :update_form]
+  before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :preview, :update_form, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes]
   accept_key_auth :index, :changes
@@ -311,7 +311,7 @@ class IssuesController < ApplicationController
   end
   
   def preview
-    issue = Issue.find_by_id(params[:id])
+    issue = @project.issues.find_by_id(params[:id])
     @attachements = issue.attachments if issue
     @text = params[:notes] || (params[:issue] ? params[:issue][:description] : nil)
     render :partial => 'common/preview'

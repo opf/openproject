@@ -34,6 +34,7 @@ private
   def find_journal
     @journal = Journal.find(params[:id])
     render_403 and return false unless @journal.editable_by?(User.current)
+    @project = @journal.journalized.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
