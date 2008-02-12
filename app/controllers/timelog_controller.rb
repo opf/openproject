@@ -151,6 +151,8 @@ private
                  l(:field_user),
                  l(:field_activity),
                  l(:field_issue),
+                 l(:field_tracker),
+                 l(:field_subject),
                  l(:field_hours),
                  l(:field_comments)
                  ]
@@ -158,9 +160,11 @@ private
       # csv lines
       @entries.each do |entry|
         fields = [l_date(entry.spent_on),
-                  entry.user.name,
-                  entry.activity.name,
+                  entry.user,
+                  entry.activity,
                   (entry.issue ? entry.issue.id : nil),
+                  (entry.issue ? entry.issue.tracker : nil),
+                  (entry.issue ? entry.issue.subject : nil),
                   entry.hours,
                   entry.comments
                   ]
