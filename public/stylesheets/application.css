@@ -10,7 +10,17 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #wrapper {background: white;}
 
 #top-menu {background: #2C4056;color: #fff;height:1.5em; padding: 2px 6px 0px 6px;}
+#top-menu ul {margin: 0;  padding: 0;}
+#top-menu li {
+  float:left;
+  list-style-type:none;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  white-space:nowrap;
+}
 #top-menu a {color: #fff; padding-right: 4px;}
+#top-menu #loggedas { float: right; margin-right: 0.5em; color: #fff; }
+
 #account {float:right;}
 
 #header {height:5.3em;margin:0;background-color:#507AAA;color:#f8f8f8; padding: 4px 8px 0px 6px; position:relative;}

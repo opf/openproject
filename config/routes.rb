@@ -7,7 +7,9 @@ ActionController::Routing::Routes.draw do |map|
   # Keep in mind you can assign values other than :controller and :action
 
   map.home '', :controller => 'welcome'
-
+  map.signin 'login', :controller => 'account', :action => 'login'
+  map.signout 'logout', :controller => 'account', :action => 'logout'
+  
   map.connect 'wiki/:id/:page/:action', :controller => 'wiki', :page => nil
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
   map.connect 'help/:ctrl/:page', :controller => 'help'

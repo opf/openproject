@@ -61,16 +61,28 @@ module Redmine
         @controller.current_menu_item
       end
       
-      # Renders the application main menu as a ul element
+      # Renders the application main menu
       def render_main_menu(project)
+        render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
+      end
+      
+      def render_menu(menu, project=nil)
         links = []
-        Redmine::MenuManager.allowed_items(:project_menu, User.current, project).each do |item|
+        Redmine::MenuManager.allowed_items(menu, User.current, project).each do |item|
           unless item.condition && !item.condition.call(project)
+            url = case item.url
+            when Hash
+              project.nil? ? item.url : {item.param => project}.merge(item.url)
+            when Symbol
+              send(item.url)
+            else
+              item.url
+            end
+            #url = (project && item.url.is_a?(Hash)) ? {item.param => project}.merge(item.url) : (item.url.is_a?(Symbol) ? send(item.url) : item.url)
             links << content_tag('li', 
-                       link_to(l(item.caption), {item.param => project}.merge(item.url),
-                               (current_menu_item == item.name ? item.html_options.merge(:class => 'selected') : item.html_options)))
+              link_to(l(item.caption), url, (current_menu_item == item.name ? item.html_options.merge(:class => 'selected') : item.html_options)))
           end
-        end if project && !project.new_record?
+        end
         links.empty? ? nil : content_tag('ul', links.join("\n"))
       end
     end
@@ -89,35 +101,37 @@ module Redmine
       end
       
       def allowed_items(menu_name, user, project)
-        items(menu_name).select {|item| user && user.allowed_to?(item.url, project)}
+        project ? items(menu_name).select {|item| user && user.allowed_to?(item.url, project)} : items(menu_name)
       end
     end
     
     class Mapper
       # Adds an item at the end of the menu. Available options:
       # * param: the parameter name that is used for the project id (default is :id)
-      # * condition: a proc that is called before rendering the item, the item is displayed only if it returns true
+      # * if: a proc that is called before rendering the item, the item is displayed only if it returns true
       # * caption: the localized string key that is used as the item label
       # * html_options: a hash of html options that are passed to link_to
       def push(name, url, options={})
-        @items ||= []
-        @items << MenuItem.new(name, url, options)
+        items << MenuItem.new(name, url, options)
       end
       
       def items
-        @items
+        @items ||= []
       end
     end
     
     class MenuItem
+      include GLoc
       attr_reader :name, :url, :param, :condition, :caption, :html_options
       
       def initialize(name, url, options)
+        raise "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
+        raise "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
         @name = name
         @url = url
         @condition = options[:if]
         @param = options[:param] || :id
-        @caption = options[:caption] || name.to_s.humanize
+        @caption = options[:caption] || (l_has_string?("label_#{name}".to_sym) ? "label_#{name}".to_sym : name.to_s.humanize)
         @html_options = options[:html] || {}
       end
     end    

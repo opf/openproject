@@ -88,23 +88,41 @@ Redmine::AccessControl.map do |map|
   end
 end
 
-# Project menu configuration
+Redmine::MenuManager.map :top_menu do |menu|
+  menu.push :home, :home_url, :html => { :class => 'home' }
+  menu.push :my_page, { :controller => 'my', :action => 'page' }, :html => { :class => 'mypage' }, :if => Proc.new { User.current.logged? }
+  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural, :html => { :class => 'projects' }
+  menu.push :administration, { :controller => 'admin', :action => 'index' }, :html => { :class => 'admin' }, :if => Proc.new { User.current.admin? }
+  menu.push :help, Redmine::Info.help_url, :html => { :class => 'help' }
+end
+
+Redmine::MenuManager.map :account_menu do |menu|
+  menu.push :login, :signin_url, :html => { :class => 'login' }, :if => Proc.new { !User.current.logged? }
+  menu.push :register, { :controller => 'account', :action => 'register' }, :html => { :class => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
+  menu.push :my_account, { :controller => 'my', :action => 'account' }, :html => { :class => 'myaccount' }, :if => Proc.new { User.current.logged? }
+  menu.push :logout, :signout_url, :html => { :class => 'logout' }, :if => Proc.new { User.current.logged? }
+end
+
+Redmine::MenuManager.map :application_menu do |menu|
+  # Empty
+end
+
 Redmine::MenuManager.map :project_menu do |menu|
-  menu.push :overview, { :controller => 'projects', :action => 'show' }, :caption => :label_overview
-  menu.push :activity, { :controller => 'projects', :action => 'activity' }, :caption => :label_activity
+  menu.push :overview, { :controller => 'projects', :action => 'show' }
+  menu.push :activity, { :controller => 'projects', :action => 'activity' }
   menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, 
-              :if => Proc.new { |p| p.versions.any? }, :caption => :label_roadmap
+              :if => Proc.new { |p| p.versions.any? }
   menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
   menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }, 
-              :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }, :caption => :label_wiki
+              :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
   menu.push :repository, { :controller => 'repositories', :action => 'show' },
-              :if => Proc.new { |p| p.repository && !p.repository.new_record? }, :caption => :label_repository
-  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :caption => :label_settings
+              :if => Proc.new { |p| p.repository && !p.repository.new_record? }
+  menu.push :settings, { :controller => 'projects', :action => 'settings' }
 end

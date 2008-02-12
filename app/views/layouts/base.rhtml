@@ -21,20 +21,10 @@
 <div id="wrapper">
 <div id="top-menu">
     <div id="account">
-        <% if User.current.logged? %>
-            <%=l(:label_logged_as)%> <%= User.current.login %> -
-            <%= link_to l(:label_my_account), { :controller => 'my', :action => 'account' }, :class => 'myaccount' %>
-            <%= link_to_signout %>
-        <% else %>
-            <%= link_to_signin %>
-            <%= link_to(l(:label_register), { :controller => 'account',:action => 'register' }, :class => 'register') if Setting.self_registration? %>
-        <% end %>
+        <%= render_menu :account_menu -%>
     </div>
-    <%= link_to l(:label_home), home_url, :class => 'home' %>
-    <%= link_to l(:label_my_page), { :controller => 'my', :action => 'page'}, :class => 'mypage' if User.current.logged? %>
-    <%= link_to l(:label_project_plural), { :controller => 'projects' }, :class => 'projects' %>
-    <%= link_to l(:label_administration), { :controller => 'admin' }, :class => 'admin' if User.current.admin? %>
-    <%= link_to l(:label_help), Redmine::Info.help_url, :class => 'help' %>
+    <%= content_tag('div', "#{l(:label_logged_as)} #{User.current.login}", :id => 'loggedas') if User.current.logged? %>
+    <%= render_menu :top_menu -%>
 </div>
       
 <div id="header">

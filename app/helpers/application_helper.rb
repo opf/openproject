@@ -31,14 +31,6 @@ module ApplicationHelper
   def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
-  
-  def link_to_signin
-    link_to l(:label_login), { :controller => 'account', :action => 'login' }, :class => 'signin'
-  end
-  
-  def link_to_signout
-    link_to l(:label_logout), { :controller => 'account', :action => 'logout' }, :class => 'logout'
-  end
 
   # Display a link to user's account page
   def link_to_user(user)
