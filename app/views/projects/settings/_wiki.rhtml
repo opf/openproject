@@ -1,6 +1,7 @@
 <% remote_form_for :wiki, @wiki,
                    :url => { :controller => 'wikis', :action => 'edit', :id => @project },
-                   :builder => TabularFormBuilder do |f| %>
+                   :builder => TabularFormBuilder,
+                   :lang => current_language do |f| %>
 
 <%= error_messages_for 'wiki' %>
 

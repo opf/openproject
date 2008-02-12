@@ -95,6 +95,10 @@ module ApplicationHelper
     l(:label_added_time_by, author || 'Anonymous', time_tag)
   end
   
+  def l_or_humanize(s)
+    l_has_string?("label_#{s}".to_sym) ? l("label_#{s}".to_sym) : s.to_s.humanize
+  end
+  
   def day_name(day)
     l(:general_day_names).split(',')[day-1]
   end

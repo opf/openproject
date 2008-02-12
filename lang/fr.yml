@@ -68,7 +68,6 @@ notice_successful_delete: Suppression effectuée avec succès.
 notice_successful_connection: Connection réussie.
 notice_file_not_found: "La page à laquelle vous souhaitez accéder n'existe pas ou a été supprimée."
 notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
-notice_scm_error: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
 notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
 notice_email_sent: "Un email a été envoyé à %s"
 notice_email_error: "Erreur lors de l'envoi de l'email (%s)"
@@ -219,10 +218,13 @@ label_issue: Demande
 label_issue_new: Nouvelle demande
 label_issue_plural: Demandes
 label_issue_view_all: Voir toutes les demandes
+label_issue_added: Demande ajoutée
+label_issue_updated: Demande mise à jour
 label_issues_by: Demandes par %s
 label_document: Document
 label_document_new: Nouveau document
 label_document_plural: Documents
+label_document_added: Document ajouté
 label_role: Rôle
 label_role_plural: Rôles
 label_role_new: Nouveau rôle
@@ -292,6 +294,7 @@ label_attachment: Fichier
 label_attachment_new: Nouveau fichier
 label_attachment_delete: Supprimer le fichier
 label_attachment_plural: Fichiers
+label_file_added: Fichier ajouté
 label_report: Rapport
 label_report_plural: Rapports
 label_news: Annonce
@@ -299,6 +302,7 @@ label_news_new: Nouvelle annonce
 label_news_plural: Annonces
 label_news_latest: Dernières annonces
 label_news_view_all: Voir toutes les annonces
+label_news_added: Annonce ajoutée
 label_change_log: Historique
 label_settings: Configuration
 label_overview: Aperçu
@@ -436,6 +440,7 @@ label_topic_plural: Discussions
 label_message_plural: Messages
 label_message_last: Dernier message
 label_message_new: Nouveau message
+label_message_posted: Message ajouté
 label_reply_plural: Réponses
 label_send_information: Envoyer les informations à l'utilisateur
 label_year: Année
@@ -471,6 +476,7 @@ label_age: Age
 label_change_properties: Changer les propriétés
 label_general: Général
 label_more: Plus
+label_scm: SCM
 
 button_login: Connexion
 button_submit: Soumettre
@@ -513,7 +519,7 @@ status_active: actif
 status_registered: enregistré
 status_locked: vérouillé
 
-text_select_mail_notifications: Sélectionner les actions pour lesquelles la notification par mail doit être activée.
+text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
 text_regexp_info: ex. ^[A-Z0-9]+$
 text_min_max_length_info: 0 pour aucune restriction
 text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et tout ce qui lui est rattaché ?
@@ -544,6 +550,7 @@ text_no_configuration_data: "Les rôles, trackers, statuts et le workflow ne son
 text_load_default_configuration: Charger le paramétrage par défaut
 text_status_changed_by_changeset: Appliqué par commit %s.
 text_issues_destroy_confirmation: 'Etes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
+text_select_project_modules: 'Selectionner les modules à activer pour ce project:'
 
 default_role_manager: Manager
 default_role_developper: Développeur

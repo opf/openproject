@@ -219,9 +219,12 @@ label_issue_new: New issue
 label_issue_plural: Issues
 label_issue_view_all: View all issues
 label_issues_by: Issues by %s
+label_issue_added: Issue added
+label_issue_updated: Issue updated
 label_document: Document
 label_document_new: New document
 label_document_plural: Documents
+label_document_added: Document added
 label_role: Role
 label_role_plural: Roles
 label_role_new: New role
@@ -291,6 +294,7 @@ label_attachment: File
 label_attachment_new: New file
 label_attachment_delete: Delete file
 label_attachment_plural: Files
+label_file_added: File added
 label_report: Report
 label_report_plural: Reports
 label_news: News
@@ -298,6 +302,7 @@ label_news_new: Add news
 label_news_plural: News
 label_news_latest: Latest news
 label_news_view_all: View all news
+label_news_added: News added
 label_change_log: Change log
 label_settings: Settings
 label_overview: Overview
@@ -435,6 +440,7 @@ label_topic_plural: Topics
 label_message_plural: Messages
 label_message_last: Last message
 label_message_new: New message
+label_message_posted: Message added
 label_reply_plural: Replies
 label_send_information: Send account information to the user
 label_year: Year
@@ -470,6 +476,7 @@ label_age: Age
 label_change_properties: Change properties
 label_general: General
 label_more: More
+label_scm: SCM
 
 button_login: Login
 button_submit: Submit
@@ -543,6 +550,7 @@ text_no_configuration_data: "Roles, trackers, issue statuses and workflow have n
 text_load_default_configuration: Load the default configuration
 text_status_changed_by_changeset: Applied in changeset %s.
 text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+text_select_project_modules: 'Select modules to enable for this project:'
 
 default_role_manager: Manager
 default_role_developper: Developer

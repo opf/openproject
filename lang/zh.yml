@@ -572,3 +572,11 @@ setting_user_format: 用户显示格式
 text_status_changed_by_changeset: Applied in changeset %s.
 label_more: More
 text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+label_scm: SCM
+text_select_project_modules: 'Select modules to enable for this project:'
+label_issue_added: Issue added
+label_issue_updated: Issue updated
+label_document_added: Document added
+label_message_posted: Message added
+label_file_added: File added
+label_news_added: News added
