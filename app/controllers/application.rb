@@ -59,6 +59,7 @@ class ApplicationController < ActionController::Base
   end 
   
   def set_localization
+    User.current.language = nil unless User.current.logged?
     lang = begin
       if !User.current.language.blank? and GLoc.valid_languages.include? User.current.language.to_sym
         User.current.language
