@@ -6,7 +6,7 @@
 <dl>
 <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
   <dt class="<%= e.class.name.downcase %>"><span class="time"><%= format_time(e.event_datetime, false) %></span>
-  <%= link_to truncate(e.event_title, 100), e.event_url %></dt>
+  <%= link_to h(truncate(e.event_title, 100)), e.event_url %></dt>
   <dd><% unless e.event_description.blank? -%>
   <span class="description"><%= format_activity_description(e.event_description) %></span><br />
   <% end %>
