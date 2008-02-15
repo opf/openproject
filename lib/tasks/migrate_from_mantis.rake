@@ -308,7 +308,8 @@ task :migrate_from_mantis => :environment do
       print "Migrating bugs"
       Issue.destroy_all
       issues_map = {}
-      MantisBug.find(:all).each do |bug|
+      keep_bug_ids = (Issue.count == 0)
+      MantisBug.find(:all, :order => 'id ASC').each do |bug|
         next unless projects_map[bug.project_id] && users_map[bug.reporter_id]
     	i = Issue.new :project_id => projects_map[bug.project_id], 
                       :subject => encode(bug.summary),
@@ -321,6 +322,7 @@ task :migrate_from_mantis => :environment do
     	i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
     	i.status = STATUS_MAPPING[bug.status] || DEFAULT_STATUS
     	i.tracker = (bug.severity == 10 ? TRACKER_FEATURE : TRACKER_BUG)
+    	i.id = bug.id if keep_bug_ids
     	next unless i.save
     	issues_map[bug.id] = i.id
     	print '.'
@@ -357,6 +359,9 @@ task :migrate_from_mantis => :environment do
           i.add_watcher(User.find_by_id(users_map[monitor.user_id]))
         end
       end
+      
+      # update issue id sequence if needed (postgresql)
+      Issue.connection.reset_pk_sequence!(Issue.table_name) if Issue.connection.respond_to?('reset_pk_sequence!')
       puts
       
       # Bug relationships
