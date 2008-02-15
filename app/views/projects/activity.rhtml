@@ -1,4 +1,4 @@
-<h2><%=l(:label_activity)%>: <%= "#{month_name(@month).downcase} #{@year}" %></h2>
+<h2><%= "#{month_name(@month)} #{@year}" %></h2>
 
 <div id="activity">
 <% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>

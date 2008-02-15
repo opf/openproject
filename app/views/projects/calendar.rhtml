@@ -1,5 +1,5 @@
 <% cache(:year => @year, :month => @month, :tracker_ids => @selected_tracker_ids, :subprojects => params[:with_subprojects], :lang => current_language) do %>
-<h2><%= l(:label_calendar) %>: <%= "#{month_name(@month).downcase} #{@year}" %></h2>
+<h2><%= "#{month_name(@month)} #{@year}" %></h2>
 
 <table width="100%">
 <tr><td align="left">
