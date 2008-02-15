@@ -78,7 +78,7 @@ notice_no_issue_selected: "Nepasirinkta nė viena problema! Prašom pažymėti p
 notice_account_pending: "Jūsų paskyra buvo sukūrta ir dabar laukiama administratoriaus patvirtinimo."
 
 error_scm_not_found: "Duomenys ir/ar pakeitimai saugykloje(repozitorojoje) neegzistuoja."
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "Įvyko klaida jungiantis prie saugyklos: %s"
 
 mail_subject_lost_password: Jūsų Redmine slaptažodis
 mail_body_lost_password: 'Norėdami pakeisti Redmine slaptažodį, spauskite nuorodą:'
@@ -567,14 +567,14 @@ label_repository_plural: Saugiklos
 error_can_t_load_default_data: "Numatytoji konfiguracija negali būti užkrauta: %s"
 label_associated_revisions: susijusios revizijos
 setting_user_format: Vartotojo atvaizdavimo formatas
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+text_status_changed_by_changeset: Pakeista %s revizijoi.
+label_more: Daugiau
+text_issues_destroy_confirmation: 'Ar jūs tikrai norite panaikinti pažimėtą(us) darbą(us)?'
 label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
+text_select_project_modules: 'Parinkite modulius, kuriuos norite naudoti šiame projekte:'
+label_issue_added: Darbas pridėtas
+label_issue_updated: Darbas atnaujintas
+label_document_added: Dokumentas pridėtas
+label_message_posted: Pranešimas pridėtas
+label_file_added: Byla pridėta
+label_news_added: Naujiena pridėta

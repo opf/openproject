@@ -356,7 +356,7 @@ label_not_contains: ei sisällä
 label_day_plural: päivät
 label_repository: Säiliö
 label_repository_plural: Säiliötä
-label_browse: Selata
+label_browse: Selaus
 label_modification: %d muutos
 label_modification_plural: %d muutettu
 label_revision: Versio
@@ -570,14 +570,14 @@ enumeration_doc_categories: Dokumentin luokat
 enumeration_activities: Aktiviteetit (ajan seuranta)
 label_associated_revisions: Liittyvät versiot
 setting_user_format: Käyttäjien esitysmuoto
-text_status_changed_by_changeset: Applied in changeset %s.
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
-label_more: More
-label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
+text_status_changed_by_changeset: Päivitetty muutosversioon %s.
+text_issues_destroy_confirmation: 'Oletko varma että haluat poistaa valitut tapahtumat ?'
+label_more: Lisää
 label_issue_added: Issue added
 label_issue_updated: Issue updated
 label_document_added: Document added
 label_message_posted: Message added
 label_file_added: File added
+label_scm: SCM
+text_select_project_modules: 'Select modules to enable for this project:'
 label_news_added: News added

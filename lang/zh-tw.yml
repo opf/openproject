@@ -125,7 +125,7 @@ field_tracker: 追蹤標籤
 field_subject: 主旨
 field_due_date: 完成日期
 field_assigned_to: 分派給
-field_priority: 重要性
+field_priority: 優先權
 field_fixed_version: 版本
 field_user: 用戶
 field_role: 角色
@@ -219,9 +219,12 @@ label_issue_new: 建立新的項目
 label_issue_plural: 項目清單
 label_issue_view_all: 檢視所有項目
 label_issues_by: 項目按 %s 分組顯示
+label_issue_added: 項目已新增
+label_issue_updated: 項目已更新
 label_document: 文件
 label_document_new: 建立新的文件
 label_document_plural: 文件
+label_document_added: 文件已新增
 label_role: 角色
 label_role_plural: 角色
 label_role_new: 建立新角色
@@ -291,6 +294,7 @@ label_attachment: 檔案
 label_attachment_new: 建立新的檔案
 label_attachment_delete: 刪除檔案
 label_attachment_plural: 檔案
+label_file_added: 檔案已新增
 label_report: 報告
 label_report_plural: 報告
 label_news: 新聞
@@ -298,6 +302,7 @@ label_news_new: 建立新的新聞
 label_news_plural: 新聞
 label_news_latest: 最近新聞
 label_news_view_all: 檢視所有新聞
+label_news_added: 新聞已新增
 label_change_log: 變更記錄
 label_settings: 設定
 label_overview: 概觀
@@ -399,12 +404,12 @@ label_f_hour: %.2f 小時
 label_f_hour_plural: %.2f 小時
 label_time_tracking: Time tracking
 label_change_plural: 變更
-label_statistics: Statistics
-label_commits_per_month: Commits per month
-label_commits_per_author: Commits per author
-label_view_diff: View differences
-label_diff_inline: inline
-label_diff_side_by_side: side by side
+label_statistics: 統計資訊
+label_commits_per_month: 依月份統計送交次數
+label_commits_per_author: 依作者統計送交次數
+label_view_diff: 檢視差異
+label_diff_inline: 直列
+label_diff_side_by_side: 並排
 label_options: 選項清單
 label_copy_workflow_from: 從以下追蹤標籤複製工作流程
 label_permissions_report: 權限報表
@@ -424,7 +429,7 @@ label_end_to_start: end to start
 label_end_to_end: end to end
 label_start_to_start: start to start
 label_start_to_end: start to end
-label_stay_logged_in: Stay logged in
+label_stay_logged_in: 維持已登入狀態
 label_disabled: 關閉
 label_show_completed_versions: 顯示已完成的版本
 label_me: 我自己
@@ -435,6 +440,7 @@ label_topic_plural: 討論主題
 label_message_plural: 訊息
 label_message_last: 上一封訊息
 label_message_new: 建立新的訊息
+label_message_posted: 訊息已新增
 label_reply_plural: 回應
 label_send_information: 寄送帳戶資訊電子郵件給用戶
 label_year: 年
@@ -469,6 +475,8 @@ label_display_per_page: '每頁顯示: %s 個'
 label_age: Age
 label_change_properties: 變更屬性
 label_general: 一般
+label_more: 更多 »
+label_scm: 版本控管
 
 button_login: 登入
 button_submit: 送出
@@ -531,8 +539,8 @@ text_tracker_no_workflow: 此追蹤標籤尚未定義工作流程
 text_unallowed_characters: 不允許的字元
 text_comma_separated: 可輸入多個值 (以逗號分隔).
 text_issues_ref_in_commit_messages: 送交訊息中參照(或修正)項目之關鍵字
-text_issue_added: 已通報 %s 個項目 (by %s)
-text_issue_updated: 已更新 %s 個項目 (by %s)
+text_issue_added: 項目 %s 已被 %s 通報。
+text_issue_updated: 項目 %s 已被 %s 更新。
 text_wiki_destroy_confirmation: 您確定要刪除這個 wiki 和其中的所有內容？
 text_issue_category_destroy_question: 有 (%d) 個項目被指派到此分類. 請選擇您想要的動作？
 text_issue_category_destroy_assignments: 移除這些項目的分類
@@ -540,6 +548,9 @@ text_issue_category_reassign_to: 重新指派這些項目至其它分類
 text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
 text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
 text_load_default_configuration: 載入預設組態
+text_status_changed_by_changeset: 已套用至變更集 %s.
+text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
+text_select_project_modules: '選擇此專案可使用之模組：'
 
 default_role_manager: 管理人員
 default_role_developper: 開發人員
@@ -563,17 +574,6 @@ default_priority_immediate: 急
 default_activity_design: 設計
 default_activity_development: 開發
 
-enumeration_issue_priorities: 項目重要性
+enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (time tracking)
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
-label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added

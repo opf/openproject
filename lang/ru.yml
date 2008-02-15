@@ -569,12 +569,15 @@ enumeration_doc_categories: Категории документов
 enumeration_activities: Действия (учет времени)
 text_status_changed_by_changeset: Реализовано в %s редакции.
 label_more: Больше
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
-label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
+text_issues_destroy_confirmation: 'Вы уверены, что хотите удалить выбранные задачи?'
+label_scm: 'Тип хранилища' 
+text_select_project_modules: 'Выберите модули, которые будут использованы в проекте:'
+label_issue_added: Задача добавлена
+label_issue_updated: Задача обновлена
+label_document_added: Документ добавлен
+label_message_posted: Сообщение добавлено
+label_file_added: Файл добавлен
+label_news_added: Новость добавлена
+label_calendar_filter: Включая
+label_calendar_no_assigned: не мои
+label_timelog_today: Расход времени за сегодня
