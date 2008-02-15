@@ -68,7 +68,7 @@ module Net
     # this can throw TypeErrors and other nasties.
     #
     def read_ber syntax=nil
-      return nil if eof?
+      return nil if (StringIO == self.class) and  eof?
 
       id = getc  # don't trash this value, we'll use it later
       tag = id & 31
