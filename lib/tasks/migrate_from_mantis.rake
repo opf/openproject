@@ -93,7 +93,7 @@ task :migrate_from_mantis => :environment do
       end
       
       def lastname
-        @lastname = realname.blank? ? username : realname.split[1..-1].join(' ')[0..29]
+        @lastname = realname.blank? ? '-' : realname.split[1..-1].join(' ')[0..29]
         @lastname.gsub!(/[^\w\s\'\-]/i, '')
         @lastname = '-' if @lastname.blank?
         @lastname
