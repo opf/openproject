@@ -62,7 +62,7 @@ module Redmine
       end
           
       # Builtin macros
-      desc "Example macro."
+      desc "Sample macro."
       macro :hello_world do |obj, args|
         "Hello world! Object: #{obj.class.name}, " + (args.empty? ? "Called with no argument." : "Arguments: #{args.join(', ')}")
       end
@@ -72,9 +72,26 @@ module Redmine
         out = ''
         @@available_macros.keys.collect(&:to_s).sort.each do |macro|
           out << content_tag('dt', content_tag('code', macro))
-          out << content_tag('dd', simple_format(@@available_macros[macro.to_sym]))
+          out << content_tag('dd', textilizable(@@available_macros[macro.to_sym]))
         end
         content_tag('dl', out)
+      end
+      
+      desc "Include a wiki page. Example:\n\n  !{{include(Foo)}}"
+      macro :include do |obj, args|
+        if @project && !@project.wiki.nil?
+          page = @project.wiki.find_page(args.first)
+          if page && page.content
+            @included_wiki_pages ||= []
+            raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.title)
+            @included_wiki_pages << page.title
+            out = textilizable(page.content, :text)
+            @included_wiki_pages.pop
+            out
+          else
+            raise "Page #{args.first} doesn't exist"
+          end
+        end
       end
     end
   end

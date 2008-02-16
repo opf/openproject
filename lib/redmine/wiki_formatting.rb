@@ -93,21 +93,28 @@ module Redmine
       end
       
       MACROS_RE = /
+                    (!)?                        # escaping
+                    (
                     \{\{                        # opening tag
                     ([\w]+)                     # macro name
                     (\(([^\}]*)\))?             # optional arguments
                     \}\}                        # closing tag
+                    )
                   /x unless const_defined?(:MACROS_RE)
       
       def inline_macros(text)
         text.gsub!(MACROS_RE) do
-          all, macro = $&, $1.downcase
-          args = ($3 || '').split(',').each(&:strip)
-          begin
-            @macros_runner.call(macro, args)
-          rescue => e
-            "<div class=\"flash error\">Error executing the <strong>#{macro}</strong> macro (#{e})</div>"
-          end || all
+          esc, all, macro = $1, $2, $3.downcase
+          args = ($5 || '').split(',').each(&:strip)
+          if esc.nil?
+            begin
+              @macros_runner.call(macro, args)
+            rescue => e
+              "<div class=\"flash error\">Error executing the <strong>#{macro}</strong> macro (#{e})</div>"
+            end || all
+          else
+            all
+          end
         end
       end
       

@@ -120,6 +120,9 @@ class ApplicationHelperTest < HelperTestCase
   def test_macro_hello_world
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)
+    # escaping
+    text = "!{{hello_world}}"
+    assert_equal '<p>{{hello_world}}</p>', textilizable(text)
   end
   
   def test_date_format_default
