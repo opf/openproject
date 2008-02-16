@@ -35,5 +35,6 @@ class ApplicationControllerTest < Test::Unit::TestCase
     GLoc.valid_languages.each do |lang|
       assert set_language_if_valid(lang)
     end
+    set_language_if_valid('en')
   end
 end

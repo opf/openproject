@@ -140,8 +140,8 @@ module Redmine
               
               if state=="entry_start"
                 branch_map=Hash.new
-                # gsub(/^:.*@[^:]+:/, '') is here to remove :pserver:anonymous@foo.bar: string if present in the url
-                if /^RCS file: #{Regexp.escape(root_url.gsub(/^:.*@[^:]+:/, ''))}\/#{Regexp.escape(path_with_project)}(.+),v$/ =~ line
+                # gsub(/^:.*@[^:]+:\d*/, '') is here to remove :pserver:anonymous@foo.bar: string if present in the url
+                if /^RCS file: #{Regexp.escape(root_url.gsub(/^:.*@[^:]+:\d*/, ''))}\/#{Regexp.escape(path_with_project)}(.+),v$/ =~ line
                   entry_path = normalize_cvs_path($1)
                   entry_name = normalize_path(File.basename($1))
                   logger.debug("Path #{entry_path} <=> Name #{entry_name}")

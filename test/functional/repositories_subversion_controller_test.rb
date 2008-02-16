@@ -31,6 +31,7 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    Setting.default_language = 'en'
     User.current = nil
   end
 
