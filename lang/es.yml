@@ -580,3 +580,18 @@ label_document_added: Document added
 label_message_posted: Message added
 label_file_added: File added
 label_news_added: News added
+project_module_boards: Boards
+project_module_issue_tracking: Issue tracking
+project_module_wiki: Wiki
+project_module_files: Files
+project_module_documents: Documents
+project_module_repository: Repository
+project_module_news: News
+project_module_time_tracking: Time tracking
+text_file_repository_writable: File repository writable
+text_default_administrator_account_changed: Default administrator account changed
+text_rmagick_available: RMagick available (optional)
+button_configure: Configure
+label_plugins: Plugins
+label_ldap_authentication: LDAP authentication
+label_downloads_abbr: D/L

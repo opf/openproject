@@ -579,3 +579,18 @@ text_no_configuration_data: "Roles, trackers, issue statuses and workflow have n
 label_news_added: News added
 label_repository_plural: Repositories
 error_can_t_load_default_data: "Default configuration could not be loaded: %s"
+project_module_boards: Boards
+project_module_issue_tracking: Issue tracking
+project_module_wiki: Wiki
+project_module_files: Files
+project_module_documents: Documents
+project_module_repository: Repository
+project_module_news: News
+project_module_time_tracking: Time tracking
+text_file_repository_writable: File repository writable
+text_default_administrator_account_changed: Default administrator account changed
+text_rmagick_available: RMagick available (optional)
+button_configure: Configure
+label_plugins: Plugins
+label_ldap_authentication: LDAP authentication
+label_downloads_abbr: D/L

@@ -206,6 +206,15 @@ setting_protocol: Protocol
 setting_per_page_options: Objects per page options
 setting_user_format: Users display format
 
+project_module_issue_tracking: Issue tracking
+project_module_time_tracking: Time tracking
+project_module_news: News
+project_module_documents: Documents
+project_module_files: Files
+project_module_wiki: Wiki
+project_module_repository: Repository
+project_module_boards: Boards
+
 label_user: User
 label_user_plural: Users
 label_user_new: New user
@@ -477,6 +486,9 @@ label_change_properties: Change properties
 label_general: General
 label_more: More
 label_scm: SCM
+label_plugins: Plugins
+label_ldap_authentication: LDAP authentication
+label_downloads_abbr: D/L
 
 button_login: Login
 button_submit: Submit
@@ -514,6 +526,7 @@ button_change_password: Change password
 button_copy: Copy
 button_annotate: Annotate
 button_update: Update
+button_configure: Configure
 
 status_active: active
 status_registered: registered
@@ -551,6 +564,9 @@ text_load_default_configuration: Load the default configuration
 text_status_changed_by_changeset: Applied in changeset %s.
 text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
 text_select_project_modules: 'Select modules to enable for this project:'
+text_default_administrator_account_changed: Default administrator account changed
+text_file_repository_writable: File repository writable
+text_rmagick_available: RMagick available (optional)
 
 default_role_manager: Manager
 default_role_developper: Developer

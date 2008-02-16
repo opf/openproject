@@ -206,6 +206,15 @@ setting_protocol: Protocole
 setting_per_page_options: Options d'objets affichés par page
 setting_user_format: Format d'affichage des utilisateurs
 
+project_module_issue_tracking: Suivi des demandes
+project_module_time_tracking: Suivi du temps passé
+project_module_news: Publication d'annonces
+project_module_documents: Publication de documents
+project_module_files: Publication de fichiers
+project_module_wiki: Wiki
+project_module_repository: Dépôt de sources
+project_module_boards: Forums de discussion
+
 label_user: Utilisateur
 label_user_plural: Utilisateurs
 label_user_new: Nouvel utilisateur
@@ -477,6 +486,9 @@ label_change_properties: Changer les propriétés
 label_general: Général
 label_more: Plus
 label_scm: SCM
+label_plugins: Plugins
+label_ldap_authentication: Authentification LDAP
+label_downloads_abbr: D/L
 
 button_login: Connexion
 button_submit: Soumettre
@@ -514,6 +526,7 @@ button_change_password: Changer de mot de passe
 button_copy: Copier
 button_annotate: Annoter
 button_update: Mettre à jour
+button_configure: Configurer
 
 status_active: actif
 status_registered: enregistré
@@ -551,6 +564,9 @@ text_load_default_configuration: Charger le paramétrage par défaut
 text_status_changed_by_changeset: Appliqué par commit %s.
 text_issues_destroy_confirmation: 'Etes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
 text_select_project_modules: 'Selectionner les modules à activer pour ce project:'
+text_default_administrator_account_changed: Compte administrateur par défaut changé
+text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
+text_rmagick_available: Bibliothèque RMagick présente (optionnelle)
 
 default_role_manager: Manager
 default_role_developper: Développeur
