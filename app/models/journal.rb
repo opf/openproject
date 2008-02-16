@@ -32,7 +32,7 @@ class Journal < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{o.issue.tracker.name} ##{o.issue.id}: #{o.issue.subject}" + ((s = o.new_status) ? " (#{s})" : '') },
                 :description => :notes,
                 :author => :user,
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id}}
+                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}}
 
   def save
     # Do not save an empty journal
