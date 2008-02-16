@@ -19,7 +19,7 @@ module JournalsHelper
   def render_notes(journal, options={})
     content = ''
     editable = journal.editable_by?(User.current)
-    if editable
+    if editable && !journal.notes.blank?
       links = []
       links << link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes", 
                                              { :controller => 'journals', :action => 'edit', :id => journal },

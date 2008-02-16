@@ -1,5 +1,6 @@
 <% note_id = 1 %>
 <% for journal in journals %>
+    <div id="change-<%= journal.id %>">
 	<h4><div style="float:right;"><%= link_to "##{note_id}", :anchor => "note-#{note_id}" %></div>
 	<%= content_tag('a', '', :name => "note-#{note_id}")%>
 	<%= format_time(journal.created_on) %> - <%= journal.user.name %></h4>
@@ -9,5 +10,6 @@
 	<% end %>
 	</ul>
 	<%= render_notes(journal) unless journal.notes.blank? %>
+	</div>
   	<% note_id += 1 %>
 <% end %>

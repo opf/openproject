@@ -22,11 +22,11 @@ class JournalsController < ApplicationController
   def edit
     if request.post?
       @journal.update_attributes(:notes => params[:notes]) if params[:notes]
+      @journal.destroy if @journal.details.empty? && @journal.notes.blank?
       respond_to do |format|
         format.html { redirect_to :controller => 'issues', :action => 'show', :id => @journal.journalized_id }
         format.js { render :action => 'update' }
       end
-      return
     end
   end
   

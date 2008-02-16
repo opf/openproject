@@ -34,6 +34,8 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_issues, {:issues => [:edit, :bulk_edit, :destroy_attachment]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
     map.permission :add_issue_notes, {:issues => :edit}
+    map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
+    map.permission :edit_own_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :move_issues, {:issues => :move}, :require => :loggedin
     map.permission :delete_issues, {:issues => :destroy}, :require => :member
     # Queries

@@ -51,6 +51,7 @@ class Journal < ActiveRecord::Base
   end
   
   def editable_by?(usr)
-    usr && usr.admin?
+    project = journalized.project
+    usr && usr.logged? && (usr.allowed_to?(:edit_issue_notes, project) || (self.user == usr && usr.allowed_to?(:edit_own_issue_notes, project)))
   end
 end
