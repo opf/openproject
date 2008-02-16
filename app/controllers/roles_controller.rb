@@ -53,12 +53,11 @@ class RolesController < ApplicationController
 
   def destroy
     @role = Role.find(params[:id])
-    #unless @role.members.empty?
-    #  flash[:error] = 'Some members have this role. Can\'t delete it.'
-    #else
-      @role.destroy
-    #end
+    @role.destroy
     redirect_to :action => 'list'
+  rescue
+    flash[:error] = 'This role is in use and can not be deleted.'
+    redirect_to :action => 'index'
   end
   
   def move
