@@ -25,8 +25,6 @@ class IssuesController < ApplicationController
   before_filter :authorize, :except => [:index, :changes, :preview, :update_form, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes]
   accept_key_auth :index, :changes
-  
-  cache_sweeper :issue_sweeper, :only => [ :new, :edit, :bulk_edit, :destroy ]
 
   helper :journals
   helper :projects

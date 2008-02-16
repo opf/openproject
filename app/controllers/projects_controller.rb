@@ -29,9 +29,6 @@ class ProjectsController < ApplicationController
   before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
   accept_key_auth :activity, :calendar
   
-  cache_sweeper :project_sweeper, :only => [ :add, :edit, :archive, :unarchive, :destroy ]
-  cache_sweeper :version_sweeper, :only => [ :add_version ]
-
   helper :sort
   include SortHelper
   helper :custom_fields

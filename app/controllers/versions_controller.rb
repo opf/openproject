@@ -20,8 +20,6 @@ class VersionsController < ApplicationController
   menu_item :roadmap
   before_filter :find_project, :authorize
 
-  cache_sweeper :version_sweeper, :only => [ :edit, :destroy ]
-  
   def show
   end
   

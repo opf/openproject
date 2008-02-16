@@ -55,8 +55,6 @@ t_height = g_height + headers_height
 </table>
 <% end %>
 
-<% cache(:year => @year_from, :month => @month_from, :months => @months, :zoom => @zoom, :tracker_ids => @selected_tracker_ids, :subprojects => params[:with_subprojects], :lang => current_language) do %>
-
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>
 <td style="width:<%= subject_width %>px;">
@@ -204,9 +202,6 @@ top = headers_height + 10
 <% end %>
 	<% top = top + 20
 end %>
-
-<% end # cache 
-%>
 
 <%
 #
