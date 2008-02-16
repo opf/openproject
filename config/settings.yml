@@ -106,6 +106,6 @@ ui_theme:
   default: ''
 emails_footer:
   default: |-
-    You have received this notification because you have either subscribed to it, or are involved in.
+    You have received this notification because you have either subscribed to it, or are involved in it.
     To change your notification preferences, please click here: http://hostname/my/account
   
