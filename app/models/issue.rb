@@ -142,6 +142,9 @@ class Issue < ActiveRecord::Base
   end
   
   def after_save
+    # Reload is needed in order to get the right status
+    reload
+    
     # Update start/due dates of following issues
     relations_from.each(&:set_issue_to_dates)
     
@@ -165,6 +168,7 @@ class Issue < ActiveRecord::Base
   def init_journal(user, notes = "")
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
     @issue_before_change = self.clone
+    @issue_before_change.status = self.status
     @custom_values_before_change = {}
     self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
     @current_journal
