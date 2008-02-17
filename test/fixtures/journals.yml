@@ -8,7 +8,7 @@ journals_001:
   journalized_id: 1
 journals_002: 
   created_on: <%= 1.days.ago.to_date.to_s(:db) %>
-  notes: "Some notes"
+  notes: "Some notes with Redmine links: #2, r2."
   id: 2
   journalized_type: Issue
   user_id: 2

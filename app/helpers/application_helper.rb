@@ -178,16 +178,20 @@ module ApplicationHelper
     case args.size
     when 1
       obj = nil
-      text = args.shift || ''
+      text = args.shift
     when 2
       obj = args.shift
-      text = obj.send(args.shift)
+      text = obj.send(args.shift).to_s
     else
       raise ArgumentError, 'invalid arguments to textilizable'
     end
+    return '' if text.blank?
+    
+    only_path = options.delete(:only_path) == false ? false : true
 
     # when using an image link, try to use an attachment, if possible
-    attachments = options[:attachments]
+    attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
+    
     if attachments
       text = text.gsub(/!((\<|\=|\>)?(\([^\)]+\))?(\[[^\]]+\])?(\{[^\}]+\})?)(\S+\.(gif|jpg|jpeg|png))!/) do |m|
         style = $1
@@ -195,7 +199,7 @@ module ApplicationHelper
         rf = Regexp.new(filename,  Regexp::IGNORECASE)
         # search for the picture in attachments
         if found = attachments.detect { |att| att.filename =~ rf }
-          image_url = url_for :controller => 'attachments', :action => 'download', :id => found.id
+          image_url = url_for :only_path => only_path, :controller => 'attachments', :action => 'download', :id => found.id
           "!#{style}#{image_url}!"
         else
           "!#{style}#{filename}!"
@@ -216,10 +220,10 @@ module ApplicationHelper
       # used for single-file wiki export
       format_wiki_link = Proc.new {|project, title| "##{title}" }
     else
-      format_wiki_link = Proc.new {|project, title| url_for :controller => 'wiki', :action => 'index', :id => project, :page => title }
+      format_wiki_link = Proc.new {|project, title| url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :id => project, :page => title) }
     end
     
-    project = options[:project] || @project
+    project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
     
     # Wiki links
     # 
@@ -278,7 +282,8 @@ module ApplicationHelper
       if esc.nil?
         if prefix.nil? && sep == 'r'
           if project && (changeset = project.changesets.find_by_revision(oid))
-            link = link_to("r#{oid}", {:controller => 'repositories', :action => 'revision', :id => project.id, :rev => oid}, :class => 'changeset',
+            link = link_to("r#{oid}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project.id, :rev => oid},
+                                      :class => 'changeset',
                                       :title => truncate(changeset.comments, 100))
           end
         elsif sep == '#'
@@ -286,17 +291,20 @@ module ApplicationHelper
           case prefix
           when nil
             if issue = Issue.find_by_id(oid, :include => [:project, :status], :conditions => Project.visible_by(User.current))        
-              link = link_to("##{oid}", {:controller => 'issues', :action => 'show', :id => oid}, :class => 'issue',
+              link = link_to("##{oid}", {:only_path => only_path, :controller => 'issues', :action => 'show', :id => oid},
+                                        :class => 'issue',
                                         :title => "#{truncate(issue.subject, 100)} (#{issue.status.name})")
               link = content_tag('del', link) if issue.closed?
             end
           when 'document'
             if document = Document.find_by_id(oid, :include => [:project], :conditions => Project.visible_by(User.current))
-              link = link_to h(document.title), {:controller => 'documents', :action => 'show', :id => document}, :class => 'document'
+              link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
+                                                :class => 'document'
             end
           when 'version'
             if version = Version.find_by_id(oid, :include => [:project], :conditions => Project.visible_by(User.current))
-              link = link_to h(version.name), {:controller => 'versions', :action => 'show', :id => version}, :class => 'version'
+              link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
+                                              :class => 'version'
             end
           end
         elsif sep == ':'
@@ -305,15 +313,18 @@ module ApplicationHelper
           case prefix
           when 'document'
             if project && document = project.documents.find_by_title(name)
-              link = link_to h(document.title), {:controller => 'documents', :action => 'show', :id => document}, :class => 'document'
+              link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
+                                                :class => 'document'
             end
           when 'version'
             if project && version = project.versions.find_by_name(name)
-              link = link_to h(version.name), {:controller => 'versions', :action => 'show', :id => version}, :class => 'version'
+              link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
+                                              :class => 'version'
             end
           when 'attachment'
             if attachments && attachment = attachments.detect {|a| a.filename == name }
-              link = link_to h(attachment.filename), {:controller => 'attachments', :action => 'download', :id => attachment}, :class => 'attachment'
+              link = link_to h(attachment.filename), {:only_path => only_path, :controller => 'attachments', :action => 'download', :id => attachment},
+                                                     :class => 'attachment'
             end
           end
         end
