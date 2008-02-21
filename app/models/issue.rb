@@ -66,8 +66,10 @@ class Issue < ActiveRecord::Base
     transaction do
       if new_project && project_id != new_project.id
         # delete issue relations
-        self.relations_from.clear
-        self.relations_to.clear
+        unless Setting.cross_project_issue_relations?
+          self.relations_from.clear
+          self.relations_to.clear
+        end
         # issue is moved to another project
         self.category = nil 
         self.fixed_version = nil
