@@ -14,6 +14,19 @@
         <%= render :partial => (@edit_allowed ? 'form' : 'form_update'), :locals => {:f => f} %>
         </fieldset>
     <% end %>
+    <% if authorize_for('timelog', 'edit') %>
+    <fieldset><legend><%= l(:button_log_time) %></legend>
+        <% fields_for :time_entry, @time_entry, { :builder => TabularFormBuilder, :lang => current_language} do |time_entry| %>
+        <div class="splitcontentleft">
+        <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
+        </div>
+        <div class="splitcontentright">
+        <p><%= time_entry.text_field :comments, :size => 40 %></p>
+        <p><%= time_entry.select :activity_id, (@activities.collect {|p| [p.name, p.id]}) %></p>
+        </div>
+        <% end %>
+    </fieldset>
+    <% end %>
     
     <fieldset><legend><%= l(:field_notes) %></legend>
     <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
