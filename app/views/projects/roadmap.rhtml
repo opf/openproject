@@ -2,8 +2,8 @@
 
 <% if @versions.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-
+<% else %>
+<div id="roadmap">
 <% @versions.each do |version| %>   
     <%= tag 'a', :name => version.name %>
     <h3 class="icon22 icon22-package"><%= link_to h(version.name), :controller => 'versions', :action => 'show', :id => version %></h3>
@@ -16,8 +16,9 @@
                                           :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id") unless @selected_tracker_ids.empty?
        issues ||= []
     %>
+    <% if issues.size > 0 %>
+    <fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
     <ul>
-      <% if issues.size > 0 %>
         <% issues.each do |issue| %>
           <li>
             <%= link = link_to_issue(issue)
@@ -25,19 +26,22 @@
             <%= content_tag "em", "(#{l(:label_closed_issues)})" if issue.status.is_closed? %>
           </li>
         <% end %>
-      <% end %>
     </ul>
+    </fieldset>
+    <% end %>
+<% end %>
+</div>
 <% end %>
 
 <% content_for :sidebar do %>
 <% form_tag do %>
 <h3><%= l(:label_roadmap) %></h3>
 <% @trackers.each do |tracker| %>
-  <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
+  <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s), :id => nil %>
   <%= tracker.name %></label><br />
 <% end %>
 <br />
-<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %>
+<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
 <p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
 <% end %>
 

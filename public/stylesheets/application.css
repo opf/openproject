@@ -163,6 +163,12 @@ div#activity dt { margin-bottom: 1px; }
 div#activity dt .time { color: #777; font-size: 80%; }
 div#activity dd .description { font-style: italic; }
 
+div#roadmap fieldset.related-issues { margin-bottom: 1em; }
+div#roadmap fieldset.related-issues ul { margin-top: 0.3em; margin-bottom: 0.3em; }
+div#roadmap .wiki h1:first-child { display: none; }
+div#roadmap .wiki h1 { font-size: 120%; }
+div#roadmap .wiki h2 { font-size: 110%; }
+
 .autoscroll {overflow-x: auto; padding:1px; width:100%; margin-bottom: 1.2em;}
 #user_firstname, #user_lastname, #user_mail, #my_account_form select { width: 90%; }
 
