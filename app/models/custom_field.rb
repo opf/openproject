@@ -55,7 +55,7 @@ class CustomField < ActiveRecord::Base
     end
     
     # validate default value
-    v = CustomValue.new(:custom_field => self.dup, :value => default_value, :customized => nil)
+    v = CustomValue.new(:custom_field => self.clone, :value => default_value, :customized => nil)
     v.custom_field.is_required = false
     errors.add(:default_value, :activerecord_error_invalid) unless v.valid?
   end
