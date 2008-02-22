@@ -122,7 +122,7 @@ module Redmine
     
     class MenuItem
       include GLoc
-      attr_reader :name, :url, :param, :condition, :caption, :html_options
+      attr_reader :name, :url, :param, :condition, :html_options
       
       def initialize(name, url, options)
         raise "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -131,8 +131,13 @@ module Redmine
         @url = url
         @condition = options[:if]
         @param = options[:param] || :id
-        @caption = options[:caption] || (l_has_string?("label_#{name}".to_sym) ? "label_#{name}".to_sym : name.to_s.humanize)
+        @caption_key = options[:caption]
         @html_options = options[:html] || {}
+      end
+      
+      def caption
+        # check if localized string exists on first render (after GLoc strings are loaded)
+        @caption ||= (@caption_key || (l_has_string?("label_#{@name}".to_sym) ? "label_#{@name}".to_sym : @name.to_s.humanize))
       end
     end    
   end

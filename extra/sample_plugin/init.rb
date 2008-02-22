@@ -21,5 +21,5 @@ Redmine::Plugin.register :sample_plugin do
   end
 
   # A new item is added to the project menu
-  menu :project_menu, :label_plugin_example, :controller => 'example', :action => 'say_hello'
+  menu :project_menu, :sample_plugin, { :controller => 'example', :action => 'say_hello' }, :caption => 'Sample'
 end

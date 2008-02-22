@@ -66,11 +66,12 @@ module Redmine #:nodoc:
 
     # Adds an item to the given +menu+.
     # The +id+ parameter (equals to the project id) is automatically added to the url.
-    #   menu :project_menu, :label_plugin_example, :controller => 'example', :action => 'say_hello'
+    #   menu :project_menu, :plugin_example, { :controller => 'example', :action => 'say_hello' }, :caption => 'Sample'
     #   
-    # Currently, only the project menu can be extended. Thus, the +name+ parameter must be +:project_menu+
-    def menu(name, label, url)
-      Redmine::MenuManager.map(name) {|menu| menu.push label, url}
+    # +name+ parameter can be: :top_menu, :account_menu, :application_menu or :project_menu
+    # 
+    def menu(name, item, url, options={})
+      Redmine::MenuManager.map(name) {|menu| menu.push item, url, options}
     end
 
     # Defines a permission called +name+ for the given +actions+.
