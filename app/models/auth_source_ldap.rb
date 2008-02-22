@@ -27,6 +27,7 @@ class AuthSourceLdap < AuthSource
   end
   
   def authenticate(login, password)
+    return nil if login.blank? || password.blank?
     attrs = []
     # get user's DN
     ldap_con = initialize_ldap_con(self.account, self.account_password)
