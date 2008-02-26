@@ -43,7 +43,13 @@ namespace :redmine do
                             'low' => priorities[0],
                             'normal' => priorities[1],
                             'high' => priorities[2],
-                            'highest' => priorities[3]
+                            'highest' => priorities[3],
+                            # ---
+                            'trivial' => priorities[0],
+                            'minor' => priorities[1],
+                            'major' => priorities[2],
+                            'critical' => priorities[3],
+                            'blocker' => priorities[4]
                             }
       
         TRACKER_BUG = Tracker.find_by_position(1)
@@ -143,8 +149,19 @@ namespace :redmine do
         def time; Time.at(read_attribute(:time)) end
       end
       
+      TRAC_WIKI_PAGES = %w(TracAccessibility TracAdmin TracBackup TracBrowser TracCgi TracChangeset \
+                           TracEnvironment TracFastCgi TracGuide TracImport TracIni TracInstall TracInterfaceCustomization \
+                           TracLinks TracLogging TracModPython TracNotification TracPermissions TracPlugins TracQuery \
+                           TracReports TracRoadmap TracRss TracSearch TracStandalone TracSupport TracSyntaxColoring TracTickets \
+                           TracTicketsCustomFields TracTimeline TracUnicode TracUpgrade TracWiki WikiDeletePage WikiFormatting \
+                           WikiHtml WikiMacros WikiNewPage WikiPageNames WikiProcessors WikiRestructuredText WikiRestructuredTextLinks \
+                           CamelCase TitleIndex)
+      
       class TracWikiPage < ActiveRecord::Base
-        set_table_name :wiki  
+        set_table_name :wiki
+        set_primary_key :name
+        
+        has_many :attachments, :class_name => "TracAttachment", :foreign_key => :id, :conditions => "#{TracMigrate::TracAttachment.table_name}.type = 'wiki'"
         
         def self.columns
           # Hides readonly Trac field to prevent clash with AR readonly? method (Rails 2.0)
@@ -203,8 +220,12 @@ namespace :redmine do
         text = text.gsub(/\[(\d+)\]/, 'r\1')
         # Ticket number re-writing
         text = text.gsub(/#(\d+)/) do |s|
-          TICKET_MAP[$1.to_i] ||= $1
-          "\##{TICKET_MAP[$1.to_i] || $1}"
+          if $1.length < 10
+            TICKET_MAP[$1.to_i] ||= $1
+            "\##{TICKET_MAP[$1.to_i] || $1}"
+          else
+            s
+          end
         end
         # Preformatted blocks
         text = text.gsub(/\{\{\{/, '<pre>')
@@ -236,6 +257,7 @@ namespace :redmine do
         migrated_custom_values = 0
         migrated_ticket_attachments = 0
         migrated_wiki_edits = 0      
+        migrated_wiki_attachments = 0
   
         # Components
         print "Migrating components"
@@ -384,8 +406,12 @@ namespace :redmine do
         @target_project.wiki.destroy if @target_project.wiki
         @target_project.reload
         wiki = Wiki.new(:project => @target_project, :start_page => 'WikiStart')
+        wiki_edit_count = 0
         if wiki.save
           TracWikiPage.find(:all, :order => 'name, version').each do |page|
+            # Do not migrate Trac manual wiki pages
+            next if TRAC_WIKI_PAGES.include?(page.name)
+            wiki_edit_count += 1
             print '.'
             STDOUT.flush
             p = wiki.find_or_new_page(page.name)
@@ -394,7 +420,20 @@ namespace :redmine do
             p.content.author = find_or_create_user(page.author) unless page.author.blank? || page.author == 'trac'
             p.content.comments = page.comment
             p.new_record? ? p.save : p.content.save
-            migrated_wiki_edits += 1 unless p.content.new_record?
+            
+            next if p.content.new_record?
+            migrated_wiki_edits += 1 
+            
+            # Attachments
+            page.attachments.each do |attachment|
+              next unless attachment.exist?
+              next if p.attachments.find_by_filename(attachment.filename.gsub(/^.*(\\|\/)/, '').gsub(/[^\w\.\-]/,'_')) #add only once per page
+              a = Attachment.new :created_on => attachment.time
+              a.file = attachment
+              a.author = find_or_create_user(attachment.author)
+              a.container = p
+              migrated_wiki_attachments += 1 if a.save
+            end
           end
           
           wiki.reload
@@ -409,9 +448,10 @@ namespace :redmine do
         puts "Components:      #{migrated_components}/#{TracComponent.count}"
         puts "Milestones:      #{migrated_milestones}/#{TracMilestone.count}"
         puts "Tickets:         #{migrated_tickets}/#{TracTicket.count}"
-        puts "Ticket files:    #{migrated_ticket_attachments}/" + TracAttachment.count("type = 'ticket'").to_s
+        puts "Ticket files:    #{migrated_ticket_attachments}/" + TracAttachment.count(:conditions => {:type => 'ticket'}).to_s
         puts "Custom values:   #{migrated_custom_values}/#{TracTicketCustom.count}"
-        puts "Wiki edits:      #{migrated_wiki_edits}/#{TracWikiPage.count}"
+        puts "Wiki edits:      #{migrated_wiki_edits}/#{wiki_edit_count}"
+        puts "Wiki files:      #{migrated_wiki_attachments}/" + TracAttachment.count(:conditions => {:type => 'wiki'}).to_s
       end
       
       def self.limit_for(klass, attribute)
@@ -542,7 +582,7 @@ namespace :redmine do
     
     DEFAULT_PORTS = {'mysql' => 3306, 'postgresl' => 5432}
     
-    prompt('Trac directory') {|directory| TracMigrate.set_trac_directory directory}
+    prompt('Trac directory') {|directory| TracMigrate.set_trac_directory directory.strip}
     prompt('Trac database adapter (sqlite, sqlite3, mysql, postgresql)', :default => 'sqlite') {|adapter| TracMigrate.set_trac_adapter adapter}
     unless %w(sqlite sqlite3).include?(TracMigrate.trac_adapter)
       prompt('Trac database host', :default => 'localhost') {|host| TracMigrate.set_trac_db_host host}
