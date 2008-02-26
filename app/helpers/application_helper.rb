@@ -90,6 +90,10 @@ module ApplicationHelper
     include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
   end
   
+  def html_hours(text)
+    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
+  end
+  
   def authoring(created, author)
     time_tag = content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created))
     l(:label_added_time_by, author || 'Anonymous', time_tag)

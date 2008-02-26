@@ -595,3 +595,11 @@ button_configure: Configure
 label_plugins: Plugins
 label_ldap_authentication: LDAP authentication
 label_downloads_abbr: D/L
+label_this_month: this month
+label_last_n_days: last %d days
+label_all_time: all time
+label_this_year: this year
+label_date_range: Date range
+label_last_week: last week
+label_yesterday: yesterday
+label_last_month: last month

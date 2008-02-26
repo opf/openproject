@@ -22,7 +22,7 @@ require 'timelog_controller'
 class TimelogController; def rescue_action(e) raise e end; end
 
 class TimelogControllerTest < Test::Unit::TestCase
-  fixtures :time_entries, :issues
+  fixtures :projects, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses
 
   def setup
     @controller = TimelogController.new
@@ -48,5 +48,53 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:hours)
+  end
+  
+  def test_details_at_project_level
+    get :details, :project_id => 1
+    assert_response :success
+    assert_template 'details'
+    assert_not_nil assigns(:entries)
+    assert_equal 3, assigns(:entries).size
+    assert_not_nil assigns(:total_hours)
+    assert_equal 155.25, assigns(:total_hours)
+    # display all time by default
+    assert_nil assigns(:from)
+    assert_nil assigns(:to)
+  end
+  
+  def test_details_at_project_level_with_date_range
+    get :details, :project_id => 1, :from => '2007-03-20', :to => '2007-04-30'
+    assert_response :success
+    assert_template 'details'
+    assert_not_nil assigns(:entries)
+    assert_equal 2, assigns(:entries).size
+    assert_not_nil assigns(:total_hours)
+    assert_equal 5.25, assigns(:total_hours)
+    assert_equal '2007-03-20'.to_date, assigns(:from)
+    assert_equal '2007-04-30'.to_date, assigns(:to)
+  end
+
+  def test_details_at_project_level_with_period
+    get :details, :project_id => 1, :period => '7_days'
+    assert_response :success
+    assert_template 'details'
+    assert_not_nil assigns(:entries)
+    assert_not_nil assigns(:total_hours)
+    assert_equal Date.today - 7, assigns(:from)
+    assert_equal Date.today, assigns(:to)
+  end
+  
+  def test_details_at_issue_level
+    get :details, :issue_id => 1
+    assert_response :success
+    assert_template 'details'
+    assert_not_nil assigns(:entries)
+    assert_equal 2, assigns(:entries).size
+    assert_not_nil assigns(:total_hours)
+    assert_equal 154.25, assigns(:total_hours)
+    # display all time by default
+    assert_nil assigns(:from)
+    assert_nil assigns(:to)
   end
 end

@@ -46,5 +46,10 @@ class TimeEntry < ActiveRecord::Base
     self.tyear = spent_on ? spent_on.year : nil
     self.tmonth = spent_on ? spent_on.month : nil
     self.tweek = spent_on ? Date.civil(spent_on.year, spent_on.month, spent_on.day).cweek : nil
-  end  
+  end
+  
+  # Returns true if the time entry can be edited by usr, otherwise false
+  def editable_by?(usr)
+    usr == self.user
+  end
 end

@@ -108,13 +108,13 @@ module SortHelper
     end
     caption = titleize(Inflector::humanize(column)) unless caption
     
-    url = {:sort_key => column, :sort_order => order, :status => params[:status], 
-                                                      :issue_id => params[:issue_id], 
-                                                      :project_id => params[:project_id]}
+    sort_options = { :sort_key => column, :sort_order => order }
+    # don't reuse params if filters are present
+    url_options = params.has_key?(:set_filter) ? sort_options : params.merge(sort_options)
     
     link_to_remote(caption,
-                  {:update => "content", :url => url},
-                  {:href => url_for(url)}) +
+                  {:update => "content", :url => url_options},
+                  {:href => url_for(url_options)}) +
     (icon ? nbsp(2) + image_tag(icon) : '')
   end
 
