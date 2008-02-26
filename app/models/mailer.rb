@@ -122,7 +122,16 @@ class Mailer < ActionMailer::Base
     subject 'Redmine test'
     body :url => url_for(:controller => 'welcome')
   end
-  
+
+  # Overrides default deliver! method to prevent from sending an email
+  # with no recipient, cc or bcc
+  def deliver!(mail = @mail)
+    return false if (recipients.nil? || recipients.empty?) && 
+                    (cc.nil? || cc.empty?) &&
+                    (bcc.nil? || bcc.empty?)
+    super
+  end
+
   private
   def initialize_defaults(method_name)
     super
