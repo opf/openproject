@@ -90,7 +90,11 @@ class ProjectsController < ApplicationController
     @trackers = @project.trackers
     @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN #{IssueStatus.table_name} ON #{IssueStatus.table_name}.id = #{Issue.table_name}.status_id", :conditions => ["project_id=? and #{IssueStatus.table_name}.is_closed=?", @project.id, false])
     @total_issues_by_tracker = Issue.count(:group => :tracker, :conditions => ["project_id=?", @project.id])
-    @total_hours = @project.time_entries.sum(:hours)
+    TimeEntry.visible_by(User.current) do
+      @total_hours = TimeEntry.sum(:hours, 
+                                   :include => :project,
+                                   :conditions => ["(#{Project.table_name}.id = ? OR #{Project.table_name}.parent_id = ?)", @project.id, @project.id]).to_f
+    end
     @key = User.current.rss_key
   end
 

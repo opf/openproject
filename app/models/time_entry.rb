@@ -52,4 +52,10 @@ class TimeEntry < ActiveRecord::Base
   def editable_by?(usr)
     usr == self.user
   end
+  
+  def self.visible_by(usr)
+    with_scope(:find => { :conditions => Project.allowed_to_condition(usr, :view_time_entries) }) do
+      yield
+    end
+  end
 end

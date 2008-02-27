@@ -3,6 +3,7 @@
 <%= sort_header_tag('spent_on', :caption => l(:label_date), :default_order => 'desc') %>
 <%= sort_header_tag('user_id', :caption => l(:label_member)) %>
 <%= sort_header_tag('activity_id', :caption => l(:label_activity)) %>
+<%= sort_header_tag("#{Project.table_name}.name", :caption => l(:label_project)) %>
 <%= sort_header_tag('issue_id', :caption => l(:label_issue), :default_order => 'desc') %>
 <th><%= l(:field_comments) %></th>
 <%= sort_header_tag('hours', :caption => l(:field_hours)) %>
@@ -12,17 +13,16 @@
 <% entries.each do |entry| -%>
 <tr class="time-entry <%= cycle("odd", "even") %>">
 <td class="spent_on"><%= format_date(entry.spent_on) %></td>
-<td class="user"><%= entry.user.name %></td>
-<td class="activity"><%= entry.activity.name %></td>
+<td class="user"><%=h entry.user %></td>
+<td class="activity"><%=h entry.activity %></td>
+<td class="project"><%=h entry.project %></td>
 <td class="subject">
-  <% if entry.issue -%>
-  <div class="tooltip"><%= link_to_issue entry.issue %>: <%= h(truncate(entry.issue.subject, 50)) -%>
-  <span class="tip"><%= render_issue_tooltip entry.issue %></span>
-  </div>
-  <% end -%>
+<% if entry.issue -%>
+<%= link_to_issue entry.issue %>: <%= h(truncate(entry.issue.subject, 50)) -%>
+<% end -%>
 </td>
 <td class="comments"><%=h entry.comments %></td>
-<td class="hours"><%= entry.hours %></td>
+<td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
 <td align="center"><%= link_to_if_authorized(l(:button_edit), 
                                              {:controller => 'timelog', :action => 'edit', :id => entry},
                                              :class => 'icon icon-edit') if entry.editable_by?(User.current) %></td>

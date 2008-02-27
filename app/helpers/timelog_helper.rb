@@ -17,7 +17,7 @@
 
 module TimelogHelper
   def select_hours(data, criteria, value)
-    data.select {|row| row[criteria] == value.to_s}
+    data.select {|row| row[criteria] == value}
   end
   
   def sum_hours(data)
@@ -50,6 +50,7 @@ module TimelogHelper
       headers = [l(:field_spent_on),
                  l(:field_user),
                  l(:field_activity),
+                 l(:field_project),
                  l(:field_issue),
                  l(:field_tracker),
                  l(:field_subject),
@@ -62,6 +63,7 @@ module TimelogHelper
         fields = [l_date(entry.spent_on),
                   entry.user,
                   entry.activity,
+                  entry.project,
                   (entry.issue ? entry.issue.id : nil),
                   (entry.issue ? entry.issue.tracker : nil),
                   (entry.issue ? entry.issue.subject : nil),

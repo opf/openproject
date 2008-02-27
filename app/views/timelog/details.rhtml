@@ -1,4 +1,5 @@
 <div class="contextual">
+<%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}, :class => 'icon icon-report') %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time' %>
 </div>
 
@@ -25,7 +26,7 @@
 <%= text_field_tag 'from', @from, :size => 10, :onfocus => '$("period_type_2").checked = true;' %> <%= calendar_for('from') %>
 <%= l(:label_date_to) %>
 <%= text_field_tag 'to', @to, :size => 10, :onfocus => '$("period_type_2").checked = true;' %> <%= calendar_for('to') %>
-<%= submit_tag l(:button_submit), :name => nil, :onclick => '$("period_type_2").checked = true;' %>
+<%= submit_tag l(:button_apply), :name => nil, :onclick => '$("period_type_2").checked = true;' %>
 </p>
 </fieldset>
 <% end %>

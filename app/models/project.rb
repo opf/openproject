@@ -110,6 +110,21 @@ class Project < ActiveRecord::Base
     end
   end
   
+  def self.allowed_to_condition(user, permission)
+    statements = []
+    active_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
+    if user.admin?
+      # no restriction
+    elsif user.logged?
+      statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.non_member.allowed_to?(permission)
+      allowed_project_ids = user.memberships.select {|m| m.role.allowed_to?(permission)}.collect {|m| m.project_id}
+      statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})"
+    else
+      statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.anonymous.allowed_to?(permission)
+    end
+    statements.empty? ? active_statement : "(#{active_statement} AND (#{statements.join(' OR ')}))"
+  end
+  
   def self.find(*args)
     if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
       project = find_by_identifier(*args)
