@@ -116,7 +116,7 @@ class IssuesController < ApplicationController
       return
     end    
     @issue.status = default_status
-    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker))
+    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)).uniq
     
     if request.get? || request.xhr?
       @issue.start_date ||= Date.today
