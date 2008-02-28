@@ -231,4 +231,10 @@ class Issue < ActiveRecord::Base
   def soonest_start
     @soonest_start ||= relations_to.collect{|relation| relation.successor_soonest_start}.compact.min
   end
+  
+  def self.visible_by(usr)
+    with_scope(:find => { :conditions => Project.visible_by(usr) }) do
+      yield
+    end
+  end
 end

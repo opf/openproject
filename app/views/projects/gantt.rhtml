@@ -235,7 +235,8 @@ if Date.today >= @date_from and Date.today <= @date_to %>
       <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %> <%= tracker.name %></label><br />
     <% end %>
     <% if @project.active_children.any? %>
-    <br /><label><%= check_box_tag "with_subprojects", 1, params[:with_subprojects] %> <%=l(:label_subproject_plural)%></label>
+    <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
+    <%= hidden_field_tag 'with_subprojects', 0 %>
     <% end %>
     <p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
     <% end %>

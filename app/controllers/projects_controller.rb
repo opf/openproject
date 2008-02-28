@@ -87,9 +87,15 @@ class ProjectsController < ApplicationController
     @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
     @subprojects = @project.active_children
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
-    @trackers = @project.trackers
-    @open_issues_by_tracker = Issue.count(:group => :tracker, :joins => "INNER JOIN #{IssueStatus.table_name} ON #{IssueStatus.table_name}.id = #{Issue.table_name}.status_id", :conditions => ["project_id=? and #{IssueStatus.table_name}.is_closed=?", @project.id, false])
-    @total_issues_by_tracker = Issue.count(:group => :tracker, :conditions => ["project_id=?", @project.id])
+    @trackers = @project.rolled_up_trackers
+    Issue.visible_by(User.current) do
+      @open_issues_by_tracker = Issue.count(:group => :tracker,
+                                            :include => [:project, :status, :tracker],
+                                            :conditions => ["(#{Project.table_name}.id=? OR #{Project.table_name}.parent_id=?) and #{IssueStatus.table_name}.is_closed=?", @project.id, @project.id, false])
+      @total_issues_by_tracker = Issue.count(:group => :tracker,
+                                            :include => [:project, :status, :tracker],
+                                            :conditions => ["#{Project.table_name}.id=? OR #{Project.table_name}.parent_id=?", @project.id, @project.id])
+    end
     TimeEntry.visible_by(User.current) do
       @total_hours = TimeEntry.sum(:hours, 
                                    :include => :project,
@@ -307,9 +313,9 @@ class ProjectsController < ApplicationController
     @year ||= Date.today.year
     @month ||= Date.today.month    
     @calendar = Redmine::Helpers::Calendar.new(Date.civil(@year, @month, 1), current_language, :month)
-    
+    @with_subprojects = params[:with_subprojects].nil? ? true : (params[:with_subprojects] == '1')
     events = []
-    @project.issues_with_subprojects(params[:with_subprojects]) do
+    @project.issues_with_subprojects(@with_subprojects) do
       events += Issue.find(:all, 
                            :include => [:tracker, :status, :assigned_to, :priority, :project], 
                            :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?)) AND #{Issue.table_name}.tracker_id IN (#{@selected_tracker_ids.join(',')})", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
@@ -350,9 +356,10 @@ class ProjectsController < ApplicationController
     
     @date_from = Date.civil(@year_from, @month_from, 1)
     @date_to = (@date_from >> @months) - 1
+    @with_subprojects = params[:with_subprojects].nil? ? true : (params[:with_subprojects] == '1')
     
     @events = []
-    @project.issues_with_subprojects(params[:with_subprojects]) do
+    @project.issues_with_subprojects(@with_subprojects) do
       @events += Issue.find(:all, 
                            :order => "start_date, due_date",
                            :include => [:tracker, :status, :assigned_to, :priority, :project], 

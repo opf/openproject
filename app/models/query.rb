@@ -83,7 +83,7 @@ class Query < ActiveRecord::Base
   @@operators_by_filter_type = { :list => [ "=", "!" ],
                                  :list_status => [ "o", "=", "!", "c", "*" ],
                                  :list_optional => [ "=", "!", "!*", "*" ],
-                                 :list_one_or_more => [ "*", "=" ],
+                                 :list_subprojects => [ "*", "!*", "=" ],
                                  :date => [ "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ],
                                  :date_past => [ ">t-", "<t-", "t-", "t", "w" ],
                                  :string => [ "=", "~", "!", "!~" ],
@@ -163,7 +163,7 @@ class Query < ActiveRecord::Base
       @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
       @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.sort.collect{|s| [s.name, s.id.to_s] } }
       unless @project.active_children.empty?
-        @available_filters["subproject_id"] = { :type => :list_one_or_more, :order => 13, :values => @project.active_children.collect{|s| [s.name, s.id.to_s] } }
+        @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.active_children.collect{|s| [s.name, s.id.to_s] } }
       end
       @project.all_custom_fields.select(&:is_filter?).each do |field|
         case field.field_format
@@ -259,16 +259,18 @@ class Query < ActiveRecord::Base
   def statement
     # project/subprojects clause
     clause = ''
-    if project && has_filter?("subproject_id")
-      subproject_ids = []
-      if operator_for("subproject_id") == "="
-        subproject_ids = values_for("subproject_id").each(&:to_i)
+    if project && !@project.active_children.empty?
+      ids = [project.id]
+      if has_filter?("subproject_id") && operator_for("subproject_id") == "="
+        # include the selected subprojects
+        ids += values_for("subproject_id").each(&:to_i)
       else
-        subproject_ids = project.active_children.collect{|p| p.id}
+        # include all the subprojects unless 'none' is selected
+        ids += project.active_children.collect{|p| p.id} unless has_filter?("subproject_id") && operator_for("subproject_id") == "!*"
       end
-      clause << "#{Issue.table_name}.project_id IN (%d,%s)" % [project.id, subproject_ids.join(",")] if project
+      clause << "#{Issue.table_name}.project_id IN (%s)" % ids.join(',')
     elsif project
-      clause << "#{Issue.table_name}.project_id=%d" % project.id
+      clause << "#{Issue.table_name}.project_id = %d" % project.id
     else
       clause << Project.visible_by(User.current)
     end

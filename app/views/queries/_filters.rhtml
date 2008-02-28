@@ -75,7 +75,7 @@ function toggle_multi_select(field) {
     <td valign="top">    
     <div id="div_values_<%= field %>" style="display:none;">
     <% case options[:type]
-    when :list, :list_optional, :list_status, :list_one_or_more %>
+    when :list, :list_optional, :list_status, :list_subprojects %>
         <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="values[<%= field %>][]" id="values_<%= field %>" class="select-small" style="vertical-align: top;">
         <%= options_for_select options[:values], query.values_for(field) %>        
         </select>
