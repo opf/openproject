@@ -1,0 +1,15 @@
+<h2><%= l(:confirmation) %></h2>
+
+<% form_tag do %>
+<%= @issues.collect {|i| hidden_field_tag 'ids[]', i.id } %>
+<div class="box">
+<p><strong><%= l(:text_destroy_time_entries_question, @hours) %></strong></p>
+<p>
+<label><%= radio_button_tag 'todo', 'destroy', true %> <%= l(:text_destroy_time_entries) %></label><br />
+<label><%= radio_button_tag 'todo', 'nullify', false %> <%= l(:text_assign_time_entries_to_project) %></label><br />
+<label><%= radio_button_tag 'todo', 'reassign', false, :onchange => 'if (this.checked) { $("reassign_to_id").focus(); }' %> <%= l(:text_reassign_time_entries) %></label>
+<%= text_field_tag 'reassign_to_id', params[:reassign_to_id], :size => 6, :onfocus => '$("todo_reassign").checked=true;' %>
+</p>
+</div>
+<%= submit_tag l(:button_apply) %>
+<% end %>

@@ -605,3 +605,8 @@ label_yesterday: yesterday
 label_last_month: last month
 label_add_another_file: Add another file
 label_optional_description: Optional description
+text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
+error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
+text_assign_time_entries_to_project: Assign reported hours to the project
+text_destroy_time_entries: Delete reported hours
+text_reassign_time_entries: 'Reassign reported hours to this issue:'

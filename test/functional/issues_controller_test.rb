@@ -37,7 +37,8 @@ class IssuesControllerTest < Test::Unit::TestCase
            :workflows,
            :custom_fields,
            :custom_values,
-           :custom_fields_trackers
+           :custom_fields_trackers,
+           :time_entries
   
   def setup
     @controller = IssuesController.new
@@ -428,13 +429,48 @@ class IssuesControllerTest < Test::Unit::TestCase
                                              :class => 'icon-del disabled' }
   end
   
-  def test_destroy
+  def test_destroy_issue_with_no_time_entries
     @request.session[:user_id] = 2
-    post :destroy, :id => 1
+    post :destroy, :id => 3
     assert_redirected_to 'projects/ecookbook/issues'
-    assert_nil Issue.find_by_id(1)
+    assert_nil Issue.find_by_id(3)
   end
 
+  def test_destroy_issues_with_time_entries
+    @request.session[:user_id] = 2
+    post :destroy, :ids => [1, 3]
+    assert_response :success
+    assert_template 'destroy'
+    assert_not_nil assigns(:hours)
+    assert Issue.find_by_id(1) && Issue.find_by_id(3)
+  end
+
+  def test_destroy_issues_and_destroy_time_entries
+    @request.session[:user_id] = 2
+    post :destroy, :ids => [1, 3], :todo => 'destroy'
+    assert_redirected_to 'projects/ecookbook/issues'
+    assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
+    assert_nil TimeEntry.find_by_id([1, 2])
+  end
+
+  def test_destroy_issues_and_assign_time_entries_to_project
+    @request.session[:user_id] = 2
+    post :destroy, :ids => [1, 3], :todo => 'nullify'
+    assert_redirected_to 'projects/ecookbook/issues'
+    assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
+    assert_nil TimeEntry.find(1).issue_id
+    assert_nil TimeEntry.find(2).issue_id
+  end
+  
+  def test_destroy_issues_and_reassign_time_entries_to_another_issue
+    @request.session[:user_id] = 2
+    post :destroy, :ids => [1, 3], :todo => 'reassign', :reassign_to_id => 2
+    assert_redirected_to 'projects/ecookbook/issues'
+    assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
+    assert_equal 2, TimeEntry.find(1).issue_id
+    assert_equal 2, TimeEntry.find(2).issue_id
+  end
+  
   def test_destroy_attachment
     issue = Issue.find(3)
     a = issue.attachments.size

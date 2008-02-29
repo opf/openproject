@@ -80,6 +80,7 @@ notice_default_data_loaded: Default configuration successfully loaded.
 error_can_t_load_default_data: "Default configuration could not be loaded: %s"
 error_scm_not_found: "Entry and/or revision doesn't exist in the repository."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
 
 mail_subject_lost_password: Your Redmine password
 mail_body_lost_password: 'To change your Redmine password, click on the following link:'
@@ -577,6 +578,10 @@ text_select_project_modules: 'Select modules to enable for this project:'
 text_default_administrator_account_changed: Default administrator account changed
 text_file_repository_writable: File repository writable
 text_rmagick_available: RMagick available (optional)
+text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
+text_destroy_time_entries: Delete reported hours
+text_assign_time_entries_to_project: Assign reported hours to the project
+text_reassign_time_entries: 'Reassign reported hours to this issue:'
 
 default_role_manager: Manager
 default_role_developper: Developer

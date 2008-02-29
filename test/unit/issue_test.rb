@@ -70,4 +70,10 @@ class IssueTest < Test::Unit::TestCase
     # Make sure time entries were move to the target project
     assert_equal 2, issue.time_entries.first.project_id
   end
+  
+  def test_issue_destroy
+    Issue.find(1).destroy
+    assert_nil Issue.find_by_id(1)
+    assert_nil TimeEntry.find_by_issue_id(1)
+  end
 end

@@ -27,7 +27,7 @@ class Issue < ActiveRecord::Base
 
   has_many :journals, :as => :journalized, :dependent => :destroy
   has_many :attachments, :as => :container, :dependent => :destroy
-  has_many :time_entries, :dependent => :nullify
+  has_many :time_entries, :dependent => :delete_all
   has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :custom_fields, :through => :custom_values
   has_and_belongs_to_many :changesets, :order => "revision ASC"

@@ -263,6 +263,26 @@ class IssuesController < ApplicationController
   end
   
   def destroy
+    @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
+    if @hours > 0
+      case params[:todo]
+      when 'destroy'
+        # nothing to do
+      when 'nullify'
+        TimeEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
+      when 'reassign'
+        reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
+        if reassign_to.nil?
+          flash.now[:error] = l(:error_issue_not_found_in_project)
+          return
+        else
+          TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
+        end
+      else
+        # display the destroy form
+        return
+      end
+    end
     @issues.each(&:destroy)
     redirect_to :action => 'index', :project_id => @project
   end
