@@ -44,7 +44,7 @@ class DocumentsControllerTest < Test::Unit::TestCase
                :document => { :title => 'DocumentsControllerTest#test_post_new',
                               :description => 'This is a new document',
                               :category_id => 2},
-               :attachments => [ ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + '/files/testfile.txt', 'text/plain') ]
+               :attachments => {'1' => {'file' => test_uploaded_file('testfile.txt', 'text/plain')}}
                
     assert_redirected_to 'projects/ecookbook/documents'
     

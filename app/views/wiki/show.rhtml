@@ -25,10 +25,14 @@
 <%= link_to_attachments @page.attachments, :delete_url => (authorize_for('wiki', 'destroy_attachment') ? {:controller => 'wiki', :action => 'destroy_attachment', :page => @page.title} : nil) %>
 
 <% if authorize_for('wiki', 'add_attachment') %>
-<p><%= toggle_link l(:label_attachment_new), "add_attachment_form" %></p>
-<% form_tag({ :controller => 'wiki', :action => 'add_attachment', :page => @page.title }, :multipart => true, :class => "tabular", :id => "add_attachment_form", :style => "display:none;") do %>
-  <%= render :partial => 'attachments/form' %>
+<p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
+                                             :id => 'attach_files_link' %></p>
+<% form_tag({ :controller => 'wiki', :action => 'add_attachment', :page => @page.title }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
+  <div class="box">
+  <p><%= render :partial => 'attachments/form' %></p>
+  </div>
 <%= submit_tag l(:button_add) %>
+<%= link_to l(:button_cancel), {}, :onclick => "Element.hide('add_attachment_form'); Element.show('attach_files_link'); return false;" %>
 <% end %>
 <% end %>
 

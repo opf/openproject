@@ -23,7 +23,8 @@
   <% for file in version.attachments %>		
   <tr class="<%= cycle("odd", "even") %>">
     <td></td>
-    <td><%= link_to file.filename, :controller => 'versions', :action => 'download', :id => version, :attachment_id => file %></td>
+    <td><%= link_to(file.filename, {:controller => 'versions', :action => 'download', :id => version, :attachment_id => file},
+                                   :title => file.description) %></td>
     <td align="center"><%= format_date(file.created_on) %></td>
     <td align="center"><%= number_to_human_size(file.filesize) %></td>
     <td align="center"><%= file.downloads %></td>

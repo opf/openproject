@@ -222,7 +222,11 @@ width: 200px;
 .required {color: #bb0000;}
 .summary {font-style: italic;}
 
+#attachments_fields input[type=text] {margin-left: 8px; }
+
 div.attachments p { margin:4px 0 2px 0; }
+div.attachments img { vertical-align: middle; }
+div.attachments span.author { font-size: 0.9em; color: #888; }
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata {

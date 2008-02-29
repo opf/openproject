@@ -396,7 +396,7 @@ module ApplicationHelper
   
   def labelled_tabular_form_for(name, object, options, &proc)
     options[:html] ||= {}
-    options[:html].store :class, "tabular"
+    options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
     form_for(name, object, options.merge({ :builder => TabularFormBuilder, :lang => current_language}), &proc)
   end
   

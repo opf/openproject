@@ -300,7 +300,7 @@ class IssuesControllerTest < Test::Unit::TestCase
     post :edit,
          :id => 1,
          :notes => '',
-         :attachments => [ test_uploaded_file('testfile.txt', 'text/plain') ]
+         :attachments => {'1' => {'file' => test_uploaded_file('testfile.txt', 'text/plain')}}
     assert_redirected_to 'issues/show/1'
     j = Issue.find(1).journals.find(:first, :order => 'id DESC')
     assert j.notes.blank?

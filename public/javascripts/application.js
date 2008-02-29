@@ -10,15 +10,24 @@ function checkAll (id, checked) {
 	}
 }
 
+var fileFieldCount = 1;
+
 function addFileField() {
+    if (fileFieldCount >= 10) return false
+    fileFieldCount++;
     var f = document.createElement("input");
     f.type = "file";
-    f.name = "attachments[]";
+    f.name = "attachments[" + fileFieldCount + "][file]";
     f.size = 30;
-        
-    p = document.getElementById("attachments_p");
+    var d = document.createElement("input");
+    d.type = "text";
+    d.name = "attachments[" + fileFieldCount + "][description]";
+    d.size = 60;
+    
+    p = document.getElementById("attachments_fields");
     p.appendChild(document.createElement("br"));
     p.appendChild(f);
+    p.appendChild(d);
 }
 
 function showTab(name) {

@@ -50,13 +50,14 @@ class IssuesTest < ActionController::IntegrationTest
 
     post 'issues/edit/1',
          :notes => 'Some notes',
-         :attachments => ([] << ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + '/files/testfile.txt', 'text/plain'))
+         :attachments => {'1' => {'file' => test_uploaded_file('testfile.txt', 'text/plain'), 'description' => 'This is an attachment'}}
     assert_redirected_to "issues/show/1"
     
     # make sure attachment was saved
     attachment = Issue.find(1).attachments.find_by_filename("testfile.txt")
     assert_kind_of Attachment, attachment
     assert_equal Issue.find(1), attachment.container
+    assert_equal 'This is an attachment', attachment.description
     # verify the size of the attachment stored in db
     #assert_equal file_data_1.length, attachment.filesize
     # verify that the attachment was written to disk

@@ -7,7 +7,7 @@
 <p><label for="version_id"><%=l(:field_version)%> <span class="required">*</span></label>
 <%= select_tag "version_id", options_from_collection_for_select(@versions, "id", "name") %></p>
 
-<%= render :partial => 'attachments/form' %>
+<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 </div>
 <%= submit_tag l(:button_add) %>
 <% end %> 

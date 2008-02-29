@@ -44,9 +44,7 @@
 <%= render :partial => 'form_custom_fields', :locals => {:values => @custom_values} %>
 
 <% if @issue.new_record? %>
-<p id="attachments_p"><label for="attachment_file"><%=l(:label_attachment)%>
-<%= image_to_function "add.png", "addFileField();return false" %></label>
-<%= file_field_tag 'attachments[]', :size => 30  %> <em>(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)</em></p>
+<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 <% end %>
 
 <%= wikitoolbar_for 'issue_description' %>

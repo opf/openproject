@@ -21,6 +21,8 @@ class DocumentsController < ApplicationController
   before_filter :find_document, :except => [:index, :new]
   before_filter :authorize
   
+  helper :attachments
+  
   def index
     @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
     documents = @project.documents.find :all, :include => [:attachments, :category]

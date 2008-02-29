@@ -497,6 +497,8 @@ label_scm: SCM
 label_plugins: Plugins
 label_ldap_authentication: Authentification LDAP
 label_downloads_abbr: D/L
+label_optional_description: Description facultative
+label_add_another_file: Ajouter un autre fichier
 
 button_login: Connexion
 button_submit: Soumettre
