@@ -45,7 +45,7 @@ class AccountControllerTest < Test::Unit::TestCase
   end
   
   def test_login_with_wrong_password
-    post :login, :login => 'admin', :password => 'bad'
+    post :login, :username => 'admin', :password => 'bad'
     assert_response :success
     assert_template 'login'
     assert_tag 'div',
@@ -56,7 +56,7 @@ class AccountControllerTest < Test::Unit::TestCase
   def test_autologin
     Setting.autologin = "7"
     Token.delete_all
-    post :login, :login => 'admin', :password => 'admin', :autologin => 1
+    post :login, :username => 'admin', :password => 'admin', :autologin => 1
     assert_redirected_to 'my/page'
     token = Token.find :first
     assert_not_nil token

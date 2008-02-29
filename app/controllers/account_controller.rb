@@ -43,7 +43,7 @@ class AccountController < ApplicationController
       self.logged_user = nil
     else
       # Authenticate user
-      user = User.try_to_login(params[:login], params[:password])
+      user = User.try_to_login(params[:username], params[:password])
       if user
         self.logged_user = user
         # generate a key and set cookie if autologin

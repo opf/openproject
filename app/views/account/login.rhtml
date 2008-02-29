@@ -2,8 +2,8 @@
 <% form_tag({:action=> "login"}) do %>
 <table>
 <tr>
-    <td align="right"><label for="login"><%=l(:field_login)%>:</label></td>
-    <td align="left"><p><%= text_field_tag 'login', nil, :size => 40 %></p></td>
+    <td align="right"><label for="username"><%=l(:field_login)%>:</label></td>
+    <td align="left"><p><%= text_field_tag 'username', nil, :size => 40 %></p></td>
 </tr>
 <tr>
     <td align="right"><label for="password"><%=l(:field_password)%>:</label></td>
@@ -28,6 +28,6 @@
     </td>
 </tr>
 </table>
-<%= javascript_tag "Form.Element.focus('login');" %>
+<%= javascript_tag "Form.Element.focus('username');" %>
 <% end %>
 </div>
