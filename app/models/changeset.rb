@@ -80,6 +80,8 @@ class Changeset < ActiveRecord::Base
         # update status of issues
         logger.debug "Issues fixed by changeset #{self.revision}: #{issue_ids.join(', ')}." if logger && logger.debug?
         target_issues.each do |issue|
+          # the issue may have been updated by the closure of another one (eg. duplicate)
+          issue.reload
           # don't change the status is the issue is closed
           next if issue.status.is_closed?
           user = committer_user || User.anonymous
