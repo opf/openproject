@@ -118,7 +118,7 @@ class Project < ActiveRecord::Base
     elsif user.logged?
       statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.non_member.allowed_to?(permission)
       allowed_project_ids = user.memberships.select {|m| m.role.allowed_to?(permission)}.collect {|m| m.project_id}
-      statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})"
+      statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
     else
       statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.anonymous.allowed_to?(permission)
     end
