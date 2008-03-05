@@ -22,6 +22,7 @@ module Redmine
       'text/plain' => 'txt,tpl,properties,patch,diff,ini,readme,install,upgrade',
       'text/css' => 'css',
       'text/html' => 'html,htm,xhtml',
+      'text/jsp' => 'jsp',
       'text/x-c' => 'c,cpp,h',
       'text/x-java' => 'java',
       'text/x-javascript' => 'js',
