@@ -29,6 +29,8 @@ class MessagesController < ApplicationController
 
   # Show a topic and its replies
   def show
+    @replies = @topic.children
+    @replies.reverse! if User.current.wants_comments_in_reverse_order?
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?
   end

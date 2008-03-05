@@ -15,11 +15,11 @@
 <br />
 
 <h3 class="icon22 icon22-comment"><%= l(:label_reply_plural) %></h3>
-<% @topic.children.each do |message| %>
+<% @replies.each do |message| %>
   <a name="<%= "message-#{message.id}" %>"></a>
   <div class="contextual">
-    <%= link_to_if_authorized l(:button_edit), {:action => 'edit', :id => message}, :class => 'icon icon-edit' %>
-    <%= link_to_if_authorized l(:button_delete), {:action => 'destroy', :id => message}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del' %>
+    <%= link_to_if_authorized image_tag('edit.png'), {:action => 'edit', :id => message}, :title => l(:button_edit) %>
+    <%= link_to_if_authorized image_tag('delete.png'), {:action => 'destroy', :id => message}, :method => :post, :confirm => l(:text_are_you_sure), :title => l(:button_delete) %>
   </div>
   <div class="message reply">
   <h4><%=h message.subject %> - <%= authoring message.created_on, message.author %></h4>

@@ -609,3 +609,7 @@ enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
 setting_activity_days_default: Days displayed on project activity
+label_chronological_order: In chronological order
+field_comments_sorting: Afficher les commentaires
+label_reverse_chronological_order: In reverse chronological order
+label_preferences: Preferences

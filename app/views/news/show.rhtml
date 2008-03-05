@@ -34,14 +34,15 @@
 
 <div id="comments" style="margin-bottom:16px;">
 <h3 class="icon22 icon22-comment"><%= l(:label_comment_plural) %></h3>
-<% @news.comments.each do |comment| %>
+<% @comments.each do |comment| %>
     <% next if comment.new_record? %>
-    <h4><%= authoring comment.created_on, comment.author %></h4>
     <div class="contextual">
-        <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+    <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
+                                                       :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
     </div>
+    <h4><%= authoring comment.created_on, comment.author %></h4>
     <%= textilizable(comment.comments) %>
-<% end if @news.comments_count > 0 %>
+<% end if @comments.any? %>
 </div>
 
 <% if authorize_for 'news', 'add_comment' %>

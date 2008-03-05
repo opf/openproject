@@ -46,4 +46,7 @@ class UserPreference < ActiveRecord::Base
       self.others.store attr_name, value
     end
   end
+  
+  def comments_sorting; self[:comments_sorting] end
+  def comments_sorting=(order); self[:comments_sorting]=order end
 end

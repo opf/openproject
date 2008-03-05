@@ -144,6 +144,10 @@ class User < ActiveRecord::Base
     self.pref.time_zone.nil? ? nil : TimeZone[self.pref.time_zone]
   end
   
+  def wants_comments_in_reverse_order?
+    self.pref[:comments_sorting] == 'desc'
+  end
+  
   # Return user's RSS key (a 40 chars long string), used to access feeds
   def rss_key
     token = self.rss_token || Token.create(:user => self, :action => 'feeds')

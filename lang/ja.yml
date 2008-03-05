@@ -609,3 +609,7 @@ label_optional_description: Optional description
 text_destroy_time_entries: Delete reported hours
 text_reassign_time_entries: 'Reassign reported hours to this issue:'
 setting_activity_days_default: Days displayed on project activity
+label_chronological_order: In chronological order
+field_comments_sorting: Afficher les commentaires
+label_reverse_chronological_order: In reverse chronological order
+label_preferences: Preferences

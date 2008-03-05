@@ -177,6 +177,7 @@ field_column_names: Columns
 field_time_zone: Time zone
 field_searchable: Searchable
 field_default_value: Default value
+field_comments_sorting: Afficher les commentaires
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle
@@ -501,6 +502,9 @@ label_ldap_authentication: LDAP authentication
 label_downloads_abbr: D/L
 label_optional_description: Optional description
 label_add_another_file: Add another file
+label_preferences: Preferences
+label_chronological_order: In chronological order
+label_reverse_chronological_order: In reverse chronological order
 
 button_login: Login
 button_submit: Submit

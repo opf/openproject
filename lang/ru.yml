@@ -612,3 +612,7 @@ text_assign_time_entries_to_project: Прикрепить зарегистрир
 text_destroy_time_entries: Удалить зарегистрированное время
 text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'
 setting_activity_days_default: Days displayed on project activity
+label_chronological_order: In chronological order
+field_comments_sorting: Afficher les commentaires
+label_reverse_chronological_order: In reverse chronological order
+label_preferences: Preferences

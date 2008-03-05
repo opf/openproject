@@ -144,4 +144,12 @@ class UserTest < Test::Unit::TestCase
     @jsmith.reload
     assert !@jsmith.projects.first.recipients.include?(@jsmith.mail)
   end
+  
+  def test_comments_sorting_preference
+    assert !@jsmith.wants_comments_in_reverse_order?
+    @jsmith.pref.comments_sorting = 'asc'
+    assert !@jsmith.wants_comments_in_reverse_order?
+    @jsmith.pref.comments_sorting = 'desc'
+    assert @jsmith.wants_comments_in_reverse_order?
+  end
 end
