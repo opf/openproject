@@ -48,7 +48,7 @@ Rails::Initializer.run do |config|
 		:port => 25,
 		:domain => "somenet.foo",
 		:authentication => :login,
-		:user_name => "redmine",
+		:user_name => "redmine@somenet.foo",
 		:password => "redmine",
 	}
 	
