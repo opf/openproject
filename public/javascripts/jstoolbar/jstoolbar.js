@@ -151,6 +151,7 @@ jsToolBar.prototype = {
 	base_url: '',
 	mode: 'wiki',
 	elements: {},
+	help_link: '',
 	
 	getMode: function() {
 		return this.mode;
@@ -163,6 +164,10 @@ jsToolBar.prototype = {
 	switchMode: function(mode) {
 		mode = mode || 'wiki';
 		this.draw(mode);
+	},
+	
+	setHelpLink: function(link) {
+		this.help_link = link;
 	},
 	
 	button: function(toolName) {
@@ -201,7 +206,13 @@ jsToolBar.prototype = {
 			this.toolbar.removeChild(this.toolbar.firstChild)
 		}
 		this.toolNodes = {}; // vide les raccourcis DOM/**/
-		
+
+		var h = document.createElement('div');
+		h.className = 'help'
+		h.innerHTML = this.help_link;
+		'<a href="/help/wiki_syntax.html" onclick="window.open(\'/help/wiki_syntax.html\', \'\', \'resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\'); return false;">Aide</a>';
+		this.toolbar.appendChild(h);
+
 		// Draw toolbar elements
 		var b, tool, newTool;
 		

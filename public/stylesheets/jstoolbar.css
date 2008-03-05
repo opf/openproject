@@ -44,6 +44,8 @@
 	margin-right: 4px;
 }
 
+.jstElements .help { float: right; margin-right: 1em; padding-top: 8px; font-size: 0.9em; }
+
 /* Buttons
 -------------------------------------------------------- */
 .jstb_strong {
