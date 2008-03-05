@@ -200,7 +200,7 @@ class ProjectsController < ApplicationController
   end
   
   def list_files
-    @versions = @project.versions.sort
+    @versions = @project.versions.sort.reverse
   end
   
   # Show changelog for @project
