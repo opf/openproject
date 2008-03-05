@@ -49,7 +49,13 @@ class IssuesController < ApplicationController
     sort_update
     retrieve_query
     if @query.valid?
-      limit = %w(pdf csv).include?(params[:format]) ? Setting.issues_export_limit.to_i : per_page_option
+      limit = per_page_option
+      respond_to do |format|
+        format.html { }
+        format.atom { }
+        format.csv  { limit = Setting.issues_export_limit.to_i }
+        format.pdf  { limit = Setting.issues_export_limit.to_i }
+      end
       @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
       @issues = Issue.find :all, :order => sort_clause,
@@ -74,7 +80,7 @@ class IssuesController < ApplicationController
     sort_update
     retrieve_query
     if @query.valid?
-      @changes = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status]} ],
+      @journals = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status]} ],
                                      :conditions => @query.statement,
                                      :limit => 25,
                                      :order => "#{Journal.table_name}.created_on DESC"
@@ -92,6 +98,7 @@ class IssuesController < ApplicationController
     @priorities = Enumeration::get_values('IPRI')
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml' }
+      format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(render(:template => 'issues/show.rfpdf', :layout => false), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
   end

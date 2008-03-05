@@ -95,13 +95,18 @@ end %>
   </div>
 <% end %>
 
-<div class="contextual">
-<%= l(:label_export_to) %><%= link_to 'PDF', {:format => 'pdf'}, :class => 'icon icon-pdf' %>
-</div>
-&nbsp;
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'Atom', {:format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
+<span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
+</p>
 
 <% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
 
 <% content_for :sidebar do %>
     <%= render :partial => 'issues/sidebar' %>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
 <% end %>

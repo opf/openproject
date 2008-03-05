@@ -36,12 +36,11 @@
 <% end %>
 <% end %>
 
-<div class="contextual">
+<p class="other-formats">
 <%= l(:label_export_to) %>
-<%= link_to 'HTML', {:page => @page.title, :export => 'html', :version => @content.version}, :class => 'icon icon-html' %>,
-<%= link_to 'TXT', {:page => @page.title, :export => 'txt', :version => @content.version}, :class => 'icon icon-txt' %>
-</div>
-&nbsp;
+<span><%= link_to 'HTML', {:page => @page.title, :export => 'html', :version => @content.version}, :class => 'html' %></span>
+<span><%= link_to 'TXT', {:page => @page.title, :export => 'txt', :version => @content.version}, :class => 'text' %></span>
+</p>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>

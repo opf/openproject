@@ -11,7 +11,7 @@
 	<tbody>
 	<% issues.each do |issue| -%>
 	<tr id="issue-<%= issue.id %>" class="issue hascontextmenu <%= cycle('odd', 'even') %> <%= "status-#{issue.status.position} priority-#{issue.priority.position}" %>">
-	    <td class="checkbox"><%= check_box_tag("ids[]", issue.id, false) %></td>
+	    <td class="checkbox"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
 		<td><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
         <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.name %><% end %>
 	</tr>

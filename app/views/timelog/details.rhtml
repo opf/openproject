@@ -37,11 +37,12 @@
 
 <% unless @entries.empty? %>
 <%= render :partial => 'list', :locals => { :entries => @entries }%>
-<div class="contextual">
-    <%= l(:label_export_to) %>
-    <%= link_to 'CSV', params.merge(:format => 'csv'), :class => 'icon icon-csv' %>
-</div>
 <p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
+
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'CSV', params.merge(:format => 'csv'), :class => 'csv' %></span>
+</p>
 <% end %>
 
 <% content_for :header_tags do %>

@@ -27,12 +27,15 @@
 <% next_params = params.clone.update :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) %>
 <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
                     {:update => "content", :url => next_params}, {:href => url_for(next_params)} %>
-&nbsp;
 </div>
-<br />
+&nbsp;
+<p class="other-formats">
+    <%= l(:label_export_to) %>
+    <%= link_to 'Atom', params.merge(:format => :atom, :key => User.current.rss_key).delete_if{|k,v|k=="commit"}, :class => 'feed' %>
+</p>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :year => nil, :month => nil, :key => User.current.rss_key})) %>
+<%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :year => nil, :month => nil, :key => User.current.rss_key).delete_if{|k,v|k=="commit"}) %>
 <% end %>
 
 <% content_for :sidebar do %>

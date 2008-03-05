@@ -96,7 +96,7 @@ class IssuesControllerTest < Test::Unit::TestCase
   def test_changes
     get :changes, :project_id => 1
     assert_response :success
-    assert_not_nil assigns(:changes)
+    assert_not_nil assigns(:journals)
     assert_equal 'application/atom+xml', @response.content_type
   end
   

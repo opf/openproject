@@ -80,7 +80,7 @@ a img{ border: 0; }
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
 table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
-table.list td { overflow: hidden; text-overflow: ellipsis; vertical-align: top;}
+table.list td { overflow: hidden; vertical-align: top;}
 table.list td.id { width: 2%; text-align: center;}
 table.list td.checkbox { width: 15px; padding: 0px;}
 
@@ -228,6 +228,11 @@ div.attachments p { margin:4px 0 2px 0; }
 div.attachments img { vertical-align: middle; }
 div.attachments span.author { font-size: 0.9em; color: #888; }
 
+p.other-formats { text-align: right; font-size:0.9em; color: #666; }
+.other-formats span + span:before { content: "| "; }
+
+a.feed { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
+
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata {
     padding: 4px 4px 4px 30px;
@@ -275,7 +280,6 @@ padding:0.6em;
 z-index:100;
 filter:alpha(opacity=50);
 opacity: 0.5;
--khtml-opacity: 0.5;
 }
 
 html>body #ajax-indicator { position: fixed; }
@@ -518,11 +522,6 @@ vertical-align: middle;
 .icon-move { background-image: url(../images/move.png); }
 .icon-save { background-image: url(../images/save.png); }
 .icon-cancel { background-image: url(../images/cancel.png); }
-.icon-pdf { background-image: url(../images/pdf.png); }
-.icon-csv { background-image: url(../images/csv.png); }
-.icon-html { background-image: url(../images/html.png); }
-.icon-image { background-image: url(../images/image.png); }
-.icon-txt { background-image: url(../images/txt.png); }
 .icon-file { background-image: url(../images/file.png); }
 .icon-folder { background-image: url(../images/folder.png); }
 .open .icon-folder { background-image: url(../images/folder_open.png); }
@@ -537,7 +536,6 @@ vertical-align: middle;
 .icon-attachment  { background-image: url(../images/attachment.png); }
 .icon-index  { background-image: url(../images/index.png); }
 .icon-history  { background-image: url(../images/history.png); }
-.icon-feed  { background-image: url(../images/feed.png); }
 .icon-time  { background-image: url(../images/time.png); }
 .icon-stats  { background-image: url(../images/stats.png); }
 .icon-warning  { background-image: url(../images/warning.png); }

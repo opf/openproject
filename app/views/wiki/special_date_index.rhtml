@@ -17,9 +17,14 @@
   <%= render :partial => 'sidebar' %>
 <% end %>
 
-<div class="contextual">
 <% unless @pages.empty? %>
-<%= l(:label_export_to) %> <%= link_to 'HTML', {:action => 'special', :page => 'export'}, :class => 'icon icon-html' %>
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'Atom', {:controller => 'projects', :action => 'activity', :id => @project, :show_wiki_pages => 1, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
+<span><%= link_to 'HTML', {:action => 'special', :page => 'export'}, :class => 'html' %></span>
+</p>
 <% end %>
-</div>
-&nbsp;
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom, :controller => 'projects', :action => 'activity', :id => @project, :show_wiki_pages => 1, :format => 'atom', :key => User.current.rss_key) %>
+<% end %>

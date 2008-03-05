@@ -320,7 +320,7 @@ label_version: Version
 label_version_new: New version
 label_version_plural: Versions
 label_confirmation: Confirmation
-label_export_to: Export to
+label_export_to: 'Also available in:'
 label_read: Read...
 label_public_projects: Public projects
 label_open_issues: open
