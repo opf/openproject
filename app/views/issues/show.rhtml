@@ -87,6 +87,7 @@ end %>
 <%= render :partial => 'history', :locals => { :journals => @journals } %>
 </div>
 <% end %>
+<div style="clear: both;"></div>
 
 <% if authorize_for('issues', 'edit') %>
   <div id="update" style="display:none;">
