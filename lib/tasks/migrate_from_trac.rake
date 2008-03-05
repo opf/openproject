@@ -513,7 +513,11 @@ namespace :redmine do
         @@trac_db_password = password
       end
       
-      mattr_reader :trac_directory, :trac_adapter, :trac_db_host, :trac_db_port, :trac_db_name, :trac_db_username, :trac_db_password
+      def self.set_trac_db_schema(schema)
+        @@trac_db_schema = schema
+      end
+
+      mattr_reader :trac_directory, :trac_adapter, :trac_db_host, :trac_db_port, :trac_db_name, :trac_db_schema, :trac_db_username, :trac_db_password
       
       def self.trac_db_path; "#{trac_directory}/db/trac.db" end
       def self.trac_attachments_directory; "#{trac_directory}/attachments" end
@@ -544,7 +548,9 @@ namespace :redmine do
            :host => trac_db_host,
            :port => trac_db_port,
            :username => trac_db_username,
-           :password => trac_db_password}
+           :password => trac_db_password,
+           :schema_search_path => trac_db_schema
+          }
         end
       end
       
@@ -580,7 +586,7 @@ namespace :redmine do
       end
     end
     
-    DEFAULT_PORTS = {'mysql' => 3306, 'postgresl' => 5432}
+    DEFAULT_PORTS = {'mysql' => 3306, 'postgresql' => 5432}
     
     prompt('Trac directory') {|directory| TracMigrate.set_trac_directory directory.strip}
     prompt('Trac database adapter (sqlite, sqlite3, mysql, postgresql)', :default => 'sqlite') {|adapter| TracMigrate.set_trac_adapter adapter}
@@ -588,6 +594,7 @@ namespace :redmine do
       prompt('Trac database host', :default => 'localhost') {|host| TracMigrate.set_trac_db_host host}
       prompt('Trac database port', :default => DEFAULT_PORTS[TracMigrate.trac_adapter]) {|port| TracMigrate.set_trac_db_port port}
       prompt('Trac database name') {|name| TracMigrate.set_trac_db_name name}
+      prompt('Trac database schema', :default => 'public') {|schema| TracMigrate.set_trac_db_schema schema}
       prompt('Trac database username') {|username| TracMigrate.set_trac_db_username username}
       prompt('Trac database password') {|password| TracMigrate.set_trac_db_password password}
     end
