@@ -130,7 +130,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   end
 
   def test_activity
-    get :activity, :id => 1, :year => 2.days.ago.to_date.year, :month => 2.days.ago.to_date.month
+    get :activity, :id => 1
     assert_response :success
     assert_template 'activity'
     assert_not_nil assigns(:events_by_day)
@@ -146,7 +146,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
                  }
                }
                
-    get :activity, :id => 1, :year => 3.days.ago.to_date.year, :month => 3.days.ago.to_date.month
+    get :activity, :id => 1, :from => 3.days.ago.to_date
     assert_response :success
     assert_template 'activity'
     assert_not_nil assigns(:events_by_day)

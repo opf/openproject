@@ -206,6 +206,7 @@ setting_emails_footer: Emails footer
 setting_protocol: Protocol
 setting_per_page_options: Objects per page options
 setting_user_format: Users display format
+setting_activity_days_default: Days displayed on project activity
 
 project_module_issue_tracking: Issue tracking
 project_module_time_tracking: Time tracking

@@ -37,6 +37,9 @@ attachment_max_size:
 issues_export_limit:
   format: int
   default: 500
+activity_days_default:
+  format: int
+  default: 30
 per_page_options:
   default: '25,50,100'
 mail_from:

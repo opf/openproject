@@ -611,3 +611,4 @@ label_last_month: last month
 text_destroy_time_entries: Delete reported hours
 text_reassign_time_entries: 'Reassign reported hours to this issue:'
 label_on: 'on'
+setting_activity_days_default: Days displayed on project activity

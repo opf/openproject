@@ -206,6 +206,7 @@ setting_emails_footer: Pied-de-page des emails
 setting_protocol: Protocole
 setting_per_page_options: Options d'objets affichés par page
 setting_user_format: Format d'affichage des utilisateurs
+setting_activity_days_default: Nombre de jours affichés sur l'activité des projets
 
 project_module_issue_tracking: Suivi des demandes
 project_module_time_tracking: Suivi du temps passé

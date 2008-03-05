@@ -29,6 +29,9 @@
 <p><label><%= l(:setting_per_page_options) %></label>
 <%= text_field_tag 'settings[per_page_options]', Setting.per_page_options_array.join(', '), :size => 20 %><br /><em><%= l(:text_comma_separated) %></em></p>
 
+<p><label><%= l(:setting_activity_days_default) %></label>
+<%= text_field_tag 'settings[activity_days_default]', Setting.activity_days_default, :size => 6 %> <%= l(:label_day_plural) %></p>
+
 <p><label><%= l(:setting_host_name) %></label>
 <%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %></p>
 

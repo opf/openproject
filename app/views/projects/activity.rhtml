@@ -1,8 +1,8 @@
-<h2><%= "#{month_name(@month)} #{@year}" %></h2>
+<h2><%= l(:label_activity) %></h2>
 
 <div id="activity">
-<% @events_by_day.keys.sort {|x,y| y <=> x }.each do |day| %>
-<h3><%= day_name(day.cwday) %> <%= day.day %></h3>
+<% @events_by_day.keys.sort.reverse.each do |day| %>
+<h3><%= format_activity_day(day) %></h3>
 <dl>
 <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
   <dt class="<%= e.class.name.downcase %>"><span class="time"><%= format_time(e.event_datetime, false) %></span>
@@ -19,14 +19,14 @@
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>
 
 <div style="float:left;">
-<% prev_params = params.clone.update :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) %>
-<%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
-                    {:update => "content", :url => prev_params}, {:href => url_for(prev_params)} %>
+<%= link_to_remote(('&#171; ' + l(:label_previous)), 
+                   {:update => "content", :url => params.merge(:from => @date_to - @days), :complete => 'window.scrollTo(0,0)'},
+                   {:href => url_for(params.merge(:from => @date_to - @days))}) %>
 </div>
 <div style="float:right;">
-<% next_params = params.clone.update :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) %>
-<%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
-                    {:update => "content", :url => next_params}, {:href => url_for(next_params)} %>
+<%= link_to_remote((l(:label_next) + ' &#187;'), 
+                   {:update => "content", :url => params.merge(:from => @date_to + @days), :complete => 'window.scrollTo(0,0)'},
+                   {:href => url_for(params.merge(:from => @date_to + @days))}) unless @date_to >= Date.today %>
 </div>
 &nbsp;
 <p class="other-formats">

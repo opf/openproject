@@ -218,25 +218,14 @@ class ProjectsController < ApplicationController
   end
   
   def activity
-    if params[:year] and params[:year].to_i > 1900
-      @year = params[:year].to_i
-      if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
-        @month = params[:month].to_i
-      end    
+    @days = Setting.activity_days_default.to_i
+    
+    if params[:from]
+      begin; @date_to = params[:from].to_date; rescue; end
     end
-    @year ||= Date.today.year
-    @month ||= Date.today.month
 
-    case params[:format]
-    when 'atom'
-      # 30 last days
-      @date_from = Date.today - 30
-      @date_to = Date.today + 1
-    else
-      # current month
-      @date_from = Date.civil(@year, @month, 1)
-      @date_to = @date_from >> 1
-    end
+    @date_to ||= Date.today + 1
+    @date_from = @date_to - @days
     
     @event_types = %w(issues news files documents changesets wiki_pages messages)
     @event_types.delete('wiki_pages') unless @project.wiki

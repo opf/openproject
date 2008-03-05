@@ -607,3 +607,4 @@ error_issue_not_found_in_project: 'The issue was not found or does not belong to
 text_assign_time_entries_to_project: Assign reported hours to the project
 text_destroy_time_entries: Delete reported hours
 text_reassign_time_entries: 'Reassign reported hours to this issue:'
+setting_activity_days_default: Days displayed on project activity
