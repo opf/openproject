@@ -120,7 +120,7 @@ Calendar._TT["TODAY"] = "Tänään";
 Calendar._TT["TIME_PART"] = "(Vaihtonäppäin-)Paina tai raahaa vaihtaaksesi arvoa";
 
 // date formats
-Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
+Calendar._TT["DEF_DATE_FORMAT"] = "%d.%m.%Y";
 Calendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
 
 Calendar._TT["WK"] = "vko";

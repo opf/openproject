@@ -7,7 +7,7 @@ actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
 actionview_datehelper_select_year_suffix: 月
 actionview_datehelper_time_in_words_day: 1日
-actionview_datehelper_time_in_words_day_plural: %d日間
+actionview_datehelper_time_in_words_day_plural: %d日
 actionview_datehelper_time_in_words_hour_about: 約1時間
 actionview_datehelper_time_in_words_hour_about_plural: 約%d時間
 actionview_datehelper_time_in_words_hour_about_single: 約1時間
@@ -75,7 +75,7 @@ notice_email_error: メール送信中にエラーが発生しました(%s)
 notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
 
 error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "リポジトリへアクセスしようとしてエラーになりました: %s"
 
 mail_subject_lost_password: Redmineパスワード
 mail_body_lost_password: 'パスワードを変更するには、以下のリンクをたどってください:'
@@ -108,10 +108,10 @@ field_value: 値
 field_category: カテゴリ
 field_title: タイトル
 field_project: プロジェクト
-field_issue: 問題
+field_issue: チケット
 field_status: ステータス
 field_notes: 注記
-field_is_closed: 終了した問題
+field_is_closed: 終了したチケット
 field_is_default: デフォルトのステータス
 field_tracker: トラッカー
 field_subject: 題名
@@ -124,8 +124,8 @@ field_role: 役割
 field_homepage: ホームページ
 field_is_public: 公開
 field_parent: 親プロジェクト名
-field_is_in_chlog: 変更記録に表示されている問題
-field_is_in_roadmap: ロードマップに表示されている問題
+field_is_in_chlog: 変更記録に表示されているチケット
+field_is_in_roadmap: ロードマップに表示されているチケット
 field_login: ログイン
 field_mail_notification: メール通知
 field_admin: 管理者
@@ -159,9 +159,9 @@ field_activity: 活動
 field_spent_on: 日付
 field_identifier: 識別子
 field_is_filter: フィルタとして使う
-field_issue_to_id: 関連する問題
+field_issue_to_id: 関連するチケット
 field_delay: 遅延
-field_assignable: 問題はこのロールに割り当てることができます
+field_assignable: チケットはこのロールに割り当てることができます
 field_redirect_existing_links: 既存のリンクをリダイレクトする
 field_estimated_hours: 予定工数
 field_default_value: デフォルトのステータス
@@ -173,7 +173,7 @@ setting_default_language: 既定の言語
 setting_login_required: 認証が必要
 setting_self_registration: ユーザは自分で登録できる
 setting_attachment_max_size: 添付の最大サイズ
-setting_issues_export_limit: 出力する問題数の上限
+setting_issues_export_limit: 出力するチケット数の上限
 setting_mail_from: 送信元メールアドレス
 setting_host_name: ホスト名
 setting_text_formatting: テキストの書式
@@ -185,7 +185,7 @@ setting_commit_ref_keywords: 参照用キーワード
 setting_commit_fix_keywords: 修正用キーワード
 setting_autologin: 自動ログイン
 setting_date_format: 日付の形式
-setting_cross_project_issue_relations: 異なるプロジェクトの問題間で関係の設定を許可
+setting_cross_project_issue_relations: 異なるプロジェクトのチケット間で関係の設定を許可
 
 label_user: ユーザ
 label_user_plural: ユーザ
@@ -195,10 +195,10 @@ label_project_new: 新しいプロジェクト
 label_project_plural: プロジェクト
 label_project_all: 全プロジェクト
 label_project_latest: 最近のプロジェクト
-label_issue: 問題
-label_issue_new: 新しい問題
-label_issue_plural: 問題
-label_issue_view_all: 問題を全て見る
+label_issue: チケット
+label_issue_new: 新しいチケット
+label_issue_plural: チケット
+label_issue_view_all: チケットを全て見る
 label_document: 文書
 label_document_new: 新しい文書
 label_document_plural: 文書
@@ -213,11 +213,11 @@ label_tracker: トラッカー
 label_tracker_plural: トラッカー
 label_tracker_new: 新しいトラッカーを作成
 label_workflow: ワークフロー
-label_issue_status: 問題のステータス
-label_issue_status_plural: 問題のステータス
+label_issue_status: チケットのステータス
+label_issue_status_plural: チケットのステータス
 label_issue_status_new: 新しいステータス
-label_issue_category: 問題のカテゴリ
-label_issue_category_plural: 問題のカテゴリ
+label_issue_category: チケットのカテゴリ
+label_issue_category_plural: チケットのカテゴリ
 label_issue_category_new: 新しいカテゴリ
 label_custom_field: カスタムフィールド
 label_custom_field_plural: カスタムフィールド
@@ -237,8 +237,8 @@ label_administration: 管理
 label_login: ログイン
 label_logout: ログアウト
 label_help: ヘルプ
-label_reported_issues: 報告した問題
-label_assigned_to_me_issues: 担当している問題
+label_reported_issues: 報告したチケット
+label_assigned_to_me_issues: 担当しているチケット
 label_last_login: 最近の接続
 label_last_updates: 最近の更新1件
 label_last_updates_plural: 最近の更新%d件
@@ -326,7 +326,7 @@ label_in_less_than: 残日数がこれより多い
 label_in_more_than: 残日数がこれより少ない
 label_in: 残日数
 label_today: 今日
-label_this_week: this week
+label_this_week: この週
 label_less_than_ago: 経過日数がこれより少ない
 label_more_than_ago: 経過日数がこれより多い
 label_ago: 日前
@@ -354,7 +354,7 @@ label_sort_lowest: 一番下へ
 label_roadmap: ロードマップ
 label_roadmap_due_in: 期日まで
 label_roadmap_overdue: %s late
-label_roadmap_no_issues: このバージョンに向けての問題はありません
+label_roadmap_no_issues: このバージョンに向けてのチケットはありません
 label_search: 検索
 label_result_plural: 結果
 label_all_words: すべての単語
@@ -363,13 +363,13 @@ label_wiki_edit: Wiki編集
 label_wiki_edit_plural: Wiki編集
 label_wiki_page: Wiki page
 label_wiki_page_plural: Wikiページ
-label_index_by_title: 索引
-label_index_by_date: Index by date
+label_index_by_title: 索引(名前順)
+label_index_by_date: 索引(日付順)
 label_current_version: 最新版
 label_preview: プレビュー
 label_feed_plural: フィード
 label_changes_details: 全変更の詳細
-label_issue_tracking: 問題トラッキング
+label_issue_tracking: チケットトラッキング
 label_spent_time: 経過時間
 label_f_hour: %.2f 時間
 label_f_hour_plural: %.2f 時間
@@ -384,8 +384,8 @@ label_diff_side_by_side: 横に並べる
 label_options: オプション
 label_copy_workflow_from: ワークフローをここからコピー
 label_permissions_report: 権限レポート
-label_watched_issues: ウォッチ中の問題
-label_related_issues: 関連する問題
+label_watched_issues: ウォッチ中のチケット
+label_related_issues: 関連するチケット
 label_applied_status: 適用されたステータス
 label_loading: ロード中...
 label_relation_new: 新しい関連
@@ -416,8 +416,8 @@ label_send_information: アカウント情報をユーザに送信
 label_year: 年
 label_month: 月
 label_week: 週
-label_date_from: から
-label_date_to: まで
+label_date_from: "日付指定: "
+label_date_to: から
 label_language_based: 既定の言語の設定に従う
 label_sort_by: %sで並び替え
 label_send_test_email: テストメールを送信
@@ -482,13 +482,13 @@ text_length_between: 長さは %d から %d 文字までです。
 text_tracker_no_workflow: このトラッカーにワークフローが定義されていません
 text_unallowed_characters: 使えない文字です
 text_comma_separated: (カンマで区切った)複数の値が使えます
-text_issues_ref_in_commit_messages: コミットメッセージ内で問題の参照/修正
-text_issue_added: 問題 %s が報告されました。 (by %s)
-text_issue_updated: 問題 %s が更新されました。 (by %s)
+text_issues_ref_in_commit_messages: コミットメッセージ内でチケットの参照/修正
+text_issue_added: チケット %s が報告されました。 (by %s)
+text_issue_updated: チケット %s が更新されました。 (by %s)
 text_wiki_destroy_confirmation: 本当にこのwikiとその内容の全てを削除しますか？
-text_issue_category_destroy_question: このカテゴリに割り当て済みの問題(%d)があります。何をしようとしていますか？
+text_issue_category_destroy_question: このカテゴリに割り当て済みのチケット(%d)があります。何をしようとしていますか？
 text_issue_category_destroy_assignments: カテゴリの割り当てを削除する
-text_issue_category_reassign_to: 問題をこのカテゴリに再割り当てする
+text_issue_category_reassign_to: チケットをこのカテゴリに再割り当てする
 
 default_role_manager: 管理者
 default_role_developper: 開発者
@@ -512,28 +512,28 @@ default_priority_immediate: 今すぐ
 default_activity_design: デザイン作業
 default_activity_development: 開発作業
 
-enumeration_issue_priorities: 問題の優先度
+enumeration_issue_priorities: チケットの優先度
 enumeration_doc_categories: 文書カテゴリ
 enumeration_activities: 作業分類 (時間トラッキング)
 label_file_plural: ファイル
 label_changeset_plural: チェンジセット
 field_column_names: 項目
 label_default_columns: 既定の項目
-setting_issue_list_default_columns: 問題の一覧で表示する項目
+setting_issue_list_default_columns: チケットの一覧で表示する項目
 setting_repositories_encodings: リポジトリのエンコーディング
-notice_no_issue_selected: "問題が選択されていません! 更新対象の問題を選択してください。"
-label_bulk_edit_selected_issues: 問題の一括編集
+notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
+label_bulk_edit_selected_issues: チケットの一括編集
 label_no_change_option: (変更無し)
-notice_failed_to_save_issues: "%d件の問題が保存できませんでした(%d件選択のうち) : %s."
+notice_failed_to_save_issues: "%d件のチケットが保存できませんでした(%d件選択のうち) : %s."
 label_theme: テーマ
 label_default: 既定
 label_search_titles_only: タイトルのみ
 label_nobody: nobody
 button_change_password: パスワード変更
-text_user_mail_option: "未選択のプロジェクトでは、ウォッチまたは関係している問題(例: 自分が報告者もしくは担当者である問題)のみメールが送信されます。"
+text_user_mail_option: "未選択のプロジェクトでは、ウォッチまたは関係しているチケット(例: 自分が報告者もしくは担当者であるチケット)のみメールが送信されます。"
 label_user_mail_option_selected: "選択したプロジェクト..."
-label_user_mail_option_all: "参加しているプロジェクトの全ての問題"
-label_user_mail_option_none: "ウォッチまたは関係している問題のみ"
+label_user_mail_option_all: "参加しているプロジェクトの全てのチケット"
+label_user_mail_option_none: "ウォッチまたは関係しているチケットのみ"
 setting_emails_footer: メールのフッタ
 label_float: 小数
 button_copy: コピー
@@ -552,59 +552,59 @@ field_time_zone: タイムゾーン
 text_caracters_minimum: 最低%d文字の長さが必要です
 setting_bcc_recipients: ブラインドカーボンコピーで受信(bcc)
 button_annotate: 注釈
-label_issues_by: %s別の問題
+label_issues_by: %s別のチケット
 field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
-label_general: General
-label_repository_plural: Repositories
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+label_display_per_page: '1ページに: %s'
+setting_per_page_options: ページ毎の表示件数
+label_age: 年齢
+notice_default_data_loaded: デフォルト設定をロードしました。
+text_load_default_configuration: デフォルト設定をロード
+text_no_configuration_data: "ロール、トラッカー、チケットのステータス、ワークフローがまだ設定されていません。\nデフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。"
+error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %s"
+button_update: 更新
+label_change_properties: プロパティの変更
+label_general: 全般
+label_repository_plural: リポジトリ
+label_associated_revisions: 関係しているリビジョン
+setting_user_format: ユーザ名の表示書式
+text_status_changed_by_changeset: チェンジセット%sで適用されました。
+label_more: 続き
+text_issues_destroy_confirmation: '本当に選択したチケットを削除しますか？'
 label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
+text_select_project_modules: 'このプロジェクトで使用するモジュールを選択してください:'
+label_issue_added: チケットが追加されました
+label_issue_updated: チケットが更新されました
+label_document_added: 文書が追加されました
+label_message_posted: メッセージが追加されました
+label_file_added: ファイルが追加されました
+label_news_added: ニュースが追加されました
+project_module_boards: フォーラム
+project_module_issue_tracking: チケットトラッキング
 project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
-label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
+project_module_files: ファイル
+project_module_documents: 文書
+project_module_repository: リポジトリ
+project_module_news: ニュース
+project_module_time_tracking: 時間トラッキング
+text_file_repository_writable: ファイルリポジトリに書き込み可能
+text_default_administrator_account_changed: デフォルト管理アカウントが変更済
+text_rmagick_available: RMagickが使用可能 (オプション)
+button_configure: 設定
+label_plugins: プラグイン
+label_ldap_authentication: LDAP認証
+label_downloads_abbr: DL
+label_this_month: 今月
+label_last_n_days: 最後の%d日間
+label_all_time: 全期間
+label_this_year: 今年
+label_date_range: 日付の範囲
+label_last_week: 先週
+label_yesterday: 昨日
+label_last_month: 先月
 label_add_another_file: Add another file
-label_optional_description: Optional description
 text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
 error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
 text_assign_time_entries_to_project: Assign reported hours to the project
+label_optional_description: Optional description
 text_destroy_time_entries: Delete reported hours
 text_reassign_time_entries: 'Reassign reported hours to this issue:'

@@ -80,6 +80,7 @@ notice_default_data_loaded: 預設組態已載入成功。
 error_can_t_load_default_data: "無法載入預設組態： %s"
 error_scm_not_found: SCM 儲存庫中找不到這個專案與(或)版本。
 error_scm_command_failed: "嘗試存取儲存庫時發生錯誤：: %s"
+error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
 
 mail_subject_lost_password: 您的 Redmine 網站密碼
 mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
@@ -205,6 +206,15 @@ setting_emails_footer: 電子郵件附帶說明
 setting_protocol: 協定
 setting_per_page_options: 每頁顯示個數選項
 setting_user_format: 使用者顯示格式
+
+project_module_issue_tracking: 項目追蹤
+project_module_time_tracking: 工時追蹤
+project_module_news: 新聞
+project_module_documents: 文件
+project_module_files: 檔案
+project_module_wiki: Wiki
+project_module_repository: 版本控管
+project_module_boards: 討論區
 
 label_user: 用戶
 label_user_plural: 用戶清單
@@ -353,7 +363,15 @@ label_in_less_than: 在小於
 label_in_more_than: 在大於
 label_in: 在
 label_today: 今天
+label_all_time: all time
+label_yesterday: 昨天
 label_this_week: 本週
+label_last_week: 上週
+label_last_n_days: 過去 %d 天
+label_this_month: 這個月
+label_last_month: 上個月
+label_this_year: 今年
+label_date_range: 日期區間
 label_less_than_ago: 小於幾天之前
 label_more_than_ago: 大於幾天之前
 label_ago: 天以前
@@ -477,6 +495,11 @@ label_change_properties: 變更屬性
 label_general: 一般
 label_more: 更多 »
 label_scm: 版本控管
+label_plugins: 附加元件
+label_ldap_authentication: LDAP 認證
+label_downloads_abbr: 下載
+label_optional_description: 額外的說明
+label_add_another_file: 增加其他檔案
 
 button_login: 登入
 button_submit: 送出
@@ -514,6 +537,7 @@ button_change_password: 變更密碼
 button_copy: 複製
 button_annotate: 加注
 button_update: 更新
+button_configure: 設定
 
 status_active: 活動中
 status_registered: 註冊完成
@@ -551,6 +575,13 @@ text_load_default_configuration: 載入預設組態
 text_status_changed_by_changeset: 已套用至變更集 %s.
 text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
 text_select_project_modules: '選擇此專案可使用之模組：'
+text_default_administrator_account_changed: 已變更預設管理員帳號內容
+text_file_repository_writable: 可寫入檔案
+text_rmagick_available: 可使用 RMagick (選配)
+text_destroy_time_entries_question: 您即將刪除的項目已報工 %.02f 小時. 您的選擇是？
+text_destroy_time_entries: 刪除已報工的時數
+text_assign_time_entries_to_project: 指定已報工的時數至專案中
+text_reassign_time_entries: '重新指定已報工的時數至此項目：'
 
 default_role_manager: 管理人員
 default_role_developper: 開發人員
@@ -577,33 +608,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (time tracking)
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
-project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
-label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'

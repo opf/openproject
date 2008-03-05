@@ -73,7 +73,7 @@ notice_email_sent: %s 님에게 Email이 발송되었습니다.
 notice_email_error: 메일을 전송하는 과정에 오류가 발생했습니다. (%s)
 notice_feeds_access_key_reseted: RSS에 접근가능한 열쇠(key)가 생성되었습니다.
 notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-notice_no_issue_selected: "티켓이 선택되지 않았습니다. 수정하기 원하는 티켓을 선택하세요"
+notice_no_issue_selected: "이슈가 선택되지 않았습니다. 수정하기 원하는 이슈를 선택하세요"
 
 error_scm_not_found: 소스 저장소에 해당 내용이 존재하지 않습니다.
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
@@ -109,10 +109,10 @@ field_value: 값
 field_category: 카테고리
 field_title: 제목
 field_project: 프로젝트
-field_issue: 티켓
+field_issue: 이슈
 field_status: 상태
 field_notes: 노트
-field_is_closed: 완료된 티켓
+field_is_closed: 완료된 이슈
 field_is_default: 기본값
 field_tracker: 구분
 field_subject: 제목
@@ -125,8 +125,8 @@ field_role: 역할
 field_homepage: 홈페이지
 field_is_public: 공개
 field_parent: 상위 프로젝트
-field_is_in_chlog: 변경이력(changelog)에서 보여지는 티켓들
-field_is_in_roadmap: 로드맵에서 보여지는 티켓들
+field_is_in_chlog: 변경이력(changelog)에서 보여지는 이슈들
+field_is_in_roadmap: 로드맵에서 보여지는 이슈들
 field_login: 로그인
 field_mail_notification: 메일 알림
 field_admin: 관리자
@@ -160,9 +160,9 @@ field_activity: 작업종류
 field_spent_on: 작업시간
 field_identifier: 식별자
 field_is_filter: 필터로 사용됨
-field_issue_to_id: 연관된 티켓
+field_issue_to_id: 연관된 이슈
 field_delay: 지연
-field_assignable: 이 역할에 할당될수 있는 티켓
+field_assignable: 이 역할에 할당될수 있는 이슈
 field_redirect_existing_links: Redirect existing links
 field_estimated_hours: 추정시간
 field_column_names: 컬럼
@@ -183,12 +183,12 @@ setting_wiki_compression: 위키 기록(history) 압축
 setting_feeds_limit: Feed content limit
 setting_autofetch_changesets: Autofetch commits
 setting_sys_api_enabled: Enable WS for repository management
-setting_commit_ref_keywords: 티켓 참조에 사용할 키워드들
-setting_commit_fix_keywords: 티켓 해결에 사용할 키워드들 
+setting_commit_ref_keywords: 이슈 참조에 사용할 키워드들
+setting_commit_fix_keywords: 이슈 해결에 사용할 키워드들 
 setting_autologin: 자동 로그인
 setting_date_format: 날짜 형식
-setting_cross_project_issue_relations: 프로젝트 간에 이슈에 관련을 맺는 것을 허용
-setting_issue_list_default_columns: 티켓 목록에 보여줄 기본 컬럼들 
+setting_cross_project_issue_relations: 프로젝트간 이슈에 관련을 맺는 것을 허용
+setting_issue_list_default_columns: 이슈 목록에 보여줄 기본 컬럼들 
 setting_repositories_encodings:  저장소 인코딩
 setting_emails_footer: 메일 꼬리
 
@@ -200,10 +200,10 @@ label_project_new: 신규 프로젝트
 label_project_plural: 프로젝트
 label_project_all: 모든 프로젝트
 label_project_latest: 최근 프로젝트
-label_issue: 티켓 보기
-label_issue_new: 새 티켓만들기
-label_issue_plural: 티켓 보기
-label_issue_view_all: 모든 티켓 보기
+label_issue: 이슈 보기
+label_issue_new: 새 이슈만들기
+label_issue_plural: 이슈 보기
+label_issue_view_all: 모든 이슈 보기
 label_document: 문서
 label_document_new: 새로운 문서
 label_document_plural: 문서
@@ -214,13 +214,13 @@ label_role_and_permissions: 권한관리
 label_member: 담당자
 label_member_new: 새로운 담당자
 label_member_plural: 담당자
-label_tracker: 티켓 유형
-label_tracker_plural: 티켓 유형
-label_tracker_new: 새로운 티켓 유형
+label_tracker: 이슈 유형
+label_tracker_plural: 이슈 유형
+label_tracker_new: 새로운 이슈 유형
 label_workflow: 워크플로(Workflow)
-label_issue_status: 티켓 상태
-label_issue_status_plural: 티켓 상태
-label_issue_status_new: 새로운 티켓 상태
+label_issue_status: 이슈 상태
+label_issue_status_plural: 이슈 상태
+label_issue_status_new: 새로운 이슈 상태
 label_issue_category: 카테고리
 label_issue_category_plural: 카테고리
 label_issue_category_new: 새 카테고리
@@ -242,8 +242,8 @@ label_administration: 관리자
 label_login: 로그인
 label_logout: 로그아웃
 label_help: 도움말
-label_reported_issues: 보고된 티켓
-label_assigned_to_me_issues: 나에게 할당된 티켓
+label_reported_issues: 보고된 이슈
+label_assigned_to_me_issues: 나에게 할당된 이슈
 label_last_login: 최종 접속
 label_last_updates: 최종 변경 내역
 label_last_updates_plural: 최종변경 %d 
@@ -299,15 +299,15 @@ label_closed_issues: 완료됨
 label_closed_issues_plural: 완료됨
 label_total: Total
 label_permissions: 허가권한
-label_current_status: 티켓 상태
-label_new_statuses_allowed: 허용되는 티켓 상태
+label_current_status: 이슈 상태
+label_new_statuses_allowed: 허용되는 이슈 상태
 label_all: 모두
 label_none: 없음
 label_next: 다음
 label_previous: 이전
 label_used_by: 사용됨
 label_details: 상세
-label_add_note: 티켓노트 추가
+label_add_note: 이슈노트 추가
 label_per_page: 페이지별
 label_calendar: 달력
 label_months_from: 개월 동안 | 다음부터 
@@ -360,7 +360,7 @@ label_sort_lowest: 최하단으로
 label_roadmap: 로드맵
 label_roadmap_due_in: 기한 
 label_roadmap_overdue: %s 지연
-label_roadmap_no_issues: 이버전에 해당하는 티켓 없음
+label_roadmap_no_issues: 이버전에 해당하는 이슈 없음
 label_search: 검색
 label_result_plural: 결과
 label_all_words: 모든 단어
@@ -375,7 +375,7 @@ label_current_version: 현재 버전
 label_preview: 미리보기
 label_feed_plural: 피드(Feeds)
 label_changes_details: 모든 상세 변경 내역
-label_issue_tracking: 티켓 추적
+label_issue_tracking: 이슈 추적
 label_spent_time: 작업 시간
 label_f_hour: %.2f 시간
 label_f_hour_plural: %.2f 시간
@@ -390,18 +390,18 @@ label_diff_side_by_side: 두줄로
 label_options: Options
 label_copy_workflow_from: Copy workflow from
 label_permissions_report: 권한 보고서
-label_watched_issues: 감시중인 티켓
-label_related_issues: 연결된 티켓
+label_watched_issues: 감시중인 이슈
+label_related_issues: 연결된 이슈
 label_applied_status: Applied status
 label_loading: 읽는 중...
 label_relation_new: New relation
 label_relation_delete: Delete relation
-label_relates_to: 다음 티켓과 관련되어 있음
-label_duplicates: 다음 티켓과 중복됨.
-label_blocks: 다음 티켓을 해결을 막고 있음.
-label_blocked_by: 막고 있는 티켓
-label_precedes: 다음 티켓보다 앞서서 처리해야 함.
-label_follows: 선처리티켓
+label_relates_to: 다음 이슈와 관련되어 있음
+label_duplicates: 다음 이슈와 중복됨.
+label_blocks: 다음 이슈가 해결을 막고 있음.
+label_blocked_by: 막고 있는 이슈
+label_precedes: 다음 이슈보다 앞서서 처리해야 함.
+label_follows: 선처리 이슈
 label_end_to_start: end to start
 label_end_to_end: end to end
 label_start_to_start: start to start
@@ -436,7 +436,7 @@ label_file_plural: 파일
 label_changeset_plural: 변경사항
 label_default_columns: 기본 컬럼
 label_no_change_option: (수정 안함)
-label_bulk_edit_selected_issues: 선택된 티켓들을 한꺼번에 수정하기
+label_bulk_edit_selected_issues: 선택된 이슈들을 한꺼번에 수정하기
 label_theme: 테마
 label_default: 기본
 label_search_titles_only: 제목에서만 찾기
@@ -485,7 +485,7 @@ text_select_mail_notifications: 알림메일이 필요한 작업을 선택하세
 text_regexp_info: 예) ^[A-Z0-9]+$
 text_min_max_length_info: 0 는 제한이 없음을 의미함
 text_project_destroy_confirmation: 이 프로젝트를 삭제하고 모든 데이터를 지우시겠습니까?
-text_workflow_edit: 워크플로를 수정하기 위해서 역할과 티켓유형을 선택하세요.
+text_workflow_edit: 워크플로를 수정하기 위해서 역할과 이슈유형을 선택하세요.
 text_are_you_sure: 계속 진행 하시겠습니까?
 text_journal_changed: %s에서 %s(으)로 변경
 text_journal_set_to:  %s로 설정
@@ -499,14 +499,14 @@ text_length_between: %d 에서 %d 글자
 text_tracker_no_workflow: 이 추적타입(tracker)에 워크플로우가 정의되지 않았습니다.
 text_unallowed_characters: 허용되지 않는 문자열
 text_comma_separated: 복수의 값들이 허용됩니다.(구분자 ,)
-text_issues_ref_in_commit_messages: 커밋메시지에서 티켓을 참조하거나 해결하기
-text_issue_added: 티켓[%s]이 보고되었습니다 (by %s).
-text_issue_updated: 티켓[%s]이 수정되었습니다 (by %s).
+text_issues_ref_in_commit_messages: 커밋메시지에서 이슈를 참조하거나 해결하기
+text_issue_added: 이슈[%s]가 보고되었습니다.
+text_issue_updated: 이슈[%s]가 수정되었습니다.
 text_wiki_destroy_confirmation: 이 위키와 모든 내용을 지우시겠습니까?
-text_issue_category_destroy_question: 일부 티켓들(%d개)이 이 카테고리에 할당되어 있습니다. 어떻게 하시겠습니까?
+text_issue_category_destroy_question: 일부 이슈들(%d개)이 이 카테고리에 할당되어 있습니다. 어떻게 하시겠습니까?
 text_issue_category_destroy_assignments: 카테고리 할당 지우기
-text_issue_category_reassign_to: 티켓을 이 카테고리에 다시 할당하기
-text_user_mail_option: "선택하지 않은 프로젝트에서도, 모니터링 중이거나 속해있는 사항(티켓을 발행했거나 할당된 경우)이 있으면 알림메일을 받게 됩니다."
+text_issue_category_reassign_to: 이슈를 이 카테고리에 다시 할당하기
+text_user_mail_option: "선택하지 않은 프로젝트에서도, 모니터링 중이거나 속해있는 사항(이슈를 발행했거나 할당된 경우)이 있으면 알림메일을 받게 됩니다."
 
 default_role_manager: 관리자
 default_role_developper: 개발자
@@ -530,7 +530,7 @@ default_priority_immediate: 즉시
 default_activity_design: 설계
 default_activity_development: 개발
 
-enumeration_issue_priorities: 티켓 우선순위
+enumeration_issue_priorities: 이슈 우선순위
 enumeration_doc_categories: 문서 카테고리
 enumeration_activities: 진행활동(시간 추적)
 button_copy: 복사
@@ -558,7 +558,7 @@ setting_per_page_options: Objects per page options
 label_age: Age
 notice_default_data_loaded: 기본 설정을 성공적으로 로드하였습니다.
 text_load_default_configuration: 기본 설정을 로딩하기
-text_no_configuration_data: "역할, 티켓타입, 티켓 상태들과 워크플로가 아직 설정되지 않았습니다.\n기본 설정을 로딩하는 것을 권장합니다. 로드된 후에 수정할 수 있습니다."
+text_no_configuration_data: "역할, 이슈 타입, 이슈 상태들과 워크플로가 아직 설정되지 않았습니다.\n기본 설정을 로딩하는 것을 권장합니다. 로드된 후에 수정할 수 있습니다."
 error_can_t_load_default_data: "기본 설정을 로드할 수 없습니다.: %s"
 button_update: 변경사항기록
 label_change_properties: 속성 변경
@@ -568,42 +568,42 @@ label_associated_revisions: Associated revisions
 setting_user_format: Users display format
 text_status_changed_by_changeset: Applied in changeset %s.
 label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+text_issues_destroy_confirmation: '선택한 이슈를 정말로 삭제하시겠습니까?'
 label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
+text_select_project_modules: '이 프로젝트에서 활성화시킬 모듈을 선택하세요:'
 label_issue_added: Issue added
 label_issue_updated: Issue updated
 label_document_added: Document added
 label_message_posted: Message added
 label_file_added: File added
 label_news_added: News added
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
-project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
+project_module_boards: 게시판
+project_module_issue_tracking: 이슈관리
+project_module_wiki: 위키
+project_module_files: 관련파일
+project_module_documents: 문서
+project_module_repository: 저장소
+project_module_news: 뉴스
 project_module_time_tracking: Time tracking
 text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
+text_default_administrator_account_changed: 기본 관리자 계정이 변경되었습니다.
 text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
+button_configure: 설정
+label_plugins: 플러그인
+label_ldap_authentication: LDAP 인증
 label_downloads_abbr: D/L
+label_add_another_file: Add another file
 label_this_month: this month
+text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
 label_last_n_days: last %d days
 label_all_time: all time
+error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
 label_this_year: this year
+text_assign_time_entries_to_project: Assign reported hours to the project
 label_date_range: Date range
 label_last_week: last week
 label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
 label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
+label_last_month: last month
 text_destroy_time_entries: Delete reported hours
 text_reassign_time_entries: 'Reassign reported hours to this issue:'

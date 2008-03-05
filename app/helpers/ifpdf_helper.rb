@@ -27,13 +27,18 @@ module IfpdfHelper
     def initialize(lang)
       super()
       set_language_if_valid lang
-      case current_language
-      when :ja
+      case current_language.to_s
+      when 'ja'
         extend(PDF_Japanese)
         AddSJISFont()
         @font_for_content = 'SJIS'
         @font_for_footer = 'SJIS'
-      when :zh
+      when 'zh'
+        extend(PDF_Chinese)
+        AddGBFont()
+        @font_for_content = 'GB'
+        @font_for_footer = 'GB'
+      when 'zh-tw'
         extend(PDF_Chinese)
         AddBig5Font()
         @font_for_content = 'Big5'

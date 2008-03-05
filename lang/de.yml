@@ -80,6 +80,7 @@ notice_default_data_loaded: Die Standard-Konfiguration wurde erfolgreich geladen
 error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %s"
 error_scm_not_found: Eintrag und/oder Revision besteht nicht im Projektarchiv.
 error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %s"
+error_issue_not_found_in_project: 'Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt.'
 
 mail_subject_lost_password: Ihr Redmine-Kennwort
 mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
@@ -206,6 +207,15 @@ setting_protocol: Protokoll
 setting_per_page_options: Objekte pro Seite
 setting_user_format: Benutzer-Anzeigeformat
 
+project_module_issue_tracking: Ticket-Verfolgung
+project_module_time_tracking: Zeiterfassung
+project_module_news: News
+project_module_documents: Dokumente
+project_module_files: Dateien
+project_module_wiki: Wiki
+project_module_repository: Projektarchiv
+project_module_boards: Foren
+
 label_user: Benutzer
 label_user_plural: Benutzer
 label_user_new: Neuer Benutzer
@@ -219,9 +229,12 @@ label_issue_new: Neues Ticket
 label_issue_plural: Tickets
 label_issue_view_all: Alle Tickets ansehen
 label_issues_by: Tickets von %s
+label_issue_added: Ticket hinzugefügt
+label_issue_updated: Ticket aktualisiert
 label_document: Dokument
 label_document_new: Neues Dokument
 label_document_plural: Dokumente
+label_document_added: Dokument hinzugefügt
 label_role: Rolle
 label_role_plural: Rollen
 label_role_new: Neue Rolle
@@ -291,6 +304,7 @@ label_attachment: Datei
 label_attachment_new: Neue Datei
 label_attachment_delete: Anhang löschen
 label_attachment_plural: Dateien
+label_file_added: Datei hinzugefügt
 label_report: Bericht
 label_report_plural: Berichte
 label_news: News
@@ -298,6 +312,7 @@ label_news_new: News hinzufügen
 label_news_plural: News
 label_news_latest: Letzte News
 label_news_view_all: Alle News anzeigen
+label_news_added: News hinzugefügt
 label_change_log: Change-Log
 label_settings: Konfiguration
 label_overview: Übersicht
@@ -348,7 +363,15 @@ label_in_less_than: in weniger als
 label_in_more_than: in mehr als
 label_in: an
 label_today: heute
-label_this_week: diese Woche
+label_all_time: gesamter Zeitraum
+label_yesterday: gestern
+label_this_week: aktuelle Woche
+label_last_week: vorige Woche
+label_last_n_days: die letzten %d Tage
+label_this_month: aktueller Monat
+label_last_month: voriger Monat
+label_this_year: aktuelles Jahr
+label_date_range: Zeitraum
 label_less_than_ago: vor weniger als
 label_more_than_ago: vor mehr als
 label_ago: vor
@@ -435,6 +458,7 @@ label_topic_plural: Themen
 label_message_plural: Nachrichten
 label_message_last: Letzte Nachricht
 label_message_new: Neue Nachricht
+label_message_posted: Forums-Beitrag hinzugefügt
 label_reply_plural: Antworten
 label_send_information: Sende Kontoinformationen zum Benutzer
 label_year: Jahr
@@ -466,9 +490,16 @@ label_registration_activation_by_email: Kontoaktivierung durch E-Mail
 label_registration_manual_activation: Manuelle Kontoaktivierung
 label_registration_automatic_activation: Automatische Kontoaktivierung
 label_display_per_page: 'Pro Seite: %s'
-label_age: Alter
+label_age: Geändert vor
 label_change_properties: Eigenschaften ändern
 label_general: Allgemein
+label_more: Mehr
+label_scm: Versionskontrollsystem
+label_plugins: Plugins
+label_ldap_authentication: LDAP-Authentifizierung
+label_downloads_abbr: D/L
+label_optional_description: Beschreibung (optional)
+label_add_another_file: Eine weitere Datei hinzufügen
 
 button_login: Anmelden
 button_submit: OK
@@ -506,12 +537,13 @@ button_change_password: Kennwort ändern
 button_copy: Kopieren
 button_annotate: Mit Anmerkungen versehen
 button_update: Aktualisieren
+button_configure: Konfigurieren
 
 status_active: aktiv
 status_registered: angemeldet
 status_locked: gesperrt
 
-text_select_mail_notifications: Aktionen, für die Mailbenachrichtigung aktiviert werden soll.
+text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll
 text_regexp_info: z. B. ^[A-Z0-9]+$
 text_min_max_length_info: 0 heißt keine Beschränkung
 text_project_destroy_confirmation: Sind Sie sicher, dass sie das Projekt löschen wollen?
@@ -540,6 +572,16 @@ text_issue_category_reassign_to: Tickets dieser Kategorie zuordnen
 text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z. B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
 text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie sie abändern."
 text_load_default_configuration: Standard-Konfiguration laden
+text_status_changed_by_changeset: Status geändert durch Changeset %s.
+text_issues_destroy_confirmation: 'Sind Sie sicher, dass Sie die ausgewählten Tickets löschen möchten?'
+text_select_project_modules: 'Bitte wählen Sie die Module aus, die in diesem Projekt aktiviert sein sollen:'
+text_default_administrator_account_changed: Administrator-Kennwort geändert
+text_file_repository_writable: Verzeichnis für Dateien beschreibbar
+text_rmagick_available: RMagick verfügbar (optional)
+text_destroy_time_entries_question: Es wurden bereits %.02f Stunden auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
+text_destroy_time_entries: Gebuchte Aufwände löschen
+text_assign_time_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
+text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
 
 default_role_manager: Manager
 default_role_developper: Entwickler
@@ -566,44 +608,3 @@ default_activity_development: Entwicklung
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
-label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
-project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
-label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'

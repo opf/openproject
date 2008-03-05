@@ -438,8 +438,8 @@ label_send_information: Отправить пользователю информ
 label_year: Год
 label_month: Месяц
 label_week: Неделя
-label_date_from: От
-label_date_to: Кому
+label_date_from: С
+label_date_to: По
 label_language_based: На основе языка
 label_sort_by: Сортировать по %s
 label_send_test_email: Послать email для проверки
@@ -581,33 +581,33 @@ label_news_added: Новость добавлена
 label_calendar_filter: Включая
 label_calendar_no_assigned: не мои
 label_timelog_today: Расход времени за сегодня
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
+project_module_boards: Форумы 
+project_module_issue_tracking: Задачи
 project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
-label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
+project_module_files: Файлы
+project_module_documents: Документы
+project_module_repository: Харнилище
+project_module_news: Новостной блок
+project_module_time_tracking: Учет времени
+text_file_repository_writable: Хранилище с доступом на запись
+text_default_administrator_account_changed: Учетная запись администратора по умолчанию изменена
+text_rmagick_available: Доступно использование RMagick (выборочно)
+button_configure: Параметры
+label_plugins: Модули
+label_ldap_authentication: Авторизация посредством LDAP
+label_downloads_abbr: Скачек
+label_this_month: этот месяц
+label_last_n_days: последние %d дней
+label_all_time: всё время
+label_this_year: этот год
+label_date_range: временной интервал
+label_last_week: последняя неделю
+label_yesterday: вчера
+label_last_month: последний месяц
+label_add_another_file: Добавить ещё один  файл
+label_optional_description: Описание (выборочно)
+text_destroy_time_entries_question: Вы собираетесь удалить %.02f часа(ов) прикрепленных за этой задачей.
+error_issue_not_found_in_project: Задача не была найдена или не прикреплена к этому проекту
+text_assign_time_entries_to_project: Прикрепить зарегистрированное время к проекту
+text_destroy_time_entries: Удалить зарегистрированное время
+text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'

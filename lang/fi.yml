@@ -121,7 +121,7 @@ field_status: Tila
 field_notes: Muistiinpanot
 field_is_closed: Tapahtuma suljettu
 field_is_default: Vakio arvo
-field_tracker: Tiketti
+field_tracker: Tapahtuma
 field_subject: Aihe
 field_due_date: Määräaika
 field_assigned_to: Nimetty
@@ -163,7 +163,7 @@ field_url: URL
 field_start_page: Aloitus sivu
 field_subproject: Alaprojekti
 field_hours: Tuntia
-field_activity: Aktiviteetti
+field_activity: Historia
 field_spent_on: Päivä
 field_identifier: Tunniste
 field_is_filter: Käytetään suodattimena
@@ -206,7 +206,7 @@ setting_protocol: Protokolla
 setting_per_page_options: Sivun objektien määrän asetukset
 
 label_user: Käyttäjä
-label_user_plural: Käyttäjiä
+label_user_plural: Käyttäjät
 label_user_new: Uusi käyttäjä
 label_project: Projekti
 label_project_new: Uusi projekti
@@ -228,9 +228,9 @@ label_role_and_permissions: Roolit ja oikeudet
 label_member: Jäsen
 label_member_new: Uusi jäsen
 label_member_plural: Jäsenet
-label_tracker: Tiketti
-label_tracker_plural: Tiketit
-label_tracker_new: Uusi tiketti
+label_tracker: Tapahtuma
+label_tracker_plural: Tapahtumat
+label_tracker_new: Uusi tapahtuma
 label_workflow: Työnkulku
 label_issue_status: Tapahtuman tila
 label_issue_status_plural: Tapahtumien tilat
@@ -255,14 +255,14 @@ label_my_projects: Minun projektit
 label_administration: Ylläpito
 label_login: Kirjaudu sisään
 label_logout: Kirjaudu ulos
-label_help: Apua
+label_help: Ohjeet
 label_reported_issues: Raportoidut tapahtumat
 label_assigned_to_me_issues: Minulle nimetyt tapahtumat
 label_last_login: Viimeinen yhteys
 label_last_updates: Viimeinen päivitys
 label_last_updates_plural: %d päivitetty viimeksi
 label_registered_on: Rekisteröity
-label_activity: Aktiviteetti
+label_activity: Historia
 label_new: Uusi
 label_logged_as: Kirjauduttu nimellä
 label_environment: Ympäristö
@@ -467,10 +467,6 @@ label_display_per_page: 'Per sivu: %s'
 label_age: Ikä
 label_change_properties: Vaihda asetuksia
 label_general: Yleinen
-label_date_to: To
-label_date_from: From
-label_in: in
-label_on: 'on'
 
 button_login: Kirjaudu
 button_submit: Lähetä
@@ -497,8 +493,8 @@ button_activate: Aktivoi
 button_sort: Järjestä
 button_log_time: Seuraa aikaa
 button_rollback: Siirry takaisin tähän versioon
-button_watch: Vahdi
-button_unwatch: Älä vahdi
+button_watch: Seuraa
+button_unwatch: Älä seuraa
 button_reply: Vastaa
 button_archive: Arkistoi
 button_unarchive: Palauta
@@ -517,7 +513,7 @@ text_select_mail_notifications: Valitse tapahtumat joista tulisi lähettää sä
 text_regexp_info: esim. ^[A-Z0-9]+$
 text_min_max_length_info: 0 tarkoitta, ei rajoitusta
 text_project_destroy_confirmation: Oletko varma että haluat poistaa tämän projektin ja kaikki siihen kuuluvat tiedot?
-text_workflow_edit: Valitse rooli ja tiketti muokataksesi työnkulkua
+text_workflow_edit: Valitse rooli ja tapahtuma muokataksesi työnkulkua
 text_are_you_sure: Oletko varma?
 text_journal_changed: %s muutettu arvoksi %s
 text_journal_set_to: muutettu %s
@@ -529,7 +525,7 @@ text_project_identifier_info: 'Pienet kirjaimet (a-z), numerot ja viivat ovat sa
 text_caracters_maximum: %d merkkiä enintään.
 text_caracters_minimum: Täytyy olla vähintään %d merkkiä pitkä.
 text_length_between: Pituus välillä %d ja %d merkkiä.
-text_tracker_no_workflow: Ei työnkulkua määritelty tälle tiketille
+text_tracker_no_workflow: Ei työnkulkua määritelty tälle tapahtumalle
 text_unallowed_characters: Kiellettyjä merkkejä
 text_comma_separated: Useat arvot sallittu (pilkku eroteltuna).
 text_issues_ref_in_commit_messages: Liitän ja korjaan ongelmia syötetyssä viestissä
@@ -539,7 +535,7 @@ text_wiki_destroy_confirmation: Oletko varma että haluat poistaa tämän wiki:n
 text_issue_category_destroy_question: Jotkut tapahtumat (%d) ovat nimetty tälle luokalle. Mitä haluat tehdä?
 text_issue_category_destroy_assignments: Poista luokan tehtävät
 text_issue_category_reassign_to: Vaihda tapahtuma tähän luokkaan
-text_user_mail_option: "Valitesemattomille projekteille, saat vain muistutuksen asioista joita vahdit tai olet mukana (esim. tapahtumat joissa olet tekijä tai nimettynä)."
+text_user_mail_option: "Valitesemattomille projekteille, saat vain muistutuksen asioista joita seuraat tai olet mukana (esim. tapahtumat joissa olet tekijä tai nimettynä)."
 text_no_configuration_data: "Rooleja, tikettejä, tapahtumien tiloja ja työnkulkua ei vielä olla määritelty.\nOn erittäin suotavaa ladata vakioasetukset. Voit muuttaa sitä latauksen jälkeen."
 text_load_default_configuration: Lataa vakioasetukset
 
@@ -567,47 +563,51 @@ default_activity_development: Kehitys
 
 enumeration_issue_priorities: Tapahtuman prioriteetit
 enumeration_doc_categories: Dokumentin luokat
-enumeration_activities: Aktiviteetit (ajan seuranta)
+enumeration_activities: Historia (ajan seuranta)
 label_associated_revisions: Liittyvät versiot
 setting_user_format: Käyttäjien esitysmuoto
 text_status_changed_by_changeset: Päivitetty muutosversioon %s.
 text_issues_destroy_confirmation: 'Oletko varma että haluat poistaa valitut tapahtumat ?'
 label_more: Lisää
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
+label_issue_added: Tapahtuma lisätty
+label_issue_updated: Tapahtuma päivitetty
+label_document_added: Dokumentti lisätty
+label_message_posted: Viesti lisätty
+label_file_added: Tiedosto lisätty
 label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_news_added: News added
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
+text_select_project_modules: 'Valitse modulit jotka haluat käyttöön tähän projektiin:'
+label_news_added: Uutinen lisätty
+project_module_boards: Keskustelupalsta
+project_module_issue_tracking: Tapahtuman seuranta
 project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
+project_module_files: Tiedostot
+project_module_documents: Dokumentit
+project_module_repository: Säiliö
+project_module_news: Uutiset
+project_module_time_tracking: Ajan seuranta
+text_file_repository_writable: Kirjoitettava tiedosto säiliö
+text_default_administrator_account_changed: Vakio hallinoijan tunnus muutettu
+text_rmagick_available: RMagick saatavilla (valinnainen)
+button_configure: Asetukset
+label_plugins: Lisäosat
+label_ldap_authentication: LDAP autentikointi
 label_downloads_abbr: D/L
+label_add_another_file: Add another file
 label_this_month: this month
+label_date_to: To
+text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
+label_date_from: From
 label_last_n_days: last %d days
 label_all_time: all time
+label_in: in
+error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
 label_this_year: this year
+text_assign_time_entries_to_project: Assign reported hours to the project
 label_date_range: Date range
 label_last_week: last week
 label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
 label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
+label_last_month: last month
 text_destroy_time_entries: Delete reported hours
 text_reassign_time_entries: 'Reassign reported hours to this issue:'
+label_on: 'on'
