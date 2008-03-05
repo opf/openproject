@@ -70,11 +70,12 @@ class AuthSourceLdap < AuthSource
   
 private
   def initialize_ldap_con(ldap_user, ldap_password)
-    Net::LDAP.new( {:host => self.host, 
-                    :port => self.port, 
-                    :auth => { :method => :simple, :username => ldap_user, :password => ldap_password },
-                    :encryption => (self.tls ? :simple_tls : nil)} 
-    ) 
+    options = { :host => self.host,
+                :port => self.port,
+                :encryption => (self.tls ? :simple_tls : nil)
+              }
+    options.merge(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
+    Net::LDAP.new options
   end
   
   def self.get_attr(entry, attr_name)
