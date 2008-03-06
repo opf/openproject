@@ -74,7 +74,7 @@ private
                 :port => self.port,
                 :encryption => (self.tls ? :simple_tls : nil)
               }
-    options.merge(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
+    options.merge!(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
     Net::LDAP.new options
   end
   
