@@ -261,12 +261,19 @@ class Query < ActiveRecord::Base
     clause = ''
     if project && !@project.active_children.empty?
       ids = [project.id]
-      if has_filter?("subproject_id") && operator_for("subproject_id") == "="
-        # include the selected subprojects
-        ids += values_for("subproject_id").each(&:to_i)
-      else
-        # include all the subprojects unless 'none' is selected
-        ids += project.active_children.collect{|p| p.id} unless has_filter?("subproject_id") && operator_for("subproject_id") == "!*"
+      if has_filter?("subproject_id")
+        case operator_for("subproject_id")
+        when '='
+          # include the selected subprojects
+          ids += values_for("subproject_id").each(&:to_i)
+        when '!*'
+          # main project only
+        else
+          # all subprojects
+          ids += project.active_children.collect{|p| p.id}
+        end
+      elsif Setting.display_subprojects_issues?
+        ids += project.active_children.collect{|p| p.id}
       end
       clause << "#{Issue.table_name}.project_id IN (%s)" % ids.join(',')
     elsif project

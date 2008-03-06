@@ -302,7 +302,7 @@ class ProjectsController < ApplicationController
     @year ||= Date.today.year
     @month ||= Date.today.month    
     @calendar = Redmine::Helpers::Calendar.new(Date.civil(@year, @month, 1), current_language, :month)
-    @with_subprojects = params[:with_subprojects].nil? ? true : (params[:with_subprojects] == '1')
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
     events = []
     @project.issues_with_subprojects(@with_subprojects) do
       events += Issue.find(:all, 
@@ -345,7 +345,7 @@ class ProjectsController < ApplicationController
     
     @date_from = Date.civil(@year_from, @month_from, 1)
     @date_to = (@date_from >> @months) - 1
-    @with_subprojects = params[:with_subprojects].nil? ? true : (params[:with_subprojects] == '1')
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
     
     @events = []
     @project.issues_with_subprojects(@with_subprojects) do
