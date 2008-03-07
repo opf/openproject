@@ -31,9 +31,17 @@
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
 <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
 <div id="reply" style="display:none;">
-<% form_for :reply, @reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true} do |f| %>
-    <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
-    <%= submit_tag l(:button_submit) %>
+<% form_for :reply, @reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
+  <%= submit_tag l(:button_submit) %>
+  <%= link_to_remote l(:label_preview), 
+                     { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
+                       :method => 'post',
+                       :update => 'preview',
+                       :with => "Form.serialize('message-form')",
+                       :complete => "Element.scrollTo('preview')"
+                     }, :accesskey => accesskey(:preview) %>
 <% end %>
+<div id="preview" class="wiki"></div>
 </div>
 <% end %>

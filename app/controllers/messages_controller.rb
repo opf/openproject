@@ -18,9 +18,9 @@
 class MessagesController < ApplicationController
   layout 'base'
   menu_item :boards
-  before_filter :find_board, :only => :new
-  before_filter :find_message, :except => :new
-  before_filter :authorize
+  before_filter :find_board, :only => [:new, :preview]
+  before_filter :find_message, :except => [:new, :preview]
+  before_filter :authorize, :except => :preview
 
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
 
@@ -81,6 +81,13 @@ class MessagesController < ApplicationController
     redirect_to @message.parent.nil? ?
       { :controller => 'boards', :action => 'show', :project_id => @project, :id => @board } :
       { :action => 'show', :id => @message.parent }
+  end
+  
+  def preview
+    message = @board.messages.find_by_id(params[:id])
+    @attachements = message.attachments if message
+    @text = (params[:message] || params[:reply])[:content]
+    render :partial => 'common/preview'
   end
   
 private
