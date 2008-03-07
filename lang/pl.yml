@@ -433,7 +433,7 @@ button_back: Wstecz
 button_cancel: Anuluj
 button_activate: Aktywuj
 button_sort: Sortuj
-button_log_time: Logowanie czasu
+button_log_time: Log czasu
 button_rollback: Przywróc do tej wersji
 button_watch: Obserwuj
 button_unwatch: Nie obserwuj
@@ -564,52 +564,52 @@ button_update: Uaktualnij
 label_change_properties: Zmień właściwości
 label_general: Ogólne
 label_repository_plural: Repozytoria
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+label_associated_revisions: Skojarzone rewizje
+setting_user_format: Personalny format wyświetlania
+text_status_changed_by_changeset: Zastosowane w zmianach %s.
+label_more: Więcej
+text_issues_destroy_confirmation: 'Czy jestes pewien, że chcesz usunąć wskazane zagadnienia?'
 label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
+text_select_project_modules: 'Wybierz moduły do aktywacji w tym projekcie:'
+label_issue_added: Dodano zagadnienie
+label_issue_updated: Uaktualniono zagadnienie
+label_document_added: Dodano dokument
+label_message_posted: Dodano wiadomość
+label_file_added: Dodano plik
+label_news_added: Dodano wiadomość
+project_module_boards: Fora
+project_module_issue_tracking: Śledzenie zagadnień
 project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
-label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-setting_activity_days_default: Days displayed on project activity
+project_module_files: Pliki
+project_module_documents: Dokumenty
+project_module_repository: Repozytorium
+project_module_news: Wiadomości
+project_module_time_tracking: Śledzenie czasu
+text_file_repository_writable: Zapisywalne repozytorium plików
+text_default_administrator_account_changed: Zmieniono domyślne hasło administratora
+text_rmagick_available: RMagick dostępne (opcjonalnie)
+button_configure: Konfiguruj
+label_plugins: Wtyczki
+label_ldap_authentication: Autoryzacja LDAP
+label_downloads_abbr: Pobieranie
+label_this_month: ten miesiąc
+label_last_n_days: ostatnie %d dni
+label_all_time: cały czas
+label_this_year: ten rok
+label_date_range: Zakres datowy
+label_last_week: ostatni tydzień
+label_yesterday: wczoraj
+label_last_month: ostatni miesiąc
+label_add_another_file: Dodaj kolejny plik
+label_optional_description: Opcjonalny opis
+text_destroy_time_entries_question: Zalogowano %.02f godzin przy zagadnieniu, które chcesz usunąć. Co chcesz zrobić?
+error_issue_not_found_in_project: 'Zaganienie nie zostało znalezione lub nie należy do tego projektu'
+text_assign_time_entries_to_project: Przypisz logowany czas do projektu
+text_destroy_time_entries: Usuń zalogowany czas
+text_reassign_time_entries: 'Przepnij zalogowany czas do tego zagadnienia:'
 label_chronological_order: In chronological order
-field_comments_sorting: Afficher les commentaires
+setting_activity_days_default: Days displayed on project activity
+setting_display_subprojects_issues: Display subprojects issues on main projects by default
+field_comments_sorting: Display comments
 label_reverse_chronological_order: In reverse chronological order
 label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default

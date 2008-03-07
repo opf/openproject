@@ -347,7 +347,7 @@ label_in_less_than: pienempi kuin
 label_in_more_than: suurempi kuin
 label_in:
 label_today: tänään
-label_this_week: tämä viikko
+label_this_week: tällä viikolla
 label_less_than_ago: vähemmän kuin päivää sitten
 label_more_than_ago: enemän kuin päivää sitten
 label_ago: päiviä sitten
@@ -592,28 +592,31 @@ button_configure: Asetukset
 label_plugins: Lisäosat
 label_ldap_authentication: LDAP autentikointi
 label_downloads_abbr: D/L
-label_add_another_file: Add another file
-label_this_month: this month
-label_date_to: To
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-label_date_from: From
-label_last_n_days: last %d days
-label_all_time: all time
-label_in: in
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-label_this_year: this year
-text_assign_time_entries_to_project: Assign reported hours to the project
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_optional_description: Optional description
-label_last_month: last month
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-label_on: 'on'
-setting_activity_days_default: Days displayed on project activity
+label_add_another_file: Lisää uusi tiedosto
+label_this_month: tässä kuussa
+label_date_to:
+text_destroy_time_entries_question: %.02f tuntia on raportoitu tapahtumasta jonka aiot poistaa. Mitä haluat tehdä ?
+label_date_from: 
+label_last_n_days: viimeiset %d päivää
+label_all_time: koko ajalta
+label_in:
+error_issue_not_found_in_project: 'Tapahtumaa ei löytynyt tai se ei kuulu tähän projektiin'
+label_this_year: tänä vuonna
+text_assign_time_entries_to_project: Määritä tunnit projektille
+label_date_range: Aikaväli
+label_last_week: viime viikolla
+label_yesterday: eilen
+label_optional_description: Lisäkuvaus
+label_last_month: viime kuussa
+text_destroy_time_entries: Poista raportoidut tunnit
+text_reassign_time_entries: 'Siirrä raportoidut tunnit tälle tapahtumalle:'
+label_on: ''
 label_chronological_order: In chronological order
-field_comments_sorting: Afficher les commentaires
+label_date_to: To
+setting_activity_days_default: Days displayed on project activity
+label_date_from: From
+label_in: in
+setting_display_subprojects_issues: Display subprojects issues on main projects by default
+field_comments_sorting: Display comments
 label_reverse_chronological_order: In reverse chronological order
 label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default

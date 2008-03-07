@@ -613,7 +613,7 @@ text_destroy_time_entries: Удалить зарегистрированное �
 text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'
 setting_activity_days_default: Days displayed on project activity
 label_chronological_order: In chronological order
-field_comments_sorting: Afficher les commentaires
+field_comments_sorting: Display comments
 label_reverse_chronological_order: In reverse chronological order
 label_preferences: Preferences
 setting_display_subprojects_issues: Display subprojects issues on main projects by default

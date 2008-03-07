@@ -89,7 +89,7 @@ mail_body_register: '请点击以下链接来激活您的Redmine帐号：'
 mail_body_account_information_external: 您可以使用您的 "%s" 帐号来登录Redmine。
 mail_body_account_information: 您的Redmine帐号信息
 mail_subject_account_activation_request: Redmine帐号激活请求
-mail_body_account_activation_request: '新用户 (%s) 已完成注册，正在等候您的审核：'
+mail_body_account_activation_request: '新用户（%s）已完成注册，正在等候您的审核：'
 
 gui_validation_error: 1 个错误
 gui_validation_error_plural: %d 个错误
@@ -159,7 +159,7 @@ field_start_date: 开始
 field_done_ratio: 完成度
 field_auth_source: 认证模式
 field_hide_mail: 隐藏我的邮件地址
-field_comments: 注释
+field_comments: 评论
 field_url: URL
 field_start_page: 起始页
 field_subproject: 子项目
@@ -177,6 +177,7 @@ field_column_names: 列
 field_time_zone: 时区
 field_searchable: 可用作搜索条件
 field_default_value: 默认值
+field_comments_sorting: 显示评论
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题
@@ -206,6 +207,8 @@ setting_emails_footer: 邮件签名
 setting_protocol: 协议(Protocol)
 setting_per_page_options: 每页显示条目个数的设置
 setting_user_format: 用户显示格式
+setting_activity_days_default: 在项目活动中显示的天数
+setting_display_subprojects_issues: 在项目页面上默认显示子项目的问题
 
 project_module_issue_tracking: 问题跟踪
 project_module_time_tracking: 时间跟踪
@@ -243,7 +246,7 @@ label_member: 成员
 label_member_new: 新建成员
 label_member_plural: 成员列表
 label_tracker: 跟踪标签
-label_tracker_plural: 跟踪标签列表
+label_tracker_plural: 跟踪标签
 label_tracker_new: 新建跟踪标签
 label_workflow: 工作流程
 label_issue_status: 问题状态
@@ -347,11 +350,11 @@ label_internal: 内部
 label_last_changes: 最近的 %d 次更新
 label_change_view_all: 查看所有更新
 label_personalize_page: 个性化定制本页
-label_comment: 注释
-label_comment_plural: 注释列表
-label_comment_add: 添加注释
-label_comment_added: 注释已添加
-label_comment_delete: 删除注释
+label_comment: 评论
+label_comment_plural: 评论列表
+label_comment_add: 添加评论
+label_comment_added: 评论已添加
+label_comment_delete: 删除评论
 label_query: 自定义查询
 label_query_plural: 自定义查询列表
 label_query_new: 新建查询
@@ -377,7 +380,7 @@ label_more_than_ago: 之前天数大于
 label_ago: 之前天数
 label_contains: 包含
 label_not_contains: 不包含
-label_day_plural: 天数
+label_day_plural: 天
 label_repository: 版本库
 label_repository_plural: 版本库
 label_browse: 浏览
@@ -403,7 +406,7 @@ label_roadmap_due_in: 截止日期到
 label_roadmap_overdue: %s 延期
 label_roadmap_no_issues: 该版本没有问题
 label_search: 搜索
-label_result_plural: 个结果
+label_result_plural: 结果
 label_all_words: 所有单词
 label_wiki: Wiki
 label_wiki_edit: Wiki 编辑
@@ -443,10 +446,10 @@ label_blocks: 阻挡
 label_blocked_by: 被阻挡
 label_precedes: 优先于
 label_follows: 跟随于
-label_end_to_start: end to start
-label_end_to_end: end to end
-label_start_to_start: start to start
-label_start_to_end: start to end
+label_end_to_start: 结束-开始
+label_end_to_end: 结束-结束
+label_start_to_start: 开始-开始
+label_start_to_end: 开始-结束
 label_stay_logged_in: 保持登录状态
 label_disabled: 禁用
 label_show_completed_versions: 显示已完成的版本
@@ -500,6 +503,9 @@ label_ldap_authentication: LDAP 认证
 label_downloads_abbr: D/L
 label_optional_description: 可选的描述
 label_add_another_file: 添加其它文件
+label_preferences: 首选项
+label_chronological_order: 按时间顺序
+label_reverse_chronological_order: 按时间顺序（倒序）
 
 button_login: 登录
 button_submit: 提交
@@ -539,7 +545,7 @@ button_annotate: 注释
 button_update: 更新
 button_configure: 配置
 
-status_active: 已激活
+status_active: 活动的
 status_registered: 已注册
 status_locked: 已锁定
 
@@ -608,9 +614,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Afficher les commentaires
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
