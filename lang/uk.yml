@@ -122,7 +122,7 @@ field_subject: Тема
 field_due_date: Дата виконання
 field_assigned_to: Призначена до
 field_priority: Пріоритет
-field_fixed_version: Фіксована версія
+field_fixed_version: Target version
 field_user: Користувач
 field_role: Роль
 field_homepage: Домашня сторінка

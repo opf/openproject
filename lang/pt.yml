@@ -117,7 +117,7 @@ field_subject: Assunto
 field_due_date: Data final
 field_assigned_to: Atribuído para
 field_priority: Prioridade
-field_fixed_version: Versão corrigida
+field_fixed_version: Target version
 field_user: Usuário
 field_role: Regra
 field_homepage: Página inicial

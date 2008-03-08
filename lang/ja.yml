@@ -118,7 +118,7 @@ field_subject: 題名
 field_due_date: 期限日
 field_assigned_to: 担当者
 field_priority: 優先度
-field_fixed_version: 修正されたバージョン
+field_fixed_version: Target version
 field_user: ユーザ
 field_role: 役割
 field_homepage: ホームページ

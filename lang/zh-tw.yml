@@ -127,7 +127,7 @@ field_subject: 主旨
 field_due_date: 完成日期
 field_assigned_to: 分派給
 field_priority: 優先權
-field_fixed_version: 版本
+field_fixed_version: Target version
 field_user: 用戶
 field_role: 角色
 field_homepage: 網站首頁

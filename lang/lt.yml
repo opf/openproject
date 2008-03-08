@@ -125,7 +125,7 @@ field_subject: Tema
 field_due_date: Užbaigimo data 
 field_assigned_to: Paskirtas 
 field_priority: Prioritetas 
-field_fixed_version: Pastovi versija
+field_fixed_version: Target version
 field_user: Vartotojas 
 field_role: Vaidmuo 
 field_homepage: Pagrindinis puslapis 

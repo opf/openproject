@@ -121,7 +121,7 @@ field_subject: Subjekat
 field_due_date: Do datuma
 field_assigned_to: Dodeljeno
 field_priority: Prioritet
-field_fixed_version: Ispravljena verzija
+field_fixed_version: Target version
 field_user: Korisnik
 field_role: Uloga
 field_homepage: Homepage

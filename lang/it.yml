@@ -117,7 +117,7 @@ field_subject: Oggetto
 field_due_date: Data ultima
 field_assigned_to: Assegnato a
 field_priority: Priorita'
-field_fixed_version: Versione di fix
+field_fixed_version: Target version
 field_user: Utente
 field_role: Ruolo
 field_homepage: Homepage

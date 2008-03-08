@@ -114,7 +114,7 @@ field_subject: Tema
 field_due_date: Fecha fin
 field_assigned_to: Asignado a
 field_priority: Prioridad
-field_fixed_version: Versión
+field_fixed_version: Target version
 field_user: Usuario
 field_role: Perfil
 field_homepage: Sitio web

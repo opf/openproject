@@ -127,7 +127,7 @@ field_subject: Thema
 field_due_date: Abgabedatum
 field_assigned_to: Zugewiesen an
 field_priority: Priorität
-field_fixed_version: Erledigt in Version
+field_fixed_version: Target version
 field_user: Benutzer
 field_role: Rolle
 field_homepage: Projekt-Homepage

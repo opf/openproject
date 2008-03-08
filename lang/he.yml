@@ -119,7 +119,7 @@ field_subject: שם נושא
 field_due_date: תאריך סיום
 field_assigned_to: מוצב ל
 field_priority: עדיפות
-field_fixed_version: גירסא מקובעת
+field_fixed_version: Target version
 field_user: מתשמש
 field_role: תפקיד
 field_homepage: דף הבית

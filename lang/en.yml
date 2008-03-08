@@ -127,7 +127,7 @@ field_subject: Subject
 field_due_date: Due date
 field_assigned_to: Assigned to
 field_priority: Priority
-field_fixed_version: Fixed version
+field_fixed_version: Target version
 field_user: User
 field_role: Role
 field_homepage: Homepage

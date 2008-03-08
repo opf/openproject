@@ -126,7 +126,7 @@ field_subject: Emne
 field_due_date: Deadline
 field_assigned_to: Tildelt til
 field_priority: Prioritet
-field_fixed_version: Retet version
+field_fixed_version: Target version
 field_user: Bruger
 field_role: Rolle
 field_homepage: Hjemmeside

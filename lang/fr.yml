@@ -127,7 +127,7 @@ field_subject: Sujet
 field_due_date: Date d'échéance
 field_assigned_to: Assigné à
 field_priority: Priorité
-field_fixed_version: Version corrigée
+field_fixed_version: Version cible
 field_user: Utilisateur
 field_role: Rôle
 field_homepage: Site web

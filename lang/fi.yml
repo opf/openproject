@@ -126,7 +126,7 @@ field_subject: Aihe
 field_due_date: Määräaika
 field_assigned_to: Nimetty
 field_priority: Prioriteetti
-field_fixed_version: Määrätty versio
+field_fixed_version: Target version
 field_user: Käyttäjä
 field_role: Rooli
 field_homepage: Kotisivu

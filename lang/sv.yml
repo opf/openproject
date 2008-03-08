@@ -117,7 +117,7 @@ field_subject: Rubrik
 field_due_date: Färdigdatum
 field_assigned_to: Tilldelad
 field_priority: Prioritet
-field_fixed_version: Fixed version
+field_fixed_version: Target version
 field_user: Användare
 field_role: Roll
 field_homepage: Hemsida

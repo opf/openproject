@@ -117,7 +117,7 @@ field_subject: Тема
 field_due_date: Крайна дата
 field_assigned_to: Възложена на
 field_priority: Приоритет
-field_fixed_version: Версия
+field_fixed_version: Target version
 field_user: Потребител
 field_role: Роля
 field_homepage: Начална страница

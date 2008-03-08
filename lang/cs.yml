@@ -117,7 +117,7 @@ field_subject: Předmět
 field_due_date: Po lhůtě
 field_assigned_to: Přiřazeno
 field_priority: Priorita
-field_fixed_version: Pevná verze
+field_fixed_version: Target version
 field_user: Uživatel
 field_role: Role
 field_homepage: Úvodní

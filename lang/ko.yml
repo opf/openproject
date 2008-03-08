@@ -119,7 +119,7 @@ field_subject: 제목
 field_due_date: 완료 기한
 field_assigned_to: 담당자
 field_priority: 우선순위
-field_fixed_version: 마일스톤
+field_fixed_version: Target version
 field_user: 유저
 field_role: 역할
 field_homepage: 홈페이지

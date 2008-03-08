@@ -114,7 +114,7 @@ field_subject: Temat
 field_due_date: Data oddania
 field_assigned_to: Przydzielony do
 field_priority: Priorytet
-field_fixed_version: Wersja
+field_fixed_version: Target version
 field_user: Użytkownik
 field_role: Rola
 field_homepage: Strona www

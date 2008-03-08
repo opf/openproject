@@ -117,7 +117,7 @@ field_subject: Onderwerp
 field_due_date: Verwachte datum gereed
 field_assigned_to: Toegewezen aan
 field_priority: Prioriteit
-field_fixed_version: Opgeloste versie
+field_fixed_version: Target version
 field_user: Gebruiker
 field_role: Rol
 field_homepage: Homepage

@@ -117,7 +117,7 @@ field_subject: Subiect
 field_due_date: Data finalizarii 
 field_assigned_to: Atribuit pentru
 field_priority: Prioritate
-field_fixed_version: Versiune rezolvata 
+field_fixed_version: Target version
 field_user: Utilizator
 field_role: Rol
 field_homepage: Pagina principala
