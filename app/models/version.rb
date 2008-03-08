@@ -34,6 +34,16 @@ class Version < ActiveRecord::Base
     effective_date
   end
   
+  # Returns the total estimated time for this version
+  def estimated_hours
+    @estimated_hours ||= fixed_issues.sum(:estimated_hours).to_f
+  end
+  
+  # Returns the total reported time for this version
+  def spent_hours
+    @spent_hours ||= TimeEntry.sum(:hours, :include => :issue, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
+  end
+  
   # Returns true if the version is completed: due date reached and no open issues
   def completed?
     effective_date && (effective_date <= Date.today) && (open_issues_count == 0)

@@ -174,14 +174,18 @@ div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
 div#roadmap .wiki h2 { font-size: 110%; }
 
+div#version-summary { float:right; width:380px; margin-left: 16px; margin-bottom: 16px; background-color: #fff; }
+div#version-summary fieldset { margin-bottom: 1em; }
+div#version-summary .total-hours { text-align: right; }
+
 table#time-report td.hours { text-align: right; padding-right: 0.5em; }
 table#time-report tbody tr { font-style: italic; color: #777; }
 table#time-report tbody tr.last-level { font-style: normal; color: #555; }
 table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
 table#time-report .hours-dec { font-size: 0.9em; }
 
-div.total-hours { text-align: left; font-size: 110%; font-weight: bold; }
-div.total-hours span.hours-int { font-size: 120%; }
+.total-hours { font-size: 110%; font-weight: bold; }
+.total-hours span.hours-int { font-size: 120%; }
 
 .autoscroll {overflow-x: auto; padding:1px; width:100%; margin-bottom: 1.2em;}
 #user_firstname, #user_lastname, #user_mail, #my_account_form select { width: 90%; }
@@ -336,8 +340,6 @@ table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
 table.progress td.open { background: #FFF none repeat scroll 0%; }
 p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
-
-div#status_by { float:right; width:380px; margin-left: 16px; margin-bottom: 16px; }
 
 /***** Tabs *****/
 #content .tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative;}
