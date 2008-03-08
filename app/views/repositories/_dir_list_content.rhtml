@@ -25,7 +25,7 @@ end %>
 <td class="size"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.is_dir? %></td>
 <td class="revision"><%= link_to(entry.lastrev.name, :action => 'revision', :id => @project, :rev => entry.lastrev.identifier) if entry.lastrev && entry.lastrev.identifier %></td>
 <td class="age"><%= distance_of_time_in_words(entry.lastrev.time, Time.now) if entry.lastrev && entry.lastrev.time %></td>
-<td class="author"><%=h(entry.lastrev.author) if entry.lastrev %></td>
+<td class="author"><%=h(entry.lastrev.author.to_s.split('<').first) if entry.lastrev %></td>
 <% changeset = @project.repository.changesets.find_by_revision(entry.lastrev.identifier) if entry.lastrev %>
 <td class="comments"><%=h truncate(changeset.comments, 50) unless changeset.nil? %></td>
 </tr>

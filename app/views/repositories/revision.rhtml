@@ -22,7 +22,7 @@
 <h2><%= l(:label_revision) %> <%= @changeset.revision %></h2>
 
 <p><% if @changeset.scmid %>ID: <%= @changeset.scmid %><br /><% end %>
-<em><%= @changeset.committer %>, <%= format_time(@changeset.committed_on) %></em></p>
+<em><%= @changeset.committer.to_s.split('<').first %>, <%= format_time(@changeset.committed_on) %></em></p>
 
 <%= textilizable @changeset.comments %>
 

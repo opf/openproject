@@ -12,7 +12,7 @@
       <th class="line-num"><%= line_num %></th>
       <td class="revision">
       <%= (revision.identifier ? link_to(revision.identifier, :action => 'revision', :id => @project, :rev => revision.identifier) : revision.revision) if revision %></td>
-      <td class="author"><%= h(revision.author) if revision %></td>
+      <td class="author"><%= h(revision.author.to_s.split('<').first) if revision %></td>
       <td class="line-code"><pre><%= line %></pre></td>
     </tr>
     <% line_num += 1 %>
