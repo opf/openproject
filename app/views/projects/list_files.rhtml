@@ -25,15 +25,13 @@
     <td></td>
     <td><%= link_to(file.filename, {:controller => 'versions', :action => 'download', :id => version, :attachment_id => file},
                                    :title => file.description) %></td>
-    <td align="center"><%= format_date(file.created_on) %></td>
+    <td align="center"><%= format_time(file.created_on) %></td>
     <td align="center"><%= number_to_human_size(file.filesize) %></td>
     <td align="center"><%= file.downloads %></td>
     <td align="center"><small><%= file.digest %></small></td>
     <% if delete_allowed %>
     <td align="center">
-        <div class="contextual">
         <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'versions', :action => 'destroy_file', :id => version, :attachment_id => file}, :confirm => l(:text_are_you_sure), :method => :post %>
-        </div>
     </td>
     <% end %>
   </tr>		
