@@ -278,7 +278,7 @@ class ProjectsController < ApplicationController
     if @scope.include?('messages')
       @events += Message.find(:all, 
                               :include => [:board, :author], 
-                              :conditions => ["#{Board.table_name}.project_id=? AND #{Message.table_name}.parent_id IS NULL AND #{Message.table_name}.created_on BETWEEN ? AND ?", @project.id, @date_from, @date_to])
+                              :conditions => ["#{Board.table_name}.project_id=? AND #{Message.table_name}.created_on BETWEEN ? AND ?", @project.id, @date_from, @date_to])
     end
     
     @events_by_day = @events.group_by(&:event_date)
