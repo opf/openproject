@@ -19,13 +19,9 @@
     <% if issues.size > 0 %>
     <fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
     <ul>
-        <% issues.each do |issue| %>
-          <li>
-            <%= link = link_to_issue(issue)
-                issue.status.is_closed? ? content_tag("del", link) : link %>: <%=h issue.subject %>
-            <%= content_tag "em", "(#{l(:label_closed_issues)})" if issue.status.is_closed? %>
-          </li>
-        <% end %>
+    <%- issues.each do |issue| -%>
+        <li class="issue <%= 'closed' if issue.closed? %>"><%= link_to_issue(issue) %>: <%=h issue.subject %></li>
+    <%- end -%>
     </ul>
     </fieldset>
     <% end %>
