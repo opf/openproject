@@ -571,6 +571,14 @@ namespace :redmine do
     end
     
     puts
+    if Redmine::DefaultData::Loader.no_data?
+      puts "Redmine configuration need to be loaded before importing data."
+      puts "Please, run this first:"
+      puts
+      puts "  rake redmine:load_default_data RAILS_ENV=\"#{ENV['RAILS_ENV']}\""
+      exit
+    end
+    
     puts "WARNING: a new project will be added to Redmine during this process."
     print "Are you sure you want to continue ? [y/N] "
     break unless STDIN.gets.match(/^y$/i)  
