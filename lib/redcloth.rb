@@ -295,6 +295,7 @@ class RedCloth < String
         @pre_list = []
         rip_offtags text
         no_textile text
+        escape_html_tags text
         hard_break text 
         unless @lite_mode
             refs text
@@ -375,18 +376,18 @@ class RedCloth < String
         re =
             case rtype
             when :limit
-                /(\W)
+                /(^|[>\s])
                 (#{rcq})
                 (#{C})
                 (?::(\S+?))?
-                (\S.*?\S|\S)
+                ([^\s\-].*?[^\s\-]|\w)
                 #{rcq}
-                (?=\W)/x
+                (?=[[:punct:]]|\s|$)/x
             else
                 /(#{rcq})
                 (#{C})
                 (?::(\S+))?
-                (\S.*?\S|\S)
+                ([^\s\-].*?[^\s\-]|\w)
                 #{rcq}/xm 
             end
         [rc, ht, re, rtype]
@@ -1127,6 +1128,12 @@ class RedCloth < String
                 " "
             end
         end
+    end
+    
+    ALLOWED_TAGS = %w(redpre pre)
+    
+    def escape_html_tags(text)
+      text.gsub!(%r{<((\/?)(\w+))}) {|m| ALLOWED_TAGS.include?($3) ? "<#{$1}" : "&lt;#{$1}" }
     end
 end
 
