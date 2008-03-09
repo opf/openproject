@@ -1,6 +1,6 @@
 class ChangeChangesetsCommitterLimit < ActiveRecord::Migration
   def self.up
-    change_column :changesets, :committer, :string
+    change_column :changesets, :committer, :string, :limit => nil
   end
 
   def self.down

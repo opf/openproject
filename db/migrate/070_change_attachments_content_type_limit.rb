@@ -1,6 +1,6 @@
 class ChangeAttachmentsContentTypeLimit < ActiveRecord::Migration
   def self.up
-    change_column :attachments, :content_type, :string
+    change_column :attachments, :content_type, :string, :limit => nil
   end
 
   def self.down
