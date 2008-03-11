@@ -43,12 +43,12 @@ module Redmine
         def entries(path=nil, identifier=nil)
           path ||= ''
           entries = Entries.new
-          cmd = "#{HG_BIN} -R #{target('')} --cwd #{target(path)} locate -X */*/*"
+          cmd = "#{HG_BIN} -R #{target('')} --cwd #{target(path)} locate"
           cmd << " -r #{identifier.to_i}" if identifier
-          cmd << " * */*"
+          cmd << " glob:**"
           shellout(cmd) do |io|
             io.each_line do |line|
-              e = line.chomp.split('\\')
+              e = line.chomp.split(%r{[\/\\]})
               entries << Entry.new({:name => e.first,
                                     :path => (path.empty? ? e.first : "#{path}/#{e.first}"),
                                     :kind => (e.size > 1 ? 'dir' : 'file'),
