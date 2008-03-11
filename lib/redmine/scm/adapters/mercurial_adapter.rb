@@ -45,7 +45,7 @@ module Redmine
           entries = Entries.new
           cmd = "#{HG_BIN} -R #{target('')} --cwd #{target(path)} locate"
           cmd << " -r #{identifier.to_i}" if identifier
-          cmd << " glob:**"
+          cmd << " " + shell_quote('glob:**')
           shellout(cmd) do |io|
             io.each_line do |line|
               e = line.chomp.split(%r{[\/\\]})
