@@ -45,6 +45,10 @@ class Changeset < ActiveRecord::Base
     super
   end
   
+  def project
+    repository.project
+  end
+  
   def after_create
     scan_comment_for_issue_ids
   end

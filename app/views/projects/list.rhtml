@@ -1,3 +1,8 @@
+<div class="contextual">
+    <%= link_to l(:label_issue_view_all), { :controller => 'issues' } %> |
+    <%= link_to l(:label_overall_activity), { :controller => 'projects', :action => 'activity' }%>
+</div>
+
 <h2><%=l(:label_project_plural)%></h2>
 
 <% @project_tree.keys.sort.each do |project| %>

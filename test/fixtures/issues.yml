@@ -44,15 +44,29 @@ issues_003:
   start_date: <%= 1.day.from_now.to_date.to_s(:db) %>
   due_date: <%= 40.day.ago.to_date.to_s(:db) %>
 issues_004: 
-  created_on: 2006-07-19 21:07:27 +02:00
+  created_on: <%= 5.days.ago.to_date.to_s(:db) %>
   project_id: 2
-  updated_on: 2006-07-19 21:07:27 +02:00
+  updated_on: <%= 2.days.ago.to_date.to_s(:db) %>
   priority_id: 4
   subject: Issue on project 2
   id: 4
   fixed_version_id: 
   category_id: 
   description: Issue on project 2
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 1
+issues_005: 
+  created_on: <%= 5.days.ago.to_date.to_s(:db) %>
+  project_id: 3
+  updated_on: <%= 2.days.ago.to_date.to_s(:db) %>
+  priority_id: 4
+  subject: Subproject issue
+  id: 5
+  fixed_version_id: 
+  category_id: 
+  description: This is an issue on a cookbook subproject
   tracker_id: 1
   assigned_to_id: 
   author_id: 2

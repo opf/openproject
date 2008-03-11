@@ -126,13 +126,4 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal [1, 2, 3], parent.rolled_up_trackers.collect(&:id)
     assert_equal [2, 3], child.rolled_up_trackers.collect(&:id)
   end
-
-  def test_issues_status_changes
-    journals = @ecookbook.issues_status_changes 3.days.ago.to_date, Date.today
-    assert_equal 1, journals.size
-    assert_kind_of Journal, journals.first
-    
-    journals = @ecookbook.issues_status_changes 30.days.ago.to_date, 10.days.ago.to_date
-    assert_equal 0, journals.size
-  end
 end

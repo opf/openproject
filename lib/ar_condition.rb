@@ -20,7 +20,7 @@ class ARCondition
   
   def initialize(condition=nil)
     @conditions = ['1=1']
-    @conditions.add(condition) if condition
+    add(condition) if condition
   end
   
   def add(condition)

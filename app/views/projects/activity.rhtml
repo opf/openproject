@@ -6,7 +6,7 @@
 <dl>
 <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
   <dt class="<%= e.class.name.downcase %>"><span class="time"><%= format_time(e.event_datetime, false) %></span>
-  <%= link_to h(truncate(e.event_title, 100)), e.event_url %></dt>
+  <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %> <%= link_to h(truncate(e.event_title, 100)), e.event_url %></dt>
   <dd><% unless e.event_description.blank? -%>
   <span class="description"><%= format_activity_description(e.event_description) %></span><br />
   <% end %>
@@ -35,16 +35,20 @@
 </p>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :year => nil, :month => nil, :key => User.current.rss_key).delete_if{|k,v|k=="commit"}) %>
+<%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :year => nil, :month => nil, :key => User.current.rss_key)) %>
 <% end %>
 
 <% content_for :sidebar do %>
-<% form_tag do %>
+<% form_tag({}, :method => :get) do %>
 <h3><%= l(:label_activity) %></h3>
 <p><% @event_types.each do |t| %>
 <label><%= check_box_tag "show_#{t}", 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label><br />
 <% end %></p>
-<p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
+<% if @project && @project.active_children.any? %>
+    <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
+    <%= hidden_field_tag 'with_subprojects', 0 %>
+<% end %>
+<p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
 <% end %>
 <% end %>
 

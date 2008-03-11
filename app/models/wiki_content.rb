@@ -61,6 +61,10 @@ class WikiContent < ActiveRecord::Base
       end      
     end
     
+    def project
+      page.project
+    end
+    
     # Returns the previous version or nil
     def previous
       @previous ||= WikiContent::Version.find(:first, 

@@ -280,6 +280,7 @@ label_last_updates: Last updated
 label_last_updates_plural: %d last updated
 label_registered_on: Registered on
 label_activity: Activity
+label_overall_activity: Overall activity
 label_new: New
 label_logged_as: Logged as
 label_environment: Environment

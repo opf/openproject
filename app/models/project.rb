@@ -84,16 +84,6 @@ class Project < ActiveRecord::Base
     end 
   end
 
-  # Return all issues status changes for the project between the 2 given dates
-  def issues_status_changes(from, to)
-    Journal.find(:all, :include => [:issue, :details, :user],
-                       :conditions => ["#{Journal.table_name}.journalized_type = 'Issue'" +
-                                       " AND #{Issue.table_name}.project_id = ?" +
-                                       " AND #{JournalDetail.table_name}.prop_key = 'status_id'" +
-                                       " AND #{Journal.table_name}.created_on BETWEEN ? AND ?",
-                                       id, from, to+1])
-  end
-
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
@@ -110,19 +100,28 @@ class Project < ActiveRecord::Base
     end
   end
   
-  def self.allowed_to_condition(user, permission)
+  def self.allowed_to_condition(user, permission, options={})
     statements = []
-    active_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
+    base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
+    if options[:project]
+      project_statement = "#{Project.table_name}.id = #{options[:project].id}"
+      project_statement << " OR #{Project.table_name}.parent_id = #{options[:project].id}" if options[:with_subprojects]
+      base_statement = "(#{project_statement}) AND (#{base_statement})"
+    end
     if user.admin?
       # no restriction
     elsif user.logged?
       statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.non_member.allowed_to?(permission)
       allowed_project_ids = user.memberships.select {|m| m.role.allowed_to?(permission)}.collect {|m| m.project_id}
       statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
+    elsif Role.anonymous.allowed_to?(permission)
+      # anonymous user allowed on public project
+      statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" 
     else
-      statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.anonymous.allowed_to?(permission)
+      # anonymous user is not authorized
+      statements << "1=0"
     end
-    statements.empty? ? active_statement : "(#{active_statement} AND (#{statements.join(' OR ')}))"
+    statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
   end
   
   def self.find(*args)

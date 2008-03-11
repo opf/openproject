@@ -165,6 +165,7 @@ field_start_page: Page de démarrage
 field_subproject: Sous-projet
 field_hours: Heures
 field_activity: Activité
+label_overall_activity: Activité globale
 field_spent_on: Date
 field_identifier: Identifiant
 field_is_filter: Utilisé comme filtre
@@ -452,7 +453,7 @@ label_start_to_start: début à début
 label_start_to_end: début à fin
 label_stay_logged_in: Rester connecté
 label_disabled: désactivé
-label_show_completed_versions: Voire les versions passées
+label_show_completed_versions: Voir les versions passées
 label_me: moi
 label_board: Forum
 label_board_new: Nouveau forum

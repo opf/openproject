@@ -45,8 +45,8 @@ messages_004:
   parent_id: 
   board_id: 1
 messages_005: 
-  created_on: 2007-09-12 17:18:00 +02:00
-  updated_on: 2007-09-12 17:18:00 +02:00
+  created_on: <%= 3.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 3.days.ago.to_date.to_s(:db) %>
   subject: 'RE: post 2'
   id: 5
   replies_count: 0

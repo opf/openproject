@@ -24,8 +24,9 @@ class ProjectsController < ApplicationController
   menu_item :settings, :only => :settings
   menu_item :issues, :only => [:changelog]
   
-  before_filter :find_project, :except => [ :index, :list, :add ]
-  before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy ]
+  before_filter :find_project, :except => [ :index, :list, :add, :activity ]
+  before_filter :find_optional_project, :only => :activity
+  before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy, :activity ]
   before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
   accept_key_auth :activity, :calendar
   
@@ -228,12 +229,14 @@ class ProjectsController < ApplicationController
     @date_from = @date_to - @days
     
     @event_types = %w(issues news files documents changesets wiki_pages messages)
-    @event_types.delete('wiki_pages') unless @project.wiki
-    @event_types.delete('changesets') unless @project.repository
-    @event_types.delete('messages') unless @project.boards.any?
-    # only show what the user is allowed to view
-    @event_types = @event_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, @project)}
-    
+    if @project
+      @event_types.delete('wiki_pages') unless @project.wiki
+      @event_types.delete('changesets') unless @project.repository
+      @event_types.delete('messages') unless @project.boards.any?
+      # only show what the user is allowed to view
+      @event_types = @event_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, @project)}
+      @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+    end
     @scope = @event_types.select {|t| params["show_#{t}"]}
     # default events if none is specified in parameters
     @scope = (@event_types - %w(wiki_pages messages))if @scope.empty?
@@ -241,21 +244,41 @@ class ProjectsController < ApplicationController
     @events = []    
     
     if @scope.include?('issues')
-      @events += @project.issues.find(:all, :include => [:author, :tracker], :conditions => ["#{Issue.table_name}.created_on>=? and #{Issue.table_name}.created_on<=?", @date_from, @date_to] )
-      @events += @project.issues_status_changes(@date_from, @date_to)
+      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_issues, :project => @project, :with_subprojects => @with_subprojects))
+      cond.add(["#{Issue.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += Issue.find(:all, :include => [:project, :author, :tracker], :conditions => cond.conditions)
+      
+      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_issues, :project => @project, :with_subprojects => @with_subprojects))
+      cond.add(["#{Journal.table_name}.journalized_type = 'Issue' AND #{JournalDetail.table_name}.prop_key = 'status_id' AND #{Journal.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += Journal.find(:all, :include => [{:issue => :project}, :details, :user], :conditions => cond.conditions)
     end
     
     if @scope.include?('news')
-      @events += @project.news.find(:all, :conditions => ["#{News.table_name}.created_on>=? and #{News.table_name}.created_on<=?", @date_from, @date_to], :include => :author )
+      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_news, :project => @project, :with_subprojects => @with_subprojects))
+      cond.add(["#{News.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += News.find(:all, :include => [:project, :author], :conditions => cond.conditions)
     end
     
     if @scope.include?('files')
-      @events += Attachment.find(:all, :select => "#{Attachment.table_name}.*", :joins => "LEFT JOIN #{Version.table_name} ON #{Version.table_name}.id = #{Attachment.table_name}.container_id", :conditions => ["#{Attachment.table_name}.container_type='Version' and #{Version.table_name}.project_id=? and #{Attachment.table_name}.created_on>=? and #{Attachment.table_name}.created_on<=?", @project.id, @date_from, @date_to], :include => :author )
+      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_files, :project => @project, :with_subprojects => @with_subprojects))
+      cond.add(["#{Attachment.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += Attachment.find(:all, :select => "#{Attachment.table_name}.*", 
+                                       :joins => "LEFT JOIN #{Version.table_name} ON #{Attachment.table_name}.container_type='Version' AND #{Version.table_name}.id = #{Attachment.table_name}.container_id " +
+                                                 "LEFT JOIN #{Project.table_name} ON #{Version.table_name}.project_id = #{Project.table_name}.id",
+                                       :conditions => cond.conditions)
     end
     
     if @scope.include?('documents')
-      @events += @project.documents.find(:all, :conditions => ["#{Document.table_name}.created_on>=? and #{Document.table_name}.created_on<=?", @date_from, @date_to] )
-      @events += Attachment.find(:all, :select => "attachments.*", :joins => "LEFT JOIN #{Document.table_name} ON #{Document.table_name}.id = #{Attachment.table_name}.container_id", :conditions => ["#{Attachment.table_name}.container_type='Document' and #{Document.table_name}.project_id=? and #{Attachment.table_name}.created_on>=? and #{Attachment.table_name}.created_on<=?", @project.id, @date_from, @date_to], :include => :author )
+      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_documents, :project => @project, :with_subprojects => @with_subprojects))
+      cond.add(["#{Document.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += Document.find(:all, :include => :project, :conditions => cond.conditions)
+      
+      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_documents, :project => @project, :with_subprojects => @with_subprojects))
+      cond.add(["#{Attachment.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += Attachment.find(:all, :select => "#{Attachment.table_name}.*", 
+                                       :joins => "LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
+                                                 "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id",
+                                       :conditions => cond.conditions)
     end
     
     if @scope.include?('wiki_pages')
@@ -264,28 +287,31 @@ class ProjectsController < ApplicationController
                "#{WikiContent.versioned_table_name}.page_id, #{WikiContent.versioned_table_name}.author_id, " +
                "#{WikiContent.versioned_table_name}.id"
       joins = "LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
-              "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id "
-      conditions = ["#{Wiki.table_name}.project_id = ? AND #{WikiContent.versioned_table_name}.updated_on BETWEEN ? AND ?",
-                    @project.id, @date_from, @date_to]
+              "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
+              "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id"
 
-      @events += WikiContent.versioned_class.find(:all, :select => select, :joins => joins, :conditions => conditions)
+      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_wiki_pages, :project => @project, :with_subprojects => @with_subprojects))
+      cond.add(["#{WikiContent.versioned_table_name}.updated_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += WikiContent.versioned_class.find(:all, :select => select, :joins => joins, :conditions => cond.conditions)
     end
 
     if @scope.include?('changesets')
-      @events += Changeset.find(:all, :include => :repository, :conditions => ["#{Repository.table_name}.project_id = ? AND #{Changeset.table_name}.committed_on BETWEEN ? AND ?", @project.id, @date_from, @date_to])
+      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_changesets, :project => @project, :with_subprojects => @with_subprojects))
+      cond.add(["#{Changeset.table_name}.committed_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += Changeset.find(:all, :include => {:repository => :project}, :conditions => cond.conditions)
     end
     
     if @scope.include?('messages')
-      @events += Message.find(:all, 
-                              :include => [:board, :author], 
-                              :conditions => ["#{Board.table_name}.project_id=? AND #{Message.table_name}.created_on BETWEEN ? AND ?", @project.id, @date_from, @date_to])
+      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_messages, :project => @project, :with_subprojects => @with_subprojects))
+      cond.add(["#{Message.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
+      @events += Message.find(:all, :include => [{:board => :project}, :author], :conditions => cond.conditions)
     end
     
     @events_by_day = @events.group_by(&:event_date)
     
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
-      format.atom { render_feed(@events, :title => "#{@project.name}: #{l(:label_activity)}") }
+      format.atom { render_feed(@events, :title => "#{@project || Setting.app_title}: #{l(:label_activity)}") }
     end
   end
   
@@ -381,6 +407,14 @@ private
     render_404
   end
   
+  def find_optional_project
+    return true unless params[:id]
+    @project = Project.find(params[:id])
+    authorize
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
   def retrieve_selected_tracker_ids(selectable_trackers)
     if ids = params[:tracker_ids]
       @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }

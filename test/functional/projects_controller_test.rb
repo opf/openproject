@@ -22,7 +22,8 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :versions, :users, :roles, :members, :issues, :journals, :journal_details, :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations
+  fixtures :projects, :versions, :users, :roles, :members, :issues, :journals, :journal_details,
+           :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages
 
   def setup
     @controller = ProjectsController.new
@@ -129,11 +130,15 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert assigns(:versions).include?(Version.find(1))
   end
 
-  def test_activity
-    get :activity, :id => 1
+  def test_project_activity
+    get :activity, :id => 1, :with_subprojects => 0
     assert_response :success
     assert_template 'activity'
     assert_not_nil assigns(:events_by_day)
+    assert_not_nil assigns(:events)
+
+    # subproject issue not included by default
+    assert !assigns(:events).include?(Issue.find(5))
     
     assert_tag :tag => "h3", 
                :content => /#{2.days.ago.to_date.day}/,
@@ -163,6 +168,53 @@ class ProjectsControllerTest < Test::Unit::TestCase
                }
   end
   
+  def test_activity_with_subprojects
+    get :activity, :id => 1, :with_subprojects => 1
+    assert_response :success
+    assert_template 'activity'
+    assert_not_nil assigns(:events)
+    
+    assert assigns(:events).include?(Issue.find(1))
+    assert !assigns(:events).include?(Issue.find(4))
+    # subproject issue
+    assert assigns(:events).include?(Issue.find(5))
+  end
+  
+  def test_global_activity_anonymous
+    get :activity
+    assert_response :success
+    assert_template 'activity'
+    assert_not_nil assigns(:events)
+    
+    assert assigns(:events).include?(Issue.find(1))
+    # Issue of a private project
+    assert !assigns(:events).include?(Issue.find(4))
+  end
+  
+  def test_global_activity_logged_user
+    @request.session[:user_id] = 2 # manager
+    get :activity
+    assert_response :success
+    assert_template 'activity'
+    assert_not_nil assigns(:events)
+    
+    assert assigns(:events).include?(Issue.find(1))
+    # Issue of a private project the user belongs to
+    assert assigns(:events).include?(Issue.find(4))
+  end
+
+  
+  def test_global_activity_with_all_types
+    get :activity, :show_issues => 1, :show_news => 1, :show_files => 1, :show_documents => 1, :show_changesets => 1, :show_wiki_pages => 1, :show_messages => 1
+    assert_response :success
+    assert_template 'activity'
+    assert_not_nil assigns(:events)
+    
+    assert assigns(:events).include?(Issue.find(1))
+    assert !assigns(:events).include?(Issue.find(4))
+    assert assigns(:events).include?(Message.find(5))
+  end
+
   def test_calendar
     get :calendar, :id => 1
     assert_response :success
