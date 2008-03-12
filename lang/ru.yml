@@ -618,3 +618,4 @@ label_reverse_chronological_order: In reverse chronological order
 label_preferences: Preferences
 setting_display_subprojects_issues: Display subprojects issues on main projects by default
 label_overall_activity: Overall activity
+setting_default_projects_public: New projects are public by default

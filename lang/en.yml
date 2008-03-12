@@ -193,6 +193,7 @@ setting_host_name: Host name
 setting_text_formatting: Text formatting
 setting_wiki_compression: Wiki history compression
 setting_feeds_limit: Feed content limit
+setting_default_projects_public: New projects are public by default
 setting_autofetch_changesets: Autofetch commits
 setting_sys_api_enabled: Enable WS for repository management
 setting_commit_ref_keywords: Referencing keywords

@@ -70,6 +70,7 @@ class ProjectsController < ApplicationController
     if request.get?
       @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project) }
       @project.trackers = Tracker.all
+      @project.is_public = Setting.default_projects_public?
     else
       @project.custom_fields = CustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
       @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
@@ -78,7 +79,7 @@ class ProjectsController < ApplicationController
         @project.enabled_module_names = params[:enabled_modules]
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
-	  end		
+	    end		
     end	
   end
 	
