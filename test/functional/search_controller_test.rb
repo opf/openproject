@@ -78,6 +78,12 @@ class SearchControllerTest < Test::Unit::TestCase
     assert_equal 2, results.size
   end
   
+  def test_search_with_invalid_project_id
+    get :index, :id => 195, :q => 'recipe'
+    assert_response 404
+    assert_nil assigns(:results)
+  end
+
   def test_quick_jump_to_issue
     # issue of a public project
     get :index, :q => "3"

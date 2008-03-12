@@ -17,6 +17,8 @@
 
 class SearchController < ApplicationController
   layout 'base'
+  
+  before_filter :find_optional_project
 
   helper :messages
   include MessagesHelper
@@ -34,11 +36,6 @@ class SearchController < ApplicationController
     if @question.match(/^#?(\d+)$/) && Issue.find_by_id($1, :include => :project, :conditions => Project.visible_by(User.current))
       redirect_to :controller => "issues", :action => "show", :id => $1
       return
-    end
-    
-    if params[:id]
-      find_project
-      return unless check_project_privacy
     end
     
     if @project
@@ -104,8 +101,10 @@ class SearchController < ApplicationController
   end
 
 private  
-  def find_project
+  def find_optional_project
+    return true unless params[:id]
     @project = Project.find(params[:id])
+    check_project_privacy
   rescue ActiveRecord::RecordNotFound
     render_404
   end

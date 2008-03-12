@@ -102,13 +102,17 @@ class ApplicationController < ActionController::Base
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy
-    unless @project.active?
+    if @project && @project.active?
+      if @project.is_public? || User.current.member_of?(@project) || User.current.admin?
+        true
+      else
+        User.current.logged? ? render_403 : require_login
+      end
+    else
       @project = nil
       render_404
-      return false
+      false
     end
-    return true if @project.is_public? || User.current.member_of?(@project) || User.current.admin?
-    User.current.logged? ? render_403 : require_login
   end
 
   # store current uri in session.
