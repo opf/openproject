@@ -17,7 +17,7 @@
 
 class Repository < ActiveRecord::Base
   belongs_to :project
-  has_many :changesets, :dependent => :destroy, :order => "#{Changeset.table_name}.revision DESC"
+  has_many :changesets, :dependent => :destroy, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
     
   def scm
@@ -51,7 +51,7 @@ class Repository < ActiveRecord::Base
     path = "/#{path}" unless path.starts_with?('/')
     Change.find(:all, :include => :changeset, 
       :conditions => ["repository_id = ? AND path = ?", id, path],
-      :order => "committed_on DESC, #{Changeset.table_name}.revision DESC").collect(&:changeset)
+      :order => "committed_on DESC, #{Changeset.table_name}.id DESC").collect(&:changeset)
   end
   
   def latest_changeset

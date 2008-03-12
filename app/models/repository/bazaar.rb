@@ -51,7 +51,7 @@ class Repository::Bazaar < Repository
     scm_info = scm.info
     if scm_info
       # latest revision found in database
-      db_revision = latest_changeset ? latest_changeset.revision : 0
+      db_revision = latest_changeset ? latest_changeset.revision.to_i : 0
       # latest revision in the repository
       scm_revision = scm_info.lastrev.identifier.to_i
       if db_revision < scm_revision

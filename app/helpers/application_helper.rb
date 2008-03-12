@@ -270,6 +270,7 @@ module ApplicationHelper
     #     #52 -> Link to issue #52
     #   Changesets:
     #     r52 -> Link to revision 52
+    #     commit:a85130f -> Link to scmid starting with a85130f
     #   Documents:
     #     document#17 -> Link to document with id 17
     #     document:Greetings -> Link to the document with title "Greetings"
@@ -280,7 +281,7 @@ module ApplicationHelper
     #     version:"1.0 beta 2" -> Link to version named "1.0 beta 2"
     #   Attachments:
     #     attachment:file.zip -> Link to the attachment of the current object named file.zip
-    text = text.gsub(%r{([\s\(,-^])(!)?(attachment|document|version)?((#|r)(\d+)|(:)([^"][^\s<>]+|"[^"]+"))(?=[[:punct:]]|\s|<|$)}) do |m|
+    text = text.gsub(%r{([\s\(,-^])(!)?(attachment|document|version|commit)?((#|r)(\d+)|(:)([^"][^\s<>]+|"[^"]+"))(?=[[:punct:]]|\s|<|$)}) do |m|
       leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
       link = nil
       if esc.nil?
@@ -324,6 +325,10 @@ module ApplicationHelper
             if project && version = project.versions.find_by_name(name)
               link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
                                               :class => 'version'
+            end
+          when 'commit'
+            if project && (changeset = project.changesets.find(:first, :conditions => ["scmid LIKE ?", "#{name}%"]))
+              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project.id, :rev => changeset.revision}, :class => 'changeset', :title => truncate(changeset.comments, 100)
             end
           when 'attachment'
             if attachments && attachment = attachments.detect {|a| a.filename == name }

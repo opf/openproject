@@ -25,6 +25,10 @@ module RepositoriesHelper
     type ? CodeRay.scan(content, type).html : h(content)
   end
   
+  def format_revision(txt)
+    txt.to_s[0,8]
+  end
+  
   def to_utf8(str)
     return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
     @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)
@@ -74,6 +78,10 @@ module RepositoriesHelper
   
   def mercurial_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
+  end
+
+  def git_field_tags(form, repository)
+      content_tag('p', form.text_field(:url, :label => 'Path to .git directory', :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
   end
 
   def cvs_field_tags(form, repository)

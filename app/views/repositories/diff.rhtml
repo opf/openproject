@@ -1,4 +1,4 @@
-<h2><%= l(:label_revision) %> <%= @rev %>: <%= @path.gsub(/^.*\//, '') %></h2>
+<h2><%= l(:label_revision) %> <%= format_revision(@rev) %> <%= @path.gsub(/^.*\//, '') %></h2>
 
 <!-- Choose view type -->
 <% form_tag({ :controller => 'repositories', :action => 'diff'}, :method => 'get') do %>
@@ -23,8 +23,8 @@
           </th>
         </tr>
         <tr>
-          <th colspan="2">@<%= @rev %></th>
-          <th colspan="2">@<%= @rev_to %></th>
+          <th colspan="2">@<%= format_revision @rev %></th>
+          <th colspan="2">@<%= format_revision @rev_to %></th>
         </tr>
       </thead>
       <tbody>
@@ -56,8 +56,8 @@
           </th>
         </tr>
         <tr>
-          <th>@<%= @rev %></th>
-          <th>@<%= @rev_to %></th>
+          <th>@<%= format_revision @rev %></th>
+          <th>@<%= format_revision @rev_to %></th>
           <th></th>
         </tr>
       </thead>

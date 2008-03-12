@@ -102,8 +102,12 @@ module Redmine
         def diff(path, identifier_from, identifier_to=nil, type="inline")
           path = '*' if path.blank?
           cmd = "#{DARCS_BIN} diff --repodir #{@url}"
-          cmd << " --to-match \"hash #{identifier_from}\""
-          cmd << " --from-match \"hash #{identifier_to}\"" if identifier_to
+          if identifier_to.nil?
+            cmd << " --match \"hash #{identifier_from}\""
+          else
+            cmd << " --to-match \"hash #{identifier_from}\""
+            cmd << " --from-match \"hash #{identifier_to}\""
+          end
           cmd << " -u #{path}"
           diff = []
           shellout(cmd) do |io|

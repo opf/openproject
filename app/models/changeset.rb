@@ -32,7 +32,6 @@ class Changeset < ActiveRecord::Base
                      :date_column => 'committed_on'
   
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
-  validates_numericality_of :revision, :only_integer => true
   validates_uniqueness_of :revision, :scope => :repository_id
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
   
@@ -89,7 +88,11 @@ class Changeset < ActiveRecord::Base
           # don't change the status is the issue is closed
           next if issue.status.is_closed?
           user = committer_user || User.anonymous
-          journal = issue.init_journal(user, l(:text_status_changed_by_changeset, "r#{self.revision}"))
+          csettext = "r#{self.revision}"
+          if self.scmid && (! (csettext =~ /^r[0-9]+$/))
+            csettext = "commit:\"#{self.scmid}\""
+          end
+          journal = issue.init_journal(user, l(:text_status_changed_by_changeset, csettext))
           issue.status = fix_status
           issue.done_ratio = done_ratio if done_ratio
           issue.save
@@ -114,11 +117,11 @@ class Changeset < ActiveRecord::Base
   
   # Returns the previous changeset
   def previous
-    @previous ||= Changeset.find(:first, :conditions => ['revision < ? AND repository_id = ?', self.revision, self.repository_id], :order => 'revision DESC')
+    @previous ||= Changeset.find(:first, :conditions => ['id < ? AND repository_id = ?', self.id, self.repository_id], :order => 'id DESC')
   end
 
   # Returns the next changeset
   def next
-    @next ||= Changeset.find(:first, :conditions => ['revision > ? AND repository_id = ?', self.revision, self.repository_id], :order => 'revision ASC')
+    @next ||= Changeset.find(:first, :conditions => ['id > ? AND repository_id = ?', self.id, self.repository_id], :order => 'id ASC')
   end
 end

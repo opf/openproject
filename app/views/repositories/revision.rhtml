@@ -19,7 +19,7 @@
   <% end %>
 </div>
 
-<h2><%= l(:label_revision) %> <%= @changeset.revision %></h2>
+<h2><%= l(:label_revision) %> <%= format_revision(@changeset.revision) %></h2>
 
 <p><% if @changeset.scmid %>ID: <%= @changeset.scmid %><br /><% end %>
 <em><%= @changeset.committer.to_s.split('<').first %>, <%= format_time(@changeset.committed_on) %></em></p>

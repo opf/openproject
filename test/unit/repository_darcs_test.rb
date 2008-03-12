@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,21 +16,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.dirname(__FILE__) + '/../test_helper'
-require 'pp'
-class RepositoryCvsTest < Test::Unit::TestCase
+
+class RepositoryDarcsTest < Test::Unit::TestCase
   fixtures :projects
   
   # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/cvs_repository'
-  REPOSITORY_PATH.gsub!(/\//, "\\") if RUBY_PLATFORM =~ /mswin/
-  # CVS module
-  MODULE_NAME = 'test'
+  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/darcs_repository'
   
   def setup
     @project = Project.find(1)
-    assert @repository = Repository::Cvs.create(:project => @project, 
-                                                :root_url => REPOSITORY_PATH,
-                                                :url => MODULE_NAME)
+    assert @repository = Repository::Darcs.create(:project => @project, :url => REPOSITORY_PATH)
   end
   
   if File.directory?(REPOSITORY_PATH)  
@@ -38,23 +33,23 @@ class RepositoryCvsTest < Test::Unit::TestCase
       @repository.fetch_changesets
       @repository.reload
       
-      assert_equal 5, @repository.changesets.count
-      assert_equal 14, @repository.changes.count
-      assert_not_nil @repository.changesets.find_by_comments('Two files changed')
+      assert_equal 6, @repository.changesets.count
+      assert_equal 13, @repository.changes.count
+      assert_equal "Initial commit.", @repository.changesets.find_by_revision(1).comments
     end
     
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
-      # Remove the 3 latest changesets
-      @repository.changesets.find(:all, :order => 'committed_on DESC', :limit => 3).each(&:destroy)
+      # Remove changesets with revision > 3
+      @repository.changesets.find(:all, :conditions => 'revision > 3').each(&:destroy)
       @repository.reload
-      assert_equal 2, @repository.changesets.count
+      assert_equal 3, @repository.changesets.count
       
       @repository.fetch_changesets
-      assert_equal 5, @repository.changesets.count
+      assert_equal 6, @repository.changesets.count
     end
   else
-    puts "CVS test repository NOT FOUND. Skipping unit tests !!!"
+    puts "Darcs test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
   end
 end
