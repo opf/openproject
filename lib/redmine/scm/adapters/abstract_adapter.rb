@@ -101,9 +101,9 @@ module Redmine
         end
         
         def target(path)
-          path ||= ""
-          base = path.match(/^\//) ? root_url : url    
-          " \"" << "#{base}/#{path}".gsub(/["?<>\*]/, '') << "\""
+          path ||= ''
+          base = path.match(/^\//) ? root_url : url
+          shell_quote("#{base}/#{path}".gsub(/[?<>\*]/, ''))
         end
             
         def logger
