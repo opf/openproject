@@ -83,6 +83,8 @@ class User < ActiveRecord::Base
   
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password)
+    # Make sure no one can sign in with an empty password
+    return nil if password.to_s.empty?
     user = find(:first, :conditions => ["login=?", login])
     if user
       # user is already in local database
