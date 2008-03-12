@@ -94,11 +94,12 @@ module Redmine
 
 
         def info
-          root_url = target('')
-          info = Info.new({:root_url => target(''),
-                            :lastrev => revisions(root_url,nil,nil,{:limit => 1}).first
-                          })
-          info
+          revs = revisions(url,nil,nil,{:limit => 1})
+          if revs && revs.any?
+            Info.new(:root_url => url, :lastrev => revs.first)
+          else
+            nil
+          end
         rescue Errno::ENOENT => e
           return nil
         end
