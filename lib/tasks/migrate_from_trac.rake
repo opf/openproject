@@ -216,6 +216,12 @@ namespace :redmine do
         text = text.gsub(/\[wiki:\"(.+)\".*\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
         text = text.gsub(/\[wiki:\"(.+)\".*\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
         text = text.gsub(/\[wiki:([^\s\]]+).*\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
+
+	# Links to pages UsingJustCaps
+	text = text.gsub(/[^!]\b([A-Z][a-z]+[A-Z][a-zA-Z]+)/, '[[\1]]')
+	# Normalize things that were supposed to not be links
+	# like !NotALink
+	text = text.gsub(/(^| )!([A-Z][A-Za-z]+)/, '\1\2')
         # Revisions links
         text = text.gsub(/\[(\d+)\]/, 'r\1')
         # Ticket number re-writing
