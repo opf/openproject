@@ -127,7 +127,7 @@ field_subject: 主旨
 field_due_date: 完成日期
 field_assigned_to: 分派給
 field_priority: 優先權
-field_fixed_version: Target version
+field_fixed_version: 版本
 field_user: 用戶
 field_role: 角色
 field_homepage: 網站首頁
@@ -194,6 +194,7 @@ setting_text_formatting: 文字格式
 setting_wiki_compression: 壓縮 Wiki 歷史文章
 setting_feeds_limit: Feed content limit
 setting_autofetch_changesets: 自動取得送交版次
+setting_default_projects_public: 新建立之專案預設為「公開」
 setting_sys_api_enabled: 啟用管理版本庫之網頁服務 (Web Service)
 setting_commit_ref_keywords: 用於參照項目之關鍵字
 setting_commit_fix_keywords: 用於修正項目之關鍵字
@@ -280,6 +281,7 @@ label_last_updates: 最近更新
 label_last_updates_plural: %d 個最近更新
 label_registered_on: 註冊於
 label_activity: 活動
+label_overall_activity: 檢視所有活動
 label_new: 建立新的...
 label_logged_as: 目前登入
 label_environment: 環境
@@ -613,6 +615,4 @@ default_activity_development: 開發
 
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
-enumeration_activities: 活動 (time tracking)
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
+enumeration_activities: 活動 (時間追蹤)
