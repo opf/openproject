@@ -108,7 +108,7 @@ field_author: 作者
 field_created_on: 创建于
 field_updated_on: 更新于
 field_field_format: 格式
-field_is_for_all: 应用于所有项目
+field_is_for_all: 用于所有项目
 field_possible_values: 可能的值
 field_regexp: 正则表达式
 field_min_length: 最小长度
@@ -127,7 +127,7 @@ field_subject: 主题
 field_due_date: 完成日期
 field_assigned_to: 指派给
 field_priority: 优先级
-field_fixed_version: Target version
+field_fixed_version: 目标版本
 field_user: 用户
 field_role: 角色
 field_homepage: 主页
@@ -154,12 +154,12 @@ field_attr_login: 登录名属性
 field_attr_firstname: 名字属性
 field_attr_lastname: 姓氏属性
 field_attr_mail: 邮件属性
-field_onthefly: 即时的用户生成
+field_onthefly: 即时用户生成
 field_start_date: 开始
 field_done_ratio: 完成度
 field_auth_source: 认证模式
 field_hide_mail: 隐藏我的邮件地址
-field_comments: 评论
+field_comments: 注释
 field_url: URL
 field_start_page: 起始页
 field_subproject: 子项目
@@ -170,14 +170,14 @@ field_identifier: 标识
 field_is_filter: 作为过滤条件
 field_issue_to_id: 相关问题
 field_delay: 延期
-field_assignable: 可分配给此角色的问题
+field_assignable: 问题可指派给此角色
 field_redirect_existing_links: 重定向到现有链接
 field_estimated_hours: 预期时间
 field_column_names: 列
 field_time_zone: 时区
 field_searchable: 可用作搜索条件
 field_default_value: 默认值
-field_comments_sorting: 显示评论
+field_comments_sorting: 显示注释
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题
@@ -188,12 +188,12 @@ setting_self_registration: 允许自注册
 setting_attachment_max_size: 附件大小限制
 setting_issues_export_limit: 问题输出条目的限制
 setting_mail_from: 邮件发件人地址
-setting_bcc_recipients: 抄送地址 (bcc)
+setting_bcc_recipients: 使用密件抄送 (bcc)
 setting_host_name: 主机名称
 setting_text_formatting: 文本格式
 setting_wiki_compression: 压缩Wiki历史文档
 setting_feeds_limit: RSS Feed内容条数限制
-setting_autofetch_changesets: 自动获取程序变动
+setting_autofetch_changesets: 自动获取程序变更
 setting_sys_api_enabled: 启用用于版本库管理的Web Service
 setting_commit_ref_keywords: 用于引用问题的关键字
 setting_commit_fix_keywords: 用于修订问题的关键字
@@ -204,7 +204,7 @@ setting_cross_project_issue_relations: 允许不同项目之间的问题关联
 setting_issue_list_default_columns: 问题列表中显示的默认列
 setting_repositories_encodings: 版本库编码
 setting_emails_footer: 邮件签名
-setting_protocol: 协议(Protocol)
+setting_protocol: 协议
 setting_per_page_options: 每页显示条目个数的设置
 setting_user_format: 用户显示格式
 setting_activity_days_default: 在项目活动中显示的天数
@@ -220,45 +220,45 @@ project_module_repository: 版本库
 project_module_boards: 讨论区
 
 label_user: 用户
-label_user_plural: 用户列表
+label_user_plural: 用户
 label_user_new: 新建用户
 label_project: 项目
 label_project_new: 新建项目
-label_project_plural: 项目列表
+label_project_plural: 项目
 label_project_all: 所有的项目
 label_project_latest: 最近更新的项目
 label_issue: 问题
 label_issue_new: 新建问题
-label_issue_plural: 问题列表
+label_issue_plural: 问题
 label_issue_view_all: 查看所有问题
 label_issues_by: 按 %s 分组显示问题
 label_issue_added: 问题已添加
 label_issue_updated: 问题已更新
 label_document: 文档
 label_document_new: 新建文档
-label_document_plural: 文档列表
+label_document_plural: 文档
 label_document_added: 文档已添加
 label_role: 角色
-label_role_plural: 角色列表
+label_role_plural: 角色
 label_role_new: 新建角色
 label_role_and_permissions: 角色和权限
 label_member: 成员
 label_member_new: 新建成员
-label_member_plural: 成员列表
+label_member_plural: 成员
 label_tracker: 跟踪标签
 label_tracker_plural: 跟踪标签
 label_tracker_new: 新建跟踪标签
 label_workflow: 工作流程
 label_issue_status: 问题状态
-label_issue_status_plural: 问题状态列表
+label_issue_status_plural: 问题状态
 label_issue_status_new: 新建问题状态
 label_issue_category: 问题类别
-label_issue_category_plural: 问题类别列表
+label_issue_category_plural: 问题类别
 label_issue_category_new: 新建问题类别
 label_custom_field: 自定义字段
-label_custom_field_plural: 自定义字段列表
+label_custom_field_plural: 自定义字段
 label_custom_field_new: 新建自定义字段
-label_enumerations: 枚举值列表
+label_enumerations: 枚举值
 label_enumeration_new: 新建枚举值
 label_information: 信息
 label_information_plural: 信息
@@ -268,7 +268,7 @@ label_password_lost: 忘记密码
 label_home: 主页
 label_my_page: 我的工作台
 label_my_account: 我的帐号
-label_my_projects: 我的项目列表
+label_my_projects: 我的项目
 label_administration: 管理
 label_login: 登录
 label_logout: 退出
@@ -280,14 +280,15 @@ label_last_updates: 最后更新
 label_last_updates_plural: %d 最后更新
 label_registered_on: 注册于
 label_activity: 活动
+label_overall_activity: 全部活动
 label_new: 新建
 label_logged_as: 登录为
 label_environment: 环境
 label_authentication: 认证
 label_auth_source: 认证模式
 label_auth_source_new: 新建认证模式
-label_auth_source_plural: 认证模式列表
-label_subproject_plural: 子项目列表
+label_auth_source_plural: 认证模式
+label_subproject_plural: 子项目
 label_min_max_length: 最小 - 最大 长度
 label_list: 列表
 label_date: 日期
@@ -301,18 +302,18 @@ label_attribute_plural: 属性
 label_download: %d 次下载
 label_download_plural: %d 次下载
 label_no_data: 没有任何数据可供显示
-label_change_status: 状态改变
+label_change_status: 变更状态
 label_history: 历史记录
 label_attachment: 文件
 label_attachment_new: 新建文件
 label_attachment_delete: 删除文件
-label_attachment_plural: 文件列表
+label_attachment_plural: 文件
 label_file_added: 文件已添加
 label_report: 报表
 label_report_plural: 报表
 label_news: 新闻
 label_news_new: 添加新闻
-label_news_plural: 新闻列表
+label_news_plural: 新闻
 label_news_latest: 最近的新闻
 label_news_view_all: 查看所有新闻
 label_news_added: 新闻已添加
@@ -321,17 +322,17 @@ label_settings: 配置
 label_overview: 概述
 label_version: 版本
 label_version_new: 新建版本
-label_version_plural: 版本列表
+label_version_plural: 版本
 label_confirmation: 确认
 label_export_to: 导出
 label_read: 读取...
-label_public_projects: 公开的项目列表
+label_public_projects: 公开的项目
 label_open_issues: 打开
 label_open_issues_plural: 打开
 label_closed_issues: 已关闭
 label_closed_issues_plural: 已关闭
 label_total: 合计
-label_permissions: 权限列表
+label_permissions: 权限
 label_current_status: 当前状态
 label_new_statuses_allowed: 可变更的新状态
 label_all: 全部
@@ -345,21 +346,21 @@ label_add_note: 添加说明
 label_per_page: 每页
 label_calendar: 日历
 label_months_from: 个月以来
-label_gantt: 甘特图(Gantt)
+label_gantt: 甘特图
 label_internal: 内部
-label_last_changes: 最近的 %d 次更新
-label_change_view_all: 查看所有更新
+label_last_changes: 最近的 %d 次变更
+label_change_view_all: 查看所有变更
 label_personalize_page: 个性化定制本页
 label_comment: 评论
-label_comment_plural: 评论列表
+label_comment_plural: 评论
 label_comment_add: 添加评论
 label_comment_added: 评论已添加
 label_comment_delete: 删除评论
 label_query: 自定义查询
-label_query_plural: 自定义查询列表
+label_query_plural: 自定义查询
 label_query_new: 新建查询
 label_filter_add: 增加过滤器
-label_filter_plural: 过滤器列表
+label_filter_plural: 过滤器
 label_equals: 等于
 label_not_equals: 不等于
 label_in_less_than: 剩余天数小于
@@ -393,8 +394,8 @@ label_added: 已添加
 label_modified: 已修改
 label_deleted: 已删除
 label_latest_revision: 最近的修订版本
-label_latest_revision_plural: 最近的修订版本列表
-label_view_revisions: 查看修订列表
+label_latest_revision_plural: 最近的修订版本
+label_view_revisions: 查看修订
 label_max_size: 最大尺寸
 label_on: 'on'
 label_sort_highest: 置顶
@@ -418,18 +419,18 @@ label_index_by_date: 按日期索引
 label_current_version: 当前版本
 label_preview: 预览
 label_feed_plural: Feeds
-label_changes_details: 所有更新的详情
+label_changes_details: 所有变更的详情
 label_issue_tracking: 问题跟踪
 label_spent_time: 耗时
 label_f_hour: %.2f 小时
 label_f_hour_plural: %.2f 小时
 label_time_tracking: 时间跟踪
-label_change_plural: 更新列表
+label_change_plural: 变更
 label_statistics: 统计
 label_commits_per_month: 每月提交次数
 label_commits_per_author: 每用户提交次数
-label_view_diff: 查看变动
-label_diff_inline: 在一行
+label_view_diff: 查看差别
+label_diff_inline: 直列
 label_diff_side_by_side: 并排
 label_options: 选项
 label_copy_workflow_from: 从以下项目复制工作流程
@@ -477,15 +478,15 @@ label_module_plural: 模块
 label_added_time_by: 由 %s 在 %s 之前添加
 label_updated_time:  更新于 %s 前
 label_jump_to_a_project: 选择一个项目...
-label_file_plural: 文件列表
-label_changeset_plural: 变动列表
+label_file_plural: 文件
+label_changeset_plural: 变更
 label_default_columns: 默认列
 label_no_change_option: (不变)
 label_bulk_edit_selected_issues: 批量修改选中的问题
 label_theme: 主题
 label_default: 默认
 label_search_titles_only: 仅在标题中搜索
-label_user_mail_option_all: "收取我所参与的项目的所有通知"
+label_user_mail_option_all: "收取我的项目的所有通知"
 label_user_mail_option_selected: "收取选中项目的所有通知..."
 label_user_mail_option_none: "只收取我跟踪或参与的项目的通知"
 label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
@@ -541,7 +542,7 @@ button_reset: 重置
 button_rename: 重命名
 button_change_password: 修改密码
 button_copy: 复制
-button_annotate: 注释
+button_annotate: 追溯
 button_update: 更新
 button_configure: 配置
 
@@ -549,13 +550,13 @@ status_active: 活动的
 status_registered: 已注册
 status_locked: 已锁定
 
-text_select_mail_notifications: 选择需要发送邮件通知的动作。
+text_select_mail_notifications: 选择需要发送邮件通知的动作
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 表示没有限制
 text_project_destroy_confirmation: 您确信要删除这个项目以及所有相关的数据吗？
-text_workflow_edit: 选择一个角色和跟踪标签来编辑这个工作流程
+text_workflow_edit: 选择角色和跟踪标签来编辑工作流程
 text_are_you_sure: 您确定？
-text_journal_changed: 从 %s 更改为 %s
+text_journal_changed: 从 %s 变更为 %s
 text_journal_set_to: 设置为 %s
 text_journal_deleted: 已删除
 text_tip_task_begin_day: 今天开始的任务
@@ -564,7 +565,7 @@ text_tip_task_begin_end_day: 今天开始并结束的任务
 text_project_identifier_info: '只允许使用小写字母（a-z），数字和连字符（-）。<br />请注意，标识符保存后将不可修改。'
 text_caracters_maximum: 最多 %d 个字符。
 text_caracters_minimum: 至少需要 %d 个字符。
-text_length_between: 长度必须在 %d 和 %d 个字符之间。
+text_length_between: 长度必须在 %d 到 %d 个字符之间。
 text_tracker_no_workflow: 此跟踪标签未定义工作流程
 text_unallowed_characters: 非法字符
 text_comma_separated: 可以使用多个值（用逗号,分开）。
@@ -576,9 +577,9 @@ text_issue_category_destroy_question: 有一些问题（%d 个）属于此类别
 text_issue_category_destroy_assignments: 删除问题的所属类别（问题变为无类别）
 text_issue_category_reassign_to: 为问题选择其它类别
 text_user_mail_option: "对于没有选中的项目，您将只会收到您跟踪或参与的项目的通知（比如说，您是问题的报告者, 或被指派解决此问题）。"
-text_no_configuration_data: "角色、跟踪标签、问题状态列表和工作流程还没有设置。\n强烈建议您先载入默认设置，然后在此基础上进行修改。"
+text_no_configuration_data: "角色、跟踪标签、问题状态和工作流程还没有设置。\n强烈建议您先载入默认设置，然后在此基础上进行修改。"
 text_load_default_configuration: 载入默认设置
-text_status_changed_by_changeset: 已应用到变动列表 %s.
+text_status_changed_by_changeset: 已应用到变更列表 %s.
 text_issues_destroy_confirmation: '您确定要删除选中的问题吗？'
 text_select_project_modules: '请选择此项目可以使用的模块：'
 text_default_administrator_account_changed: 默认的管理员帐号已改变
@@ -592,7 +593,7 @@ text_reassign_time_entries: '将已上报的工作量指定到此问题：'
 default_role_manager: 管理人员
 default_role_developper: 开发人员
 default_role_reporter: 报告人员
-default_tracker_bug: Bug
+default_tracker_bug: 错误
 default_tracker_feature: 功能
 default_tracker_support: 支持
 default_issue_status_new: 新建
@@ -614,5 +615,4 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-label_overall_activity: Overall activity
 setting_default_projects_public: New projects are public by default
