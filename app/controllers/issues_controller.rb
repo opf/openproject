@@ -142,7 +142,7 @@ class IssuesController < ApplicationController
         attach_files(@issue, params[:attachments])
         flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-        redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+        redirect_to :controller => 'issues', :action => 'show', :id => @issue,  :project_id => @project
         return
       end		
     end	
