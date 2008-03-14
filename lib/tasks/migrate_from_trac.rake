@@ -218,7 +218,7 @@ namespace :redmine do
         text = text.gsub(/\[wiki:([^\s\]]+).*\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
 
 	# Links to pages UsingJustCaps
-	text = text.gsub(/[^!]\b([A-Z][a-z]+[A-Z][a-zA-Z]+)/, '[[\1]]')
+	text = text.gsub(/[^!]\b([A-Z][a-z]+[A-Z][a-zA-Z]+)/, ' [[\1]]')
 	# Normalize things that were supposed to not be links
 	# like !NotALink
 	text = text.gsub(/(^| )!([A-Z][A-Za-z]+)/, '\1\2')
