@@ -20,6 +20,16 @@ class Repository < ActiveRecord::Base
   has_many :changesets, :dependent => :destroy, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
     
+  # Removes leading and trailing whitespace
+  def url=(arg)
+    write_attribute(:url, arg ? arg.to_s.strip : nil)
+  end
+  
+  # Removes leading and trailing whitespace
+  def root_url=(arg)
+    write_attribute(:root_url, arg ? arg.to_s.strip : nil)
+  end
+
   def scm
     @scm ||= self.scm_adapter.new url, root_url, login, password
     update_attribute(:root_url, @scm.root_url) if root_url.blank?
@@ -87,5 +97,14 @@ class Repository < ActiveRecord::Base
     klass.new(*args)
   rescue
     nil
+  end
+  
+  private
+  
+  def before_save
+    # Strips url and root_url
+    url.strip!
+    root_url.strip!
+    true
   end
 end

@@ -98,4 +98,13 @@ class RepositoryTest < Test::Unit::TestCase
     assert_not_equal( comment, changeset.comments )
     assert_equal( 'This is a loooooooooooooooooooooooooooong comment', changeset.comments )
   end
+  
+  def test_for_urls_strip
+    repository = Repository::Cvs.create(:project => Project.find(4), :url => ' :pserver:login:password@host:/path/to/the/repository',
+                                                                     :root_url => 'foo  ')
+    assert repository.save
+    repository.reload
+    assert_equal ':pserver:login:password@host:/path/to/the/repository', repository.url
+    assert_equal 'foo', repository.root_url
+  end
 end
