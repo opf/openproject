@@ -20,6 +20,8 @@ class TimelogController < ApplicationController
   menu_item :issues
   before_filter :find_project, :authorize
 
+  verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
+  
   helper :sort
   include SortHelper
   helper :issues
@@ -198,15 +200,23 @@ class TimelogController < ApplicationController
   end
   
   def edit
-    render_404 and return if @time_entry && @time_entry.user != User.current
+    render_403 and return if @time_entry && !@time_entry.editable_by?(User.current)
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
     @time_entry.attributes = params[:time_entry]
     if request.post? and @time_entry.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'details', :project_id => @time_entry.project, :issue_id => @time_entry.issue
+      redirect_to :action => 'details', :project_id => @time_entry.project
       return
     end    
     @activities = Enumeration::get_values('ACTI')
+  end
+  
+  def destroy
+    render_404 and return unless @time_entry
+    render_403 and return unless @time_entry.editable_by?(User.current)
+    @time_entry.destroy
+    flash[:notice] = l(:notice_successful_delete)
+    redirect_to :action => 'details', :project_id => @time_entry.project
   end
 
 private
@@ -223,5 +233,7 @@ private
       render_404
       return false
     end
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

@@ -50,7 +50,7 @@ class TimeEntry < ActiveRecord::Base
   
   # Returns true if the time entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    usr == self.user
+    (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
   end
   
   def self.visible_by(usr)

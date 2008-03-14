@@ -22,12 +22,55 @@ require 'timelog_controller'
 class TimelogController; def rescue_action(e) raise e end; end
 
 class TimelogControllerTest < Test::Unit::TestCase
-  fixtures :projects, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses
+  fixtures :projects, :roles, :members, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses
 
   def setup
     @controller = TimelogController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+  end
+  
+  def test_create
+    @request.session[:user_id] = 3
+    post :edit, :project_id => 1,
+                :time_entry => {:comments => 'Some work on TimelogControllerTest',
+                                :activity_id => '10',
+                                :spent_on => '2008-03-14',
+                                :issue_id => '1',
+                                :hours => '7.3'}
+    assert_redirected_to 'projects/ecookbook/timelog/details'
+    
+    i = Issue.find(1)
+    t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
+    assert_not_nil t
+    assert_equal 7.3, t.hours
+    assert_equal 3, t.user_id
+    assert_equal i, t.issue
+    assert_equal i.project, t.project
+  end
+  
+  def test_update
+    entry = TimeEntry.find(1)
+    assert_equal 1, entry.issue_id
+    assert_equal 2, entry.user_id
+    
+    @request.session[:user_id] = 1
+    post :edit, :id => 1,
+                :time_entry => {:issue_id => '2',
+                                :hours => '8'}
+    assert_redirected_to 'projects/ecookbook/timelog/details'
+    entry.reload
+    
+    assert_equal 8, entry.hours
+    assert_equal 2, entry.issue_id
+    assert_equal 2, entry.user_id
+  end
+  
+  def destroy
+    @request.session[:user_id] = 2
+    post :destroy, :id => 1
+    assert_redirected_to 'projects/ecookbook/timelog/details'
+    assert_nil TimeEntry.find_by_id(1)
   end
 
   def test_report_no_criteria

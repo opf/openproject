@@ -66,6 +66,8 @@ roles_001:
     - :view_calendar
     - :log_time
     - :view_time_entries
+    - :edit_time_entries
+    - :delete_time_entries
     - :manage_news
     - :comment_news
     - :view_documents
@@ -106,6 +108,7 @@ roles_002:
     - :view_calendar
     - :log_time
     - :view_time_entries
+    - :edit_own_time_entries
     - :manage_news
     - :comment_news
     - :view_documents

@@ -33,7 +33,7 @@
     <td><b><%=l(:field_category)%> :</b></td><td><%=h @issue.category ? @issue.category.name : "-" %></td>
     <% if User.current.allowed_to?(:view_time_entries, @project) %>
     <td><b><%=l(:label_spent_time)%> :</b></td>
-    <td><%= @issue.spent_hours > 0 ? (link_to lwr(:label_f_hour, @issue.spent_hours), {:controller => 'timelog', :action => 'details', :issue_id => @issue}, :class => 'icon icon-time') : "-" %></td>
+    <td><%= @issue.spent_hours > 0 ? (link_to lwr(:label_f_hour, @issue.spent_hours), {:controller => 'timelog', :action => 'details', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time') : "-" %></td>
     <% end %>
 </tr>
 <tr>
