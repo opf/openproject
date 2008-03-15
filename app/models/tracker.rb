@@ -18,7 +18,18 @@
 class Tracker < ActiveRecord::Base
   before_destroy :check_integrity  
   has_many :issues
-  has_many :workflows, :dependent => :delete_all
+  has_many :workflows, :dependent => :delete_all do
+    def copy(tracker)
+      raise "Can not copy workflow from a #{tracker.class}" unless tracker.is_a?(Tracker)
+      raise "Can not copy workflow from/to an unsaved tracker" if proxy_owner.new_record? || tracker.new_record?
+      clear
+      connection.insert "INSERT INTO workflows (tracker_id, old_status_id, new_status_id, role_id)" +
+                        " SELECT #{proxy_owner.id}, old_status_id, new_status_id, role_id" +
+                        " FROM workflows" +
+                        " WHERE tracker_id = #{tracker.id}"
+    end
+  end
+  
   has_and_belongs_to_many :projects
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_list

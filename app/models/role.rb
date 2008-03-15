@@ -21,7 +21,18 @@ class Role < ActiveRecord::Base
   BUILTIN_ANONYMOUS  = 2
   
   before_destroy :check_deletable
-  has_many :workflows, :dependent => :delete_all
+  has_many :workflows, :dependent => :delete_all do
+    def copy(role)
+      raise "Can not copy workflow from a #{role.class}" unless role.is_a?(Role)
+      raise "Can not copy workflow from/to an unsaved role" if proxy_owner.new_record? || role.new_record?
+      clear
+      connection.insert "INSERT INTO workflows (tracker_id, old_status_id, new_status_id, role_id)" +
+                        " SELECT tracker_id, old_status_id, new_status_id, #{proxy_owner.id}" +
+                        " FROM workflows" +
+                        " WHERE role_id = #{role.id}"
+    end
+  end
+  
   has_many :members
   acts_as_list
   
