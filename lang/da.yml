@@ -81,13 +81,13 @@ error_can_t_load_default_data: "Standard konfiguration kunne ikke indlæses: %s"
 error_scm_not_found: "Adgang og/eller revision blev ikke fundet i det valgte repository."
 error_scm_command_failed: "En fejl opstod under fobindelsen til det valgte repository: %s"
 
-mail_subject_lost_password: Dit Redmine kodeord
-mail_body_lost_password: 'For at ændre dit Redmine kodeord, klik på dette link:'
-mail_subject_register: Redmine konto aktivering
-mail_body_register: 'For at aktivere din Redmine konto, klik på dette link:'
-mail_body_account_information_external: Du kan bruge din "%s" konto til at logge ind på Redmine.
-mail_body_account_information: Din Redmine konto information
-mail_subject_account_activation_request: Redmine konto aktivering
+mail_subject_lost_password: Dit %s kodeord
+mail_body_lost_password: 'For at ændre dit kodeord, klik på dette link:'
+mail_subject_register: %s konto aktivering
+mail_body_register: 'For at aktivere din konto, klik på dette link:'
+mail_body_account_information_external: Du kan bruge din "%s" konto til at logge ind.
+mail_body_account_information: Din konto information
+mail_subject_account_activation_request: %s konto aktivering
 mail_body_account_activation_request: 'En ny bruger (%s) er registreret. Godkend venligst kontoen:'
 
 gui_validation_error: 1 fejl

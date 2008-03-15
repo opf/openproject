@@ -82,13 +82,13 @@ error_scm_not_found: SCM 儲存庫中找不到這個專案與(或)版本。
 error_scm_command_failed: "嘗試存取儲存庫時發生錯誤：: %s"
 error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
 
-mail_subject_lost_password: 您的 Redmine 網站密碼
-mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
-mail_subject_register: 啟用您的 Redmine 帳號
-mail_body_register: '欲啟用您的 Redmine 帳號, 請點選以下鏈結:'
-mail_body_account_information_external: 您可以使用 "%s" 帳號登入 Redmine 網站。
-mail_body_account_information: 您的 Redmine 帳號資訊
-mail_subject_account_activation_request: Redmine 帳號啟用需求通知
+mail_subject_lost_password: 您的 %s 網站密碼
+mail_body_lost_password: '欲變更您的 網站密碼, 請點選以下鏈結:'
+mail_subject_register: 啟用您的 %s 帳號
+mail_body_register: '欲啟用您的 帳號, 請點選以下鏈結:'
+mail_body_account_information_external: 您可以使用 "%s" 帳號登入 網站。
+mail_body_account_information: 您的 帳號資訊
+mail_subject_account_activation_request: %s 帳號啟用需求通知
 mail_body_account_activation_request: '有位新用戶 (%s) 已經完成註冊，正等候您的審核：'
 
 gui_validation_error: 1 個錯誤

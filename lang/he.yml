@@ -78,9 +78,9 @@ notice_no_issue_selected: "לא נבחר אף נושא! בחר בבקשה את �
 error_scm_not_found: כניסה ו\או גירסא אינם קיימים במאגר.
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
-mail_subject_lost_password: סיסמת ה-Redmine שלך
+mail_subject_lost_password: סיסמת ה-%s שלך
 mail_body_lost_password: 'לשינו סיסמת ה-Redmine שלך,לחץ על הקישור הבא:'
-mail_subject_register: הפעלת חשבון Redmine
+mail_subject_register: הפעלת חשבון %s
 mail_body_register: 'להפעלת חשבון ה-Redmine שלך, לחץ על הקישור הבא:'
 
 gui_validation_error: שגיאה 1
@@ -536,13 +536,13 @@ label_user_mail_option_none: "Only for things I watch or I'm involved in"
 setting_emails_footer: Emails footer
 label_float: Float
 button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
+mail_body_account_information_external: You can use your "%s" account to log in.
+mail_body_account_information: Your account information
 setting_protocol: Protocol
 label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
 setting_time_format: Time format
 label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
+mail_subject_account_activation_request: %s account activation request
 mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
 label_registration_automatic_activation: automatic account activation
 label_registration_manual_activation: manual account activation

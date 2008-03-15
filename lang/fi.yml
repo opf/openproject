@@ -81,13 +81,13 @@ error_can_t_load_default_data: "Vakio asetuksia ei voitu ladata: %s"
 error_scm_not_found: "Syötettä ja/tai versiota ei löydy säiliöstä."
 error_scm_command_failed: "Säiliöön pääsyssä tapahtui virhe: %s"
 
-mail_subject_lost_password: Sinun Redmine salasanasi
-mail_body_lost_password: 'Vaihtaaksesi Redmine salasanasi, paina seuraavaa linkkiä:'
-mail_subject_register: Redmine tilin aktivointi
-mail_body_register: 'Aktivoidaksesi Redmine tilisi, paina seuraavaa linkkiä:'
-mail_body_account_information_external: Voit nyt käyttää "%s" tiliäsi kirjautuaksesi Redmine järjestelmään.
-mail_body_account_information: Sinun Redmine tilin tiedot
-mail_subject_account_activation_request: Redmine tilin aktivointi pyyntö
+mail_subject_lost_password: Sinun %s salasanasi
+mail_body_lost_password: 'Vaihtaaksesi salasanasi, paina seuraavaa linkkiä:'
+mail_subject_register: %s tilin aktivointi
+mail_body_register: 'Aktivoidaksesi tilisi, paina seuraavaa linkkiä:'
+mail_body_account_information_external: Voit nyt käyttää "%s" tiliäsi kirjautuaksesi järjestelmään.
+mail_body_account_information: Sinun tilin tiedot
+mail_subject_account_activation_request: %s tilin aktivointi pyyntö
 mail_body_account_activation_request: 'Uusi käyttäjä (%s) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:'
 
 gui_validation_error: 1 virhe

@@ -82,13 +82,13 @@ error_scm_not_found: "版本库中不存在该条目和（或）其修订版本�
 error_scm_command_failed: "访问版本库时发生错误：%s"
 error_issue_not_found_in_project: '问题不存在或不属于此项目'
 
-mail_subject_lost_password: 您的Redmine密码
-mail_body_lost_password: '请点击以下链接来修改您的Redmine密码：'
-mail_subject_register: Redmine帐号激活
-mail_body_register: '请点击以下链接来激活您的Redmine帐号：'
-mail_body_account_information_external: 您可以使用您的 "%s" 帐号来登录Redmine。
-mail_body_account_information: 您的Redmine帐号信息
-mail_subject_account_activation_request: Redmine帐号激活请求
+mail_subject_lost_password: 您的 %s 密码
+mail_body_lost_password: '请点击以下链接来修改您的密码：'
+mail_subject_register: %s帐号激活
+mail_body_register: '请点击以下链接来激活您的帐号：'
+mail_body_account_information_external: 您可以使用您的 "%s" 帐号来登录。
+mail_body_account_information: 您的帐号信息
+mail_subject_account_activation_request: %s帐号激活请求
 mail_body_account_activation_request: '新用户（%s）已完成注册，正在等候您的审核：'
 
 gui_validation_error: 1 个错误

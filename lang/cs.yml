@@ -83,13 +83,13 @@ error_scm_not_found: "Položka a/nebo revize neexistují v repository."
 error_scm_command_failed: "Při pokusu o přístup k repository došlo k chybě: %s"
 error_issue_not_found_in_project: 'Úkol nebyl nalezen nebo nepatří k tomuto projektu'
 
-mail_subject_lost_password: Vaše heslo
+mail_subject_lost_password: Vaše heslo (%s)
 mail_body_lost_password: 'Pro změnu vašeho hesla klikněte na následující odkaz:'
-mail_subject_register: aktivace účtu
+mail_subject_register: Aktivace účtu (%s)
 mail_body_register: 'Pro aktivaci vašeho účtu klikněte na následující odkaz:'
-mail_body_account_information_external: Pomocí vašeho účtu "%s" se můžete přihlásit do Redmine.
-mail_body_account_information: Informace o vašem Redmine účtu
-mail_subject_account_activation_request: Aktivace Redmine účtu
+mail_body_account_information_external: Pomocí vašeho účtu "%s" se můžete přihlásit.
+mail_body_account_information: Informace o vašem účtu
+mail_subject_account_activation_request: Aktivace %s účtu
 mail_body_account_activation_request: Byl zaregistrován nový uživatel "%s". Aktivace jeho účtu závisí na vašem potvrzení.
 
 gui_validation_error: 1 chyba

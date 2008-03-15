@@ -76,9 +76,9 @@ notice_feeds_access_key_reseted: Вашия ключ за RSS достъп бе�
 error_scm_not_found: Несъществуващ обект в хранилището.
 error_scm_command_failed: "Грешка при опит за комуникация с хранилище: %s"
 
-mail_subject_lost_password: Вашата парола
+mail_subject_lost_password: Вашата парола (%s)
 mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
-mail_subject_register: Активация на акаунт
+mail_subject_register: Активация на акаунт (%s)
 mail_body_register: 'За да активирате акаунта си използвайте следния линк:'
 
 gui_validation_error: 1 грешка
@@ -536,13 +536,13 @@ label_user_mail_option_none: "Само за наблюдавани или в к�
 setting_emails_footer: Подтекст за e-mail
 label_float: Дробно
 button_copy: Копиране
-mail_body_account_information_external: Можете да използвате вашия "%s" акаунт за вход в Redmine.
-mail_body_account_information: Информацията за акаунта ви в Redmine
+mail_body_account_information_external: Можете да използвате вашия "%s" акаунт за вход.
+mail_body_account_information: Информацията за акаунта
 setting_protocol: Протокол
 label_user_mail_no_self_notified: "Не искам известия за извършени от мен промени"
 setting_time_format: Формат на часа
 label_registration_activation_by_email: активиране на акаунта по email
-mail_subject_account_activation_request: Заявка за активиране на акаунт в Redmine
+mail_subject_account_activation_request: Заявка за активиране на акаунт в %s
 mail_body_account_activation_request: 'Има новорегистриран потребител (%s), очакващ вашето одобрение:'
 label_registration_automatic_activation: автоматично активиране
 label_registration_manual_activation: ръчно активиране

@@ -78,12 +78,12 @@ notice_no_issue_selected: "Nijedna kartica nije izabrana! Molim, izaberite karti
 error_scm_not_found: "Unos i/ili revizija ne postoji u spremištu."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
-mail_subject_lost_password: Vaša redMine lozinka
-mail_body_lost_password: 'Da biste izmenili vašu Redmine lozinku, kliknite na sledeći link:'
-mail_subject_register: aktivacija redMine naloga
-mail_body_register: 'Da biste aktivirali vaš Redmine nalog, kliknite na sledeći link:'
-mail_body_account_information_external: Mozete koristiti vas "%s" nalog da bi ste se prikljucili na Redmine.
-mail_body_account_information: Informacije o vasem Redmine nalogu
+mail_subject_lost_password: Vaša %s lozinka
+mail_body_lost_password: 'Da biste izmenili vašu lozinku, kliknite na sledeći link:'
+mail_subject_register: Aktivacija %s naloga
+mail_body_register: 'Da biste aktivirali vaš nalog, kliknite na sledeći link:'
+mail_body_account_information_external: Mozete koristiti vas "%s" nalog da bi ste se prikljucili.
+mail_body_account_information: Informacije o vasem nalogu
 
 gui_validation_error: 1 greška
 gui_validation_error_plural: %d grešaka
@@ -543,7 +543,7 @@ setting_protocol: Protocol
 label_user_mail_no_self_notified: "Ne želim da budem obaveštavan o izmenama koje sam pravim"
 setting_time_format: Format vremena
 label_registration_activation_by_email: aktivacija naloga putem email-a
-mail_subject_account_activation_request: Redmine zahtev za aktivacijom naloga
+mail_subject_account_activation_request: %s zahtev za aktivacijom naloga
 mail_body_account_activation_request: 'Novi korisnik (%s) se registrovao. Njegov nalog čeka vaše odobrenje:'
 label_registration_automatic_activation: automatska aktivacija naloga
 label_registration_manual_activation: ručna aktivacija naloga

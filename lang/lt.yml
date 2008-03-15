@@ -80,13 +80,13 @@ notice_account_pending: "Jūsų paskyra buvo sukūrta ir dabar laukiama administ
 error_scm_not_found: "Duomenys ir/ar pakeitimai saugykloje(repozitorojoje) neegzistuoja."
 error_scm_command_failed: "Įvyko klaida jungiantis prie saugyklos: %s"
 
-mail_subject_lost_password: Jūsų Redmine slaptažodis
-mail_body_lost_password: 'Norėdami pakeisti Redmine slaptažodį, spauskite nuorodą:'
-mail_subject_register: 'Redmine paskyros aktyvavymas'
-mail_body_register: 'Norėdami aktyvuoti Redmine paskyrą, spauskite nuorodą:'
-mail_body_account_information_external: Jūs galite naudoti Jūsų "%s" paskyrą, norėdami prisijungti prie Redmine.
-mail_body_account_information: Informacija apie Jūsų Redmine paskyrą
-mail_subject_account_activation_request: Redmine paskyros aktyvavimo prašymas
+mail_subject_lost_password: Jūsų %s slaptažodis
+mail_body_lost_password: 'Norėdami pakeisti slaptažodį, spauskite nuorodą:'
+mail_subject_register: '%s paskyros aktyvavymas'
+mail_body_register: 'Norėdami aktyvuoti paskyrą, spauskite nuorodą:'
+mail_body_account_information_external: Jūs galite naudoti Jūsų "%s" paskyrą, norėdami prisijungti.
+mail_body_account_information: Informacija apie Jūsų paskyrą
+mail_subject_account_activation_request: %s paskyros aktyvavimo prašymas
 mail_body_account_activation_request: 'Užsiregistravo naujas vartotojas (%s). Jo paskyra laukia jūsų patvirtinimo:'
  
 gui_validation_error: 1 klaida

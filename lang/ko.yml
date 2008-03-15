@@ -78,9 +78,9 @@ notice_no_issue_selected: "이슈가 선택되지 않았습니다. 수정하기 
 error_scm_not_found: 소스 저장소에 해당 내용이 존재하지 않습니다.
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
-mail_subject_lost_password: 당신의 비밀번호
+mail_subject_lost_password: 당신의 비밀번호 (%s)
 mail_body_lost_password: '비밀번호를 변경하기 위해서 링크를 이용하세요'
-mail_subject_register: 당신의 계정 활성화
+mail_subject_register: 당신의 계정 활성화 (%s)
 mail_body_register: '계정을 활성화 하기 위해서 링크를 이용하세요 :'
 
 gui_validation_error: 1 에러
@@ -538,11 +538,11 @@ mail_body_account_information_external: 레드마인에 로그인할 때 "%s" �
 button_change_password: 비밀번호 변경
 label_nobody: nobody
 setting_protocol: 프로토콜
-mail_body_account_information: Redmine 계정 정보
+mail_body_account_information: 계정 정보
 label_user_mail_no_self_notified: "내가 만든 변경사항들에 대해서는 알림메일을 받지 않습니다."
 setting_time_format: 시간 형식
 label_registration_activation_by_email: 메일로 계정을 활성화하기
-mail_subject_account_activation_request: 레드마인 계정 활성화 요청
+mail_subject_account_activation_request: 레드마인 계정 활성화 요청 (%s)
 mail_body_account_activation_request: '새 계정(%s)이 등록되었습니다. 관리자님의 승인을 기다리고 있습니다.:'
 label_registration_automatic_activation: 자동 계정 활성화
 label_registration_manual_activation: 수동 계정 활성화

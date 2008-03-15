@@ -73,10 +73,10 @@ notice_not_authorized: Nie jesteś autoryzowany by zobaczyć stronę.
 error_scm_not_found: "Wejście i/lub zmiana nie istnieje w repozytorium."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
-mail_subject_lost_password: Twoje hasło do redMine
+mail_subject_lost_password: Twoje hasło do %s
 mail_body_lost_password: 'W celu zmiany swojego hasła użyj poniższego odnośnika:'
-mail_subject_register: Aktywacja konta w redMine
-mail_body_register: 'W celu aktywacji Twojego konta w Redmine, użyj poniższego odnośnika:'
+mail_subject_register: Aktywacja konta w %s
+mail_body_register: 'W celu aktywacji Twojego konta, użyj poniższego odnośnika:'
 
 gui_validation_error: 1 błąd
 gui_validation_error_plural: %d błędów
@@ -536,13 +536,13 @@ label_user_mail_option_none: "Tylko to co obserwuje lub w czym biorę udział"
 setting_emails_footer: Stopka e-mail
 label_float: Liczba rzeczywista
 button_copy: Kopia
-mail_body_account_information_external: Możesz użyć twojego "%s" konta do zalogowania do Redmine.
-mail_body_account_information: Twoje konto w Redmine
+mail_body_account_information_external: Możesz użyć twojego "%s" konta do zalogowania.
+mail_body_account_information: Twoje konto
 setting_protocol: Protokoł
 label_user_mail_no_self_notified: "Nie chcę powiadomień o zmianach, które sam wprowadzam."
 setting_time_format: Format czasu
 label_registration_activation_by_email: aktywacja konta przez e-mail
-mail_subject_account_activation_request: Zapytanie aktywacyjne konta Redmine
+mail_subject_account_activation_request: Zapytanie aktywacyjne konta %s
 mail_body_account_activation_request: 'Zarejestrowano nowego użytkownika: (%s). Konto oczekuje na twoje zatwierdzenie:'
 label_registration_automatic_activation: automatyczna aktywacja kont
 label_registration_manual_activation: manualna aktywacja kont

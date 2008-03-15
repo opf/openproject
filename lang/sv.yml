@@ -76,10 +76,10 @@ notice_feeds_access_key_reseted: Your RSS access key was reseted.
 error_scm_not_found: "Inlägg och/eller revision finns inte i repositoriet."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
-mail_subject_lost_password: Ditt redMine lösenord
+mail_subject_lost_password: Ditt %s lösenord
 mail_body_lost_password: 'För att ändra lösenord, följ denna länk:'
-mail_subject_register: redMine kontoaktivering
-mail_body_register: 'För att aktivera ditt Redmine-konto, använd följande länk.'
+mail_subject_register: Ditt %s kontoaktivering
+mail_body_register: 'För att aktivera ditt konto, använd följande länk.'
 
 gui_validation_error: 1 fel
 gui_validation_error_plural: %d fel
@@ -537,13 +537,13 @@ label_user_mail_option_none: "Only for things I watch or I'm involved in"
 setting_emails_footer: Emails footer
 label_float: Float
 button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
+mail_body_account_information_external: You can use your "%s" account to log in.
+mail_body_account_information: Your account information
 setting_protocol: Protocol
 label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
 setting_time_format: Time format
 label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
+mail_subject_account_activation_request: %s account activation request
 mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
 label_registration_automatic_activation: automatic account activation
 label_registration_manual_activation: manual account activation

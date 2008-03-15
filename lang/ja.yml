@@ -77,10 +77,10 @@ notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました�
 error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
 error_scm_command_failed: "リポジトリへアクセスしようとしてエラーになりました: %s"
 
-mail_subject_lost_password: Redmineパスワード
+mail_subject_lost_password: %sパスワード
 mail_body_lost_password: 'パスワードを変更するには、以下のリンクをたどってください:'
-mail_subject_register: Redmineアカウントが有効になりました
-mail_body_register: 'Redmineアカウントをアクティブにするには、以下のリンクをたどってください:'
+mail_subject_register: %sアカウントが有効になりました
+mail_body_register: 'アカウントをアクティブにするには、以下のリンクをたどってください:'
 
 gui_validation_error: 1件のエラー
 gui_validation_error_plural: %d件のエラー
@@ -537,13 +537,13 @@ label_user_mail_option_none: "ウォッチまたは関係しているチケッ�
 setting_emails_footer: メールのフッタ
 label_float: 小数
 button_copy: コピー
-mail_body_account_information_external: 「%s」アカウントを使ってRedmineにログインできます。
-mail_body_account_information: Redmineアカウント情報
+mail_body_account_information_external: 「%s」アカウントを使ってにログインできます。
+mail_body_account_information: アカウント情報
 setting_protocol: プロトコル
 label_user_mail_no_self_notified: 自分自身による変更の通知は不要です
 setting_time_format: 時刻の形式
 label_registration_activation_by_email: メールでアカウントを有効化
-mail_subject_account_activation_request: Redminアカウントの有効化要求
+mail_subject_account_activation_request: %sアカウントの有効化要求
 mail_body_account_activation_request: 新しいユーザ(%s)が登録しています。このアカウントはあなたの承認待ちです：
 label_registration_automatic_activation: 自動でアカウントを有効化
 label_registration_manual_activation: 手動でアカウントを有効化

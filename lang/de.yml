@@ -82,13 +82,13 @@ error_scm_not_found: Eintrag und/oder Revision besteht nicht im Projektarchiv.
 error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %s"
 error_issue_not_found_in_project: 'Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt.'
 
-mail_subject_lost_password: Ihr Redmine-Kennwort
+mail_subject_lost_password: Ihr %s Kennwort
 mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
-mail_subject_register: Redmine Kontoaktivierung
+mail_subject_register: %s Kontoaktivierung
 mail_body_register: 'Um Ihr Konto zu aktivieren, benutzen Sie folgenden Link:'
-mail_body_account_information_external: Sie können sich mit Ihrem Konto "%s" an Redmine anmelden.
-mail_body_account_information: Ihre Redmine Konto-Informationen
-mail_subject_account_activation_request: Antrag auf Redmine Kontoaktivierung
+mail_body_account_information_external: Sie können sich mit Ihrem Konto "%s" an anmelden.
+mail_body_account_information: Ihre Konto-Informationen
+mail_subject_account_activation_request: Antrag auf %s Kontoaktivierung
 mail_body_account_activation_request: 'Ein neuer Benutzer (%s) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:'
 
 gui_validation_error: 1 Fehler

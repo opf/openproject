@@ -76,10 +76,10 @@ notice_feeds_access_key_reseted: Your RSS access key was reseted.
 error_scm_not_found: "Deze ingang of revisie bestaat niet in de repository."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
-mail_subject_lost_password: Uw redMine wachtwoord
+mail_subject_lost_password: Uw %s wachtwoord
 mail_body_lost_password: 'Gebruik de volgende link om Uw wachtwoord te wijzigen:'
-mail_subject_register: redMine account activatie
-mail_body_register: 'Gebruik de volgende link om Uw Redmine account te activeren:'
+mail_subject_register: Uw %s account activatie
+mail_body_register: 'Gebruik de volgende link om Uw account te activeren:'
 
 gui_validation_error: 1 fout
 gui_validation_error_plural: %d fouten
@@ -537,13 +537,13 @@ label_user_mail_option_none: "Only for things I watch or I'm involved in"
 setting_emails_footer: Emails footer
 label_float: Float
 button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
+mail_body_account_information_external: You can use your "%s" account to log in.
+mail_body_account_information: Your account information
 setting_protocol: Protocol
 label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
 setting_time_format: Time format
 label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
+mail_subject_account_activation_request: %s account activation request
 mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
 label_registration_automatic_activation: automatic account activation
 label_registration_manual_activation: manual account activation

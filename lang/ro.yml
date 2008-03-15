@@ -76,10 +76,10 @@ notice_feeds_access_key_reseted: Parola de acces RSS a fost resetat.
 error_scm_not_found: "Articolul sau reviziunea nu exista in stoc (Repository)."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
-mail_subject_lost_password: Your Redmine password
-mail_body_lost_password: 'To change your Redmine password, click on the following link:'
-mail_subject_register: Redmine account activation
-mail_body_register: 'To activate your Redmine account, click on the following link:'
+mail_subject_lost_password: Your %s password
+mail_body_lost_password: 'To change your password, click on the following link:'
+mail_subject_register: Your %s account activation
+mail_body_register: 'To activate your account, click on the following link:'
 
 gui_validation_error: 1 eroare
 gui_validation_error_plural: %d erori
@@ -536,13 +536,13 @@ label_user_mail_option_none: "Only for things I watch or I'm involved in"
 setting_emails_footer: Emails footer
 label_float: Float
 button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
+mail_body_account_information_external: You can use your "%s" account to log in.
+mail_body_account_information: Your account information
 setting_protocol: Protocol
 label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
 setting_time_format: Time format
 label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
+mail_subject_account_activation_request: %s account activation request
 mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
 label_registration_automatic_activation: automatic account activation
 label_registration_manual_activation: manual account activation

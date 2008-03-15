@@ -82,13 +82,13 @@ error_scm_not_found: "Entry and/or revision doesn't exist in the repository."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
 
-mail_subject_lost_password: Your Redmine password
-mail_body_lost_password: 'To change your Redmine password, click on the following link:'
-mail_subject_register: Redmine account activation
-mail_body_register: 'To activate your Redmine account, click on the following link:'
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
-mail_subject_account_activation_request: Redmine account activation request
+mail_subject_lost_password: Your %s password
+mail_body_lost_password: 'To change your password, click on the following link:'
+mail_subject_register: Your %s account activation
+mail_body_register: 'To activate your account, click on the following link:'
+mail_body_account_information_external: You can use your "%s" account to log in.
+mail_body_account_information: Your account information
+mail_subject_account_activation_request: %s account activation request
 mail_body_account_activation_request: 'A new user (%s) has registered. His account is pending your approval:'
 
 gui_validation_error: 1 error

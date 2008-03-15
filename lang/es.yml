@@ -73,10 +73,10 @@ notice_not_authorized: No tiene autorización para acceder a esta página.
 error_scm_not_found: "La entrada y/o la revisión no existe en el repositorio."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
-mail_subject_lost_password: Tu contraseña del CIYAT - Gestor de Solicitudes
-mail_body_lost_password: 'Para cambiar su contraseña de Redmine, haga click en el siguiente enlace:'
-mail_subject_register: Activación de la cuenta del CIYAT - Gestor de Solicitudes
-mail_body_register: 'Para activar su cuenta Redmine, haga click en el siguiente enlace:'
+mail_subject_lost_password: Tu contraseña del %s
+mail_body_lost_password: 'Para cambiar su contraseña, haga click en el siguiente enlace:'
+mail_subject_register: Activación de la cuenta del %s
+mail_body_register: 'Para activar su cuenta, haga click en el siguiente enlace:'
 
 gui_validation_error: 1 error
 gui_validation_error_plural: %d errores
@@ -539,14 +539,14 @@ label_user_mail_option_none: "Sólo para elementos monitorizados o relacionados 
 setting_emails_footer: Pie de mensajes
 label_float: Flotante
 button_copy: Copiar
-mail_body_account_information_external: Puede usar su cuenta "%s" para conectarse a Redmine.
-mail_body_account_information: Información sobre su cuenta de Redmine
+mail_body_account_information_external: Puede usar su cuenta "%s" para conectarse.
+mail_body_account_information: Información sobre su cuenta
 setting_protocol: Protocolo
 text_caracters_minimum: %d carácteres como mínimo
 field_time_zone: Zona horaria
 label_registration_activation_by_email: activación de cuenta por correo
 label_user_mail_no_self_notified: "No quiero ser avisado de cambios hechos por mí"
-mail_subject_account_activation_request: Petición de activación de cuenta Redmine
+mail_subject_account_activation_request: Petición de activación de cuenta %s
 mail_body_account_activation_request: "Un nuevo usuario (%s) ha sido registrado. Esta cuenta está pendiende de aprobación"
 label_registration_automatic_activation: activación automática de cuenta
 label_registration_manual_activation: activación manual de cuenta
