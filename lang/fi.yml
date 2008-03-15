@@ -126,7 +126,7 @@ field_subject: Aihe
 field_due_date: Määräaika
 field_assigned_to: Nimetty
 field_priority: Prioriteetti
-field_fixed_version: Target version
+field_fixed_version: Kohde versio
 field_user: Käyttäjä
 field_role: Rooli
 field_homepage: Kotisivu
@@ -345,7 +345,6 @@ label_equals: yhtä kuin
 label_not_equals: epäsuuri kuin
 label_in_less_than: pienempi kuin
 label_in_more_than: suurempi kuin
-label_in:
 label_today: tänään
 label_this_week: tällä viikolla
 label_less_than_ago: vähemmän kuin päivää sitten
@@ -353,9 +352,9 @@ label_more_than_ago: enemän kuin päivää sitten
 label_ago: päiviä sitten
 label_contains: sisältää
 label_not_contains: ei sisällä
-label_day_plural: päivät
+label_day_plural: päivää
 label_repository: Säiliö
-label_repository_plural: Säiliötä
+label_repository_plural: Säiliöt
 label_browse: Selaus
 label_modification: %d muutos
 label_modification_plural: %d muutettu
@@ -368,7 +367,6 @@ label_latest_revision: Viimeisin versio
 label_latest_revision_plural: Viimeisimmät versiot
 label_view_revisions: Näytä versiot
 label_max_size: Maksimi koko
-label_on:
 label_sort_highest: Siirrä ylimmäiseksi
 label_sort_higher: Siirrä ylös
 label_sort_lower: Siirrä alas
@@ -438,8 +436,6 @@ label_send_information: Lähetä tilin tiedot käyttäjälle
 label_year: Vuosi
 label_month: Kuukausi
 label_week: Viikko
-label_date_from:
-label_date_to:
 label_language_based: Pohjautuen käyttäjän kieleen
 label_sort_by: Lajittele %s
 label_send_test_email: Lähetä testi sähköposti
@@ -455,7 +451,7 @@ label_no_change_option: (Ei muutosta)
 label_bulk_edit_selected_issues: Perusmuotoile valitut tapahtumat
 label_theme: Teema
 label_default: Vakio
-label_search_titles_only: Haek vain otsikot
+label_search_titles_only: Hae vain otsikot
 label_user_mail_option_all: "Kaikista tapahtumista kaikissa projekteistani"
 label_user_mail_option_selected: "Kaikista tapahtumista vain valitsemistani projekteista..."
 label_user_mail_option_none: "Vain tapahtumista joita valvon tai olen mukana"
@@ -594,12 +590,9 @@ label_ldap_authentication: LDAP autentikointi
 label_downloads_abbr: D/L
 label_add_another_file: Lisää uusi tiedosto
 label_this_month: tässä kuussa
-label_date_to:
 text_destroy_time_entries_question: %.02f tuntia on raportoitu tapahtumasta jonka aiot poistaa. Mitä haluat tehdä ?
-label_date_from: 
 label_last_n_days: viimeiset %d päivää
 label_all_time: koko ajalta
-label_in:
 error_issue_not_found_in_project: 'Tapahtumaa ei löytynyt tai se ei kuulu tähän projektiin'
 label_this_year: tänä vuonna
 text_assign_time_entries_to_project: Määritä tunnit projektille
@@ -611,14 +604,14 @@ label_last_month: viime kuussa
 text_destroy_time_entries: Poista raportoidut tunnit
 text_reassign_time_entries: 'Siirrä raportoidut tunnit tälle tapahtumalle:'
 label_on: ''
-label_chronological_order: In chronological order
-label_date_to: To
-setting_activity_days_default: Days displayed on project activity
-label_date_from: From
-label_in: in
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-label_overall_activity: Overall activity
+label_chronological_order: Aikajärjestyksessä
+label_date_to: ''
+setting_activity_days_default: Päivien esittäminen projektien historiassa
+label_date_from: ''
+label_in: ''
+setting_display_subprojects_issues: Näytä alaprojektien tapahtumat pääprojektissa oletusarvoisesti
+field_comments_sorting: Näytä kommentit
+label_reverse_chronological_order: Käänteisessä aikajärjestyksessä
+label_preferences: Asetukset
 setting_default_projects_public: New projects are public by default
+label_overall_activity: Overall activity

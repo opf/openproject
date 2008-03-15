@@ -1,10 +1,10 @@
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
-actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_day_prefix: 
 actionview_datehelper_select_month_names: Leden,Únor,Březen,Duben,Květen,Červen,Červenec,Srpen,Září,Říjen,Listopad,Prosinec
 actionview_datehelper_select_month_names_abbr: Led,Úno,Bře,Dub,Kvě,Čer,Čvc,Srp,Zář,Říj,Lis,Pro
-actionview_datehelper_select_month_prefix:
-actionview_datehelper_select_year_prefix:
+actionview_datehelper_select_month_prefix: 
+actionview_datehelper_select_year_prefix: 
 actionview_datehelper_time_in_words_day: 1 den
 actionview_datehelper_time_in_words_day_plural: %d dny
 actionview_datehelper_time_in_words_hour_about: asi hodinu
@@ -22,16 +22,16 @@ actionview_instancetag_blank_option: Prosím vyberte
 activerecord_error_inclusion: není zahrnuto v seznamu
 activerecord_error_exclusion: je rezervováno
 activerecord_error_invalid: je neplatné
-activerecord_error_confirmation: doesn't match confirmation
-activerecord_error_accepted: must be accepted
+activerecord_error_confirmation: se neshoduje s potvrzením
+activerecord_error_accepted: musí být akceptováno
 activerecord_error_empty: nemůže být prázdný
 activerecord_error_blank: nemůže být prázdný
 activerecord_error_too_long: je příliš dlouhý
 activerecord_error_too_short: je příliš krátký
 activerecord_error_wrong_length: má chybnou délku
-activerecord_error_taken: has already been taken
+activerecord_error_taken: je již použito
 activerecord_error_not_a_number: není číslo
-activerecord_error_not_a_date: není platný datum
+activerecord_error_not_a_date: není platné datum
 activerecord_error_greater_than_start_date: musí být větší než počáteční datum
 activerecord_error_not_same_project: nepatří stejnému projektu
 activerecord_error_circular_dependency: Tento vztah by vytvořil cyklickou závislost
@@ -45,7 +45,7 @@ general_fmt_time: %%I:%%M %%p
 general_text_No: 'Ne'
 general_text_Yes: 'Ano'
 general_text_no: 'ne'
-general_text_yes: 'Ano'
+general_text_yes: 'ano'
 general_lang_name: 'Čeština'
 general_csv_separator: ','
 general_csv_encoding: UTF-8
@@ -62,31 +62,42 @@ notice_account_unknown_email: Neznámý uživatel.
 notice_can_t_change_password: Tento účet používá externí autentifikaci. Zde heslo změnit nemůžete.
 notice_account_lost_email_sent: Byl vám zaslán email s intrukcemi jak si nastavíte nové heslo.
 notice_account_activated: Váš účet byl aktivován. Nyní se můžete přihlásit.
-notice_successful_create: Úspěšné vytvoření.
-notice_successful_update: Úspěšná aktualizace.
-notice_successful_delete: Úspěšné smazání.
+notice_successful_create: Úspěšně vytvořeno.
+notice_successful_update: Úspěšně aktualizováno.
+notice_successful_delete: Úspěšně odstraněno.
 notice_successful_connection: Úspěšné připojení.
 notice_file_not_found: Stránka na kterou se snažíte zobrazit neexistuje nebo byla smazána.
 notice_locking_conflict: Údaje byly změněny jiným uživatelem.
+notice_scm_error: Entry and/or revision doesn't exist in the repository.
 notice_not_authorized: Nemáte dostatečná práva pro zobrazení této stránky.
 notice_email_sent: Na adresu %s byl odeslán email
 notice_email_error: Při odesílání emailu nastala chyba (%s)
 notice_feeds_access_key_reseted: Váš klíč pro přístup k RSS byl resetován.
+notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
+notice_no_issue_selected: "Nebyl zvolen žádný úkol. Prosím, zvolte úkoly, které chcete editovat"
+notice_account_pending: "Váš účet byl vytvořen, nyní čeká na schválení administrátorem."
+notice_default_data_loaded: Výchozí konfigurace úspěšně nahrána.
 
-error_scm_not_found: "Entry and/or revision doesn't exist in the repository."
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_can_t_load_default_data: "Výchozí konfigurace nebyla nahrána: %s"
+error_scm_not_found: "Položka a/nebo revize neexistují v repository."
+error_scm_command_failed: "Při pokusu o přístup k repository došlo k chybě: %s"
+error_issue_not_found_in_project: 'Úkol nebyl nalezen nebo nepatří k tomuto projektu'
 
 mail_subject_lost_password: Vaše heslo
-mail_body_lost_password: 'To change your Redmine password, click on the following link:'
+mail_body_lost_password: 'Pro změnu vašeho hesla klikněte na následující odkaz:'
 mail_subject_register: aktivace účtu
-mail_body_register: 'To activate your Redmine account, click on the following link:'
+mail_body_register: 'Pro aktivaci vašeho účtu klikněte na následující odkaz:'
+mail_body_account_information_external: Pomocí vašeho účtu "%s" se můžete přihlásit do Redmine.
+mail_body_account_information: Informace o vašem Redmine účtu
+mail_subject_account_activation_request: Aktivace Redmine účtu
+mail_body_account_activation_request: Byl zaregistrován nový uživatel "%s". Aktivace jeho účtu závisí na vašem potvrzení.
 
 gui_validation_error: 1 chyba
 gui_validation_error_plural: %d chyb(y)
 
 field_name: Jméno
 field_description: Popis
-field_summary: Shrnutí
+field_summary: Přehled
 field_is_required: Požadovaný
 field_firstname: Jméno
 field_lastname: Příjmení
@@ -105,30 +116,30 @@ field_min_length: Minimální délka
 field_max_length: Maximální délka
 field_value: Hodnota
 field_category: Kategorie
-field_title: Titulek
+field_title: Název
 field_project: Projekt
-field_issue: Požadavek
+field_issue: Úkol
 field_status: Stav
 field_notes: Poznámka
-field_is_closed: Požadavek uzavřen
+field_is_closed: Úkol uzavřen
 field_is_default: Výchozí stav
 field_tracker: Fronta
 field_subject: Předmět
-field_due_date: Po lhůtě
+field_due_date: Uzavřít do
 field_assigned_to: Přiřazeno
 field_priority: Priorita
-field_fixed_version: Target version
+field_fixed_version: Přiřazeno k verzi
 field_user: Uživatel
 field_role: Role
 field_homepage: Úvodní
 field_is_public: Veřejný
-field_parent: Podprojekt
-field_is_in_chlog: Požadavky zobrazené v změnovém logu
-field_is_in_roadmap: Požadavky zobrazené v roadmapě
+field_parent: Nadřazený projekt
+field_is_in_chlog: Úkoly zobrazené v změnovém logu
+field_is_in_roadmap: Úkoly zobrazené v plánu
 field_login: Přihlášení
-field_mail_notification: Emailové oznámení
+field_mail_notification: Emailová oznámení
 field_admin: Administrátor
-field_last_login_on: Poslední připojení
+field_last_login_on: Poslední přihlášení
 field_language: Jazyk
 field_effective_date: Datum
 field_password: Heslo
@@ -140,12 +151,12 @@ field_host: Host
 field_port: Port
 field_account: Účet
 field_base_dn: Base DN
-field_attr_login: Login attribute
-field_attr_firstname: Firstname attribute
-field_attr_lastname: Lastname attribute
-field_attr_mail: Email attribute
+field_attr_login: Přihlášení (atribut)
+field_attr_firstname: Jméno (atribut)
+field_attr_lastname: Příjemní (atribut)
+field_attr_mail: Email (atribut)
 field_onthefly: Automatické vytváření uživatelů
-field_start_date: Start
+field_start_date: Začátek
 field_done_ratio: %% Hotovo
 field_auth_source: Autentifikační mód
 field_hide_mail: Nezobrazovat můj email
@@ -157,32 +168,58 @@ field_hours: Hodiny
 field_activity: Aktivita
 field_spent_on: Datum
 field_identifier: Identifikátor
-field_is_filter: Used as a filter
-field_issue_to_id: Vztažený požadavek
+field_is_filter: Použít jako filtr
+field_issue_to_id: Související úkol
 field_delay: Zpoždění
-field_assignable: Požadavky mohou být přiřazeny této roli
-field_default_value: Výchozí stav
+field_assignable: Úkoly mohou být přiřazeny této roli
+field_redirect_existing_links: Přesměrovat stvávající odkazy
+field_estimated_hours: Odhadovaná doba
+field_column_names: Sloupce
+field_time_zone: Časové pásmo
+field_searchable: Umožnit vyhledávání
+field_default_value: Výchozí hodnota
+field_comments_sorting: Zobrazit komentáře
 
-setting_app_title: Titulek aplikace
+setting_app_title: Název aplikace
 setting_app_subtitle: Podtitulek aplikace
 setting_welcome_text: Uvítací text
 setting_default_language: Výchozí jazyk
 setting_login_required: Auten. vyžadována
 setting_self_registration: Povolena automatická registrace
 setting_attachment_max_size: Maximální velikost přílohy
-setting_issues_export_limit: Limit pro export požadavků
-setting_mail_from: Emission mail adresa
+setting_issues_export_limit: Limit pro export úkolů
+setting_mail_from: Odesílat emaily z adresy
+setting_bcc_recipients: Příjemci skryté kopie (bcc)
 setting_host_name: Host name
 setting_text_formatting: Formátování textu
 setting_wiki_compression: Komperese historie Wiki
 setting_feeds_limit: Feed content limit
+setting_default_projects_public: Nové projekty nastavovat jako veřejné
 setting_autofetch_changesets: Autofetch commits
 setting_sys_api_enabled: Povolit WS pro správu repozitory
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
+setting_commit_ref_keywords: Klíčová slova pro odkazy
+setting_commit_fix_keywords: Klíčová slova pro uzavření
 setting_autologin: Automatické přihlašování
-setting_date_format: Formát datumu
-setting_cross_project_issue_relations: Povolit vztahy požadavků mezi projekty
+setting_date_format: Formát data
+setting_time_format: Formát času
+setting_cross_project_issue_relations: Povolit vazby úkolů napříč projekty
+setting_issue_list_default_columns: Výchozí sloupce zobrazené v seznamu úkolů
+setting_repositories_encodings: Repositories encodings
+setting_emails_footer: Patička emailů
+setting_protocol: Protokol
+setting_per_page_options: Objects per page options
+setting_user_format: Users display format
+setting_activity_days_default: Days displayed on project activity
+setting_display_subprojects_issues: Display subprojects issues on main projects by default
+
+project_module_issue_tracking: Sledování úkolů
+project_module_time_tracking: Sledování času
+project_module_news: Novinky
+project_module_documents: Dokumenty
+project_module_files: Soubory
+project_module_wiki: Wiki
+project_module_repository: Repository
+project_module_boards: Diskuse
 
 label_user: Uživatel
 label_user_plural: Uživatelé
@@ -192,13 +229,17 @@ label_project_new: Nový projekt
 label_project_plural: Projekty
 label_project_all: Všechny projekty
 label_project_latest: Poslední projekty
-label_issue: Požadavek
-label_issue_new: Nový požadavek
-label_issue_plural: Požadavky
-label_issue_view_all: Všechny požadavky
+label_issue: Úkol
+label_issue_new: Nový úkol
+label_issue_plural: Úkoly
+label_issue_view_all: Všechny úkoly
+label_issues_by: Úkoly od uživatele %s
+label_issue_added: Úkol přidán
+label_issue_updated: Úkol aktualizován
 label_document: Dokument
 label_document_new: Nový dokument
 label_document_plural: Dokumenty
+label_document_added: Dokument přidán
 label_role: Role
 label_role_plural: Role
 label_role_new: Nová role
@@ -210,16 +251,16 @@ label_tracker: Fronta
 label_tracker_plural: Fronty
 label_tracker_new: Nová fronta
 label_workflow: Workflow
-label_issue_status: Stav požadavku
-label_issue_status_plural: Stavy požadavku
+label_issue_status: Stav úkolu
+label_issue_status_plural: Stavy úkolů
 label_issue_status_new: Nový stav
-label_issue_category: Kategorie požadavku
-label_issue_category_plural: Kategorie požadavku
+label_issue_category: Kategorie úkolu
+label_issue_category_plural: Kategorie úkolů
 label_issue_category_new: Nová kategorie
 label_custom_field: Uživatelské pole
-label_custom_field_plural: Uživatelské pole
+label_custom_field_plural: Uživatelská pole
 label_custom_field_new: Nové uživatelské pole
-label_enumerations: Číselníky
+label_enumerations: Seznamy
 label_enumeration_new: Nová hodnota
 label_information: Informace
 label_information_plural: Informace
@@ -234,13 +275,14 @@ label_administration: Administrace
 label_login: Přihlášení
 label_logout: Odhlášení
 label_help: Nápověda
-label_reported_issues: Nahlášené požadavky
-label_assigned_to_me_issues: Moje požadavky
+label_reported_issues: Nahlášené úkoly
+label_assigned_to_me_issues: Mé úkoly
 label_last_login: Poslední přihlášení
 label_last_updates: Poslední změna
 label_last_updates_plural: %d poslední změny
-label_registered_on: Registered on
+label_registered_on: Registrován
 label_activity: Aktivita
+label_overall_activity: Celková aktivita
 label_new: Nový
 label_logged_as: Přihlášen jako
 label_environment: Prostředí
@@ -252,8 +294,9 @@ label_subproject_plural: Podprojekty
 label_min_max_length: Min - Max délka
 label_list: Seznam
 label_date: Datum
-label_integer: Integer
-label_boolean: Boolean
+label_integer: Celé číslo
+label_float: Desetiné číslo
+label_boolean: Ano/Ne
 label_string: Text
 label_text: Dlouhý text
 label_attribute: Atribut
@@ -265,23 +308,25 @@ label_change_status: Změnit stav
 label_history: Historie
 label_attachment: Soubor
 label_attachment_new: Nový soubor
-label_attachment_delete: Smazat soubor
+label_attachment_delete: Odstranit soubor
 label_attachment_plural: Soubory
-label_report: Report
-label_report_plural: Reporty
+label_file_added: Soubor přidán
+label_report: Přeheled
+label_report_plural: Přehledy
 label_news: Novinky
 label_news_new: Přidat novinku
 label_news_plural: Novinky
 label_news_latest: Poslední novinky
 label_news_view_all: Zobrazit všechny novinky
-label_change_log: Change log
+label_news_added: Novinka přidána
+label_change_log: Protokol změn
 label_settings: Nastavení
 label_overview: Přehled
 label_version: Verze
 label_version_new: Nová verze
 label_version_plural: Verze
 label_confirmation: Potvrzení
-label_export_to: Exportovat do
+label_export_to: 'Také k dispozici:'
 label_read: Načítá se...
 label_public_projects: Veřejné projekty
 label_open_issues: otevřený
@@ -294,15 +339,16 @@ label_current_status: Aktuální stav
 label_new_statuses_allowed: Nové povolené stavy
 label_all: vše
 label_none: nic
-label_next: Další 
+label_nobody: nikdo
+label_next: Další
 label_previous: Předchozí
 label_used_by: Použito
 label_details: Detaily
-label_add_note: Přidat poznánku
+label_add_note: Přidat poznámku
 label_per_page: Na stránku
 label_calendar: Kalendář
 label_months_from: měsíců od
-label_gantt: Gantův graf
+label_gantt: Ganttův graf
 label_internal: Interní
 label_last_changes: posledních %d změn
 label_change_view_all: Zobrazit všechny změny
@@ -311,7 +357,7 @@ label_comment: Komentář
 label_comment_plural: Komentáře
 label_comment_add: Přidat komentáře
 label_comment_added: Komentář přidán
-label_comment_delete: Smazat komentář
+label_comment_delete: Odstranit komentář
 label_query: Uživatelský dotaz
 label_query_plural: Uživatelské dotazy
 label_query_new: Nový dotaz
@@ -323,7 +369,15 @@ label_in_less_than: je měší než
 label_in_more_than: je větší než
 label_in: v
 label_today: dnes
+label_all_time: veškerý čas
+label_yesterday: včera
 label_this_week: tento týden
+label_last_week: minulý týden
+label_last_n_days: posledních %d dnů
+label_this_month: tento měsíc
+label_last_month: minulý měsíc
+label_this_year: tento rok
+label_date_range: Rozsah dat
 label_less_than_ago: před méně jak (dny)
 label_more_than_ago: před více jak (dny)
 label_ago: před (dny)
@@ -331,28 +385,30 @@ label_contains: obsahuje
 label_not_contains: neobsahuje
 label_day_plural: dny
 label_repository: Repository
+label_repository_plural: Repository
 label_browse: Procházet
 label_modification: %d změna
 label_modification_plural: %d změn
 label_revision: Revize
 label_revision_plural: Revizí
+label_associated_revisions: Související verze
 label_added: přidáno
 label_modified: změněno
-label_deleted: smazáno
+label_deleted: odstraněno
 label_latest_revision: Poslední revize
 label_latest_revision_plural: Poslední revize
 label_view_revisions: Zobrazit revize
 label_max_size: Maximální velikost
-label_on: 'on'
-label_sort_highest: Posunout na vrchol
-label_sort_higher: Posunout nahoru
-label_sort_lower: Posunout dolů
-label_sort_lowest: Posunout dospod
+label_on: 'zapnuto'
+label_sort_highest: Přesunout na začátek
+label_sort_higher: Přesunout nahoru
+label_sort_lower: Přesunout dolů
+label_sort_lowest: Přesunout na konec
 label_roadmap: Plán
-label_roadmap_due_in: Due in 
+label_roadmap_due_in: Zbývá
 label_roadmap_overdue: %s pozdě
-label_roadmap_no_issues: Pro tuto verzi nejsou žádné požadavky
-label_search: Hledej
+label_roadmap_no_issues: Pro tuto verzi nejsou žádné úkoly
+label_search: Hledat
 label_result_plural: Výsledky
 label_all_words: Všechna slova
 label_wiki: Wiki
@@ -360,37 +416,37 @@ label_wiki_edit: Wiki úprava
 label_wiki_edit_plural: Wiki úpravy
 label_wiki_page: Wiki stránka
 label_wiki_page_plural: Wiki stránky
-label_index_by_title: Rejstřík
-label_index_by_date: Index by date
+label_index_by_title: Index dle názvu
+label_index_by_date: Index dle data
 label_current_version: Aktuální verze
 label_preview: Náhled
-label_feed_plural: Feeds
+label_feed_plural: Příspěvky
 label_changes_details: Detail všech změn
-label_issue_tracking: Sledování požadavků
+label_issue_tracking: Sledování úkolů
 label_spent_time: Strávený čas
 label_f_hour: %.2f hodina
 label_f_hour_plural: %.2f hodin
 label_time_tracking: Sledování času
 label_change_plural: Změny
-label_statistics: Statistika
-label_commits_per_month: Pořízení za měsíc
-label_commits_per_author: Pořízení za autora
+label_statistics: Statistiky
+label_commits_per_month: Commitů za měsíc
+label_commits_per_author: Commitů za autora
 label_view_diff: Zobrazit rozdíly
 label_diff_inline: uvnitř
 label_diff_side_by_side: vedle sebe
 label_options: Nastavení
 label_copy_workflow_from: Kopírovat workflow z
-label_permissions_report: Opis práv
-label_watched_issues: Prohlédnuté požadavky
-label_related_issues: Vztažené požadavky
+label_permissions_report: Přehled práv
+label_watched_issues: Sledované úkoly
+label_related_issues: Související úkoly
 label_applied_status: Použitý stav
 label_loading: Nahrávám...
-label_relation_new: Nový vztah
-label_relation_delete: Smazat vztah
-label_relates_to: vztažený k
+label_relation_new: Nová souvislost
+label_relation_delete: Odstranit souvislost
+label_relates_to: související s
 label_duplicates: duplicity
-label_blocks: zámků
-label_blocked_by: zamčeno
+label_blocks: bloků
+label_blocked_by: zablokován
 label_precedes: předchází
 label_follows: následuje
 label_end_to_start: od konce do začátku
@@ -398,16 +454,17 @@ label_end_to_end: od konce do konce
 label_start_to_start: od začátku do začátku
 label_start_to_end: od začátku do konce
 label_stay_logged_in: Zůstat přihlášený
-label_disabled: zakázáno
-label_show_completed_versions: Ukaž dokončené verze
-label_me: já
+label_disabled: zakázán
+label_show_completed_versions: Ukázat dokončené verze
+label_me: mě
 label_board: Fórum
 label_board_new: Nové fórum
-label_board_plural: Fora
+label_board_plural: Fóra
 label_topic_plural: Témata
 label_message_plural: Zprávy
 label_message_last: Poslední zpráva
-label_message_new: Nové zprávy
+label_message_new: Nová zpráva
+label_message_posted: Zpráva přidána
 label_reply_plural: Odpovědi
 label_send_information: Zaslat informace o účtu uživateli
 label_year: Rok
@@ -415,24 +472,57 @@ label_month: Měsíc
 label_week: Týden
 label_date_from: Od
 label_date_to: Do
-label_language_based: Language based
+label_language_based: Podle výchozího jazyku
 label_sort_by: Seřadit podle %s
 label_send_test_email: Poslat testovací email
 label_feeds_access_key_created_on: Přístupový klíč pro RSS byl vytvořen před %s
+label_module_plural: Moduly
+label_added_time_by: 'Přidáno před: %s %s'
+label_updated_time: 'Aktualizováno před: %s'
+label_jump_to_a_project: Zvolit projekt...
+label_file_plural: Soubory
+label_changeset_plural: Changesety
+label_default_columns: Výchozí sloupce
+label_no_change_option: (beze změny)
+label_bulk_edit_selected_issues: Bulk edit selected issues
+label_theme: Téma
+label_default: Výchozí
+label_search_titles_only: Vyhledávat pouze v názvech
+label_user_mail_option_all: "Pro všechny události všech mých projektů"
+label_user_mail_option_selected: "Pro všechny události vybraných projektů..."
+label_user_mail_option_none: "Pouze pro události které sleduji nebo které se mne týkají"
+label_user_mail_no_self_notified: "Nezasílat informace o mnou vytvořených změnách"
+label_registration_activation_by_email: aktivace účtu emailem
+label_registration_manual_activation: manuální aktivace účtu
+label_registration_automatic_activation: automatická aktivace účtu
+label_display_per_page: '%s na stránku'
+label_age: Věk
+label_change_properties: Změnit vlastnosti
+label_general: Obecné
+label_more: Více
+label_scm: SCM
+label_plugins: Doplňky
+label_ldap_authentication: Autentifikace LDAP
+label_downloads_abbr: D/L
+label_optional_description: Volitelný popis
+label_add_another_file: Přidat další soubor
+label_preferences: Nastavení
+label_chronological_order: V chronologickém pořadí
+label_reverse_chronological_order: V obrácaném chronologickém pořadí
 
 button_login: Přihlásit
 button_submit: Potvrdit
 button_save: Uložit
 button_check_all: Zašrtnout vše
 button_uncheck_all: Odšrtnout vše
-button_delete: Smazat
+button_delete: Odstranit
 button_create: Vytvořit
 button_test: Test
 button_edit: Upravit
 button_add: Přidat
 button_change: Změnit
 button_apply: Použít
-button_clear: Odstranit
+button_clear: Smazat
 button_lock: Zamknout
 button_unlock: Odemknout
 button_download: Stáhnout
@@ -441,16 +531,22 @@ button_view: Zobrazit
 button_move: Přesunout
 button_back: Zpět
 button_cancel: Storno
-button_activate: Activovat
+button_activate: Aktivovat
 button_sort: Seřadit
-button_log_time: Čas přihlášení
+button_log_time: Přidat čas
 button_rollback: Zpět k této verzi
 button_watch: Sledovat
-button_unwatch: Unwatch
+button_unwatch: Nesledovat
 button_reply: Odpovědět
 button_archive: Archivovat
 button_unarchive: Odarchivovat
 button_reset: Reset
+button_rename: Přejmenovat
+button_change_password: Změnit heslo
+button_copy: Kopírovat
+button_annotate: Komentovat
+button_update: Aktualizovat
+button_configure: Konfigurovat
 
 status_active: aktivní
 status_registered: registrovaný
@@ -459,29 +555,49 @@ status_locked: uzamčený
 text_select_mail_notifications: Vyberte akci při které bude zasláno upozornění emailem.
 text_regexp_info: např. ^[A-Z0-9]+$
 text_min_max_length_info: 0 znamená bez limitu
-text_project_destroy_confirmation: Jste si jistí, že chcete smazat tento projekt a všechna související data ?
+text_project_destroy_confirmation: Jste si jisti, že chcete odstranit tento projekt a všechna související data ?
 text_workflow_edit: Vyberte roli a frontu k editaci workflow
-text_are_you_sure: Jste si jist ?
+text_are_you_sure: Jste si jisti?
 text_journal_changed: změněno z %s na %s
 text_journal_set_to: nastaveno na %s
-text_journal_deleted: smazáno
+text_journal_deleted: odstraněno
 text_tip_task_begin_day: úkol začíná v tento den
 text_tip_task_end_day: úkol končí v tento den
 text_tip_task_begin_end_day: úkol začíná a končí v tento den
 text_project_identifier_info: 'Jsou povolena malá písmena (a-z), čísla a pomlčky.<br />Po uložení již není možné identifikátor změnit.'
 text_caracters_maximum: %d znaků maximálně.
+text_caracters_minimum: Musí být alespoň %d znaků dlouhé.
 text_length_between: Délka mezi %d a %d znaky.
-text_tracker_no_workflow: Pro tuto frontu není definováno žádné workflow
+text_tracker_no_workflow: Pro tuto frontu není definován žádný workflow
 text_unallowed_characters: Nepovolené znaky
 text_comma_separated: Povoleno více hodnot (oddělěné čárkou).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+text_issue_added: Úkol %s byl vytvořen uživatelem %s.
+text_issue_updated: Úkol %s byl aktualizován uživatelem %s.
+text_wiki_destroy_confirmation: Opravdu si přejete odstranit tuto WIKI a celý její obsah?
+text_issue_category_destroy_question: Některé úkoly (%d) jsou přiřazeny k této kategorii. Co s nimi chtete udělat?
+text_issue_category_destroy_assignments: Zrušit přiřazení ke kategorii
+text_issue_category_reassign_to: Přiřadit úkoly do této kategorie
+text_user_mail_option: "U projektů, které nebyly vybrány, budete dostávat oznámení pouze o vašich či o sledovaných položkách (např. o položkách jejichž jste autor nebo ke kterým jste přiřazen(a))."
+text_no_configuration_data: "Role, fronty, stavy úkolů ani workflow nebyly zatím nakonfigurovány.\nVelice doporučujeme nahrát výchozí konfiguraci.Po té si můžete vše upravit"
+text_load_default_configuration: Nahrát výchozí konfiguraci
+text_status_changed_by_changeset: Použito v changesetu %s.
+text_issues_destroy_confirmation: 'Opravdu si přejete odstranit všechny zvolené úkoly?'
+text_select_project_modules: 'Zvolte moduly aktivní v tomto projektu:'
+text_default_administrator_account_changed: Výchozí nastavení administrátorského účtu změněno
+text_file_repository_writable: Povolen zápis do repository
+text_rmagick_available: RMagick k dispozici (volitelné)
+text_destroy_time_entries_question: U úkolů, které chcete odstranit je evidováno %.02f práce. Co chete udělat?
+text_destroy_time_entries: Odstranit evidované hodiny.
+text_assign_time_entries_to_project: Přiřadit evidované hodiny projektu
+text_reassign_time_entries: 'Přeřadit evidované hodiny k tomuto úkolu:'
 
 default_role_manager: Manažer
-default_role_developper: Agent
-default_role_reporter: Reporter
-default_tracker_bug: Reklamace
-default_tracker_feature: Vlastnost
-default_tracker_support: Požadavek
+default_role_developper: Vývojář
+default_role_reporter: Reportér
+default_tracker_bug: Chyba
+default_tracker_feature: Požadavek
+default_tracker_support: Podpora
 default_issue_status_new: Nový
 default_issue_status_assigned: Přiřazený
 default_issue_status_resolved: Vyřešený
@@ -494,124 +610,10 @@ default_priority_low: Nízká
 default_priority_normal: Normální
 default_priority_high: Vysoká
 default_priority_urgent: Urgentní
-default_priority_immediate: Bezodkladné
-default_activity_design: Návrh
+default_priority_immediate: Okamžitá
+default_activity_design: Design
 default_activity_development: Vývoj
 
-enumeration_issue_priorities: Priority požadavků
+enumeration_issue_priorities: Priority úkolů
 enumeration_doc_categories: Kategorie dokumentů
 enumeration_activities: Aktivity (sledování času)
-button_rename: Rename
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-label_module_plural: Modules
-label_jump_to_a_project: Jump to a project...
-text_issue_updated: Issue %s has been updated by %s.
-field_redirect_existing_links: Redirect existing links
-text_issue_category_reassign_to: Reassing issues to this category
-text_issue_added: Issue %s has been reported by %s.
-label_file_plural: Files
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-label_updated_time: Updated %s ago
-text_issue_category_destroy_assignments: Remove category assignments
-label_added_time_by: Added by %s %s ago
-field_estimated_hours: Estimated time
-label_changeset_plural: Changesets
-field_column_names: Columns
-label_default_columns: Default columns
-setting_issue_list_default_columns: Default columns displayed on the issue list
-setting_repositories_encodings: Repositories encodings
-notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
-label_bulk_edit_selected_issues: Bulk edit selected issues
-label_no_change_option: (No change)
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-label_theme: Theme
-label_default: Default
-label_search_titles_only: Search titles only
-label_nobody: nobody
-button_change_password: Change password
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
-setting_emails_footer: Emails footer
-label_float: Float
-button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log into Redmine.
-mail_body_account_information: Your Redmine account information
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: Redmine account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
-field_time_zone: Time zone
-text_caracters_minimum: Must be at least %d characters long.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-button_annotate: Annotate
-label_issues_by: Issues by %s
-field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
-label_general: General
-label_repository_plural: Repositories
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
-label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
-project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
-label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
