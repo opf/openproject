@@ -70,7 +70,7 @@ module Redmine
           
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           revisions = Revisions.new
-          cmd = "#{HG_BIN} -v -R #{target('')} log"
+          cmd = "#{HG_BIN} -v --encoding utf8 -R #{target('')} log"
           if identifier_from && identifier_to
             cmd << " -r #{identifier_from.to_i}:#{identifier_to.to_i}"
           elsif identifier_from
