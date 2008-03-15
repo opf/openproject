@@ -51,29 +51,35 @@ class Repository::Mercurial < Repository
     scm_info = scm.info
     if scm_info
       # latest revision found in database
-      db_revision = latest_changeset ? latest_changeset.revision : nil
+      db_revision = latest_changeset ? latest_changeset.revision.to_i : -1
       # latest revision in the repository
       scm_revision = scm_info.lastrev.identifier.to_i
-      
-      unless changesets.find_by_revision(scm_revision)
-        revisions = scm.revisions('', db_revision, nil)
-        transaction do
-          revisions.reverse_each do |revision|
-            changeset = Changeset.create(:repository => self,
-                                         :revision => revision.identifier,
-                                         :scmid => revision.scmid,
-                                         :committer => revision.author, 
-                                         :committed_on => revision.time,
-                                         :comments => revision.message)
-            
-            revision.paths.each do |change|
-              Change.create(:changeset => changeset,
-                            :action => change[:action],
-                            :path => change[:path],
-                            :from_path => change[:from_path],
-                            :from_revision => change[:from_revision])
+      if db_revision < scm_revision
+        logger.debug "Fetching changesets for repository #{url}" if logger && logger.debug?
+        identifier_from = db_revision + 1
+        while (identifier_from <= scm_revision)
+          # loads changesets by batches of 100
+          identifier_to = [identifier_from + 99, scm_revision].min
+          revisions = scm.revisions('', identifier_from, identifier_to, :with_paths => true)
+          transaction do
+            revisions.each do |revision|
+              changeset = Changeset.create(:repository => self,
+                                           :revision => revision.identifier,
+                                           :scmid => revision.scmid,
+                                           :committer => revision.author, 
+                                           :committed_on => revision.time,
+                                           :comments => revision.message)
+              
+              revision.paths.each do |change|
+                Change.create(:changeset => changeset,
+                              :action => change[:action],
+                              :path => change[:path],
+                              :from_path => change[:from_path],
+                              :from_revision => change[:from_revision])
+              end
             end
-          end
+          end unless revisions.nil?
+          identifier_from = identifier_to + 1
         end
       end
     end

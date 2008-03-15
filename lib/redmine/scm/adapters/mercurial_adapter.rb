@@ -71,7 +71,11 @@ module Redmine
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           revisions = Revisions.new
           cmd = "#{HG_BIN} -v -R #{target('')} log"
-          cmd << " -r #{identifier_from.to_i}:" if identifier_from
+          if identifier_from && identifier_to
+            cmd << " -r #{identifier_from.to_i}:#{identifier_to.to_i}"
+          elsif identifier_from
+            cmd << " -r #{identifier_from.to_i}:"
+          end
           cmd << " --limit #{options[:limit].to_i}" if options[:limit]
           shellout(cmd) do |io|
             changeset = {}
