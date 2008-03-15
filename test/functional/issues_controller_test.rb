@@ -171,7 +171,7 @@ class IssuesControllerTest < Test::Unit::TestCase
                           :description => 'This is the description',
                           :priority_id => 5},
                :custom_fields => {'2' => 'Value for field 2'}
-    assert_redirected_to 'projects/ecookbook/issues'
+    assert_redirected_to 'issues/show'
     
     issue = Issue.find_by_subject('This is the test_new issue')
     assert_not_nil issue

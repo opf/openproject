@@ -34,9 +34,9 @@ class IssuesTest < ActionController::IntegrationTest
     assert_kind_of Issue, issue
 
     # check redirection
-    assert_redirected_to "projects/ecookbook/issues"
+    assert_redirected_to "issues/show"
     follow_redirect!
-    assert assigns(:issues).include?(issue)
+    assert_equal issue, assigns(:issue)
 
     # check issue attributes    
     assert_equal 'jsmith', issue.author.login
