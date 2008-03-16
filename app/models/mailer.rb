@@ -23,6 +23,10 @@ class Mailer < ActionMailer::Base
   include ActionController::UrlWriter
   
   def issue_add(issue)    
+    redmine_headers 'Project' => issue.project.identifier,
+                    'Issue-Id' => issue.id,
+                    'Issue-Author' => issue.author.login
+    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     recipients issue.recipients    
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
     body :issue => issue,
@@ -31,6 +35,10 @@ class Mailer < ActionMailer::Base
 
   def issue_edit(journal)
     issue = journal.journalized
+    redmine_headers 'Project' => issue.project.identifier,
+                    'Issue-Id' => issue.id,
+                    'Issue-Author' => issue.author.login
+    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     recipients issue.recipients
     # Watchers in cc
     cc(issue.watcher_recipients - @recipients)
@@ -44,6 +52,7 @@ class Mailer < ActionMailer::Base
   end
   
   def document_added(document)
+    redmine_headers 'Project' => document.project.identifier
     recipients document.project.recipients
     subject "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
     body :document => document,
@@ -62,6 +71,7 @@ class Mailer < ActionMailer::Base
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
     end
+    redmine_headers 'Project' => container.project.identifier
     recipients container.project.recipients
     subject "[#{container.project.name}] #{l(:label_attachment_new)}"
     body :attachments => attachments,
@@ -70,6 +80,7 @@ class Mailer < ActionMailer::Base
   end
 
   def news_added(news)
+    redmine_headers 'Project' => news.project.identifier
     recipients news.project.recipients
     subject "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
     body :news => news,
@@ -77,6 +88,8 @@ class Mailer < ActionMailer::Base
   end
 
   def message_posted(message, recipients)
+    redmine_headers 'Project' => message.project.identifier,
+                    'Topic-Id' => (message.parent_id || message.id)
     recipients(recipients)
     subject "[#{message.board.project.name} - #{message.board.name}] #{message.subject}"
     body :message => message,
@@ -139,6 +152,15 @@ class Mailer < ActionMailer::Base
     from Setting.mail_from
     default_url_options[:host] = Setting.host_name
     default_url_options[:protocol] = Setting.protocol
+    # Common headers
+    headers 'X-Mailer' => 'Redmine',
+            'X-Redmine-Host' => Setting.host_name,
+            'X-Redmine-Site' => Setting.app_title
+  end
+  
+  # Appends a Redmine header field (name is prepended with 'X-Redmine-')
+  def redmine_headers(h)
+    h.each { |k,v| headers["X-Redmine-#{k}"] = v }
   end
   
   # Overrides the create_mail method
