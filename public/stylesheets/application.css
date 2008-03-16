@@ -391,6 +391,7 @@ background-color: #fff;
 div.wiki table {
     border: 1px solid #505050;
     border-collapse: collapse;
+    margin-bottom: 1em;
 }
 
 div.wiki table, div.wiki td, div.wiki th {
