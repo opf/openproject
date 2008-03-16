@@ -16,6 +16,9 @@
       :onclick => 'if (this.checked) {Element.hide("columns")} else {Element.show("columns")}' %></p>
 </div>
 
+<fieldset><legend><%= l(:label_filter_plural) %></legend>
 <%= render :partial => 'queries/filters', :locals => {:query => query}%>
+</fieldset>
+
 <%= render :partial => 'queries/columns', :locals => {:query => query}%>
 </div>

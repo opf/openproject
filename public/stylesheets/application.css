@@ -159,6 +159,9 @@ textarea.wiki-edit { width: 99%; }
 li p {margin-top: 0;}
 div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid #d7d7d7;}
 
+#filters { margin-bottom: 1em; }
+#filters .buttons { text-align: right; font-size: 0.9em; }
+
 div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
 div#issue-changesets .changeset { padding: 4px;}
 div#issue-changesets .changeset { border-bottom: 1px solid #ddd; }

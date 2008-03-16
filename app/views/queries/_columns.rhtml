@@ -1,8 +1,8 @@
 <% content_tag 'fieldset', :id => 'columns', :style => (query.has_default_columns? ? 'display:none;' : nil) do %>
 <legend><%= l(:field_column_names) %></legend>
 
-<%= hidden_field_tag 'query[column_names][]', '' %>
-<table margin=0>
+<%= hidden_field_tag 'query[column_names][]', '', :id => nil %>
+<table>
 	<tr>
 		<td><%= select_tag 'available_columns',
 		          options_for_select((query.available_columns - query.columns).collect {|column| [column.caption, column.name]}),
