@@ -21,12 +21,14 @@
 <div style="float:left;">
 <%= link_to_remote(('&#171; ' + l(:label_previous)), 
                    {:update => "content", :url => params.merge(:from => @date_to - @days), :complete => 'window.scrollTo(0,0)'},
-                   {:href => url_for(params.merge(:from => @date_to - @days))}) %>
+                   {:href => url_for(params.merge(:from => @date_to - @days)),
+                    :title => "#{l(:label_date_from)} #{format_date(@date_to - 2*@days)} #{l(:label_date_to).downcase} #{format_date(@date_to - @days - 1)}"}) %>
 </div>
 <div style="float:right;">
 <%= link_to_remote((l(:label_next) + ' &#187;'), 
                    {:update => "content", :url => params.merge(:from => @date_to + @days), :complete => 'window.scrollTo(0,0)'},
-                   {:href => url_for(params.merge(:from => @date_to + @days))}) unless @date_to >= Date.today %>
+                   {:href => url_for(params.merge(:from => @date_to + @days)),
+                    :title => "#{l(:label_date_from)} #{format_date(@date_to)} #{l(:label_date_to).downcase} #{format_date(@date_to + @days - 1)}"}) unless @date_to >= Date.today %>
 </div>
 &nbsp;
 <p class="other-formats">
