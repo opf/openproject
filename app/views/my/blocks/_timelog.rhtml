@@ -1,0 +1,52 @@
+<h3><%=l(:label_spent_time)%> (<%= l(:label_last_n_days, 7) %>)</h3>
+<% 
+entries = TimeEntry.find(:all,
+				:conditions => ["#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", @user.id, Date.today - 6, Date.today],
+				:include => [:activity, :project, {:issue => [:tracker, :status]}],
+				:order => "#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Tracker.table_name}.position ASC, #{Issue.table_name}.id ASC")
+entries_by_day = entries.group_by(&:spent_on)
+%>
+
+<div class="total-hours">
+<p><%= l(:label_total) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
+</div>
+
+<% if entries.any? %>
+<table class="list time-entries">
+<thead>
+<th><%= l(:label_activity) %></th>
+<th><%= l(:label_project) %></th>
+<th><%= l(:field_comments) %></th>
+<th><%= l(:field_hours) %></th>
+<th></th>
+</thead>
+<tbody>
+<% entries_by_day.keys.sort.reverse.each do |day| %>
+    <tr class="odd">
+    <td><strong><%= day == Date.today ? l(:label_today).titleize : format_date(day) %></strong></td>
+    <td colspan="2"></td>
+    <td class="hours"><em><%= html_hours("%.2f" % entries_by_day[day].sum(&:hours).to_f) %></em></td>
+    <td></td>
+    </tr>
+    <% entries_by_day[day].each do |entry| -%>
+    <tr class="time-entry" style="border-bottom: 1px solid #f5f5f5;">
+    <td class="activity"><%=h entry.activity %></td>
+    <td class="subject"><%=h entry.project %> <%= ' - ' + link_to_issue(entry.issue, :title => h("#{entry.issue.subject} (#{entry.issue.status})")) if entry.issue %></td>
+    <td class="comments"><%=h entry.comments %></td>
+    <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
+    <td align="center">
+    <% if entry.editable_by?(@user) -%>
+        <%= link_to image_tag('edit.png'), {:controller => 'timelog', :action => 'edit', :id => entry},
+                                           :title => l(:button_edit) %>
+        <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => entry},
+                                             :confirm => l(:text_are_you_sure),
+                                             :method => :post,
+                                             :title => l(:button_delete) %>
+    <% end -%>
+    </td>
+    </tr>
+    <% end -%>
+<% end -%>
+</tbdoy>
+</table>
+<% end %>

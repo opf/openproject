@@ -113,9 +113,9 @@ tr.user.locked, tr.user.registered { color: #aaa; }
 tr.user.locked a, tr.user.registered a { color: #aaa; }
 
 tr.time-entry { text-align: center; white-space: nowrap; }
-tr.time-entry td.subject, tr.time-entry td.comments { text-align: left; }
-tr.time-entry td.hours { text-align: right; font-weight: bold; padding-right: 0.5em; }
-tr.time-entry .hours-dec { font-size: 0.9em; }
+tr.time-entry td.subject, tr.time-entry td.comments { text-align: left; white-space: normal; }
+td.hours { text-align: right; font-weight: bold; padding-right: 0.5em; }
+td.hours .hours-dec { font-size: 0.9em; }
 
 table.list tbody tr:hover { background-color:#ffffdd; }
 table td {padding:2px;}

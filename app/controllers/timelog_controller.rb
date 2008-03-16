@@ -216,6 +216,8 @@ class TimelogController < ApplicationController
     render_403 and return unless @time_entry.editable_by?(User.current)
     @time_entry.destroy
     flash[:notice] = l(:notice_successful_delete)
+    redirect_to :back
+  rescue RedirectBackError
     redirect_to :action => 'details', :project_id => @time_entry.project
   end
 

@@ -37,8 +37,8 @@ module ApplicationHelper
     user ? link_to(user, :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
   end
   
-  def link_to_issue(issue)
-    link_to "#{issue.tracker.name} ##{issue.id}", :controller => "issues", :action => "show", :id => issue
+  def link_to_issue(issue, options={})
+    link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
   end
   
   def toggle_link(name, id, options={})
