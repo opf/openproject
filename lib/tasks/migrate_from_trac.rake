@@ -538,9 +538,14 @@ namespace :redmine do
           puts "Unable to create a project with identifier '#{identifier}'!" unless project.save
           # enable issues and wiki for the created project
           project.enabled_module_names = ['issue_tracking', 'wiki']
-        end        
-        project.trackers << TRACKER_BUG
-        project.trackers << TRACKER_FEATURE          
+        else
+          puts
+          puts "This project already exists in your Redmine database."
+          print "Are you sure you want to append data to this project ? [Y/n] "
+          exit if STDIN.gets.match(/^n$/i)  
+        end
+        project.trackers << TRACKER_BUG unless project.trackers.include?(TRACKER_BUG)
+        project.trackers << TRACKER_FEATURE unless project.trackers.include?(TRACKER_FEATURE)
         @target_project = project.new_record? ? nil : project
       end
       
