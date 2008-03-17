@@ -132,6 +132,19 @@ class ApplicationHelperTest < HelperTestCase
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
   
+  def test_html_tags
+    to_test = {
+      "<div>content</div>" => "<p>&lt;div>content&lt;/div></p>",
+      "<script>some script;</script>" => "<p>&lt;script>some script;&lt;/script></p>",
+      # do not escape pre/code tags
+      "<pre>\nline 1\nline2</pre>" => "<pre>\nline 1\nline2</pre>",
+      "<pre><code>\nline 1\nline2</code></pre>" => "<pre><code>\nline 1\nline2</code></pre>",
+      "<pre><div>content</div></pre>" => "<pre>&lt;div&gt;content&lt;/div&gt;</pre>",
+    }
+    to_test.each { |text, result| assert_equal result, textilizable(text) }
+
+  end
+  
   def test_macro_hello_world
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)

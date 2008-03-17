@@ -1130,7 +1130,7 @@ class RedCloth < String
         end
     end
     
-    ALLOWED_TAGS = %w(redpre pre)
+    ALLOWED_TAGS = %w(redpre pre code)
     
     def escape_html_tags(text)
       text.gsub!(%r{<((\/?)(\w+))}) {|m| ALLOWED_TAGS.include?($3) ? "<#{$1}" : "&lt;#{$1}" }
