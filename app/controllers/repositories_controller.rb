@@ -97,7 +97,8 @@ class RepositoriesController < ApplicationController
   def entry
     @content = @repository.scm.cat(@path, @rev)
     show_error_not_found and return unless @content
-    if 'raw' == params[:format]      
+    if 'raw' == params[:format] || @content.is_binary_data?
+      # Force the download if it's a binary file
       send_data @content, :filename => @path.split('/').last
     else
       # Prevent empty lines when displaying a file with Windows style eol

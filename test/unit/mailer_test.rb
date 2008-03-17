@@ -36,7 +36,7 @@ class MailerTest < Test::Unit::TestCase
     # link to a referenced ticket
     assert mail.body.include?('<a href="https://mydomain.foo/issues/show/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
     # link to a changeset
-    assert mail.body.include?('<a href="https://mydomain.foo/repositories/revision/1?rev=2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+    assert mail.body.include?('<a href="https://mydomain.foo/repositories/revision/ecookbook?rev=2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
   end
   
   # test mailer methods for each language

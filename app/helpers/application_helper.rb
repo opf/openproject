@@ -281,13 +281,19 @@ module ApplicationHelper
     #     version:"1.0 beta 2" -> Link to version named "1.0 beta 2"
     #   Attachments:
     #     attachment:file.zip -> Link to the attachment of the current object named file.zip
-    text = text.gsub(%r{([\s\(,-^])(!)?(attachment|document|version|commit)?((#|r)(\d+)|(:)([^"][^\s<>]+|"[^"]+"))(?=[[:punct:]]|\s|<|$)}) do |m|
+    #   Source files:
+    #     source:some/file -> Link to the file located at /some/file in the project's repository
+    #     source:some/file@52 -> Link to the file's revision 52
+    #     source:some/file#L120 -> Link to line 120 of the file
+    #     source:some/file@52#L120 -> Link to line 120 of the file's revision 52
+    #     export:some/file -> Force the download of the file
+    text = text.gsub(%r{([\s\(,-^])(!)?(attachment|document|version|commit|source|export)?((#|r)(\d+)|(:)([^"][^\s<>]+|"[^"]+"))(?=[[:punct:]]|\s|<|$)}) do |m|
       leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
       link = nil
       if esc.nil?
         if prefix.nil? && sep == 'r'
           if project && (changeset = project.changesets.find_by_revision(oid))
-            link = link_to("r#{oid}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project.id, :rev => oid},
+            link = link_to("r#{oid}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => oid},
                                       :class => 'changeset',
                                       :title => truncate(changeset.comments, 100))
           end
@@ -328,7 +334,17 @@ module ApplicationHelper
             end
           when 'commit'
             if project && (changeset = project.changesets.find(:first, :conditions => ["scmid LIKE ?", "#{name}%"]))
-              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project.id, :rev => changeset.revision}, :class => 'changeset', :title => truncate(changeset.comments, 100)
+              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision}, :class => 'changeset', :title => truncate(changeset.comments, 100)
+            end
+          when 'source', 'export'
+            if project && project.repository
+              name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
+              path, rev, anchor = $1, $3, $5
+              link = link_to h("#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project, :path => path,
+                                                      :rev => rev,
+                                                      :anchor => anchor,
+                                                      :format => (prefix == 'export' ? 'raw' : nil)},
+                                                     :class => (prefix == 'export' ? 'source download' : 'source')
             end
           when 'attachment'
             if attachments && attachment = attachments.detect {|a| a.filename == name }

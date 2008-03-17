@@ -67,7 +67,7 @@ class ApplicationHelperTest < HelperTestCase
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3}, 
                                :class => 'issue', :title => 'Error 281 when updating a recipe (New)')
     
-    changeset_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 1, :rev => 1},
+    changeset_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
                                    :class => 'changeset', :title => 'My very first commit')
     
     document_link = link_to('Test document', {:controller => 'documents', :action => 'show', :id => 1},
@@ -75,23 +75,36 @@ class ApplicationHelperTest < HelperTestCase
     
     version_link = link_to('1.0', {:controller => 'versions', :action => 'show', :id => 2},
                                   :class => 'version')
+
+    source_url = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => 'some/file'}
     
     to_test = {
-      '#3, #3 and #3.' => "#{issue_link}, #{issue_link} and #{issue_link}.",
-      'r1' => changeset_link,
-      'document#1' => document_link,
-      'document:"Test document"' => document_link,
-      'version#2' => version_link,
-      'version:1.0' => version_link,
-      'version:"1.0"' => version_link,
+      # tickets
+      '#3, #3 and #3.'              => "#{issue_link}, #{issue_link} and #{issue_link}.",
+      # changesets
+      'r1'                          => changeset_link,
+      # documents
+      'document#1'                  => document_link,
+      'document:"Test document"'    => document_link,
+      # versions
+      'version#2'                   => version_link,
+      'version:1.0'                 => version_link,
+      'version:"1.0"'               => version_link,
+      # source
+      'source:/some/file'           => link_to('source:/some/file', source_url, :class => 'source'),
+      'source:/some/file@52'        => link_to('source:/some/file@52', source_url.merge(:rev => 52), :class => 'source'),
+      'source:/some/file#L110'      => link_to('source:/some/file#L110', source_url.merge(:anchor => 'L110'), :class => 'source'),
+      'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url.merge(:rev => 52, :anchor => 'L110'), :class => 'source'),
+      'export:/some/file'           => link_to('export:/some/file', source_url.merge(:format => 'raw'), :class => 'source download'),
       # escaping
-      '!#3.' => '#3.',
-      '!r1' => 'r1',
-      '!document#1' => 'document#1',
-      '!document:"Test document"' => 'document:"Test document"',
-      '!version#2' => 'version#2',
-      '!version:1.0' => 'version:1.0',
-      '!version:"1.0"' => 'version:"1.0"',
+      '!#3.'                        => '#3.',
+      '!r1'                         => 'r1',
+      '!document#1'                 => 'document#1',
+      '!document:"Test document"'   => 'document:"Test document"',
+      '!version#2'                  => 'version#2',
+      '!version:1.0'                => 'version:1.0',
+      '!version:"1.0"'              => 'version:"1.0"',
+      '!source:/some/file'          => 'source:/some/file',
     }
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
