@@ -152,4 +152,12 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_nil assigns(:from)
     assert_nil assigns(:to)
   end
+  
+  def test_details_csv_export
+    get :details, :project_id => 1, :format => 'csv'
+    assert_response :success
+    assert_equal 'text/csv', @response.content_type
+    assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
+    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,2,Feature request,Add ingredients categories,1.0,\"\"\n")
+  end
 end
