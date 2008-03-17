@@ -105,6 +105,8 @@ class ApplicationHelperTest < HelperTestCase
       '!version:1.0'                => 'version:1.0',
       '!version:"1.0"'              => 'version:"1.0"',
       '!source:/some/file'          => 'source:/some/file',
+      # invalid expressions
+      'source:'                     => 'source:'
     }
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
