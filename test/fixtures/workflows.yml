@@ -245,12 +245,6 @@ workflows_225:
   old_status_id: 3
   id: 225
   tracker_id: 3
-workflows_037: 
-  new_status_id: 3
-  role_id: 2
-  old_status_id: 2
-  id: 37
-  tracker_id: 1
 workflows_063: 
   new_status_id: 4
   role_id: 3

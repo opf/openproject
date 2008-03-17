@@ -32,6 +32,18 @@ class RolesControllerTest < Test::Unit::TestCase
     @request.session[:user_id] = 1 # admin
   end
   
+  def test_get_index
+    get :index
+    assert_response :success
+    assert_template 'list'
+
+    assert_not_nil assigns(:roles)
+    assert_equal Role.find(:all, :order => 'builtin, position'), assigns(:roles)
+
+    assert_tag :tag => 'a', :attributes => { :href => '/roles/edit/1' },
+                            :content => 'Manager'
+  end
+  
   def test_get_new
     get :new
     assert_response :success
@@ -88,5 +100,121 @@ class RolesControllerTest < Test::Unit::TestCase
     assert_redirected_to 'roles/list'
     role = Role.find(1)
     assert_equal [:edit_project], role.permissions
+  end
+  
+  def test_destroy
+    r = Role.new(:name => 'ToBeDestroyed', :permissions => [:view_wiki_pages])
+    assert r.save
+    
+    post :destroy, :id => r
+    assert_redirected_to 'roles/list'
+    assert_nil Role.find_by_id(r.id)
+  end
+  
+  def test_destroy_role_in_use
+    post :destroy, :id => 1
+    assert_redirected_to 'roles'
+    assert flash[:error] == 'This role is in use and can not be deleted.'
+    assert_not_nil Role.find_by_id(1)
+  end
+  
+  def test_get_workflow
+    get :workflow
+    assert_response :success
+    assert_template 'workflow'
+    assert_not_nil assigns(:roles)
+    assert_not_nil assigns(:trackers)
+  end
+  
+  def test_get_workflow_with_role_and_tracker
+    get :workflow, :role_id => 2, :tracker_id => 1
+    assert_response :success
+    assert_template 'workflow'
+    # allowed transitions
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'issue_status[2][]',
+                                                 :value => '1',
+                                                 :checked => 'checked' }
+    # not allowed
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'issue_status[2][]',
+                                                 :value => '3',
+                                                 :checked => nil }
+  end
+  
+  def test_post_workflow
+    post :workflow, :role_id => 2, :tracker_id => 1, :issue_status => {'4' => ['5'], '3' => ['1', '2']}
+    assert_redirected_to 'roles/workflow'
+    
+    assert_equal 3, Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2})
+    assert_not_nil  Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2})
+    assert_nil      Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4})
+  end
+  
+  def test_clear_workflow
+    assert Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2}) > 0
+
+    post :workflow, :role_id => 2, :tracker_id => 1
+    assert_equal 0, Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2})
+  end
+  
+  def test_get_report
+    get :report
+    assert_response :success
+    assert_template 'report'
+    
+    assert_not_nil assigns(:roles)
+    assert_equal Role.find(:all, :order => 'builtin, position'), assigns(:roles)
+    
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'permissions[3][]',
+                                                 :value => 'add_issues',
+                                                 :checked => 'checked' }
+    
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'permissions[3][]',
+                                                 :value => 'delete_issues',
+                                                 :checked => nil }
+  end
+  
+  def test_post_report
+    post :report, :permissions => { '0' => '', '1' => ['edit_issues'], '3' => ['add_issues', 'delete_issues']}
+    assert_redirected_to 'roles/list'
+    
+    assert_equal [:edit_issues], Role.find(1).permissions
+    assert_equal [:add_issues, :delete_issues], Role.find(3).permissions
+    assert Role.find(2).permissions.empty?
+  end
+  
+  def test_clear_all_permissions
+    post :report, :permissions => { '0' => '' }
+    assert_redirected_to 'roles/list'
+    assert Role.find(1).permissions.empty?
+  end
+  
+  def test_move_highest
+    post :move, :id => 3, :position => 'highest'
+    assert_redirected_to 'roles/list'
+    assert_equal 1, Role.find(3).position
+  end
+
+  def test_move_higher
+    position = Role.find(3).position
+    post :move, :id => 3, :position => 'higher'
+    assert_redirected_to 'roles/list'
+    assert_equal position - 1, Role.find(3).position
+  end
+
+  def test_move_lower
+    position = Role.find(2).position
+    post :move, :id => 2, :position => 'lower'
+    assert_redirected_to 'roles/list'
+    assert_equal position + 1, Role.find(2).position
+  end
+
+  def test_move_lowest
+    post :move, :id => 2, :position => 'lowest'
+    assert_redirected_to 'roles/list'
+    assert_equal Role.count, Role.find(2).position
   end
 end

@@ -24,6 +24,7 @@
   </td>
   <td align="center" style="width:10%;">
     <%= button_to(l(:button_delete), { :action => 'destroy', :id => role }, :confirm => l(:text_are_you_sure), :class => "button-small", :disabled => role.builtin? ) %>
+  </td>
   </tr>
 <% end %>
   </tbody>

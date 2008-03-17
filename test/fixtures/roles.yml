@@ -1,49 +1,4 @@
 --- 
-roles_004: 
-  name: Non member
-  id: 4
-  builtin: 1
-  permissions: |
-    --- 
-    - :add_issues
-    - :edit_issues
-    - :manage_issue_relations
-    - :add_issue_notes
-    - :move_issues
-    - :save_queries
-    - :view_gantt
-    - :view_calendar
-    - :log_time
-    - :view_time_entries
-    - :comment_news
-    - :view_documents
-    - :manage_documents
-    - :view_wiki_pages
-    - :edit_wiki_pages
-    - :add_messages
-    - :view_files
-    - :manage_files
-    - :browse_repository
-    - :view_changesets
-
-  position: 5
-roles_005: 
-  name: Anonymous
-  id: 5
-  builtin: 2
-  permissions: |
-    --- 
-    - :add_issue_notes
-    - :view_gantt
-    - :view_calendar
-    - :view_time_entries
-    - :view_documents
-    - :view_wiki_pages
-    - :view_files
-    - :browse_repository
-    - :view_changesets
-
-  position: 6
 roles_001: 
   name: Manager
   id: 1
@@ -85,7 +40,7 @@ roles_001:
     - :browse_repository
     - :view_changesets
 
-  position: 2
+  position: 1
 roles_002: 
   name: Developer
   id: 2
@@ -123,7 +78,7 @@ roles_002:
     - :browse_repository
     - :view_changesets
 
-  position: 3
+  position: 2
 roles_003: 
   name: Reporter
   id: 3
@@ -139,7 +94,6 @@ roles_003:
     - :manage_issue_relations
     - :add_issue_notes
     - :move_issues
-    - :delete_issues
     - :manage_public_queries
     - :save_queries
     - :view_gantt
@@ -160,4 +114,50 @@ roles_003:
     - :browse_repository
     - :view_changesets
 
+  position: 3
+roles_004: 
+  name: Non member
+  id: 4
+  builtin: 1
+  permissions: |
+    --- 
+    - :add_issues
+    - :edit_issues
+    - :manage_issue_relations
+    - :add_issue_notes
+    - :move_issues
+    - :save_queries
+    - :view_gantt
+    - :view_calendar
+    - :log_time
+    - :view_time_entries
+    - :comment_news
+    - :view_documents
+    - :manage_documents
+    - :view_wiki_pages
+    - :edit_wiki_pages
+    - :add_messages
+    - :view_files
+    - :manage_files
+    - :browse_repository
+    - :view_changesets
+
   position: 4
+roles_005: 
+  name: Anonymous
+  id: 5
+  builtin: 2
+  permissions: |
+    --- 
+    - :add_issue_notes
+    - :view_gantt
+    - :view_calendar
+    - :view_time_entries
+    - :view_documents
+    - :view_wiki_pages
+    - :view_files
+    - :browse_repository
+    - :view_changesets
+
+  position: 5
+  
