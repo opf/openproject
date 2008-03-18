@@ -84,6 +84,7 @@ module FileType
     'cpp' => :c,
     'c' => :c,
     'h' => :c,
+    'java' => :java,
     'js' => :javascript,
     'xml' => :xml,
     'htm' => :html,
