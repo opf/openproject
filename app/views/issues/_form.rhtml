@@ -3,6 +3,7 @@
 <%= observe_field :issue_tracker_id, :url => { :action => :new },
                                      :update => :content,
                                      :with => "Form.serialize('issue-form')" %>
+<hr />
 <% end %>
 
 <div id="issue_descr_fields" <%= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
