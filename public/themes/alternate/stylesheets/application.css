@@ -12,6 +12,7 @@ h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 {border-bottom: 0px;}
 /* Menu */
 #main-menu li a { background-color: #507AAA; font-weight: bold;}
 #main-menu li a:hover { background: #507AAA; text-decoration: underline; }
+#main-menu li a.selected, #main-menu li a.selected:hover { background-color:#EEEEEE; }
 
 /* Tables */
 table.list tbody td, table.list tbody tr:hover td { border: solid 1px #d7d7d7; }

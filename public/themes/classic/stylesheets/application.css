@@ -9,8 +9,9 @@ body{ color:#303030; background:#e8eaec; }
 #quick-search { margin-right: 6px; }
 #main-menu { background-color: #578bb8; left: 0; border-top: 1px solid #fff; width: 100%; }
 #main-menu li { margin: 0; padding: 0; }
-#main-menu li a { background-color: #578bb8; border-right: 1px solid #fff; font-size: 80%; padding: 4px 8px 4px 8px; font-weight: bold; }
+#main-menu li a { background-color: #578bb8; border-right: 1px solid #fff; font-size: 90%; padding: 4px 8px 4px 8px; font-weight: bold; }
 #main-menu li a:hover { background-color: #80b0da; color: #ffffff; }
+#main-menu li a.selected, #main-menu li a.selected:hover { background-color: #80b0da; color: #ffffff; }
 
 #footer { background-color: #578bb8; border: 0; color: #fff;}
 #footer a { color: #fff; font-weight: bold; }

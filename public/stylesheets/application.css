@@ -9,7 +9,7 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 /***** Layout *****/
 #wrapper {background: white;}
 
-#top-menu {background: #2C4056;color: #fff;height:1.5em; padding: 2px 6px 0px 6px;}
+#top-menu {background: #2C4056; color: #fff; height:1.8em; font-size: 0.8em; padding: 2px 2px 0px 6px;}
 #top-menu ul {margin: 0;  padding: 0;}
 #top-menu li {
   float:left;
@@ -18,7 +18,7 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   padding: 0px 0px 0px 0px;
   white-space:nowrap;
 }
-#top-menu a {color: #fff; padding-right: 4px;}
+#top-menu a {color: #fff; padding-right: 8px; font-weight: bold;}
 #top-menu #loggedas { float: right; margin-right: 0.5em; color: #fff; }
 
 #account {float:right;}
@@ -32,7 +32,7 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #main-menu li {
   float:left;
   list-style-type:none;
-  margin: 0px 10px 0px 0px;
+  margin: 0px 2px 0px 0px;
   padding: 0px 0px 0px 0px;
   white-space:nowrap;
 }
@@ -40,13 +40,14 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   display: block;
   color: #fff;
   text-decoration: none;
+  font-weight: bold;
   margin: 0;
-  padding: 4px 4px 4px 4px;
-  background: #2C4056;
+  padding: 4px 10px 4px 10px;
 }
-#main-menu li a:hover, #main-menu li a.selected {background:#759FCF;}
+#main-menu li a:hover {background:#759FCF; color:#fff;}
+#main-menu li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
 
-#main {background: url(../images/mainbg.png) repeat-x; background-color:#EEEEEE;}
+#main {background-color:#EEEEEE;}
 
 #sidebar{ float: right; width: 17%; position: relative; z-index: 9; min-height: 600px; padding: 0; margin: 0;}
 * html #sidebar{ width: 17%; }
@@ -54,7 +55,7 @@ h4, .wiki h3 {font-size: 12px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
 * html #sidebar hr{ width: 95%; position: relative; left: -6px; color: #ccc; }
 
-#content { width: 80%; background: url(../images/contentbg.png) repeat-x; background-color: #fff; margin: 0px; border-right: 1px solid #ddd; padding: 6px 10px 10px 10px; z-index: 10; height:600px; min-height: 600px;}
+#content { width: 80%; background-color: #fff; margin: 0px; border-right: 1px solid #ddd; padding: 6px 10px 10px 10px; z-index: 10; height:600px; min-height: 600px;}
 * html #content{ width: 80%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
 html>body #content {
 height: auto;
