@@ -110,7 +110,7 @@ class RepositoriesController < ApplicationController
   
   def annotate
     @annotate = @repository.scm.annotate(@path, @rev)
-    show_error_not_found and return if @annotate.nil? || @annotate.empty?
+    render_error l(:error_scm_annotate) and return if @annotate.nil? || @annotate.empty?
   rescue Redmine::Scm::Adapters::CommandFailed => e
     show_error_command_failed(e.message)
   end

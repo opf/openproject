@@ -23,7 +23,7 @@ module Redmine
       'text/css' => 'css',
       'text/html' => 'html,htm,xhtml',
       'text/jsp' => 'jsp',
-      'text/x-c' => 'c,cpp,h',
+      'text/x-c' => 'c,cpp,cc,h,hh',
       'text/x-java' => 'java',
       'text/x-javascript' => 'js',
       'text/x-html-template' => 'rhtml',

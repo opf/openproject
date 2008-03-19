@@ -116,6 +116,13 @@ class RepositoriesGitControllerTest < Test::Unit::TestCase
                  :sibling => { :tag => 'td', :content => /jsmith/ },
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
+    
+    def test_annotate_binary_file
+      get :annotate, :id => 3, :path => ['images', 'delete.png']
+      assert_response 500
+      assert_tag :tag => 'div', :attributes => { :class => /error/ },
+                                :content => /can not be annotated/
+    end
   else
     puts "Git test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end

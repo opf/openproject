@@ -617,3 +617,4 @@ default_activity_development: Vývoj
 enumeration_issue_priorities: Priority úkolů
 enumeration_doc_categories: Kategorie dokumentů
 enumeration_activities: Aktivity (sledování času)
+error_scm_annotate: "The entry does not exist or can not be annotated."

@@ -80,6 +80,7 @@ notice_default_data_loaded: Paramétrage par défaut chargé avec succès.
 error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage: %s"
 error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
 error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt: %s"
+error_scm_annotate: "L'entrée n'existe pas ou ne peut pas être annotée."
 error_issue_not_found_in_project: "La demande n'existe pas ou n'appartient pas à ce projet"
 
 mail_subject_lost_password: Votre mot de passe %s

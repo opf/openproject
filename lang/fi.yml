@@ -615,3 +615,4 @@ label_reverse_chronological_order: Käänteisessä aikajärjestyksessä
 label_preferences: Asetukset
 setting_default_projects_public: New projects are public by default
 label_overall_activity: Overall activity
+error_scm_annotate: "The entry does not exist or can not be annotated."

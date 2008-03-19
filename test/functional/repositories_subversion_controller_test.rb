@@ -72,7 +72,7 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
     def test_entry_not_found
       get :entry, :id => 1, :path => ['subversion_test', 'zzz.c']
       assert_tag :tag => 'div', :attributes => { :class => /error/ },
-                                :content => /Entry and\/or revision doesn't exist/
+                                :content => /The entry or revision was not found in the repository/
     end
   
     def test_entry_download

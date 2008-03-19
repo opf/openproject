@@ -78,8 +78,9 @@ notice_account_pending: "Your account was created and is now pending administrat
 notice_default_data_loaded: Default configuration successfully loaded.
 
 error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-error_scm_not_found: "Entry and/or revision doesn't exist in the repository."
+error_scm_not_found: "The entry or revision was not found in the repository."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_annotate: "The entry does not exist or can not be annotated."
 error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
 
 mail_subject_lost_password: Your %s password

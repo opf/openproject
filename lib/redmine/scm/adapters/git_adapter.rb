@@ -231,13 +231,15 @@ module Redmine
           identifier = 'HEAD' if identifier.blank?
           cmd = "#{GIT_BIN} --git-dir #{target('')} blame -l #{shell_quote identifier} -- #{shell_quote path}"
           blame = Annotate.new
-          shellout(cmd) do |io|
-            io.each_line do |line|
-              next unless line =~ /([0-9a-f]{39,40})\s\((\w*)[^\)]*\)(.*)$/
-              blame.add_line($3.rstrip, Revision.new(:identifier => $1, :author => $2.strip))
-            end
-          end
+          content = nil
+          shellout(cmd) { |io| io.binmode; content = io.read }
           return nil if $? && $?.exitstatus != 0
+          # git annotates binary files
+          return nil if content.is_binary_data?
+          content.split("\n").each do |line|
+            next unless line =~ /([0-9a-f]{39,40})\s\((\w*)[^\)]*\)(.*)/
+            blame.add_line($3.rstrip, Revision.new(:identifier => $1, :author => $2.strip))
+          end
           blame
         end
         
