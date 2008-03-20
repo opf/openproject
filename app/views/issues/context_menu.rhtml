@@ -31,15 +31,6 @@
 		                              :selected => @issue.assigned_to.nil?, :disabled => !@can[:update] %></li>
 		</ul>
 	</li>
-	<li class="folder">
-		<a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
-		<ul>
-		<% (0..10).map{|x|x*10}.each do |p| -%>
-		    <li><%= context_menu_link "#{p.to_s}%", {:controller => 'issues', :action => 'edit', :id => @issue, 'issue[done_ratio]' => p, :back_to => back_to}, :method => :post,
-		                                  :selected => (p == @issue.done_ratio), :disabled => !@can[:edit] %></li>
-		<% end -%>
-		</ul>
-	</li>
 	<li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
 	        :class => 'icon-copy', :disabled => !@can[:copy] %></li>
 <% else -%>
