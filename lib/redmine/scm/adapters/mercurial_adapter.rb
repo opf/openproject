@@ -143,7 +143,9 @@ module Redmine
         end
         
         def cat(path, identifier=nil)
-          cmd = "#{HG_BIN} -R #{target('')} cat #{target(path)}"
+          cmd = "#{HG_BIN} -R #{target('')} cat"
+          cmd << " -r #{identifier.to_i}" if identifier
+          cmd << " #{target(path)}"
           cat = nil
           shellout(cmd) do |io|
             io.binmode
