@@ -7,6 +7,13 @@
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+# Load Engine plugin if available
+begin
+  require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
+rescue LoadError
+  # Not available
+end
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence those specified here
   
