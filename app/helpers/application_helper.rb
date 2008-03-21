@@ -239,7 +239,7 @@ module ApplicationHelper
     #   [[project:|mytext]]
     #   [[project:mypage]]
     #   [[project:mypage|mytext]]
-    text = text.gsub(/(!)?(\[\[([^\]\|]+)(\|([^\]\|]+))?\]\])/) do |m|
+    text = text.gsub(/(!)?(\[\[([^\]\n\|]+)(\|([^\]\n\|]+))?\]\])/) do |m|
       link_project = project
       esc, all, page, title = $1, $2, $3, $5
       if esc.nil?

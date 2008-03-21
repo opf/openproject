@@ -142,7 +142,21 @@ class ApplicationHelperTest < HelperTestCase
       "<pre><div>content</div></pre>" => "<pre>&lt;div&gt;content&lt;/div&gt;</pre>",
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
-
+  end
+  
+  def test_wiki_links_in_tables
+    to_test = {"|Cell 11|Cell 12|Cell 13|\n|Cell 21|Cell 22||\n|Cell 31||Cell 33|" => 
+                 '<tr><td>Cell 11</td><td>Cell 12</td><td>Cell 13</td></tr>' +
+                 '<tr><td>Cell 21</td><td>Cell 22</td></tr>' +
+                 '<tr><td>Cell 31</td><td>Cell 33</td></tr>',
+                 
+               "|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
+                 '<tr><td><a href="/wiki/ecookbook/Page" class="wiki-page new">Link title</a></td>' +
+                 '<td><a href="/wiki/ecookbook/Other_Page" class="wiki-page new">Other title</a></td>' +
+                 '</tr><tr><td>Cell 21</td><td><a href="/wiki/ecookbook/Last_page" class="wiki-page new">Last page</a></td></tr>'
+    }
+    @project = Project.find(1)
+    to_test.each { |text, result| assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '') }
   end
   
   def test_macro_hello_world

@@ -510,7 +510,8 @@ class RedCloth < String
                 ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/m
                 
                 cells = []
-                row.split( '|' ).each do |cell|
+                #row.split( /\(?!\[\[[^\]])|(?![^\[]\]\])/ ).each do |cell|
+                row.split( /\|(?![^\[\|]*\]\])/ ).each do |cell|
                     ctyp = 'd'
                     ctyp = 'h' if cell =~ /^_/
 
