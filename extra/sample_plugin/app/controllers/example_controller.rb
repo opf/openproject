@@ -1,5 +1,7 @@
 # Sample plugin controller
 class ExampleController < ApplicationController
+  unloadable
+  
   layout 'base'  
   before_filter :find_project, :authorize
     
