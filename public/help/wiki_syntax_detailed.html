@@ -3,11 +3,99 @@
 <head>
 <title>RedmineWikiFormatting</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<style>
+<style type="text/css">
 body { font:80% Verdana,Tahoma,Arial,sans-serif; }
 h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
+pre, code { font-size:120%; }
+pre code { font-size:100%; }
+pre {
+    margin: 1em 1em 1em 1.6em;
+    padding: 2px;
+    background-color: #fafafa;
+    border: 1px solid #dadada;
+    width:95%;
+    overflow-x: auto;
+}
+a.new { color: #b73535; }
+
+.CodeRay .af { color:#00C }
+.CodeRay .an { color:#007 }
+.CodeRay .av { color:#700 }
+.CodeRay .aw { color:#C00 }
+.CodeRay .bi { color:#509; font-weight:bold }
+.CodeRay .c  { color:#666; }
+
+.CodeRay .ch { color:#04D }
+.CodeRay .ch .k { color:#04D }
+.CodeRay .ch .dl { color:#039 }
+
+.CodeRay .cl { color:#B06; font-weight:bold }
+.CodeRay .co { color:#036; font-weight:bold }
+.CodeRay .cr { color:#0A0 }
+.CodeRay .cv { color:#369 }
+.CodeRay .df { color:#099; font-weight:bold }
+.CodeRay .di { color:#088; font-weight:bold }
+.CodeRay .dl { color:black }
+.CodeRay .do { color:#970 }
+.CodeRay .ds { color:#D42; font-weight:bold }
+.CodeRay .e  { color:#666; font-weight:bold }
+.CodeRay .en { color:#800; font-weight:bold }
+.CodeRay .er { color:#F00; background-color:#FAA }
+.CodeRay .ex { color:#F00; font-weight:bold }
+.CodeRay .fl { color:#60E; font-weight:bold }
+.CodeRay .fu { color:#06B; font-weight:bold }
+.CodeRay .gv { color:#d70; font-weight:bold }
+.CodeRay .hx { color:#058; font-weight:bold }
+.CodeRay .i  { color:#00D; font-weight:bold }
+.CodeRay .ic { color:#B44; font-weight:bold }
+
+.CodeRay .il { background: #eee }
+.CodeRay .il .il { background: #ddd }
+.CodeRay .il .il .il { background: #ccc }
+.CodeRay .il .idl { font-weight: bold; color: #888 }
+
+.CodeRay .in { color:#B2B; font-weight:bold }
+.CodeRay .iv { color:#33B }
+.CodeRay .la { color:#970; font-weight:bold }
+.CodeRay .lv { color:#963 }
+.CodeRay .oc { color:#40E; font-weight:bold }
+.CodeRay .of { color:#000; font-weight:bold }
+.CodeRay .op { }
+.CodeRay .pc { color:#038; font-weight:bold }
+.CodeRay .pd { color:#369; font-weight:bold }
+.CodeRay .pp { color:#579 }
+.CodeRay .pt { color:#339; font-weight:bold }
+.CodeRay .r  { color:#080; font-weight:bold }
+
+.CodeRay .rx { background-color:#fff0ff }
+.CodeRay .rx .k { color:#808 }
+.CodeRay .rx .dl { color:#404 }
+.CodeRay .rx .mod { color:#C2C }
+.CodeRay .rx .fu  { color:#404; font-weight: bold }
+
+.CodeRay .s  { background-color:#fff0f0 }
+.CodeRay .s  .s { background-color:#ffe0e0 }
+.CodeRay .s  .s  .s { background-color:#ffd0d0 }
+.CodeRay .s  .k { color:#D20 }
+.CodeRay .s  .dl { color:#710 }
+
+.CodeRay .sh { background-color:#f0fff0 }
+.CodeRay .sh .k { color:#2B2 }
+.CodeRay .sh .dl { color:#161 }
+
+.CodeRay .sy { color:#A60 }
+.CodeRay .sy .k { color:#A60 }
+.CodeRay .sy .dl { color:#630 }
+
+.CodeRay .ta { color:#070 }
+.CodeRay .tf { color:#070; font-weight:bold }
+.CodeRay .ts { color:#D70; font-weight:bold }
+.CodeRay .ty { color:#339; font-weight:bold }
+.CodeRay .v  { color:#036 }
+.CodeRay .xt { color:#444 }
 </style>
 </head>
+
 <body>
 <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
 
@@ -50,7 +138,7 @@ h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
 	<p>Wiki links are displayed in red if the page doesn't exist yet, eg: <a href="Nonexistent_page.html" class="wiki-page new">Nonexistent page</a>.</p>
 
 
-	<p>Links to others resources (0.6.devel.1064 and above):</p>
+	<p>Links to others resources (0.7):</p>
 
 
 	<ul>
@@ -85,7 +173,23 @@ h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
 	</ul>
 
 
-	<p>Escaping (0.6.devel.1064 and above):</p>
+    <ul>
+	<li>Repository files
+
+	<ul>
+	<li><strong>source:some/file</strong>          -- Link to the file located at /some/file in the project's repository</li>
+		<li><strong>source:some/file@52</strong>       -- Link to the file's revision 52</li>
+
+		<li><strong>source:some/file#L120</strong>     -- Link to line 120 of the file</li>
+		<li><strong>source:some/file@52#L120</strong>  -- Link to line 120 of the file's revision 52</li>
+		<li><strong>export:some/file</strong>          -- Force the download of the file</li>
+	</ul></li>
+
+	</ul>
+	
+	
+	
+	<p>Escaping (0.7):</p>
 
 
 	<ul>
@@ -125,12 +229,13 @@ http://www.redmine.org, someone@foo.bar
 	<h3><a name="6" class="wiki-page"></a>Font style</h3>
 
 
-<pre><code>* *bold*
+<pre>
+* *bold*
 * _italic_
 * _*bold italic*_
 * +underline+
 * -strike-through-
-&lt;/code></pre>
+</pre>
 
 	<p>Display:</p>
 
@@ -157,17 +262,19 @@ http://www.redmine.org, someone@foo.bar
 	<h3><a name="8" class="wiki-page"></a>Headings</h3>
 
 
-<pre><code>h1. Heading
+<pre>
+h1. Heading
 h2. Subheading
 h3. Subheading
-&lt;/code></pre>
+</pre>
 
 	<h3><a name="9" class="wiki-page"></a>Paragraphs</h3>
 
 
-<pre><code>p&gt;. right aligned
+<pre>
+p&gt;. right aligned
 p=. centered
-&lt;/code></pre>
+</pre>
 
 	<p style="text-align:center;">This is centered paragraph.</p>
 
@@ -178,9 +285,10 @@ p=. centered
 	<p>Start the paragraph with <strong>bq.</strong></p>
 
 
-<pre><code>bq. Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.
+<pre>
+bq. Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.
 To go live, all you need to add is a database and a web server.
-&lt;/code></pre>
+</pre>
 
 	<p>Display:</p>
 
@@ -193,9 +301,10 @@ To go live, all you need to add is a database and a web server.
 	<h3><a name="11" class="wiki-page"></a>Table of content</h3>
 
 
-<pre><code>{{toc}} =&gt; left aligned toc
+<pre>
+{{toc}} =&gt; left aligned toc
 {{&gt;toc}} =&gt; right aligned toc
-&lt;/code></pre>
+</pre>
 
 	<h2><a name="12" class="wiki-page"></a>Macros</h2>
 
@@ -218,10 +327,11 @@ To go live, all you need to add is a database and a web server.
 	<p>You can highlight code in your wiki page using this syntax:</p>
 
 
-<pre><code>&lt;pre&gt;&lt;code class="ruby"&gt;
+<pre>
+&lt;pre&gt;&lt;code class="ruby"&gt;
   Place you code here.
 &lt;/code&gt;&lt;/pre&gt;
-</pre>&lt;/code>
+</pre>
 
 	<p>Example:</p>
 
@@ -236,6 +346,7 @@ To go live, all you need to add is a database and a web server.
 <span class="no"> 8</span>     puts <span class="s"><span class="dl">"</span><span class="k">Hello </span><span class="il"><span class="idl">#{</span><span class="iv">@name</span><span class="idl">}</span></span><span class="k">!</span><span class="dl">"</span></span> 
 <span class="no"> 9</span>   <span class="r">end</span>
 <span class="no"><strong>10</strong></span> <span class="r">end</span>
-</pre>&lt;/code>
+</code>
+</pre>
 </body>
 </html>
