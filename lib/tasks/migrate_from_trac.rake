@@ -324,8 +324,9 @@ namespace :redmine do
                                  :is_filter => true) if r.nil?
         r.trackers = Tracker.find(:all)
         r.projects << @target_project
-        r.possible_values = %w(fixed invalid wontfix duplicate worksforme)
-        custom_field_map['resolution'] = r if r.save
+        r.possible_values = (r.possible_values + %w(fixed invalid wontfix duplicate worksforme)).flatten.compact.uniq
+        r.save!
+        custom_field_map['resolution'] = r
             
         # Tickets
         print "Migrating tickets"
