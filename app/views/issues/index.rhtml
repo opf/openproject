@@ -6,7 +6,7 @@
     <%= hidden_field_tag('project_id', @project.id) if @project %>
     <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
-    <div class="buttons">
+    <p class="buttons">
     <%= link_to_remote l(:button_apply), 
                        { :url => { :set_filter => 1 },
                          :update => "content",
@@ -21,7 +21,7 @@
     <% if current_role && current_role.allowed_to?(:save_queries) %>
     <%= link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save' %>
     <% end %>
-    </div>
+    </p>
     </fieldset>
     <% end %>
 <% else %>
