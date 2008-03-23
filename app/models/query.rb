@@ -339,7 +339,12 @@ class Query < ActiveRecord::Base
       when "t"
         sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(Date.today.to_time), connection.quoted_date((Date.today+1).to_time)]
       when "w"
-        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(Time.now.at_beginning_of_week), connection.quoted_date(Time.now.next_week.yesterday)]
+        from = l(:general_first_day_of_week) == '7' ?
+          # week starts on sunday
+          ((Date.today.cwday == 7) ? Time.now.at_beginning_of_day : Time.now.at_beginning_of_week - 1.day) :
+          # week starts on monday (Rails default)
+          Time.now.at_beginning_of_week
+        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
       when "~"
         sql = sql + "#{db_table}.#{db_field} LIKE '%#{connection.quote_string(v.first)}%'"
       when "!~"
