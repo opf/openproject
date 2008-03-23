@@ -1,3 +1,6 @@
+# CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
+# Based on original CZ translation by Jan Kadleček
+
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix: 
@@ -98,7 +101,7 @@ gui_validation_error_plural: %d chyb(y)
 field_name: Jméno
 field_description: Popis
 field_summary: Přehled
-field_is_required: Požadovaný
+field_is_required: Povinné pole
 field_firstname: Jméno
 field_lastname: Příjmení
 field_mail: Email
@@ -131,7 +134,7 @@ field_priority: Priorita
 field_fixed_version: Přiřazeno k verzi
 field_user: Uživatel
 field_role: Role
-field_homepage: Úvodní
+field_homepage: Homepage
 field_is_public: Veřejný
 field_parent: Nadřazený projekt
 field_is_in_chlog: Úkoly zobrazené v změnovém logu
@@ -204,11 +207,11 @@ setting_date_format: Formát data
 setting_time_format: Formát času
 setting_cross_project_issue_relations: Povolit vazby úkolů napříč projekty
 setting_issue_list_default_columns: Výchozí sloupce zobrazené v seznamu úkolů
-setting_repositories_encodings: Repositories encodings
+setting_repositories_encodings: Kódování 
 setting_emails_footer: Patička emailů
 setting_protocol: Protokol
-setting_per_page_options: Objects per page options
-setting_user_format: Users display format
+setting_per_page_options: Povolené počty řádků na stránce
+setting_user_format: Formát zobrazení uživatele
 setting_activity_days_default: Days displayed on project activity
 setting_display_subprojects_issues: Display subprojects issues on main projects by default
 
@@ -369,7 +372,7 @@ label_in_less_than: je měší než
 label_in_more_than: je větší než
 label_in: v
 label_today: dnes
-label_all_time: veškerý čas
+label_all_time: vše
 label_yesterday: včera
 label_this_week: tento týden
 label_last_week: minulý týden
@@ -377,7 +380,7 @@ label_last_n_days: posledních %d dnů
 label_this_month: tento měsíc
 label_last_month: minulý měsíc
 label_this_year: tento rok
-label_date_range: Rozsah dat
+label_date_range: Časový rozsah
 label_less_than_ago: před méně jak (dny)
 label_more_than_ago: před více jak (dny)
 label_ago: před (dny)

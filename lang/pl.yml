@@ -607,12 +607,12 @@ error_issue_not_found_in_project: 'Zaganienie nie zostało znalezione lub nie na
 text_assign_time_entries_to_project: Przypisz logowany czas do projektu
 text_destroy_time_entries: Usuń zalogowany czas
 text_reassign_time_entries: 'Przepnij zalogowany czas do tego zagadnienia:'
-label_chronological_order: In chronological order
-setting_activity_days_default: Days displayed on project activity
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
-error_scm_annotate: "The entry does not exist or can not be annotated."
+label_chronological_order: W kolejności chronologicznej
+setting_activity_days_default: Dni wyświetlane w aktywności projektu
+setting_display_subprojects_issues: Domyślnie pokazuj zagadnienia podprojektów w głównym projekcie
+field_comments_sorting: Pokazuj komentarze
+label_reverse_chronological_order: W kolejności odwrotnej do chronologicznej
+label_preferences: Preferencje
+label_overall_activity: Ogólna aktywność
+setting_default_projects_public: Nowe projekty są domyślnie publiczne
+error_scm_annotate: "Wpis nie istnieje lub nie można do niego dodawać adnotacji."

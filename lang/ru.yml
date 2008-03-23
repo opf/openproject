@@ -127,7 +127,7 @@ field_subject: Тема
 field_due_date: Дата выполнения
 field_assigned_to: Назначена
 field_priority: Приоритет
-field_fixed_version: Target version
+field_fixed_version: Версия
 field_user: Пользователь
 field_role: Роль
 field_homepage: Стартовая страница
@@ -316,9 +316,9 @@ label_total: Всего
 label_permissions: Права доступа
 label_current_status: Текущий статус
 label_new_statuses_allowed: Разрешены новые статусы
-label_all: Все
-label_none: Никому
-label_nobody: Никто
+label_all: все
+label_none: отсутствует 
+label_nobody: никто
 label_next: Следующий
 label_previous: Предыдущий
 label_used_by: Используется
@@ -342,8 +342,8 @@ label_query_plural: Запросы клиентов
 label_query_new: Новый запрос
 label_filter_add: Добавить фильтр
 label_filter_plural: Фильтры
-label_equals: есть
-label_not_equals: нет
+label_equals: является
+label_not_equals: не является
 label_in_less_than: Менее чем
 label_in_more_than: более чем
 label_in: в
@@ -611,12 +611,12 @@ error_issue_not_found_in_project: Задача не была найдена ил
 text_assign_time_entries_to_project: Прикрепить зарегистрированное время к проекту
 text_destroy_time_entries: Удалить зарегистрированное время
 text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
+setting_activity_days_default: Кол-во дней, отображаемых в Активности
+label_chronological_order: В хронологическом порядке 
+field_comments_sorting: Отображение комментариев
+label_reverse_chronological_order: В обратном порядке
+label_preferences: Предпочтения
+setting_display_subprojects_issues: Отображение подпроектов по умолчанию
+label_overall_activity: Сводная активность
+setting_default_projects_public: Новые проекты являются публичными
 error_scm_annotate: "The entry does not exist or can not be annotated."
