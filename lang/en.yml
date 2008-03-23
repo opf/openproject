@@ -509,6 +509,7 @@ label_add_another_file: Add another file
 label_preferences: Preferences
 label_chronological_order: In chronological order
 label_reverse_chronological_order: In reverse chronological order
+label_planning: Planning
 
 button_login: Login
 button_submit: Submit

@@ -61,7 +61,7 @@
       planning_links << link_to_if_authorized(l(:label_gantt), :action => 'gantt', :id => @project)
       planning_links.compact!
       unless planning_links.empty? %>
-    <h3>Planning</h3>
+    <h3><%= l(:label_planning) %></h3>
     <p><%= planning_links.join(' | ') %></p>
     <% end %>
     

@@ -616,3 +616,4 @@ setting_display_subprojects_issues: Display subprojects issues on main projects 
 label_overall_activity: Overall activity
 setting_default_projects_public: New projects are public by default
 error_scm_annotate: "The entry does not exist or can not be annotated."
+label_planning: Planning

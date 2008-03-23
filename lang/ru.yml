@@ -620,3 +620,4 @@ setting_display_subprojects_issues: Отображение подпроекто�
 label_overall_activity: Сводная активность
 setting_default_projects_public: Новые проекты являются публичными
 error_scm_annotate: "The entry does not exist or can not be annotated."
+label_planning: Planning

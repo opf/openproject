@@ -617,3 +617,4 @@ text_no_configuration_data: "Roles, trackers, issue statuses and workflow have n
 label_news_added: News added
 label_repository_plural: Repositories
 error_can_t_load_default_data: "Default configuration could not be loaded: %s"
+label_planning: Planning
