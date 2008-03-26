@@ -149,10 +149,10 @@ namespace :redmine do
         def time; Time.at(read_attribute(:time)) end
       end
       
-      TRAC_WIKI_PAGES = %w(TracAccessibility TracAdmin TracBackup TracBrowser TracCgi TracChangeset \
+      TRAC_WIKI_PAGES = %w(InterMapTxt InterTrac InterWiki RecentChanges SandBox TracAccessibility TracAdmin TracBackup TracBrowser TracCgi TracChangeset \
                            TracEnvironment TracFastCgi TracGuide TracImport TracIni TracInstall TracInterfaceCustomization \
                            TracLinks TracLogging TracModPython TracNotification TracPermissions TracPlugins TracQuery \
-                           TracReports TracRoadmap TracRss TracSearch TracStandalone TracSupport TracSyntaxColoring TracTickets \
+                           TracReports TracRevisionLog TracRoadmap TracRss TracSearch TracStandalone TracSupport TracSyntaxColoring TracTickets \
                            TracTicketsCustomFields TracTimeline TracUnicode TracUpgrade TracWiki WikiDeletePage WikiFormatting \
                            WikiHtml WikiMacros WikiNewPage WikiPageNames WikiProcessors WikiRestructuredText WikiRestructuredTextLinks \
                            CamelCase TitleIndex)
