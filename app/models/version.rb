@@ -89,11 +89,11 @@ class Version < ActiveRecord::Base
   
   def to_s; name end
   
-  # Versions are sorted by effective_date 
+  # Versions are sorted by effective_date and name
   # Those with no effective_date are at the end, sorted by name
   def <=>(version)
     if self.effective_date
-      version.effective_date ? (self.effective_date <=> version.effective_date) : -1
+      version.effective_date ? (self.effective_date == version.effective_date ? self.name <=> version.name : self.effective_date <=> version.effective_date) : -1
     else
       version.effective_date ? 1 : (self.name <=> version.name)
     end
