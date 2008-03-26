@@ -17,6 +17,13 @@
 
 module CustomFieldsHelper
 
+  def custom_fields_tabs
+    tabs = [{:name => 'IssueCustomField', :label => :label_issue_plural},
+            {:name => 'ProjectCustomField', :label => :label_project_plural},
+            {:name => 'UserCustomField', :label => :label_user_plural}
+            ]
+  end
+  
   # Return custom field html tag corresponding to its format
   def custom_field_tag(custom_value)	
     custom_field = custom_value.custom_field

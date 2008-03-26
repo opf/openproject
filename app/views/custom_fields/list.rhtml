@@ -1,21 +1,26 @@
 <h2><%=l(:label_custom_field_plural)%></h2>
 
+<% selected_tab = params[:tab] ? params[:tab].to_s : custom_fields_tabs.first[:name] %>
+
 <div class="tabs">
 <ul>
-<li><%= link_to l(:label_issue_plural), {}, :id=> "tab-IssueCustomField", :onclick => "showTab('IssueCustomField'); this.blur(); return false;" %></li>
-<li><%= link_to l(:label_project_plural), {}, :id=> "tab-ProjectCustomField", :onclick => "showTab('ProjectCustomField'); this.blur(); return false;" %></li>
-<li><%= link_to l(:label_user_plural), {}, :id=> "tab-UserCustomField", :onclick => "showTab('UserCustomField'); this.blur(); return false;" %></li>
+<% custom_fields_tabs.each do |tab| -%>
+    <li><%= link_to l(tab[:label]), { :tab => tab[:name] },
+                                    :id => "tab-#{tab[:name]}",
+                                    :class => (tab[:name] != selected_tab ? nil : 'selected'),
+                                    :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;" %></li>
+<% end -%>
 </ul>
 </div>
 
-<% %w(IssueCustomField ProjectCustomField UserCustomField).each do |type| %>
-<div id="tab-content-<%= type %>" class="tab-content">
+<% custom_fields_tabs.each do |tab| %>
+<div id="tab-content-<%= tab[:name] %>" class="tab-content" style="<%= tab[:name] != selected_tab ? 'display:none' : nil %>">
 <table class="list">		
   <thead><tr>	
 	<th width="30%"><%=l(:field_name)%></th>
 	<th><%=l(:field_field_format)%></th>
 	<th><%=l(:field_is_required)%></th>
-	<% if type == 'IssueCustomField' %>
+	<% if tab[:name] == 'IssueCustomField' %>
 	<th><%=l(:field_is_for_all)%></th>
 	<th><%=l(:label_used_by)%></th>
 	<% end %>
@@ -23,12 +28,12 @@
 	<th width="10%"></th>
   </tr></thead>
   <tbody>
-<% for custom_field in (@custom_fields_by_type[type] || []).sort %>
+<% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
   <tr class="<%= cycle("odd", "even") %>">
 	<td><%= link_to custom_field.name, :action => 'edit', :id => custom_field %></td>
 	<td align="center"><%= l(CustomField::FIELD_FORMATS[custom_field.field_format][:name]) %></td>
 	<td align="center"><%= image_tag 'true.png' if custom_field.is_required? %></td>
-	<% if type == 'IssueCustomField' %>
+	<% if tab[:name] == 'IssueCustomField' %>
 	<td align="center"><%= image_tag 'true.png' if custom_field.is_for_all? %></td>
 	<td align="center"><%= custom_field.projects.count.to_s + ' ' + lwr(:label_project, custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
 	<% end %>
@@ -45,11 +50,9 @@
 <% end; reset_cycle %>
   </tbody>
 </table>
-<br />
-<%= link_to l(:label_custom_field_new), {:action => 'new', :type => type}, :class => 'icon icon-add' %>
+
+<p><%= link_to l(:label_custom_field_new), {:action => 'new', :type => tab[:name]}, :class => 'icon icon-add' %></p>
 </div>
 <% end %>
-
-<%= javascript_tag "showTab('#{@tab}');" %>
 
 <% html_title(l(:label_custom_field_plural)) -%>
