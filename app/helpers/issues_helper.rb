@@ -131,6 +131,8 @@ module IssuesHelper
       # otherwise export custom fields marked as "For all projects"
       custom_fields = project.nil? ? IssueCustomField.for_all : project.all_custom_fields
       custom_fields.each {|f| headers << f.name}
+      # Description in the last column
+      headers << l(:field_description)
       csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       # csv lines
       issues.each do |issue|
@@ -152,6 +154,7 @@ module IssuesHelper
                   format_time(issue.updated_on)
                   ]
         custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
+        fields << issue.description
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       end
     end
