@@ -80,6 +80,7 @@ notice_default_data_loaded: 成功载入默认设置。
 error_can_t_load_default_data: "无法载入默认设置：%s"
 error_scm_not_found: "版本库中不存在该条目和（或）其修订版本。"
 error_scm_command_failed: "访问版本库时发生错误：%s"
+error_scm_annotate: "该条目不存在或无法追溯。"
 error_issue_not_found_in_project: '问题不存在或不属于此项目'
 
 mail_subject_lost_password: 您的 %s 密码
@@ -193,6 +194,7 @@ setting_host_name: 主机名称
 setting_text_formatting: 文本格式
 setting_wiki_compression: 压缩Wiki历史文档
 setting_feeds_limit: RSS Feed内容条数限制
+setting_default_projects_public: 新建项目默认为公开项目
 setting_autofetch_changesets: 自动获取程序变更
 setting_sys_api_enabled: 启用用于版本库管理的Web Service
 setting_commit_ref_keywords: 用于引用问题的关键字
@@ -507,6 +509,7 @@ label_add_another_file: 添加其它文件
 label_preferences: 首选项
 label_chronological_order: 按时间顺序
 label_reverse_chronological_order: 按时间顺序（倒序）
+label_planning: 计划
 
 button_login: 登录
 button_submit: 提交
@@ -615,6 +618,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-setting_default_projects_public: New projects are public by default
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning

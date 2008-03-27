@@ -78,17 +78,18 @@ notice_account_pending: "您的帳號已經建立，正在等待管理員的審�
 notice_default_data_loaded: 預設組態已載入成功。
 
 error_can_t_load_default_data: "無法載入預設組態： %s"
-error_scm_not_found: SCM 儲存庫中找不到這個專案與(或)版本。
-error_scm_command_failed: "嘗試存取儲存庫時發生錯誤：: %s"
+error_scm_not_found: SCM 儲存庫中找不到這個專案或版本。
+error_scm_command_failed: "嘗試存取儲存庫時發生錯誤： %s"
+error_scm_annotate: "SCM 儲存庫中無此項目或此項目無法被加註。"
 error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
 
-mail_subject_lost_password: 您的 %s 網站密碼
-mail_body_lost_password: '欲變更您的 網站密碼, 請點選以下鏈結:'
-mail_subject_register: 啟用您的 %s 帳號
-mail_body_register: '欲啟用您的 帳號, 請點選以下鏈結:'
-mail_body_account_information_external: 您可以使用 "%s" 帳號登入 網站。
-mail_body_account_information: 您的 帳號資訊
-mail_subject_account_activation_request: %s 帳號啟用需求通知
+mail_subject_lost_password: 您的 Redmine 網站密碼
+mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
+mail_subject_register: 啟用您的 Redmine 帳號
+mail_body_register: '欲啟用您的 Redmine 帳號, 請點選以下鏈結:'
+mail_body_account_information_external: 您可以使用 "%s" 帳號登入 Redmine 網站。
+mail_body_account_information: 您的 Redmine 帳號資訊
+mail_subject_account_activation_request: Redmine 帳號啟用需求通知
 mail_body_account_activation_request: '有位新用戶 (%s) 已經完成註冊，正等候您的審核：'
 
 gui_validation_error: 1 個錯誤
@@ -177,7 +178,7 @@ field_column_names: Columns
 field_time_zone: 時區
 field_searchable: 可用做搜尋條件
 field_default_value: 預設值
-field_comments_sorting: 顯示註解
+field_comments_sorting: 註解排序
 
 setting_app_title: 標題
 setting_app_subtitle: 副標題
@@ -508,6 +509,7 @@ label_add_another_file: 增加其他檔案
 label_preferences: 偏好選項
 label_chronological_order: 以時間由遠至近排序
 label_reverse_chronological_order: 以時間由近至遠排序
+label_planning: 計劃表
 
 button_login: 登入
 button_submit: 送出
@@ -616,5 +618,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning

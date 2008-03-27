@@ -135,7 +135,7 @@ field_parent: Underprojekt af
 field_is_in_chlog: Sager vist i ændringer
 field_is_in_roadmap: Sager vist i roadmap
 field_login: Login
-field_mail_notification: Email notifikatiner
+field_mail_notification: Email notifikationer
 field_admin: Administrator
 field_last_login_on: Sidste forbindelse
 field_language: Sprog
@@ -153,7 +153,7 @@ field_attr_login: Login attribut
 field_attr_firstname: Fornavn attribut
 field_attr_lastname: Efternavn attribut
 field_attr_mail: Email attribut
-field_onthefly: On-the-fly bruger oprettelse
+field_onthefly: løbende bruger oprettelse
 field_start_date: Start
 field_done_ratio: %% Færdig
 field_auth_source: Sikkerheds metode
@@ -180,7 +180,7 @@ field_default_value: Standard værdi
 setting_app_title: Applikations titel
 setting_app_subtitle: Applikations undertekst
 setting_welcome_text: Velkomst tekst
-setting_default_language: Standrad sporg
+setting_default_language: Standard sporg
 setting_login_required: Sikkerhed påkrævet
 setting_self_registration: Bruger oprettelse
 setting_attachment_max_size: Vedhæftede filers max størrelse
@@ -198,15 +198,15 @@ setting_commit_fix_keywords: Afslutnings nøgleord
 setting_autologin: Autologin
 setting_date_format: Dato format
 setting_time_format: Tids format
-setting_cross_project_issue_relations: Tillad cross-projekt sags relationer
-setting_issue_list_default_columns: Standrad kolonner på sags listen
+setting_cross_project_issue_relations: Tillad sags relationer på tværs af projekter
+setting_issue_list_default_columns: Standard kolonner på sags listen
 setting_repositories_encodings: Repository tegnsæt
 setting_emails_footer: Email fodnote
 setting_protocol: Protokol
 setting_per_page_options: Objekter pr. side indstillinger
 setting_user_format: Bruger visnings format
 
-project_module_issue_tracking: Sag søgning
+project_module_issue_tracking: Sags søgning
 project_module_time_tracking: Tids styring
 project_module_news: Nyheder
 project_module_documents: Dokumenter
@@ -314,12 +314,12 @@ label_news_view_all: Vis alle nyheder
 label_news_added: Nyhed tilføjet
 label_change_log: Ændringer
 label_settings: Indstillinger
-label_overview: Oversit
+label_overview: Oversigt
 label_version: Version
 label_version_new: Ny version
 label_version_plural: Versioner
 label_confirmation: Bekræftigelser
-label_export_to: Exporter til
+label_export_to: Eksporter til
 label_read: Læs...
 label_public_projects: Offentlige projekter
 label_open_issues: åben
@@ -383,14 +383,14 @@ label_browse: Gennemse
 label_modification: %d ændring
 label_modification_plural: %d ændringer
 label_revision: Revision
-label_revision_plural: Revisions
-label_associated_revisions: Tilnyttede revisions
+label_revision_plural: Revisioner
+label_associated_revisions: Tilnyttede revisioner
 label_added: tilføjet
 label_modified: ændret
 label_deleted: slettet
 label_latest_revision: Seneste revision
-label_latest_revision_plural: Seneste revisions
-label_view_revisions: Se revisions
+label_latest_revision_plural: Seneste revisioner
+label_view_revisions: Se revisioner
 label_max_size: Maximal størrelse
 label_on: 'til'
 label_sort_highest: Flyt til toppen
@@ -427,11 +427,11 @@ label_commits_per_author: Commits pr. bruger
 label_view_diff: Vis forskellighed
 label_diff_inline: inline
 label_diff_side_by_side: side ved side
-label_options: Options
+label_options: Optioner
 label_copy_workflow_from: Kopier arbejdsgang fra
 label_permissions_report: Godkendelses rapport
 label_watched_issues: Overvågede sager
-label_related_issues: Relaterede sage
+label_related_issues: Relaterede sager
 label_applied_status: Anvendte statuser
 label_loading: Indlæser...
 label_relation_new: Ny relation
@@ -452,7 +452,7 @@ label_show_completed_versions: Vis færdige versioner
 label_me: mig
 label_board: Forum
 label_board_new: Nyt forum
-label_board_plural: Forumer
+label_board_plural: Fora
 label_topic_plural: Emner
 label_message_plural: Beskeder
 label_message_last: Sidste besked
@@ -521,7 +521,7 @@ button_back: Tilbage
 button_cancel: Annuller
 button_activate: Aktiver
 button_sort: Sorter
-button_log_time: Log tidspunkt
+button_log_time: Log tid
 button_rollback: Tilbagefør til denne version
 button_watch: Overvåg
 button_unwatch: Stop overvågning
@@ -552,7 +552,7 @@ text_journal_deleted: slettet
 text_tip_task_begin_day: opgaven begynder denne dag
 text_tip_task_end_day: opaven slutter denne dag
 text_tip_task_begin_end_day: opgaven begynder og slutter denne dag
-text_project_identifier_info: 'Minuskler (a-z), numre og bindestreg er tilladt.<br />Når den er gemt, kan indifikatoren ikke rettes.'
+text_project_identifier_info: 'Små bogstaver (a-z), numre og bindestreg er tilladt.<br />Når den er gemt, kan indifikatoren ikke rettes.'
 text_caracters_maximum: max %d karakterer.
 text_caracters_minimum: Skal være mindst %d karakterer lang.
 text_length_between: Længde skal være mellem %d og %d karakterer.
@@ -602,20 +602,20 @@ enumeration_issue_priorities: Sags prioriteter
 enumeration_doc_categories: Dokument kategorier
 enumeration_activities: Aktiviteter (tids styring)
 
-label_add_another_file: Add another file
-label_chronological_order: In chronological order
-setting_activity_days_default: Days displayed on project activity
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_optional_description: Optional description
-text_destroy_time_entries: Delete reported hours
-field_comments_sorting: Display comments
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-label_reverse_chronological_order: In reverse chronological order
+label_add_another_file: Tilføj endnu en fil
+label_chronological_order: I kronologisk rækkefølge
+setting_activity_days_default: Antal dage der vises under projekt aktivitet
+text_destroy_time_entries_question: %.02f timer er reporteret på denne sag, som du er ved at slette. Hvad vil du gøre ?
+error_issue_not_found_in_project: 'Sagen blev ikke fundet eller tilhører ikke dette projekt'
+text_assign_time_entries_to_project: Tildel raporterede timer til projektet
+setting_display_subprojects_issues: Vis sager for underprojekter på hovedprojektet som default
+label_optional_description: Optionel beskrivelse
+text_destroy_time_entries: Slet raportede timer
+field_comments_sorting: Vis kommentar
+text_reassign_time_entries: 'Tildel raportede timer til denne sag igen'
+label_reverse_chronological_order: I omvendt kronologisk rækkefølge
 label_preferences: Preferences
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
+label_overall_activity: Overordnet aktivitet
+setting_default_projects_public: Nye projekter er offentlige som default
 error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
+label_planning: Planlægning

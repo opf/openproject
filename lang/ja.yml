@@ -50,7 +50,7 @@ general_text_yes: 'はい'
 general_lang_name: 'Japanese (日本語)'
 general_csv_separator: ','
 general_csv_encoding: SJIS
-general_pdf_encoding: SJIS
+general_pdf_encoding: UTF-8
 general_day_names: 月曜日,火曜日,水曜日,木曜日,金曜日,土曜日,日曜日
 general_first_day_of_week: '7'
 
@@ -79,7 +79,7 @@ error_scm_command_failed: "リポジトリへアクセスしようとしてエ�
 
 mail_subject_lost_password: %sパスワード
 mail_body_lost_password: 'パスワードを変更するには、以下のリンクをたどってください:'
-mail_subject_register: %sアカウントが有効になりました
+mail_subject_register: %sアカウントのアクティブ化
 mail_body_register: 'アカウントをアクティブにするには、以下のリンクをたどってください:'
 
 gui_validation_error: 1件のエラー
@@ -601,20 +601,20 @@ label_date_range: 日付の範囲
 label_last_week: 先週
 label_yesterday: 昨日
 label_last_month: 先月
-label_add_another_file: Add another file
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-label_optional_description: Optional description
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
+label_add_another_file: 別のファイルを追加
+text_destroy_time_entries_question: チケットに記録された%.02f時間を削除しようとしています。何がしたいのですか？
+error_issue_not_found_in_project: 'チケットが見つかりません、もしくはこのプロジェクトに属していません'
+text_assign_time_entries_to_project: 記録された時間をプロジェクトに割り当て
+label_optional_description: 任意のコメント
+text_destroy_time_entries: 記録された時間を削除
+text_reassign_time_entries: '記録された時間をこのチケットに再割り当て：'
+setting_activity_days_default: プロジェクトの活動ページに表示される日数
+label_chronological_order: 古い順
+field_comments_sorting: コメントを表示
+label_reverse_chronological_order: 新しい順
+label_preferences: 設定
+setting_display_subprojects_issues: デフォルトでサブプロジェクトのチケットをメインプロジェクトに表示する
+label_overall_activity: 全ての活動
+setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
+error_scm_annotate: "エントリが存在しない、もしくはアノテートできません。"
+label_planning: 計画

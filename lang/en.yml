@@ -67,11 +67,11 @@ notice_successful_update: Successful update.
 notice_successful_delete: Successful deletion.
 notice_successful_connection: Successful connection.
 notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
-notice_locking_conflict: Data have been updated by another user.
+notice_locking_conflict: Data has been updated by another user.
 notice_not_authorized: You are not authorized to access this page.
 notice_email_sent: An email was sent to %s
 notice_email_error: An error occurred while sending mail (%s)
-notice_feeds_access_key_reseted: Your RSS access key was reseted.
+notice_feeds_access_key_reseted: Your RSS access key was reset.
 notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
 notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
 notice_account_pending: "Your account was created and is now pending administrator approval."
@@ -264,7 +264,7 @@ label_enumerations: Enumerations
 label_enumeration_new: New value
 label_information: Information
 label_information_plural: Information
-label_please_login: Please login
+label_please_login: Please log in
 label_register: Register
 label_password_lost: Lost password
 label_home: Home
@@ -284,7 +284,7 @@ label_registered_on: Registered on
 label_activity: Activity
 label_overall_activity: Overall activity
 label_new: New
-label_logged_as: Logged as
+label_logged_as: Logged in as
 label_environment: Environment
 label_authentication: Authentication
 label_auth_source: Authentication mode
@@ -556,7 +556,7 @@ status_locked: locked
 text_select_mail_notifications: Select actions for which email notifications should be sent.
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 means no restriction
-text_project_destroy_confirmation: Are you sure you want to delete this project and all related data ?
+text_project_destroy_confirmation: Are you sure you want to delete this project and related data ?
 text_workflow_edit: Select a role and a tracker to edit the workflow
 text_are_you_sure: Are you sure ?
 text_journal_changed: changed from %s to %s

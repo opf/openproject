@@ -72,7 +72,7 @@ Calendar._TT["DAY_FIRST"] = "Vis %s først";
 // This may be locale-dependent.  It specifies the week-end days, as an array
 // of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
 // means Monday, etc.
-Calendar._TT["WEEKEND"] = "6,0";
+Calendar._TT["WEEKEND"] = "0,6";
 
 Calendar._TT["CLOSE"] = "Lukk";
 Calendar._TT["TODAY"] = "Idag";

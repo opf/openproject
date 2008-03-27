@@ -26,7 +26,7 @@ activerecord_error_confirmation: stemmer ikke med bekreftelsen
 activerecord_error_accepted: må aksepteres
 activerecord_error_empty: kan ikke være tom
 activerecord_error_blank: kan ikke være blank
-activerecord_error_too_long: er for lang
+activerecord_error_too_long: er for langt
 activerecord_error_too_short: er for kort
 activerecord_error_wrong_length: har feil lengde
 activerecord_error_taken: er opptatt
@@ -68,7 +68,6 @@ notice_successful_delete: Slettet.
 notice_successful_connection: Koblet opp.
 notice_file_not_found: Siden du forsøkte å vise eksisterer ikke, eller er slettet.
 notice_locking_conflict: Data har blitt oppdatert av en annen bruker.
-notice_scm_error: Elementet og/eller revisjonen eksisterer ikke i depoet.
 notice_not_authorized: Du har ikke adgang til denne siden.
 notice_email_sent: En e-post er sendt til %s
 notice_email_error: En feil oppstod under sending av e-post (%s)
@@ -76,6 +75,13 @@ notice_feeds_access_key_reseted: Din RSS-tilgangsnøkkel er nullstilt.
 notice_failed_to_save_issues: "Lykkes ikke å lagre %d sak(er) på %d valgt: %s."
 notice_no_issue_selected: "Ingen sak valgt! Vennligst merk sakene du vil endre."
 notice_account_pending: "Din konto ble opprettet og avventer nå administrativ godkjenning."
+notice_default_data_loaded: Standardkonfigurasjonen lastet inn.
+
+error_can_t_load_default_data: "Standardkonfigurasjonen kunne ikke lastes inn: %s"
+error_scm_not_found: "Elementet og/eller revisjonen eksisterer ikke i depoet."
+error_scm_command_failed: "En feil oppstod under tilkobling til depoet: %s"
+error_scm_annotate: "Elementet eksisterer ikke, eller kan ikke annoteres."
+error_issue_not_found_in_project: 'Saken eksisterer ikke, eller hører ikke til dette prosjektet'
 
 mail_subject_lost_password: Ditt %s passord
 mail_body_lost_password: 'Klikk følgende lenke for å endre ditt passord:'
@@ -115,7 +121,7 @@ field_project: Prosjekt
 field_issue: Sak
 field_status: Status
 field_notes: Notater
-field_is_closed: Saken er lukket
+field_is_closed: Lukker saken
 field_is_default: Standardverdi
 field_tracker: Sakstype
 field_subject: Emne
@@ -128,8 +134,8 @@ field_role: Rolle
 field_homepage: Hjemmeside
 field_is_public: Offentlig
 field_parent: Underprosjekt til
-field_is_in_chlog: Saker vist i endringslogg
-field_is_in_roadmap: Saker vist i veikart
+field_is_in_chlog: Vises i endringslogg
+field_is_in_roadmap: Vises i veikart
 field_login: Brukernavn
 field_mail_notification: E-post varsling
 field_admin: Administrator
@@ -140,7 +146,7 @@ field_password: Passord
 field_new_password: Nytt passord
 field_password_confirmation: Bekreft passord
 field_version: Versjon
-field_type: Saksype
+field_type: Type
 field_host: Vert
 field_port: Port
 field_account: Konto
@@ -162,7 +168,7 @@ field_hours: Timer
 field_activity: Activitet
 field_spent_on: Dato
 field_identifier: Identifikasjon
-field_is_filter: Brukt som et filter
+field_is_filter: Brukes som filter
 field_issue_to_id: Relatert saker
 field_delay: Forsinkelse
 field_assignable: Saker kan tildeles denne rollen
@@ -171,13 +177,15 @@ field_estimated_hours: Estimert tid
 field_column_names: Kolonner
 field_time_zone: Tidssone
 field_searchable: Søkbar
+field_default_value: Standardverdi
+field_comments_sorting: Vis kommentarer
 
-setting_app_title: Appliksjonstittel
+setting_app_title: Applikasjonstittel
 setting_app_subtitle: Applikasjonens undertittel
-setting_welcome_text: Velkomstekst
+setting_welcome_text: Velkomsttekst
 setting_default_language: Standardspråk
 setting_login_required: Krever innlogging
-setting_self_registration: Selv-registrering
+setting_self_registration: Selvregistrering
 setting_attachment_max_size: Maks. størrelse vedlegg
 setting_issues_export_limit: Eksportgrense for saker
 setting_mail_from: Avsenders e-post
@@ -186,11 +194,12 @@ setting_host_name: Vertsnavn
 setting_text_formatting: Tekstformattering
 setting_wiki_compression: Komprimering av Wiki-historikk
 setting_feeds_limit: Innholdsgrense for Feed
+setting_default_projects_public: Nye prosjekter er offentlige som standard
 setting_autofetch_changesets: Autohenting av innsendinger
 setting_sys_api_enabled: Aktiver webservice for depot-administrasjon
 setting_commit_ref_keywords: Nøkkelord for referanse
 setting_commit_fix_keywords: Nøkkelord for retting
-setting_autologin: Autoinnloging
+setting_autologin: Autoinnlogging
 setting_date_format: Datoformat
 setting_time_format: Tidsformat
 setting_cross_project_issue_relations: Tillat saksrelasjoner mellom prosjekter
@@ -198,6 +207,19 @@ setting_issue_list_default_columns: Standardkolonner vist i sakslisten
 setting_repositories_encodings: Depot-tegnsett
 setting_emails_footer: E-post-signatur
 setting_protocol: Protokoll
+setting_per_page_options: Alternativer, objekter pr. side
+setting_user_format: Visningsformat, brukere
+setting_activity_days_default: Dager vist på prosjektaktivitet
+setting_display_subprojects_issues: Vis saker fra underprosjekter på hovedprosjekt som standard
+
+project_module_issue_tracking: Sakssporing
+project_module_time_tracking: Tidssporing
+project_module_news: Nyheter
+project_module_documents: Dokumenter
+project_module_files: Filer
+project_module_wiki: Wiki
+project_module_repository: Depot
+project_module_boards: Forumer
 
 label_user: Bruker
 label_user_plural: Brukere
@@ -212,9 +234,12 @@ label_issue_new: Ny sak
 label_issue_plural: Saker
 label_issue_view_all: Vis alle saker
 label_issues_by: Saker etter %s
+label_issue_added: Sak lagt til
+label_issue_updated: Sak oppdatert
 label_document: Dokument
 label_document_new: Nytt dokument
 label_document_plural: Dokumenter
+label_document_added: Dokument lagt til
 label_role: Rolle
 label_role_plural: Roller
 label_role_new: Ny rolle
@@ -257,6 +282,7 @@ label_last_updates: Sist oppdatert
 label_last_updates_plural: %d siste oppdaterte
 label_registered_on: Registrert
 label_activity: Aktivitet
+label_overall_activity: Total aktivitet
 label_new: Ny
 label_logged_as: Innlogget som
 label_environment: Miljø
@@ -284,6 +310,7 @@ label_attachment: Fil
 label_attachment_new: Ny fil
 label_attachment_delete: Slett fil
 label_attachment_plural: Filer
+label_file_added: Fil lagt til
 label_report: Rapport
 label_report_plural: Rapporter
 label_news: Nyheter
@@ -291,6 +318,7 @@ label_news_new: Legg til nyhet
 label_news_plural: Nyheter
 label_news_latest: Siste nyheter
 label_news_view_all: Vis alle nyheter
+label_news_added: Nyhet lagt til
 label_change_log: Endringslogg
 label_settings: Innstillinger
 label_overview: Oversikt
@@ -308,7 +336,7 @@ label_closed_issues_plural: lukkede
 label_total: Total
 label_permissions: Godkjenninger
 label_current_status: Nåværende status
-label_new_statuses_allowed: Nye statuser tillat
+label_new_statuses_allowed: Tillatte nye statuser
 label_all: alle
 label_none: ingen
 label_nobody: ingen
@@ -324,7 +352,7 @@ label_gantt: Gantt
 label_internal: Intern
 label_last_changes: siste %d endringer
 label_change_view_all: Vis alle endringer
-label_personalize_page: Personaliser denne siden
+label_personalize_page: Tilrettelegg denne siden
 label_comment: Kommentar
 label_comment_plural: Kommentarer
 label_comment_add: Legg til kommentar
@@ -341,7 +369,15 @@ label_in_less_than: er mindre enn
 label_in_more_than: in mer enn
 label_in: i
 label_today: idag
+label_all_time: all tid
+label_yesterday: i går
 label_this_week: denne uken
+label_last_week: sist uke
+label_last_n_days: siste %d dager
+label_this_month: denne måneden
+label_last_month: siste måned
+label_this_year: dette året
+label_date_range: Dato-spenn
 label_less_than_ago: mindre enn dager siden
 label_more_than_ago: mer enn dager siden
 label_ago: dager siden
@@ -349,11 +385,13 @@ label_contains: inneholder
 label_not_contains: ikke inneholder
 label_day_plural: dager
 label_repository: Depot
+label_repository_plural: Depoter
 label_browse: Utforsk
 label_modification: %d endring
 label_modification_plural: %d endringer
 label_revision: Revisjon
 label_revision_plural: Revisjoner
+label_associated_revisions: Assosierte revisjoner
 label_added: lagt til
 label_modified: endret
 label_deleted: slettet
@@ -368,7 +406,7 @@ label_sort_lower: Flytt ned
 label_sort_lowest: Flytt til bunnen
 label_roadmap: Veikart
 label_roadmap_due_in: Frist om
-label_roadmap_overdue: %s forsinket
+label_roadmap_overdue: %s over fristen
 label_roadmap_no_issues: Ingen saker for denne versjonen
 label_search: Søk
 label_result_plural: Resultater
@@ -396,7 +434,7 @@ label_commits_per_author: Innsendinger pr. forfatter
 label_view_diff: Vis forskjeller
 label_diff_inline: i teksten
 label_diff_side_by_side: side ved side
-label_options: Valg
+label_options: Alternativer
 label_copy_workflow_from: Kopier arbeidsflyt fra
 label_permissions_report: Godkjenningsrapport
 label_watched_issues: Overvåkede saker
@@ -415,7 +453,7 @@ label_end_to_start: slutt til start
 label_end_to_end: slutt til slutt
 label_start_to_start: start til start
 label_start_to_end: start til slutt
-label_stay_logged_in: Logg meg inn automatisk
+label_stay_logged_in: Hold meg innlogget
 label_disabled: avslått
 label_show_completed_versions: Vis ferdige versjoner
 label_me: meg
@@ -426,6 +464,7 @@ label_topic_plural: Emner
 label_message_plural: Meldinger
 label_message_last: Siste melding
 label_message_new: Ny melding
+label_message_posted: Melding lagt til
 label_reply_plural: Svar
 label_send_information: Send kontoinformasjon til brukeren
 label_year: År
@@ -456,6 +495,21 @@ label_user_mail_no_self_notified: "Jeg vil ikke bli varslet om endringer jeg sel
 label_registration_activation_by_email: kontoaktivering pr. e-post
 label_registration_manual_activation: manuell kontoaktivering
 label_registration_automatic_activation: automatisk kontoaktivering
+label_display_per_page: 'Pr. side: %s'
+label_age: Alder
+label_change_properties: Endre egenskaper
+label_general: Generell
+label_more: Mer
+label_scm: SCM
+label_plugins: Tillegg
+label_ldap_authentication: LDAP-autentifikasjon
+label_downloads_abbr: Nedl.
+label_optional_description: Valgfri beskrivelse
+label_add_another_file: Legg til en fil til
+label_preferences: Brukerinnstillinger
+label_chronological_order: I kronologisk rekkefølge
+label_reverse_chronological_order: I omvendt kronologisk rekkefølge
+label_planning: Planlegging
 
 button_login: Logg inn
 button_submit: Send
@@ -492,6 +546,8 @@ button_rename: Endre navn
 button_change_password: Endre passord
 button_copy: Kopier
 button_annotate: Annotér
+button_update: Oppdater
+button_configure: Konfigurer
 
 status_active: aktiv
 status_registered: registrert
@@ -511,19 +567,31 @@ text_tip_task_end_day: oppgaven avsluttes denne dagen
 text_tip_task_begin_end_day: oppgaven starter og avsluttes denne dagen
 text_project_identifier_info: 'Små bokstaver (a-z), nummer og binde-/understrek tillat.<br />Identifikatoren kan ikke endres etter den er lagret.'
 text_caracters_maximum: %d tegn maksimum.
-text_caracters_minimum: Må være minst %d tegn lang.
+text_caracters_minimum: Må være minst %d tegn langt.
 text_length_between: Lengde mellom %d og %d tegn.
 text_tracker_no_workflow: Ingen arbeidsflyt definert for denne sakstypen
 text_unallowed_characters: Ugyldige tegn
 text_comma_separated: Flere verdier tillat (kommaseparert).
-text_issues_ref_in_commit_messages: Refererer og retter saker i innsendingsmeldinger
+text_issues_ref_in_commit_messages: Referering og retting av saker i innsendingsmelding
 text_issue_added: Sak %s er rapportert.
 text_issue_updated: Sak %s er oppdatert.
 text_wiki_destroy_confirmation: Er du sikker på at du vil slette denne wikien og alt innholdet ?
 text_issue_category_destroy_question: Noen saker (%d) er lagt til i denne kategorien. Hva vil du gjøre ?
 text_issue_category_destroy_assignments: Fjern bruk av kategorier
-text_issue_category_reassign_to: Bruk kategorien på sakene på nytt
+text_issue_category_reassign_to: Overfør sakene til denne kategorien
 text_user_mail_option: "For ikke-valgte prosjekter vil du bare motta varsling om ting du overvåker eller er involveret i (eks. saker du er forfatter av eller er tildelt)."
+text_no_configuration_data: "Roller, arbeidsflyt, sakstyper og -statuser er ikke konfigurert enda.\nDet anbefales sterkt å laste inn standardkonfigurasjonen. Du vil kunne endre denne etter den er innlastet."
+text_load_default_configuration: Last inn standardkonfigurasjonen
+text_status_changed_by_changeset: Brukt i endringssett %s.
+text_issues_destroy_confirmation: 'Er du sikker på at du vil slette valgte sak(er) ?'
+text_select_project_modules: 'Velg moduler du vil aktivere for dette prosjektet:'
+text_default_administrator_account_changed: Standard administrator-konto er endret
+text_file_repository_writable: Fil-depotet er skrivbart
+text_rmagick_available: RMagick tilgjengelig (valgfritt)
+text_destroy_time_entries_question: %.02f timer er ført på sakene du er i ferd med å slette. Hva vil du gjøre ?
+text_destroy_time_entries: Slett førte timer
+text_assign_time_entries_to_project: Overfør førte timer til prosjektet
+text_reassign_time_entries: 'Overfør førte timer til denne saken:'
 
 default_role_manager: Leder
 default_role_developper: Utvikler
@@ -550,71 +618,3 @@ default_activity_development: Utvikling
 enumeration_issue_priorities: Sakssprioriteringer
 enumeration_doc_categories: Dokument-kategorier
 enumeration_activities: Aktiviteter (tidssporing)
-
-text_status_changed_by_changeset: Applied in changeset %s.
-label_add_another_file: Add another file
-label_downloads_abbr: D/L
-label_this_month: this month
-label_chronological_order: In chronological order
-label_display_per_page: 'Per page: %s'
-label_issue_added: Issue added
-button_configure: Configure
-project_module_boards: Boards
-setting_activity_days_default: Days displayed on project activity
-project_module_issue_tracking: Issue tracking
-label_issue_updated: Issue updated
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-project_module_wiki: Wiki
-setting_per_page_options: Objects per page options
-label_last_n_days: last %d days
-label_all_time: all time
-notice_default_data_loaded: Default configuration successfully loaded.
-project_module_files: Files
-project_module_documents: Documents
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_file_repository_writable: File repository writable
-label_this_year: this year
-error_scm_not_found: "The entry or revision was not found in the repository."
-text_assign_time_entries_to_project: Assign reported hours to the project
-project_module_repository: Repository
-label_associated_revisions: Associated revisions
-label_date_range: Date range
-label_document_added: Document added
-label_last_week: last week
-label_message_posted: Message added
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
-label_ldap_authentication: LDAP authentication
-setting_default_projects_public: New projects are public by default
-project_module_news: News
-setting_user_format: Users display format
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_age: Age
-label_file_added: File added
-label_yesterday: yesterday
-label_optional_description: Optional description
-label_last_month: last month
-text_destroy_time_entries: Delete reported hours
-label_more: More
-field_default_value: Default value
-project_module_time_tracking: Time tracking
-label_scm: SCM
-label_general: General
-field_comments_sorting: Display comments
-button_update: Update
-error_scm_annotate: "The entry does not exist or can not be annotated."
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-text_default_administrator_account_changed: Default administrator account changed
-text_select_project_modules: 'Select modules to enable for this project:'
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-label_plugins: Plugins
-label_change_properties: Change properties
-label_overall_activity: Overall activity
-text_load_default_configuration: Load the default configuration
-text_rmagick_available: RMagick available (optional)
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-label_news_added: News added
-label_repository_plural: Repositories
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-label_planning: Planning
