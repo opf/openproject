@@ -90,18 +90,20 @@ class ProjectsController < ApplicationController
     @subprojects = @project.active_children
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = @project.rolled_up_trackers
+    
+    cond = @project.project_condition(Setting.display_subprojects_issues?)
     Issue.visible_by(User.current) do
       @open_issues_by_tracker = Issue.count(:group => :tracker,
                                             :include => [:project, :status, :tracker],
-                                            :conditions => ["(#{Project.table_name}.id=? OR #{Project.table_name}.parent_id=?) and #{IssueStatus.table_name}.is_closed=?", @project.id, @project.id, false])
+                                            :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
       @total_issues_by_tracker = Issue.count(:group => :tracker,
                                             :include => [:project, :status, :tracker],
-                                            :conditions => ["#{Project.table_name}.id=? OR #{Project.table_name}.parent_id=?", @project.id, @project.id])
+                                            :conditions => cond)
     end
     TimeEntry.visible_by(User.current) do
       @total_hours = TimeEntry.sum(:hours, 
                                    :include => :project,
-                                   :conditions => ["(#{Project.table_name}.id = ? OR #{Project.table_name}.parent_id = ?)", @project.id, @project.id]).to_f
+                                   :conditions => cond).to_f
     end
     @key = User.current.rss_key
   end

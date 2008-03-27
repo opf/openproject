@@ -124,6 +124,12 @@ class Project < ActiveRecord::Base
     statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
   end
   
+  def project_condition(with_subprojects)
+    cond = "#{Project.table_name}.id = #{id}"
+    cond = "(#{cond} OR #{Project.table_name}.parent_id = #{id})" if with_subprojects
+    cond
+  end
+  
   def self.find(*args)
     if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
       project = find_by_identifier(*args)

@@ -72,7 +72,7 @@ class TimelogController < ApplicationController
       sql << " FROM #{TimeEntry.table_name}"
       sql << " LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
       sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
-      sql << " WHERE (#{Project.table_name}.id = %s OR #{Project.table_name}.parent_id = %s)" % [@project.id, @project.id]
+      sql << " WHERE (%s)" % @project.project_condition(Setting.display_subprojects_issues?)
       sql << " AND (%s)" % Project.allowed_to_condition(User.current, :view_time_entries)
       sql << " AND spent_on BETWEEN '%s' AND '%s'" % [ActiveRecord::Base.connection.quoted_date(@date_from.to_time), ActiveRecord::Base.connection.quoted_date(@date_to.to_time)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek"
@@ -159,7 +159,7 @@ class TimelogController < ApplicationController
     @from, @to = @to, @from if @from && @to && @from > @to
     
     cond = ARCondition.new
-    cond << (@issue.nil? ? ["(#{Project.table_name}.id = ? OR #{Project.table_name}.parent_id = ?)", @project.id, @project.id] :
+    cond << (@issue.nil? ? @project.project_condition(Setting.display_subprojects_issues?) :
                            ["#{TimeEntry.table_name}.issue_id = ?", @issue.id])
     
     if @from
