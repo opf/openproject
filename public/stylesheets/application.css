@@ -159,6 +159,7 @@ hr { width: 100%; height: 1px; background: #ccc; border: 0;}
 textarea.wiki-edit { width: 99%; }
 li p {margin-top: 0;}
 div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid #d7d7d7;}
+p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 
 fieldset#filters .buttons { text-align: right; font-size: 0.9em; margin: 0 4px 0px 0; }
 

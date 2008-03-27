@@ -1,3 +1,5 @@
+<%= breadcrumb link_to(l(:label_board_plural), {:controller => 'boards', :action => 'index', :project_id => @project}) %>
+
 <div class="contextual">
 <%= link_to_if_authorized l(:label_message_new),
                           {:controller => 'messages', :action => 'new', :board_id => @board},

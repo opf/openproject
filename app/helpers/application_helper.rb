@@ -156,6 +156,10 @@ module ApplicationHelper
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
   
+  def breadcrumb(*args)
+    content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb')
+  end
+  
   def html_title(*args)
     if args.empty?
       title = []
