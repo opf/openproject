@@ -1,4 +1,5 @@
 <h2><%= l(:label_activity) %></h2>
+<p class="subtitle"><%= "#{l(:label_date_from)} #{format_date(@date_to - @days)} #{l(:label_date_to).downcase} #{format_date(@date_to-1)}" %></p>
 
 <div id="activity">
 <% @events_by_day.keys.sort.reverse.each do |day| %>
