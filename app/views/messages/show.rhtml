@@ -26,7 +26,7 @@
   </div>
   <div class="message reply">
   <h4><%=h message.subject %> - <%= authoring message.created_on, message.author %></h4>
-  <div class="wiki"><%= textilizable message.content %></div>
+  <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
   <%= link_to_attachments message.attachments, :no_author => true %>
   </div>
 <% end %>
