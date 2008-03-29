@@ -5,7 +5,7 @@ Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
 
-== 2008-03-xx v0.7-rc1
+== 2008-03-29 v0.7.0-rc1
 
 * Overall activity view and feed added, link is available on the project list
 * Git VCS support
@@ -42,14 +42,15 @@ http://www.redmine.org/
 * Display total estimated and spent hours on the version detail view
 * Weekly time tracking block for 'My page'
 * Permissions to edit time entries
-* Include subprojects on the issue list, calendar and gantt by default (can be turned off is administration settings)
+* Include subprojects on the issue list, calendar, gantt and timelog by default (can be turned off is administration settings)
 * Roadmap enhancements (separate related issues from wiki contents, leading h1 in version wiki pages is hidden, smaller wiki headings)
+* Make versions with same date sorted by name
 * Allow issue list to be sorted by target version
 * Related changesets messages displayed on the issue details view
 * Create a journal and send an email when an issue is closed by commit
 * Add 'Author' to the available columns for the issue list
 * More appropriate default sort order on sortable columns
-* Add issue subject to the time entries view and issue subject + tracker to the csv export
+* Add issue subject to the time entries view and issue subject, description and tracker to the csv export
 * Permissions to edit issue notes
 * Display date/time instead of date on files list
 * Do not show Roadmap menu item if the project doesn't define any versions
@@ -66,6 +67,7 @@ http://www.redmine.org/
 * Wiki toolbar improvements (mainly for Firefox)
 * Display wiki syntax quick ref link on all wiki textareas
 * Display links to Atom feeds
+* Breadcrumb nav for the forums
 * Show replies when choosing to display messages in the activity
 * Added 'include' macro to include another wiki page
 * RedmineWikiFormatting page available as a static HTML file locally
@@ -125,6 +127,8 @@ http://www.redmine.org/
 * Fixed: fetch_changesets fails on commit comments that close 2 duplicates issues.
 * Fixed: Mercurial browsing under unix-like os and for directory depth > 2
 * Fixed: Wiki links with pipe can not be used in wiki tables
+* Fixed: migrate_from_trac doesn't import timestamps of wiki and tickets
+* Fixed: when bulk editing, setting "Assigned to" to "nobody" causes an sql error with Postgresql
 
 
 == 2008-03-12 v0.6.4
