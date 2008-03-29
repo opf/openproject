@@ -68,7 +68,22 @@ namespace :redmine do
         ROLE_MAPPING = {'admin' => manager_role,
                         'developer' => developer_role
                         }
-      
+                        
+      class ::Time
+        class << self
+          alias :real_now :now
+          def now
+            real_now - @fake_diff.to_i
+          end
+          def fake(time)
+            @fake_diff = real_now - time
+            res = yield
+            @fake_diff = 0
+           res
+          end
+        end
+      end
+
       class TracComponent < ActiveRecord::Base
         set_table_name :component
       end
@@ -141,6 +156,7 @@ namespace :redmine do
         end
         
         def time; Time.at(read_attribute(:time)) end
+        def changetime; Time.at(read_attribute(:changetime)) end
       end
       
       class TracTicketChange < ActiveRecord::Base
@@ -167,6 +183,8 @@ namespace :redmine do
           # Hides readonly Trac field to prevent clash with AR readonly? method (Rails 2.0)
           super.select {|column| column.name.to_s != 'readonly'}
         end
+        
+        def time; Time.at(read_attribute(:time)) end
       end
       
       class TracPermission < ActiveRecord::Base
@@ -345,14 +363,14 @@ namespace :redmine do
         	i.tracker = TRACKER_MAPPING[ticket.ticket_type] || DEFAULT_TRACKER
         	i.custom_values << CustomValue.new(:custom_field => custom_field_map['resolution'], :value => ticket.resolution) unless ticket.resolution.blank?
         	i.id = ticket.id unless Issue.exists?(ticket.id)
-        	next unless i.save
+        	next unless Time.fake(ticket.changetime) { i.save }
         	TICKET_MAP[ticket.id] = i.id
         	migrated_tickets += 1
         	
         	# Owner
             unless ticket.owner.blank?
               i.assigned_to = find_or_create_user(ticket.owner, true)
-              i.save
+              Time.fake(ticket.changetime) { i.save }
             end
       	
         	# Comments and status/resolution changes
@@ -426,7 +444,7 @@ namespace :redmine do
             p.content.text = page.text
             p.content.author = find_or_create_user(page.author) unless page.author.blank? || page.author == 'trac'
             p.content.comments = page.comment
-            p.new_record? ? p.save : p.content.save
+            Time.fake(page.time) { p.new_record? ? p.save : p.content.save }
             
             next if p.content.new_record?
             migrated_wiki_edits += 1 
@@ -446,7 +464,7 @@ namespace :redmine do
           wiki.reload
           wiki.pages.each do |page|
             page.content.text = convert_wiki_text(page.content.text)
-            page.content.save
+            Time.fake(page.content.updated_on) { page.content.save }
           end
         end
         puts
