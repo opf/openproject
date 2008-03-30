@@ -57,7 +57,6 @@ roles_002:
     - :add_issue_notes
     - :move_issues
     - :delete_issues
-    - :manage_public_queries
     - :save_queries
     - :view_gantt
     - :view_calendar
@@ -94,7 +93,6 @@ roles_003:
     - :manage_issue_relations
     - :add_issue_notes
     - :move_issues
-    - :manage_public_queries
     - :save_queries
     - :view_gantt
     - :view_calendar

@@ -73,6 +73,8 @@ class IssuesController < ApplicationController
       # Send html if the query is not valid
       render(:template => 'issues/index.rhtml', :layout => !request.xhr?)
     end
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
   
   def changes
@@ -87,6 +89,8 @@ class IssuesController < ApplicationController
     end
     @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
     render :layout => false, :content_type => 'application/atom+xml'
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
   
   def show
@@ -384,7 +388,10 @@ private
   # Retrieve query from session or build a new query
   def retrieve_query
     if !params[:query_id].blank?
-      @query = Query.find(params[:query_id], :conditions => {:project_id => (@project ? @project.id : nil)})
+      cond = "project_id IS NULL"
+      cond << " OR project_id = #{@project.id}" if @project
+      @query = Query.find(params[:query_id], :conditions => cond)
+      @query.project = @project
       session[:query] = {:id => @query.id, :project_id => @query.project_id}
     else
       if params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)

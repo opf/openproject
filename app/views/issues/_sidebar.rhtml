@@ -1,13 +1,14 @@
+<% if @project %>
 <h3><%= l(:label_issue_plural) %></h3>
 <%= link_to l(:label_issue_view_all), { :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 } %><br />
 <%= link_to l(:field_summary), :controller => 'reports', :action => 'issue_report', :id => @project %><br />
 <%= link_to l(:label_change_log), :controller => 'projects', :action => 'changelog', :id => @project %>
+<% end %>
 
+<% unless sidebar_queries.empty? -%>
 <h3><%= l(:label_query_plural) %></h3>
 
-<% queries = @project.queries.find(:all, 
-                                   :order => "name ASC",
-                                   :conditions => ["is_public = ? or user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
-   queries.each do |query| %>
+<% sidebar_queries.each do |query| -%>
 <%= link_to query.name, :controller => 'issues', :action => 'index', :project_id => @project, :query_id => query %><br />
-<% end %>
+<% end -%>
+<% end -%>

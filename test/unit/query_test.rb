@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class QueryTest < Test::Unit::TestCase
-  fixtures :projects, :users, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :queries
+  fixtures :projects, :users, :members, :roles, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :queries
 
   def test_query_with_multiple_custom_fields
     query = Query.find(1)
@@ -40,5 +40,35 @@ class QueryTest < Test::Unit::TestCase
     assert_equal [:tracker, :subject], q.columns.collect {|c| c.name}
     c = q.columns.first
     assert q.has_column?(c)
+  end
+  
+  def test_editable_by
+    admin = User.find(1)
+    manager = User.find(2)
+    developer = User.find(3)
+    
+    # Public query on project 1
+    q = Query.find(1)
+    assert q.editable_by?(admin)
+    assert q.editable_by?(manager)
+    assert !q.editable_by?(developer)
+
+    # Private query on project 1
+    q = Query.find(2)
+    assert q.editable_by?(admin)
+    assert !q.editable_by?(manager)
+    assert q.editable_by?(developer)
+
+    # Private query for all projects
+    q = Query.find(3)
+    assert q.editable_by?(admin)
+    assert !q.editable_by?(manager)
+    assert q.editable_by?(developer)
+
+    # Public query for all projects
+    q = Query.find(4)
+    assert q.editable_by?(admin)
+    assert !q.editable_by?(manager)
+    assert !q.editable_by?(developer)
   end
 end

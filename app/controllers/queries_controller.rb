@@ -18,19 +18,14 @@
 class QueriesController < ApplicationController
   layout 'base'
   menu_item :issues
-  before_filter :find_project, :authorize
-
-  def index
-    @queries = @project.queries.find(:all, 
-                                     :order => "name ASC",
-                                     :conditions => ["is_public = ? or user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
-  end
+  before_filter :find_query, :except => :new
+  before_filter :find_project, :authorize, :only => :new
   
   def new
     @query = Query.new(params[:query])
-    @query.project = @project
+    @query.project = params[:query_is_for_all] ? nil : @project
     @query.user = User.current
-    @query.is_public = false unless current_role.allowed_to?(:manage_public_queries)
+    @query.is_public = false unless (@query.project && current_role.allowed_to?(:manage_public_queries)) || User.current.admin?
     @query.column_names = nil if params[:default_columns]
     
     params[:fields].each do |field|
@@ -52,7 +47,8 @@ class QueriesController < ApplicationController
         @query.add_filter(field, params[:operators][field], params[:values][field])
       end if params[:fields]
       @query.attributes = params[:query]
-      @query.is_public = false unless current_role.allowed_to?(:manage_public_queries)
+      @query.project = nil if params[:query_is_for_all]
+      @query.is_public = false unless (@query.project && current_role.allowed_to?(:manage_public_queries)) || User.current.admin?
       @query.column_names = nil if params[:default_columns]
       
       if @query.save
@@ -64,18 +60,20 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy if request.post?
-    redirect_to :controller => 'queries', :project_id => @project
+    redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1
   end
   
 private
+  def find_query
+    @query = Query.find(params[:id])
+    @project = @query.project
+    render_403 unless @query.editable_by?(User.current)
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
   def find_project
-    if params[:id]
-      @query = Query.find(params[:id])
-      @project = @query.project
-      render_403 unless @query.editable_by?(User.current)
-    else
-      @project = Project.find(params[:project_id])
-    end
+    @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

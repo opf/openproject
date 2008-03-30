@@ -54,7 +54,7 @@
 
 <% content_for :sidebar do %>
     <%= render :partial => 'issues/sidebar' %>
-<% end if @project%>
+<% end %>
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_issue_plural)) %>

@@ -116,6 +116,11 @@ class Query < ActiveRecord::Base
     set_language_if_valid(User.current.language)
   end
   
+  def after_initialize
+    # Store the fact that project is nil (used in #editable_by?)
+    @is_for_all = project.nil?
+  end
+  
   def validate
     filters.each_key do |field|
       errors.add label_for(field), :activerecord_error_blank unless 
@@ -128,8 +133,10 @@ class Query < ActiveRecord::Base
   
   def editable_by?(user)
     return false unless user
-    return true if !is_public && self.user_id == user.id
-    is_public && user.allowed_to?(:manage_public_queries, project)
+    # Admin can edit them all and regular users can edit their private queries
+    return true if user.admin? || (!is_public && self.user_id == user.id)
+    # Members can not edit public queries that are for all project (only admin is allowed to)
+    is_public && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
   end
   
   def available_filters
