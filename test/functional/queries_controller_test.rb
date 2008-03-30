@@ -31,7 +31,7 @@ class QueriesControllerTest < Test::Unit::TestCase
     User.current = nil
   end
   
-  def test_get_new
+  def test_get_new_project_query
     @request.session[:user_id] = 2
     get :new, :project_id => 1
     assert_response :success
@@ -45,6 +45,19 @@ class QueriesControllerTest < Test::Unit::TestCase
                                                  :disabled => nil }
   end
   
+  def test_get_new_global_query
+    @request.session[:user_id] = 2
+    get :new
+    assert_response :success
+    assert_template 'new'
+    assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                    :name => 'query[is_public]' } 
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'query_is_for_all',
+                                                 :checked => 'checked',
+                                                 :disabled => nil }
+  end
+  
   def test_new_project_public_query
     @request.session[:user_id] = 2
     post :new,
@@ -54,8 +67,7 @@ class QueriesControllerTest < Test::Unit::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
-         :query => {"name" => "test_new_project_public_query", "is_public" => "1"},
-         :column_names => ["", "tracker", "status", "priority", "subject", "updated_on", "category"]
+         :query => {"name" => "test_new_project_public_query", "is_public" => "1"}
          
     q = Query.find_by_name('test_new_project_public_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :query_id => q
@@ -73,13 +85,29 @@ class QueriesControllerTest < Test::Unit::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
-         :query => {"name" => "test_new_project_private_query", "is_public" => "1"},
-         :column_names => ["", "tracker", "status", "priority", "subject", "updated_on", "category"]
+         :query => {"name" => "test_new_project_private_query", "is_public" => "1"}
          
     q = Query.find_by_name('test_new_project_private_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :query_id => q
     assert !q.is_public?
     assert q.has_default_columns?
+    assert q.valid?
+  end
+  
+  def test_new_global_private_query_with_custom_columns
+    @request.session[:user_id] = 3
+    post :new,
+         :confirm => '1',
+         :fields => ["status_id", "assigned_to_id"],
+         :operators => {"assigned_to_id" => "=", "status_id" => "o"},
+         :values => { "assigned_to_id" => ["me"], "status_id" => ["1"]},
+         :query => {"name" => "test_new_global_private_query", "is_public" => "1", "column_names" => ["", "tracker", "subject", "priority", "category"]}
+         
+    q = Query.find_by_name('test_new_global_private_query')
+    assert_redirected_to :controller => 'issues', :action => 'index', :query_id => q
+    assert !q.is_public?
+    assert !q.has_default_columns?
+    assert_equal [:tracker, :subject, :priority, :category], q.columns.collect {|c| c.name}
     assert q.valid?
   end
   
@@ -106,8 +134,7 @@ class QueriesControllerTest < Test::Unit::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
-         :query => {"name" => "test_edit_global_public_query", "is_public" => "1"},
-         :column_names => ["", "tracker", "status", "priority", "subject", "updated_on", "category"]
+         :query => {"name" => "test_edit_global_public_query", "is_public" => "1"}
          
     assert_redirected_to :controller => 'issues', :action => 'index', :query_id => 4
     q = Query.find_by_name('test_edit_global_public_query')
@@ -138,8 +165,7 @@ class QueriesControllerTest < Test::Unit::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["me"], "status_id" => ["1"]},
-         :query => {"name" => "test_edit_global_private_query", "is_public" => "1"},
-         :column_names => ["", "tracker", "status", "priority", "subject", "updated_on", "category"]
+         :query => {"name" => "test_edit_global_private_query", "is_public" => "1"}
          
     assert_redirected_to :controller => 'issues', :action => 'index', :query_id => 3
     q = Query.find_by_name('test_edit_global_private_query')

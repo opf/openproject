@@ -19,7 +19,7 @@ class QueriesController < ApplicationController
   layout 'base'
   menu_item :issues
   before_filter :find_query, :except => :new
-  before_filter :find_project, :authorize, :only => :new
+  before_filter :find_optional_project, :only => :new
   
   def new
     @query = Query.new(params[:query])
@@ -72,8 +72,9 @@ private
     render_404
   end
   
-  def find_project
-    @project = Project.find(params[:project_id])
+  def find_optional_project
+    @project = Project.find(params[:project_id]) if params[:project_id]
+    User.current.allowed_to?(:save_queries, @project, :global => true)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

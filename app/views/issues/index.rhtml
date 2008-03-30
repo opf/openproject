@@ -18,7 +18,7 @@
                          :update => "content",
                        }, :class => 'icon icon-reload'  %>
                        
-    <% if current_role && current_role.allowed_to?(:save_queries) %>
+    <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
     <%= link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save' %>
     <% end %>
     </p>
