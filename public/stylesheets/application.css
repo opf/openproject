@@ -57,10 +57,7 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 
 #content { width: 80%; background-color: #fff; margin: 0px; border-right: 1px solid #ddd; padding: 6px 10px 10px 10px; z-index: 10; height:600px; min-height: 600px;}
 * html #content{ width: 80%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
-html>body #content {
-height: auto;
-min-height: 600px;
-} 
+html>body #content { height: auto; min-height: 600px; overflow: auto; } 
 
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto; border-right: 0; }
@@ -195,7 +192,7 @@ table#time-report .hours-dec { font-size: 0.9em; }
 .total-hours { font-size: 110%; font-weight: bold; }
 .total-hours span.hours-int { font-size: 120%; }
 
-.autoscroll {overflow-x: auto; padding:1px; width:100%; margin-bottom: 1.2em;}
+.autoscroll {overflow-x: auto; padding:1px; margin-bottom: 1.2em;}
 #user_firstname, #user_lastname, #user_mail, #my_account_form select { width: 90%; }
 
 .pagination {font-size: 90%}
