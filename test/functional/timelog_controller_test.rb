@@ -78,17 +78,25 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'report'
   end
-  
+
+  def test_report_all_time
+    get :report, :project_id => 1, :criterias => ['project']
+    assert_response :success
+    assert_template 'report'
+    assert_not_nil assigns(:total_hours)
+    assert_equal "162.90", "%.2f" % assigns(:total_hours)
+  end
+    
   def test_report_one_criteria
-    get :report, :project_id => 1, :period => 'week', :date_from => "2007-04-01", :date_to => "2007-04-30", :criterias => ['project']
+    get :report, :project_id => 1, :columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criterias => ['project']
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:total_hours)
     assert_equal "8.65", "%.2f" % assigns(:total_hours)
- end
+  end
   
   def test_report_two_criterias
-    get :report, :project_id => 1, :period => 'month', :date_from => "2007-01-01", :date_to => "2007-12-31", :criterias => ["member", "activity"]
+    get :report, :project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criterias => ["member", "activity"]
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:total_hours)
@@ -96,7 +104,7 @@ class TimelogControllerTest < Test::Unit::TestCase
   end
   
   def test_report_one_criteria_no_result
-    get :report, :project_id => 1, :period => 'week', :date_from => "1998-04-01", :date_to => "1998-04-30", :criterias => ['project']
+    get :report, :project_id => 1, :columns => 'week', :from => "1998-04-01", :to => "1998-04-30", :criterias => ['project']
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:total_hours)

@@ -53,16 +53,11 @@ class TimelogController < ApplicationController
     @criterias.uniq!
     @criterias = @criterias[0,3]
     
-    @columns = (params[:period] && %w(year month week).include?(params[:period])) ? params[:period] : 'month'
+    @columns = (params[:columns] && %w(year month week).include?(params[:columns])) ? params[:columns] : 'month'
     
-    if params[:date_from]
-      begin; @date_from = params[:date_from].to_date; rescue; end
-    end
-    if params[:date_to]
-      begin; @date_to = params[:date_to].to_date; rescue; end
-    end
-    @date_from ||= Date.civil(Date.today.year, 1, 1)
-    @date_to ||= (Date.civil(Date.today.year, Date.today.month, 1) >> 1) - 1
+    retrieve_date_range
+    @from ||= TimeEntry.minimum(:spent_on, :include => :project, :conditions => @project.project_condition(Setting.display_subprojects_issues?)) || Date.today
+    @to   ||= TimeEntry.maximum(:spent_on, :include => :project, :conditions => @project.project_condition(Setting.display_subprojects_issues?)) || Date.today
     
     unless @criterias.empty?
       sql_select = @criterias.collect{|criteria| @available_criterias[criteria][:sql] + " AS " + criteria}.join(', ')
@@ -74,7 +69,7 @@ class TimelogController < ApplicationController
       sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
       sql << " WHERE (%s)" % @project.project_condition(Setting.display_subprojects_issues?)
       sql << " AND (%s)" % Project.allowed_to_condition(User.current, :view_time_entries)
-      sql << " AND spent_on BETWEEN '%s' AND '%s'" % [ActiveRecord::Base.connection.quoted_date(@date_from.to_time), ActiveRecord::Base.connection.quoted_date(@date_to.to_time)]
+      sql << " AND spent_on BETWEEN '%s' AND '%s'" % [ActiveRecord::Base.connection.quoted_date(@from.to_time), ActiveRecord::Base.connection.quoted_date(@to.to_time)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek"
       
       @hours = ActiveRecord::Base.connection.select_all(sql)
@@ -91,22 +86,23 @@ class TimelogController < ApplicationController
       end
       
       @total_hours = @hours.inject(0) {|s,k| s = s + k['hours'].to_f}
-    end
-       
-    @periods = []
-    date_from = @date_from
-    # 100 columns max
-    while date_from < @date_to && @periods.length < 100
-      case @columns
-      when 'year'
-        @periods << "#{date_from.year}"
-        date_from = date_from >> 12
-      when 'month'
-        @periods << "#{date_from.year}-#{date_from.month}"
-        date_from = date_from >> 1
-      when 'week'
-        @periods << "#{date_from.year}-#{date_from.cweek}"
-        date_from = date_from + 7
+      
+      @periods = []
+      # Date#at_beginning_of_ not supported in Rails 1.2.x
+      date_from = @from.to_time
+      # 100 columns max
+      while date_from <= @to.to_time && @periods.length < 100
+        case @columns
+        when 'year'
+          @periods << "#{date_from.year}"
+          date_from = (date_from + 1.year).at_beginning_of_year
+        when 'month'
+          @periods << "#{date_from.year}-#{date_from.month}"
+          date_from = (date_from + 1.month).at_beginning_of_month
+        when 'week'
+          @periods << "#{date_from.year}-#{date_from.to_date.cweek}"
+          date_from = (date_from + 7.day).at_beginning_of_week
+        end
       end
     end
     
@@ -116,51 +112,12 @@ class TimelogController < ApplicationController
   def details
     sort_init 'spent_on', 'desc'
     sort_update
-
-    @free_period = false
-    @from, @to = nil, nil
-
-    if params[:period_type] == '1' || (params[:period_type].nil? && !params[:period].nil?)
-      case params[:period].to_s
-      when 'today'
-        @from = @to = Date.today
-      when 'yesterday'
-        @from = @to = Date.today - 1
-      when 'current_week'
-        @from = Date.today - (Date.today.cwday - 1)%7
-        @to = @from + 6
-      when 'last_week'
-        @from = Date.today - 7 - (Date.today.cwday - 1)%7
-        @to = @from + 6
-      when '7_days'
-        @from = Date.today - 7
-        @to = Date.today
-      when 'current_month'
-        @from = Date.civil(Date.today.year, Date.today.month, 1)
-        @to = (@from >> 1) - 1
-      when 'last_month'
-        @from = Date.civil(Date.today.year, Date.today.month, 1) << 1
-        @to = (@from >> 1) - 1
-      when '30_days'
-        @from = Date.today - 30
-        @to = Date.today
-      when 'current_year'
-        @from = Date.civil(Date.today.year, 1, 1)
-        @to = Date.civil(Date.today.year, 12, 31)
-      end
-    elsif params[:period_type] == '2' || (params[:period_type].nil? && (!params[:from].nil? || !params[:to].nil?))
-      begin; @from = params[:from].to_s.to_date unless params[:from].blank?; rescue; end
-      begin; @to = params[:to].to_s.to_date unless params[:to].blank?; rescue; end
-      @free_period = true
-    else
-      # default
-    end
-    
-    @from, @to = @to, @from if @from && @to && @from > @to
     
     cond = ARCondition.new
     cond << (@issue.nil? ? @project.project_condition(Setting.display_subprojects_issues?) :
                            ["#{TimeEntry.table_name}.issue_id = ?", @issue.id])
+    
+    retrieve_date_range
     
     if @from
       if @to
@@ -237,5 +194,49 @@ private
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+  
+  # Retreive the date range based on predefined ranges or specific from/to param dates
+  def retrieve_date_range
+    @free_period = false
+    @from, @to = nil, nil
+
+    if params[:period_type] == '1' || (params[:period_type].nil? && !params[:period].nil?)
+      case params[:period].to_s
+      when 'today'
+        @from = @to = Date.today
+      when 'yesterday'
+        @from = @to = Date.today - 1
+      when 'current_week'
+        @from = Date.today - (Date.today.cwday - 1)%7
+        @to = @from + 6
+      when 'last_week'
+        @from = Date.today - 7 - (Date.today.cwday - 1)%7
+        @to = @from + 6
+      when '7_days'
+        @from = Date.today - 7
+        @to = Date.today
+      when 'current_month'
+        @from = Date.civil(Date.today.year, Date.today.month, 1)
+        @to = (@from >> 1) - 1
+      when 'last_month'
+        @from = Date.civil(Date.today.year, Date.today.month, 1) << 1
+        @to = (@from >> 1) - 1
+      when '30_days'
+        @from = Date.today - 30
+        @to = Date.today
+      when 'current_year'
+        @from = Date.civil(Date.today.year, 1, 1)
+        @to = Date.civil(Date.today.year, 12, 31)
+      end
+    elsif params[:period_type] == '2' || (params[:period_type].nil? && (!params[:from].nil? || !params[:to].nil?))
+      begin; @from = params[:from].to_s.to_date unless params[:from].blank?; rescue; end
+      begin; @to = params[:to].to_s.to_date unless params[:to].blank?; rescue; end
+      @free_period = true
+    else
+      # default
+    end
+    
+    @from, @to = @to, @from if @from && @to && @from > @to
   end
 end
