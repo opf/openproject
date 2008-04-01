@@ -80,7 +80,7 @@ class TimelogControllerTest < Test::Unit::TestCase
   end
 
   def test_report_all_time
-    get :report, :project_id => 1, :criterias => ['project']
+    get :report, :project_id => 1, :criterias => ['project', 'issue']
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:total_hours)

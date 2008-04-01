@@ -7,12 +7,11 @@
 
 <% form_remote_tag(:url => {}, :update => 'content') do %>
   <% @criterias.each do |criteria| %>
-    <%= hidden_field_tag 'criterias[]', criteria %>
+    <%= hidden_field_tag 'criterias[]', criteria, :id => nil %>
   <% end %>
   <%= hidden_field_tag 'project_id', params[:project_id] %>
   <%= render :partial => 'date_range' %>
-  </p>
-  </fieldset>
+
   <p><%= l(:label_details) %>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
                                                                             [l(:label_month), 'month'],
                                                                             [l(:label_week), 'week']], @columns),
@@ -21,6 +20,7 @@
   <%= l(:button_add) %>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l(@available_criterias[k][:label]), k]}),
                                                           :onchange => "this.form.onsubmit();",
                                                           :style => 'width: 200px',
+                                                          :id => nil,
                                                           :disabled => (@criterias.length >= 3)) %>
      <%= link_to_remote l(:button_clear), {:url => {:project_id => @project, :date_from => @date_from, :date_to => @date_to, :period => @columns}, :update => 'content'},
                                           :class => 'icon icon-reload' %></p>
@@ -36,10 +36,10 @@
 <thead>
 <tr>
 <% @criterias.each do |criteria| %>
-  <th width="15%"><%= l(@available_criterias[criteria][:label]) %></th>
+  <th><%= l(@available_criterias[criteria][:label]) %></th>
 <% end %>
 <% @periods.each do |period| %>
-  <th width="<%= ((100 - @criterias.length * 15 - 15 ) / @periods.length).to_i %>%"><%= period %></th>
+  <th class="period" width="<%= (40 / @periods.length).to_i %>%"><%= period %></th>
 <% end %>
 </tr>
 </thead>
@@ -57,3 +57,6 @@
 </table>
 <% end %>
 <% end %>
+
+<% html_title l(:label_spent_time), l(:label_report) %>
+

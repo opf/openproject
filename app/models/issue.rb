@@ -237,4 +237,8 @@ class Issue < ActiveRecord::Base
       yield
     end
   end
+  
+  def to_s
+    "#{tracker} ##{id}: #{subject}"
+  end
 end

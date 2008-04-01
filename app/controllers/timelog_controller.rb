@@ -45,7 +45,10 @@ class TimelogController < ApplicationController
                                           :label => :label_tracker},
                              'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
                                            :klass => Enumeration,
-                                           :label => :label_activity}
+                                           :label => :label_activity},
+                             'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
+                                         :klass => Issue,
+                                         :label => :label_issue}
                            }
     
     @criterias = params[:criterias] || []
@@ -196,7 +199,7 @@ private
     render_404
   end
   
-  # Retreive the date range based on predefined ranges or specific from/to param dates
+  # Retrieves the date range based on predefined ranges or specific from/to param dates
   def retrieve_date_range
     @free_period = false
     @from, @to = nil, nil

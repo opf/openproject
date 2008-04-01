@@ -183,7 +183,7 @@ div#version-summary { float:right; width:380px; margin-left: 16px; margin-bottom
 div#version-summary fieldset { margin-bottom: 1em; }
 div#version-summary .total-hours { text-align: right; }
 
-table#time-report td.hours { text-align: right; padding-right: 0.5em; }
+table#time-report td.hours, table#time-report th.period { text-align: right; padding-right: 0.5em; }
 table#time-report tbody tr { font-style: italic; color: #777; }
 table#time-report tbody tr.last-level { font-style: normal; color: #555; }
 table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
