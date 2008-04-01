@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :delete_all, :include => :author
   has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
-  has_many :boards, :order => "position ASC"
+  has_many :boards, :dependent => :destroy, :order => "position ASC"
   has_one :repository, :dependent => :destroy
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy

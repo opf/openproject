@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ProjectTest < Test::Unit::TestCase
-  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details, :users, :members, :roles, :projects_trackers, :trackers
+  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details, :users, :members, :roles, :projects_trackers, :trackers, :boards
 
   def setup
     @ecookbook = Project.find(1)
@@ -84,12 +84,15 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal 2, @ecookbook.members.size
     # and 1 is locked
     assert_equal 3, Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).size
+    # some boards
+    assert @ecookbook.boards.any?
     
     @ecookbook.destroy
     # make sure that the project non longer exists
     assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
-    # make sure all members have been removed
-    assert_equal 0, Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).size
+    # make sure related data was removed
+    assert Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
+    assert Board.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
   end
   
   def test_subproject_ok
