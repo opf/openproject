@@ -140,7 +140,9 @@ class IssuesController < ApplicationController
       requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
       # Check that the user is allowed to apply the requested status
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
-      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
+      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, 
+                                                                                                       :customized => @issue,
+                                                                                                       :value => (params[:custom_fields] ? params[:custom_fields][x.id.to_s] : nil)) }
       @issue.custom_values = @custom_values
       if @issue.save
         attach_files(@issue, params[:attachments])
