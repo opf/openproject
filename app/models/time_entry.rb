@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -37,6 +37,22 @@ class TimeEntry < ActiveRecord::Base
     errors.add :hours, :activerecord_error_invalid if hours && (hours < 0 || hours >= 1000)
     errors.add :project_id, :activerecord_error_invalid if project.nil?
     errors.add :issue_id, :activerecord_error_invalid if (issue_id && !issue) || (issue && project!=issue.project)
+  end
+  
+  def hours=(h)
+    s = h.dup
+    if s.is_a?(String)
+      s.strip!
+      unless s =~ %r{^[\d\.,]+$}
+        # 2:30 => 2.5
+        s.gsub!(%r{^(\d+):(\d+)$}) { $1.to_i + $2.to_i / 60.0 }
+        # 2h30, 2h, 30m
+        s.gsub!(%r{^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$}) { |m| ($1 || $4) ? ($2.to_i + $5.to_i / 60.0) : m[0] }
+      end
+      # 2,5 => 2.5
+      s.gsub!(',', '.')
+    end
+    write_attribute :hours, s
   end
   
   # tyear, tmonth, tweek assigned where setting spent_on attributes
