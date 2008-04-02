@@ -35,48 +35,48 @@ class Attachment < ActiveRecord::Base
     errors.add_to_base :too_long if self.filesize > Setting.attachment_max_size.to_i.kilobytes
   end
 
-	def file=(incomming_file)
-		unless incomming_file.nil?
-			@temp_file = incomming_file
-			if @temp_file.size > 0
-				self.filename = sanitize_filename(@temp_file.original_filename)
-				self.disk_filename = DateTime.now.strftime("%y%m%d%H%M%S") + "_" + self.filename
-				self.content_type = @temp_file.content_type.to_s.chomp
-				self.filesize = @temp_file.size
-			end
-		end
-	end
+  def file=(incoming_file)
+    unless incoming_file.nil?
+      @temp_file = incoming_file
+      if @temp_file.size > 0
+        self.filename = sanitize_filename(@temp_file.original_filename)
+        self.disk_filename = DateTime.now.strftime("%y%m%d%H%M%S") + "_" + self.filename
+        self.content_type = @temp_file.content_type.to_s.chomp
+        self.filesize = @temp_file.size
+      end
+    end
+  end
 	
-	def file
-	 nil
-	end
-	
-	# Copy temp file to its final location
-	def before_save
-		if @temp_file && (@temp_file.size > 0)
-			logger.debug("saving '#{self.diskfile}'")
-			File.open(diskfile, "wb") do |f| 
-				f.write(@temp_file.read)
-			end
-			self.digest = Digest::MD5.hexdigest(File.read(diskfile))
-		end
-		# Don't save the content type if it's longer than the authorized length
-		if self.content_type && self.content_type.length > 255
-		  self.content_type = nil
-		end
-	end
-	
-	# Deletes file on the disk
-	def after_destroy
-		if self.filename?
-			File.delete(diskfile) if File.exist?(diskfile)
-		end
-	end
-	
-	# Returns file's location on disk
-	def diskfile
-		"#{@@storage_path}/#{self.disk_filename}"
-	end
+  def file
+    nil
+  end
+
+  # Copy temp file to its final location
+  def before_save
+    if @temp_file && (@temp_file.size > 0)
+      logger.debug("saving '#{self.diskfile}'")
+      File.open(diskfile, "wb") do |f| 
+        f.write(@temp_file.read)
+      end
+      self.digest = Digest::MD5.hexdigest(File.read(diskfile))
+    end
+    # Don't save the content type if it's longer than the authorized length
+    if self.content_type && self.content_type.length > 255
+      self.content_type = nil
+    end
+  end
+
+  # Deletes file on the disk
+  def after_destroy
+    if self.filename?
+      File.delete(diskfile) if File.exist?(diskfile)
+    end
+  end
+
+  # Returns file's location on disk
+  def diskfile
+    "#{@@storage_path}/#{self.disk_filename}"
+  end
   
   def increment_download
     increment!(:downloads)
@@ -87,18 +87,17 @@ class Attachment < ActiveRecord::Base
   end
   
   def image?
-    self.filename =~ /\.(jpeg|jpg|gif|png)$/i
+    self.filename =~ /\.(jpe?g|gif|png)$/i
   end
   
 private
   def sanitize_filename(value)
-      # get only the filename, not the whole path
-      just_filename = value.gsub(/^.*(\\|\/)/, '')
-      # NOTE: File.basename doesn't work right with Windows paths on Unix
-      # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/')) 
+    # get only the filename, not the whole path
+    just_filename = value.gsub(/^.*(\\|\/)/, '')
+    # NOTE: File.basename doesn't work right with Windows paths on Unix
+    # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/')) 
 
-      # Finally, replace all non alphanumeric, underscore or periods with underscore
-      @filename = just_filename.gsub(/[^\w\.\-]/,'_') 
+    # Finally, replace all non alphanumeric, hyphens or periods with underscore
+    @filename = just_filename.gsub(/[^\w\.\-]/,'_') 
   end
-    
 end
