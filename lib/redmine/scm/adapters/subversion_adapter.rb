@@ -62,7 +62,7 @@ module Redmine
         # or nil if the given path doesn't exist in the repository
         def entries(path=nil, identifier=nil)
           path ||= ''
-          identifier = 'HEAD' unless identifier and identifier > 0
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
           entries = Entries.new
           cmd = "#{SVN_BIN} list --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
@@ -94,8 +94,8 @@ module Redmine
     
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           path ||= ''
-          identifier_from = 'HEAD' unless identifier_from and identifier_from.to_i > 0
-          identifier_to = 1 unless identifier_to and identifier_to.to_i > 0
+          identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : "HEAD"
+          identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : 1
           revisions = Revisions.new
           cmd = "#{SVN_BIN} log --xml -r #{identifier_from}:#{identifier_to}"
           cmd << credentials_string
@@ -131,11 +131,9 @@ module Redmine
         
         def diff(path, identifier_from, identifier_to=nil, type="inline")
           path ||= ''
-          if identifier_to and identifier_to.to_i > 0
-            identifier_to = identifier_to.to_i 
-          else
-            identifier_to = identifier_from.to_i - 1
-          end
+          identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : ''
+          identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : (identifier_from.to_i - 1)
+          
           cmd = "#{SVN_BIN} diff -r "
           cmd << "#{identifier_to}:"
           cmd << "#{identifier_from}"

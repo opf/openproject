@@ -19,8 +19,8 @@ require 'SVG/Graph/Bar'
 require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
 
-class ChangesetNotFound < Exception
-end
+class ChangesetNotFound < Exception; end
+class InvalidRevisionParam < Exception; end
 
 class RepositoriesController < ApplicationController
   layout 'base'
@@ -135,7 +135,6 @@ class RepositoriesController < ApplicationController
   end
   
   def diff
-    @rev_to = params[:rev_to]
     @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
     @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
     
@@ -180,6 +179,8 @@ private
     render_404
   end
   
+  REV_PARAM_RE = %r{^[a-f0-9]*$}
+  
   def find_repository
     @project = Project.find(params[:id])
     @repository = @project.repository
@@ -187,8 +188,12 @@ private
     @path = params[:path].join('/') unless params[:path].nil?
     @path ||= ''
     @rev = params[:rev]
+    @rev_to = params[:rev_to]
+    raise InvalidRevisionParam unless @rev.to_s.match(REV_PARAM_RE) && @rev.to_s.match(REV_PARAM_RE)
   rescue ActiveRecord::RecordNotFound
     render_404
+  rescue InvalidRevisionParam
+    show_error_not_found
   end
 
   def show_error_not_found
