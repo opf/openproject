@@ -49,7 +49,7 @@
 <td><div class="square action_<%= change.action %>"></div> <%= change.path %> <%= "(#{change.revision})" unless change.revision.blank?  %></td>
 <td align="right">
 <% if change.action == "M" %>
-<%= link_to l(:label_view_diff), :action => 'diff', :id => @project, :path => change.path, :rev => @changeset.revision %>
+<%= link_to l(:label_view_diff), :action => 'diff', :id => @project, :path => without_leading_slash(change.path), :rev => @changeset.revision %>
 <% end %>
 </td>
 </tr>
