@@ -22,12 +22,12 @@
 	padding:1px;
 	z-index:9;
 }
-#context-menu li.folder ul {
-	position:absolute;
-	left:168px; /* IE6 */
-	top:-2px;
-}
+#context-menu li.folder ul { position:absolute; left:168px; /* IE6 */ top:-2px; }
 #context-menu li.folder>ul { left:148px; }
+
+#context-menu.reverse-y li.folder>ul { top:auto; bottom:0; }
+#context-menu.reverse-x li.folder ul { left:auto; right:168px; /* IE6 */ }
+#context-menu.reverse-x li.folder>ul { right:148px; }
 
 #context-menu a {
 	border:1px solid white;
