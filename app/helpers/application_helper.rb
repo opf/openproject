@@ -207,8 +207,10 @@ module ApplicationHelper
         rf = Regexp.new(filename,  Regexp::IGNORECASE)
         # search for the picture in attachments
         if found = attachments.detect { |att| att.filename =~ rf }
-          image_url = url_for :only_path => only_path, :controller => 'attachments', :action => 'download', :id => found.id
-          "!#{style}#{image_url}!"
+          image_url = url_for :only_path => only_path, :controller => 'attachments', :action => 'download', :id => found
+          desc = found.description.to_s.gsub(/^([^\(\)]*).*$/, "\\1")
+          alt = desc.blank? ? nil : "(#{desc})"
+          "!#{style}#{image_url}#{alt}!"
         else
           "!#{style}#{filename}!"
         end

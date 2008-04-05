@@ -45,7 +45,8 @@ class WikiControllerTest < Test::Unit::TestCase
     assert_tag :tag => 'h1', :content => /Another page/
     # Included page with an inline image
     assert_tag :tag => 'p', :content => /This is an inline image/
-    assert_tag :tag => 'img', :attributes => { :src => '/attachments/download/3' }
+    assert_tag :tag => 'img', :attributes => { :src => '/attachments/download/3',
+                                               :alt => 'This is a logo' }
   end
   
   def test_show_unexistent_page_without_edit_right
