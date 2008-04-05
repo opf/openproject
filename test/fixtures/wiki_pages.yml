@@ -14,4 +14,9 @@ wiki_pages_003:
   title: Start_page
   id: 3
   wiki_id: 2
+wiki_pages_004: 
+  created_on: 2007-03-08 00:18:07 +01:00
+  title: Page_with_an_inline_image
+  id: 4
+  wiki_id: 1
   

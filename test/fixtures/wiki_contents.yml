@@ -15,6 +15,8 @@ wiki_contents_002:
     h1. Another page
     
     This is a link to a ticket: #2
+    And this is an included page:
+    {{include(Page with an inline image)}}
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 2
   id: 2
@@ -32,3 +34,17 @@ wiki_contents_003:
   version: 1
   author_id: 1
   comments: 
+wiki_contents_004: 
+  text: |-
+    h1. Page with an inline image
+    
+    This is an inline image:
+    
+    !logo.gif!
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 4
+  id: 4
+  version: 1
+  author_id: 1
+  comments: 
+  

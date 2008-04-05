@@ -22,7 +22,7 @@ require 'wiki_controller'
 class WikiController; def rescue_action(e) raise e end; end
 
 class WikiControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :roles, :members, :enabled_modules, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
+  fixtures :projects, :users, :roles, :members, :enabled_modules, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions, :attachments
   
   def setup
     @controller = WikiController.new
@@ -43,6 +43,9 @@ class WikiControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'show'
     assert_tag :tag => 'h1', :content => /Another page/
+    # Included page with an inline image
+    assert_tag :tag => 'p', :content => /This is an inline image/
+    assert_tag :tag => 'img', :attributes => { :src => '/attachments/download/3' }
   end
   
   def test_show_unexistent_page_without_edit_right
@@ -147,7 +150,7 @@ class WikiControllerTest < Test::Unit::TestCase
     assert_template 'special_page_index'
     pages = assigns(:pages)
     assert_not_nil pages
-    assert_equal 2, pages.size
+    assert_equal Project.find(1).wiki.pages.size, pages.size
     assert_tag :tag => 'a', :attributes => { :href => '/wiki/ecookbook/CookBook_documentation' },
                             :content => /CookBook documentation/
   end
