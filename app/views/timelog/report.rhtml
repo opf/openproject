@@ -1,5 +1,4 @@
 <div class="contextual">
-<%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}, :class => 'icon icon-details') %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time' %>
 </div>
 
@@ -14,7 +13,8 @@
 
   <p><%= l(:label_details) %>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
                                                                             [l(:label_month), 'month'],
-                                                                            [l(:label_week), 'week']], @columns),
+                                                                            [l(:label_week), 'week'],
+                                                                            [l(:label_day_plural).titleize, 'day']], @columns),
                                                         :onchange => "this.form.onsubmit();" %>
 
   <%= l(:button_add) %>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l(@available_criterias[k][:label]), k]}),
@@ -22,8 +22,9 @@
                                                           :style => 'width: 200px',
                                                           :id => nil,
                                                           :disabled => (@criterias.length >= 3)) %>
-     <%= link_to_remote l(:button_clear), {:url => {:project_id => @project, :date_from => @date_from, :date_to => @date_to, :period => @columns}, :update => 'content'},
-                                          :class => 'icon icon-reload' %></p>
+     <%= link_to_remote l(:button_clear), {:url => {:project_id => @project, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns},
+                                           :update => 'content'
+                                          }, :class => 'icon icon-reload' %></p>
 <% end %>
 
 <% unless @criterias.empty? %>
@@ -38,9 +39,11 @@
 <% @criterias.each do |criteria| %>
   <th><%= l(@available_criterias[criteria][:label]) %></th>
 <% end %>
+<% columns_width = (40 / (@periods.length+1)).to_i %>
 <% @periods.each do |period| %>
-  <th class="period" width="<%= (40 / @periods.length).to_i %>%"><%= period %></th>
+  <th class="period" width="<%= columns_width %>%"><%= period %></th>
 <% end %>
+  <th class="total" width="<%= columns_width %>%"><%= l(:label_total) %></th>
 </tr>
 </thead>
 <tbody>
@@ -48,10 +51,12 @@
   <tr class="total">
   <td><%= l(:label_total) %></td>
   <%= '<td></td>' * (@criterias.size - 1) %>
+  <% total = 0 -%>
   <% @periods.each do |period| -%>
-    <% sum = sum_hours(select_hours(@hours, @columns, period.to_s)) %>
+    <% sum = sum_hours(select_hours(@hours, @columns, period.to_s)); total += sum -%>
     <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0 %></td>
   <% end -%>
+  <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
   </tr>
 </tbody>
 </table>

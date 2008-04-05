@@ -5,10 +5,12 @@
 <%= '<td></td>' * level %>
 <td><%= value.nil? ? l(:label_none) : @available_criterias[criterias[level]][:klass].find_by_id(value) %></td>
 <%= '<td></td>' * (criterias.length - level - 1) -%>
+  <% total = 0 -%>
   <% @periods.each do |period| -%>
-    <% sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s)) %>
+    <% sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s)); total += sum -%>
     <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0 %></td>
   <% end -%>
+  <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
 </tr>
 <% if criterias.length > level+1 -%>
   <%= render(:partial => 'report_criteria', :locals => {:criterias => criterias, :hours => hours_for_value, :level => (level + 1)}) %>

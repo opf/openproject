@@ -1,5 +1,4 @@
 <div class="contextual">
-<%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}, :class => 'icon icon-report') %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time' %>
 </div>
 

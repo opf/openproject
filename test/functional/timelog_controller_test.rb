@@ -22,7 +22,7 @@ require 'timelog_controller'
 class TimelogController; def rescue_action(e) raise e end; end
 
 class TimelogControllerTest < Test::Unit::TestCase
-  fixtures :projects, :roles, :members, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses
+  fixtures :projects, :enabled_modules, :roles, :members, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses
 
   def setup
     @controller = TimelogController.new
@@ -86,7 +86,16 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
   end
-    
+
+  def test_report_all_time_by_day
+    get :report, :project_id => 1, :criterias => ['project', 'issue'], :columns => 'day'
+    assert_response :success
+    assert_template 'report'
+    assert_not_nil assigns(:total_hours)
+    assert_equal "162.90", "%.2f" % assigns(:total_hours)
+    assert_tag :tag => 'th', :content => '2007-03-12'
+  end
+  
   def test_report_one_criteria
     get :report, :project_id => 1, :columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criterias => ['project']
     assert_response :success
@@ -122,8 +131,8 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
     # display all time by default
-    assert_nil assigns(:from)
-    assert_nil assigns(:to)
+    assert_equal '2007-03-11'.to_date, assigns(:from)
+    assert_equal '2007-04-22'.to_date, assigns(:to)
   end
   
   def test_details_at_project_level_with_date_range
@@ -157,8 +166,8 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:total_hours)
     assert_equal 154.25, assigns(:total_hours)
     # display all time by default
-    assert_nil assigns(:from)
-    assert_nil assigns(:to)
+    assert_equal '2007-03-11'.to_date, assigns(:from)
+    assert_equal '2007-04-22'.to_date, assigns(:to)
   end
   
   def test_details_csv_export

@@ -56,24 +56,22 @@ class TimelogController < ApplicationController
     @criterias.uniq!
     @criterias = @criterias[0,3]
     
-    @columns = (params[:columns] && %w(year month week).include?(params[:columns])) ? params[:columns] : 'month'
+    @columns = (params[:columns] && %w(year month week day).include?(params[:columns])) ? params[:columns] : 'month'
     
     retrieve_date_range
-    @from ||= TimeEntry.minimum(:spent_on, :include => :project, :conditions => @project.project_condition(Setting.display_subprojects_issues?)) || Date.today
-    @to   ||= TimeEntry.maximum(:spent_on, :include => :project, :conditions => @project.project_condition(Setting.display_subprojects_issues?)) || Date.today
     
     unless @criterias.empty?
       sql_select = @criterias.collect{|criteria| @available_criterias[criteria][:sql] + " AS " + criteria}.join(', ')
       sql_group_by = @criterias.collect{|criteria| @available_criterias[criteria][:sql]}.join(', ')
       
-      sql = "SELECT #{sql_select}, tyear, tmonth, tweek, SUM(hours) AS hours"
+      sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
       sql << " FROM #{TimeEntry.table_name}"
       sql << " LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
       sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
       sql << " WHERE (%s)" % @project.project_condition(Setting.display_subprojects_issues?)
       sql << " AND (%s)" % Project.allowed_to_condition(User.current, :view_time_entries)
       sql << " AND spent_on BETWEEN '%s' AND '%s'" % [ActiveRecord::Base.connection.quoted_date(@from.to_time), ActiveRecord::Base.connection.quoted_date(@to.to_time)]
-      sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek"
+      sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
       
       @hours = ActiveRecord::Base.connection.select_all(sql)
       
@@ -85,6 +83,8 @@ class TimelogController < ApplicationController
           row['month'] = "#{row['tyear']}-#{row['tmonth']}"
         when 'week'
           row['week'] = "#{row['tyear']}-#{row['tweek']}"
+        when 'day'
+          row['day'] = "#{row['spent_on']}"
         end
       end
       
@@ -105,6 +105,9 @@ class TimelogController < ApplicationController
         when 'week'
           @periods << "#{date_from.year}-#{date_from.to_date.cweek}"
           date_from = (date_from + 7.day).at_beginning_of_week
+        when 'day'
+          @periods << "#{date_from.to_date}"
+          date_from = date_from + 1.day
         end
       end
     end
@@ -121,16 +124,7 @@ class TimelogController < ApplicationController
                            ["#{TimeEntry.table_name}.issue_id = ?", @issue.id])
     
     retrieve_date_range
-    
-    if @from
-      if @to
-        cond << ['spent_on BETWEEN ? AND ?', @from, @to]
-      else
-        cond << ['spent_on >= ?', @from]
-      end
-    elsif @to
-      cond << ['spent_on <= ?', @to]
-    end
+    cond << ['spent_on BETWEEN ? AND ?', @from, @to]
 
     TimeEntry.visible_by(User.current) do
       respond_to do |format|
@@ -145,6 +139,7 @@ class TimelogController < ApplicationController
                                     :limit  =>  @entry_pages.items_per_page,
                                     :offset =>  @entry_pages.current.offset)
           @total_hours = TimeEntry.sum(:hours, :include => :project, :conditions => cond.conditions).to_f
+
           render :layout => !request.xhr?
         }
         format.csv {
@@ -241,5 +236,7 @@ private
     end
     
     @from, @to = @to, @from if @from && @to && @from > @to
+    @from ||= (TimeEntry.minimum(:spent_on, :include => :project, :conditions => @project.project_condition(Setting.display_subprojects_issues?)) || Date.today) - 1
+    @to   ||= (TimeEntry.maximum(:spent_on, :include => :project, :conditions => @project.project_condition(Setting.display_subprojects_issues?)) || Date.today)
   end
 end
