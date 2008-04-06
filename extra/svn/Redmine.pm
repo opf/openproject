@@ -90,6 +90,7 @@ use strict;
 
 use DBI;
 use Digest::SHA1;
+use Authen::Simple::LDAP;
 
 use Apache2::Module;
 use Apache2::Access;
@@ -140,7 +141,7 @@ sub is_public_project {
 
     my $dbh = connect_database($r);
     my $sth = $dbh->prepare(
-	"SELECT * FROM projects WHERE projects.identifier=? and projects.is_public=true;"
+        "SELECT * FROM projects WHERE projects.identifier=? and projects.is_public=true;"
     );
 
     $sth->execute($project_id);
@@ -176,17 +177,37 @@ sub is_member {
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
 
   my $sth = $dbh->prepare(
-      "SELECT hashed_password FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND users.status=1 AND login=? AND identifier=?;"
+      "SELECT hashed_password, auth_source_id FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND users.status=1 AND login=? AND identifier=?;"
   );
   $sth->execute($redmine_user, $project_id);
 
   my $ret;
   while (my @row = $sth->fetchrow_array) {
-      if ($row[0] eq $pass_digest) {
-	  $ret = 1;
-	  last;
+      unless ($row[1]) {
+          if ($row[0] eq $pass_digest) {
+              $ret = 1;
+              last;
+          }
+      } else {
+          my $sthldap = $dbh->prepare(
+              "SELECT host,port,account,account_password,base_dn,attr_login from auth_sources WHERE id = ?;"
+          );
+          $sthldap->execute($row[1]);
+          while (my @rowldap = $sthldap->fetchrow_array) {
+            my $ldap = Authen::Simple::LDAP->new(
+	        host 	=>	$rowldap[0],
+		port	=>	$rowldap[1],
+		basedn	=>	$rowldap[4],
+		binddn	=>	$rowldap[2] ? $rowldap[2] : "",
+		bindpw	=>	$rowldap[3] ? $rowldap[3] : "",
+		filter	=>	"(".$rowldap[5]."=%s)"
+	    );
+	    $ret = 1 if ($ldap->authenticate($redmine_user, $redmine_pass));
+          }
+          $sthldap->finish();
       }
   }
+  $sth->finish();
   $dbh->disconnect();
 
   $ret;
