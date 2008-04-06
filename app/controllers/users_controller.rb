@@ -83,7 +83,8 @@ class UsersController < ApplicationController
       end
       if @user.update_attributes(params[:user])
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => 'list'
+        # Give a string to redirect_to otherwise it would use status param as the response code
+        redirect_to(url_for(:action => 'list', :status => params[:status], :page => params[:page]))
       end
     end
     @auth_sources = AuthSource.find(:all)

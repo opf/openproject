@@ -22,4 +22,16 @@ module UsersHelper
                         [l(:status_registered), 2],
                         [l(:status_locked), 3]], selected)
   end
+  
+  def change_status_link(user)
+    url = {:action => 'edit', :id => user, :page => params[:page], :status => params[:status]}
+    
+    if user.locked?
+      link_to l(:button_unlock), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :post, :class => 'icon icon-unlock'
+    elsif user.registered?
+      link_to l(:button_activate), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :post, :class => 'icon icon-unlock'
+    else
+      link_to l(:button_lock), url.merge(:user => {:status => User::STATUS_LOCKED}), :method => :post, :class => 'icon icon-lock'
+    end
+  end
 end

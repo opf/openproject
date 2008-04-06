@@ -33,17 +33,7 @@
 	<td align="center"><%= image_tag('true.png') if user.admin? %></td>
 	<td class="created_on" align="center"><%= format_time(user.created_on) %></td>
 	<td class="last_login_on" align="center"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
-    <td>
-    <small>
-    <% if user.locked? -%>
-        <%= link_to l(:button_unlock), {:action => 'edit', :id => user, :user => {:status => User::STATUS_ACTIVE}}, :method => :post, :class => 'icon icon-unlock' %>
-    <% elsif user.registered? -%>
-        <%= link_to l(:button_activate), {:action => 'edit', :id => user, :user => {:status => User::STATUS_ACTIVE}}, :method => :post, :class => 'icon icon-unlock' %>
-    <% else -%>
-        <%= link_to l(:button_lock), {:action => 'edit', :id => user, :user => {:status => User::STATUS_LOCKED}}, :method => :post, :class => 'icon icon-lock' %>
-    <% end -%>
-    </small>
-    </td>
+    <td><small><%= change_status_link(user) %></small></td>
   </tr>
 <% end -%>
   </tbody>
