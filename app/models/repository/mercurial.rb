@@ -34,6 +34,11 @@ class Repository::Mercurial < Repository
     if entries
       entries.each do |entry|
         next unless entry.is_file?
+        # Set the filesize unless browsing a specific revision
+        if identifier.nil?
+          full_path = File.join(root_url, entry.path)
+          entry.size = File.stat(full_path).size if File.file?(full_path)
+        end
         # Search the DB for the entry's last change
         change = changes.find(:first, :conditions => ["path = ?", scm.with_leading_slash(entry.path)], :order => "#{Changeset.table_name}.committed_on DESC")
         if change
