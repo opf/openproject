@@ -65,13 +65,24 @@ class RepositoriesCvsControllerTest < Test::Unit::TestCase
     end
     
     def test_browse_directory
-      get :browse, :id => 1, :path => ['sources']
+      get :browse, :id => 1, :path => ['images']
       assert_response :success
       assert_template 'browse'
       assert_not_nil assigns(:entries)
-      entry = assigns(:entries).detect {|e| e.name == 'watchers_controller.rb'}
+      assert_equal ['add.png', 'delete.png', 'edit.png'], assigns(:entries).collect(&:name)
+      entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
+      assert_not_nil entry
       assert_equal 'file', entry.kind
-      assert_equal 'sources/watchers_controller.rb', entry.path
+      assert_equal 'images/edit.png', entry.path
+    end
+    
+    def test_browse_at_given_revision
+      Project.find(1).repository.fetch_changesets
+      get :browse, :id => 1, :path => ['images'], :rev => 1
+      assert_response :success
+      assert_template 'browse'
+      assert_not_nil assigns(:entries)
+      assert_equal ['delete.png', 'edit.png'], assigns(:entries).collect(&:name)
     end
   
     def test_entry

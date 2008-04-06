@@ -53,7 +53,9 @@ module Redmine
           path_prefix = (path.blank? ? '' : "#{path}/")
           path = '.' if path.blank?
           entries = Entries.new          
-          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --xml-output #{path}"
+          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --xml-output"
+          cmd << " --match \"hash #{identifier}\"" if identifier
+          cmd << " #{path}"
           shellout(cmd) do |io|
             begin
               doc = REXML::Document.new(io)

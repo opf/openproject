@@ -21,19 +21,18 @@ require 'repositories_controller'
 # Re-raise errors caught by the controller.
 class RepositoriesController; def rescue_action(e) raise e end; end
 
-class RepositoriesGitControllerTest < Test::Unit::TestCase
+class RepositoriesBazaarControllerTest < Test::Unit::TestCase
   fixtures :projects, :users, :roles, :members, :repositories, :enabled_modules
 
   # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
-  REPOSITORY_PATH.gsub!(/\//, "\\") if RUBY_PLATFORM =~ /mswin/
+  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
 
   def setup
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-    Repository::Git.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    Repository::Bazaar.create(:project => Project.find(3), :url => REPOSITORY_PATH)
   end
   
   if File.directory?(REPOSITORY_PATH)
@@ -50,89 +49,81 @@ class RepositoriesGitControllerTest < Test::Unit::TestCase
       assert_response :success
       assert_template 'browse'
       assert_not_nil assigns(:entries)
-      assert_equal 3, assigns(:entries).size
-      assert assigns(:entries).detect {|e| e.name == 'images' && e.kind == 'dir'}
-      assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
-      assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
+      assert_equal 2, assigns(:entries).size
+      assert assigns(:entries).detect {|e| e.name == 'directory' && e.kind == 'dir'}
+      assert assigns(:entries).detect {|e| e.name == 'doc-mkdir.txt' && e.kind == 'file'}
     end
     
     def test_browse_directory
-      get :browse, :id => 3, :path => ['images']
+      get :browse, :id => 3, :path => ['directory']
       assert_response :success
       assert_template 'browse'
       assert_not_nil assigns(:entries)
-      assert_equal ['delete.png', 'edit.png'], assigns(:entries).collect(&:name)
+      assert_equal ['doc-ls.txt', 'document.txt', 'edit.png'], assigns(:entries).collect(&:name)
       entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
       assert_not_nil entry
       assert_equal 'file', entry.kind
-      assert_equal 'images/edit.png', entry.path
+      assert_equal 'directory/edit.png', entry.path
     end
     
     def test_browse_at_given_revision
-      get :browse, :id => 3, :path => ['images'], :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
+      get :browse, :id => 3, :path => [], :rev => 3
       assert_response :success
       assert_template 'browse'
       assert_not_nil assigns(:entries)
-      assert_equal ['delete.png'], assigns(:entries).collect(&:name)
+      assert_equal ['directory', 'doc-deleted.txt', 'doc-ls.txt', 'doc-mkdir.txt'], assigns(:entries).collect(&:name)
     end
-
+    
     def test_changes
-      get :changes, :id => 3, :path => ['images', 'edit.png']
+      get :changes, :id => 3, :path => ['doc-mkdir.txt']
       assert_response :success
       assert_template 'changes'
-      assert_tag :tag => 'h2', :content => 'edit.png'
+      assert_tag :tag => 'h2', :content => 'doc-mkdir.txt'
     end
     
     def test_entry_show
-      get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb']
+      get :entry, :id => 3, :path => ['directory', 'doc-ls.txt']
       assert_response :success
       assert_template 'entry'
       # Line 19
       assert_tag :tag => 'th',
-                 :content => /10/,
+                 :content => /29/,
                  :attributes => { :class => /line-num/ },
-                 :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
+                 :sibling => { :tag => 'td', :content => /Show help message/ }
     end
     
     def test_entry_download
-      get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
+      get :entry, :id => 3, :path => ['directory', 'doc-ls.txt'], :format => 'raw'
       assert_response :success
       # File content
-      assert @response.body.include?('WITHOUT ANY WARRANTY')
+      assert @response.body.include?('Show help message')
     end
   
     def test_diff
-      # Full diff of changeset 2f9c0091
-      get :diff, :id => 3, :rev => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+      # Full diff of changeset 3
+      get :diff, :id => 3, :rev => 3
       assert_response :success
       assert_template 'diff'
       # Line 22 removed
       assert_tag :tag => 'th',
-                 :content => /22/,
+                 :content => /2/,
                  :sibling => { :tag => 'td', 
-                               :attributes => { :class => /diff_out/ },
-                               :content => /def remove/ }
-    end
-
-    def test_annotate
-      get :annotate, :id => 3, :path => ['sources', 'watchers_controller.rb']
-      assert_response :success
-      assert_template 'annotate'
-      # Line 23, changeset 2f9c0091
-      assert_tag :tag => 'th', :content => /23/,
-                 :sibling => { :tag => 'td', :child => { :tag => 'a', :content => /2f9c0091/ } },
-                 :sibling => { :tag => 'td', :content => /jsmith/ },
-                 :sibling => { :tag => 'td', :content => /watcher =/ }
+                               :attributes => { :class => /diff_in/ },
+                               :content => /Main purpose/ }
     end
     
-    def test_annotate_binary_file
-      get :annotate, :id => 3, :path => ['images', 'delete.png']
-      assert_response 500
-      assert_tag :tag => 'div', :attributes => { :class => /error/ },
-                                :content => /can not be annotated/
+    def test_annotate
+      get :annotate, :id => 3, :path => ['doc-mkdir.txt']
+      assert_response :success
+      assert_template 'annotate'
+      # Line 2, revision 3
+      assert_tag :tag => 'th', :content => /2/,
+                 :sibling => { :tag => 'td', :child => { :tag => 'a', :content => /3/ } },
+                 :sibling => { :tag => 'td', :content => /jsmith/ },
+                 :sibling => { :tag => 'td', :content => /Main purpose/ }
     end
   else
-    puts "Git test repository NOT FOUND. Skipping functional tests !!!"
+    puts "Bazaar test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
   end
 end

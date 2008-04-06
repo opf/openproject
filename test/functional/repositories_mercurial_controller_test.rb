@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -60,11 +60,19 @@ class RepositoriesMercurialControllerTest < Test::Unit::TestCase
       assert_response :success
       assert_template 'browse'
       assert_not_nil assigns(:entries)
-      assert_equal 2, assigns(:entries).size
+      assert_equal ['delete.png', 'edit.png'], assigns(:entries).collect(&:name)
       entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
       assert_not_nil entry
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
+    end
+    
+    def test_browse_at_given_revision
+      get :browse, :id => 3, :path => ['images'], :rev => 0
+      assert_response :success
+      assert_template 'browse'
+      assert_not_nil assigns(:entries)
+      assert_equal ['delete.png'], assigns(:entries).collect(&:name)
     end
     
     def test_changes

@@ -79,7 +79,7 @@ module Redmine
             rev = Revision.new({:identifier => changeset[:commit],
                                 :scmid => changeset[:commit],
                                 :author => changeset[:author],
-                                :time => Time.parse(changeset[:date]),
+                                :time => (changeset[:date] ? Time.parse(changeset[:date]) : nil),
                                 :message => changeset[:description],
                                 :paths => files
                                })

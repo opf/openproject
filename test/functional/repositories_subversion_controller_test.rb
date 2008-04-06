@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -58,11 +58,20 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       assert_response :success
       assert_template 'browse'
       assert_not_nil assigns(:entries)
+      assert_equal ['folder', '.project', 'helloworld.c', 'textfile.txt'], assigns(:entries).collect(&:name)
       entry = assigns(:entries).detect {|e| e.name == 'helloworld.c'}
       assert_equal 'file', entry.kind
       assert_equal 'subversion_test/helloworld.c', entry.path
     end
-  
+
+    def test_browse_at_given_revision
+      get :browse, :id => 1, :path => ['subversion_test'], :rev => 4
+      assert_response :success
+      assert_template 'browse'
+      assert_not_nil assigns(:entries)
+      assert_equal ['folder', '.project', 'helloworld.c', 'helloworld.rb', 'textfile.txt'], assigns(:entries).collect(&:name)
+    end
+      
     def test_entry
       get :entry, :id => 1, :path => ['subversion_test', 'helloworld.c']
       assert_response :success

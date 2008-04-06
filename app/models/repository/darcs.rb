@@ -29,7 +29,8 @@ class Repository::Darcs < Repository
   end
   
   def entries(path=nil, identifier=nil)
-    entries=scm.entries(path, identifier)
+    patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
+    entries = scm.entries(path, patch.nil? ? nil : patch.scmid)
     if entries
       entries.each do |entry|
         # Search the DB for the entry's last change

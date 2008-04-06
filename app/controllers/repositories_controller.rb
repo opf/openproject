@@ -51,8 +51,8 @@ class RepositoriesController < ApplicationController
   def show
     # check if new revisions have been committed in the repository
     @repository.fetch_changesets if Setting.autofetch_changesets?
-    # get entries for the browse frame
-    @entries = @repository.entries('')    
+    # root entries
+    @entries = @repository.entries('', @rev)    
     # latest changesets
     @changesets = @repository.changesets.find(:all, :limit => 10, :order => "committed_on DESC")
     show_error_not_found unless @entries || @changesets.any?

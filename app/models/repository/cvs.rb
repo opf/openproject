@@ -35,7 +35,8 @@ class Repository::Cvs < Repository
   end
   
   def entries(path=nil, identifier=nil)
-    entries=scm.entries(path, identifier)
+    rev = identifier.nil? ? nil : changesets.find_by_revision(identifier)
+    entries = scm.entries(path, rev.nil? ? nil : rev.committed_on)
     if entries
       entries.each() do |entry|
         unless entry.lastrev.nil? || entry.lastrev.identifier
