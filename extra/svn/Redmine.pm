@@ -8,8 +8,8 @@ against redmine database
 =head1 SYNOPSIS
 
 This module allow anonymous users to browse public project and
-registred users to browse and commit their project. authentication is
-done on the redmine database.
+registred users to browse and commit their project. Authentication is
+done against the redmine database or the LDAP configured in redmine.
 
 This method is far simpler than the one with pam_* and works with all
 database without an hassle but you need to have apache/mod_perl on the
@@ -28,6 +28,9 @@ work on allmost all databases).
 On debian/ubuntu you must do :
 
   aptitude install libapache-dbi-perl libapache2-mod-perl2 libdbd-mysql-perl
+
+If your Redmine users use LDAP authentication, you will also need
+Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used).
 
 =head1 CONFIGURATION
 
@@ -90,7 +93,8 @@ use strict;
 
 use DBI;
 use Digest::SHA1;
-use Authen::Simple::LDAP;
+# optional module for LDAP authentication
+my $CanUseLDAPAuth = eval("use Authen::Simple::LDAP; 1");
 
 use Apache2::Module;
 use Apache2::Access;
@@ -188,21 +192,21 @@ sub is_member {
               $ret = 1;
               last;
           }
-      } else {
+      } elsif ($CanUseLDAPAuth) {
           my $sthldap = $dbh->prepare(
-              "SELECT host,port,account,account_password,base_dn,attr_login from auth_sources WHERE id = ?;"
+              "SELECT host,port,tls,account,account_password,base_dn,attr_login from auth_sources WHERE id = ?;"
           );
           $sthldap->execute($row[1]);
           while (my @rowldap = $sthldap->fetchrow_array) {
             my $ldap = Authen::Simple::LDAP->new(
-	        host 	=>	$rowldap[0],
-		port	=>	$rowldap[1],
-		basedn	=>	$rowldap[4],
-		binddn	=>	$rowldap[2] ? $rowldap[2] : "",
-		bindpw	=>	$rowldap[3] ? $rowldap[3] : "",
-		filter	=>	"(".$rowldap[5]."=%s)"
-	    );
-	    $ret = 1 if ($ldap->authenticate($redmine_user, $redmine_pass));
+                host    =>      ($rowldap[2] == 1 || $rowldap[2] eq "t") ? "ldaps://$rowldap[0]" : $rowldap[0],
+                port    =>      $rowldap[1],
+                basedn  =>      $rowldap[5],
+                binddn  =>      $rowldap[3] ? $rowldap[3] : "",
+                bindpw  =>      $rowldap[4] ? $rowldap[4] : "",
+                filter  =>      "(".$rowldap[6]."=%s)"
+            );
+            $ret = 1 if ($ldap->authenticate($redmine_user, $redmine_pass));
           }
           $sthldap->finish();
       }
