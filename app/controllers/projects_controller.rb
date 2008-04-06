@@ -204,7 +204,10 @@ class ProjectsController < ApplicationController
   end
   
   def list_files
-    @versions = @project.versions.sort.reverse
+    sort_init "#{Attachment.table_name}.filename", "asc"
+    sort_update
+    @versions = @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
+    render :layout => !request.xhr?
   end
   
   # Show changelog for @project

@@ -9,10 +9,10 @@
 <table class="list">
   <thead><tr>
     <th><%=l(:field_version)%></th>
-    <th><%=l(:field_filename)%></th>
-    <th><%=l(:label_date)%></th>
-    <th><%=l(:field_filesize)%></th>
-    <th><%=l(:label_downloads_abbr)%></th>
+    <%= sort_header_tag("#{Attachment.table_name}.filename", :caption => l(:field_filename)) %>
+    <%= sort_header_tag("#{Attachment.table_name}.created_on", :caption => l(:label_date), :default_order => 'desc') %>
+    <%= sort_header_tag("#{Attachment.table_name}.filesize", :caption => l(:field_filesize), :default_order => 'desc') %>
+    <%= sort_header_tag("#{Attachment.table_name}.downloads", :caption => l(:label_downloads_abbr), :default_order => 'desc') %>
     <th>MD5</th>
     <% if delete_allowed %><th></th><% end %>
   </tr></thead>
