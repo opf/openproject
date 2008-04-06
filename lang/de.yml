@@ -71,7 +71,7 @@ notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
 notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
 notice_email_sent: Eine E-Mail wurde an %s gesendet.
 notice_email_error: Beim Senden einer E-Mail ist ein Fehler aufgetreten (%s).
-notice_feeds_access_key_reseted: Ihr RSS-Zugriffsschlüssel wurde zurückgesetzt.
+notice_feeds_access_key_reseted: Ihr Atom-Zugriffsschlüssel wurde zurückgesetzt.
 notice_failed_to_save_issues: "%d von %d ausgewählten Tickets konnte(n) nicht gespeichert werden: %s."
 notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
 notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
@@ -80,6 +80,7 @@ notice_default_data_loaded: Die Standard-Konfiguration wurde erfolgreich geladen
 error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %s"
 error_scm_not_found: Eintrag und/oder Revision besteht nicht im Projektarchiv.
 error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %s"
+error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
 error_issue_not_found_in_project: 'Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt.'
 
 mail_subject_lost_password: Ihr %s Kennwort
@@ -120,8 +121,8 @@ field_project: Projekt
 field_issue: Ticket
 field_status: Status
 field_notes: Kommentare
-field_is_closed: Problem erledigt
-field_is_default: Default
+field_is_closed: Ticket geschlossen
+field_is_default: Standardeinstellung
 field_tracker: Tracker
 field_subject: Thema
 field_due_date: Abgabedatum
@@ -133,8 +134,8 @@ field_role: Rolle
 field_homepage: Projekt-Homepage
 field_is_public: Öffentlich
 field_parent: Unterprojekt von
-field_is_in_chlog: Ansicht im Change-Log
-field_is_in_roadmap: Ansicht in der Roadmap
+field_is_in_chlog: Im Change-Log anzeigen
+field_is_in_roadmap: In der Roadmap anzeigen
 field_login: Mitgliedsname
 field_mail_notification: Mailbenachrichtigung
 field_admin: Administrator
@@ -177,6 +178,7 @@ field_column_names: Spalten
 field_time_zone: Zeitzone
 field_searchable: Durchsuchbar
 field_default_value: Standardwert
+field_comments_sorting: Kommentare anzeigen
 
 setting_app_title: Applikations-Titel
 setting_app_subtitle: Applikations-Untertitel
@@ -191,7 +193,8 @@ setting_bcc_recipients: E-Mails als Blindkopie (BCC) senden
 setting_host_name: Hostname
 setting_text_formatting: Textformatierung
 setting_wiki_compression: Wiki-Historie komprimieren
-setting_feeds_limit: Feed-Inhalt begrenzen
+setting_feeds_limit: Max. Anzahl Einträge pro Atom-Feed
+setting_default_projects_public: Neue Projekte sind standardmäßig öffentlich
 setting_autofetch_changesets: Changesets automatisch abrufen
 setting_sys_api_enabled: Webservice zur Verwaltung der Projektarchive benutzen
 setting_commit_ref_keywords: Schlüsselwörter (Beziehungen)
@@ -206,6 +209,8 @@ setting_emails_footer: E-Mail-Fußzeile
 setting_protocol: Protokoll
 setting_per_page_options: Objekte pro Seite
 setting_user_format: Benutzer-Anzeigeformat
+setting_activity_days_default: Anzahl Tage pro Seite der Projekt-Aktivität
+setting_display_subprojects_issues: Tickets von Unterprojekten im Hauptprojekt anzeigen
 
 project_module_issue_tracking: Ticket-Verfolgung
 project_module_time_tracking: Zeiterfassung
@@ -227,7 +232,7 @@ label_project_latest: Neueste Projekte
 label_issue: Ticket
 label_issue_new: Neues Ticket
 label_issue_plural: Tickets
-label_issue_view_all: Alle Tickets ansehen
+label_issue_view_all: Alle Tickets anzeigen
 label_issues_by: Tickets von %s
 label_issue_added: Ticket hinzugefügt
 label_issue_updated: Ticket aktualisiert
@@ -277,6 +282,7 @@ label_last_updates: zuletzt aktualisiert
 label_last_updates_plural: %d zuletzt aktualisierten
 label_registered_on: Angemeldet am
 label_activity: Aktivität
+label_overall_activity: Aktivität aller Projekte anzeigen
 label_new: Neu
 label_logged_as: Angemeldet als
 label_environment: Environment
@@ -320,7 +326,7 @@ label_version: Version
 label_version_new: Neue Version
 label_version_plural: Versionen
 label_confirmation: Bestätigung
-label_export_to: Export zu
+label_export_to: "Auch abrufbar als:"
 label_read: Lesen...
 label_public_projects: Öffentliche Projekte
 label_open_issues: offen
@@ -345,7 +351,7 @@ label_months_from: Monate ab
 label_gantt: Gantt
 label_internal: Intern
 label_last_changes: %d letzte Änderungen
-label_change_view_all: Alle Änderungen ansehen
+label_change_view_all: Alle Änderungen anzeigen
 label_personalize_page: Diese Seite anpassen
 label_comment: Kommentar
 label_comment_plural: Kommentare
@@ -469,7 +475,7 @@ label_date_to: Bis
 label_language_based: Sprachabhängig
 label_sort_by: Sortiert nach %s
 label_send_test_email: Test-E-Mail senden
-label_feeds_access_key_created_on: RSS-Zugriffsschlüssel vor %s erstellt
+label_feeds_access_key_created_on: Atom-Zugriffsschlüssel vor %s erstellt
 label_module_plural: Module
 label_added_time_by: Von %s vor %s hinzugefügt
 label_updated_time: Vor %s aktualisiert
@@ -500,6 +506,10 @@ label_ldap_authentication: LDAP-Authentifizierung
 label_downloads_abbr: D/L
 label_optional_description: Beschreibung (optional)
 label_add_another_file: Eine weitere Datei hinzufügen
+label_preferences: Präferenzen
+label_chronological_order: in zeitlicher Reihenfolge
+label_reverse_chronological_order: in umgekehrter zeitlicher Reihenfolge
+label_planning: Terminplanung
 
 button_login: Anmelden
 button_submit: OK
@@ -518,7 +528,7 @@ button_lock: Sperren
 button_unlock: Entsperren
 button_download: Download
 button_list: Liste
-button_view: Ansehen
+button_view: Anzeigen
 button_move: Verschieben
 button_back: Zurück
 button_cancel: Abbrechen
@@ -535,7 +545,7 @@ button_reset: Zurücksetzen
 button_rename: Umbenennen
 button_change_password: Kennwort ändern
 button_copy: Kopieren
-button_annotate: Mit Anmerkungen versehen
+button_annotate: Annotieren
 button_update: Aktualisieren
 button_configure: Konfigurieren
 
@@ -608,13 +618,3 @@ default_activity_development: Entwicklung
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning

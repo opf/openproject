@@ -619,5 +619,5 @@ label_preferences: Предпочтения
 setting_display_subprojects_issues: Отображение подпроектов по умолчанию
 label_overall_activity: Сводная активность
 setting_default_projects_public: Новые проекты являются публичными
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
+error_scm_annotate: "Данные отсутствуют или не могут быть подписаны."
+label_planning: Планирование

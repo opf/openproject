@@ -76,7 +76,7 @@ notice_failed_to_save_issues: "נכשרת בשמירת %d נושא\ים ב %d נ
 notice_no_issue_selected: "לא נבחר אף נושא! בחר בבקשה את הנושאים שברצונך לערוך."
 
 error_scm_not_found: כניסה ו\או גירסא אינם קיימים במאגר.
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "ארעה שגיאה בעת ניסון גישה למאגר: %s"
 
 mail_subject_lost_password: סיסמת ה-%s שלך
 mail_body_lost_password: 'לשינו סיסמת ה-Redmine שלך,לחץ על הקישור הבא:'
@@ -98,7 +98,7 @@ field_filesize: גודל
 field_downloads: הורדות
 field_author: כותב
 field_created_on: נוצר
-field_updated_on: עודגן
+field_updated_on: עודכן
 field_field_format: פורמט
 field_is_for_all: לכל הפרויקטים
 field_possible_values: ערכים אפשריים
@@ -119,7 +119,7 @@ field_subject: שם נושא
 field_due_date: תאריך סיום
 field_assigned_to: מוצב ל
 field_priority: עדיפות
-field_fixed_version: Target version
+field_fixed_version: גירסאת יעד
 field_user: מתשמש
 field_role: תפקיד
 field_homepage: דף הבית
@@ -140,7 +140,7 @@ field_version: גירסא
 field_type: סוג
 field_host: שרת
 field_port: פורט
-field_account: חשבום
+field_account: חשבון
 field_base_dn: בסיס DN
 field_attr_login: תכונת התחברות
 field_attr_firstname: תכונת שם פרטים
@@ -182,7 +182,7 @@ setting_text_formatting: עיצוב טקסט
 setting_wiki_compression: כיווץ היסטורית WIKI
 setting_feeds_limit: גבול תוכן הזנות
 setting_autofetch_changesets: משיכה אוטומתי של עידכונים
-setting_sys_api_enabled: Enable WS for repository management
+setting_sys_api_enabled: אפשר WS לניהול המאגר
 setting_commit_ref_keywords: מילות מפתח מקשרות
 setting_commit_fix_keywords: מילות מפתח מתקנות
 setting_autologin: חיבור אוטומטי
@@ -233,7 +233,7 @@ label_information_plural: מידע
 label_please_login: התחבר בבקשה
 label_register: הרשמה
 label_password_lost: אבדה הסיסמה?
-label_home: דך הבית
+label_home: דף הבית
 label_my_page: הדף שלי
 label_my_account: השבון שלי
 label_my_projects: הפרויקטים שלי
@@ -259,7 +259,7 @@ label_subproject_plural: תת-פרויקטים
 label_min_max_length: אורך מינימאלי - מקסימאלי
 label_list: רשימה
 label_date: תאריך
-label_integer: מספר שלים
+label_integer: מספר שלם
 label_boolean: ערך בוליאני
 label_string: טקסט
 label_text: טקסט ארוך
@@ -269,7 +269,7 @@ label_download: הורדה %d
 label_download_plural: %d הורדות
 label_no_data: אין מידע להציג
 label_change_status: שנה מצב
-label_history: הידטוריה
+label_history: היסטוריה
 label_attachment: קובץ
 label_attachment_new: קובץ חדש
 label_attachment_delete: מחק קובץ
@@ -279,7 +279,7 @@ label_report_plural: דו"חות
 label_news: חדשות
 label_news_new: הוסף חדשות
 label_news_plural: חדשות
-label_news_latest: חדשות חדשות
+label_news_latest: חדשות אחרונות
 label_news_view_all: צפה בכל החדשות
 label_change_log: דו"ח שינויים
 label_settings: הגדרות
@@ -419,7 +419,7 @@ label_reply_plural: השבות
 label_send_information: שלח מידע על חשבון למשתמש
 label_year: שנה
 label_month: חודש
-label_week: שבו
+label_week: שבוע
 label_date_from: מאת
 label_date_to: אל
 label_language_based: מבוסס שפה
@@ -444,7 +444,7 @@ button_save: שמור
 button_check_all: בחר הכל
 button_uncheck_all: בחר כלום
 button_delete: מחק
-button_create: צוק
+button_create: צור
 button_test: בדוק
 button_edit: ערוך
 button_add: הוסף
@@ -454,13 +454,13 @@ button_clear: נקה
 button_lock: נעל
 button_unlock: בטל נעילה
 button_download: הורד
-button_list: קשימה
+button_list: רשימה
 button_view: צפה
 button_move: הזז
 button_back: הקודם
 button_cancel: בטח
 button_activate: הפעל
-button_sort: מין
+button_sort: מיין
 button_log_time: זמן לוג
 button_rollback: חזור לגירסא זו
 button_watch: צפה
@@ -526,94 +526,94 @@ default_activity_development: פיתוח
 enumeration_issue_priorities: עדיפות נושאים
 enumeration_doc_categories: קטגוריות מסמכים
 enumeration_activities: פעילויות (מעקב אחר זמנים)
-label_search_titles_only: Search titles only
-label_nobody: nobody
-button_change_password: Change password
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
-setting_emails_footer: Emails footer
-label_float: Float
-button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log in.
-mail_body_account_information: Your account information
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: %s account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
-field_time_zone: Time zone
-text_caracters_minimum: Must be at least %d characters long.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-button_annotate: Annotate
-label_issues_by: Issues by %s
-field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
-label_general: General
-label_repository_plural: Repositories
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+label_search_titles_only: חפש בכותרות בלבד
+label_nobody: אף אחד
+button_change_password: שנה סיסמא
+text_user_mail_option: "בפרויקטים שלא בחרת, אתה רק תקבל התרעות על שאתה צופה או קשור אליהם (לדוגמא:נושאים שאתה היוצר שלהם או מוצבים אליך)."
+label_user_mail_option_selected: "לכל אירוע בפרויקטים שבחרתי בלבד..."
+label_user_mail_option_all: "לכל אירוע בכל הפרויקטים שלי"
+label_user_mail_option_none: "רק לנושאים שאני צופה או קשור אליהם"
+setting_emails_footer: תחתית דוא"ל
+label_float: צף
+button_copy: העתק
+mail_body_account_information_external: אתה יכול להשתמש בחשבון "%s" כדי להתחבר
+mail_body_account_information: פרטי החשבון שלך
+setting_protocol: פרוטוקול
+label_user_mail_no_self_notified: "אני לא רוצה שיודיעו לי על שינויים שאני מבצע"
+setting_time_format: פורמט זמן
+label_registration_activation_by_email: הפעל חשבון באמצעות דוא"ל
+mail_subject_account_activation_request: בקשת הפעלה לחשבון %s
+mail_body_account_activation_request: 'משתמש חדש (%s) נרשם. החשבון שלו מחכה לאישור שלך:'
+label_registration_automatic_activation: הפעלת חשבון אוטומטית
+label_registration_manual_activation: הפעלת חשבון ידנית
+notice_account_pending: "החשבון שלך נוצר ועתה מחכה לאישור מנהל המערכת."
+field_time_zone: איזור זמן
+text_caracters_minimum: חייב להיות לפחות באורך של %d תווים.
+setting_bcc_recipients: מוסתר (bcc)
+button_annotate: הוסף תיאור מסגרת
+label_issues_by: נושאים של %s
+field_searchable: ניתן לחיפוש
+label_display_per_page: 'לכל דף: %s'
+setting_per_page_options: אפשרויות אוביקטים לפי דף
+label_age: גיל
+notice_default_data_loaded: אפשרויות ברירת מחדל מופעלות.
+text_load_default_configuration: טען את אפשרויות ברירת המחדל
+text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. יהיה באפשרותך לשנותו לאחר שיטען."
+error_can_t_load_default_data: "אפשרויות ברירת המחדל לא הצליחו להיטען: %s"
+button_update: עדכן
+label_change_properties: שנה מאפיינים
+label_general: כללי
+label_repository_plural: מאגרים
+label_associated_revisions: שינויים קשורים
+setting_user_format: פורמט הצגת משתמשים
+text_status_changed_by_changeset: הוחל בסדרת השינויים %s.
+label_more: עוד
+text_issues_destroy_confirmation: 'האם את\ה בטוח שברצונך למחוק את הנושא\ים ?'
 label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
+text_select_project_modules: 'בחר מודולים להחיל על פקרויקט זה:'
+label_issue_added: נושא הוסף
+label_issue_updated: נושא עודכן
+label_document_added: מוסמך הוסף
+label_message_posted: הודעה הוספה
+label_file_added: קובץ הוסף
+label_news_added: חדשות הוספו
+project_module_boards: לוחות
+project_module_issue_tracking: מעקב נושאים
 project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
+project_module_files: קבצים
+project_module_documents: מסמכים
+project_module_repository: מאגר
+project_module_news: חדשות
+project_module_time_tracking: מעקב אחר זמנים
+text_file_repository_writable: מאגר הקבצים ניתן לכתיבה
+text_default_administrator_account_changed: מנהל המערכת ברירת המחדל שונה
 text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
+button_configure: אפשרויות
+label_plugins: פלאגינים
+label_ldap_authentication: אימות LDAP
 label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
+label_this_month: החודש
+label_last_n_days: ב-%d ימים אחרונים
+label_all_time: תמיד
+label_this_year: השנה
+label_date_range: טווח תאריכים
+label_last_week: שבוע שעבר
+label_yesterday: אתמול
+label_last_month: חודש שעבר
+label_add_another_file: הוסף עוד קובץ
+label_optional_description: תיאור רשות
+text_destroy_time_entries_question: %.02f שעות דווחו על הנושים שאת\ה עומד\ת למחוק. מה ברצונך לעשות ?
+error_issue_not_found_in_project: 'הנושאים לא נמצאו או אינם שיכים לפרויקט'
+text_assign_time_entries_to_project: הצב שעות שדווחו לפרויקט הזה
+text_destroy_time_entries: מחק שעות שדווחו
+text_reassign_time_entries: 'הצב מחדש שעות שדווחו לפרויקט הזה:'
+setting_activity_days_default: ימים המוצגים על פעילות הפרויקט
+label_chronological_order: בסדר כרונולוגי
+field_comments_sorting: הצג הערות
+label_reverse_chronological_order: בסדר כרונולוגי הפוך
+label_preferences: העדפות
+setting_display_subprojects_issues: הצג נושאים של תת פרויקטים כברירת מחדל
+label_overall_activity: פעילות כוללת
+setting_default_projects_public: פרויקטים חדשים הינם פומביים כברירת מחדל
+error_scm_annotate: "הכניסה לא קיימת או שלא ניתן לתאר אותה."
+label_planning: תכנון
