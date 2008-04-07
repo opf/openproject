@@ -30,7 +30,9 @@ On debian/ubuntu you must do :
   aptitude install libapache-dbi-perl libapache2-mod-perl2 libdbd-mysql-perl
 
 If your Redmine users use LDAP authentication, you will also need
-Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used).
+Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
+
+  aptitude install libauthen-simple-ldap-perl libio-socket-ssl-perl
 
 =head1 CONFIGURATION
 
