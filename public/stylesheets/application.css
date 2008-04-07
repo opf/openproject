@@ -159,7 +159,9 @@ div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid 
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; } 
 
-fieldset#filters .buttons { text-align: right; font-size: 0.9em; margin: 0 4px 0px 0; }
+fieldset#filters { padding: 0.7em; }
+fieldset#filters p { margin: 0.8em 0 0.8em 0; }
+fieldset#filters .buttons { text-align: right; font-size: 0.9em; }
 
 div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
 div#issue-changesets .changeset { padding: 4px;}

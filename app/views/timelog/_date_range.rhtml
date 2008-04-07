@@ -1,4 +1,4 @@
-<fieldset><legend><%= l(:label_date_range) %></legend>
+<fieldset id="filters"><legend><%= l(:label_date_range) %></legend>
 <p>
 <%= radio_button_tag 'period_type', '1', !@free_period %>
 <%= select_tag 'period', options_for_period_select(params[:period]),
@@ -7,11 +7,13 @@
 </p>
 <p>
 <%= radio_button_tag 'period_type', '2', @free_period %>
+<span onclick="$('period_type_2').checked = true;">
 <%= l(:label_date_from) %>
-<%= text_field_tag 'from', @from, :size => 10, :onfocus => '$("period_type_2").checked = true;' %> <%= calendar_for('from') %>
+<%= text_field_tag 'from', @from, :size => 10 %> <%= calendar_for('from') %>
 <%= l(:label_date_to) %>
-<%= text_field_tag 'to', @to, :size => 10, :onfocus => '$("period_type_2").checked = true;' %> <%= calendar_for('to') %>
-<%= submit_tag l(:button_apply), :name => nil, :onclick => '$("period_type_2").checked = true;' %>
+<%= text_field_tag 'to', @to, :size => 10 %> <%= calendar_for('to') %>
+</span>
+<%= submit_tag l(:button_apply), :name => nil %>
 </p>
 </fieldset>
 
