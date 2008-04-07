@@ -60,6 +60,11 @@
   </tr>
 </tbody>
 </table>
+
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'CSV', params.merge({:format => 'csv'}), :class => 'csv' %></span>
+</p>
 <% end %>
 <% end %>
 

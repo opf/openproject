@@ -112,7 +112,10 @@ class TimelogController < ApplicationController
       end
     end
     
-    render :layout => false if request.xhr?
+    respond_to do |format|
+      format.html { render :layout => !request.xhr? }
+      format.csv  { send_data(report_to_csv(@criterias, @periods, @hours).read, :type => 'text/csv; header=present', :filename => 'timelog.csv') }
+    end
   end
   
   def details

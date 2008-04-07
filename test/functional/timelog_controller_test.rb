@@ -118,7 +118,18 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_template 'report'
     assert_not_nil assigns(:total_hours)
     assert_equal "0.00", "%.2f" % assigns(:total_hours)
- end
+  end
+ 
+  def test_report_csv_export
+    get :report, :project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30", :criterias => ["project", "member", "activity"], :format => "csv"
+    assert_response :success
+    assert_equal 'text/csv', @response.content_type
+    lines = @response.body.chomp.split("\n")
+    # Headers
+    assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total', lines.first
+    # Total row
+    assert_equal 'Total,"","","","",154.25,8.65,"","",162.90', lines.last
+  end
 
   def test_details_at_project_level
     get :details, :project_id => 1

@@ -76,4 +76,56 @@ module TimelogHelper
     export.rewind
     export
   end
+  
+  def report_to_csv(criterias, periods, hours)
+    export = StringIO.new
+    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
+      # Column headers
+      headers = criterias.collect {|criteria| l(@available_criterias[criteria][:label]) }
+      headers += periods
+      headers << l(:label_total)
+      csv << headers.collect {|c| to_utf8(c) }
+      # Content
+      report_criteria_to_csv(csv, criterias, periods, hours)
+      # Total row
+      row = [ l(:label_total) ] + [''] * (criterias.size - 1)
+      total = 0
+      periods.each do |period|
+        sum = sum_hours(select_hours(hours, @columns, period.to_s))
+        total += sum
+        row << (sum > 0 ? "%.2f" % sum : '')
+      end
+      row << "%.2f" %total
+      csv << row
+    end
+    export.rewind
+    export
+  end
+  
+  def report_criteria_to_csv(csv, criterias, periods, hours, level=0)
+    hours.collect {|h| h[criterias[level]]}.uniq.each do |value|
+      hours_for_value = select_hours(hours, criterias[level], value)
+      next if hours_for_value.empty?
+      row = [''] * level
+      row << to_utf8(value.nil? ? l(:label_none) : @available_criterias[criterias[level]][:klass].find_by_id(value))
+      row += [''] * (criterias.length - level - 1)
+      total = 0
+      periods.each do |period|
+        sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s))
+        total += sum
+        row << (sum > 0 ? "%.2f" % sum : '')
+      end
+      row << "%.2f" %total
+      csv << row
+      
+      if criterias.length > level + 1
+        report_criteria_to_csv(csv, criterias, periods, hours_for_value, level + 1)
+      end
+    end
+  end
+  
+  def to_utf8(s)
+    @ic ||= Iconv.new(l(:general_csv_encoding), 'UTF-8')
+    begin; @ic.iconv(s.to_s); rescue; s.to_s; end
+  end
 end
