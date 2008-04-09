@@ -1,9 +1,9 @@
-<% @hours.collect {|h| h[criterias[level]]}.uniq.each do |value| %>
+<% @hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value| %>
 <% hours_for_value = select_hours(hours, criterias[level], value) -%>
 <% next if hours_for_value.empty? -%>
 <tr class="<%= cycle('odd', 'even') %> <%= 'last-level' unless criterias.length > level+1 %>">
 <%= '<td></td>' * level %>
-<td><%= value.nil? ? l(:label_none) : @available_criterias[criterias[level]][:klass].find_by_id(value) %></td>
+<td><%= format_criteria_value(criterias[level], value) %></td>
 <%= '<td></td>' * (criterias.length - level - 1) -%>
   <% total = 0 -%>
   <% @periods.each do |period| -%>

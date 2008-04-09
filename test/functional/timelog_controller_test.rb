@@ -22,7 +22,7 @@ require 'timelog_controller'
 class TimelogController; def rescue_action(e) raise e end; end
 
 class TimelogControllerTest < Test::Unit::TestCase
-  fixtures :projects, :enabled_modules, :roles, :members, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses
+  fixtures :projects, :enabled_modules, :roles, :members, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses, :custom_fields, :custom_values
 
   def setup
     @controller = TimelogController.new
@@ -112,6 +112,23 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
   end
   
+  def test_report_custom_field_criteria
+    get :report, :project_id => 1, :criterias => ['project', 'cf_1']
+    assert_response :success
+    assert_template 'report'
+    assert_not_nil assigns(:total_hours)
+    assert_not_nil assigns(:criterias)
+    assert_equal 2, assigns(:criterias).size
+    assert_equal "162.90", "%.2f" % assigns(:total_hours)
+    # Custom field column
+    assert_tag :tag => 'th', :content => 'Database'
+    # Custom field row
+    assert_tag :tag => 'td', :content => 'MySQL',
+                             :sibling => { :tag => 'td', :attributes => { :class => 'hours' },
+                                                         :child => { :tag => 'span', :attributes => { :class => 'hours hours-int' },
+                                                                                     :content => '1' }}
+  end
+  
   def test_report_one_criteria_no_result
     get :report, :project_id => 1, :columns => 'week', :from => "1998-04-01", :to => "1998-04-30", :criterias => ['project']
     assert_response :success
@@ -186,6 +203,6 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_equal 'text/csv', @response.content_type
     assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
-    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,2,Feature request,Add ingredients categories,1.0,\"\"\n")
+    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
 end

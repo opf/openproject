@@ -450,10 +450,11 @@ class IssuesControllerTest < Test::Unit::TestCase
   end
   
   def test_destroy_issue_with_no_time_entries
+    assert_nil TimeEntry.find_by_issue_id(2)
     @request.session[:user_id] = 2
-    post :destroy, :id => 3
+    post :destroy, :id => 2
     assert_redirected_to 'projects/ecookbook/issues'
-    assert_nil Issue.find_by_id(3)
+    assert_nil Issue.find_by_id(2)
   end
 
   def test_destroy_issues_with_time_entries

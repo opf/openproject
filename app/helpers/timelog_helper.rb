@@ -77,6 +77,10 @@ module TimelogHelper
     export
   end
   
+  def format_criteria_value(criteria, value)
+    value.blank? ? l(:label_none) : ((k = @available_criterias[criteria][:klass]) ? k.find_by_id(value.to_i) : format_value(value, @available_criterias[criteria][:format]))
+  end
+  
   def report_to_csv(criterias, periods, hours)
     export = StringIO.new
     CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
@@ -103,11 +107,11 @@ module TimelogHelper
   end
   
   def report_criteria_to_csv(csv, criterias, periods, hours, level=0)
-    hours.collect {|h| h[criterias[level]]}.uniq.each do |value|
+    hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value|
       hours_for_value = select_hours(hours, criterias[level], value)
       next if hours_for_value.empty?
       row = [''] * level
-      row << to_utf8(value.nil? ? l(:label_none) : @available_criterias[criterias[level]][:klass].find_by_id(value))
+      row << to_utf8(format_criteria_value(criterias[level], value))
       row += [''] * (criterias.length - level - 1)
       total = 0
       periods.each do |period|

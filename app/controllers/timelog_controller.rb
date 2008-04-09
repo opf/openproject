@@ -26,6 +26,8 @@ class TimelogController < ApplicationController
   include SortHelper
   helper :issues
   include TimelogHelper
+  helper :custom_fields
+  include CustomFieldsHelper
   
   def report
     @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
@@ -50,6 +52,13 @@ class TimelogController < ApplicationController
                                          :klass => Issue,
                                          :label => :label_issue}
                            }
+    
+    # Add list and boolean custom fields as available criterias
+    @project.all_custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM custom_values c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = issues.id)",
+                                             :format => cf.field_format,
+                                             :label => cf.name}
+    end
     
     @criterias = params[:criterias] || []
     @criterias = @criterias.select{|criteria| @available_criterias.has_key? criteria}
