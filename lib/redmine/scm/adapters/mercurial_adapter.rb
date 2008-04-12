@@ -105,7 +105,8 @@ module Redmine
                 line_feeds += 1 if line.chomp.empty?
               end
             end
-            revisions << build_revision_from_changeset(changeset)
+            # Add the last changeset if there is one left
+            revisions << build_revision_from_changeset(changeset) if changeset[:date]
           end
           return nil if $? && $?.exitstatus != 0
           revisions

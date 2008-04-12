@@ -58,7 +58,9 @@ class Repository::Mercurial < Repository
       # latest revision found in database
       db_revision = latest_changeset ? latest_changeset.revision.to_i : -1
       # latest revision in the repository
-      scm_revision = scm_info.lastrev.identifier.to_i
+      latest_revision = scm_info.lastrev
+      return if latest_revision.nil?
+      scm_revision = latest_revision.identifier.to_i
       if db_revision < scm_revision
         logger.debug "Fetching changesets for repository #{url}" if logger && logger.debug?
         identifier_from = db_revision + 1
