@@ -144,7 +144,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
                :content => /#{2.days.ago.to_date.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
-                   :attributes => { :class => 'journal' },
+                   :attributes => { :class => 'issue-edit' },
                    :child => { :tag => "a",
                      :content => /(#{IssueStatus.find(2).name})/,
                    }

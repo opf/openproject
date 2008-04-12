@@ -32,6 +32,7 @@ class WikiContent < ActiveRecord::Base
     acts_as_event :title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
                   :description => :comments,
                   :datetime => :updated_on,
+                  :type => 'wiki-page',
                   :url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}}
 
     def text=(plain)

@@ -33,6 +33,7 @@ class Journal < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{o.issue.tracker.name} ##{o.issue.id}: #{o.issue.subject}" + ((s = o.new_status) ? " (#{s})" : '') },
                 :description => :notes,
                 :author => :user,
+                :type => Proc.new {|o| (s = o.new_status) && s.is_closed? ? 'issue-closed' : 'issue-edit' },
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}}
 
   def save
