@@ -134,8 +134,9 @@ class ApplicationHelperTest < HelperTestCase
   
   def test_html_tags
     to_test = {
-      "<div>content</div>" => "<p>&lt;div>content&lt;/div></p>",
-      "<script>some script;</script>" => "<p>&lt;script>some script;&lt;/script></p>",
+      "<div>content</div>" => "<p>&lt;div&gt;content&lt;/div&gt;</p>",
+      "<div class=\"bold\">content</div>" => "<p>&lt;div class=\"bold\"&gt;content&lt;/div&gt;</p>",
+      "<script>some script;</script>" => "<p>&lt;script&gt;some script;&lt;/script&gt;</p>",
       # do not escape pre/code tags
       "<pre>\nline 1\nline2</pre>" => "<pre>\nline 1\nline2</pre>",
       "<pre><code>\nline 1\nline2</code></pre>" => "<pre><code>\nline 1\nline2</code></pre>",
