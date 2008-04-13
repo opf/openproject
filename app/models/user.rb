@@ -18,6 +18,9 @@
 require "digest/sha1"
 
 class User < ActiveRecord::Base
+
+  class OnTheFlyCreationFailure < Exception; end
+
   # Account statuses
   STATUS_ANONYMOUS  = 0
   STATUS_ACTIVE     = 1
@@ -105,15 +108,17 @@ class User < ActiveRecord::Base
         onthefly.language = Setting.default_language
         if onthefly.save
           user = find(:first, :conditions => ["login=?", login])
-          logger.info("User '#{user.login}' created on the fly.") if logger
+          logger.info("User '#{user.login}' created from the LDAP") if logger
+        else
+          logger.error("User '#{onthefly.login}' found in LDAP but could not be created (#{onthefly.errors.full_messages.join(', ')})") if logger
+          raise OnTheFlyCreationFailure.new
         end
       end
     end    
     user.update_attribute(:last_login_on, Time.now) if user
     user
-    
-    rescue => text
-      raise text
+  rescue => text
+    raise text
   end
 	
   # Return user's full name for display
