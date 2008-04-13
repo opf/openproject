@@ -160,8 +160,12 @@ p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; } 
 
 fieldset#filters { padding: 0.7em; }
-fieldset#filters p { margin: 0.8em 0 0.8em 0; }
-fieldset#filters .buttons { text-align: right; font-size: 0.9em; }
+fieldset#filters p { margin: 1.2em 0 0.8em 2px; }
+fieldset#filters .buttons { font-size: 0.9em; }
+fieldset#filters table { border-collapse: collapse; }
+fieldset#filters table td { padding: 0; vertical-align: middle; }
+fieldset#filters tr.filter { height: 2em; }
+fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
 
 div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
 div#issue-changesets .changeset { padding: 4px;}

@@ -59,19 +59,19 @@ function toggle_multi_select(field) {
 <table width="100%">
 <tr>
 <td>
-<table style="padding:0;">
+<table>
 <% query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
     <% field = filter[0]
        options = filter[1] %>
-    <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<%= field %>">
-    <td valign="top" style="width:200px;">
+    <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
+    <td style="width:200px;">
         <%= check_box_tag 'fields[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
         <label for="cb_<%= field %>"><%= filter[1][:name] || l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
     </td>
-    <td valign="top" style="width:150px;">
+    <td style="width:150px;">
         <%= select_tag "operators[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
     </td>
-    <td valign="top">    
+    <td>    
     <div id="div_values_<%= field %>" style="display:none;">
     <% case options[:type]
     when :list, :list_optional, :list_status, :list_subprojects %>
@@ -93,7 +93,7 @@ function toggle_multi_select(field) {
 <% end %>
 </table>
 </td>
-<td align="right" valign="top">
+<td class="add-filter">
 <%= l(:label_filter_add) %>:
 <%= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/\_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact), :onchange => "add_filter();", :class => "select-small" %>
 </td>
