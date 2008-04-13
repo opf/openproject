@@ -10,16 +10,16 @@ actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix: 
 actionview_datehelper_time_in_words_day: 1 den
 actionview_datehelper_time_in_words_day_plural: %d dny
-actionview_datehelper_time_in_words_hour_about: asi hodinu
-actionview_datehelper_time_in_words_hour_about_plural: asi %d hodin
-actionview_datehelper_time_in_words_hour_about_single: asi hodinu
-actionview_datehelper_time_in_words_minute: 1 minuta
-actionview_datehelper_time_in_words_minute_half: půl minuty
-actionview_datehelper_time_in_words_minute_less_than: méně než minutu
-actionview_datehelper_time_in_words_minute_plural: %d minut
-actionview_datehelper_time_in_words_minute_single: 1 minuta
-actionview_datehelper_time_in_words_second_less_than: méně než sekunda
-actionview_datehelper_time_in_words_second_less_than_plural: méně než %d sekund
+actionview_datehelper_time_in_words_hour_about: asi hodinou
+actionview_datehelper_time_in_words_hour_about_plural: asi %d hodinami
+actionview_datehelper_time_in_words_hour_about_single: asi hodinou
+actionview_datehelper_time_in_words_minute: 1 minutou
+actionview_datehelper_time_in_words_minute_half: půl minutou
+actionview_datehelper_time_in_words_minute_less_than: méně než minutou
+actionview_datehelper_time_in_words_minute_plural: %d minutami
+actionview_datehelper_time_in_words_minute_single: 1 minutou
+actionview_datehelper_time_in_words_second_less_than: méně než sekundou
+actionview_datehelper_time_in_words_second_less_than_plural: méně než %d sekundami
 actionview_instancetag_blank_option: Prosím vyberte
 
 activerecord_error_inclusion: není zahrnuto v seznamu
@@ -98,7 +98,7 @@ mail_body_account_activation_request: Byl zaregistrován nový uživatel "%s". A
 gui_validation_error: 1 chyba
 gui_validation_error_plural: %d chyb(y)
 
-field_name: Jméno
+field_name: Název
 field_description: Popis
 field_summary: Přehled
 field_is_required: Povinné pole
@@ -306,7 +306,7 @@ label_attribute: Atribut
 label_attribute_plural: Atributy
 label_download: %d Download
 label_download_plural: %d Downloads
-label_no_data: Žádná data k zobrazení
+label_no_data: Žádné položky
 label_change_status: Změnit stav
 label_history: Historie
 label_attachment: Soubor
@@ -480,8 +480,8 @@ label_sort_by: Seřadit podle %s
 label_send_test_email: Poslat testovací email
 label_feeds_access_key_created_on: Přístupový klíč pro RSS byl vytvořen před %s
 label_module_plural: Moduly
-label_added_time_by: 'Přidáno před: %s %s'
-label_updated_time: 'Aktualizováno před: %s'
+label_added_time_by: 'Přidáno uživatelem %s před %s'
+label_updated_time: 'Aktualizováno před %s'
 label_jump_to_a_project: Zvolit projekt...
 label_file_plural: Soubory
 label_changeset_plural: Changesety
@@ -586,7 +586,7 @@ text_no_configuration_data: "Role, fronty, stavy úkolů ani workflow nebyly zat
 text_load_default_configuration: Nahrát výchozí konfiguraci
 text_status_changed_by_changeset: Použito v changesetu %s.
 text_issues_destroy_confirmation: 'Opravdu si přejete odstranit všechny zvolené úkoly?'
-text_select_project_modules: 'Zvolte moduly aktivní v tomto projektu:'
+text_select_project_modules: 'Aktivní moduly v tomto projektu:'
 text_default_administrator_account_changed: Výchozí nastavení administrátorského účtu změněno
 text_file_repository_writable: Povolen zápis do repository
 text_rmagick_available: RMagick k dispozici (volitelné)
@@ -620,5 +620,5 @@ default_activity_development: Vývoj
 enumeration_issue_priorities: Priority úkolů
 enumeration_doc_categories: Kategorie dokumentů
 enumeration_activities: Aktivity (sledování času)
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
+error_scm_annotate: "Položka neexistuje nebo nemůže být komentována."
+label_planning: Plánování

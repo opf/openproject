@@ -333,8 +333,8 @@ label_revision_plural: Revisiones
 label_added: añadido
 label_modified: modificado
 label_deleted: suprimido
-label_latest_revision: La revisión más actual
-label_latest_revision_plural: Las revisiones más actuales
+label_latest_revision: Última revisión
+label_latest_revision_plural: Últimas revisiones
 label_view_revisions: Ver las revisiones
 label_max_size: Tamaño máximo
 label_on: de
@@ -372,7 +372,7 @@ label_view_diff: Ver diferencias
 label_diff_inline: en línea
 label_diff_side_by_side: cara a cara
 label_options: Opciones
-label_copy_workflow_from: Copiar workflow desde
+label_copy_workflow_from: Copiar flujo de trabajo desde
 label_permissions_report: Informe de permisos
 label_watched_issues: Peticiones monitorizadas 
 label_related_issues: Peticiones relacionadas
@@ -460,7 +460,7 @@ text_tip_task_begin_end_day: tarea que comienza y termina este día
 text_project_identifier_info: 'Letras minúsculas (a-z), números y signos de puntuación permitidos.<br />Una vez guardado, el identificador no puede modificarse.'
 text_caracters_maximum: %d carácteres como máximo.
 text_length_between: Longitud entre %d y %d carácteres.
-text_tracker_no_workflow: No hay ningún workflow definido para este tracker
+text_tracker_no_workflow: No hay ningún flujo de trabajo definido para este tracker
 text_unallowed_characters: Carácteres no permitidos
 text_comma_separated: Múltiples valores permitidos (separados por coma).
 text_issues_ref_in_commit_messages: Referencia y petición de corrección en los mensajes
@@ -559,64 +559,64 @@ field_searchable: Incluir en las búsquedas
 label_display_per_page: 'Por página: %s'
 setting_per_page_options: Objetos por página
 label_age: Edad
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
+notice_default_data_loaded: Configuración por defecto cargada correctamente.
+text_load_default_configuration: Cargar la configuración por defecto
+text_no_configuration_data: "Todavía no se han configurado roles, ni trackers, ni estados y flujo de trabajo asociado a peticiones. Se recomiendo encarecidamente cargar la configuración por defecto. Una vez cargada, podrá modificarla." 
+error_can_t_load_default_data: "No se ha podido cargar la configuración por defecto: %s" 
+button_update: Actualizar
+label_change_properties: Cambiar propiedades
 label_general: General
-label_repository_plural: Repositories
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+label_repository_plural: Repositorios
+label_associated_revisions: Revisiones asociadas
+setting_user_format: Formato de nombre de usuario
+text_status_changed_by_changeset: Aplicado en los cambios %s
+label_more: Más
+text_issues_destroy_confirmation: '¿Seguro que quiere borrar las peticiones seleccionadas?'
 label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
+text_select_project_modules: 'Seleccione los módulos a activar para este proyecto:'
+label_issue_added: Petición añadida
+label_issue_updated: Petición actualizada
+label_document_added: Documento añadido
+label_message_posted: Mensaje añadido
+label_file_added: Fichero añadido
+label_news_added: Noticia añadida
+project_module_boards: Foros
+project_module_issue_tracking: Peticiones
 project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
+project_module_files: Ficheros
+project_module_documents: Documentos
+project_module_repository: Repositorio
+project_module_news: Noticias
+project_module_time_tracking: Control de tiempo
+text_file_repository_writable: Se puede escribir en el repositorio
+text_default_administrator_account_changed: Cuenta de administrador por defecto modificada
+text_rmagick_available: RMagick disponible (opcional)
+button_configure: Configurar
 label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
+label_ldap_authentication: Autenticación LDAP
 label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
+label_this_month: este mes
+label_last_n_days: últimos %d días
+label_all_time: todo el tiempo
+label_this_year: este año
+label_date_range: Rango de fechas
+label_last_week: última semana
+label_yesterday: ayer
+label_last_month: último mes
+label_add_another_file: Añadir otro fichero
+label_optional_description: Descripción opcional
+text_destroy_time_entries_question: Existen %.02f horas asignadas a la petición que quiere borrar. ¿Qué quiere hacer ?
+error_issue_not_found_in_project: 'La petición no se encuentra o no está asociada a este proyecto'
+text_assign_time_entries_to_project: Asignar las horas al proyecto
+text_destroy_time_entries: Borrar las horas
+text_reassign_time_entries: 'Reasignar las horas a esta petición:'
+setting_activity_days_default: Días a mostrar en la actividad de proyecto
+label_chronological_order: En orden cronológico
+field_comments_sorting: Mostrar comentarios
+label_reverse_chronological_order: En orden cronológico inverso
+label_preferences: Preferencias
+setting_display_subprojects_issues: Mostrar peticiones de un subproyecto en el proyecto padre por defecto 
+label_overall_activity: Actividad global
+setting_default_projects_public: Los proyectos nuevos son públicos por defecto 
+error_scm_annotate: "No existe la entrada o no ha podido ser anotada"
+label_planning: Planificación

@@ -614,6 +614,6 @@ field_comments_sorting: Näytä kommentit
 label_reverse_chronological_order: Käänteisessä aikajärjestyksessä
 label_preferences: Asetukset
 setting_default_projects_public: Uudet projektit ovat oletuksena julkisia
-label_overall_activity: Kokonaisaktiviteetti
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
+label_overall_activity: Kokonaishistoria
+error_scm_annotate: "Merkintää ei ole tai siihen ei voi lisätä selityksiä."
+label_planning: Suunnittelu
