@@ -77,21 +77,24 @@ module Redmine
         content_tag('dl', out)
       end
       
-      desc "Include a wiki page. Example:\n\n  !{{include(Foo)}}"
+      desc "Include a wiki page. Example:\n\n  !{{include(Foo)}}\n\nor to include a page of a specific project wiki:\n\n  !{{include(projectname:Foo)}}"
       macro :include do |obj, args|
-        if @project && !@project.wiki.nil?
-          page = @project.wiki.find_page(args.first)
-          if page && page.content
-            @included_wiki_pages ||= []
-            raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.title)
-            @included_wiki_pages << page.title
-            out = textilizable(page.content, :text, :attachments => page.attachments)
-            @included_wiki_pages.pop
-            out
-          else
-            raise "Page #{args.first} doesn't exist"
-          end
+        project = @project
+        title = args.first.to_s
+        if title =~ %r{^([^\:]+)\:(.*)$}
+          project_identifier, title = $1, $2
+          project = Project.find_by_identifier(project_identifier) || Project.find_by_name(project_identifier)
         end
+        raise 'Unknow project' unless project && User.current.allowed_to?(:view_wiki_pages, project)
+        raise 'No wiki for this project' unless !project.wiki.nil?
+        page = project.wiki.find_page(title)
+        raise "Page #{args.first} doesn't exist" unless page && page.content
+        @included_wiki_pages ||= []
+        raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.title)
+        @included_wiki_pages << page.title
+        out = textilizable(page.content, :text, :attachments => page.attachments)
+        @included_wiki_pages.pop
+        out
       end
     end
   end
