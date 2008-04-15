@@ -20,7 +20,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class ApplicationHelperTest < HelperTestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
-  fixtures :projects, :repositories, :changesets, :trackers, :issue_statuses, :issues, :documents, :versions, :wikis, :wiki_pages, :wiki_contents
+  fixtures :projects, :repositories, :changesets, :trackers, :issue_statuses, :issues, :documents, :versions, :wikis, :wiki_pages, :wiki_contents, :roles, :enabled_modules
 
   def setup
     super
