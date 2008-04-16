@@ -427,6 +427,10 @@ module ApplicationHelper
     form_for(name, object, options.merge({ :builder => TabularFormBuilder, :lang => current_language}), &proc)
   end
   
+  def back_url_hidden_field_tag
+    hidden_field_tag 'back_url', (params[:back_url] || request.env['HTTP_REFERER'])
+  end
+  
   def check_all_links(form_name)
     link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
     " | " +

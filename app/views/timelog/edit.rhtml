@@ -2,6 +2,7 @@
 
 <% labelled_tabular_form_for :time_entry, @time_entry, :url => {:action => 'edit', :project_id => @time_entry.project} do |f| %>
 <%= error_messages_for 'time_entry' %>
+<%= back_url_hidden_field_tag %>
 
 <div class="box">
 <p><%= f.text_field :issue_id, :size => 6 %> <em><%= h("#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}") if @time_entry.issue %></em></p>
