@@ -260,6 +260,9 @@ private
     commits_data = commits_data + [0]*(10 - commits_data.length) if commits_data.length<10
     changes_data = changes_data + [0]*(10 - changes_data.length) if changes_data.length<10
     
+    # Remove email adress in usernames
+    fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '') }
+    
     graph = SVG::Graph::BarHorizontal.new(
       :height => 300,
       :width => 500,
