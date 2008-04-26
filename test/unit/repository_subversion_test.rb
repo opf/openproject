@@ -35,13 +35,13 @@ class RepositorySubversionTest < Test::Unit::TestCase
       
       assert_equal 8, @repository.changesets.count
       assert_equal 16, @repository.changes.count
-      assert_equal 'Initial import.', @repository.changesets.find_by_revision(1).comments
+      assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
     end
     
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
       # Remove changesets with revision > 5
-      @repository.changesets.find(:all, :conditions => 'revision > 5').each(&:destroy)
+      @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 5}
       @repository.reload
       assert_equal 5, @repository.changesets.count
       

@@ -35,13 +35,13 @@ class RepositoryMercurialTest < Test::Unit::TestCase
       
       assert_equal 6, @repository.changesets.count
       assert_equal 11, @repository.changes.count
-      assert_equal "Initial import.\nThe repository contains 3 files.", @repository.changesets.find_by_revision(0).comments
+      assert_equal "Initial import.\nThe repository contains 3 files.", @repository.changesets.find_by_revision('0').comments
     end
     
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
       # Remove changesets with revision > 2
-      @repository.changesets.find(:all, :conditions => 'revision > 2').each(&:destroy)
+      @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 2}
       @repository.reload
       assert_equal 3, @repository.changesets.count
       
