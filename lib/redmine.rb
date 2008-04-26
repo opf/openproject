@@ -1,6 +1,7 @@
 require 'redmine/access_control'
 require 'redmine/menu_manager'
 require 'redmine/mime_type'
+require 'redmine/core_ext'
 require 'redmine/themes'
 require 'redmine/plugin'
 

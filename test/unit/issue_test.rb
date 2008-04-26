@@ -20,6 +20,13 @@ require File.dirname(__FILE__) + '/../test_helper'
 class IssueTest < Test::Unit::TestCase
   fixtures :projects, :users, :members, :trackers, :projects_trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :time_entries
 
+  def test_create
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'test_create', :description => 'IssueTest#test_create', :estimated_hours => '1:30')
+    assert issue.save
+    issue.reload
+    assert_equal 1.5, issue.estimated_hours
+  end
+  
   def test_category_based_assignment
     issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'Assignment test', :description => 'Assignment test', :category_id => 1)
     assert_equal IssueCategory.find(1).assigned_to, issue.assigned_to

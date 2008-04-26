@@ -40,19 +40,7 @@ class TimeEntry < ActiveRecord::Base
   end
   
   def hours=(h)
-    s = h.dup
-    if s.is_a?(String)
-      s.strip!
-      unless s =~ %r{^[\d\.,]+$}
-        # 2:30 => 2.5
-        s.gsub!(%r{^(\d+):(\d+)$}) { $1.to_i + $2.to_i / 60.0 }
-        # 2h30, 2h, 30m
-        s.gsub!(%r{^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$}) { |m| ($1 || $4) ? ($2.to_i + $5.to_i / 60.0) : m[0] }
-      end
-      # 2,5 => 2.5
-      s.gsub!(',', '.')
-    end
-    write_attribute :hours, s
+    write_attribute :hours, (h.is_a?(String) ? h.to_hours : h)
   end
   
   # tyear, tmonth, tweek assigned where setting spent_on attributes

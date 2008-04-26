@@ -93,7 +93,11 @@ class Issue < ActiveRecord::Base
     self.priority = nil
     write_attribute(:priority_id, pid)
   end
-
+  
+  def estimated_hours=(h)
+    write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
+  end
+  
   def validate
     if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
       errors.add :due_date, :activerecord_error_not_a_date
