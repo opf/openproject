@@ -48,6 +48,8 @@ class IssueTest < Test::Unit::TestCase
     IssueRelation.create(:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_DUPLICATES)
     # And 3 is a dupe of 2
     IssueRelation.create(:issue_from => issue2, :issue_to => issue3, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    # And 3 is a dupe of 1 (circular duplicates)
+    IssueRelation.create(:issue_from => issue1, :issue_to => issue3, :relation_type => IssueRelation::TYPE_DUPLICATES)
     
     assert issue1.reload.duplicates.include?(issue2)
     

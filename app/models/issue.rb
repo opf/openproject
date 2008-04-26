@@ -153,6 +153,8 @@ class Issue < ActiveRecord::Base
     # Close duplicates if the issue was closed
     if @issue_before_change && !@issue_before_change.closed? && self.closed?
       duplicates.each do |duplicate|
+        # Reload is need in case the duplicate was updated by a previous duplicate
+        duplicate.reload
         # Don't re-close it if it's already closed
         next if duplicate.closed?
         # Same user and notes
