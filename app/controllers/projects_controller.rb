@@ -66,20 +66,20 @@ class ProjectsController < ApplicationController
                                   :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
                                   :order => 'name')
     @project = Project.new(params[:project])
-    @project.enabled_module_names = Redmine::AccessControl.available_project_modules
     if request.get?
       @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project) }
       @project.trackers = Tracker.all
       @project.is_public = Setting.default_projects_public?
+      @project.enabled_module_names = Redmine::AccessControl.available_project_modules
     else
       @project.custom_fields = CustomField.find(params[:custom_field_ids]) if params[:custom_field_ids]
       @custom_values = ProjectCustomField.find(:all, :order => "#{CustomField.table_name}.position").collect { |x| CustomValue.new(:custom_field => x, :customized => @project, :value => (params[:custom_fields] ? params["custom_fields"][x.id.to_s] : nil)) }
       @project.custom_values = @custom_values
+      @project.enabled_module_names = params[:enabled_modules]
       if @project.save
-        @project.enabled_module_names = params[:enabled_modules]
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
-	    end		
+	  end		
     end	
   end
 	
