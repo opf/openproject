@@ -23,7 +23,7 @@ class QueryTest < Test::Unit::TestCase
   def test_query_with_multiple_custom_fields
     query = Query.find(1)
     assert query.valid?
-    assert query.statement.include?("custom_values.value IN ('MySQL')")
+    assert query.statement.include?("#{CustomValue.table_name}.value IN ('MySQL')")
     issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
     assert_equal 1, issues.length
     assert_equal Issue.find(3), issues.first

@@ -301,7 +301,7 @@ class Query < ActiveRecord::Base
         # custom field
         db_table = CustomValue.table_name
         db_field = 'value'
-        sql << "#{Issue.table_name}.id IN (SELECT #{db_table}.customized_id FROM #{db_table} where #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} AND "
+        sql << "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
       else
         # regular field
         db_table = Issue.table_name
@@ -320,9 +320,9 @@ class Query < ActiveRecord::Base
       when "!"
         sql = sql + "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
       when "!*"
-        sql = sql + "#{db_table}.#{db_field} IS NULL"
+        sql = sql + "#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} = ''"
       when "*"
-        sql = sql + "#{db_table}.#{db_field} IS NOT NULL"
+        sql = sql + "#{db_table}.#{db_field} IS NOT NULL AND #{db_table}.#{db_field} <> ''"
       when ">="
         sql = sql + "#{db_table}.#{db_field} >= #{v.first.to_i}"
       when "<="
