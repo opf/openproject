@@ -259,7 +259,7 @@ p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 a.feed { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 
 /***** Flash & error messages ****/
-#errorExplanation, div.flash, .nodata {
+#errorExplanation, div.flash, .nodata, .warning {
     padding: 4px 4px 4px 30px;
     margin-bottom: 12px;
 	font-size: 1.1em;
@@ -282,7 +282,7 @@ div.flash.notice {
 	color: #005f00;
 }
 
-.nodata {
+.nodata, .warning {
     text-align: center;
 	background-color: #FFEBC1;
 	border-color: #FDBF3B;

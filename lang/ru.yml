@@ -621,3 +621,4 @@ label_overall_activity: Сводная активность
 setting_default_projects_public: Новые проекты являются публичными
 error_scm_annotate: "Данные отсутствуют или не могут быть подписаны."
 label_planning: Планирование
+text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'

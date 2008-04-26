@@ -622,3 +622,4 @@ enumeration_doc_categories: Kategorie dokumentů
 enumeration_activities: Aktivity (sledování času)
 error_scm_annotate: "Položka neexistuje nebo nemůže být komentována."
 label_planning: Plánování
+text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'

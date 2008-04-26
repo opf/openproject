@@ -620,3 +620,4 @@ label_overall_activity: Actividad global
 setting_default_projects_public: Los proyectos nuevos son públicos por defecto 
 error_scm_annotate: "No existe la entrada o no ha podido ser anotada"
 label_planning: Planificación
+text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'

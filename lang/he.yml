@@ -617,3 +617,4 @@ label_overall_activity: פעילות כוללת
 setting_default_projects_public: פרויקטים חדשים הינם פומביים כברירת מחדל
 error_scm_annotate: "הכניסה לא קיימת או שלא ניתן לתאר אותה."
 label_planning: תכנון
+text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'

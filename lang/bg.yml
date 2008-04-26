@@ -617,3 +617,4 @@ label_overall_activity: Цялостна дейност
 setting_default_projects_public: Новите проекти са публични по подразбиране
 error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
 label_planning: Планиране
+text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'

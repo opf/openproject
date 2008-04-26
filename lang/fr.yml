@@ -556,7 +556,8 @@ status_locked: vérouillé
 text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
 text_regexp_info: ex. ^[A-Z0-9]+$
 text_min_max_length_info: 0 pour aucune restriction
-text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et tout ce qui lui est rattaché ?
+text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et toutes ses données ?
+text_subprojects_destroy_warning: 'Ses sous-projets: %s seront également supprimés.'
 text_workflow_edit: Sélectionner un tracker et un rôle pour éditer le workflow
 text_are_you_sure: Etes-vous sûr ?
 text_journal_changed: changé de %s à %s
