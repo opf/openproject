@@ -55,15 +55,6 @@ module Redmine
         def get_previous_revision(revision)
           CvsRevisionHelper.new(revision).prevRev
         end
-        
-        # Returns the entry identified by path and revision identifier
-        # or nil if entry doesn't exist in the repository
-        # this method returns all revisions from one single SCM-Entry
-        def entry(path=nil, identifier="HEAD")
-          e = entries(path, identifier)
-          logger.debug("<cvs-result> #{e.first.inspect}") if e
-          e ? e.first : nil
-        end    
     
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository

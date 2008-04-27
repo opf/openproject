@@ -65,7 +65,8 @@ class RepositoriesController < ApplicationController
     if request.xhr?
       @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
     else
-      show_error_not_found unless @entries
+      show_error_not_found and return unless @entries
+      render :action => 'browse'
     end
   rescue Redmine::Scm::Adapters::CommandFailed => e
     show_error_command_failed(e.message)
@@ -95,6 +96,12 @@ class RepositoriesController < ApplicationController
   end
   
   def entry
+    @entry = @repository.scm.entry(@path, @rev)
+    show_error_not_found and return unless @entry
+    
+    # If the entry is a dir, show the browser
+    browse and return if @entry.is_dir?
+    
     @content = @repository.scm.cat(@path, @rev)
     show_error_not_found and return unless @content
     if 'raw' == params[:format] || @content.is_binary_data?

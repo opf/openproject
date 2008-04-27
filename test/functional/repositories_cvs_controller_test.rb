@@ -101,6 +101,14 @@ class RepositoriesCvsControllerTest < Test::Unit::TestCase
       get :entry, :id => 1, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
       assert_response :success
     end
+
+    def test_directory_entry
+      get :entry, :id => 1, :path => ['sources']
+      assert_response :success
+      assert_template 'browse'
+      assert_not_nil assigns(:entry)
+      assert_equal 'sources', assigns(:entry).name
+    end
     
     def test_diff
       Project.find(1).repository.fetch_changesets

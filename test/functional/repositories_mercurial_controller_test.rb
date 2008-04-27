@@ -99,7 +99,15 @@ class RepositoriesMercurialControllerTest < Test::Unit::TestCase
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
-  
+
+    def test_directory_entry
+      get :entry, :id => 3, :path => ['sources']
+      assert_response :success
+      assert_template 'browse'
+      assert_not_nil assigns(:entry)
+      assert_equal 'sources', assigns(:entry).name
+    end
+    
     def test_diff
       # Full diff of changeset 4
       get :diff, :id => 3, :rev => 4

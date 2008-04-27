@@ -89,6 +89,14 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       assert_response :success
     end
     
+    def test_directory_entry
+      get :entry, :id => 1, :path => ['subversion_test', 'folder']
+      assert_response :success
+      assert_template 'browse'
+      assert_not_nil assigns(:entry)
+      assert_equal 'folder', assigns(:entry).name
+    end
+    
     def test_diff
       get :diff, :id => 1, :rev => 3
       assert_response :success

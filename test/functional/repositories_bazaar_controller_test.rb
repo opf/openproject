@@ -99,6 +99,14 @@ class RepositoriesBazaarControllerTest < Test::Unit::TestCase
       assert @response.body.include?('Show help message')
     end
   
+    def test_directory_entry
+      get :entry, :id => 3, :path => ['directory']
+      assert_response :success
+      assert_template 'browse'
+      assert_not_nil assigns(:entry)
+      assert_equal 'directory', assigns(:entry).name
+    end
+
     def test_diff
       # Full diff of changeset 3
       get :diff, :id => 3, :rev => 3

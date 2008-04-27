@@ -101,6 +101,14 @@ class RepositoriesGitControllerTest < Test::Unit::TestCase
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
   
+    def test_directory_entry
+      get :entry, :id => 3, :path => ['sources']
+      assert_response :success
+      assert_template 'browse'
+      assert_not_nil assigns(:entry)
+      assert_equal 'sources', assigns(:entry).name
+    end
+    
     def test_diff
       # Full diff of changeset 2f9c0091
       get :diff, :id => 3, :rev => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'

@@ -59,14 +59,6 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           entries.sort_by_name
         end
-  
-        def entry(path=nil, identifier=nil)
-          path ||= ''
-          search_path = path.split('/')[0..-2].join('/')
-          entry_name = path.split('/').last
-          e = entries(search_path, identifier)
-          e ? e.detect{|entry| entry.name == entry_name} : nil
-        end
           
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           revisions = Revisions.new
