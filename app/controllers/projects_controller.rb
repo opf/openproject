@@ -341,8 +341,9 @@ class ProjectsController < ApplicationController
                            :include => [:tracker, :status, :assigned_to, :priority, :project], 
                            :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?)) AND #{Issue.table_name}.tracker_id IN (#{@selected_tracker_ids.join(',')})", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
                            ) unless @selected_tracker_ids.empty?
+      events += Version.find(:all, :include => :project,
+                                   :conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
     end
-    events += @project.versions.find(:all, :conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
     @calendar.events = events
     
     render :layout => false if request.xhr?
@@ -386,8 +387,9 @@ class ProjectsController < ApplicationController
                            :include => [:tracker, :status, :assigned_to, :priority, :project], 
                            :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}))", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to]
                            ) unless @selected_tracker_ids.empty?
+      @events += Version.find(:all, :include => :project,
+                                    :conditions => ["effective_date BETWEEN ? AND ?", @date_from, @date_to])
     end
-    @events += @project.versions.find(:all, :conditions => ["effective_date BETWEEN ? AND ?", @date_from, @date_to])
     @events.sort! {|x,y| x.start_date <=> y.start_date }
     
     if params[:format]=='pdf'

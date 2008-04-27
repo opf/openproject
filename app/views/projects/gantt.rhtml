@@ -70,10 +70,13 @@ top = headers_height + 8
 @events.each do |i| %>
     <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;"><small>    
     <% if i.is_a? Issue %>
-      	<%= h("#{i.project.name} -") unless @project && @project == i.project %>
+      	<%= h("#{i.project} -") unless @project && @project == i.project %>
       	<%= link_to_issue i %>:	<%=h i.subject %>
   	<% else %>
-      	<%= link_to_version i, :class => "icon icon-package" %>
+		<span class="icon icon-package">
+	      	<%= h("#{i.project} -") unless @project && @project == i.project %>
+	      	<%= link_to_version i %>
+		</span>
   	<% end %>  	
   	</small></div>
     <% top = top + 20
@@ -197,7 +200,8 @@ top = headers_height + 10
     %>
     <div style="top:<%= top %>px;left:<%= i_left %>px;width:15px;" class="task milestone">&nbsp;</div>
 	<div style="top:<%= top %>px;left:<%= i_left + 12 %>px;background:#fff;" class="task">
-	<strong><%= i.name %></strong>
+		<%= h("#{i.project} -") unless @project && @project == i.project %>
+		<strong><%=h i %></strong>
 	</div>
 <% end %>
 	<% top = top + 20

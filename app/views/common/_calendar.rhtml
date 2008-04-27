@@ -19,12 +19,15 @@ while day <= calendar.enddt %>
       elsif day == i.due_date
 		image_tag('arrow_to.png') 
       end %>
-  <%= h("#{i.project.name} -") unless @project && @project == i.project %>
+  <%= h("#{i.project} -") unless @project && @project == i.project %>
   <%= link_to_issue i %>: <%= h(truncate(i.subject, 30)) %>
   <span class="tip"><%= render_issue_tooltip i %></span>
   </div>
   <% else %>
-  <%= link_to_version i, :class => "icon icon-package" %>
+  <span class="icon icon-package">  
+    <%= h("#{i.project} -") unless @project && @project == i.project %>
+    <%= link_to_version i%>
+  </span>
   <% end %>
 <% end %>
 </td>
