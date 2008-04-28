@@ -432,7 +432,7 @@ button_move: Mover
 button_back: Atrás
 button_cancel: Cancelar
 button_activate: Activar
-button_sort: Clasificar
+button_sort: Ordenar
 button_log_time: Tiempo dedicado
 button_rollback: Volver a esta versión
 button_watch: Monitorizar
@@ -448,7 +448,7 @@ status_locked: bloqueado
 text_select_mail_notifications: Seleccionar los eventos a notificar
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 para ninguna restricción
-text_project_destroy_confirmation: ¿ Estás seguro de querer eliminar el proyecto ?
+text_project_destroy_confirmation: ¿Estás seguro de querer eliminar el proyecto?
 text_workflow_edit: Seleccionar un flujo de trabajo para actualizar
 text_are_you_sure: ¿ Estás seguro ?
 text_journal_changed: cambiado de %s a %s
@@ -620,4 +620,4 @@ label_overall_activity: Actividad global
 setting_default_projects_public: Los proyectos nuevos son públicos por defecto 
 error_scm_annotate: "No existe la entrada o no ha podido ser anotada"
 label_planning: Planificación
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+text_subprojects_destroy_warning: 'Sus subprojectos: %s también se eliminarán' 
