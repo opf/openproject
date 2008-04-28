@@ -5,6 +5,38 @@ Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2008-04-28 v0.7.0
+
+* Forces Redmine to use rails 2.0.2 gem when vendor/rails is not present
+* Queries can be marked as 'For all projects'. Such queries will be available on all projects and on the global issue list.
+* Add predefined date ranges to the time report
+* Time report can be done at issue level
+* Various timelog report enhancements
+* Accept the following formats for "hours" field: 1h, 1 h, 1 hour, 2 hours, 30m, 30min, 1h30, 1h30m, 1:30
+* Display the context menu above and/or to the left of the click if needed
+* Make the admin project files list sortable
+* Mercurial: display working directory files sizes unless browsing a specific revision
+* Preserve status filter and page number when using lock/unlock/activate links on the users list
+* Redmine.pm support for LDAP authentication
+* Better error message and AR errors in log for failed LDAP on-the-fly user creation
+* Redirected user to where he is coming from after logging hours
+* Warn user that subprojects are also deleted when deleting a project
+* Include subprojects versions on calendar and gantt
+* Notify project members when a message is posted if they want to receive notifications
+* Fixed: Feed content limit setting has no effect
+* Fixed: Priorities not ordered when displayed as a filter in issue list
+* Fixed: can not display attached images inline in message replies
+* Fixed: Boards are not deleted when project is deleted
+* Fixed: trying to preview a new issue raises an exception with postgresql
+* Fixed: single file 'View difference' links do not work because of duplicate slashes in url
+* Fixed: inline image not displayed when including a wiki page
+* Fixed: CVS duplicate key violation
+* Fixed: ActiveRecord::StaleObjectError exception on closing a set of circular duplicate issues
+* Fixed: custom field filters behaviour
+* Fixed: Postgresql 8.3 compatibility
+* Fixed: Links to repository directories don't work
+
+
 == 2008-03-29 v0.7.0-rc1
 
 * Overall activity view and feed added, link is available on the project list
