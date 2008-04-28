@@ -54,6 +54,9 @@ class MessagesControllerTest < Test::Unit::TestCase
   
   def test_post_new
     @request.session[:user_id] = 2
+    ActionMailer::Base.deliveries.clear
+    Setting.notified_events << 'message_posted'
+    
     post :new, :board_id => 1,
                :message => { :subject => 'Test created message',
                              :content => 'Message body'}
@@ -63,6 +66,15 @@ class MessagesControllerTest < Test::Unit::TestCase
     assert_equal 'Message body', message.content
     assert_equal 2, message.author_id
     assert_equal 1, message.board_id
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_kind_of TMail::Mail, mail
+    assert_equal "[#{message.board.project.name} - #{message.board.name}] Test created message", mail.subject
+    assert mail.body.include?('Message body')
+    # author
+    assert mail.bcc.include?('jsmith@somenet.foo')
+    # project member
+    assert mail.bcc.include?('dlopper@somenet.foo')
   end
   
   def test_get_edit
