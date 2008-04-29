@@ -4,6 +4,7 @@ custom_fields_001:
   min_length: 0
   regexp: ""
   is_for_all: true
+  is_filter: true
   type: IssueCustomField
   max_length: 0
   possible_values: MySQL|PostgreSQL|Oracle

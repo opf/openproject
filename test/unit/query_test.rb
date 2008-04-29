@@ -29,6 +29,80 @@ class QueryTest < Test::Unit::TestCase
     assert_equal Issue.find(3), issues.first
   end
   
+  def test_operator_none
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('fixed_version_id', '!*', [''])
+    query.add_filter('cf_1', '!*', [''])
+    assert query.statement.include?("#{Issue.table_name}.fixed_version_id IS NULL")
+    assert query.statement.include?("#{CustomValue.table_name}.value IS NULL OR #{CustomValue.table_name}.value = ''")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+  
+  def test_operator_all
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('fixed_version_id', '*', [''])
+    query.add_filter('cf_1', '*', [''])
+    assert query.statement.include?("#{Issue.table_name}.fixed_version_id IS NOT NULL")
+    assert query.statement.include?("#{CustomValue.table_name}.value IS NOT NULL AND #{CustomValue.table_name}.value <> ''")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+  
+  def test_operator_greater_than
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('done_ratio', '>=', ['40'])
+    assert query.statement.include?("#{Issue.table_name}.done_ratio >= 40")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+
+  def test_operator_in_more_than
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', '>t+', ['15'])
+    assert query.statement.include?("#{Issue.table_name}.due_date >=")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+
+  def test_operator_in_less_than
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', '<t+', ['15'])
+    assert query.statement.include?("#{Issue.table_name}.due_date BETWEEN")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+
+  def test_operator_today
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', 't', [''])
+    assert query.statement.include?("#{Issue.table_name}.due_date BETWEEN")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+
+  def test_operator_this_week_on_date
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', 'w', [''])
+    assert query.statement.include?("#{Issue.table_name}.due_date BETWEEN")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+
+  def test_operator_this_week_on_datetime
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('created_on', 'w', [''])
+    assert query.statement.include?("#{Issue.table_name}.created_on BETWEEN")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+
+  def test_operator_contains
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('subject', '~', ['string'])
+    assert query.statement.include?("#{Issue.table_name}.subject LIKE '%string%'")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+  
+  def test_operator_does_not_contains
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('subject', '!~', ['string'])
+    assert query.statement.include?("#{Issue.table_name}.subject NOT LIKE '%string%'")
+    issues = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+  end
+  
   def test_default_columns
     q = Query.new
     assert !q.columns.empty? 

@@ -125,7 +125,7 @@ class Query < ActiveRecord::Base
     filters.each_key do |field|
       errors.add label_for(field), :activerecord_error_blank unless 
           # filter requires one or more values
-          (values_for(field) and !values_for(field).first.empty?) or 
+          (values_for(field) and !values_for(field).first.blank?) or 
           # filter doesn't require any value
           ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
     end if filters
@@ -296,11 +296,13 @@ class Query < ActiveRecord::Base
       v = values_for(field).clone
       next unless v and !v.empty?
             
-      sql = ''      
+      sql = ''
+      is_custom_filter = false
       if field =~ /^cf_(\d+)$/
         # custom field
         db_table = CustomValue.table_name
         db_field = 'value'
+        is_custom_filter = true
         sql << "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
       else
         # regular field
@@ -320,9 +322,11 @@ class Query < ActiveRecord::Base
       when "!"
         sql = sql + "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
       when "!*"
-        sql = sql + "#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} = ''"
+        sql = sql + "#{db_table}.#{db_field} IS NULL"
+        sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
       when "*"
-        sql = sql + "#{db_table}.#{db_field} IS NOT NULL AND #{db_table}.#{db_field} <> ''"
+        sql = sql + "#{db_table}.#{db_field} IS NOT NULL"
+        sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
       when ">="
         sql = sql + "#{db_table}.#{db_field} >= #{v.first.to_i}"
       when "<="
