@@ -23,7 +23,7 @@
 <% content_for :sidebar do %>
     <h3><%= l(:label_calendar) %></h3>
     
-    <% form_tag() do %>
+    <% form_tag({}, :method => :get) do %>
     <p><%= select_month(@month, :prefix => "month", :discard_type => true) %>
     <%= select_year(@year, :prefix => "year", :discard_type => true) %></p>
     
