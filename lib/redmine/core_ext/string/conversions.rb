@@ -32,7 +32,7 @@ module Redmine #:nodoc:
           end
           # 2,5 => 2.5
           s.gsub!(',', '.')
-          s.to_f
+          begin; Kernel.Float(s); rescue; nil; end
         end
       end
     end
