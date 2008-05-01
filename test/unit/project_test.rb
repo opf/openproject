@@ -101,7 +101,7 @@ class ProjectTest < Test::Unit::TestCase
     assert sub.save
     assert_equal @ecookbook.id, sub.parent.id
     @ecookbook.reload
-    assert_equal 3, @ecookbook.children.size
+    assert_equal 4, @ecookbook.children.size
   end
   
   def test_subproject_invalid

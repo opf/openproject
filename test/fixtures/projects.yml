@@ -3,7 +3,7 @@ projects_001:
   created_on: 2006-07-19 19:13:59 +02:00
   name: eCookbook
   updated_on: 2006-07-19 22:53:01 +02:00
-  projects_count: 2
+  projects_count: 3
   id: 1
   description: Recipes management application
   homepage: http://ecookbook.somenet.foo/
@@ -43,3 +43,15 @@ projects_004:
   is_public: true
   identifier: subproject2
   parent_id: 1
+projects_005: 
+  created_on: 2006-07-19 19:15:51 +02:00
+  name: Private child of eCookbook
+  updated_on: 2006-07-19 19:17:07 +02:00
+  projects_count: 0
+  id: 5
+  description: This is a private subproject of a public project
+  homepage: ""
+  is_public: false
+  identifier: private_child
+  parent_id: 1
+  

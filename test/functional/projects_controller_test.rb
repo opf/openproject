@@ -63,6 +63,21 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
   end
   
+  def test_private_subprojects_hidden
+    get :show, :id => 'ecookbook'
+    assert_response :success
+    assert_template 'show'
+    assert_no_tag :tag => 'a', :content => /Private child/
+  end
+
+  def test_private_subprojects_visible
+    @request.session[:user_id] = 2 # manager who is a member of the private subproject
+    get :show, :id => 'ecookbook'
+    assert_response :success
+    assert_template 'show'
+    assert_tag :tag => 'a', :content => /Private child/
+  end
+  
   def test_settings
     @request.session[:user_id] = 2 # manager
     get :settings, :id => 1
