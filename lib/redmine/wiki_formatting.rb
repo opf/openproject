@@ -26,7 +26,7 @@ module Redmine
     class TextileFormatter < RedCloth
       
       # auto_link rule after textile rules so that it doesn't break !image_url! tags
-      RULES = [:textile, :inline_auto_link, :inline_auto_mailto, :inline_toc, :inline_macros]
+      RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto, :inline_toc, :inline_macros]
       
       def initialize(*args)
         super

@@ -160,6 +160,11 @@ class ApplicationHelperTest < HelperTestCase
     to_test.each { |text, result| assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '') }
   end
   
+  def test_wiki_horizontal_rule
+    assert_equal '<hr />', textilizable('---')
+    assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
+  end
+  
   def test_macro_hello_world
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)
