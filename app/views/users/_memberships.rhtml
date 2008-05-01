@@ -13,17 +13,17 @@
 </p>
 <% end %>
 <% end %>
+
+<% if @projects.any? %>
 <hr />
 <p>
 <label><%=l(:label_project_new)%></label><br/>
 <% form_tag({ :action => 'edit_membership', :id => @user }) do %>
-<select name="membership[project_id]">
-<%= options_from_collection_for_select @projects, "id", "name", @membership.project_id %>
-</select>
-<select name="membership[role_id]">
-<%= options_from_collection_for_select @roles, "id", "name", @membership.role_id %>
-</select>
+<%= select_tag 'membership[project_id]', projects_options_for_select(@projects) %>
+<%= l(:label_role) %>:
+<%= select_tag 'membership[role_id]', options_from_collection_for_select(@roles, "id", "name") %>
 <%= submit_tag l(:button_add) %>
 <% end %>
 </p>
+<% end %>
 </div>
