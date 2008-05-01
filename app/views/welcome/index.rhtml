@@ -12,6 +12,7 @@
 </div>
 
 <div class="splitcontentright">
+    <% if @projects.any? %>
 	<div class="box">
 	<h3 class="icon22 icon22-projects"><%=l(:label_project_latest)%></h3>
 		<ul>
@@ -22,7 +23,8 @@
 			</li>
 		<% end %>
 		</ul>
-	</div>  
+	</div>
+	<% end %>
 </div>	
 
 <% content_for :header_tags do %>
