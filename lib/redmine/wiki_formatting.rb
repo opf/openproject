@@ -56,7 +56,7 @@ module Redmine
             content = @pre_list[$1.to_i]
             if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
               content = "<code class=\"#{$1} CodeRay\">" + 
-                CodeRay.scan($2, $1).html(:escape => false, :line_numbers => :inline)
+                CodeRay.scan($2, $1.downcase).html(:escape => false, :line_numbers => :inline)
             end
             content
           end
