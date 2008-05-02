@@ -92,7 +92,7 @@ namespace :redmine do
         set_table_name :milestone
         
         def due
-          if read_attribute(:due) > 0
+          if read_attribute(:due) && read_attribute(:due) > 0
             Time.at(read_attribute(:due)).to_date
           else
             nil
