@@ -48,4 +48,10 @@ module UsersHelper
       link_to l(:button_lock), url.merge(:user => {:status => User::STATUS_LOCKED}), :method => :post, :class => 'icon icon-lock'
     end
   end
+  
+  def user_settings_tabs
+    tabs = [{:name => 'general', :partial => 'users/general', :label => :label_general},
+            {:name => 'memberships', :partial => 'users/memberships', :label => :label_project_plural}
+            ]
+  end
 end

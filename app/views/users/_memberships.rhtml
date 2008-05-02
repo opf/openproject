@@ -1,21 +1,33 @@
-<div class="box" style="margin-top: 16px;">
-<h3><%= l(:label_project_plural) %></h3>
-
-<% @user.memberships.each do |membership| %>
-<% form_tag({ :action => 'edit_membership', :id => @user, :membership_id => membership }, :class => "tabular") do %>
-<p style="margin:0;padding-top:0;">
-    <label><%= membership.project.name %></label>
-    <select name="membership[role_id]">
-    <%= options_from_collection_for_select @roles, "id", "name", membership.role_id %>
-    </select>
-    <%= submit_tag l(:button_change), :class => "button-small" %>
-    <%= link_to l(:button_delete), {:action => 'destroy_membership', :id => @user, :membership_id => membership }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
-</p>
-<% end %>
+<% if @memberships.any? %>
+<table class="list memberships">
+	<thead>
+	  <th><%= l(:label_project) %></th>
+	  <th><%= l(:label_role) %></th>
+	  <th style="width:15%"></th>
+	</thead>
+	<tbody>
+	<% @memberships.each do |membership| %>
+	<% next if membership.new_record? %>
+	<tr class="<%= cycle 'odd', 'even' %>">
+	<td><%=h membership.project %></td>
+    <td align="center">
+    <% form_tag({ :action => 'edit_membership', :id => @user, :membership_id => membership }) do %>
+        <%= select_tag 'membership[role_id]', options_from_collection_for_select(@roles, "id", "name", membership.role_id) %>
+        <%= submit_tag l(:button_change), :class => "small" %>
+    <% end %>
+    </td>
+    <td align="center">
+      <%= link_to l(:button_delete), {:action => 'destroy_membership', :id => @user, :membership_id => membership }, :method => :post, :class => 'icon icon-del' %>
+    </td>
+	</tr>
+	</tbody>
+<% end; reset_cycle %>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 
 <% if @projects.any? %>
-<hr />
 <p>
 <label><%=l(:label_project_new)%></label><br/>
 <% form_tag({ :action => 'edit_membership', :id => @user }) do %>
@@ -26,4 +38,3 @@
 <% end %>
 </p>
 <% end %>
-</div>

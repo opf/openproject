@@ -1,8 +1,23 @@
-<h2><%=l(:label_user)%></h2>
+<h2><%=l(:label_user)%>: <%=h @user.login %></h2>
 
-<% labelled_tabular_form_for :user, @user, :url => { :action => "edit" } do |f| %>
-<%= render :partial => 'form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
-<% end %>
+<% selected_tab = params[:tab] ? params[:tab].to_s : user_settings_tabs.first[:name] %>
 
-<%= render :partial => 'memberships' %>
+<div class="tabs">
+<ul>
+<% user_settings_tabs.each do |tab| -%>
+    <li><%= link_to l(tab[:label]), { :tab => tab[:name] },
+                                    :id => "tab-#{tab[:name]}",
+                                    :class => (tab[:name] != selected_tab ? nil : 'selected'),
+                                    :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;" %></li>
+<% end -%>
+</ul>
+</div>
+
+<% user_settings_tabs.each do |tab| -%>
+<%= content_tag('div', render(:partial => tab[:partial]), 
+                       :id => "tab-content-#{tab[:name]}",
+                       :style => (tab[:name] != selected_tab ? 'display:none' : nil),
+                       :class => 'tab-content') %>
+<% end -%>
+
+<% html_title(l(:label_user), @user.login, l(:label_administration)) -%>
