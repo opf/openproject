@@ -210,7 +210,7 @@ setting_protocol: 協定
 setting_per_page_options: 每頁顯示個數選項
 setting_user_format: 使用者顯示格式
 setting_activity_days_default: 專案活動顯示天數
-setting_display_subprojects_issues: 預設於主控專案中顯示從屬專案的項目
+setting_display_subprojects_issues: 預設於父專案中顯示子專案的項目
 
 project_module_issue_tracking: 項目追蹤
 project_module_time_tracking: 工時追蹤
@@ -557,6 +557,7 @@ text_select_mail_notifications: 選擇欲寄送提醒通知郵件之動作
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 代表「不限制」
 text_project_destroy_confirmation: 您確定要刪除這個專案和其他相關資料？
+text_subprojects_destroy_warning: '下列子專案： %s 將一併被刪除。'
 text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
 text_are_you_sure: 確定執行？
 text_journal_changed: 從 %s 變更為 %s
@@ -618,4 +619,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'

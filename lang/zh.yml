@@ -554,9 +554,10 @@ status_registered: 已注册
 status_locked: 已锁定
 
 text_select_mail_notifications: 选择需要发送邮件通知的动作
-text_regexp_info: eg. ^[A-Z0-9]+$
+text_regexp_info: 例如：^[A-Z0-9]+$
 text_min_max_length_info: 0 表示没有限制
 text_project_destroy_confirmation: 您确信要删除这个项目以及所有相关的数据吗？
+text_subprojects_destroy_warning: '以下子项目也将被同时删除：%s'
 text_workflow_edit: 选择角色和跟踪标签来编辑工作流程
 text_are_you_sure: 您确定？
 text_journal_changed: 从 %s 变更为 %s
@@ -618,4 +619,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'

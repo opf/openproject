@@ -114,7 +114,7 @@ field_subject: Temat
 field_due_date: Data oddania
 field_assigned_to: Przydzielony do
 field_priority: Priorytet
-field_fixed_version: Target version
+field_fixed_version: Wersja docelowa
 field_user: Użytkownik
 field_role: Rola
 field_homepage: Strona www
@@ -331,7 +331,7 @@ label_modification_plural: %d modyfikacja
 label_revision: Zmiana
 label_revision_plural: Zmiany
 label_added: dodane
-label_modified: zmodufikowane
+label_modified: zmodyfikowane
 label_deleted: usunięte
 label_latest_revision: Ostatnia zmiana
 label_latest_revision_plural: Ostatnie zmiany
@@ -469,7 +469,7 @@ default_role_manager: Kierownik
 default_role_developper: Programista
 default_role_reporter: Wprowadzajacy
 default_tracker_bug: Błąd
-default_tracker_feature: Cecha
+default_tracker_feature: Zadanie
 default_tracker_support: Wsparcie
 default_issue_status_new: Nowy
 default_issue_status_assigned: Przypisany
@@ -483,7 +483,7 @@ default_priority_low: Niski
 default_priority_normal: Normalny
 default_priority_high: Wysoki
 default_priority_urgent: Pilny
-default_priority_immediate: Natyczmiastowy
+default_priority_immediate: Natychmiastowy
 default_activity_design: Projektowanie
 default_activity_development: Rozwój
 

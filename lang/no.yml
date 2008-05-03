@@ -557,7 +557,7 @@ text_select_mail_notifications: Velg hendelser som skal varsles med e-post.
 text_regexp_info: eg. ^[A-Z0-9]+$
 text_min_max_length_info: 0 betyr ingen begrensning
 text_project_destroy_confirmation: Er du sikker på at du vil slette dette prosjekter og alle relatert data ?
-text_subprojects_destroy_warning: 'Underprojekt(ene): %s vil ogsÃ¥ bli slettet.'
+text_subprojects_destroy_warning: 'Underprojekt(ene): %s vil også bli slettet.'
 text_workflow_edit: Velg en rolle og en sakstype for å endre arbeidsflyten
 text_are_you_sure: Er du sikker ?
 text_journal_changed: endret fra %s til %s
