@@ -83,7 +83,7 @@ module SortHelper
   # Use this to sort the controller's table items collection.
   #
   def sort_clause()
-    session[@sort_name][:key] + ' ' + session[@sort_name][:order]
+    session[@sort_name][:key] + ' ' + (session[@sort_name][:order] || 'ASC')
   end
 
   # Returns a link which sorts by the named column.
