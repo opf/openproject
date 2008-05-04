@@ -4,19 +4,23 @@ wiki_pages_001:
   title: CookBook_documentation
   id: 1
   wiki_id: 1
+  protected: true  
 wiki_pages_002: 
   created_on: 2007-03-08 00:18:07 +01:00
   title: Another_page
   id: 2
   wiki_id: 1
+  protected: false
 wiki_pages_003: 
   created_on: 2007-03-08 00:18:07 +01:00
   title: Start_page
   id: 3
   wiki_id: 2
+  protected: false
 wiki_pages_004: 
   created_on: 2007-03-08 00:18:07 +01:00
   title: Page_with_an_inline_image
   id: 4
   wiki_id: 1
+  protected: false
   

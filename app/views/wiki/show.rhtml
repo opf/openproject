@@ -1,8 +1,12 @@
 <div class="contextual">
+<% if @editable %>
 <%= link_to_if_authorized(l(:button_edit), {:action => 'edit', :page => @page.title}, :class => 'icon icon-edit', :accesskey => accesskey(:edit)) if @content.version == @page.content.version %>
+<%= link_to_if_authorized(l(:button_lock), {:action => 'protect', :page => @page.title, :protected => 1}, :method => :post, :class => 'icon icon-lock') if !@page.protected? %>
+<%= link_to_if_authorized(l(:button_unlock), {:action => 'protect', :page => @page.title, :protected => 0}, :method => :post, :class => 'icon icon-unlock') if @page.protected? %>
 <%= link_to_if_authorized(l(:button_rename), {:action => 'rename', :page => @page.title}, :class => 'icon icon-move') if @content.version == @page.content.version %>
 <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy', :page => @page.title}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del') %>
 <%= link_to_if_authorized(l(:button_rollback), {:action => 'edit', :page => @page.title, :version => @content.version }, :class => 'icon icon-cancel') if @content.version < @page.content.version %>
+<% end %>
 <%= link_to(l(:label_history), {:action => 'history', :page => @page.title}, :class => 'icon icon-history') %>
 </div>
 
@@ -22,9 +26,9 @@
 
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
-<%= link_to_attachments @page.attachments, :delete_url => (authorize_for('wiki', 'destroy_attachment') ? {:controller => 'wiki', :action => 'destroy_attachment', :page => @page.title} : nil) %>
+<%= link_to_attachments @page.attachments, :delete_url => ((@editable && authorize_for('wiki', 'destroy_attachment')) ? {:controller => 'wiki', :action => 'destroy_attachment', :page => @page.title} : nil) %>
 
-<% if authorize_for('wiki', 'add_attachment') %>
+<% if @editable && authorize_for('wiki', 'add_attachment') %>
 <p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
                                              :id => 'attach_files_link' %></p>
 <% form_tag({ :controller => 'wiki', :action => 'add_attachment', :page => @page.title }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>

@@ -29,6 +29,7 @@ roles_001:
     - :manage_documents
     - :view_wiki_pages
     - :edit_wiki_pages
+    - :protect_wiki_pages
     - :delete_wiki_pages
     - :rename_wiki_pages
     - :add_messages
@@ -69,6 +70,7 @@ roles_002:
     - :manage_documents
     - :view_wiki_pages
     - :edit_wiki_pages
+    - :protect_wiki_pages
     - :delete_wiki_pages
     - :add_messages
     - :manage_boards

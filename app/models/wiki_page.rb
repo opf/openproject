@@ -105,6 +105,11 @@ class WikiPage < ActiveRecord::Base
   def text
     content.text if content
   end
+  
+  # Returns true if usr is allowed to edit the page, otherwise false
+  def editable_by?(usr)
+    !protected? || usr.allowed_to?(:protect_wiki_pages, wiki.project)
+  end
 end
 
 class WikiDiff

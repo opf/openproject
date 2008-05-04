@@ -21,7 +21,7 @@ class WikiController < ApplicationController
   layout 'base'
   before_filter :find_wiki, :authorize
   
-  verify :method => :post, :only => [:destroy, :destroy_attachment], :redirect_to => { :action => :index }
+  verify :method => :post, :only => [:destroy, :destroy_attachment, :protect], :redirect_to => { :action => :index }
 
   helper :attachments
   include AttachmentsHelper   
@@ -48,12 +48,14 @@ class WikiController < ApplicationController
       send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
       return
     end
+	@editable = editable?
     render :action => 'show'
   end
   
   # edit an existing page or a new one
   def edit
     @page = @wiki.find_or_new_page(params[:page])    
+    return render_403 unless editable?
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
     
     @content = @page.content_for_version(params[:version])
@@ -82,7 +84,8 @@ class WikiController < ApplicationController
   
   # rename a page
   def rename
-    @page = @wiki.find_page(params[:page])    
+    @page = @wiki.find_page(params[:page])
+	return render_403 unless editable?
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.pretty_title
@@ -92,6 +95,12 @@ class WikiController < ApplicationController
     end
   end
   
+  def protect
+    page = @wiki.find_page(params[:page])
+    page.update_attribute :protected, params[:protected]
+    redirect_to :action => 'index', :id => @project, :page => page.title
+  end
+
   # show page history
   def history
     @page = @wiki.find_page(params[:page])
@@ -122,6 +131,7 @@ class WikiController < ApplicationController
   # remove a wiki page and its history
   def destroy
     @page = @wiki.find_page(params[:page])
+	return render_403 unless editable?
     @page.destroy if @page
     redirect_to :action => 'special', :id => @project, :page => 'Page_index'
   end
@@ -152,6 +162,7 @@ class WikiController < ApplicationController
   
   def preview
     page = @wiki.find_page(params[:page])
+    return render_403 unless editable?(page)
     @attachements = page.attachments if page
     @text = params[:content][:text]
     render :partial => 'common/preview'
@@ -159,12 +170,14 @@ class WikiController < ApplicationController
 
   def add_attachment
     @page = @wiki.find_page(params[:page])
+    return render_403 unless editable?
     attach_files(@page, params[:attachments])
     redirect_to :action => 'index', :page => @page.title
   end
 
   def destroy_attachment
     @page = @wiki.find_page(params[:page])
+    return render_403 unless editable?
     @page.attachments.find(params[:attachment_id]).destroy
     redirect_to :action => 'index', :page => @page.title
   end
@@ -177,5 +190,10 @@ private
     render_404 unless @wiki
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+  
+  # Returns true if the current user is allowed to edit the page, otherwise false
+  def editable?(page = @page)
+    page.editable_by?(User.current)
   end
 end
