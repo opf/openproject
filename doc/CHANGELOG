@@ -5,6 +5,21 @@ Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2008-05-04 v0.7.1
+
+* Thai translation added (Gampol Thitinilnithi)
+* Translations updates
+* Escape HTML comment tags
+* Prevent "can't convert nil into String" error when :sort_order param is not present
+* Fixed: Updating tickets add a time log with zero hours
+* Fixed: private subprojects names are revealed on the project overview
+* Fixed: Search for target version of "none" fails with postgres 8.3
+* Fixed: Home, Logout, Login links shouldn't be absolute links
+* Fixed: 'Latest projects' box on the welcome screen should be hidden if there are no projects
+* Fixed: error when using upcase language name in coderay
+* Fixed: error on Trac import when :due attribute is nil
+
+
 == 2008-04-28 v0.7.0
 
 * Forces Redmine to use rails 2.0.2 gem when vendor/rails is not present
