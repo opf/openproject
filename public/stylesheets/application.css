@@ -241,6 +241,8 @@ text-align: left;
 width: 200px;
 }
 
+input#time_entry_comments { width: 90%;}
+
 #preview fieldset {margin-top: 1em; background: url(../images/draft.png)}
 
 .tabular.settings p{ padding-left: 300px; }
