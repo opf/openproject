@@ -36,10 +36,9 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
 
 =head1 CONFIGURATION
 
-   ## if the module isn't in your perl path
-   PerlRequire /usr/local/apache/Redmine.pm
-   ## else
-   # PerlModule Apache::Authn::Redmine
+   ## This module has to be in your perl path
+   ## eg:  /usr/lib/perl5/Apache/Authn/Redmine.pm
+   PerlLoadModule Apache::Authn::Redmine
    <Location /svn>
      DAV svn
      SVNParentPath "/var/svn"
@@ -52,12 +51,17 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
      PerlAuthenHandler Apache::Authn::Redmine::authen_handler
   
      ## for mysql
-     PerlSetVar dsn DBI:mysql:database=databasename;host=my.db.server
-     ## for postgres
-     # PerlSetVar dsn DBI:Pg:dbname=databasename;host=my.db.server
+     RedmineDSN "DBI:mysql:database=databasename;host=my.db.server"
+     ## for postgres (there is memory leak in libpq+ssl)
+     # RedmineDSN "DBI:Pg:dbname=databasename;host=my.db.server;sslmode=disable"
 
-     PerlSetVar db_user redmine
-     PerlSetVar db_pass password
+     RedmineDbUser "redmine"
+     RedmineDbPass "password"
+     ## Optional where clause (fulltext search would be slow and
+     ## database dependant).
+     # RedmineDbWhereClause "and members.role_id IN (1,2)"
+     ## Optional credentials cache size
+     # RedmineCacheCredsMax 50
   </Location>
 
 To be able to browse repository inside redmine, you must add something
@@ -92,6 +96,7 @@ And you need to upgrade at least reposman.rb (after r860).
 =cut
 
 use strict;
+use warnings FATAL => 'all', NONFATAL => 'redefine';
 
 use DBI;
 use Digest::SHA1;
@@ -103,8 +108,86 @@ use Apache2::Access;
 use Apache2::ServerRec qw();
 use Apache2::RequestRec qw();
 use Apache2::RequestUtil qw();
-use Apache2::Const qw(:common);
+use Apache2::Const qw(:common :override :cmd_how);
+use APR::Pool ();
+use APR::Table ();
+
 # use Apache2::Directive qw();
+
+my @directives = (
+  {
+    name => 'RedmineDSN',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+    errmsg => 'Dsn in format used by Perl DBI. eg: "DBI:Pg:dbname=databasename;host=my.db.server"',
+  },
+  {
+    name => 'RedmineDbUser',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+  },
+  {
+    name => 'RedmineDbPass',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+  },
+  {
+    name => 'RedmineDbWhereClause',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+  },
+  {
+    name => 'RedmineCacheCredsMax',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+    errmsg => 'RedmineCacheCredsMax must be decimal number',
+  },
+);
+
+sub RedmineDSN { 
+  my ($self, $parms, $arg) = @_;
+  $self->{RedmineDSN} = $arg;
+  my $query = "SELECT 
+                 hashed_password, auth_source_id 
+              FROM members, projects, users 
+              WHERE 
+                projects.id=members.project_id 
+                AND users.id=members.user_id 
+                AND users.status=1 
+                AND login=? 
+                AND identifier=? ";
+  $self->{RedmineQuery} = trim($query);
+}
+sub RedmineDbUser { set_val('RedmineDbUser', @_); }
+sub RedmineDbPass { set_val('RedmineDbPass', @_); }
+sub RedmineDbWhereClause { 
+  my ($self, $parms, $arg) = @_;
+  $self->{RedmineQuery} = trim($self->{RedmineQuery}.($arg ? $arg : "")." ");
+}
+
+sub RedmineCacheCredsMax { 
+  my ($self, $parms, $arg) = @_;
+  if ($arg) {
+    $self->{RedmineCachePool} = APR::Pool->new;
+    $self->{RedmineCacheCreds} = APR::Table::make($self->{RedmineCachePool}, $arg);
+    $self->{RedmineCacheCredsCount} = 0;
+    $self->{RedmineCacheCredsMax} = $arg;
+  }
+}
+
+sub trim {
+  my $string = shift;
+  $string =~ s/\s{2,}/ /g;
+  return $string;
+}
+
+sub set_val {
+  my ($key, $self, $parms, $arg) = @_;
+  $self->{$key} = $arg;
+}
+
+Apache2::Module::add(__PACKAGE__, \@directives);
+
 
 my %read_only_methods = map { $_ => 1 } qw/GET PROPFIND REPORT OPTIONS/;
 
@@ -117,7 +200,7 @@ sub access_handler {
   }
 
   my $method = $r->method;
-  return OK unless 1 == $read_only_methods{$method};
+  return OK if defined $read_only_methods{$method};
 
   my $project_id = get_project_identifier($r);
 
@@ -182,9 +265,14 @@ sub is_member {
 
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
 
-  my $sth = $dbh->prepare(
-      "SELECT hashed_password, auth_source_id FROM members, projects, users WHERE projects.id=members.project_id AND users.id=members.user_id AND users.status=1 AND login=? AND identifier=?;"
-  );
+  my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
+  my $usrprojpass;
+  if ($cfg->{RedmineCacheCredsMax}) {
+    $usrprojpass = $cfg->{RedmineCacheCreds}->get($redmine_user.":".$project_id);
+    return 1 if (defined $usrprojpass and ($usrprojpass eq $pass_digest));
+  }
+  my $query = $cfg->{RedmineQuery};
+  my $sth = $dbh->prepare($query);
   $sth->execute($redmine_user, $project_id);
 
   my $ret;
@@ -216,6 +304,20 @@ sub is_member {
   $sth->finish();
   $dbh->disconnect();
 
+  if ($cfg->{RedmineCacheCredsMax} and $ret) {
+    if (defined $usrprojpass) {
+      $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
+    } else {
+      if ($cfg->{RedmineCacheCredsCount} < $cfg->{RedmineCacheCredsMax}) {
+        $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
+        $cfg->{RedmineCacheCredsCount}++;
+      } else {
+        $cfg->{RedmineCacheCreds}->clear();
+        $cfg->{RedmineCacheCredsCount} = 0;
+      }
+    }
+  }
+
   $ret;
 }
 
@@ -229,9 +331,9 @@ sub get_project_identifier {
 
 sub connect_database {
     my $r = shift;
-
-    my ($dsn, $db_user, $db_pass) = map { $r->dir_config($_) } qw/dsn db_user db_pass/;
-    return DBI->connect($dsn, $db_user, $db_pass);
+    
+    my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
+    return DBI->connect($cfg->{RedmineDSN}, $cfg->{RedmineDbUser}, $cfg->{RedmineDbPass});
 }
 
 1;
