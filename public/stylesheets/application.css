@@ -223,6 +223,8 @@ height: 1%;
 clear:left;
 }
 
+html>body .tabular p {overflow:auto;}
+
 .tabular label{
 font-weight: bold;
 float: left;
