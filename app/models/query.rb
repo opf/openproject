@@ -265,7 +265,7 @@ class Query < ActiveRecord::Base
 
   def statement
     # project/subprojects clause
-    clause = ''
+    project_clauses = []
     if project && !@project.active_children.empty?
       ids = [project.id]
       if has_filter?("subproject_id")
@@ -277,17 +277,16 @@ class Query < ActiveRecord::Base
           # main project only
         else
           # all subprojects
-          ids += project.active_children.collect{|p| p.id}
+          ids += project.child_ids
         end
       elsif Setting.display_subprojects_issues?
-        ids += project.active_children.collect{|p| p.id}
+        ids += project.child_ids
       end
-      clause << "#{Issue.table_name}.project_id IN (%s)" % ids.join(',')
+      project_clauses << "#{Issue.table_name}.project_id IN (%s)" % ids.join(',')
     elsif project
-      clause << "#{Issue.table_name}.project_id = %d" % project.id
-    else
-      clause << Project.visible_by(User.current)
+      project_clauses << "#{Issue.table_name}.project_id = %d" % project.id
     end
+    project_clauses <<  Project.visible_by(User.current)
     
     # filters clauses
     filters_clauses = []
@@ -365,8 +364,6 @@ class Query < ActiveRecord::Base
       filters_clauses << sql
     end if filters and valid?
     
-    clause << ' AND ' unless clause.empty?
-    clause << filters_clauses.join(' AND ') unless filters_clauses.empty?
-    clause
+    (project_clauses + filters_clauses).join(' AND ')
   end
 end

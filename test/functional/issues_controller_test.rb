@@ -53,13 +53,44 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
+    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Subproject issue/
+    # private projects hidden
+    assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
+    assert_no_tag :tag => 'a', :content => /Issue on project 2/
   end
 
   def test_index_with_project
+    Setting.display_subprojects_issues = 0
     get :index, :project_id => 1
     assert_response :success
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
+    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_no_tag :tag => 'a', :content => /Subproject issue/
+  end
+  
+  def test_index_with_project_and_subprojects
+    Setting.display_subprojects_issues = 1
+    get :index, :project_id => 1
+    assert_response :success
+    assert_template 'index.rhtml'
+    assert_not_nil assigns(:issues)
+    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Subproject issue/
+    assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
+  end
+  
+  def test_index_with_project_and_subprojects_should_show_private_subprojects
+    @request.session[:user_id] = 2
+    Setting.display_subprojects_issues = 1
+    get :index, :project_id => 1
+    assert_response :success
+    assert_template 'index.rhtml'
+    assert_not_nil assigns(:issues)
+    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Subproject issue/
+    assert_tag :tag => 'a', :content => /Issue of a private subproject/
   end
   
   def test_index_with_project_and_filter
