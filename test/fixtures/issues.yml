@@ -71,4 +71,20 @@ issues_005:
   assigned_to_id: 
   author_id: 2
   status_id: 1
+issues_006: 
+  created_on: <%= 1.minute.ago.to_date.to_s(:db) %>
+  project_id: 5
+  updated_on: <%= 1.minute.ago.to_date.to_s(:db) %>
+  priority_id: 4
+  subject: Issue of a private subproject
+  id: 6
+  fixed_version_id: 
+  category_id: 
+  description: This is an issue of a private subproject of cookbook
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 1
+  start_date: <%= Date.today.to_s(:db) %>
+  due_date: <%= 1.days.from_now.to_date.to_s(:db) %>
   

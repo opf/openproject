@@ -73,9 +73,9 @@ class Project < ActiveRecord::Base
   
   def issues_with_subprojects(include_subprojects=false)
     conditions = nil
-    if include_subprojects && !active_children.empty?
-      ids = [id] + active_children.collect {|c| c.id}
-      conditions = ["#{Project.table_name}.id IN (#{ids.join(',')})"]
+    if include_subprojects
+      ids = [id] + child_ids
+      conditions = ["#{Project.table_name}.id IN (#{ids.join(',')}) AND #{Project.visible_by}"]
     end
     conditions ||= ["#{Project.table_name}.id = ?", id]
     # Quick and dirty fix for Rails 2 compatibility
@@ -93,6 +93,7 @@ class Project < ActiveRecord::Base
   end	
 
   def self.visible_by(user=nil)
+    user ||= User.current
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     elsif user && user.memberships.any?

@@ -29,6 +29,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     @controller = ProjectsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    @request.session[:user_id] = nil
   end
 
   def test_index
@@ -237,11 +238,21 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:calendar)
   end
 
-  def test_calendar_with_subprojects
+  def test_calendar_with_subprojects_should_not_show_private_subprojects
     get :calendar, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
     assert_response :success
     assert_template 'calendar'
     assert_not_nil assigns(:calendar)
+    assert_no_tag :tag => 'a', :content => /#6/
+  end
+  
+  def test_calendar_with_subprojects_should_show_private_subprojects
+    @request.session[:user_id] = 2
+    get :calendar, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
+    assert_response :success
+    assert_template 'calendar'
+    assert_not_nil assigns(:calendar)
+    assert_tag :tag => 'a', :content => /#6/
   end
 
   def test_gantt
@@ -251,13 +262,23 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:events)
   end
 
-  def test_gantt_with_subprojects
+  def test_gantt_with_subprojects_should_not_show_private_subprojects
     get :gantt, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
     assert_response :success
     assert_template 'gantt.rhtml'
     assert_not_nil assigns(:events)
+    assert_no_tag :tag => 'a', :content => /#6/
   end
   
+  def test_gantt_with_subprojects_should_show_private_subprojects
+    @request.session[:user_id] = 2
+    get :gantt, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
+    assert_response :success
+    assert_template 'gantt.rhtml'
+    assert_not_nil assigns(:events)
+    assert_tag :tag => 'a', :content => /#6/
+  end
+
   def test_gantt_export_to_pdf
     get :gantt, :id => 1, :format => 'pdf'
     assert_response :success
