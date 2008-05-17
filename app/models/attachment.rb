@@ -40,7 +40,7 @@ class Attachment < ActiveRecord::Base
       @temp_file = incoming_file
       if @temp_file.size > 0
         self.filename = sanitize_filename(@temp_file.original_filename)
-        self.disk_filename = DateTime.now.strftime("%y%m%d%H%M%S") + "_" + self.filename
+        self.disk_filename = Attachment.disk_filename(filename)
         self.content_type = @temp_file.content_type.to_s.chomp
         self.filesize = @temp_file.size
       end
@@ -99,5 +99,18 @@ private
 
     # Finally, replace all non alphanumeric, hyphens or periods with underscore
     @filename = just_filename.gsub(/[^\w\.\-]/,'_') 
+  end
+  
+  # Returns an ASCII or hashed filename
+  def self.disk_filename(filename)
+    df = DateTime.now.strftime("%y%m%d%H%M%S") + "_"
+    if filename =~ %r{^[a-zA-Z0-9_\.\-]*$}
+      df << filename
+    else
+      df << Digest::MD5.hexdigest(filename)
+      # keep the extension if any
+      df << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
+    end
+    df
   end
 end
