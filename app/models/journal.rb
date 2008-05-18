@@ -26,7 +26,7 @@ class Journal < ActiveRecord::Base
   attr_accessor :indice
   
   acts_as_searchable :columns => 'notes',
-                     :include => :issue,
+                     :include => {:issue => :project},
                      :project_key => "#{Issue.table_name}.project_id",
                      :date_column => "#{Issue.table_name}.created_on"
   

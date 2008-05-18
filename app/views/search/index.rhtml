@@ -4,23 +4,25 @@
 <% form_tag({}, :method => :get) do %>
 <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
 <%= javascript_tag "Field.focus('search-input')" %>
-
-<% @object_types.each do |t| %>
-<label><%= check_box_tag t, 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label>
-<% end %>
-<br />
+<%= project_select_tag %>
 <label><%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></label>
 <label><%= check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %></label>
 </p>
-<%= submit_tag l(:button_submit), :name => 'submit' %>
+<p>
+<% @object_types.each do |t| %>
+<label><%= check_box_tag t, 1, @scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label>
+<% end %>
+</p>
+
+<p><%= submit_tag l(:button_submit), :name => 'submit' %></p>
 <% end %>
 </div>
 
 <% if @results %>
     <h3><%= l(:label_result_plural) %></h3>
-    <ul>
+    <ul id="search-results">
       <% @results.each do |e| %>
-        <li><p><%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url %><br />
+        <li><p><%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %> <%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url %><br />
         <%= highlight_tokens(e.event_description, @tokens) %><br />
         <span class="author"><%= format_time(e.event_datetime) %></span></p></li>
       <% end %>

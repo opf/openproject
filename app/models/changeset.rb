@@ -27,7 +27,7 @@ class Changeset < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project_id, :rev => o.revision}}
                 
   acts_as_searchable :columns => 'comments',
-                     :include => :repository,
+                     :include => {:repository => :project},
                      :project_key => "#{Repository.table_name}.project_id",
                      :date_column => 'committed_on'
   

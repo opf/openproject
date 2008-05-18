@@ -46,7 +46,7 @@ class Project < ActiveRecord::Base
                           
   acts_as_tree :order => "name", :counter_cache => true
 
-  acts_as_searchable :columns => ['name', 'description'], :project_key => 'id'
+  acts_as_searchable :columns => ['name', 'description'], :project_key => 'id', :permission => nil
   acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}}
 
@@ -200,6 +200,10 @@ class Project < ActiveRecord::Base
   
   def all_custom_fields
     @all_custom_fields ||= (IssueCustomField.for_all + custom_fields).uniq
+  end
+  
+  def project
+    self
   end
   
   def <=>(project)

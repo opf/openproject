@@ -177,7 +177,7 @@ div#activity dd { margin-bottom: 1em; padding-left: 18px; }
 div#activity dt { margin-bottom: 1px; padding-left: 20px; line-height: 18px; background-position: 0 50%; background-repeat: no-repeat; }
 div#activity dt .time { color: #777; font-size: 80%; }
 div#activity dd .description { font-style: italic; }
-div#activity span.project:after { content: " -"; }
+div#activity span.project:after, #search-results span.project:after { content: " -"; }
 div#activity dt.issue { background-image: url(../images/ticket.png); }
 div#activity dt.issue-edit { background-image: url(../images/ticket_edit.png); }
 div#activity dt.issue-closed { background-image: url(../images/ticket_checked.png); }

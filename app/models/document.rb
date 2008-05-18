@@ -20,7 +20,7 @@ class Document < ActiveRecord::Base
   belongs_to :category, :class_name => "Enumeration", :foreign_key => "category_id"
   has_many :attachments, :as => :container, :dependent => :destroy
 
-  acts_as_searchable :columns => ['title', 'description']
+  acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
   acts_as_event :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},
                 :author => Proc.new {|o| (a = o.attachments.find(:first, :order => "#{Attachment.table_name}.created_on ASC")) ? a.author : nil },
                 :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}

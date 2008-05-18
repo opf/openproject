@@ -49,6 +49,9 @@ module Redmine
             raise 'No date column defined defined.'
           end
           
+          # Permission needed to search this model
+          searchable_options[:permission] = "view_#{self.name.underscore.pluralize}".to_sym unless searchable_options.has_key?(:permission)
+          
           # Should we search custom fields on this model ?
           searchable_options[:search_custom_fields] = !reflect_on_association(:custom_values).nil?
           
@@ -62,8 +65,12 @@ module Redmine
         end
 
         module ClassMethods
-          def search(tokens, project, options={})
+          # Search the model for the given tokens
+          # projects argument can be either nil (will search all projects), a project or an array of projects
+          def search(tokens, projects, options={})
             tokens = [] << tokens unless tokens.is_a?(Array)
+            projects = [] << projects unless projects.nil? || projects.is_a?(Array)
+            
             find_options = {:include => searchable_options[:include]}
             find_options[:limit] = options[:limit] if options[:limit]
             find_options[:order] = "#{searchable_options[:date_column]} " + (options[:before] ? 'DESC' : 'ASC')
@@ -92,12 +99,17 @@ module Redmine
             end
             find_options[:conditions] = [sql, * (tokens * token_clauses.size).sort]
             
-            results = with_scope(:find => {:conditions => ["#{searchable_options[:project_key]} = ?", project.id]}) do
+            project_conditions = []
+            project_conditions << (searchable_options[:permission].nil? ? Project.visible_by(User.current) :
+                                                 Project.allowed_to_condition(User.current, searchable_options[:permission]))
+            project_conditions << "#{searchable_options[:project_key]} IN (#{projects.collect(&:id).join(',')})" unless projects.nil?
+            
+            results = with_scope(:find => {:conditions => project_conditions.join(' AND ')}) do
               find(:all, find_options)
             end            
             if searchable_options[:with] && !options[:titles_only]
               searchable_options[:with].each do |model, assoc|
-                results += model.to_s.camelcase.constantize.search(tokens, project, options).collect {|r| r.send assoc}
+                results += model.to_s.camelcase.constantize.search(tokens, projects, options).collect {|r| r.send assoc}
               end
               results.uniq!
             end

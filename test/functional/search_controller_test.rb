@@ -5,7 +5,10 @@ require 'search_controller'
 class SearchController; def rescue_action(e) raise e end; end
 
 class SearchControllerTest < Test::Unit::TestCase
-  fixtures :projects, :enabled_modules, :issues, :custom_fields, :custom_values
+  fixtures :projects, :enabled_modules, :roles, :users,
+           :issues, :trackers, :issue_statuses,
+           :custom_fields, :custom_values,
+           :repositories, :changesets
   
   def setup
     @controller = SearchController.new
@@ -23,6 +26,15 @@ class SearchControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'index'
     assert assigns(:results).include?(Project.find(1))
+  end
+  
+  def test_search_all_projects
+    get :index, :q => 'recipe subproject commit', :submit => 'Search'
+    assert_response :success
+    assert_template 'index'
+    assert assigns(:results).include?(Issue.find(2))
+    assert assigns(:results).include?(Issue.find(5))
+    assert assigns(:results).include?(Changeset.find(101))
   end
   
   def test_search_without_searchable_custom_fields

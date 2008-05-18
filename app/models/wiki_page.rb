@@ -29,7 +29,7 @@ class WikiPage < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'wiki', :id => o.wiki.project_id, :page => o.title}}
 
   acts_as_searchable :columns => ['title', 'text'],
-                     :include => [:wiki, :content],
+                     :include => [{:wiki => :project}, :content],
                      :project_key => "#{Wiki.table_name}.project_id"
 
   attr_accessor :redirect_existing_links
