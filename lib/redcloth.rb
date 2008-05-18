@@ -376,13 +376,13 @@ class RedCloth < String
         re =
             case rtype
             when :limit
-                /(^|[>\s])
+                /(^|[>\s\(])
                 (#{rcq})
                 (#{C})
                 (?::(\S+?))?
                 ([^\s\-].*?[^\s\-]|\w)
                 #{rcq}
-                (?=[[:punct:]]|\s|$)/x
+                (?=[[:punct:]]|\s|\)|$)/x
             else
                 /(#{rcq})
                 (#{C})
