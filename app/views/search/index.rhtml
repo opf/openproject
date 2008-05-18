@@ -20,13 +20,13 @@
 
 <% if @results %>
     <h3><%= l(:label_result_plural) %></h3>
-    <ul id="search-results">
+    <dl id="search-results">
       <% @results.each do |e| %>
-        <li><p><%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %> <%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url %><br />
-        <%= highlight_tokens(e.event_description, @tokens) %><br />
-        <span class="author"><%= format_time(e.event_datetime) %></span></p></li>
+        <dt class="<%= e.event_type %>"><%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %> <%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url %></dt>
+        <dd><span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span><br />
+        <span class="author"><%= format_time(e.event_datetime) %></span><dd>
       <% end %>
-    </ul>
+    </dl>
 <% end %>
 
 <p><center>
