@@ -52,8 +52,8 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
   
      ## for mysql
      RedmineDSN "DBI:mysql:database=databasename;host=my.db.server"
-     ## for postgres (there is memory leak in libpq+ssl)
-     # RedmineDSN "DBI:Pg:dbname=databasename;host=my.db.server;sslmode=disable"
+     ## for postgres
+     # RedmineDSN "DBI:Pg:dbname=databasename;host=my.db.server"
 
      RedmineDbUser "redmine"
      RedmineDbPass "password"
