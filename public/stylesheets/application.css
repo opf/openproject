@@ -179,7 +179,7 @@ div#activity dt .time { color: #777; font-size: 80%; }
 div#activity dd .description, #search-results dd .description { font-style: italic; }
 div#activity span.project:after, #search-results span.project:after { content: " -"; }
 #search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px;}
-#search-results dd span.description { display:block; }
+div#activity dd span.description, #search-results dd span.description { display:block; }
 
 dt.issue { background-image: url(../images/ticket.png); }
 dt.issue-edit { background-image: url(../images/ticket_edit.png); }

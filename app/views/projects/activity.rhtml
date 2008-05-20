@@ -8,9 +8,7 @@
 <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
   <dt class="<%= e.event_type %>"><span class="time"><%= format_time(e.event_datetime, false) %></span>
   <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %> <%= link_to h(truncate(e.event_title, 100)), e.event_url %></dt>
-  <dd><% unless e.event_description.blank? -%>
-  <span class="description"><%= format_activity_description(e.event_description) %></span><br />
-  <% end %>
+  <dd><span class="description"><%= format_activity_description(e.event_description) %></span>
   <span class="author"><%= e.event_author if e.respond_to?(:event_author) %></span></dd>
 <% end -%>
 </dl>
