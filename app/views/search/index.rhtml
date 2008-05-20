@@ -23,7 +23,7 @@
     <dl id="search-results">
       <% @results.each do |e| %>
         <dt class="<%= e.event_type %>"><%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %> <%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url %></dt>
-        <dd><span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span><br />
+        <dd><span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span>
         <span class="author"><%= format_time(e.event_datetime) %></span><dd>
       <% end %>
     </dl>

@@ -179,6 +179,7 @@ div#activity dt .time { color: #777; font-size: 80%; }
 div#activity dd .description, #search-results dd .description { font-style: italic; }
 div#activity span.project:after, #search-results span.project:after { content: " -"; }
 #search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px;}
+#search-results dd span.description { display:block; }
 
 dt.issue { background-image: url(../images/ticket.png); }
 dt.issue-edit { background-image: url(../images/ticket_edit.png); }
@@ -190,6 +191,7 @@ dt.reply { background-image: url(../images/comments.png); }
 dt.wiki-page { background-image: url(../images/wiki_edit.png); }
 dt.attachment { background-image: url(../images/attachment.png); }
 dt.document { background-image: url(../images/document.png); }
+dt.project { background-image: url(../images/projects.png); }
 
 div#roadmap fieldset.related-issues { margin-bottom: 1em; }
 div#roadmap fieldset.related-issues ul { margin-top: 0.3em; margin-bottom: 0.3em; }
