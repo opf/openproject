@@ -620,3 +620,4 @@ setting_default_projects_public: Nye projekter er offentlige som default
 error_scm_annotate: "The entry does not exist or can not be annotated."
 label_planning: Planlægning
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects

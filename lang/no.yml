@@ -619,3 +619,4 @@ default_activity_development: Utvikling
 enumeration_issue_priorities: Sakssprioriteringer
 enumeration_doc_categories: Dokument-kategorier
 enumeration_activities: Aktiviteter (tidssporing)
+label_and_its_subprojects: %s and its subprojects

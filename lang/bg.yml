@@ -618,3 +618,4 @@ setting_default_projects_public: Новите проекти са публичн
 error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
 label_planning: Планиране
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects

@@ -619,3 +619,4 @@ setting_default_projects_public: デフォルトで新しいプロジェクト�
 error_scm_annotate: "エントリが存在しない、もしくはアノテートできません。"
 label_planning: 計画
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects

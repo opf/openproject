@@ -618,3 +618,4 @@ label_overall_activity: Kokonaishistoria
 error_scm_annotate: "Merkintää ei ole tai siihen ei voi lisätä selityksiä."
 label_planning: Suunnittelu
 text_subprojects_destroy_warning: 'Tämän alaprojekti(t): %s tullaan myös poistamaan.'
+label_and_its_subprojects: %s and its subprojects

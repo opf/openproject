@@ -37,6 +37,14 @@ class SearchControllerTest < Test::Unit::TestCase
     assert assigns(:results).include?(Changeset.find(101))
   end
   
+  def test_search_project_and_subprojects
+    get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
+    assert_response :success
+    assert_template 'index'
+    assert assigns(:results).include?(Issue.find(1))
+    assert assigns(:results).include?(Issue.find(5))
+  end
+
   def test_search_without_searchable_custom_fields
     CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
     

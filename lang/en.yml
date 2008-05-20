@@ -291,6 +291,7 @@ label_auth_source: Authentication mode
 label_auth_source_new: New authentication mode
 label_auth_source_plural: Authentication modes
 label_subproject_plural: Subprojects
+label_and_its_subprojects: %s and its subprojects
 label_min_max_length: Min - Max length
 label_list: List
 label_date: Date

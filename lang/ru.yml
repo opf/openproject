@@ -622,3 +622,4 @@ setting_default_projects_public: Новые проекты являются пу
 error_scm_annotate: "Данные отсутствуют или не могут быть подписаны."
 label_planning: Планирование
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects

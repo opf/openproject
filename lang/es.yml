@@ -621,3 +621,4 @@ setting_default_projects_public: Los proyectos nuevos son públicos por defecto
 error_scm_annotate: "No existe la entrada o no ha podido ser anotada"
 label_planning: Planificación
 text_subprojects_destroy_warning: 'Sus subprojectos: %s también se eliminarán' 
+label_and_its_subprojects: %s and its subprojects

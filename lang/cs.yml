@@ -623,3 +623,4 @@ enumeration_activities: Aktivity (sledování času)
 error_scm_annotate: "Položka neexistuje nebo nemůže být komentována."
 label_planning: Plánování
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
+label_and_its_subprojects: %s and its subprojects

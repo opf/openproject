@@ -621,3 +621,4 @@ default_activity_development: พัฒนา
 enumeration_issue_priorities: ความสำคัญของปัญหา
 enumeration_doc_categories: ประเภทเอกสาร
 enumeration_activities: กิจกรรม (ใช้ในการติดตามเวลา)
+label_and_its_subprojects: %s and its subprojects

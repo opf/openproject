@@ -30,11 +30,13 @@ class SearchController < ApplicationController
     @titles_only = !params[:titles_only].nil?
     
     projects_to_search =
-      case params[:projects]
+      case params[:scope]
       when 'all'
         nil
       when 'my_projects'
         User.current.memberships.collect(&:project)
+      when 'subprojects'
+        @project ? ([ @project ] + @project.active_children) : nil
       else
         @project
       end

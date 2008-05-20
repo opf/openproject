@@ -39,7 +39,8 @@ module SearchHelper
   def project_select_tag
     options = [[l(:label_project_all), 'all']]
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
+    options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.active_children.empty?
     options << [@project.name, ''] unless @project.nil?
-    select_tag('projects', options_for_select(options, params[:projects].to_s)) if options.size > 1
+    select_tag('scope', options_for_select(options, params[:scope].to_s)) if options.size > 1
   end
 end
