@@ -258,13 +258,12 @@ class User < ActiveRecord::Base
   end
   
   def self.anonymous
-    return @anonymous_user if @anonymous_user
     anonymous_user = AnonymousUser.find(:first)
     if anonymous_user.nil?
       anonymous_user = AnonymousUser.create(:lastname => 'Anonymous', :firstname => '', :mail => '', :login => '', :status => 0)
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
     end
-    @anonymous_user = anonymous_user
+    anonymous_user
   end
   
 private
