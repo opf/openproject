@@ -68,9 +68,7 @@ class Attachment < ActiveRecord::Base
 
   # Deletes file on the disk
   def after_destroy
-    if self.filename?
-      File.delete(diskfile) if File.exist?(diskfile)
-    end
+    File.delete(diskfile) if !filename.blank? && File.exist?(diskfile)
   end
 
   # Returns file's location on disk
