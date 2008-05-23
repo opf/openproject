@@ -86,6 +86,17 @@ class WikiControllerTest < Test::Unit::TestCase
     assert_tag :tag => 'strong', :content => /previewed text/
   end
   
+  def test_preview_new_page
+    @request.session[:user_id] = 2
+    xhr :post, :preview, :id => 1, :page => 'New page',
+                                   :content => { :text => 'h1. New page',
+                                                 :comments => '',
+                                                 :version => 0 }
+    assert_response :success
+    assert_template 'common/_preview'
+    assert_tag :tag => 'h1', :content => /New page/
+  end
+  
   def test_history
     get :history, :id => 1, :page => 'CookBook_documentation'
     assert_response :success

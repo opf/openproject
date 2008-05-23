@@ -162,7 +162,8 @@ class WikiController < ApplicationController
   
   def preview
     page = @wiki.find_page(params[:page])
-    return render_403 unless editable?(page)
+    # page is nil when previewing a new page
+    return render_403 unless page.nil? || editable?(page)
     @attachements = page.attachments if page
     @text = params[:content][:text]
     render :partial => 'common/preview'
