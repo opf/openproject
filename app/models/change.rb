@@ -19,4 +19,8 @@ class Change < ActiveRecord::Base
   belongs_to :changeset
   
   validates_presence_of :changeset_id, :action, :path
+  
+  def relative_path
+    changeset.repository.relative_path(path)
+  end
 end

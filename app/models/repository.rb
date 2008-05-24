@@ -64,6 +64,11 @@ class Repository < ActiveRecord::Base
       :order => "committed_on DESC, #{Changeset.table_name}.id DESC").collect(&:changeset)
   end
   
+  # Returns a path relative to the url of the repository
+  def relative_path(path)
+    path
+  end
+  
   def latest_changeset
     @latest_changeset ||= changesets.find(:first)
   end

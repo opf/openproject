@@ -13,4 +13,11 @@ changes_002:
   path: /test/some/path/elsewhere/in/the/repo
   from_path:
   from_revision:
+changes_003: 
+  id: 3
+  changeset_id: 101
+  action: M
+  path: /test/some/path/in/the/repo
+  from_path:
+  from_revision:
   
