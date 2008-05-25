@@ -619,3 +619,5 @@ label_planning: Planejamento
 text_subprojects_destroy_warning: 'Seu(s) subprojeto(s): %s também serão excluídos.'
 label_age: Age
 label_and_its_subprojects: %s and its subprojects
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"

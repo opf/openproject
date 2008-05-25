@@ -621,3 +621,5 @@ label_planning: Planavimas
 text_subprojects_destroy_warning: 'Šis(ie) subprojektas(ai): %s taip pat bus ištrintas(i).'
 label_and_its_subprojects: %s projektas ir jo subprojektai
 
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"

@@ -619,4 +619,6 @@ default_activity_development: 开发
 
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
-enumeration_activities: 活动（时间跟踪）
+enumeration_activities: 活动（时间跟踪）mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"

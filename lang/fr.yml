@@ -91,6 +91,8 @@ mail_body_account_information_external: Vous pouvez utiliser votre compte "%s" p
 mail_body_account_information: Paramètres de connexion de votre compte
 mail_subject_account_activation_request: "Demande d'activation d'un compte %s"
 mail_body_account_activation_request: "Un nouvel utilisateur (%s) s'est inscrit. Son compte nécessite votre approbation:"
+mail_subject_reminder: "%d demande(s) arrivent à échéance"
+mail_body_reminder: "%d demande(s) qui vous sont assignées arrivent à échéance dans les %d prochains jours:"
 
 gui_validation_error: 1 erreur
 gui_validation_error_plural: %d erreurs

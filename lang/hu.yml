@@ -620,3 +620,5 @@ default_activity_development: Fejlesztés
 enumeration_issue_priorities: Feladat prioritások
 enumeration_doc_categories: Dokumentum kategóriák
 enumeration_activities: Tevékenységek (idő rögzítés)
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"

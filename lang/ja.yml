@@ -620,3 +620,5 @@ error_scm_annotate: "エントリが存在しない、もしくはアノテー�
 label_planning: 計画
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
 label_and_its_subprojects: %s and its subprojects
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+mail_subject_reminder: "%d issue(s) due in the next days"

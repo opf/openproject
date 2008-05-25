@@ -51,6 +51,15 @@ class Mailer < ActionMailer::Base
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
   end
   
+  def reminder(user, issues, days)
+    set_language_if_valid user.language
+    recipients user.mail
+    subject l(:mail_subject_reminder, issues.size)
+    body :issues => issues,
+         :days => days,
+         :issues_url => url_for(:controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => user.id, :sort_key => 'issues.due_date', :sort_order => 'asc')
+  end
+  
   def document_added(document)
     redmine_headers 'Project' => document.project.identifier
     recipients document.project.recipients
@@ -143,6 +152,28 @@ class Mailer < ActionMailer::Base
                     (cc.nil? || cc.empty?) &&
                     (bcc.nil? || bcc.empty?)
     super
+  end
+  
+  # Sends reminders to issue assignees
+  # Available options:
+  # * :days     => how many days in the future to remind about (defaults to 7)
+  # * :tracker  => id of tracker for filtering issues (defaults to all trackers)
+  # * :project  => id or identifier of project to process (defaults to all projects)
+  def self.reminders(options={})
+    days = options[:days] || 7
+    project = options[:project] ? Project.find(options[:project]) : nil
+    tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
+    
+    s = ARCondition.new ["#{IssueStatus.table_name}.is_closed = ? AND #{Issue.table_name}.due_date <= ? AND #{Issue.table_name}.assigned_to_id IS NOT NULL", false, days.day.from_now.to_date]
+    s << "#{Issue.table_name}.project_id = #{project.id}" if project
+    s << "#{Issue.table_name}.tracker_id = #{tracker.id}" if tracker
+    
+    issues_by_assignee = Issue.find(:all, :include => [:status, :assigned_to, :project, :tracker],
+                                          :conditions => s.conditions
+                                    ).group_by(&:assigned_to)
+    issues_by_assignee.each do |assignee, issues|
+      deliver_reminder(assignee, issues, days) unless assignee.nil?
+    end
   end
 
   private

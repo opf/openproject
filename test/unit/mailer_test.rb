@@ -116,4 +116,13 @@ class MailerTest < Test::Unit::TestCase
       assert Mailer.deliver_register(token)
     end
   end
+  
+  def test_reminders
+    ActionMailer::Base.deliveries.clear
+    Mailer.reminders(:days => 42)
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.bcc.include?('dlopper@somenet.foo')
+    assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
+  end
 end
