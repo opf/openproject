@@ -124,9 +124,9 @@ pdf.SetFontStyle('B',7)
 	
 	if i.is_a? Issue
 		i_start_date = (i.start_date >= @date_from ? i.start_date : @date_from )
-		i_end_date = (i.due_date <= @date_to ? i.due_date : @date_to )
+		i_end_date = (i.due_before <= @date_to ? i.due_before : @date_to )
 		
-		i_done_date = i.start_date + ((i.due_date - i.start_date+1)*i.done_ratio/100).floor
+		i_done_date = i.start_date + ((i.due_before - i.start_date+1)*i.done_ratio/100).floor
 		i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
 		i_done_date = (i_done_date >= @date_to ? @date_to : i_done_date )
 		

@@ -22,7 +22,7 @@ require 'versions_controller'
 class VersionsController; def rescue_action(e) raise e end; end
 
 class VersionsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :versions, :users, :roles, :members, :enabled_modules
+  fixtures :projects, :versions, :issues, :users, :roles, :members, :enabled_modules
   
   def setup
     @controller = VersionsController.new
@@ -60,9 +60,9 @@ class VersionsControllerTest < Test::Unit::TestCase
 
   def test_destroy
     @request.session[:user_id] = 2
-    post :destroy, :id => 2
+    post :destroy, :id => 3
     assert_redirected_to 'projects/settings/ecookbook'
-    assert_nil Version.find_by_id(2)
+    assert_nil Version.find_by_id(3)
   end
   
   def test_issue_status_by

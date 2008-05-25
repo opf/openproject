@@ -382,10 +382,17 @@ class ProjectsController < ApplicationController
     
     @events = []
     @project.issues_with_subprojects(@with_subprojects) do
+      # Issues that have start and due dates
       @events += Issue.find(:all, 
                            :order => "start_date, due_date",
                            :include => [:tracker, :status, :assigned_to, :priority, :project], 
                            :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}))", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to]
+                           ) unless @selected_tracker_ids.empty?
+      # Issues that don't have a due date but that are assigned to a version with a date
+      @events += Issue.find(:all, 
+                           :order => "start_date, effective_date",
+                           :include => [:tracker, :status, :assigned_to, :priority, :project, :fixed_version], 
+                           :conditions => ["(((start_date>=? and start_date<=?) or (effective_date>=? and effective_date<=?) or (start_date<? and effective_date>?)) and start_date is not null and due_date is null and effective_date is not null and #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')}))", @date_from, @date_to, @date_from, @date_to, @date_from, @date_to]
                            ) unless @selected_tracker_ids.empty?
       @events += Version.find(:all, :include => :project,
                                     :conditions => ["effective_date BETWEEN ? AND ?", @date_from, @date_to])

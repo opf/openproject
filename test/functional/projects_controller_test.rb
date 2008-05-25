@@ -259,7 +259,16 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :gantt, :id => 1
     assert_response :success
     assert_template 'gantt.rhtml'
-    assert_not_nil assigns(:events)
+    events = assigns(:events)
+    assert_not_nil events
+    # Issue with start and due dates
+    i = Issue.find(1)
+    assert_not_nil i.due_date
+    assert events.include?(Issue.find(1))
+    # Issue with without due date but targeted to a version with date
+    i = Issue.find(2)
+    assert_nil i.due_date
+    assert events.include?(i)
   end
 
   def test_gantt_with_subprojects_should_not_show_private_subprojects

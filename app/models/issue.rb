@@ -230,6 +230,12 @@ class Issue < ActiveRecord::Base
     relations.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.other_issue(self)}
   end
   
+  # Returns the due date or the target due date if any
+  # Used on gantt chart
+  def due_before
+    due_date || (fixed_version ? fixed_version.effective_date : nil)
+  end
+  
   def duration
     (start_date && due_date) ? due_date - start_date : 0
   end

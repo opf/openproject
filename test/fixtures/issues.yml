@@ -13,6 +13,8 @@ issues_001:
   assigned_to_id: 
   author_id: 2
   status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
 issues_002: 
   created_on: 2006-07-19 21:04:21 +02:00
   project_id: 1
@@ -20,13 +22,15 @@ issues_002:
   priority_id: 5
   subject: Add ingredients categories
   id: 2
-  fixed_version_id: 
+  fixed_version_id: 2
   category_id: 
   description: Ingredients of the recipe should be classified by categories
   tracker_id: 2
   assigned_to_id: 3
   author_id: 2
   status_id: 2
+  start_date: <%= 2.day.ago.to_date.to_s(:db) %>
+  due_date: 
 issues_003: 
   created_on: 2006-07-19 21:07:27 +02:00
   project_id: 1
