@@ -12,7 +12,7 @@
 	<p><%= custom_field_tag_with_label @custom_value %></p>
 <% end if @custom_values%>
 
-<p><%= f.check_box :admin %></p>
+<p><%= f.check_box :admin, :disabled => (@user == User.current) %></p>
 </div>
 
 <div class="box">
