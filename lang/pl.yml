@@ -70,7 +70,7 @@ notice_file_not_found: Strona do której próbujesz się dostać nie istnieje lu
 notice_locking_conflict: Dane poprawione przez innego użytkownika.
 notice_not_authorized: Nie jesteś autoryzowany by zobaczyć stronę.
 
-error_scm_not_found: "Wejście i/lub zmiana nie istnieje w repozytorium."
+error_scm_not_found: "Obiekt lub wersja nie zostały znalezione w repozytorium."
 error_scm_command_failed: "An error occurred when trying to access the repository: %s"
 
 mail_subject_lost_password: Twoje hasło do %s
@@ -119,7 +119,7 @@ field_user: Użytkownik
 field_role: Rola
 field_homepage: Strona www
 field_is_public: Publiczny
-field_parent: Podprojekt
+field_parent: Nadprojekt
 field_is_in_chlog: Zagadnienie pokazywane w zapisie zmian
 field_is_in_roadmap: Zagadnienie pokazywane na mapie
 field_login: Login
@@ -172,10 +172,10 @@ setting_host_name: Nazwa hosta
 setting_text_formatting: Formatowanie tekstu
 setting_wiki_compression: Kompresja historii Wiki
 setting_feeds_limit: Limit danych RSS
-setting_autofetch_changesets: Auto-odświeżanie CVS
+setting_autofetch_changesets: Automatyczne pobieranie zmian
 setting_sys_api_enabled: Włączenie WS do zarządzania repozytorium
-setting_commit_ref_keywords: Terminy odnoszące (CVS)
-setting_commit_fix_keywords: Terminy ustalające (CVS)
+setting_commit_ref_keywords: Słowa tworzące powiązania
+setting_commit_fix_keywords: Słowa zmieniające status
 setting_autologin: Auto logowanie
 setting_date_format: Format daty
 
@@ -328,14 +328,14 @@ label_repository: Repozytorium
 label_browse: Przegląd
 label_modification: %d modyfikacja
 label_modification_plural: %d modyfikacja
-label_revision: Zmiana
-label_revision_plural: Zmiany
+label_revision: Rewizja
+label_revision_plural: Rewizje
 label_added: dodane
 label_modified: zmodyfikowane
 label_deleted: usunięte
-label_latest_revision: Ostatnia zmiana
-label_latest_revision_plural: Ostatnie zmiany
-label_view_revisions: Pokaż zmiany
+label_latest_revision: Najnowsza rewizja
+label_latest_revision_plural: Najnowsze rewizje
+label_view_revisions: Pokaż rewizje
 label_max_size: Maksymalny rozmiar
 label_on: 'z'
 label_sort_highest: Przesuń na górę
@@ -366,8 +366,8 @@ label_f_hour_plural: %.2f godzin
 label_time_tracking: Śledzenie czasu
 label_change_plural: Zmiany
 label_statistics: Statystyki
-label_commits_per_month: Wrzutek CVS w miesiącu
-label_commits_per_author: Wrzutek CVS przez autora
+label_commits_per_month: Zatwierdzenia według miesięcy
+label_commits_per_author: Zatwierdzenia według autorów
 label_view_diff: Pokaż różnice
 label_diff_inline: w linii
 label_diff_side_by_side: obok siebie
@@ -463,7 +463,7 @@ text_length_between: Długość pomiędzy %d i %d znaków.
 text_tracker_no_workflow: Brak przepływu zefiniowanego dla tego typu zagadnienia
 text_unallowed_characters: Niedozwolone znaki
 text_comma_separated: Wielokrotne wartości dozwolone (rozdzielone przecinkami).
-text_issues_ref_in_commit_messages: Zagadnienia odnoszące i ustalające we wrzutkach CVS
+text_issues_ref_in_commit_messages: Odwołania do zagadnień w komentarzach zatwierdzeń
 
 default_role_manager: Kierownik
 default_role_developper: Programista

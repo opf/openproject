@@ -46,7 +46,7 @@ general_text_No: 'Nem'
 general_text_Yes: 'Igen'
 general_text_no: 'nem'
 general_text_yes: 'igen'
-general_lang_name: 'Hungarian (Magyar)'
+general_lang_name: 'Magyar'
 general_csv_separator: ','
 general_csv_encoding: ISO-8859-2
 general_pdf_encoding: ISO-8859-2
@@ -291,7 +291,7 @@ label_auth_source: Azonosítás módja
 label_auth_source_new: Új azonosítási mód
 label_auth_source_plural: Azonosítási módok
 label_subproject_plural: Alprojektek
-label_and_its_subprojects: %s and its subprojects
+label_and_its_subprojects: %s és alprojektjei
 label_min_max_length: Min - Max hossz
 label_list: Lista
 label_date: Dátum
@@ -337,7 +337,7 @@ label_closed_issues_plural: lezárt
 label_total: Összesen
 label_permissions: Jogosultságok
 label_current_status: Jelenlegi státusz
-label_new_statuses_allowed: Új státuszok engedélyezve
+label_new_statuses_allowed: Státusz változtatások engedélyei
 label_all: mind
 label_none: nincs
 label_nobody: senki
@@ -406,7 +406,7 @@ label_sort_higher: Eggyel feljebb
 label_sort_lower: Eggyel lejjebb
 label_sort_lowest: Az aljára
 label_roadmap: Életút
-label_roadmap_due_in: Esedékes 
+label_roadmap_due_in: Elkészültéig várhatóan még 
 label_roadmap_overdue: %s késésben
 label_roadmap_no_issues: Nincsenek feladatok ehhez a verzióhoz
 label_search: Keresés
@@ -476,10 +476,10 @@ label_date_to: 'Vége:'
 label_language_based: A felhasználó nyelve alapján
 label_sort_by: %s szerint rendezve
 label_send_test_email: Teszt e-mail küldése
-label_feeds_access_key_created_on: RSS hozzáférési kulcs %s ezelőtt lérehozva
+label_feeds_access_key_created_on: 'RSS hozzáférési kulcs létrehozva ennyivel ezelőtt: %s'
 label_module_plural: Modulok
-label_added_time_by: %s által %s ezelőtt hozzáadva
-label_updated_time: %s ezelőtt módosítva
+label_added_time_by: '%s adta hozzá ennyivel ezelőtt: %s'
+label_updated_time: 'Utolsó módosítás ennyivel ezelőtt: %s'
 label_jump_to_a_project: Ugrás projekthez...
 label_file_plural: Fájlok
 label_changeset_plural: Changesets

@@ -291,6 +291,7 @@ label_auth_source: Autentifikasjonsmodus
 label_auth_source_new: Ny autentifikasjonmodus
 label_auth_source_plural: Autentifikasjonsmoduser
 label_subproject_plural: Underprosjekter
+label_and_its_subprojects: %s og dets underprosjekter
 label_min_max_length: Min.-maks. lengde
 label_list: Liste
 label_date: Dato
@@ -619,4 +620,3 @@ default_activity_development: Utvikling
 enumeration_issue_priorities: Sakssprioriteringer
 enumeration_doc_categories: Dokument-kategorier
 enumeration_activities: Aktiviteter (tidssporing)
-label_and_its_subprojects: %s and its subprojects

@@ -198,7 +198,7 @@ setting_default_projects_public: 新建项目默认为公开项目
 setting_autofetch_changesets: 自动获取程序变更
 setting_sys_api_enabled: 启用用于版本库管理的Web Service
 setting_commit_ref_keywords: 用于引用问题的关键字
-setting_commit_fix_keywords: 用于修订问题的关键字
+setting_commit_fix_keywords: 用于解决问题的关键字
 setting_autologin: 自动登录
 setting_date_format: 日期格式
 setting_time_format: 时间格式
@@ -257,9 +257,9 @@ label_issue_status_new: 新建问题状态
 label_issue_category: 问题类别
 label_issue_category_plural: 问题类别
 label_issue_category_new: 新建问题类别
-label_custom_field: 自定义字段
-label_custom_field_plural: 自定义字段
-label_custom_field_new: 新建自定义字段
+label_custom_field: 自定义属性
+label_custom_field_plural: 自定义属性
+label_custom_field_new: 新建自定义属性
 label_enumerations: 枚举值
 label_enumeration_new: 新建枚举值
 label_information: 信息
@@ -291,6 +291,7 @@ label_auth_source: 认证模式
 label_auth_source_new: 新建认证模式
 label_auth_source_plural: 认证模式
 label_subproject_plural: 子项目
+label_and_its_subprojects: %s 及其子项目
 label_min_max_length: 最小 - 最大 长度
 label_list: 列表
 label_date: 日期
@@ -573,7 +574,7 @@ text_length_between: 长度必须在 %d 到 %d 个字符之间。
 text_tracker_no_workflow: 此跟踪标签未定义工作流程
 text_unallowed_characters: 非法字符
 text_comma_separated: 可以使用多个值（用逗号,分开）。
-text_issues_ref_in_commit_messages: 在提交信息中引用和修订问题
+text_issues_ref_in_commit_messages: 在提交信息中引用和解决问题
 text_issue_added: 问题 %s 已由 %s 提交。
 text_issue_updated: 问题 %s 已由 %s 更新。
 text_wiki_destroy_confirmation: 您确定要删除这个 wiki 及其所有内容吗？
@@ -619,4 +620,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-label_and_its_subprojects: %s and its subprojects

@@ -291,6 +291,7 @@ label_auth_source: 認證模式
 label_auth_source_new: 建立新認證模式
 label_auth_source_plural: 認證模式清單
 label_subproject_plural: 子專案
+label_and_its_subprojects: %s 與其子專案
 label_min_max_length: 最小 - 最大 長度
 label_list: 清單
 label_date: 日期
@@ -619,4 +620,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-label_and_its_subprojects: %s and its subprojects

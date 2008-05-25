@@ -554,7 +554,7 @@ enumeration_issue_priorities: Darbo prioritetai
 enumeration_doc_categories: Dokumento kategorijos 
 enumeration_activities: Veiklos (laiko sekimas)
 label_display_per_page: '%s įrašų puslapyje'
-setting_per_page_options: Objects per page options
+setting_per_page_options: Įrašų puslapyje nustatimas
 notice_default_data_loaded: Numatytoji konfiguracija sėkmingai užkrauta.
 label_age: Amžius
 label_general: Bendri
@@ -578,45 +578,46 @@ label_document_added: Dokumentas pridėtas
 label_message_posted: Pranešimas pridėtas
 label_file_added: Byla pridėta
 label_news_added: Naujiena pridėta
-project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
+project_module_boards: Forumai
+project_module_issue_tracking: Darbu pėdsekys
 project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
-project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
+project_module_files: Rinkmenos
+project_module_documents: Dokumentai
+project_module_repository: Saugykla
+project_module_news: Žinios
+project_module_time_tracking: Laiko pėdsekys
+text_file_repository_writable: Į rinkmenu saugyklą galima saugoti (RW)
+text_default_administrator_account_changed: Administratoriaus numatyta paskyra pakeista
+text_rmagick_available: RMagick pasiekiamas (pasirinktinai)
+button_configure: Konfiguruoti
 label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
-label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
-label_and_its_subprojects: %s and its subprojects
+label_ldap_authentication: LDAP autentifikacija
+label_downloads_abbr: siunt.
+label_this_month: šis menuo
+label_last_n_days: paskutinių %d dienų
+label_all_time: visas laikas
+label_this_year: šiemet
+label_date_range: Dienų diapazonas
+label_last_week: paskutinė savaitė
+label_yesterday: vakar
+label_last_month: paskutinis menuo
+label_add_another_file: Pridėti kitą bylą
+label_optional_description: Apibūdinimas (laisvai pasirenkamas)
+text_destroy_time_entries_question: Naikinamam darbui paskelbta %.02f valandų. Ką jūs noryte su jomis daryti?
+error_issue_not_found_in_project: 'Darbas nerastas arba nesurištas su šiuo projektu'
+text_assign_time_entries_to_project: Priskirti valandas prie projekto
+text_destroy_time_entries: Ištrinti paskelbtas valandas
+text_reassign_time_entries: 'Priskirti paskelbtas valandas šiam darbui:'
+setting_activity_days_default: Atvaizduojamos dienos projekto veikloje
+label_chronological_order: Chronologine tvarka
+field_comments_sorting: rodyti komentarus
+label_reverse_chronological_order: Atbuline chronologine tvarka
+label_preferences: Savybės
+setting_display_subprojects_issues: Pagal nutylėjimą rodyti subprojektų darbus pagrindiniame projekte
+label_overall_activity: Visa veikla
+setting_default_projects_public: Naujas projektas viešas pagal nutylėjimą
+error_scm_annotate: "Įrašas neegzituoja arba negalima jo atvaizduoti."
+label_planning: Planavimas
+text_subprojects_destroy_warning: 'Šis(ie) subprojektas(ai): %s taip pat bus ištrintas(i).'
+label_and_its_subprojects: %s projektas ir jo subprojektai
+
