@@ -39,6 +39,17 @@ class ChangesetTest < Test::Unit::TestCase
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
   end
+  
+  def test_ref_keywords_any_line_start
+    Setting.commit_ref_keywords = '*'
+
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => '#1 is the reason of this commit')
+    c.scan_comment_for_issue_ids
+
+    assert_equal [1], c.issue_ids.sort
+  end
 
   def test_previous
     changeset = Changeset.find_by_revision('3')
