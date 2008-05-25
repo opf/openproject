@@ -116,6 +116,11 @@ class QueryTest < Test::Unit::TestCase
     assert q.has_column?(c)
   end
   
+  def test_label_for
+    q = Query.new
+    assert_equal 'assigned_to', q.label_for('assigned_to_id')
+  end
+  
   def test_editable_by
     admin = User.find(1)
     manager = User.find(2)

@@ -227,7 +227,7 @@ class Query < ActiveRecord::Base
   end
   
   def label_for(field)
-    label = @available_filters[field][:name] if @available_filters.has_key?(field)
+    label = available_filters[field][:name] if available_filters.has_key?(field)
     label ||= field.gsub(/\_id$/, "")
   end
 
