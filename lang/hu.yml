@@ -1,0 +1,622 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: Január,Február,Március,Április,Május,Június,Július,Augusztus,Szeptember,Október,November,December
+actionview_datehelper_select_month_names_abbr: Jan,Feb,Már,Ápr,Máj,Jún,Júl,Aug,Szept,Okt,Nov,Dec
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 nap
+actionview_datehelper_time_in_words_day_plural: %d nap
+actionview_datehelper_time_in_words_hour_about: kb. 1 óra
+actionview_datehelper_time_in_words_hour_about_plural: kb. %d óra
+actionview_datehelper_time_in_words_hour_about_single: kb. 1 óra
+actionview_datehelper_time_in_words_minute: 1 perc
+actionview_datehelper_time_in_words_minute_half: fél perc
+actionview_datehelper_time_in_words_minute_less_than: kevesebb, mint 1 perc
+actionview_datehelper_time_in_words_minute_plural: %d perc
+actionview_datehelper_time_in_words_minute_single: 1 perc
+actionview_datehelper_time_in_words_second_less_than: kevesebb, mint 1 másodperc
+actionview_datehelper_time_in_words_second_less_than_plural: kevesebb, mint %d másodperc
+actionview_instancetag_blank_option: Kérem válasszon
+
+activerecord_error_inclusion: nem található a listában
+activerecord_error_exclusion: foglalt
+activerecord_error_invalid: érvénytelen
+activerecord_error_confirmation: jóváhagyás szükséges
+activerecord_error_accepted: ell kell fogadni
+activerecord_error_empty: nem lehet üres
+activerecord_error_blank: nem lehet üres
+activerecord_error_too_long: túl hosszú
+activerecord_error_too_short: túl rövid
+activerecord_error_wrong_length: hibás a hossza
+activerecord_error_taken: már foglalt
+activerecord_error_not_a_number: nem egy szám
+activerecord_error_not_a_date: nem érvényes dátum
+activerecord_error_greater_than_start_date: nagyobbnak kell lennie, mint az indítás dátuma
+activerecord_error_not_same_project: nem azonos projekthez tartozik
+activerecord_error_circular_dependency: Ez a kapcsolat egy körkörös függőséget eredményez
+
+general_fmt_age: %d év
+general_fmt_age_plural: %d év
+general_fmt_date: %%Y.%%m.%%d
+general_fmt_datetime: %%Y.%%m.%%d %%H:%%M:%%S
+general_fmt_datetime_short: %%b %%d, %%H:%%M:%%S
+general_fmt_time: %%H:%%M:%%S
+general_text_No: 'Nem'
+general_text_Yes: 'Igen'
+general_text_no: 'nem'
+general_text_yes: 'igen'
+general_lang_name: 'Hungarian (Magyar)'
+general_csv_separator: ','
+general_csv_encoding: ISO-8859-2
+general_pdf_encoding: ISO-8859-2
+general_day_names: Hétfő,Kedd,Szerda,Csütörtök,Péntek,Szombat,Vasárnap
+general_first_day_of_week: '1'
+
+notice_account_updated: A fiók adatai sikeresen frissítve.
+notice_account_invalid_creditentials: Hibás felhasználói név, vagy jelszó
+notice_account_password_updated: A jelszó módosítása megtörtént.
+notice_account_wrong_password: Hibás jelszó
+notice_account_register_done: A fiók sikeresen létrehozva. Aktiválásához kattints az e-mailben kapott linkre
+notice_account_unknown_email: Ismeretlen felhasználó.
+notice_can_t_change_password: A fiók külső azonosítási forrást használ. A jelszó megváltoztatása nem lehetséges.
+notice_account_lost_email_sent: Egy e-mail üzenetben postáztunk Önnek egy leírást az új jelszó beállításáról.
+notice_account_activated: Fiókját aktiváltuk. Most már be tud jelentkezni a rendszerbe.
+notice_successful_create: Sikeres létrehozás.
+notice_successful_update: Sikeres módosítás.
+notice_successful_delete: Sikeres törlés.
+notice_successful_connection: Sikeres bejelentkezés.
+notice_file_not_found: Az oldal, amit meg szeretne nézni nem található, vagy átkerült egy másik helyre.
+notice_locking_conflict: Az adatot egy másik felhasználó idő közben módosította.
+notice_not_authorized: Nincs hozzáférési engedélye ehhez az oldalhoz.
+notice_email_sent: Egy e-mail üzenetet küldtünk a következő címre %s
+notice_email_error: Hiba történt a levél küldése közben (%s)
+notice_feeds_access_key_reseted: Az RSS hozzáférési kulcsát újra generáltuk.
+notice_failed_to_save_issues: "Nem sikerült a %d feladat(ok) mentése a %d -ban kiválasztva: %s."
+notice_no_issue_selected: "Nincs feladat kiválasztva! Kérem jelölje meg melyik feladatot szeretné szerkeszteni!"
+notice_account_pending: "A fiókja létrejött, és adminisztrátori jóváhagyásra vár."
+notice_default_data_loaded: Az alapértelmezett konfiguráció betöltése sikeresen megtörtént.
+
+error_can_t_load_default_data: "Az alapértelmezett konfiguráció betöltése nem lehetséges: %s"
+error_scm_not_found: "A bejegyzés, vagy revízió nem található a tárolóban."
+error_scm_command_failed: "A tároló elérése közben hiba lépett fel: %s"
+error_scm_annotate: "A bejegyzés nem létezik, vagy nics jegyzetekkel ellátva."
+error_issue_not_found_in_project: 'A feladat nem található, vagy nem ehhez a projekthez tartozik'
+
+mail_subject_lost_password: Az Ön Redmine jelszava
+mail_body_lost_password: 'A Redmine jelszó megváltoztatásához, kattintson a következő linkre:'
+mail_subject_register: Redmine azonosító aktiválása
+mail_body_register: 'A Redmine azonosítója aktiválásához, kattintson a következő linkre:'
+mail_body_account_information_external: A "%s" azonosító használatával bejelentkezhet a Redmineba.
+mail_body_account_information: Az Ön Redmine azonosítójának információi
+mail_subject_account_activation_request: Redmine azonosító aktiválási kérelem
+mail_body_account_activation_request: 'Egy új felhasználó (%s) regisztrált, azonosítója jóváhasgyásra várakozik:'
+
+gui_validation_error: 1 hiba
+gui_validation_error_plural: %d hiba
+
+field_name: Név
+field_description: Leírás
+field_summary: Összegzés
+field_is_required: Kötelező
+field_firstname: Keresztnév
+field_lastname: Vezetéknév
+field_mail: E-mail
+field_filename: Fájl
+field_filesize: Méret
+field_downloads: Letöltések
+field_author: Szerző
+field_created_on: Létrehozva
+field_updated_on: Módosítva
+field_field_format: Formátum
+field_is_for_all: Minden projekthez
+field_possible_values: Lehetséges értékek
+field_regexp: Reguláris kifejezés
+field_min_length: Minimum hossz
+field_max_length: Maximum hossz
+field_value: Érték
+field_category: Kategória
+field_title: Cím
+field_project: Projekt
+field_issue: Feladat
+field_status: Státusz
+field_notes: Feljegyzések
+field_is_closed: Feladat lezárva
+field_is_default: Alapértelmezett érték
+field_tracker: Típus
+field_subject: Tárgy
+field_due_date: Befejezés dátuma
+field_assigned_to: Felelős
+field_priority: Prioritás
+field_fixed_version: Cél verzió
+field_user: Felhasználó
+field_role: Szerepkör
+field_homepage: Weboldal
+field_is_public: Nyilvános
+field_parent: Szülő projekt
+field_is_in_chlog: Feladatok látszanak a változás naplóban
+field_is_in_roadmap: Feladatok látszanak az életútban
+field_login: Azonosító
+field_mail_notification: E-mail értesítések
+field_admin: Adminisztrátor
+field_last_login_on: Utolsó bejelentkezés
+field_language: Nyelv
+field_effective_date: Dátum
+field_password: Jelszó
+field_new_password: Új jelszó
+field_password_confirmation: Megerősítés
+field_version: Verzió
+field_type: Típus
+field_host: Kiszolgáló
+field_port: Port
+field_account: Felhasználói fiók
+field_base_dn: Base DN
+field_attr_login: Bejelentkezési tulajdonság
+field_attr_firstname: Családnév
+field_attr_lastname: Utónév
+field_attr_mail: E-mail
+field_onthefly: On-the-fly felhasználó létrehozás
+field_start_date: Kezdés dátuma
+field_done_ratio: Elkészült (%%)
+field_auth_source: Azonosítási mód
+field_hide_mail: Rejtse el az e-mail címem
+field_comments: Megjegyzés
+field_url: URL
+field_start_page: Kezdőlap
+field_subproject: Alprojekt
+field_hours: Óra
+field_activity: Aktivitás
+field_spent_on: Dátum
+field_identifier: Azonosító
+field_is_filter: Szűrőként használható
+field_issue_to_id: Kapcsolódó feladat
+field_delay: Késés
+field_assignable: Feladat rendelhető ehhez a szerepkörhöz
+field_redirect_existing_links: Létező linkek átirányítása
+field_estimated_hours: Becsült idő
+field_column_names: Oszlopok
+field_time_zone: Időzóna
+field_searchable: Kereshető
+field_default_value: Alapértelmezett érték
+field_comments_sorting: Feljegyzések megjelenítése
+
+setting_app_title: Alkalmazás címe
+setting_app_subtitle: Alkalmazás alcíme
+setting_welcome_text: Üdvözlő üzenet
+setting_default_language: Alapértelmezett nyelv
+setting_login_required: Azonosítás szükséges
+setting_self_registration: Regisztráció
+setting_attachment_max_size: Melléklet max. mérete
+setting_issues_export_limit: Feladatok exportálásának korlátja
+setting_mail_from: Kibocsátó e-mail címe
+setting_bcc_recipients: Titkos másolat címzet (bcc)
+setting_host_name: Kiszolgáló neve
+setting_text_formatting: Szöveg formázás
+setting_wiki_compression: Wiki történet tömörítés
+setting_feeds_limit: RSS tartalom korlát
+setting_default_projects_public: Az új projektek alapértelmezés szerint nyilvánosak
+setting_autofetch_changesets: Commitok automatikus lehúzása
+setting_sys_api_enabled: WS engedélyezése a tárolók kezeléséhez
+setting_commit_ref_keywords: Hivatkozó kulcsszavak
+setting_commit_fix_keywords: Javítások kulcsszavai
+setting_autologin: Automatikus bejelentkezés
+setting_date_format: Dátum formátum
+setting_time_format: Idő formátum
+setting_cross_project_issue_relations: Kereszt-projekt feladat hivatkozások engedélyezése
+setting_issue_list_default_columns: Az alapértelmezésként megjelenített oszlopok a feladat listában
+setting_repositories_encodings: Tárolók kódolása
+setting_emails_footer: E-mail lábléc
+setting_protocol: Protokol
+setting_per_page_options: Objektum / oldal opciók
+setting_user_format: Felhasználók megjelenítésének formája
+setting_activity_days_default: Napok megjelenítése a project aktivitásnál
+setting_display_subprojects_issues: Alapértelmezettként mutassa az alprojektek feladatait is a projekteken
+
+project_module_issue_tracking: Feladat követés
+project_module_time_tracking: Idő rögzítés
+project_module_news: Hírek
+project_module_documents: Dokumentumok
+project_module_files: Fájlok
+project_module_wiki: Wiki
+project_module_repository: Tároló
+project_module_boards: Fórumok
+
+label_user: Felhasználó
+label_user_plural: Felhasználók
+label_user_new: Új felhasználó
+label_project: Projekt
+label_project_new: Új projekt
+label_project_plural: Projektek
+label_project_all: Az összes projekt
+label_project_latest: Legutóbbi projektek
+label_issue: Feladat
+label_issue_new: Új feladat
+label_issue_plural: Feladatok
+label_issue_view_all: Minden feladat megtekintése
+label_issues_by: %s feladatai
+label_issue_added: Feladat hozzáadva
+label_issue_updated: Feladat frissítve
+label_document: Dokumentum
+label_document_new: Új dokumentum
+label_document_plural: Dokumentumok
+label_document_added: Dokumentum hozzáadva
+label_role: Szerepkör
+label_role_plural: Szerepkörök
+label_role_new: Új szerepkör
+label_role_and_permissions: Szerepkörök, és jogosultságok
+label_member: Résztvevő
+label_member_new: Új résztvevő
+label_member_plural: Résztvevők
+label_tracker: Feladat típus
+label_tracker_plural: Feladat típusok
+label_tracker_new: Új feladat típus
+label_workflow: Workflow
+label_issue_status: Feladat státusz
+label_issue_status_plural: Feladat státuszok
+label_issue_status_new: Új státusz
+label_issue_category: Feladat kategória
+label_issue_category_plural: Feladat kategóriák
+label_issue_category_new: Új kategória
+label_custom_field: Egyéni mező
+label_custom_field_plural: Egyéni mezők
+label_custom_field_new: Új egyéni mező
+label_enumerations: Felsorolások
+label_enumeration_new: Új érték
+label_information: Információ
+label_information_plural: Információk
+label_please_login: Jelentkezzen be
+label_register: Regisztráljon
+label_password_lost: Elfelejtett jelszó
+label_home: Kezdőlap
+label_my_page: Saját kezdőlapom
+label_my_account: Fiókom adatai
+label_my_projects: Saját projektem
+label_administration: Adminisztráció
+label_login: Bejelentkezés
+label_logout: Kijelentkezés
+label_help: Súgó
+label_reported_issues: Bejelentett feladatok
+label_assigned_to_me_issues: A nekem kiosztott feladatok
+label_last_login: Utolsó bejelentkezés
+label_last_updates: Utoljára frissítve
+label_last_updates_plural: Utoljára módosítva %d
+label_registered_on: Regisztrált
+label_activity: Tevékenységek
+label_overall_activity: Teljes aktivitás
+label_new: Új
+label_logged_as: Bejelentkezve, mint
+label_environment: Környezet
+label_authentication: Azonosítás
+label_auth_source: Azonosítás módja
+label_auth_source_new: Új azonosítási mód
+label_auth_source_plural: Azonosítási módok
+label_subproject_plural: Alprojektek
+label_and_its_subprojects: %s and its subprojects
+label_min_max_length: Min - Max hossz
+label_list: Lista
+label_date: Dátum
+label_integer: Egész
+label_float: Lebegőpontos
+label_boolean: Logikai
+label_string: Szöveg
+label_text: Hosszú szöveg
+label_attribute: Tulajdonság
+label_attribute_plural: Tulajdonságok
+label_download: %d Letöltés
+label_download_plural: %d Letöltések
+label_no_data: Nincs megjeleníthető adat
+label_change_status: Státusz módosítása
+label_history: Történet
+label_attachment: Fájl
+label_attachment_new: Új fájl
+label_attachment_delete: Fájl törlése
+label_attachment_plural: Fájlok
+label_file_added: Fájl hozzáadva
+label_report: Jelentés
+label_report_plural: Jelentések
+label_news: Hírek
+label_news_new: Hír hozzáadása
+label_news_plural: Hírek
+label_news_latest: Legutóbbi hírek
+label_news_view_all: Minden hír megtekintése
+label_news_added: Hír hozzáadva
+label_change_log: Változás napló
+label_settings: Beállítások
+label_overview: Áttekintés
+label_version: Verzió
+label_version_new: Új verzió
+label_version_plural: Verziók
+label_confirmation: Jóváhagyás
+label_export_to: Exportálás
+label_read: Olvas...
+label_public_projects: Nyilvános projektek
+label_open_issues: nyitott
+label_open_issues_plural: nyitott
+label_closed_issues: lezárt
+label_closed_issues_plural: lezárt
+label_total: Összesen
+label_permissions: Jogosultságok
+label_current_status: Jelenlegi státusz
+label_new_statuses_allowed: Új státuszok engedélyezve
+label_all: mind
+label_none: nincs
+label_nobody: senki
+label_next: Következő
+label_previous: Előző
+label_used_by: Használja
+label_details: Részletek
+label_add_note: Jegyzet hozzáadása
+label_per_page: Oldalanként
+label_calendar: Naptár
+label_months_from: hónap, kezdve
+label_gantt: Gantt
+label_internal: Belső
+label_last_changes: utolsó %d változás
+label_change_view_all: Minden változás megtekintése
+label_personalize_page: Az oldal testreszabása
+label_comment: Megjegyzés
+label_comment_plural: Megjegyzések
+label_comment_add: Megjegyzés hozzáadása
+label_comment_added: Megjegyzés hozzáadva
+label_comment_delete: Megjegyzések törlése
+label_query: Egyéni lekérdezés
+label_query_plural: Egyéni lekérdezések
+label_query_new: Új lekérdezés
+label_filter_add: Szűrő hozzáadása
+label_filter_plural: Szűrők
+label_equals: egyenlő
+label_not_equals: nem egyenlő
+label_in_less_than: kevesebb, mint
+label_in_more_than: több, mint
+label_in: in
+label_today: ma
+label_all_time: mindenkor
+label_yesterday: tegnap
+label_this_week: aktuális hét
+label_last_week: múlt hét
+label_last_n_days: az elmúlt %d nap
+label_this_month: aktuális hónap
+label_last_month: múlt hónap
+label_this_year: aktuális év
+label_date_range: Dátum intervallum
+label_less_than_ago: kevesebb, mint nappal ezelőtt
+label_more_than_ago: több, mint nappal ezelőtt
+label_ago: nappal ezelőtt
+label_contains: tartalmazza
+label_not_contains: nem tartalmazza
+label_day_plural: nap
+label_repository: Tároló
+label_repository_plural: Tárolók
+label_browse: Tallóz
+label_modification: %d változás
+label_modification_plural: %d változások
+label_revision: Revízió
+label_revision_plural: Revíziók
+label_associated_revisions: Kapcsolt revíziók
+label_added: hozzáadva
+label_modified: módosítva
+label_deleted: törölve
+label_latest_revision: Legutolsó revízió
+label_latest_revision_plural: Legutolsó revíziók
+label_view_revisions: Revíziók megtekintése
+label_max_size: Maximális méret
+label_on: 'összesen'
+label_sort_highest: Az elejére
+label_sort_higher: Eggyel feljebb
+label_sort_lower: Eggyel lejjebb
+label_sort_lowest: Az aljára
+label_roadmap: Életút
+label_roadmap_due_in: Esedékes 
+label_roadmap_overdue: %s késésben
+label_roadmap_no_issues: Nincsenek feladatok ehhez a verzióhoz
+label_search: Keresés
+label_result_plural: Találatok
+label_all_words: Minden szó
+label_wiki: Wiki
+label_wiki_edit: Wiki szerkesztés
+label_wiki_edit_plural: Wiki szerkesztések
+label_wiki_page: Wiki oldal
+label_wiki_page_plural: Wiki oldalak
+label_index_by_title: Cím szerint indexelve
+label_index_by_date: Dátum szerint indexelve
+label_current_version: Jelenlegi verzió
+label_preview: Előnézet
+label_feed_plural: Visszajelzések
+label_changes_details: Változások részletei
+label_issue_tracking: Feladat követés
+label_spent_time: Ráfordított idő
+label_f_hour: %.2f óra
+label_f_hour_plural: %.2f óra
+label_time_tracking: Idő követés
+label_change_plural: Változások
+label_statistics: Statisztikák
+label_commits_per_month: Commits havonta
+label_commits_per_author: Commits szerzőnként
+label_view_diff: Különbségek megtekintése
+label_diff_inline: inline
+label_diff_side_by_side: side by side
+label_options: Opciók
+label_copy_workflow_from: Workflow másolása innen
+label_permissions_report: Jogosultsági riport
+label_watched_issues: Megfigyelt feladatok
+label_related_issues: Kapcsolódó feladatok
+label_applied_status: Alkalmazandó státusz
+label_loading: Betöltés...
+label_relation_new: Új kapcsolat
+label_relation_delete: Kapcsolat törlése
+label_relates_to: kapcsolódik
+label_duplicates: duplikálja
+label_blocks: zárolja
+label_blocked_by: zárolta
+label_precedes: megelőzi
+label_follows: követi
+label_end_to_start: végétől indulásig
+label_end_to_end: végétől végéig
+label_start_to_start: indulástól indulásig
+label_start_to_end: indulástól végéig
+label_stay_logged_in: Emlékezzen rám
+label_disabled: kikapcsolva
+label_show_completed_versions: A kész verziók mutatása
+label_me: én
+label_board: Fórum
+label_board_new: Új fórum
+label_board_plural: Fórumok
+label_topic_plural: Témák
+label_message_plural: Üzenetek
+label_message_last: Utolsó üzenet
+label_message_new: Új üzenet
+label_message_posted: Üzenet hozzáadva
+label_reply_plural: Válaszok
+label_send_information: Fiók infomációk küldése a felhasználónak
+label_year: Év
+label_month: Hónap
+label_week: Hét
+label_date_from: 'Kezdet:'
+label_date_to: 'Vége:'
+label_language_based: A felhasználó nyelve alapján
+label_sort_by: %s szerint rendezve
+label_send_test_email: Teszt e-mail küldése
+label_feeds_access_key_created_on: RSS hozzáférési kulcs %s ezelőtt lérehozva
+label_module_plural: Modulok
+label_added_time_by: %s által %s ezelőtt hozzáadva
+label_updated_time: %s ezelőtt módosítva
+label_jump_to_a_project: Ugrás projekthez...
+label_file_plural: Fájlok
+label_changeset_plural: Changesets
+label_default_columns: Alapértelmezett oszlopok
+label_no_change_option: (Nincs változás)
+label_bulk_edit_selected_issues: A kiválasztott feladatok kötegelt szerkesztése
+label_theme: Téma
+label_default: Alapértelmezett
+label_search_titles_only: Keresés csak a címekben
+label_user_mail_option_all: "Minden eseményről minden saját projektemben"
+label_user_mail_option_selected: "Minden eseményről a kiválasztott projektekben..."
+label_user_mail_option_none: "Csak a megfigyelt dolgokról, vagy, amiben részt veszek"
+label_user_mail_no_self_notified: "Nem kérek értesítést az általam végzett módosításokról"
+label_registration_activation_by_email: Fiók aktiválása e-mailben
+label_registration_manual_activation: Manuális fiók aktiválás
+label_registration_automatic_activation: Automatikus fiók aktiválás
+label_display_per_page: 'Oldalanként: %s'
+label_age: Kor
+label_change_properties: Tulajdonságok változtatása
+label_general: Általános
+label_more: továbbiak
+label_scm: SCM
+label_plugins: Pluginek
+label_ldap_authentication: LDAP azonosítás
+label_downloads_abbr: D/L
+label_optional_description: Opcionális leírás
+label_add_another_file: Újabb fájl hozzáadása
+label_preferences: Tulajdonságok
+label_chronological_order: Időrendben
+label_reverse_chronological_order: Fordított időrendben
+label_planning: Tervezés
+
+button_login: Bejelentkezés
+button_submit: Elfogad
+button_save: Mentés
+button_check_all: Mindent kijelöl
+button_uncheck_all: Kijelölés törlése
+button_delete: Töröl
+button_create: Létrehoz
+button_test: Teszt
+button_edit: Szerkeszt
+button_add: Hozzáad
+button_change: Változtat
+button_apply: Alkalmaz
+button_clear: Töröl
+button_lock: Zárol
+button_unlock: Felold
+button_download: Letöltés
+button_list: Lista
+button_view: Megnéz
+button_move: Mozgat
+button_back: Vissza
+button_cancel: Mégse
+button_activate: Aktivál
+button_sort: Rendezés
+button_log_time: Idő rögzítés
+button_rollback: Visszaáll erre a verzióra
+button_watch: Megfigyel
+button_unwatch: Megfigyelés törlése
+button_reply: Válasz
+button_archive: Archivál
+button_unarchive: Dearchivál
+button_reset: Reset
+button_rename: Átnevez
+button_change_password: Jelszó megváltoztatása
+button_copy: Másol
+button_annotate: Jegyzetel
+button_update: Módosít
+button_configure: Konfigurál
+
+status_active: aktív
+status_registered: regisztrált
+status_locked: zárolt
+
+text_select_mail_notifications: Válasszon eseményeket, amelyekről e-mail értesítést kell küldeni.
+text_regexp_info: eg. ^[A-Z0-9]+$
+text_min_max_length_info: 0 = nincs korlátozás
+text_project_destroy_confirmation: Biztosan törölni szeretné a projektet és vele együtt minden kapcsolódó adatot ?
+text_subprojects_destroy_warning: 'Az alprojekt(ek): %s szintén törlésre kerülnek.'
+text_workflow_edit: Válasszon egy szerepkört, és egy trackert a workflow szerkesztéséhez
+text_are_you_sure: Biztos benne ?
+text_journal_changed: "változás: %s volt, %s lett"
+text_journal_set_to: "beállítva: %s"
+text_journal_deleted: törölve
+text_tip_task_begin_day: a feladat ezen a napon kezdődik
+text_tip_task_end_day: a feladat ezen a napon ér véget
+text_tip_task_begin_end_day: a feladat ezen a napon kezdődik és ér véget
+text_project_identifier_info: 'Kis betűk (a-z), számok és kötőjel megengedett.<br />Mentés után az azonosítót megváltoztatni nem lehet.'
+text_caracters_maximum: maximum %d karakter.
+text_caracters_minimum: Legkevesebb %d karakter hosszúnek kell lennie.
+text_length_between: Legalább %d és legfeljebb %d hosszú karakter.
+text_tracker_no_workflow: Nincs workflow definiálva ehhez a tracker-hez
+text_unallowed_characters: Tiltott karakterek
+text_comma_separated: Több érték megengedett (vesszővel elválasztva)
+text_issues_ref_in_commit_messages: Hivatkozás feladatokra, feladatok javítása a commit üzenetekben
+text_issue_added: %s feladat bejelentve.
+text_issue_updated: %s feladat frissítve.
+text_wiki_destroy_confirmation: Biztosan törölni szeretné ezt a wiki-t minden tartalmával együtt ?
+text_issue_category_destroy_question: Néhány feladat (%d) hozzá van rendelve ehhez a kategóriához. Mit szeretne tenni ?
+text_issue_category_destroy_assignments: Kategória hozzárendelés megszűntetése
+text_issue_category_reassign_to: Feladatok újra hozzárendelése a kategóriához
+text_user_mail_option: "A nem kiválasztott projektekről csak akkor kap értesítést, ha figyelést kér rá, vagy részt vesz benne (pl. Ön a létrehozó, vagy a hozzárendelő)"
+text_no_configuration_data: "Szerepkörök, trackerek, feladat státuszok, és workflow adatok még nincsenek konfigurálva.\nErősen ajánlott, az alapértelmezett konfiguráció betöltése, és utána módosíthatja azt."
+text_load_default_configuration: Alapértelmezett konfiguráció betöltése
+text_status_changed_by_changeset: Applied in changeset %s.
+text_issues_destroy_confirmation: 'Biztos benne, hogy törölni szeretné a kijelölt feladato(ka)t ?'
+text_select_project_modules: 'Válassza ki az engedélyezett modulokat ehhez a projekthez:'
+text_default_administrator_account_changed: Alapértelmezett adminisztrátor fiók megváltoztatva
+text_file_repository_writable: Fájl tároló írható
+text_rmagick_available: RMagick elérhető (opcionális)
+text_destroy_time_entries_question: %.02f órányi munka van rögzítve a feladatokon, amiket törölni szeretne. Mit szeretne tenni ?
+text_destroy_time_entries: A rögzített órák törlése
+text_assign_time_entries_to_project: A rögzített órák hozzárendelése a projekthez
+text_reassign_time_entries: 'A rögzített órák újra hozzárendelése ehhez a feladathoz:'
+
+default_role_manager: Vezető
+default_role_developper: Fejlesztő
+default_role_reporter: Bejelentő
+default_tracker_bug: Hiba
+default_tracker_feature: Fejlesztés
+default_tracker_support: Support
+default_issue_status_new: Új
+default_issue_status_assigned: Kiosztva
+default_issue_status_resolved: Megoldva
+default_issue_status_feedback: Visszajelzés
+default_issue_status_closed: Lezárt
+default_issue_status_rejected: Elutasított
+default_doc_category_user: Felhasználói dokumentáció
+default_doc_category_tech: Technikai dokumentáció
+default_priority_low: Alacsony
+default_priority_normal: Normál
+default_priority_high: Magas
+default_priority_urgent: Sürgős
+default_priority_immediate: Azonnal
+default_activity_design: Tervezés
+default_activity_development: Fejlesztés
+
+enumeration_issue_priorities: Feladat prioritások
+enumeration_doc_categories: Dokumentum kategóriák
+enumeration_activities: Tevékenységek (idő rögzítés)
