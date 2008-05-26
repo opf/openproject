@@ -43,7 +43,7 @@
 
 <h3><%= l(:label_version_plural) %></h3>
 <% @versions.each do |version| %>
-<%= link_to version.name, :anchor => version.name %><br />
+<%= link_to version.name, "##{version.name}" %><br />
 <% end %>
 <% end %>
 
