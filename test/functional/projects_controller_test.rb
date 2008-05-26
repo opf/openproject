@@ -35,13 +35,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_index
     get :index
     assert_response :success
-    assert_template 'list'
-  end
-
-  def test_list
-    get :list
-    assert_response :success
-    assert_template 'list'
+    assert_template 'index'
     assert_not_nil assigns(:project_tree)
     # Root project as hash key
     assert assigns(:project_tree).has_key?(Project.find(1))

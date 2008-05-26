@@ -44,13 +44,8 @@ class ProjectsController < ApplicationController
   include RepositoriesHelper
   include ProjectsHelper
   
-  def index
-    list
-    render :action => 'list' unless request.xhr?
-  end
-
   # Lists visible projects
-  def list
+  def index
     projects = Project.find :all,
                             :conditions => Project.visible_by(User.current),
                             :include => :parent
