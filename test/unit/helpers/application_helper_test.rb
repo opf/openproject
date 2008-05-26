@@ -58,7 +58,9 @@ class ApplicationHelperTest < HelperTestCase
     to_test = {
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="/foo/bar">link</a>',
-      '"link (Link title)":http://foo.bar' => '<a href="http://foo.bar" title="Link title" class="external">link</a>'
+      '"link (Link title)":http://foo.bar' => '<a href="http://foo.bar" title="Link title" class="external">link</a>',
+      # no multiline link text
+      "This is a double quote \"on the first line\nand another on a second line\":test" => "This is a double quote \"on the first line<br />\nand another on a second line\":test"
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end

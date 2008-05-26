@@ -764,7 +764,7 @@ class RedCloth < String
             ([\s\[{(]|[#{PUNCT}])?     # $pre
             "                          # start
             (#{C})                     # $atts
-            ([^"]+?)                   # $text
+            ([^"\n]+?)                 # $text
             \s?
             (?:\(([^)]+?)\)(?="))?     # $title
             ":
