@@ -30,7 +30,17 @@ class TimelogControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
   
-  def test_create
+  def test_get_edit
+    @request.session[:user_id] = 3
+    get :edit, :project_id => 1
+    assert_response :success
+    assert_template 'edit'
+    # Default activity selected
+    assert_tag :tag => 'option', :attributes => { :selected => 'selected' },
+                                 :content => 'Development'
+  end
+  
+  def test_post_edit
     @request.session[:user_id] = 3
     post :edit, :project_id => 1,
                 :time_entry => {:comments => 'Some work on TimelogControllerTest',

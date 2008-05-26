@@ -29,6 +29,12 @@ class TimeEntry < ActiveRecord::Base
   validates_numericality_of :hours, :allow_nil => true
   validates_length_of :comments, :maximum => 255
 
+  def after_initialize
+    if new_record?
+      self.activity ||= Enumeration.default('ACTI')
+    end
+  end
+  
   def before_validation
     self.project = issue.project if issue && project.nil?
   end

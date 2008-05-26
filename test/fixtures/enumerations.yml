@@ -39,4 +39,9 @@ enumerations_010:
   name: Development
   id: 10
   opt: ACTI
+  is_default: true
+enumerations_011: 
+  name: QA
+  id: 11
+  opt: ACTI
   
