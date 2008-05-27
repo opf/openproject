@@ -17,9 +17,14 @@
 <% end %>
 
 <% if User.current.logged? %>
-<div class="contextual">
+<p style="text-align:right;">
 <span class="icon icon-fav"><%= l(:label_my_projects) %></span>
-</div>
+</p>
 <% end %>
+
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'Atom', {:format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
+</p>
 
 <% html_title(l(:label_project_plural)) -%>

@@ -49,8 +49,16 @@ class ProjectsController < ApplicationController
     projects = Project.find :all,
                             :conditions => Project.visible_by(User.current),
                             :include => :parent
-    @project_tree = projects.group_by {|p| p.parent || p}
-    @project_tree.each_key {|p| @project_tree[p] -= [p]}
+    respond_to do |format|
+      format.html { 
+        @project_tree = projects.group_by {|p| p.parent || p}
+        @project_tree.each_key {|p| @project_tree[p] -= [p]} 
+      }
+      format.atom {
+        render_feed(projects.sort_by(&:created_on).reverse.slice(0, Setting.feeds_limit.to_i), 
+                                  :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+      }
+    end
   end
   
   # Add a new project
