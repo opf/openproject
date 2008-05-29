@@ -126,6 +126,10 @@ namespace :redmine do
           File.open("#{trac_fullpath}", 'rb').read
         end
         
+        def description
+          read_attribute(:description).to_s.slice(0,255)
+        end
+        
       private
         def trac_fullpath
           attachment_type = read_attribute(:type)
@@ -408,6 +412,7 @@ namespace :redmine do
               a.file = attachment
               a.author = find_or_create_user(attachment.author)
               a.container = i
+              a.description = attachment.description
               migrated_ticket_attachments += 1 if a.save
         	end
         	
@@ -456,6 +461,7 @@ namespace :redmine do
               a = Attachment.new :created_on => attachment.time
               a.file = attachment
               a.author = find_or_create_user(attachment.author)
+              a.description = attachment.description
               a.container = p
               migrated_wiki_attachments += 1 if a.save
             end
