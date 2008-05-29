@@ -27,9 +27,13 @@ module Redmine
 
         # Get the revision of a particuliar file
         def get_rev (rev,path)
-          cmd="#{GIT_BIN} --git-dir #{target('')} show #{shell_quote rev} -- #{shell_quote path}" if rev!='latest' and (! rev.nil?)
-          cmd="#{GIT_BIN} --git-dir #{target('')} log -1 master -- #{shell_quote path}" if 
-            rev=='latest' or rev.nil?
+        
+          if rev != 'latest' && !rev.nil?
+            cmd="#{GIT_BIN} --git-dir #{target('')} show #{shell_quote rev} -- #{shell_quote path}" 
+          else
+            branch = shellout("#{GIT_BIN} --git-dir #{target('')} branch") { |io| io.grep(/\*/)[0].strip.match(/\* (.*)/)[1] }
+            cmd="#{GIT_BIN} --git-dir #{target('')} log -1 #{branch} -- #{shell_quote path}" 
+          end
           rev=[]
           i=0
           shellout(cmd) do |io|
