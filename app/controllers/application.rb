@@ -61,11 +61,11 @@ class ApplicationController < ActionController::Base
   def set_localization
     User.current.language = nil unless User.current.logged?
     lang = begin
-      if !User.current.language.blank? and GLoc.valid_languages.include? User.current.language.to_sym
+      if !User.current.language.blank? && GLoc.valid_language?(User.current.language)
         User.current.language
       elsif request.env['HTTP_ACCEPT_LANGUAGE']
-        accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.split('-').first
-        if accept_lang and !accept_lang.empty? and GLoc.valid_languages.include? accept_lang.to_sym
+        accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.downcase
+        if !accept_lang.blank? && (GLoc.valid_language?(accept_lang) || GLoc.valid_language?(accept_lang = accept_lang.split('-').first))
           User.current.language = accept_lang
         end
       end
