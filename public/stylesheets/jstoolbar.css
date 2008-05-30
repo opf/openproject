@@ -84,6 +84,12 @@
 .jstb_ol {
 	background-image: url(../images/jstoolbar/bt_ol.png);
 }
+.jstb_bq {
+	background-image: url(../images/jstoolbar/bt_bq.png);
+}
+.jstb_unbq {
+	background-image: url(../images/jstoolbar/bt_bq_remove.png);
+}
 .jstb_pre {
 	background-image: url(../images/jstoolbar/bt_pre.png);
 }

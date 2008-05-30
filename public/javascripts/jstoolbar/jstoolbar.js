@@ -498,6 +498,37 @@ jsToolBar.prototype.elements.ol = {
 	}
 }
 
+// spacer
+jsToolBar.prototype.elements.space3 = {type: 'space'}
+
+// bq
+jsToolBar.prototype.elements.bq = {
+	type: 'button',
+	title: 'Quote',
+	fn: {
+		wiki: function() {
+			this.encloseLineSelection('','',function(str) {
+				str = str.replace(/\r/g,'');
+				return str.replace(/(\n|^) *([^\n]*)/g,"$1> $2");
+			});
+		}
+	}
+}
+
+// unbq
+jsToolBar.prototype.elements.unbq = {
+	type: 'button',
+	title: 'Unquote',
+	fn: {
+		wiki: function() {
+			this.encloseLineSelection('','',function(str) {
+				str = str.replace(/\r/g,'');
+				return str.replace(/(\n|^) *[>]? *([^\n]*)/g,"$1$2");
+			});
+		}
+	}
+}
+
 // pre
 jsToolBar.prototype.elements.pre = {
 	type: 'button',
@@ -508,7 +539,7 @@ jsToolBar.prototype.elements.pre = {
 }
 
 // spacer
-jsToolBar.prototype.elements.space3 = {type: 'space'}
+jsToolBar.prototype.elements.space4 = {type: 'space'}
 
 // wiki page
 jsToolBar.prototype.elements.link = {

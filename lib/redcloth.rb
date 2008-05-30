@@ -299,6 +299,8 @@ class RedCloth < String
         hard_break text 
         unless @lite_mode
             refs text
+            # need to do this before text is split by #blocks
+            block_textile_quotes text
             blocks text
         end
         inline text
@@ -575,6 +577,29 @@ class RedCloth < String
             end
             lines.join( "\n" )
         end
+    end
+    
+    QUOTES_RE = /(^>+([^\n]*?)\n?)+/m
+    QUOTES_CONTENT_RE = /^([> ]+)(.*)$/m
+    
+    def block_textile_quotes( text )
+      text.gsub!( QUOTES_RE ) do |match|
+        lines = match.split( /\n/ )
+        quotes = ''
+        indent = 0
+        lines.each do |line|
+          line =~ QUOTES_CONTENT_RE 
+          bq,content = $1, $2
+          l = bq.count('>')
+          if l != indent
+            quotes << ("\n\n" + (l>indent ? '<blockquote>' * (l-indent) : '</blockquote>' * (indent-l)) + "\n\n")
+            indent = l
+          end
+          quotes << (content + "\n")
+        end
+        quotes << ("\n" + '</blockquote>' * indent + "\n\n")
+        quotes
+      end
     end
 
     CODE_RE = /(\W)
