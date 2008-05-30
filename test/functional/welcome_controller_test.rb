@@ -53,4 +53,11 @@ class WelcomeControllerTest < Test::Unit::TestCase
     get :index
     assert_equal :"zh-tw", @controller.current_language
   end
+  
+  def test_browser_language_alternate_not_valid
+    Setting.default_language = 'en'
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr-CA'
+    get :index
+    assert_equal :fr, @controller.current_language
+  end
 end
