@@ -1,3 +1,4 @@
+<% reply_links = authorize_for('issues', 'edit') -%>
 <% for journal in journals %>
     <div id="change-<%= journal.id %>" class="journal">
 	<h4><div style="float:right;"><%= link_to "##{journal.indice}", :anchor => "note-#{journal.indice}" %></div>
@@ -8,6 +9,6 @@
 	   <li><%= show_detail(detail) %></li>
 	<% end %>
 	</ul>
-	<%= render_notes(journal) unless journal.notes.blank? %>
+	<%= render_notes(journal, :reply_links => reply_links) unless journal.notes.blank? %>
 	</div>
 <% end %>

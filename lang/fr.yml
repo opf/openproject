@@ -596,6 +596,7 @@ text_destroy_time_entries_question: %.02f heures ont été enregistrées sur les
 text_destroy_time_entries: Supprimer les heures
 text_assign_time_entries_to_project: Reporter les heures sur le projet
 text_reassign_time_entries: 'Reporter les heures sur cette demande:'
+text_user_wrote: '%s a écrit:'
 
 default_role_manager: Manager
 default_role_developper: Développeur

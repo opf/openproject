@@ -263,6 +263,22 @@ class IssuesControllerTest < Test::Unit::TestCase
                                     :content => 'Urgent',
                                     :attributes => { :selected => 'selected' } }
   end
+  
+  def test_reply_to_issue
+    @request.session[:user_id] = 2
+    get :reply, :id => 1
+    assert_response :success
+    assert_select_rjs :show, "update"
+    assert_select_rjs :replace_html, "notes"
+  end
+
+  def test_reply_to_note
+    @request.session[:user_id] = 2
+    get :reply, :id => 1, :journal_id => 2
+    assert_response :success
+    assert_select_rjs :show, "update"
+    assert_select_rjs :replace_html, "notes"
+  end
 
   def test_post_edit
     @request.session[:user_id] = 2

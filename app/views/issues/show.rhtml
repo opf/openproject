@@ -56,6 +56,12 @@ end %>
 </table>
 <hr />
 
+<div class="contextual">
+<%= link_to_remote(image_tag('comment.png'),
+                   { :url => {:controller => 'issues', :action => 'reply', :id => @issue} },
+                   :title => l(:button_reply)) if authorize_for('issues', 'edit') %>
+</div>
+                              
 <p><strong><%=l(:field_description)%></strong></p>
 <div class="wiki">
 <%= textilizable @issue, :description, :attachments => @issue.attachments %>

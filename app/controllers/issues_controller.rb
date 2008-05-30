@@ -19,7 +19,7 @@ class IssuesController < ApplicationController
   layout 'base'
   menu_item :new_issue, :only => :new
   
-  before_filter :find_issue, :only => [:show, :edit, :destroy_attachment]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :destroy_attachment]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :preview, :update_form, :context_menu]
@@ -208,6 +208,26 @@ class IssuesController < ApplicationController
     flash.now[:error] = l(:notice_locking_conflict)
   end
 
+  def reply
+    journal = Journal.find(params[:journal_id]) if params[:journal_id]
+    if journal
+      user = journal.user
+      text = journal.notes
+    else
+      user = @issue.author
+      text = @issue.description
+    end
+    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub("\n", "\n> ") + "\n\n"
+    render(:update) { |page|
+      page.replace_html "notes", content
+      page.show 'update'
+      page << "Form.Element.focus('notes');"
+      page << "Element.scrollTo('update');"
+      page << "$('notes').scrollTop = $('notes').scrollHeight - $('notes').clientHeight;"
+    }
+  end
+  
   # Bulk edit a set of issues
   def bulk_edit
     if request.post?
