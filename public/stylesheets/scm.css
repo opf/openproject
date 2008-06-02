@@ -2,7 +2,7 @@
 table.filecontent { border: 1px solid #ccc;  border-collapse: collapse; width:98%; }
 table.filecontent th { border: 1px solid #ccc; background-color: #eee; }
 table.filecontent th.filename {	background-color: #ddc;	text-align: left; }
-table.filecontent tr.spacing { border: 1px solid #d7d7d7; }
+table.filecontent tr.spacing td { border: 1px solid #d7d7d7; height: 0.4em; }
 table.filecontent th.line-num {
     border: 1px solid #d7d7d7;
 	font-size: 0.8em;
