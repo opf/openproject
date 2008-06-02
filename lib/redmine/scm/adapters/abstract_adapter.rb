@@ -279,7 +279,6 @@ module Redmine
             end
           else
             if line =~ /^[^\+\-\s@\\]/
-              self.delete(self.keys.sort.last)
               @parsing = false
               return false
             elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
