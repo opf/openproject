@@ -225,9 +225,9 @@ class Issue < ActiveRecord::Base
     dependencies
   end
   
-  # Returns an array of the duplicate issues
+  # Returns an array of issues that duplicate this one
   def duplicates
-    relations.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.other_issue(self)}
+    relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
   end
   
   # Returns the due date or the target due date if any

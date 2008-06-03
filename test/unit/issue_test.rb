@@ -42,7 +42,7 @@ class IssueTest < Test::Unit::TestCase
     assert_equal orig.custom_values.first.value, issue.custom_values.first.value
   end
   
-  def test_close_duplicates
+  def test_should_close_duplicates
     # Create 3 issues
     issue1 = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'Duplicates test', :description => 'Duplicates test')
     assert issue1.save
@@ -52,12 +52,12 @@ class IssueTest < Test::Unit::TestCase
     assert issue3.save
     
     # 2 is a dupe of 1
-    IssueRelation.create(:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    IssueRelation.create(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
     # And 3 is a dupe of 2
-    IssueRelation.create(:issue_from => issue2, :issue_to => issue3, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    IssueRelation.create(:issue_from => issue3, :issue_to => issue2, :relation_type => IssueRelation::TYPE_DUPLICATES)
     # And 3 is a dupe of 1 (circular duplicates)
-    IssueRelation.create(:issue_from => issue1, :issue_to => issue3, :relation_type => IssueRelation::TYPE_DUPLICATES)
-    
+    IssueRelation.create(:issue_from => issue3, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
+        
     assert issue1.reload.duplicates.include?(issue2)
     
     # Closing issue 1
@@ -67,6 +67,26 @@ class IssueTest < Test::Unit::TestCase
     # 2 and 3 should be also closed
     assert issue2.reload.closed?
     assert issue3.reload.closed?    
+  end
+  
+  def test_should_not_close_duplicated_issue
+    # Create 3 issues
+    issue1 = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'Duplicates test', :description => 'Duplicates test')
+    assert issue1.save
+    issue2 = issue1.clone
+    assert issue2.save
+    
+    # 2 is a dupe of 1
+    IssueRelation.create(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_DUPLICATES)
+    # 2 is a dup of 1 but 1 is not a duplicate of 2
+    assert !issue2.reload.duplicates.include?(issue1)
+    
+    # Closing issue 2
+    issue2.init_journal(User.find(:first), "Closing issue2")
+    issue2.status = IssueStatus.find :first, :conditions => {:is_closed => true}
+    assert issue2.save
+    # 1 should not be also closed
+    assert !issue1.reload.closed?
   end
   
   def test_move_to_another_project
