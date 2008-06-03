@@ -448,6 +448,7 @@ label_relation_new: New relation
 label_relation_delete: Delete relation
 label_relates_to: related to
 label_duplicates: duplicates
+label_duplicated_by: duplicated by
 label_blocks: blocks
 label_blocked_by: blocked by
 label_precedes: precedes

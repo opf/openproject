@@ -447,7 +447,8 @@ label_loading: Chargement...
 label_relation_new: Nouvelle relation
 label_relation_delete: Supprimer la relation
 label_relates_to: lié à
-label_duplicates: doublon de
+label_duplicates: duplique
+label_duplicated_by: dupliqué par
 label_blocks: bloque
 label_blocked_by: bloqué par
 label_precedes: précède
