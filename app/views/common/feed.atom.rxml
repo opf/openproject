@@ -1,6 +1,6 @@
 xml.instruct!
 xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
-  xml.title   @title
+  xml.title   truncate_single_line(@title, 100)
   xml.link    "rel" => "self", "href" => url_for(params.merge({:format => nil, :only_path => false}))
   xml.link    "rel" => "alternate", "href" => url_for(:controller => 'welcome', :only_path => false)
   xml.id      url_for(:controller => 'welcome', :only_path => false)
@@ -10,7 +10,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   @items.each do |item|
     xml.entry do
       url = url_for(item.event_url(:only_path => false))
-      xml.title truncate(item.event_title, 100)
+      xml.title truncate_single_line(item.event_title, 100)
       xml.link "rel" => "alternate", "href" => url
       xml.id url
       xml.updated item.event_datetime.xmlschema

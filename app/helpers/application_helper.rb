@@ -90,6 +90,11 @@ module ApplicationHelper
     include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
   end
   
+  # Truncates and returns the string as a single line
+  def truncate_single_line(string, *args)
+    truncate(string, *args).gsub(%r{[\r\n]+}m, ' ')
+  end
+  
   def html_hours(text)
     text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
   end
@@ -301,7 +306,7 @@ module ApplicationHelper
           if project && (changeset = project.changesets.find_by_revision(oid))
             link = link_to("r#{oid}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => oid},
                                       :class => 'changeset',
-                                      :title => truncate(changeset.comments, 100))
+                                      :title => truncate_single_line(changeset.comments, 100))
           end
         elsif sep == '#'
           oid = oid.to_i
@@ -340,7 +345,9 @@ module ApplicationHelper
             end
           when 'commit'
             if project && (changeset = project.changesets.find(:first, :conditions => ["scmid LIKE ?", "#{name}%"]))
-              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision}, :class => 'changeset', :title => truncate(changeset.comments, 100)
+              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
+                                           :class => 'changeset',
+                                           :title => truncate_single_line(changeset.comments, 100)
             end
           when 'source', 'export'
             if project && project.repository

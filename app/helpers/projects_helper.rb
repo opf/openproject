@@ -21,6 +21,10 @@ module ProjectsHelper
     link_to h(version.name), { :controller => 'versions', :action => 'show', :id => version }, options
   end
   
+  def format_activity_title(text)
+    h(truncate_single_line(text, 100))
+  end
+  
   def format_activity_day(date)
     date == Date.today ? l(:label_today).titleize : format_date(date)
   end
