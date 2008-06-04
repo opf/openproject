@@ -152,12 +152,7 @@ class ApplicationHelperTest < HelperTestCase
   end
   
   def test_wiki_links_in_tables
-    to_test = {"|Cell 11|Cell 12|Cell 13|\n|Cell 21|Cell 22||\n|Cell 31||Cell 33|" => 
-                 '<tr><td>Cell 11</td><td>Cell 12</td><td>Cell 13</td></tr>' +
-                 '<tr><td>Cell 21</td><td>Cell 22</td></tr>' +
-                 '<tr><td>Cell 31</td><td>Cell 33</td></tr>',
-                 
-               "|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
+    to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  '<tr><td><a href="/wiki/ecookbook/Page" class="wiki-page new">Link title</a></td>' +
                  '<td><a href="/wiki/ecookbook/Other_Page" class="wiki-page new">Other title</a></td>' +
                  '</tr><tr><td>Cell 21</td><td><a href="/wiki/ecookbook/Last_page" class="wiki-page new">Last page</a></td></tr>'
@@ -215,6 +210,28 @@ Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 <p>He's right.</p>
 EXPECTED
     
+    assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
+  end
+  
+  def test_table
+    raw = <<-RAW
+This is a table with empty cells:
+
+|cell11|cell12||
+|cell21||cell23|
+|cell31|cell32|cell33|
+RAW
+
+    expected = <<-EXPECTED
+<p>This is a table with empty cells:</p>
+
+<table>
+  <tr><td>cell11</td><td>cell12</td><td></td></tr>
+  <tr><td>cell21</td><td></td><td>cell23</td></tr>
+  <tr><td>cell31</td><td>cell32</td><td>cell33</td></tr>
+</table>
+EXPECTED
+
     assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
   end
   

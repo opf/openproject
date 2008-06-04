@@ -504,26 +504,19 @@ class RedCloth < String
             tatts = shelve( tatts ) if tatts
             rows = []
 
-            fullrow.
-            split( /\|$/m ).
-            delete_if { |x| x.empty? }.
-            each do |row|
-
+            fullrow.each_line do |row|
                 ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/m
-                
                 cells = []
-                #row.split( /\(?!\[\[[^\]])|(?![^\[]\]\])/ ).each do |cell|
-                row.split( /\|(?![^\[\|]*\]\])/ ).each do |cell|
+                row.split( /(\|)(?![^\[\|]*\]\])/ )[1..-2].each do |cell|
+                    next if cell == '|'
                     ctyp = 'd'
                     ctyp = 'h' if cell =~ /^_/
 
                     catts = ''
                     catts, cell = pba( $1, 'td' ), $2 if cell =~ /^(_?#{S}#{A}#{C}\. ?)(.*)/
 
-                    unless cell.strip.empty?
-                        catts = shelve( catts ) if catts
-                        cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>" 
-                    end
+                    catts = shelve( catts ) if catts
+                    cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>" 
                 end
                 ratts = shelve( ratts ) if ratts
                 rows << "\t\t<tr#{ ratts }>\n#{ cells.join( "\n" ) }\n\t\t</tr>"
