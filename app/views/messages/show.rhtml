@@ -17,6 +17,7 @@
 </div>
 <br />
 
+<% unless @replies.empty? %>
 <h3 class="icon22 icon22-comment"><%= l(:label_reply_plural) %></h3>
 <% @replies.each do |message| %>
   <a name="<%= "message-#{message.id}" %>"></a>
@@ -29,6 +30,7 @@
   <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
   <%= link_to_attachments message.attachments, :no_author => true %>
   </div>
+<% end %>
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
