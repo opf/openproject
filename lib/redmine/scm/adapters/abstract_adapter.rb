@@ -118,7 +118,7 @@ module Redmine
         def logger
           RAILS_DEFAULT_LOGGER
         end
-      
+        
         def shellout(cmd, &block)
           logger.debug "Shelling out: #{cmd}" if logger && logger.debug?
           begin
@@ -127,11 +127,22 @@ module Redmine
               block.call(io) if block_given?
             end
           rescue Errno::ENOENT => e
+            msg = strip_credential(e.message)
             # The command failed, log it and re-raise
-            logger.error("SCM command failed: #{cmd}\n  with: #{e.message}")
-            raise CommandFailed.new(e.message)
+            logger.error("SCM command failed: #{strip_credential(cmd)}\n  with: #{msg}")
+            raise CommandFailed.new(msg)
           end
         end  
+        
+        # Hides username/password in a given command
+        def self.hide_credential(cmd)
+          q = (RUBY_PLATFORM =~ /mswin/ ? '"' : "'")
+          cmd.to_s.gsub(/(\-\-(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
+        end
+        
+        def strip_credential(cmd)
+          self.class.hide_credential(cmd)
+        end
       end
       
       class Entries < Array
