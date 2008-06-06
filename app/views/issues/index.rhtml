@@ -45,7 +45,7 @@
 
 <p class="other-formats">
 <%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
+<span><%= link_to 'Atom', {:query_id => @query, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
 <span><%= link_to 'CSV', {:format => 'csv'}, :class => 'csv' %></span>
 <span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
 </p>
