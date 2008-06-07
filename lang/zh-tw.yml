@@ -91,6 +91,8 @@ mail_body_account_information_external: 您可以使用 "%s" 帳號登入 Redmin
 mail_body_account_information: 您的 Redmine 帳號資訊
 mail_subject_account_activation_request: Redmine 帳號啟用需求通知
 mail_body_account_activation_request: '有位新用戶 (%s) 已經完成註冊，正等候您的審核：'
+mail_subject_reminder: "您有 %d 個項目即將到期"
+mail_body_reminder: "%d 個指派給您的項目，將於 %d 天之內到期："
 
 gui_validation_error: 1 個錯誤
 gui_validation_error_plural: %d 個錯誤
@@ -446,6 +448,7 @@ label_relation_new: 建立新關聯
 label_relation_delete: 刪除關聯
 label_relates_to: 關聯至
 label_duplicates: 已重複
+label_duplicated_by: 與後面所列項目重複
 label_blocks: 阻擋
 label_blocked_by: 被阻擋
 label_precedes: 優先於
@@ -594,6 +597,7 @@ text_destroy_time_entries_question: 您即將刪除的項目已報工 %.02f 小�
 text_destroy_time_entries: 刪除已報工的時數
 text_assign_time_entries_to_project: 指定已報工的時數至專案中
 text_reassign_time_entries: '重新指定已報工的時數至此項目：'
+text_user_wrote: '%s 先前提到:'
 
 default_role_manager: 管理人員
 default_role_developper: 開發人員
@@ -620,7 +624,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '%s wrote:'
-label_duplicated_by: duplicated by

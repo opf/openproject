@@ -82,33 +82,33 @@ Calendar._TT = {};
 Calendar._TT["INFO"] = "关于日历";
 
 Calendar._TT["ABOUT"] =
-"DHTML Date/Time Selector\n" +
+"DHTML 日期/时间 选择器\n" +
 "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" + // don't translate this this ;-)
-"For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
-"Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
+"最新版本请访问： http://www.dynarch.com/projects/calendar/\n" +
+"遵循 GNU LGPL 发布。详情请查阅 http://gnu.org/licenses/lgpl.html " +
 "\n\n" +
-"Date selection:\n" +
-"- Use the \xab, \xbb buttons to select year\n" +
-"- Use the " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " buttons to select month\n" +
-"- Hold mouse button on any of the above buttons for faster selection.";
+"日期选择：\n" +
+"- 使用 \xab，\xbb 按钮选择年\n" +
+"- 使用 " + String.fromCharCode(0x2039) + "，" + String.fromCharCode(0x203a) + " 按钮选择月\n" +
+"- 在上述按钮上按住不放可以快速选择";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
-"Time selection:\n" +
-"- Click on any of the time parts to increase it\n" +
-"- or Shift-click to decrease it\n" +
-"- or click and drag for faster selection.";
+"时间选择：\n" +
+"- 点击时间的任意部分来增加\n" +
+"- Shift加点击来减少\n" +
+"- 点击后拖动进行快速选择";
 
-Calendar._TT["PREV_YEAR"] = "上年 (hold for menu)";
-Calendar._TT["PREV_MONTH"] = "上月 (hold for menu)";
+Calendar._TT["PREV_YEAR"] = "上年（按住不放显示菜单）";
+Calendar._TT["PREV_MONTH"] = "上月（按住不放显示菜单）";
 Calendar._TT["GO_TODAY"] = "回到今天";
-Calendar._TT["NEXT_MONTH"] = "下月 (hold for menu)";
-Calendar._TT["NEXT_YEAR"] = "下年 (hold for menu)";
+Calendar._TT["NEXT_MONTH"] = "下月（按住不放显示菜单）";
+Calendar._TT["NEXT_YEAR"] = "下年（按住不放显示菜单）";
 Calendar._TT["SEL_DATE"] = "选择日期";
 Calendar._TT["DRAG_TO_MOVE"] = "拖动";
 Calendar._TT["PART_TODAY"] = " (今日)";
 
 // the following is to inform that "%s" is to be the first day of week
 // %s will be replaced with the day name.
-Calendar._TT["DAY_FIRST"] = "Display %s first";
+Calendar._TT["DAY_FIRST"] = "一周开始于 %s";
 
 // This may be locale-dependent.  It specifies the week-end days, as an array
 // of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
@@ -117,11 +117,11 @@ Calendar._TT["WEEKEND"] = "0,6";
 
 Calendar._TT["CLOSE"] = "关闭";
 Calendar._TT["TODAY"] = "今天";
-Calendar._TT["TIME_PART"] = "(Shift-)Click or drag to change value";
+Calendar._TT["TIME_PART"] = "Shift加点击或者拖动来变更";
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-Calendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
+Calendar._TT["TT_DATE_FORMAT"] = "星期%a %b%e日";
 
-Calendar._TT["WK"] = "wk";
-Calendar._TT["TIME"] = "Time:";
+Calendar._TT["WK"] = "周";
+Calendar._TT["TIME"] = "时间：";

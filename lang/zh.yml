@@ -91,6 +91,8 @@ mail_body_account_information_external: 您可以使用您的 "%s" 帐号来登�
 mail_body_account_information: 您的帐号信息
 mail_subject_account_activation_request: %s帐号激活请求
 mail_body_account_activation_request: '新用户（%s）已完成注册，正在等候您的审核：'
+mail_subject_reminder: "%d 个问题需要尽快解决"
+mail_body_reminder: "指派给您的 %d 个问题需要在 %d 天内完成："
 
 gui_validation_error: 1 个错误
 gui_validation_error_plural: %d 个错误
@@ -594,6 +596,7 @@ text_destroy_time_entries_question: 您要删除的问题已经上报了 %.02f �
 text_destroy_time_entries: 删除上报的工作量
 text_assign_time_entries_to_project: 将已上报的工作量提交到项目中
 text_reassign_time_entries: '将已上报的工作量指定到此问题：'
+text_user_wrote: '%s 写到：'
 
 default_role_manager: 管理人员
 default_role_developper: 开发人员
@@ -620,7 +623,4 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-mail_subject_reminder: "%d issue(s) due in the next days"
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-text_user_wrote: '%s wrote:'
 label_duplicated_by: duplicated by

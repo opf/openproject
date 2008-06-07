@@ -84,13 +84,13 @@ Calendar._TT["INFO"] = "關於 calendar";
 Calendar._TT["ABOUT"] =
 "DHTML 日期/時間 選擇器\n" +
 "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" + // don't translate this this ;-)
-"最For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
-"Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
+"最新版本取得位址: http://www.dynarch.com/projects/calendar/\n" +
+"使用 GNU LGPL 發行.  參考 http://gnu.org/licenses/lgpl.html 以取得更多關於 LGPL 之細節。" +
 "\n\n" +
-"Date selection:\n" +
-"- Use the \xab, \xbb buttons to select year\n" +
-"- Use the " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " buttons to select month\n" +
-"- Hold mouse button on any of the above buttons for faster selection.";
+"日期選擇方式:\n" +
+"- 使用滑鼠點擊 \xab 、 \xbb 按鈕選擇年份\n" +
+"- 使用滑鼠點擊 " + String.fromCharCode(0x2039) + " 、 " + String.fromCharCode(0x203a) + " 按鈕選擇月份\n" +
+"- 使用滑鼠點擊上述按鈕並按住不放，可開啟快速選單。";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "時間選擇方式：\n" +
 "- 「單擊」時分秒為遞增\n" +
