@@ -21,9 +21,12 @@ module Redmine
   module Scm
     module Adapters    
       class MercurialAdapter < AbstractAdapter
-      
+        
         # Mercurial executable name
         HG_BIN = "hg"
+        TEMPLATES_DIR = File.dirname(__FILE__) + "/mercurial"
+        TEMPLATE_NAME = "hg-template"
+        TEMPLATE_EXTENSION = "tmpl"
         
         def info
           cmd = "#{HG_BIN} -R #{target('')} root"
@@ -33,8 +36,8 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           info = Info.new({:root_url => root_url.chomp,
-                           :lastrev => revisions(nil,nil,nil,{:limit => 1}).last
-                         })
+                            :lastrev => revisions(nil,nil,nil,{:limit => 1}).last
+                          })
           info
         rescue CommandFailed
           return nil
@@ -43,62 +46,72 @@ module Redmine
         def entries(path=nil, identifier=nil)
           path ||= ''
           entries = Entries.new
-          cmd = "#{HG_BIN} -R #{target('')} --cwd #{target(path)} locate"
-          cmd << " -r #{identifier.to_i}" if identifier
-          cmd << " " + shell_quote('glob:**')
+          cmd = "#{HG_BIN} -R #{target('')} --cwd #{target('')} locate"
+          cmd << " -r " + (identifier ? identifier.to_s : "tip")
+          cmd << " " + shell_quote("path:#{path}") unless path.empty?
           shellout(cmd) do |io|
             io.each_line do |line|
-              e = line.chomp.split(%r{[\/\\]})
-              entries << Entry.new({:name => e.first,
-                                    :path => (path.empty? ? e.first : "#{path}/#{e.first}"),
-                                    :kind => (e.size > 1 ? 'dir' : 'file'),
-                                    :lastrev => Revision.new
-                                    }) unless entries.detect{|entry| entry.name == e.first}
+              # HG uses antislashs as separator on Windows
+              line = line.gsub(/\\/, "/")
+              if path.empty? or e = line.gsub!(%r{^#{with_trailling_slash(path)}},'')
+                e ||= line
+                e = e.chomp.split(%r{[\/\\]})
+                entries << Entry.new({:name => e.first,
+                                       :path => (path.nil? or path.empty? ? e.first : "#{with_trailling_slash(path)}#{e.first}"),
+                                       :kind => (e.size > 1 ? 'dir' : 'file'),
+                                       :lastrev => Revision.new
+                                     }) unless entries.detect{|entry| entry.name == e.first}
+              end
             end
           end
           return nil if $? && $?.exitstatus != 0
           entries.sort_by_name
         end
-          
-        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
+        
+        # Fetch the revisions by using a template file that 
+        # makes Mercurial produce a xml output.
+        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})  
           revisions = Revisions.new
-          cmd = "#{HG_BIN} -v --encoding utf8 -R #{target('')} log"
+          cmd = "#{HG_BIN} --debug --encoding utf8 -R #{target('')} log -C --style #{self.template_path}"
           if identifier_from && identifier_to
             cmd << " -r #{identifier_from.to_i}:#{identifier_to.to_i}"
           elsif identifier_from
             cmd << " -r #{identifier_from.to_i}:"
           end
           cmd << " --limit #{options[:limit].to_i}" if options[:limit]
+          cmd << " #{path}" if path
           shellout(cmd) do |io|
-            changeset = {}
-            parsing_descr = false
-            line_feeds = 0
-            
-            io.each_line do |line|
-              if line =~ /^(\w+):\s*(.*)$/
-                key = $1
-                value = $2
-                if parsing_descr && line_feeds > 1
-                  parsing_descr = false
-                  revisions << build_revision_from_changeset(changeset)
-                  changeset = {}
-                end
-                if !parsing_descr
-                  changeset.store key.to_sym, value
-                  if $1 == "description"
-                    parsing_descr = true
-                    line_feeds = 0
-                    next
+            begin
+              # HG doesn't close the XML Document...
+              doc = REXML::Document.new(io.read << "</log>")
+              doc.elements.each("log/logentry") do |logentry|
+                paths = []
+                copies = logentry.get_elements('paths/path-copied')
+                logentry.elements.each("paths/path") do |path|
+                  # Detect if the added file is a copy
+                  if path.attributes['action'] == 'A' and c = copies.find{ |e| e.text == path.text }
+                    from_path = c.attributes['copyfrom-path']
+                    from_rev = logentry.attributes['revision']
                   end
+                  paths << {:action => path.attributes['action'],
+                    :path => "/#{path.text}",
+                    :from_path => from_path ? "/#{from_path}" : nil,
+                    :from_revision => from_rev ? from_rev : nil
+                  }
                 end
+                paths.sort! { |x,y| x[:path] <=> y[:path] }
+                
+                revisions << Revision.new({:identifier => logentry.attributes['revision'],
+                                            :scmid => logentry.attributes['node'],
+                                            :author => (logentry.elements['author'] ? logentry.elements['author'].text : ""),
+                                            :time => Time.parse(logentry.elements['date'].text).localtime,
+                                            :message => logentry.elements['msg'].text,
+                                            :paths => paths
+                                          })
               end
-              if parsing_descr
-                changeset[:description] << line
-                line_feeds += 1 if line.chomp.empty?
-              end
+            rescue
+              logger.debug($!)
             end
-            # Add the last changeset if there is one left
-            revisions << build_revision_from_changeset(changeset) if changeset[:date]
           end
           return nil if $? && $?.exitstatus != 0
           revisions
@@ -125,7 +138,7 @@ module Redmine
         
         def cat(path, identifier=nil)
           cmd = "#{HG_BIN} -R #{target('')} cat"
-          cmd << " -r #{identifier.to_i}" if identifier
+          cmd << " -r " + (identifier ? identifier.to_s : "tip")
           cmd << " #{target(path)}"
           cat = nil
           shellout(cmd) do |io|
@@ -140,6 +153,7 @@ module Redmine
           path ||= ''
           cmd = "#{HG_BIN} -R #{target('')}"
           cmd << " annotate -n -u"
+          cmd << " -r " + (identifier ? identifier.to_s : "tip")
           cmd << " -r #{identifier.to_i}" if identifier
           cmd << " #{target(path)}"
           blame = Annotate.new
@@ -153,45 +167,35 @@ module Redmine
           blame
         end
         
-        private
-        
-        # Builds a revision objet from the changeset returned by hg command
-        def build_revision_from_changeset(changeset)
-          rev_id = changeset[:changeset].to_s.split(':').first.to_i
-          
-          # Changes
-          paths = (rev_id == 0) ?
-            # Can't get changes for revision 0 with hg status
-            changeset[:files].to_s.split.collect{|path| {:action => 'A', :path => "/#{path}"}} :
-            status(rev_id)
-          
-          Revision.new({:identifier => rev_id,
-                        :scmid => changeset[:changeset].to_s.split(':').last,
-                        :author => changeset[:user],
-                        :time => Time.parse(changeset[:date]),
-                        :message => changeset[:description],
-                        :paths => paths
-                       })
+        # The hg version version is expressed either as a
+        # release number (eg 0.9.5 or 1.0) or as a revision
+        # id composed of 12 hexa characters.
+        def hgversion  
+          theversion = hgversion_from_command_line
+          if theversion.match(/^\d+(\.\d+)+/)
+            theversion.split(".").collect(&:to_i)
+            #            elsif match = theversion.match(/[[:xdigit:]]{12}/)
+            #               match[0]
+          else
+            "Unknown version"
+          end
         end
         
-        # Returns the file changes for a given revision
-        def status(rev_id)
-          cmd = "#{HG_BIN} -R #{target('')} status --rev #{rev_id.to_i - 1}:#{rev_id.to_i}"
-          result = []
-          shellout(cmd) do |io|
-            io.each_line do |line|
-              action, file = line.chomp.split
-              next unless action && file
-              file.gsub!("\\", "/")
-              case action
-              when 'R'
-                result << { :action => 'D' , :path => "/#{file}" }
-              else
-                result << { :action => action, :path => "/#{file}" }
-              end
-            end
-          end
-          result
+        def template_path
+          @template ||= begin
+                          if hgversion.is_a?(String) or ((hgversion <=> [0,9,5]) > 0)
+                            ver = "1.0"
+                          else
+                            ver = "0.9.5"
+                          end
+                          "#{TEMPLATES_DIR}/#{TEMPLATE_NAME}-#{ver}.#{TEMPLATE_EXTENSION}"
+                        end
+        end
+        
+        private
+        
+        def hgversion_from_command_line
+          @hgversion ||= %x{#{HG_BIN} --version}.match(/\(version (.*)\)/)[1]
         end
       end
     end

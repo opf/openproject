@@ -94,6 +94,11 @@ module Redmine
           path ||= ''
           (path[0,1]!="/") ? "/#{path}" : path
         end
+
+        def with_trailling_slash(path)
+          path ||= ''
+          (path[-1,1] == "/") ? path : "#{path}/"
+        end
         
         def shell_quote(str)
           if RUBY_PLATFORM =~ /mswin/
@@ -102,7 +107,7 @@ module Redmine
             "'" + str.gsub(/'/, "'\"'\"'") + "'"
           end
         end
-              
+
       private
         def retrieve_root_url
           info = self.info

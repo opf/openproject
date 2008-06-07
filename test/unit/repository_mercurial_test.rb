@@ -48,6 +48,26 @@ class RepositoryMercurialTest < Test::Unit::TestCase
       @repository.fetch_changesets
       assert_equal 6, @repository.changesets.count
     end
+    
+    def test_entries
+      assert_equal 2, @repository.entries("sources", 2).size
+      assert_equal 1, @repository.entries("sources", 3).size
+    end
+
+    def test_locate_on_outdated_repository
+      # Change the working dir state
+      %x{hg -R #{REPOSITORY_PATH} up -r 0}
+      assert_equal 1, @repository.entries("images", 0).size
+      assert_equal 2, @repository.entries("images").size
+      assert_equal 2, @repository.entries("images", 2).size
+    end
+
+
+    def test_cat
+      assert @repository.scm.cat("sources/welcome_controller.rb", 2)
+      assert_nil @repository.scm.cat("sources/welcome_controller.rb")
+    end
+
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
