@@ -30,7 +30,7 @@ class Journal < ActiveRecord::Base
                      :project_key => "#{Issue.table_name}.project_id",
                      :date_column => "#{Issue.table_name}.created_on"
   
-  acts_as_event :title => Proc.new {|o| "#{o.issue.tracker.name} ##{o.issue.id}: #{o.issue.subject}" + ((s = o.new_status) ? " (#{s})" : '') },
+  acts_as_event :title => Proc.new {|o| status = ((s = o.new_status) ? " (#{s})" : nil); "#{o.issue.tracker} ##{o.issue.id}#{status}: #{o.issue.subject}" },
                 :description => :notes,
                 :author => :user,
                 :type => Proc.new {|o| (s = o.new_status) && s.is_closed? ? 'issue-closed' : 'issue-edit' },
