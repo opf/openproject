@@ -195,6 +195,10 @@ namespace :redmine do
         set_table_name :permission  
       end
       
+      class TracSessionAttribute < ActiveRecord::Base
+        set_table_name :session_attribute
+      end
+       
       def self.find_or_create_user(username, project_member = false)
         return User.anonymous if username.blank?
         
@@ -202,10 +206,23 @@ namespace :redmine do
         if !u
           # Create a new user if not found
           mail = username[0,limit_for(User, 'mail')]
+          if mail_attr = TracSessionAttribute.find_by_sid_and_name(username, 'email')
+            mail = mail_attr.value
+          end
           mail = "#{mail}@foo.bar" unless mail.include?("@")
-          u = User.new :firstname => username[0,limit_for(User, 'firstname')].gsub(/[^\w\s\'\-]/i, '-'),
-                       :lastname => '-',
-                       :mail => mail.gsub(/[^-@a-z0-9\.]/i, '-')
+          
+          name = username
+          if name_attr = TracSessionAttribute.find_by_sid_and_name(username, 'name')
+            name = name_attr.value
+          end
+          name =~ (/(.*)(\s+\w+)?/)
+          fn = $1.strip
+          ln = ($2 || '-').strip
+          
+          u = User.new :mail => mail.gsub(/[^-@a-z0-9\.]/i, '-'),
+                       :firstname => fn[0, limit_for(User, 'firstname')].gsub(/[^\w\s\'\-]/i, '-'),
+                       :lastname => ln[0, limit_for(User, 'lastname')].gsub(/[^\w\s\'\-]/i, '-')
+
           u.login = username[0,limit_for(User, 'login')].gsub(/[^a-z0-9_\-@\.]/i, '-')
           u.password = 'trac'
           u.admin = true if TracPermission.find_by_username_and_action(username, 'admin')
