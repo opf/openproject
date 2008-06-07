@@ -64,6 +64,9 @@ module Redmine
             begin
               doc = REXML::Document.new(output)
               doc.elements.each("lists/list/entry") do |entry|
+                # Skip directory if there is no commit date (usually that
+                # means that we don't have read access to it)
+                next if entry.attributes['kind'] == 'dir' && entry.elements['commit'].elements['date'].nil?
                 entries << Entry.new({:name => entry.elements['name'].text,
                             :path => ((path.empty? ? "" : "#{path}/") + entry.elements['name'].text),
                             :kind => entry.attributes['kind'],
