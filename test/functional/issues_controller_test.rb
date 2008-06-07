@@ -38,7 +38,9 @@ class IssuesControllerTest < Test::Unit::TestCase
            :custom_fields,
            :custom_values,
            :custom_fields_trackers,
-           :time_entries
+           :time_entries,
+           :journals,
+           :journal_details
   
   def setup
     @controller = IssuesController.new
@@ -269,7 +271,6 @@ class IssuesControllerTest < Test::Unit::TestCase
     get :reply, :id => 1
     assert_response :success
     assert_select_rjs :show, "update"
-    assert_select_rjs :replace_html, "notes"
   end
 
   def test_reply_to_note
@@ -277,7 +278,6 @@ class IssuesControllerTest < Test::Unit::TestCase
     get :reply, :id => 1, :journal_id => 2
     assert_response :success
     assert_select_rjs :show, "update"
-    assert_select_rjs :replace_html, "notes"
   end
 
   def test_post_edit
