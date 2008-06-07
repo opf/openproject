@@ -23,7 +23,6 @@ class Enumeration < ActiveRecord::Base
   validates_presence_of :opt, :name
   validates_uniqueness_of :name, :scope => [:opt]
   validates_length_of :name, :maximum => 30
-  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
   OPTIONS = {
     "IPRI" => :enumeration_issue_priorities,

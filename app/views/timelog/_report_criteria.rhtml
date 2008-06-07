@@ -3,7 +3,7 @@
 <% next if hours_for_value.empty? -%>
 <tr class="<%= cycle('odd', 'even') %> <%= 'last-level' unless criterias.length > level+1 %>">
 <%= '<td></td>' * level %>
-<td><%= format_criteria_value(criterias[level], value) %></td>
+<td><%= h(format_criteria_value(criterias[level], value)) %></td>
 <%= '<td></td>' * (criterias.length - level - 1) -%>
   <% total = 0 -%>
   <% @periods.each do |period| -%>
