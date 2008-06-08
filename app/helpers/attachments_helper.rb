@@ -22,4 +22,8 @@ module AttachmentsHelper
       render :partial => 'attachments/links', :locals => {:attachments => attachments, :options => options}
     end
   end
+  
+  def to_utf8(str)
+    str
+  end
 end

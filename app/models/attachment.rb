@@ -88,6 +88,10 @@ class Attachment < ActiveRecord::Base
     self.filename =~ /\.(jpe?g|gif|png)$/i
   end
   
+  def is_diff?
+    self.filename =~ /\.(patch|diff)$/i
+  end
+  
 private
   def sanitize_filename(value)
     # get only the filename, not the whole path

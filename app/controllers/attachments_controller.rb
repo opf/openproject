@@ -19,19 +19,26 @@ class AttachmentsController < ApplicationController
   layout 'base'
   before_filter :find_project, :check_project_privacy
 
+  def show
+    if @attachment.is_diff?
+      @diff = File.new(@attachment.diskfile, "rb").read
+      render :action => 'diff'
+    else
+      download
+    end
+  end
+  
   def download
     # images are sent inline
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                     :type => @attachment.content_type, 
                                     :disposition => (@attachment.image? ? 'inline' : 'attachment')
-  rescue
-    # in case the disk file was deleted
-    render_404
   end
  
 private
   def find_project
     @attachment = Attachment.find(params[:id])
+    render_404 and return false unless File.readable?(@attachment.diskfile)
     @project = @attachment.project
   rescue
     render_404
