@@ -55,8 +55,8 @@ class Repository < ActiveRecord::Base
     scm.entries(path, identifier)
   end
   
-  def diff(path, rev, rev_to, type)
-    scm.diff(path, rev, rev_to, type)
+  def diff(path, rev, rev_to)
+    scm.diff(path, rev, rev_to)
   end
   
   # Default behaviour: we search in cached changesets

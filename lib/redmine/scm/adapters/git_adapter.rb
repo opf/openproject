@@ -204,7 +204,7 @@ module Redmine
           revisions
         end
         
-        def diff(path, identifier_from, identifier_to=nil, type="inline")
+        def diff(path, identifier_from, identifier_to=nil)
           path ||= ''
           if !identifier_to
             identifier_to = nil
@@ -220,7 +220,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
-          DiffTableList.new diff, type
+          diff
         end
         
         def annotate(path, identifier=nil)

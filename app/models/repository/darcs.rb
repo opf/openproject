@@ -46,14 +46,14 @@ class Repository::Darcs < Repository
     entries
   end
   
-  def diff(path, rev, rev_to, type)
+  def diff(path, rev, rev_to)
     patch_from = changesets.find_by_revision(rev)
     return nil if patch_from.nil?
     patch_to = changesets.find_by_revision(rev_to) if rev_to
     if path.blank?
       path = patch_from.changes.collect{|change| change.path}.join(' ')
     end
-    patch_from ? scm.diff(path, patch_from.scmid, patch_to ? patch_to.scmid : nil, type) : nil
+    patch_from ? scm.diff(path, patch_from.scmid, patch_to ? patch_to.scmid : nil) : nil
   end
   
   def fetch_changesets

@@ -227,7 +227,7 @@ module Redmine
           end
         end  
         
-        def diff(path, identifier_from, identifier_to=nil, type="inline")
+        def diff(path, identifier_from, identifier_to=nil)
           logger.debug "<cvs> diff path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           path_with_project="#{url}#{with_leading_slash(path)}"
           cmd = "#{CVS_BIN} -d #{root_url} rdiff -u -r#{identifier_to} -r#{identifier_from} #{path_with_project}"
@@ -238,7 +238,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
-          DiffTableList.new diff, type
+          diff
         end  
         
         def cat(path, identifier=nil)

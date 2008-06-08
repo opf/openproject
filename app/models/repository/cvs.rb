@@ -53,7 +53,7 @@ class Repository::Cvs < Repository
     entries
   end
   
-  def diff(path, rev, rev_to, type)
+  def diff(path, rev, rev_to)
     #convert rev to revision. CVS can't handle changesets here
     diff=[]
     changeset_from=changesets.find_by_revision(rev)
@@ -76,7 +76,7 @@ class Repository::Cvs < Repository
         unless revision_to
           revision_to=scm.get_previous_revision(revision_from)
         end
-        diff=diff+scm.diff(change_from.path, revision_from, revision_to, type)
+        diff=diff+scm.diff(change_from.path, revision_from, revision_to)
       end
     end
     return diff

@@ -12,7 +12,7 @@
 <% end %>
 
 <% cache(@cache_key) do -%>
-<% @diff.each do |table_file| -%>
+<% Redmine::UnifiedDiff.new(@diff, @diff_type).each do |table_file| -%>
 <div class="autoscroll">
 <% if @diff_type == 'sbs' -%>
 <table class="filecontent CodeRay">

@@ -153,7 +153,7 @@ class RepositoriesController < ApplicationController
     
     @cache_key = "repositories/diff/#{@repository.id}/" + Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")    
     unless read_fragment(@cache_key)
-      @diff = @repository.diff(@path, @rev, @rev_to, @diff_type)
+      @diff = @repository.diff(@path, @rev, @rev_to)
       show_error_not_found unless @diff
     end
   rescue Redmine::Scm::Adapters::CommandFailed => e

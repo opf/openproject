@@ -142,7 +142,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
-          DiffTableList.new diff, type    
+          diff
         end
         
         def cat(path, identifier=nil)
