@@ -24,6 +24,10 @@ Git
 ---
 gunzip < test/fixtures/repositories/git_repository.tar.gz | tar -xv -C tmp/test
 
+FileSystem
+----------
+gunzip < test/fixtures/repositories/filesystem_repository.tar.gz | tar -xv -C tmp/test
+
 
 Running Tests
 =============

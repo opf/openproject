@@ -98,4 +98,8 @@ module RepositoriesHelper
   def bazaar_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.new_record?)))
   end
+  
+  def filesystem_field_tags(form, repository)
+    content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
+  end
 end

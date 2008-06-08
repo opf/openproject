@@ -100,6 +100,16 @@ module Redmine
           (path[-1,1] == "/") ? path : "#{path}/"
         end
         
+        def without_leading_slash(path)
+          path ||= ''
+          path.gsub(%r{^/+}, '')
+        end
+
+        def without_trailling_slash(path)
+          path ||= ''
+          (path[-1,1] == "/") ? path[0..-2] : path
+         end
+        
         def shell_quote(str)
           if RUBY_PLATFORM =~ /mswin/
             '"' + str.gsub(/"/, '\\"') + '"'

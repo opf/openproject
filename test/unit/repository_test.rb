@@ -51,6 +51,8 @@ class RepositoryTest < Test::Unit::TestCase
     repository = Repository::Subversion.new(:project => Project.find(3), :url => "svn://localhost")
     assert !repository.save
     assert_equal :activerecord_error_invalid, repository.errors.on(:type)
+    # re-enable Subversion for following tests
+    Setting.delete_all
   end
   
   def test_scan_changesets_for_issue_ids
