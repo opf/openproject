@@ -13,6 +13,7 @@
 <%= "(#{number_to_human_size(@entry.size)})" if @entry.size %>
 </p>
 
-<%= render :partial => 'revisions', :locals => {:project => @project, :path => @path, :revisions => @changesets, :entry => @entry }%>
+<%= render(:partial => 'revisions', 
+           :locals => {:project => @project, :path => @path, :revisions => @changesets, :entry => @entry }) unless @changesets.empty? %>
 
 <% html_title(l(:label_change_plural)) -%>
