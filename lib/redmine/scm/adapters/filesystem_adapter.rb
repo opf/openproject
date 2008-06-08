@@ -60,8 +60,7 @@ module Redmine
                           # below : list unreadable files, but dont link them.
                           :path => File.readable?(target) ? relative_path : "",
                           :kind => (File.directory?(target) ? 'dir' : 'file'),
-                          :size => if (File.directory?(target))
-                                     nil else File.size(target) end,
+                          :size => (File.directory?(target) ? nil : [File.size(target)].pack('l').unpack('L').first),
                           :lastrev => 
                           Revision.new({:time => (File.mtime(target)).localtime,
                                        })
