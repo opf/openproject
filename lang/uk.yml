@@ -625,3 +625,4 @@ mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d
 mail_subject_reminder: "%d issue(s) due in the next days"
 text_user_wrote: '%s wrote:'
 label_duplicated_by: duplicated by
+setting_enabled_scm: Enabled SCM

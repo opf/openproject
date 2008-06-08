@@ -17,5 +17,5 @@
             :class => 'icon icon-del') if @repository && !@repository.new_record? %>
 </div>
 
-<%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save)) %>
+<%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save), :disabled => @repository.nil?) %>
 <% end %>

@@ -627,3 +627,4 @@ mail_body_reminder: "%d назначенных на вас задач на сл�
 mail_subject_reminder: "%d назначенных на вас задач в ближайшие дни" 
 text_user_wrote: '%s написал:'
 label_duplicated_by: duplicated by
+setting_enabled_scm: Enabled SCM

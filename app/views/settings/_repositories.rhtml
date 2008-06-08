@@ -7,6 +7,13 @@
 <p><label><%= l(:setting_sys_api_enabled) %></label>
 <%= check_box_tag 'settings[sys_api_enabled]', 1, Setting.sys_api_enabled? %><%= hidden_field_tag 'settings[sys_api_enabled]', 0 %></p>
 
+<p><label><%= l(:setting_enabled_scm) %></label>
+<% REDMINE_SUPPORTED_SCM.each do |scm| -%>
+<%= check_box_tag 'settings[enabled_scm][]', scm, Setting.enabled_scm.include?(scm) %> <%= scm %>
+<% end -%>
+<%= hidden_field_tag 'settings[enabled_scm][]', '' %>
+</p>
+
 <p><label><%= l(:setting_repositories_encodings) %></label>
 <%= text_field_tag 'settings[repositories_encodings]', Setting.repositories_encodings, :size => 60 %><br /><em><%= l(:text_comma_separated) %></em></p>
 </div>

@@ -213,6 +213,7 @@ setting_per_page_options: Objects per page options
 setting_user_format: Users display format
 setting_activity_days_default: Days displayed on project activity
 setting_display_subprojects_issues: Display subprojects issues on main projects by default
+setting_enabled_scm: Enabled SCM
 
 project_module_issue_tracking: Issue tracking
 project_module_time_tracking: Time tracking

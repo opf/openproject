@@ -59,6 +59,15 @@ protocol:
 feeds_limit:
   format: int
   default: 15
+enabled_scm:
+  serialized: true
+  default: 
+  - Subversion
+  - Darcs
+  - Mercurial
+  - Cvs
+  - Bazaar
+  - Git
 autofetch_changesets:
   default: 1
 sys_api_enabled:

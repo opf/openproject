@@ -624,3 +624,4 @@ default_activity_development: Utvikling
 enumeration_issue_priorities: Sakssprioriteringer
 enumeration_doc_categories: Dokument-kategorier
 enumeration_activities: Aktiviteter (tidssporing)
+setting_enabled_scm: Enabled SCM

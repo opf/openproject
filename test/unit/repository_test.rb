@@ -45,6 +45,14 @@ class RepositoryTest < Test::Unit::TestCase
     assert_equal repository, project.repository
   end
   
+  def test_should_not_create_with_disabled_scm
+    # disable Subversion
+    Setting.enabled_scm = ['Darcs', 'Git']
+    repository = Repository::Subversion.new(:project => Project.find(3), :url => "svn://localhost")
+    assert !repository.save
+    assert_equal :activerecord_error_invalid, repository.errors.on(:type)
+  end
+  
   def test_scan_changesets_for_issue_ids
     # choosing a status to apply to fix issues
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id

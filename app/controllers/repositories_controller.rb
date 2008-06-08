@@ -34,9 +34,9 @@ class RepositoriesController < ApplicationController
     @repository = @project.repository
     if !@repository
       @repository = Repository.factory(params[:repository_scm])
-      @repository.project = @project
+      @repository.project = @project if @repository
     end
-    if request.post?
+    if request.post? && @repository
       @repository.attributes = params[:repository]
       @repository.save
     end

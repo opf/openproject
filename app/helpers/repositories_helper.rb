@@ -48,10 +48,13 @@ module RepositoriesHelper
   end
   
   def scm_select_tag(repository)
-    container = [[]]
-    REDMINE_SUPPORTED_SCM.each {|scm| container << ["Repository::#{scm}".constantize.scm_name, scm]}
+    scm_options = [["--- #{l(:actionview_instancetag_blank_option)} ---", '']]
+    REDMINE_SUPPORTED_SCM.each do |scm|
+      scm_options << ["Repository::#{scm}".constantize.scm_name, scm] if Setting.enabled_scm.include?(scm) || (repository && repository.class.name.demodulize == scm)
+    end
+    
     select_tag('repository_scm', 
-               options_for_select(container, repository.class.name.demodulize),
+               options_for_select(scm_options, repository.class.name.demodulize),
                :disabled => (repository && !repository.new_record?),
                :onchange => remote_function(:url => { :controller => 'repositories', :action => 'edit', :id => @project }, :method => :get, :with => "Form.serialize(this.form)")
                )

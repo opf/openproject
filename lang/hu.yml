@@ -624,3 +624,4 @@ mail_body_reminder: "%d neked kiosztott feladat határidős az elkövetkező %d 
 mail_subject_reminder: "%d feladat határidős az elkövetkező napokban"
 text_user_wrote: '%s írta:'
 label_duplicated_by: duplikálta
+setting_enabled_scm: Enabled SCM
