@@ -229,7 +229,7 @@ height: 1%;
 clear:left;
 }
 
-html>body .tabular p {overflow:auto;}
+html>body .tabular p {overflow:hidden;}
 
 .tabular label{
 font-weight: bold;
