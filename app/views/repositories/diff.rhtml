@@ -84,6 +84,11 @@
 <% end -%>
 <% end -%>
 
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'Unified diff', params.merge(:format => 'diff') %></span>
+</p>
+
 <% html_title(with_leading_slash(@path), 'Diff') -%>
 
 <% content_for :header_tags do %>
