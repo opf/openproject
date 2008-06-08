@@ -153,6 +153,14 @@ class ApplicationHelperTest < HelperTestCase
     to_test.each { |text, result| assert_equal result, textilizable(text) }
   end
   
+  def test_allowed_html_tags
+    to_test = {
+      "<pre>preformatted text</pre>" => "<pre>preformatted text</pre>",
+      "<notextile>no *textile* formatting</notextile>" => "no *textile* formatting",
+    }
+    to_test.each { |text, result| assert_equal result, textilizable(text) }
+  end
+  
   def test_wiki_links_in_tables
     to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  '<tr><td><a href="/wiki/ecookbook/Page" class="wiki-page new">Link title</a></td>' +
