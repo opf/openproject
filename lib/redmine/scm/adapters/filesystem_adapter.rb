@@ -72,7 +72,7 @@ module Redmine
         end
         
         def cat(path, identifier=nil)
-          File.new(target(path)).read
+          File.new(target(path), "rb").read
         end
 
         private
