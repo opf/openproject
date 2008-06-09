@@ -1,14 +1,16 @@
 
 table.filecontent { border: 1px solid #ccc;  border-collapse: collapse; width:98%; }
 table.filecontent th { border: 1px solid #ccc; background-color: #eee; }
-table.filecontent th.filename {	background-color: #ddc;	text-align: left; }
-table.filecontent tr.spacing td { border: 1px solid #d7d7d7; height: 0.4em; }
+table.filecontent th.filename {	background-color: #e4e4d4; text-align: left; padding: 0.2em;}
+table.filecontent tr.spacing th { text-align:center; }
+table.filecontent tr.spacing td { height: 0.4em; background: #EAF2F5;}
 table.filecontent th.line-num {
     border: 1px solid #d7d7d7;
 	font-size: 0.8em;
 	text-align: right;
 	width: 2%;
 	padding-right: 3px;
+	color: #999;
 }
 table.filecontent td.line-code pre {
     white-space: pre-wrap; /* CSS2.1 compliant */

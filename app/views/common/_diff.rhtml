@@ -9,7 +9,8 @@
 <% prev_line_left, prev_line_right = nil, nil -%>
 <% table_file.keys.sort.each do |key| -%>
 <% if prev_line_left && prev_line_right && (table_file[key].nb_line_left != prev_line_left+1) && (table_file[key].nb_line_right != prev_line_right+1) -%>
-<tr class="spacing"><td colspan="4"></td></tr>
+<tr class="spacing">
+<th class="line-num">...</th><td></td><th class="line-num">...</th><td></td>
 <% end -%>
 <tr>
   <th class="line-num"><%= table_file[key].nb_line_left %></th>
@@ -35,7 +36,9 @@
 <% prev_line_left, prev_line_right = nil, nil -%>
 <% table_file.keys.sort.each do |key, line| %>
 <% if prev_line_left && prev_line_right && (table_file[key].nb_line_left != prev_line_left+1) && (table_file[key].nb_line_right != prev_line_right+1) -%>
-<tr class="spacing"><td colspan="3"></td></tr>
+<tr class="spacing">
+<th class="line-num">...</th><th class="line-num">...</th><td></td>
+</tr>
 <% end -%>
 <tr>
   <th class="line-num"><%= table_file[key].nb_line_left %></th>
