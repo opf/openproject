@@ -829,7 +829,7 @@ module SVG
         @doc << DocType.new( %q{svg PUBLIC "-//W3C//DTD SVG 1.0//EN" } +
           %q{"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"} )
         if style_sheet && style_sheet != ''
-          @doc << ProcessingInstruction.new( "xml-stylesheet",
+          @doc << Instruction.new( "xml-stylesheet",
             %Q{href="#{style_sheet}" type="text/css"} )
         end
         @root = @doc.add_element( "svg", {
