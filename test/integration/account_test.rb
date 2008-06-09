@@ -67,8 +67,12 @@ class AccountTest < ActionController::IntegrationTest
     
     post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"}, 
                              :password => "newpass", :password_confirmation => "newpass"
-    assert_redirected_to 'account/login'
-    log_user('newuser', 'newpass')
+    assert_redirected_to 'my/account'
+    follow_redirect!
+    assert_response :success
+    assert_template 'my/account'
+    
+    assert User.find_by_login('newuser').active?
   end
   
   def test_register_with_manual_activation

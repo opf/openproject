@@ -134,8 +134,9 @@ class AccountController < ApplicationController
         # Automatic activation
         @user.status = User::STATUS_ACTIVE
         if @user.save
+          self.logged_user = @user
           flash[:notice] = l(:notice_account_activated)
-          redirect_to :action => 'login'
+          redirect_to :controller => 'my', :action => 'account'
         end
       else
         # Manual activation by the administrator
