@@ -4,12 +4,6 @@
 <table class="filecontent CodeRay">
 <thead>
 <tr><th colspan="4" class="filename"><%= table_file.file_name %></th></tr>
-<% unless @rev.nil? -%>
-<tr>
-  <th colspan="2">@<%= format_revision @rev %></th>
-  <th colspan="2">@<%= format_revision @rev_to %></th>
-</tr>
-<% end -%>
 </thead>
 <tbody>
 <% prev_line_left, prev_line_right = nil, nil -%>
@@ -36,13 +30,6 @@
 <table class="filecontent CodeRay">
 <thead>
 <tr><th colspan="3" class="filename"><%= table_file.file_name %></th></tr>
-<% unless @rev.nil? -%>
-<tr>
-  <th>@<%= format_revision @rev %></th>
-  <th>@<%= format_revision @rev_to %></th>
-  <th></th>
-</tr>
-<% end -%>
 </thead>
 <tbody>
 <% prev_line_left, prev_line_right = nil, nil -%>
