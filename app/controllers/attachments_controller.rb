@@ -23,7 +23,10 @@ class AttachmentsController < ApplicationController
     if @attachment.is_diff?
       @diff = File.new(@attachment.diskfile, "rb").read
       render :action => 'diff'
-    else
+    elsif @attachment.is_text?
+      @content = File.new(@attachment.diskfile, "rb").read
+      render :action => 'file'
+    elsif
       download
     end
   end
@@ -38,9 +41,9 @@ class AttachmentsController < ApplicationController
 private
   def find_project
     @attachment = Attachment.find(params[:id])
-    render_404 and return false unless File.readable?(@attachment.diskfile)
+    #render_404 and return false unless File.readable?(@attachment.diskfile)
     @project = @attachment.project
-  rescue
-    render_404
+  #rescue
+  #  render_404
   end
 end

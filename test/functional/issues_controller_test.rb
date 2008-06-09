@@ -361,6 +361,8 @@ class IssuesControllerTest < Test::Unit::TestCase
   end
   
   def test_post_edit_with_attachment_only
+    set_tmp_attachments_directory
+    
     # anonymous user
     post :edit,
          :id => 1,

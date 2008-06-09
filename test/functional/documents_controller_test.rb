@@ -40,6 +40,8 @@ class DocumentsControllerTest < Test::Unit::TestCase
   
   def test_new_with_one_attachment
     @request.session[:user_id] = 2
+    set_tmp_attachments_directory
+    
     post :new, :project_id => 'ecookbook',
                :document => { :title => 'DocumentsControllerTest#test_post_new',
                               :description => 'This is a new document',

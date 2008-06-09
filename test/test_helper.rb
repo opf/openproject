@@ -57,6 +57,12 @@ class Test::Unit::TestCase
   def test_uploaded_file(name, mime)
     ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + "/files/#{name}", mime)
   end
+  
+  # Use a temporary directory for attachment related tests
+  def set_tmp_attachments_directory
+    Dir.mkdir "#{RAILS_ROOT}/tmp/test/attachments" unless File.directory?("#{RAILS_ROOT}/tmp/test/attachments")
+    Attachment.storage_path = "#{RAILS_ROOT}/tmp/test/attachments"
+  end
 end
 
 

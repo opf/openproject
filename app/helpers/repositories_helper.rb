@@ -15,16 +15,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'coderay'
-require 'coderay/helpers/file_type'
 require 'iconv'
 
 module RepositoriesHelper
-  def syntax_highlight(name, content)
-    type = CodeRay::FileType[name]
-    type ? CodeRay.scan(content, type).html : h(content)
-  end
-  
   def format_revision(txt)
     txt.to_s[0,8]
   end
