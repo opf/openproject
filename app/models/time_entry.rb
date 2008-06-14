@@ -30,8 +30,10 @@ class TimeEntry < ActiveRecord::Base
   validates_length_of :comments, :maximum => 255
 
   def after_initialize
-    if new_record?
-      self.activity ||= Enumeration.default('ACTI')
+    if new_record? && self.activity.nil?
+      if default_activity = Enumeration.default('ACTI')
+        self.activity_id = default_activity.id
+      end
     end
   end
   

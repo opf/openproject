@@ -44,7 +44,8 @@ class TimelogControllerTest < Test::Unit::TestCase
     @request.session[:user_id] = 3
     post :edit, :project_id => 1,
                 :time_entry => {:comments => 'Some work on TimelogControllerTest',
-                                :activity_id => '10',
+                                # Not the default activity
+                                :activity_id => '11',
                                 :spent_on => '2008-03-14',
                                 :issue_id => '1',
                                 :hours => '7.3'}
@@ -53,6 +54,7 @@ class TimelogControllerTest < Test::Unit::TestCase
     i = Issue.find(1)
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
     assert_not_nil t
+    assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
     assert_equal i, t.issue
