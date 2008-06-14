@@ -36,7 +36,7 @@
         <%= render :partial => 'layouts/project_selector' if User.current.memberships.any? %>
     </div>
     
-    <h1><%= h(@project ? @project.name : Setting.app_title) %></h1>
+    <h1><%= h(@project && !@project.new_record? ? @project.name : Setting.app_title) %></h1>
     
     <div id="main-menu">
         <%= render_main_menu(@project) %>
