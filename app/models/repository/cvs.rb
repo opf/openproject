@@ -76,7 +76,8 @@ class Repository::Cvs < Repository
         unless revision_to
           revision_to=scm.get_previous_revision(revision_from)
         end
-        diff=diff+scm.diff(change_from.path, revision_from, revision_to)
+        file_diff = scm.diff(change_from.path, revision_from, revision_to)
+        diff = diff + file_diff unless file_diff.nil?
       end
     end
     return diff
