@@ -186,13 +186,13 @@ class IssuesController < ApplicationController
         @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
         @issue.custom_values = @custom_values
       end
+      @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
+      @time_entry.attributes = params[:time_entry]
       attachments = attach_files(@issue, params[:attachments])
       attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
       if @issue.save
         # Log spend time
         if current_role.allowed_to?(:log_time)
-          @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
-          @time_entry.attributes = params[:time_entry]
           @time_entry.save
         end
         if !journal.new_record?
