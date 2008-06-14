@@ -34,6 +34,11 @@ class Repository::Bazaar < Repository
     if entries
       entries.each do |e|
         next if e.lastrev.revision.blank?
+        # Set the filesize unless browsing a specific revision
+        if identifier.nil? && e.is_file?
+          full_path = File.join(root_url, e.path)
+          e.size = File.stat(full_path).size if File.file?(full_path)
+        end
         c = Change.find(:first,
                         :include => :changeset,
                         :conditions => ["#{Change.table_name}.revision = ? and #{Changeset.table_name}.repository_id = ?", e.lastrev.revision, id],
