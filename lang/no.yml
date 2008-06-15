@@ -213,6 +213,7 @@ setting_per_page_options: Alternativer, objekter pr. side
 setting_user_format: Visningsformat, brukere
 setting_activity_days_default: Dager vist på prosjektaktivitet
 setting_display_subprojects_issues: Vis saker fra underprosjekter på hovedprosjekt som standard
+setting_enabled_scm: Aktiviserte SCM
 
 project_module_issue_tracking: Sakssporing
 project_module_time_tracking: Tidssporing
@@ -624,4 +625,3 @@ default_activity_development: Utvikling
 enumeration_issue_priorities: Sakssprioriteringer
 enumeration_doc_categories: Dokument-kategorier
 enumeration_activities: Aktiviteter (tidssporing)
-setting_enabled_scm: Enabled SCM

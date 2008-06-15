@@ -213,6 +213,7 @@ setting_per_page_options: 每页显示条目个数的设置
 setting_user_format: 用户显示格式
 setting_activity_days_default: 在项目活动中显示的天数
 setting_display_subprojects_issues: 在项目页面上默认显示子项目的问题
+setting_enabled_scm: 启用 SCM
 
 project_module_issue_tracking: 问题跟踪
 project_module_time_tracking: 时间跟踪
@@ -448,6 +449,7 @@ label_relation_new: 新建关联
 label_relation_delete: 删除关联
 label_relates_to: 关联到
 label_duplicates: 重复
+label_duplicated_by: 与其重复
 label_blocks: 阻挡
 label_blocked_by: 被阻挡
 label_precedes: 优先于
@@ -623,5 +625,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
