@@ -85,6 +85,9 @@ module Redmine
           @toc.each_with_index do |heading, index|
             # remove wiki links from the item
             toc_item = heading.last.gsub(/(\[\[|\]\])/, '')
+            # remove styles
+            # eg. %{color:red}Triggers% => Triggers
+            toc_item.gsub! %r[%\{[^\}]*\}([^%]+)%], '\\1'
             out << "<a href=\"##{index+1}\" class=\"heading#{heading.first}\">#{toc_item}</a>"
           end
           out << '</div>'
