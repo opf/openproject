@@ -30,6 +30,8 @@ class RepositoriesController < ApplicationController
   before_filter :authorize
   accept_key_auth :revisions
   
+  rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
+  
   def edit
     @repository = @project.repository
     if !@repository
@@ -56,8 +58,6 @@ class RepositoriesController < ApplicationController
     # latest changesets
     @changesets = @repository.changesets.find(:all, :limit => 10, :order => "committed_on DESC")
     show_error_not_found unless @entries || @changesets.any?
-  rescue Redmine::Scm::Adapters::CommandFailed => e
-    show_error_command_failed(e.message)
   end
   
   def browse
@@ -68,16 +68,12 @@ class RepositoriesController < ApplicationController
       show_error_not_found and return unless @entries
       render :action => 'browse'
     end
-  rescue Redmine::Scm::Adapters::CommandFailed => e
-    show_error_command_failed(e.message)
   end
   
   def changes
     @entry = @repository.entry(@path, @rev)
     show_error_not_found and return unless @entry
     @changesets = @repository.changesets_for_path(@path)
-  rescue Redmine::Scm::Adapters::CommandFailed => e
-    show_error_command_failed(e.message)
   end
   
   def revisions
@@ -111,15 +107,11 @@ class RepositoriesController < ApplicationController
       # Prevent empty lines when displaying a file with Windows style eol
       @content.gsub!("\r\n", "\n")
     end
-  rescue Redmine::Scm::Adapters::CommandFailed => e
-    show_error_command_failed(e.message)
   end
   
   def annotate
     @annotate = @repository.scm.annotate(@path, @rev)
     render_error l(:error_scm_annotate) and return if @annotate.nil? || @annotate.empty?
-  rescue Redmine::Scm::Adapters::CommandFailed => e
-    show_error_command_failed(e.message)
   end
   
   def revision
@@ -137,8 +129,6 @@ class RepositoriesController < ApplicationController
     end
   rescue ChangesetNotFound
     show_error_not_found
-  rescue Redmine::Scm::Adapters::CommandFailed => e
-    show_error_command_failed(e.message)
   end
   
   def diff
@@ -166,8 +156,6 @@ class RepositoriesController < ApplicationController
         show_error_not_found unless @diff
       end
     end
-  rescue Redmine::Scm::Adapters::CommandFailed => e
-    show_error_command_failed(e.message)
   end
   
   def stats  
@@ -217,8 +205,9 @@ private
     render_error l(:error_scm_not_found)
   end
   
-  def show_error_command_failed(msg)
-    render_error l(:error_scm_command_failed, msg)
+  # Handler for Redmine::Scm::Adapters::CommandFailed exception
+  def show_error_command_failed(exception)
+    render_error l(:error_scm_command_failed, exception.message)
   end
   
   def graph_commits_per_month(repository)
