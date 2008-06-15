@@ -1,11 +1,16 @@
 <div class="contextual">
 <%= link_to l(:label_statistics), {:action => 'stats', :id => @project}, :class => 'icon icon-stats' %>
+
+<% if !@entries.nil? && authorize_for('repositories', 'browse') -%>
+<% form_tag(:action => 'browse', :id => @project) do -%>
+| <%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
+<% end -%>
+<% end -%>
 </div>
 
 <h2><%= l(:label_repository) %> (<%= @repository.scm_name %>)</h2>
 
 <% if !@entries.nil? && authorize_for('repositories', 'browse') %>
-<h3><%= l(:label_browse) %></h3>
 <%= render :partial => 'dir_list' %>
 <% end %>
 
