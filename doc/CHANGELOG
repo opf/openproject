@@ -5,6 +5,59 @@ Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2008-06-15 v0.7.2
+
+* "New Project" link on Projects page
+* Links to repository directories on the repo browser
+* Move status to front in Activity View
+* Remove edit step from Status context menu
+* Fixed: No way to do textile horizontal rule
+* Fixed: Repository: View differences doesn't work
+* Fixed: attachement's name maybe invalid.
+* Fixed: Error when creating a new issue
+* Fixed: NoMethodError on @available_filters.has_key?
+* Fixed: Check All / Uncheck All in Email Settings
+* Fixed: "View differences" of one file at /repositories/revision/ fails
+* Fixed: Column width in "my page"
+* Fixed: private subprojects are listed on Issues view
+* Fixed: Textile: bold, italics, underline, etc... not working after parentheses
+* Fixed: Update issue form: comment field from log time end out of screen
+* Fixed: Editing role: "issue can be assigned to this role" out of box
+* Fixed: Unable use angular braces after include word
+* Fixed: Using '*' as keyword for repository referencing keywords doesn't work
+* Fixed: Subversion repository "View differences" on each file rise ERROR
+* Fixed: View differences for individual file of a changeset fails if the repository URL doesn't point to the repository root
+* Fixed: It is possible to lock out the last admin account
+* Fixed: Wikis are viewable for anonymous users on public projects, despite not granting access
+* Fixed: Issue number display clipped on 'my issues'
+* Fixed: Roadmap version list links not carrying state
+* Fixed: Log Time fieldset in IssueController#edit doesn't set default Activity as default
+* Fixed: git's "get_rev" API should use repo's current branch instead of hardwiring "master"
+* Fixed: browser's language subcodes ignored
+* Fixed: Error on project selection with numeric (only) identifier.
+* Fixed: Link to PDF doesn't work after creating new issue
+* Fixed: "Replies" should not be shown on forum threads that are locked
+* Fixed: SVN errors lead to svn username/password being displayed to end users (security issue)
+* Fixed: http links containing hashes don't display correct
+* Fixed: Allow ampersands in Enumeration names
+* Fixed: Atom link on saved query does not include query_id
+* Fixed: Logtime info lost when there's an error updating an issue
+* Fixed: TOC does not parse colorization markups
+* Fixed: CVS: add support for modules names with spaces
+* Fixed: Bad rendering on projects/add
+* Fixed: exception when viewing differences on cvs
+* Fixed: export issue to pdf will messup when use Chinese language
+* Fixed: Redmine::Scm::Adapters::GitAdapter#get_rev ignored GIT_BIN constant
+* Fixed: Adding non-ASCII new issue type in the New Issue page have encoding error using IE
+* Fixed: Importing from trac : some wiki links are messed
+* Fixed: Incorrect weekend definition in Hebrew calendar locale
+* Fixed: Atom feeds don't provide author section for repository revisions
+* Fixed: In Activity views, changesets titles can be multiline while they should not
+* Fixed: Ignore unreadable subversion directories (read disabled using authz)
+* Fixed: lib/SVG/Graph/Graph.rb can't externalize stylesheets
+* Fixed: Close statement handler in Redmine.pm
+
+
 == 2008-05-04 v0.7.1
 
 * Thai translation added (Gampol Thitinilnithi)
