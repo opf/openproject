@@ -43,10 +43,10 @@ class RepositoriesControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'revision'
     assert_no_tag :tag => "div", :attributes => { :class => "contextual" },
-      :child => { :tag => "a", :attributes => { :href => '/repositories/revision/ecookbook?rev=0'}
+      :child => { :tag => "a", :attributes => { :href => '/repositories/revision/ecookbook/0'}
     }
     assert_tag :tag => "div", :attributes => { :class => "contextual" },
-        :child => { :tag => "a", :attributes => { :href => '/repositories/revision/ecookbook?rev=2'}
+        :child => { :tag => "a", :attributes => { :href => '/repositories/revision/ecookbook/2'}
     }
   end
 
