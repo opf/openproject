@@ -235,6 +235,7 @@ sub is_public_project {
 
     $sth->execute($project_id);
     my $ret = $sth->fetchrow_array ? 1 : 0;
+    $sth->finish();
     $dbh->disconnect();
 
     $ret;
