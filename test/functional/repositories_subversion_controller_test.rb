@@ -102,8 +102,13 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       assert_response :success
       assert_template 'revision'
       assert_tag :tag => 'tr',
-                 :child => { :tag => 'td', :content => %r{/test/some/path/in/the/repo} },
                  :child => { :tag => 'td', 
+                             # link to the entry at rev 2
+                             :child => { :tag => 'a', :attributes => {:href => 'repositories/entry/ecookbook/test/some/path/in/the/repo?rev=2'},
+                                                      :content => %r{/test/some/path/in/the/repo} }
+                           },
+                 :child => { :tag => 'td', 
+                             # link to partial diff
                              :child => { :tag => 'a', :attributes => { :href => '/repositories/diff/ecookbook/test/some/path/in/the/repo?rev=2' } }
                            }
     end

@@ -46,7 +46,9 @@
 <tbody>
 <% @changes.each do |change| %>
 <tr class="<%= cycle 'odd', 'even' %>">
-<td><div class="square action_<%= change.action %>"></div> <%= change.path %> <%= "(#{change.revision})" unless change.revision.blank?  %></td>
+<td><div class="square action_<%= change.action %>"></div>
+<%= link_to change.path, :action => 'entry', :id => @project, :path => change.relative_path, :rev => @changeset.revision %>
+<%= "(#{change.revision})" unless change.revision.blank?  %></td>
 <td align="right">
 <% if change.action == "M" %>
 <%= link_to l(:label_view_diff), :action => 'diff', :id => @project, :path => without_leading_slash(change.relative_path), :rev => @changeset.revision %>
