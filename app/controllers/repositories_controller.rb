@@ -73,7 +73,7 @@ class RepositoriesController < ApplicationController
   end
   
   def changes
-    @entry = @repository.scm.entry(@path, @rev)
+    @entry = @repository.entry(@path, @rev)
     show_error_not_found and return unless @entry
     @changesets = @repository.changesets_for_path(@path)
   rescue Redmine::Scm::Adapters::CommandFailed => e
@@ -96,13 +96,13 @@ class RepositoriesController < ApplicationController
   end
   
   def entry
-    @entry = @repository.scm.entry(@path, @rev)
+    @entry = @repository.entry(@path, @rev)
     show_error_not_found and return unless @entry
     
     # If the entry is a dir, show the browser
     browse and return if @entry.is_dir?
     
-    @content = @repository.scm.cat(@path, @rev)
+    @content = @repository.cat(@path, @rev)
     show_error_not_found and return unless @content
     if 'raw' == params[:format] || @content.is_binary_data?
       # Force the download if it's a binary file

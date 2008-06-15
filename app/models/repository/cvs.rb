@@ -29,9 +29,9 @@ class Repository::Cvs < Repository
     'CVS'
   end
   
-  def entry(path, identifier)
-    e = entries(path, identifier)
-    e ? e.first : nil
+  def entry(path=nil, identifier=nil)
+    rev = identifier.nil? ? nil : changesets.find_by_revision(identifier)
+    scm.entry(path, rev.nil? ? nil : rev.committed_on)
   end
   
   def entries(path=nil, identifier=nil)
@@ -51,6 +51,11 @@ class Repository::Cvs < Repository
       end
     end
     entries
+  end
+  
+  def cat(path, identifier=nil)
+    rev = identifier.nil? ? nil : changesets.find_by_revision(identifier)
+    scm.cat(path, rev.nil? ? nil : rev.committed_on)
   end
   
   def diff(path, rev, rev_to)

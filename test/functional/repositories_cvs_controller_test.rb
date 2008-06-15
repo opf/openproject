@@ -89,6 +89,19 @@ class RepositoriesCvsControllerTest < Test::Unit::TestCase
       get :entry, :id => 1, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'entry'
+      assert_no_tag :tag => 'td', :attributes => { :class => /line-code/},
+                                  :content => /before_filter/
+    end
+    
+    def test_entry_at_given_revision
+      # changesets must be loaded
+      Project.find(1).repository.fetch_changesets
+      get :entry, :id => 1, :path => ['sources', 'watchers_controller.rb'], :rev => 2
+      assert_response :success
+      assert_template 'entry'
+      # this line was removed in r3
+      assert_tag :tag => 'td', :attributes => { :class => /line-code/},
+                               :content => /before_filter/
     end
     
     def test_entry_not_found

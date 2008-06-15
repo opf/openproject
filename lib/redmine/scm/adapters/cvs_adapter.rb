@@ -245,7 +245,9 @@ module Redmine
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> cat path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{root_url} co -r#{identifier} -p #{shell_quote path_with_project}"
+          cmd = "#{CVS_BIN} -d #{root_url} co"
+          cmd << " -D \"#{time_to_cvstime(identifier)}\"" if identifier
+          cmd << " -p #{shell_quote path_with_project}"
           cat = nil
           shellout(cmd) do |io|
             cat = io.read

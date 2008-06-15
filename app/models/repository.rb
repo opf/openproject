@@ -51,8 +51,16 @@ class Repository < ActiveRecord::Base
     scm.supports_annotate?
   end
   
+  def entry(path=nil, identifier=nil)
+    scm.entry(path, identifier)
+  end
+  
   def entries(path=nil, identifier=nil)
     scm.entries(path, identifier)
+  end
+  
+  def cat(path, identifier=nil)
+    scm.cat(path, identifier)
   end
   
   def diff(path, rev, rev_to)
