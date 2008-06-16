@@ -786,7 +786,7 @@ class RedCloth < String
             \s?
             (?:\(([^)]+?)\)(?="))?     # $title
             ":
-            (\S+?)                     # $url
+            ([\w\/]\S+?)               # $url
             (\/)?                      # $slash
             ([^\w\/;]*?)               # $post
             (?=<|\s|$)
