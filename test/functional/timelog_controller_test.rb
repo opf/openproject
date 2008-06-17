@@ -210,6 +210,14 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_equal '2007-04-22'.to_date, assigns(:to)
   end
   
+  def test_details_atom_feed
+    get :details, :project_id => 1, :format => 'atom'
+    assert_response :success
+    assert_equal 'application/atom+xml', @response.content_type
+    assert_not_nil assigns(:items)
+    assert assigns(:items).first.is_a?(TimeEntry)
+  end
+  
   def test_details_csv_export
     get :details, :project_id => 1, :format => 'csv'
     assert_response :success

@@ -154,6 +154,14 @@ class TimelogController < ApplicationController
 
           render :layout => !request.xhr?
         }
+        format.atom {
+          entries = TimeEntry.find(:all,
+                                   :include => [:project, :activity, :user, {:issue => :tracker}],
+                                   :conditions => cond.conditions,
+                                   :order => "#{TimeEntry.table_name}.created_on DESC",
+                                   :limit => Setting.feeds_limit.to_i)
+          render_feed(entries, :title => l(:label_spent_time))
+        }
         format.csv {
           # Export all entries
           @entries = TimeEntry.find(:all, 

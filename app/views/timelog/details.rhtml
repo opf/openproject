@@ -24,8 +24,13 @@
 
 <p class="other-formats">
 <%= l(:label_export_to) %>
+<span><%= link_to 'Atom', {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
 <span><%= link_to 'CSV', params.merge(:format => 'csv'), :class => 'csv' %></span>
 </p>
 <% end %>
 
 <% html_title l(:label_spent_time), l(:label_details) %>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_time)) %>
+<% end %>
