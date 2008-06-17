@@ -628,3 +628,5 @@ mail_subject_reminder: "%d назначенных на вас задач в бл
 text_user_wrote: '%s написал:'
 label_duplicated_by: duplicated by
 setting_enabled_scm: Enabled SCM
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'

@@ -75,11 +75,20 @@ class EnumerationsController < ApplicationController
   end
   
   def destroy
-    Enumeration.find(params[:id]).destroy
-    flash[:notice] = l(:notice_successful_delete)
-    redirect_to :action => 'list'
-  rescue
-    flash[:error] = "Unable to delete enumeration"
-    redirect_to :action => 'list'
+    @enumeration = Enumeration.find(params[:id])
+    if !@enumeration.in_use?
+      # No associated objects
+      @enumeration.destroy
+      redirect_to :action => 'index'
+    elsif params[:reassign_to_id]
+      if reassign_to = Enumeration.find_by_opt_and_id(@enumeration.opt, params[:reassign_to_id])
+        @enumeration.destroy(reassign_to)
+        redirect_to :action => 'index'
+      end
+    end
+    @enumerations = Enumeration.get_values(@enumeration.opt) - [@enumeration]
+  #rescue
+  #  flash[:error] = 'Unable to delete enumeration'
+  #  redirect_to :action => 'index'
   end
 end

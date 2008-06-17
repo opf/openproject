@@ -24,10 +24,11 @@ class Enumeration < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => [:opt]
   validates_length_of :name, :maximum => 30
 
+  # Single table inheritance would be an option
   OPTIONS = {
-    "IPRI" => :enumeration_issue_priorities,
-    "DCAT" => :enumeration_doc_categories,
-    "ACTI" => :enumeration_activities
+    "IPRI" => {:label => :enumeration_issue_priorities, :model => Issue, :foreign_key => :priority_id},
+    "DCAT" => {:label => :enumeration_doc_categories, :model => Document, :foreign_key => :category_id},
+    "ACTI" => {:label => :enumeration_activities, :model => TimeEntry, :foreign_key => :activity_id}
   }.freeze
   
   def self.get_values(option)
@@ -39,11 +40,30 @@ class Enumeration < ActiveRecord::Base
   end
 
   def option_name
-    OPTIONS[self.opt]
+    OPTIONS[self.opt][:label]
   end
 
   def before_save
     Enumeration.update_all("is_default = #{connection.quoted_false}", {:opt => opt}) if is_default?
+  end
+  
+  def objects_count
+    OPTIONS[self.opt][:model].count(:conditions => "#{OPTIONS[self.opt][:foreign_key]} = #{id}")
+  end
+  
+  def in_use?
+    self.objects_count != 0
+  end
+  
+  alias :destroy_without_reassign :destroy
+  
+  # Destroy the enumeration
+  # If a enumeration is specified, objects are reassigned
+  def destroy(reassign_to = nil)
+    if reassign_to && reassign_to.is_a?(Enumeration)
+      OPTIONS[self.opt][:model].update_all("#{OPTIONS[self.opt][:foreign_key]} = #{reassign_to.id}", "#{OPTIONS[self.opt][:foreign_key]} = #{id}")
+    end
+    destroy_without_reassign
   end
   
   def <=>(enumeration)
@@ -54,13 +74,6 @@ class Enumeration < ActiveRecord::Base
   
 private
   def check_integrity
-    case self.opt
-    when "IPRI"
-      raise "Can't delete enumeration" if Issue.find(:first, :conditions => ["priority_id=?", self.id])
-    when "DCAT"
-      raise "Can't delete enumeration" if Document.find(:first, :conditions => ["category_id=?", self.id])
-    when "ACTI"
-      raise "Can't delete enumeration" if TimeEntry.find(:first, :conditions => ["activity_id=?", self.id])
-    end
+    raise "Can't delete enumeration" if self.in_use?
   end
 end

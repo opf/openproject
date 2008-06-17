@@ -599,6 +599,8 @@ text_destroy_time_entries: Supprimer les heures
 text_assign_time_entries_to_project: Reporter les heures sur le projet
 text_reassign_time_entries: 'Reporter les heures sur cette demande:'
 text_user_wrote: '%s a écrit:'
+text_enumeration_destroy_question: 'Cette valeur est affectée à %d objets.'
+text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
 
 default_role_manager: Manager
 default_role_developper: Développeur

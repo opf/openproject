@@ -599,6 +599,8 @@ text_destroy_time_entries: Delete reported hours
 text_assign_time_entries_to_project: Assign reported hours to the project
 text_reassign_time_entries: 'Reassign reported hours to this issue:'
 text_user_wrote: '%s wrote:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
 
 default_role_manager: Manager
 default_role_developper: Developer
