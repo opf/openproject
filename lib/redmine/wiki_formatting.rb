@@ -152,12 +152,16 @@ module Redmine
           end
         end
       end
-      
+
       # Turns all email addresses into clickable links (code from Rails).
       def inline_auto_mailto(text)
         text.gsub!(/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
-          text = $1
-          %{<a href="mailto:#{$1}" class="email">#{text}</a>}
+          mail = $1
+          if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
+            mail
+          else
+            %{<a href="mailto:#{mail}" class="email">#{mail}</a>}
+          end
         end
       end
     end
