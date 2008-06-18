@@ -20,6 +20,19 @@
 		<% end -%>
 		</ul>
 	</li>
+	<% unless @project.versions.empty? -%>
+	<li class="folder">			
+		<a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
+		<ul>
+		<% @project.versions.sort.each do |v| -%>
+		    <li><%= context_menu_link v.name, {:controller => 'issues', :action => 'edit', :id => @issue, 'issue[fixed_version_id]' => v, :back_to => @back}, :method => :post,
+		                              :selected => (v == @issue.fixed_version), :disabled => !@can[:update] %></li>
+		<% end -%>
+		    <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'edit', :id => @issue, 'issue[fixed_version_id]' => '', :back_to => @back}, :method => :post,
+		                              :selected => @issue.fixed_version.nil?, :disabled => !@can[:update] %></li>
+		</ul>
+	</li>
+	<% end %>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
 		<ul>
