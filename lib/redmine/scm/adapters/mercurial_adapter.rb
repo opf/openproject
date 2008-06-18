@@ -192,8 +192,6 @@ module Redmine
                         end
         end
         
-        private
-        
         def hgversion_from_command_line
           @hgversion ||= %x{#{HG_BIN} --version}.match(/\(version (.*)\)/)[1]
         end

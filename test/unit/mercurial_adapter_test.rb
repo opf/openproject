@@ -4,9 +4,9 @@ begin
   
   class MercurialAdapterTest < Test::Unit::TestCase
     
-    TEMPLATES_DIR = "#{RAILS_ROOT}/extra/mercurial"
-    TEMPLATE_NAME = "hg-template"
-    TEMPLATE_EXTENSION = "tmpl"
+    TEMPLATES_DIR = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATES_DIR
+    TEMPLATE_NAME = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME
+    TEMPLATE_EXTENSION = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_EXTENSION
     
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
     
