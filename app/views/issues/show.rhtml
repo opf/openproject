@@ -116,4 +116,5 @@ end %>
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
+    <%= stylesheet_link_tag 'scm' %>
 <% end %>
