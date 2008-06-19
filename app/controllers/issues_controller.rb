@@ -285,6 +285,7 @@ class IssuesController < ApplicationController
       new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
       unsaved_issue_ids = []
       @issues.each do |issue|
+        issue.init_journal(User.current)
         unsaved_issue_ids << issue.id unless issue.move_to(@target_project, new_tracker)
       end
       if unsaved_issue_ids.empty?

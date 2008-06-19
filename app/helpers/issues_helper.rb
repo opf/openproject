@@ -54,9 +54,15 @@ module IssuesHelper
       when 'due_date', 'start_date'
         value = format_date(detail.value.to_date) if detail.value
         old_value = format_date(detail.old_value.to_date) if detail.old_value
+      when 'project_id'
+        p = Project.find_by_id(detail.value) and value = p.name if detail.value
+        p = Project.find_by_id(detail.old_value) and old_value = p.name if detail.old_value
       when 'status_id'
         s = IssueStatus.find_by_id(detail.value) and value = s.name if detail.value
         s = IssueStatus.find_by_id(detail.old_value) and old_value = s.name if detail.old_value
+      when 'tracker_id'
+        t = Tracker.find_by_id(detail.value) and value = t.name if detail.value
+        t = Tracker.find_by_id(detail.old_value) and old_value = t.name if detail.old_value
       when 'assigned_to_id'
         u = User.find_by_id(detail.value) and value = u.name if detail.value
         u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
