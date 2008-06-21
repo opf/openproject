@@ -18,34 +18,34 @@
 
 <table width="100%">
 <tr>
-    <td style="width:15%"><b><%=l(:field_status)%> :</b></td><td style="width:35%"><%= @issue.status.name %></td>
-    <td style="width:15%"><b><%=l(:field_start_date)%> :</b></td><td style="width:35%"><%= format_date(@issue.start_date) %></td>
+    <td style="width:15%"><b><%=l(:field_status)%>:</b></td><td style="width:35%"><%= @issue.status.name %></td>
+    <td style="width:15%"><b><%=l(:field_start_date)%>:</b></td><td style="width:35%"><%= format_date(@issue.start_date) %></td>
 </tr>
 <tr>
-    <td><b><%=l(:field_priority)%> :</b></td><td><%= @issue.priority.name %></td>
-    <td><b><%=l(:field_due_date)%> :</b></td><td><%= format_date(@issue.due_date) %></td>
+    <td><b><%=l(:field_priority)%>:</b></td><td><%= @issue.priority.name %></td>
+    <td><b><%=l(:field_due_date)%>:</b></td><td><%= format_date(@issue.due_date) %></td>
 </tr>
 <tr>
-    <td><b><%=l(:field_assigned_to)%> :</b></td><td><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
-    <td><b><%=l(:field_done_ratio)%> :</b></td><td><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
+    <td><b><%=l(:field_assigned_to)%>:</b></td><td><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
+    <td><b><%=l(:field_done_ratio)%>:</b></td><td><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
 </tr>
 <tr>
-    <td><b><%=l(:field_category)%> :</b></td><td><%=h @issue.category ? @issue.category.name : "-" %></td>
+    <td><b><%=l(:field_category)%>:</b></td><td><%=h @issue.category ? @issue.category.name : "-" %></td>
     <% if User.current.allowed_to?(:view_time_entries, @project) %>
-    <td><b><%=l(:label_spent_time)%> :</b></td>
+    <td><b><%=l(:label_spent_time)%>:</b></td>
     <td><%= @issue.spent_hours > 0 ? (link_to lwr(:label_f_hour, @issue.spent_hours), {:controller => 'timelog', :action => 'details', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time') : "-" %></td>
     <% end %>
 </tr>
 <tr>
-    <td><b><%=l(:field_fixed_version)%> :</b></td><td><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
+    <td><b><%=l(:field_fixed_version)%>:</b></td><td><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
     <% if @issue.estimated_hours %>
-    <td><b><%=l(:field_estimated_hours)%> :</b></td><td><%= lwr(:label_f_hour, @issue.estimated_hours) %></td>
+    <td><b><%=l(:field_estimated_hours)%>:</b></td><td><%= lwr(:label_f_hour, @issue.estimated_hours) %></td>
     <% end %>
 </tr>
 <tr>
 <% n = 0
 for custom_value in @custom_values %>
-    <td valign="top"><b><%= custom_value.custom_field.name %> :</b></td><td valign="top"><%= simple_format(h(show_value(custom_value))) %></td>
+    <td valign="top"><b><%= custom_value.custom_field.name %>:</b></td><td valign="top"><%= simple_format(h(show_value(custom_value))) %></td>
 <% n = n + 1
    if (n > 1) 
         n = 0 %>
