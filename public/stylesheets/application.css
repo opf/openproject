@@ -190,6 +190,7 @@ div#activity dd span.description, #search-results dd span.description { display:
 dt.issue { background-image: url(../images/ticket.png); }
 dt.issue-edit { background-image: url(../images/ticket_edit.png); }
 dt.issue-closed { background-image: url(../images/ticket_checked.png); }
+dt.issue-note { background-image: url(../images/ticket_note.png); }
 dt.changeset { background-image: url(../images/changeset.png); }
 dt.news { background-image: url(../images/news.png); }
 dt.message { background-image: url(../images/message.png); }

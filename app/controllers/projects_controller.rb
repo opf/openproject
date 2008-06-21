@@ -258,7 +258,8 @@ class ProjectsController < ApplicationController
       @events += Issue.find(:all, :include => [:project, :author, :tracker], :conditions => cond.conditions)
       
       cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_issues, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{Journal.table_name}.journalized_type = 'Issue' AND #{JournalDetail.table_name}.prop_key = 'status_id' AND #{Journal.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
+      cond.add(["#{Journal.table_name}.journalized_type = 'Issue' AND #{Journal.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
+      cond.add("#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> ''")
       @events += Journal.find(:all, :include => [{:issue => :project}, :details, :user], :conditions => cond.conditions)
     end
     
