@@ -103,7 +103,7 @@ class MailHandler < ActionMailer::Base
     raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
     # add the note
     journal = issue.init_journal(user, email.plain_text_body.chomp)
-    add_attachments(journal)
+    add_attachments(issue)
     issue.save!
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
     Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
