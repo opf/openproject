@@ -39,4 +39,8 @@ enabled_modules_010:
   name: wiki
   project_id: 3
   id: 10
+enabled_modules_011: 
+  name: issue_tracking
+  project_id: 2
+  id: 11
   

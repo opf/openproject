@@ -20,38 +20,52 @@ require File.dirname(__FILE__) + '/../test_helper'
 class MailHandlerTest < Test::Unit::TestCase
   fixtures :users, :projects, :enabled_modules, :roles, :members, :issues, :trackers, :enumerations
   
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures'
-  CHARSET = "utf-8"
-
-  include ActionMailer::Quoting
-
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
+  
   def setup
-    ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-
-    @expected = TMail::Mail.new
-    @expected.set_content_type "text", "plain", { "charset" => CHARSET }
-    @expected.mime_version = '1.0'
+    ActionMailer::Base.deliveries.clear
   end
   
-  def test_add_note_to_issue
-    raw = read_fixture("add_note_to_issue.txt").join
-    MailHandler.receive(raw)
-
-    issue = Issue.find(2)
-    journal = issue.journals.find(:first, :order => "created_on DESC")
-    assert journal
-    assert_equal User.find_by_mail("jsmith@somenet.foo"), journal.user
-    assert_equal "Note added by mail", journal.notes
+  def test_add_issue
+    # This email contains: 'Project: onlinestore'
+    issue = submit_email('ticket_on_given_project.eml')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'New ticket on a given project', issue.subject
+    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal Project.find(2), issue.project
+    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+  end
+  
+  def test_add_issue_with_attachment_to_specific_project
+    issue = submit_email('ticket_with_attachment.eml', :project => 'onlinestore')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'Ticket created by email with attachment', issue.subject
+    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal Project.find(2), issue.project
+    assert_equal 'This is  a new ticket with attachments', issue.description
+    # Attachment properties
+    assert_equal 1, issue.attachments.size
+    assert_equal 'Paella.jpg', issue.attachments.first.filename
+    assert_equal 'image/jpeg', issue.attachments.first.content_type
+    assert_equal 10790, issue.attachments.first.filesize
+  end
+  
+  def test_add_issue_note
+    journal = submit_email('ticket_reply.eml')
+    assert journal.is_a?(Journal)
+    assert_equal User.find_by_login('jsmith'), journal.user
+    assert_equal Issue.find(2), journal.journalized
+    assert_equal 'This is reply', journal.notes
   end
 
   private
-    def read_fixture(action)
-      IO.readlines("#{FIXTURES_PATH}/mail_handler/#{action}")
-    end
-
-    def encode(subject)
-      quoted_printable(subject, CHARSET)
-    end
+  
+  def submit_email(filename, options={})
+    raw = IO.read(File.join(FIXTURES_PATH, filename))
+    MailHandler.receive(raw, options)
+  end
 end

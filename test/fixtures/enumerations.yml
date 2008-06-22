@@ -19,6 +19,7 @@ enumerations_005:
   name: Normal
   id: 5
   opt: IPRI
+  is_default: true
 enumerations_006: 
   name: High
   id: 6
