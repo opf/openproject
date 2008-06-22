@@ -20,6 +20,12 @@ require File.dirname(__FILE__) + '/../test_helper'
 class QueryTest < Test::Unit::TestCase
   fixtures :projects, :users, :members, :roles, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :queries
 
+  def test_custom_fields_for_all_projects_should_be_available_in_global_queries
+    query = Query.new(:project => nil, :name => '_')
+    assert query.available_filters.has_key?('cf_1')
+    assert !query.available_filters.has_key?('cf_3')
+  end
+  
   def test_query_with_multiple_custom_fields
     query = Query.find(1)
     assert query.valid?

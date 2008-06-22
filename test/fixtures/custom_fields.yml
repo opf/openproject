@@ -30,6 +30,7 @@ custom_fields_003:
   min_length: 0
   regexp: ""
   is_for_all: false
+  is_filter: true
   type: ProjectCustomField
   max_length: 0
   possible_values: Stable|Beta|Alpha|Planning
