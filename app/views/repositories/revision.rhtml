@@ -47,7 +47,11 @@
 <% @changes.each do |change| %>
 <tr class="<%= cycle 'odd', 'even' %>">
 <td><div class="square action_<%= change.action %>"></div>
-<%= link_to change.path, :action => 'entry', :id => @project, :path => change.relative_path, :rev => @changeset.revision %>
+<% if change.action == "D" -%>
+    <%= change.path -%>
+<% else -%>
+    <%= link_to change.path, :action => 'entry', :id => @project, :path => change.relative_path, :rev => @changeset.revision -%>
+<% end -%>
 <%= "(#{change.revision})" unless change.revision.blank?  %></td>
 <td align="right">
 <% if change.action == "M" %>
