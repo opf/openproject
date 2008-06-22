@@ -29,7 +29,7 @@ module Redmine
         imap = Net::IMAP.new(host, port, ssl)        
         imap.login(imap_options[:username], imap_options[:password]) unless imap_options[:username].nil?
         imap.select(folder)
-        imap.search(['ALL']).each do |message_id|
+        imap.search(['NOT', 'SEEN']).each do |message_id|
           msg = imap.fetch(message_id,'RFC822')[0].attr['RFC822']
           logger.debug "Receiving message #{message_id}" if logger && logger.debug?
           if MailHandler.receive(msg, options)
