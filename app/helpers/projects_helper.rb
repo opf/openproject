@@ -30,7 +30,7 @@ module ProjectsHelper
   end
   
   def format_activity_description(text)
-    h(truncate(text, 250))
+    h(truncate(text, 250).gsub(%r{<(pre|code)>.*$}m, '...'))
   end
   
   def project_settings_tabs
