@@ -6,7 +6,8 @@
 <h3><%= format_activity_day(day) %></h3>
 <dl>
 <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
-  <dt class="<%= e.event_type %>"><span class="time"><%= format_time(e.event_datetime, false) %></span>
+  <dt class="<%= e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
+  <span class="time"><%= format_time(e.event_datetime, false) %></span>
   <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %>
   <%= link_to format_activity_title(e.event_title), e.event_url %></dt>
   <dd><span class="description"><%= format_activity_description(e.event_description) %></span>
