@@ -154,7 +154,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
                :content => /#{2.days.ago.to_date.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
-                   :attributes => { :class => 'issue-edit' },
+                   :attributes => { :class => /issue-edit/ },
                    :child => { :tag => "a",
                      :content => /(#{IssueStatus.find(2).name})/,
                    }
@@ -170,7 +170,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
                :content => /#{3.day.ago.to_date.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
-                   :attributes => { :class => 'issue' },
+                   :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
                      :content => /#{Issue.find(1).subject}/,
                    }
