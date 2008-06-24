@@ -12,6 +12,7 @@ production:
   host: localhost
   username: root
   password:
+  encoding: utf8
  
 development:
   adapter: mysql
@@ -19,6 +20,7 @@ development:
   host: localhost
   username: root
   password:
+  encoding: utf8
 
 test:
   adapter: mysql
@@ -26,6 +28,7 @@ test:
   host: localhost
   username: root
   password:
+  encoding: utf8
 
 test_pgsql:
   adapter: postgresql
