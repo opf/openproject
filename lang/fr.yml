@@ -215,6 +215,8 @@ setting_user_format: Format d'affichage des utilisateurs
 setting_activity_days_default: Nombre de jours affichés sur l'activité des projets
 setting_display_subprojects_issues: Afficher par défaut les demandes des sous-projets sur les projets principaux
 setting_enabled_scm: SCM activés
+setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
+setting_mail_handler_api_key: Clé de protection de l'API
 
 project_module_issue_tracking: Suivi des demandes
 project_module_time_tracking: Suivi du temps passé
@@ -515,6 +517,8 @@ label_preferences: Préférences
 label_chronological_order: Dans l'ordre chronologique
 label_reverse_chronological_order: Dans l'ordre chronologique inverse
 label_planning: Planning
+label_incoming_emails: Emails entrants
+label_generate_key: Générer une clé
 
 button_login: Connexion
 button_submit: Soumettre

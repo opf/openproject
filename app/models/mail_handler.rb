@@ -84,7 +84,7 @@ class MailHandler < ActionMailer::Base
     # TODO: other ways to specify project:
     # * parse the email To field
     # * specific project (eg. Setting.mail_handler_target_project)
-    identifier = if @@handler_options[:project]
+    identifier = if !@@handler_options[:project].blank?
                    @@handler_options[:project]
                  elsif email.plain_text_body =~ %r{^Project:[ \t]*(.+)$}i
                     $1

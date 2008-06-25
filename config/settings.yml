@@ -101,6 +101,10 @@ notified_events:
   default: 
   - issue_added
   - issue_updated
+mail_handler_api_enabled:
+  default: 0
+mail_handler_api_key:
+  default: 
 issue_list_default_columns:
   serialized: true
   default: 
