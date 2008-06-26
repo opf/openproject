@@ -60,6 +60,7 @@ class Test::Unit::TestCase
   
   # Use a temporary directory for attachment related tests
   def set_tmp_attachments_directory
+    Dir.mkdir "#{RAILS_ROOT}/tmp/test" unless File.directory?("#{RAILS_ROOT}/tmp/test")
     Dir.mkdir "#{RAILS_ROOT}/tmp/test/attachments" unless File.directory?("#{RAILS_ROOT}/tmp/test/attachments")
     Attachment.storage_path = "#{RAILS_ROOT}/tmp/test/attachments"
   end
