@@ -50,7 +50,7 @@
 <% if change.action == "D" -%>
     <%= change.path -%>
 <% else -%>
-    <%= link_to change.path, :action => 'entry', :id => @project, :path => change.relative_path, :rev => @changeset.revision -%>
+    <%= link_to change.path, :action => 'entry', :id => @project, :path => without_leading_slash(change.relative_path), :rev => @changeset.revision -%>
 <% end -%>
 <%= "(#{change.revision})" unless change.revision.blank?  %></td>
 <td align="right">
