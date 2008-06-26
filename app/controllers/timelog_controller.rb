@@ -180,7 +180,7 @@ class TimelogController < ApplicationController
     @time_entry.attributes = params[:time_entry]
     if request.post? and @time_entry.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to(params[:back_url] || {:action => 'details', :project_id => @time_entry.project})
+      redirect_to(params[:back_url].blank? ? {:action => 'details', :project_id => @time_entry.project} : params[:back_url])
       return
     end    
     @activities = Enumeration::get_values('ACTI')
