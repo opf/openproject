@@ -48,6 +48,7 @@ general_text_no: 'no'
 general_text_yes: 'yes'
 general_lang_name: 'English'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday

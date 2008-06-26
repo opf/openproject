@@ -48,6 +48,7 @@ general_text_no: '否'
 general_text_yes: '是'
 general_lang_name: 'Traditional Chinese (繁體中文)'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: Big5
 general_pdf_encoding: Big5
 general_day_names: 星期一,星期二,星期三,星期四,星期五,星期六,星期日

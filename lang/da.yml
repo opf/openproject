@@ -48,6 +48,7 @@ general_text_no: 'nej'
 general_text_yes: 'ja'
 general_lang_name: 'Danish (Dansk)'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Mandag,Tirsdag,Onsdag,Torsdag,Fredag,Lørdag,Søndag

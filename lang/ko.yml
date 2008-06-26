@@ -48,6 +48,7 @@ general_text_no: '아니오'
 general_text_yes: '예'
 general_lang_name: 'Korean (한국어)'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: CP949
 general_pdf_encoding: CP949
 general_day_names: 월요일,화요일,수요일,목요일,금요일,토요일,일요일

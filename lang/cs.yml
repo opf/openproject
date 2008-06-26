@@ -51,6 +51,7 @@ general_text_no: 'ne'
 general_text_yes: 'ano'
 general_lang_name: 'Čeština'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: UTF-8
 general_pdf_encoding: UTF-8
 general_day_names: Pondělí,Úterý,Středa,Čtvrtek,Pátek,Sobota,Neděle

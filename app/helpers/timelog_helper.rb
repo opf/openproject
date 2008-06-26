@@ -44,6 +44,7 @@ module TimelogHelper
   
   def entries_to_csv(entries)
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
+    decimal_separator = l(:general_csv_decimal_separator)
     export = StringIO.new
     CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
       # csv header fields
@@ -67,7 +68,7 @@ module TimelogHelper
                   (entry.issue ? entry.issue.id : nil),
                   (entry.issue ? entry.issue.tracker : nil),
                   (entry.issue ? entry.issue.subject : nil),
-                  entry.hours,
+                  entry.hours.to_s.gsub('.', decimal_separator),
                   entry.comments
                   ]
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }

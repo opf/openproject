@@ -48,6 +48,7 @@ general_text_no: 'ei'
 general_text_yes: 'kyllä'
 general_lang_name: 'Finnish (Suomi)'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Maanantai,Tiistai,Keskiviikko,Torstai,Perjantai,Lauantai,Sunnuntai

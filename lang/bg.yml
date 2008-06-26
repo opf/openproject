@@ -48,6 +48,7 @@ general_text_no: 'не'
 general_text_yes: 'да'
 general_lang_name: 'Bulgarian'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: UTF-8
 general_pdf_encoding: UTF-8
 general_day_names: Понеделник,Вторник,Сряда,Четвъртък,Петък,Събота,Неделя

@@ -48,6 +48,7 @@ general_text_no: 'לא'
 general_text_yes: 'כן'
 general_lang_name: 'Hebrew (עברית)'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-8-I
 general_pdf_encoding: ISO-8859-8-I
 general_day_names: שני,שלישי,רביעי,חמישי,שישי,שבת,ראשון

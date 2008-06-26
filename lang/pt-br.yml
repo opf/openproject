@@ -48,6 +48,7 @@ general_text_no: 'não'
 general_text_yes: 'sim'
 general_lang_name: 'Português(Brasil)'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-1
 general_pdf_encoding: ISO-8859-1
 general_day_names: Segunda,Terça,Quarta,Quinta,Sexta,Sabado,Domingo

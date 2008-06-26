@@ -126,6 +126,7 @@ module IssuesHelper
   
   def issues_to_csv(issues, project = nil)
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
+    decimal_separator = l(:general_csv_decimal_separator)
     export = StringIO.new
     CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
       # csv header fields
@@ -168,7 +169,7 @@ module IssuesHelper
                   format_date(issue.start_date),
                   format_date(issue.due_date),
                   issue.done_ratio,
-                  issue.estimated_hours,
+                  issue.estimated_hours.to_s.gsub('.', decimal_separator),
                   format_time(issue.created_on),  
                   format_time(issue.updated_on)
                   ]

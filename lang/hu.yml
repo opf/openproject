@@ -48,6 +48,7 @@ general_text_no: 'nem'
 general_text_yes: 'igen'
 general_lang_name: 'Magyar'
 general_csv_separator: ','
+general_csv_decimal_separator: '.'
 general_csv_encoding: ISO-8859-2
 general_pdf_encoding: ISO-8859-2
 general_day_names: Hétfő,Kedd,Szerda,Csütörtök,Péntek,Szombat,Vasárnap
