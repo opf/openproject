@@ -214,6 +214,8 @@ setting_user_format: 用户显示格式
 setting_activity_days_default: 在项目活动中显示的天数
 setting_display_subprojects_issues: 在项目页面上默认显示子项目的问题
 setting_enabled_scm: 启用 SCM
+setting_mail_handler_api_enabled: 启用用于接收邮件的Web Service
+setting_mail_handler_api_key: API key
 
 project_module_issue_tracking: 问题跟踪
 project_module_time_tracking: 时间跟踪
@@ -515,6 +517,8 @@ label_preferences: 首选项
 label_chronological_order: 按时间顺序
 label_reverse_chronological_order: 按时间顺序（倒序）
 label_planning: 计划
+label_incoming_emails: 接收邮件
+label_generate_key: 生成一个key
 
 button_login: 登录
 button_submit: 提交
@@ -599,6 +603,8 @@ text_destroy_time_entries: 删除上报的工作量
 text_assign_time_entries_to_project: 将已上报的工作量提交到项目中
 text_reassign_time_entries: '将已上报的工作量指定到此问题：'
 text_user_wrote: '%s 写到：'
+text_enumeration_category_reassign_to: '将它们关联到新的枚举值：'
+text_enumeration_destroy_question: '%d 个对象被关联到了这个枚举值。'
 
 default_role_manager: 管理人员
 default_role_developper: 开发人员
@@ -625,9 +631,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key

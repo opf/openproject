@@ -108,7 +108,7 @@ field_author: Автор
 field_created_on: Создано
 field_updated_on: Обновлено
 field_field_format: Формат
-field_is_for_all: Для всех форматов
+field_is_for_all: Для всех проектов
 field_possible_values: Возможные значения 
 field_regexp: Регулярное выражение
 field_min_length: Минимальная длина
@@ -239,9 +239,9 @@ label_issue_status_new: Новый статус
 label_issue_category: Категория задачи
 label_issue_category_plural: Категории задачи
 label_issue_category_new: Новая категория
-label_custom_field: Поле клиента
-label_custom_field_plural: Поля клиента
-label_custom_field_new: Новое поле клиента
+label_custom_field: Настраиваемое поле
+label_custom_field_plural: Настраиваемые поля
+label_custom_field_new: Новое настраиваемое поле
 label_enumerations: Справочники
 label_enumeration_new: Новое значение
 label_information: Информация
@@ -276,7 +276,7 @@ label_min_max_length: Минимальная - Максимальная длин
 label_list: Список
 label_date: Дата
 label_integer: Целый
-label_float: Свободный
+label_float: С плавающей точкой
 label_boolean: Логический
 label_string: Текст
 label_text: Длинный текст
@@ -337,8 +337,8 @@ label_comment_plural: Комментарии
 label_comment_add: Оставить комментарий
 label_comment_added: Добавленный комментарий
 label_comment_delete: Удалить комментарии
-label_query: Запрос клиента
-label_query_plural: Запросы клиентов
+label_query: Сохраненный запрос
+label_query_plural: Сохраненные запросы
 label_query_new: Новый запрос
 label_filter_add: Добавить фильтр
 label_filter_plural: Фильтры
@@ -626,10 +626,10 @@ label_and_its_subprojects: %s и все подпроекты
 mail_body_reminder: "%d назначенных на вас задач на следующие %d дней:" 
 mail_subject_reminder: "%d назначенных на вас задач в ближайшие дни" 
 text_user_wrote: '%s написал:'
-label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
+label_duplicated_by: дублируется
+setting_enabled_scm: Задействовать SCM
+text_enumeration_category_reassign_to: 'Назначить им следующее значение:'
+text_enumeration_destroy_question: '%d объект(а,ов) связаны с этим значением.'
 label_incoming_emails: Incoming emails
 label_generate_key: Generate a key
 setting_mail_handler_api_enabled: Enable WS for incoming emails

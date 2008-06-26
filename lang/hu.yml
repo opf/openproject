@@ -355,7 +355,7 @@ label_last_changes: utolsó %d változás
 label_change_view_all: Minden változás megtekintése
 label_personalize_page: Az oldal testreszabása
 label_comment: Megjegyzés
-label_comment_plural: Megjegyzések
+label_comment_plural: Megjegyzés
 label_comment_add: Megjegyzés hozzáadása
 label_comment_added: Megjegyzés hozzáadva
 label_comment_delete: Megjegyzések törlése
@@ -625,9 +625,9 @@ mail_subject_reminder: "%d feladat határidős az elkövetkező napokban"
 text_user_wrote: '%s írta:'
 label_duplicated_by: duplikálta
 setting_enabled_scm: Forráskódkezelő (SCM) engedélyezése
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
+text_enumeration_category_reassign_to: 'Újra hozzárendelés ehhez:'
+text_enumeration_destroy_question: '%d objektum van hozzárendelve ehhez az értékhez.'
+label_incoming_emails: Beérkezett levelek
+label_generate_key: Kulcs generálása
+setting_mail_handler_api_enabled: Web Service engedélyezése a beérkezett levelekhez
+setting_mail_handler_api_key: API kulcs
