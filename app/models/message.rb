@@ -29,7 +29,8 @@ class Message < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
                 :description => :content,
                 :type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
-                :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id, :id => o.id}}
+                :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id}.merge(o.parent_id.nil? ? {:id => o.id} : 
+                                                                                                                                       {:id => o.parent_id, :anchor => "message-#{o.id}"})}
   
   attr_protected :locked, :sticky
   validates_presence_of :subject, :content
