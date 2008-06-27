@@ -37,11 +37,12 @@ class User < ActiveRecord::Base
 
   has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name", :dependent => :delete_all
   has_many :projects, :through => :memberships
-  has_many :custom_values, :dependent => :delete_all, :as => :customized
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   belongs_to :auth_source
+  
+  acts_as_customizable
   
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
@@ -60,7 +61,6 @@ class User < ActiveRecord::Base
   validates_length_of :mail, :maximum => 60, :allow_nil => true
   validates_length_of :password, :minimum => 4, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
-  validates_associated :custom_values, :on => :update
 
   def before_create
     self.mail_notification = false
@@ -278,6 +278,10 @@ class AnonymousUser < User
   def validate_on_create
     # There should be only one AnonymousUser in the database
     errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
+  end
+  
+  def available_custom_fields
+    []
   end
   
   # Overrides a few properties

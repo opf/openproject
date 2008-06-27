@@ -170,7 +170,7 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'new'
     
-    assert_tag :tag => 'input', :attributes => { :name => 'custom_fields[2]',
+    assert_tag :tag => 'input', :attributes => { :name => 'issue[custom_field_values][2]',
                                                  :value => 'Default string' }
   end
 
@@ -203,8 +203,8 @@ class IssuesControllerTest < Test::Unit::TestCase
                           :subject => 'This is the test_new issue',
                           :description => 'This is the description',
                           :priority_id => 5,
-                          :estimated_hours => ''},
-               :custom_fields => {'2' => 'Value for field 2'}
+                          :estimated_hours => '',
+                          :custom_field_values => {'2' => 'Value for field 2'}}
     assert_redirected_to 'issues/show'
     
     issue = Issue.find_by_subject('This is the test_new issue')
@@ -224,6 +224,50 @@ class IssuesControllerTest < Test::Unit::TestCase
                           :description => 'This is the description',
                           :priority_id => 5}
     assert_redirected_to 'issues/show'
+  end
+  
+  def test_post_new_with_required_custom_field_and_without_custom_fields_param
+    field = IssueCustomField.find_by_name('Database')
+    field.update_attribute(:is_required, true)
+
+    @request.session[:user_id] = 2
+    post :new, :project_id => 1, 
+               :issue => {:tracker_id => 1,
+                          :subject => 'This is the test_new issue',
+                          :description => 'This is the description',
+                          :priority_id => 5}
+    assert_response :success
+    assert_template 'new'
+    issue = assigns(:issue)
+    assert_not_nil issue
+    assert_equal 'activerecord_error_invalid', issue.errors.on(:custom_values)
+  end
+  
+  def test_post_should_preserve_fields_values_on_validation_failure
+    @request.session[:user_id] = 2
+    post :new, :project_id => 1, 
+               :issue => {:tracker_id => 1,
+                          :subject => 'This is the test_new issue',
+                          # empty description
+                          :description => '',
+                          :priority_id => 6,
+                          :custom_field_values => {'1' => 'Oracle', '2' => 'Value for field 2'}}
+    assert_response :success
+    assert_template 'new'
+    
+    assert_tag :input, :attributes => { :name => 'issue[subject]',
+                                        :value => 'This is the test_new issue' }
+    assert_tag :select, :attributes => { :name => 'issue[priority_id]' },
+                        :child => { :tag => 'option', :attributes => { :selected => 'selected',
+                                                                       :value => '6' },
+                                                      :content => 'High' }  
+    # Custom fields
+    assert_tag :select, :attributes => { :name => 'issue[custom_field_values][1]' },
+                        :child => { :tag => 'option', :attributes => { :selected => 'selected',
+                                                                       :value => 'Oracle' },
+                                                      :content => 'Oracle' }  
+    assert_tag :input, :attributes => { :name => 'issue[custom_field_values][2]',
+                                        :value => 'Value for field 2'}
   end
   
   def test_copy_issue
@@ -280,23 +324,56 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_select_rjs :show, "update"
   end
 
-  def test_post_edit
+  def test_post_edit_without_custom_fields_param
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     
     issue = Issue.find(1)
+    assert_equal '125', issue.custom_value_for(2).value
     old_subject = issue.subject
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
     
-    post :edit, :id => 1, :issue => {:subject => new_subject}
+    assert_difference('Journal.count') do
+      assert_difference('JournalDetail.count', 2) do
+        post :edit, :id => 1, :issue => {:subject => new_subject,
+                                         :priority_id => '6',
+                                         :category_id => '1' # no change
+                                        }
+      end
+    end
     assert_redirected_to 'issues/show/1'
     issue.reload
     assert_equal new_subject, issue.subject
+    # Make sure custom fields were not cleared
+    assert_equal '125', issue.custom_value_for(2).value
     
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
     assert mail.subject.starts_with?("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]")
     assert mail.body.include?("Subject changed from #{old_subject} to #{new_subject}")
+  end
+  
+  def test_post_edit_with_custom_field_change
+    @request.session[:user_id] = 2
+    issue = Issue.find(1)
+    assert_equal '125', issue.custom_value_for(2).value
+    
+    assert_difference('Journal.count') do
+      assert_difference('JournalDetail.count', 3) do
+        post :edit, :id => 1, :issue => {:subject => 'Custom field change',
+                                         :priority_id => '6',
+                                         :category_id => '1', # no change
+                                         :custom_field_values => { '2' => 'New custom value' }
+                                        }
+      end
+    end
+    assert_redirected_to 'issues/show/1'
+    issue.reload
+    assert_equal 'New custom value', issue.custom_value_for(2).value
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert_kind_of TMail::Mail, mail
+    assert mail.body.include?("Searchable field changed from 125 to New custom value")
   end
   
   def test_post_edit_with_status_and_assignee_change

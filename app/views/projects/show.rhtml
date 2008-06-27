@@ -10,7 +10,7 @@
 	<% if @project.parent %>
 	<li><%=l(:field_parent)%>: <%= link_to h(@project.parent.name), :controller => 'projects', :action => 'show', :id => @project.parent %></li>
 	<% end %>
-	<% for custom_value in @custom_values %>
+	<% @project.custom_values.each do |custom_value| %>
 	<% if !custom_value.value.empty? %>
 	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
 	<% end %>

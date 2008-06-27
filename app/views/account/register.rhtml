@@ -27,8 +27,8 @@
 <p><label for="user_language"><%=l(:field_language)%></label>
 <%= select("user", "language", lang_options_for_select) %></p>
 
-<% for @custom_value in @custom_values %>
-	<p><%= custom_field_tag_with_label @custom_value %></p>
+<% @user.custom_field_values.each do |value| %>
+	<p><%= custom_field_tag_with_label :user, value %></p>
 <% end %>
 <!--[eoform:user]-->
 </div>

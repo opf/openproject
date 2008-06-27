@@ -7,7 +7,10 @@ custom_fields_001:
   is_filter: true
   type: IssueCustomField
   max_length: 0
-  possible_values: MySQL|PostgreSQL|Oracle
+  possible_values: 
+  - MySQL
+  - PostgreSQL
+  - Oracle
   id: 1
   is_required: false
   field_format: list
@@ -33,7 +36,11 @@ custom_fields_003:
   is_filter: true
   type: ProjectCustomField
   max_length: 0
-  possible_values: Stable|Beta|Alpha|Planning
+  possible_values: 
+  - Stable
+  - Beta
+  - Alpha
+  - Planning
   id: 3
   is_required: true
   field_format: list

@@ -176,7 +176,7 @@ class Query < ActiveRecord::Base
       unless @project.active_children.empty?
         @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.active_children.collect{|s| [s.name, s.id.to_s] } }
       end
-      add_custom_fields_filters(@project.all_custom_fields)
+      add_custom_fields_filters(@project.all_issue_custom_fields)
     else
       # global filters for cross project issue list
       add_custom_fields_filters(IssueCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
@@ -226,7 +226,7 @@ class Query < ActiveRecord::Base
     return @available_columns if @available_columns
     @available_columns = Query.available_columns
     @available_columns += (project ? 
-                            project.all_custom_fields :
+                            project.all_issue_custom_fields :
                             IssueCustomField.find(:all, :conditions => {:is_for_all => true})
                            ).collect {|cf| QueryCustomFieldColumn.new(cf) }      
   end

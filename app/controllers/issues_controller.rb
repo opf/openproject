@@ -94,7 +94,6 @@ class IssuesController < ApplicationController
   end
   
   def show
-    @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
     @journals.each_with_index {|j,i| j.indice = i+1}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
@@ -113,15 +112,17 @@ class IssuesController < ApplicationController
   # Add a new issue
   # The new issue will be created from an existing one if copy_from parameter is given
   def new
-    @issue = params[:copy_from] ? Issue.new.copy_from(params[:copy_from]) : Issue.new(params[:issue])
+    @issue = Issue.new
+    @issue.copy_from(params[:copy_from]) if params[:copy_from]
     @issue.project = @project
-    @issue.author = User.current
     @issue.tracker ||= @project.trackers.find(params[:tracker_id] ? params[:tracker_id] : :first)
     if @issue.tracker.nil?
       flash.now[:error] = 'No tracker is associated to this project. Please check the Project settings.'
       render :nothing => true, :layout => true
       return
     end
+    @issue.attributes = params[:issue]
+    @issue.author = User.current
     
     default_status = IssueStatus.default
     unless default_status
@@ -134,17 +135,10 @@ class IssuesController < ApplicationController
     
     if request.get? || request.xhr?
       @issue.start_date ||= Date.today
-      @custom_values = @issue.custom_values.empty? ?
-        @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue) } :
-        @issue.custom_values
     else
       requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
       # Check that the user is allowed to apply the requested status
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
-      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, 
-                                                                                                       :customized => @issue,
-                                                                                                       :value => (params[:custom_fields] ? params[:custom_fields][x.id.to_s] : nil)) }
-      @issue.custom_values = @custom_values
       if @issue.save
         attach_files(@issue, params[:attachments])
         flash[:notice] = l(:notice_successful_create)
@@ -165,7 +159,6 @@ class IssuesController < ApplicationController
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @activities = Enumeration::get_values('ACTI')
     @priorities = Enumeration::get_values('IPRI')
-    @custom_values = []
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     
     @notes = params[:notes]
@@ -178,14 +171,7 @@ class IssuesController < ApplicationController
       @issue.attributes = attrs
     end
 
-    if request.get?
-      @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| @issue.custom_values.find_by_custom_field_id(x.id) || CustomValue.new(:custom_field => x, :customized => @issue) }
-    else
-      # Update custom fields if user has :edit permission
-      if @edit_allowed && params[:custom_fields]
-        @custom_values = @project.custom_fields_for_issues(@issue.tracker).collect { |x| CustomValue.new(:custom_field => x, :customized => @issue, :value => params["custom_fields"][x.id.to_s]) }
-        @issue.custom_values = @custom_values
-      end
+    if request.post?
       @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
       @time_entry.attributes = params[:time_entry]
       attachments = attach_files(@issue, params[:attachments])

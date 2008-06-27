@@ -17,8 +17,8 @@
 <p><%= f.check_box :is_public %></p>
 <%= wikitoolbar_for 'project_description' %>
 
-<% for @custom_value in @custom_values %>
-	<p><%= custom_field_tag_with_label @custom_value %></p>
+<% @project.custom_field_values.each do |value| %>
+	<p><%= custom_field_tag_with_label :project, value %></p>
 <% end %>
 </div>
 
@@ -34,15 +34,15 @@
 </fieldset>
 <% end %>
 
-<% unless @custom_fields.empty? %>
+<% unless @issue_custom_fields.empty? %>
 <fieldset class="box"><legend><%=l(:label_custom_field_plural)%></legend>
-<% for custom_field in @custom_fields %>
+<% @issue_custom_fields.each do |custom_field| %>
     <label class="floating">
-	<%= check_box_tag 'project[custom_field_ids][]', custom_field.id, ((@project.custom_fields.include? custom_field) or custom_field.is_for_all?), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
+	<%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
 	<%= custom_field.name %>
 	</label>
 <% end %>
-<%= hidden_field_tag 'project[custom_field_ids][]', '' %>
+<%= hidden_field_tag 'project[issue_custom_field_ids][]', '' %>
 </fieldset>
 <% end %>
 <!--[eoform:project]-->

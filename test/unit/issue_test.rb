@@ -18,13 +18,89 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IssueTest < Test::Unit::TestCase
-  fixtures :projects, :users, :members, :trackers, :projects_trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :time_entries
+  fixtures :projects, :users, :members,
+           :trackers, :projects_trackers,
+           :issue_statuses, :issue_categories,
+           :enumerations,
+           :issues,
+           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
+           :time_entries
 
   def test_create
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => Enumeration.get_values('IPRI').first, :subject => 'test_create', :description => 'IssueTest#test_create', :estimated_hours => '1:30')
     assert issue.save
     issue.reload
     assert_equal 1.5, issue.estimated_hours
+  end
+  
+  def test_create_with_required_custom_field
+    field = IssueCustomField.find_by_name('Database')
+    field.update_attribute(:is_required, true)
+    
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :subject => 'test_create', :description => 'IssueTest#test_create_with_required_custom_field')
+    assert issue.available_custom_fields.include?(field)
+    # No value for the custom field
+    assert !issue.save
+    assert_equal 'activerecord_error_invalid', issue.errors.on(:custom_values)
+    # Blank value
+    issue.custom_field_values = { field.id => '' }
+    assert !issue.save
+    assert_equal 'activerecord_error_invalid', issue.errors.on(:custom_values)
+    # Invalid value
+    issue.custom_field_values = { field.id => 'SQLServer' }
+    assert !issue.save
+    assert_equal 'activerecord_error_invalid', issue.errors.on(:custom_values)
+    # Valid value
+    issue.custom_field_values = { field.id => 'PostgreSQL' }
+    assert issue.save
+    issue.reload
+    assert_equal 'PostgreSQL', issue.custom_value_for(field).value
+  end
+  
+  def test_update_issue_with_required_custom_field
+    field = IssueCustomField.find_by_name('Database')
+    field.update_attribute(:is_required, true)
+    
+    issue = Issue.find(1)
+    assert_nil issue.custom_value_for(field)
+    assert issue.available_custom_fields.include?(field)
+    # No change to custom values, issue can be saved
+    assert issue.save
+    # Blank value
+    issue.custom_field_values = { field.id => '' }
+    assert !issue.save
+    # Valid value
+    issue.custom_field_values = { field.id => 'PostgreSQL' }
+    assert issue.save
+    issue.reload
+    assert_equal 'PostgreSQL', issue.custom_value_for(field).value
+  end
+  
+  def test_should_not_update_attributes_if_custom_fields_validation_fails
+    issue = Issue.find(1)
+    field = IssueCustomField.find_by_name('Database')
+    assert issue.available_custom_fields.include?(field)
+    
+    issue.custom_field_values = { field.id => 'Invalid' }
+    issue.subject = 'Should be not be saved'
+    assert !issue.save
+    
+    issue.reload
+    assert_equal "Can't print recipes", issue.subject
+  end
+  
+  def test_should_not_recreate_custom_values_objects_on_update
+    field = IssueCustomField.find_by_name('Database')
+    
+    issue = Issue.find(1)
+    issue.custom_field_values = { field.id => 'PostgreSQL' }
+    assert issue.save
+    custom_value = issue.custom_value_for(field)
+    issue.reload
+    issue.custom_field_values = { field.id => 'MySQL' }
+    assert issue.save
+    issue.reload
+    assert_equal custom_value.id, issue.custom_value_for(field).id
   end
   
   def test_category_based_assignment

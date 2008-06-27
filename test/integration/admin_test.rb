@@ -48,8 +48,9 @@ class AdminTest < ActionController::IntegrationTest
     post "projects/add", :project => { :name => "blog", 
                                        :description => "weblog",
                                        :identifier => "blog",
-                                       :is_public => 1 },
-                         'custom_fields[3]' => 'Beta'
+                                       :is_public => 1,
+                                       :custom_field_values => { '3' => 'Beta' }
+                                       }
     assert_redirected_to "admin/projects"
     assert_equal 'Successful creation.', flash[:notice]
     

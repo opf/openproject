@@ -110,17 +110,12 @@ class AccountController < ApplicationController
     redirect_to(home_url) && return unless Setting.self_registration?
     if request.get?
       @user = User.new(:language => Setting.default_language)
-      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, :customized => @user) }
     else
       @user = User.new(params[:user])
       @user.admin = false
       @user.login = params[:user][:login]
       @user.status = User::STATUS_REGISTERED
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
-      @custom_values = UserCustomField.find(:all).collect { |x| CustomValue.new(:custom_field => x, 
-                                                                                :customized => @user, 
-                                                                                :value => (params["custom_fields"] ? params["custom_fields"][x.id.to_s] : nil)) }
-      @user.custom_values = @custom_values
       case Setting.self_registration
       when '1'
         # Email activation

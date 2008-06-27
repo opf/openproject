@@ -25,37 +25,40 @@ module CustomFieldsHelper
   end
   
   # Return custom field html tag corresponding to its format
-  def custom_field_tag(custom_value)	
+  def custom_field_tag(name, custom_value)	
     custom_field = custom_value.custom_field
-    field_name = "custom_fields[#{custom_field.id}]"
-    field_id = "custom_fields_#{custom_field.id}"
+    field_name = "#{name}[custom_field_values][#{custom_field.id}]"
+    field_id = "#{name}_custom_field_values_#{custom_field.id}"
     
     case custom_field.field_format
     when "date"
-      text_field('custom_value', 'value', :name => field_name, :id => field_id, :size => 10) + 
+      text_field_tag(field_name, custom_value.value, :id => field_id, :size => 10) + 
       calendar_for(field_id)
     when "text"
-      text_area 'custom_value', 'value', :name => field_name, :id => field_id, :rows => 3, :style => 'width:99%'
+      text_area_tag(field_name, custom_value.value, :id => field_id, :rows => 3, :style => 'width:90%')
     when "bool"
-      check_box 'custom_value', 'value', :name => field_name, :id => field_id
+      check_box_tag(field_name, custom_value.value, :id => field_id)
     when "list"
-      select 'custom_value', 'value', custom_field.possible_values, { :include_blank => true }, :name => field_name, :id => field_id
+      blank_option = custom_field.is_required? ?
+                       (custom_field.default_value.blank? ? "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" : '') : 
+                       '<option></option>'
+      select_tag(field_name, blank_option + options_for_select(custom_field.possible_values, custom_value.value), :id => field_id)
     else
-      text_field 'custom_value', 'value', :name => field_name, :id => field_id
+      text_field_tag(field_name, custom_value.value, :id => field_id)
     end
   end
   
   # Return custom field label tag
-  def custom_field_label_tag(custom_value)
+  def custom_field_label_tag(name, custom_value)
     content_tag "label", custom_value.custom_field.name +
 	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>" : ""),
-	:for => "custom_fields_#{custom_value.custom_field.id}",
+	:for => "#{name}_custom_field_values_#{custom_value.custom_field.id}",
 	:class => (custom_value.errors.empty? ? nil : "error" )
   end
   
   # Return custom field tag with its label tag
-  def custom_field_tag_with_label(custom_value)
-    custom_field_label_tag(custom_value) + custom_field_tag(custom_value)
+  def custom_field_tag_with_label(name, custom_value)
+    custom_field_label_tag(name, custom_value) + custom_field_tag(name, custom_value)
   end
 
   # Return a string used to display a custom value
