@@ -28,11 +28,11 @@ ContextMenu.prototype = {
 	RightClick: function(e) {
 		this.hideMenu();
 		// do not show the context menu on links
-		if (Event.findElement(e, 'a') != document) { return; }
+		if (Event.findElement(e, 'a') != document && Event.findElement(e, 'a') != undefined) { return; }
 		// right-click simulated by Alt+Click with Opera
 		if (window.opera && !e.altKey) { return; }
 		var tr = Event.findElement(e, 'tr');
-		if ((tr == document) || !tr.hasClassName('hascontextmenu')) { return; }
+		if (tr == document || tr == undefined  || !tr.hasClassName('hascontextmenu')) { return; }
 		Event.stop(e);
 		if (!this.isSelected(tr)) {
 			this.unselectAll();
@@ -44,14 +44,14 @@ ContextMenu.prototype = {
 
   Click: function(e) {
   	this.hideMenu();
-  	if (Event.findElement(e, 'a') != document) { return; }
+  	if (Event.findElement(e, 'a') != document && Event.findElement(e, 'a') != undefined ) { return; }
     if (window.opera && e.altKey) {	return; }
     if (Event.isLeftClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {      
       var tr = Event.findElement(e, 'tr');
       if (tr!=document && tr.hasClassName('hascontextmenu')) {
         // a row was clicked, check if the click was on checkbox
         var box = Event.findElement(e, 'input');
-        if (box!=document) {
+        if (box!=document && box!=undefined) {
           // a checkbox may be clicked
           if (box.checked) {
             tr.addClassName('context-menu-selection');
