@@ -98,6 +98,11 @@ namespace :redmine do
             nil
           end
         end
+
+        def description
+          # Attribute is named descr in Trac v0.8.x
+          has_attribute?(:descr) ? read_attribute(:descr) : read_attribute(:description)
+        end
       end
       
       class TracTicketCustom < ActiveRecord::Base
