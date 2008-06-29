@@ -10,6 +10,12 @@ function checkAll (id, checked) {
 	}
 }
 
+function showAndScrollTo(id, focus) {
+	Element.show(id);
+	if (focus!=null) { Form.Element.focus(focus); }
+	Element.scrollTo(id);
+}
+
 var fileFieldCount = 1;
 
 function addFileField() {
