@@ -16,7 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Setup < ActiveRecord::Migration
-
+  
+  class User < ActiveRecord::Base; end
   # model removed
   class Permission < ActiveRecord::Base; end
   
@@ -284,13 +285,15 @@ class Setup < ActiveRecord::Migration
     Permission.create :controller => "versions", :action => "destroy_file", :description => "button_delete", :sort => 1322
     
     # create default administrator account
-    user = User.create :firstname => "Redmine", :lastname => "Admin", :mail => "admin@somenet.foo", :mail_notification => true, :language => "en"
-    user.login = "admin"
-    user.password = "admin"
-    user.admin = true
-    user.save
-    
-    
+    user = User.create :login => "admin",
+                       :hashed_password => "d033e22ae348aeb5660fc2140aec35850c4da997",
+                       :admin => true,
+                       :firstname => "Redmine",
+                       :lastname => "Admin",
+                       :mail => "admin@somenet.foo",
+                       :mail_notification => true,
+                       :language => "en",
+                       :status => 1
   end
 
   def self.down
