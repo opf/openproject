@@ -113,7 +113,7 @@ field_created_on: 建立日期
 field_updated_on: 更新
 field_field_format: 格式
 field_is_for_all: 給所有專案
-field_possible_values: Possible values
+field_possible_values: 可能值
 field_regexp: 正規表示式
 field_min_length: 最小長度
 field_max_length: 最大長度
@@ -156,9 +156,9 @@ field_account: 帳戶
 field_base_dn: Base DN
 field_attr_login: 登入屬性
 field_attr_firstname: 名字屬性
-field_attr_lastname: Lastname attribute
-field_attr_mail: Email attribute
-field_onthefly: On-the-fly user creation
+field_attr_lastname: 姓氏屬性
+field_attr_mail: 電子郵件信箱屬性
+field_onthefly: 即時建立使用者
 field_start_date: 開始日期
 field_done_ratio: 完成百分比
 field_auth_source: 認證模式
@@ -171,13 +171,13 @@ field_hours: 小時
 field_activity: 活動
 field_spent_on: 日期
 field_identifier: 代碼
-field_is_filter: Used as a filter
-field_issue_to_id: Related issue
+field_is_filter: 用來作為過濾器
+field_issue_to_id: 相關項目
 field_delay: 逾期
 field_assignable: 項目可被分派至此角色
-field_redirect_existing_links: Redirect existing links
+field_redirect_existing_links: 重新導向現有連結
 field_estimated_hours: 預估工時
-field_column_names: Columns
+field_column_names: 欄位
 field_time_zone: 時區
 field_searchable: 可用做搜尋條件
 field_default_value: 預設值
@@ -196,7 +196,7 @@ setting_bcc_recipients: 使用密件副本 (BCC)
 setting_host_name: 主機名稱
 setting_text_formatting: 文字格式
 setting_wiki_compression: 壓縮 Wiki 歷史文章
-setting_feeds_limit: Feed content limit
+setting_feeds_limit: RSS 新聞限制
 setting_autofetch_changesets: 自動取得送交版次
 setting_default_projects_public: 新建立之專案預設為「公開」
 setting_sys_api_enabled: 啟用管理版本庫之網頁服務 (Web Service)
@@ -215,6 +215,8 @@ setting_user_format: 使用者顯示格式
 setting_activity_days_default: 專案活動顯示天數
 setting_display_subprojects_issues: 預設於父專案中顯示子專案的項目
 setting_enabled_scm: 啟用的 SCM
+setting_mail_handler_api_enabled: 啟用處理傳入電子郵件的服務
+setting_mail_handler_api_key: API 金鑰
 
 project_module_issue_tracking: 項目追蹤
 project_module_time_tracking: 工時追蹤
@@ -332,7 +334,7 @@ label_version_new: 建立新的版本
 label_version_plural: 版本
 label_confirmation: 確認
 label_export_to: 匯出至
-label_read: Read...
+label_read: 讀取...
 label_public_projects: 公開專案
 label_open_issues: 進行中
 label_open_issues_plural: 進行中
@@ -344,7 +346,7 @@ label_current_status: 目前狀態
 label_new_statuses_allowed: 可變更至以下狀態
 label_all: 全部
 label_none: 空值
-label_nobody: nobody
+label_nobody: 無名
 label_next: 下一頁
 label_previous: 上一頁
 label_used_by: Used by
@@ -354,7 +356,7 @@ label_per_page: 每頁
 label_calendar: 日曆
 label_months_from: 個月, 開始月份
 label_gantt: 甘特圖
-label_internal: Internal
+label_internal: 內部
 label_last_changes: 最近 %d 個變更
 label_change_view_all: 檢視所有變更
 label_personalize_page: 自訂版面
@@ -455,10 +457,10 @@ label_blocks: 阻擋
 label_blocked_by: 被阻擋
 label_precedes: 優先於
 label_follows: 跟隨於
-label_end_to_start: end to start
-label_end_to_end: end to end
-label_start_to_start: start to start
-label_start_to_end: start to end
+label_end_to_start: 結束─開始
+label_end_to_end: 結束─結束
+label_start_to_start: 開始─開始
+label_start_to_end: 開始─結束
 label_stay_logged_in: 維持已登入狀態
 label_disabled: 關閉
 label_show_completed_versions: 顯示已完成的版本
@@ -502,7 +504,7 @@ label_registration_activation_by_email: 透過電子郵件啟用帳戶
 label_registration_manual_activation: 手動啟用帳戶
 label_registration_automatic_activation: 自動啟用帳戶
 label_display_per_page: '每頁顯示: %s 個'
-label_age: Age
+label_age: 年齡
 label_change_properties: 變更屬性
 label_general: 一般
 label_more: 更多 »
@@ -516,6 +518,8 @@ label_preferences: 偏好選項
 label_chronological_order: 以時間由遠至近排序
 label_reverse_chronological_order: 以時間由近至遠排序
 label_planning: 計劃表
+label_incoming_emails: 傳入的電子郵件
+label_generate_key: 產生金鑰
 
 button_login: 登入
 button_submit: 送出
@@ -533,10 +537,10 @@ button_clear: 清除
 button_lock: 鎖定
 button_unlock: 解除鎖定
 button_download: 下載
-button_list: List
+button_list: 清單
 button_view: 檢視
 button_move: 移動
-button_back: Back
+button_back: 返回
 button_cancel: 取消
 button_activate: 啟用
 button_sort: 排序
@@ -586,8 +590,8 @@ text_wiki_destroy_confirmation: 您確定要刪除這個 wiki 和其中的所有
 text_issue_category_destroy_question: 有 (%d) 個項目被指派到此分類. 請選擇您想要的動作？
 text_issue_category_destroy_assignments: 移除這些項目的分類
 text_issue_category_reassign_to: 重新指派這些項目至其它分類
-text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+text_user_mail_option: "對於那些未被選擇的專案，將只會接收到您正在觀察中，或是參與中的項目通知。（「參與中的項目」包含您建立的或是指派給您的項目）"
+text_no_configuration_data: "角色、追蹤器、項目狀態與流程尚未被設定完成。\n強烈建議您先載入預設的設定，然後修改成您想要的設定。"
 text_load_default_configuration: 載入預設組態
 text_status_changed_by_changeset: 已套用至變更集 %s.
 text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
@@ -600,6 +604,8 @@ text_destroy_time_entries: 刪除已報工的時數
 text_assign_time_entries_to_project: 指定已報工的時數至專案中
 text_reassign_time_entries: '重新指定已報工的時數至此項目：'
 text_user_wrote: '%s 先前提到:'
+text_enumeration_destroy_question: '目前有 %d 個物件使用此列舉值。'
+text_enumeration_category_reassign_to: '重新設定其列舉值為：'
 
 default_role_manager: 管理人員
 default_role_developper: 開發人員
@@ -626,9 +632,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key

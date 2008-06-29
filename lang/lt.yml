@@ -622,14 +622,15 @@ label_planning: Planavimas
 text_subprojects_destroy_warning: 'Šis(ie) subprojektas(ai): %s taip pat bus ištrintas(i).'
 label_and_its_subprojects: %s projektas ir jo subprojektai
 
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '%s wrote:'
-label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
+mail_body_reminder: "%d darbas(ai), kurie yra jums priskirti, baigiasi po %d dienų(os):"
+mail_subject_reminder: "%d darbas(ai) po kelių dienų"
+text_user_wrote: '%s parašė:'
+label_duplicated_by: susiejo
+setting_enabled_scm: Įgalintas SCM
+text_enumeration_category_reassign_to: 'Priskirti juos šiai reikšmei:'
+text_enumeration_destroy_question: '%d objektai priskirti šiai reikšmei.'
+label_incoming_emails: Įeinantys laiškai
+label_generate_key: Generuoti raktą
+setting_mail_handler_api_enabled: Įgalinti WS įeinantiems laiškams
+setting_mail_handler_api_key: API raktas
+
