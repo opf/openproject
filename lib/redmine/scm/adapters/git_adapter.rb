@@ -139,10 +139,10 @@ module Redmine
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
           cmd = "#{GIT_BIN} --git-dir #{target('')} log --raw "
+          cmd << " --reverse" if options[:reverse]
           cmd << " -n #{options[:limit].to_i} " if (!options.nil?) && options[:limit]
           cmd << " #{shell_quote(identifier_from + '..')} " if identifier_from
           cmd << " #{shell_quote identifier_to} " if identifier_to
-          #cmd << " HEAD " if !identifier_to
           shellout(cmd) do |io|
             files=[]
             changeset = {}
@@ -155,13 +155,18 @@ module Redmine
                 value = $1
                 if (parsing_descr == 1 || parsing_descr == 2)
                   parsing_descr = 0
-                  revisions << Revision.new({:identifier => changeset[:commit],
-                                             :scmid => changeset[:commit],
-                                             :author => changeset[:author],
-                                             :time => Time.parse(changeset[:date]),
-                                             :message => changeset[:description],
-                                             :paths => files
-                                            })
+                  revision = Revision.new({:identifier => changeset[:commit],
+                                           :scmid => changeset[:commit],
+                                           :author => changeset[:author],
+                                           :time => Time.parse(changeset[:date]),
+                                           :message => changeset[:description],
+                                           :paths => files
+                                          })
+                  if block_given?
+                    yield revision
+                  else
+                    revisions << revision
+                  end
                   changeset = {}
                   files = []
                   revno = revno + 1
@@ -190,14 +195,20 @@ module Redmine
               end
             end	
 
-            revisions << Revision.new({:identifier => changeset[:commit],
+            if changeset[:commit]
+              revision = Revision.new({:identifier => changeset[:commit],
                                        :scmid => changeset[:commit],
                                        :author => changeset[:author],
                                        :time => Time.parse(changeset[:date]),
                                        :message => changeset[:description],
                                        :paths => files
-                                      }) if changeset[:commit]
-
+                                      })
+              if block_given?
+                yield revision
+              else
+                revisions << revision
+              end
+            end
           end
 
           return nil if $? && $?.exitstatus != 0

@@ -44,10 +44,8 @@ class Repository::Git < Repository
       scm_revision = scm_info.lastrev.scmid
 
       unless changesets.find_by_scmid(scm_revision)
-
-        revisions = scm.revisions('', db_revision, nil)
-        transaction do
-          revisions.reverse_each do |revision|
+        scm.revisions('', db_revision, nil, :reverse => true) do |revision|
+          transaction do
             changeset = Changeset.create(:repository => self,
                                          :revision => revision.identifier,
                                          :scmid => revision.scmid,
