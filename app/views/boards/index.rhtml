@@ -38,3 +38,5 @@
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, {:controller => 'projects', :action => 'activity', :id => @project, :format => 'atom', :show_messages => 1, :key => User.current.rss_key}) %>
 <% end %>
+
+<% html_title l(:label_board_plural) %>
