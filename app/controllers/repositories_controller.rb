@@ -228,7 +228,7 @@ private
   
     graph = SVG::Graph::Bar.new(
       :height => 300,
-      :width => 500,
+      :width => 800,
       :fields => fields.reverse,
       :stack => :side,
       :scale_integers => true,
@@ -270,8 +270,8 @@ private
     fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '') }
     
     graph = SVG::Graph::BarHorizontal.new(
-      :height => 300,
-      :width => 500,
+      :height => 400,
+      :width => 800,
       :fields => fields,
       :stack => :side,
       :scale_integers => true,
