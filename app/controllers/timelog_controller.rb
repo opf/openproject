@@ -183,7 +183,6 @@ class TimelogController < ApplicationController
       redirect_to(params[:back_url].blank? ? {:action => 'details', :project_id => @time_entry.project} : params[:back_url])
       return
     end    
-    @activities = Enumeration::get_values('ACTI')
   end
   
   def destroy

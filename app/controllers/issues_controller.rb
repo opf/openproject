@@ -43,6 +43,7 @@ class IssuesController < ApplicationController
   helper :sort
   include SortHelper
   include IssuesHelper
+  helper :timelog
 
   def index
     sort_init "#{Issue.table_name}.id", "desc"
@@ -99,7 +100,6 @@ class IssuesController < ApplicationController
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
-    @activities = Enumeration::get_values('ACTI')
     @priorities = Enumeration::get_values('IPRI')
     @time_entry = TimeEntry.new
     respond_to do |format|
@@ -157,7 +157,6 @@ class IssuesController < ApplicationController
   
   def edit
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-    @activities = Enumeration::get_values('ACTI')
     @priorities = Enumeration::get_values('IPRI')
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     

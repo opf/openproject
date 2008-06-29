@@ -21,7 +21,7 @@
         <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
         </div>
         <div class="splitcontentright">
-        <p><%= time_entry.select :activity_id, (@activities.collect {|p| [p.name, p.id]}) %></p>
+        <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
         </div>
         <p><%= time_entry.text_field :comments, :size => 60 %></p>
         <% end %>

@@ -16,6 +16,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module TimelogHelper
+  def activity_collection_for_select_options
+    activities = Enumeration::get_values('ACTI')
+    collection = []
+    collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless activities.detect(&:is_default)
+    activities.each { |a| collection << [a.name, a.id] }
+    collection
+  end
+  
   def select_hours(data, criteria, value)
     data.select {|row| row[criteria] == value}
   end
