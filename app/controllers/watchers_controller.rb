@@ -23,18 +23,22 @@ class WatchersController < ApplicationController
     user = User.current
     @watched.add_watcher(user)
     respond_to do |format|
-      format.html { render :text => 'Watcher added.', :layout => true }
+      format.html { redirect_to :back }
       format.js { render(:update) {|page| page.replace_html 'watcher', watcher_link(@watched, user)} }
     end
+  rescue RedirectBackError
+    render :text => 'Watcher added.', :layout => true
   end
   
   def remove
     user = User.current
     @watched.remove_watcher(user)
     respond_to do |format|
-      format.html { render :text => 'Watcher removed.', :layout => true }
+      format.html { redirect_to :back }
       format.js { render(:update) {|page| page.replace_html 'watcher', watcher_link(@watched, user)} }
     end
+  rescue RedirectBackError
+    render :text => 'Watcher removed.', :layout => true
   end
 
 private
