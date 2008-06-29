@@ -175,7 +175,7 @@ class IssuesController < ApplicationController
       @time_entry.attributes = params[:time_entry]
       attachments = attach_files(@issue, params[:attachments])
       attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
-      if @issue.save
+      if (@time_entry.hours.nil? || @time_entry.valid?) && @issue.save
         # Log spend time
         if current_role.allowed_to?(:log_time)
           @time_entry.save
