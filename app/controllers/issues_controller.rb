@@ -115,7 +115,8 @@ class IssuesController < ApplicationController
     @issue = Issue.new
     @issue.copy_from(params[:copy_from]) if params[:copy_from]
     @issue.project = @project
-    @issue.tracker ||= @project.trackers.find(params[:tracker_id] ? params[:tracker_id] : :first)
+    # Tracker must be set before custom field values
+    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
     if @issue.tracker.nil?
       flash.now[:error] = 'No tracker is associated to this project. Please check the Project settings.'
       render :nothing => true, :layout => true

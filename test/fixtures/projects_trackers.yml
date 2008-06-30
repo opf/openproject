@@ -38,3 +38,7 @@ projects_trackers_010:
 projects_trackers_011: 
   project_id: 4
   tracker_id: 2
+projects_trackers_012: 
+  project_id: 1
+  tracker_id: 3
+  

@@ -199,7 +199,7 @@ class IssuesControllerTest < Test::Unit::TestCase
   def test_post_new
     @request.session[:user_id] = 2
     post :new, :project_id => 1, 
-               :issue => {:tracker_id => 1,
+               :issue => {:tracker_id => 3,
                           :subject => 'This is the test_new issue',
                           :description => 'This is the description',
                           :priority_id => 5,
@@ -210,6 +210,7 @@ class IssuesControllerTest < Test::Unit::TestCase
     issue = Issue.find_by_subject('This is the test_new issue')
     assert_not_nil issue
     assert_equal 2, issue.author_id
+    assert_equal 3, issue.tracker_id
     assert_nil issue.estimated_hours
     v = issue.custom_values.find_by_custom_field_id(2)
     assert_not_nil v
