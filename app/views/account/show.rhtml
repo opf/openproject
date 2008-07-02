@@ -1,7 +1,7 @@
 <h2><%=h @user.name %></h2>
 
 <p>
-<%= mail_to @user.mail unless @user.pref.hide_mail %>
+<%= mail_to(h(@user.mail)) unless @user.pref.hide_mail %>
 <ul>
     <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
 <% for custom_value in @custom_values %>
@@ -16,8 +16,8 @@
 <h3><%=l(:label_project_plural)%></h3>
 <ul>
 <% for membership in @memberships %>
-	<li><%= link_to membership.project.name, :controller => 'projects', :action => 'show', :id => membership.project %>
-    (<%= membership.role.name %>, <%= format_date(membership.created_on) %>)</li>
+	<li><%= link_to(h(membership.project.name), :controller => 'projects', :action => 'show', :id => membership.project) %>
+    (<%=h membership.role.name %>, <%= format_date(membership.created_on) %>)</li>
 <% end %>
 </ul>
 <% end %>
