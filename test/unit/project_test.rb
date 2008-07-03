@@ -118,6 +118,7 @@ class ProjectTest < Test::Unit::TestCase
   
   def test_rolled_up_trackers
     parent = Project.find(1)
+    parent.trackers = Tracker.find([1,2])
     child = parent.children.find(3)
   
     assert_equal [1, 2], parent.tracker_ids
