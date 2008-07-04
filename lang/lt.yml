@@ -634,3 +634,4 @@ label_generate_key: Generuoti raktą
 setting_mail_handler_api_enabled: Įgalinti WS įeinantiems laiškams
 setting_mail_handler_api_key: API raktas
 
+text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."

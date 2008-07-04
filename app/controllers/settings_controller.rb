@@ -39,6 +39,7 @@ class SettingsController < ApplicationController
     end
     @options = {}
     @options[:user_format] = User::USER_FORMATS.keys.collect {|f| [User.current.name(f), f.to_s] }
+    @deliveries = ActionMailer::Base.perform_deliveries
   end
   
   def plugin

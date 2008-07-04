@@ -53,10 +53,10 @@ Optional:
    trackers, statuses, workflow) and adjust application settings
 
 
-== SMTP server Configuration
+== Email delivery Configuration
 
-In config/environment.rb, you can set parameters for your SMTP server:
-config.action_mailer.smtp_settings: SMTP server configuration
-config.action_mailer.perform_deliveries: set to false to disable mail delivering
-
+Copy config/email.yml.example to config/email.yml and edit this file
+to adjust your SMTP settings.
 Don't forget to restart the application after any change to this file.
+
+Please do not enter your SMTP settings in environment.rb.

@@ -606,6 +606,7 @@ text_reassign_time_entries: 'Reporter les heures sur cette demande:'
 text_user_wrote: '%s a écrit:'
 text_enumeration_destroy_question: 'Cette valeur est affectée à %d objets.'
 text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
+text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/email.yml et redémarrez l'application pour les activer."
 
 default_role_manager: Manager
 default_role_developper: Développeur
