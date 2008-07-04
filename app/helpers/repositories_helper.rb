@@ -22,6 +22,10 @@ module RepositoriesHelper
     txt.to_s[0,8]
   end
   
+  def to_path_param(path)
+    path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
+  end
+  
   def to_utf8(str)
     return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
     @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)

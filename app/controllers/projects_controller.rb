@@ -52,7 +52,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html { 
         @project_tree = projects.group_by {|p| p.parent || p}
-        @project_tree.each_key {|p| @project_tree[p] -= [p]} 
+        @project_tree.keys.each {|p| @project_tree[p] -= [p]} 
       }
       format.atom {
         render_feed(projects.sort_by(&:created_on).reverse.slice(0, Setting.feeds_limit.to_i), 

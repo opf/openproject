@@ -30,6 +30,8 @@
 module RFPDF
   
   class View
+    @@backward_compatibility_mode = false
+    cattr_accessor :backward_compatibility_mode
     
     def initialize(action_view)
       @action_view = action_view
@@ -44,6 +46,14 @@ module RFPDF
         # Temporary Directory
         :temp_dir => "#{File.expand_path(RAILS_ROOT)}/tmp"
       }.merge(@action_view.controller.instance_eval{ @options_for_rfpdf } || {}).with_indifferent_access
+    end
+    
+    def self.compilable?
+      false
+    end
+
+    def compilable?
+      self.class.compilable?
     end
 
     def render(template, local_assigns = {})
@@ -66,7 +76,7 @@ module RFPDF
 			  local_assigns.each do |key,val|
 		  		class << self; self; end.send(:define_method,key){ val }
 				end
-        ERB.new(template).result(binding)
+        ERB.new(@@backward_compatibility_mode == true ? template : template.source).result(binding) 
       end
     end
 

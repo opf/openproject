@@ -26,7 +26,7 @@ class RoleTest < Test::Unit::TestCase
     
     target = Role.new(:name => 'Target')
     assert target.save
-    assert target.workflows.copy(source)
+    target.workflows.copy(source)
     target.reload
     assert_equal 90, target.workflows.size
   end

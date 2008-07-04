@@ -1,4 +1,4 @@
-<% form_tag({:controller => 'repositories', :action => 'diff', :id => @project, :path => path}, :method => :get) do %>
+<% form_tag({:controller => 'repositories', :action => 'diff', :id => @project, :path => to_path_param(path)}, :method => :get) do %>
 <table class="list changesets">
 <thead><tr>
 <th>#</th>

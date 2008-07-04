@@ -22,7 +22,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   
   def initialize(object_name, object, template, options, proc)
     set_language_if_valid options.delete(:lang)
-    @object_name, @object, @template, @options, @proc = object_name, object, template, options, proc        
+    super
   end      
       
   (field_helpers - %w(radio_button hidden_field) + %w(date_select)).each do |selector|

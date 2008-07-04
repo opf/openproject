@@ -26,7 +26,7 @@ class TrackerTest < Test::Unit::TestCase
     
     target = Tracker.new(:name => 'Target')
     assert target.save
-    assert target.workflows.copy(source)
+    target.workflows.copy(source)
     target.reload
     assert_equal 89, target.workflows.size
   end

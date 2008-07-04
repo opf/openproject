@@ -20,8 +20,11 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 class IssuesTest < ActionController::IntegrationTest
   fixtures :projects, 
            :users,
+           :roles,
+           :members,
            :trackers,
            :projects_trackers,
+           :enabled_modules,
            :issue_statuses,
            :issues,
            :enumerations,

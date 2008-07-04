@@ -55,7 +55,7 @@
 <%= "(#{change.revision})" unless change.revision.blank?  %></td>
 <td align="right">
 <% if change.action == "M" %>
-<%= link_to l(:label_view_diff), :action => 'diff', :id => @project, :path => without_leading_slash(change.relative_path), :rev => @changeset.revision %>
+<%= link_to l(:label_view_diff), :action => 'diff', :id => @project, :path => to_path_param(change.relative_path), :rev => @changeset.revision %>
 <% end %>
 </td>
 </tr>
