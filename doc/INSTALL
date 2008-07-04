@@ -7,18 +7,15 @@ http://www.redmine.org/
 
 == Requirements
 
-* Ruby on Rails 2.0.2 (not Rails 2.1)
-* A database (see compatibility below)
+* Ruby on Rails 2.1
+* A database:
+  * MySQL (tested with MySQL 5)
+  * PostgreSQL (tested with PostgreSQL 8.1)
+  * SQLite (tested with SQLite 3)
 
 Optional:
 * SVN binaries >= 1.3 (needed for repository browsing, must be available in PATH)
 * RMagick (gantt export to png)
-
-Supported databases:
-* MySQL (tested with MySQL 5)
-* PostgreSQL (tested with PostgreSQL 8.1)
-* SQLite (tested with SQLite 3)
-
 
 == Installation
 
