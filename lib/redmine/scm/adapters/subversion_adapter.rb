@@ -26,6 +26,25 @@ module Redmine
         # SVN executable name
         SVN_BIN = "svn"
         
+        class << self
+          def client_version
+            @@client_version ||= (svn_binary_version || 'Unknown version')
+          end
+          
+          def svn_binary_version
+            cmd = "#{SVN_BIN} --version"
+            version = nil
+            shellout(cmd) do |io|
+              # Read svn version in first returned line
+              if m = io.gets.match(%r{((\d+\.)+\d+)})
+                version = m[0].scan(%r{\d+}).collect(&:to_i)
+              end
+            end
+            return nil if $? && $?.exitstatus != 0
+            version
+          end
+        end
+        
         # Get info about the svn repository
         def info
           cmd = "#{SVN_BIN} info --xml #{target('')}"
@@ -87,7 +106,29 @@ module Redmine
           logger.debug("Found #{entries.size} entries in the repository for #{target(path)}") if logger && logger.debug?
           entries.sort_by_name
         end
-    
+        
+        def properties(path, identifier=nil)
+          # proplist xml output supported in svn 1.5.0 and higher
+          return nil if (self.class.client_version <=> [1, 5, 0]) < 0
+          
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+          cmd = "#{SVN_BIN} proplist --verbose --xml #{target(path)}@#{identifier}"
+          cmd << credentials_string
+          properties = {}
+          shellout(cmd) do |io|
+            output = io.read
+            begin
+              doc = REXML::Document.new(output)
+              doc.elements.each("properties/target/property") do |property|
+                properties[ property.attributes['name'] ] = property.text
+              end
+            rescue
+            end
+          end
+          return nil if $? && $?.exitstatus != 0
+          properties
+        end
+        
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           path ||= ''
           identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : "HEAD"

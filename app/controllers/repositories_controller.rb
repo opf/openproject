@@ -66,6 +66,7 @@ class RepositoriesController < ApplicationController
       @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
     else
       show_error_not_found and return unless @entries
+      @properties = @repository.properties(@path, @rev)
       render :action => 'browse'
     end
   end
@@ -74,6 +75,7 @@ class RepositoriesController < ApplicationController
     @entry = @repository.entry(@path, @rev)
     show_error_not_found and return unless @entry
     @changesets = @repository.changesets_for_path(@path)
+    @properties = @repository.properties(@path, @rev)
   end
   
   def revisions
@@ -106,7 +108,7 @@ class RepositoriesController < ApplicationController
     else
       # Prevent empty lines when displaying a file with Windows style eol
       @content.gsub!("\r\n", "\n")
-    end
+   end
   end
   
   def annotate

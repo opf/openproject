@@ -59,6 +59,10 @@ class Repository < ActiveRecord::Base
     scm.entries(path, identifier)
   end
   
+  def properties(path, identifier=nil)
+    scm.properties(path, identifier)
+  end
+  
   def cat(path, identifier=nil)
     scm.cat(path, identifier)
   end

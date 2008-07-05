@@ -22,6 +22,16 @@ module RepositoriesHelper
     txt.to_s[0,8]
   end
   
+  def render_properties(properties)
+    unless properties.nil? || properties.empty?
+      content = ''
+      properties.keys.sort.each do |property|
+        content << content_tag('li', "<b>#{h property}</b>: <span>#{h properties[property]}</span>")
+      end
+      content_tag('ul', content, :class => 'properties')
+    end
+  end
+  
   def to_path_param(path)
     path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
   end
