@@ -28,6 +28,39 @@ module Redmine
         TEMPLATE_NAME = "hg-template"
         TEMPLATE_EXTENSION = "tmpl"
         
+        class << self
+          def client_version
+            @@client_version ||= (hgversion || 'Unknown version')
+          end
+          
+          def hgversion  
+            # The hg version is expressed either as a
+            # release number (eg 0.9.5 or 1.0) or as a revision
+            # id composed of 12 hexa characters.
+            theversion = hgversion_from_command_line
+            if theversion.match(/^\d+(\.\d+)+/)
+              theversion.split(".").collect(&:to_i)
+            end
+          end
+          
+          def hgversion_from_command_line
+            %x{#{HG_BIN} --version}.match(/\(version (.*)\)/)[1]
+          end
+          
+          def template_path
+            @@template_path ||= template_path_for(client_version)
+          end
+          
+          def template_path_for(version)
+            if version.is_a?(String) or ((version <=> [0,9,5]) > 0)
+              ver = "1.0"
+            else
+              ver = "0.9.5"
+            end
+            "#{TEMPLATES_DIR}/#{TEMPLATE_NAME}-#{ver}.#{TEMPLATE_EXTENSION}"
+          end
+        end
+        
         def info
           cmd = "#{HG_BIN} -R #{target('')} root"
           root_url = nil
@@ -72,7 +105,7 @@ module Redmine
         # makes Mercurial produce a xml output.
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})  
           revisions = Revisions.new
-          cmd = "#{HG_BIN} --debug --encoding utf8 -R #{target('')} log -C --style #{self.template_path}"
+          cmd = "#{HG_BIN} --debug --encoding utf8 -R #{target('')} log -C --style #{self.class.template_path}"
           if identifier_from && identifier_to
             cmd << " -r #{identifier_from.to_i}:#{identifier_to.to_i}"
           elsif identifier_from
@@ -165,35 +198,6 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           blame
-        end
-        
-        # The hg version version is expressed either as a
-        # release number (eg 0.9.5 or 1.0) or as a revision
-        # id composed of 12 hexa characters.
-        def hgversion  
-          theversion = hgversion_from_command_line
-          if theversion.match(/^\d+(\.\d+)+/)
-            theversion.split(".").collect(&:to_i)
-            #            elsif match = theversion.match(/[[:xdigit:]]{12}/)
-            #               match[0]
-          else
-            "Unknown version"
-          end
-        end
-        
-        def template_path
-          @template ||= begin
-                          if hgversion.is_a?(String) or ((hgversion <=> [0,9,5]) > 0)
-                            ver = "1.0"
-                          else
-                            ver = "0.9.5"
-                          end
-                          "#{TEMPLATES_DIR}/#{TEMPLATE_NAME}-#{ver}.#{TEMPLATE_EXTENSION}"
-                        end
-        end
-        
-        def hgversion_from_command_line
-          @hgversion ||= %x{#{HG_BIN} --version}.match(/\(version (.*)\)/)[1]
         end
       end
     end
