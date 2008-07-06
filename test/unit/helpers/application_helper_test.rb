@@ -81,7 +81,7 @@ class ApplicationHelperTest < HelperTestCase
     version_link = link_to('1.0', {:controller => 'versions', :action => 'show', :id => 2},
                                   :class => 'version')
 
-    source_url = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => 'some/file'}
+    source_url = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}
     
     to_test = {
       # tickets

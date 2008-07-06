@@ -112,6 +112,10 @@ module ApplicationHelper
     type ? CodeRay.scan(content, type).html : h(content)
   end
   
+  def to_path_param(path)
+    path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
+  end
+
   def pagination_links_full(paginator, count=nil, options={})
     page_param = options.delete(:page_param) || :page
     url_param = params.dup
@@ -349,7 +353,8 @@ module ApplicationHelper
             if project && project.repository
               name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
               path, rev, anchor = $1, $3, $5
-              link = link_to h("#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project, :path => path,
+              link = link_to h("#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project,
+                                                      :path => to_path_param(path),
                                                       :rev => rev,
                                                       :anchor => anchor,
                                                       :format => (prefix == 'export' ? 'raw' : nil)},
