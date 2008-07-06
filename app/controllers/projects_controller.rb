@@ -311,7 +311,10 @@ class ProjectsController < ApplicationController
     
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
-      format.atom { render_feed(@events, :title => "#{@project || Setting.app_title}: #{l(:label_activity)}") }
+      format.atom {
+        title = (@scope.size == 1) ? l("label_#{@scope.first.singularize}_plural") : l(:label_activity)
+        render_feed(@events, :title => "#{@project || Setting.app_title}: #{title}")
+      }
     end
   end
   
