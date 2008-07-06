@@ -18,7 +18,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MailHandlerTest < Test::Unit::TestCase
-  fixtures :users, :projects, :enabled_modules, :roles, :members, :issues, :trackers, :enumerations
+  fixtures :users, :projects, 
+                   :enabled_modules,
+                   :roles,
+                   :members,
+                   :issues,
+                   :trackers,
+                   :projects_trackers,
+                   :enumerations,
+                   :issue_categories
   
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
   
@@ -38,8 +46,36 @@ class MailHandlerTest < Test::Unit::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
   
+  def test_add_issue_with_attributes_override
+    issue = submit_email('ticket_with_attributes.eml', :allow_override => 'tracker,category,priority')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'New ticket on a given project', issue.subject
+    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal Project.find(2), issue.project
+    assert_equal 'Feature request', issue.tracker.to_s
+    assert_equal 'Stock management', issue.category.to_s
+    assert_equal 'Urgent', issue.priority.to_s
+    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+  end
+  
+  def test_add_issue_with_partial_attributes_override
+    issue = submit_email('ticket_with_attributes.eml', :issue => {:priority => 'High'}, :allow_override => ['tracker'])
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'New ticket on a given project', issue.subject
+    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal Project.find(2), issue.project
+    assert_equal 'Feature request', issue.tracker.to_s
+    assert_nil issue.category
+    assert_equal 'High', issue.priority.to_s
+    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+  end
+  
   def test_add_issue_with_attachment_to_specific_project
-    issue = submit_email('ticket_with_attachment.eml', :project => 'onlinestore')
+    issue = submit_email('ticket_with_attachment.eml', :issue => {:project => 'onlinestore'})
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload

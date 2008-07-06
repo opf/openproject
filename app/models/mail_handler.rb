@@ -23,7 +23,14 @@ class MailHandler < ActionMailer::Base
   attr_reader :email, :user
 
   def self.receive(email, options={})
-    @@handler_options = options
+    @@handler_options = options.dup
+    
+    @@handler_options[:issue] ||= {}
+    
+    @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').collect(&:strip) if @@handler_options[:allow_override].is_a?(String)
+    @@handler_options[:allow_override] ||= []
+    # Project needs to be overridable if not specified
+    @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
     super email
   end
   
@@ -66,11 +73,13 @@ class MailHandler < ActionMailer::Base
   # Creates a new issue
   def receive_issue
     project = target_project
-    # TODO: make the tracker configurable
-    tracker = project.trackers.find(:first)
+    tracker = (get_keyword(:tracker) && project.trackers.find_by_name(get_keyword(:tracker))) || project.trackers.find(:first)
+    category = (get_keyword(:category) && project.issue_categories.find_by_name(get_keyword(:category)))
+    priority = (get_keyword(:priority) && Enumeration.find_by_opt_and_name('IPRI', get_keyword(:priority)))
+
     # check permission
     raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
-    issue = Issue.new(:author => user, :project => project, :tracker => tracker)
+    issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority)
     issue.subject = email.subject.chomp
     issue.description = email.plain_text_body.chomp
     issue.save!
@@ -84,13 +93,7 @@ class MailHandler < ActionMailer::Base
     # TODO: other ways to specify project:
     # * parse the email To field
     # * specific project (eg. Setting.mail_handler_target_project)
-    identifier = if !@@handler_options[:project].blank?
-                   @@handler_options[:project]
-                 elsif email.plain_text_body =~ %r{^Project:[ \t]*(.+)$}i
-                    $1
-                 end
-                 
-    target = Project.find_by_identifier(identifier.to_s)
+    target = Project.find_by_identifier(get_keyword(:project))
     raise MissingInformation.new('Unable to determine target project') if target.nil?
     target
   end
@@ -118,6 +121,14 @@ class MailHandler < ActionMailer::Base
                           :author => user,
                           :content_type => attachment.content_type)
       end
+    end
+  end
+  
+  def get_keyword(attr)
+    if @@handler_options[:allow_override].include?(attr.to_s) && email.plain_text_body =~ /^#{attr}:[ \t]*(.+)$/i
+      $1.strip
+    elsif !@@handler_options[:issue][attr].blank?
+      @@handler_options[:issue][attr]
     end
   end
 end

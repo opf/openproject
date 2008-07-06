@@ -9,3 +9,9 @@ issue_categories_002:
   project_id: 1
   assigned_to_id: 
   id: 2
+issue_categories_003: 
+  name: Stock management
+  project_id: 2
+  assigned_to_id: 
+  id: 3
+  
