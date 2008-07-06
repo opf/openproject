@@ -5,6 +5,18 @@ Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2008-07-06 v0.7.3
+
+* Allow dot in firstnames and lastnames
+* Add project name to cross-project Atom feeds
+* Encoding set to utf8 in example database.yml
+* HTML titles on forums related views
+* Fixed: various XSS vulnerabilities
+* Fixed: Entourage (and some old client) fails to correctly render notification styles
+* Fixed: Fixed: timelog redirects inappropriately when :back_url is blank
+* Fixed: wrong relative paths to images in wiki_syntax.html
+
+
 == 2008-06-15 v0.7.2
 
 * "New Project" link on Projects page
