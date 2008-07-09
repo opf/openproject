@@ -190,7 +190,6 @@ top = headers_height + 10
 	<%= i.status.name %>
 	<%= (i.done_ratio).to_i %>%
 	</div>
-	<% # === tooltip === %>
 	<div class="tooltip" style="position: absolute;top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;height:12px;">
 	<span class="tip">
     <%= render_issue_tooltip i %>
