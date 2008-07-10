@@ -112,16 +112,18 @@ class Project < ActiveRecord::Base
     end
     if user.admin?
       # no restriction
-    elsif user.logged?
-      statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.non_member.allowed_to?(permission)
-      allowed_project_ids = user.memberships.select {|m| m.role.allowed_to?(permission)}.collect {|m| m.project_id}
-      statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
-    elsif Role.anonymous.allowed_to?(permission)
-      # anonymous user allowed on public project
-      statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" 
     else
-      # anonymous user is not authorized
       statements << "1=0"
+      if user.logged?
+        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.non_member.allowed_to?(permission)
+        allowed_project_ids = user.memberships.select {|m| m.role.allowed_to?(permission)}.collect {|m| m.project_id}
+        statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
+      elsif Role.anonymous.allowed_to?(permission)
+        # anonymous user allowed on public project
+        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" 
+      else
+        # anonymous user is not authorized
+      end
     end
     statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
   end

@@ -28,7 +28,8 @@ class Journal < ActiveRecord::Base
   acts_as_searchable :columns => 'notes',
                      :include => {:issue => :project},
                      :project_key => "#{Issue.table_name}.project_id",
-                     :date_column => "#{Issue.table_name}.created_on"
+                     :date_column => "#{Issue.table_name}.created_on",
+                     :permission => :view_issues
   
   acts_as_event :title => Proc.new {|o| status = ((s = o.new_status) ? " (#{s})" : nil); "#{o.issue.tracker} ##{o.issue.id}#{status}: #{o.issue.subject}" },
                 :description => :notes,

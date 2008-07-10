@@ -67,7 +67,7 @@ module Redmine
         module ClassMethods
           # Search the model for the given tokens
           # projects argument can be either nil (will search all projects), a project or an array of projects
-          def search(tokens, projects, options={})
+          def search(tokens, projects=nil, options={})
             tokens = [] << tokens unless tokens.is_a?(Array)
             projects = [] << projects unless projects.nil? || projects.is_a?(Array)
             
