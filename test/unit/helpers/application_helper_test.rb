@@ -82,6 +82,7 @@ class ApplicationHelperTest < HelperTestCase
                                   :class => 'version')
 
     source_url = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}
+    source_url_with_ext = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file.ext']}
     
     to_test = {
       # tickets
@@ -97,8 +98,15 @@ class ApplicationHelperTest < HelperTestCase
       'version:"1.0"'               => version_link,
       # source
       'source:/some/file'           => link_to('source:/some/file', source_url, :class => 'source'),
+      'source:/some/file.'          => link_to('source:/some/file', source_url, :class => 'source') + ".",
+      'source:/some/file.ext.'      => link_to('source:/some/file.ext', source_url_with_ext, :class => 'source') + ".",
+      'source:/some/file. '         => link_to('source:/some/file', source_url, :class => 'source') + ".",
+      'source:/some/file.ext. '     => link_to('source:/some/file.ext', source_url_with_ext, :class => 'source') + ".",
+      'source:/some/file, '         => link_to('source:/some/file', source_url, :class => 'source') + ",",
       'source:/some/file@52'        => link_to('source:/some/file@52', source_url.merge(:rev => 52), :class => 'source'),
+      'source:/some/file.ext@52'    => link_to('source:/some/file.ext@52', source_url_with_ext.merge(:rev => 52), :class => 'source'),
       'source:/some/file#L110'      => link_to('source:/some/file#L110', source_url.merge(:anchor => 'L110'), :class => 'source'),
+      'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(:anchor => 'L110'), :class => 'source'),
       'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url.merge(:rev => 52, :anchor => 'L110'), :class => 'source'),
       'export:/some/file'           => link_to('export:/some/file', source_url.merge(:format => 'raw'), :class => 'source download'),
       # escaping
