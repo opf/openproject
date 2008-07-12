@@ -25,14 +25,15 @@ module Redmine
       module ClassMethods
         def acts_as_event(options = {})
           return if self.included_modules.include?(Redmine::Acts::Event::InstanceMethods)
-          options[:datetime] ||= :created_on
-          options[:title] ||= :title
-          options[:description] ||= :description
-          options[:author] ||= :author
-          options[:url] ||= {:controller => 'welcome'}
-          options[:type] ||= self.name.underscore.dasherize
+          default_options = { :datetime => :created_on,
+                              :title => :title,
+                              :description => :description,
+                              :author => :author,
+                              :url => {:controller => 'welcome'},
+                              :type => self.name.underscore.dasherize }
+                              
           cattr_accessor :event_options
-          self.event_options = options 
+          self.event_options = default_options.merge(options)
           send :include, Redmine::Acts::Event::InstanceMethods
         end
       end
