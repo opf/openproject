@@ -143,11 +143,6 @@ module Engines
       source_dirs = source_files.select { |d| File.directory?(d) }
       source_files -= source_dirs
       
-      unless source_files.empty?
-        base_target_dir = File.join(destination, File.dirname(source_files.first))
-        FileUtils.mkdir_p(base_target_dir)
-      end
-      
       source_dirs.each do |dir|
         # strip down these paths so we have simple, relative paths we can
         # add to the destination
