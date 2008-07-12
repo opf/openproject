@@ -164,7 +164,7 @@ field_comments: Комментарий
 field_url: URL
 field_start_page: Стартовая страница
 field_subproject: Подпроект
-field_hours: Час(а)(ов)
+field_hours: Час(а,ов)
 field_activity: Деятельность
 field_spent_on: Дата
 field_identifier: Ун. идентификатор
@@ -407,7 +407,7 @@ label_diff_side_by_side: рядом
 label_options: Опции
 label_copy_workflow_from: Скопировать последовательность действий из 
 label_permissions_report: Отчет о правах доступа
-label_watched_issues: Просмотренные задачи 
+label_watched_issues: Просматриваемые задачи 
 label_related_issues: Связанные задачи
 label_applied_status: Применимый статус
 label_loading: Загрузка...
@@ -462,7 +462,7 @@ label_user_mail_option_selected: "Для всех событий только в
 label_user_mail_option_none: "Только для того, что я просматриваю или в чем я участвую"
 label_user_mail_no_self_notified: "Не извещать об изменениях которые я сделал сам"
 label_registration_activation_by_email: активация учетных записей по email
-label_registration_automatic_activation: автоматическая активация учтеных записей
+label_registration_automatic_activation: автоматическая активация учетных записей
 label_registration_manual_activation: активировать учетные записи вручную
 label_age: Возраст 
 label_change_properties: Изменить свойства
@@ -605,7 +605,7 @@ label_date_range: временной интервал
 label_last_week: последняя неделю
 label_yesterday: вчера
 label_last_month: последний месяц
-label_add_another_file: Добавить ещё один  файл
+label_add_another_file: Добавить ещё один файл
 label_optional_description: Описание (выборочно)
 text_destroy_time_entries_question: Вы собираетесь удалить %.02f часа(ов) прикрепленных за этой задачей.
 error_issue_not_found_in_project: Задача не была найдена или не прикреплена к этому проекту
@@ -631,8 +631,8 @@ label_duplicated_by: дублируется
 setting_enabled_scm: Задействовать SCM
 text_enumeration_category_reassign_to: 'Назначить им следующее значение:'
 text_enumeration_destroy_question: '%d объект(а,ов) связаны с этим значением.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+label_incoming_emails: Приём сообщений
+label_generate_key: Сгенерировать ключ
+setting_mail_handler_api_enabled: Включить веб-сервис для входящих сообщений
+setting_mail_handler_api_key: API ключ
+text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для вашего SMTP сервера вы можете в файле config/email.yml. Для применения изменений перезапустите приложение."

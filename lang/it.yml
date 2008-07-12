@@ -20,24 +20,24 @@ actionview_datehelper_time_in_words_second_less_than_plural: meno di %d secondi
 actionview_instancetag_blank_option: Scegli
 
 activerecord_error_inclusion: non è incluso nella lista
-activerecord_error_exclusion: e' riservato
-activerecord_error_invalid: non e' valido
+activerecord_error_exclusion: è riservato
+activerecord_error_invalid: non è valido
 activerecord_error_confirmation: non coincide con la conferma
 activerecord_error_accepted: deve essere accettato
 activerecord_error_empty: non puo' essere vuoto
 activerecord_error_blank: non puo' essere blank
-activerecord_error_too_long: e' troppo lungo/a
-activerecord_error_too_short: e' troppo corto/a
-activerecord_error_wrong_length: e' della lunghezza sbagliata
-activerecord_error_taken: e' gia' stato/a preso/a
-activerecord_error_not_a_number: non e' un numero
-activerecord_error_not_a_date: non e' una data valida
+activerecord_error_too_long: è troppo lungo/a
+activerecord_error_too_short: è troppo corto/a
+activerecord_error_wrong_length: è della lunghezza sbagliata
+activerecord_error_taken: è già stato/a preso/a
+activerecord_error_not_a_number: non è un numero
+activerecord_error_not_a_date: non è una data valida
 activerecord_error_greater_than_start_date: deve essere maggiore della data di partenza
-activerecord_error_not_same_project: doesn't belong to the same project
-activerecord_error_circular_dependency: This relation would create a circular dependency
+activerecord_error_not_same_project: non appartiene allo stesso progetto
+activerecord_error_circular_dependency: Questa relazione creerebbe una dipendenza circolare
 
-general_fmt_age: %d yr
-general_fmt_age_plural: %d yrs
+general_fmt_age: %d anno
+general_fmt_age_plural: %d anni
 general_fmt_date: %%d/%%m/%%Y
 general_fmt_datetime: %%d/%%m/%%Y %%I:%%M %%p
 general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
@@ -69,13 +69,13 @@ notice_successful_delete: Eliminazione effettuata.
 notice_successful_connection: Connessione effettuata.
 notice_file_not_found: La pagina desiderata non esiste o è stata rimossa.
 notice_locking_conflict: Le informazioni sono state modificate da un altro utente.
-notice_not_authorized: You are not authorized to access this page.
-notice_email_sent: An email was sent to %s
-notice_email_error: An error occurred while sending mail (%s)
-notice_feeds_access_key_reseted: Your RSS access key was reseted.
+notice_not_authorized: Non sei autorizzato ad accedere a questa pagina.
+notice_email_sent: Una e-mail è stata spedita a %s
+notice_email_error: Si è verificato un errore durante l'invio di una e-mail (%s)
+notice_feeds_access_key_reseted: La tua chiave di accesso RSS è stata reimpostata.
 
 error_scm_not_found: "La risorsa e/o la versione non esistono nel repository."
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "Si è verificato un errore durante l'accesso al repository: %s"
 
 mail_subject_lost_password: Password %s
 mail_body_lost_password: 'Per cambiare la password, usate il seguente collegamento:'
@@ -111,21 +111,21 @@ field_project: Progetto
 field_issue: Issue
 field_status: Stato
 field_notes: Note
-field_is_closed: Chiude il contesto
+field_is_closed: Chiude la segnalazione
 field_is_default: Stato predefinito
 field_tracker: Tracker
 field_subject: Oggetto
 field_due_date: Data ultima
 field_assigned_to: Assegnato a
 field_priority: Priorita'
-field_fixed_version: Target version
+field_fixed_version: Versione prevista
 field_user: Utente
 field_role: Ruolo
 field_homepage: Homepage
 field_is_public: Pubblico
 field_parent: Sottoprogetto di
-field_is_in_chlog: Contesti mostrati nel changelog
-field_is_in_roadmap: Contesti mostrati nel roadmap
+field_is_in_chlog: Segnalazioni mostrate nel changelog
+field_is_in_roadmap: Segnalazioni mostrate nel roadmap
 field_login: Login
 field_mail_notification: Notifiche via e-mail
 field_admin: Amministratore
@@ -154,16 +154,16 @@ field_comments: Commento
 field_url: URL
 field_start_page: Pagina principale
 field_subproject: Sottoprogetto
-field_hours: Hours
-field_activity: Activity
+field_hours: Ore
+field_activity: Attività
 field_spent_on: Data
-field_identifier: Identifier
-field_is_filter: Used as a filter
-field_issue_to_id: Related issue
-field_delay: Delay
-field_assignable: Issues can be assigned to this role
-field_redirect_existing_links: Redirect existing links
-field_estimated_hours: Estimated time
+field_identifier: Identificativo
+field_is_filter: Usato come filtro
+field_issue_to_id: Segnalazioni correlate
+field_delay: Ritardo
+field_assignable: E' possibile assegnare segnalazioni a questo ruolo
+field_redirect_existing_links: Redirige i collegamenti esistenti
+field_estimated_hours: Tempo stimato
 field_default_value: Stato predefinito
 
 setting_app_title: Titolo applicazione
@@ -173,7 +173,7 @@ setting_default_language: Lingua di default
 setting_login_required: Autenticazione richiesta
 setting_self_registration: Auto-registrazione abilitata
 setting_attachment_max_size: Massima dimensione allegati
-setting_issues_export_limit: Limite esportazione contesti
+setting_issues_export_limit: Limite esportazione segnalazioni
 setting_mail_from: Indirizzo sorgente e-mail
 setting_host_name: Nome host
 setting_text_formatting: Formattazione testo
@@ -183,9 +183,9 @@ setting_autofetch_changesets: Acquisisci automaticamente le commit
 setting_sys_api_enabled: Abilita WS per la gestione del repository
 setting_commit_ref_keywords: Referencing keywords
 setting_commit_fix_keywords: Fixing keywords
-setting_autologin: Autologin
-setting_date_format: Date format
-setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_autologin: Login automatico
+setting_date_format: Formato data
+setting_cross_project_issue_relations: Consenti la creazione di relazioni tra segnalazioni in progetti differenti
 
 label_user: Utente
 label_user_plural: Utenti
@@ -193,12 +193,12 @@ label_user_new: Nuovo utente
 label_project: Progetto
 label_project_new: Nuovo progetto
 label_project_plural: Progetti
-label_project_all: All Projects
+label_project_all: Tutti i progetti
 label_project_latest: Ultimi progetti registrati
-label_issue: Contesto
-label_issue_new: Nuovo contesto
-label_issue_plural: Contesti
-label_issue_view_all: Mostra tutti i contesti
+label_issue: Segnalazione
+label_issue_new: Nuova segnalazione
+label_issue_plural: Segnalazioni
+label_issue_view_all: Mostra tutte le segnalazioni
 label_document: Documento
 label_document_new: Nuovo documento
 label_document_plural: Documenti
@@ -213,11 +213,11 @@ label_tracker: Tracker
 label_tracker_plural: Tracker
 label_tracker_new: Nuovo tracker
 label_workflow: Workflow
-label_issue_status: Stato contesti
-label_issue_status_plural: Stati contesto
+label_issue_status: Stato segnalazioni
+label_issue_status_plural: Stati segnalazione
 label_issue_status_new: Nuovo stato
-label_issue_category: Categorie contesti
-label_issue_category_plural: Categorie contesto
+label_issue_category: Categorie segnalazioni
+label_issue_category_plural: Categorie segnalazioni
 label_issue_category_new: Nuova categoria
 label_custom_field: Campo personalizzato
 label_custom_field_plural: Campi personalizzati
@@ -237,8 +237,8 @@ label_administration: Amministrazione
 label_login: Login
 label_logout: Logout
 label_help: Aiuto
-label_reported_issues: Contesti segnalati
-label_assigned_to_me_issues: I miei contesti
+label_reported_issues: Segnalazioni
+label_assigned_to_me_issues: Le mie segnalazioni
 label_last_login: Ultimo collegamento
 label_last_updates: Ultimo aggiornamento
 label_last_updates_plural: %d ultimo aggiornamento
@@ -277,7 +277,7 @@ label_news_new: Aggiungi notizia
 label_news_plural: Notizie
 label_news_latest: Utime notizie
 label_news_view_all: Tutte le notizie
-label_change_log: Change log
+label_change_log: Elenco modifiche
 label_settings: Impostazioni
 label_overview: Panoramica
 label_version: Versione
@@ -315,7 +315,7 @@ label_comment_plural: Commenti
 label_comment_add: Aggiungi un commento
 label_comment_added: Commento aggiunto
 label_comment_delete: Elimina commenti
-label_query: Custom query
+label_query: Query personalizzata
 label_query_plural: Query personalizzate
 label_query_new: Nuova query
 label_filter_add: Aggiungi filtro
@@ -326,7 +326,7 @@ label_in_less_than: è minore di
 label_in_more_than: è maggiore di
 label_in: in
 label_today: oggi
-label_this_week: this week
+label_this_week: questa settimana
 label_less_than_ago: meno di giorni fa
 label_more_than_ago: più di giorni fa
 label_ago: giorni fa
@@ -334,7 +334,7 @@ label_contains: contiene
 label_not_contains: non contiene
 label_day_plural: giorni
 label_repository: Repository
-label_browse: Browse
+label_browse: Sfoglia
 label_modification: %d modifica
 label_modification_plural: %d modifiche
 label_revision: Versione
@@ -354,7 +354,7 @@ label_sort_lowest: Sposta in fondo
 label_roadmap: Roadmap
 label_roadmap_due_in: Da ultimare in 
 label_roadmap_overdue: %s late
-label_roadmap_no_issues: Nessun contesto per questa versione
+label_roadmap_no_issues: Nessuna segnalazione per questa versione
 label_search: Ricerca
 label_result_plural: Risultati
 label_all_words: Tutte le parole
@@ -369,7 +369,7 @@ label_current_version: Versione corrente
 label_preview: Anteprima
 label_feed_plural: Feed
 label_changes_details: Particolari di tutti i cambiamenti
-label_issue_tracking: tracking dei contesti
+label_issue_tracking: tracking delle segnalazioni
 label_spent_time: Tempo impiegato
 label_f_hour: %.2f ora
 label_f_hour_plural: %.2f ore
@@ -379,53 +379,53 @@ label_statistics: Statistiche
 label_commits_per_month: Commit per mese
 label_commits_per_author: Commit per autore
 label_view_diff: mostra differenze
-label_diff_inline: inline
-label_diff_side_by_side: side by side
+label_diff_inline: in linea
+label_diff_side_by_side: fianco a fianco
 label_options: Opzioni
 label_copy_workflow_from: Copia workflow da
 label_permissions_report: Report permessi
-label_watched_issues: Watched issues
-label_related_issues: Related issues
-label_applied_status: Applied status
-label_loading: Loading...
-label_relation_new: New relation
-label_relation_delete: Delete relation
-label_relates_to: related to
-label_duplicates: duplicates
-label_blocks: blocks
-label_blocked_by: blocked by
-label_precedes: precedes
-label_follows: follows
+label_watched_issues: Segnalazioni osservate
+label_related_issues: Segnalazioni correlate
+label_applied_status: Stato applicato
+label_loading: Caricamento...
+label_relation_new: Nuova relazione
+label_relation_delete: Elimina relazione
+label_relates_to: correlato a
+label_duplicates: duplicati
+label_blocks: blocchi
+label_blocked_by: bloccato da
+label_precedes: precede
+label_follows: segue
 label_end_to_start: end to start
 label_end_to_end: end to end
 label_start_to_start: start to start
 label_start_to_end: start to end
-label_stay_logged_in: Stay logged in
-label_disabled: disabled
-label_show_completed_versions: Show completed versions
-label_me: me
+label_stay_logged_in: Rimani collegato
+label_disabled: disabilitato
+label_show_completed_versions: Mostra versioni completate
+label_me: io
 label_board: Forum
-label_board_new: New forum
-label_board_plural: Forums
-label_topic_plural: Topics
-label_message_plural: Messages
-label_message_last: Last message
-label_message_new: New message
-label_reply_plural: Replies
-label_send_information: Send account information to the user
-label_year: Year
-label_month: Month
-label_week: Week
-label_date_from: From
-label_date_to: To
-label_language_based: Language based
-label_sort_by: Sort by %s
-label_send_test_email: Send a test email
-label_feeds_access_key_created_on: RSS access key created %s ago
-label_module_plural: Modules
-label_added_time_by: Added by %s %s ago
-label_updated_time: Updated %s ago
-label_jump_to_a_project: Jump to a project...
+label_board_new: Nuovo forum
+label_board_plural: Forum
+label_topic_plural: Argomenti
+label_message_plural: Messaggi
+label_message_last: Ultimo messaggio
+label_message_new: Nuovo messaggio
+label_reply_plural: Risposte
+label_send_information: Invia all'utente le informazioni relative all'account
+label_year: Anno
+label_month: Mese
+label_week: Settimana
+label_date_from: Da
+label_date_to: A
+label_language_based: Basato sul linguaggio
+label_sort_by: Ordina per %s
+label_send_test_email: Invia una e-mail di test
+label_feeds_access_key_created_on: chiave di accesso RSS creata %s fa
+label_module_plural: Moduli
+label_added_time_by: Aggiunto da %s %s fa
+label_updated_time: Aggiornato %s fa
+label_jump_to_a_project: Vai al progetto...
 
 button_login: Login
 button_submit: Invia
@@ -452,13 +452,13 @@ button_activate: Attiva
 button_sort: Ordina
 button_log_time: Registra tempo
 button_rollback: Ripristina questa versione
-button_watch: Watch
-button_unwatch: Unwatch
-button_reply: Reply
-button_archive: Archive
-button_unarchive: Unarchive
+button_watch: Osserva
+button_unwatch: Dimentica
+button_reply: Rispondi
+button_archive: Archivia
+button_unarchive: Ripristina
 button_reset: Reset
-button_rename: Rename
+button_rename: Rinomina
 
 status_active: attivo
 status_registered: registrato
@@ -476,24 +476,24 @@ text_journal_deleted: cancellato
 text_tip_task_begin_day: attività che iniziano in questa giornata
 text_tip_task_end_day: attività che terminano in questa giornata
 text_tip_task_begin_end_day: attività che iniziano e terminano in questa giornata
-text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
+text_project_identifier_info: "Lettere minuscole (a-z), numeri e trattini permessi.<br />Una volta salvato, l'identificativo non può essere modificato."
 text_caracters_maximum: massimo %d caratteri.
 text_length_between: Lunghezza compresa tra %d e %d caratteri.
 text_tracker_no_workflow: Nessun workflow definito per questo tracker
-text_unallowed_characters: Unallowed characters
-text_comma_separated: Multiple values allowed (comma separated).
+text_unallowed_characters: Caratteri non permessi
+text_comma_separated: Valori multipli permessi (separati da virgola).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
 text_issue_added: "E' stata segnalata l'anomalia %s da %s."
 text_issue_updated: "L'anomalia %s e' stata aggiornata da %s."
 text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-text_issue_category_destroy_assignments: Remove category assignments
-text_issue_category_reassign_to: Reassing issues to this category
+text_issue_category_destroy_question: Alcune segnalazioni (%d) risultano assegnate a questa categoria. Cosa vuoi fare ?
+text_issue_category_destroy_assignments: Rimuovi gli assegnamenti a questa categoria
+text_issue_category_reassign_to: Riassegna segnalazioni a questa categoria
 
 default_role_manager: Manager
 default_role_developper: Sviluppatore
 default_role_reporter: Reporter
-default_tracker_bug: Contesto
+default_tracker_bug: Segnalazione
 default_tracker_feature: Funzione
 default_tracker_support: Supporto
 default_issue_status_new: Nuovo/a
@@ -509,126 +509,126 @@ default_priority_normal: Normale
 default_priority_high: Alta
 default_priority_urgent: Urgente
 default_priority_immediate: Immediata
-default_activity_design: Design
-default_activity_development: Development
+default_activity_design: Progettazione
+default_activity_development: Sviluppo
 
-enumeration_issue_priorities: Priorità contesti
+enumeration_issue_priorities: Priorità segnalazioni
 enumeration_doc_categories: Categorie di documenti
 enumeration_activities: Attività (time tracking)
-label_file_plural: Files
-label_changeset_plural: Changesets
-field_column_names: Columns
-label_default_columns: Default columns
-setting_issue_list_default_columns: Default columns displayed on the issue list
-setting_repositories_encodings: Repositories encodings
-notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
-label_bulk_edit_selected_issues: Bulk edit selected issues
-label_no_change_option: (No change)
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-label_theme: Theme
-label_default: Default
-label_search_titles_only: Search titles only
-label_nobody: nobody
-button_change_password: Change password
+label_file_plural: File
+label_changeset_plural: Changeset
+field_column_names: Colonne
+label_default_columns: Colonne predefinite
+setting_issue_list_default_columns: Colonne predefinite mostrate nell'elenco segnalazioni
+setting_repositories_encodings: Codifiche dei repository
+notice_no_issue_selected: "Nessuna segnalazione selezionata! Seleziona le segnalazioni che intendi modificare."
+label_bulk_edit_selected_issues: Modifica massiva delle segnalazioni selezionate
+label_no_change_option: (Nessuna modifica)
+notice_failed_to_save_issues: "Impossibile salvare %d segnalazioni su %d selezionate: %s."
+label_theme: Tema
+label_default: Predefinito
+label_search_titles_only: Cerca solo nei titoli
+label_nobody: nessuno
+button_change_password: Modifica password
 text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
-setting_emails_footer: Emails footer
+label_user_mail_option_selected: "Solo per gli eventi relativi ai progetti selezionati..."
+label_user_mail_option_all: "Per ogni evento relativo ad uno dei miei progetti"
+label_user_mail_option_none: "Solo per argomenti che osservo o che mi riguardano"
+setting_emails_footer: Piè di pagina e-mail
 label_float: Float
-button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log in.
-mail_body_account_information: Your account information
-setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: %s account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
+button_copy: Copia
+mail_body_account_information_external: Puoi utilizzare il tuo account "%s" per accedere al sistema.
+mail_body_account_information: Le informazioni riguardanti il tuo account
+setting_protocol: Protocollo
+label_user_mail_no_self_notified: "Non voglio notifiche riguardanti modifiche da me apportate"
+setting_time_format: Formato ora
+label_registration_activation_by_email: attivazione account via e-mail
+mail_subject_account_activation_request: %s richiesta attivazione account
+mail_body_account_activation_request: 'Un nuovo utente (%s) ha effettuato la registrazione. Il suo account è in attesa di abilitazione da parte tua:'
+label_registration_automatic_activation: attivazione account automatica
+label_registration_manual_activation: attivazione account manuale
+notice_account_pending: "Il tuo account è stato creato ed è in attesa di attivazione da parte dell'amministratore."
 field_time_zone: Time zone
-text_caracters_minimum: Must be at least %d characters long.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-button_annotate: Annotate
-label_issues_by: Issues by %s
-field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
-button_update: Update
-label_change_properties: Change properties
-label_general: General
-label_repository_plural: Repositories
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+text_caracters_minimum: Deve essere lungo almeno %d caratteri.
+setting_bcc_recipients: Destinatari in copia nascosta (bcc)
+button_annotate: Annota
+label_issues_by: Segnalazioni di %s
+field_searchable: Ricercabile
+label_display_per_page: 'Per pagina: %s'
+setting_per_page_options: Opzioni oggetti per pagina
+label_age: Età
+notice_default_data_loaded: Configurazione di default caricata con successo.
+text_load_default_configuration: Carica la configurazione di default
+text_no_configuration_data: "Ruoli, tracker, stati delle segnalazioni e workflow non sono stati ancora configurati.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+error_can_t_load_default_data: "Non è stato possibile caricare la configurazione di default : %s"
+button_update: Aggiorna
+label_change_properties: Modifica le proprietà
+label_general: Generale
+label_repository_plural: Repository
+label_associated_revisions: Revisioni associate
+setting_user_format: Formato visualizzazione utenti
+text_status_changed_by_changeset: Applicata nel changeset %s.
+label_more: Altro
+text_issues_destroy_confirmation: 'Sei sicuro di voler eliminare le segnalazioni selezionate?'
 label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
+text_select_project_modules: 'Seleziona i moduli abilitati per questo progetto:'
+label_issue_added: Segnalazioni aggiunte
+label_issue_updated: Segnalazioni aggiornate
+label_document_added: Documenti aggiunti
+label_message_posted: Messaggi aggiunti
+label_file_added: File aggiunti
+label_news_added: Notizie aggiunte
 project_module_boards: Boards
-project_module_issue_tracking: Issue tracking
+project_module_issue_tracking: Tracking delle segnalazioni
 project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
+project_module_files: File
+project_module_documents: Documenti
 project_module_repository: Repository
-project_module_news: News
+project_module_news: Notizie
 project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
+text_file_repository_writable: Repository dei file scrivibile
+text_default_administrator_account_changed: L'account amministrativo di default è stato modificato
+text_rmagick_available: RMagick disponibile (opzionale)
+button_configure: Configura
+label_plugins: Plugin
+label_ldap_authentication: Autenticazione LDAP
 label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
-label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
-error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
-label_and_its_subprojects: %s and its subprojects
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '%s wrote:'
-label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+label_this_month: questo mese
+label_last_n_days: ultimi %d giorni
+label_all_time: sempre
+label_this_year: quest'anno
+label_date_range: Intervallo di date
+label_last_week: ultima settimana
+label_yesterday: ieri
+label_last_month: ultimo mese
+label_add_another_file: Aggiungi un altro file
+label_optional_description: Descrizione opzionale
+text_destroy_time_entries_question: %.02f ore risultano spese sulle segnalazioni che stai per cancellare. Cosa vuoi fare ?
+error_issue_not_found_in_project: 'La segnalazione non è stata trovata o non appartiene al progetto'
+text_assign_time_entries_to_project: Assegna le ore segnalate al progetto
+text_destroy_time_entries: Elimina le ore segnalate
+text_reassign_time_entries: 'Riassegna le ore a questa segnalazione:'
+setting_activity_days_default: Giorni mostrati sulle attività di progetto
+label_chronological_order: In ordine cronologico
+field_comments_sorting: Mostra commenti
+label_reverse_chronological_order: In ordine cronologico inverso
+label_preferences: Preferenze
+setting_display_subprojects_issues: Mostra le segnalazioni dei sottoprogetti nel progetto principale per default
+label_overall_activity: Attività generale
+setting_default_projects_public: I nuovi progetti sono pubblici per default
+error_scm_annotate: "L'oggetto non esiste o non può essere annotato."
+label_planning: Pianificazione
+text_subprojects_destroy_warning: 'Anche i suoi sottoprogetti: %s verranno eliminati.'
+label_and_its_subprojects: %s ed i suoi sottoprogetti
+mail_body_reminder: "%d segnalazioni che ti sono state assegnate scadranno nei prossimi %d giorni:"
+mail_subject_reminder: "%d segnalazioni in scadenza nei prossimi giorni"
+text_user_wrote: '%s ha scritto:'
+label_duplicated_by: duplicato da
+setting_enabled_scm: SCM abilitato
+text_enumeration_category_reassign_to: 'Riassegnale a questo valore:'
+text_enumeration_destroy_question: '%d oggetti hanno un assegnamento su questo valore.'
+label_incoming_emails: E-mail in arrivo
+label_generate_key: Genera una chiave
+setting_mail_handler_api_enabled: Abilita WS per le e-mail in arrivo
+setting_mail_handler_api_key: chiave API
+text_email_delivery_not_configured: "La consegna via e-mail non è configurata e le notifiche sono disabilitate.\nConfigura il tuo server SMTP in config/email.yml e riavvia l'applicazione per abilitarle."
