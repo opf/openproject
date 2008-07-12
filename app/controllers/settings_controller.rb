@@ -50,7 +50,7 @@ class SettingsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'plugin', :id => params[:id]
     end
-    @partial = "../../vendor/plugins/#{plugin_id}/app/views/" + @plugin.settings[:partial]
+    @partial = @plugin.settings[:partial]
     @settings = Setting["plugin_#{plugin_id}"]
   end
 end
