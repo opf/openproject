@@ -1,0 +1,267 @@
+= EDGE
+
+* Refactored the view loading to work with changes in Edge Rails
+
+* Fixed integration of plugin migrations with the new, default timestamped migrations in Edge Rails
+
+* Refactored tests into the plugin itself - the plugin can now generate its own test_app harness and run tests within it.
+
+
+= 2.0.0 - (ANOTHER) MASSIVE INTERNAL REFACTORING
+
+* Engines now conforms to the new plugin loading mechanism, delegating plugin load order and lots of other things to Rails itself.
+
+
+
+= 1.2.2
+
+* Added the ability to code mix different types of files, cleaning up the existing code-mixing implementation slightly (Ticket #271)
+
+
+= 1.2.1
+
+* Added documentation to clarify some of the issues with Rails unloading classes that aren't required using "require_dependency" (Ticket #266)
+
+* Fixed a bug where test_help was being loaded when it wasn't needed, and was actually causing problems (Ticket #265)
+
+
+= 1.2.0 - MASSIVE INTERNAL REFACTORING
+
+* !!!Support for Rails < 1.2 has been dropped!!!; if you are using Rails =< 1.1.6, please use Engines 1.1.6, available from http://svn.rails-engines.org/engines/tags/rel_1.1.6
+
+* Engines are dead! Long live plugins! There is now no meaningful notion of an engine - all plugins can take advantage of the more powerful features that the engines plugin provides by including app directories, etc.
+
+* Init_engine.rb is no longer used; please use the plugin-standard init.rb instead.
+
+* Engines.start is no longer required; please use the config.plugins array provided by Rails instead
+
+* To get the most benefit from Engines, set config.plugins to ["engines", "*"] to load the engines plugin first, and then all other plugins in their normal order after.
+
+* Access all loaded plugins via the new Rails.plugins array, and by name using Rails.plugins[:plugin_name].
+
+* Access plugin metadata loaded automatically from about.yml: Rails.plugins[:name].about. Plugin#version is provided directly, for easy access.
+
+* Module.config is has been removed - use mattr_accessor instead, and initialize your default values via the init.rb mechanism.
+
+* Public asset helpers have been rewritten; instead of engine_stylesheet, now use stylesheet_link_tag :name, :plugin => "plugin_name"
+
+* Plugin migrations have been reworked to integrate into the main migration stream. Please run script/generate plugin_migration to create plugin migrations in your main application.
+
+* The fixture method for loading fixtures against any class has been removed; instead, engines will now provide a mechanism for loading fixtures from all plugins, by mirroring fixtures into a common location.
+
+* All references to engines have been removed; For example, any rake tasks which applied to engines now apply to all plugins. The default Rails rake tasks for plugins are overridden where necessary.
+
+* Layouts can now be shared via plugins - inspiration gratefully taken from PluginAWeek's plugin_routing :)
+
+* Actual routing from plugins is now possible, by including routes.rb in your plugin directory and using the from_plugin method in config/routes.rb (Ticket #182)
+
+* Controllers are no longer loaded twice if they're not present in the normal app/ directory (Ticket #177)
+
+* The preferred location for javascripts/stylesheets/etc is now 'assets' rather than 'public'
+
+* Ensure that plugins started before routing have their controllers appropriately added to config.controller_paths (Ticket #258)
+
+* Removed Engines.version - it's not longer relevant, now we're loading version information from about.yml files.
+
+* Added a huge amount of documentation to all new modules.
+
+* Added new warning message if installation of engines 1.2.x is attempted in a Rails 1.1.x application
+
+* Added details of the removal of the config method to UPGRADING
+
+* Removed the plugins:info rake task in favour of adding information to script/about via the Rails::Info module (Ticket #261)
+
+* Improved handling of testing and documentation tasks for plugins
+
+
+
+= 1.1.4
+
+* Fixed creation of multipart emails (Ticket #190)
+
+* Added a temporary fix to the code-mixing issue. In your engine's test/test_helper.rb, please add the following lines:
+
+   # Ensure that the code mixing and view loading from the application is disabled
+   Engines.disable_app_views_loading = true
+   Engines.disable_app_code_mixing = true
+
+  which will prevent code mixing for controllers and helpers, and loading views from the application. One thing to remember is to load any controllers/helpers using 'require_or_load' in your tests, to ensure that the engine behaviour is respected (Ticket #135)
+
+* Added tasks to easily test engines individually (Ticket #120)
+
+* Fixture extensions will now fail with an exception if the corresponding class cannot be loaded (Ticket #138)
+
+* Patch for new routing/controller loading in Rails 1.1.6. The routing code is now replaced with the contents of config.controller_paths, along with controller paths from any started engines (Ticket #196)
+
+* Rails' Configuration instance is now stored, and available from all engines and plugins.
+
+
+
+= 1.1.3
+
+* Fixed README to show 'models' rather than 'model' class (Ticket #167)
+* Fixed dependency loading to work with Rails 1.1.4 (Ticket #180)
+
+
+
+= 1.1.2
+
+* Added better fix to version checking (Ticket #130, jdell@gbdev.com).
+
+* Fixed generated init_engine.rb so that VERSION module doesn't cause probems (Ticket #131, japgolly@gmail.com)
+
+* Fixed error with Rails 1.0 when trying to ignore the engine_schema_info table (Ticket #132, snowblink@gmail.com)
+
+* Re-added old style rake tasks (Ticket #133)
+
+* No longer adding all subdirectories of <engine>/app or <engine>/lib, as this can cause issues when files are grouped in modules (Ticket #149, kasatani@gmail.com)
+
+* Fixed engine precidence ordering for Rails 1.1 (Ticket #146)
+
+* Added new Engines.each method to assist in processing the engines in the desired order (Ticket #146)
+
+* Fixed annoying error message at appears when starting the console in development mode (Ticket #134)
+
+* Engines is now super-careful about loading the correct version of Rails from vendor (Ticket #154)
+
+
+
+= 1.1.1
+
+* Fixed migration rake task failing when given a specific version (Ticket #115)
+
+* Added new rake task "test:engines" which will test engines (and other plugins) but ensure that the test database is cloned from development beforehand (Ticket #125)
+
+* Fixed issue where 'engine_schema_info' table was included in schema dumps (Ticket #87)
+
+* Fixed multi-part emails (Ticket #121)
+
+* Added an 'install.rb' file to new engines created by the bundled generator, which installs the engines plugin automatically if it doesn't already exist (Ticket #122)
+
+* Added a default VERSION module to generated engines (Ticket #123)
+
+* Refactored copying of engine's public files to a method of an Engine instance. You can now call Engines.get(:engine_name).copy_public_files (Ticket #108)
+
+* Changed engine generator templates from .rb files to .erb files (Ticket #106)
+
+* Fixed the test_helper.erb file to use the correct testing extensions and not load any schema - the schema will be cloned automatically via rake test:engines
+
+* Fixed problem when running with Rails 1.1.1 where version wasn't determined correctly (Ticket #129)
+
+* Fixed bug preventing engines from loading when both Rails 1.1.0 and 1.1.1 gems are installed and in use.
+
+* Updated version (d'oh!)
+
+
+
+= 1.1.0
+
+* Improved regexp matching for Rails 1.0 engines with peculiar paths
+
+* Engine instance objects can be accessed via Engines[:name], an alias for Engines.get(:name) (Ticket #99)
+
+* init_engine.rb is now processed as the final step in the Engine.start process, so it can access files within the lib directory, which is now in the $LOAD_PATH at that point. (Ticket #99)
+
+* Clarified MIT license (Ticket #98)
+
+* Updated Rake tasks to integrate smoothly with Rails 1.1 namespaces
+
+* Changed the version to "1.1.0 (svn)"
+
+* Added more information about using the plugin with Edge Rails to the README
+
+* moved extensions into lib/engines/ directory to enable use of Engines module in extension code.
+
+* Added conditional require_or_load method which attempts to detect the current Rails version. To use the Edge Rails version of the loading mechanism, add the line:
+
+*   Engines.config :edge, true
+
+* to your environment.rb file.
+
+* Merged changes from /branches/edge and /branches/rb_1.0 into /trunk
+
+* engine_schema_info now respects the prefix/suffixes set for ActiveRecord::Base (Ticket #67)
+
+* added ActiveRecord::Base.wrapped_table_name(name) method to assist in determining the correct table name
+
+
+
+= 1.0.6
+
+* Added ability to determine version information for engines: rake engine_info
+
+* Added a custom logger for the Engines module, to stop pollution of the Rails logs.
+
+* Added some more tests (in particular, see rails_engines/applications/engines_test).
+
+* Another attempt at solving Ticket #53 - controllers and helpers should now be loadable from modules, and if a full path (including RAILS_ROOT/ENGINES_ROOT) is given, it should be safely stripped from the require filename such that corresponding files can be located in any active engines. In other words, controller/helper overloading should now completely work, even if the controllers/helpers are in modules.
+
+* Added (finally) patch from Ticket #22 - ActionMailer helpers should now load
+
+* Removed support for Engines.start :engine, :engine_name => 'whatever'. It was pointless.
+
+* Fixed engine name referencing; engine_stylesheet/engine_javascript can now happily use shorthand engine names (i.e. :test == :test_engine) (Ticket #45)
+
+* Fixed minor documentation error ('Engine.start' ==> 'Engines.start') (Ticket #57)
+
+* Fixed double inclusion of RAILS_ROOT in engine_migrate rake task (Ticket #61)
+
+* Added ability to force config values even if given as a hash (Ticket #62)
+
+
+
+= 1.0.5
+
+* Fixed bug stopping fixtures from loading with PostgreSQL
+
+
+
+= 1.0.4
+
+* Another attempt at loading controllers within modules (Ticket #56)
+
+
+
+= 1.0.3
+
+* Fixed serious dependency bug stopping controllers being loaded (Ticket #56)
+
+
+
+= 1.0.2
+
+* Fixed bug with overloading controllers in modules from /app directory
+
+* Fixed exception thrown when public files couldn't be created; exception is now logged (Ticket #52)
+
+* Fixed problem with generated test_helper.rb file via File.expand_path (Ticket #50)
+
+
+
+= 1.0.1
+
+* Added engine generator for creation of new engines
+
+* Fixed 'Engine' typo in README
+
+* Fixed bug in fixtures extensions
+
+* Fixed /lib path management bug
+
+* Added method to determine public directory location from Engine object
+
+* Fixed bug in the error message in get_engine_dir()
+
+* Added proper component loading
+
+* Added preliminary tests for the config() methods module
+
+
+
+= pre-v170
+
+* Fixed copyright notices to point to DHH, rather than me.
+
+* Moved extension require statements into lib/engines.rb, so the will be loaded if another module/file calls require 'engines
+
+* Added a CHANGELOG file (this file)
