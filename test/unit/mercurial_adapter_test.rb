@@ -25,7 +25,7 @@ begin
     def test_template_path
       to_test = { [0,9,5] => "0.9.5",
                   [1,0] => "1.0",
-                  "Unknown version" => "1.0",
+                  [] => "1.0",
                   [1,0,1] => "1.0"}
       
       to_test.each do |v, template|

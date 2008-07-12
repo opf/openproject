@@ -26,15 +26,24 @@ module Redmine
       class AbstractAdapter #:nodoc:
         class << self
           # Returns the version of the scm client
-          # Eg: [1, 5, 0]
+          # Eg: [1, 5, 0] or [] if unknown
           def client_version
-            'Unknown version'
+            []
           end
           
           # Returns the version string of the scm client
-          # Eg: '1.5.0'
+          # Eg: '1.5.0' or 'Unknown version' if unknown
           def client_version_string
-            client_version.is_a?(Array) ? client_version.join('.') : client_version.to_s
+            v = client_version || 'Unknown version'
+            v.is_a?(Array) ? v.join('.') : v.to_s
+          end
+          
+          # Returns true if the current client version is above
+          # or equals the given one
+          # If option is :unknown is set to true, it will return
+          # true if the client version is unknown
+          def client_version_above?(v, options={})
+            ((client_version <=> v) >= 0) || (client_version.empty? && options[:unknown])
           end
         end
                 

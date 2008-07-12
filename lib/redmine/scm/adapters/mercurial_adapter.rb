@@ -30,7 +30,7 @@ module Redmine
         
         class << self
           def client_version
-            @@client_version ||= (hgversion || 'Unknown version')
+            @@client_version ||= (hgversion || [])
           end
           
           def hgversion  
@@ -52,7 +52,7 @@ module Redmine
           end
           
           def template_path_for(version)
-            if version.is_a?(String) or ((version <=> [0,9,5]) > 0)
+            if ((version <=> [0,9,5]) > 0) || version.empty?
               ver = "1.0"
             else
               ver = "0.9.5"
