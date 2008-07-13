@@ -167,7 +167,9 @@ module Redmine
       
       def caption(project=nil)
         if @caption.is_a?(Proc)
-          @caption.call(project)
+          c = @caption.call(project).to_s
+          c = @name.to_s.humanize if c.blank?
+          c
         else
           # check if localized string exists on first render (after GLoc strings are loaded)
           @caption_key ||= (@caption || (l_has_string?("label_#{@name}".to_sym) ? "label_#{@name}".to_sym : @name.to_s.humanize))
