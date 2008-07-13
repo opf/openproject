@@ -32,7 +32,7 @@ class SearchTest < Test::Unit::TestCase
 
   def setup
     @project = Project.find(1)
-    @issue_keyword = '%Unable to print recipes%'
+    @issue_keyword = '%unable to print recipes%'
     @issue = Issue.find(1)
     @changeset_keyword = '%very first commit%'
     @changeset = Changeset.find(100)
