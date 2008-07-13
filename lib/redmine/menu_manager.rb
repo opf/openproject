@@ -80,9 +80,10 @@ module Redmine
             else
               item.url
             end
-            #url = (project && item.url.is_a?(Hash)) ? {item.param => project}.merge(item.url) : (item.url.is_a?(Symbol) ? send(item.url) : item.url)
+            caption = item.caption(project)
+            caption = l(caption) if caption.is_a?(Symbol)
             links << content_tag('li', 
-              link_to(l(item.caption), url, (current_menu_item == item.name ? item.html_options.merge(:class => 'selected') : item.html_options)))
+              link_to(h(caption), url, (current_menu_item == item.name ? item.html_options.merge(:class => 'selected') : item.html_options)))
           end
         end
         links.empty? ? nil : content_tag('ul', links.join("\n"))
@@ -110,8 +111,11 @@ module Redmine
     class Mapper
       # Adds an item at the end of the menu. Available options:
       # * param: the parameter name that is used for the project id (default is :id)
-      # * if: a proc that is called before rendering the item, the item is displayed only if it returns true
-      # * caption: the localized string key that is used as the item label
+      # * if: a Proc that is called before rendering the item, the item is displayed only if it returns true
+      # * caption that can be:
+      #   * a localized string Symbol
+      #   * a String
+      #   * a Proc that can take the project as argument
       # * html_options: a hash of html options that are passed to link_to
       def push(name, url, options={})
         items << MenuItem.new(name, url, options)
@@ -133,13 +137,17 @@ module Redmine
         @url = url
         @condition = options[:if]
         @param = options[:param] || :id
-        @caption_key = options[:caption]
+        @caption = options[:caption]
         @html_options = options[:html] || {}
       end
       
-      def caption
-        # check if localized string exists on first render (after GLoc strings are loaded)
-        @caption ||= (@caption_key || (l_has_string?("label_#{@name}".to_sym) ? "label_#{@name}".to_sym : @name.to_s.humanize))
+      def caption(project=nil)
+        if @caption.is_a?(Proc)
+          @caption.call(project)
+        else
+          # check if localized string exists on first render (after GLoc strings are loaded)
+          @caption_key ||= (@caption || (l_has_string?("label_#{@name}".to_sym) ? "label_#{@name}".to_sym : @name.to_s.humanize))
+        end
       end
     end    
   end
