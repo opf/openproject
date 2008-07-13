@@ -17,7 +17,7 @@
 
 class Wiki < ActiveRecord::Base
   belongs_to :project
-  has_many :pages, :class_name => 'WikiPage', :dependent => :destroy
+  has_many :pages, :class_name => 'WikiPage', :dependent => :destroy, :order => 'title'
   has_many :redirects, :class_name => 'WikiRedirect', :dependent => :delete_all
   
   validates_presence_of :start_page
