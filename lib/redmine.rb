@@ -98,8 +98,8 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :home, :home_path, :html => { :class => 'home' }
   menu.push :my_page, { :controller => 'my', :action => 'page' }, :html => { :class => 'mypage' }, :if => Proc.new { User.current.logged? }
   menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural, :html => { :class => 'projects' }
-  menu.push :administration, { :controller => 'admin', :action => 'index' }, :html => { :class => 'admin' }, :if => Proc.new { User.current.admin? }
-  menu.push :help, Redmine::Info.help_url, :html => { :class => 'help' }
+  menu.push :administration, { :controller => 'admin', :action => 'index' }, :html => { :class => 'admin' }, :if => Proc.new { User.current.admin? }, :last => true
+  menu.push :help, Redmine::Info.help_url, :html => { :class => 'help' }, :last => true
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
