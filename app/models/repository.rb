@@ -17,8 +17,12 @@
 
 class Repository < ActiveRecord::Base
   belongs_to :project
-  has_many :changesets, :dependent => :destroy, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
+  has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
+  
+  # Raw SQL to delete changesets and changes in the database
+  # has_many :changesets, :dependent => :destroy is too slow for big repositories
+  before_destroy :clear_changesets
   
   # Checks if the SCM is enabled when creating a repository
   validate_on_create { |r| r.errors.add(:type, :activerecord_error_invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
@@ -126,5 +130,10 @@ class Repository < ActiveRecord::Base
     url.strip!
     root_url.strip!
     true
+  end
+  
+  def clear_changesets
+    connection.delete("DELETE FROM changes WHERE changes.changeset_id IN (SELECT changesets.id FROM changesets WHERE changesets.repository_id = #{id})")
+    connection.delete("DELETE FROM changesets WHERE changesets.repository_id = #{id}")
   end
 end

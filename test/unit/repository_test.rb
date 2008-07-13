@@ -45,6 +45,16 @@ class RepositoryTest < Test::Unit::TestCase
     assert_equal repository, project.repository
   end
   
+  def test_destroy
+    changesets = Changeset.count(:all, :conditions => "repository_id = 10")
+    changes = Change.count(:all, :conditions => "repository_id = 10", :include => :changeset)
+    assert_difference 'Changeset.count', -changesets do
+      assert_difference 'Change.count', -changes do
+        Repository.find(10).destroy
+      end
+    end
+  end
+  
   def test_should_not_create_with_disabled_scm
     # disable Subversion
     Setting.enabled_scm = ['Darcs', 'Git']
