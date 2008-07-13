@@ -130,5 +130,5 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
   menu.push :repository, { :controller => 'repositories', :action => 'show' },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
-  menu.push :settings, { :controller => 'projects', :action => 'settings' }
+  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
 end

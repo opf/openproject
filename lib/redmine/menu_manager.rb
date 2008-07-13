@@ -92,11 +92,9 @@ module Redmine
     
     class << self
       def map(menu_name)
-        mapper = Mapper.new
-        yield mapper
         @items ||= {}
-        @items[menu_name.to_sym] ||= []
-        @items[menu_name.to_sym] += mapper.items
+        mapper = Mapper.new(menu_name.to_sym, @items)
+        yield mapper
       end
       
       def items(menu_name)
@@ -109,6 +107,14 @@ module Redmine
     end
     
     class Mapper
+      def initialize(menu, items)
+        items[menu] ||= []
+        @menu = menu
+        @menu_items = items[menu]
+      end
+      
+      @@last_items_count = Hash.new {|h,k| h[k] = 0}
+      
       # Adds an item at the end of the menu. Available options:
       # * param: the parameter name that is used for the project id (default is :id)
       # * if: a Proc that is called before rendering the item, the item is displayed only if it returns true
@@ -116,13 +122,31 @@ module Redmine
       #   * a localized string Symbol
       #   * a String
       #   * a Proc that can take the project as argument
+      # * before, after: specify where the menu item should be inserted (eg. :after => :activity)
+      # * last: menu item will stay at the end (eg. :last => true)
       # * html_options: a hash of html options that are passed to link_to
       def push(name, url, options={})
-        items << MenuItem.new(name, url, options)
+        options = options.dup
+        
+        # menu item position
+        if before = options.delete(:before)
+          position = @menu_items.index {|i| i.name == before}
+        elsif after = options.delete(:after)
+          position = @menu_items.index {|i| i.name == after}
+          position += 1 unless position.nil?
+        elsif options.delete(:last)
+          position = @menu_items.size
+          @@last_items_count[@menu] += 1
+        end
+        # default position
+        position ||= @menu_items.size - @@last_items_count[@menu]
+        
+        @menu_items.insert(position, MenuItem.new(name, url, options))
       end
       
-      def items
-        @items ||= []
+      # Removes a menu item
+      def delete(name)
+        @menu_items.delete_if {|i| i.name == name}
       end
     end
     

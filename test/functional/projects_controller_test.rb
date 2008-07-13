@@ -312,4 +312,33 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_redirected_to 'admin/projects'
     assert Project.find(1).active?
   end
+  
+  def test_project_menu
+    assert_no_difference 'Redmine::MenuManager.items(:project_menu).size' do
+      Redmine::MenuManager.map :project_menu do |menu|
+        menu.push :foo, { :controller => 'projects', :action => 'show' }, :cation => 'Foo'
+        menu.push :bar, { :controller => 'projects', :action => 'show' }, :before => :activity
+        menu.push :hello, { :controller => 'projects', :action => 'show' }, :caption => Proc.new {|p| p.name.upcase }, :after => :bar
+      end
+      
+      get :show, :id => 1
+      assert_tag :div, :attributes => { :id => 'main-menu' },
+                       :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Foo' } }
+  
+      assert_tag :div, :attributes => { :id => 'main-menu' },
+                       :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Bar' },
+                                                      :before => { :tag => 'li', :child => { :tag => 'a', :content => 'ECOOKBOOK' } } }
+
+      assert_tag :div, :attributes => { :id => 'main-menu' },
+                       :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'ECOOKBOOK' },
+                                                      :before => { :tag => 'li', :child => { :tag => 'a', :content => 'Activity' } } }
+      
+      # Remove the menu items
+      Redmine::MenuManager.map :project_menu do |menu|
+        menu.delete :foo
+        menu.delete :bar
+        menu.delete :hello
+      end
+    end
+  end
 end
