@@ -1,7 +1,7 @@
 <% form_tag({}) do -%>	
 <table class="list issues">
     <thead><tr>
-        <th><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(this.up("form")); return false;',
+        <th><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
         </th>
 		<%= sort_header_tag("#{Issue.table_name}.id", :caption => '#', :default_order => 'desc') %>
