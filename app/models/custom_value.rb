@@ -25,6 +25,11 @@ class CustomValue < ActiveRecord::Base
     end
   end
   
+  # Returns true if the boolean custom value is true
+  def true?
+    self.value == '1'
+  end
+  
 protected
   def validate
     if value.blank?

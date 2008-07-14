@@ -37,7 +37,7 @@ module CustomFieldsHelper
     when "text"
       text_area_tag(field_name, custom_value.value, :id => field_id, :rows => 3, :style => 'width:90%')
     when "bool"
-      check_box_tag(field_name, custom_value.value, :id => field_id)
+      check_box_tag(field_name, '1', custom_value.true?, :id => field_id) + hidden_field_tag(field_name, '0')
     when "list"
       blank_option = custom_field.is_required? ?
                        (custom_field.default_value.blank? ? "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" : '') : 
