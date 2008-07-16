@@ -201,6 +201,10 @@ class User < ActiveRecord::Base
     true
   end
   
+  def anonymous?
+    !logged?
+  end
+  
   # Return user's role for project
   def role_for_project(project)
     # No role on archived projects

@@ -92,7 +92,8 @@ module ApplicationHelper
   
   def authoring(created, author)
     time_tag = content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created))
-    l(:label_added_time_by, author || 'Anonymous', time_tag)
+    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
+    l(:label_added_time_by, author_tag, time_tag)
   end
   
   def l_or_humanize(s)
