@@ -333,6 +333,7 @@ class IssuesController < ApplicationController
     @project = projects.first if projects.size == 1
 
     @can = {:edit => (@project && User.current.allowed_to?(:edit_issues, @project)),
+            :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
             :update => (@issue && (User.current.allowed_to?(:edit_issues, @project) || (User.current.allowed_to?(:change_status, @project) && !@allowed_statuses.empty?))),
             :move => (@project && User.current.allowed_to?(:move_issues, @project)),
             :copy => (@issue && @project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),
