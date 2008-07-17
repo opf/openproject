@@ -498,7 +498,7 @@ default_issue_status_new: Nou
 default_issue_status_assigned: Atribuit
 default_issue_status_resolved: Rezolvat
 default_issue_status_feedback: Feedback
-default_issue_status_closed: Rezolvat
+default_issue_status_closed: Closed
 default_issue_status_rejected: Respins
 default_doc_category_user: Documentatie
 default_doc_category_tech: Documentatie tehnica

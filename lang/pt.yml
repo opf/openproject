@@ -490,7 +490,7 @@ text_issue_category_destroy_question: Some issues (%d) are assigned to this cate
 text_issue_category_destroy_assignments: Remove category assignments
 text_issue_category_reassign_to: Reassing issues to this category
 
-default_role_manager: Analista de Negócio ou Gerente de Projeto
+default_role_manager: Gerente de Projeto
 default_role_developper: Desenvolvedor
 default_role_reporter: Analista de Suporte
 default_tracker_bug: Bug

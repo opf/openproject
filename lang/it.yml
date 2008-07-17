@@ -496,12 +496,12 @@ default_role_reporter: Reporter
 default_tracker_bug: Segnalazione
 default_tracker_feature: Funzione
 default_tracker_support: Supporto
-default_issue_status_new: Nuovo/a
-default_issue_status_assigned: Assegnato/a
-default_issue_status_resolved: Risolto/a
+default_issue_status_new: Nuovo
+default_issue_status_assigned: Assegnato
+default_issue_status_resolved: Risolto
 default_issue_status_feedback: Feedback
-default_issue_status_closed: Chiuso/a
-default_issue_status_rejected: Rifiutato/a
+default_issue_status_closed: Chiuso
+default_issue_status_rejected: Rifiutato
 default_doc_category_user: Documentazione utente
 default_doc_category_tech: Documentazione tecnica
 default_priority_low: Bassa
