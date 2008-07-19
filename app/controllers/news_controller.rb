@@ -18,7 +18,7 @@
 class NewsController < ApplicationController
   layout 'base'
   before_filter :find_news, :except => [:new, :index, :preview]
-  before_filter :find_project, :only => :new
+  before_filter :find_project, :only => [:new, :preview]
   before_filter :authorize, :except => [:index, :preview]
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index

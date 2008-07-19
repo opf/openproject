@@ -5,7 +5,7 @@
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
 <%= link_to_remote l(:label_preview), 
-                   { :url => { :controller => 'news', :action => 'preview' },
+                   { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
                      :update => 'preview',
                      :with => "Form.serialize('news-form')"
