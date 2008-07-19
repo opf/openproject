@@ -168,7 +168,7 @@ module ActiveRecord #:nodoc:
           if attr == "base"
             full_messages << (msg.is_a?(Symbol) ? l(msg) : msg)
           else
-            full_messages << @base.class.human_attribute_name(attr) + " " + (msg.is_a?(Symbol) ? l(msg) : msg)
+            full_messages << @base.class.human_attribute_name(attr) + " " + (msg.is_a?(Symbol) ? l(msg) : msg.to_s)
           end
         end
       end
