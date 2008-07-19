@@ -5,8 +5,9 @@
 
 <div class="box">
 <!--[form:user]-->
+<% if @user.auth_source_id.nil? %>
 <p><label for="user_login"><%=l(:field_login)%> <span class="required">*</span></label>
-<%= text_field 'user', 'login', :size => 25  %></p>
+<%= text_field 'user', 'login', :size => 25 %></p>
 
 <p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label>
 <%= password_field_tag 'password', nil, :size => 25  %><br />
@@ -14,6 +15,7 @@
 
 <p><label for="password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
 <%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
+<% end %>
 
 <p><label for="user_firstname"><%=l(:field_firstname)%> <span class="required">*</span></label>
 <%= text_field 'user', 'firstname'  %></p>

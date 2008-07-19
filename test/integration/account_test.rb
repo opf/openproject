@@ -17,6 +17,12 @@
 
 require "#{File.dirname(__FILE__)}/../test_helper"
 
+begin
+  require 'mocha'
+rescue
+  # Won't run some tests
+end
+
 class AccountTest < ActionController::IntegrationTest
   fixtures :users
 
@@ -101,5 +107,47 @@ class AccountTest < ActionController::IntegrationTest
     get 'account/activate', :token => token.value
     assert_redirected_to 'account/login'
     log_user('newuser', 'newpass')
+  end
+  
+  if Object.const_defined?(:Mocha)
+  
+  def test_onthefly_registration
+    # disable registration
+    Setting.self_registration = '0'
+    AuthSource.expects(:authenticate).returns([:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66])
+  
+    post 'account/login', :username => 'foo', :password => 'bar'
+    assert_redirected_to 'my/page'
+    
+    user = User.find_by_login('foo')
+    assert user.is_a?(User)
+    assert_equal 66, user.auth_source_id
+    assert user.hashed_password.blank?
+  end
+  
+  def test_onthefly_registration_with_invalid_attributes
+    # disable registration
+    Setting.self_registration = '0'
+    AuthSource.expects(:authenticate).returns([:login => 'foo', :lastname => 'Smith', :auth_source_id => 66])
+    
+    post 'account/login', :username => 'foo', :password => 'bar'
+    assert_response :success
+    assert_template 'account/register'
+    assert_tag :input, :attributes => { :name => 'user[firstname]', :value => '' }
+    assert_tag :input, :attributes => { :name => 'user[lastname]', :value => 'Smith' }
+    assert_no_tag :input, :attributes => { :name => 'user[login]' }
+    assert_no_tag :input, :attributes => { :name => 'user[password]' }
+    
+    post 'account/register', :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
+    assert_redirected_to 'my/account'
+    
+    user = User.find_by_login('foo')
+    assert user.is_a?(User)
+    assert_equal 66, user.auth_source_id
+    assert user.hashed_password.blank?
+  end
+  
+  else
+    puts 'Mocha is missing. Skipping tests.'
   end
 end

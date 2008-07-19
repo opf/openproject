@@ -103,19 +103,16 @@ class User < ActiveRecord::Base
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
       if attrs
-        onthefly = new(*attrs)
-        onthefly.login = login
-        onthefly.language = Setting.default_language
-        if onthefly.save
-          user = find(:first, :conditions => ["login=?", login])
+        user = new(*attrs)
+        user.login = login
+        user.language = Setting.default_language
+        if user.save
+          user.reload
           logger.info("User '#{user.login}' created from the LDAP") if logger
-        else
-          logger.error("User '#{onthefly.login}' found in LDAP but could not be created (#{onthefly.errors.full_messages.join(', ')})") if logger
-          raise OnTheFlyCreationFailure.new
         end
       end
     end    
-    user.update_attribute(:last_login_on, Time.now) if user
+    user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
     user
   rescue => text
     raise text
