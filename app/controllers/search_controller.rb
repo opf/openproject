@@ -72,15 +72,20 @@ class SearchController < ApplicationController
       @tokens.slice! 5..-1 if @tokens.size > 5
       # strings used in sql like statement
       like_tokens = @tokens.collect {|w| "%#{w.downcase}%"}      
+      
       @results = []
+      @results_by_type = Hash.new {|h,k| h[k] = 0}
+      
       limit = 10
       @scope.each do |s|
-        @results += s.singularize.camelcase.constantize.search(like_tokens, projects_to_search,
+        r, c = s.singularize.camelcase.constantize.search(like_tokens, projects_to_search,
           :all_words => @all_words,
           :titles_only => @titles_only,
           :limit => (limit+1),
           :offset => offset,
           :before => params[:previous].nil?)
+        @results += r
+        @results_by_type[s] += c
       end
       @results = @results.sort {|a,b| b.event_datetime <=> a.event_datetime}
       if params[:previous].nil?

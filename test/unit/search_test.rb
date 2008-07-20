@@ -41,24 +41,24 @@ class SearchTest < Test::Unit::TestCase
   def test_search_by_anonymous
     User.current = nil
     
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert r.include?(@changeset)
     
     # Removes the :view_changesets permission from Anonymous role
     remove_permission Role.anonymous, :view_changesets
     
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert !r.include?(@changeset)
     
     # Make the project private
     @project.update_attribute :is_public, false
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert !r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert !r.include?(@changeset)
   end
   
@@ -66,24 +66,24 @@ class SearchTest < Test::Unit::TestCase
     User.current = User.find_by_login('rhill')
     assert User.current.memberships.empty?
     
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert r.include?(@changeset)
     
     # Removes the :view_changesets permission from Non member role
     remove_permission Role.non_member, :view_changesets
     
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert !r.include?(@changeset)
     
     # Make the project private
     @project.update_attribute :is_public, false
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert !r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert !r.include?(@changeset)
   end
   
@@ -91,16 +91,16 @@ class SearchTest < Test::Unit::TestCase
     User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
     
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert r.include?(@changeset)
 
     # Make the project private
     @project.update_attribute :is_public, false
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert r.include?(@changeset)
   end
 
@@ -112,17 +112,26 @@ class SearchTest < Test::Unit::TestCase
     User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
     
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert !r.include?(@changeset)
 
     # Make the project private
     @project.update_attribute :is_public, false
-    r = Issue.search(@issue_keyword)
+    r = Issue.search(@issue_keyword).first
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword)
+    r = Changeset.search(@changeset_keyword).first
     assert !r.include?(@changeset)
+  end
+  
+  def test_search_issue_with_multiple_hits_in_journals
+    i = Issue.find(1)
+    assert_equal 2, i.journals.count(:all, :conditions => "notes LIKE '%notes%'")
+    
+    r = Issue.search('%notes%').first
+    assert_equal 1, r.size
+    assert_equal i, r.first
   end
   
   private

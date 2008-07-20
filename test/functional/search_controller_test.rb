@@ -32,9 +32,17 @@ class SearchControllerTest < Test::Unit::TestCase
     get :index, :q => 'recipe subproject commit', :submit => 'Search'
     assert_response :success
     assert_template 'index'
+    
     assert assigns(:results).include?(Issue.find(2))
     assert assigns(:results).include?(Issue.find(5))
     assert assigns(:results).include?(Changeset.find(101))
+    assert_tag :dt, :attributes => { :class => /issue/ },
+                    :child => { :tag => 'a',  :content => /Add ingredients categories/ },
+                    :sibling => { :tag => 'dd', :content => /should be classified by categories/ }
+    
+    assert assigns(:results_by_type).is_a?(Hash)
+    assert_equal 4, assigns(:results_by_type)['changesets']
+    assert_tag :a, :content => 'Changesets (4)'
   end
   
   def test_search_project_and_subprojects

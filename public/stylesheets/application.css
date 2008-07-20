@@ -185,9 +185,13 @@ div#activity dt.me .time { border-bottom: 1px solid #999; }
 div#activity dt .time { color: #777; font-size: 80%; }
 div#activity dd .description, #search-results dd .description { font-style: italic; }
 div#activity span.project:after, #search-results span.project:after { content: " -"; }
-#search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px;}
 div#activity dd span.description, #search-results dd span.description { display:block; }
 
+#search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px; }
+div#search-results-counts {float:right;}
+div#search-results-counts ul { margin-top: 0.5em; }
+div#search-results-counts  li { list-style-type:none; float: left; margin-left: 1em; }
+  
 dt.issue { background-image: url(../images/ticket.png); }
 dt.issue-edit { background-image: url(../images/ticket_edit.png); }
 dt.issue-closed { background-image: url(../images/ticket_checked.png); }

@@ -35,7 +35,10 @@ class Issue < ActiveRecord::Base
   
   acts_as_customizable
   acts_as_watchable
-  acts_as_searchable :columns => ['subject', "#{table_name}.description"], :include => :project, :with => {:journal => :issue}
+  acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
+                     :include => [:project, :journals],
+                     # sort by id so that limited eager loading doesn't break with postgresql
+                     :order_column => "#{table_name}.id"
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id}: #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}}                
   

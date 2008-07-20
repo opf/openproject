@@ -23,6 +23,12 @@ module Redmine
       end 
 
       module ClassMethods
+        # Options:
+        # * :columns - a column or an array of columns to search
+        # * :project_key - project foreign key (default to project_id)
+        # * :date_column - name of the datetime column (default to created_on)
+        # * :sort_order - name of the column used to sort results (default to :date_column or created_on)
+        # * :permission - permission required to search the model (default to :view_"objects")
         def acts_as_searchable(options = {})
           return if self.included_modules.include?(Redmine::Acts::Searchable::InstanceMethods)
   
@@ -49,6 +55,8 @@ module Redmine
             raise 'No date column defined defined.'
           end
           
+          searchable_options[:order_column] ||= searchable_options[:date_column]
+          
           # Permission needed to search this model
           searchable_options[:permission] = "view_#{self.name.underscore.pluralize}".to_sym unless searchable_options.has_key?(:permission)
           
@@ -65,15 +73,22 @@ module Redmine
         end
 
         module ClassMethods
-          # Search the model for the given tokens
+          # Searches the model for the given tokens
           # projects argument can be either nil (will search all projects), a project or an array of projects
+          # Returns the results and the results count
           def search(tokens, projects=nil, options={})
             tokens = [] << tokens unless tokens.is_a?(Array)
             projects = [] << projects unless projects.nil? || projects.is_a?(Array)
             
             find_options = {:include => searchable_options[:include]}
-            find_options[:limit] = options[:limit] if options[:limit]
-            find_options[:order] = "#{searchable_options[:date_column]} " + (options[:before] ? 'DESC' : 'ASC')
+            find_options[:order] = "#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')
+            
+            limit_options = {}
+            limit_options[:limit] = options[:limit] if options[:limit]
+            if options[:offset]
+              limit_options[:conditions] = "(#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')"
+            end
+            
             columns = searchable_options[:columns]
             columns.slice!(1..-1) if options[:titles_only]
             
@@ -94,9 +109,6 @@ module Redmine
             
             sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
             
-            if options[:offset]
-              sql = "(#{sql}) AND (#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')"
-            end
             find_options[:conditions] = [sql, * (tokens * token_clauses.size).sort]
             
             project_conditions = []
@@ -104,16 +116,16 @@ module Redmine
                                                  Project.allowed_to_condition(User.current, searchable_options[:permission]))
             project_conditions << "#{searchable_options[:project_key]} IN (#{projects.collect(&:id).join(',')})" unless projects.nil?
             
-            results = with_scope(:find => {:conditions => project_conditions.join(' AND ')}) do
-              find(:all, find_options)
-            end            
-            if searchable_options[:with] && !options[:titles_only]
-              searchable_options[:with].each do |model, assoc|
-                results += model.to_s.camelcase.constantize.search(tokens, projects, options).collect {|r| r.send assoc}
+            results = []
+            results_count = 0
+            
+            with_scope(:find => {:conditions => project_conditions.join(' AND ')}) do
+              with_scope(:find => find_options) do
+                results_count = count(:all)
+                results = find(:all, limit_options)
               end
-              results.uniq!
             end
-            results
+            [results, results_count]
           end
         end
       end
