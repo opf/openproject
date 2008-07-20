@@ -41,6 +41,9 @@ module ApplicationHelper
   end
   
   def link_to_issue(issue, options={})
+    options[:class] ||= ''
+    options[:class] << ' issue'
+    options[:class] << ' closed' if issue.closed?
     link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
   end
   

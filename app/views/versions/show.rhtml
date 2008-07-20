@@ -38,7 +38,7 @@
 <fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
 <ul>
 <% issues.each do |issue| -%>
-    <li class="issue <%= 'closed' if issue.closed? %>"><%= link_to_issue(issue) %>: <%=h issue.subject %></li>
+    <li><%= link_to_issue(issue) %>: <%=h issue.subject %></li>
 <% end -%>
 </ul>
 </fieldset>
