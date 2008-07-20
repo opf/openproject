@@ -130,9 +130,9 @@ module Redmine
         
         # menu item position
         if before = options.delete(:before)
-          position = @menu_items.index {|i| i.name == before}
+          position = @menu_items.collect(&:name).index(before)
         elsif after = options.delete(:after)
-          position = @menu_items.index {|i| i.name == after}
+          position = @menu_items.collect(&:name).index(after)
           position += 1 unless position.nil?
         elsif options.delete(:last)
           position = @menu_items.size
