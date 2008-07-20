@@ -41,20 +41,8 @@ module Redmine
             searchable_options[:columns] = [] << searchable_options[:columns]
           end
 
-          if searchable_options[:project_key]
-          elsif column_names.include?('project_id')
-            searchable_options[:project_key] = "#{table_name}.project_id"
-          else
-            raise 'No project key defined.'
-          end
-          
-          if searchable_options[:date_column]
-          elsif column_names.include?('created_on')
-            searchable_options[:date_column] = "#{table_name}.created_on"
-          else
-            raise 'No date column defined defined.'
-          end
-          
+          searchable_options[:project_key] ||= "#{table_name}.project_id"
+          searchable_options[:date_column] ||= "#{table_name}.created_on"
           searchable_options[:order_column] ||= searchable_options[:date_column]
           
           # Permission needed to search this model
