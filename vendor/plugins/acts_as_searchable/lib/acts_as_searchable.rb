@@ -78,7 +78,7 @@ module Redmine
             end
             
             columns = searchable_options[:columns]
-            columns.slice!(1..-1) if options[:titles_only]
+            columns = columns[0..0] if options[:titles_only]
             
             token_clauses = columns.collect {|column| "(LOWER(#{column}) LIKE ?)"}
             
