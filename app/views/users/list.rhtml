@@ -29,7 +29,7 @@
 	<td class="username"><%= link_to h(user.login), :action => 'edit', :id => user %></td>
 	<td class="firstname"><%= h(user.firstname) %></td>
 	<td class="lastname"><%= h(user.lastname) %></td>
-	<td class="email"><%= h(user.mail) %></td>
+	<td class="email"><%= mail_to(h(user.mail)) %></td>
 	<td align="center"><%= image_tag('true.png') if user.admin? %></td>
 	<td class="created_on" align="center"><%= format_time(user.created_on) %></td>
 	<td class="last_login_on" align="center"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
