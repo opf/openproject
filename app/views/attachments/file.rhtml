@@ -3,7 +3,7 @@
 <div class="attachments">
 <p><%= h("#{@attachment.description} - ") unless @attachment.description.blank? %>
    <span class="author"><%= @attachment.author %>, <%= format_time(@attachment.created_on) %></span></p>
-<p><%= link_to l(:button_download), {:controller => 'attachments', :action => 'download', :id => @attachment } -%>
+<p><%= link_to_attachment @attachment, :text => l(:button_download), :download => true -%>
    <span class="size">(<%= number_to_human_size @attachment.filesize %>)</span></p>
 
 </div>

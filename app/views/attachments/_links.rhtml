@@ -1,6 +1,6 @@
 <div class="attachments">
 <% for attachment in attachments %>
-<p><%= link_to attachment.filename, {:controller => 'attachments', :action => 'show', :id => attachment }, :class => 'icon icon-attachment' -%>
+<p><%= link_to_attachment attachment, :class => 'icon icon-attachment' -%>
 <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
   <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
   <% if options[:delete_url] %>

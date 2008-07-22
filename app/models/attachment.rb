@@ -26,7 +26,7 @@ class Attachment < ActiveRecord::Base
   validates_length_of :disk_filename, :maximum => 255
 
   acts_as_event :title => :filename,
-                :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id}}
+                :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id, :filename => o.filename}}
 
   cattr_accessor :storage_path
   @@storage_path = "#{RAILS_ROOT}/files"

@@ -43,6 +43,9 @@ class AttachmentsController < ApplicationController
 private
   def find_project
     @attachment = Attachment.find(params[:id])
+    # Show 404 if the filename in the url is wrong
+    raise ActiveRecord::RecordNotFound if params[:filename] && params[:filename] != @attachment.filename
+    
     @project = @attachment.project
     permission = @attachment.container.is_a?(Version) ? :view_files : "view_#{@attachment.container.class.name.underscore.pluralize}".to_sym
     allowed = User.current.allowed_to?(permission, @project)

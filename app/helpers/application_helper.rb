@@ -47,6 +47,17 @@ module ApplicationHelper
     link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
   end
   
+  # Generates a link to an attachment.
+  # Options:
+  # * :text - Link text (default to attachment filename)
+  # * :download - Force download (default: false)
+  def link_to_attachment(attachment, options={})
+    text = options.delete(:text) || attachment.filename
+    action = options.delete(:download) ? 'download' : 'show'
+    
+    link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
+  end
+  
   def toggle_link(name, id, options={})
     onclick = "Element.toggle('#{id}'); "
     onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
