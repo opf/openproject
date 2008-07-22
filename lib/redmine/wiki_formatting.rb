@@ -81,16 +81,16 @@ module Redmine
           div_class = 'toc'
           div_class << ' right' if $1 == '>'
           div_class << ' left' if $1 == '<'
-          out = "<div class=\"#{div_class}\">"
+          out = "<ul class=\"#{div_class}\">"
           @toc.each_with_index do |heading, index|
             # remove wiki links from the item
             toc_item = heading.last.gsub(/(\[\[|\]\])/, '')
             # remove styles
             # eg. %{color:red}Triggers% => Triggers
             toc_item.gsub! %r[%\{[^\}]*\}([^%]+)%], '\\1'
-            out << "<a href=\"##{index+1}\" class=\"heading#{heading.first}\">#{toc_item}</a>"
+            out << "<li class=\"heading#{heading.first}\"><a href=\"##{index+1}\">#{toc_item}</a></li>\n"
           end
-          out << '</div>'
+          out << '</ul>'
           out
         end
       end

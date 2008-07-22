@@ -461,31 +461,31 @@ div.wiki pre {
     overflow-x: auto;
 }
 
-div.wiki div.toc {
+div.wiki ul.toc {
     background-color: #ffffdd;
     border: 1px solid #e4e4e4;
     padding: 4px;
     line-height: 1.2em;
     margin-bottom: 12px;
     margin-right: 12px;
+    margin-left: 0;
     display: table
 }
-* html div.wiki div.toc { width: 50%; } /* IE6 doesn't autosize div */
+* html div.wiki ul.toc { width: 50%; } /* IE6 doesn't autosize div */
 
-div.wiki div.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; }
-div.wiki div.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; }
+div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; }
+div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; }
+div.wiki ul.toc li { list-style-type:none;}
+div.wiki ul.toc li.heading2 { margin-left: 6px; }
+div.wiki ul.toc li.heading3 { margin-left: 12px; font-size: 0.8em; }
 
-div.wiki div.toc a {
-    display: block;
+div.wiki ul.toc a {
     font-size: 0.9em;
     font-weight: normal;
     text-decoration: none;
     color: #606060;
 }
-div.wiki div.toc a:hover { color: #c61a1a; text-decoration: underline;}
-
-div.wiki div.toc a.heading2 { margin-left: 6px; }
-div.wiki div.toc a.heading3 { margin-left: 12px; font-size: 0.8em; }
+div.wiki ul.toc a:hover { color: #c61a1a; text-decoration: underline;}
 
 /***** My page layout *****/
 .block-receiver {
