@@ -60,6 +60,13 @@ class TimelogController < ApplicationController
                                              :label => cf.name}
     end
     
+    # Add list and boolean time entry custom fields
+    TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM custom_values c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = time_entries.id)",
+                                             :format => cf.field_format,
+                                             :label => cf.name}
+    end
+    
     @criterias = params[:criterias] || []
     @criterias = @criterias.select{|criteria| @available_criterias.has_key? criteria}
     @criterias.uniq!
