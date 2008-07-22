@@ -17,7 +17,7 @@
 
 class AttachmentsController < ApplicationController
   layout 'base'
-  before_filter :find_project, :check_project_privacy
+  before_filter :find_project
 
   def show
     if @attachment.is_diff?
@@ -32,6 +32,8 @@ class AttachmentsController < ApplicationController
   end
   
   def download
+    @attachment.increment_download if @attachment.container.is_a?(Version)
+    
     # images are sent inline
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                     :type => @attachment.content_type, 
@@ -41,9 +43,11 @@ class AttachmentsController < ApplicationController
 private
   def find_project
     @attachment = Attachment.find(params[:id])
-    #render_404 and return false unless File.readable?(@attachment.diskfile)
     @project = @attachment.project
-  #rescue
-  #  render_404
+    permission = @attachment.container.is_a?(Version) ? :view_files : "view_#{@attachment.container.class.name.underscore.pluralize}".to_sym
+    allowed = User.current.allowed_to?(permission, @project)
+    allowed ? true : (User.current.logged? ? render_403 : require_login)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

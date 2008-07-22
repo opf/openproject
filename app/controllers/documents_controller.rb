@@ -65,15 +65,6 @@ class DocumentsController < ApplicationController
     @document.destroy
     redirect_to :controller => 'documents', :action => 'index', :project_id => @project
   end
-
-  def download
-    @attachment = @document.attachments.find(params[:attachment_id])
-    @attachment.increment_download
-    send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-                                    :type => @attachment.content_type
-  rescue
-    render_404
-  end 
   
   def add_attachment
     attachments = attach_files(@document, params[:attachments])

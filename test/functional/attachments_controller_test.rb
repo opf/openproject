@@ -56,4 +56,9 @@ class AttachmentsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_equal 'application/x-ruby', @response.content_type
   end
+  
+  def test_anonymous_on_private_private
+    get :download, :id => 7
+    assert_redirected_to 'account/login'
+  end
 end

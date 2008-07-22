@@ -73,3 +73,16 @@ attachments_006:
   filename: archive.zip
   author_id: 2
   content_type: application/octet-stream
+attachments_007: 
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: Issue
+  container_id: 4
+  downloads: 0
+  disk_filename: 060719210727_archive.zip
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 7
+  filesize: 157
+  filename: archive.zip
+  author_id: 1
+  content_type: application/octet-stream
+  

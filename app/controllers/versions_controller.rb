@@ -37,15 +37,6 @@ class VersionsController < ApplicationController
     flash[:error] = "Unable to delete version"
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
   end
-
-  def download
-    @attachment = @version.attachments.find(params[:attachment_id])
-    @attachment.increment_download
-    send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-                                    :type => @attachment.content_type
-  rescue
-    render_404
-  end 
   
   def destroy_file
     @version.attachments.find(params[:attachment_id]).destroy
