@@ -19,8 +19,6 @@ require "digest/sha1"
 
 class User < ActiveRecord::Base
 
-  class OnTheFlyCreationFailure < Exception; end
-
   # Account statuses
   STATUS_ANONYMOUS  = 0
   STATUS_ACTIVE     = 1
