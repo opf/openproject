@@ -105,6 +105,9 @@ when "IssueCustomField" %>
 <% when "ProjectCustomField" %>
     <p><%= f.check_box :is_required %></p>
 
+<% when "TimeEntryCustomField" %>
+    <p><%= f.check_box :is_required %></p>
+
 <% end %>
 </div>
 <%= javascript_tag "toggle_custom_field_format();" %>

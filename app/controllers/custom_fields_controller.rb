@@ -39,6 +39,8 @@ class CustomFieldsController < ApplicationController
         @custom_field = UserCustomField.new(params[:custom_field])
       when "ProjectCustomField" 
         @custom_field = ProjectCustomField.new(params[:custom_field])
+      when "TimeEntryCustomField" 
+        @custom_field = TimeEntryCustomField.new(params[:custom_field])
       else
         redirect_to :action => 'list'
         return

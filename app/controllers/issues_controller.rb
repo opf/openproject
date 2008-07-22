@@ -160,6 +160,7 @@ class IssuesController < ApplicationController
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @priorities = Enumeration::get_values('IPRI')
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+    @time_entry = TimeEntry.new
     
     @notes = params[:notes]
     journal = @issue.init_journal(User.current, @notes)

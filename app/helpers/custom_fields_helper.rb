@@ -19,6 +19,7 @@ module CustomFieldsHelper
 
   def custom_fields_tabs
     tabs = [{:name => 'IssueCustomField', :label => :label_issue_plural},
+            {:name => 'TimeEntryCustomField', :label => :label_spent_time},
             {:name => 'ProjectCustomField', :label => :label_project_plural},
             {:name => 'UserCustomField', :label => :label_user_plural}
             ]

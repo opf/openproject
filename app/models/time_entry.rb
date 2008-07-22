@@ -25,6 +25,7 @@ class TimeEntry < ActiveRecord::Base
   
   attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 
+  acts_as_customizable
   acts_as_event :title => Proc.new {|o| "#{o.user}: #{lwr(:label_f_hour, o.hours)} (#{(o.issue || o.project).event_title})"},
                 :url => Proc.new {|o| {:controller => 'timelog', :action => 'details', :project_id => o.project}},
                 :author => :user,
