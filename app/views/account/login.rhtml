@@ -1,5 +1,6 @@
 <div id="login-form">
 <% form_tag({:action=> "login"}) do %>
+<%= back_url_hidden_field_tag %>
 <table>
 <tr>
     <td align="right"><label for="username"><%=l(:field_login)%>:</label></td>

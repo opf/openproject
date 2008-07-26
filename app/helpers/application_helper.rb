@@ -451,7 +451,8 @@ module ApplicationHelper
   end
   
   def back_url_hidden_field_tag
-    hidden_field_tag 'back_url', (params[:back_url] || request.env['HTTP_REFERER'])
+    back_url = params[:back_url] || request.env['HTTP_REFERER']
+    hidden_field_tag('back_url', back_url) unless back_url.blank?
   end
   
   def check_all_links(form_name)

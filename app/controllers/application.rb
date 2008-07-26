@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'uri'
+
 class ApplicationController < ActionController::Base
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
@@ -77,8 +79,7 @@ class ApplicationController < ActionController::Base
   
   def require_login
     if !User.current.logged?
-      store_location
-      redirect_to :controller => "account", :action => "login"
+      redirect_to :controller => "account", :action => "login", :back_url => request.request_uri
       return false
     end
     true
@@ -115,20 +116,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # store current uri in session.
-  # return to this location by calling redirect_back_or_default
-  def store_location
-    session[:return_to_params] = params
-  end
-
-  # move to the last store_location call or to the passed default one
   def redirect_back_or_default(default)
-    if session[:return_to_params].nil?
-      redirect_to default
-    else
-      redirect_to session[:return_to_params]
-      session[:return_to_params] = nil
+    back_url = params[:back_url]
+    if !back_url.blank?
+      uri = URI.parse(back_url)
+      # do not redirect user to another host
+      if uri.relative? || (uri.host == request.host)
+        redirect_to(back_url) and return
+      end
     end
+    redirect_to default
   end
   
   def render_403
