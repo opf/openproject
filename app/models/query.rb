@@ -88,7 +88,7 @@ class Query < ActiveRecord::Base
                                  :date_past => [ ">t-", "<t-", "t-", "t", "w" ],
                                  :string => [ "=", "~", "!", "!~" ],
                                  :text => [  "~", "!~" ],
-                                 :integer => [ "=", ">=", "<=" ] }
+                                 :integer => [ "=", ">=", "<=", "!*", "*" ] }
 
   cattr_reader :operators_by_filter_type
 
@@ -152,7 +152,8 @@ class Query < ActiveRecord::Base
                            "updated_on" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
                            "due_date" => { :type => :date, :order => 12 },
-                           "done_ratio" =>  { :type => :integer, :order => 13 }}                          
+                           "estimated_hours" => { :type => :integer, :order => 13 },
+                           "done_ratio" =>  { :type => :integer, :order => 14 }}
     
     user_values = []
     user_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
