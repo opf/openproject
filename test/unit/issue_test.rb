@@ -165,15 +165,24 @@ class IssueTest < Test::Unit::TestCase
     assert !issue1.reload.closed?
   end
   
-  def test_move_to_another_project
+  def test_move_to_another_project_with_same_category
     issue = Issue.find(1)
     assert issue.move_to(Project.find(2))
     issue.reload
     assert_equal 2, issue.project_id
-    # Category removed
-    assert_nil issue.category
+    # Category changes
+    assert_equal 4, issue.category_id
     # Make sure time entries were move to the target project
     assert_equal 2, issue.time_entries.first.project_id
+  end
+  
+  def test_move_to_another_project_without_same_category
+    issue = Issue.find(2)
+    assert issue.move_to(Project.find(2))
+    issue.reload
+    assert_equal 2, issue.project_id
+    # Category cleared
+    assert_nil issue.category_id
   end
   
   def test_issue_destroy

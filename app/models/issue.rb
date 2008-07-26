@@ -77,7 +77,9 @@ class Issue < ActiveRecord::Base
           self.relations_to.clear
         end
         # issue is moved to another project
-        self.category = nil 
+        # reassign to the category with same name if any
+        new_category = category.nil? ? nil : new_project.issue_categories.find_by_name(category.name)
+        self.category = new_category
         self.fixed_version = nil
         self.project = new_project
       end

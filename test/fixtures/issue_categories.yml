@@ -14,4 +14,9 @@ issue_categories_003:
   project_id: 2
   assigned_to_id: 
   id: 3
+issue_categories_004: 
+  name: Printing
+  project_id: 2
+  assigned_to_id: 
+  id: 4
   
