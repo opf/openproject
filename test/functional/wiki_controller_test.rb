@@ -163,8 +163,16 @@ class WikiControllerTest < Test::Unit::TestCase
     pages = assigns(:pages)
     assert_not_nil pages
     assert_equal Project.find(1).wiki.pages.size, pages.size
-    assert_tag :tag => 'a', :attributes => { :href => '/wiki/ecookbook/CookBook_documentation' },
-                            :content => /CookBook documentation/
+    
+    assert_tag :ul, :attributes => { :class => 'pages-hierarchy' },
+                    :child => { :tag => 'li', :child => { :tag => 'a', :attributes => { :href => '/wiki/ecookbook/CookBook_documentation' },
+                                              :content => 'CookBook documentation' },
+                                :child => { :tag => 'ul',
+                                            :child => { :tag => 'li',
+                                                        :child => { :tag => 'a', :attributes => { :href => '/wiki/ecookbook/Page_with_an_inline_image' },
+                                                                                 :content => 'Page with an inline image' } } } },
+                    :child => { :tag => 'li', :child => { :tag => 'a', :attributes => { :href => '/wiki/ecookbook/Another_page' },
+                                                                       :content => 'Another page' } }
   end
   
   def test_not_found

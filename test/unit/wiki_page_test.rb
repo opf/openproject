@@ -48,6 +48,50 @@ class WikiPageTest < Test::Unit::TestCase
     assert page.new_record?
   end
   
+  def test_parent_title
+    page = WikiPage.find_by_title('Another_page')
+    assert_nil page.parent_title
+    
+    page = WikiPage.find_by_title('Page_with_an_inline_image')
+    assert_equal 'CookBook documentation', page.parent_title
+  end
+  
+  def test_assign_parent
+    page = WikiPage.find_by_title('Another_page')
+    page.parent_title = 'CookBook documentation'
+    assert page.save
+    page.reload
+    assert_equal WikiPage.find_by_title('CookBook_documentation'), page.parent
+  end
+  
+  def test_unassign_parent
+    page = WikiPage.find_by_title('Page_with_an_inline_image')
+    page.parent_title = ''
+    assert page.save
+    page.reload
+    assert_nil page.parent
+  end
+  
+  def test_parent_validation
+    page = WikiPage.find_by_title('CookBook_documentation')
+    
+    # A page that doesn't exist
+    page.parent_title = 'Unknown title'
+    assert !page.save
+    assert_equal :activerecord_error_invalid, page.errors.on(:parent_title)
+    # A child page
+    page.parent_title = 'Page_with_an_inline_image'
+    assert !page.save
+    assert_equal :activerecord_error_circular_dependency, page.errors.on(:parent_title)
+    # The page itself
+    page.parent_title = 'CookBook_documentation'
+    assert !page.save
+    assert_equal :activerecord_error_circular_dependency, page.errors.on(:parent_title)
+
+    page.parent_title = 'Another_page'
+    assert page.save
+  end
+  
   def test_destroy
     page = WikiPage.find(1)
     page.destroy

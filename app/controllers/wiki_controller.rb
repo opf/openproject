@@ -147,6 +147,7 @@ class WikiController < ApplicationController
                                       :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id",
                                       :order => 'title'
       @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
+      @pages_by_parent_id = @pages.group_by(&:parent_id)
     # export wiki to a single html file
     when 'export'
       @pages = @wiki.pages.find :all, :order => 'title'

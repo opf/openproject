@@ -177,7 +177,8 @@ module ApplicationHelper
   end
   
   def breadcrumb(*args)
-    content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb')
+    elements = args.flatten
+    elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
   end
   
   def html_title(*args)

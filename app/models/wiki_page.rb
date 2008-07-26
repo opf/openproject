@@ -22,7 +22,8 @@ class WikiPage < ActiveRecord::Base
   belongs_to :wiki
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
   has_many :attachments, :as => :container, :dependent => :destroy
-
+  acts_as_tree :order => 'title'
+  
   acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
                 :description => :text,
                 :datetime => :created_on,
@@ -109,6 +110,24 @@ class WikiPage < ActiveRecord::Base
   # Returns true if usr is allowed to edit the page, otherwise false
   def editable_by?(usr)
     !protected? || usr.allowed_to?(:protect_wiki_pages, wiki.project)
+  end
+  
+  def parent_title
+    @parent_title || (self.parent && self.parent.pretty_title)
+  end
+  
+  def parent_title=(t)
+    @parent_title = t
+    parent_page = t.blank? ? nil : self.wiki.find_page(t)
+    self.parent = parent_page
+  end
+  
+  protected
+  
+  def validate
+    errors.add(:parent_title, :activerecord_error_invalid) if !@parent_title.blank? && parent.nil?
+    errors.add(:parent_title, :activerecord_error_circular_dependency) if parent && (parent == self || parent.ancestors.include?(self))
+    errors.add(:parent_title, :activerecord_error_not_same_project) if parent && (parent.wiki_id != wiki_id)
   end
 end
 

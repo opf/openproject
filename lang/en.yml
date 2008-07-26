@@ -182,6 +182,7 @@ field_time_zone: Time zone
 field_searchable: Searchable
 field_default_value: Default value
 field_comments_sorting: Display comments
+field_parent_title: Parent page
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle
