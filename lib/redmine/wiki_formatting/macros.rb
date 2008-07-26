@@ -77,6 +77,12 @@ module Redmine
         content_tag('dl', out)
       end
       
+      desc "Displays a list of child pages."
+      macro :child_pages do |obj, args|
+        raise 'This macro applies to wiki pages only.' unless obj.is_a?(WikiContent)
+        render_page_hierarchy(obj.page.descendants.group_by(&:parent_id), obj.page.id)
+      end
+      
       desc "Include a wiki page. Example:\n\n  !{{include(Foo)}}\n\nor to include a page of a specific project wiki:\n\n  !{{include(projectname:Foo)}}"
       macro :include do |obj, args|
         project = @project

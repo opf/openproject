@@ -32,10 +32,16 @@ class WikiControllerTest < Test::Unit::TestCase
   end
   
   def test_show_start_page
-    get :index, :id => 1
+    get :index, :id => 'ecookbook'
     assert_response :success
     assert_template 'show'
     assert_tag :tag => 'h1', :content => /CookBook documentation/
+
+    # child_pages macro
+    assert_tag :ul, :attributes => { :class => 'pages-hierarchy' },
+               :child => { :tag => 'li',
+                           :child => { :tag => 'a', :attributes => { :href => '/wiki/ecookbook/Page_with_an_inline_image' },
+                                                    :content => 'Page with an inline image' } }
   end
   
   def test_show_page_with_name

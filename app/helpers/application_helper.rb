@@ -206,7 +206,7 @@ module ApplicationHelper
     options = args.last.is_a?(Hash) ? args.pop : {}
     case args.size
     when 1
-      obj = nil
+      obj = options[:object]
       text = args.shift
     when 2
       obj = args.shift

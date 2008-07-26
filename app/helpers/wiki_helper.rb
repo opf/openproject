@@ -24,7 +24,7 @@ module WikiHelper
       pages[node].each do |page|
         content << "<li>"
         content << link_to(h(page.pretty_title), {:action => 'index', :page => page.title},
-                           :title => l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)))
+                           :title => (page.respond_to?(:updated_on) ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
         content << "\n" + render_page_hierarchy(pages, page.id) if pages[page.id]
         content << "</li>\n"
       end

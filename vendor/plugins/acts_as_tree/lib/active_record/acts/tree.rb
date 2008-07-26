@@ -70,6 +70,13 @@ module ActiveRecord
           nodes
         end
 
+        # Returns list of descendants.
+        #
+        #   root.descendants # => [child1, subchild1, subchild2]
+        def descendants
+          children + children.collect(&:children).flatten
+        end
+
         # Returns the root node of the tree.
         def root
           node = self
