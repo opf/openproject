@@ -214,14 +214,14 @@ h1. Another title
 
 RAW
 
-    expected = '<div class="toc">' +
-               '<a href="#1" class="heading1">Title</a>' +
-               '<a href="#2" class="heading2">Subtitle</a>' + 
-               '<a href="#3" class="heading2">Subtitle with red text</a>' +
-               '<a href="#4" class="heading1">Another title</a>' +
-               '</div>'
+    expected = '<ul class="toc">' +
+               '<li class="heading1"><a href="#1">Title</a></li>' +
+               '<li class="heading2"><a href="#2">Subtitle</a></li>' + 
+               '<li class="heading2"><a href="#3">Subtitle with red text</a></li>' +
+               '<li class="heading1"><a href="#4">Another title</a></li>' +
+               '</ul>'
                
-    assert textilizable(raw).include?(expected)
+    assert textilizable(raw).gsub("\n", "").include?(expected)
   end
   
   def test_blockquote
