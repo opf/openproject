@@ -18,8 +18,13 @@ Redmine::Plugin.register :sample_plugin do
     # This permission has to be explicitly given
     # It will be listed on the permissions screen
     permission :example_say_goodbye, {:example => [:say_goodbye]}
+    # This permission can be given to project members only
+    permission :view_meetings, {:meetings => [:index, :show]}, :require => :member
   end
 
   # A new item is added to the project menu
   menu :project_menu, :sample_plugin, { :controller => 'example', :action => 'say_hello' }, :caption => 'Sample'
+  
+  # Meetings are added to the activity view
+  activity_provider :meetings
 end

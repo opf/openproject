@@ -1,4 +1,5 @@
 # Sample plugin
 label_plugin_example: Sample Plugin
+label_meeting_plural: Meetings
 text_say_hello: Plugin say 'Hello'
 text_say_goodbye: Plugin say 'Good bye'
