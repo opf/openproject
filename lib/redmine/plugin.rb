@@ -116,6 +116,32 @@ module Redmine #:nodoc:
       self.instance_eval(&block)
       @project_module = nil
     end
+    
+    # Registers an activity provider.
+    #
+    # Options:
+    # * <tt>:class_name</tt> - one or more model(s) that provide these events (inferred from event_type by default)
+    # * <tt>:default</tt> - setting this option to false will make the events not displayed by default
+    # 
+    # A model can provide several activity event types.
+    # 
+    # Examples:
+    #   register :news
+    #   register :scrums, :class_name => 'Meeting'
+    #   register :issues, :class_name => ['Issue', 'Journal']
+    # 
+    # Retrieving events:
+    # Associated model(s) must implement the find_events class method.
+    # ActiveRecord models can use acts_as_activity_provider as a way to implement this class method.
+    # 
+    # The following call should return all the scrum events visible by current user that occured in the 5 last days: 
+    #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today)
+    #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today, :project => foo) # events for project foo only
+    # 
+    # Note that :view_scrums permission is required to view these events in the activity view.
+    def activity_provider(*args)
+      Redmine::Activity.register(*args)
+    end
 
     # Returns +true+ if the plugin can be configured.
     def configurable?

@@ -30,14 +30,6 @@ module Redmine
       end
       
       # Registers an activity provider
-      # 
-      # Options:
-      # * :class_name - one or more model(s) that provide these events (inferred from event_type by default)
-      # * :default - setting this option to false will make the events not displayed by default
-      # 
-      # Examples:
-      #   register :issues
-      #   register :myevents, :class_name => 'Meeting'
       def register(event_type, options={})
         options.assert_valid_keys(:class_name, :default)
         
