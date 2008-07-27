@@ -30,6 +30,9 @@ class Changeset < ActiveRecord::Base
                      :include => {:repository => :project},
                      :project_key => "#{Repository.table_name}.project_id",
                      :date_column => 'committed_on'
+                     
+  acts_as_activity_provider :timestamp => "#{table_name}.committed_on",
+                            :find_options => {:include => {:repository => :project}}
   
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_uniqueness_of :revision, :scope => :repository_id

@@ -26,7 +26,8 @@ class News < ActiveRecord::Base
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
   acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
-
+  acts_as_activity_provider :find_options => {:include => [:project, :author]}
+  
   # returns latest news for projects visible by user
   def self.latest(user=nil, count=5)
     find(:all, :limit => count, :conditions => Project.visible_by(user), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")	

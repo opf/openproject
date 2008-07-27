@@ -35,6 +35,17 @@ class WikiContent < ActiveRecord::Base
                   :type => 'wiki-page',
                   :url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}}
 
+    acts_as_activity_provider :type => 'wiki_pages',
+                              :timestamp => "#{WikiContent.versioned_table_name}.updated_on",
+                              :permission => :view_wiki_pages,
+                              :find_options => {:select => "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
+                                                           "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title, " +
+                                                           "#{WikiContent.versioned_table_name}.page_id, #{WikiContent.versioned_table_name}.author_id, " +
+                                                           "#{WikiContent.versioned_table_name}.id",
+                                                :joins => "LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
+                                                          "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
+                                                          "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id"}
+
     def text=(plain)
       case Setting.wiki_compression
       when 'gzip'

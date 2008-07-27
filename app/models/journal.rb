@@ -31,6 +31,12 @@ class Journal < ActiveRecord::Base
                 :type => Proc.new {|o| (s = o.new_status) ? (s.is_closed? ? 'issue-closed' : 'issue-edit') : 'issue-note' },
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}}
 
+  acts_as_activity_provider :type => 'issues',
+                            :permission => :view_issues,
+                            :find_options => {:include => [{:issue => :project}, :details, :user],
+                                              :conditions => "#{Journal.table_name}.journalized_type = 'Issue' AND" +
+                                                             " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')"}
+  
   def save
     # Do not save an empty journal
     (details.empty? && notes.blank?) ? false : super

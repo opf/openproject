@@ -226,94 +226,22 @@ class ProjectsController < ApplicationController
 
     @date_to ||= Date.today + 1
     @date_from = @date_to - @days
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
     
-    @event_types = %w(issues news files documents changesets wiki_pages messages)
-    if @project
-      @event_types.delete('wiki_pages') unless @project.wiki
-      @event_types.delete('changesets') unless @project.repository
-      @event_types.delete('messages') unless @project.boards.any?
-      # only show what the user is allowed to view
-      @event_types = @event_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, @project)}
-      @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-    end
-    @scope = @event_types.select {|t| params["show_#{t}"]}
-    # default events if none is specified in parameters
-    @scope = (@event_types - %w(wiki_pages messages))if @scope.empty?
-    
-    @events = []    
-    
-    if @scope.include?('issues')
-      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_issues, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{Issue.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
-      @events += Issue.find(:all, :include => [:project, :author, :tracker], :conditions => cond.conditions)
-      
-      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_issues, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{Journal.table_name}.journalized_type = 'Issue' AND #{Journal.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
-      cond.add("#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> ''")
-      @events += Journal.find(:all, :include => [{:issue => :project}, :details, :user], :conditions => cond.conditions)
-    end
-    
-    if @scope.include?('news')
-      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_news, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{News.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
-      @events += News.find(:all, :include => [:project, :author], :conditions => cond.conditions)
-    end
-    
-    if @scope.include?('files')
-      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_files, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{Attachment.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
-      @events += Attachment.find(:all, :select => "#{Attachment.table_name}.*", 
-                                       :joins => "LEFT JOIN #{Version.table_name} ON #{Attachment.table_name}.container_type='Version' AND #{Version.table_name}.id = #{Attachment.table_name}.container_id " +
-                                                 "LEFT JOIN #{Project.table_name} ON #{Version.table_name}.project_id = #{Project.table_name}.id",
-                                       :conditions => cond.conditions)
-    end
-    
-    if @scope.include?('documents')
-      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_documents, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{Document.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
-      @events += Document.find(:all, :include => :project, :conditions => cond.conditions)
-      
-      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_documents, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{Attachment.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
-      @events += Attachment.find(:all, :select => "#{Attachment.table_name}.*", 
-                                       :joins => "LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
-                                                 "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id",
-                                       :conditions => cond.conditions)
-    end
-    
-    if @scope.include?('wiki_pages')
-      select = "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
-               "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title, " +
-               "#{WikiContent.versioned_table_name}.page_id, #{WikiContent.versioned_table_name}.author_id, " +
-               "#{WikiContent.versioned_table_name}.id"
-      joins = "LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
-              "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
-              "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id"
+    @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project, :with_subprojects => @with_subprojects)
+    @activity.scope_select {|t| !params["show_#{t}"].nil?}
+    @activity.default_scope! if @activity.scope.empty?
 
-      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_wiki_pages, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{WikiContent.versioned_table_name}.updated_on BETWEEN ? AND ?", @date_from, @date_to])
-      @events += WikiContent.versioned_class.find(:all, :select => select, :joins => joins, :conditions => cond.conditions)
-    end
-
-    if @scope.include?('changesets')
-      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_changesets, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{Changeset.table_name}.committed_on BETWEEN ? AND ?", @date_from, @date_to])
-      @events += Changeset.find(:all, :include => {:repository => :project}, :conditions => cond.conditions)
-    end
-    
-    if @scope.include?('messages')
-      cond = ARCondition.new(Project.allowed_to_condition(User.current, :view_messages, :project => @project, :with_subprojects => @with_subprojects))
-      cond.add(["#{Message.table_name}.created_on BETWEEN ? AND ?", @date_from, @date_to])
-      @events += Message.find(:all, :include => [{:board => :project}, :author], :conditions => cond.conditions)
-    end
-    
-    @events_by_day = @events.group_by(&:event_date)
+    events = @activity.events(@date_from, @date_to)
     
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
+      format.html { 
+        @events_by_day = events.group_by(&:event_date)
+        render :layout => false if request.xhr?
+      }
       format.atom {
         title = (@scope.size == 1) ? l("label_#{@scope.first.singularize}_plural") : l(:label_activity)
-        render_feed(@events, :title => "#{@project || Setting.app_title}: #{title}")
+        render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
       }
     end
   end

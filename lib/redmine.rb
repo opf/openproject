@@ -1,5 +1,6 @@
 require 'redmine/access_control'
 require 'redmine/menu_manager'
+require 'redmine/activity'
 require 'redmine/mime_type'
 require 'redmine/core_ext'
 require 'redmine/themes'
@@ -131,4 +132,14 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :repository, { :controller => 'repositories', :action => 'show' },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
   menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
+end
+
+Redmine::Activity.map do |activity|
+  activity.register :issues, :class_name => %w(Issue Journal)
+  activity.register :changesets
+  activity.register :news
+  activity.register :documents, :class_name => %w(Document Attachment)
+  activity.register :files, :class_name => 'Attachment'
+  activity.register :wiki_pages, :class_name => 'WikiContent::Version', :default => false
+  activity.register :messages, :default => false
 end
