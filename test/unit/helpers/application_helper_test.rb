@@ -215,10 +215,10 @@ h1. Another title
 RAW
 
     expected = '<ul class="toc">' +
-               '<li class="heading1"><a href="#1">Title</a></li>' +
-               '<li class="heading2"><a href="#2">Subtitle</a></li>' + 
-               '<li class="heading2"><a href="#3">Subtitle with red text</a></li>' +
-               '<li class="heading1"><a href="#4">Another title</a></li>' +
+               '<li class="heading1"><a href="#Title">Title</a></li>' +
+               '<li class="heading2"><a href="#Subtitle">Subtitle</a></li>' + 
+               '<li class="heading2"><a href="#Subtitle-with-red-text">Subtitle with red text</a></li>' +
+               '<li class="heading1"><a href="#Another-title">Another title</a></li>' +
                '</ul>'
                
     assert textilizable(raw).gsub("\n", "").include?(expected)

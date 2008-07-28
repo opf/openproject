@@ -65,10 +65,22 @@ module Redmine
       
       # Patch to add 'table of content' support to RedCloth
       def textile_p_withtoc(tag, atts, cite, content)
-        if tag =~ /^h(\d)$/
-          @toc << [$1.to_i, content]
+        # removes wiki links from the item
+        toc_item = content.gsub(/(\[\[|\]\])/, '')
+        # removes styles
+        # eg. %{color:red}Triggers% => Triggers
+        toc_item.gsub! %r[%\{[^\}]*\}([^%]+)%], '\\1'
+        
+        # replaces non word caracters by dashes
+        anchor = toc_item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
+
+        unless anchor.blank?
+          if tag =~ /^h(\d)$/
+            @toc << [$1.to_i, anchor, toc_item]
+          end
+          atts << " id=\"#{anchor}\""
+          content = content + "<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a>"
         end
-        content = "<a name=\"#{@toc.length}\" class=\"wiki-page\"></a>" + content
         textile_p(tag, atts, cite, content)
       end
 
@@ -82,13 +94,9 @@ module Redmine
           div_class << ' right' if $1 == '>'
           div_class << ' left' if $1 == '<'
           out = "<ul class=\"#{div_class}\">"
-          @toc.each_with_index do |heading, index|
-            # remove wiki links from the item
-            toc_item = heading.last.gsub(/(\[\[|\]\])/, '')
-            # remove styles
-            # eg. %{color:red}Triggers% => Triggers
-            toc_item.gsub! %r[%\{[^\}]*\}([^%]+)%], '\\1'
-            out << "<li class=\"heading#{heading.first}\"><a href=\"##{index+1}\">#{toc_item}</a></li>\n"
+          @toc.each do |heading|
+            level, anchor, toc_item = heading
+            out << "<li class=\"heading#{level}\"><a href=\"##{anchor}\">#{toc_item}</a></li>\n"
           end
           out << '</ul>'
           out

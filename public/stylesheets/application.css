@@ -487,6 +487,10 @@ div.wiki ul.toc a {
 }
 div.wiki ul.toc a:hover { color: #c61a1a; text-decoration: underline;}
 
+a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
+a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
+h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
+
 /***** My page layout *****/
 .block-receiver {
 border:1px dashed #c0c0c0;
