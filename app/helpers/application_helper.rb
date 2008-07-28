@@ -246,12 +246,12 @@ module ApplicationHelper
     case options[:wiki_links]
     when :local
       # used for local links to html files
-      format_wiki_link = Proc.new {|project, title| "#{title}.html" }
+      format_wiki_link = Proc.new {|project, title, anchor| "#{title}.html" }
     when :anchor
       # used for single-file wiki export
-      format_wiki_link = Proc.new {|project, title| "##{title}" }
+      format_wiki_link = Proc.new {|project, title, anchor| "##{title}" }
     else
-      format_wiki_link = Proc.new {|project, title| url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :id => project, :page => title) }
+      format_wiki_link = Proc.new {|project, title, anchor| url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :id => project, :page => title, :anchor => anchor) }
     end
     
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
@@ -277,9 +277,14 @@ module ApplicationHelper
         end
         
         if link_project && link_project.wiki
+          # extract anchor
+          anchor = nil
+          if page =~ /^(.+?)\#(.+)$/
+            page, anchor = $1, $2
+          end
           # check if page exists
           wiki_page = link_project.wiki.find_page(page)
-          link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page)),
+          link_to((title || page), format_wiki_link.call(link_project, Wiki.titleize(page), anchor),
                                    :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else
           # project or wiki doesn't exist

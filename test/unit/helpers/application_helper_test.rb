@@ -133,6 +133,9 @@ class ApplicationHelperTest < HelperTestCase
     to_test = {
       '[[CookBook documentation]]' => '<a href="/wiki/ecookbook/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
       '[[Another page|Page]]' => '<a href="/wiki/ecookbook/Another_page" class="wiki-page">Page</a>',
+      # link with anchor
+      '[[CookBook documentation#One-section]]' => '<a href="/wiki/ecookbook/CookBook_documentation#One-section" class="wiki-page">CookBook documentation</a>',
+      '[[Another page#anchor|Page]]' => '<a href="/wiki/ecookbook/Another_page#anchor" class="wiki-page">Page</a>',
       # page that doesn't exist
       '[[Unknown page]]' => '<a href="/wiki/ecookbook/Unknown_page" class="wiki-page new">Unknown page</a>',
       '[[Unknown page|404]]' => '<a href="/wiki/ecookbook/Unknown_page" class="wiki-page new">404</a>',
