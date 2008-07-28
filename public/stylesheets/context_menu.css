@@ -1,4 +1,4 @@
-#context-menu { position: absolute; z-index: 40;}
+#context-menu { position: absolute; z-index: 40; font-size: 0.9em;}
 
 #context-menu ul, #context-menu li, #context-menu a {
 	display:block;
@@ -31,10 +31,10 @@
 
 #context-menu a {
 	border:1px solid white;
-	text-decoration:none;
+	text-decoration:none !important;
 	background-repeat: no-repeat;
 	background-position: 1px 50%;
-	padding: 2px 0px 2px 20px;
+	padding: 1px 0px 1px 20px;
 	width:100%; /* IE */
 }
 #context-menu li>a { width:auto; } /* others */
