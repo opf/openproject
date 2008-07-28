@@ -44,6 +44,19 @@
 		                              :selected => @issue.assigned_to.nil?, :disabled => !@can[:update] %></li>
 		</ul>
 	</li>
+	<% unless @project.issue_categories.empty? -%>
+	<li class="folder">			
+		<a href="#" class="submenu"><%= l(:field_category) %></a>
+		<ul>
+		<% @project.issue_categories.each do |u| -%>
+		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'edit', :id => @issue, 'issue[category_id]' => u, :back_to => @back}, :method => :post,
+		                              :selected => (u == @issue.category), :disabled => !@can[:update] %></li>
+		<% end -%>
+		    <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'edit', :id => @issue, 'issue[category_id]' => '', :back_to => @back}, :method => :post,
+		                              :selected => @issue.category.nil?, :disabled => !@can[:update] %></li>
+		</ul>
+	</li>
+	<% end -%>
 	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
 		<ul>
