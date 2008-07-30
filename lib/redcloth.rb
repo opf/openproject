@@ -744,7 +744,7 @@ class RedCloth < String
     end
 
     MARKDOWN_RULE_RE = /^(#{
-        ['*', '-', '_'].collect { |ch| '( ?' + Regexp::quote( ch ) + ' ?){3,}' }.join( '|' )
+        ['*', '-', '_'].collect { |ch| ' ?(' + Regexp::quote( ch ) + ' ?){3,}' }.join( '|' )
     })$/
 
     def block_markdown_rule( text )
