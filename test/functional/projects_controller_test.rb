@@ -202,6 +202,12 @@ class ProjectsControllerTest < Test::Unit::TestCase
                }
   end
   
+  def test_activity_atom_feed
+    get :activity, :format => 'atom'
+    assert_response :success
+    assert_template 'common/feed.atom.rxml'
+  end
+  
   def test_calendar
     get :calendar, :id => 1
     assert_response :success
