@@ -9,6 +9,19 @@ require 'net/https'
 require 'uri'
 require 'getoptlong'
 
+module Net
+  class HTTPS < HTTP
+    def self.post_form(url, params)
+      request = Post.new(url.path)
+      request.form_data = params
+      request.basic_auth url.user, url.password if url.user
+      http = new(url.host, url.port)
+      http.use_ssl = (url.scheme == 'https')
+      http.start {|h| h.request(request) }
+    end
+  end
+end
+
 class RedmineMailHandler
   VERSION = '0.1'
   
@@ -59,7 +72,7 @@ class RedmineMailHandler
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
              
     debug "Posting to #{uri}..."
-    response = Net::HTTP.post_form(URI.parse(uri), data)
+    response = Net::HTTPS.post_form(URI.parse(uri), data)
     debug "Response received: #{response.code}"
     response.code == 201 ? 0 : 1
   end
