@@ -138,8 +138,8 @@ module ActionView #:nodoc:
       def add_options(option_tags, options, value = nil)
         option_tags = "<option value=\"\"></option>\n" + option_tags if options[:include_blank]
         
-        if value.blank? && options[:prompt]
-          ("<option value=\"\">#{options[:prompt].kind_of?(String) ? options[:prompt] : l(:actionview_instancetag_blank_option)}</option>\n") + option_tags
+        if options[:prompt]
+          ("<option value=\"\">--- #{options[:prompt].kind_of?(String) ? options[:prompt] : l(:actionview_instancetag_blank_option)} ---</option>\n") + option_tags
          else
           option_tags
         end

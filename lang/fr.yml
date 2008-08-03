@@ -521,6 +521,7 @@ label_reverse_chronological_order: Dans l'ordre chronologique inverse
 label_planning: Planning
 label_incoming_emails: Emails entrants
 label_generate_key: Générer une clé
+label_issue_watchers: Utilisateurs surveillant cette demande
 
 button_login: Connexion
 button_submit: Soumettre

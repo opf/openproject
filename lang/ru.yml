@@ -637,3 +637,4 @@ setting_mail_handler_api_enabled: Включить веб-сервис для в
 setting_mail_handler_api_key: API ключ
 text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для вашего SMTP сервера вы можете в файле config/email.yml. Для применения изменений перезапустите приложение."
 field_parent_title: Parent page
+label_issue_watchers: Watchers

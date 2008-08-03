@@ -78,6 +78,14 @@ end %>
 </div>
 <% end %>
 
+<% if User.current.allowed_to?(:add_issue_watchers, @project) ||
+        (@issue.watchers.any? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
+<hr />
+<div id="watchers">
+<%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
+</div>
+<% end %>
+
 </div>
 
 <% if @issue.changesets.any? && User.current.allowed_to?(:view_changesets, @project) %>

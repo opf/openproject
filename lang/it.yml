@@ -633,3 +633,4 @@ setting_mail_handler_api_enabled: Abilita WS per le e-mail in arrivo
 setting_mail_handler_api_key: chiave API
 text_email_delivery_not_configured: "La consegna via e-mail non è configurata e le notifiche sono disabilitate.\nConfigura il tuo server SMTP in config/email.yml e riavvia l'applicazione per abilitarle."
 field_parent_title: Parent page
+label_issue_watchers: Watchers

@@ -46,6 +46,9 @@ Redmine::AccessControl.map do |map|
     # Gantt & calendar
     map.permission :view_gantt, :projects => :gantt
     map.permission :view_calendar, :projects => :calendar
+    # Watchers
+    map.permission :view_issue_watchers, {}
+    map.permission :add_issue_watchers, {:watchers => :new}
   end
   
   map.project_module :time_tracking do |map|
