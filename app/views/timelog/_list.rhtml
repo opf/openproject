@@ -27,9 +27,9 @@
 <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
 <td align="center">
 <% if entry.editable_by?(User.current) -%>
-    <%= link_to image_tag('edit.png'), {:controller => 'timelog', :action => 'edit', :id => entry},
+    <%= link_to image_tag('edit.png'), {:controller => 'timelog', :action => 'edit', :id => entry, :project_id => nil},
                                        :title => l(:button_edit) %>
-    <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => entry},
+    <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => entry, :project_id => nil},
                                          :confirm => l(:text_are_you_sure),
                                          :method => :post,
                                          :title => l(:button_delete) %>
