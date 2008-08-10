@@ -149,7 +149,10 @@ namespace :redmine do
         
         # ticket changes: only migrate status changes and comments
         has_many :changes, :class_name => "TracTicketChange", :foreign_key => :ticket
-        has_many :attachments, :class_name => "TracAttachment", :foreign_key => :id, :conditions => "#{TracMigrate::TracAttachment.table_name}.type = 'ticket'"
+        has_many :attachments, :class_name => "TracAttachment",
+                               :finder_sql => "SELECT DISTINCT attachment.* FROM #{TracMigrate::TracAttachment.table_name}" +
+                                              " WHERE #{TracMigrate::TracAttachment.table_name}.type = 'ticket'" +
+                                              ' AND #{TracMigrate::TracAttachment.table_name}.id = \'#{id}\''
         has_many :customs, :class_name => "TracTicketCustom", :foreign_key => :ticket
         
         def ticket_type
@@ -186,7 +189,10 @@ namespace :redmine do
         set_table_name :wiki
         set_primary_key :name
         
-        has_many :attachments, :class_name => "TracAttachment", :foreign_key => :id, :conditions => "#{TracMigrate::TracAttachment.table_name}.type = 'wiki'"
+        has_many :attachments, :class_name => "TracAttachment",
+                               :finder_sql => "SELECT DISTINCT attachment.* FROM #{TracMigrate::TracAttachment.table_name}" +
+                                      " WHERE #{TracMigrate::TracAttachment.table_name}.type = 'wiki'" +
+                                      ' AND #{TracMigrate::TracAttachment.table_name}.id = \'#{id}\''
         
         def self.columns
           # Hides readonly Trac field to prevent clash with AR readonly? method (Rails 2.0)
