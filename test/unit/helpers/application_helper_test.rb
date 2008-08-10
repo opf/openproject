@@ -20,7 +20,11 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class ApplicationHelperTest < HelperTestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
-  fixtures :projects, :repositories, :changesets, :trackers, :issue_statuses, :issues, :documents, :versions, :wikis, :wiki_pages, :wiki_contents, :roles, :enabled_modules
+  fixtures :projects, :roles, :enabled_modules,
+                      :repositories, :changesets, 
+                      :trackers, :issue_statuses, :issues, :versions, :documents,
+                      :wikis, :wiki_pages, :wiki_contents,
+                      :boards, :messages
 
   def setup
     super
@@ -83,6 +87,8 @@ class ApplicationHelperTest < HelperTestCase
     version_link = link_to('1.0', {:controller => 'versions', :action => 'show', :id => 2},
                                   :class => 'version')
 
+    message_url = {:controller => 'messages', :action => 'show', :board_id => 1, :id => 4}
+    
     source_url = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}
     source_url_with_ext = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file.ext']}
     
@@ -111,6 +117,9 @@ class ApplicationHelperTest < HelperTestCase
       'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(:anchor => 'L110'), :class => 'source'),
       'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url.merge(:rev => 52, :anchor => 'L110'), :class => 'source'),
       'export:/some/file'           => link_to('export:/some/file', source_url.merge(:format => 'raw'), :class => 'source download'),
+      # message
+      'message#4'                   => link_to('Post 2', message_url, :class => 'message'),
+      'message#5'                   => link_to('RE: post 2', message_url.merge(:anchor => 'message-5'), :class => 'message'),
       # escaping
       '!#3.'                        => '#3.',
       '!r1'                         => 'r1',

@@ -319,7 +319,9 @@ module ApplicationHelper
     #     source:some/file#L120 -> Link to line 120 of the file
     #     source:some/file@52#L120 -> Link to line 120 of the file's revision 52
     #     export:some/file -> Force the download of the file
-    text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|\s|<|$)}) do |m|
+    #  Forum messages:
+    #     message#1218 -> Link to message with id 1218
+    text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|\s|<|$)}) do |m|
       leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
       link = nil
       if esc.nil?
@@ -348,6 +350,16 @@ module ApplicationHelper
             if version = Version.find_by_id(oid, :include => [:project], :conditions => Project.visible_by(User.current))
               link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
                                               :class => 'version'
+            end
+          when 'message'
+            if message = Message.find_by_id(oid, :include => [:parent, {:board => :project}], :conditions => Project.visible_by(User.current))
+              link = link_to h(truncate(message.subject, 60)), {:only_path => only_path,
+                                                                :controller => 'messages',
+                                                                :action => 'show',
+                                                                :board_id => message.board,
+                                                                :id => message.root,
+                                                                :anchor => (message.parent ? "message-#{message.id}" : nil)},
+                                                 :class => 'message'
             end
           end
         elsif sep == ':'
