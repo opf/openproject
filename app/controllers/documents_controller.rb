@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class DocumentsController < ApplicationController
-  layout 'base'
   before_filter :find_project, :only => [:index, :new]
   before_filter :find_document, :except => [:index, :new]
   before_filter :authorize

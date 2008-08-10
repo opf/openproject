@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueCategoriesController < ApplicationController
-  layout 'base'
   menu_item :settings
   before_filter :find_project, :authorize
   

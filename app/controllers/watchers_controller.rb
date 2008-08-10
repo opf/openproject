@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WatchersController < ApplicationController
-  layout 'base'
   before_filter :find_project
   before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
   before_filter :authorize, :only => :new

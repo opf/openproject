@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueStatusesController < ApplicationController
-  layout 'base'	
   before_filter :require_admin
 
   verify :method => :post, :only => [ :destroy, :create, :update, :move ],

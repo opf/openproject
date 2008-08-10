@@ -18,6 +18,8 @@
 require 'uri'
 
 class ApplicationController < ActionController::Base
+  layout 'base'
+  
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
   

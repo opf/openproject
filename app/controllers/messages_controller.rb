@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MessagesController < ApplicationController
-  layout 'base'
   menu_item :boards
   before_filter :find_board, :only => [:new, :preview]
   before_filter :find_message, :except => [:new, :preview]
