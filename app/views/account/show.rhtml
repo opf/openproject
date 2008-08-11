@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= link_to(l(:button_edit), {:controller => 'users', :action => 'edit', :id => @user}, :class => 'icon icon-edit') if User.current.admin? %>
+</div>
+
 <h2><%=h @user.name %></h2>
 
 <p>
