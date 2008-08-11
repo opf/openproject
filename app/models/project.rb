@@ -198,7 +198,7 @@ class Project < ActiveRecord::Base
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   def all_issue_custom_fields
-    @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq
+    @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq.sort
   end
   
   def project

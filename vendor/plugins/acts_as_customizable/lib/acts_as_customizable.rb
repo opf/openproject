@@ -27,7 +27,10 @@ module Redmine
           return if self.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
           cattr_accessor :customizable_options
           self.customizable_options = options
-          has_many :custom_values, :dependent => :delete_all, :as => :customized
+          has_many :custom_values, :as => :customized,
+                                   :include => :custom_field,
+                                   :order => "#{CustomField.table_name}.position",
+                                   :dependent => :delete_all
           before_validation_on_create { |customized| customized.custom_field_values }
           # Trigger validation only if custom values were changed
           validates_associated :custom_values, :on => :update, :if => Proc.new { |customized| customized.custom_field_values_changed? }

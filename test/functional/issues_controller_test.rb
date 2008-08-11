@@ -212,7 +212,7 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 2, issue.author_id
     assert_equal 3, issue.tracker_id
     assert_nil issue.estimated_hours
-    v = issue.custom_values.find_by_custom_field_id(2)
+    v = issue.custom_values.find(:first, :conditions => {:custom_field_id => 2})
     assert_not_nil v
     assert_equal 'Value for field 2', v.value
   end

@@ -42,7 +42,7 @@
 </div>
 
 <div style="clear:both;"> </div>
-<%= render :partial => 'form_custom_fields', :locals => {:values => @custom_values} %>
+<%= render :partial => 'form_custom_fields' %>
 
 <% if @issue.new_record? %>
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
