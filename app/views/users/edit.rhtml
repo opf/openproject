@@ -1,3 +1,7 @@
+<div class="contextual">
+<%= change_status_link(@user) %>
+</div>
+
 <h2><%=l(:label_user)%>: <%=h @user.login %></h2>
 
 <% selected_tab = params[:tab] ? params[:tab].to_s : user_settings_tabs.first[:name] %>
