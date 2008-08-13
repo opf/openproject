@@ -4,13 +4,15 @@
 begin
   require 'rcov/rcovtask'
 
+  rcov_options = "--rails --aggregate test/coverage.data --exclude '/gems/'"
+
   namespace :test do 
     desc "Aggregate code coverage for all tests"
     Rcov::RcovTask.new('coverage') do |t|
       t.libs << 'test'
       t.test_files = FileList['test/{unit,integration,functional}/*_test.rb']
       t.verbose = true
-      t.rcov_opts << '--rails --aggregate test/coverage.data'
+      t.rcov_opts << rcov_options
     end
 
     namespace :coverage do
@@ -26,7 +28,7 @@ begin
         t.test_files = FileList['test/{unit,integration,functional}/*_test.rb']
         t.output_dir = "test/coverage"
         t.verbose = true
-        t.rcov_opts << '--rails --aggregate test/coverage.data'
+        t.rcov_opts << rcov_options
       end
     
       desc "Open the HTML coverage report"
