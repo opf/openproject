@@ -42,5 +42,5 @@ begin
     end
   end
 rescue LoadError
-  puts 'Rcov is not available. Proceeding without...'
+  # rcov not available
 end
