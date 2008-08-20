@@ -6,7 +6,7 @@
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
 <%= stylesheet_link_tag 'application', :media => 'all' %>
-<%= javascript_include_tag :defaults %>
+<%= javascript_include_tag :defaults, :cache => true %>
 <%= stylesheet_link_tag 'jstoolbar' %>
 <!--[if IE]>
     <style type="text/css">
