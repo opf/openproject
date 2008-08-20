@@ -31,6 +31,8 @@ class MailHandler < ActionMailer::Base
     @@handler_options[:allow_override] ||= []
     # Project needs to be overridable if not specified
     @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
+    # Status needs to be overridable if not specified
+    @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)    
     super email
   end
   
@@ -76,10 +78,11 @@ class MailHandler < ActionMailer::Base
     tracker = (get_keyword(:tracker) && project.trackers.find_by_name(get_keyword(:tracker))) || project.trackers.find(:first)
     category = (get_keyword(:category) && project.issue_categories.find_by_name(get_keyword(:category)))
     priority = (get_keyword(:priority) && Enumeration.find_by_opt_and_name('IPRI', get_keyword(:priority)))
+    status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status))) || IssueStatus.default
 
     # check permission
     raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
-    issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority)
+    issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority, :status => status)
     issue.subject = email.subject.chomp
     issue.description = email.plain_text_body.chomp
     issue.save!
@@ -100,13 +103,18 @@ class MailHandler < ActionMailer::Base
   
   # Adds a note to an existing issue
   def receive_issue_update(issue_id)
+    status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
+    
     issue = Issue.find_by_id(issue_id)
     return unless issue
     # check permission
     raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
+    raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
+
     # add the note
     journal = issue.init_journal(user, email.plain_text_body.chomp)
     add_attachments(issue)
+    issue.status = status unless status.nil?
     issue.save!
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
     Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')

@@ -45,6 +45,16 @@ class MailHandlerTest < Test::Unit::TestCase
     assert_equal Project.find(2), issue.project
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
+
+  def test_add_issue_with_status
+    # This email contains: 'Project: onlinestore' and 'Status: Resolved'
+    issue = submit_email('ticket_on_given_project.eml')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal Project.find(2), issue.project
+    assert_equal IssueStatus.find_by_name("Resolved"), issue.status
+  end
   
   def test_add_issue_with_attributes_override
     issue = submit_email('ticket_with_attributes.eml', :allow_override => 'tracker,category,priority')
@@ -95,7 +105,18 @@ class MailHandlerTest < Test::Unit::TestCase
     assert journal.is_a?(Journal)
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journalized
-    assert_equal 'This is reply', journal.notes
+    assert_match /This is reply/, journal.notes
+  end
+
+  def test_add_issue_note_with_status_change
+    # This email contains: 'Status: Resolved'
+    journal = submit_email('ticket_reply_with_status.eml')
+    assert journal.is_a?(Journal)
+    issue = Issue.find(journal.issue.id)
+    assert_equal User.find_by_login('jsmith'), journal.user
+    assert_equal Issue.find(2), journal.journalized
+    assert_match /This is reply/, journal.notes
+    assert_equal IssueStatus.find_by_name("Resolved"), issue.status
   end
 
   private
