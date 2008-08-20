@@ -109,8 +109,18 @@ class WikiControllerTest < Test::Unit::TestCase
     assert_template 'history'
     assert_not_nil assigns(:versions)
     assert_equal 3, assigns(:versions).size
+    assert_select "input[type=submit][name=commit]"
   end
-  
+
+  def test_history_with_one_version
+    get :history, :id => 1, :page => 'Another_page'
+    assert_response :success
+    assert_template 'history'
+    assert_not_nil assigns(:versions)
+    assert_equal 1, assigns(:versions).size
+    assert_select "input[type=submit][name=commit]", false
+  end
+
   def test_diff
     get :diff, :id => 1, :page => 'CookBook_documentation', :version => 2, :version_from => 1
     assert_response :success
