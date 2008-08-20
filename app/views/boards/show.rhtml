@@ -33,7 +33,7 @@
     <th><%= l(:field_subject) %></th>
     <th><%= l(:field_author) %></th>
     <%= sort_header_tag("#{Message.table_name}.created_on", :caption => l(:field_created_on)) %>
-    <th><%= l(:label_reply_plural) %></th>
+    <%= sort_header_tag("#{Message.table_name}.replies_count", :caption => l(:label_reply_plural)) %>
     <%= sort_header_tag("#{Message.table_name}.updated_on", :caption => l(:label_message_last)) %>
   </tr></thead>  
   <tbody>
