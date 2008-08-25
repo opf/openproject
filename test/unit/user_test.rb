@@ -57,6 +57,12 @@ class UserTest < Test::Unit::TestCase
     assert_equal "john", @admin.login
   end
   
+  def test_destroy
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert Member.find_all_by_user_id(2).empty?
+  end
+  
   def test_validate
     @admin.login = ""
     assert !@admin.save
