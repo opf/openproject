@@ -179,7 +179,7 @@ module Redmine
           rescue Errno::ENOENT => e
             msg = strip_credential(e.message)
             # The command failed, log it and re-raise
-            logger.error("SCM command failed: #{strip_credential(cmd)}\n  with: #{msg}")
+            logger.error("SCM command failed, make sure that your SCM binary (eg. svn) is in PATH (#{ENV['PATH']}): #{strip_credential(cmd)}\n  with: #{msg}")
             raise CommandFailed.new(msg)
           end
         end  
