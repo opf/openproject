@@ -185,13 +185,13 @@ module Redmine
         end  
         
         # Hides username/password in a given command
-        def self.hide_credential(cmd)
+        def self.strip_credential(cmd)
           q = (Redmine::Platform.mswin? ? '"' : "'")
           cmd.to_s.gsub(/(\-\-(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
         end
         
         def strip_credential(cmd)
-          self.class.hide_credential(cmd)
+          self.class.strip_credential(cmd)
         end
       end
       
