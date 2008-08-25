@@ -28,6 +28,11 @@ class Repository::Darcs < Repository
     'Darcs'
   end
   
+  def entry(path=nil, identifier=nil)
+    patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
+    scm.entry(path, patch.nil? ? nil : patch.scmid)
+  end
+  
   def entries(path=nil, identifier=nil)
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
     entries = scm.entries(path, patch.nil? ? nil : patch.scmid)
@@ -44,6 +49,11 @@ class Repository::Darcs < Repository
       end
     end
     entries
+  end
+  
+  def cat(path, identifier=nil)
+    patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
+    scm.cat(path, patch.nil? ? nil : patch.scmid)
   end
   
   def diff(path, rev, rev_to)

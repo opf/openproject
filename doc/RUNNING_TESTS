@@ -24,8 +24,8 @@ Git
 ---
 gunzip < test/fixtures/repositories/git_repository.tar.gz | tar -xv -C tmp/test
 
-Darcs
------
+Darcs (2.0+ required)
+---------------------
 gunzip < test/fixtures/repositories/darcs_repository.tar.gz | tar -xv -C tmp/test
 
 FileSystem
