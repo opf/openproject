@@ -43,7 +43,7 @@ activity_days_default:
 per_page_options:
   default: '25,50,100'
 mail_from:
-  default: redmine@somenet.foo
+  default: redmine@example.net
 bcc_recipients:
   default: 1
 text_formatting:

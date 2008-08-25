@@ -3,11 +3,11 @@
 production:
   delivery_method: :smtp
   smtp_settings:
-    address: smtp.somenet.foo
+    address: smtp.example.net
     port: 25
-    domain: somenet.foo
+    domain: example.net
     authentication: :login
-    user_name: redmine@somenet.foo
+    user_name: redmine@example.net
     password: redmine
   
 development:
@@ -15,7 +15,7 @@ development:
   smtp_settings:
     address: 127.0.0.1
     port: 25
-    domain: somenet.foo
+    domain: example.net
     authentication: :login
-    user_name: redmine@somenet.foo
+    user_name: redmine@example.net
     password: redmine

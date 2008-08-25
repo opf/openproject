@@ -290,7 +290,7 @@ class Setup < ActiveRecord::Migration
                        :admin => true,
                        :firstname => "Redmine",
                        :lastname => "Admin",
-                       :mail => "admin@somenet.foo",
+                       :mail => "admin@example.net",
                        :mail_notification => true,
                        :language => "en",
                        :status => 1
