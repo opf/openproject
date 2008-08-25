@@ -578,7 +578,7 @@ text_journal_deleted: deleted
 text_tip_task_begin_day: task beginning this day
 text_tip_task_end_day: task ending this day
 text_tip_task_begin_end_day: task beginning and ending this day
-text_project_identifier_info: 'Lower case letters (a-z), numbers and dashes allowed.<br />Once saved, the identifier can not be changed.'
+text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
 text_caracters_maximum: %d characters maximum.
 text_caracters_minimum: Must be at least %d characters long.
 text_length_between: Length between %d and %d characters.
