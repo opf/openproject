@@ -28,7 +28,7 @@ ContextMenu.prototype = {
 	RightClick: function(e) {
 		this.hideMenu();
 		// do not show the context menu on links
-		if (Event.findElement(e, 'a') != document && Event.findElement(e, 'a') != undefined) { return; }
+		if (Event.element(e).tagName == 'A') { return; }
 		// right-click simulated by Alt+Click with Opera
 		if (window.opera && !e.altKey) { return; }
 		var tr = Event.findElement(e, 'tr');
@@ -44,7 +44,7 @@ ContextMenu.prototype = {
 
   Click: function(e) {
   	this.hideMenu();
-  	if (Event.findElement(e, 'a') != document && Event.findElement(e, 'a') != undefined ) { return; }
+  	if (Event.element(e).tagName == 'A') { return; }
     if (window.opera && e.altKey) {	return; }
     if (Event.isLeftClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {      
       var tr = Event.findElement(e, 'tr');
