@@ -138,7 +138,7 @@ module Redmine
          end
         
         def shell_quote(str)
-          if RUBY_PLATFORM =~ /mswin/
+          if Redmine::Platform.mswin?
             '"' + str.gsub(/"/, '\\"') + '"'
           else
             "'" + str.gsub(/'/, "'\"'\"'") + "'"
@@ -186,7 +186,7 @@ module Redmine
         
         # Hides username/password in a given command
         def self.hide_credential(cmd)
-          q = (RUBY_PLATFORM =~ /mswin/ ? '"' : "'")
+          q = (Redmine::Platform.mswin? ? '"' : "'")
           cmd.to_s.gsub(/(\-\-(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
         end
         

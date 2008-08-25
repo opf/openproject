@@ -22,7 +22,7 @@ class RepositoryGitTest < Test::Unit::TestCase
   
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
-  REPOSITORY_PATH.gsub!(/\//, "\\") if RUBY_PLATFORM =~ /mswin/
+  REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   
   def setup
     @project = Project.find(1)
