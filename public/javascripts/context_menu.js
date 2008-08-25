@@ -90,6 +90,9 @@ ContextMenu.prototype = {
         }
       }
     }
+    else{
+      this.RightClick(e);
+    }
   },
   
   showMenu: function(e) {
