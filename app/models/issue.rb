@@ -184,6 +184,8 @@ class Issue < ActiveRecord::Base
     @issue_before_change.status = self.status
     @custom_values_before_change = {}
     self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
+    # Make sure updated_on is updated when adding a note.
+    updated_on_will_change!
     @current_journal
   end
   
