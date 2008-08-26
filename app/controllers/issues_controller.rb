@@ -247,7 +247,7 @@ class IssuesController < ApplicationController
       else
         flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
       end
-      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+      redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index', :project_id => @project})
       return
     end
     # Find potential statuses the user could be allowed to switch issues to
@@ -326,20 +326,22 @@ class IssuesController < ApplicationController
     if (@issues.size == 1)
       @issue = @issues.first
       @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-      @assignables = @issue.assignable_users
-      @assignables << @issue.assigned_to if @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
     end
     projects = @issues.collect(&:project).compact.uniq
     @project = projects.first if projects.size == 1
 
     @can = {:edit => (@project && User.current.allowed_to?(:edit_issues, @project)),
             :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
-            :update => (@issue && (User.current.allowed_to?(:edit_issues, @project) || (User.current.allowed_to?(:change_status, @project) && !@allowed_statuses.empty?))),
+            :update => (@project && (User.current.allowed_to?(:edit_issues, @project) || (User.current.allowed_to?(:change_status, @project) && @allowed_statuses && !@allowed_statuses.empty?))),
             :move => (@project && User.current.allowed_to?(:move_issues, @project)),
             :copy => (@issue && @project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),
             :delete => (@project && User.current.allowed_to?(:delete_issues, @project))
             }
-
+    if @project
+      @assignables = @project.assignable_users
+      @assignables << @issue.assigned_to if @issue && @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
+    end
+    
     @priorities = Enumeration.get_values('IPRI').reverse
     @statuses = IssueStatus.find(:all, :order => 'position')
     @back = request.env['HTTP_REFERER']
