@@ -109,7 +109,7 @@ class Repository::Cvs < Repository
           cs = changesets.find(:first, :conditions=>{
             :committed_on=>revision.time-time_delta..revision.time+time_delta,
             :committer=>revision.author,
-            :comments=>revision.message
+            :comments=>Changeset.normalize_comments(revision.message)
           })
         
           # create a new changeset.... 

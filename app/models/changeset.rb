@@ -45,7 +45,7 @@ class Changeset < ActiveRecord::Base
   end
   
   def comments=(comment)
-    write_attribute(:comments, to_utf8(comment.to_s.strip))
+    write_attribute(:comments, Changeset.normalize_comments(comment))
   end
 
   def committed_on=(date)
@@ -134,9 +134,14 @@ class Changeset < ActiveRecord::Base
     @next ||= Changeset.find(:first, :conditions => ['id > ? AND repository_id = ?', self.id, self.repository_id], :order => 'id ASC')
   end
   
+  # Strips and reencodes a commit log before insertion into the database
+  def self.normalize_comments(str)
+    to_utf8(str.to_s.strip)
+  end
+  
   private
   
-  def to_utf8(str)
+  def self.to_utf8(str)
     return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
     encoding = Setting.commit_logs_encoding.to_s.strip
     unless encoding.blank? || encoding == 'UTF-8'
