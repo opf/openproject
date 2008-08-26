@@ -210,6 +210,7 @@ setting_time_format: Format d'heure
 setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
 setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
 setting_repositories_encodings: Encodages des dépôts
+setting_commit_logs_encoding: Encodage des messages de commit
 setting_emails_footer: Pied-de-page des emails
 setting_protocol: Protocole
 setting_per_page_options: Options d'objets affichés par page

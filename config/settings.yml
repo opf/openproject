@@ -122,6 +122,9 @@ default_projects_public:
 # multiple values accepted, comma separated
 repositories_encodings:
   default: ''
+# encoding used to convert commit logs to UTF-8
+commit_logs_encoding:
+  default: 'UTF-8'
 ui_theme:
   default: ''
 emails_footer:

@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'iconv'
+
 class Changeset < ActiveRecord::Base
   belongs_to :repository
   has_many :changes, :dependent => :delete_all
@@ -43,7 +45,7 @@ class Changeset < ActiveRecord::Base
   end
   
   def comments=(comment)
-    write_attribute(:comments, comment.strip)
+    write_attribute(:comments, to_utf8(comment.to_s.strip))
   end
 
   def committed_on=(date)
@@ -130,5 +132,20 @@ class Changeset < ActiveRecord::Base
   # Returns the next changeset
   def next
     @next ||= Changeset.find(:first, :conditions => ['id > ? AND repository_id = ?', self.id, self.repository_id], :order => 'id ASC')
+  end
+  
+  private
+  
+  def to_utf8(str)
+    return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+    encoding = Setting.commit_logs_encoding.to_s.strip
+    unless encoding.blank? || encoding == 'UTF-8'
+      begin
+        return Iconv.conv('UTF-8', encoding, str)
+      rescue Iconv::Failure
+        # do nothing here
+      end
+    end
+    str
   end
 end

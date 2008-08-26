@@ -16,6 +16,9 @@
 
 <p><label><%= l(:setting_repositories_encodings) %></label>
 <%= text_field_tag 'settings[repositories_encodings]', Setting.repositories_encodings, :size => 60 %><br /><em><%= l(:text_comma_separated) %></em></p>
+
+<p><label><%= l(:setting_commit_logs_encoding) %></label>
+<%= select_tag 'settings[commit_logs_encoding]', options_for_select(Setting::ENCODINGS, Setting.commit_logs_encoding) %></p>
 </div>
 
 <fieldset class="box tabular settings"><legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
