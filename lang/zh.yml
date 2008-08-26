@@ -182,6 +182,7 @@ field_time_zone: 时区
 field_searchable: 可用作搜索条件
 field_default_value: 默认值
 field_comments_sorting: 显示注释
+field_parent_title: 上级页面
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题
@@ -208,6 +209,7 @@ setting_time_format: 时间格式
 setting_cross_project_issue_relations: 允许不同项目之间的问题关联
 setting_issue_list_default_columns: 问题列表中显示的默认列
 setting_repositories_encodings: 版本库编码
+setting_commit_logs_encoding: 提交注释的编码
 setting_emails_footer: 邮件签名
 setting_protocol: 协议
 setting_per_page_options: 每页显示条目个数的设置
@@ -520,6 +522,7 @@ label_reverse_chronological_order: 按时间顺序（倒序）
 label_planning: 计划
 label_incoming_emails: 接收邮件
 label_generate_key: 生成一个key
+label_issue_watchers: 跟踪者
 
 button_login: 登录
 button_submit: 提交
@@ -606,6 +609,7 @@ text_reassign_time_entries: '将已上报的工作量指定到此问题：'
 text_user_wrote: '%s 写到：'
 text_enumeration_category_reassign_to: '将它们关联到新的枚举值：'
 text_enumeration_destroy_question: '%d 个对象被关联到了这个枚举值。'
+text_email_delivery_not_configured: "邮件参数尚未配置，因此邮件通知功能已被禁用。\n请在config/email.yml中配置您的SMTP服务器信息并重新启动以使其生效。"
 
 default_role_manager: 管理人员
 default_role_developper: 开发人员
@@ -632,7 +636,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
-label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
