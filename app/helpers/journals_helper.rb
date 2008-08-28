@@ -21,12 +21,12 @@ module JournalsHelper
     editable = journal.editable_by?(User.current)
     links = []
     if !journal.notes.blank?
+      links << link_to_remote(image_tag('comment.png'),
+                              { :url => {:controller => 'issues', :action => 'reply', :id => journal.journalized, :journal_id => journal} },
+                              :title => l(:button_quote)) if options[:reply_links]
       links << link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes", 
                                              { :controller => 'journals', :action => 'edit', :id => journal },
                                                 :title => l(:button_edit)) if editable
-      links << link_to_remote(image_tag('comment.png'),
-                              { :url => {:controller => 'issues', :action => 'reply', :id => journal.journalized, :journal_id => journal} },
-                              :title => l(:button_reply)) if options[:reply_links]
     end
     content << content_tag('div', links.join(' '), :class => 'contextual') unless links.empty?
     content << textilizable(journal, :notes)
