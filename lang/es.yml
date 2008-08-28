@@ -638,3 +638,4 @@ text_email_delivery_not_configured: "Email delivery is not configured, and notif
 field_parent_title: Parent page
 label_issue_watchers: Watchers
 setting_commit_logs_encoding: Commit messages encoding
+button_quote: Quote

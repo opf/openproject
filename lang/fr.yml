@@ -561,6 +561,7 @@ button_copy: Copier
 button_annotate: Annoter
 button_update: Mettre à jour
 button_configure: Configurer
+button_quote: Citer
 
 status_active: actif
 status_registered: enregistré

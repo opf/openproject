@@ -635,3 +635,4 @@ text_email_delivery_not_configured: "La consegna via e-mail non è configurata e
 field_parent_title: Parent page
 label_issue_watchers: Watchers
 setting_commit_logs_encoding: Commit messages encoding
+button_quote: Quote

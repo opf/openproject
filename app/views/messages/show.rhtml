@@ -2,6 +2,7 @@
                link_to(h(@board.name), {:controller => 'boards', :action => 'show', :project_id => @project, :id => @board}) %>
 
 <div class="contextual">
+    <%= link_to_remote_if_authorized l(:button_quote), { :url => {:action => 'quote', :id => @topic} }, :class => 'icon icon-comment' %>
     <%= link_to_if_authorized l(:button_edit), {:action => 'edit', :id => @topic}, :class => 'icon icon-edit' %>
     <%= link_to_if_authorized l(:button_delete), {:action => 'destroy', :id => @topic}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del' %>
 </div>
@@ -22,6 +23,7 @@
 <% @replies.each do |message| %>
   <a name="<%= "message-#{message.id}" %>"></a>
   <div class="contextual">
+    <%= link_to_remote_if_authorized image_tag('comment.png'), { :url => {:action => 'quote', :id => message} }, :title => l(:button_quote) %>
     <%= link_to_if_authorized image_tag('edit.png'), {:action => 'edit', :id => message}, :title => l(:button_edit) %>
     <%= link_to_if_authorized image_tag('delete.png'), {:action => 'destroy', :id => message}, :method => :post, :confirm => l(:text_are_you_sure), :title => l(:button_delete) %>
   </div>

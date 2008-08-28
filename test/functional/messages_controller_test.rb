@@ -40,6 +40,15 @@ class MessagesControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:topic)
   end
   
+  def test_show_with_reply_permission
+    @request.session[:user_id] = 2
+    get :show, :board_id => 1, :id => 1
+    assert_response :success
+    assert_template 'show'
+    assert_tag :div, :attributes => { :id => 'reply' },
+                     :descendant => { :tag => 'textarea', :attributes => { :id => 'message_content' } }
+  end
+  
   def test_show_message_not_found
     get :show, :board_id => 1, :id => 99999
     assert_response 404
@@ -107,5 +116,12 @@ class MessagesControllerTest < Test::Unit::TestCase
     post :destroy, :board_id => 1, :id => 1
     assert_redirected_to 'boards/show'
     assert_nil Message.find_by_id(1)
+  end
+  
+  def test_quote
+    @request.session[:user_id] = 2
+    xhr :get, :quote, :board_id => 1, :id => 3
+    assert_response :success
+    assert_select_rjs :show, 'reply'
   end
 end
