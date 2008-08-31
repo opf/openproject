@@ -219,6 +219,7 @@ setting_display_subprojects_issues: Display subprojects issues on main projects 
 setting_enabled_scm: Enabled SCM
 setting_mail_handler_api_enabled: Enable WS for incoming emails
 setting_mail_handler_api_key: API key
+setting_sequential_project_identifiers: Generate sequential project identifiers
 
 project_module_issue_tracking: Issue tracking
 project_module_time_tracking: Time tracking

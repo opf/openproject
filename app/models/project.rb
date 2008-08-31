@@ -238,6 +238,12 @@ class Project < ActiveRecord::Base
       enabled_modules << EnabledModule.new(:name => name.to_s)
     end
   end
+  
+  # Returns an auto-generated project identifier based on the last identifier used
+  def self.next_identifier
+    p = Project.find(:first, :order => 'created_on DESC')
+    p.nil? ? nil : p.identifier.to_s.succ
+  end
 
 protected
   def validate

@@ -637,3 +637,4 @@ field_parent_title: Parent page
 label_issue_watchers: Watchers
 setting_commit_logs_encoding: Commit messages encoding
 button_quote: Quote
+setting_sequential_project_identifiers: Generate sequential project identifiers

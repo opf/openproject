@@ -220,6 +220,7 @@ setting_display_subprojects_issues: Afficher par défaut les demandes des sous-p
 setting_enabled_scm: SCM activés
 setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
 setting_mail_handler_api_key: Clé de protection de l'API
+setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
 
 project_module_issue_tracking: Suivi des demandes
 project_module_time_tracking: Suivi du temps passé

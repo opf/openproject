@@ -46,9 +46,6 @@
 
 <p><label><%= l(:setting_feeds_limit) %></label>
 <%= text_field_tag 'settings[feeds_limit]', Setting.feeds_limit, :size => 6 %></p>
-
-<p><label><%= l(:setting_default_projects_public) %></label>
-<%= check_box_tag 'settings[default_projects_public]', 1, Setting.default_projects_public? %><%= hidden_field_tag 'settings[default_projects_public]', 0 %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>

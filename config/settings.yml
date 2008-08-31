@@ -118,6 +118,8 @@ display_subprojects_issues:
   default: 1
 default_projects_public:
   default: 1
+sequential_project_identifiers:
+  default: 0
 # encodings used to convert repository files content to UTF-8
 # multiple values accepted, comma separated
 repositories_encodings:
