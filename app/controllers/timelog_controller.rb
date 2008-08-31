@@ -17,7 +17,8 @@
 
 class TimelogController < ApplicationController
   menu_item :issues
-  before_filter :find_project, :authorize
+  before_filter :find_project, :authorize, :only => [:edit, :destroy]
+  before_filter :find_optional_project, :only => [:report, :details]
 
   verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
   
@@ -53,11 +54,12 @@ class TimelogController < ApplicationController
                            }
     
     # Add list and boolean custom fields as available criterias
-    @project.all_issue_custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+    custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
+    custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
       @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id)",
                                              :format => cf.field_format,
                                              :label => cf.name}
-    end
+    end if @project
     
     # Add list and boolean time entry custom fields
     TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
@@ -83,9 +85,10 @@ class TimelogController < ApplicationController
       sql << " FROM #{TimeEntry.table_name}"
       sql << " LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
       sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
-      sql << " WHERE (%s)" % @project.project_condition(Setting.display_subprojects_issues?)
-      sql << " AND (%s)" % Project.allowed_to_condition(User.current, :view_time_entries)
-      sql << " AND spent_on BETWEEN '%s' AND '%s'" % [ActiveRecord::Base.connection.quoted_date(@from.to_time), ActiveRecord::Base.connection.quoted_date(@to.to_time)]
+      sql << " WHERE"
+      sql << " (%s) AND" % @project.project_condition(Setting.display_subprojects_issues?) if @project
+      sql << " (%s) AND" % Project.allowed_to_condition(User.current, :view_time_entries)
+      sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from.to_time), ActiveRecord::Base.connection.quoted_date(@to.to_time)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
       
       @hours = ActiveRecord::Base.connection.select_all(sql)
@@ -138,8 +141,13 @@ class TimelogController < ApplicationController
     sort_update
     
     cond = ARCondition.new
-    cond << (@issue.nil? ? @project.project_condition(Setting.display_subprojects_issues?) :
-                           ["#{TimeEntry.table_name}.issue_id = ?", @issue.id])
+    if @project.nil?
+      cond << Project.allowed_to_condition(User.current, :view_time_entries)
+    elsif @issue.nil?
+      cond << @project.project_condition(Setting.display_subprojects_issues?)
+    else
+      cond << ["#{TimeEntry.table_name}.issue_id = ?", @issue.id]
+    end
     
     retrieve_date_range
     cond << ['spent_on BETWEEN ? AND ?', @from, @to]
@@ -197,7 +205,7 @@ class TimelogController < ApplicationController
     @time_entry.destroy
     flash[:notice] = l(:notice_successful_delete)
     redirect_to :back
-  rescue RedirectBackError
+  rescue ::ActionController::RedirectBackError
     redirect_to :action => 'details', :project_id => @time_entry.project
   end
 
@@ -217,6 +225,16 @@ private
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+  
+  def find_optional_project
+    if !params[:issue_id].blank?
+      @issue = Issue.find(params[:issue_id])
+      @project = @issue.project
+    elsif !params[:project_id].blank?
+      @project = Project.find(params[:project_id])
+    end
+    deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
   end
   
   # Retrieves the date range based on predefined ranges or specific from/to param dates
@@ -261,7 +279,7 @@ private
     end
     
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (TimeEntry.minimum(:spent_on, :include => :project, :conditions => @project.project_condition(Setting.display_subprojects_issues?)) || Date.today) - 1
-    @to   ||= (TimeEntry.maximum(:spent_on, :include => :project, :conditions => @project.project_condition(Setting.display_subprojects_issues?)) || Date.today)
+    @from ||= (TimeEntry.minimum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today) - 1
+    @to   ||= (TimeEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today)
   end
 end

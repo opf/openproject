@@ -16,6 +16,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module TimelogHelper
+  def render_timelog_breadcrumb
+    links = []
+    links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
+    links << link_to(h(@project), {:project_id => @project, :issue_id => nil}) if @project
+    links << link_to_issue(@issue) if @issue
+    breadcrumb links
+  end
+  
   def activity_collection_for_select_options
     activities = Enumeration::get_values('ACTI')
     collection = []

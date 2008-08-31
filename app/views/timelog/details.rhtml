@@ -2,11 +2,9 @@
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time' %>
 </div>
 
-<h2><%= l(:label_spent_time) %></h2>
+<%= render_timelog_breadcrumb %>
 
-<% if @issue %>
-<h3><%= link_to(@project.name, {:action => 'details', :project_id => @project}) %> / <%= link_to_issue(@issue) %></h3>
-<% end %>
+<h2><%= l(:label_spent_time) %></h2>
 
 <% form_remote_tag( :url => {}, :method => :get, :update => 'content' ) do %>
 <%= hidden_field_tag 'project_id', params[:project_id] %>

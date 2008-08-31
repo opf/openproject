@@ -78,7 +78,7 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_equal 2, entry.user_id
   end
   
-  def destroy
+  def test_destroy
     @request.session[:user_id] = 2
     post :destroy, :id => 1
     assert_redirected_to 'projects/ecookbook/timelog/details'
@@ -89,6 +89,29 @@ class TimelogControllerTest < Test::Unit::TestCase
     get :report, :project_id => 1
     assert_response :success
     assert_template 'report'
+  end
+
+  def test_report_all_projects
+    get :report
+    assert_response :success
+    assert_template 'report'
+  end
+  
+  def test_report_all_projects_denied
+    r = Role.anonymous
+    r.permissions.delete(:view_time_entries)
+    r.permissions_will_change!
+    r.save
+    get :report
+    assert_redirected_to '/account/login'
+  end
+  
+  def test_report_all_projects_one_criteria
+    get :report, :columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criterias => ['project']
+    assert_response :success
+    assert_template 'report'
+    assert_not_nil assigns(:total_hours)
+    assert_equal "8.65", "%.2f" % assigns(:total_hours)
   end
 
   def test_report_all_time
@@ -148,7 +171,18 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:total_hours)
     assert_equal "0.00", "%.2f" % assigns(:total_hours)
   end
- 
+  
+  def test_report_all_projects_csv_export
+    get :report, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30", :criterias => ["project", "member", "activity"], :format => "csv"
+    assert_response :success
+    assert_equal 'text/csv', @response.content_type
+    lines = @response.body.chomp.split("\n")
+    # Headers
+    assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total', lines.first
+    # Total row
+    assert_equal 'Total,"","","","",154.25,8.65,"","",162.90', lines.last
+  end
+  
   def test_report_csv_export
     get :report, :project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30", :criterias => ["project", "member", "activity"], :format => "csv"
     assert_response :success
@@ -158,6 +192,14 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total', lines.first
     # Total row
     assert_equal 'Total,"","","","",154.25,8.65,"","",162.90', lines.last
+  end
+  
+  def test_details_all_projects
+    get :details
+    assert_response :success
+    assert_template 'details'
+    assert_not_nil assigns(:total_hours)
+    assert_equal "162.90", "%.2f" % assigns(:total_hours)
   end
 
   def test_details_at_project_level
@@ -216,6 +258,14 @@ class TimelogControllerTest < Test::Unit::TestCase
     assert_equal 'application/atom+xml', @response.content_type
     assert_not_nil assigns(:items)
     assert assigns(:items).first.is_a?(TimeEntry)
+  end
+  
+  def test_details_all_projects_csv_export
+    get :details, :format => 'csv'
+    assert_response :success
+    assert_equal 'text/csv', @response.content_type
+    assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
+    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
   
   def test_details_csv_export

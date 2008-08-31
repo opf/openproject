@@ -95,11 +95,15 @@ class ApplicationController < ActionController::Base
     end
     true
   end
+  
+  def deny_access
+    User.current.logged? ? render_403 : require_login
+  end
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action])
     allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project)
-    allowed ? true : (User.current.logged? ? render_403 : require_login)
+    allowed ? true : deny_access
   end
   
   # make sure that the user is a member of the project (or admin) if project is private
