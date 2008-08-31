@@ -200,7 +200,7 @@ sub access_handler {
   }
 
   my $method = $r->method;
-  return OK if defined $read_only_methods{$method};
+  return OK unless defined $read_only_methods{$method};
 
   my $project_id = get_project_identifier($r);
 
