@@ -134,6 +134,7 @@ class Repository < ActiveRecord::Base
   
   def clear_changesets
     connection.delete("DELETE FROM changes WHERE changes.changeset_id IN (SELECT changesets.id FROM changesets WHERE changesets.repository_id = #{id})")
+    connection.delete("DELETE FROM changesets_issues WHERE changesets_issues.changeset_id IN (SELECT changesets.id FROM changesets WHERE changesets.repository_id = #{id})")
     connection.delete("DELETE FROM changesets WHERE changesets.repository_id = #{id}")
   end
 end
