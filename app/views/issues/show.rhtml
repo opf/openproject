@@ -53,6 +53,7 @@
  <%end
 end %>
 </tr>
+<%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
 </table>
 <hr />
 

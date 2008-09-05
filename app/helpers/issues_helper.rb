@@ -89,7 +89,8 @@ module IssuesHelper
     when 'attachment'
       label = l(:label_attachment)
     end
-       
+    call_hook(:helper_issues_show_detail_after_setting, {:detail => detail, :label => label, :value => value, :old_value => old_value })
+
     label ||= detail.prop_key
     value ||= detail.value
     old_value ||= detail.old_value

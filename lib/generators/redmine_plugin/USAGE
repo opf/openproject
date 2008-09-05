@@ -1,0 +1,18 @@
+Description:
+    The plugin generator creates stubs for a new Redmine plugin.
+	
+Example:
+    ./script/generate redmine_plugin meetings
+      create  vendor/plugins/redmine_meetings/app/controllers
+      create  vendor/plugins/redmine_meetings/app/helpers
+      create  vendor/plugins/redmine_meetings/app/models
+      create  vendor/plugins/redmine_meetings/app/views
+      create  vendor/plugins/redmine_meetings/db/migrate
+      create  vendor/plugins/redmine_meetings/lib/tasks
+      create  vendor/plugins/redmine_meetings/assets/images
+      create  vendor/plugins/redmine_meetings/assets/javascripts
+      create  vendor/plugins/redmine_meetings/assets/stylesheets
+      create  vendor/plugins/redmine_meetings/lang
+      create  vendor/plugins/redmine_meetings/README
+      create  vendor/plugins/redmine_meetings/init.rb
+      create  vendor/plugins/redmine_meetings/lang/en.yml

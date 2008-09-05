@@ -4,6 +4,7 @@ require 'redmine/activity'
 require 'redmine/mime_type'
 require 'redmine/core_ext'
 require 'redmine/themes'
+require 'redmine/hook'
 require 'redmine/plugin'
 
 begin

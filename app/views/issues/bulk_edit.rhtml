@@ -38,6 +38,7 @@
 <label><%= l(:field_done_ratio) %>: 
 <%= select_tag 'done_ratio', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></label>
 </p>
+<%= call_hook(:view_issues_bulk_edit_details_bottom, { :issues => @issues }) %>
 </fieldset>
 
 <fieldset><legend><%= l(:field_notes) %></legend>
