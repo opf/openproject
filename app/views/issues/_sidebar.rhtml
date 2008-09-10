@@ -3,12 +3,22 @@
 <% if @project %>
 <%= link_to l(:field_summary), :controller => 'reports', :action => 'issue_report', :id => @project %><br />
 <%= link_to l(:label_change_log), :controller => 'projects', :action => 'changelog', :id => @project %>
+
+<% planning_links = []
+  planning_links << link_to_if_authorized(l(:label_calendar), :controller => 'projects', :action => 'calendar', :id => @project)
+  planning_links << link_to_if_authorized(l(:label_gantt), :action => 'gantt', :project_id => @project)
+  planning_links.compact!
+  unless planning_links.empty? %>
+<h3><%= l(:label_planning) %></h3>
+<p><%= planning_links.join(' | ') %></p>
+<% end %>
+
 <% end %>
 
 <% unless sidebar_queries.empty? -%>
 <h3><%= l(:label_query_plural) %></h3>
 
 <% sidebar_queries.each do |query| -%>
-<%= link_to query.name, :controller => 'issues', :action => 'index', :project_id => @project, :query_id => query %><br />
+<%= link_to query.name, :query_id => query %><br />
 <% end -%>
 <% end -%>

@@ -2,3 +2,4 @@
 
 Mime::SET << Mime::CSV unless Mime::SET.include?(Mime::CSV)
 Mime::Type.register 'application/pdf', :pdf
+Mime::Type.register 'image/png', :png

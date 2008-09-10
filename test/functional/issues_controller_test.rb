@@ -125,6 +125,41 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:issues)
     assert_equal 'application/pdf', @response.content_type
   end
+
+  def test_gantt
+    get :gantt, :project_id => 1
+    assert_response :success
+    assert_template 'gantt.rhtml'
+    assert_not_nil assigns(:gantt)
+    events = assigns(:gantt).events
+    assert_not_nil events
+    # Issue with start and due dates
+    i = Issue.find(1)
+    assert_not_nil i.due_date
+    assert events.include?(Issue.find(1))
+    # Issue with without due date but targeted to a version with date
+    i = Issue.find(2)
+    assert_nil i.due_date
+    assert events.include?(i)
+  end
+
+  def test_gantt_export_to_pdf
+    get :gantt, :project_id => 1, :format => 'pdf'
+    assert_response :success
+    assert_template 'gantt.rfpdf'
+    assert_equal 'application/pdf', @response.content_type
+    assert_not_nil assigns(:gantt)
+  end
+  
+  if Object.const_defined?(:Magick)
+    def test_gantt_image
+      get :gantt, :project_id => 1, :format => 'png'
+      assert_response :success
+      assert_equal 'image/png', @response.content_type
+    end
+  else
+    puts "RMagick not installed. Skipping tests !!!"
+  end
   
   def test_changes
     get :changes, :project_id => 1

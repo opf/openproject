@@ -231,47 +231,6 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:calendar)
     assert_tag :tag => 'a', :content => /#6/
   end
-
-  def test_gantt
-    get :gantt, :id => 1
-    assert_response :success
-    assert_template 'gantt.rhtml'
-    events = assigns(:events)
-    assert_not_nil events
-    # Issue with start and due dates
-    i = Issue.find(1)
-    assert_not_nil i.due_date
-    assert events.include?(Issue.find(1))
-    # Issue with without due date but targeted to a version with date
-    i = Issue.find(2)
-    assert_nil i.due_date
-    assert events.include?(i)
-  end
-
-  def test_gantt_with_subprojects_should_not_show_private_subprojects
-    get :gantt, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
-    assert_response :success
-    assert_template 'gantt.rhtml'
-    assert_not_nil assigns(:events)
-    assert_no_tag :tag => 'a', :content => /#6/
-  end
-  
-  def test_gantt_with_subprojects_should_show_private_subprojects
-    @request.session[:user_id] = 2
-    get :gantt, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
-    assert_response :success
-    assert_template 'gantt.rhtml'
-    assert_not_nil assigns(:events)
-    assert_tag :tag => 'a', :content => /#6/
-  end
-
-  def test_gantt_export_to_pdf
-    get :gantt, :id => 1, :format => 'pdf'
-    assert_response :success
-    assert_template 'gantt.rfpdf'
-    assert_equal 'application/pdf', @response.content_type
-    assert_not_nil assigns(:events)
-  end
   
   def test_archive    
     @request.session[:user_id] = 1 # admin

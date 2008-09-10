@@ -84,7 +84,6 @@ table.list td { vertical-align: top; }
 table.list td.id { width: 2%; text-align: center;}
 table.list td.checkbox { width: 15px; padding: 0px;}
 
-table.list.issues { margin-top: 10px; }
 tr.issue { text-align: center; white-space: nowrap; }
 tr.issue td.subject, tr.issue td.category { white-space: normal; }
 tr.issue td.subject { text-align: left; }
@@ -165,7 +164,7 @@ div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid 
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; } 
 
-fieldset#filters { padding: 0.7em; }
+fieldset#filters, fieldset#date-range { padding: 0.7em; margin-bottom: 8px; }
 fieldset#filters p { margin: 1.2em 0 0.8em 2px; }
 fieldset#filters .buttons { font-size: 0.9em; }
 fieldset#filters table { border-collapse: collapse; }

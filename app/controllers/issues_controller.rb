@@ -20,7 +20,7 @@ class IssuesController < ApplicationController
   
   before_filter :find_issue, :only => [:show, :edit, :reply, :destroy_attachment]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
-  before_filter :find_project, :only => [:new, :update_form, :preview]
+  before_filter :find_project, :only => [:new, :update_form, :preview, :gantt]
   before_filter :authorize, :except => [:index, :changes, :preview, :update_form, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes]
   accept_key_auth :index, :changes
@@ -320,6 +320,38 @@ class IssuesController < ApplicationController
                                          :old_value => a.filename)
     journal.save
     redirect_to :action => 'show', :id => @issue
+  end
+  
+  def gantt
+    @gantt = Redmine::Helpers::Gantt.new(params)
+    retrieve_query
+    if @query.valid?
+      events = []
+      # Issues that have start and due dates
+      events += Issue.find(:all, 
+                           :order => "start_date, due_date",
+                           :include => [:tracker, :status, :assigned_to, :priority, :project], 
+                           :conditions => ["(#{@query.statement}) AND (((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
+                           )
+      # Issues that don't have a due date but that are assigned to a version with a date
+      events += Issue.find(:all, 
+                           :order => "start_date, effective_date",
+                           :include => [:tracker, :status, :assigned_to, :priority, :project, :fixed_version], 
+                           :conditions => ["(#{@query.statement}) AND (((start_date>=? and start_date<=?) or (effective_date>=? and effective_date<=?) or (start_date<? and effective_date>?)) and start_date is not null and due_date is null and effective_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
+                           )
+      # Related versions
+      version_ids = events.collect(&:fixed_version_id).compact.uniq
+      events += Version.find_all_by_id(version_ids, :include => :project,
+                                                    :conditions => ["effective_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to]) unless version_ids.empty?
+      
+      @gantt.events = events
+    end
+    
+    respond_to do |format|
+      format.html { render :template => "issues/gantt.rhtml", :layout => !request.xhr? }
+      format.png  { send_data(@gantt.to_image, :disposition => 'inline', :type => 'image/png', :filename => "#{@project.identifier}-gantt.png") } if @gantt.respond_to?('to_image')
+      format.pdf  { send_data(render(:template => "issues/gantt.rfpdf", :layout => false), :type => 'application/pdf', :filename => "#{@project.identifier}-gantt.pdf") }
+    end
   end
   
   def context_menu
