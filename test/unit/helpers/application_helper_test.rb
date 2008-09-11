@@ -351,4 +351,12 @@ EXPECTED
     assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
     assert_equal now.strftime('%H %M'), format_time(now, false)
   end
+  
+  def test_utc_time_format
+    now = Time.now.utc
+    Setting.date_format = '%d %m %Y'
+    Setting.time_format = '%H %M'
+    assert_equal Time.now.strftime('%d %m %Y %H %M'), format_time(now)
+    assert_equal Time.now.strftime('%H %M'), format_time(now, false)
+  end
 end

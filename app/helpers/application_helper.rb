@@ -95,7 +95,7 @@ module ApplicationHelper
     return nil unless time
     time = time.to_time if time.is_a?(String)
     zone = User.current.time_zone
-    local = zone ? time.in_time_zone(zone) : (time.utc? ? time.utc_to_local : time)
+    local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
     @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
     @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
     include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
