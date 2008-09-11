@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -206,30 +206,6 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :activity, :format => 'atom'
     assert_response :success
     assert_template 'common/feed.atom.rxml'
-  end
-  
-  def test_calendar
-    get :calendar, :id => 1
-    assert_response :success
-    assert_template 'calendar'
-    assert_not_nil assigns(:calendar)
-  end
-
-  def test_calendar_with_subprojects_should_not_show_private_subprojects
-    get :calendar, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
-    assert_response :success
-    assert_template 'calendar'
-    assert_not_nil assigns(:calendar)
-    assert_no_tag :tag => 'a', :content => /#6/
-  end
-  
-  def test_calendar_with_subprojects_should_show_private_subprojects
-    @request.session[:user_id] = 2
-    get :calendar, :id => 1, :with_subprojects => 1, :tracker_ids => [1, 2]
-    assert_response :success
-    assert_template 'calendar'
-    assert_not_nil assigns(:calendar)
-    assert_tag :tag => 'a', :content => /#6/
   end
   
   def test_archive    

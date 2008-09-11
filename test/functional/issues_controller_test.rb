@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -159,6 +159,13 @@ class IssuesControllerTest < Test::Unit::TestCase
     end
   else
     puts "RMagick not installed. Skipping tests !!!"
+  end
+  
+  def test_calendar
+    get :calendar, :project_id => 1
+    assert_response :success
+    assert_template 'calendar'
+    assert_not_nil assigns(:calendar)
   end
   
   def test_changes

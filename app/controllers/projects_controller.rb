@@ -27,7 +27,7 @@ class ProjectsController < ApplicationController
   before_filter :find_optional_project, :only => :activity
   before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy, :activity ]
   before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
-  accept_key_auth :activity, :calendar
+  accept_key_auth :activity
   
   helper :sort
   include SortHelper
@@ -244,34 +244,6 @@ class ProjectsController < ApplicationController
         render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
       }
     end
-  end
-  
-  def calendar
-    @trackers = @project.rolled_up_trackers
-    retrieve_selected_tracker_ids(@trackers)
-    
-    if params[:year] and params[:year].to_i > 1900
-      @year = params[:year].to_i
-      if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
-        @month = params[:month].to_i
-      end    
-    end
-    @year ||= Date.today.year
-    @month ||= Date.today.month    
-    @calendar = Redmine::Helpers::Calendar.new(Date.civil(@year, @month, 1), current_language, :month)
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-    events = []
-    @project.issues_with_subprojects(@with_subprojects) do
-      events += Issue.find(:all, 
-                           :include => [:tracker, :status, :assigned_to, :priority, :project], 
-                           :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?)) AND #{Issue.table_name}.tracker_id IN (#{@selected_tracker_ids.join(',')})", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
-                           ) unless @selected_tracker_ids.empty?
-      events += Version.find(:all, :include => :project,
-                                   :conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
-    end
-    @calendar.events = events
-    
-    render :layout => false if request.xhr?
   end
   
 private

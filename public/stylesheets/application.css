@@ -166,11 +166,11 @@ p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; }
 
 fieldset#filters, fieldset#date-range { padding: 0.7em; margin-bottom: 8px; }
 fieldset#filters p { margin: 1.2em 0 0.8em 2px; }
-fieldset#filters .buttons { font-size: 0.9em; }
 fieldset#filters table { border-collapse: collapse; }
 fieldset#filters table td { padding: 0; vertical-align: middle; }
 fieldset#filters tr.filter { height: 2em; }
 fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
+.buttons { font-size: 0.9em; }
 
 div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
 div#issue-changesets .changeset { padding: 4px;}
@@ -341,7 +341,7 @@ vertical-align: bottom;
 }
 
 /***** Calendar *****/
-table.cal {border-collapse: collapse; width: 100%; margin: 8px 0 6px 0;border: 1px solid #d7d7d7;}
+table.cal {border-collapse: collapse; width: 100%; margin: 0px 0 6px 0;border: 1px solid #d7d7d7;}
 table.cal thead th {width: 14%;}
 table.cal tbody tr {height: 100px;}
 table.cal th { background-color:#EEEEEE; padding: 4px; }

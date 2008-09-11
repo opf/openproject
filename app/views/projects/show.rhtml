@@ -57,7 +57,7 @@
 
 <% content_for :sidebar do %>
     <% planning_links = []
-      planning_links << link_to_if_authorized(l(:label_calendar), :action => 'calendar', :id => @project)
+      planning_links << link_to_if_authorized(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project)
       planning_links << link_to_if_authorized(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project)
       planning_links.compact!
       unless planning_links.empty? %>

@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -254,9 +254,8 @@ class Query < ActiveRecord::Base
   def has_default_columns?
     column_names.nil? || column_names.empty?
   end
-
-  def statement
-    # project/subprojects clause
+  
+  def project_statement
     project_clauses = []
     if project && !@project.active_children.empty?
       ids = [project.id]
@@ -274,12 +273,15 @@ class Query < ActiveRecord::Base
       elsif Setting.display_subprojects_issues?
         ids += project.child_ids
       end
-      project_clauses << "#{Issue.table_name}.project_id IN (%s)" % ids.join(',')
+      project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
     elsif project
-      project_clauses << "#{Issue.table_name}.project_id = %d" % project.id
+      project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
     project_clauses <<  Project.visible_by(User.current)
-    
+    project_clauses.join(' AND ')
+  end
+
+  def statement
     # filters clauses
     filters_clauses = []
     filters.each_key do |field|
@@ -356,7 +358,7 @@ class Query < ActiveRecord::Base
       filters_clauses << sql
     end if filters and valid?
     
-    (project_clauses + filters_clauses).join(' AND ')
+    (filters_clauses << project_statement).join(' AND ')
   end
   
   private

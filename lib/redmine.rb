@@ -46,7 +46,7 @@ Redmine::AccessControl.map do |map|
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
     # Gantt & calendar
     map.permission :view_gantt, :issues => :gantt
-    map.permission :view_calendar, :projects => :calendar
+    map.permission :view_calendar, :issues => :calendar
     # Watchers
     map.permission :view_issue_watchers, {}
     map.permission :add_issue_watchers, {:watchers => :new}

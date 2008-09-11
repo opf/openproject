@@ -5,7 +5,7 @@
 <%= link_to l(:label_change_log), :controller => 'projects', :action => 'changelog', :id => @project %>
 
 <% planning_links = []
-  planning_links << link_to_if_authorized(l(:label_calendar), :controller => 'projects', :action => 'calendar', :id => @project)
+  planning_links << link_to_if_authorized(l(:label_calendar), :action => 'calendar', :project_id => @project)
   planning_links << link_to_if_authorized(l(:label_gantt), :action => 'gantt', :project_id => @project)
   planning_links.compact!
   unless planning_links.empty? %>
