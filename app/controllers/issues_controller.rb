@@ -339,11 +339,10 @@ class IssuesController < ApplicationController
                            :include => [:tracker, :status, :assigned_to, :priority, :project, :fixed_version], 
                            :conditions => ["(#{@query.statement}) AND (((start_date>=? and start_date<=?) or (effective_date>=? and effective_date<=?) or (start_date<? and effective_date>?)) and start_date is not null and due_date is null and effective_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
                            )
-      # Related versions
-      version_ids = events.collect(&:fixed_version_id).compact.uniq
-      events += Version.find_all_by_id(version_ids, :include => :project,
-                                                    :conditions => ["effective_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to]) unless version_ids.empty?
-      
+      # Versions
+      events += Version.find(:all, :include => :project,
+                                   :conditions => ["(#{@query.project_statement}) AND effective_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to])
+                                   
       @gantt.events = events
     end
     
