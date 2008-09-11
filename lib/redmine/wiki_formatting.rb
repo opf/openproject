@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'redcloth'
+require 'redcloth3'
 require 'coderay'
 
 module Redmine
@@ -23,7 +23,7 @@ module Redmine
   
   private
   
-    class TextileFormatter < RedCloth
+    class TextileFormatter < RedCloth3
       
       # auto_link rule after textile rules so that it doesn't break !image_url! tags
       RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto, :inline_toc, :inline_macros]
