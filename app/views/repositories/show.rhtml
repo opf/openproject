@@ -21,6 +21,10 @@
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :action => 'revisions', :id => @project, :page => nil, :key => User.current.rss_key})) %>
 <% end %>
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'Atom', {:action => 'revisions', :id => @project, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
+</p>
 <% end %>
 
 <% content_for :header_tags do %>
