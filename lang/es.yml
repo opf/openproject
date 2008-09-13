@@ -622,21 +622,21 @@ setting_default_projects_public: Los proyectos nuevos son públicos por defecto
 error_scm_annotate: "No existe la entrada o no ha podido ser anotada"
 label_planning: Planificación
 text_subprojects_destroy_warning: 'Sus subprojectos: %s también se eliminarán' 
-label_and_its_subprojects: %s and its subprojects
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '%s wrote:'
-label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
-label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
+label_and_its_subprojects: %s y sus subproyectos
+mail_body_reminder: "la petición %d asignada a tí finaliza en los próximos %d días:"
+mail_subject_reminder: "%d peticion(es) finaliza en los próximos días"
+text_user_wrote: '%s escribió:'
+label_duplicated_by: duplicada por 
+setting_enabled_scm: Activar SCM
+text_enumeration_category_reassign_to: 'Reasignar el siguiente valor:' 
+text_enumeration_destroy_question: '%d objetos con este valor asignado.' 
+label_incoming_emails: Correos entrantes
+label_generate_key: Generar clave
+setting_mail_handler_api_enabled: Activar SW para mensajes entrantes
+setting_mail_handler_api_key: clave de la API 
+text_email_delivery_not_configured: "El envío de correos no está configurado, y las notificaciones se han desactivado. \n Configure el servidor de SMTP en config/email.yml y reinicie la aplicación para activar los cambios."
+field_parent_title: Página padre
+label_issue_watchers: Seguidores
+setting_commit_logs_encoding: Codificación de los mensajes de commit 
 button_quote: Quote
 setting_sequential_project_identifiers: Generate sequential project identifiers
