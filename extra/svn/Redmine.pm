@@ -148,11 +148,12 @@ sub RedmineDSN {
   my ($self, $parms, $arg) = @_;
   $self->{RedmineDSN} = $arg;
   my $query = "SELECT 
-                 hashed_password, auth_source_id 
-              FROM members, projects, users 
+                 hashed_password, auth_source_id, permissions
+              FROM members, projects, users, roles
               WHERE 
                 projects.id=members.project_id 
                 AND users.id=members.user_id 
+                AND roles.id=members.role_id
                 AND users.status=1 
                 AND login=? 
                 AND identifier=? ";
@@ -277,9 +278,11 @@ sub is_member {
   $sth->execute($redmine_user, $project_id);
 
   my $ret;
-  while (my @row = $sth->fetchrow_array) {
-      unless ($row[1]) {
-          if ($row[0] eq $pass_digest) {
+  while (my ($hashed_password, $auth_source_id, $permissions) = $sth->fetchrow_array) {
+
+      unless ($auth_source_id) {
+	  my $method = $r->method;
+          if ($hashed_password eq $pass_digest && (defined $read_only_methods{$method} || $permissions =~ /:commit_access/) ) {
               $ret = 1;
               last;
           }
@@ -287,7 +290,7 @@ sub is_member {
           my $sthldap = $dbh->prepare(
               "SELECT host,port,tls,account,account_password,base_dn,attr_login from auth_sources WHERE id = ?;"
           );
-          $sthldap->execute($row[1]);
+          $sthldap->execute($auth_source_id);
           while (my @rowldap = $sthldap->fetchrow_array) {
             my $ldap = Authen::Simple::LDAP->new(
                 host    =>      ($rowldap[2] == 1 || $rowldap[2] eq "t") ? "ldaps://$rowldap[0]" : $rowldap[0],

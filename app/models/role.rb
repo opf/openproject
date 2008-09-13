@@ -19,6 +19,11 @@ class Role < ActiveRecord::Base
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
+
+  named_scope :builtin, lambda { |*args|
+    compare = 'not' if args.first == true
+    { :conditions => "#{compare} builtin = 0" }
+  }
   
   before_destroy :check_deletable
   has_many :workflows, :dependent => :delete_all do
@@ -36,7 +41,7 @@ class Role < ActiveRecord::Base
   has_many :members
   acts_as_list
   
-  serialize :permissions
+  serialize :permissions, Array
   attr_protected :builtin
 
   validates_presence_of :name
@@ -49,8 +54,26 @@ class Role < ActiveRecord::Base
   end
   
   def permissions=(perms)
-    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact if perms
+    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
     write_attribute(:permissions, perms)
+  end
+
+  def add_permission!(*perms)
+    self.permissions = [] unless permissions.is_a?(Array)
+
+    permissions_will_change!
+    perms.each do |p|
+      p = p.to_sym
+      permissions << p unless permissions.include?(p)
+    end
+    save!
+  end
+
+  def remove_permission!(*perms)
+    return unless permissions.is_a?(Array)
+    permissions_will_change!
+    perms.each { |p| permissions.delete(p.to_sym) }
+    save!
   end
   
   def <=>(role)

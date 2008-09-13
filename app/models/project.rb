@@ -62,6 +62,8 @@ class Project < ActiveRecord::Base
   validates_format_of :identifier, :with => /^[a-z0-9\-]*$/
   
   before_destroy :delete_all_members
+
+  named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   
   def identifier=(identifier)
     super unless identifier_frozen?

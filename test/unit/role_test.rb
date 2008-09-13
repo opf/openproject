@@ -30,4 +30,24 @@ class RoleTest < Test::Unit::TestCase
     target.reload
     assert_equal 90, target.workflows.size
   end
+
+  def test_add_permission
+    role = Role.find(1)
+    size = role.permissions.size
+    role.add_permission!("apermission", "anotherpermission")
+    role.reload
+    assert role.permissions.include?(:anotherpermission)
+    assert_equal size + 2, role.permissions.size
+  end
+
+  def test_remove_permission
+    role = Role.find(1)
+    size = role.permissions.size
+    perm = role.permissions[0..1]
+    role.remove_permission!(*perm)
+    role.reload
+    assert ! role.permissions.include?(perm[0])
+    assert_equal size - 2, role.permissions.size
+  end
+
 end

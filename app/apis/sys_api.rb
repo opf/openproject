@@ -15,11 +15,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+class AWSProjectWithRepository < ActionWebService::Struct
+  member :id,              :int
+  member :identifier,      :string
+  member :name,            :string
+  member :is_public,       :bool
+  member :repository,      Repository
+end
+
 class SysApi < ActionWebService::API::Base
-  api_method :projects,
+  api_method :projects_with_repository_enabled,
              :expects => [],
-             :returns => [[Project]]
+             :returns => [[AWSProjectWithRepository]]
   api_method :repository_created,
-             :expects => [:string, :string],
+             :expects => [:string, :string, :string],
              :returns => [:int]
 end
