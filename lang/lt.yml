@@ -199,7 +199,7 @@ setting_date_format: Datos formatas
 setting_time_format: Laiko formatas 
 setting_cross_project_issue_relations: Leisti tarprojektinius darbų ryšius
 setting_issue_list_default_columns: Numatytosios skiltys darbų sąraše
-setting_repositories_encodings: Saugyklos enkodingas
+setting_repositories_encodings: Saugyklos koduotė
 setting_emails_footer: elektroninio pašto puslapinė poraštė
 setting_protocol: Protokolas
  
@@ -633,10 +633,9 @@ label_incoming_emails: Įeinantys laiškai
 label_generate_key: Generuoti raktą
 setting_mail_handler_api_enabled: Įgalinti WS įeinantiems laiškams
 setting_mail_handler_api_key: API raktas
-
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
-label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
-button_quote: Quote
+text_email_delivery_not_configured: "Email pristatymas nesukonfigūruotas , ir perspėjimai neaktyvus.\nSukonfigūruokyte savo SMTP serverį byloje config/email.yml ir perleiskyte programą kad pritaikyti pakeitymus."
+field_parent_title: Aukštesnio lygio puslapis
+label_issue_watchers: Stebetojai
+setting_commit_logs_encoding: Commit pranėšimų koduotė
 setting_sequential_project_identifiers: Generate sequential project identifiers
+button_quote: Quote
