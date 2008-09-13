@@ -66,7 +66,10 @@ class WikiController < ApplicationController
     @content.text = "h1. #{@page.pretty_title}" if @content.text.blank?
     # don't keep previous comment
     @content.comments = nil
-    if request.post?      
+    if request.get?
+      # To prevent StaleObjectError exception when reverting to a previous version
+      @content.version = @page.content.version
+    else
       if !@page.new_record? && @content.text == params[:content][:text]
         # don't save if text wasn't changed
         redirect_to :action => 'index', :id => @project, :page => @page.title
