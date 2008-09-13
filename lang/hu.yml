@@ -637,5 +637,4 @@ field_parent_title: Szülő oldal
 label_issue_watchers: Megfigyelők
 setting_commit_logs_encoding: Commit üzenetek kódlapja
 button_quote: Idézet
-
-setting_sequential_project_identifiers: Generate sequential project identifiers
+setting_sequential_project_identifiers: Szekvenciális projekt azonosítók generálása
