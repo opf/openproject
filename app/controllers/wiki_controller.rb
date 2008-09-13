@@ -38,6 +38,11 @@ class WikiController < ApplicationController
       end
       return
     end
+    if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
+      # Redirects user to the current version if he's not allowed to view previous versions
+      redirect_to :version => nil
+      return
+    end
     @content = @page.content_for_version(params[:version])
     if params[:export] == 'html'
       export = render_to_string :action => 'export', :layout => false

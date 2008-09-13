@@ -76,6 +76,11 @@ class Role < ActiveRecord::Base
     save!
   end
   
+  # Returns true if the role has the given permission
+  def has_permission?(perm)
+    !permissions.nil? && permissions.include?(perm.to_sym)
+  end
+  
   def <=>(role)
     position <=> role.position
   end

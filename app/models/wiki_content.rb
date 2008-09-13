@@ -35,9 +35,9 @@ class WikiContent < ActiveRecord::Base
                   :type => 'wiki-page',
                   :url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}}
 
-    acts_as_activity_provider :type => 'wiki_pages',
+    acts_as_activity_provider :type => 'wiki_edits',
                               :timestamp => "#{WikiContent.versioned_table_name}.updated_on",
-                              :permission => :view_wiki_pages,
+                              :permission => :view_wiki_edits,
                               :find_options => {:select => "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
                                                            "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title, " +
                                                            "#{WikiContent.versioned_table_name}.page_id, #{WikiContent.versioned_table_name}.author_id, " +
