@@ -33,7 +33,7 @@ class VersionsController < ApplicationController
     @version.destroy
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
   rescue
-    flash[:error] = "Unable to delete version"
+    flash[:error] = l(:notice_unable_delete_version)
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
   end
   

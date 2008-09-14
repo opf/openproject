@@ -638,3 +638,5 @@ default_activity_development: Development
 enumeration_issue_priorities: Issue priorities
 enumeration_doc_categories: Document categories
 enumeration_activities: Activities (time tracking)
+notice_unable_delete_version: Unable to delete version
+

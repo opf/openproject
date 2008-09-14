@@ -638,3 +638,4 @@ default_activity_development: Développement
 enumeration_issue_priorities: Priorités des demandes
 enumeration_doc_categories: Catégories des documents
 enumeration_activities: Activités (suivi du temps)
+notice_unable_delete_version: Unable to delete version

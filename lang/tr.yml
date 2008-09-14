@@ -638,3 +638,4 @@ mail_subject_reminder: "%d issue(s) due in the next days"
 setting_mail_handler_api_key: API key
 setting_commit_logs_encoding: Commit messages encoding
 general_csv_decimal_separator: '.'
+notice_unable_delete_version: Unable to delete version

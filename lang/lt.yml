@@ -639,3 +639,4 @@ label_issue_watchers: Stebetojai
 setting_commit_logs_encoding: Commit pranėšimų koduotė
 setting_sequential_project_identifiers: Generate sequential project identifiers
 button_quote: Quote
+notice_unable_delete_version: Unable to delete version

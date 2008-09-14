@@ -638,3 +638,4 @@ enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
 button_quote: Quote
 setting_sequential_project_identifiers: Generate sequential project identifiers
+notice_unable_delete_version: Unable to delete version
