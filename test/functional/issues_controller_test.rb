@@ -28,6 +28,7 @@ class IssuesControllerTest < Test::Unit::TestCase
            :members,
            :issues,
            :issue_statuses,
+           :versions,
            :trackers,
            :projects_trackers,
            :issue_categories,
