@@ -87,8 +87,7 @@ $force        = false
 $scm          = 'Subversion'
 
 def log(text,level=0, exit=false)
-  return if $quiet or level > $verbose
-  puts text
+  puts text unless $quiet or level > $verbose
   exit 1 if exit
 end
 
