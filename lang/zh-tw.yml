@@ -77,6 +77,7 @@ notice_failed_to_save_issues: " %d 個項目儲存失敗 (總共選取 %d 個項
 notice_no_issue_selected: "未選擇任何項目！請勾選您想要編輯的項目。"
 notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
 notice_default_data_loaded: 預設組態已載入成功。
+notice_unable_delete_version: 無法刪除版本。
 
 error_can_t_load_default_data: "無法載入預設組態： %s"
 error_scm_not_found: SCM 儲存庫中找不到這個專案或版本。
@@ -638,4 +639,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-notice_unable_delete_version: Unable to delete version
