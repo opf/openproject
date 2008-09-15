@@ -77,6 +77,7 @@ notice_failed_to_save_issues: "%d 个问题保存失败（共选择 %d 个问题
 notice_no_issue_selected: "未选择任何问题！请选择您要编辑的问题。"
 notice_account_pending: "您的帐号已被成功创建，正在等待管理员的审核。"
 notice_default_data_loaded: 成功载入默认设置。
+notice_unable_delete_version: 无法删除版本
 
 error_can_t_load_default_data: "无法载入默认设置：%s"
 error_scm_not_found: "版本库中不存在该条目和（或）其修订版本。"
@@ -219,6 +220,7 @@ setting_display_subprojects_issues: 在项目页面上默认显示子项目的�
 setting_enabled_scm: 启用 SCM
 setting_mail_handler_api_enabled: 启用用于接收邮件的Web Service
 setting_mail_handler_api_key: API key
+setting_sequential_project_identifiers: 顺序产生项目标识
 
 project_module_issue_tracking: 问题跟踪
 project_module_time_tracking: 时间跟踪
@@ -561,6 +563,7 @@ button_copy: 复制
 button_annotate: 追溯
 button_update: 更新
 button_configure: 配置
+button_quote: 引用
 
 status_active: 活动的
 status_registered: 已注册
@@ -636,6 +639,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version
