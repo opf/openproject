@@ -2,15 +2,15 @@
 
 # == Synopsis
 #
-# reposman: manages your svn repositories with Redmine
+# reposman: manages your repositories with Redmine
 #
 # == Usage
 #
 #    reposman [OPTIONS...] -s [DIR] -r [HOST]
 #     
 #  Examples:
-#    reposman --svn-dir=/var/svn --redmine-host=redmine.example.net
-#    reposman -s /var/svn -r redmine.example.net -u http://svn.example.net
+#    reposman --svn-dir=/var/svn --redmine-host=redmine.example.net --scm subversion
+#    reposman -s /var/git -r redmine.example.net -u http://svn.example.net --scm git
 #
 # == Arguments (mandatory)
 #
@@ -24,7 +24,12 @@
 #
 #   -o, --owner=OWNER         owner of the repository. using the rails login
 #                             allow user to browse the repository within
-#                             Redmine even for private project
+#                             Redmine even for private project. If you want to share repositories
+#                             through Redmine.pm, you need to use the apache owner.
+#   --scm=SCM                 the kind of SCM repository you want to create (and register) in
+#                             Redmine (default: Subversion). reposman is able to create Git 
+#                             and Subversion repositories. For all other kind (Bazaar,
+#                             Darcs, Filesystem, Mercurial) you must specify a --command option
 #   -u, --url=URL             the base url Redmine will use to access your
 #                             repositories. This option is used to automatically
 #                             register the repositories in Redmine. The project
@@ -35,13 +40,8 @@
 #                             the repositories in Redmine
 #   -c, --command=COMMAND     use this command instead of "svnadmin create" to
 #                             create a repository. This option can be used to
-#                             create non-subversion repositories
-#       --scm                 SCM vendor used to register the repository in
-#                             Redmine (default: Subversion). Can be one of the
-#                             other supported SCM: Bazaar, Darcs, Filesystem,
-#                             Git, Mercurial (case sensitive).
-#                             This option should be used when both options --url
-#                             and --command are used.
+#                             create repositories other than subversion and git kind.
+#                             This command override the default creation for git and subversion.
 #   -f, --force               force repository creation even if the project
 #                             repository is already declared in Redmine
 #   -t, --test                only show what should be done
@@ -49,6 +49,11 @@
 #   -v, --verbose             verbose
 #   -V, --version             print version and exit
 #   -q, --quiet               no log
+#
+# == References
+# 
+# You can find more information on the redmine's wiki : http://www.redmine.org/wiki/redmine/HowTos
+
 
 require 'getoptlong'
 require 'rdoc/usage'
@@ -82,13 +87,36 @@ $svn_owner    = 'root'
 $use_groupid  = true
 $svn_url      = false
 $test         = false
-$command      = "svnadmin create"
 $force        = false
 $scm          = 'Subversion'
 
 def log(text,level=0, exit=false)
   puts text unless $quiet or level > $verbose
   exit 1 if exit
+end
+
+def system_or_raise(command)
+  raise "\"#{command}\" failed" unless system command
+end
+
+module SCM
+
+  module Subversion
+    def self.create(path)
+      system_or_raise "svnadmin create #{path}"
+    end
+  end
+
+  module Git
+    def self.create(path)
+      Dir.mkdir path
+      Dir.chdir(path) do
+        system_or_raise "git --bare init --shared"
+        system_or_raise "git-update-server-info"
+      end
+    end
+  end
+
 end
 
 begin
@@ -98,7 +126,7 @@ begin
     when '--redmine-host';   $redmine_host = arg.dup
     when '--owner';          $svn_owner    = arg.dup; $use_groupid = false;
     when '--url';            $svn_url      = arg.dup
-    when '--scm';            $scm          = arg.dup; log("Invalid SCM: #{$scm}", 0, true) unless SUPPORTED_SCM.include?($scm)
+    when '--scm';            $scm          = arg.dup.capitalize; log("Invalid SCM: #{$scm}", 0, true) unless SUPPORTED_SCM.include?($scm)
     when '--command';        $command =      arg.dup
     when '--verbose';        $verbose += 1
     when '--test';           $test = true
@@ -116,11 +144,14 @@ if $test
   log("running in test mode")
 end
 
-# Make sure command is overridden if SCM vendor is not Subversion
-if $scm != 'Subversion' && $command == 'svnadmin create'
-  log("Please use --command option to specify how to create a #{$scm} repository.", 0, true)
+# Make sure command is overridden if SCM vendor is not handled internally (for the moment Subversion and Git)
+if $command.nil?
+  begin
+    scm_module = SCM.const_get($scm)
+  rescue
+    log("Please use --command option to specify how to create a #{$scm} repository.", 0, true)
+  end
 end
-
 
 $svn_url += "/" if $svn_url and not $svn_url.match(/\/$/)
 
@@ -230,8 +261,11 @@ projects.each do |project|
 
     begin
       set_owner_and_rights(project, repos_path) do
-        command = "#{$command} #{repos_path}"
-        raise "#{command} failed" unless system( command  )
+        if scm_module.nil?
+          system_or_raise "#{$command} #{repos_path}"
+        else
+          scm_module.create(repos_path)
+        end
       end
     rescue => e
       log("\tunable to create #{repos_path} : #{e}\n")
