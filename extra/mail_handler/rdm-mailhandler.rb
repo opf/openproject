@@ -112,7 +112,10 @@ class RedmineMailHandler
     debug "Posting to #{uri}..."
     response = Net::HTTPS.post_form(URI.parse(uri), data)
     debug "Response received: #{response.code}"
-    response.code == 201 ? 0 : 1
+    
+    puts "Request was denied by your Redmine server. " + 
+         "Please, make sure that 'WS for incoming emails' is enabled in application settings and that you provided the correct API key." if response.code == '403'
+    response.code == '201' ? 0 : 1
   end
   
   private
