@@ -1,13 +1,51 @@
 #!/usr/bin/ruby
 
-# rdm-mailhandler
+# == Synopsis
+#
 # Reads an email from standard input and forward it to a Redmine server
-# Can be used from a remote mail server
+# through a HTTP request.
+#
+# == Usage
+#
+#    rdm-mailhandler [options] --url=<Redmine URL> --key=<API key>
+#
+# == Arguments
+# 
+#   -u, --url                      URL of the Redmine server
+#   -k, --key                      Redmine API key
+#   
+# General options:
+#   -h, --help                     show this help
+#   -v, --verbose                  show extra information
+#   -V, --version                  show version information and exit
+# 
+# Issue attributes control options:
+#   -p, --project=PROJECT          identifier of the target project
+#   -t, --tracker=TRACKER          name of the target tracker
+#       --category=CATEGORY        name of the target category
+#       --priority=PRIORITY        name of the target priority
+#   -o, --allow-override=ATTRS     allow email content to override attributes
+#                                  specified by previous options
+#                                  ATTRS is a comma separated list of attributes
+#       
+# == Examples
+# No project specified. Emails MUST contain the 'Project' keyword:
+# 
+#   rdm-mailhandler --url http://redmine.domain.foo --key secret
+#   
+# Fixed project and default tracker specified, but emails can override
+# both tracker and priority attributes using keywords:
+# 
+#   rdm-mailhandler --url https://domain.foo/redmine --key secret \\
+#                   --project foo \\
+#                   --tracker bug \\
+#                   --allow-override tracker,priority
 
 require 'net/http'
 require 'net/https'
 require 'uri'
 require 'getoptlong'
+require 'rdoc/usage'
 
 module Net
   class HTTPS < HTTP
@@ -31,15 +69,15 @@ class RedmineMailHandler
     self.issue_attributes = {}
     
     opts = GetoptLong.new(
-      [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
-      [ '--version', '-V', GetoptLong::NO_ARGUMENT ],
-      [ '--verbose', '-v', GetoptLong::NO_ARGUMENT ],
-      [ '--url', '-u', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--key', '-k', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--project', '-p', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--tracker', '-t', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--category', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--priority', GetoptLong::REQUIRED_ARGUMENT],
+      [ '--help',           '-h', GetoptLong::NO_ARGUMENT ],
+      [ '--version',        '-V', GetoptLong::NO_ARGUMENT ],
+      [ '--verbose',        '-v', GetoptLong::NO_ARGUMENT ],
+      [ '--url',            '-u', GetoptLong::REQUIRED_ARGUMENT ],
+      [ '--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
+      [ '--project',        '-p', GetoptLong::REQUIRED_ARGUMENT ],
+      [ '--tracker',        '-t', GetoptLong::REQUIRED_ARGUMENT],
+      [ '--category',             GetoptLong::REQUIRED_ARGUMENT],
+      [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
       [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT]
     )
 
@@ -62,7 +100,7 @@ class RedmineMailHandler
       end
     end
     
-    usage if url.nil?
+    RDoc.usage if url.nil?
   end
   
   def submit(email)
@@ -78,43 +116,6 @@ class RedmineMailHandler
   end
   
   private
-  
-  def usage
-    puts  <<-USAGE
-Usage: rdm-mailhandler [options] --url=<Redmine URL> --key=<API key>
-Reads an email from standard input and forward it to a Redmine server
-
-Required:
-  -u, --url                      URL of the Redmine server
-  -k, --key                      Redmine API key
-  
-General options:
-  -h, --help                     show this help
-  -v, --verbose                  show extra information
-  -V, --version                  show version information and exit
-
-Issue attributes control options:
-  -p, --project=PROJECT          identifier of the target project
-  -t, --tracker=TRACKER          name of the target tracker
-      --category=CATEGORY        name of the target category
-      --priority=PRIORITY        name of the target priority
-  -o, --allow-override=ATTRS     allow email content to override attributes
-                                 specified by previous options
-                                 ATTRS is a comma separated list of attributes
-      
-Examples:
-  # No project specified. Emails MUST contain the 'Project' keyword:
-  rdm-mailhandler --url http://redmine.domain.foo --key secret
-  
-  # Fixed project and default tracker specified, but emails can override
-  # both tracker and priority attributes:
-  rdm-mailhandler --url https://domain.foo/redmine --key secret \\
-                  --project foo \\
-                  --tracker bug \\
-                  --allow-override tracker,priority
-USAGE
-    exit
-  end
   
   def debug(msg)
     puts msg if verbose
