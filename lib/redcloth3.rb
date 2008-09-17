@@ -788,10 +788,10 @@ class RedCloth3 < String
             ":
             ([\w\/]\S+?)               # $url
             (\/)?                      # $slash
-            ([^\w\/;]*?)               # $post
+            ([^\w\=\/;\(\)]*?)         # $post
             (?=<|\s|$)
         /x 
-
+#"
     def inline_textile_link( text ) 
         text.gsub!( LINK_RE ) do |m|
             pre,atts,text,title,url,slash,post = $~[1..7]
@@ -799,6 +799,12 @@ class RedCloth3 < String
             url, url_title = check_refs( url )
             title ||= url_title
             
+            # Idea below : an URL with unbalanced parethesis and
+            # ending by ')' is put into external parenthesis
+            if ( url[-1]==?) and ((url.count("(") - url.count(")")) < 0 ) )
+              url=url[0..-2] # discard closing parenth from url
+              post = ")"+post # add closing parenth to post
+            end
             atts = pba( atts )
             atts = " href=\"#{ url }#{ slash }\"#{ atts }"
             atts << " title=\"#{ title }\"" if title
