@@ -113,7 +113,7 @@ module SCM
       Dir.mkdir path
       Dir.chdir(path) do
         system_or_raise "git --bare init --shared"
-        system_or_raise "git-update-server-info"
+        system_or_raise "git update-server-info"
       end
     end
   end
