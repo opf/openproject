@@ -60,14 +60,8 @@
 .jstb_del {
 	background-image: url(../images/jstoolbar/bt_del.png);
 }
-.jstb_quote {
-	background-image: url(../images/jstoolbar/bt_quote.png);
-}
 .jstb_code {
 	background-image: url(../images/jstoolbar/bt_code.png);
-}
-.jstb_br {
-	background-image: url(../images/jstoolbar/bt_br.png);
 }
 .jstb_h1 {
 	background-image: url(../images/jstoolbar/bt_h1.png);
