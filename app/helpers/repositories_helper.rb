@@ -32,6 +32,74 @@ module RepositoriesHelper
     end
   end
   
+  def render_changeset_changes
+    changes = @changeset.changes.find(:all, :limit => 1000, :order => 'path').collect do |change|
+      case change.action
+      when 'A'
+        # Detects moved/copied files
+        if !change.from_path.blank?
+          change.action = @changeset.changes.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
+        end
+        change
+      when 'D'
+        @changeset.changes.detect {|c| c.from_path == change.path} ? nil : change
+      else
+        change
+      end
+    end.compact
+    
+    tree = { }
+    changes.each do |change|
+      p = tree
+      dirs = change.path.to_s.split('/').select {|d| !d.blank?}
+      dirs.each do |dir|
+        p[:s] ||= {}
+        p = p[:s]
+        p[dir] ||= {}
+        p = p[dir]
+      end
+      p[:c] = change
+    end
+    
+    render_changes_tree(tree[:s])
+  end
+  
+  def render_changes_tree(tree)
+    return '' if tree.nil?
+    
+    output = ''
+    output << '<ul>'
+    tree.keys.sort.each do |file|
+      s = !tree[file][:s].nil?
+      c = tree[file][:c]
+      
+      style = 'change'
+      style << ' folder' if s
+      style << " change-#{c.action}" if c
+      
+      text = h(file)
+      unless c.nil?
+        path_param = to_path_param(@repository.relative_path(c.path))
+        text = link_to(text, :controller => 'repositories',
+                             :action => 'entry',
+                             :id => @project,
+                             :path => path_param,
+                             :rev => @changeset.revision) unless s || c.action == 'D'
+        text << " - #{c.revision}" unless c.revision.blank?
+        text << ' (' + link_to('diff', :controller => 'repositories',
+                                       :action => 'diff',
+                                       :id => @project,
+                                       :path => path_param,
+                                       :rev => @changeset.revision) + ') ' if c.action == 'M'
+        text << ' ' + content_tag('span', c.from_path, :class => 'copied-from') unless c.from_path.blank?
+      end
+      output << "<li class='#{style}'>#{text}</li>"
+      output << render_changes_tree(tree[file][:s]) if s
+    end
+    output << '</ul>'
+    output
+  end
+  
   def to_utf8(str)
     return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
     @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)

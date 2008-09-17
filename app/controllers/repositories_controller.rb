@@ -118,11 +118,6 @@ class RepositoriesController < ApplicationController
   def revision
     @changeset = @repository.changesets.find_by_revision(@rev)
     raise ChangesetNotFound unless @changeset
-    @changes_count = @changeset.changes.size
-    @changes_pages = Paginator.new self, @changes_count, 150, params['page']								
-    @changes = @changeset.changes.find(:all,
-  						:limit  =>  @changes_pages.items_per_page,
-  						:offset =>  @changes_pages.current.offset)
 
     respond_to do |format|
       format.html

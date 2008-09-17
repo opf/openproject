@@ -404,6 +404,8 @@ label_revision_plural: Révisions
 label_associated_revisions: Révisions associées
 label_added: ajouté
 label_modified: modifié
+label_copied: copié
+label_renamed: renommé
 label_deleted: supprimé
 label_latest_revision: Dernière révision
 label_latest_revision_plural: Dernières révisions

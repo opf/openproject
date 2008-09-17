@@ -639,3 +639,5 @@ setting_commit_logs_encoding: Commit üzenetek kódlapja
 button_quote: Idézet
 setting_sequential_project_identifiers: Szekvenciális projekt azonosítók generálása
 notice_unable_delete_version: A verziót nem lehet törölni
+label_renamed: renamed
+label_copied: copied

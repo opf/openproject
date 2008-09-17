@@ -640,3 +640,5 @@ setting_sequential_project_identifiers: Generate sequential project identifiers
 notice_unable_delete_version: Unable to delete version.
 field_comments: Comment
 setting_commit_logs_encoding: Commit messages encoding
+label_renamed: renamed
+label_copied: copied

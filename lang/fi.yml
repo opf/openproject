@@ -638,3 +638,5 @@ button_quote: Quote
 setting_sequential_project_identifiers: Generate sequential project identifiers
 setting_commit_logs_encoding: Commit messages encoding
 notice_unable_delete_version: Unable to delete version
+label_renamed: renamed
+label_copied: copied

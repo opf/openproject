@@ -639,3 +639,5 @@ enumeration_issue_priorities: Prioridade das tarefas
 enumeration_doc_categories: Categorias de documento
 enumeration_activities: Atividades (time tracking)
 notice_unable_delete_version: Unable to delete version
+label_renamed: renamed
+label_copied: copied

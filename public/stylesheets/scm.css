@@ -1,4 +1,32 @@
 
+div.changeset-changes ul { margin: 0; padding: 0; }
+div.changeset-changes ul > ul { margin-left: 18px; padding: 0; }
+
+li.change { 
+    list-style-type:none;
+    background-image: url(../images/bullet_black.png); 
+    background-position: 1px 1px;
+    background-repeat: no-repeat;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 20px;
+    margin: 0;
+}
+li.change.folder { background-image: url(../images/folder_open.png); }
+li.change.folder.change-A { background-image: url(../images/folder_open_add.png); }
+li.change.folder.change-M { background-image: url(../images/folder_open_orange.png); }
+li.change.change-A { background-image: url(../images/bullet_add.png); }
+li.change.change-M { background-image: url(../images/bullet_orange.png); }
+li.change.change-C { background-image: url(../images/bullet_blue.png); }
+li.change.change-R { background-image: url(../images/bullet_purple.png); }
+li.change.change-D { background-image: url(../images/bullet_delete.png); }
+
+li.change .copied-from { font-style: italic; color: #999; font-size: 0.9em; }
+li.change .copied-from:before { content: " - "}
+
+#changes-legend { float: right; font-size: 0.8em; margin: 0; }
+#changes-legend li { float: left; background-position: 5px 0; }
+
 table.filecontent { border: 1px solid #ccc;  border-collapse: collapse; width:98%; }
 table.filecontent th { border: 1px solid #ccc; background-color: #eee; }
 table.filecontent th.filename {	background-color: #e4e4d4; text-align: left; padding: 0.2em;}

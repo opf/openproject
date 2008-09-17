@@ -36,33 +36,19 @@
 <% end %>
 
 <h3><%= l(:label_attachment_plural) %></h3>
-<div style="float:right;">
-<div class="square action_A"></div> <div style="float:left;"><%= l(:label_added) %>&nbsp;</div>
-<div class="square action_M"></div> <div style="float:left;"><%= l(:label_modified) %>&nbsp;</div>
-<div class="square action_D"></div> <div style="float:left;"><%= l(:label_deleted) %>&nbsp;</div>
-</div>
+<ul id="changes-legend">
+<li class="change change-A"><%= l(:label_added) %></li>
+<li class="change change-M"><%= l(:label_modified) %></li>
+<li class="change change-C"><%= l(:label_copied) %></li>
+<li class="change change-R"><%= l(:label_renamed) %></li>
+<li class="change change-D"><%= l(:label_deleted) %></li>
+</ul>
+
 <p><%= link_to(l(:label_view_diff), :action => 'diff', :id => @project, :path => "", :rev => @changeset.revision) if @changeset.changes.any? %></p>
-<table class="list">
-<tbody>
-<% @changes.each do |change| %>
-<tr class="<%= cycle 'odd', 'even' %>">
-<td><div class="square action_<%= change.action %>"></div>
-<% if change.action == "D" -%>
-    <%= change.path -%>
-<% else -%>
-    <%= link_to change.path, :action => 'entry', :id => @project, :path => to_path_param(change.relative_path), :rev => @changeset.revision -%>
-<% end -%>
-<%= "(#{change.revision})" unless change.revision.blank?  %></td>
-<td align="right">
-<% if change.action == "M" %>
-<%= link_to l(:label_view_diff), :action => 'diff', :id => @project, :path => to_path_param(change.relative_path), :rev => @changeset.revision %>
-<% end %>
-</td>
-</tr>
-<% end %>
-</tbody>
-</table>
-<p class="pagination"><%= pagination_links_full @changes_pages %></p>
+
+<div class="changeset-changes">
+<%= render_changeset_changes %>
+</div>
 
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>

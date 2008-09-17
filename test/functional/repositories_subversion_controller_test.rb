@@ -125,16 +125,18 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       get :revision, :id => 1, :rev => 2
       assert_response :success
       assert_template 'revision'
-      assert_tag :tag => 'tr',
-                 :child => { :tag => 'td', 
+      assert_tag :tag => 'ul',
+                 :child => { :tag => 'li',
                              # link to the entry at rev 2
-                             :child => { :tag => 'a', :attributes => {:href => 'repositories/entry/ecookbook/test/some/path/in/the/repo?rev=2'},
-                                                      :content => %r{/test/some/path/in/the/repo} }
-                           },
-                 :child => { :tag => 'td', 
-                             # link to partial diff
-                             :child => { :tag => 'a', :attributes => { :href => '/repositories/diff/ecookbook/test/some/path/in/the/repo?rev=2' } }
-                           }
+                             :child => { :tag => 'a', 
+                                         :attributes => {:href => '/repositories/entry/ecookbook/test/some/path/in/the/repo?rev=2'},
+                                         :content => 'repo',
+                                         # link to partial diff
+                                         :sibling =>  { :tag => 'a', 
+                                                        :attributes => { :href => '/repositories/diff/ecookbook/test/some/path/in/the/repo?rev=2' } 
+                                                       }
+                                        }
+                            }
     end
     
     def test_revision_with_repository_pointing_to_a_subdirectory
@@ -145,11 +147,18 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       get :revision, :id => 1, :rev => 2
       assert_response :success
       assert_template 'revision'
-      assert_tag :tag => 'tr',
-                 :child => { :tag => 'td', :content => %r{/test/some/path/in/the/repo} },
-                 :child => { :tag => 'td', 
-                             :child => { :tag => 'a', :attributes => { :href => '/repositories/diff/ecookbook/path/in/the/repo?rev=2' } }
-                           }
+      assert_tag :tag => 'ul',
+                 :child => { :tag => 'li',
+                             # link to the entry at rev 2
+                             :child => { :tag => 'a', 
+                                         :attributes => {:href => '/repositories/entry/ecookbook/path/in/the/repo?rev=2'},
+                                         :content => 'repo',
+                                         # link to partial diff
+                                         :sibling =>  { :tag => 'a', 
+                                                        :attributes => { :href => '/repositories/diff/ecookbook/path/in/the/repo?rev=2' } 
+                                                       }
+                                        }
+                            }
     end
     
     def test_diff
