@@ -220,7 +220,7 @@ projects.each do |project|
     next;
   end
 
-  repos_path = $repos_base + "/" + project.identifier
+  repos_path = File.join($repos_base, project.identifier).gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
 
   if File.directory?(repos_path)
 
