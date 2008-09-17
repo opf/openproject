@@ -90,9 +90,10 @@ $test         = false
 $force        = false
 $scm          = 'Subversion'
 
-def log(text,level=0, exit=false)
+def log(text, options={})
+  level = options[:level] || 0
   puts text unless $quiet or level > $verbose
-  exit 1 if exit
+  exit 1 if options[:exit]
 end
 
 def system_or_raise(command)
@@ -126,7 +127,7 @@ begin
     when '--redmine-host';   $redmine_host = arg.dup
     when '--owner';          $svn_owner    = arg.dup; $use_groupid = false;
     when '--url';            $svn_url      = arg.dup
-    when '--scm';            $scm          = arg.dup.capitalize; log("Invalid SCM: #{$scm}", 0, true) unless SUPPORTED_SCM.include?($scm)
+    when '--scm';            $scm          = arg.dup.capitalize; log("Invalid SCM: #{$scm}", :exit => true) unless SUPPORTED_SCM.include?($scm)
     when '--command';        $command =      arg.dup
     when '--verbose';        $verbose += 1
     when '--test';           $test = true
@@ -149,7 +150,7 @@ if $command.nil?
   begin
     scm_module = SCM.const_get($scm)
   rescue
-    log("Please use --command option to specify how to create a #{$scm} repository.", 0, true)
+    log("Please use --command option to specify how to create a #{$scm} repository.", :exit => true)
   end
 end
 
@@ -160,10 +161,10 @@ if ($redmine_host.empty? or $repos_base.empty?)
 end
 
 unless File.directory?($repos_base)
-  log("directory '#{$repos_base}' doesn't exists", 0, true)
+  log("directory '#{$repos_base}' doesn't exists", :exit => true)
 end
 
-log("querying Redmine for projects...", 1);
+log("querying Redmine for projects...", :level => 1);
 
 $redmine_host.gsub!(/^/, "http://") unless $redmine_host.match("^https?://")
 $redmine_host.gsub!(/\/$/, '')
@@ -173,16 +174,16 @@ wsdl_url = "#{$redmine_host}/sys/service.wsdl";
 begin
   soap = SOAP::WSDLDriverFactory.new(wsdl_url).create_rpc_driver
 rescue => e
-  log("Unable to connect to #{wsdl_url} : #{e}", 0, true)
+  log("Unable to connect to #{wsdl_url} : #{e}", :exit => true)
 end
 
 projects = soap.ProjectsWithRepositoryEnabled
 
 if projects.nil?
-  log('no project found, perhaps you forgot to "Enable WS for repository management"', 0, true)
+  log('no project found, perhaps you forgot to "Enable WS for repository management"', :exit => true)
 end
 
-log("retrieved #{projects.size} projects", 1)
+log("retrieved #{projects.size} projects", :level => 1)
 
 def set_owner_and_rights(project, repos_path, &block)
   if RUBY_PLATFORM =~ /mswin/
@@ -209,7 +210,7 @@ def owner_name(file)
 end
 
 projects.each do |project|
-  log("treating project #{project.name}", 1)
+  log("treating project #{project.name}", :level => 1)
 
   if project.identifier.empty?
     log("\tno identifier for project #{project.name}")
@@ -247,7 +248,7 @@ projects.each do |project|
     # if repository is already declared in redmine, we don't create
     # unless user use -f with reposman
     if $force == false and not project.repository.nil?
-      log("\trepository for project #{project.identifier} already exists in Redmine", 1)
+      log("\trepository for project #{project.identifier} already exists in Redmine", :level => 1)
       next
     end
 
