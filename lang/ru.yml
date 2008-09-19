@@ -285,6 +285,7 @@ label_commits_per_author: Изменений на пользователя
 label_commits_per_month: Изменений в месяц
 label_confirmation: Подтверждение
 label_contains: содержит
+label_copied: скопировано
 label_copy_workflow_from: Скопировать последовательность действий из
 label_current_status: Текущий статус
 label_current_version: Текущая версия
@@ -465,6 +466,7 @@ label_related_issues: Связанные задачи
 label_relates_to: связана с
 label_relation_delete: Удалить связь
 label_relation_new: Новое отношение
+label_renamed: переименовано
 label_reply_plural: Ответы
 label_reported_issues: Созданные задачи
 label_report_plural: Отчеты
@@ -670,5 +672,4 @@ text_user_mail_option: "Для невыбранных проектов, Вы б�
 text_user_wrote: '%s написал(а):'
 text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все содержимое?
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
-label_renamed: renamed
-label_copied: copied
+
