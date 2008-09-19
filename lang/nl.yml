@@ -70,12 +70,12 @@ notice_successful_connection: Verbinding succesvol.
 notice_file_not_found: De pagina die U probeerde te benaderen bestaat niet of is verwijderd.
 notice_locking_conflict: De gegevens zijn gewijzigd door een andere gebruiker.
 notice_not_authorized: Het is U niet toegestaan om deze pagina te raadplegen.
-notice_email_sent: An email was sent to %s
-notice_email_error: An error occurred while sending mail (%s)
-notice_feeds_access_key_reseted: Your RSS access key was reseted.
+notice_email_sent: Een e-mail werd verstuurd naar %s
+notice_email_error: Er is een fout opgetreden tijdens het versturen van (%s)
+notice_feeds_access_key_reseted: Je RSS toegangssleutel werd gereset.
 
 error_scm_not_found: "Deze ingang of revisie bestaat niet in de repository."
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "Een fout trad op tijdens de poging om verbinding te maken met de repository: %s"
 
 mail_subject_lost_password: Uw %s wachtwoord
 mail_body_lost_password: 'Gebruik de volgende link om Uw wachtwoord te wijzigen:'
@@ -112,13 +112,13 @@ field_issue: Issue
 field_status: Status
 field_notes: Notities
 field_is_closed: Issue gesloten
-field_is_default: Default
+field_is_default: Standaard
 field_tracker: Tracker
 field_subject: Onderwerp
 field_due_date: Verwachte datum gereed
 field_assigned_to: Toegewezen aan
 field_priority: Prioriteit
-field_fixed_version: Target version
+field_fixed_version: Doel versie
 field_user: Gebruiker
 field_role: Rol
 field_homepage: Homepage
@@ -128,7 +128,7 @@ field_is_in_chlog: Issues weergegeven in wijzigingslog
 field_is_in_roadmap: Issues weergegeven in roadmap
 field_login: Inloggen
 field_mail_notification: Mail mededelingen
-field_admin: Administrateur
+field_admin: Beheerder
 field_last_login_on: Laatste bezoek
 field_language: Taal
 field_effective_date: Datum
@@ -161,19 +161,19 @@ field_identifier: Identificatiecode
 field_is_filter: Gebruikt als een filter
 field_issue_to_id: Gerelateerd issue
 field_delay: Vertraging
-field_assignable: Issues can be assigned to this role
-field_redirect_existing_links: Redirect existing links
-field_estimated_hours: Estimated time
-field_default_value: Default value
+field_assignable: Issues kunnen toegewezen worden aan deze rol
+field_redirect_existing_links: Verwijs bestaande links door
+field_estimated_hours: Geschatte tijd
+field_default_value: Standaard waarde
 
 setting_app_title: Applicatie titel
 setting_app_subtitle: Applicatie ondertitel
 setting_welcome_text: Welkomsttekst
-setting_default_language: Default taal
+setting_default_language: Standaard taal
 setting_login_required: Authent. nodig
 setting_self_registration: Zelf-registratie toegestaan
 setting_attachment_max_size: Attachment max. grootte
-setting_issues_export_limit: Limiet export issues 
+setting_issues_export_limit: Limiet export issues
 setting_mail_from: Afzender mail adres
 setting_host_name: Host naam
 setting_text_formatting: Tekst formaat
@@ -181,11 +181,11 @@ setting_wiki_compression: Wiki geschiedenis comprimeren
 setting_feeds_limit: Feed inhoud limiet
 setting_autofetch_changesets: Haal commits automatisch op
 setting_sys_api_enabled: Gebruik WS voor repository beheer
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
+setting_commit_ref_keywords: Referencing trefwoorden
+setting_commit_fix_keywords: Fixing trefwoorden
 setting_autologin: Autologin
-setting_date_format: Date format
-setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_date_format: Datum formaat
+setting_cross_project_issue_relations: Sta cross-project issue relaties toe
 
 label_user: Gebruiker
 label_user_plural: Gebruikers
@@ -219,14 +219,14 @@ label_issue_status_new: Nieuwe status
 label_issue_category: Issue categorie
 label_issue_category_plural: Issue categorieën
 label_issue_category_new: Nieuwe categorie
-label_custom_field: Custom veld
-label_custom_field_plural: Custom velden
-label_custom_field_new: Nieuw custom veld
+label_custom_field: Specifiek veld
+label_custom_field_plural: Specifieke velden
+label_custom_field_new: Nieuw specifiek veld
 label_enumerations: Enumeraties
 label_enumeration_new: Nieuwe waarde
 label_information: Informatie
 label_information_plural: Informatie
-label_please_login: Gaarne inloggen
+label_please_login: Inloggen a.u.b.
 label_register: Registreer
 label_password_lost: Wachtwoord verloren
 label_home: Home
@@ -326,7 +326,7 @@ label_in_less_than: in minder dan
 label_in_more_than: in meer dan
 label_in: in
 label_today: vandaag
-label_this_week: this week
+label_this_week: deze week
 label_less_than_ago: minder dan dagen geleden
 label_more_than_ago: meer dan dagen geleden
 label_ago: dagen geleden
@@ -352,8 +352,8 @@ label_sort_higher: Verplaats naar boven
 label_sort_lower: Verplaats naar beneden
 label_sort_lowest: Verplaats naar eind
 label_roadmap: Roadmap
-label_roadmap_due_in: Due in 
-label_roadmap_overdue: %s late
+label_roadmap_due_in: Voldaan in
+label_roadmap_overdue: %s overtijd
 label_roadmap_no_issues: Geen issues voor deze versie
 label_search: Zoeken
 label_result_plural: Resultaten
@@ -412,20 +412,20 @@ label_message_plural: Berichten
 label_message_last: Laatste bericht
 label_message_new: Nieuw bericht
 label_reply_plural: Antwoorden
-label_send_information: Send account information to the user
-label_year: Year
-label_month: Month
+label_send_information: Stuur account informatie naar de gebruiker
+label_year: Jaar
+label_month: Maand
 label_week: Week
-label_date_from: From
-label_date_to: To
-label_language_based: Language based
-label_sort_by: Sort by %s
-label_send_test_email: Send a test email
-label_feeds_access_key_created_on: RSS access key created %s ago
+label_date_from: Van
+label_date_to: Tot
+label_language_based: Taal gebaseerd
+label_sort_by: Sorteer op %s
+label_send_test_email: Stuur een test e-mail
+label_feeds_access_key_created_on: RSS toegangssleutel %s geleden gemaakt.
 label_module_plural: Modules
-label_added_time_by: Added by %s %s ago
-label_updated_time: Updated %s ago
-label_jump_to_a_project: Jump to a project...
+label_added_time_by: Toegevoegd door %s %s geleden
+label_updated_time: Upgedated %s geleden
+label_jump_to_a_project: Spring naar een project...
 
 button_login: Inloggen
 button_submit: Toevoegen
@@ -440,8 +440,8 @@ button_add: Voeg toe
 button_change: Wijzig
 button_apply: Pas toe
 button_clear: Leeg maken
-button_lock: Lock
-button_unlock: Unlock
+button_lock: Sluit
+button_unlock: Open
 button_download: Download
 button_list: Lijst
 button_view: Bekijken
@@ -455,10 +455,10 @@ button_rollback: Rollback naar deze versie
 button_watch: Monitor
 button_unwatch: Niet meer monitoren
 button_reply: Antwoord
-button_archive: Archive
-button_unarchive: Unarchive
+button_archive: Archiveer
+button_unarchive: Desarchiveer
 button_reset: Reset
-button_rename: Rename
+button_rename: Hernoemen
 
 status_active: Actief
 status_registered: geregistreerd
@@ -467,7 +467,7 @@ status_locked: gelockt
 text_select_mail_notifications: Selecteer acties waarvoor mededelingen via mail moeten worden verstuurd.
 text_regexp_info: bv. ^[A-Z0-9]+$
 text_min_max_length_info: 0 betekent geen restrictie
-text_project_destroy_confirmation: Weet U zeker dat U dit project en alle gerelateerde gegevens wilt verwijderen ? 
+text_project_destroy_confirmation: Weet U zeker dat U dit project en alle gerelateerde gegevens wilt verwijderen ?
 text_workflow_edit: Selecteer een rol en een tracker om de workflow te wijzigen
 text_are_you_sure: Weet U het zeker ?
 text_journal_changed: gewijzigd van %s naar %s
@@ -485,10 +485,10 @@ text_coma_separated: Meerdere waarden toegestaan (door komma's gescheiden).
 text_issues_ref_in_commit_messages: Opzoeken en aanpassen van issues in commit berichten
 text_issue_added: Issue %s is gerapporteerd (by %s).
 text_issue_updated: Issue %s is gewijzigd (by %s).
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-text_issue_category_destroy_question: Some issues (%d) are assigned to this category. What do you want to do ?
-text_issue_category_destroy_assignments: Remove category assignments
-text_issue_category_reassign_to: Reassing issues to this category
+text_wiki_destroy_confirmation: Bent u zeker dat u deze wiki en zijn inhoud wenst te verwijderen?
+text_issue_category_destroy_question: Sommige issues (%d) zijn aan deze categorie toegewezen. Wat wilt u hiermee doen ?
+text_issue_category_destroy_assignments: Verwijder categorie toewijzigingen
+text_issue_category_reassign_to: Issues opnieuw toewijzen aan deze categorie
 
 default_role_manager: Manager
 default_role_developper: Ontwikkelaar
@@ -515,109 +515,111 @@ default_activity_development: Development
 enumeration_issue_priorities: Issue prioriteiten
 enumeration_doc_categories: Document categorieën
 enumeration_activities: Activiteiten (tijd tracking)
-text_comma_separated: Multiple values allowed (comma separated).
-label_file_plural: Files
+text_comma_separated: Meerdere waarden toegestaan (kommagescheiden).
+label_file_plural: Bestanden
 label_changeset_plural: Changesets
-field_column_names: Columns
-label_default_columns: Default columns
-setting_issue_list_default_columns: Default columns displayed on the issue list
+field_column_names: Kolommen
+label_default_columns: Standaard kolommen.
+setting_issue_list_default_columns: Standaard kolommen getoond om de lijst met issues
 setting_repositories_encodings: Repositories encodings
-notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
-label_bulk_edit_selected_issues: Bulk edit selected issues
-label_no_change_option: (No change)
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-label_theme: Theme
-label_default: Default
-label_search_titles_only: Search titles only
+notice_no_issue_selected: "Er is geen issue geselecteerd. Selecteer de issue die u wilt bewerken."
+label_bulk_edit_selected_issues: Bewerk geselecteerde issues in bulk
+label_no_change_option: (Geen wijziging)
+notice_failed_to_save_issues: "Gefaald om %d issue(s) (%d geselecteerd) te bewaren: %s."
+
+label_theme: Thema
+label_default: Standaard
+label_search_titles_only: Enkel titels doorzoeken
 label_nobody: nobody
-button_change_password: Change password
+button_change_password: Wijzig wachtwoord
 text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-label_user_mail_option_selected: "For any event on the selected projects only..."
-label_user_mail_option_all: "For any event on all my projects"
-label_user_mail_option_none: "Only for things I watch or I'm involved in"
+text_user_mail_option: "Bij niet-geselecteerde projecten zult u enkel notificaties ontvangen voor issues die u monitort of waar je bij betrokken bent (auteur of toegewezen persoon)."
+label_user_mail_option_selected: "Enkel bij elke event op het geselecteerde project..."
+label_user_mail_option_all: "Bij elk event in al mijn projecten..."
+label_user_mail_option_none: "Alleen in de dingen die ik monitor of in betrokken ben"
 setting_emails_footer: Emails footer
 label_float: Float
-button_copy: Copy
-mail_body_account_information_external: You can use your "%s" account to log in.
-mail_body_account_information: Your account information
+button_copy: Kopieer
+mail_body_account_information_external: Je kan je account (%s) gebruiken om in te loggen.
+mail_body_account_information: Je account gegevens
 setting_protocol: Protocol
-label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-setting_time_format: Time format
-label_registration_activation_by_email: account activation by email
-mail_subject_account_activation_request: %s account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account his pending your approval:'
-label_registration_automatic_activation: automatic account activation
-label_registration_manual_activation: manual account activation
-notice_account_pending: "Your account was created and is now pending administrator approval."
-field_time_zone: Time zone
-text_caracters_minimum: Must be at least %d characters long.
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
+label_user_mail_no_self_notified: "Ik wil niet verwittigd worden van wijzigingen die ik zelf maak."
+setting_time_format: Tijd formaat
+label_registration_activation_by_email: account activatie per email
+mail_subject_account_activation_request: %s account activatie verzoek
+mail_body_account_activation_request: 'Een nieuwe gebruiker (%s) is geregistreerd. Zijn account wacht op uw akkoord:'
+label_registration_automatic_activation: automatische account activatie
+label_registration_manual_activation: manuele account activatie
+notice_account_pending: "Je account is aangemaakt maar wacht nog op goedkeuring van de beheerder."
+field_time_zone: Tijd zone
+text_caracters_minimum: Moet minstens %d karakters lang zijn.
+setting_bcc_recipients: Blind carbon copy ontvangers (bcc)
 button_annotate: Annotate
-label_issues_by: Issues by %s
-field_searchable: Searchable
-label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
-notice_default_data_loaded: Default configuration successfully loaded.
-text_load_default_configuration: Load the default configuration
-text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
+label_issues_by: Issues door %s
+field_searchable: Doorzoekbaar
+label_display_per_page: 'Per pagina: %s'
+setting_per_page_options: Objects per pagina opties
+label_age: Leeftijd
+notice_default_data_loaded: Standaard configuratie succesvol geladen.
+text_load_default_configuration: Laad de standaardconfiguratie
+text_no_configuration_data: "Rollen, trackers, issue statuses en workflow zijn nog niet geconfigureerd.\nHet is ten zeerste aangeraden om de standaardconfiguratie in te laden. Je kan deze aanpassen nadat deze is ingeladen."
+error_can_t_load_default_data: "Standaard configuratie kon niet worden geladen: %s"
 button_update: Update
-label_change_properties: Change properties
-label_general: General
+label_change_properties: Eigenschappen wijzigen
+label_general: Algemeen
 label_repository_plural: Repositories
-label_associated_revisions: Associated revisions
-setting_user_format: Users display format
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+label_associated_revisions: Geassocieerde revisies
+setting_user_format: Gebruikers weergave formaat
+text_status_changed_by_changeset: Toegepast in changeset %s.
+label_more: Meer
+text_issues_destroy_confirmation: 'Ben je zeker dat je deze issue(s) wenst te verwijderen?'
 label_scm: SCM
-text_select_project_modules: 'Select modules to enable for this project:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
+text_select_project_modules: 'Selecteer de modules die je wenst te gebruiken voor dit project:'
+label_issue_added: Issue toegevoegd
+label_issue_updated: Issue geupdated
+label_document_added: Document toegevoegd
+label_message_posted: Bericht toegevoegd
+label_file_added: Bericht toegevoegd
+label_news_added: Nieuws toegevoegd
 project_module_boards: Boards
 project_module_issue_tracking: Issue tracking
 project_module_wiki: Wiki
-project_module_files: Files
-project_module_documents: Documents
+project_module_files: Bestanden
+project_module_documents: Documenten
 project_module_repository: Repository
-project_module_news: News
-project_module_time_tracking: Time tracking
-text_file_repository_writable: File repository writable
-text_default_administrator_account_changed: Default administrator account changed
-text_rmagick_available: RMagick available (optional)
-button_configure: Configure
+project_module_news: Nieuws
+project_module_time_tracking: Tijd tracking
+text_file_repository_writable: Bestandsrepository beschrijfbaar
+text_default_administrator_account_changed: Standaard beheerderaccount gewijzigd
+text_rmagick_available: RMagick beschikbaar (optioneel)
+button_configure: Configureer
 label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
+label_ldap_authentication: LDAP authenticatie
 label_downloads_abbr: D/L
-label_this_month: this month
-label_last_n_days: last %d days
+label_this_month: deze maand
+label_last_n_days: %d dagen geleden
 label_all_time: all time
-label_this_year: this year
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_last_month: last month
-label_add_another_file: Add another file
-label_optional_description: Optional description
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-text_assign_time_entries_to_project: Assign reported hours to the project
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
-label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
-error_scm_annotate: "The entry does not exist or can not be annotated."
+label_this_year: dit jaar
+label_date_range: Datum bereik
+label_last_week: vorige week
+label_yesterday: gisteren
+label_last_month: laatste maand
+label_add_another_file: Ander bestand toevoegen
+label_optional_description: Optionele beschrijving
+text_destroy_time_entries_question: %.02f uren werden gerapporteerd op de issue(s) die je wou verwijderen. Wat wil je doen?
+error_issue_not_found_in_project: 'Deze issue is niet gevonden of behoort niet toe tot dit project.'
+text_assign_time_entries_to_project: Geraporteerde uren toevoegen aan dit project
+text_destroy_time_entries: Verwijder geraporteerde uren
+text_reassign_time_entries: 'Gerapporteerde uren opnieuw toewijzen:'
+setting_activity_days_default: Aantal dagen getoond bij het tabblad "Activiteit"
+label_chronological_order: In chronologische volgorde
+field_comments_sorting: Commentaar weergeven
+label_reverse_chronological_order: In omgekeerde chronologische volgorde
+label_preferences: Voorkeuren
+setting_display_subprojects_issues: Standaard issues van subproject tonen
+label_overall_activity: Activiteit
+setting_default_projects_public: Nieuwe projecten zijn standaard publiek
+error_scm_annotate: "Er kan geen commentaar toegevoegd worden."
 label_planning: Planning
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
 label_and_its_subprojects: %s and its subprojects
@@ -630,14 +632,14 @@ text_enumeration_category_reassign_to: 'Reassign them to this value:'
 text_enumeration_destroy_question: '%d objects are assigned to this value.'
 label_incoming_emails: Incoming emails
 label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
-label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
-button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version
-label_renamed: renamed
-label_copied: copied
+setting_mail_handler_api_enabled: Schakel WS in voor inkomende mail.
+setting_mail_handler_api_key: API sleutel
+text_email_delivery_not_configured: "Email bezorging is niet geconfigureerd. Notificaties zijn uitgeschakeld.\nConfigureer je SMTP server in config/email.yml en herstant de applicatie om dit in te schakelen."
+field_parent_title: Bovenliggende pagina
+label_issue_watchers: Monitoren
+setting_commit_logs_encoding: Commit messages encodering
+button_quote: Citaat
+setting_sequential_project_identifiers: Genereer sequentiele project identiteiten
+notice_unable_delete_version: Onmogelijk om deze versie te verwijderen.
+label_renamed: hernoemt
+label_copied: gekopieerd
