@@ -405,6 +405,8 @@ label_revision_plural: 修订
 label_associated_revisions: 相关修订版本
 label_added: 已添加
 label_modified: 已修改
+label_copied: 已复制
+label_renamed: 已重命名
 label_deleted: 已删除
 label_latest_revision: 最近的修订版本
 label_latest_revision_plural: 最近的修订版本
@@ -639,5 +641,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-label_renamed: renamed
-label_copied: copied
