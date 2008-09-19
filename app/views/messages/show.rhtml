@@ -2,6 +2,7 @@
                link_to(h(@board.name), {:controller => 'boards', :action => 'show', :project_id => @project, :id => @board}) %>
 
 <div class="contextual">
+    <%= watcher_tag(@topic, User.current) %>
     <%= link_to_remote_if_authorized l(:button_quote), { :url => {:action => 'quote', :id => @topic} }, :class => 'icon icon-comment' %>
     <%= link_to_if_authorized l(:button_edit), {:action => 'edit', :id => @topic}, :class => 'icon icon-edit' %>
     <%= link_to_if_authorized l(:button_delete), {:action => 'destroy', :id => @topic}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del' %>

@@ -33,10 +33,13 @@ class Message < ActiveRecord::Base
                                                                                                                                        {:id => o.parent_id, :anchor => "message-#{o.id}"})}
 
   acts_as_activity_provider :find_options => {:include => [{:board => :project}, :author]}
+  acts_as_watchable
     
   attr_protected :locked, :sticky
   validates_presence_of :subject, :content
   validates_length_of :subject, :maximum => 255
+  
+  after_create :add_author_as_watcher
   
   def validate_on_create
     # Can not reply to a locked topic
@@ -67,5 +70,11 @@ class Message < ActiveRecord::Base
   
   def project
     board.project
+  end
+  
+  private
+  
+  def add_author_as_watcher
+    Watcher.create(:watchable => self.root, :user => author)
   end
 end

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageTest < Test::Unit::TestCase
-  fixtures :projects, :boards, :messages
+  fixtures :projects, :boards, :messages, :users, :watchers
 
   def setup
     @board = Board.find(1)
@@ -20,6 +20,8 @@ class MessageTest < Test::Unit::TestCase
     # messages count incremented
     assert_equal messages_count+1, @board[:messages_count]
     assert_equal message, @board.last_message
+    # author should be watching the message
+    assert message.watched_by?(@user)
   end
   
   def test_reply
@@ -28,7 +30,8 @@ class MessageTest < Test::Unit::TestCase
     @message = Message.find(1)
     replies_count = @message.replies_count
     
-    reply = Message.new(:board => @board, :subject => 'Test reply', :content => 'Test reply content', :parent => @message, :author => @user)
+    reply_author = User.find(2)
+    reply = Message.new(:board => @board, :subject => 'Test reply', :content => 'Test reply content', :parent => @message, :author => reply_author)
     assert reply.save
     @board.reload
     # same topics count
@@ -40,13 +43,18 @@ class MessageTest < Test::Unit::TestCase
     # replies count incremented
     assert_equal replies_count+1, @message[:replies_count]
     assert_equal reply, @message.last_reply
+    # author should be watching the message
+    assert @message.watched_by?(reply_author)
   end
   
   def test_destroy_topic
     message = Message.find(1)
     board = message.board
     topics_count, messages_count = board.topics_count, board.messages_count    
-    assert message.destroy
+    
+    assert_difference('Watcher.count', -1) do
+      assert message.destroy
+    end
     board.reload
     
     # Replies deleted
@@ -54,6 +62,7 @@ class MessageTest < Test::Unit::TestCase
     # Checks counters
     assert_equal topics_count - 1, board.topics_count
     assert_equal messages_count - 3, board.messages_count
+    # Watchers removed
   end
   
   def test_destroy_reply
