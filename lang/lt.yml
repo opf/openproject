@@ -638,7 +638,7 @@ field_parent_title: Aukštesnio lygio puslapis
 label_issue_watchers: Stebetojai
 setting_commit_logs_encoding: Commit pranėšimų koduotė
 setting_sequential_project_identifiers: Generate sequential project identifiers
-button_quote: Quote
-notice_unable_delete_version: Unable to delete version
-label_renamed: renamed
-label_copied: copied
+button_quote: Cituoti
+notice_unable_delete_version: Neimanoma panaikinti versiją
+label_renamed: pervardintas
+label_copied: nukopijuotas
