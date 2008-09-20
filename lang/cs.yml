@@ -409,7 +409,7 @@ label_sort_higher: Přesunout nahoru
 label_sort_lower: Přesunout dolů
 label_sort_lowest: Přesunout na konec
 label_roadmap: Plán
-label_roadmap_due_in: Zbývá
+label_roadmap_due_in: Zbývá %s
 label_roadmap_overdue: %s pozdě
 label_roadmap_no_issues: Pro tuto verzi nejsou žádné úkoly
 label_search: Hledat

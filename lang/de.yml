@@ -406,7 +406,7 @@ label_sort_higher: Eins höher
 label_sort_lower: Eins tiefer
 label_sort_lowest: Ans Ende
 label_roadmap: Roadmap
-label_roadmap_due_in: Fällig in
+label_roadmap_due_in: Fällig in %s
 label_roadmap_overdue: %s verspätet
 label_roadmap_no_issues: Keine Tickets für diese Version
 label_search: Suche

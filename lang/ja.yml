@@ -353,7 +353,7 @@ label_sort_higher: 上へ
 label_sort_lower: 下へ
 label_sort_lowest: 一番下へ
 label_roadmap: ロードマップ
-label_roadmap_due_in: 期日まで
+label_roadmap_due_in: 期日まで %s
 label_roadmap_overdue: %s late
 label_roadmap_no_issues: このバージョンに向けてのチケットはありません
 label_search: 検索

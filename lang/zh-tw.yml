@@ -418,7 +418,7 @@ label_sort_higher: 往上移動
 label_sort_lower: 往下移動
 label_sort_lowest: 移動至結尾
 label_roadmap: 版本藍圖
-label_roadmap_due_in: 倒數天數： 
+label_roadmap_due_in: 倒數天數 %s
 label_roadmap_overdue: %s 逾期
 label_roadmap_no_issues: 此版本尚未包含任何項目
 label_search: 搜尋

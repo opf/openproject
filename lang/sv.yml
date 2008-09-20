@@ -352,7 +352,7 @@ label_sort_higher: Flytta up
 label_sort_lower: Flytta ner
 label_sort_lowest: Flytta till botten
 label_roadmap: Roadmap
-label_roadmap_due_in: Färdig om
+label_roadmap_due_in: Färdig om %s
 label_roadmap_overdue: %s late
 label_roadmap_no_issues: Inga brister för denna version
 label_search: Sök

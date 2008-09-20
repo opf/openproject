@@ -373,7 +373,7 @@ label_sort_higher: Siirrä ylös
 label_sort_lower: Siirrä alas
 label_sort_lowest: Siirrä alimmaiseksi
 label_roadmap: Roadmap
-label_roadmap_due_in: Määräaika
+label_roadmap_due_in: Määräaika %s
 label_roadmap_overdue: %s myöhässä
 label_roadmap_no_issues: Ei tapahtumia tälle versiolle
 label_search: Haku

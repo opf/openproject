@@ -357,7 +357,7 @@ label_sort_higher: הזז למעלה
 label_sort_lower: הזז למטה
 label_sort_lowest: הזז לתחתית
 label_roadmap: מפת הדרכים
-label_roadmap_due_in: נגמר בעוד
+label_roadmap_due_in: %s נגמר בעוד
 label_roadmap_overdue: %s מאחר
 label_roadmap_no_issues: אין נושאים לגירסא זו
 label_search: חפש

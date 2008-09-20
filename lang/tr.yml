@@ -405,7 +405,7 @@ label_sort_higher: Yukarı taşı
 label_sort_lower: Aşağı taşı
 label_sort_lowest: Dibe taşı
 label_roadmap: Yol Haritası
-label_roadmap_due_in: Due in
+label_roadmap_due_in: Due in %s
 label_roadmap_overdue: %s geç
 label_roadmap_no_issues: Bu versiyon için ileti yok
 label_search: Ara

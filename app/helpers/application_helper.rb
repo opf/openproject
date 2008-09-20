@@ -100,6 +100,19 @@ module ApplicationHelper
     @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
     include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
   end
+      
+  def distance_of_date_in_words(from_date, to_date = 0)
+    from_date = from_date.to_date if from_date.respond_to?(:to_date)
+    to_date = to_date.to_date if to_date.respond_to?(:to_date)
+    distance_in_days = (to_date - from_date).abs
+    lwr(:actionview_datehelper_time_in_words_day, distance_in_days)
+  end
+  
+  def due_date_distance_in_words(date)
+    if date
+      l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
+    end
+  end
   
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)

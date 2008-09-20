@@ -408,7 +408,7 @@ label_sort_higher: ย้ายขึ้น
 label_sort_lower: ย้ายลง
 label_sort_lowest: ย้ายไปล่างสุด
 label_roadmap: แผนงาน
-label_roadmap_due_in: ถึงกำหนดใน
+label_roadmap_due_in: ถึงกำหนดใน %s
 label_roadmap_overdue: %s ช้ากว่ากำหนด
 label_roadmap_no_issues: ไม่มีปัญหาสำหรับรุ่นนี้
 label_search: ค้นหา

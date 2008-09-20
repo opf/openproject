@@ -368,7 +368,7 @@ label_sort_higher: Вгору
 label_sort_lower: Вниз
 label_sort_lowest: У кінець
 label_roadmap: Оперативний план
-label_roadmap_due_in: Строк
+label_roadmap_due_in: Строк %s
 label_roadmap_overdue: %s запізнення
 label_roadmap_no_issues: Немає питань для даної версії
 label_search: Пошук

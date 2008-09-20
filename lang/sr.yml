@@ -362,7 +362,7 @@ label_sort_higher: premesti na gore
 label_sort_lower: Premesti na dole
 label_sort_lowest: Premesti na dno
 label_roadmap: Roadmap
-label_roadmap_due_in: Završava se za
+label_roadmap_due_in: Završava se za %s
 label_roadmap_overdue: %s kasni
 label_roadmap_no_issues: Nema kartica za ovu verziju
 label_search: Traži

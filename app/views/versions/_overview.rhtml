@@ -1,9 +1,7 @@
 <% if version.completed? %>
   <p><%= format_date(version.effective_date) %></p>
-<% elsif version.overdue? %>
-  <p><strong><%= l(:label_roadmap_overdue, distance_of_time_in_words(Time.now, version.effective_date)) %> (<%= format_date(version.effective_date) %>)</strong></p>
 <% elsif version.effective_date %>
-  <p><strong><%=l(:label_roadmap_due_in)%> <%= distance_of_time_in_words Time.now, version.effective_date %> (<%= format_date(version.effective_date) %>)</strong></p>
+  <p><strong><%= due_date_distance_in_words(version.effective_date) %></strong> (<%= format_date(version.effective_date) %>)</p>
 <% end %>
 
 <p><%=h version.description %></p>

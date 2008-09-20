@@ -344,7 +344,7 @@ label_sort_higher: Subir
 label_sort_lower: Bajar
 label_sort_lowest: Último
 label_roadmap: Roadmap
-label_roadmap_due_in: Finaliza en 
+label_roadmap_due_in: Finaliza en %s
 label_roadmap_no_issues: No hay peticiones para esta versión
 label_search: Búsqueda
 label_result: %d resultado

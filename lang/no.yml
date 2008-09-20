@@ -410,7 +410,7 @@ label_sort_higher: Flytt opp
 label_sort_lower: Flytt ned
 label_sort_lowest: Flytt til bunnen
 label_roadmap: Veikart
-label_roadmap_due_in: Frist om
+label_roadmap_due_in: Frist om %s
 label_roadmap_overdue: %s over fristen
 label_roadmap_no_issues: Ingen saker for denne versjonen
 label_search: Søk

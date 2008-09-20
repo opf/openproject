@@ -413,7 +413,7 @@ label_sort_higher: Mou cap amunt
 label_sort_lower: Mou cap avall
 label_sort_lowest: Mou a la part inferior
 label_roadmap: Planificació
-label_roadmap_due_in: Venç en 
+label_roadmap_due_in: Venç en %s
 label_roadmap_overdue: %s tard
 label_roadmap_no_issues: No hi ha assumptes per a aquesta versió
 label_search: Cerca

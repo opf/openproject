@@ -367,4 +367,18 @@ EXPECTED
     assert_equal Time.now.strftime('%d %m %Y %H %M'), format_time(now)
     assert_equal Time.now.strftime('%H %M'), format_time(now, false)
   end
+  
+  def test_due_date_distance_in_words
+    to_test = { Date.today => 'Due in 0 days',
+                Date.today + 1 => 'Due in 1 day',
+                Date.today + 100 => 'Due in 100 days',
+                Date.today + 20000 => 'Due in 20000 days',
+                Date.today - 1 => '1 day late',
+                Date.today - 100 => '100 days late',
+                Date.today - 20000 => '20000 days late',
+               }
+    to_test.each do |date, expected|
+      assert_equal expected, due_date_distance_in_words(date)
+    end
+  end
 end

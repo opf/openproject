@@ -407,7 +407,7 @@ label_sort_higher: Eggyel feljebb
 label_sort_lower: Eggyel lejjebb
 label_sort_lowest: Az aljára
 label_roadmap: Életút
-label_roadmap_due_in: Elkészültéig várhatóan még 
+label_roadmap_due_in: Elkészültéig várhatóan még %s
 label_roadmap_overdue: %s késésben
 label_roadmap_no_issues: Nincsenek feladatok ehhez a verzióhoz
 label_search: Keresés

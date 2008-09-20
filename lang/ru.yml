@@ -477,7 +477,7 @@ label_result_plural: Результаты
 label_reverse_chronological_order: В обратном порядке
 label_revision_plural: Редакции
 label_revision: Редакция
-label_roadmap_due_in: Вовремя
+label_roadmap_due_in: Вовремя %s
 label_roadmap_no_issues: Нет задач для данной версии
 label_roadmap_overdue: %s опоздание
 label_roadmap: Оперативный план

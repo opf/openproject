@@ -352,7 +352,7 @@ label_sort_higher: Su
 label_sort_lower: Giù
 label_sort_lowest: Sposta in fondo
 label_roadmap: Roadmap
-label_roadmap_due_in: Da ultimare in 
+label_roadmap_due_in: Da ultimare in %s
 label_roadmap_overdue: %s late
 label_roadmap_no_issues: Nessuna segnalazione per questa versione
 label_search: Ricerca

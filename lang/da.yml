@@ -418,7 +418,7 @@ label_sort_higher: Flyt op
 label_sort_lower: Flyt ned
 label_sort_lowest: Flyt til bunden
 label_roadmap: Plan
-label_roadmap_due_in: Deadline 
+label_roadmap_due_in: Deadline %s
 label_roadmap_overdue: %s forsinket
 label_roadmap_no_issues: Ingen sager i denne version
 label_search: Søg

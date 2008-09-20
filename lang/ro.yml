@@ -352,7 +352,7 @@ label_sort_higher: Muta sus
 label_sort_lower: Mota jos
 label_sort_lowest: Mota ultima
 label_roadmap: Harta activitatiilor
-label_roadmap_due_in: Rezolvat in 
+label_roadmap_due_in: Rezolvat in %s
 label_roadmap_overdue: %s intarziere
 label_roadmap_no_issues: Nu sunt tichete pentru aceasta reviziune
 label_search: Cauta

@@ -371,7 +371,7 @@ label_sort_higher: Perkelti į viršų
 label_sort_lower: Perkelti žemyn 
 label_sort_lowest: Perkelti į apačią 
 label_roadmap: Veiklos grafikas 
-label_roadmap_due_in: Baigiasi po 
+label_roadmap_due_in: Baigiasi po %s
 label_roadmap_overdue: %s vėluojama 
 label_roadmap_no_issues: Jokio darbo šiai versijai nėra
 label_search: Ieškoti 

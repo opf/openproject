@@ -344,7 +344,7 @@ label_sort_higher: Do góry
 label_sort_lower: Do dołu
 label_sort_lowest: Przesuń na dół
 label_roadmap: Mapa
-label_roadmap_due_in: W czasie 
+label_roadmap_due_in: W czasie %s
 label_roadmap_no_issues: Brak zagadnień do tej wersji
 label_search: Szukaj
 label_result_plural: Rezultatów
