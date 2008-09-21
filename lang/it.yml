@@ -147,7 +147,7 @@ field_attr_lastname: Attributo cognome
 field_attr_mail: Attributo e-mail
 field_onthefly: Creazione utenza "al volo"
 field_start_date: Inizio
-field_done_ratio: %% completo
+field_done_ratio: %% completato
 field_auth_source: Modalità di autenticazione
 field_hide_mail: Nascondi il mio indirizzo di e-mail
 field_comments: Commento
@@ -346,7 +346,7 @@ label_latest_revision: Ultima versione
 label_latest_revision_plural: Ultime versioni
 label_view_revisions: Mostra versioni
 label_max_size: Dimensione massima
-label_on: 'on'
+label_on: su
 label_sort_highest: Sposta in cima
 label_sort_higher: Su
 label_sort_lower: Giù
@@ -361,15 +361,15 @@ label_all_words: Tutte le parole
 label_wiki: Wiki
 label_wiki_edit: Modifica Wiki
 label_wiki_edit_plural: Modfiche wiki
-label_wiki_page: Wiki page
-label_wiki_page_plural: Wiki pages
-label_index_by_title: Index by title
-label_index_by_date: Index by date
+label_wiki_page: Pagina Wiki
+label_wiki_page_plural: Pagine Wiki
+label_index_by_title: Ordina per titolo
+label_index_by_date: Ordina per data
 label_current_version: Versione corrente
 label_preview: Anteprima
 label_feed_plural: Feed
 label_changes_details: Particolari di tutti i cambiamenti
-label_issue_tracking: tracking delle segnalazioni
+label_issue_tracking: Tracking delle segnalazioni
 label_spent_time: Tempo impiegato
 label_f_hour: %.2f ora
 label_f_hour_plural: %.2f ore
@@ -485,7 +485,7 @@ text_comma_separated: Valori multipli permessi (separati da virgola).
 text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
 text_issue_added: "E' stata segnalata l'anomalia %s da %s."
 text_issue_updated: "L'anomalia %s e' stata aggiornata da %s."
-text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
+text_wiki_destroy_confirmation: Sicuro di voler cancellare questo wiki e tutti i suoi contenuti?
 text_issue_category_destroy_question: Alcune segnalazioni (%d) risultano assegnate a questa categoria. Cosa vuoi fare ?
 text_issue_category_destroy_assignments: Rimuovi gli assegnamenti a questa categoria
 text_issue_category_reassign_to: Riassegna segnalazioni a questa categoria
@@ -535,7 +535,7 @@ label_user_mail_option_selected: "Solo per gli eventi relativi ai progetti selez
 label_user_mail_option_all: "Per ogni evento relativo ad uno dei miei progetti"
 label_user_mail_option_none: "Solo per argomenti che osservo o che mi riguardano"
 setting_emails_footer: Piè di pagina e-mail
-label_float: Float
+label_float: Decimale
 button_copy: Copia
 mail_body_account_information_external: Puoi utilizzare il tuo account "%s" per accedere al sistema.
 mail_body_account_information: Le informazioni riguardanti il tuo account
@@ -633,10 +633,10 @@ setting_mail_handler_api_enabled: Abilita WS per le e-mail in arrivo
 setting_mail_handler_api_key: chiave API
 text_email_delivery_not_configured: "La consegna via e-mail non è configurata e le notifiche sono disabilitate.\nConfigura il tuo server SMTP in config/email.yml e riavvia l'applicazione per abilitarle."
 field_parent_title: Parent page
-label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
-button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version
-label_renamed: renamed
-label_copied: copied
+label_issue_watchers: Osservatori
+setting_commit_logs_encoding: Codifica dei messaggi di commit
+button_quote: Quota
+setting_sequential_project_identifiers: Genera progetti con identificativi in sequenza
+notice_unable_delete_version: Impossibile cancellare la versione
+label_renamed: rinominato
+label_copied: copiato
