@@ -25,6 +25,8 @@ class AuthSourceLdap < AuthSource
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
   
+  before_validation :strip_ldap_attributes
+  
   def after_initialize
     self.port = 389 if self.port == 0
   end
@@ -71,7 +73,14 @@ class AuthSourceLdap < AuthSource
     "LDAP"
   end
   
-private
+  private
+  
+  def strip_ldap_attributes
+    [:attr_login, :attr_firstname, :attr_lastname, :attr_mail].each do |attr|
+      write_attribute(attr, read_attribute(attr).strip) unless read_attribute(attr).nil?
+    end
+  end
+  
   def initialize_ldap_con(ldap_user, ldap_password)
     options = { :host => self.host,
                 :port => self.port,
