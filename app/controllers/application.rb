@@ -81,7 +81,7 @@ class ApplicationController < ActionController::Base
   
   def require_login
     if !User.current.logged?
-      redirect_to :controller => "account", :action => "login", :back_url => request.request_uri
+      redirect_to :controller => "account", :action => "login", :back_url => (request.relative_url_root + request.request_uri)
       return false
     end
     true
