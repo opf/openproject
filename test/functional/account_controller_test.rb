@@ -46,12 +46,12 @@ class AccountControllerTest < Test::Unit::TestCase
   
   def test_login_should_redirect_to_back_url_param
     # request.uri is "test.host" in test environment
-    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http://test.host/issues/show/1'
+    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http%3A%2F%2Ftest.host%2Fissues%2Fshow%2F1'
     assert_redirected_to '/issues/show/1'
   end
   
   def test_login_should_not_redirect_to_another_host
-    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http://test.foo/fake'
+    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http%3A%2F%2Ftest.foo%2Ffake'
     assert_redirected_to '/my/page'
   end
 

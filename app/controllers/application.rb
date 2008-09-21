@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'uri'
+require 'cgi'
 
 class ApplicationController < ActionController::Base
   layout 'base'
@@ -123,7 +124,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_back_or_default(default)
-    back_url = params[:back_url]
+    back_url = CGI.unescape(params[:back_url].to_s)
     if !back_url.blank?
       uri = URI.parse(back_url)
       # do not redirect user to another host

@@ -194,7 +194,7 @@ class TimelogController < ApplicationController
     @time_entry.attributes = params[:time_entry]
     if request.post? and @time_entry.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to(params[:back_url].blank? ? {:action => 'details', :project_id => @time_entry.project} : params[:back_url])
+      redirect_back_or_default :action => 'details', :project_id => @time_entry.project
       return
     end    
   end
