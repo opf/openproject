@@ -54,8 +54,8 @@ module Redmine
           @file_name = $2
           return false
         elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
-          @line_num_l = $5.to_i
-          @line_num_r = $2.to_i
+          @line_num_l = $2.to_i
+          @line_num_r = $5.to_i
           @parsing = true
         end
       else
@@ -63,8 +63,8 @@ module Redmine
           @parsing = false
           return false
         elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
-          @line_num_l = $5.to_i
-          @line_num_r = $2.to_i
+          @line_num_l = $2.to_i
+          @line_num_r = $5.to_i
         else
           @nb_line += 1 if parse_line(line, @type)          
         end
@@ -116,18 +116,18 @@ module Redmine
       if line[0, 1] == "+"
         diff = sbs? type, 'add'
         @before = 'add'
-        diff.line_left = escapeHTML line[1..-1]
-        diff.nb_line_left = @line_num_l
-        diff.type_diff_left = 'diff_in'
-        @line_num_l += 1
+        diff.line_right = escapeHTML line[1..-1]
+        diff.nb_line_right = @line_num_r
+        diff.type_diff_right = 'diff_in'
+        @line_num_r += 1
         true
       elsif line[0, 1] == "-"
         diff = sbs? type, 'remove'
         @before = 'remove'
-        diff.line_right = escapeHTML line[1..-1]
-        diff.nb_line_right = @line_num_r
-        diff.type_diff_right = 'diff_out'
-        @line_num_r += 1
+        diff.line_left = escapeHTML line[1..-1]
+        diff.nb_line_left = @line_num_l
+        diff.type_diff_left = 'diff_out'
+        @line_num_l += 1
         true
       elsif line[0, 1] =~ /\s/
         @before = 'same'
