@@ -19,10 +19,10 @@ actionview_datehelper_time_in_words_second_less_than: weniger als einer Sekunde
 actionview_datehelper_time_in_words_second_less_than_plural: weniger als %d Sekunden
 actionview_instancetag_blank_option: Bitte auswählen
 
-activerecord_error_inclusion: ist nicht inbegriffen
+activerecord_error_inclusion: ist nicht in der Liste enthalten
 activerecord_error_exclusion: ist reserviert
 activerecord_error_invalid: ist unzulässig
-activerecord_error_confirmation: Bestätigung nötig
+activerecord_error_confirmation: passt nicht zur Bestätigung
 activerecord_error_accepted: muss angenommen werden
 activerecord_error_empty: darf nicht leer sein
 activerecord_error_blank: darf nicht leer sein
@@ -77,6 +77,7 @@ notice_failed_to_save_issues: "%d von %d ausgewählten Tickets konnte(n) nicht g
 notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
 notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
 notice_default_data_loaded: Die Standard-Konfiguration wurde erfolgreich geladen.
+notice_unable_delete_version: Die Version konnte nicht gelöscht werden
 
 error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %s"
 error_scm_not_found: Eintrag und/oder Revision besteht nicht im Projektarchiv.
@@ -92,6 +93,8 @@ mail_body_account_information_external: Sie können sich mit Ihrem Konto "%s" an
 mail_body_account_information: Ihre Konto-Informationen
 mail_subject_account_activation_request: Antrag auf %s Kontoaktivierung
 mail_body_account_activation_request: 'Ein neuer Benutzer (%s) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:'
+mail_subject_reminder: "%d Tickets müssen in den nächsten Tagen abgegeben werden"
+mail_body_reminder: "%d Tickets, die Ihnen zugewiesen sind, müssen in den nächsten %d Tagen abgegeben werden:"
 
 gui_validation_error: 1 Fehler
 gui_validation_error_plural: %d Fehler
@@ -180,6 +183,7 @@ field_time_zone: Zeitzone
 field_searchable: Durchsuchbar
 field_default_value: Standardwert
 field_comments_sorting: Kommentare anzeigen
+field_parent_title: Übergeordnete Seite
 
 setting_app_title: Applikations-Titel
 setting_app_subtitle: Applikations-Untertitel
@@ -206,12 +210,17 @@ setting_time_format: Zeitformat
 setting_cross_project_issue_relations: Ticket-Beziehungen zwischen Projekten erlauben
 setting_issue_list_default_columns: Default-Spalten in der Ticket-Auflistung
 setting_repositories_encodings: Kodierungen der Projektarchive
+setting_commit_logs_encoding: Kodierung der Log-Meldungen
 setting_emails_footer: E-Mail-Fußzeile
 setting_protocol: Protokoll
 setting_per_page_options: Objekte pro Seite
 setting_user_format: Benutzer-Anzeigeformat
 setting_activity_days_default: Anzahl Tage pro Seite der Projekt-Aktivität
 setting_display_subprojects_issues: Tickets von Unterprojekten im Hauptprojekt anzeigen
+setting_enabled_scm: Aktivierte Versionskontrollsysteme
+setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
+setting_mail_handler_api_key: API-Schlüssel
+setting_sequential_project_identifiers: Fortlaufende Projektkennungen generieren
 
 project_module_issue_tracking: Ticket-Verfolgung
 project_module_time_tracking: Zeiterfassung
@@ -292,6 +301,7 @@ label_auth_source: Authentifizierungs-Modus
 label_auth_source_new: Neuer Authentifizierungs-Modus
 label_auth_source_plural: Authentifizierungs-Arten
 label_subproject_plural: Unterprojekte
+label_and_its_subprojects: %s und dessen Unterprojekte
 label_min_max_length: Länge (Min. - Max.)
 label_list: Liste
 label_date: Datum
@@ -395,6 +405,8 @@ label_revision_plural: Revisionen
 label_associated_revisions: Zugehörige Revisionen
 label_added: hinzugefügt
 label_modified: geändert
+label_copied: kopiert
+label_renamed: umbenannt
 label_deleted: gelöscht
 label_latest_revision: Aktuellste Revision
 label_latest_revision_plural: Aktuellste Revisionen
@@ -406,7 +418,7 @@ label_sort_higher: Eins höher
 label_sort_lower: Eins tiefer
 label_sort_lowest: Ans Ende
 label_roadmap: Roadmap
-label_roadmap_due_in: Fällig in %s
+label_roadmap_due_in: Fällig in
 label_roadmap_overdue: %s verspätet
 label_roadmap_no_issues: Keine Tickets für diese Version
 label_search: Suche
@@ -446,6 +458,7 @@ label_relation_new: Neue Beziehung
 label_relation_delete: Beziehung löschen
 label_relates_to: Beziehung mit
 label_duplicates: Duplikat von
+label_duplicated_by: Dupliziert durch
 label_blocks: Blockiert
 label_blocked_by: Blockiert durch
 label_precedes: Vorgänger von
@@ -511,6 +524,9 @@ label_preferences: Präferenzen
 label_chronological_order: in zeitlicher Reihenfolge
 label_reverse_chronological_order: in umgekehrter zeitlicher Reihenfolge
 label_planning: Terminplanung
+label_incoming_emails: Eingehende E-Mails
+label_generate_key: Generieren
+label_issue_watchers: Beobachter
 
 button_login: Anmelden
 button_submit: OK
@@ -549,6 +565,7 @@ button_copy: Kopieren
 button_annotate: Annotieren
 button_update: Aktualisieren
 button_configure: Konfigurieren
+button_quote: Zitieren
 
 status_active: aktiv
 status_registered: angemeldet
@@ -558,6 +575,7 @@ text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die ein
 text_regexp_info: z. B. ^[A-Z0-9]+$
 text_min_max_length_info: 0 heißt keine Beschränkung
 text_project_destroy_confirmation: Sind Sie sicher, dass sie das Projekt löschen wollen?
+text_subprojects_destroy_warning: 'Dessen Unterprojekte (%s) werden ebenfalls gelöscht.'
 text_workflow_edit: Workflow zum Bearbeiten auswählen
 text_are_you_sure: Sind Sie sicher?
 text_journal_changed: geändert von %s zu %s
@@ -593,6 +611,10 @@ text_destroy_time_entries_question: Es wurden bereits %.02f Stunden auf dieses T
 text_destroy_time_entries: Gebuchte Aufwände löschen
 text_assign_time_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
 text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
+text_user_wrote: '%s schrieb:'
+text_enumeration_destroy_question: '%d Objekte sind diesem Wert zugeordnet.'
+text_enumeration_category_reassign_to: 'Die Objekte stattdessen diesem Wert zuordnen:'
+text_email_delivery_not_configured: "Der SMTP-Server ist nicht konfiguriert und Mailbenachrichtigungen sind ausgeschaltet.\nNehmen Sie die Einstellungen für Ihren SMTP-Server in config/email.yml vor und starten Sie die Applikation neu."
 
 default_role_manager: Manager
 default_role_developper: Entwickler
@@ -619,25 +641,3 @@ default_activity_development: Entwicklung
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
-label_and_its_subprojects: %s and its subprojects
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '%s wrote:'
-label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
-label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
-button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version
-label_renamed: renamed
-label_copied: copied
