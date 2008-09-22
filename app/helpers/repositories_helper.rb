@@ -22,6 +22,12 @@ module RepositoriesHelper
     txt.to_s[0,8]
   end
   
+  def truncate_at_line_break(text, length = 255)
+    if text
+      text.gsub(%r{^(.{#{length}}[^\n]*)\n.+$}m, '\\1...')
+    end
+  end
+  
   def render_properties(properties)
     unless properties.nil? || properties.empty?
       content = ''
