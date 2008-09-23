@@ -190,6 +190,7 @@ class ApplicationHelperTest < HelperTestCase
     to_test = {
       "<pre>preformatted text</pre>" => "<pre>preformatted text</pre>",
       "<notextile>no *textile* formatting</notextile>" => "no *textile* formatting",
+      "<notextile>this is <tag>a tag</tag></notextile>" => "this is &lt;tag&gt;a tag&lt;/tag&gt;"
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
   end

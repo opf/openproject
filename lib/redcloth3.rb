@@ -1045,17 +1045,17 @@ class RedCloth3 < String
                     codepre += 1
                     used_offtags[offtag] = true
                     if codepre - used_offtags.length > 0
-                        htmlesc( line, :NoQuotes ) unless used_offtags['notextile']
+                        htmlesc( line, :NoQuotes )
                         @pre_list.last << line
                         line = ""
                     else
-                        htmlesc( aftertag, :NoQuotes ) if aftertag and not used_offtags['notextile']
+                        htmlesc( aftertag, :NoQuotes ) if aftertag
                         line = "<redpre##{ @pre_list.length }>"
                         @pre_list << "#{ $3 }#{ aftertag }"
                     end
                 elsif $1 and codepre > 0
                     if codepre - used_offtags.length > 0
-                        htmlesc( line, :NoQuotes ) unless used_offtags['notextile']
+                        htmlesc( line, :NoQuotes )
                         @pre_list.last << line
                         line = ""
                     end
