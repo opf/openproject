@@ -534,8 +534,8 @@ label_nobody: nobody
 button_change_password: Wijzig wachtwoord
 text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
 text_user_mail_option: "Bij niet-geselecteerde projecten zult u enkel notificaties ontvangen voor issues die u monitort of waar je bij betrokken bent (auteur of toegewezen persoon)."
-label_user_mail_option_selected: "Enkel bij elke event op het geselecteerde project..."
-label_user_mail_option_all: "Bij elk event in al mijn projecten..."
+label_user_mail_option_selected: "Enkel bij elke gebeurtenis op het geselecteerde project..."
+label_user_mail_option_all: "Bij elk gebeurtenis in al mijn projecten..."
 label_user_mail_option_none: "Alleen in de dingen die ik monitor of in betrokken ben"
 setting_emails_footer: Emails footer
 label_float: Float
@@ -621,23 +621,23 @@ label_overall_activity: Activiteit
 setting_default_projects_public: Nieuwe projecten zijn standaard publiek
 error_scm_annotate: "Er kan geen commentaar toegevoegd worden."
 label_planning: Planning
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
-label_and_its_subprojects: %s and its subprojects
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '%s wrote:'
-label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
+text_subprojects_destroy_warning: 'De subprojecten: %s zullen ook verwijderd worden.'
+label_and_its_subprojects: %s en zijn subprojecten.
+mail_body_reminder: "%d issue(s) die tot u toegewezen zijn en moeten voldaan zijn in de komende %d dagen:"
+mail_subject_reminder: "%d issue(s) moeten voldaan zijn in de komende dagen."
+text_user_wrote: '%s schreef:'
+label_duplicated_by: gedupliceerd door
+setting_enabled_scm: Ingeschakeld SCM
 text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
+text_enumeration_destroy_question: '%d objecten zijn toegewezen op deze waarde.'
+label_incoming_emails: Inkomende e-mail
+label_generate_key: Genereer een sleutel
 setting_mail_handler_api_enabled: Schakel WS in voor inkomende mail.
 setting_mail_handler_api_key: API sleutel
 text_email_delivery_not_configured: "Email bezorging is niet geconfigureerd. Notificaties zijn uitgeschakeld.\nConfigureer je SMTP server in config/email.yml en herstant de applicatie om dit in te schakelen."
 field_parent_title: Bovenliggende pagina
 label_issue_watchers: Monitoren
-setting_commit_logs_encoding: Commit messages encodering
+setting_commit_logs_encoding: Commit berichten encodering
 button_quote: Citaat
 setting_sequential_project_identifiers: Genereer sequentiele project identiteiten
 notice_unable_delete_version: Onmogelijk om deze versie te verwijderen.
