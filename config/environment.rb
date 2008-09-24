@@ -55,3 +55,5 @@ Rails::Initializer.run do |config|
   # It will automatically turn deliveries on
   config.action_mailer.perform_deliveries = false
 end
+
+ActionController::AbstractRequest.relative_url_root = "/rdm"
