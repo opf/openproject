@@ -30,8 +30,15 @@ module Redmine
         @permissions
       end
       
+      # Returns the permission of given name or nil if it wasn't found
+      # Argument should be a symbol
+      def permission(name)
+        permissions.detect {|p| p.name == name}
+      end
+      
+      # Returns the actions that are allowed by the permission of given name
       def allowed_actions(permission_name)
-        perm = @permissions.detect {|p| p.name == permission_name}
+        perm = permission(permission_name)
         perm ? perm.actions : []
       end
       
@@ -94,6 +101,7 @@ module Redmine
             @actions << "#{controller}/#{actions}"
           end
         end
+        @actions.flatten!
       end
       
       def public?
