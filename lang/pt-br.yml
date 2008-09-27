@@ -638,6 +638,6 @@ default_activity_development: Desenvolvimento
 enumeration_issue_priorities: Prioridade das tarefas
 enumeration_doc_categories: Categorias de documento
 enumeration_activities: Atividades (time tracking)
-notice_unable_delete_version: Unable to delete version
-label_renamed: renamed
-label_copied: copied
+notice_unable_delete_version: Não foi possível excluir a versão
+label_renamed: renomeado
+label_copied: copiado
