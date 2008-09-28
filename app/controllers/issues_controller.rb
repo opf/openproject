@@ -253,7 +253,7 @@ class IssuesController < ApplicationController
     end
     # Find potential statuses the user could be allowed to switch issues to
     @available_statuses = Workflow.find(:all, :include => :new_status,
-                                              :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq
+                                              :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq.sort
   end
 
   def move
