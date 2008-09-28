@@ -46,4 +46,11 @@ class IssueStatusTest < Test::Unit::TestCase
     assert_equal status, IssueStatus.default
     assert !IssueStatus.find(1).is_default
   end
+  
+  def test_reorder_should_not_clear_default_status
+    status = IssueStatus.default
+    status.move_to_bottom
+    status.reload
+    assert status.is_default?
+  end
 end

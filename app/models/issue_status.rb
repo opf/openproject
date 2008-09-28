@@ -25,8 +25,8 @@ class IssueStatus < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
-  def before_save
-    IssueStatus.update_all "is_default=#{connection.quoted_false}" if self.is_default?
+  def after_save
+    IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id]) if self.is_default?
   end  
   
   # Returns the default status for new issues
