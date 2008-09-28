@@ -32,7 +32,7 @@ class Workflow < ActiveRecord::Base
     trackers.each do |tracker|
       t = []
       roles.each do |role|
-        row = counts.detect {|c| c['role_id'] == role.id.to_s && c['tracker_id'] = tracker.id.to_s}
+        row = counts.detect {|c| c['role_id'] == role.id.to_s && c['tracker_id'] == tracker.id.to_s}
         t << [role, (row.nil? ? 0 : row['c'].to_i)]
       end
       result << [tracker, t]
