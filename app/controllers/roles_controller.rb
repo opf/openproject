@@ -79,27 +79,6 @@ class RolesController < ApplicationController
     redirect_to :action => 'list'
   end
   
-  def workflow    
-    @role = Role.find_by_id(params[:role_id])
-    @tracker = Tracker.find_by_id(params[:tracker_id])    
-    
-    if request.post?
-      Workflow.destroy_all( ["role_id=? and tracker_id=?", @role.id, @tracker.id])
-      (params[:issue_status] || []).each { |old, news| 
-        news.each { |new| 
-          @role.workflows.build(:tracker_id => @tracker.id, :old_status_id => old, :new_status_id => new) 
-        }
-      }
-      if @role.save
-        flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => 'workflow', :role_id => @role, :tracker_id => @tracker
-      end
-    end
-    @roles = Role.find(:all, :order => 'builtin, position')
-    @trackers = Tracker.find(:all, :order => 'position')
-    @statuses = IssueStatus.find(:all, :order => 'position')
-  end
-  
   def report    
     @roles = Role.find(:all, :order => 'builtin, position')
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }

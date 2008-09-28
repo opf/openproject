@@ -118,46 +118,6 @@ class RolesControllerTest < Test::Unit::TestCase
     assert_not_nil Role.find_by_id(1)
   end
   
-  def test_get_workflow
-    get :workflow
-    assert_response :success
-    assert_template 'workflow'
-    assert_not_nil assigns(:roles)
-    assert_not_nil assigns(:trackers)
-  end
-  
-  def test_get_workflow_with_role_and_tracker
-    get :workflow, :role_id => 2, :tracker_id => 1
-    assert_response :success
-    assert_template 'workflow'
-    # allowed transitions
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[2][]',
-                                                 :value => '1',
-                                                 :checked => 'checked' }
-    # not allowed
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[2][]',
-                                                 :value => '3',
-                                                 :checked => nil }
-  end
-  
-  def test_post_workflow
-    post :workflow, :role_id => 2, :tracker_id => 1, :issue_status => {'4' => ['5'], '3' => ['1', '2']}
-    assert_redirected_to 'roles/workflow'
-    
-    assert_equal 3, Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2})
-    assert_not_nil  Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2})
-    assert_nil      Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4})
-  end
-  
-  def test_clear_workflow
-    assert Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2}) > 0
-
-    post :workflow, :role_id => 2, :tracker_id => 1
-    assert_equal 0, Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2})
-  end
-  
   def test_get_report
     get :report
     assert_response :success
