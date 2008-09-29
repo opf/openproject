@@ -43,4 +43,3 @@ Run
 to see available tests.
 
 RAILS_ENV=test rake test will run tests.
-
