@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IssueStatusTest < Test::Unit::TestCase
-  fixtures :issue_statuses
+  fixtures :issue_statuses, :issues
 
   def test_create
     status = IssueStatus.new :name => "Assigned"
@@ -31,6 +31,19 @@ class IssueStatusTest < Test::Unit::TestCase
     assert !status.is_default
   end
   
+  def test_destroy
+    count_before = IssueStatus.count
+    status = IssueStatus.find(3)
+    assert status.destroy
+    assert_equal count_before - 1, IssueStatus.count
+  end
+
+  def test_destroy_status_in_use
+    # Status assigned to an Issue
+    status = Issue.find(1).status
+    assert_raise(RuntimeError, "Can't delete status") { status.destroy }
+  end
+
   def test_default
     status = IssueStatus.default
     assert_kind_of IssueStatus, status
