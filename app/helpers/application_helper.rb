@@ -244,7 +244,7 @@ module ApplicationHelper
       text = text.gsub(/!((\<|\=|\>)?(\([^\)]+\))?(\[[^\]]+\])?(\{[^\}]+\})?)(\S+\.(gif|jpg|jpeg|png))!/) do |m|
         style = $1
         filename = $6
-        rf = Regexp.new(filename,  Regexp::IGNORECASE)
+        rf = Regexp.new(Regexp.escape(filename),  Regexp::IGNORECASE)
         # search for the picture in attachments
         if found = attachments.detect { |att| att.filename =~ rf }
           image_url = url_for :only_path => only_path, :controller => 'attachments', :action => 'download', :id => found
