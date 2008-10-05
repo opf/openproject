@@ -120,7 +120,7 @@ field_subject: 제목
 field_due_date: 완료 기한
 field_assigned_to: 담당자
 field_priority: 우선순위
-field_fixed_version: Target version
+field_fixed_version: 목표 버전
 field_user: 유저
 field_role: 역할
 field_homepage: 홈페이지
@@ -177,13 +177,13 @@ setting_login_required: 인증이 필요함.
 setting_self_registration: Self-registration
 setting_attachment_max_size: 최대 첨부파일 크기
 setting_issues_export_limit: Issues export limit
-setting_mail_from: Emission mail address
+setting_mail_from: 발신 메일 주소
 setting_host_name: 호스트 이름 
 setting_text_formatting: 텍스트 형식
 setting_wiki_compression: 위키 기록(history) 압축
 setting_feeds_limit: Feed content limit
 setting_autofetch_changesets: Autofetch commits
-setting_sys_api_enabled: Enable WS for repository management
+setting_sys_api_enabled: 저장소 관리자에 WS 를 허용
 setting_commit_ref_keywords: 이슈 참조에 사용할 키워드들
 setting_commit_fix_keywords: 이슈 해결에 사용할 키워드들 
 setting_autologin: 자동 로그인
@@ -428,7 +428,7 @@ label_date_to: (으)로
 label_language_based: Language based
 label_sort_by: 정렬방법(%s)
 label_send_test_email: 테스트 메일 보내기
-label_feeds_access_key_created_on: RSS access key created %s ago
+label_feeds_access_key_created_on: RSS에 접근가능한 열쇠(key)가  %s 이전에 생성 
 label_module_plural: 모듈
 label_added_time_by: %s이(가) %s 전에 추가함
 label_updated_time: %s 전에 수정됨
@@ -555,8 +555,8 @@ button_annotate: Annotate
 label_issues_by: Issues by %s
 field_searchable: 검색가능
 label_display_per_page: 'Per page: %s'
-setting_per_page_options: Objects per page options
-label_age: Age
+setting_per_page_options: 페이지당 표시할 객채 수
+label_age: 마지막 수정일
 notice_default_data_loaded: 기본 설정을 성공적으로 로드하였습니다.
 text_load_default_configuration: 기본 설정을 로딩하기
 text_no_configuration_data: "역할, 이슈 타입, 이슈 상태들과 워크플로가 아직 설정되지 않았습니다.\n기본 설정을 로딩하는 것을 권장합니다. 로드된 후에 수정할 수 있습니다."
@@ -566,7 +566,7 @@ label_change_properties: 속성 변경
 label_general: 일반
 label_repository_plural: 저장소들
 label_associated_revisions: Associated revisions
-setting_user_format: Users display format
+setting_user_format: 사용자 표시 형식
 text_status_changed_by_changeset: Applied in changeset %s.
 label_more: More
 text_issues_destroy_confirmation: '선택한 이슈를 정말로 삭제하시겠습니까?'
@@ -585,7 +585,7 @@ project_module_files: 관련파일
 project_module_documents: 문서
 project_module_repository: 저장소
 project_module_news: 뉴스
-project_module_time_tracking: Time tracking
+project_module_time_tracking: 진행중인 작업
 text_file_repository_writable: File repository writable
 text_default_administrator_account_changed: 기본 관리자 계정이 변경되었습니다.
 text_rmagick_available: RMagick available (optional)
@@ -593,7 +593,7 @@ button_configure: 설정
 label_plugins: 플러그인
 label_ldap_authentication: LDAP 인증
 label_downloads_abbr: D/L
-label_add_another_file: Add another file
+label_add_another_file: 다른 파일 추가 
 label_this_month: this month
 text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
 label_last_n_days: last %d days
@@ -609,34 +609,34 @@ label_last_month: last month
 text_destroy_time_entries: Delete reported hours
 text_reassign_time_entries: 'Reassign reported hours to this issue:'
 setting_activity_days_default: Days displayed on project activity
-label_chronological_order: In chronological order
-field_comments_sorting: Display comments
-label_reverse_chronological_order: In reverse chronological order
+label_chronological_order: 시간 순으로 정렬
+field_comments_sorting: 히스토리 정렬 설정
+label_reverse_chronological_order: 시간 역순으로 정렬 
 label_preferences: Preferences
-setting_display_subprojects_issues: Display subprojects issues on main projects by default
-label_overall_activity: Overall activity
-setting_default_projects_public: New projects are public by default
+setting_display_subprojects_issues: 하위 프로젝트의 이슈를  최상위 프로젝트에서 표시
+label_overall_activity: 전체 진행 상황
+setting_default_projects_public: 신규 프로젝트를  Public 으로 설정
 error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: Planning
+label_planning: 계획(Planning)
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
 label_and_its_subprojects: %s and its subprojects
 mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
 mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '%s wrote:'
+text_user_wrote: '% 의 노트:'
 label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
+setting_enabled_scm: 허용할  SCM
+text_enumeration_category_reassign_to: '새로운 값을 설정:'
+text_enumeration_destroy_question: '%d 개의 이슈가 이 값을 사용하고 있습니다.'
+label_incoming_emails: 수신 메일 설정
 label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
+setting_mail_handler_api_enabled: 수신 메일에  WS 를 허용
 setting_mail_handler_api_key: API key
 text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
 field_parent_title: Parent page
-label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
-button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version
+label_issue_watchers: 감시자 설정
+setting_commit_logs_encoding: 저장소 Commit messages 인코딩
+button_quote: 인용하기
+setting_sequential_project_identifiers: 프로젝트 실별자를 순자적으로 생성
+notice_unable_delete_version: 삭제 할 수 없는 버전 입니다.
 label_renamed: renamed
 label_copied: copied
