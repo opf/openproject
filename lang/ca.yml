@@ -77,6 +77,7 @@ notice_failed_to_save_issues: "No s'han pogut desar %s assumptes de %d seleccion
 notice_no_issue_selected: "No s'ha seleccionat cap assumpte. Activeu els assumptes que voleu editar."
 notice_account_pending: "S'ha creat el compte i ara està pendent de l'aprovació de l'administrador."
 notice_default_data_loaded: "S'ha carregat correctament la configuració predeterminada."
+notice_unable_delete_version: "No s'ha pogut suprimir la versió."
 
 error_can_t_load_default_data: "No s'ha pogut carregar la configuració predeterminada: %s" 
 error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el dipòsit."
@@ -163,7 +164,7 @@ field_start_date: Inici
 field_done_ratio: %% realitzat
 field_auth_source: "Mode d'autenticació"
 field_hide_mail: "Oculta l'adreça de correu electrònic"
-field_comment: Comentari
+field_comments: Comentari
 field_url: URL
 field_start_page: Pàgina inicial
 field_subproject: Subprojecte
@@ -209,6 +210,7 @@ setting_time_format: Format de hora
 setting_cross_project_issue_relations: "Permet les relacions d'assumptes entre projectes"
 setting_issue_list_default_columns: "Columnes mostrades per defecte en la llista d'assumptes"
 setting_repositories_encodings: Codificacions del dipòsit
+setting_commit_logs_encoding: Codificació dels missatges publicats
 setting_emails_footer: Peu dels correus electrònics
 setting_protocol: Protocol
 setting_per_page_options: Opcions dels objectes per pàgina
@@ -218,6 +220,7 @@ setting_display_subprojects_issues: "Mostra els assumptes d'un subprojecte en el
 setting_enabled_scm: "Habilita l'SCM"
 setting_mail_handler_api_enabled: "Habilita el WS per correus electrònics d'entrada"
 setting_mail_handler_api_key: Clau API
+setting_sequential_project_identifiers: Genera identificadors de projecte seqüencials
 
 project_module_issue_tracking: "Seguidor d'assumptes"
 project_module_time_tracking: Seguidor de temps
@@ -402,6 +405,8 @@ label_revision_plural: Revisions
 label_associated_revisions: Revisions associades
 label_added: afegit
 label_modified: modificat
+label_renamed: reanomenat
+label_copied: copiat
 label_deleted: suprimit
 label_latest_revision: Última revisió
 label_latest_revision_plural: Últimes revisions
@@ -462,7 +467,7 @@ label_end_to_start: final al començament
 label_end_to_end: final al final
 label_start_to_start: començament al començament
 label_start_to_end: començament al final
-label_stay_logged_in: "Manté l'entrada en"
+label_stay_logged_in: "Manté l'entrada"
 label_disabled: inhabilitat
 label_show_completed_versions: Mostra les versions completes
 label_me: jo mateix
@@ -560,6 +565,7 @@ button_copy: Copia
 button_annotate: Anota
 button_update: Actualitza
 button_configure: Configura
+button_quote: Cita
 
 status_active: actiu
 status_registered: informat
@@ -635,10 +641,3 @@ default_activity_development: Desenvolupament
 enumeration_issue_priorities: Prioritat dels assumptes
 enumeration_doc_categories: Categories del document
 enumeration_activities: Activitats (seguidor de temps)
-button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version.
-field_comments: Comment
-setting_commit_logs_encoding: Commit messages encoding
-label_renamed: renamed
-label_copied: copied
