@@ -1,7 +1,8 @@
 // ** I18N
 
-// Calendar pt_BR language
+// Calendar pt language
 // Author: Adalberto Machado, <betosm@terra.com.br>
+// Corrected by: Pedro Araújo <phcrva19@hotmail.com>
 // Encoding: any
 // Distributed under the same terms as the calendar itself.
 
@@ -13,11 +14,11 @@
 Calendar._DN = new Array
 ("Domingo",
  "Segunda",
- "Terca",
+ "Terça",
  "Quarta",
  "Quinta",
  "Sexta",
- "Sabado",
+ "Sábado",
  "Domingo");
 
 // Please note that the following array of short day names (and the same goes
@@ -40,7 +41,7 @@ Calendar._SDN = new Array
  "Qua",
  "Qui",
  "Sex",
- "Sab",
+ "Sáb",
  "Dom");
 
 // First day of the week. "0" means display Sunday first, "1" means display
@@ -51,7 +52,7 @@ Calendar._FD = 1;
 Calendar._MN = new Array
 ("Janeiro",
  "Fevereiro",
- "Marco",
+ "Março",
  "Abril",
  "Maio",
  "Junho",
@@ -79,30 +80,30 @@ Calendar._SMN = new Array
 
 // tooltips
 Calendar._TT = {};
-Calendar._TT["INFO"] = "Sobre o calendario";
+Calendar._TT["INFO"] = "Sobre o calendário";
 
 Calendar._TT["ABOUT"] =
 "DHTML Date/Time Selector\n" +
 "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" + // don't translate this this ;-)
-"Ultima versao visite: http://www.dynarch.com/projects/calendar/\n" +
-"Distribuido sobre GNU LGPL.  Veja http://gnu.org/licenses/lgpl.html para detalhes." +
+"Última versão visite: http://www.dynarch.com/projects/calendar/\n" +
+"Distribuído sobre a licença GNU LGPL.  Veja http://gnu.org/licenses/lgpl.html para detalhes." +
 "\n\n" +
-"Selecao de data:\n" +
-"- Use os botoes \xab, \xbb para selecionar o ano\n" +
-"- Use os botoes " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " para selecionar o mes\n" +
-"- Segure o botao do mouse em qualquer um desses botoes para selecao rapida.";
+"Selecção de data:\n" +
+"- Use os botões \xab, \xbb para seleccionar o ano\n" +
+"- Use os botões " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " para seleccionar o mês\n" +
+"- Segure o botão do rato em qualquer um desses botões para selecção rápida.";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
-"Selecao de hora:\n" +
+"Selecção de hora:\n" +
 "- Clique em qualquer parte da hora para incrementar\n" +
 "- ou Shift-click para decrementar\n" +
-"- ou clique e segure para selecao rapida.";
+"- ou clique e segure para selecção rápida.";
 
-Calendar._TT["PREV_YEAR"] = "Ant. ano (segure para menu)";
-Calendar._TT["PREV_MONTH"] = "Ant. mes (segure para menu)";
+Calendar._TT["PREV_YEAR"] = "Ano ant. (segure para menu)";
+Calendar._TT["PREV_MONTH"] = "Mês ant. (segure para menu)";
 Calendar._TT["GO_TODAY"] = "Hoje";
-Calendar._TT["NEXT_MONTH"] = "Prox. mes (segure para menu)";
+Calendar._TT["NEXT_MONTH"] = "Prox. mês (segure para menu)";
 Calendar._TT["NEXT_YEAR"] = "Prox. ano (segure para menu)";
-Calendar._TT["SEL_DATE"] = "Selecione a data";
+Calendar._TT["SEL_DATE"] = "Seleccione a data";
 Calendar._TT["DRAG_TO_MOVE"] = "Arraste para mover";
 Calendar._TT["PART_TODAY"] = " (hoje)";
 

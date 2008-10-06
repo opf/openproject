@@ -1,3 +1,4 @@
+## Translated by: Pedro Araújo <phcrva19@hotmail.com>
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
@@ -7,9 +8,9 @@ actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
 actionview_datehelper_time_in_words_day: 1 dia
 actionview_datehelper_time_in_words_day_plural: %d dias
-actionview_datehelper_time_in_words_hour_about: em torno de uma hora
-actionview_datehelper_time_in_words_hour_about_plural: em torno de %d horas
-actionview_datehelper_time_in_words_hour_about_single: em torno de uma hora
+actionview_datehelper_time_in_words_hour_about: cerca de uma hora
+actionview_datehelper_time_in_words_hour_about_plural: cerca de %d horas
+actionview_datehelper_time_in_words_hour_about_single: cerca de uma hora
 actionview_datehelper_time_in_words_minute: 1 minuto
 actionview_datehelper_time_in_words_minute_half: meio minuto
 actionview_datehelper_time_in_words_minute_less_than: menos de um minuto
@@ -22,19 +23,19 @@ actionview_instancetag_blank_option: Seleccione
 activerecord_error_inclusion: não existe na lista
 activerecord_error_exclusion: já existe na lista
 activerecord_error_invalid: é inválido
-activerecord_error_confirmation: não está de acordo com sua confirmação
-activerecord_error_accepted: deve ser aceite
-activerecord_error_empty: não pode ser vazio
+activerecord_error_confirmation: não está de acordo com a confirmação
+activerecord_error_accepted: tem de ser aceite
+activerecord_error_empty: não pode estar vazio
 activerecord_error_blank: não pode estar em branco
-activerecord_error_too_long: é muito longo
-activerecord_error_too_short: é muito curto
-activerecord_error_wrong_length: possui o comprimento errado
+activerecord_error_too_long: é demasiado longo
+activerecord_error_too_short: é demasiado curto
+activerecord_error_wrong_length: tem o comprimento errado
 activerecord_error_taken: já foi usado em outro registo
 activerecord_error_not_a_number: não é um número
 activerecord_error_not_a_date: não é uma data válida
 activerecord_error_greater_than_start_date: deve ser maior que a data inicial
 activerecord_error_not_same_project: não pertence ao mesmo projecto
-activerecord_error_circular_dependency: Esta relação pode criar uma dependência circular
+activerecord_error_circular_dependency: Esta relação iria criar uma dependência circular
 
 general_fmt_age: %d ano
 general_fmt_age_plural: %d anos
@@ -49,38 +50,52 @@ general_text_yes: 'sim'
 general_lang_name: 'Português'
 general_csv_separator: ','
 general_csv_decimal_separator: '.'
-general_csv_encoding: ISO-8859-1
-general_pdf_encoding: ISO-8859-1
+general_csv_encoding: ISO-8859-15
+general_pdf_encoding: ISO-8859-15
 general_day_names: Segunda,Terça,Quarta,Quinta,Sexta,Sábado,Domingo
 general_first_day_of_week: '1'
 
-notice_account_updated: Conta actualizada com sucesso.
+notice_account_updated: A conta foi actualizada com sucesso.
 notice_account_invalid_creditentials: Utilizador ou palavra-chave inválidos.
-notice_account_password_updated: Palavra-chave foi alterada com sucesso.
+notice_account_password_updated: A palavra-chave foi alterada com sucesso.
 notice_account_wrong_password: Palavra-chave errada.
-notice_account_register_done: Conta criada com sucesso.
+notice_account_register_done: A conta foi criada com sucesso.
 notice_account_unknown_email: Utilizador desconhecido.
-notice_can_t_change_password: Esta conta utiliza autenticação externa. Não é possível alterar a palavra-chave.
-notice_account_lost_email_sent: Foi enviado e-mail com as instruções para criar uma nova palavra-chave.
-notice_account_activated: Conta foi activada. Pode ligar-se agora
+notice_can_t_change_password: Esta conta utiliza uma fonte de autenticação externa. Não é possível alterar a palavra-chave.
+notice_account_lost_email_sent: Foi-lhe enviado um e-mail com as instruções para escolher uma nova palavra-chave.
+notice_account_activated: A sua conta foi activada. Já pode autenticar-se.
 notice_successful_create: Criado com sucesso.
 notice_successful_update: Alterado com sucesso.
 notice_successful_delete: Apagado com sucesso.
 notice_successful_connection: Ligado com sucesso.
-notice_file_not_found: A página que está a tentar aceder não existe ou foi eliminada.
+notice_file_not_found: A página que está a tentar aceder não existe ou foi removida.
 notice_locking_conflict: Os dados foram actualizados por outro utilizador.
 notice_not_authorized: Não está autorizado a visualizar esta página.
 notice_email_sent: Foi enviado um e-mail para %s
 notice_email_error: Ocorreu um erro ao enviar o e-mail (%s)
-notice_feeds_access_key_reseted: A sua chave RSS foi inicializada.
+notice_feeds_access_key_reseted: A sua chave de RSS foi inicializada.
+notice_failed_to_save_issues: "Não foi possível guardar %d tarefa(s) das %d seleccionadas: %s."
+notice_no_issue_selected: "Nenhuma tarefa seleccionada! Por favor, seleccione as tarefas que quer editar."
+notice_account_pending: "A sua conta foi criada e está agora à espera de aprovação do administrador."
+notice_default_data_loaded: Configuração padrão carregada com sucesso.
+notice_unable_delete_version: Não foi possível apagar a versão.
 
-error_scm_not_found: "A entrada e/ou a revisão não existem no repositório."
-error_scm_command_failed: "Ocorreu um erro ao tentar aceder ao repositorio: %s"
+error_can_t_load_default_data: "Não foi possível carregar a configuração padrão: %s"
+error_scm_not_found: "A entrada ou revisão não foi encontrada no repositório."
+error_scm_command_failed: "Ocorreu um erro ao tentar aceder ao repositório: %s"
+error_scm_annotate: "A entrada não existe ou não pode ser anotada."
+error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projecto.'
 
-mail_subject_lost_password: Palavra-chave do %s.
-mail_body_lost_password: 'Para mudar a palavra-chave, clique no link abaixo:'
-mail_subject_register: Activação de conta do %s.
-mail_body_register: 'Para activar a conta, clique no link abaixo:'
+mail_subject_lost_password: Palavra-chave de %s
+mail_body_lost_password: 'Para mudar a sua palavra-chave, clique no link abaixo:'
+mail_subject_register: Activação de conta de %s
+mail_body_register: 'Para activar a sua conta, clique no link abaixo:'
+mail_body_account_information_external: Pode utilizar a conta "%s" para autenticar-se.
+mail_body_account_information: Informação da sua conta
+mail_subject_account_activation_request: Pedido de activação da conta %s
+mail_body_account_activation_request: 'Um novo utilizador (%s) registou-se. A sua conta está à espera de aprovação:'
+mail_subject_reminder: "%d tarefa(s) para entregar nos próximos dias"
+mail_body_reminder: "%d tarefa(s) que estão atribuídas a si estão agendadas para estarem completas nos próximos %d dias:"
 
 gui_validation_error: 1 erro
 gui_validation_error_plural: %d erros
@@ -89,10 +104,10 @@ field_name: Nome
 field_description: Descrição
 field_summary: Sumário
 field_is_required: Obrigatório
-field_firstname: Primeiro nome
+field_firstname: Nome próprio
 field_lastname: Último nome
 field_mail: E-mail
-field_filename: Arquivo
+field_filename: Ficheiro
 field_filesize: Tamanho
 field_downloads: Downloads
 field_author: Autor
@@ -100,7 +115,7 @@ field_created_on: Criado
 field_updated_on: Alterado
 field_field_format: Formato
 field_is_for_all: Para todos os projectos
-field_possible_values: Possíveis valores
+field_possible_values: Valores possíveis
 field_regexp: Expressão regular
 field_min_length: Tamanho mínimo
 field_max_length: Tamanho máximo
@@ -108,11 +123,11 @@ field_value: Valor
 field_category: Categoria
 field_title: Título
 field_project: Projecto
-field_issue: Tarefa 
+field_issue: Tarefa
 field_status: Estado
 field_notes: Notas
 field_is_closed: Tarefa fechada
-field_is_default: Estado padrão
+field_is_default: Valor por omissão
 field_tracker: Tipo
 field_subject: Assunto
 field_due_date: Data final
@@ -120,16 +135,16 @@ field_assigned_to: Atribuído a
 field_priority: Prioridade
 field_fixed_version: Versão
 field_user: Utilizador
-field_role: Regra
-field_homepage: Página inicial
+field_role: Papel
+field_homepage: Página
 field_is_public: Público
-field_parent: Subprojecto de
+field_parent: Sub-projecto de
 field_is_in_chlog: Tarefas mostradas no changelog
 field_is_in_roadmap: Tarefas mostradas no roadmap
-field_login: Utilizador
+field_login: Login
 field_mail_notification: Notificações por e-mail
 field_admin: Administrador
-field_last_login_on: Último acesso
+field_last_login_on: Última visita
 field_language: Língua
 field_effective_date: Data
 field_password: Palavra-chave
@@ -142,12 +157,12 @@ field_port: Porta
 field_account: Conta
 field_base_dn: Base DN
 field_attr_login: Atributo utilizador
-field_attr_firstname: Atributo primeiro nome
+field_attr_firstname: Atributo nome próprio
 field_attr_lastname: Atributo último nome
 field_attr_mail: Atributo e-mail
-field_onthefly: Criação de utilizadores sob demanda
+field_onthefly: Criação de utilizadores na hora
 field_start_date: Início
-field_done_ratio: %% Terminado
+field_done_ratio: %% Completo
 field_auth_source: Modo de autenticação
 field_hide_mail: Esconder endereço de e-mail
 field_comments: Comentário
@@ -161,31 +176,61 @@ field_identifier: Identificador
 field_is_filter: Usado como filtro
 field_issue_to_id: Tarefa relacionada
 field_delay: Atraso
-field_assignable: As tarefas não podem ser associados a esta regra
-field_redirect_existing_links: Redireccionar as hiperligações
-field_estimated_hours: Estimativa de horas
-field_default_value: Padrão
+field_assignable: As tarefas podem ser associados a este papel
+field_redirect_existing_links: Redireccionar links existentes
+field_estimated_hours: Tempo estimado
+field_column_names: Colunas
+field_time_zone: Fuso horário
+field_searchable: Procurável
+field_default_value: Valor por omissão
+field_comments_sorting: Mostrar comentários
+field_parent_title: Página pai
 
 setting_app_title: Título da aplicação
-setting_app_subtitle: Subtítulo da aplicação
-setting_welcome_text: Texto de boas-vindas
-setting_default_language: Linguagem padrão
+setting_app_subtitle: Sub-título da aplicação
+setting_welcome_text: Texto de boas vindas
+setting_default_language: Língua por omissão
 setting_login_required: Autenticação obrigatória
-setting_self_registration: Registro permitido
+setting_self_registration: Auto-registo
 setting_attachment_max_size: Tamanho máximo do anexo
 setting_issues_export_limit: Limite de exportação das tarefas
 setting_mail_from: E-mail enviado de
-setting_host_name: Servidor
-setting_text_formatting: Formato do texto
-setting_wiki_compression: Compactação do histórico do Wiki
-setting_feeds_limit: Limite do Feed
+setting_bcc_recipients: Recipientes de BCC
+setting_host_name: Hostname
+setting_text_formatting: Formatação do texto
+setting_wiki_compression: Compressão do histórico do Wiki
+setting_feeds_limit: Limite de conteúdo do feed
+setting_default_projects_public: Projectos novos são públicos por omissão
 setting_autofetch_changesets: Buscar automaticamente commits
 setting_sys_api_enabled: Activar Web Service para gestão do repositório
 setting_commit_ref_keywords: Palavras-chave de referência
-setting_commit_fix_keywords: Palavras-chave fixas
-setting_autologin: Acesso automático
+setting_commit_fix_keywords: Palavras-chave de fecho
+setting_autologin: Login automático
 setting_date_format: Formato da data
-setting_cross_project_issue_relations: Permitir relações de tarefas de projectos diferentes
+setting_time_format: Formato do tempo
+setting_cross_project_issue_relations: Permitir relações entre tarefas de projectos diferentes
+setting_issue_list_default_columns: Colunas na lista de tarefas por omissão
+setting_repositories_encodings: Encodings dos repositórios
+setting_commit_logs_encoding: Encoding das mensagens de commit
+setting_emails_footer: Rodapé do e-mails
+setting_protocol: Protocolo
+setting_per_page_options: Opções de objectos por página
+setting_user_format: Formato de apresentaão de utilizadores
+setting_activity_days_default: Dias mostrados na actividade do projecto
+setting_display_subprojects_issues: Mostrar as tarefas dos sub-projectos nos projectos principais
+setting_enabled_scm: Activar SCM
+setting_mail_handler_api_enabled: Activar Web Service para e-mails recebidos
+setting_mail_handler_api_key: Chave da API
+setting_sequential_project_identifiers: Gerar identificadores de projecto sequênciais
+
+project_module_issue_tracking: Tarefas
+project_module_time_tracking: Contagem de tempo
+project_module_news: Notícias
+project_module_documents: Documentos
+project_module_files: Ficheiros
+project_module_wiki: Wiki
+project_module_repository: Repositório
+project_module_boards: Forum
 
 label_user: Utilizador
 label_user_plural: Utilizadores
@@ -199,13 +244,17 @@ label_issue: Tarefa
 label_issue_new: Nova tarefa
 label_issue_plural: Tarefas
 label_issue_view_all: Ver todas as tarefas
+label_issues_by: Tarefas por %s
+label_issue_added: Tarefa adicionada
+label_issue_updated: Tarefa actualizada
 label_document: Documento
 label_document_new: Novo documento
 label_document_plural: Documentos
-label_role: Regra
-label_role_plural: Regras
-label_role_new: Nova regra
-label_role_and_permissions: Regras e permissões
+label_document_added: Documento adicionado
+label_role: Papel
+label_role_plural: Papéis
+label_role_new: Novo papel
+label_role_and_permissions: Papéis e permissões
 label_member: Membro
 label_member_new: Novo membro
 label_member_plural: Membros
@@ -214,36 +263,37 @@ label_tracker_plural: Tipos
 label_tracker_new: Novo tipo
 label_workflow: Workflow
 label_issue_status: Estado da tarefa
-label_issue_status_plural: Estado das tarefas
+label_issue_status_plural: Estados da tarefa
 label_issue_status_new: Novo estado
-label_issue_category: Categoria da tarefa
-label_issue_category_plural: Categorias das tarefas
+label_issue_category: Categoria de tarefa
+label_issue_category_plural: Categorias de tarefa
 label_issue_category_new: Nova categoria
 label_custom_field: Campo personalizado
 label_custom_field_plural: Campos personalizados
 label_custom_field_new: Novo campo personalizado
-label_enumerations: Enumeração
+label_enumerations: Enumerações
 label_enumeration_new: Novo valor
 label_information: Informação
 label_information_plural: Informações
-label_please_login: Efectuar acesso
-label_register: Registe-se
+label_please_login: Por favor autentique-se
+label_register: Registar
 label_password_lost: Perdi a palavra-chave
-label_home: Página inicial
-label_my_page: Página pessoal
+label_home: Página Inicial
+label_my_page: Página Pessoal
 label_my_account: Minha conta
 label_my_projects: Meus projectos
 label_administration: Administração
 label_login: Entrar
 label_logout: Sair
 label_help: Ajuda
-label_reported_issues: Tarefas reportadas
-label_assigned_to_me_issues: Tarefas atribuídas
+label_reported_issues: Tarefas criadas
+label_assigned_to_me_issues: Tarefas atribuídas a mim
 label_last_login: Último acesso
 label_last_updates: Última alteração
 label_last_updates_plural: %d Últimas alterações
 label_registered_on: Registado em
 label_activity: Actividade
+label_overall_activity: Actividade geral
 label_new: Novo
 label_logged_as: Ligado como
 label_environment: Ambiente
@@ -251,11 +301,13 @@ label_authentication: Autenticação
 label_auth_source: Modo de autenticação
 label_auth_source_new: Novo modo de autenticação
 label_auth_source_plural: Modos de autenticação
-label_subproject_plural: Subprojectos
-label_min_max_length: Tamanho min-max
+label_subproject_plural: Sub-projectos
+label_and_its_subprojects: %s e sub-projectos
+label_min_max_length: Tamanho mínimo-máximo
 label_list: Lista
 label_date: Data
 label_integer: Inteiro
+label_float: Decimal
 label_boolean: Booleano
 label_string: Texto
 label_text: Texto longo
@@ -266,37 +318,40 @@ label_download_plural: %d Downloads
 label_no_data: Sem dados para mostrar
 label_change_status: Mudar estado
 label_history: Histórico
-label_attachment: Arquivo
-label_attachment_new: Novo arquivo
-label_attachment_delete: Apagar arquivo
-label_attachment_plural: Arquivos
+label_attachment: Ficheiro
+label_attachment_new: Novo ficheiro
+label_attachment_delete: Apagar ficheiro
+label_attachment_plural: Ficheiros
+label_file_added: Ficheiro adicionado
 label_report: Relatório
-label_report_plural: Relatório
-label_news: Notícias
-label_news_new: Adicionar notícias
+label_report_plural: Relatórios
+label_news: Notícia
+label_news_new: Nova notícia
 label_news_plural: Notícias
 label_news_latest: Últimas notícias
 label_news_view_all: Ver todas as notícias
-label_change_log: Log de mudanças
+label_news_added: Notícia adicionada
+label_change_log: Change log
 label_settings: Configurações
 label_overview: Visão geral
 label_version: Versão
 label_version_new: Nova versão
 label_version_plural: Versões
 label_confirmation: Confirmação
-label_export_to: Exportar para
+label_export_to: 'Também disponível em:'
 label_read: Ler...
 label_public_projects: Projectos públicos
-label_open_issues: Aberto
-label_open_issues_plural:  Abertos
-label_closed_issues: Fechado
-label_closed_issues_plural: Fechados
+label_open_issues: aberto
+label_open_issues_plural: abertos
+label_closed_issues: fechado
+label_closed_issues_plural: fechados
 label_total: Total
 label_permissions: Permissões
 label_current_status: Estado actual
-label_new_statuses_allowed: Novo estado permitido
+label_new_statuses_allowed: Novos estados permitidos
 label_all: todos
 label_none: nenhum
+label_nobody: ninguém
 label_next: Próximo
 label_previous: Anterior
 label_used_by: Usado por
@@ -304,65 +359,77 @@ label_details: Detalhes
 label_add_note: Adicionar nota
 label_per_page: Por página
 label_calendar: Calendário
-label_months_from: Meses de
+label_months_from: meses de
 label_gantt: Gantt
 label_internal: Interno
-label_last_changes: últimas %d mudanças
-label_change_view_all: Mostrar todas as mudanças
-label_personalize_page: Personalizar página
+label_last_changes: últimas %d alterações
+label_change_view_all: Ver todas as alterações
+label_personalize_page: Personalizar esta página
 label_comment: Comentário
 label_comment_plural: Comentários
 label_comment_add: Adicionar comentário
 label_comment_added: Comentário adicionado
-label_comment_delete: Apagar comentário
+label_comment_delete: Apagar comentários
 label_query: Consulta personalizada
 label_query_plural: Consultas personalizadas
 label_query_new: Nova consulta
 label_filter_add: Adicionar filtro
 label_filter_plural: Filtros
 label_equals: é
-label_not_equals: não e
-label_in_less_than: é maior que
-label_in_more_than: é menor que
+label_not_equals: não é
+label_in_less_than: em menos de
+label_in_more_than: em mais de
 label_in: em
 label_today: hoje
+label_all_time: sempre
+label_yesterday: ontem
 label_this_week: esta semana
-label_less_than_ago: faz menos de
-label_more_than_ago: faz mais de
+label_last_week: semana passada
+label_last_n_days: últimos %d dias
+label_this_month: este mês
+label_last_month: mês passado
+label_this_year: este ano
+label_date_range: Date range
+label_less_than_ago: menos de dias atrás
+label_more_than_ago: mais de dias atrás
 label_ago: dias atrás
 label_contains: contém
 label_not_contains: não contém
 label_day_plural: dias
 label_repository: Repositório
-label_browse: Procurar
-label_modification: %d mudança
-label_modification_plural: %d mudanças
+label_repository_plural: Repositórios
+label_browse: Navegar
+label_modification: %d alteração
+label_modification_plural: %d alterações
 label_revision: Revisão
 label_revision_plural: Revisões
+label_associated_revisions: Revisões associadas
 label_added: adicionado
 label_modified: modificado
+label_copied: copiado
+label_renamed: renomeado
 label_deleted: apagado
 label_latest_revision: Última revisão
 label_latest_revision_plural: Últimas revisões
 label_view_revisions: Ver revisões
 label_max_size: Tamanho máximo
-label_on: em
+label_on: 'em'
 label_sort_highest: Mover para o início
 label_sort_higher: Mover para cima
 label_sort_lower: Mover para baixo
 label_sort_lowest: Mover para o fim
 label_roadmap: Roadmap
-label_roadmap_due_in: Termina em
-label_roadmap_overdue: %s atrasado
-label_roadmap_no_issues: Sem tarefas para essa versão
+label_roadmap_due_in: Termina em %s
+label_roadmap_overdue: Atrasado %s
+label_roadmap_no_issues: Sem tarefas para esta versão
 label_search: Procurar
 label_result_plural: Resultados
 label_all_words: Todas as palavras
 label_wiki: Wiki
-label_wiki_edit: Editar Wiki 
-label_wiki_edit_plural: Editar Wiki's
-label_wiki_page: Página de Wiki
-label_wiki_page_plural: Páginas de Wiki
+label_wiki_edit: Edição da Wiki
+label_wiki_edit_plural: Edições da Wiki
+label_wiki_page: Página da Wiki
+label_wiki_page_plural: Páginas da Wiki
 label_index_by_title: Índice por título
 label_index_by_date: Índice por data
 label_current_version: Versão actual
@@ -373,7 +440,7 @@ label_issue_tracking: Tarefas
 label_spent_time: Tempo gasto
 label_f_hour: %.2f hora
 label_f_hour_plural: %.2f horas
-label_time_tracking: Tempo trabalhado
+label_time_tracking: Contagem de tempo
 label_change_plural: Mudanças
 label_statistics: Estatísticas
 label_commits_per_month: Commits por mês
@@ -385,59 +452,94 @@ label_options: Opções
 label_copy_workflow_from: Copiar workflow de
 label_permissions_report: Relatório de permissões
 label_watched_issues: Tarefas observadas
-label_related_issues: tarefas relacionadas
+label_related_issues: Tarefas relacionadas
 label_applied_status: Estado aplicado
-label_loading: Carregando...
+label_loading: A carregar...
 label_relation_new: Nova relação
 label_relation_delete: Apagar relação
-label_relates_to: relacionado à
-label_duplicates: duplicadas
-label_blocks: bloqueios
+label_relates_to: relacionado a
+label_duplicates: duplica
+label_duplicated_by: duplicado por
+label_blocks: bloqueia
 label_blocked_by: bloqueado por
-label_precedes: procede
+label_precedes: precede
 label_follows: segue
-label_end_to_start: fim ao início
-label_end_to_end: fim ao fim
-label_start_to_start: início ao início
-label_start_to_end: início ao fim
+label_end_to_start: fim a início
+label_end_to_end: fim a fim
+label_start_to_start: início a início
+label_start_to_end: início a fim
 label_stay_logged_in: Guardar sessão
-label_disabled: desactivar
-label_show_completed_versions: Ver as versões completas
-label_me: Eu
+label_disabled: desactivado
+label_show_completed_versions: Mostrar versões acabadas
+label_me: eu
 label_board: Forum
 label_board_new: Novo forum
-label_board_plural: Foruns
-label_topic_plural: Topicos
+label_board_plural: Forums
+label_topic_plural: Tópicos
 label_message_plural: Mensagens
-label_message_last: Ultima mensagem
+label_message_last: Última mensagem
 label_message_new: Nova mensagem
+label_message_posted: Mensagem adicionada
 label_reply_plural: Respostas
 label_send_information: Enviar dados da conta para o utilizador
 label_year: Ano
-label_month: Mês
+label_month: mês
 label_week: Semana
 label_date_from: De
 label_date_to: Para
-label_language_based: Baseado na língua
+label_language_based: Baseado na língua do utilizador
 label_sort_by: Ordenar por %s
-label_send_test_email: Enviar e-mail de teste
-label_feeds_access_key_created_on: Chave RSS criada à %s atrás
+label_send_test_email: enviar um e-mail de teste
+label_feeds_access_key_created_on: Chave RSS criada há %s atrás
 label_module_plural: Módulos
-label_added_time_by: Adicionado por %s %s atrás
-label_updated_time: Actualizado %s atrás
+label_added_time_by: Adicionado por %s há %s atrás
+label_updated_time: Alterado há %s atrás
 label_jump_to_a_project: Ir para o projecto...
+label_file_plural: Ficheiros
+label_changeset_plural: Changesets
+label_default_columns: Colunas por omissão
+label_no_change_option: (sem alteração)
+label_bulk_edit_selected_issues: Editar tarefas seleccionadas em conjunto
+label_theme: Tema
+label_default: Padrão
+label_search_titles_only: Procurar apenas em títulos
+label_user_mail_option_all: "Para qualquer evento em todos os meus projectos"
+label_user_mail_option_selected: "Para qualquer evento apenas nos projectos seleccionados..."
+label_user_mail_option_none: "Apenas para coisas que esteja a observar ou esteja envolvido"
+label_user_mail_no_self_notified: "Não quero ser notificado de alterações feitas por mim"
+label_registration_activation_by_email: Activação da conta por e-mail
+label_registration_manual_activation: Activação manual da conta
+label_registration_automatic_activation: Activação automática da conta
+label_display_per_page: 'Por página: %s'
+label_age: Idade
+label_change_properties: Mudar propriedades
+label_general: Geral
+label_more: Mais
+label_scm: SCM
+label_plugins: Extensões
+label_ldap_authentication: Autenticação LDAP
+label_downloads_abbr: D/L
+label_optional_description: Descrição opcional
+label_add_another_file: Adicionar outro ficheiro
+label_preferences: Preferências
+label_chronological_order: Em ordem cronológica
+label_reverse_chronological_order: Em ordem cronológica inversa
+label_planning: Planeamento
+label_incoming_emails: E-mails a chegar
+label_generate_key: Gerar uma chave
+label_issue_watchers: Observadores
 
 button_login: Entrar
-button_submit: Enviar
+button_submit: Submeter
 button_save: Guardar
-button_check_all: Marcar todos
-button_uncheck_all: Desmarcar todos
+button_check_all: Marcar tudo
+button_uncheck_all: Desmarcar tudo
 button_delete: Apagar
 button_create: Criar
 button_test: Testar
 button_edit: Editar
 button_add: Adicionar
-button_change: Mudar
+button_change: Alterar
 button_apply: Aplicar
 button_clear: Limpar
 button_lock: Bloquear
@@ -449,194 +551,94 @@ button_move: Mover
 button_back: Voltar
 button_cancel: Cancelar
 button_activate: Activar
-button_sort: Ordenar
+button_sort: Ordernar
 button_log_time: Tempo de trabalho
 button_rollback: Voltar para esta versão
 button_watch: Observar
-button_unwatch: Não observar
+button_unwatch: Deixar de observar
 button_reply: Responder
 button_archive: Arquivar
 button_unarchive: Desarquivar
 button_reset: Reinicializar
 button_rename: Renomear
+button_change_password: Mudar palavra-chave
+button_copy: Copiar
+button_annotate: Anotar
+button_update: Actualizar
+button_configure: Configurar
+button_quote: Citar
 
 status_active: activo
-status_registered: registrado
+status_registered: registado
 status_locked: bloqueado
 
-text_select_mail_notifications: Seleccionar as acções que originam uma notificação por e-mail
+text_select_mail_notifications: Seleccionar as acções que originam uma notificação por e-mail.
 text_regexp_info: ex. ^[A-Z0-9]+$
 text_min_max_length_info: 0 siginifica sem restrição
-text_project_destroy_confirmation: Você tem certeza que deseja apagar este projecto e todos os dados relacionados?
-text_workflow_edit: Seleccione uma regra e um tipo de tarefa para editar o workflow
-text_are_you_sure: Você tem certeza?
-text_journal_changed: alterado de %s para %s
-text_journal_set_to: alterar para %s
+text_project_destroy_confirmation: Tem a certeza que deseja apagar o projecto e todos os dados relacionados?
+text_subprojects_destroy_warning: 'O(s) seu(s) sub-projecto(s): %s também será/serão apagado(s).'
+text_workflow_edit: Seleccione um papel e um tipo de tarefa para editar o workflow
+text_are_you_sure: Tem a certeza?
+text_journal_changed: mudado de %s para %s
+text_journal_set_to: alterado para %s
 text_journal_deleted: apagado
-text_tip_task_begin_day: tarefa começa neste dia
-text_tip_task_end_day: tarefa termina neste dia
-text_tip_task_begin_end_day: tarefa começa e termina neste dia
-text_project_identifier_info: 'Letras minúsculas (a-z), números e traços permitido.<br />Uma vez gravado, o identificador nao pode ser mudado.'
-text_caracters_maximum: %d máximo de caracteres
-text_length_between: Tamanho entre %d e %d caracteres.
-text_tracker_no_workflow: Sem workflow definido para este tipo.
+text_tip_task_begin_day: tarefa a começar neste dia
+text_tip_task_end_day: tarefa a acabar neste dia
+text_tip_task_begin_end_day: tarefa a começar e acabar neste dia
+text_project_identifier_info: 'Apenas são permitidos letras minúsculas (a-z), números e hífens.<br />Uma vez guardado, o identificador não poderá ser alterado.'
+text_caracters_maximum: máximo %d caracteres.
+text_caracters_minimum: Deve ter pelo menos %d caracteres.
+text_length_between: Deve ter entre %d and %d caracteres.
+text_tracker_no_workflow: Sem workflow definido para este tipo de tarefa.
 text_unallowed_characters: Caracteres não permitidos
 text_comma_separated: Permitidos múltiplos valores (separados por vírgula).
-text_issues_ref_in_commit_messages: Referenciando e arrumando tarefas nas mensagens de commit
-text_issue_added: Tarefa %s foi incluída (by %s).
-text_issue_updated: Tarefa %s foi alterada (by %s).
-text_wiki_destroy_confirmation: Tem certeza que quer apagar esta página de wiki e todo o conteudo relacionado?
-text_issue_category_destroy_question: Existem tarefas (%d) associadas a esta categoria. Seleccione uma opção?
-text_issue_category_destroy_assignments: Remover as relações com a categoria
-text_issue_category_reassign_to: Re-associar as tarefas á categoria
+text_issues_ref_in_commit_messages: Referenciando e fechando tarefas em mensagens de commit
+text_issue_added: Tarefa %s foi criada por %s.
+text_issue_updated: Tarefa %s foi actualizada por %s.
+text_wiki_destroy_confirmation: Tem a certeza que deseja apagar este wiki e todo o seu conteúdo?
+text_issue_category_destroy_question: Algumas tarefas (%d) estão atribuídas a esta categoria. O que quer fazer?
+text_issue_category_destroy_assignments: Remover as atribuições à categoria
+text_issue_category_reassign_to: Re-atribuir as tarefas para esta categoria
+text_user_mail_option: "Para projectos não seleccionados, apenas receberá notificações acerca de coisas que está a observar ou está envolvido (ex. tarefas das quais foi o criador ou lhes foram atribuídas)."
+text_no_configuration_data: "Papeis, tipos de tarefas, estados das tarefas e workflows ainda não foram configurados.\nÉ extremamente recomendado carregar as configurações padrão. Será capaz de as modificar depois de estarem carregadas."
+text_load_default_configuration: Carregar as configurações padrão
+text_status_changed_by_changeset: Aplicado no changeset %s.
+text_issues_destroy_confirmation: 'Tem a certeza que deseja apagar a(s) tarefa(s) seleccionada(s)?'
+text_select_project_modules: 'Seleccione os módulos a activar para este projecto:'
+text_default_administrator_account_changed: Conta default de administrador alterada.
+text_file_repository_writable: Repositório de ficheiros com permissões de escrita
+text_rmagick_available: RMagick disponível (opcional)
+text_destroy_time_entries_question: %.02f horas de trabalho foram atribuídas a estas tarefas que vai apagar. O que deseja fazer?
+text_destroy_time_entries: Apagar as horas
+text_assign_time_entries_to_project: Atribuir as horas ao projecto
+text_reassign_time_entries: 'Re-atribuir as horas para esta tarefa:'
+text_user_wrote: '%s escreveu:'
+text_enumeration_destroy_question: '%d objectos estão atribuídos a este valor.'
+text_enumeration_category_reassign_to: 'Re-atribuí-los para este valor:'
+text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desactivadas.\nConfigure o seu servidor de SMTP em config/email.yml e reinicie a aplicação para activar estas funcionalidades."
 
-default_role_manager: Gestor de Projecto
-default_role_developper: Desenvolvedor
-default_role_reporter: Analista de Suporte
+default_role_manager: Gestor
+default_role_developper: Programador
+default_role_reporter: Repórter
 default_tracker_bug: Bug
-default_tracker_feature: Implementação
+default_tracker_feature: Funcionalidade
 default_tracker_support: Suporte
 default_issue_status_new: Novo
 default_issue_status_assigned: Atribuído
 default_issue_status_resolved: Resolvido
-default_issue_status_feedback: Comentário
+default_issue_status_feedback: Feedback
 default_issue_status_closed: Fechado
 default_issue_status_rejected: Rejeitado
-default_doc_category_user: Documentação do utilizador
+default_doc_category_user: Documentação de utilizador
 default_doc_category_tech: Documentação técnica
-default_priority_low: Baixo
+default_priority_low: Baixa
 default_priority_normal: Normal
-default_priority_high: Alto
+default_priority_high: Alta
 default_priority_urgent: Urgente
-default_priority_immediate: Imediato
-default_activity_design: Desenho
+default_priority_immediate: Imediata
+default_activity_design: Planeamento
 default_activity_development: Desenvolvimento
 
-enumeration_issue_priorities: Prioridade das tarefas
-enumeration_doc_categories: Categorias de documento
-enumeration_activities: Actividades (time tracking)
-label_file_plural: Arquivos
-label_changeset_plural: Alterações
-field_column_names: Colunas
-label_default_columns: Valores por defeito das colunas
-setting_issue_list_default_columns: Colunas listadas nas tarefas por defeito
-setting_repositories_encodings: Codificação dos repositórios
-notice_no_issue_selected: "Nenhuma tarefa seleccionada! Por favor, selecione uma tarefa para editar."
-label_bulk_edit_selected_issues: Edição em massa das tarefas seleccionadas
-label_no_change_option: (Sem alterações)
-notice_failed_to_save_issues: "Erro ao gravar %d tarefa(s) no %d seleccionado: %s."
-label_theme: Tema
-label_default: Padrão
-label_search_titles_only: Procurar apenas nos títulos
-label_nobody: desconhecido
-button_change_password: Alterar palavra-chave
-text_user_mail_option: "Para os projectos não seleccionados, irá receber e-mails de notificação apenas de eventos que esteja a observar ou envolvido (isto é, tarefas que é autor ou que estão atribuidas a si)."
-label_user_mail_option_selected: "Qualquer evento que ocorra nos projectos selecionados apenas..."
-label_user_mail_option_all: "Todos eventos em todos os projectos"
-label_user_mail_option_none: "Apenas eventos que sou observador ou que estou envolvido"
-setting_emails_footer: Rodapé do e-mail
-label_float: Float
-button_copy: Copiar
-mail_body_account_information_external: Pode utilizar a sua conta "%s" para entrar.
-mail_body_account_information: Informação da sua conta de acesso
-setting_protocol: Protocolo
-label_user_mail_no_self_notified: "Não quero ser notificado de alterações efectuadas por mim"
-setting_time_format: Formato da hora
-label_registration_activation_by_email: Activação de conta de acesso por e-mail
-mail_subject_account_activation_request: %s pedido de activação de conta de acesso
-mail_body_account_activation_request: 'Novo utilizador (%s) registado. Conta de acesso pendente a aguardar validação:'
-label_registration_automatic_activation: Activação de conta de acesso automático
-label_registration_manual_activation: activação de conta de acesso manual
-notice_account_pending: "Conta de acesso criada, mas pendente para validação do administrador"
-field_time_zone: Fuso horário
-text_caracters_minimum: Tem que ter no minimo %d caracteres.
-setting_bcc_recipients: Esconder endereços destinos de e-mail (bcc)
-button_annotate: Anotar
-label_issues_by: tarefas por %s
-field_searchable: Pesquisável
-label_display_per_page: 'Por página: %s'
-setting_per_page_options: Objects per page options
-label_age: Idade
-notice_default_data_loaded: Configuração inicial por defeito carregada.
-text_load_default_configuration: Inserir configuração por defeito inicial
-text_no_configuration_data: "Regras, trackers, estado das tarefas e workflow ainda não foram configurados.\nÉ recomendado que carregue a configuração por defeito. Posteriormente poderá alterar a configuração carregada."
-error_can_t_load_default_data: "Configuração inical por defeito não pode ser carregada: %s"
-button_update: Actualizar
-label_change_properties: Alterar propriedades
-label_general: Geral
-label_repository_plural: Repositórios
-label_associated_revisions: Versões associadas
-setting_user_format: Formato para visualizar o utilizador
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: mais
-text_issues_destroy_confirmation: 'Tem certeza que deseja apagar as tarefa(s) seleccionada(s)?'
-label_scm: SCM
-text_select_project_modules: 'Seleccione o(s) modulo(s) que deseja activar para o projecto:'
-label_issue_added: Tarefa adicionada
-label_issue_updated: Tarefa alterada
-label_document_added: Documento adicionado
-label_message_posted: Mensagem adicionada
-label_file_added: Arquivo adicionado
-label_news_added: Noticia adicionada
-project_module_boards: Boards
-project_module_issue_tracking: Tracking de tarefas
-project_module_wiki: Wiki
-project_module_files: Ficheiros
-project_module_documents: Documentos
-project_module_repository: Repositório
-project_module_news: Noticias
-project_module_time_tracking: Time tracking
-text_file_repository_writable: Repositório de ficheiros com permissões de escrita
-text_default_administrator_account_changed: Dados da conta de administrador padrão alterados
-text_rmagick_available: RMagick disponível (opcional)
-button_configure: Configurar
-label_plugins: Plugins
-label_ldap_authentication: autenticação por LDAP
-label_downloads_abbr: D/L
-label_this_month: este mês
-label_last_n_days: últimos %d dias
-label_all_time: todo o tempo
-label_this_year: este ano
-label_date_range: intervalo de datas
-label_last_week: ultima semana
-label_yesterday: ontem
-label_last_month: último mês
-label_add_another_file: Adicionar outro ficheiro
-label_optional_description: Descrição opcional
-text_destroy_time_entries_question: %.02f horas reportadas nesta tarefa. Estas horas serão eliminada. Continuar?
-error_issue_not_found_in_project: 'Esta tarefa não foi encontrada ou não pertence a este projecto'
-text_assign_time_entries_to_project: Associar as horas reportadas ao projecto
-text_destroy_time_entries: Apagar as horas reportadas
-text_reassign_time_entries: 'Re-associar as horas reportadas a esta tarefa:'
-setting_activity_days_default: dias visualizados da actividade do projecto
-label_chronological_order: Ordem cronológica
-field_comments_sorting: Apresentar comentários
-label_reverse_chronological_order: Ordem cronológica inversa
-label_preferences: Preferências
-setting_display_subprojects_issues: Ver tarefas dos subprojectos no projecto principal por defeito
-label_overall_activity: Ver todas as actividades
-setting_default_projects_public: Novos projectos são classificados como publicos por defeito
-error_scm_annotate: "Esta entrada não existe ou não pode ser alterada."
-label_planning: Plano
-text_subprojects_destroy_warning: 'O(s) subprojecto(s): %s serão tambem apagados.'
-label_and_its_subprojects: %s e os subprojectos
-mail_body_reminder: "%d tarefa(s) que estão associadas a si e que tem de ser feitas nos próximos %d dias:"
-mail_subject_reminder: "%d tarefa(s) para fazer nos próximos dias"
-text_user_wrote: '%s escreveu:'
-label_duplicated_by: duplicado por
-setting_enabled_scm: Activar SCM
-text_enumeration_category_reassign_to: 're-associar a este valor:'
-text_enumeration_destroy_question: '%d objectos estão associados com este valor.'
-label_incoming_emails: Receber e-mails
-label_generate_key: Gerar uma chave
-setting_mail_handler_api_enabled: Activar Serviço Web para as receber mensagens de e-mail
-setting_mail_handler_api_key: Chave da API 
-text_email_delivery_not_configured: "Servidor de e-mail por configurar e notificações inactivas.\nConfigure o servidor de e-mail (SMTP) no ficheiro config/email.yml e re-inicie a aplicação."
-field_parent_title: Página origem
-label_issue_watchers: Observadores
-setting_commit_logs_encoding: Guardar codificação das mensagens de log
-button_quote: Comentário
-setting_sequential_project_identifiers: Gerar identificador sequencial
-notice_unable_delete_version: Impossível apagar esta versão
-label_renamed: renomeado
-label_copied: copiado
+enumeration_issue_priorities: Prioridade de tarefas
+enumeration_doc_categories: Categorias de documentos
+enumeration_activities: Actividades (Contagem de tempo)
