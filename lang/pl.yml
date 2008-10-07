@@ -1,3 +1,7 @@
+﻿# Keep this line in order to avoid problems with Windows Notepad UTF-8 EF-BB-BF idea...
+# PL translation by Mariusz@Olejnik.net, 
+# Best regards from Lublin@Poland :-)
+
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
@@ -49,8 +53,8 @@ general_text_yes: 'tak'
 general_lang_name: 'Polski'
 general_csv_separator: ','
 general_csv_decimal_separator: '.'
-general_csv_encoding: ISO-8859-2
-general_pdf_encoding: ISO-8859-2
+general_csv_encoding: UTF-8
+general_pdf_encoding: UTF-8
 general_day_names: Poniedziałek,Wtorek,Środa,Czwartek,Piątek,Sobota,Niedziela
 general_first_day_of_week: '1'
 
@@ -63,9 +67,9 @@ notice_account_unknown_email: Nieznany użytkownik.
 notice_can_t_change_password: To konto ma zewnętrzne źródło identyfikacji. Nie możesz zmienić hasła.
 notice_account_lost_email_sent: Email z instrukcjami zmiany hasła został wysłany do Ciebie.
 notice_account_activated: Twoje konto zostało aktywowane. Możesz się zalogować.
-notice_successful_create: Udane stworzenie.
-notice_successful_update: Udane poprawienie.
-notice_successful_delete: Udane usunięcie.
+notice_successful_create: Utworzenie zakończone sukcesem.
+notice_successful_update: Uaktualnienie zakończone sukcesem.
+notice_successful_delete: Usunięcie zakończone sukcesem.
 notice_successful_connection: Udane nawiązanie połączenia.
 notice_file_not_found: Strona do której próbujesz się dostać nie istnieje lub została usunięta.
 notice_locking_conflict: Dane poprawione przez innego użytkownika.
@@ -308,15 +312,15 @@ label_comment_plural: Komentarze
 label_comment_add: Dodaj komentarz
 label_comment_added: Komentarz dodany
 label_comment_delete: Usuń komentarze
-label_query: Dowolne zapytanie
-label_query_plural: Dowolne zapytania
-label_query_new: Nowe zapytanie
+label_query: Kwerenda
+label_query_plural: Kwerendy
+label_query_new: Nowa kwerenda
 label_filter_add: Dodaj filtr
 label_filter_plural: Filtry
-label_equals: jest
-label_not_equals: nie jest
-label_in_less_than: w mniejszych od
-label_in_more_than: w większych niż
+label_equals: równa się
+label_not_equals: różni się
+label_in_less_than: mniejsze niż
+label_in_more_than: większe niż
 label_in: w
 label_today: dzisiaj
 label_less_than_ago: dni mniej
@@ -344,7 +348,7 @@ label_sort_higher: Do góry
 label_sort_lower: Do dołu
 label_sort_lowest: Przesuń na dół
 label_roadmap: Mapa
-label_roadmap_due_in: W czasie %s
+label_roadmap_due_in: W czasie 
 label_roadmap_no_issues: Brak zagadnień do tej wersji
 label_search: Szukaj
 label_result_plural: Rezultatów
@@ -617,26 +621,28 @@ label_preferences: Preferencje
 label_overall_activity: Ogólna aktywność
 setting_default_projects_public: Nowe projekty są domyślnie publiczne
 error_scm_annotate: "Wpis nie istnieje lub nie można do niego dodawać adnotacji."
-label_planning: Planning
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
-label_and_its_subprojects: %s and its subprojects
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '%s wrote:'
-label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
-label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
-button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version
-label_renamed: renamed
-label_copied: copied
+label_planning: Planowanie
+text_subprojects_destroy_warning: 'Podprojekt(y): %s zostaną także usunięte.'
+label_and_its_subprojects: %s i podprojekty
+mail_body_reminder: "Wykaz przypisanych do Ciebie zagadnień, których termin wypada w ciągu następnych %d dni"
+mail_subject_reminder: "Uwaga na terminy, masz zagadnienia do obsłużenia w ciągu następnych %d dni!"
+text_user_wrote: '%s napisał:'
+label_duplicated_by: zdublikowane przez
+setting_enabled_scm: Dostępny SCM
+text_enumeration_category_reassign_to: 'Zmień przypisanie na tą wartość:'
+text_enumeration_destroy_question: '%d obiektów jest przypisana do tej wartości.'
+label_incoming_emails: Przychodząca poczta elektroniczna
+label_generate_key: Wygeneruj klucz
+setting_mail_handler_api_enabled: Uaktywnij usługi sieciowe (WebServices) dla poczty przychodzącej
+setting_mail_handler_api_key: Klucz API
+text_email_delivery_not_configured: "Dostarczanie poczty elektronicznej nie zostało skonfigurowane, więc powiadamianie jest nieaktywne.\nSkonfiguruj serwer SMTP w config/email.yml  a następnie zrestartuj aplikację i uaktywnij to."
+field_parent_title: Strona rodzica
+label_issue_watchers: Obserwatorzy
+setting_commit_logs_encoding: Zatwierdź kodowanie wiadomości
+button_quote: Cytuj
+setting_sequential_project_identifiers: Generuj sekwencyjne identyfikatory projektów
+notice_unable_delete_version: Nie można usunąć wersji
+label_renamed: przemianowano
+label_copied: skopiowano
+field_vf_watcher: Obserwator
+field_vf_personnel: Personel
