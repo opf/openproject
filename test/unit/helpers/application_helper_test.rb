@@ -181,7 +181,9 @@ class ApplicationHelperTest < HelperTestCase
       "<pre><code>\nline 1\nline2</code></pre>" => "<pre><code>\nline 1\nline2</code></pre>",
       "<pre><div>content</div></pre>" => "<pre>&lt;div&gt;content&lt;/div&gt;</pre>",
       "HTML comment: <!-- no comments -->" => "<p>HTML comment: &lt;!-- no comments --&gt;</p>",
-      "<!-- opening comment" => "<p>&lt;!-- opening comment</p>"
+      "<!-- opening comment" => "<p>&lt;!-- opening comment</p>",
+      # remove attributes
+      "<pre class='foo'>some text</pre>" => "<pre>some text</pre>",
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
   end

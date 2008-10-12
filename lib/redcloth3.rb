@@ -1051,7 +1051,7 @@ class RedCloth3 < String
                     else
                         htmlesc( aftertag, :NoQuotes ) if aftertag
                         line = "<redpre##{ @pre_list.length }>"
-                        @pre_list << "#{ $3 }#{ aftertag }"
+                        @pre_list << "#{ $3.gsub(/<(#{ OFFTAGS })[^>]*>/, '<\\1>') }#{ aftertag }"
                     end
                 elsif $1 and codepre > 0
                     if codepre - used_offtags.length > 0
