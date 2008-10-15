@@ -640,3 +640,4 @@ setting_sequential_project_identifiers: 프로젝트 실별자를 순자적으�
 notice_unable_delete_version: 삭제 할 수 없는 버전 입니다.
 label_renamed: renamed
 label_copied: copied
+setting_plain_text_mail: plain text only (no HTML)

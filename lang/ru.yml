@@ -673,3 +673,4 @@ text_user_wrote: '%s написал(а):'
 text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все содержимое?
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
+setting_plain_text_mail: plain text only (no HTML)

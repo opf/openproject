@@ -642,3 +642,4 @@ setting_sequential_project_identifiers: Genereer sequentiële projectidentiteite
 notice_unable_delete_version: Niet mogelijk om deze versie te verwijderen.
 label_renamed: hernoemd
 label_copied: gekopieerd
+setting_plain_text_mail: plain text only (no HTML)

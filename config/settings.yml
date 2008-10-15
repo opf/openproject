@@ -46,6 +46,8 @@ mail_from:
   default: redmine@example.net
 bcc_recipients:
   default: 1
+plain_text_mail:
+  default: 0
 text_formatting:
   default: textile
 wiki_compression:

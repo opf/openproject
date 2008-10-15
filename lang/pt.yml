@@ -642,3 +642,4 @@ default_activity_development: Desenvolvimento
 enumeration_issue_priorities: Prioridade de tarefas
 enumeration_doc_categories: Categorias de documentos
 enumeration_activities: Actividades (Contagem de tempo)
+setting_plain_text_mail: plain text only (no HTML)

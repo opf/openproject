@@ -641,3 +641,4 @@ default_activity_development: Udvikling
 enumeration_issue_priorities: Sagsprioriteter
 enumeration_doc_categories: Dokumentkategorier
 enumeration_activities: Aktiviteter (tidsregistrering)
+setting_plain_text_mail: plain text only (no HTML)

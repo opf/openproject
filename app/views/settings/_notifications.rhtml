@@ -8,6 +8,10 @@
 <p><label><%= l(:setting_bcc_recipients) %></label>
 <%= check_box_tag 'settings[bcc_recipients]', 1, Setting.bcc_recipients? %>
 <%= hidden_field_tag 'settings[bcc_recipients]', 0 %></p>
+
+<p><label><%= l(:setting_plain_text_mail) %></label>
+<%= check_box_tag 'settings[plain_text_mail]', 1, Setting.plain_text_mail? %>
+<%= hidden_field_tag 'settings[plain_text_mail]', 0 %></p>
 </div>
 
 <fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>

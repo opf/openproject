@@ -552,6 +552,7 @@ notice_account_pending: アカウントは作成済みで、管理者の承認�
 field_time_zone: タイムゾーン
 text_caracters_minimum: 最低%d文字の長さが必要です
 setting_bcc_recipients: ブラインドカーボンコピーで受信(bcc)
+setting_plain_text_mail: プレインテキストのみ(HTMLなし)
 button_annotate: 注釈
 label_issues_by: %s別のチケット
 field_searchable: Searchable

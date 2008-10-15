@@ -646,3 +646,4 @@ label_renamed: przemianowano
 label_copied: skopiowano
 field_vf_watcher: Obserwator
 field_vf_personnel: Personel
+setting_plain_text_mail: plain text only (no HTML)

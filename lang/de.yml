@@ -641,3 +641,4 @@ default_activity_development: Entwicklung
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
+setting_plain_text_mail: plain text only (no HTML)

@@ -641,3 +641,4 @@ setting_sequential_project_identifiers: Generate sequential project identifiers
 notice_unable_delete_version: Unable to delete version
 label_renamed: renamed
 label_copied: copied
+setting_plain_text_mail: plain text only (no HTML)

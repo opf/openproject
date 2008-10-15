@@ -642,3 +642,4 @@ button_quote: Cituoti
 notice_unable_delete_version: Neimanoma panaikinti versiją
 label_renamed: pervardintas
 label_copied: nukopijuotas
+setting_plain_text_mail: plain text only (no HTML)

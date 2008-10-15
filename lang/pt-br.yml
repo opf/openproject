@@ -641,3 +641,4 @@ enumeration_activities: Atividades (time tracking)
 notice_unable_delete_version: Não foi possível excluir a versão
 label_renamed: renomeado
 label_copied: copiado
+setting_plain_text_mail: plain text only (no HTML)
