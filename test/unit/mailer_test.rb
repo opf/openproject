@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MailerTest < Test::Unit::TestCase
-  fixtures :projects, :issues, :users, :members, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations
+  fixtures :projects, :issues, :users, :members, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
   
   def test_generated_links_in_emails
     ActionMailer::Base.deliveries.clear
