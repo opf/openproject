@@ -613,6 +613,7 @@ setting_mail_from: email адрес для передачи информации
 setting_mail_handler_api_enabled: Включить веб-сервис для входящих сообщений
 setting_mail_handler_api_key: API ключ
 setting_per_page_options: Количество строк на страницу
+setting_plain_text_mail: Только простой текст (без HTML)
 setting_protocol: Протокол
 setting_repositories_encodings: Кодировки хранилища
 setting_self_registration: Возможна саморегистрация
@@ -673,4 +674,3 @@ text_user_wrote: '%s написал(а):'
 text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все содержимое?
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
-setting_plain_text_mail: plain text only (no HTML)
