@@ -1,9 +1,9 @@
-Return-Path: <jsmith@somenet.foo>
+Return-Path: <JSmith@somenet.foo>
 Received: from osiris ([127.0.0.1])
 	by OSIRIS
 	with hMailServer ; Sun, 22 Jun 2008 12:28:07 +0200
 Message-ID: <000501c8d452$a95cd7e0$0a00a8c0@osiris>
-From: "John Smith" <jsmith@somenet.foo>
+From: "John Smith" <JSmith@somenet.foo>
 To: <redmine@somenet.foo>
 Subject: New ticket on a given project
 Date: Sun, 22 Jun 2008 12:28:07 +0200

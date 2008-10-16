@@ -39,7 +39,7 @@ class MailHandler < ActionMailer::Base
   # Processes incoming emails
   def receive(email)
     @email = email
-    @user = User.find_active(:first, :conditions => {:mail => email.from.first})
+    @user = User.find_active(:first, :conditions => ["LOWER(mail) = ?", email.from.first.to_s.strip.downcase])
     unless @user
       # Unknown user => the email is ignored
       # TODO: ability to create the user's account
