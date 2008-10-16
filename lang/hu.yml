@@ -641,4 +641,4 @@ setting_sequential_project_identifiers: Szekvenciális projekt azonosítók gene
 notice_unable_delete_version: A verziót nem lehet törölni
 label_renamed: átnevezve
 label_copied: lemásolva
-setting_plain_text_mail: plain text only (no HTML)
+setting_plain_text_mail: csak szöveg (nem HTML)
