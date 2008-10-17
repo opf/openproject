@@ -6,6 +6,9 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
   # Keep in mind you can assign values other than :controller and :action
 
+  # Allow Redmine plugins to map routes and potentially override them
+  Redmine::Hook.call_hook :routes, :map => map
+
   map.home '', :controller => 'welcome'
   map.signin 'login', :controller => 'account', :action => 'login'
   map.signout 'logout', :controller => 'account', :action => 'logout'
