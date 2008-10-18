@@ -32,6 +32,7 @@ roles_001:
     - :view_wiki_pages
     - :view_wiki_edits
     - :edit_wiki_pages
+    - :delete_wiki_pages_attachments
     - :protect_wiki_pages
     - :delete_wiki_pages
     - :rename_wiki_pages
