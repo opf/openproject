@@ -241,6 +241,7 @@ module ApplicationHelper
     attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
     
     if attachments
+      attachments = attachments.sort_by(&:created_on).reverse
       text = text.gsub(/!((\<|\=|\>)?(\([^\)]+\))?(\[[^\]]+\])?(\{[^\}]+\})?)(\S+\.(gif|jpg|jpeg|png))!/) do |m|
         style = $1
         filename = $6
