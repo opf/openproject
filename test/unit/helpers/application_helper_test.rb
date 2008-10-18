@@ -219,6 +219,21 @@ class ApplicationHelperTest < HelperTestCase
     assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
   end
   
+  def test_footnotes
+    raw = <<-RAW
+This is some text[1].
+
+fn1. This is the foot note
+RAW
+
+    expected = <<-EXPECTED
+<p>This is some text<sup><a href=\"#fn1\">1</a></sup>.</p>
+<p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+  end
+  
   def test_table_of_content
     raw = <<-RAW
 {{toc}}

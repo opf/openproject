@@ -272,7 +272,7 @@ class RedCloth3 < String
         @shelf = []
         textile_rules = [:refs_textile, :block_textile_table, :block_textile_lists,
                          :block_textile_prefix, :inline_textile_image, :inline_textile_link,
-                         :inline_textile_code, :inline_textile_span]
+                         :inline_textile_code, :inline_textile_span, :glyphs_textile]
         markdown_rules = [:refs_markdown, :block_markdown_setext, :block_markdown_atx, :block_markdown_rule,
                           :block_markdown_bq, :block_markdown_lists, 
                           :inline_markdown_reflink, :inline_markdown_link]
@@ -684,7 +684,7 @@ class RedCloth3 < String
     alias textile_h6 textile_p
 
     def textile_fn_( tag, num, atts, cite, content )
-        atts << " id=\"fn#{ num }\""
+        atts << " id=\"fn#{ num }\" class=\"footnote\""
         content = "<sup>#{ num }</sup> #{ content }"
         atts = shelve( atts ) if atts
         "\t<p#{ atts }>#{ content }</p>"
@@ -1010,7 +1010,7 @@ class RedCloth3 < String
 
     def glyphs_textile( text, level = 0 )
         if text !~ HASTAG_MATCH
-            pgl text
+            #pgl text
             footnote_ref text
         else
             codepre = 0

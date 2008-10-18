@@ -163,6 +163,7 @@ li p {margin-top: 0;}
 div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid #d7d7d7;}
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; } 
+p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
 
 fieldset#filters, fieldset#date-range { padding: 0.7em; margin-bottom: 8px; }
 fieldset#filters p { margin: 1.2em 0 0.8em 2px; }
@@ -272,6 +273,7 @@ input#time_entry_comments { width: 90%;}
 
 #attachments_fields input[type=text] {margin-left: 8px; }
 
+div.attachments { margin-top: 12px; }
 div.attachments p { margin:4px 0 2px 0; }
 div.attachments img { vertical-align: middle; }
 div.attachments span.author { font-size: 0.9em; color: #888; }
