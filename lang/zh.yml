@@ -195,6 +195,7 @@ setting_attachment_max_size: 附件大小限制
 setting_issues_export_limit: 问题输出条目的限制
 setting_mail_from: 邮件发件人地址
 setting_bcc_recipients: 使用密件抄送 (bcc)
+setting_plain_text_mail: 纯文本（无HTML）
 setting_host_name: 主机名称
 setting_text_formatting: 文本格式
 setting_wiki_compression: 压缩Wiki历史文档
@@ -641,4 +642,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-setting_plain_text_mail: plain text only (no HTML)

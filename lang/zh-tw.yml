@@ -195,6 +195,7 @@ setting_attachment_max_size: 附件大小限制
 setting_issues_export_limit: 項目匯出限制
 setting_mail_from: 寄件者電子郵件
 setting_bcc_recipients: 使用密件副本 (BCC)
+setting_plain_text_mail: 純文字郵件 (不含 HTML)
 setting_host_name: 主機名稱
 setting_text_formatting: 文字格式
 setting_wiki_compression: 壓縮 Wiki 歷史文章
@@ -418,7 +419,7 @@ label_sort_higher: 往上移動
 label_sort_lower: 往下移動
 label_sort_lowest: 移動至結尾
 label_roadmap: 版本藍圖
-label_roadmap_due_in: 倒數天數 %s
+label_roadmap_due_in: 倒數天數： 
 label_roadmap_overdue: %s 逾期
 label_roadmap_no_issues: 此版本尚未包含任何項目
 label_search: 搜尋
@@ -641,4 +642,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-setting_plain_text_mail: plain text only (no HTML)
