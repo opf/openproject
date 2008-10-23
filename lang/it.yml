@@ -24,8 +24,8 @@ activerecord_error_exclusion: è riservato
 activerecord_error_invalid: non è valido
 activerecord_error_confirmation: non coincide con la conferma
 activerecord_error_accepted: deve essere accettato
-activerecord_error_empty: non puo' essere vuoto
-activerecord_error_blank: non puo' essere blank
+activerecord_error_empty: non può essere vuoto
+activerecord_error_blank: non può essere lasciato in bianco
 activerecord_error_too_long: è troppo lungo/a
 activerecord_error_too_short: è troppo corto/a
 activerecord_error_wrong_length: è della lunghezza sbagliata
@@ -108,7 +108,7 @@ field_value: Valore
 field_category: Categoria
 field_title: Titolo
 field_project: Progetto
-field_issue: Issue
+field_issue: Segnalazione
 field_status: Stato
 field_notes: Note
 field_is_closed: Chiude la segnalazione
@@ -353,7 +353,7 @@ label_sort_lower: Giù
 label_sort_lowest: Sposta in fondo
 label_roadmap: Roadmap
 label_roadmap_due_in: Da ultimare in %s
-label_roadmap_overdue: %s late
+label_roadmap_overdue: %s di ritardo
 label_roadmap_no_issues: Nessuna segnalazione per questa versione
 label_search: Ricerca
 label_result_plural: Risultati
@@ -578,7 +578,7 @@ label_document_added: Documenti aggiunti
 label_message_posted: Messaggi aggiunti
 label_file_added: File aggiunti
 label_news_added: Notizie aggiunte
-project_module_boards: Boards
+project_module_boards: Forum
 project_module_issue_tracking: Tracking delle segnalazioni
 project_module_wiki: Wiki
 project_module_files: File
@@ -640,4 +640,4 @@ setting_sequential_project_identifiers: Genera progetti con identificativi in se
 notice_unable_delete_version: Impossibile cancellare la versione
 label_renamed: rinominato
 label_copied: copiato
-setting_plain_text_mail: plain text only (no HTML)
+setting_plain_text_mail: solo testo (non HTML)
