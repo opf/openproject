@@ -45,6 +45,25 @@ class AdminControllerTest < Test::Unit::TestCase
                :attributes => { :class => /nodata/ }
   end
   
+  def test_projects
+    get :projects
+    assert_response :success
+    assert_template 'projects'
+    assert_not_nil assigns(:projects)
+    # active projects only
+    assert_nil assigns(:projects).detect {|u| !u.active?}
+  end
+  
+  def test_projects_with_name_filter
+    get :projects, :name => 'store', :status => ''
+    assert_response :success
+    assert_template 'projects'
+    projects = assigns(:projects)
+    assert_not_nil projects
+    assert_equal 1, projects.size
+    assert_equal 'OnlineStore', projects.first.name
+  end
+  
   def test_load_default_configuration_data
     delete_configuration_data
     post :default_configuration, :lang => 'fr'
