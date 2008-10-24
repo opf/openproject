@@ -33,15 +33,19 @@ class UsersController < ApplicationController
     sort_update
     
     @status = params[:status] ? params[:status].to_i : 1
-    conditions = "status <> 0"
-    conditions = ["status=?", @status] unless @status == 0
+    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
+
+    unless params[:name].blank?
+      name = "%#{params[:name].strip.downcase}%"
+      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", name, name, name]
+    end
     
-    @user_count = User.count(:conditions => conditions)
+    @user_count = User.count(:conditions => c.conditions)
     @user_pages = Paginator.new self, @user_count,
 								per_page_option,
 								params['page']								
     @users =  User.find :all,:order => sort_clause,
-                        :conditions => conditions,
+                        :conditions => c.conditions,
 						:limit  =>  @user_pages.items_per_page,
 						:offset =>  @user_pages.current.offset
 

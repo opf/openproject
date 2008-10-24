@@ -6,8 +6,11 @@
 
 <% form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
-<label><%= l(:field_status) %> :</label>
+<label><%= l(:field_status) %>:</label>
 <%= select_tag 'status', users_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
+<label><%= l(:label_user) %>:</label>
+<%= text_field_tag 'name', params[:name], :size => 30 %>
+<%= submit_tag l(:button_apply), :class => "small", :name => nil %>
 </fieldset>
 <% end %>
 &nbsp;
