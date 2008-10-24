@@ -17,7 +17,7 @@
 <fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
 <% @notifiables.each do |notifiable| %>
   <label><%= check_box_tag 'settings[notified_events][]', notifiable, Setting.notified_events.include?(notifiable) %>
-  <%= l_or_humanize(notifiable) %></label><br />
+  <%= l_or_humanize(notifiable, :prefix => 'label_') %></label><br />
 <% end %>
 <%= hidden_field_tag 'settings[notified_events][]', '' %>
 <p><%= check_all_links('notified_events') %></p>

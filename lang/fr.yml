@@ -222,6 +222,53 @@ setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
 setting_mail_handler_api_key: Clé de protection de l'API
 setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
 
+permission_edit_project: Modifier le projet
+permission_select_project_modules: Choisir les modules
+permission_manage_members: Gérer les members
+permission_manage_versions: Gérer les versions
+permission_manage_categories: Gérer les catégories de demandes
+permission_add_issues: Créer des demandes
+permission_edit_issues: Modifier les demandes
+permission_manage_issue_relations: Gérer les relations
+permission_add_issue_notes: Ajouter des notes
+permission_edit_issue_notes: Modifier les notes
+permission_edit_own_issue_notes: Modifier ses propres notes
+permission_move_issues: Déplacer les demandes
+permission_delete_issues: Supprimer les demandes
+permission_manage_public_queries: Gérer les requêtes publiques
+permission_save_queries: Sauvegarder les requêtes
+permission_view_gantt: Voir le gantt
+permission_view_calendar: Voir le calendrier
+permission_view_issue_watchers: Voir la liste des observateurs
+permission_add_issue_watchers: Ajouter des observateurs
+permission_log_time: Saisir le temps passé
+permission_view_time_entries: Voir le temps passé
+permission_edit_time_entries: Modifier les temps passés
+permission_edit_own_time_entries: Modifier son propre temps passé
+permission_manage_news: Gérer les annonces
+permission_comment_news: Commenter les annonces
+permission_manage_documents: Gérer les documents
+permission_view_documents: Voir les documents
+permission_manage_files: Gérer les fichiers
+permission_view_files: Voir les fichiers
+permission_manage_wiki: Gérer le wiki
+permission_rename_wiki_pages: Renommer les pages
+permission_delete_wiki_pages: Supprimer les pages
+permission_view_wiki_pages: Voir le wiki
+permission_view_wiki_edits: "Voir l'historique des modifications"
+permission_edit_wiki_pages: Modifier les pages
+permission_delete_wiki_pages_attachments: Supprimer les fichiers joints
+permission_protect_wiki_pages: Protéger les pages
+permission_manage_repository: Gérer le dépôt de sources
+permission_browse_repository: Parcourir les sources
+permission_view_changesets: Voir les révisions
+permission_commit_access: Droit de commit
+permission_manage_boards: Gérer les forums
+permission_view_messages: Voir les messages
+permission_add_messages: Poster un message
+permission_edit_messages: Modifier les messages
+permission_delete_messages: Supprimer les messages
+
 project_module_issue_tracking: Suivi des demandes
 project_module_time_tracking: Suivi du temps passé
 project_module_news: Publication d'annonces

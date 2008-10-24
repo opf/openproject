@@ -223,6 +223,53 @@ setting_mail_handler_api_enabled: Enable WS for incoming emails
 setting_mail_handler_api_key: API key
 setting_sequential_project_identifiers: Generate sequential project identifiers
 
+permission_edit_project: Edit project
+permission_select_project_modules: Select project modules
+permission_manage_members: Manage members
+permission_manage_versions: Manage versions
+permission_manage_categories: Manage issue categories
+permission_add_issues: Add issues
+permission_edit_issues: Edit issues
+permission_manage_issue_relations: Manage issue relations
+permission_add_issue_notes: Add notes
+permission_edit_issue_notes: Edit notes
+permission_edit_own_issue_notes: Edit own notes
+permission_move_issues: Move issues
+permission_delete_issues: Delete issues
+permission_manage_public_queries: Manage public queries
+permission_save_queries: Save queries
+permission_view_gantt: View gantt chart
+permission_view_calendar: View calendrier
+permission_view_issue_watchers: View watchers list
+permission_add_issue_watchers: Add watchers
+permission_log_time: Log spent time
+permission_view_time_entries: View spent time
+permission_edit_time_entries: Edit time logs
+permission_edit_own_time_entries: Edit own time logs
+permission_manage_news: Manage news
+permission_comment_news: Comment news
+permission_manage_documents: Manage documents
+permission_view_documents: View documents
+permission_manage_files: Manage files
+permission_view_files: View files
+permission_manage_wiki: Manage wiki
+permission_rename_wiki_pages: Rename wiki pages
+permission_delete_wiki_pages: Delete wiki pages
+permission_view_wiki_pages: View wiki
+permission_view_wiki_edits: View wiki history
+permission_edit_wiki_pages: Edit wiki pages
+permission_delete_wiki_pages_attachments: Delete attachments
+permission_protect_wiki_pages: Protect wiki pages
+permission_manage_repository: Manage repository
+permission_browse_repository: Browse repository
+permission_view_changesets: View changesets
+permission_commit_access: Commit access
+permission_manage_boards: Manage boards
+permission_view_messages: View messages
+permission_add_messages: Post messages
+permission_edit_messages: Edit messages
+permission_delete_messages: Delete messages
+
 project_module_issue_tracking: Issue tracking
 project_module_time_tracking: Time tracking
 project_module_news: News
