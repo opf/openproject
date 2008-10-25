@@ -94,7 +94,11 @@ module Redmine
       def map(menu_name)
         @items ||= {}
         mapper = Mapper.new(menu_name.to_sym, @items)
-        yield mapper
+        if block_given?
+          yield mapper
+        else
+          mapper
+        end
       end
       
       def items(menu_name)

@@ -70,8 +70,14 @@ module Redmine #:nodoc:
     #   
     # +name+ parameter can be: :top_menu, :account_menu, :application_menu or :project_menu
     # 
-    def menu(name, item, url, options={})
-      Redmine::MenuManager.map(name) {|menu| menu.push item, url, options}
+    def menu(menu, item, url, options={})
+      Redmine::MenuManager.map(menu).push(item, url, options)
+    end
+    alias :add_menu_item :menu
+    
+    # Removes +item+ from the given +menu+.
+    def delete_menu_item(menu, item)
+      Redmine::MenuManager.map(menu).delete(item)
     end
 
     # Defines a permission called +name+ for the given +actions+.
