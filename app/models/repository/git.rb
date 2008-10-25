@@ -45,20 +45,22 @@ class Repository::Git < Repository
 
       unless changesets.find_by_scmid(scm_revision)
         scm.revisions('', db_revision, nil, :reverse => true) do |revision|
-          transaction do
-            changeset = Changeset.create(:repository => self,
-                                         :revision => revision.identifier,
-                                         :scmid => revision.scmid,
-                                         :committer => revision.author, 
-                                         :committed_on => revision.time,
-                                         :comments => revision.message)
-            
-            revision.paths.each do |change|
-              Change.create(:changeset => changeset,
-                            :action => change[:action],
-                            :path => change[:path],
-                            :from_path => change[:from_path],
-                            :from_revision => change[:from_revision])
+          if changesets.find_by_scmid(revision.scmid.to_s).nil?
+            transaction do
+              changeset = Changeset.create!(:repository => self,
+                                           :revision => revision.identifier,
+                                           :scmid => revision.scmid,
+                                           :committer => revision.author, 
+                                           :committed_on => revision.time,
+                                           :comments => revision.message)
+              
+              revision.paths.each do |change|
+                Change.create!(:changeset => changeset,
+                              :action => change[:action],
+                              :path => change[:path],
+                              :from_path => change[:from_path],
+                              :from_revision => change[:from_revision])
+              end
             end
           end
         end

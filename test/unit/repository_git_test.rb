@@ -42,7 +42,7 @@ class RepositoryGitTest < Test::Unit::TestCase
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
       # Remove the 3 latest changesets
-      @repository.changesets.find(:all, :order => 'id DESC', :limit => 3).each(&:destroy)
+      @repository.changesets.find(:all, :order => 'committed_on DESC', :limit => 3).each(&:destroy)
       @repository.reload
       assert_equal 3, @repository.changesets.count
       
