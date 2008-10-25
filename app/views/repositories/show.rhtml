@@ -1,4 +1,5 @@
 <div class="contextual">
+<%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
 <%= link_to l(:label_statistics), {:action => 'stats', :id => @project}, :class => 'icon icon-stats' %>
 
 <% if !@entries.nil? && authorize_for('repositories', 'browse') -%>
