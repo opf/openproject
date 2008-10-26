@@ -92,7 +92,7 @@ mail_body_register: 'To activate your account, click on the following link:'
 mail_body_account_information_external: You can use your "%s" account to log in.
 mail_body_account_information: Your account information
 mail_subject_account_activation_request: %s account activation request
-mail_body_account_activation_request: 'A new user (%s) has registered. His account is pending your approval:'
+mail_body_account_activation_request: 'A new user (%s) has registered. The account is pending your approval:'
 mail_subject_reminder: "%d issue(s) due in the next days"
 mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
 
