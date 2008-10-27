@@ -401,22 +401,22 @@ class RedCloth3 < String
     #   [ /([^\s\[{(>#{PUNCT_Q}][#{PUNCT_Q}]*)\'/, '\1&#8217;' ], # single closing
     #   [ /\'(?=[#{PUNCT_Q}]*(s\b|[\s#{PUNCT_NOQ}]))/, '&#8217;' ], # single closing
     #   [ /\'/, '&#8216;' ], # single opening
-        [ /</, '&lt;' ], # less-than
-        [ />/, '&gt;' ], # greater-than
+    #   [ /</, '&lt;' ], # less-than
+    #   [ />/, '&gt;' ], # greater-than
     #   [ /([^\s\[{(])?"(\s|:|$)/, '\1&#8221;\2' ], # double closing
     #   [ /([^\s\[{(>#{PUNCT_Q}][#{PUNCT_Q}]*)"/, '\1&#8221;' ], # double closing
     #   [ /"(?=[#{PUNCT_Q}]*[\s#{PUNCT_NOQ}])/, '&#8221;' ], # double closing
     #   [ /"/, '&#8220;' ], # double opening
-        [ /\b( )?\.{3}/, '\1&#8230;' ], # ellipsis
+    #   [ /\b( )?\.{3}/, '\1&#8230;' ], # ellipsis
         [ /\b([A-Z][A-Z0-9]{2,})\b(?:[(]([^)]*)[)])/, '<acronym title="\2">\1</acronym>' ], # 3+ uppercase acronym
-        [ /(^|[^"][>\s])([A-Z][A-Z0-9 ]+[A-Z0-9])([^<A-Za-z0-9]|$)/, '\1<span class="caps">\2</span>\3', :no_span_caps ], # 3+ uppercase caps
-        [ /(\.\s)?\s?--\s?/, '\1&#8212;' ], # em dash
-        [ /\s->\s/, ' &rarr; ' ], # right arrow
-        [ /\s-\s/, ' &#8211; ' ], # en dash
-        [ /(\d+) ?x ?(\d+)/, '\1&#215;\2' ], # dimension sign
-        [ /\b ?[(\[]TM[\])]/i, '&#8482;' ], # trademark
-        [ /\b ?[(\[]R[\])]/i, '&#174;' ], # registered
-        [ /\b ?[(\[]C[\])]/i, '&#169;' ] # copyright
+    #   [ /(^|[^"][>\s])([A-Z][A-Z0-9 ]+[A-Z0-9])([^<A-Za-z0-9]|$)/, '\1<span class="caps">\2</span>\3', :no_span_caps ], # 3+ uppercase caps
+    #   [ /(\.\s)?\s?--\s?/, '\1&#8212;' ], # em dash
+    #   [ /\s->\s/, ' &rarr; ' ], # right arrow
+    #   [ /\s-\s/, ' &#8211; ' ], # en dash
+    #   [ /(\d+) ?x ?(\d+)/, '\1&#215;\2' ], # dimension sign
+    #   [ /\b ?[(\[]TM[\])]/i, '&#8482;' ], # trademark
+    #   [ /\b ?[(\[]R[\])]/i, '&#174;' ], # registered
+    #   [ /\b ?[(\[]C[\])]/i, '&#169;' ] # copyright
     ]
 
     H_ALGN_VALS = {
@@ -1010,7 +1010,7 @@ class RedCloth3 < String
 
     def glyphs_textile( text, level = 0 )
         if text !~ HASTAG_MATCH
-            #pgl text
+            pgl text
             footnote_ref text
         else
             codepre = 0

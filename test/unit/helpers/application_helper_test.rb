@@ -219,6 +219,11 @@ class ApplicationHelperTest < HelperTestCase
     assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
   end
   
+  def test_acronym
+    assert_equal '<p>This is an acronym: <acronym title="American Civil Liberties Union">ACLU</acronym>.</p>',
+                 textilizable('This is an acronym: ACLU(American Civil Liberties Union).')
+  end
+  
   def test_footnotes
     raw = <<-RAW
 This is some text[1].
