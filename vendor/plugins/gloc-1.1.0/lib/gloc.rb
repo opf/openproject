@@ -52,7 +52,7 @@ module GLoc
     # Sets the current language for this instance/class.
     # Setting the language of a class effects all instances unless the instance has its own language defined.
     def set_language(language)
-      @gloc_language= language.nil? ? nil : language.to_sym
+      GLoc.current_language = language
     end
 
     # Sets the current language if the language passed is a valid language.
@@ -75,7 +75,7 @@ module GLoc
   include ::GLoc::InstanceMethods
   # Returns the instance-level current language, or if not set, returns the class-level current language.
   def current_language
-    @gloc_language || self.class.current_language
+    GLoc.current_language
   end
   
   #---------------------------------------------------------------------------
@@ -87,7 +87,7 @@ module GLoc
     include ::GLoc::InstanceMethods
     # Returns the current language, or if not set, returns the GLoc current language.
     def current_language
-      @gloc_language || GLoc.current_language
+      GLoc.current_language
     end
   end
   
@@ -103,10 +103,16 @@ module GLoc
   
   class << self
     include ::GLoc::InstanceMethods
+
+    @@current_language = nil
     
-    # Returns the default language
+    # Returns the current language
     def current_language
-      GLoc::CONFIG[:default_language]
+      @@current_language || GLoc::CONFIG[:default_language]
+    end
+    
+    def current_language=(lang)
+      @@current_language = lang.blank? ? nil : lang.to_sym
     end
     
     # Adds a collection of localized strings to the in-memory string store.
