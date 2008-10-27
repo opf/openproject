@@ -350,6 +350,13 @@ EXPECTED
     assert textilizable(text).match(/Unknow project/)
   end
   
+  def test_default_formatter
+    Setting.text_formatting = 'unknown'
+    text = 'a *link*: http://www.example.net/'
+    assert_equal '<p>a *link*: <a href="http://www.example.net/">http://www.example.net/</a></p>', textilizable(text)
+    Setting.text_formatting = 'textile'
+  end
+  
   def test_date_format_default
     today = Date.today
     Setting.date_format = ''    

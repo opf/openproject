@@ -148,6 +148,16 @@ module Redmine #:nodoc:
     def activity_provider(*args)
       Redmine::Activity.register(*args)
     end
+    
+    # Registers a wiki formatter.
+    #
+    # Parameters:
+    # * +name+ - human-readable name
+    # * +formatter+ - formatter class, which should have an instance method +to_html+
+    # * +helper+ - helper module, which will be included by wiki pages
+    def wiki_format_provider(name, formatter, helper)
+      Redmine::WikiFormatting.register(name, formatter, helper)
+    end
 
     # Returns +true+ if the plugin can be configured.
     def configurable?

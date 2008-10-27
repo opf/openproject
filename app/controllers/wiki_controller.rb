@@ -63,7 +63,7 @@ class WikiController < ApplicationController
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
     
     @content = @page.content_for_version(params[:version])
-    @content.text = "h1. #{@page.pretty_title}" if @content.text.blank?
+    @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
     @content.comments = nil
     if request.get?
@@ -207,5 +207,12 @@ private
   # Returns true if the current user is allowed to edit the page, otherwise false
   def editable?(page = @page)
     page.editable_by?(User.current)
+  end
+
+  # Returns the default content of a new wiki page
+  def initial_page_content(page)
+    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
+    extend helper unless self.instance_of?(helper)
+    helper.instance_method(:initial_page_content).bind(self).call(page)
   end
 end

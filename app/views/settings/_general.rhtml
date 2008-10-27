@@ -39,7 +39,7 @@
 <%= select_tag 'settings[protocol]', options_for_select(['http', 'https'], Setting.protocol) %></p>
 
 <p><label><%= l(:setting_text_formatting) %></label>
-<%= select_tag 'settings[text_formatting]', options_for_select([[l(:label_none), "0"], ["textile", "textile"]], Setting.text_formatting) %></p>
+<%= select_tag 'settings[text_formatting]', options_for_select([[l(:label_none), "0"], *Redmine::WikiFormatting.format_names.collect{|name| [name, name]} ], Setting.text_formatting.to_sym) %></p>
 
 <p><label><%= l(:setting_wiki_compression) %></label>
 <%= select_tag 'settings[wiki_compression]', options_for_select( [[l(:label_none), 0], ["gzip", "gzip"]], Setting.wiki_compression) %></p>

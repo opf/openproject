@@ -6,6 +6,7 @@ require 'redmine/core_ext'
 require 'redmine/themes'
 require 'redmine/hook'
 require 'redmine/plugin'
+require 'redmine/wiki_formatting'
 
 begin
   require_library_or_gem 'RMagick' unless Object.const_defined?(:Magick)
@@ -149,4 +150,8 @@ Redmine::Activity.map do |activity|
   activity.register :files, :class_name => 'Attachment'
   activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => false
   activity.register :messages, :default => false
+end
+
+Redmine::WikiFormatting.map do |format|
+  format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
 end
