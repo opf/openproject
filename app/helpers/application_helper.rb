@@ -247,7 +247,7 @@ module ApplicationHelper
     
     if attachments
       attachments = attachments.sort_by(&:created_on).reverse
-      text = text.gsub(/!((\<|\=|\>)?(\([^\)]+\))?(\[[^\]]+\])?(\{[^\}]+\})?)(\S+\.(gif|jpg|jpeg|png))!/) do |m|
+      text = text.gsub(/!((\<|\=|\>)?(\([^\)]+\))?(\[[^\]]+\])?(\{[^\}]+\})?)(\S+\.(bmp|gif|jpg|jpeg|png))!/i) do |m|
         style = $1
         filename = $6
         rf = Regexp.new(Regexp.escape(filename),  Regexp::IGNORECASE)

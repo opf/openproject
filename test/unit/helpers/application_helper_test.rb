@@ -24,7 +24,8 @@ class ApplicationHelperTest < HelperTestCase
                       :repositories, :changesets, 
                       :trackers, :issue_statuses, :issues, :versions, :documents,
                       :wikis, :wiki_pages, :wiki_contents,
-                      :boards, :messages
+                      :boards, :messages,
+                      :attachments
 
   def setup
     super
@@ -68,6 +69,15 @@ class ApplicationHelperTest < HelperTestCase
       'with style !{width:100px;height100px}http://foo.bar/image.jpg!' => 'with style <img src="http://foo.bar/image.jpg" style="width:100px;height100px;" alt="" />',
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+  
+  def test_attached_images
+    to_test = {
+      'Inline image: !logo.gif!' => 'Inline image: <img src="/attachments/download/3" title="This is a logo" alt="This is a logo" />',
+      'Inline image: !logo.GIF!' => 'Inline image: <img src="/attachments/download/3" title="This is a logo" alt="This is a logo" />'
+    }
+    attachments = Attachment.find(:all)
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments) }
   end
   
   def test_textile_external_links
