@@ -578,6 +578,53 @@ notice_successful_delete: Удаление успешно завершено.
 notice_successful_update: Обновление успешно завершено.
 notice_unable_delete_version: Невозможно удалить версию.
 
+permission_view_files: Просмотр файлов
+permission_edit_issues: Редактирование задач
+permission_edit_own_time_entries: Редактирование собственного учета времени
+permission_manage_public_queries: Управление общими запросами
+permission_add_issues: Добавление задач
+permission_log_time: Учет затраченного времени
+permission_view_changesets: Просмотр изменений хранилища
+permission_view_time_entries: Просмотр затраченного времени
+permission_manage_versions: Управление версиями
+permission_manage_wiki: Управление wiki
+permission_manage_categories: Управление категориями задач
+permission_protect_wiki_pages: Блокирование страниц wiki
+permission_comment_news: Комментирование новостей
+permission_delete_messages: Удаление сообщений
+permission_select_project_modules: Выбор модулей проекта
+permission_manage_documents: Управление документами
+permission_edit_wiki_pages: Редактирование страниц wiki
+permission_add_issue_watchers: Добавление наблюдателей
+permission_view_gantt: Просмотр диаграммы Ганта
+permission_move_issues: Перенос задач
+permission_manage_issue_relations: Управление связыванием задач
+permission_delete_wiki_pages: Удаление страниц wiki
+permission_manage_boards: Управление форумами
+permission_delete_wiki_pages_attachments: Удаление прикрепленных файлов
+permission_view_wiki_edits: Просмотр истории wiki
+permission_add_messages: Отправка сообщений
+permission_view_messages: Просмотр сообщение
+permission_manage_files: Управление файлами
+permission_edit_issue_notes: Редактирование примечаний
+permission_manage_news: Управление новостями
+permission_view_calendar: Просмотр календаря
+permission_manage_members: Управление участниками
+permission_edit_messages: Редактирование сообщений
+permission_delete_issues: Удаление задач
+permission_view_issue_watchers: Просмотр списка наблюдателей
+permission_manage_repository: Управление хранилищем
+permission_commit_access: Разрешение фиксации
+permission_browse_repository: Просмотр хранилища
+permission_view_documents: Просмотр документов
+permission_edit_project: Редактирование проектов
+permission_add_issue_notes: Добавление примечаний
+permission_save_queries: Сохранение запросов
+permission_view_wiki_pages: Просмотр wiki
+permission_rename_wiki_pages: Переименование страниц wiki
+permission_edit_time_entries: Редактирование учета времени
+permission_edit_own_issue_notes: Редактирование собственных примечаний
+
 project_module_boards: Форумы
 project_module_documents: Документы
 project_module_files: Файлы
@@ -671,52 +718,5 @@ text_tracker_no_workflow: Для этого трекера последоват�
 text_unallowed_characters: Запрещенные символы
 text_user_mail_option: "Для невыбранных проектов, Вы будете получать уведомления только о том что просматриваете или в чем участвуете (например, вопросы, автором которых Вы являетесь или которые Вам назначены)."
 text_user_wrote: '%s написал(а):'
-text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все содержимое?
+text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все ее содержимое?
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
-
-permission_view_files: View files
-permission_edit_issues: Edit issues
-permission_edit_own_time_entries: Edit own time logs
-permission_manage_public_queries: Manage public queries
-permission_add_issues: Add issues
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_view_time_entries: View spent time
-permission_manage_versions: Manage versions
-permission_manage_wiki: Manage wiki
-permission_manage_categories: Manage issue categories
-permission_protect_wiki_pages: Protect wiki pages
-permission_comment_news: Comment news
-permission_delete_messages: Delete messages
-permission_select_project_modules: Select project modules
-permission_manage_documents: Manage documents
-permission_edit_wiki_pages: Edit wiki pages
-permission_add_issue_watchers: Add watchers
-permission_view_gantt: View gantt chart
-permission_move_issues: Move issues
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_wiki_edits: View wiki history
-permission_add_messages: Post messages
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calendrier
-permission_manage_members: Manage members
-permission_edit_messages: Edit messages
-permission_delete_issues: Delete issues
-permission_view_issue_watchers: View watchers list
-permission_manage_repository: Manage repository
-permission_commit_access: Commit access
-permission_browse_repository: Browse repository
-permission_view_documents: View documents
-permission_edit_project: Edit project
-permission_add_issue_notes: Add notes
-permission_save_queries: Save queries
-permission_view_wiki_pages: View wiki
-permission_rename_wiki_pages: Rename wiki pages
-permission_edit_time_entries: Edit time logs
-permission_edit_own_issue_notes: Edit own notes
