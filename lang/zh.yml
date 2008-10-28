@@ -223,6 +223,53 @@ setting_mail_handler_api_enabled: 启用用于接收邮件的Web Service
 setting_mail_handler_api_key: API key
 setting_sequential_project_identifiers: 顺序产生项目标识
 
+permission_edit_project: 编辑项目
+permission_select_project_modules: 选择项目模块
+permission_manage_members: 管理成员
+permission_manage_versions: 管理版本
+permission_manage_categories: 管理问题类别
+permission_add_issues: 新建问题
+permission_edit_issues: 更新问题
+permission_manage_issue_relations: 管理问题关联
+permission_add_issue_notes: 添加说明
+permission_edit_issue_notes: 编辑说明
+permission_edit_own_issue_notes: 编辑自己的说明
+permission_move_issues: 移动问题
+permission_delete_issues: 删除问题
+permission_manage_public_queries: 管理公开的查询
+permission_save_queries: 保存查询
+permission_view_gantt: 查看甘特图
+permission_view_calendar: 查看日历
+permission_view_issue_watchers: 查看跟踪者列表
+permission_add_issue_watchers: 添加跟踪者
+permission_log_time: 登记工时
+permission_view_time_entries: 查看耗时
+permission_edit_time_entries: 编辑耗时
+permission_edit_own_time_entries: 编辑自己的耗时
+permission_manage_news: 管理新闻
+permission_comment_news: 为新闻添加评论
+permission_manage_documents: 管理文档
+permission_view_documents: 查看文档
+permission_manage_files: 管理文件
+permission_view_files: 查看文件
+permission_manage_wiki: 管理Wiki
+permission_rename_wiki_pages: 重命名Wiki页面
+permission_delete_wiki_pages: 删除Wiki页面
+permission_view_wiki_pages: 查看Wiki
+permission_view_wiki_edits: 查看Wiki历史记录
+permission_edit_wiki_pages: 编辑Wiki页面
+permission_delete_wiki_pages_attachments: 删除附件
+permission_protect_wiki_pages: 保护Wiki页面
+permission_manage_repository: 管理版本库
+permission_browse_repository: 浏览版本库
+permission_view_changesets: 查看变更
+permission_commit_access: 访问提交信息
+permission_manage_boards: 管理讨论区
+permission_view_messages: 查看帖子
+permission_add_messages: 发表帖子
+permission_edit_messages: 编辑帖子
+permission_delete_messages: 删除帖子
+
 project_module_issue_tracking: 问题跟踪
 project_module_time_tracking: 时间跟踪
 project_module_news: 新闻
@@ -642,49 +689,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-permission_view_files: View files
-permission_edit_issues: Edit issues
-permission_edit_own_time_entries: Edit own time logs
-permission_manage_public_queries: Manage public queries
-permission_add_issues: Add issues
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_view_time_entries: View spent time
-permission_manage_versions: Manage versions
-permission_manage_wiki: Manage wiki
-permission_manage_categories: Manage issue categories
-permission_protect_wiki_pages: Protect wiki pages
-permission_comment_news: Comment news
-permission_delete_messages: Delete messages
-permission_select_project_modules: Select project modules
-permission_manage_documents: Manage documents
-permission_edit_wiki_pages: Edit wiki pages
-permission_add_issue_watchers: Add watchers
-permission_view_gantt: View gantt chart
-permission_move_issues: Move issues
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_wiki_edits: View wiki history
-permission_add_messages: Post messages
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calendrier
-permission_manage_members: Manage members
-permission_edit_messages: Edit messages
-permission_delete_issues: Delete issues
-permission_view_issue_watchers: View watchers list
-permission_manage_repository: Manage repository
-permission_commit_access: Commit access
-permission_browse_repository: Browse repository
-permission_view_documents: View documents
-permission_edit_project: Edit project
-permission_add_issue_notes: Add notes
-permission_save_queries: Save queries
-permission_view_wiki_pages: View wiki
-permission_rename_wiki_pages: Rename wiki pages
-permission_edit_time_entries: Edit time logs
-permission_edit_own_issue_notes: Edit own notes

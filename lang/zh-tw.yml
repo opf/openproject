@@ -223,6 +223,53 @@ setting_mail_handler_api_enabled: 啟用處理傳入電子郵件的服務
 setting_mail_handler_api_key: API 金鑰
 setting_sequential_project_identifiers: 循序產生專案識別碼
 
+permission_edit_project: 編輯專案
+permission_select_project_modules: 選擇專案模組
+permission_manage_members: 管理成員
+permission_manage_versions: 管理版本
+permission_manage_categories: 管理項目分類
+permission_add_issues: 新增項目
+permission_edit_issues: 編輯項目
+permission_manage_issue_relations: 管理項目關聯
+permission_add_issue_notes: 新增筆記
+permission_edit_issue_notes: 編輯筆記
+permission_edit_own_issue_notes: 編輯自己的筆記
+permission_move_issues: 搬移項目
+permission_delete_issues: 刪除項目
+permission_manage_public_queries: 管理公開查詢
+permission_save_queries: 儲存查詢
+permission_view_gantt: 檢視甘特圖
+permission_view_calendar: 檢視日曆
+permission_view_issue_watchers: 檢視觀察者清單
+permission_add_issue_watchers: 增加觀察者
+permission_log_time: 紀錄耗用工時
+permission_view_time_entries: 檢視耗用工時
+permission_edit_time_entries: 編輯工時紀錄
+permission_edit_own_time_entries: 編輯自己的工時記錄
+permission_manage_news: 管理新聞
+permission_comment_news: 註解新聞
+permission_manage_documents: 管理文件
+permission_view_documents: 檢視文件
+permission_manage_files: 管理檔案
+permission_view_files: 檢視檔案
+permission_manage_wiki: 管理 wiki
+permission_rename_wiki_pages: 重新命名 wiki 頁面
+permission_delete_wiki_pages: 刪除 wiki 頁面
+permission_view_wiki_pages: 檢視 wiki
+permission_view_wiki_edits: 檢視 wiki 歷史
+permission_edit_wiki_pages: 編輯 wiki 頁面
+permission_delete_wiki_pages_attachments: 刪除附件
+permission_protect_wiki_pages: 專案 wiki 頁面
+permission_manage_repository: 管理儲存庫
+permission_browse_repository: 瀏覽儲存庫
+permission_view_changesets: 檢視變更集
+permission_commit_access: 存取送交之變更
+permission_manage_boards: 管理討論版
+permission_view_messages: 檢視訊息
+permission_add_messages: 新增訊息
+permission_edit_messages: 編輯訊息
+permission_delete_messages: 刪除訊息
+
 project_module_issue_tracking: 項目追蹤
 project_module_time_tracking: 工時追蹤
 project_module_news: 新聞
@@ -642,49 +689,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-permission_view_files: View files
-permission_edit_issues: Edit issues
-permission_edit_own_time_entries: Edit own time logs
-permission_manage_public_queries: Manage public queries
-permission_add_issues: Add issues
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_view_time_entries: View spent time
-permission_manage_versions: Manage versions
-permission_manage_wiki: Manage wiki
-permission_manage_categories: Manage issue categories
-permission_protect_wiki_pages: Protect wiki pages
-permission_comment_news: Comment news
-permission_delete_messages: Delete messages
-permission_select_project_modules: Select project modules
-permission_manage_documents: Manage documents
-permission_edit_wiki_pages: Edit wiki pages
-permission_add_issue_watchers: Add watchers
-permission_view_gantt: View gantt chart
-permission_move_issues: Move issues
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_wiki_edits: View wiki history
-permission_add_messages: Post messages
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calendrier
-permission_manage_members: Manage members
-permission_edit_messages: Edit messages
-permission_delete_issues: Delete issues
-permission_view_issue_watchers: View watchers list
-permission_manage_repository: Manage repository
-permission_commit_access: Commit access
-permission_browse_repository: Browse repository
-permission_view_documents: View documents
-permission_edit_project: Edit project
-permission_add_issue_notes: Add notes
-permission_save_queries: Save queries
-permission_view_wiki_pages: View wiki
-permission_rename_wiki_pages: Rename wiki pages
-permission_edit_time_entries: Edit time logs
-permission_edit_own_issue_notes: Edit own notes

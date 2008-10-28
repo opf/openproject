@@ -181,7 +181,7 @@ setting_text_formatting: テキストの書式
 setting_wiki_compression: Wiki履歴を圧縮する
 setting_feeds_limit: フィード内容の上限
 setting_autofetch_changesets: コミットを自動取得する
-setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効化する
+setting_sys_api_enabled: リポジトリ管理用のWeb Serviceを有効にする
 setting_commit_ref_keywords: 参照用キーワード
 setting_commit_fix_keywords: 修正用キーワード
 setting_autologin: 自動ログイン
@@ -510,7 +510,7 @@ default_priority_normal: 通常
 default_priority_high: 高め
 default_priority_urgent: 急いで
 default_priority_immediate: 今すぐ
-default_activity_design: デザイン作業
+default_activity_design: 設計作業
 default_activity_development: 開発作業
 
 enumeration_issue_priorities: チケットの優先度
@@ -620,26 +620,26 @@ label_overall_activity: 全ての活動
 setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
 error_scm_annotate: "エントリが存在しない、もしくはアノテートできません。"
 label_planning: 計画
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
-label_and_its_subprojects: %s and its subprojects
+text_subprojects_destroy_warning: 'サブプロジェクト %s も削除されます。'
+label_and_its_subprojects: %s とサブプロジェクト
 mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
 mail_subject_reminder: "%d issue(s) due in the next days"
 text_user_wrote: '%s wrote:'
 label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
-setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
+setting_enabled_scm: 使用するSCM
+text_enumeration_category_reassign_to: '次の値に割り当て直す:'
+text_enumeration_destroy_question: '%d個のオブジェクトがこの値に割り当てられています。'
+label_incoming_emails: 受信メール
+label_generate_key: キーの生成
+setting_mail_handler_api_enabled: 受信メール用のWeb Serviceを有効にする
+setting_mail_handler_api_key: APIキー
+text_email_delivery_not_configured: "メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\nconfig/email.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。"
+field_parent_title: 親ページ
 label_issue_watchers: Watchers
-setting_commit_logs_encoding: Commit messages encoding
+setting_commit_logs_encoding: コミットメッセージのエンコーディング
 button_quote: Quote
-setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version
+setting_sequential_project_identifiers: プロジェクト識別子を連番で生成する
+notice_unable_delete_version: バージョンを削除できません
 label_renamed: renamed
 label_copied: copied
 permission_view_files: View files
