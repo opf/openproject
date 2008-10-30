@@ -651,6 +651,10 @@ td.username img.gravatar {
 	margin: 0 1em 1em 0;
 }
 
+.journal {
+	clear: both;
+}
+
 /***** Media print specific styles *****/
 @media print {
   #top-menu, #header, #main-menu, #sidebar, #footer, .contextual, .other-formats { display:none; }
