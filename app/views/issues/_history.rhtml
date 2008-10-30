@@ -1,14 +1,15 @@
 <% reply_links = authorize_for('issues', 'edit') -%>
 <% for journal in journals %>
-    <div id="change-<%= journal.id %>" class="journal">
-	<h4><div style="float:right;"><%= link_to "##{journal.indice}", :anchor => "note-#{journal.indice}" %></div>
-	<%= content_tag('a', '', :name => "note-#{journal.indice}")%>
-	<%= format_time(journal.created_on) %> - <%= journal.user.name %></h4>
-	<ul>
-	<% for detail in journal.details %>
-	   <li><%= show_detail(detail) %></li>
-	<% end %>
-	</ul>
-	<%= render_notes(journal, :reply_links => reply_links) unless journal.notes.blank? %>
-	</div>
+  <div id="change-<%= journal.id %>" class="journal">
+    <%= gravatar(journal.user.mail.blank? ? "" : journal.user.mail, :size => "48") %>
+    <h4><div style="float:right;"><%= link_to "##{journal.indice}", :anchor => "note-#{journal.indice}" %></div>
+    <%= content_tag('a', '', :name => "note-#{journal.indice}")%>
+    <%= format_time(journal.created_on) %> - <%= journal.user.name %></h4>
+    <ul>
+    <% for detail in journal.details %>
+       <li><%= show_detail(detail) %></li>
+    <% end %>
+    </ul>
+    <%= render_notes(journal, :reply_links => reply_links) unless journal.notes.blank? %>
+  </div>
 <% end %>

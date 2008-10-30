@@ -615,6 +615,42 @@ vertical-align: middle;
 .icon22-settings { background-image: url(../images/22x22/settings.png); }
 .icon22-plugin { background-image: url(../images/22x22/plugin.png); }
 
+img.gravatar { 
+	padding: 2px;
+  border: solid 1px #d5d5d5;
+  background: #fff;
+}
+
+div.issue img.gravatar {
+	float: right;
+	margin: 0 0 1em 1em;
+	padding: 5px;
+}
+
+div.issue table img.gravatar {
+	height: 24px;
+	width: 24px;
+	padding: 2px;
+	float: left;
+	margin: 0 1em 0 0;
+}
+
+#history img.gravatar {
+	padding: 3px;
+	margin: 0 2em 1em 0;
+	float: left;
+}
+
+td.username img.gravatar {
+	float: left;
+	margin: 0 1em 0 0;
+}
+
+#activity dt img.gravatar {
+	float: left;
+	margin: 0 1em 1em 0;
+}
+
 /***** Media print specific styles *****/
 @media print {
   #top-menu, #header, #main-menu, #sidebar, #footer, .contextual, .other-formats { display:none; }

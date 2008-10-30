@@ -1,0 +1,52 @@
+== Gravatar Plugin
+
+This plugin provides a handful of view helpers for displaying gravatars 
+(globally-recognized avatars). 
+
+Gravatars allow users to configure an avatar to go with their email address at
+a central location: http://gravatar.com. Gravatar-aware websites (such
+as yours) can then look up and display each user's preferred avatar, without
+having to handle avatar management. The user gets the benefit of not having to
+set up an avatar for each site that they post on.
+
+== Installation
+
+  cd ~/myapp
+  ruby script/plugin install svn://rubyforge.org//var/svn/gravatarplugin/plugins/gravatar
+
+or, if you're using piston[http://piston.rubyforge.org] (worth it!):
+
+  cd ~/myapp/vendor/plugins
+  piston import svn://rubyforge.org//var/svn/gravatarplugin/plugins/gravatar
+
+== Example
+
+If you represent your users with a model that has an +email+ method (typical
+for most rails authentication setups), then you can simply use this method
+in your views:
+
+  <%= gravatar_for @user %>
+  
+This will be replaced with the full HTML +img+ tag necessary for displaying 
+that user's gravatar.
+
+Other helpers are documented under GravatarHelper::PublicMethods.
+
+== Acknowledgments
+
+The following people have also written gravatar-related Ruby libraries:
+* Seth Rasmussen created the gravatar gem[http://gravatar.rubyforge.org]
+* Matt McCray has also created a gravatar 
+  plugin[http://mattmccray.com/svn/rails/plugins/gravatar_helper]
+
+== Author
+
+  Scott A. Woods
+  West Arete Computing, Inc.
+  http://westarete.com
+  scott at westarete dot com
+
+== TODO
+
+* Get full spec coverage
+* Finish rdoc documentation
