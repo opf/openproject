@@ -1,7 +1,7 @@
 <% reply_links = authorize_for('issues', 'edit') -%>
 <% for journal in journals %>
   <div id="change-<%= journal.id %>" class="journal">
-    <%= gravatar(journal.user.mail.blank? ? "" : journal.user.mail, :size => "48") %>
+    <%= gravatar(journal.user.mail.blank? ? "" : journal.user.mail, :size => "32") %>
     <h4><div style="float:right;"><%= link_to "##{journal.indice}", :anchor => "note-#{journal.indice}" %></div>
     <%= content_tag('a', '', :name => "note-#{journal.indice}")%>
     <%= format_time(journal.created_on) %> - <%= journal.user.name %></h4>
