@@ -44,6 +44,8 @@ module QueriesHelper
           link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
         when :done_ratio
           progress_bar(value, :width => '80px')
+        when :fixed_version
+          link_to(h(value), { :controller => 'versions', :action => 'show', :id => issue.fixed_version_id })
         else
           h(value)
         end
