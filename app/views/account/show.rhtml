@@ -2,7 +2,7 @@
 <%= link_to(l(:button_edit), {:controller => 'users', :action => 'edit', :id => @user}, :class => 'icon icon-edit') if User.current.admin? %>
 </div>
 
-<h2><%=h @user.name %></h2>
+<h2><%= gravatar @user.mail unless @user.mail.empty? %> <%=h @user.name %></h2>
 
 <p>
 <%= mail_to(h(@user.mail)) unless @user.pref.hide_mail %>
