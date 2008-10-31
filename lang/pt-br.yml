@@ -642,50 +642,50 @@ notice_unable_delete_version: Não foi possível excluir a versão
 label_renamed: renomeado
 label_copied: copiado
 setting_plain_text_mail: texto plano apenas (sem HTML)
-permission_view_files: View files
-permission_edit_issues: Edit issues
-permission_edit_own_time_entries: Edit own time logs
-permission_manage_public_queries: Manage public queries
-permission_add_issues: Add issues
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_view_time_entries: View spent time
-permission_manage_versions: Manage versions
-permission_manage_wiki: Manage wiki
-permission_manage_categories: Manage issue categories
-permission_protect_wiki_pages: Protect wiki pages
-permission_comment_news: Comment news
-permission_delete_messages: Delete messages
-permission_select_project_modules: Select project modules
-permission_manage_documents: Manage documents
-permission_edit_wiki_pages: Edit wiki pages
-permission_add_issue_watchers: Add watchers
-permission_view_gantt: View gantt chart
-permission_move_issues: Move issues
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_wiki_edits: View wiki history
-permission_add_messages: Post messages
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calendrier
-permission_manage_members: Manage members
-permission_edit_messages: Edit messages
-permission_delete_issues: Delete issues
-permission_view_issue_watchers: View watchers list
-permission_manage_repository: Manage repository
-permission_commit_access: Commit access
-permission_browse_repository: Browse repository
-permission_view_documents: View documents
-permission_edit_project: Edit project
-permission_add_issue_notes: Add notes
-permission_save_queries: Save queries
-permission_view_wiki_pages: View wiki
-permission_rename_wiki_pages: Rename wiki pages
-permission_edit_time_entries: Edit time logs
-permission_edit_own_issue_notes: Edit own notes
+permission_view_files: Ver Arquivos
+permission_edit_issues: Editar tickets
+permission_edit_own_time_entries: Editar o próprio tempo de trabalho
+permission_manage_public_queries: Gerenciar consultas publicas
+permission_add_issues: Adicionar Tickets
+permission_log_time: Adicionar tempo gasto
+permission_view_changesets: Ver changesets
+permission_view_time_entries: Ver tempo gasto
+permission_manage_versions: Gerenciar versões
+permission_manage_wiki: Gerenciar wiki
+permission_manage_categories: Gerenciar categorias de tickets
+permission_protect_wiki_pages: Proteger páginas wiki
+permission_comment_news: Comentar notícias
+permission_delete_messages: Excluir mensagens
+permission_select_project_modules: Selecionar módulos de projeto
+permission_manage_documents: Gerenciar documentos
+permission_edit_wiki_pages: Editar páginas wiki
+permission_add_issue_watchers: Adicionar monitores
+permission_view_gantt: Ver gráfico gantt
+permission_move_issues: Mover tickets
+permission_manage_issue_relations: Gerenciar relacionamentos de tickets
+permission_delete_wiki_pages: Excluir páginas wiki
+permission_manage_boards: Gerenciar fóruns
+permission_delete_wiki_pages_attachments: Excluir anexos
+permission_view_wiki_edits: Ver historico do wiki
+permission_add_messages: Postar mensagens
+permission_view_messages: Ver mensagens
+permission_manage_files: Gerenciar arquivos
+permission_edit_issue_notes: Editar notas
+permission_manage_news: Gerenciar notícias
+permission_view_calendar: Ver caneldário
+permission_manage_members: Gerenciar membros
+permission_edit_messages: Editar mensagens
+permission_delete_issues: Excluir tickets
+permission_view_issue_watchers: Ver lista de monitores
+permission_manage_repository: Gerenciar repositório
+permission_commit_access: Acesso de commit
+permission_browse_repository: Pesquisar repositorio
+permission_view_documents: Ver documentos
+permission_edit_project: Editar projeto
+permission_add_issue_notes: Adicionar notas
+permission_save_queries: Salvar consultas
+permission_view_wiki_pages: Ver wiki
+permission_rename_wiki_pages: Renomear páginas wiki
+permission_edit_time_entries: Editar tempo gasto
+permission_edit_own_issue_notes: Editar próprias notas
 setting_gravatar_enabled: Use Gravatar user icons
