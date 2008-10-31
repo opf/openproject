@@ -10,7 +10,7 @@
 <h2><%= @issue.tracker.name %> #<%= @issue.id %></h2>
 
 <div class="issue <%= "status-#{@issue.status.position} priority-#{@issue.priority.position}" %>">
-        <%= gravatar(@issue.author.mail, :size => "64") rescue nil %>
+        <%= gravatar(@issue.author.mail, :size => "14") rescue nil %>
         <h3><%=h @issue.subject %></h3>
         <p class="author">
         <%= authoring @issue.created_on, @issue.author %>.

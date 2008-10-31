@@ -628,8 +628,8 @@ div.issue img.gravatar {
 }
 
 div.issue table img.gravatar {
-	height: 24px;
-	width: 24px;
+	height: 16px;
+	width: 16px;
 	padding: 2px;
 	float: left;
 	margin: 0 1em 0 0;
@@ -637,7 +637,7 @@ div.issue table img.gravatar {
 
 #history img.gravatar {
 	padding: 3px;
-	margin: 0 1em 1em 0;
+	margin: 0 1.5em 1em 0;
 	float: left;
 }
 
