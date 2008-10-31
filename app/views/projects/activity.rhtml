@@ -7,9 +7,9 @@
 <dl>
 <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
   <dt class="<%= e.event_type %>  <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
-	<%= gravatar(e.user.mail, :size => "24") if e.respond_to?(:user) rescue nil%>
-	<%= gravatar(e.author.mail, :size => "24") if e.respond_to?(:author) rescue nil%>
-	<%= gravatar(e.committer.match('\\<.+?\\>')[0].gsub(/[<>]/, ''), :size => "24") if e.respond_to?(:committer) rescue nil%>
+	<%= gravatar_for_mail(e.user.mail, :size => "24") if e.respond_to?(:user) %>
+	<%= gravatar_for_mail(e.author.mail, :size => "24") if e.respond_to?(:author) %>
+	<%= gravatar_for_mail(e.committer.match('\\<.+?\\>')[0].gsub(/[<>]/, ''), :size => "24") if e.respond_to?(:committer) rescue nil %>
   <span class="time"><%= format_time(e.event_datetime, false) %></span>
   <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %>
   <%= link_to format_activity_title(e.event_title), e.event_url %></dt>

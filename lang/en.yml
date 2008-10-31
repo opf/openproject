@@ -222,6 +222,7 @@ setting_enabled_scm: Enabled SCM
 setting_mail_handler_api_enabled: Enable WS for incoming emails
 setting_mail_handler_api_key: API key
 setting_sequential_project_identifiers: Generate sequential project identifiers
+setting_gravatar_enabled: Use Gravatar user icons
 
 permission_edit_project: Edit project
 permission_select_project_modules: Select project modules

@@ -561,6 +561,12 @@ module ApplicationHelper
     (@has_content && @has_content[name]) || false
   end
 
+  def gravatar_for_mail(mail, options = { })
+    if Setting.gravatar_enabled?
+      return gravatar(mail, options) rescue nil
+    end
+  end
+
   private
   
   def wiki_helper

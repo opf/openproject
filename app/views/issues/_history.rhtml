@@ -4,7 +4,7 @@
     <h4><div style="float:right;"><%= link_to "##{journal.indice}", :anchor => "note-#{journal.indice}" %></div>
     <%= content_tag('a', '', :name => "note-#{journal.indice}")%>
     <%= format_time(journal.created_on) %> - <%= journal.user.name %></h4>
-    <%= gravatar(journal.user.mail.blank? ? "" : journal.user.mail, :size => "32") %>
+    <%= gravatar_for_mail(journal.user.mail.blank? ? "" : journal.user.mail, :size => "32") %>
     <ul>
     <% for detail in journal.details %>
        <li><%= show_detail(detail) %></li>
