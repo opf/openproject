@@ -10,7 +10,7 @@
 <h2><%= @issue.tracker.name %> #<%= @issue.id %></h2>
 
 <div class="issue <%= "status-#{@issue.status.position} priority-#{@issue.priority.position}" %>">
-        <%= gravatar(@issue.author.mail, :size => "14") rescue nil %>
+        <%= gravatar(@issue.author.mail, :size => "64") rescue nil %>
         <h3><%=h @issue.subject %></h3>
         <p class="author">
         <%= authoring @issue.created_on, @issue.author %>.
@@ -27,7 +27,7 @@
     <td class="due-date"><b><%=l(:field_due_date)%>:</b></td><td class="due-date"><%= format_date(@issue.due_date) %></td>
 </tr>
 <tr>
-    <td class="assigned-to"><b><%=l(:field_assigned_to)%>:</b></td><td><%= gravatar(@issue.assigned_to.mail, :size => "24") unless @issue.assigned_to.blank?%><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
+    <td class="assigned-to"><b><%=l(:field_assigned_to)%>:</b></td><td><%= gravatar(@issue.assigned_to.mail, :size => "14") unless @issue.assigned_to.blank?%><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
     <td class="progress"><b><%=l(:field_done_ratio)%>:</b></td><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
 </tr>
 <tr>
