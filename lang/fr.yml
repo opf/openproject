@@ -689,3 +689,4 @@ enumeration_doc_categories: Catégories des documents
 enumeration_activities: Activités (suivi du temps)
 notice_unable_delete_version: Unable to delete version
 setting_plain_text_mail: mail texte brut (non HTML)
+setting_gravatar_enabled: Use Gravatar user icons

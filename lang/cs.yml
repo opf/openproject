@@ -692,3 +692,4 @@ permission_view_wiki_pages: View wiki
 permission_rename_wiki_pages: Rename wiki pages
 permission_edit_time_entries: Edit time logs
 permission_edit_own_issue_notes: Edit own notes
+setting_gravatar_enabled: Use Gravatar user icons
