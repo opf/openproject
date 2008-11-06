@@ -107,3 +107,4 @@ module Redmine
 end
 
 ApplicationHelper.send(:include, Redmine::Hook::Helper)
+ActionController::Base.send(:include, Redmine::Hook::Helper)

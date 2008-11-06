@@ -37,4 +37,8 @@ class ApplicationControllerTest < Test::Unit::TestCase
     end
     set_language_if_valid('en')
   end
+  
+  def test_call_hook_mixed_in
+    assert @controller.respond_to?(:call_hook)
+  end
 end
