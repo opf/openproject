@@ -86,7 +86,7 @@ notice_locking_conflict: Dane poprawione przez innego użytkownika.
 notice_not_authorized: Nie jesteś autoryzowany by zobaczyć stronę.
 
 error_scm_not_found: "Obiekt lub wersja nie zostały znalezione w repozytorium."
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "Wystąpił błąd przy próbie dostępu do repozytorium: %s"
 
 mail_subject_lost_password: Twoje hasło do %s
 mail_body_lost_password: 'W celu zmiany swojego hasła użyj poniższego odnośnika:'
@@ -674,51 +674,52 @@ label_renamed: przemianowano
 label_copied: skopiowano
 field_vf_watcher: Obserwator
 field_vf_personnel: Personel
-setting_plain_text_mail: plain text only (no HTML)
-permission_view_files: View files
-permission_edit_issues: Edit issues
-permission_edit_own_time_entries: Edit own time logs
-permission_manage_public_queries: Manage public queries
-permission_add_issues: Add issues
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_view_time_entries: View spent time
-permission_manage_versions: Manage versions
-permission_manage_wiki: Manage wiki
-permission_manage_categories: Manage issue categories
-permission_protect_wiki_pages: Protect wiki pages
-permission_comment_news: Comment news
-permission_delete_messages: Delete messages
-permission_select_project_modules: Select project modules
-permission_manage_documents: Manage documents
-permission_edit_wiki_pages: Edit wiki pages
-permission_add_issue_watchers: Add watchers
-permission_view_gantt: View gantt chart
-permission_move_issues: Move issues
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_wiki_edits: View wiki history
-permission_add_messages: Post messages
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calendrier
-permission_manage_members: Manage members
-permission_edit_messages: Edit messages
-permission_delete_issues: Delete issues
-permission_view_issue_watchers: View watchers list
-permission_manage_repository: Manage repository
-permission_commit_access: Commit access
-permission_browse_repository: Browse repository
-permission_view_documents: View documents
-permission_edit_project: Edit project
-permission_add_issue_notes: Add notes
-permission_save_queries: Save queries
-permission_view_wiki_pages: View wiki
-permission_rename_wiki_pages: Rename wiki pages
-permission_edit_time_entries: Edit time logs
-permission_edit_own_issue_notes: Edit own notes
-setting_gravatar_enabled: Use Gravatar user icons
+setting_plain_text_mail: tylko tekst (bez HTML)
+permission_view_files: Podgląd plików
+permission_edit_issues: Edycja zagadnień
+permission_edit_own_time_entries: Edycja własnego logu czasu
+permission_manage_public_queries: Zarządzanie publicznymi kwerendami
+permission_add_issues: Dodawanie zagadnień
+permission_log_time: Zapisywanie spędzonego czasu
+permission_view_changesets: Podgląd zmian
+permission_view_time_entries: Podgląd spędzonego czasu
+permission_manage_versions: Zarządzanie wersjami
+permission_manage_wiki: Zarządzanie wiki
+permission_manage_categories: Zarządzanie kategoriami zaganień
+permission_protect_wiki_pages: Blokowanie stron wiki
+permission_comment_news: Komentowanie wiadomości
+permission_delete_messages: Usuwanie wiadomości
+permission_select_project_modules: Wybieranie modułów projektu
+permission_manage_documents: Zarządzanie dokumentami
+permission_edit_wiki_pages: Edycja stron wiki
+permission_add_issue_watchers: Dodawanie obserwatorów
+permission_view_gantt: Podgląd diagramu Gantta
+permission_move_issues: Przenoszenie zagadnień
+permission_manage_issue_relations: Zarządzanie powiązaniami zagadnień
+permission_delete_wiki_pages: Usuwanie stron wiki
+permission_manage_boards: Zarządzanie forami
+permission_delete_wiki_pages_attachments: Usuwanie załączników
+permission_view_wiki_edits: Podgląd historii wiki
+permission_add_messages: Dodawanie wiadomości
+permission_view_messages: Podgląd wiadomości
+permission_manage_files: Zarządzanie plikami
+permission_edit_issue_notes: Edycja notatek
+permission_manage_news: Zarządzanie wiadomościami
+permission_view_calendar: Podgląd kalendarza
+permission_manage_members: Zarządzanie uczestnikami
+permission_edit_messages: Edycja wiadomości
+permission_delete_issues: Usuwanie zagadnień
+permission_view_issue_watchers: Podgląd listy obserwatorów
+permission_manage_repository: Zarządzanie repozytorium
+permission_commit_access: Wykonywanie zatwierdzeń
+permission_browse_repository: Przeglądanie repozytorium
+permission_view_documents: Podgląd dokumentów
+permission_edit_project: Edycja projektów
+permission_add_issue_notes: Dodawanie notatek
+permission_save_queries: Zapisywanie kwerend
+permission_view_wiki_pages: Podgląd wiki
+permission_rename_wiki_pages: Zmiana nazw stron wiki
+permission_edit_time_entries: Edycja logów czasu
+permission_edit_own_issue_notes: Edycja własnych notatek
+setting_gravatar_enabled: Używaj ikon użytkowników Gravatar
+
