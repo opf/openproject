@@ -2,7 +2,7 @@
 # PL translation by Mariusz@Olejnik.net, 
 # Best regards from Lublin@Poland :-)
 
-_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+_gloc_rule_default: '|n| n10=n%10; n100=n%100; n==1 ? "" : n10>=2 && n10<=4 && (n100<10 || n100>=20) ? "_plural234" : "_plural5"'
 
 actionview_datehelper_select_day_prefix:
 actionview_datehelper_select_month_names: Styczeń,Luty,Marzec,Kwiecień,Maj,Czerwiec,Lipiec,Sierpień,Wrzesień,Październik,Listopad,Grudzień
@@ -10,17 +10,25 @@ actionview_datehelper_select_month_names_abbr: Sty,Lut,Mar,Kwi,Maj,Cze,Lip,Sie,W
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
 actionview_datehelper_time_in_words_day: 1 dzień
+actionview_datehelper_time_in_words_day_plural234: %d dni
+actionview_datehelper_time_in_words_day_plural5: %d dni
 actionview_datehelper_time_in_words_day_plural: %d dni
 actionview_datehelper_time_in_words_hour_about: około godziny
+actionview_datehelper_time_in_words_hour_about_plural234: około %d godzin
+actionview_datehelper_time_in_words_hour_about_plural5: około %d godzin
 actionview_datehelper_time_in_words_hour_about_plural: około %d godzin
 actionview_datehelper_time_in_words_hour_about_single: około godziny
 actionview_datehelper_time_in_words_minute: 1 minuta
 actionview_datehelper_time_in_words_minute_half: pół minuty
 actionview_datehelper_time_in_words_minute_less_than: mniej niż minuta
+actionview_datehelper_time_in_words_minute_plural234: %d minuty
+actionview_datehelper_time_in_words_minute_plural5: %d minut
 actionview_datehelper_time_in_words_minute_plural: %d minut
 actionview_datehelper_time_in_words_minute_single: 1 minuta
 actionview_datehelper_time_in_words_second_less_than: mniej niż sekunda
 actionview_datehelper_time_in_words_second_less_than_plural: mniej niż %d sekund
+actionview_datehelper_time_in_words_second_less_than_plural234: mniej niż %d sekundy
+actionview_datehelper_time_in_words_second_less_than_plural5: mniej niż %d sekund
 actionview_instancetag_blank_option: Proszę wybierz
 
 activerecord_error_inclusion: nie jest zawarte na liście
@@ -40,7 +48,9 @@ activerecord_error_greater_than_start_date: musi być większe niż początkowa 
 activerecord_error_not_same_project: nie należy do tego samego projektu
 activerecord_error_circular_dependency: Ta relacja może wytworzyć kołową zależność
 
-general_fmt_age: %d lat
+general_fmt_age: %d rok
+general_fmt_age_plural234: %d lata
+general_fmt_age_plural5: %d lat
 general_fmt_age_plural: %d lat
 general_fmt_date: %%m/%%d/%%Y
 general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
@@ -84,6 +94,8 @@ mail_subject_register: Aktywacja konta w %s
 mail_body_register: 'W celu aktywacji Twojego konta, użyj poniższego odnośnika:'
 
 gui_validation_error: 1 błąd
+gui_validation_error_plural234: %d błędy
+gui_validation_error_plural5: %d błędów
 gui_validation_error_plural: %d błędów
 
 field_name: Nazwa
@@ -189,6 +201,8 @@ label_user_plural: Użytkownicy
 label_user_new: Nowy użytkownik
 label_project: Projekt
 label_project_new: Nowy projekt
+label_project_plural234: Projekty
+label_project_plural5: Projekty
 label_project_plural: Projekty
 label_project_all: Wszystkie projekty
 label_project_latest: Ostatnie projekty
@@ -237,7 +251,9 @@ label_help: Pomoc
 label_reported_issues: Wprowadzone zagadnienia
 label_assigned_to_me_issues: Zagadnienia przypisane do mnie
 label_last_login: Ostatnie połączenie
-label_last_updates: Ostatnia zmieniana
+label_last_updates: Ostatnia zmiana
+label_last_updates_plural234: %d ostatnie zmiany
+label_last_updates_plural5: %d ostatnich zmian
 label_last_updates_plural: %d ostatnie zmiany
 label_registered_on: Zarejestrowany
 label_activity: Aktywność
@@ -259,6 +275,8 @@ label_text: Długi tekst
 label_attribute: Atrybut
 label_attribute_plural: Atrybuty
 label_download: %d Pobranie
+label_download_plural234: %d Pobrania
+label_download_plural5: %d Pobrań
 label_download_plural: %d Pobrania
 label_no_data: Brak danych do pokazania
 label_change_status: Status zmian
@@ -285,8 +303,12 @@ label_export_to: Eksportuj do
 label_read: Czytanie...
 label_public_projects: Projekty publiczne
 label_open_issues: otwarte
+label_open_issues_plural234: otwarte
+label_open_issues_plural5: otwarte
 label_open_issues_plural: otwarte
 label_closed_issues: zamknięte
+label_closed_issues_plural234: zamknięte
+label_closed_issues_plural5: zamknięte
 label_closed_issues_plural: zamknięte
 label_total: Ogółem
 label_permissions: Uprawnienia
@@ -308,6 +330,8 @@ label_last_changes: ostatnie %d zmian
 label_change_view_all: Pokaż wszystkie zmiany
 label_personalize_page: Personalizuj tą stronę
 label_comment: Komentarz
+label_comment_plural234: Komentarze
+label_comment_plural5: Komentarze
 label_comment_plural: Komentarze
 label_comment_add: Dodaj komentarz
 label_comment_added: Komentarz dodany
@@ -332,7 +356,9 @@ label_day_plural: dni
 label_repository: Repozytorium
 label_browse: Przegląd
 label_modification: %d modyfikacja
-label_modification_plural: %d modyfikacja
+label_modification_plural234: %d modyfikacje
+label_modification_plural5: %d modyfikacji
+label_modification_plural: %d modyfikacje
 label_revision: Rewizja
 label_revision_plural: Rewizje
 label_added: dodane
@@ -367,6 +393,8 @@ label_changes_details: Szczegóły wszystkich zmian
 label_issue_tracking: Śledzenie zagadnień
 label_spent_time: Spędzony czas
 label_f_hour: %.2f godzina
+label_f_hour_plural234: %.2f godziny
+label_f_hour_plural5: %.2f godzin
 label_f_hour_plural: %.2f godzin
 label_time_tracking: Śledzenie czasu
 label_change_plural: Zmiany
