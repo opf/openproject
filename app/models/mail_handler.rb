@@ -83,7 +83,7 @@ class MailHandler < ActionMailer::Base
     # check permission
     raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
     issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority, :status => status)
-    issue.subject = email.subject.chomp
+    issue.subject = email.subject.chomp.toutf8
     issue.description = email.plain_text_body.chomp
     issue.save!
     add_attachments(issue)
