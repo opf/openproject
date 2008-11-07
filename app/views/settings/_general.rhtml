@@ -33,7 +33,8 @@
 <%= text_field_tag 'settings[activity_days_default]', Setting.activity_days_default, :size => 6 %> <%= l(:label_day_plural) %></p>
 
 <p><label><%= l(:setting_host_name) %></label>
-<%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %></p>
+<%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %><br />
+<em><%= l(:label_example) %>: <%= @guessed_host_and_path %></em></p>
 
 <p><label><%= l(:setting_protocol) %></label>
 <%= select_tag 'settings[protocol]', options_for_select(['http', 'https'], Setting.protocol) %></p>

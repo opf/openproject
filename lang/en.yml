@@ -196,7 +196,7 @@ setting_issues_export_limit: Issues export limit
 setting_mail_from: Emission email address
 setting_bcc_recipients: Blind carbon copy recipients (bcc)
 setting_plain_text_mail: plain text mail (no HTML)
-setting_host_name: Host name
+setting_host_name: Host name and path
 setting_text_formatting: Text formatting
 setting_wiki_compression: Wiki history compression
 setting_feeds_limit: Feed content limit
@@ -576,6 +576,7 @@ label_planning: Planning
 label_incoming_emails: Incoming emails
 label_generate_key: Generate a key
 label_issue_watchers: Watchers
+label_example: Example
 
 button_login: Login
 button_submit: Submit

@@ -197,7 +197,7 @@ setting_issues_export_limit: Limite export demandes
 setting_mail_from: Adresse d'émission
 setting_bcc_recipients: Destinataires en copie cachée (cci)
 setting_plain_text_mail: Mail texte brut (non HTML)
-setting_host_name: Nom d'hôte
+setting_host_name: Nom d'hôte et chemin
 setting_text_formatting: Formatage du texte
 setting_wiki_compression: Compression historique wiki
 setting_feeds_limit: Limite du contenu des flux RSS
@@ -576,6 +576,7 @@ label_planning: Planning
 label_incoming_emails: Emails entrants
 label_generate_key: Générer une clé
 label_issue_watchers: Utilisateurs surveillant cette demande
+label_example: Exemple
 
 button_login: Connexion
 button_submit: Soumettre
