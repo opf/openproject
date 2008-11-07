@@ -1,7 +1,7 @@
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
-actionview_datehelper_select_month_names: Janeiro,Fevereiro,Março,Abrill,Maio,Junho,Julho,Agosto,Setembro,Outubro,Novembro,Dezembro
+actionview_datehelper_select_month_names: Janeiro,Fevereiro,Março,Abril,Maio,Junho,Julho,Agosto,Setembro,Outubro,Novembro,Dezembro
 actionview_datehelper_select_month_names_abbr: Jan,Fev,Mar,Abr,Mai,Jun,Jul,Ago,Set,Out,Nov,Dez
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
@@ -666,7 +666,7 @@ permission_manage_issue_relations: Gerenciar relacionamentos de tickets
 permission_delete_wiki_pages: Excluir páginas wiki
 permission_manage_boards: Gerenciar fóruns
 permission_delete_wiki_pages_attachments: Excluir anexos
-permission_view_wiki_edits: Ver historico do wiki
+permission_view_wiki_edits: Ver histórico do wiki
 permission_add_messages: Postar mensagens
 permission_view_messages: Ver mensagens
 permission_manage_files: Gerenciar arquivos
