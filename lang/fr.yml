@@ -77,6 +77,7 @@ notice_failed_to_save_issues: "%d demande(s) sur les %d sélectionnées n'ont pa
 notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
 notice_account_pending: "Votre compte a été créé et attend l'approbation de l'administrateur."
 notice_default_data_loaded: Paramétrage par défaut chargé avec succès.
+notice_unable_delete_version: Impossible de supprimer cette version.
 
 error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage: %s"
 error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
@@ -195,6 +196,7 @@ setting_attachment_max_size: Taille max des fichiers
 setting_issues_export_limit: Limite export demandes
 setting_mail_from: Adresse d'émission
 setting_bcc_recipients: Destinataires en copie cachée (cci)
+setting_plain_text_mail: Mail texte brut (non HTML)
 setting_host_name: Nom d'hôte
 setting_text_formatting: Formatage du texte
 setting_wiki_compression: Compression historique wiki
@@ -221,6 +223,7 @@ setting_enabled_scm: SCM activés
 setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
 setting_mail_handler_api_key: Clé de protection de l'API
 setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
+setting_gravatar_enabled: Afficher les Gravatar des utilisateurs
 
 permission_edit_project: Modifier le projet
 permission_select_project_modules: Choisir les modules
@@ -687,6 +690,3 @@ default_activity_development: Développement
 enumeration_issue_priorities: Priorités des demandes
 enumeration_doc_categories: Catégories des documents
 enumeration_activities: Activités (suivi du temps)
-notice_unable_delete_version: Unable to delete version
-setting_plain_text_mail: mail texte brut (non HTML)
-setting_gravatar_enabled: Use Gravatar user icons
