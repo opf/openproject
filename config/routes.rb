@@ -7,7 +7,9 @@ ActionController::Routing::Routes.draw do |map|
   # Keep in mind you can assign values other than :controller and :action
 
   # Allow Redmine plugins to map routes and potentially override them
-  Redmine::Hook.call_hook :routes, :map => map
+  Rails.plugins.each do |plugin|
+    map.from_plugin plugin.name.to_sym
+  end
 
   map.home '', :controller => 'welcome'
   map.signin 'login', :controller => 'account', :action => 'login'
