@@ -183,9 +183,13 @@ class Mailer < ActionMailer::Base
     super
     set_language_if_valid Setting.default_language
     from Setting.mail_from
-    default_url_options[:host] = Setting.host_name
+    
+    # URL options
+    h = Setting.host_name
+    h = h.to_s.gsub(%r{\/.*$}, '') unless ActionController::AbstractRequest.relative_url_root.blank?
+    default_url_options[:host] = h
     default_url_options[:protocol] = Setting.protocol
-    default_url_options[:skip_relative_url_root] = true
+    
     # Common headers
     headers 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,

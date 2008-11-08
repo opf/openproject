@@ -38,6 +38,54 @@ class MailerTest < Test::Unit::TestCase
     # link to a changeset
     assert mail.body.include?('<a href="https://mydomain.foo/repositories/revision/ecookbook/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
   end
+  
+  def test_generated_links_with_prefix
+    relative_url_root = ActionController::AbstractRequest.relative_url_root
+    ActionMailer::Base.deliveries.clear
+    Setting.host_name = 'mydomain.foo/rdm'
+    Setting.protocol = 'http'
+    ActionController::AbstractRequest.relative_url_root = '/rdm'
+    
+    journal = Journal.find(2)
+    assert Mailer.deliver_issue_edit(journal)
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert_kind_of TMail::Mail, mail
+    # link to the main ticket
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/show/1">Bug #1: Can\'t print recipes</a>')
+ 
+    # link to a referenced ticket
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/show/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
+    # link to a changeset
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/repositories/revision/ecookbook/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+  ensure
+    # restore it
+    ActionController::AbstractRequest.relative_url_root = relative_url_root
+  end
+  
+  def test_generated_links_with_prefix_and_no_relative_url_root
+    relative_url_root = ActionController::AbstractRequest.relative_url_root
+    ActionMailer::Base.deliveries.clear
+    Setting.host_name = 'mydomain.foo/rdm'
+    Setting.protocol = 'http'
+    ActionController::AbstractRequest.relative_url_root = nil
+    
+    journal = Journal.find(2)
+    assert Mailer.deliver_issue_edit(journal)
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert_kind_of TMail::Mail, mail
+    # link to the main ticket
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/show/1">Bug #1: Can\'t print recipes</a>')
+ 
+    # link to a referenced ticket
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/show/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
+    # link to a changeset
+    assert mail.body.include?('<a href="http://mydomain.foo/rdm/repositories/revision/ecookbook/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+  ensure
+    # restore it
+    ActionController::AbstractRequest.relative_url_root = relative_url_root
+  end
 
   def test_plain_text_mail
     Setting.plain_text_mail = 1
