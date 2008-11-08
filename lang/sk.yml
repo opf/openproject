@@ -1,0 +1,707 @@
+# SK translation by Stanislav Pach | stano.pach@seznam.cz
+
+
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix: 
+actionview_datehelper_select_month_names: Január,Február,Marec,Apríl,Máj,Jún,Júl,August,September,Október,November,December
+actionview_datehelper_select_month_names_abbr: Jan,Feb,Mar,Apr,Maj,Jun,Jul,Aug,Sep,Okt,Nov,Dec
+actionview_datehelper_select_month_prefix: 
+actionview_datehelper_select_year_prefix: 
+actionview_datehelper_time_in_words_day: 1 deň
+actionview_datehelper_time_in_words_day_plural: %d dní/dňami
+actionview_datehelper_time_in_words_hour_about: asi hodinou
+actionview_datehelper_time_in_words_hour_about_plural: asi %d hodinami
+actionview_datehelper_time_in_words_hour_about_single: asi hodinou
+actionview_datehelper_time_in_words_minute: 1 minutou
+actionview_datehelper_time_in_words_minute_half: pol minútou
+actionview_datehelper_time_in_words_minute_less_than: menej ako minútou
+actionview_datehelper_time_in_words_minute_plural: %d minútami
+actionview_datehelper_time_in_words_minute_single: 1 minútou
+actionview_datehelper_time_in_words_second_less_than: menej ako sekundou
+actionview_datehelper_time_in_words_second_less_than_plural: menej ako %d sekundami
+actionview_instancetag_blank_option: Prosím vyberte
+
+activerecord_error_inclusion: nieje zahrnuté v zozname
+activerecord_error_exclusion: je rezervavané
+activerecord_error_invalid: je neplatné
+activerecord_error_confirmation: sa nezhoduje s potvrdením
+activerecord_error_accepted: musí byť akceptované
+activerecord_error_empty: nemôže byť prázdny
+activerecord_error_blank: nemôže byť prázdny
+activerecord_error_too_long: je príliš dlhý
+activerecord_error_too_short: je príliš krátky
+activerecord_error_wrong_length: má chybnú dĺžku
+activerecord_error_taken: je už pou%zité
+activerecord_error_not_a_number: nieje číslo
+activerecord_error_not_a_date: nieje platný dátum
+activerecord_error_greater_than_start_date: musí byť väčší ako počiatočný dátum
+activerecord_error_not_same_project: nepatrí rovnakému projektu
+activerecord_error_circular_dependency: Tento vzťah by vytvoril cyklickú závislosť
+
+general_fmt_age: %d rok
+general_fmt_age_plural: %d rokov
+general_fmt_date: %%m/%%d/%%Y
+general_fmt_datetime: %%m/%%d/%%Y %%I:%%M %%p
+general_fmt_datetime_short: %%b %%d, %%I:%%M %%p
+general_fmt_time: %%I:%%M %%p
+general_text_No: 'Nie'
+general_text_Yes: 'Ano'
+general_text_no: 'nie'
+general_text_yes: 'ano'
+general_lang_name: 'Slovensky'
+general_csv_separator: ','
+general_csv_decimal_separator: '.'
+general_csv_encoding: UTF-8
+general_pdf_encoding: UTF-8
+general_day_names: Pondelok,Utorok,Streda,Štvrtok,Piatok,Sobota,Nedeľa
+general_first_day_of_week: '1'
+
+notice_account_updated: Účet bol úspešne zmenený.
+notice_account_invalid_creditentials: Chybné meno nebo heslo
+notice_account_password_updated: Heslo bolo úspešne zmenené.
+notice_account_wrong_password: Chybné heslo
+notice_account_register_done: Účet bol úspešne vytvorený. Pre aktiváciu účtu kliknite na odkaz v emailu, ktorý vam bol zaslaný.
+notice_account_unknown_email: Neznámu uživateľ.
+notice_can_t_change_password: Tento účet používa externú autentifikáciu. Tu heslo zmeniť nemôžete.
+notice_account_lost_email_sent: Bol vám zaslaný email s inštrukciami ako si nastavite nové heslo.
+notice_account_activated: Váš účet bol aktivovaný. Teraz se môžete prihlásiť.
+notice_successful_create: Úspešne vytvorené.
+notice_successful_update: Úspešne aktualizované.
+notice_successful_delete: Úspešne odstranené.
+notice_successful_connection: Úspešné pripojenie.
+notice_file_not_found: Stránka, ktorú se snažíte zobraziť, neexistuje alebo bola smazaná.
+notice_locking_conflict: Údaje boli zmenené iným uživateľom.
+notice_scm_error: Položka a/alebo revízia neexistuje v repository.
+notice_not_authorized: Nemate dostatočné práva pre zobrazenie tejto stránky.
+notice_email_sent: Na adresu %s bol odeslaný email
+notice_email_error: Pri odosielaní emailu nastala chyba (%s)
+notice_feeds_access_key_reseted: Váš klúč pre prístup k RSS bol resetovaný.
+notice_failed_to_save_issues: "Nastala chyba pri ukládaní %d úloh na %d zvolený: %s."
+notice_no_issue_selected: "Nebola zvolená žiadná úloha. Prosím, zvoľte úlohy, ktoré chcete editovať"
+notice_account_pending: "Váš účet bol vytvorený, teraz čaká na schválenie administrátorom."
+notice_default_data_loaded: Výchozia konfigurácia úspešne nahraná.
+
+error_can_t_load_default_data: "Výchozia konfigurácia nebola nahraná: %s"
+error_scm_not_found: "Položka a/alebo revízia neexistuje v repository."
+error_scm_command_failed: "Pri pokuse o prístup k repository došlo k chybe: %s"
+error_issue_not_found_in_project: 'Úloha nebola nájdená alebo nepatrí k tomuto projektu'
+
+mail_subject_lost_password: Vaše heslo (%s)
+mail_body_lost_password: 'Pre zmenu vašeho hesla kliknite na následujúci odkaz:'
+mail_subject_register: Aktivácia účtu (%s)
+mail_body_register: 'Pre aktiváciu vašeho účtu kliknite na následujúci odkaz:'
+mail_body_account_information_external: Pomocou vašeho účtu "%s" se môžete prihlásiť.
+mail_body_account_information: Informácie o vašom účte
+mail_subject_account_activation_request: Aktivácia %s účtu
+mail_body_account_activation_request: Bol zaregistrovaný nový uživateľ "%s". Aktivácia jeho účtu závisí na vašom potvrdení.
+
+gui_validation_error: 1 chyba
+gui_validation_error_plural: %d chyb(y)
+
+field_name: Názov
+field_description: Popis
+field_summary: Prehľad
+field_is_required: Povinné pole
+field_firstname: Meno
+field_lastname: Priezvisko
+field_mail: Email
+field_filename: Súbor
+field_filesize: Veľkosť
+field_downloads: Stiahnuté
+field_author: Autor
+field_created_on: Vytvorený
+field_updated_on: Aktualizované
+field_field_format: Formát
+field_is_for_all: Pre všetky projekty
+field_possible_values: Možné hodnoty
+field_regexp: Regulérny výraz
+field_min_length: Minimálna dĺžka
+field_max_length: Maximálna dĺžka
+field_value: Hodnota
+field_category: Kategoria
+field_title: Názov
+field_project: Projekt
+field_issue: Úloha
+field_status: Stav
+field_notes: Poznámka
+field_is_closed: Úloha uzavretá
+field_is_default: Východzí stav
+field_tracker: Fronta
+field_subject: Predmet
+field_due_date: Uzavrieť do
+field_assigned_to: Priradené
+field_priority: Priorita
+field_fixed_version: Priradené k verzii
+field_user: Uživateľ
+field_role: Rola
+field_homepage: Homepage
+field_is_public: Verejný
+field_parent: Nadradený projekt
+field_is_in_chlog: Úlohy zobrazené v rozdielovom logu
+field_is_in_roadmap: Úlohy zobrazené v pláne
+field_login: Prihlásený ako
+field_mail_notification: Emailové oznámenie
+field_admin: Administrátor
+field_last_login_on: Posledné prihlásenie
+field_language: Jazyk
+field_effective_date: Dátum
+field_password: Heslo
+field_new_password: Nové heslo
+field_password_confirmation: Potvrdenie
+field_version: Verzia
+field_type: Typ
+field_host: Host
+field_port: Port
+field_account: Účet
+field_base_dn: Base DN
+field_attr_login: Prihlásenie (atribut)
+field_attr_firstname: Meno (atribut)
+field_attr_lastname: Priezvisko (atribut)
+field_attr_mail: Email (atribut)
+field_onthefly: Automatické vytváranie užívateľov
+field_start_date: Začiatok
+field_done_ratio: %% Hotovo
+field_auth_source: Autentifikačný mód
+field_hide_mail: Nezobrazovať môj email
+field_comments: Komentár
+field_url: URL
+field_start_page: Výchozia stránka
+field_subproject: Podprojekt
+field_hours: Hodiny
+field_activity: Aktivita
+field_spent_on: Dátum
+field_identifier: Identifikátor
+field_is_filter: Použíť ako filter
+field_issue_to_id: Súvisiaca úloha
+field_delay: Oneskorenie
+field_assignable: Úlohy môžu byť priradené tejto roli
+field_redirect_existing_links: Presmerovať stávajúce odkazy
+field_estimated_hours: Odhadovaná doba
+field_column_names: Stĺpce
+field_time_zone: Časové pásmo
+field_searchable: Umožniť vyhľadavanie
+field_default_value: Východzia hodnota
+field_comments_sorting: Zobrazit komentáre
+
+setting_app_title: Názov aplikácie
+setting_app_subtitle: Podtitulok aplikácie
+setting_welcome_text: Uvítací text
+setting_default_language: Východzí jazyk
+setting_login_required: Auten. vyžadovaná
+setting_self_registration: Povolenie vlastnej registrácie
+setting_attachment_max_size: Maximálna veľkosť prílohy
+setting_issues_export_limit: Limit pre export úloh
+setting_mail_from: Odosielať emaily z adresy
+setting_bcc_recipients: Príjemci skrytej kópie (bcc)
+setting_host_name: Hostname
+setting_text_formatting: Formátovanie textu
+setting_Wiki _compression: Kompresia histórie Wiki 
+setting_feeds_limit: Feed content limit
+setting_default_projects_public: Nové projekty nastavovať ako verejné
+setting_autofetch_changesets: Autofetch commits
+setting_sys_api_enabled: Povolit WS pre správu repozitory
+setting_commit_ref_keywords: Klúčové slová pre odkazy
+setting_commit_fix_keywords: Klúčové slová pre uzavretie
+setting_autologin: Automatické prihlasovanie
+setting_date_format: Formát dátumu
+setting_time_format: Formát času
+setting_cross_project_issue_relations: Povoliť väzby úloh skrz projekty
+setting_issue_list_default_columns: Východzie stĺpce zobrazené v zozname úloh
+setting_repositories_encodings: Kódovanie 
+setting_emails_footer: Zapätie emailov
+setting_protocol: Protokol
+setting_per_page_options: Povolené počty riadkov na stránke
+setting_user_format: Formát zobrazenia uživateľa
+setting_activity_days_default: Zobrazené dni aktivity projektu
+setting_display_subprojects_issues: Prednastavenie zobrazenia úloh podporojektov v hlavnom projekte
+
+project_module_issue_tracking: Sledovanie úloh
+project_module_time_tracking: Sledovanie času
+project_module_news: Novinky
+project_module_documents: Dokumenty
+project_module_files: Súbory
+project_module_Wiki : Wiki 
+project_module_repository: Repository
+project_module_boards: Diskusie
+
+label_user: Užívateľ
+label_user_plural: Užívatelia
+label_user_new: Nový užívateľ
+label_project: Projekt
+label_project_new: Nový projekt
+label_project_plural: Projekty
+label_project_all: Všetky projekty
+label_project_latest: Posledné projekty
+label_issue: Úloha
+label_issue_new: Nová úloha
+label_issue_plural: Úlohy
+label_issue_view_all: Všetky úlohy
+label_issues_by: Úlohy od užívateľa %s
+label_issue_added: Úloha pridaná
+label_issue_updated: Úloha aktualizovaná
+label_document: Dokument
+label_document_new: Nový dokument
+label_document_plural: Dokumenty
+label_document_added: Dokument pridaný
+label_role: Rola
+label_role_plural: Role
+label_role_new: Nová rola
+label_role_and_permissions: Role a práva
+label_member: Člen
+label_member_new: Nový člen
+label_member_plural: Členovia
+label_tracker: Fronta
+label_tracker_plural: Fronty
+label_tracker_new: Nová fronta
+label_workflow: Workflow
+label_issue_status: Stav úloh
+label_issue_status_plural: Stavy úloh
+label_issue_status_new: Nový stav
+label_issue_category: Kategória úloh
+label_issue_category_plural: Kategórie úloh
+label_issue_category_new: Nová kategória
+label_custom_field: Uživateľské pole
+label_custom_field_plural: Užívateľské polia
+label_custom_field_new: Nové užívateľské pole
+label_enumerations: Zoznamy
+label_enumeration_new: Nová hodnota
+label_information: Informácia
+label_information_plural: Informácie
+label_please_login: Prosím prihlaste se
+label_register: Registrovať
+label_password_lost: Zabudnuté heslo
+label_home: Homepage
+label_my_page: Moja stránka
+label_my_account: Môj účet
+label_my_projects: Moje projekty
+label_administration: Administrácia
+label_login: Prihlásenie
+label_logout: Odhlásenie
+label_help: Nápoveda
+label_reported_issues: Nahlásené úlohy
+label_assigned_to_me_issues: Moje úlohy
+label_last_login: Posledné prihlásenie
+label_last_updates: Posledná zmena
+label_last_updates_plural: %d posledné zmeny
+label_registered_on: Registrovaný
+label_activity: Aktivita
+label_overall_activity: Celková aktivita
+label_new: Nový
+label_logged_as: Prihlásený ako
+label_environment: Prostredie
+label_authentication: Autentifikácia
+label_auth_source: Mód autentifikácie
+label_auth_source_new: Nový mód autentifikácie
+label_auth_source_plural: Módy autentifikácie
+label_subproject_plural: Podprojekty
+label_min_max_length: Min - Max dĺžka
+label_list: Zoznam
+label_date: Dátum
+label_integer: Celé číslo
+label_float: Desatinné číslo
+label_boolean: Ano/Nie
+label_string: Text
+label_text: Dlhý text
+label_attribute: Atribut
+label_attribute_plural: Atributy
+label_download: %d Download
+label_download_plural: %d Downloads
+label_no_data: Žiadné položky
+label_change_status: Zmeniť stav
+label_history: História
+label_attachment: Súbor
+label_attachment_new: Nový súbor
+label_attachment_delete: Odstraniť súbor
+label_attachment_plural: Súbory
+label_file_added: Súbor pridaný
+label_report: Prehľad
+label_report_plural: Prehľady
+label_news: Novinky
+label_news_new: Pridat novinku
+label_news_plural: Novinky
+label_news_latest: Posledné novinky
+label_news_view_all: Zobrazit všetky novinky
+label_news_added: Novinka pridaná
+label_change_log: Protokol zmien
+label_settings: Nastavenie
+label_overview: Prehľad
+label_version: Verzia
+label_version_new: Nová verzia
+label_version_plural: Verzie
+label_confirmation: Potvrdenie
+label_export_to: 'Tiež k dispozícií:'
+label_read: Načíta sa...
+label_public_projects: Verejné projekty
+label_open_issues: otvorený
+label_open_issues_plural: otvorené
+label_closed_issues: uzavrený
+label_closed_issues_plural: uzavrené
+label_total: Celkovo
+label_permissions: Práva
+label_current_status: Aktuálny stav
+label_new_statuses_allowed: Nové povolené stavy
+label_all: všetko
+label_none: nič
+label_nobody: nikto
+label_next: Ďalší
+label_previous: Predchádzajúci
+label_used_by: Použité
+label_details: Detaily
+label_add_note: Pridať poznámku
+label_per_page: Na stránku
+label_calendar: Kalendár
+label_months_from: mesiacov od
+label_gantt: Ganttov graf
+label_internal: Interný
+label_last_changes: posledných %d zmien
+label_change_view_all: Zobraziť všetky zmeny
+label_personalize_page: Prispôsobiť túto stránku
+label_comment: Komentár
+label_comment_plural: Komentáre
+label_comment_add: Pridať komentár
+label_comment_added: Komentár pridaný
+label_comment_delete: Odstrániť komentár
+label_query: Užívateľský dotaz
+label_query_plural: Užívateľské dotazy
+label_query_new: Nový dotaz
+label_filter_add: Pridať filter
+label_filter_plural: Filtre
+label_equals: je
+label_not_equals: nieje
+label_in_less_than: je menší ako
+label_in_more_than: je väčší ako
+label_in: v
+label_today: dnes
+label_all_time: vždy
+label_yesterday: včera
+label_this_week: tento týždeň
+label_last_week: minulý týdeň
+label_last_n_days: posledných %d dní
+label_this_month: tento mesiac
+label_last_month: minulý mesiac
+label_this_year: tento rok
+label_date_range: Časový rozsah
+label_less_than_ago: pred menej ako (dňami)
+label_more_than_ago: pred viac ako (dňami)
+label_ago: pred (dňami)
+label_contains: obsahuje
+label_not_contains: neobsahuje
+label_day_plural: dni
+label_repository: Repository
+label_repository_plural: Repository
+label_browse: Prechádzať
+label_modification: %d zmena
+label_modification_plural: %d zmien
+label_revision: Revízia
+label_revision_plural: Revízií
+label_associated_revisions: Súvisiace verzie
+label_added: pridané
+label_modified: zmenené
+label_deleted: odstránené
+label_latest_revision: Posledná revízia
+label_latest_revision_plural: Posledné revízie
+label_view_revisions: Zobraziť revízie
+label_max_size: Maximálna veľkosť
+label_on: 'z celkovo'
+label_sort_highest: Presunúť na začiatok
+label_sort_higher: Presunúť navrch
+label_sort_lower: Presunúť dole
+label_sort_lowest: Presunúť na koniec
+label_roadmap: Plán
+label_roadmap_due_in: Zostáva %s
+label_roadmap_overdue: %s neskoro
+label_roadmap_no_issues: Pre túto verziu niesu žiadne úlohy
+label_search: Hľadať
+label_result_plural: Výsledky
+label_all_words: Všetky slova
+label_wiki : Wiki 
+label_wiki_edit: Wiki úprava
+label_wiki_edit_plural: Wiki úpravy
+label_wiki_page: Wiki stránka
+label_wiki_page_plural: Wiki stránky
+label_index_by_title: Index podľa názvu
+label_index_by_date: Index podľa dátumu
+label_current_version: Aktuálna verzia
+label_preview: Náhľad
+label_feed_plural: Príspevky
+label_changes_details: Detail všetkých zmien
+label_issue_tracking: Sledovanie úloh
+label_spent_time: Strávený čas
+label_f_hour: %.2f hodina
+label_f_hour_plural: %.2f hodin
+label_time_tracking: Sledovánie času
+label_change_plural: Zmeny
+label_statistics: Štatistiky
+label_commits_per_month: Commitov za mesíc
+label_commits_per_author: Commitov za autora
+label_view_diff: Zobrazit rozdiely
+label_diff_inline: vo vnútri
+label_diff_side_by_side: vedľa seba
+label_options: Nastavenie
+label_copy_workflow_from: Kopírovať workflow z
+label_permissions_report: Prehľad práv
+label_watched_issues: Sledované úlohy
+label_related_issues: Súvisiace úlohy
+label_applied_status: Použitý stav
+label_loading: Nahrávam ...
+label_relation_new: Nová súvislosť
+label_relation_delete: Odstrániť súvislosť
+label_relates_to: súvisiací s
+label_duplicates: duplicity
+label_blocks: blokov
+label_blocked_by: zablokovaný
+label_precedes: predcháza
+label_follows: následuje
+label_end_to_start: od konca na začiatok
+label_end_to_end: od konca do konca
+label_start_to_start: od začiatku do začiatku
+label_start_to_end: od začiatku do konca
+label_stay_logged_in: Zostať prihlásený
+label_disabled: zakazané
+label_show_completed_versions: Ukázať dokončené verzie
+label_me: mňa
+label_board: Fórum
+label_board_new: Nové fórum
+label_board_plural: Fóra
+label_topic_plural: Témy
+label_message_plural: Správy
+label_message_last: Posledná správa
+label_message_new: Nová správa
+label_message_posted: Správa pridaná
+label_reply_plural: Odpovede
+label_send_information: Zaslať informácie o účte uživateľa
+label_year: Rok
+label_month: Mesiac
+label_week: Týžden
+label_date_from: Od
+label_date_to: Do
+label_language_based: Podľa výchozieho jazyka
+label_sort_by: Zoradenie podľa %s
+label_send_test_email: Poslať testovací email
+label_feeds_access_key_created_on: Prístupový klúč pre RSS bol vytvorený pred %s
+label_module_plural: Moduly
+label_added_time_by: 'Pridané užívateľom %s pred %s'
+label_updated_time: 'Aktualizované pred %s'
+label_jump_to_a_project: Zvoliť projekt...
+label_file_plural: Súbory
+label_changeset_plural: Changesety
+label_default_columns: Východzie stĺpce
+label_no_change_option: (bez zmeny)
+label_bulk_edit_selected_issues: Bulk edit selected issues
+label_theme: Téma
+label_default: Východzí
+label_search_titles_only: Vyhľadávať iba v názvoch
+label_user_mail_option_all: "Pre všetky události všetkých mojích projektov"
+label_user_mail_option_selected: "Pre všetky události vybraných projektov.."
+label_user_mail_option_none: "Len pre události, ktoré sledujem alebo sa ma týkajú"
+label_user_mail_no_self_notified: "Nezasielať informácie o mnou vytvorených zmenách"
+label_registration_activation_by_email: aktivácia účtu emailom
+label_registration_manual_activation: manuálna aktivácia účtu
+label_registration_automatic_activation: automatická aktivácia účtu
+label_display_per_page: '%s na stránku'
+label_age: Vek
+label_change_properties: Zmeniť vlastnosti
+label_general: Všeobecné
+label_more: Viac
+label_scm: SCM
+label_plugins: Doplnky
+label_ldap_authentication: Autentifikácia LDAP
+label_downloads_abbr: D/L
+label_optional_description: Voliteľný popis
+label_add_another_file: Pridať další súbor
+label_preferences: Nastavenia
+label_chronological_order: V chronologickom poradí
+label_reverse_chronological_order: V obrátenom chronologickom poradí
+
+button_login: Prihlásiť
+button_submit: Potvrdiť
+button_save: Uložiť
+button_check_all: Zašktnúť všetko
+button_uncheck_all: Odšrtnúť všetko
+button_delete: Odstrániť
+button_create: Vytvoriť
+button_test: Test
+button_edit: Upraviť
+button_add: Pridať
+button_change: Zmeniť
+button_apply: Použiť
+button_clear: Zmazať
+button_lock: Zamknúť
+button_unlock: Odomknúť
+button_download: Stiahnúť
+button_list: Vypísať
+button_view: Zobraziť
+button_move: Presunúť
+button_back: Naspäť
+button_cancel: Storno
+button_activate: Aktivovať
+button_sort: Zoradenie
+button_log_time: Pridať čas
+button_rollback: Naspäť k tejto verzii
+button_watch: Sledovať
+button_unwatch: Nesledovať
+button_reply: Odpovedať
+button_archive: Archivovať
+button_unarchive: Odarchivovať
+button_reset: Reset
+button_rename: Premenovať
+button_change_password: Zmeniť heslo
+button_copy: Kopírovať
+button_annotate: Komentovať
+button_update: Aktualizovať
+button_configure: Konfigurovať
+
+status_active: aktívny
+status_registered: registrovaný
+status_locked: uzamknutý
+
+text_select_mail_notifications: Vyberte akciu, pri ktorej bude zaslané upozornenie emailom
+text_regexp_info: napr. ^[A-Z0-9]+$
+text_min_max_length_info: 0 znamená bez limitu
+text_project_destroy_confirmation: Ste si istý, že chcete odstránit tento projekt a všetky súvisiace dáta ?
+text_workflow_edit: Vyberte rolu a frontu k editácii workflow
+text_are_you_sure: Ste si istý?
+text_journal_changed: zmenené z %s na %s
+text_journal_set_to: nastavené na %s
+text_journal_deleted: odstranené
+text_tip_task_begin_day: úloha začína v tento deň
+text_tip_task_end_day: úloha končí v tento deň
+text_tip_task_begin_end_day: úloha začína a končí v tento deň
+text_project_identifier_info: 'Povolené znaky sú malé písmena (a-z), čísla a pomlčka.<br />Po uložení už nieje možné identifikátor zmeniť.'
+text_caracters_maximum: %d znakov maximálne.
+text_caracters_minimum: Musí byť aspoň %d znaky/ov dlhé.
+text_length_between: Dĺžka medzi %d až %d znakmi.
+text_tracker_no_workflow: Pre tuto frontu nieje definovaný žiadný workflow
+text_unallowed_characters: Nepovolené znaky
+text_comma_separated: Je povolené viacero hodnôt (oddelené navzajom čiarkou).
+text_issues_ref_in_commit_messages: Odkazovať a upravovať úlohy v správach s následovnym obsahom
+text_issue_added: úloha %s bola vytvorená užívateľom %s.
+text_issue_updated: Úloha %s byla aktualizovaná užívateľom %s.
+text_Wiki _destroy_confirmation: Naozaj si prajete odstráni%t túto Wiki a celý jej obsah?
+text_issue_category_destroy_question: Niektoré úlohy (%d) sú priradené k tejto kategórii. Čo s nimi chtete spraviť?
+text_issue_category_destroy_assignments: Zrušiť priradenie ku kategórii
+text_issue_category_reassign_to: Priradiť úlohy do tejto kategórie
+text_user_mail_option: "U projektov, které neboli vybrané, budete dostávať oznamenie iba o vašich či o sledovaných položkách (napr. o položkách, ktorých ste autor, alebo ku ktorým ste priradený/á)."
+text_no_configuration_data: "Role, fronty, stavy úloh ani workflow neboli zatial nakonfigurované.\nVelmi doporučujeme nahráť východziu konfiguráciu. Potom si môžete všetko upraviť"
+text_load_default_configuration: Nahrať východziu konfiguráciu
+text_status_changed_by_changeset: Použito v changesetu %s.
+text_issues_destroy_confirmation: 'Naozaj si prajete odstrániť všetky zvolené úlohy?'
+text_select_project_modules: 'Aktivne moduly v tomto projekte:'
+text_default_administrator_account_changed: Zmenené výchozie nastavenie administrátorského účtu
+text_file_repository_writable: Povolený zápis do repository
+text_rmagick_available: RMagick k dispozícií (voliteľné)
+text_destroy_time_entries_question: U úloh, které chcete odstraniť, je evidované %.02f práce. Čo chcete vykonať?
+text_destroy_time_entries: Odstraniť evidované hodiny.
+text_assign_time_entries_to_project: Priradiť evidované hodiny projektu
+text_reassign_time_entries: 'Preradit evidované hodiny k tejto úlohe:'
+
+default_role_manager: Manažér
+default_role_developper: Vývojár
+default_role_reporter: Reportér
+default_tracker_bug: Chyba
+default_tracker_feature: Požiadavok
+default_tracker_support: Podpora
+default_issue_status_new: Nový
+default_issue_status_assigned: Priradený
+default_issue_status_resolved: Vyriešený
+default_issue_status_feedback: Čaká sa
+default_issue_status_closed: Uzavrený
+default_issue_status_rejected: Odmietnutý
+default_doc_category_user: Užívateľská dokumentácia
+default_doc_category_tech: Technická dokumentácia
+default_priority_low: Nízká
+default_priority_normal: Normálna
+default_priority_high: Vysoká
+default_priority_urgent: Urgentná
+default_priority_immediate: Okamžitá
+default_activity_design: Design
+default_activity_development: Vývoj
+
+enumeration_issue_priorities: Priority úloh
+enumeration_doc_categories: Kategorie dokumentov
+enumeration_activities: Aktivity (sledovanie času)
+error_scm_annotate: "Položka neexistuje alebo nemôže byť komentovaná."
+label_planning: Plánovanie
+text_subprojects_destroy_warning: 'Jeho podprojekt(y): %s budú takisto vymazané.'
+label_and_its_subprojects: %s a jeho podprojekty
+mail_body_reminder: "%d issue(s), ktoré su vám priradené, maju byť hotové za %d dní:"
+mail_subject_reminder: "%d issue(s) hotové za pár dní"
+text_user_wrote: '%s napísal:'
+label_duplicated_by: reprodukovaný
+setting_enabled_scm: Zapnúť SCM
+text_enumeration_category_reassign_to: 'Prenastaviť ich na túto hodnotu:'
+text_enumeration_destroy_question: '%d objekty sú nastavené na túto hodnotu.'
+label_incoming_emails: Príchadzajúce emaily
+label_generate_key: Vygenerovať kľúč
+setting_mail_handler_api_enabled: Zapňuť WS pre príchodzie emaily
+setting_mail_handler_api_key: API kľúč
+text_email_delivery_not_configured: "Doručenie emailu nieje nastavené, notifikácie sú vypnuté.\nNastavte váš SMTP server v config/email.yml a reštartnite aplikáciu pre aktiváciu funkcie."
+field_parent_title: Rodičovská stránka
+label_issue_watchers: Pozorovatelia
+setting_commit_logs_encoding: Commit messages encoding
+button_quote: Citácia
+setting_sequential_project_identifiers: Generovať sekvenčné identifikátory projektov
+notice_unable_delete_version: Verzia nemôže byť zmazaná
+label_renamed: premenované
+label_copied: kopírované
+setting_plain_text_mail: Len jednoduchý text (bez HTML)
+permission_view_files: Zobrazenie súborov
+permission_edit_issues: Editácia úloh
+permission_edit_own_time_entries: Editácia vlastných časových logov
+permission_manage_public_queries: Správa verejných dotazov
+permission_add_issues: Pridanie úlohy
+permission_log_time: Log stráveného času
+permission_view_changesets: Zobrazenie changesetov
+permission_view_time_entries: Zobrazenie stráveného času
+permission_manage_versions: Správa verzií
+permission_manage_Wiki : Správa Wiki 
+permission_manage_categories: Správa kategórií
+permission_protect_Wiki _pages: Ochrana Wiki strániek
+permission_comment_news: Komentovanie noviniek
+permission_delete_messages: Mazanie správ
+permission_select_project_modules: Voľba projektových modulov
+permission_manage_documents: Správa dokumentov
+permission_edit_Wiki _pages: Editácia Wiki strániek
+permission_add_issue_watchers: Pridavanie watcherov
+permission_view_gantt: Zobrazenie Ganttovho diagramu
+permission_move_issues: Presunutie úloh
+permission_manage_issue_relations: Správa vzťahov úloh
+permission_delete_Wiki _pages: Mazanie Wiki strániek
+permission_manage_boards: Správa boardov
+permission_delete_Wiki _pages_attachments: Mazanie Wiki príloh
+permission_view_Wiki _edits: Zobrazenie Wiki zmien
+permission_add_messages: Pridávanie správ
+permission_view_messages: Zobrazenie správ
+permission_manage_files: Správa súborov
+permission_edit_issue_notes: Editácia poznámky úlohy
+permission_manage_news: Správa noviniek
+permission_view_calendar: Zobrazenie kalendára
+permission_manage_members: Správa členov
+permission_edit_messages: Editácia správ
+permission_delete_issues: Mazanie správ
+permission_view_issue_watchers: Zobrazenie zoznamu watcherov
+permission_manage_repository: Správa repository
+permission_commit_access: Povoliť prístup
+permission_browse_repository: Prechádzanie (browse) repository
+permission_view_documents: Zobrazenie dokumentov
+permission_edit_project: Editovanie projektu
+permission_add_issue_notes: Pridanie poznámky úlohy
+permission_save_queries: Uloženie dotazov
+permission_view_Wiki _pages: Zobrazenie Wiki strániek
+permission_rename_Wiki _pages: Premenovanie Wiki strániek
+permission_edit_time_entries: Editácia časových záznamov 
+permission_edit_own_issue_notes: Editácia vlastných poznámok úlohy
+setting_gravatar_enabled: Použitie uživateľských Gravatar ikon
+label_wiki: Wiki
+permission_manage_wiki: Manage wiki
+project_module_wiki: Wiki
+permission_protect_wiki_pages: Protect wiki pages
+permission_edit_wiki_pages: Edit wiki pages
+permission_delete_wiki_pages: Delete wiki pages
+permission_view_wiki_edits: View wiki history
+permission_delete_wiki_pages_attachments: Delete attachments
+setting_wiki_compression: Wiki history compression
+text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
+permission_rename_wiki_pages: Rename wiki pages
+permission_view_wiki_pages: View wiki
