@@ -50,7 +50,8 @@ module Redmine
           path ||= ''
           entries = Entries.new
           cmd = "#{BZR_BIN} ls -v --show-ids"
-          cmd << " -r#{identifier.to_i}" if identifier && identifier.to_i > 0
+          identifier = -1 unless identifier && identifier.to_i > 0 
+          cmd << " -r#{identifier.to_i}" 
           cmd << " #{target(path)}"
           shellout(cmd) do |io|
             prefix = "#{url}/#{path}".gsub('\\', '/')
