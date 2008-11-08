@@ -23,7 +23,7 @@ module Redmine
       class GitAdapter < AbstractAdapter
         
         # Git executable name
-        GIT_BIN = "D:\\dev\\git\\bin\\git.exe"
+        GIT_BIN = "git"
 
         # Get the revision of a particuliar file
         def get_rev (rev,path)
