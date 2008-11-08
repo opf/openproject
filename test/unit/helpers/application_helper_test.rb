@@ -192,8 +192,9 @@ class ApplicationHelperTest < HelperTestCase
       "<pre><div>content</div></pre>" => "<pre>&lt;div&gt;content&lt;/div&gt;</pre>",
       "HTML comment: <!-- no comments -->" => "<p>HTML comment: &lt;!-- no comments --&gt;</p>",
       "<!-- opening comment" => "<p>&lt;!-- opening comment</p>",
-      # remove attributes
-      "<pre class='foo'>some text</pre>" => "<pre>some text</pre>",
+      # remove attributes except class
+      "<pre class='foo'>some text</pre>" => "<pre class='foo'>some text</pre>",
+      "<pre onmouseover='alert(1)'>some text</pre>" => "<pre>some text</pre>",
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
   end
@@ -205,6 +206,21 @@ class ApplicationHelperTest < HelperTestCase
       "<notextile>this is <tag>a tag</tag></notextile>" => "this is &lt;tag&gt;a tag&lt;/tag&gt;"
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
+  end
+  
+  def syntax_highlight
+    raw = <<-RAW
+<pre><code class="ruby">
+# Some ruby code here
+</pre></code>
+RAW
+
+    expected = <<-EXPECTED
+<pre><code class="ruby CodeRay"><span class="no">1</span> <span class="c"># Some ruby code here</span>
+</pre></code>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
   
   def test_wiki_links_in_tables
