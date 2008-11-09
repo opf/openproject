@@ -129,7 +129,10 @@ module ApplicationHelper
   end
 
   def authoring(created, author)
-    time_tag = content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created))
+    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
+                               link_to(distance_of_time_in_words(Time.now, created), 
+                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
+                                       :title => format_time(created))
     author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
     l(:label_added_time_by, author_tag, time_tag)
   end
