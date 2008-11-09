@@ -20,7 +20,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class ApplicationHelperTest < HelperTestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
-  fixtures :projects, :roles, :enabled_modules,
+  fixtures :projects, :roles, :enabled_modules, :users,
                       :repositories, :changesets, 
                       :trackers, :issue_statuses, :issues, :versions, :documents,
                       :wikis, :wiki_pages, :wiki_contents,
@@ -436,5 +436,18 @@ EXPECTED
     to_test.each do |date, expected|
       assert_equal expected, due_date_distance_in_words(date)
     end
+  end
+  
+  def test_avatar
+    # turn on avatars
+    Setting.gravatar_enabled = '1'
+    assert avatar(User.find_by_mail('jsmith@somenet.foo')).include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
+    assert avatar('jsmith <jsmith@somenet.foo>').include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
+    assert_nil avatar('jsmith')
+    assert_nil avatar(nil)
+    
+    # turn off avatars
+    Setting.gravatar_enabled = '0'
+    assert_nil avatar(User.find_by_mail('jsmith@somenet.foo'))
   end
 end

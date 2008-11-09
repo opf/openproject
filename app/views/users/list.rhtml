@@ -29,7 +29,7 @@
   <tbody>
 <% for user in @users -%>
   <tr class="user <%= cycle("odd", "even") %> <%= %w(anon active registered locked)[user.status] %>">
-	<td class="username"><%= gravatar_for_mail(user.mail.blank? ? "" : user.mail, :size => "24") %><%= link_to h(user.login), :action => 'edit', :id => user %></td>
+	<td class="username"><%= avatar(user, :size => "14") %><%= link_to h(user.login), :action => 'edit', :id => user %></td>
 	<td class="firstname"><%= h(user.firstname) %></td>
 	<td class="lastname"><%= h(user.lastname) %></td>
 	<td class="email"><%= mail_to(h(user.mail)) %></td>

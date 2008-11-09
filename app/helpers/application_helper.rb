@@ -21,6 +21,7 @@ require 'forwardable'
 
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
+  include GravatarHelper::PublicMethods
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
@@ -561,9 +562,17 @@ module ApplicationHelper
     (@has_content && @has_content[name]) || false
   end
 
-  def gravatar_for_mail(mail, options = { })
+  # Returns the avatar image tag for the given +user+ if avatars are enabled
+  # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
+  def avatar(user, options = { })
     if Setting.gravatar_enabled?
-      return gravatar(mail.to_s.downcase, options) rescue nil
+      email = nil
+      if user.respond_to?(:mail)
+        email = user.mail
+      elsif user.to_s =~ %r{<(.+?)>}
+        email = $1
+      end
+      return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
     end
   end
 
