@@ -221,7 +221,7 @@ class ProjectsController < ApplicationController
     @days = Setting.activity_days_default.to_i
     
     if params[:from]
-      begin; @date_to = params[:from].to_date; rescue; end
+      begin; @date_to = params[:from].to_date + 1; rescue; end
     end
 
     @date_to ||= Date.today + 1
