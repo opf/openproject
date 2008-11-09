@@ -36,7 +36,19 @@ class RepositoryGitTest < Test::Unit::TestCase
       
       assert_equal 6, @repository.changesets.count
       assert_equal 11, @repository.changes.count
-      assert_equal "Initial import.\nThe repository contains 3 files.", @repository.changesets.find(:first, :order => 'id ASC').comments
+      
+      commit = @repository.changesets.find(:first, :order => 'committed_on ASC')
+      assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
+      assert_equal "jsmith <jsmith@foo.bar>", commit.committer
+      # TODO: add a commit with commit time <> author time to the test repository
+      assert_equal "2007-12-14 09:22:52".to_time, commit.committed_on
+      assert_equal "2007-12-14".to_date, commit.commit_date
+      assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518", commit.revision
+      assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518", commit.scmid
+      assert_equal 3, commit.changes.count
+      change = commit.changes.sort_by(&:path).first
+      assert_equal "README", change.path
+      assert_equal "A", change.action
     end
     
     def test_fetch_changesets_incremental
