@@ -689,3 +689,4 @@ permission_edit_project: Edit project
 permission_save_queries: Save queries
 permission_edit_time_entries: Edit time logs
 permission_edit_own_time_entries: Edit own time logs
+label_example: Example
