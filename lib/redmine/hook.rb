@@ -66,6 +66,7 @@ module Redmine
     # Base class for hook listeners.
     class Listener
       include Singleton
+      include GLoc
 
       # Registers the listener
       def self.inherited(child)
