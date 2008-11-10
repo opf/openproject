@@ -17,6 +17,7 @@
 
 require 'redmine/scm/adapters/abstract_adapter'
 require 'rexml/document'
+require 'uri'
 
 module Redmine
   module Scm
@@ -76,7 +77,7 @@ module Redmine
           path ||= ''
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
           entries = Entries.new
-          cmd = "#{SVN_BIN} list --xml #{target(path)}@#{identifier}"
+          cmd = "#{SVN_BIN} list --xml #{target(URI.escape(path))}@#{identifier}"
           cmd << credentials_string
           shellout(cmd) do |io|
             output = io.read
@@ -86,7 +87,7 @@ module Redmine
                 # Skip directory if there is no commit date (usually that
                 # means that we don't have read access to it)
                 next if entry.attributes['kind'] == 'dir' && entry.elements['commit'].elements['date'].nil?
-                entries << Entry.new({:name => entry.elements['name'].text,
+                entries << Entry.new({:name => URI.unescape(entry.elements['name'].text),
                             :path => ((path.empty? ? "" : "#{path}/") + entry.elements['name'].text),
                             :kind => entry.attributes['kind'],
                             :size => (entry.elements['size'] and entry.elements['size'].text).to_i,
@@ -112,7 +113,7 @@ module Redmine
           return nil unless self.class.client_version_above?([1, 5, 0])
           
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
-          cmd = "#{SVN_BIN} proplist --verbose --xml #{target(path)}@#{identifier}"
+          cmd = "#{SVN_BIN} proplist --verbose --xml #{target(URI.escape(path))}@#{identifier}"
           cmd << credentials_string
           properties = {}
           shellout(cmd) do |io|
@@ -137,7 +138,7 @@ module Redmine
           cmd = "#{SVN_BIN} log --xml -r #{identifier_from}:#{identifier_to}"
           cmd << credentials_string
           cmd << " --verbose " if  options[:with_paths]
-          cmd << ' ' + target(path)
+          cmd << ' ' + target(URI.escape(path))
           shellout(cmd) do |io|
             begin
               doc = REXML::Document.new(io)
@@ -174,7 +175,7 @@ module Redmine
           cmd = "#{SVN_BIN} diff -r "
           cmd << "#{identifier_to}:"
           cmd << "#{identifier_from}"
-          cmd << " #{target(path)}@#{identifier_from}"
+          cmd << " #{target(URI.escape(path))}@#{identifier_from}"
           cmd << credentials_string
           diff = []
           shellout(cmd) do |io|
@@ -188,7 +189,7 @@ module Redmine
         
         def cat(path, identifier=nil)
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
-          cmd = "#{SVN_BIN} cat #{target(path)}@#{identifier}"
+          cmd = "#{SVN_BIN} cat #{target(URI.escape(path))}@#{identifier}"
           cmd << credentials_string
           cat = nil
           shellout(cmd) do |io|
@@ -201,7 +202,7 @@ module Redmine
         
         def annotate(path, identifier=nil)
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
-          cmd = "#{SVN_BIN} blame #{target(path)}@#{identifier}"
+          cmd = "#{SVN_BIN} blame #{target(URI.escape(path))}@#{identifier}"
           cmd << credentials_string
           blame = Annotate.new
           shellout(cmd) do |io|
