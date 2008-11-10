@@ -98,7 +98,8 @@ class RepositoriesController < ApplicationController
 								      params['page']								
     @changesets = @repository.changesets.find(:all,
 						:limit  =>  @changeset_pages.items_per_page,
-						:offset =>  @changeset_pages.current.offset)
+						:offset =>  @changeset_pages.current.offset,
+            :include => :user)
 
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
