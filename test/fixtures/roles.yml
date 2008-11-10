@@ -43,6 +43,7 @@ roles_001:
     - :view_files
     - :manage_files
     - :browse_repository
+    - :manage_repository
     - :view_changesets
 
   position: 1

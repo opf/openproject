@@ -665,6 +665,7 @@ text_user_wrote: '%s wrote:'
 text_enumeration_destroy_question: '%d objects are assigned to this value.'
 text_enumeration_category_reassign_to: 'Reassign them to this value:'
 text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
 
 default_role_manager: Manager
 default_role_developper: Developer

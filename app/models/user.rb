@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
   has_many :members, :dependent => :delete_all
   has_many :projects, :through => :memberships
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
+  has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   belongs_to :auth_source

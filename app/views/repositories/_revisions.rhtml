@@ -17,7 +17,7 @@
 <td class="checkbox"><%= radio_button_tag('rev', changeset.revision, (line_num==1), :id => "cb-#{line_num}", :onclick => "$('cbto-#{line_num+1}').checked=true;") if show_diff && (line_num < revisions.size) %></td>
 <td class="checkbox"><%= radio_button_tag('rev_to', changeset.revision, (line_num==2), :id => "cbto-#{line_num}", :onclick => "if ($('cb-#{line_num}').checked==true) {$('cb-#{line_num-1}').checked=true;}") if show_diff && (line_num > 1) %></td>
 <td class="committed_on"><%= format_time(changeset.committed_on) %></td>
-<td class="author"><%=h changeset.committer.to_s.split('<').first %></td>
+<td class="author"><%=h changeset.author %></td>
 <td class="comments"><%= textilizable(truncate_at_line_break(changeset.comments)) %></td>
 </tr>
 <% line_num += 1 %>

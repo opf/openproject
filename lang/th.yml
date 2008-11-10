@@ -692,3 +692,4 @@ permission_edit_time_entries: Edit time logs
 permission_edit_own_issue_notes: Edit own notes
 setting_gravatar_enabled: Use Gravatar user icons
 label_example: Example
+text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."

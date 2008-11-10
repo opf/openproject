@@ -61,4 +61,38 @@ class RepositoriesControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_equal 'image/svg+xml', @response.content_type
   end
+  
+  def test_committers
+    @request.session[:user_id] = 2
+    # add a commit with an unknown user
+    Changeset.create!(:repository => Project.find(1).repository, :committer => 'foo', :committed_on => Time.now, :revision => 100, :comments => 'Committed by foo.')
+    
+    get :committers, :id => 1
+    assert_response :success
+    assert_template 'committers'
+    
+    assert_tag :td, :content => 'dlopper',
+                    :sibling => { :tag => 'td',
+                                  :child => { :tag => 'select', :attributes => { :name => 'committers[dlopper]' },
+                                                                :child => { :tag => 'option', :content => 'Dave Lopper',
+                                                                                              :attributes => { :value => '3', :selected => 'selected' }}}}
+    assert_tag :td, :content => 'foo',
+                    :sibling => { :tag => 'td',
+                                  :child => { :tag => 'select', :attributes => { :name => 'committers[foo]' }}}
+    assert_no_tag :td, :content => 'foo',
+                       :sibling => { :tag => 'td',
+                                     :descendant => { :tag => 'option', :attributes => { :selected => 'selected' }}}
+  end
+
+  def test_map_committers
+    @request.session[:user_id] = 2
+    # add a commit with an unknown user
+    c = Changeset.create!(:repository => Project.find(1).repository, :committer => 'foo', :committed_on => Time.now, :revision => 100, :comments => 'Committed by foo.')
+    
+    assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
+      post :committers, :id => 1, :committers => { 'foo' => '2', 'dlopper' => '3'}
+      assert_redirected_to '/repositories/committers/ecookbook'
+      assert_equal User.find(2), c.reload.user
+    end
+  end
 end

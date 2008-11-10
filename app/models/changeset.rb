@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,13 +19,13 @@ require 'iconv'
 
 class Changeset < ActiveRecord::Base
   belongs_to :repository
+  belongs_to :user
   has_many :changes, :dependent => :delete_all
   has_and_belongs_to_many :issues
 
   acts_as_event :title => Proc.new {|o| "#{l(:label_revision)} #{o.revision}" + (o.comments.blank? ? '' : (': ' + o.comments))},
                 :description => :comments,
                 :datetime => :committed_on,
-                :author => :committer,
                 :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project_id, :rev => o.revision}}
                 
   acts_as_searchable :columns => 'comments',
@@ -55,6 +55,14 @@ class Changeset < ActiveRecord::Base
   
   def project
     repository.project
+  end
+  
+  def author
+    user || committer.to_s.split('<').first
+  end
+  
+  def before_create
+    self.user = repository.find_committer_user(committer)
   end
   
   def after_create
@@ -96,12 +104,11 @@ class Changeset < ActiveRecord::Base
           issue.reload
           # don't change the status is the issue is closed
           next if issue.status.is_closed?
-          user = committer_user || User.anonymous
           csettext = "r#{self.revision}"
           if self.scmid && (! (csettext =~ /^r[0-9]+$/))
             csettext = "commit:\"#{self.scmid}\""
           end
-          journal = issue.init_journal(user, l(:text_status_changed_by_changeset, csettext))
+          journal = issue.init_journal(user || User.anonymous, l(:text_status_changed_by_changeset, csettext))
           issue.status = fix_status
           issue.done_ratio = done_ratio if done_ratio
           issue.save
@@ -112,16 +119,6 @@ class Changeset < ActiveRecord::Base
     end
     
     self.issues = referenced_issues.uniq
-  end
-
-  # Returns the Redmine User corresponding to the committer
-  def committer_user
-    if committer && committer.strip =~ /^([^<]+)(<(.*)>)?$/
-      username, email = $1.strip, $3
-      u = User.find_by_login(username)
-      u ||= User.find_by_mail(email) unless email.blank?
-      u
-    end
   end
   
   # Returns the previous changeset
@@ -140,7 +137,8 @@ class Changeset < ActiveRecord::Base
   end
   
   private
-  
+
+
   def self.to_utf8(str)
     return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
     encoding = Setting.commit_logs_encoding.to_s.strip

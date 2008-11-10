@@ -7,6 +7,7 @@ changesets_001:
   comments: My very first commit
   repository_id: 10
   committer: dlopper
+  user_id: 3
 changesets_002: 
   commit_date: 2007-04-12
   committed_on: 2007-04-12 15:14:44 +02:00
@@ -15,6 +16,7 @@ changesets_002:
   comments: 'This commit fixes #1, #2 and references #1 & #3'
   repository_id: 10
   committer: dlopper
+  user_id: 3
 changesets_003: 
   commit_date: 2007-04-12
   committed_on: 2007-04-12 15:14:44 +02:00
@@ -25,6 +27,7 @@ changesets_003:
     IssueID 666 3
   repository_id: 10
   committer: dlopper
+  user_id: 3
 changesets_004: 
   commit_date: 2007-04-12
   committed_on: 2007-04-12 15:14:44 +02:00
@@ -35,4 +38,5 @@ changesets_004:
     IssueID 4 2
   repository_id: 10
   committer: dlopper
+  user_id: 3
   

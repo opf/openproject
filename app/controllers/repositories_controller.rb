@@ -44,6 +44,20 @@ class RepositoriesController < ApplicationController
     render(:update) {|page| page.replace_html "tab-content-repository", :partial => 'projects/settings/repository'}
   end
   
+  def committers
+    @committers = @repository.committers
+    @users = @project.users
+    additional_user_ids = @committers.collect(&:last).collect(&:to_i) - @users.collect(&:id)
+    @users += User.find_all_by_id(additional_user_ids) unless additional_user_ids.empty?
+    @users.compact!
+    @users.sort!
+    if request.post?
+      @repository.committer_ids = params[:committers]
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :action => 'committers', :id => @project
+    end
+  end
+  
   def destroy
     @repository.destroy
     redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'repository'

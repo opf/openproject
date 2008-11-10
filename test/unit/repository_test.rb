@@ -127,4 +127,26 @@ class RepositoryTest < Test::Unit::TestCase
     assert_equal ':pserver:login:password@host:/path/to/the/repository', repository.url
     assert_equal 'foo', repository.root_url
   end
+  
+  def test_manual_user_mapping
+    assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
+      c = Changeset.create!(:repository => @repository, :committer => 'foo', :committed_on => Time.now, :revision => 100, :comments => 'Committed by foo.')
+      assert_nil c.user
+      @repository.committer_ids = {'foo' => '2'}
+      assert_equal User.find(2), c.reload.user
+      # committer is now mapped
+      c = Changeset.create!(:repository => @repository, :committer => 'foo', :committed_on => Time.now, :revision => 101, :comments => 'Another commit by foo.')
+      assert_equal User.find(2), c.user
+    end
+  end
+  
+  def test_auto_user_mapping_by_username
+    c = Changeset.create!(:repository => @repository, :committer => 'jsmith', :committed_on => Time.now, :revision => 100, :comments => 'Committed by john.')
+    assert_equal User.find(2), c.user
+  end
+  
+  def test_auto_user_mapping_by_email
+    c = Changeset.create!(:repository => @repository, :committer => 'john <jsmith@somenet.foo>', :committed_on => Time.now, :revision => 100, :comments => 'Committed by john.')
+    assert_equal User.find(2), c.user
+  end
 end
