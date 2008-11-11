@@ -90,10 +90,18 @@ namespace :redmine do
   
       class TracMilestone < ActiveRecord::Base
         set_table_name :milestone
-        
+        # If this attribute is set a milestone has a defined target timepoint        
         def due
           if read_attribute(:due) && read_attribute(:due) > 0
             Time.at(read_attribute(:due)).to_date
+          else
+            nil
+          end
+        end
+        # This is the real timepoint at which the milestone has finished.
+        def completed
+          if read_attribute(:completed) && read_attribute(:completed) > 0
+            Time.at(read_attribute(:completed)).to_date
           else
             nil
           end
@@ -284,9 +292,38 @@ namespace :redmine do
             s
           end
         end
-        # Preformatted blocks
-        text = text.gsub(/\{\{\{/, '<pre>')
-        text = text.gsub(/\}\}\}/, '</pre>')          
+        # We would like to convert the Code highlighting too
+        # This will go into the next line.
+        shebang_line = false
+        # Reguar expression for start of code
+        pre_re = /\{\{\{/
+        # Code hightlighing...
+        shebang_re = /^\#\!([a-z]+)/
+        # Regular expression for end of code
+        pre_end_re = /\}\}\}/
+        
+        # Go through the whole text..extract it line by line
+        text = text.gsub(/^(.*)$/) do |line|
+          m_pre = pre_re.match(line)
+          if m_pre
+            line = '<pre>'
+          else
+            m_sl = shebang_re.match(line)
+            if m_sl
+              shebang_line = true
+              line = '<code class="' + m_sl[1] + '">'
+            end
+            m_pre_end = pre_end_re.match(line)
+            if m_pre_end
+              line = '</pre>'
+              if shebang_line
+                line = '</code>' + line
+              end
+            end
+          end
+          line        
+        end
+
         # Highlighting
         text = text.gsub(/'''''([^\s])/, '_*\1')
         text = text.gsub(/([^\s])'''''/, '\1*_')
@@ -315,6 +352,12 @@ namespace :redmine do
         migrated_ticket_attachments = 0
         migrated_wiki_edits = 0      
         migrated_wiki_attachments = 0
+
+        #Wiki system initializing...
+        @target_project.wiki.destroy if @target_project.wiki
+        @target_project.reload
+        wiki = Wiki.new(:project => @target_project, :start_page => 'WikiStart')
+        wiki_edit_count = 0
   
         # Components
         print "Migrating components"
@@ -336,10 +379,20 @@ namespace :redmine do
         TracMilestone.find(:all).each do |milestone|
           print '.'
           STDOUT.flush
+          # First we try to find the wiki page...
+          p = wiki.find_or_new_page(milestone.name.to_s)
+          p.content = WikiContent.new(:page => p) if p.new_record?
+          p.content.text = milestone.description.to_s
+          p.content.author = find_or_create_user('trac')
+          p.content.comments = 'Milestone'
+          p.save
+
           v = Version.new :project => @target_project,
                           :name => encode(milestone.name[0, limit_for(Version, 'name')]),
-                          :description => encode(milestone.description.to_s[0, limit_for(Version, 'description')]),
-                          :effective_date => milestone.due
+                          :description => nil,
+                          :wiki_page_title => milestone.name.to_s,
+                          :effective_date => milestone.completed
+
           next unless v.save
           version_map[milestone.name] = v
           migrated_milestones += 1
@@ -462,10 +515,6 @@ namespace :redmine do
         
         # Wiki      
         print "Migrating wiki"
-        @target_project.wiki.destroy if @target_project.wiki
-        @target_project.reload
-        wiki = Wiki.new(:project => @target_project, :start_page => 'WikiStart')
-        wiki_edit_count = 0
         if wiki.save
           TracWikiPage.find(:all, :order => 'name, version').each do |page|
             # Do not migrate Trac manual wiki pages
@@ -678,3 +727,4 @@ namespace :redmine do
     TracMigrate.migrate
   end
 end
+
