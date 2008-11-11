@@ -689,7 +689,7 @@ permission_rename_wiki_pages: Wiki oldalak átnevezése
 permission_edit_time_entries: Időnaplók szerkesztése
 permission_edit_own_issue_notes: Saját jegyzetek szerkesztése
 setting_gravatar_enabled: Felhasználói fényképek engedélyezése
-label_example: Example
+label_example: Példa
 text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
 permission_edit_own_messages: Edit own messages
 permission_delete_won_messages: Delete own messages
