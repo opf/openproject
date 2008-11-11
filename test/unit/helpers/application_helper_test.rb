@@ -177,6 +177,7 @@ class ApplicationHelperTest < HelperTestCase
       '[[onlinestore:Unknown page]]' => '<a href="/wiki/onlinestore/Unknown_page" class="wiki-page new">Unknown page</a>',
       # striked through link
       '-[[Another page|Page]]-' => '<del><a href="/wiki/ecookbook/Another_page" class="wiki-page">Page</a></del>',
+      '-[[Another page|Page]] link-' => '<del><a href="/wiki/ecookbook/Another_page" class="wiki-page">Page</a> link</del>',
       # escaping
       '![[Another page|Page]]' => '[[Another page|Page]]',
     }
