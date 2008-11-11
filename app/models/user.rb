@@ -71,6 +71,11 @@ class User < ActiveRecord::Base
     # update hashed_password if password was set
     self.hashed_password = User.hash_password(self.password) if self.password
   end
+  
+  def reload(*args)
+    @name = nil
+    super
+  end
 
   def self.active
     with_scope :find => { :conditions => [ "status = ?", STATUS_ACTIVE ] } do 
@@ -120,8 +125,7 @@ class User < ActiveRecord::Base
 	
   # Return user's full name for display
   def name(formatter = nil)
-    f = USER_FORMATS[formatter || Setting.user_format] || USER_FORMATS[:firstname_lastname]
-    eval '"' + f + '"'
+    @name ||= eval('"' + (USER_FORMATS[formatter || Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"')
   end
   
   def active?
@@ -180,14 +184,9 @@ class User < ActiveRecord::Base
     token && (token.created_on > Setting.autologin.to_i.day.ago) && token.user.active? ? token.user : nil
   end
 
+  # Sort users by their display names
   def <=>(user)
-    if user.nil?
-      -1
-    elsif lastname.to_s.downcase == user.lastname.to_s.downcase
-      firstname.to_s.downcase <=> user.firstname.to_s.downcase
-    else
-      lastname.to_s.downcase <=> user.lastname.to_s.downcase
-    end
+    self.to_s.downcase <=> user.to_s.downcase
   end
   
   def to_s

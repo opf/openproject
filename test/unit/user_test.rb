@@ -85,9 +85,9 @@ class UserTest < Test::Unit::TestCase
   def test_name_format
     assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
     Setting.user_format = :firstname_lastname
-    assert_equal 'John Smith', @jsmith.name
+    assert_equal 'John Smith', @jsmith.reload.name
     Setting.user_format = :username
-    assert_equal 'jsmith', @jsmith.name
+    assert_equal 'jsmith', @jsmith.reload.name
   end
   
   def test_lock
