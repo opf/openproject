@@ -268,13 +268,23 @@ namespace :redmine do
         text = text.gsub(/^(\=+)\s(.+)\s(\=+)/) {|s| "\nh#{$1.length}. #{$2}\n"}
         # External Links
         text = text.gsub(/\[(http[^\s]+)\s+([^\]]+)\]/) {|s| "\"#{$2}\":#{$1}"}
-        # Situations like the following:
+        # Ticket links:
         #      [ticket:234 Text],[ticket:234 This is a test]
         text = text.gsub(/\[ticket\:([^\ ]+)\ (.+?)\]/, '"\2":/issues/show/\1')
-        # Situations like:
         #      ticket:1234
         #      #1 is working cause Redmine uses the same syntax.
         text = text.gsub(/ticket\:([^\ ]+)/, '#\1')
+        # Milestone links:
+        #      [milestone:"0.1.0 Mercury" Milestone 0.1.0 (Mercury)]
+        #      The text "Milestone 0.1.0 (Mercury)" is not converted,
+        #      cause Redmine's wiki does not support this.
+        text = text.gsub(/\[milestone\:\"([^\"]+)\"\ (.+?)\]/, 'version:"\1"')
+        #      [milestone:"0.1.0 Mercury"]
+        text = text.gsub(/\[milestone\:\"([^\"]+)\"\]/, 'version:"\1"')
+        text = text.gsub(/milestone\:\"([^\"]+)\"/, 'version:"\1"')
+        #      milestone:0.1.0 
+        text = text.gsub(/\[milestone\:([^\ ]+)\]/, 'version:\1')
+        text = text.gsub(/milestone\:([^\ ]+)/, 'version:\1')
         # Internal Links
         text = text.gsub(/\[\[BR\]\]/, "\n") # This has to go before the rules below
         text = text.gsub(/\[\"(.+)\".*\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
