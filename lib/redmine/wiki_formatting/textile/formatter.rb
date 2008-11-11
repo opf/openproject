@@ -135,7 +135,7 @@ module Redmine
                         )
                         (
                           (?:https?://)|           # protocol spec, or
-                          (?:ftp://)|
+                          (?:s?ftps?://)|
                           (?:www\.)                # www.*
                         )
                         (
