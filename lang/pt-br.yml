@@ -689,5 +689,5 @@ permission_rename_wiki_pages: Renomear páginas wiki
 permission_edit_time_entries: Editar tempo gasto
 permission_edit_own_issue_notes: Editar próprias notas
 setting_gravatar_enabled: Usar ícones do Gravatar
-label_example: Example
-text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+label_example: Exemplo
+text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmine mapeando para cada usuário encontrado no log do repositório.\nUsuários com o mesmo login ou email no Redmine e no repositório serão mapeados automaticamente."
