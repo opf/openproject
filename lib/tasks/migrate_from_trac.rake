@@ -270,7 +270,7 @@ namespace :redmine do
         text = text.gsub(/\[(http[^\s]+)\s+([^\]]+)\]/) {|s| "\"#{$2}\":#{$1}"}
         # Situations like the following:
         #      [ticket:234 Text],[ticket:234 This is a test]
-        text = text.gsub(/\[ticket\:([^\ ]+)\ (.+?)\]/, '[[#\1|\2]]')
+        text = text.gsub(/\[ticket\:([^\ ]+)\ (.+?)\]/, '"\2":/issues/show/\1')
         # Situations like:
         #      ticket:1234
         #      #1 is working cause Redmine uses the same syntax.
