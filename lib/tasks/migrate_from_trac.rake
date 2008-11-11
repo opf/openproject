@@ -268,6 +268,13 @@ namespace :redmine do
         text = text.gsub(/^(\=+)\s(.+)\s(\=+)/) {|s| "\nh#{$1.length}. #{$2}\n"}
         # External Links
         text = text.gsub(/\[(http[^\s]+)\s+([^\]]+)\]/) {|s| "\"#{$2}\":#{$1}"}
+        # Situations like the following:
+        #      [ticket:234 Text],[ticket:234 This is a test]
+        text = text.gsub(/\[ticket\:([^\ ]+)\ (.+?)\]/, '[[#\1|\2]]')
+        # Situations like:
+        #      ticket:1234
+        #      #1 is working cause Redmine uses the same syntax.
+        text = text.gsub(/ticket\:([^\ ]+)/, '#\1')
         # Internal Links
         text = text.gsub(/\[\[BR\]\]/, "\n") # This has to go before the rules below
         text = text.gsub(/\[\"(.+)\".*\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
