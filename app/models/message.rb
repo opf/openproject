@@ -71,6 +71,14 @@ class Message < ActiveRecord::Base
   def project
     board.project
   end
+
+  def editable_by?(usr)
+    usr && usr.logged? && (usr.allowed_to?(:edit_messages, project) || (self.author == usr && usr.allowed_to?(:edit_own_messages, project)))
+  end
+
+  def destroyable_by?(usr)
+    usr && usr.logged? && (usr.allowed_to?(:delete_messages, project) || (self.author == usr && usr.allowed_to?(:delete_own_messages, project)))
+  end
   
   private
   

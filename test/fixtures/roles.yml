@@ -80,6 +80,8 @@ roles_002:
     - :protect_wiki_pages
     - :delete_wiki_pages
     - :add_messages
+    - :edit_own_messages
+    - :delete_own_messages
     - :manage_boards
     - :view_files
     - :manage_files

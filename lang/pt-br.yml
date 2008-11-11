@@ -691,3 +691,5 @@ permission_edit_own_issue_notes: Editar próprias notas
 setting_gravatar_enabled: Usar ícones do Gravatar
 label_example: Exemplo
 text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmine mapeando para cada usuário encontrado no log do repositório.\nUsuários com o mesmo login ou email no Redmine e no repositório serão mapeados automaticamente."
+permission_edit_own_messages: Edit own messages
+permission_delete_won_messages: Delete own messages

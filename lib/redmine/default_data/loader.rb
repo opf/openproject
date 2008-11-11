@@ -65,6 +65,7 @@ module Redmine
                                                       :edit_wiki_pages,
                                                       :delete_wiki_pages,
                                                       :add_messages,
+                                                      :edit_own_messages,
                                                       :view_files,
                                                       :manage_files,
                                                       :browse_repository,
@@ -85,6 +86,7 @@ module Redmine
                                                     :view_wiki_pages,
                                                     :view_wiki_edits,
                                                     :add_messages,
+                                                    :edit_own_messages,
                                                     :view_files,
                                                     :browse_repository,
                                                     :view_changesets]

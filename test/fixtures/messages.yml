@@ -38,8 +38,8 @@ messages_004:
   updated_on: 2007-08-12 17:15:32 +02:00
   subject: Post 2
   id: 4
-  replies_count: 1
-  last_reply_id: 5
+  replies_count: 2
+  last_reply_id: 6
   content: "This is an other post"
   author_id: 
   parent_id: 
@@ -53,5 +53,16 @@ messages_005:
   last_reply_id: 
   content: "Reply to the second post"
   author_id: 1
+  parent_id: 4
+  board_id: 1
+messages_006: 
+  created_on: <%= 2.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 2.days.ago.to_date.to_s(:db) %>
+  subject: 'RE: post 2'
+  id: 6
+  replies_count: 0
+  last_reply_id: 
+  content: "Another reply to the second post"
+  author_id: 3
   parent_id: 4
   board_id: 1

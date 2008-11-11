@@ -723,3 +723,5 @@ text_user_wrote: '%s написал(а):'
 text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все ее содержимое?
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+permission_edit_own_messages: Edit own messages
+permission_delete_won_messages: Delete own messages

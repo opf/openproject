@@ -270,7 +270,9 @@ permission_manage_boards: Gérer les forums
 permission_view_messages: Voir les messages
 permission_add_messages: Poster un message
 permission_edit_messages: Modifier les messages
+permission_edit_own_messages: Modifier ses propres messages
 permission_delete_messages: Supprimer les messages
+permission_delete_won_messages: Supprimer ses propres messages
 
 project_module_issue_tracking: Suivi des demandes
 project_module_time_tracking: Suivi du temps passé
