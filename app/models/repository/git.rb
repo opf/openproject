@@ -30,7 +30,7 @@ class Repository::Git < Repository
   end
 
   def changesets_for_path(path)
-    Change.find(:all, :include => :changeset, 
+    Change.find(:all, :include => {:changeset => :user}, 
                 :conditions => ["repository_id = ? AND path = ?", id, path],
                 :order => "committed_on DESC, #{Changeset.table_name}.revision DESC").collect(&:changeset)
   end
