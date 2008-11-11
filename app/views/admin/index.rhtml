@@ -34,6 +34,12 @@
 <%= link_to l(:label_settings), :controller => 'settings' %>
 </p>
 
+<% menu_items_for(:admin_menu) do |item, caption, url, selected| -%>
+  <%= content_tag 'p', 
+    link_to(h(caption), item.url, item.html_options),
+    :class => ["icon22", "icon22-#{item.name}"].join(' ') %>
+<% end -%>
+
 <p class="icon22 icon22-info">
 <%= link_to l(:label_information_plural), :controller => 'admin', :action => 'info' %>
 </p>

@@ -124,6 +124,10 @@ Redmine::MenuManager.map :application_menu do |menu|
   # Empty
 end
 
+Redmine::MenuManager.map :admin_menu do |menu|
+  # Empty
+end
+
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
   menu.push :activity, { :controller => 'projects', :action => 'activity' }

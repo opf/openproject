@@ -70,6 +70,15 @@ module Redmine
       
       def render_menu(menu, project=nil)
         links = []
+        menu_items_for(menu, project) do |item, caption, url, selected|
+          links << content_tag('li', 
+            link_to(h(caption), url, (selected ? item.html_options.merge(:class => 'selected') : item.html_options)))
+        end
+        links.empty? ? nil : content_tag('ul', links.join("\n"))
+      end
+
+      def menu_items_for(menu, project=nil)
+        items = []
         Redmine::MenuManager.allowed_items(menu, User.current, project).each do |item|
           unless item.condition && !item.condition.call(project)
             url = case item.url
@@ -82,11 +91,14 @@ module Redmine
             end
             caption = item.caption(project)
             caption = l(caption) if caption.is_a?(Symbol)
-            links << content_tag('li', 
-              link_to(h(caption), url, (current_menu_item == item.name ? item.html_options.merge(:class => 'selected') : item.html_options)))
+            if block_given?
+              yield item, caption, url, (current_menu_item == item.name)
+            else
+              items << [item, caption, url, (current_menu_item == item.name)]
+            end
           end
         end
-        links.empty? ? nil : content_tag('ul', links.join("\n"))
+        return block_given? ? nil : items
       end
     end
     
