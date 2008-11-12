@@ -268,7 +268,7 @@ label_enumerations: Zoznamy
 label_enumeration_new: Nová hodnota
 label_information: Informácia
 label_information_plural: Informácie
-label_please_login: Prosím prihlaste sa
+label_please_login: Prosím prihláste sa
 label_register: Registrovať
 label_password_lost: Zabudnuté heslo
 label_home: Domovská stránka
@@ -460,7 +460,7 @@ label_start_to_end: od začiatku do konca
 label_stay_logged_in: Zostať prihlásený
 label_disabled: zakazané
 label_show_completed_versions: Ukázať dokončené verzie
-label_me: mňa
+label_me: ja
 label_board: Fórum
 label_board_new: Nové fórum
 label_board_plural: Fóra
@@ -674,7 +674,7 @@ permission_view_wiki_edits: Zobrazenie Wiki zmien
 permission_add_messages: Pridávanie správ
 permission_view_messages: Zobrazenie správ
 permission_manage_files: Správa súborov
-permission_edit_issue_notes: Editácia poznámiek úlohy
+permission_edit_issue_notes: Editácia poznámok úlohy
 permission_manage_news: Správa noviniek
 permission_view_calendar: Zobrazenie kalendára
 permission_manage_members: Správa členov
@@ -692,8 +692,6 @@ permission_view_wiki_pages: Zobrazenie Wiki strániek
 permission_rename_wiki_pages: Premenovanie Wiki strániek
 permission_edit_time_entries: Editácia časových záznamov 
 permission_edit_own_issue_notes: Editácia vlastných poznámok úlohy
-setting_gravatar_enabled: Použitie uživateľských Gravatar ikon
-label_example: Example
-text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-permission_edit_own_messages: Edit own messages
-permission_delete_won_messages: Delete own messages
+setting_gravatar_enabled: Použitie užívateľských Gravatar ikon
+label_example: Príklad
+
