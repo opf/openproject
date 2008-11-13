@@ -79,7 +79,7 @@
 	    pdf.Ln	
 		for changeset in @issue.changesets
 			pdf.SetFontStyle('B',8)
-		    pdf.Cell(190,5, format_time(changeset.committed_on) + " - " + changeset.author)
+		    pdf.Cell(190,5, format_time(changeset.committed_on) + " - " + changeset.author.to_s)
 		    pdf.Ln
 			unless changeset.comments.blank?
 				pdf.SetFontStyle('',8)
