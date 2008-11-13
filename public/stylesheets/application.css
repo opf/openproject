@@ -653,7 +653,7 @@ td.username img.gravatar {
 
 #activity dt,
 .journal {
-	clear: both;
+	clear: left;
 }
 
 
