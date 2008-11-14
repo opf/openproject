@@ -13,7 +13,7 @@ actionview_datehelper_time_in_words_hour_about_plural2: около %d часов
 actionview_datehelper_time_in_words_hour_about_plural5: около %d часов
 actionview_datehelper_time_in_words_hour_about_plural: около %d часов
 actionview_datehelper_time_in_words_hour_about_single: около часа
-actionview_datehelper_time_in_words_hour_about: около часа
+actionview_datehelper_time_in_words_hour_about: около %d часа
 actionview_datehelper_time_in_words_minute: 1 минута
 actionview_datehelper_time_in_words_minute_half: полминуты
 actionview_datehelper_time_in_words_minute_less_than: менее минуты

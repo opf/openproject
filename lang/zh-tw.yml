@@ -261,15 +261,17 @@ permission_view_wiki_edits: 檢視 wiki 歷史
 permission_edit_wiki_pages: 編輯 wiki 頁面
 permission_delete_wiki_pages_attachments: 刪除附件
 permission_protect_wiki_pages: 專案 wiki 頁面
-permission_manage_repository: 管理儲存庫
-permission_browse_repository: 瀏覽儲存庫
+permission_manage_repository: 管理版本庫
+permission_browse_repository: 瀏覽版本庫
 permission_view_changesets: 檢視變更集
 permission_commit_access: 存取送交之變更
 permission_manage_boards: 管理討論版
 permission_view_messages: 檢視訊息
 permission_add_messages: 新增訊息
 permission_edit_messages: 編輯訊息
+permission_edit_own_messages: 編輯自己的訊息
 permission_delete_messages: 刪除訊息
+permission_delete_won_messages: 刪除自己的訊息
 
 project_module_issue_tracking: 項目追蹤
 project_module_time_tracking: 工時追蹤
@@ -665,6 +667,7 @@ text_user_wrote: '%s 先前提到:'
 text_enumeration_destroy_question: '目前有 %d 個物件使用此列舉值。'
 text_enumeration_category_reassign_to: '重新設定其列舉值為：'
 text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/email.yml 中設定 SMTP 之後，重新啟動 Redmine，以啟用電子郵件提醒選項。"
+text_repository_usernames_mapping: "選擇或更新 Redmine 使用者與版本庫使用者之對應關係。\n版本庫中之使用者帳號或電子郵件信箱，與 Redmine 設定相同者，將自動產生對應關係。"
 
 default_role_manager: 管理人員
 default_role_developper: 開發人員
@@ -691,6 +694,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-permission_edit_own_messages: Edit own messages
-permission_delete_won_messages: Delete own messages
