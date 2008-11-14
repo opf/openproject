@@ -1,4 +1,4 @@
-﻿# Keep this line in order to avoid problems with Windows Notepad UTF-8 EF-BB-BF idea...
+﻿# Keep this line in order to avoid problems with Windows Notepad UTF-8 EF-BB-BFidea...
 # PL translation by Mariusz@Olejnik.net, 
 # Best regards from Lublin@Poland :-)
 
@@ -185,7 +185,7 @@ setting_self_registration: Własna rejestracja umożliwiona
 setting_attachment_max_size: Maks. rozm. załącznika
 setting_issues_export_limit: Limit eksportu zagadnień
 setting_mail_from: Adres email wysyłki
-setting_host_name: Nazwa hosta
+setting_host_name: Nazwa hosta i ścieżka
 setting_text_formatting: Formatowanie tekstu
 setting_wiki_compression: Kompresja historii Wiki
 setting_feeds_limit: Limit danych RSS
@@ -283,7 +283,7 @@ label_change_status: Status zmian
 label_history: Historia
 label_attachment: Plik
 label_attachment_new: Nowy plik
-label_attachment_delete: Skasuj plik
+label_attachment_delete: Usuń plik
 label_attachment_plural: Pliki
 label_report: Raport
 label_report_plural: Raporty
@@ -723,7 +723,7 @@ permission_edit_time_entries: Edycja logów czasu
 permission_edit_own_issue_notes: Edycja własnych notatek
 setting_gravatar_enabled: Używaj ikon użytkowników Gravatar
 
-label_example: Example
-text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-permission_edit_own_messages: Edit own messages
-permission_delete_won_messages: Delete own messages
+label_example: Przykład
+text_repository_usernames_mapping: "Wybierz lub uaktualnij przyporządkowanie użytkowników Redmine do użytkowników repozytorium.\nUżytkownicy z taką samą nazwą lub adresem email są przyporządkowani automatycznie."
+permission_edit_own_messages: Edycja własnych wiadomości
+permission_delete_won_messages: Usuwanie własnych wiadomości
