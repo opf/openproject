@@ -287,11 +287,11 @@ label_attachment_delete: Usuń plik
 label_attachment_plural: Pliki
 label_report: Raport
 label_report_plural: Raporty
-label_news: Wiadomość
-label_news_new: Dodaj wiadomość
-label_news_plural: Wiadomości
-label_news_latest: Ostatnie wiadomości
-label_news_view_all: Pokaż wszystkie wiadomości
+label_news: Komunikat
+label_news_new: Dodaj komunikat
+label_news_plural: Komunikaty
+label_news_latest: Ostatnie komunikaty
+label_news_view_all: Pokaż wszystkie komunikaty
 label_change_log: Lista zmian
 label_settings: Ustawienia
 label_overview: Przegląd
@@ -609,14 +609,14 @@ label_issue_updated: Uaktualniono zagadnienie
 label_document_added: Dodano dokument
 label_message_posted: Dodano wiadomość
 label_file_added: Dodano plik
-label_news_added: Dodano wiadomość
+label_news_added: Dodano komunikat
 project_module_boards: Fora
 project_module_issue_tracking: Śledzenie zagadnień
 project_module_wiki: Wiki
 project_module_files: Pliki
 project_module_documents: Dokumenty
 project_module_repository: Repozytorium
-project_module_news: Wiadomości
+project_module_news: Komunikaty
 project_module_time_tracking: Śledzenie czasu
 text_file_repository_writable: Zapisywalne repozytorium plików
 text_default_administrator_account_changed: Zmieniono domyślne hasło administratora
@@ -687,7 +687,7 @@ permission_manage_versions: Zarządzanie wersjami
 permission_manage_wiki: Zarządzanie wiki
 permission_manage_categories: Zarządzanie kategoriami zaganień
 permission_protect_wiki_pages: Blokowanie stron wiki
-permission_comment_news: Komentowanie wiadomości
+permission_comment_news: Komentowanie komunikatów
 permission_delete_messages: Usuwanie wiadomości
 permission_select_project_modules: Wybieranie modułów projektu
 permission_manage_documents: Zarządzanie dokumentami
@@ -704,7 +704,7 @@ permission_add_messages: Dodawanie wiadomości
 permission_view_messages: Podgląd wiadomości
 permission_manage_files: Zarządzanie plikami
 permission_edit_issue_notes: Edycja notatek
-permission_manage_news: Zarządzanie wiadomościami
+permission_manage_news: Zarządzanie komunikatami
 permission_view_calendar: Podgląd kalendarza
 permission_manage_members: Zarządzanie uczestnikami
 permission_edit_messages: Edycja wiadomości

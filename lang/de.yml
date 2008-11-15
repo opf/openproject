@@ -67,7 +67,7 @@ notice_successful_create: Erfolgreich angelegt
 notice_successful_update: Erfolgreich aktualisiert.
 notice_successful_delete: Erfolgreich gelöscht.
 notice_successful_connection: Verbindung erfolgreich.
-notice_file_not_found: Anhang besteht nicht oder ist gelöscht worden.
+notice_file_not_found: Anhang existiert nicht oder ist gelöscht worden.
 notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
 notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
 notice_email_sent: Eine E-Mail wurde an %s gesendet.
@@ -80,7 +80,7 @@ notice_default_data_loaded: Die Standard-Konfiguration wurde erfolgreich geladen
 notice_unable_delete_version: Die Version konnte nicht gelöscht werden
 
 error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %s"
-error_scm_not_found: Eintrag und/oder Revision besteht nicht im Projektarchiv.
+error_scm_not_found: Eintrag und/oder Revision existiert nicht im Projektarchiv.
 error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %s"
 error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
 error_issue_not_found_in_project: 'Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt.'
@@ -195,6 +195,7 @@ setting_attachment_max_size: Max. Dateigröße
 setting_issues_export_limit: Max. Anzahl Tickets bei CSV/PDF-Export
 setting_mail_from: E-Mail-Absender
 setting_bcc_recipients: E-Mails als Blindkopie (BCC) senden
+setting_plain_text_mail: Nur reinen Text (kein HTML) senden
 setting_host_name: Hostname
 setting_text_formatting: Textformatierung
 setting_wiki_compression: Wiki-Historie komprimieren
@@ -210,7 +211,7 @@ setting_time_format: Zeitformat
 setting_cross_project_issue_relations: Ticket-Beziehungen zwischen Projekten erlauben
 setting_issue_list_default_columns: Default-Spalten in der Ticket-Auflistung
 setting_repositories_encodings: Kodierungen der Projektarchive
-setting_commit_logs_encoding: Kodierung der Log-Meldungen
+setting_commit_logs_encoding: Kodierung der Commit-Log-Meldungen
 setting_emails_footer: E-Mail-Fußzeile
 setting_protocol: Protokoll
 setting_per_page_options: Objekte pro Seite
@@ -221,6 +222,56 @@ setting_enabled_scm: Aktivierte Versionskontrollsysteme
 setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
 setting_mail_handler_api_key: API-Schlüssel
 setting_sequential_project_identifiers: Fortlaufende Projektkennungen generieren
+setting_gravatar_enabled: Gravatar Benutzerbilder benutzen
+
+permission_edit_project: Projekt bearbeiten
+permission_select_project_modules: Projektmodule auswählen
+permission_manage_members: Mitglieder verwalten
+permission_manage_versions: Versionen verwalten
+permission_manage_categories: Ticket-Kategorien verwalten
+permission_add_issues: Tickets hinzufügen
+permission_edit_issues: Tickets bearbeiten
+permission_manage_issue_relations: Ticket-Beziehungen verwalten
+permission_add_issue_notes: Kommentare hinzufügen
+permission_edit_issue_notes: Kommentare bearbeiten
+permission_edit_own_issue_notes: Eigene Kommentare bearbeiten
+permission_move_issues: Tickets verschieben
+permission_delete_issues: Tickets löschen
+permission_manage_public_queries: Öffentliche Filter verwalten
+permission_save_queries: Filter speichern
+permission_view_gantt: Gantt-Diagramm ansehen
+permission_view_calendar: Kalender ansehen
+permission_view_issue_watchers: Liste der Beobachter ansehen
+permission_add_issue_watchers: Beobachter hinzufügen
+permission_log_time: Aufwände buchen
+permission_view_time_entries: Gebuchte Aufwände ansehen
+permission_edit_time_entries: Gebuchte Aufwände bearbeiten
+permission_edit_own_time_entries: Selbst gebuchte Aufwände bearbeiten
+permission_manage_news: News verwalten
+permission_comment_news: News kommentieren
+permission_manage_documents: Dokumente verwalten
+permission_view_documents: Dokumente ansehen
+permission_manage_files: Dateien verwalten
+permission_view_files: Dateien ansehen
+permission_manage_wiki: Wiki verwalten
+permission_rename_wiki_pages: Wiki-Seiten umbenennen
+permission_delete_wiki_pages: Wiki-Seiten löschen
+permission_view_wiki_pages: Wiki ansehen
+permission_view_wiki_edits: Wiki-Versionsgeschichte ansehen
+permission_edit_wiki_pages: Wiki-Seiten bearbeiten
+permission_delete_wiki_pages_attachments: Anhänge löschen
+permission_protect_wiki_pages: Wiki-Seiten schützen
+permission_manage_repository: Projektarchiv verwalten
+permission_browse_repository: Projektarchiv ansehen
+permission_view_changesets: Changesets ansehen
+permission_commit_access: Commit-Zugriff (über WebDAV)
+permission_manage_boards: Foren verwalten
+permission_view_messages: Forums-Beiträge ansehen
+permission_add_messages: Forums-Beiträge hinzufügen
+permission_edit_messages: Forums-Beiträge bearbeiten
+permission_edit_own_messages: Eigene Forums-Beiträge bearbeiten
+permission_delete_messages: Forums-Beiträge löschen
+permission_delete_won_messages: Eigene Forums-Beiträge löschen
 
 project_module_issue_tracking: Ticket-Verfolgung
 project_module_time_tracking: Zeiterfassung
@@ -359,7 +410,7 @@ label_add_note: Kommentar hinzufügen
 label_per_page: Pro Seite
 label_calendar: Kalender
 label_months_from: Monate ab
-label_gantt: Gantt
+label_gantt: Gantt-Diagramm
 label_internal: Intern
 label_last_changes: %d letzte Änderungen
 label_change_view_all: Alle Änderungen anzeigen
@@ -475,10 +526,10 @@ label_board: Forum
 label_board_new: Neues Forum
 label_board_plural: Foren
 label_topic_plural: Themen
-label_message_plural: Nachrichten
-label_message_last: Letzte Nachricht
-label_message_new: Neue Nachricht
-label_message_posted: Forums-Beitrag hinzugefügt
+label_message_plural: Beiträge
+label_message_last: Letzter Beitrag
+label_message_new: Neues Thema
+label_message_posted: Beitrag hinzugefügt
 label_reply_plural: Antworten
 label_send_information: Sende Kontoinformationen zum Benutzer
 label_year: Jahr
@@ -527,6 +578,7 @@ label_planning: Terminplanung
 label_incoming_emails: Eingehende E-Mails
 label_generate_key: Generieren
 label_issue_watchers: Beobachter
+label_example: Beispiel
 
 button_login: Anmelden
 button_submit: OK
@@ -615,6 +667,7 @@ text_user_wrote: '%s schrieb:'
 text_enumeration_destroy_question: '%d Objekte sind diesem Wert zugeordnet.'
 text_enumeration_category_reassign_to: 'Die Objekte stattdessen diesem Wert zuordnen:'
 text_email_delivery_not_configured: "Der SMTP-Server ist nicht konfiguriert und Mailbenachrichtigungen sind ausgeschaltet.\nNehmen Sie die Einstellungen für Ihren SMTP-Server in config/email.yml vor und starten Sie die Applikation neu."
+text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen Redmine- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
 
 default_role_manager: Manager
 default_role_developper: Entwickler
@@ -641,55 +694,3 @@ default_activity_development: Entwicklung
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
-setting_plain_text_mail: plain text only (no HTML)
-permission_view_files: View files
-permission_edit_issues: Edit issues
-permission_edit_own_time_entries: Edit own time logs
-permission_manage_public_queries: Manage public queries
-permission_add_issues: Add issues
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_view_time_entries: View spent time
-permission_manage_versions: Manage versions
-permission_manage_wiki: Manage wiki
-permission_manage_categories: Manage issue categories
-permission_protect_wiki_pages: Protect wiki pages
-permission_comment_news: Comment news
-permission_delete_messages: Delete messages
-permission_select_project_modules: Select project modules
-permission_manage_documents: Manage documents
-permission_edit_wiki_pages: Edit wiki pages
-permission_add_issue_watchers: Add watchers
-permission_view_gantt: View gantt chart
-permission_move_issues: Move issues
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_wiki_edits: View wiki history
-permission_add_messages: Post messages
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calendrier
-permission_manage_members: Manage members
-permission_edit_messages: Edit messages
-permission_delete_issues: Delete issues
-permission_view_issue_watchers: View watchers list
-permission_manage_repository: Manage repository
-permission_commit_access: Commit access
-permission_browse_repository: Browse repository
-permission_view_documents: View documents
-permission_edit_project: Edit project
-permission_add_issue_notes: Add notes
-permission_save_queries: Save queries
-permission_view_wiki_pages: View wiki
-permission_rename_wiki_pages: Rename wiki pages
-permission_edit_time_entries: Edit time logs
-permission_edit_own_issue_notes: Edit own notes
-setting_gravatar_enabled: Use Gravatar user icons
-label_example: Example
-text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-permission_edit_own_messages: Edit own messages
-permission_delete_won_messages: Delete own messages
