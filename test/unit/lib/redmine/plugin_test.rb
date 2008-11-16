@@ -32,7 +32,9 @@ class Redmine::PluginTest < Test::Unit::TestCase
   def test_register
     @klass.register :foo do
       name 'Foo plugin'
+      url 'http://example.net/plugins/foo'
       author 'John Smith'
+      author_url 'http://example.net/jsmith'
       description 'This is a test plugin'
       version '0.0.1'
       settings :default => {'sample_setting' => 'value', 'foo'=>'bar'}, :partial => 'foo/settings'
@@ -44,7 +46,9 @@ class Redmine::PluginTest < Test::Unit::TestCase
     assert plugin.is_a?(Redmine::Plugin)
     assert_equal :foo, plugin.id
     assert_equal 'Foo plugin', plugin.name
+    assert_equal 'http://example.net/plugins/foo', plugin.url
     assert_equal 'John Smith', plugin.author
+    assert_equal 'http://example.net/jsmith', plugin.author_url
     assert_equal 'This is a test plugin', plugin.description
     assert_equal '0.0.1', plugin.version
   end

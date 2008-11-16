@@ -119,6 +119,12 @@ tr.time-entry td.subject, tr.time-entry td.comments { text-align: left; white-sp
 td.hours { text-align: right; font-weight: bold; padding-right: 0.5em; }
 td.hours .hours-dec { font-size: 0.9em; }
 
+table.plugins td { vertical-align: middle; }
+table.plugins td.configure { text-align: right; padding-right: 1em; }
+table.plugins span.name { font-weight: bold; display: block; margin-bottom: 6px; }
+table.plugins span.description { display: block; font-size: 0.9em; }
+table.plugins span.url { display: block; font-size: 0.9em; }
+
 table.list tbody tr:hover { background-color:#ffffdd; }
 table td {padding:2px;}
 table p {margin:0;}

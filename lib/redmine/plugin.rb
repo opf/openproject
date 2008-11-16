@@ -57,7 +57,7 @@ module Redmine #:nodoc:
         end
       end
     end
-    def_field :name, :description, :author, :version, :settings
+    def_field :name, :description, :url, :author, :author_url, :version, :settings
     attr_reader :id
     
     # Plugin constructor

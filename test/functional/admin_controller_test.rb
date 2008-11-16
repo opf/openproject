@@ -103,8 +103,8 @@ class AdminControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'plugins'
     
-    assert_tag :td, :content => 'Foo plugin'
-    assert_tag :td, :content => 'Bar'
+    assert_tag :td, :child => { :tag => 'span', :content => 'Foo plugin' }
+    assert_tag :td, :child => { :tag => 'span', :content => 'Bar' }
   end
 
   def test_info
