@@ -49,6 +49,10 @@ class AdminController < ApplicationController
     render :action => "projects", :layout => false if request.xhr?
   end
   
+  def plugins
+    @plugins = Redmine::Plugin.registered_plugins
+  end
+  
   # Loads the default configuration
   # (roles, trackers, statuses, workflow, enumerations)
   def default_configuration
@@ -84,6 +88,5 @@ class AdminController < ApplicationController
       :file_repository_writable => File.writable?(Attachment.storage_path),
       :rmagick_available => Object.const_defined?(:Magick)
     }
-    @plugins = Redmine::Plugin.registered_plugins
   end  
 end

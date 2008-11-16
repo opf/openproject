@@ -40,6 +40,10 @@
     :class => ["icon22", "icon22-#{item.name}"].join(' ') %>
 <% end -%>
 
+<p class="icon22 icon22-plugin">
+<%= link_to l(:label_plugins), :controller => 'admin', :action => 'plugins' %>
+</p>
+
 <p class="icon22 icon22-info">
 <%= link_to l(:label_information_plural), :controller => 'admin', :action => 'info' %>
 </p>

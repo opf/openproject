@@ -78,12 +78,20 @@ class AdminControllerTest < Test::Unit::TestCase
     user = User.find(1)
     assert_equal [user.mail], mail.bcc
   end
+  
+  def test_plugins
+    get :plugins
+    assert_response :success
+    assert_template 'plugins'
+  end
 
   def test_info
     get :info
     assert_response :success
     assert_template 'info'
   end
+  
+  private
   
   def delete_configuration_data
     Role.delete_all('builtin = 0')
