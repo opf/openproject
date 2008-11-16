@@ -2,13 +2,13 @@
 
 <% if @plugins.any? %>
 <table class="list">
-    <% @plugins.keys.sort {|x,y| x.to_s <=> y.to_s}.each do |plugin| %>
+    <% @plugins.each do |plugin| %>
         <tr class="<%= cycle('odd', 'even') %>">
-        <td><%=h @plugins[plugin].name %></td>
-        <td><%=h @plugins[plugin].description %></td>
-        <td><%=h @plugins[plugin].author %></td>
-        <td><%=h @plugins[plugin].version %></td>
-        <td><%= link_to(l(:button_configure), :controller => 'settings', :action => 'plugin', :id => plugin.to_s) if @plugins[plugin].configurable? %></td>
+        <td><%=h plugin.name %></td>
+        <td><%=h plugin.description %></td>
+        <td><%=h plugin.author %></td>
+        <td><%=h plugin.version %></td>
+        <td><%= link_to(l(:button_configure), :controller => 'settings', :action => 'plugin', :id => plugin.id) if plugin.configurable? %></td>
         </tr>
     <% end %>
 </table>

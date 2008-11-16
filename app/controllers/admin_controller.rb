@@ -50,7 +50,7 @@ class AdminController < ApplicationController
   end
   
   def plugins
-    @plugins = Redmine::Plugin.registered_plugins
+    @plugins = Redmine::Plugin.registered_plugins.values.sort
   end
   
   # Loads the default configuration

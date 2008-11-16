@@ -56,12 +56,21 @@ module Redmine #:nodoc:
       end
     end
     def_field :name, :description, :author, :version, :settings
-  
+    attr_reader :id
+    
     # Plugin constructor
-    def self.register(name, &block)
-      p = new
+    def self.register(id, &block)
+      p = new(id)
       p.instance_eval(&block)
-      Plugin.registered_plugins[name] = p
+      Plugin.registered_plugins[id] = p
+    end
+    
+    def initialize(id)
+      @id = id.to_sym
+    end
+    
+    def <=>(plugin)
+      self.id.to_s <=> plugin.id.to_s
     end
 
     # Adds an item to the given +menu+.
