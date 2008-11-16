@@ -64,6 +64,8 @@ module Redmine #:nodoc:
     def self.register(id, &block)
       p = new(id)
       p.instance_eval(&block)
+      # Set a default name if it was not provided during registration
+      p.name(id.to_s.humanize) if p.name.nil?
       registered_plugins[id] = p
     end
     
@@ -73,8 +75,15 @@ module Redmine #:nodoc:
     end
     
     # Finds a plugin by its id
+    # Returns a PluginNotFound exception if the plugin doesn't exist
     def self.find(id)
       registered_plugins[id.to_sym] || raise(PluginNotFound)
+    end
+    
+    # Clears the registered plugins hash
+    # It doesn't unload installed plugins
+    def self.clear
+      @registered_plugins = {}
     end
     
     def initialize(id)
