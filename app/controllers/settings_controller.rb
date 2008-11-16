@@ -45,14 +45,15 @@ class SettingsController < ApplicationController
   end
 
   def plugin
-    plugin_id = params[:id].to_sym
-    @plugin = Redmine::Plugin.registered_plugins[plugin_id]
+    @plugin = Redmine::Plugin.find(params[:id])
     if request.post?
-      Setting["plugin_#{plugin_id}"] = params[:settings]
+      Setting["plugin_#{@plugin.id}"] = params[:settings]
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'plugin', :id => params[:id]
+      redirect_to :action => 'plugin', :id => @plugin.id
     end
     @partial = @plugin.settings[:partial]
-    @settings = Setting["plugin_#{plugin_id}"]
+    @settings = Setting["plugin_#{@plugin.id}"]
+  rescue Redmine::PluginNotFound
+    render_404
   end
 end

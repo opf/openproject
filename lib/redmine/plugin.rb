@@ -17,6 +17,8 @@
 
 module Redmine #:nodoc:
 
+  class PluginNotFound < StandardError; end
+  
   # Base class for Redmine plugins.
   # Plugins are registered using the <tt>register</tt> class method that acts as the public constructor.
   # 
@@ -62,7 +64,17 @@ module Redmine #:nodoc:
     def self.register(id, &block)
       p = new(id)
       p.instance_eval(&block)
-      Plugin.registered_plugins[id] = p
+      registered_plugins[id] = p
+    end
+    
+    # Returns an array off all registered plugins
+    def self.all
+      registered_plugins.values.sort
+    end
+    
+    # Finds a plugin by its id
+    def self.find(id)
+      registered_plugins[id.to_sym] || raise(PluginNotFound)
     end
     
     def initialize(id)

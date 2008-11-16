@@ -75,9 +75,9 @@ class Setting < ActiveRecord::Base
   
   cattr_accessor :available_settings
   @@available_settings = YAML::load(File.open("#{RAILS_ROOT}/config/settings.yml"))
-  Redmine::Plugin.registered_plugins.each do |id, plugin|
+  Redmine::Plugin.all.each do |plugin|
     next unless plugin.settings
-    @@available_settings["plugin_#{id}"] = {'default' => plugin.settings[:default], 'serialized' => true}    
+    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}    
   end
   
   validates_uniqueness_of :name
