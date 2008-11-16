@@ -34,8 +34,10 @@ module Redmine
     end
 
     REVISION = self.revision
-    STRING = [MAJOR, MINOR, TINY, BRANCH, REVISION].compact.join('.')
+    ARRAY = [MAJOR, MINOR, TINY, BRANCH, REVISION].compact
+    STRING = ARRAY.join('.')
     
+    def self.to_a; ARRAY end
     def self.to_s; STRING end    
   end
 end

@@ -18,6 +18,7 @@
 module Redmine #:nodoc:
 
   class PluginNotFound < StandardError; end
+  class PluginRequirementError < StandardError; end
   
   # Base class for Redmine plugins.
   # Plugins are registered using the <tt>register</tt> class method that acts as the public constructor.
@@ -92,6 +93,40 @@ module Redmine #:nodoc:
     
     def <=>(plugin)
       self.id.to_s <=> plugin.id.to_s
+    end
+    
+    # Sets a requirement on Redmine version
+    # Raises a PluginRequirementError exception if the requirement is not met
+    #
+    # Examples
+    #   # Requires Redmine 0.7.3 or higher
+    #   requires_redmine :version_or_higher => '0.7.3'
+    #   requires_redmine '0.7.3'
+    #
+    #   # Requires a specific Redmine version
+    #   requires_redmine :version => '0.7.3'              # 0.7.3 only
+    #   requires_redmine :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
+    def requires_redmine(arg)
+      arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
+      arg.assert_valid_keys(:version, :version_or_higher)
+      
+      current = Redmine::VERSION.to_a
+      arg.each do |k, v|
+        v = [] << v unless v.is_a?(Array)
+        versions = v.collect {|s| s.split('.').collect(&:to_i)}
+        case k
+        when :version_or_higher
+          raise ArgumentError.new("wrong number of versions (#{versions.size} for 1)") unless versions.size == 1
+          unless (current <=> versions.first) >= 0
+            raise PluginRequirementError.new("#{id} plugin requires Redmine #{v} or higher but current is #{current.join('.')}")
+          end
+        when :version
+          unless versions.include?(current.slice(0,3))
+            raise PluginRequirementError.new("#{id} plugin requires one the following Redmine versions: #{v.join(', ')} but current is #{current.join('.')}")
+          end
+        end
+      end
+      true
     end
 
     # Adds an item to the given +menu+.

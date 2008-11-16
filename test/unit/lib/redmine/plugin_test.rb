@@ -52,4 +52,27 @@ class Redmine::PluginTest < Test::Unit::TestCase
     assert_equal 'This is a test plugin', plugin.description
     assert_equal '0.0.1', plugin.version
   end
+  
+  def test_requires_redmine
+    test = self
+    version = Redmine::VERSION.to_a.slice(0,3).join('.')
+    
+    @klass.register :foo do
+      test.assert requires_redmine(:version_or_higher => '0.1.0')
+      test.assert requires_redmine(:version_or_higher => version)
+      test.assert requires_redmine(version)
+      test.assert_raise Redmine::PluginRequirementError do
+        requires_redmine(:version_or_higher => '99.0.0')
+      end
+      
+      test.assert requires_redmine(:version => version)
+      test.assert requires_redmine(:version => [version, '99.0.0'])
+      test.assert_raise Redmine::PluginRequirementError do
+        requires_redmine(:version => '99.0.0')
+      end
+      test.assert_raise Redmine::PluginRequirementError do
+        requires_redmine(:version => ['98.0.0', '99.0.0'])
+      end
+    end
+  end
 end
