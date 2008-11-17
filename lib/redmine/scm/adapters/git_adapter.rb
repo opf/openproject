@@ -31,8 +31,8 @@ module Redmine
           if rev != 'latest' && !rev.nil?
             cmd="#{GIT_BIN} --git-dir #{target('')} show --date=iso --pretty=fuller #{shell_quote rev} -- #{shell_quote path}" 
           else
-            branch = shellout("#{GIT_BIN} --git-dir #{target('')} branch") { |io| io.grep(/\*/)[0].strip.match(/\* (.*)/)[1] }
-            cmd="#{GIT_BIN} --git-dir #{target('')} log --date=iso --pretty=fuller -1 #{branch} -- #{shell_quote path}" 
+            @branch ||= shellout("#{GIT_BIN} --git-dir #{target('')} branch") { |io| io.grep(/\*/)[0].strip.match(/\* (.*)/)[1] }
+            cmd="#{GIT_BIN} --git-dir #{target('')} log --date=iso --pretty=fuller -1 #{@branch} -- #{shell_quote path}" 
           end
           rev=[]
           i=0
