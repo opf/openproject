@@ -84,17 +84,20 @@ module Redmine
             begin
               doc = REXML::Document.new(output)
               doc.elements.each("lists/list/entry") do |entry|
+                commit = entry.elements['commit']
+                commit_date = commit.elements['date']
                 # Skip directory if there is no commit date (usually that
                 # means that we don't have read access to it)
-                next if entry.attributes['kind'] == 'dir' && entry.elements['commit'].elements['date'].nil?
-                entries << Entry.new({:name => URI.unescape(entry.elements['name'].text),
-                            :path => ((path.empty? ? "" : "#{path}/") + entry.elements['name'].text),
+                next if entry.attributes['kind'] == 'dir' && commit_date.nil?
+                name = entry.elements['name'].text
+                entries << Entry.new({:name => URI.unescape(name),
+                            :path => ((path.empty? ? "" : "#{path}/") + name),
                             :kind => entry.attributes['kind'],
-                            :size => (entry.elements['size'] and entry.elements['size'].text).to_i,
+                            :size => ((s = entry.elements['size']) ? s.text.to_i : nil),
                             :lastrev => Revision.new({
-                              :identifier => entry.elements['commit'].attributes['revision'],
-                              :time => Time.parse(entry.elements['commit'].elements['date'].text).localtime,
-                              :author => (entry.elements['commit'].elements['author'] ? entry.elements['commit'].elements['author'].text : "")
+                              :identifier => commit.attributes['revision'],
+                              :time => Time.parse(commit_date.text).localtime,
+                              :author => ((a = commit.elements['author']) ? a.text : nil)
                               })
                             })
               end
