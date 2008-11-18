@@ -1,7 +1,7 @@
 _gloc_rule_default: '|n| n==1 ? "" : "_plural" '
 
 actionview_datehelper_select_day_prefix:
-actionview_datehelper_select_month_names: Giêng,Hai,Ba,Tư,Năm,Sáu,Bảy,Tám,Chín,Mười,M.Một,Chạp
+actionview_datehelper_select_month_names: Tháng Giêng,Tháng Hai,Tháng Ba,Tháng Tư,Tháng Năm,Tháng Sáu,Tháng Bảy,Tháng Tám,Tháng Chín,Tháng Mười,Tháng M.Một,Tháng Chạp
 actionview_datehelper_select_month_names_abbr: Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec
 actionview_datehelper_select_month_prefix:
 actionview_datehelper_select_year_prefix:
@@ -23,7 +23,7 @@ activerecord_error_inclusion: không chứa trong danh sách
 activerecord_error_exclusion: đã được dùng
 activerecord_error_invalid: không hợp lệ
 activerecord_error_confirmation: không khớp
-activerecord_error_accepted: must be accepted
+activerecord_error_accepted: phải được chấp nhận
 activerecord_error_empty: không thể để trống
 activerecord_error_blank: không thể để trống
 activerecord_error_too_long: quá dài
@@ -60,7 +60,7 @@ notice_account_password_updated: Cập nhật mật mã thành công.
 notice_account_wrong_password: Sai mật mã
 notice_account_register_done: Tài khoản được tạo thành công. Để kích hoạt vui lòng làm theo hướng dẫn trong email gửi đến bạn.
 notice_account_unknown_email: Không rõ tài khoản.
-notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
+notice_can_t_change_password: Tài khoản được chứng thực từ nguồn bên ngoài. Không thể đổi mật mã cho loại chứng thực này.
 notice_account_lost_email_sent: Thông tin để đổi mật mã mới đã gửi đến bạn qua email.
 notice_account_activated: Tài khoản vừa được kích hoạt. Bây giờ bạn có thể đăng nhập.
 notice_successful_create: Tạo thành công.
@@ -75,15 +75,15 @@ notice_email_error: Lỗi xảy ra khi gửi email (%s)
 notice_feeds_access_key_reseted: Mã số chứng thực RSS đã được tạo lại.
 notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
 notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
-notice_account_pending: "Your account was created and is now pending administrator approval."
-notice_default_data_loaded: Default configuration successfully loaded.
-notice_unable_delete_version: Unable to delete version.
+notice_account_pending: "Thông tin tài khoản đã được tạo ra và đang chờ chứng thực từ ban quản trị."
+notice_default_data_loaded: Đã nạp cấu hình mặc định.
+notice_unable_delete_version: Không thể xóa phiên bản.
 
-error_can_t_load_default_data: "Default configuration could not be loaded: %s"
+error_can_t_load_default_data: "Không thể nạp cấu hình mặc định: %s"
 error_scm_not_found: "The entry or revision was not found in the repository."
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: %s"
 error_scm_annotate: "The entry does not exist or can not be annotated."
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
+error_issue_not_found_in_project: 'Vấn đề không tồn tại hoặc không thuộc dự án'
 
 mail_subject_lost_password: "%s: mật mã của bạn"
 mail_body_lost_password: "Để đổi mật mã, hãy click chuột vào liên kết sau:"
@@ -174,53 +174,53 @@ field_spent_on: Ngày
 field_identifier: Mã nhận dạng
 field_is_filter: Dùng như một lọc
 field_issue_to_id: Vấn đền liên quan
-field_delay: Delay
-field_assignable: Issues can be assigned to this role
-field_redirect_existing_links: Redirect existing links
+field_delay: Độ trễ
+field_assignable: Vấn đề có thể gán cho vai trò này
+field_redirect_existing_links: Chuyển hướng trang đã có
 field_estimated_hours: Thời gian ước đoán
-field_column_names: Columns
+field_column_names: Cột
 field_time_zone: Múi giờ
-field_searchable: Searchable
-field_default_value: Default value
+field_searchable: Tìm kiếm được
+field_default_value: Giá trị mặc định
 field_comments_sorting: Liệt kê bình luận
-field_parent_title: Parent page
+field_parent_title: Trang mẹ
 
-setting_app_title: Application title
-setting_app_subtitle: Application subtitle
-setting_welcome_text: Welcome text
-setting_default_language: Default language
-setting_login_required: Authentication required
-setting_self_registration: Self-registration
-setting_attachment_max_size: Attachment max. size
+setting_app_title: Tựa đề ứng dụng
+setting_app_subtitle: Tựa đề nhỏ của ứng dụng
+setting_welcome_text: Thông điệp chào mừng
+setting_default_language: Ngôn ngữ mặc định
+setting_login_required: Cần đăng nhập
+setting_self_registration: Tự chứng thực
+setting_attachment_max_size: Cỡ tối đa của tập tin đính kèm
 setting_issues_export_limit: Issues export limit
 setting_mail_from: Emission email address
-setting_bcc_recipients: Blind carbon copy recipients (bcc)
-setting_host_name: Host name
+setting_bcc_recipients: Tạo bản CC bí mật (bcc)
+setting_host_name: Tên miền và đường dẫn
 setting_text_formatting: Định dạng bài viết
 setting_wiki_compression: Wiki history compression
-setting_feeds_limit: Feed content limit
-setting_default_projects_public: New projects are public by default
+setting_feeds_limit: Giới hạn nội dung của feed
+setting_default_projects_public: Dự án mặc định là công cộng
 setting_autofetch_changesets: Autofetch commits
 setting_sys_api_enabled: Enable WS for repository management
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
-setting_autologin: Autologin
-setting_date_format: Date format
-setting_time_format: Time format
-setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_commit_ref_keywords: Từ khóa tham khảo
+setting_commit_fix_keywords: Từ khóa chỉ vấn đề đã giải quyết
+setting_autologin: Tự động đăng nhập
+setting_date_format: Định dạng ngày
+setting_time_format: Định dạng giờ
+setting_cross_project_issue_relations: Cho phép quan hệ chéo giữa các dự án
 setting_issue_list_default_columns: Default columns displayed on the issue list
 setting_repositories_encodings: Repositories encodings
 setting_commit_logs_encoding: Commit messages encoding
-setting_emails_footer: Emails footer
-setting_protocol: Protocol
+setting_emails_footer: Chữ ký cuối thư
+setting_protocol: Giao thức
 setting_per_page_options: Objects per page options
-setting_user_format: Users display format
+setting_user_format: Định dạng hiển thị người dùng
 setting_activity_days_default: Days displayed on project activity
 setting_display_subprojects_issues: Display subprojects issues on main projects by default
 setting_enabled_scm: Enabled SCM
 setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
-setting_sequential_project_identifiers: Generate sequential project identifiers
+setting_mail_handler_api_key: Mã số API
+setting_sequential_project_identifiers: Tự sinh chuỗi ID dự án
 
 project_module_issue_tracking: Theo dõi vấn đề
 project_module_time_tracking: Theo dõi thời gian
@@ -285,7 +285,7 @@ label_administration: Quản trị
 label_login: Đăng nhập
 label_logout: Thoát
 label_help: Giúp đỡ
-label_reported_issues: Vấn đề bạn báo cáo
+label_reported_issues: Vấn đề đã báo cáo
 label_assigned_to_me_issues: Vấn đề gán cho bạn
 label_last_login: Kết nối cuối
 label_last_updates: Cập nhật cuối
@@ -312,8 +312,8 @@ label_string: Text
 label_text: Long text
 label_attribute: Attribute
 label_attribute_plural: Attributes
-label_download: %d Download
-label_download_plural: %d Downloads
+label_download: %d lần tải
+label_download_plural: %d lần tải
 label_no_data: Chưa có thông tin gì
 label_change_status: Đổi trạng thái
 label_history: Lược sử
@@ -344,41 +344,41 @@ label_open_issues: mở
 label_open_issues_plural: mở
 label_closed_issues: đóng
 label_closed_issues_plural: đóng
-label_total: Total
-label_permissions: Permissions
-label_current_status: Current status
-label_new_statuses_allowed: New statuses allowed
+label_total: Tổng cộng
+label_permissions: Quyền
+label_current_status: Trạng thái hiện tại
+label_new_statuses_allowed: Trạng thái mới được phép
 label_all: tất cả
-label_none: none
-label_nobody: nobody
-label_next: Next
-label_previous: Previous
+label_none: không
+label_nobody: Chẳng ai
+label_next: Sau
+label_previous: Trước
 label_used_by: Used by
 label_details: Chi tiết
-label_add_note: Add a note
-label_per_page: Per page
+label_add_note: Thêm ghi chú
+label_per_page: Mỗi trang
 label_calendar: Lịch
-label_months_from: months from
+label_months_from: tháng từ
 label_gantt: Biểu đồ sự kiện
-label_internal: Internal
-label_last_changes: last %d changes
-label_change_view_all: View all changes
+label_internal: Nội bộ
+label_last_changes: %d thay đổi cuối
+label_change_view_all: Xem mọi thay đổi
 label_personalize_page: Điều chỉnh trang này
 label_comment: Bình luận
 label_comment_plural: Bình luận
 label_comment_add: Thêm bình luận
 label_comment_added: Đã thêm bình luận
 label_comment_delete: Xóa bình luận
-label_query: Custom query
-label_query_plural: Custom queries
-label_query_new: New query
+label_query: Truy vấn riêng
+label_query_plural: Truy vấn riêng
+label_query_new: Truy vấn mới
 label_filter_add: Thêm lọc
 label_filter_plural: Bộ lọc
 label_equals: là
 label_not_equals: không là
-label_in_less_than: in less than
-label_in_more_than: in more than
-label_in: in
+label_in_less_than: ít hơn
+label_in_more_than: nhiều hơn
+label_in: trong
 label_today: hôm nay
 label_all_time: mọi thời gian
 label_yesterday: hôm qua
@@ -392,83 +392,83 @@ label_date_range: Thời gian
 label_less_than_ago: cách đây dưới
 label_more_than_ago: cách đây hơn
 label_ago: cách đây
-label_contains: contains
-label_not_contains: doesn't contain
-label_day_plural: days
-label_repository: Repository
-label_repository_plural: Repositories
-label_browse: Browse
-label_modification: %d change
-label_modification_plural: %d changes
-label_revision: Revision
-label_revision_plural: Revisions
+label_contains: chứa
+label_not_contains: không chứa
+label_day_plural: ngày
+label_repository: Kho lưu trữ
+label_repository_plural: Kho lưu trữ
+label_browse: Duyệt
+label_modification: %d thay đổi
+label_modification_plural: %d thay đổi
+label_revision: Bản điều chỉnh
+label_revision_plural: Bản điều chỉnh
 label_associated_revisions: Associated revisions
-label_added: added
-label_modified: modified
-label_copied: copied
-label_renamed: renamed
-label_deleted: deleted
-label_latest_revision: Latest revision
-label_latest_revision_plural: Latest revisions
-label_view_revisions: View revisions
+label_added: thêm
+label_modified: đổi
+label_copied: chép
+label_renamed: đổi tên
+label_deleted: xóa
+label_latest_revision: Bản điều chỉnh cuối cùng
+label_latest_revision_plural: Bản điều chỉnh cuối cùng
+label_view_revisions: Xem các bản điều chỉnh
 label_max_size: Dung lượng tối đa
 label_on: '/ tổng số'
-label_sort_highest: Move to top
-label_sort_higher: Move up
-label_sort_lower: Move down
-label_sort_lowest: Move to bottom
+label_sort_highest: Lên trên cùng
+label_sort_higher: Dịch lên
+label_sort_lower: Dịch xuống
+label_sort_lowest: Xuống dưới cùng
 label_roadmap: Kế hoạch
 label_roadmap_due_in: Hết hạn trong %s
 label_roadmap_overdue: Trễ %s
-label_roadmap_no_issues: No issues for this version
+label_roadmap_no_issues: Không có vấn đề cho phiên bản này
 label_search: Tìm
 label_result_plural: Kết quả
 label_all_words: Mọi từ
 label_wiki: Wiki
 label_wiki_edit: Wiki edit
 label_wiki_edit_plural: Thay đổi wiki
-label_wiki_page: Wiki page
-label_wiki_page_plural: Wiki pages
+label_wiki_page: Trang wiki
+label_wiki_page_plural: Trang wiki
 label_index_by_title: Danh sách theo tên
 label_index_by_date: Danh sách theo ngày
 label_current_version: Bản hiện tại
 label_preview: Xem trước
 label_feed_plural: Feeds
-label_changes_details: Details of all changes
+label_changes_details: Chi tiết của mọi thay đổi
 label_issue_tracking: Vấn đề
 label_spent_time: Thời gian
 label_f_hour: %.2f giờ
 label_f_hour_plural: %.2f giờ
-label_time_tracking: Time tracking
+label_time_tracking: Theo dõi thời gian
 label_change_plural: Thay đổi
 label_statistics: Thống kê
 label_commits_per_month: Commits per month
 label_commits_per_author: Commits per author
-label_view_diff: View differences
+label_view_diff: So sánh
 label_diff_inline: inline
 label_diff_side_by_side: side by side
-label_options: Options
+label_options: Tùy chọn
 label_copy_workflow_from: Copy workflow from
-label_permissions_report: Permissions report
+label_permissions_report: Thống kê các quyền
 label_watched_issues: Chủ đề đang theo dõi
 label_related_issues: Liên quan
-label_applied_status: Applied status
-label_loading: Loading...
-label_relation_new: New relation
-label_relation_delete: Delete relation
-label_relates_to: related to
-label_duplicates: duplicates
-label_duplicated_by: duplicated by
-label_blocks: blocks
-label_blocked_by: blocked by
-label_precedes: precedes
-label_follows: follows
-label_end_to_start: end to start
-label_end_to_end: end to end
-label_start_to_start: start to start
-label_start_to_end: start to end
+label_applied_status: Trạng thái áp dụng
+label_loading: Đang xử lý...
+label_relation_new: Quan hệ mới
+label_relation_delete: Xóa quan hệ
+label_relates_to: liên quan
+label_duplicates: trùng với
+label_duplicated_by: bị trùng bởi
+label_blocks: chặn
+label_blocked_by: chặn bởi
+label_precedes: đi trước
+label_follows: đi sau
+label_end_to_start: cuối tới đầu
+label_end_to_end: cuối tới cuối
+label_start_to_start: đầu tớ đầu
+label_start_to_end: đầu tới cuối
 label_stay_logged_in: Lưu thông tin đăng nhập
-label_disabled: disabled
+label_disabled: bị vô hiệu
 label_show_completed_versions: Xem phiên bản đã xong
 label_me: tôi
 label_board: Diễn đàn
@@ -480,14 +480,14 @@ label_message_last: Bài cuối
 label_message_new: Tạo bài mới
 label_message_posted: Đã thêm bài viết
 label_reply_plural: Hồi âm
-label_send_information: Send account information to the user
-label_year: Year
-label_month: Month
-label_week: Week
+label_send_information: Gửi thông tin đến người dùng qua email
+label_year: Năm
+label_month: Tháng
+label_week: Tuần
 label_date_from: Từ
 label_date_to: Đến
-label_language_based: Based on user's language
-label_sort_by: Sort by %s
+label_language_based: Theo ngôn ngữ người dùng
+label_sort_by: Sắp xếp theo %s
 label_send_test_email: Send a test email
 label_feeds_access_key_created_on: "Mã chứng thực RSS được tạo ra cách đây %s"
 label_module_plural: Mô-đun
@@ -495,13 +495,13 @@ label_added_time_by: thêm bởi %s cách đây %s
 label_updated_time: Cập nhật cách đây %s
 label_jump_to_a_project: Nhảy đến dự án...
 label_file_plural: Tập tin
-label_changeset_plural: Changesets
-label_default_columns: Default columns
-label_no_change_option: (No change)
-label_bulk_edit_selected_issues: Bulk edit selected issues
-label_theme: Theme
-label_default: Default
-label_search_titles_only: Search titles only
+label_changeset_plural: Thay đổi
+label_default_columns: Cột mặc định
+label_no_change_option: (không đổi)
+label_bulk_edit_selected_issues: Sửa nhiều vấn đề
+label_theme: Giao diện
+label_default: Mặc định
+label_search_titles_only: Chỉ tìm trong tựa đề
 label_user_mail_option_all: "Mọi sự kiện trên mọi dự án của bạn"
 label_user_mail_option_selected: "Mọi sự kiện trên các dự án được chọn..."
 label_user_mail_option_none: "Chỉ những vấn đề bạn theo dõi hoặc được gán"
@@ -512,11 +512,11 @@ label_registration_automatic_activation: automatic account activation
 label_display_per_page: 'mỗi trang: %s'
 label_age: Age
 label_change_properties: Thay đổi thuộc tính
-label_general: General
+label_general: Tổng quan
 label_more: Chi tiết
 label_scm: SCM
-label_plugins: Plugins
-label_ldap_authentication: LDAP authentication
+label_plugins: Mô-đun
+label_ldap_authentication: Chứng thực LDAP
 label_downloads_abbr: Tải về
 label_optional_description: Mô tả bổ sung
 label_add_another_file: Thêm tập tin khác
@@ -524,8 +524,8 @@ label_preferences: Cấu hình
 label_chronological_order: Bài cũ xếp trước
 label_reverse_chronological_order: Bài mới xếp trước
 label_planning: Kế hoạch
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
+label_incoming_emails: Nhận mail
+label_generate_key: Tạo mã
 label_issue_watchers: Theo dõi
 
 button_login: Đăng nhập
@@ -562,7 +562,7 @@ button_reset: Tạo lại
 button_rename: Đổi tên
 button_change_password: Đổi mật mã
 button_copy: Chép
-button_annotate: Annotate
+button_annotate: Chú giải
 button_update: Cập nhật
 button_configure: Cấu hình
 button_quote: Trích dẫn
@@ -571,20 +571,20 @@ status_active: hoạt động
 status_registered: đăng ký
 status_locked: khóa
 
-text_select_mail_notifications: Select actions for which email notifications should be sent.
+text_select_mail_notifications: Chọn hành động đối với mỗi email thông báo sẽ gửi.
 text_regexp_info: eg. ^[A-Z0-9]+$
-text_min_max_length_info: 0 means no restriction
+text_min_max_length_info: 0 để chỉ không hạn chế
 text_project_destroy_confirmation: Are you sure you want to delete this project and related data ?
 text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
 text_workflow_edit: Select a role and a tracker to edit the workflow
-text_are_you_sure: Are you sure ?
+text_are_you_sure: Bạn chắc chứ?
 text_journal_changed: đổi từ %s sang %s
 text_journal_set_to: đặt thành %s
-text_journal_deleted: deleted
+text_journal_deleted: xóa
 text_tip_task_begin_day: ngày bắt đầu
 text_tip_task_end_day: ngày kết thúc
 text_tip_task_begin_end_day: bắt đầu và kết thúc cùng ngày
-text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
+text_project_identifier_info: 'Chỉ cho phép chữ cái thường (a-z), con số và dấu gạch ngang.<br />Sau khi lưu, chỉ số ID không thể thay đổi.'
 text_caracters_maximum: Tối đa %d ký tự.
 text_caracters_minimum: Phải gồm ít nhất %d ký tự.
 text_length_between: Length between %d and %d characters.
@@ -640,56 +640,57 @@ default_activity_development: Phát triển
 
 enumeration_issue_priorities: Mức độ ưu tiên vấn đề
 enumeration_doc_categories: Chủ đề tài liệu
-enumeration_activities: Activities (time tracking)
-permission_edit_issues: Edit issues
-permission_edit_own_issue_notes: Edit own notes
-permission_view_files: View files
-permission_add_issues: Add issues
-permission_manage_public_queries: Manage public queries
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_manage_versions: Manage versions
-permission_view_time_entries: View spent time
-permission_manage_categories: Manage issue categories
-permission_manage_wiki: Manage wiki
-setting_plain_text_mail: plain text mail (no HTML)
-permission_protect_wiki_pages: Protect wiki pages
-permission_manage_documents: Manage documents
-permission_add_issue_watchers: Add watchers
-permission_comment_news: Comment news
-permission_select_project_modules: Select project modules
-permission_view_gantt: View gantt chart
-permission_delete_messages: Delete messages
-permission_move_issues: Move issues
-permission_edit_wiki_pages: Edit wiki pages
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_view_wiki_edits: View wiki history
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_add_messages: Post messages
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calender
-setting_gravatar_enabled: Use Gravatar user icons
-permission_delete_issues: Delete issues
-permission_view_documents: View documents
-permission_browse_repository: Browse repository
-permission_manage_repository: Manage repository
-permission_manage_members: Manage members
-permission_add_issue_notes: Add notes
-permission_edit_messages: Edit messages
-permission_view_issue_watchers: View watchers list
-permission_commit_access: Commit access
-permission_rename_wiki_pages: Rename wiki pages
-permission_view_wiki_pages: View wiki
-permission_edit_project: Edit project
-permission_save_queries: Save queries
-permission_edit_time_entries: Edit time logs
-permission_edit_own_time_entries: Edit own time logs
-label_example: Example
-text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-permission_edit_own_messages: Edit own messages
-permission_delete_won_messages: Delete own messages
+enumeration_activities: Hoạt động (theo dõi thời gian)
+
+setting_plain_text_mail: mail dạng text đơn giản (không dùng HTML)
+setting_gravatar_enabled: Dùng biểu tượng Gravatar
+permission_edit_project: Chỉnh dự án
+permission_select_project_modules: Chọn mô-đun
+permission_manage_members: Quản lý thành viên
+permission_manage_versions: Quản lý phiên bản
+permission_manage_categories: Quản lý chủ đề
+permission_add_issues: Thêm vấn đề
+permission_edit_issues: Sửa vấn đề
+permission_manage_issue_relations: Quản lý quan hệ vấn đề
+permission_add_issue_notes: Thêm chú thích
+permission_edit_issue_notes: Sửa chú thích
+permission_edit_own_issue_notes: Sửa chú thích cá nhân
+permission_move_issues: Chuyển vấn đề
+permission_delete_issues: Xóa vấn đề
+permission_manage_public_queries: Quản lý truy cấn công cộng
+permission_save_queries: Lưu truy vấn
+permission_view_gantt: Xem biểu đồ sự kiện
+permission_view_calendar: Xem lịch
+permission_view_issue_watchers: Xem các người theo dõi
+permission_add_issue_watchers: Thêm người theo dõi
+permission_log_time: Lưu thời gian đã tốn
+permission_view_time_entries: Xem thời gian đã tốn
+permission_edit_time_entries: Xem nhật ký thời gian
+permission_edit_own_time_entries: Sửa thời gian đã lưu
+permission_manage_news: Quản lý tin mới
+permission_comment_news: Chú thích vào tin mới
+permission_manage_documents: Quản lý tài liệu
+permission_view_documents: Xem tài liệu
+permission_manage_files: Quản lý tập tin
+permission_view_files: Xem tập tin
+permission_manage_wiki: Quản lý wiki
+permission_rename_wiki_pages: Đổi tên trang wiki
+permission_delete_wiki_pages: Xóa trang wiki
+permission_view_wiki_pages: Xem wiki
+permission_view_wiki_edits: Xem lược sử trang wiki
+permission_edit_wiki_pages: Sửa trang wiki
+permission_delete_wiki_pages_attachments: Xóa tệp đính kèm
+permission_protect_wiki_pages: Bảo vệ trang wiki
+permission_manage_repository: Quản lý kho lưu trữ
+permission_browse_repository: Duyệt kho lưu trữ
+permission_view_changesets: Xem các thay đổi
+permission_commit_access: Truy cập commit
+permission_manage_boards: Quản lý diễn đàn
+permission_view_messages: Xem bài viết
+permission_add_messages: Gửi bài viết
+permission_edit_messages: Sửa bài viết
+permission_edit_own_messages: Sửa bài viết cá nhân
+permission_delete_messages: Xóa bài viết
+permission_delete_own_messages: Xóa bài viết cá nhân
+label_example: Ví dụ
+text_repository_usernames_mapping: "Chọn hoặc cập nhật ánh xạ người dùng hệ thống với người dùng trong kho lưu trữ.\nNhững trường hợp trùng hợp về tên và email sẽ được tự động ánh xạ."
