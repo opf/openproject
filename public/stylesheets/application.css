@@ -667,5 +667,5 @@ td.username img.gravatar {
 @media print {
   #top-menu, #header, #main-menu, #sidebar, #footer, .contextual, .other-formats { display:none; }
   #main { background: #fff; }
-  #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; }
+  #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; overflow: visible !important;}
 }
