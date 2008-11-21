@@ -418,7 +418,7 @@ label_duplicates: duplikaty
 label_blocks: blokady
 label_blocked_by: zablokowane przez
 label_precedes: poprzedza
-label_follows: podąża
+label_follows: następuje po
 label_end_to_start: koniec do początku
 label_end_to_end: koniec do końca
 label_start_to_start: początek do początku
