@@ -27,4 +27,18 @@ wiki_pages_004:
   wiki_id: 1
   protected: false
   parent_id: 1
+wiki_pages_005: 
+  created_on: 2007-03-08 00:18:07 +01:00
+  title: Child_1
+  id: 5
+  wiki_id: 1
+  protected: false
+  parent_id: 2
+wiki_pages_006: 
+  created_on: 2007-03-08 00:18:07 +01:00
+  title: Child_2
+  id: 6
+  wiki_id: 1
+  protected: false
+  parent_id: 2
   

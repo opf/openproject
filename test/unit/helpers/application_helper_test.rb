@@ -359,32 +359,6 @@ EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
   end
   
-  def test_macro_hello_world
-    text = "{{hello_world}}"
-    assert textilizable(text).match(/Hello world!/)
-    # escaping
-    text = "!{{hello_world}}"
-    assert_equal '<p>{{hello_world}}</p>', textilizable(text)
-  end
-  
-  def test_macro_include
-    @project = Project.find(1)
-    # include a page of the current project wiki
-    text = "{{include(Another page)}}"
-    assert textilizable(text).match(/This is a link to a ticket/)
-    
-    @project = nil
-    # include a page of a specific project wiki
-    text = "{{include(ecookbook:Another page)}}"
-    assert textilizable(text).match(/This is a link to a ticket/)
-
-    text = "{{include(ecookbook:)}}"
-    assert textilizable(text).match(/CookBook documentation/)
-
-    text = "{{include(unknowidentifier:somepage)}}"
-    assert textilizable(text).match(/Unknow project/)
-  end
-  
   def test_default_formatter
     Setting.text_formatting = 'unknown'
     text = 'a *link*: http://www.example.net/'

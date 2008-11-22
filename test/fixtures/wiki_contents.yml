@@ -47,4 +47,26 @@ wiki_contents_004:
   version: 1
   author_id: 1
   comments: 
+wiki_contents_005: 
+  text: |-
+    h1. Child page 1
+    
+    This is a child page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 5
+  id: 5
+  version: 1
+  author_id: 1
+  comments: 
+wiki_contents_006: 
+  text: |-
+    h1. Child page 2
+    
+    This is a child page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 6
+  id: 6
+  version: 1
+  author_id: 1
+  comments: 
   

@@ -43,6 +43,25 @@ class Wiki < ActiveRecord::Base
     page
   end
   
+  # Finds a page by title
+  # The given string can be of one of the forms: "title" or "project:title"
+  # Examples:
+  #   Wiki.find_page("bar", project => foo)
+  #   Wiki.find_page("foo:bar")
+  def self.find_page(title, options = {})
+    project = options[:project]
+    if title.to_s =~ %r{^([^\:]+)\:(.*)$}
+      project_identifier, title = $1, $2
+      project = Project.find_by_identifier(project_identifier) || Project.find_by_name(project_identifier)
+    end
+    if project && project.wiki
+      page = project.wiki.find_page(title)
+      if page && page.content
+        page
+      end
+    end
+  end
+  
   # turn a string into a valid page title
   def self.titleize(title)
     # replace spaces with _ and remove unwanted caracters
