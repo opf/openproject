@@ -329,19 +329,19 @@ class Query < ActiveRecord::Base
       when "c"
         sql = sql + "#{IssueStatus.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
       when ">t-"
-        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date((Date.today - v.first.to_i).to_time), connection.quoted_date((Date.today + 1).to_time)]
+        sql = sql + date_range_clause(db_table, db_field, - v.first.to_i, 0)
       when "<t-"
-        sql = sql + "#{db_table}.#{db_field} <= '%s'" % connection.quoted_date((Date.today - v.first.to_i).to_time)
+        sql = sql + date_range_clause(db_table, db_field, nil, - v.first.to_i)
       when "t-"
-        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date((Date.today - v.first.to_i).to_time), connection.quoted_date((Date.today - v.first.to_i + 1).to_time)]
+        sql = sql + date_range_clause(db_table, db_field, - v.first.to_i, - v.first.to_i)
       when ">t+"
-        sql = sql + "#{db_table}.#{db_field} >= '%s'" % connection.quoted_date((Date.today + v.first.to_i).to_time)
+        sql = sql + date_range_clause(db_table, db_field, v.first.to_i, nil)
       when "<t+"
-        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(Date.today.to_time), connection.quoted_date((Date.today + v.first.to_i + 1).to_time)]
+        sql = sql + date_range_clause(db_table, db_field, 0, v.first.to_i)
       when "t+"
-        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date((Date.today + v.first.to_i).to_time), connection.quoted_date((Date.today + v.first.to_i + 1).to_time)]
+        sql = sql + date_range_clause(db_table, db_field, v.first.to_i, v.first.to_i)
       when "t"
-        sql = sql + "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(Date.today.to_time), connection.quoted_date((Date.today+1).to_time)]
+        sql = sql + date_range_clause(db_table, db_field, 0, 0)
       when "w"
         from = l(:general_first_day_of_week) == '7' ?
           # week starts on sunday
@@ -381,5 +381,17 @@ class Query < ActiveRecord::Base
       end
       @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
     end
+  end
+  
+  # Returns a SQL clause for a date or datetime field.
+  def date_range_clause(table, field, from, to)
+    s = []
+    if from
+      s << ("#{table}.#{field} > '%s'" % [connection.quoted_date((Date.yesterday + from).to_time.end_of_day)])
+    end
+    if to
+      s << ("#{table}.#{field} <= '%s'" % [connection.quoted_date((Date.today + to).to_time.end_of_day)])
+    end
+    s.join(' AND ')
   end
 end

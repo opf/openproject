@@ -91,4 +91,21 @@ issues_006:
   status_id: 1
   start_date: <%= Date.today.to_s(:db) %>
   due_date: <%= 1.days.from_now.to_date.to_s(:db) %>
+issues_007: 
+  created_on: <%= 10.days.ago.to_date.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 10.days.ago.to_date.to_s(:db) %>
+  priority_id: 3
+  subject: Issue due today
+  id: 7
+  fixed_version_id: 
+  category_id: 
+  description: This is an issue that is due today
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 1
+  start_date: <%= 10.days.ago.to_s(:db) %>
+  due_date: <%= Date.today.to_s(:db) %>
+  lock_version: 0
   
