@@ -91,6 +91,8 @@ class AuthSourceLdap < AuthSource
   end
   
   def self.get_attr(entry, attr_name)
-    entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
+    if !attr_name.blank?
+      entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
+    end
   end
 end

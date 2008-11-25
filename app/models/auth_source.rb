@@ -38,7 +38,8 @@ class AuthSource < ActiveRecord::Base
       begin
         logger.debug "Authenticating '#{login}' against '#{source.name}'" if logger && logger.debug?
         attrs = source.authenticate(login, password)
-      rescue
+      rescue => e
+        logger.error "Error during authentication: #{e.message}"
         attrs = nil
       end
       return attrs if attrs
