@@ -66,6 +66,8 @@ class RepositoryTest < Test::Unit::TestCase
   end
   
   def test_scan_changesets_for_issue_ids
+    Setting.default_language = 'en'
+    
     # choosing a status to apply to fix issues
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = "90"

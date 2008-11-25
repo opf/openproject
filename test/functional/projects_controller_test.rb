@@ -30,6 +30,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     @request.session[:user_id] = nil
+    Setting.default_language = 'en'
   end
 
   def test_index
