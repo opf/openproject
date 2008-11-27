@@ -28,7 +28,7 @@ namespace :gloc do
     }
   end
   
-  desc 'Updates language files based on em.yml content'
+  desc 'Updates language files based on en.yml content'
   task :update do
     dir = ENV['DIR'] || './lang'
     
