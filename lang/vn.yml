@@ -694,4 +694,4 @@ permission_delete_messages: Xóa bài viết
 permission_delete_own_messages: Xóa bài viết cá nhân
 label_example: Ví dụ
 text_repository_usernames_mapping: "Chọn hoặc cập nhật ánh xạ người dùng hệ thống với người dùng trong kho lưu trữ.\nNhững trường hợp trùng hợp về tên và email sẽ được tự động ánh xạ."
-permission_delete_won_messages: Delete own messages
+permission_delete_own_messages: Delete own messages

@@ -546,7 +546,7 @@ permission_delete_issues: Borrar peticiones
 permission_delete_messages: Borrar mensajes
 permission_delete_wiki_pages: Borrar páginas wiki
 permission_delete_wiki_pages_attachments: Borrar ficheros
-permission_delete_won_messages: Borrar mensajes propios
+permission_delete_own_messages: Borrar mensajes propios
 permission_edit_issue_notes: Modificar notas
 permission_edit_issues: Modificar peticiones
 permission_edit_messages: Modificar mensajes

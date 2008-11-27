@@ -626,7 +626,7 @@ permission_rename_wiki_pages: Переименование страниц wiki
 permission_edit_time_entries: Редактирование учета времени
 permission_edit_own_issue_notes: Редактирование собственных примечаний
 permission_edit_own_messages: Редактирование собственных сообщений
-permission_delete_won_messages: Удаление собственных сообщений
+permission_delete_own_messages: Удаление собственных сообщений
 
 project_module_boards: Форумы
 project_module_documents: Документы

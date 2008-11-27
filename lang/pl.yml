@@ -579,7 +579,7 @@ permission_delete_issues: Usuwanie zagadnień
 permission_delete_messages: Usuwanie wiadomości
 permission_delete_wiki_pages: Usuwanie stron wiki
 permission_delete_wiki_pages_attachments: Usuwanie załączników
-permission_delete_won_messages: Usuwanie własnych wiadomości
+permission_delete_own_messages: Usuwanie własnych wiadomości
 permission_edit_issue_notes: Edycja notatek
 permission_edit_issues: Edycja zagadnień
 permission_edit_messages: Edycja wiadomości

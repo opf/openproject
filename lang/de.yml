@@ -271,7 +271,7 @@ permission_add_messages: Forums-Beiträge hinzufügen
 permission_edit_messages: Forums-Beiträge bearbeiten
 permission_edit_own_messages: Eigene Forums-Beiträge bearbeiten
 permission_delete_messages: Forums-Beiträge löschen
-permission_delete_won_messages: Eigene Forums-Beiträge löschen
+permission_delete_own_messages: Eigene Forums-Beiträge löschen
 
 project_module_issue_tracking: Ticket-Verfolgung
 project_module_time_tracking: Zeiterfassung

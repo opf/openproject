@@ -271,7 +271,7 @@ permission_add_messages: 新增訊息
 permission_edit_messages: 編輯訊息
 permission_edit_own_messages: 編輯自己的訊息
 permission_delete_messages: 刪除訊息
-permission_delete_won_messages: 刪除自己的訊息
+permission_delete_own_messages: 刪除自己的訊息
 
 project_module_issue_tracking: 項目追蹤
 project_module_time_tracking: 工時追蹤

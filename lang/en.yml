@@ -271,7 +271,7 @@ permission_add_messages: Post messages
 permission_edit_messages: Edit messages
 permission_edit_own_messages: Edit own messages
 permission_delete_messages: Delete messages
-permission_delete_won_messages: Delete own messages
+permission_delete_own_messages: Delete own messages
 
 project_module_issue_tracking: Issue tracking
 project_module_time_tracking: Time tracking
