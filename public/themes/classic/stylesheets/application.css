@@ -26,7 +26,7 @@ h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-bottom: 0px; color:#606060; fo
 h2, .wiki h1 { letter-spacing:-1px; }
 h4 { border-bottom: dotted 1px #c0c0c0; }
 
-#top-menu a.home, #top-menu a.mypage, #top-menu a.projects, #top-menu a.admin, #top-menu a.help { 
+#top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help { 
     background-position: 0% 40%;
     background-repeat: no-repeat;
     padding-left: 20px;
@@ -35,7 +35,7 @@ h4 { border-bottom: dotted 1px #c0c0c0; }
 }
 
 #top-menu a.home { background-image: url(../../../images/home.png); }
-#top-menu a.mypage { background-image: url(../../../images/user_page.png); }
+#top-menu a.my-page { background-image: url(../../../images/user_page.png); }
 #top-menu a.projects { background-image: url(../../../images/projects.png); }
-#top-menu a.admin { background-image: url(../../../images/admin.png); }
+#top-menu a.administration { background-image: url(../../../images/admin.png); }
 #top-menu a.help { background-image: url(../../../images/help.png); }

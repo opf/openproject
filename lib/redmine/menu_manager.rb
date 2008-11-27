@@ -72,7 +72,7 @@ module Redmine
         links = []
         menu_items_for(menu, project) do |item, caption, url, selected|
           links << content_tag('li', 
-            link_to(h(caption), url, (selected ? item.html_options.merge(:class => 'selected') : item.html_options)))
+            link_to(h(caption), url, item.html_options(:selected => selected)))
         end
         links.empty? ? nil : content_tag('ul', links.join("\n"))
       end
@@ -168,7 +168,7 @@ module Redmine
     
     class MenuItem
       include GLoc
-      attr_reader :name, :url, :param, :condition, :html_options
+      attr_reader :name, :url, :param, :condition
       
       def initialize(name, url, options)
         raise "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -179,6 +179,8 @@ module Redmine
         @param = options[:param] || :id
         @caption = options[:caption]
         @html_options = options[:html] || {}
+        # Adds a unique class to each menu item based on its name
+        @html_options[:class] = [@html_options[:class], @name.to_s.dasherize].compact.join(' ')
       end
       
       def caption(project=nil)
@@ -189,6 +191,16 @@ module Redmine
         else
           # check if localized string exists on first render (after GLoc strings are loaded)
           @caption_key ||= (@caption || (l_has_string?("label_#{@name}".to_sym) ? "label_#{@name}".to_sym : @name.to_s.humanize))
+        end
+      end
+      
+      def html_options(options={})
+        if options[:selected]
+          o = @html_options.dup
+          o[:class] += ' selected'
+          o
+        else
+          @html_options
         end
       end
     end    

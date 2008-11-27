@@ -234,14 +234,17 @@ class ProjectsControllerTest < Test::Unit::TestCase
       
       get :show, :id => 1
       assert_tag :div, :attributes => { :id => 'main-menu' },
-                       :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Foo' } }
+                       :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Foo',
+                                                                               :attributes => { :class => 'foo' } } }
   
       assert_tag :div, :attributes => { :id => 'main-menu' },
-                       :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Bar' },
+                       :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Bar',
+                                                                               :attributes => { :class => 'bar' } },
                                                       :before => { :tag => 'li', :child => { :tag => 'a', :content => 'ECOOKBOOK' } } }
 
       assert_tag :div, :attributes => { :id => 'main-menu' },
-                       :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'ECOOKBOOK' },
+                       :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'ECOOKBOOK',
+                                                                               :attributes => { :class => 'hello' } },
                                                       :before => { :tag => 'li', :child => { :tag => 'a', :content => 'Activity' } } }
       
       # Remove the menu items
