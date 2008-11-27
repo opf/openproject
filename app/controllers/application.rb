@@ -127,8 +127,8 @@ class ApplicationController < ActionController::Base
     back_url = CGI.unescape(params[:back_url].to_s)
     if !back_url.blank?
       uri = URI.parse(back_url)
-      # do not redirect user to another host
-      if uri.relative? || (uri.host == request.host)
+      # do not redirect user to another host or to the login or register page
+      if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
         redirect_to(back_url) and return
       end
     end
