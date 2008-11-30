@@ -23,6 +23,8 @@ class MailHandlerTest < Test::Unit::TestCase
                    :roles,
                    :members,
                    :issues,
+                   :issue_statuses,
+                   :workflows,
                    :trackers,
                    :projects_trackers,
                    :enumerations,
@@ -98,6 +100,15 @@ class MailHandlerTest < Test::Unit::TestCase
     assert_equal 'Paella.jpg', issue.attachments.first.filename
     assert_equal 'image/jpeg', issue.attachments.first.content_type
     assert_equal 10790, issue.attachments.first.filesize
+  end
+  
+  def test_add_issue_with_cc
+    issue = submit_email('ticket_with_cc.eml', :issue => {:project => 'ecookbook'})
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
+    assert_equal 1, issue.watchers.size
   end
   
   def test_add_issue_note

@@ -92,7 +92,11 @@ class MailHandler < ActionMailer::Base
     issue.save!
     add_attachments(issue)
     logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger && logger.info
+    # send notification before adding watchers since they were cc'ed
     Mailer.deliver_issue_add(issue) if Setting.notified_events.include?('issue_added')
+    # add To and Cc as watchers
+    add_watchers(issue)
+    
     issue
   end
   
@@ -135,6 +139,18 @@ class MailHandler < ActionMailer::Base
                           :file => attachment,
                           :author => user,
                           :content_type => attachment.content_type)
+      end
+    end
+  end
+  
+  # Adds To and Cc as watchers of the given object if the sender has the
+  # appropriate permission
+  def add_watchers(obj)
+    if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
+      addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
+      unless addresses.empty?
+        watchers = User.find_active(:all, :conditions => ['LOWER(mail) IN (?)', addresses])
+        watchers.each {|w| obj.add_watcher(w)}
       end
     end
   end
