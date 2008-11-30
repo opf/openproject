@@ -23,6 +23,7 @@ Read an email from standard input.
 
 Issue attributes control options:
   project=PROJECT          identifier of the target project
+  status=STATUS            name of the target status
   tracker=TRACKER          name of the target tracker
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
@@ -44,7 +45,7 @@ END_DESC
 
     task :read => :environment do
       options = { :issue => {} }
-      %w(project tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
+      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       
       MailHandler.receive(STDIN.read, options)
@@ -63,6 +64,7 @@ Available IMAP options:
 
 Issue attributes control options:
   project=PROJECT          identifier of the target project
+  status=STATUS            name of the target status
   tracker=TRACKER          name of the target tracker
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
@@ -96,7 +98,7 @@ END_DESC
                       :folder => ENV['folder']}
                       
       options = { :issue => {} }
-      %w(project tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
+      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
 
       Redmine::IMAP.check(imap_options, options)
