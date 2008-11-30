@@ -37,6 +37,7 @@ class WikiContent < ActiveRecord::Base
 
     acts_as_activity_provider :type => 'wiki_edits',
                               :timestamp => "#{WikiContent.versioned_table_name}.updated_on",
+                              :author_key => "#{WikiContent.versioned_table_name}.author_id",
                               :permission => :view_wiki_edits,
                               :find_options => {:select => "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
                                                            "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title, " +

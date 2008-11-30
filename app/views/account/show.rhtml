@@ -4,6 +4,7 @@
 
 <h2><%= avatar @user %> <%=h @user.name %></h2>
 
+<div class="splitcontentleft">
 <p>
 <%= mail_to(h(@user.mail)) unless @user.pref.hide_mail %>
 <ul>
@@ -25,8 +26,32 @@
 <% end %>
 </ul>
 <% end %>
+</div>
 
+<div class="splitcontentright">
+
+<% unless @events_by_day.empty? %>
 <h3><%=l(:label_activity)%></h3>
+
 <p>
 <%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
 </p>
+
+<div id="activity">
+<% @events_by_day.keys.sort.reverse.each do |day| %>
+<h4><%= format_activity_day(day) %></h4>
+<dl>
+<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+  <dt class="<%= e.event_type %>">
+  <span class="time"><%= format_time(e.event_datetime, false) %></span>
+  <%= content_tag('span', h(e.project), :class => 'project') %>
+  <%= link_to format_activity_title(e.event_title), e.event_url %></dt>
+  <dd><span class="description"><%= format_activity_description(e.event_description) %></span></dd>
+<% end -%>
+</dl>
+<% end -%>
+</div>
+<% end %>
+</div>
+
+<% html_title @user.name %>

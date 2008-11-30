@@ -105,6 +105,18 @@ module ApplicationHelper
     @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
     include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
   end
+  
+  def format_activity_title(text)
+    h(truncate_single_line(text, 100))
+  end
+  
+  def format_activity_day(date)
+    date == Date.today ? l(:label_today).titleize : format_date(date)
+  end
+  
+  def format_activity_description(text)
+    h(truncate(text.to_s, 250).gsub(%r{<(pre|code)>.*$}m, '...'))
+  end
 
   def distance_of_date_in_words(from_date, to_date = 0)
     from_date = from_date.to_date if from_date.respond_to?(:to_date)

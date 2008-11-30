@@ -29,7 +29,7 @@ module Redmine
             send :include, Redmine::Acts::ActivityProvider::InstanceMethods
           end
 
-          options.assert_valid_keys(:type, :permission, :timestamp, :find_options)
+          options.assert_valid_keys(:type, :permission, :timestamp, :author_key, :find_options)
           self.activity_provider_options ||= {}
           
           # One model can provide different event types
@@ -39,6 +39,7 @@ module Redmine
           options[:permission] = "view_#{self.name.underscore.pluralize}".to_sym unless options.has_key?(:permission)
           options[:timestamp] ||= "#{table_name}.created_on"
           options[:find_options] ||= {}
+          options[:author_key] = "#{table_name}.#{options[:author_key]}" if options[:author_key].is_a?(Symbol)
           self.activity_provider_options[event_type] = options
         end
       end
@@ -54,10 +55,21 @@ module Redmine
             provider_options = activity_provider_options[event_type]
             raise "#{self.name} can not provide #{event_type} events." if provider_options.nil?
             
-            cond = ARCondition.new(["#{provider_options[:timestamp]} BETWEEN ? AND ?", from, to])
+            scope_options = {}
+            cond = ARCondition.new
+            if from && to
+              cond.add(["#{provider_options[:timestamp]} BETWEEN ? AND ?", from, to])
+            end
+            if options[:author]
+              return [] if provider_options[:author_key].nil?
+              cond.add(["#{provider_options[:author_key]} = ?", options[:author].id])
+            end
             cond.add(Project.allowed_to_condition(user, provider_options[:permission], options)) if provider_options[:permission]
+            scope_options[:conditions] = cond.conditions
+            scope_options[:order] = "#{provider_options[:timestamp]} DESC"
+            scope_options[:limit] = options[:limit]
             
-            with_scope(:find => { :conditions => cond.conditions }) do
+            with_scope(:find => scope_options) do
               find(:all, provider_options[:find_options])
             end
           end

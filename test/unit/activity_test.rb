@@ -63,6 +63,15 @@ class ActivityTest < Test::Unit::TestCase
     assert events.include?(Issue.find(4))
   end
   
+  def test_user_activity
+    user = User.find(2)
+    events = Redmine::Activity::Fetcher.new(User.anonymous, :author => user).events(nil, nil, :limit => 10)
+    
+    assert(events.size > 0)
+    assert(events.size <= 10)
+    assert_nil(events.detect {|e| e.event_author != user})
+  end
+  
   private
   
   def find_events(user, options={})

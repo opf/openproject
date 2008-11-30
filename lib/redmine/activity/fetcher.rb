@@ -25,7 +25,7 @@ module Redmine
       @@constantized_providers = Hash.new {|h,k| h[k] = Redmine::Activity.providers[k].collect {|t| t.constantize } }
       
       def initialize(user, options={})
-        options.assert_valid_keys(:project, :with_subprojects)
+        options.assert_valid_keys(:project, :with_subprojects, :author)
         @user = user
         @project = options[:project]
         @options = options
@@ -58,13 +58,19 @@ module Redmine
       end
       
       # Returns an array of events for the given date range
-      def events(from, to)
+      def events(from = nil, to = nil, options={})
         e = []
+        @options[:limit] = options[:limit]
         
         @scope.each do |event_type|
           constantized_providers(event_type).each do |provider|
             e += provider.find_events(event_type, @user, from, to, @options)
           end
+        end
+        
+        if options[:limit]
+          e.sort! {|a,b| b.event_date <=> a.event_date}
+          e = e.slice(0, options[:limit])
         end
         e
       end
