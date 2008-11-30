@@ -693,3 +693,4 @@ setting_gravatar_enabled: Use Gravatar user icons
 permission_edit_own_messages: Edit own messages
 permission_delete_own_messages: Delete own messages
 text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+label_user_activity: "%s's activity"

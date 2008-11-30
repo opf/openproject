@@ -227,10 +227,13 @@ class ProjectsController < ApplicationController
     @date_to ||= Date.today + 1
     @date_from = @date_to - @days
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+    @author = (params[:user_id] ? User.find_active(params[:user_id]) : nil)
     
-    @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project, :with_subprojects => @with_subprojects)
+    @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project, 
+                                                             :with_subprojects => @with_subprojects,
+                                                             :author => @author)
     @activity.scope_select {|t| !params["show_#{t}"].nil?}
-    @activity.default_scope! if @activity.scope.empty?
+    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
 
     events = @activity.events(@date_from, @date_to)
     
@@ -240,10 +243,18 @@ class ProjectsController < ApplicationController
         render :layout => false if request.xhr?
       }
       format.atom {
-        title = (@activity.scope.size == 1) ? l("label_#{@activity.scope.first.singularize}_plural") : l(:label_activity)
+        title = l(:label_activity)
+        if @author
+          title = @author.name
+        elsif @activity.scope.size == 1
+          title = l("label_#{@activity.scope.first.singularize}_plural")
+        end
         render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
       }
     end
+    
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
   
 private

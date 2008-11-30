@@ -677,3 +677,4 @@ text_user_mail_option: "En los proyectos no seleccionados, sólo recibirá notif
 text_user_wrote: '%s escribió:'
 text_wiki_destroy_confirmation: ¿Seguro que quiere borrar el wiki y todo su contenido?
 text_workflow_edit: Seleccionar un flujo de trabajo para actualizar
+label_user_activity: "%s's activity"

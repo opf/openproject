@@ -344,6 +344,7 @@ label_last_updates_plural: %d last updated
 label_registered_on: Registered on
 label_activity: Activity
 label_overall_activity: Overall activity
+label_user_activity: "%s's activity"
 label_new: New
 label_logged_as: Logged in as
 label_environment: Environment

@@ -693,3 +693,4 @@ label_example: Exemplo
 text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmine mapeando para cada usuário encontrado no log do repositório.\nUsuários com o mesmo login ou email no Redmine e no repositório serão mapeados automaticamente."
 permission_edit_own_messages: Editar próprias mensagens
 permission_delete_own_messages: Excluir próprias mensagens
+label_user_activity: "%s's activity"

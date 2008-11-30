@@ -170,7 +170,6 @@ field_start_page: Page de démarrage
 field_subproject: Sous-projet
 field_hours: Heures
 field_activity: Activité
-label_overall_activity: Activité globale
 field_spent_on: Date
 field_identifier: Identifiant
 field_is_filter: Utilisé comme filtre
@@ -344,6 +343,8 @@ label_last_updates: Dernière mise à jour
 label_last_updates_plural: %d dernières mises à jour
 label_registered_on: Inscrit le
 label_activity: Activité
+label_overall_activity: Activité globale
+label_user_activity: "Activité de %s"
 label_new: Nouveau
 label_logged_as: Connecté en tant que
 label_environment: Environnement

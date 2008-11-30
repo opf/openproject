@@ -1,4 +1,4 @@
-<h2><%= l(:label_activity) %></h2>
+<h2><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, @author.to_s) %></h2>
 <p class="subtitle"><%= "#{l(:label_date_from)} #{format_date(@date_to - @days)} #{l(:label_date_to).downcase} #{format_date(@date_to-1)}" %></p>
 
 <div id="activity">
@@ -52,8 +52,9 @@
     <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
     <%= hidden_field_tag 'with_subprojects', 0 %>
 <% end %>
+<%= hidden_field_tag 'user_id', params[:user_id] %>
 <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
 <% end %>
 <% end %>
 
-<% html_title(l(:label_activity)) -%>
+<% html_title(l(:label_activity), @author) -%>

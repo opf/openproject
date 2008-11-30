@@ -48,8 +48,16 @@ module Redmine
       end
       
       # Sets the scope
+      # Argument can be :all, :default or an array of event types
       def scope=(s)
-        @scope = s & event_types
+        case s
+        when :all
+          @scope = event_types
+        when :default
+          default_scope!
+        else
+          @scope = s & event_types
+        end
       end
       
       # Resets the scope to the default scope
