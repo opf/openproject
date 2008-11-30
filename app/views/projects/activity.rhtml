@@ -35,11 +35,11 @@
 &nbsp;
 <p class="other-formats">
     <%= l(:label_export_to) %>
-    <%= link_to 'Atom', params.merge(:format => :atom, :key => User.current.rss_key).delete_if{|k,v|k=="commit"}, :class => 'feed' %>
+    <%= link_to 'Atom', params.merge(:format => :atom, :from => nil, :key => User.current.rss_key), :class => 'feed' %>
 </p>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :year => nil, :month => nil, :key => User.current.rss_key)) %>
+<%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :from => nil, :key => User.current.rss_key)) %>
 <% end %>
 
 <% content_for :sidebar do %>
