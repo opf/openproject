@@ -3,7 +3,7 @@
   <div id="change-<%= journal.id %>" class="journal">
     <h4><div style="float:right;"><%= link_to "##{journal.indice}", :anchor => "note-#{journal.indice}" %></div>
     <%= content_tag('a', '', :name => "note-#{journal.indice}")%>
-    <%= format_time(journal.created_on) %> - <%= journal.user.name %></h4>
+    <%= format_time(journal.created_on) %> - <%= link_to_user(journal.user) %></h4>
     <%= avatar(journal.user, :size => "32") %>
     <ul>
     <% for detail in journal.details %>

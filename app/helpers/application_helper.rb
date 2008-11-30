@@ -48,7 +48,7 @@ module ApplicationHelper
 
   # Display a link to user's account page
   def link_to_user(user)
-    user ? link_to(user, :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
+    (user && !user.anonymous?) ? link_to(user, :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
   end
 
   def link_to_issue(issue, options={})
