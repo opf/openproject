@@ -21,6 +21,7 @@
 # 
 # Issue attributes control options:
 #   -p, --project=PROJECT          identifier of the target project
+#   -s, --status=STATUS            name of the target status
 #   -t, --tracker=TRACKER          name of the target tracker
 #       --category=CATEGORY        name of the target category
 #       --priority=PRIORITY        name of the target priority
@@ -75,6 +76,7 @@ class RedmineMailHandler
       [ '--url',            '-u', GetoptLong::REQUIRED_ARGUMENT ],
       [ '--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
       [ '--project',        '-p', GetoptLong::REQUIRED_ARGUMENT ],
+      [ '--status',         '-s', GetoptLong::REQUIRED_ARGUMENT ],
       [ '--tracker',        '-t', GetoptLong::REQUIRED_ARGUMENT],
       [ '--category',             GetoptLong::REQUIRED_ARGUMENT],
       [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
@@ -93,7 +95,7 @@ class RedmineMailHandler
         self.verbose = true
       when '--version'
         puts VERSION; exit
-      when '--project', '--tracker', '--category', '--priority'
+      when '--project', '--status', '--tracker', '--category', '--priority'
         self.issue_attributes[opt.gsub(%r{^\-\-}, '')] = arg.dup
       when '--allow-override'
         self.allow_override = arg.dup
