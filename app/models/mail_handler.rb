@@ -39,7 +39,7 @@ class MailHandler < ActionMailer::Base
   # Processes incoming emails
   def receive(email)
     @email = email
-    @user = User.find_active(:first, :conditions => ["LOWER(mail) = ?", email.from.first.to_s.strip.downcase])
+    @user = User.active.find(:first, :conditions => ["LOWER(mail) = ?", email.from.first.to_s.strip.downcase])
     unless @user
       # Unknown user => the email is ignored
       # TODO: ability to create the user's account
@@ -149,7 +149,7 @@ class MailHandler < ActionMailer::Base
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
       unless addresses.empty?
-        watchers = User.find_active(:all, :conditions => ['LOWER(mail) IN (?)', addresses])
+        watchers = User.active.find(:all, :conditions => ['LOWER(mail) IN (?)', addresses])
         watchers.each {|w| obj.add_watcher(w)}
       end
     end

@@ -1,6 +1,6 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable %>
-<% users = User.find_active(:all).sort - @project.users %>
+<% users = User.active.find(:all).sort - @project.users %>
 <% # members sorted by role position
    members = @project.members.find(:all, :include => [:role, :user]).sort %>
    

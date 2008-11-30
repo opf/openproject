@@ -24,7 +24,7 @@ class AccountController < ApplicationController
 
   # Show user's account
   def show
-    @user = User.find_active(params[:id])
+    @user = User.active.find(params[:id])
     @custom_values = @user.custom_values
     
     # show only public projects and private projects that the logged in user is also a member of

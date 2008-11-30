@@ -116,7 +116,7 @@ class Mailer < ActionMailer::Base
 
   def account_activation_request(user)
     # Send the email to all active administrators
-    recipients User.find_active(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
+    recipients User.active.find(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
     subject l(:mail_subject_account_activation_request, Setting.app_title)
     body :user => user,
          :url => url_for(:controller => 'users', :action => 'index', :status => User::STATUS_REGISTERED, :sort_key => 'created_on', :sort_order => 'desc')

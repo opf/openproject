@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (User.find_active(session[:user_id]) rescue nil)
+      (User.active.find(session[:user_id]) rescue nil)
     elsif cookies[:autologin] && Setting.autologin?
       # auto-login feature
       User.find_by_autologin_key(cookies[:autologin])
