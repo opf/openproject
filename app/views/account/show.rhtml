@@ -5,17 +5,20 @@
 <h2><%= avatar @user %> <%=h @user.name %></h2>
 
 <div class="splitcontentleft">
-<p>
-<%= mail_to(h(@user.mail)) unless @user.pref.hide_mail %>
 <ul>
-    <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
-<% for custom_value in @custom_values %>
-<% if !custom_value.value.empty? %>
+	<% unless @user.pref.hide_mail %>
+		<li><%=l(:field_mail)%>: <%= mail_to(h(@user.mail)) %></li>
+	<% end %>
+	<% for custom_value in @custom_values %>
+	<% if !custom_value.value.empty? %>
     <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
-<% end %>
-<% end %>
+	<% end %>
+	<% end %>
+    <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
+	<% unless @user.last_login_on.nil? %>
+		<li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>
+	<% end %>
 </ul>
-</p>
 
 <% unless @memberships.empty? %>
 <h3><%=l(:label_project_plural)%></h3>
