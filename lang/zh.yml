@@ -344,6 +344,7 @@ label_last_updates_plural: %d 最后更新
 label_registered_on: 注册于
 label_activity: 活动
 label_overall_activity: 全部活动
+label_user_activity: "%s 的活动"
 label_new: 新建
 label_logged_as: 登录为
 label_environment: 环境
@@ -694,5 +695,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-permission_delete_own_messages: Delete own messages
-label_user_activity: "%s's activity"

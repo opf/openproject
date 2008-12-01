@@ -711,4 +711,4 @@ text_user_wrote: '%s napisał:'
 text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i całą jego zawartość ?
 text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu
 
-label_user_activity: "%s's activity"
+label_user_activity: "Aktywność: %s"

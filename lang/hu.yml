@@ -693,4 +693,4 @@ label_example: Példa
 text_repository_usernames_mapping: "Állítsd be a felhasználó összerendeléseket a Redmine, és a tároló logban található felhasználók között.\nAz azonos felhasználó nevek összerendelése automatikusan megtörténik."
 permission_edit_own_messages: Saját üzenetek szerkesztése
 permission_delete_own_messages: Saját üzenetek törlése
-label_user_activity: "%s's activity"
+label_user_activity: "%s tevékenységei"
