@@ -18,7 +18,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class AttachmentTest < Test::Unit::TestCase
-
+  fixtures :issues, :users
+  
   def setup
   end
   
@@ -28,5 +29,9 @@ class AttachmentTest < Test::Unit::TestCase
     assert_equal '770c509475505f37c2b8fb6030434d6b.txt', Attachment.disk_filename("test_accentué.txt")[13..-1]
     assert_equal 'f8139524ebb8f32e51976982cd20a85d', Attachment.disk_filename("test_accentué")[13..-1]
     assert_equal 'cbb5b0f30978ba03731d61f9f6d10011', Attachment.disk_filename("test_accentué.ça")[13..-1]
+  end
+  
+  def test_digest
+    assert_equal '1478adae0d4eb06d35897518540e25d6', Attachment.digest(Test::Unit::TestCase.fixture_path + "/files/testfile.txt")
   end
 end

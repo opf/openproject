@@ -72,7 +72,7 @@ class Attachment < ActiveRecord::Base
       File.open(diskfile, "wb") do |f| 
         f.write(@temp_file.read)
       end
-      self.digest = Digest::MD5.hexdigest(File.read(diskfile))
+      self.digest = self.class.digest(diskfile)
     end
     # Don't save the content type if it's longer than the authorized length
     if self.content_type && self.content_type.length > 255
@@ -132,5 +132,12 @@ private
       df << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
     end
     df
+  end
+  
+  # Returns the MD5 digest of the file at given path
+  def self.digest(filename)
+    File.open(filename, 'rb') do |f|
+      Digest::MD5.hexdigest(f.read)
+    end
   end
 end
