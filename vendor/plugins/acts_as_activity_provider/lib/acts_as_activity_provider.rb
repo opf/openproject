@@ -66,8 +66,11 @@ module Redmine
             end
             cond.add(Project.allowed_to_condition(user, provider_options[:permission], options)) if provider_options[:permission]
             scope_options[:conditions] = cond.conditions
-            scope_options[:order] = "#{provider_options[:timestamp]} DESC"
-            scope_options[:limit] = options[:limit]
+            if options[:limit]
+              # id and creation time should be in same order in most cases
+              scope_options[:order] = "#{table_name}.id DESC"
+              scope_options[:limit] = options[:limit]
+            end
             
             with_scope(:find => scope_options) do
               find(:all, provider_options[:find_options])
