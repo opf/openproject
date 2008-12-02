@@ -542,9 +542,9 @@ module ApplicationHelper
     legend = options[:legend] || ''
     content_tag('table',
       content_tag('tr',
-        (pcts[0] > 0 ? content_tag('td', '', :width => "#{pcts[0].floor}%;", :class => 'closed') : '') +
-        (pcts[1] > 0 ? content_tag('td', '', :width => "#{pcts[1].floor}%;", :class => 'done') : '') +
-        (pcts[2] > 0 ? content_tag('td', '', :width => "#{pcts[2].floor}%;", :class => 'todo') : '')
+        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0].floor}%;", :class => 'closed') : '') +
+        (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1].floor}%;", :class => 'done') : '') +
+        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2].floor}%;", :class => 'todo') : '')
       ), :class => 'progress', :style => "width: #{width};") +
       content_tag('p', legend, :class => 'pourcent')
   end
