@@ -1,12 +1,12 @@
 <%
 pdf=IfpdfHelper::IFPDF.new(current_language)
-pdf.SetTitle("#{@project.name} - #{l(:label_gantt)}")
+pdf.SetTitle("#{l(:label_gantt)} #{@project}")
 pdf.AliasNbPages
 pdf.footer_date = format_date(Date.today)
 pdf.AddPage("L")
 pdf.SetFontStyle('B',12)
 pdf.SetX(15)
-pdf.Cell(70, 20, @project.name)
+pdf.Cell(70, 20, @project.to_s)
 pdf.Ln
 pdf.SetFontStyle('B',9)
 

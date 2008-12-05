@@ -155,8 +155,25 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert events.include?(i)
   end
 
+  def test_cross_project_gantt
+    get :gantt
+    assert_response :success
+    assert_template 'gantt.rhtml'
+    assert_not_nil assigns(:gantt)
+    events = assigns(:gantt).events
+    assert_not_nil events
+  end
+
   def test_gantt_export_to_pdf
     get :gantt, :project_id => 1, :format => 'pdf'
+    assert_response :success
+    assert_template 'gantt.rfpdf'
+    assert_equal 'application/pdf', @response.content_type
+    assert_not_nil assigns(:gantt)
+  end
+
+  def test_cross_project_gantt_export_to_pdf
+    get :gantt, :format => 'pdf'
     assert_response :success
     assert_template 'gantt.rfpdf'
     assert_equal 'application/pdf', @response.content_type
@@ -175,6 +192,13 @@ class IssuesControllerTest < Test::Unit::TestCase
   
   def test_calendar
     get :calendar, :project_id => 1
+    assert_response :success
+    assert_template 'calendar'
+    assert_not_nil assigns(:calendar)
+  end
+  
+  def test_cross_project_calendar
+    get :calendar
     assert_response :success
     assert_template 'calendar'
     assert_not_nil assigns(:calendar)
