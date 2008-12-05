@@ -320,14 +320,14 @@ class Query < ActiveRecord::Base
   
   private
   
-  # Helper method to generate the WHERE sql for a +field+ with a value (+v+)
-  def sql_for_field(field, v, db_table, db_field, is_custom_filter)
+  # Helper method to generate the WHERE sql for a +field+ with a +value+
+  def sql_for_field(field, value, db_table, db_field, is_custom_filter)
     sql = ''
     case operator_for field
     when "="
-      sql = "#{db_table}.#{db_field} IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
+      sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
     when "!"
-      sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + v.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
+      sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
     when "!*"
       sql = "#{db_table}.#{db_field} IS NULL"
       sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
@@ -335,25 +335,25 @@ class Query < ActiveRecord::Base
       sql = "#{db_table}.#{db_field} IS NOT NULL"
       sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
     when ">="
-      sql = "#{db_table}.#{db_field} >= #{v.first.to_i}"
+      sql = "#{db_table}.#{db_field} >= #{value.first.to_i}"
     when "<="
-      sql = "#{db_table}.#{db_field} <= #{v.first.to_i}"
+      sql = "#{db_table}.#{db_field} <= #{value.first.to_i}"
     when "o"
       sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
     when "c"
       sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
     when ">t-"
-      sql = date_range_clause(db_table, db_field, - v.first.to_i, 0)
+      sql = date_range_clause(db_table, db_field, - value.first.to_i, 0)
     when "<t-"
-      sql = date_range_clause(db_table, db_field, nil, - v.first.to_i)
+      sql = date_range_clause(db_table, db_field, nil, - value.first.to_i)
     when "t-"
-      sql = date_range_clause(db_table, db_field, - v.first.to_i, - v.first.to_i)
+      sql = date_range_clause(db_table, db_field, - value.first.to_i, - value.first.to_i)
     when ">t+"
-      sql = date_range_clause(db_table, db_field, v.first.to_i, nil)
+      sql = date_range_clause(db_table, db_field, value.first.to_i, nil)
     when "<t+"
-      sql = date_range_clause(db_table, db_field, 0, v.first.to_i)
+      sql = date_range_clause(db_table, db_field, 0, value.first.to_i)
     when "t+"
-      sql = date_range_clause(db_table, db_field, v.first.to_i, v.first.to_i)
+      sql = date_range_clause(db_table, db_field, value.first.to_i, value.first.to_i)
     when "t"
       sql = date_range_clause(db_table, db_field, 0, 0)
     when "w"
@@ -364,9 +364,9 @@ class Query < ActiveRecord::Base
         Time.now.at_beginning_of_week
       sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
     when "~"
-      sql = "#{db_table}.#{db_field} LIKE '%#{connection.quote_string(v.first)}%'"
+      sql = "#{db_table}.#{db_field} LIKE '%#{connection.quote_string(value.first)}%'"
     when "!~"
-      sql = "#{db_table}.#{db_field} NOT LIKE '%#{connection.quote_string(v.first)}%'"
+      sql = "#{db_table}.#{db_field} NOT LIKE '%#{connection.quote_string(value.first)}%'"
     end
     
     return sql
