@@ -55,13 +55,13 @@ general_day_names: 월요일,화요일,수요일,목요일,금요일,토요일,�
 general_first_day_of_week: '7'
 
 notice_account_updated: 계정이 성공적으로 변경 되었습니다.
-notice_account_invalid_creditentials: 잘못된 계정 또는 패스워드
+notice_account_invalid_creditentials: 잘못된 계정 또는 비밀번호
 notice_account_password_updated: 비밀번호가 잘 변경되었습니다.
-notice_account_wrong_password: 잘못된 패스워드
-notice_account_register_done: 계정이 성공적으로 생성되었습니다. 계정을 활성화 하기 위해서 수신한 Email의 링크를 클릭해주세요.
+notice_account_wrong_password: 잘못된 비밀번호
+notice_account_register_done: 계정이 잘 만들어졌습니다. 계정을 활성화하시려면 받은 메일의 링크를 클릭해주세요.
 notice_account_unknown_email: 알려지지 않은 사용자.
-notice_can_t_change_password: 이 계정은 외부 인증을 이용합니다. 비밀번호 변경이 불가능 합니다.
-notice_account_lost_email_sent: 새로운 패스워드를 위한 Email이 발송되었습니다.
+notice_can_t_change_password: 이 계정은 외부 인증을 이용합니다. 비밀번호를 변경할 수 없습니다.
+notice_account_lost_email_sent: 새로운 비밀번호를 위한 메일이 발송되었습니다.
 notice_account_activated: 계정이 활성화 되었습니다. 이제 로그인 하실수 있습니다.
 notice_successful_create: 생성 성공.
 notice_successful_update: 변경 성공.
@@ -70,14 +70,14 @@ notice_successful_connection: 연결 성공.
 notice_file_not_found: 요청하신 페이지는 삭제되었거나 옮겨졌습니다.
 notice_locking_conflict: 다른 사용자에 의해서 데이터가 변경되었습니다.
 notice_not_authorized: 이 페이지에 접근할 권한이 없습니다.
-notice_email_sent: %s 님에게 Email이 발송되었습니다.
+notice_email_sent: %s님에게 메일이 발송되었습니다.
 notice_email_error: 메일을 전송하는 과정에 오류가 발생했습니다. (%s)
 notice_feeds_access_key_reseted: RSS에 접근가능한 열쇠(key)가 생성되었습니다.
-notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
-notice_no_issue_selected: "이슈가 선택되지 않았습니다. 수정하기 원하는 이슈를 선택하세요"
+notice_failed_to_save_issues: "저장에 실패하였습니다: 실패 %d(선택 %d): %s."
+notice_no_issue_selected: "일감이 선택되지 않았습니다. 수정하기 원하는 일감을 선택하세요"
 
 error_scm_not_found: 소스 저장소에 해당 내용이 존재하지 않습니다.
-error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_command_failed: "저장소에 접근하는 도중에 오류가 발생하였습니다.: %s"
 
 mail_subject_lost_password: 당신의 비밀번호 (%s)
 mail_body_lost_password: '비밀번호를 변경하기 위해서 링크를 이용하세요'
@@ -110,10 +110,10 @@ field_value: 값
 field_category: 카테고리
 field_title: 제목
 field_project: 프로젝트
-field_issue: 이슈
+field_issue: 일감
 field_status: 상태
-field_notes: 노트
-field_is_closed: 완료된 이슈
+field_notes: 덧글
+field_is_closed: 완료된 일감
 field_is_default: 기본값
 field_tracker: 구분
 field_subject: 제목
@@ -121,13 +121,13 @@ field_due_date: 완료 기한
 field_assigned_to: 담당자
 field_priority: 우선순위
 field_fixed_version: 목표 버전
-field_user: 유저
+field_user: 사용자
 field_role: 역할
 field_homepage: 홈페이지
 field_is_public: 공개
 field_parent: 상위 프로젝트
-field_is_in_chlog: 변경이력(changelog)에서 보여지는 이슈들
-field_is_in_roadmap: 로드맵에서 보여지는 이슈들
+field_is_in_chlog: 변경이력(changelog)에서 보여지는 일감들
+field_is_in_roadmap: 로드맵에서 보여지는 일감들
 field_login: 로그인
 field_mail_notification: 메일 알림
 field_admin: 관리자
@@ -135,19 +135,19 @@ field_last_login_on: 최종 접속
 field_language: 언어
 field_effective_date: 일자
 field_password: 비밀번호
-field_new_password: 신규 비밀번호
+field_new_password: 새 비밀번호
 field_password_confirmation: 비밀번호 확인
 field_version: 버전
 field_type: 타입
 field_host: 호스트
 field_port: 포트
 field_account: 계정
-field_base_dn: Base DN
+field_base_dn: 기본 DN
 field_attr_login: 로그인 속성
 field_attr_firstname: 이름 속성
 field_attr_lastname: 성 속성
 field_attr_mail: 메일 속성
-field_onthefly: On-the-fly user creation
+field_onthefly: 빠른 사용자 생성
 field_start_date: 시작시간
 field_done_ratio: 완료 %%
 field_auth_source: 인증 방법
@@ -161,10 +161,10 @@ field_activity: 작업종류
 field_spent_on: 작업시간
 field_identifier: 식별자
 field_is_filter: 필터로 사용됨
-field_issue_to_id: 연관된 이슈
+field_issue_to_id: 연관된 일감
 field_delay: 지연
-field_assignable: 이 역할에 할당될수 있는 이슈
-field_redirect_existing_links: Redirect existing links
+field_assignable: 이 역할에 할당될수 있는 일감
+field_redirect_existing_links: 기존의 링크로 돌려보냄(redirect)
 field_estimated_hours: 추정시간
 field_column_names: 컬럼
 field_default_value: 기본값
@@ -174,62 +174,62 @@ setting_app_subtitle: 레드마인 부제목
 setting_welcome_text: 환영 메시지
 setting_default_language: 기본 언어
 setting_login_required: 인증이 필요함.
-setting_self_registration: Self-registration
+setting_self_registration: 사용자 직접등록
 setting_attachment_max_size: 최대 첨부파일 크기
-setting_issues_export_limit: Issues export limit
+setting_issues_export_limit: 일감 내보내기 제한 개수
 setting_mail_from: 발신 메일 주소
 setting_host_name: 호스트 이름 
-setting_text_formatting: 텍스트 형식
-setting_wiki_compression: 위키 기록(history) 압축
-setting_feeds_limit: Feed content limit
-setting_autofetch_changesets: Autofetch commits
+setting_text_formatting: 본문 형식
+setting_wiki_compression: 위키 이력 압축
+setting_feeds_limit: 내용 피드(RSS Feed) 제한 개수
+setting_autofetch_changesets: 커밋된 변경묶음을 자동으로 가져오기
 setting_sys_api_enabled: 저장소 관리자에 WS 를 허용
-setting_commit_ref_keywords: 이슈 참조에 사용할 키워드들
-setting_commit_fix_keywords: 이슈 해결에 사용할 키워드들 
+setting_commit_ref_keywords: 일감 참조에 사용할 키워드들
+setting_commit_fix_keywords: 일감 해결에 사용할 키워드들 
 setting_autologin: 자동 로그인
 setting_date_format: 날짜 형식
-setting_cross_project_issue_relations: 프로젝트간 이슈에 관련을 맺는 것을 허용
-setting_issue_list_default_columns: 이슈 목록에 보여줄 기본 컬럼들 
+setting_cross_project_issue_relations: 프로젝트간 일감에 관련을 맺는 것을 허용
+setting_issue_list_default_columns: 일감 목록에 보여줄 기본 컬럼들 
 setting_repositories_encodings:  저장소 인코딩
 setting_emails_footer: 메일 꼬리
 
 label_user: 사용자
 label_user_plural: 사용자관리
-label_user_new: 신규 유저
+label_user_new: 새 사용자
 label_project: 프로젝트
-label_project_new: 신규 프로젝트
+label_project_new: 새 프로젝트
 label_project_plural: 프로젝트
 label_project_all: 모든 프로젝트
 label_project_latest: 최근 프로젝트
-label_issue: 이슈 보기
-label_issue_new: 새 이슈만들기
-label_issue_plural: 이슈 보기
-label_issue_view_all: 모든 이슈 보기
+label_issue: 일감 보기
+label_issue_new: 새 일감만들기
+label_issue_plural: 일감 보기
+label_issue_view_all: 모든 일감 보기
 label_document: 문서
-label_document_new: 새로운 문서
+label_document_new: 새 문서
 label_document_plural: 문서
 label_role: 역할
 label_role_plural: 역할
-label_role_new: 새로운 역할
+label_role_new: 새 역할
 label_role_and_permissions: 권한관리
 label_member: 담당자
-label_member_new: 새로운 담당자
+label_member_new: 새 담당자
 label_member_plural: 담당자
-label_tracker: 이슈 유형
-label_tracker_plural: 이슈 유형
-label_tracker_new: 새로운 이슈 유형
-label_workflow: 워크플로(Workflow)
-label_issue_status: 이슈 상태
-label_issue_status_plural: 이슈 상태
-label_issue_status_new: 새로운 이슈 상태
+label_tracker: 일감 유형
+label_tracker_plural: 일감 유형
+label_tracker_new: 새 일감 유형
+label_workflow: 워크플로
+label_issue_status: 일감 상태
+label_issue_status_plural: 일감 상태
+label_issue_status_new: 새 일감 상태
 label_issue_category: 카테고리
 label_issue_category_plural: 카테고리
 label_issue_category_new: 새 카테고리
 label_custom_field: 사용자 정의 항목
 label_custom_field_plural: 사용자 정의 항목
-label_custom_field_new: 새로운 사용자 정의 항목
+label_custom_field_new: 새 사용자 정의 항목
 label_enumerations: 코드값 설정
-label_enumeration_new: 새로운 코드값
+label_enumeration_new: 새 코드값
 label_information: 정보
 label_information_plural: 정보
 label_please_login: 로그인하세요.
@@ -243,12 +243,12 @@ label_administration: 관리자
 label_login: 로그인
 label_logout: 로그아웃
 label_help: 도움말
-label_reported_issues: 보고된 이슈
-label_assigned_to_me_issues: 나에게 할당된 이슈
+label_reported_issues: 보고된 일감
+label_assigned_to_me_issues: 나에게 할당된 일감
 label_last_login: 최종 접속
 label_last_updates: 최종 변경 내역
 label_last_updates_plural: 최종변경 %d 
-label_registered_on: Registered on
+label_registered_on: 등록시각
 label_activity: 진행중인 작업
 label_new: 신규
 label_logged_as: ▶
@@ -272,7 +272,7 @@ label_download: %d 다운로드
 label_download_plural: %d 다운로드
 label_no_data: 데이터가 없습니다.
 label_change_status: 상태 변경
-label_history: 히스토리
+label_history: 이력
 label_attachment: 파일
 label_attachment_new: 파일추가
 label_attachment_delete: 파일삭제
@@ -288,7 +288,7 @@ label_change_log: 변경 로그
 label_settings: 설정
 label_overview: 개요
 label_version: 버전
-label_version_new: 새로운 버전
+label_version_new: 새 버전
 label_version_plural: 버전
 label_confirmation: 확인
 label_export_to: 내보내기
@@ -300,20 +300,20 @@ label_closed_issues: 완료됨
 label_closed_issues_plural: 완료됨
 label_total: Total
 label_permissions: 허가권한
-label_current_status: 이슈 상태
-label_new_statuses_allowed: 허용되는 이슈 상태
+label_current_status: 일감 상태
+label_new_statuses_allowed: 허용되는 일감 상태
 label_all: 모두
 label_none: 없음
 label_next: 다음
 label_previous: 이전
 label_used_by: 사용됨
 label_details: 상세
-label_add_note: 이슈노트 추가
+label_add_note: 일감덧글 추가
 label_per_page: 페이지별
 label_calendar: 달력
 label_months_from: 개월 동안 | 다음부터 
 label_gantt: Gantt 챠트
-label_internal: Internal
+label_internal: 내부
 label_last_changes: 지난 변경사항 %d 건
 label_change_view_all: 모든 변경 내역 보기
 label_personalize_page: 입맛대로 구성하기(Drag & Drop)
@@ -324,7 +324,7 @@ label_comment_added: 댓글이 추가되었습니다.
 label_comment_delete: 댓글 삭제
 label_query: 사용자 검색조건
 label_query_plural: 사용자 검색조건
-label_query_new: 새로운 사용자 검색조건
+label_query_new: 새 사용자 검색조건
 label_filter_add: 필터 추가
 label_filter_plural: 필터
 label_equals: 이다
@@ -344,11 +344,11 @@ label_repository: 저장소
 label_browse: 저장소 살피기
 label_modification: %d 변경
 label_modification_plural: %d 변경
-label_revision: 개정판(Revision)
-label_revision_plural: 개정판(Revisions)
-label_added: added
-label_modified: modified
-label_deleted: deleted
+label_revision: 개정판
+label_revision_plural: 개정판
+label_added: 추가됨
+label_modified: 변경됨
+label_deleted: 삭제됨
 label_latest_revision: 최근 개정판
 label_latest_revision_plural: 최근 개정판
 label_view_revisions: 개정판 보기
@@ -361,7 +361,7 @@ label_sort_lowest: 최하단으로
 label_roadmap: 로드맵
 label_roadmap_due_in: 기한  %s
 label_roadmap_overdue: %s 지연
-label_roadmap_no_issues: 이버전에 해당하는 이슈 없음
+label_roadmap_no_issues: 이버전에 해당하는 일감 없음
 label_search: 검색
 label_result_plural: 결과
 label_all_words: 모든 단어
@@ -376,7 +376,7 @@ label_current_version: 현재 버전
 label_preview: 미리보기
 label_feed_plural: 피드(Feeds)
 label_changes_details: 모든 상세 변경 내역
-label_issue_tracking: 이슈 추적
+label_issue_tracking: 일감 추적
 label_spent_time: 작업 시간
 label_f_hour: %.2f 시간
 label_f_hour_plural: %.2f 시간
@@ -385,24 +385,24 @@ label_change_plural: 변경사항들
 label_statistics: 통계
 label_commits_per_month: 월별 커밋 내역
 label_commits_per_author: 아이디별 커밋 내역
-label_view_diff: diff 보기
+label_view_diff: 차이점 보기
 label_diff_inline: 한줄로
 label_diff_side_by_side: 두줄로
-label_options: Options
-label_copy_workflow_from: Copy workflow from
+label_options: 옵션
+label_copy_workflow_from: 워크플로우를 복사해올 일감유형
 label_permissions_report: 권한 보고서
-label_watched_issues: 감시중인 이슈
-label_related_issues: 연결된 이슈
-label_applied_status: Applied status
+label_watched_issues: 지켜보고 있는 일감
+label_related_issues: 연결된 일감
+label_applied_status: 적용된 상태
 label_loading: 읽는 중...
-label_relation_new: New relation
-label_relation_delete: Delete relation
-label_relates_to: 다음 이슈와 관련되어 있음
-label_duplicates: 다음 이슈와 중복됨.
-label_blocks: 다음 이슈가 해결을 막고 있음.
-label_blocked_by: 막고 있는 이슈
-label_precedes: 다음 이슈보다 앞서서 처리해야 함.
-label_follows: 선처리 이슈
+label_relation_new: 새 관계
+label_relation_delete: 관계 지우기
+label_relates_to: 다음 일감과 관련되어 있음
+label_duplicates: 다음 일감과 중복됨.
+label_blocks: 다음 일감이 해결을 막고 있음.
+label_blocked_by: 막고 있는 일감
+label_precedes: 다음 일감보다 앞서서 처리해야 함.
+label_follows: 먼저 처리해야할 일감
 label_end_to_start: end to start
 label_end_to_end: end to end
 label_start_to_start: start to start
@@ -425,7 +425,7 @@ label_month: 월
 label_week: 주
 label_date_from: 에서
 label_date_to: (으)로
-label_language_based: Language based
+label_language_based: 언어설정에 따름
 label_sort_by: 정렬방법(%s)
 label_send_test_email: 테스트 메일 보내기
 label_feeds_access_key_created_on: RSS에 접근가능한 열쇠(key)가  %s 이전에 생성 
@@ -434,10 +434,10 @@ label_added_time_by: %s이(가) %s 전에 추가함
 label_updated_time: %s 전에 수정됨
 label_jump_to_a_project: 다른 프로젝트로 이동하기
 label_file_plural: 파일
-label_changeset_plural: 변경사항
+label_changeset_plural: 변경묶음
 label_default_columns: 기본 컬럼
 label_no_change_option: (수정 안함)
-label_bulk_edit_selected_issues: 선택된 이슈들을 한꺼번에 수정하기
+label_bulk_edit_selected_issues: 선택된 일감들을 한꺼번에 수정하기
 label_theme: 테마
 label_default: 기본
 label_search_titles_only: 제목에서만 찾기
@@ -470,13 +470,13 @@ button_activate: 활성화
 button_sort: 정렬
 button_log_time: 작업시간 기록
 button_rollback: 이 버전으로 롤백
-button_watch: 감시하기
-button_unwatch: 감시해제
+button_watch: 지켜보기
+button_unwatch: 관심끄기
 button_reply: 답글
 button_archive: 잠금보관
 button_unarchive: 잠금보관해제
 button_reset: 리셋
-button_rename: 이름 변경
+button_rename: 이름변경
 
 status_active: 사용중
 status_registered: 등록대기
@@ -486,7 +486,7 @@ text_select_mail_notifications: 알림메일이 필요한 작업을 선택하세
 text_regexp_info: 예) ^[A-Z0-9]+$
 text_min_max_length_info: 0 는 제한이 없음을 의미함
 text_project_destroy_confirmation: 이 프로젝트를 삭제하고 모든 데이터를 지우시겠습니까?
-text_workflow_edit: 워크플로를 수정하기 위해서 역할과 이슈유형을 선택하세요.
+text_workflow_edit: 워크플로를 수정하기 위해서 역할과 일감유형을 선택하세요.
 text_are_you_sure: 계속 진행 하시겠습니까?
 text_journal_changed: %s에서 %s(으)로 변경
 text_journal_set_to:  %s로 설정
@@ -500,14 +500,14 @@ text_length_between: %d 에서 %d 글자
 text_tracker_no_workflow: 이 추적타입(tracker)에 워크플로우가 정의되지 않았습니다.
 text_unallowed_characters: 허용되지 않는 문자열
 text_comma_separated: 복수의 값들이 허용됩니다.(구분자 ,)
-text_issues_ref_in_commit_messages: 커밋메시지에서 이슈를 참조하거나 해결하기
-text_issue_added: 이슈[%s]가 보고되었습니다.
-text_issue_updated: 이슈[%s]가 수정되었습니다.
+text_issues_ref_in_commit_messages: 커밋메시지에서 일감을 참조하거나 해결하기
+text_issue_added: 일감[%s]가 보고되었습니다.
+text_issue_updated: 일감[%s]가 수정되었습니다.
 text_wiki_destroy_confirmation: 이 위키와 모든 내용을 지우시겠습니까?
-text_issue_category_destroy_question: 일부 이슈들(%d개)이 이 카테고리에 할당되어 있습니다. 어떻게 하시겠습니까?
+text_issue_category_destroy_question: 일부 일감들(%d개)이 이 카테고리에 할당되어 있습니다. 어떻게 하시겠습니까?
 text_issue_category_destroy_assignments: 카테고리 할당 지우기
-text_issue_category_reassign_to: 이슈를 이 카테고리에 다시 할당하기
-text_user_mail_option: "선택하지 않은 프로젝트에서도, 모니터링 중이거나 속해있는 사항(이슈를 발행했거나 할당된 경우)이 있으면 알림메일을 받게 됩니다."
+text_issue_category_reassign_to: 일감을 이 카테고리에 다시 할당하기
+text_user_mail_option: "선택하지 않은 프로젝트에서도, 모니터링 중이거나 속해있는 사항(일감을 발행했거나 할당된 경우)이 있으면 알림메일을 받게 됩니다."
 
 default_role_manager: 관리자
 default_role_developper: 개발자
@@ -515,7 +515,7 @@ default_role_reporter: 보고자
 default_tracker_bug: 버그
 default_tracker_feature: 새기능
 default_tracker_support: 지원
-default_issue_status_new: 신규
+default_issue_status_new: 새로 만들기
 default_issue_status_assigned: 확인
 default_issue_status_resolved: 해결
 default_issue_status_feedback: 피드백
@@ -531,7 +531,7 @@ default_priority_immediate: 즉시
 default_activity_design: 설계
 default_activity_development: 개발
 
-enumeration_issue_priorities: 이슈 우선순위
+enumeration_issue_priorities: 일감 우선순위
 enumeration_doc_categories: 문서 카테고리
 enumeration_activities: 진행활동(시간 추적)
 button_copy: 복사
@@ -551,42 +551,42 @@ notice_account_pending: "계정이 만들어 졌습니다. 관리자의 승인�
 field_time_zone: 타임존
 text_caracters_minimum: 최소한 %d 글자 이상이어야 합니다.
 setting_bcc_recipients: 참조자들을 bcc로 숨기기
-button_annotate: Annotate
-label_issues_by: Issues by %s
+button_annotate: 주석달기(annotate)
+label_issues_by: 일감분류 방식 %s
 field_searchable: 검색가능
-label_display_per_page: 'Per page: %s'
+label_display_per_page: '페이지당: %s'
 setting_per_page_options: 페이지당 표시할 객채 수
 label_age: 마지막 수정일
 notice_default_data_loaded: 기본 설정을 성공적으로 로드하였습니다.
 text_load_default_configuration: 기본 설정을 로딩하기
-text_no_configuration_data: "역할, 이슈 타입, 이슈 상태들과 워크플로가 아직 설정되지 않았습니다.\n기본 설정을 로딩하는 것을 권장합니다. 로드된 후에 수정할 수 있습니다."
+text_no_configuration_data: "역할, 일감 타입, 일감 상태들과 워크플로가 아직 설정되지 않았습니다.\n기본 설정을 로딩하는 것을 권장합니다. 로드된 후에 수정할 수 있습니다."
 error_can_t_load_default_data: "기본 설정을 로드할 수 없습니다.: %s"
-button_update: 변경사항기록
+button_update: 수정
 label_change_properties: 속성 변경
 label_general: 일반
 label_repository_plural: 저장소들
-label_associated_revisions: Associated revisions
+label_associated_revisions: 관련된 개정판들
 setting_user_format: 사용자 표시 형식
-text_status_changed_by_changeset: Applied in changeset %s.
-label_more: More
-text_issues_destroy_confirmation: '선택한 이슈를 정말로 삭제하시겠습니까?'
-label_scm: SCM
+text_status_changed_by_changeset: 변경묶음 %s에서 적용됨.
+label_more: 자세히
+text_issues_destroy_confirmation: '선택한 일감을 정말로 삭제하시겠습니까?'
+label_scm: 형상관리시스템(SCM)
 text_select_project_modules: '이 프로젝트에서 활성화시킬 모듈을 선택하세요:'
-label_issue_added: Issue added
-label_issue_updated: Issue updated
-label_document_added: Document added
-label_message_posted: Message added
-label_file_added: File added
-label_news_added: News added
+label_issue_added: 일감이 추가됨
+label_issue_updated: 일감이 고쳐짐
+label_document_added: 문서가 추가됨
+label_message_posted: 메시지가 추가됨
+label_file_added: 파일이 추가됨
+label_news_added: 뉴스가 추가됨
 project_module_boards: 게시판
-project_module_issue_tracking: 이슈관리
+project_module_issue_tracking: 일감관리
 project_module_wiki: 위키
 project_module_files: 관련파일
 project_module_documents: 문서
 project_module_repository: 저장소
 project_module_news: 뉴스
 project_module_time_tracking: 진행중인 작업
-text_file_repository_writable: File repository writable
+text_file_repository_writable: 파일 저장소 쓰기 가능
 text_default_administrator_account_changed: 기본 관리자 계정이 변경되었습니다.
 text_rmagick_available: RMagick available (optional)
 button_configure: 설정
@@ -594,103 +594,103 @@ label_plugins: 플러그인
 label_ldap_authentication: LDAP 인증
 label_downloads_abbr: D/L
 label_add_another_file: 다른 파일 추가 
-label_this_month: this month
+label_this_month: 이번 달
 text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
-label_last_n_days: last %d days
-label_all_time: all time
+label_last_n_days: 지난 %d 일
+label_all_time: 모든 시간
 error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-label_this_year: this year
-text_assign_time_entries_to_project: Assign reported hours to the project
-label_date_range: Date range
-label_last_week: last week
-label_yesterday: yesterday
-label_optional_description: Optional description
-label_last_month: last month
-text_destroy_time_entries: Delete reported hours
-text_reassign_time_entries: 'Reassign reported hours to this issue:'
-setting_activity_days_default: Days displayed on project activity
+label_this_year: 올해
+text_assign_time_entries_to_project: 보고된 시간을 프로젝트에 할당하기
+label_date_range: 날짜 범위
+label_last_week: 지난 주
+label_yesterday: 어제
+label_optional_description: 부가적인 설명
+label_last_month: 지난 달
+text_destroy_time_entries: 보고된 시간을 삭제하기
+text_reassign_time_entries: '이 알림에 보고된 시간을 재할당하기:'
+setting_activity_days_default: 프로젝트 활동에 보여질 날수
 label_chronological_order: 시간 순으로 정렬
 field_comments_sorting: 히스토리 정렬 설정
 label_reverse_chronological_order: 시간 역순으로 정렬 
 label_preferences: Preferences
-setting_display_subprojects_issues: 하위 프로젝트의 이슈를  최상위 프로젝트에서 표시
+setting_display_subprojects_issues: 하위 프로젝트의 일감을 최상위 프로젝트에서 표시
 label_overall_activity: 전체 진행 상황
-setting_default_projects_public: 신규 프로젝트를  Public 으로 설정
+setting_default_projects_public: 새 프로젝트를 공개로 설정
 error_scm_annotate: "The entry does not exist or can not be annotated."
-label_planning: 계획(Planning)
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
-label_and_its_subprojects: %s and its subprojects
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '% 의 노트:'
-label_duplicated_by: duplicated by
+label_planning: 프로젝트계획(Planning)
+text_subprojects_destroy_warning: '서브프로젝트(%s)가 자동으로 지워질 것입니다.'
+label_and_its_subprojects: %s와 서브프로젝트들
+mail_body_reminder: "님에게 할당된  %d개의 일감들을 다음 %d일 안으로 마쳐야 합니다.:"
+mail_subject_reminder: "내일까지 마쳐야할 일감 %d개"
+text_user_wrote: '%s의 덧글:'
+label_duplicated_by: 중복된 일감
 setting_enabled_scm: 허용할  SCM
 text_enumeration_category_reassign_to: '새로운 값을 설정:'
-text_enumeration_destroy_question: '%d 개의 이슈가 이 값을 사용하고 있습니다.'
+text_enumeration_destroy_question: '%d 개의 일감이 이 값을 사용하고 있습니다.'
 label_incoming_emails: 수신 메일 설정
-label_generate_key: Generate a key
+label_generate_key: 키 생성
 setting_mail_handler_api_enabled: 수신 메일에  WS 를 허용
-setting_mail_handler_api_key: API key
-text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
-label_issue_watchers: 감시자 설정
-setting_commit_logs_encoding: 저장소 Commit messages 인코딩
-button_quote: 인용하기
-setting_sequential_project_identifiers: 프로젝트 실별자를 순자적으로 생성
+setting_mail_handler_api_key: API 키
+text_email_delivery_not_configured: "이메일 전달이 설정되지 않았습니다. 그래서 알림이 비활성화되었습니다.\n SMTP서버를 config/email.yml에서 설정하고 어플리케이션을 다시 시작하십시오. 그러면 동작합니다."
+field_parent_title: 상위 제목
+label_issue_watchers: 일감지킴이 설정
+setting_commit_logs_encoding: 저장소 커밋 메시지 인코딩
+button_quote: 댓글달기
+setting_sequential_project_identifiers: 프로젝트 식별자를 순차적으로 생성
 notice_unable_delete_version: 삭제 할 수 없는 버전 입니다.
-label_renamed: renamed
-label_copied: copied
-setting_plain_text_mail: plain text only (no HTML)
-permission_view_files: View files
-permission_edit_issues: Edit issues
-permission_edit_own_time_entries: Edit own time logs
-permission_manage_public_queries: Manage public queries
-permission_add_issues: Add issues
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_view_time_entries: View spent time
-permission_manage_versions: Manage versions
-permission_manage_wiki: Manage wiki
-permission_manage_categories: Manage issue categories
-permission_protect_wiki_pages: Protect wiki pages
-permission_comment_news: Comment news
-permission_delete_messages: Delete messages
-permission_select_project_modules: Select project modules
-permission_manage_documents: Manage documents
-permission_edit_wiki_pages: Edit wiki pages
-permission_add_issue_watchers: Add watchers
-permission_view_gantt: View gantt chart
-permission_move_issues: Move issues
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_wiki_edits: View wiki history
-permission_add_messages: Post messages
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calendrier
-permission_manage_members: Manage members
-permission_edit_messages: Edit messages
-permission_delete_issues: Delete issues
-permission_view_issue_watchers: View watchers list
-permission_manage_repository: Manage repository
-permission_commit_access: Commit access
-permission_browse_repository: Browse repository
-permission_view_documents: View documents
-permission_edit_project: Edit project
-permission_add_issue_notes: Add notes
-permission_save_queries: Save queries
-permission_view_wiki_pages: View wiki
-permission_rename_wiki_pages: Rename wiki pages
-permission_edit_time_entries: Edit time logs
-permission_edit_own_issue_notes: Edit own notes
-setting_gravatar_enabled: Use Gravatar user icons
-label_example: Example
-text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-permission_edit_own_messages: Edit own messages
-permission_delete_own_messages: Delete own messages
-label_user_activity: "%s's activity"
+label_renamed: 이름바뀜
+label_copied: 복사됨
+setting_plain_text_mail: 테스트만(HTML없음)
+permission_view_files: 파일보기
+permission_edit_issues: 일감 편집
+permission_edit_own_time_entries: 내 시간로그 편집
+permission_manage_public_queries: 공용 질의 관리
+permission_add_issues: 일감 추가
+permission_log_time: 소요시간 기록
+permission_view_changesets: 변경묶음보기
+permission_view_time_entries: 소요시간 보기
+permission_manage_versions: 버전 관리
+permission_manage_wiki: 위키 관리
+permission_manage_categories: 일감 카테고리 관리
+permission_protect_wiki_pages: 프로젝트 위키 페이지
+permission_comment_news: 뉴스에 코멘트달기
+permission_delete_messages: 메시지 삭제
+permission_select_project_modules: 프로젝트 모듈 선택
+permission_manage_documents: 문서 관리
+permission_edit_wiki_pages: 위키 페이지 편집
+permission_add_issue_watchers: 일감지킴이 추가
+permission_view_gantt: Gantt차트 보기
+permission_move_issues: 일감 이동
+permission_manage_issue_relations: 일감 관계 관리
+permission_delete_wiki_pages: 위치 페이지 삭제
+permission_manage_boards: 게시판 관리
+permission_delete_wiki_pages_attachments: 첨부파일 삭제
+permission_view_wiki_edits: 위키 기록 보기
+permission_add_messages: 메시지 추가
+permission_view_messages: 메시지 보기
+permission_manage_files: 파일관리
+permission_edit_issue_notes: 덧글 편집
+permission_manage_news: 뉴스 관리
+permission_view_calendar: 달력 보기
+permission_manage_members: 멤버 관리
+permission_edit_messages: 메시지 편집
+permission_delete_issues: 일감 삭제
+permission_view_issue_watchers: 일감지킴이 보기
+permission_manage_repository: 저장소 관리
+permission_commit_access: 변경로그 보기
+permission_browse_repository: 저장소 둘러보기
+permission_view_documents: 문서 보기
+permission_edit_project: 프로젝트 편집
+permission_add_issue_notes: 덧글 추가
+permission_save_queries: 쿼리 저장
+permission_view_wiki_pages: 위키 보기
+permission_rename_wiki_pages: 위키 페이지 이름변경
+permission_edit_time_entries: 시간기록 편집
+permission_edit_own_issue_notes: 내 덧글 편집
+setting_gravatar_enabled: 그라바타 사용자 아이콘 쓰기
+label_example: 예
+text_repository_usernames_mapping: "저장소 로그에서 발견된 각 사용자에 레드마인 사용자를 업데이트할때 선택합니다.\n레드마인과 저장소의 이름이나 이메일이 같은 사용자가 자동으로 연결됩니다."
+permission_edit_own_messages: 자기 메시지 편집
+permission_delete_own_messages: 자기 메시지 삭제
+label_user_activity: "%s의 활동"
 label_updated_time_by: Updated by %s %s ago
