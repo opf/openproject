@@ -694,3 +694,4 @@ text_repository_usernames_mapping: "Állítsd be a felhasználó összerendelés
 permission_edit_own_messages: Saját üzenetek szerkesztése
 permission_delete_own_messages: Saját üzenetek törlése
 label_user_activity: "%s tevékenységei"
+label_updated_time_by: Updated by %s %s ago

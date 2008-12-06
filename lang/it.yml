@@ -693,3 +693,4 @@ text_repository_usernames_mapping: "Seleziona per aggiornare la corrispondenza t
 permission_edit_own_messages: Modifica propri messaggi
 permission_delete_own_messages: Elimina propri messaggi
 label_user_activity: "%s's activity"
+label_updated_time_by: Updated by %s %s ago

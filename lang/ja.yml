@@ -694,3 +694,4 @@ text_repository_usernames_mapping: "Select ou update the Redmine user mapped to 
 permission_edit_own_messages: Edit own messages
 permission_delete_own_messages: Delete own messages
 label_user_activity: "%s's activity"
+label_updated_time_by: Updated by %s %s ago

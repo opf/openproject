@@ -694,3 +694,4 @@ text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmin
 permission_edit_own_messages: Editar próprias mensagens
 permission_delete_own_messages: Excluir próprias mensagens
 label_user_activity: "Atividade de %s"
+label_updated_time_by: Updated by %s %s ago

@@ -712,3 +712,4 @@ text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i ca
 text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu
 
 label_user_activity: "Aktywność: %s"
+label_updated_time_by: Updated by %s %s ago
