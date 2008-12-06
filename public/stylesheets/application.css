@@ -662,6 +662,8 @@ td.username img.gravatar {
 	clear: left;
 }
 
+h2 img { vertical-align:middle; }
+
 
 /***** Media print specific styles *****/
 @media print {
