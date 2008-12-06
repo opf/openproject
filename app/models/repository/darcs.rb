@@ -52,7 +52,7 @@ class Repository::Darcs < Repository
   end
   
   def cat(path, identifier=nil)
-    patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
+    patch = identifier.nil? ? nil : changesets.find_by_revision(identifier.to_s)
     scm.cat(path, patch.nil? ? nil : patch.scmid)
   end
   
