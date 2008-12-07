@@ -22,7 +22,7 @@ http://www.redmine.org/
 
 == Notes
 
-1. Rails 2.0.2 is required for version 0.7 and later.
+1. Rails 2.1.2 is required for version 0.8.
 
 2. When upgrading your code with svn update, don't forget to clear
    the application cache (RAILS_ROOT/tmp/cache) before restarting.
