@@ -696,3 +696,5 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+setting_diff_max_lines_displayed: Max number of diff lines displayed

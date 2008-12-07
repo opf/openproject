@@ -694,3 +694,5 @@ permission_edit_own_messages: Muokkaa omia viestejä
 permission_delete_own_messages: Poista omia viestejä
 label_user_activity: "Käyttäjän %s historia"
 label_updated_time_by: Updated by %s %s ago
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+setting_diff_max_lines_displayed: Max number of diff lines displayed

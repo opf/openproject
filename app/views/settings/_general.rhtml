@@ -48,6 +48,9 @@
 <p><label><%= l(:setting_feeds_limit) %></label>
 <%= text_field_tag 'settings[feeds_limit]', Setting.feeds_limit, :size => 6 %></p>
 
+<p><label><%= l(:setting_diff_max_lines_displayed) %></label>
+<%= text_field_tag 'settings[diff_max_lines_displayed]', Setting.diff_max_lines_displayed, :size => 6 %></p>
+
 <p><label><%= l(:setting_gravatar_enabled) %></label>
 <%= check_box_tag 'settings[gravatar_enabled]', 1, Setting.gravatar_enabled? %><%= hidden_field_tag 'settings[gravatar_enabled]', 0 %></p>
 </div>

@@ -223,6 +223,7 @@ setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
 setting_mail_handler_api_key: Clé de protection de l'API
 setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
 setting_gravatar_enabled: Afficher les Gravatar des utilisateurs
+setting_diff_max_lines_displayed: Nombre maximum de lignes de diff affichées
 
 permission_edit_project: Modifier le projet
 permission_select_project_modules: Choisir les modules
@@ -670,6 +671,7 @@ text_enumeration_destroy_question: 'Cette valeur est affectée à %d objets.'
 text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
 text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/email.yml et redémarrez l'application pour les activer."
 text_repository_usernames_mapping: "Vous pouvez sélectionner ou modifier l'utilisateur Redmine associé à chaque nom d'utilisateur figurant dans l'historique du dépôt.\nLes utilisateurs avec le même identifiant ou la même adresse mail seront automatiquement associés."
+text_diff_truncated: '... Ce différentiel a été tronqué car il excède la taille maximale pouvant être affichée.'
 
 default_role_manager: Manager
 default_role_developper: Développeur

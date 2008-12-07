@@ -695,3 +695,5 @@ permission_edit_own_messages: Saját üzenetek szerkesztése
 permission_delete_own_messages: Saját üzenetek törlése
 label_user_activity: "%s tevékenységei"
 label_updated_time_by: Updated by %s %s ago
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+setting_diff_max_lines_displayed: Max number of diff lines displayed

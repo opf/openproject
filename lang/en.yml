@@ -223,6 +223,7 @@ setting_mail_handler_api_enabled: Enable WS for incoming emails
 setting_mail_handler_api_key: API key
 setting_sequential_project_identifiers: Generate sequential project identifiers
 setting_gravatar_enabled: Use Gravatar user icons
+setting_diff_max_lines_displayed: Max number of diff lines displayed
 
 permission_edit_project: Edit project
 permission_select_project_modules: Select project modules
@@ -670,6 +671,7 @@ text_enumeration_destroy_question: '%d objects are assigned to this value.'
 text_enumeration_category_reassign_to: 'Reassign them to this value:'
 text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
 text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
 
 default_role_manager: Manager
 default_role_developper: Developer

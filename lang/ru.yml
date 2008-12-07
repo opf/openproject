@@ -728,3 +728,5 @@ text_wiki_destroy_confirmation: Вы уверены, что хотите уда�
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
 label_updated_time_by: Updated by %s %s ago
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+setting_diff_max_lines_displayed: Max number of diff lines displayed

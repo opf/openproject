@@ -679,3 +679,5 @@ text_wiki_destroy_confirmation: ¿Seguro que quiere borrar el wiki y todo su con
 text_workflow_edit: Seleccionar un flujo de trabajo para actualizar
 label_user_activity: "%s's activity"
 label_updated_time_by: Updated by %s %s ago
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+setting_diff_max_lines_displayed: Max number of diff lines displayed

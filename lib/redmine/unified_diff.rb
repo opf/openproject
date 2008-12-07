@@ -19,8 +19,11 @@ module Redmine
   # Class used to parse unified diffs
   class UnifiedDiff < Array  
     def initialize(diff, options={})
+      options.assert_valid_keys(:type, :max_lines)
       diff_type = options[:type] || 'inline'
       
+      lines = 0
+      @truncated = false
       diff_table = DiffTable.new(diff_type)
       diff.each do |line|
         if line =~ /^(---|\+\+\+) (.*)$/
@@ -28,10 +31,17 @@ module Redmine
           diff_table = DiffTable.new(diff_type)
         end
         diff_table.add_line line
+        lines += 1
+        if options[:max_lines] && lines > options[:max_lines]
+          @truncated = true
+          break
+        end
       end
       self << diff_table unless diff_table.empty?
       self
     end
+    
+    def truncated?; @truncated; end
   end
 
   # Class that represents a file diff

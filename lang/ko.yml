@@ -694,3 +694,5 @@ permission_edit_own_messages: 자기 메시지 편집
 permission_delete_own_messages: 자기 메시지 삭제
 label_user_activity: "%s의 활동"
 label_updated_time_by: Updated by %s %s ago
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+setting_diff_max_lines_displayed: Max number of diff lines displayed

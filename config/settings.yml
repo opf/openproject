@@ -61,6 +61,9 @@ protocol:
 feeds_limit:
   format: int
   default: 15
+diff_max_lines_displayed:
+  format: int
+  default: 1500
 enabled_scm:
   serialized: true
   default: 
