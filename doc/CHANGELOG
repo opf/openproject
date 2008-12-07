@@ -5,6 +5,174 @@ Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== 2008-??-?? v0.8.0
+
+* Wiki page protection
+* Wiki page hierarchy. Parent page can be assigned on the Rename screen
+* Adds support for issue creation via email
+* Adds support for free ticket filtering and custom queries on Gantt chart and calendar
+* Cross-project search
+* Ability to search a project and its subprojects
+* Ability to search the projects the user belongs to
+* Adds custom fields on time entries
+* Adds boolean and list custom fields for time entries as criteria on time report
+* Cross-project time reports
+* Display latest user's activity on account/show view
+* Show last connexion time on user's page
+* Obfuscates email address on user's account page using javascript
+* wiki TOC rendered as an unordered list
+* Adds the ability to search for a user on the administration users list
+* Adds the ability to search for a project name or identifier on the administration projects list
+* Redirect user to the previous page after logging in
+* Adds a permission 'view wiki edits' so that wiki history can be hidden to certain users
+* Adds permissions for viewing the watcher list and adding new watchers on the issue detail view
+* Adds permissions to let users edit and/or delete their messages
+* Link to activity view when displaying dates
+* Hide Redmine version in atom feeds and pdf properties
+* Maps repository users to Redmine users. Users with same username or email are automatically mapped. Mapping can be manually adjusted in repository settings. Multiple usernames can be mapped to the same Redmine user.
+* Sort users by their display names so that user dropdown lists are sorted alphabetically
+* Adds estimated hours to issue filters
+* Switch order of current and previous revisions in side-by-side diff
+* Render the commit changes list as a tree
+* Adds watch/unwatch functionality at forum topic level
+* When moving an issue to another project, reassign it to the category with same name if any
+* Adds child_pages macro for wiki pages
+* Use GET instead of POST on roadmap (#718), gantt and calendar forms
+* Search engine: display total results count and count by result type
+* Email delivery configuration moved to an unversioned YAML file (config/email.yml, see the sample file)
+* Adds icons on search results
+* Adds 'Edit' link on account/show for admin users
+* Adds Lock/Unlock/Activate link on user edit screen
+* Adds user count in status drop down on admin user list
+* Adds multi-levels blockquotes support by using > at the beginning of lines
+* Adds a Reply link to each issue note
+* Adds plain text only option for mail notifications
+* Gravatar support for issue detail, user grid, and activity stream (disabled by default)
+* Adds 'Delete wiki pages attachments' permission
+* Show the most recent file when displaying an inline image
+* Makes permission screens localized
+* AuthSource list: display associated users count and disable 'Delete' buton if any
+* Make the 'duplicates of' relation asymmetric
+* Adds username to the password reminder email
+* Adds links to forum messages using message#id syntax
+* Allow same name for custom fields on different object types
+* One-click bulk edition using the issue list context menu within the same project
+* Adds support for commit logs reencoding to UTF-8 before insertion in the database. Source encoding of commit logs can be selected in Application settings -> Repositories.
+* Adds checkboxes toggle links on permissions report
+* Adds Trac-Like anchors on wiki headings
+* Adds support for wiki links with anchor
+* Adds category to the issue context menu
+* Adds a workflow overview screen
+* Appends the filename to the attachment url so that clients that ignore content-disposition http header get the real filename
+* Dots allowed in custom field name
+* Adds posts quoting functionality
+* Adds an option to generate sequential project identifiers
+* Adds mailto link on the user administration list
+* Ability to remove enumerations (activities, priorities, document categories) that are in use. Associated objects can be reassigned to another value
+* Gantt chart: display issues that don't have a due date if they are assigned to a version with a date
+* Change projects homepage limit to 255 chars
+* Improved on-the-fly account creation. If some attributes are missing (eg. not present in the LDAP) or are invalid, the registration form is displayed so that the user is able to fill or fix these attributes
+* Adds "please select" to activity select box if no activity is set as default
+* Do not silently ignore timelog validation failure on issue edit
+* Adds a rake task to send reminder emails
+* Allow empty cells in wiki tables
+* Makes wiki text formatter pluggable
+* Adds back textile acronyms support
+* Remove pre tag attributes
+* Plugin hooks
+* Pluggable admin menu
+* Plugins can provide activity content
+* Moves plugin list to its own administration menu item
+* Adds url and author_url plugin attributes
+* Adds Plugin#requires_redmine method so that plugin compatibility can be checked against current Redmine version
+* Adds atom feed on time entries details
+* Adds project name to issues feed title
+* Adds a css class on menu items in order to apply item specific styles (eg. icons)
+* Adds a Redmine plugin generators
+* Adds timelog link to the issue context menu
+* Adds links to the user page on various views
+* Turkish translation by Ismail Sezen
+* Catalan translation
+* Vietnamese translation
+* Slovak translation
+* Better naming of activity feed if only one kind of event is displayed
+* Enable syntax highlight on issues, messages and news
+* Add target version to the issue list context menu
+* Hide 'Target version' filter if no version is defined
+* Add filters on cross-project issue list for custom fields marked as 'For all projects'
+* Turn ftp urls into links
+* Hiding the View Differences button when a wiki page's history only has one version
+* Messages on a Board can now be sorted by the number of replies
+* Adds a class ('me') to events of the activity view created by current user
+* Strip pre/code tags content from activity view events
+* Display issue notes in the activity view
+* Adds links to changesets atom feed on repository browser
+* Track project and tracker changes in issue history
+* Adds anchor to atom feed messages links
+* Adds a key in lang files to set the decimal separator (point or comma) in csv exports
+* Makes importer work with Trac 0.8.x
+* Upgraded to Prototype 1.6.0.1
+* File viewer for attached text files
+* Menu mapper: add support for :before, :after and :last options to #push method and add #delete method
+* Removed inconsistent revision numbers on diff view
+* CVS: add support for modules names with spaces
+* Log the user in after registration if account activation is not needed
+* Mercurial adapter improvements
+* Trac importer: read session_attribute table to find user's email and real name
+* Ability to disable unused SCM adapters in application settings
+* Adds Filesystem adapter
+* Clear changesets and changes with raw sql when deleting a repository for performance
+* Redmine.pm now uses the 'commit access' permission defined in Redmine
+* Reposman can create any type of scm (--scm option)
+* Reposman creates a repository if the 'repository' module is enabled at project level only
+* Display svn properties in the browser, svn >= 1.5.0 only
+* Reduces memory usage when importing large git repositories
+* Wider SVG graphs in repository stats
+* SubversionAdapter#entries performance improvement
+* SCM browser: ability to download raw unified diffs
+* More detailed error message in log when scm command fails
+* Adds support for file viewing with Darcs 2.0+
+* Check that git changeset is not in the database before creating it
+* Unified diff viewer for attached files with .patch or .diff extension
+* File size display with Bazaar repositories
+* Git adapter: use commit time instead of author time
+* Prettier url for changesets
+* Makes changes link to entries on the revision view
+* Adds a field on the repository view to browse at specific revision
+* Adds new projects atom feed
+* Added rake tasks to generate rcov code coverage reports
+* Add Redcloth's :block_markdown_rule to allow horizontal rules in wiki
+* Show the project hierarchy in the drop down list for new membership on user administration screen
+* Split user edit screen into tabs
+* Renames bundled RedCloth to RedCloth3 to avoid RedCloth 4 to be loaded instead
+* Fixed: Roadmap crashes when a version has a due date > 2037
+* Fixed: invalid effective date (eg. 99999-01-01) causes an error on version edition screen
+* Fixed: login filter providing incorrect back_url for Redmine installed in sub-directory
+* Fixed: logtime entry duplicated when edited from parent project
+* Fixed: wrong digest for text files under Windows
+* Fixed: associated revisions are displayed in wrong order on issue view
+* Fixed: Git Adapter date parsing ignores timezone
+* Fixed: Printing long roadmap doesn't split across pages
+* Fixes custom fields display order at several places
+* Fixed: urls containing @ are parsed as email adress by the wiki formatter
+* Fixed date filters accuracy with SQLite
+* Fixed: tokens not escaped in highlight_tokens regexp
+* Fixed Bazaar shared repository browsing
+* Fixes platform determination under JRuby
+* Fixed: Estimated time in issue's journal should be rounded to two decimals
+* Fixed: 'search titles only' box ignored after one search is done on titles only
+* Fixed: non-ASCII subversion path can't be displayed
+* Fixed: Inline images don't work if file name has upper case letters or if image is in BMP format
+* Fixed: document listing shows on "my page" when viewing documents is disabled for the role
+* Fixed: Latest news appear on the homepage for projects with the News module disabled
+* Fixed: cross-project issue list should not show issues of projects for which the issue tracking module was disabled
+* Fixed: the default status is lost when reordering issue statuses
+* Fixes error with Postgresql and non-UTF8 commit logs
+* Fixed: textile footnotes no longer work
+* Fixed: http links containing parentheses fail to reder correctly
+* Fixed: GitAdapter#get_rev should use current branch instead of hardwiring master
+
+
 == 2008-07-06 v0.7.3
 
 * Allow dot in firstnames and lastnames
