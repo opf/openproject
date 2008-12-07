@@ -18,14 +18,16 @@
 module Redmine
   # Class used to parse unified diffs
   class UnifiedDiff < Array  
-    def initialize(diff, type="inline")
-      diff_table = DiffTable.new type
+    def initialize(diff, options={})
+      diff_type = options[:type] || 'inline'
+      
+      diff_table = DiffTable.new(diff_type)
       diff.each do |line|
         if line =~ /^(---|\+\+\+) (.*)$/
           self << diff_table if diff_table.length > 1
-          diff_table = DiffTable.new type
+          diff_table = DiffTable.new(diff_type)
         end
-        a = diff_table.add_line line
+        diff_table.add_line line
       end
       self << diff_table unless diff_table.empty?
       self
