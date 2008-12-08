@@ -73,7 +73,7 @@ module Redmine
             end
             
             with_scope(:find => scope_options) do
-              find(:all, provider_options[:find_options])
+              find(:all, provider_options[:find_options].dup)
             end
           end
         end
