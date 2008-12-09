@@ -73,6 +73,9 @@ class Mailer < ActionMailer::Base
     added_to = ''
     added_to_url = ''
     case container.class.name
+    when 'Project'
+      added_to_url = url_for(:controller => 'projects', :action => 'list_files', :id => container)
+      added_to = "#{l(:label_project)}: #{container}"
     when 'Version'
       added_to_url = url_for(:controller => 'projects', :action => 'list_files', :id => container.project_id)
       added_to = "#{l(:label_version)}: #{container.name}"

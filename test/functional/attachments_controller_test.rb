@@ -97,6 +97,23 @@ class AttachmentsControllerTest < Test::Unit::TestCase
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
       post :destroy, :id => 3
+      assert_response 302
+    end
+  end
+  
+  def test_destroy_project_attachment
+    @request.session[:user_id] = 2
+    assert_difference 'Attachment.count', -1 do
+      post :destroy, :id => 8
+      assert_response 302
+    end
+  end
+  
+  def test_destroy_version_attachment
+    @request.session[:user_id] = 2
+    assert_difference 'Attachment.count', -1 do
+      post :destroy, :id => 9
+      assert_response 302
     end
   end
   

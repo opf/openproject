@@ -8,36 +8,33 @@
 
 <table class="list">
   <thead><tr>
-    <th><%=l(:field_version)%></th>
     <%= sort_header_tag("#{Attachment.table_name}.filename", :caption => l(:field_filename)) %>
     <%= sort_header_tag("#{Attachment.table_name}.created_on", :caption => l(:label_date), :default_order => 'desc') %>
     <%= sort_header_tag("#{Attachment.table_name}.filesize", :caption => l(:field_filesize), :default_order => 'desc') %>
     <%= sort_header_tag("#{Attachment.table_name}.downloads", :caption => l(:label_downloads_abbr), :default_order => 'desc') %>
     <th>MD5</th>
-    <% if delete_allowed %><th></th><% end %>
+    <th></th>
   </tr></thead>
   <tbody>
-<% for version in @versions %>	
-  <% unless version.attachments.empty? %>
-  <tr><th colspan="7" align="left"><span class="icon icon-package"><b><%= version.name %></b></span></th></tr>
-  <% for file in version.attachments %>		
+<% @containers.each do |container| %>	
+  <% next if container.attachments.empty? -%>
+	<% if container.is_a?(Version) -%>
+  <tr><th colspan="6" align="left"><span class="icon icon-package"><b><%=h container %></b></span></th></tr>
+	<% end -%>
+  <% container.attachments.each do |file| %>		
   <tr class="<%= cycle("odd", "even") %>">
-    <td></td>
     <td><%= link_to_attachment file, :download => true, :title => file.description %></td>
     <td align="center"><%= format_time(file.created_on) %></td>
     <td align="center"><%= number_to_human_size(file.filesize) %></td>
     <td align="center"><%= file.downloads %></td>
     <td align="center"><small><%= file.digest %></small></td>
-    <% if delete_allowed %>
     <td align="center">
-        <%= link_to image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => file},
-																						 :confirm => l(:text_are_you_sure), :method => :post %>
+    <%= link_to(image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => file},
+																				 :confirm => l(:text_are_you_sure), :method => :post) if delete_allowed %>
     </td>
-    <% end %>
   </tr>		
   <% end
   reset_cycle %>
-  <% end %>
 <% end %>
   </tbody>
 </table>

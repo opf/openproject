@@ -44,6 +44,8 @@ class Project < ActiveRecord::Base
                           :association_foreign_key => 'custom_field_id'
                           
   acts_as_tree :order => "name", :counter_cache => true
+  acts_as_attachable :view_permission => :view_files,
+                     :delete_permission => :manage_files
 
   acts_as_customizable
   acts_as_searchable :columns => ['name', 'description'], :project_key => 'id', :permission => nil
