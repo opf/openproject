@@ -20,7 +20,7 @@ require 'diff'
 class WikiController < ApplicationController
   before_filter :find_wiki, :authorize
   
-  verify :method => :post, :only => [:destroy, :destroy_attachment, :protect], :redirect_to => { :action => :index }
+  verify :method => :post, :only => [:destroy, :protect], :redirect_to => { :action => :index }
 
   helper :attachments
   include AttachmentsHelper   
@@ -184,13 +184,6 @@ class WikiController < ApplicationController
     @page = @wiki.find_page(params[:page])
     return render_403 unless editable?
     attach_files(@page, params[:attachments])
-    redirect_to :action => 'index', :page => @page.title
-  end
-
-  def destroy_attachment
-    @page = @wiki.find_page(params[:page])
-    return render_403 unless editable?
-    @page.attachments.find(params[:attachment_id]).destroy
     redirect_to :action => 'index', :page => @page.title
   end
 

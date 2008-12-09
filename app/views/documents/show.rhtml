@@ -12,7 +12,7 @@
 </div>
 
 <h3><%= l(:label_attachment_plural) %></h3>
-<%= link_to_attachments @attachments, :delete_url => (authorize_for('documents', 'destroy_attachment') ? {:controller => 'documents', :action => 'destroy_attachment', :id => @document} : nil) %>
+<%= link_to_attachments @document %>
 
 <% if authorize_for('documents', 'add_attachment') %>
 <p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",

@@ -70,11 +70,6 @@ class DocumentsController < ApplicationController
     Mailer.deliver_attachments_added(attachments) if !attachments.empty? && Setting.notified_events.include?('document_added')
     redirect_to :action => 'show', :id => @document
   end
-  
-  def destroy_attachment
-    @document.attachments.find(params[:attachment_id]).destroy
-    redirect_to :action => 'show', :id => @document
-  end
 
 private
   def find_project

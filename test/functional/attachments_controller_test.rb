@@ -76,4 +76,33 @@ class AttachmentsControllerTest < Test::Unit::TestCase
     get :download, :id => 7
     assert_redirected_to 'account/login'
   end
+  
+  def test_destroy_issue_attachment
+    issue = Issue.find(3)
+    @request.session[:user_id] = 2
+    
+    assert_difference 'issue.attachments.count', -1 do
+      post :destroy, :id => 1
+    end
+    # no referrer
+    assert_redirected_to 'projects/show/ecookbook'
+    assert_nil Attachment.find_by_id(1)
+    j = issue.journals.find(:first, :order => 'created_on DESC')
+    assert_equal 'attachment', j.details.first.property
+    assert_equal '1', j.details.first.prop_key
+    assert_equal 'error281.txt', j.details.first.old_value
+  end
+  
+  def test_destroy_wiki_page_attachment
+    @request.session[:user_id] = 2
+    assert_difference 'Attachment.count', -1 do
+      post :destroy, :id => 3
+    end
+  end
+  
+  def test_destroy_without_permission
+    post :destroy, :id => 3
+    assert_redirected_to '/login'
+    assert Attachment.find_by_id(3)
+  end
 end

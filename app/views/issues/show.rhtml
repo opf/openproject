@@ -67,9 +67,7 @@ end %>
 <%= textilizable @issue, :description, :attachments => @issue.attachments %>
 </div>
 
-<% if @issue.attachments.any? %>
-<%= link_to_attachments @issue.attachments, :delete_url => (authorize_for('issues', 'destroy_attachment') ? {:controller => 'issues', :action => 'destroy_attachment', :id => @issue} : nil) %>
-<% end %>
+<%= link_to_attachments @issue %>
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
 <hr />

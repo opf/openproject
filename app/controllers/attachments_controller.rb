@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,11 @@
 
 class AttachmentsController < ApplicationController
   before_filter :find_project
-
+  before_filter :read_authorize, :except => :destroy
+  before_filter :delete_authorize, :only => :destroy
+  
+  verify :method => :post, :only => :destroy
+  
   def show
     if @attachment.is_diff?
       @diff = File.new(@attachment.diskfile, "rb").read
@@ -37,19 +41,32 @@ class AttachmentsController < ApplicationController
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                     :type => @attachment.content_type, 
                                     :disposition => (@attachment.image? ? 'inline' : 'attachment')
+   
   end
- 
+  
+  def destroy
+    # Make sure association callbacks are called
+    @attachment.container.attachments.delete(@attachment)
+    redirect_to :back
+  rescue ::ActionController::RedirectBackError
+    redirect_to :controller => 'projects', :action => 'show', :id => @project
+  end
+  
 private
   def find_project
     @attachment = Attachment.find(params[:id])
     # Show 404 if the filename in the url is wrong
     raise ActiveRecord::RecordNotFound if params[:filename] && params[:filename] != @attachment.filename
-    
     @project = @attachment.project
-    permission = @attachment.container.is_a?(Version) ? :view_files : "view_#{@attachment.container.class.name.underscore.pluralize}".to_sym
-    allowed = User.current.allowed_to?(permission, @project)
-    allowed ? true : (User.current.logged? ? render_403 : require_login)
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+  
+  def read_authorize
+    @attachment.visible? ? true : deny_access
+  end
+  
+  def delete_authorize
+    @attachment.deletable? ? true : deny_access
   end
 end

@@ -98,6 +98,14 @@ class Attachment < ActiveRecord::Base
     container.project
   end
   
+  def visible?(user=User.current)
+    container.attachments_visible?(user)
+  end
+  
+  def deletable?(user=User.current)
+    container.attachments_deletable?(user)
+  end
+  
   def image?
     self.filename =~ /\.(jpe?g|gif|png)$/i
   end

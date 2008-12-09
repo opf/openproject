@@ -37,12 +37,6 @@ class VersionsController < ApplicationController
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
   end
   
-  def destroy_file
-    @version.attachments.find(params[:attachment_id]).destroy
-    flash[:notice] = l(:notice_successful_delete)
-    redirect_to :controller => 'projects', :action => 'list_files', :id => @project
-  end
-  
   def status_by
     respond_to do |format|
       format.html { render :action => 'show' }

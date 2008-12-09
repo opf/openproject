@@ -35,7 +35,7 @@ Redmine::AccessControl.map do |map|
                                   :queries => :index,
                                   :reports => :issue_report}, :public => true                    
     map.permission :add_issues, {:issues => :new}
-    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :destroy_attachment]}
+    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
     map.permission :add_issue_notes, {:issues => [:edit, :reply]}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
@@ -67,12 +67,12 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :documents do |map|
-    map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment, :destroy_attachment]}, :require => :loggedin
+    map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
   end
   
   map.project_module :files do |map|
-    map.permission :manage_files, {:projects => :add_file, :versions => :destroy_file}, :require => :loggedin
+    map.permission :manage_files, {:projects => :add_file}, :require => :loggedin
     map.permission :view_files, :projects => :list_files, :versions => :download
   end
     
@@ -83,7 +83,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_wiki_pages, :wiki => [:index, :special]
     map.permission :view_wiki_edits, :wiki => [:history, :diff, :annotate]
     map.permission :edit_wiki_pages, :wiki => [:edit, :preview, :add_attachment]
-    map.permission :delete_wiki_pages_attachments, :wiki => :destroy_attachment
+    map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
   end
     

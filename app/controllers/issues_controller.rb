@@ -18,7 +18,7 @@
 class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :destroy_attachment]
+  before_filter :find_issue, :only => [:show, :edit, :reply]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :update_form, :context_menu]
@@ -312,17 +312,6 @@ class IssuesController < ApplicationController
     end
     @issues.each(&:destroy)
     redirect_to :action => 'index', :project_id => @project
-  end
-
-  def destroy_attachment
-    a = @issue.attachments.find(params[:attachment_id])
-    a.destroy
-    journal = @issue.init_journal(User.current)
-    journal.details << JournalDetail.new(:property => 'attachment',
-                                         :prop_key => a.id,
-                                         :old_value => a.filename)
-    journal.save
-    redirect_to :action => 'show', :id => @issue
   end
   
   def gantt

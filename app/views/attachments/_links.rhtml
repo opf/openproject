@@ -3,14 +3,14 @@
 <p><%= link_to_attachment attachment, :class => 'icon icon-attachment' -%>
 <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
   <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
-  <% if options[:delete_url] %>
-    <%= link_to image_tag('delete.png'), options[:delete_url].update({:attachment_id => attachment}),
+  <% if options[:deletable] %>
+    <%= link_to image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => attachment},
                                          :confirm => l(:text_are_you_sure),
                                          :method => :post,
                                          :class => 'delete',
                                          :title => l(:button_delete) %>
   <% end %>
-  <% unless options[:no_author] %>
+  <% if options[:author] %>
     <span class="author"><%= attachment.author %>, <%= format_time(attachment.created_on) %></span>
   <% end %>
   </p>

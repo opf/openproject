@@ -18,7 +18,7 @@
 class Document < ActiveRecord::Base
   belongs_to :project
   belongs_to :category, :class_name => "Enumeration", :foreign_key => "category_id"
-  has_many :attachments, :as => :container, :dependent => :destroy
+  acts_as_attachable :delete_permission => :manage_documents
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
   acts_as_event :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},

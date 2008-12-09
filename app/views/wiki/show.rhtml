@@ -28,7 +28,7 @@
 
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
-<%= link_to_attachments @page.attachments, :delete_url => ((@editable && authorize_for('wiki', 'destroy_attachment')) ? {:controller => 'wiki', :action => 'destroy_attachment', :page => @page.title} : nil) %>
+<%= link_to_attachments @page %>
 
 <% if @editable && authorize_for('wiki', 'add_attachment') %>
 <p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",

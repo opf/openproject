@@ -4,7 +4,7 @@
 
 <h2><%=l(:label_attachment_plural)%></h2>
 
-<% delete_allowed = authorize_for('versions', 'destroy_file') %>
+<% delete_allowed = User.current.allowed_to?(:manage_files, @project) %>
 
 <table class="list">
   <thead><tr>
@@ -30,7 +30,8 @@
     <td align="center"><small><%= file.digest %></small></td>
     <% if delete_allowed %>
     <td align="center">
-        <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'versions', :action => 'destroy_file', :id => version, :attachment_id => file}, :confirm => l(:text_are_you_sure), :method => :post %>
+        <%= link_to image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => file},
+																						 :confirm => l(:text_are_you_sure), :method => :post %>
     </td>
     <% end %>
   </tr>		

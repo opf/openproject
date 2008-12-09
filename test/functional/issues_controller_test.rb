@@ -713,17 +713,4 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 2, TimeEntry.find(1).issue_id
     assert_equal 2, TimeEntry.find(2).issue_id
   end
-  
-  def test_destroy_attachment
-    issue = Issue.find(3)
-    a = issue.attachments.size
-    @request.session[:user_id] = 2
-    post :destroy_attachment, :id => 3, :attachment_id => 1
-    assert_redirected_to 'issues/show/3'
-    assert_nil Attachment.find_by_id(1)
-    issue.reload
-    assert_equal((a-1), issue.attachments.size)
-    j = issue.journals.find(:first, :order => 'created_on DESC')
-    assert_equal 'attachment', j.details.first.property
-  end
 end

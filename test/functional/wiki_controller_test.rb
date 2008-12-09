@@ -251,11 +251,4 @@ class WikiControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'edit'    
   end
-  
-  def test_destroy_attachment
-    @request.session[:user_id] = 2
-    assert_difference 'Attachment.count', -1 do
-      post :destroy_attachment, :id => 1, :page => 'Page_with_an_inline_image', :attachment_id => 3
-    end
-  end
 end

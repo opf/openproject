@@ -16,10 +16,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module AttachmentsHelper
-  # displays the links to a collection of attachments
-  def link_to_attachments(attachments, options = {})
-    if attachments.any?
-      render :partial => 'attachments/links', :locals => {:attachments => attachments, :options => options}
+  # Displays view/delete links to the attachments of the given object
+  # Options:
+  #   :author -- author names are not displayed if set to false
+  def link_to_attachments(container, options = {})
+    options.assert_valid_keys(:author)
+    
+    if container.attachments.any?
+      options = {:deletable => container.attachments_deletable?, :author => true}.merge(options)
+      render :partial => 'attachments/links', :locals => {:attachments => container.attachments, :options => options}
     end
   end
   
