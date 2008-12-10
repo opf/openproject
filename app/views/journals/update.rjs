@@ -6,3 +6,5 @@ else
   page.show "journal-#{@journal.id}-notes"
   page.remove "journal-#{@journal.id}-form"
 end
+
+call_hook(:view_journals_update_rjs_bottom, { :page => page, :journal => @journal })
