@@ -518,7 +518,8 @@ label_total: Всего
 label_tracker_new: Новый трекер
 label_tracker_plural: Трекеры
 label_tracker: Трекер
-label_updated_time: Обновлен %s назад
+label_updated_time: Обновлено %s назад
+label_updated_time_by: Обновлено %s %s назад
 label_used_by: Используется
 label_user_activity: "Активность пользователя %s"
 label_user_mail_no_self_notified: "Не извещать об изменениях, которые я сделал сам"
@@ -652,6 +653,7 @@ setting_cross_project_issue_relations: Разрешить пересечение
 setting_date_format: Формат даты
 setting_default_language: Язык по умолчанию
 setting_default_projects_public: Новые проекты являются общедоступными
+setting_diff_max_lines_displayed: Максимальное число строк для diff
 setting_display_subprojects_issues: Отображение подпроектов по умолчанию
 setting_emails_footer: Подстрочные примечания Email
 setting_enabled_scm: Разрешенные SCM
@@ -689,6 +691,7 @@ text_comma_separated: Допустимы несколько значений (ч
 text_default_administrator_account_changed: Учетная запись администратора по умолчанию изменена
 text_destroy_time_entries_question: Вы собираетесь удалить %.02f часа(ов) прикрепленных за этой задачей.
 text_destroy_time_entries: Удалить зарегистрированное время
+text_diff_truncated: '... Этот diff ограничен, так как превышает максимальный отображаемый размер.'
 text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для Вашего SMTP-сервера Вы можете в файле config/email.yml. Для применения изменений перезапустите приложение."
 text_enumeration_category_reassign_to: 'Назначить им следующее значение:'
 text_enumeration_destroy_question: '%d объект(а,ов) связаны с этим значением.'
@@ -727,6 +730,3 @@ text_user_wrote: '%s написал(а):'
 text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все ее содержимое?
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
-label_updated_time_by: Updated by %s %s ago
-text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-setting_diff_max_lines_displayed: Max number of diff lines displayed
