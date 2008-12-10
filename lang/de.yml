@@ -344,6 +344,7 @@ label_last_updates_plural: %d zuletzt aktualisierten
 label_registered_on: Angemeldet am
 label_activity: Aktivität
 label_overall_activity: Aktivität aller Projekte anzeigen
+label_user_activity: "Aktivität von %s"
 label_new: Neu
 label_logged_as: Angemeldet als
 label_environment: Environment
@@ -543,6 +544,7 @@ label_send_test_email: Test-E-Mail senden
 label_feeds_access_key_created_on: Atom-Zugriffsschlüssel vor %s erstellt
 label_module_plural: Module
 label_added_time_by: Von %s vor %s hinzugefügt
+label_updated_time_by: Von %s vor %s aktualisiert
 label_updated_time: Vor %s aktualisiert
 label_jump_to_a_project: Zu einem Projekt springen...
 label_file_plural: Dateien
@@ -694,7 +696,5 @@ default_activity_development: Entwicklung
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
-label_user_activity: "%s's activity"
-label_updated_time_by: Updated by %s %s ago
 text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
 setting_diff_max_lines_displayed: Max number of diff lines displayed

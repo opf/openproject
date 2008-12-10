@@ -223,6 +223,7 @@ setting_mail_handler_api_enabled: 啟用處理傳入電子郵件的服務
 setting_mail_handler_api_key: API 金鑰
 setting_sequential_project_identifiers: 循序產生專案識別碼
 setting_gravatar_enabled: 啟用 Gravatar 全球認證大頭像
+setting_diff_max_lines_displayed: 差異顯示行數之最大值
 
 permission_edit_project: 編輯專案
 permission_select_project_modules: 選擇專案模組
@@ -670,6 +671,7 @@ text_enumeration_destroy_question: '目前有 %d 個物件使用此列舉值。'
 text_enumeration_category_reassign_to: '重新設定其列舉值為：'
 text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/email.yml 中設定 SMTP 之後，重新啟動 Redmine，以啟用電子郵件提醒選項。"
 text_repository_usernames_mapping: "選擇或更新 Redmine 使用者與版本庫使用者之對應關係。\n版本庫中之使用者帳號或電子郵件信箱，與 Redmine 設定相同者，將自動產生對應關係。"
+text_diff_truncated: '... 這份差異已被截短以符合顯示行數之最大值'
 
 default_role_manager: 管理人員
 default_role_developper: 開發人員
@@ -696,5 +698,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-setting_diff_max_lines_displayed: Max number of diff lines displayed

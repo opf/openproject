@@ -120,18 +120,18 @@ field_subject: 제목
 field_due_date: 완료 기한
 field_assigned_to: 담당자
 field_priority: 우선순위
-field_fixed_version: 목표 버전
+field_fixed_version: 목표버전
 field_user: 사용자
 field_role: 역할
 field_homepage: 홈페이지
 field_is_public: 공개
 field_parent: 상위 프로젝트
-field_is_in_chlog: 변경이력(changelog)에서 보여지는 일감들
-field_is_in_roadmap: 로드맵에서 보여지는 일감들
+field_is_in_chlog: 변경이력(changelog)에서 표시할 일감들
+field_is_in_roadmap: 로드맵에서표시할 일감들
 field_login: 로그인
 field_mail_notification: 메일 알림
 field_admin: 관리자
-field_last_login_on: 최종 접속
+field_last_login_on: 마지막 로그인
 field_language: 언어
 field_effective_date: 일자
 field_password: 비밀번호
@@ -188,7 +188,7 @@ setting_commit_ref_keywords: 일감 참조에 사용할 키워드들
 setting_commit_fix_keywords: 일감 해결에 사용할 키워드들 
 setting_autologin: 자동 로그인
 setting_date_format: 날짜 형식
-setting_cross_project_issue_relations: 프로젝트간 일감에 관련을 맺는 것을 허용
+setting_cross_project_issue_relations: 프로젝트간 일감에 관계을 맺는 것을 허용
 setting_issue_list_default_columns: 일감 목록에 보여줄 기본 컬럼들 
 setting_repositories_encodings:  저장소 인코딩
 setting_emails_footer: 메일 꼬리
@@ -201,7 +201,7 @@ label_project_new: 새 프로젝트
 label_project_plural: 프로젝트
 label_project_all: 모든 프로젝트
 label_project_latest: 최근 프로젝트
-label_issue: 일감 보기
+label_issue: 일감
 label_issue_new: 새 일감만들기
 label_issue_plural: 일감 보기
 label_issue_view_all: 모든 일감 보기
@@ -249,9 +249,9 @@ label_last_login: 최종 접속
 label_last_updates: 최종 변경 내역
 label_last_updates_plural: 최종변경 %d 
 label_registered_on: 등록시각
-label_activity: 진행중인 작업
-label_new: 신규
-label_logged_as: ▶
+label_activity: 작업내역
+label_new: 새로 만들기
+label_logged_as: '로그인계정:'
 label_environment: 환경
 label_authentication: 인증설정
 label_auth_source: 인증 모드
@@ -280,7 +280,7 @@ label_attachment_plural: 관련파일
 label_report: 보고서
 label_report_plural: 보고서
 label_news: 뉴스
-label_news_new: 뉴스추가
+label_news_new: 새 뉴스
 label_news_plural: 뉴스
 label_news_latest: 최근 뉴스
 label_news_view_all: 모든 뉴스
@@ -298,7 +298,7 @@ label_open_issues: 진행중
 label_open_issues_plural: 진행중
 label_closed_issues: 완료됨
 label_closed_issues_plural: 완료됨
-label_total: Total
+label_total: 합계
 label_permissions: 허가권한
 label_current_status: 일감 상태
 label_new_statuses_allowed: 허용되는 일감 상태
@@ -316,7 +316,7 @@ label_gantt: Gantt 챠트
 label_internal: 내부
 label_last_changes: 지난 변경사항 %d 건
 label_change_view_all: 모든 변경 내역 보기
-label_personalize_page: 입맛대로 구성하기(Drag & Drop)
+label_personalize_page: 입맛대로 구성하기
 label_comment: 댓글
 label_comment_plural: 댓글
 label_comment_add: 댓글 추가
@@ -353,7 +353,7 @@ label_latest_revision: 최근 개정판
 label_latest_revision_plural: 최근 개정판
 label_view_revisions: 개정판 보기
 label_max_size: 최대 크기
-label_on: 'on'
+label_on: '전체: '
 label_sort_highest: 최상단으로
 label_sort_higher: 위로
 label_sort_lower: 아래로
@@ -361,7 +361,7 @@ label_sort_lowest: 최하단으로
 label_roadmap: 로드맵
 label_roadmap_due_in: 기한  %s
 label_roadmap_overdue: %s 지연
-label_roadmap_no_issues: 이버전에 해당하는 일감 없음
+label_roadmap_no_issues: 이 버전에 해당하는 일감 없음
 label_search: 검색
 label_result_plural: 결과
 label_all_words: 모든 단어
@@ -412,19 +412,19 @@ label_disabled: 비활성화
 label_show_completed_versions: 완료된 버전 보기
 label_me: 나
 label_board: 게시판
-label_board_new: 신규 게시판
+label_board_new: 새 게시판
 label_board_plural: 게시판
 label_topic_plural: 주제
 label_message_plural: 관련글
-label_message_last: 최종 글
+label_message_last: 마지막 글
 label_message_new: 새글쓰기
 label_reply_plural: 답글
 label_send_information: 사용자에게 계정정보를 보냄
 label_year: 년
 label_month: 월
 label_week: 주
-label_date_from: 에서
-label_date_to: (으)로
+label_date_from: '기간:'
+label_date_to: ' ~ '
 label_language_based: 언어설정에 따름
 label_sort_by: 정렬방법(%s)
 label_send_test_email: 테스트 메일 보내기
@@ -533,7 +533,7 @@ default_activity_development: 개발
 
 enumeration_issue_priorities: 일감 우선순위
 enumeration_doc_categories: 문서 카테고리
-enumeration_activities: 진행활동(시간 추적)
+enumeration_activities: 작업분류(시간추적)
 button_copy: 복사
 mail_body_account_information_external: 레드마인에 로그인할 때 "%s" 계정을 사용하실 수 있습니다.
 button_change_password: 비밀번호 변경
@@ -555,7 +555,7 @@ button_annotate: 주석달기(annotate)
 label_issues_by: 일감분류 방식 %s
 field_searchable: 검색가능
 label_display_per_page: '페이지당: %s'
-setting_per_page_options: 페이지당 표시할 객채 수
+setting_per_page_options: 페이지당 표시할 객체 수
 label_age: 마지막 수정일
 notice_default_data_loaded: 기본 설정을 성공적으로 로드하였습니다.
 text_load_default_configuration: 기본 설정을 로딩하기
@@ -585,20 +585,20 @@ project_module_files: 관련파일
 project_module_documents: 문서
 project_module_repository: 저장소
 project_module_news: 뉴스
-project_module_time_tracking: 진행중인 작업
+project_module_time_tracking: 시간추적
 text_file_repository_writable: 파일 저장소 쓰기 가능
 text_default_administrator_account_changed: 기본 관리자 계정이 변경되었습니다.
-text_rmagick_available: RMagick available (optional)
+text_rmagick_available: RMagick 사용가능(옵션)
 button_configure: 설정
 label_plugins: 플러그인
 label_ldap_authentication: LDAP 인증
 label_downloads_abbr: D/L
 label_add_another_file: 다른 파일 추가 
 label_this_month: 이번 달
-text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
+text_destroy_time_entries_question: 삭제하려는 일감에 %.02f 시간이 보고되어 있습니다. 어떻게 하시겠습니까?
 label_last_n_days: 지난 %d 일
 label_all_time: 모든 시간
-error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
+error_issue_not_found_in_project: '일감이 없거나 이 프로젝트의 것이 아닙니다.'
 label_this_year: 올해
 text_assign_time_entries_to_project: 보고된 시간을 프로젝트에 할당하기
 label_date_range: 날짜 범위
@@ -608,15 +608,15 @@ label_optional_description: 부가적인 설명
 label_last_month: 지난 달
 text_destroy_time_entries: 보고된 시간을 삭제하기
 text_reassign_time_entries: '이 알림에 보고된 시간을 재할당하기:'
-setting_activity_days_default: 프로젝트 활동에 보여질 날수
+setting_activity_days_default: 프로젝트 작업내역에 보여줄 날수
 label_chronological_order: 시간 순으로 정렬
 field_comments_sorting: 히스토리 정렬 설정
 label_reverse_chronological_order: 시간 역순으로 정렬 
-label_preferences: Preferences
+label_preferences: 설정
 setting_display_subprojects_issues: 하위 프로젝트의 일감을 최상위 프로젝트에서 표시
-label_overall_activity: 전체 진행 상황
+label_overall_activity: 전체 작업내역
 setting_default_projects_public: 새 프로젝트를 공개로 설정
-error_scm_annotate: "The entry does not exist or can not be annotated."
+error_scm_annotate: "항목이 없거나 주석을 달 수 없습니다."
 label_planning: 프로젝트계획(Planning)
 text_subprojects_destroy_warning: '서브프로젝트(%s)가 자동으로 지워질 것입니다.'
 label_and_its_subprojects: %s와 서브프로젝트들
@@ -692,7 +692,7 @@ label_example: 예
 text_repository_usernames_mapping: "저장소 로그에서 발견된 각 사용자에 레드마인 사용자를 업데이트할때 선택합니다.\n레드마인과 저장소의 이름이나 이메일이 같은 사용자가 자동으로 연결됩니다."
 permission_edit_own_messages: 자기 메시지 편집
 permission_delete_own_messages: 자기 메시지 삭제
-label_user_activity: "%s의 활동"
-label_updated_time_by: Updated by %s %s ago
-text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-setting_diff_max_lines_displayed: Max number of diff lines displayed
+label_user_activity: "%s의 작업내역"
+label_updated_time_by: %s가 %s 전에 변경
+text_diff_truncated: '... 이 차이점은 표시할 수 있는 최대 줄수를 초과해서 이 차이점은 잘렸습니다.'
+setting_diff_max_lines_displayed: 차이점보기에 표시할 최대 줄수
