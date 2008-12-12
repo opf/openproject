@@ -236,7 +236,7 @@ label_register: הרשמה
 label_password_lost: אבדה הסיסמה?
 label_home: דף הבית
 label_my_page: הדף שלי
-label_my_account: השבון שלי
+label_my_account: החשבון שלי
 label_my_projects: הפרויקטים שלי
 label_administration: אדמיניסטרציה
 label_login: התחבר
@@ -292,7 +292,7 @@ label_confirmation: אישור
 label_export_to: יצא ל
 label_read: קרא...
 label_public_projects: פרויקטים פומביים
-label_open_issues: פותח
+label_open_issues: פתוח
 label_open_issues_plural: פתוחים
 label_closed_issues: סגור
 label_closed_issues_plural: סגורים
@@ -308,7 +308,7 @@ label_used_by: בשימוש ע"י
 label_details: פרטים
 label_add_note: הוסף הערה
 label_per_page: לכל דף
-label_calendar: לו"ח שנה
+label_calendar: לוח שנה
 label_months_from: חודשים מ
 label_gantt: גאנט
 label_internal: פנימי
@@ -357,7 +357,7 @@ label_sort_higher: הזז למעלה
 label_sort_lower: הזז למטה
 label_sort_lowest: הזז לתחתית
 label_roadmap: מפת הדרכים
-label_roadmap_due_in: %s נגמר בעוד
+label_roadmap_due_in: נגמר בעוד %s
 label_roadmap_overdue: %s מאחר
 label_roadmap_no_issues: אין נושאים לגירסא זו
 label_search: חפש
@@ -421,8 +421,8 @@ label_send_information: שלח מידע על חשבון למשתמש
 label_year: שנה
 label_month: חודש
 label_week: שבוע
-label_date_from: מאת
-label_date_to: אל
+label_date_from: מתאריך
+label_date_to: עד
 label_language_based: מבוסס שפה
 label_sort_by: מין לפי %s
 label_send_test_email: שלח דו"ל בדיקה
@@ -487,7 +487,7 @@ text_journal_set_to: שונה ל %s
 text_journal_deleted: נמחק
 text_tip_task_begin_day: מטלה המתחילה היום
 text_tip_task_end_day: מטלה המסתיימת היום
-text_tip_task_begin_end_day: מתלה המתחילה ומסתיימת היום
+text_tip_task_begin_end_day: מטלה המתחילה ומסתיימת היום
 text_project_identifier_info: 'אותיות לטיניות (a-z), מספרים ומקפים.<br />ברגע שנשמר, לא ניתן לשנות את המזהה.'
 text_caracters_maximum: מקסימום %d תווים.
 text_length_between: אורך בין %d ל %d תווים.
@@ -618,81 +618,79 @@ label_overall_activity: פעילות כוללת
 setting_default_projects_public: פרויקטים חדשים הינם פומביים כברירת מחדל
 error_scm_annotate: "הכניסה לא קיימת או שלא ניתן לתאר אותה."
 label_planning: תכנון
-text_subprojects_destroy_warning: 'Its subproject(s): %s will be also deleted.'
-label_and_its_subprojects: %s and its subprojects
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
-text_user_wrote: '%s wrote:'
-label_duplicated_by: duplicated by
-setting_enabled_scm: Enabled SCM
-text_enumeration_category_reassign_to: 'Reassign them to this value:'
-text_enumeration_destroy_question: '%d objects are assigned to this value.'
-label_incoming_emails: Incoming emails
-label_generate_key: Generate a key
+text_subprojects_destroy_warning: 'תת הפרויקט\ים: %s ימחקו גם כן.'
+label_and_its_subprojects: %s וכל תת הפרויקטים שלו
+mail_body_reminder: "%d נושאים שמיועדים אליך מיועדים להגשה בתוך %d ימים:"
+mail_subject_reminder: "%d נושאים מיעדים להגשה בימים הקרובים"
+text_user_wrote: '%s כתב:'
+label_duplicated_by: שוכפל ע"י
+setting_enabled_scm: אפשר SCM
+text_enumeration_category_reassign_to: 'הצב מחדש לערך הזה:'
+text_enumeration_destroy_question: '%d אוביקטים מוצבים לערך זה.'
+label_incoming_emails: דוא"ל נכנס
+label_generate_key: יצר מפתח
 setting_mail_handler_api_enabled: Enable WS for incoming emails
-setting_mail_handler_api_key: API key
+setting_mail_handler_api_key: מפתח API
 text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-field_parent_title: Parent page
-label_issue_watchers: Watchers
+field_parent_title: דף אב
+label_issue_watchers: צופים
 setting_commit_logs_encoding: Commit messages encoding
-button_quote: Quote
+button_quote: צטט
 setting_sequential_project_identifiers: Generate sequential project identifiers
-notice_unable_delete_version: Unable to delete version
-label_renamed: renamed
-label_copied: copied
-setting_plain_text_mail: plain text only (no HTML)
-permission_view_files: View files
-permission_edit_issues: Edit issues
-permission_edit_own_time_entries: Edit own time logs
-permission_manage_public_queries: Manage public queries
-permission_add_issues: Add issues
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_view_time_entries: View spent time
-permission_manage_versions: Manage versions
-permission_manage_wiki: Manage wiki
-permission_manage_categories: Manage issue categories
-permission_protect_wiki_pages: Protect wiki pages
-permission_comment_news: Comment news
-permission_delete_messages: Delete messages
-permission_select_project_modules: Select project modules
-permission_manage_documents: Manage documents
-permission_edit_wiki_pages: Edit wiki pages
-permission_add_issue_watchers: Add watchers
-permission_view_gantt: View gantt chart
-permission_move_issues: Move issues
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_wiki_edits: View wiki history
-permission_add_messages: Post messages
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calendrier
-permission_manage_members: Manage members
-permission_edit_messages: Edit messages
-permission_delete_issues: Delete issues
-permission_view_issue_watchers: View watchers list
-permission_manage_repository: Manage repository
+notice_unable_delete_version: לא ניתן למחוק גירסא
+label_renamed: השם שונה
+label_copied: הועתק
+setting_plain_text_mail: טקסט פשוט בלבד (ללא HTML)
+permission_view_files: צפה בקבצים
+permission_edit_issues: ערוך נושאים
+permission_edit_own_time_entries: ערוך את לוג הזמן של עצמך
+permission_manage_public_queries: נהל שאילתות פומביות
+permission_add_issues: הוסף נושא
+permission_log_time: תעד זמן שבוזבז
+permission_view_changesets: צפה בקבוצות שינויים
+permission_view_time_entries: צפה בזמן שבוזבז
+permission_manage_versions: נהל גירסאות
+permission_manage_wiki: נהל wiki
+permission_manage_categories: נהל קטגוריות נושאים
+permission_protect_wiki_pages: הגן כל דפי wiki
+permission_comment_news: הגב על החדשות
+permission_delete_messages: מחק הודעות
+permission_select_project_modules: בחר מודולי פרויקט
+permission_manage_documents: נהל מסמכים
+permission_edit_wiki_pages: ערוך דפי wiki
+permission_add_issue_watchers: הוסף צופים
+permission_view_gantt: צפה בגאנט
+permission_move_issues: הזז נושאים
+permission_manage_issue_relations: נהל יחס בין נושאים
+permission_delete_wiki_pages: מחק דפי wiki
+permission_manage_boards: נהל לוחות
+permission_delete_wiki_pages_attachments: מחק דבוקות
+permission_view_wiki_edits: צפה בהיסטורית wiki
+permission_add_messages: הצב הודעות
+permission_view_messages: צפה בהודעות
+permission_manage_files: נהל קבצים
+permission_edit_issue_notes: ערוך רשימות
+permission_manage_news: נהל חדשות
+permission_view_calendar: צפה בלוח השנה
+permission_manage_members: נהל חברים
+permission_edit_messages: ערוך הודעות
+permission_delete_issues: מחק נושאים
+permission_view_issue_watchers: צפה ברשימה צופים
+permission_manage_repository: נהל מאגר
 permission_commit_access: Commit access
-permission_browse_repository: Browse repository
-permission_view_documents: View documents
-permission_edit_project: Edit project
+permission_browse_repository: סייר במאגר
+permission_view_documents: צפה במסמכים
+permission_edit_project: ערוך פרויקט
 permission_add_issue_notes: Add notes
-permission_save_queries: Save queries
-permission_view_wiki_pages: View wiki
-permission_rename_wiki_pages: Rename wiki pages
-permission_edit_time_entries: Edit time logs
+permission_save_queries: שמור שאילתות
+permission_view_wiki_pages: צפה ב-wiki
+permission_rename_wiki_pages: שנה שם של דפי wiki
+permission_edit_time_entries: ערוך רישום זמנים
 permission_edit_own_issue_notes: Edit own notes
 setting_gravatar_enabled: Use Gravatar user icons
-label_example: Example
+label_example: דוגמא
 text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-permission_edit_own_messages: Edit own messages
-permission_delete_own_messages: Delete own messages
-label_user_activity: "%s's activity"
-label_updated_time_by: Updated by %s %s ago
-text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-setting_diff_max_lines_displayed: Max number of diff lines displayed
+permission_edit_own_messages: ערוך הודעות של עצמך
+permission_delete_own_messages: מחק הודעות של עצמך
+label_user_activity: "הפעילות של %s"
+label_updated_time_by: עודכן ע"י %s לפני %s
