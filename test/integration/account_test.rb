@@ -44,7 +44,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_response :success
     assert_template "account/lost_password"
     
-    post "account/lost_password", :mail => 'jsmith@somenet.foo'
+    post "account/lost_password", :mail => 'jSmith@somenet.foo'
     assert_redirected_to "account/login"
     
     token = Token.find(:first)

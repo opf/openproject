@@ -158,4 +158,10 @@ class UserTest < Test::Unit::TestCase
     @jsmith.pref.comments_sorting = 'desc'
     assert @jsmith.wants_comments_in_reverse_order?
   end
+  
+  def test_find_by_mail_should_be_case_insensitive
+    u = User.find_by_mail('JSmith@somenet.foo')
+    assert_not_nil u
+    assert_equal 'jsmith@somenet.foo', u.mail
+  end
 end

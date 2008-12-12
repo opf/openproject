@@ -178,6 +178,11 @@ class User < ActiveRecord::Base
     token = Token.find_by_action_and_value('autologin', key)
     token && (token.created_on > Setting.autologin.to_i.day.ago) && token.user.active? ? token.user : nil
   end
+  
+  # Makes find_by_mail case-insensitive
+  def self.find_by_mail(mail)
+    find(:first, :conditions => ["LOWER(mail) = ?", mail.to_s.downcase])
+  end
 
   # Sort users by their display names
   def <=>(user)
