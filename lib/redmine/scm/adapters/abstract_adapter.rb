@@ -171,6 +171,10 @@ module Redmine
         
         def self.shellout(cmd, &block)
           logger.debug "Shelling out: #{cmd}" if logger && logger.debug?
+          if Rails.env == 'development'
+            # Capture stderr when running in dev environment
+            cmd = "#{cmd} 2>>#{RAILS_ROOT}/log/scm.stderr.log"
+          end
           begin
             IO.popen(cmd, "r+") do |io|
               io.close_write
