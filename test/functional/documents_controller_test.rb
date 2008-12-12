@@ -32,10 +32,19 @@ class DocumentsControllerTest < Test::Unit::TestCase
   end
 
   def test_index
+    # Sets a default category
+    e = Enumeration.find_by_name('Technical documentation')
+    e.update_attributes(:is_default => true)
+    
     get :index, :project_id => 'ecookbook'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:grouped)
+    
+    # Default category selected in the new document form
+    assert_tag :select, :attributes => {:name => 'document[category_id]'},
+                        :child => {:tag => 'option', :attributes => {:selected => 'selected'},
+                                                     :content => 'Technical documentation'}
   end
   
   def test_new_with_one_attachment

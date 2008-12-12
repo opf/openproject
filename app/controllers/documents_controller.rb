@@ -35,6 +35,7 @@ class DocumentsController < ApplicationController
     else
       @grouped = documents.group_by(&:category)
     end
+    @document = @project.documents.build
     render :layout => false if request.xhr?
   end
   
