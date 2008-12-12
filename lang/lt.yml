@@ -671,7 +671,7 @@ text_enumeration_destroy_question: '%d objektai priskirti šiai reikšmei.'
 text_enumeration_category_reassign_to: 'Priskirti juos šiai reikšmei:'
 text_email_delivery_not_configured: "Email pristatymas nesukonfigūruotas , ir perspėjimai neaktyvus.\nSukonfigūruokyte savo SMTP serverį byloje config/email.yml ir perleiskyte programą kad pritaikyti pakeitymus."
 text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-text_diff_truncated: '... Šis diff'as nukarpitas, todėl kad jis viršijo maksimalu rodoma eilučiu skaičiu.'
+text_diff_truncated: "... Šis diff'as nukarpitas, todėl kad jis viršijo maksimalu rodoma eilučiu skaičiu."
 
 default_role_manager: Vadovas
 default_role_developper: Projektuotojas
