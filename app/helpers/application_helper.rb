@@ -18,6 +18,7 @@
 require 'coderay'
 require 'coderay/helpers/file_type'
 require 'forwardable'
+require 'cgi'
 
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
@@ -525,7 +526,7 @@ module ApplicationHelper
 
   def back_url_hidden_field_tag
     back_url = params[:back_url] || request.env['HTTP_REFERER']
-    hidden_field_tag('back_url', back_url) unless back_url.blank?
+    hidden_field_tag('back_url', CGI.escape(back_url)) unless back_url.blank?
   end
 
   def check_all_links(form_name)
