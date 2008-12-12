@@ -137,9 +137,6 @@ class ApplicationController < ActionController::Base
       end
     end
     redirect_to default
-  rescue 
-    
-    
   end
   
   def render_403
