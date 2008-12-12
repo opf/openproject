@@ -44,7 +44,9 @@ class Enumeration < ActiveRecord::Base
   end
 
   def before_save
-    Enumeration.update_all("is_default = #{connection.quoted_false}", {:opt => opt}) if is_default?
+    if is_default? && is_default_changed?
+      Enumeration.update_all("is_default = #{connection.quoted_false}", {:opt => opt})
+    end
   end
   
   def objects_count
