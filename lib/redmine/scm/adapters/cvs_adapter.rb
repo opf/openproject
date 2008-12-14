@@ -63,7 +63,7 @@ module Redmine
           logger.debug "<cvs> entries '#{path}' with identifier '#{identifier}'"
           path_with_project="#{url}#{with_leading_slash(path)}"
           entries = Entries.new
-          cmd = "#{CVS_BIN} -d #{root_url} rls -ed"
+          cmd = "#{CVS_BIN} -d #{root_url} rls -e"
           cmd << " -D \"#{time_to_cvstime(identifier)}\"" if identifier
           cmd << " #{shell_quote path_with_project}"
           shellout(cmd) do |io|
