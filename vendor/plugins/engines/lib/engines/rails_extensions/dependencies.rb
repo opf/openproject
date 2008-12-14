@@ -140,4 +140,4 @@ module Engines::RailsExtensions::Dependencies
   end  
 end
 
-Dependencies.send :include, Engines::RailsExtensions::Dependencies
+ActiveSupport::Dependencies.send :include, Engines::RailsExtensions::Dependencies

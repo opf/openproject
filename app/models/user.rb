@@ -144,7 +144,7 @@ class User < ActiveRecord::Base
   end
   
   def time_zone
-    @time_zone ||= (self.pref.time_zone.blank? ? nil : TimeZone[self.pref.time_zone])
+    @time_zone ||= (self.pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[self.pref.time_zone])
   end
   
   def wants_comments_in_reverse_order?

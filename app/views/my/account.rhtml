@@ -38,7 +38,7 @@
 <div class="box tabular">
 <% fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
 <p><%= pref_fields.check_box :hide_mail %></p>
-<p><%= pref_fields.select :time_zone, TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :include_blank => true %></p>
+<p><%= pref_fields.select :time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :include_blank => true %></p>
 <p><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></p>
 <% end %>
 </div>
