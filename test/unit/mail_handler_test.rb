@@ -129,6 +129,15 @@ class MailHandlerTest < Test::Unit::TestCase
     assert_match /This is reply/, journal.notes
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
   end
+  
+  def test_should_strip_tags_of_html_only_emails
+    issue = submit_email('ticket_html_only.eml', :issue => {:project => 'ecookbook'})
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'HTML email', issue.subject
+    assert_equal 'This is a html-only email.', issue.description
+  end
 
   private
   

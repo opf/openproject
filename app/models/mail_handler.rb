@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MailHandler < ActionMailer::Base
+  include ActionView::Helpers::SanitizeHelper
 
   class UnauthorizedAction < StandardError; end
   class MissingInformation < StandardError; end
@@ -88,7 +89,7 @@ class MailHandler < ActionMailer::Base
       issue.status = status
     end
     issue.subject = email.subject.chomp.toutf8
-    issue.description = email.plain_text_body.chomp
+    issue.description = plain_text_body
     issue.save!
     add_attachments(issue)
     logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger && logger.info
@@ -120,7 +121,7 @@ class MailHandler < ActionMailer::Base
     raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
 
     # add the note
-    journal = issue.init_journal(user, email.plain_text_body.chomp)
+    journal = issue.init_journal(user, plain_text_body)
     add_attachments(issue)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
@@ -156,21 +157,30 @@ class MailHandler < ActionMailer::Base
   end
   
   def get_keyword(attr)
-    if @@handler_options[:allow_override].include?(attr.to_s) && email.plain_text_body =~ /^#{attr}:[ \t]*(.+)$/i
+    if @@handler_options[:allow_override].include?(attr.to_s) && plain_text_body =~ /^#{attr}:[ \t]*(.+)$/i
       $1.strip
     elsif !@@handler_options[:issue][attr].blank?
       @@handler_options[:issue][attr]
     end
   end
-end
-
-class TMail::Mail
-  # Returns body of the first plain text part found if any
+  
+  # Returns the text/plain part of the email
+  # If not found (eg. HTML-only email), returns the body with tags removed
   def plain_text_body
     return @plain_text_body unless @plain_text_body.nil?
-    p = self.parts.collect {|c| (c.respond_to?(:parts) && !c.parts.empty?) ? c.parts : c}.flatten
-    plain = p.detect {|c| c.content_type == 'text/plain'}
-    @plain_text_body = plain.nil? ? self.body : plain.body
+    parts = @email.parts.collect {|c| (c.respond_to?(:parts) && !c.parts.empty?) ? c.parts : c}.flatten
+    if parts.empty?
+      parts << @email
+    end
+    plain_text_part = parts.detect {|p| p.content_type == 'text/plain'}
+    if plain_text_part.nil?
+      # no text/plain part found, assuming html-only email
+      # strip html tags and remove doctype directive
+      @plain_text_body = strip_tags(@email.body.to_s)
+      @plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
+    else
+      @plain_text_body = plain_text_part.body.to_s
+    end
+    @plain_text_body.strip!
   end
 end
-
