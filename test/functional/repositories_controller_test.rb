@@ -73,12 +73,12 @@ class RepositoriesControllerTest < Test::Unit::TestCase
     
     assert_tag :td, :content => 'dlopper',
                     :sibling => { :tag => 'td',
-                                  :child => { :tag => 'select', :attributes => { :name => 'committers[dlopper]' },
+                                  :child => { :tag => 'select', :attributes => { :name => %r{^committers\[\d+\]\[\]$} },
                                                                 :child => { :tag => 'option', :content => 'Dave Lopper',
                                                                                               :attributes => { :value => '3', :selected => 'selected' }}}}
     assert_tag :td, :content => 'foo',
                     :sibling => { :tag => 'td',
-                                  :child => { :tag => 'select', :attributes => { :name => 'committers[foo]' }}}
+                                  :child => { :tag => 'select', :attributes => { :name => %r{^committers\[\d+\]\[\]$} }}}
     assert_no_tag :td, :content => 'foo',
                        :sibling => { :tag => 'td',
                                      :descendant => { :tag => 'option', :attributes => { :selected => 'selected' }}}
@@ -90,7 +90,7 @@ class RepositoriesControllerTest < Test::Unit::TestCase
     c = Changeset.create!(:repository => Project.find(1).repository, :committer => 'foo', :committed_on => Time.now, :revision => 100, :comments => 'Committed by foo.')
     
     assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
-      post :committers, :id => 1, :committers => { 'foo' => '2', 'dlopper' => '3'}
+      post :committers, :id => 1, :committers => { '0' => ['foo', '2'], '1' => ['dlopper', '3']}
       assert_redirected_to '/repositories/committers/ecookbook'
       assert_equal User.find(2), c.reload.user
     end

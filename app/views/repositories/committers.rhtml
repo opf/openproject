@@ -15,11 +15,16 @@
 	</tr>
 </thead>
 <tbody>
+<% i = 0 -%>
 <% @committers.each do |committer, user_id| -%>
 	<tr class="<%= cycle 'odd', 'even' %>">
 		<td><%=h committer %></td>
-		<td><%= select_tag "committers[#{committer}]", content_tag('option', "-- #{l :actionview_instancetag_blank_option} --", :value => '') + options_from_collection_for_select(@users, 'id', 'name', user_id.to_i) %></td>
+		<td>
+			<%= hidden_field_tag "committers[#{i}][]", committer %>
+			<%= select_tag "committers[#{i}][]", content_tag('option', "-- #{l :actionview_instancetag_blank_option} --", :value => '') + options_from_collection_for_select(@users, 'id', 'name', user_id.to_i) %>
+		</td>
 	</tr>
+	<% i += 1 -%>
 <% end -%>
 </tbody>
 </table>
