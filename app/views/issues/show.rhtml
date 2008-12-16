@@ -9,7 +9,7 @@
 
 <h2><%= @issue.tracker.name %> #<%= @issue.id %></h2>
 
-<div class="issue <%= "status-#{@issue.status.position} priority-#{@issue.priority.position}" %>">
+<div class="<%= css_issue_classes(@issue) %>">
         <%= avatar(@issue.author, :size => "64") %>
         <h3><%=h @issue.subject %></h3>
         <p class="author">
