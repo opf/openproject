@@ -190,4 +190,11 @@ class IssueTest < Test::Unit::TestCase
     assert_nil Issue.find_by_id(1)
     assert_nil TimeEntry.find_by_issue_id(1)
   end
+  
+  def test_overdue
+    assert Issue.new(:due_date => 1.day.ago).overdue?
+    assert !Issue.new(:due_date => Date.today).overdue?
+    assert !Issue.new(:due_date => 1.day.from_now).overdue?
+    assert !Issue.new(:due_date => nil).overdue?
+  end
 end

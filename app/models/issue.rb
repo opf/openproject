@@ -195,6 +195,11 @@ class Issue < ActiveRecord::Base
     self.status.is_closed?
   end
   
+  # Returns true if the issue is overdue
+  def overdue?
+    !due_date.nil? && (due_date < Date.today)
+  end
+  
   # Users the issue can be assigned to
   def assignable_users
     project.assignable_users

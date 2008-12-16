@@ -36,6 +36,7 @@ module IssuesHelper
   # Returns a string of css classes that apply to the given issue
   def css_issue_classes(issue)
     s = "issue status-#{issue.status.position} priority-#{issue.priority.position}"
+    s << ' overdue' if issue.overdue?
     s
   end
   
