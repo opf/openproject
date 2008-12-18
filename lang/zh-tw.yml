@@ -557,7 +557,7 @@ label_theme: 畫面主題
 label_default: 預設
 label_search_titles_only: 僅搜尋標題
 label_user_mail_option_all: "提醒與我的專案有關的所有事件"
-label_user_mail_option_selected: "只停醒我所選擇專案中的事件..."
+label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
 label_user_mail_option_none: "只提醒我觀察中或參與中的事件"
 label_user_mail_no_self_notified: "不提醒我自己所做的變更"
 label_registration_activation_by_email: 透過電子郵件啟用帳戶
