@@ -5,6 +5,23 @@ Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
 
+== v0.8.0
+
+* Setting added in order to limit the number of diff lines that should be displayed
+* Makes logged-in username in topbar linking to
+* Mail handler: strip tags when receiving a html-only email
+* Adds a css class (overdue) to overdue issues on issue lists and detail views
+* Fixed: project activity truncated after viewing user's activity
+* Fixed: email address entered for password recovery shouldn't be case-sensitive
+* Fixed: default flag removed when editing a default enumeration
+* Fixed: default category ignored when adding a document
+* Fixed: error on repository user mapping when a repository username is blank
+* Fixed: Firefox cuts off large diffs
+* Fixed: CVS browser should not show dead revisions (deleted files)
+* Fixed: escape double-quotes in image titles
+* Fixed: escape textarea content when editing a issue note
+
+
 == 2008-12-07 v0.8.0-rc1
 
 * Wiki page protection
