@@ -251,4 +251,9 @@ class WikiControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'edit'    
   end
+  
+  def test_history_of_non_existing_page_should_return_404
+    get :history, :id => 1, :page => 'Unknown_page'
+    assert_response 404
+  end
 end
