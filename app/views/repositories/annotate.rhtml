@@ -1,5 +1,7 @@
 <h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
 
+<p><%= render :partial => 'link_to_functions' %></p>
+
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
 
 <div class="autoscroll">

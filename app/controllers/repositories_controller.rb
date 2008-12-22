@@ -127,6 +127,9 @@ class RepositoriesController < ApplicationController
   end
   
   def annotate
+    @entry = @repository.entry(@path, @rev)
+    show_error_not_found and return unless @entry
+    
     @annotate = @repository.scm.annotate(@path, @rev)
     render_error l(:error_scm_annotate) and return if @annotate.nil? || @annotate.empty?
   end
