@@ -49,7 +49,7 @@
 <% end %>
 
 <% if @issue.new_record? && User.current.allowed_to?(:add_issue_watchers, @project) -%>
-<p><label>Watchers</label>
+<p><label><%= l(:label_issue_watchers) %></label>
 <% @issue.project.users.sort.each do |user| -%>
 <label class="floating"><%= check_box_tag 'issue[watcher_user_ids][]', user.id, @issue.watcher_user_ids.include?(user.id) %> <%=h user %></label>
 <% end -%>
