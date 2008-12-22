@@ -14,6 +14,8 @@ module Redmine
           class_eval do
             has_many :watchers, :as => :watchable, :dependent => :delete_all
             has_many :watcher_users, :through => :watchers, :source => :user
+            
+            attr_protected :watcher_ids, :watcher_user_ids
           end
         end
       end

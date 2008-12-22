@@ -48,6 +48,14 @@
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 <% end %>
 
+<% if @issue.new_record? && User.current.allowed_to?(:add_issue_watchers, @project) -%>
+<p><label>Watchers</label>
+<% @issue.project.users.sort.each do |user| -%>
+<label class="floating"><%= check_box_tag 'issue[watcher_user_ids][]', user.id, @issue.watcher_user_ids.include?(user.id) %> <%=h user %></label>
+<% end -%>
+</p>
+<% end %>
+
 <%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
 
 <%= wikitoolbar_for 'issue_description' %>

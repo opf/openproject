@@ -322,6 +322,30 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 'activerecord_error_invalid', issue.errors.on(:custom_values)
   end
   
+  def test_post_new_with_watchers
+    @request.session[:user_id] = 2
+    ActionMailer::Base.deliveries.clear
+    
+    assert_difference 'Watcher.count', 2 do
+      post :new, :project_id => 1, 
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is a new issue with watchers',
+                            :description => 'This is the description',
+                            :priority_id => 5,
+                            :watcher_user_ids => ['2', '3']}
+    end
+    assert_redirected_to 'issues/show'
+    
+    issue = Issue.find_by_subject('This is a new issue with watchers')
+    # Watchers added
+    assert_equal [2, 3], issue.watcher_user_ids.sort
+    assert issue.watched_by?(User.find(3))
+    # Watchers notified
+    mail = ActionMailer::Base.deliveries.last
+    assert_kind_of TMail::Mail, mail
+    assert [mail.bcc, mail.cc].flatten.include?(User.find(3).mail)
+  end
+  
   def test_post_should_preserve_fields_values_on_validation_failure
     @request.session[:user_id] = 2
     post :new, :project_id => 1, 

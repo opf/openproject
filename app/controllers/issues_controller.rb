@@ -121,7 +121,10 @@ class IssuesController < ApplicationController
       render :nothing => true, :layout => true
       return
     end
-    @issue.attributes = params[:issue]
+    if params[:issue].is_a?(Hash)
+      @issue.attributes = params[:issue]
+      @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
+    end
     @issue.author = User.current
     
     default_status = IssueStatus.default
