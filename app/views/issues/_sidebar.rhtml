@@ -20,7 +20,7 @@
 <h3><%= l(:label_query_plural) %></h3>
 
 <% sidebar_queries.each do |query| -%>
-<%= link_to query.name, :controller => 'issues', :action => 'index', :project_id => @project, :query_id => query %><br />
+<%= link_to(h(query.name), :controller => 'issues', :action => 'index', :project_id => @project, :query_id => query) %><br />
 <% end -%>
 <%= call_hook(:view_issues_sidebar_queries_bottom) %>
 <% end -%>
