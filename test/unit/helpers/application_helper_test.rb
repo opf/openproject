@@ -76,6 +76,15 @@ class ApplicationHelperTest < HelperTestCase
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
   
+  def test_acronyms
+    to_test = {
+      'this is an acronym: GPL(General Public License)' => 'this is an acronym: <acronym title="General Public License">GPL</acronym>',
+      'GPL(This is a double-quoted "title")' => '<acronym title="This is a double-quoted &quot;title&quot;">GPL</acronym>',
+    }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    
+  end
+  
   def test_attached_images
     to_test = {
       'Inline image: !logo.gif!' => 'Inline image: <img src="/attachments/download/3" title="This is a logo" alt="This is a logo" />',
@@ -90,6 +99,7 @@ class ApplicationHelperTest < HelperTestCase
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="/foo/bar">link</a>',
       '"link (Link title)":http://foo.bar' => '<a href="http://foo.bar" title="Link title" class="external">link</a>',
+      '"link (Link title with "double-quotes")":http://foo.bar' => '<a href="http://foo.bar" title="Link title with &quot;double-quotes&quot;" class="external">link</a>',
       "This is not a \"Link\":\n\nAnother paragraph" => "This is not a \"Link\":</p>\n\n\n\t<p>Another paragraph",
       # no multiline link text
       "This is a double quote \"on the first line\nand another on a second line\":test" => "This is a double quote \"on the first line<br />\nand another on a second line\":test"
