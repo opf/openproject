@@ -45,9 +45,10 @@ class IssuesController < ApplicationController
   helper :timelog
 
   def index
-    sort_init "#{Issue.table_name}.id", "desc"
-    sort_update
     retrieve_query
+    sort_init 'id', 'desc'
+    sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
+    
     if @query.valid?
       limit = per_page_option
       respond_to do |format|
@@ -78,9 +79,10 @@ class IssuesController < ApplicationController
   end
   
   def changes
-    sort_init "#{Issue.table_name}.id", "desc"
-    sort_update
     retrieve_query
+    sort_init 'id', 'desc'
+    sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
+    
     if @query.valid?
       @journals = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status]} ],
                                      :conditions => @query.statement,

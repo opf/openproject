@@ -2,10 +2,10 @@
 <thead>
 <tr>
 <%= sort_header_tag('spent_on', :caption => l(:label_date), :default_order => 'desc') %>
-<%= sort_header_tag('user_id', :caption => l(:label_member)) %>
-<%= sort_header_tag('activity_id', :caption => l(:label_activity)) %>
-<%= sort_header_tag("#{Project.table_name}.name", :caption => l(:label_project)) %>
-<%= sort_header_tag('issue_id', :caption => l(:label_issue), :default_order => 'desc') %>
+<%= sort_header_tag('user', :caption => l(:label_member)) %>
+<%= sort_header_tag('activity', :caption => l(:label_activity)) %>
+<%= sort_header_tag('project', :caption => l(:label_project)) %>
+<%= sort_header_tag('issue', :caption => l(:label_issue), :default_order => 'desc') %>
 <th><%= l(:field_comments) %></th>
 <%= sort_header_tag('hours', :caption => l(:field_hours)) %>
 <th></th>

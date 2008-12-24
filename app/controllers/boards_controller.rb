@@ -35,8 +35,10 @@ class BoardsController < ApplicationController
   end
 
   def show
-    sort_init "#{Message.table_name}.updated_on", "desc"
-    sort_update	
+    sort_init 'updated_on', 'desc'
+    sort_update	'created_on' => "#{Message.table_name}.created_on",
+                'replies' => "#{Message.table_name}.replies_count",
+                'updated_on' => "#{Message.table_name}.updated_on"
       
     @topic_count = @board.topics.count
     @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']

@@ -8,10 +8,10 @@
 
 <table class="list">
   <thead><tr>
-    <%= sort_header_tag("#{Attachment.table_name}.filename", :caption => l(:field_filename)) %>
-    <%= sort_header_tag("#{Attachment.table_name}.created_on", :caption => l(:label_date), :default_order => 'desc') %>
-    <%= sort_header_tag("#{Attachment.table_name}.filesize", :caption => l(:field_filesize), :default_order => 'desc') %>
-    <%= sort_header_tag("#{Attachment.table_name}.downloads", :caption => l(:label_downloads_abbr), :default_order => 'desc') %>
+    <%= sort_header_tag('filename', :caption => l(:field_filename)) %>
+    <%= sort_header_tag('created_on', :caption => l(:label_date), :default_order => 'desc') %>
+    <%= sort_header_tag('size', :caption => l(:field_filesize), :default_order => 'desc') %>
+    <%= sort_header_tag('downloads', :caption => l(:label_downloads_abbr), :default_order => 'desc') %>
     <th>MD5</th>
     <th></th>
   </tr></thead>
