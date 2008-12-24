@@ -203,7 +203,7 @@ label_project_all: 모든 프로젝트
 label_project_latest: 최근 프로젝트
 label_issue: 일감
 label_issue_new: 새 일감만들기
-label_issue_plural: 일감 보기
+label_issue_plural: 일감
 label_issue_view_all: 모든 일감 보기
 label_document: 문서
 label_document_new: 새 문서
@@ -307,7 +307,7 @@ label_none: 없음
 label_next: 다음
 label_previous: 이전
 label_used_by: 사용됨
-label_details: 상세
+label_details: 자세히
 label_add_note: 일감덧글 추가
 label_per_page: 페이지별
 label_calendar: 달력

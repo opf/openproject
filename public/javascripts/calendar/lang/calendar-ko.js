@@ -79,23 +79,23 @@ Calendar._SMN = new Array
 
 // tooltips
 Calendar._TT = {};
-Calendar._TT["INFO"] = "About the calendar";
+Calendar._TT["INFO"] = "이 달력은 ... & 도움말";
 
 Calendar._TT["ABOUT"] =
-"DHTML Date/Time Selector\n" +
+"DHTML 날짜/시간 선택기\n" +
 "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" + // don't translate this this ;-)
-"For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
-"Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
+"최신 버전을 구하려면 여기로: http://www.dynarch.com/projects/calendar/\n" +
+"배포라이센스:GNU LGPL.  참조:http://gnu.org/licenses/lgpl.html for details." +
 "\n\n" +
-"Date selection:\n" +
-"- Use the \xab, \xbb buttons to select year\n" +
-"- Use the " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " buttons to select month\n" +
-"- Hold mouse button on any of the above buttons for faster selection.";
+"날짜 선택:\n" +
+"- 해를 선택하려면 \xab, \xbb 버튼을 사용하세요.\n" +
+"- 달을 선택하려면 " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " 버튼을 사용하세요.\n" +
+"- 좀 더 빠르게 선택하려면 위의 버튼을 꾹 눌러주세요.";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
-"Time selection:\n" +
-"- Click on any of the time parts to increase it\n" +
-"- or Shift-click to decrease it\n" +
-"- or click and drag for faster selection.";
+"시간 선택:\n" +
+"- 시, 분을 더하려면 클릭하세요.\n" +
+"- 시, 분을 빼려면  쉬프트 누르고 클릭하세요.\n" +
+"- 좀 더 빠르게 선택하려면 클릭하고 드래그하세요.";
 
 Calendar._TT["PREV_YEAR"] = "이전 해";
 Calendar._TT["PREV_MONTH"] = "이전 달";
@@ -117,11 +117,11 @@ Calendar._TT["WEEKEND"] = "0,6";
 
 Calendar._TT["CLOSE"] = "닫기";
 Calendar._TT["TODAY"] = "오늘";
-Calendar._TT["TIME_PART"] = "(Shift-)클릭 or drag to change value";
+Calendar._TT["TIME_PART"] = "클릭(+),쉬프트+클릭(-),드래그";
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
 Calendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
 
 Calendar._TT["WK"] = "주";
-Calendar._TT["TIME"] = "Time:";
+Calendar._TT["TIME"] = "시간:";
