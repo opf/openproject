@@ -104,8 +104,8 @@ field_name: Nome
 field_description: Descrição
 field_summary: Sumário
 field_is_required: Obrigatório
-field_firstname: Nome próprio
-field_lastname: Último nome
+field_firstname: Nome
+field_lastname: Apelido
 field_mail: E-mail
 field_filename: Ficheiro
 field_filesize: Tamanho
@@ -141,7 +141,7 @@ field_is_public: Público
 field_parent: Sub-projecto de
 field_is_in_chlog: Tarefas mostradas no changelog
 field_is_in_roadmap: Tarefas mostradas no roadmap
-field_login: Login
+field_login: Nome de utilizador
 field_mail_notification: Notificações por e-mail
 field_admin: Administrador
 field_last_login_on: Última visita
@@ -224,7 +224,7 @@ setting_mail_handler_api_key: Chave da API
 setting_sequential_project_identifiers: Gerar identificadores de projecto sequênciais
 
 project_module_issue_tracking: Tarefas
-project_module_time_tracking: Contagem de tempo
+project_module_time_tracking: Registo de tempo
 project_module_news: Notícias
 project_module_documents: Documentos
 project_module_files: Ficheiros
@@ -440,7 +440,7 @@ label_issue_tracking: Tarefas
 label_spent_time: Tempo gasto
 label_f_hour: %.2f hora
 label_f_hour_plural: %.2f horas
-label_time_tracking: Contagem de tempo
+label_time_tracking: Registo de tempo
 label_change_plural: Mudanças
 label_statistics: Estatísticas
 label_commits_per_month: Commits por mês
@@ -551,7 +551,7 @@ button_move: Mover
 button_back: Voltar
 button_cancel: Cancelar
 button_activate: Activar
-button_sort: Ordernar
+button_sort: Ordenar
 button_log_time: Tempo de trabalho
 button_rollback: Voltar para esta versão
 button_watch: Observar
@@ -588,7 +588,7 @@ text_tip_task_begin_end_day: tarefa a começar e acabar neste dia
 text_project_identifier_info: 'Apenas são permitidos letras minúsculas (a-z), números e hífens.<br />Uma vez guardado, o identificador não poderá ser alterado.'
 text_caracters_maximum: máximo %d caracteres.
 text_caracters_minimum: Deve ter pelo menos %d caracteres.
-text_length_between: Deve ter entre %d and %d caracteres.
+text_length_between: Deve ter entre %d e %d caracteres.
 text_tracker_no_workflow: Sem workflow definido para este tipo de tarefa.
 text_unallowed_characters: Caracteres não permitidos
 text_comma_separated: Permitidos múltiplos valores (separados por vírgula).
@@ -641,60 +641,60 @@ default_activity_development: Desenvolvimento
 
 enumeration_issue_priorities: Prioridade de tarefas
 enumeration_doc_categories: Categorias de documentos
-enumeration_activities: Actividades (Contagem de tempo)
-setting_plain_text_mail: plain text only (no HTML)
-permission_view_files: View files
-permission_edit_issues: Edit issues
-permission_edit_own_time_entries: Edit own time logs
-permission_manage_public_queries: Manage public queries
-permission_add_issues: Add issues
-permission_log_time: Log spent time
-permission_view_changesets: View changesets
-permission_view_time_entries: View spent time
-permission_manage_versions: Manage versions
-permission_manage_wiki: Manage wiki
-permission_manage_categories: Manage issue categories
-permission_protect_wiki_pages: Protect wiki pages
-permission_comment_news: Comment news
-permission_delete_messages: Delete messages
-permission_select_project_modules: Select project modules
-permission_manage_documents: Manage documents
-permission_edit_wiki_pages: Edit wiki pages
-permission_add_issue_watchers: Add watchers
-permission_view_gantt: View gantt chart
-permission_move_issues: Move issues
-permission_manage_issue_relations: Manage issue relations
-permission_delete_wiki_pages: Delete wiki pages
-permission_manage_boards: Manage boards
-permission_delete_wiki_pages_attachments: Delete attachments
-permission_view_wiki_edits: View wiki history
-permission_add_messages: Post messages
-permission_view_messages: View messages
-permission_manage_files: Manage files
-permission_edit_issue_notes: Edit notes
-permission_manage_news: Manage news
-permission_view_calendar: View calendrier
-permission_manage_members: Manage members
-permission_edit_messages: Edit messages
-permission_delete_issues: Delete issues
-permission_view_issue_watchers: View watchers list
-permission_manage_repository: Manage repository
-permission_commit_access: Commit access
-permission_browse_repository: Browse repository
-permission_view_documents: View documents
-permission_edit_project: Edit project
-permission_add_issue_notes: Add notes
-permission_save_queries: Save queries
-permission_view_wiki_pages: View wiki
-permission_rename_wiki_pages: Rename wiki pages
-permission_edit_time_entries: Edit time logs
-permission_edit_own_issue_notes: Edit own notes
-setting_gravatar_enabled: Use Gravatar user icons
-label_example: Example
-text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-permission_edit_own_messages: Edit own messages
-permission_delete_own_messages: Delete own messages
-label_user_activity: "%s's activity"
-label_updated_time_by: Updated by %s %s ago
-text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-setting_diff_max_lines_displayed: Max number of diff lines displayed
+enumeration_activities: Actividades (Registo de tempo)
+setting_plain_text_mail: Apenas texto simples (sem HTML)
+permission_view_files: Ver ficheiros
+permission_edit_issues: Editar tarefas
+permission_edit_own_time_entries: Editar horas pessoais
+permission_manage_public_queries: Gerir queries públicas
+permission_add_issues: Adicionar tarefas
+permission_log_time: Registar tempo gasto
+permission_view_changesets: Ver changesets
+permission_view_time_entries: Ver tempo gasto
+permission_manage_versions: Gerir versões
+permission_manage_wiki: Gerir wiki
+permission_manage_categories: Gerir categorias de tarefas
+permission_protect_wiki_pages: Proteger páginas de wiki
+permission_comment_news: Comentar notícias
+permission_delete_messages: Apagar mensagens
+permission_select_project_modules: Seleccionar módulos do projecto
+permission_manage_documents: Gerir documentos
+permission_edit_wiki_pages: Editar páginas de wiki
+permission_add_issue_watchers: Adicionar observadores
+permission_view_gantt: ver diagrama de Gantt
+permission_move_issues: Mover tarefas
+permission_manage_issue_relations: Gerir relações de tarefas
+permission_delete_wiki_pages: Apagar páginas de wiki
+permission_manage_boards: Gerir forums
+permission_delete_wiki_pages_attachments: Apagar anexos
+permission_view_wiki_edits: Ver histórico da wiki
+permission_add_messages: Submeter mensagens
+permission_view_messages: Ver mensagens
+permission_manage_files: Gerir ficheiros
+permission_edit_issue_notes: Editar notas de tarefas
+permission_manage_news: Gerir notícias
+permission_view_calendar: Ver calendário
+permission_manage_members: Gerir membros
+permission_edit_messages: Editar mensagens
+permission_delete_issues: Apagar tarefas
+permission_view_issue_watchers: Ver lista de observadores
+permission_manage_repository: Gerir repositório
+permission_commit_access: Acesso a submissão
+permission_browse_repository: Navegar em repositório
+permission_view_documents: Ver documentos
+permission_edit_project: Editar projecto
+permission_add_issue_notes: Adicionar notas a tarefas
+permission_save_queries: Guardar queries
+permission_view_wiki_pages: Ver wiki
+permission_rename_wiki_pages: Renomear páginas de wiki
+permission_edit_time_entries: Editar entradas de tempo
+permission_edit_own_issue_notes: Editar as prórpias notas
+setting_gravatar_enabled: Utilizar icons Gravatar
+label_example: Exemplo
+text_repository_usernames_mapping: "Seleccionar ou actualizar o utilizador de Redmine mapeado a cada nome de utilizador encontrado no repositório.\nUtilizadores com o mesmo nome de utilizador ou email no Redmine e no repositório são mapeados automaticamente."
+permission_edit_own_messages: Editar as próprias mensagens
+permission_delete_own_messages: Apagar as próprias mensagens
+label_user_activity: "Actividade de %s"
+label_updated_time_by: Actualizado por %s há %s
+text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser mostrado.'
+setting_diff_max_lines_displayed: Número máximo de linhas de diff mostradas
