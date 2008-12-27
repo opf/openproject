@@ -84,7 +84,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
-          entries.sort_by_name
+          entries.compact.sort_by_name
         end
     
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
@@ -148,15 +148,22 @@ module Redmine
         end
 
         private
-                
+        
+        # Returns an Entry from the given XML element
+        # or nil if the entry was deleted
         def entry_from_xml(element, path_prefix)
+          modified_element = element.elements['modified']
+          if modified_element.elements['modified_how'].text.match(/removed/)
+            return nil
+          end
+          
           Entry.new({:name => element.attributes['name'],
                      :path => path_prefix + element.attributes['name'],
                      :kind => element.name == 'file' ? 'file' : 'dir',
                      :size => nil,
                      :lastrev => Revision.new({
                        :identifier => nil,
-                       :scmid => element.elements['modified'].elements['patch'].attributes['hash']
+                       :scmid => modified_element.elements['patch'].attributes['hash']
                        })
                      })        
         end
