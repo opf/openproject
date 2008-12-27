@@ -64,7 +64,7 @@ class MessagesControllerTest < Test::Unit::TestCase
   def test_post_new
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'message_posted'
+    Setting.notified_events = ['message_posted']
     
     post :new, :board_id => 1,
                :message => { :subject => 'Test created message',

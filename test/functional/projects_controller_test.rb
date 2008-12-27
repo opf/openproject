@@ -117,7 +117,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_add_file
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
-    Setting.notified_events << 'file_added'
+    Setting.notified_events = ['file_added']
     ActionMailer::Base.deliveries.clear
     
     assert_difference 'Attachment.count' do
@@ -138,7 +138,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_add_version_file
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
-    Setting.notified_events << 'file_added'
+    Setting.notified_events = ['file_added']
     
     assert_difference 'Attachment.count' do
       post :add_file, :id => 1, :version_id => '2',
