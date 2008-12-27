@@ -84,14 +84,14 @@ module SortHelper
     session[@sort_name] = sort
     
     sort_column = (sort_keys.is_a?(Hash) ? sort_keys[sort[:key]] : sort[:key])
-    @sort_clause = (sort_column.blank? ? '' : "#{sort_column} #{sort[:order]}")
+    @sort_clause = (sort_column.blank? ? nil : "#{sort_column} #{sort[:order]}")
   end
 
   # Returns an SQL sort clause corresponding to the current sort state.
   # Use this to sort the controller's table items collection.
   #
   def sort_clause()
-    @sort_clause || '' #session[@sort_name][:key] + ' ' + (session[@sort_name][:order] || 'ASC')
+    @sort_clause
   end
 
   # Returns a link which sorts by the named column.
