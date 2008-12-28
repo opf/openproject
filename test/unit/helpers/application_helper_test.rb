@@ -251,7 +251,10 @@ EXPECTED
   
   def test_text_formatting
     to_test = {'*_+bold, italic and underline+_*' => '<strong><em><ins>bold, italic and underline</ins></em></strong>',
-               '(_text within parentheses_)' => '(<em>text within parentheses</em>)'
+               '(_text within parentheses_)' => '(<em>text within parentheses</em>)',
+               'a *Humane Web* Text Generator' => 'a <strong>Humane Web</strong> Text Generator',
+               'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
+               'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
               }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
