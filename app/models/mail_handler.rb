@@ -93,11 +93,10 @@ class MailHandler < ActionMailer::Base
     issue.save!
     add_attachments(issue)
     logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger && logger.info
-    # send notification before adding watchers since they were cc'ed
-    Mailer.deliver_issue_add(issue) if Setting.notified_events.include?('issue_added')
     # add To and Cc as watchers
     add_watchers(issue)
-    
+    # send notification after adding watchers so that they can reply to Redmine
+    Mailer.deliver_issue_add(issue) if Setting.notified_events.include?('issue_added')
     issue
   end
   
