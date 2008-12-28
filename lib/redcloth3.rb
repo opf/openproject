@@ -470,8 +470,7 @@ class RedCloth3 < String
             style << "vertical-align:#{ v_align( $& ) };" if text =~ A_VLGN
         end
 
-        style << "#{ htmlesc $1 };" if not filter_styles and
-            text.sub!( /\{([^}]*)\}/, '' )
+        style << "#{ htmlesc $1 };" if text.sub!( /\{([^}]*)\}/, '' ) && !filter_styles
 
         lang = $1 if
             text.sub!( /\[([^)]+?)\]/, '' )

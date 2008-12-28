@@ -30,6 +30,7 @@ module Redmine
           super
           self.hard_breaks=true
           self.no_span_caps=true
+          self.filter_styles=true
         end
         
         def to_html(*rules, &block)
