@@ -632,7 +632,7 @@ setting_autofetch_changesets: Automatyczne pobieranie zmian
 setting_autologin: Auto logowanie
 setting_bcc_recipients: Odbiorcy kopii tajnej (kt/bcc)
 setting_commit_fix_keywords: Słowa zmieniające status
-setting_commit_logs_encoding: Zatwierdź kodowanie wiadomości
+setting_commit_logs_encoding: Kodowanie komentarzy zatwierdzeń
 setting_commit_ref_keywords: Słowa tworzące powiązania
 setting_cross_project_issue_relations: Zezwól na powiązania zagadnień między projektami
 setting_date_format: Format daty

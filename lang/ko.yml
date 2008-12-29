@@ -97,7 +97,7 @@ field_mail: 메일
 field_filename: 파일
 field_filesize: 크기
 field_downloads: 다운로드
-field_author: 보고자
+field_author: 저자
 field_created_on: 보고시간
 field_updated_on: 변경시간
 field_field_format: 포맷
@@ -243,7 +243,7 @@ label_administration: 관리자
 label_login: 로그인
 label_logout: 로그아웃
 label_help: 도움말
-label_reported_issues: 보고된 일감
+label_reported_issues: 보고한 일감
 label_assigned_to_me_issues: 나에게 할당된 일감
 label_last_login: 최종 접속
 label_last_updates: 최종 변경 내역
