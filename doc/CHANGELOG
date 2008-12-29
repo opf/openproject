@@ -10,6 +10,7 @@ http://www.redmine.org/
 * Setting added in order to limit the number of diff lines that should be displayed
 * Makes logged-in username in topbar linking to
 * Mail handler: strip tags when receiving a html-only email
+* Mail handler: add watchers before sending notification
 * Adds a css class (overdue) to overdue issues on issue lists and detail views
 * Fixed: project activity truncated after viewing user's activity
 * Fixed: email address entered for password recovery shouldn't be case-sensitive
@@ -20,6 +21,10 @@ http://www.redmine.org/
 * Fixed: CVS browser should not show dead revisions (deleted files)
 * Fixed: escape double-quotes in image titles
 * Fixed: escape textarea content when editing a issue note
+* Fixed: JS error on context menu with IE
+* Fixed: bold syntax around single character in series doesn't work
+* Fixed several XSS vulnerabilities
+* Fixed a SQL injection vulnerability
 
 
 == 2008-12-07 v0.8.0-rc1
