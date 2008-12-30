@@ -791,7 +791,10 @@ class RedCloth3 < String
             \s?
             (?:\(([^)]+?)\)(?="))?     # $title
             ":
-            ([\w\/]\S+?)               # $url
+            (                          # $url
+            (\/|https?:\/\/|s?ftps?:\/\/|www\.)
+            [\w\/]\S+?
+            )               
             (\/)?                      # $slash
             ([^\w\=\/;\(\)]*?)         # $post
             (?=<|\s|$)
@@ -799,7 +802,7 @@ class RedCloth3 < String
 #"
     def inline_textile_link( text ) 
         text.gsub!( LINK_RE ) do |m|
-            pre,atts,text,title,url,slash,post = $~[1..7]
+            pre,atts,text,title,url,proto,slash,post = $~[1..8]
 
             url, url_title = check_refs( url )
             title ||= url_title
