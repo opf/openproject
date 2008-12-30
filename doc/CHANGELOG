@@ -5,7 +5,15 @@ Copyright (C) 2006-2008  Jean-Philippe Lang
 http://www.redmine.org/
 
 
-== v0.8.0
+== v0.8.1
+
+* Select watchers on new issue form
+* Files module: ability to add files without version
+* Show view/annotate/download links on entry and annotate views
+* Fixed: Deleted files are shown when using Darcs
+
+
+== 2008-12-30 v0.8.0
 
 * Setting added in order to limit the number of diff lines that should be displayed
 * Makes logged-in username in topbar linking to
