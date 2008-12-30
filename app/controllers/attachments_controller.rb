@@ -35,7 +35,9 @@ class AttachmentsController < ApplicationController
   end
   
   def download
-    @attachment.increment_download if @attachment.container.is_a?(Version)
+    if @attachment.container.is_a?(Version) || @attachment.container.is_a?(Project)
+      @attachment.increment_download
+    end
     
     # images are sent inline
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
