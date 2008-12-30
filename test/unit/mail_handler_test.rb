@@ -28,7 +28,9 @@ class MailHandlerTest < Test::Unit::TestCase
                    :trackers,
                    :projects_trackers,
                    :enumerations,
-                   :issue_categories
+                   :issue_categories,
+                   :custom_fields,
+                   :custom_fields_trackers
   
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
   
@@ -100,6 +102,15 @@ class MailHandlerTest < Test::Unit::TestCase
     assert_equal 'Paella.jpg', issue.attachments.first.filename
     assert_equal 'image/jpeg', issue.attachments.first.content_type
     assert_equal 10790, issue.attachments.first.filesize
+  end
+  
+  def test_add_issue_with_custom_fields
+    issue = submit_email('ticket_with_custom_fields.eml', :issue => {:project => 'onlinestore'})
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'New ticket with custom field values', issue.subject
+    assert_equal 'Value for a custom field', issue.custom_value_for(CustomField.find_by_name('Searchable field')).value
   end
   
   def test_add_issue_with_cc
