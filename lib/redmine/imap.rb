@@ -1,4 +1,4 @@
-# redMine - project management software
+# Redmine - project management software
 # Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
@@ -33,9 +33,18 @@ module Redmine
           msg = imap.fetch(message_id,'RFC822')[0].attr['RFC822']
           logger.debug "Receiving message #{message_id}" if logger && logger.debug?
           if MailHandler.receive(msg, options)
+            logger.debug "Message #{message_id} successfully received" if logger && logger.debug?
+            if imap_options[:move_on_success]
+              imap.copy(message_id, imap_options[:move_on_success])
+            end
             imap.store(message_id, "+FLAGS", [:Seen, :Deleted])
           else
+            logger.debug "Message #{message_id} can not be processed" if logger && logger.debug?
             imap.store(message_id, "+FLAGS", [:Seen])
+            if imap_options[:move_on_failure]
+              imap.copy(message_id, imap_options[:move_on_failure])
+              imap.store(message_id, "+FLAGS", [:Deleted])
+            end
           end
         end
         imap.expunge

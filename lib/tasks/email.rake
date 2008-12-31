@@ -1,4 +1,4 @@
-# redMine - project management software
+# Redmine - project management software
 # Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
@@ -71,6 +71,11 @@ Issue attributes control options:
   allow_override=ATTRS     allow email content to override attributes
                            specified by previous options
                            ATTRS is a comma separated list of attributes
+                           
+Processed emails control options:
+  move_on_success=MAILBOX  move emails that were successfully received
+                           to MAILBOX instead of deleting them
+  move_on_failure=MAILBOX  move emails that were ignored to MAILBOX
   
 Examples:
   # No project specified. Emails MUST contain the 'Project' keyword:
@@ -95,7 +100,9 @@ END_DESC
                       :ssl => ENV['ssl'],
                       :username => ENV['username'],
                       :password => ENV['password'],
-                      :folder => ENV['folder']}
+                      :folder => ENV['folder'],
+                      :move_on_success => ENV['move_on_success'],
+                      :move_on_failure => ENV['move_on_failure']}
                       
       options = { :issue => {} }
       %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
