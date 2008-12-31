@@ -661,6 +661,7 @@ text_issues_destroy_confirmation: 'Etes-vous sûr de vouloir supprimer le(s) dem
 text_select_project_modules: 'Selectionner les modules à activer pour ce project:'
 text_default_administrator_account_changed: Compte administrateur par défaut changé
 text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
+text_plugin_assets_writable: Répertoire public des plugins accessible en écriture
 text_rmagick_available: Bibliothèque RMagick présente (optionnelle)
 text_destroy_time_entries_question: %.02f heures ont été enregistrées sur les demandes à supprimer. Que voulez-vous faire ?
 text_destroy_time_entries: Supprimer les heures

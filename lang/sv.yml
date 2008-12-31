@@ -696,4 +696,4 @@ default_activity_development: Utveckling
 
 enumeration_issue_priorities: Ärendeprioriteter
 enumeration_doc_categories: Dokumentkategorier
-enumeration_activities: Aktiviteter (tidsuppföljning)
+enumeration_activities: Aktiviteter (tidsuppföljning)text_plugin_assets_writable: Plugin assets directory writable

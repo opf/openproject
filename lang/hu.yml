@@ -697,3 +697,4 @@ label_user_activity: "%s tevékenységei"
 label_updated_time_by: "Módosította %s ennyivel ezelőtt: %s"
 text_diff_truncated: '... A diff fájl vége nem jelenik meg, mert hosszab, mint a megjeleníthető sorok száma.'
 setting_diff_max_lines_displayed: A megjelenítendő sorok száma (maximum) a diff fájloknál
+text_plugin_assets_writable: Plugin assets directory writable

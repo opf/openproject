@@ -698,3 +698,4 @@ default_activity_development: Vystymas
 enumeration_issue_priorities: Darbo prioritetai
 enumeration_doc_categories: Dokumento kategorijos
 enumeration_activities: Veiklos (laiko sekimas)
+text_plugin_assets_writable: Plugin assets directory writable
