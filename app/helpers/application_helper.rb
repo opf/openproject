@@ -147,6 +147,15 @@ module ApplicationHelper
     end
     content
   end
+  
+  # Renders flash messages
+  def render_flash_messages
+    s = ''
+    flash.each do |k,v|
+      s << content_tag('div', v, :class => "flash #{k}")
+    end
+    s
+  end
 
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)
