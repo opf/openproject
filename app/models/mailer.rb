@@ -40,6 +40,7 @@ class Mailer < ActionMailer::Base
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+    @author = journal.user
     recipients issue.recipients
     # Watchers in cc
     cc(issue.watcher_recipients - @recipients)
@@ -209,9 +210,10 @@ class Mailer < ActionMailer::Base
   def create_mail
     # Removes the current user from the recipients and cc
     # if he doesn't want to receive notifications about what he does
-    if User.current.pref[:no_self_notified]
-      recipients.delete(User.current.mail) if recipients
-      cc.delete(User.current.mail) if cc
+    @author ||= User.current
+    if @author.pref[:no_self_notified]
+      recipients.delete(@author.mail) if recipients
+      cc.delete(@author.mail) if cc
     end
     # Blind carbon copy recipients
     if Setting.bcc_recipients?
