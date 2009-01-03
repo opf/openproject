@@ -314,6 +314,14 @@ div.flash.notice {
 	color: #005f00;
 }
 
+div.flash.warning {
+  background: url(../images/warning.png) 8px 5px no-repeat;
+	background-color: #FFEBC1;
+	border-color: #FDBF3B;
+	color: #A6750C;
+  text-align: left;
+}
+
 .nodata, .warning {
     text-align: center;
 	background-color: #FFEBC1;

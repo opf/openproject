@@ -85,6 +85,8 @@ error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt
 error_scm_annotate: "L'entrée n'existe pas ou ne peut pas être annotée."
 error_issue_not_found_in_project: "La demande n'existe pas ou n'appartient pas à ce projet"
 
+warning_attachments_not_saved: "%d fichier(s) n'ont pas pu être sauvegardés."
+
 mail_subject_lost_password: Votre mot de passe %s
 mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant:'
 mail_subject_register: Activation de votre compte %s

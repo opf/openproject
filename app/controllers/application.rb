@@ -175,6 +175,7 @@ class ApplicationController < ActionController::Base
   # TODO: move to model
   def attach_files(obj, attachments)
     attached = []
+    unsaved = []
     if attachments && attachments.is_a?(Hash)
       attachments.each_value do |attachment|
         file = attachment['file']
@@ -183,7 +184,10 @@ class ApplicationController < ActionController::Base
                               :file => file,
                               :description => attachment['description'].to_s.strip,
                               :author => User.current)
-        attached << a unless a.new_record?
+        a.new_record? ? (unsaved << a) : (attached << a)
+      end
+      if unsaved.any?
+        flash[:warning] = l(:warning_attachments_not_saved, unsaved.size)
       end
     end
     attached

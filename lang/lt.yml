@@ -699,3 +699,4 @@ enumeration_issue_priorities: Darbo prioritetai
 enumeration_doc_categories: Dokumento kategorijos
 enumeration_activities: Veiklos (laiko sekimas)
 text_plugin_assets_writable: Plugin assets directory writable
+warning_attachments_not_saved: "%d file(s) could not be saved."

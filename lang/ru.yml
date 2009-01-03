@@ -731,3 +731,4 @@ text_wiki_destroy_confirmation: Вы уверены, что хотите уда�
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
 text_plugin_assets_writable: Plugin assets directory writable
+warning_attachments_not_saved: "%d file(s) could not be saved."

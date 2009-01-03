@@ -697,3 +697,4 @@ label_updated_time_by: %s가 %s 전에 변경
 text_diff_truncated: '... 이 차이점은 표시할 수 있는 최대 줄수를 초과해서 이 차이점은 잘렸습니다.'
 setting_diff_max_lines_displayed: 차이점보기에 표시할 최대 줄수
 text_plugin_assets_writable: Plugin assets directory writable
+warning_attachments_not_saved: "%d file(s) could not be saved."
