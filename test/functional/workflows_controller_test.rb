@@ -68,7 +68,7 @@ class WorkflowsControllerTest < Test::Unit::TestCase
   
   def test_post_edit
     post :edit, :role_id => 2, :tracker_id => 1, :issue_status => {'4' => ['5'], '3' => ['1', '2']}
-    assert_redirected_to 'workflows/edit'
+    assert_redirected_to '/workflows/edit?role_id=2&tracker_id=1'
     
     assert_equal 3, Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2})
     assert_not_nil  Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2})

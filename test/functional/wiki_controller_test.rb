@@ -210,7 +210,7 @@ class WikiControllerTest < Test::Unit::TestCase
     assert page.protected?
     @request.session[:user_id] = 2
     post :protect, :id => 1, :page => page.title, :protected => '0'
-    assert_redirected_to 'wiki/ecookbook'
+    assert_redirected_to '/wiki/ecookbook/CookBook_documentation'
     assert !page.reload.protected?
   end
   

@@ -301,7 +301,7 @@ class IssuesControllerTest < Test::Unit::TestCase
                           :priority_id => 5,
                           :estimated_hours => '',
                           :custom_field_values => {'2' => 'Value for field 2'}}
-    assert_redirected_to 'issues/show'
+    assert_redirected_to :controller => 'issues', :action => 'show'
     
     issue = Issue.find_by_subject('This is the test_new issue')
     assert_not_nil issue
@@ -320,7 +320,7 @@ class IssuesControllerTest < Test::Unit::TestCase
                           :subject => 'This is the test_new issue',
                           :description => 'This is the description',
                           :priority_id => 5}
-    assert_redirected_to 'issues/show'
+    assert_redirected_to :controller => 'issues', :action => 'show'
   end
   
   def test_post_new_with_required_custom_field_and_without_custom_fields_param
@@ -352,9 +352,10 @@ class IssuesControllerTest < Test::Unit::TestCase
                             :priority_id => 5,
                             :watcher_user_ids => ['2', '3']}
     end
-    assert_redirected_to 'issues/show'
-    
     issue = Issue.find_by_subject('This is a new issue with watchers')
+    assert_not_nil issue
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
+    
     # Watchers added
     assert_equal [2, 3], issue.watcher_user_ids.sort
     assert issue.watched_by?(User.find(3))
