@@ -20,9 +20,13 @@ module Redmine
     module Textile
       module Helper
         def wikitoolbar_for(field_id)
+          # Is there a simple way to link to a public resource?
+          prefix = (ActionController::Base.respond_to?(:relative_url_root) ? ActionController::Base.relative_url_root : ActionController::AbstractRequest.relative_url_root)
+          url = "#{prefix}/help/wiki_syntax.html"
+          
           help_link = l(:setting_text_formatting) + ': ' +
-            link_to(l(:label_help), compute_public_path('wiki_syntax', 'help', 'html'),
-                    :onclick => "window.open(\"#{ compute_public_path('wiki_syntax', 'help', 'html') }\", \"\", \"resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\"); return false;")
+            link_to(l(:label_help), url,
+                    :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\"); return false;")
       
           javascript_include_tag('jstoolbar/jstoolbar') +
             javascript_include_tag('jstoolbar/textile') +
