@@ -67,8 +67,8 @@ module Redmine
           path = '.' if path.blank?
           entries = Entries.new          
           cmd = "#{DARCS_BIN} annotate --repodir #{@url} --xml-output"
-          cmd << " --match \"hash #{identifier}\"" if identifier
-          cmd << " #{path}"
+          cmd << " --match #{shell_quote("hash #{identifier}")}" if identifier
+          cmd << " #{shell_quote path}"
           shellout(cmd) do |io|
             begin
               doc = REXML::Document.new(io)
@@ -91,7 +91,7 @@ module Redmine
           path = '.' if path.blank?
           revisions = Revisions.new
           cmd = "#{DARCS_BIN} changes --repodir #{@url} --xml-output"
-          cmd << " --from-match \"hash #{identifier_from}\"" if identifier_from
+          cmd << " --from-match #{shell_quote("hash #{identifier_from}")}" if identifier_from
           cmd << " --last #{options[:limit].to_i}" if options[:limit]
           shellout(cmd) do |io|
             begin
@@ -118,12 +118,12 @@ module Redmine
           path = '*' if path.blank?
           cmd = "#{DARCS_BIN} diff --repodir #{@url}"
           if identifier_to.nil?
-            cmd << " --match \"hash #{identifier_from}\""
+            cmd << " --match #{shell_quote("hash #{identifier_from}")}"
           else
-            cmd << " --to-match \"hash #{identifier_from}\""
-            cmd << " --from-match \"hash #{identifier_to}\""
+            cmd << " --to-match #{shell_quote("hash #{identifier_from}")}"
+            cmd << " --from-match #{shell_quote("hash #{identifier_to}")}"
           end
-          cmd << " -u #{path}"
+          cmd << " -u #{shell_quote path}"
           diff = []
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -136,7 +136,7 @@ module Redmine
         
         def cat(path, identifier=nil)
           cmd = "#{DARCS_BIN} show content --repodir #{@url}"
-          cmd << " --match \"hash #{identifier}\"" if identifier
+          cmd << " --match #{shell_quote("hash #{identifier}")}" if identifier
           cmd << " #{shell_quote path}"
           cat = nil
           shellout(cmd) do |io|
@@ -171,7 +171,7 @@ module Redmine
         # Retrieve changed paths for a single patch
         def get_paths_for_patch(hash)
           cmd = "#{DARCS_BIN} annotate --repodir #{@url} --summary --xml-output"
-          cmd << " --match \"hash #{hash}\" "
+          cmd << " --match #{shell_quote("hash #{hash}")} "
           paths = []
           shellout(cmd) do |io|
             begin
