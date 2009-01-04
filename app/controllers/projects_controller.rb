@@ -33,8 +33,6 @@ class ProjectsController < ApplicationController
   include SortHelper
   helper :custom_fields
   include CustomFieldsHelper   
-  helper :ifpdf
-  include IfpdfHelper
   helper :issues
   helper IssuesHelper
   helper :queries

@@ -177,16 +177,16 @@ class IssuesControllerTest < Test::Unit::TestCase
   def test_gantt_export_to_pdf
     get :gantt, :project_id => 1, :format => 'pdf'
     assert_response :success
-    assert_template 'gantt.rfpdf'
     assert_equal 'application/pdf', @response.content_type
+    assert @response.body.starts_with?('%PDF')
     assert_not_nil assigns(:gantt)
   end
 
   def test_cross_project_gantt_export_to_pdf
     get :gantt, :format => 'pdf'
     assert_response :success
-    assert_template 'gantt.rfpdf'
     assert_equal 'application/pdf', @response.content_type
+    assert @response.body.starts_with?('%PDF')
     assert_not_nil assigns(:gantt)
   end
   
@@ -250,6 +250,14 @@ class IssuesControllerTest < Test::Unit::TestCase
                :descendant => { :tag => 'fieldset',
                                 :child => { :tag => 'legend', 
                                             :content => /Notes/ } }
+  end
+
+  def test_show_export_to_pdf
+    get :show, :id => 1, :format => 'pdf'
+    assert_response :success
+    assert_equal 'application/pdf', @response.content_type
+    assert @response.body.starts_with?('%PDF')
+    assert_not_nil assigns(:issue)
   end
 
   def test_get_new

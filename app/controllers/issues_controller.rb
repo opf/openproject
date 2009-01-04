@@ -30,8 +30,6 @@ class IssuesController < ApplicationController
   include ProjectsHelper   
   helper :custom_fields
   include CustomFieldsHelper
-  helper :ifpdf
-  include IfpdfHelper
   helper :issue_relations
   include IssueRelationsHelper
   helper :watchers
@@ -43,6 +41,7 @@ class IssuesController < ApplicationController
   include SortHelper
   include IssuesHelper
   helper :timelog
+  include Redmine::Export::PDF
 
   def index
     retrieve_query
@@ -68,7 +67,7 @@ class IssuesController < ApplicationController
         format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
-        format.pdf  { send_data(render(:template => 'issues/index.rfpdf', :layout => false), :type => 'application/pdf', :filename => 'export.pdf') }
+        format.pdf  { send_data(issues_to_pdf(@issues, @project), :type => 'application/pdf', :filename => 'export.pdf') }
       end
     else
       # Send html if the query is not valid
@@ -106,7 +105,7 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml' }
       format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
-      format.pdf  { send_data(render(:template => 'issues/show.rfpdf', :layout => false), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
+      format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
   end
 
@@ -346,7 +345,7 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.html { render :template => "issues/gantt.rhtml", :layout => !request.xhr? }
       format.png  { send_data(@gantt.to_image, :disposition => 'inline', :type => 'image/png', :filename => "#{@project.identifier}-gantt.png") } if @gantt.respond_to?('to_image')
-      format.pdf  { send_data(render(:template => "issues/gantt.rfpdf", :layout => false), :type => 'application/pdf', :filename => "#{@project.nil? ? '' : "#{@project.identifier}-" }gantt.pdf") }
+      format.pdf  { send_data(gantt_to_pdf(@gantt, @project), :type => 'application/pdf', :filename => "#{@project.nil? ? '' : "#{@project.identifier}-" }gantt.pdf") }
     end
   end
   
