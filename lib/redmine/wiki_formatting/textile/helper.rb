@@ -21,8 +21,7 @@ module Redmine
       module Helper
         def wikitoolbar_for(field_id)
           # Is there a simple way to link to a public resource?
-          prefix = (ActionController::Base.respond_to?(:relative_url_root) ? ActionController::Base.relative_url_root : ActionController::AbstractRequest.relative_url_root)
-          url = "#{prefix}/help/wiki_syntax.html"
+          url = "#{Redmine::Utils.relative_url_root}/help/wiki_syntax.html"
           
           help_link = l(:setting_text_formatting) + ': ' +
             link_to(l(:label_help), url,

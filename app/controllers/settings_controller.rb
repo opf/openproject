@@ -41,7 +41,7 @@ class SettingsController < ApplicationController
     @deliveries = ActionMailer::Base.perform_deliveries
 
     @guessed_host_and_path = request.host_with_port
-    @guessed_host_and_path << ('/'+ request.relative_url_root.gsub(%r{^\/}, '')) unless request.relative_url_root.blank?
+    @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
   end
 
   def plugin

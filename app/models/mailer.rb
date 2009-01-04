@@ -191,7 +191,7 @@ class Mailer < ActionMailer::Base
     
     # URL options
     h = Setting.host_name
-    h = h.to_s.gsub(%r{\/.*$}, '') unless ActionController::AbstractRequest.relative_url_root.blank?
+    h = h.to_s.gsub(%r{\/.*$}, '') unless Redmine::Utils.relative_url_root.blank?
     default_url_options[:host] = h
     default_url_options[:protocol] = Setting.protocol
     
@@ -226,7 +226,7 @@ class Mailer < ActionMailer::Base
 
   # Renders a message with the corresponding layout
   def render_message(method_name, body)
-    layout = method_name.match(%r{text\.html\.(rhtml|rxml)}) ? 'layout.text.html.rhtml' : 'layout.text.plain.rhtml'
+    layout = method_name.to_s.match(%r{text\.html\.(rhtml|rxml)}) ? 'layout.text.html.rhtml' : 'layout.text.plain.rhtml'
     body[:content_for_layout] = render(:file => method_name, :body => body)
     ActionView::Base.new(template_root, body, self).render(:file => "mailer/#{layout}", :use_full_path => true)
   end

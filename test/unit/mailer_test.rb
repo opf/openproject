@@ -40,11 +40,11 @@ class MailerTest < Test::Unit::TestCase
   end
   
   def test_generated_links_with_prefix
-    relative_url_root = ActionController::AbstractRequest.relative_url_root
+    relative_url_root = Redmine::Utils.relative_url_root
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
-    ActionController::AbstractRequest.relative_url_root = '/rdm'
+    Redmine::Utils.relative_url_root = '/rdm'
     
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal)
@@ -60,15 +60,15 @@ class MailerTest < Test::Unit::TestCase
     assert mail.body.include?('<a href="http://mydomain.foo/rdm/repositories/revision/ecookbook/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
   ensure
     # restore it
-    ActionController::AbstractRequest.relative_url_root = relative_url_root
+    Redmine::Utils.relative_url_root = relative_url_root
   end
   
   def test_generated_links_with_prefix_and_no_relative_url_root
-    relative_url_root = ActionController::AbstractRequest.relative_url_root
+    relative_url_root = Redmine::Utils.relative_url_root
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
-    ActionController::AbstractRequest.relative_url_root = nil
+    Redmine::Utils.relative_url_root = nil
     
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal)
@@ -84,7 +84,7 @@ class MailerTest < Test::Unit::TestCase
     assert mail.body.include?('<a href="http://mydomain.foo/rdm/repositories/revision/ecookbook/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
   ensure
     # restore it
-    ActionController::AbstractRequest.relative_url_root = relative_url_root
+    Redmine::Utils.relative_url_root = relative_url_root
   end
 
   def test_plain_text_mail
