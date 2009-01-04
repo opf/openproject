@@ -55,6 +55,27 @@ module Redmine
         def SetFontStyle(style, size)
           SetFont(@font_for_content, style, size)
         end
+        
+        def SetTitle(txt)
+          txt = begin
+            utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
+            hextxt = "<FEFF"  # FEFF is BOM
+            hextxt << utf16txt.unpack("C*").map {|x| sprintf("%02X",x) }.join
+            hextxt << ">"
+          rescue
+            txt
+          end || ''
+          super(txt)
+        end
+    
+        def textstring(s)
+          # Format a text string
+          if s =~ /^</  # This means the string is hex-dumped.
+            return s
+          else
+            return '('+escape(s)+')'
+          end
+        end
           
         def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
