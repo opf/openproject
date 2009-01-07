@@ -369,16 +369,16 @@ class IssuesControllerTest < Test::Unit::TestCase
     @request.session[:user_id] = 2
     post :new, :project_id => 1, 
                :issue => {:tracker_id => 1,
-                          :subject => 'This is the test_new issue',
-                          # empty description
-                          :description => '',
+                          # empty subject
+                          :subject => '',
+                          :description => 'This is a description',
                           :priority_id => 6,
                           :custom_field_values => {'1' => 'Oracle', '2' => 'Value for field 2'}}
     assert_response :success
     assert_template 'new'
     
-    assert_tag :input, :attributes => { :name => 'issue[subject]',
-                                        :value => 'This is the test_new issue' }
+    assert_tag :textarea, :attributes => { :name => 'issue[description]' },
+                          :content => 'This is a description'
     assert_tag :select, :attributes => { :name => 'issue[priority_id]' },
                         :child => { :tag => 'option', :attributes => { :selected => 'selected',
                                                                        :value => '6' },
