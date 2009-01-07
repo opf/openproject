@@ -8,7 +8,7 @@
 
 <div id="issue_descr_fields" <%= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
-<p><%= f.text_area :description, :required => true,
+<p><%= f.text_area :description,
                    :cols => 60,
                    :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),

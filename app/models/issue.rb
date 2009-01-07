@@ -45,7 +45,7 @@ class Issue < ActiveRecord::Base
   acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
                             :author_key => :author_id
   
-  validates_presence_of :subject, :description, :priority, :project, :tracker, :author, :status
+  validates_presence_of :subject, :priority, :project, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true

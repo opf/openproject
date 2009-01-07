@@ -59,7 +59,7 @@ end %>
 <hr />
 
 <div class="contextual">
-<%= link_to_remote_if_authorized l(:button_quote), { :url => {:action => 'reply', :id => @issue} }, :class => 'icon icon-comment' %>
+<%= link_to_remote_if_authorized(l(:button_quote), { :url => {:action => 'reply', :id => @issue} }, :class => 'icon icon-comment') unless @issue.description.blank? %>
 </div>
                               
 <p><strong><%=l(:field_description)%></strong></p>
