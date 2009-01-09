@@ -24,7 +24,9 @@ module Redmine #:nodoc:
         def to_hours
           s = self.dup
           s.strip!
-          unless s =~ %r{^[\d\.,]+$}
+          if s =~ %r{^(\d+([.,]\d+)?)h?$}
+            s = $1
+          else
             # 2:30 => 2.5
             s.gsub!(%r{^(\d+):(\d+)$}) { $1.to_i + $2.to_i / 60.0 }
             # 2h30, 2h, 30m => 2.5, 2, 0.5

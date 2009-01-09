@@ -597,6 +597,24 @@ class IssuesControllerTest < Test::Unit::TestCase
     # No email should be sent
     assert ActionMailer::Base.deliveries.empty?
   end
+  
+  def test_post_edit_with_invalid_spent_time
+    @request.session[:user_id] = 2
+    notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
+    
+    assert_no_difference('Journal.count') do
+      post :edit,
+           :id => 1,
+           :notes => notes,
+           :time_entry => {"comments"=>"", "activity_id"=>"", "hours"=>"2z"}
+    end
+    assert_response :success
+    assert_template 'edit'
+    
+    assert_tag :textarea, :attributes => { :name => 'notes' },
+                          :content => notes
+    assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
+  end
 
   def test_bulk_edit
     @request.session[:user_id] = 2
