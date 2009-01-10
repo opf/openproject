@@ -48,6 +48,19 @@ class UserTest < Test::Unit::TestCase
     user.password, user.password_confirmation = "password", "password"
     assert user.save
   end
+  
+  def test_mail_uniqueness_should_not_be_case_sensitive
+    u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    u.login = 'newuser1'
+    u.password, u.password_confirmation = "password", "password"
+    assert u.save
+    
+    u = User.new(:firstname => "new", :lastname => "user", :mail => "newUser@Somenet.foo")
+    u.login = 'newuser2'
+    u.password, u.password_confirmation = "password", "password"
+    assert !u.save
+    assert_equal 'activerecord_error_taken', u.errors.on(:mail)
+  end
 
   def test_update
     assert_equal "admin", @admin.login
