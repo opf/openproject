@@ -45,6 +45,17 @@ class SearchControllerTest < Test::Unit::TestCase
     assert_tag :a, :content => 'Changesets (4)'
   end
   
+  def test_search_issues
+    get :index, :q => 'issue', :issues => 1
+    assert_response :success
+    assert_template 'index'
+    
+    assert assigns(:results).include?(Issue.find(8))
+    assert assigns(:results).include?(Issue.find(5))
+    assert_tag :dt, :attributes => { :class => /issue closed/ },
+                    :child => { :tag => 'a',  :content => /Closed/ }
+  end
+  
   def test_search_project_and_subprojects
     get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
     assert_response :success
