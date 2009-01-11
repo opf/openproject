@@ -175,6 +175,32 @@ class QueryTest < Test::Unit::TestCase
     assert q.has_column?(c)
   end
   
+  def test_sort_by_string_custom_field_asc
+    q = Query.new
+    c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
+    assert c
+    assert c.sortable
+    issues = Issue.find :all,
+                        :include => [ :assigned_to, :status, :tracker, :project, :priority ], 
+                        :conditions => q.statement,
+                        :order => "#{c.sortable} ASC"
+    values = issues.collect {|i| i.custom_value_for(c.custom_field).to_s}
+    assert_equal values.sort, values
+  end
+  
+  def test_sort_by_string_custom_field_desc
+    q = Query.new
+    c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
+    assert c
+    assert c.sortable
+    issues = Issue.find :all,
+                        :include => [ :assigned_to, :status, :tracker, :project, :priority ], 
+                        :conditions => q.statement,
+                        :order => "#{c.sortable} DESC"
+    values = issues.collect {|i| i.custom_value_for(c.custom_field).to_s}
+    assert_equal values.sort.reverse, values
+  end
+  
   def test_label_for
     q = Query.new
     assert_equal 'assigned_to', q.label_for('assigned_to_id')

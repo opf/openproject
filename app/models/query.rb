@@ -35,7 +35,7 @@ class QueryCustomFieldColumn < QueryColumn
 
   def initialize(custom_field)
     self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = false
+    self.sortable = custom_field.order_statement || false
     @cf = custom_field
   end
   

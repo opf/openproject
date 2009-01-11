@@ -30,6 +30,10 @@ class CustomValue < ActiveRecord::Base
     self.value == '1'
   end
   
+  def to_s
+    value.to_s
+  end
+  
 protected
   def validate
     if value.blank?
