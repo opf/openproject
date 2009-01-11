@@ -69,4 +69,16 @@ custom_fields_005:
   is_required: false
   field_format: float
   default_value: ""
+custom_fields_006: 
+  name: Float field
+  min_length: 0
+  regexp: ""
+  is_for_all: true
+  type: IssueCustomField
+  max_length: 0
+  possible_values: ""
+  id: 6
+  is_required: false
+  field_format: float
+  default_value: ""
   

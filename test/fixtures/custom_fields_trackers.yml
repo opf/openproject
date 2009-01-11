@@ -8,3 +8,12 @@ custom_fields_trackers_002:
 custom_fields_trackers_003: 
   custom_field_id: 2
   tracker_id: 3
+custom_fields_trackers_004: 
+  custom_field_id: 6
+  tracker_id: 1
+custom_fields_trackers_005: 
+  custom_field_id: 6
+  tracker_id: 2
+custom_fields_trackers_006: 
+  custom_field_id: 6
+  tracker_id: 3
