@@ -1,46 +1,16 @@
-Creating test repositories
-===================
-
-mkdir tmp/test
-
-Subversion
-----------
-svnadmin create tmp/test/subversion_repository
-gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load tmp/test/subversion_repository
-
-CVS
----
-gunzip < test/fixtures/repositories/cvs_repository.tar.gz | tar -xv -C tmp/test
-
-Bazaar
-------
-gunzip < test/fixtures/repositories/bazaar_repository.tar.gz | tar -xv -C tmp/test
-
-Mercurial
----------
-gunzip < test/fixtures/repositories/mercurial_repository.tar.gz | tar -xv -C tmp/test
-
-Git
----
-gunzip < test/fixtures/repositories/git_repository.tar.gz | tar -xv -C tmp/test
-
-Darcs (2.0+ required)
----------------------
-gunzip < test/fixtures/repositories/darcs_repository.tar.gz | tar -xv -C tmp/test
-
-FileSystem
-----------
-gunzip < test/fixtures/repositories/filesystem_repository.tar.gz | tar -xv -C tmp/test
-
-
 Running Tests
 =============
 
-Run 
+Run `rake --tasks test` to see available tests.
+`rake test` will run the entire testsuite.
 
-  rake --tasks | grep test
 
-to see available tests.
+Creating test repositories
+===================
 
-RAILS_ENV=test rake test will run tests.
+Redmine supports a wide array of different version control systems.
+To test the support, a test repository needs to be created for each of those.
+
+Run `rake --tasks test:scm:setup` for a list of available test-repositories or
+run `rake test:scm:setup:all` to set up all of them
 
