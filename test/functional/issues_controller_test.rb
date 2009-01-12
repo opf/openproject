@@ -253,7 +253,7 @@ class IssuesControllerTest < Test::Unit::TestCase
   end
 
   def test_show_export_to_pdf
-    get :show, :id => 1, :format => 'pdf'
+    get :show, :id => 3, :format => 'pdf'
     assert_response :success
     assert_equal 'application/pdf', @response.content_type
     assert @response.body.starts_with?('%PDF')
