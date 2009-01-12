@@ -147,6 +147,7 @@ class IssuesController < ApplicationController
         attach_files(@issue, params[:attachments])
         flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
+        call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
         redirect_to :controller => 'issues', :action => 'show', :id => @issue
         return
       end		
@@ -193,6 +194,7 @@ class IssuesController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
         end
+        call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
         redirect_to(params[:back_to] || {:action => 'show', :id => @issue})
       end
     end
