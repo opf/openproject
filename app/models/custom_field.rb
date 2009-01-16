@@ -41,8 +41,6 @@ class CustomField < ActiveRecord::Base
   end
   
   def before_validation
-    # remove empty values
-    self.possible_values = self.possible_values.collect{|v| v unless v.empty?}.compact
     # make sure these fields are not searchable
     self.searchable = false if %w(int float date bool).include?(field_format)
     true
@@ -58,6 +56,15 @@ class CustomField < ActiveRecord::Base
     v = CustomValue.new(:custom_field => self.clone, :value => default_value, :customized => nil)
     v.custom_field.is_required = false
     errors.add(:default_value, :activerecord_error_invalid) unless v.valid?
+  end
+  
+  # Makes possible_values accept a multiline string
+  def possible_values=(arg)
+    if arg.is_a?(Array)
+      write_attribute(:possible_values, arg.compact.collect(&:strip).select {|v| !v.blank?})
+    else
+      self.possible_values = arg.to_s.split(/[\n\r]+/)
+    end
   end
   
   # Returns a ORDER BY clause that can used to sort customized

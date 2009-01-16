@@ -49,23 +49,6 @@ function toggle_custom_field_format() {
   }
 }
 
-function addValueField() {
-    var f = $$('p#custom_field_possible_values span');
-    p = document.getElementById("custom_field_possible_values");
-    var v = f[0].cloneNode(true);
-    v.childNodes[0].value = "";
-    p.appendChild(v);
-}
-
-function deleteValueField(e) {
-    var f = $$('p#custom_field_possible_values span');
-    if (f.length == 1) {
-        e.parentNode.childNodes[0].value = "";    
-    } else {
-        Element.remove(e.parentNode);
-    }
-}
-
 //]]>
 </script>
 
@@ -76,11 +59,10 @@ function deleteValueField(e) {
    <%= f.text_field :min_length, :size => 5, :no_label => true %> - 
    <%= f.text_field :max_length, :size => 5, :no_label => true %><br>(<%=l(:text_min_max_length_info)%>)</p>
 <p><%= f.text_field :regexp, :size => 50 %><br>(<%=l(:text_regexp_info)%>)</p>
-<p id="custom_field_possible_values"><label><%= l(:field_possible_values) %> <%= image_to_function "add.png", "addValueField();return false" %></label>
-<% (@custom_field.possible_values.to_a + [""]).each do |value| %>
-<span><%= text_field_tag 'custom_field[possible_values][]', value, :size => 30 %> <%= image_to_function "delete.png", "deleteValueField(this);return false" %><br /></span>
-<% end %>
-</p>
+<p id="custom_field_possible_values"><%= f.text_area :possible_values, :value => @custom_field.possible_values.to_a.join("\n"),
+																																			 :cols => 20,
+																																			 :rows => 15 %>
+<br /><em><%= l(:text_custom_field_possible_values_info) %></em></p>
 <p><%= @custom_field.field_format == 'bool' ? f.check_box(:default_value) : f.text_field(:default_value) %></p>
 </div>
 

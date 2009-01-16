@@ -699,3 +699,4 @@ setting_diff_max_lines_displayed: Max number of diff lines displayed
 text_plugin_assets_writable: Plugin assets directory writable
 warning_attachments_not_saved: "%d file(s) could not be saved."
 button_create_and_continue: Create and continue
+text_custom_field_possible_values_info: 'One line for each value'
