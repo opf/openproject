@@ -698,3 +698,4 @@ text_diff_truncated: '... 이 차이점은 표시할 수 있는 최대 줄수를
 setting_diff_max_lines_displayed: 차이점보기에 표시할 최대 줄수
 text_plugin_assets_writable: Plugin assets directory writable
 warning_attachments_not_saved: "%d file(s) could not be saved."
+button_create_and_continue: Create and continue

@@ -592,6 +592,7 @@ button_check_all: Check all
 button_uncheck_all: Uncheck all
 button_delete: Delete
 button_create: Create
+button_create_and_continue: Create and continue
 button_test: Test
 button_edit: Edit
 button_add: Add

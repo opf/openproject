@@ -700,3 +700,4 @@ text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo
 setting_diff_max_lines_displayed: Número máximo de linhas de diff mostradas
 text_plugin_assets_writable: Plugin assets directory writable
 warning_attachments_not_saved: "%d file(s) could not be saved."
+button_create_and_continue: Create and continue

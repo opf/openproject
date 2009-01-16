@@ -313,6 +313,16 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 'Value for field 2', v.value
   end
   
+  def test_post_new_and_continue
+    @request.session[:user_id] = 2
+    post :new, :project_id => 1, 
+               :issue => {:tracker_id => 3,
+                          :subject => 'This is first issue',
+                          :priority_id => 5},
+               :continue => ''
+    assert_redirected_to :controller => 'issues', :action => 'new', :tracker_id => 3
+  end
+  
   def test_post_new_without_custom_fields_param
     @request.session[:user_id] = 2
     post :new, :project_id => 1, 

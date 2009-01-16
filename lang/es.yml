@@ -683,3 +683,4 @@ text_wiki_destroy_confirmation: ¿Seguro que quiere borrar el wiki y todo su con
 text_workflow_edit: Seleccionar un flujo de trabajo para actualizar
 text_plugin_assets_writable: Plugin assets directory writable
 warning_attachments_not_saved: "%d file(s) could not be saved."
+button_create_and_continue: Create and continue

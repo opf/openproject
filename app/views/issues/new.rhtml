@@ -7,6 +7,7 @@
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
     </div>
     <%= submit_tag l(:button_create) %>
+    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
     <%= link_to_remote l(:label_preview), 
                        { :url => { :controller => 'issues', :action => 'preview', :project_id => @project },
                          :method => 'post',

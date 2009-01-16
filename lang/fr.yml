@@ -592,6 +592,7 @@ button_check_all: Tout cocher
 button_uncheck_all: Tout décocher
 button_delete: Supprimer
 button_create: Créer
+button_create_and_continue: Créer et continuer
 button_test: Tester
 button_edit: Modifier
 button_add: Ajouter

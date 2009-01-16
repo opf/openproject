@@ -148,7 +148,8 @@ class IssuesController < ApplicationController
         flash[:notice] = l(:notice_successful_create)
         Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
         call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
-        redirect_to :controller => 'issues', :action => 'show', :id => @issue
+        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
+                                        { :action => 'show', :id => @issue })
         return
       end		
     end	

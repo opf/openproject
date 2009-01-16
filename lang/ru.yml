@@ -732,3 +732,4 @@ text_workflow_edit: Выберите роль и трекер для редак�
 
 text_plugin_assets_writable: Plugin assets directory writable
 warning_attachments_not_saved: "%d file(s) could not be saved."
+button_create_and_continue: Create and continue

@@ -717,3 +717,4 @@ text_diff_truncated: '... Ten plik różnic został przycięty ponieważ jest zb
 setting_diff_max_lines_displayed: Maksymalna liczba linii różnicy do pokazania
 text_plugin_assets_writable: Plugin assets directory writable
 warning_attachments_not_saved: "%d file(s) could not be saved."
+button_create_and_continue: Create and continue
