@@ -15,6 +15,8 @@
                          :with => "Form.serialize('issue-form')",
                          :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %>
+											 
+		<%= javascript_tag "Form.Element.focus('issue_subject');" %>
 <% end %>
 
 <div id="preview" class="wiki"></div>
