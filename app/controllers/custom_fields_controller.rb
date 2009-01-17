@@ -30,19 +30,14 @@ class CustomFieldsController < ApplicationController
   end
   
   def new
-    case params[:type]
-      when "IssueCustomField" 
-        @custom_field = IssueCustomField.new(params[:custom_field])
-      when "UserCustomField" 
-        @custom_field = UserCustomField.new(params[:custom_field])
-      when "ProjectCustomField" 
-        @custom_field = ProjectCustomField.new(params[:custom_field])
-      when "TimeEntryCustomField" 
-        @custom_field = TimeEntryCustomField.new(params[:custom_field])
-      else
-        redirect_to :action => 'list'
-        return
-    end  
+    @custom_field = begin
+      if params[:type].to_s.match(/.+CustomField$/)
+        params[:type].to_s.constantize.new(params[:custom_field])
+      end
+    rescue
+    end
+    redirect_to(:action => 'list') and return unless @custom_field.is_a?(CustomField)
+    
     if request.post? and @custom_field.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list', :tab => @custom_field.class.name

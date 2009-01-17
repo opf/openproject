@@ -22,7 +22,7 @@ require 'custom_fields_controller'
 class CustomFieldsController; def rescue_action(e) raise e end; end
 
 class CustomFieldsControllerTest < Test::Unit::TestCase
-  fixtures :custom_fields, :trackers
+  fixtures :custom_fields, :trackers, :users
   
   def setup
     @controller = CustomFieldsController.new
@@ -52,5 +52,10 @@ class CustomFieldsControllerTest < Test::Unit::TestCase
     assert_not_nil field
     assert_equal ["0.1", "0.2"], field.possible_values
     assert_equal 1, field.trackers.size
+  end
+  
+  def test_invalid_custom_field_class_should_redirect_to_list
+    get :new, :type => 'UnknownCustomField'
+    assert_redirected_to '/custom_fields/list'
   end
 end
