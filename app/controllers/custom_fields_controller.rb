@@ -33,7 +33,6 @@ class CustomFieldsController < ApplicationController
     case params[:type]
       when "IssueCustomField" 
         @custom_field = IssueCustomField.new(params[:custom_field])
-        @custom_field.trackers = Tracker.find(params[:tracker_ids]) if params[:tracker_ids]
       when "UserCustomField" 
         @custom_field = UserCustomField.new(params[:custom_field])
       when "ProjectCustomField" 
@@ -54,9 +53,6 @@ class CustomFieldsController < ApplicationController
   def edit
     @custom_field = CustomField.find(params[:id])
     if request.post? and @custom_field.update_attributes(params[:custom_field])
-      if @custom_field.is_a? IssueCustomField
-        @custom_field.trackers = params[:tracker_ids] ? Tracker.find(params[:tracker_ids]) : []
-      end
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list', :tab => @custom_field.class.name
     end

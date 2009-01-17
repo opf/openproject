@@ -34,7 +34,6 @@ class CustomFieldsControllerTest < Test::Unit::TestCase
   def test_post_new_list_custom_field
     assert_difference 'CustomField.count' do
       post :new, :type => "IssueCustomField",
-                 :tracker_ids => ["1"],
                  :custom_field => {:name => "test_post_new_list",
                                    :default_value => "",
                                    :min_length => "0",
@@ -45,7 +44,8 @@ class CustomFieldsControllerTest < Test::Unit::TestCase
                                    :max_length => "0",
                                    :is_filter => "0",
                                    :is_required =>"0",
-                                   :field_format => "list"}
+                                   :field_format => "list",
+                                   :tracker_ids => ["1", ""]}
     end        
     assert_redirected_to '/custom_fields/list'
     field = IssueCustomField.find_by_name('test_post_new_list')

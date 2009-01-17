@@ -67,13 +67,14 @@ function toggle_custom_field_format() {
 </div>
 
 <div class="box">
-<% case @custom_field.type.to_s
+<% case @custom_field.class.name
 when "IssueCustomField" %>
     
     <fieldset><legend><%=l(:label_tracker_plural)%></legend>
     <% for tracker in @trackers %>
-        <%= check_box_tag "tracker_ids[]", tracker.id, (@custom_field.trackers.include? tracker) %> <%= tracker.name %>
+        <%= check_box_tag "custom_field[tracker_ids][]", tracker.id, (@custom_field.trackers.include? tracker) %> <%= tracker.name %>
     <% end %>
+		<%= hidden_field_tag "custom_field[tracker_ids][]", '' %>
     </fieldset>
     &nbsp;
     <p><%= f.check_box :is_required %></p>
