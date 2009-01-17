@@ -25,11 +25,13 @@
 
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
 <p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
+<% unless @project.issue_categories.empty? %>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <%= prompt_to_remote(l(:label_issue_category_new),
                      l(:label_issue_category_new), 'category[name]', 
                      {:controller => 'projects', :action => 'add_issue_category', :id => @project},
                      :class => 'small', :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
+<% end %>
 <%= content_tag('p', f.select(:fixed_version_id, 
                               (@project.versions.sort.collect {|v| [v.name, v.id]}),
                               { :include_blank => true })) unless @project.versions.empty? %>
