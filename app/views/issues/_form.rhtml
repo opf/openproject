@@ -15,6 +15,7 @@
                    :class => 'wiki-edit' %></p>
 </div>
 
+<div class="attributes">
 <div class="splitcontentleft">
 <% if @issue.new_record? || @allowed_statuses.any? %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
@@ -43,6 +44,7 @@
 
 <div style="clear:both;"> </div>
 <%= render :partial => 'form_custom_fields' %>
+</div>
 
 <% if @issue.new_record? %>
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>

@@ -231,6 +231,10 @@ table#time-report tbody tr.last-level { font-style: normal; color: #555; }
 table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
 table#time-report .hours-dec { font-size: 0.9em; }
 
+form#issue-form .attributes { margin-bottom: 8px; }
+form#issue-form .attributes p { padding-top: 1px; padding-bottom: 2px; }
+form#issue-form .attributes select { min-width: 30%; }
+
 ul.properties {padding:0; font-size: 0.9em; color: #777;}
 ul.properties li {list-style-type:none;}
 ul.properties li span {font-style:italic;}
