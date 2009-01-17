@@ -702,3 +702,4 @@ warning_attachments_not_saved: "%d file(s) could not be saved."
 button_create_and_continue: Create and continue
 text_custom_field_possible_values_info: 'One line for each value'
 label_display: Display
+field_editable: Editable

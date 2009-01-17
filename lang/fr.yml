@@ -186,6 +186,7 @@ field_searchable: Utilisé pour les recherches
 field_default_value: Valeur par défaut
 field_comments_sorting: Afficher les commentaires
 field_parent_title: Page parent
+field_editable: Modifiable
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application

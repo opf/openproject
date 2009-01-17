@@ -22,7 +22,7 @@ require 'my_controller'
 class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < Test::Unit::TestCase
-  fixtures :users, :issues, :issue_statuses, :trackers, :enumerations
+  fixtures :users, :issues, :issue_statuses, :trackers, :enumerations, :custom_fields
   
   def setup
     @controller = MyController.new
@@ -43,20 +43,37 @@ class MyControllerTest < Test::Unit::TestCase
     assert_template 'page'
   end
   
-  def test_get_account
+  def test_my_account_should_show_editable_custom_fields
     get :account
     assert_response :success
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
+    
+    assert_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
+  end
+  
+  def test_my_account_should_not_show_non_editable_custom_fields
+    UserCustomField.find(4).update_attribute :editable, false
+    
+    get :account
+    assert_response :success
+    assert_template 'account'
+    assert_equal User.find(2), assigns(:user)
+    
+    assert_no_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
   end
 
   def test_update_account
-    post :account, :user => {:firstname => "Joe", :login => "root", :admin => 1}
+    post :account, :user => {:firstname => "Joe",
+                             :login => "root",
+                             :admin => 1,
+                             :custom_field_values => {"4" => "0100562500"}}
     assert_redirected_to 'my/account'
     user = User.find(2)
     assert_equal user, assigns(:user)
     assert_equal "Joe", user.firstname
     assert_equal "jsmith", user.login
+    assert_equal "0100562500", user.custom_value_for(4).value
     assert !user.admin?
   end
   

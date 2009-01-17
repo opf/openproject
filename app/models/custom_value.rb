@@ -30,6 +30,14 @@ class CustomValue < ActiveRecord::Base
     self.value == '1'
   end
   
+  def editable?
+    custom_field.editable?
+  end
+  
+  def required?
+    custom_field.is_required?
+  end
+  
   def to_s
     value.to_s
   end

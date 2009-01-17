@@ -15,6 +15,7 @@ custom_fields_001:
   is_required: false
   field_format: list
   default_value: ""
+  editable: true
 custom_fields_002: 
   name: Searchable field
   min_length: 1
@@ -28,6 +29,7 @@ custom_fields_002:
   field_format: string
   searchable: true
   default_value: "Default string"
+  editable: true
 custom_fields_003: 
   name: Development status
   min_length: 0
@@ -45,6 +47,7 @@ custom_fields_003:
   is_required: true
   field_format: list
   default_value: ""
+  editable: true
 custom_fields_004: 
   name: Phone number
   min_length: 0
@@ -57,6 +60,7 @@ custom_fields_004:
   is_required: false
   field_format: string
   default_value: ""
+  editable: true
 custom_fields_005: 
   name: Money
   min_length: 0
@@ -69,6 +73,7 @@ custom_fields_005:
   is_required: false
   field_format: float
   default_value: ""
+  editable: true
 custom_fields_006: 
   name: Float field
   min_length: 0
@@ -81,4 +86,5 @@ custom_fields_006:
   is_required: false
   field_format: float
   default_value: ""
+  editable: true
   
