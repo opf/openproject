@@ -584,6 +584,7 @@ label_incoming_emails: Emails entrants
 label_generate_key: Générer une clé
 label_issue_watchers: Observateurs
 label_example: Exemple
+label_display: Affichage
 
 button_login: Connexion
 button_submit: Soumettre
