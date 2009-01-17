@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,14 +19,8 @@ class CustomFieldsController < ApplicationController
   before_filter :require_admin
 
   def index
-    list
-    render :action => 'list' unless request.xhr?
-  end
-
-  def list
     @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.class.name }
     @tab = params[:tab] || 'IssueCustomField'
-    render :action => "list", :layout => false if request.xhr?
   end
   
   def new
@@ -36,11 +30,11 @@ class CustomFieldsController < ApplicationController
       end
     rescue
     end
-    redirect_to(:action => 'list') and return unless @custom_field.is_a?(CustomField)
+    redirect_to(:action => 'index') and return unless @custom_field.is_a?(CustomField)
     
     if request.post? and @custom_field.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'list', :tab => @custom_field.class.name
+      redirect_to :action => 'index', :tab => @custom_field.class.name
     end
     @trackers = Tracker.find(:all, :order => 'position')
   end
@@ -49,7 +43,7 @@ class CustomFieldsController < ApplicationController
     @custom_field = CustomField.find(params[:id])
     if request.post? and @custom_field.update_attributes(params[:custom_field])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list', :tab => @custom_field.class.name
+      redirect_to :action => 'index', :tab => @custom_field.class.name
     end
     @trackers = Tracker.find(:all, :order => 'position')
   end
@@ -66,14 +60,14 @@ class CustomFieldsController < ApplicationController
     when 'lowest'
       @custom_field.move_to_bottom
     end if params[:position]
-    redirect_to :action => 'list', :tab => @custom_field.class.name
+    redirect_to :action => 'index', :tab => @custom_field.class.name
   end
   
   def destroy
     @custom_field = CustomField.find(params[:id]).destroy
-    redirect_to :action => 'list', :tab => @custom_field.class.name
+    redirect_to :action => 'index', :tab => @custom_field.class.name
   rescue
     flash[:error] = "Unable to delete custom field"
-    redirect_to :action => 'list'
+    redirect_to :action => 'index'
   end
 end
