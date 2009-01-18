@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -22,10 +22,10 @@ require 'pp'
 namespace :redmine do
   desc 'Trac migration script'
   task :migrate_from_trac => :environment do
-    
+
     module TracMigrate
         TICKET_MAP = []
-     
+
         DEFAULT_STATUS = IssueStatus.default
         assigned_status = IssueStatus.find_by_position(2)
         resolved_status = IssueStatus.find_by_position(3)
@@ -36,7 +36,7 @@ namespace :redmine do
                           'assigned' => assigned_status,
                           'closed' => closed_status
                           }
-                          
+
         priorities = Enumeration.get_values('IPRI')
         DEFAULT_PRIORITY = priorities[0]
         PRIORITY_MAPPING = {'lowest' => priorities[0],
@@ -51,7 +51,7 @@ namespace :redmine do
                             'critical' => priorities[3],
                             'blocker' => priorities[4]
                             }
-      
+
         TRACKER_BUG = Tracker.find_by_position(1)
         TRACKER_FEATURE = Tracker.find_by_position(2)
         DEFAULT_TRACKER = TRACKER_BUG
@@ -60,7 +60,7 @@ namespace :redmine do
                            'task' => TRACKER_FEATURE,
                            'patch' =>TRACKER_FEATURE
                            }
-        
+
         roles = Role.find(:all, :conditions => {:builtin => 0}, :order => 'position ASC')
         manager_role = roles[0]
         developer_role = roles[1]
@@ -68,7 +68,7 @@ namespace :redmine do
         ROLE_MAPPING = {'admin' => manager_role,
                         'developer' => developer_role
                         }
-                        
+
       class ::Time
         class << self
           alias :real_now :now
@@ -87,10 +87,10 @@ namespace :redmine do
       class TracComponent < ActiveRecord::Base
         set_table_name :component
       end
-  
+
       class TracMilestone < ActiveRecord::Base
         set_table_name :milestone
-        # If this attribute is set a milestone has a defined target timepoint        
+        # If this attribute is set a milestone has a defined target timepoint
         def due
           if read_attribute(:due) && read_attribute(:due) > 0
             Time.at(read_attribute(:due)).to_date
@@ -112,37 +112,37 @@ namespace :redmine do
           has_attribute?(:descr) ? read_attribute(:descr) : read_attribute(:description)
         end
       end
-      
+
       class TracTicketCustom < ActiveRecord::Base
         set_table_name :ticket_custom
       end
-      
+
       class TracAttachment < ActiveRecord::Base
         set_table_name :attachment
         set_inheritance_column :none
-        
+
         def time; Time.at(read_attribute(:time)) end
-        
+
         def original_filename
           filename
         end
-        
+
         def content_type
           Redmine::MimeType.of(filename) || ''
         end
-        
+
         def exist?
           File.file? trac_fullpath
         end
-        
+
         def read
           File.open("#{trac_fullpath}", 'rb').read
         end
-        
+
         def description
           read_attribute(:description).to_s.slice(0,255)
         end
-        
+
       private
         def trac_fullpath
           attachment_type = read_attribute(:type)
@@ -150,11 +150,11 @@ namespace :redmine do
           "#{TracMigrate.trac_attachments_directory}/#{attachment_type}/#{id}/#{trac_file}"
         end
       end
-      
+
       class TracTicket < ActiveRecord::Base
         set_table_name :ticket
         set_inheritance_column :none
-        
+
         # ticket changes: only migrate status changes and comments
         has_many :changes, :class_name => "TracTicketChange", :foreign_key => :ticket
         has_many :attachments, :class_name => "TracAttachment",
@@ -162,29 +162,29 @@ namespace :redmine do
                                               " WHERE #{TracMigrate::TracAttachment.table_name}.type = 'ticket'" +
                                               ' AND #{TracMigrate::TracAttachment.table_name}.id = \'#{id}\''
         has_many :customs, :class_name => "TracTicketCustom", :foreign_key => :ticket
-        
+
         def ticket_type
           read_attribute(:type)
         end
-        
+
         def summary
           read_attribute(:summary).blank? ? "(no subject)" : read_attribute(:summary)
         end
-        
+
         def description
           read_attribute(:description).blank? ? summary : read_attribute(:description)
         end
-        
+
         def time; Time.at(read_attribute(:time)) end
         def changetime; Time.at(read_attribute(:changetime)) end
       end
-      
+
       class TracTicketChange < ActiveRecord::Base
         set_table_name :ticket_change
-        
+
         def time; Time.at(read_attribute(:time)) end
       end
-      
+
       TRAC_WIKI_PAGES = %w(InterMapTxt InterTrac InterWiki RecentChanges SandBox TracAccessibility TracAdmin TracBackup TracBrowser TracCgi TracChangeset \
                            TracEnvironment TracFastCgi TracGuide TracImport TracIni TracInstall TracInterfaceCustomization \
                            TracLinks TracLogging TracModPython TracNotification TracPermissions TracPlugins TracQuery \
@@ -192,35 +192,35 @@ namespace :redmine do
                            TracTicketsCustomFields TracTimeline TracUnicode TracUpgrade TracWiki WikiDeletePage WikiFormatting \
                            WikiHtml WikiMacros WikiNewPage WikiPageNames WikiProcessors WikiRestructuredText WikiRestructuredTextLinks \
                            CamelCase TitleIndex)
-      
+
       class TracWikiPage < ActiveRecord::Base
         set_table_name :wiki
         set_primary_key :name
-        
+
         has_many :attachments, :class_name => "TracAttachment",
                                :finder_sql => "SELECT DISTINCT attachment.* FROM #{TracMigrate::TracAttachment.table_name}" +
                                       " WHERE #{TracMigrate::TracAttachment.table_name}.type = 'wiki'" +
                                       ' AND #{TracMigrate::TracAttachment.table_name}.id = \'#{id}\''
-        
+
         def self.columns
           # Hides readonly Trac field to prevent clash with AR readonly? method (Rails 2.0)
           super.select {|column| column.name.to_s != 'readonly'}
         end
-        
+
         def time; Time.at(read_attribute(:time)) end
       end
-      
+
       class TracPermission < ActiveRecord::Base
-        set_table_name :permission  
+        set_table_name :permission
       end
-      
+
       class TracSessionAttribute < ActiveRecord::Base
         set_table_name :session_attribute
       end
-       
+
       def self.find_or_create_user(username, project_member = false)
         return User.anonymous if username.blank?
-        
+
         u = User.find_by_login(username)
         if !u
           # Create a new user if not found
@@ -229,7 +229,7 @@ namespace :redmine do
             mail = mail_attr.value
           end
           mail = "#{mail}@foo.bar" unless mail.include?("@")
-          
+
           name = username
           if name_attr = TracSessionAttribute.find_by_sid_and_name(username, 'name')
             name = name_attr.value
@@ -237,7 +237,7 @@ namespace :redmine do
           name =~ (/(.*)(\s+\w+)?/)
           fn = $1.strip
           ln = ($2 || '-').strip
-          
+
           u = User.new :mail => mail.gsub(/[^-@a-z0-9\.]/i, '-'),
                        :firstname => fn[0, limit_for(User, 'firstname')].gsub(/[^\w\s\'\-]/i, '-'),
                        :lastname => ln[0, limit_for(User, 'lastname')].gsub(/[^\w\s\'\-]/i, '-')
@@ -261,7 +261,7 @@ namespace :redmine do
         end
         u
       end
-      
+
       # Basic wiki syntax conversion
       def self.convert_wiki_text(text)
         # Titles
@@ -282,7 +282,7 @@ namespace :redmine do
         #      [milestone:"0.1.0 Mercury"]
         text = text.gsub(/\[milestone\:\"([^\"]+)\"\]/, 'version:"\1"')
         text = text.gsub(/milestone\:\"([^\"]+)\"/, 'version:"\1"')
-        #      milestone:0.1.0 
+        #      milestone:0.1.0
         text = text.gsub(/\[milestone\:([^\ ]+)\]/, 'version:\1')
         text = text.gsub(/milestone\:([^\ ]+)/, 'version:\1')
         # Internal Links
@@ -293,11 +293,11 @@ namespace :redmine do
         text = text.gsub(/\[wiki:([^\s\]]+)\]/) {|s| "[[#{$1.delete(',./?;|:')}]]"}
         text = text.gsub(/\[wiki:([^\s\]]+)\s(.*)\]/) {|s| "[[#{$1.delete(',./?;|:')}|#{$2.delete(',./?;|:')}]]"}
 
-	# Links to pages UsingJustWikiCaps
-	text = text.gsub(/([^!]|^)(^| )([A-Z][a-z]+[A-Z][a-zA-Z]+)/, '\\1\\2[[\3]]')
-	# Normalize things that were supposed to not be links
-	# like !NotALink
-	text = text.gsub(/(^| )!([A-Z][A-Za-z]+)/, '\1\2')
+  # Links to pages UsingJustWikiCaps
+  text = text.gsub(/([^!]|^)(^| )([A-Z][a-z]+[A-Z][a-zA-Z]+)/, '\\1\\2[[\3]]')
+  # Normalize things that were supposed to not be links
+  # like !NotALink
+  text = text.gsub(/(^| )!([A-Z][A-Za-z]+)/, '\1\2')
         # Revisions links
         text = text.gsub(/\[(\d+)\]/, 'r\1')
         # Ticket number re-writing
@@ -318,7 +318,7 @@ namespace :redmine do
         shebang_re = /^\#\!([a-z]+)/
         # Regular expression for end of code
         pre_end_re = /\}\}\}/
-        
+
         # Go through the whole text..extract it line by line
         text = text.gsub(/^(.*)$/) do |line|
           m_pre = pre_re.match(line)
@@ -338,7 +338,7 @@ namespace :redmine do
               end
             end
           end
-          line        
+          line
         end
 
         # Highlighting
@@ -349,25 +349,25 @@ namespace :redmine do
         text = text.gsub(/__/, '+')
         text = text.gsub(/~~/, '-')
         text = text.gsub(/`/, '@')
-        text = text.gsub(/,,/, '~')        
+        text = text.gsub(/,,/, '~')
         # Lists
         text = text.gsub(/^([ ]+)\* /) {|s| '*' * $1.length + " "}
 
         text
       end
-    
+
       def self.migrate
         establish_connection
 
         # Quick database test
         TracComponent.count
-                
+
         migrated_components = 0
         migrated_milestones = 0
         migrated_tickets = 0
         migrated_custom_values = 0
         migrated_ticket_attachments = 0
-        migrated_wiki_edits = 0      
+        migrated_wiki_edits = 0
         migrated_wiki_attachments = 0
 
         #Wiki system initializing...
@@ -375,21 +375,21 @@ namespace :redmine do
         @target_project.reload
         wiki = Wiki.new(:project => @target_project, :start_page => 'WikiStart')
         wiki_edit_count = 0
-  
+
         # Components
         print "Migrating components"
         issues_category_map = {}
         TracComponent.find(:all).each do |component|
-      	print '.'
-      	STDOUT.flush
+        print '.'
+        STDOUT.flush
           c = IssueCategory.new :project => @target_project,
                                 :name => encode(component.name[0, limit_for(IssueCategory, 'name')])
-      	next unless c.save
-      	issues_category_map[component.name] = c
-      	migrated_components += 1
+        next unless c.save
+        issues_category_map[component.name] = c
+        migrated_components += 1
         end
         puts
-        
+
         # Milestones
         print "Migrating milestones"
         version_map = {}
@@ -415,7 +415,7 @@ namespace :redmine do
           migrated_milestones += 1
         end
         puts
-        
+
         # Custom fields
         # TODO: read trac.ini instead
         print "Migrating custom fields"
@@ -430,14 +430,14 @@ namespace :redmine do
           # Or create a new one
           f ||= IssueCustomField.create(:name => encode(field.name[0, limit_for(IssueCustomField, 'name')]).humanize,
                                         :field_format => 'string')
-                                   
+
           next if f.new_record?
           f.trackers = Tracker.find(:all)
           f.projects << @target_project
           custom_field_map[field.name] = f
         end
         puts
-        
+
         # Trac 'resolution' field as a Redmine custom field
         r = IssueCustomField.find(:first, :conditions => { :name => "Resolution" })
         r = IssueCustomField.new(:name => 'Resolution',
@@ -448,45 +448,44 @@ namespace :redmine do
         r.possible_values = (r.possible_values + %w(fixed invalid wontfix duplicate worksforme)).flatten.compact.uniq
         r.save!
         custom_field_map['resolution'] = r
-            
+
         # Tickets
         print "Migrating tickets"
           TracTicket.find(:all, :order => 'id ASC').each do |ticket|
-        	print '.'
-        	STDOUT.flush
-        	i = Issue.new :project => @target_project, 
+          print '.'
+          STDOUT.flush
+          i = Issue.new :project => @target_project,
                           :subject => encode(ticket.summary[0, limit_for(Issue, 'subject')]),
                           :description => convert_wiki_text(encode(ticket.description)),
                           :priority => PRIORITY_MAPPING[ticket.priority] || DEFAULT_PRIORITY,
                           :created_on => ticket.time
-        	i.author = find_or_create_user(ticket.reporter)    	
-        	i.category = issues_category_map[ticket.component] unless ticket.component.blank?
-        	i.fixed_version = version_map[ticket.milestone] unless ticket.milestone.blank?
-        	i.status = STATUS_MAPPING[ticket.status] || DEFAULT_STATUS
-        	i.tracker = TRACKER_MAPPING[ticket.ticket_type] || DEFAULT_TRACKER
-        	i.custom_values << CustomValue.new(:custom_field => custom_field_map['resolution'], :value => ticket.resolution) unless ticket.resolution.blank?
-        	i.id = ticket.id unless Issue.exists?(ticket.id)
-        	next unless Time.fake(ticket.changetime) { i.save }
-        	TICKET_MAP[ticket.id] = i.id
-        	migrated_tickets += 1
-        	
-        	# Owner
+          i.author = find_or_create_user(ticket.reporter)
+          i.category = issues_category_map[ticket.component] unless ticket.component.blank?
+          i.fixed_version = version_map[ticket.milestone] unless ticket.milestone.blank?
+          i.status = STATUS_MAPPING[ticket.status] || DEFAULT_STATUS
+          i.tracker = TRACKER_MAPPING[ticket.ticket_type] || DEFAULT_TRACKER
+          i.id = ticket.id unless Issue.exists?(ticket.id)
+          next unless Time.fake(ticket.changetime) { i.save }
+          TICKET_MAP[ticket.id] = i.id
+          migrated_tickets += 1
+
+          # Owner
             unless ticket.owner.blank?
               i.assigned_to = find_or_create_user(ticket.owner, true)
               Time.fake(ticket.changetime) { i.save }
             end
-      	
-        	# Comments and status/resolution changes
-        	ticket.changes.group_by(&:time).each do |time, changeset|
+
+          # Comments and status/resolution changes
+          ticket.changes.group_by(&:time).each do |time, changeset|
               status_change = changeset.select {|change| change.field == 'status'}.first
               resolution_change = changeset.select {|change| change.field == 'resolution'}.first
               comment_change = changeset.select {|change| change.field == 'comment'}.first
-              
+
               n = Journal.new :notes => (comment_change ? convert_wiki_text(encode(comment_change.newvalue)) : ''),
                               :created_on => time
               n.user = find_or_create_user(changeset.first.author)
               n.journalized = i
-              if status_change && 
+              if status_change &&
                    STATUS_MAPPING[status_change.oldvalue] &&
                    STATUS_MAPPING[status_change.newvalue] &&
                    (STATUS_MAPPING[status_change.oldvalue] != STATUS_MAPPING[status_change.newvalue])
@@ -502,35 +501,39 @@ namespace :redmine do
                                                :value => resolution_change.newvalue)
               end
               n.save unless n.details.empty? && n.notes.blank?
-        	end
-        	
-        	# Attachments
-        	ticket.attachments.each do |attachment|
-        	  next unless attachment.exist?
+          end
+
+          # Attachments
+          ticket.attachments.each do |attachment|
+            next unless attachment.exist?
               a = Attachment.new :created_on => attachment.time
               a.file = attachment
               a.author = find_or_create_user(attachment.author)
               a.container = i
               a.description = attachment.description
               migrated_ticket_attachments += 1 if a.save
-        	end
-        	
-        	# Custom fields
-        	ticket.customs.each do |custom|
-        	  next if custom_field_map[custom.name].nil?
-              v = CustomValue.new :custom_field => custom_field_map[custom.name],
-                                  :value => custom.value
-              v.customized = i
-              next unless v.save
+          end
+
+          # Custom fields
+          custom_values = ticket.customs.inject({}) do |h, custom|
+            if custom_field = custom_field_map[custom.name]
+              h[custom_field.id] = custom.value
               migrated_custom_values += 1
-        	end
+            end
+            h
+          end
+          if custom_field_map['resolution'] && !ticket.resolution.blank?
+            custom_values[custom_field_map['resolution'].id] = ticket.resolution
+          end
+          i.custom_field_values = custom_values
+          i.save_custom_field_values
         end
-        
+
         # update issue id sequence if needed (postgresql)
         Issue.connection.reset_pk_sequence!(Issue.table_name) if Issue.connection.respond_to?('reset_pk_sequence!')
         puts
-        
-        # Wiki      
+
+        # Wiki
         print "Migrating wiki"
         if wiki.save
           TracWikiPage.find(:all, :order => 'name, version').each do |page|
@@ -545,10 +548,10 @@ namespace :redmine do
             p.content.author = find_or_create_user(page.author) unless page.author.blank? || page.author == 'trac'
             p.content.comments = page.comment
             Time.fake(page.time) { p.new_record? ? p.save : p.content.save }
-            
+
             next if p.content.new_record?
-            migrated_wiki_edits += 1 
-            
+            migrated_wiki_edits += 1
+
             # Attachments
             page.attachments.each do |attachment|
               next unless attachment.exist?
@@ -561,7 +564,7 @@ namespace :redmine do
               migrated_wiki_attachments += 1 if a.save
             end
           end
-          
+
           wiki.reload
           wiki.pages.each do |page|
             page.content.text = convert_wiki_text(page.content.text)
@@ -569,7 +572,7 @@ namespace :redmine do
           end
         end
         puts
-        
+
         puts
         puts "Components:      #{migrated_components}/#{TracComponent.count}"
         puts "Milestones:      #{migrated_milestones}/#{TracMilestone.count}"
@@ -579,18 +582,18 @@ namespace :redmine do
         puts "Wiki edits:      #{migrated_wiki_edits}/#{wiki_edit_count}"
         puts "Wiki files:      #{migrated_wiki_attachments}/" + TracAttachment.count(:conditions => {:type => 'wiki'}).to_s
       end
-      
+
       def self.limit_for(klass, attribute)
         klass.columns_hash[attribute.to_s].limit
       end
-      
+
       def self.encoding(charset)
         @ic = Iconv.new('UTF-8', charset)
       rescue Iconv::InvalidEncoding
         puts "Invalid encoding!"
         return false
       end
-      
+
       def self.set_trac_directory(path)
         @@trac_directory = path
         raise "This directory doesn't exist!" unless File.directory?(path)
@@ -615,7 +618,7 @@ namespace :redmine do
         puts e
         return false
       end
-      
+
       def self.set_trac_db_host(host)
         return nil if host.blank?
         @@trac_db_host = host
@@ -625,7 +628,7 @@ namespace :redmine do
         return nil if port.to_i == 0
         @@trac_db_port = port.to_i
       end
-      
+
       def self.set_trac_db_name(name)
         return nil if name.blank?
         @@trac_db_name = name
@@ -634,22 +637,22 @@ namespace :redmine do
       def self.set_trac_db_username(username)
         @@trac_db_username = username
       end
-      
+
       def self.set_trac_db_password(password)
         @@trac_db_password = password
       end
-      
+
       def self.set_trac_db_schema(schema)
         @@trac_db_schema = schema
       end
 
       mattr_reader :trac_directory, :trac_adapter, :trac_db_host, :trac_db_port, :trac_db_name, :trac_db_schema, :trac_db_username, :trac_db_password
-      
+
       def self.trac_db_path; "#{trac_directory}/db/trac.db" end
       def self.trac_attachments_directory; "#{trac_directory}/attachments" end
-      
+
       def self.target_project_identifier(identifier)
-        project = Project.find_by_identifier(identifier)        
+        project = Project.find_by_identifier(identifier)
         if !project
           # create the target project
           project = Project.new :name => identifier.humanize,
@@ -662,16 +665,16 @@ namespace :redmine do
           puts
           puts "This project already exists in your Redmine database."
           print "Are you sure you want to append data to this project ? [Y/n] "
-          exit if STDIN.gets.match(/^n$/i)  
+          exit if STDIN.gets.match(/^n$/i)
         end
         project.trackers << TRACKER_BUG unless project.trackers.include?(TRACKER_BUG)
         project.trackers << TRACKER_FEATURE unless project.trackers.include?(TRACKER_FEATURE)
         @target_project = project.new_record? ? nil : project
       end
-      
+
       def self.connection_params
         if %w(sqlite sqlite3).include?(trac_adapter)
-          {:adapter => trac_adapter, 
+          {:adapter => trac_adapter,
            :database => trac_db_path}
         else
           {:adapter => trac_adapter,
@@ -684,7 +687,7 @@ namespace :redmine do
           }
         end
       end
-      
+
       def self.establish_connection
         constants.each do |const|
           klass = const_get(const)
@@ -692,7 +695,7 @@ namespace :redmine do
           klass.establish_connection connection_params
         end
       end
-      
+
     private
       def self.encode(text)
         @ic.iconv text
@@ -700,7 +703,7 @@ namespace :redmine do
         text
       end
     end
-    
+
     puts
     if Redmine::DefaultData::Loader.no_data?
       puts "Redmine configuration need to be loaded before importing data."
@@ -709,10 +712,10 @@ namespace :redmine do
       puts "  rake redmine:load_default_data RAILS_ENV=\"#{ENV['RAILS_ENV']}\""
       exit
     end
-    
+
     puts "WARNING: a new project will be added to Redmine during this process."
     print "Are you sure you want to continue ? [y/N] "
-    break unless STDIN.gets.match(/^y$/i)  
+    break unless STDIN.gets.match(/^y$/i)
     puts
 
     def prompt(text, options = {}, &block)
@@ -724,9 +727,9 @@ namespace :redmine do
         break if yield value
       end
     end
-    
+
     DEFAULT_PORTS = {'mysql' => 3306, 'postgresql' => 5432}
-    
+
     prompt('Trac directory') {|directory| TracMigrate.set_trac_directory directory.strip}
     prompt('Trac database adapter (sqlite, sqlite3, mysql, postgresql)', :default => 'sqlite') {|adapter| TracMigrate.set_trac_adapter adapter}
     unless %w(sqlite sqlite3).include?(TracMigrate.trac_adapter)
@@ -740,7 +743,7 @@ namespace :redmine do
     prompt('Trac database encoding', :default => 'UTF-8') {|encoding| TracMigrate.encoding encoding}
     prompt('Target project identifier') {|identifier| TracMigrate.target_project_identifier identifier}
     puts
-    
+
     TracMigrate.migrate
   end
 end
