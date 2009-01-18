@@ -27,6 +27,7 @@ class Mailer < ActionMailer::Base
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+    message_id issue
     recipients issue.recipients
     cc(issue.watcher_recipients - @recipients)
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
@@ -40,6 +41,8 @@ class Mailer < ActionMailer::Base
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+    message_id journal
+    references issue
     @author = journal.user
     recipients issue.recipients
     # Watchers in cc
@@ -95,6 +98,7 @@ class Mailer < ActionMailer::Base
 
   def news_added(news)
     redmine_headers 'Project' => news.project.identifier
+    message_id news
     recipients news.project.recipients
     subject "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
     body :news => news,
@@ -104,6 +108,8 @@ class Mailer < ActionMailer::Base
   def message_posted(message, recipients)
     redmine_headers 'Project' => message.project.identifier,
                     'Topic-Id' => (message.parent_id || message.id)
+    message_id message
+    references message.parent unless message.parent.nil?
     recipients(recipients)
     subject "[#{message.board.project.name} - #{message.board.name}] #{message.subject}"
     body :message => message,
@@ -156,7 +162,15 @@ class Mailer < ActionMailer::Base
     return false if (recipients.nil? || recipients.empty?) &&
                     (cc.nil? || cc.empty?) &&
                     (bcc.nil? || bcc.empty?)
-    super
+                    
+    # Set Message-Id and References
+    if @message_id_object
+      mail.message_id = self.class.message_id_for(@message_id_object)
+    end
+    if @references_objects
+      mail.references = @references_objects.collect {|o| self.class.message_id_for(o)}
+    end
+    super(mail)
   end
 
   # Sends reminders to issue assignees
@@ -250,4 +264,34 @@ class Mailer < ActionMailer::Base
   def self.controller_path
     ''
   end unless respond_to?('controller_path')
+  
+  # Returns a predictable Message-Id for the given object
+  def self.message_id_for(object)
+    # id + timestamp should reduce the odds of a collision
+    # as far as we don't send multiple emails for the same object
+    hash = "redmine.#{object.class.name.demodulize.underscore}-#{object.id}.#{object.created_on.strftime("%Y%m%d%H%M%S")}"
+    host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
+    host = "#{::Socket.gethostname}.redmine" if host.empty?
+    "<#{hash}@#{host}>"
+  end
+  
+  private
+  
+  def message_id(object)
+    @message_id_object = object
+  end
+  
+  def references(object)
+    @references_objects ||= []
+    @references_objects << object
+  end
+end
+
+# Patch TMail so that message_id is not overwritten
+module TMail
+  class Mail
+    def add_message_id( fqdn = nil )
+      self.message_id ||= ::TMail::new_message_id(fqdn)
+    end
+  end
 end

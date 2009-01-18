@@ -30,7 +30,7 @@ messages_003:
   replies_count: 0
   last_reply_id: 
   content: "An other reply"
-  author_id: 
+  author_id: 2
   parent_id: 1
   board_id: 1
 messages_004: 

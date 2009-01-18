@@ -95,7 +95,45 @@ class MailerTest < Test::Unit::TestCase
     assert !mail.body.include?('<a href="https://mydomain.foo/issues/show/1">Bug #1: Can\'t print recipes</a>')
   end
   
-
+  def test_issue_add_message_id
+    ActionMailer::Base.deliveries.clear
+    issue = Issue.find(1)
+    Mailer.deliver_issue_add(issue)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(issue), mail.message_id
+    assert_nil mail.references
+  end
+  
+  def test_issue_edit_message_id
+    ActionMailer::Base.deliveries.clear
+    journal = Journal.find(1)
+    Mailer.deliver_issue_edit(journal)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(journal), mail.message_id
+    assert_equal Mailer.message_id_for(journal.issue), mail.references.to_s
+  end
+  
+  def test_message_posted_message_id
+    ActionMailer::Base.deliveries.clear
+    message = Message.find(1)
+    Mailer.deliver_message_posted(message, message.author.mail)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(message), mail.message_id
+    assert_nil mail.references
+  end
+  
+  def test_reply_posted_message_id
+    ActionMailer::Base.deliveries.clear
+    message = Message.find(3)
+    Mailer.deliver_message_posted(message, message.author.mail)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(message), mail.message_id
+    assert_equal Mailer.message_id_for(message.parent), mail.references.to_s
+  end
   
   # test mailer methods for each language
   def test_issue_add
