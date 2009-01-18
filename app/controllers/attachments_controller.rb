@@ -29,7 +29,7 @@ class AttachmentsController < ApplicationController
     elsif @attachment.is_text?
       @content = File.new(@attachment.diskfile, "rb").read
       render :action => 'file'
-    elsif
+    else
       download
     end
   end
