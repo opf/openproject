@@ -213,7 +213,7 @@ setting_emails_footer: Zapätie emailov
 setting_protocol: Protokol
 setting_per_page_options: Povolené množstvo riadkov na stránke
 setting_user_format: Formát zobrazenia užívateľa
-setting_activity_days_default: Zobrazené dni aktivity projektu: 
+setting_activity_days_default: "Zobrazené dni aktivity projektu:" 
 setting_display_subprojects_issues: Prednastavenie zobrazenia úloh podporojektov v hlavnom projekte
 
 project_module_issue_tracking: Sledovanie úloh
