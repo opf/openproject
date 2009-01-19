@@ -694,11 +694,11 @@ text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmin
 permission_edit_own_messages: Editar próprias mensagens
 permission_delete_own_messages: Excluir próprias mensagens
 label_user_activity: "Atividade de %s"
-label_updated_time_by: Updated by %s %s ago
-text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-setting_diff_max_lines_displayed: Max number of diff lines displayed
-text_plugin_assets_writable: Plugin assets directory writable
-warning_attachments_not_saved: "%d file(s) could not be saved."
+label_updated_time_by: Atualizado por %s à %s
+text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser exibido.'
+setting_diff_max_lines_displayed: Número máximo de linhas exibidas no diff
+text_plugin_assets_writable: Diretório de plugins gravável
+warning_attachments_not_saved: "%d arquivo(s) não puderam ser salvo(s)."
 button_create_and_continue: Create and continue
 text_custom_field_possible_values_info: 'One line for each value'
 label_display: Display
