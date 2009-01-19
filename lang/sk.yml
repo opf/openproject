@@ -703,3 +703,7 @@ text_diff_truncated: '... Tento rozdielový výpis bol skratený, pretože prekr
 setting_diff_max_lines_displayed: Maximálne množstvo zobrazených riadkov rozdielového výpisu
 text_plugin_assets_writable: Adresár pre pluginy s možnosťou zápisu
 warning_attachments_not_saved: "%d súbor(y) nemohli byť uložené."
+field_editable: Editable
+label_display: Display
+button_create_and_continue: Create and continue
+text_custom_field_possible_values_info: 'One line for each value'

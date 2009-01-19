@@ -85,6 +85,8 @@ error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler auf
 error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
 error_issue_not_found_in_project: 'Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt.'
 
+warning_attachments_not_saved: "%d Datei(en) konnten nicht gespeichert werden."
+
 mail_subject_lost_password: Ihr %s Kennwort
 mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
 mail_subject_register: %s Kontoaktivierung
@@ -267,12 +269,12 @@ permission_browse_repository: Projektarchiv ansehen
 permission_view_changesets: Changesets ansehen
 permission_commit_access: Commit-Zugriff (über WebDAV)
 permission_manage_boards: Foren verwalten
-permission_view_messages: Forums-Beiträge ansehen
-permission_add_messages: Forums-Beiträge hinzufügen
-permission_edit_messages: Forums-Beiträge bearbeiten
-permission_edit_own_messages: Eigene Forums-Beiträge bearbeiten
-permission_delete_messages: Forums-Beiträge löschen
-permission_delete_own_messages: Eigene Forums-Beiträge löschen
+permission_view_messages: Forenbeiträge ansehen
+permission_add_messages: Forenbeiträge hinzufügen
+permission_edit_messages: Forenbeiträge bearbeiten
+permission_edit_own_messages: Eigene Forenbeiträge bearbeiten
+permission_delete_messages: Forenbeiträge löschen
+permission_delete_own_messages: Eigene Forenbeiträge löschen
 
 project_module_issue_tracking: Ticket-Verfolgung
 project_module_time_tracking: Zeiterfassung
@@ -528,10 +530,10 @@ label_board: Forum
 label_board_new: Neues Forum
 label_board_plural: Foren
 label_topic_plural: Themen
-label_message_plural: Beiträge
-label_message_last: Letzter Beitrag
+label_message_plural: Forenbeiträge
+label_message_last: Letzter Forenbeitrag
 label_message_new: Neues Thema
-label_message_posted: Beitrag hinzugefügt
+label_message_posted: Forenbeitrag hinzugefügt
 label_reply_plural: Antworten
 label_send_information: Sende Kontoinformationen zum Benutzer
 label_year: Jahr
@@ -661,6 +663,7 @@ text_issues_destroy_confirmation: 'Sind Sie sicher, dass Sie die ausgewählten T
 text_select_project_modules: 'Bitte wählen Sie die Module aus, die in diesem Projekt aktiviert sein sollen:'
 text_default_administrator_account_changed: Administrator-Kennwort geändert
 text_file_repository_writable: Verzeichnis für Dateien beschreibbar
+text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
 text_rmagick_available: RMagick verfügbar (optional)
 text_destroy_time_entries_question: Es wurden bereits %.02f Stunden auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
 text_destroy_time_entries: Gebuchte Aufwände löschen
@@ -698,9 +701,7 @@ default_activity_development: Entwicklung
 enumeration_issue_priorities: Ticket-Prioritäten
 enumeration_doc_categories: Dokumentenkategorien
 enumeration_activities: Aktivitäten (Zeiterfassung)
-text_plugin_assets_writable: Plugin assets directory writable
-warning_attachments_not_saved: "%d file(s) could not be saved."
+field_editable: Editable
+label_display: Display
 button_create_and_continue: Create and continue
 text_custom_field_possible_values_info: 'One line for each value'
-label_display: Display
-field_editable: Editable

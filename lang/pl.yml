@@ -715,9 +715,9 @@ label_user_activity: "Aktywność: %s"
 label_updated_time_by: Uaktualnione przez %s %s temu
 text_diff_truncated: '... Ten plik różnic został przycięty ponieważ jest zbyt długi.'
 setting_diff_max_lines_displayed: Maksymalna liczba linii różnicy do pokazania
-text_plugin_assets_writable: Plugin assets directory writable
+text_plugin_assets_writable: Zapisywalny katalog zasobów wtyczek
 warning_attachments_not_saved: "%d file(s) could not be saved."
+field_editable: Editable
+label_display: Display
 button_create_and_continue: Create and continue
 text_custom_field_possible_values_info: 'One line for each value'
-label_display: Display
-field_editable: Editable

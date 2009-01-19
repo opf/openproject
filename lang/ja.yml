@@ -354,7 +354,7 @@ label_sort_lower: 下へ
 label_sort_lowest: 一番下へ
 label_roadmap: ロードマップ
 label_roadmap_due_in: 期日まで %s
-label_roadmap_overdue: %s late
+label_roadmap_overdue: %s遅れ
 label_roadmap_no_issues: このバージョンに向けてのチケットはありません
 label_search: 検索
 label_result_plural: 結果
@@ -622,8 +622,8 @@ error_scm_annotate: "エントリが存在しない、もしくはアノテー�
 label_planning: 計画
 text_subprojects_destroy_warning: 'サブプロジェクト %s も削除されます。'
 label_and_its_subprojects: %s とサブプロジェクト
-mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
-mail_subject_reminder: "%d issue(s) due in the next days"
+mail_body_reminder: "%d件の担当チケットの期限が%d日以内に到来します:"
+mail_subject_reminder: "%d件のチケットが期限間近です"
 text_user_wrote: '%s wrote:'
 label_duplicated_by: duplicated by
 setting_enabled_scm: 使用するSCM
@@ -637,7 +637,7 @@ text_email_delivery_not_configured: "メールを送信するために必要な�
 field_parent_title: 親ページ
 label_issue_watchers: Watchers
 setting_commit_logs_encoding: コミットメッセージのエンコーディング
-button_quote: Quote
+button_quote: 引用
 setting_sequential_project_identifiers: プロジェクト識別子を連番で生成する
 notice_unable_delete_version: バージョンを削除できません
 label_renamed: renamed
@@ -688,18 +688,18 @@ permission_view_wiki_pages: View wiki
 permission_rename_wiki_pages: Rename wiki pages
 permission_edit_time_entries: Edit time logs
 permission_edit_own_issue_notes: Edit own notes
-setting_gravatar_enabled: Use Gravatar user icons
-label_example: Example
-text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+setting_gravatar_enabled: Gravatarユーザーアイコンを使用する
+label_example: 例
+text_repository_usernames_mapping: "リポジトリのログから検出されたユーザー名をどのRedmineユーザーに関連づけるのか選択してください。\nログ上のユーザー名またはメールアドレスがRedmineのユーザーと一致する場合は自動的に関連づけられます。"
 permission_edit_own_messages: Edit own messages
 permission_delete_own_messages: Delete own messages
-label_user_activity: "%s's activity"
-label_updated_time_by: Updated by %s %s ago
-text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-setting_diff_max_lines_displayed: Max number of diff lines displayed
+label_user_activity: "%sの活動"
+label_updated_time_by: %sが%s前に更新
+text_diff_truncated: '... 差分の行数が表示可能な上限を超えました。超過分は表示しません。'
+setting_diff_max_lines_displayed: 差分の表示行数の上限
 text_plugin_assets_writable: Plugin assets directory writable
-warning_attachments_not_saved: "%d file(s) could not be saved."
-button_create_and_continue: Create and continue
-text_custom_field_possible_values_info: 'One line for each value'
-label_display: Display
+warning_attachments_not_saved: "%d個のファイルが保存できませんでした。"
+button_create_and_continue: 連続作成
+text_custom_field_possible_values_info: '選択肢の値は1行に1個ずつ記述してください。'
+label_display: 表示
 field_editable: Editable
