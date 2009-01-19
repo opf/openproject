@@ -213,7 +213,7 @@ setting_emails_footer: Zapätie emailov
 setting_protocol: Protokol
 setting_per_page_options: Povolené množstvo riadkov na stránke
 setting_user_format: Formát zobrazenia užívateľa
-setting_activity_days_default: Zobrazené dni aktivity projektu
+setting_activity_days_default: Zobrazené dni aktivity projektu: 
 setting_display_subprojects_issues: Prednastavenie zobrazenia úloh podporojektov v hlavnom projekte
 
 project_module_issue_tracking: Sledovanie úloh
@@ -333,10 +333,10 @@ label_confirmation: Potvrdenie
 label_export_to: 'Tiež k dispozícií:'
 label_read: Načíta sa...
 label_public_projects: Verejné projekty
-label_open_issues: otvorený
-label_open_issues_plural: otvorené
-label_closed_issues: uzavrený
-label_closed_issues_plural: uzavrené
+label_open_issues: Otvorený
+label_open_issues_plural: Otvorené
+label_closed_issues: Uzavrený
+label_closed_issues_plural: Uzavrené
 label_total: Celkovo
 label_permissions: Práva
 label_current_status: Aktuálny stav
@@ -505,7 +505,7 @@ label_change_properties: Zmeniť vlastnosti
 label_general: Všeobecné
 label_more: Viac
 label_scm: SCM
-label_plugins: Doplnky
+label_plugins: Pluginy
 label_ldap_authentication: Autentifikácia LDAP
 label_downloads_abbr: D/L
 label_optional_description: Voliteľný popis
@@ -626,9 +626,9 @@ label_planning: Plánovanie
 text_subprojects_destroy_warning: 'Jeho podprojekt(y): %s budú takisto vymazané.'
 label_and_its_subprojects: %s a jeho podprojekty
 mail_body_reminder: "%d úloha(y), ktorá(é) je(sú) vám priradený(é), ma(jú) byť hotova(é) za %d dní:"
-mail_subject_reminder: "%d úloha(y) hotova(é) za pár dní"
+mail_subject_reminder: "%d úloha(y) ma(jú) byť hotova(é) za pár dní"
 text_user_wrote: '%s napísal:'
-label_duplicated_by: reprodukovaný
+label_duplicated_by: duplikovaný
 setting_enabled_scm: Zapnúť SCM
 text_enumeration_category_reassign_to: 'Prenastaviť na túto hodnotu:'
 text_enumeration_destroy_question: '%d objekty sú nastavené na túto hodnotu.'
@@ -636,7 +636,7 @@ label_incoming_emails: Príchádzajúce emaily
 label_generate_key: Vygenerovať kľúč
 setting_mail_handler_api_enabled: Zapnúť WS pre príchodzie emaily
 setting_mail_handler_api_key: API kľúč
-text_email_delivery_not_configured: "Doručenie emailu nieje nastavené, notifikácie sú vypnuté.\nNastavte váš SMTP server v config/email.yml a reštartnite aplikáciu pre aktiváciu funkcie."
+text_email_delivery_not_configured: "Doručenie emailov nieje nastavené, notifikácie sú vypnuté.\nNastavte váš SMTP server v config/email.yml a reštartnite aplikáciu pre aktiváciu funkcie."
 field_parent_title: Nadradená stránka
 label_issue_watchers: Pozorovatelia
 setting_commit_logs_encoding: Kódovanie prenášaných správ
@@ -656,22 +656,22 @@ permission_view_changesets: Zobrazenie sád zmien
 permission_view_time_entries: Zobrazenie stráveného času
 permission_manage_versions: Správa verzií
 permission_manage_wiki: Správa Wiki 
-permission_manage_categories: Správa kategórií
+permission_manage_categories: Správa kategórií úloh
 permission_protect_wiki_pages: Ochrana Wiki strániek
 permission_comment_news: Komentovanie noviniek
 permission_delete_messages: Mazanie správ
 permission_select_project_modules: Voľba projektových modulov
 permission_manage_documents: Správa dokumentov
 permission_edit_wiki_pages: Editácia Wiki strániek
-permission_add_issue_watchers: Pridávanie pozorovateľov
+permission_add_issue_watchers: Pridanie pozorovateľov
 permission_view_gantt: Zobrazenie Ganttovho diagramu
-permission_move_issues: Presunutie úloh
+permission_move_issues: Presun úloh
 permission_manage_issue_relations: Správa vzťahov úloh
 permission_delete_wiki_pages: Mazanie Wiki strániek
 permission_manage_boards: Správa diskusií
 permission_delete_wiki_pages_attachments: Mazanie Wiki príloh
 permission_view_wiki_edits: Zobrazenie Wiki zmien
-permission_add_messages: Pridávanie správ
+permission_add_messages: Pridanie správ
 permission_view_messages: Zobrazenie správ
 permission_manage_files: Správa súborov
 permission_edit_issue_notes: Editácia poznámok úlohy
@@ -693,18 +693,13 @@ permission_rename_wiki_pages: Premenovanie Wiki strániek
 permission_edit_time_entries: Editácia časových záznamov 
 permission_edit_own_issue_notes: Editácia vlastných poznámok úlohy
 setting_gravatar_enabled: Použitie užívateľských Gravatar ikon
+permission_edit_own_messages: Úprava vlastných správ
+permission_delete_own_messages: Mazanie vlastných správ
+text_repository_usernames_mapping: "Vyberte alebo doplňte užívateľov systému Redmine, ktorí majú byť namapovaní k užívateľským menám, nájdeným v logu repository.\nUžívatelia s rovnakým prihlasovacím menom alebo emailom v systéme Redmine a repository sú mapovaní automaticky."
 label_example: Príklad
-
-permission_edit_own_messages: Edit own messages
-permission_delete_own_messages: Delete own messages
-text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-label_user_activity: "%s's activity"
-label_updated_time_by: Updated by %s %s ago
-text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-setting_diff_max_lines_displayed: Max number of diff lines displayed
-text_plugin_assets_writable: Plugin assets directory writable
-warning_attachments_not_saved: "%d file(s) could not be saved."
-button_create_and_continue: Create and continue
-text_custom_field_possible_values_info: 'One line for each value'
-label_display: Display
-field_editable: Editable
+label_user_activity: "Aktivita užívateľa %s"
+label_updated_time_by: Aktualizované užívateľom %s pred %s
+text_diff_truncated: '... Tento rozdielový výpis bol skratený, pretože prekračuje maximálnu veľkosť, ktorá môže byť zobrazená.'
+setting_diff_max_lines_displayed: Maximálne množstvo zobrazených riadkov rozdielového výpisu
+text_plugin_assets_writable: Adresár pre pluginy s možnosťou zápisu
+warning_attachments_not_saved: "%d súbor(y) nemohli byť uložené."
