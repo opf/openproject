@@ -53,11 +53,22 @@ class MailHandler < ActionMailer::Base
   
   private
 
+  MESSAGE_ID_RE = %r{^<redmine\.([a-z0-9_]+)\-(\d+)\.\d+@}
   ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]+#(\d+)\]}
   
   def dispatch
-    if m = email.subject.match(ISSUE_REPLY_SUBJECT_RE)
-      receive_issue_update(m[1].to_i)
+    headers = [email.in_reply_to, email.references].flatten.compact
+    if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
+      klass, object_id = $1, $2.to_i
+      method_name = "receive_#{klass}_reply"
+      if self.class.private_instance_methods.include?(method_name)
+        send method_name, object_id
+      else
+        # ignoring it
+      end
+    elsif m = email.subject.match(ISSUE_REPLY_SUBJECT_RE)
+      # for compatibility
+      receive_issue_reply(m[1].to_i)
     else
       receive_issue
     end
@@ -117,7 +128,7 @@ class MailHandler < ActionMailer::Base
   end
   
   # Adds a note to an existing issue
-  def receive_issue_update(issue_id)
+  def receive_issue_reply(issue_id)
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
     
     issue = Issue.find_by_id(issue_id)
@@ -137,6 +148,14 @@ class MailHandler < ActionMailer::Base
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
     Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
     journal
+  end
+  
+  # Reply will be added to the issue
+  def receive_journal_reply(journal_id)
+    journal = Journal.find_by_id(journal_id)
+    if journal && journal.journalized_type == 'Issue'
+      receive_issue_reply(journal.journalized_id)
+    end
   end
   
   def add_attachments(obj)
