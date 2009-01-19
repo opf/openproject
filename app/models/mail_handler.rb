@@ -158,6 +158,24 @@ class MailHandler < ActionMailer::Base
     end
   end
   
+  # Receives a reply to a forum message
+  def receive_message_reply(message_id)
+    message = Message.find_by_id(message_id)
+    if message
+      message = message.root
+      if user.allowed_to?(:add_messages, message.project) && !message.locked?
+        reply = Message.new(:subject => email.subject, :content => plain_text_body)
+        reply.author = user
+        reply.board = message.board
+        message.children << reply
+        add_attachments(reply)
+        reply
+      else
+        raise UnauthorizedAction
+      end
+    end
+  end
+  
   def add_attachments(obj)
     if email.has_attachments?
       email.attachments.each do |attachment|

@@ -30,7 +30,9 @@ class MailHandlerTest < Test::Unit::TestCase
                    :enumerations,
                    :issue_categories,
                    :custom_fields,
-                   :custom_fields_trackers
+                   :custom_fields_trackers,
+                   :boards,
+                   :messages
   
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
   
@@ -139,6 +141,16 @@ class MailHandlerTest < Test::Unit::TestCase
     assert_equal Issue.find(2), journal.journalized
     assert_match /This is reply/, journal.notes
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
+  end
+  
+  def test_reply_to_a_message
+    m = submit_email('message_reply.eml')
+    assert m.is_a?(Message)
+    assert !m.new_record?
+    m.reload
+    assert_equal 'Reply via email', m.subject
+    # The email replies to message #2 which is part of the thread of message #1
+    assert_equal Message.find(1), m.parent
   end
   
   def test_should_strip_tags_of_html_only_emails
