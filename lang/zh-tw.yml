@@ -85,6 +85,8 @@ error_scm_command_failed: "嘗試存取儲存庫時發生錯誤： %s"
 error_scm_annotate: "SCM 儲存庫中無此項目或此項目無法被加註。"
 error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
 
+warning_attachments_not_saved: "%d 個附加檔案無法儲存。"
+
 mail_subject_lost_password: 您的 Redmine 網站密碼
 mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
 mail_subject_register: 啟用您的 Redmine 帳號
@@ -660,7 +662,8 @@ text_status_changed_by_changeset: 已套用至變更集 %s.
 text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
 text_select_project_modules: '選擇此專案可使用之模組：'
 text_default_administrator_account_changed: 已變更預設管理員帳號內容
-text_file_repository_writable: 可寫入檔案
+text_file_repository_writable: 可寫入附加檔案目錄
+text_plugin_assets_writable: 可寫入附加元件目錄
 text_rmagick_available: 可使用 RMagick (選配)
 text_destroy_time_entries_question: 您即將刪除的項目已報工 %.02f 小時. 您的選擇是？
 text_destroy_time_entries: 刪除已報工的時數
@@ -698,9 +701,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-text_plugin_assets_writable: Plugin assets directory writable
-warning_attachments_not_saved: "%d file(s) could not be saved."
-button_create_and_continue: Create and continue
-text_custom_field_possible_values_info: 'One line for each value'
-label_display: Display
-field_editable: Editable
