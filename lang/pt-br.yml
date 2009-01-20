@@ -699,7 +699,7 @@ text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo
 setting_diff_max_lines_displayed: Número máximo de linhas exibidas no diff
 text_plugin_assets_writable: Diretório de plugins gravável
 warning_attachments_not_saved: "%d arquivo(s) não puderam ser salvo(s)."
-button_create_and_continue: Create and continue
-text_custom_field_possible_values_info: 'One line for each value'
-label_display: Display
-field_editable: Editable
+button_create_and_continue: Criar e continuar
+text_custom_field_possible_values_info: 'Uma linha para cada valor'
+label_display: Exibição
+field_editable: Editável
