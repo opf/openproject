@@ -91,21 +91,21 @@ Calendar._TT["ABOUT"] =
 "Dato valg:\n" +
 "- Benyt \xab, \xbb tasterne til at vælge år\n" +
 "- Benyt " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " tasterne til at vælge måned\n" +
-"- Hold muse tasten inde på punkterne for at vælge hurtigere.";
+"- Hold musetasten inde på punkterne for at vælge hurtigere.";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "Tids valg:\n" +
-"- Klik på en af tidsramerne for at forhøje det\n" +
+"- Klik på en af tidsrammerne for at forhøje det\n" +
 "- eller Shift-klik for at mindske det\n" +
 "- eller klik og træk for hurtigere valg.";
 
 Calendar._TT["PREV_YEAR"] = "Forrige år (hold for menu)";
 Calendar._TT["PREV_MONTH"] = "Forrige måned (hold for menu)";
-Calendar._TT["GO_TODAY"] = "Gå til idag";
+Calendar._TT["GO_TODAY"] = "Gå til dags dato";
 Calendar._TT["NEXT_MONTH"] = "Næste måned (hold for menu)";
 Calendar._TT["NEXT_YEAR"] = "Næste år (hold for menu)";
 Calendar._TT["SEL_DATE"] = "Vælg dato";
 Calendar._TT["DRAG_TO_MOVE"] = "Træk for at flytte";
-Calendar._TT["PART_TODAY"] = " (idag)";
+Calendar._TT["PART_TODAY"] = " (dags dato)";
 
 // the following is to inform that "%s" is to be the first day of week
 // %s will be replaced with the day name.
@@ -117,7 +117,7 @@ Calendar._TT["DAY_FIRST"] = "Vis %s først";
 Calendar._TT["WEEKEND"] = "6,7";
 
 Calendar._TT["CLOSE"] = "Luk";
-Calendar._TT["TODAY"] = "Idag";
+Calendar._TT["TODAY"] = "I dag";
 Calendar._TT["TIME_PART"] = "(Shift-)Klik eller træk for at ændre værdi";
 
 // date formats
