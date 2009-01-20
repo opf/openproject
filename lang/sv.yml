@@ -85,6 +85,8 @@ error_scm_command_failed: "Ett fel inträffade vid försök att nå repositoryt:
 error_scm_annotate: "Inlägget existerar inte eller kan inte kommenteras."
 error_issue_not_found_in_project: 'Ärendet hittades inte eller så tillhör det inte detta projekt'
 
+warning_attachments_not_saved: "%d fil(er) kunde inte sparas."
+
 mail_subject_lost_password: Ditt %s lösenord
 mail_body_lost_password: 'För att ändra ditt lösenord, klicka på följande länk:'
 mail_subject_register: Din %s kontoaktivering
@@ -527,7 +529,7 @@ label_board: Forum
 label_board_new: Nytt forum
 label_board_plural: Forum
 label_topic_plural: Ämnen
-label_message_plural: Meddelande
+label_message_plural: Meddelanden
 label_message_last: Senaste meddelande
 label_message_new: Nytt meddelande
 label_message_posted: Meddelande tillagt
@@ -541,11 +543,11 @@ label_date_to: Till
 label_language_based: Språkbaserad
 label_sort_by: Sortera på %s
 label_send_test_email: Skicka testmail
-label_feeds_access_key_created_on: RSS-nyckel skapad %s sedan
+label_feeds_access_key_created_on: RSS-nyckel skapad för %s sedan
 label_module_plural: Moduler
-label_added_time_by: Tillagd av %s %s sedan
-label_updated_time_by: Uppdaterad av %s %s sedan
-label_updated_time: Uppdaterad %s sedan
+label_added_time_by: Tillagd av %s för %s sedan
+label_updated_time_by: Uppdaterad av %s för %s sedan
+label_updated_time: Uppdaterad för %s sedan
 label_jump_to_a_project: Gå till projekt...
 label_file_plural: Filer
 label_changeset_plural: Changesets
@@ -572,7 +574,7 @@ label_plugins: Tillägg
 label_ldap_authentication: LDAP-autentisering
 label_downloads_abbr: Nerl.
 label_optional_description: Valfri beskrivning
-label_add_another_file: Lägg till en annan fil
+label_add_another_file: Lägg till ytterligare en fil
 label_preferences: Användarinställningar
 label_chronological_order: I kronologisk ordning
 label_reverse_chronological_order: I omvänd kronologisk ordning
@@ -659,7 +661,8 @@ text_status_changed_by_changeset: Tilldelad i changeset %s.
 text_issues_destroy_confirmation: 'Är du säker på att du vill radera markerade ärende(n) ?'
 text_select_project_modules: 'Välj vilka moduler som ska vara aktiva för projektet:'
 text_default_administrator_account_changed: Standardadministratörens konto ändrat
-text_file_repository_writable: Fil-repository tillåter skrivning
+text_file_repository_writable: Filarkiv är skrivbart
+text_plugin_assets_writable: Plugin-folder är skrivbar
 text_rmagick_available: RMagick tillgängligt (valfritt)
 text_destroy_time_entries_question: %.02f timmar har rapporterats på ärendena du är på väg att ta bort. Vad vill du göra ?
 text_destroy_time_entries: Ta bort rapporterade timmar
