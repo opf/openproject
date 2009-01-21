@@ -111,7 +111,7 @@ class Mailer < ActionMailer::Base
     message_id message
     references message.parent unless message.parent.nil?
     recipients(recipients)
-    subject "[#{message.board.project.name} - #{message.board.name}] #{message.subject}"
+    subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
     body :message => message,
          :message_url => url_for(:controller => 'messages', :action => 'show', :board_id => message.board_id, :id => message.root)
   end

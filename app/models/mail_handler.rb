@@ -55,6 +55,7 @@ class MailHandler < ActionMailer::Base
 
   MESSAGE_ID_RE = %r{^<redmine\.([a-z0-9_]+)\-(\d+)\.\d+@}
   ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]+#(\d+)\]}
+  MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]+msg(\d+)\]}
   
   def dispatch
     headers = [email.in_reply_to, email.references].flatten.compact
@@ -67,8 +68,9 @@ class MailHandler < ActionMailer::Base
         # ignoring it
       end
     elsif m = email.subject.match(ISSUE_REPLY_SUBJECT_RE)
-      # for compatibility
       receive_issue_reply(m[1].to_i)
+    elsif m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE)
+      receive_message_reply(m[1].to_i)
     else
       receive_issue
     end
@@ -164,7 +166,8 @@ class MailHandler < ActionMailer::Base
     if message
       message = message.root
       if user.allowed_to?(:add_messages, message.project) && !message.locked?
-        reply = Message.new(:subject => email.subject, :content => plain_text_body)
+        reply = Message.new(:subject => email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
+                            :content => plain_text_body)
         reply.author = user
         reply.board = message.board
         message.children << reply

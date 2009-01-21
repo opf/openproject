@@ -153,6 +153,15 @@ class MailHandlerTest < Test::Unit::TestCase
     assert_equal Message.find(1), m.parent
   end
   
+  def test_reply_to_a_message_by_subject
+    m = submit_email('message_reply_by_subject.eml')
+    assert m.is_a?(Message)
+    assert !m.new_record?
+    m.reload
+    assert_equal 'Reply to the first post', m.subject
+    assert_equal Message.find(1), m.parent
+  end
+  
   def test_should_strip_tags_of_html_only_emails
     issue = submit_email('ticket_html_only.eml', :issue => {:project => 'ecookbook'})
     assert issue.is_a?(Issue)
