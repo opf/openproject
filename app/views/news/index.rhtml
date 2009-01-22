@@ -2,7 +2,7 @@
 <%= link_to_if_authorized(l(:label_news_new),
                           {:controller => 'news', :action => 'new', :project_id => @project},
                           :class => 'icon icon-add',
-                          :onclick => 'Element.show("add-news"); return false;') if @project %>
+                          :onclick => 'Element.show("add-news"); Form.Element.focus("news_title"); return false;') if @project %>
 </div>
 
 <div id="add-news" style="display:none;">
