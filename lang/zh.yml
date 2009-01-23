@@ -85,6 +85,8 @@ error_scm_command_failed: "访问版本库时发生错误：%s"
 error_scm_annotate: "该条目不存在或无法追溯。"
 error_issue_not_found_in_project: '问题不存在或不属于此项目'
 
+warning_attachments_not_saved: "%d 个文件保存失败。"
+
 mail_subject_lost_password: 您的 %s 密码
 mail_body_lost_password: '请点击以下链接来修改您的密码：'
 mail_subject_register: %s帐号激活
@@ -184,6 +186,7 @@ field_searchable: 可用作搜索条件
 field_default_value: 默认值
 field_comments_sorting: 显示注释
 field_parent_title: 上级页面
+field_editable: 可编辑
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题
@@ -582,6 +585,7 @@ label_incoming_emails: 接收邮件
 label_generate_key: 生成一个key
 label_issue_watchers: 跟踪者
 label_example: 示例
+label_display: 显示
 
 button_login: 登录
 button_submit: 提交
@@ -590,6 +594,7 @@ button_check_all: 全选
 button_uncheck_all: 清除
 button_delete: 删除
 button_create: 创建
+button_create_and_continue: 创建并继续
 button_test: 测试
 button_edit: 编辑
 button_add: 新增
@@ -660,7 +665,8 @@ text_status_changed_by_changeset: 已应用到变更列表 %s.
 text_issues_destroy_confirmation: '您确定要删除选中的问题吗？'
 text_select_project_modules: '请选择此项目可以使用的模块：'
 text_default_administrator_account_changed: 默认的管理员帐号已改变
-text_file_repository_writable: 文件版本库可修改
+text_file_repository_writable: 附件路径可写
+text_plugin_assets_writable: 插件的附件路径可写
 text_rmagick_available: RMagick 可用（可选的）
 text_destroy_time_entries_question: 您要删除的问题已经上报了 %.02f 小时的工作量。您想进行那种操作？
 text_destroy_time_entries: 删除上报的工作量
@@ -672,6 +678,7 @@ text_enumeration_destroy_question: '%d 个对象被关联到了这个枚举值�
 text_email_delivery_not_configured: "邮件参数尚未配置，因此邮件通知功能已被禁用。\n请在config/email.yml中配置您的SMTP服务器信息并重新启动以使其生效。"
 text_repository_usernames_mapping: "选择或更新与版本库中的用户名对应的Redmine用户。\n版本库中与Redmine中的同名用户将被自动对应。"
 text_diff_truncated: '... 差别内容超过了可显示的最大行数并已被截断'
+text_custom_field_possible_values_info: '每项数值一行'
 
 default_role_manager: 管理人员
 default_role_developper: 开发人员
@@ -698,9 +705,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-text_plugin_assets_writable: Plugin assets directory writable
-warning_attachments_not_saved: "%d file(s) could not be saved."
-button_create_and_continue: Create and continue
-text_custom_field_possible_values_info: 'One line for each value'
-label_display: Display
-field_editable: Editable
