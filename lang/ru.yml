@@ -730,9 +730,10 @@ text_user_wrote: '%s написал(а):'
 text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все ее содержимое?
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
-text_plugin_assets_writable: Plugin assets directory writable
-warning_attachments_not_saved: "%d file(s) could not be saved."
-button_create_and_continue: Create and continue
-text_custom_field_possible_values_info: 'One line for each value'
-label_display: Display
-field_editable: Editable
+text_plugin_assets_writable: Каталог для плагинов доступен по записи
+warning_attachments_not_saved: "%d файл(ов) невозможно сохранить."
+button_create_and_continue: Создать и продолжить
+text_custom_field_possible_values_info: 'По одному значению в каждой строке'
+label_display: Отображение
+field_editable: Редактируемый
+
