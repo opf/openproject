@@ -4,11 +4,13 @@
 	<%= textilizable @project.description %>	
 	<ul>
 	<% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= link_to(h(@project.homepage), @project.homepage) %></li><% end %>
-    <% if @subprojects.any? %>
- 	<li><%=l(:label_subproject_plural)%>: <%= @subprojects.collect{|p| link_to(h(p.name), :action => 'show', :id => p)}.join(", ") %></li>
-    <% end %>
-	<% if @project.parent %>
-	<li><%=l(:field_parent)%>: <%= link_to h(@project.parent.name), :controller => 'projects', :action => 'show', :id => @project.parent %></li>
+  <% if @subprojects.any? %>
+ 	<li><%=l(:label_subproject_plural)%>:
+	    <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ") %></li>
+  <% end %>
+	<% if @ancestors.any? %>
+	<li><%=l(:field_parent)%>:
+		  <%= @ancestors.collect {|p| link_to(h(p), :action => 'show', :id => p)}.join(" &#187; ") %></li>
 	<% end %>
 	<% @project.custom_values.each do |custom_value| %>
 	<% if !custom_value.value.empty? %>

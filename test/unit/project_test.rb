@@ -45,12 +45,6 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal "activerecord_error_blank", @ecookbook.errors.on(:name)
   end
   
-  def test_public_projects
-    public_projects = Project.find(:all, :conditions => ["is_public=?", true])
-    assert_equal 3, public_projects.length
-    assert_equal true, public_projects[0].is_public?
-  end
-  
   def test_archive
     user = @ecookbook.members.first.user
     @ecookbook.archive
@@ -60,7 +54,7 @@ class ProjectTest < Test::Unit::TestCase
     assert !user.projects.include?(@ecookbook)
     # Subproject are also archived
     assert !@ecookbook.children.empty?
-    assert @ecookbook.active_children.empty?
+    assert @ecookbook.descendants.active.empty?
   end
   
   def test_unarchive
@@ -95,25 +89,98 @@ class ProjectTest < Test::Unit::TestCase
     assert Board.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
   end
   
-  def test_subproject_ok
+  def test_move_an_orphan_project_to_a_root_project
     sub = Project.find(2)
-    sub.parent = @ecookbook
-    assert sub.save
+    sub.set_parent! @ecookbook
     assert_equal @ecookbook.id, sub.parent.id
     @ecookbook.reload
     assert_equal 4, @ecookbook.children.size
   end
   
-  def test_subproject_invalid
+  def test_move_an_orphan_project_to_a_subproject
     sub = Project.find(2)
-    sub.parent = @ecookbook_sub1
-    assert !sub.save
+    assert sub.set_parent!(@ecookbook_sub1)
   end
   
-  def test_subproject_invalid_2
+  def test_move_a_root_project_to_a_project
     sub = @ecookbook
-    sub.parent = Project.find(2)
-    assert !sub.save
+    assert sub.set_parent!(Project.find(2))
+  end
+  
+  def test_should_not_move_a_project_to_its_children
+    sub = @ecookbook
+    assert !(sub.set_parent!(Project.find(3)))
+  end
+  
+  def test_set_parent_should_add_roots_in_alphabetical_order
+    ProjectCustomField.delete_all
+    Project.delete_all
+    Project.create!(:name => 'Project C', :identifier => 'project-c').set_parent!(nil)
+    Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(nil)
+    Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(nil)
+    Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(nil)
+    
+    assert_equal 4, Project.count
+    assert_equal Project.all.sort_by(&:name), Project.all.sort_by(&:lft)
+  end
+  
+  def test_set_parent_should_add_children_in_alphabetical_order
+    ProjectCustomField.delete_all
+    parent = Project.create!(:name => 'Parent', :identifier => 'parent')
+    Project.create!(:name => 'Project C', :identifier => 'project-c').set_parent!(parent)
+    Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(parent)
+    Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(parent)
+    Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(parent)
+    
+    parent.reload
+    assert_equal 4, parent.children.size
+    assert_equal parent.children.sort_by(&:name), parent.children
+  end
+  
+  def test_rebuild_should_sort_children_alphabetically
+    ProjectCustomField.delete_all
+    parent = Project.create!(:name => 'Parent', :identifier => 'parent')
+    Project.create!(:name => 'Project C', :identifier => 'project-c').move_to_child_of(parent)
+    Project.create!(:name => 'Project B', :identifier => 'project-b').move_to_child_of(parent)
+    Project.create!(:name => 'Project D', :identifier => 'project-d').move_to_child_of(parent)
+    Project.create!(:name => 'Project A', :identifier => 'project-a').move_to_child_of(parent)
+    
+    Project.update_all("lft = NULL, rgt = NULL")
+    Project.rebuild!
+    
+    parent.reload
+    assert_equal 4, parent.children.size
+    assert_equal parent.children.sort_by(&:name), parent.children
+  end
+  
+  def test_parent
+    p = Project.find(6).parent
+    assert p.is_a?(Project)
+    assert_equal 5, p.id
+  end
+  
+  def test_ancestors
+    a = Project.find(6).ancestors
+    assert a.first.is_a?(Project)
+    assert_equal [1, 5], a.collect(&:id)
+  end
+  
+  def test_root
+    r = Project.find(6).root
+    assert r.is_a?(Project)
+    assert_equal 1, r.id
+  end
+  
+  def test_children
+    c = Project.find(1).children
+    assert c.first.is_a?(Project)
+    assert_equal [5, 3, 4], c.collect(&:id)
+  end
+  
+  def test_descendants
+    d = Project.find(1).descendants
+    assert d.first.is_a?(Project)
+    assert_equal [5, 6, 3, 4], d.collect(&:id)
   end
   
   def test_rolled_up_trackers

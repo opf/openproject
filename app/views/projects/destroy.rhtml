@@ -3,8 +3,8 @@
 <p><strong><%=h @project_to_destroy %></strong><br />
 <%=l(:text_project_destroy_confirmation)%>
 
-<% if @project_to_destroy.children.any? %>
-<br /><%= l(:text_subprojects_destroy_warning, content_tag('strong', h(@project_to_destroy.children.sort.collect{|p| p.to_s}.join(', ')))) %>
+<% if @project_to_destroy.descendants.any? %>
+<br /><%= l(:text_subprojects_destroy_warning, content_tag('strong', h(@project_to_destroy.descendants.collect{|p| p.to_s}.join(', ')))) %>
 <% end %>
 </p>
 <p>

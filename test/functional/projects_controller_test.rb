@@ -38,11 +38,18 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :index
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:project_tree)
-    # Root project as hash key
-    assert assigns(:project_tree).keys.include?(Project.find(1))
-    # Subproject in corresponding value
-    assert assigns(:project_tree)[Project.find(1)].include?(Project.find(3))
+    assert_not_nil assigns(:projects)
+    
+    assert_tag :ul, :child => {:tag => 'li',
+                               :descendant => {:tag => 'a', :content => 'eCookbook'},
+                               :child => { :tag => 'ul',
+                                           :descendant => { :tag => 'a',
+                                                            :content => 'Child of private child'
+                                                           }
+                                          }
+                               }
+                               
+    assert_no_tag :a, :content => /Private child of eCookbook/
   end
   
   def test_index_atom

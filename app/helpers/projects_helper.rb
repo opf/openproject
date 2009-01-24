@@ -33,4 +33,39 @@ module ProjectsHelper
             ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}     
   end
+  
+  def parent_project_select_tag(project)
+    options = '<option></option>' + project_tree_options_for_select(project.possible_parents, :selected => project.parent)
+    content_tag('select', options, :name => 'project[parent_id]')
+  end
+  
+  # Renders a tree of projects as a nested set of unordered lists
+  # The given collection may be a subset of the whole project tree
+  # (eg. some intermediate nodes are private and can not be seen)
+  def render_project_hierarchy(projects)
+    s = ''
+    if projects.any?
+      ancestors = []
+      projects.each do |project|
+        if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
+          s << "<ul class='projects #{ ancestors.empty? ? 'root' : nil}'>\n"
+        else
+          ancestors.pop
+          s << "</li>"
+          while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+            ancestors.pop
+            s << "</ul></li>\n"
+          end
+        end
+        classes = (ancestors.empty? ? 'root' : 'child')
+        s << "<li class='#{classes}'><div class='#{classes}'>" +
+               link_to(h(project), {:controller => 'projects', :action => 'show', :id => project}, :class => "project #{User.current.member_of?(project) ? 'my-project' : nil}")
+        s << "<div class='wiki description'>#{textilizable(project.short_description, :project => project)}</div>" unless project.description.blank?
+        s << "</div>\n"
+        ancestors << project
+      end
+      s << ("</li></ul>\n" * ancestors.size)
+    end
+    s
+  end
 end

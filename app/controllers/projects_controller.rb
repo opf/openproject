@@ -43,17 +43,14 @@ class ProjectsController < ApplicationController
   
   # Lists visible projects
   def index
-    projects = Project.find :all,
-                            :conditions => Project.visible_by(User.current),
-                            :include => :parent
     respond_to do |format|
       format.html { 
-        @project_tree = projects.group_by {|p| p.parent || p}
-        @project_tree.keys.each {|p| @project_tree[p] -= [p]} 
+        @projects = Project.visible.find(:all, :order => 'lft') 
       }
       format.atom {
-        render_feed(projects.sort_by(&:created_on).reverse.slice(0, Setting.feeds_limit.to_i), 
-                                  :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+        projects = Project.visible.find(:all, :order => 'created_on DESC',
+                                              :limit => Setting.feeds_limit.to_i)
+        render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
   end
@@ -62,9 +59,6 @@ class ProjectsController < ApplicationController
   def add
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
-    @root_projects = Project.find(:all,
-                                  :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
-                                  :order => 'name')
     @project = Project.new(params[:project])
     if request.get?
       @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
@@ -74,6 +68,7 @@ class ProjectsController < ApplicationController
     else
       @project.enabled_module_names = params[:enabled_modules]
       if @project.save
+        @project.set_parent!(params[:project]['parent_id']) if User.current.admin? && params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
 	  end		
@@ -88,7 +83,8 @@ class ProjectsController < ApplicationController
     end
     
     @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
-    @subprojects = @project.children.find(:all, :conditions => Project.visible_by(User.current))
+    @subprojects = @project.children.visible
+    @ancestors = @project.ancestors.visible
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = @project.rolled_up_trackers
     
@@ -110,9 +106,6 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @root_projects = Project.find(:all,
-                                  :conditions => ["parent_id IS NULL AND status = #{Project::STATUS_ACTIVE} AND id <> ?", @project.id],
-                                  :order => 'name')
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
@@ -126,6 +119,7 @@ class ProjectsController < ApplicationController
     if request.post?
       @project.attributes = params[:project]
       if @project.save
+        @project.set_parent!(params[:project]['parent_id']) if User.current.admin? && params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else

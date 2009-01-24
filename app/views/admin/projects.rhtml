@@ -17,22 +17,20 @@
 
 <table class="list">
   <thead><tr>
-	<%= sort_header_tag('name', :caption => l(:label_project)) %>
+	<th><%=l(:label_project)%></th>
 	<th><%=l(:field_description)%></th>
-	<th><%=l(:label_subproject_plural)%></th>
-	<%= sort_header_tag('is_public', :caption => l(:field_is_public), :default_order => 'desc') %>
-	<%= sort_header_tag('created_on', :caption => l(:field_created_on), :default_order => 'desc') %>
+	<th><%=l(:field_is_public)%></th>
+	<th><%=l(:field_created_on)%></th>
     <th></th>
     <th></th>
   </tr></thead>
   <tbody>
 <% for project in @projects %>
-  <tr class="<%= cycle("odd", "even") %>">
-	<td><%= project.active? ? link_to(h(project.name), :controller => 'projects', :action => 'settings', :id => project) : h(project.name) %>
-	<td><%= textilizable project.short_description, :project => project %>
-	<td align="center"><%= project.children.size %>
-	<td align="center"><%= image_tag 'true.png' if project.is_public? %>
-	<td align="center"><%= format_date(project.created_on) %>
+  <tr class="<%= cycle("odd", "even") %> <%= css_project_classes(project) %>">
+	<td class="name" style="padding-left: <%= project.level %>em;"><%= project.active? ? link_to(h(project.name), :controller => 'projects', :action => 'settings', :id => project) : h(project.name) %></td>
+	<td><%= textilizable project.short_description, :project => project %></td>
+	<td align="center"><%= image_tag 'true.png' if project.is_public? %></td>
+	<td align="center"><%= format_date(project.created_on) %></td>
   <td align="center" style="width:10%">
     <small>
     <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-lock') if project.active? %>
@@ -46,7 +44,5 @@
 <% end %>
   </tbody>
 </table>
-
-<p class="pagination"><%= pagination_links_full @project_pages, @project_count %></p>
 
 <% html_title(l(:label_project_plural)) -%>

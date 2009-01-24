@@ -85,6 +85,9 @@ table.list td { vertical-align: top; }
 table.list td.id { width: 2%; text-align: center;}
 table.list td.checkbox { width: 15px; padding: 0px;}
 
+tr.project td.name a { padding-left: 16px; white-space:nowrap; }
+tr.project.parent td.name a { background: url('../images/bullet_toggle_minus.png') no-repeat; }
+
 tr.issue { text-align: center; white-space: nowrap; }
 tr.issue td.subject, tr.issue td.category, td.assigned_to { white-space: normal; }
 tr.issue td.subject { text-align: left; }
@@ -234,6 +237,15 @@ table#time-report .hours-dec { font-size: 0.9em; }
 form#issue-form .attributes { margin-bottom: 8px; }
 form#issue-form .attributes p { padding-top: 1px; padding-bottom: 2px; }
 form#issue-form .attributes select { min-width: 30%; }
+
+ul.projects { margin: 0; padding-left: 1em; }
+ul.projects.root { margin: 0;  padding: 0; }
+ul.projects ul { border-left: 3px solid #e0e0e0; }
+ul.projects li { list-style-type:none; } 
+ul.projects li.root { margin-bottom: 1em; }
+ul.projects li.child { margin-top: 1em;}
+ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
+.my-project { padding-left: 18px; background: url(../images/fav.png) no-repeat 0 50%; }
 
 ul.properties {padding:0; font-size: 0.9em; color: #777;}
 ul.properties li {list-style-type:none;}

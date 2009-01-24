@@ -156,6 +156,45 @@ module ApplicationHelper
     end
     s
   end
+  
+  # Renders the project quick-jump box
+  def render_project_jump_box
+    # Retrieve them now to avoid a COUNT query
+    projects = User.current.projects.all
+    if projects.any?
+      s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
+            "<option selected='selected'>#{ l(:label_jump_to_a_project) }</option>" +
+            '<option disabled="disabled">---</option>'
+      s << project_tree_options_for_select(projects) do |p|
+        { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
+      end
+      s << '</select>'
+      s
+    end
+  end
+  
+  def project_tree_options_for_select(projects, options = {})
+    s = ''
+    project_tree(projects) do |project, level|
+      name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
+      tag_options = {:value => project.id, :selected => ((project == options[:selected]) ? 'selected' : nil)}
+      tag_options.merge!(yield(project)) if block_given?
+      s << content_tag('option', name_prefix + h(project), tag_options)
+    end
+    s
+  end
+  
+  # Yields the given block for each project with its level in the tree
+  def project_tree(projects, &block)
+    ancestors = []
+    projects.sort_by(&:lft).each do |project|
+      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+        ancestors.pop
+      end
+      yield project, ancestors.size
+      ancestors << project
+    end
+  end
 
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)

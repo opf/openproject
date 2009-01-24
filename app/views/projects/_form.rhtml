@@ -4,8 +4,8 @@
 <!--[form:project]-->
 <p><%= f.text_field :name, :required => true %><br /><em><%= l(:text_caracters_maximum, 30) %></em></p>
 
-<% if User.current.admin? and !@root_projects.empty? %>
-    <p><%= f.select :parent_id, (@root_projects.collect {|p| [p.name, p.id]}), { :include_blank => true } %></p>
+<% if User.current.admin? && !@project.possible_parents.empty? %>
+    <p><label><%= l(:field_parent) %></label><%= parent_project_select_tag(@project) %></p>
 <% end %>
 
 <p><%= f.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>

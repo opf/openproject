@@ -34,7 +34,7 @@
         <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>:
         <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
         <% end %>
-        <%= render :partial => 'layouts/project_selector' if User.current.memberships.any? %>
+        <%= render_project_jump_box %>
     </div>
     
     <h1><%= h(@project && !@project.new_record? ? @project.name : Setting.app_title) %></h1>

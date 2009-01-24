@@ -83,7 +83,7 @@ class UsersController < ApplicationController
     end
     @auth_sources = AuthSource.find(:all)
     @roles = Role.find_all_givable
-    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
+    @projects = Project.active.find(:all, :order => 'lft')
     @membership ||= Member.new
     @memberships = @user.memberships
   end

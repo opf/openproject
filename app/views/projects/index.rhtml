@@ -6,20 +6,11 @@
 
 <h2><%=l(:label_project_plural)%></h2>
 
-<% @project_tree.keys.sort.each do |project| %>
-<h3><%= link_to h(project.name), {:action => 'show', :id => project}, :class => (User.current.member_of?(project) ? "icon icon-fav" : "") %></h3>
-<%= textilizable(project.short_description, :project => project) %>
-
-<% if @project_tree[project].any? %>
-    <p><%= l(:label_subproject_plural) %>:
-    <%= @project_tree[project].sort.collect {|subproject| 
-       link_to(h(subproject.name), {:action => 'show', :id => subproject}, :class => (User.current.member_of?(subproject) ? "icon icon-fav" : ""))}.join(', ') %></p>
-<% end %>
-<% end %>
+<%= render_project_hierarchy(@projects)%>
 
 <% if User.current.logged? %>
 <p style="text-align:right;">
-<span class="icon icon-fav"><%= l(:label_my_projects) %></span>
+<span class="my-project"><%= l(:label_my_projects) %></span>
 </p>
 <% end %>
 

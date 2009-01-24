@@ -26,9 +26,6 @@ class AdminController < ApplicationController
   end
 	
   def projects
-    sort_init 'name', 'asc'
-    sort_update %w(name is_public created_on)
-    
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
     
@@ -37,14 +34,8 @@ class AdminController < ApplicationController
       c << ["LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?", name, name]
     end
     
-    @project_count = Project.count(:conditions => c.conditions)
-    @project_pages = Paginator.new self, @project_count,
-								per_page_option,
-								params['page']								
-    @projects = Project.find :all, :order => sort_clause,
-                        :conditions => c.conditions,
-						:limit  =>  @project_pages.items_per_page,
-						:offset =>  @project_pages.current.offset
+    @projects = Project.find :all, :order => 'lft',
+                                   :conditions => c.conditions
 
     render :action => "projects", :layout => false if request.xhr?
   end

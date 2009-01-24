@@ -43,7 +43,7 @@ class Project < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
                           
-  acts_as_tree :order => "name", :counter_cache => true
+  acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
 
@@ -66,6 +66,8 @@ class Project < ActiveRecord::Base
   before_destroy :delete_all_members
 
   named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
+  named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
+  named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
   
   def identifier=(identifier)
     super unless identifier_frozen?
@@ -78,7 +80,7 @@ class Project < ActiveRecord::Base
   def issues_with_subprojects(include_subprojects=false)
     conditions = nil
     if include_subprojects
-      ids = [id] + child_ids
+      ids = [id] + descendants.collect(&:id)
       conditions = ["#{Project.table_name}.id IN (#{ids.join(',')}) AND #{Project.visible_by}"]
     end
     conditions ||= ["#{Project.table_name}.id = ?", id]
@@ -118,7 +120,7 @@ class Project < ActiveRecord::Base
     end
     if options[:project]
       project_statement = "#{Project.table_name}.id = #{options[:project].id}"
-      project_statement << " OR #{Project.table_name}.parent_id = #{options[:project].id}" if options[:with_subprojects]
+      project_statement << " OR (#{Project.table_name}.lft > #{options[:project].lft} AND #{Project.table_name}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
       base_statement = "(#{project_statement}) AND (#{base_statement})"
     end
     if user.admin?
@@ -141,7 +143,7 @@ class Project < ActiveRecord::Base
   
   def project_condition(with_subprojects)
     cond = "#{Project.table_name}.id = #{id}"
-    cond = "(#{cond} OR #{Project.table_name}.parent_id = #{id})" if with_subprojects
+    cond = "(#{cond} OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt}))" if with_subprojects
     cond
   end
   
@@ -164,6 +166,7 @@ class Project < ActiveRecord::Base
     self.status == STATUS_ACTIVE
   end
   
+  # Archives the project and its descendants recursively
   def archive
     # Archive subprojects if any
     children.each do |subproject|
@@ -172,13 +175,54 @@ class Project < ActiveRecord::Base
     update_attribute :status, STATUS_ARCHIVED
   end
   
+  # Unarchives the project
+  # All its ancestors must be active
   def unarchive
-    return false if parent && !parent.active?
+    return false if ancestors.detect {|a| !a.active?}
     update_attribute :status, STATUS_ACTIVE
   end
   
-  def active_children
-    children.select {|child| child.active?}
+  # Returns an array of projects the project can be moved to
+  def possible_parents
+    @possible_parents ||= (Project.active.find(:all) - self_and_descendants)
+  end
+  
+  # Sets the parent of the project
+  # Argument can be either a Project, a String, a Fixnum or nil
+  def set_parent!(p)
+    unless p.nil? || p.is_a?(Project)
+      if p.to_s.blank?
+        p = nil
+      else
+        p = Project.find_by_id(p)
+        return false unless p
+      end
+    end
+    if p == parent && !p.nil?
+      # Nothing to do
+      true
+    elsif p.nil? || (p.active? && move_possible?(p))
+      # Insert the project so that target's children or root projects stay alphabetically sorted
+      sibs = (p.nil? ? self.class.roots : p.children)
+      to_be_inserted_before = sibs.detect {|c| c.name.to_s.downcase > name.to_s.downcase }
+      if to_be_inserted_before
+        move_to_left_of(to_be_inserted_before)
+      elsif p.nil?
+        if sibs.empty?
+          # move_to_root adds the project in first (ie. left) position
+          move_to_root
+        else
+          move_to_right_of(sibs.last) unless self == sibs.last
+        end
+      else
+        # move_to_child_of adds the project in last (ie.right) position
+        move_to_child_of(p)
+      end
+      true
+    else
+      # Can not move to the given target
+      false
+    end
   end
   
   # Returns an array of the trackers used by the project and its sub projects
@@ -186,7 +230,7 @@ class Project < ActiveRecord::Base
     @rolled_up_trackers ||=
       Tracker.find(:all, :include => :projects,
                          :select => "DISTINCT #{Tracker.table_name}.*",
-                         :conditions => ["#{Project.table_name}.id = ? OR #{Project.table_name}.parent_id = ?", id, id],
+                         :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ?", lft, rgt],
                          :order => "#{Tracker.table_name}.position")
   end
   
@@ -225,7 +269,7 @@ class Project < ActiveRecord::Base
   
   # Returns a short description of the projects (first lines)
   def short_description(length = 255)
-    description.gsub(/^(.{#{length}}[^\n]*).*$/m, '\1').strip if description
+    description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
   end
   
   def allows_to?(action)
@@ -257,8 +301,6 @@ class Project < ActiveRecord::Base
 
 protected
   def validate
-    errors.add(parent_id, " must be a root project") if parent and parent.parent
-    errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
     errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
   end
   
