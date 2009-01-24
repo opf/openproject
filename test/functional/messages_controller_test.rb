@@ -78,7 +78,7 @@ class MessagesControllerTest < Test::Unit::TestCase
 
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
-    assert_equal "[#{message.board.project.name} - #{message.board.name}] Test created message", mail.subject
+    assert_equal "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] Test created message", mail.subject
     assert mail.body.include?('Message body')
     # author
     assert mail.bcc.include?('jsmith@somenet.foo')
