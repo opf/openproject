@@ -283,7 +283,7 @@ class IssuesController < ApplicationController
       unsaved_issue_ids = []
       @issues.each do |issue|
         issue.init_journal(User.current)
-        unsaved_issue_ids << issue.id unless issue.move_to(@target_project, new_tracker)
+        unsaved_issue_ids << issue.id unless issue.move_to(@target_project, new_tracker, params[:copy_options])
       end
       if unsaved_issue_ids.empty?
         flash[:notice] = l(:notice_successful_update) unless @issues.empty?

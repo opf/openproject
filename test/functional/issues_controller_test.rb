@@ -672,6 +672,16 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 2, Issue.find(1).tracker_id
     assert_equal 2, Issue.find(2).tracker_id
   end
+
+  def test_bulk_copy_to_another_project
+    @request.session[:user_id] = 1
+    assert_difference 'Issue.count', 2 do
+      assert_no_difference 'Project.find(1).issues.count' do
+        post :move, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}
+      end
+    end
+    assert_redirected_to 'projects/ecookbook/issues'
+  end
   
   def test_context_menu_one_issue
     @request.session[:user_id] = 2

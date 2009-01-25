@@ -191,6 +191,30 @@ class IssueTest < Test::Unit::TestCase
     assert_nil issue.category_id
   end
   
+  def test_copy_to_the_same_project
+    issue = Issue.find(1)
+    copy = nil
+    assert_difference 'Issue.count' do
+      copy = issue.move_to(issue.project, nil, :copy => true)
+    end
+    assert_kind_of Issue, copy
+    assert_equal issue.project, copy.project
+    assert_equal "125", copy.custom_value_for(2).value
+  end
+  
+  def test_copy_to_another_project_and_tracker
+    issue = Issue.find(1)
+    copy = nil
+    assert_difference 'Issue.count' do
+      copy = issue.move_to(Project.find(3), Tracker.find(2), :copy => true)
+    end
+    assert_kind_of Issue, copy
+    assert_equal Project.find(3), copy.project
+    assert_equal Tracker.find(2), copy.tracker
+    # Custom field #2 is not associated with target tracker
+    assert_nil copy.custom_value_for(2)
+  end
+  
   def test_issue_destroy
     Issue.find(1).destroy
     assert_nil Issue.find_by_id(1)

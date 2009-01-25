@@ -16,6 +16,9 @@
 
 <p><label for="new_tracker_id"><%=l(:field_tracker)%> :</label>
 <%= select_tag "new_tracker_id", "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, "id", "name") %></p>
+
+<p><label for="copy_options_copy"><%= l(:button_copy)%></label>
+<%= check_box_tag "copy_options[copy]", "1" %></p>
 </div>
 
 <%= submit_tag l(:button_move) %>
