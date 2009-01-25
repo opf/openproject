@@ -232,6 +232,7 @@ class IssuesController < ApplicationController
       assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
       category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
       fixed_version = (params[:fixed_version_id].blank? || params[:fixed_version_id] == 'none') ? nil : @project.versions.find_by_id(params[:fixed_version_id])
+      custom_field_values = params[:custom_field_values] ? params[:custom_field_values].reject {|k,v| v.blank?} : nil
       
       unsaved_issue_ids = []      
       @issues.each do |issue|
@@ -243,6 +244,7 @@ class IssuesController < ApplicationController
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
         issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
+        issue.custom_field_values = custom_field_values if custom_field_values && !custom_field_values.empty?
         call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
         # Don't save any change to the issue if the user is not authorized to apply the requested status
         if (status.nil? || (issue.status.new_status_allowed_to?(status, current_role, issue.tracker) && issue.status = status)) && issue.save
@@ -264,6 +266,7 @@ class IssuesController < ApplicationController
     # Find potential statuses the user could be allowed to switch issues to
     @available_statuses = Workflow.find(:all, :include => :new_status,
                                               :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq.sort
+    @custom_fields = @project.issue_custom_fields.select {|f| f.field_format == 'list'}
   end
 
   def move

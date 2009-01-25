@@ -38,6 +38,13 @@
 <label><%= l(:field_done_ratio) %>: 
 <%= select_tag 'done_ratio', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></label>
 </p>
+
+<% @custom_fields.each do |custom_field| %>
+<p><label><%= h(custom_field.name) %></label>
+<%= select_tag "custom_field_values[#{custom_field.id}]", options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values) %></label>
+</p>
+<% end %>
+
 <%= call_hook(:view_issues_bulk_edit_details_bottom, { :issues => @issues }) %>
 </fieldset>
 

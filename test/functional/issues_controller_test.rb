@@ -629,11 +629,36 @@ class IssuesControllerTest < Test::Unit::TestCase
   def test_bulk_edit
     @request.session[:user_id] = 2
     # update issues priority
-    post :bulk_edit, :ids => [1, 2], :priority_id => 7, :notes => 'Bulk editing', :assigned_to_id => ''
+    post :bulk_edit, :ids => [1, 2], :priority_id => 7,
+                                     :assigned_to_id => '',
+                                     :custom_field_values => {'2' => ''},
+                                     :notes => 'Bulk editing'
     assert_response 302
     # check that the issues were updated
     assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
-    assert_equal 'Bulk editing', Issue.find(1).journals.find(:first, :order => 'created_on DESC').notes
+    
+    issue = Issue.find(1)
+    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    assert_equal '125', issue.custom_value_for(2).value
+    assert_equal 'Bulk editing', journal.notes
+    assert_equal 1, journal.details.size
+  end
+
+  def test_bulk_edit_custom_field
+    @request.session[:user_id] = 2
+    # update issues priority
+    post :bulk_edit, :ids => [1, 2], :priority_id => '',
+                                     :assigned_to_id => '',
+                                     :custom_field_values => {'2' => '777'},
+                                     :notes => 'Bulk editing custom field'
+    assert_response 302
+    
+    issue = Issue.find(1)
+    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    assert_equal '777', issue.custom_value_for(2).value
+    assert_equal 1, journal.details.size
+    assert_equal '125', journal.details.first.old_value
+    assert_equal '777', journal.details.first.value
   end
 
   def test_bulk_unassign
