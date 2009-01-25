@@ -271,7 +271,7 @@ class IssuesController < ApplicationController
     # find projects to which the user is allowed to move the issue
     if User.current.admin?
       # admin is allowed to move issues to any active (visible) project
-      @allowed_projects = Project.find(:all, :conditions => Project.visible_by(User.current), :order => 'name')
+      @allowed_projects = Project.find(:all, :conditions => Project.visible_by(User.current))
     else
       User.current.memberships.each {|m| @allowed_projects << m.project if m.role.allowed_to?(:move_issues)}
     end
