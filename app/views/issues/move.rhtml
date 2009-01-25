@@ -6,7 +6,7 @@
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
 
 <div class="box tabular">
-<p><label for="new_project_id"><%=l(:field_project)%> :</label>
+<p><label for="new_project_id"><%=l(:field_project)%>:</label>
 <%= select_tag "new_project_id",
                options_from_collection_for_select(@allowed_projects, 'id', 'name', @target_project.id),
                :onchange => remote_function(:url => { :action => 'move' },
@@ -14,7 +14,7 @@
                                             :update => 'content',
                                             :with => "Form.serialize('move_form')") %></p>
 
-<p><label for="new_tracker_id"><%=l(:field_tracker)%> :</label>
+<p><label for="new_tracker_id"><%=l(:field_tracker)%>:</label>
 <%= select_tag "new_tracker_id", "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, "id", "name") %></p>
 
 <p><label for="copy_options_copy"><%= l(:button_copy)%></label>
