@@ -166,7 +166,7 @@ module ApplicationHelper
             "<option selected='selected'>#{ l(:label_jump_to_a_project) }</option>" +
             '<option disabled="disabled">---</option>'
       s << project_tree_options_for_select(projects) do |p|
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
+        { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
       end
       s << '</select>'
       s
