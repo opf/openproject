@@ -198,6 +198,16 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal [2, 3], child.rolled_up_trackers.collect(&:id)
   end
   
+  def test_rolled_up_trackers_should_ignore_archived_subprojects
+    parent = Project.find(1)
+    parent.trackers = Tracker.find([1,2])
+    child = parent.children.find(3)
+    child.trackers = Tracker.find([1,3])
+    parent.children.each(&:archive)
+    
+    assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
+  end
+  
   def test_next_identifier
     ProjectCustomField.delete_all
     Project.create!(:name => 'last', :identifier => 'p2008040')
