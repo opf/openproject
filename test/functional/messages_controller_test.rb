@@ -31,6 +31,13 @@ class MessagesControllerTest < Test::Unit::TestCase
     User.current = nil
   end
   
+  def test_show_routing
+    assert_routing(
+      {:method => :get, :path => '/boards/22/topics/2'},
+      :controller => 'messages', :action => 'show', :id => '2', :board_id => '22'
+    )
+  end
+  
   def test_show
     get :show, :board_id => 1, :id => 1
     assert_response :success
@@ -52,6 +59,17 @@ class MessagesControllerTest < Test::Unit::TestCase
   def test_show_message_not_found
     get :show, :board_id => 1, :id => 99999
     assert_response 404
+  end
+  
+  def test_new_routing
+    assert_routing(
+      {:method => :get, :path => '/boards/lala/topics/new'},
+      :controller => 'messages', :action => 'new', :board_id => 'lala'
+    )
+    assert_recognizes(#TODO: POST to collection, need to adjust form accordingly
+      {:controller => 'messages', :action => 'new', :board_id => 'lala'},
+      {:method => :post, :path => '/boards/lala/topics/new'}
+    )
   end
   
   def test_get_new
@@ -86,6 +104,17 @@ class MessagesControllerTest < Test::Unit::TestCase
     assert mail.bcc.include?('dlopper@somenet.foo')
   end
   
+  def test_edit_routing
+    assert_routing(
+      {:method => :get, :path => '/boards/lala/topics/22/edit'},
+      :controller => 'messages', :action => 'edit', :board_id => 'lala', :id => '22'
+    )
+    assert_recognizes( #TODO: use PUT to topic_path, modify form accordingly
+      {:controller => 'messages', :action => 'edit', :board_id => 'lala', :id => '22'},
+      {:method => :post, :path => '/boards/lala/topics/22/edit'}
+    )
+  end
+  
   def test_get_edit
     @request.session[:user_id] = 2
     get :edit, :board_id => 1, :id => 1
@@ -104,11 +133,25 @@ class MessagesControllerTest < Test::Unit::TestCase
     assert_equal 'New body', message.content
   end
   
+  def test_reply_routing
+    assert_recognizes(
+      {:controller => 'messages', :action => 'reply', :board_id => '22', :id => '555'},
+      {:method => :post, :path => '/boards/22/topics/555/replies'}
+    )
+  end
+  
   def test_reply
     @request.session[:user_id] = 2
     post :reply, :board_id => 1, :id => 1, :reply => { :content => 'This is a test reply', :subject => 'Test reply' }
     assert_redirected_to 'messages/show'
     assert Message.find_by_subject('Test reply')
+  end
+  
+  def test_destroy_routing
+    assert_recognizes(#TODO: use DELETE to topic_path, adjust form accordingly
+      {:controller => 'messages', :action => 'destroy', :board_id => '22', :id => '555'},
+      {:method => :post, :path => '/boards/22/topics/555/destroy'}
+    )
   end
   
   def test_destroy_topic

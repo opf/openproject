@@ -31,11 +31,50 @@ class RepositoriesControllerTest < Test::Unit::TestCase
     User.current = nil
   end
   
+  def test_show_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/redmine/repository'},
+      :controller => 'repositories', :action => 'show', :id => 'redmine'
+    )
+  end
+  
+  def test_edit_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/world_domination/repository/edit'},
+      :controller => 'repositories', :action => 'edit', :id => 'world_domination'
+    )
+    assert_routing(
+      {:method => :post, :path => '/projects/world_domination/repository/edit'},
+      :controller => 'repositories', :action => 'edit', :id => 'world_domination'
+    )
+  end
+  
+  def test_revisions_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/redmine/repository/revisions'},
+      :controller => 'repositories', :action => 'revisions', :id => 'redmine'
+    )
+  end
+  
+  def test_revisions_atom_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/redmine/repository/revisions.atom'},
+      :controller => 'repositories', :action => 'revisions', :id => 'redmine', :format => 'atom'
+    )
+  end
+  
   def test_revisions
     get :revisions, :id => 1
     assert_response :success
     assert_template 'revisions'
     assert_not_nil assigns(:changesets)
+  end
+
+  def test_revision_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/revisions/2457'},
+      :controller => 'repositories', :action => 'revision', :id => 'restmine', :rev => '2457'
+    )
   end
   
   def test_revision_with_before_nil_and_afer_normal
@@ -43,13 +82,83 @@ class RepositoriesControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'revision'
     assert_no_tag :tag => "div", :attributes => { :class => "contextual" },
-      :child => { :tag => "a", :attributes => { :href => '/repositories/revision/ecookbook/0'}
+      :child => { :tag => "a", :attributes => { :href => '/projects/ecookbook/repository/revisions/0'}
     }
     assert_tag :tag => "div", :attributes => { :class => "contextual" },
-        :child => { :tag => "a", :attributes => { :href => '/repositories/revision/ecookbook/2'}
+        :child => { :tag => "a", :attributes => { :href => '/projects/ecookbook/repository/revisions/2'}
     }
   end
+  
+  def test_diff_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/revisions/2457/diff'},
+      :controller => 'repositories', :action => 'diff', :id => 'restmine', :rev => '2457'
+    )
+  end
+  
+  def test_unified_diff_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/revisions/2457/diff.diff'},
+      :controller => 'repositories', :action => 'diff', :id => 'restmine', :rev => '2457', :format => 'diff'
+    )
+  end
+  
+  def test_diff_path_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/diff/path/to/file.c'},
+      :controller => 'repositories', :action => 'diff', :id => 'restmine', :path => %w[path to file.c]
+    )
+  end
 
+  def test_diff_path_routing_with_revision
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/revisions/2/diff/path/to/file.c'},
+      :controller => 'repositories', :action => 'diff', :id => 'restmine', :path => %w[path to file.c], :rev => '2'
+    )
+  end
+  
+  def test_browse_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/browse/path/to/dir'},
+      :controller => 'repositories', :action => 'browse', :id => 'restmine', :path => %w[path to dir]
+    )
+  end
+  
+  def test_entry_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/entry/path/to/file.c'},
+      :controller => 'repositories', :action => 'entry', :id => 'restmine', :path => %w[path to file.c]
+    )
+  end
+  
+  def test_entry_routing_with_revision
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/revisions/2/entry/path/to/file.c'},
+      :controller => 'repositories', :action => 'entry', :id => 'restmine', :path => %w[path to file.c], :rev => '2'
+    )
+  end
+  
+  def test_annotate_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/annotate/path/to/file.c'},
+      :controller => 'repositories', :action => 'annotate', :id => 'restmine', :path => %w[path to file.c]
+    )
+  end
+  
+  def test_changesrouting
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/changes/path/to/file.c'},
+      :controller => 'repositories', :action => 'changes', :id => 'restmine', :path => %w[path to file.c]
+    )
+  end
+  
+  def test_statistics_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/statistics'},
+      :controller => 'repositories', :action => 'stats', :id => 'restmine'
+    )
+  end
+  
   def test_graph_commits_per_month
     get :graph, :id => 1, :graph => 'commits_per_month'
     assert_response :success

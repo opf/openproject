@@ -42,10 +42,10 @@ class AdminTest < ActionController::IntegrationTest
   
   def test_add_project
     log_user("admin", "admin")
-    get "projects/add"
+    get "projects/new"
     assert_response :success
     assert_template "projects/add"
-    post "projects/add", :project => { :name => "blog", 
+    post "projects", :project => { :name => "blog", 
                                        :description => "weblog",
                                        :identifier => "blog",
                                        :is_public => 1,

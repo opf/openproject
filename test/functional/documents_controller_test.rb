@@ -30,7 +30,14 @@ class DocumentsControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
-
+  
+  def test_index_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/567/documents'},
+      :controller => 'documents', :action => 'index', :project_id => '567'
+    )
+  end
+  
   def test_index
     # Sets a default category
     e = Enumeration.find_by_name('Technical documentation')
@@ -45,6 +52,17 @@ class DocumentsControllerTest < Test::Unit::TestCase
     assert_tag :select, :attributes => {:name => 'document[category_id]'},
                         :child => {:tag => 'option', :attributes => {:selected => 'selected'},
                                                      :content => 'Technical documentation'}
+  end
+  
+  def test_new_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/567/documents/new'},
+      :controller => 'documents', :action => 'new', :project_id => '567'
+    )
+    assert_recognizes(
+      {:controller => 'documents', :action => 'new', :project_id => '567'},
+      {:method => :post, :path => '/projects/567/documents'}
+    )
   end
   
   def test_new_with_one_attachment
@@ -64,6 +82,31 @@ class DocumentsControllerTest < Test::Unit::TestCase
     assert_equal Enumeration.find(2), document.category
     assert_equal 1, document.attachments.size
     assert_equal 'testfile.txt', document.attachments.first.filename
+  end
+  
+  def test_edit_routing
+    assert_routing(
+      {:method => :get, :path => '/documents/22/edit'},
+      :controller => 'documents', :action => 'edit', :id => '22'
+    )
+    assert_recognizes(#TODO: should be using PUT on document URI
+      {:controller => 'documents', :action => 'edit', :id => '567'},
+      {:method => :post, :path => '/documents/567/edit'}
+    )
+  end
+  
+  def test_show_routing
+    assert_routing(
+      {:method => :get, :path => '/documents/22'},
+      :controller => 'documents', :action => 'show', :id => '22'
+    )
+  end
+  
+  def test_destroy_routing
+    assert_recognizes(#TODO: should be using DELETE on document URI
+      {:controller => 'documents', :action => 'destroy', :id => '567'},
+      {:method => :post, :path => '/documents/567/destroy'}
+    )
   end
   
   def test_destroy

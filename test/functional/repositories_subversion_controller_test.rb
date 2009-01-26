@@ -131,11 +131,11 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
                              :child => { :tag => 'a', 
-                                         :attributes => {:href => '/repositories/entry/ecookbook/test/some/path/in/the/repo?rev=2'},
+                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
                                          :sibling =>  { :tag => 'a', 
-                                                        :attributes => { :href => '/repositories/diff/ecookbook/test/some/path/in/the/repo?rev=2' } 
+                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' } 
                                                        }
                                         }
                             }
@@ -153,11 +153,11 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
                              :child => { :tag => 'a', 
-                                         :attributes => {:href => '/repositories/entry/ecookbook/path/in/the/repo?rev=2'},
+                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
                                          :sibling =>  { :tag => 'a', 
-                                                        :attributes => { :href => '/repositories/diff/ecookbook/path/in/the/repo?rev=2' } 
+                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo' } 
                                                        }
                                         }
                             }

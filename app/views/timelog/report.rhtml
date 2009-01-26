@@ -6,10 +6,11 @@
 
 <h2><%= l(:label_spent_time) %></h2>
 
-<% form_remote_tag(:url => {}, :update => 'content') do %>
+<% form_remote_tag(:url => {}, :html => {:method => :get}, :method => :get, :update => 'content') do %>
   <% @criterias.each do |criteria| %>
     <%= hidden_field_tag 'criterias[]', criteria, :id => nil %>
   <% end %>
+  <%# TODO: get rid of the project_id field, that should already be in the URL %>
   <%= hidden_field_tag 'project_id', params[:project_id] %>
   <%= render :partial => 'date_range' %>
 
@@ -25,6 +26,7 @@
                                                           :id => nil,
                                                           :disabled => (@criterias.length >= 3)) %>
      <%= link_to_remote l(:button_clear), {:url => {:project_id => @project, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns},
+                                           :method => :get,
                                            :update => 'content'
                                           }, :class => 'icon icon-reload' %></p>
 <% end %>

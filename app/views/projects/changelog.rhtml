@@ -26,7 +26,7 @@
 <% end %>
 
 <% content_for :sidebar do %>
-<% form_tag do %>
+<% form_tag({},:method => :get) do %>
 <h3><%= l(:label_change_log) %></h3>
 <% @trackers.each do |tracker| %>
   <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>

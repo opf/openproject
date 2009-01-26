@@ -32,10 +32,26 @@ class UsersControllerTest < Test::Unit::TestCase
     @request.session[:user_id] = 1 # admin
   end
   
+  def test_index_routing
+    #TODO: unify with list
+    assert_generates(
+      '/users',
+      :controller => 'users', :action => 'index'
+    )
+  end
+  
   def test_index
     get :index
     assert_response :success
     assert_template 'list'
+  end
+  
+  def test_list_routing
+    #TODO: rename action to index
+    assert_routing(
+      {:method => :get, :path => '/users'},
+      :controller => 'users', :action => 'list'
+    )
   end
 
   def test_list
@@ -56,17 +72,71 @@ class UsersControllerTest < Test::Unit::TestCase
     assert_equal 1, users.size
     assert_equal 'John', users.first.firstname
   end
+
+  def test_add_routing
+    assert_routing(
+      {:method => :get, :path => '/users/new'},
+      :controller => 'users', :action => 'add'
+    )
+    assert_recognizes(
+    #TODO: remove this and replace with POST to collection, need to modify form
+      {:controller => 'users', :action => 'add'},
+      {:method => :post, :path => '/users/new'}
+    )
+    assert_recognizes(
+      {:controller => 'users', :action => 'add'},
+      {:method => :post, :path => '/users'}
+    )
+  end
+  
+  def test_edit_routing
+    assert_routing(
+      {:method => :get, :path => '/users/444/edit'},
+      :controller => 'users', :action => 'edit', :id => '444'
+    )
+    assert_routing(
+      {:method => :get, :path => '/users/222/edit/membership'},
+      :controller => 'users', :action => 'edit', :id => '222', :tab => 'membership'
+    )
+    assert_recognizes(
+    #TODO: use PUT on user_path, modify form
+      {:controller => 'users', :action => 'edit', :id => '444'},
+      {:method => :post, :path => '/users/444/edit'}
+    )
+  end
+  
+  def test_add_membership_routing
+    assert_routing(
+      {:method => :post, :path => '/users/123/memberships'},
+      :controller => 'users', :action => 'edit_membership', :id => '123'
+    )
+  end
+  
+  def test_edit_membership_routing
+    assert_routing(
+      {:method => :post, :path => '/users/123/memberships/55'},
+      :controller => 'users', :action => 'edit_membership', :id => '123', :membership_id => '55'
+    )
+  end
   
   def test_edit_membership
     post :edit_membership, :id => 2, :membership_id => 1,
                            :membership => { :role_id => 2}
-    assert_redirected_to '/users/edit/2?tab=memberships'
+    assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
     assert_equal 2, Member.find(1).role_id
   end
   
   def test_destroy_membership
+    assert_routing(
+    #TODO: use DELETE method on user_membership_path, modify form
+      {:method => :post, :path => '/users/567/memberships/12/destroy'},
+      :controller => 'users', :action => 'destroy_membership', :id => '567', :membership_id => '12'
+    )
+  end
+  
+  def test_destroy_membership
     post :destroy_membership, :id => 2, :membership_id => 1
-    assert_redirected_to '/users/edit/2?tab=memberships'
+    assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
     assert_nil Member.find_by_id(1)
   end
 end

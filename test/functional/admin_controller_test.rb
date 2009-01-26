@@ -38,6 +38,13 @@ class AdminControllerTest < Test::Unit::TestCase
                   :attributes => { :class => /nodata/ }
   end
   
+  def test_projects_routing
+    assert_routing(
+      {:method => :get, :path => '/admin/projects'},
+      :controller => 'admin', :action => 'projects'
+    )
+  end
+  
   def test_index_with_no_configuration_data
     delete_configuration_data
     get :index
