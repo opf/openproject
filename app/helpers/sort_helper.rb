@@ -120,6 +120,9 @@ module SortHelper
     # don't reuse params if filters are present
     url_options = params.has_key?(:set_filter) ? sort_options : params.merge(sort_options)
     
+    # Add project_id to url_options
+    url_options = url_options.merge(:project_id => params[:project_id]) if params.has_key?(:project_id)
+    
     link_to_remote(caption,
                   {:update => "content", :url => url_options, :method => :get},
                   {:href => url_for(url_options)}) +
