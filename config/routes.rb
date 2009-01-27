@@ -114,17 +114,17 @@ ActionController::Routing::Routes.draw do |map|
       issues_views.connect 'projects/:project_id/issues.:format', :action => 'index'
       issues_views.connect 'projects/:project_id/issues/new', :action => 'new'
       issues_views.connect 'projects/:project_id/issues/:copy_from/copy', :action => 'new'
-      issues_views.connect 'issues/:id', :action => 'show'
-      issues_views.connect 'issues/:id.:format', :action => 'show'
-      issues_views.connect 'issues/:id/edit', :action => 'edit'
-      issues_views.connect 'issues/:id/move', :action => 'move'
+      issues_views.connect 'issues/:id', :action => 'show', :id => /\d+/
+      issues_views.connect 'issues/:id.:format', :action => 'show', :id => /\d+/
+      issues_views.connect 'issues/:id/edit', :action => 'edit', :id => /\d+/
+      issues_views.connect 'issues/:id/move', :action => 'move', :id => /\d+/
     end
     issues_routes.with_options :conditions => {:method => :post} do |issues_actions|
       issues_actions.connect 'projects/:project_id/issues', :action => 'new'
-      issues_actions.connect 'issues/:id/quoted', :action => 'reply'
-      issues_actions.connect 'issues/:id/:action',
-        :action => /edit|move|destroy/
+      issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
+      issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy/, :id => /\d+/
     end
+    issues_routes.connect 'issues/:action'
   end
   
   map.with_options  :controller => 'issue_relations', :conditions => {:method => :post} do |relations|
