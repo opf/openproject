@@ -14,7 +14,8 @@
                        }, :class => 'icon icon-checked' %>
                        
     <%= link_to_remote l(:button_clear),
-                       { :url => { :set_filter => 1 }, 
+                       { :url => { :set_filter => 1, :project_id => (@project.nil? ? nil : @project.id) },
+                         :method => :get,
                          :update => "content",
                        }, :class => 'icon icon-reload'  %>
                        
