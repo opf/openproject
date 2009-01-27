@@ -51,6 +51,9 @@ class Issue < ActiveRecord::Base
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
 
+  named_scope :visible, lambda {|*args| { :include => :project,
+                                          :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+  
   def after_initialize
     if new_record?
       # set default values for new records only
