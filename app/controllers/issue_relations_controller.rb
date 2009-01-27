@@ -21,6 +21,9 @@ class IssueRelationsController < ApplicationController
   def new
     @relation = IssueRelation.new(params[:relation])
     @relation.issue_from = @issue
+    if params[:relation] && !params[:relation][:issue_to_id].blank?
+      @relation.issue_to = Issue.visible.find_by_id(params[:relation][:issue_to_id])
+    end
     @relation.save if request.post?
     respond_to do |format|
       format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }

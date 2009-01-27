@@ -35,6 +35,8 @@ class IssueRelation < ActiveRecord::Base
   validates_numericality_of :delay, :allow_nil => true
   validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
   
+  attr_protected :issue_from_id, :issue_to_id
+  
   def validate
     if issue_from && issue_to
       errors.add :issue_to_id, :activerecord_error_invalid if issue_from_id == issue_to_id
