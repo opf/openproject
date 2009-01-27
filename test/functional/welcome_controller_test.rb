@@ -60,4 +60,11 @@ class WelcomeControllerTest < Test::Unit::TestCase
     get :index
     assert_equal :fr, @controller.current_language
   end
+  
+  def test_robots
+    get :robots
+    assert_response :success
+    assert_equal 'text/plain', @response.content_type
+    assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues$})
+  end
 end

@@ -29,6 +29,12 @@ class ProjectsController < ApplicationController
   before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
   
+  after_filter :only => [:add, :edit, :archive, :unarchive, :destroy] do |controller|
+    if controller.request.post?
+      controller.send :expire_action, :controller => 'welcome', :action => 'robots.txt'
+    end
+  end
+  
   helper :sort
   include SortHelper
   helper :custom_fields
