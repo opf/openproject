@@ -113,6 +113,8 @@ ActionController::Routing::Routes.draw do |map|
       issues_views.connect 'issues.:format', :action => 'index'
       issues_views.connect 'projects/:project_id/issues.:format', :action => 'index'
       issues_views.connect 'projects/:project_id/issues/new', :action => 'new'
+      issues_views.connect 'projects/:project_id/issues/gantt', :action => 'gantt'
+      issues_views.connect 'projects/:project_id/issues/calendar', :action => 'calendar'
       issues_views.connect 'projects/:project_id/issues/:copy_from/copy', :action => 'new'
       issues_views.connect 'issues/:id', :action => 'show', :id => /\d+/
       issues_views.connect 'issues/:id.:format', :action => 'show', :id => /\d+/

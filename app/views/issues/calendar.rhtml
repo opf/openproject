@@ -16,24 +16,24 @@
 
 <p style="float:right; margin:0px;">
 <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
-                        {:update => "content", :url => { :project_id => @project, :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
-                        {:href => url_for(:action => 'calendar', :project_id => @project, :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
+                        {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
                         %> |
 <%= link_to_remote ((@month==12 ? "#{month_name(1)} #{@year+1}" : "#{month_name(@month+1)}") + ' &#187;'), 
-                        {:update => "content", :url => { :project_id => @project, :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
-                        {:href => url_for(:action => 'calendar', :project_id => @project, :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
+                        {:update => "content", :url => { :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1) }},
+                        {:href => url_for(:action => 'calendar', :year => (@month==12 ? @year+1 : @year), :month =>(@month==12 ? 1 : @month+1))}
                         %>
 </p>
 
 <p class="buttons">
 <%= link_to_remote l(:button_apply), 
-                   { :url => { :project_id => @project, :set_filter => (@query.new_record? ? 1 : nil) },
+                   { :url => { :set_filter => (@query.new_record? ? 1 : nil) },
                      :update => "content",
                      :with => "Form.serialize('query_form')"
                    }, :class => 'icon icon-checked' %>
                    
 <%= link_to_remote l(:button_clear),
-                   { :url => { :project_id => @project, :set_filter => (@query.new_record? ? 1 : nil) }, 
+                   { :url => { :set_filter => (@query.new_record? ? 1 : nil) }, 
                      :update => "content",
                    }, :class => 'icon icon-reload' if @query.new_record? %>
 </p>
