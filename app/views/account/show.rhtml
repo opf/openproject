@@ -57,7 +57,7 @@
 
 <p class="other-formats">
     <%= l(:label_export_to) %>
-    <%= link_to 'Atom', {:controller => 'projects', :action => 'activity', :user_id => @user, :format => :atom, :key => User.current.rss_key}, :class => 'feed' %>
+    <%= link_to 'Atom', {:controller => 'projects', :action => 'activity', :id => nil, :user_id => @user, :format => :atom, :key => User.current.rss_key}, :class => 'feed' %>
 </p>
 
 <% content_for :header_tags do %>
