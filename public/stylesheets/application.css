@@ -247,6 +247,9 @@ ul.projects li.child { margin-top: 1em;}
 ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
 .my-project { padding-left: 18px; background: url(../images/fav.png) no-repeat 0 50%; }
 
+#tracker_project_ids ul { margin: 0;  padding-left: 1em; }
+#tracker_project_ids li { list-style-type:none; } 
+
 ul.properties {padding:0; font-size: 0.9em; color: #777;}
 ul.properties li {list-style-type:none;}
 ul.properties li span {font-style:italic;}

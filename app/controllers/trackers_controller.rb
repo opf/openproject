@@ -40,8 +40,10 @@ class TrackersController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
+      return
     end
     @trackers = Tracker.find :all, :order => 'position'
+    @projects = Project.find(:all)
   end
 
   def edit
@@ -49,7 +51,9 @@ class TrackersController < ApplicationController
     if request.post? and @tracker.update_attributes(params[:tracker])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
+      return
     end
+    @projects = Project.find(:all)
   end
 
   def move

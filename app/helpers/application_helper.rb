@@ -195,6 +195,30 @@ module ApplicationHelper
       ancestors << project
     end
   end
+  
+  def project_nested_ul(projects, &block)
+    s = ''
+    if projects.any?
+      ancestors = []
+      projects.sort_by(&:lft).each do |project|
+        if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
+          s << "<ul>\n"
+        else
+          ancestors.pop
+          s << "</li>"
+          while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+            ancestors.pop
+            s << "</ul></li>\n"
+          end
+        end
+        s << "<li>"
+        s << yield(project).to_s
+        ancestors << project
+      end
+      s << ("</li></ul>\n" * ancestors.size)
+    end
+    s
+  end
 
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)
