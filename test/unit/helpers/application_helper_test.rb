@@ -312,7 +312,7 @@ RAW
                '<li class="heading2"><a href="#Subtitle-with-red-text">Subtitle with red text</a></li>' +
                '<li class="heading1"><a href="#Another-title">Another title</a></li>' +
                '</ul>'
-               puts textilizable(raw)
+               
     assert textilizable(raw).gsub("\n", "").include?(expected)
   end
   
