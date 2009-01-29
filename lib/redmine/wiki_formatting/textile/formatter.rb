@@ -65,7 +65,7 @@ module Redmine
         # Patch to add 'table of content' support to RedCloth
         def textile_p_withtoc(tag, atts, cite, content)
           # removes wiki links from the item
-          toc_item = content.gsub(/(\[\[|\]\])/, '')
+          toc_item = content.gsub(/(\[\[([^\]\|]*)(\|([^\]]*))?\]\])/) { $4 || $2 }
           # removes styles
           # eg. %{color:red}Triggers% => Triggers
           toc_item.gsub! %r[%\{[^\}]*\}([^%]+)%], '\\1'
