@@ -22,11 +22,10 @@ already in the URI %>
 <%= render :partial => 'list', :locals => { :entries => @entries }%>
 <p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
 
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
-<span><%= link_to 'CSV', params.merge(:format => 'csv'), :class => 'csv' %></span>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => params.merge({:issue_id => @issue, :key => User.current.rss_key}) %>
+	<%= f.link_to 'CSV', :url => params %>
+<% end %>
 <% end %>
 
 <% html_title l(:label_spent_time), l(:label_details) %>

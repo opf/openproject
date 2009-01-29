@@ -15,10 +15,9 @@
 <%= render :partial => 'common/diff', :locals => {:diff => @diff, :diff_type => @diff_type} %>
 <% end -%>
 
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Unified diff', params.merge(:format => 'diff') %></span>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Diff', :url => params, :caption => 'Unified diff' %>
+<% end %>
 
 <% html_title(with_leading_slash(@path), 'Diff') -%>
 

@@ -65,10 +65,9 @@
 </tbody>
 </table>
 
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'CSV', params.merge({:format => 'csv'}), :class => 'csv' %></span>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'CSV', :url => params %>
+<% end %>
 <% end %>
 <% end %>
 

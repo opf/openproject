@@ -241,13 +241,10 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 </tr>
 </table>
 
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'PDF', @gantt.params.merge(:format => 'pdf'), :class => 'pdf' %></span>
-<% if @gantt.respond_to?('to_image') %>
-<span><%= link_to 'PNG', @gantt.params.merge(:format => 'png'), :class => 'image' %></span>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'PDF', :url => @gantt.params %>
+	<%= f.link_to('PNG', :url => @gantt.params) if @gantt.respond_to?('to_image') %>
 <% end %>
-</p>
 <% end # query.valid? %>
 
 <% content_for :sidebar do %>

@@ -18,11 +18,10 @@
 <% end %>
 
 <% unless @pages.empty? %>
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:controller => 'projects', :action => 'activity', :id => @project, :show_wiki_pages => 1, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
-<span><%= link_to 'HTML', {:action => 'special', :page => 'export'}, :class => 'html' %></span>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => {:controller => 'projects', :action => 'activity', :id => @project, :show_wiki_pages => 1, :key => User.current.rss_key} %>
+	<%= f.link_to 'HTML', :url => {:action => 'special', :page => 'export'} %>
+<% end %>
 <% end %>
 
 <% content_for :header_tags do %>

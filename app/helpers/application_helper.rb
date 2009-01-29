@@ -282,6 +282,12 @@ module ApplicationHelper
     elements = args.flatten
     elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
   end
+  
+  def other_formats_links(&block)
+    concat('<p class="other-formats">' + l(:label_export_to), block.binding)
+    yield Redmine::Views::OtherFormatsBuilder.new(self)
+    concat('</p>', block.binding)
+  end
 
   def html_title(*args)
     if args.empty?

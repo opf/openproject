@@ -42,11 +42,10 @@
 <% end %>
 <% end %>
 
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'HTML', {:page => @page.title, :export => 'html', :version => @content.version}, :class => 'html' %></span>
-<span><%= link_to 'TXT', {:page => @page.title, :export => 'txt', :version => @content.version}, :class => 'text' %></span>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'HTML', :url => {:page => @page.title, :version => @content.version} %>
+	<%= f.link_to 'TXT', :url => {:page => @page.title, :version => @content.version} %>
+<% end %>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>

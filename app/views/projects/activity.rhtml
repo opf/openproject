@@ -33,10 +33,9 @@
                     :title => "#{l(:label_date_from)} #{format_date(@date_to)} #{l(:label_date_to).downcase} #{format_date(@date_to + @days - 1)}"}) unless @date_to >= Date.today %>
 </div>
 &nbsp;
-<p class="other-formats">
-    <%= l(:label_export_to) %>
-    <%= link_to 'Atom', params.merge(:format => :atom, :from => nil, :key => User.current.rss_key), :class => 'feed' %>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => params.merge(:from => nil, :key => User.current.rss_key) %>
+<% end %>
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :from => nil, :key => User.current.rss_key)) %>

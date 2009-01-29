@@ -307,7 +307,7 @@ div.attachments span.author { font-size: 0.9em; color: #888; }
 p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 .other-formats span + span:before { content: "| "; }
 
-a.feed { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
+a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning {

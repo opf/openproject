@@ -44,12 +44,12 @@
 <%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:query_id => @query, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
-<span><%= link_to 'CSV', {:format => 'csv'}, :class => 'csv' %></span>
-<span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => {:query_id => (@query.new_record? ? nil : @query), :key => User.current.rss_key} %>
+	<%= f.link_to 'CSV' %>
+	<%= f.link_to 'PDF' %>
+<% end %>
+
 <% end %>
 <% end %>
 

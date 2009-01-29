@@ -16,9 +16,8 @@
 <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
 <% end %>
 
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
-</p>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+<% end %>
 
 <% html_title(l(:label_revision_plural)) -%>
