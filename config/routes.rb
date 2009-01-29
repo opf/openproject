@@ -111,6 +111,7 @@ ActionController::Routing::Routes.draw do |map|
     issues_routes.with_options :conditions => {:method => :get} do |issues_views|
       issues_views.connect 'issues', :action => 'index'
       issues_views.connect 'issues.:format', :action => 'index'
+      issues_views.connect 'projects/:project_id/issues', :action => 'index'
       issues_views.connect 'projects/:project_id/issues.:format', :action => 'index'
       issues_views.connect 'projects/:project_id/issues/new', :action => 'new'
       issues_views.connect 'projects/:project_id/issues/gantt', :action => 'gantt'
