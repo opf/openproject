@@ -79,7 +79,7 @@
 	        :class => 'icon-copy', :disabled => !@can[:copy] %></li>
 	<% if @can[:log_time] -%>
 	<li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue},
-	        :class => 'icon-time' %></li>
+	        :class => 'icon-time-add' %></li>
 	<% end %>
 <% end %>
 

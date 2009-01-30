@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
+<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time-add' %>
 <%= watcher_tag(@issue, User.current) %>
 <%= link_to_if_authorized l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-copy' %>
 <%= link_to_if_authorized l(:button_move), {:controller => 'issues', :action => 'move', :id => @issue }, :class => 'icon icon-move' %>
@@ -34,7 +34,7 @@
     <td class="category"><b><%=l(:field_category)%>:</b></td><td><%=h @issue.category ? @issue.category.name : "-" %></td>
     <% if User.current.allowed_to?(:view_time_entries, @project) %>
     <td class="spent-time"><b><%=l(:label_spent_time)%>:</b></td>
-    <td class="spent-hours"><%= @issue.spent_hours > 0 ? (link_to lwr(:label_f_hour, @issue.spent_hours), {:controller => 'timelog', :action => 'details', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time') : "-" %></td>
+    <td class="spent-hours"><%= @issue.spent_hours > 0 ? (link_to lwr(:label_f_hour, @issue.spent_hours), {:controller => 'timelog', :action => 'details', :project_id => @project, :issue_id => @issue}) : "-" %></td>
     <% end %>
 </tr>
 <tr>
