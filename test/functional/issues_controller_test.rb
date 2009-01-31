@@ -324,6 +324,21 @@ class IssuesControllerTest < Test::Unit::TestCase
                                             :content => /Notes/ } }
   end
   
+  def test_show_should_not_disclose_relations_to_invisible_issues
+    Setting.cross_project_issue_relations = '1'
+    IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => 'relates')
+    # Relation to a private project issue
+    IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(4), :relation_type => 'relates')
+    
+    get :show, :id => 1
+    assert_response :success
+    
+    assert_tag :div, :attributes => { :id => 'relations' },
+                     :descendant => { :tag => 'a', :content => /#2$/ }
+    assert_no_tag :div, :attributes => { :id => 'relations' },
+                        :descendant => { :tag => 'a', :content => /#4$/ }
+  end
+  
   def test_new_routing
     assert_routing(
       {:method => :get, :path => '/projects/1/issues/new'},

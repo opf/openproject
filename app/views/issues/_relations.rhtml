@@ -8,7 +8,7 @@
 
 <% if @issue.relations.any? %>
 <table style="width:100%">
-<% @issue.relations.each do |relation| %>
+<% @issue.relations.select {|r| r.other_issue(@issue).visible? }.each do |relation| %>
 <tr>
 <td><%= l(relation.label_for(@issue)) %> <%= "(#{lwr(:actionview_datehelper_time_in_words_day, relation.delay)})" if relation.delay && relation.delay != 0 %>
     <%= h(relation.other_issue(@issue).project) + ' - ' if Setting.cross_project_issue_relations? %> <%= link_to_issue relation.other_issue(@issue) %></td>

@@ -54,6 +54,11 @@ class Issue < ActiveRecord::Base
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
   
+  # Returns true if usr or current user is allowed to view the issue
+  def visible?(usr=nil)
+    (usr || User.current).allowed_to?(:view_issues, self.project)
+  end
+  
   def after_initialize
     if new_record?
       # set default values for new records only
