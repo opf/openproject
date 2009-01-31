@@ -792,7 +792,7 @@ class RedCloth3 < String
             (?:\(([^)]+?)\)(?="))?     # $title
             ":
             (                          # $url
-            (\/|https?:\/\/|s?ftps?:\/\/|www\.)
+            (\/|[a-zA-Z]+:\/\/|www\.)  # $proto
             [\w\/]\S+?
             )               
             (\/)?                      # $slash
