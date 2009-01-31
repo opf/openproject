@@ -186,6 +186,7 @@ field_searchable: Sökbar
 field_default_value: Standardvärde
 field_comments_sorting: Visa kommentarer
 field_parent_title: Föräldersida
+field_editable: Redigerbar
 
 setting_app_title: Applikationsrubrik
 setting_app_subtitle: Applikationsunderrubrik
@@ -197,7 +198,7 @@ setting_attachment_max_size: Maxstorlek på bilaga
 setting_issues_export_limit: Exportgräns för ärenden
 setting_mail_from: Mailavsändare
 setting_bcc_recipients: Hemlig kopia (bcc) till mottagare
-setting_plain_text_mail: oformaterad text i mail (ingen HTML)
+setting_plain_text_mail: Oformaterad text i mail (ingen HTML)
 setting_host_name: Värddatornamn
 setting_text_formatting: Textformatering
 setting_wiki_compression: Komprimering av wikihistorik
@@ -553,7 +554,7 @@ label_file_plural: Filer
 label_changeset_plural: Changesets
 label_default_columns: Standardkolumner
 label_no_change_option: (Ingen ändring)
-label_bulk_edit_selected_issues: Gemensam editering av markerade ärenden
+label_bulk_edit_selected_issues: Gemensam ändring av markerade ärenden
 label_theme: Tema
 label_default: Standard
 label_search_titles_only: Sök endast i titlar
@@ -583,6 +584,7 @@ label_incoming_emails: Inkommande mail
 label_generate_key: Generera en nyckel
 label_issue_watchers: Bevakare
 label_example: Exempel
+label_display: Visa
 
 button_login: Logga in
 button_submit: Spara
@@ -591,6 +593,7 @@ button_check_all: Markera alla
 button_uncheck_all: Avmarkera alla
 button_delete: Ta bort
 button_create: Skapa
+button_create_and_continue: Skapa och fortsätt
 button_test: Testa
 button_edit: Ändra
 button_add: Lägg till
@@ -621,7 +624,7 @@ button_copy: Kopiera
 button_annotate: Kommentera
 button_update: Uppdatera
 button_configure: Konfigurera
-button_quote: Citat
+button_quote: Citera
 
 status_active: aktiv
 status_registered: registrerad
@@ -661,8 +664,8 @@ text_status_changed_by_changeset: Tilldelad i changeset %s.
 text_issues_destroy_confirmation: 'Är du säker på att du vill radera markerade ärende(n) ?'
 text_select_project_modules: 'Välj vilka moduler som ska vara aktiva för projektet:'
 text_default_administrator_account_changed: Standardadministratörens konto ändrat
-text_file_repository_writable: Filarkiv är skrivbart
-text_plugin_assets_writable: Plugin-folder är skrivbar
+text_file_repository_writable: Foldern för bifogade filer är skrivbar
+text_plugin_assets_writable: Foldern för plug-ins är skrivbar
 text_rmagick_available: RMagick tillgängligt (valfritt)
 text_destroy_time_entries_question: %.02f timmar har rapporterats på ärendena du är på väg att ta bort. Vad vill du göra ?
 text_destroy_time_entries: Ta bort rapporterade timmar
@@ -674,6 +677,7 @@ text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
 text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar är inaktiverade.\nKonfigurera din SMTP-server i config/email.yml och starta om applikationen för att aktivera dem."
 text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i repository-loggen.\nAnvändare med samma användarnamn eller emailadress i både Redmine och repositoryt mappas automatiskt."
 text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
+text_custom_field_possible_values_info: 'En linje för varje värde'
 
 default_role_manager: Projektledare
 default_role_developper: Utvecklare
@@ -699,10 +703,4 @@ default_activity_development: Utveckling
 
 enumeration_issue_priorities: Ärendeprioriteter
 enumeration_doc_categories: Dokumentkategorier
-enumeration_activities: Aktiviteter (tidsuppföljning)
-text_plugin_assets_writable: Plugin assets directory writable
-warning_attachments_not_saved: "%d file(s) could not be saved."
-button_create_and_continue: Create and continue
-text_custom_field_possible_values_info: 'One line for each value'
-label_display: Display
-field_editable: Editable
+enumeration_activities: Aktiviteter (tidsuppföljning

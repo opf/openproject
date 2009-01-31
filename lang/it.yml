@@ -169,7 +169,7 @@ field_default_value: Stato predefinito
 setting_app_title: Titolo applicazione
 setting_app_subtitle: Sottotitolo applicazione
 setting_welcome_text: Testo di benvenuto
-setting_default_language: Lingua di default
+setting_default_language: Lingua predefinita
 setting_login_required: Autenticazione richiesta
 setting_self_registration: Auto-registrazione abilitata
 setting_attachment_max_size: Massima dimensione allegati
@@ -181,8 +181,8 @@ setting_wiki_compression: Comprimi cronologia wiki
 setting_feeds_limit: Limite contenuti del feed
 setting_autofetch_changesets: Acquisisci automaticamente le commit
 setting_sys_api_enabled: Abilita WS per la gestione del repository
-setting_commit_ref_keywords: Referencing keywords
-setting_commit_fix_keywords: Fixing keywords
+setting_commit_ref_keywords: Parole chiave riferimento
+setting_commit_fix_keywords: Parole chiave chiusura
 setting_autologin: Login automatico
 setting_date_format: Formato data
 setting_cross_project_issue_relations: Consenti la creazione di relazioni tra segnalazioni in progetti differenti
@@ -482,7 +482,7 @@ text_length_between: Lunghezza compresa tra %d e %d caratteri.
 text_tracker_no_workflow: Nessun workflow definito per questo tracker
 text_unallowed_characters: Caratteri non permessi
 text_comma_separated: Valori multipli permessi (separati da virgola).
-text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+text_issues_ref_in_commit_messages: Segnalazioni di riferimento e chiusura nei messaggi di commit
 text_issue_added: "E' stata segnalata l'anomalia %s da %s."
 text_issue_updated: "L'anomalia %s e' stata aggiornata da %s."
 text_wiki_destroy_confirmation: Sicuro di voler cancellare questo wiki e tutti i suoi contenuti?
@@ -557,10 +557,10 @@ field_searchable: Ricercabile
 label_display_per_page: 'Per pagina: %s'
 setting_per_page_options: Opzioni oggetti per pagina
 label_age: Età
-notice_default_data_loaded: Configurazione di default caricata con successo.
-text_load_default_configuration: Carica la configurazione di default
+notice_default_data_loaded: Configurazione predefinita caricata con successo.
+text_load_default_configuration: Carica la configurazione predefinita
 text_no_configuration_data: "Ruoli, tracker, stati delle segnalazioni e workflow non sono stati ancora configurati.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-error_can_t_load_default_data: "Non è stato possibile caricare la configurazione di default : %s"
+error_can_t_load_default_data: "Non è stato possibile caricare la configurazione predefinita : %s"
 button_update: Aggiorna
 label_change_properties: Modifica le proprietà
 label_general: Generale
@@ -587,7 +587,7 @@ project_module_repository: Repository
 project_module_news: Notizie
 project_module_time_tracking: Time tracking
 text_file_repository_writable: Repository dei file scrivibile
-text_default_administrator_account_changed: L'account amministrativo di default è stato modificato
+text_default_administrator_account_changed: L'account amministrativo predefinito è stato modificato
 text_rmagick_available: RMagick disponibile (opzionale)
 button_configure: Configura
 label_plugins: Plugin
@@ -630,7 +630,7 @@ text_enumeration_destroy_question: '%d oggetti hanno un assegnamento su questo v
 label_incoming_emails: E-mail in arrivo
 label_generate_key: Genera una chiave
 setting_mail_handler_api_enabled: Abilita WS per le e-mail in arrivo
-setting_mail_handler_api_key: chiave API
+setting_mail_handler_api_key: Chiave API
 text_email_delivery_not_configured: "La consegna via e-mail non è configurata e le notifiche sono disabilitate.\nConfigura il tuo server SMTP in config/email.yml e riavvia l'applicazione per abilitarle."
 field_parent_title: Parent page
 label_issue_watchers: Osservatori
@@ -640,7 +640,7 @@ setting_sequential_project_identifiers: Genera progetti con identificativi in se
 notice_unable_delete_version: Impossibile cancellare la versione
 label_renamed: rinominato
 label_copied: copiato
-setting_plain_text_mail: solo testo (non HTML)
+setting_plain_text_mail: Solo testo (non HTML)
 permission_view_files: Vedi files
 permission_edit_issues: Modifica segnalazioni
 permission_edit_own_time_entries: Modifica propri time logs
@@ -692,10 +692,10 @@ label_example: Esempio
 text_repository_usernames_mapping: "Seleziona per aggiornare la corrispondenza tra gli utenti Redmine e quelli presenti nel log del repository.\nGli utenti Redmine e repository con lo stesso username o email sono mappati automaticamente."
 permission_edit_own_messages: Modifica propri messaggi
 permission_delete_own_messages: Elimina propri messaggi
-label_user_activity: "%s's activity"
-label_updated_time_by: Updated by %s %s ago
-text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-setting_diff_max_lines_displayed: Max number of diff lines displayed
+label_user_activity: "attività di %s"
+label_updated_time_by: Aggiornato da %s %s fa
+text_diff_truncated: '... Le differenze sono state troncate perchè superano il limite massimo visualizzabile.'
+setting_diff_max_lines_displayed: Limite massimo di differenze (linee) mostrate
 text_plugin_assets_writable: Plugin assets directory writable
 warning_attachments_not_saved: "%d file(s) could not be saved."
 button_create_and_continue: Create and continue
