@@ -98,7 +98,7 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:priority, :sortable => "#{Enumeration.table_name}.position", :default_order => 'desc'),
     QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
     QueryColumn.new(:author),
-    QueryColumn.new(:assigned_to, :sortable => "#{User.table_name}.lastname"),
+    QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname"]),
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name"),
     QueryColumn.new(:fixed_version, :sortable => "#{Version.table_name}.effective_date", :default_order => 'desc'),
