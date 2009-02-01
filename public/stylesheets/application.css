@@ -158,6 +158,7 @@ div.square {
 }
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px; padding-left: 10px; font-size:0.9em;}
 .contextual input {font-size:0.9em;}
+.message .contextual { margin-top: 0; }
 
 .splitcontentleft{float:left; width:49%;}
 .splitcontentright{float:right; width:49%;}

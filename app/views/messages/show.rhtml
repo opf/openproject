@@ -23,12 +23,12 @@
 <h3 class="icon22 icon22-comment"><%= l(:label_reply_plural) %></h3>
 <% @replies.each do |message| %>
   <a name="<%= "message-#{message.id}" %>"></a>
-  <div class="contextual">
-    <%= link_to_remote_if_authorized image_tag('comment.png'), { :url => {:action => 'quote', :id => message} }, :title => l(:button_quote) %>
-    <%= link_to(image_tag('edit.png'), {:action => 'edit', :id => message}, :title => l(:button_edit)) if message.editable_by?(User.current) %>
-    <%= link_to(image_tag('delete.png'), {:action => 'destroy', :id => message}, :method => :post, :confirm => l(:text_are_you_sure), :title => l(:button_delete)) if message.destroyable_by?(User.current) %>
-  </div>
   <div class="message reply">
+    <div class="contextual">
+      <%= link_to_remote_if_authorized image_tag('comment.png'), { :url => {:action => 'quote', :id => message} }, :title => l(:button_quote) %>
+      <%= link_to(image_tag('edit.png'), {:action => 'edit', :id => message}, :title => l(:button_edit)) if message.editable_by?(User.current) %>
+      <%= link_to(image_tag('delete.png'), {:action => 'destroy', :id => message}, :method => :post, :confirm => l(:text_are_you_sure), :title => l(:button_delete)) if message.destroyable_by?(User.current) %>
+    </div>
   <h4><%=h message.subject %> - <%= authoring message.created_on, message.author %></h4>
   <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
   <%= link_to_attachments message, :author => false %>
