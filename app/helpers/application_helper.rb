@@ -116,7 +116,7 @@ module ApplicationHelper
   end
   
   def format_activity_description(text)
-    h(truncate(text.to_s, 250).gsub(%r{<(pre|code)>.*$}m, '...'))
+    h(truncate(text.to_s, 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />")
   end
 
   def distance_of_date_in_words(from_date, to_date = 0)
