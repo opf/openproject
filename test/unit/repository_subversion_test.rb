@@ -48,6 +48,13 @@ class RepositorySubversionTest < Test::Unit::TestCase
       @repository.fetch_changesets
       assert_equal 8, @repository.changesets.count
     end
+    
+    def test_changesets_for_path_with_limit
+      @repository.fetch_changesets
+      changesets = @repository.changesets_for_path('', :limit => 2)
+      assert_equal 2, changesets.size
+      assert_equal @repository.changesets_for_path('').slice(0,2), changesets
+    end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end

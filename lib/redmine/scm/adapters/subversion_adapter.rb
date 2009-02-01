@@ -141,6 +141,7 @@ module Redmine
           cmd = "#{SVN_BIN} log --xml -r #{identifier_from}:#{identifier_to}"
           cmd << credentials_string
           cmd << " --verbose " if  options[:with_paths]
+          cmd << " --limit #{options[:limit].to_i}" if options[:limit]
           cmd << ' ' + target(URI.escape(path))
           shellout(cmd) do |io|
             begin

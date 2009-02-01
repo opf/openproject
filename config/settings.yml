@@ -132,6 +132,9 @@ repositories_encodings:
 # encoding used to convert commit logs to UTF-8
 commit_logs_encoding:
   default: 'UTF-8'
+repository_log_display_limit:
+  format: int
+  default: 100
 ui_theme:
   default: ''
 emails_footer:

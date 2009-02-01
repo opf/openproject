@@ -704,3 +704,4 @@ text_repository_usernames_mapping: "Select or update the Redmine user mapped to 
 permission_edit_time_entries: Edit time logs
 general_csv_decimal_separator: '.'
 permission_edit_own_time_entries: Edit own time logs
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log

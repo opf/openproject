@@ -703,3 +703,4 @@ button_create_and_continue: 連続作成
 text_custom_field_possible_values_info: '選択肢の値は1行に1個ずつ記述してください。'
 label_display: 表示
 field_editable: Editable
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log

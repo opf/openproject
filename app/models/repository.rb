@@ -76,11 +76,12 @@ class Repository < ActiveRecord::Base
   end
   
   # Default behaviour: we search in cached changesets
-  def changesets_for_path(path)
+  def changesets_for_path(path, options={})
     path = "/#{path}" unless path.starts_with?('/')
     Change.find(:all, :include => {:changeset => :user}, 
-      :conditions => ["repository_id = ? AND path = ?", id, path],
-      :order => "committed_on DESC, #{Changeset.table_name}.id DESC").collect(&:changeset)
+                      :conditions => ["repository_id = ? AND path = ?", id, path],
+                      :order => "committed_on DESC, #{Changeset.table_name}.id DESC",
+                      :limit => options[:limit]).collect(&:changeset)
   end
   
   # Returns a path relative to the url of the repository

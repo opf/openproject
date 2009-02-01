@@ -703,4 +703,5 @@ default_activity_development: Utveckling
 
 enumeration_issue_priorities: Ärendeprioriteter
 enumeration_doc_categories: Dokumentkategorier
-enumeration_activities: Aktiviteter (tidsuppföljning
+enumeration_activities: Aktiviteter (tidsuppföljning)
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log

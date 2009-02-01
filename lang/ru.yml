@@ -737,3 +737,4 @@ text_custom_field_possible_values_info: 'По одному значению в �
 label_display: Отображение
 field_editable: Редактируемый
 
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log

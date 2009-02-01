@@ -19,6 +19,9 @@
 
 <p><label><%= l(:setting_commit_logs_encoding) %></label>
 <%= select_tag 'settings[commit_logs_encoding]', options_for_select(Setting::ENCODINGS, Setting.commit_logs_encoding) %></p>
+
+<p><label><%= l(:setting_repository_log_display_limit) %></label>
+<%= text_field_tag 'settings[repository_log_display_limit]', Setting.repository_log_display_limit, :size => 6 %></p>
 </div>
 
 <fieldset class="box tabular settings"><legend><%= l(:text_issues_ref_in_commit_messages) %></legend>

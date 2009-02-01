@@ -227,6 +227,7 @@ setting_mail_handler_api_key: Clé de protection de l'API
 setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
 setting_gravatar_enabled: Afficher les Gravatar des utilisateurs
 setting_diff_max_lines_displayed: Nombre maximum de lignes de diff affichées
+setting_repository_log_display_limit: "Nombre maximum de revisions affichées sur l'historique d'un fichier"
 
 permission_edit_project: Modifier le projet
 permission_select_project_modules: Choisir les modules
