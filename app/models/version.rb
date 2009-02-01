@@ -51,26 +51,31 @@ class Version < ActiveRecord::Base
   end
   
   def completed_pourcent
-    if fixed_issues.count == 0
+    if issues_count == 0
       0
     elsif open_issues_count == 0
       100
     else
-      (closed_issues_count * 100 + Issue.sum('done_ratio', :include => 'status', :conditions => ["fixed_version_id = ? AND is_closed = ?", id, false]).to_f) / fixed_issues.count
+      issues_progress(false) + issues_progress(true)
     end
   end
   
   def closed_pourcent
-    if fixed_issues.count == 0
+    if issues_count == 0
       0
     else
-      closed_issues_count * 100.0 / fixed_issues.count
+      issues_progress(false)
     end
   end
   
   # Returns true if the version is overdue: due date reached and some open issues
   def overdue?
     effective_date && (effective_date < Date.today) && (open_issues_count > 0)
+  end
+  
+  # Returns assigned issues count
+  def issues_count
+    @issue_count ||= fixed_issues.count
   end
   
   def open_issues_count
@@ -103,5 +108,36 @@ class Version < ActiveRecord::Base
 private
   def check_integrity
     raise "Can't delete version" if self.fixed_issues.find(:first)
+  end
+  
+  # Returns the average estimated time of assigned issues
+  # or 1 if no issue has an estimated time
+  # Used to weigth unestimated issues in progress calculation
+  def estimated_average
+    if @estimated_average.nil?
+      average = fixed_issues.average(:estimated_hours).to_f
+      if average == 0
+        average = 1
+      end
+      @estimated_average = average
+    end
+    @estimated_average
+  end
+  
+  # Returns the total progress of open or closed issues
+  def issues_progress(open)
+    @issues_progress ||= {}
+    @issues_progress[open] ||= begin
+      progress = 0
+      if issues_count > 0
+        ratio = open ? 'done_ratio' : 100
+        done = fixed_issues.sum("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}",
+                                  :include => :status,
+                                  :conditions => ["is_closed = ?", !open]).to_f
+                                  
+        progress = done / (estimated_average * issues_count)
+      end
+      progress
+    end
   end
 end
