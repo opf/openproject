@@ -23,8 +23,8 @@ class Changeset < ActiveRecord::Base
   has_many :changes, :dependent => :delete_all
   has_and_belongs_to_many :issues
 
-  acts_as_event :title => Proc.new {|o| "#{l(:label_revision)} #{o.revision}" + (o.comments.blank? ? '' : (': ' + o.comments))},
-                :description => :comments,
+  acts_as_event :title => Proc.new {|o| "#{l(:label_revision)} #{o.revision}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
+                :description => :long_comments,
                 :datetime => :committed_on,
                 :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project_id, :rev => o.revision}}
                 
@@ -122,6 +122,14 @@ class Changeset < ActiveRecord::Base
     self.issues = referenced_issues.uniq
   end
   
+  def short_comments
+    @short_comments || split_comments.first
+  end
+  
+  def long_comments
+    @long_comments || split_comments.last
+  end
+  
   # Returns the previous changeset
   def previous
     @previous ||= Changeset.find(:first, :conditions => ['id < ? AND repository_id = ?', self.id, self.repository_id], :order => 'id DESC')
@@ -139,6 +147,12 @@ class Changeset < ActiveRecord::Base
   
   private
 
+  def split_comments
+    comments =~ /\A(.+?)\r?\n(.*)$/m
+    @short_comments = $1 || comments
+    @long_comments = $2.to_s.strip
+    return @short_comments, @long_comments
+  end
 
   def self.to_utf8(str)
     return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
