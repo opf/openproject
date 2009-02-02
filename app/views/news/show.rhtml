@@ -48,8 +48,10 @@
 <% if authorize_for 'news', 'add_comment' %>
 <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
 <% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
-<%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
-<%= wikitoolbar_for 'comment_comments' %>
+<div class="box">
+    <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
+    <%= wikitoolbar_for 'comment_comments' %>
+</div>
 <p><%= submit_tag l(:button_add) %></p>
 <% end %>
 <% end %>
