@@ -17,7 +17,6 @@
     <td><%= link_to(version.wiki_page_title, :controller => 'wiki', :page => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %></td>
     <td align="center"><%= link_to_if_authorized l(:button_edit), { :controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %></td>
     <td align="center"><%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></td>
-    </td>
     </tr>
 <% end; reset_cycle %>
     </tbody>
