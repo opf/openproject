@@ -357,16 +357,15 @@ module ApplicationHelper
       attachments = attachments.sort_by(&:created_on).reverse
       text = text.gsub(/!((\<|\=|\>)?(\([^\)]+\))?(\[[^\]]+\])?(\{[^\}]+\})?)(\S+\.(bmp|gif|jpg|jpeg|png))!/i) do |m|
         style = $1
-        filename = $6
-        rf = Regexp.new(Regexp.escape(filename),  Regexp::IGNORECASE)
+        filename = $6.downcase
         # search for the picture in attachments
-        if found = attachments.detect { |att| att.filename =~ rf }
+        if found = attachments.detect { |att| att.filename.downcase == filename }
           image_url = url_for :only_path => only_path, :controller => 'attachments', :action => 'download', :id => found
           desc = found.description.to_s.gsub(/^([^\(\)]*).*$/, "\\1")
           alt = desc.blank? ? nil : "(#{desc})"
           "!#{style}#{image_url}#{alt}!"
         else
-          "!#{style}#{filename}!"
+          m
         end
       end
     end
