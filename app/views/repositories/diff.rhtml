@@ -1,12 +1,9 @@
 <h2><%= l(:label_revision) %> <%= format_revision(@rev) %> <%= @path.gsub(/^.*\//, '') %></h2>
 
 <!-- Choose view type -->
-<% form_tag({ :controller => 'repositories', :action => 'diff'}, :method => 'get') do %>
-  <% params.each do |k, p| %>
-    <% if k != "type" %>
-      <%= hidden_field_tag(k,p) %>
-    <% end %>
-    <% end %>
+<% form_tag({}, :method => 'get') do %>
+  <%= hidden_field_tag('rev', params[:rev]) if params[:rev] %>
+  <%= hidden_field_tag('rev_to', params[:rev_to]) if params[:rev_to] %>
   <p><label><%= l(:label_view_diff) %></label>
   <%= select_tag 'type', options_for_select([[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], @diff_type), :onchange => "if (this.value != '') {this.form.submit()}" %></p>
 <% end %>
