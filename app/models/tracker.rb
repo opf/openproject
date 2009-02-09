@@ -23,9 +23,9 @@ class Tracker < ActiveRecord::Base
       raise "Can not copy workflow from a #{tracker.class}" unless tracker.is_a?(Tracker)
       raise "Can not copy workflow from/to an unsaved tracker" if proxy_owner.new_record? || tracker.new_record?
       clear
-      connection.insert "INSERT INTO workflows (tracker_id, old_status_id, new_status_id, role_id)" +
+      connection.insert "INSERT INTO #{Workflow.table_name} (tracker_id, old_status_id, new_status_id, role_id)" +
                         " SELECT #{proxy_owner.id}, old_status_id, new_status_id, role_id" +
-                        " FROM workflows" +
+                        " FROM #{Workflow.table_name}" +
                         " WHERE tracker_id = #{tracker.id}"
     end
   end

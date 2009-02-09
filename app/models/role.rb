@@ -31,9 +31,9 @@ class Role < ActiveRecord::Base
       raise "Can not copy workflow from a #{role.class}" unless role.is_a?(Role)
       raise "Can not copy workflow from/to an unsaved role" if proxy_owner.new_record? || role.new_record?
       clear
-      connection.insert "INSERT INTO workflows (tracker_id, old_status_id, new_status_id, role_id)" +
+      connection.insert "INSERT INTO #{Workflow.table_name} (tracker_id, old_status_id, new_status_id, role_id)" +
                         " SELECT tracker_id, old_status_id, new_status_id, #{proxy_owner.id}" +
-                        " FROM workflows" +
+                        " FROM #{Workflow.table_name}" +
                         " WHERE role_id = #{role.id}"
     end
   end
