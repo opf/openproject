@@ -203,10 +203,17 @@ class MailHandler < ActionMailer::Base
   end
   
   def get_keyword(attr, options={})
-    if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && plain_text_body =~ /^#{attr}:[ \t]*(.+)$/i
-      $1.strip
-    elsif !@@handler_options[:issue][attr].blank?
-      @@handler_options[:issue][attr]
+    @keywords ||= {}
+    if @keywords.has_key?(attr)
+      @keywords[attr]
+    else
+      @keywords[attr] = begin
+        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && plain_text_body.gsub!(/^#{attr}:[ \t]*(.+)\s*$/i, '')
+          $1.strip
+        elsif !@@handler_options[:issue][attr].blank?
+          @@handler_options[:issue][attr]
+        end
+      end
     end
   end
   

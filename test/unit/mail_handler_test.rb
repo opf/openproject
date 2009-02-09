@@ -49,7 +49,11 @@ class MailHandlerTest < Test::Unit::TestCase
     assert_equal 'New ticket on a given project', issue.subject
     assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
+    assert_equal IssueStatus.find_by_name('Resolved'), issue.status
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+    # keywords should be removed from the email body
+    assert !issue.description.match(/^Project:/i)
+    assert !issue.description.match(/^Status:/i)
   end
 
   def test_add_issue_with_status
@@ -113,6 +117,7 @@ class MailHandlerTest < Test::Unit::TestCase
     issue.reload
     assert_equal 'New ticket with custom field values', issue.subject
     assert_equal 'Value for a custom field', issue.custom_value_for(CustomField.find_by_name('Searchable field')).value
+    assert !issue.description.match(/^searchable field:/i)
   end
   
   def test_add_issue_with_cc
