@@ -17,6 +17,8 @@
 
 module Redmine
   module Hook
+    include ActionController::UrlWriter
+
     @@listener_classes = []
     @@listeners = nil
     @@hook_listeners = {}
@@ -55,11 +57,22 @@ module Redmine
       # Calls a hook.
       # Returns the listeners response.
       def call_hook(hook, context={})
-        response = ''
-        hook_listeners(hook).each do |listener|
-          response << listener.send(hook, context).to_s
+        returning [] do |response|
+          hls = hook_listeners(hook)
+          if hls.any?
+            request = context[:request]
+            if request
+              default_url_options[:host] ||= request.env["SERVER_NAME"]
+              # Only set port if it's requested and isn't port 80.  Otherwise a url
+              # like:  +http://example.com:/url+ may be generated
+              if request.env["SERVER_PORT"] && request.env["SERVER_PORT"] != 80
+                default_url_options[:port] ||= request.env["SERVER_PORT"]
+              end
+              default_url_options[:protocol] ||= request.protocol
+            end
+            hls.each {|listener| response << listener.send(hook, context)}
+          end
         end
-        response
       end
     end
 
@@ -91,17 +104,48 @@ module Redmine
       include ActionView::Helpers::TextHelper
       include ActionController::UrlWriter
       include ApplicationHelper
+
+      # Helper method to directly render a partial using the context:
+      # 
+      #   class MyHook < Redmine::Hook::ViewListener
+      #     render_on :view_issues_show_details_bottom, :partial => "show_more_data" 
+      #   end
+      #
+      def self.render_on(hook, options={})
+        define_method hook do |context|
+          context[:controller].send(:render_to_string, {:locals => context}.merge(options))
+        end
+      end
     end
 
-    # Helper module included in ApplicationHelper so that hooks can be called
-    # in views like this:
+    # Helper module included in ApplicationHelper and ActionControllerso that
+    # hooks can be called in views like this:
+    # 
     #   <%= call_hook(:some_hook) %>
     #   <%= call_hook(:another_hook, :foo => 'bar' %>
     # 
-    # Current project is automatically added to the call context.
+    # Or in controllers like:
+    #   call_hook(:some_hook)
+    #   call_hook(:another_hook, :foo => 'bar'
+    # 
+    # Hooks added to views will be concatenated into a string.  Hooks added to
+    # controllers will return an array of results.
+    #
+    # Several objects are automatically added to the call context:
+    # 
+    # * project => current project
+    # * request => Request instance
+    # * controller => current Controller instance
+    # 
     module Helper
       def call_hook(hook, context={})
-        Redmine::Hook.call_hook(hook, {:project => @project}.merge(context))
+        if is_a?(ActionController::Base)
+          ctx = {:controller => self, :project => @project, :request => request}
+          Redmine::Hook.call_hook(hook, ctx.merge(context))
+        else
+          ctx = {:controller => controller, :project => @project, :request => request}
+          Redmine::Hook.call_hook(hook, ctx.merge(context)).join(' ')
+        end        
       end
     end
   end
