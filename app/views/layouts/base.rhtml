@@ -47,11 +47,13 @@
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
     <div id="sidebar">        
         <%= yield :sidebar %>
+        <%= call_hook :view_layouts_base_sidebar %>
     </div>
     
     <div id="content">
 				<%= render_flash_messages %>
         <%= yield %>
+        <%= call_hook :view_layouts_base_content %>
     </div>
 </div>
 
