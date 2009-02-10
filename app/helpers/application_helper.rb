@@ -418,7 +418,7 @@ module ApplicationHelper
                                    :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else
           # project or wiki doesn't exist
-          title || page
+          all
         end
       else
         all

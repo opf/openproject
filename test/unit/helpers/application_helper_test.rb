@@ -195,6 +195,9 @@ class ApplicationHelperTest < HelperTestCase
       '-[[Another page|Page]] link-' => '<del><a href="/projects/ecookbook/wiki/Another_page" class="wiki-page">Page</a> link</del>',
       # escaping
       '![[Another page|Page]]' => '[[Another page|Page]]',
+      # project does not exist
+      '[[unknowproject:Start]]' => '[[unknowproject:Start]]',
+      '[[unknowproject:Start|Page title]]' => '[[unknowproject:Start|Page title]]',
     }
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
