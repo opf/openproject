@@ -62,6 +62,15 @@ class TimelogControllerTest < Test::Unit::TestCase
                                  :content => 'Development'
   end
   
+  def test_get_edit_existing_time
+    @request.session[:user_id] = 2
+    get :edit, :id => 2, :project_id => nil
+    assert_response :success
+    assert_template 'edit'
+    # Default activity selected
+    assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/timelog/edit/2' }
+  end
+  
   def test_post_edit
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
