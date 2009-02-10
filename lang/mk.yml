@@ -1,0 +1,707 @@
+_gloc_rule_default: '|n| n==1 ? "" : "_plural" '
+
+actionview_datehelper_select_day_prefix:
+actionview_datehelper_select_month_names: јануари,февруари,март,април,мај,јуни,јули,август,септември,октомври,ноември,декември
+actionview_datehelper_select_month_names_abbr: јан,фев,мар,апр,мај,јун,јул,авг,сеп,окт,ное,дек
+actionview_datehelper_select_month_prefix:
+actionview_datehelper_select_year_prefix:
+actionview_datehelper_time_in_words_day: 1 ден
+actionview_datehelper_time_in_words_day_plural: %d дена
+actionview_datehelper_time_in_words_hour_about: околу 1 час
+actionview_datehelper_time_in_words_hour_about_plural: околу %d часа
+actionview_datehelper_time_in_words_hour_about_single: околу 1 час
+actionview_datehelper_time_in_words_minute: 1 минута
+actionview_datehelper_time_in_words_minute_half: половина минута
+actionview_datehelper_time_in_words_minute_less_than: помалку од минута
+actionview_datehelper_time_in_words_minute_plural: %d минути
+actionview_datehelper_time_in_words_minute_single: 1 минута
+actionview_datehelper_time_in_words_second_less_than: помалку од секунда
+actionview_datehelper_time_in_words_second_less_than_plural: помалку од %d секунди
+actionview_instancetag_blank_option: Изберете
+
+activerecord_error_inclusion: не е влучен во листата
+activerecord_error_exclusion: е резервирано
+activerecord_error_invalid: не е валиден
+activerecord_error_confirmation: doesn't match confirmation
+activerecord_error_accepted: мора да биде прифатено
+activerecord_error_empty: неможе да биде празно
+activerecord_error_blank: неможе да биде празно
+activerecord_error_too_long: е премногу долго
+activerecord_error_too_short: е премногу кратко
+activerecord_error_wrong_length: е погрешна должина
+activerecord_error_taken: е веќе зафатено
+activerecord_error_not_a_number: не е број
+activerecord_error_not_a_date: не е валидна дата
+activerecord_error_greater_than_start_date: мора да биде поголема од почетната дата
+activerecord_error_not_same_project: не припаѓа на истиот проект
+activerecord_error_circular_dependency: This relation would create a circular dependency
+
+general_fmt_age: %d год.
+general_fmt_age_plural: %d год.
+general_fmt_date: %%d/%%m/%%Y
+general_fmt_datetime: %%d/%%m/%%Y %%H:%%M
+general_fmt_datetime_short: %%d %%b, %%H:%%M
+general_fmt_time: %%H:%%M
+general_text_No: 'Не'
+general_text_Yes: 'Да'
+general_text_no: 'не'
+general_text_yes: 'да'
+general_lang_name: 'Македонски'
+general_csv_separator: ','
+general_csv_decimal_separator: '.'
+general_csv_encoding: UTF-8
+general_pdf_encoding: UTF-8
+general_day_names: понеделник,вторник,среда,четврток,петок,сабота,недела
+general_first_day_of_week: '1'
+
+notice_account_updated: Профилот е успешно ажуриран.
+notice_account_invalid_creditentials: Погрешен корисник или лозинка
+notice_account_password_updated: Лозинката е успешно променета.
+notice_account_wrong_password: Погрешна лозинка
+notice_account_register_done: Профилот е успешно креиран. За да го активирате профилот, кликнете на линкот во е-пораката испратена до Вас.
+notice_account_unknown_email: Непознат корисник.
+notice_can_t_change_password: Овој профил користи надворешна автентикација. Не е возможно да се промени лозинката.
+notice_account_lost_email_sent: Испратена Ви е е-порака со инструкции како да изберете нова лозинка.
+notice_account_activated: Вашиот профил е активиран. Можете да се најавите.
+notice_successful_create: Успешно креирање.
+notice_successful_update: Успешно ажурирање.
+notice_successful_delete: Успешно бришење.
+notice_successful_connection: Успешно поврзување.
+notice_file_not_found: Страната до која пробувате да пристапите не постои.
+notice_locking_conflict: Data has been updated by another user.
+notice_not_authorized: Немате овластување да пристапите до оваа страница.
+notice_email_sent: Испратена е е-порака до %s
+notice_email_error: Грешка при праќањето на е-пошта (%s)
+notice_feeds_access_key_reseted: Вашиот RSS клуч е ресетиран.
+notice_failed_to_save_issues: "Failed to save %d issue(s) on %d selected: %s."
+notice_no_issue_selected: "Не е избрана задача! Изберете ги задачите што сакате да ги уредувате."
+notice_account_pending: "Вашиот профил е креиран и чека одобрување од администраторот."
+notice_default_data_loaded: Основната конфигурација е успешно вчитана.
+notice_unable_delete_version: Верзијата неможе да се избрише.
+
+error_can_t_load_default_data: "Основната конфигурација неможе да биде вчитана: %s"
+error_scm_not_found: "The entry or revision was not found in the repository."
+error_scm_command_failed: "An error occurred when trying to access the repository: %s"
+error_scm_annotate: "The entry does not exist or can not be annotated."
+error_issue_not_found_in_project: 'Задачата не е најдена или не припаѓа на овој проект'
+
+mail_subject_lost_password: Вашата %s лозинка
+mail_body_lost_password: 'За да ја смените Вашата лозинка, кликнете на следниот линк:'
+mail_subject_register: Вашата %s активација на профилот
+mail_body_register: 'За да го активирате профилот, кликнете на следниот линк:'
+mail_body_account_information_external: Може да го користите Вашиот "%s" профил за да се најавите.
+mail_body_account_information: Информации за Вашиот профил
+mail_subject_account_activation_request: %s барање за активирање на профил
+mail_body_account_activation_request: 'Нов корисник (%s) е регистриран. Профилот чека на Ваше одобрување:'
+mail_subject_reminder: "%d issue(s) due in the next days"
+mail_body_reminder: "%d issue(s) that are assigned to you are due in the next %d days:"
+
+gui_validation_error: 1 грешка
+gui_validation_error_plural: %d грешки
+
+field_name: Име
+field_description: Опис
+field_summary: Резиме
+field_is_required: Задолжително
+field_firstname: Име
+field_lastname: Презиме
+field_mail: Е-пошта
+field_filename: Датотека
+field_filesize: Големина
+field_downloads: Преземања
+field_author: Автор
+field_created_on: Креирана
+field_updated_on: Ажурирана
+field_field_format: Формат
+field_is_for_all: За сите проекти
+field_possible_values: Можни вредности
+field_regexp: Regular expression
+field_min_length: Минимална должина
+field_max_length: Максимална должина
+field_value: Вредност
+field_category: Категорија
+field_title: Наслов
+field_project: Проект
+field_issue: Задача
+field_status: Статус
+field_notes: Белешки
+field_is_closed: Задачата е затворена
+field_is_default: Основна вредност
+field_tracker: Tracker
+field_subject: Наслов
+field_due_date: Краен датум
+field_assigned_to: Доделена на
+field_priority: Приоритет
+field_fixed_version: За верзија
+field_user: Корисник
+field_role: Функција
+field_homepage: Homepagе
+field_is_public: Јавен
+field_parent: Подпроект на
+field_is_in_chlog: Issues displayed in changelog
+field_is_in_roadmap: Issues displayed in roadmap
+field_login: Најава
+field_mail_notification: Известувања по е-пошта
+field_admin: Администратор
+field_last_login_on: Последна најава
+field_language: Јазик
+field_effective_date: Датум
+field_password: Лозинка
+field_new_password: Нова лозинка
+field_password_confirmation: Потврда
+field_version: Верзија
+field_type: Тип
+field_host: Хост
+field_port: Порт
+field_account: Account
+field_base_dn: Base DN
+field_attr_login: Login attribute
+field_attr_firstname: Firstname attribute
+field_attr_lastname: Lastname attribute
+field_attr_mail: Email attribute
+field_onthefly: On-the-fly user creation
+field_start_date: Старт
+field_done_ratio: %% завршено
+field_auth_source: Режим на автентикација
+field_hide_mail: Криј ја мојата на е-пошта
+field_comments: Коментар
+field_url: URL
+field_start_page: Почетна страна
+field_subproject: Подпроект
+field_hours: Часа
+field_activity: Активност
+field_spent_on: Датум
+field_identifier: Идентификатор
+field_is_filter: Used as a filter
+field_issue_to_id: Related issue
+field_delay: Каснење
+field_assignable: На оваа функција може да и се доделуваат задачи
+field_redirect_existing_links: Redirect existing links
+field_estimated_hours: Предвидено време
+field_column_names: Колони
+field_time_zone: Временска зона
+field_searchable: Searchable
+field_default_value: Основна вредност
+field_comments_sorting: Прикажи коментари
+field_parent_title: Parent page
+
+setting_app_title: Име на апликацијата
+setting_app_subtitle: Application subtitle
+setting_welcome_text: Текст за добредојде
+setting_default_language: Основен јазик
+setting_login_required: Задолжителна автентикација
+setting_self_registration: Само-регистрација
+setting_attachment_max_size: Макс. големина на прилог
+setting_issues_export_limit: Лимит на експорт на задачи
+setting_mail_from: Појдовна адреса на е-пораките
+setting_bcc_recipients: Blind carbon copy recipients (bcc)
+setting_plain_text_mail: обичен текст (без HTML)
+setting_host_name: Име на хостот и патека
+setting_text_formatting: Форматирање на текст
+setting_wiki_compression: Компресија на историјата на Вики
+setting_feeds_limit: Feed content limit
+setting_default_projects_public: Новите проекти се иницијално јавни
+setting_autofetch_changesets: Autofetch commits
+setting_sys_api_enabled: Enable WS for repository management
+setting_commit_ref_keywords: Referencing keywords
+setting_commit_fix_keywords: Fixing keywords
+setting_autologin: Автоматска најава
+setting_date_format: Формат на дата
+setting_time_format: Формат на време
+setting_cross_project_issue_relations: Allow cross-project issue relations
+setting_issue_list_default_columns: Default columns displayed on the issue list
+setting_repositories_encodings: Repositories encodings
+setting_commit_logs_encoding: Commit messages encoding
+setting_emails_footer: Подножје на е-пораките
+setting_protocol: Протокол
+setting_per_page_options: Objects per page options
+setting_user_format: Приказ на корисник
+setting_activity_days_default: Денови прикажани од активноста на проект
+setting_display_subprojects_issues: Display subprojects issues on main projects by default
+setting_enabled_scm: Активирај SCM
+setting_mail_handler_api_enabled: Enable WS for incoming emails
+setting_mail_handler_api_key: API клуч
+setting_sequential_project_identifiers: Генерирај последователни идентификатори на проекти
+setting_gravatar_enabled: Кориси Gravatar кориснички икони
+setting_diff_max_lines_displayed: Макс. број на прикажани diff линии
+
+permission_edit_project: Уреди проект
+permission_select_project_modules: Избери модули за проектот
+permission_manage_members: Manage members
+permission_manage_versions: Manage versions
+permission_manage_categories: Manage issue categories
+permission_add_issues: Додади задачи
+permission_edit_issues: Уреди задачи
+permission_manage_issue_relations: Manage issue relations
+permission_add_issue_notes: Додади белешки
+permission_edit_issue_notes: Уреди белешки
+permission_edit_own_issue_notes: Уреди лични белешки
+permission_move_issues: Премести задачи
+permission_delete_issues: Избриши задачи
+permission_manage_public_queries: Manage public queries
+permission_save_queries: Save queries
+permission_view_gantt: View gantt chart
+permission_view_calendar: Прикажи календар
+permission_view_issue_watchers: Прикажи листа на монитори
+permission_add_issue_watchers: Додади монитори
+permission_log_time: Бележи потрошено време
+permission_view_time_entries: Прикажи потрошено време
+permission_edit_time_entries: Edit time logs
+permission_edit_own_time_entries: Edit own time logs
+permission_manage_news: Уредувај новости
+permission_comment_news: Коментирај новости
+permission_manage_documents: Уредувај документи
+permission_view_documents: Прегледувај документи
+permission_manage_files: Уредувај датотеки
+permission_view_files: Прегледувај датотеки
+permission_manage_wiki: Уредувај вики
+permission_rename_wiki_pages: Преименувај вики страни
+permission_delete_wiki_pages: Бриши вики страни
+permission_view_wiki_pages: Прегледувај вики
+permission_view_wiki_edits: Прегледувај вики историја
+permission_edit_wiki_pages: Уредувај вики страни
+permission_delete_wiki_pages_attachments: Бриши прилози
+permission_protect_wiki_pages: Protect wiki pages
+permission_manage_repository: Manage repository
+permission_browse_repository: Browse repository
+permission_view_changesets: View changesets
+permission_commit_access: Commit access
+permission_manage_boards: Уредувај форуми
+permission_view_messages: Прегледувај пораки
+permission_add_messages: Праќај пораки
+permission_edit_messages: Уредувај пораки
+permission_edit_own_messages: Уредувај сопствени пораки
+permission_delete_messages: Бриши пораки
+permission_delete_own_messages: Бриши сопствени пораки
+
+project_module_issue_tracking: Следење на задачи
+project_module_time_tracking: Следење на време
+project_module_news: Новости
+project_module_documents: Документи
+project_module_files: Датотеки
+project_module_wiki: Вики
+project_module_repository: Repository
+project_module_boards: Форуми
+
+label_user: Корисник
+label_user_plural: Корисници
+label_user_new: Нов корисник
+label_project: Проект
+label_project_new: Нов проект
+label_project_plural: Проекти
+label_project_all: Сите проекти
+label_project_latest: Последни проекти
+label_issue: Задача
+label_issue_new: Нова задача
+label_issue_plural: Задачи
+label_issue_view_all: Прикажи ги сите задачи
+label_issues_by: Задачи по %s
+label_issue_added: Задачата е додадена
+label_issue_updated: Задачата е ажурирана
+label_document: Документ
+label_document_new: Нов документ
+label_document_plural: Документи
+label_document_added: Документот е додаден
+label_role: Функција
+label_role_plural: Функции
+label_role_new: Нова функција
+label_role_and_permissions: Функции и овластувања
+label_member: Член
+label_member_new: Нов член
+label_member_plural: Членови
+label_tracker: Tracker
+label_tracker_plural: Trackers
+label_tracker_new: New tracker
+label_workflow: Workflow
+label_issue_status: Статус на задачата
+label_issue_status_plural: Статуси на задача
+label_issue_status_new: Нов статус
+label_issue_category: Категорија на задача
+label_issue_category_plural: Категории на задача
+label_issue_category_new: Нова категорија
+label_custom_field: Custom field
+label_custom_field_plural: Custom fields
+label_custom_field_new: New custom field
+label_enumerations: Enumerations
+label_enumeration_new: Нова вредност
+label_information: Информација
+label_information_plural: Информации
+label_please_login: Најавете се
+label_register: Регистрирај се
+label_password_lost: Изгубена лозинка
+label_home: Почетна
+label_my_page: Мојата страна
+label_my_account: Мојот профил
+label_my_projects: Моите проекти
+label_administration: Администрација
+label_login: Најави се
+label_logout: Одјави се
+label_help: Помош
+label_reported_issues: Пријавени задачи
+label_assigned_to_me_issues: Задачи доделени на мене
+label_last_login: Последна најава
+label_last_updates: Последно ажурирање
+label_last_updates_plural: %d последни ажурирања
+label_registered_on: Регистриран на
+label_activity: Активност
+label_overall_activity: Севкупна активност
+label_user_activity: "Активност на %s"
+label_new: Нов
+label_logged_as: Најавен како
+label_environment: Environment
+label_authentication: Автентикација
+label_auth_source: Режим на автентикација
+label_auth_source_new: Нов ежим на автентикација
+label_auth_source_plural: Режими на автентикација
+label_subproject_plural: Подпроекти
+label_and_its_subprojects: %s и неговите подпроекти
+label_min_max_length: Мин. - Макс. должина
+label_list: Листа
+label_date: Датум
+label_integer: Цел број
+label_float: Децимален
+label_boolean: Boolean
+label_string: Текст
+label_text: Долг текст
+label_attribute: Атрибут
+label_attribute_plural: Атрибути
+label_download: %d Превземи
+label_download_plural: %d Преземања
+label_no_data: Нема информации за прикажување
+label_change_status: Промени го статусот
+label_history: Историја
+label_attachment: Датотека
+label_attachment_new: Нова датотека
+label_attachment_delete: Избриши ја датотеката
+label_attachment_plural: Датотеки
+label_file_added: Датотеката е додадена
+label_report: Извештај
+label_report_plural: Извештаи
+label_news: Новости
+label_news_new: Додади новости
+label_news_plural: Новости
+label_news_latest: Последни новости
+label_news_view_all: Прегледај ги сите новости
+label_news_added: Новоста е додадена
+label_change_log: Промени по верзии
+label_settings: Поставувања
+label_overview: Преглед
+label_version: Верзија
+label_version_new: Нова верзија
+label_version_plural: Верзии
+label_confirmation: Потрвда
+label_export_to: 'Достапно во:'
+label_read: Прочитај...
+label_public_projects: Јавни проекти
+label_open_issues: отворена
+label_open_issues_plural: отворени
+label_closed_issues: затворена
+label_closed_issues_plural: затворени
+label_total: Вкупно
+label_permissions: Овластувања
+label_current_status: Тековен статус
+label_new_statuses_allowed: Дозволени нови статуси
+label_all: сите
+label_none: нема
+label_nobody: никој
+label_next: Следно
+label_previous: Претходно
+label_used_by: Употребувано од
+label_details: Детали
+label_add_note: Додади белешка
+label_per_page: По страна
+label_calendar: Календар
+label_months_from: месеци од
+label_gantt: Gantt
+label_internal: Внатрешен
+label_last_changes: последни %d промени
+label_change_view_all: Прегледај ги сите промени
+label_personalize_page: Прилагоди ја оваа страна
+label_comment: Коментар
+label_comment_plural: Коментари
+label_comment_add: Додади коментар
+label_comment_added: Коментарот е додаден
+label_comment_delete: Избриши ги коментарите
+label_query: Custom query
+label_query_plural: Custom queries
+label_query_new: New query
+label_filter_add: Додади филтер
+label_filter_plural: Филтри
+label_equals: е
+label_not_equals: не е
+label_in_less_than: е помалку од
+label_in_more_than: е повеќе од
+label_in: во
+label_today: денес
+label_all_time: цело време
+label_yesterday: вчера
+label_this_week: оваа недела
+label_last_week: минатата недела
+label_last_n_days: последните %d дена
+label_this_month: овој месец
+label_last_month: минатиот месец
+label_this_year: оваа година
+label_date_range: Date range
+label_less_than_ago: пред помалку од дена
+label_more_than_ago: пред повеќе од дена
+label_ago: пред дена
+label_contains: содржи
+label_not_contains: не содржи
+label_day_plural: дена
+label_repository: Repository
+label_repository_plural: Repositories
+label_browse: Browse
+label_modification: %d промена
+label_modification_plural: %d промени
+label_revision: Ревизија
+label_revision_plural: Ревизии
+label_associated_revisions: Associated revisions
+label_added: додадено
+label_modified: променето
+label_copied: копирано
+label_renamed: преименувано
+label_deleted: избришано
+label_latest_revision: Последна ревизија
+label_latest_revision_plural: Последни ревизии
+label_view_revisions: Прегледај ги ревизиите
+label_max_size: Максимална големина
+label_on: 'од'
+label_sort_highest: Премести најгоре
+label_sort_higher: Премести погоре
+label_sort_lower: Премести подоле
+label_sort_lowest: Премести најдоле
+label_roadmap: Планирани верзии
+label_roadmap_due_in: За %s
+label_roadmap_overdue: %s покасно
+label_roadmap_no_issues: Нема задачи за оваа верзија
+label_search: Пребарувај
+label_result_plural: Резултати
+label_all_words: Сите зборови
+label_wiki: Вики
+label_wiki_edit: Уредување на вики
+label_wiki_edit_plural: Уредувања на вики
+label_wiki_page: Вики страница
+label_wiki_page_plural: Вики страници
+label_index_by_title: Index by title
+label_index_by_date: Index by date
+label_current_version: Тековна верзија
+label_preview: Преглед
+label_feed_plural: Feeds
+label_changes_details: Детали од сите промени
+label_issue_tracking: Следење на задачи
+label_spent_time: Потрошено време
+label_f_hour: %.2f час
+label_f_hour_plural: %.2f часа
+label_time_tracking: Следење на време
+label_change_plural: Промени
+label_statistics: Статистики
+label_commits_per_month: Commits per month
+label_commits_per_author: Commits per author
+label_view_diff: Прегледај ги разликите
+label_diff_inline: inline
+label_diff_side_by_side: side by side
+label_options: Опции
+label_copy_workflow_from: Copy workflow from
+label_permissions_report: Извештај со овластувања
+label_watched_issues: Следени задачи
+label_related_issues: Поврзани задачи
+label_applied_status: Applied status
+label_loading: Вчитување...
+label_relation_new: New relation
+label_relation_delete: Delete relation
+label_relates_to: related to
+label_duplicates: дупликати
+label_duplicated_by: duplicated by
+label_blocks: blocks
+label_blocked_by: blocked by
+label_precedes: предходи
+label_follows: следи
+label_end_to_start: end to start
+label_end_to_end: end to end
+label_start_to_start: start to start
+label_start_to_end: start to end
+label_stay_logged_in: Остани најавен
+label_disabled: disabled
+label_show_completed_versions: Покажи ги завршените верзии
+label_me: јас
+label_board: Форум
+label_board_new: Нов форум
+label_board_plural: Форуми
+label_topic_plural: Topics
+label_message_plural: Пораки
+label_message_last: Последна порака
+label_message_new: Нова порака
+label_message_posted: Пораката е додадена
+label_reply_plural: Одговори
+label_send_information: Испрати ги информациите за профилот до корисникот
+label_year: Година
+label_month: Месец
+label_week: Недела
+label_date_from: од
+label_date_to: до
+label_language_based: Според јазикот на корисникот
+label_sort_by: Подреди според %s
+label_send_test_email: Испрати тест е-порака
+label_feeds_access_key_created_on: RSS клучот е креиран пред %s
+label_module_plural: Модули
+label_added_time_by: Додадено од %s пред %s
+label_updated_time_by: Ажурирано од %s пред %s
+label_updated_time: Ажурирано пред %s
+label_jump_to_a_project: Промени проект...
+label_file_plural: Датотеки
+label_changeset_plural: Changesets
+label_default_columns: Основни колони
+label_no_change_option: (Без промена)
+label_bulk_edit_selected_issues: Групно уредување на избраните задачи
+label_theme: Тема
+label_default: Основна
+label_search_titles_only: Пребарувај ги само насловите
+label_user_mail_option_all: "За секој настан во сите мои проекти"
+label_user_mail_option_selected: "За секој настан само во избраните проекти..."
+label_user_mail_option_none: "Само за работите кои ги следам или сум дел од"
+label_user_mail_no_self_notified: "Несакам да сум известуван за промените што јас ги правам"
+label_registration_activation_by_email: account activation by email
+label_registration_manual_activation: manual account activation
+label_registration_automatic_activation: automatic account activation
+label_display_per_page: 'По страна: %s'
+label_age: Age
+label_change_properties: Промени својства
+label_general: Општо
+label_more: Повеќе
+label_scm: SCM
+label_plugins: Додатоци
+label_ldap_authentication: LDAP автентикација
+label_downloads_abbr: Преземања
+label_optional_description: Дополнителен опис
+label_add_another_file: Додадете друга датотека
+label_preferences: Параметри
+label_chronological_order: In chronological order
+label_reverse_chronological_order: In reverse chronological order
+label_planning: Планирање
+label_incoming_emails: Incoming emails
+label_generate_key: Генерирај клуч
+label_issue_watchers: Монитори
+label_example: Пример
+
+button_login: Најава
+button_submit: Испрати
+button_save: Зачувај
+button_check_all: Штиклирај ги сите
+button_uncheck_all: Одштиклирај ги сите
+button_delete: Избриши
+button_create: Креирај
+button_test: Тест
+button_edit: Уреди
+button_add: Додади
+button_change: Промени
+button_apply: Примени
+button_clear: Избриши
+button_lock: Заклучи
+button_unlock: Отклучи
+button_download: Преземи
+button_list: Листа
+button_view: Преглед
+button_move: Премести
+button_back: Back
+button_cancel: Откажи
+button_activate: Активирај
+button_sort: Сортирај
+button_log_time: Бележи време
+button_rollback: Врати се на оваа верзија
+button_watch: Следи
+button_unwatch: Не следи
+button_reply: Одговори
+button_archive: Архивирај
+button_unarchive: Unarchive
+button_reset: Reset
+button_rename: Преименувај
+button_change_password: Промени лозинка
+button_copy: Копирај
+button_annotate: Annotate
+button_update: Ажурирај
+button_configure: Конфигурирај
+button_quote: Цитирај
+
+status_active: активен
+status_registered: регистриран
+status_locked: заклучен
+
+text_select_mail_notifications: Select actions for which email notifications should be sent.
+text_regexp_info: eg. ^[A-Z0-9]+$
+text_min_max_length_info: 0 значи без ограничување
+text_project_destroy_confirmation: Дали сте сигурни дека сакате да го избришете овој проект и целата негова содржина ?
+text_subprojects_destroy_warning: 'Подпроектите: %s ќе бидат исто така избришани.'
+text_workflow_edit: Select a role and a tracker to edit the workflow
+text_are_you_sure: Дали сте сигурни ?
+text_journal_changed: променето од %s во %s
+text_journal_set_to: променето во %s
+text_journal_deleted: избришано
+text_tip_task_begin_day: задачи што почнуваат овој ден
+text_tip_task_end_day: задачи што завршуваат овој ден
+text_tip_task_begin_end_day: задачи што почнуваат и завшуваат овој ден
+text_project_identifier_info: 'Само малите букви (a-z), бројките и dashes се дозволени.<br />По зачувувањето, идентификаторот неможе да се менува.'
+text_caracters_maximum: Максимум %d знаци.
+text_caracters_minimum: Мора да е најмалку %d знаци долгa.
+text_length_between: Должина меѓу %d и %d знаци.
+text_tracker_no_workflow: No workflow defined for this tracker
+text_unallowed_characters: Недозволени знаци.
+text_comma_separated: Дозволени повеќе вредности (разделени со запирка).
+text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+text_issue_added: Задачата %s е пријавена од %s.
+text_issue_updated: Задачата %s е ажурирана од %s.
+text_wiki_destroy_confirmation: Дали сте сигурни дека сакате да ја избришете оваа вики и целата нејзина содржина ?
+text_issue_category_destroy_question: Некои задачи (%d) се доделени во оваа категорија. Што сакате да направите ?
+text_issue_category_destroy_assignments: Remove category assignments
+text_issue_category_reassign_to: Reassign issues to this category
+text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+text_no_configuration_data: "Финкции, trackers, статус на задачи and workflow сеуште не се конфигурирани.\nПрепорачано е вчитување на основната конфигурација. По вчитувањето може да се промени."
+text_load_default_configuration: Вчитај ја основната конфигурација
+text_status_changed_by_changeset: Applied in changeset %s.
+text_issues_destroy_confirmation: 'Дали сте сигурни дека сакате да ги избришете избраните задачи ?'
+text_select_project_modules: 'Избери кои модули да бидат активни за овој проект:'
+text_default_administrator_account_changed: Основниот администраторски профил е сменет
+text_file_repository_writable: File repository writable
+text_rmagick_available: RMagick инсталиран (optional)
+text_destroy_time_entries_question: %.02f часа се пријавени за задачите што сакате да ги избришете. Што сакате да направите ?
+text_destroy_time_entries: Избриши ги пријавените часови
+text_assign_time_entries_to_project: Assign reported hours to the project
+text_reassign_time_entries: 'Reassign reported hours to this issue:'
+text_user_wrote: '%s напиша:'
+text_enumeration_destroy_question: '%d objects are assigned to this value.'
+text_enumeration_category_reassign_to: 'Reassign them to this value:'
+text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nКонфигурирајте го Вашиот SMTP сервер во config/email.yml и рестартирај те ја апликацијата to enable them."
+text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+
+default_role_manager: Менаџер
+default_role_developper: Програмер
+default_role_reporter: Reporter
+default_tracker_bug: Грешка
+default_tracker_feature: Функционалност
+default_tracker_support: Поддршка
+default_issue_status_new: New
+default_issue_status_assigned: Доделена
+default_issue_status_resolved: Решена
+default_issue_status_feedback: Feedback
+default_issue_status_closed: Затворена
+default_issue_status_rejected: Одбиена
+default_doc_category_user: Корисничка документација
+default_doc_category_tech: Техничка документација
+default_priority_low: Низок
+default_priority_normal: Нормален
+default_priority_high: Висок
+default_priority_urgent: Итен
+default_priority_immediate: Многу итен
+default_activity_design: Дизајн
+default_activity_development: Развој
+
+enumeration_issue_priorities: Приоритети на задача
+enumeration_doc_categories: Категории на документ
+enumeration_activities: Типови на активност (следење на време)
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+warning_attachments_not_saved: "%d file(s) could not be saved."
+field_editable: Editable
+text_plugin_assets_writable: Plugin assets directory writable
+label_display: Display
+button_create_and_continue: Create and continue
+text_custom_field_possible_values_info: 'One line for each value'
