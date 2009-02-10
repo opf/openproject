@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,31 +16,35 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class SysController < ActionController::Base
-  wsdl_service_name 'Sys'
-  web_service_api SysApi
-  web_service_scaffold :invoke
+  before_filter :check_enabled
   
-  before_invocation :check_enabled
+  def projects
+    p = Project.active.has_module(:repository).find(:all, :include => :repository, :order => 'identifier')
+    render :xml => p.to_xml(:include => :repository)
+  end
   
-  # Returns the projects list, with their repositories
-  def projects_with_repository_enabled
-    Project.has_module(:repository).find(:all, :include => :repository, :order => 'identifier')
+  def create_project_repository
+    project = Project.find(params[:id])
+    if project.repository
+      render :nothing => true, :status => 409
+    else
+      logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
+      project.repository = Repository.factory(params[:vendor], params[:repository])
+      if project.repository && project.repository.save
+        render :xml => project.repository, :status => 201
+      else
+        render :nothing => true, :status => 422
+      end
+    end
   end
 
-  # Registers a repository for the given project identifier
-  def repository_created(identifier, vendor, url)
-    project = Project.find_by_identifier(identifier)
-    # Do not create the repository if the project has already one
-    return 0 unless project && project.repository.nil?
-    logger.debug "Repository for #{project.name} was created"
-    repository = Repository.factory(vendor, :project => project, :url => url)
-    repository.save
-    repository.id || 0
-  end
+  protected
 
-protected
-
-  def check_enabled(name, args)
-    Setting.sys_api_enabled?
+  def check_enabled
+    User.current = nil
+    unless Setting.sys_api_enabled?
+      render :nothing => 'Access denied. Repository management WS is disabled.', :status => 403
+      return false
+    end
   end
 end

@@ -57,11 +57,10 @@
 
 require 'getoptlong'
 require 'rdoc/usage'
-require 'soap/wsdlDriver'
 require 'find'
 require 'etc'
 
-Version = "1.1"
+Version = "1.2"
 SUPPORTED_SCM = %w( Subversion Darcs Mercurial Bazaar Git Filesystem )
 
 opts = GetoptLong.new(
@@ -164,20 +163,27 @@ unless File.directory?($repos_base)
   log("directory '#{$repos_base}' doesn't exists", :exit => true)
 end
 
+begin
+  require 'activeresource'
+rescue LoadError
+  log("This script requires activeresource.\nRun 'gem install activeresource' to install it.", :exit => true)
+end
+
+class Project < ActiveResource::Base; end
+
 log("querying Redmine for projects...", :level => 1);
 
 $redmine_host.gsub!(/^/, "http://") unless $redmine_host.match("^https?://")
 $redmine_host.gsub!(/\/$/, '')
 
-wsdl_url = "#{$redmine_host}/sys/service.wsdl";
+Project.site = "#{$redmine_host}/sys";
 
 begin
-  soap = SOAP::WSDLDriverFactory.new(wsdl_url).create_rpc_driver
+  # Get all active projects that have the Repository module enabled
+  projects = Project.find(:all)
 rescue => e
-  log("Unable to connect to #{wsdl_url} : #{e}", :exit => true)
+  log("Unable to connect to #{Project.site}: #{e}", :exit => true)
 end
-
-projects = soap.ProjectsWithRepositoryEnabled
 
 if projects.nil?
   log('no project found, perhaps you forgot to "Enable WS for repository management"', :exit => true)
@@ -247,7 +253,7 @@ projects.each do |project|
   else
     # if repository is already declared in redmine, we don't create
     # unless user use -f with reposman
-    if $force == false and not project.repository.nil?
+    if $force == false and project.respond_to?(:repository)
       log("\trepository for project #{project.identifier} already exists in Redmine", :level => 1)
       next
     end
@@ -274,11 +280,11 @@ projects.each do |project|
     end
 
     if $svn_url
-      ret = soap.RepositoryCreated project.identifier, $scm, "#{$svn_url}#{project.identifier}"
-      if ret > 0
+      begin
+        project.post(:repository, :vendor => $scm, :repository => {:url => "#{$svn_url}#{project.identifier}"})
         log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project.identifier}");
-      else
-        log("\trepository #{repos_path} not registered in Redmine. Look in your log to find why.");
+      rescue => e
+        log("\trepository #{repos_path} not registered in Redmine: #{e.message}");
       end
     end
 

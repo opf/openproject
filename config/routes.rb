@@ -246,10 +246,11 @@ ActionController::Routing::Routes.draw do |map|
     omap.repositories_entry 'repositories/annotate/:id/*path', :action => 'annotate'
     omap.connect 'repositories/revision/:id/:rev', :action => 'revision'
   end
-   
-  # Allow downloading Web Service WSDL as a file with an extension
-  # instead of a file named 'wsdl'
-  map.connect ':controller/service.wsdl', :action => 'wsdl'
+  
+  map.with_options :controller => 'sys' do |sys|
+    sys.connect 'sys/projects.:format', :action => 'projects', :conditions => {:method => :get}
+    sys.connect 'sys/projects/:id/repository.:format', :action => 'create_project_repository', :conditions => {:method => :post}
+  end
  
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
