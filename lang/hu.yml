@@ -703,4 +703,4 @@ button_create_and_continue: Létrehozás és folytatás
 text_custom_field_possible_values_info: 'Értékenként egy sor'
 label_display: Megmutat
 field_editable: Szerkeszthető
-setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+setting_repository_log_display_limit: Maximum hány revízió jelenjen meg a fájl logban

@@ -227,6 +227,7 @@ setting_mail_handler_api_key: API-nyckel
 setting_sequential_project_identifiers: Generera projektidentifierare sekventiellt
 setting_gravatar_enabled: Använd Gravatar-avatarer
 setting_diff_max_lines_displayed: Maximalt antal synliga rader i diff
+setting_repository_log_display_limit: Maximalt antal revisioner i filloggen
 
 permission_edit_project: Ändra projekt
 permission_select_project_modules: Välja projektmoduler
@@ -677,7 +678,7 @@ text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
 text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar är inaktiverade.\nKonfigurera din SMTP-server i config/email.yml och starta om applikationen för att aktivera dem."
 text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i repository-loggen.\nAnvändare med samma användarnamn eller emailadress i både Redmine och repositoryt mappas automatiskt."
 text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
-text_custom_field_possible_values_info: 'En linje för varje värde'
+text_custom_field_possible_values_info: 'En rad för varje värde'
 
 default_role_manager: Projektledare
 default_role_developper: Utvecklare
@@ -704,4 +705,3 @@ default_activity_development: Utveckling
 enumeration_issue_priorities: Ärendeprioriteter
 enumeration_doc_categories: Dokumentkategorier
 enumeration_activities: Aktiviteter (tidsuppföljning)
-setting_repository_log_display_limit: Maximum number of revisions displayed on file log

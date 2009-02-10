@@ -703,4 +703,4 @@ button_create_and_continue: Criar e continuar
 text_custom_field_possible_values_info: 'Uma linha para cada valor'
 label_display: Exibição
 field_editable: Editável
-setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+setting_repository_log_display_limit: Número máximo de revisões exibidas no arquivo de log
