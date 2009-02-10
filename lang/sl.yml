@@ -12,7 +12,7 @@ actionview_datehelper_time_in_words_hour_about_plural: kakšnih %d ur
 actionview_datehelper_time_in_words_hour_about_single: kakšno uro
 actionview_datehelper_time_in_words_minute: 1 minuta
 actionview_datehelper_time_in_words_minute_half: pol minute
-actionview_datehelper_time_in_words_minute_less_than: manj kot minuta
+actionview_datehelper_time_in_words_minute_less_than: manj kot minuto
 actionview_datehelper_time_in_words_minute_plural: %d minut
 actionview_datehelper_time_in_words_minute_single: 1 minuta
 actionview_datehelper_time_in_words_second_less_than: manj kot sekunda
@@ -63,7 +63,7 @@ notice_account_unknown_email: Neznan uporabnik.
 notice_can_t_change_password: Ta račun za overovljanje uporablja zunanji. Gesla ni mogoče spremeniti.
 notice_account_lost_email_sent: Poslano vam je bilo e-pismo z navodili za izbiro novega gesla.
 notice_account_activated: Vaš račun je bil aktiviran. Sedaj se lahko prijavite.
-notice_successful_create: Ustvarjanje uspelo.
+notice_successful_create: Zapisovanje uspelo.
 notice_successful_update: Posodobitev uspela.
 notice_successful_delete: Izbris uspel.
 notice_successful_connection: Povezava uspela.
@@ -537,14 +537,14 @@ label_send_information: Pošlji informacijo o računu uporabniku
 label_year: Leto
 label_month: Mesec
 label_week: Teden
-label_date_from: Do
+label_date_from: Od
 label_date_to: Do
 label_language_based: Glede na uporabnikov jezik
 label_sort_by: Razporedi po %s
 label_send_test_email: Pošlji testno e-pismo
 label_feeds_access_key_created_on: RSS dostopni ključ narejen %s nazaj
 label_module_plural: Moduli
-label_added_time_by: Dodan %s %s nazaj
+label_added_time_by: Dodal(a) %s %s nazaj
 label_updated_time_by: Posodobljen od %s %s nazaj
 label_updated_time: Posodobljen %s nazaj
 label_jump_to_a_project: Skoči na projekt...
@@ -626,7 +626,7 @@ status_active: aktivni
 status_registered: registriran
 status_locked: zaklenjen
 
-text_select_mail_notifications: Izberi dejanja za katera naj bodo poslana oznanila preko e-pošto.
+text_select_mail_notifications: Izberite dejanja za katera naj bodo poslana oznanila preko e-pošto.
 text_regexp_info: npr. ^[A-Z0-9]+$
 text_min_max_length_info: 0 pomeni brez omejitev
 text_project_destroy_confirmation: Ali ste prepričani da želite izbrisati izbrani projekt in vse z njim povezane podatke?
@@ -641,8 +641,8 @@ text_tip_task_end_day: naloga z zaključkom na ta dan
 text_tip_task_begin_end_day: naloga ki se začne in konča ta dan
 text_project_identifier_info: 'Dovoljene so samo male črke (a-z), številke in vezaji.<br />Enkrat shranjen identifikator ne more biti spremenjen.'
 text_caracters_maximum: največ %d znakov.
-text_caracters_minimum: Mora biti vsaj dolg vsaj %d znakov.
-text_length_between: Dolžina med %d in %d znakov.
+text_caracters_minimum: Mora biti dolgo vsaj %d znake.
+text_length_between: Dolžina med %d in %d znaki.
 text_tracker_no_workflow: Potek dela za to vrsto zahtevka ni določen
 text_unallowed_characters: Nedovoljeni znaki
 text_comma_separated: Dovoljenih je več vrednosti (ločenih z vejico).
@@ -698,10 +698,10 @@ default_activity_development: Razvoj
 enumeration_issue_priorities: Prioritete zahtevkov
 enumeration_doc_categories: Kategorije dokumentov
 enumeration_activities: Aktivnosti (sledenje časa)
+setting_repository_log_display_limit: Maximum number of revisions displayed on file log
 warning_attachments_not_saved: "%d file(s) could not be saved."
 field_editable: Editable
 text_plugin_assets_writable: Plugin assets directory writable
 label_display: Display
 button_create_and_continue: Create and continue
 text_custom_field_possible_values_info: 'One line for each value'
-setting_repository_log_display_limit: Maximum number of revisions displayed on file log

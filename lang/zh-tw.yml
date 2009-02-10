@@ -227,6 +227,7 @@ setting_mail_handler_api_key: API 金鑰
 setting_sequential_project_identifiers: 循序產生專案識別碼
 setting_gravatar_enabled: 啟用 Gravatar 全球認證大頭像
 setting_diff_max_lines_displayed: 差異顯示行數之最大值
+setting_repository_log_display_limit: 版次顯示數目之最大值
 
 permission_edit_project: 編輯專案
 permission_select_project_modules: 選擇專案模組
@@ -705,4 +706,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-setting_repository_log_display_limit: Maximum number of revisions displayed on file log
