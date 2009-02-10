@@ -140,11 +140,11 @@ module Redmine
     module Helper
       def call_hook(hook, context={})
         if is_a?(ActionController::Base)
-          ctx = {:controller => self, :project => @project, :request => request}
-          Redmine::Hook.call_hook(hook, ctx.merge(context))
+          default_context = {:controller => self, :project => @project, :request => request}
+          Redmine::Hook.call_hook(hook, default_context.merge(context))
         else
-          ctx = {:controller => controller, :project => @project, :request => request}
-          Redmine::Hook.call_hook(hook, ctx.merge(context)).join(' ')
+          default_context = {:controller => controller, :project => @project, :request => request}
+          Redmine::Hook.call_hook(hook, default_context.merge(context)).join(' ')
         end        
       end
     end
