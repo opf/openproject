@@ -64,6 +64,20 @@ class AccountControllerTest < Test::Unit::TestCase
                :content => /Invalid user or password/
   end
   
+  def test_login_with_openid
+    post :login, :openid_url => 'http://openid.example.com/good_user'
+    assert_redirected_to 'my/page'
+  end
+
+  def test_login_with_openid_with_new_user_created
+
+  end
+  
+  
+  def test_login_with_openid_with_new_user_with_conflict
+    
+  end
+  
   def test_autologin
     Setting.autologin = "7"
     Token.delete_all
