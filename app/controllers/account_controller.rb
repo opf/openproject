@@ -196,25 +196,25 @@ private
 
   
   def open_id_authenticate(openid_url)
-    user = nil
     authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
       if result.successful?
         user = User.find_or_initialize_by_identity_url(identity_url)
         if user.new_record?
           # Create on the fly
-          # TODO: name
           user.login = registration['nickname']
           user.mail = registration['email']
-          user.save
-        end
-        
-        user.reload
-        if user.new_record?
-          # Onthefly creation failed, display the registration form to fill/fix attributes
-          @user = user
-          session[:auth_source_registration] = {:login => user.login, :identity_url => identity_url }
-          render :action => 'register'
+          user.firstname, user.lastname = registration['fullname'].split(' ')
+          user.random_password
+          if user.save
+            successful_authentication(user)
+          else
+            # Onthefly creation failed, display the registration form to fill/fix attributes
+            @user = user
+            session[:auth_source_registration] = {:login => user.login, :identity_url => identity_url }
+            render :action => 'register'
+          end
         else
+          # Existing record
           successful_authentication(user)
         end
       end

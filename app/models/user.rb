@@ -138,6 +138,18 @@ class User < ActiveRecord::Base
   def check_password?(clear_password)
     User.hash_password(clear_password) == self.hashed_password
   end
+
+  # Generate and set a random password.  Useful for automated user creation
+  # Based on Token#generate_token_value
+  #
+  def random_password
+    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+    password = ''
+    40.times { |i| password << chars[rand(chars.size-1)] }
+    self.password = password
+    self.password_confirmation = password
+    self
+  end
   
   def pref
     self.preference ||= UserPreference.new(:user => self)

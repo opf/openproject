@@ -177,4 +177,11 @@ class UserTest < Test::Unit::TestCase
     assert_not_nil u
     assert_equal 'jsmith@somenet.foo', u.mail
   end
+  
+  def test_random_password
+    u = User.new
+    u.random_password
+    assert !u.password.blank?
+    assert !u.password_confirmation.blank?
+  end
 end
