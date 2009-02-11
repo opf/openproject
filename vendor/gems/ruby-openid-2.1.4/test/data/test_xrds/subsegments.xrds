@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XRDS ref="xri://=nishitani*masaki" xmlns="xri://$xrds">
+ <XRD xmlns="xri://$xrd*($v*2.0)">
+  <Query>*nishitani</Query>
+  <Status code="100"/>
+  <Expires>2007-12-25T11:33:39.000Z</Expires>
+  <ProviderID>xri://=</ProviderID>
+  <LocalID priority="10">!E117.EF2F.454B.C707</LocalID>
+  <CanonicalID priority="10">=!E117.EF2F.454B.C707</CanonicalID>
+  <Service priority="10">
+   <Type select="true">http://openid.net/signon/1.0</Type>
+   <ProviderID>xri://!!1003!103</ProviderID>
+   <URI append="none" priority="1">https://linksafe.ezibroker.net/server/</URI>
+  </Service>
+  <Service priority="10">
+   <Type select="true">xri://$res*auth*($v*2.0)</Type>
+   <ProviderID>xri://!!1003!103</ProviderID>
+   <MediaType>application/xrds+xml;trust=none</MediaType>
+   <URI priority="10">http://resolve.ezibroker.net/resolve/=nishitani/</URI>
+  </Service>
+  <Service priority="1">
+   <Type match="content" select="true">xri://+i-service*(+forwarding)*($v*1.0)</Type>
+   <Type match="null" select="false"/>
+   <ProviderID>xri://!!1003!103</ProviderID>
+   <Path match="content">(+index)</Path>
+   <Path match="default"/>
+   <URI append="qxri" priority="1">http://linksafe-forward.ezibroker.net/forwarding/</URI>
+  </Service>
+ </XRD>
+ <XRD xmlns="xri://$xrd*($v*2.0)">
+  <Query>*masaki</Query>
+  <Status code="100">SUCCESS</Status>
+  <ProviderID>xri://!!1003</ProviderID>
+  <LocalID>!0000.0000.3B9A.CA01</LocalID>
+  <CanonicalID>=!E117.EF2F.454B.C707!0000.0000.3B9A.CA01</CanonicalID>
+  <Service>
+   <Type select="true">http://openid.net/signon/1.0</Type>
+   <ProviderID>xri://!!1003!103</ProviderID>
+   <URI append="none" priority="1">https://linksafe.ezibroker.net/server/</URI>
+  </Service>
+  <Service>
+   <Type select="true">xri://+i-service*(+contact)*($v*1.0)</Type>
+   <Type match="null"/>
+   <ProviderID>xri://!!1003!103</ProviderID>
+   <Path select="true">(+contact)</Path>
+   <Path match="null"/>
+   <URI append="authority" priority="1">http://linksafe-contact.ezibroker.net/contact/</URI>
+  </Service>
+  <Service priority="1">
+   <Type match="content" select="true">xri://+i-service*(+forwarding)*($v*1.0)</Type>
+   <Type match="null" select="false"/>
+   <ProviderID>xri://!!1003!103</ProviderID>
+   <Path match="content">(+index)</Path>
+   <Path match="default"/>
+   <URI append="qxri" priority="1">http://linksafe-forward.ezibroker.net/forwarding/</URI>
+  </Service>
+ </XRD>
+</XRDS>

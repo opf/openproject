@@ -1,0 +1,153 @@
+========================================
+Trust root parsing checking
+========================================
+
+----------------------------------------
+23: Does not parse
+----------------------------------------
+baz.org
+*.foo.com
+http://*.schtuff.*/
+ftp://foo.com
+ftp://*.foo.com
+http://*.foo.com:80:90/
+foo.*.com
+http://foo.*.com
+http://www.*
+http://*foo.com/
+http://foo.com/invalid#fragment
+http://..it/
+http://.it/
+http://*:8081/
+http://*:80
+http://localhost:1900foo/
+http://foo.com\/
+http://π.pi.com/
+http://lambda.com/Λ
+
+ 
+ 	
+5
+
+----------------------------------------
+14: Insane
+----------------------------------------
+http:///
+http://*/
+https://*/
+http://*.com
+http://*.com/
+https://*.com/
+http://*.com.au/
+http://*.co.uk/
+http://*.foo.notatld/
+https://*.foo.notatld/
+http://*.museum/
+https://*.museum/
+http://www.schtuffcom/
+http://it/
+
+----------------------------------------
+18: Sane
+----------------------------------------
+http://*.schtuff.com./
+http://*.schtuff.com/
+http://*.foo.schtuff.com/
+http://*.schtuff.com
+http://www.schtuff.com/
+http://www.schtuff.com./
+http://www.schutff.com
+http://*.this.that.schtuff.com/
+http://*.foo.com/path
+http://*.foo.com/path?action=foo2
+http://x.foo.com/path?action=foo2
+http://x.foo.com/path?action=%3D
+http://localhost:8081/
+http://localhost:8082/?action=openid
+https://foo.com/
+http://kink.fm/should/be/sane
+http://beta.lingu.no/
+http://goathack.livejournal.org:8020/openid/login.bml
+
+========================================
+return_to matching
+========================================
+
+----------------------------------------
+46: matches
+----------------------------------------
+http://*/                             http://cnn.com/
+http://*/                             http://livejournal.com/
+http://*/                             http://met.museum/
+http://localhost:8081/x?action=openid http://localhost:8081/x?action=openid
+http://*.foo.com                      http://b.foo.com
+http://*.foo.com                      http://b.foo.com/
+http://*.foo.com/                     http://b.foo.com
+http://b.foo.com                      http://b.foo.com
+http://b.foo.com                      http://b.foo.com/
+http://b.foo.com/                     http://b.foo.com
+http://*.b.foo.com                    http://b.foo.com
+http://*.b.foo.com                    http://b.foo.com/
+http://*.b.foo.com/                   http://b.foo.com
+http://*.b.foo.com                    http://x.b.foo.com
+http://*.b.foo.com                    http://w.x.b.foo.com
+http://*.bar.co.uk                    http://www.bar.co.uk
+http://*.uoregon.edu                  http://x.cs.uoregon.edu
+http://x.com/abc                      http://x.com/abc
+http://x.com/abc                      http://x.com/abc/def
+http://10.0.0.1/abc                   http://10.0.0.1/abc
+http://*.x.com                        http://x.com/gallery
+http://*.x.com                        http://foo.x.com/gallery
+http://foo.x.com                      http://foo.x.com/gallery/xxx
+http://*.x.com/gallery                http://foo.x.com/gallery
+http://localhost:8082/?action=openid  http://localhost:8082/?action=openid
+http://goathack.livejournal.org:8020/ http://goathack.livejournal.org:8020/openid/login.bml
+https://foo.com                       https://foo.com
+http://Foo.com                        http://foo.com
+http://foo.com                        http://Foo.com
+http://foo.com:80/                    http://foo.com/
+http://foo.com/?x=y                   http://foo.com/?x=y&a=b
+http://foo.com/x                      http://foo.com/x?y
+http://mylid.net/j3h.                 http://mylid.net/j3h.?x=y
+http://j3h.us                         http://j3h.us?ride=unicycle
+https://www.filmclans.com:443/mattmartin/FilmClans https://www.filmclans.com/mattmartin/FilmClans/Logon.aspx?nonce=BVjqSOee
+http://foo.com:80                     http://foo.com
+http://foo.com                        http://foo.com:80
+http://foo.com                        http://foo.com/
+http://foo.com/                       http://foo.com
+http://foo.com/                       http://foo.com:80
+http://foo.com:80/                    http://foo.com:80/stuff
+http://foo.com:80/                    http://foo.com/stuff
+http://foo.com/path                   http://foo.com/path/extra
+http://foo.com/path2                  http://foo.com/path2?extra=query
+http://foo.com/path2                  http://foo.com/path2/?extra=query
+http://foo.com/                       HTTP://foo.com/
+
+----------------------------------------
+25: does not match
+----------------------------------------
+http://*/                             ftp://foo.com/
+http://*/                             xxx
+http://foo.com/                       http://oo.com/
+http://*.x.com/abc                    http://foo.x.com
+http://*.x.com/abc                    http://*.x.com
+http://*.com/                         http://*.com/
+http://x.com/abc                      http://x.com/
+http://x.com/abc                      http://x.com/a
+http://x.com/abc                      http://x.com/ab
+http://x.com/abc                      http://x.com/abcd
+http://*.cs.uoregon.edu               http://x.uoregon.edu
+http://*.foo.com                      http://bar.com
+http://*.foo.com                      http://www.bar.com
+http://*.bar.co.uk                    http://xxx.co.uk
+https://foo.com                       http://foo.com
+http://foo.com                        https://foo.com
+http://foo.com:81                     http://foo.com:80
+http://foo.com/?a=b                   http://foo.com/?x=y
+http://foo.com/?a=b                   http://foo.com/?x=y&a=b
+http://foo.com/?a=b                   http://foo.com/
+http://*.oo.com/                      http://foo.com/
+http://foo.com/*                      http://foo.com/anything
+http://foo.com                        http://foo.com:443
+https://foo.com                       https://foo.com:80
+http://foo.com/path/xev               http://foo.com/path?extra=more

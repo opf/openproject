@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XRDS ref="xri://=keturn*isDrummond" xmlns="xri://$xrds">
+ <XRD xmlns="xri://$xrd*($v*2.0)">
+ <Query>*keturn</Query>
+ <ProviderID>xri://=</ProviderID>
+ <LocalID>!E4</LocalID>
+ <CanonicalID>=!E4</CanonicalID>
+
+ <Service>
+   <Type>xri://$res*auth*($v*2.0)</Type>
+   <URI>http://keturn.example.com/resolve/</URI>
+   <ProviderID>=!E4</ProviderID>
+ </Service>
+ </XRD>
+ <XRD xmlns="xri://$xrd*($v*2.0)">
+  <Query>*isDrummond</Query>
+  <ProviderID>=!E4</ProviderID>
+  <LocalID>!D2</LocalID>
+  <CanonicalID>=!D2</CanonicalID>
+  <Service>
+    <Type>http://openid.net/signon/1.0</Type>
+    <URI>http://keturn.example.com/openid</URI>
+  </Service>
+ </XRD>
+</XRDS>

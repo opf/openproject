@@ -1,0 +1,12 @@
+delegated-20060809.xrds    - results from proxy.xri.net, determined by 
+                             Drummond and Kevin to be incorrect.
+delegated-20060809-r1.xrds - Drummond's 1st correction
+delegated-20060809-r2.xrds - Drummond's 2nd correction
+
+spoofs: keturn's (=!E4)'s attempts to log in with Drummond's i-number (=!D2)
+spoof1.xrds
+spoof2.xrds
+spoof3.xrds - attempt to steal @!C0!D2 by having "at least one" CanonicalID
+    match the $res service ProviderID.
+
+ref.xrds - resolving @ootao*test.ref, which refers to a neustar XRI.

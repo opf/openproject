@@ -1,0 +1,587 @@
+Num Tests: 72
+
+OpenID link parsing test cases
+Copyright (C) 2005-2008, JanRain, Inc.
+See COPYING for license information.
+
+File format
+-----------
+
+All text before the first triple-newline (this chunk) should be ignored.
+
+This file may be interpreted as Latin-1 or UTF-8.
+
+Test cases separated by three line separators (`\n\n\n'). The test
+cases consist of a headers section followed by a data block. These are
+separated by a double newline. The headers consist of the header name,
+followed by a colon, a space, the value, and a newline. There must be
+one, and only one, `Name' header for a test case. There may be zero or
+more link headers. The `Link' header consists of whitespace-separated
+attribute pairs. A link header with an empty string as a value
+indicates an empty but present link tag. The attribute pairs are `='
+separated and not quoted.
+
+Optional Links and attributes have a trailing `*'. A compilant
+implementation may produce this as output or may not. A compliant
+implementation will not produce any output that is absent from this
+file.
+
+
+Name: No link tag at all
+
+<html>
+<head>
+</head>
+</html>
+
+
+Name: Link element first
+
+<link>
+
+
+Name: Link inside HTML, not head
+
+<html>
+<link>
+
+
+Name: Link inside head, not html
+
+<head>
+<link>
+
+
+Name: Link inside html, after head
+
+<html>
+<head>
+</head>
+<link>
+
+
+Name: Link inside html, before head
+
+<html>
+<link>
+<head>
+
+
+Name: Link before html and head
+
+<link>
+<html>
+<head>
+
+
+Name: Link after html document with head
+
+<html>
+<head>
+</head>
+</html>
+<link>
+
+
+Name: Link inside html inside head, inside another html
+
+<html>
+<head>
+<html>
+<link>
+
+
+Name: Link inside html inside head
+
+<head>
+<html>
+<link>
+
+
+Name: link inside body inside head inside html
+
+<html>
+<head>
+<body>
+<link>
+
+
+Name: Link inside head inside head inside html
+
+<html>
+<head>
+<head>
+<link>
+
+
+Name: Link inside script inside head inside html
+
+<html>
+<head>
+<script>
+<link>
+</script>
+
+
+Name: Link inside comment inside head inside html
+
+<html>
+<head/>
+<link>
+
+
+Name: Link inside of head after short head
+
+<html>
+<head/>
+<head>
+<link>
+
+
+Name: Plain vanilla
+Link:
+
+<html>
+<head>
+<link>
+
+
+Name: Ignore tags in the <script:... > namespace
+Link*:
+
+<html>
+<head>
+<script:paddypan>
+<link>
+</script:paddypan>
+
+
+Name: Short link tag
+Link:
+
+<html>
+<head>
+<link/>
+
+
+Name: Spaces in the HTML tag
+Link:
+
+<html >
+<head>
+<link>
+
+
+Name: Spaces in the head tag
+Link:
+
+<html>
+<head >
+<link>
+
+
+Name: Spaces in the link tag
+Link:
+
+<html>
+<head>
+<link >
+
+
+Name: No whitespace
+Link:
+
+<html><head><link>
+
+
+Name: Closed head tag
+Link:
+
+<html>
+<head>
+<link>
+</head>
+
+
+Name: One good, one bad (after close head)
+Link:
+
+<html>
+<head>
+<link>
+</head>
+<link>
+
+
+Name: One good, one bad (after open body)
+Link:
+
+<html>
+<head>
+<link>
+<body>
+<link>
+
+
+Name: ill formed (missing close head)
+Link:
+
+<html>
+<head>
+<link>
+</html>
+
+
+Name: Ill formed (no close head, link after </html>)
+Link:
+
+<html>
+<head>
+<link>
+</html>
+<link>
+
+
+Name: Ignore random tags inside of html
+Link:
+
+<html>
+<delicata>
+<head>
+<title>
+<link>
+
+
+Name: case-folding
+Link*:
+
+<HtMl>
+<hEaD>
+<LiNk>
+
+
+Name: unexpected tags
+Link:
+
+<butternut>
+<html>
+<summer>
+<head>
+<turban>
+<link>
+
+
+Name: un-closed script tags
+Link*:
+
+<html>
+<head>
+<script>
+<link>
+
+
+Name: un-closed script tags (no whitespace)
+Link*:
+
+<html><head><script><link>
+
+
+Name: un-closed comment
+Link*:
+
+<html>
+<head>
+<!--
+<link>
+
+
+Name: un-closed CDATA
+Link*:
+
+<html>
+<head>
+<![CDATA[
+<link>
+
+
+Name: cdata-like
+Link*:
+
+<html>
+<head>
+<![ACORN[
+<link>
+]]>
+
+
+Name: comment close only
+Link:
+
+<html>
+<head>
+<link>
+-->
+
+
+Name: Vanilla, two links
+Link:
+Link:
+
+<html>
+<head>
+<link>
+<link>
+
+
+Name: extra tag, two links
+Link:
+Link:
+
+<html>
+<gold nugget>
+<head>
+<link>
+<link>
+
+
+Name: case-fold, body ends, two links
+Link:
+Link*:
+
+<html>
+<head>
+<link>
+<LiNk>
+<body>
+<link>
+
+
+Name: simple, non-quoted rel
+Link: rel=openid.server
+
+<html><head><link rel=openid.server>
+
+
+Name: short tag has rel
+Link: rel=openid.server
+
+<html><head><link rel=openid.server/>
+
+
+Name: short tag w/space has rel
+Link: rel=openid.server
+
+<html><head><link rel=openid.server />
+
+
+Name: extra non-attribute, has rel
+Link: rel=openid.server hubbard*=hubbard
+
+<html><head><link hubbard rel=openid.server>
+
+
+Name: non-attr, has rel, short
+Link: rel=openid.server hubbard*=hubbard
+
+<html><head><link hubbard rel=openid.server/>
+
+
+Name: non-attr, has rel, short, space
+Link: rel=openid.server hubbard*=hubbard
+
+<html><head><link hubbard rel=openid.server />
+
+
+Name: misplaced slash has rel
+Link: rel=openid.server
+
+<html><head><link / rel=openid.server>
+
+
+Name: quoted rel
+Link: rel=openid.server
+
+<html><head><link rel="openid.server">
+
+
+Name: single-quoted rel
+Link: rel=openid.server
+
+<html><head><link rel='openid.server'>
+
+
+Name: two links w/ rel
+Link: x=y
+Link: a=b
+
+<html><head><link x=y><link a=b>
+
+
+Name: non-entity
+Link: x=&y
+
+<html><head><link x=&y>
+
+
+Name: quoted non-entity
+Link: x=&y
+
+<html><head><link x="&y">
+
+
+Name: quoted entity
+Link: x=&
+
+<html><head><link x="&amp;">
+
+
+Name: entity not processed
+Link: x=&#26;
+
+<html><head><link x="&#26;">
+
+
+Name: &lt;
+Link: x=<
+
+<html><head><link x="&lt;">
+
+
+Name: &gt;
+Link: x=>
+
+<html><head><link x="&gt;">
+
+
+Name: &quot;
+Link: x="
+
+<html><head><link x="&quot;">
+
+
+Name: &amp;&quot;
+Link: x=&"
+
+<html><head><link x="&amp;&quot;">
+
+
+Name: mixed entity and non-entity
+Link: x=&"&hellip;>
+
+<html><head><link x="&amp;&quot;&hellip;&gt;">
+
+
+Name: mixed entity and non-entity (w/normal chars)
+Link: x=x&"&hellip;>x
+
+<html><head><link x="x&amp;&quot;&hellip;&gt;x">
+
+
+Name: broken tags
+Link*: x=y
+Link*: x=y<
+
+<html><head><link x=y<>
+
+
+Name: missing close pointy
+Link*: x=y
+Link*: x=y<link z=y
+Link*: z=y
+
+<html><head><link x=y<link z=y />
+
+
+Name: missing attribute value
+Link: x=y y*=y
+Link: x=y
+
+<html><head><link x=y y=><link x=y />
+
+
+Name: Missing close pointy (no following)
+Link*: x=y
+
+<html><head><link x=y
+
+
+Name: Should be quoted
+Link*: x=<
+
+<html><head><link x="<">
+
+
+Name: Should be quoted (2)
+Link*: x=>
+Link*: x=x
+
+<html><head><link x=">">
+
+
+Name: Repeated attribute
+Link: x=y
+
+<html><head><link x=z x=y>
+
+
+Name: Repeated attribute (2)
+Link: x=y
+
+<html><head><link x=y x=y>
+
+
+Name: Two attributes
+Link: x=y y=z
+
+<html><head><link x=y y=z>
+
+
+Name: Well-formed link rel="openid.server"
+Link: rel=openid.server href=http://www.myopenid.com/server
+
+<html>
+  <head>
+    <link rel="openid.server"
+          href="http://www.myopenid.com/server" />
+  </head>
+</html>
+
+
+Name: Well-formed link rel="openid.server" and "openid.delegate"
+Link: rel=openid.server href=http://www.myopenid.com/server
+Link: rel=openid.delegate href=http://example.myopenid.com/
+
+<html><head><link rel="openid.server"
+                  href="http://www.myopenid.com/server" />
+            <link rel="openid.delegate" href="http://example.myopenid.com/" />
+</head></html>
+
+
+Name: from brian's livejournal page
+Link: rel=stylesheet href=http://www.livejournal.com/~serotta/res/319998/stylesheet?1130478711 type=text/css
+Link: rel=openid.server href=http://www.livejournal.com/openid/server.bml
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link rel="stylesheet"
+          href="http://www.livejournal.com/~serotta/res/319998/stylesheet?1130478711"
+          type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="foaf:maker"
+          content="foaf:mbox_sha1sum '12f8abdacb5b1a806711e23249da592c0d316260'" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="googlebot" content="nosnippet" />
+    <link rel="openid.server"
+          href="http://www.livejournal.com/openid/server.bml" />
+    <title>Brian</title>
+  </head>
+
+
+Name: non-ascii (Latin-1 or UTF8)
+Link: x=®
+
+<html><head><link x="®">
+
+

@@ -1,0 +1,56 @@
+
+
+<% if session[:username].nil? %>
+
+<div id="login-form">
+  <form method="get" action="<%= url_for :controller => 'login', :action => 'submit' %>">
+Type a username: 
+  <input type="text" name="username" />
+  <input type="submit" value="Log In" />
+  </form>
+
+</div>
+
+<% end %>
+
+<p> Welcome to the Ruby OpenID example.  This code is a starting point
+for developers wishing to implement an OpenID provider or relying
+party.  We've used the <a href="http://rubyonrails.org/">Rails</a>
+platform to demonstrate, but the library code is not Rails specific.</p>
+
+<h2>To use the example provider</h2>
+<p>
+  <ol>
+
+    <li>Enter a username in the form above.  You will be "Logged In"
+    to the server, at which point you may authenticate using an OpenID
+    consumer. Your OpenID URL will be displayed after you log
+    in.<p>The server will automatically create an identity page for
+    you at <%= @base_url %>user/<i>name</i></p></li>
+
+    <li><p>Because WEBrick can only handle one thing at a time, you'll need to
+    run another instance of the example on another port if you want to use
+    a relying party to use with this example provider:</p>
+    <blockquote>
+    <code>script/server --port=3001</code>
+    </blockquote>
+
+    <p>(The RP needs to be able to access the provider, so unless you're
+    running this example on a public IP, you can't use the live example
+    at <a href="http://openidenabled.com/">openidenabled.com</a> on
+    your local provider.)</p>
+    </li>
+
+    <li>Point your browser to this new instance and follow the directions
+    below.</li>
+    <!-- Fun fact: 'url_for :port => 3001' doesn't work very well. -->
+  </ol>
+
+</p>
+
+<h2>To use the example relying party</h2>
+
+<p>Visit <a href="<%= url_for :controller => 'consumer' %>">/consumer</a>
+and enter your OpenID.</p>
+</p>
+

@@ -1,0 +1,58 @@
+=Active Record OpenID Store Plugin
+
+A store is required by an OpenID server and optionally by the consumer
+to store associations, nonces, and auth key information across
+requests and processes.  If rails is distributed across several
+machines, they must must all have access to the same OpenID store
+data, so the FilesystemStore won't do.
+
+This directory contains a plugin for connecting your
+OpenID enabled rails app to an ActiveRecord based OpenID store.
+
+==Install
+
+1) Copy this directory and all it's contents into your
+RAILS_ROOT/vendor/plugins directory.  You structure should look like
+this:
+
+  RAILS_ROOT/vendor/plugins/active_record_openid_store/
+
+2) Copy the migration, XXX_add_open_id_store_to_db.rb to your
+   RAILS_ROOT/db/migrate directory.  Rename the XXX portion of the
+   file to next sequential migration number.
+
+3) Run the migration:
+
+  rake migrate
+
+4) Change your app to use the ActiveRecordOpenIDStore:
+
+  store = ActiveRecordOpenIDStore.new
+  consumer = OpenID::Consumer.new(session, store)
+
+5) That's it! All your OpenID state will now be stored in the database.
+
+==Upgrade
+
+If you are upgrading from the 1.x ActiveRecord store, replace your old
+RAILS_ROOT/vendor/plugins/active_record_openid_store/ directory with
+the new one and run the migration XXX_upgrade_open_id_store.rb.
+
+==What about garbage collection? 
+
+You may garbage collect unused nonces and expired associations using
+the gc instance method of ActiveRecordOpenIDStore.  Hook it up to a
+task in your app's Rakefile like so:
+
+  desc 'GC OpenID store'
+  task :gc_openid_store => :environment do
+    ActiveRecordOpenIDStore.new.cleanup
+  end
+
+Run it by typing:
+
+  rake gc_openid_store
+
+
+==Questions?
+Contact Dag Arneson: dag at janrain dot com

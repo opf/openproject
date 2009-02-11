@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+require "openid/consumer/discovery"
+require 'openid/fetchers'
+
+OpenID::fetcher_use_env_http_proxy
+
+$names = [[:server_url,   "Server URL  "],
+          [:local_id,     "Local ID    "],
+          [:canonical_id, "Canonical ID"],
+         ]
+
+def show_services(user_input, normalized, services)
+  puts " Claimed identifier: #{normalized}"
+  if services.empty?
+    puts " No OpenID services found"
+    puts
+  else
+    puts " Discovered services:"
+    n = 0
+    services.each do |service|
+      n += 1
+      puts "  #{n}."
+      $names.each do |meth, name|
+        val = service.send(meth)
+        if val
+          printf("     %s: %s\n", name, val)
+        end
+      end
+      puts "     Type URIs:"
+      for type_uri in service.type_uris
+        puts "       * #{type_uri}"
+      end
+      puts
+    end
+  end
+end
+
+ARGV.each do |openid_identifier|
+  puts "=" * 50
+  puts "Running discovery on #{openid_identifier}"
+  begin
+    normalized_identifier, services = OpenID.discover(openid_identifier)
+  rescue OpenID::DiscoveryFailure => why
+    puts "Discovery failed: #{why.message}"
+    puts
+  else
+    show_services(openid_identifier, normalized_identifier, services)
+  end
+end

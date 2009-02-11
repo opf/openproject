@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XRDS file at: NAME -->
+<xrds:XRDS
+    xmlns:xrds="xri://$xrds"
+    xmlns="xri://$xrd*($v*2.0)">
+  <XRD>
+
+    <Service priority="0">
+      <Type>http://example.com/</Type>
+      <URI>http://www.openidenabled.com/</URI>
+    </Service>
+
+  </XRD>
+</xrds:XRDS>

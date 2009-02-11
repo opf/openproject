@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XRDS ref="xri://=x" xmlns="xri://$xrds">
+ <XRD xmlns="xri://$xrd*($v*2.0)">
+  <Query>*x</Query>
+  <Status code="222">The subsegment does not exist</Status>
+  <Expires>2006-08-18T00:02:35.000Z</Expires>
+  <ProviderID>xri://=</ProviderID>
+ </XRD>
+</XRDS>

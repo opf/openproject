@@ -1,0 +1,26 @@
+<form method="post" action="<%= url_for :controller => 'server', :action => 'decision' %>">
+
+<table>
+  <tr><td>Site:</td><td><%= @oidreq.trust_root %></td></tr>
+
+  <% if @oidreq.id_select %>
+    <tr>
+      <td colspan="2">
+        You entered the server identifier at the relying party.
+        You'll need to send an identifier of your choosing.  Enter a
+        username below.
+      </td>
+    </tr>
+    <tr>
+      <td>Identity to send:</td>
+      <td><input type="text" name="id_to_send" size="25" /></td>
+    </tr>
+  <% else %>
+    <tr><td>Identity:</td><td><%= @oidreq.identity %></td></tr>
+  <% end %>
+</table>
+
+<input type="submit" name="yes" value="yes" />
+<input type="submit" name="no" value="no" />
+
+</form>

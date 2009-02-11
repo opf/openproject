@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrds:XRDS
+    xmlns:xrds="xri://$xrds"
+    xmlns:openid="http://openid.net/xmlns/1.0"
+    xmlns:typekey="http://typekey.com/xmlns/1.0"
+    xmlns="xri://$xrd*($v*2.0)">
+  <XRD>
+
+    <Service priority="0">
+      <Type>http://openid.net/signon/1.0</Type>
+      <URI>http://www.myopenid.com/server</URI>
+      <openid:Delegate>http://josh.myopenid.com/</openid:Delegate>
+    </Service>
+
+    <Service priority="20">
+      <Type>http://lid.netmesh.org/sso/2.0b5</Type>
+      <Type>http://lid.netmesh.org/2.0b5</Type>
+      <URI>http://mylid.net/josh</URI>
+    </Service>
+
+    <Service priority="10">
+      <Type>http://openid.net/signon/1.0</Type>
+      <URI>http://www.livejournal.com/openid/server.bml</URI>
+      <openid:Delegate>http://www.livejournal.com/users/nedthealpaca/</openid:Delegate>
+    </Service>
+
+    <Service priority="15">
+      <Type>http://typekey.com/services/1.0</Type>
+      <typekey:MemberName>joshhoyt</typekey:MemberName>
+    </Service>
+
+    <Service priority="5">
+      <Type>http://openid.net/signon/1.0</Type>
+      <URI>http://www.schtuff.com/openid</URI>
+      <openid:Delegate>http://users.schtuff.com/josh</openid:Delegate>
+    </Service>
+
+  </XRD>
+</xrds:XRDS>

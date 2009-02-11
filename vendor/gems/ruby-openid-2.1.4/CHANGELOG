@@ -1,0 +1,11 @@
+Fri Dec 19 11:50:10 PST 2008  cygnus@janrain.com
+  tagged 2.1.4
+
+Fri Dec 19 11:48:25 PST 2008  cygnus@janrain.com
+  * Version: 2.1.4
+
+Fri Dec 19 11:42:47 PST 2008  cygnus@janrain.com
+  * Normalize XRIs when doing discovery in accordance with the OpenID 2 spec
+
+Tue Dec 16 13:14:07 PST 2008  cygnus@janrain.com
+  tagged 2.1.3
