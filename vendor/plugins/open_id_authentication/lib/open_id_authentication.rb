@@ -222,7 +222,7 @@ module OpenIdAuthentication
       relative_url_root = self.class.respond_to?(:relative_url_root) ?
         self.class.relative_url_root.to_s :
         request.relative_url_root
-      "#{request.protocol}#{request.host_with_port}#{ActionController::Base.relative_url_root}#{request.path}"
+      "#{request.protocol}#{request.host_with_port}#{ActionController::AbstractRequest.relative_url_root}#{request.path}"
     end
 
     def timeout_protection_from_identity_server
