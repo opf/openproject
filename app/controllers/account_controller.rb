@@ -183,6 +183,9 @@ private
       if result.successful?
         user = User.find_or_initialize_by_identity_url(identity_url)
         if user.new_record?
+          # Self-registration off
+          redirect_to(home_url) && return unless Setting.self_registration?
+
           # Create on the fly
           user.login = registration['nickname'] unless registration['nickname'].nil?
           user.mail = registration['email'] unless registration['email'].nil?

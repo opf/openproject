@@ -86,7 +86,15 @@ class AccountControllerTest < Test::Unit::TestCase
     assert_equal 'Cool', user.firstname
     assert_equal 'User', user.lastname
   end
-  
+
+  def test_login_with_openid_with_new_user_and_self_registration_off
+    Setting.self_registration = '0'
+    post :login, :openid_url => 'http://openid.example.com/good_user'
+    assert_redirected_to home_url
+    user = User.find_by_login('cool_user')
+    assert ! user
+  end
+
   def test_login_with_openid_with_new_user_created_with_email_activation_should_have_a_token
     Setting.self_registration = '1'
     post :login, :openid_url => 'http://openid.example.com/good_user'
