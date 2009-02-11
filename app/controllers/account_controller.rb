@@ -201,9 +201,9 @@ private
         user = User.find_or_initialize_by_identity_url(identity_url)
         if user.new_record?
           # Create on the fly
-          user.login = registration['nickname']
-          user.mail = registration['email']
-          user.firstname, user.lastname = registration['fullname'].split(' ')
+          user.login = registration['nickname'] unless registration['nickname'].nil?
+          user.mail = registration['email'] unless registration['email'].nil?
+          user.firstname, user.lastname = registration['fullname'].split(' ') unless registration['fullname'].nil?
           user.random_password
           if user.save
             successful_authentication(user)

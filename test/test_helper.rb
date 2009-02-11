@@ -19,7 +19,7 @@ ENV["RAILS_ENV"] ||= "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
-load File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
+require File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
 
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
