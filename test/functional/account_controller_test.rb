@@ -65,11 +65,13 @@ class AccountControllerTest < Test::Unit::TestCase
   end
   
   def test_login_with_openid
+    Setting.self_registration = '3'
     post :login, :openid_url => 'http://openid.example.com/good_user'
     assert_redirected_to 'my/page'
   end
 
   def test_login_with_openid_with_new_user_created
+    Setting.self_registration = '3'
     post :login, :openid_url => 'http://openid.example.com/good_user'
     assert_redirected_to 'my/page'
     user = User.find_by_login('cool_user')
@@ -78,7 +80,28 @@ class AccountControllerTest < Test::Unit::TestCase
     assert_equal 'User', user.lastname
   end
   
+  def test_login_with_openid_with_new_user_created_with_email_activation_should_have_a_token
+    Setting.self_registration = '1'
+    post :login, :openid_url => 'http://openid.example.com/good_user'
+    assert_redirected_to 'login'
+    user = User.find_by_login('cool_user')
+    assert user
+
+    token = Token.find_by_user_id_and_action(user.id, 'register')
+    assert token
+  end
+  
+  def test_login_with_openid_with_new_user_created_with_manual_activation
+    Setting.self_registration = '2'
+    post :login, :openid_url => 'http://openid.example.com/good_user'
+    assert_redirected_to 'login'
+    user = User.find_by_login('cool_user')
+    assert user
+    assert_equal User::STATUS_REGISTERED, user.status
+  end
+  
   def test_login_with_openid_with_new_user_with_conflict_should_register
+    Setting.self_registration = '3'
     existing_user = User.new(:firstname => 'Cool', :lastname => 'User', :mail => 'user@somedomain.com')
     existing_user.login = 'cool_user'
     assert existing_user.save!

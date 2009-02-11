@@ -122,6 +122,7 @@ class AccountController < ApplicationController
       else
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+        # TODO: Duplicated in open_id_authenticate action.  A good sized refactoring would be good here
         case Setting.self_registration
         when '1'
           # Email activation
@@ -205,14 +206,40 @@ private
           user.mail = registration['email'] unless registration['email'].nil?
           user.firstname, user.lastname = registration['fullname'].split(' ') unless registration['fullname'].nil?
           user.random_password
-          if user.save
-            successful_authentication(user)
+          user.status = User::STATUS_REGISTERED
+
+          # TODO: Duplicated in register action.  A good sized refactoring would be good here
+          case Setting.self_registration
+          when '1'
+            # Email activation
+            token = Token.new(:user => user, :action => "register")
+            if user.save and token.save
+              Mailer.deliver_register(token)
+              flash[:notice] = l(:notice_account_register_done)
+              redirect_to :action => 'login'
+            else
+              onthefly_creation_failed(user, {:login => user.login, :identity_url => identity_url })
+            end
+          when '3'
+            # Automatic activation
+            user.status = User::STATUS_ACTIVE
+            if user.save
+              flash[:notice] = l(:notice_account_activated)
+              successful_authentication(user)
+            else
+              onthefly_creation_failed(user, {:login => user.login, :identity_url => identity_url })
+            end
           else
-            # Onthefly creation failed, display the registration form to fill/fix attributes
-            @user = user
-            session[:auth_source_registration] = {:login => user.login, :identity_url => identity_url }
-            render :action => 'register'
-          end
+            # Manual activation by the administrator
+            if user.save
+              # Sends an email to the administrators
+              Mailer.deliver_account_activation_request(user)
+              flash[:notice] = l(:notice_account_pending)
+              redirect_to :action => 'login'
+            else
+              onthefly_creation_failed(user, {:login => user.login, :identity_url => identity_url })
+            end
+          end          
         else
           # Existing record
           successful_authentication(user)
@@ -230,6 +257,13 @@ private
       cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
     end
     redirect_back_or_default :controller => 'my', :action => 'page'
+  end
+
+  # Onthefly creation failed, display the registration form to fill/fix attributes
+  def onthefly_creation_failed(user, auth_source_options = { })
+    @user = user
+    session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
+    render :action => 'register'
   end
 
 end
