@@ -64,16 +64,23 @@ class AccountControllerTest < Test::Unit::TestCase
                :content => /Invalid user or password/
   end
   
-  def test_login_with_openid
+  def test_login_with_openid_for_existing_user
     Setting.self_registration = '3'
-    post :login, :openid_url => 'http://openid.example.com/good_user'
+    existing_user = User.new(:firstname => 'Cool',
+                             :lastname => 'User',
+                             :mail => 'user@somedomain.com',
+                             :identity_url => 'http://openid.example.com/good_user')
+    existing_user.login = 'cool_user'
+    assert existing_user.save!
+
+    post :login, :openid_url => existing_user.identity_url
     assert_redirected_to 'my/page'
   end
 
   def test_login_with_openid_with_new_user_created
     Setting.self_registration = '3'
     post :login, :openid_url => 'http://openid.example.com/good_user'
-    assert_redirected_to 'my/page'
+    assert_redirected_to 'my/account'
     user = User.find_by_login('cool_user')
     assert user
     assert_equal 'Cool', user.firstname

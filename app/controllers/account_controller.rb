@@ -122,32 +122,14 @@ class AccountController < ApplicationController
       else
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
-        # TODO: Duplicated in open_id_authenticate action.  A good sized refactoring would be good here
+
         case Setting.self_registration
         when '1'
-          # Email activation
-          token = Token.new(:user => @user, :action => "register")
-          if @user.save and token.save
-            Mailer.deliver_register(token)
-            flash[:notice] = l(:notice_account_register_done)
-            redirect_to :action => 'login'
-          end
+          register_by_email_activation(@user)
         when '3'
-          # Automatic activation
-          @user.status = User::STATUS_ACTIVE
-          if @user.save
-            self.logged_user = @user
-            flash[:notice] = l(:notice_account_activated)
-            redirect_to :controller => 'my', :action => 'account'
-          end
+          register_automatically(@user)
         else
-          # Manual activation by the administrator
-          if @user.save
-            # Sends an email to the administrators
-            Mailer.deliver_account_activation_request(@user)
-            flash[:notice] = l(:notice_account_pending)
-            redirect_to :action => 'login'
-          end
+          register_manually_by_administrator(@user)
         end
       end
     end
@@ -208,35 +190,17 @@ private
           user.random_password
           user.status = User::STATUS_REGISTERED
 
-          # TODO: Duplicated in register action.  A good sized refactoring would be good here
           case Setting.self_registration
           when '1'
-            # Email activation
-            token = Token.new(:user => user, :action => "register")
-            if user.save and token.save
-              Mailer.deliver_register(token)
-              flash[:notice] = l(:notice_account_register_done)
-              redirect_to :action => 'login'
-            else
+            register_by_email_activation(user) do
               onthefly_creation_failed(user, {:login => user.login, :identity_url => identity_url })
             end
           when '3'
-            # Automatic activation
-            user.status = User::STATUS_ACTIVE
-            if user.save
-              flash[:notice] = l(:notice_account_activated)
-              successful_authentication(user)
-            else
+            register_automatically(user) do
               onthefly_creation_failed(user, {:login => user.login, :identity_url => identity_url })
             end
           else
-            # Manual activation by the administrator
-            if user.save
-              # Sends an email to the administrators
-              Mailer.deliver_account_activation_request(user)
-              flash[:notice] = l(:notice_account_pending)
-              redirect_to :action => 'login'
-            else
+            register_manually_by_administrator(user) do
               onthefly_creation_failed(user, {:login => user.login, :identity_url => identity_url })
             end
           end          
@@ -266,4 +230,46 @@ private
     render :action => 'register'
   end
 
+  # Register a user for email activation.
+  #
+  # Pass a block for behavior when a user fails to save
+  def register_by_email_activation(user, &block)
+    token = Token.new(:user => user, :action => "register")
+    if user.save and token.save
+      Mailer.deliver_register(token)
+      flash[:notice] = l(:notice_account_register_done)
+      redirect_to :action => 'login'
+    else
+      yield if block_given?
+    end
+  end
+  
+  # Automatically register a user
+  #
+  # Pass a block for behavior when a user fails to save
+  def register_automatically(user, &block)
+    # Automatic activation
+    user.status = User::STATUS_ACTIVE
+    if user.save
+      self.logged_user = user
+      flash[:notice] = l(:notice_account_activated)
+      redirect_to :controller => 'my', :action => 'account'
+    else
+      yield if block_given?
+    end
+  end
+  
+  # Manual activation by the administrator
+  #
+  # Pass a block for behavior when a user fails to save
+  def register_manually_by_administrator(user, &block)
+    if user.save
+      # Sends an email to the administrators
+      Mailer.deliver_account_activation_request(user)
+      flash[:notice] = l(:notice_account_pending)
+      redirect_to :action => 'login'
+    else
+      yield if block_given?
+    end
+  end
 end
