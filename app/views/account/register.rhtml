@@ -1,4 +1,4 @@
-<h2><%=l(:label_register)%> <%=link_to l(:label_login_with_open_id_option), signin_url %></h2>
+<h2><%=l(:label_register)%><%=link_to l(:label_login_with_open_id_option), signin_url if Setting.openid? %></h2>
 
 <% form_tag({:action => 'register'}, :class => "tabular") do %>
 <%= error_messages_for 'user' %>
@@ -29,8 +29,10 @@
 <p><label for="user_language"><%=l(:field_language)%></label>
 <%= select("user", "language", lang_options_for_select) %></p>
 
+<% if Setting.openid? %>
 <p><label for="user_identity_url"><%=l(:field_identity_url)%></label>
 <%= text_field 'user', 'identity_url'  %></p>
+<% end %>
 
 <% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>
 	<p><%= custom_field_tag_with_label :user, value %></p>

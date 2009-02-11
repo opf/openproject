@@ -143,3 +143,5 @@ emails_footer:
     To change your notification preferences, please click here: http://hostname/my/account
 gravatar_enabled:  
   default: 0
+openid:
+  default: 0

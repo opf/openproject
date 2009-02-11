@@ -229,6 +229,7 @@ setting_sequential_project_identifiers: Generate sequential project identifiers
 setting_gravatar_enabled: Use Gravatar user icons
 setting_diff_max_lines_displayed: Max number of diff lines displayed
 setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+setting_openid: Allow OpenID login and registration
 
 permission_edit_project: Edit project
 permission_select_project_modules: Select project modules

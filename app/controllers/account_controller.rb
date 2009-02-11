@@ -46,10 +46,10 @@ class AccountController < ApplicationController
       self.logged_user = nil
     else
       # Authenticate user
-      unless using_open_id?
-        password_authentication
-      else
+      if using_open_id? && Setting.openid?
         open_id_authenticate(params[:openid_url])
+      else
+        password_authentication
       end
     end
   end
