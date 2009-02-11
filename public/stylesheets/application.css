@@ -69,6 +69,8 @@ html>body #content { min-height: 600px; }
 #login-form table td {padding: 6px;}
 #login-form label {font-weight: bold;}
 
+input#openid_url { background: url(../images/openid-bg.gif) no-repeat; background-color: #fff; background-position: 0 50%; padding-left: 18px; }
+
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 /***** Links *****/

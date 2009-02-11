@@ -15,6 +15,7 @@
 <p><%= f.text_field :lastname, :required => true %></p>
 <p><%= f.text_field :mail, :required => true %></p>
 <p><%= f.select :language, lang_options_for_select %></p>
+<p><%= f.text_field :identity_url  %></p>
 
 <% @user.custom_field_values.select(&:editable?).each do |value| %>
 	<p><%= custom_field_tag_with_label :user, value %></p>

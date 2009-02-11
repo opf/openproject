@@ -46,24 +46,10 @@ class AccountController < ApplicationController
       self.logged_user = nil
     else
       # Authenticate user
-      user = User.try_to_login(params[:username], params[:password])
-      if user.nil?
-        # Invalid credentials
-        flash.now[:error] = l(:notice_account_invalid_creditentials)
-      elsif user.new_record?
-        # Onthefly creation failed, display the registration form to fill/fix attributes
-        @user = user
-        session[:auth_source_registration] = {:login => user.login, :auth_source_id => user.auth_source_id }
-        render :action => 'register'
+      unless using_open_id?
+        password_authentication
       else
-        # Valid user
-        self.logged_user = user
-        # generate a key and set cookie if autologin
-        if params[:autologin] && Setting.autologin?
-          token = Token.create(:user => user, :action => 'autologin')
-          cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
-        end
-        redirect_back_or_default :controller => 'my', :action => 'page'
+        open_id_authenticate(params[:openid_url])
       end
     end
   end
@@ -191,4 +177,59 @@ private
       session[:user_id] = nil
     end
   end
+  
+  def password_authentication
+    user = User.try_to_login(params[:username], params[:password])
+    if user.nil?
+      # Invalid credentials
+      flash.now[:error] = l(:notice_account_invalid_creditentials)
+    elsif user.new_record?
+      # Onthefly creation failed, display the registration form to fill/fix attributes
+      @user = user
+      session[:auth_source_registration] = {:login => user.login, :auth_source_id => user.auth_source_id }
+      render :action => 'register'
+    else
+      # Valid user
+      successful_authentication(user)
+    end
+  end
+
+  
+  def open_id_authenticate(openid_url)
+    user = nil
+    authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
+      if result.successful?
+        user = User.find_or_initialize_by_identity_url(identity_url)
+        if user.new_record?
+          # Create on the fly
+          # TODO: name
+          user.login = registration['nickname']
+          user.mail = registration['email']
+          user.save
+        end
+        
+        user.reload
+        if user.new_record?
+          # Onthefly creation failed, display the registration form to fill/fix attributes
+          @user = user
+          session[:auth_source_registration] = {:login => user.login, :identity_url => identity_url }
+          render :action => 'register'
+        else
+          successful_authentication(user)
+        end
+      end
+    end
+  end
+  
+  def successful_authentication(user)
+    # Valid user
+    self.logged_user = user
+    # generate a key and set cookie if autologin
+    if params[:autologin] && Setting.autologin?
+      token = Token.create(:user => user, :action => 'autologin')
+      cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
+    end
+    redirect_back_or_default :controller => 'my', :action => 'page'
+  end
+
 end
