@@ -184,4 +184,23 @@ class UserTest < Test::Unit::TestCase
     assert !u.password.blank?
     assert !u.password_confirmation.blank?
   end
+  
+  def test_setting_identity_url
+    normalized_open_id_url = 'http://example.com/'
+    u = User.new( :identity_url => 'http://example.com/' )
+    assert_equal normalized_open_id_url, u.identity_url
+  end
+
+  def test_setting_identity_url_without_trailing_slash
+    normalized_open_id_url = 'http://example.com/'
+    u = User.new( :identity_url => 'http://example.com' )
+    assert_equal normalized_open_id_url, u.identity_url
+  end
+
+  def test_setting_identity_url_without_protocol
+    normalized_open_id_url = 'http://example.com/'
+    u = User.new( :identity_url => 'example.com' )
+    assert_equal normalized_open_id_url, u.identity_url
+  end
+
 end

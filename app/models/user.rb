@@ -80,6 +80,15 @@ class User < ActiveRecord::Base
     super
   end
   
+  def identity_url=(url)
+    begin
+      self.write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
+    rescue InvalidOpenId
+      # Invlaid url, don't save
+    end
+    self.read_attribute(:identity_url)
+  end
+  
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password)
     # Make sure no one can sign in with an empty password
