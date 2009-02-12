@@ -188,6 +188,7 @@ field_default_value: Default value
 field_comments_sorting: Display comments
 field_parent_title: Parent page
 field_editable: Editable
+field_watcher: Watcher
 
 setting_app_title: Application title
 setting_app_subtitle: Application subtitle

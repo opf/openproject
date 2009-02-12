@@ -165,6 +165,10 @@ class Query < ActiveRecord::Base
     end
     @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values } unless user_values.empty?
     @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
+    
+    if User.current.logged?
+      @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => [["<< #{l(:label_me)} >>", "me"]] }
+    end
   
     if project
       # project specific filters
@@ -288,31 +292,34 @@ class Query < ActiveRecord::Base
       next if field == "subproject_id"
       v = values_for(field).clone
       next unless v and !v.empty?
-            
+      operator = operator_for(field)
+      
+      # "me" value subsitution
+      if %w(assigned_to_id author_id watcher_id).include?(field)
+        v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
+      end
+      
       sql = ''
-      is_custom_filter = false
       if field =~ /^cf_(\d+)$/
         # custom field
         db_table = CustomValue.table_name
         db_field = 'value'
         is_custom_filter = true
         sql << "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
+        sql << sql_for_field(field, operator, v, db_table, db_field, true) + ')'
+      elsif field == 'watcher_id'
+        db_table = Watcher.table_name
+        db_field = 'user_id'
+        sql << "#{Issue.table_name}.id #{ operator == '=' ? 'IN' : 'NOT IN' } (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND "
+        sql << sql_for_field(field, '=', v, db_table, db_field) + ')'
       else
         # regular field
         db_table = Issue.table_name
         db_field = field
-        sql << '('
+        sql << '(' + sql_for_field(field, operator, v, db_table, db_field) + ')'
       end
-      
-      # "me" value subsitution
-      if %w(assigned_to_id author_id).include?(field)
-        v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
-      end
-      
-      sql = sql + sql_for_field(field, v, db_table, db_field, is_custom_filter)
-      
-      sql << ')'
       filters_clauses << sql
+      
     end if filters and valid?
     
     (filters_clauses << project_statement).join(' AND ')
@@ -320,10 +327,10 @@ class Query < ActiveRecord::Base
   
   private
   
-  # Helper method to generate the WHERE sql for a +field+ with a +value+
-  def sql_for_field(field, value, db_table, db_field, is_custom_filter)
+  # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
+  def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)
     sql = ''
-    case operator_for field
+    case operator
     when "="
       sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
     when "!"

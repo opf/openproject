@@ -709,3 +709,4 @@ enumeration_activities: 活動 (時間追蹤)
 field_identity_url: OpenID URL
 setting_openid: Allow OpenID login and registration
 label_login_with_open_id_option: or login with OpenID
+field_watcher: Watcher

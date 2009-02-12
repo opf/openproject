@@ -188,6 +188,7 @@ field_comments_sorting: Afficher les commentaires
 field_parent_title: Page parent
 field_editable: Modifiable
 field_identity_url: URL OpenID
+field_watcher: Observateur
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application

@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class QueryTest < Test::Unit::TestCase
-  fixtures :projects, :enabled_modules, :users, :members, :roles, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :versions, :queries
+  fixtures :projects, :enabled_modules, :users, :members, :roles, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :watchers, :custom_fields, :custom_values, :versions, :queries
 
   def test_custom_fields_for_all_projects_should_be_available_in_global_queries
     query = Query.new(:project => nil, :name => '_')
@@ -160,6 +160,26 @@ class QueryTest < Test::Unit::TestCase
     query.add_filter('subject', '!~', ['string'])
     assert query.statement.include?("#{Issue.table_name}.subject NOT LIKE '%string%'")
     find_issues_with_query(query)
+  end
+  
+  def test_filter_watched_issues
+    User.current = User.find(1)
+    query = Query.new(:name => '_', :filters => { 'watcher_id' => {:operator => '=', :values => ['me']}})
+    result = find_issues_with_query(query)
+    assert_not_nil result
+    assert !result.empty?
+    assert_equal Issue.visible.watched_by(User.current).sort_by(&:id), result.sort_by(&:id)
+    User.current = nil
+  end
+  
+  def test_filter_unwatched_issues
+    User.current = User.find(1)
+    query = Query.new(:name => '_', :filters => { 'watcher_id' => {:operator => '!', :values => ['me']}})
+    result = find_issues_with_query(query)
+    assert_not_nil result
+    assert !result.empty?
+    assert_equal((Issue.visible - Issue.watched_by(User.current)).sort_by(&:id).size, result.sort_by(&:id).size)
+    User.current = nil
   end
   
   def test_default_columns
