@@ -1,152 +1,0 @@
-found
-<!-- minimal well-formed success case -->
-<html><head><meta http-equiv="X-XRDS-Location" content="found"></head></html>
-
-found
-<!-- minimal well-formed success case, xhtml closing, whitespace -->
-<html><head><meta http-equiv="X-XRDS-Location" content="found" /></head></html>
-
-found
-<!-- minimal well-formed success case, xhtml closing, no whitespace -->
-<html><head><meta http-equiv="X-XRDS-Location" content="found"/></head></html>
-
-found
-<!-- minimal success case -->
-<html><head><meta http-equiv="X-XRDS-Location" content="found">
-
-found
-<!-- ignore bogus top-level tags -->
-</porky><html><head><meta http-equiv="X-XRDS-Location" content="found">
-
-found
-<!-- Case folding for header name -->
-<html><head><meta http-equiv="x-xrds-location" content="found">
-
-found
-<!-- missing <html> tag -->
-<head><meta http-equiv="X-XRDS-Location" content="found">
-
-found
-<!-- javascript in head -->
-<html><head><script type="text/javascript">document.write("<body>");</script><META http-equiv="X-XRDS-Location" content="found">
-
-None
-<!-- no close script tag in head -->
-<html><head><script type="text/javascript">document.write("<body>");<META http-equiv="X-XRDS-Location" content="found">
-
-found
-<!-- case folding for tag names -->
-<html><head><META http-equiv="X-XRDS-Location" content="found">
-
-found
-<!-- Stop after first one found -->
-<html><head>
-<meta http-equiv="x-xrds-location" content="found">
-<meta http-equiv="x-xrds-location" content="not-found">
-
-&
-<!-- standard entity -->
-<head><meta http-equiv="X-XRDS-Location" content="&amp;">
-
-found
-<!-- hex entity -->
-<html>
-  <head>
-    <meta http-equiv="X-XRDS-Location" content="&#x66;ound">
-  </head>
-</html>
-
-found
-<!-- decimal entity -->
-<html>
-  <head>
-    <meta http-equiv="X-XRDS-Location" content="&#102;ound">
-  </head>
-</html>
-
-/
-<!-- hex entity -->
-<html>
-  <head>
-    <meta http-equiv="X-XRDS-Location" content="&#x2f;">
-  </head>
-</html>
-
-
-<!-- empty string -->
-<html><head><meta http-equiv="X-XRDS-Location" content="">
-
-EOF
-<!-- No markup, except this comment -->
-
-None
-<!-- No meta, just standard HTML -->
-<html>
-  <head>
-    <title>A boring document</title>
-  </head>
-  <body>
-    <h1>A boring document</h1>
-    <p>There's really nothing interesting about this</p>
-  </body>
-</html>
-
-EOF
-<!-- No <html> or <head> -->
-<meta http-equiv="X-XRDS-Location" content="found">
-
-EOF
-<!-- No <head> tag -->
-<html><meta http-equiv="X-XRDS-Location" content="found">
-
-None
-<!-- No <html> or <head> and a <body> -->
-<body><meta http-equiv="X-XRDS-Location" content="found">
-
-None
-<!-- <head> and <html> reversed -->
-<head><html><meta http-equiv="X-XRDS-Location" content="found">
-
-None
-<!-- <meta> is inside of <body> -->
-<html><head><body><meta http-equiv="X-XRDS-Location" content="found">
-
-None
-<!-- <meta> is inside comment -->
-<html>
-  <head>
-    <!--<meta http-equiv="X-XRDS-Location" content="found">-->
-  </head>
-</html>
-
-None
-<!-- <meta> is inside of <body> -->
-<html>
-  <head>
-    <title>Someone's blog</title>
-  </head>
-  <body>
-    <h1>My blog</h1>
-    <p>This is my blog</p>
-    <h2>Comments</h2>
-    <p><meta http-equiv="X-XRDS-Location" content="found"></p>
-  </body>
-</html>
-
-None
-<!-- short head tag -->
-<html><head/>
-<meta http-equiv="X-XRDS-Location" content="found">
-
-None
-<!-- <body> comes first -->
-<body><html><head>
-<meta http-equiv="X-XRDS-Location" content="found">
-
-None
-<!-- </body> comes first -->
-</body><html><head>
-<meta http-equiv="X-XRDS-Location" content="found">
-
-None
-<!bad processing instruction!>

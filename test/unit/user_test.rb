@@ -185,6 +185,8 @@ class UserTest < Test::Unit::TestCase
     assert !u.password_confirmation.blank?
   end
   
+  if Object.const_defined?(:OpenID)
+    
   def test_setting_identity_url
     normalized_open_id_url = 'http://example.com/'
     u = User.new( :identity_url => 'http://example.com/' )
@@ -201,6 +203,10 @@ class UserTest < Test::Unit::TestCase
     normalized_open_id_url = 'http://example.com/'
     u = User.new( :identity_url => 'example.com' )
     assert_equal normalized_open_id_url, u.identity_url
+  end
+  
+  else
+    puts "Skipping openid tests."
   end
 
 end

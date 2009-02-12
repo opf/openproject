@@ -64,6 +64,8 @@ class AccountControllerTest < Test::Unit::TestCase
                :content => /Invalid user or password/
   end
   
+  if Object.const_defined?(:OpenID)
+    
   def test_login_with_openid_for_existing_user
     Setting.self_registration = '3'
     Setting.openid = '1'
@@ -133,6 +135,11 @@ class AccountControllerTest < Test::Unit::TestCase
     assert assigns(:user)
     assert_equal 'http://openid.example.com/good_user', assigns(:user)[:identity_url]
   end
+  
+  else
+    puts "Skipping openid tests."
+  end
+  
   
   def test_autologin
     Setting.autologin = "7"

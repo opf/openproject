@@ -1,137 +1,0 @@
-equiv
-Status: 200 OK
-Content-Type: text/html
-
-<html>
-<head>
-<meta http-equiv="YADIS_HEADER" content="URL_BASE/xrds">
-<title>Joe Schmoe's Homepage</title>
-</head>
-<body>
-<h1>Joe Schmoe's Homepage</h1>
-<p>Blah blah blah blah blah blah blah</p>
-</body>
-</html>
-
-header
-Status: 200 OK
-Content-Type: text/html
-YADIS_HEADER: URL_BASE/xrds
-
-<html>
-<head>
-<title>Joe Schmoe's Homepage</title>
-</head>
-<body>
-<h1>Joe Schmoe's Homepage</h1>
-<p>Blah blah blah blah blah blah blah</p>
-</body>
-
-xrds
-Status: 200 OK
-Content-Type: application/xrds+xml
-
-<XRDS Content>
-
-xrds_ctparam
-Status: 200 OK
-Content-Type: application/xrds+xml; charset=UTF8
-
-<XRDS Content>
-
-xrds_ctcase
-Status: 200 OK
-Content-Type: appliCATION/XRDS+xml
-
-<XRDS Content>
-
-xrds_html
-Status: 200 OK
-Content-Type: text/html
-
-<XRDS Content>
-
-redir_equiv
-Status: 302 Found
-Content-Type: text/plain
-Location: URL_BASE/equiv
-
-You are presently being redirected.
-
-redir_header
-Status: 302 Found
-Content-Type: text/plain
-Location: URL_BASE/header
-
-You are presently being redirected.
-
-redir_xrds
-Status: 302 Found
-Content-Type: application/xrds+xml
-Location: URL_BASE/xrds
-
-<XRDS Content>
-
-redir_xrds_html
-Status: 302 Found
-Content-Type: text/plain
-Location: URL_BASE/xrds_html
-
-You are presently being redirected.
-
-redir_redir_equiv
-Status: 302 Found
-Content-Type: text/plain
-Location: URL_BASE/redir_equiv
-
-You are presently being redirected.
-
-lowercase_header
-Status: 200 OK
-Content-Type: text/html
-x-xrds-location: URL_BASE/xrds
-
-<html>
-<head>
-<title>Joe Schmoe's Homepage</title>
-</head>
-<body>
-<h1>Joe Schmoe's Homepage</h1>
-<p>Blah blah blah blah blah blah blah</p>
-</body>
-
-404_server_response
-Status: 404 Not Found
-
-EEk!
-
-500_server_response
-Status: 500 Server error
-
-EEk!
-
-201_server_response
-Status: 201 Created
-
-EEk!
-
-404_with_header
-Status: 404 Not Found
-YADIS_HEADER: URL_BASE/xrds
-
-EEk!
-
-404_with_meta
-Status: 404 Not Found
-Content-Type: text/html
-
-<html>
-<head>
-<meta http-equiv="YADIS_HEADER" content="URL_BASE/xrds">
-<title>Joe Schmoe's Homepage</title>
-</head>
-<body>
-<h1>Joe Schmoe's Homepage</h1>
-<p>Blah blah blah blah blah blah blah</p>
-</body>
-</html>

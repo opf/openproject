@@ -19,7 +19,7 @@
 <%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %><%= hidden_field_tag 'settings[lost_password]', 0 %></p>
 
 <p><label><%= l(:setting_openid) %></label>
-<%= check_box_tag 'settings[openid]', 1, Setting.openid? %><%= hidden_field_tag 'settings[openid]', 0 %></p>
+<%= check_box_tag 'settings[openid]', 1, Setting.openid?, :disabled => !Object.const_defined?(:OpenID) %><%= hidden_field_tag 'settings[openid]', 0 %></p>
 </div>
 
 <div style="float:right;">
