@@ -54,6 +54,4 @@ Rails::Initializer.run do |config|
   # Define your email configuration in email.yml instead.
   # It will automatically turn deliveries on
   config.action_mailer.perform_deliveries = false
-  
-  config.gem 'ruby-openid', :lib => 'openid'
 end
