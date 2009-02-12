@@ -3,7 +3,7 @@
     <% html_title(l(:label_issue_plural)) %>
     
     <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
-    <%= hidden_field_tag('project_id', @project.id) if @project %>
+    <%= hidden_field_tag('project_id', @project.to_param) if @project %>
     <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     <p class="buttons">
@@ -14,7 +14,7 @@
                        }, :class => 'icon icon-checked' %>
                        
     <%= link_to_remote l(:button_clear),
-                       { :url => { :set_filter => 1, :project_id => (@project.nil? ? nil : @project.id) },
+                       { :url => { :set_filter => 1, :project_id => @project },
                          :method => :get,
                          :update => "content",
                        }, :class => 'icon icon-reload'  %>

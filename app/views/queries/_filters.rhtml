@@ -95,7 +95,10 @@ function toggle_multi_select(field) {
 </td>
 <td class="add-filter">
 <%= l(:label_filter_add) %>:
-<%= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/\_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact), :onchange => "add_filter();", :class => "select-small" %>
+<%= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact),
+																		:onchange => "add_filter();",
+																		:class => "select-small",
+																		:name => nil %>
 </td>
 </tr>
 </table>

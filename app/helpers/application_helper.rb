@@ -263,8 +263,8 @@ module ApplicationHelper
   def pagination_links_full(paginator, count=nil, options={})
     page_param = options.delete(:page_param) || :page
     url_param = params.dup
-    # don't reuse params if filters are present
-    url_param.clear if url_param.has_key?(:set_filter)
+    # don't reuse query params if filters are present
+    url_param.merge!(:fields => nil, :values => nil, :operators => nil) if url_param.delete(:set_filter)
 
     html = ''
     if paginator.current.previous
