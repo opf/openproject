@@ -708,3 +708,6 @@ label_display: Display
 button_create_and_continue: Create and continue
 text_custom_field_possible_values_info: 'One line for each value'
 setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID

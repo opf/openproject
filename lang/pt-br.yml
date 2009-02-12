@@ -704,3 +704,6 @@ text_custom_field_possible_values_info: 'Uma linha para cada valor'
 label_display: Exibição
 field_editable: Editável
 setting_repository_log_display_limit: Número máximo de revisões exibidas no arquivo de log
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID

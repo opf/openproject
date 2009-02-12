@@ -705,3 +705,6 @@ default_activity_development: Utveckling
 enumeration_issue_priorities: Ärendeprioriteter
 enumeration_doc_categories: Dokumentkategorier
 enumeration_activities: Aktiviteter (tidsuppföljning)
+field_identity_url: OpenID URL
+setting_openid: Allow OpenID login and registration
+label_login_with_open_id_option: or login with OpenID

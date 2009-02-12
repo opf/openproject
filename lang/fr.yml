@@ -187,6 +187,7 @@ field_default_value: Valeur par défaut
 field_comments_sorting: Afficher les commentaires
 field_parent_title: Page parent
 field_editable: Modifiable
+field_identity_url: URL OpenID
 
 setting_app_title: Titre de l'application
 setting_app_subtitle: Sous-titre de l'application
@@ -228,6 +229,7 @@ setting_sequential_project_identifiers: Générer des identifiants de projet sé
 setting_gravatar_enabled: Afficher les Gravatar des utilisateurs
 setting_diff_max_lines_displayed: Nombre maximum de lignes de diff affichées
 setting_repository_log_display_limit: "Nombre maximum de revisions affichées sur l'historique d'un fichier"
+setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
 
 permission_edit_project: Modifier le projet
 permission_select_project_modules: Choisir les modules
@@ -587,6 +589,7 @@ label_generate_key: Générer une clé
 label_issue_watchers: Observateurs
 label_example: Exemple
 label_display: Affichage
+label_login_with_open_id_option: Authentification OpenID
 
 button_login: Connexion
 button_submit: Soumettre
