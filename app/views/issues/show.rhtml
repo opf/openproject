@@ -23,7 +23,7 @@
     <td style="width:15%" class="start-date"><b><%=l(:field_start_date)%>:</b></td><td style="width:35%"><%= format_date(@issue.start_date) %></td>
 </tr>
 <tr>
-    <td class="priority"><b><%=l(:field_priority)%>:</b></td><td class="priority priority-<%= @issue.priority.name %>"><%= @issue.priority.name %></td>
+    <td class="priority"><b><%=l(:field_priority)%>:</b></td><td class="priority"><%= @issue.priority.name %></td>
     <td class="due-date"><b><%=l(:field_due_date)%>:</b></td><td class="due-date"><%= format_date(@issue.due_date) %></td>
 </tr>
 <tr>
