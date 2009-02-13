@@ -187,7 +187,7 @@ class IssuesController < ApplicationController
 
       if (@time_entry.hours.nil? || @time_entry.valid?) && @issue.save
         # Log spend time
-        if current_role.allowed_to?(:log_time)
+        if User.current.allowed_to?(:log_time, @project)
           @time_entry.save
         end
         if !journal.new_record?
