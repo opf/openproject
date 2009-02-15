@@ -31,7 +31,7 @@ class Document < ActiveRecord::Base
   
   def after_initialize
     if new_record?
-      self.category ||= Enumeration.default('DCAT')
+      self.category ||= Enumeration.document_categories.default
     end
   end
 end

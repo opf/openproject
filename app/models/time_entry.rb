@@ -37,7 +37,7 @@ class TimeEntry < ActiveRecord::Base
 
   def after_initialize
     if new_record? && self.activity.nil?
-      if default_activity = Enumeration.default('ACTI')
+      if default_activity = Enumeration.activities.default
         self.activity_id = default_activity.id
       end
     end

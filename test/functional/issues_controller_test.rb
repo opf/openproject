@@ -640,7 +640,7 @@ class IssuesControllerTest < Test::Unit::TestCase
            :id => 1,
            :issue => { :status_id => 2, :assigned_to_id => 3 },
            :notes => 'Assigned to dlopper',
-           :time_entry => { :hours => '', :comments => '', :activity_id => Enumeration.get_values('ACTI').first }
+           :time_entry => { :hours => '', :comments => '', :activity_id => Enumeration.activities.first }
     end
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
@@ -676,7 +676,7 @@ class IssuesControllerTest < Test::Unit::TestCase
       post :edit,
            :id => 1,
            :notes => '2.5 hours added',
-           :time_entry => { :hours => '2.5', :comments => '', :activity_id => Enumeration.get_values('ACTI').first }
+           :time_entry => { :hours => '2.5', :comments => '', :activity_id => Enumeration.activities.first }
     end
     assert_redirected_to :action => 'show', :id => '1'
     

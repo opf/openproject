@@ -37,7 +37,7 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"
     when "priority"
       @field = "priority_id"
-      @rows = Enumeration::get_values('IPRI')
+      @rows = Enumeration.priorities
       @data = issues_by_priority
       @report_title = l(:field_priority)
       render :template => "reports/issue_report_details"   
@@ -68,7 +68,7 @@ class ReportsController < ApplicationController
     else
       @trackers = @project.trackers
       @versions = @project.versions.sort
-      @priorities = Enumeration::get_values('IPRI')
+      @priorities = Enumeration.priorities
       @categories = @project.issue_categories
       @assignees = @project.members.collect { |m| m.user }
       @authors = @project.members.collect { |m| m.user }

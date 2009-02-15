@@ -63,7 +63,7 @@ class Issue < ActiveRecord::Base
     if new_record?
       # set default values for new records only
       self.status ||= IssueStatus.default
-      self.priority ||= Enumeration.default('IPRI')
+      self.priority ||= Enumeration.priorities.default
     end
   end
   

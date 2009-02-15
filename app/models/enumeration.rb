@@ -26,17 +26,29 @@ class Enumeration < ActiveRecord::Base
 
   # Single table inheritance would be an option
   OPTIONS = {
-    "IPRI" => {:label => :enumeration_issue_priorities, :model => Issue, :foreign_key => :priority_id},
-    "DCAT" => {:label => :enumeration_doc_categories, :model => Document, :foreign_key => :category_id},
-    "ACTI" => {:label => :enumeration_activities, :model => TimeEntry, :foreign_key => :activity_id}
+    "IPRI" => {:label => :enumeration_issue_priorities, :model => Issue, :foreign_key => :priority_id, :scope => :priorities},
+    "DCAT" => {:label => :enumeration_doc_categories, :model => Document, :foreign_key => :category_id, :scope => :document_categories},
+    "ACTI" => {:label => :enumeration_activities, :model => TimeEntry, :foreign_key => :activity_id, :scope => :activities}
   }.freeze
   
-  def self.get_values(option)
-    find(:all, :conditions => {:opt => option}, :order => 'position')
+  # Creates a named scope for each type of value. The scope has a +default+ method
+  # that returns the default value, or nil if no value is set as default.
+  # Example:
+  #   Enumeration.priorities
+  #   Enumeration.priorities.default
+  OPTIONS.each do |k, v|
+    next unless v[:scope]
+    named_scope v[:scope], :conditions => { :opt => k }, :order => 'position' do
+      def default
+        find(:first, :conditions => { :is_default => true })
+      end
+    end
   end
   
-  def self.default(option)  
-    find(:first, :conditions => {:opt => option, :is_default => true}, :order => 'position')
+  named_scope :values, lambda {|opt| { :conditions => { :opt => opt }, :order => 'position' } } do
+    def default
+      find(:first, :conditions => { :is_default => true })
+    end
   end
 
   def option_name

@@ -38,7 +38,7 @@ class EnumerationTest < Test::Unit::TestCase
   end
   
   def test_default
-    e = Enumeration.default('IPRI')
+    e = Enumeration.priorities.default
     assert e.is_a?(Enumeration)
     assert e.is_default?
     assert_equal 'Normal', e.name
@@ -47,31 +47,31 @@ class EnumerationTest < Test::Unit::TestCase
   def test_create
     e = Enumeration.new(:opt => 'IPRI', :name => 'Very urgent', :is_default => false)
     assert e.save
-    assert_equal 'Normal', Enumeration.default('IPRI').name
+    assert_equal 'Normal', Enumeration.priorities.default.name
   end
   
   def test_create_as_default
     e = Enumeration.new(:opt => 'IPRI', :name => 'Very urgent', :is_default => true)
     assert e.save
-    assert_equal e, Enumeration.default('IPRI')
+    assert_equal e, Enumeration.priorities.default
   end
   
   def test_update_default
-    e = Enumeration.default('IPRI')
+    e = Enumeration.priorities.default
     e.update_attributes(:name => 'Changed', :is_default => true)
-    assert_equal e, Enumeration.default('IPRI')
+    assert_equal e, Enumeration.priorities.default
   end
   
   def test_update_default_to_non_default
-    e = Enumeration.default('IPRI')
+    e = Enumeration.priorities.default
     e.update_attributes(:name => 'Changed', :is_default => false)
-    assert_nil Enumeration.default('IPRI')
+    assert_nil Enumeration.priorities.default
   end
   
   def test_change_default
     e = Enumeration.find_by_name('Urgent')
     e.update_attributes(:name => 'Urgent', :is_default => true)
-    assert_equal e, Enumeration.default('IPRI')
+    assert_equal e, Enumeration.priorities.default
   end
   
   def test_destroy_with_reassign

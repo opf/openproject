@@ -85,7 +85,7 @@ class EnumerationsController < ApplicationController
         redirect_to :action => 'index'
       end
     end
-    @enumerations = Enumeration.get_values(@enumeration.opt) - [@enumeration]
+    @enumerations = Enumeration.values(@enumeration.opt) - [@enumeration]
   #rescue
   #  flash[:error] = 'Unable to delete enumeration'
   #  redirect_to :action => 'index'

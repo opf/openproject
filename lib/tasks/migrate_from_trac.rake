@@ -37,7 +37,7 @@ namespace :redmine do
                           'closed' => closed_status
                           }
 
-        priorities = Enumeration.get_values('IPRI')
+        priorities = Enumeration.priorities
         DEFAULT_PRIORITY = priorities[0]
         PRIORITY_MAPPING = {'lowest' => priorities[0],
                             'low' => priorities[0],

@@ -3,7 +3,7 @@
 <% Enumeration::OPTIONS.each do |option, params| %>
 <h3><%= l(params[:label]) %></h3>
 
-<% enumerations = Enumeration.get_values(option) %>
+<% enumerations = Enumeration.values(option) %>
 <% if enumerations.any? %>
 <table class="list">
 <% enumerations.each do |enumeration| %>
