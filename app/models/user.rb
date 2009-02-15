@@ -81,10 +81,14 @@ class User < ActiveRecord::Base
   end
   
   def identity_url=(url)
-    begin
-      self.write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
-    rescue InvalidOpenId
-      # Invlaid url, don't save
+    if url.blank?
+      write_attribute(:identity_url, '')
+    else
+      begin
+        write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
+      rescue OpenIdAuthentication::InvalidOpenId
+        # Invlaid url, don't save
+      end
     end
     self.read_attribute(:identity_url)
   end
