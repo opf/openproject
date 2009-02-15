@@ -1,16 +1,35 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2008  Jean-Philippe Lang
+Copyright (C) 2006-2009  Jean-Philippe Lang
 http://www.redmine.org/
 
 
-== v0.8.1
+== 2009-02-15 v0.8.1
 
 * Select watchers on new issue form
+* Issue description is no longer a required field
 * Files module: ability to add files without version
+* Jump to the current tab when using the project quick-jump combo
+* Display a warning if some attachments were not saved
+* Import custom fields values from emails on issue creation
 * Show view/annotate/download links on entry and annotate views
+* Admin Info Screen: Display if plugin assets directory is writable
+* Adds a 'Create and continue' button on the new issue form
+* IMAP: add options to move received emails
+* Do not show Category field when categories are not defined
+* Lower the project identifier limit to a minimum of two characters
+* Add "closed" html class to closed entries in issue list
+* Fixed: broken redirect URL on login failure
 * Fixed: Deleted files are shown when using Darcs
+* Fixed: Darcs adapter works on Win32 only
+* Fixed: syntax highlight doesn't appear in new ticket preview
+* Fixed: email notification for changes I make still occurs when running Repository.fetch_changesets
+* Fixed: no error is raised when entering invalid hours on the issue update form
+* Fixed: Details time log report CSV export doesn't honour date format from settings
+* Fixed: invalid css classes on issue details
+* Fixed: Trac importer creates duplicate custom values
+* Fixed: inline attached image should not match partial filename
 
 
 == 2008-12-30 v0.8.0
