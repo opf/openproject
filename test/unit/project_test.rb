@@ -18,7 +18,9 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ProjectTest < Test::Unit::TestCase
-  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details, :users, :members, :roles, :projects_trackers, :trackers, :boards
+  fixtures :projects, :enabled_modules, 
+           :issues, :issue_statuses, :journals, :journal_details,
+           :users, :members, :roles, :projects_trackers, :trackers, :boards
 
   def setup
     @ecookbook = Project.find(1)
@@ -217,5 +219,18 @@ class ProjectTest < Test::Unit::TestCase
   def test_next_identifier_first_project
     Project.delete_all
     assert_nil Project.next_identifier
+  end
+  
+  def test_enabled_module_names_should_not_recreate_enabled_modules
+    project = Project.find(1)
+    # Remove one module
+    modules = project.enabled_modules.slice(0..-2)
+    assert modules.any?
+    assert_difference 'EnabledModule.count', -1 do
+      project.enabled_module_names = modules.collect(&:name)
+    end
+    project.reload
+    # Ids should be preserved
+    assert_equal project.enabled_module_ids.sort, modules.collect(&:id).sort
   end
 end

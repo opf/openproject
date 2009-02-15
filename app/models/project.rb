@@ -287,10 +287,14 @@ class Project < ActiveRecord::Base
   end
   
   def enabled_module_names=(module_names)
-    enabled_modules.clear
-    module_names = [] unless module_names && module_names.is_a?(Array)
-    module_names.each do |name|
-      enabled_modules << EnabledModule.new(:name => name.to_s)
+    if module_names && module_names.is_a?(Array)
+      module_names = module_names.collect(&:to_s)
+      # remove disabled modules
+      enabled_modules.each {|mod| mod.destroy unless module_names.include?(mod.name)}
+      # add new modules
+      module_names.each {|name| enabled_modules << EnabledModule.new(:name => name)}
+    else
+      enabled_modules.clear
     end
   end
   
