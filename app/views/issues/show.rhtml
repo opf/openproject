@@ -19,7 +19,7 @@
 
 <table width="100%">
 <tr>
-    <td style="width:15%" class="status"><b><%=l(:field_status)%>:</b></td><td style="width:35%" class="status status-<%= @issue.status.name %>"><%= @issue.status.name %></td>
+    <td style="width:15%" class="status"><b><%=l(:field_status)%>:</b></td><td style="width:35%" class="status"><%= @issue.status.name %></td>
     <td style="width:15%" class="start-date"><b><%=l(:field_start_date)%>:</b></td><td style="width:35%"><%= format_date(@issue.start_date) %></td>
 </tr>
 <tr>
