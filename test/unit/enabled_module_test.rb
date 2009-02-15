@@ -15,24 +15,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class EnabledModule < ActiveRecord::Base
-  belongs_to :project
+require File.dirname(__FILE__) + '/../test_helper'
+
+class EnabledModuleTest < Test::Unit::TestCase
+  fixtures :projects, :wikis
   
-  validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :project_id
+  def test_enabling_wiki_should_create_a_wiki
+    CustomField.delete_all
+    project = Project.create!(:name => 'Project with wiki', :identifier => 'wikiproject')
+    assert_nil project.wiki
+    project.enabled_module_names = ['wiki']
+    project.reload
+    assert_not_nil project.wiki
+    assert_equal 'Wiki', project.wiki.start_page
+  end
   
-  after_create :module_enabled
-  
-  private
-  
-  # after_create callback used to do things when a module is enabled
-  def module_enabled
-    case name
-    when 'wiki'
-      # Create a wiki with a default start page
-      if project && project.wiki.nil?
-        Wiki.create(:project => project, :start_page => 'Wiki')
-      end
+  def test_reenabling_wiki_should_not_create_another_wiki
+    project = Project.find(1)
+    assert_not_nil project.wiki
+    project.enabled_module_names = []
+    project.reload
+    assert_no_difference 'Wiki.count' do
+      project.enabled_module_names = ['wiki']
     end
+    assert_not_nil project.wiki
   end
 end
