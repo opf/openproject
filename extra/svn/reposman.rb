@@ -26,6 +26,7 @@
 #                             allow user to browse the repository within
 #                             Redmine even for private project. If you want to share repositories
 #                             through Redmine.pm, you need to use the apache owner.
+#   -g, --group=GROUP         group of the repository. (default: root)
 #   --scm=SCM                 the kind of SCM repository you want to create (and register) in
 #                             Redmine (default: Subversion). reposman is able to create Git 
 #                             and Subversion repositories. For all other kind (Bazaar,
@@ -60,13 +61,14 @@ require 'rdoc/usage'
 require 'find'
 require 'etc'
 
-Version = "1.2"
+Version = "1.3"
 SUPPORTED_SCM = %w( Subversion Darcs Mercurial Bazaar Git Filesystem )
 
 opts = GetoptLong.new(
                       ['--svn-dir',      '-s', GetoptLong::REQUIRED_ARGUMENT],
                       ['--redmine-host', '-r', GetoptLong::REQUIRED_ARGUMENT],
                       ['--owner',        '-o', GetoptLong::REQUIRED_ARGUMENT],
+                      ['--group',        '-g', GetoptLong::REQUIRED_ARGUMENT],
                       ['--url',          '-u', GetoptLong::REQUIRED_ARGUMENT],
                       ['--command' ,     '-c', GetoptLong::REQUIRED_ARGUMENT],
                       ['--scm',                GetoptLong::REQUIRED_ARGUMENT],
@@ -83,6 +85,7 @@ $quiet        = false
 $redmine_host = ''
 $repos_base   = ''
 $svn_owner    = 'root'
+$svn_group    = 'root'
 $use_groupid  = true
 $svn_url      = false
 $test         = false
@@ -125,6 +128,7 @@ begin
     when '--svn-dir';        $repos_base   = arg.dup
     when '--redmine-host';   $redmine_host = arg.dup
     when '--owner';          $svn_owner    = arg.dup; $use_groupid = false;
+    when '--group';          $svn_group    = arg.dup; $use_groupid = false;
     when '--url';            $svn_url      = arg.dup
     when '--scm';            $scm          = arg.dup.capitalize; log("Invalid SCM: #{$scm}", :exit => true) unless SUPPORTED_SCM.include?($scm)
     when '--command';        $command =      arg.dup
@@ -195,7 +199,7 @@ def set_owner_and_rights(project, repos_path, &block)
   if RUBY_PLATFORM =~ /mswin/
     yield if block_given?
   else
-    uid, gid = Etc.getpwnam($svn_owner).uid, ($use_groupid ? Etc.getgrnam(project.identifier).gid : 0)
+    uid, gid = Etc.getpwnam($svn_owner).uid, ($use_groupid ? Etc.getgrnam(project.identifier).gid : Etc.getgrnam($svn_group).gid)
     right = project.is_public ? 0775 : 0770
     yield if block_given?
     Find.find(repos_path) do |f|
