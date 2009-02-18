@@ -694,7 +694,7 @@ text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmin
 permission_edit_own_messages: Editar próprias mensagens
 permission_delete_own_messages: Excluir próprias mensagens
 label_user_activity: "Atividade de %s"
-label_updated_time_by: Atualizado por %s à %s
+label_updated_time_by: Atualizado por %s há %s
 text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser exibido.'
 setting_diff_max_lines_displayed: Número máximo de linhas exibidas no diff
 text_plugin_assets_writable: Diretório de plugins gravável

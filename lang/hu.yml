@@ -705,6 +705,6 @@ label_display: Megmutat
 field_editable: Szerkeszthető
 setting_repository_log_display_limit: Maximum hány revízió jelenjen meg a fájl logban
 field_identity_url: OpenID URL
-setting_openid: Allow OpenID login and registration
-label_login_with_open_id_option: or login with OpenID
-field_watcher: Watcher
+setting_openid: OpenID bejelentkezés és regisztráció engedélyezése
+label_login_with_open_id_option: vagy bejelentkezés OpenID használatával
+field_watcher: Megfigyelő

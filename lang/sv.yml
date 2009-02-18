@@ -63,7 +63,7 @@ notice_account_unknown_email: Okänd användare.
 notice_can_t_change_password: Detta konto använder en extern autentiseringskälla. Det går inte att byta lösenord.
 notice_account_lost_email_sent: Ett mail med instruktioner om hur man väljer ett nytt lösenord har skickats till dig.
 notice_account_activated: Ditt konto har blivit aktiverat. Du kan nu logga in.
-notice_successful_create: Skapandet lyckades.
+notice_successful_create: Skapades korrekt.
 notice_successful_update: Uppdatering lyckades.
 notice_successful_delete: Borttagning lyckades.
 notice_successful_connection: Uppkoppling lyckades.
@@ -80,8 +80,8 @@ notice_default_data_loaded: Standardkonfiguration inläst.
 notice_unable_delete_version: Denna version var inte möjlig att ta bort.
 
 error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: %s"
-error_scm_not_found: "Inlägg och/eller revision finns inte i detta repository."
-error_scm_command_failed: "Ett fel inträffade vid försök att nå repositoryt: %s"
+error_scm_not_found: "Inlägg och/eller revision finns inte i detta versionsarkiv."
+error_scm_command_failed: "Ett fel inträffade vid försök att nå versionsarkivet: %s"
 error_scm_annotate: "Inlägget existerar inte eller kan inte kommenteras."
 error_issue_not_found_in_project: 'Ärendet hittades inte eller så tillhör det inte detta projekt'
 
@@ -147,6 +147,7 @@ field_mail_notification: Mailnotifieringar
 field_admin: Administratör
 field_last_login_on: Senaste inloggning
 field_language: Språk
+field_identity_url: OpenID URL
 field_effective_date: Datum
 field_password: Lösenord
 field_new_password: Nytt lösenord
@@ -187,6 +188,7 @@ field_default_value: Standardvärde
 field_comments_sorting: Visa kommentarer
 field_parent_title: Föräldersida
 field_editable: Redigerbar
+field_watcher: Bevakare
 
 setting_app_title: Applikationsrubrik
 setting_app_subtitle: Applikationsunderrubrik
@@ -196,7 +198,7 @@ setting_login_required: Kräver inloggning
 setting_self_registration: Självregistrering
 setting_attachment_max_size: Maxstorlek på bilaga
 setting_issues_export_limit: Exportgräns för ärenden
-setting_mail_from: Mailavsändare
+setting_mail_from: Avsändare
 setting_bcc_recipients: Hemlig kopia (bcc) till mottagare
 setting_plain_text_mail: Oformaterad text i mail (ingen HTML)
 setting_host_name: Värddatornamn
@@ -205,7 +207,7 @@ setting_wiki_compression: Komprimering av wikihistorik
 setting_feeds_limit: Innehållsgräns för Feed
 setting_default_projects_public: Nya projekt är publika som standard
 setting_autofetch_changesets: Automatisk hämtning av commits
-setting_sys_api_enabled: Aktivera WS för repository-hantering
+setting_sys_api_enabled: Aktivera WS för versionsarkivhantering
 setting_commit_ref_keywords: Referens-nyckelord
 setting_commit_fix_keywords: Fix-nyckelord
 setting_autologin: Automatisk inloggning
@@ -213,9 +215,9 @@ setting_date_format: Datumformat
 setting_time_format: Tidsformat
 setting_cross_project_issue_relations: Tillåt ärenderelationer mellan projekt
 setting_issue_list_default_columns: Standardkolumner i ärendelistan
-setting_repositories_encodings: Teckenuppsättningar för repositoriy
+setting_repositories_encodings: Teckenuppsättningar för versionsarkiv
 setting_commit_logs_encoding: Teckenuppsättning för commit-meddelanden
-setting_emails_footer: Mailsignatur
+setting_emails_footer: Signatur
 setting_protocol: Protokoll
 setting_per_page_options: Alternativ, objekt per sida
 setting_user_format: Visningsformat för användare
@@ -228,6 +230,7 @@ setting_sequential_project_identifiers: Generera projektidentifierare sekventiel
 setting_gravatar_enabled: Använd Gravatar-avatarer
 setting_diff_max_lines_displayed: Maximalt antal synliga rader i diff
 setting_repository_log_display_limit: Maximalt antal revisioner i filloggen
+setting_openid: Tillåt inloggning och registrering med OpenID
 
 permission_edit_project: Ändra projekt
 permission_select_project_modules: Välja projektmoduler
@@ -238,8 +241,8 @@ permission_add_issues: Lägga till ärende
 permission_edit_issues: Ändra ärende
 permission_manage_issue_relations: Hantera ärenderelationer
 permission_add_issue_notes: Lägga till notering
-permission_edit_issue_notes: Ändra noteringar
-permission_edit_own_issue_notes: Ändra egna noteringar
+permission_edit_issue_notes: Ändra ärendenoteringar
+permission_edit_own_issue_notes: Ändra egna ärendenoteringar
 permission_move_issues: Flytta ärenden
 permission_delete_issues: Ta bort ärenden
 permission_manage_public_queries: Hantera publika frågor
@@ -250,8 +253,8 @@ permission_view_issue_watchers: Visa bevakarlista
 permission_add_issue_watchers: Lägga till bevakare
 permission_log_time: Logga spenderad tid
 permission_view_time_entries: Visa spenderad tid
-permission_edit_time_entries: Ändra tidloggar
-permission_edit_own_time_entries: Ändra egna tidloggar
+permission_edit_time_entries: Ändra tidloggningar
+permission_edit_own_time_entries: Ändra egna tidloggningar
 permission_manage_news: Hantera nyheter
 permission_comment_news: Kommentera nyheter
 permission_manage_documents: Hantera dokument
@@ -266,10 +269,10 @@ permission_view_wiki_edits: Visa wikihistorik
 permission_edit_wiki_pages: Ändra wikisidor
 permission_delete_wiki_pages_attachments: Ta bort bilagor
 permission_protect_wiki_pages: Skydda wikisidor
-permission_manage_repository: Hantera repository
-permission_browse_repository: Bläddra i repository
+permission_manage_repository: Hantera versionsarkiv
+permission_browse_repository: Bläddra i versionsarkiv
 permission_view_changesets: Visa changesets
-permission_commit_access: Commit-tillgång
+permission_commit_access: Commit-åtkomst
 permission_manage_boards: Hantera forum
 permission_view_messages: Visa meddelanden
 permission_add_messages: Lägg till meddelanden
@@ -283,7 +286,7 @@ project_module_news: Nyheter
 project_module_documents: Dokument
 project_module_files: Filer
 project_module_wiki: Wiki
-project_module_repository: Repository
+project_module_repository: Versionsarkiv
 project_module_boards: Forum
 
 label_user: Användare
@@ -317,7 +320,7 @@ label_tracker_plural: Ärendetyper
 label_tracker_new: Ny ärendetyp
 label_workflow: Arbetsflöde
 label_issue_status: Ärendestatus
-label_issue_status_plural: Ärendestatusar
+label_issue_status_plural: Ärendestatus
 label_issue_status_new: Ny status
 label_issue_category: Ärendekategori
 label_issue_category_plural: Ärendekategorier
@@ -325,12 +328,13 @@ label_issue_category_new: Ny kategori
 label_custom_field: Användardefinerat fält
 label_custom_field_plural: Användardefinerade fält
 label_custom_field_new: Nytt användardefinerat fält
-label_enumerations: Enumerationer
+label_enumerations: Uppräkningar
 label_enumeration_new: Nytt värde
 label_information: Information
 label_information_plural: Information
 label_please_login: Var god logga in
 label_register: Registrera
+label_login_with_open_id_option: eller logga in med OpenID
 label_password_lost: Glömt lösenord
 label_home: Hem
 label_my_page: Min sida
@@ -403,7 +407,7 @@ label_closed_issues_plural: stängda
 label_total: Total
 label_permissions: Behörigheter
 label_current_status: Nuvarande status
-label_new_statuses_allowed: Nya statusar tillåtna
+label_new_statuses_allowed: Nya tillåtna statusvärden
 label_all: alla
 label_none: ingen
 label_nobody: ingen
@@ -451,8 +455,8 @@ label_ago: dagar sedan
 label_contains: innehåller
 label_not_contains: innehåller inte
 label_day_plural: dagar
-label_repository: Repository
-label_repository_plural: Repositorys
+label_repository: Versionsarkiv
+label_repository_plural: Versionsarkiv
 label_browse: Bläddra
 label_modification: %d ändring
 label_modification_plural: %d ändringar
@@ -562,7 +566,7 @@ label_search_titles_only: Sök endast i titlar
 label_user_mail_option_all: "För alla händelser i mina projekt"
 label_user_mail_option_selected: "För alla händelser i markerade projekt..."
 label_user_mail_option_none: "Endast för saker jag bevakar eller är involverad i"
-label_user_mail_no_self_notified: "Jag vill inte bli notifierad om ändringar som jag har gjort"
+label_user_mail_no_self_notified: "Jag vill inte bli underrättad om ändringar som jag har gjort"
 label_registration_activation_by_email: kontoaktivering med mail
 label_registration_manual_activation: manuell kontoaktivering
 label_registration_automatic_activation: automatisk kontoaktivering
@@ -658,15 +662,15 @@ text_wiki_destroy_confirmation: Är du säker på att du vill ta bort denna wiki
 text_issue_category_destroy_question: Några ärenden (%d) är tilldelade till denna kategori. Vad vill du göra ?
 text_issue_category_destroy_assignments: Ta bort kategoritilldelningar
 text_issue_category_reassign_to: Återtilldela ärenden till denna kategori
-text_user_mail_option: "För omarkerade projekt kommer du bara få notifieringar om saker du bevakar eller är inblandad i (T.ex. ärenden du skapat eller tilldelats)."
-text_no_configuration_data: "Roller, ärendetyper, ärendestatusar och arbetsflöden har inte konfigurerats ännu.\nDet rekommenderas att läsa in standardkonfigurationen. Du kommer att kunna göra ändringar efter att den blivit inläst."
+text_user_mail_option: "För omarkerade projekt kommer du bara bli underrättad om saker du bevakar eller är inblandad i (T.ex. ärenden du skapat eller tilldelats)."
+text_no_configuration_data: "Roller, ärendetyper, ärendestatus och arbetsflöden har inte konfigurerats ännu.\nDet rekommenderas att läsa in standardkonfigurationen. Du kommer att kunna göra ändringar efter att den blivit inläst."
 text_load_default_configuration: Läs in standardkonfiguration
 text_status_changed_by_changeset: Tilldelad i changeset %s.
 text_issues_destroy_confirmation: 'Är du säker på att du vill radera markerade ärende(n) ?'
 text_select_project_modules: 'Välj vilka moduler som ska vara aktiva för projektet:'
 text_default_administrator_account_changed: Standardadministratörens konto ändrat
-text_file_repository_writable: Foldern för bifogade filer är skrivbar
-text_plugin_assets_writable: Foldern för plug-ins är skrivbar
+text_file_repository_writable: Arkivet för bifogade filer är skrivbar
+text_plugin_assets_writable: Arkivet för plug-ins är skrivbar
 text_rmagick_available: RMagick tillgängligt (valfritt)
 text_destroy_time_entries_question: %.02f timmar har rapporterats på ärendena du är på väg att ta bort. Vad vill du göra ?
 text_destroy_time_entries: Ta bort rapporterade timmar
@@ -675,8 +679,8 @@ text_reassign_time_entries: 'Återtilldela rapporterade timmar till detta ärend
 text_user_wrote: '%s skrev:'
 text_enumeration_destroy_question: '%d objekt är tilldelade till detta värde.'
 text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
-text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar är inaktiverade.\nKonfigurera din SMTP-server i config/email.yml och starta om applikationen för att aktivera dem."
-text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i repository-loggen.\nAnvändare med samma användarnamn eller emailadress i både Redmine och repositoryt mappas automatiskt."
+text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar via mail kan därför inte skickas.\nKonfigurera din SMTP-server i config/email.yml och starta om applikationen för att aktivera dem."
+text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller emailadress i både Redmine och versionsarkivet mappas automatiskt."
 text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
 text_custom_field_possible_values_info: 'En rad för varje värde'
 
@@ -705,7 +709,3 @@ default_activity_development: Utveckling
 enumeration_issue_priorities: Ärendeprioriteter
 enumeration_doc_categories: Dokumentkategorier
 enumeration_activities: Aktiviteter (tidsuppföljning)
-field_identity_url: OpenID URL
-setting_openid: Allow OpenID login and registration
-label_login_with_open_id_option: or login with OpenID
-field_watcher: Watcher

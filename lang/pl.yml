@@ -40,7 +40,7 @@ activerecord_error_invalid: jest nieprawidłowe
 activerecord_error_not_a_date: nie jest prawidłową datą
 activerecord_error_not_a_number: nie jest numerem
 activerecord_error_not_same_project: nie należy do tego samego projektu
-activerecord_error_taken: jest już wybrane
+activerecord_error_taken: jest już zajęte
 activerecord_error_too_long: jest za długie
 activerecord_error_too_short: jest za krótkie
 activerecord_error_wrong_length: ma złą długość
@@ -654,7 +654,7 @@ setting_per_page_options: Opcje ilości obiektów na stronie
 setting_plain_text_mail: tylko tekst (bez HTML)
 setting_protocol: Protokoł
 setting_repositories_encodings: Kodowanie repozytoriów
-setting_self_registration: Własna rejestracja umożliwiona
+setting_self_registration: Samodzielna rejestracja użtytkowników
 setting_sequential_project_identifiers: Generuj sekwencyjne identyfikatory projektów
 setting_sys_api_enabled: Włączenie WS do zarządzania repozytorium
 setting_text_formatting: Formatowanie tekstu
@@ -716,13 +716,13 @@ label_updated_time_by: Uaktualnione przez %s %s temu
 text_diff_truncated: '... Ten plik różnic został przycięty ponieważ jest zbyt długi.'
 setting_diff_max_lines_displayed: Maksymalna liczba linii różnicy do pokazania
 text_plugin_assets_writable: Zapisywalny katalog zasobów wtyczek
-warning_attachments_not_saved: "%d file(s) could not be saved."
-field_editable: Editable
-label_display: Display
-button_create_and_continue: Create and continue
-text_custom_field_possible_values_info: 'One line for each value'
-setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-field_identity_url: OpenID URL
-setting_openid: Allow OpenID login and registration
-label_login_with_open_id_option: or login with OpenID
-field_watcher: Watcher
+warning_attachments_not_saved: "%d załącznik(ów) nie zostało zapisanych."
+field_editable: Edytowalne
+label_display: Wygląd
+button_create_and_continue: Stwórz i dodaj kolejne
+text_custom_field_possible_values_info: 'Każda wartość w osobnej linii'
+setting_repository_log_display_limit: Maksymalna liczba rewizji wyświetlanych w logu pliku
+field_identity_url: Identyfikator OpenID (URL)
+setting_openid: Logowanie i rejestracja przy użyciu OpenID
+label_login_with_open_id_option: albo użyj OpenID
+field_watcher: Obserwator
