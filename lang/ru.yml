@@ -729,16 +729,15 @@ text_user_mail_option: "Для невыбранных проектов, Вы б�
 text_user_wrote: '%s написал(а):'
 text_wiki_destroy_confirmation: Вы уверены, что хотите удалить данную Wiki и все ее содержимое?
 text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
-
 text_plugin_assets_writable: Каталог для плагинов доступен по записи
 warning_attachments_not_saved: "%d файл(ов) невозможно сохранить."
 button_create_and_continue: Создать и продолжить
 text_custom_field_possible_values_info: 'По одному значению в каждой строке'
 label_display: Отображение
 field_editable: Редактируемый
-
-setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+setting_repository_log_display_limit: Максимальное количество отображаемых ревизий в журнале файлов
 field_identity_url: OpenID URL
-setting_openid: Allow OpenID login and registration
-label_login_with_open_id_option: or login with OpenID
-field_watcher: Watcher
+setting_openid: Разрешать вход и регистрацию под логином OpenID
+label_login_with_open_id_option: или войти с помощью OpenID
+field_watcher: Наблюдатель
+

@@ -147,6 +147,7 @@ field_mail_notification: 邮件通知
 field_admin: 管理员
 field_last_login_on: 最后登录
 field_language: 语言
+field_identity_url: OpenID URL
 field_effective_date: 日期
 field_password: 密码
 field_new_password: 新密码
@@ -187,6 +188,7 @@ field_default_value: 默认值
 field_comments_sorting: 显示注释
 field_parent_title: 上级页面
 field_editable: 可编辑
+field_watcher: 跟踪者
 
 setting_app_title: 应用程序标题
 setting_app_subtitle: 应用程序子标题
@@ -228,6 +230,7 @@ setting_sequential_project_identifiers: 顺序产生项目标识
 setting_gravatar_enabled: 使用Gravatar用户头像
 setting_diff_max_lines_displayed: 查看差别页面上显示的最大行数
 setting_repository_log_display_limit: 在文件变更记录页面上显示的最大修订版本数量
+setting_openid: 允许使用OpenID登录和注册
 
 permission_edit_project: 编辑项目
 permission_select_project_modules: 选择项目模块
@@ -332,6 +335,7 @@ label_information: 信息
 label_information_plural: 信息
 label_please_login: 请登录
 label_register: 注册
+label_login_with_open_id_option: 或使用OpenID登录
 label_password_lost: 忘记密码
 label_home: 主页
 label_my_page: 我的工作台
@@ -562,7 +566,7 @@ label_default: 默认
 label_search_titles_only: 仅在标题中搜索
 label_user_mail_option_all: "收取我的项目的所有通知"
 label_user_mail_option_selected: "收取选中项目的所有通知..."
-label_user_mail_option_none: "只收取我跟踪或参与的项目的通知"
+label_user_mail_option_none: "只收取我跟踪或参与的事情的通知"
 label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
 label_registration_activation_by_email: 通过邮件认证激活帐号
 label_registration_manual_activation: 手动激活帐号
@@ -706,7 +710,3 @@ default_activity_development: 开发
 enumeration_issue_priorities: 问题优先级
 enumeration_doc_categories: 文档类别
 enumeration_activities: 活动（时间跟踪）
-field_identity_url: OpenID URL
-setting_openid: Allow OpenID login and registration
-label_login_with_open_id_option: or login with OpenID
-field_watcher: Watcher

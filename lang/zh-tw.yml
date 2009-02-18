@@ -147,6 +147,7 @@ field_mail_notification: 電子郵件提醒選項
 field_admin: 管理者
 field_last_login_on: 最近連線日期
 field_language: 語系
+field_identity_url: OpenID 網址
 field_effective_date: 日期
 field_password: 目前密碼
 field_new_password: 新密碼
@@ -187,6 +188,7 @@ field_default_value: 預設值
 field_comments_sorting: 註解排序
 field_parent_title: 父頁面
 field_editable: 可編輯
+field_watcher: 觀察者
 
 setting_app_title: 標題
 setting_app_subtitle: 副標題
@@ -228,6 +230,7 @@ setting_sequential_project_identifiers: 循序產生專案識別碼
 setting_gravatar_enabled: 啟用 Gravatar 全球認證大頭像
 setting_diff_max_lines_displayed: 差異顯示行數之最大值
 setting_repository_log_display_limit: 版次顯示數目之最大值
+setting_openid: 允許使用 OpenID 登入與註冊
 
 permission_edit_project: 編輯專案
 permission_select_project_modules: 選擇專案模組
@@ -332,6 +335,7 @@ label_information: 資訊
 label_information_plural: 資訊
 label_please_login: 請先登入
 label_register: 註冊
+label_login_with_open_id_option: 或使用 OpenID 登入
 label_password_lost: 遺失密碼
 label_home: 網站首頁
 label_my_page: 帳戶首頁
@@ -706,7 +710,3 @@ default_activity_development: 開發
 enumeration_issue_priorities: 項目優先權
 enumeration_doc_categories: 文件分類
 enumeration_activities: 活動 (時間追蹤)
-field_identity_url: OpenID URL
-setting_openid: Allow OpenID login and registration
-label_login_with_open_id_option: or login with OpenID
-field_watcher: Watcher
