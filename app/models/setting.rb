@@ -141,7 +141,7 @@ class Setting < ActiveRecord::Base
   end
   
   def self.openid?
-    Object.const_defined?(:OpenID) && self['openid'].to_s == '1'
+    Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
   
   # Checks if settings have changed since the values were read

@@ -136,6 +136,11 @@ class AccountControllerTest < Test::Unit::TestCase
     assert_equal 'http://openid.example.com/good_user', assigns(:user)[:identity_url]
   end
   
+  def test_setting_openid_should_return_true_when_set_to_true
+    Setting.openid = '1'
+    assert_equal true, Setting.openid?
+  end
+  
   else
     puts "Skipping openid tests."
   end
