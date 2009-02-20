@@ -209,7 +209,11 @@ private
           end          
         else
           # Existing record
-          successful_authentication(user)
+          if user.active?
+            successful_authentication(user)
+          else
+            account_pending
+          end
         end
       end
     end
@@ -269,10 +273,14 @@ private
     if user.save
       # Sends an email to the administrators
       Mailer.deliver_account_activation_request(user)
-      flash[:notice] = l(:notice_account_pending)
-      redirect_to :action => 'login'
+      account_pending
     else
       yield if block_given?
     end
+  end
+
+  def account_pending
+    flash[:notice] = l(:notice_account_pending)
+    redirect_to :action => 'login'
   end
 end

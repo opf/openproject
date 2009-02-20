@@ -80,6 +80,21 @@ class AccountControllerTest < Test::Unit::TestCase
     assert_redirected_to 'my/page'
   end
 
+  def test_login_with_openid_for_existing_non_active_user
+    Setting.self_registration = '2'
+    Setting.openid = '1'
+    existing_user = User.new(:firstname => 'Cool',
+                             :lastname => 'User',
+                             :mail => 'user@somedomain.com',
+                             :identity_url => 'http://openid.example.com/good_user',
+                             :status => User::STATUS_REGISTERED)
+    existing_user.login = 'cool_user'
+    assert existing_user.save!
+
+    post :login, :openid_url => existing_user.identity_url
+    assert_redirected_to 'login'
+  end
+
   def test_login_with_openid_with_new_user_created
     Setting.self_registration = '3'
     Setting.openid = '1'
