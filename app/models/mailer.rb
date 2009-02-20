@@ -133,6 +133,15 @@ class Mailer < ActionMailer::Base
          :url => url_for(:controller => 'users', :action => 'index', :status => User::STATUS_REGISTERED, :sort_key => 'created_on', :sort_order => 'desc')
   end
 
+  # A registered user's account was activated by an administrator
+  def account_activated(user)
+    set_language_if_valid user.language
+    recipients user.mail
+    subject l(:mail_subject_register, Setting.app_title)
+    body :user => user,
+         :login_url => url_for(:controller => 'account', :action => 'login')
+  end
+
   def lost_password(token)
     set_language_if_valid(token.user.language)
     recipients token.user.mail
