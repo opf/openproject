@@ -573,11 +573,11 @@ module ApplicationHelper
       full_messages = []
       object.errors.each do |attr, msg|
         next if msg.nil?
-        msg = msg.first if msg.is_a? Array
+        msg = [msg] unless msg.is_a?(Array)
         if attr == "base"
-          full_messages << l(msg)
+          full_messages << l(*msg)
         else
-          full_messages << "&#171; " + (l_has_string?("field_" + attr) ? l("field_" + attr) : object.class.human_attribute_name(attr)) + " &#187; " + l(msg) unless attr == "custom_values"
+          full_messages << "&#171; " + (l_has_string?("field_" + attr) ? l("field_" + attr) : object.class.human_attribute_name(attr)) + " &#187; " + l(*msg) unless attr == "custom_values"
         end
       end
       # retrieve custom values error messages
@@ -585,8 +585,8 @@ module ApplicationHelper
         object.custom_values.each do |v|
           v.errors.each do |attr, msg|
             next if msg.nil?
-            msg = msg.first if msg.is_a? Array
-            full_messages << "&#171; " + v.custom_field.name + " &#187; " + l(msg)
+            msg = [msg] unless msg.is_a?(Array)
+            full_messages << "&#171; " + v.custom_field.name + " &#187; " + l(*msg)
           end
         end
       end
