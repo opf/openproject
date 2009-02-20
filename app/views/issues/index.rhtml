@@ -43,6 +43,7 @@
 <% else %>
 <%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
+<% end %>
 
 <% other_formats_links do |f| %>
 	<%= f.link_to 'Atom', :url => {:query_id => (@query.new_record? ? nil : @query), :key => User.current.rss_key} %>
@@ -50,7 +51,6 @@
 	<%= f.link_to 'PDF' %>
 <% end %>
 
-<% end %>
 <% end %>
 
 <% content_for :sidebar do %>
