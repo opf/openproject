@@ -312,6 +312,26 @@ module ApplicationHelper
     yield Redmine::Views::OtherFormatsBuilder.new(self)
     concat('</p>', block.binding)
   end
+  
+  def page_header_title
+    if @project.nil? || @project.new_record?
+      h(Setting.app_title)
+    else
+      b = []
+      ancestors = (@project.root? ? [] : @project.ancestors.visible)
+      if ancestors.any?
+        root = ancestors.shift
+        b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item}, :class => 'root')
+        if ancestors.size > 2
+          b << '&#8230;'
+          ancestors = ancestors[-2, 2]
+        end
+        b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
+      end
+      b << h(@project)
+      b.join(' &#187; ')
+    end
+  end
 
   def html_title(*args)
     if args.empty?

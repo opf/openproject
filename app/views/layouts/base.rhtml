@@ -37,7 +37,7 @@
         <%= render_project_jump_box %>
     </div>
     
-    <h1><%= h(@project && !@project.new_record? ? @project.name : Setting.app_title) %></h1>
+    <h1><%= page_header_title %></h1>
     
     <div id="main-menu">
         <%= render_main_menu(@project) %>
