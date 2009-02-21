@@ -1,112 +1,112 @@
-pt-BR: 
+pt-BR:
   # formatos de data e hora
-  date: 
-    formats: 
+  date:
+    formats:
       default: "%d/%m/%Y"
       short: "%d de %B"
       long: "%d de %B de %Y"
       only_day: "%d"
-    
+
     day_names: [Domingo, Segunda, Terça, Quarta, Quinta, Sexta, Sábado]
     abbr_day_names: [Dom, Seg, Ter, Qua, Qui, Sex, Sáb]
     month_names: [~, Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro]
     abbr_month_names: [~, Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
     order: [:day,:month,:year]
-  
-  time: 
-    formats: 
+
+  time:
+    formats:
       default: "%A, %d de %B de %Y, %H:%M hs"
       time: "%H:%M hs"
       short: "%d/%m, %H:%M hs"
       long: "%A, %d de %B de %Y, %H:%M hs"
       only_second: "%S"
-      datetime: 
-        formats: 
+      datetime:
+        formats:
           default: "%Y-%m-%dT%H:%M:%S%Z"
     am: ''
     pm: ''
-  
+
   # date helper distanci em palavras
-  datetime: 
-    distance_in_words: 
+  datetime:
+    distance_in_words:
       half_a_minute: 'meio minuto'
-      less_than_x_seconds:  
+      less_than_x_seconds:
         one: 'menos de 1 segundo'
         other: 'menos de count segundos'
-      
-      x_seconds:  
+
+      x_seconds:
         one: '1 segundo'
         other: 'count segundos'
-      
-      less_than_x_minutes:  
+
+      less_than_x_minutes:
         one: 'menos de um minuto'
         other: 'menos de count minutos'
-      
-      x_minutes:  
+
+      x_minutes:
         one: '1 minuto'
         other: 'count minutos'
-      
-      about_x_hours:  
+
+      about_x_hours:
         one: 'aproximadamente 1 hora'
         other: 'aproximadamente count horas'
-      
-      x_days:  
+
+      x_days:
         one: '1 dia'
         other: 'count dias'
-      
-      about_x_months:  
+
+      about_x_months:
         one: 'aproximadamente 1 mês'
         other: 'aproximadamente count meses'
-      
-      x_months:  
+
+      x_months:
         one: '1 mês'
         other: 'count meses'
-      
-      about_x_years:  
+
+      about_x_years:
         one: 'aproximadamente 1 ano'
         other: 'aproximadamente count anos'
-      
-      over_x_years:  
+
+      over_x_years:
         one: 'mais de 1 ano'
         other: 'mais de count anos'
-  
+
   # numeros
-  number: 
-    format: 
+  number:
+    format:
       precision: 3
       separator: ','
       delimiter: '.'
-    currency: 
-      format: 
+    currency:
+      format:
         unit: 'R$'
         precision: 2
         format: '%u %n'
         separator: ','
         delimiter: '.'
-    percentage: 
-      format: 
+    percentage:
+      format:
         delimiter: '.'
-    precision: 
-      format: 
+    precision:
+      format:
         delimiter: '.'
-    human: 
-      format: 
+    human:
+      format:
         precision: 1
         delimiter: '.'
-  support: 
-    array: 
+  support:
+    array:
       sentence_connector: "e"
-      skip_last_comma: true              
-    
+      skip_last_comma: true
+
   # Active Record
-  activerecord: 
-    errors: 
-      template: 
-        header: 
+  activerecord:
+    errors:
+      template:
+        header:
           one: "model não pôde ser salvo: 1 erro"
           other: "model não pôde ser salvo: count erros."
         body: "Por favor, cheque os seguintes campos:"
-      messages: 
+      messages:
         inclusion: "não está incluso na lista"
         exclusion: "não está disponível"
         invalid: "não é válido"
@@ -131,7 +131,7 @@ pt-BR:
         circular_dependency: "Esta relação geraria uma dependência circular"
 
   actionview_instancetag_blank_option: Selecione
-  
+
   general_text_No: 'Não'
   general_text_Yes: 'Sim'
   general_text_no: 'não'
@@ -142,7 +142,7 @@ pt-BR:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Conta atualizada com sucesso.
   notice_account_invalid_creditentials: Usuário ou senha inválido.
   notice_account_password_updated: Senha alterada com sucesso.
@@ -166,13 +166,13 @@ pt-BR:
   notice_no_issue_selected: "Nenhum ticket selecionado! Por favor, marque os tickets que você deseja editar."
   notice_account_pending: "Sua conta foi criada e está aguardando aprovação do administrador."
   notice_default_data_loaded: Configuração padrão carregada com sucesso.
-  
+
   error_can_t_load_default_data: "Configuração padrão não pôde ser carregada: {{value}}"
   error_scm_not_found: "A entrada e/ou a revisão não existe no repositório."
   error_scm_command_failed: "Ocorreu um erro ao tentar acessar o repositório: {{value}}"
   error_scm_annotate: "Esta entrada não existe ou não pode ser anotada."
   error_issue_not_found_in_project: 'O ticket não foi encontrado ou não pertence a este projeto'
-  
+
   mail_subject_lost_password: "Sua senha do {{value}}."
   mail_body_lost_password: 'Para mudar sua senha, clique no link abaixo:'
   mail_subject_register: "Ativação de conta do {{value}}."
@@ -183,10 +183,10 @@ pt-BR:
   mail_body_account_activation_request: "Um novo usuário ({{value}}) se registrou. A conta está aguardando sua aprovação:'"
   mail_subject_reminder: "{{count}} ticket(s) com data prevista para os próximos dias"
   mail_body_reminder: "{{count}} tickets(s) para você com data prevista para os próximos {{days}} dias:"
-  
+
   gui_validation_error: 1 erro
   gui_validation_error_plural: "{{count}} erros"
-  
+
   field_name: Nome
   field_description: Descrição
   field_summary: Resumo
@@ -272,7 +272,7 @@ pt-BR:
   field_default_value: Padrão
   field_comments_sorting: Visualizar comentários
   field_parent_title: Página pai
-  
+
   setting_app_title: Título da aplicação
   setting_app_subtitle: Sub-título da aplicação
   setting_welcome_text: Texto de boas-vindas
@@ -309,7 +309,7 @@ pt-BR:
   setting_mail_handler_api_enabled: Habilitar WS para emails de entrada
   setting_mail_handler_api_key: Chave de API
   setting_sequential_project_identifiers: Gerar identificadores de projeto sequenciais
-  
+
   project_module_issue_tracking: Gerenciamento de Tickets
   project_module_time_tracking: Gerenciamento de tempo
   project_module_news: Notícias
@@ -318,7 +318,7 @@ pt-BR:
   project_module_wiki: Wiki
   project_module_repository: Repositório
   project_module_boards: Fóruns
-  
+
   label_user: Usuário
   label_user_plural: Usuários
   label_user_new: Novo usuário
@@ -630,7 +630,7 @@ pt-BR:
   label_incoming_emails: Emails de entrada
   label_generate_key: Gerar uma chave
   label_issue_watchers: Monitorando
-  
+
   button_login: Entrar
   button_submit: Enviar
   button_save: Salvar
@@ -669,11 +669,11 @@ pt-BR:
   button_update: Atualizar
   button_configure: Configurar
   button_quote: Responder
-  
+
   status_active: ativo
   status_registered: registrado
   status_locked: bloqueado
-  
+
   text_select_mail_notifications: Selecionar ações para ser enviado uma notificação por email
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 = sem restrição
@@ -718,7 +718,7 @@ pt-BR:
   text_enumeration_destroy_question: "{{count}} objetos estão atribuídos a este valor.'"
   text_enumeration_category_reassign_to: 'Reatribuí-los ao valor:'
   text_email_delivery_not_configured: "O envio de email não está configurado, e as notificações estão inativas.\nConfigure seu servidor SMTP no arquivo config/email.yml e reinicie a aplicação para ativá-las."
-  
+
   default_role_manager: Gerente
   default_role_developper: Desenvolvedor
   default_role_reporter: Informante
@@ -740,7 +740,7 @@ pt-BR:
   default_priority_immediate: Imediato
   default_activity_design: Design
   default_activity_development: Desenvolvimento
-  
+
   enumeration_issue_priorities: Prioridade das tarefas
   enumeration_doc_categories: Categorias de documento
   enumeration_activities: Atividades (time tracking)
@@ -809,9 +809,9 @@ pt-BR:
   text_custom_field_possible_values_info: 'Uma linha para cada valor'
   label_display: Exibição
   field_editable: Editável
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
+  setting_repository_log_display_limit: Número máximo de revisões exibidas no arquivo de log
+  setting_file_max_size_displayed: Tamanho máximo dos arquivos textos exibidos inline
   field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  setting_openid: Permitir Login e Registro via OpenID
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
+  label_login_with_open_id_option: ou use o OpenID
