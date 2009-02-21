@@ -12,7 +12,7 @@
     <%= l(:label_next) %>
   <% end -%>
   &#187;&nbsp;
-  
+
   <% form_tag({:controller => 'repositories', :action => 'revision', :id => @project, :rev => nil}, :method => :get) do %>
     <%= text_field_tag 'rev', @rev, :size => 5 %>
     <%= submit_tag 'OK', :name => nil %>
@@ -35,6 +35,7 @@
 </ul>
 <% end %>
 
+<% if User.current.allowed_to?(:browse_repository, @project) %>
 <h3><%= l(:label_attachment_plural) %></h3>
 <ul id="changes-legend">
 <li class="change change-A"><%= l(:label_added) %></li>
@@ -49,6 +50,7 @@
 <div class="changeset-changes">
 <%= render_changeset_changes %>
 </div>
+<% end %>
 
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>
