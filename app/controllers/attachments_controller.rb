@@ -26,7 +26,7 @@ class AttachmentsController < ApplicationController
     if @attachment.is_diff?
       @diff = File.new(@attachment.diskfile, "rb").read
       render :action => 'diff'
-    elsif @attachment.is_text? && @attachment.filesize <= Setting.setting_file_max_size_displayed.to_i.kilobyte
+    elsif @attachment.is_text? && @attachment.filesize <= Setting.file_max_size_displayed.to_i.kilobyte
       @content = File.new(@attachment.diskfile, "rb").read
       render :action => 'file'
     else

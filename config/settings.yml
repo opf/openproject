@@ -63,7 +63,7 @@ feeds_limit:
   default: 15
 # Maximum size of files that can be displayed
 # inline through the file viewer (in KB)
-setting_file_max_size_displayed:
+file_max_size_displayed:
   format: int
   default: 512
 diff_max_lines_displayed:

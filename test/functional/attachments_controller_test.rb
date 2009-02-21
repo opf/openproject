@@ -64,7 +64,7 @@ class AttachmentsControllerTest < Test::Unit::TestCase
   end
   
   def test_show_text_file_should_send_if_too_big
-    Setting.setting_file_max_size_displayed = 512
+    Setting.file_max_size_displayed = 512
     Attachment.find(4).update_attribute :filesize, 754.kilobyte
     
     get :show, :id => 4
