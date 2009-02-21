@@ -50,11 +50,16 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
     include Redmine::Hook::Helper
   end
   
+  class TestHookHelperView < ActionView::Base
+    include Redmine::Hook::Helper
+  end
+  
   Redmine::Hook.clear_listeners
   
   def setup
     @hook_module = Redmine::Hook
     @hook_helper = TestHookHelperController.new
+    @view_hook_helper = TestHookHelperView.new(RAILS_ROOT + '/app/views')
   end
   
   def teardown
@@ -134,31 +139,40 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
 
   # Context: Redmine::Hook::Helper.call_hook
   def test_call_hook_with_project_added_to_context
-    # TODO: Implement test
+    @hook_module.add_listener(TestHook3)
+    assert_match /project/i, @hook_helper.call_hook(:view_layouts_base_html_head)[0]
   end
   
   def test_call_hook_from_controller_with_controller_added_to_context
-    # TODO: Implement test
+    @hook_module.add_listener(TestHook3)
+    assert_match /controller/i, @hook_helper.call_hook(:view_layouts_base_html_head)[0]
   end
     
   def test_call_hook_from_controller_with_request_added_to_context
-    # TODO: Implement test
+    @hook_module.add_listener(TestHook3)
+    assert_match /request/i, @hook_helper.call_hook(:view_layouts_base_html_head)[0]
   end
     
   def test_call_hook_from_view_with_project_added_to_context
-    # TODO: Implement test
+    @hook_module.add_listener(TestHook3)
+    assert_match /project/i, @view_hook_helper.call_hook(:view_layouts_base_html_head)
   end
     
   def test_call_hook_from_view_with_controller_added_to_context
-    # TODO: Implement test
+    @hook_module.add_listener(TestHook3)
+    assert_match /controller/i, @view_hook_helper.call_hook(:view_layouts_base_html_head)
   end
     
   def test_call_hook_from_view_with_request_added_to_context
-    # TODO: Implement test
+    @hook_module.add_listener(TestHook3)
+    assert_match /request/i, @view_hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
   def test_call_hook_from_view_should_join_responses_with_a_space
-    # TODO: Implement test
+    @hook_module.add_listener(TestHook1)
+    @hook_module.add_listener(TestHook2)
+    assert_equal 'Test hook 1 listener. Test hook 2 listener.',
+                 @view_hook_helper.call_hook(:view_layouts_base_html_head)
   end
 end
 
