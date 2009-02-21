@@ -1,4 +1,5 @@
-<h3><%=l(:label_watched_issues)%></h3>
+<h3><%=l(:label_watched_issues)%> (<%= Issue.visible.count(:include => :watchers,
+												 																	 :conditions => ["#{Watcher.table_name}.user_id = ?", user.id]) %>)</h3>
 <% watched_issues = Issue.visible.find(:all, 
                                :include => [:status, :project, :tracker, :watchers],
                                :limit => 10, 

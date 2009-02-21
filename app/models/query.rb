@@ -17,7 +17,7 @@
 
 class QueryColumn  
   attr_accessor :name, :sortable, :default_order
-  include GLoc
+  include Redmine::I18n
   
   def initialize(name, options={})
     self.name = name
@@ -26,7 +26,6 @@ class QueryColumn
   end
   
   def caption
-    set_language_if_valid(User.current.language)
     l("field_#{name}")
   end
 end
@@ -113,7 +112,6 @@ class Query < ActiveRecord::Base
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
-    set_language_if_valid(User.current.language)
   end
   
   def after_initialize
@@ -123,7 +121,7 @@ class Query < ActiveRecord::Base
   
   def validate
     filters.each_key do |field|
-      errors.add label_for(field), :activerecord_error_blank unless 
+      errors.add label_for(field), :blank unless 
           # filter requires one or more values
           (values_for(field) and !values_for(field).first.blank?) or 
           # filter doesn't require any value

@@ -32,8 +32,8 @@ require "engines/plugin/migrator"
 #         |- lib/
 #         |- db/
 #             |-migrate/
-#                 |- 001_do_something.rb
-#                 |- 002_and_something_else.rb
+#                 |- 20081105123419_add_some_new_feature.rb
+#                 |- 20081107144959_and_something_else.rb
 #                 |- ...
 # 
 # When you install a plugin which contains migrations, you are undertaking a
@@ -44,8 +44,8 @@ require "engines/plugin/migrator"
 #
 # == An example
 #
-# For example, our current application is at version 14 (according to the
-# +schema_info+ table), when we decide that we want to add a tagging plugin. The
+# For example, our current application is at version 20081106164503 (according to the
+# +schema_migrations+ table), when we decide that we want to add a tagging plugin. The
 # tagging plugin chosen includes migrations to create the tables it requires
 # (say, _tags_ and _taggings_, for instance), along with the models and helpers
 # one might expect.
@@ -57,14 +57,14 @@ require "engines/plugin/migrator"
 #
 #   $ script/generate plugin_migration
 #         exists  db/migrate
-#         create  db/migrate/015_migrate_tagging_plugin_to_version_3.rb
+#         create  db/migrate/20081108120415_my_plugin_to_version_20081107144959.rb
 #
-# This migration will take our application to version 15, and contains the following, 
-# typical migration code:
+# This migration will take our application to version 20081108120415, and contains the 
+# following, typical migration code:
 # 
-#   class MigrateTaggingPluginToVersion3 < ActiveRecord::Migration
+#   class TaggingToVersion20081107144959 < ActiveRecord::Migration
 #     def self.up
-#       Engines.plugins[:tagging].migrate(3)
+#       Engines.plugins[:tagging].migrate(20081107144959)
 #     end
 #     def self.down
 #       Engines.plugins[:tagging].migrate(0)
@@ -72,8 +72,8 @@ require "engines/plugin/migrator"
 #   end
 #
 # When we migrate our application up, using <tt>rake db:migrate</tt> as normal,
-# the plugin will be migrated up to its latest version (3 in this example). If we
-# ever decide to migrate the application back to the state it was in at version 14,
+# the plugin will be migrated up to its latest version (20081108120415 in this example). If we
+# ever decide to migrate the application back to the state it was in at version 20081106164503,
 # the plugin migrations will be taken back down to version 0 (which, typically,
 # would remove all tables the plugin migrations define).
 #
@@ -88,21 +88,21 @@ require "engines/plugin/migrator"
 #
 #   $ script/generate plugin_migration
 #        exists db/migrate
-#        create db/migrate/023_migrate_tagging_plugin_to_version_5.rb
+#        create db/migrate/20081210131437_tagging_to_version_20081201172034.rb
 #
 # The contents of this migration are:
 #
-#   class MigrateTaggingPluginToVersion3 < ActiveRecord::Migration
+#   class TaggingToVersion20081108120415 < ActiveRecord::Migration
 #     def self.up
-#       Engines.plugins[:tagging].migrate(5)
+#       Engines.plugins[:tagging].migrate(20081201172034)
 #     end
 #     def self.down
-#       Engines.plugins[:tagging].migrate(3)
+#       Engines.plugins[:tagging].migrate(20081107144959)
 #     end
 #   end
 #
-# Notice that if we were to migrate down to revision 22 or lower, the tagging plugin
-# will be migrated back down to version 3 - the version we were previously at.
+# Notice that if we were to migrate down to revision 20081108120415 or lower, the tagging plugin
+# will be migrated back down to version 20081107144959 - the version we were previously at.
 #
 #
 # = Creating migrations in plugins
@@ -118,44 +118,16 @@ require "engines/plugin/migrator"
 #
 #   Engines.plugins[:whatever].migrate(version)
 #
-# ---
 #
-# The Engines::RailsExtensions::Migrations module defines extensions for Rails' 
-# migration systems. Specifically:
+# = Upgrading from previous versions of the engines plugin
 #
-# * Adding a hook to initialize_schema_migrations_table to create the plugin schema
-#   info table.
+# Thanks to the tireless work of the plugin developer community, we can now relying on the migration 
+# mechanism in Rails 2.1+ to do much of the plugin migration work for us. This also means that we
+# don't need a seperate schema_info table for plugins.
 #
-module Engines::RailsExtensions::Migrations
-  def self.included(base) # :nodoc:
-    base.class_eval { alias_method_chain :initialize_schema_migrations_table, :engine_additions }
-  end
-
-  # Create the schema tables, and ensure that the plugin schema table
-  # is also initialized. The plugin schema info table is defined by
-  # Engines::Plugin::Migrator.schema_info_table_name.
-  def initialize_schema_migrations_table_with_engine_additions
-    initialize_schema_migrations_table_without_engine_additions
-
-    # create the plugin schema stuff.    
-    begin
-      execute <<-ESQL
-        CREATE TABLE #{Engines::Plugin::Migrator.schema_info_table_name} 
-          (plugin_name #{type_to_sql(:string)}, version #{type_to_sql(:integer)})
-      ESQL
-    rescue ActiveRecord::StatementInvalid
-      # Schema has been initialized
-    end
-  end
-end
-
-module ::ActiveRecord #:nodoc:
-  module ConnectionAdapters #:nodoc:
-    module SchemaStatements #:nodoc:
-      include Engines::RailsExtensions::Migrations
-    end
-  end
-end
-
-# Set ActiveRecord to ignore the plugin schema table by default
-::ActiveRecord::SchemaDumper.ignore_tables << Engines.schema_info_table
+# To update your application, run
+#
+#   rake db:migrate:upgrade_plugin_migrations
+#
+# This will ensure that migration information is carried over into the main schema_migrations table.
+# 

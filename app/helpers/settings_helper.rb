@@ -22,8 +22,8 @@ module SettingsHelper
             {:name => 'authentication', :partial => 'settings/authentication', :label => :label_authentication},
             {:name => 'projects', :partial => 'settings/projects', :label => :label_project_plural},
             {:name => 'issues', :partial => 'settings/issues', :label => :label_issue_tracking},
-            {:name => 'notifications', :partial => 'settings/notifications', :label => l(:field_mail_notification)},
-            {:name => 'mail_handler', :partial => 'settings/mail_handler', :label => l(:label_incoming_emails)},
+            {:name => 'notifications', :partial => 'settings/notifications', :label => :field_mail_notification},
+            {:name => 'mail_handler', :partial => 'settings/mail_handler', :label => :label_incoming_emails},
             {:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
             ]
   end

@@ -1,0 +1,761 @@
+nl:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+      
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "am"
+    pm: "pm"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "half a minute"
+      less_than_x_seconds:
+        one:   "less than 1 second"
+        other: "less than {{count}} seconds"
+      x_seconds:
+        one:   "1 second"
+        other: "{{count}} seconds"
+      less_than_x_minutes:
+        one:   "less than a minute"
+        other: "less than {{count}} minutes"
+      x_minutes:
+        one:   "1 minute"
+        other: "{{count}} minutes"
+      about_x_hours:
+        one:   "about 1 hour"
+        other: "about {{count}} hours"
+      x_days:
+        one:   "1 day"
+        other: "{{count}} days"
+      about_x_months:
+        one:   "about 1 month"
+        other: "about {{count}} months"
+      x_months:
+        one:   "1 month"
+        other: "{{count}} months"
+      about_x_years:
+        one:   "about 1 year"
+        other: "about {{count}} years"
+      over_x_years:
+        one:   "over 1 year"
+        other: "over {{count}} years"
+        
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "and"
+      skip_last_comma: false
+      
+  activerecord:
+    errors:
+      messages:
+        inclusion: "staat niet in de lijst"
+        exclusion: "is gereserveerd"
+        invalid: "is ongeldig"
+        confirmation: "komt niet overeen met bevestiging"
+        accepted: "moet geaccepteerd worden"
+        empty: "mag niet leeg zijn"
+        blank: "mag niet blanco zijn"
+        too_long: "is te lang"
+        too_short: "is te kort"
+        wrong_length: "heeft een onjuiste lengte"
+        taken: "is al in gebruik"
+        not_a_number: "is geen getal"
+        not_a_date: "is geen valide datum"
+        greater_than: "must be greater than {{count}}"
+        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
+        equal_to: "must be equal to {{count}}"
+        less_than: "must be less than {{count}}"
+        less_than_or_equal_to: "must be less than or equal to {{count}}"
+        odd: "must be odd"
+        even: "must be even"
+        greater_than_start_date: "moet na de startdatum liggen"
+        not_same_project: "hoort niet bij hetzelfde project"
+        circular_dependency: "Deze relatie zou een circulaire afhankelijkheid tot gevolg hebben"
+
+  actionview_instancetag_blank_option: Selecteer
+  
+  button_activate: Activeer
+  button_add: Voeg toe
+  button_annotate: Annoteer
+  button_apply: Pas toe
+  button_archive: Archiveer
+  button_back: Terug
+  button_cancel: Annuleer
+  button_change: Wijzig
+  button_change_password: Wijzig wachtwoord
+  button_check_all: Selecteer alle
+  button_clear: Leeg maken
+  button_configure: Configureer
+  button_copy: Kopiëer
+  button_create: Maak
+  button_delete: Verwijder
+  button_download: Download
+  button_edit: Bewerk
+  button_list: Lijst
+  button_lock: Sluit
+  button_log_time: Log tijd
+  button_login: Inloggen
+  button_move: Verplaatsen
+  button_quote: Citaat
+  button_rename: Hernoemen
+  button_reply: Antwoord
+  button_reset: Reset
+  button_rollback: Rollback naar deze versie
+  button_save: Bewaren
+  button_sort: Sorteer
+  button_submit: Toevoegen
+  button_test: Test
+  button_unarchive: Dearchiveer
+  button_uncheck_all: Deselecteer alle
+  button_unlock: Open
+  button_unwatch: Niet meer monitoren
+  button_update: Update
+  button_view: Bekijken
+  button_watch: Monitor
+  default_activity_design: Ontwerp
+  default_activity_development: Ontwikkeling
+  default_doc_category_tech: Technische documentatie
+  default_doc_category_user: Gebruikersdocumentatie
+  default_issue_status_assigned: Toegewezen
+  default_issue_status_closed: Gesloten
+  default_issue_status_feedback: Terugkoppeling
+  default_issue_status_new: Nieuw
+  default_issue_status_rejected: Afgewezen
+  default_issue_status_resolved: Opgelost
+  default_priority_high: Hoog
+  default_priority_immediate: Onmiddellijk
+  default_priority_low: Laag
+  default_priority_normal: Normaal
+  default_priority_urgent: Spoed
+  default_role_developper: Ontwikkelaar
+  default_role_manager: Manager
+  default_role_reporter: Rapporteur
+  default_tracker_bug: Bug
+  default_tracker_feature: Feature
+  default_tracker_support: Support
+  enumeration_activities: Activiteiten (tijdtracking)
+  enumeration_doc_categories: Documentcategorieën
+  enumeration_issue_priorities: Issueprioriteiten
+  error_can_t_load_default_data: "De standaard configuratie kon niet worden geladen: {{value}}"
+  error_issue_not_found_in_project: 'Deze issue is niet gevonden of behoort niet toe tot dit project.'
+  error_scm_annotate: "Er kan geen commentaar toegevoegd worden."
+  error_scm_command_failed: "Er trad een fout op tijdens de poging om verbinding te maken met de repository: {{value}}"
+  error_scm_not_found: "Deze ingang of revisie bestaat niet in de repository."
+  field_account: Account
+  field_activity: Activiteit
+  field_admin: Beheerder
+  field_assignable: Issues kunnen toegewezen worden aan deze rol
+  field_assigned_to: Toegewezen aan
+  field_attr_firstname: Voornaam attribuut
+  field_attr_lastname: Achternaam attribuut
+  field_attr_login: Login attribuut
+  field_attr_mail: E-mail attribuut
+  field_auth_source: Authenticatiemethode
+  field_author: Auteur
+  field_base_dn: Base DN
+  field_category: Categorie
+  field_column_names: Kolommen
+  field_comments: Commentaar
+  field_comments_sorting: Commentaar weergeven
+  field_created_on: Aangemaakt
+  field_default_value: Standaardwaarde
+  field_delay: Vertraging
+  field_description: Beschrijving
+  field_done_ratio: %% Gereed
+  field_downloads: Downloads
+  field_due_date: Verwachte datum gereed
+  field_effective_date: Datum
+  field_estimated_hours: Geschatte tijd
+  field_field_format: Formaat
+  field_filename: Bestand
+  field_filesize: Grootte
+  field_firstname: Voornaam
+  field_fixed_version: Versie
+  field_hide_mail: Verberg mijn e-mailadres
+  field_homepage: Homepage
+  field_host: Host
+  field_hours: Uren
+  field_identifier: Identificatiecode
+  field_is_closed: Issue gesloten
+  field_is_default: Standaard
+  field_is_filter: Gebruikt als een filter
+  field_is_for_all: Voor alle projecten
+  field_is_in_chlog: Issues weergegeven in wijzigingslog
+  field_is_in_roadmap: Issues weergegeven in roadmap
+  field_is_public: Publiek
+  field_is_required: Verplicht
+  field_issue: Issue
+  field_issue_to_id: Gerelateerd issue
+  field_language: Taal
+  field_last_login_on: Laatste bezoek
+  field_lastname: Achternaam
+  field_login: Inloggen
+  field_mail: E-mail
+  field_mail_notification: Mail mededelingen
+  field_max_length: Maximale lengte
+  field_min_length: Minimale lengte
+  field_name: Naam
+  field_new_password: Nieuw wachtwoord
+  field_notes: Notities
+  field_onthefly: On-the-fly aanmaken van een gebruiker
+  field_parent: Subproject van
+  field_parent_title: Bovenliggende pagina
+  field_password: Wachtwoord
+  field_password_confirmation: Bevestigen
+  field_port: Port
+  field_possible_values: Mogelijke waarden
+  field_priority: Prioriteit
+  field_project: Project
+  field_redirect_existing_links: Verwijs bestaande links door
+  field_regexp: Reguliere expressie
+  field_role: Rol
+  field_searchable: Doorzoekbaar
+  field_spent_on: Datum
+  field_start_date: Startdatum
+  field_start_page: Startpagina
+  field_status: Status
+  field_subject: Onderwerp
+  field_subproject: Subproject
+  field_summary: Samenvatting
+  field_time_zone: Tijdzone
+  field_title: Titel
+  field_tracker: Tracker
+  field_type: Type
+  field_updated_on: Gewijzigd
+  field_url: URL
+  field_user: Gebruiker
+  field_value: Waarde
+  field_version: Versie
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: ISO-8859-1
+  general_csv_separator: ','
+  general_first_day_of_week: '7'
+  general_lang_name: 'Nederlands'
+  general_pdf_encoding: ISO-8859-1
+  general_text_No: 'Nee'
+  general_text_Yes: 'Ja'
+  general_text_no: 'nee'
+  general_text_yes: 'ja'
+  gui_validation_error: 1 fout
+  gui_validation_error_plural: "{{count}} fouten"
+  label_activity: Activiteit
+  label_add_another_file: Ander bestand toevoegen
+  label_add_note: Voeg een notitie toe
+  label_added: toegevoegd
+  label_added_time_by: "Toegevoegd door {{author}} {{age}} geleden"
+  label_administration: Administratie
+  label_age: Leeftijd
+  label_ago: dagen geleden
+  label_all: alle
+  label_all_time: alles
+  label_all_words: Alle woorden
+  label_and_its_subprojects: "{{value}} en zijn subprojecten."
+  label_applied_status: Toegekende status
+  label_assigned_to_me_issues: Aan mij toegewezen issues
+  label_associated_revisions: Geassociëerde revisies
+  label_attachment: Bestand
+  label_attachment_delete: Verwijder bestand
+  label_attachment_new: Nieuw bestand
+  label_attachment_plural: Bestanden
+  label_attribute: Attribuut
+  label_attribute_plural: Attributen
+  label_auth_source: Authenticatiemodus
+  label_auth_source_new: Nieuwe authenticatiemodus
+  label_auth_source_plural: Authenticatiemodi
+  label_authentication: Authenticatie
+  label_blocked_by: geblokkeerd door
+  label_blocks: blokkeert
+  label_board: Forum
+  label_board_new: Nieuw forum
+  label_board_plural: Forums
+  label_boolean: Boolean
+  label_browse: Blader
+  label_bulk_edit_selected_issues: Bewerk geselecteerde issues in bulk
+  label_calendar: Kalender
+  label_change_log: Wijzigingslog
+  label_change_plural: Wijzigingen
+  label_change_properties: Eigenschappen wijzigen
+  label_change_status: Wijzig status
+  label_change_view_all: Bekijk alle wijzigingen
+  label_changes_details: Details van alle wijzigingen
+  label_changeset_plural: Changesets
+  label_chronological_order: In chronologische volgorde
+  label_closed_issues: gesloten
+  label_closed_issues_plural: gesloten
+  label_x_open_issues_abbr_on_total:
+    zero:  0 open / {{total}}
+    one:   1 open / {{total}}
+    other: "{{count}} open / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 open
+    one:   1 open
+    other: "{{count}} open"
+  label_x_closed_issues_abbr:
+    zero:  0 closed
+    one:   1 closed
+    other: "{{count}} closed"
+  label_comment: Commentaar
+  label_comment_add: Voeg commentaar toe
+  label_comment_added: Commentaar toegevoegd
+  label_comment_delete: Verwijder commentaar
+  label_comment_plural: Commentaar
+  label_x_comments:
+    zero: no comments
+    one: 1 comment
+    other: "{{count}} comments"
+  label_commits_per_author: Commits per auteur
+  label_commits_per_month: Commits per maand
+  label_confirmation: Bevestiging
+  label_contains: bevat
+  label_copied: gekopieerd
+  label_copy_workflow_from: Kopieer workflow van
+  label_current_status: Huidige status
+  label_current_version: Huidige versie
+  label_custom_field: Specifiek veld
+  label_custom_field_new: Nieuw specifiek veld
+  label_custom_field_plural: Specifieke velden
+  label_date: Datum
+  label_date_from: Van
+  label_date_range: Datumbereik
+  label_date_to: Tot
+  label_day_plural: dagen
+  label_default: Standaard
+  label_default_columns: Standaard kolommen.
+  label_deleted: verwijderd
+  label_details: Details
+  label_diff_inline: inline
+  label_diff_side_by_side: naast elkaar
+  label_disabled: uitgeschakeld
+  label_display_per_page: "Per pagina: {{value}}'"
+  label_document: Document
+  label_document_added: Document toegevoegd
+  label_document_new: Nieuw document
+  label_document_plural: Documenten
+  label_download: "{{count}} Download"
+  label_download_plural: "{{count}} Downloads"
+  label_downloads_abbr: D/L
+  label_duplicated_by: gedupliceerd door
+  label_duplicates: dupliceert
+  label_end_to_end: eind tot eind
+  label_end_to_start: eind tot start
+  label_enumeration_new: Nieuwe waarde
+  label_enumerations: Enumeraties
+  label_environment: Omgeving
+  label_equals: is gelijk
+  label_example: Voorbeeld
+  label_export_to: Exporteer naar
+  label_f_hour: "{{value}} uur"
+  label_f_hour_plural: "{{value}} uren"
+  label_feed_plural: Feeds
+  label_feeds_access_key_created_on: "RSS toegangssleutel {{value}} geleden gemaakt."
+  label_file_added: Bericht toegevoegd
+  label_file_plural: Bestanden
+  label_filter_add: Voeg filter toe
+  label_filter_plural: Filters
+  label_float: Float
+  label_follows: volgt op
+  label_gantt: Gantt
+  label_general: Algemeen
+  label_generate_key: Genereer een sleutel
+  label_help: Help
+  label_history: Geschiedenis
+  label_home: Home
+  label_in: in
+  label_in_less_than: in minder dan
+  label_in_more_than: in meer dan
+  label_incoming_emails: Inkomende e-mail
+  label_index_by_date: Indexeer op datum
+  label_index_by_title: Indexeer op titel
+  label_information: Informatie
+  label_information_plural: Informatie
+  label_integer: Integer
+  label_internal: Intern
+  label_issue: Issue
+  label_issue_added: Issue toegevoegd
+  label_issue_category: Issuecategorie
+  label_issue_category_new: Nieuwe categorie
+  label_issue_category_plural: Issuecategorieën
+  label_issue_new: Nieuw issue
+  label_issue_plural: Issues
+  label_issue_status: Issuestatus
+  label_issue_status_new: Nieuwe status
+  label_issue_status_plural: Issue statussen
+  label_issue_tracking: Issue-tracking
+  label_issue_updated: Issue bijgewerkt
+  label_issue_view_all: Bekijk alle issues
+  label_issue_watchers: Monitoren
+  label_issues_by: "Issues door {{value}}"
+  label_jump_to_a_project: Ga naar een project...
+  label_language_based: Taal gebaseerd
+  label_last_changes: "laatste {{count}} wijzigingen"
+  label_last_login: Laatste bezoek
+  label_last_month: laatste maand
+  label_last_n_days: "{{count}} dagen geleden"
+  label_last_week: vorige week
+  label_latest_revision: Meest recente revisie
+  label_latest_revision_plural: Meest recente revisies
+  label_ldap_authentication: LDAP authenticatie
+  label_less_than_ago: minder dan x dagen geleden
+  label_list: Lijst
+  label_loading: Laden...
+  label_logged_as: Ingelogd als
+  label_login: Inloggen
+  label_logout: Uitloggen
+  label_max_size: Maximumgrootte
+  label_me: mij
+  label_member: Lid
+  label_member_new: Nieuw lid
+  label_member_plural: Leden
+  label_message_last: Laatste bericht
+  label_message_new: Nieuw bericht
+  label_message_plural: Berichten
+  label_message_posted: Bericht toegevoegd
+  label_min_max_length: Min-max lengte
+  label_modification: "{{count}} wijziging"
+  label_modification_plural: "{{count}} wijzigingen"
+  label_modified: gewijzigd
+  label_module_plural: Modules
+  label_month: Maand
+  label_months_from: maanden vanaf
+  label_more: Meer
+  label_more_than_ago: meer dan x dagen geleden
+  label_my_account: Mijn account
+  label_my_page: Mijn pagina
+  label_my_projects: Mijn projecten
+  label_new: Nieuw
+  label_new_statuses_allowed: Nieuwe toegestane statussen
+  label_news: Nieuws
+  label_news_added: Nieuws toegevoegd
+  label_news_latest: Laatste nieuws
+  label_news_new: Voeg nieuws toe
+  label_news_plural: Nieuws
+  label_news_view_all: Bekijk al het nieuws
+  label_next: Volgende
+  label_no_change_option: (Geen wijziging)
+  label_no_data: Geen gegevens om te tonen
+  label_nobody: niemand
+  label_none: geen
+  label_not_contains: bevat niet
+  label_not_equals: is niet gelijk
+  label_open_issues: open
+  label_open_issues_plural: open
+  label_optional_description: Optionele beschrijving
+  label_options: Opties
+  label_overall_activity: Activiteit
+  label_overview: Overzicht
+  label_password_lost: Wachtwoord verloren
+  label_per_page: Per pagina
+  label_permissions: Permissies
+  label_permissions_report: Permissierapport
+  label_personalize_page: Personaliseer deze pagina
+  label_planning: Planning
+  label_please_login: Log a.u.b. in
+  label_plugins: Plugins
+  label_precedes: gaat vooraf aan
+  label_preferences: Voorkeuren
+  label_preview: Voorbeeldweergave
+  label_previous: Vorige
+  label_project: Project
+  label_project_all: Alle projecten
+  label_project_latest: Nieuwste projecten
+  label_project_new: Nieuw project
+  label_project_plural: Projecten
+  label_x_projects:
+    zero:  no projects
+    one:   1 project
+    other: "{{count}} projects"
+  label_public_projects: Publieke projecten
+  label_query: Eigen zoekvraag
+  label_query_new: Nieuwe zoekvraag
+  label_query_plural: Eigen zoekvragen
+  label_read: Lees...
+  label_register: Registreer
+  label_registered_on: Geregistreerd op
+  label_registration_activation_by_email: accountactivatie per e-mail
+  label_registration_automatic_activation: automatische accountactivatie
+  label_registration_manual_activation: handmatige accountactivatie
+  label_related_issues: Gerelateerde issues
+  label_relates_to: gerelateerd aan
+  label_relation_delete: Verwijder relatie
+  label_relation_new: Nieuwe relatie
+  label_renamed: hernoemd
+  label_reply_plural: Antwoorden
+  label_report: Rapport
+  label_report_plural: Rapporten
+  label_reported_issues: Gemelde issues
+  label_repository: Repository
+  label_repository_plural: Repositories
+  label_result_plural: Resultaten
+  label_reverse_chronological_order: In omgekeerde chronologische volgorde
+  label_revision: Revisie
+  label_revision_plural: Revisies
+  label_roadmap: Roadmap
+  label_roadmap_due_in: "Voldaan in {{value}}"
+  label_roadmap_no_issues: Geen issues voor deze versie
+  label_roadmap_overdue: "{{value}} over tijd"
+  label_role: Rol
+  label_role_and_permissions: Rollen en permissies
+  label_role_new: Nieuwe rol
+  label_role_plural: Rollen
+  label_scm: SCM
+  label_search: Zoeken
+  label_search_titles_only: Enkel titels doorzoeken
+  label_send_information: Stuur accountinformatie naar de gebruiker
+  label_send_test_email: Stuur een test e-mail
+  label_settings: Instellingen
+  label_show_completed_versions: Toon afgeronde versies
+  label_sort_by: "Sorteer op {{value}}"
+  label_sort_higher: Verplaats naar boven
+  label_sort_highest: Verplaats naar begin
+  label_sort_lower: Verplaats naar beneden
+  label_sort_lowest: Verplaats naar eind
+  label_spent_time: Gespendeerde tijd
+  label_start_to_end: start tot eind
+  label_start_to_start: start tot start
+  label_statistics: Statistieken
+  label_stay_logged_in: Blijf ingelogd
+  label_string: Tekst
+  label_subproject_plural: Subprojecten
+  label_text: Lange tekst
+  label_theme: Thema
+  label_this_month: deze maand
+  label_this_week: deze week
+  label_this_year: dit jaar
+  label_time_tracking: Tijdregistratie bijhouden
+  label_today: vandaag
+  label_topic_plural: Onderwerpen
+  label_total: Totaal
+  label_tracker: Tracker
+  label_tracker_new: Nieuwe tracker
+  label_tracker_plural: Trackers
+  label_updated_time: "{{value}} geleden bijgewerkt"
+  label_updated_time_by: %2$s geleden bijgewerkt door %1$s
+  label_used_by: Gebruikt door
+  label_user: Gebruiker
+  label_user_activity: "{{value}}'s activiteit"
+  label_user_mail_no_self_notified: "Ik wil niet verwittigd worden van wijzigingen die ik zelf maak."
+  label_user_mail_option_all: "Bij elk gebeurtenis in al mijn projecten..."
+  label_user_mail_option_none: "Alleen in de dingen die ik monitor of in betrokken ben"
+  label_user_mail_option_selected: "Enkel bij elke gebeurtenis op het geselecteerde project..."
+  label_user_new: Nieuwe gebruiker
+  label_user_plural: Gebruikers
+  label_version: Versie
+  label_version_new: Nieuwe versie
+  label_version_plural: Versies
+  label_view_diff: Bekijk verschillen
+  label_view_revisions: Bekijk revisies
+  label_watched_issues: Gemonitorde issues
+  label_week: Week
+  label_wiki: Wiki
+  label_wiki_edit: Wiki edit
+  label_wiki_edit_plural: Wiki edits
+  label_wiki_page: Wikipagina
+  label_wiki_page_plural: Wikipagina's
+  label_workflow: Workflow
+  label_year: Jaar
+  label_yesterday: gisteren
+  mail_body_account_activation_request: "Een nieuwe gebruiker ({{value}}) is geregistreerd. Zijn account wacht op uw akkoord:'"
+  mail_body_account_information: Uw account gegevens
+  mail_body_account_information_external: "U kunt uw account ({{value}}) gebruiken om in te loggen."
+  mail_body_lost_password: 'Gebruik de volgende link om uw wachtwoord te wijzigen:'
+  mail_body_register: 'Gebruik de volgende link om uw account te activeren:'
+  mail_body_reminder: "{{count}} issue(s) die aan u toegewezen zijn en voldaan moeten zijn in de komende {{days}} dagen:"
+  mail_subject_account_activation_request: "{{value}} accountactivatieverzoek"
+  mail_subject_lost_password: "uw {{value}} wachtwoord"
+  mail_subject_register: "uw {{value}} accountactivatie"
+  mail_subject_reminder: "{{count}} issue(s) die voldaan moeten zijn in de komende dagen."
+  notice_account_activated: uw account is geactiveerd. u kunt nu inloggen.
+  notice_account_invalid_creditentials: Incorrecte gebruikersnaam of wachtwoord
+  notice_account_lost_email_sent: Er is een e-mail naar u verstuurd met instructies over het kiezen van een nieuw wachtwoord.
+  notice_account_password_updated: Wachtwoord is met succes gewijzigd
+  notice_account_pending: "Uw account is aangemaakt, maar wacht nog op goedkeuring van de beheerder."
+  notice_account_register_done: Account is met succes aangemaakt.
+  notice_account_unknown_email: Onbekende gebruiker.
+  notice_account_updated: Account is met succes gewijzigd
+  notice_account_wrong_password: Incorrect wachtwoord
+  notice_can_t_change_password: Dit account gebruikt een externe bron voor authenticatie. Het is niet mogelijk om het wachtwoord te veranderen.
+  notice_default_data_loaded: Standaard configuratie succesvol geladen.
+  notice_email_error: "Er is een fout opgetreden tijdens het versturen van ({{value}})"
+  notice_email_sent: "Een e-mail werd verstuurd naar {{value}}"
+  notice_failed_to_save_issues: "Fout bij bewaren van {{count}} issue(s) ({{total}} geselecteerd): {{ids}}."
+  notice_feeds_access_key_reseted: Je RSS toegangssleutel werd gereset.
+  notice_file_not_found: De pagina die u probeerde te benaderen bestaat niet of is verwijderd.
+  notice_locking_conflict: De gegevens zijn gewijzigd door een andere gebruiker.
+  notice_no_issue_selected: "Er is geen issue geselecteerd. Selecteer de issue die u wilt bewerken."
+  notice_not_authorized: Het is u niet toegestaan deze pagina te raadplegen.
+  notice_successful_connection: Verbinding succesvol.
+  notice_successful_create: Succesvol aangemaakt.
+  notice_successful_delete: Succesvol verwijderd.
+  notice_successful_update: Wijzigen succesvol.
+  notice_unable_delete_version: Niet mogelijk om deze versie te verwijderen.
+  permission_add_issue_notes: Voeg notities toe
+  permission_add_issue_watchers: Voeg monitors toe
+  permission_add_issues: Voeg issues toe
+  permission_add_messages: Voeg berichten toe
+  permission_browse_repository: Repository doorbladeren
+  permission_comment_news: Nieuws commentaar geven
+  permission_commit_access: Commit toegang
+  permission_delete_issues: Issues verwijderen
+  permission_delete_messages: Berichten verwijderen
+  permission_delete_own_messages: Eigen berichten verwijderen
+  permission_delete_wiki_pages: Wiki pagina's verwijderen
+  permission_delete_wiki_pages_attachments: Bijlagen verwijderen
+  permission_edit_issue_notes: Notities bewerken
+  permission_edit_issues: Issues bewerken
+  permission_edit_messages: Berichten bewerken
+  permission_edit_own_issue_notes: Eigen notities bewerken
+  permission_edit_own_messages: Eigen berichten bewerken
+  permission_edit_own_time_entries: Eigen tijdlogboek bewerken
+  permission_edit_project: Project bewerken
+  permission_edit_time_entries: Tijdlogboek bewerken
+  permission_edit_wiki_pages: Wiki pagina's bewerken
+  permission_log_time: Gespendeerde tijd loggen
+  permission_manage_boards: Forums beheren
+  permission_manage_categories: Issue-categorieën beheren
+  permission_manage_documents: Documenten beheren
+  permission_manage_files: Bestanden beheren
+  permission_manage_issue_relations: Issuerelaties beheren
+  permission_manage_members: Leden beheren
+  permission_manage_news: Nieuws beheren
+  permission_manage_public_queries: Publieke queries beheren
+  permission_manage_repository: Repository beheren
+  permission_manage_versions: Versiebeheer
+  permission_manage_wiki: Wikibeheer
+  permission_move_issues: Issues verplaatsen
+  permission_protect_wiki_pages: Wikipagina's beschermen
+  permission_rename_wiki_pages: Wikipagina's hernoemen
+  permission_save_queries: Queries opslaan
+  permission_select_project_modules: Project modules selecteren
+  permission_view_calendar: Kalender bekijken
+  permission_view_changesets: Changesets bekijken
+  permission_view_documents: Documenten bekijken
+  permission_view_files: Bestanden bekijken
+  permission_view_gantt: Gantt grafiek bekijken
+  permission_view_issue_watchers: Monitorlijst bekijken
+  permission_view_messages: Berichten bekijken
+  permission_view_time_entries: Gespendeerde tijd bekijken
+  permission_view_wiki_edits: Wikihistorie bekijken
+  permission_view_wiki_pages: Wikipagina's bekijken
+  project_module_boards: Forums
+  project_module_documents: Documenten
+  project_module_files: Bestanden
+  project_module_issue_tracking: Issue tracking
+  project_module_news: Nieuws
+  project_module_repository: Repository
+  project_module_time_tracking: Tijd tracking
+  project_module_wiki: Wiki
+  setting_activity_days_default: Aantal dagen getoond bij het tabblad "Activiteit"
+  setting_app_subtitle: Applicatieondertitel
+  setting_app_title: Applicatietitel
+  setting_attachment_max_size: Attachment max. grootte
+  setting_autofetch_changesets: Haal commits automatisch op
+  setting_autologin: Automatisch inloggen
+  setting_bcc_recipients: Blind carbon copy ontvangers (bcc)
+  setting_commit_fix_keywords: Gefixeerde trefwoorden
+  setting_commit_logs_encoding: Encodering van commit berichten
+  setting_commit_ref_keywords: Refererende trefwoorden
+  setting_cross_project_issue_relations: Sta crossproject issuerelaties toe
+  setting_date_format: Datumformaat
+  setting_default_language: Standaard taal
+  setting_default_projects_public: Nieuwe projecten zijn standaard publiek
+  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  setting_display_subprojects_issues: Standaard issues van subproject tonen
+  setting_emails_footer: E-mails footer
+  setting_enabled_scm: SCM ingeschakeld
+  setting_feeds_limit: Feedinhoudlimiet
+  setting_gravatar_enabled: Gebruik Gravatar gebruikersiconen
+  setting_host_name: Hostnaam
+  setting_issue_list_default_columns: Standaardkolommen getoond op de lijst met issues
+  setting_issues_export_limit: Limiet export issues
+  setting_login_required: Authenticatie vereist
+  setting_mail_from: Afzender e-mail adres
+  setting_mail_handler_api_enabled: Schakel WS in voor inkomende mail.
+  setting_mail_handler_api_key: API sleutel
+  setting_per_page_options: Objects per pagina-opties
+  setting_plain_text_mail: platte tekst (geen HTML)
+  setting_protocol: Protocol
+  setting_repositories_encodings: Repositories coderingen
+  setting_self_registration: Zelfregistratie toegestaan
+  setting_sequential_project_identifiers: Genereer sequentiële projectidentiteiten
+  setting_sys_api_enabled: Gebruik WS voor repository beheer
+  setting_text_formatting: Tekstformaat
+  setting_time_format: Tijd formaat
+  setting_user_format: Gebruikers weergaveformaat
+  setting_welcome_text: Welkomsttekst
+  setting_wiki_compression: Wikigeschiedenis comprimeren
+  status_active: actief
+  status_locked: gelockt
+  status_registered: geregistreerd
+  text_are_you_sure: Weet u het zeker?
+  text_assign_time_entries_to_project: Gerapporteerde uren toevoegen aan dit project
+  text_caracters_maximum: "{{count}} van maximum aantal tekens."
+  text_caracters_minimum: "Moet minstens {{count}} karakters lang zijn."
+  text_comma_separated: Meerdere waarden toegestaan (kommagescheiden).
+  text_default_administrator_account_changed: Standaard beheerderaccount gewijzigd
+  text_destroy_time_entries: Verwijder gerapporteerde uren
+  text_destroy_time_entries_question: %.02f uren werden gerapporteerd op de issue(s) die u wilde verwijderen. Wat wil u doen?
+  text_diff_truncated: '... Deze diff werd afgekort omdat het de maximale weer te geven karakters overschreed.'
+  text_email_delivery_not_configured: "E-mailbezorging is niet geconfigureerd. Notificaties zijn uitgeschakeld.\nConfigureer uw SMTP server in config/email.yml en herstart de applicatie om dit te activeren."
+  text_enumeration_category_reassign_to: 'Wijs de volgende waarde toe:'
+  text_enumeration_destroy_question: "{{count}} objecten zijn toegewezen aan deze waarde.'"
+  text_file_repository_writable: Bestandsrepository beschrijfbaar
+  text_issue_added: "Issue {{id}} is gerapporteerd (door {{author}})."
+  text_issue_category_destroy_assignments: Verwijder toewijzingen aan deze categorie
+  text_issue_category_destroy_question: "Er zijn issues ({{count}}) aan deze categorie toegewezen. Wat wilt u hiermee doen ?"
+  text_issue_category_reassign_to: Issues opnieuw toewijzen aan deze categorie
+  text_issue_updated: "Issue {{id}} is gewijzigd (door {{author}})."
+  text_issues_destroy_confirmation: 'Weet u zeker dat u deze issue(s) wil verwijderen?'
+  text_issues_ref_in_commit_messages: Opzoeken en aanpassen van issues in commitberichten
+  text_journal_changed: "gewijzigd van {{old}} naar {{new}}"
+  text_journal_deleted: verwijderd
+  text_journal_set_to: "ingesteld op {{value}}"
+  text_length_between: "Lengte tussen {{min}} en {{max}} tekens."
+  text_load_default_configuration: Laad de standaardconfiguratie
+  text_min_max_length_info: 0 betekent geen restrictie
+  text_no_configuration_data: "Rollen, trackers, issue statussen en workflows zijn nog niet geconfigureerd.\nHet is ten zeerste aangeraden om de standaard configuratie in te laden. U kunt deze aanpassen nadat deze is ingeladen."
+  text_plugin_assets_writable: Plugin assets directory writable
+  text_project_destroy_confirmation: Weet u zeker dat u dit project en alle gerelateerde gegevens wilt verwijderen?
+  text_project_identifier_info: 'kleine letters (a-z), cijfers en liggende streepjes toegestaan.<br />Eenmaal bewaard kan de identificatiecode niet meer worden gewijzigd.'
+  text_reassign_time_entries: 'Gerapporteerde uren opnieuw toewijzen:'
+  text_regexp_info: bv. ^[A-Z0-9]+$
+  text_repository_usernames_mapping: "Koppel de Redminegebruikers aan gebruikers in de repository log.\nGebruikers met dezelfde Redmine en repository gebruikersnaam of email worden automatisch gekoppeld."
+  text_rmagick_available: RMagick beschikbaar (optioneel)
+  text_select_mail_notifications: Selecteer acties waarvoor mededelingen via mail moeten worden verstuurd.
+  text_select_project_modules: 'Selecteer de modules die u wilt gebruiken voor dit project:'
+  text_status_changed_by_changeset: "Toegepast in changeset {{value}}."
+  text_subprojects_destroy_warning: "De subprojecten: {{value}} zullen ook verwijderd worden.'"
+  text_tip_task_begin_day: taak die op deze dag begint
+  text_tip_task_begin_end_day: taak die op deze dag begint en eindigt
+  text_tip_task_end_day: taak die op deze dag eindigt
+  text_tracker_no_workflow: Geen workflow gedefinieerd voor deze tracker
+  text_unallowed_characters: Niet toegestane tekens
+  text_user_mail_option: "Bij niet-geselecteerde projecten zult u enkel notificaties ontvangen voor issues die u monitort of waar u bij betrokken bent (als auteur of toegewezen persoon)."
+  text_user_wrote: "{{value}} schreef:'"
+  text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en zijn inhoud wenst te verwijderen?
+  text_workflow_edit: Selecteer een rol en een tracker om de workflow te wijzigen
+  warning_attachments_not_saved: "{{count}} bestand(en) konden niet opgeslagen worden."
+  button_create_and_continue: Create and continue
+  text_custom_field_possible_values_info: 'One line for each value'
+  label_display: Display
+  field_editable: Editable
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log

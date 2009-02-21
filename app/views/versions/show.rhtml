@@ -10,12 +10,12 @@
 <table>
 <tr>
     <td width="130px" align="right"><%= l(:field_estimated_hours) %></td>
-    <td width="240px" class="total-hours"width="130px" align="right"><%= html_hours(lwr(:label_f_hour, @version.estimated_hours)) %></td>
+    <td width="240px" class="total-hours"width="130px" align="right"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
 </tr>
 <% if User.current.allowed_to?(:view_time_entries, @project) %>
 <tr>
     <td width="130px" align="right"><%= l(:label_spent_time) %></td>
-    <td width="240px" class="total-hours"><%= html_hours(lwr(:label_f_hour, @version.spent_hours)) %></td>
+    <td width="240px" class="total-hours"><%= html_hours(l_hours(@version.spent_hours)) %></td>
 </tr>
 <% end %>
 </table>

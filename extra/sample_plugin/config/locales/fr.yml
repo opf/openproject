@@ -1,0 +1,6 @@
+# Sample plugin
+fr:
+  label_plugin_example: Plugin exemple
+  label_meeting_plural: Meetings
+  text_say_hello: Plugin dit 'Bonjour'
+  text_say_goodbye: Plugin dit 'Au revoir'

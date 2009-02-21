@@ -19,7 +19,7 @@ module MessagesHelper
 
   def link_to_message(message)
     return '' unless message
-    link_to h(truncate(message.subject, 60)), :controller => 'messages',
+    link_to h(truncate(message.subject, :length => 60)), :controller => 'messages',
                                            :action => 'show',
                                            :board_id => message.board_id,
                                            :id => message.root,

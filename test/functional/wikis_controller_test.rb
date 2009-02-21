@@ -63,7 +63,7 @@ class WikisControllerTest < Test::Unit::TestCase
   def test_destroy
     @request.session[:user_id] = 1
     post :destroy, :id => 1, :confirm => 1
-    assert_redirected_to :action => 'settings', :id => 'ecookbook', :tab => 'wiki'
+    assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'ecookbook', :tab => 'wiki'
     assert_nil Project.find(1).wiki
   end
   

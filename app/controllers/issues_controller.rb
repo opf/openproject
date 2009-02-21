@@ -258,7 +258,9 @@ class IssuesController < ApplicationController
       if unsaved_issue_ids.empty?
         flash[:notice] = l(:notice_successful_update) unless @issues.empty?
       else
-        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
+        flash[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
+                                                         :total => @issues.size,
+                                                         :ids => '#' + unsaved_issue_ids.join(', #'))
       end
       redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index', :project_id => @project})
       return
@@ -291,7 +293,9 @@ class IssuesController < ApplicationController
       if unsaved_issue_ids.empty?
         flash[:notice] = l(:notice_successful_update) unless @issues.empty?
       else
-        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
+        flash[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
+                                                         :total => @issues.size,
+                                                         :ids => '#' + unsaved_issue_ids.join(', #'))
       end
       redirect_to :controller => 'issues', :action => 'index', :project_id => @project
       return

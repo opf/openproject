@@ -18,6 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MailerTest < Test::Unit::TestCase
+  include Redmine::I18n
   fixtures :projects, :issues, :users, :members, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
   
   def test_generated_links_in_emails
@@ -138,7 +139,7 @@ class MailerTest < Test::Unit::TestCase
   # test mailer methods for each language
   def test_issue_add
     issue = Issue.find(1)
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert Mailer.deliver_issue_add(issue)
     end
@@ -146,7 +147,7 @@ class MailerTest < Test::Unit::TestCase
 
   def test_issue_edit
     journal = Journal.find(1)
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert Mailer.deliver_issue_edit(journal)
     end
@@ -154,7 +155,7 @@ class MailerTest < Test::Unit::TestCase
   
   def test_document_added
     document = Document.find(1)
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert Mailer.deliver_document_added(document)
     end
@@ -162,7 +163,7 @@ class MailerTest < Test::Unit::TestCase
   
   def test_attachments_added
     attachements = [ Attachment.find_by_container_type('Document') ]
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert Mailer.deliver_attachments_added(attachements)
     end
@@ -170,7 +171,7 @@ class MailerTest < Test::Unit::TestCase
   
   def test_news_added
     news = News.find(:first)
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert Mailer.deliver_news_added(news)
     end
@@ -180,7 +181,7 @@ class MailerTest < Test::Unit::TestCase
     message = Message.find(:first)
     recipients = ([message.root] + message.root.children).collect {|m| m.author.mail if m.author}
     recipients = recipients.compact.uniq
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert Mailer.deliver_message_posted(message, recipients)
     end
@@ -188,7 +189,7 @@ class MailerTest < Test::Unit::TestCase
   
   def test_account_information
     user = User.find(:first)
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       user.update_attribute :language, lang.to_s
       user.reload
       assert Mailer.deliver_account_information(user, 'pAsswORd')
@@ -197,7 +198,7 @@ class MailerTest < Test::Unit::TestCase
 
   def test_lost_password
     token = Token.find(2)
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       token.user.update_attribute :language, lang.to_s
       token.reload
       assert Mailer.deliver_lost_password(token)
@@ -206,7 +207,7 @@ class MailerTest < Test::Unit::TestCase
 
   def test_register
     token = Token.find(1)
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       token.user.update_attribute :language, lang.to_s
       token.reload
       assert Mailer.deliver_register(token)

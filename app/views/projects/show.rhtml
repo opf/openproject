@@ -23,8 +23,9 @@
       <li><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
                                                 :set_filter => 1, 
                                                 "tracker_id" => tracker.id %>:
-      <%= @open_issues_by_tracker[tracker] || 0 %> <%= lwr(:label_open_issues, @open_issues_by_tracker[tracker] || 0) %>
-      <%= l(:label_on) %> <%= @total_issues_by_tracker[tracker] || 0 %></li>
+					<%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
+																										:total => @total_issues_by_tracker[tracker].to_i) %>
+			</li>
     <% end %>
     </ul>
     <p><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 %></p>
@@ -65,7 +66,7 @@
     
     <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
     <h3><%= l(:label_spent_time) %></h3>
-    <p><span class="icon icon-time"><%= lwr(:label_f_hour, @total_hours) %></span></p>
+    <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
     <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |
     <%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}) %></p>
     <% end %>

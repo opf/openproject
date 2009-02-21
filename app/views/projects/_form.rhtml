@@ -11,7 +11,7 @@
 <p><%= f.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>
 <p><%= f.text_field :identifier, :required => true, :disabled => @project.identifier_frozen? %>
 <% unless @project.identifier_frozen? %>
-<br /><em><%= l(:text_length_between, 2, 20) %> <%= l(:text_project_identifier_info) %></em>
+<br /><em><%= l(:text_length_between, :min => 2, :max => 20) %> <%= l(:text_project_identifier_info) %></em>
 <% end %></p>
 <p><%= f.text_field :homepage, :size => 60 %></p>
 <p><%= f.check_box :is_public %></p>

@@ -146,7 +146,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_post_edit
     @request.session[:user_id] = 2
     post :edit, :id => 1, :news => { :description => 'Description changed by test_post_edit' }
-    assert_redirected_to 'news/show/1'
+    assert_redirected_to 'news/1'
     news = News.find(1)
     assert_equal 'Description changed by test_post_edit', news.description
   end
@@ -167,7 +167,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_add_comment
     @request.session[:user_id] = 2
     post :add_comment, :id => 1, :comment => { :comments => 'This is a NewsControllerTest comment' }
-    assert_redirected_to 'news/show/1'
+    assert_redirected_to 'news/1'
     
     comment = News.find(1).comments.find(:first, :order => 'created_on DESC')
     assert_not_nil comment
@@ -179,7 +179,7 @@ class NewsControllerTest < Test::Unit::TestCase
     comments_count = News.find(1).comments.size
     @request.session[:user_id] = 2
     post :destroy_comment, :id => 1, :comment_id => 2
-    assert_redirected_to 'news/show/1'
+    assert_redirected_to 'news/1'
     assert_nil Comment.find_by_id(2)
     assert_equal comments_count - 1, News.find(1).comments.size
   end

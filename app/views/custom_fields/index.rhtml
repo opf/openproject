@@ -35,7 +35,7 @@
 	<td align="center"><%= image_tag 'true.png' if custom_field.is_required? %></td>
 	<% if tab[:name] == 'IssueCustomField' %>
 	<td align="center"><%= image_tag 'true.png' if custom_field.is_for_all? %></td>
-	<td align="center"><%= custom_field.projects.count.to_s + ' ' + lwr(:label_project, custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
+	<td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
 	<% end %>
     <td align="center" style="width:15%;">
         <%= link_to image_tag('2uparrow.png', :alt => l(:label_sort_highest)), {:action => 'move', :id => custom_field, :position => 'highest'}, :method => :post, :title => l(:label_sort_highest) %>

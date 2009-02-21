@@ -18,6 +18,8 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
 class ApplicationTest < ActionController::IntegrationTest
+  include Redmine::I18n
+  
   fixtures :users
   
   def test_set_localization
@@ -27,13 +29,13 @@ class ApplicationTest < ActionController::IntegrationTest
     get 'projects', { }, 'Accept-Language' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
     assert_response :success
     assert_tag :tag => 'h2', :content => 'Projets'
-    assert_equal 'fr', User.current.language
+    assert_equal :fr, current_language
     
     # then an italien user
     get 'projects', { }, 'Accept-Language' => 'it;q=0.8,en-us;q=0.5,en;q=0.3'
     assert_response :success
     assert_tag :tag => 'h2', :content => 'Progetti'
-    assert_equal 'it', User.current.language
+    assert_equal :it, current_language
     
     # not a supported language: default language should be used
     get 'projects', { }, 'Accept-Language' => 'zz'

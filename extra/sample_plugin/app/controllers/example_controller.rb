@@ -4,6 +4,7 @@ class ExampleController < ApplicationController
   
   layout 'base'  
   before_filter :find_project, :authorize
+  menu_item :sample_plugin
     
   def say_hello
     @value = Setting.plugin_sample_plugin['sample_setting']

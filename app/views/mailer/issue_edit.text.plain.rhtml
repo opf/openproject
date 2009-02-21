@@ -1,4 +1,4 @@
-<%= l(:text_issue_updated, "##{@issue.id}", @journal.user) %>
+<%= l(:text_issue_updated, :id => "##{@issue.id}", :author => @journal.user) %>
 
 <% for detail in @journal.details -%>
 <%= show_detail(detail, true) %>

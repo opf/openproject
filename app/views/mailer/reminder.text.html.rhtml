@@ -1,4 +1,4 @@
-<p><%= l(:mail_body_reminder, @issues.size, @days) %></p>
+<p><%= l(:mail_body_reminder, :count => @issues.size, :days => @days) %></p>
 
 <ul>
 <% @issues.each do |issue| -%>

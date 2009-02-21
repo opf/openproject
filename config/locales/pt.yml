@@ -1,0 +1,797 @@
+# Portuguese localization for Ruby on Rails
+# by Ricardo Otero <oterosantos@gmail.com>
+pt:
+  support:
+    array:
+      sentence_connector: "e"
+      skip_last_comma: true
+    
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d de %B"
+      long: "%d de %B de %Y"
+      only_day: "%d"
+    day_names: [Domingo, Segunda, Terça, Quarta, Quinta, Sexta, Sábado]
+    abbr_day_names: [Dom, Seg, Ter, Qua, Qui, Sex, Sáb]
+    month_names: [~, Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro]
+    abbr_month_names: [~, Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
+    order: [:day, :month, :year]
+    
+  time:
+    formats:        
+      default: "%A, %d de %B de %Y, %H:%Mh"
+      short: "%d/%m, %H:%M hs"
+      long: "%A, %d de %B de %Y, %H:%Mh"
+    am: ''
+    pm: ''
+ 
+  datetime:
+    distance_in_words:
+      half_a_minute: "meio minuto"
+      less_than_x_seconds:
+        one: "menos de 1 segundo"
+        other: "menos de {{count}} segundos"
+      x_seconds:
+        one: "1 segundo"
+        other: "{{count}} segundos"
+      less_than_x_minutes: 
+        one: "menos de um minuto"
+        other: "menos de {{count}} minutos"
+      x_minutes:
+        one: "1 minuto"
+        other: "{{count}} minutos"
+      about_x_hours:
+        one: "aproximadamente 1 hora"
+        other: "aproximadamente {{count}} horas"
+      x_days:
+        one: "1 dia"
+        other: "{{count}} dias"
+      about_x_months:
+        one: "aproximadamente 1 mês"
+        other: "aproximadamente {{count}} meses"
+      x_months:
+        one: "1 mês"
+        other: "{{count}} meses"
+      about_x_years:
+        one: "aproximadamente 1 ano"
+        other: "aproximadamente {{count}} anos"
+      over_x_years:
+        one: "mais de 1 ano"
+        other: "mais de {{count}} anos"
+        
+  number:
+    format:
+      precision: 3
+      separator: ','
+      delimiter: '.'
+    currency:
+      format:
+        unit: '€'
+        precision: 2
+        format: "%u %n"
+        separator: ','
+        delimiter: '.'
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+    human:
+      format:
+        precision: 1
+        delimiter: ''
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one: "Não foi possível guardar {{model}}: 1 erro"
+          other: "Não foi possível guardar {{model}}: {{count}} erros"
+        body: "Por favor, verifique os seguintes campos:"
+      messages:
+        inclusion: "não está incluído na lista"
+        exclusion: "não está disponível"
+        invalid: "não é válido"
+        confirmation: "não está de acordo com a confirmação"
+        accepted:  "precisa de ser aceite"
+        empty: "não pode estar em branco"
+        blank: "não pode estar em branco"
+        too_long: "tem demasiados caracteres (máximo: {{count}} caracteres)"
+        too_short: "tem poucos caracteres (mínimo: {{count}} caracteres)"
+        wrong_length: "não é do tamanho correcto (necessita de ter {{count}} caracteres)"
+        taken: "não está disponível"
+        not_a_number: "não é um número"
+        greater_than: "tem de ser maior do que {{count}}"
+        greater_than_or_equal_to: "tem de ser maior ou igual a {{count}}"
+        equal_to: "tem de ser igual a {{count}}"
+        less_than: "tem de ser menor do que {{count}}"
+        less_than_or_equal_to: "tem de ser menor ou igual a {{count}}"
+        odd: "tem de ser ímpar"
+        even: "tem de ser par"
+        greater_than_start_date: "deve ser maior que a data inicial"
+        not_same_project: "não pertence ao mesmo projecto"
+        circular_dependency: "Esta relação iria criar uma dependência circular"
+
+  ## Translated by: Pedro Araújo <phcrva19@hotmail.com>
+  actionview_instancetag_blank_option: Seleccione
+  
+  general_text_No: 'Não'
+  general_text_Yes: 'Sim'
+  general_text_no: 'não'
+  general_text_yes: 'sim'
+  general_lang_name: 'Português'
+  general_csv_separator: ';'
+  general_csv_decimal_separator: ','
+  general_csv_encoding: ISO-8859-15
+  general_pdf_encoding: ISO-8859-15
+  general_first_day_of_week: '1'
+  
+  notice_account_updated: A conta foi actualizada com sucesso.
+  notice_account_invalid_creditentials: Utilizador ou palavra-chave inválidos.
+  notice_account_password_updated: A palavra-chave foi alterada com sucesso.
+  notice_account_wrong_password: Palavra-chave errada.
+  notice_account_register_done: A conta foi criada com sucesso.
+  notice_account_unknown_email: Utilizador desconhecido.
+  notice_can_t_change_password: Esta conta utiliza uma fonte de autenticação externa. Não é possível alterar a palavra-chave.
+  notice_account_lost_email_sent: Foi-lhe enviado um e-mail com as instruções para escolher uma nova palavra-chave.
+  notice_account_activated: A sua conta foi activada. Já pode autenticar-se.
+  notice_successful_create: Criado com sucesso.
+  notice_successful_update: Alterado com sucesso.
+  notice_successful_delete: Apagado com sucesso.
+  notice_successful_connection: Ligado com sucesso.
+  notice_file_not_found: A página que está a tentar aceder não existe ou foi removida.
+  notice_locking_conflict: Os dados foram actualizados por outro utilizador.
+  notice_not_authorized: Não está autorizado a visualizar esta página.
+  notice_email_sent: "Foi enviado um e-mail para {{value}}"
+  notice_email_error: "Ocorreu um erro ao enviar o e-mail ({{value}})"
+  notice_feeds_access_key_reseted: A sua chave de RSS foi inicializada.
+  notice_failed_to_save_issues: "Não foi possível guardar {{count}} tarefa(s) das {{total}} seleccionadas: {{ids}}."
+  notice_no_issue_selected: "Nenhuma tarefa seleccionada! Por favor, seleccione as tarefas que quer editar."
+  notice_account_pending: "A sua conta foi criada e está agora à espera de aprovação do administrador."
+  notice_default_data_loaded: Configuração padrão carregada com sucesso.
+  notice_unable_delete_version: Não foi possível apagar a versão.
+  
+  error_can_t_load_default_data: "Não foi possível carregar a configuração padrão: {{value}}"
+  error_scm_not_found: "A entrada ou revisão não foi encontrada no repositório."
+  error_scm_command_failed: "Ocorreu um erro ao tentar aceder ao repositório: {{value}}"
+  error_scm_annotate: "A entrada não existe ou não pode ser anotada."
+  error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projecto.'
+  
+  mail_subject_lost_password: "Palavra-chave de {{value}}"
+  mail_body_lost_password: 'Para mudar a sua palavra-chave, clique no link abaixo:'
+  mail_subject_register: "Activação de conta de {{value}}"
+  mail_body_register: 'Para activar a sua conta, clique no link abaixo:'
+  mail_body_account_information_external: "Pode utilizar a conta {{value}} para autenticar-se."
+  mail_body_account_information: Informação da sua conta
+  mail_subject_account_activation_request: "Pedido de activação da conta {{value}}"
+  mail_body_account_activation_request: "Um novo utilizador ({{value}}) registou-se. A sua conta está à espera de aprovação:'"
+  mail_subject_reminder: "{{count}} tarefa(s) para entregar nos próximos dias"
+  mail_body_reminder: "{{count}} tarefa(s) que estão atribuídas a si estão agendadas para estarem completas nos próximos {{days}} dias:"
+  
+  gui_validation_error: 1 erro
+  gui_validation_error_plural: "{{count}} erros"
+  
+  field_name: Nome
+  field_description: Descrição
+  field_summary: Sumário
+  field_is_required: Obrigatório
+  field_firstname: Nome
+  field_lastname: Apelido
+  field_mail: E-mail
+  field_filename: Ficheiro
+  field_filesize: Tamanho
+  field_downloads: Downloads
+  field_author: Autor
+  field_created_on: Criado
+  field_updated_on: Alterado
+  field_field_format: Formato
+  field_is_for_all: Para todos os projectos
+  field_possible_values: Valores possíveis
+  field_regexp: Expressão regular
+  field_min_length: Tamanho mínimo
+  field_max_length: Tamanho máximo
+  field_value: Valor
+  field_category: Categoria
+  field_title: Título
+  field_project: Projecto
+  field_issue: Tarefa
+  field_status: Estado
+  field_notes: Notas
+  field_is_closed: Tarefa fechada
+  field_is_default: Valor por omissão
+  field_tracker: Tipo
+  field_subject: Assunto
+  field_due_date: Data final
+  field_assigned_to: Atribuído a
+  field_priority: Prioridade
+  field_fixed_version: Versão
+  field_user: Utilizador
+  field_role: Papel
+  field_homepage: Página
+  field_is_public: Público
+  field_parent: Sub-projecto de
+  field_is_in_chlog: Tarefas mostradas no changelog
+  field_is_in_roadmap: Tarefas mostradas no roadmap
+  field_login: Nome de utilizador
+  field_mail_notification: Notificações por e-mail
+  field_admin: Administrador
+  field_last_login_on: Última visita
+  field_language: Língua
+  field_effective_date: Data
+  field_password: Palavra-chave
+  field_new_password: Nova palavra-chave
+  field_password_confirmation: Confirmação
+  field_version: Versão
+  field_type: Tipo
+  field_host: Servidor
+  field_port: Porta
+  field_account: Conta
+  field_base_dn: Base DN
+  field_attr_login: Atributo utilizador
+  field_attr_firstname: Atributo nome próprio
+  field_attr_lastname: Atributo último nome
+  field_attr_mail: Atributo e-mail
+  field_onthefly: Criação de utilizadores na hora
+  field_start_date: Início
+  field_done_ratio: %% Completo
+  field_auth_source: Modo de autenticação
+  field_hide_mail: Esconder endereço de e-mail
+  field_comments: Comentário
+  field_url: URL
+  field_start_page: Página inicial
+  field_subproject: Subprojecto
+  field_hours: Horas
+  field_activity: Actividade
+  field_spent_on: Data
+  field_identifier: Identificador
+  field_is_filter: Usado como filtro
+  field_issue_to_id: Tarefa relacionada
+  field_delay: Atraso
+  field_assignable: As tarefas podem ser associados a este papel
+  field_redirect_existing_links: Redireccionar links existentes
+  field_estimated_hours: Tempo estimado
+  field_column_names: Colunas
+  field_time_zone: Fuso horário
+  field_searchable: Procurável
+  field_default_value: Valor por omissão
+  field_comments_sorting: Mostrar comentários
+  field_parent_title: Página pai
+  
+  setting_app_title: Título da aplicação
+  setting_app_subtitle: Sub-título da aplicação
+  setting_welcome_text: Texto de boas vindas
+  setting_default_language: Língua por omissão
+  setting_login_required: Autenticação obrigatória
+  setting_self_registration: Auto-registo
+  setting_attachment_max_size: Tamanho máximo do anexo
+  setting_issues_export_limit: Limite de exportação das tarefas
+  setting_mail_from: E-mail enviado de
+  setting_bcc_recipients: Recipientes de BCC
+  setting_host_name: Hostname
+  setting_text_formatting: Formatação do texto
+  setting_wiki_compression: Compressão do histórico do Wiki
+  setting_feeds_limit: Limite de conteúdo do feed
+  setting_default_projects_public: Projectos novos são públicos por omissão
+  setting_autofetch_changesets: Buscar automaticamente commits
+  setting_sys_api_enabled: Activar Web Service para gestão do repositório
+  setting_commit_ref_keywords: Palavras-chave de referência
+  setting_commit_fix_keywords: Palavras-chave de fecho
+  setting_autologin: Login automático
+  setting_date_format: Formato da data
+  setting_time_format: Formato do tempo
+  setting_cross_project_issue_relations: Permitir relações entre tarefas de projectos diferentes
+  setting_issue_list_default_columns: Colunas na lista de tarefas por omissão
+  setting_repositories_encodings: Encodings dos repositórios
+  setting_commit_logs_encoding: Encoding das mensagens de commit
+  setting_emails_footer: Rodapé do e-mails
+  setting_protocol: Protocolo
+  setting_per_page_options: Opções de objectos por página
+  setting_user_format: Formato de apresentaão de utilizadores
+  setting_activity_days_default: Dias mostrados na actividade do projecto
+  setting_display_subprojects_issues: Mostrar as tarefas dos sub-projectos nos projectos principais
+  setting_enabled_scm: Activar SCM
+  setting_mail_handler_api_enabled: Activar Web Service para e-mails recebidos
+  setting_mail_handler_api_key: Chave da API
+  setting_sequential_project_identifiers: Gerar identificadores de projecto sequênciais
+  
+  project_module_issue_tracking: Tarefas
+  project_module_time_tracking: Registo de tempo
+  project_module_news: Notícias
+  project_module_documents: Documentos
+  project_module_files: Ficheiros
+  project_module_wiki: Wiki
+  project_module_repository: Repositório
+  project_module_boards: Forum
+  
+  label_user: Utilizador
+  label_user_plural: Utilizadores
+  label_user_new: Novo utilizador
+  label_project: Projecto
+  label_project_new: Novo projecto
+  label_project_plural: Projectos
+  label_x_projects:
+    zero:  no projects
+    one:   1 project
+    other: "{{count}} projects"
+  label_project_all: Todos os projectos
+  label_project_latest: Últimos projectos
+  label_issue: Tarefa
+  label_issue_new: Nova tarefa
+  label_issue_plural: Tarefas
+  label_issue_view_all: Ver todas as tarefas
+  label_issues_by: "Tarefas por {{value}}"
+  label_issue_added: Tarefa adicionada
+  label_issue_updated: Tarefa actualizada
+  label_document: Documento
+  label_document_new: Novo documento
+  label_document_plural: Documentos
+  label_document_added: Documento adicionado
+  label_role: Papel
+  label_role_plural: Papéis
+  label_role_new: Novo papel
+  label_role_and_permissions: Papéis e permissões
+  label_member: Membro
+  label_member_new: Novo membro
+  label_member_plural: Membros
+  label_tracker: Tipo
+  label_tracker_plural: Tipos
+  label_tracker_new: Novo tipo
+  label_workflow: Workflow
+  label_issue_status: Estado da tarefa
+  label_issue_status_plural: Estados da tarefa
+  label_issue_status_new: Novo estado
+  label_issue_category: Categoria de tarefa
+  label_issue_category_plural: Categorias de tarefa
+  label_issue_category_new: Nova categoria
+  label_custom_field: Campo personalizado
+  label_custom_field_plural: Campos personalizados
+  label_custom_field_new: Novo campo personalizado
+  label_enumerations: Enumerações
+  label_enumeration_new: Novo valor
+  label_information: Informação
+  label_information_plural: Informações
+  label_please_login: Por favor autentique-se
+  label_register: Registar
+  label_password_lost: Perdi a palavra-chave
+  label_home: Página Inicial
+  label_my_page: Página Pessoal
+  label_my_account: Minha conta
+  label_my_projects: Meus projectos
+  label_administration: Administração
+  label_login: Entrar
+  label_logout: Sair
+  label_help: Ajuda
+  label_reported_issues: Tarefas criadas
+  label_assigned_to_me_issues: Tarefas atribuídas a mim
+  label_last_login: Último acesso
+  label_registered_on: Registado em
+  label_activity: Actividade
+  label_overall_activity: Actividade geral
+  label_new: Novo
+  label_logged_as: Ligado como
+  label_environment: Ambiente
+  label_authentication: Autenticação
+  label_auth_source: Modo de autenticação
+  label_auth_source_new: Novo modo de autenticação
+  label_auth_source_plural: Modos de autenticação
+  label_subproject_plural: Sub-projectos
+  label_and_its_subprojects: "{{value}} e sub-projectos"
+  label_min_max_length: Tamanho mínimo-máximo
+  label_list: Lista
+  label_date: Data
+  label_integer: Inteiro
+  label_float: Decimal
+  label_boolean: Booleano
+  label_string: Texto
+  label_text: Texto longo
+  label_attribute: Atributo
+  label_attribute_plural: Atributos
+  label_download: "{{count}} Download"
+  label_download_plural: "{{count}} Downloads"
+  label_no_data: Sem dados para mostrar
+  label_change_status: Mudar estado
+  label_history: Histórico
+  label_attachment: Ficheiro
+  label_attachment_new: Novo ficheiro
+  label_attachment_delete: Apagar ficheiro
+  label_attachment_plural: Ficheiros
+  label_file_added: Ficheiro adicionado
+  label_report: Relatório
+  label_report_plural: Relatórios
+  label_news: Notícia
+  label_news_new: Nova notícia
+  label_news_plural: Notícias
+  label_news_latest: Últimas notícias
+  label_news_view_all: Ver todas as notícias
+  label_news_added: Notícia adicionada
+  label_change_log: Change log
+  label_settings: Configurações
+  label_overview: Visão geral
+  label_version: Versão
+  label_version_new: Nova versão
+  label_version_plural: Versões
+  label_confirmation: Confirmação
+  label_export_to: 'Também disponível em:'
+  label_read: Ler...
+  label_public_projects: Projectos públicos
+  label_open_issues: aberto
+  label_open_issues_plural: abertos
+  label_closed_issues: fechado
+  label_closed_issues_plural: fechados
+  label_x_open_issues_abbr_on_total:
+    zero:  0 open / {{total}}
+    one:   1 open / {{total}}
+    other: "{{count}} open / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 open
+    one:   1 open
+    other: "{{count}} open"
+  label_x_closed_issues_abbr:
+    zero:  0 closed
+    one:   1 closed
+    other: "{{count}} closed"
+  label_total: Total
+  label_permissions: Permissões
+  label_current_status: Estado actual
+  label_new_statuses_allowed: Novos estados permitidos
+  label_all: todos
+  label_none: nenhum
+  label_nobody: ninguém
+  label_next: Próximo
+  label_previous: Anterior
+  label_used_by: Usado por
+  label_details: Detalhes
+  label_add_note: Adicionar nota
+  label_per_page: Por página
+  label_calendar: Calendário
+  label_months_from: meses de
+  label_gantt: Gantt
+  label_internal: Interno
+  label_last_changes: "últimas {{count}} alterações"
+  label_change_view_all: Ver todas as alterações
+  label_personalize_page: Personalizar esta página
+  label_comment: Comentário
+  label_comment_plural: Comentários
+  label_x_comments:
+    zero: no comments
+    one: 1 comment
+    other: "{{count}} comments"
+  label_comment_add: Adicionar comentário
+  label_comment_added: Comentário adicionado
+  label_comment_delete: Apagar comentários
+  label_query: Consulta personalizada
+  label_query_plural: Consultas personalizadas
+  label_query_new: Nova consulta
+  label_filter_add: Adicionar filtro
+  label_filter_plural: Filtros
+  label_equals: é
+  label_not_equals: não é
+  label_in_less_than: em menos de
+  label_in_more_than: em mais de
+  label_in: em
+  label_today: hoje
+  label_all_time: sempre
+  label_yesterday: ontem
+  label_this_week: esta semana
+  label_last_week: semana passada
+  label_last_n_days: "últimos {{count}} dias"
+  label_this_month: este mês
+  label_last_month: mês passado
+  label_this_year: este ano
+  label_date_range: Date range
+  label_less_than_ago: menos de dias atrás
+  label_more_than_ago: mais de dias atrás
+  label_ago: dias atrás
+  label_contains: contém
+  label_not_contains: não contém
+  label_day_plural: dias
+  label_repository: Repositório
+  label_repository_plural: Repositórios
+  label_browse: Navegar
+  label_modification: "{{count}} alteração"
+  label_modification_plural: "{{count}} alterações"
+  label_revision: Revisão
+  label_revision_plural: Revisões
+  label_associated_revisions: Revisões associadas
+  label_added: adicionado
+  label_modified: modificado
+  label_copied: copiado
+  label_renamed: renomeado
+  label_deleted: apagado
+  label_latest_revision: Última revisão
+  label_latest_revision_plural: Últimas revisões
+  label_view_revisions: Ver revisões
+  label_max_size: Tamanho máximo
+  label_sort_highest: Mover para o início
+  label_sort_higher: Mover para cima
+  label_sort_lower: Mover para baixo
+  label_sort_lowest: Mover para o fim
+  label_roadmap: Roadmap
+  label_roadmap_due_in: "Termina em {{value}}"
+  label_roadmap_overdue: "Atrasado {{value}}"
+  label_roadmap_no_issues: Sem tarefas para esta versão
+  label_search: Procurar
+  label_result_plural: Resultados
+  label_all_words: Todas as palavras
+  label_wiki: Wiki
+  label_wiki_edit: Edição da Wiki
+  label_wiki_edit_plural: Edições da Wiki
+  label_wiki_page: Página da Wiki
+  label_wiki_page_plural: Páginas da Wiki
+  label_index_by_title: Índice por título
+  label_index_by_date: Índice por data
+  label_current_version: Versão actual
+  label_preview: Pré-visualizar
+  label_feed_plural: Feeds
+  label_changes_details: Detalhes de todas as mudanças
+  label_issue_tracking: Tarefas
+  label_spent_time: Tempo gasto
+  label_f_hour: "{{value}} hora"
+  label_f_hour_plural: "{{value}} horas"
+  label_time_tracking: Registo de tempo
+  label_change_plural: Mudanças
+  label_statistics: Estatísticas
+  label_commits_per_month: Commits por mês
+  label_commits_per_author: Commits por autor
+  label_view_diff: Ver diferenças
+  label_diff_inline: inline
+  label_diff_side_by_side: lado a lado
+  label_options: Opções
+  label_copy_workflow_from: Copiar workflow de
+  label_permissions_report: Relatório de permissões
+  label_watched_issues: Tarefas observadas
+  label_related_issues: Tarefas relacionadas
+  label_applied_status: Estado aplicado
+  label_loading: A carregar...
+  label_relation_new: Nova relação
+  label_relation_delete: Apagar relação
+  label_relates_to: relacionado a
+  label_duplicates: duplica
+  label_duplicated_by: duplicado por
+  label_blocks: bloqueia
+  label_blocked_by: bloqueado por
+  label_precedes: precede
+  label_follows: segue
+  label_end_to_start: fim a início
+  label_end_to_end: fim a fim
+  label_start_to_start: início a início
+  label_start_to_end: início a fim
+  label_stay_logged_in: Guardar sessão
+  label_disabled: desactivado
+  label_show_completed_versions: Mostrar versões acabadas
+  label_me: eu
+  label_board: Forum
+  label_board_new: Novo forum
+  label_board_plural: Forums
+  label_topic_plural: Tópicos
+  label_message_plural: Mensagens
+  label_message_last: Última mensagem
+  label_message_new: Nova mensagem
+  label_message_posted: Mensagem adicionada
+  label_reply_plural: Respostas
+  label_send_information: Enviar dados da conta para o utilizador
+  label_year: Ano
+  label_month: mês
+  label_week: Semana
+  label_date_from: De
+  label_date_to: Para
+  label_language_based: Baseado na língua do utilizador
+  label_sort_by: "Ordenar por {{value}}"
+  label_send_test_email: enviar um e-mail de teste
+  label_feeds_access_key_created_on: "Chave RSS criada há {{value}} atrás"
+  label_module_plural: Módulos
+  label_added_time_by: "Adicionado por {{author}} há {{age}} atrás"
+  label_updated_time: "Alterado há {{value}} atrás"
+  label_jump_to_a_project: Ir para o projecto...
+  label_file_plural: Ficheiros
+  label_changeset_plural: Changesets
+  label_default_columns: Colunas por omissão
+  label_no_change_option: (sem alteração)
+  label_bulk_edit_selected_issues: Editar tarefas seleccionadas em conjunto
+  label_theme: Tema
+  label_default: Padrão
+  label_search_titles_only: Procurar apenas em títulos
+  label_user_mail_option_all: "Para qualquer evento em todos os meus projectos"
+  label_user_mail_option_selected: "Para qualquer evento apenas nos projectos seleccionados..."
+  label_user_mail_option_none: "Apenas para coisas que esteja a observar ou esteja envolvido"
+  label_user_mail_no_self_notified: "Não quero ser notificado de alterações feitas por mim"
+  label_registration_activation_by_email: Activação da conta por e-mail
+  label_registration_manual_activation: Activação manual da conta
+  label_registration_automatic_activation: Activação automática da conta
+  label_display_per_page: "Por página: {{value}}'"
+  label_age: Idade
+  label_change_properties: Mudar propriedades
+  label_general: Geral
+  label_more: Mais
+  label_scm: SCM
+  label_plugins: Extensões
+  label_ldap_authentication: Autenticação LDAP
+  label_downloads_abbr: D/L
+  label_optional_description: Descrição opcional
+  label_add_another_file: Adicionar outro ficheiro
+  label_preferences: Preferências
+  label_chronological_order: Em ordem cronológica
+  label_reverse_chronological_order: Em ordem cronológica inversa
+  label_planning: Planeamento
+  label_incoming_emails: E-mails a chegar
+  label_generate_key: Gerar uma chave
+  label_issue_watchers: Observadores
+  
+  button_login: Entrar
+  button_submit: Submeter
+  button_save: Guardar
+  button_check_all: Marcar tudo
+  button_uncheck_all: Desmarcar tudo
+  button_delete: Apagar
+  button_create: Criar
+  button_test: Testar
+  button_edit: Editar
+  button_add: Adicionar
+  button_change: Alterar
+  button_apply: Aplicar
+  button_clear: Limpar
+  button_lock: Bloquear
+  button_unlock: Desbloquear
+  button_download: Download
+  button_list: Listar
+  button_view: Ver
+  button_move: Mover
+  button_back: Voltar
+  button_cancel: Cancelar
+  button_activate: Activar
+  button_sort: Ordenar
+  button_log_time: Tempo de trabalho
+  button_rollback: Voltar para esta versão
+  button_watch: Observar
+  button_unwatch: Deixar de observar
+  button_reply: Responder
+  button_archive: Arquivar
+  button_unarchive: Desarquivar
+  button_reset: Reinicializar
+  button_rename: Renomear
+  button_change_password: Mudar palavra-chave
+  button_copy: Copiar
+  button_annotate: Anotar
+  button_update: Actualizar
+  button_configure: Configurar
+  button_quote: Citar
+  
+  status_active: activo
+  status_registered: registado
+  status_locked: bloqueado
+  
+  text_select_mail_notifications: Seleccionar as acções que originam uma notificação por e-mail.
+  text_regexp_info: ex. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 siginifica sem restrição
+  text_project_destroy_confirmation: Tem a certeza que deseja apagar o projecto e todos os dados relacionados?
+  text_subprojects_destroy_warning: "O(s) seu(s) sub-projecto(s): {{value}} também será/serão apagado(s).'"
+  text_workflow_edit: Seleccione um papel e um tipo de tarefa para editar o workflow
+  text_are_you_sure: Tem a certeza?
+  text_journal_changed: "mudado de {{old}} para {{new}}"
+  text_journal_set_to: "alterado para {{value}}"
+  text_journal_deleted: apagado
+  text_tip_task_begin_day: tarefa a começar neste dia
+  text_tip_task_end_day: tarefa a acabar neste dia
+  text_tip_task_begin_end_day: tarefa a começar e acabar neste dia
+  text_project_identifier_info: 'Apenas são permitidos letras minúsculas (a-z), números e hífens.<br />Uma vez guardado, o identificador não poderá ser alterado.'
+  text_caracters_maximum: "máximo {{count}} caracteres."
+  text_caracters_minimum: "Deve ter pelo menos {{count}} caracteres."
+  text_length_between: "Deve ter entre {{min}} e {{max}} caracteres."
+  text_tracker_no_workflow: Sem workflow definido para este tipo de tarefa.
+  text_unallowed_characters: Caracteres não permitidos
+  text_comma_separated: Permitidos múltiplos valores (separados por vírgula).
+  text_issues_ref_in_commit_messages: Referenciando e fechando tarefas em mensagens de commit
+  text_issue_added: "Tarefa {{id}} foi criada por {{author}}."
+  text_issue_updated: "Tarefa {{id}} foi actualizada por {{author}}."
+  text_wiki_destroy_confirmation: Tem a certeza que deseja apagar este wiki e todo o seu conteúdo?
+  text_issue_category_destroy_question: "Algumas tarefas ({{count}}) estão atribuídas a esta categoria. O que quer fazer?"
+  text_issue_category_destroy_assignments: Remover as atribuições à categoria
+  text_issue_category_reassign_to: Re-atribuir as tarefas para esta categoria
+  text_user_mail_option: "Para projectos não seleccionados, apenas receberá notificações acerca de coisas que está a observar ou está envolvido (ex. tarefas das quais foi o criador ou lhes foram atribuídas)."
+  text_no_configuration_data: "Papeis, tipos de tarefas, estados das tarefas e workflows ainda não foram configurados.\nÉ extremamente recomendado carregar as configurações padrão. Será capaz de as modificar depois de estarem carregadas."
+  text_load_default_configuration: Carregar as configurações padrão
+  text_status_changed_by_changeset: "Aplicado no changeset {{value}}."
+  text_issues_destroy_confirmation: 'Tem a certeza que deseja apagar a(s) tarefa(s) seleccionada(s)?'
+  text_select_project_modules: 'Seleccione os módulos a activar para este projecto:'
+  text_default_administrator_account_changed: Conta default de administrador alterada.
+  text_file_repository_writable: Repositório de ficheiros com permissões de escrita
+  text_rmagick_available: RMagick disponível (opcional)
+  text_destroy_time_entries_question: %.02f horas de trabalho foram atribuídas a estas tarefas que vai apagar. O que deseja fazer?
+  text_destroy_time_entries: Apagar as horas
+  text_assign_time_entries_to_project: Atribuir as horas ao projecto
+  text_reassign_time_entries: 'Re-atribuir as horas para esta tarefa:'
+  text_user_wrote: "{{value}} escreveu:'"
+  text_enumeration_destroy_question: "{{count}} objectos estão atribuídos a este valor.'"
+  text_enumeration_category_reassign_to: 'Re-atribuí-los para este valor:'
+  text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desactivadas.\nConfigure o seu servidor de SMTP em config/email.yml e reinicie a aplicação para activar estas funcionalidades."
+  
+  default_role_manager: Gestor
+  default_role_developper: Programador
+  default_role_reporter: Repórter
+  default_tracker_bug: Bug
+  default_tracker_feature: Funcionalidade
+  default_tracker_support: Suporte
+  default_issue_status_new: Novo
+  default_issue_status_assigned: Atribuído
+  default_issue_status_resolved: Resolvido
+  default_issue_status_feedback: Feedback
+  default_issue_status_closed: Fechado
+  default_issue_status_rejected: Rejeitado
+  default_doc_category_user: Documentação de utilizador
+  default_doc_category_tech: Documentação técnica
+  default_priority_low: Baixa
+  default_priority_normal: Normal
+  default_priority_high: Alta
+  default_priority_urgent: Urgente
+  default_priority_immediate: Imediata
+  default_activity_design: Planeamento
+  default_activity_development: Desenvolvimento
+  
+  enumeration_issue_priorities: Prioridade de tarefas
+  enumeration_doc_categories: Categorias de documentos
+  enumeration_activities: Actividades (Registo de tempo)
+  setting_plain_text_mail: Apenas texto simples (sem HTML)
+  permission_view_files: Ver ficheiros
+  permission_edit_issues: Editar tarefas
+  permission_edit_own_time_entries: Editar horas pessoais
+  permission_manage_public_queries: Gerir queries públicas
+  permission_add_issues: Adicionar tarefas
+  permission_log_time: Registar tempo gasto
+  permission_view_changesets: Ver changesets
+  permission_view_time_entries: Ver tempo gasto
+  permission_manage_versions: Gerir versões
+  permission_manage_wiki: Gerir wiki
+  permission_manage_categories: Gerir categorias de tarefas
+  permission_protect_wiki_pages: Proteger páginas de wiki
+  permission_comment_news: Comentar notícias
+  permission_delete_messages: Apagar mensagens
+  permission_select_project_modules: Seleccionar módulos do projecto
+  permission_manage_documents: Gerir documentos
+  permission_edit_wiki_pages: Editar páginas de wiki
+  permission_add_issue_watchers: Adicionar observadores
+  permission_view_gantt: ver diagrama de Gantt
+  permission_move_issues: Mover tarefas
+  permission_manage_issue_relations: Gerir relações de tarefas
+  permission_delete_wiki_pages: Apagar páginas de wiki
+  permission_manage_boards: Gerir forums
+  permission_delete_wiki_pages_attachments: Apagar anexos
+  permission_view_wiki_edits: Ver histórico da wiki
+  permission_add_messages: Submeter mensagens
+  permission_view_messages: Ver mensagens
+  permission_manage_files: Gerir ficheiros
+  permission_edit_issue_notes: Editar notas de tarefas
+  permission_manage_news: Gerir notícias
+  permission_view_calendar: Ver calendário
+  permission_manage_members: Gerir membros
+  permission_edit_messages: Editar mensagens
+  permission_delete_issues: Apagar tarefas
+  permission_view_issue_watchers: Ver lista de observadores
+  permission_manage_repository: Gerir repositório
+  permission_commit_access: Acesso a submissão
+  permission_browse_repository: Navegar em repositório
+  permission_view_documents: Ver documentos
+  permission_edit_project: Editar projecto
+  permission_add_issue_notes: Adicionar notas a tarefas
+  permission_save_queries: Guardar queries
+  permission_view_wiki_pages: Ver wiki
+  permission_rename_wiki_pages: Renomear páginas de wiki
+  permission_edit_time_entries: Editar entradas de tempo
+  permission_edit_own_issue_notes: Editar as prórpias notas
+  setting_gravatar_enabled: Utilizar icons Gravatar
+  label_example: Exemplo
+  text_repository_usernames_mapping: "Seleccionar ou actualizar o utilizador de Redmine mapeado a cada nome de utilizador encontrado no repositório.\nUtilizadores com o mesmo nome de utilizador ou email no Redmine e no repositório são mapeados automaticamente."
+  permission_edit_own_messages: Editar as próprias mensagens
+  permission_delete_own_messages: Apagar as próprias mensagens
+  label_user_activity: "Actividade de {{value}}"
+  label_updated_time_by: "Actualizado por {{author}} há {{age}}"
+  text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser mostrado.'
+  setting_diff_max_lines_displayed: Número máximo de linhas de diff mostradas
+  text_plugin_assets_writable: Plugin assets directory writable
+  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  button_create_and_continue: Create and continue
+  text_custom_field_possible_values_info: 'One line for each value'
+  label_display: Display
+  field_editable: Editable
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log

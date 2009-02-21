@@ -119,7 +119,7 @@ module IssuesHelper
       case detail.property
       when 'attr', 'cf'
         if !detail.old_value.blank?
-          label + " " + l(:text_journal_changed, old_value, value)
+          label + " " + l(:text_journal_changed, :old => old_value, :new => value)
         else
           label + " " + l(:text_journal_set_to, value)
         end

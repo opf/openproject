@@ -59,7 +59,7 @@ class UserTest < Test::Unit::TestCase
     u.login = 'newuser2'
     u.password, u.password_confirmation = "password", "password"
     assert !u.save
-    assert_equal 'activerecord_error_taken', u.errors.on(:mail)
+    assert_equal I18n.translate('activerecord.errors.messages.taken'), u.errors.on(:mail)
   end
 
   def test_update

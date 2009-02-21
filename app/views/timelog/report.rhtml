@@ -20,7 +20,7 @@
                                                                             [l(:label_day_plural).titleize, 'day']], @columns),
                                                         :onchange => "this.form.onsubmit();" %>
 
-  <%= l(:button_add) %>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l(@available_criterias[k][:label]), k]}),
+  <%= l(:button_add) %>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l_or_humanize(@available_criterias[k][:label]), k]}),
                                                           :onchange => "this.form.onsubmit();",
                                                           :style => 'width: 200px',
                                                           :id => nil,
@@ -33,7 +33,7 @@
 
 <% unless @criterias.empty? %>
 <div class="total-hours">
-<p><%= l(:label_total) %>: <%= html_hours(lwr(:label_f_hour, @total_hours)) %></p>
+<p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
 </div>
 
 <% unless @hours.empty? %>
@@ -41,7 +41,7 @@
 <thead>
 <tr>
 <% @criterias.each do |criteria| %>
-  <th><%= l(@available_criterias[criteria][:label]) %></th>
+  <th><%= l_or_humanize(@available_criterias[criteria][:label]) %></th>
 <% end %>
 <% columns_width = (40 / (@periods.length+1)).to_i %>
 <% @periods.each do |period| %>

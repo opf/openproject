@@ -129,20 +129,20 @@ class Issue < ActiveRecord::Base
   
   def validate
     if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
-      errors.add :due_date, :activerecord_error_not_a_date
+      errors.add :due_date, :not_a_date
     end
     
     if self.due_date and self.start_date and self.due_date < self.start_date
-      errors.add :due_date, :activerecord_error_greater_than_start_date
+      errors.add :due_date, :greater_than_start_date
     end
     
     if start_date && soonest_start && start_date < soonest_start
-      errors.add :start_date, :activerecord_error_invalid
+      errors.add :start_date, :invalid
     end
   end
   
   def validate_on_create
-    errors.add :tracker_id, :activerecord_error_invalid unless project.trackers.include?(tracker)
+    errors.add :tracker_id, :invalid unless project.trackers.include?(tracker)
   end
   
   def before_create

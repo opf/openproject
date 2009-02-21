@@ -12,63 +12,30 @@ class Engines::Plugin::Migrator < ActiveRecord::Migrator
   # We need to be able to set the 'current' engine being migrated.
   cattr_accessor :current_plugin
 
-  # Runs the migrations from a plugin, up (or down) to the version given
-  def self.migrate_plugin(plugin, version)
-    self.current_plugin = plugin
-    # There seems to be a bug in Rails' own migrations, where migrating
-    # to the existing version causes all migrations to be run where that
-    # migration number doesn't exist (i.e. zero). We could fix this by
-    # removing the line if the version hits zero...?
-    return if current_version(plugin) == version
-    migrate(plugin.migration_directory, version)
-  end
-  
-  # Returns the name of the table used to store schema information about
-  # installed plugins.
-  #
-  # See Engines.schema_info_table for more details.
-  def self.schema_info_table_name
-    proper_table_name Engines.schema_info_table
-  end
-
-  # Returns the current version of the given plugin
-  def self.current_version(plugin=current_plugin)
-    result = ActiveRecord::Base.connection.select_one(<<-ESQL
-      SELECT version FROM #{schema_info_table_name} 
-      WHERE plugin_name = '#{plugin.name}'
-    ESQL
-    )
-    if result
-      result["version"].to_i
-    else
-      # There probably isn't an entry for this engine in the migration info table.
-      # We need to create that entry, and set the version to 0
-      ActiveRecord::Base.connection.execute(<<-ESQL
-        INSERT INTO #{schema_info_table_name} (version, plugin_name) 
-        VALUES (0,'#{plugin.name}')
-      ESQL
-      )      
-      0
+  class << self
+    # Runs the migrations from a plugin, up (or down) to the version given
+    def migrate_plugin(plugin, version)
+      self.current_plugin = plugin
+      return if current_version(plugin) == version
+      migrate(plugin.migration_directory, version)
+    end
+    
+    def current_version(plugin=current_plugin)
+      # Delete migrations that don't match .. to_i will work because the number comes first
+      ::ActiveRecord::Base.connection.select_values(
+        "SELECT version FROM #{schema_migrations_table_name}"
+      ).delete_if{ |v| v.match(/-#{plugin.name}/) == nil }.map(&:to_i).max || 0
     end
   end
-  
-  def migrated(plugin=current_plugin)
-    current = ActiveRecord::Base.connection.select_value(<<-ESQL
-      SELECT version FROM #{self.class.schema_info_table_name}
-      WHERE plugin_name = '#{plugin.name}'
-    ESQL
-    ).to_i
-    current ? (1..current).to_a : []
+       
+  def migrated
+    sm_table = self.class.schema_migrations_table_name
+    ::ActiveRecord::Base.connection.select_values(
+      "SELECT version FROM #{sm_table}"
+    ).delete_if{ |v| v.match(/-#{current_plugin.name}/) == nil }.map(&:to_i).sort
   end
   
-  # Sets the version of the plugin in Engines::Plugin::Migrator.current_plugin to
-  # the given version.
   def record_version_state_after_migrating(version)
-    ActiveRecord::Base.connection.update(<<-ESQL
-      UPDATE #{self.class.schema_info_table_name} 
-      SET version = #{down? ? version.to_i - 1 : version.to_i} 
-      WHERE plugin_name = '#{self.current_plugin.name}'
-    ESQL
-    )
+    super(version.to_s + "-" + current_plugin.name)
   end
 end

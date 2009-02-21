@@ -26,13 +26,13 @@ class TimeEntry < ActiveRecord::Base
   attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 
   acts_as_customizable
-  acts_as_event :title => Proc.new {|o| "#{o.user}: #{lwr(:label_f_hour, o.hours)} (#{(o.issue || o.project).event_title})"},
+  acts_as_event :title => Proc.new {|o| "#{o.user}: #{l_hours(o.hours)} (#{(o.issue || o.project).event_title})"},
                 :url => Proc.new {|o| {:controller => 'timelog', :action => 'details', :project_id => o.project}},
                 :author => :user,
                 :description => :comments
   
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
-  validates_numericality_of :hours, :allow_nil => true, :message => :activerecord_error_invalid
+  validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
   def after_initialize
@@ -48,9 +48,9 @@ class TimeEntry < ActiveRecord::Base
   end
   
   def validate
-    errors.add :hours, :activerecord_error_invalid if hours && (hours < 0 || hours >= 1000)
-    errors.add :project_id, :activerecord_error_invalid if project.nil?
-    errors.add :issue_id, :activerecord_error_invalid if (issue_id && !issue) || (issue && project!=issue.project)
+    errors.add :hours, :invalid if hours && (hours < 0 || hours >= 1000)
+    errors.add :project_id, :invalid if project.nil?
+    errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project)
   end
   
   def hours=(h)

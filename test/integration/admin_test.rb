@@ -26,7 +26,7 @@ class AdminTest < ActionController::IntegrationTest
     assert_response :success
     assert_template "users/add"
     post "/users/add", :user => { :login => "psmith", :firstname => "Paul", :lastname => "Smith", :mail => "psmith@somenet.foo", :language => "en" }, :password => "psmith09", :password_confirmation => "psmith09"
-    assert_redirected_to "users/list"
+    assert_redirected_to "/users"
     
     user = User.find_by_login("psmith")
     assert_kind_of User, user
@@ -35,7 +35,7 @@ class AdminTest < ActionController::IntegrationTest
     assert_equal "Paul", logged_user.firstname
     
     post "users/edit", :id => user.id, :user => { :status => User::STATUS_LOCKED }
-    assert_redirected_to "users/list"
+    assert_redirected_to "/users"
     locked_user = User.try_to_login("psmith", "psmith09")
     assert_equal nil, locked_user
   end

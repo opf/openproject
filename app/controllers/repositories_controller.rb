@@ -238,8 +238,7 @@ private
     changes_by_day.each {|c| changes_by_month[c.first.to_date.months_ago] += c.last }
    
     fields = []
-    month_names = l(:actionview_datehelper_select_month_names_abbr).split(',')
-    12.times {|m| fields << month_names[((Date.today.month - 1 - m) % 12)]}
+    12.times {|m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1)}
   
     graph = SVG::Graph::Bar.new(
       :height => 300,

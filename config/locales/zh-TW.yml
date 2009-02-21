@@ -1,0 +1,807 @@
+# Chinese (Taiwan) translations for Ruby on Rails 
+# by tsechingho (http://github.com/tsechingho)
+
+"zh-TW":
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b%d日"
+      long: "%Y年%b%d日"
+    day_names: [星期天, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六]
+    abbr_day_names: [日, 一, 二, 三, 四, 五, 六]
+    month_names: [~, 一月, 二月, 三月, 四月, 五月, 六月, 七月, 八月, 九月, 十月, 十一月, 十二月]
+    abbr_month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
+    order: [ :year, :month, :day ]
+  
+  time:
+    formats:
+      default: "%Y年%b%d日 %A %H:%M:%S %Z"
+      short: "%b%d日 %H:%M"
+      long: "%Y年%b%d日 %H:%M"
+    am: "上午"
+    pm: "下午"
+  
+  datetime:
+    distance_in_words:
+      half_a_minute: "半分鐘"
+      less_than_x_seconds:
+        one: "一秒内"
+        other: "少於 {{count}} 秒"
+      x_seconds:
+        one: "一秒"
+        other: "{{count}} 秒"
+      less_than_x_minutes:
+        one: "一分鐘内"
+        other: "少於 {{count}} 分鐘"
+      x_minutes:
+        one: "一分鐘"
+        other: "{{count}} 分鐘"
+      about_x_hours:
+        one: "大約一小時"
+        other: "大約 {{count}} 小時"
+      x_days:
+        one: "一天"
+        other: "{{count}} 天"
+      about_x_months:
+        one: "大約一個月"
+        other: "大約 {{count}} 個月"
+      x_months:
+        one: "一個月"
+        other: "{{count}} 個月"
+      about_x_years:
+        one: "大約一年"
+        other: "大約 {{count}} 年"
+      over_x_years:
+        one: "一年以上"
+        other: "{{count}} 年以上"
+    prompts:
+      year:   "年"
+      month:  "月"
+      day:    "日"
+      hour:   "時"
+      minute: "分"
+      second: "秒"
+  
+  number:
+    format:
+      separator: "."
+      delimiter: ","
+      precision: 3
+    currency:
+      format:
+        format: "%u %n"
+        unit: "NT$"
+        separator: "."
+        delimiter: ","
+        precision: 2
+    percentage:
+      format:
+        delimiter: ""
+    precision:
+      format:
+        delimiter: ""
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units: [Bytes, KB, MB, GB, TB]
+  
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " 和 "
+      last_word_connector: ", 和 "
+  
+  activerecord:
+    errors:
+      template:
+        header: 
+          one: "有 1 個錯誤發生使得「{{model}}」無法被儲存。"
+          other: "有 {{count}} 個錯誤發生使得「{{model}}」無法被儲存。"
+        body: "下面欄位有問題："
+      messages:
+        inclusion: "沒有包含在列表中"
+        exclusion: "是被保留的"
+        invalid: "是無效的"
+        confirmation: "不符合確認值"
+        accepted: "必须是可被接受的"
+        empty: "不能留空"
+        blank: "不能是空白字元"
+        too_long: "過長（最長是 {{count}} 個字）"
+        too_short: "過短（最短是 {{count}} 個字）"
+        wrong_length: "字數錯誤（必須是 {{count}} 個字）"
+        taken: "已經被使用"
+        not_a_number: "不是數字"
+        greater_than: "必須大於 {{count}}"
+        greater_than_or_equal_to: "必須大於或等於 {{count}}"
+        equal_to: "必須等於 {{count}}"
+        less_than: "必須小於 {{count}}"
+        less_than_or_equal_to: "必須小於或等於 {{count}}"
+        odd: "必須是奇數"
+        even: "必須是偶數"
+        greater_than_start_date: "必須在起始日期之後"
+        not_same_project: "不屬於同一個專案"
+        circular_dependency: "這個關聯會導致環狀相依"
+
+  actionview_instancetag_blank_option: 請選擇
+  
+  general_text_No: '否'
+  general_text_Yes: '是'
+  general_text_no: '否'
+  general_text_yes: '是'
+  general_lang_name: 'Traditional Chinese (繁體中文)'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: Big5
+  general_pdf_encoding: Big5
+  general_first_day_of_week: '7'
+  
+  notice_account_updated: 帳戶更新資訊已儲存
+  notice_account_invalid_creditentials: 帳戶或密碼不正確
+  notice_account_password_updated: 帳戶新密碼已儲存
+  notice_account_wrong_password: 密碼不正確
+  notice_account_register_done: 帳號已建立成功。欲啟用您的帳號，請點擊系統確認信函中的啟用連結。
+  notice_account_unknown_email: 未知的使用者
+  notice_can_t_change_password: 這個帳號使用外部認證方式，無法變更其密碼。
+  notice_account_lost_email_sent: 包含選擇新密碼指示的電子郵件，已經寄出給您。
+  notice_account_activated: 您的帳號已經啟用，可用它登入系統。
+  notice_successful_create: 建立成功
+  notice_successful_update: 更新成功
+  notice_successful_delete: 刪除成功
+  notice_successful_connection: 連線成功
+  notice_file_not_found: 您想要存取的頁面已經不存在或被搬移至其他位置。
+  notice_locking_conflict: 資料已被其他使用者更新。
+  notice_not_authorized: 你未被授權存取此頁面。
+  notice_email_sent: "郵件已經成功寄送至以下收件者： {{value}}"
+  notice_email_error: "寄送郵件的過程中發生錯誤 ({{value}})"
+  notice_feeds_access_key_reseted: 您的 RSS 存取鍵已被重新設定。
+  notice_failed_to_save_issues: " {{count}} 個項目儲存失敗 (總共選取 {{total}} 個項目): {{ids}}."
+  notice_no_issue_selected: "未選擇任何項目！請勾選您想要編輯的項目。"
+  notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
+  notice_default_data_loaded: 預設組態已載入成功。
+  notice_unable_delete_version: 無法刪除版本。
+  
+  error_can_t_load_default_data: "無法載入預設組態： {{value}}"
+  error_scm_not_found: SCM 儲存庫中找不到這個專案或版本。
+  error_scm_command_failed: "嘗試存取儲存庫時發生錯誤： {{value}}"
+  error_scm_annotate: "SCM 儲存庫中無此項目或此項目無法被加註。"
+  error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
+  
+  warning_attachments_not_saved: "{{count}} 個附加檔案無法儲存。"
+  
+  mail_subject_lost_password: 您的 Redmine 網站密碼
+  mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
+  mail_subject_register: 啟用您的 Redmine 帳號
+  mail_body_register: '欲啟用您的 Redmine 帳號, 請點選以下鏈結:'
+  mail_body_account_information_external: "您可以使用 {{value}} 帳號登入 Redmine 網站。"
+  mail_body_account_information: 您的 Redmine 帳號資訊
+  mail_subject_account_activation_request: Redmine 帳號啟用需求通知
+  mail_body_account_activation_request: "有位新用戶 ({{value}}) 已經完成註冊，正等候您的審核：'"
+  mail_subject_reminder: "您有 {{count}} 個項目即將到期"
+  mail_body_reminder: "{{count}} 個指派給您的項目，將於 {{days}} 天之內到期："
+  
+  gui_validation_error: 1 個錯誤
+  gui_validation_error_plural: "{{count}} 個錯誤"
+  
+  field_name: 名稱
+  field_description: 概述
+  field_summary: 摘要
+  field_is_required: 必填
+  field_firstname: 名字
+  field_lastname: 姓氏
+  field_mail: 電子郵件
+  field_filename: 檔案名稱
+  field_filesize: 大小
+  field_downloads: 下載次數
+  field_author: 作者
+  field_created_on: 建立日期
+  field_updated_on: 更新
+  field_field_format: 格式
+  field_is_for_all: 給所有專案
+  field_possible_values: 可能值
+  field_regexp: 正規表示式
+  field_min_length: 最小長度
+  field_max_length: 最大長度
+  field_value: 值
+  field_category: 分類
+  field_title: 標題
+  field_project: 專案
+  field_issue: 項目
+  field_status: 狀態
+  field_notes: 筆記
+  field_is_closed: 項目結束
+  field_is_default: 預設值
+  field_tracker: 追蹤標籤
+  field_subject: 主旨
+  field_due_date: 完成日期
+  field_assigned_to: 分派給
+  field_priority: 優先權
+  field_fixed_version: 版本
+  field_user: 用戶
+  field_role: 角色
+  field_homepage: 網站首頁
+  field_is_public: 公開
+  field_parent: 父專案
+  field_is_in_chlog: 項目顯示於變更記錄中
+  field_is_in_roadmap: 項目顯示於版本藍圖中
+  field_login: 帳戶名稱
+  field_mail_notification: 電子郵件提醒選項
+  field_admin: 管理者
+  field_last_login_on: 最近連線日期
+  field_language: 語系
+  field_effective_date: 日期
+  field_password: 目前密碼
+  field_new_password: 新密碼
+  field_password_confirmation: 確認新密碼
+  field_version: 版本
+  field_type: Type
+  field_host: Host
+  field_port: 連接埠
+  field_account: 帳戶
+  field_base_dn: Base DN
+  field_attr_login: 登入屬性
+  field_attr_firstname: 名字屬性
+  field_attr_lastname: 姓氏屬性
+  field_attr_mail: 電子郵件信箱屬性
+  field_onthefly: 即時建立使用者
+  field_start_date: 開始日期
+  field_done_ratio: 完成百分比
+  field_auth_source: 認證模式
+  field_hide_mail: 隱藏我的電子郵件
+  field_comments: 註解
+  field_url: URL
+  field_start_page: 首頁
+  field_subproject: 子專案
+  field_hours: 小時
+  field_activity: 活動
+  field_spent_on: 日期
+  field_identifier: 代碼
+  field_is_filter: 用來作為過濾器
+  field_issue_to_id: 相關項目
+  field_delay: 逾期
+  field_assignable: 項目可被分派至此角色
+  field_redirect_existing_links: 重新導向現有連結
+  field_estimated_hours: 預估工時
+  field_column_names: 欄位
+  field_time_zone: 時區
+  field_searchable: 可用做搜尋條件
+  field_default_value: 預設值
+  field_comments_sorting: 註解排序
+  field_parent_title: 父頁面
+  field_editable: 可編輯
+  
+  setting_app_title: 標題
+  setting_app_subtitle: 副標題
+  setting_welcome_text: 歡迎詞
+  setting_default_language: 預設語系
+  setting_login_required: 需要驗證
+  setting_self_registration: 註冊選項
+  setting_attachment_max_size: 附件大小限制
+  setting_issues_export_limit: 項目匯出限制
+  setting_mail_from: 寄件者電子郵件
+  setting_bcc_recipients: 使用密件副本 (BCC)
+  setting_plain_text_mail: 純文字郵件 (不含 HTML)
+  setting_host_name: 主機名稱
+  setting_text_formatting: 文字格式
+  setting_wiki_compression: 壓縮 Wiki 歷史文章
+  setting_feeds_limit: RSS 新聞限制
+  setting_autofetch_changesets: 自動取得送交版次
+  setting_default_projects_public: 新建立之專案預設為「公開」
+  setting_sys_api_enabled: 啟用管理版本庫之網頁服務 (Web Service)
+  setting_commit_ref_keywords: 送交用於參照項目之關鍵字
+  setting_commit_fix_keywords: 送交用於修正項目之關鍵字
+  setting_autologin: 自動登入
+  setting_date_format: 日期格式
+  setting_time_format: 時間格式
+  setting_cross_project_issue_relations: 允許關聯至其它專案的項目
+  setting_issue_list_default_columns: 預設顯示於項目清單的欄位
+  setting_repositories_encodings: 版本庫編碼
+  setting_commit_logs_encoding: 送交訊息編碼
+  setting_emails_footer: 電子郵件附帶說明
+  setting_protocol: 協定
+  setting_per_page_options: 每頁顯示個數選項
+  setting_user_format: 使用者顯示格式
+  setting_activity_days_default: 專案活動顯示天數
+  setting_display_subprojects_issues: 預設於父專案中顯示子專案的項目
+  setting_enabled_scm: 啟用的 SCM
+  setting_mail_handler_api_enabled: 啟用處理傳入電子郵件的服務
+  setting_mail_handler_api_key: API 金鑰
+  setting_sequential_project_identifiers: 循序產生專案識別碼
+  setting_gravatar_enabled: 啟用 Gravatar 全球認證大頭像
+  setting_diff_max_lines_displayed: 差異顯示行數之最大值
+  
+  permission_edit_project: 編輯專案
+  permission_select_project_modules: 選擇專案模組
+  permission_manage_members: 管理成員
+  permission_manage_versions: 管理版本
+  permission_manage_categories: 管理項目分類
+  permission_add_issues: 新增項目
+  permission_edit_issues: 編輯項目
+  permission_manage_issue_relations: 管理項目關聯
+  permission_add_issue_notes: 新增筆記
+  permission_edit_issue_notes: 編輯筆記
+  permission_edit_own_issue_notes: 編輯自己的筆記
+  permission_move_issues: 搬移項目
+  permission_delete_issues: 刪除項目
+  permission_manage_public_queries: 管理公開查詢
+  permission_save_queries: 儲存查詢
+  permission_view_gantt: 檢視甘特圖
+  permission_view_calendar: 檢視日曆
+  permission_view_issue_watchers: 檢視觀察者清單
+  permission_add_issue_watchers: 增加觀察者
+  permission_log_time: 紀錄耗用工時
+  permission_view_time_entries: 檢視耗用工時
+  permission_edit_time_entries: 編輯工時紀錄
+  permission_edit_own_time_entries: 編輯自己的工時記錄
+  permission_manage_news: 管理新聞
+  permission_comment_news: 註解新聞
+  permission_manage_documents: 管理文件
+  permission_view_documents: 檢視文件
+  permission_manage_files: 管理檔案
+  permission_view_files: 檢視檔案
+  permission_manage_wiki: 管理 wiki
+  permission_rename_wiki_pages: 重新命名 wiki 頁面
+  permission_delete_wiki_pages: 刪除 wiki 頁面
+  permission_view_wiki_pages: 檢視 wiki
+  permission_view_wiki_edits: 檢視 wiki 歷史
+  permission_edit_wiki_pages: 編輯 wiki 頁面
+  permission_delete_wiki_pages_attachments: 刪除附件
+  permission_protect_wiki_pages: 專案 wiki 頁面
+  permission_manage_repository: 管理版本庫
+  permission_browse_repository: 瀏覽版本庫
+  permission_view_changesets: 檢視變更集
+  permission_commit_access: 存取送交之變更
+  permission_manage_boards: 管理討論版
+  permission_view_messages: 檢視訊息
+  permission_add_messages: 新增訊息
+  permission_edit_messages: 編輯訊息
+  permission_edit_own_messages: 編輯自己的訊息
+  permission_delete_messages: 刪除訊息
+  permission_delete_own_messages: 刪除自己的訊息
+  
+  project_module_issue_tracking: 項目追蹤
+  project_module_time_tracking: 工時追蹤
+  project_module_news: 新聞
+  project_module_documents: 文件
+  project_module_files: 檔案
+  project_module_wiki: Wiki
+  project_module_repository: 版本控管
+  project_module_boards: 討論區
+  
+  label_user: 用戶
+  label_user_plural: 用戶清單
+  label_user_new: 建立新的帳戶
+  label_project: 專案
+  label_project_new: 建立新的專案
+  label_project_plural: 專案清單
+  label_x_projects:
+    zero:  no projects
+    one:   1 project
+    other: "{{count}} projects"
+  label_project_all: 全部的專案
+  label_project_latest: 最近的專案
+  label_issue: 項目
+  label_issue_new: 建立新的項目
+  label_issue_plural: 項目清單
+  label_issue_view_all: 檢視所有項目
+  label_issues_by: "項目按 {{value}} 分組顯示"
+  label_issue_added: 項目已新增
+  label_issue_updated: 項目已更新
+  label_document: 文件
+  label_document_new: 建立新的文件
+  label_document_plural: 文件
+  label_document_added: 文件已新增
+  label_role: 角色
+  label_role_plural: 角色
+  label_role_new: 建立新角色
+  label_role_and_permissions: 角色與權限
+  label_member: 成員
+  label_member_new: 建立新的成員
+  label_member_plural: 成員
+  label_tracker: 追蹤標籤
+  label_tracker_plural: 追蹤標籤清單
+  label_tracker_new: 建立新的追蹤標籤
+  label_workflow: 流程
+  label_issue_status: 項目狀態
+  label_issue_status_plural: 項目狀態清單
+  label_issue_status_new: 建立新的狀態
+  label_issue_category: 項目分類
+  label_issue_category_plural: 項目分類清單
+  label_issue_category_new: 建立新的分類
+  label_custom_field: 自訂欄位
+  label_custom_field_plural: 自訂欄位清單
+  label_custom_field_new: 建立新的自訂欄位
+  label_enumerations: 列舉值清單
+  label_enumeration_new: 建立新的列舉值
+  label_information: 資訊
+  label_information_plural: 資訊
+  label_please_login: 請先登入
+  label_register: 註冊
+  label_password_lost: 遺失密碼
+  label_home: 網站首頁
+  label_my_page: 帳戶首頁
+  label_my_account: 我的帳戶
+  label_my_projects: 我的專案
+  label_administration: 網站管理
+  label_login: 登入
+  label_logout: 登出
+  label_help: 說明
+  label_reported_issues: 我通報的項目
+  label_assigned_to_me_issues: 分派給我的項目
+  label_last_login: 最近一次連線
+  label_registered_on: 註冊於
+  label_activity: 活動
+  label_overall_activity: 檢視所有活動
+  label_user_activity: "{{value}} 的活動"
+  label_new: 建立新的...
+  label_logged_as: 目前登入
+  label_environment: 環境
+  label_authentication: 認證
+  label_auth_source: 認證模式
+  label_auth_source_new: 建立新認證模式
+  label_auth_source_plural: 認證模式清單
+  label_subproject_plural: 子專案
+  label_and_its_subprojects: "{{value}} 與其子專案"
+  label_min_max_length: 最小 - 最大 長度
+  label_list: 清單
+  label_date: 日期
+  label_integer: 整數
+  label_float: 福點數
+  label_boolean: 布林
+  label_string: 文字
+  label_text: 長文字
+  label_attribute: 屬性
+  label_attribute_plural: 屬性
+  label_download: "{{count}} 個下載"
+  label_download_plural: "{{count}} 個下載"
+  label_no_data: 沒有任何資料可供顯示
+  label_change_status: 變更狀態
+  label_history: 歷史
+  label_attachment: 檔案
+  label_attachment_new: 建立新的檔案
+  label_attachment_delete: 刪除檔案
+  label_attachment_plural: 檔案
+  label_file_added: 檔案已新增
+  label_report: 報告
+  label_report_plural: 報告
+  label_news: 新聞
+  label_news_new: 建立新的新聞
+  label_news_plural: 新聞
+  label_news_latest: 最近新聞
+  label_news_view_all: 檢視所有新聞
+  label_news_added: 新聞已新增
+  label_change_log: 變更記錄
+  label_settings: 設定
+  label_overview: 概觀
+  label_version: 版本
+  label_version_new: 建立新的版本
+  label_version_plural: 版本
+  label_confirmation: 確認
+  label_export_to: 匯出至
+  label_read: 讀取...
+  label_public_projects: 公開專案
+  label_open_issues: 進行中
+  label_open_issues_plural: 進行中
+  label_closed_issues: 已結束
+  label_closed_issues_plural: 已結束
+  label_x_open_issues_abbr_on_total:
+    zero:  0 open / {{total}}
+    one:   1 open / {{total}}
+    other: "{{count}} open / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 open
+    one:   1 open
+    other: "{{count}} open"
+  label_x_closed_issues_abbr:
+    zero:  0 closed
+    one:   1 closed
+    other: "{{count}} closed"
+  label_total: 總計
+  label_permissions: 權限
+  label_current_status: 目前狀態
+  label_new_statuses_allowed: 可變更至以下狀態
+  label_all: 全部
+  label_none: 空值
+  label_nobody: 無名
+  label_next: 下一頁
+  label_previous: 上一頁
+  label_used_by: Used by
+  label_details: 明細
+  label_add_note: 加入一個新筆記
+  label_per_page: 每頁
+  label_calendar: 日曆
+  label_months_from: 個月, 開始月份
+  label_gantt: 甘特圖
+  label_internal: 內部
+  label_last_changes: "最近 {{count}} 個變更"
+  label_change_view_all: 檢視所有變更
+  label_personalize_page: 自訂版面
+  label_comment: 註解
+  label_comment_plural: 註解
+  label_x_comments:
+    zero: no comments
+    one: 1 comment
+    other: "{{count}} comments"
+  label_comment_add: 加入新註解
+  label_comment_added: 新註解已加入
+  label_comment_delete: 刪除註解
+  label_query: 自訂查詢
+  label_query_plural: 自訂查詢
+  label_query_new: 建立新的查詢
+  label_filter_add: 加入新篩選條件
+  label_filter_plural: 篩選條件
+  label_equals: 等於
+  label_not_equals: 不等於
+  label_in_less_than: 在小於
+  label_in_more_than: 在大於
+  label_in: 在
+  label_today: 今天
+  label_all_time: all time
+  label_yesterday: 昨天
+  label_this_week: 本週
+  label_last_week: 上週
+  label_last_n_days: "過去 {{count}} 天"
+  label_this_month: 這個月
+  label_last_month: 上個月
+  label_this_year: 今年
+  label_date_range: 日期區間
+  label_less_than_ago: 小於幾天之前
+  label_more_than_ago: 大於幾天之前
+  label_ago: 天以前
+  label_contains: 包含
+  label_not_contains: 不包含
+  label_day_plural: 天
+  label_repository: 版本控管
+  label_repository_plural: 版本控管
+  label_browse: 瀏覽
+  label_modification: "{{count}} 變更"
+  label_modification_plural: "{{count}} 變更"
+  label_revision: 版次
+  label_revision_plural: 版次清單
+  label_associated_revisions: 相關版次
+  label_added: 已新增
+  label_modified: 已修改
+  label_copied: 已複製
+  label_renamed: 已重新命名
+  label_deleted: 已刪除
+  label_latest_revision: 最新版次
+  label_latest_revision_plural: 最近版次清單
+  label_view_revisions: 檢視版次清單
+  label_max_size: 最大長度
+  label_sort_highest: 移動至開頭
+  label_sort_higher: 往上移動
+  label_sort_lower: 往下移動
+  label_sort_lowest: 移動至結尾
+  label_roadmap: 版本藍圖
+  label_roadmap_due_in: 倒數天數： 
+  label_roadmap_overdue: "{{value}} 逾期"
+  label_roadmap_no_issues: 此版本尚未包含任何項目
+  label_search: 搜尋
+  label_result_plural: 結果
+  label_all_words: All words
+  label_wiki: Wiki
+  label_wiki_edit: Wiki 編輯
+  label_wiki_edit_plural: Wiki 編輯
+  label_wiki_page: Wiki 網頁
+  label_wiki_page_plural: Wiki 網頁
+  label_index_by_title: 依標題索引
+  label_index_by_date: 依日期索引
+  label_current_version: 現行版本
+  label_preview: 預覽
+  label_feed_plural: Feeds
+  label_changes_details: 所有變更的明細
+  label_issue_tracking: 項目追蹤
+  label_spent_time: 耗用時間
+  label_f_hour: "{{value}} 小時"
+  label_f_hour_plural: "{{value}} 小時"
+  label_time_tracking: 工時追蹤
+  label_change_plural: 變更
+  label_statistics: 統計資訊
+  label_commits_per_month: 依月份統計送交次數
+  label_commits_per_author: 依作者統計送交次數
+  label_view_diff: 檢視差異
+  label_diff_inline: 直列
+  label_diff_side_by_side: 並排
+  label_options: 選項清單
+  label_copy_workflow_from: 從以下追蹤標籤複製工作流程
+  label_permissions_report: 權限報表
+  label_watched_issues: 觀察中的項目清單
+  label_related_issues: 相關的項目清單
+  label_applied_status: 已套用狀態
+  label_loading: 載入中...
+  label_relation_new: 建立新關聯
+  label_relation_delete: 刪除關聯
+  label_relates_to: 關聯至
+  label_duplicates: 已重複
+  label_duplicated_by: 與後面所列項目重複
+  label_blocks: 阻擋
+  label_blocked_by: 被阻擋
+  label_precedes: 優先於
+  label_follows: 跟隨於
+  label_end_to_start: 結束─開始
+  label_end_to_end: 結束─結束
+  label_start_to_start: 開始─開始
+  label_start_to_end: 開始─結束
+  label_stay_logged_in: 維持已登入狀態
+  label_disabled: 關閉
+  label_show_completed_versions: 顯示已完成的版本
+  label_me: 我自己
+  label_board: 論壇
+  label_board_new: 建立新論壇
+  label_board_plural: 論壇
+  label_topic_plural: 討論主題
+  label_message_plural: 訊息
+  label_message_last: 上一封訊息
+  label_message_new: 建立新的訊息
+  label_message_posted: 訊息已新增
+  label_reply_plural: 回應
+  label_send_information: 寄送帳戶資訊電子郵件給用戶
+  label_year: 年
+  label_month: 月
+  label_week: 週
+  label_date_from: 開始
+  label_date_to: 結束
+  label_language_based: 依用戶之語系決定
+  label_sort_by: "按 {{value}} 排序"
+  label_send_test_email: 寄送測試郵件
+  label_feeds_access_key_created_on: "RSS 存取鍵建立於 {{value}} 之前"
+  label_module_plural: 模組
+  label_added_time_by: "是由 {{author}} 於 {{age}} 前加入"
+  label_updated_time_by: "是由 {{author}} 於 {{age}} 前更新"
+  label_updated_time: "於 {{value}} 前更新"
+  label_jump_to_a_project: 選擇欲前往的專案...
+  label_file_plural: 檔案清單
+  label_changeset_plural: 變更集清單
+  label_default_columns: 預設欄位清單
+  label_no_change_option: (維持不變)
+  label_bulk_edit_selected_issues: 編輯選定的項目
+  label_theme: 畫面主題
+  label_default: 預設
+  label_search_titles_only: 僅搜尋標題
+  label_user_mail_option_all: "提醒與我的專案有關的所有事件"
+  label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
+  label_user_mail_option_none: "只提醒我觀察中或參與中的事件"
+  label_user_mail_no_self_notified: "不提醒我自己所做的變更"
+  label_registration_activation_by_email: 透過電子郵件啟用帳戶
+  label_registration_manual_activation: 手動啟用帳戶
+  label_registration_automatic_activation: 自動啟用帳戶
+  label_display_per_page: "每頁顯示: {{value}} 個'"
+  label_age: 年齡
+  label_change_properties: 變更屬性
+  label_general: 一般
+  label_more: 更多 »
+  label_scm: 版本控管
+  label_plugins: 附加元件
+  label_ldap_authentication: LDAP 認證
+  label_downloads_abbr: 下載
+  label_optional_description: 額外的說明
+  label_add_another_file: 增加其他檔案
+  label_preferences: 偏好選項
+  label_chronological_order: 以時間由遠至近排序
+  label_reverse_chronological_order: 以時間由近至遠排序
+  label_planning: 計劃表
+  label_incoming_emails: 傳入的電子郵件
+  label_generate_key: 產生金鑰
+  label_issue_watchers: 觀察者
+  label_example: 範例
+  label_display: 顯示
+  
+  button_login: 登入
+  button_submit: 送出
+  button_save: 儲存
+  button_check_all: 全選
+  button_uncheck_all: 全不選
+  button_delete: 刪除
+  button_create: 建立
+  button_create_and_continue: 繼續建立
+  button_test: 測試
+  button_edit: 編輯
+  button_add: 新增
+  button_change: 修改
+  button_apply: 套用
+  button_clear: 清除
+  button_lock: 鎖定
+  button_unlock: 解除鎖定
+  button_download: 下載
+  button_list: 清單
+  button_view: 檢視
+  button_move: 移動
+  button_back: 返回
+  button_cancel: 取消
+  button_activate: 啟用
+  button_sort: 排序
+  button_log_time: 記錄時間
+  button_rollback: 還原至此版本
+  button_watch: 觀察
+  button_unwatch: 取消觀察
+  button_reply: 回應
+  button_archive: 歸檔
+  button_unarchive: 取消歸檔
+  button_reset: 回復
+  button_rename: 重新命名
+  button_change_password: 變更密碼
+  button_copy: 複製
+  button_annotate: 加注
+  button_update: 更新
+  button_configure: 設定
+  button_quote: 引用
+  
+  status_active: 活動中
+  status_registered: 註冊完成
+  status_locked: 鎖定中
+  
+  text_select_mail_notifications: 選擇欲寄送提醒通知郵件之動作
+  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 代表「不限制」
+  text_project_destroy_confirmation: 您確定要刪除這個專案和其他相關資料？
+  text_subprojects_destroy_warning: "下列子專案： {{value}} 將一併被刪除。'"
+  text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
+  text_are_you_sure: 確定執行？
+  text_journal_changed: "從 {{old}} 變更為 {{new}}"
+  text_journal_set_to: "設定為 {{value}}"
+  text_journal_deleted: 已刪除
+  text_tip_task_begin_day: 今天起始的工作
+  text_tip_task_end_day: 今天截止的的工作
+  text_tip_task_begin_end_day: 今天起始與截止的工作
+  text_project_identifier_info: '只允許小寫英文字母（a-z）、阿拉伯數字與連字符號（-）。<br />儲存後，代碼不可再被更改。'
+  text_caracters_maximum: "最多 {{count}} 個字元."
+  text_caracters_minimum: "長度必須大於 {{count}} 個字元."
+  text_length_between: "長度必須介於 {{min}} 至 {{max}} 個字元之間."
+  text_tracker_no_workflow: 此追蹤標籤尚未定義工作流程
+  text_unallowed_characters: 不允許的字元
+  text_comma_separated: 可輸入多個值 (以逗號分隔).
+  text_issues_ref_in_commit_messages: 送交訊息中參照(或修正)項目之關鍵字
+  text_issue_added: "項目 {{id}} 已被 {{author}} 通報。"
+  text_issue_updated: "項目 {{id}} 已被 {{author}} 更新。"
+  text_wiki_destroy_confirmation: 您確定要刪除這個 wiki 和其中的所有內容？
+  text_issue_category_destroy_question: "有 ({{count}}) 個項目被指派到此分類. 請選擇您想要的動作？"
+  text_issue_category_destroy_assignments: 移除這些項目的分類
+  text_issue_category_reassign_to: 重新指派這些項目至其它分類
+  text_user_mail_option: "對於那些未被選擇的專案，將只會接收到您正在觀察中，或是參與中的項目通知。（「參與中的項目」包含您建立的或是指派給您的項目）"
+  text_no_configuration_data: "角色、追蹤器、項目狀態與流程尚未被設定完成。\n強烈建議您先載入預設的設定，然後修改成您想要的設定。"
+  text_load_default_configuration: 載入預設組態
+  text_status_changed_by_changeset: "已套用至變更集 {{value}}."
+  text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
+  text_select_project_modules: '選擇此專案可使用之模組：'
+  text_default_administrator_account_changed: 已變更預設管理員帳號內容
+  text_file_repository_writable: 可寫入附加檔案目錄
+  text_plugin_assets_writable: 可寫入附加元件目錄
+  text_rmagick_available: 可使用 RMagick (選配)
+  text_destroy_time_entries_question: 您即將刪除的項目已報工 %.02f 小時. 您的選擇是？
+  text_destroy_time_entries: 刪除已報工的時數
+  text_assign_time_entries_to_project: 指定已報工的時數至專案中
+  text_reassign_time_entries: '重新指定已報工的時數至此項目：'
+  text_user_wrote: "{{value}} 先前提到:'"
+  text_enumeration_destroy_question: "目前有 {{count}} 個物件使用此列舉值。'"
+  text_enumeration_category_reassign_to: '重新設定其列舉值為：'
+  text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/email.yml 中設定 SMTP 之後，重新啟動 Redmine，以啟用電子郵件提醒選項。"
+  text_repository_usernames_mapping: "選擇或更新 Redmine 使用者與版本庫使用者之對應關係。\n版本庫中之使用者帳號或電子郵件信箱，與 Redmine 設定相同者，將自動產生對應關係。"
+  text_diff_truncated: '... 這份差異已被截短以符合顯示行數之最大值'
+  text_custom_field_possible_values_info: '一列輸入一個值'
+  
+  default_role_manager: 管理人員
+  default_role_developper: 開發人員
+  default_role_reporter: 報告人員
+  default_tracker_bug: 臭蟲
+  default_tracker_feature: 功能
+  default_tracker_support: 支援
+  default_issue_status_new: 新建立
+  default_issue_status_assigned: 已指派
+  default_issue_status_resolved: 已解決
+  default_issue_status_feedback: 已回應
+  default_issue_status_closed: 已結束
+  default_issue_status_rejected: 已拒絕
+  default_doc_category_user: 使用手冊
+  default_doc_category_tech: 技術文件
+  default_priority_low: 低
+  default_priority_normal: 正常
+  default_priority_high: 高
+  default_priority_urgent: 速
+  default_priority_immediate: 急
+  default_activity_design: 設計
+  default_activity_development: 開發
+  
+  enumeration_issue_priorities: 項目優先權
+  enumeration_doc_categories: 文件分類
+  enumeration_activities: 活動 (時間追蹤)
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log

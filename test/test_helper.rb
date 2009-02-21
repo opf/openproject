@@ -46,12 +46,11 @@ class Test::Unit::TestCase
   # Add more helper methods to be used by all tests here...
   
   def log_user(login, password)
-    get "/account/login"
+    get "/login"
     assert_equal nil, session[:user_id]
     assert_response :success
     assert_template "account/login"
-    post "/account/login", :username => login, :password => password
-    assert_redirected_to "my/page"
+    post "/login", :username => login, :password => password
     assert_equal login, User.find(session[:user_id]).login
   end
   

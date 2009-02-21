@@ -1,0 +1,833 @@
+# Swedish translation, by Johan Lundström (johanlunds@gmail.com), with parts taken
+# from http://github.com/daniel/swe_rails
+
+sv:
+  number:
+    # Used in number_with_delimiter()
+    # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
+    format:
+      # Sets the separator between the units, for more precision (e.g. 1.0 / 2.0 == 0.5)
+      separator: ","
+      # Delimets thousands (e.g. 1,000,000 is a million) (always in groups of three)
+      delimiter: "."
+      # Number of decimals, behind the separator (the number 1 with a precision of 2 gives: 1.00)
+      precision: 2
+      
+    # Used in number_to_currency()
+    currency:
+      format:
+        # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
+        format: "%n %u"
+        unit: "kr"
+        # These three are to override number.format and are optional
+        # separator: "."
+        # delimiter: ","
+        # precision: 2
+        
+    # Used in number_to_percentage()
+    percentage:
+      format:
+        # These three are to override number.format and are optional
+        # separator: 
+        delimiter: ""
+        # precision: 
+        
+    # Used in number_to_precision()
+    precision:
+      format:
+        # These three are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        # precision:
+        
+    # Used in number_to_human_size()
+    human:
+      format:
+        # These three are to override number.format and are optional
+        # separator: 
+        delimiter: ""
+        # precision: 1
+      storage_units: [Byte, KB, MB, GB, TB]
+
+  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
+  datetime:
+    distance_in_words:
+      half_a_minute: "en halv minut"
+      less_than_x_seconds:
+        one:   "mindre än en sekund"
+        other: "mindre än {{count}} sekunder"
+      x_seconds:
+        one:   "en sekund"
+        other: "{{count}} sekunder"
+      less_than_x_minutes:
+        one:   "mindre än en minut"
+        other: "mindre än {{count}} minuter"
+      x_minutes:
+        one:   "en minut"
+        other: "{{count}} minuter"
+      about_x_hours:
+        one:   "ungefär en timme"
+        other: "ungefär {{count}} timmar"
+      x_days:
+        one:   "en dag"
+        other: "{{count}} dagar"
+      about_x_months:
+        one:   "ungefär en månad"
+        other: "ungefär {{count}} månader"
+      x_months:
+        one:   "en månad"
+        other: "{{count}} månader"
+      about_x_years:
+        one:   "ungefär ett år"
+        other: "ungefär {{count}} år"
+      over_x_years:
+        one:   "mer än ett år"
+        other: "mer än {{count}} år"
+        
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    "Ett fel förhindrade denna {{model}} från att sparas"
+          other:  "{{count}} fel förhindrade denna {{model}} från att sparas"
+        # The variable :count is also available
+        body: "Det var problem med följande fält:"
+      # The values :model, :attribute and :value are always available for interpolation
+      # The value :count is available when applicable. Can be used for pluralization.
+      messages:
+        inclusion: "finns inte i listan"
+        exclusion: "är reserverat"
+        invalid: "är ogiltigt"
+        confirmation: "stämmer inte överens"
+        accepted : "måste vara accepterad"
+        empty: "får ej vara tom"
+        blank: "måste anges"
+        too_long: "är för lång (maximum är {{count}} tecken)"
+        too_short: "är för kort (minimum är {{count}} tecken)"
+        wrong_length: "har fel längd (ska vara {{count}} tecken)"
+        taken: "har redan tagits"
+        not_a_number: "är inte ett nummer"
+        greater_than: "måste vara större än {{count}}"
+        greater_than_or_equal_to: "måste vara större än eller lika med {{count}}"
+        equal_to: "måste vara samma som"
+        less_than: "måste vara mindre än {{count}}"
+        less_than_or_equal_to: "måste vara mindre än eller lika med {{count}}"
+        odd: "måste vara udda"
+        even: "måste vara jämnt"
+        greater_than_start_date: "måste vara senare än startdatumet"
+        not_same_project: "tillhör inte samma projekt"
+        circular_dependency: "Denna relation skulle skapa ett cirkulärt beroende"
+
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y-%m-%d"
+      short: "%e %b"
+      long: "%e %B, %Y"
+      
+    day_names: [söndag, måndag, tisdag, onsdag, torsdag, fredag, lördag]
+    abbr_day_names: [sön, mån, tis, ons, tor, fre, lör]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, januari, februari, mars, april, maj, juni, juli, augusti, september, oktober, november, december]
+    abbr_month_names: [~, jan, feb, mar, apr, maj, jun, jul, aug, sep, okt, nov, dec]
+    # Used in date_select and datime_select.
+    order: [ :day, :month, :year ]
+
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%d %B, %Y %H:%M"
+    am: ""
+    pm: ""
+      
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "och"
+      skip_last_comma: true
+
+  actionview_instancetag_blank_option: Var god välj
+  
+  general_text_No: 'Nej'
+  general_text_Yes: 'Ja'
+  general_text_no: 'nej'
+  general_text_yes: 'ja'
+  general_lang_name: 'Svenska'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: ISO-8859-1
+  general_pdf_encoding: ISO-8859-1
+  general_first_day_of_week: '1'
+  
+  notice_account_updated: Kontot har uppdaterats
+  notice_account_invalid_creditentials: Fel användarnamn eller lösenord
+  notice_account_password_updated: Lösenordet har uppdaterats
+  notice_account_wrong_password: Fel lösenord
+  notice_account_register_done: Kontot har skapats. För att aktivera kontot, klicka på länken i mailet som skickades till dig.
+  notice_account_unknown_email: Okänd användare.
+  notice_can_t_change_password: Detta konto använder en extern autentiseringskälla. Det går inte att byta lösenord.
+  notice_account_lost_email_sent: Ett mail med instruktioner om hur man väljer ett nytt lösenord har skickats till dig.
+  notice_account_activated: Ditt konto har blivit aktiverat. Du kan nu logga in.
+  notice_successful_create: Skapandet lyckades.
+  notice_successful_update: Uppdatering lyckades.
+  notice_successful_delete: Borttagning lyckades.
+  notice_successful_connection: Uppkoppling lyckades.
+  notice_file_not_found: Sidan du försökte komma åt existerar inte eller är borttagen.
+  notice_locking_conflict: Data har uppdaterats av en annan användare.
+  notice_not_authorized: Du saknar behörighet att komma åt den här sidan.
+  notice_email_sent: "Ett mail skickades till {{value}}"
+  notice_email_error: "Ett fel inträffade när mail skickades ({{value}})"
+  notice_feeds_access_key_reseted: Din RSS-nyckel återställdes.
+  notice_failed_to_save_issues: "Misslyckades att spara {{count}} ärende(n) på {{total}} valt: {{ids}}."
+  notice_no_issue_selected: "Inget ärende är markerat! Var vänlig, markera de ärenden du vill ändra."
+  notice_account_pending: "Ditt konto skapades och avvaktar nu administratörens godkännande."
+  notice_default_data_loaded: Standardkonfiguration inläst.
+  notice_unable_delete_version: Denna version var inte möjlig att ta bort.
+  
+  error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: {{value}}"
+  error_scm_not_found: "Inlägg och/eller revision finns inte i detta repository."
+  error_scm_command_failed: "Ett fel inträffade vid försök att nå repositoryt: {{value}}"
+  error_scm_annotate: "Inlägget existerar inte eller kan inte kommenteras."
+  error_issue_not_found_in_project: 'Ärendet hittades inte eller så tillhör det inte detta projekt'
+  
+  warning_attachments_not_saved: "{{count}} fil(er) kunde inte sparas."
+  
+  mail_subject_lost_password: "Ditt {{value}} lösenord"
+  mail_body_lost_password: 'För att ändra ditt lösenord, klicka på följande länk:'
+  mail_subject_register: "Din {{value}} kontoaktivering"
+  mail_body_register: 'För att aktivera ditt konto, klicka på följande länk:'
+  mail_body_account_information_external: "Du kan använda ditt {{value}}-konto för att logga in."
+  mail_body_account_information: Din kontoinformation
+  mail_subject_account_activation_request: "{{value}} begäran om kontoaktivering"
+  mail_body_account_activation_request: "En ny användare ({{value}}) har registrerat sig och avvaktar ditt godkännande:'"
+  mail_subject_reminder: "{{count}} ärende(n) har deadline under de kommande dagarna"
+  mail_body_reminder: "{{count}} ärende(n) som är tilldelat dig har deadline under de {{days}} dagarna:"
+  
+  gui_validation_error: 1 fel
+  gui_validation_error_plural: "{{count}} fel"
+  
+  field_name: Namn
+  field_description: Beskrivning
+  field_summary: Sammanfattning
+  field_is_required: Obligatorisk
+  field_firstname: Förnamn
+  field_lastname: Efternamn
+  field_mail: Mail
+  field_filename: Fil
+  field_filesize: Storlek
+  field_downloads: Nerladdningar
+  field_author: Författare
+  field_created_on: Skapad
+  field_updated_on: Uppdaterad
+  field_field_format: Format
+  field_is_for_all: För alla projekt
+  field_possible_values: Möjliga värden
+  field_regexp: Reguljärt uttryck
+  field_min_length: Minimilängd
+  field_max_length: Maxlängd
+  field_value: Värde
+  field_category: Kategori
+  field_title: Titel
+  field_project: Projekt
+  field_issue: Ärende
+  field_status: Status
+  field_notes: Anteckningar
+  field_is_closed: Ärendet är stängt
+  field_is_default: Standardvärde
+  field_tracker: Ärendetyp
+  field_subject: Ämne
+  field_due_date: Deadline
+  field_assigned_to: Tilldelad till
+  field_priority: Prioritet
+  field_fixed_version: Versionsmål
+  field_user: Användare
+  field_role: Roll
+  field_homepage: Hemsida
+  field_is_public: Publik
+  field_parent: Underprojekt till
+  field_is_in_chlog: Visa ärenden i ändringslogg
+  field_is_in_roadmap: Visa ärenden i roadmap
+  field_login: Användarnamn
+  field_mail_notification: Mailnotifieringar
+  field_admin: Administratör
+  field_last_login_on: Senaste inloggning
+  field_language: Språk
+  field_effective_date: Datum
+  field_password: Lösenord
+  field_new_password: Nytt lösenord
+  field_password_confirmation: Bekräfta lösenord
+  field_version: Version
+  field_type: Typ
+  field_host: Värddator
+  field_port: Port
+  field_account: Konto
+  field_base_dn: Bas-DN
+  field_attr_login: Inloggningsattribut
+  field_attr_firstname: Förnamnsattribut
+  field_attr_lastname: Efternamnsattribut
+  field_attr_mail: Mailattribut
+  field_onthefly: On-the-fly användarskapning
+  field_start_date: Start
+  field_done_ratio: %% Klart
+  field_auth_source: Autentiseringsläge
+  field_hide_mail: Dölj min mailadress
+  field_comments: Kommentar
+  field_url: URL
+  field_start_page: Startsida
+  field_subproject: Underprojekt
+  field_hours: Timmar
+  field_activity: Aktivitet
+  field_spent_on: Datum
+  field_identifier: Identifierare
+  field_is_filter: Använd som filter
+  field_issue_to_id: Relaterade ärenden
+  field_delay: Fördröjning
+  field_assignable: Ärenden kan tilldelas denna roll
+  field_redirect_existing_links: Omdirigera existerande länkar
+  field_estimated_hours: Estimerad tid
+  field_column_names: Kolumner
+  field_time_zone: Tidszon
+  field_searchable: Sökbar
+  field_default_value: Standardvärde
+  field_comments_sorting: Visa kommentarer
+  field_parent_title: Föräldersida
+  field_editable: Redigerbar
+  
+  setting_app_title: Applikationsrubrik
+  setting_app_subtitle: Applikationsunderrubrik
+  setting_welcome_text: Välkomsttext
+  setting_default_language: Standardspråk
+  setting_login_required: Kräver inloggning
+  setting_self_registration: Självregistrering
+  setting_attachment_max_size: Maxstorlek på bilaga
+  setting_issues_export_limit: Exportgräns för ärenden
+  setting_mail_from: Mailavsändare
+  setting_bcc_recipients: Hemlig kopia (bcc) till mottagare
+  setting_plain_text_mail: Oformaterad text i mail (ingen HTML)
+  setting_host_name: Värddatornamn
+  setting_text_formatting: Textformatering
+  setting_wiki_compression: Komprimering av wikihistorik
+  setting_feeds_limit: Innehållsgräns för Feed
+  setting_default_projects_public: Nya projekt är publika som standard
+  setting_autofetch_changesets: Automatisk hämtning av commits
+  setting_sys_api_enabled: Aktivera WS för repository-hantering
+  setting_commit_ref_keywords: Referens-nyckelord
+  setting_commit_fix_keywords: Fix-nyckelord
+  setting_autologin: Automatisk inloggning
+  setting_date_format: Datumformat
+  setting_time_format: Tidsformat
+  setting_cross_project_issue_relations: Tillåt ärenderelationer mellan projekt
+  setting_issue_list_default_columns: Standardkolumner i ärendelistan
+  setting_repositories_encodings: Teckenuppsättningar för repositoriy
+  setting_commit_logs_encoding: Teckenuppsättning för commit-meddelanden
+  setting_emails_footer: Mailsignatur
+  setting_protocol: Protokoll
+  setting_per_page_options: Alternativ, objekt per sida
+  setting_user_format: Visningsformat för användare
+  setting_activity_days_default: Dagar som visas på projektaktivitet
+  setting_display_subprojects_issues: Visa ärenden från underprojekt i huvudprojekt som standard
+  setting_enabled_scm: Aktivera SCM
+  setting_mail_handler_api_enabled: Aktivera WS for inkommande mail
+  setting_mail_handler_api_key: API-nyckel
+  setting_sequential_project_identifiers: Generera projektidentifierare sekventiellt
+  setting_gravatar_enabled: Använd Gravatar-avatarer
+  setting_diff_max_lines_displayed: Maximalt antal synliga rader i diff
+  
+  permission_edit_project: Ändra projekt
+  permission_select_project_modules: Välja projektmoduler
+  permission_manage_members: Hantera medlemmar
+  permission_manage_versions: Hantera versioner
+  permission_manage_categories: Hantera ärendekategorier
+  permission_add_issues: Lägga till ärende
+  permission_edit_issues: Ändra ärende
+  permission_manage_issue_relations: Hantera ärenderelationer
+  permission_add_issue_notes: Lägga till notering
+  permission_edit_issue_notes: Ändra noteringar
+  permission_edit_own_issue_notes: Ändra egna noteringar
+  permission_move_issues: Flytta ärenden
+  permission_delete_issues: Ta bort ärenden
+  permission_manage_public_queries: Hantera publika frågor
+  permission_save_queries: Spara frågor
+  permission_view_gantt: Visa Gantt-schema
+  permission_view_calendar: Visa kalender
+  permission_view_issue_watchers: Visa bevakarlista
+  permission_add_issue_watchers: Lägga till bevakare
+  permission_log_time: Logga spenderad tid
+  permission_view_time_entries: Visa spenderad tid
+  permission_edit_time_entries: Ändra tidloggar
+  permission_edit_own_time_entries: Ändra egna tidloggar
+  permission_manage_news: Hantera nyheter
+  permission_comment_news: Kommentera nyheter
+  permission_manage_documents: Hantera dokument
+  permission_view_documents: Visa dokument
+  permission_manage_files: Hantera filer
+  permission_view_files: Visa filer
+  permission_manage_wiki: Hantera wiki
+  permission_rename_wiki_pages: Byta namn på wikisidor
+  permission_delete_wiki_pages: Ta bort wikisidor
+  permission_view_wiki_pages: Visa wiki
+  permission_view_wiki_edits: Visa wikihistorik
+  permission_edit_wiki_pages: Ändra wikisidor
+  permission_delete_wiki_pages_attachments: Ta bort bilagor
+  permission_protect_wiki_pages: Skydda wikisidor
+  permission_manage_repository: Hantera repository
+  permission_browse_repository: Bläddra i repository
+  permission_view_changesets: Visa changesets
+  permission_commit_access: Commit-tillgång
+  permission_manage_boards: Hantera forum
+  permission_view_messages: Visa meddelanden
+  permission_add_messages: Lägg till meddelanden
+  permission_edit_messages: Ändra meddelanden
+  permission_edit_own_messages: Ändra egna meddelanden
+  permission_delete_messages: Ta bort meddelanden
+  permission_delete_own_messages: Ta bort egna meddelanden
+  project_module_issue_tracking: Ärendeuppföljning
+  project_module_time_tracking: Tidsuppföljning
+  project_module_news: Nyheter
+  project_module_documents: Dokument
+  project_module_files: Filer
+  project_module_wiki: Wiki
+  project_module_repository: Repository
+  project_module_boards: Forum
+  
+  label_user: Användare
+  label_user_plural: Användare
+  label_user_new: Ny användare
+  label_project: Projekt
+  label_project_new: Nytt projekt
+  label_project_plural: Projekt
+  label_x_projects:
+    zero:  no projects
+    one:   1 project
+    other: "{{count}} projects"
+  label_project_all: Alla projekt
+  label_project_latest: Senaste projekt
+  label_issue: Ärende
+  label_issue_new: Nytt ärende
+  label_issue_plural: Ärenden
+  label_issue_view_all: Visa alla ärenden
+  label_issues_by: "Ärenden {{value}}"
+  label_issue_added: Ärende tillagt
+  label_issue_updated: Ärende uppdaterat
+  label_document: Dokument
+  label_document_new: Nytt dokument
+  label_document_plural: Dokument
+  label_document_added: Dokument tillagt
+  label_role: Roll
+  label_role_plural: Roller
+  label_role_new: Ny roll
+  label_role_and_permissions: Roller och behörigheter
+  label_member: Medlem
+  label_member_new: Ny medlem
+  label_member_plural: Medlemmar
+  label_tracker: Ärendetyp
+  label_tracker_plural: Ärendetyper
+  label_tracker_new: Ny ärendetyp
+  label_workflow: Arbetsflöde
+  label_issue_status: Ärendestatus
+  label_issue_status_plural: Ärendestatusar
+  label_issue_status_new: Ny status
+  label_issue_category: Ärendekategori
+  label_issue_category_plural: Ärendekategorier
+  label_issue_category_new: Ny kategori
+  label_custom_field: Användardefinerat fält
+  label_custom_field_plural: Användardefinerade fält
+  label_custom_field_new: Nytt användardefinerat fält
+  label_enumerations: Enumerationer
+  label_enumeration_new: Nytt värde
+  label_information: Information
+  label_information_plural: Information
+  label_please_login: Var god logga in
+  label_register: Registrera
+  label_password_lost: Glömt lösenord
+  label_home: Hem
+  label_my_page: Min sida
+  label_my_account: Mitt konto
+  label_my_projects: Mina projekt
+  label_administration: Administration
+  label_login: Logga in
+  label_logout: Logga ut
+  label_help: Hjälp
+  label_reported_issues: Rapporterade ärenden
+  label_assigned_to_me_issues: Ärenden tilldelade till mig
+  label_last_login: Senaste inloggning
+  label_registered_on: Registrerad
+  label_activity: Aktivitet
+  label_overall_activity: All aktivitet
+  label_user_activity: "Aktiviteter för {{value}}"
+  label_new: Ny
+  label_logged_as: Inloggad som
+  label_environment: Miljö
+  label_authentication: Autentisering
+  label_auth_source: Autentiseringsläge
+  label_auth_source_new: Nytt autentiseringsläge
+  label_auth_source_plural: Autentiseringslägen
+  label_subproject_plural: Underprojekt
+  label_and_its_subprojects: "{{value}} och dess underprojekt"
+  label_min_max_length: Min./Max.-längd
+  label_list: Lista
+  label_date: Datum
+  label_integer: Heltal
+  label_float: Flyttal
+  label_boolean: Boolean
+  label_string: Text
+  label_text: Lång text
+  label_attribute: Attribut
+  label_attribute_plural: Attribut
+  label_download: "{{count}} Nerladdning"
+  label_download_plural: "{{count}} Nerladdningar"
+  label_no_data: Ingen data att visa
+  label_change_status: Ändra status
+  label_history: Historia
+  label_attachment: Fil
+  label_attachment_new: Ny fil
+  label_attachment_delete: Ta bort fil
+  label_attachment_plural: Filer
+  label_file_added: Fil tillagd
+  label_report: Rapport
+  label_report_plural: Rapporter
+  label_news: Nyhet
+  label_news_new: Lägg till nyhet
+  label_news_plural: Nyheter
+  label_news_latest: Senaste nyheterna
+  label_news_view_all: Visa alla nyheter
+  label_news_added: Nyhet tillagd
+  label_change_log: Ändringslogg
+  label_settings: Inställningar
+  label_overview: Överblick
+  label_version: Version
+  label_version_new: Ny version
+  label_version_plural: Versioner
+  label_confirmation: Bekräftelse
+  label_export_to: Exportera till
+  label_read: Läs...
+  label_public_projects: Publika projekt
+  label_open_issues: öppen
+  label_open_issues_plural: öppna
+  label_closed_issues: stängd
+  label_closed_issues_plural: stängda
+  label_x_open_issues_abbr_on_total:
+    zero:  0 open / {{total}}
+    one:   1 open / {{total}}
+    other: "{{count}} open / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 open
+    one:   1 open
+    other: "{{count}} open"
+  label_x_closed_issues_abbr:
+    zero:  0 closed
+    one:   1 closed
+    other: "{{count}} closed"
+  label_total: Total
+  label_permissions: Behörigheter
+  label_current_status: Nuvarande status
+  label_new_statuses_allowed: Nya statusar tillåtna
+  label_all: alla
+  label_none: ingen
+  label_nobody: ingen
+  label_next: Nästa
+  label_previous: Föregående
+  label_used_by: Använd av
+  label_details: Detaljer
+  label_add_note: Lägg till anteckning
+  label_per_page: Per sida
+  label_calendar: Kalender
+  label_months_from: månader från
+  label_gantt: Gantt
+  label_internal: Intern
+  label_last_changes: "senaste {{count}} ändringar"
+  label_change_view_all: Visa alla ändringar
+  label_personalize_page: Anpassa denna sida
+  label_comment: Kommentar
+  label_comment_plural: Kommentarer
+  label_x_comments:
+    zero: no comments
+    one: 1 comment
+    other: "{{count}} comments"
+  label_comment_add: Lägg till kommentar
+  label_comment_added: Kommentar tillagd
+  label_comment_delete: Ta bort kommentar
+  label_query: Användardefinerad fråga
+  label_query_plural: Användardefinerade frågor
+  label_query_new: Ny fråga
+  label_filter_add: Lägg till filter
+  label_filter_plural: Filter
+  label_equals: är
+  label_not_equals: är inte
+  label_in_less_than: om mindre än
+  label_in_more_than: om mer än
+  label_in: om
+  label_today: idag
+  label_all_time: närsom
+  label_yesterday: igår
+  label_this_week: denna vecka
+  label_last_week: senaste veckan
+  label_last_n_days: "senaste {{count}} dagarna"
+  label_this_month: denna månad
+  label_last_month: senaste månaden
+  label_this_year: detta året
+  label_date_range: Datumintervall
+  label_less_than_ago: mindre än dagar sedan
+  label_more_than_ago: mer än dagar sedan
+  label_ago: dagar sedan
+  label_contains: innehåller
+  label_not_contains: innehåller inte
+  label_day_plural: dagar
+  label_repository: Repository
+  label_repository_plural: Repositorys
+  label_browse: Bläddra
+  label_modification: "{{count}} ändring"
+  label_modification_plural: "{{count}} ändringar"
+  label_revision: Revision
+  label_revision_plural: Revisioner
+  label_associated_revisions: Associerade revisioner
+  label_added: tillagd
+  label_modified: modifierad
+  label_copied: kopierad
+  label_renamed: omdöpt
+  label_deleted: borttagen
+  label_latest_revision: Senaste revisionen
+  label_latest_revision_plural: Senaste revisionerna
+  label_view_revisions: Visa revisioner
+  label_max_size: Maxstorlek
+  label_sort_highest: Flytta till toppen
+  label_sort_higher: Flytta upp
+  label_sort_lower: Flytta ner
+  label_sort_lowest: Flytta till botten
+  label_roadmap: Roadmap
+  label_roadmap_due_in: "Färdig om {{value}}"
+  label_roadmap_overdue: "{{value}} sen"
+  label_roadmap_no_issues: Inga ärenden för denna version
+  label_search: Sök
+  label_result_plural: Resultat
+  label_all_words: Alla ord
+  label_wiki: Wiki
+  label_wiki_edit: Wikiändring
+  label_wiki_edit_plural: Wikiändringar
+  label_wiki_page: Wikisida
+  label_wiki_page_plural: Wikisidor
+  label_index_by_title: Innehåll efter titel
+  label_index_by_date: Innehåll efter datum
+  label_current_version: Nuvarande version
+  label_preview: Förhandsgranska
+  label_feed_plural: Feeds
+  label_changes_details: Detaljer om alla ändringar
+  label_issue_tracking: Ärendeuppföljning
+  label_spent_time: Spenderad tid
+  label_f_hour: "{{value}} timme"
+  label_f_hour_plural: "{{value}} timmar"
+  label_time_tracking: Tidsuppföljning
+  label_change_plural: Ändringar
+  label_statistics: Statistik
+  label_commits_per_month: Commits per månad
+  label_commits_per_author: Commits per författare
+  label_view_diff: Visa skillnader
+  label_diff_inline: i texten
+  label_diff_side_by_side: sida vid sida
+  label_options: Inställningar
+  label_copy_workflow_from: Kopiera arbetsflöde från
+  label_permissions_report: Behörighetsrapport
+  label_watched_issues: Bevakade ärenden
+  label_related_issues: Relaterade ärenden
+  label_applied_status: Tilldelad status
+  label_loading: Laddar...
+  label_relation_new: Ny relation
+  label_relation_delete: Ta bort relation
+  label_relates_to: relaterar till
+  label_duplicates: kopierar
+  label_duplicated_by: kopierad av
+  label_blocks: blockerar
+  label_blocked_by: blockerad av
+  label_precedes: kommer före
+  label_follows: följer
+  label_end_to_start: slut till start
+  label_end_to_end: slut till slut
+  label_start_to_start: start till start
+  label_start_to_end: start till slut
+  label_stay_logged_in: Förbli inloggad
+  label_disabled: inaktiverad
+  label_show_completed_versions: Visa färdiga versioner
+  label_me: mig
+  label_board: Forum
+  label_board_new: Nytt forum
+  label_board_plural: Forum
+  label_topic_plural: Ämnen
+  label_message_plural: Meddelanden
+  label_message_last: Senaste meddelande
+  label_message_new: Nytt meddelande
+  label_message_posted: Meddelande tillagt
+  label_reply_plural: Svar
+  label_send_information: Skicka kontoinformation till användaren
+  label_year: År
+  label_month: Månad
+  label_week: Vecka
+  label_date_from: Från
+  label_date_to: Till
+  label_language_based: Språkbaserad
+  label_sort_by: "Sortera på {{value}}"
+  label_send_test_email: Skicka testmail
+  label_feeds_access_key_created_on: "RSS-nyckel skapad för {{value}} sedan"
+  label_module_plural: Moduler
+  label_added_time_by: "Tillagd av {{author}} för {{age}} sedan"
+  label_updated_time_by: "Uppdaterad av {{author}} för {{age}} sedan"
+  label_updated_time: "Uppdaterad för {{value}} sedan"
+  label_jump_to_a_project: Gå till projekt...
+  label_file_plural: Filer
+  label_changeset_plural: Changesets
+  label_default_columns: Standardkolumner
+  label_no_change_option: (Ingen ändring)
+  label_bulk_edit_selected_issues: Gemensam ändring av markerade ärenden
+  label_theme: Tema
+  label_default: Standard
+  label_search_titles_only: Sök endast i titlar
+  label_user_mail_option_all: "För alla händelser i mina projekt"
+  label_user_mail_option_selected: "För alla händelser i markerade projekt..."
+  label_user_mail_option_none: "Endast för saker jag bevakar eller är involverad i"
+  label_user_mail_no_self_notified: "Jag vill inte bli notifierad om ändringar som jag har gjort"
+  label_registration_activation_by_email: kontoaktivering med mail
+  label_registration_manual_activation: manuell kontoaktivering
+  label_registration_automatic_activation: automatisk kontoaktivering
+  label_display_per_page: "Per sida: {{value}}'"
+  label_age: Ålder
+  label_change_properties: Ändra inställningar
+  label_general: Allmänt
+  label_more: Mer
+  label_scm: SCM
+  label_plugins: Tillägg
+  label_ldap_authentication: LDAP-autentisering
+  label_downloads_abbr: Nerl.
+  label_optional_description: Valfri beskrivning
+  label_add_another_file: Lägg till ytterligare en fil
+  label_preferences: Användarinställningar
+  label_chronological_order: I kronologisk ordning
+  label_reverse_chronological_order: I omvänd kronologisk ordning
+  label_planning: Planering
+  label_incoming_emails: Inkommande mail
+  label_generate_key: Generera en nyckel
+  label_issue_watchers: Bevakare
+  label_example: Exempel
+  label_display: Visa
+  
+  button_login: Logga in
+  button_submit: Spara
+  button_save: Spara
+  button_check_all: Markera alla
+  button_uncheck_all: Avmarkera alla
+  button_delete: Ta bort
+  button_create: Skapa
+  button_create_and_continue: Skapa och fortsätt
+  button_test: Testa
+  button_edit: Ändra
+  button_add: Lägg till
+  button_change: Ändra
+  button_apply: Verkställ
+  button_clear: Återställ
+  button_lock: Lås
+  button_unlock: Lås upp
+  button_download: Ladda ner
+  button_list: Lista
+  button_view: Visa
+  button_move: Flytta
+  button_back: Tillbaka
+  button_cancel: Avbryt
+  button_activate: Aktivera
+  button_sort: Sortera
+  button_log_time: Logga tid
+  button_rollback: Återställ till denna version
+  button_watch: Bevaka
+  button_unwatch: Stoppa bevakning
+  button_reply: Svara
+  button_archive: Arkivera
+  button_unarchive: Ta bort från arkiv
+  button_reset: Återställ
+  button_rename: Byt namn
+  button_change_password: Ändra lösenord
+  button_copy: Kopiera
+  button_annotate: Kommentera
+  button_update: Uppdatera
+  button_configure: Konfigurera
+  button_quote: Citera
+  
+  status_active: aktiv
+  status_registered: registrerad
+  status_locked: låst
+  
+  text_select_mail_notifications: Välj för vilka händelser mail ska skickas.
+  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 betyder ingen gräns
+  text_project_destroy_confirmation: Är du säker på att du vill ta bort detta projekt och all relaterad data?
+  text_subprojects_destroy_warning: "Alla underprojekt: {{value}} kommer också tas bort.'"
+  text_workflow_edit: Välj en roll och en ärendetyp för att ändra arbetsflöde
+  text_are_you_sure: Är du säker ?
+  text_journal_changed: "ändrad från {{old}} till {{new}}"
+  text_journal_set_to: "satt till {{value}}"
+  text_journal_deleted: borttagen
+  text_tip_task_begin_day: arbetsuppgift som börjar denna dag
+  text_tip_task_end_day: arbetsuppgift som slutar denna dag
+  text_tip_task_begin_end_day: arbetsuppgift börjar och slutar denna dag
+  text_project_identifier_info: 'Små bokstäver (a-z), siffror och streck tillåtna.<br />När den är sparad kan identifieraren inte ändras.'
+  text_caracters_maximum: "max {{count}} tecken."
+  text_caracters_minimum: "Måste vara minst {{count}} tecken lång."
+  text_length_between: "Längd mellan {{min}} och {{max}} tecken."
+  text_tracker_no_workflow: Inget arbetsflöde definerat för denna ärendetyp
+  text_unallowed_characters: Otillåtna tecken
+  text_comma_separated: Flera värden tillåtna (kommaseparerade).
+  text_issues_ref_in_commit_messages: Referera och fixa ärenden i commit-meddelanden
+  text_issue_added: "Ärende {{id}} har rapporterats (av {{author}})."
+  text_issue_updated: "Ärende {{id}} har uppdaterats (av {{author}})."
+  text_wiki_destroy_confirmation: Är du säker på att du vill ta bort denna wiki och allt dess innehåll ?
+  text_issue_category_destroy_question: "Några ärenden ({{count}}) är tilldelade till denna kategori. Vad vill du göra ?"
+  text_issue_category_destroy_assignments: Ta bort kategoritilldelningar
+  text_issue_category_reassign_to: Återtilldela ärenden till denna kategori
+  text_user_mail_option: "För omarkerade projekt kommer du bara få notifieringar om saker du bevakar eller är inblandad i (T.ex. ärenden du skapat eller tilldelats)."
+  text_no_configuration_data: "Roller, ärendetyper, ärendestatusar och arbetsflöden har inte konfigurerats ännu.\nDet rekommenderas att läsa in standardkonfigurationen. Du kommer att kunna göra ändringar efter att den blivit inläst."
+  text_load_default_configuration: Läs in standardkonfiguration
+  text_status_changed_by_changeset: "Tilldelad i changeset {{value}}."
+  text_issues_destroy_confirmation: 'Är du säker på att du vill radera markerade ärende(n) ?'
+  text_select_project_modules: 'Välj vilka moduler som ska vara aktiva för projektet:'
+  text_default_administrator_account_changed: Standardadministratörens konto ändrat
+  text_file_repository_writable: Foldern för bifogade filer är skrivbar
+  text_plugin_assets_writable: Foldern för plug-ins är skrivbar
+  text_rmagick_available: RMagick tillgängligt (valfritt)
+  text_destroy_time_entries_question: %.02f timmar har rapporterats på ärendena du är på väg att ta bort. Vad vill du göra ?
+  text_destroy_time_entries: Ta bort rapporterade timmar
+  text_assign_time_entries_to_project: Tilldela rapporterade timmar till projektet
+  text_reassign_time_entries: 'Återtilldela rapporterade timmar till detta ärende:'
+  text_user_wrote: "{{value}} skrev:'"
+  text_enumeration_destroy_question: "{{count}} objekt är tilldelade till detta värde.'"
+  text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
+  text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar är inaktiverade.\nKonfigurera din SMTP-server i config/email.yml och starta om applikationen för att aktivera dem."
+  text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i repository-loggen.\nAnvändare med samma användarnamn eller emailadress i både Redmine och repositoryt mappas automatiskt."
+  text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
+  text_custom_field_possible_values_info: 'En linje för varje värde'
+  
+  default_role_manager: Projektledare
+  default_role_developper: Utvecklare
+  default_role_reporter: Rapportör
+  default_tracker_bug: Bugg
+  default_tracker_feature: Funktionalitet
+  default_tracker_support: Support
+  default_issue_status_new: Ny
+  default_issue_status_assigned: Tilldelad
+  default_issue_status_resolved: Löst
+  default_issue_status_feedback: Feedback
+  default_issue_status_closed: Stängd
+  default_issue_status_rejected: Avslagen
+  default_doc_category_user: Användardokumentation
+  default_doc_category_tech: Teknisk dokumentation
+  default_priority_low: Låg
+  default_priority_normal: Normal
+  default_priority_high: Hög
+  default_priority_urgent: Brådskande
+  default_priority_immediate: Omedelbar
+  default_activity_design: Design
+  default_activity_development: Utveckling
+  
+  enumeration_issue_priorities: Ärendeprioriteter
+  enumeration_doc_categories: Dokumentkategorier
+  enumeration_activities: Aktiviteter (tidsuppföljning)
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log

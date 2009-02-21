@@ -22,6 +22,8 @@ require 'application'
 class ApplicationController; def rescue_action(e) raise e end; end
 
 class ApplicationControllerTest < Test::Unit::TestCase
+  include Redmine::I18n
+  
   def setup
     @controller = ApplicationController.new
     @request    = ActionController::TestRequest.new
@@ -30,9 +32,9 @@ class ApplicationControllerTest < Test::Unit::TestCase
 
   # check that all language files are valid
   def test_localization
-    lang_files_count = Dir["#{RAILS_ROOT}/lang/*.yml"].size
-    assert_equal lang_files_count, GLoc.valid_languages.size
-    GLoc.valid_languages.each do |lang|
+    lang_files_count = Dir["#{RAILS_ROOT}/config/locales/*.yml"].size
+    assert_equal lang_files_count, valid_languages.size
+    valid_languages.each do |lang|
       assert set_language_if_valid(lang)
     end
     set_language_if_valid('en')

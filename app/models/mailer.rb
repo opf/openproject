@@ -21,6 +21,7 @@ class Mailer < ActionMailer::Base
   helper :custom_fields
 
   include ActionController::UrlWriter
+  include Redmine::I18n
 
   def issue_add(issue)
     redmine_headers 'Project' => issue.project.identifier,

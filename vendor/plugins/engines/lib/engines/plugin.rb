@@ -76,6 +76,7 @@ module Engines
       return if loaded?
       super initializer
       add_plugin_view_paths
+      add_plugin_locale_paths
       Assets.mirror_files_for(self)
     end    
   
@@ -88,9 +89,22 @@ module Engines
     def add_plugin_view_paths
       view_path = File.join(directory, 'app', 'views')
       if File.exist?(view_path)
-        ActionController::Base.prepend_view_path(view_path) # push it just underneath the app
-        ActionView::TemplateFinder.process_view_paths(view_path)
+        ActionController::Base.view_paths.insert(1, view_path) # push it just underneath the app
       end
+    end
+
+    def add_plugin_locale_paths
+      locale_path = File.join(directory, 'locales')
+      return unless File.exists?(locale_path)
+
+      locale_files = Dir[File.join(locale_path, '*.{rb,yml}')]
+      return if locale_files.blank?
+
+      first_app_element = 
+        I18n.load_path.select{ |e| e =~ /^#{ RAILS_ROOT }/ }.reject{ |e| e =~ /^#{ RAILS_ROOT }\/vendor\/plugins/ }.first
+      app_index = I18n.load_path.index(first_app_element) || - 1
+
+      I18n.load_path.insert(app_index, *locale_files)
     end
 
     # The path to this plugin's public files
@@ -111,11 +125,15 @@ module Engines
     # Returns the version number of the latest migration for this plugin. Returns
     # nil if this plugin has no migrations.
     def latest_migration
-      migrations = Dir[migration_directory+"/*.rb"]
-      return nil if migrations.empty?
-      migrations.map { |p| File.basename(p) }.sort.last.match(/0*(\d+)\_/)[1].to_i
+      migrations.last
     end
-  
+    
+    # Returns the version numbers of all migrations for this plugin.
+    def migrations
+      migrations = Dir[migration_directory+"/*.rb"]
+      migrations.map { |p| File.basename(p).match(/0*(\d+)\_/)[1].to_i }.sort
+    end
+    
     # Migrate this plugin to the given version. See Engines::Plugin::Migrator for more
     # information.   
     def migrate(version = nil)

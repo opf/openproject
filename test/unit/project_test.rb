@@ -44,7 +44,7 @@ class ProjectTest < Test::Unit::TestCase
     @ecookbook.name = ""
     assert !@ecookbook.save
     assert_equal 1, @ecookbook.errors.count
-    assert_equal "activerecord_error_blank", @ecookbook.errors.on(:name)
+    assert_equal I18n.translate('activerecord.errors.messages.blank'), @ecookbook.errors.on(:name)
   end
   
   def test_archive
@@ -191,7 +191,7 @@ class ProjectTest < Test::Unit::TestCase
     child = parent.children.find(3)
   
     assert_equal [1, 2], parent.tracker_ids
-    assert_equal [2, 3], child.tracker_ids
+    assert_equal [2, 3], child.trackers.collect(&:id)
     
     assert_kind_of Tracker, parent.rolled_up_trackers.first
     assert_equal Tracker.find(1), parent.rolled_up_trackers.first

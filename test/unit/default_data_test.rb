@@ -18,6 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class DefaultDataTest < Test::Unit::TestCase
+  include Redmine::I18n
   fixtures :roles
   
   def test_no_data
@@ -30,7 +31,7 @@ class DefaultDataTest < Test::Unit::TestCase
   end
   
   def test_load
-    GLoc.valid_languages.each do |lang|
+    valid_languages.each do |lang|
       begin
         Role.delete_all("builtin = 0")
         Tracker.delete_all

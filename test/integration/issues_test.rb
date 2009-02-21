@@ -54,7 +54,7 @@ class IssuesTest < ActionController::IntegrationTest
     assert_kind_of Issue, issue
 
     # check redirection
-    assert_redirected_to :controller => 'issues', :action => 'show'
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
     follow_redirect!
     assert_equal issue, assigns(:issue)
 

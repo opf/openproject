@@ -47,7 +47,7 @@ class CustomFieldsControllerTest < Test::Unit::TestCase
                                    :field_format => "list",
                                    :tracker_ids => ["1", ""]}
     end        
-    assert_redirected_to '/custom_fields'
+    assert_redirected_to '/custom_fields?tab=IssueCustomField'
     field = IssueCustomField.find_by_name('test_post_new_list')
     assert_not_nil field
     assert_equal ["0.1", "0.2"], field.possible_values

@@ -22,10 +22,11 @@ require 'rfpdf/chinese'
 module Redmine
   module Export
     module PDF
+      include ActionView::Helpers::TextHelper
       include ActionView::Helpers::NumberHelper
       
       class IFPDF < FPDF
-        include GLoc
+        include Redmine::I18n
         attr_accessor :footer_date
         
         def initialize(lang)

@@ -29,7 +29,7 @@ class AccountTest < ActionController::IntegrationTest
   # Replace this with your real tests.
   def test_login
     get "my/page"
-    assert_redirected_to "account/login"
+    assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fmy%2Fpage"
     log_user('jsmith', 'jsmith')
     
     get "my/account"
@@ -45,7 +45,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_template "account/lost_password"
     
     post "account/lost_password", :mail => 'jSmith@somenet.foo'
-    assert_redirected_to "account/login"
+    assert_redirected_to "/login"
     
     token = Token.find(:first)
     assert_equal 'recovery', token.action
@@ -57,7 +57,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_template "account/password_recovery"
     
     post "account/lost_password", :token => token.value, :new_password => 'newpass', :new_password_confirmation => 'newpass'
-    assert_redirected_to "account/login"
+    assert_redirected_to "/login"
     assert_equal 'Password was successfully updated.', flash[:notice]
     
     log_user('jsmith', 'newpass')
@@ -86,7 +86,7 @@ class AccountTest < ActionController::IntegrationTest
     
     post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"}, 
                              :password => "newpass", :password_confirmation => "newpass"
-    assert_redirected_to 'account/login'
+    assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
   end
   
@@ -96,7 +96,7 @@ class AccountTest < ActionController::IntegrationTest
     
     post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"}, 
                              :password => "newpass", :password_confirmation => "newpass"
-    assert_redirected_to 'account/login'
+    assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
     
     token = Token.find(:first)
@@ -105,7 +105,7 @@ class AccountTest < ActionController::IntegrationTest
     assert !token.expired?
     
     get 'account/activate', :token => token.value
-    assert_redirected_to 'account/login'
+    assert_redirected_to '/login'
     log_user('newuser', 'newpass')
   end
   
@@ -139,7 +139,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_no_tag :input, :attributes => { :name => 'user[password]' }
     
     post 'account/register', :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
-    assert_redirected_to 'my/account'
+    assert_redirected_to '/my/account'
     
     user = User.find_by_login('foo')
     assert user.is_a?(User)

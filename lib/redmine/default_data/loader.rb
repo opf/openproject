@@ -20,7 +20,7 @@ module Redmine
     class DataAlreadyLoaded < Exception; end
 
     module Loader
-      include GLoc
+      include Redmine::I18n
     
       class << self
         # Returns true if no data is already loaded in the database

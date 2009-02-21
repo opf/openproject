@@ -1,0 +1,807 @@
+# Chinese (China) translations for Ruby on Rails 
+# by tsechingho (http://github.com/tsechingho)
+
+zh:
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b%d日"
+      long: "%Y年%b%d日"
+    day_names: [星期天, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六]
+    abbr_day_names: [日, 一, 二, 三, 四, 五, 六]
+    month_names: [~, 一月, 二月, 三月, 四月, 五月, 六月, 七月, 八月, 九月, 十月, 十一月, 十二月]
+    abbr_month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
+    order: [ :year, :month, :day ]
+  
+  time:
+    formats:
+      default: "%Y年%b%d日 %A %H:%M:%S %Z"
+      short: "%b%d日 %H:%M"
+      long: "%Y年%b%d日 %H:%M"
+    am: "上午"
+    pm: "下午"
+  
+  datetime:
+    distance_in_words:
+      half_a_minute: "半分钟"
+      less_than_x_seconds:
+        one: "一秒内"
+        other: "少于 {{count}} 秒"
+      x_seconds:
+        one: "一秒"
+        other: "{{count}} 秒"
+      less_than_x_minutes:
+        one: "一分钟内"
+        other: "少于 {{count}} 分钟"
+      x_minutes:
+        one: "一分钟"
+        other: "{{count}} 分钟"
+      about_x_hours:
+        one: "大约一小时"
+        other: "大约 {{count}} 小时"
+      x_days:
+        one: "一天"
+        other: "{{count}} 天"
+      about_x_months:
+        one: "大约一个月"
+        other: "大约 {{count}} 个月"
+      x_months:
+        one: "一个月"
+        other: "{{count}} 个月"
+      about_x_years:
+        one: "大约一年"
+        other: "大约 {{count}} 年"
+      over_x_years:
+        one: "一年以上"
+        other: "{{count}} 年以上"
+    prompts:
+      year:   "年"
+      month:  "月"
+      day:    "日"
+      hour:   "时"
+      minute: "分"
+      second: "秒"
+  
+  number:
+    format:
+      separator: "."
+      delimiter: ","
+      precision: 3
+    currency:
+      format:
+        format: "%u %n"
+        unit: "CNY"
+        separator: "."
+        delimiter: ","
+        precision: 2
+    percentage:
+      format:
+        delimiter: ""
+    precision:
+      format:
+        delimiter: ""
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units: [Bytes, KB, MB, GB, TB]
+  
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " 和 "
+      last_word_connector: ", 和 "
+  
+  activerecord:
+    errors:
+      template:
+        header: 
+          one: "有 1 个错误发生导致「{{model}}」无法被保存。"
+          other: "有 {{count}} 个错误发生导致「{{model}}」无法被保存。"
+        body: "如下字段出现错误："
+      messages:
+        inclusion: "不包含于列表中"
+        exclusion: "是保留关键字"
+        invalid: "是无效的"
+        confirmation: "与确认值不匹配"
+        accepted: "必须是可被接受的"
+        empty: "不能留空"
+        blank: "不能为空字符"
+        too_long: "过长（最长为 {{count}} 个字符）"
+        too_short: "過短（最短为 {{count}} 个字符）"
+        wrong_length: "长度非法（必须为 {{count}} 个字符）"
+        taken: "已经被使用"
+        not_a_number: "不是数字"
+        greater_than: "必须大于 {{count}}"
+        greater_than_or_equal_to: "必须大于或等于 {{count}}"
+        equal_to: "必须等于 {{count}}"
+        less_than: "必须小于 {{count}}"
+        less_than_or_equal_to: "必须小于或等于 {{count}}"
+        odd: "必须为单数"
+        even: "必须为双数"
+        greater_than_start_date: "必须在起始日期之后"
+        not_same_project: "不属于同一个项目"
+        circular_dependency: "此关联将导致循环依赖"
+
+  actionview_instancetag_blank_option: 请选择
+  
+  general_text_No: '否'
+  general_text_Yes: '是'
+  general_text_no: '否'
+  general_text_yes: '是'
+  general_lang_name: 'Simplified Chinese (简体中文)'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: gb2312
+  general_pdf_encoding: gb2312
+  general_first_day_of_week: '7'
+  
+  notice_account_updated: 帐号更新成功
+  notice_account_invalid_creditentials: 无效的用户名或密码
+  notice_account_password_updated: 密码更新成功
+  notice_account_wrong_password: 密码错误
+  notice_account_register_done: 帐号创建成功，请使用注册确认邮件中的链接来激活您的帐号。
+  notice_account_unknown_email: 未知用户
+  notice_can_t_change_password: 该帐号使用了外部认证，因此无法更改密码。
+  notice_account_lost_email_sent: 系统已将引导您设置新密码的邮件发送给您。
+  notice_account_activated: 您的帐号已被激活。您现在可以登录了。
+  notice_successful_create: 创建成功
+  notice_successful_update: 更新成功
+  notice_successful_delete: 删除成功
+  notice_successful_connection: 连接成功
+  notice_file_not_found: 您访问的页面不存在或已被删除。
+  notice_locking_conflict: 数据已被另一位用户更新
+  notice_not_authorized: 对不起，您无权访问此页面。
+  notice_email_sent: "邮件已成功发送到 {{value}}"
+  notice_email_error: "发送邮件时发生错误 ({{value}})"
+  notice_feeds_access_key_reseted: 您的RSS存取键已被重置。
+  notice_failed_to_save_issues: "{{count}} 个问题保存失败（共选择 {{total}} 个问题）：{{ids}}."
+  notice_no_issue_selected: "未选择任何问题！请选择您要编辑的问题。"
+  notice_account_pending: "您的帐号已被成功创建，正在等待管理员的审核。"
+  notice_default_data_loaded: 成功载入默认设置。
+  notice_unable_delete_version: 无法删除版本
+  
+  error_can_t_load_default_data: "无法载入默认设置：{{value}}"
+  error_scm_not_found: "版本库中不存在该条目和（或）其修订版本。"
+  error_scm_command_failed: "访问版本库时发生错误：{{value}}"
+  error_scm_annotate: "该条目不存在或无法追溯。"
+  error_issue_not_found_in_project: '问题不存在或不属于此项目'
+  
+  warning_attachments_not_saved: "{{count}} 个文件保存失败。"
+  
+  mail_subject_lost_password: "您的 {{value}} 密码"
+  mail_body_lost_password: '请点击以下链接来修改您的密码：'
+  mail_subject_register: "{{value}}帐号激活"
+  mail_body_register: '请点击以下链接来激活您的帐号：'
+  mail_body_account_information_external: "您可以使用您的 {{value}} 帐号来登录。"
+  mail_body_account_information: 您的帐号信息
+  mail_subject_account_activation_request: "{{value}}帐号激活请求"
+  mail_body_account_activation_request: "新用户（{{value}}）已完成注册，正在等候您的审核：'"
+  mail_subject_reminder: "{{count}} 个问题需要尽快解决"
+  mail_body_reminder: "指派给您的 {{count}} 个问题需要在 {{days}} 天内完成："
+  
+  gui_validation_error: 1 个错误
+  gui_validation_error_plural: "{{count}} 个错误"
+  
+  field_name: 名称
+  field_description: 描述
+  field_summary: 摘要
+  field_is_required: 必填
+  field_firstname: 名字
+  field_lastname: 姓氏
+  field_mail: 邮件地址
+  field_filename: 文件
+  field_filesize: 大小
+  field_downloads: 下载次数
+  field_author: 作者
+  field_created_on: 创建于
+  field_updated_on: 更新于
+  field_field_format: 格式
+  field_is_for_all: 用于所有项目
+  field_possible_values: 可能的值
+  field_regexp: 正则表达式
+  field_min_length: 最小长度
+  field_max_length: 最大长度
+  field_value: 值
+  field_category: 类别
+  field_title: 标题
+  field_project: 项目
+  field_issue: 问题
+  field_status: 状态
+  field_notes: 说明
+  field_is_closed: 已关闭的问题
+  field_is_default: 默认值
+  field_tracker: 跟踪
+  field_subject: 主题
+  field_due_date: 完成日期
+  field_assigned_to: 指派给
+  field_priority: 优先级
+  field_fixed_version: 目标版本
+  field_user: 用户
+  field_role: 角色
+  field_homepage: 主页
+  field_is_public: 公开
+  field_parent: 上级项目
+  field_is_in_chlog: 在更新日志中显示问题
+  field_is_in_roadmap: 在路线图中显示问题
+  field_login: 登录名
+  field_mail_notification: 邮件通知
+  field_admin: 管理员
+  field_last_login_on: 最后登录
+  field_language: 语言
+  field_effective_date: 日期
+  field_password: 密码
+  field_new_password: 新密码
+  field_password_confirmation: 确认
+  field_version: 版本
+  field_type: 类型
+  field_host: 主机
+  field_port: 端口
+  field_account: 帐号
+  field_base_dn: Base DN
+  field_attr_login: 登录名属性
+  field_attr_firstname: 名字属性
+  field_attr_lastname: 姓氏属性
+  field_attr_mail: 邮件属性
+  field_onthefly: 即时用户生成
+  field_start_date: 开始
+  field_done_ratio: 完成度
+  field_auth_source: 认证模式
+  field_hide_mail: 隐藏我的邮件地址
+  field_comments: 注释
+  field_url: URL
+  field_start_page: 起始页
+  field_subproject: 子项目
+  field_hours: 小时
+  field_activity: 活动
+  field_spent_on: 日期
+  field_identifier: 标识
+  field_is_filter: 作为过滤条件
+  field_issue_to_id: 相关问题
+  field_delay: 延期
+  field_assignable: 问题可指派给此角色
+  field_redirect_existing_links: 重定向到现有链接
+  field_estimated_hours: 预期时间
+  field_column_names: 列
+  field_time_zone: 时区
+  field_searchable: 可用作搜索条件
+  field_default_value: 默认值
+  field_comments_sorting: 显示注释
+  field_parent_title: 上级页面
+  field_editable: 可编辑
+  
+  setting_app_title: 应用程序标题
+  setting_app_subtitle: 应用程序子标题
+  setting_welcome_text: 欢迎文字
+  setting_default_language: 默认语言
+  setting_login_required: 要求认证
+  setting_self_registration: 允许自注册
+  setting_attachment_max_size: 附件大小限制
+  setting_issues_export_limit: 问题输出条目的限制
+  setting_mail_from: 邮件发件人地址
+  setting_bcc_recipients: 使用密件抄送 (bcc)
+  setting_plain_text_mail: 纯文本（无HTML）
+  setting_host_name: 主机名称
+  setting_text_formatting: 文本格式
+  setting_wiki_compression: 压缩Wiki历史文档
+  setting_feeds_limit: RSS Feed内容条数限制
+  setting_default_projects_public: 新建项目默认为公开项目
+  setting_autofetch_changesets: 自动获取程序变更
+  setting_sys_api_enabled: 启用用于版本库管理的Web Service
+  setting_commit_ref_keywords: 用于引用问题的关键字
+  setting_commit_fix_keywords: 用于解决问题的关键字
+  setting_autologin: 自动登录
+  setting_date_format: 日期格式
+  setting_time_format: 时间格式
+  setting_cross_project_issue_relations: 允许不同项目之间的问题关联
+  setting_issue_list_default_columns: 问题列表中显示的默认列
+  setting_repositories_encodings: 版本库编码
+  setting_commit_logs_encoding: 提交注释的编码
+  setting_emails_footer: 邮件签名
+  setting_protocol: 协议
+  setting_per_page_options: 每页显示条目个数的设置
+  setting_user_format: 用户显示格式
+  setting_activity_days_default: 在项目活动中显示的天数
+  setting_display_subprojects_issues: 在项目页面上默认显示子项目的问题
+  setting_enabled_scm: 启用 SCM
+  setting_mail_handler_api_enabled: 启用用于接收邮件的服务
+  setting_mail_handler_api_key: API key
+  setting_sequential_project_identifiers: 顺序产生项目标识
+  setting_gravatar_enabled: 使用Gravatar用户头像
+  setting_diff_max_lines_displayed: 查看差别页面上显示的最大行数
+  
+  permission_edit_project: 编辑项目
+  permission_select_project_modules: 选择项目模块
+  permission_manage_members: 管理成员
+  permission_manage_versions: 管理版本
+  permission_manage_categories: 管理问题类别
+  permission_add_issues: 新建问题
+  permission_edit_issues: 更新问题
+  permission_manage_issue_relations: 管理问题关联
+  permission_add_issue_notes: 添加说明
+  permission_edit_issue_notes: 编辑说明
+  permission_edit_own_issue_notes: 编辑自己的说明
+  permission_move_issues: 移动问题
+  permission_delete_issues: 删除问题
+  permission_manage_public_queries: 管理公开的查询
+  permission_save_queries: 保存查询
+  permission_view_gantt: 查看甘特图
+  permission_view_calendar: 查看日历
+  permission_view_issue_watchers: 查看跟踪者列表
+  permission_add_issue_watchers: 添加跟踪者
+  permission_log_time: 登记工时
+  permission_view_time_entries: 查看耗时
+  permission_edit_time_entries: 编辑耗时
+  permission_edit_own_time_entries: 编辑自己的耗时
+  permission_manage_news: 管理新闻
+  permission_comment_news: 为新闻添加评论
+  permission_manage_documents: 管理文档
+  permission_view_documents: 查看文档
+  permission_manage_files: 管理文件
+  permission_view_files: 查看文件
+  permission_manage_wiki: 管理Wiki
+  permission_rename_wiki_pages: 重命名Wiki页面
+  permission_delete_wiki_pages: 删除Wiki页面
+  permission_view_wiki_pages: 查看Wiki
+  permission_view_wiki_edits: 查看Wiki历史记录
+  permission_edit_wiki_pages: 编辑Wiki页面
+  permission_delete_wiki_pages_attachments: 删除附件
+  permission_protect_wiki_pages: 保护Wiki页面
+  permission_manage_repository: 管理版本库
+  permission_browse_repository: 浏览版本库
+  permission_view_changesets: 查看变更
+  permission_commit_access: 访问提交信息
+  permission_manage_boards: 管理讨论区
+  permission_view_messages: 查看帖子
+  permission_add_messages: 发表帖子
+  permission_edit_messages: 编辑帖子
+  permission_edit_own_messages: 编辑自己的帖子
+  permission_delete_messages: 删除帖子
+  permission_delete_own_messages: 删除自己的帖子
+  
+  project_module_issue_tracking: 问题跟踪
+  project_module_time_tracking: 时间跟踪
+  project_module_news: 新闻
+  project_module_documents: 文档
+  project_module_files: 文件
+  project_module_wiki: Wiki
+  project_module_repository: 版本库
+  project_module_boards: 讨论区
+  
+  label_user: 用户
+  label_user_plural: 用户
+  label_user_new: 新建用户
+  label_project: 项目
+  label_project_new: 新建项目
+  label_project_plural: 项目
+  label_x_projects:
+    zero:  no projects
+    one:   1 project
+    other: "{{count}} projects"
+  label_project_all: 所有的项目
+  label_project_latest: 最近更新的项目
+  label_issue: 问题
+  label_issue_new: 新建问题
+  label_issue_plural: 问题
+  label_issue_view_all: 查看所有问题
+  label_issues_by: "按 {{value}} 分组显示问题"
+  label_issue_added: 问题已添加
+  label_issue_updated: 问题已更新
+  label_document: 文档
+  label_document_new: 新建文档
+  label_document_plural: 文档
+  label_document_added: 文档已添加
+  label_role: 角色
+  label_role_plural: 角色
+  label_role_new: 新建角色
+  label_role_and_permissions: 角色和权限
+  label_member: 成员
+  label_member_new: 新建成员
+  label_member_plural: 成员
+  label_tracker: 跟踪标签
+  label_tracker_plural: 跟踪标签
+  label_tracker_new: 新建跟踪标签
+  label_workflow: 工作流程
+  label_issue_status: 问题状态
+  label_issue_status_plural: 问题状态
+  label_issue_status_new: 新建问题状态
+  label_issue_category: 问题类别
+  label_issue_category_plural: 问题类别
+  label_issue_category_new: 新建问题类别
+  label_custom_field: 自定义属性
+  label_custom_field_plural: 自定义属性
+  label_custom_field_new: 新建自定义属性
+  label_enumerations: 枚举值
+  label_enumeration_new: 新建枚举值
+  label_information: 信息
+  label_information_plural: 信息
+  label_please_login: 请登录
+  label_register: 注册
+  label_password_lost: 忘记密码
+  label_home: 主页
+  label_my_page: 我的工作台
+  label_my_account: 我的帐号
+  label_my_projects: 我的项目
+  label_administration: 管理
+  label_login: 登录
+  label_logout: 退出
+  label_help: 帮助
+  label_reported_issues: 已报告的问题
+  label_assigned_to_me_issues: 指派给我的问题
+  label_last_login: 最后登录
+  label_registered_on: 注册于
+  label_activity: 活动
+  label_overall_activity: 全部活动
+  label_user_activity: "{{value}} 的活动"
+  label_new: 新建
+  label_logged_as: 登录为
+  label_environment: 环境
+  label_authentication: 认证
+  label_auth_source: 认证模式
+  label_auth_source_new: 新建认证模式
+  label_auth_source_plural: 认证模式
+  label_subproject_plural: 子项目
+  label_and_its_subprojects: "{{value}} 及其子项目"
+  label_min_max_length: 最小 - 最大 长度
+  label_list: 列表
+  label_date: 日期
+  label_integer: 整数
+  label_float: 浮点数
+  label_boolean: 布尔量
+  label_string: 文字
+  label_text: 长段文字
+  label_attribute: 属性
+  label_attribute_plural: 属性
+  label_download: "{{count}} 次下载"
+  label_download_plural: "{{count}} 次下载"
+  label_no_data: 没有任何数据可供显示
+  label_change_status: 变更状态
+  label_history: 历史记录
+  label_attachment: 文件
+  label_attachment_new: 新建文件
+  label_attachment_delete: 删除文件
+  label_attachment_plural: 文件
+  label_file_added: 文件已添加
+  label_report: 报表
+  label_report_plural: 报表
+  label_news: 新闻
+  label_news_new: 添加新闻
+  label_news_plural: 新闻
+  label_news_latest: 最近的新闻
+  label_news_view_all: 查看所有新闻
+  label_news_added: 新闻已添加
+  label_change_log: 更新日志
+  label_settings: 配置
+  label_overview: 概述
+  label_version: 版本
+  label_version_new: 新建版本
+  label_version_plural: 版本
+  label_confirmation: 确认
+  label_export_to: 导出
+  label_read: 读取...
+  label_public_projects: 公开的项目
+  label_open_issues: 打开
+  label_open_issues_plural: 打开
+  label_closed_issues: 已关闭
+  label_closed_issues_plural: 已关闭
+  label_x_open_issues_abbr_on_total:
+    zero:  0 open / {{total}}
+    one:   1 open / {{total}}
+    other: "{{count}} open / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 open
+    one:   1 open
+    other: "{{count}} open"
+  label_x_closed_issues_abbr:
+    zero:  0 closed
+    one:   1 closed
+    other: "{{count}} closed"
+  label_total: 合计
+  label_permissions: 权限
+  label_current_status: 当前状态
+  label_new_statuses_allowed: 可变更的新状态
+  label_all: 全部
+  label_none: 无
+  label_nobody: 无人
+  label_next: 下一个
+  label_previous: 上一个
+  label_used_by: 使用中
+  label_details: 详情
+  label_add_note: 添加说明
+  label_per_page: 每页
+  label_calendar: 日历
+  label_months_from: 个月以来
+  label_gantt: 甘特图
+  label_internal: 内部
+  label_last_changes: "最近的 {{count}} 次变更"
+  label_change_view_all: 查看所有变更
+  label_personalize_page: 个性化定制本页
+  label_comment: 评论
+  label_comment_plural: 评论
+  label_x_comments:
+    zero: no comments
+    one: 1 comment
+    other: "{{count}} comments"
+  label_comment_add: 添加评论
+  label_comment_added: 评论已添加
+  label_comment_delete: 删除评论
+  label_query: 自定义查询
+  label_query_plural: 自定义查询
+  label_query_new: 新建查询
+  label_filter_add: 增加过滤器
+  label_filter_plural: 过滤器
+  label_equals: 等于
+  label_not_equals: 不等于
+  label_in_less_than: 剩余天数小于
+  label_in_more_than: 剩余天数大于
+  label_in: 剩余天数
+  label_today: 今天
+  label_all_time: 全部时间
+  label_yesterday: 昨天
+  label_this_week: 本周
+  label_last_week: 下周
+  label_last_n_days: "最后 {{count}} 天"
+  label_this_month: 本月
+  label_last_month: 下月
+  label_this_year: 今年
+  label_date_range: 日期范围
+  label_less_than_ago: 之前天数少于
+  label_more_than_ago: 之前天数大于
+  label_ago: 之前天数
+  label_contains: 包含
+  label_not_contains: 不包含
+  label_day_plural: 天
+  label_repository: 版本库
+  label_repository_plural: 版本库
+  label_browse: 浏览
+  label_modification: "{{count}} 个更新"
+  label_modification_plural: "{{count}} 个更新"
+  label_revision: 修订
+  label_revision_plural: 修订
+  label_associated_revisions: 相关修订版本
+  label_added: 已添加
+  label_modified: 已修改
+  label_copied: 已复制
+  label_renamed: 已重命名
+  label_deleted: 已删除
+  label_latest_revision: 最近的修订版本
+  label_latest_revision_plural: 最近的修订版本
+  label_view_revisions: 查看修订
+  label_max_size: 最大尺寸
+  label_sort_highest: 置顶
+  label_sort_higher: 上移
+  label_sort_lower: 下移
+  label_sort_lowest: 置底
+  label_roadmap: 路线图
+  label_roadmap_due_in: "截止日期到  {{value}}"
+  label_roadmap_overdue: "{{value}} 延期"
+  label_roadmap_no_issues: 该版本没有问题
+  label_search: 搜索
+  label_result_plural: 结果
+  label_all_words: 所有单词
+  label_wiki: Wiki
+  label_wiki_edit: Wiki 编辑
+  label_wiki_edit_plural: Wiki 编辑记录
+  label_wiki_page: Wiki 页面
+  label_wiki_page_plural: Wiki 页面
+  label_index_by_title: 按标题索引
+  label_index_by_date: 按日期索引
+  label_current_version: 当前版本
+  label_preview: 预览
+  label_feed_plural: Feeds
+  label_changes_details: 所有变更的详情
+  label_issue_tracking: 问题跟踪
+  label_spent_time: 耗时
+  label_f_hour: "{{value}} 小时"
+  label_f_hour_plural: "{{value}} 小时"
+  label_time_tracking: 时间跟踪
+  label_change_plural: 变更
+  label_statistics: 统计
+  label_commits_per_month: 每月提交次数
+  label_commits_per_author: 每用户提交次数
+  label_view_diff: 查看差别
+  label_diff_inline: 直列
+  label_diff_side_by_side: 并排
+  label_options: 选项
+  label_copy_workflow_from: 从以下项目复制工作流程
+  label_permissions_report: 权限报表
+  label_watched_issues: 跟踪的问题
+  label_related_issues: 相关的问题
+  label_applied_status: 应用后的状态
+  label_loading: 载入中...
+  label_relation_new: 新建关联
+  label_relation_delete: 删除关联
+  label_relates_to: 关联到
+  label_duplicates: 重复
+  label_duplicated_by: 与其重复
+  label_blocks: 阻挡
+  label_blocked_by: 被阻挡
+  label_precedes: 优先于
+  label_follows: 跟随于
+  label_end_to_start: 结束-开始
+  label_end_to_end: 结束-结束
+  label_start_to_start: 开始-开始
+  label_start_to_end: 开始-结束
+  label_stay_logged_in: 保持登录状态
+  label_disabled: 禁用
+  label_show_completed_versions: 显示已完成的版本
+  label_me: 我
+  label_board: 讨论区
+  label_board_new: 新建讨论区
+  label_board_plural: 讨论区
+  label_topic_plural: 主题
+  label_message_plural: 帖子
+  label_message_last: 最新的帖子
+  label_message_new: 新贴
+  label_message_posted: 发帖成功
+  label_reply_plural: 回复
+  label_send_information: 给用户发送帐号信息
+  label_year: 年
+  label_month: 月
+  label_week: 周
+  label_date_from: 从
+  label_date_to: 到
+  label_language_based: 根据用户的语言
+  label_sort_by: "根据 {{value}} 排序"
+  label_send_test_email: 发送测试邮件
+  label_feeds_access_key_created_on: "RSS 存取键是在 {{value}} 之前建立的"
+  label_module_plural: 模块
+  label_added_time_by: "由 {{author}} 在 {{age}} 之前添加"
+  label_updated_time: " 更新于 {{value}} 之前"
+  label_updated_time_by: "由 {{author}} 更新于 {{age}} 之前"
+  label_jump_to_a_project: 选择一个项目...
+  label_file_plural: 文件
+  label_changeset_plural: 变更
+  label_default_columns: 默认列
+  label_no_change_option: (不变)
+  label_bulk_edit_selected_issues: 批量修改选中的问题
+  label_theme: 主题
+  label_default: 默认
+  label_search_titles_only: 仅在标题中搜索
+  label_user_mail_option_all: "收取我的项目的所有通知"
+  label_user_mail_option_selected: "收取选中项目的所有通知..."
+  label_user_mail_option_none: "只收取我跟踪或参与的项目的通知"
+  label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
+  label_registration_activation_by_email: 通过邮件认证激活帐号
+  label_registration_manual_activation: 手动激活帐号
+  label_registration_automatic_activation: 自动激活帐号
+  label_display_per_page: "每页显示：{{value}}'"
+  label_age: 年龄
+  label_change_properties: 修改属性
+  label_general: 一般
+  label_more: 更多
+  label_scm: SCM
+  label_plugins: 插件
+  label_ldap_authentication: LDAP 认证
+  label_downloads_abbr: D/L
+  label_optional_description: 可选的描述
+  label_add_another_file: 添加其它文件
+  label_preferences: 首选项
+  label_chronological_order: 按时间顺序
+  label_reverse_chronological_order: 按时间顺序（倒序）
+  label_planning: 计划
+  label_incoming_emails: 接收邮件
+  label_generate_key: 生成一个key
+  label_issue_watchers: 跟踪者
+  label_example: 示例
+  label_display: 显示
+  
+  button_login: 登录
+  button_submit: 提交
+  button_save: 保存
+  button_check_all: 全选
+  button_uncheck_all: 清除
+  button_delete: 删除
+  button_create: 创建
+  button_create_and_continue: 创建并继续
+  button_test: 测试
+  button_edit: 编辑
+  button_add: 新增
+  button_change: 修改
+  button_apply: 应用
+  button_clear: 清除
+  button_lock: 锁定
+  button_unlock: 解锁
+  button_download: 下载
+  button_list: 列表
+  button_view: 查看
+  button_move: 移动
+  button_back: 返回
+  button_cancel: 取消
+  button_activate: 激活
+  button_sort: 排序
+  button_log_time: 登记工时
+  button_rollback: 恢复到这个版本
+  button_watch: 跟踪
+  button_unwatch: 取消跟踪
+  button_reply: 回复
+  button_archive: 存档
+  button_unarchive: 取消存档
+  button_reset: 重置
+  button_rename: 重命名
+  button_change_password: 修改密码
+  button_copy: 复制
+  button_annotate: 追溯
+  button_update: 更新
+  button_configure: 配置
+  button_quote: 引用
+  
+  status_active: 活动的
+  status_registered: 已注册
+  status_locked: 已锁定
+  
+  text_select_mail_notifications: 选择需要发送邮件通知的动作
+  text_regexp_info: 例如：^[A-Z0-9]+$
+  text_min_max_length_info: 0 表示没有限制
+  text_project_destroy_confirmation: 您确信要删除这个项目以及所有相关的数据吗？
+  text_subprojects_destroy_warning: "以下子项目也将被同时删除：{{value}}'"
+  text_workflow_edit: 选择角色和跟踪标签来编辑工作流程
+  text_are_you_sure: 您确定？
+  text_journal_changed: "从 {{old}} 变更为 {{new}}"
+  text_journal_set_to: "设置为 {{value}}"
+  text_journal_deleted: 已删除
+  text_tip_task_begin_day: 今天开始的任务
+  text_tip_task_end_day: 今天结束的任务
+  text_tip_task_begin_end_day: 今天开始并结束的任务
+  text_project_identifier_info: '只允许使用小写字母（a-z），数字和连字符（-）。<br />请注意，标识符保存后将不可修改。'
+  text_caracters_maximum: "最多 {{count}} 个字符。"
+  text_caracters_minimum: "至少需要 {{count}} 个字符。"
+  text_length_between: "长度必须在 {{min}} 到 {{max}} 个字符之间。"
+  text_tracker_no_workflow: 此跟踪标签未定义工作流程
+  text_unallowed_characters: 非法字符
+  text_comma_separated: 可以使用多个值（用逗号,分开）。
+  text_issues_ref_in_commit_messages: 在提交信息中引用和解决问题
+  text_issue_added: "问题 {{id}} 已由 {{author}} 提交。"
+  text_issue_updated: "问题 {{id}} 已由 {{author}} 更新。"
+  text_wiki_destroy_confirmation: 您确定要删除这个 wiki 及其所有内容吗？
+  text_issue_category_destroy_question: "有一些问题（{{count}} 个）属于此类别。您想进行哪种操作？"
+  text_issue_category_destroy_assignments: 删除问题的所属类别（问题变为无类别）
+  text_issue_category_reassign_to: 为问题选择其它类别
+  text_user_mail_option: "对于没有选中的项目，您将只会收到您跟踪或参与的项目的通知（比如说，您是问题的报告者, 或被指派解决此问题）。"
+  text_no_configuration_data: "角色、跟踪标签、问题状态和工作流程还没有设置。\n强烈建议您先载入默认设置，然后在此基础上进行修改。"
+  text_load_default_configuration: 载入默认设置
+  text_status_changed_by_changeset: "已应用到变更列表 {{value}}."
+  text_issues_destroy_confirmation: '您确定要删除选中的问题吗？'
+  text_select_project_modules: '请选择此项目可以使用的模块：'
+  text_default_administrator_account_changed: 默认的管理员帐号已改变
+  text_file_repository_writable: 附件路径可写
+  text_plugin_assets_writable: 插件的附件路径可写
+  text_rmagick_available: RMagick 可用（可选的）
+  text_destroy_time_entries_question: 您要删除的问题已经上报了 %.02f 小时的工作量。您想进行那种操作？
+  text_destroy_time_entries: 删除上报的工作量
+  text_assign_time_entries_to_project: 将已上报的工作量提交到项目中
+  text_reassign_time_entries: '将已上报的工作量指定到此问题：'
+  text_user_wrote: "{{value}} 写到：'"
+  text_enumeration_category_reassign_to: '将它们关联到新的枚举值：'
+  text_enumeration_destroy_question: "{{count}} 个对象被关联到了这个枚举值。'"
+  text_email_delivery_not_configured: "邮件参数尚未配置，因此邮件通知功能已被禁用。\n请在config/email.yml中配置您的SMTP服务器信息并重新启动以使其生效。"
+  text_repository_usernames_mapping: "选择或更新与版本库中的用户名对应的Redmine用户。\n版本库中与Redmine中的同名用户将被自动对应。"
+  text_diff_truncated: '... 差别内容超过了可显示的最大行数并已被截断'
+  text_custom_field_possible_values_info: '每项数值一行'
+  
+  default_role_manager: 管理人员
+  default_role_developper: 开发人员
+  default_role_reporter: 报告人员
+  default_tracker_bug: 错误
+  default_tracker_feature: 功能
+  default_tracker_support: 支持
+  default_issue_status_new: 新建
+  default_issue_status_assigned: 已指派
+  default_issue_status_resolved: 已解决
+  default_issue_status_feedback: 反馈
+  default_issue_status_closed: 已关闭
+  default_issue_status_rejected: 已拒绝
+  default_doc_category_user: 用户文档
+  default_doc_category_tech: 技术文档
+  default_priority_low: 低
+  default_priority_normal: 普通
+  default_priority_high: 高
+  default_priority_urgent: 紧急
+  default_priority_immediate: 立刻
+  default_activity_design: 设计
+  default_activity_development: 开发
+  
+  enumeration_issue_priorities: 问题优先级
+  enumeration_doc_categories: 文档类别
+  enumeration_activities: 活动（时间跟踪）
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log

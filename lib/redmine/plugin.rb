@@ -67,6 +67,9 @@ module Redmine #:nodoc:
       p.instance_eval(&block)
       # Set a default name if it was not provided during registration
       p.name(id.to_s.humanize) if p.name.nil?
+      # Adds plugin locales if any
+      # YAML translation files should be found under <plugin>/config/locales/
+      ::I18n.load_path += Dir.glob(File.join(RAILS_ROOT, 'vendor', 'plugins', id.to_s, 'config', 'locales', '*.yml'))
       registered_plugins[id] = p
     end
     

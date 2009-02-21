@@ -356,6 +356,7 @@ div.flash.warning {
 }
 
 #errorExplanation ul { font-size: 0.9em;}
+#errorExplanation h2, #errorExplanation p { display: none; }
 
 /***** Ajax indicator ******/
 #ajax-indicator {

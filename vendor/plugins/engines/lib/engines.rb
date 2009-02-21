@@ -43,7 +43,7 @@ module Engines
   
   # List of extensions to load, can be changed in init.rb before calling Engines.init
   mattr_accessor :rails_extensions
-  self.rails_extensions = %w(action_mailer asset_helpers routing migrations dependencies)
+  self.rails_extensions = %w(action_mailer asset_helpers form_tag_helpers routing migrations dependencies)
   
   # The name of the public directory to mirror public engine assets into.
   # Defaults to <tt>RAILS_ROOT/public/plugin_assets</tt>.
@@ -142,6 +142,11 @@ module Engines
       source_files = Dir[source + "/**/*"]
       source_dirs = source_files.select { |d| File.directory?(d) }
       source_files -= source_dirs
+      
+      unless source_files.empty?
+        base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(source, ''))
+        FileUtils.mkdir_p(base_target_dir)
+      end
       
       source_dirs.each do |dir|
         # strip down these paths so we have simple, relative paths we can

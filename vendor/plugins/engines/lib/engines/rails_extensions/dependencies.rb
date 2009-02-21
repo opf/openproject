@@ -102,16 +102,14 @@ module Engines::RailsExtensions::Dependencies
       # if we recognise this type
       # (this regexp splits out the module/filename from any instances of app/#{type}, so that
       #  modules are still respected.)
-      if file_name =~ /^(.*app\/#{file_type}s\/)?(.*_#{file_type})(\.rb)?$/
+      if file_name =~ /^(.*app\/#{file_type}s\/)+(.*_#{file_type})(\.rb)?$/
         base_name = $2
         # ... go through the plugins from first started to last, so that
         # code with a high precedence (started later) will override lower precedence
         # implementations
         Engines.plugins.each do |plugin|
           plugin_file_name = File.expand_path(File.join(plugin.directory, 'app', "#{file_type}s", base_name))
-          Engines.logger.debug("checking plugin '#{plugin.name}' for '#{base_name}'")
           if File.file?("#{plugin_file_name}.rb")
-            Engines.logger.debug("==> loading from plugin '#{plugin.name}'")
             file_loaded = true if require_or_load_without_engine_additions(plugin_file_name, const_path)
           end
         end
@@ -119,16 +117,11 @@ module Engines::RailsExtensions::Dependencies
         # finally, load any application-specific controller classes using the 'proper'
         # rails load mechanism, EXCEPT when we're testing engines and could load this file
         # from an engine
-        if Engines.disable_application_code_loading
-          Engines.logger.debug("loading from application disabled.")
-        else
+        unless Engines.disable_application_code_loading
           # Ensure we are only loading from the /app directory at this point
           app_file_name = File.join(RAILS_ROOT, 'app', "#{file_type}s", "#{base_name}")
           if File.file?("#{app_file_name}.rb")
-            Engines.logger.debug("loading from application: #{base_name}")
             file_loaded = true if require_or_load_without_engine_additions(app_file_name, const_path)
-          else
-            Engines.logger.debug("(file not found in application)")
           end
         end        
       end 
@@ -140,4 +133,6 @@ module Engines::RailsExtensions::Dependencies
   end  
 end
 
-ActiveSupport::Dependencies.send :include, Engines::RailsExtensions::Dependencies
+module ActiveSupport::Dependencies #:nodoc:
+  include Engines::RailsExtensions::Dependencies
+end

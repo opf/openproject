@@ -1,0 +1,775 @@
+uk:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+      
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "am"
+    pm: "pm"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "half a minute"
+      less_than_x_seconds:
+        one:   "less than 1 second"
+        other: "less than {{count}} seconds"
+      x_seconds:
+        one:   "1 second"
+        other: "{{count}} seconds"
+      less_than_x_minutes:
+        one:   "less than a minute"
+        other: "less than {{count}} minutes"
+      x_minutes:
+        one:   "1 minute"
+        other: "{{count}} minutes"
+      about_x_hours:
+        one:   "about 1 hour"
+        other: "about {{count}} hours"
+      x_days:
+        one:   "1 day"
+        other: "{{count}} days"
+      about_x_months:
+        one:   "about 1 month"
+        other: "about {{count}} months"
+      x_months:
+        one:   "1 month"
+        other: "{{count}} months"
+      about_x_years:
+        one:   "about 1 year"
+        other: "about {{count}} years"
+      over_x_years:
+        one:   "over 1 year"
+        other: "over {{count}} years"
+        
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "and"
+      skip_last_comma: false
+      
+  activerecord:
+    errors:
+      messages:
+        inclusion: "немає в списку"
+        exclusion: "зарезервовано"
+        invalid: "невірне"
+        confirmation: "не збігається з підтвердженням"
+        accepted: "необхідно прийняти"
+        empty: "не може бути порожнім"
+        blank: "не може бути незаповненим"
+        too_long: "дуже довге"
+        too_short: "дуже коротке"
+        wrong_length: "не відповідає довжині"
+        taken: "вже використовується"
+        not_a_number: "не є числом"
+        not_a_date: "є недійсною датою"
+        greater_than: "must be greater than {{count}}"
+        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
+        equal_to: "must be equal to {{count}}"
+        less_than: "must be less than {{count}}"
+        less_than_or_equal_to: "must be less than or equal to {{count}}"
+        odd: "must be odd"
+        even: "must be even"
+        greater_than_start_date: "повинна бути пізніша за дату початку"
+        not_same_project: "не відносяться до одного проекту"
+        circular_dependency: "Такий зв'язок приведе до циклічної залежності"
+
+  actionview_instancetag_blank_option: Оберіть
+  
+  general_text_No: 'Ні'
+  general_text_Yes: 'Так'
+  general_text_no: 'Ні'
+  general_text_yes: 'Так'
+  general_lang_name: 'Ukrainian (Українська)'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: UTF-8
+  general_first_day_of_week: '1'
+  
+  notice_account_updated: Обліковий запис успішно оновлений.
+  notice_account_invalid_creditentials: Неправильне ім'я користувача або пароль
+  notice_account_password_updated: Пароль успішно оновлений.
+  notice_account_wrong_password: Невірний пароль
+  notice_account_register_done: Обліковий запис успішно створений. Для активації Вашого облікового запису зайдіть по посиланню, яке відіслане вам електронною поштою.
+  notice_account_unknown_email: Невідомий користувач.
+  notice_can_t_change_password: Для даного облікового запису використовується джерело зовнішньої аутентифікації. Неможливо змінити пароль.
+  notice_account_lost_email_sent: Вам відправлений лист з інструкціями по вибору нового пароля.
+  notice_account_activated: Ваш обліковий запис активований. Ви можете увійти.
+  notice_successful_create: Створення успішно завершене.
+  notice_successful_update: Оновлення успішно завершене.
+  notice_successful_delete: Видалення успішно завершене.
+  notice_successful_connection: Підключення успішно встановлене.
+  notice_file_not_found: Сторінка, на яку ви намагаєтеся зайти, не існує або видалена.
+  notice_locking_conflict: Дані оновлено іншим користувачем.
+  notice_scm_error: Запису та/або виправлення немає в репозиторії.
+  notice_not_authorized: У вас немає прав для відвідини даної сторінки.
+  notice_email_sent: "Відправлено листа {{value}}"
+  notice_email_error: "Під час відправки листа відбулася помилка ({{value}})"
+  notice_feeds_access_key_reseted: Ваш ключ доступу RSS було скинуто.
+  notice_failed_to_save_issues: "Не вдалося зберегти {{count}} пункт(ів) з {{total}} вибраних: {{ids}}."
+  notice_no_issue_selected: "Не вибрано жодної задачі! Будь ласка, відзначте задачу, яку ви хочете відредагувати."
+  notice_account_pending: "Ваш обліковий запис створено і він чекає на підтвердження адміністратором."
+  
+  mail_subject_lost_password: "Ваш {{value}} пароль"
+  mail_body_lost_password: 'Для зміни пароля, зайдіть за наступним посиланням:'
+  mail_subject_register: "Активація облікового запису {{value}}"
+  mail_body_register: 'Для активації облікового запису, зайдіть за наступним посиланням:'
+  mail_body_account_information_external: "Ви можете використовувати ваш {{value}} обліковий запис для входу."
+  mail_body_account_information: Інформація по Вашому обліковому запису
+  mail_subject_account_activation_request: "Запит на активацію облікового запису {{value}}"
+  mail_body_account_activation_request: "Новий користувач ({{value}}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:'"
+  
+  gui_validation_error: 1 помилка
+  gui_validation_error_plural: "{{count}} помилки(ок)"
+  
+  field_name: Ім'я
+  field_description: Опис
+  field_summary: Короткий опис
+  field_is_required: Необхідно
+  field_firstname: Ім'я
+  field_lastname: Прізвище
+  field_mail: Ел. пошта
+  field_filename: Файл
+  field_filesize: Розмір
+  field_downloads: Завантаження
+  field_author: Автор
+  field_created_on: Створено
+  field_updated_on: Оновлено
+  field_field_format: Формат
+  field_is_for_all: Для усіх проектів
+  field_possible_values: Можливі значення
+  field_regexp: Регулярний вираз
+  field_min_length: Мінімальна довжина 
+  field_max_length: Максимальна довжина 
+  field_value: Значення
+  field_category: Категорія
+  field_title: Назва
+  field_project: Проект
+  field_issue: Питання
+  field_status: Статус
+  field_notes: Примітки
+  field_is_closed: Питання закрито
+  field_is_default: Типове значення
+  field_tracker: Координатор
+  field_subject: Тема
+  field_due_date: Дата виконання
+  field_assigned_to: Призначена до
+  field_priority: Пріоритет
+  field_fixed_version: Target version
+  field_user: Користувач
+  field_role: Роль
+  field_homepage: Домашня сторінка
+  field_is_public: Публічний
+  field_parent: Підпроект
+  field_is_in_chlog: Питання, що відображаються в журналі змін
+  field_is_in_roadmap: Питання, що відображаються в оперативному плані
+  field_login: Вхід 
+  field_mail_notification: Повідомлення за електронною поштою
+  field_admin: Адміністратор 
+  field_last_login_on: Останнє підключення
+  field_language: Мова
+  field_effective_date: Дата
+  field_password: Пароль
+  field_new_password: Новий пароль
+  field_password_confirmation: Підтвердження
+  field_version: Версія
+  field_type: Тип
+  field_host: Машина
+  field_port: Порт
+  field_account: Обліковий запис
+  field_base_dn: Базове відмітне ім'я
+  field_attr_login: Атрибут Реєстрація
+  field_attr_firstname: Атрибут Ім'я
+  field_attr_lastname: Атрибут Прізвище
+  field_attr_mail: Атрибут Email
+  field_onthefly: Створення користувача на льоту
+  field_start_date: Початок
+  field_done_ratio: %% зроблено
+  field_auth_source: Режим аутентифікації
+  field_hide_mail: Приховувати мій email
+  field_comments: Коментар
+  field_url: URL
+  field_start_page: Стартова сторінка
+  field_subproject: Підпроект
+  field_hours: Годин(и/а)
+  field_activity: Діяльність
+  field_spent_on: Дата
+  field_identifier: Ідентифікатор
+  field_is_filter: Використовується як фільтр
+  field_issue_to_id: Зв'язані задачі
+  field_delay: Відкласти
+  field_assignable: Задача може бути призначена цій ролі
+  field_redirect_existing_links: Перенаправити існуючі посилання
+  field_estimated_hours: Оцінний час
+  field_column_names: Колонки
+  field_time_zone: Часовий пояс
+  field_searchable: Вживається у пошуку
+  
+  setting_app_title: Назва додатку
+  setting_app_subtitle: Підзаголовок додатку
+  setting_welcome_text: Текст привітання
+  setting_default_language: Стандартна мова
+  setting_login_required: Необхідна аутентифікація
+  setting_self_registration: Можлива само-реєстрація
+  setting_attachment_max_size: Максимальний размір вкладення
+  setting_issues_export_limit: Обмеження по задачах, що експортуються
+  setting_mail_from: email адреса для передачі інформації
+  setting_bcc_recipients: Отримувачі сліпої копії (bcc)
+  setting_host_name: Им'я машини
+  setting_text_formatting: Форматування тексту
+  setting_wiki_compression: Стиснення історії Wiki
+  setting_feeds_limit: Обмеження змісту подачі
+  setting_autofetch_changesets: Автоматично доставати доповнення
+  setting_sys_api_enabled: Дозволити WS для управління репозиторієм
+  setting_commit_ref_keywords: Ключові слова для посилання
+  setting_commit_fix_keywords: Призначення ключових слів
+  setting_autologin: Автоматичний вхід
+  setting_date_format: Формат дати
+  setting_time_format: Формат часу
+  setting_cross_project_issue_relations: Дозволити міжпроектні відносини між питаннями
+  setting_issue_list_default_columns: Колонки, що відображаються за умовчанням в списку питань
+  setting_repositories_encodings: Кодування репозиторія
+  setting_emails_footer: Підпис до електронної пошти
+  setting_protocol: Протокол
+  
+  label_user: Користувач
+  label_user_plural: Користувачі
+  label_user_new: Новий користувач
+  label_project: Проект
+  label_project_new: Новий проект
+  label_project_plural: Проекти
+  label_x_projects:
+    zero:  no projects
+    one:   1 project
+    other: "{{count}} projects"
+  label_project_all: Усі проекти
+  label_project_latest: Останні проекти
+  label_issue: Питання
+  label_issue_new: Нові питання
+  label_issue_plural: Питання
+  label_issue_view_all: Проглянути всі питання
+  label_issues_by: "Питання за {{value}}"
+  label_document: Документ
+  label_document_new: Новий документ
+  label_document_plural: Документи
+  label_role: Роль
+  label_role_plural: Ролі
+  label_role_new: Нова роль
+  label_role_and_permissions: Ролі і права доступу
+  label_member: Учасник
+  label_member_new: Новий учасник
+  label_member_plural: Учасники
+  label_tracker: Координатор
+  label_tracker_plural: Координатори
+  label_tracker_new: Новий Координатор
+  label_workflow: Послідовність дій
+  label_issue_status: Статус питання
+  label_issue_status_plural: Статуси питань
+  label_issue_status_new: Новий статус
+  label_issue_category: Категорія питання
+  label_issue_category_plural: Категорії питань
+  label_issue_category_new: Нова категорія
+  label_custom_field: Поле клієнта
+  label_custom_field_plural: Поля клієнта
+  label_custom_field_new: Нове поле клієнта
+  label_enumerations: Довідники
+  label_enumeration_new: Нове значення
+  label_information: Інформація
+  label_information_plural: Інформація
+  label_please_login: Будь ласка, увійдіть
+  label_register: Зареєструватися
+  label_password_lost: Забули пароль
+  label_home: Домашня сторінка
+  label_my_page: Моя сторінка
+  label_my_account: Мій обліковий запис
+  label_my_projects: Мої проекти
+  label_administration: Адміністрування
+  label_login: Увійти
+  label_logout: Вийти
+  label_help: Допомога
+  label_reported_issues: Створені питання
+  label_assigned_to_me_issues: Мої питання
+  label_last_login: Останнє підключення
+  label_registered_on: Зареєстрований(а)
+  label_activity: Активність
+  label_new: Новий
+  label_logged_as: Увійшов як
+  label_environment: Оточення
+  label_authentication: Аутентифікація
+  label_auth_source: Режим аутентифікації
+  label_auth_source_new: Новий режим аутентифікації
+  label_auth_source_plural: Режими аутентифікації
+  label_subproject_plural: Підпроекти
+  label_min_max_length: Мінімальна - максимальна довжина
+  label_list: Список
+  label_date: Дата
+  label_integer: Цілий
+  label_float: З плаваючою крапкою
+  label_boolean: Логічний
+  label_string: Текст
+  label_text: Довгий текст
+  label_attribute: Атрибут
+  label_attribute_plural: атрибути
+  label_download: "{{count}} Завантажено"
+  label_download_plural: "{{count}} Завантажень"
+  label_no_data: Немає даних для відображення
+  label_change_status: Змінити статус
+  label_history: Історія
+  label_attachment: Файл
+  label_attachment_new: Новий файл
+  label_attachment_delete: Видалити файл
+  label_attachment_plural: Файли
+  label_report: Звіт
+  label_report_plural: Звіти
+  label_news: Новини
+  label_news_new: Додати новину
+  label_news_plural: Новини
+  label_news_latest: Останні новини
+  label_news_view_all: Подивитися всі новини
+  label_change_log: Журнал змін
+  label_settings: Налаштування
+  label_overview: Перегляд
+  label_version: Версія
+  label_version_new: Нова версія
+  label_version_plural: Версії
+  label_confirmation: Підтвердження
+  label_export_to: Експортувати в
+  label_read: Читання...
+  label_public_projects: Публічні проекти
+  label_open_issues: відкрите
+  label_open_issues_plural: відкриті
+  label_closed_issues: закрите
+  label_closed_issues_plural: закриті
+  label_x_open_issues_abbr_on_total:
+    zero:  0 open / {{total}}
+    one:   1 open / {{total}}
+    other: "{{count}} open / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 open
+    one:   1 open
+    other: "{{count}} open"
+  label_x_closed_issues_abbr:
+    zero:  0 closed
+    one:   1 closed
+    other: "{{count}} closed"
+  label_total: Всього
+  label_permissions: Права доступу
+  label_current_status: Поточний статус
+  label_new_statuses_allowed: Дозволені нові статуси 
+  label_all: Усі
+  label_none: Нікому
+  label_nobody: Ніхто
+  label_next: Наступний
+  label_previous: Попередній
+  label_used_by: Використовується 
+  label_details: Подробиці
+  label_add_note: Додати зауваження 
+  label_per_page: На сторінку
+  label_calendar: Календар
+  label_months_from: місяців(ця) з
+  label_gantt: Діаграма Ганта
+  label_internal: Внутрішній
+  label_last_changes: "останні {{count}} змін"
+  label_change_view_all: Проглянути всі зміни
+  label_personalize_page: Персоналізувати цю сторінку
+  label_comment: Коментувати
+  label_comment_plural: Коментарі
+  label_x_comments:
+    zero: no comments
+    one: 1 comment
+    other: "{{count}} comments"
+  label_comment_add: Залишити коментар
+  label_comment_added: Коментар додано
+  label_comment_delete: Видалити коментарі
+  label_query: Запит клієнта
+  label_query_plural: Запити клієнтів
+  label_query_new: Новий запит
+  label_filter_add: Додати фільтр
+  label_filter_plural: Фільтри
+  label_equals: є
+  label_not_equals: немає
+  label_in_less_than: менш ніж
+  label_in_more_than: більш ніж
+  label_in: у
+  label_today: сьогодні
+  label_this_week: цього тижня
+  label_less_than_ago: менш ніж днів(я) назад 
+  label_more_than_ago: більш ніж днів(я) назад 
+  label_ago: днів(я) назад
+  label_contains: містить
+  label_not_contains: не містить
+  label_day_plural: днів(я)
+  label_repository: Репозиторій
+  label_browse: Проглянути
+  label_modification: "{{count}} зміна"
+  label_modification_plural: "{{count}} змін"
+  label_revision: Версія
+  label_revision_plural: Версій
+  label_added: додано
+  label_modified: змінене 
+  label_deleted: видалено
+  label_latest_revision: Остання версія
+  label_latest_revision_plural: Останні версії
+  label_view_revisions: Проглянути версії
+  label_max_size: Максимальний розмір
+  label_sort_highest: У початок
+  label_sort_higher: Вгору
+  label_sort_lower: Вниз
+  label_sort_lowest: У кінець
+  label_roadmap: Оперативний план
+  label_roadmap_due_in: "Строк {{value}}"
+  label_roadmap_overdue: "{{value}} запізнення"
+  label_roadmap_no_issues: Немає питань для даної версії
+  label_search: Пошук
+  label_result_plural: Результати 
+  label_all_words: Всі слова
+  label_wiki: Wiki
+  label_wiki_edit: Редагування Wiki
+  label_wiki_edit_plural: Редагування Wiki 
+  label_wiki_page: Сторінка Wiki
+  label_wiki_page_plural: Сторінки Wiki
+  label_index_by_title: Індекс за назвою
+  label_index_by_date: Індекс за датою
+  label_current_version: Поточна версія
+  label_preview: Попередній перегляд
+  label_feed_plural: Подання
+  label_changes_details: Подробиці по всіх змінах 
+  label_issue_tracking: Координація питань
+  label_spent_time: Витрачений час
+  label_f_hour: "{{value}} година"
+  label_f_hour_plural: "{{value}} годин(и)"
+  label_time_tracking: Облік часу
+  label_change_plural: Зміни
+  label_statistics: Статистика
+  label_commits_per_month: Подань на місяць
+  label_commits_per_author: Подань на користувача 
+  label_view_diff: Проглянути відмінності
+  label_diff_inline: підключений
+  label_diff_side_by_side: поряд
+  label_options: Опції
+  label_copy_workflow_from: Скопіювати послідовність дій з
+  label_permissions_report: Звіт про права доступу
+  label_watched_issues: Проглянуті питання
+  label_related_issues: Зв'язані питання
+  label_applied_status: Застосовний статус
+  label_loading: Завантаження...
+  label_relation_new: Новий зв'язок
+  label_relation_delete: Видалити зв'язок
+  label_relates_to: пов'язане з
+  label_duplicates: дублює
+  label_blocks: блокує
+  label_blocked_by: заблоковане 
+  label_precedes: передує
+  label_follows: наступний за
+  label_end_to_start: з кінця до початку
+  label_end_to_end: з кінця до кінця
+  label_start_to_start: з початку до початку
+  label_start_to_end: з початку до кінця
+  label_stay_logged_in: Залишатися в системі
+  label_disabled: відключений
+  label_show_completed_versions: Показати завершені версії
+  label_me: мене
+  label_board: Форум
+  label_board_new: Новий форум
+  label_board_plural: Форуми
+  label_topic_plural: Теми
+  label_message_plural: Повідомлення
+  label_message_last: Останнє повідомлення
+  label_message_new: Нове повідомлення
+  label_reply_plural: Відповіді
+  label_send_information: Відправити користувачеві інформацію з облікового запису
+  label_year: Рік
+  label_month: Місяць
+  label_week: Неділя
+  label_date_from: З
+  label_date_to: Кому
+  label_language_based: На основі мови користувача
+  label_sort_by: "Сортувати за {{value}}"
+  label_send_test_email: Послати email для перевірки
+  label_feeds_access_key_created_on: "Ключ доступу RSS створений {{value}} назад "
+  label_module_plural: Модулі
+  label_added_time_by: "Доданий {{author}} {{age}} назад"
+  label_updated_time: "Оновлений {{value}} назад"
+  label_jump_to_a_project: Перейти до проекту...
+  label_file_plural: Файли
+  label_changeset_plural: Набори змін
+  label_default_columns: Типові колонки
+  label_no_change_option: (Немає змін)
+  label_bulk_edit_selected_issues: Редагувати всі вибрані питання
+  label_theme: Тема
+  label_default: Типовий
+  label_search_titles_only: Шукати тільки в назвах
+  label_user_mail_option_all: "Для всіх подій у всіх моїх проектах"
+  label_user_mail_option_selected: "Для всіх подій тільки у вибраному проекті..."
+  label_user_mail_option_none: "Тільки для того, що я проглядаю або в чому я беру участь"
+  label_user_mail_no_self_notified: "Не сповіщати про зміни, які я зробив сам"
+  label_registration_activation_by_email: активація облікового запису електронною поштою
+  label_registration_manual_activation: ручна активація облікового запису
+  label_registration_automatic_activation: автоматична активація облыкового
+  label_my_time_report: Мій звіт витраченого часу
+  
+  button_login: Вхід
+  button_submit: Відправити
+  button_save: Зберегти
+  button_check_all: Відзначити все 
+  button_uncheck_all: Очистити 
+  button_delete: Видалити
+  button_create: Створити
+  button_test: Перевірити
+  button_edit: Редагувати
+  button_add: Додати
+  button_change: Змінити
+  button_apply: Застосувати
+  button_clear: Очистити
+  button_lock: Заблокувати
+  button_unlock: Разблокувати
+  button_download: Завантажити
+  button_list: Список
+  button_view: Переглянути
+  button_move: Перемістити
+  button_back: Назад
+  button_cancel: Відмінити
+  button_activate: Активувати
+  button_sort: Сортувати
+  button_log_time: Записати час
+  button_rollback: Відкотити до даної версії
+  button_watch: Дивитися
+  button_unwatch: Не дивитися
+  button_reply: Відповісти
+  button_archive: Архівувати
+  button_unarchive: Розархівувати
+  button_reset: Перезапустити
+  button_rename: Перейменувати
+  button_change_password: Змінити пароль 
+  button_copy: Копіювати
+  button_annotate: Анотувати
+  
+  status_active: Активний
+  status_registered: Зареєстрований 
+  status_locked: Заблокований
+  
+  text_select_mail_notifications: Виберіть дії, на які відсилатиметься повідомлення на електронну пошту.
+  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 означає відсутність заборон
+  text_project_destroy_confirmation: Ви наполягаєте на видаленні цього проекту і всієї інформації, що відноситься до нього?
+  text_workflow_edit: Виберіть роль і координатор для редагування послідовності дій
+  text_are_you_sure: Ви впевнені?
+  text_journal_changed: "змінився з {{old}} на {{new}}"
+  text_journal_set_to: "параметр змінився на {{value}}"
+  text_journal_deleted: видалено
+  text_tip_task_begin_day: день початку задачі
+  text_tip_task_end_day: день завершення задачі
+  text_tip_task_begin_end_day: початок задачі і закінчення цього дня
+  text_project_identifier_info: 'Рядкові букви (a-z), допустимі цифри і дефіс.<br />Збережений ідентифікатор не може бути змінений.'
+  text_caracters_maximum: "{{count}} символів(а) максимум."
+  text_caracters_minimum: "Повинно мати якнайменше  {{count}} символів(а) у довжину."
+  text_length_between: "Довжина між {{min}} і {{max}} символів."
+  text_tracker_no_workflow: Для цього координатора послідовність дій не визначена
+  text_unallowed_characters: Заборонені символи
+  text_comma_separated: Допустимі декілька значень (розділені комою).
+  text_issues_ref_in_commit_messages: Посилання та зміна питань у повідомленнях до подавань
+  text_issue_added: "Issue {{id}} has been reported by {{author}}."
+  text_issue_updated: "Issue {{id}} has been updated by {{author}}."
+  text_wiki_destroy_confirmation: Ви впевнені, що хочете видалити цю wiki і весь зміст?
+  text_issue_category_destroy_question: "Декілька питань ({{count}}) призначено в цю категорію. Що ви хочете зробити?"
+  text_issue_category_destroy_assignments: Видалити призначення категорії
+  text_issue_category_reassign_to: Перепризначити задачі до даної категорії
+  text_user_mail_option: "Для невибраних проектів ви отримуватимете повідомлення тільки про те, що проглядаєте або в чому берете участь (наприклад, питання автором яких ви є або які вам призначені)."
+  
+  default_role_manager: Менеджер
+  default_role_developper: Розробник
+  default_role_reporter: Репортер
+  звітів default_tracker_bug: Помилка
+  default_tracker_feature: Властивість 
+  default_tracker_support: Підтримка
+  default_issue_status_new: Новий
+  default_issue_status_assigned: Призначено
+  default_issue_status_resolved: Вирішено
+  default_issue_status_feedback: Зворотний зв'язок
+  default_issue_status_closed: Зачинено
+  default_issue_status_rejected: Відмовлено
+  default_doc_category_user: Документація користувача
+  default_doc_category_tech: Технічна документація 
+  default_priority_low: Низький
+  default_priority_normal: Нормальний
+  default_priority_high: Високий
+  default_priority_urgent: Терміновий
+  default_priority_immediate: Негайний
+  default_activity_design: Проектування
+  default_activity_development: Розробка
+  
+  enumeration_issue_priorities: Пріоритети питань
+  enumeration_doc_categories: Категорії документів
+  enumeration_activities: Дії (облік часу)
+  text_status_changed_by_changeset: "Applied in changeset {{value}}."
+  label_display_per_page: "Per page: {{value}}'"
+  label_issue_added: Issue added
+  label_issue_updated: Issue updated
+  setting_per_page_options: Objects per page options
+  notice_default_data_loaded: Default configuration successfully loaded.
+  error_scm_not_found: "Entry and/or revision doesn't exist in the repository."
+  label_associated_revisions: Associated revisions
+  label_document_added: Document added
+  label_message_posted: Message added
+  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+  error_scm_command_failed: "An error occurred when trying to access the repository: {{value}}"
+  setting_user_format: Users display format
+  label_age: Age
+  label_file_added: File added
+  label_more: More
+  field_default_value: Default value
+  default_tracker_bug: Bug
+  label_scm: SCM
+  label_general: General
+  button_update: Update
+  text_select_project_modules: 'Select modules to enable for this project:'
+  label_change_properties: Change properties
+  text_load_default_configuration: Load the default configuration
+  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  label_news_added: News added
+  label_repository_plural: Repositories
+  error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
+  project_module_boards: Boards
+  project_module_issue_tracking: Issue tracking
+  project_module_wiki: Wiki
+  project_module_files: Files
+  project_module_documents: Documents
+  project_module_repository: Repository
+  project_module_news: News
+  project_module_time_tracking: Time tracking
+  text_file_repository_writable: File repository writable
+  text_default_administrator_account_changed: Default administrator account changed
+  text_rmagick_available: RMagick available (optional)
+  button_configure: Configure
+  label_plugins: Plugins
+  label_ldap_authentication: LDAP authentication
+  label_downloads_abbr: D/L
+  label_this_month: this month
+  label_last_n_days: "last {{count}} days"
+  label_all_time: all time
+  label_this_year: this year
+  label_date_range: Date range
+  label_last_week: last week
+  label_yesterday: yesterday
+  label_last_month: last month
+  label_add_another_file: Add another file
+  label_optional_description: Optional description
+  text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
+  error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
+  text_assign_time_entries_to_project: Assign reported hours to the project
+  text_destroy_time_entries: Delete reported hours
+  text_reassign_time_entries: 'Reassign reported hours to this issue:'
+  setting_activity_days_default: Days displayed on project activity
+  label_chronological_order: In chronological order
+  field_comments_sorting: Display comments
+  label_reverse_chronological_order: In reverse chronological order
+  label_preferences: Preferences
+  setting_display_subprojects_issues: Display subprojects issues on main projects by default
+  label_overall_activity: Overall activity
+  setting_default_projects_public: New projects are public by default
+  error_scm_annotate: "The entry does not exist or can not be annotated."
+  label_planning: Planning
+  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted.'"
+  label_and_its_subprojects: "{{value}} and its subprojects"
+  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
+  mail_subject_reminder: "{{count}} issue(s) due in the next days"
+  text_user_wrote: "{{value}} wrote:'"
+  label_duplicated_by: duplicated by
+  setting_enabled_scm: Enabled SCM
+  text_enumeration_category_reassign_to: 'Reassign them to this value:'
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
+  label_incoming_emails: Incoming emails
+  label_generate_key: Generate a key
+  setting_mail_handler_api_enabled: Enable WS for incoming emails
+  setting_mail_handler_api_key: API key
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+  field_parent_title: Parent page
+  label_issue_watchers: Watchers
+  setting_commit_logs_encoding: Commit messages encoding
+  button_quote: Quote
+  setting_sequential_project_identifiers: Generate sequential project identifiers
+  notice_unable_delete_version: Unable to delete version
+  label_renamed: renamed
+  label_copied: copied
+  setting_plain_text_mail: plain text only (no HTML)
+  permission_view_files: View files
+  permission_edit_issues: Edit issues
+  permission_edit_own_time_entries: Edit own time logs
+  permission_manage_public_queries: Manage public queries
+  permission_add_issues: Add issues
+  permission_log_time: Log spent time
+  permission_view_changesets: View changesets
+  permission_view_time_entries: View spent time
+  permission_manage_versions: Manage versions
+  permission_manage_wiki: Manage wiki
+  permission_manage_categories: Manage issue categories
+  permission_protect_wiki_pages: Protect wiki pages
+  permission_comment_news: Comment news
+  permission_delete_messages: Delete messages
+  permission_select_project_modules: Select project modules
+  permission_manage_documents: Manage documents
+  permission_edit_wiki_pages: Edit wiki pages
+  permission_add_issue_watchers: Add watchers
+  permission_view_gantt: View gantt chart
+  permission_move_issues: Move issues
+  permission_manage_issue_relations: Manage issue relations
+  permission_delete_wiki_pages: Delete wiki pages
+  permission_manage_boards: Manage boards
+  permission_delete_wiki_pages_attachments: Delete attachments
+  permission_view_wiki_edits: View wiki history
+  permission_add_messages: Post messages
+  permission_view_messages: View messages
+  permission_manage_files: Manage files
+  permission_edit_issue_notes: Edit notes
+  permission_manage_news: Manage news
+  permission_view_calendar: View calendrier
+  permission_manage_members: Manage members
+  permission_edit_messages: Edit messages
+  permission_delete_issues: Delete issues
+  permission_view_issue_watchers: View watchers list
+  permission_manage_repository: Manage repository
+  permission_commit_access: Commit access
+  permission_browse_repository: Browse repository
+  permission_view_documents: View documents
+  permission_edit_project: Edit project
+  permission_add_issue_notes: Add notes
+  permission_save_queries: Save queries
+  permission_view_wiki_pages: View wiki
+  permission_rename_wiki_pages: Rename wiki pages
+  permission_edit_time_entries: Edit time logs
+  permission_edit_own_issue_notes: Edit own notes
+  setting_gravatar_enabled: Use Gravatar user icons
+  label_example: Example
+  text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+  permission_edit_own_messages: Edit own messages
+  permission_delete_own_messages: Delete own messages
+  label_user_activity: "{{value}}'s activity"
+  label_updated_time_by: "Updated by {{author}} {{age}} ago"
+  text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  text_plugin_assets_writable: Plugin assets directory writable
+  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  button_create_and_continue: Create and continue
+  text_custom_field_possible_values_info: 'One line for each value'
+  label_display: Display
+  field_editable: Editable
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log

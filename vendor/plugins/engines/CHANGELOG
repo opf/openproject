@@ -1,5 +1,12 @@
 = EDGE
 
+* Samuel Williams (http://www.oriontransfer.co.nz/):
+	Thanks to Tekin for his patches.
+	Updated migrations system to tie in more closely with the current rails mechanism.
+	Rake task for updating database schema info
+		rake db:migrate:upgrade_plugin_migrations
+	Please see http://engines.lighthouseapp.com/projects/10178-engines-plugin/tickets/17 for more information.
+
 * Refactored the view loading to work with changes in Edge Rails
 
 * Fixed integration of plugin migrations with the new, default timestamped migrations in Edge Rails

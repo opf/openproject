@@ -25,6 +25,6 @@ class Watcher < ActiveRecord::Base
   protected
   
   def validate
-    errors.add :user_id, :activerecord_error_invalid unless user.nil? || user.active?
+    errors.add :user_id, :invalid unless user.nil? || user.active?
   end
 end

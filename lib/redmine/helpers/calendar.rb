@@ -20,7 +20,7 @@ module Redmine
     
     # Simple class to compute the start and end dates of a calendar
     class Calendar
-      include GLoc
+      include Redmine::I18n
       attr_reader :startdt, :enddt
       
       def initialize(date, lang = current_language, period = :month)
@@ -28,7 +28,7 @@ module Redmine
         @events = []
         @ending_events_by_days = {}
         @starting_events_by_days = {}
-        set_language lang        
+        set_language_if_valid lang        
         case period
         when :month
           @startdt = Date.civil(date.year, date.month, 1)

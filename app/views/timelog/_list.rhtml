@@ -20,7 +20,7 @@
 <td class="project"><%=h entry.project %></td>
 <td class="subject">
 <% if entry.issue -%>
-<%= link_to_issue entry.issue %>: <%= h(truncate(entry.issue.subject, 50)) -%>
+<%= link_to_issue entry.issue %>: <%= h(truncate(entry.issue.subject, :length => 50)) -%>
 <% end -%>
 </td>
 <td class="comments"><%=h entry.comments %></td>

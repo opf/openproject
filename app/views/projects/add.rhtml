@@ -7,7 +7,7 @@
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
     <label class="floating">
     <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %>
-    <%= (l_has_string?("project_module_#{m}".to_sym) ? l("project_module_#{m}".to_sym) : m.to_s.humanize) %>
+    <%= l_or_humanize(m, :prefix => "project_module_") %>
     </label>
 <% end %>
 </fieldset>

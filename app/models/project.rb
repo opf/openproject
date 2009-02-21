@@ -306,7 +306,7 @@ class Project < ActiveRecord::Base
 
 protected
   def validate
-    errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
+    errors.add(:identifier, :invalid) if !identifier.blank? && identifier.match(/^\d*$/)
   end
   
 private

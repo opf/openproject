@@ -1,0 +1,845 @@
+# Vietnamese translation for Ruby on Rails
+# by
+#   Do Hai Bac (dohaibac@gmail.com)
+#   Dao Thanh Ngoc (ngocdaothanh@gmail.com, http://github.com/ngocdaothanh/rails-i18n/tree/master)
+
+vi:
+  number:
+    # Used in number_with_delimiter()
+    # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
+    format:
+      # Sets the separator between the units, for more precision (e.g. 1.0 / 2.0 == 0.5)
+      separator: ","
+      # Delimets thousands (e.g. 1,000,000 is a million) (always in groups of three)
+      delimiter: "."
+      # Number of decimals, behind the separator (1 with a precision of 2 gives: 1.00)
+      precision: 3
+
+    # Used in number_to_currency()
+    currency:
+      format:
+        # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
+        format: "%n %u"
+        unit: "đồng"
+        # These three are to override number.format and are optional
+        separator: ","
+        delimiter: "."
+        precision: 2
+
+    # Used in number_to_percentage()
+    percentage:
+      format:
+        # These three are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        # precision:
+
+    # Used in number_to_precision()
+    precision:
+      format:
+        # These three are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        # precision:
+
+    # Used in number_to_human_size()
+    human:
+      format:
+        # These three are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        precision: 1
+      storage_units: [Bytes, KB, MB, GB, TB]
+
+  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
+  datetime:
+    distance_in_words:
+      half_a_minute: "30 giây"
+      less_than_x_seconds:
+        one:   "chưa tới 1 giây"
+        other: "chưa tới {{count}} giây"
+      x_seconds:
+        one:   "1 giây"
+        other: "{{count}} giây"
+      less_than_x_minutes:
+        one:   "chưa tới 1 phút"
+        other: "chưa tới {{count}} phút"
+      x_minutes:
+        one:   "1 phút"
+        other: "{{count}} phút"
+      about_x_hours:
+        one:   "khoảng 1 giờ"
+        other: "khoảng {{count}} giờ"
+      x_days:
+        one:   "1 ngày"
+        other: "{{count}} ngày"
+      about_x_months:
+        one:   "khoảng 1 tháng"
+        other: "khoảng {{count}} tháng"
+      x_months:
+        one:   "1 tháng"
+        other: "{{count}} tháng"
+      about_x_years:
+        one:   "khoảng 1 năm"
+        other: "khoảng {{count}} năm"
+      over_x_years:
+        one:   "hơn 1 năm"
+        other: "hơn {{count}} năm"
+    prompts:
+      year:   "Năm"
+      month:  "Tháng"
+      day:    "Ngày"
+      hour:   "Giờ"
+      minute: "Phút"
+      second: "Giây"
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one:   "1 lỗi ngăn không cho lưu {{model}} này"
+          other: "{{count}} lỗi ngăn không cho lưu {{model}} này"
+        # The variable :count is also available
+        body: "Có lỗi với các mục sau:"
+
+      # The values :model, :attribute and :value are always available for interpolation
+      # The value :count is available when applicable. Can be used for pluralization.
+      messages:
+        inclusion: "không có trong danh sách"
+        exclusion: "đã được giành trước"
+        invalid: "không hợp lệ"
+        confirmation: "không khớp với xác nhận"
+        accepted: "phải được đồng ý"
+        empty: "không thể rỗng"
+        blank: "không thể để trắng"
+        too_long: "quá dài (tối đa {{count}} ký tự)"
+        too_short: "quá ngắn (tối thiểu {{count}} ký tự)"
+        wrong_length: "độ dài không đúng (phải là {{count}} ký tự)"
+        taken: "đã có"
+        not_a_number: "không phải là số"
+        greater_than: "phải lớn hơn {{count}}"
+        greater_than_or_equal_to: "phải lớn hơn hoặc bằng {{count}}"
+        equal_to: "phải bằng {{count}}"
+        less_than: "phải nhỏ hơn {{count}}"
+        less_than_or_equal_to: "phải nhỏ hơn hoặc bằng {{count}}"
+        odd: "phải là số chẵn"
+        even: "phải là số lẻ"
+        greater_than_start_date: "phải đi sau ngày bắt đầu"
+        not_same_project: "không thuộc cùng dự án"
+        circular_dependency: "quan hệ có thể gây ra lặp vô tận"
+
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%d-%m-%Y"
+      short: "%d %b"
+      long: "%d %B, %Y"
+
+    day_names: ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"]
+    abbr_day_names: ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, "Tháng một", "Tháng hai", "Tháng ba", "Tháng tư", "Tháng năm", "Tháng sáu", "Tháng bảy", "Tháng tám", "Tháng chín", "Tháng mười", "Tháng mười một", "Tháng mười hai"]
+    abbr_month_names: [~, "Tháng một", "Tháng hai", "Tháng ba", "Tháng tư", "Tháng năm", "Tháng sáu", "Tháng bảy", "Tháng tám", "Tháng chín", "Tháng mười", "Tháng mười một", "Tháng mười hai"]
+    # Used in date_select and datime_select.
+    order: [ :day, :month, :year ]
+
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%d %B, %Y %H:%M"
+    am: "sáng"
+    pm: "chiều"
+
+  # Used in array.to_sentence.
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " và "
+      last_word_connector: ", và "
+  
+  actionview_instancetag_blank_option: Vui lòng chọn
+  
+  general_text_No: 'Không'
+  general_text_Yes: 'Có'
+  general_text_no: 'không'
+  general_text_yes: 'có'
+  general_lang_name: 'Tiếng Việt'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: UTF-8
+  general_first_day_of_week: '1'
+  
+  notice_account_updated: Cập nhật tài khoản thành công.
+  notice_account_invalid_creditentials: Tài khoản hoặc mật mã không hợp lệ
+  notice_account_password_updated: Cập nhật mật mã thành công.
+  notice_account_wrong_password: Sai mật mã
+  notice_account_register_done: Tài khoản được tạo thành công. Để kích hoạt vui lòng làm theo hướng dẫn trong email gửi đến bạn.
+  notice_account_unknown_email: Không rõ tài khoản.
+  notice_can_t_change_password: Tài khoản được chứng thực từ nguồn bên ngoài. Không thể đổi mật mã cho loại chứng thực này.
+  notice_account_lost_email_sent: Thông tin để đổi mật mã mới đã gửi đến bạn qua email.
+  notice_account_activated: Tài khoản vừa được kích hoạt. Bây giờ bạn có thể đăng nhập.
+  notice_successful_create: Tạo thành công.
+  notice_successful_update: Cập nhật thành công.
+  notice_successful_delete: Xóa thành công.
+  notice_successful_connection: Kết nối thành công.
+  notice_file_not_found: Trang bạn cố xem không tồn tại hoặc đã chuyển.
+  notice_locking_conflict: Thông tin đang được cập nhật bởi người khác. Hãy chép nội dung cập nhật của bạn vào clipboard.
+  notice_not_authorized: Bạn không có quyền xem trang này.
+  notice_email_sent: "Email đã được gửi tới {{value}}"
+  notice_email_error: "Lỗi xảy ra khi gửi email ({{value}})"
+  notice_feeds_access_key_reseted: Mã số chứng thực RSS đã được tạo lại.
+  notice_failed_to_save_issues: "Failed to save {{count}} issue(s) on {{total}} selected: {{ids}}."
+  notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
+  notice_account_pending: "Thông tin tài khoản đã được tạo ra và đang chờ chứng thực từ ban quản trị."
+  notice_default_data_loaded: Đã nạp cấu hình mặc định.
+  notice_unable_delete_version: Không thể xóa phiên bản.
+  
+  error_can_t_load_default_data: "Không thể nạp cấu hình mặc định: {{value}}"
+  error_scm_not_found: "The entry or revision was not found in the repository."
+  error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: {{value}}"
+  error_scm_annotate: "The entry does not exist or can not be annotated."
+  error_issue_not_found_in_project: 'Vấn đề không tồn tại hoặc không thuộc dự án'
+  
+  mail_subject_lost_password: "{{value}}: mật mã của bạn"
+  mail_body_lost_password: "Để đổi mật mã, hãy click chuột vào liên kết sau:"
+  mail_subject_register: "{{value}}: kích hoạt tài khoản"
+  mail_body_register: "Để kích hoạt tài khoản, hãy click chuột vào liên kết sau:"
+  mail_body_account_information_external: " Bạn có thể dùng tài khoản {{value}} để đăng nhập."
+  mail_body_account_information: Thông tin về tài khoản
+  mail_subject_account_activation_request: "{{value}}: Yêu cầu chứng thực tài khoản"
+  mail_body_account_activation_request: "Người dùng ({{value}}) mới đăng ký và cần bạn xác nhận:'"
+  mail_subject_reminder: "{{count}} vấn đề hết hạn trong các ngày tới"
+  mail_body_reminder: "{{count}} vấn đề gán cho bạn sẽ hết hạn trong {{days}} ngày tới:"
+  
+  gui_validation_error: 1 lỗi
+  gui_validation_error_plural: "{{count}} lỗi"
+  
+  field_name: Tên
+  field_description: Mô tả
+  field_summary: Tóm tắt
+  field_is_required: Bắt buộc
+  field_firstname: Tên lót + Tên
+  field_lastname: Họ
+  field_mail: Email
+  field_filename: Tập tin
+  field_filesize: Cỡ
+  field_downloads: Tải về
+  field_author: Tác giả
+  field_created_on: Tạo
+  field_updated_on: Cập nhật
+  field_field_format: Định dạng
+  field_is_for_all: Cho mọi dự án
+  field_possible_values: Giá trị hợp lệ
+  field_regexp: Biểu thức chính quy
+  field_min_length: Chiều dài tối thiểu
+  field_max_length: Chiều dài tối đa
+  field_value: Giá trị
+  field_category: Chủ đề
+  field_title: Tiêu đề
+  field_project: Dự án
+  field_issue: Vấn đề
+  field_status: Trạng thái
+  field_notes: Ghi chú
+  field_is_closed: Vấn đề đóng
+  field_is_default: Giá trị mặc định
+  field_tracker: Dòng vấn đề
+  field_subject: Chủ đề
+  field_due_date: Hết hạn
+  field_assigned_to: Gán cho
+  field_priority: Ưu tiên
+  field_fixed_version: Phiên bản
+  field_user: Người dùng
+  field_role: Quyền
+  field_homepage: Trang chủ
+  field_is_public: Công cộng
+  field_parent: Dự án con của
+  field_is_in_chlog: Có thể thấy trong Thay đổi
+  field_is_in_roadmap: Có thể thấy trong Kế hoạch
+  field_login: Đăng nhập
+  field_mail_notification: Thông báo qua email
+  field_admin: Quản trị
+  field_last_login_on: Kết nối cuối
+  field_language: Ngôn ngữ
+  field_effective_date: Ngày
+  field_password: Mật mã
+  field_new_password: Mật mã mới
+  field_password_confirmation: Khẳng định lại
+  field_version: Phiên bản
+  field_type: Kiểu
+  field_host: Host
+  field_port: Port
+  field_account: Tài khoản
+  field_base_dn: Base DN
+  field_attr_login: Login attribute
+  field_attr_firstname: Firstname attribute
+  field_attr_lastname: Lastname attribute
+  field_attr_mail: Email attribute
+  field_onthefly: On-the-fly user creation
+  field_start_date: Bắt đầu
+  field_done_ratio: Tiến độ
+  field_auth_source: Authentication mode
+  field_hide_mail: Không làm lộ email của bạn
+  field_comments: Bình luận
+  field_url: URL
+  field_start_page: Trang bắt đầu
+  field_subproject: Dự án con
+  field_hours: Giờ
+  field_activity: Hoạt động
+  field_spent_on: Ngày
+  field_identifier: Mã nhận dạng
+  field_is_filter: Dùng như một lọc
+  field_issue_to_id: Vấn đền liên quan
+  field_delay: Độ trễ
+  field_assignable: Vấn đề có thể gán cho vai trò này
+  field_redirect_existing_links: Chuyển hướng trang đã có
+  field_estimated_hours: Thời gian ước đoán
+  field_column_names: Cột
+  field_time_zone: Múi giờ
+  field_searchable: Tìm kiếm được
+  field_default_value: Giá trị mặc định
+  field_comments_sorting: Liệt kê bình luận
+  field_parent_title: Trang mẹ
+  
+  setting_app_title: Tựa đề ứng dụng
+  setting_app_subtitle: Tựa đề nhỏ của ứng dụng
+  setting_welcome_text: Thông điệp chào mừng
+  setting_default_language: Ngôn ngữ mặc định
+  setting_login_required: Cần đăng nhập
+  setting_self_registration: Tự chứng thực
+  setting_attachment_max_size: Cỡ tối đa của tập tin đính kèm
+  setting_issues_export_limit: Issues export limit
+  setting_mail_from: Emission email address
+  setting_bcc_recipients: Tạo bản CC bí mật (bcc)
+  setting_host_name: Tên miền và đường dẫn
+  setting_text_formatting: Định dạng bài viết
+  setting_wiki_compression: Wiki history compression
+  setting_feeds_limit: Giới hạn nội dung của feed
+  setting_default_projects_public: Dự án mặc định là công cộng
+  setting_autofetch_changesets: Autofetch commits
+  setting_sys_api_enabled: Enable WS for repository management
+  setting_commit_ref_keywords: Từ khóa tham khảo
+  setting_commit_fix_keywords: Từ khóa chỉ vấn đề đã giải quyết
+  setting_autologin: Tự động đăng nhập
+  setting_date_format: Định dạng ngày
+  setting_time_format: Định dạng giờ
+  setting_cross_project_issue_relations: Cho phép quan hệ chéo giữa các dự án
+  setting_issue_list_default_columns: Default columns displayed on the issue list
+  setting_repositories_encodings: Repositories encodings
+  setting_commit_logs_encoding: Commit messages encoding
+  setting_emails_footer: Chữ ký cuối thư
+  setting_protocol: Giao thức
+  setting_per_page_options: Objects per page options
+  setting_user_format: Định dạng hiển thị người dùng
+  setting_activity_days_default: Days displayed on project activity
+  setting_display_subprojects_issues: Display subprojects issues on main projects by default
+  setting_enabled_scm: Enabled SCM
+  setting_mail_handler_api_enabled: Enable WS for incoming emails
+  setting_mail_handler_api_key: Mã số API
+  setting_sequential_project_identifiers: Tự sinh chuỗi ID dự án
+  
+  project_module_issue_tracking: Theo dõi vấn đề
+  project_module_time_tracking: Theo dõi thời gian
+  project_module_news: Tin tức
+  project_module_documents: Tài liệu
+  project_module_files: Tập tin
+  project_module_wiki: Wiki
+  project_module_repository: Kho lưu trữ
+  project_module_boards: Diễn đàn
+  
+  label_user: Tài khoản
+  label_user_plural: Tài khoản
+  label_user_new: Tài khoản mới
+  label_project: Dự án
+  label_project_new: Dự án mới
+  label_project_plural: Dự án
+  label_x_projects:
+    zero:  no projects
+    one:   1 project
+    other: "{{count}} projects"
+  label_project_all: Mọi dự án
+  label_project_latest: Dự án mới nhất
+  label_issue: Vấn đề
+  label_issue_new: Tạo vấn đề mới
+  label_issue_plural: Vấn đề
+  label_issue_view_all: Tất cả vấn đề
+  label_issues_by: "Vấn đề của {{value}}"
+  label_issue_added: Đã thêm vấn đề
+  label_issue_updated: Vấn đề được cập nhật
+  label_document: Tài liệu
+  label_document_new: Tài liệu mới
+  label_document_plural: Tài liệu
+  label_document_added: Đã thêm tài liệu
+  label_role: Vai trò
+  label_role_plural: Vai trò
+  label_role_new: Vai trò mới
+  label_role_and_permissions: Vai trò và Quyền hạn
+  label_member: Thành viên
+  label_member_new: Thành viên mới
+  label_member_plural: Thành viên
+  label_tracker: Dòng vấn đề
+  label_tracker_plural: Dòng vấn đề
+  label_tracker_new: Tạo dòng vấn đề mới
+  label_workflow: Workflow
+  label_issue_status: Issue status
+  label_issue_status_plural: Issue statuses
+  label_issue_status_new: New status
+  label_issue_category: Chủ đề
+  label_issue_category_plural: Chủ đề
+  label_issue_category_new: Chủ đề mới
+  label_custom_field: Custom field
+  label_custom_field_plural: Custom fields
+  label_custom_field_new: New custom field
+  label_enumerations: Enumerations
+  label_enumeration_new: New value
+  label_information: Thông tin
+  label_information_plural: Thông tin
+  label_please_login: Vui lòng đăng nhập
+  label_register: Đăng ký
+  label_password_lost: Phục hồi mật mã
+  label_home: Trang chính
+  label_my_page: Trang riêng
+  label_my_account: Cá nhân
+  label_my_projects: Dự án của bạn
+  label_administration: Quản trị
+  label_login: Đăng nhập
+  label_logout: Thoát
+  label_help: Giúp đỡ
+  label_reported_issues: Vấn đề đã báo cáo
+  label_assigned_to_me_issues: Vấn đề gán cho bạn
+  label_last_login: Kết nối cuối
+  label_registered_on: Ngày tham gia
+  label_activity: Hoạt động
+  label_overall_activity: Tất cả hoạt động
+  label_new: Mới
+  label_logged_as: Tài khoản &raquo;
+  label_environment: Environment
+  label_authentication: Authentication
+  label_auth_source: Authentication mode
+  label_auth_source_new: New authentication mode
+  label_auth_source_plural: Authentication modes
+  label_subproject_plural: Dự án con
+  label_and_its_subprojects: "{{value}} và dự án con"
+  label_min_max_length: Min - Max length
+  label_list: List
+  label_date: Ngày
+  label_integer: Integer
+  label_float: Float
+  label_boolean: Boolean
+  label_string: Text
+  label_text: Long text
+  label_attribute: Attribute
+  label_attribute_plural: Attributes
+  label_download: "{{count}} lần tải"
+  label_download_plural: "{{count}} lần tải"
+  label_no_data: Chưa có thông tin gì
+  label_change_status: Đổi trạng thái
+  label_history: Lược sử
+  label_attachment: Tập tin
+  label_attachment_new: Thêm tập tin mới
+  label_attachment_delete: Xóa tập tin
+  label_attachment_plural: Tập tin
+  label_file_added: Đã thêm tập tin
+  label_report: Báo cáo
+  label_report_plural: Báo cáo
+  label_news: Tin tức
+  label_news_new: Thêm tin
+  label_news_plural: Tin tức
+  label_news_latest: Tin mới
+  label_news_view_all: Xem mọi tin
+  label_news_added: Đã thêm tin
+  label_change_log: Nhật ký thay đổi
+  label_settings: Thiết lập
+  label_overview: Tóm tắt
+  label_version: Phiên bản
+  label_version_new: Phiên bản mới
+  label_version_plural: Phiên bản
+  label_confirmation: Khẳng định
+  label_export_to: 'Định dạng khác của trang này:'
+  label_read: Read...
+  label_public_projects: Các dự án công cộng
+  label_open_issues: mở
+  label_open_issues_plural: mở
+  label_closed_issues: đóng
+  label_closed_issues_plural: đóng
+  label_x_open_issues_abbr_on_total:
+    zero:  0 open / {{total}}
+    one:   1 open / {{total}}
+    other: "{{count}} open / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 open
+    one:   1 open
+    other: "{{count}} open"
+  label_x_closed_issues_abbr:
+    zero:  0 closed
+    one:   1 closed
+    other: "{{count}} closed"
+  label_total: Tổng cộng
+  label_permissions: Quyền
+  label_current_status: Trạng thái hiện tại
+  label_new_statuses_allowed: Trạng thái mới được phép
+  label_all: tất cả
+  label_none: không
+  label_nobody: Chẳng ai
+  label_next: Sau
+  label_previous: Trước
+  label_used_by: Used by
+  label_details: Chi tiết
+  label_add_note: Thêm ghi chú
+  label_per_page: Mỗi trang
+  label_calendar: Lịch
+  label_months_from: tháng từ
+  label_gantt: Biểu đồ sự kiện
+  label_internal: Nội bộ
+  label_last_changes: "{{count}} thay đổi cuối"
+  label_change_view_all: Xem mọi thay đổi
+  label_personalize_page: Điều chỉnh trang này
+  label_comment: Bình luận
+  label_comment_plural: Bình luận
+  label_x_comments:
+    zero: no comments
+    one: 1 comment
+    other: "{{count}} comments"
+  label_comment_add: Thêm bình luận
+  label_comment_added: Đã thêm bình luận
+  label_comment_delete: Xóa bình luận
+  label_query: Truy vấn riêng
+  label_query_plural: Truy vấn riêng
+  label_query_new: Truy vấn mới
+  label_filter_add: Thêm lọc
+  label_filter_plural: Bộ lọc
+  label_equals: là
+  label_not_equals: không là
+  label_in_less_than: ít hơn
+  label_in_more_than: nhiều hơn
+  label_in: trong
+  label_today: hôm nay
+  label_all_time: mọi thời gian
+  label_yesterday: hôm qua
+  label_this_week: tuần này
+  label_last_week: tuần trước
+  label_last_n_days: "{{count}} ngày cuối"
+  label_this_month: tháng này
+  label_last_month: tháng cuối
+  label_this_year: năm này
+  label_date_range: Thời gian
+  label_less_than_ago: cách đây dưới
+  label_more_than_ago: cách đây hơn
+  label_ago: cách đây
+  label_contains: chứa
+  label_not_contains: không chứa
+  label_day_plural: ngày
+  label_repository: Kho lưu trữ
+  label_repository_plural: Kho lưu trữ
+  label_browse: Duyệt
+  label_modification: "{{count}} thay đổi"
+  label_modification_plural: "{{count}} thay đổi"
+  label_revision: Bản điều chỉnh
+  label_revision_plural: Bản điều chỉnh
+  label_associated_revisions: Associated revisions
+  label_added: thêm
+  label_modified: đổi
+  label_copied: chép
+  label_renamed: đổi tên
+  label_deleted: xóa
+  label_latest_revision: Bản điều chỉnh cuối cùng
+  label_latest_revision_plural: Bản điều chỉnh cuối cùng
+  label_view_revisions: Xem các bản điều chỉnh
+  label_max_size: Dung lượng tối đa
+  label_sort_highest: Lên trên cùng
+  label_sort_higher: Dịch lên
+  label_sort_lower: Dịch xuống
+  label_sort_lowest: Xuống dưới cùng
+  label_roadmap: Kế hoạch
+  label_roadmap_due_in: "Hết hạn trong {{value}}"
+  label_roadmap_overdue: "Trễ {{value}}"
+  label_roadmap_no_issues: Không có vấn đề cho phiên bản này
+  label_search: Tìm
+  label_result_plural: Kết quả
+  label_all_words: Mọi từ
+  label_wiki: Wiki
+  label_wiki_edit: Wiki edit
+  label_wiki_edit_plural: Thay đổi wiki
+  label_wiki_page: Trang wiki
+  label_wiki_page_plural: Trang wiki
+  label_index_by_title: Danh sách theo tên
+  label_index_by_date: Danh sách theo ngày
+  label_current_version: Bản hiện tại
+  label_preview: Xem trước
+  label_feed_plural: Feeds
+  label_changes_details: Chi tiết của mọi thay đổi
+  label_issue_tracking: Vấn đề
+  label_spent_time: Thời gian
+  label_f_hour: "{{value}} giờ"
+  label_f_hour_plural: "{{value}} giờ"
+  label_time_tracking: Theo dõi thời gian
+  label_change_plural: Thay đổi
+  label_statistics: Thống kê
+  label_commits_per_month: Commits per month
+  label_commits_per_author: Commits per author
+  label_view_diff: So sánh
+  label_diff_inline: inline
+  label_diff_side_by_side: side by side
+  label_options: Tùy chọn
+  label_copy_workflow_from: Copy workflow from
+  label_permissions_report: Thống kê các quyền
+  label_watched_issues: Chủ đề đang theo dõi
+  label_related_issues: Liên quan
+  label_applied_status: Trạng thái áp dụng
+  label_loading: Đang xử lý...
+  label_relation_new: Quan hệ mới
+  label_relation_delete: Xóa quan hệ
+  label_relates_to: liên quan
+  label_duplicates: trùng với
+  label_duplicated_by: bị trùng bởi
+  label_blocks: chặn
+  label_blocked_by: chặn bởi
+  label_precedes: đi trước
+  label_follows: đi sau
+  label_end_to_start: cuối tới đầu
+  label_end_to_end: cuối tới cuối
+  label_start_to_start: đầu tớ đầu
+  label_start_to_end: đầu tới cuối
+  label_stay_logged_in: Lưu thông tin đăng nhập
+  label_disabled: bị vô hiệu
+  label_show_completed_versions: Xem phiên bản đã xong
+  label_me: tôi
+  label_board: Diễn đàn
+  label_board_new: Tạo diễn đàn mới
+  label_board_plural: Diễn đàn
+  label_topic_plural: Chủ đề
+  label_message_plural: Diễn đàn
+  label_message_last: Bài cuối
+  label_message_new: Tạo bài mới
+  label_message_posted: Đã thêm bài viết
+  label_reply_plural: Hồi âm
+  label_send_information: Gửi thông tin đến người dùng qua email
+  label_year: Năm
+  label_month: Tháng
+  label_week: Tuần
+  label_date_from: Từ
+  label_date_to: Đến
+  label_language_based: Theo ngôn ngữ người dùng
+  label_sort_by: "Sắp xếp theo {{value}}"
+  label_send_test_email: Send a test email
+  label_feeds_access_key_created_on: "Mã chứng thực RSS được tạo ra cách đây {{value}}"
+  label_module_plural: Mô-đun
+  label_added_time_by: "thêm bởi {{author}} cách đây {{age}}"
+  label_updated_time: "Cập nhật cách đây {{value}}"
+  label_jump_to_a_project: Nhảy đến dự án...
+  label_file_plural: Tập tin
+  label_changeset_plural: Thay đổi
+  label_default_columns: Cột mặc định
+  label_no_change_option: (không đổi)
+  label_bulk_edit_selected_issues: Sửa nhiều vấn đề
+  label_theme: Giao diện
+  label_default: Mặc định
+  label_search_titles_only: Chỉ tìm trong tựa đề
+  label_user_mail_option_all: "Mọi sự kiện trên mọi dự án của bạn"
+  label_user_mail_option_selected: "Mọi sự kiện trên các dự án được chọn..."
+  label_user_mail_option_none: "Chỉ những vấn đề bạn theo dõi hoặc được gán"
+  label_user_mail_no_self_notified: "Đừng gửi email về các thay đổi do chính bạn thực hiện"
+  label_registration_activation_by_email: account activation by email
+  label_registration_manual_activation: manual account activation
+  label_registration_automatic_activation: automatic account activation
+  label_display_per_page: "mỗi trang: {{value}}'"
+  label_age: Age
+  label_change_properties: Thay đổi thuộc tính
+  label_general: Tổng quan
+  label_more: Chi tiết
+  label_scm: SCM
+  label_plugins: Mô-đun
+  label_ldap_authentication: Chứng thực LDAP
+  label_downloads_abbr: Tải về
+  label_optional_description: Mô tả bổ sung
+  label_add_another_file: Thêm tập tin khác
+  label_preferences: Cấu hình
+  label_chronological_order: Bài cũ xếp trước
+  label_reverse_chronological_order: Bài mới xếp trước
+  label_planning: Kế hoạch
+  label_incoming_emails: Nhận mail
+  label_generate_key: Tạo mã
+  label_issue_watchers: Theo dõi
+  
+  button_login: Đăng nhập
+  button_submit: Gửi
+  button_save: Lưu
+  button_check_all: Đánh dấu tất cả
+  button_uncheck_all: Bỏ dấu tất cả
+  button_delete: Xóa
+  button_create: Tạo
+  button_test: Kiểm tra
+  button_edit: Sửa
+  button_add: Thêm
+  button_change: Đổi
+  button_apply: Áp dụng
+  button_clear: Xóa
+  button_lock: Khóa
+  button_unlock: Mở khóa
+  button_download: Tải về
+  button_list: Liệt kê
+  button_view: Xem
+  button_move: Chuyển
+  button_back: Quay lại
+  button_cancel: Bỏ qua
+  button_activate: Kích hoạt
+  button_sort: Sắp xếp
+  button_log_time: Thêm thời gian
+  button_rollback: Quay trở lại phiên bản này
+  button_watch: Theo dõi
+  button_unwatch: Bỏ theo dõi
+  button_reply: Trả lời
+  button_archive: Đóng băng
+  button_unarchive: Xả băng
+  button_reset: Tạo lại
+  button_rename: Đổi tên
+  button_change_password: Đổi mật mã
+  button_copy: Chép
+  button_annotate: Chú giải
+  button_update: Cập nhật
+  button_configure: Cấu hình
+  button_quote: Trích dẫn
+  
+  status_active: hoạt động
+  status_registered: đăng ký
+  status_locked: khóa
+  
+  text_select_mail_notifications: Chọn hành động đối với mỗi email thông báo sẽ gửi.
+  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 để chỉ không hạn chế
+  text_project_destroy_confirmation: Are you sure you want to delete this project and related data ?
+  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted.'"
+  text_workflow_edit: Select a role and a tracker to edit the workflow
+  text_are_you_sure: Bạn chắc chứ?
+  text_journal_changed: "đổi từ {{old}} sang {{new}}"
+  text_journal_set_to: "đặt thành {{value}}"
+  text_journal_deleted: xóa
+  text_tip_task_begin_day: ngày bắt đầu
+  text_tip_task_end_day: ngày kết thúc
+  text_tip_task_begin_end_day: bắt đầu và kết thúc cùng ngày
+  text_project_identifier_info: 'Chỉ cho phép chữ cái thường (a-z), con số và dấu gạch ngang.<br />Sau khi lưu, chỉ số ID không thể thay đổi.'
+  text_caracters_maximum: "Tối đa {{count}} ký tự."
+  text_caracters_minimum: "Phải gồm ít nhất {{count}} ký tự."
+  text_length_between: "Length between {{min}} and {{max}} characters."
+  text_tracker_no_workflow: No workflow defined for this tracker
+  text_unallowed_characters: Ký tự không hợp lệ
+  text_comma_separated: Multiple values allowed (comma separated).
+  text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+  text_issue_added: "Issue {{id}} has been reported by {{author}}."
+  text_issue_updated: "Issue {{id}} has been updated by {{author}}."
+  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
+  text_issue_category_destroy_question: "Some issues ({{count}}) are assigned to this category. What do you want to do ?"
+  text_issue_category_destroy_assignments: Remove category assignments
+  text_issue_category_reassign_to: Reassign issues to this category
+  text_user_mail_option: "Với các dự án không được chọn, bạn chỉ có thể nhận được thông báo về các vấn đề bạn đăng ký theo dõi hoặc có liên quan đến bạn (chẳng hạn, vấn đề được gán cho bạn)."
+  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_load_default_configuration: Load the default configuration
+  text_status_changed_by_changeset: "Applied in changeset {{value}}."
+  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+  text_select_project_modules: 'Chọn các mô-đun cho dự án:'
+  text_default_administrator_account_changed: Default administrator account changed
+  text_file_repository_writable: File repository writable
+  text_rmagick_available: RMagick available (optional)
+  text_destroy_time_entries_question: %.02f hours were reported on the issues you are about to delete. What do you want to do ?
+  text_destroy_time_entries: Delete reported hours
+  text_assign_time_entries_to_project: Assign reported hours to the project
+  text_reassign_time_entries: 'Reassign reported hours to this issue:'
+  text_user_wrote: "{{value}} wrote:'"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
+  text_enumeration_category_reassign_to: 'Reassign them to this value:'
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+  
+  default_role_manager: Điều hành
+  default_role_developper: Phát triển
+  default_role_reporter: Báo cáo
+  default_tracker_bug: Lỗi
+  default_tracker_feature: Tính năng
+  default_tracker_support: Hỗ trợ
+  default_issue_status_new: Mới
+  default_issue_status_assigned: Đã gán
+  default_issue_status_resolved: Quyết tâm
+  default_issue_status_feedback: Phản hồi
+  default_issue_status_closed: Đóng
+  default_issue_status_rejected: Từ chối
+  default_doc_category_user: Tài liệu người dùng
+  default_doc_category_tech: Tài liệu kỹ thuật
+  default_priority_low: Thấp
+  default_priority_normal: Bình thường
+  default_priority_high: Cao
+  default_priority_urgent: Khẩn cấp
+  default_priority_immediate: Trung bình
+  default_activity_design: Thiết kế
+  default_activity_development: Phát triển
+  
+  enumeration_issue_priorities: Mức độ ưu tiên vấn đề
+  enumeration_doc_categories: Chủ đề tài liệu
+  enumeration_activities: Hoạt động (theo dõi thời gian)
+  
+  setting_plain_text_mail: mail dạng text đơn giản (không dùng HTML)
+  setting_gravatar_enabled: Dùng biểu tượng Gravatar
+  permission_edit_project: Chỉnh dự án
+  permission_select_project_modules: Chọn mô-đun
+  permission_manage_members: Quản lý thành viên
+  permission_manage_versions: Quản lý phiên bản
+  permission_manage_categories: Quản lý chủ đề
+  permission_add_issues: Thêm vấn đề
+  permission_edit_issues: Sửa vấn đề
+  permission_manage_issue_relations: Quản lý quan hệ vấn đề
+  permission_add_issue_notes: Thêm chú thích
+  permission_edit_issue_notes: Sửa chú thích
+  permission_edit_own_issue_notes: Sửa chú thích cá nhân
+  permission_move_issues: Chuyển vấn đề
+  permission_delete_issues: Xóa vấn đề
+  permission_manage_public_queries: Quản lý truy cấn công cộng
+  permission_save_queries: Lưu truy vấn
+  permission_view_gantt: Xem biểu đồ sự kiện
+  permission_view_calendar: Xem lịch
+  permission_view_issue_watchers: Xem các người theo dõi
+  permission_add_issue_watchers: Thêm người theo dõi
+  permission_log_time: Lưu thời gian đã tốn
+  permission_view_time_entries: Xem thời gian đã tốn
+  permission_edit_time_entries: Xem nhật ký thời gian
+  permission_edit_own_time_entries: Sửa thời gian đã lưu
+  permission_manage_news: Quản lý tin mới
+  permission_comment_news: Chú thích vào tin mới
+  permission_manage_documents: Quản lý tài liệu
+  permission_view_documents: Xem tài liệu
+  permission_manage_files: Quản lý tập tin
+  permission_view_files: Xem tập tin
+  permission_manage_wiki: Quản lý wiki
+  permission_rename_wiki_pages: Đổi tên trang wiki
+  permission_delete_wiki_pages: Xóa trang wiki
+  permission_view_wiki_pages: Xem wiki
+  permission_view_wiki_edits: Xem lược sử trang wiki
+  permission_edit_wiki_pages: Sửa trang wiki
+  permission_delete_wiki_pages_attachments: Xóa tệp đính kèm
+  permission_protect_wiki_pages: Bảo vệ trang wiki
+  permission_manage_repository: Quản lý kho lưu trữ
+  permission_browse_repository: Duyệt kho lưu trữ
+  permission_view_changesets: Xem các thay đổi
+  permission_commit_access: Truy cập commit
+  permission_manage_boards: Quản lý diễn đàn
+  permission_view_messages: Xem bài viết
+  permission_add_messages: Gửi bài viết
+  permission_edit_messages: Sửa bài viết
+  permission_edit_own_messages: Sửa bài viết cá nhân
+  permission_delete_messages: Xóa bài viết
+  permission_delete_own_messages: Xóa bài viết cá nhân
+  label_example: Ví dụ
+  text_repository_usernames_mapping: "Chọn hoặc cập nhật ánh xạ người dùng hệ thống với người dùng trong kho lưu trữ.\nNhững trường hợp trùng hợp về tên và email sẽ được tự động ánh xạ."
+  permission_delete_own_messages: Delete own messages
+  label_user_activity: "{{value}}'s activity"
+  label_updated_time_by: "Updated by {{author}} {{age}} ago"
+  text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
+  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  text_plugin_assets_writable: Plugin assets directory writable
+  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  button_create_and_continue: Create and continue
+  text_custom_field_possible_values_info: 'One line for each value'
+  label_display: Display
+  field_editable: Editable
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log

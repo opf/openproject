@@ -377,6 +377,7 @@ class TimelogControllerTest < Test::Unit::TestCase
   end
   
   def test_details_all_projects_csv_export
+    Setting.date_format = '%m/%d/%Y'
     get :details, :format => 'csv'
     assert_response :success
     assert_equal 'text/csv', @response.content_type
@@ -385,6 +386,7 @@ class TimelogControllerTest < Test::Unit::TestCase
   end
   
   def test_details_csv_export
+    Setting.date_format = '%m/%d/%Y'
     get :details, :project_id => 1, :format => 'csv'
     assert_response :success
     assert_equal 'text/csv', @response.content_type

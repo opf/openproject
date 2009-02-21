@@ -129,9 +129,9 @@ class WikiPage < ActiveRecord::Base
   protected
   
   def validate
-    errors.add(:parent_title, :activerecord_error_invalid) if !@parent_title.blank? && parent.nil?
-    errors.add(:parent_title, :activerecord_error_circular_dependency) if parent && (parent == self || parent.ancestors.include?(self))
-    errors.add(:parent_title, :activerecord_error_not_same_project) if parent && (parent.wiki_id != wiki_id)
+    errors.add(:parent_title, :invalid) if !@parent_title.blank? && parent.nil?
+    errors.add(:parent_title, :circular_dependency) if parent && (parent == self || parent.ancestors.include?(self))
+    errors.add(:parent_title, :not_same_project) if parent && (parent.wiki_id != wiki_id)
   end
 end
 

@@ -18,7 +18,7 @@
 require 'action_view/helpers/form_helper'
 
 class TabularFormBuilder < ActionView::Helpers::FormBuilder
-  include GLoc
+  include Redmine::I18n
   
   def initialize(object_name, object, template, options, proc)
     set_language_if_valid options.delete(:lang)

@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,6 +20,8 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class ApplicationHelperTest < HelperTestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::DateHelper
+  
   fixtures :projects, :roles, :enabled_modules, :users,
                       :repositories, :changesets, 
                       :trackers, :issue_statuses, :issues, :versions, :documents,
@@ -390,50 +392,14 @@ EXPECTED
     Setting.text_formatting = 'textile'
   end
   
-  def test_date_format_default
-    today = Date.today
-    Setting.date_format = ''    
-    assert_equal l_date(today), format_date(today)
-  end
-  
-  def test_date_format
-    today = Date.today
-    Setting.date_format = '%d %m %Y'
-    assert_equal today.strftime('%d %m %Y'), format_date(today)
-  end
-  
-  def test_time_format_default
-    now = Time.now
-    Setting.date_format = ''
-    Setting.time_format = ''    
-    assert_equal l_datetime(now), format_time(now)
-    assert_equal l_time(now), format_time(now, false)
-  end
-  
-  def test_time_format
-    now = Time.now
-    Setting.date_format = '%d %m %Y'
-    Setting.time_format = '%H %M'
-    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
-    assert_equal now.strftime('%H %M'), format_time(now, false)
-  end
-  
-  def test_utc_time_format
-    now = Time.now.utc
-    Setting.date_format = '%d %m %Y'
-    Setting.time_format = '%H %M'
-    assert_equal Time.now.strftime('%d %m %Y %H %M'), format_time(now)
-    assert_equal Time.now.strftime('%H %M'), format_time(now, false)
-  end
-  
   def test_due_date_distance_in_words
     to_test = { Date.today => 'Due in 0 days',
                 Date.today + 1 => 'Due in 1 day',
-                Date.today + 100 => 'Due in 100 days',
-                Date.today + 20000 => 'Due in 20000 days',
+                Date.today + 100 => 'Due in about 3 months',
+                Date.today + 20000 => 'Due in over 55 years',
                 Date.today - 1 => '1 day late',
-                Date.today - 100 => '100 days late',
-                Date.today - 20000 => '20000 days late',
+                Date.today - 100 => 'about 3 months late',
+                Date.today - 20000 => 'over 55 years late',
                }
     to_test.each do |date, expected|
       assert_equal expected, due_date_distance_in_words(date)

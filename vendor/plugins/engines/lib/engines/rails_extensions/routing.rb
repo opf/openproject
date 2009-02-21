@@ -8,13 +8,13 @@
 # == Including routes in your plugin
 #
 # The engines plugin makes it possible to include a set of routes within your plugin
-# very simply, as it turns out. In your plugin, you simply include a <tt>routes.rb</tt> 
-# file like the one below at the root of your plugin:
+# very simply, as it turns out. Include a <tt>routes.rb</tt> file like the one below 
+# at the root of your plugin (along-side <tt>init.rb</tt> and <tt>lib/</tt>):
 # 
-#   connect "/login", :controller => "my_plugin/account", :action => "login"
+#   connect "/login", :controller => "account", :action => "login"
 #
 #   # add a named route
-#   logout "/logout", :controller => "my_plugin/account", :action => "logout"
+#   logout "/logout", :controller => "account", :action => "logout"
 #
 #   # some restful stuff
 #   resources :things do |t|
@@ -67,7 +67,6 @@ module Engines::RailsExtensions::Routing
   def from_plugin(name)
     map = self # to make 'map' available within the plugin route file
     routes_path = Engines.plugins[name].routes_path
-    Engines.logger.debug "loading routes from #{routes_path}"
     eval(IO.read(routes_path), binding, routes_path) if File.file?(routes_path)
   end
 end

@@ -1,0 +1,809 @@
+# French translations for Ruby on Rails 
+# by Christian Lescuyer (christian@flyingcoders.com)
+# contributor: Sebastien Grosjean - ZenCocoon.com
+
+fr:
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%e %b"
+      long: "%e %B %Y"
+      long_ordinal: "%e %B %Y"
+      only_day: "%e"
+
+    day_names: [dimanche, lundi, mardi, mercredi, jeudi, vendredi, samedi]
+    abbr_day_names: [dim, lun, mar, mer, jeu, ven, sam]
+    month_names: [~, janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre]
+    abbr_month_names: [~, jan., fév., mar., avr., mai, juin, juil., août, sept., oct., nov., déc.]
+    order: [ :day, :month, :year ]
+  
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      time: "%H:%M"
+      short: "%d %b %H:%M"
+      long: "%A %d %B %Y %H:%M:%S %Z"
+      long_ordinal: "%A %d %B %Y %H:%M:%S %Z"
+      only_second: "%S"
+    am: 'am'
+    pm: 'pm'
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "30 secondes"
+      less_than_x_seconds:
+        zero:  "moins d'une seconde"
+        one:   "moins de 1 seconde"
+        other: "moins de {{count}} secondes"
+      x_seconds:
+        one:   "1 seconde"
+        other: "{{count}} secondes"
+      less_than_x_minutes:
+        zero:  "moins d'une minute"
+        one:   "moins de 1 minute"
+        other: "moins de {{count}} minutes"
+      x_minutes:
+        one:   "1 minute"
+        other: "{{count}} minutes"
+      about_x_hours:
+        one:   "environ une heure"
+        other: "environ {{count}} heures"
+      x_days:
+        one:   "1 jour"
+        other: "{{count}} jours"
+      about_x_months:
+        one:   "environ un mois"
+        other: "environ {{count}} mois"
+      x_months:
+        one:   "1 mois"
+        other: "{{count}} mois"
+      about_x_years:
+        one:   "environ un an"
+        other: "environ {{count}} ans"
+      over_x_years:
+        one:   "plus d'un an"
+        other: "plus de {{count}} ans"
+    prompts:
+      year:   "Année"
+      month:  "Mois"
+      day:    "Jour"
+      hour:   "Heure"
+      minute: "Minute"
+      second: "Seconde"
+  
+  number:
+    format:
+      precision: 3
+      separator: ','
+      delimiter: ' '
+    currency:
+      format:
+        unit: '€'
+        precision: 2
+        format: '%n %u'
+    human:
+      format:
+        precision: 2
+      storage_units: [ Octet, ko, Mo, Go, To ]
+  
+  support:
+    array:
+      sentence_connector: 'et'
+      skip_last_comma: true
+      word_connector: ", "
+      two_words_connector: " et "
+      last_word_connector: " et "
+  
+  activerecord:
+    errors:
+      template:
+        header: 
+          one: "Impossible d'enregistrer {{model}}: 1 erreur"
+          other: "Impossible d'enregistrer {{model}}: {{count}} erreurs."
+        body: "Veuillez vérifier les champs suivants :"
+      messages:
+        inclusion: "n'est pas inclus(e) dans la liste"
+        exclusion: "n'est pas disponible"
+        invalid: "n'est pas valide"
+        confirmation: "ne concorde pas avec la confirmation"
+        accepted: "doit être accepté(e)"
+        empty: "doit être renseigné(e)"
+        blank: "doit être renseigné(e)"
+        too_long: "est trop long (pas plus de {{count}} caractères)"
+        too_short: "est trop court (au moins {{count}} caractères)"
+        wrong_length: "ne fait pas la bonne longueur (doit comporter {{count}} caractères)"
+        taken: "n'est pas disponible"
+        not_a_number: "n'est pas un nombre"
+        greater_than: "doit être supérieur à {{count}}"
+        greater_than_or_equal_to: "doit être supérieur ou égal à {{count}}"
+        equal_to: "doit être égal à {{count}}"
+        less_than: "doit être inférieur à {{count}}"
+        less_than_or_equal_to: "doit être inférieur ou égal à {{count}}"
+        odd: "doit être impair"
+        even: "doit être pair"
+        greater_than_start_date: "doit être postérieure à la date de début"
+        not_same_project: "n'appartient pas au même projet"
+        circular_dependency: "Cette relation créerait une dépendance circulaire"
+
+  actionview_instancetag_blank_option: Choisir
+  
+  general_text_No: 'Non'
+  general_text_Yes: 'Oui'
+  general_text_no: 'non'
+  general_text_yes: 'oui'
+  general_lang_name: 'Français'
+  general_csv_separator: ';'
+  general_csv_decimal_separator: ','
+  general_csv_encoding: ISO-8859-1
+  general_pdf_encoding: ISO-8859-1
+  general_first_day_of_week: '1'
+  
+  notice_account_updated: Le compte a été mis à jour avec succès.
+  notice_account_invalid_creditentials: Identifiant ou mot de passe invalide.
+  notice_account_password_updated: Mot de passe mis à jour avec succès.
+  notice_account_wrong_password: Mot de passe incorrect
+  notice_account_register_done: Un message contenant les instructions pour activer votre compte vous a été envoyé.
+  notice_account_unknown_email: Aucun compte ne correspond à cette adresse.
+  notice_can_t_change_password: Ce compte utilise une authentification externe. Impossible de changer le mot de passe.
+  notice_account_lost_email_sent: Un message contenant les instructions pour choisir un nouveau mot de passe vous a été envoyé.
+  notice_account_activated: Votre compte a été activé. Vous pouvez à présent vous connecter.
+  notice_successful_create: Création effectuée avec succès.
+  notice_successful_update: Mise à jour effectuée avec succès.
+  notice_successful_delete: Suppression effectuée avec succès.
+  notice_successful_connection: Connection réussie.
+  notice_file_not_found: "La page à laquelle vous souhaitez accéder n'existe pas ou a été supprimée."
+  notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
+  notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
+  notice_email_sent: "Un email a été envoyé à {{value}}"
+  notice_email_error: "Erreur lors de l'envoi de l'email ({{value}})"
+  notice_feeds_access_key_reseted: "Votre clé d'accès aux flux RSS a été réinitialisée."
+  notice_failed_to_save_issues: "{{count}} demande(s) sur les {{total}} sélectionnées n'ont pas pu être mise(s) à jour: {{ids}}."
+  notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
+  notice_account_pending: "Votre compte a été créé et attend l'approbation de l'administrateur."
+  notice_default_data_loaded: Paramétrage par défaut chargé avec succès.
+  notice_unable_delete_version: Impossible de supprimer cette version.
+  
+  error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage: {{value}}"
+  error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
+  error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt: {{value}}"
+  error_scm_annotate: "L'entrée n'existe pas ou ne peut pas être annotée."
+  error_issue_not_found_in_project: "La demande n'existe pas ou n'appartient pas à ce projet"
+  
+  warning_attachments_not_saved: "{{count}} fichier(s) n'ont pas pu être sauvegardés."
+  
+  mail_subject_lost_password: "Votre mot de passe {{value}}"
+  mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant:'
+  mail_subject_register: "Activation de votre compte {{value}}"
+  mail_body_register: 'Pour activer votre compte, cliquez sur le lien suivant:'
+  mail_body_account_information_external: "Vous pouvez utiliser votre compte {{value}} pour vous connecter."
+  mail_body_account_information: Paramètres de connexion de votre compte
+  mail_subject_account_activation_request: "Demande d'activation d'un compte {{value}}"
+  mail_body_account_activation_request: "Un nouvel utilisateur ({{value}}) s'est inscrit. Son compte nécessite votre approbation:"
+  mail_subject_reminder: "{{count}} demande(s) arrivent à échéance"
+  mail_body_reminder: "{{count}} demande(s) qui vous sont assignées arrivent à échéance dans les {{days}} prochains jours:"
+  
+  gui_validation_error: 1 erreur
+  gui_validation_error_plural: "{{count}} erreurs"
+  
+  field_name: Nom
+  field_description: Description
+  field_summary: Résumé
+  field_is_required: Obligatoire
+  field_firstname: Prénom
+  field_lastname: Nom
+  field_mail: Email
+  field_filename: Fichier
+  field_filesize: Taille
+  field_downloads: Téléchargements
+  field_author: Auteur
+  field_created_on: Créé
+  field_updated_on: Mis à jour
+  field_field_format: Format
+  field_is_for_all: Pour tous les projets
+  field_possible_values: Valeurs possibles
+  field_regexp: Expression régulière
+  field_min_length: Longueur minimum
+  field_max_length: Longueur maximum
+  field_value: Valeur
+  field_category: Catégorie
+  field_title: Titre
+  field_project: Projet
+  field_issue: Demande
+  field_status: Statut
+  field_notes: Notes
+  field_is_closed: Demande fermée
+  field_is_default: Valeur par défaut
+  field_tracker: Tracker
+  field_subject: Sujet
+  field_due_date: Date d'échéance
+  field_assigned_to: Assigné à
+  field_priority: Priorité
+  field_fixed_version: Version cible
+  field_user: Utilisateur
+  field_role: Rôle
+  field_homepage: Site web
+  field_is_public: Public
+  field_parent: Sous-projet de
+  field_is_in_chlog: Demandes affichées dans l'historique
+  field_is_in_roadmap: Demandes affichées dans la roadmap
+  field_login: Identifiant
+  field_mail_notification: Notifications par mail
+  field_admin: Administrateur
+  field_last_login_on: Dernière connexion
+  field_language: Langue
+  field_effective_date: Date
+  field_password: Mot de passe
+  field_new_password: Nouveau mot de passe
+  field_password_confirmation: Confirmation
+  field_version: Version
+  field_type: Type
+  field_host: Hôte
+  field_port: Port
+  field_account: Compte
+  field_base_dn: Base DN
+  field_attr_login: Attribut Identifiant
+  field_attr_firstname: Attribut Prénom
+  field_attr_lastname: Attribut Nom
+  field_attr_mail: Attribut Email
+  field_onthefly: Création des utilisateurs à la volée
+  field_start_date: Début
+  field_done_ratio: %% Réalisé
+  field_auth_source: Mode d'authentification
+  field_hide_mail: Cacher mon adresse mail
+  field_comments: Commentaire
+  field_url: URL
+  field_start_page: Page de démarrage
+  field_subproject: Sous-projet
+  field_hours: Heures
+  field_activity: Activité
+  field_spent_on: Date
+  field_identifier: Identifiant
+  field_is_filter: Utilisé comme filtre
+  field_issue_to_id: Demande liée
+  field_delay: Retard
+  field_assignable: Demandes assignables à ce rôle
+  field_redirect_existing_links: Rediriger les liens existants
+  field_estimated_hours: Temps estimé
+  field_column_names: Colonnes
+  field_time_zone: Fuseau horaire
+  field_searchable: Utilisé pour les recherches
+  field_default_value: Valeur par défaut
+  field_comments_sorting: Afficher les commentaires
+  field_parent_title: Page parent
+  field_editable: Modifiable
+  
+  setting_app_title: Titre de l'application
+  setting_app_subtitle: Sous-titre de l'application
+  setting_welcome_text: Texte d'accueil
+  setting_default_language: Langue par défaut
+  setting_login_required: Authentification obligatoire
+  setting_self_registration: Inscription des nouveaux utilisateurs
+  setting_attachment_max_size: Taille max des fichiers
+  setting_issues_export_limit: Limite export demandes
+  setting_mail_from: Adresse d'émission
+  setting_bcc_recipients: Destinataires en copie cachée (cci)
+  setting_plain_text_mail: Mail texte brut (non HTML)
+  setting_host_name: Nom d'hôte et chemin
+  setting_text_formatting: Formatage du texte
+  setting_wiki_compression: Compression historique wiki
+  setting_feeds_limit: Limite du contenu des flux RSS
+  setting_default_projects_public: Définir les nouveaux projects comme publics par défaut
+  setting_autofetch_changesets: Récupération auto. des commits
+  setting_sys_api_enabled: Activer les WS pour la gestion des dépôts
+  setting_commit_ref_keywords: Mot-clés de référencement
+  setting_commit_fix_keywords: Mot-clés de résolution
+  setting_autologin: Autologin
+  setting_date_format: Format de date
+  setting_time_format: Format d'heure
+  setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
+  setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
+  setting_repositories_encodings: Encodages des dépôts
+  setting_commit_logs_encoding: Encodage des messages de commit
+  setting_emails_footer: Pied-de-page des emails
+  setting_protocol: Protocole
+  setting_per_page_options: Options d'objets affichés par page
+  setting_user_format: Format d'affichage des utilisateurs
+  setting_activity_days_default: Nombre de jours affichés sur l'activité des projets
+  setting_display_subprojects_issues: Afficher par défaut les demandes des sous-projets sur les projets principaux
+  setting_enabled_scm: SCM activés
+  setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
+  setting_mail_handler_api_key: Clé de protection de l'API
+  setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
+  setting_gravatar_enabled: Afficher les Gravatar des utilisateurs
+  setting_diff_max_lines_displayed: Nombre maximum de lignes de diff affichées
+  setting_repository_log_display_limit: "Nombre maximum de revisions affichées sur l'historique d'un fichier"
+  
+  permission_edit_project: Modifier le projet
+  permission_select_project_modules: Choisir les modules
+  permission_manage_members: Gérer les members
+  permission_manage_versions: Gérer les versions
+  permission_manage_categories: Gérer les catégories de demandes
+  permission_add_issues: Créer des demandes
+  permission_edit_issues: Modifier les demandes
+  permission_manage_issue_relations: Gérer les relations
+  permission_add_issue_notes: Ajouter des notes
+  permission_edit_issue_notes: Modifier les notes
+  permission_edit_own_issue_notes: Modifier ses propres notes
+  permission_move_issues: Déplacer les demandes
+  permission_delete_issues: Supprimer les demandes
+  permission_manage_public_queries: Gérer les requêtes publiques
+  permission_save_queries: Sauvegarder les requêtes
+  permission_view_gantt: Voir le gantt
+  permission_view_calendar: Voir le calendrier
+  permission_view_issue_watchers: Voir la liste des observateurs
+  permission_add_issue_watchers: Ajouter des observateurs
+  permission_log_time: Saisir le temps passé
+  permission_view_time_entries: Voir le temps passé
+  permission_edit_time_entries: Modifier les temps passés
+  permission_edit_own_time_entries: Modifier son propre temps passé
+  permission_manage_news: Gérer les annonces
+  permission_comment_news: Commenter les annonces
+  permission_manage_documents: Gérer les documents
+  permission_view_documents: Voir les documents
+  permission_manage_files: Gérer les fichiers
+  permission_view_files: Voir les fichiers
+  permission_manage_wiki: Gérer le wiki
+  permission_rename_wiki_pages: Renommer les pages
+  permission_delete_wiki_pages: Supprimer les pages
+  permission_view_wiki_pages: Voir le wiki
+  permission_view_wiki_edits: "Voir l'historique des modifications"
+  permission_edit_wiki_pages: Modifier les pages
+  permission_delete_wiki_pages_attachments: Supprimer les fichiers joints
+  permission_protect_wiki_pages: Protéger les pages
+  permission_manage_repository: Gérer le dépôt de sources
+  permission_browse_repository: Parcourir les sources
+  permission_view_changesets: Voir les révisions
+  permission_commit_access: Droit de commit
+  permission_manage_boards: Gérer les forums
+  permission_view_messages: Voir les messages
+  permission_add_messages: Poster un message
+  permission_edit_messages: Modifier les messages
+  permission_edit_own_messages: Modifier ses propres messages
+  permission_delete_messages: Supprimer les messages
+  permission_delete_own_messages: Supprimer ses propres messages
+  
+  project_module_issue_tracking: Suivi des demandes
+  project_module_time_tracking: Suivi du temps passé
+  project_module_news: Publication d'annonces
+  project_module_documents: Publication de documents
+  project_module_files: Publication de fichiers
+  project_module_wiki: Wiki
+  project_module_repository: Dépôt de sources
+  project_module_boards: Forums de discussion
+  
+  label_user: Utilisateur
+  label_user_plural: Utilisateurs
+  label_user_new: Nouvel utilisateur
+  label_project: Projet
+  label_project_new: Nouveau projet
+  label_project_plural: Projets
+  label_x_projects:
+    zero:  aucun projet
+    one:   1 projet
+    other: "{{count}} projets"
+  label_project_all: Tous les projets
+  label_project_latest: Derniers projets
+  label_issue: Demande
+  label_issue_new: Nouvelle demande
+  label_issue_plural: Demandes
+  label_issue_view_all: Voir toutes les demandes
+  label_issue_added: Demande ajoutée
+  label_issue_updated: Demande mise à jour
+  label_issues_by: "Demandes par {{value}}"
+  label_document: Document
+  label_document_new: Nouveau document
+  label_document_plural: Documents
+  label_document_added: Document ajouté
+  label_role: Rôle
+  label_role_plural: Rôles
+  label_role_new: Nouveau rôle
+  label_role_and_permissions: Rôles et permissions
+  label_member: Membre
+  label_member_new: Nouveau membre
+  label_member_plural: Membres
+  label_tracker: Tracker
+  label_tracker_plural: Trackers
+  label_tracker_new: Nouveau tracker
+  label_workflow: Workflow
+  label_issue_status: Statut de demandes
+  label_issue_status_plural: Statuts de demandes
+  label_issue_status_new: Nouveau statut
+  label_issue_category: Catégorie de demandes
+  label_issue_category_plural: Catégories de demandes
+  label_issue_category_new: Nouvelle catégorie
+  label_custom_field: Champ personnalisé
+  label_custom_field_plural: Champs personnalisés
+  label_custom_field_new: Nouveau champ personnalisé
+  label_enumerations: Listes de valeurs
+  label_enumeration_new: Nouvelle valeur
+  label_information: Information
+  label_information_plural: Informations
+  label_please_login: Identification
+  label_register: S'enregistrer
+  label_password_lost: Mot de passe perdu
+  label_home: Accueil
+  label_my_page: Ma page
+  label_my_account: Mon compte
+  label_my_projects: Mes projets
+  label_administration: Administration
+  label_login: Connexion
+  label_logout: Déconnexion
+  label_help: Aide
+  label_reported_issues: Demandes soumises
+  label_assigned_to_me_issues: Demandes qui me sont assignées
+  label_last_login: Dernière connexion
+  label_registered_on: Inscrit le
+  label_activity: Activité
+  label_overall_activity: Activité globale
+  label_user_activity: "Activité de {{value}}"
+  label_new: Nouveau
+  label_logged_as: Connecté en tant que
+  label_environment: Environnement
+  label_authentication: Authentification
+  label_auth_source: Mode d'authentification
+  label_auth_source_new: Nouveau mode d'authentification
+  label_auth_source_plural: Modes d'authentification
+  label_subproject_plural: Sous-projets
+  label_and_its_subprojects: "{{value}} et ses sous-projets"
+  label_min_max_length: Longueurs mini - maxi
+  label_list: Liste
+  label_date: Date
+  label_integer: Entier
+  label_float: Nombre décimal
+  label_boolean: Booléen
+  label_string: Texte
+  label_text: Texte long
+  label_attribute: Attribut
+  label_attribute_plural: Attributs
+  label_download: "{{count}} Téléchargement"
+  label_download_plural: "{{count}} Téléchargements"
+  label_no_data: Aucune donnée à afficher
+  label_change_status: Changer le statut
+  label_history: Historique
+  label_attachment: Fichier
+  label_attachment_new: Nouveau fichier
+  label_attachment_delete: Supprimer le fichier
+  label_attachment_plural: Fichiers
+  label_file_added: Fichier ajouté
+  label_report: Rapport
+  label_report_plural: Rapports
+  label_news: Annonce
+  label_news_new: Nouvelle annonce
+  label_news_plural: Annonces
+  label_news_latest: Dernières annonces
+  label_news_view_all: Voir toutes les annonces
+  label_news_added: Annonce ajoutée
+  label_change_log: Historique
+  label_settings: Configuration
+  label_overview: Aperçu
+  label_version: Version
+  label_version_new: Nouvelle version
+  label_version_plural: Versions
+  label_confirmation: Confirmation
+  label_export_to: 'Formats disponibles:'
+  label_read: Lire...
+  label_public_projects: Projets publics
+  label_open_issues: ouvert
+  label_open_issues_plural: ouverts
+  label_closed_issues: fermé
+  label_closed_issues_plural: fermés
+  label_x_open_issues_abbr_on_total:
+    zero:  0 ouvert sur {{total}}
+    one:   1 ouvert sur {{total}}
+    other: "{{count}} ouverts sur {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 ouvert
+    one:   1 ouvert
+    other: "{{count}} ouverts"
+  label_x_closed_issues_abbr:
+    zero:  0 fermé
+    one:   1 fermé
+    other: "{{count}} fermés"
+  label_total: Total
+  label_permissions: Permissions
+  label_current_status: Statut actuel
+  label_new_statuses_allowed: Nouveaux statuts autorisés
+  label_all: tous
+  label_none: aucun
+  label_nobody: personne
+  label_next: Suivant
+  label_previous: Précédent
+  label_used_by: Utilisé par
+  label_details: Détails
+  label_add_note: Ajouter une note
+  label_per_page: Par page
+  label_calendar: Calendrier
+  label_months_from: mois depuis
+  label_gantt: Gantt
+  label_internal: Interne
+  label_last_changes: "{{count}} derniers changements"
+  label_change_view_all: Voir tous les changements
+  label_personalize_page: Personnaliser cette page
+  label_comment: Commentaire
+  label_comment_plural: Commentaires
+  label_x_comments:
+    zero: aucun commentaire
+    one: 1 commentaire
+    other: "{{count}} commentaires"
+  label_comment_add: Ajouter un commentaire
+  label_comment_added: Commentaire ajouté
+  label_comment_delete: Supprimer les commentaires
+  label_query: Rapport personnalisé
+  label_query_plural: Rapports personnalisés
+  label_query_new: Nouveau rapport
+  label_filter_add: Ajouter le filtre
+  label_filter_plural: Filtres
+  label_equals: égal
+  label_not_equals: différent
+  label_in_less_than: dans moins de
+  label_in_more_than: dans plus de
+  label_in: dans
+  label_today: aujourd'hui
+  label_all_time: toute la période
+  label_yesterday: hier
+  label_this_week: cette semaine
+  label_last_week: la semaine dernière
+  label_last_n_days: "les {{count}} derniers jours"
+  label_this_month: ce mois-ci
+  label_last_month: le mois dernier
+  label_this_year: cette année
+  label_date_range: Période
+  label_less_than_ago: il y a moins de
+  label_more_than_ago: il y a plus de
+  label_ago: il y a
+  label_contains: contient
+  label_not_contains: ne contient pas
+  label_day_plural: jours
+  label_repository: Dépôt
+  label_repository_plural: Dépôts
+  label_browse: Parcourir
+  label_modification: "{{count}} modification"
+  label_modification_plural: "{{count}} modifications"
+  label_revision: Révision
+  label_revision_plural: Révisions
+  label_associated_revisions: Révisions associées
+  label_added: ajouté
+  label_modified: modifié
+  label_copied: copié
+  label_renamed: renommé
+  label_deleted: supprimé
+  label_latest_revision: Dernière révision
+  label_latest_revision_plural: Dernières révisions
+  label_view_revisions: Voir les révisions
+  label_max_size: Taille maximale
+  label_sort_highest: Remonter en premier
+  label_sort_higher: Remonter
+  label_sort_lower: Descendre
+  label_sort_lowest: Descendre en dernier
+  label_roadmap: Roadmap
+  label_roadmap_due_in: "Echéance dans {{value}}"
+  label_roadmap_overdue: "En retard de {{value}}"
+  label_roadmap_no_issues: Aucune demande pour cette version
+  label_search: Recherche
+  label_result_plural: Résultats
+  label_all_words: Tous les mots
+  label_wiki: Wiki
+  label_wiki_edit: Révision wiki
+  label_wiki_edit_plural: Révisions wiki
+  label_wiki_page: Page wiki
+  label_wiki_page_plural: Pages wiki
+  label_index_by_title: Index par titre
+  label_index_by_date: Index par date
+  label_current_version: Version actuelle
+  label_preview: Prévisualisation
+  label_feed_plural: Flux RSS
+  label_changes_details: Détails de tous les changements
+  label_issue_tracking: Suivi des demandes
+  label_spent_time: Temps passé
+  label_f_hour: "{{value}} heure"
+  label_f_hour_plural: "{{value}} heures"
+  label_time_tracking: Suivi du temps
+  label_change_plural: Changements
+  label_statistics: Statistiques
+  label_commits_per_month: Commits par mois
+  label_commits_per_author: Commits par auteur
+  label_view_diff: Voir les différences
+  label_diff_inline: en ligne
+  label_diff_side_by_side: côte à côte
+  label_options: Options
+  label_copy_workflow_from: Copier le workflow de
+  label_permissions_report: Synthèse des permissions
+  label_watched_issues: Demandes surveillées
+  label_related_issues: Demandes liées
+  label_applied_status: Statut appliqué
+  label_loading: Chargement...
+  label_relation_new: Nouvelle relation
+  label_relation_delete: Supprimer la relation
+  label_relates_to: lié à
+  label_duplicates: duplique
+  label_duplicated_by: dupliqué par
+  label_blocks: bloque
+  label_blocked_by: bloqué par
+  label_precedes: précède
+  label_follows: suit
+  label_end_to_start: fin à début
+  label_end_to_end: fin à fin
+  label_start_to_start: début à début
+  label_start_to_end: début à fin
+  label_stay_logged_in: Rester connecté
+  label_disabled: désactivé
+  label_show_completed_versions: Voir les versions passées
+  label_me: moi
+  label_board: Forum
+  label_board_new: Nouveau forum
+  label_board_plural: Forums
+  label_topic_plural: Discussions
+  label_message_plural: Messages
+  label_message_last: Dernier message
+  label_message_new: Nouveau message
+  label_message_posted: Message ajouté
+  label_reply_plural: Réponses
+  label_send_information: Envoyer les informations à l'utilisateur
+  label_year: Année
+  label_month: Mois
+  label_week: Semaine
+  label_date_from: Du
+  label_date_to: Au
+  label_language_based: Basé sur la langue de l'utilisateur
+  label_sort_by: "Trier par {{value}}"
+  label_send_test_email: Envoyer un email de test
+  label_feeds_access_key_created_on: "Clé d'accès RSS créée il y a {{value}}"
+  label_module_plural: Modules
+  label_added_time_by: "Ajouté par {{author}} il y a {{age}}"
+  label_updated_time_by: "Mis à jour par {{author}} il y a {{age}}"
+  label_updated_time: "Mis à jour il y a {{value}}"
+  label_jump_to_a_project: Aller à un projet...
+  label_file_plural: Fichiers
+  label_changeset_plural: Révisions
+  label_default_columns: Colonnes par défaut
+  label_no_change_option: (Pas de changement)
+  label_bulk_edit_selected_issues: Modifier les demandes sélectionnées
+  label_theme: Thème
+  label_default: Défaut
+  label_search_titles_only: Uniquement dans les titres
+  label_user_mail_option_all: "Pour tous les événements de tous mes projets"
+  label_user_mail_option_selected: "Pour tous les événements des projets sélectionnés..."
+  label_user_mail_option_none: "Seulement pour ce que je surveille ou à quoi je participe"
+  label_user_mail_no_self_notified: "Je ne veux pas être notifié des changements que j'effectue"
+  label_registration_activation_by_email: activation du compte par email
+  label_registration_manual_activation: activation manuelle du compte
+  label_registration_automatic_activation: activation automatique du compte
+  label_display_per_page: "Par page: {{value}}"
+  label_age: Age
+  label_change_properties: Changer les propriétés
+  label_general: Général
+  label_more: Plus
+  label_scm: SCM
+  label_plugins: Plugins
+  label_ldap_authentication: Authentification LDAP
+  label_downloads_abbr: D/L
+  label_optional_description: Description facultative
+  label_add_another_file: Ajouter un autre fichier
+  label_preferences: Préférences
+  label_chronological_order: Dans l'ordre chronologique
+  label_reverse_chronological_order: Dans l'ordre chronologique inverse
+  label_planning: Planning
+  label_incoming_emails: Emails entrants
+  label_generate_key: Générer une clé
+  label_issue_watchers: Observateurs
+  label_example: Exemple
+  label_display: Affichage
+  
+  button_login: Connexion
+  button_submit: Soumettre
+  button_save: Sauvegarder
+  button_check_all: Tout cocher
+  button_uncheck_all: Tout décocher
+  button_delete: Supprimer
+  button_create: Créer
+  button_create_and_continue: Créer et continuer
+  button_test: Tester
+  button_edit: Modifier
+  button_add: Ajouter
+  button_change: Changer
+  button_apply: Appliquer
+  button_clear: Effacer
+  button_lock: Verrouiller
+  button_unlock: Déverrouiller
+  button_download: Télécharger
+  button_list: Lister
+  button_view: Voir
+  button_move: Déplacer
+  button_back: Retour
+  button_cancel: Annuler
+  button_activate: Activer
+  button_sort: Trier
+  button_log_time: Saisir temps
+  button_rollback: Revenir à cette version
+  button_watch: Surveiller
+  button_unwatch: Ne plus surveiller
+  button_reply: Répondre
+  button_archive: Archiver
+  button_unarchive: Désarchiver
+  button_reset: Réinitialiser
+  button_rename: Renommer
+  button_change_password: Changer de mot de passe
+  button_copy: Copier
+  button_annotate: Annoter
+  button_update: Mettre à jour
+  button_configure: Configurer
+  button_quote: Citer
+  
+  status_active: actif
+  status_registered: enregistré
+  status_locked: vérouillé
+  
+  text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
+  text_regexp_info: ex. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 pour aucune restriction
+  text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et toutes ses données ?
+  text_subprojects_destroy_warning: "Ses sous-projets: {{value}} seront également supprimés.'"
+  text_workflow_edit: Sélectionner un tracker et un rôle pour éditer le workflow
+  text_are_you_sure: Etes-vous sûr ?
+  text_journal_changed: "changé de {{old}} à {{new}}"
+  text_journal_set_to: "mis à {{value}}"
+  text_journal_deleted: supprimé
+  text_tip_task_begin_day: tâche commençant ce jour
+  text_tip_task_end_day: tâche finissant ce jour
+  text_tip_task_begin_end_day: tâche commençant et finissant ce jour
+  text_project_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres et tirets sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+  text_caracters_maximum: "{{count}} caractères maximum."
+  text_caracters_minimum: "{{count}} caractères minimum."
+  text_length_between: "Longueur comprise entre {{min}} et {{max}} caractères."
+  text_tracker_no_workflow: Aucun worflow n'est défini pour ce tracker
+  text_unallowed_characters: Caractères non autorisés
+  text_comma_separated: Plusieurs valeurs possibles (séparées par des virgules).
+  text_issues_ref_in_commit_messages: Référencement et résolution des demandes dans les commentaires de commits
+  text_issue_added: "La demande {{id}} a été soumise par {{author}}."
+  text_issue_updated: "La demande {{id}} a été mise à jour par {{author}}."
+  text_wiki_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce wiki et tout son contenu ?
+  text_issue_category_destroy_question: "{{count}} demandes sont affectées à cette catégories. Que voulez-vous faire ?"
+  text_issue_category_destroy_assignments: N'affecter les demandes à aucune autre catégorie
+  text_issue_category_reassign_to: Réaffecter les demandes à cette catégorie
+  text_user_mail_option: "Pour les projets non sélectionnés, vous recevrez seulement des notifications pour ce que vous surveillez ou à quoi vous participez (exemple: demandes dont vous êtes l'auteur ou la personne assignée)."
+  text_no_configuration_data: "Les rôles, trackers, statuts et le workflow ne sont pas encore paramétrés.\nIl est vivement recommandé de charger le paramétrage par defaut. Vous pourrez le modifier une fois chargé."
+  text_load_default_configuration: Charger le paramétrage par défaut
+  text_status_changed_by_changeset: "Appliqué par commit {{value}}."
+  text_issues_destroy_confirmation: 'Etes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
+  text_select_project_modules: 'Selectionner les modules à activer pour ce project:'
+  text_default_administrator_account_changed: Compte administrateur par défaut changé
+  text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
+  text_plugin_assets_writable: Répertoire public des plugins accessible en écriture
+  text_rmagick_available: Bibliothèque RMagick présente (optionnelle)
+  text_destroy_time_entries_question: %.02f heures ont été enregistrées sur les demandes à supprimer. Que voulez-vous faire ?
+  text_destroy_time_entries: Supprimer les heures
+  text_assign_time_entries_to_project: Reporter les heures sur le projet
+  text_reassign_time_entries: 'Reporter les heures sur cette demande:'
+  text_user_wrote: "{{value}} a écrit:'"
+  text_enumeration_destroy_question: "Cette valeur est affectée à {{count}} objets.'"
+  text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
+  text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/email.yml et redémarrez l'application pour les activer."
+  text_repository_usernames_mapping: "Vous pouvez sélectionner ou modifier l'utilisateur Redmine associé à chaque nom d'utilisateur figurant dans l'historique du dépôt.\nLes utilisateurs avec le même identifiant ou la même adresse mail seront automatiquement associés."
+  text_diff_truncated: '... Ce différentiel a été tronqué car il excède la taille maximale pouvant être affichée.'
+  text_custom_field_possible_values_info: 'Une ligne par valeur'
+  
+  default_role_manager: Manager
+  default_role_developper: Développeur
+  default_role_reporter: Rapporteur
+  default_tracker_bug: Anomalie
+  default_tracker_feature: Evolution
+  default_tracker_support: Assistance
+  default_issue_status_new: Nouveau
+  default_issue_status_assigned: Assigné
+  default_issue_status_resolved: Résolu
+  default_issue_status_feedback: Commentaire
+  default_issue_status_closed: Fermé
+  default_issue_status_rejected: Rejeté
+  default_doc_category_user: Documentation utilisateur
+  default_doc_category_tech: Documentation technique
+  default_priority_low: Bas
+  default_priority_normal: Normal
+  default_priority_high: Haut
+  default_priority_urgent: Urgent
+  default_priority_immediate: Immédiat
+  default_activity_design: Conception
+  default_activity_development: Développement
+  
+  enumeration_issue_priorities: Priorités des demandes
+  enumeration_doc_categories: Catégories des documents
+  enumeration_activities: Activités (suivi du temps)

@@ -236,4 +236,9 @@ class MailHandler < ActionMailer::Base
     end
     @plain_text_body.strip!
   end
+  
+
+  def self.full_sanitizer
+    @full_sanitizer ||= HTML::FullSanitizer.new
+  end
 end
