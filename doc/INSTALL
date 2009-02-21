@@ -29,8 +29,13 @@ Optional:
 4. Create the database structure. Under the application main directory:
    rake db:migrate RAILS_ENV="production"
    It will create tables and an administrator account.
+   
+5. Generate a session store secret
+   Redmine stores session data in cookies by default, which requires
+   a secret to be generated. Run:
+   rake config/initializers/session_store.rb
 
-5. Setting up permissions
+6. Setting up permissions
    The user who runs Redmine must have write permission on the following
    subdirectories: files, log, tmp (create the last one if not present).
 
@@ -39,13 +44,13 @@ Optional:
      sudo chown -R redmine:redmine files log tmp
      sudo chmod -R 755 files log tmp
 
-6. Test the installation by running WEBrick web server:
+7. Test the installation by running WEBrick web server:
    ruby script/server -e production   
   
    Once WEBrick has started, point your browser to http://localhost:3000/
    You should now see the application welcome page
 
-7. Use default administrator account to log in:
+8. Use default administrator account to log in:
    login: admin
    password: admin
    
