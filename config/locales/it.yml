@@ -75,6 +75,11 @@ it:
         precision: 2
         format: '%n %u'
         
+  support:
+    array:
+      sentence_connector: "and"
+      skip_last_comma: false
+      
   activerecord:
     errors:
       template:
