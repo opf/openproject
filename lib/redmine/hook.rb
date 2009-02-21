@@ -60,16 +60,7 @@ module Redmine
         returning [] do |response|
           hls = hook_listeners(hook)
           if hls.any?
-            request = context[:request]
-            if request
-              default_url_options[:host] ||= request.env["SERVER_NAME"]
-              # Only set port if it's requested and isn't port 80.  Otherwise a url
-              # like:  +http://example.com:/url+ may be generated
-              if request.env["SERVER_PORT"] && request.env["SERVER_PORT"] != 80
-                default_url_options[:port] ||= request.env["SERVER_PORT"]
-              end
-              default_url_options[:protocol] ||= request.protocol
-            end
+            default_url_options[:only_path] ||= true
             hls.each {|listener| response << listener.send(hook, context)}
           end
         end

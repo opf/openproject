@@ -100,41 +100,11 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
     assert_equal ['Test hook 1 listener.', 'Test hook 2 listener.'], @hook_helper.call_hook(:view_layouts_base_html_head)
   end
   
-  # Context: Redmine::Hook::call_hook
-  def test_call_hook_default_url_options_set
-    request = ActionController::TestRequest.new
-    request.env = { "SERVER_NAME" => 'example.com'}
+  # Context: Redmine::Hook::Helper.call_hook default_url
+  def test_call_hook_default_url_options
     @hook_module.add_listener(TestLinkToHook)
 
-    assert_equal ['<a href="http://example.com/issues">Issues</a>'],
-      @hook_helper.call_hook(:view_layouts_base_html_head, :request => request)
-  end
-
-  def test_call_hook_default_url_options_set_with_no_standard_request_port
-    request = ActionController::TestRequest.new
-    request.env = { "SERVER_NAME" => 'example.com', "SERVER_PORT" => 3000}
-    @hook_module.add_listener(TestLinkToHook)
-    
-    assert_equal ['<a href="http://example.com:3000/issues">Issues</a>'],
-      @hook_helper.call_hook(:view_layouts_base_html_head, :request => request)
-  end
-
-  def test_call_hook_default_url_options_set_with_ssl
-    request = ActionController::TestRequest.new
-    request.env = { "SERVER_NAME" => 'example.com', "HTTPS" => 'on'}
-    @hook_module.add_listener(TestLinkToHook)
-
-    assert_equal ['<a href="https://example.com/issues">Issues</a>'],
-      @hook_helper.call_hook(:view_layouts_base_html_head, :request => request)
-  end
-
-  def test_call_hook_default_url_options_set_with_forwarded_ssl
-    request = ActionController::TestRequest.new
-    request.env = { "SERVER_NAME" => 'example.com', "HTTP_X_FORWARDED_PROTO" => "https"}
-    @hook_module.add_listener(TestLinkToHook)
-
-    assert_equal ['<a href="https://example.com/issues">Issues</a>'],
-      @hook_helper.call_hook(:view_layouts_base_html_head, :request => request)
+    assert_equal ['<a href="/issues">Issues</a>'], @hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
   # Context: Redmine::Hook::Helper.call_hook
