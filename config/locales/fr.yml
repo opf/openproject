@@ -272,6 +272,7 @@ fr:
   field_parent_title: Page parent
   field_editable: Modifiable
   field_watcher: Observateur
+  field_identity_url: URL OpenID
   
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -423,6 +424,7 @@ fr:
   label_information_plural: Informations
   label_please_login: Identification
   label_register: S'enregistrer
+  label_login_with_open_id_option: S'authentifier avec OpenID
   label_password_lost: Mot de passe perdu
   label_home: Accueil
   label_my_page: Ma page

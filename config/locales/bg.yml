@@ -774,3 +774,5 @@ bg:
   setting_file_max_size_displayed: Max size of text files displayed inline
   field_watcher: Watcher
   setting_openid: Allow OpenID login and registration
+  field_identity_url: OpenID URL
+  label_login_with_open_id_option: or login with OpenID
