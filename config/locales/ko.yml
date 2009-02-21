@@ -834,3 +834,5 @@ ko:
   field_editable: Editable
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_file_max_size_displayed: Max size of text files displayed inline
+  field_watcher: Watcher
+  setting_openid: Allow OpenID login and registration

@@ -238,6 +238,7 @@ en:
   field_comments_sorting: Display comments
   field_parent_title: Parent page
   field_editable: Editable
+  field_watcher: Watcher
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -280,6 +281,7 @@ en:
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+  setting_openid: Allow OpenID login and registration
   
   permission_edit_project: Edit project
   permission_select_project_modules: Select project modules
