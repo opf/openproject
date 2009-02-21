@@ -117,8 +117,8 @@ class RepositoriesController < ApplicationController
     
     @content = @repository.cat(@path, @rev)
     show_error_not_found and return unless @content
-    if 'raw' == params[:format] || @content.is_binary_data?
-      # Force the download if it's a binary file
+    if 'raw' == params[:format] || @content.is_binary_data? || (@entry.size && @entry.size > Setting.file_max_size_displayed.to_i.kilobyte)
+      # Force the download
       send_data @content, :filename => @path.split('/').last
     else
       # Prevent empty lines when displaying a file with Windows style eol

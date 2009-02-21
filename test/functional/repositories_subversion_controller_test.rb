@@ -94,6 +94,16 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       assert_response :success
       assert_template 'entry'
     end
+      
+    def test_entry_should_send_if_too_big
+      # no files in the test repo is larger than 1KB...
+      with_settings :file_max_size_displayed => 0 do
+        get :entry, :id => 1, :path => ['subversion_test', 'helloworld.c']
+        assert_response :success
+        assert_template ''
+        assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
+      end
+    end
     
     def test_entry_at_given_revision
       get :entry, :id => 1, :path => ['subversion_test', 'helloworld.rb'], :rev => 2
@@ -113,6 +123,8 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
     def test_entry_download
       get :entry, :id => 1, :path => ['subversion_test', 'helloworld.c'], :format => 'raw'
       assert_response :success
+      assert_template ''
+      assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
     end
     
     def test_directory_entry

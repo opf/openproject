@@ -64,4 +64,11 @@ class Test::Unit::TestCase
     Dir.mkdir "#{RAILS_ROOT}/tmp/test/attachments" unless File.directory?("#{RAILS_ROOT}/tmp/test/attachments")
     Attachment.storage_path = "#{RAILS_ROOT}/tmp/test/attachments"
   end
+  
+  def with_settings(options, &block)
+    saved_settings = options.keys.inject({}) {|h, k| h[k] = Setting[k].dup; h}
+    options.each {|k, v| Setting[k] = v}
+    yield
+    saved_settings.each {|k, v| Setting[k] = v}
+  end
 end
