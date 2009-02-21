@@ -22,6 +22,8 @@ require 'users_controller'
 class UsersController; def rescue_action(e) raise e end; end
 
 class UsersControllerTest < Test::Unit::TestCase
+  include Redmine::I18n
+  
   fixtures :users, :projects, :members
   
   def setup
