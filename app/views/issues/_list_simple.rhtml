@@ -17,7 +17,7 @@
 			<td class="project"><%=h issue.project %></td>
 			<td class="tracker"><%=h issue.tracker %></td>
 			<td class="subject">
-        <%= link_to h(truncate(issue.subject, 60)), :controller => 'issues', :action => 'show', :id => issue %> (<%=h issue.status %>)
+        <%= link_to h(truncate(issue.subject, :length => 60)), :controller => 'issues', :action => 'show', :id => issue %> (<%=h issue.status %>)
       </td>
 		</tr>
 		<% end %>
