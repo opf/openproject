@@ -805,3 +805,4 @@ zh:
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+  setting_file_max_size_displayed: Max size of text files displayed inline

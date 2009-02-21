@@ -810,3 +810,4 @@ pt-BR:
   label_display: Exibição
   field_editable: Editável
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+  setting_file_max_size_displayed: Max size of text files displayed inline

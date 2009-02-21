@@ -53,12 +53,23 @@ class AttachmentsControllerTest < Test::Unit::TestCase
     get :show, :id => 5
     assert_response :success
     assert_template 'diff'
+    assert_equal 'text/html', @response.content_type
   end
   
   def test_show_text_file
     get :show, :id => 4
     assert_response :success
     assert_template 'file'
+    assert_equal 'text/html', @response.content_type
+  end
+  
+  def test_show_text_file_should_send_if_too_big
+    Setting.setting_file_max_size_displayed = 512
+    Attachment.find(4).update_attribute :filesize, 754.kilobyte
+    
+    get :show, :id => 4
+    assert_response :success
+    assert_equal 'application/x-ruby', @response.content_type
   end
   
   def test_show_other
