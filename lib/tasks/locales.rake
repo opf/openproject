@@ -5,7 +5,7 @@ namespace :locales do
     
     en_strings = YAML.load(File.read(File.join(dir,'en.yml')))['en']
     
-    files = Dir.glob(File.join(dir,'fr.{yaml,yml}'))
+    files = Dir.glob(File.join(dir,'*.{yaml,yml}'))
     files.each do |file|
       puts "Updating file #{file}"
       file_strings = YAML.load(File.read(file))
