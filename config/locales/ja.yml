@@ -177,7 +177,7 @@ ja:
   field_filename: ファイル
   field_filesize: サイズ
   field_downloads: ダウンロード
-  field_author: 起票者
+  field_author: 作成者
   field_created_on: 作成日
   field_updated_on: 更新日
   field_field_format: 書式
@@ -194,7 +194,7 @@ ja:
   field_status: ステータス
   field_notes: 注記
   field_is_closed: 終了したチケット
-  field_is_default: デフォルトのステータス
+  field_is_default: デフォルト値
   field_tracker: トラッカー
   field_subject: 題名
   field_due_date: 期限日
@@ -246,7 +246,7 @@ ja:
   field_assignable: チケットはこのロールに割り当てることができます
   field_redirect_existing_links: 既存のリンクをリダイレクトする
   field_estimated_hours: 予定工数
-  field_default_value: デフォルトのステータス
+  field_default_value: デフォルト値
   
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
@@ -795,15 +795,15 @@ ja:
   label_updated_time_by: "{{author}}が{{age}}前に更新"
   text_diff_truncated: '... 差分の行数が表示可能な上限を超えました。超過分は表示しません。'
   setting_diff_max_lines_displayed: 差分の表示行数の上限
-  text_plugin_assets_writable: Plugin assets directory writable
+  text_plugin_assets_writable: Plugin assetsディレクトリに書き込み可能
   warning_attachments_not_saved: "{{count}}個のファイルが保存できませんでした。"
   button_create_and_continue: 連続作成
   text_custom_field_possible_values_info: '選択肢の値は1行に1個ずつ記述してください。'
   label_display: 表示
   field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+  setting_repository_log_display_limit: ファイルのリビジョン表示数の上限
   setting_file_max_size_displayed: Max size of text files displayed inline
   field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  setting_openid: OpenIDによるログインと登録
   field_identity_url: OpenID URL
   label_login_with_open_id_option: or login with OpenID
