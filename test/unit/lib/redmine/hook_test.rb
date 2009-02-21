@@ -46,10 +46,15 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
     end
   end
 
+  class TestHookHelperController < ActionController::Base
+    include Redmine::Hook::Helper
+  end
+  
   Redmine::Hook.clear_listeners
   
   def setup
     @hook_module = Redmine::Hook
+    @hook_helper = TestHookHelperController.new
   end
   
   def teardown
@@ -75,18 +80,19 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
   
   def test_call_hook
     @hook_module.add_listener(TestHook1)
-    assert_equal ['Test hook 1 listener.'], @hook_module.call_hook(:view_layouts_base_html_head)
+    assert_equal ['Test hook 1 listener.'], @hook_helper.call_hook(:view_layouts_base_html_head)
   end
   
   def test_call_hook_with_context
     @hook_module.add_listener(TestHook3)
-    assert_equal ['Context keys: bar, foo.'], @hook_module.call_hook(:view_layouts_base_html_head, :foo => 1, :bar => 'a')
+    assert_equal ['Context keys: bar, controller, foo, project, request.'],
+                 @hook_helper.call_hook(:view_layouts_base_html_head, :foo => 1, :bar => 'a')
   end
   
   def test_call_hook_with_multiple_listeners
     @hook_module.add_listener(TestHook1)
     @hook_module.add_listener(TestHook2)
-    assert_equal ['Test hook 1 listener.', 'Test hook 2 listener.'], @hook_module.call_hook(:view_layouts_base_html_head)
+    assert_equal ['Test hook 1 listener.', 'Test hook 2 listener.'], @hook_helper.call_hook(:view_layouts_base_html_head)
   end
   
   # Context: Redmine::Hook::call_hook
@@ -96,7 +102,7 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
     @hook_module.add_listener(TestLinkToHook)
 
     assert_equal ['<a href="http://example.com/issues">Issues</a>'],
-      @hook_module.call_hook(:view_layouts_base_html_head, :request => request)
+      @hook_helper.call_hook(:view_layouts_base_html_head, :request => request)
   end
 
   def test_call_hook_default_url_options_set_with_no_standard_request_port
@@ -105,7 +111,7 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
     @hook_module.add_listener(TestLinkToHook)
     
     assert_equal ['<a href="http://example.com:3000/issues">Issues</a>'],
-      @hook_module.call_hook(:view_layouts_base_html_head, :request => request)
+      @hook_helper.call_hook(:view_layouts_base_html_head, :request => request)
   end
 
   def test_call_hook_default_url_options_set_with_ssl
@@ -114,7 +120,7 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
     @hook_module.add_listener(TestLinkToHook)
 
     assert_equal ['<a href="https://example.com/issues">Issues</a>'],
-      @hook_module.call_hook(:view_layouts_base_html_head, :request => request)
+      @hook_helper.call_hook(:view_layouts_base_html_head, :request => request)
   end
 
   def test_call_hook_default_url_options_set_with_forwarded_ssl
@@ -123,7 +129,7 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
     @hook_module.add_listener(TestLinkToHook)
 
     assert_equal ['<a href="https://example.com/issues">Issues</a>'],
-      @hook_module.call_hook(:view_layouts_base_html_head, :request => request)
+      @hook_helper.call_hook(:view_layouts_base_html_head, :request => request)
   end
 
   # Context: Redmine::Hook::Helper.call_hook
