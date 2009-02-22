@@ -86,10 +86,10 @@ end %>
 
 </div>
 
-<% if @issue.changesets.any? && User.current.allowed_to?(:view_changesets, @project) %>
+<% if @changesets.any? && User.current.allowed_to?(:view_changesets, @project) %>
 <div id="issue-changesets">
 <h3><%=l(:label_associated_revisions)%></h3>
-<%= render :partial => 'changesets', :locals => { :changesets => @issue.changesets} %>
+<%= render :partial => 'changesets', :locals => { :changesets => @changesets} %>
 </div>
 <% end %>
 
