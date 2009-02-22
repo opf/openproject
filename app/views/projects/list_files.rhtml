@@ -6,7 +6,7 @@
 
 <% delete_allowed = User.current.allowed_to?(:manage_files, @project) %>
 
-<table class="list">
+<table class="list files">
   <thead><tr>
     <%= sort_header_tag('filename', :caption => l(:field_filename)) %>
     <%= sort_header_tag('created_on', :caption => l(:label_date), :default_order => 'desc') %>
@@ -19,15 +19,19 @@
 <% @containers.each do |container| %>	
   <% next if container.attachments.empty? -%>
 	<% if container.is_a?(Version) -%>
-  <tr><th colspan="6" align="left"><span class="icon icon-package"><b><%=h container %></b></span></th></tr>
+  <tr>
+  	<th colspan="6" align="left">
+  		<%= link_to(h(container), {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
+		</th>
+	</tr>
 	<% end -%>
   <% container.attachments.each do |file| %>		
-  <tr class="<%= cycle("odd", "even") %>">
-    <td><%= link_to_attachment file, :download => true, :title => file.description %></td>
-    <td align="center"><%= format_time(file.created_on) %></td>
-    <td align="center"><%= number_to_human_size(file.filesize) %></td>
-    <td align="center"><%= file.downloads %></td>
-    <td align="center"><small><%= file.digest %></small></td>
+  <tr class="file <%= cycle("odd", "even") %>">
+    <td class="filename"><%= link_to_attachment file, :download => true, :title => file.description %></td>
+    <td class="created_on"><%= format_time(file.created_on) %></td>
+    <td class="filesize"><%= number_to_human_size(file.filesize) %></td>
+    <td class="downloads"><%= file.downloads %></td>
+    <td class="digest"><%= file.digest %></td>
     <td align="center">
     <%= link_to(image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => file},
 																				 :confirm => l(:text_are_you_sure), :method => :post) if delete_allowed %>
