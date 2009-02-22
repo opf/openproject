@@ -12,6 +12,36 @@ module ActiveRecord
   end
 end
 
+module ActiveRecord
+  class Errors
+    def full_messages(options = {})
+      full_messages = []
+
+      @errors.each_key do |attr|
+        @errors[attr].each do |message|
+          next unless message
+
+          if attr == "base"
+            full_messages << message
+          elsif attr == "custom_values"
+            # Replace the generic "custom values is invalid"
+            # with the errors on custom values
+            @base.custom_values.each do |value|
+              value.errors.each do |attr, msg|
+                full_messages << value.custom_field.name + ' ' + msg
+              end
+            end
+          else
+            attr_name = @base.class.human_attribute_name(attr)
+            full_messages << attr_name + ' ' + message
+          end
+        end
+      end
+      full_messages
+    end
+  end
+end
+
 module ActionView
   module Helpers
     module DateHelper
