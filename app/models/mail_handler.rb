@@ -235,6 +235,7 @@ class MailHandler < ActionMailer::Base
       @plain_text_body = plain_text_part.body.to_s
     end
     @plain_text_body.strip!
+    @plain_text_body
   end
   
 
