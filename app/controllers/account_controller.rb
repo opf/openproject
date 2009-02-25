@@ -150,17 +150,8 @@ class AccountController < ApplicationController
     redirect_to :action => 'login'
   end
   
-private
-  def logged_user=(user)
-    if user && user.is_a?(User)
-      User.current = user
-      session[:user_id] = user.id
-    else
-      User.current = User.anonymous
-      session[:user_id] = nil
-    end
-  end
-  
+  private
+
   def password_authentication
     user = User.try_to_login(params[:username], params[:password])
     if user.nil?

@@ -37,6 +37,38 @@ class AccountTest < ActionController::IntegrationTest
     assert_template "my/account"    
   end
   
+  def test_autologin
+    user = User.find(1)
+    Setting.autologin = "7"
+    Token.delete_all
+    
+    # User logs in with 'autologin' checked
+    post '/login', :username => user.login, :password => 'admin', :autologin => 1
+    assert_redirected_to 'my/page'
+    token = Token.find :first
+    assert_not_nil token
+    assert_equal user, token.user
+    assert_equal 'autologin', token.action
+    assert_equal user.id, session[:user_id]
+    assert_equal token.value, cookies['autologin']
+    
+    # Session is cleared
+    reset!
+    User.current = nil
+    # Clears user's last login timestamp
+    user.update_attribute :last_login_on, nil
+    assert_nil user.reload.last_login_on
+    
+    # User comes back with his autologin cookie
+    cookies[:autologin] = token.value
+    get '/my/page'
+    assert_response :success
+    assert_template 'my/page'
+    assert_equal user.id, session[:user_id]
+    assert_not_nil user.reload.last_login_on
+    assert user.last_login_on > 2.second.ago
+  end
+  
   def test_lost_password
     Token.delete_all
     

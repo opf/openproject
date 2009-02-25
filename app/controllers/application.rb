@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
     # Check the settings cache for each request
     Setting.check_cache
     # Find the current user
-    User.current = find_current_user
+    self.logged_user = find_current_user
   end
   
   # Returns the current user or nil if no user is logged in
@@ -56,10 +56,21 @@ class ApplicationController < ActionController::Base
       (User.active.find(session[:user_id]) rescue nil)
     elsif cookies[:autologin] && Setting.autologin?
       # auto-login feature
-      User.find_by_autologin_key(cookies[:autologin])
+      User.try_to_autologin(cookies[:autologin])
     elsif params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication
       User.find_by_rss_key(params[:key])
+    end
+  end
+  
+  # Sets the logged in user
+  def logged_user=(user)
+    if user && user.is_a?(User)
+      User.current = user
+      session[:user_id] = user.id
+    else
+      User.current = User.anonymous
+      session[:user_id] = nil
     end
   end
   

@@ -160,18 +160,6 @@ class AccountControllerTest < Test::Unit::TestCase
     puts "Skipping openid tests."
   end
   
-  
-  def test_autologin
-    Setting.autologin = "7"
-    Token.delete_all
-    post :login, :username => 'admin', :password => 'admin', :autologin => 1
-    assert_redirected_to 'my/page'
-    token = Token.find :first
-    assert_not_nil token
-    assert_equal User.find_by_login('admin'), token.user
-    assert_equal 'autologin', token.action
-  end
-  
   def test_logout
     @request.session[:user_id] = 2
     get :logout
