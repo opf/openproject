@@ -19,6 +19,8 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 
 class Redmine::Hook::ManagerTest < Test::Unit::TestCase
 
+  fixtures :issues
+  
   # Some hooks that are manually registered in these tests
   class TestHook < Redmine::Hook::ViewListener; end
   
@@ -64,7 +66,6 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
   
   def teardown
     @hook_module.clear_listeners
-    @hook_module.default_url_options = { }
   end
   
   def test_clear_listeners
@@ -144,5 +145,22 @@ class Redmine::Hook::ManagerTest < Test::Unit::TestCase
     assert_equal 'Test hook 1 listener. Test hook 2 listener.',
                  @view_hook_helper.call_hook(:view_layouts_base_html_head)
   end
+
+  def test_call_hook_should_not_change_the_default_url_for_email_notifications
+    issue = Issue.find(1)
+ 
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_issue_add(issue)
+    mail = ActionMailer::Base.deliveries.last
+ 
+    @hook_module.add_listener(TestLinkToHook)
+    @hook_helper.call_hook(:view_layouts_base_html_head)
+ 
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_issue_add(issue)
+    mail2 = ActionMailer::Base.deliveries.last
+ 
+    assert_equal mail.body, mail2.body
+   end
 end
 

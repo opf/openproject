@@ -23,6 +23,12 @@ class Mailer < ActionMailer::Base
   include ActionController::UrlWriter
   include Redmine::I18n
 
+  def self.default_url_options
+    h = Setting.host_name
+    h = h.to_s.gsub(%r{\/.*$}, '') unless Redmine::Utils.relative_url_root.blank?
+    { :host => h, :protocol => Setting.protocol }
+  end
+  
   def issue_add(issue)
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
@@ -212,12 +218,6 @@ class Mailer < ActionMailer::Base
     super
     set_language_if_valid Setting.default_language
     from Setting.mail_from
-    
-    # URL options
-    h = Setting.host_name
-    h = h.to_s.gsub(%r{\/.*$}, '') unless Redmine::Utils.relative_url_root.blank?
-    default_url_options[:host] = h
-    default_url_options[:protocol] = Setting.protocol
     
     # Common headers
     headers 'X-Mailer' => 'Redmine',

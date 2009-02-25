@@ -60,7 +60,6 @@ module Redmine
         returning [] do |response|
           hls = hook_listeners(hook)
           if hls.any?
-            default_url_options[:only_path] ||= true
             hls.each {|listener| response << listener.send(hook, context)}
           end
         end
@@ -77,8 +76,9 @@ module Redmine
         Redmine::Hook.add_listener(child)
         super
       end
+
     end
-    
+
     # Listener class used for views hooks.
     # Listeners that inherit this class will include various helpers by default.
     class ViewListener < Listener
@@ -96,6 +96,12 @@ module Redmine
       include ActionController::UrlWriter
       include ApplicationHelper
 
+      # Default to creating links using only the path.  Subclasses can
+      # change this default as needed
+      def self.default_url_options
+        {:only_path => true }
+      end
+      
       # Helper method to directly render a partial using the context:
       # 
       #   class MyHook < Redmine::Hook::ViewListener
