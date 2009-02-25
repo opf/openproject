@@ -46,6 +46,8 @@ class Redmine::I18nTest < Test::Unit::TestCase
         format_date(Date.today)
         format_time(Time.now)
         format_time(Time.now, false)
+        assert_not_equal 'default', ::I18n.l(Date.today, :format => :default), "date.formats.default missing in #{lang}"
+        assert_not_equal 'time',    ::I18n.l(Time.now, :format => :time),      "time.formats.time missing in #{lang}"
       end
       assert l('date.day_names').is_a?(Array)
       assert_equal 7, l('date.day_names').size

@@ -20,6 +20,7 @@ en:
   time:
     formats:
       default: "%m/%d/%Y %I:%M %p"
+      time: "%I:%M %p"
       short: "%d %b %H:%M"
       long: "%B %d, %Y %H:%M"
     am: "am"

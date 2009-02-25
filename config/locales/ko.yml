@@ -20,6 +20,7 @@ ko:
   time:
     formats:
       default: "%Y/%m/%d %H:%M:%S"
+      time: "%H:%M"
       short: "%y/%m/%d %H:%M"
       long: "%Y년 %B월 %d일, %H시 %M분 %S초 %Z"
     am: "오전"

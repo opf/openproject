@@ -20,6 +20,7 @@ th:
   time:
     formats:
       default: "%a, %d %b %Y %H:%M:%S %z"
+      time: "%H:%M"
       short: "%d %b %H:%M"
       long: "%B %d, %Y %H:%M"
     am: "am"

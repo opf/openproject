@@ -17,6 +17,7 @@ da:
   time:
     formats:
       default: "%e. %B %Y, %H:%M"
+      time: "%H:%M"
       short: "%e. %b %Y, %H:%M"
       long: "%A, %e. %B %Y, %H:%M"
     am: ""

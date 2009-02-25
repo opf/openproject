@@ -21,6 +21,7 @@ pt:
   time:
     formats:        
       default: "%A, %d de %B de %Y, %H:%Mh"
+      time: "%H:%M"
       short: "%d/%m, %H:%M hs"
       long: "%A, %d de %B de %Y, %H:%Mh"
     am: ''

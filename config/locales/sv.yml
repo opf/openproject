@@ -139,6 +139,7 @@ sv:
   time:
     formats:
       default: "%a, %d %b %Y %H:%M:%S %z"
+      time: "%H:%M"
       short: "%d %b %H:%M"
       long: "%d %B, %Y %H:%M"
     am: ""
