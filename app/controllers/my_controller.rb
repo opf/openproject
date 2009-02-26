@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,7 +28,7 @@ class MyController < ApplicationController
              'calendar' => :label_calendar,
              'documents' => :label_document_plural,
              'timelog' => :label_spent_time
-           }.freeze
+           }.merge(Redmine::Views::MyPage::Block.additional_blocks).freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'], 
                       'right' => ['issuesreportedbyme'] 
@@ -108,7 +108,7 @@ class MyController < ApplicationController
     session[:page_layout] = @blocks
     %w(top left right).each {|f| session[:page_layout][f] ||= [] }
     @block_options = []
-    BLOCKS.each {|k, v| @block_options << [l(v), k.dasherize]}
+    BLOCKS.each {|k, v| @block_options << [l_or_humanize(v), k.dasherize]}
   end
   
   # Add a block to user's page
