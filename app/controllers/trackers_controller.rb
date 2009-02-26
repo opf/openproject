@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,9 +22,8 @@ class TrackersController < ApplicationController
     list
     render :action => 'list' unless request.xhr?
   end
-
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :move ], :redirect_to => { :action => :list }
+  
+  verify :method => :post, :only => :destroy, :redirect_to => { :action => :list }
 
   def list
     @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
@@ -54,21 +53,6 @@ class TrackersController < ApplicationController
       return
     end
     @projects = Project.find(:all)
-  end
-
-  def move
-    @tracker = Tracker.find(params[:id])
-    case params[:position]
-    when 'highest'
-      @tracker.move_to_top
-    when 'higher'
-      @tracker.move_higher
-    when 'lower'
-      @tracker.move_lower
-    when 'lowest'
-      @tracker.move_to_bottom
-    end if params[:position]
-    redirect_to :action => 'list'
   end
   
   def destroy

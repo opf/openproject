@@ -118,6 +118,20 @@ module ActiveRecord
             assume_top_position
           end
         end
+        
+        # Move to the given position
+        def move_to=(pos)
+          case pos.to_s
+          when 'highest'
+            move_to_top
+          when 'higher'
+            move_higher
+          when 'lower'
+            move_lower
+          when 'lowest'
+            move_to_bottom
+          end
+        end
 
         # Removes the item from the list.
         def remove_from_list

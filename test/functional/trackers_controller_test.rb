@@ -22,7 +22,7 @@ require 'trackers_controller'
 class TrackersController; def rescue_action(e) raise e end; end
 
 class TrackersControllerTest < Test::Unit::TestCase
-  fixtures :trackers, :projects, :projects_trackers, :users
+  fixtures :trackers, :projects, :projects_trackers, :users, :issues
   
   def setup
     @controller = TrackersController.new
@@ -30,6 +30,34 @@ class TrackersControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
+  end
+  
+  def test_index
+    get :index
+    assert_response :success
+    assert_template 'list'
+  end
+  
+  def test_get_new
+    get :new
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_post_new
+    post :new, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''] }
+    assert_redirected_to '/trackers/list'
+    tracker = Tracker.find_by_name('New tracker')
+    assert_equal [1], tracker.project_ids.sort
+    assert_equal 0, tracker.workflows.count
+  end
+
+  def test_post_new_with_workflow_copy
+    post :new, :tracker => { :name => 'New tracker' }, :copy_workflow_from => 1
+    assert_redirected_to '/trackers/list'
+    tracker = Tracker.find_by_name('New tracker')
+    assert_equal 0, tracker.projects.count
+    assert_equal Tracker.find(1).workflows.count, tracker.workflows.count
   end
   
   def test_get_edit
@@ -64,5 +92,28 @@ class TrackersControllerTest < Test::Unit::TestCase
                                         :project_ids => [''] }
     assert_redirected_to '/trackers/list'
     assert Tracker.find(1).project_ids.empty?
+  end
+  
+  def test_move_lower
+   tracker = Tracker.find_by_position(1)
+   post :edit, :id => 1, :tracker => { :move_to => 'lower' }
+   assert_equal 2, tracker.reload.position
+  end
+  
+  def test_destroy
+    tracker = Tracker.create!(:name => 'Destroyable')
+    assert_difference 'Tracker.count', -1 do
+      post :destroy, :id => tracker.id
+    end
+    assert_redirected_to '/trackers/list'
+    assert_nil flash[:error]
+  end
+  
+  def test_destroy_tracker_in_use
+    assert_no_difference 'Tracker.count' do
+      post :destroy, :id => 1
+    end
+    assert_redirected_to '/trackers/list'
+    assert_not_nil flash[:error]
   end
 end
