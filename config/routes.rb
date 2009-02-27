@@ -193,8 +193,8 @@ ActionController::Routing::Routes.draw do |map|
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
       activity.connect 'projects/:id/activity'
       activity.connect 'projects/:id/activity.:format'
-      activity.connect 'activity'
-      activity.connect 'activity.:format'
+      activity.connect 'activity', :id => nil
+      activity.connect 'activity.:format', :id => nil
     end
     
     projects.with_options :conditions => {:method => :post} do |project_actions|

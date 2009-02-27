@@ -34,7 +34,7 @@
 <div class="splitcontentright">
 
 <% unless @events_by_day.empty? %>
-<h3><%= link_to l(:label_activity), :controller => 'projects', :action => 'activity', :user_id => @user, :from => @events_by_day.keys.first %></h3>
+<h3><%= link_to l(:label_activity), :controller => 'projects', :action => 'activity', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %></h3>
 
 <p>
 <%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
