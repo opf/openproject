@@ -45,7 +45,9 @@
 <% form_tag({}, :method => :get) do %>
 <h3><%= l(:label_activity) %></h3>
 <p><% @activity.event_types.each do |t| %>
-<label><%= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label><br />
+<%= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %>
+<%= link_to(l("label_#{t.singularize}_plural"), {"show_#{t}" => 1, :user_id => params[:user_id]})%>
+<br />
 <% end %></p>
 <% if @project && @project.descendants.active.any? %>
     <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
