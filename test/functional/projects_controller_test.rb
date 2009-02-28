@@ -367,7 +367,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   end
   
   def test_global_activity_routing
-    assert_routing({:method => :get, :path => '/activity'}, :controller => 'projects', :action => 'activity')
+    assert_routing({:method => :get, :path => '/activity'}, :controller => 'projects', :action => 'activity', :id => nil)
   end
   
   def test_global_activity
@@ -407,7 +407,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   end
   
   def test_global_activity_atom_routing
-    assert_routing({:method => :get, :path => '/activity.atom'}, :controller => 'projects', :action => 'activity', :format => 'atom')
+    assert_routing({:method => :get, :path => '/activity.atom'}, :controller => 'projects', :action => 'activity', :id => nil, :format => 'atom')
   end
   
   def test_activity_atom_feed
