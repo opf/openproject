@@ -29,6 +29,7 @@ class SysControllerTest < Test::Unit::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     Setting.sys_api_enabled = '1'
+    Setting.enabled_scm = %w(Subversion Git)
   end
   
   def test_projects_with_repository_enabled
