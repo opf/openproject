@@ -75,7 +75,7 @@ module CustomFieldsHelper
     when "date"
       begin; format_date(value.to_date); rescue; value end
     when "bool"
-      l_YesNo(value == "1")
+      l(value == "1" ? :general_text_Yes : :general_text_No)
     else
       value
     end
