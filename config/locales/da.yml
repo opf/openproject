@@ -1,5 +1,6 @@
 # Danish translation file for standard Ruby on Rails internationalization
 # by Lars Hoeg (http://www.lenio.dk/)
+# updated and upgraded to 0.9 by Morten Krogh Andersen (http://www.krogh.net)
 
 da:
   date:
@@ -104,7 +105,7 @@ da:
         too_long: "er for lang (maksimum {{count}} tegn)"
         too_short: "er for kort (minimum {{count}} tegn)"
         wrong_length: "har forkert længde (skulle være {{count}} tegn)"
-        taken: "er allerede brugt"
+        taken: "er allerede anvendt"
         not_a_number: "er ikke et tal"
         greater_than: "skal være større end {{count}}"
         greater_than_or_equal_to: "skal være større end eller lig med {{count}}"
@@ -114,7 +115,7 @@ da:
         odd: "skal være ulige"
         even: "skal være lige"
         greater_than_start_date: "skal være senere end startdatoen"
-        not_same_project: "høre ikke til samme projekt"
+        not_same_project: "hører ikke til samme projekt"
         circular_dependency: "Denne relation vil skabe et afhængighedsforhold"
 
       template:
@@ -136,7 +137,7 @@ da:
   general_first_day_of_week: '1'
   
   notice_account_updated: Kontoen er opdateret.
-  notice_account_invalid_creditentials: Ugyldig bruger og kodeord
+  notice_account_invalid_creditentials: Ugyldig bruger og/eller kodeord
   notice_account_password_updated: Kodeordet er opdateret.
   notice_account_wrong_password: Forkert kodeord
   notice_account_register_done: Kontoen er oprettet. For at aktivere kontoen skal du klikke på linket i den tilsendte email.
@@ -148,7 +149,7 @@ da:
   notice_successful_update: Succesfuld opdatering.
   notice_successful_delete: Succesfuld sletning.
   notice_successful_connection: Succesfuld forbindelse.
-  notice_file_not_found: Siden du forsøger at tilgå, eksisterer ikke eller er blevet fjernet.
+  notice_file_not_found: Siden du forsøger at tilgå eksisterer ikke eller er blevet fjernet.
   notice_locking_conflict: Data er opdateret af en anden bruger.
   notice_not_authorized: Du har ikke adgang til denne side.
   notice_email_sent: "En email er sendt til {{value}}"
@@ -160,13 +161,13 @@ da:
   notice_default_data_loaded: Standardopsætningen er indlæst.
   
   error_can_t_load_default_data: "Standardopsætning kunne ikke indlæses: {{value}}"
-  error_scm_not_found: "Adgang og/eller revision blev ikke fundet i det valgte repository."
-  error_scm_command_failed: "En fejl opstod under fobindelsen til det valgte repository: {{value}}"
+  error_scm_not_found: "Adgang nægtet og/eller revision blev ikke fundet i det valgte repository."
+  error_scm_command_failed: "En fejl opstod under forbindelsen til det valgte repository: {{value}}"
   
   mail_subject_lost_password: "Dit {{value}} kodeord"
   mail_body_lost_password: 'For at ændre dit kodeord, klik på dette link:'
   mail_subject_register: "{{value}} kontoaktivering"
-  mail_body_register: 'For at aktivere din konto, klik på dette link:'
+  mail_body_register: 'Klik på dette link for at aktivere din konto:'
   mail_body_account_information_external: "Du kan bruge din {{value}} konto til at logge ind."
   mail_body_account_information: Din kontoinformation
   mail_subject_account_activation_request: "{{value}} kontoaktivering"
@@ -247,7 +248,7 @@ da:
   field_hours: Timer
   field_activity: Aktivitet
   field_spent_on: Dato
-  field_identifier: Identificering
+  field_identifier: Identifikator
   field_is_filter: Brugt som et filter
   field_issue_to_id: Beslægtede sag
   field_delay: Udsættelse
@@ -271,9 +272,9 @@ da:
   setting_bcc_recipients: Skjult modtager (bcc)
   setting_host_name: Værts navn
   setting_text_formatting: Tekstformatering
-  setting_wiki_compression: Wiki historikkomprimering
+  setting_wiki_compression: Komprimering af wiki-historik
   setting_feeds_limit: Feed indholdsbegrænsning
-  setting_autofetch_changesets: Automatisk hent commits
+  setting_autofetch_changesets: Hent automatisk commits
   setting_sys_api_enabled: Aktiver webservice for automatisk administration af repository
   setting_commit_ref_keywords: Referencenøgleord
   setting_commit_fix_keywords: Afslutningsnøgleord
@@ -285,7 +286,6 @@ da:
   setting_repositories_encodings: Repository-tegnsæt
   setting_emails_footer: Email-fodnote
   setting_protocol: Protokol
-  setting_per_page_options: Objekter pr. side-indstillinger
   setting_user_format: Brugervisningsformat
   
   project_module_issue_tracking: Sagssøgning
@@ -295,7 +295,7 @@ da:
   project_module_files: Filer
   project_module_wiki: Wiki
   project_module_repository: Repository
-  project_module_boards: Opslagstavle
+  project_module_boards: Fora
   
   label_user: Bruger
   label_user_plural: Brugere
@@ -345,7 +345,7 @@ da:
   label_information: Information
   label_information_plural: Information
   label_please_login: Login
-  label_register: Registrer
+  label_register: Registrér
   label_password_lost: Glemt kodeord
   label_home: Forside
   label_my_page: Min side
@@ -356,8 +356,8 @@ da:
   label_logout: Log ud
   label_help: Hjælp
   label_reported_issues: Rapporterede sager
-  label_assigned_to_me_issues: Sager tildelt til mig
-  label_last_login: Sidste forbindelse
+  label_assigned_to_me_issues: Sager tildelt mig
+  label_last_login: Sidste login tidspunkt
   label_registered_on: Registeret den
   label_activity: Aktivitet
   label_new: Ny
@@ -402,7 +402,7 @@ da:
   label_version: Version
   label_version_new: Ny version
   label_version_plural: Versioner
-  label_confirmation: Bekræftigelser
+  label_confirmation: Bekræftelser
   label_export_to: Eksporter til
   label_read: Læs...
   label_public_projects: Offentlige projekter
@@ -411,17 +411,17 @@ da:
   label_closed_issues: lukket
   label_closed_issues_plural: lukkede
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 åbne / {{total}}
+    one:   1 åben / {{total}}
+    other: "{{count}} åbne / {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 åbne
+    one:   1 åben
+    other: "{{count}} åbne"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 lukkede
+    one:   1 lukket
+    other: "{{count}} lukkede"
   label_total: Total
   label_permissions: Rettigheder
   label_current_status: Nuværende status
@@ -433,7 +433,7 @@ da:
   label_previous: Forrig
   label_used_by: Brugt af
   label_details: Detaljer
-  label_add_note: Tilføj en note
+  label_add_note: Tilføj note
   label_per_page: Pr. side
   label_calendar: Kalender
   label_months_from: måneder frem
@@ -445,9 +445,9 @@ da:
   label_comment: Kommentar
   label_comment_plural: Kommentarer
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: ingen kommentarer
+    one: 1 kommentar
+    other: "{{count}} kommentarer"
   label_comment_add: Tilføj en kommentar
   label_comment_added: Kommentaren er tilføjet
   label_comment_delete: Slet kommentar
@@ -499,7 +499,7 @@ da:
   label_roadmap: Roadmap
   label_roadmap_due_in: Deadline
   label_roadmap_overdue: "{{value}} forsinket"
-  label_roadmap_no_issues: Ingen sager til denne version
+  label_roadmap_no_issues: Ingen sager i denne version
   label_search: Søg
   label_result_plural: Resultater
   label_all_words: Alle ord
@@ -513,9 +513,9 @@ da:
   label_current_version: Nuværende version
   label_preview: Forhåndsvisning
   label_feed_plural: Feeds
-  label_changes_details: Detaljer for alle ænringer
+  label_changes_details: Detaljer for alle ændringer
   label_issue_tracking: Sags søgning
-  label_spent_time: Brugt tid
+  label_spent_time: Anvendt tid
   label_f_hour: "{{value}} time"
   label_f_hour_plural: "{{value}} timer"
   label_time_tracking: Tidsstyring
@@ -523,7 +523,7 @@ da:
   label_statistics: Statistik
   label_commits_per_month: Commits pr. måned
   label_commits_per_author: Commits pr. bruger
-  label_view_diff: Vis forskellighed
+  label_view_diff: Vis forskelle
   label_diff_inline: inline
   label_diff_side_by_side: side om side
   label_options: Optioner
@@ -565,9 +565,9 @@ da:
   label_date_from: Fra
   label_date_to: Til
   label_language_based: Baseret på brugerens sprog
-  label_sort_by: "Sorter efter {{value}}"
+  label_sort_by: "Sortér efter {{value}}"
   label_send_test_email: Send en test email
-  label_feeds_access_key_created_on: "RSS adgangsnøgle danet for {{value}} siden"
+  label_feeds_access_key_created_on: "RSS adgangsnøgle dannet for {{value}} siden"
   label_module_plural: Moduler
   label_added_time_by: "Tilføjet af {{author}} for {{age}} siden"
   label_updated_time: "Opdateret for {{value}} siden"
@@ -576,14 +576,14 @@ da:
   label_changeset_plural: Ændringer
   label_default_columns: Standard kolonner
   label_no_change_option: (Ingen ændringer)
-  label_bulk_edit_selected_issues: Masseret de valgte sager
+  label_bulk_edit_selected_issues: Masse-ret de valgte sager
   label_theme: Tema
   label_default: standard
   label_search_titles_only: Søg kun i titler
   label_user_mail_option_all: "For alle hændelser på mine projekter"
-  label_user_mail_option_selected: "For alle hændelser, kun på de valgte projekter..."
-  label_user_mail_option_none: "Kun for ting jeg overvåger, eller jeg er involveret i"
-  label_user_mail_no_self_notified: "Jeg ønsker ikke besked, om ændring foretaget af mig selv"
+  label_user_mail_option_selected: "For alle hændelser på de valgte projekter..."
+  label_user_mail_option_none: "Kun for ting jeg overvåger eller jeg er involveret i"
+  label_user_mail_no_self_notified: "Jeg ønsker ikke besked om ændring foretaget af mig selv"
   label_registration_activation_by_email: kontoaktivering på email
   label_registration_manual_activation: manuel kontoaktivering
   label_registration_automatic_activation: automatisk kontoaktivering
@@ -617,23 +617,23 @@ da:
   button_view: Vis
   button_move: Flyt
   button_back: Tilbage
-  button_cancel: Annuller
-  button_activate: Aktiver
-  button_sort: Sorter
+  button_cancel: Annullér
+  button_activate: Aktivér
+  button_sort: Sortér
   button_log_time: Log tid
   button_rollback: Tilbagefør til denne version
   button_watch: Overvåg
   button_unwatch: Stop overvågning
   button_reply: Besvar
-  button_archive: Arkiver
+  button_archive: Arkivér
   button_unarchive: Fjern fra arkiv
   button_reset: Nulstil
   button_rename: Omdøb
   button_change_password: Skift kodeord
-  button_copy: Kopier
-  button_annotate: Annotere
-  button_update: Opdater
-  button_configure: Konfigurer
+  button_copy: Kopiér
+  button_annotate: Annotér
+  button_update: Opdatér
+  button_configure: Konfigurér
   
   status_active: aktiv
   status_registered: registreret
@@ -643,7 +643,7 @@ da:
   text_regexp_info: f.eks. ^[A-ZÆØÅ0-9]+$
   text_min_max_length_info: 0 betyder ingen begrænsninger
   text_project_destroy_confirmation: Er du sikker på at du vil slette dette projekt og alle relaterede data?
-  text_workflow_edit: Vælg en rolle samt en type for at redigere arbejdsgangen
+  text_workflow_edit: Vælg en rolle samt en type, for at redigere arbejdsgangen
   text_are_you_sure: Er du sikker?
   text_journal_changed: "ændret fra {{old}} til {{new}}"
   text_journal_set_to: "sat til {{value}}"
@@ -651,12 +651,12 @@ da:
   text_tip_task_begin_day: opgaven begynder denne dag
   text_tip_task_end_day: opaven slutter denne dag
   text_tip_task_begin_end_day: opgaven begynder og slutter denne dag
-  text_project_identifier_info: 'Små bogstaver (a-z), numre og bindestreg er tilladt.<br />Når den er gemt, kan indifikatoren ikke rettes.'
+  text_project_identifier_info: 'Små bogstaver (a-z), numre og bindestreg er tilladt.<br />Denne er en unik identifikation for projektet, og kan defor ikke rettes senere.'
   text_caracters_maximum: "max {{count}} karakterer."
   text_caracters_minimum: "Skal være mindst {{count}} karakterer lang."
   text_length_between: "Længde skal være mellem {{min}} og {{max}} karakterer."
   text_tracker_no_workflow: Ingen arbejdsgang defineret for denne type
-  text_unallowed_characters: Ikke tilladte karakterer
+  text_unallowed_characters: Ikke-tilladte karakterer
   text_comma_separated: Adskillige værdier tilladt (adskilt med komma).
   text_issues_ref_in_commit_messages: Referer og løser sager i commit-beskeder
   text_issue_added: "Sag {{id}} er rapporteret af {{author}}."
@@ -665,7 +665,7 @@ da:
   text_issue_category_destroy_question: "Nogle sager ({{count}}) er tildelt denne kategori. Hvad ønsker du at gøre?"
   text_issue_category_destroy_assignments: Slet tildelinger af kategori
   text_issue_category_reassign_to: Tildel sager til denne kategori
-  text_user_mail_option: "For ikke-valgte projekter vil du kun modtage beskeder omhandlende ting du er involveret i eller overvåger (f.eks. sager du ha indberettet eller ejer)."
+  text_user_mail_option: "For ikke-valgte projekter vil du kun modtage beskeder omhandlende ting du er involveret i eller overvåger (f.eks. sager du har indberettet eller ejer)."
   text_no_configuration_data: "Roller, typer, sagsstatuser og arbejdsgange er endnu ikke konfigureret.\nDet er anbefalet at indlæse standardopsætningen. Du vil kunne ændre denne når den er indlæst."
   text_load_default_configuration: Indlæs standardopsætningen
   text_status_changed_by_changeset: "Anvendt i ændring {{value}}."
@@ -704,14 +704,14 @@ da:
   label_add_another_file: Tilføj endnu en fil
   label_chronological_order: I kronologisk rækkefølge
   setting_activity_days_default: Antal dage der vises under projektaktivitet
-  text_destroy_time_entries_question: %.02f timer er reporteret på denne sag, som du er ved at slette. Hvad vil du gøre?
+  text_destroy_time_entries_question: %.02f timer er registreret på denne sag som du er ved at slette. Hvad vil du gøre?
   error_issue_not_found_in_project: 'Sagen blev ikke fundet eller tilhører ikke dette projekt'
   text_assign_time_entries_to_project: Tildel raporterede timer til projektet
   setting_display_subprojects_issues: Vis sager for underprojekter på hovedprojektet som standard
   label_optional_description: Optionel beskrivelse
-  text_destroy_time_entries: Slet raportede timer
+  text_destroy_time_entries: Slet registrerede timer
   field_comments_sorting: Vis kommentar
-  text_reassign_time_entries: 'Tildel raportede timer til denne sag igen'
+  text_reassign_time_entries: 'Tildel registrerede timer til denne sag igen'
   label_reverse_chronological_order: I omvendt kronologisk rækkefølge
   label_preferences: Preferences
   label_overall_activity: Overordnet aktivitet
@@ -719,93 +719,92 @@ da:
   error_scm_annotate: "The entry does not exist or can not be annotated."
   label_planning: Planlægning
   text_subprojects_destroy_warning: "Dets underprojekter(er): {{value}} vil også blive slettet.'"
-  permission_edit_issues: Edit issues
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
-  permission_edit_own_issue_notes: Edit own notes
-  setting_enabled_scm: Enabled SCM
-  button_quote: Quote
-  permission_view_files: View files
-  permission_add_issues: Add issues
-  permission_edit_own_messages: Edit own messages
-  permission_delete_own_messages: Delete own messages
-  permission_manage_public_queries: Manage public queries
-  permission_log_time: Log spent time
-  label_renamed: renamed
-  label_incoming_emails: Incoming emails
-  permission_view_changesets: View changesets
-  permission_manage_versions: Manage versions
-  permission_view_time_entries: View spent time
-  label_generate_key: Generate a key
-  permission_manage_categories: Manage issue categories
-  permission_manage_wiki: Manage wiki
-  setting_sequential_project_identifiers: Generate sequential project identifiers
-  setting_plain_text_mail: Plain text mail (no HTML)
-  field_parent_title: Parent page
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-  permission_protect_wiki_pages: Protect wiki pages
-  permission_manage_documents: Manage documents
-  permission_add_issue_watchers: Add watchers
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  permission_comment_news: Comment news
+  permission_edit_issues: Redigér sager
+  setting_diff_max_lines_displayed: Maksimalt antal forskelle der vises
+  permission_edit_own_issue_notes: Redigér egne noter
+  setting_enabled_scm: Aktiveret SCM
+  button_quote: Citér
+  permission_view_files: Se filer
+  permission_add_issues: Tilføj sager
+  permission_edit_own_messages: Redigér egne beskeder
+  permission_delete_own_messages: Slet egne beskeder
+  permission_manage_public_queries: Administrér offentlig forespørgsler
+  permission_log_time: Registrér anvendt tid
+  label_renamed: omdømt
+  label_incoming_emails: Indkommende emails
+  permission_view_changesets: Se ændringer
+  permission_manage_versions: Administrér versioner
+  permission_view_time_entries: Se anvendt tid
+  label_generate_key: Generér en nøglefil
+  permission_manage_categories: Administrér sagskategorier
+  permission_manage_wiki: Administrér wiki
+  setting_sequential_project_identifiers: Generér sekventielle projekt-identifikatorer
+  setting_plain_text_mail: Emails som almindelig tekst (ingen HTML)
+  field_parent_title: Siden over
+  text_email_delivery_not_configured: "Email-afsendelse er ikke indstillet og notifikationer er defor slået fra.\nKonfigurér din SMTP server i config/email.yml og genstart applikationen for at aktivere email-afsendelse."
+  permission_protect_wiki_pages: Beskyt wiki sider
+  permission_manage_documents: Administrér dokumenter
+  permission_add_issue_watchers: Tilføj overvågere
+  warning_attachments_not_saved: "der var {{count}} fil(er), som ikke kunne gemmes."
+  permission_comment_news: Kommentér nyheder
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  permission_select_project_modules: Select project modules
-  permission_view_gantt: View gantt chart
-  permission_delete_messages: Delete messages
-  permission_move_issues: Move issues
-  permission_edit_wiki_pages: Edit wiki pages
-  label_user_activity: "{{value}}'s activity"
-  permission_manage_issue_relations: Manage issue relations
-  label_issue_watchers: Watchers
-  permission_delete_wiki_pages: Delete wiki pages
-  notice_unable_delete_version: Unable to delete version.
-  permission_view_wiki_edits: View wiki history
-  field_editable: Editable
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  label_duplicated_by: duplicated by
-  permission_manage_boards: Manage boards
-  permission_delete_wiki_pages_attachments: Delete attachments
-  permission_view_messages: View messages
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
-  permission_manage_files: Manage files
-  permission_add_messages: Post messages
-  permission_edit_issue_notes: Edit notes
-  permission_manage_news: Manage news
-  text_plugin_assets_writable: Plugin assets directory writable
-  label_display: Display
-  label_and_its_subprojects: "{{value}} and its subprojects"
-  permission_view_calendar: View calender
-  button_create_and_continue: Create and continue
-  setting_gravatar_enabled: Use Gravatar user icons
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
-  text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-  text_user_wrote: "{{value}} wrote:'"
-  setting_mail_handler_api_enabled: Enable WS for incoming emails
-  permission_delete_issues: Delete issues
-  permission_view_documents: View documents
-  permission_browse_repository: Browse repository
-  permission_manage_repository: Manage repository
-  permission_manage_members: Manage members
-  mail_subject_reminder: "{{count}} issue(s) due in the next days"
-  permission_add_issue_notes: Add notes
-  permission_edit_messages: Edit messages
-  permission_view_issue_watchers: View watchers list
-  permission_commit_access: Commit access
-  setting_mail_handler_api_key: API key
-  label_example: Example
-  permission_rename_wiki_pages: Rename wiki pages
-  text_custom_field_possible_values_info: 'One line for each value'
-  permission_view_wiki_pages: View wiki
-  permission_edit_project: Edit project
-  permission_save_queries: Save queries
-  label_copied: copied
-  setting_commit_logs_encoding: Commit messages encoding
-  text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-  permission_edit_time_entries: Edit time logs
-  general_csv_decimal_separator: '.'
-  permission_edit_own_time_entries: Edit own time logs
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  permission_select_project_modules: Vælg projekt moduler
+  permission_view_gantt: Se gantt diagram
+  permission_delete_messages: Slet beskeder
+  permission_move_issues: Flyt sager
+  permission_edit_wiki_pages: Redigér wiki sider
+  label_user_activity: "{{value}}'s aktivitet"
+  permission_manage_issue_relations: Administrér sags-relationer
+  label_issue_watchers: Overvågere
+  permission_delete_wiki_pages: Slet wiki sider
+  notice_unable_delete_version: Kan ikke slette versionen.
+  permission_view_wiki_edits: Se wiki historik
+  field_editable: Redigérbar
+  label_duplicated_by: duplikeret af
+  permission_manage_boards: Administrér fora
+  permission_delete_wiki_pages_attachments: Slet filer vedhæftet wiki sider
+  permission_view_messages: Se beskeder
+  text_enumeration_destroy_question: "{{count}} objekter er tildelt denne værdi.'"
+  permission_manage_files: Administrér filer
+  permission_add_messages: Opret beskeder
+  permission_edit_issue_notes: Redigér noter
+  permission_manage_news: Administrér nyheder
+  text_plugin_assets_writable: Der er skriverettigheder til plugin assets folderen 
+  label_display: Vis
+  label_and_its_subprojects: "{{value}} og dets underprojekter"
+  permission_view_calendar: Se kalender
+  button_create_and_continue: Opret og fortsæt
+  setting_gravatar_enabled: Anvend Gravatar bruger ikoner
+  label_updated_time_by: "Opdateret af {{author}} for {{age}} siden"
+  text_diff_truncated: '... Listen over forskelle er bleve afkortet fordi den overstiger den maksimale størrelse der kan vises.'
+  text_user_wrote: "{{value}} skrev:'"
+  setting_mail_handler_api_enabled: Aktiver webservice for indkomne emails
+  permission_delete_issues: Slet sager
+  permission_view_documents: Se dokumenter
+  permission_browse_repository: Gennemse repository
+  permission_manage_repository: Administrér repository
+  permission_manage_members: Administrér medlemmer
+  mail_subject_reminder: "{{count}} sag(er) har deadline i de kommende dage"
+  permission_add_issue_notes: Tilføj noter
+  permission_edit_messages: Redigér beskeder
+  permission_view_issue_watchers: Se liste over overvågere
+  permission_commit_access: Commit adgang
+  setting_mail_handler_api_key: API nøgle
+  label_example: Eksempel
+  permission_rename_wiki_pages: Omdøb wiki sider
+  text_custom_field_possible_values_info: 'En linje for hver værdi'
+  permission_view_wiki_pages: Se wiki
+  permission_edit_project: Redigér projekt
+  permission_save_queries: Gem forespørgsler
+  label_copied: kopieret
+  setting_commit_logs_encoding: Kodning af Commit beskeder
+  text_repository_usernames_mapping: "Vælg eller opdatér de Redmine brugere der svarer til de enkelte brugere fundet i repository loggen.\nBrugere med samme brugernavn eller email adresse i både Redmine og det valgte repository bliver automatisk koblet sammen."
+  permission_edit_time_entries: Redigér tidsregistreringer
+  general_csv_decimal_separator: ','
+  permission_edit_own_time_entries: Redigér egne tidsregistreringer
+  setting_repository_log_display_limit: Maksimalt antal revisioner vist i fil-log
+  setting_file_max_size_displayed: Maksimal størrelse på tekstfiler vist inline
+  field_watcher: Overvåger
+  setting_openid: Tillad OpenID login og registrering
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
+  label_login_with_open_id_option: eller login med OpenID

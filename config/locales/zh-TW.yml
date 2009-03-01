@@ -1,16 +1,24 @@
 # Chinese (Taiwan) translations for Ruby on Rails 
 # by tsechingho (http://github.com/tsechingho)
+# See http://github.com/svenfuchs/rails-i18n/ for details.
 
 "zh-TW":
   date:
     formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
       default: "%Y-%m-%d"
-      short: "%b%d日"
-      long: "%Y年%b%d日"
-    day_names: [星期天, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六]
+      short: "%m月%d日"
+      long: "%Y年%m月%d日"
+
+    day_names: [星期日, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六]
     abbr_day_names: [日, 一, 二, 三, 四, 五, 六]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, 一月, 二月, 三月, 四月, 五月, 六月, 七月, 八月, 九月, 十月, 十一月, 十二月]
     abbr_month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
+    # 使用於 date_select 與 datime_select.
     order: [ :year, :month, :day ]
   
   time:
@@ -19,42 +27,109 @@
       time: "%H:%M"
       short: "%b%d日 %H:%M"
       long: "%Y年%b%d日 %H:%M"
-    am: "上午"
-    pm: "下午"
-  
+    am: "AM"
+    pm: "PM"
+
+# 使用於 array.to_sentence.
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " 和 "
+      last_word_connector: ", 和 "
+      sentence_connector: "且"
+      skip_last_comma: false
+
+  number:
+    # 使用於 number_with_delimiter()
+    # 同時也是 'currency', 'percentage', 'precision', 與 'human' 的預設值
+    format:
+      # 設定小數點分隔字元，以使用更高的準確度 (例如： 1.0 / 2.0 == 0.5)
+      separator: "."
+      # 千分位符號 (例如：一百萬是 1,000,000) (均以三個位數來分組)
+      delimiter: ","
+      # 小數點分隔字元後之精確位數 (數字 1 搭配 2 位精確位數為： 1.00)
+      precision: 3
+
+    # 使用於 number_to_currency()
+    currency:
+      format:
+        # 貨幣符號的位置? %u 是貨幣符號, %n 是數值 (預設值： $5.00)
+        format: "%u%n"
+        unit: "NT$"
+        # 下列三個選項設定, 若有設定值將會取代 number.format 成為預設值
+        separator: "."
+        delimiter: ","
+        precision: 2
+
+    # 使用於 number_to_percentage()
+    percentage:
+      format:
+        # 下列三個選項設定, 若有設定值將會取代 number.format 成為預設值
+        # separator: 
+        delimiter: ""
+        # precision: 
+
+    # 使用於 number_to_precision()
+    precision:
+      format:
+        # 下列三個選項設定, 若有設定值將會取代 number.format 成為預設值
+        # separator:
+        delimiter: ""
+        # precision: 
+
+    # 使用於 number_to_human_size()
+    human:
+      format:
+        # 下列三個選項設定, 若有設定值將會取代 number.format 成為預設值
+        # separator: 
+        delimiter: ""
+        precision: 1
+        # 儲存單位輸出格式.
+        # %u 是儲存單位, %n 是數值 (預設值: 2 MB)
+        format: "%n %u"
+        storage_units:
+          byte:
+            one: "位元組 (B)"
+            other: "位元組 (B)"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+  # 使用於 distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
   datetime:
     distance_in_words:
       half_a_minute: "半分鐘"
       less_than_x_seconds:
-        one: "一秒内"
-        other: "少於 {{count}} 秒"
+        one: "小於 1 秒"
+        other: "小於 {{count}} 秒"
       x_seconds:
-        one: "一秒"
+        one: "1 秒"
         other: "{{count}} 秒"
       less_than_x_minutes:
-        one: "一分鐘内"
-        other: "少於 {{count}} 分鐘"
+        one: "小於 1 分鐘"
+        other: "小於 {{count}} 分鐘"
       x_minutes:
-        one: "一分鐘"
+        one: "1 分鐘"
         other: "{{count}} 分鐘"
       about_x_hours:
-        one: "大約一小時"
-        other: "大約 {{count}} 小時"
+        one: "約 1 小時"
+        other: "約 {{count}} 小時"
       x_days:
-        one: "一天"
+        one: "1 天"
         other: "{{count}} 天"
       about_x_months:
-        one: "大約一個月"
-        other: "大約 {{count}} 個月"
+        one: "約 1 個月"
+        other: "約 {{count}} 個月"
       x_months:
-        one: "一個月"
+        one: "1 個月"
         other: "{{count}} 個月"
       about_x_years:
-        one: "大約一年"
-        other: "大約 {{count}} 年"
+        one: "約 1 年"
+        other: "約 {{count}} 年"
       over_x_years:
-        one: "一年以上"
-        other: "{{count}} 年以上"
+        one: "超過 1 年"
+        other: "超過 {{count}} 年"
     prompts:
       year:   "年"
       month:  "月"
@@ -62,44 +137,17 @@
       hour:   "時"
       minute: "分"
       second: "秒"
-  
-  number:
-    format:
-      separator: "."
-      delimiter: ","
-      precision: 3
-    currency:
-      format:
-        format: "%u %n"
-        unit: "NT$"
-        separator: "."
-        delimiter: ","
-        precision: 2
-    percentage:
-      format:
-        delimiter: ""
-    precision:
-      format:
-        delimiter: ""
-    human:
-      format:
-        delimiter: ""
-        precision: 1
-      storage_units: [Bytes, KB, MB, GB, TB]
-  
-  support:
-    array:
-      words_connector: ", "
-      two_words_connector: " 和 "
-      last_word_connector: ", 和 "
-  
+
   activerecord:
     errors:
       template:
         header: 
-          one: "有 1 個錯誤發生使得「{{model}}」無法被儲存。"
+          one:   "有 1 個錯誤發生使得「{{model}}」無法被儲存。"
           other: "有 {{count}} 個錯誤發生使得「{{model}}」無法被儲存。"
-        body: "下面欄位有問題："
+        # The variable :count is also available
+        body: "下面所列欄位有問題："
+      # The values :model, :attribute and :value are always available for interpolation
+      # The value :count is available when applicable. Can be used for pluralization.
       messages:
         inclusion: "沒有包含在列表中"
         exclusion: "是被保留的"
@@ -120,9 +168,37 @@
         less_than_or_equal_to: "必須小於或等於 {{count}}"
         odd: "必須是奇數"
         even: "必須是偶數"
+        # Append your own errors here or at the model/attributes scope.
         greater_than_start_date: "必須在起始日期之後"
         not_same_project: "不屬於同一個專案"
         circular_dependency: "這個關聯會導致環狀相依"
+
+      # You can define own errors for models or model attributes.
+      # The values :model, :attribute and :value are always available for interpolation.
+      #
+      # For example,
+      #   models:
+      #     user:
+      #       blank: "This is a custom blank message for {{model}}: {{attribute}}"
+      #       attributes:
+      #         login:
+      #           blank: "This is a custom blank message for User login"
+      # Will define custom blank validation message for User model and 
+      # custom blank validation message for login attribute of User model.
+      #models:
+        
+    # Translate model names. Used in Model.human_name().
+    #models:
+      # For example,
+      #   user: "Dude"
+      # will translate User model name to "Dude"
+    
+    # Translate model attribute names. Used in Model.human_attribute_name(attribute).
+    #attributes:
+      # For example,
+      #   user:
+      #     login: "Handle"
+      # will translate User attribute "login" as "Handle"
 
   actionview_instancetag_blank_option: 請選擇
   
@@ -250,7 +326,7 @@
   field_auth_source: 認證模式
   field_hide_mail: 隱藏我的電子郵件
   field_comments: 註解
-  field_url: URL
+  field_url: 網址
   field_start_page: 首頁
   field_subproject: 子專案
   field_hours: 小時
@@ -270,6 +346,8 @@
   field_comments_sorting: 註解排序
   field_parent_title: 父頁面
   field_editable: 可編輯
+  field_watcher: 觀察者
+  field_identity_url: OpenID 網址
   
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -310,6 +388,9 @@
   setting_sequential_project_identifiers: 循序產生專案識別碼
   setting_gravatar_enabled: 啟用 Gravatar 全球認證大頭像
   setting_diff_max_lines_displayed: 差異顯示行數之最大值
+  setting_file_max_size_displayed: 檔案內容顯示大小之最大值
+  setting_repository_log_display_limit: 版次顯示數目之最大值
+  setting_openid: 允許使用 OpenID 登入與註冊
   
   permission_edit_project: 編輯專案
   permission_select_project_modules: 選擇專案模組
@@ -371,25 +452,25 @@
   
   label_user: 用戶
   label_user_plural: 用戶清單
-  label_user_new: 建立新的帳戶
+  label_user_new: 建立新用戶
   label_project: 專案
-  label_project_new: 建立新的專案
+  label_project_new: 建立新專案
   label_project_plural: 專案清單
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  無專案
+    one:   1 個專案
+    other: "{{count}} 個專案"
   label_project_all: 全部的專案
   label_project_latest: 最近的專案
   label_issue: 項目
-  label_issue_new: 建立新的項目
+  label_issue_new: 建立新項目
   label_issue_plural: 項目清單
   label_issue_view_all: 檢視所有項目
   label_issues_by: "項目按 {{value}} 分組顯示"
   label_issue_added: 項目已新增
   label_issue_updated: 項目已更新
   label_document: 文件
-  label_document_new: 建立新的文件
+  label_document_new: 建立新文件
   label_document_plural: 文件
   label_document_added: 文件已新增
   label_role: 角色
@@ -397,7 +478,7 @@
   label_role_new: 建立新角色
   label_role_and_permissions: 角色與權限
   label_member: 成員
-  label_member_new: 建立新的成員
+  label_member_new: 建立新成員
   label_member_plural: 成員
   label_tracker: 追蹤標籤
   label_tracker_plural: 追蹤標籤清單
@@ -405,19 +486,20 @@
   label_workflow: 流程
   label_issue_status: 項目狀態
   label_issue_status_plural: 項目狀態清單
-  label_issue_status_new: 建立新的狀態
+  label_issue_status_new: 建立新狀態
   label_issue_category: 項目分類
   label_issue_category_plural: 項目分類清單
-  label_issue_category_new: 建立新的分類
+  label_issue_category_new: 建立新分類
   label_custom_field: 自訂欄位
   label_custom_field_plural: 自訂欄位清單
-  label_custom_field_new: 建立新的自訂欄位
+  label_custom_field_new: 建立新自訂欄位
   label_enumerations: 列舉值清單
-  label_enumeration_new: 建立新的列舉值
+  label_enumeration_new: 建立新列舉值
   label_information: 資訊
   label_information_plural: 資訊
   label_please_login: 請先登入
   label_register: 註冊
+  label_login_with_open_id_option: 或使用 OpenID 登入
   label_password_lost: 遺失密碼
   label_home: 網站首頁
   label_my_page: 帳戶首頁
@@ -447,7 +529,7 @@
   label_list: 清單
   label_date: 日期
   label_integer: 整數
-  label_float: 福點數
+  label_float: 浮點數
   label_boolean: 布林
   label_string: 文字
   label_text: 長文字
@@ -459,14 +541,14 @@
   label_change_status: 變更狀態
   label_history: 歷史
   label_attachment: 檔案
-  label_attachment_new: 建立新的檔案
+  label_attachment_new: 建立新檔案
   label_attachment_delete: 刪除檔案
   label_attachment_plural: 檔案
   label_file_added: 檔案已新增
   label_report: 報告
   label_report_plural: 報告
   label_news: 新聞
-  label_news_new: 建立新的新聞
+  label_news_new: 建立新聞
   label_news_plural: 新聞
   label_news_latest: 最近新聞
   label_news_view_all: 檢視所有新聞
@@ -475,7 +557,7 @@
   label_settings: 設定
   label_overview: 概觀
   label_version: 版本
-  label_version_new: 建立新的版本
+  label_version_new: 建立新版本
   label_version_plural: 版本
   label_confirmation: 確認
   label_export_to: 匯出至
@@ -486,17 +568,17 @@
   label_closed_issues: 已結束
   label_closed_issues_plural: 已結束
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 進行中 / 共 {{total}}
+    one:   1 進行中 / 共 {{total}}
+    other: "{{count}} 進行中 / 共 {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 進行中
+    one:   1 進行中
+    other: "{{count}} 進行中"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 已結束
+    one:   1 已結束
+    other: "{{count}} 已結束"
   label_total: 總計
   label_permissions: 權限
   label_current_status: 目前狀態
@@ -520,15 +602,15 @@
   label_comment: 註解
   label_comment_plural: 註解
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: 無註解
+    one: 1 個註解
+    other: "{{count}} 個註解"
   label_comment_add: 加入新註解
   label_comment_added: 新註解已加入
   label_comment_delete: 刪除註解
   label_query: 自訂查詢
   label_query_plural: 自訂查詢
-  label_query_new: 建立新的查詢
+  label_query_new: 建立新查詢
   label_filter_add: 加入新篩選條件
   label_filter_plural: 篩選條件
   label_equals: 等於
@@ -633,7 +715,7 @@
   label_topic_plural: 討論主題
   label_message_plural: 訊息
   label_message_last: 上一封訊息
-  label_message_new: 建立新的訊息
+  label_message_new: 建立新訊息
   label_message_posted: 訊息已新增
   label_reply_plural: 回應
   label_send_information: 寄送帳戶資訊電子郵件給用戶
@@ -805,9 +887,3 @@
   enumeration_issue_priorities: 項目優先權
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
