@@ -23,7 +23,7 @@ class MembersController < ApplicationController
   def new
     @project.members << Member.new(params[:member]) if request.post?
     respond_to do |format|
-      format.html { redirect_to :action => 'settings', :tab => 'members', :id => @project }
+      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
       format.js { render(:update) {|page| page.replace_html "tab-content-members", :partial => 'projects/settings/members'} }
     end
   end
