@@ -58,21 +58,6 @@ class IssueStatusesController < ApplicationController
       render :action => 'edit'
     end
   end
-  
-  def move
-    @issue_status = IssueStatus.find(params[:id])
-    case params[:position]
-    when 'highest'
-      @issue_status.move_to_top
-    when 'higher'
-      @issue_status.move_higher
-    when 'lower'
-      @issue_status.move_lower
-    when 'lowest'
-      @issue_status.move_to_bottom
-    end if params[:position]
-    redirect_to :action => 'list'
-  end
 
   def destroy
     IssueStatus.find(params[:id]).destroy

@@ -47,21 +47,6 @@ class CustomFieldsController < ApplicationController
     end
     @trackers = Tracker.find(:all, :order => 'position')
   end
-
-  def move
-    @custom_field = CustomField.find(params[:id])
-    case params[:position]
-    when 'highest'
-      @custom_field.move_to_top
-    when 'higher'
-      @custom_field.move_higher
-    when 'lower'
-      @custom_field.move_lower
-    when 'lowest'
-      @custom_field.move_to_bottom
-    end if params[:position]
-    redirect_to :action => 'index', :tab => @custom_field.class.name
-  end
   
   def destroy
     @custom_field = CustomField.find(params[:id]).destroy

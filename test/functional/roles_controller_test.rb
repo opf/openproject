@@ -153,27 +153,27 @@ class RolesControllerTest < Test::Unit::TestCase
   end
   
   def test_move_highest
-    post :move, :id => 3, :position => 'highest'
+    post :edit, :id => 3, :role => {:move_to => 'highest'}
     assert_redirected_to 'roles/list'
     assert_equal 1, Role.find(3).position
   end
 
   def test_move_higher
     position = Role.find(3).position
-    post :move, :id => 3, :position => 'higher'
+    post :edit, :id => 3, :role => {:move_to => 'higher'}
     assert_redirected_to 'roles/list'
     assert_equal position - 1, Role.find(3).position
   end
 
   def test_move_lower
     position = Role.find(2).position
-    post :move, :id => 2, :position => 'lower'
+    post :edit, :id => 2, :role => {:move_to => 'lower'}
     assert_redirected_to 'roles/list'
     assert_equal position + 1, Role.find(2).position
   end
 
   def test_move_lowest
-    post :move, :id => 2, :position => 'lowest'
+    post :edit, :id => 2, :role => {:move_to => 'lowest'}
     assert_redirected_to 'roles/list'
     assert_equal Role.count, Role.find(2).position
   end

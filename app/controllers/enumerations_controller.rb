@@ -57,21 +57,6 @@ class EnumerationsController < ApplicationController
       render :action => 'edit'
     end
   end
-
-  def move
-    @enumeration = Enumeration.find(params[:id])
-    case params[:position]
-    when 'highest'
-      @enumeration.move_to_top
-    when 'higher'
-      @enumeration.move_higher
-    when 'lower'
-      @enumeration.move_lower
-    when 'lowest'
-      @enumeration.move_to_bottom
-    end if params[:position]
-    redirect_to :action => 'index'
-  end
   
   def destroy
     @enumeration = Enumeration.find(params[:id])

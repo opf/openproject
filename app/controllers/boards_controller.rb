@@ -62,12 +62,6 @@ class BoardsController < ApplicationController
 
   def edit
     if request.post? && @board.update_attributes(params[:board])
-      case params[:position]
-      when 'highest'; @board.move_to_top
-      when 'higher'; @board.move_higher
-      when 'lower'; @board.move_lower
-      when 'lowest'; @board.move_to_bottom
-      end if params[:position]
       redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'
     end
   end

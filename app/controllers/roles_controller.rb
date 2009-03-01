@@ -64,21 +64,6 @@ class RolesController < ApplicationController
     redirect_to :action => 'index'
   end
   
-  def move
-    @role = Role.find(params[:id])
-    case params[:position]
-    when 'highest'
-      @role.move_to_top
-    when 'higher'
-      @role.move_higher
-    when 'lower'
-      @role.move_lower
-    when 'lowest'
-      @role.move_to_bottom
-    end if params[:position]
-    redirect_to :action => 'list'
-  end
-  
   def report    
     @roles = Role.find(:all, :order => 'builtin, position')
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
