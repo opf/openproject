@@ -379,6 +379,28 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal Project.find(1).trackers.first, issue.tracker
   end
   
+  def test_get_new_with_no_default_status_should_display_an_error
+    @request.session[:user_id] = 2
+    IssueStatus.delete_all
+    
+    get :new, :project_id => 1
+    assert_response 500
+    assert_not_nil flash[:error]
+    assert_tag :tag => 'div', :attributes => { :class => /error/ },
+                              :content => /No default issue/
+  end
+  
+  def test_get_new_with_no_tracker_should_display_an_error
+    @request.session[:user_id] = 2
+    Tracker.delete_all
+    
+    get :new, :project_id => 1
+    assert_response 500
+    assert_not_nil flash[:error]
+    assert_tag :tag => 'div', :attributes => { :class => /error/ },
+                              :content => /No tracker/
+  end
+  
   def test_update_new_form
     @request.session[:user_id] = 2
     xhr :post, :new, :project_id => 1,
