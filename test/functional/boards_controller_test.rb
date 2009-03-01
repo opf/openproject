@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,6 +46,20 @@ class BoardsControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:project)
   end
   
+  def test_index_not_found
+    get :index, :project_id => 97
+    assert_response 404
+  end
+  
+  def test_index_should_show_messages_if_only_one_board
+    Project.find(1).boards.slice(1..-1).each(&:destroy)
+    
+    get :index, :project_id => 1
+    assert_response :success
+    assert_template 'show'
+    assert_not_nil assigns(:topics)
+  end
+  
   def test_new_routing
     assert_routing(
       {:method => :get, :path => '/projects/world_domination/boards/new'},
@@ -55,6 +69,14 @@ class BoardsControllerTest < Test::Unit::TestCase
       {:controller => 'boards', :action => 'new', :project_id => 'world_domination'},
       {:method => :post, :path => '/projects/world_domination/boards'}
     )
+  end
+  
+  def test_post_new
+    @request.session[:user_id] = 2
+    assert_difference 'Board.count' do
+      post :new, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing board creation'}
+    end
+    assert_redirected_to '/projects/ecookbook/settings/boards'
   end
   
   def test_show_routing
@@ -84,10 +106,28 @@ class BoardsControllerTest < Test::Unit::TestCase
     )
   end
   
+  def test_post_edit
+    @request.session[:user_id] = 2
+    assert_no_difference 'Board.count' do
+      post :edit, :project_id => 1, :id => 2, :board => { :name => 'Testing', :description => 'Testing board update'}
+    end
+    assert_redirected_to '/projects/ecookbook/settings/boards'
+    assert_equal 'Testing', Board.find(2).name
+  end
+  
   def test_destroy_routing
     assert_routing(#TODO: use DELETE method to board_path, modify form accoringly
       {:method => :post, :path => '/projects/world_domination/boards/44/destroy'},
       :controller => 'boards', :action => 'destroy', :id => '44', :project_id => 'world_domination'
     )
+  end
+  
+  def test_post_destroy
+    @request.session[:user_id] = 2
+    assert_difference 'Board.count', -1 do
+      post :destroy, :project_id => 1, :id => 2
+    end
+    assert_redirected_to '/projects/ecookbook/settings/boards'
+    assert_nil Board.find_by_id(2)
   end
 end
