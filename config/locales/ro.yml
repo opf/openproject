@@ -658,7 +658,7 @@ ro:
   setting_time_format: Time format
   label_registration_activation_by_email: account activation by email
   mail_subject_account_activation_request: "{{value}} account activation request"
-  mail_body_account_activation_request: "A new user ({{value}}) has registered. His account his pending your approval:'"
+  mail_body_account_activation_request: "A new user ({{value}}) has registered. His account his pending your approval:"
   label_registration_automatic_activation: automatic account activation
   label_registration_manual_activation: manual account activation
   notice_account_pending: "Your account was created and is now pending administrator approval."
@@ -668,7 +668,7 @@ ro:
   button_annotate: Annotate
   label_issues_by: "Issues by {{value}}"
   field_searchable: Searchable
-  label_display_per_page: "Per page: {{value}}'"
+  label_display_per_page: "Per page: {{value}}"
   setting_per_page_options: Objects per page options
   label_age: Age
   notice_default_data_loaded: Default configuration successfully loaded.
@@ -732,15 +732,15 @@ ro:
   setting_default_projects_public: New projects are public by default
   error_scm_annotate: "The entry does not exist or can not be annotated."
   label_planning: Planning
-  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted.'"
+  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
   label_and_its_subprojects: "{{value}} and its subprojects"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
   mail_subject_reminder: "{{count}} issue(s) due in the next days"
-  text_user_wrote: "{{value}} wrote:'"
+  text_user_wrote: "{{value}} wrote:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Enabled SCM
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   setting_mail_handler_api_enabled: Enable WS for incoming emails

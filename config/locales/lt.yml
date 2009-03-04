@@ -180,12 +180,12 @@ lt:
   
   mail_subject_lost_password: "Jūsų {{value}} slaptažodis"
   mail_body_lost_password: 'Norėdami pakeisti slaptažodį, spauskite nuorodą:'
-  mail_subject_register: "{{value}} paskyros aktyvavymas'"
+  mail_subject_register: "{{value}} paskyros aktyvavymas"
   mail_body_register: 'Norėdami aktyvuoti paskyrą, spauskite nuorodą:'
   mail_body_account_information_external: "Jūs galite naudoti Jūsų {{value}} paskyrą, norėdami prisijungti."
   mail_body_account_information: Informacija apie Jūsų paskyrą
   mail_subject_account_activation_request: "{{value}} paskyros aktyvavimo prašymas"
-  mail_body_account_activation_request: "Užsiregistravo naujas vartotojas ({{value}}). Jo paskyra laukia jūsų patvirtinimo:'"
+  mail_body_account_activation_request: "Užsiregistravo naujas vartotojas ({{value}}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_subject_reminder: "{{count}} darbas(ai) po kelių dienų"
   mail_body_reminder: "{{count}} darbas(ai), kurie yra jums priskirti, baigiasi po {{days}} dienų(os):"
   
@@ -673,7 +673,7 @@ lt:
   label_registration_activation_by_email: "paskyros aktyvacija per e-paštą"
   label_registration_manual_activation: "rankinė paskyros aktyvacija"
   label_registration_automatic_activation: "automatinė paskyros aktyvacija"
-  label_display_per_page: "{{value}} įrašų puslapyje'"
+  label_display_per_page: "{{value}} įrašų puslapyje"
   label_age: Amžius
   label_change_properties: Pakeisti nustatymus
   label_general: Bendri
@@ -740,7 +740,7 @@ lt:
   text_regexp_info: pvz. ^[A-Z0-9]+$
   text_min_max_length_info: 0 reiškia jokių apribojimų
   text_project_destroy_confirmation: Ar esate įsitikinęs, kad jūs norite pašalinti šį projektą ir visus susijusius duomenis?
-  text_subprojects_destroy_warning: "Šis(ie) subprojektas(ai): {{value}} taip pat bus ištrintas(i).'"
+  text_subprojects_destroy_warning: "Šis(ie) subprojektas(ai): {{value}} taip pat bus ištrintas(i)."
   text_workflow_edit: Išrinkite vaidmenį ir pėdsekį, kad redaguotumėte darbų eigą
   text_are_you_sure: Ar esate įsitikinęs?
   text_journal_changed: "pakeistas iš {{old}} į {{new}}"
@@ -776,8 +776,8 @@ lt:
   text_destroy_time_entries: Ištrinti paskelbtas valandas
   text_assign_time_entries_to_project: Priskirti valandas prie projekto
   text_reassign_time_entries: 'Priskirti paskelbtas valandas šiam darbui:'
-  text_user_wrote: "{{value}} parašė:'"
-  text_enumeration_destroy_question: "{{count}} objektai priskirti šiai reikšmei.'"
+  text_user_wrote: "{{value}} parašė:"
+  text_enumeration_destroy_question: "{{count}} objektai priskirti šiai reikšmei."
   text_enumeration_category_reassign_to: 'Priskirti juos šiai reikšmei:'
   text_email_delivery_not_configured: "Email pristatymas nesukonfigūruotas , ir perspėjimai neaktyvus.\nSukonfigūruokyte savo SMTP serverį byloje config/email.yml ir perleiskyte programą kad pritaikyti pakeitymus."
   text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."

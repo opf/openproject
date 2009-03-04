@@ -391,7 +391,7 @@ gl:
   label_diff_inline: en liña
   label_diff_side_by_side: cara a cara
   label_disabled: deshabilitado
-  label_display_per_page: "Por páxina: {{value}}'"
+  label_display_per_page: "Por páxina: {{value}}"
   label_document: Documento
   label_document_added: Documento engadido
   label_document_new: Novo documento
@@ -619,7 +619,7 @@ gl:
   label_workflow: Fluxo de traballo
   label_year: Ano
   label_yesterday: onte
-  mail_body_account_activation_request: "Inscribiuse un novo usuario ({{value}}). A conta está pendente de aprobación:'"
+  mail_body_account_activation_request: "Inscribiuse un novo usuario ({{value}}). A conta está pendente de aprobación:"
   mail_body_account_information: Información sobre a súa conta
   mail_body_account_information_external: "Pode usar a súa conta {{value}} para conectarse."
   mail_body_lost_password: 'Para cambiar o seu contrasinal, faga clic no seguinte enlace:'
@@ -762,7 +762,7 @@ gl:
   text_diff_truncated: '... Diferencia truncada por exceder o máximo tamaño visualizable.'
   text_email_delivery_not_configured: "O envío de correos non está configurado, e as notificacións desactiváronse. \n Configure o servidor de SMTP en config/email.yml e reinicie a aplicación para activar os cambios."
   text_enumeration_category_reassign_to: 'Reasignar ó seguinte valor:'
-  text_enumeration_destroy_question: "{{count}} obxectos con este valor asignado.'"
+  text_enumeration_destroy_question: "{{count}} obxectos con este valor asignado."
   text_file_repository_writable: Pódese escribir no repositorio
   text_issue_added: "Petición {{id}} engadida por {{author}}."
   text_issue_category_destroy_assignments: Deixar as peticións sen categoría
@@ -787,14 +787,14 @@ gl:
   text_select_mail_notifications: Seleccionar os eventos a notificar
   text_select_project_modules: 'Seleccione os módulos a activar para este proxecto:'
   text_status_changed_by_changeset: "Aplicado nos cambios {{value}}"
-  text_subprojects_destroy_warning: "Os proxectos secundarios: {{value}} tamén se eliminarán'"
+  text_subprojects_destroy_warning: "Os proxectos secundarios: {{value}} tamén se eliminarán"
   text_tip_task_begin_day: tarefa que comeza este día
   text_tip_task_begin_end_day: tarefa que comeza e remata este día
   text_tip_task_end_day: tarefa que remata este día
   text_tracker_no_workflow: Non hai ningún fluxo de traballo definido para este tipo de petición
   text_unallowed_characters: Caracteres non permitidos
   text_user_mail_option: "Dos proxectos non seleccionados, só recibirá notificacións sobre elementos monitorizados ou elementos nos que estea involucrado (por exemplo, peticións das que vostede sexa autor ou asignadas a vostede)."
-  text_user_wrote: "{{value}} escribiu:'"
+  text_user_wrote: "{{value}} escribiu:"
   text_wiki_destroy_confirmation: ¿Seguro que quere borrar o wiki e todo o seu contido?
   text_workflow_edit: Seleccionar un fluxo de traballo para actualizar
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."

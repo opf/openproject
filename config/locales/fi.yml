@@ -184,7 +184,7 @@ fi:
   mail_body_account_information_external: "Voit nyt käyttää {{value}} tiliäsi kirjautuaksesi järjestelmään."
   mail_body_account_information: Sinun tilin tiedot
   mail_subject_account_activation_request: "{{value}} tilin aktivointi pyyntö"
-  mail_body_account_activation_request: "Uusi käyttäjä ({{value}}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:'"
+  mail_body_account_activation_request: "Uusi käyttäjä ({{value}}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:"
   
   gui_validation_error: 1 virhe
   gui_validation_error_plural: "{{count}} virhettä"
@@ -573,7 +573,7 @@ fi:
   label_registration_activation_by_email: tilin aktivointi sähköpostitse
   label_registration_manual_activation: tilin aktivointi käsin
   label_registration_automatic_activation: tilin aktivointi automaattisesti
-  label_display_per_page: "Per sivu: {{value}}'"
+  label_display_per_page: "Per sivu: {{value}}"
   label_age: Ikä
   label_change_properties: Vaihda asetuksia
   label_general: Yleinen
@@ -730,15 +730,15 @@ fi:
   label_overall_activity: Kokonaishistoria
   error_scm_annotate: "Merkintää ei ole tai siihen ei voi lisätä selityksiä."
   label_planning: Suunnittelu
-  text_subprojects_destroy_warning: "Tämän aliprojekti(t): {{value}} tullaan myös poistamaan.'"
+  text_subprojects_destroy_warning: "Tämän aliprojekti(t): {{value}} tullaan myös poistamaan."
   label_and_its_subprojects: "{{value}} ja aliprojektit"
   mail_body_reminder: "{{count}} sinulle nimettyä tapahtuma(a) erääntyy {{days}} päivä sisään:"
   mail_subject_reminder: "{{count}} tapahtuma(a) erääntyy lähipäivinä"
-  text_user_wrote: "{{value}} kirjoitti:'"
+  text_user_wrote: "{{value}} kirjoitti:"
   label_duplicated_by: kopioinut
   setting_enabled_scm: Versionhallinta käytettävissä
   text_enumeration_category_reassign_to: 'Siirrä täksi arvoksi:'
-  text_enumeration_destroy_question: "{{count}} kohdetta on sijoitettu tälle arvolle.'"
+  text_enumeration_destroy_question: "{{count}} kohdetta on sijoitettu tälle arvolle."
   label_incoming_emails: Saapuvat sähköpostiviestit
   label_generate_key: Luo avain
   setting_mail_handler_api_enabled: Ota käyttöön WS saapuville sähköposteille

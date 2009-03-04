@@ -175,7 +175,7 @@ de:
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto {{value}} an anmelden."
   mail_body_account_information: Ihre Konto-Informationen
   mail_subject_account_activation_request: "Antrag auf {{value}} Kontoaktivierung"
-  mail_body_account_activation_request: "Ein neuer Benutzer ({{value}}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:'"
+  mail_body_account_activation_request: "Ein neuer Benutzer ({{value}}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_subject_reminder: "{{count}} Tickets müssen in den nächsten Tagen abgegeben werden"
   mail_body_reminder: "{{count}} Tickets, die Ihnen zugewiesen sind, müssen in den nächsten {{days}} Tagen abgegeben werden:"
   
@@ -663,7 +663,7 @@ de:
   label_registration_activation_by_email: Kontoaktivierung durch E-Mail
   label_registration_manual_activation: Manuelle Kontoaktivierung
   label_registration_automatic_activation: Automatische Kontoaktivierung
-  label_display_per_page: "Pro Seite: {{value}}'"
+  label_display_per_page: "Pro Seite: {{value}}"
   label_age: Geändert vor
   label_change_properties: Eigenschaften ändern
   label_general: Allgemein
@@ -730,7 +730,7 @@ de:
   text_regexp_info: z. B. ^[A-Z0-9]+$
   text_min_max_length_info: 0 heißt keine Beschränkung
   text_project_destroy_confirmation: Sind Sie sicher, dass sie das Projekt löschen wollen?
-  text_subprojects_destroy_warning: "Dessen Unterprojekte ({{value}}) werden ebenfalls gelöscht.'"
+  text_subprojects_destroy_warning: "Dessen Unterprojekte ({{value}}) werden ebenfalls gelöscht."
   text_workflow_edit: Workflow zum Bearbeiten auswählen
   text_are_you_sure: Sind Sie sicher?
   text_journal_changed: "geändert von {{old}} zu {{new}}"
@@ -767,8 +767,8 @@ de:
   text_destroy_time_entries: Gebuchte Aufwände löschen
   text_assign_time_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
-  text_user_wrote: "{{value}} schrieb:'"
-  text_enumeration_destroy_question: "{{count}} Objekte sind diesem Wert zugeordnet.'"
+  text_user_wrote: "{{value}} schrieb:"
+  text_enumeration_destroy_question: "{{count}} Objekte sind diesem Wert zugeordnet."
   text_enumeration_category_reassign_to: 'Die Objekte stattdessen diesem Wert zuordnen:'
   text_email_delivery_not_configured: "Der SMTP-Server ist nicht konfiguriert und Mailbenachrichtigungen sind ausgeschaltet.\nNehmen Sie die Einstellungen für Ihren SMTP-Server in config/email.yml vor und starten Sie die Applikation neu."
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen Redmine- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."

@@ -549,8 +549,8 @@ sk:
   label_send_test_email: Poslať testovací email
   label_feeds_access_key_created_on: "Prístupový klúč pre RSS bol vytvorený pred {{value}}"
   label_module_plural: Moduly
-  label_added_time_by: "'Pridané užívateľom {{author}} pred {{age}}'"
-  label_updated_time: "Aktualizované pred {{value}}'"
+  label_added_time_by: "Pridané užívateľom {{author}} pred {{age}}"
+  label_updated_time: "Aktualizované pred {{value}}"
   label_jump_to_a_project: Zvoliť projekt...
   label_file_plural: Súbory
   label_changeset_plural: Sady zmien
@@ -567,7 +567,7 @@ sk:
   label_registration_activation_by_email: aktivácia účtu emailom
   label_registration_manual_activation: manuálna aktivácia účtu
   label_registration_automatic_activation: automatická aktivácia účtu
-  label_display_per_page: "{{value}} na stránku'"
+  label_display_per_page: "{{value}} na stránku"
   label_age: Vek
   label_change_properties: Zmeniť vlastnosti
   label_general: Všeobecné
@@ -691,15 +691,15 @@ sk:
   enumeration_activities: Aktivity (sledovanie času)
   error_scm_annotate: "Položka neexistuje alebo nemôže byť komentovaná."
   label_planning: Plánovanie
-  text_subprojects_destroy_warning: "Jeho podprojekt(y): {{value}} budú takisto vymazané.'"
+  text_subprojects_destroy_warning: "Jeho podprojekt(y): {{value}} budú takisto vymazané."
   label_and_its_subprojects: "{{value}} a jeho podprojekty"
   mail_body_reminder: "{{count}} úloha(y), ktorá(é) je(sú) vám priradený(é), ma(jú) byť hotova(é) za {{days}} dní:"
   mail_subject_reminder: "{{count}} úloha(y) ma(jú) byť hotova(é) za pár dní"
-  text_user_wrote: "{{value}} napísal:'"
+  text_user_wrote: "{{value}} napísal:"
   label_duplicated_by: duplikovaný
   setting_enabled_scm: Zapnúť SCM
   text_enumeration_category_reassign_to: 'Prenastaviť na túto hodnotu:'
-  text_enumeration_destroy_question: "{{count}} objekty sú nastavené na túto hodnotu.'"
+  text_enumeration_destroy_question: "{{count}} objekty sú nastavené na túto hodnotu."
   label_incoming_emails: Príchádzajúce emaily
   label_generate_key: Vygenerovať kľúč
   setting_mail_handler_api_enabled: Zapnúť WS pre príchodzie emaily

@@ -147,7 +147,7 @@
   mail_body_account_information_external: "Du kan bruke din {{value}}-konto for å logge inn."
   mail_body_account_information: Informasjon om din konto
   mail_subject_account_activation_request: "{{value}} kontoaktivering"
-  mail_body_account_activation_request: "En ny bruker ({{value}}) er registrert, og avventer din godkjenning:'"
+  mail_body_account_activation_request: "En ny bruker ({{value}}) er registrert, og avventer din godkjenning:"
   mail_subject_reminder: "{{count}} sak(er) har frist de kommende dagene"
   mail_body_reminder: "{{count}} sak(er) som er tildelt deg har frist de kommende {{days}} dager:"
   
@@ -574,7 +574,7 @@
   label_registration_activation_by_email: kontoaktivering pr. e-post
   label_registration_manual_activation: manuell kontoaktivering
   label_registration_automatic_activation: automatisk kontoaktivering
-  label_display_per_page: "Pr. side: {{value}}'"
+  label_display_per_page: "Pr. side: {{value}}"
   label_age: Alder
   label_change_properties: Endre egenskaper
   label_general: Generell
@@ -636,7 +636,7 @@
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 betyr ingen begrensning
   text_project_destroy_confirmation: Er du sikker på at du vil slette dette prosjekter og alle relatert data ?
-  text_subprojects_destroy_warning: "Underprojekt(ene): {{value}} vil også bli slettet.'"
+  text_subprojects_destroy_warning: "Underprojekt(ene): {{value}} vil også bli slettet."
   text_workflow_edit: Velg en rolle og en sakstype for å endre arbeidsflyten
   text_are_you_sure: Er du sikker ?
   text_journal_changed: "endret fra {{old}} til {{new}}"
@@ -672,7 +672,7 @@
   text_destroy_time_entries: Slett førte timer
   text_assign_time_entries_to_project: Overfør førte timer til prosjektet
   text_reassign_time_entries: 'Overfør førte timer til denne saken:'
-  text_user_wrote: "{{value}} skrev:'"
+  text_user_wrote: "{{value}} skrev:"
   
   default_role_manager: Leder
   default_role_developper: Utvikler
@@ -700,7 +700,7 @@
   enumeration_doc_categories: Dokument-kategorier
   enumeration_activities: Aktiviteter (tidssporing)
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   setting_mail_handler_api_enabled: Enable WS for incoming emails

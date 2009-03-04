@@ -180,7 +180,7 @@
   mail_body_account_information_external: "A {{value}} azonosító használatával bejelentkezhet a Redmineba."
   mail_body_account_information: Az Ön Redmine azonosítójának információi
   mail_subject_account_activation_request: Redmine azonosító aktiválási kérelem
-  mail_body_account_activation_request: "Egy új felhasználó ({{value}}) regisztrált, azonosítója jóváhasgyásra várakozik:'"
+  mail_body_account_activation_request: "Egy új felhasználó ({{value}}) regisztrált, azonosítója jóváhasgyásra várakozik:"
   
   gui_validation_error: 1 hiba
   gui_validation_error_plural: "{{count}} hiba"
@@ -583,10 +583,10 @@
   label_language_based: A felhasználó nyelve alapján
   label_sort_by: "{{value}} szerint rendezve"
   label_send_test_email: Teszt e-mail küldése
-  label_feeds_access_key_created_on: "RSS hozzáférési kulcs létrehozva ennyivel ezelőtt: {{value}}'"
+  label_feeds_access_key_created_on: "RSS hozzáférési kulcs létrehozva ennyivel ezelőtt: {{value}}"
   label_module_plural: Modulok
-  label_added_time_by: "'{{author}} adta hozzá ennyivel ezelőtt: {{age}}'"
-  label_updated_time: "Utolsó módosítás ennyivel ezelőtt: {{value}}'"
+  label_added_time_by: "{{author}} adta hozzá ennyivel ezelőtt: {{age}}"
+  label_updated_time: "Utolsó módosítás ennyivel ezelőtt: {{value}}"
   label_jump_to_a_project: Ugrás projekthez...
   label_file_plural: Fájlok
   label_changeset_plural: Changesets
@@ -603,7 +603,7 @@
   label_registration_activation_by_email: Fiók aktiválása e-mailben
   label_registration_manual_activation: Manuális fiók aktiválás
   label_registration_automatic_activation: Automatikus fiók aktiválás
-  label_display_per_page: "Oldalanként: {{value}}'"
+  label_display_per_page: "Oldalanként: {{value}}"
   label_age: Kor
   label_change_properties: Tulajdonságok változtatása
   label_general: Általános
@@ -665,7 +665,7 @@
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 = nincs korlátozás
   text_project_destroy_confirmation: Biztosan törölni szeretné a projektet és vele együtt minden kapcsolódó adatot ?
-  text_subprojects_destroy_warning: "Az alprojekt(ek): {{value}} szintén törlésre kerülnek.'"
+  text_subprojects_destroy_warning: "Az alprojekt(ek): {{value}} szintén törlésre kerülnek."
   text_workflow_edit: Válasszon egy szerepkört, és egy trackert a workflow szerkesztéséhez
   text_are_you_sure: Biztos benne ?
   text_journal_changed: "változás: {{old}} volt, {{new}} lett"
@@ -729,11 +729,11 @@
   enumeration_activities: Tevékenységek (idő rögzítés)
   mail_body_reminder: "{{count}} neked kiosztott feladat határidős az elkövetkező {{days}} napban:"
   mail_subject_reminder: "{{count}} feladat határidős az elkövetkező napokban"
-  text_user_wrote: "{{value}} írta:'"
+  text_user_wrote: "{{value}} írta:"
   label_duplicated_by: duplikálta
   setting_enabled_scm: Forráskódkezelő (SCM) engedélyezése
   text_enumeration_category_reassign_to: 'Újra hozzárendelés ehhez:'
-  text_enumeration_destroy_question: "{{count}} objektum van hozzárendelve ehhez az értékhez.'"
+  text_enumeration_destroy_question: "{{count}} objektum van hozzárendelve ehhez az értékhez."
   label_incoming_emails: Beérkezett levelek
   label_generate_key: Kulcs generálása
   setting_mail_handler_api_enabled: Web Service engedélyezése a beérkezett levelekhez

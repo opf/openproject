@@ -180,7 +180,7 @@ tr:
   mail_body_account_information_external: "Hesabınızı {{value}} giriş yapmak için kullanabilirsiniz."
   mail_body_account_information: Hesap bilgileriniz
   mail_subject_account_activation_request: "{{value}} hesabı etkinleştirme isteği"
-  mail_body_account_activation_request: "Yeni bir kullanıcı ({{value}}) kaydedildi. Hesap onaylanmayı bekliyor:'"
+  mail_body_account_activation_request: "Yeni bir kullanıcı ({{value}}) kaydedildi. Hesap onaylanmayı bekliyor:"
   
   gui_validation_error: 1 hata
   gui_validation_error_plural: "{{count}} hata"
@@ -602,7 +602,7 @@ tr:
   label_registration_activation_by_email: e-posta ile hesap etkinleştirme
   label_registration_manual_activation: Elle hesap etkinleştirme
   label_registration_automatic_activation: Otomatik hesap etkinleştirme
-  label_display_per_page: "Sayfa başına: {{value}}'"
+  label_display_per_page: "Sayfa başına: {{value}}"
   label_age: Yaş
   label_change_properties: Özellikleri değiştir
   label_general: Genel
@@ -664,7 +664,7 @@ tr:
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 sınırlama yok demektir
   text_project_destroy_confirmation: Bu projeyi ve bağlantılı verileri silmek istediğinizden emin misiniz?
-  text_subprojects_destroy_warning: "Ayrıca {{value}} alt proje silinecek.'"
+  text_subprojects_destroy_warning: "Ayrıca {{value}} alt proje silinecek."
   text_workflow_edit: İşakışını düzenlemek için bir rol ve takipçi seçin
   text_are_you_sure: Emin misiniz ?
   text_journal_changed: "{{old}}'den  {{new}}'e değiştirildi"
@@ -737,8 +737,8 @@ tr:
   label_issue_watchers: Watchers
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
   label_duplicated_by: duplicated by
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
-  text_user_wrote: "{{value}} wrote:'"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
+  text_user_wrote: "{{value}} wrote:"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   label_and_its_subprojects: "{{value}} and its subprojects"
   mail_subject_reminder: "{{count}} issue(s) due in the next days"

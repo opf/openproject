@@ -550,8 +550,8 @@ cs:
   label_send_test_email: Poslat testovací email
   label_feeds_access_key_created_on: "Přístupový klíč pro RSS byl vytvořen před {{value}}"
   label_module_plural: Moduly
-  label_added_time_by: "'Přidáno uživatelem {{author}} před {{age}}'"
-  label_updated_time: "Aktualizováno před {{value}}'"
+  label_added_time_by: "Přidáno uživatelem {{author}} před {{age}}"
+  label_updated_time: "Aktualizováno před {{value}}"
   label_jump_to_a_project: Zvolit projekt...
   label_file_plural: Soubory
   label_changeset_plural: Changesety
@@ -568,7 +568,7 @@ cs:
   label_registration_activation_by_email: aktivace účtu emailem
   label_registration_manual_activation: manuální aktivace účtu
   label_registration_automatic_activation: automatická aktivace účtu
-  label_display_per_page: "{{value}} na stránku'"
+  label_display_per_page: "{{value}} na stránku"
   label_age: Věk
   label_change_properties: Změnit vlastnosti
   label_general: Obecné
@@ -692,15 +692,15 @@ cs:
   enumeration_activities: Aktivity (sledování času)
   error_scm_annotate: "Položka neexistuje nebo nemůže být komentována."
   label_planning: Plánování
-  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted.'"
+  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
   label_and_its_subprojects: "{{value}} and its subprojects"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
   mail_subject_reminder: "{{count}} issue(s) due in the next days"
-  text_user_wrote: "{{value}} wrote:'"
+  text_user_wrote: "{{value}} wrote:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Enabled SCM
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   setting_mail_handler_api_enabled: Enable WS for incoming emails

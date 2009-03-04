@@ -143,7 +143,7 @@ th:
   mail_body_account_information_external: "คุณสามารถใช้บัญชี {{value}} เพื่อเข้าสู่ระบบ."
   mail_body_account_information: ข้อมูลบัญชีของคุณ
   mail_subject_account_activation_request: "กรุณาเปิดบัญชี {{value}}"
-  mail_body_account_activation_request: "ผู้ใช้ใหม่ ({{value}}) ได้ลงทะเบียน. บัญชีของเขากำลังรออนุมัติ:'"
+  mail_body_account_activation_request: "ผู้ใช้ใหม่ ({{value}}) ได้ลงทะเบียน. บัญชีของเขากำลังรออนุมัติ:"
   
   gui_validation_error: 1 ข้อผิดพลาด
   gui_validation_error_plural: "{{count}} ข้อผิดพลาด"
@@ -567,7 +567,7 @@ th:
   label_registration_activation_by_email: เปิดบัญชีผ่านอีเมล์
   label_registration_manual_activation: อนุมัติโดยผู้บริหารจัดการ
   label_registration_automatic_activation: เปิดบัญชีอัตโนมัติ
-  label_display_per_page: "ต่อหน้า: {{value}}'"
+  label_display_per_page: "ต่อหน้า: {{value}}"
   label_age: อายุ
   label_change_properties: เปลี่ยนคุณสมบัติ
   label_general: ทั่วๆ ไป
@@ -629,7 +629,7 @@ th:
   text_regexp_info: ตัวอย่าง ^[A-Z0-9]+$
   text_min_max_length_info: 0 หมายถึงไม่จำกัด
   text_project_destroy_confirmation: คุณแน่ใจไหมว่าต้องการลบโครงการและข้อมูลที่เกี่ยวข้่อง ?
-  text_subprojects_destroy_warning: "โครงการย่อย: {{value}} จะถูกลบด้วย.'"
+  text_subprojects_destroy_warning: "โครงการย่อย: {{value}} จะถูกลบด้วย."
   text_workflow_edit: เลือกบทบาทและการติดตาม เพื่อแก้ไขลำดับงาน
   text_are_you_sure: คุณแน่ใจไหม ?
   text_journal_changed: "เปลี่ยนแปลงจาก {{old}} เป็น {{new}}"
@@ -694,11 +694,11 @@ th:
   label_and_its_subprojects: "{{value}} and its subprojects"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
   mail_subject_reminder: "{{count}} issue(s) due in the next days"
-  text_user_wrote: "{{value}} wrote:'"
+  text_user_wrote: "{{value}} wrote:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Enabled SCM
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   setting_mail_handler_api_enabled: Enable WS for incoming emails

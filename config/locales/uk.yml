@@ -137,7 +137,7 @@ uk:
   mail_body_account_information_external: "Ви можете використовувати ваш {{value}} обліковий запис для входу."
   mail_body_account_information: Інформація по Вашому обліковому запису
   mail_subject_account_activation_request: "Запит на активацію облікового запису {{value}}"
-  mail_body_account_activation_request: "Новий користувач ({{value}}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:'"
+  mail_body_account_activation_request: "Новий користувач ({{value}}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   
   gui_validation_error: 1 помилка
   gui_validation_error_plural: "{{count}} помилки(ок)"
@@ -622,7 +622,7 @@ uk:
   enumeration_doc_categories: Категорії документів
   enumeration_activities: Дії (облік часу)
   text_status_changed_by_changeset: "Applied in changeset {{value}}."
-  label_display_per_page: "Per page: {{value}}'"
+  label_display_per_page: "Per page: {{value}}"
   label_issue_added: Issue added
   label_issue_updated: Issue updated
   setting_per_page_options: Objects per page options
@@ -689,15 +689,15 @@ uk:
   setting_default_projects_public: New projects are public by default
   error_scm_annotate: "The entry does not exist or can not be annotated."
   label_planning: Planning
-  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted.'"
+  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
   label_and_its_subprojects: "{{value}} and its subprojects"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
   mail_subject_reminder: "{{count}} issue(s) due in the next days"
-  text_user_wrote: "{{value}} wrote:'"
+  text_user_wrote: "{{value}} wrote:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Enabled SCM
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   setting_mail_handler_api_enabled: Enable WS for incoming emails

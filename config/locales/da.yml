@@ -171,7 +171,7 @@ da:
   mail_body_account_information_external: "Du kan bruge din {{value}} konto til at logge ind."
   mail_body_account_information: Din kontoinformation
   mail_subject_account_activation_request: "{{value}} kontoaktivering"
-  mail_body_account_activation_request: "En ny bruger ({{value}}) er registreret. Godkend venligst kontoen:'"
+  mail_body_account_activation_request: "En ny bruger ({{value}}) er registreret. Godkend venligst kontoen:"
   
   gui_validation_error: 1 fejl
   gui_validation_error_plural: "{{count}} fejl"
@@ -587,7 +587,7 @@ da:
   label_registration_activation_by_email: kontoaktivering på email
   label_registration_manual_activation: manuel kontoaktivering
   label_registration_automatic_activation: automatisk kontoaktivering
-  label_display_per_page: "Per side: {{value}}'"
+  label_display_per_page: "Per side: {{value}}"
   label_age: Alder
   label_change_properties: Ændre indstillinger
   label_general: Generalt
@@ -718,7 +718,7 @@ da:
   setting_default_projects_public: Nye projekter er offentlige som standard
   error_scm_annotate: "The entry does not exist or can not be annotated."
   label_planning: Planlægning
-  text_subprojects_destroy_warning: "Dets underprojekter(er): {{value}} vil også blive slettet.'"
+  text_subprojects_destroy_warning: "Dets underprojekter(er): {{value}} vil også blive slettet."
   permission_edit_issues: Redigér sager
   setting_diff_max_lines_displayed: Maksimalt antal forskelle der vises
   permission_edit_own_issue_notes: Redigér egne noter
@@ -764,7 +764,7 @@ da:
   permission_manage_boards: Administrér fora
   permission_delete_wiki_pages_attachments: Slet filer vedhæftet wiki sider
   permission_view_messages: Se beskeder
-  text_enumeration_destroy_question: "{{count}} objekter er tildelt denne værdi.'"
+  text_enumeration_destroy_question: "{{count}} objekter er tildelt denne værdi."
   permission_manage_files: Administrér filer
   permission_add_messages: Opret beskeder
   permission_edit_issue_notes: Redigér noter
@@ -777,7 +777,7 @@ da:
   setting_gravatar_enabled: Anvend Gravatar bruger ikoner
   label_updated_time_by: "Opdateret af {{author}} for {{age}} siden"
   text_diff_truncated: '... Listen over forskelle er bleve afkortet fordi den overstiger den maksimale størrelse der kan vises.'
-  text_user_wrote: "{{value}} skrev:'"
+  text_user_wrote: "{{value}} skrev:"
   setting_mail_handler_api_enabled: Aktiver webservice for indkomne emails
   permission_delete_issues: Slet sager
   permission_view_documents: Se dokumenter

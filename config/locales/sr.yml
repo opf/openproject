@@ -640,7 +640,7 @@
   setting_time_format: Format vremena
   label_registration_activation_by_email: aktivacija naloga putem email-a
   mail_subject_account_activation_request: "{{value}} zahtev za aktivacijom naloga"
-  mail_body_account_activation_request: "Novi korisnik ({{value}}) se registrovao. Njegov nalog čeka vaše odobrenje:'"
+  mail_body_account_activation_request: "Novi korisnik ({{value}}) se registrovao. Njegov nalog čeka vaše odobrenje:"
   label_registration_automatic_activation: automatska aktivacija naloga
   label_registration_manual_activation: ručna aktivacija naloga
   notice_account_pending: "Vaš nalog je napravljen i čeka odobrenje administratora."
@@ -650,7 +650,7 @@
   button_annotate: Annotate
   label_issues_by: "Kartice od {{value}}"
   field_searchable: Searchable
-  label_display_per_page: "Po stranici: {{value}}'"
+  label_display_per_page: "Po stranici: {{value}}"
   setting_per_page_options: Objekata po stranici opcija
   label_age: Starost
   notice_default_data_loaded: Default configuration successfully loaded.
@@ -714,15 +714,15 @@
   setting_default_projects_public: New projects are public by default
   error_scm_annotate: "The entry does not exist or can not be annotated."
   label_planning: Planiranje
-  text_subprojects_destroy_warning: "I potprojekti projekta: {{value}} će takođe biti obrisani.'"
+  text_subprojects_destroy_warning: "I potprojekti projekta: {{value}} će takođe biti obrisani."
   label_and_its_subprojects: "{{value}} i potprojekti"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
   mail_subject_reminder: "{{count}} issue(s) due in the next days"
-  text_user_wrote: "{{value}} wrote:'"
+  text_user_wrote: "{{value}} wrote:"
   label_duplicated_by: ponovljen kao
   setting_enabled_scm: Enabled SCM
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
   label_incoming_emails: Dolazeće e-poruke
   label_generate_key: Generiši ključ
   setting_mail_handler_api_enabled: Enable WS for incoming emails

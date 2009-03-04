@@ -180,7 +180,7 @@ pt-BR:
   mail_body_account_information_external: "Você pode usar sua conta do {{value}} para entrar."
   mail_body_account_information: Informações sobre sua conta
   mail_subject_account_activation_request: "{{value}} - Requisição de ativação de conta"
-  mail_body_account_activation_request: "Um novo usuário ({{value}}) se registrou. A conta está aguardando sua aprovação:'"
+  mail_body_account_activation_request: "Um novo usuário ({{value}}) se registrou. A conta está aguardando sua aprovação:"
   mail_subject_reminder: "{{count}} tarefa(s) com data prevista para os próximos dias"
   mail_body_reminder: "{{count}} tarefa(s) para você com data prevista para os próximos {{days}} dias:"
 
@@ -612,7 +612,7 @@ pt-BR:
   label_registration_activation_by_email: ativação de conta por e-mail
   label_registration_manual_activation: ativação manual de conta
   label_registration_automatic_activation: ativação automática de conta
-  label_display_per_page: "Por página: {{value}}'"
+  label_display_per_page: "Por página: {{value}}"
   label_age: Idade
   label_change_properties: Alterar propriedades
   label_general: Geral
@@ -678,7 +678,7 @@ pt-BR:
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 = sem restrição
   text_project_destroy_confirmation: Você tem certeza que deseja excluir este projeto e todos os dados relacionados?
-  text_subprojects_destroy_warning: "Seu(s) subprojeto(s): {{value}} também serão excluídos.'"
+  text_subprojects_destroy_warning: "Seu(s) subprojeto(s): {{value}} também serão excluídos."
   text_workflow_edit: Selecione um papel e um tipo de tarefa para editar o workflow
   text_are_you_sure: Você tem certeza?
   text_journal_changed: "alterado(a) de {{old}} para {{new}}"
@@ -714,8 +714,8 @@ pt-BR:
   text_destroy_time_entries: Excluir horas de trabalho
   text_assign_time_entries_to_project: Atribuir estas horas de trabalho para outro projeto
   text_reassign_time_entries: 'Atribuir horas reportadas para esta tarefa:'
-  text_user_wrote: "{{value}} escreveu:'"
-  text_enumeration_destroy_question: "{{count}} objetos estão atribuídos a este valor.'"
+  text_user_wrote: "{{value}} escreveu:"
+  text_enumeration_destroy_question: "{{count}} objetos estão atribuídos a este valor."
   text_enumeration_category_reassign_to: 'Reatribuí-los ao valor:'
   text_email_delivery_not_configured: "O envio de email não está configurado, e as notificações estão inativas.\nConfigure seu servidor SMTP no arquivo config/email.yml e reinicie a aplicação para ativá-las."
 

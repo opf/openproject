@@ -628,7 +628,7 @@ he:
   setting_time_format: פורמט זמן
   label_registration_activation_by_email: הפעל חשבון באמצעות דוא"ל
   mail_subject_account_activation_request: "בקשת הפעלה לחשבון {{value}}"
-  mail_body_account_activation_request: "משתמש חדש ({{value}}) נרשם. החשבון שלו מחכה לאישור שלך:'"
+  mail_body_account_activation_request: "משתמש חדש ({{value}}) נרשם. החשבון שלו מחכה לאישור שלך:"
   label_registration_automatic_activation: הפעלת חשבון אוטומטית
   label_registration_manual_activation: הפעלת חשבון ידנית
   notice_account_pending: "החשבון שלך נוצר ועתה מחכה לאישור מנהל המערכת."
@@ -638,7 +638,7 @@ he:
   button_annotate: הוסף תיאור מסגרת
   label_issues_by: "נושאים של {{value}}"
   field_searchable: ניתן לחיפוש
-  label_display_per_page: "לכל דף: {{value}}'"
+  label_display_per_page: "לכל דף: {{value}}"
   setting_per_page_options: אפשרויות אוביקטים לפי דף
   label_age: גיל
   notice_default_data_loaded: אפשרויות ברירת מחדל מופעלות.
@@ -702,15 +702,15 @@ he:
   setting_default_projects_public: פרויקטים חדשים הינם פומביים כברירת מחדל
   error_scm_annotate: "הכניסה לא קיימת או שלא ניתן לתאר אותה."
   label_planning: תכנון
-  text_subprojects_destroy_warning: "תת הפרויקט\ים: {{value}} ימחקו גם כן.'"
+  text_subprojects_destroy_warning: "תת הפרויקט\ים: {{value}} ימחקו גם כן."
   label_and_its_subprojects: "{{value}} וכל תת הפרויקטים שלו"
   mail_body_reminder: "{{count}} נושאים שמיועדים אליך מיועדים להגשה בתוך {{days}} ימים:"
   mail_subject_reminder: "{{count}} נושאים מיעדים להגשה בימים הקרובים"
-  text_user_wrote: "{{value}} כתב:'"
+  text_user_wrote: "{{value}} כתב:"
   label_duplicated_by: שוכפל ע"י
   setting_enabled_scm: אפשר SCM
   text_enumeration_category_reassign_to: 'הצב מחדש לערך הזה:'
-  text_enumeration_destroy_question: "{{count}} אוביקטים מוצבים לערך זה.'"
+  text_enumeration_destroy_question: "{{count}} אוביקטים מוצבים לערך זה."
   label_incoming_emails: דוא"ל נכנס
   label_generate_key: יצר מפתח
   setting_mail_handler_api_enabled: Enable WS for incoming emails

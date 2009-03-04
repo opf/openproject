@@ -675,7 +675,7 @@ ko:
   setting_time_format: 시간 형식
   label_registration_activation_by_email: 메일로 계정을 활성화하기
   mail_subject_account_activation_request: "레드마인 계정 활성화 요청 ({{value}})"
-  mail_body_account_activation_request: "새 계정({{value}})이 등록되었습니다. 관리자님의 승인을 기다리고 있습니다.:'"
+  mail_body_account_activation_request: "새 계정({{value}})이 등록되었습니다. 관리자님의 승인을 기다리고 있습니다.:"
   label_registration_automatic_activation: 자동 계정 활성화
   label_registration_manual_activation: 수동 계정 활성화
   notice_account_pending: "계정이 만들어 졌습니다. 관리자의 승인이 있을 때까지 기다려야 합니다."
@@ -685,7 +685,7 @@ ko:
   button_annotate: 주석달기(annotate)
   label_issues_by: "일감분류 방식 {{value}}"
   field_searchable: 검색가능
-  label_display_per_page: "페이지당: {{value}}'"
+  label_display_per_page: "페이지당: {{value}}"
   setting_per_page_options: 페이지당 표시할 객체 수
   label_age: 마지막 수정일
   notice_default_data_loaded: 기본 설정을 성공적으로 로드하였습니다.
@@ -749,15 +749,15 @@ ko:
   setting_default_projects_public: 새 프로젝트를 공개로 설정
   error_scm_annotate: "항목이 없거나 주석을 달 수 없습니다."
   label_planning: 프로젝트계획(Planning)
-  text_subprojects_destroy_warning: "서브프로젝트({{value}})가 자동으로 지워질 것입니다.'"
+  text_subprojects_destroy_warning: "서브프로젝트({{value}})가 자동으로 지워질 것입니다."
   label_and_its_subprojects: "{{value}}와 서브프로젝트들"
   mail_body_reminder: "님에게 할당된  {{count}}개의 일감들을 다음 {{days}}일 안으로 마쳐야 합니다.:"
   mail_subject_reminder: "내일까지 마쳐야할 일감 {{count}}개"
-  text_user_wrote: "{{value}}의 덧글:'"
+  text_user_wrote: "{{value}}의 덧글:"
   label_duplicated_by: 중복된 일감
   setting_enabled_scm: 허용할  SCM
   text_enumeration_category_reassign_to: '새로운 값을 설정:'
-  text_enumeration_destroy_question: "{{count}} 개의 일감이 이 값을 사용하고 있습니다.'"
+  text_enumeration_destroy_question: "{{count}} 개의 일감이 이 값을 사용하고 있습니다."
   label_incoming_emails: 수신 메일 설정
   label_generate_key: 키 생성
   setting_mail_handler_api_enabled: 수신 메일에  WS 를 허용

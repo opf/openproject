@@ -613,7 +613,7 @@ bg:
   setting_time_format: Формат на часа
   label_registration_activation_by_email: активиране на профила по email
   mail_subject_account_activation_request: "Заявка за активиране на профил в {{value}}"
-  mail_body_account_activation_request: "Има новорегистриран потребител ({{value}}), очакващ вашето одобрение:'"
+  mail_body_account_activation_request: "Има новорегистриран потребител ({{value}}), очакващ вашето одобрение:"
   label_registration_automatic_activation: автоматично активиране
   label_registration_manual_activation: ръчно активиране
   notice_account_pending: "Профилът Ви е създаден и очаква одобрение от администратор."
@@ -623,7 +623,7 @@ bg:
   button_annotate: Анотация
   label_issues_by: "Задачи по {{value}}"
   field_searchable: С възможност за търсене
-  label_display_per_page: "На страница по: {{value}}'"
+  label_display_per_page: "На страница по: {{value}}"
   setting_per_page_options: Опции за страниране
   label_age: Възраст
   notice_default_data_loaded: Примерната информацията е успешно заредена.
@@ -687,15 +687,15 @@ bg:
   setting_default_projects_public: Новите проекти са публични по подразбиране
   error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
   label_planning: Планиране
-  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted.'"
+  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
   label_and_its_subprojects: "{{value}} and its subprojects"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
   mail_subject_reminder: "{{count}} issue(s) due in the next days"
-  text_user_wrote: "{{value}} wrote:'"
+  text_user_wrote: "{{value}} wrote:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Enabled SCM
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value.'"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   setting_mail_handler_api_enabled: Enable WS for incoming emails

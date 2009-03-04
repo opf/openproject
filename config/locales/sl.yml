@@ -144,7 +144,7 @@ sl:
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš {{value}} račun."
   mail_body_account_information: Informacije o vašem računu
   mail_subject_account_activation_request: "{{value}} zahtevek za aktivacijo računa"
-  mail_body_account_activation_request: "Registriral se je nov uporabnik ({{value}}). Račun čaka na vašo odobritev:'"
+  mail_body_account_activation_request: "Registriral se je nov uporabnik ({{value}}). Račun čaka na vašo odobritev:"
   mail_subject_reminder: "{{count}} zahtevek(zahtevki) zapadejo v naslednjih dneh"
   mail_body_reminder: "{{count}} zahtevek(zahtevki), ki so vam dodeljeni bodo zapadli v naslednjih {{days}} dneh:"
   
@@ -632,7 +632,7 @@ sl:
   label_registration_activation_by_email: aktivacija računa po e-pošti
   label_registration_manual_activation: ročna aktivacija računa
   label_registration_automatic_activation: samodejna aktivacija računa
-  label_display_per_page: "Na stran: {{value}}'"
+  label_display_per_page: "Na stran: {{value}}"
   label_age: Starost
   label_change_properties: Sprememba lastnosti
   label_general: Splošno
@@ -699,7 +699,7 @@ sl:
   text_regexp_info: npr. ^[A-Z0-9]+$
   text_min_max_length_info: 0 pomeni brez omejitev
   text_project_destroy_confirmation: Ali ste prepričani da želite izbrisati izbrani projekt in vse z njim povezane podatke?
-  text_subprojects_destroy_warning: "Njegov(i) podprojekt(i): {{value}} bodo prav tako izbrisani.'"
+  text_subprojects_destroy_warning: "Njegov(i) podprojekt(i): {{value}} bodo prav tako izbrisani."
   text_workflow_edit: Izberite vlogo in zahtevek za urejanje poteka dela
   text_are_you_sure: Ali ste prepričani?
   text_journal_changed: "Spremenjen iz {{old}} na {{new}}"
@@ -735,8 +735,8 @@ sl:
   text_destroy_time_entries: Izbriši opravljene ure
   text_assign_time_entries_to_project: Predaj opravljene ure projektu
   text_reassign_time_entries: 'Prenesi opravljene ure na ta zahtevek:'
-  text_user_wrote: "{{value}} je napisal(a):'"
-  text_enumeration_destroy_question: "{{count}} objektov je določenih tej vrednosti.'"
+  text_user_wrote: "{{value}} je napisal(a):"
+  text_enumeration_destroy_question: "{{count}} objektov je določenih tej vrednosti."
   text_enumeration_category_reassign_to: 'Ponastavi jih na to vrednost:'
   text_email_delivery_not_configured: "E-poštna dostava ni nastavljena in oznanila so onemogočena.\nNastavite vaš SMTP strežnik v config/email.yml in ponovno zaženite aplikacijo da ga omogočite.\n"
   text_repository_usernames_mapping: "Izberite ali posodobite Redmine uporabnika dodeljenega vsakemu uporabniškemu imenu najdenemu v zapisniku shrambe.\n Uporabniki z enakim Redmine ali shrambinem uporabniškem imenu ali e-poštnem naslovu so samodejno dodeljeni."

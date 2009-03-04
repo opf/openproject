@@ -204,7 +204,7 @@ sv:
   mail_body_account_information_external: "Du kan använda ditt {{value}}-konto för att logga in."
   mail_body_account_information: Din kontoinformation
   mail_subject_account_activation_request: "{{value}} begäran om kontoaktivering"
-  mail_body_account_activation_request: "En ny användare ({{value}}) har registrerat sig och avvaktar ditt godkännande:'"
+  mail_body_account_activation_request: "En ny användare ({{value}}) har registrerat sig och avvaktar ditt godkännande:"
   mail_subject_reminder: "{{count}} ärende(n) har deadline under de kommande dagarna"
   mail_body_reminder: "{{count}} ärende(n) som är tilldelat dig har deadline under de {{days}} dagarna:"
   
@@ -698,7 +698,7 @@ sv:
   label_registration_activation_by_email: kontoaktivering med mail
   label_registration_manual_activation: manuell kontoaktivering
   label_registration_automatic_activation: automatisk kontoaktivering
-  label_display_per_page: "Per sida: {{value}}'"
+  label_display_per_page: "Per sida: {{value}}"
   label_age: Ålder
   label_change_properties: Ändra inställningar
   label_general: Allmänt
@@ -767,7 +767,7 @@ sv:
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 betyder ingen gräns
   text_project_destroy_confirmation: Är du säker på att du vill ta bort detta projekt och all relaterad data?
-  text_subprojects_destroy_warning: "Alla underprojekt: {{value}} kommer också tas bort.'"
+  text_subprojects_destroy_warning: "Alla underprojekt: {{value}} kommer också tas bort."
   text_workflow_edit: Välj en roll och en ärendetyp för att ändra arbetsflöde
   text_are_you_sure: Är du säker ?
   text_journal_changed: "ändrad från {{old}} till {{new}}"
@@ -804,8 +804,8 @@ sv:
   text_destroy_time_entries: Ta bort rapporterade timmar
   text_assign_time_entries_to_project: Tilldela rapporterade timmar till projektet
   text_reassign_time_entries: 'Återtilldela rapporterade timmar till detta ärende:'
-  text_user_wrote: "{{value}} skrev:'"
-  text_enumeration_destroy_question: "{{count}} objekt är tilldelade till detta värde.'"
+  text_user_wrote: "{{value}} skrev:"
+  text_enumeration_destroy_question: "{{count}} objekt är tilldelade till detta värde."
   text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
   text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar via mail kan därför inte skickas.\nKonfigurera din SMTP-server i config/email.yml och starta om applikationen för att aktivera dem."
   text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller emailadress i både Redmine och versionsarkivet mappas automatiskt."

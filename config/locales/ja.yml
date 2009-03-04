@@ -655,7 +655,7 @@ ja:
   button_annotate: 注釈
   label_issues_by: "{{value}}別のチケット"
   field_searchable: Searchable
-  label_display_per_page: "1ページに: {{value}}'"
+  label_display_per_page: "1ページに: {{value}}"
   setting_per_page_options: ページ毎の表示件数
   label_age: 年齢
   notice_default_data_loaded: デフォルト設定をロードしました。
@@ -719,15 +719,15 @@ ja:
   setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
   error_scm_annotate: "エントリが存在しない、もしくはアノテートできません。"
   label_planning: 計画
-  text_subprojects_destroy_warning: "サブプロジェクト {{value}} も削除されます。'"
+  text_subprojects_destroy_warning: "サブプロジェクト {{value}} も削除されます。"
   label_and_its_subprojects: "{{value}} とサブプロジェクト"
   mail_body_reminder: "{{count}}件の担当チケットの期限が{{days}}日以内に到来します:"
   mail_subject_reminder: "{{count}}件のチケットが期限間近です"
-  text_user_wrote: "{{value}} wrote:'"
+  text_user_wrote: "{{value}} wrote:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: 使用するSCM
   text_enumeration_category_reassign_to: '次の値に割り当て直す:'
-  text_enumeration_destroy_question: "{{count}}個のオブジェクトがこの値に割り当てられています。'"
+  text_enumeration_destroy_question: "{{count}}個のオブジェクトがこの値に割り当てられています。"
   label_incoming_emails: 受信メール
   label_generate_key: キーの生成
   setting_mail_handler_api_enabled: 受信メール用のWeb Serviceを有効にする

@@ -631,7 +631,7 @@ it:
   setting_time_format: Formato ora
   label_registration_activation_by_email: attivazione account via e-mail
   mail_subject_account_activation_request: "{{value}} richiesta attivazione account"
-  mail_body_account_activation_request: "Un nuovo utente ({{value}}) ha effettuato la registrazione. Il suo account è in attesa di abilitazione da parte tua:'"
+  mail_body_account_activation_request: "Un nuovo utente ({{value}}) ha effettuato la registrazione. Il suo account è in attesa di abilitazione da parte tua:"
   label_registration_automatic_activation: attivazione account automatica
   label_registration_manual_activation: attivazione account manuale
   notice_account_pending: "Il tuo account è stato creato ed è in attesa di attivazione da parte dell'amministratore."
@@ -641,7 +641,7 @@ it:
   button_annotate: Annota
   label_issues_by: "Segnalazioni di {{value}}"
   field_searchable: Ricercabile
-  label_display_per_page: "Per pagina: {{value}}'"
+  label_display_per_page: "Per pagina: {{value}}"
   setting_per_page_options: Opzioni oggetti per pagina
   label_age: Età
   notice_default_data_loaded: Configurazione predefinita caricata con successo.
@@ -705,15 +705,15 @@ it:
   setting_default_projects_public: I nuovi progetti sono pubblici per default
   error_scm_annotate: "L'oggetto non esiste o non può essere annotato."
   label_planning: Pianificazione
-  text_subprojects_destroy_warning: "Anche i suoi sottoprogetti: {{value}} verranno eliminati.'"
+  text_subprojects_destroy_warning: "Anche i suoi sottoprogetti: {{value}} verranno eliminati."
   label_and_its_subprojects: "{{value}} ed i suoi sottoprogetti"
   mail_body_reminder: "{{count}} segnalazioni che ti sono state assegnate scadranno nei prossimi {{days}} giorni:"
   mail_subject_reminder: "{{count}} segnalazioni in scadenza nei prossimi giorni"
-  text_user_wrote: "{{value}} ha scritto:'"
+  text_user_wrote: "{{value}} ha scritto:"
   label_duplicated_by: duplicato da
   setting_enabled_scm: SCM abilitato
   text_enumeration_category_reassign_to: 'Riassegnale a questo valore:'
-  text_enumeration_destroy_question: "{{count}} oggetti hanno un assegnamento su questo valore.'"
+  text_enumeration_destroy_question: "{{count}} oggetti hanno un assegnamento su questo valore."
   label_incoming_emails: E-mail in arrivo
   label_generate_key: Genera una chiave
   setting_mail_handler_api_enabled: Abilita WS per le e-mail in arrivo

@@ -347,7 +347,7 @@ nl:
   label_diff_inline: inline
   label_diff_side_by_side: naast elkaar
   label_disabled: uitgeschakeld
-  label_display_per_page: "Per pagina: {{value}}'"
+  label_display_per_page: "Per pagina: {{value}}"
   label_document: Document
   label_document_added: Document toegevoegd
   label_document_new: Nieuw document
@@ -575,7 +575,7 @@ nl:
   label_workflow: Workflow
   label_year: Jaar
   label_yesterday: gisteren
-  mail_body_account_activation_request: "Een nieuwe gebruiker ({{value}}) is geregistreerd. Zijn account wacht op uw akkoord:'"
+  mail_body_account_activation_request: "Een nieuwe gebruiker ({{value}}) is geregistreerd. Zijn account wacht op uw akkoord:"
   mail_body_account_information: Uw account gegevens
   mail_body_account_information_external: "U kunt uw account ({{value}}) gebruiken om in te loggen."
   mail_body_lost_password: 'Gebruik de volgende link om uw wachtwoord te wijzigen:'
@@ -718,7 +718,7 @@ nl:
   text_diff_truncated: '... Deze diff werd afgekort omdat het de maximale weer te geven karakters overschreed.'
   text_email_delivery_not_configured: "E-mailbezorging is niet geconfigureerd. Notificaties zijn uitgeschakeld.\nConfigureer uw SMTP server in config/email.yml en herstart de applicatie om dit te activeren."
   text_enumeration_category_reassign_to: 'Wijs de volgende waarde toe:'
-  text_enumeration_destroy_question: "{{count}} objecten zijn toegewezen aan deze waarde.'"
+  text_enumeration_destroy_question: "{{count}} objecten zijn toegewezen aan deze waarde."
   text_file_repository_writable: Bestandsrepository beschrijfbaar
   text_issue_added: "Issue {{id}} is gerapporteerd (door {{author}})."
   text_issue_category_destroy_assignments: Verwijder toewijzingen aan deze categorie
@@ -744,14 +744,14 @@ nl:
   text_select_mail_notifications: Selecteer acties waarvoor mededelingen via mail moeten worden verstuurd.
   text_select_project_modules: 'Selecteer de modules die u wilt gebruiken voor dit project:'
   text_status_changed_by_changeset: "Toegepast in changeset {{value}}."
-  text_subprojects_destroy_warning: "De subprojecten: {{value}} zullen ook verwijderd worden.'"
+  text_subprojects_destroy_warning: "De subprojecten: {{value}} zullen ook verwijderd worden."
   text_tip_task_begin_day: taak die op deze dag begint
   text_tip_task_begin_end_day: taak die op deze dag begint en eindigt
   text_tip_task_end_day: taak die op deze dag eindigt
   text_tracker_no_workflow: Geen workflow gedefinieerd voor deze tracker
   text_unallowed_characters: Niet toegestane tekens
   text_user_mail_option: "Bij niet-geselecteerde projecten zult u enkel notificaties ontvangen voor issues die u monitort of waar u bij betrokken bent (als auteur of toegewezen persoon)."
-  text_user_wrote: "{{value}} schreef:'"
+  text_user_wrote: "{{value}} schreef:"
   text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en zijn inhoud wenst te verwijderen?
   text_workflow_edit: Selecteer een rol en een tracker om de workflow te wijzigen
   warning_attachments_not_saved: "{{count}} bestand(en) konden niet opgeslagen worden."

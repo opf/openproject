@@ -386,7 +386,7 @@ pl:
   label_diff_inline: w linii
   label_diff_side_by_side: obok siebie
   label_disabled: zablokowany
-  label_display_per_page: "Na stronę: {{value}}'"
+  label_display_per_page: "Na stronę: {{value}}"
   label_document: Dokument
   label_document_added: Dodano dokument
   label_document_new: Nowy dokument
@@ -620,7 +620,7 @@ pl:
   label_workflow: Przepływ
   label_year: Rok
   label_yesterday: wczoraj
-  mail_body_account_activation_request: "Zarejestrowano nowego użytkownika: ({{value}}). Konto oczekuje na twoje zatwierdzenie:'"
+  mail_body_account_activation_request: "Zarejestrowano nowego użytkownika: ({{value}}). Konto oczekuje na twoje zatwierdzenie:"
   mail_body_account_information: Twoje konto
   mail_body_account_information_external: "Możesz użyć twojego {{value}} konta do zalogowania."
   mail_body_lost_password: 'W celu zmiany swojego hasła użyj poniższego odnośnika:'
@@ -761,7 +761,7 @@ pl:
   text_destroy_time_entries_question: Zalogowano %.02f godzin przy zagadnieniu, które chcesz usunąć. Co chcesz zrobić?
   text_email_delivery_not_configured: "Dostarczanie poczty elektronicznej nie zostało skonfigurowane, więc powiadamianie jest nieaktywne.\nSkonfiguruj serwer SMTP w config/email.yml  a następnie zrestartuj aplikację i uaktywnij to."
   text_enumeration_category_reassign_to: 'Zmień przypisanie na tą wartość:'
-  text_enumeration_destroy_question: "{{count}} obiektów jest przypisana do tej wartości.'"
+  text_enumeration_destroy_question: "{{count}} obiektów jest przypisana do tej wartości."
   text_file_repository_writable: Zapisywalne repozytorium plików
   text_issue_added: "Zagadnienie {{id}} zostało wprowadzone (by {{author}})."
   text_issue_category_destroy_assignments: Usuń przydziały kategorii
@@ -786,14 +786,14 @@ pl:
   text_select_mail_notifications: Zaznacz czynności przy których użytkownik powinien być powiadomiony mailem.
   text_select_project_modules: 'Wybierz moduły do aktywacji w tym projekcie:'
   text_status_changed_by_changeset: "Zastosowane w zmianach {{value}}."
-  text_subprojects_destroy_warning: "Podprojekt(y): {{value}} zostaną także usunięte.'"
+  text_subprojects_destroy_warning: "Podprojekt(y): {{value}} zostaną także usunięte."
   text_tip_task_begin_day: zadanie zaczynające się dzisiaj
   text_tip_task_begin_end_day: zadanie zaczynające i kończące się dzisiaj
   text_tip_task_end_day: zadanie kończące się dzisiaj
   text_tracker_no_workflow: Brak przepływu zefiniowanego dla tego typu zagadnienia
   text_unallowed_characters: Niedozwolone znaki
   text_user_mail_option: "W przypadku niezaznaczonych projektów, będziesz otrzymywał powiadomienia tylko na temat zagadnien, które obserwujesz, lub w których bierzesz udział (np. jesteś autorem lub adresatem)."
-  text_user_wrote: "{{value}} napisał:'"
+  text_user_wrote: "{{value}} napisał:"
   text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i całą jego zawartość ?
   text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu
   

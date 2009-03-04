@@ -178,7 +178,7 @@ zh:
   mail_body_account_information_external: "您可以使用您的 {{value}} 帐号来登录。"
   mail_body_account_information: 您的帐号信息
   mail_subject_account_activation_request: "{{value}}帐号激活请求"
-  mail_body_account_activation_request: "新用户（{{value}}）已完成注册，正在等候您的审核：'"
+  mail_body_account_activation_request: "新用户（{{value}}）已完成注册，正在等候您的审核："
   mail_subject_reminder: "{{count}} 个问题需要尽快解决"
   mail_body_reminder: "指派给您的 {{count}} 个问题需要在 {{days}} 天内完成："
   
@@ -673,7 +673,7 @@ zh:
   label_registration_activation_by_email: 通过邮件认证激活帐号
   label_registration_manual_activation: 手动激活帐号
   label_registration_automatic_activation: 自动激活帐号
-  label_display_per_page: "每页显示：{{value}}'"
+  label_display_per_page: "每页显示：{{value}}"
   label_age: 年龄
   label_change_properties: 修改属性
   label_general: 一般
@@ -742,7 +742,7 @@ zh:
   text_regexp_info: 例如：^[A-Z0-9]+$
   text_min_max_length_info: 0 表示没有限制
   text_project_destroy_confirmation: 您确信要删除这个项目以及所有相关的数据吗？
-  text_subprojects_destroy_warning: "以下子项目也将被同时删除：{{value}}'"
+  text_subprojects_destroy_warning: "以下子项目也将被同时删除：{{value}}"
   text_workflow_edit: 选择角色和跟踪标签来编辑工作流程
   text_are_you_sure: 您确定？
   text_journal_changed: "从 {{old}} 变更为 {{new}}"
@@ -779,9 +779,9 @@ zh:
   text_destroy_time_entries: 删除上报的工作量
   text_assign_time_entries_to_project: 将已上报的工作量提交到项目中
   text_reassign_time_entries: '将已上报的工作量指定到此问题：'
-  text_user_wrote: "{{value}} 写到：'"
+  text_user_wrote: "{{value}} 写到："
   text_enumeration_category_reassign_to: '将它们关联到新的枚举值：'
-  text_enumeration_destroy_question: "{{count}} 个对象被关联到了这个枚举值。'"
+  text_enumeration_destroy_question: "{{count}} 个对象被关联到了这个枚举值。"
   text_email_delivery_not_configured: "邮件参数尚未配置，因此邮件通知功能已被禁用。\n请在config/email.yml中配置您的SMTP服务器信息并重新启动以使其生效。"
   text_repository_usernames_mapping: "选择或更新与版本库中的用户名对应的Redmine用户。\n版本库中与Redmine中的同名用户将被自动对应。"
   text_diff_truncated: '... 差别内容超过了可显示的最大行数并已被截断'
