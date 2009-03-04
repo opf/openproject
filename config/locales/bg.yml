@@ -199,7 +199,7 @@ bg:
   field_attr_mail: Email attribute
   field_onthefly: Динамично създаване на потребител
   field_start_date: Начална дата
-  field_done_ratio: %% Прогрес
+  field_done_ratio: % Прогрес
   field_auth_source: Начин на оторизация
   field_hide_mail: Скрий e-mail адреса ми
   field_comments: Коментар

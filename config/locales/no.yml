@@ -216,7 +216,7 @@
   field_attr_mail: E-post-attributt
   field_onthefly: On-the-fly brukeropprettelse
   field_start_date: Start
-  field_done_ratio: %% Ferdig
+  field_done_ratio: % Ferdig
   field_auth_source: Autentifikasjonsmodus
   field_hide_mail: Skjul min e-post-adresse
   field_comments: Kommentarer

@@ -238,7 +238,7 @@ da:
   field_attr_mail: Email attribut
   field_onthefly: løbende brugeroprettelse
   field_start_date: Start
-  field_done_ratio: %% Færdig
+  field_done_ratio: % Færdig
   field_auth_source: Sikkerhedsmetode
   field_hide_mail: Skjul min email
   field_comments: Kommentar

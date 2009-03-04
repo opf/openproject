@@ -263,7 +263,7 @@ ko:
   field_attr_mail: 메일 속성
   field_onthefly: 빠른 사용자 생성
   field_start_date: 시작시간
-  field_done_ratio: 완료 %%
+  field_done_ratio: 완료 %
   field_auth_source: 인증 방법
   field_hide_mail: 내 메일 주소 숨기기 
   field_comments: 코멘트

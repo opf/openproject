@@ -204,7 +204,7 @@ uk:
   field_attr_mail: Атрибут Email
   field_onthefly: Створення користувача на льоту
   field_start_date: Початок
-  field_done_ratio: %% зроблено
+  field_done_ratio: % зроблено
   field_auth_source: Режим аутентифікації
   field_hide_mail: Приховувати мій email
   field_comments: Коментар

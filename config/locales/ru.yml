@@ -296,7 +296,7 @@ ru:
   field_default_value: Значение по умолчанию
   field_delay: Отложить
   field_description: Описание
-  field_done_ratio: Готовность в %%
+  field_done_ratio: Готовность в %
   field_downloads: Загрузки
   field_due_date: Дата выполнения
   field_effective_date: Дата

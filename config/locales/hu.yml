@@ -247,7 +247,7 @@
   field_attr_mail: E-mail
   field_onthefly: On-the-fly felhasználó létrehozás
   field_start_date: Kezdés dátuma
-  field_done_ratio: Elkészült (%%)
+  field_done_ratio: Elkészült (%)
   field_auth_source: Azonosítási mód
   field_hide_mail: Rejtse el az e-mail címem
   field_comments: Megjegyzés

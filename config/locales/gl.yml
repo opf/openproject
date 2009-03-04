@@ -226,7 +226,7 @@ gl:
   field_default_value: Estado por defecto
   field_delay: Retraso
   field_description: Descrición
-  field_done_ratio: %% Realizado
+  field_done_ratio: % Realizado
   field_downloads: Descargas
   field_due_date: Data fin
   field_effective_date: Data

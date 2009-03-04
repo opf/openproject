@@ -210,7 +210,7 @@ th:
   field_attr_mail: อีเมล์ attribute
   field_onthefly: สร้างผู้ใช้ทันที
   field_start_date: เริ่ม
-  field_done_ratio: %% สำเร็จ
+  field_done_ratio: % สำเร็จ
   field_auth_source: วิธีการยืนยันตัวตน
   field_hide_mail: ซ่อนอีเมล์ของฉัน
   field_comments: ความเห็น

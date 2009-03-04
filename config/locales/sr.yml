@@ -228,7 +228,7 @@
   field_attr_mail: Atribut email-a
   field_onthefly: Kreacija naloga "On-the-fly"
   field_start_date: Početak
-  field_done_ratio: %% Završeno
+  field_done_ratio: % Završeno
   field_auth_source: Vrsta prijavljivanja
   field_hide_mail: Sakrij moju email adresu
   field_comments: Komentar

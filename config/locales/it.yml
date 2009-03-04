@@ -217,7 +217,7 @@ it:
   field_attr_mail: Attributo e-mail
   field_onthefly: Creazione utenza "al volo"
   field_start_date: Inizio
-  field_done_ratio: %% completato
+  field_done_ratio: % completato
   field_auth_source: Modalità di autenticazione
   field_hide_mail: Nascondi il mio indirizzo di e-mail
   field_comments: Commento

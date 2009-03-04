@@ -244,7 +244,7 @@ ro:
   field_attr_mail: Atribut e-mail
   field_onthefly: Creare utilizator on-the-fly (rapid)
   field_start_date: Start
-  field_done_ratio: %% rezolvat
+  field_done_ratio: % rezolvat
   field_auth_source: Mod de autentificare
   field_hide_mail: Ascunde adresa de e-mail
   field_comments: Comentariu

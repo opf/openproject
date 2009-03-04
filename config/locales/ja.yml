@@ -230,7 +230,7 @@ ja:
   field_attr_mail: メール属性
   field_onthefly: あわせてユーザを作成
   field_start_date: 開始日
-  field_done_ratio: 進捗 %%
+  field_done_ratio: 進捗 %
   field_auth_source: 認証モード
   field_hide_mail: メールアドレスを隠す
   field_comments: コメント

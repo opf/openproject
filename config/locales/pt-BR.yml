@@ -249,7 +249,7 @@ pt-BR:
   field_attr_mail: Atributo para email
   field_onthefly: Criar usuários dinamicamente ("on-the-fly")
   field_start_date: Início
-  field_done_ratio: %% Terminado
+  field_done_ratio: % Terminado
   field_auth_source: Modo de autenticação
   field_hide_mail: Ocultar meu email
   field_comments: Comentário

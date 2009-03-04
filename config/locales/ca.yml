@@ -213,7 +213,7 @@ ca:
   field_attr_mail: Atribut del correu electrònic
   field_onthefly: "Creació de l'usuari «al vol»"
   field_start_date: Inici
-  field_done_ratio: %% realitzat
+  field_done_ratio: % realitzat
   field_auth_source: "Mode d'autenticació"
   field_hide_mail: "Oculta l'adreça de correu electrònic"
   field_comments: Comentari
