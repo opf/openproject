@@ -241,6 +241,7 @@ en:
   field_editable: Editable
   field_watcher: Watcher
   field_identity_url: OpenID URL
+  field_content: Content
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

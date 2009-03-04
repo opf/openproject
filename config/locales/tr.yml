@@ -816,3 +816,4 @@ tr:
   setting_openid: Allow OpenID login and registration
   field_identity_url: OpenID URL
   label_login_with_open_id_option: or login with OpenID
+  field_content: Content

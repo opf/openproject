@@ -273,6 +273,7 @@ fr:
   field_editable: Modifiable
   field_watcher: Observateur
   field_identity_url: URL OpenID
+  field_content: Contenu
   
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

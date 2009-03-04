@@ -815,3 +815,4 @@
   setting_openid: OpenID regisztráció és bejelentkezés engedélyezése
   field_identity_url: OpenID URL
   label_login_with_open_id_option: bejelentkezés OpenID használatával
+  field_content: Content
