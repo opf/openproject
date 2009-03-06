@@ -129,6 +129,11 @@ class MailHandlerTest < Test::Unit::TestCase
     assert_equal 1, issue.watchers.size
   end
   
+  def test_add_issue_without_from_header
+    Role.anonymous.add_permission!(:add_issues)
+    assert_equal false, submit_email('ticket_without_from_header.eml')
+  end
+  
   def test_add_issue_note
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
