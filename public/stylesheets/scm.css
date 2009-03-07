@@ -40,6 +40,10 @@ table.filecontent th.line-num {
 	padding-right: 3px;
 	color: #999;
 }
+table.filecontent th.line-num a {
+	text-decoration: none;
+	color: inherit;
+}
 table.filecontent td.line-code pre {
     white-space: pre-wrap; /* CSS2.1 compliant */
     white-space: -moz-pre-wrap; /* Mozilla-based browsers */
