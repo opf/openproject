@@ -92,6 +92,7 @@ class Query < ActiveRecord::Base
   cattr_reader :operators_by_filter_type
 
   @@available_columns = [
+    QueryColumn.new(:project, :sortable => "#{Project.table_name}.name"),
     QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position"),
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position"),
     QueryColumn.new(:priority, :sortable => "#{Enumeration.table_name}.position", :default_order => 'desc'),
@@ -236,7 +237,10 @@ class Query < ActiveRecord::Base
   
   def columns
     if has_default_columns?
-      available_columns.select {|c| Setting.issue_list_default_columns.include?(c.name.to_s) }
+      available_columns.select do |c|
+        # Adds the project column by default for cross-project lists
+        Setting.issue_list_default_columns.include?(c.name.to_s) || (c.name == :project && project.nil?)
+      end
     else
       # preserve the column_names order
       column_names.collect {|name| available_columns.find {|col| col.name == name}}.compact

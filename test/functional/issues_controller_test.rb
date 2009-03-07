@@ -58,6 +58,8 @@ class IssuesControllerTest < Test::Unit::TestCase
   end
 
   def test_index
+    Setting.default_language = 'en'
+    
     get :index
     assert_response :success
     assert_template 'index.rhtml'
@@ -68,6 +70,8 @@ class IssuesControllerTest < Test::Unit::TestCase
     # private projects hidden
     assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
     assert_no_tag :tag => 'a', :content => /Issue on project 2/
+    # project column
+    assert_tag :tag => 'th', :content => /Project/
   end
   
   def test_index_should_not_list_issues_when_module_disabled
