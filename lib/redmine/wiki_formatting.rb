@@ -25,7 +25,7 @@ module Redmine
       end
       
       def register(name, formatter, helper)
-        raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name]
+        raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name.to_sym]
         @@formatters[name.to_sym] = {:formatter => formatter, :helper => helper}
       end
       
