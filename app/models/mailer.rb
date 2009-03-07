@@ -222,7 +222,8 @@ class Mailer < ActionMailer::Base
     # Common headers
     headers 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,
-            'X-Redmine-Site' => Setting.app_title
+            'X-Redmine-Site' => Setting.app_title,
+            'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
   end
 
   # Appends a Redmine header field (name is prepended with 'X-Redmine-')
