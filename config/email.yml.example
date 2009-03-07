@@ -7,8 +7,8 @@ production:
     port: 25
     domain: example.net
     authentication: :login
-    user_name: redmine@example.net
-    password: redmine
+    user_name: "redmine@example.net"
+    password: "redmine"
   
 development:
   delivery_method: :smtp
@@ -17,5 +17,5 @@ development:
     port: 25
     domain: example.net
     authentication: :login
-    user_name: redmine@example.net
-    password: redmine
+    user_name: "redmine@example.net"
+    password: "redmine"
