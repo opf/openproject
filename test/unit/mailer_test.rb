@@ -207,10 +207,16 @@ class MailerTest < Test::Unit::TestCase
 
   def test_register
     token = Token.find(1)
+    Setting.host_name = 'redmine.foo'
+    Setting.protocol = 'https'
+    
     valid_languages.each do |lang|
       token.user.update_attribute :language, lang.to_s
       token.reload
+      ActionMailer::Base.deliveries.clear
       assert Mailer.deliver_register(token)
+      mail = ActionMailer::Base.deliveries.last
+      assert mail.body.include?("https://redmine.foo/account/activate?token=#{token.value}")
     end
   end
   
