@@ -54,8 +54,8 @@ class Repository::Subversion < Repository
           # loads changesets by batches of 200
           identifier_to = [identifier_from + 199, scm_revision].min
           revisions = scm.revisions('', identifier_to, identifier_from, :with_paths => true)
-          transaction do
-            revisions.reverse_each do |revision|
+          revisions.reverse_each do |revision|
+            transaction do
               changeset = Changeset.create(:repository => self,
                                            :revision => revision.identifier, 
                                            :committer => revision.author, 
@@ -68,7 +68,7 @@ class Repository::Subversion < Repository
                               :path => change[:path],
                               :from_path => change[:from_path],
                               :from_revision => change[:from_revision])
-              end
+              end unless changeset.new_record?
             end
           end unless revisions.nil?
           identifier_from = identifier_to + 1
