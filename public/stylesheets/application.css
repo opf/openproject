@@ -142,6 +142,10 @@ table p {margin:0;}
 .odd {background-color:#f6f7f8;}
 .even {background-color: #fff;}
 
+a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: no-repeat; }
+a.sort.asc  { background-image: url(../images/sort_asc.png); }
+a.sort.desc { background-image: url(../images/sort_desc.png); }
+
 .highlight { background-color: #FCFD8D;}
 .highlight.token-1 { background-color: #faa;}
 .highlight.token-2 { background-color: #afa;}
