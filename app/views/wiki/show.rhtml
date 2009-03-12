@@ -31,6 +31,7 @@
 <%= link_to_attachments @page %>
 
 <% if @editable && authorize_for('wiki', 'add_attachment') %>
+<div id="wiki_add_attachment">
 <p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
                                              :id => 'attach_files_link' %></p>
 <% form_tag({ :controller => 'wiki', :action => 'add_attachment', :page => @page.title }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
@@ -40,6 +41,7 @@
 <%= submit_tag l(:button_add) %>
 <%= link_to l(:button_cancel), {}, :onclick => "Element.hide('add_attachment_form'); Element.show('attach_files_link'); return false;" %>
 <% end %>
+</div>
 <% end %>
 
 <% other_formats_links do |f| %>
