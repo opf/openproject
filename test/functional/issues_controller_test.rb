@@ -197,13 +197,17 @@ class IssuesControllerTest < Test::Unit::TestCase
   end
   
   def test_index_sort
-    get :index, :sort_key => 'tracker'
+    get :index, :sort => 'tracker,id:desc'
     assert_response :success
     
-    sort_params = @request.session['issuesindex_sort']
-    assert sort_params.is_a?(Hash)
-    assert_equal 'tracker', sort_params[:key]
-    assert_equal 'ASC', sort_params[:order]
+    sort_params = @request.session['issues_index_sort']
+    assert sort_params.is_a?(String)
+    assert_equal 'tracker,id:desc', sort_params
+    
+    issues = assigns(:issues)
+    assert_not_nil issues
+    assert !issues.empty?
+    assert_equal issues.sort {|a,b| a.tracker == b.tracker ? b.id <=> a.id : a.tracker <=> b.tracker }.collect(&:id), issues.collect(&:id)
   end
 
   def test_gantt
