@@ -50,6 +50,7 @@ module IssuesHelper
       # Project specific queries and global queries
       visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
       @sidebar_queries = Query.find(:all, 
+                                    :select => 'id, name',
                                     :order => "name ASC",
                                     :conditions => visible.conditions)
     end
