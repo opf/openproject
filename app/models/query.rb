@@ -28,6 +28,11 @@ class QueryColumn
   def caption
     l("field_#{name}")
   end
+  
+  # Returns true if the column is sortable, otherwise false
+  def sortable?
+    !sortable.nil?
+  end
 end
 
 class QueryCustomFieldColumn < QueryColumn
@@ -52,6 +57,7 @@ class Query < ActiveRecord::Base
   belongs_to :user
   serialize :filters
   serialize :column_names
+  serialize :sort_criteria, Array
   
   attr_protected :project_id, :user_id
   
@@ -259,6 +265,27 @@ class Query < ActiveRecord::Base
   
   def has_default_columns?
     column_names.nil? || column_names.empty?
+  end
+  
+  def sort_criteria=(arg)
+    c = []
+    if arg.is_a?(Hash)
+      arg = arg.keys.sort.collect {|k| arg[k]}
+    end
+    c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, o == 'desc' ? o : 'asc']}
+    write_attribute(:sort_criteria, c)
+  end
+  
+  def sort_criteria
+    read_attribute(:sort_criteria) || []
+  end
+  
+  def sort_criteria_key(arg)
+    sort_criteria && sort_criteria[arg] && sort_criteria[arg].first
+  end
+  
+  def sort_criteria_order(arg)
+    sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
   end
   
   def project_statement

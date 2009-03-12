@@ -25,5 +25,14 @@
 <%= render :partial => 'queries/filters', :locals => {:query => query}%>
 </fieldset>
 
+<fieldset><legend><%= l(:label_sort) %></legend>
+<% 3.times do |i| %>
+<%= i+1 %>: <%= select_tag("query[sort_criteria][#{i}][]",
+									options_for_select([[]] + query.available_columns.select(&:sortable?).collect {|column| [column.caption, column.name.to_s]}, @query.sort_criteria_key(i))) %>
+				    <%= select_tag("query[sort_criteria][#{i}][]",
+							    		  		options_for_select([[], [l(:label_ascending), 'asc'], [l(:label_descending), 'desc']], @query.sort_criteria_order(i))) %><br />
+<% end %>
+</fieldset>
+
 <%= render :partial => 'queries/columns', :locals => {:query => query}%>
 </div>

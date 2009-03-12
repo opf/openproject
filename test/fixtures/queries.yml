@@ -67,3 +67,23 @@ queries_004:
 
   user_id: 2
   column_names: 
+queries_005: 
+  id: 5
+  project_id: 
+  is_public: true
+  name: Open issues by priority and tracker
+  filters: |
+    status_id: 
+      :values: 
+      - "1"
+      :operator: o
+
+  user_id: 1
+  column_names: 
+  sort_criteria: |
+    --- 
+    - - priority
+      - desc
+    - - tracker
+      - asc
+  

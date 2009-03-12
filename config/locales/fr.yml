@@ -694,6 +694,9 @@ fr:
   label_issue_watchers: Observateurs
   label_example: Exemple
   label_display: Affichage
+  label_sort: Tri
+  label_ascending: Croissant
+  label_descending: Décroissant
   
   button_login: Connexion
   button_submit: Soumettre

@@ -195,6 +195,31 @@ class QueryTest < Test::Unit::TestCase
     assert q.has_column?(c)
   end
   
+  def test_default_sort
+    q = Query.new
+    assert_equal [], q.sort_criteria
+  end
+  
+  def test_set_sort_criteria_with_hash
+    q = Query.new
+    q.sort_criteria = {'0' => ['priority', 'desc'], '2' => ['tracker']}
+    assert_equal [['priority', 'desc'], ['tracker', 'asc']], q.sort_criteria
+  end
+  
+  def test_set_sort_criteria_with_array
+    q = Query.new
+    q.sort_criteria = [['priority', 'desc'], 'tracker']
+    assert_equal [['priority', 'desc'], ['tracker', 'asc']], q.sort_criteria
+  end
+  
+  def test_create_query_with_sort
+    q = Query.new(:name => 'Sorted')
+    q.sort_criteria = [['priority', 'desc'], 'tracker']
+    assert q.save
+    q.reload
+    assert_equal [['priority', 'desc'], ['tracker', 'asc']], q.sort_criteria
+  end
+  
   def test_sort_by_string_custom_field_asc
     q = Query.new
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }

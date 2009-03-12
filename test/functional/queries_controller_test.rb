@@ -111,6 +111,22 @@ class QueriesControllerTest < Test::Unit::TestCase
     assert q.valid?
   end
   
+  def test_new_with_sort
+    @request.session[:user_id] = 1
+    post :new,
+         :confirm => '1',
+         :default_columns => '1',
+         :operators => {"status_id" => "o"},
+         :values => {"status_id" => ["1"]},
+         :query => {:name => "test_new_with_sort",
+                    :is_public => "1", 
+                    :sort_criteria => {"0" => ["due_date", "desc"], "1" => ["tracker", ""]}}
+    
+    query = Query.find_by_name("test_new_with_sort")
+    assert_not_nil query
+    assert_equal [['due_date', 'desc'], ['tracker', 'asc']], query.sort_criteria
+  end
+  
   def test_get_edit_global_public_query
     @request.session[:user_id] = 1
     get :edit, :id => 4
@@ -200,6 +216,19 @@ class QueriesControllerTest < Test::Unit::TestCase
                                                  :name => 'query_is_for_all',
                                                  :checked => nil,
                                                  :disabled => 'disabled' }
+  end
+  
+  def test_get_edit_sort_criteria
+    @request.session[:user_id] = 1
+    get :edit, :id => 5
+    assert_response :success
+    assert_template 'edit'
+    assert_tag :tag => 'select', :attributes => { :name => 'query[sort_criteria][0][]' },
+                                 :child => { :tag => 'option', :attributes => { :value => 'priority',
+                                                                                :selected => 'selected' } }
+    assert_tag :tag => 'select', :attributes => { :name => 'query[sort_criteria][0][]' },
+                                 :child => { :tag => 'option', :attributes => { :value => 'desc',
+                                                                                :selected => 'selected' } }
   end
   
   def test_destroy

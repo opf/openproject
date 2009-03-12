@@ -811,3 +811,6 @@ da:
   setting_per_page_options: Objects per page options
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
   field_content: Content
+  label_descending: Descending
+  label_sort: Sort
+  label_ascending: Ascending

@@ -69,6 +69,11 @@ module SortHelper
       normalize!
     end
     
+    def criteria=(arg)
+      @criteria = arg
+      normalize!
+    end
+    
     def to_param
       @criteria.collect {|k,o| k + (o ? '' : ':desc')}.join(',')
     end
@@ -102,24 +107,42 @@ module SortHelper
       @criteria.first && @criteria.first.last
     end
     
+    def empty?
+      @criteria.empty?
+    end
+    
     private
     
     def normalize!
-      @criteria = @criteria.collect {|s| [s.first, (s.last == false || s.last == 'desc') ? false : true]}
+      @criteria ||= []
+      @criteria = @criteria.collect {|s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true]}
       @criteria = @criteria.select {|k,o| @available_criteria.has_key?(k)} if @available_criteria
       @criteria.slice!(3)
       self
     end
   end
+  
+  def sort_name
+    controller_name + '_' + action_name + '_sort'
+  end
 
-  # Initializes the default sort column (default_key) and sort order
-  # (default_order).
+  # Initializes the default sort.
+  # Examples:
+  #   
+  #   sort_init 'name'
+  #   sort_init 'id', 'desc'
+  #   sort_init ['name', ['id', 'desc']]
+  #   sort_init [['name', 'desc'], ['id', 'desc']]
   #
-  # - default_key is a column attribute name.
-  # - default_order is 'asc' or 'desc'.
-  #
-  def sort_init(default_key, default_order='asc')
-    @sort_default = "#{default_key}:#{default_order}"
+  def sort_init(*args)
+    case args.size
+    when 1
+      @sort_default = args.first.is_a?(Array) ? args.first : [[args.first]]
+    when 2
+      @sort_default = [[args.first, args.last]]
+    else
+      raise ArgumentError
+    end
   end
 
   # Updates the sort state. Call this in the controller prior to calling
@@ -127,12 +150,17 @@ module SortHelper
   # - criteria can be either an array or a hash of allowed keys
   #
   def sort_update(criteria)
-    sort_name = controller_name + '_' + action_name + '_sort'
-    
     @sort_criteria = SortCriteria.new
     @sort_criteria.available_criteria = criteria
-    @sort_criteria.from_param(params[:sort] || session[sort_name] || @sort_default)
+    @sort_criteria.from_param(params[:sort] || session[sort_name])
+    @sort_criteria.criteria = @sort_default if @sort_criteria.empty?
     session[sort_name] = @sort_criteria.to_param
+  end
+  
+  # Clears the sort criteria session data
+  #
+  def sort_clear
+    session[sort_name] = nil
   end
 
   # Returns an SQL sort clause corresponding to the current sort state.
@@ -187,13 +215,6 @@ module SortHelper
   # Example:
   #
   #   <%= sort_header_tag('id', :title => 'Sort by contact ID', :width => 40) %>
-  #
-  # Renders:
-  #
-  #   <th title="Sort by contact ID" width="40">
-  #     <a href="/contact/list?sort_order=desc&amp;sort_key=id">Id</a>
-  #     &nbsp;&nbsp;<img alt="Sort_asc" src="/images/sort_asc.png" />
-  #   </th>
   #
   def sort_header_tag(column, options = {})
     caption = options.delete(:caption) || column.to_s.humanize

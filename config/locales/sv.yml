@@ -838,3 +838,6 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   field_content: Content
+  label_descending: Descending
+  label_sort: Sort
+  label_ascending: Ascending
