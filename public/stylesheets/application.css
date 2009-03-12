@@ -110,9 +110,9 @@ tr.entry.file td.filename a { margin-left: 16px; }
 tr.changeset td.author { text-align: center; width: 15%; }
 tr.changeset td.committed_on { text-align: center; width: 15%; }
 
-tr.file td { text-align: center; }
-tr.file td.filename { text-align: left; padding-left: 24px; }
-tr.file td.digest { font-size: 80%; }
+table.files tr.file td { text-align: center; }
+table.files tr.file td.filename { text-align: left; padding-left: 24px; }
+table.files tr.file td.digest { font-size: 80%; }
 
 tr.message { height: 2.6em; }
 tr.message td.last_message { font-size: 80%; }
