@@ -18,7 +18,7 @@
 # 
 #   def list
 #     sort_init 'last_name'
-#     sort_update %w(first_name, last_name)
+#     sort_update %w(first_name last_name)
 #     @items = Contact.find_all nil, sort_clause
 #   end
 # 
@@ -29,7 +29,7 @@
 # 
 #   def list
 #     sort_init 'last_name'
-#     sort_update %w(first_name, last_name)
+#     sort_update %w(first_name last_name)
 #     @contact_pages, @items = paginate :contacts,
 #       :order_by => sort_clause,
 #       :per_page => 10
