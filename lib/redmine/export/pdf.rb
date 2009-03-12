@@ -32,7 +32,7 @@ module Redmine
         def initialize(lang)
           super()
           set_language_if_valid lang
-          case current_language.to_s
+          case current_language.to_s.downcase
           when 'ja'
             extend(PDF_Japanese)
             AddSJISFont()
