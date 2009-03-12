@@ -10,6 +10,7 @@ namespace :redmine do
       print "Select language: "
       print valid_languages.collect(&:to_s).sort.join(", ")
       print " [#{current_language}] "
+      STDOUT.flush
       lang = STDIN.gets.chomp!
       break if lang.empty?
       break if set_language_if_valid(lang)
