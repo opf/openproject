@@ -32,43 +32,43 @@ pt-BR:
       half_a_minute: 'meio minuto'
       less_than_x_seconds:
         one: 'menos de 1 segundo'
-        other: 'menos de count segundos'
+        other: 'menos de {{count}} segundos'
 
       x_seconds:
         one: '1 segundo'
-        other: 'count segundos'
+        other: '{{count}} segundos'
 
       less_than_x_minutes:
         one: 'menos de um minuto'
-        other: 'menos de count minutos'
+        other: 'menos de {{count}} minutos'
 
       x_minutes:
         one: '1 minuto'
-        other: 'count minutos'
+        other: '{{count}} minutos'
 
       about_x_hours:
         one: 'aproximadamente 1 hora'
-        other: 'aproximadamente count horas'
+        other: 'aproximadamente {{count}} horas'
 
       x_days:
         one: '1 dia'
-        other: 'count dias'
+        other: '{{count}} dias'
 
       about_x_months:
         one: 'aproximadamente 1 mês'
-        other: 'aproximadamente count meses'
+        other: 'aproximadamente {{count}} meses'
 
       x_months:
         one: '1 mês'
-        other: 'count meses'
+        other: '{{count}} meses'
 
       about_x_years:
         one: 'aproximadamente 1 ano'
-        other: 'aproximadamente count anos'
+        other: 'aproximadamente {{count}} anos'
 
       over_x_years:
         one: 'mais de 1 ano'
-        other: 'mais de count anos'
+        other: 'mais de {{count}} anos'
 
   # numeros
   number:
@@ -103,27 +103,27 @@ pt-BR:
     errors:
       template:
         header:
-          one: "model não pôde ser salvo: 1 erro"
-          other: "model não pôde ser salvo: count erros."
-        body: "Por favor, cheque os seguintes campos:"
+          one: "model não pode ser salvo: 1 erro"
+          other: "model não pode ser salvo: {{count}} erros."
+        body: "Por favor, verifique os seguintes campos:"
       messages:
         inclusion: "não está incluso na lista"
         exclusion: "não está disponível"
         invalid: "não é válido"
-        confirmation: "não bate com a confirmação"
+        confirmation: "não está de acordo com a confirmação"
         accepted: "precisa ser aceito"
-        empty: "não pode ser vazio"
-        blank: "não pode ser vazio"
-        too_long: "é muito longo (não mais do que count caracteres)"
-        too_short: "é muito curto (não menos do que count caracteres)"
-        wrong_length: "não é do tamanho correto (precisa ter count caracteres)"
+        empty: "não pode ficar vazio"
+        blank: "não pode ficar vazio"
+        too_long: "é muito longo (máximo: {{count}} caracteres)"
+        too_short: "é muito curto (mínimon: {{count}} caracteres)"
+        wrong_length: "deve ter {{count}} caracteres"
         taken: "não está disponível"
         not_a_number: "não é um número"
-        greater_than: "precisa ser maior do que count"
-        greater_than_or_equal_to: "precisa ser maior ou igual a count"
-        equal_to: "precisa ser igual a count"
-        less_than: "precisa ser menor do que count"
-        less_than_or_equal_to: "precisa ser menor ou igual a count"
+        greater_than: "precisa ser maior do que {{count}}"
+        greater_than_or_equal_to: "precisa ser maior ou igual a {{count}}"
+        equal_to: "precisa ser igual a {{count}}"
+        less_than: "precisa ser menor do que {{count}}"
+        less_than_or_equal_to: "precisa ser menor ou igual a {{count}}"
         odd: "precisa ser ímpar"
         even: "precisa ser par"
         greater_than_start_date: "deve ser maior que a data inicial"
@@ -167,7 +167,7 @@ pt-BR:
   notice_account_pending: "Sua conta foi criada e está aguardando aprovação do administrador."
   notice_default_data_loaded: Configuração padrão carregada com sucesso.
 
-  error_can_t_load_default_data: "Configuração padrão não pôde ser carregada: {{value}}"
+  error_can_t_load_default_data: "Configuração padrão não pode ser carregada: {{value}}"
   error_scm_not_found: "A entrada e/ou a revisão não existe no repositório."
   error_scm_command_failed: "Ocorreu um erro ao tentar acessar o repositório: {{value}}"
   error_scm_annotate: "Esta entrada não existe ou não pode ser anotada."
@@ -352,7 +352,7 @@ pt-BR:
   label_tracker: Tipo de tarefa
   label_tracker_plural: Tipos de tarefas
   label_tracker_new: Novo tipo
-  label_workflow: Workflow
+  label_workflow: Fluxo de trabalho
   label_issue_status: Situação da tarefa
   label_issue_status_plural: Situação das tarefas
   label_issue_status_new: Nova situação
@@ -437,15 +437,15 @@ pt-BR:
   label_x_open_issues_abbr_on_total:
     zero:  0 aberta / {{total}}
     one:   1 aberta / {{total}}
-    other: "{{count}} aberta / {{total}}"
+    other: "{{count}} abertas / {{total}}"
   label_x_open_issues_abbr:
     zero:  0 aberta
     one:   1 aberta
-    other: "{{count}} aberta"
+    other: "{{count}} abertas"
   label_x_closed_issues_abbr:
     zero:  0 fechada
     one:   1 fechada
-    other: "{{count}} fechada"
+    other: "{{count}} fechadas"
   label_total: Total
   label_permissions: Permissões
   label_current_status: Situação atual
@@ -469,9 +469,9 @@ pt-BR:
   label_comment: Comentário
   label_comment_plural: Comentários
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: nenhum comentário
+    one: 1 comentário
+    other: "{{count}} comentários"
   label_comment_add: Adicionar comentário
   label_comment_added: Comentário adicionado
   label_comment_delete: Excluir comentário
@@ -551,7 +551,7 @@ pt-BR:
   label_diff_inline: inline
   label_diff_side_by_side: lado a lado
   label_options: Opções
-  label_copy_workflow_from: Copiar workflow de
+  label_copy_workflow_from: Copiar fluxo de trabalho de
   label_permissions_report: Relatório de permissões
   label_watched_issues: Tarefas monitoradas
   label_related_issues: Tarefas relacionadas
@@ -679,7 +679,7 @@ pt-BR:
   text_min_max_length_info: 0 = sem restrição
   text_project_destroy_confirmation: Você tem certeza que deseja excluir este projeto e todos os dados relacionados?
   text_subprojects_destroy_warning: "Seu(s) subprojeto(s): {{value}} também serão excluídos."
-  text_workflow_edit: Selecione um papel e um tipo de tarefa para editar o workflow
+  text_workflow_edit: Selecione um papel e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Você tem certeza?
   text_journal_changed: "alterado(a) de {{old}} para {{new}}"
   text_journal_set_to: "alterado(a) para {{value}}"
@@ -691,7 +691,7 @@ pt-BR:
   text_caracters_maximum: "máximo {{count}} caracteres"
   text_caracters_minimum: "deve ter ao menos {{count}} caracteres."
   text_length_between: "deve ter entre {{min}} e {{max}} caracteres."
-  text_tracker_no_workflow: Sem workflow definido para este tipo.
+  text_tracker_no_workflow: Sem fluxo de trabalho definido para este tipo.
   text_unallowed_characters: Caracteres não permitidos
   text_comma_separated: Múltiplos valores são permitidos (separados por vírgula).
   text_issues_ref_in_commit_messages: Referenciando tarefas nas mensagens de commit
@@ -702,7 +702,7 @@ pt-BR:
   text_issue_category_destroy_assignments: Remover atribuições da categoria
   text_issue_category_reassign_to: Redefinir tarefas para esta categoria
   text_user_mail_option: "Para projetos (não selecionados), você somente receberá notificações sobre o que você monitora ou está envolvido (ex. tarefas das quais você é o autor ou que estão atribuídas a você)"
-  text_no_configuration_data: "Os Papéis, tipos de tarefas, situação de tarefas e workflows não foram configurados ainda.\nÉ altamente recomendado carregar as configurações padrão. Você poderá modificar estas configurações assim que carregadas."
+  text_no_configuration_data: "Os Papéis, tipos de tarefas, situação de tarefas e fluxos de trabalho não foram configurados ainda.\nÉ altamente recomendado carregar as configurações padrão. Você poderá modificar estas configurações assim que carregadas."
   text_load_default_configuration: Carregar a configuração padrão
   text_status_changed_by_changeset: "Aplicado no changeset {{value}}."
   text_issues_destroy_confirmation: 'Você tem certeza que deseja excluir a(s) tarefa(s) selecionada(s)?'
@@ -778,7 +778,7 @@ pt-BR:
   permission_manage_files: Gerenciar arquivos
   permission_edit_issue_notes: Editar notas
   permission_manage_news: Gerenciar notícias
-  permission_view_calendar: Ver caneldário
+  permission_view_calendar: Ver calendário
   permission_manage_members: Gerenciar membros
   permission_edit_messages: Editar mensagens
   permission_delete_issues: Excluir tarefas
@@ -800,7 +800,7 @@ pt-BR:
   permission_edit_own_messages: Editar próprias mensagens
   permission_delete_own_messages: Excluir próprias mensagens
   label_user_activity: "Atividade de {{value}}"
-  label_updated_time_by: "Atualizado por {{author}} à {{age}}"
+  label_updated_time_by: "Atualizado por {{author}} em {{age}}"
   text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser exibido.'
   setting_diff_max_lines_displayed: Número máximo de linhas exibidas no diff
   text_plugin_assets_writable: Diretório de plugins gravável
@@ -811,7 +811,7 @@ pt-BR:
   field_editable: Editável
   setting_repository_log_display_limit: Número máximo de revisões exibidas no arquivo de log
   setting_file_max_size_displayed: Tamanho máximo dos arquivos textos exibidos inline
-  field_watcher: Watcher
+  field_watcher: Observador
   setting_openid: Permitir Login e Registro via OpenID
   field_identity_url: OpenID URL
   label_login_with_open_id_option: ou use o OpenID
