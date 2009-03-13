@@ -7,8 +7,8 @@
 <%= call_hook(:view_issues_sidebar_issues_bottom) %>
 
 <% planning_links = []
-  planning_links << link_to(l(:label_calendar), :action => 'calendar', :project_id => @project) if User.current.allowed_to?(:view_calendar, @project, :global => true)
-  planning_links << link_to(l(:label_gantt), :action => 'gantt', :project_id => @project) if User.current.allowed_to?(:view_gantt, @project, :global => true)
+  planning_links << link_to(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project) if User.current.allowed_to?(:view_calendar, @project, :global => true)
+  planning_links << link_to(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project) if User.current.allowed_to?(:view_gantt, @project, :global => true)
 %>
 <% unless planning_links.empty? %>
 <h3><%= l(:label_planning) %></h3>
