@@ -134,8 +134,8 @@ zh:
   general_lang_name: 'Simplified Chinese (简体中文)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
-  general_csv_encoding: gb2312
-  general_pdf_encoding: gb2312
+  general_csv_encoding: gb18030
+  general_pdf_encoding: gb18030
   general_first_day_of_week: '7'
   
   notice_account_updated: 帐号更新成功
@@ -273,6 +273,7 @@ zh:
   field_editable: 可编辑
   field_watcher: 跟踪者
   field_identity_url: OpenID URL
+  field_content: 内容
 
   setting_app_title: 应用程序标题
   setting_app_subtitle: 应用程序子标题

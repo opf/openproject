@@ -396,7 +396,7 @@ pl:
   label_download_plural5: "{{count}} Pobrań"
   label_download_plural: "{{count}} Pobrania"
   label_downloads_abbr: Pobieranie
-  label_duplicated_by: zdublikowane przez
+  label_duplicated_by: zduplikowane przez
   label_duplicates: duplikaty
   label_end_to_end: koniec do końca
   label_end_to_start: koniec do początku
