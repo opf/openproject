@@ -11,7 +11,7 @@
     <%= hidden_field_tag 'criterias[]', criteria, :id => nil %>
   <% end %>
   <%# TODO: get rid of the project_id field, that should already be in the URL %>
-  <%= hidden_field_tag 'project_id', params[:project_id] %>
+  <%= hidden_field_tag('project_id', params[:project_id]) if @project %>
   <%= render :partial => 'date_range' %>
 
   <p><%= l(:label_details) %>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],

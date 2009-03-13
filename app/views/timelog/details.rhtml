@@ -9,7 +9,7 @@
 <% form_remote_tag( :url => {}, :html => {:method => :get}, :method => :get, :update => 'content' ) do %>
 <%# TOOD: remove the project_id and issue_id hidden fields, that information is
 already in the URI %>
-<%= hidden_field_tag 'project_id', params[:project_id] %>
+<%= hidden_field_tag('project_id', params[:project_id]) if @project %>
 <%= hidden_field_tag 'issue_id', params[:issue_id] if @issue %>
 <%= render :partial => 'date_range' %>
 <% end %>
