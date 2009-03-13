@@ -299,6 +299,7 @@ sv:
   field_editable: Redigerbar
   field_watcher: Bevakare  
   field_identity_url: OpenID URL
+  field_content: Innehåll
   
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -334,7 +335,7 @@ sv:
   setting_activity_days_default: Dagar som visas på projektaktivitet
   setting_display_subprojects_issues: Visa ärenden från underprojekt i huvudprojekt som standard
   setting_enabled_scm: Aktivera SCM
-  setting_mail_handler_api_enabled: Aktivera WS for inkommande mail
+  setting_mail_handler_api_enabled: Aktivera WS för inkommande mail
   setting_mail_handler_api_key: API-nyckel
   setting_sequential_project_identifiers: Generera projektidentifierare sekventiellt
   setting_gravatar_enabled: Använd Gravatar-avatarer
@@ -351,7 +352,7 @@ sv:
   permission_add_issues: Lägga till ärende
   permission_edit_issues: Ändra ärende
   permission_manage_issue_relations: Hantera ärenderelationer
-  permission_add_issue_notes: Lägga till notering
+  permission_add_issue_notes: Lägga till ärendenotering
   permission_edit_issue_notes: Ändra ärendenoteringar
   permission_edit_own_issue_notes: Ändra egna ärendenoteringar
   permission_move_issues: Flytta ärenden
@@ -718,6 +719,9 @@ sv:
   label_issue_watchers: Bevakare
   label_example: Exempel
   label_display: Visa
+  label_sort: Sortera
+  label_descending: Fallande
+  label_ascending: Stigande
   
   button_login: Logga in
   button_submit: Spara
@@ -837,7 +841,3 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
