@@ -697,6 +697,7 @@ fr:
   label_sort: Tri
   label_ascending: Croissant
   label_descending: Décroissant
+  label_date_from_to: Du {{start}} au {{end}}
   
   button_login: Connexion
   button_submit: Soumettre

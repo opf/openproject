@@ -813,3 +813,4 @@ gl:
   label_descending: Descending
   label_sort: Sort
   label_ascending: Ascending
+  label_date_from_to: From {{start}} to {{end}}

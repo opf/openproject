@@ -1,5 +1,5 @@
 <h2><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)) %></h2>
-<p class="subtitle"><%= "#{l(:label_date_from)} #{format_date(@date_to - @days)} #{l(:label_date_to).downcase} #{format_date(@date_to-1)}" %></p>
+<p class="subtitle"><%= l(:label_date_from_to, :start => format_date(@date_to - @days), :end => format_date(@date_to-1)) %></p>
 
 <div id="activity">
 <% @events_by_day.keys.sort.reverse.each do |day| %>
@@ -24,13 +24,13 @@
 <%= link_to_remote(('&#171; ' + l(:label_previous)), 
                    {:update => "content", :url => params.merge(:from => @date_to - @days - 1), :method => :get, :complete => 'window.scrollTo(0,0)'},
                    {:href => url_for(params.merge(:from => @date_to - @days - 1)),
-                    :title => "#{l(:label_date_from)} #{format_date(@date_to - 2*@days)} #{l(:label_date_to).downcase} #{format_date(@date_to - @days - 1)}"}) %>
+                    :title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1))}) %>
 </div>
 <div style="float:right;">
 <%= link_to_remote((l(:label_next) + ' &#187;'), 
                    {:update => "content", :url => params.merge(:from => @date_to + @days - 1), :method => :get, :complete => 'window.scrollTo(0,0)'},
                    {:href => url_for(params.merge(:from => @date_to + @days - 1)),
-                    :title => "#{l(:label_date_from)} #{format_date(@date_to)} #{l(:label_date_to).downcase} #{format_date(@date_to + @days - 1)}"}) unless @date_to >= Date.today %>
+                    :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1))}) unless @date_to >= Date.today %>
 </div>
 &nbsp;
 <% other_formats_links do |f| %>

@@ -665,6 +665,7 @@ en:
   label_sort: Sort
   label_ascending: Ascending
   label_descending: Descending
+  label_date_from_to: From {{start}} to {{end}}
   
   button_login: Login
   button_submit: Submit

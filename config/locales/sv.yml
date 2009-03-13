@@ -841,3 +841,4 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
+  label_date_from_to: From {{start}} to {{end}}
