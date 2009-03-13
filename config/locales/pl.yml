@@ -103,7 +103,7 @@ pl:
         too_long: "jest za długie (maksymalnie {{count}} znaków)"
         too_short: "jest za krótkie (minimalnie {{count}} znaków)"
         wrong_length: "jest nieprawidłowej długości (powinna wynosić {{count}} znaków)"
-        taken: "zostało już zajęte"
+        taken: "jest już zajęte"
         not_a_number: "nie jest liczbą"
         greater_than: "musi być większe niż {{count}}"
         greater_than_or_equal_to: "musi być większe lub równe {{count}}"
@@ -740,7 +740,7 @@ pl:
   setting_plain_text_mail: tylko tekst (bez HTML)
   setting_protocol: Protokoł
   setting_repositories_encodings: Kodowanie repozytoriów
-  setting_self_registration: Własna rejestracja umożliwiona
+  setting_self_registration: Samodzielna rejestracja użytkowników
   setting_sequential_project_identifiers: Generuj sekwencyjne identyfikatory projektów
   setting_sys_api_enabled: Włączenie WS do zarządzania repozytorium
   setting_text_formatting: Formatowanie tekstu
@@ -802,17 +802,17 @@ pl:
   text_diff_truncated: '... Ten plik różnic został przycięty ponieważ jest zbyt długi.'
   setting_diff_max_lines_displayed: Maksymalna liczba linii różnicy do pokazania
   text_plugin_assets_writable: Zapisywalny katalog zasobów wtyczek
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  field_editable: Editable
-  label_display: Display
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
+  warning_attachments_not_saved: "{{count}} załącznik(ów) nie zostało zapisanych."
+  field_editable: Edytowalne
+  label_display: Wygląd
+  button_create_and_continue: Stwórz i dodaj kolejne
+  text_custom_field_possible_values_info: 'Każda wartość w osobnej linii'
+  setting_repository_log_display_limit: Maksymalna liczba rewizji pokazywanych w logu pliku
+  setting_file_max_size_displayed: Maksymalny rozmiar plików tekstowych zagnieżdżanych w stronie
+  field_watcher: Obserwator
+  setting_openid: Logowanie i rejestracja przy użyciu OpenID
+  field_identity_url: Identyfikator OpenID (URL)
+  label_login_with_open_id_option: albo użyj OpenID
   field_content: Content
   label_descending: Descending
   label_sort: Sort
