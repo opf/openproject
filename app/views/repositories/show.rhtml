@@ -3,7 +3,7 @@
 <%= link_to l(:label_statistics), {:action => 'stats', :id => @project}, :class => 'icon icon-stats' %>
 
 <% if !@entries.nil? && authorize_for('repositories', 'browse') -%>
-<% form_tag(:action => 'browse', :id => @project) do -%>
+<% form_tag({:action => 'browse', :id => @project}, :method => :get) do -%>
 | <%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
 <% end -%>
 <% end -%>

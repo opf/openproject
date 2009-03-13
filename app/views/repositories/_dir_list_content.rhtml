@@ -5,6 +5,7 @@
 <td style="padding-left: <%=18 * depth%>px;" class="filename">
 <% if entry.is_dir? %>
 <span class="expander" onclick="<%=  remote_function :url => {:action => 'browse', :id => @project, :path => to_path_param(entry.path), :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
+									:method => :get,
                   :update => { :success => tr_id },
                   :position => :after,
                   :success => "scmEntryLoaded('#{tr_id}')",

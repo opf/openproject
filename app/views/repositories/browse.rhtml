@@ -1,5 +1,5 @@
 <div class="contextual">
-<% form_tag do %>
+<% form_tag({}, :method => :get) do %>
 <%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
 <% end %>
 </div>
