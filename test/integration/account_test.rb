@@ -110,7 +110,10 @@ class AccountTest < ActionController::IntegrationTest
     assert_response :success
     assert_template 'my/account'
     
-    assert User.find_by_login('newuser').active?
+    user = User.find_by_login('newuser')
+    assert_not_nil user
+    assert user.active?
+    assert_not_nil user.last_login_on
   end
   
   def test_register_with_manual_activation

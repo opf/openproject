@@ -248,6 +248,7 @@ class AccountController < ApplicationController
   def register_automatically(user, &block)
     # Automatic activation
     user.status = User::STATUS_ACTIVE
+    user.last_login_on = Time.now
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_activated)
