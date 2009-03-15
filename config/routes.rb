@@ -221,7 +221,7 @@ ActionController::Routing::Routes.draw do |map|
       repository_views.connect 'projects/:id/repository/:action/*path'
     end
     
-    repositories.connect 'projects/:id/repository/edit', :action => 'edit', :conditions => {:method => :post}
+    repositories.connect 'projects/:id/repository/:action', :conditions => {:method => :post}
   end
   
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
