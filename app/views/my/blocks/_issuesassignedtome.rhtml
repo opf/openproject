@@ -1,6 +1,7 @@
-<h3><%=l(:label_assigned_to_me_issues)%></h3>
-<% assigned_issues = Issue.visible.find(:all, 
-                                :conditions => ["assigned_to_id=? AND #{IssueStatus.table_name}.is_closed=?", user.id, false],
+<h3><%=l(:label_assigned_to_me_issues)%> (<%= Issue.visible.open.count(:conditions => {:assigned_to_id => User.current.id})%>)</h3>
+
+<% assigned_issues = Issue.visible.open.find(:all, 
+                                :conditions => {:assigned_to_id => User.current.id},
                                 :limit => 10, 
                                 :include => [ :status, :project, :tracker, :priority ], 
                                 :order => "#{Enumeration.table_name}.position DESC, #{Issue.table_name}.updated_on DESC") %>
