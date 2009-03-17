@@ -7,7 +7,11 @@
                                 :order => "#{Enumeration.table_name}.position DESC, #{Issue.table_name}.updated_on DESC") %>
 <%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %>
 <% if assigned_issues.length > 0 %>
-<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => 'me' %></p>
+<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues',
+																											 :action => 'index',
+																											 :set_filter => 1,
+																											 :assigned_to_id => 'me',
+																											 :sort => 'priority:desc,updated_on:desc' %></p>
 <% end %>
 
 <% content_for :header_tags do %>
