@@ -7,7 +7,7 @@ http://www.redmine.org/
 
 == Requirements
 
-* Ruby on Rails 2.1
+* Ruby on Rails 2.2.2
 * A database:
   * MySQL (tested with MySQL 5)
   * PostgreSQL (tested with PostgreSQL 8.1)
