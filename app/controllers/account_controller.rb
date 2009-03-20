@@ -218,6 +218,7 @@ class AccountController < ApplicationController
       token = Token.create(:user => user, :action => 'autologin')
       cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
     end
+    call_hook(:controller_account_success_authentication_after, {:user => user })
     redirect_back_or_default :controller => 'my', :action => 'page'
   end
 
