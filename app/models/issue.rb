@@ -241,6 +241,11 @@ class Issue < ActiveRecord::Base
     recipients.compact.uniq
   end
   
+  # Returns the total number of hours spent on this issue.
+  #
+  # Example:
+  #   spent_hours => 0
+  #   spent_hours => 50
   def spent_hours
     @spent_hours ||= time_entries.sum(:hours) || 0
   end
@@ -269,6 +274,11 @@ class Issue < ActiveRecord::Base
     due_date || (fixed_version ? fixed_version.effective_date : nil)
   end
   
+  # Returns the time scheduled for this issue.
+  # 
+  # Example:
+  #   Start Date: 2/26/09, End Date: 3/04/09
+  #   duration => 6
   def duration
     (start_date && due_date) ? due_date - start_date : 0
   end

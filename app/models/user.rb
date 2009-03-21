@@ -286,6 +286,8 @@ class User < ActiveRecord::Base
     @current_user ||= User.anonymous
   end
   
+  # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
+  # one anonymous user per database.
   def self.anonymous
     anonymous_user = AnonymousUser.find(:first)
     if anonymous_user.nil?

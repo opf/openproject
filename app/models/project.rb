@@ -99,6 +99,11 @@ class Project < ActiveRecord::Base
     find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
   end	
 
+  # Returns a SQL :conditions string used to find all active projects for the specified user.
+  #
+  # Examples:
+  #     Projects.visible_by(admin)        => "projects.status = 1"
+  #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
   def self.visible_by(user=nil)
     user ||= User.current
     if user && user.admin?
@@ -141,7 +146,12 @@ class Project < ActiveRecord::Base
     end
     statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
   end
-  
+
+  # Returns a :conditions SQL string that can be used to find the issues associated with this project.
+  #
+  # Examples:
+  #   project.project_condition(true)  => "(projects.id = 1 OR (projects.lft > 1 AND projects.rgt < 10))"
+  #   project.project_condition(false) => "projects.id = 1"
   def project_condition(with_subprojects)
     cond = "#{Project.table_name}.id = #{id}"
     cond = "(#{cond} OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt}))" if with_subprojects
@@ -273,6 +283,10 @@ class Project < ActiveRecord::Base
     description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
   end
   
+  # Return true if this project is allowed to do the specified action.
+  # action can be:
+  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
+  # * a permission Symbol (eg. :edit_project)
   def allows_to?(action)
     if action.is_a? Hash
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"

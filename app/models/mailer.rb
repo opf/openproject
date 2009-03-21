@@ -29,6 +29,11 @@ class Mailer < ActionMailer::Base
     { :host => h, :protocol => Setting.protocol }
   end
   
+  # Builds a tmail object used to email recipients of the added issue.
+  #
+  # Example:
+  #   issue_add(issue) => tmail object
+  #   Mailer.deliver_issue_add(issue) => sends an email to issue recipients
   def issue_add(issue)
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
@@ -42,6 +47,11 @@ class Mailer < ActionMailer::Base
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
   end
 
+  # Builds a tmail object used to email recipients of the edited issue.
+  #
+  # Example:
+  #   issue_edit(journal) => tmail object
+  #   Mailer.deliver_issue_edit(journal) => sends an email to issue recipients
   def issue_edit(journal)
     issue = journal.journalized
     redmine_headers 'Project' => issue.project.identifier,
@@ -72,6 +82,11 @@ class Mailer < ActionMailer::Base
          :issues_url => url_for(:controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => user.id, :sort_key => 'due_date', :sort_order => 'asc')
   end
 
+  # Builds a tmail object used to email users belonging to the added document's project.
+  #
+  # Example:
+  #   document_added(document) => tmail object
+  #   Mailer.deliver_document_added(document) => sends an email to the document's project recipients
   def document_added(document)
     redmine_headers 'Project' => document.project.identifier
     recipients document.project.recipients
@@ -80,6 +95,11 @@ class Mailer < ActionMailer::Base
          :document_url => url_for(:controller => 'documents', :action => 'show', :id => document)
   end
 
+  # Builds a tmail object used to email recipients of a project when an attachements are added.
+  #
+  # Example:
+  #   attachments_added(attachments) => tmail object
+  #   Mailer.deliver_attachments_added(attachments) => sends an email to the project's recipients
   def attachments_added(attachments)
     container = attachments.first.container
     added_to = ''
@@ -102,7 +122,12 @@ class Mailer < ActionMailer::Base
          :added_to => added_to,
          :added_to_url => added_to_url
   end
-
+  
+  # Builds a tmail object used to email recipients of a news' project when a news item is added.
+  #
+  # Example:
+  #   news_added(news) => tmail object
+  #   Mailer.deliver_news_added(news) => sends an email to the news' project recipients
   def news_added(news)
     redmine_headers 'Project' => news.project.identifier
     message_id news
@@ -112,6 +137,11 @@ class Mailer < ActionMailer::Base
          :news_url => url_for(:controller => 'news', :action => 'show', :id => news)
   end
 
+  # Builds a tmail object used to email the specified recipients of the specified message that was posted. 
+  #
+  # Example:
+  #   message_posted(message, recipients) => tmail object
+  #   Mailer.deliver_message_posted(message, recipients) => sends an email to the recipients
   def message_posted(message, recipients)
     redmine_headers 'Project' => message.project.identifier,
                     'Topic-Id' => (message.parent_id || message.id)
@@ -123,6 +153,11 @@ class Mailer < ActionMailer::Base
          :message_url => url_for(:controller => 'messages', :action => 'show', :board_id => message.board_id, :id => message.root)
   end
 
+  # Builds a tmail object used to email the specified user their account information.
+  #
+  # Example:
+  #   account_information(user, password) => tmail object
+  #   Mailer.deliver_account_information(user, password) => sends account information to the user
   def account_information(user, password)
     set_language_if_valid user.language
     recipients user.mail
@@ -132,6 +167,11 @@ class Mailer < ActionMailer::Base
          :login_url => url_for(:controller => 'account', :action => 'login')
   end
 
+  # Builds a tmail object used to email all active administrators of an account activation request.
+  #
+  # Example:
+  #   account_activation_request(user) => tmail object
+  #   Mailer.deliver_account_activation_request(user)=> sends an email to all active administrators
   def account_activation_request(user)
     # Send the email to all active administrators
     recipients User.active.find(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
@@ -140,7 +180,11 @@ class Mailer < ActionMailer::Base
          :url => url_for(:controller => 'users', :action => 'index', :status => User::STATUS_REGISTERED, :sort_key => 'created_on', :sort_order => 'desc')
   end
 
-  # A registered user's account was activated by an administrator
+  # Builds a tmail object used to email the specified user that their account was activated by an administrator.
+  #
+  # Example:
+  #   account_activated(user) => tmail object
+  #   Mailer.deliver_account_activated(user) => sends an email to the registered user
   def account_activated(user)
     set_language_if_valid user.language
     recipients user.mail
