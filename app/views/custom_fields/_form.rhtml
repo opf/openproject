@@ -65,6 +65,7 @@ function toggle_custom_field_format() {
 																																			 :rows => 15 %>
 <br /><em><%= l(:text_custom_field_possible_values_info) %></em></p>
 <p><%= @custom_field.field_format == 'bool' ? f.check_box(:default_value) : f.text_field(:default_value) %></p>
+<%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
 </div>
 
 <div class="box">
@@ -94,5 +95,6 @@ when "IssueCustomField" %>
     <p><%= f.check_box :is_required %></p>
 
 <% end %>
+<%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
 </div>
 <%= javascript_tag "toggle_custom_field_format();" %>

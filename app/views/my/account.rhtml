@@ -22,6 +22,7 @@
 <% @user.custom_field_values.select(&:editable?).each do |value| %>
 	<p><%= custom_field_tag_with_label :user, value %></p>
 <% end %>
+<%= call_hook(:view_my_account, :user => @user, :form => f) %>
 </div>
 
 <%= submit_tag l(:button_save) %>

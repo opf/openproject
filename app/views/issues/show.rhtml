@@ -69,6 +69,8 @@ end %>
 
 <%= link_to_attachments @issue %>
 
+<%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
+
 <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
 <hr />
 <div id="relations">

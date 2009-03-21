@@ -11,5 +11,7 @@
 <p><label for="issue_status_is_default"><%=l(:field_is_default)%></label>
 <%= check_box 'issue_status', 'is_default' %></p>
 
+<%= call_hook(:view_issue_statuses_form, :issue_status => @issue_status) %>
+
 <!--[eoform:issue_status]-->
 </div>

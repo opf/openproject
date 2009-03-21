@@ -34,6 +34,7 @@ class CustomFieldsController < ApplicationController
     
     if request.post? and @custom_field.save
       flash[:notice] = l(:notice_successful_create)
+      call_hook(:controller_custom_fields_new_after_save, :params => params, :custom_field => @custom_field)
       redirect_to :action => 'index', :tab => @custom_field.class.name
     end
     @trackers = Tracker.find(:all, :order => 'position')
@@ -43,6 +44,7 @@ class CustomFieldsController < ApplicationController
     @custom_field = CustomField.find(params[:id])
     if request.post? and @custom_field.update_attributes(params[:custom_field])
       flash[:notice] = l(:notice_successful_update)
+      call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
       redirect_to :action => 'index', :tab => @custom_field.class.name
     end
     @trackers = Tracker.find(:all, :order => 'position')
