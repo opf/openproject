@@ -4,66 +4,66 @@ ca:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
+      default: "%d-%m-%Y"
+      short: "%e de %b"
+      long: "%a, %e de %b de %Y"
       
-    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    day_names: [Diumenge, Dilluns, Dimarts, Dimecres, Dijous, Divendres, Dissabte]
+    abbr_day_names: [dg, dl, dt, dc, dj, dv, ds]
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, Gener, Febrer, Març, Abril, Maig, Juny, Juliol, Agost, Setembre, Octubre, Novembre, Desembre]
+    abbr_month_names: [~, Gen, Feb, Mar, Abr, Mai, Jun, Jul, Ago, Set, Oct, Nov, Des]
     # Used in date_select and datime_select.
     order: [ :year, :month, :day ]
 
   time:
     formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
+      default: "%d-%m-%Y %H:%M"
       time: "%H:%M"
-      short: "%d %b %H:%M"
-      long: "%B %d, %Y %H:%M"
+      short: "%e de %b, %H:%M"
+      long: "%a, %e de %b de %Y, %H:%M"
     am: "am"
     pm: "pm"
       
   datetime:
     distance_in_words:
-      half_a_minute: "half a minute"
+      half_a_minute: "mig minut"
       less_than_x_seconds:
-        one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        one:   "menys d'un segon"
+        other: "menys de {{count}} segons"
       x_seconds:
-        one:   "1 second"
-        other: "{{count}} seconds"
+        one:   "1 segons"
+        other: "{{count}} segons"
       less_than_x_minutes:
-        one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        one:   "menys d'un minut"
+        other: "menys de {{count}} minuts"
       x_minutes:
-        one:   "1 minute"
-        other: "{{count}} minutes"
+        one:   "1 minut"
+        other: "{{count}} minuts"
       about_x_hours:
-        one:   "about 1 hour"
-        other: "about {{count}} hours"
+        one:   "aproximadament 1 hora"
+        other: "aproximadament {{count}} hores"
       x_days:
-        one:   "1 day"
-        other: "{{count}} days"
+        one:   "1 dia"
+        other: "{{count}} dies"
       about_x_months:
-        one:   "about 1 month"
-        other: "about {{count}} months"
+        one:   "aproximadament 1 mes"
+        other: "aproximadament {{count}} mesos"
       x_months:
-        one:   "1 month"
-        other: "{{count}} months"
+        one:   "1 mes"
+        other: "{{count}} mesos"
       about_x_years:
-        one:   "about 1 year"
-        other: "about {{count}} years"
+        one:   "aproximadament 1 any"
+        other: "aproximadament {{count}} anys"
       over_x_years:
-        one:   "over 1 year"
-        other: "over {{count}} years"
+        one:   "més d'un any"
+        other: "més de {{count}} anys"
         
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
+      sentence_connector: "i"
       skip_last_comma: false
       
   activerecord:
@@ -82,13 +82,13 @@ ca:
         taken: "ja s'està utilitzant"
         not_a_number: "no és un número"
         not_a_date: "no és una data vàlida"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
-        odd: "must be odd"
-        even: "must be even"
+        greater_than: "ha de ser més gran que {{count}}"
+        greater_than_or_equal_to: "ha de ser més gran o igual a {{count}}"
+        equal_to: "ha de ser igual a {{count}}"
+        less_than: "ha de ser menys que {{count}}"
+        less_than_or_equal_to: "ha de ser menys o igual a {{count}}"
+        odd: "ha de ser senar"
+        even: "ha de ser parell"
         greater_than_start_date: "ha de ser superior que la data inicial"
         not_same_project: "no pertany al mateix projecte"
         circular_dependency: "Aquesta relació crearia una dependència circular"
@@ -136,6 +136,8 @@ ca:
   error_scm_command_failed: "S'ha produït un error en intentar accedir al dipòsit: {{value}}"
   error_scm_annotate: "L'entrada no existeix o no s'ha pogut anotar."
   error_issue_not_found_in_project: "No s'ha trobat l'assumpte o no pertany a aquest projecte"
+
+  warning_attachments_not_saved: "No s'han pogut desar {{count}} fitxers."
   
   mail_subject_lost_password: "Contrasenya de {{value}}"
   mail_body_lost_password: "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
@@ -236,6 +238,10 @@ ca:
   field_default_value: Valor predeterminat
   field_comments_sorting: Mostra els comentaris
   field_parent_title: Pàgina pare
+  field_editable: Es pot editar
+  field_watcher: Vigilància
+  field_identity_url: URL OpenID
+  field_content: Contingut
   
   setting_app_title: "Títol de l'aplicació"
   setting_app_subtitle: "Subtítol de l'aplicació"
@@ -247,6 +253,7 @@ ca:
   setting_issues_export_limit: "Límit d'exportació d'assumptes"
   setting_mail_from: "Adreça de correu electrònic d'emissió"
   setting_bcc_recipients: Vincula els destinataris de les còpies amb carbó (bcc)
+  setting_plain_text_mail: només text pla (no HTML)
   setting_host_name: "Nom de l'ordinador"
   setting_text_formatting: Format del text
   setting_wiki_compression: "Comprimeix l'historial del wiki"
@@ -273,6 +280,60 @@ ca:
   setting_mail_handler_api_enabled: "Habilita el WS per correus electrònics d'entrada"
   setting_mail_handler_api_key: Clau API
   setting_sequential_project_identifiers: Genera identificadors de projecte seqüencials
+  setting_gravatar_enabled: "Utilitza les icones d'usuari Gravatar"
+  setting_diff_max_lines_displayed: Número màxim de línies amb diferències mostrades
+  setting_file_max_size_displayed: Mida màxima dels fitxers de text mostrats en línia
+  setting_repository_log_display_limit: Número màxim de revisions que es mostren al registre de fitxers
+  setting_openid: "Permet entrar i registrar-se amb l'OpenID"
+
+  permission_edit_project: Edita el projecte
+  permission_select_project_modules: Selecciona els mòduls del projecte
+  permission_manage_members: Gestiona els membres
+  permission_manage_versions: Gestiona les versions
+  permission_manage_categories: Gestiona les categories dels assumptes
+  permission_add_issues: Afegeix assumptes
+  permission_edit_issues: Edita els assumptes
+  permission_manage_issue_relations: Gestiona les relacions dels assumptes
+  permission_add_issue_notes: Afegeix notes
+  permission_edit_issue_notes: Edita les notes
+  permission_edit_own_issue_notes: Edita les notes pròpies
+  permission_move_issues: Mou els assumptes
+  permission_delete_issues: Suprimeix els assumptes
+  permission_manage_public_queries: Gestiona les consultes públiques
+  permission_save_queries: Desa les consultes
+  permission_view_gantt: Visualitza la gràfica de Gantt
+  permission_view_calendar: Visualitza el calendari
+  permission_view_issue_watchers: Visualitza la llista de vigilàncies
+  permission_add_issue_watchers: Afegeix vigilàncies
+  permission_log_time: Registra el temps invertit
+  permission_view_time_entries: Visualitza el temps invertit
+  permission_edit_time_entries: Edita els registres de temps
+  permission_edit_own_time_entries: Edita els registres de temps propis
+  permission_manage_news: Gestiona les noticies
+  permission_comment_news: Comenta les noticies
+  permission_manage_documents: Gestiona els documents
+  permission_view_documents: Visualitza els documents
+  permission_manage_files: Gestiona els fitxers
+  permission_view_files: Visualitza els fitxers
+  permission_manage_wiki: Gestiona el wiki
+  permission_rename_wiki_pages: Canvia el nom de les pàgines wiki
+  permission_delete_wiki_pages: Suprimeix les pàgines wiki
+  permission_view_wiki_pages: Visualitza el wiki
+  permission_view_wiki_edits: "Visualitza l'historial del wiki"
+  permission_edit_wiki_pages: Edita les pàgines wiki
+  permission_delete_wiki_pages_attachments: Suprimeix adjunts
+  permission_protect_wiki_pages: Protegeix les pàgines wiki
+  permission_manage_repository: Gestiona el dipòsit
+  permission_browse_repository: Navega pel dipòsit
+  permission_view_changesets: Visualitza els canvis realitzats
+  permission_commit_access: Accés a les publicacions
+  permission_manage_boards: Gestiona els taulers
+  permission_view_messages: Visualitza els missatges
+  permission_add_messages: Envia missatges
+  permission_edit_messages: Edita els missatges
+  permission_edit_own_messages: Edita els missatges propis
+  permission_delete_messages: Suprimeix els missatges
+  permission_delete_own_messages: Suprimeix els missatges propis
   
   project_module_issue_tracking: "Seguidor d'assumptes"
   project_module_time_tracking: Seguidor de temps
@@ -290,9 +351,9 @@ ca:
   label_project_new: Projecte nou
   label_project_plural: Projectes
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  cap projecte
+    one:   1 projecte
+    other: "{{count}} projectes"
   label_project_all: Tots els projectes
   label_project_latest: Els últims projectes
   label_issue: Assumpte
@@ -332,6 +393,7 @@ ca:
   label_information_plural: Informació
   label_please_login: Entreu
   label_register: Registre
+  label_login_with_open_id_option: o entra amb l'OpenID
   label_password_lost: Contrasenya perduda
   label_home: Inici
   label_my_page: La meva pàgina
@@ -347,6 +409,7 @@ ca:
   label_registered_on: Informat el
   label_activity: Activitat
   label_overall_activity: Activitat global
+  label_user_activity: "Activitat de {{value}}"
   label_new: Nou
   label_logged_as: Heu entrat com a
   label_environment: Entorn
@@ -399,17 +462,17 @@ ca:
   label_closed_issues: tancat
   label_closed_issues_plural: tancats
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 oberts / {{total}}
+    one:   1 obert / {{total}}
+    other: "{{count}} oberts / {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 oberts
+    one:   1 obert
+    other: "{{count}} oberts"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 tancats
+    one:   1 tancat
+    other: "{{count}} tancats"
   label_total: Total
   label_permissions: Permisos
   label_current_status: Estat actual
@@ -433,9 +496,9 @@ ca:
   label_comment: Comentari
   label_comment_plural: Comentaris
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: sense comentaris
+    one: 1 comentari
+    other: "{{count}} comentaris"
   label_comment_add: Afegeix un comentari
   label_comment_added: Comentari afegit
   label_comment_delete: Suprimeix comentaris
@@ -561,6 +624,7 @@ ca:
   label_feeds_access_key_created_on: "Clau d'accés del RSS creada fa {{value}}"
   label_module_plural: Mòduls
   label_added_time_by: "Afegit per {{author}} fa {{age}}"
+  label_updated_time_by: "Actualitzat per {{author}} fa {{age}}"
   label_updated_time: "Actualitzat fa {{value}}"
   label_jump_to_a_project: Salta al projecte...
   label_file_plural: Fitxers
@@ -595,7 +659,13 @@ ca:
   label_planning: Planificació
   label_incoming_emails: "Correu electrònics d'entrada"
   label_generate_key: Genera una clau
-  label_issue_watchers: Vigilants
+  label_issue_watchers: Vigilàncies
+  label_example: Exemple
+  label_display: Mostra
+  label_sort: Ordena
+  label_ascending: Ascendent
+  label_descending: Descendent
+  label_date_from_to: Des de {{start}} a {{end}}
   
   button_login: Entra
   button_submit: Tramet
@@ -604,6 +674,7 @@ ca:
   button_uncheck_all: Desactiva-ho tot
   button_delete: Suprimeix
   button_create: Crea
+  button_create_and_continue: Crea i continua
   button_test: Test
   button_edit: Edit
   button_add: Afegeix
@@ -675,6 +746,7 @@ ca:
   text_select_project_modules: "Seleccioneu els mòduls a habilitar per a aquest projecte:"
   text_default_administrator_account_changed: "S'ha canviat el compte d'administrador predeterminat"
   text_file_repository_writable: Es pot escriure en el dipòsit de fitxers
+  text_plugin_assets_writable: Es pot escriure als connectors actius
   text_rmagick_available: RMagick disponible (opcional)
   text_destroy_time_entries_question: "S'han informat %.02f hores en els assumptes que aneu a suprimir. Què voleu fer?"
   text_destroy_time_entries: Suprimeix les hores informades
@@ -684,6 +756,9 @@ ca:
   text_enumeration_destroy_question: "{{count}} objectes estan assignats a aquest valor."
   text_enumeration_category_reassign_to: 'Torna a assignar-los a aquest valor:'
   text_email_delivery_not_configured: "El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\nConfigureu el servidor SMTP a config/email.yml i reinicieu l'aplicació per habilitar-lo."
+  text_repository_usernames_mapping: "Seleccioneu l'assignació entre els usuaris del Redmine i cada nom d'usuari trobat al dipòsit.\nEls usuaris amb el mateix nom d'usuari o correu del Redmine i del dipòsit s'assignaran automàticament."
+  text_diff_truncated: "... Aquestes diferències s'han trucat perquè excedeixen la mida màxima que es pot mostrar."
+  text_custom_field_possible_values_info: 'Una línia per a cada valor'
   
   default_role_manager: Gestor
   default_role_developper: Desenvolupador
@@ -710,76 +785,3 @@ ca:
   enumeration_issue_priorities: Prioritat dels assumptes
   enumeration_doc_categories: Categories del document
   enumeration_activities: Activitats (seguidor de temps)
-  setting_plain_text_mail: plain text only (no HTML)
-  permission_view_files: View files
-  permission_edit_issues: Edit issues
-  permission_edit_own_time_entries: Edit own time logs
-  permission_manage_public_queries: Manage public queries
-  permission_add_issues: Add issues
-  permission_log_time: Log spent time
-  permission_view_changesets: View changesets
-  permission_view_time_entries: View spent time
-  permission_manage_versions: Manage versions
-  permission_manage_wiki: Manage wiki
-  permission_manage_categories: Manage issue categories
-  permission_protect_wiki_pages: Protect wiki pages
-  permission_comment_news: Comment news
-  permission_delete_messages: Delete messages
-  permission_select_project_modules: Select project modules
-  permission_manage_documents: Manage documents
-  permission_edit_wiki_pages: Edit wiki pages
-  permission_add_issue_watchers: Add watchers
-  permission_view_gantt: View gantt chart
-  permission_move_issues: Move issues
-  permission_manage_issue_relations: Manage issue relations
-  permission_delete_wiki_pages: Delete wiki pages
-  permission_manage_boards: Manage boards
-  permission_delete_wiki_pages_attachments: Delete attachments
-  permission_view_wiki_edits: View wiki history
-  permission_add_messages: Post messages
-  permission_view_messages: View messages
-  permission_manage_files: Manage files
-  permission_edit_issue_notes: Edit notes
-  permission_manage_news: Manage news
-  permission_view_calendar: View calendrier
-  permission_manage_members: Manage members
-  permission_edit_messages: Edit messages
-  permission_delete_issues: Delete issues
-  permission_view_issue_watchers: View watchers list
-  permission_manage_repository: Manage repository
-  permission_commit_access: Commit access
-  permission_browse_repository: Browse repository
-  permission_view_documents: View documents
-  permission_edit_project: Edit project
-  permission_add_issue_notes: Add notes
-  permission_save_queries: Save queries
-  permission_view_wiki_pages: View wiki
-  permission_rename_wiki_pages: Rename wiki pages
-  permission_edit_time_entries: Edit time logs
-  permission_edit_own_issue_notes: Edit own notes
-  setting_gravatar_enabled: Use Gravatar user icons
-  label_example: Example
-  text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-  permission_edit_own_messages: Edit own messages
-  permission_delete_own_messages: Delete own messages
-  label_user_activity: "{{value}}'s activity"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
-  text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
-  text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}

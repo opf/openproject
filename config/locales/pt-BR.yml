@@ -815,8 +815,8 @@ pt-BR:
   setting_openid: Permitir Login e Registro via OpenID
   field_identity_url: OpenID URL
   label_login_with_open_id_option: ou use o OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  field_content: Conteúdo
+  label_descending: Descendente
+  label_sort: Ordenar
+  label_ascending: Ascendente
+  label_date_from_to: De {{start}} até {{end}}

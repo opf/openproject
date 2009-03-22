@@ -722,6 +722,7 @@ sv:
   label_sort: Sortera
   label_descending: Fallande
   label_ascending: Stigande
+  label_date_from_to: Från {{start}} till {{end}}
   
   button_login: Logga in
   button_submit: Spara
@@ -841,4 +842,4 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
-  label_date_from_to: From {{start}} to {{end}}
+

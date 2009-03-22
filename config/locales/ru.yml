@@ -427,17 +427,17 @@ ru:
   label_closed_issues_plural: закрыто
   label_closed_issues: закрыт
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 открыто / {{total}}
+    one:   1 открыт / {{total}}
+    other: "{{count}} открыто / {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 открыто
+    one:   1 открыт
+    other: "{{count}} открыто"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 закрыто
+    one:   1 закрыт
+    other: "{{count}} открыто"
   label_comment_added: Добавленный комментарий
   label_comment_add: Оставить комментарий
   label_comment_delete: Удалить комментарии
@@ -643,7 +643,7 @@ ru:
   label_reverse_chronological_order: В обратном порядке
   label_revision_plural: Редакции
   label_revision: Редакция
-  label_roadmap_due_in: "Вовремя {{value}}"
+  label_roadmap_due_in: "В срок {{value}}"
   label_roadmap_no_issues: Нет задач для данной версии
   label_roadmap_overdue: "{{value}} опоздание"
   label_roadmap: Оперативный план

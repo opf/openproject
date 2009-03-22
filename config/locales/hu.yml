@@ -816,7 +816,7 @@
   field_identity_url: OpenID URL
   label_login_with_open_id_option: bejelentkezés OpenID használatával
   field_content: Tartalom
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_descending: Csökkenő
+  label_sort: Rendezés
+  label_ascending: Növekvő
+  label_date_from_to: "{{start}} -tól {{end}} -ig"

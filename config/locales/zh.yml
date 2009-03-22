@@ -694,7 +694,11 @@ zh:
   label_issue_watchers: 跟踪者
   label_example: 示例
   label_display: 显示
-  
+  label_sort: 排序
+  label_ascending: 升序
+  label_descending: 降序
+  label_date_from_to: 从 {{start}} 到 {{end}}
+
   button_login: 登录
   button_submit: 提交
   button_save: 保存
@@ -813,8 +817,3 @@ zh:
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
