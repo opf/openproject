@@ -817,3 +817,5 @@ fr:
   enumeration_issue_priorities: Priorités des demandes
   enumeration_doc_categories: Catégories des documents
   enumeration_activities: Activités (suivi du temps)
+  label_greater_or_equal: ">="
+  label_less_or_equal: <=

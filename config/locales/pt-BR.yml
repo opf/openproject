@@ -820,3 +820,5 @@ pt-BR:
   label_sort: Ordenar
   label_ascending: Ascendente
   label_date_from_to: De {{start}} até {{end}}
+  label_greater_or_equal: ">="
+  label_less_or_equal: <=

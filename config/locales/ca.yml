@@ -785,3 +785,5 @@ ca:
   enumeration_issue_priorities: Prioritat dels assumptes
   enumeration_doc_categories: Categories del document
   enumeration_activities: Activitats (seguidor de temps)
+  label_greater_or_equal: ">="
+  label_less_or_equal: <=

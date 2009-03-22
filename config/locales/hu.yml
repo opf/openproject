@@ -820,3 +820,5 @@
   label_sort: Rendezés
   label_ascending: Növekvő
   label_date_from_to: "{{start}} -tól {{end}} -ig"
+  label_greater_or_equal: ">="
+  label_less_or_equal: <=

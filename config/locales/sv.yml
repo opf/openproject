@@ -843,3 +843,5 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
 
+  label_greater_or_equal: ">="
+  label_less_or_equal: <=
