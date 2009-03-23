@@ -38,7 +38,7 @@ class Journal < ActiveRecord::Base
                                               :conditions => "#{Journal.table_name}.journalized_type = 'Issue' AND" +
                                                              " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')"}
   
-  def save
+  def save(*args)
     # Do not save an empty journal
     (details.empty? && notes.blank?) ? false : super
   end
