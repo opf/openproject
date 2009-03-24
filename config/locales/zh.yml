@@ -543,6 +543,8 @@ zh:
   label_not_equals: 不等于
   label_in_less_than: 剩余天数小于
   label_in_more_than: 剩余天数大于
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
   label_in: 剩余天数
   label_today: 今天
   label_all_time: 全部时间
@@ -817,5 +819,3 @@ zh:
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
-  label_greater_or_equal: ">="
-  label_less_or_equal: <=

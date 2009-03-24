@@ -618,6 +618,8 @@
   label_not_equals: 不等於
   label_in_less_than: 在小於
   label_in_more_than: 在大於
+  label_greater_or_equal: "大於等於 (>=)"
+  label_less_or_equal: "小於等於 (<=)"
   label_in: 在
   label_today: 今天
   label_all_time: all time
@@ -892,5 +894,3 @@
   enumeration_issue_priorities: 項目優先權
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
-  label_greater_or_equal: ">="
-  label_less_or_equal: <=

@@ -568,6 +568,8 @@ sv:
   label_not_equals: är inte
   label_in_less_than: om mindre än
   label_in_more_than: om mer än
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
   label_in: om
   label_today: idag
   label_all_time: närsom
@@ -842,6 +844,3 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
-
-  label_greater_or_equal: ">="
-  label_less_or_equal: <=
