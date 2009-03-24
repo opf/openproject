@@ -437,7 +437,7 @@ ru:
   label_x_closed_issues_abbr:
     zero:  0 закрыто
     one:   1 закрыт
-    other: "{{count}} открыто"
+    other: "{{count}} закрыто"
   label_comment_added: Добавленный комментарий
   label_comment_add: Оставить комментарий
   label_comment_delete: Удалить комментарии
