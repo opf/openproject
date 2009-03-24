@@ -11,14 +11,14 @@
 
 // full day names
 Calendar._DN = new Array
-("Duminica",
+("Duminică",
  "Luni",
- "Marti",
+ "Marți",
  "Miercuri",
  "Joi",
  "Vineri",
- "Sambata",
- "Duminica");
+ "Sâmbătă",
+ "Duminică");
 
 // Please note that the following array of short day names (and the same goes
 // for short month names, _SMN) isn't absolutely necessary.  We give it here
@@ -40,12 +40,12 @@ Calendar._SDN = new Array
  "Mie",
  "Joi",
  "Vin",
- "Sam",
+ "Sâm",
  "Dum");
 
 // First day of the week. "0" means display Sunday first, "1" means display
 // Monday first, etc.
-Calendar._FD = 0;
+Calendar._FD = 1;
 
 // full month names
 Calendar._MN = new Array
@@ -99,23 +99,23 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 
 Calendar._TT["PREV_YEAR"] = "Anul precedent (apasati pentru meniu)";
 Calendar._TT["PREV_MONTH"] = "Luna precedenta (apasati pentru meniu)";
-Calendar._TT["GO_TODAY"] = "Data de azi";
+Calendar._TT["GO_TODAY"] = "Astazi";
 Calendar._TT["NEXT_MONTH"] = "Luna viitoare (apasati pentru meniu)";
 Calendar._TT["NEXT_YEAR"] = "Anul viitor (apasati pentru meniu)";
-Calendar._TT["SEL_DATE"] = "Selectie data";
+Calendar._TT["SEL_DATE"] = "Selecteaza data";
 Calendar._TT["DRAG_TO_MOVE"] = "Drag pentru a muta";
 Calendar._TT["PART_TODAY"] = " (azi)";
 
 // the following is to inform that "%s" is to be the first day of week
 // %s will be replaced with the day name.
-Calendar._TT["DAY_FIRST"] = "Vizualizeaza %s prima";
+Calendar._TT["DAY_FIRST"] = "Vizualizează %s prima";
 
 // This may be locale-dependent.  It specifies the week-end days, as an array
 // of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
 // means Monday, etc.
 Calendar._TT["WEEKEND"] = "0,6";
 
-Calendar._TT["CLOSE"] = "inchide";
+Calendar._TT["CLOSE"] = "Închide";
 Calendar._TT["TODAY"] = "Azi";
 Calendar._TT["TIME_PART"] = "(Shift-)Click sau drag pentru a schimba valoarea";
 
@@ -123,5 +123,5 @@ Calendar._TT["TIME_PART"] = "(Shift-)Click sau drag pentru a schimba valoarea";
 Calendar._TT["DEF_DATE_FORMAT"] = "%A-%l-%z";
 Calendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
 
-Calendar._TT["WK"] = "sapt";
+Calendar._TT["WK"] = "săpt";
 Calendar._TT["TIME"] = "Ora:";
