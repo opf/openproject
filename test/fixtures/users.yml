@@ -112,5 +112,37 @@ users_007:
   mail_notification: false
   login: someone
   type: User
+users_008: 
+  id: 8
+  created_on: 2006-07-19 19:33:19 +02:00
+  status: 1
+  last_login_on: 
+  language: 'it'
+  hashed_password: 1
+  updated_on: 2006-07-19 19:33:19 +02:00
+  admin: false
+  mail: miscuser8@foo.bar
+  lastname: Misc
+  firstname: User
+  auth_source_id: 
+  mail_notification: false
+  login: miscuser8
+  type: User
+users_009: 
+  id: 9
+  created_on: 2006-07-19 19:33:19 +02:00
+  status: 1
+  last_login_on: 
+  language: 'it'
+  hashed_password: 1
+  updated_on: 2006-07-19 19:33:19 +02:00
+  admin: false
+  mail: miscuser9@foo.bar
+  lastname: Misc
+  firstname: User
+  auth_source_id: 
+  mail_notification: false
+  login: miscuser9
+  type: User
 
   

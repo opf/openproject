@@ -21,10 +21,26 @@ class MembersController < ApplicationController
   before_filter :authorize
 
   def new
-    @project.members << Member.new(params[:member]) if request.post?
+    members = []
+    if params[:member] && request.post?
+      attrs = params[:member].dup
+      if (user_ids = attrs.delete(:user_ids))
+        user_ids.each do |user_id|
+          members << Member.new(attrs.merge(:user_id => user_id))
+        end
+      else
+        members << Member.new(attrs)
+      end
+      @project.members << members
+    end
     respond_to do |format|
       format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-      format.js { render(:update) {|page| page.replace_html "tab-content-members", :partial => 'projects/settings/members'} }
+      format.js { 
+        render(:update) {|page| 
+          page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+          members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
+        }
+      }
     end
   end
   

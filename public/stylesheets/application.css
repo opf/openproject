@@ -324,6 +324,16 @@ p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 
 a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 
+/* Project members tab */
+div#tab-content-members .splitcontentleft { width: 64% }
+div#tab-content-members .splitcontentright { width: 34% }
+div#tab-content-members fieldset { margin-top: -8px; padding-top:0.6em; margin-bottom: 1em; }
+div#tab-content-members fieldset legend { font-weight: bold; }
+div#tab-content-members fieldset label { display: block; }
+div#tab-content-members fieldset div { max-height: 400px; overflow:auto; }
+
+* html div#tab-content-members fieldset div { height: 450px; }
+
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning {
     padding: 4px 4px 4px 30px;

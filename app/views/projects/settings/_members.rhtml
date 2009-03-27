@@ -3,7 +3,8 @@
 <% users = User.active.find(:all).sort - @project.users %>
 <% # members sorted by role position
    members = @project.members.find(:all, :include => [:role, :user]).sort %>
-   
+
+<div class="splitcontentleft">
 <% if members.any? %>
 <table class="list">
 	<thead>
@@ -15,7 +16,7 @@
 	<tbody>
 	<% members.each do |member| %>
 	<% next if member.new_record? %>
-	<tr class="<%= cycle 'odd', 'even' %>">
+	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %>">
 	<td><%= member.name %></td>
     <td align="center">
     <% if authorize_for('members', 'edit') %>
@@ -39,12 +40,20 @@
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
+</div>
 
-<% if authorize_for('members', 'new') && !users.empty? %>
+<div class="splitcontentright">
+<% if !users.empty? %>
   <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
-    <p><label for="member_user_id"><%=l(:label_member_new)%></label><br />
-    <%= f.select :user_id, users.collect{|user| [user.name, user.id]} %>
-    <%= l(:label_role) %>: <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, :selected => nil %>
+    <fieldset><legend><%=l(:label_member_new)%></legend>
+		<div>
+		<% users.each do |user| -%>
+		<label><%= check_box_tag 'member[user_ids][]', user.id, false %> <%= user %></label>
+		<% end -%>
+		</div>
+    <p><%= l(:label_role) %>: <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, :selected => nil %>
     <%= submit_tag l(:button_add) %></p>
+		</fieldset>
   <% end %>
 <% end %>
+</div>
