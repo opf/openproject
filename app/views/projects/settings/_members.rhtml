@@ -17,7 +17,7 @@
 	<% members.each do |member| %>
 	<% next if member.new_record? %>
 	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %>">
-	<td><%= member.name %></td>
+	<td><%=h member.name %></td>
     <td align="center">
     <% if authorize_for('members', 'edit') %>
       <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member}, :method => :post) do |f| %>
