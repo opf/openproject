@@ -48,7 +48,6 @@ class DocumentsController < ApplicationController
     if request.post? and @document.save	
       attach_files(@document, params[:attachments])
       flash[:notice] = l(:notice_successful_create)
-      Mailer.deliver_document_added(@document) if Setting.notified_events.include?('document_added')
       redirect_to :action => 'index', :project_id => @project
     end
   end

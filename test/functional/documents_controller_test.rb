@@ -66,6 +66,8 @@ class DocumentsControllerTest < Test::Unit::TestCase
   end
   
   def test_new_with_one_attachment
+    ActionMailer::Base.deliveries.clear
+    Setting.notified_events << 'document_added'
     @request.session[:user_id] = 2
     set_tmp_attachments_directory
     
@@ -82,6 +84,7 @@ class DocumentsControllerTest < Test::Unit::TestCase
     assert_equal Enumeration.find(2), document.category
     assert_equal 1, document.attachments.size
     assert_equal 'testfile.txt', document.attachments.first.filename
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
   def test_edit_routing

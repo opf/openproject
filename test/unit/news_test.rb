@@ -20,7 +20,21 @@ require File.dirname(__FILE__) + '/../test_helper'
 class NewsTest < Test::Unit::TestCase
   fixtures :projects, :users, :roles, :members, :enabled_modules, :news
 
+  def valid_news
+    { :title => 'Test news', :description => 'Lorem ipsum etc', :author => User.find(:first) }
+  end
+
+  
   def setup
+  end
+  
+  def test_create_should_send_email_notification
+    ActionMailer::Base.deliveries.clear
+    Setting.notified_events << 'news_added'
+    news = Project.find(:first).news.new(valid_news)
+
+    assert news.save
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
   def test_should_include_news_for_projects_with_news_enabled
@@ -37,7 +51,7 @@ class NewsTest < Test::Unit::TestCase
     assert ! project.enabled_modules.any?{ |em| em.name == 'news' }
 
     # Add a piece of news to the project
-    news = project.news.create(:title => 'Test news', :description => 'This should not be returned by News.latest')
+    news = project.news.create(valid_news)
 
     # News.latest should not return that new piece of news
     assert News.latest.include?(news) == false
@@ -50,14 +64,14 @@ class NewsTest < Test::Unit::TestCase
   
   def test_should_limit_the_amount_of_returned_news
     # Make sure we have a bunch of news stories
-    10.times { projects(:projects_001).news.create(:title => 'Test news', :description => 'Lorem ipsum etc') }
+    10.times { projects(:projects_001).news.create(valid_news) }
     assert_equal 2, News.latest(users(:users_002), 2).size
     assert_equal 6, News.latest(users(:users_002), 6).size
   end
 
   def test_should_return_5_news_stories_by_default
     # Make sure we have a bunch of news stories
-    10.times { projects(:projects_001).news.create(:title => 'Test news', :description => 'Lorem ipsum etc') }
+    10.times { projects(:projects_001).news.create(valid_news) }
     assert_equal 5, News.latest(users(:users_004)).size
   end
 end

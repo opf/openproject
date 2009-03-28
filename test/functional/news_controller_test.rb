@@ -112,6 +112,9 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   def test_post_new
+    ActionMailer::Base.deliveries.clear
+    Setting.notified_events << 'news_added'
+
     @request.session[:user_id] = 2
     post :new, :project_id => 1, :news => { :title => 'NewsControllerTest',
                                             :description => 'This is the description',
@@ -123,6 +126,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_equal 'This is the description', news.description
     assert_equal User.find(2), news.author
     assert_equal Project.find(1), news.project
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
   def test_edit_routing

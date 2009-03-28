@@ -133,6 +133,14 @@ class MailHandlerTest < Test::Unit::TestCase
     Role.anonymous.add_permission!(:add_issues)
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
+
+  def test_add_issue_should_send_email_notification
+    ActionMailer::Base.deliveries.clear
+    # This email contains: 'Project: onlinestore'
+    issue = submit_email('ticket_on_given_project.eml')
+    assert issue.is_a?(Issue)
+    assert_equal 1, ActionMailer::Base.deliveries.size
+  end
   
   def test_add_issue_note
     journal = submit_email('ticket_reply.eml')
@@ -151,6 +159,13 @@ class MailHandlerTest < Test::Unit::TestCase
     assert_equal Issue.find(2), journal.journalized
     assert_match /This is reply/, journal.notes
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
+  end
+
+  def test_add_issue_note_should_send_email_notification
+    ActionMailer::Base.deliveries.clear
+    journal = submit_email('ticket_reply.eml')
+    assert journal.is_a?(Journal)
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
   def test_reply_to_a_message

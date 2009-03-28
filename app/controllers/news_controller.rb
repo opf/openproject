@@ -45,7 +45,6 @@ class NewsController < ApplicationController
       @news.attributes = params[:news]
       if @news.save
         flash[:notice] = l(:notice_successful_create)
-        Mailer.deliver_news_added(@news) if Setting.notified_events.include?('news_added')
         redirect_to :controller => 'news', :action => 'index', :project_id => @project
       end
     end

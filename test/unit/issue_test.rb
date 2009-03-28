@@ -241,4 +241,12 @@ class IssueTest < Test::Unit::TestCase
     assert !Issue.new(:due_date => nil).overdue?
     assert !Issue.new(:due_date => 1.day.ago.to_date, :status => IssueStatus.find(:first, :conditions => {:is_closed => true})).overdue?
   end
+  
+  def test_create_should_send_email_notification
+    ActionMailer::Base.deliveries.clear
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => Enumeration.priorities.first, :subject => 'test_create', :estimated_hours => '1:30')
+
+    assert issue.save
+    assert_equal 1, ActionMailer::Base.deliveries.size
+  end
 end

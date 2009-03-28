@@ -24,6 +24,7 @@ class ChangesetTest < Test::Unit::TestCase
   end
   
   def test_ref_keywords_any
+    ActionMailer::Base.deliveries.clear
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = '*'
@@ -38,6 +39,7 @@ class ChangesetTest < Test::Unit::TestCase
     fixed = Issue.find(1)
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
   def test_ref_keywords_any_line_start

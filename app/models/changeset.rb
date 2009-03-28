@@ -113,7 +113,6 @@ class Changeset < ActiveRecord::Base
           issue.status = fix_status
           issue.done_ratio = done_ratio if done_ratio
           issue.save
-          Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
         end
       end
       referenced_issues += target_issues

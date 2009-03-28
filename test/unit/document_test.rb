@@ -25,6 +25,15 @@ class DocumentTest < Test::Unit::TestCase
     assert doc.save
   end
   
+  def test_create_should_send_email_notification
+    ActionMailer::Base.deliveries.clear
+    Setting.notified_events << 'document_added'
+    doc = Document.new(:project => Project.find(1), :title => 'New document', :category => Enumeration.find_by_name('User documentation'))
+
+    assert doc.save
+    assert_equal 1, ActionMailer::Base.deliveries.size
+  end
+
   def test_create_with_default_category
     # Sets a default category
     e = Enumeration.find_by_name('Technical documentation')
