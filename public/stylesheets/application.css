@@ -327,7 +327,7 @@ a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px
 /* Project members tab */
 div#tab-content-members .splitcontentleft { width: 64% }
 div#tab-content-members .splitcontentright { width: 34% }
-div#tab-content-members fieldset { margin-top: -8px; padding-top:0.6em; margin-bottom: 1em; }
+div#tab-content-members fieldset { padding:1em; margin-bottom: 1em; }
 div#tab-content-members fieldset legend { font-weight: bold; }
 div#tab-content-members fieldset label { display: block; }
 div#tab-content-members fieldset div { max-height: 400px; overflow:auto; }
@@ -484,6 +484,36 @@ border-bottom: 1px solid #fff;
 
 #content .tabs ul li a.selected:hover {
 background-color: #fff;
+}
+
+/***** Auto-complete *****/
+div.autocomplete {
+  position:absolute;
+  width:250px;
+  background-color:white;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li {
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  cursor:pointer;
+  font-size: 90%;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+div.autocomplete ul li span.informal {
+  font-size: 80%;
+  color: #aaa;
 }
 
 /***** Diff *****/

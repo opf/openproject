@@ -1,7 +1,5 @@
 <%= error_messages_for 'member' %>
-<% roles = Role.find_all_givable %>
-<% users = User.active.find(:all).sort - @project.users %>
-<% # members sorted by role position
+<% roles = Role.find_all_givable
    members = @project.members.find(:all, :include => [:role, :user]).sort %>
 
 <div class="splitcontentleft">
@@ -42,15 +40,24 @@
 <% end %>
 </div>
 
+
+<% users_count = User.active.count - @project.users.count
+   users = (users_count < 300) ? User.active.find(:all, :limit => 200).sort - @project.users : [] %>
+
 <div class="splitcontentright">
-<% if !users.empty? %>
+<% if roles.any? && users_count > 0 %>
   <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
-		<div>
-		<% users.each do |user| -%>
-		<label><%= check_box_tag 'member[user_ids][]', user.id, false %> <%= user %></label>
-		<% end -%>
-		</div>
+		<p><%= text_field_tag 'member[user_login]', nil, :size => "40" %></p>
+		<div id="member_user_login_choices" class="autocomplete">sqd</div>
+		<%= javascript_tag "new Ajax.Autocompleter('member_user_login', 'member_user_login_choices', '#{ url_for(:controller => 'members', :action => 'autocomplete_for_member_login', :id => @project) }', { minChars: 1, frequency: 0.5, paramName: 'user' });" %>
+		<% unless users.empty? %>
+			<div>
+			<% users.each do |user| -%>
+			<label><%= check_box_tag 'member[user_ids][]', user.id, false %> <%= user %></label>
+			<% end -%>
+			</div>
+		<% end %>
     <p><%= l(:label_role) %>: <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, :selected => nil %>
     <%= submit_tag l(:button_add) %></p>
 		</fieldset>
