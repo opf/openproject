@@ -35,7 +35,11 @@ module TimelogHelper
   end
   
   def select_hours(data, criteria, value)
-    data.select {|row| row[criteria] == value}
+  	if value.to_s.empty?
+  		data.select {|row| row[criteria].blank? }
+    else 
+    	data.select {|row| row[criteria] == value}
+    end
   end
   
   def sum_hours(data)
