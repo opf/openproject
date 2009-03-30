@@ -96,37 +96,48 @@ module SVG
       end
 
       def draw_data
-        fieldwidth = field_width
-        maxvalue = max_value
         minvalue = min_value
+        fieldwidth = field_width
 
-        fieldheight =  (@graph_height.to_f - font_size*2*top_font) / 
+        unit_size =  (@graph_height.to_f - font_size*2*top_font) / 
                           (get_y_labels.max - get_y_labels.min)
         bargap = bar_gap ? (fieldwidth < 10 ? fieldwidth / 2 : 10) : 0
 
-        subbar_width = fieldwidth - bargap
-        subbar_width /= @data.length if stack == :side
-        x_mod = (@graph_width-bargap)/2 - (stack==:side ? subbar_width/2 : 0)
-        # Y1
-        p2 = @graph_height
-        # to X2
+        bar_width = fieldwidth - bargap
+        bar_width /= @data.length if stack == :side
+        x_mod = (@graph_width-bargap)/2 - (stack==:side ? bar_width/2 : 0)
+ 
+        bottom = @graph_height
+
         field_count = 0
         @config[:fields].each_index { |i|
           dataset_count = 0
           for dataset in @data
-            # X1
-            p1 = (fieldwidth * field_count)
-            # to Y2
-            p3 = @graph_height - ((dataset[:data][i] - minvalue) * fieldheight)
-            p1 += subbar_width * dataset_count if stack == :side
-            @graph.add_element( "path", {
-              "class" => "fill#{dataset_count+1}",
-              "d" => "M#{p1} #{p2} V#{p3} h#{subbar_width} V#{p2} Z"
+          
+            # cases (assume 0 = +ve):
+            #   value  min  length
+            #    +ve   +ve  value - min
+            #    +ve   -ve  value - 0
+            #    -ve   -ve  value.abs - 0
+          
+            value = dataset[:data][i]
+            
+            left = (fieldwidth * field_count)
+            
+            length = (value.abs - (minvalue > 0 ? minvalue : 0)) * unit_size
+            # top is 0 if value is negative
+            top = bottom - (((value < 0 ? 0 : value) - minvalue) * unit_size)
+            left += bar_width * dataset_count if stack == :side
+ 
+            @graph.add_element( "rect", {
+              "x" => left.to_s,
+              "y" => top.to_s,
+              "width" => bar_width.to_s,
+              "height" => length.to_s,
+              "class" => "fill#{dataset_count+1}"
             })
-            make_datapoint_text(
-              p1 + subbar_width/2.0,
-              p3 - 6,
-              dataset[:data][i].to_s)
+
+            make_datapoint_text(left + bar_width/2.0, top - 6, value.to_s)
             dataset_count += 1
           end
           field_count += 1

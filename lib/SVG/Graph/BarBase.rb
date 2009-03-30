@@ -43,18 +43,17 @@ module SVG
 			protected
 
       def max_value
-        return @data.collect{|x| x[:data].max}.max
+        @data.collect{|x| x[:data].max}.max
       end
 
       def min_value
         min = 0
-
-        if (min_scale_value.nil? == false) then
-          min = min_scale_value
-        else
+        if min_scale_value.nil? 
           min = @data.collect{|x| x[:data].min}.min
+          min = min > 0 ? 0 : min
+        else
+          min = min_scale_value
         end
-
         return min
       end
 

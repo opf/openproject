@@ -222,6 +222,7 @@ module SVG
           y_start = radius-(Math.cos(radians) * radius)
           radians = (prev_percent+percent) * rad_mult
           x_end = radius+(Math.sin(radians) * radius)
+          x_end -= 0.00001 if @data.length == 1
           y_end = radius-(Math.cos(radians) * radius)
           path = "M#{radius},#{radius} L#{x_start},#{y_start} "+
             "A#{radius},#{radius} "+
@@ -257,7 +258,7 @@ module SVG
             ty = -(Math.cos(radians) * expand_gap)
             translate = "translate( #{tx} #{ty} )"
             wedge.attributes["transform"] = translate
-            clear.attributes["transform"] = translate
+            clear.attributes["transform"] = translate if clear
           end
 
           if show_shadow

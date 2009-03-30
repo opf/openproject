@@ -145,7 +145,7 @@ module SVG
       def add_data data
         @data = [] unless @data
        
-        raise "No data provided by #{conf.inspect}" unless data[:data] and
+        raise "No data provided by #{@data.inspect}" unless data[:data] and
                                                     data[:data].kind_of? Array
         raise "Data supplied must be x,y pairs!  "+
           "The data provided contained an odd set of "+
@@ -191,13 +191,13 @@ module SVG
         rv = []
         min, max, scale_division = x_range
         if timescale_divisions
-          timescale_divisions =~ /(\d+) ?(days|weeks|months|years|hours|minutes|seconds)?/
-          division_units = $2 ? $2 : "days"
+          timescale_divisions =~ /(\d+) ?(day|week|month|year|hour|minute|second)?/
+          division_units = $2 ? $2 : "day"
           amount = $1.to_i
           if amount
             step =  nil
             case division_units
-            when "months"
+            when "month"
               cur = min
               while cur < max
                 rv << cur
@@ -209,7 +209,7 @@ module SVG
                 end
                 cur = Time.local(*arr).to_i
               end
-            when "years"
+            when "year"
               cur = min
               while cur < max
                 rv << cur
@@ -217,15 +217,15 @@ module SVG
                 arr[5] += amount
                 cur = Time.local(*arr).to_i
               end
-            when "weeks"
+            when "week"
               step = 7 * 24 * 60 * 60 * amount
-            when "days"
+            when "day"
               step = 24 * 60 * 60 * amount
-            when "hours"
+            when "hour"
               step = 60 * 60 * amount
-            when "minutes"
+            when "minute"
               step = 60 * amount
-            when "seconds"
+            when "second"
               step = amount
             end
             min.step( max, step ) {|v| rv << v} if step

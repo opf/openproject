@@ -88,16 +88,18 @@ module SVG
     class Plot < Graph
 
       # In addition to the defaults set by Graph::initialize, sets
+      # [show_data_values] true
       # [show_data_points] true
       # [area_fill] false
       # [stacked] false
       def set_defaults
         init_with(
-          :show_data_points  => true,
-          :area_fill         => false,
-          :stacked           => false
-        )
-        self.top_align = self.right_align = self.top_font = self.right_font = 1
+                  :show_data_values  => true,
+                  :show_data_points  => true,
+                  :area_fill         => false,
+                  :stacked           => false
+                 )
+                 self.top_align = self.right_align = self.top_font = self.right_font = 1
       end
 
       # Determines the scaling for the X axis divisions.
@@ -128,20 +130,20 @@ module SVG
       # Set the minimum value of the Y axis
       attr_accessor :min_y_value
 
-      
+
       # Adds data to the plot.  The data must be in X,Y pairs; EG
       #   [ 1, 2 ]    # A data set with 1 point: (1,2)
       #   [ 1,2, 5,6] # A data set with 2 points: (1,2) and (5,6)  
       def add_data data
         @data = [] unless @data
-       
+
         raise "No data provided by #{conf.inspect}" unless data[:data] and
-          data[:data].kind_of? Array
+        data[:data].kind_of? Array
         raise "Data supplied must be x,y pairs!  "+
           "The data provided contained an odd set of "+
           "data points" unless data[:data].length % 2 == 0
         return if data[:data].length == 0
-          
+
         x = []
         y = []
         data[:data].each_index {|i|
@@ -205,7 +207,7 @@ module SVG
         max = @data.collect{|x| x[:data][X][-1]}.max
         dx = (max - values[-1]).to_f / (values[-1] - values[-2])
         (@graph_width.to_f - font_size*2*right_font) /
-           (values.length + dx - right_align)
+          (values.length + dx - right_align)
       end
 
 
@@ -238,14 +240,18 @@ module SVG
       def field_height
         values = get_y_values
         max = @data.collect{|x| x[:data][Y].max }.max
-        dx = (max - values[-1]).to_f / (values[-1] - values[-2])
+        if values.length == 1
+          dx = values[-1]
+        else
+          dx = (max - values[-1]).to_f / (values[-1] - values[-2])
+        end
         (@graph_height.to_f - font_size*2*top_font) /
-           (values.length + dx - top_align)
+          (values.length + dx - top_align)
       end
 
       def draw_data
         line = 1
-        
+
         x_min, x_max, x_div = x_range
         y_min, y_max, y_div = y_range
         x_step = (@graph_width.to_f - font_size*2) / (x_max-x_min)
@@ -290,7 +296,7 @@ module SVG
                 })
                 add_popup(x, y, format( x_points[idx], y_points[idx] )) if add_popups
               end
-              make_datapoint_text( x, y-6, y_points[idx] )
+              make_datapoint_text( x, y-6, y_points[idx] ) if show_data_values
             }
           end
           line += 1

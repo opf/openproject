@@ -103,28 +103,41 @@ module SVG
       def draw_data
         minvalue = min_value
         fieldheight = field_height
-        fieldwidth = (@graph_width.to_f - font_size*2*right_font ) /
+
+        unit_size = (@graph_width.to_f - font_size*2*right_font ) /
                         (get_x_labels.max - get_x_labels.min )
         bargap = bar_gap ? (fieldheight < 10 ? fieldheight / 2 : 10) : 0
 
-        subbar_height = fieldheight - bargap
-        subbar_height /= @data.length if stack == :side
+        bar_height = fieldheight - bargap
+        bar_height /= @data.length if stack == :side
+        y_mod = (bar_height / 2) + (font_size / 2)
         
         field_count = 1
-        y_mod = (subbar_height / 2) + (font_size / 2)
         @config[:fields].each_index { |i|
           dataset_count = 0
           for dataset in @data
-            y = @graph_height - (fieldheight * field_count)
-            y += (subbar_height * dataset_count) if stack == :side
-            x = (dataset[:data][i] - minvalue) * fieldwidth
+            value = dataset[:data][i]
+            
+            top = @graph_height - (fieldheight * field_count)
+            top += (bar_height * dataset_count) if stack == :side
+            # cases (assume 0 = +ve):
+            #   value  min  length          left
+            #    +ve   +ve  value.abs - min minvalue.abs
+            #    +ve   -ve  value.abs - 0   minvalue.abs
+            #    -ve   -ve  value.abs - 0   minvalue.abs + value
+            length = (value.abs - (minvalue > 0 ? minvalue : 0)) * unit_size
+            left = (minvalue.abs + (value < 0 ? value : 0)) * unit_size
 
-            @graph.add_element( "path", {
-              "d" => "M0 #{y} H#{x} v#{subbar_height} H0 Z",
+            @graph.add_element( "rect", {
+              "x" => left.to_s,
+              "y" => top.to_s,
+              "width" => length.to_s,
+              "height" => bar_height.to_s,
               "class" => "fill#{dataset_count+1}"
             })
+
             make_datapoint_text( 
-              x+5, y+y_mod, dataset[:data][i], "text-anchor: start; "
+              left+length+5, top+y_mod, value, "text-anchor: start; "
               )
             dataset_count += 1
           end

@@ -105,12 +105,12 @@ module SVG
 
         init_with({
           :width                => 500,
-          :height               => 300,
+          :height                => 300,
           :show_x_guidelines    => false,
           :show_y_guidelines    => true,
           :show_data_values     => true,
 
-          :min_scale_value      => 0,
+#          :min_scale_value      => 0,
 
           :show_x_labels        => true,
           :stagger_x_labels     => false,
@@ -137,14 +137,14 @@ module SVG
           :key                  => true, 
           :key_position          => :right, # bottom or right
 
-          :font_size            =>10,
-          :title_font_size      =>12,
+          :font_size            =>12,
+          :title_font_size      =>16,
           :subtitle_font_size   =>14,
-          :x_label_font_size    =>11,
+          :x_label_font_size    =>12,
           :x_title_font_size    =>14,
-          :y_label_font_size    =>11,
+          :y_label_font_size    =>12,
           :y_title_font_size    =>14,
-          :key_font_size        => 9,
+          :key_font_size        =>10,
           
           :no_css               =>false,
           :add_popups           =>false,
@@ -392,7 +392,7 @@ module SVG
         @border_right = 7
         if key and key_position == :right
           val = keys.max { |a,b| a.length <=> b.length }
-          @border_right += val.length * key_font_size * 0.7 
+          @border_right += val.length * key_font_size * 0.6 
           @border_right += KEY_BOX_SIZE
           @border_right += 10    # Some padding around the box
         end
@@ -421,7 +421,7 @@ module SVG
         t.attributes["style"] = "fill: #000; "+
           (x+txt_width > width ? "text-anchor: end;" : "text-anchor: start;")
         t.text = label.to_s
-        t.attributes["id"] = t.id.to_s
+        t.attributes["id"] = t.object_id.to_s
 
         @foreground.add_element( "circle", {
           "cx" => x.to_s,
@@ -429,9 +429,9 @@ module SVG
           "r" => "10",
           "style" => "opacity: 0",
           "onmouseover" => 
-            "document.getElementById(#{t.id}).setAttribute('visibility', 'visible' )",
+            "document.getElementById(#{t.object_id}).setAttribute('visibility', 'visible' )",
           "onmouseout" => 
-            "document.getElementById(#{t.id}).setAttribute('visibility', 'hidden' )",
+            "document.getElementById(#{t.object_id}).setAttribute('visibility', 'hidden' )",
         })
 
       end
@@ -446,11 +446,11 @@ module SVG
           @border_bottom += 10
         end
         if show_x_labels
-          max_x_label_height_px = rotate_x_labels ? 
+		  max_x_label_height_px = (not rotate_x_labels) ? 
+            x_label_font_size :
             get_x_labels.max{|a,b| 
-              a.length<=>b.length
-            }.length * x_label_font_size * 0.6 :
-            x_label_font_size
+              a.to_s.length<=>b.to_s.length
+            }.to_s.length * x_label_font_size * 0.6
           @border_bottom += max_x_label_height_px
           @border_bottom += max_x_label_height_px + 10 if stagger_x_labels
         end
@@ -723,7 +723,7 @@ module SVG
             })
             group.add_element( "text", {
               "x" => (KEY_BOX_SIZE + 5).to_s,
-              "y" => (y_offset + KEY_BOX_SIZE - 2).to_s,
+              "y" => (y_offset + KEY_BOX_SIZE).to_s,
               "class" => "keyText"
             }).text = key_name.to_s
             key_count += 1
@@ -737,10 +737,11 @@ module SVG
             x_offset = @border_left + 20
             y_offset = @border_top + @graph_height + 5
             if show_x_labels
-              max_x_label_height_px = rotate_x_labels ? 
-                get_x_labels.max{|a,b| 
-                  a.length<=>b.length
-                }.length * x_label_font_size :
+			  max_x_label_height_px = (not rotate_x_labels) ? 
+				x_label_font_size :
+				get_x_labels.max{|a,b| 
+				  a.to_s.length<=>b.to_s.length
+				}.to_s.length * x_label_font_size * 0.6
                 x_label_font_size
               y_offset += max_x_label_height_px
               y_offset += max_x_label_height_px + 5 if stagger_x_labels
@@ -883,41 +884,41 @@ module SVG
   fill:#ffffff;
 }
 .graphBackground{
-  fill:#f5f5f5;
+  fill:#f0f0f0;
 }
 
 /* graphs titles */
 .mainTitle{
   text-anchor: middle;
-  fill: #555555;
+  fill: #000000;
   font-size: #{title_font_size}px;
-  font-family: "Verdana", sans-serif;
-  font-weight: bold;
+  font-family: "Arial", sans-serif;
+  font-weight: normal;
 }
 .subTitle{
   text-anchor: middle;
   fill: #999999;
   font-size: #{subtitle_font_size}px;
-  font-family: "Verdana", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: normal;
 }
 
 .axis{
-  stroke: #666666;
+  stroke: #000000;
   stroke-width: 1px;
 }
 
 .guideLines{
   stroke: #666666;
   stroke-width: 1px;
-  stroke-dasharray:2,2,2;
+  stroke-dasharray: 5 5;
 }
 
 .xAxisLabels{
   text-anchor: middle;
   fill: #000000;
   font-size: #{x_label_font_size}px;
-  font-family: "Verdana", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: normal;
 }
 
@@ -925,7 +926,7 @@ module SVG
   text-anchor: end;
   fill: #000000;
   font-size: #{y_label_font_size}px;
-  font-family: "Verdana", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: normal;
 }
 
@@ -933,7 +934,7 @@ module SVG
   text-anchor: middle;
   fill: #ff0000;
   font-size: #{x_title_font_size}px;
-  font-family: "Verdana", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: normal;
 }
 
@@ -941,7 +942,7 @@ module SVG
   fill: #ff0000;
   text-anchor: middle;
   font-size: #{y_title_font_size}px;
-  font-family: "Verdana", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: normal;
 }
 
@@ -949,7 +950,7 @@ module SVG
   fill: #000000;
   text-anchor:middle;
   font-size: 10px;
-  font-family: "Verdana", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: normal;
 }
 
@@ -965,7 +966,7 @@ module SVG
   fill: #000000;
   text-anchor:start;
   font-size: #{key_font_size}px;
-  font-family: "Verdana", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: normal;
 }
 /* End copy for external style sheet */
