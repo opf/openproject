@@ -157,7 +157,7 @@ class Issue < ActiveRecord::Base
   def before_save  
     if @current_journal
       # attributes changes
-      (Issue.column_names - %w(id description)).each {|c|
+      (Issue.column_names - %w(id description lock_version created_on updated_on)).each {|c|
         @current_journal.details << JournalDetail.new(:property => 'attr',
                                                       :prop_key => c,
                                                       :old_value => @issue_before_change.send(c),
