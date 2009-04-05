@@ -26,4 +26,17 @@ class Board < ActiveRecord::Base
   validates_presence_of :name, :description
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
+  
+  def reset_counters!
+    self.class.reset_counters!(id)
+  end
+  
+  # Updates topics_count, messages_count and last_message_id attributes for +board_id+
+  def self.reset_counters!(board_id)
+    board_id = board_id.to_i
+    update_all("topics_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id} AND parent_id IS NULL)," +
+               " messages_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id})," +
+               " last_message_id = (SELECT MAX(id) FROM #{Message.table_name} WHERE board_id=#{board_id})",
+               ["id = ?", board_id])
+  end
 end

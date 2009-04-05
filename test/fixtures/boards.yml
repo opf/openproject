@@ -6,8 +6,8 @@ boards_001:
   id: 1
   description: Help board
   position: 1
-  last_message_id: 5
-  messages_count: 5
+  last_message_id: 6
+  messages_count: 6
 boards_002: 
   name: Discussion
   project_id: 1

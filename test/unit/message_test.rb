@@ -1,3 +1,20 @@
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageTest < Test::Unit::TestCase
@@ -45,6 +62,23 @@ class MessageTest < Test::Unit::TestCase
     assert_equal reply, @message.last_reply
     # author should be watching the message
     assert @message.watched_by?(reply_author)
+  end
+  
+  def test_moving_message_should_update_counters
+    @message = Message.find(1)
+    assert_no_difference 'Message.count' do
+      # Previous board
+      assert_difference 'Board.find(1).topics_count', -1 do
+        assert_difference 'Board.find(1).messages_count', -(1 + @message.replies_count) do
+          # New board
+          assert_difference 'Board.find(2).topics_count' do
+            assert_difference 'Board.find(2).messages_count', (1 + @message.replies_count) do
+              @message.update_attributes(:board_id => 2)
+            end
+          end
+        end
+      end
+    end
   end
   
   def test_destroy_topic

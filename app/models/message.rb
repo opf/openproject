@@ -37,7 +37,7 @@ class Message < ActiveRecord::Base
   acts_as_watchable
     
   attr_protected :locked, :sticky
-  validates_presence_of :subject, :content
+  validates_presence_of :board, :subject, :content
   validates_length_of :subject, :maximum => 255
   
   after_create :add_author_as_watcher
@@ -48,21 +48,22 @@ class Message < ActiveRecord::Base
   end
   
   def after_create
-    board.update_attribute(:last_message_id, self.id)
-    board.increment! :messages_count
     if parent
       parent.reload.update_attribute(:last_reply_id, self.id)
-    else
-      board.increment! :topics_count
+    end
+    board.reset_counters!
+  end
+  
+  def after_update
+    if board_id_changed?
+      Message.update_all("board_id = #{board_id}", ["id = ? OR parent_id = ?", root.id, root.id])
+      Board.reset_counters!(board_id_was)
+      Board.reset_counters!(board_id)
     end
   end
   
   def after_destroy
-    # The following line is required so that the previous counter
-    # updates (due to children removal) are not overwritten
-    board.reload
-    board.decrement! :messages_count
-    board.decrement! :topics_count unless parent
+    board.reset_counters!
   end
   
   def sticky?

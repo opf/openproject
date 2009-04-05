@@ -12,6 +12,11 @@
 <% end %>
 </p>
 
+<% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
+	<p><label><%= l(:label_board) %></label><br />
+  <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
+<% end %>
+
 <p><%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content' %></p>
 <%= wikitoolbar_for 'message_content' %>
 <!--[eoform:message]-->

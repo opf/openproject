@@ -46,6 +46,7 @@ class BoardsController < ApplicationController
                                   :include => [:author, {:last_reply => :author}],
                                   :limit  =>  @topic_pages.items_per_page,
                                   :offset =>  @topic_pages.current.offset
+    @message = Message.new
     render :action => 'show', :layout => !request.xhr?
   end
   
