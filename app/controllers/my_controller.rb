@@ -108,7 +108,7 @@ class MyController < ApplicationController
     session[:page_layout] = @blocks
     %w(top left right).each {|f| session[:page_layout][f] ||= [] }
     @block_options = []
-    BLOCKS.each {|k, v| @block_options << [l_or_humanize(v), k.dasherize]}
+    BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
   end
   
   # Add a block to user's page
