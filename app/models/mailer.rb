@@ -267,7 +267,8 @@ class Mailer < ActionMailer::Base
     headers 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,
             'X-Redmine-Site' => Setting.app_title,
-            'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
+            'Precedence' => 'bulk',
+            'Auto-Submitted' => 'auto-generated'
   end
 
   # Appends a Redmine header field (name is prepended with 'X-Redmine-')
