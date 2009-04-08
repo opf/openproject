@@ -46,7 +46,9 @@ class Attachment < ActiveRecord::Base
   @@storage_path = "#{RAILS_ROOT}/files"
   
   def validate
-    errors.add_to_base :too_long if self.filesize > Setting.attachment_max_size.to_i.kilobytes
+    if self.filesize > Setting.attachment_max_size.to_i.kilobytes
+      errors.add(:base, :too_long, :count => Setting.attachment_max_size.to_i.kilobytes)
+    end
   end
 
   def file=(incoming_file)

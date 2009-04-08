@@ -48,8 +48,8 @@ protected
       errors.add(:value, :blank) if custom_field.is_required? and value.blank?    
     else
       errors.add(:value, :invalid) unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
-      errors.add(:value, :too_short) if custom_field.min_length > 0 and value.length < custom_field.min_length
-      errors.add(:value, :too_long) if custom_field.max_length > 0 and value.length > custom_field.max_length
+      errors.add(:value, :too_short, :count => custom_field.min_length) if custom_field.min_length > 0 and value.length < custom_field.min_length
+      errors.add(:value, :too_long, :count => custom_field.max_length) if custom_field.max_length > 0 and value.length > custom_field.max_length
     
       # Format specific validations
       case custom_field.field_format
