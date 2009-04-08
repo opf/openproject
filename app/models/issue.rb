@@ -56,6 +56,8 @@ class Issue < ActiveRecord::Base
   
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
   
+  after_save :create_journal
+  
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
     (usr || User.current).allowed_to?(:view_issues, self.project)
@@ -152,30 +154,6 @@ class Issue < ActiveRecord::Base
     if assigned_to.nil? && category && category.assigned_to
       self.assigned_to = category.assigned_to
     end
-  end
-  
-  def before_save  
-    if @current_journal
-      # attributes changes
-      (Issue.column_names - %w(id description lock_version created_on updated_on)).each {|c|
-        @current_journal.details << JournalDetail.new(:property => 'attr',
-                                                      :prop_key => c,
-                                                      :old_value => @issue_before_change.send(c),
-                                                      :value => send(c)) unless send(c)==@issue_before_change.send(c)
-      }
-      # custom fields changes
-      custom_values.each {|c|
-        next if (@custom_values_before_change[c.custom_field_id]==c.value ||
-                  (@custom_values_before_change[c.custom_field_id].blank? && c.value.blank?))
-        @current_journal.details << JournalDetail.new(:property => 'cf', 
-                                                      :prop_key => c.custom_field_id,
-                                                      :old_value => @custom_values_before_change[c.custom_field_id],
-                                                      :value => c.value)
-      }      
-      @current_journal.save
-    end
-    # Save the issue even if the journal is not saved (because empty)
-    true
   end
   
   def after_save
@@ -300,5 +278,29 @@ class Issue < ActiveRecord::Base
                                          :prop_key => obj.id,
                                          :old_value => obj.filename)
     journal.save
+  end
+  
+  # Saves the changes in a Journal
+  # Called after_save
+  def create_journal
+    if @current_journal
+      # attributes changes
+      (Issue.column_names - %w(id description lock_version created_on updated_on)).each {|c|
+        @current_journal.details << JournalDetail.new(:property => 'attr',
+                                                      :prop_key => c,
+                                                      :old_value => @issue_before_change.send(c),
+                                                      :value => send(c)) unless send(c)==@issue_before_change.send(c)
+      }
+      # custom fields changes
+      custom_values.each {|c|
+        next if (@custom_values_before_change[c.custom_field_id]==c.value ||
+                  (@custom_values_before_change[c.custom_field_id].blank? && c.value.blank?))
+        @current_journal.details << JournalDetail.new(:property => 'cf', 
+                                                      :prop_key => c.custom_field_id,
+                                                      :old_value => @custom_values_before_change[c.custom_field_id],
+                                                      :value => c.value)
+      }      
+      @current_journal.save
+    end
   end
 end

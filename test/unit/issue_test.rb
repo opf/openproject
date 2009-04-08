@@ -249,4 +249,23 @@ class IssueTest < Test::Unit::TestCase
     assert issue.save
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
+  
+  def test_stale_issue_should_not_send_email_notification
+    ActionMailer::Base.deliveries.clear
+    issue = Issue.find(1)
+    stale = Issue.find(1)
+    
+    issue.init_journal(User.find(1))
+    issue.subject = 'Subjet update'
+    assert issue.save
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    ActionMailer::Base.deliveries.clear
+    
+    stale.init_journal(User.find(1))
+    stale.subject = 'Another subjet update'
+    assert_raise ActiveRecord::StaleObjectError do
+      stale.save
+    end
+    assert ActionMailer::Base.deliveries.empty?
+  end
 end
