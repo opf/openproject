@@ -112,7 +112,7 @@ fr:
         too_long: "est trop long (pas plus de {{count}} caractères)"
         too_short: "est trop court (au moins {{count}} caractères)"
         wrong_length: "ne fait pas la bonne longueur (doit comporter {{count}} caractères)"
-        taken: "n'est pas disponible"
+        taken: "est déjà utilisé"
         not_a_number: "n'est pas un nombre"
         greater_than: "doit être supérieur à {{count}}"
         greater_than_or_equal_to: "doit être supérieur ou égal à {{count}}"
