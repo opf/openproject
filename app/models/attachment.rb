@@ -67,14 +67,20 @@ class Attachment < ActiveRecord::Base
     nil
   end
 
-  # Copy temp file to its final location
+  # Copies the temporary file to its final location
+  # and computes its MD5 hash
   def before_save
     if @temp_file && (@temp_file.size > 0)
       logger.debug("saving '#{self.diskfile}'")
+      md5 = Digest::MD5.new
       File.open(diskfile, "wb") do |f| 
-        f.write(@temp_file.read)
+        buffer = ""
+        while (buffer = @temp_file.read(8192))
+          f.write(buffer)
+          md5.update(buffer)
+        end
       end
-      self.digest = self.class.digest(diskfile)
+      self.digest = md5.hexdigest
     end
     # Don't save the content type if it's longer than the authorized length
     if self.content_type && self.content_type.length > 255
@@ -142,12 +148,5 @@ private
       df << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
     end
     df
-  end
-  
-  # Returns the MD5 digest of the file at given path
-  def self.digest(filename)
-    File.open(filename, 'rb') do |f|
-      Digest::MD5.hexdigest(f.read)
-    end
   end
 end
