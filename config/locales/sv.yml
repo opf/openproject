@@ -271,7 +271,7 @@ sv:
   field_attr_firstname: Förnamnsattribut
   field_attr_lastname: Efternamnsattribut
   field_attr_mail: Mailattribut
-  field_onthefly: On-the-fly användarskapning
+  field_onthefly: Skapa användare on-the-fly
   field_start_date: Start
   field_done_ratio: % Klart
   field_auth_source: Autentiseringsläge
@@ -817,7 +817,7 @@ sv:
   text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar via mail kan därför inte skickas.\nKonfigurera din SMTP-server i config/email.yml och starta om applikationen för att aktivera dem."
   text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller emailadress i både Redmine och versionsarkivet mappas automatiskt."
   text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
-  text_custom_field_possible_values_info: 'En linje för varje värde'
+  text_custom_field_possible_values_info: 'Ett värde per rad'
   
   default_role_manager: Projektledare
   default_role_developper: Utvecklare

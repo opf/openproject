@@ -8,12 +8,12 @@ nl:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    day_names: [Zondag, Maandag, Dinsdag, Woensdag, Donderdag, Vrijdag, Zaterdag]
+    abbr_day_names: [Zo, Ma, Di, Woe, Do, Vr, Zat]
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, Januari, Februari, Maart, April, Mei, Juni, Juli, Augustus, September, Oktober, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, Mei, Jun, Jul, Aug, Sep, Okt, Nov, Dec]
     # Used in date_select and datime_select.
     order: [ :year, :month, :day ]
 
@@ -28,42 +28,42 @@ nl:
       
   datetime:
     distance_in_words:
-      half_a_minute: "half a minute"
+      half_a_minute: "halve minuut"
       less_than_x_seconds:
-        one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        one:   "minder dan een seconde"
+        other: "mindera dan {{count}} seconden"
       x_seconds:
-        one:   "1 second"
-        other: "{{count}} seconds"
+        one:   "1 seconde"
+        other: "{{count}} seconden"
       less_than_x_minutes:
-        one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        one:   "minder dan een minuut"
+        other: "minder dan {{count}} minuten"
       x_minutes:
-        one:   "1 minute"
-        other: "{{count}} minutes"
+        one:   "1 minuut"
+        other: "{{count}} minuten"
       about_x_hours:
-        one:   "about 1 hour"
-        other: "about {{count}} hours"
+        one:   "ongeveer 1 uur"
+        other: "ongeveer {{count}} uren"
       x_days:
-        one:   "1 day"
-        other: "{{count}} days"
+        one:   "1 dag"
+        other: "{{count}} dagen"
       about_x_months:
-        one:   "about 1 month"
-        other: "about {{count}} months"
+        one:   "ongeveer 1 maand"
+        other: "ongeveer {{count}} maanden"
       x_months:
-        one:   "1 month"
-        other: "{{count}} months"
+        one:   "1 maand"
+        other: "{{count}} maanden"
       about_x_years:
-        one:   "about 1 year"
-        other: "about {{count}} years"
+        one:   "ongeveer 1 jaar"
+        other: "ongeveer {{count}} jaren"
       over_x_years:
-        one:   "over 1 year"
-        other: "over {{count}} years"
+        one:   "over 1 jaar"
+        other: "over {{count}} jaren"
         
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
+      sentence_connector: "en"
       skip_last_comma: false
       
   activerecord:
@@ -82,13 +82,13 @@ nl:
         taken: "is al in gebruik"
         not_a_number: "is geen getal"
         not_a_date: "is geen valide datum"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
-        odd: "must be odd"
-        even: "must be even"
+        greater_than: "moet groter zijn dan {{count}}"
+        greater_than_or_equal_to: "moet groter zijn of gelijk zijn aan {{count}}"
+        equal_to: "moet gelijk zijn aan {{count}}"
+        less_than: "moet minder zijn dan {{count}}"
+        less_than_or_equal_to: "moet minder dan of gelijk zijn aan {{count}}"
+        odd: "moet oneven zijn"
+        even: "moet even zijn"
         greater_than_start_date: "moet na de startdatum liggen"
         not_same_project: "hoort niet bij hetzelfde project"
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid tot gevolg hebben"
@@ -550,7 +550,7 @@ nl:
   label_tracker_new: Nieuwe tracker
   label_tracker_plural: Trackers
   label_updated_time: "{{value}} geleden bijgewerkt"
-  label_updated_time_by: %2$s geleden bijgewerkt door %1$s
+  label_updated_time_by: "{{value}} geleden bijgewerkt door {{author}}"
   label_used_by: Gebruikt door
   label_user: Gebruiker
   label_user_activity: "{{value}}'s activiteit"
@@ -755,20 +755,20 @@ nl:
   text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en zijn inhoud wenst te verwijderen?
   text_workflow_edit: Selecteer een rol en een tracker om de workflow te wijzigen
   warning_attachments_not_saved: "{{count}} bestand(en) konden niet opgeslagen worden."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
+  button_create_and_continue: Maak en ga verder
+  text_custom_field_possible_values_info: 'Per lijn een waarde'
+  label_display: Toon
+  field_editable: Bewerkbaar
+  setting_repository_log_display_limit: Maximum hoeveelheid van revisies zichbaar 
+  setting_file_max_size_displayed: Max grootte van tekst bestanden inline zichtbaar
   field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  setting_openid: Sta OpenID login en registratie toe
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
+  label_login_with_open_id_option: of login met je OpenID
   field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_descending: Aflopend
+  label_sort: Sorteer
+  label_ascending: Oplopend
+  label_date_from_to: Van {{start}} tot {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=

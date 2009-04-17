@@ -8,12 +8,12 @@ sk:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    day_names: [Nedeľa, Pondelok, Utorok, Streda, Štvrtok, Piatok, Sobota]
+    abbr_day_names: [Ne, Po, Ut, St, Št, Pi, So]
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, Január, Február, Marec, Apríl, Máj, Jún, Júl, August, September, Október, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, Máj, Jún, Júl, Aug, Sep, Okt, Nov, Dec]
     # Used in date_select and datime_select.
     order: [ :year, :month, :day ]
 
@@ -28,42 +28,42 @@ sk:
       
   datetime:
     distance_in_words:
-      half_a_minute: "half a minute"
+      half_a_minute: "pol minúty"
       less_than_x_seconds:
-        one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        one:   "menej ako 1 sekunda"
+        other: "menej ako {{count}} sekúnd"
       x_seconds:
-        one:   "1 second"
-        other: "{{count}} seconds"
+        one:   "1 sekunda"
+        other: "{{count}} sekúnd"
       less_than_x_minutes:
-        one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        one:   "menej ako minúta"
+        other: "menej ako {{count}} minút"
       x_minutes:
-        one:   "1 minute"
-        other: "{{count}} minutes"
+        one:   "1 minuta"
+        other: "{{count}} minút"
       about_x_hours:
-        one:   "about 1 hour"
-        other: "about {{count}} hours"
+        one:   "okolo 1 hodiny"
+        other: "okolo {{count}} hodín"
       x_days:
-        one:   "1 day"
-        other: "{{count}} days"
+        one:   "1 deň"
+        other: "{{count}} dní"
       about_x_months:
-        one:   "about 1 month"
-        other: "about {{count}} months"
+        one:   "okolo 1 mesiaca"
+        other: "okolo {{count}} mesiace/ov"
       x_months:
-        one:   "1 month"
-        other: "{{count}} months"
+        one:   "1 mesiac"
+        other: "{{count}} mesiacov"
       about_x_years:
-        one:   "about 1 year"
-        other: "about {{count}} years"
+        one:   "okolo 1 roka"
+        other: "okolo {{count}} roky/ov"
       over_x_years:
-        one:   "over 1 year"
-        other: "over {{count}} years"
+        one:   "cez 1 rok"
+        other: "cez {{count}} rokov"
         
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
+      sentence_connector: "a"
       skip_last_comma: false
       
   activerecord:
@@ -82,14 +82,14 @@ sk:
         taken: "je už použité"
         not_a_number: "nieje číslo"
         not_a_date: "nieje platný dátum"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
-        odd: "must be odd"
-        even: "must be even"
-        greater_than_start_date: "musí byť väčší ako počiatočný dátum"
+        greater_than: "musí byť väčšíe ako {{count}}"
+        greater_than_or_equal_to: "musí byť väčšie alebo rovné {{count}}"
+        equal_to: "musí byť rovné {{count}}"
+        less_than: "musí byť menej ako {{count}}"
+        less_than_or_equal_to: "musí byť menej alebo rovné {{count}}"
+        odd: "musí byť nepárne"
+        even: "musí byť párne"
+        greater_than_start_date: "musí byť neskôr ako počiatočný dátum"
         not_same_project: "nepatrí rovnakému projektu"
         circular_dependency: "Tento vzťah by vytvoril cyklickú závislosť"
 
@@ -113,15 +113,15 @@ sk:
   notice_account_password_updated: Heslo bolo úspešne zmenené.
   notice_account_wrong_password: Chybné heslo
   notice_account_register_done: Účet bol úspešne vytvorený. Pre aktiváciu účtu kliknite na odkaz v emailu, ktorý vam bol zaslaný.
-  notice_account_unknown_email: Neznámy uživateľ.
+  notice_account_unknown_email: Neznámy užívateľ.
   notice_can_t_change_password: Tento účet používa externú autentifikáciu. Tu heslo zmeniť nemôžete.
-  notice_account_lost_email_sent: Bol vám zaslaný email s inštrukciami ako si nastavite nové heslo.
+  notice_account_lost_email_sent: Bol vám zaslaný email s inštrukciami ako si nastavie nové heslo.
   notice_account_activated: Váš účet bol aktivovaný. Teraz se môžete prihlásiť.
   notice_successful_create: Úspešne vytvorené.
   notice_successful_update: Úspešne aktualizované.
   notice_successful_delete: Úspešne odstránené.
   notice_successful_connection: Úspešne pripojené.
-  notice_file_not_found: Stránka, ktorú se snažíte zobraziť, neexistuje alebo bola smazaná.
+  notice_file_not_found: Stránka, ktorú se snažíte zobraziť, neexistuje alebo bola zmazaná.
   notice_locking_conflict: Údaje boli zmenené iným užívateľom.
   notice_scm_error: Položka a/alebo revízia neexistuje v repository.
   notice_not_authorized: Nemáte dostatočné práva pre zobrazenie tejto stránky.
@@ -223,7 +223,7 @@ sk:
   field_activity: Aktivita
   field_spent_on: Dátum
   field_identifier: Identifikátor
-  field_is_filter: Použíť ako filter
+  field_is_filter: Použiť ako filter
   field_issue_to_id: Súvisiaca úloha
   field_delay: Oneskorenie
   field_assignable: Úlohy môžu byť priradené tejto roli
@@ -244,14 +244,14 @@ sk:
   setting_attachment_max_size: Maximálna veľkosť prílohy
   setting_issues_export_limit: Limit pre export úloh
   setting_mail_from: Odosielať emaily z adresy
-  setting_bcc_recipients: Príjemci skrytej kópie (bcc)
+  setting_bcc_recipients: Príjemcovia skrytej kópie (bcc)
   setting_host_name: Hostname
   setting_text_formatting: Formátovanie textu
   setting_wiki_compression: Kompresia histórie Wiki 
   setting_feeds_limit: Limit zobrazených položiek (Atom feed)
   setting_default_projects_public: Nové projekty nastavovať ako verejné
   setting_autofetch_changesets: Automatický prenos zmien
-  setting_sys_api_enabled: Povolit WS pre správu repozitory
+  setting_sys_api_enabled: Povolit Webovú Službu (WS) pre správu repozitory
   setting_commit_ref_keywords: Klúčové slová pre odkazy
   setting_commit_fix_keywords: Klúčové slová pre uzavretie
   setting_autologin: Automatické prihlasovanie
@@ -283,9 +283,9 @@ sk:
   label_project_new: Nový projekt
   label_project_plural: Projekty
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  žiadne projekty
+    one:   1 projekt
+    other: "{{count}} projekty/ov"
   label_project_all: Všetky projekty
   label_project_latest: Posledné projekty
   label_issue: Úloha
@@ -391,17 +391,17 @@ sk:
   label_closed_issues: Uzavrený
   label_closed_issues_plural: Uzavrené
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 otvorených z celkovo / {{total}}
+    one:   1 otvorený z celkovo / {{total}}
+    other: "{{count}} otvorené/ých z celkovo / {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 otvorených
+    one:   1 otvorený
+    other: "{{count}} otvorené/ých"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 zavretých
+    one:   1 zavretý
+    other: "{{count}} zavreté/ých"
   label_total: Celkovo
   label_permissions: Práva
   label_current_status: Aktuálny stav
@@ -425,9 +425,9 @@ sk:
   label_comment: Komentár
   label_comment_plural: Komentáre
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: žiaden komentár
+    one: 1 komentár
+    other: "{{count}} komentáre"
   label_comment_add: Pridať komentár
   label_comment_added: Komentár pridaný
   label_comment_delete: Odstrániť komentár
@@ -479,7 +479,7 @@ sk:
   label_roadmap: Plán
   label_roadmap_due_in: "Zostáva {{value}}"
   label_roadmap_overdue: "{{value}} neskoro"
-  label_roadmap_no_issues: Pre túto verziu niesu žiadne úlohy
+  label_roadmap_no_issues: Pre túto verziu niesú žiadne úlohy
   label_search: Hľadať
   label_result_plural: Výsledky
   label_all_words: Všetky slova
@@ -561,7 +561,7 @@ sk:
   label_default: Východzí
   label_search_titles_only: Vyhľadávať iba v názvoch
   label_user_mail_option_all: "Pre všetky události všetkých mojích projektov"
-  label_user_mail_option_selected: "Pre všetky události vybraných projektov.."
+  label_user_mail_option_selected: "Pre všetky události vybraných projektov"
   label_user_mail_option_none: "Len pre události, ktoré sledujem alebo sa ma týkajú"
   label_user_mail_no_self_notified: "Nezasielať informácie o mnou vytvorených zmenách"
   label_registration_activation_by_email: aktivácia účtu emailom
@@ -646,7 +646,7 @@ sk:
   text_issues_ref_in_commit_messages: Odkazovať a upravovať úlohy v správach s následovnym obsahom
   text_issue_added: "úloha {{id}} bola vytvorená užívateľom {{author}}."
   text_issue_updated: "Úloha {{id}} byla aktualizovaná užívateľom {{author}}."
-  text_wiki_destroy_confirmation: Naozaj si prajete odstráni%t túto Wiki a celý jej obsah?
+  text_wiki_destroy_confirmation: Naozaj si prajete odstrániť túto Wiki a celý jej obsah?
   text_issue_category_destroy_question: "Niektoré úlohy ({{count}}) sú priradené k tejto kategórii. Čo chtete  s nimi spraviť?"
   text_issue_category_destroy_assignments: Zrušiť priradenie ku kategórii
   text_issue_category_reassign_to: Priradiť úlohy do tejto kategórie
@@ -702,7 +702,7 @@ sk:
   text_enumeration_destroy_question: "{{count}} objekty sú nastavené na túto hodnotu."
   label_incoming_emails: Príchádzajúce emaily
   label_generate_key: Vygenerovať kľúč
-  setting_mail_handler_api_enabled: Zapnúť WS pre príchodzie emaily
+  setting_mail_handler_api_enabled: Zapnúť Webovú Službu (WS) pre príchodzie emaily
   setting_mail_handler_api_key: API kľúč
   text_email_delivery_not_configured: "Doručenie emailov nieje nastavené, notifikácie sú vypnuté.\nNastavte váš SMTP server v config/email.yml a reštartnite aplikáciu pre aktiváciu funkcie."
   field_parent_title: Nadradená stránka
@@ -771,20 +771,20 @@ sk:
   setting_diff_max_lines_displayed: Maximálne množstvo zobrazených riadkov rozdielového výpisu
   text_plugin_assets_writable: Adresár pre pluginy s možnosťou zápisu
   warning_attachments_not_saved: "{{count}} súbor(y) nemohli byť uložené."
-  field_editable: Editable
-  label_display: Display
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  field_editable: Editovateľné
+  label_display: Zobrazenie
+  button_create_and_continue: Vytvoriť a pokrčovať
+  text_custom_field_possible_values_info: 'Jeden riadek pre každú hodnotu'
+  setting_repository_log_display_limit: Maximálne množstvo revizií zobrazené v log súbore
+  setting_file_max_size_displayed: Maximálne množstvo textových súborov zobrazených v riadku
+  field_watcher: Pozorovateľ
+  setting_openid: Povoliť OpenID prihlásenie a registráciu
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_login_with_open_id_option: alebo sa prihlásiť pomocou OpenID
+  field_content: Obsah
+  label_descending: Zostupné
+  label_sort: Zoradenie
+  label_ascending: Rastúce
+  label_date_from_to: Od {{start}} do {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=

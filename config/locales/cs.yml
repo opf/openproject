@@ -8,12 +8,12 @@ cs:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    day_names: [Neděle, Pondělí, Úterý, Středa, Čtvrtek, Pátek, Sobota]
+    abbr_day_names: [Ne, Po, Út, St, Čt, Pá, So]
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, Leden, Únor, Březen, Duben, Květen, Červen, Červenec, Srpen, Září, Říjen, Listopad, Prosinec]
+    abbr_month_names: [~, Led, Úno, Bře, Dub, Kvě, Čer, Čec, Srp, Zář, Říj, Lis, Pro]
     # Used in date_select and datime_select.
     order: [ :year, :month, :day ]
 
@@ -28,42 +28,42 @@ cs:
     
   datetime:
     distance_in_words:
-      half_a_minute: "half a minute"
+      half_a_minute: "půl minuty"
       less_than_x_seconds:
-        one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        one:   "méně než sekunda"
+        other: "méně než {{count}} sekund"
       x_seconds:
-        one:   "1 second"
-        other: "{{count}} seconds"
+        one:   "1 sekunda"
+        other: "{{count}} sekund"
       less_than_x_minutes:
-        one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        one:   "méně než minuta"
+        other: "méně než {{count}} minut"
       x_minutes:
-        one:   "1 minute"
-        other: "{{count}} minutes"
+        one:   "1 minuta"
+        other: "{{count}} minut"
       about_x_hours:
-        one:   "about 1 hour"
-        other: "about {{count}} hours"
+        one:   "asi 1 hodina"
+        other: "asi {{count}} hodin"
       x_days:
-        one:   "1 day"
-        other: "{{count}} days"
+        one:   "1 den"
+        other: "{{count}} dnů"
       about_x_months:
-        one:   "about 1 month"
-        other: "about {{count}} months"
+        one:   "asi 1 měsíc"
+        other: "asi {{count}} měsíců"
       x_months:
-        one:   "1 month"
-        other: "{{count}} months"
+        one:   "1 měsíc"
+        other: "{{count}} měsíců"
       about_x_years:
-        one:   "about 1 year"
-        other: "about {{count}} years"
+        one:   "asi 1 rok"
+        other: "asi {{count}} let"
       over_x_years:
-        one:   "over 1 year"
-        other: "over {{count}} years"
+        one:   "více než 1 rok"
+        other: "více než {{count}} roky"
         
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
+      sentence_connector: "a"
       skip_last_comma: false
       
   activerecord:
@@ -82,17 +82,18 @@ cs:
         taken: "je již použito"
         not_a_number: "není číslo"
         not_a_date: "není platné datum"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
-        odd: "must be odd"
-        even: "must be even"
+        greater_than: "musí být větší než {{count}}"
+        greater_than_or_equal_to: "musí být větší nebo rovno {{count}}"
+        equal_to: "musí být přesně {{count}}"
+        less_than: "musí být méně než {{count}}"
+        less_than_or_equal_to: "musí být méně nebo rovno {{count}}"
+        odd: "musí být liché"
+        even: "musí být sudé"
         greater_than_start_date: "musí být větší než počáteční datum"
         not_same_project: "nepatří stejnému projektu"
         circular_dependency: "Tento vztah by vytvořil cyklickou závislost"
 
+  # Updated by Josef Liška <jl@chl.cz>
   # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
   # Based on original CZ translation by Jan Kadleček
   
@@ -692,100 +693,100 @@ cs:
   enumeration_activities: Aktivity (sledování času)
   error_scm_annotate: "Položka neexistuje nebo nemůže být komentována."
   label_planning: Plánování
-  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
-  label_and_its_subprojects: "{{value}} and its subprojects"
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  mail_subject_reminder: "{{count}} issue(s) due in the next days"
-  text_user_wrote: "{{value}} wrote:"
+  text_subprojects_destroy_warning: "Jeho podprojek(y): {{value}} budou také smazány."
+  label_and_its_subprojects: "{{value}} a jeho  podprojekty"
+  mail_body_reminder: "{{count}} úkol(ů), které máte přiřazeny má termín během několik dní ({{days}}):"
+  mail_subject_reminder: "{{count}} úkol(ů) má termín během několik dní"
+  text_user_wrote: "{{value}} napsal:"
   label_duplicated_by: duplicated by
-  setting_enabled_scm: Enabled SCM
-  text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
-  label_incoming_emails: Incoming emails
-  label_generate_key: Generate a key
-  setting_mail_handler_api_enabled: Enable WS for incoming emails
-  setting_mail_handler_api_key: API key
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-  field_parent_title: Parent page
-  label_issue_watchers: Watchers
-  setting_commit_logs_encoding: Commit messages encoding
-  button_quote: Quote
-  setting_sequential_project_identifiers: Generate sequential project identifiers
-  notice_unable_delete_version: Unable to delete version
-  label_renamed: renamed
-  label_copied: copied
-  setting_plain_text_mail: plain text only (no HTML)
-  permission_view_files: View files
-  permission_edit_issues: Edit issues
-  permission_edit_own_time_entries: Edit own time logs
-  permission_manage_public_queries: Manage public queries
-  permission_add_issues: Add issues
-  permission_log_time: Log spent time
-  permission_view_changesets: View changesets
-  permission_view_time_entries: View spent time
-  permission_manage_versions: Manage versions
-  permission_manage_wiki: Manage wiki
-  permission_manage_categories: Manage issue categories
-  permission_protect_wiki_pages: Protect wiki pages
-  permission_comment_news: Comment news
-  permission_delete_messages: Delete messages
-  permission_select_project_modules: Select project modules
-  permission_manage_documents: Manage documents
-  permission_edit_wiki_pages: Edit wiki pages
-  permission_add_issue_watchers: Add watchers
-  permission_view_gantt: View gantt chart
-  permission_move_issues: Move issues
-  permission_manage_issue_relations: Manage issue relations
-  permission_delete_wiki_pages: Delete wiki pages
-  permission_manage_boards: Manage boards
-  permission_delete_wiki_pages_attachments: Delete attachments
-  permission_view_wiki_edits: View wiki history
-  permission_add_messages: Post messages
-  permission_view_messages: View messages
-  permission_manage_files: Manage files
-  permission_edit_issue_notes: Edit notes
-  permission_manage_news: Manage news
-  permission_view_calendar: View calendrier
-  permission_manage_members: Manage members
-  permission_edit_messages: Edit messages
-  permission_delete_issues: Delete issues
-  permission_view_issue_watchers: View watchers list
-  permission_manage_repository: Manage repository
+  setting_enabled_scm: Povoleno SCM
+  text_enumeration_category_reassign_to: 'Přeřadit je do této:'
+  text_enumeration_destroy_question: "Několik ({{count}}) objektů je přiřazeno k této hodnotě."
+  label_incoming_emails: Příchozí e-maily
+  label_generate_key: Generovat klíč
+  setting_mail_handler_api_enabled: Povolit WS pro příchozí e-maily
+  setting_mail_handler_api_key: API klíč
+  text_email_delivery_not_configured: "Doručování e-mailů není nastaveno a odesílání notifikací je zakázáno.\nNastavte Váš SMTP server v souboru config/email.yml a restartujte aplikaci."
+  field_parent_title: Rodičovská stránka
+  label_issue_watchers: Sledování
+  setting_commit_logs_encoding: Kódování zpráv při commitu
+  button_quote: Citovat
+  setting_sequential_project_identifiers: Generovat sekvenční identifikátory projektů
+  notice_unable_delete_version: Nemohu odstanit verzi
+  label_renamed: přejmenováno
+  label_copied: zkopírováno
+  setting_plain_text_mail: pouze prostý text (ne HTML)
+  permission_view_files: Prohlížení souborů
+  permission_edit_issues: Upravování úkolů
+  permission_edit_own_time_entries: Upravování vlastních zázamů o stráveném čase
+  permission_manage_public_queries: Správa veřejných dotazů
+  permission_add_issues: Přidávání úkolů
+  permission_log_time: Zaznamenávání stráveného času
+  permission_view_changesets: Zobrazování sady změn
+  permission_view_time_entries: Zobrazení stráveného času
+  permission_manage_versions: Spravování verzí
+  permission_manage_wiki: Spravování wiki
+  permission_manage_categories: Spravování kategorií úkolů
+  permission_protect_wiki_pages: Zabezpečení wiki stránek
+  permission_comment_news: Komentování novinek
+  permission_delete_messages: Mazání zpráv
+  permission_select_project_modules: Výběr modulů projektu
+  permission_manage_documents: Správa dokumentů
+  permission_edit_wiki_pages: Upravování stránek wiki
+  permission_add_issue_watchers: Přidání sledujících uživatelů
+  permission_view_gantt: Zobrazené Ganttova diagramu
+  permission_move_issues: Přesouvání úkolů
+  permission_manage_issue_relations: Spravování vztahů mezi úkoly
+  permission_delete_wiki_pages: Mazání stránek na wiki
+  permission_manage_boards: Správa diskusních fór
+  permission_delete_wiki_pages_attachments: Mazání příloh
+  permission_view_wiki_edits: Prohlížení historie wiki
+  permission_add_messages: Posílání zpráv
+  permission_view_messages: Prohlížení zpráv
+  permission_manage_files: Spravování souborů
+  permission_edit_issue_notes: Upravování poznámek
+  permission_manage_news: Spravování novinek
+  permission_view_calendar: Prohlížení kalendáře
+  permission_manage_members: Spravování členství
+  permission_edit_messages: Upravování zpráv
+  permission_delete_issues: Mazání úkolů
+  permission_view_issue_watchers: Zobrazení seznamu sledujícíh uživatelů
+  permission_manage_repository: Spravování repozitáře
   permission_commit_access: Commit access
-  permission_browse_repository: Browse repository
-  permission_view_documents: View documents
-  permission_edit_project: Edit project
-  permission_add_issue_notes: Add notes
-  permission_save_queries: Save queries
-  permission_view_wiki_pages: View wiki
-  permission_rename_wiki_pages: Rename wiki pages
-  permission_edit_time_entries: Edit time logs
-  permission_edit_own_issue_notes: Edit own notes
-  setting_gravatar_enabled: Use Gravatar user icons
-  label_example: Example
-  text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-  permission_edit_own_messages: Edit own messages
-  permission_delete_own_messages: Delete own messages
-  label_user_activity: "{{value}}'s activity"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
-  text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  permission_browse_repository: Procházení repozitáře
+  permission_view_documents: Prohlížení dokumentů
+  permission_edit_project: Úprava projektů
+  permission_add_issue_notes: Přidávání poznámek
+  permission_save_queries: Ukládání dotazů
+  permission_view_wiki_pages: Prohlížení wiki
+  permission_rename_wiki_pages: Přejmenovávání wiki stránek
+  permission_edit_time_entries: Upravování záznamů o stráveném času
+  permission_edit_own_issue_notes: Upravování vlastních poznámek
+  setting_gravatar_enabled: Použít uživatelské ikony Gravatar
+  label_example: Příklad
+  text_repository_usernames_mapping: "Vybrat nebo upravit mapování mezi Redmine uživateli a uživatelskými jmény nalezenými v logu repozitáře.\nUživatelé  se shodným Redmine uživateslkým jménem a uživatelským jménem v repozitáři jsou mapovaní automaticky."
+  permission_edit_own_messages: Upravit vlastní zprávy
+  permission_delete_own_messages: Smazat vlastní zprávy
+  label_user_activity: "Aktivita uživatele: {{value}}"
+  label_updated_time_by: "Akutualizováno: {{author}} před: {{age}}"
+  text_diff_truncated: '... Rozdílový soubor je zkrácen, protože jeho délka přesahuje max. limit.'
+  setting_diff_max_lines_displayed: Maximální počet zobrazenách řádků rozdílů
   text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  warning_attachments_not_saved: "{{count}} soubor(ů) nebylo možné uložit."
+  button_create_and_continue: Vytvořit a pokračovat
+  text_custom_field_possible_values_info: 'Každá hodnota na novém řádku'
+  label_display: Zobrazit
+  field_editable: Editovatelný
+  setting_repository_log_display_limit: Maximální počet revizí zobrazených v logu souboru
+  setting_file_max_size_displayed: Maximální velikost textových souborů zobrazených přímo na stránce
+  field_watcher: Sleduje
+  setting_openid: Umožnit přihlašování a registrace s OpenID
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_login_with_open_id_option: nebo se přihlašte s OpenID
+  field_content: Obsah
+  label_descending: Sestupně
+  label_sort: Řazení
+  label_ascending: Vzestupně
+  label_date_from_to: Od {{start}} do {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=

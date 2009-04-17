@@ -813,10 +813,10 @@ pl:
   setting_openid: Logowanie i rejestracja przy użyciu OpenID
   field_identity_url: Identyfikator OpenID (URL)
   label_login_with_open_id_option: albo użyj OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  field_content: Treść
+  label_descending: Malejąco
+  label_sort: Sortuj
+  label_ascending: Rosnąco
+  label_date_from_to: Od {{start}} do {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
