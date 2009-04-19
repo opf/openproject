@@ -696,6 +696,8 @@ class IssuesControllerTest < Test::Unit::TestCase
     
     mail = ActionMailer::Base.deliveries.last
     assert mail.body.include?("Status changed from New to Assigned")
+    # subject should contain the new status
+    assert mail.subject.include?("(#{ IssueStatus.find(2).name })")
   end
   
   def test_post_edit_with_note_only
