@@ -1,6 +1,8 @@
 <h2><%=l(:label_settings)%></h2>
 
 <% tabs = project_settings_tabs %>
+
+<% if tabs.any? %>
 <% selected_tab = params[:tab] ? params[:tab].to_s : tabs.first[:name] %>
 
 <div class="tabs">
@@ -20,5 +22,8 @@
                        :style => (tab[:name] != selected_tab ? 'display:none' : nil),
                        :class => 'tab-content') %>
 <% end -%>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
 
 <% html_title(l(:label_settings)) -%>
