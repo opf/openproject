@@ -64,6 +64,7 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       entry = assigns(:entries).detect {|e| e.name == 'helloworld.c'}
       assert_equal 'file', entry.kind
       assert_equal 'subversion_test/helloworld.c', entry.path
+      assert_tag :a, :content => 'helloworld.c', :attributes => { :class => /text\-x\-c/ }
     end
 
     def test_browse_at_given_revision

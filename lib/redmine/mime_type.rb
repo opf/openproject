@@ -24,6 +24,7 @@ module Redmine
       'text/html' => 'html,htm,xhtml',
       'text/jsp' => 'jsp',
       'text/x-c' => 'c,cpp,cc,h,hh',
+      'text/x-csharp' => 'cs',
       'text/x-java' => 'java',
       'text/x-javascript' => 'js',
       'text/x-html-template' => 'rhtml',
@@ -41,6 +42,9 @@ module Redmine
       'image/tiff' => 'tiff,tif',
       'image/x-ms-bmp' => 'bmp',
       'image/x-xpixmap' => 'xpm',
+      'application/pdf' => 'pdf',
+      'application/zip' => 'zip',
+      'application/x-gzip' => 'gz',
     }.freeze
     
     EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
@@ -53,6 +57,13 @@ module Redmine
       return nil unless name
       m = name.to_s.match(/(^|\.)([^\.]+)$/)
       EXTENSIONS[m[2].downcase] if m
+    end
+    
+    # Returns the css class associated to
+    # the mime type of name
+    def self.css_class_of(name)
+      mime = of(name)
+      mime && mime.gsub('/', '-')
     end
     
     def self.main_mimetype_of(name)

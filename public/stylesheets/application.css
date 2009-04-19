@@ -665,7 +665,6 @@ vertical-align: middle;
 .icon-move { background-image: url(../images/move.png); }
 .icon-save { background-image: url(../images/save.png); }
 .icon-cancel { background-image: url(../images/cancel.png); }
-.icon-file { background-image: url(../images/file.png); }
 .icon-folder { background-image: url(../images/folder.png); }
 .open .icon-folder { background-image: url(../images/folder_open.png); }
 .icon-package { background-image: url(../images/package.png); }
@@ -691,6 +690,21 @@ vertical-align: middle;
 .icon-details  { background-image: url(../images/zoom_in.png); }
 .icon-report  { background-image: url(../images/report.png); }
 .icon-comment  { background-image: url(../images/comment.png); }
+
+.icon-file { background-image: url(../images/files/default.png); }
+.icon-file.text-plain { background-image: url(../images/files/text.png); }
+.icon-file.text-x-c { background-image: url(../images/files/c.png); }
+.icon-file.text-x-csharp { background-image: url(../images/files/csharp.png); }
+.icon-file.text-x-php { background-image: url(../images/files/php.png); }
+.icon-file.text-x-ruby { background-image: url(../images/files/ruby.png); }
+.icon-file.text-xml { background-image: url(../images/files/xml.png); }
+.icon-file.image-gif { background-image: url(../images/files/image.png); }
+.icon-file.image-jpeg { background-image: url(../images/files/image.png); }
+.icon-file.image-png { background-image: url(../images/files/image.png); }
+.icon-file.image-tiff { background-image: url(../images/files/image.png); }
+.icon-file.application-pdf { background-image: url(../images/files/pdf.png); }
+.icon-file.application-zip { background-image: url(../images/files/zip.png); }
+.icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
 
 .icon22-projects { background-image: url(../images/22x22/projects.png); }
 .icon22-users { background-image: url(../images/22x22/users.png); }
