@@ -285,6 +285,7 @@ en:
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_openid: Allow OpenID login and registration
+  setting_password_min_length: Minimum password length
   
   permission_edit_project: Edit project
   permission_select_project_modules: Select project modules

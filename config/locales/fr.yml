@@ -317,6 +317,7 @@ fr:
   setting_file_max_size_displayed: Taille maximum des fichiers texte affichés en ligne
   setting_repository_log_display_limit: "Nombre maximum de revisions affichées sur l'historique d'un fichier"
   setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
+  setting_password_min_length: Longueur minimum des mots de passe
   
   permission_edit_project: Modifier le projet
   permission_select_project_modules: Choisir les modules

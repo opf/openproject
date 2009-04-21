@@ -15,6 +15,9 @@
                            [l(:label_registration_automatic_activation), "3"]
                           ], Setting.self_registration ) %></p>
 
+<p><label><%= l(:setting_password_min_length) %></label>
+<%= text_field_tag 'settings[password_min_length]', Setting.password_min_length, :size => 6 %></p>
+
 <p><label><%= l(:label_password_lost) %></label>
 <%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %><%= hidden_field_tag 'settings[lost_password]', 0 %></p>
 

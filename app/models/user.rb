@@ -62,7 +62,6 @@ class User < ActiveRecord::Base
   validates_length_of :firstname, :lastname, :maximum => 30
   validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
-  validates_length_of :password, :minimum => 4, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
 
   def before_create
@@ -297,7 +296,17 @@ class User < ActiveRecord::Base
     anonymous_user
   end
   
-private
+  protected
+  
+  def validate
+    # Password length validation based on setting
+    if !password.nil? && password.size < Setting.password_min_length.to_i
+      errors.add(:password, :too_short, :count => Setting.password_min_length.to_i)
+    end
+  end
+  
+  private
+  
   # Return password digest
   def self.hash_password(clear_password)
     Digest::SHA1.hexdigest(clear_password || "")

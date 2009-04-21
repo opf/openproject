@@ -31,6 +31,9 @@ self_registration:
   default: '2'
 lost_password:
   default: 1
+password_min_length:
+  format: int
+  default: 4
 attachment_max_size:
   format: int
   default: 5120
