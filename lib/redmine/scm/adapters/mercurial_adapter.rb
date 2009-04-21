@@ -105,7 +105,7 @@ module Redmine
         # makes Mercurial produce a xml output.
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})  
           revisions = Revisions.new
-          cmd = "#{HG_BIN} --debug --encoding utf8 -R #{target('')} log -C --style #{self.class.template_path}"
+          cmd = "#{HG_BIN} --debug --encoding utf8 -R #{target('')} log -C --style #{shell_quote self.class.template_path}"
           if identifier_from && identifier_to
             cmd << " -r #{identifier_from.to_i}:#{identifier_to.to_i}"
           elsif identifier_from
