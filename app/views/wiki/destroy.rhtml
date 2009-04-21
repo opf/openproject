@@ -1,0 +1,19 @@
+<h2><%=h @page.pretty_title %></h2>
+
+<% form_tag({}) do %>
+<div class="box">
+<p><strong><%= l(:text_wiki_page_destroy_question, :descendants => @descendants_count) %></strong></p>
+<p><label><%= radio_button_tag 'todo', 'nullify', true %> <%= l(:text_wiki_page_nullify_children) %></label><br />
+<label><%= radio_button_tag 'todo', 'destroy', false %> <%= l(:text_wiki_page_destroy_children) %></label>
+<% if @reassignable_to.any? %>
+<br />
+<label><%= radio_button_tag 'todo', 'reassign', false %> <%= l(:text_wiki_page_reassign_children) %></label>:
+<%= select_tag 'reassign_to_id', wiki_page_options_for_select(@reassignable_to),
+																 :onclick => "$('todo_reassign').checked = true;" %>
+<% end %>
+</p>
+</div>
+
+<%= submit_tag l(:button_apply) %>
+<%= link_to l(:button_cancel), :controller => 'wiki', :action => 'index', :id => @project, :page => @page.title %>
+<% end %>

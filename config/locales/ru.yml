@@ -914,3 +914,7 @@ ru:
   text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
   warning_attachments_not_saved: "{{count}} файл(ов) невозможно сохранить."
+  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_reassign_children: Reassign child pages to this parent page
+  text_wiki_page_nullify_children: Keep child pages as root pages
+  text_wiki_page_destroy_children: Delete child pages and all their descendants

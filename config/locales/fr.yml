@@ -791,6 +791,10 @@ fr:
   text_repository_usernames_mapping: "Vous pouvez sélectionner ou modifier l'utilisateur Redmine associé à chaque nom d'utilisateur figurant dans l'historique du dépôt.\nLes utilisateurs avec le même identifiant ou la même adresse mail seront automatiquement associés."
   text_diff_truncated: '... Ce différentiel a été tronqué car il excède la taille maximale pouvant être affichée.'
   text_custom_field_possible_values_info: 'Une ligne par valeur'
+  text_wiki_page_destroy_question: "Cette page possède {{descendants}} sous-page(s) et descendante(s). Que voulez-vous faire ?"
+  text_wiki_page_nullify_children: "Conserver les sous-pages en tant que pages racines"
+  text_wiki_page_destroy_children: "Supprimer les sous-pages et toutes leurs descedantes"
+  text_wiki_page_reassign_children: "Réaffecter les sous-pages à cette page"
   
   default_role_manager: Manager
   default_role_developper: Développeur

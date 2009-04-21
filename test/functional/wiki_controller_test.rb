@@ -240,10 +240,48 @@ class WikiControllerTest < Test::Unit::TestCase
     )
   end
   
-  def test_destroy
+  def test_destroy_child
     @request.session[:user_id] = 2
-    post :destroy, :id => 1, :page => 'CookBook_documentation'
+    post :destroy, :id => 1, :page => 'Child_1'
     assert_redirected_to :action => 'special', :id => 'ecookbook', :page => 'Page_index'
+  end
+  
+  def test_destroy_parent
+    @request.session[:user_id] = 2
+    assert_no_difference('WikiPage.count') do
+      post :destroy, :id => 1, :page => 'Another_page'
+    end
+    assert_response :success
+    assert_template 'destroy'
+  end
+  
+  def test_destroy_parent_with_nullify
+    @request.session[:user_id] = 2
+    assert_difference('WikiPage.count', -1) do
+      post :destroy, :id => 1, :page => 'Another_page', :todo => 'nullify'
+    end
+    assert_redirected_to :action => 'special', :id => 'ecookbook', :page => 'Page_index'
+    assert_nil WikiPage.find_by_id(2)
+  end
+  
+  def test_destroy_parent_with_cascade
+    @request.session[:user_id] = 2
+    assert_difference('WikiPage.count', -3) do
+      post :destroy, :id => 1, :page => 'Another_page', :todo => 'destroy'
+    end
+    assert_redirected_to :action => 'special', :id => 'ecookbook', :page => 'Page_index'
+    assert_nil WikiPage.find_by_id(2)
+    assert_nil WikiPage.find_by_id(5)
+  end
+  
+  def test_destroy_parent_with_reassign
+    @request.session[:user_id] = 2
+    assert_difference('WikiPage.count', -1) do
+      post :destroy, :id => 1, :page => 'Another_page', :todo => 'reassign', :reassign_to_id => 1
+    end
+    assert_redirected_to :action => 'special', :id => 'ecookbook', :page => 'Page_index'
+    assert_nil WikiPage.find_by_id(2)
+    assert_equal WikiPage.find(1), WikiPage.find_by_id(5).parent
   end
   
   def test_special_routing

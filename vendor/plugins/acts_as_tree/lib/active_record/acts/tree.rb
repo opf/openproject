@@ -40,11 +40,11 @@ module ActiveRecord
         # * <tt>order</tt> - makes it possible to sort the children according to this SQL snippet.
         # * <tt>counter_cache</tt> - keeps a count in a +children_count+ column if set to +true+ (default: +false+).
         def acts_as_tree(options = {})
-          configuration = { :foreign_key => "parent_id", :order => nil, :counter_cache => nil }
+          configuration = { :foreign_key => "parent_id", :dependent => :destroy, :order => nil, :counter_cache => nil }
           configuration.update(options) if options.is_a?(Hash)
 
           belongs_to :parent, :class_name => name, :foreign_key => configuration[:foreign_key], :counter_cache => configuration[:counter_cache]
-          has_many :children, :class_name => name, :foreign_key => configuration[:foreign_key], :order => configuration[:order], :dependent => :destroy
+          has_many :children, :class_name => name, :foreign_key => configuration[:foreign_key], :order => configuration[:order], :dependent => configuration[:dependent]
 
           class_eval <<-EOV
             include ActiveRecord::Acts::Tree::InstanceMethods
@@ -75,6 +75,13 @@ module ActiveRecord
         #   root.descendants # => [child1, subchild1, subchild2]
         def descendants
           children + children.collect(&:children).flatten
+        end
+
+        # Returns list of descendants and a reference to the current node.
+        #
+        #   root.self_and_descendants # => [root, child1, subchild1, subchild2]
+        def self_and_descendants
+          [self] + descendants
         end
 
         # Returns the root node of the tree.

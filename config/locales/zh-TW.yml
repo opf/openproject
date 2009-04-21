@@ -894,3 +894,7 @@
   enumeration_issue_priorities: 項目優先權
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
+  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_reassign_children: Reassign child pages to this parent page
+  text_wiki_page_nullify_children: Keep child pages as root pages
+  text_wiki_page_destroy_children: Delete child pages and all their descendants

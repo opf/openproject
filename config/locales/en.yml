@@ -761,6 +761,10 @@ en:
   text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   text_custom_field_possible_values_info: 'One line for each value'
+  text_wiki_page_destroy_question: "This page has {{descendants}} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_nullify_children: "Keep child pages as root pages"
+  text_wiki_page_destroy_children: "Delete child pages and all their descendants"
+  text_wiki_page_reassign_children: "Reassign child pages to this parent page"
   
   default_role_manager: Manager
   default_role_developper: Developer

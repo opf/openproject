@@ -819,3 +819,7 @@ zh:
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
+  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_reassign_children: Reassign child pages to this parent page
+  text_wiki_page_nullify_children: Keep child pages as root pages
+  text_wiki_page_destroy_children: Delete child pages and all their descendants
