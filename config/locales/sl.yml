@@ -731,7 +731,7 @@ sl:
   text_default_administrator_account_changed: Spremenjen privzeti administratorski račun
   text_file_repository_writable: Omogočeno pisanje v shrambo datotek
   text_rmagick_available: RMagick je na voljo(neobvezno)
-  text_destroy_time_entries_question: %.02f ur je bilo opravljenih na zahtevku, ki ga želite izbrisati. Kaj želite storiti?
+  text_destroy_time_entries_question: "{{hours}} ur je bilo opravljenih na zahtevku, ki ga želite izbrisati. Kaj želite storiti?"
   text_destroy_time_entries: Izbriši opravljene ure
   text_assign_time_entries_to_project: Predaj opravljene ure projektu
   text_reassign_time_entries: 'Prenesi opravljene ure na ta zahtevek:'

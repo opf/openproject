@@ -857,7 +857,7 @@
   text_file_repository_writable: 可寫入附加檔案目錄
   text_plugin_assets_writable: 可寫入附加元件目錄
   text_rmagick_available: 可使用 RMagick (選配)
-  text_destroy_time_entries_question: 您即將刪除的項目已報工 %.02f 小時. 您的選擇是？
+  text_destroy_time_entries_question: 您即將刪除的項目已報工 {{hours}} 小時. 您的選擇是？
   text_destroy_time_entries: 刪除已報工的時數
   text_assign_time_entries_to_project: 指定已報工的時數至專案中
   text_reassign_time_entries: '重新指定已報工的時數至此項目：'

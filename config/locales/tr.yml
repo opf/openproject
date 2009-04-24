@@ -696,7 +696,7 @@ tr:
   text_default_administrator_account_changed: Varsayılan yönetici hesabı değişti
   text_file_repository_writable: Dosya deposu yazılabilir
   text_rmagick_available: RMagick Kullanılabilir (isteğe bağlı)
-  text_destroy_time_entries_question: Silmek üzere olduğunuz iletiler üzerine %.02f saat raporlandı.Ne yapmak istersiniz ?
+  text_destroy_time_entries_question: Silmek üzere olduğunuz iletiler üzerine {{hours}} saat raporlandı.Ne yapmak istersiniz ?
   text_destroy_time_entries: Raporlanmış saatleri sil
   text_assign_time_entries_to_project: Raporlanmış saatleri projeye ata
   text_reassign_time_entries: 'Raporlanmış saatleri bu iletiye tekrar ata:'

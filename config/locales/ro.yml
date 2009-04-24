@@ -748,7 +748,7 @@ ro:
   text_file_repository_writable: Se poate scrie in directorul de atasamente
   text_plugin_assets_writable: Se poate scrie in directorul de plugins
   text_rmagick_available: Este disponibil RMagick (optional)
-  text_destroy_time_entries_question: %.02f ore sunt inregistrate la tichetele pe care doriti sa le stergeti. Ce doriti sa faceti?
+  text_destroy_time_entries_question: "{{hours}} ore sunt inregistrate la tichetele pe care doriti sa le stergeti. Ce doriti sa faceti?"
   text_destroy_time_entries: Sterge orele inregistrate
   text_assign_time_entries_to_project: Atribuie orele la proiect
   text_reassign_time_entries: 'Atribuie orele inregistrate la tichetul:'

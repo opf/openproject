@@ -672,7 +672,7 @@ bg:
   label_last_month: последния месец
   label_add_another_file: Добавяне на друг файл
   label_optional_description: Незадължително описание
-  text_destroy_time_entries_question: %.02f часа са отделени на задачите, които искате да изтриете. Какво избирате?
+  text_destroy_time_entries_question: "{{hours}} часа са отделени на задачите, които искате да изтриете. Какво избирате?"
   error_issue_not_found_in_project: 'Задачата не е намерена или не принадлежи на този проект'
   text_assign_time_entries_to_project: Прехвърляне на отделеното време към проект
   text_destroy_time_entries: Изтриване на отделеното време

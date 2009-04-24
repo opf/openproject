@@ -763,7 +763,7 @@ de:
   text_file_repository_writable: Verzeichnis für Dateien beschreibbar
   text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_rmagick_available: RMagick verfügbar (optional)
-  text_destroy_time_entries_question: Es wurden bereits %.02f Stunden auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
+  text_destroy_time_entries_question: Es wurden bereits {{hours}} Stunden auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_destroy_time_entries: Gebuchte Aufwände löschen
   text_assign_time_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'

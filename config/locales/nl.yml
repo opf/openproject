@@ -714,7 +714,7 @@ nl:
   text_comma_separated: Meerdere waarden toegestaan (kommagescheiden).
   text_default_administrator_account_changed: Standaard beheerderaccount gewijzigd
   text_destroy_time_entries: Verwijder gerapporteerde uren
-  text_destroy_time_entries_question: %.02f uren werden gerapporteerd op de issue(s) die u wilde verwijderen. Wat wil u doen?
+  text_destroy_time_entries_question: "{{hours}} uren werden gerapporteerd op de issue(s) die u wilde verwijderen. Wat wil u doen?"
   text_diff_truncated: '... Deze diff werd afgekort omdat het de maximale weer te geven karakters overschreed.'
   text_email_delivery_not_configured: "E-mailbezorging is niet geconfigureerd. Notificaties zijn uitgeschakeld.\nConfigureer uw SMTP server in config/email.yml en herstart de applicatie om dit te activeren."
   text_enumeration_category_reassign_to: 'Wijs de volgende waarde toe:'

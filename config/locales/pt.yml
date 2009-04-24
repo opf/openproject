@@ -699,7 +699,7 @@ pt:
   text_default_administrator_account_changed: Conta default de administrador alterada.
   text_file_repository_writable: Repositório de ficheiros com permissões de escrita
   text_rmagick_available: RMagick disponível (opcional)
-  text_destroy_time_entries_question: %.02f horas de trabalho foram atribuídas a estas tarefas que vai apagar. O que deseja fazer?
+  text_destroy_time_entries_question: "{{hours}} horas de trabalho foram atribuídas a estas tarefas que vai apagar. O que deseja fazer?"
   text_destroy_time_entries: Apagar as horas
   text_assign_time_entries_to_project: Atribuir as horas ao projecto
   text_reassign_time_entries: 'Re-atribuir as horas para esta tarefa:'

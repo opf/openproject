@@ -748,7 +748,7 @@ ca:
   text_file_repository_writable: Es pot escriure en el dipòsit de fitxers
   text_plugin_assets_writable: Es pot escriure als connectors actius
   text_rmagick_available: RMagick disponible (opcional)
-  text_destroy_time_entries_question: "S'han informat %.02f hores en els assumptes que aneu a suprimir. Què voleu fer?"
+  text_destroy_time_entries_question: "S'han informat {{hours}} hores en els assumptes que aneu a suprimir. Què voleu fer?"
   text_destroy_time_entries: Suprimeix les hores informades
   text_assign_time_entries_to_project: Assigna les hores informades al projecte
   text_reassign_time_entries: 'Torna a assignar les hores informades a aquest assumpte:'

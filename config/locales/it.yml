@@ -690,7 +690,7 @@ it:
   label_last_month: ultimo mese
   label_add_another_file: Aggiungi un altro file
   label_optional_description: Descrizione opzionale
-  text_destroy_time_entries_question: %.02f ore risultano spese sulle segnalazioni che stai per cancellare. Cosa vuoi fare ?
+  text_destroy_time_entries_question: "{{hours}} ore risultano spese sulle segnalazioni che stai per cancellare. Cosa vuoi fare ?"
   error_issue_not_found_in_project: 'La segnalazione non è stata trovata o non appartiene al progetto'
   text_assign_time_entries_to_project: Assegna le ore segnalate al progetto
   text_destroy_time_entries: Elimina le ore segnalate

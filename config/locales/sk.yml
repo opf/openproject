@@ -659,7 +659,7 @@ sk:
   text_default_administrator_account_changed: Zmenené výchozie nastavenie administrátorského účtu
   text_file_repository_writable: Povolený zápis do repository
   text_rmagick_available: RMagick k dispozícií (voliteľné)
-  text_destroy_time_entries_question: U úloh, které chcete odstraniť, je evidované %.02f práce. Čo chcete vykonať?
+  text_destroy_time_entries_question: U úloh, které chcete odstraniť, je evidované {{hours}} práce. Čo chcete vykonať?
   text_destroy_time_entries: Odstrániť evidované hodiny.
   text_assign_time_entries_to_project: Priradiť evidované hodiny projektu
   text_reassign_time_entries: 'Preradiť evidované hodiny k tejto úlohe:'

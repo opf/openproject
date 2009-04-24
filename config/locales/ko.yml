@@ -726,7 +726,7 @@ ko:
   label_downloads_abbr: D/L
   label_add_another_file: 다른 파일 추가 
   label_this_month: 이번 달
-  text_destroy_time_entries_question: 삭제하려는 일감에 %.02f 시간이 보고되어 있습니다. 어떻게 하시겠습니까?
+  text_destroy_time_entries_question: 삭제하려는 일감에 {{hours}} 시간이 보고되어 있습니다. 어떻게 하시겠습니까?
   label_last_n_days: "지난 {{count}} 일"
   label_all_time: 모든 시간
   error_issue_not_found_in_project: '일감이 없거나 이 프로젝트의 것이 아닙니다.'

@@ -704,7 +704,7 @@ da:
   label_add_another_file: Tilføj endnu en fil
   label_chronological_order: I kronologisk rækkefølge
   setting_activity_days_default: Antal dage der vises under projektaktivitet
-  text_destroy_time_entries_question: %.02f timer er registreret på denne sag som du er ved at slette. Hvad vil du gøre?
+  text_destroy_time_entries_question: "{{hours}} timer er registreret på denne sag som du er ved at slette. Hvad vil du gøre?"
   error_issue_not_found_in_project: 'Sagen blev ikke fundet eller tilhører ikke dette projekt'
   text_assign_time_entries_to_project: Tildel raporterede timer til projektet
   setting_display_subprojects_issues: Vis sager for underprojekter på hovedprojektet som standard

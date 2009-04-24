@@ -782,7 +782,7 @@ zh:
   text_file_repository_writable: 附件路径可写
   text_plugin_assets_writable: 插件的附件路径可写
   text_rmagick_available: RMagick 可用（可选的）
-  text_destroy_time_entries_question: 您要删除的问题已经上报了 %.02f 小时的工作量。您想进行那种操作？
+  text_destroy_time_entries_question: 您要删除的问题已经上报了 {{hours}} 小时的工作量。您想进行那种操作？
   text_destroy_time_entries: 删除上报的工作量
   text_assign_time_entries_to_project: 将已上报的工作量提交到项目中
   text_reassign_time_entries: '将已上报的工作量指定到此问题：'

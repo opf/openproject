@@ -807,7 +807,7 @@ sv:
   text_file_repository_writable: Arkivet för bifogade filer är skrivbar
   text_plugin_assets_writable: Arkivet för plug-ins är skrivbar
   text_rmagick_available: RMagick tillgängligt (valfritt)
-  text_destroy_time_entries_question: %.02f timmar har rapporterats på ärendena du är på väg att ta bort. Vad vill du göra ?
+  text_destroy_time_entries_question: "{{hours}} timmar har rapporterats på ärendena du är på väg att ta bort. Vad vill du göra ?"
   text_destroy_time_entries: Ta bort rapporterade timmar
   text_assign_time_entries_to_project: Tilldela rapporterade timmar till projektet
   text_reassign_time_entries: 'Återtilldela rapporterade timmar till detta ärende:'

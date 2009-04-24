@@ -687,7 +687,7 @@ he:
   label_last_month: חודש שעבר
   label_add_another_file: הוסף עוד קובץ
   label_optional_description: תיאור רשות
-  text_destroy_time_entries_question: %.02f שעות דווחו על הנושים שאת\ה עומד\ת למחוק. מה ברצונך לעשות ?
+  text_destroy_time_entries_question: "{{hours}} שעות דווחו על הנושים שאת\ה עומד\ת למחוק. מה ברצונך לעשות ?"
   error_issue_not_found_in_project: 'הנושאים לא נמצאו או אינם שיכים לפרויקט'
   text_assign_time_entries_to_project: הצב שעות שדווחו לפרויקט הזה
   text_destroy_time_entries: מחק שעות שדווחו

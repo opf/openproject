@@ -668,7 +668,7 @@
   text_default_administrator_account_changed: Standard administrator-konto er endret
   text_file_repository_writable: Fil-arkivet er skrivbart
   text_rmagick_available: RMagick er tilgjengelig (valgfritt)
-  text_destroy_time_entries_question: %.02f timer er ført på sakene du er i ferd med å slette. Hva vil du gjøre ?
+  text_destroy_time_entries_question: "{{hours}} timer er ført på sakene du er i ferd med å slette. Hva vil du gjøre ?"
   text_destroy_time_entries: Slett førte timer
   text_assign_time_entries_to_project: Overfør førte timer til prosjektet
   text_reassign_time_entries: 'Overfør førte timer til denne saken:'

@@ -704,7 +704,7 @@ fi:
   label_downloads_abbr: D/L
   label_add_another_file: Lisää uusi tiedosto
   label_this_month: tässä kuussa
-  text_destroy_time_entries_question: %.02f tuntia on raportoitu tapahtumasta jonka aiot poistaa. Mitä haluat tehdä ?
+  text_destroy_time_entries_question: "{{hours}} tuntia on raportoitu tapahtumasta jonka aiot poistaa. Mitä haluat tehdä ?"
   label_last_n_days: "viimeiset {{count}} päivää"
   label_all_time: koko ajalta
   error_issue_not_found_in_project: 'Tapahtumaa ei löytynyt tai se ei kuulu tähän projektiin'

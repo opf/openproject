@@ -703,7 +703,7 @@ ja:
   label_yesterday: 昨日
   label_last_month: 先月
   label_add_another_file: 別のファイルを追加
-  text_destroy_time_entries_question: チケットに記録された%.02f時間を削除しようとしています。何がしたいのですか？
+  text_destroy_time_entries_question: チケットに記録された{{hours}}時間を削除しようとしています。何がしたいのですか？
   error_issue_not_found_in_project: 'チケットが見つかりません、もしくはこのプロジェクトに属していません'
   text_assign_time_entries_to_project: 記録された時間をプロジェクトに割り当て
   label_optional_description: 任意のコメント

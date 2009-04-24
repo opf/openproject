@@ -772,7 +772,7 @@ lt:
   text_default_administrator_account_changed: Administratoriaus numatyta paskyra pakeista
   text_file_repository_writable: Į rinkmenu saugyklą galima saugoti (RW)
   text_rmagick_available: RMagick pasiekiamas (pasirinktinai)
-  text_destroy_time_entries_question: Naikinamam darbui paskelbta %.02f valandų. Ką jūs noryte su jomis daryti?
+  text_destroy_time_entries_question: Naikinamam darbui paskelbta {{hours}} valandų. Ką jūs noryte su jomis daryti?
   text_destroy_time_entries: Ištrinti paskelbtas valandas
   text_assign_time_entries_to_project: Priskirti valandas prie projekto
   text_reassign_time_entries: 'Priskirti paskelbtas valandas šiam darbui:'

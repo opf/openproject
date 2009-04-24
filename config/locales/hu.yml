@@ -697,7 +697,7 @@
   text_default_administrator_account_changed: Alapértelmezett adminisztrátor fiók megváltoztatva
   text_file_repository_writable: Fájl tároló írható
   text_rmagick_available: RMagick elérhető (opcionális)
-  text_destroy_time_entries_question: %.02f órányi munka van rögzítve a feladatokon, amiket törölni szeretne. Mit szeretne tenni ?
+  text_destroy_time_entries_question: "{{hours}} órányi munka van rögzítve a feladatokon, amiket törölni szeretne. Mit szeretne tenni ?"
   text_destroy_time_entries: A rögzített órák törlése
   text_assign_time_entries_to_project: A rögzített órák hozzárendelése a projekthez
   text_reassign_time_entries: 'A rögzített órák újra hozzárendelése ehhez a feladathoz:'
