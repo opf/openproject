@@ -1,4 +1,4 @@
-<h2><%= l(:confirmation) %></h2>
+<h2><%= l(:label_confirmation) %></h2>
 
 <% form_tag do %>
 <%= @issues.collect {|i| hidden_field_tag 'ids[]', i.id } %>
