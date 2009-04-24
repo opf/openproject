@@ -31,6 +31,7 @@
     <p><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 %></p>
   </div>
   <% end %>
+  <%= call_hook(:view_projects_show_left, :project => @project) %>
 </div>
 
 <div class="splitcontentright">
@@ -52,6 +53,7 @@
     <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
   </div>  
   <% end %>
+  <%= call_hook(:view_projects_show_right, :project => @project) %>
 </div>
 
 <% content_for :sidebar do %>
