@@ -121,7 +121,7 @@ module RepositoriesHelper
   
   def repository_field_tags(form, repository)    
     method = repository.class.name.demodulize.underscore + "_field_tags"
-    send(method, form, repository) if repository.is_a?(Repository) && respond_to?(method)
+    send(method, form, repository) if repository.is_a?(Repository) && respond_to?(method) && method != 'repository_field_tags'
   end
   
   def scm_select_tag(repository)
