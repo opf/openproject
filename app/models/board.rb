@@ -27,6 +27,10 @@ class Board < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
   
+  def to_s
+    name
+  end
+  
   def reset_counters!
     self.class.reset_counters!(id)
   end

@@ -86,6 +86,7 @@ ActionController::Routing::Routes.draw do |map|
       board_views.connect 'projects/:project_id/boards', :action => 'index'
       board_views.connect 'projects/:project_id/boards/new', :action => 'new'
       board_views.connect 'projects/:project_id/boards/:id', :action => 'show'
+      board_views.connect 'projects/:project_id/boards/:id.:format', :action => 'show'
       board_views.connect 'projects/:project_id/boards/:id/edit', :action => 'edit'
     end
     board_routes.with_options :conditions => {:method => :post} do |board_actions|
