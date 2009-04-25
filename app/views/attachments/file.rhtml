@@ -10,6 +10,8 @@
 &nbsp;
 <%= render :partial => 'common/file', :locals => {:content => @content, :filename => @attachment.filename} %>
 
+<% html_title @attachment.filename %>
+
 <% content_for :header_tags do -%>
     <%= stylesheet_link_tag "scm" -%>
 <% end -%>
