@@ -269,6 +269,16 @@ class Issue < ActiveRecord::Base
     "#{tracker} ##{id}: #{subject}"
   end
   
+  # Returns a string of css classes that apply to the issue
+  def css_classes
+    s = "issue status-#{status.position} priority-#{priority.position}"
+    s << ' closed' if closed?
+    s << ' overdue' if overdue?
+    s << ' created-by-me' if User.current.logged? && author_id == User.current.id
+    s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
+    s
+  end
+  
   private
   
   # Callback on attachment deletion

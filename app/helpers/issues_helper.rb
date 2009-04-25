@@ -33,16 +33,6 @@ module IssuesHelper
       "<strong>#{@cached_label_priority}</strong>: #{issue.priority.name}"
   end
   
-  # Returns a string of css classes that apply to the given issue
-  def css_issue_classes(issue)
-    s = "issue status-#{issue.status.position} priority-#{issue.priority.position}"
-    s << ' closed' if issue.closed?
-    s << ' overdue' if issue.overdue?
-    s << ' created-by-me' if User.current.logged? && issue.author_id == User.current.id
-    s << ' assigned-to-me' if User.current.logged? && issue.assigned_to_id == User.current.id
-    s
-  end
-  
   def sidebar_queries
     unless @sidebar_queries
       # User can see public queries and his own queries

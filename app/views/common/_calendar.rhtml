@@ -11,7 +11,7 @@ while day <= calendar.enddt %>
 <p class="day-num"><%= day.day %></p>	
 <% calendar.events_on(day).each do |i| %>
   <% if i.is_a? Issue %>
-  <div class="<%= css_issue_classes(i) %> tooltip">
+  <div class="<%= i.css_classes %> tooltip">
   <%= if day == i.start_date && day == i.due_date
         image_tag('arrow_bw.png')
       elsif day == i.start_date
