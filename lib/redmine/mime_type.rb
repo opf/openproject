@@ -31,7 +31,7 @@ module Redmine
       'text/x-perl' => 'pl,pm',
       'text/x-php' => 'php,php3,php4,php5',
       'text/x-python' => 'py',
-      'text/x-ruby' => 'rb,rbw,ruby,rake',
+      'text/x-ruby' => 'rb,rbw,ruby,rake,erb',
       'text/x-csh' => 'csh',
       'text/x-sh' => 'sh',
       'text/xml' => 'xml,xsd,mxml',
