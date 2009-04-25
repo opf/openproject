@@ -8,7 +8,7 @@ ContextMenu.prototype = {
 	initialize: function (url) {
 	this.url = url;
 
-	// prevent selection when using Ctrl/Shit key
+	// prevent text selection in the issue list
 	var tables = $$('table.issues');
 	for (i=0; i<tables.length; i++) {
 		tables[i].onselectstart = function () { return false; } // ie
