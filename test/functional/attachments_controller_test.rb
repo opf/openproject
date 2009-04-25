@@ -23,8 +23,8 @@ class AttachmentsController; def rescue_action(e) raise e end; end
 
 
 class AttachmentsControllerTest < Test::Unit::TestCase
-  fixtures :users, :projects, :roles, :members, :enabled_modules, :issues, :attachments,
-           :versions, :wiki_pages, :wikis
+  fixtures :users, :projects, :roles, :members, :enabled_modules, :issues, :trackers, :attachments,
+           :versions, :wiki_pages, :wikis, :documents
   
   def setup
     @controller = AttachmentsController.new
@@ -82,6 +82,11 @@ class AttachmentsControllerTest < Test::Unit::TestCase
     get :download, :id => 4
     assert_response :success
     assert_equal 'application/x-ruby', @response.content_type
+  end
+  
+  def test_download_missing_file
+    get :download, :id => 2
+    assert_response 404
   end
   
   def test_anonymous_on_private_private

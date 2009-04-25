@@ -126,6 +126,11 @@ class Attachment < ActiveRecord::Base
     self.filename =~ /\.(patch|diff)$/i
   end
   
+  # Returns true if the file is readable
+  def readable?
+    File.readable?(diskfile)
+  end
+  
 private
   def sanitize_filename(value)
     # get only the filename, not the whole path
