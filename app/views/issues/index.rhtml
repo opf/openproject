@@ -4,9 +4,15 @@
     
     <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
     <%= hidden_field_tag('project_id', @project.to_param) if @project %>
+		<div id="query_form_content">
     <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    </fieldset>
+		<p><%= l(:field_group_by) %>
+		<%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></p>
+		</div>
     <p class="buttons">
+
     <%= link_to_remote l(:button_apply), 
                        { :url => { :set_filter => 1 },
                          :update => "content",
@@ -23,7 +29,6 @@
     <%= link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save' %>
     <% end %>
     </p>
-    </fieldset>
     <% end %>
 <% else %>
     <div class="contextual">
@@ -36,6 +41,7 @@
     <div id="query_form"></div>
     <% html_title @query.name %>
 <% end %>
+
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
 <% if @issues.empty? %>

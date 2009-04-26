@@ -19,6 +19,9 @@
 <p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
 <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
       :onclick => 'if (this.checked) {Element.hide("columns")} else {Element.show("columns")}' %></p>
+
+<p><label for="query_group_by"><%= l(:field_group_by) %></label>
+<%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
 </div>
 
 <fieldset><legend><%= l(:label_filter_plural) %></legend>

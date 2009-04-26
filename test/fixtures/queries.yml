@@ -73,6 +73,7 @@ queries_005:
   is_public: true
   name: Open issues by priority and tracker
   filters: |
+    --- 
     status_id: 
       :values: 
       - "1"
@@ -86,4 +87,23 @@ queries_005:
       - desc
     - - tracker
       - asc
+queries_006: 
+  id: 6
+  project_id: 
+  is_public: true
+  name: Open issues grouped by tracker
+  filters: |
+    --- 
+    status_id: 
+      :values: 
+      - "1"
+      :operator: o
+
+  user_id: 1
+  column_names: 
+  group_by: tracker
+  sort_criteria: |
+    --- 
+    - - priority
+      - desc
   

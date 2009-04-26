@@ -108,7 +108,7 @@ module Redmine
       end
       
       # Returns a PDF string of a list of issues
-      def issues_to_pdf(issues, project)
+      def issues_to_pdf(issues, project, query)
         pdf = IFPDF.new(current_language)
         title = project ? "#{project} - #{l(:label_issue_plural)}" : "#{l(:label_issue_plural)}"
         pdf.SetTitle(title)
@@ -140,7 +140,18 @@ module Redmine
         # rows
         pdf.SetFontStyle('',9)
         pdf.SetFillColor(255, 255, 255)
-        issues.each do |issue|   
+        group = false
+        issues.each do |issue|
+          if query.grouped? && issue.send(query.group_by) != group
+            group = issue.send(query.group_by)
+            pdf.SetFontStyle('B',10)
+            pdf.Cell(0, row_height, "#{group.blank? ? 'None' : group.to_s}", 0, 1, 'L')
+            pdf.Line(10, pdf.GetY, 287, pdf.GetY)
+            pdf.SetY(pdf.GetY() + 0.5)
+            pdf.Line(10, pdf.GetY, 287, pdf.GetY)
+            pdf.SetY(pdf.GetY() + 1)
+            pdf.SetFontStyle('',9)
+          end
           pdf.Cell(15, row_height, issue.id.to_s, 0, 0, 'L', 1)
           pdf.Cell(30, row_height, issue.tracker.name, 0, 0, 'L', 1)
           pdf.Cell(30, row_height, issue.status.name, 0, 0, 'L', 1)

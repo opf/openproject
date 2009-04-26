@@ -274,6 +274,7 @@ fr:
   field_watcher: Observateur
   field_identity_url: URL OpenID
   field_content: Contenu
+  field_group_by: Grouper par
   
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

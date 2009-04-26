@@ -87,7 +87,7 @@ table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
 table.list td { vertical-align: top; }
 table.list td.id { width: 2%; text-align: center;}
 table.list td.checkbox { width: 15px; padding: 0px;}
-
+ 
 tr.project td.name a { padding-left: 16px; white-space:nowrap; }
 tr.project.parent td.name a { background: url('../images/bullet_toggle_minus.png') no-repeat; }
 
@@ -136,7 +136,11 @@ table.plugins span.name { font-weight: bold; display: block; margin-bottom: 6px;
 table.plugins span.description { display: block; font-size: 0.9em; }
 table.plugins span.url { display: block; font-size: 0.9em; }
 
+table.list tbody tr.group td { padding: 0.8em 0 0.5em 0.3em; font-weight: bold; border-bottom: 1px solid #ccc; }
+table.list tbody tr.group span.count { color: #aaa; font-size: 80%; }
+
 table.list tbody tr:hover { background-color:#ffffdd; }
+table.list tbody tr.group:hover { background-color:inherit; }
 table td {padding:2px;}
 table p {margin:0;}
 .odd {background-color:#f6f7f8;}
@@ -187,13 +191,17 @@ p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; } 
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
 
+#query_form_content { font-size: 0.9em; padding: 4px; background: #f6f6f6; border: 1px solid #e4e4e4; }
+#query_form_content fieldset#filters { border-left: 0; border-right: 0; }
+#query_form_content p { margin-top: 0.5em; margin-bottom: 0.5em; }
+
 fieldset#filters, fieldset#date-range { padding: 0.7em; margin-bottom: 8px; }
 fieldset#filters p { margin: 1.2em 0 0.8em 2px; }
 fieldset#filters table { border-collapse: collapse; }
 fieldset#filters table td { padding: 0; vertical-align: middle; }
 fieldset#filters tr.filter { height: 2em; }
 fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
-.buttons { font-size: 0.9em; }
+.buttons { font-size: 0.9em; margin-bottom: 1.4em; }
 
 div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
 div#issue-changesets .changeset { padding: 4px;}

@@ -30,6 +30,7 @@ class QueriesController < ApplicationController
     params[:fields].each do |field|
       @query.add_filter(field, params[:operators][field], params[:values][field])
     end if params[:fields]
+    @query.group_by ||= params[:group_by]
     
     if request.post? && params[:confirm] && @query.save
       flash[:notice] = l(:notice_successful_create)

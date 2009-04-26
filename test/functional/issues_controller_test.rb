@@ -161,6 +161,22 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:issues)
   end
   
+  def test_index_with_query
+    get :index, :project_id => 1, :query_id => 5
+    assert_response :success
+    assert_template 'index.rhtml'
+    assert_not_nil assigns(:issues)
+    assert_nil assigns(:issue_count_by_group)
+  end
+  
+  def test_index_with_grouped_query
+    get :index, :project_id => 1, :query_id => 6
+    assert_response :success
+    assert_template 'index.rhtml'
+    assert_not_nil assigns(:issues)
+    assert_not_nil assigns(:issue_count_by_group)
+  end
+  
   def test_index_csv_with_project
     get :index, :format => 'csv'
     assert_response :success
@@ -191,6 +207,11 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 'application/pdf', @response.content_type
     
     get :index, :project_id => 1, :format => 'pdf'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert_equal 'application/pdf', @response.content_type
+    
+    get :index, :project_id => 1, :query_id => 6, :format => 'pdf'
     assert_response :success
     assert_not_nil assigns(:issues)
     assert_equal 'application/pdf', @response.content_type

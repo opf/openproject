@@ -9,8 +9,18 @@
           <%= column_header(column) %>
         <% end %>
 	</tr></thead>
+	<% group = false %>
 	<tbody>
 	<% issues.each do |issue| -%>
+  <% if @query.grouped? && issue.send(@query.group_by) != group %>
+    <% group = issue.send(@query.group_by) %>
+    <% reset_cycle %>
+    <tr class="group">
+    	<td colspan="<%= query.columns.size + 2 %>">
+      	<%= group.blank? ? 'None' : group %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
+    	</td>
+		</tr>
+  <% end %>
 	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
 	    <td class="checkbox"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
 		<td><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>

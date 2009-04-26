@@ -16,12 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class QueryColumn  
-  attr_accessor :name, :sortable, :default_order
+  attr_accessor :name, :sortable, :groupable, :default_order
   include Redmine::I18n
   
   def initialize(name, options={})
     self.name = name
     self.sortable = options[:sortable]
+    self.groupable = options[:groupable] || false
     self.default_order = options[:default_order]
   end
   
@@ -98,20 +99,20 @@ class Query < ActiveRecord::Base
   cattr_reader :operators_by_filter_type
 
   @@available_columns = [
-    QueryColumn.new(:project, :sortable => "#{Project.table_name}.name"),
-    QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position"),
-    QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position"),
-    QueryColumn.new(:priority, :sortable => "#{Enumeration.table_name}.position", :default_order => 'desc'),
+    QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
+    QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :groupable => true),
+    QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :groupable => true),
+    QueryColumn.new(:priority, :sortable => "#{Enumeration.table_name}.position", :default_order => 'desc', :groupable => true),
     QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
     QueryColumn.new(:author),
-    QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname"]),
+    QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
-    QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name"),
-    QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc'),
+    QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
+    QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
-    QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio"),
+    QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
   ]
   cattr_reader :available_columns
@@ -241,6 +242,11 @@ class Query < ActiveRecord::Base
                            ).collect {|cf| QueryCustomFieldColumn.new(cf) }      
   end
   
+  # Returns an array of columns that can be used to group the results
+  def groupable_columns
+    available_columns.select {|c| c.groupable}
+  end
+  
   def columns
     if has_default_columns?
       available_columns.select do |c|
@@ -286,6 +292,24 @@ class Query < ActiveRecord::Base
   
   def sort_criteria_order(arg)
     sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
+  end
+  
+  # Returns the SQL sort order that should be prepended for grouping
+  def group_by_sort_order
+    if grouped? && (column = group_by_column)
+      column.sortable.is_a?(Array) ?
+        column.sortable.collect {|s| "#{s} #{column.default_order}"}.join(',') :
+        "#{column.sortable} #{column.default_order}"
+    end
+  end
+  
+  # Returns true if the query is a grouped query
+  def grouped?
+    !group_by.blank?
+  end
+  
+  def group_by_column
+    groupable_columns.detect {|c| c.name.to_s == group_by}
   end
   
   def project_statement

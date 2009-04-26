@@ -58,16 +58,27 @@ class IssuesController < ApplicationController
       end
       @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
-      @issues = Issue.find :all, :order => sort_clause,
+      @issues = Issue.find :all, :order => [@query.group_by_sort_order, sort_clause].compact.join(','),
                            :include => [ :assigned_to, :status, :tracker, :project, :priority, :category, :fixed_version ],
                            :conditions => @query.statement,
                            :limit  =>  limit,
                            :offset =>  @issue_pages.current.offset
       respond_to do |format|
-        format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
+        format.html { 
+          if @query.grouped?
+            # Retrieve the issue count by group
+            @issue_count_by_group = begin
+              Issue.count(:group => @query.group_by, :include => [:status, :project], :conditions => @query.statement)
+            # Rails will raise an (unexpected) error if there's only a nil group value
+            rescue ActiveRecord::RecordNotFound
+              {nil => @issue_count}
+            end
+          end
+          render :template => 'issues/index.rhtml', :layout => !request.xhr?
+        }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
-        format.pdf  { send_data(issues_to_pdf(@issues, @project), :type => 'application/pdf', :filename => 'export.pdf') }
+        format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
       end
     else
       # Send html if the query is not valid
@@ -483,10 +494,11 @@ private
             @query.add_short_filter(field, params[field]) if params[field]
           end
         end
-        session[:query] = {:project_id => @query.project_id, :filters => @query.filters}
+        @query.group_by = params[:group_by]
+        session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by}
       else
         @query = Query.find_by_id(session[:query][:id]) if session[:query][:id]
-        @query ||= Query.new(:name => "_", :project => @project, :filters => session[:query][:filters])
+        @query ||= Query.new(:name => "_", :project => @project, :filters => session[:query][:filters], :group_by => session[:query][:group_by])
         @query.project = @project
       end
     end
