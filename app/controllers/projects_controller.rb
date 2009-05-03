@@ -23,10 +23,10 @@ class ProjectsController < ApplicationController
   menu_item :settings, :only => :settings
   menu_item :issues, :only => [:changelog]
   
-  before_filter :find_project, :except => [ :index, :list, :add, :activity ]
+  before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
   before_filter :find_optional_project, :only => :activity
-  before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy, :activity ]
-  before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity ]
+  before_filter :require_admin, :only => [ :add, :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
   
   after_filter :only => [:add, :edit, :archive, :unarchive, :destroy] do |controller|
@@ -80,6 +80,30 @@ class ProjectsController < ApplicationController
 	  end		
     end	
   end
+  
+  def copy
+    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @trackers = Tracker.all
+    @root_projects = Project.find(:all,
+                                  :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
+                                  :order => 'name')
+    if request.get?
+      @project = Project.copy_from(params[:id])
+      if @project
+        @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
+      else
+        redirect_to :controller => 'admin', :action => 'projects'
+      end  
+    else
+      @project = Project.new(params[:project])
+      @project.enabled_module_names = params[:enabled_modules]
+      if @project.copy(params[:id])
+        flash[:notice] = l(:notice_successful_create)
+        redirect_to :controller => 'admin', :action => 'projects'
+      end		
+    end	
+  end
+
 	
   # Show @project
   def show

@@ -106,4 +106,32 @@ queries_006:
     --- 
     - - priority
       - desc
-  
+queries_007: 
+  id: 7
+  project_id: 2
+  is_public: true
+  name: Public query for project 2
+  filters: |
+    --- 
+    tracker_id: 
+      :values: 
+      - "3"
+      :operator: "="
+
+  user_id: 2
+  column_names: 
+queries_008: 
+  id: 8
+  project_id: 2
+  is_public: false
+  name: Private query for project 2
+  filters: |
+    --- 
+    tracker_id: 
+      :values: 
+      - "3"
+      :operator: "="
+
+  user_id: 2
+  column_names: 
+

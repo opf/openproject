@@ -453,7 +453,6 @@ class ProjectsControllerTest < Test::Unit::TestCase
     6.times do |i|
       p = Project.create!(:name => "Breadcrumbs #{i}", :identifier => "breadcrumbs-#{i}")
       p.set_parent!(parent)
-      
       get :show, :id => p
       assert_tag :h1, :parent => { :attributes => {:id => 'header'}},
                       :children => { :count => [i, 3].min,
@@ -462,7 +461,24 @@ class ProjectsControllerTest < Test::Unit::TestCase
       parent = p
     end
   end
-  
+
+  def test_copy_with_project
+    @request.session[:user_id] = 1 # admin
+    get :copy, :id => 1
+    assert_response :success
+    assert_template 'copy'
+    assert assigns(:project)
+    assert_equal Project.find(1).description, assigns(:project).description
+    assert_nil assigns(:project).id
+  end
+
+  def test_copy_without_project
+    @request.session[:user_id] = 1 # admin
+    get :copy
+    assert_response :redirect
+    assert_redirected_to :controller => 'admin', :action => 'projects'
+  end
+
   def test_jump_should_redirect_to_active_tab
     get :show, :id => 1, :jump => 'issues'
     assert_redirected_to 'projects/ecookbook/issues'

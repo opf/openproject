@@ -1,0 +1,16 @@
+<h2><%=l(:label_project_copy)%></h2>
+
+<% labelled_tabular_form_for :project, @project, :url => { :action => "copy" } do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+
+<fieldset class="box"><legend><%= l(:label_module_plural) %></legend>
+<% Redmine::AccessControl.available_project_modules.each do |m| %>
+    <label class="floating">
+    <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %>
+    <%= l_or_humanize(m, :prefix => "project_module_") %>
+    </label>
+<% end %>
+</fieldset>
+
+<%= submit_tag l(:button_copy) %>
+<% end %>

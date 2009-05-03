@@ -58,7 +58,7 @@ issues_004:
   category_id: 
   description: Issue on project 2
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id: 2
   author_id: 2
   status_id: 1
 issues_005: 
@@ -125,4 +125,4 @@ issues_008:
   start_date: 
   due_date: 
   lock_version: 0
-  
+
