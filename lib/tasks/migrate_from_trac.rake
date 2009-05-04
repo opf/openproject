@@ -135,8 +135,15 @@ namespace :redmine do
           File.file? trac_fullpath
         end
 
-        def read
-          File.open("#{trac_fullpath}", 'rb').read
+        def open
+          File.open("#{trac_fullpath}", 'rb') {|f|
+            @file = f
+            yield self
+          }
+        end
+
+        def read(*args)
+          @file.read(*args)
         end
 
         def description
@@ -506,12 +513,14 @@ namespace :redmine do
           # Attachments
           ticket.attachments.each do |attachment|
             next unless attachment.exist?
-              a = Attachment.new :created_on => attachment.time
-              a.file = attachment
-              a.author = find_or_create_user(attachment.author)
-              a.container = i
-              a.description = attachment.description
-              migrated_ticket_attachments += 1 if a.save
+              attachment.open {
+                a = Attachment.new :created_on => attachment.time
+                a.file = attachment
+                a.author = find_or_create_user(attachment.author)
+                a.container = i
+                a.description = attachment.description
+                migrated_ticket_attachments += 1 if a.save
+              }
           end
 
           # Custom fields
