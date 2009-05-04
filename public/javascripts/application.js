@@ -23,6 +23,16 @@ function showAndScrollTo(id, focus) {
 	Element.scrollTo(id);
 }
 
+function toggleRowGroup(el) {
+	var tr = Element.up(el, 'tr');
+	var n = Element.next(tr);
+	tr.toggleClassName('open');
+	while (n != undefined && !n.hasClassName('group')) {
+		Element.toggle(n);
+		n = Element.next(n);
+	}
+}
+
 var fileFieldCount = 1;
 
 function addFileField() {

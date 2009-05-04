@@ -15,8 +15,9 @@
   <% if @query.grouped? && issue.send(@query.group_by) != group %>
     <% group = issue.send(@query.group_by) %>
     <% reset_cycle %>
-    <tr class="group">
+    <tr class="group open">
     	<td colspan="<%= query.columns.size + 2 %>">
+    		<span class="expander" onclick="toggleRowGroup(this); return false;">&nbsp;</span>
       	<%= group.blank? ? 'None' : group %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
     	</td>
 		</tr>
