@@ -196,7 +196,12 @@ task :migrate_from_mantis => :environment do
       end
       
       def read(*args)
-        content
+      	if @read_finished
+      		nil
+      	else
+      		@read_finished = true
+      		content
+      	end
       end
     end
     
