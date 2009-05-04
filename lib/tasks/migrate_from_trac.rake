@@ -752,7 +752,10 @@ namespace :redmine do
     prompt('Trac database encoding', :default => 'UTF-8') {|encoding| TracMigrate.encoding encoding}
     prompt('Target project identifier') {|identifier| TracMigrate.target_project_identifier identifier}
     puts
-
+    
+    # Turn off email notifications
+    Setting.notified_events = []
+    
     TracMigrate.migrate
   end
 end
