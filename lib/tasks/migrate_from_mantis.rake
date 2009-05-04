@@ -195,7 +195,7 @@ task :migrate_from_mantis => :environment do
         file_type
       end
       
-      def read
+      def read(*args)
         content
       end
     end
