@@ -14,7 +14,7 @@
 			  <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
 			</td>
-			<td class="project"><%=h issue.project %></td>
+			<td class="project"><%= link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project) %></td>
 			<td class="tracker"><%=h issue.tracker %></td>
 			<td class="subject">
         <%= link_to h(truncate(issue.subject, :length => 60)), :controller => 'issues', :action => 'show', :id => issue %> (<%=h issue.status %>)
