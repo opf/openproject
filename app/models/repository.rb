@@ -173,8 +173,9 @@ class Repository < ActiveRecord::Base
   end
   
   def clear_changesets
-    connection.delete("DELETE FROM changes WHERE changes.changeset_id IN (SELECT changesets.id FROM changesets WHERE changesets.repository_id = #{id})")
-    connection.delete("DELETE FROM changesets_issues WHERE changesets_issues.changeset_id IN (SELECT changesets.id FROM changesets WHERE changesets.repository_id = #{id})")
-    connection.delete("DELETE FROM changesets WHERE changesets.repository_id = #{id}")
+    cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_issues#{table_name_suffix}"
+    connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
+    connection.delete("DELETE FROM #{ci} WHERE #{ci}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
+    connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")
   end
 end
