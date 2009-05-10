@@ -340,6 +340,7 @@ class Project < ActiveRecord::Base
       project.members.each do |member|
         new_member = Member.new
         new_member.attributes = member.attributes.dup.except("project_id")
+        new_member.role_ids = member.role_ids.dup
         new_member.project = self
         self.members << new_member
       end
