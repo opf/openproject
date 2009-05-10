@@ -565,12 +565,14 @@ namespace :redmine do
             page.attachments.each do |attachment|
               next unless attachment.exist?
               next if p.attachments.find_by_filename(attachment.filename.gsub(/^.*(\\|\/)/, '').gsub(/[^\w\.\-]/,'_')) #add only once per page
-              a = Attachment.new :created_on => attachment.time
-              a.file = attachment
-              a.author = find_or_create_user(attachment.author)
-              a.description = attachment.description
-              a.container = p
-              migrated_wiki_attachments += 1 if a.save
+              attachment.open {
+                a = Attachment.new :created_on => attachment.time
+                a.file = attachment
+                a.author = find_or_create_user(attachment.author)
+                a.description = attachment.description
+                a.container = p
+                migrated_wiki_attachments += 1 if a.save
+              }
             end
           end
 
