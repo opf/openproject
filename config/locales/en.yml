@@ -351,7 +351,6 @@ en:
   label_user_new: New user
   label_project: Project
   label_project_new: New project
-  label_project_copy: Copy project
   label_project_plural: Projects
   label_x_projects:
     zero:  no projects
