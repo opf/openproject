@@ -22,6 +22,7 @@ class WikiContent < ActiveRecord::Base
   belongs_to :page, :class_name => 'WikiPage', :foreign_key => 'page_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   validates_presence_of :text
+  validates_length_of :comments, :maximum => 255
   
   acts_as_versioned
   class Version
