@@ -25,7 +25,7 @@
 <ul>
 <% for membership in @memberships %>
 	<li><%= link_to(h(membership.project.name), :controller => 'projects', :action => 'show', :id => membership.project) %>
-    (<%=h membership.role.name %>, <%= format_date(membership.created_on) %>)</li>
+    (<%=h membership.roles.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)</li>
 <% end %>
 </ul>
 <% end %>

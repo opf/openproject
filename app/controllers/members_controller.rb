@@ -48,7 +48,12 @@ class MembersController < ApplicationController
     if request.post? and @member.update_attributes(params[:member])
   	 respond_to do |format|
         format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-        format.js { render(:update) {|page| page.replace_html "tab-content-members", :partial => 'projects/settings/members'} }
+        format.js { 
+          render(:update) {|page| 
+            page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+            page.visual_effect(:highlight, "member-#{@member.id}")
+          }
+        }
       end
     end
   end

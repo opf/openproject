@@ -22,7 +22,7 @@ require 'issue_categories_controller'
 class IssueCategoriesController; def rescue_action(e) raise e end; end
 
 class IssueCategoriesControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :members, :roles, :enabled_modules, :issue_categories
+  fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules, :issue_categories
   
   def setup
     @controller = IssueCategoriesController.new

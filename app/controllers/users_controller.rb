@@ -86,10 +86,7 @@ class UsersController < ApplicationController
       end
     end
     @auth_sources = AuthSource.find(:all)
-    @roles = Role.find_all_givable
-    @projects = Project.active.find(:all, :order => 'lft')
     @membership ||= Member.new
-    @memberships = @user.memberships
   end
   
   def edit_membership
@@ -97,12 +94,23 @@ class UsersController < ApplicationController
     @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)
     @membership.attributes = params[:membership]
     @membership.save if request.post?
-    redirect_to :action => 'edit', :id => @user, :tab => 'memberships'
+    respond_to do |format|
+       format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
+       format.js { 
+         render(:update) {|page| 
+           page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+           page.visual_effect(:highlight, "member-#{@membership.id}")
+         }
+       }
+     end
   end
   
   def destroy_membership
     @user = User.find(params[:id])
     Member.find(params[:membership_id]).destroy if request.post?
-    redirect_to :action => 'edit', :id => @user, :tab => 'memberships'
+    respond_to do |format|
+      format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
+      format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
+    end
   end
 end

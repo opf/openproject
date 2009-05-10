@@ -22,6 +22,7 @@ class MailHandlerTest < Test::Unit::TestCase
                    :enabled_modules,
                    :roles,
                    :members,
+                   :member_roles,
                    :issues,
                    :issue_statuses,
                    :workflows,

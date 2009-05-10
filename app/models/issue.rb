@@ -205,7 +205,7 @@ class Issue < ActiveRecord::Base
   
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user)
-    statuses = status.find_new_statuses_allowed_to(user.role_for_project(project), tracker)
+    statuses = status.find_new_statuses_allowed_to(user.roles_for_project(project), tracker)
     statuses << status unless statuses.empty?
     statuses.uniq.sort
   end

@@ -1,24 +1,36 @@
-<% if @memberships.any? %>
+<% roles = Role.find_all_givable %>
+<% projects = Project.active.find(:all, :order => 'lft') %>
+
+<div class="splitcontentleft">
+<% if @user.memberships.any? %>
 <table class="list memberships">
 	<thead>
 	  <th><%= l(:label_project) %></th>
-	  <th><%= l(:label_role) %></th>
+	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
 	</thead>
 	<tbody>
-	<% @memberships.each do |membership| %>
+	<% @user.memberships.each do |membership| %>
 	<% next if membership.new_record? %>
-	<tr class="<%= cycle 'odd', 'even' %>">
-	<td><%=h membership.project %></td>
-    <td align="center">
-    <% form_tag({ :action => 'edit_membership', :id => @user, :membership_id => membership }) do %>
-        <%= select_tag 'membership[role_id]', options_from_collection_for_select(@roles, "id", "name", membership.role_id) %>
-        <%= submit_tag l(:button_change), :class => "small" %>
+	<tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
+	<td class="project"><%=h membership.project %></td>
+  <td class="roles">
+    <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
+    <% remote_form_for(:membership, :url => { :action => 'edit_membership', :id => @user, :membership_id => membership },
+      														  :html => { :id => "member-#{membership.id}-roles-form", :style => 'display:none;'}) do %>
+      	<p><% roles.each do |role| %>
+        <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role) %> <%=h role %></label><br />
+        <% end %></p>
+        <p><%= submit_tag l(:button_change) %>
+        <%= link_to_function l(:button_cancel), "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide(); return false;" %></p>
     <% end %>
-    </td>
-    <td align="center">
-      <%= link_to l(:button_delete), {:action => 'destroy_membership', :id => @user, :membership_id => membership }, :method => :post, :class => 'icon icon-del' %>
-    </td>
+  </td>
+  <td class="buttons">
+      <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
+      <%= link_to_remote l(:button_delete), { :url => { :controller => 'users', :action => 'destroy_membership', :id => @user, :membership_id => membership },
+      																				:method => :post },
+      																		  :class => 'icon icon-del' %>
+  </td>
 	</tr>
 	</tbody>
 <% end; reset_cycle %>
@@ -26,15 +38,19 @@
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
+</div>
 
-<% if @projects.any? %>
-<p>
-<label><%=l(:label_project_new)%></label><br/>
-<% form_tag({ :action => 'edit_membership', :id => @user }) do %>
-<%= select_tag 'membership[project_id]', options_for_membership_project_select(@user, @projects) %>
-<%= l(:label_role) %>:
-<%= select_tag 'membership[role_id]', options_from_collection_for_select(@roles, "id", "name") %>
-<%= submit_tag l(:button_add) %>
+<div class="splitcontentright">
+<% if projects.any? %>
+<fieldset><legend><%=l(:label_project_new)%></legend>
+<% remote_form_for(:membership, :url => { :action => 'edit_membership', :id => @user }) do %>
+<%= select_tag 'membership[project_id]', options_for_membership_project_select(@user, projects) %>
+<p><%= l(:label_role_plural) %>:
+<% roles.each do |role| %>
+  <label><%= check_box_tag 'membership[role_ids][]', role.id %> <%=h role %></label>
+<% end %></p>
+<p><%= submit_tag l(:button_add) %></p>
 <% end %>
-</p>
+</fieldset>
 <% end %>
+</div>

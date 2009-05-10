@@ -22,7 +22,7 @@ require 'repositories_controller'
 class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesSubversionControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :roles, :members, :enabled_modules,
+  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
            :repositories, :issues, :issue_statuses, :changesets, :changes,
            :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
 

@@ -22,7 +22,7 @@ require 'wikis_controller'
 class WikisController; def rescue_action(e) raise e end; end
 
 class WikisControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :roles, :members, :enabled_modules, :wikis
+  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :wikis
   
   def setup
     @controller = WikisController.new

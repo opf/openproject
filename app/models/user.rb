@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
     :username => '#{login}'
   }
 
-  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name"
+  has_many :memberships, :class_name => 'Member', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name"
   has_many :members, :dependent => :delete_all
   has_many :projects, :through => :memberships
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
@@ -229,26 +229,30 @@ class User < ActiveRecord::Base
     !logged?
   end
   
-  # Return user's role for project
-  def role_for_project(project)
+  # Return user's roles for project
+  def roles_for_project(project)
+    roles = []
     # No role on archived projects
-    return nil unless project && project.active?
+    return roles unless project && project.active?
     if logged?
       # Find project membership
       membership = memberships.detect {|m| m.project_id == project.id}
       if membership
-        membership.role
+        roles = membership.roles
       else
         @role_non_member ||= Role.non_member
+        roles << @role_non_member
       end
     else
       @role_anonymous ||= Role.anonymous
+      roles << @role_anonymous
     end
+    roles
   end
   
   # Return true if the user is a member of project
   def member_of?(project)
-    role_for_project(project).member?
+    !roles_for_project(project).detect {|role| role.member?}.nil?
   end
   
   # Return true if the user is allowed to do the specified action on project
@@ -264,13 +268,13 @@ class User < ActiveRecord::Base
       # Admin users are authorized for anything else
       return true if admin?
       
-      role = role_for_project(project)
-      return false unless role
-      role.allowed_to?(action) && (project.is_public? || role.member?)
+      roles = roles_for_project(project)
+      return false unless roles
+      roles.detect {|role| (project.is_public? || role.member?) && role.allowed_to?(action)}
       
     elsif options[:global]
       # authorize if user has at least one role that has this permission
-      roles = memberships.collect {|m| m.role}.uniq
+      roles = memberships.collect {|m| m.roles}.flatten.uniq
       roles.detect {|r| r.allowed_to?(action)} || (self.logged? ? Role.non_member.allowed_to?(action) : Role.anonymous.allowed_to?(action))
     else
       false

@@ -22,7 +22,7 @@ require 'versions_controller'
 class VersionsController; def rescue_action(e) raise e end; end
 
 class VersionsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :versions, :issues, :users, :roles, :members, :enabled_modules
+  fixtures :projects, :versions, :issues, :users, :roles, :members, :member_roles, :enabled_modules
   
   def setup
     @controller = VersionsController.new

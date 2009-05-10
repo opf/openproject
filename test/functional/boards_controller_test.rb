@@ -22,7 +22,7 @@ require 'boards_controller'
 class BoardsController; def rescue_action(e) raise e end; end
 
 class BoardsControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :members, :roles, :boards, :messages, :enabled_modules
+  fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
   
   def setup
     @controller = BoardsController.new

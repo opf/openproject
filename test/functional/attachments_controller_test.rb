@@ -23,7 +23,7 @@ class AttachmentsController; def rescue_action(e) raise e end; end
 
 
 class AttachmentsControllerTest < Test::Unit::TestCase
-  fixtures :users, :projects, :roles, :members, :enabled_modules, :issues, :trackers, :attachments,
+  fixtures :users, :projects, :roles, :members, :member_roles, :enabled_modules, :issues, :trackers, :attachments,
            :versions, :wiki_pages, :wikis, :documents
   
   def setup

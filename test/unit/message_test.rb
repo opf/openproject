@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageTest < Test::Unit::TestCase
-  fixtures :projects, :roles, :members, :boards, :messages, :users, :watchers
+  fixtures :projects, :roles, :members, :member_roles, :boards, :messages, :users, :watchers
 
   def setup
     @board = Board.find(1)
@@ -116,7 +116,7 @@ class MessageTest < Test::Unit::TestCase
     author = message.author
     assert message.editable_by?(author)
     
-    author.role_for_project(message.project).remove_permission!(:edit_own_messages)
+    author.roles_for_project(message.project).first.remove_permission!(:edit_own_messages)
     assert !message.reload.editable_by?(author.reload)
   end
   
@@ -125,7 +125,7 @@ class MessageTest < Test::Unit::TestCase
     author = message.author
     assert message.destroyable_by?(author)
     
-    author.role_for_project(message.project).remove_permission!(:delete_own_messages)
+    author.roles_for_project(message.project).first.remove_permission!(:delete_own_messages)
     assert !message.reload.destroyable_by?(author.reload)
   end
 end

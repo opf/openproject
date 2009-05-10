@@ -40,7 +40,7 @@ class RolesController < ApplicationController
         @role.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
     end
     @permissions = @role.setable_permissions
     @roles = Role.find :all, :order => 'builtin, position'
@@ -50,7 +50,7 @@ class RolesController < ApplicationController
     @role = Role.find(params[:id])
     if request.post? and @role.update_attributes(params[:role])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
     end
     @permissions = @role.setable_permissions
   end
@@ -58,7 +58,7 @@ class RolesController < ApplicationController
   def destroy
     @role = Role.find(params[:id])
     @role.destroy
-    redirect_to :action => 'list'
+    redirect_to :action => 'index'
   rescue
     flash[:error] = 'This role is in use and can not be deleted.'
     redirect_to :action => 'index'
@@ -73,7 +73,7 @@ class RolesController < ApplicationController
         role.save
       end
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
     end
   end
 end

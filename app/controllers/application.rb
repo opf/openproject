@@ -38,10 +38,6 @@ class ApplicationController < ActionController::Base
     require_dependency "repository/#{scm.underscore}"
   end
   
-  def current_role
-    @current_role ||= User.current.role_for_project(@project)
-  end
-  
   def user_setup
     # Check the settings cache for each request
     Setting.check_cache

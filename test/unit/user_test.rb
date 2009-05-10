@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase
-  fixtures :users, :members, :projects
+  fixtures :users, :members, :projects, :roles, :member_roles
 
   def setup
     @admin = User.find(1)
@@ -130,14 +130,14 @@ class UserTest < Test::Unit::TestCase
     assert_equal key, @jsmith.rss_key
   end
   
-  def test_role_for_project
+  def test_roles_for_project
     # user with a role
-    role = @jsmith.role_for_project(Project.find(1))
-    assert_kind_of Role, role
-    assert_equal "Manager", role.name
+    roles = @jsmith.roles_for_project(Project.find(1))
+    assert_kind_of Role, roles.first
+    assert_equal "Manager", roles.first.name
     
     # user with no role
-    assert !@dlopper.role_for_project(Project.find(2)).member?
+    assert_nil @dlopper.roles_for_project(Project.find(2)).detect {|role| role.member?}
   end
   
   def test_mail_notification_all

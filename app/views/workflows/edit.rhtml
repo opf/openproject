@@ -43,7 +43,7 @@
 	<% for old_status in @statuses %>
 		<tr class="<%= cycle("odd", "even") %>">
 		<td><%= old_status.name %></td>
-		<% new_status_ids_allowed = old_status.find_new_statuses_allowed_to(@role, @tracker).collect(&:id) -%>
+		<% new_status_ids_allowed = old_status.find_new_statuses_allowed_to([@role], @tracker).collect(&:id) -%>
 		<% for new_status in @statuses -%>
 			<td align="center">
       <input type="checkbox"

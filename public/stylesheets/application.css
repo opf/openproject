@@ -87,6 +87,8 @@ table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
 table.list td { vertical-align: top; }
 table.list td.id { width: 2%; text-align: center;}
 table.list td.checkbox { width: 15px; padding: 0px;}
+table.list td.buttons { width: 15%; white-space:nowrap; text-align: right; }
+table.list td.buttons a { padding-right: 0.6em; }
  
 tr.project td.name a { padding-left: 16px; white-space:nowrap; }
 tr.project.parent td.name a { background: url('../images/bullet_toggle_minus.png') no-repeat; }
@@ -113,6 +115,8 @@ tr.changeset td.committed_on { text-align: center; width: 15%; }
 table.files tr.file td { text-align: center; }
 table.files tr.file td.filename { text-align: left; padding-left: 24px; }
 table.files tr.file td.digest { font-size: 80%; }
+
+table.members td.roles, table.memberships td.roles { width: 45%; }
 
 tr.message { height: 2.6em; }
 tr.message td.last_message { font-size: 80%; }
@@ -333,11 +337,11 @@ p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 
 /* Project members tab */
-div#tab-content-members .splitcontentleft { width: 64% }
-div#tab-content-members .splitcontentright { width: 34% }
-div#tab-content-members fieldset { padding:1em; margin-bottom: 1em; }
-div#tab-content-members fieldset legend { font-weight: bold; }
-div#tab-content-members fieldset label { display: block; }
+div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft { width: 64% }
+div#tab-content-members .splitcontentright, div#tab-content-memberships .splitcontentright { width: 34% }
+div#tab-content-members fieldset, div#tab-content-memberships fieldset { padding:1em; margin-bottom: 1em; }
+div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend { font-weight: bold; }
+div#tab-content-members fieldset label, div#tab-content-memberships fieldset label { display: block; }
 div#tab-content-members fieldset div { max-height: 400px; overflow:auto; }
 
 * html div#tab-content-members fieldset div { height: 450px; }

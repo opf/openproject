@@ -36,24 +36,34 @@ class IssueStatus < ActiveRecord::Base
 
   # Returns an array of all statuses the given role can switch to
   # Uses association cache when called more than one time
-  def new_statuses_allowed_to(role, tracker)
-    new_statuses = workflows.select {|w| w.role_id == role.id && w.tracker_id == tracker.id}.collect{|w| w.new_status} if role && tracker
-    new_statuses ? new_statuses.compact.sort{|x, y| x.position <=> y.position } : []
+  def new_statuses_allowed_to(roles, tracker)
+    if roles && tracker
+      role_ids = roles.collect(&:id)
+      new_statuses = workflows.select {|w| role_ids.include?(w.role_id) && w.tracker_id == tracker.id}.collect{|w| w.new_status}.compact.sort
+    else
+      []
+    end
   end
   
   # Same thing as above but uses a database query
   # More efficient than the previous method if called just once
-  def find_new_statuses_allowed_to(role, tracker)  
-    new_statuses = workflows.find(:all, 
-                                   :include => :new_status,
-                                   :conditions => ["role_id=? and tracker_id=?", role.id, tracker.id]).collect{ |w| w.new_status }.compact  if role && tracker
-    new_statuses ? new_statuses.sort{|x, y| x.position <=> y.position } : []
+  def find_new_statuses_allowed_to(roles, tracker)
+    if roles && tracker
+      workflows.find(:all,
+                     :include => :new_status,
+                     :conditions => { :role_id => roles.collect(&:id), 
+                                      :tracker_id => tracker.id}).collect{ |w| w.new_status }.compact.sort
+    else
+      []
+    end
   end
   
-  def new_status_allowed_to?(status, role, tracker)
-    status && role && tracker ?
-      !workflows.find(:first, :conditions => {:new_status_id => status.id, :role_id => role.id, :tracker_id => tracker.id}).nil? :
+  def new_status_allowed_to?(status, roles, tracker)
+    if status && roles && tracker
+      !workflows.find(:first, :conditions => {:new_status_id => status.id, :role_id => roles.collect(&:id), :tracker_id => tracker.id}).nil?
+    else
       false
+    end
   end
 
   def <=>(status)

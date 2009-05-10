@@ -1,36 +1,43 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.members.find(:all, :include => [:role, :user]).sort %>
+   members = @project.members.find(:all, :include => [:roles, :user]).sort %>
 
 <div class="splitcontentleft">
 <% if members.any? %>
-<table class="list">
+<table class="list members">
 	<thead>
 	  <th><%= l(:label_user) %></th>
-	  <th><%= l(:label_role) %></th>
+	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
           <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
 	</thead>
 	<tbody>
 	<% members.each do |member| %>
 	<% next if member.new_record? %>
-	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %>">
-	<td><%=h member.name %></td>
-    <td align="center">
+	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
+	<td class="user"><%= link_to_user member.user %></td>
+  <td class="roles">
+    <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorize_for('members', 'edit') %>
-      <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member}, :method => :post) do |f| %>
-        <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, {}, :class => "small" %>
-        <%= submit_tag l(:button_change), :class => "small" %>
+      <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member},
+      																		:method => :post,
+      																		:html => { :id => "member-#{member.id}-roles-form", :style => 'display:none;' }) do |f| %>
+      	<p><% roles.each do |role| %>
+        <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role) %> <%=h role %></label><br />
+        <% end %></p>
+        <p><%= submit_tag l(:button_change), :class => "small" %>
+        <%= link_to_function l(:button_cancel), "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;" %></p>
       <% end %>
     <% end %>
-    </td>
-    <td align="center">
+  </td>
+  <td class="buttons">
+      <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
       <%= link_to_remote l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
                                               :method => :post
                                             }, :title => l(:button_delete),
                                                :class => 'icon icon-del' %>
-    </td>
-    <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
+  </td>
+  <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
 	</tr>
 	</tbody>
 <% end; reset_cycle %>
@@ -58,8 +65,11 @@
 			<% end -%>
 			</div>
 		<% end %>
-    <p><%= l(:label_role) %>: <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, :selected => nil %>
-    <%= submit_tag l(:button_add) %></p>
+    <p><%= l(:label_role_plural) %>:
+    <% roles.each do |role| %>
+    	<label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
+   	<% end %></p>
+    <p><%= submit_tag l(:button_add) %></p>
 		</fieldset>
   <% end %>
 <% end %>

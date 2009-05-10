@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IssueTest < Test::Unit::TestCase
-  fixtures :projects, :users, :members,
+  fixtures :projects, :users, :members, :member_roles,
            :trackers, :projects_trackers,
            :issue_statuses, :issue_categories,
            :enumerations,
@@ -240,6 +240,10 @@ class IssueTest < Test::Unit::TestCase
     assert !Issue.new(:due_date => 1.day.from_now.to_date).overdue?
     assert !Issue.new(:due_date => nil).overdue?
     assert !Issue.new(:due_date => 1.day.ago.to_date, :status => IssueStatus.find(:first, :conditions => {:is_closed => true})).overdue?
+  end
+  
+  def test_assignable_users
+    assert_kind_of User, Issue.find(1).assignable_users.first
   end
   
   def test_create_should_send_email_notification

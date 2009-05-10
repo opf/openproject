@@ -10,6 +10,7 @@ class IssueRelationsControllerTest < Test::Unit::TestCase
            :users,
            :roles,
            :members,
+           :member_roles,
            :issues,
            :issue_statuses,
            :enabled_modules,

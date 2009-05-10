@@ -22,7 +22,7 @@ require 'messages_controller'
 class MessagesController; def rescue_action(e) raise e end; end
 
 class MessagesControllerTest < Test::Unit::TestCase
-  fixtures :projects, :users, :members, :roles, :boards, :messages, :enabled_modules
+  fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
   
   def setup
     @controller = MessagesController.new

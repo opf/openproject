@@ -24,7 +24,7 @@ class UsersController; def rescue_action(e) raise e end; end
 class UsersControllerTest < Test::Unit::TestCase
   include Redmine::I18n
   
-  fixtures :users, :projects, :members
+  fixtures :users, :projects, :members, :member_roles, :roles
   
   def setup
     @controller = UsersController.new
@@ -123,9 +123,9 @@ class UsersControllerTest < Test::Unit::TestCase
   
   def test_edit_membership
     post :edit_membership, :id => 2, :membership_id => 1,
-                           :membership => { :role_id => 2}
+                           :membership => { :role_ids => [2]}
     assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
-    assert_equal 2, Member.find(1).role_id
+    assert_equal [2], Member.find(1).role_ids
   end
   
   def test_edit_with_activation_should_send_a_notification

@@ -1,0 +1,23 @@
+--- 
+member_roles_001: 
+  id: 1
+  role_id: 1
+  member_id: 1
+member_roles_002: 
+  id: 2
+  role_id: 2
+  member_id: 2
+member_roles_003: 
+  id: 3
+  role_id: 2
+  member_id: 3
+member_roles_004: 
+  id: 4
+  role_id: 2
+  member_id: 4
+member_roles_005: 
+  id: 5
+  role_id: 1
+  member_id: 5
+  
+  

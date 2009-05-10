@@ -38,7 +38,8 @@ class Role < ActiveRecord::Base
     end
   end
   
-  has_many :members
+  has_many :member_roles, :dependent => :destroy
+  has_many :members, :through => :member_roles
   acts_as_list
   
   serialize :permissions, Array
@@ -82,7 +83,11 @@ class Role < ActiveRecord::Base
   end
   
   def <=>(role)
-    position <=> role.position
+    role ? position <=> role.position : -1
+  end
+  
+  def to_s
+    name
   end
   
   # Return true if the role is a builtin role

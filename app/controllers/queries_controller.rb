@@ -24,7 +24,7 @@ class QueriesController < ApplicationController
     @query = Query.new(params[:query])
     @query.project = params[:query_is_for_all] ? nil : @project
     @query.user = User.current
-    @query.is_public = false unless (@query.project && current_role.allowed_to?(:manage_public_queries)) || User.current.admin?
+    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.column_names = nil if params[:default_columns]
     
     params[:fields].each do |field|
@@ -48,7 +48,7 @@ class QueriesController < ApplicationController
       end if params[:fields]
       @query.attributes = params[:query]
       @query.project = nil if params[:query_is_for_all]
-      @query.is_public = false unless (@query.project && current_role.allowed_to?(:manage_public_queries)) || User.current.admin?
+      @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
       @query.column_names = nil if params[:default_columns]
       
       if @query.save
