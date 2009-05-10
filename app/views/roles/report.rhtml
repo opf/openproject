@@ -19,7 +19,12 @@
 <% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
 <% perms_by_module.keys.sort.each do |mod| %>
     <% unless mod.blank? %>
-        <tr><%= content_tag('th', l_or_humanize(mod, :prefix => 'project_module_'), :colspan => (@roles.size + 1), :align => 'left') %></tr>
+        <tr class="group open">
+        	<td colspan="<%= @roles.size + 1 %>">
+        		<span class="expander" onclick="toggleRowGroup(this); return false;">&nbsp;</span>
+        		<%= l_or_humanize(mod, :prefix => 'project_module_') %>
+        	</td>
+        </tr>
     <% end %>
     <% perms_by_module[mod].each do |permission| %>
         <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
