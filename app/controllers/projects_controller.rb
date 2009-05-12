@@ -112,7 +112,7 @@ class ProjectsController < ApplicationController
       redirect_to_project_menu_item(@project, params[:jump]) && return
     end
     
-    @members_by_role = @project.members.find(:all, :include => [:user, :roles], :order => 'position').group_by {|m| m.roles.first}
+    @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = @project.rolled_up_trackers

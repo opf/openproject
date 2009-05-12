@@ -245,6 +245,17 @@ class Project < ActiveRecord::Base
                          :order => "#{Tracker.table_name}.position")
   end
   
+  # Returns a hash of project users grouped by role
+  def users_by_role
+    members.find(:all, :include => [:user, :roles]).inject({}) do |h, m|
+      m.roles.each do |r|
+        h[r] ||= []
+        h[r] << m.user
+      end
+      h
+    end
+  end
+  
   # Deletes all project's members
   def delete_all_members
     me, mr = Member.table_name, MemberRole.table_name

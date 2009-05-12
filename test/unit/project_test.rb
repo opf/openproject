@@ -186,6 +186,14 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal [5, 6, 3, 4], d.collect(&:id)
   end
   
+  def test_users_by_role
+    users_by_role = Project.find(1).users_by_role
+    assert_kind_of Hash, users_by_role
+    role = Role.find(1)
+    assert_kind_of Array, users_by_role[role]
+    assert users_by_role[role].include?(User.find(2))
+  end
+  
   def test_rolled_up_trackers
     parent = Project.find(1)
     parent.trackers = Tracker.find([1,2])

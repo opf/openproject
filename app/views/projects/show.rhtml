@@ -35,13 +35,11 @@
 </div>
 
 <div class="splitcontentright">
-    <% if @members_by_role.any? %>
+  <% if @users_by_role.any? %>
 	<div class="box">
 		<h3 class="icon22 icon22-users"><%=l(:label_member_plural)%></h3>	
-		<p><% @members_by_role.keys.sort.each do |role| %>
-		<%= role.name %>:
-		<%= @members_by_role[role].collect(&:user).sort.collect{|u| link_to_user u}.join(", ") %>
-		<br />
+		<p><% @users_by_role.keys.sort.each do |role| %>
+		<%= role.name %>: <%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ") %><br />
 		<% end %></p>
 	</div>
 	<% end %>
