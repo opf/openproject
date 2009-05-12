@@ -149,16 +149,18 @@ sub RedmineDSN {
   $self->{RedmineDSN} = $arg;
   my $query = "SELECT 
                  hashed_password, auth_source_id, permissions
-              FROM members, projects, users, roles
+              FROM members, projects, users, roles, member_roles
               WHERE 
-                projects.id=members.project_id 
+                projects.id=members.project_id
+                AND member_roles.member_id=members.id
                 AND users.id=members.user_id 
-                AND roles.id=members.role_id
+                AND roles.id=member_roles.role_id
                 AND users.status=1 
                 AND login=? 
                 AND identifier=? ";
   $self->{RedmineQuery} = trim($query);
 }
+
 sub RedmineDbUser { set_val('RedmineDbUser', @_); }
 sub RedmineDbPass { set_val('RedmineDbPass', @_); }
 sub RedmineDbWhereClause { 
