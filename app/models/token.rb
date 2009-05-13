@@ -36,9 +36,6 @@ class Token < ActiveRecord::Base
   
 private
   def self.generate_token_value
-    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-    token_value = ''
-    40.times { |i| token_value << chars[rand(chars.size-1)] }
-    token_value
+    ActiveSupport::SecureRandom.hex(20)
   end
 end
