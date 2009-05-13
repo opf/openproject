@@ -17,6 +17,7 @@
 
 class Token < ActiveRecord::Base
   belongs_to :user
+  validates_uniqueness_of :value
   
   @@validity_time = 1.day
   
