@@ -273,7 +273,7 @@ class IssuesController < ApplicationController
     end
     # Find potential statuses the user could be allowed to switch issues to
     @available_statuses = Workflow.find(:all, :include => :new_status,
-                                              :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq.sort
+                                              :conditions => {:role_id => User.current.roles_for_project(@project).collect(&:id)}).collect(&:new_status).compact.uniq.sort
     @custom_fields = @project.issue_custom_fields.select {|f| f.field_format == 'list'}
   end
 

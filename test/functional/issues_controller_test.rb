@@ -831,6 +831,13 @@ class IssuesControllerTest < Test::Unit::TestCase
                           :content => notes
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
+  
+  def test_get_bulk_edit
+    @request.session[:user_id] = 2
+    get :bulk_edit, :ids => [1, 2]
+    assert_response :success
+    assert_template 'bulk_edit'
+  end
 
   def test_bulk_edit
     @request.session[:user_id] = 2
