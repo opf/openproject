@@ -128,10 +128,14 @@ class User < ActiveRecord::Base
   
   # Returns the user who matches the given autologin +key+ or nil
   def self.try_to_autologin(key)
-    token = Token.find_by_action_and_value('autologin', key)
-    if token && (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
-      token.user.update_attribute(:last_login_on, Time.now)
-      token.user
+    tokens = Token.find_all_by_action_and_value('autologin', key)
+    # Make sure there's only 1 token that matches the key
+    if tokens.size == 1
+      token = tokens.first
+      if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
+        token.user.update_attribute(:last_login_on, Time.now)
+        token.user
+      end
     end
   end
 	
