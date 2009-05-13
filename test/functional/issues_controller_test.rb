@@ -905,14 +905,14 @@ class IssuesControllerTest < Test::Unit::TestCase
   end
   
   def test_move_one_issue_to_another_project
-    @request.session[:user_id] = 1
+    @request.session[:user_id] = 2
     post :move, :id => 1, :new_project_id => 2
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal 2, Issue.find(1).project_id
   end
 
   def test_bulk_move_to_another_project
-    @request.session[:user_id] = 1
+    @request.session[:user_id] = 2
     post :move, :ids => [1, 2], :new_project_id => 2
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     # Issues moved to project 2
@@ -924,7 +924,7 @@ class IssuesControllerTest < Test::Unit::TestCase
   end
  
   def test_bulk_move_to_another_tracker
-    @request.session[:user_id] = 1
+    @request.session[:user_id] = 2
     post :move, :ids => [1, 2], :new_tracker_id => 2
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal 2, Issue.find(1).tracker_id
@@ -932,7 +932,7 @@ class IssuesControllerTest < Test::Unit::TestCase
   end
 
   def test_bulk_copy_to_another_project
-    @request.session[:user_id] = 1
+    @request.session[:user_id] = 2
     assert_difference 'Issue.count', 2 do
       assert_no_difference 'Project.find(1).issues.count' do
         post :move, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}
