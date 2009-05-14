@@ -873,6 +873,18 @@ class IssuesControllerTest < Test::Unit::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
+  def test_bulk_edit_status
+    @request.session[:user_id] = 2
+    # update issues priority
+    post :bulk_edit, :ids => [1, 2], :priority_id => '',
+                                     :assigned_to_id => '',
+                                     :status_id => '5',
+                                     :notes => 'Bulk editing status'
+    assert_response 302
+    issue = Issue.find(1)
+    assert issue.closed?
+  end
+
   def test_bulk_edit_custom_field
     @request.session[:user_id] = 2
     # update issues priority
