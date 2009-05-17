@@ -323,6 +323,7 @@ fr:
   setting_repository_log_display_limit: "Nombre maximum de revisions affichées sur l'historique d'un fichier"
   setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
   setting_password_min_length: Longueur minimum des mots de passe
+  setting_new_project_user_role_id: Rôle donné à un utilisateur non-administrateur qui crée un projet
   
   permission_add_project: Créer un projet
   permission_edit_project: Modifier le projet
