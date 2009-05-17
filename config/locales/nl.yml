@@ -772,11 +772,11 @@ nl:
   label_date_from_to: Van {{start}} tot {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
+  text_wiki_page_destroy_question: Deze pagina heeft {{descendants}} subpagina's en onderliggende pagina's?. Wil wil je ermee doen?
+  text_wiki_page_reassign_children: Alle subpagina's toewijzen aan deze hoofdpagina
+  text_wiki_page_nullify_children: Behoud subpagina's als hoofdpagina's
+  text_wiki_page_destroy_children: Verwijder alle subpagina's en onderliggende pagina's
+  setting_password_min_length: Minimum wachtwoord lengte
   field_group_by: Group results by
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
   label_wiki_content_added: Wiki page added

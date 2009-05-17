@@ -819,30 +819,30 @@ es:
   text_wiki_destroy_confirmation: ¿Seguro que quiere borrar el wiki y todo su contenido?
   text_workflow_edit: Seleccionar un flujo de trabajo para actualizar
   text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
+  warning_attachments_not_saved: "No fue posible guardar {{count}} fichero(s)."
+  button_create_and_continue: Crear y continuar
+  text_custom_field_possible_values_info: 'Una línea para cada valor'
+  label_display: Mostrar
   field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  setting_repository_log_display_limit: Número máximo de revisiones mostradas en el fichero de trazas
+  setting_file_max_size_displayed: Tamaño máximo de ficheros de texto a mostrar
+  field_watcher: Seguidor
+  setting_openid: Permitir autenticación y registro con OpenID
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_login_with_open_id_option: o acceder mediante OpenID
+  field_content: Contenido
+  label_descending: Descendiente
+  label_sort: Ordenar
+  label_ascending: Ascendente
+  label_date_from_to: Desde {{start}} a {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
+  text_wiki_page_destroy_question: Esta página tiene {{descendants}} página(s) hija(s) y descendiente(s). ¿Qué desea hacer?
+  text_wiki_page_reassign_children: Reasignar páginas hijas a esta página
+  text_wiki_page_nullify_children: Dejar páginas hijas como páginas raíz
+  text_wiki_page_destroy_children: Eliminar páginas hijas y todos sus descendientes
+  setting_password_min_length: Tamaño mínimo de contraseña
+  field_group_by: Agrupar resultados por
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
   mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"

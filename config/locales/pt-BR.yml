@@ -822,12 +822,12 @@ pt-BR:
   label_date_from_to: De {{start}} até {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
+  text_wiki_page_destroy_question: Esta página tem {{descendants}} página(s) filha(s) e descendente(s). O que você quer fazer?
+  text_wiki_page_reassign_children: Reatribuir páginas filhas para esta página pai
+  text_wiki_page_nullify_children: Manter as páginas filhas como páginas raízes
+  text_wiki_page_destroy_children: Excluir páginas filhas e todas suas descendentes
+  setting_password_min_length: Comprimento mínimo para senhas
+  field_group_by: Agrupar por
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
   mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"

@@ -742,7 +742,7 @@
   field_parent_title: Szülő oldal
   label_issue_watchers: Megfigyelők
   setting_commit_logs_encoding: Commit üzenetek kódlapja
-  button_quote: Idézet
+  button_quote: Hozzászólás / Idézet
   setting_sequential_project_identifiers: Szekvenciális projekt azonosítók generálása
   notice_unable_delete_version: A verziót nem lehet törölni
   label_renamed: átnevezve
@@ -821,13 +821,13 @@
   label_ascending: Növekvő
   label_date_from_to: "{{start}} -tól {{end}} -ig"
   label_greater_or_equal: ">="
-  label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
+  label_less_or_equal: "<="
+  text_wiki_page_destroy_question: Ennek az oldalnak {{descendants}} gyermek-, és leszármazott oldala van. Mit szeretne tenni?
+  text_wiki_page_reassign_children: Az aloldalak hozzárendelése ehhez a szülő oldalhoz
+  text_wiki_page_nullify_children: Az aloldalak megtartása, mint főoldalak
+  text_wiki_page_destroy_children: Minden aloldal és leszármazottjának törlése
+  setting_password_min_length: Minimum jelszó hosszúság
+  field_group_by: Szerint csoportosítva
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
   mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
