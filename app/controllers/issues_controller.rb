@@ -23,7 +23,7 @@ class IssuesController < ApplicationController
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :update_form, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
-  accept_key_auth :index, :changes
+  accept_key_auth :index, :show, :changes
 
   helper :journals
   helper :projects
