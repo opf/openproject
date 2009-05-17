@@ -152,6 +152,37 @@ class Mailer < ActionMailer::Base
     body :message => message,
          :message_url => url_for(:controller => 'messages', :action => 'show', :board_id => message.board_id, :id => message.root)
   end
+  
+  # Builds a tmail object used to email the recipients of a project of the specified wiki content was updated. 
+  #
+  # Example:
+  #   wiki_content_updated(wiki_content) => tmail object
+  #   Mailer.deliver_wiki_content_updated(wiki_content) => sends an email to the project's recipients
+  def wiki_content_added(wiki_content)
+    redmine_headers 'Project' => wiki_content.project.identifier,
+                    'Wiki-Page-Id' => wiki_content.page.id
+    message_id wiki_content
+    recipients wiki_content.project.recipients
+    subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :page => wiki_content.page.pretty_title)}"
+    body :wiki_content => wiki_content,
+         :wiki_content_url => url_for(:controller => 'wiki', :action => 'index', :id => wiki_content.project, :page => wiki_content.page.title)
+  end
+  
+  # Builds a tmail object used to email the recipients of a project of the specified wiki content was updated. 
+  #
+  # Example:
+  #   wiki_content_updated(wiki_content) => tmail object
+  #   Mailer.deliver_wiki_content_updated(wiki_content) => sends an email to the project's recipients
+  def wiki_content_updated(wiki_content)
+    redmine_headers 'Project' => wiki_content.project.identifier,
+                    'Wiki-Page-Id' => wiki_content.page.id
+    message_id wiki_content
+    recipients wiki_content.project.recipients
+    subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_updated, :page => wiki_content.page.pretty_title)}"
+    body :wiki_content => wiki_content,
+         :wiki_content_url => url_for(:controller => 'wiki', :action => 'index', :id => wiki_content.project, :page => wiki_content.page.title),
+         :wiki_diff_url => url_for(:controller => 'wiki', :action => 'diff', :id => wiki_content.project, :page => wiki_content.page.title, :version => wiki_content.version)
+  end
 
   # Builds a tmail object used to email the specified user their account information.
   #
@@ -325,7 +356,8 @@ class Mailer < ActionMailer::Base
   def self.message_id_for(object)
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
-    hash = "redmine.#{object.class.name.demodulize.underscore}-#{object.id}.#{object.created_on.strftime("%Y%m%d%H%M%S")}"
+    timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on) 
+    hash = "redmine.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
     host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
     host = "#{::Socket.gethostname}.redmine" if host.empty?
     "<#{hash}@#{host}>"

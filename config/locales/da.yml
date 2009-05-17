@@ -823,3 +823,9 @@ da:
   text_wiki_page_destroy_children: Delete child pages and all their descendants
   setting_password_min_length: Minimum password length
   field_group_by: Group results by
+  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
+  label_wiki_content_added: Wiki page added
+  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
+  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
+  label_wiki_content_updated: Wiki page updated
+  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.

@@ -149,6 +149,10 @@ en:
   mail_body_account_activation_request: "A new user ({{value}}) has registered. The account is pending your approval:"
   mail_subject_reminder: "{{count}} issue(s) due in the next days"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
+  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
+  mail_body_wiki_content_added: "The '{{page}}' wiki page has been added by {{author}}."
+  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '{{page}}' wiki page has been updated by {{author}}."
   
   gui_validation_error: 1 error
   gui_validation_error_plural: "{{count}} errors"
@@ -670,6 +674,8 @@ en:
   label_ascending: Ascending
   label_descending: Descending
   label_date_from_to: From {{start}} to {{end}}
+  label_wiki_content_added: Wiki page added
+  label_wiki_content_updated: Wiki page updated
   
   button_login: Login
   button_submit: Submit

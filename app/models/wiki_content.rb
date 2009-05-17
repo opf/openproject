@@ -25,6 +25,11 @@ class WikiContent < ActiveRecord::Base
   validates_length_of :comments, :maximum => 255, :allow_nil => true
   
   acts_as_versioned
+    
+  def project
+    page.project
+  end
+  
   class Version
     belongs_to :page, :class_name => '::WikiPage', :foreign_key => 'page_id'
     belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
@@ -87,5 +92,4 @@ class WikiContent < ActiveRecord::Base
                                               :conditions => ["wiki_content_id = ? AND version < ?", wiki_content_id, version])
     end
   end
-  
 end
