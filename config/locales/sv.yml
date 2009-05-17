@@ -343,6 +343,7 @@ sv:
   setting_file_max_size_displayed: Maxstorlek på textfiler som visas inline
   setting_repository_log_display_limit: Maximalt antal revisioner i filloggen
   setting_openid: Tillåt inloggning och registrering med OpenID
+  setting_password_min_length: Minsta tillåtna lösenordslängd
   
   permission_edit_project: Ändra projekt
   permission_select_project_modules: Välja projektmoduler
@@ -818,6 +819,10 @@ sv:
   text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller emailadress i både Redmine och versionsarkivet mappas automatiskt."
   text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
   text_custom_field_possible_values_info: 'Ett värde per rad'
+  text_wiki_page_destroy_question: Denna sida har {{descendants}} underliggande sidor. Vad vill du göra?
+  text_wiki_page_nullify_children: Behåll undersidor som rotsidor
+  text_wiki_page_destroy_children: Ta bort alla underliggande sidor
+  text_wiki_page_reassign_children: Flytta undersidor till denna föräldersida
   
   default_role_manager: Projektledare
   default_role_developper: Utvecklare
@@ -844,11 +849,6 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
   field_group_by: Group results by
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
   label_wiki_content_added: Wiki page added

@@ -66,7 +66,7 @@ pl:
         other: "{{count}} minut"
       about_x_hours:
         one:   "około godziny"
-        other: "about {{count}} godzin"
+        other: "około {{count}} godzin"
       x_days:
         one:   "1 dzień"
         other: "{{count}} dni"

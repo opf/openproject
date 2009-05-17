@@ -52,13 +52,13 @@ sk:
         other: "okolo {{count}} mesiace/ov"
       x_months:
         one:   "1 mesiac"
-        other: "{{count}} mesiacov"
+        other: "{{count}} mesiace/ov"
       about_x_years:
         one:   "okolo 1 roka"
         other: "okolo {{count}} roky/ov"
       over_x_years:
         one:   "cez 1 rok"
-        other: "cez {{count}} rokov"
+        other: "cez {{count}} roky/ov"
         
 # Used in array.to_sentence.
   support:
@@ -101,7 +101,7 @@ sk:
   general_text_Yes: 'Áno'
   general_text_no: 'nie'
   general_text_yes: 'áno'
-  general_lang_name: 'Slovensky'
+  general_lang_name: 'Slovenčina'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
@@ -115,7 +115,7 @@ sk:
   notice_account_register_done: Účet bol úspešne vytvorený. Pre aktiváciu účtu kliknite na odkaz v emailu, ktorý vam bol zaslaný.
   notice_account_unknown_email: Neznámy užívateľ.
   notice_can_t_change_password: Tento účet používa externú autentifikáciu. Tu heslo zmeniť nemôžete.
-  notice_account_lost_email_sent: Bol vám zaslaný email s inštrukciami ako si nastavie nové heslo.
+  notice_account_lost_email_sent: Bol vám zaslaný email s inštrukciami ako si nastavite nové heslo.
   notice_account_activated: Váš účet bol aktivovaný. Teraz se môžete prihlásiť.
   notice_successful_create: Úspešne vytvorené.
   notice_successful_update: Úspešne aktualizované.
@@ -123,19 +123,19 @@ sk:
   notice_successful_connection: Úspešne pripojené.
   notice_file_not_found: Stránka, ktorú se snažíte zobraziť, neexistuje alebo bola zmazaná.
   notice_locking_conflict: Údaje boli zmenené iným užívateľom.
-  notice_scm_error: Položka a/alebo revízia neexistuje v repository.
+  notice_scm_error: Položka a/alebo revízia neexistuje v repozitári.
   notice_not_authorized: Nemáte dostatočné práva pre zobrazenie tejto stránky.
   notice_email_sent: "Na adresu {{value}} bol odeslaný email"
   notice_email_error: "Pri odosielaní emailu nastala chyba ({{value}})"
   notice_feeds_access_key_reseted: Váš klúč pre prístup k Atomu bol resetovaný.
   notice_failed_to_save_issues: "Nastala chyba pri ukládaní {{count}} úloh na {{total}} zvolený: {{ids}}."
-  notice_no_issue_selected: "Nebola zvolená žiadná úloha. Prosím, zvoľte úlohy, ktoré chcete editovať"
+  notice_no_issue_selected: "Nebola zvolená žiadná úloha. Prosím, zvoľte úlohy, ktoré chcete upraviť"
   notice_account_pending: "Váš účet bol vytvorený, teraz čaká na schválenie administrátorom."
   notice_default_data_loaded: Výchozia konfigurácia úspešne nahraná.
   
   error_can_t_load_default_data: "Výchozia konfigurácia nebola nahraná: {{value}}"
-  error_scm_not_found: "Položka a/alebo revízia neexistuje v repository."
-  error_scm_command_failed: "Pri pokuse o prístup k repository došlo k chybe: {{value}}"
+  error_scm_not_found: "Položka a/alebo revízia neexistuje v repozitári."
+  error_scm_command_failed: "Pri pokuse o prístup k repozitári došlo k chybe: {{value}}"
   error_issue_not_found_in_project: 'Úloha nebola nájdená alebo nepatrí k tomuto projektu'
   
   mail_subject_lost_password: "Vaše heslo ({{value}})"
@@ -212,14 +212,14 @@ sk:
   field_attr_mail: Email (atribut)
   field_onthefly: Automatické vytváranie užívateľov
   field_start_date: Začiatok
-  field_done_ratio: % Hotovo
+  field_done_ratio: % hotovo
   field_auth_source: Autentifikačný mód
   field_hide_mail: Nezobrazovať môj email
   field_comments: Komentár
   field_url: URL
   field_start_page: Výchozia stránka
   field_subproject: Podprojekt
-  field_hours: hodiny
+  field_hours: Hodiny
   field_activity: Aktivita
   field_spent_on: Dátum
   field_identifier: Identifikátor
@@ -240,7 +240,7 @@ sk:
   setting_welcome_text: Uvítací text
   setting_default_language: Východzí jazyk
   setting_login_required: Auten. vyžadovaná
-  setting_self_registration: Povolenie vlastnej registrácie
+  setting_self_registration: Povolenie registrácie
   setting_attachment_max_size: Maximálna veľkosť prílohy
   setting_issues_export_limit: Limit pre export úloh
   setting_mail_from: Odosielať emaily z adresy
@@ -251,7 +251,7 @@ sk:
   setting_feeds_limit: Limit zobrazených položiek (Atom feed)
   setting_default_projects_public: Nové projekty nastavovať ako verejné
   setting_autofetch_changesets: Automatický prenos zmien
-  setting_sys_api_enabled: Povolit Webovú Službu (WS) pre správu repozitory
+  setting_sys_api_enabled: Povolit Webovú Službu (WS) pre správu repozitára
   setting_commit_ref_keywords: Klúčové slová pre odkazy
   setting_commit_fix_keywords: Klúčové slová pre uzavretie
   setting_autologin: Automatické prihlasovanie
@@ -259,7 +259,7 @@ sk:
   setting_time_format: Formát času
   setting_cross_project_issue_relations: Povoliť väzby úloh skrz projekty
   setting_issue_list_default_columns: Východzie stĺpce zobrazené v zozname úloh
-  setting_repositories_encodings: Kódovanie 
+  setting_ itories_encodings: Kódovanie 
   setting_emails_footer: Zapätie emailov
   setting_protocol: Protokol
   setting_per_page_options: Povolené množstvo riadkov na stránke
@@ -273,7 +273,7 @@ sk:
   project_module_documents: Dokumenty
   project_module_files: Súbory
   project_module_wiki: Wiki 
-  project_module_repository: Repository
+  project_module_repository: Repozitár
   project_module_boards: Diskusie
   
   label_user: Užívateľ
@@ -391,9 +391,9 @@ sk:
   label_closed_issues: Uzavrený
   label_closed_issues_plural: Uzavrené
   label_x_open_issues_abbr_on_total:
-    zero:  0 otvorených z celkovo / {{total}}
-    one:   1 otvorený z celkovo / {{total}}
-    other: "{{count}} otvorené/ých z celkovo / {{total}}"
+    zero:  0 otvorených z celkovo {{total}}
+    one:   1 otvorený z celkovo {{total}}
+    other: "{{count}} otvorené/ých z celkovo {{total}}"
   label_x_open_issues_abbr:
     zero:  0 otvorených
     one:   1 otvorený
@@ -457,8 +457,8 @@ sk:
   label_contains: obsahuje
   label_not_contains: neobsahuje
   label_day_plural: dní
-  label_repository: Repository
-  label_repository_plural: Repository
+  label_repository: Repozitár
+  label_repository_plural: Repozitáre
   label_browse: Prechádzať
   label_modification: "{{count}} zmena"
   label_modification_plural: "{{count}} zmien"
@@ -577,7 +577,7 @@ sk:
   label_ldap_authentication: Autentifikácia LDAP
   label_downloads_abbr: D/L
   label_optional_description: Voliteľný popis
-  label_add_another_file: Pridať další súbor
+  label_add_another_file: Pridať ďaľší súbor
   label_preferences: Nastavenia
   label_chronological_order: V chronologickom poradí
   label_reverse_chronological_order: V obrátenom chronologickom poradí
@@ -628,7 +628,7 @@ sk:
   text_regexp_info: napr. ^[A-Z0-9]+$
   text_min_max_length_info: 0 znamená bez limitu
   text_project_destroy_confirmation: Ste si istý, že chcete odstránit tento projekt a všetky súvisiace dáta ?
-  text_workflow_edit: Vyberte rolu a frontu k editácii workflow
+  text_workflow_edit: Vyberte rolu a frontu k úprave workflow
   text_are_you_sure: Ste si istý?
   text_journal_changed: "zmenené z {{old}} na {{new}}"
   text_journal_set_to: "nastavené na {{value}}"
@@ -657,9 +657,9 @@ sk:
   text_issues_destroy_confirmation: 'Naozaj si prajete odstrániť všetky zvolené úlohy?'
   text_select_project_modules: 'Aktivne moduly v tomto projekte:'
   text_default_administrator_account_changed: Zmenené výchozie nastavenie administrátorského účtu
-  text_file_repository_writable: Povolený zápis do repository
+  text_file_repository_writable: Povolený zápis do repozitára
   text_rmagick_available: RMagick k dispozícií (voliteľné)
-  text_destroy_time_entries_question: U úloh, které chcete odstraniť, je evidované {{hours}} práce. Čo chcete vykonať?
+  text_destroy_time_entries_question: U úloh, které chcete odstraniť, je evidované %.02f práce. Čo chcete vykonať?
   text_destroy_time_entries: Odstrániť evidované hodiny.
   text_assign_time_entries_to_project: Priradiť evidované hodiny projektu
   text_reassign_time_entries: 'Preradiť evidované hodiny k tejto úlohe:'
@@ -715,11 +715,11 @@ sk:
   label_copied: kopírované
   setting_plain_text_mail: Len jednoduchý text (bez HTML)
   permission_view_files: Zobrazenie súborov
-  permission_edit_issues: Editácia úloh
-  permission_edit_own_time_entries: Editácia vlastných časových logov
-  permission_manage_public_queries: Správa verejných dotazov
+  permission_edit_issues: Úprava úloh
+  permission_edit_own_time_entries: Úprava vlastných zaznamov o strávenom čase
+  permission_manage_public_queries: Správa verejných otáziek
   permission_add_issues: Pridanie úlohy
-  permission_log_time: Log stráveného času
+  permission_log_time: Zaznamenávanie stráveného času
   permission_view_changesets: Zobrazenie sád zmien
   permission_view_time_entries: Zobrazenie stráveného času
   permission_manage_versions: Správa verzií
@@ -730,55 +730,55 @@ sk:
   permission_delete_messages: Mazanie správ
   permission_select_project_modules: Voľba projektových modulov
   permission_manage_documents: Správa dokumentov
-  permission_edit_wiki_pages: Editácia Wiki strániek
+  permission_edit_wiki_pages: Úprava Wiki strániek
   permission_add_issue_watchers: Pridanie pozorovateľov
   permission_view_gantt: Zobrazenie Ganttovho diagramu
   permission_move_issues: Presun úloh
-  permission_manage_issue_relations: Správa vzťahov úloh
+  permission_manage_issue_relations: Správa vzťahov medzi úlohami
   permission_delete_wiki_pages: Mazanie Wiki strániek
   permission_manage_boards: Správa diskusií
   permission_delete_wiki_pages_attachments: Mazanie Wiki príloh
-  permission_view_wiki_edits: Zobrazenie Wiki zmien
+  permission_view_wiki_edits: Zobrazenie Wiki úprav
   permission_add_messages: Pridanie správ
   permission_view_messages: Zobrazenie správ
   permission_manage_files: Správa súborov
-  permission_edit_issue_notes: Editácia poznámok úlohy
+  permission_edit_issue_notes: Úprava poznámok úlohy
   permission_manage_news: Správa noviniek
   permission_view_calendar: Zobrazenie kalendára
   permission_manage_members: Správa členov
-  permission_edit_messages: Editácia správ
+  permission_edit_messages: Úprava správ
   permission_delete_issues: Mazanie správ
   permission_view_issue_watchers: Zobrazenie zoznamu pozorovateľov
-  permission_manage_repository: Správa repository
+  permission_manage_repository: Správa repozitára
   permission_commit_access: Povoliť prístup
-  permission_browse_repository: Prechádzanie (browse) repository
+  permission_browse_repository: Prechádzanie repozitára
   permission_view_documents: Zobrazenie dokumentov
-  permission_edit_project: Editovanie projektu
+  permission_edit_project: Úprava projektu
   permission_add_issue_notes: Pridanie poznámky úlohy
-  permission_save_queries: Uloženie dotazov
+  permission_save_queries: Uloženie otáziek
   permission_view_wiki_pages: Zobrazenie Wiki strániek
   permission_rename_wiki_pages: Premenovanie Wiki strániek
-  permission_edit_time_entries: Editácia časových záznamov 
-  permission_edit_own_issue_notes: Editácia vlastných poznámok úlohy
+  permission_edit_time_entries: Úprava záznamov o strávenom čase
+  permission_edit_own_issue_notes: Úprava vlastných poznámok úlohy
   setting_gravatar_enabled: Použitie užívateľských Gravatar ikon
   permission_edit_own_messages: Úprava vlastných správ
   permission_delete_own_messages: Mazanie vlastných správ
-  text_repository_usernames_mapping: "Vyberte alebo doplňte užívateľov systému Redmine, ktorí majú byť namapovaní k užívateľským menám, nájdeným v logu repository.\nUžívatelia s rovnakým prihlasovacím menom alebo emailom v systéme Redmine a repository sú mapovaní automaticky."
+  text_repository_usernames_mapping: "Vyberte alebo upravte mapovanie medzi užívateľmi systému Redmine a užívateľskými menami nájdenými v logu repozitára.\nUžívatelia s rovnakým prihlasovacím menom alebo emailom v systéme Redmine a repozitára sú mapovaní automaticky."
   label_example: Príklad
   label_user_activity: "Aktivita užívateľa {{value}}"
   label_updated_time_by: "Aktualizované užívateľom {{author}} pred {{age}}"
   text_diff_truncated: '... Tento rozdielový výpis bol skratený, pretože prekračuje maximálnu veľkosť, ktorá môže byť zobrazená.'
   setting_diff_max_lines_displayed: Maximálne množstvo zobrazených riadkov rozdielového výpisu
   text_plugin_assets_writable: Adresár pre pluginy s možnosťou zápisu
-  warning_attachments_not_saved: "{{count}} súbor(y) nemohli byť uložené."
+  warning_attachments_not_saved: "{{count}} súbor(y) nemohol(li) byť uložené."
   field_editable: Editovateľné
   label_display: Zobrazenie
-  button_create_and_continue: Vytvoriť a pokrčovať
-  text_custom_field_possible_values_info: 'Jeden riadek pre každú hodnotu'
-  setting_repository_log_display_limit: Maximálne množstvo revizií zobrazené v log súbore
-  setting_file_max_size_displayed: Maximálne množstvo textových súborov zobrazených v riadku
+  button_create_and_continue: Vytvoriť a pokračovať
+  text_custom_field_possible_values_info: 'Jeden riadok pre každú hodnotu'
+  setting_repository_log_display_limit: Maximálne množstvo revizií zobrazené v logu
+  setting_file_max_size_displayed: Maximálna veľkosť textových súborov zobrazených priamo na stránke
   field_watcher: Pozorovateľ
-  setting_openid: Povoliť OpenID prihlásenie a registráciu
+  setting_openid: Povoliť OpenID prihlasovanie a registráciu
   field_identity_url: OpenID URL
   label_login_with_open_id_option: alebo sa prihlásiť pomocou OpenID
   field_content: Obsah
@@ -788,16 +788,17 @@ sk:
   label_date_from_to: Od {{start}} do {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
+  text_wiki_page_destroy_question: Táto stránka má {{descendants}} podstránku/y a potomka/ov. Čo chcete vykonať?
+  text_wiki_page_reassign_children: Preradiť podstránky k tejto hlavnej stránke
+  text_wiki_page_nullify_children: Zachovať podstránky ako hlavné stránky
+  text_wiki_page_destroy_children: Vymazať podstránky a všetkých ich potomkov
+  setting_password_min_length: Minimálna dĺžka hesla
   field_group_by: Group results by
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
   mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
   mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
+  permission_add_project: Create project
   label_wiki_content_updated: Wiki page updated
   mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
+  setting_repositories_encodings: Repositories encodings

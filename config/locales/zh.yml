@@ -274,6 +274,7 @@ zh:
   field_watcher: 跟踪者
   field_identity_url: OpenID URL
   field_content: 内容
+  field_group_by: 根据此条件分组
 
   setting_app_title: 应用程序标题
   setting_app_subtitle: 应用程序子标题
@@ -317,6 +318,7 @@ zh:
   setting_file_max_size_displayed: 允许直接显示的最大文本文件
   setting_repository_log_display_limit: 在文件变更记录页面上显示的最大修订版本数量
   setting_openid: 允许使用OpenID登录和注册
+  setting_password_min_length: 最短密码长度
 
   permission_edit_project: 编辑项目
   permission_select_project_modules: 选择项目模块
@@ -793,7 +795,11 @@ zh:
   text_repository_usernames_mapping: "选择或更新与版本库中的用户名对应的Redmine用户。\n版本库中与Redmine中的同名用户将被自动对应。"
   text_diff_truncated: '... 差别内容超过了可显示的最大行数并已被截断'
   text_custom_field_possible_values_info: '每项数值一行'
-  
+  text_wiki_page_destroy_question: 此页面有 {{descendants}} 个子页面和下级页面。您想进行那种操作？
+  text_wiki_page_reassign_children: 将子页面的上级页面设置为
+  text_wiki_page_nullify_children: 将子页面保留为根页面
+  text_wiki_page_destroy_children: 删除子页面及其所有下级页面
+
   default_role_manager: 管理人员
   default_role_developper: 开发人员
   default_role_reporter: 报告人员
@@ -819,16 +825,10 @@ zh:
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
   mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
   mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
+  permission_add_project: Create project
   label_wiki_content_updated: Wiki page updated
   mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
