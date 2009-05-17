@@ -153,11 +153,11 @@ class Mailer < ActionMailer::Base
          :message_url => url_for(:controller => 'messages', :action => 'show', :board_id => message.board_id, :id => message.root)
   end
   
-  # Builds a tmail object used to email the recipients of a project of the specified wiki content was updated. 
+  # Builds a tmail object used to email the recipients of a project of the specified wiki content was added. 
   #
   # Example:
-  #   wiki_content_updated(wiki_content) => tmail object
-  #   Mailer.deliver_wiki_content_updated(wiki_content) => sends an email to the project's recipients
+  #   wiki_content_added(wiki_content) => tmail object
+  #   Mailer.deliver_wiki_content_added(wiki_content) => sends an email to the project's recipients
   def wiki_content_added(wiki_content)
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
