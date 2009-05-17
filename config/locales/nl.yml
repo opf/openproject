@@ -550,7 +550,7 @@ nl:
   label_tracker_new: Nieuwe tracker
   label_tracker_plural: Trackers
   label_updated_time: "{{value}} geleden bijgewerkt"
-  label_updated_time_by: "{{value}} geleden bijgewerkt door {{author}}"
+  label_updated_time_by: "{{age}} geleden bijgewerkt door {{author}}"
   label_used_by: Gebruikt door
   label_user: Gebruiker
   label_user_activity: "{{value}}'s activiteit"
