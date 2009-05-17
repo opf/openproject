@@ -5,6 +5,7 @@ roles_001:
   builtin: 0
   permissions: |
     --- 
+    - :add_project
     - :edit_project
     - :manage_members
     - :manage_versions

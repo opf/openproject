@@ -39,28 +39,4 @@ class AdminTest < ActionController::IntegrationTest
     locked_user = User.try_to_login("psmith", "psmith09")
     assert_equal nil, locked_user
   end
-  
-  def test_add_project
-    log_user("admin", "admin")
-    get "projects/new"
-    assert_response :success
-    assert_template "projects/add"
-    post "projects", :project => { :name => "blog", 
-                                       :description => "weblog",
-                                       :identifier => "blog",
-                                       :is_public => 1,
-                                       :custom_field_values => { '3' => 'Beta' }
-                                       }
-    assert_redirected_to "admin/projects"
-    assert_equal 'Successful creation.', flash[:notice]
-    
-    project = Project.find_by_name("blog")
-    assert_kind_of Project, project
-    assert_equal "weblog", project.description 
-    assert_equal true, project.is_public?
-    
-    get "admin/projects"
-    assert_response :success
-    assert_template "admin/projects"
-  end  
 end

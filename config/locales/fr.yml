@@ -324,6 +324,7 @@ fr:
   setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
   setting_password_min_length: Longueur minimum des mots de passe
   
+  permission_add_project: Créer un projet
   permission_edit_project: Modifier le projet
   permission_select_project_modules: Choisir les modules
   permission_manage_members: Gérer les members

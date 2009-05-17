@@ -89,6 +89,56 @@ class ProjectsControllerTest < Test::Unit::TestCase
     )
   end
   
+  def test_get_add
+    @request.session[:user_id] = 1
+    get :add
+    assert_response :success
+    assert_template 'add'
+  end
+  
+  def test_get_add_by_non_admin
+    @request.session[:user_id] = 2
+    get :add
+    assert_response :success
+    assert_template 'add'
+  end
+  
+  def test_post_add
+    @request.session[:user_id] = 1
+    post :add, :project => { :name => "blog", 
+                             :description => "weblog",
+                             :identifier => "blog",
+                             :is_public => 1,
+                             :custom_field_values => { '3' => 'Beta' }
+                            }
+    assert_redirected_to '/projects/blog/settings'
+    
+    project = Project.find_by_name('blog')
+    assert_kind_of Project, project
+    assert_equal 'weblog', project.description 
+    assert_equal true, project.is_public?
+  end
+  
+  def test_post_add_by_non_admin
+    @request.session[:user_id] = 2
+    post :add, :project => { :name => "blog", 
+                             :description => "weblog",
+                             :identifier => "blog",
+                             :is_public => 1,
+                             :custom_field_values => { '3' => 'Beta' }
+                            }
+    assert_redirected_to '/projects/blog/settings'
+    
+    project = Project.find_by_name('blog')
+    assert_kind_of Project, project
+    assert_equal 'weblog', project.description 
+    assert_equal true, project.is_public?
+    
+    # User should be added as a project member
+    assert User.find(2).member_of?(project)
+    assert_equal 1, project.members.size
+  end
+  
   def test_show_routing
     assert_routing(
       {:method => :get, :path => '/projects/test'},

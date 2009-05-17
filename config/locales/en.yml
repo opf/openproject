@@ -292,6 +292,7 @@ en:
   setting_openid: Allow OpenID login and registration
   setting_password_min_length: Minimum password length
   
+  permission_add_project: Create project
   permission_edit_project: Edit project
   permission_select_project_modules: Select project modules
   permission_manage_members: Manage members

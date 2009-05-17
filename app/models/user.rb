@@ -277,6 +277,9 @@ class User < ActiveRecord::Base
       roles.detect {|role| (project.is_public? || role.member?) && role.allowed_to?(action)}
       
     elsif options[:global]
+      # Admin users are always authorized
+      return true if admin?
+      
       # authorize if user has at least one role that has this permission
       roles = memberships.collect {|m| m.roles}.flatten.uniq
       roles.detect {|r| r.allowed_to?(action)} || (self.logged? ? Role.non_member.allowed_to?(action) : Role.anonymous.allowed_to?(action))

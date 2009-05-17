@@ -26,7 +26,8 @@ class ProjectsController < ApplicationController
   before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
   before_filter :find_optional_project, :only => :activity
   before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity ]
-  before_filter :require_admin, :only => [ :add, :copy, :archive, :unarchive, :destroy ]
+  before_filter :authorize_global, :only => :add
+  before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
   
   after_filter :only => [:add, :edit, :archive, :unarchive, :destroy] do |controller|
@@ -75,9 +76,14 @@ class ProjectsController < ApplicationController
       @project.enabled_module_names = params[:enabled_modules]
       if @project.save
         @project.set_parent!(params[:project]['parent_id']) if User.current.admin? && params[:project].has_key?('parent_id')
+        # Add current user as a project member if he is not admin
+        unless User.current.admin?
+          m = Member.new(:user => User.current, :roles => Role.builtin(false).find(:all, :order => 'position', :limit => 1))
+          @project.members << m
+        end
         flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'admin', :action => 'projects'
-	  end		
+        redirect_to :controller => 'projects', :action => 'settings', :id => @project
+      end
     end	
   end
   
