@@ -467,7 +467,7 @@ ru:
   label_display: Отображение
   label_display_per_page: "На страницу: {{value}}"
   label_document: Документ
-  label_document_added: Документ добавлен
+  label_document_added: Добавлен документ
   label_document_new: Новый документ
   label_document_plural: Документы
   label_download: "{{count}} загрузка"
@@ -489,7 +489,7 @@ ru:
   label_feeds_access_key_created_on: "Ключ доступа RSS создан {{value}} назад"
   label_f_hour: "{{value}} час"
   label_f_hour_plural: "{{value}} часов"
-  label_file_added: Файл добавлен
+  label_file_added: Добавлен файл
   label_file_plural: Файлы
   label_filter_add: Добавить фильтр
   label_filter_plural: Фильтры
@@ -513,7 +513,7 @@ ru:
   label_internal: Внутренний
   label_in: в
   label_issue: Задача
-  label_issue_added: Задача добавлена
+  label_issue_added: Добавлена задача
   label_issue_category_new: Новая категория
   label_issue_category_plural: Категории задачи
   label_issue_category: Категория задачи
@@ -524,7 +524,7 @@ ru:
   label_issue_status_plural: Статусы задачи
   label_issue_status: Статус задачи
   label_issue_tracking: Ситуация по задачам
-  label_issue_updated: Задача обновлена
+  label_issue_updated: Обновлена задача
   label_issue_view_all: Просмотреть все задачи
   label_issue_watchers: Наблюдатели
   label_jump_to_a_project: Перейти к проекту...
@@ -552,7 +552,7 @@ ru:
   label_message_last: Последнее сообщение
   label_message_new: Новое сообщение
   label_message_plural: Сообщения
-  label_message_posted: Сообщение добавлено
+  label_message_posted: Добавлено сообщение
   label_me: мне
   label_min_max_length: Минимальная - максимальная длина
   label_modification: "{{count}} изменение"
@@ -769,7 +769,7 @@ ru:
   permission_delete_issues: Удаление задач
   permission_delete_messages: Удаление сообщений
   permission_delete_own_messages: Удаление собственных сообщений
-  permission_delete_wiki_pages: Удаление страниц Wiki
+  permission_delete_wiki_pages: Удаление wiki-страниц
   permission_delete_wiki_pages_attachments: Удаление прикрепленных файлов
   permission_edit_issue_notes: Редактирование примечаний
   permission_edit_issues: Редактирование задач
@@ -779,7 +779,7 @@ ru:
   permission_edit_own_time_entries: Редактирование собственного учета времени
   permission_edit_project: Редактирование проектов
   permission_edit_time_entries: Редактирование учета времени
-  permission_edit_wiki_pages: Редактирование страниц Wiki
+  permission_edit_wiki_pages: Редактирование wiki-страниц
   permission_log_time: Учет затраченного времени
   permission_view_changesets: Просмотр изменений хранилища
   permission_view_time_entries: Просмотр затраченного времени
@@ -795,8 +795,8 @@ ru:
   permission_manage_versions: Управление версиями
   permission_manage_wiki: Управление Wiki
   permission_move_issues: Перенос задач
-  permission_protect_wiki_pages: Блокирование страниц Wiki
-  permission_rename_wiki_pages: Переименование страниц Wiki
+  permission_protect_wiki_pages: Блокирование wiki-страниц
+  permission_rename_wiki_pages: Переименование wiki-страниц
   permission_save_queries: Сохранение запросов
   permission_select_project_modules: Выбор модулей проекта
   permission_view_calendar: Просмотр календаря
@@ -871,7 +871,7 @@ ru:
   text_comma_separated: Допустимы несколько значений (через запятую).
   text_custom_field_possible_values_info: 'По одному значению в каждой строке'
   text_default_administrator_account_changed: Учетная запись администратора по умолчанию изменена
-  text_destroy_time_entries_question: Вы собираетесь удалить {{hours}} часа(ов) прикрепленных за этой задачей.
+  text_destroy_time_entries_question: Вы собираетесь удалить {{hours}} часа(ов), прикрепленных за этой задачей.
   text_destroy_time_entries: Удалить зарегистрированное время
   text_diff_truncated: '... Этот diff ограничен, так как превышает максимальный отображаемый размер.'
   text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для Вашего SMTP-сервера Вы можете в файле config/email.yml. Для применения изменений перезапустите приложение."
@@ -918,13 +918,13 @@ ru:
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
+  setting_password_min_length: Минимальная длина пароля
+  field_group_by: Группировать результаты по
+  mail_subject_wiki_content_updated: "Wiki-страница '{{page}}' была обновлена"
+  label_wiki_content_added: Добавлена wiki-страница
+  mail_subject_wiki_content_added: "Wiki-страница  '{{page}}' была добавлена"
+  mail_body_wiki_content_added: "{{author}} добавил(а) wiki-страницу '{{page}}'."
+  label_wiki_content_updated: Обновлена wiki-страница
+  mail_body_wiki_content_updated: "{{author}} обновил(а) wiki-страницу '{{page}}'."
+  permission_add_project: Создание проекта
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
