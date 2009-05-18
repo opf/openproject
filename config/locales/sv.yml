@@ -207,6 +207,10 @@ sv:
   mail_body_account_activation_request: "En ny användare ({{value}}) har registrerat sig och avvaktar ditt godkännande:"
   mail_subject_reminder: "{{count}} ärende(n) har deadline under de kommande dagarna"
   mail_body_reminder: "{{count}} ärende(n) som är tilldelat dig har deadline under de {{days}} dagarna:"
+  mail_subject_wiki_content_added: "'{{page}}' wikisida has lagts till"
+  mail_body_wiki_content_added: The '{{page}}' wikisida has lagts till av {{author}}.
+  mail_subject_wiki_content_updated: "'{{page}}' wikisida har uppdaterats"
+  mail_body_wiki_content_updated: The '{{page}}' wikisida har uppdaterats av {{author}}.
   
   gui_validation_error: 1 fel
   gui_validation_error_plural: "{{count}} fel"
@@ -300,6 +304,7 @@ sv:
   field_watcher: Bevakare  
   field_identity_url: OpenID URL
   field_content: Innehåll
+  field_group_by: Gruppera resultat efter
   
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -344,7 +349,9 @@ sv:
   setting_repository_log_display_limit: Maximalt antal revisioner i filloggen
   setting_openid: Tillåt inloggning och registrering med OpenID
   setting_password_min_length: Minsta tillåtna lösenordslängd
+  setting_new_project_user_role_id: Tilldelad roll för en icke-administratör som skapar ett projekt
   
+  permission_add_project: Skapa projekt
   permission_edit_project: Ändra projekt
   permission_select_project_modules: Välja projektmoduler
   permission_manage_members: Hantera medlemmar
@@ -726,6 +733,8 @@ sv:
   label_descending: Fallande
   label_ascending: Stigande
   label_date_from_to: Från {{start}} till {{end}}
+  label_wiki_content_added: Wikisida tillagd
+  label_wiki_content_updated: Wikisida uppdaterad
   
   button_login: Logga in
   button_submit: Spara
@@ -849,12 +858,3 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project

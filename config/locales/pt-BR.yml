@@ -835,4 +835,4 @@ pt-BR:
   label_wiki_content_updated: Página wiki atualizada
   mail_body_wiki_content_updated: A página wiki '{{page}}' foi atualizada por {{author}}.
   permission_add_project: Criar projeto
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_new_project_user_role_id: Papel dado a um usuário não administrador que crie um projeto

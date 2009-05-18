@@ -427,7 +427,7 @@ sk:
   label_x_comments:
     zero: žiaden komentár
     one: 1 komentár
-    other: "{{count}} komentáre"
+    other: "{{count}} komentáre/ov"
   label_comment_add: Pridať komentár
   label_comment_added: Komentár pridaný
   label_comment_delete: Odstrániť komentár
@@ -793,13 +793,13 @@ sk:
   text_wiki_page_nullify_children: Zachovať podstránky ako hlavné stránky
   text_wiki_page_destroy_children: Vymazať podstránky a všetkých ich potomkov
   setting_password_min_length: Minimálna dĺžka hesla
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  permission_add_project: Create project
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  setting_repositories_encodings: Repositories encodings
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  field_group_by: Skupinové výsledky podľa
+  mail_subject_wiki_content_updated: "'{{page}}' Wiki stránka bola aktualizovaná"
+  label_wiki_content_added: Wiki stránka pridaná
+  mail_subject_wiki_content_added: "'{{page}}' Wiki stránka bola pridaná"
+  mail_body_wiki_content_added: The '{{page}}' Wiki stránka bola pridaná užívateľom {{author}}.
+  permission_add_project: Vytvorenie projektu
+  label_wiki_content_updated: Wiki stránka aktualizovaná
+  mail_body_wiki_content_updated: Wiki stránka '{{page}}' bola aktualizovaná užívateľom {{author}}.
+  setting_repositories_encodings: Kódovanie repozitára
+  setting_new_project_user_role_id: Rola dána non-admin užívateľovi, ktorý vytvorí projekt   

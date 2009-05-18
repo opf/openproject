@@ -181,7 +181,11 @@ zh:
   mail_body_account_activation_request: "新用户（{{value}}）已完成注册，正在等候您的审核："
   mail_subject_reminder: "{{count}} 个问题需要尽快解决"
   mail_body_reminder: "指派给您的 {{count}} 个问题需要在 {{days}} 天内完成："
-  
+  mail_subject_wiki_content_added: "'{{page}}' wiki页面已添加"
+  mail_body_wiki_content_added: "'{{page}}' wiki页面已由 {{author}} 添加。"
+  mail_subject_wiki_content_updated: "'{{page}}' wiki页面已更新"
+  mail_body_wiki_content_updated: "'{{page}}' wiki页面已由 {{author}} 更新。"
+
   gui_validation_error: 1 个错误
   gui_validation_error_plural: "{{count}} 个错误"
   
@@ -320,6 +324,7 @@ zh:
   setting_openid: 允许使用OpenID登录和注册
   setting_password_min_length: 最短密码长度
 
+  permission_add_project: 新建项目
   permission_edit_project: 编辑项目
   permission_select_project_modules: 选择项目模块
   permission_manage_members: 管理成员
@@ -368,7 +373,7 @@ zh:
   permission_edit_own_messages: 编辑自己的帖子
   permission_delete_messages: 删除帖子
   permission_delete_own_messages: 删除自己的帖子
-  
+
   project_module_issue_tracking: 问题跟踪
   project_module_time_tracking: 时间跟踪
   project_module_news: 新闻
@@ -702,6 +707,8 @@ zh:
   label_ascending: 升序
   label_descending: 降序
   label_date_from_to: 从 {{start}} 到 {{end}}
+  label_wiki_content_added: Wiki 页面已添加
+  label_wiki_content_updated: Wiki 页面已更新
 
   button_login: 登录
   button_submit: 提交
@@ -825,11 +832,3 @@ zh:
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  permission_add_project: Create project
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project

@@ -256,6 +256,10 @@
   mail_body_account_activation_request: "有位新用戶 ({{value}}) 已經完成註冊，正等候您的審核："
   mail_subject_reminder: "您有 {{count}} 個項目即將到期"
   mail_body_reminder: "{{count}} 個指派給您的項目，將於 {{days}} 天之內到期："
+  mail_subject_wiki_content_added: "'{{page}}' wiki 頁面已被新增"
+  mail_body_wiki_content_added: "The '{{page}}' wiki 頁面已被 {{author}} 新增。"
+  mail_subject_wiki_content_updated: "'{{page}}' wiki 頁面已被更新"
+  mail_body_wiki_content_updated: "The '{{page}}' wiki 頁面已被 {{author}} 更新。"
   
   gui_validation_error: 1 個錯誤
   gui_validation_error_plural: "{{count}} 個錯誤"
@@ -394,7 +398,9 @@
   setting_repository_log_display_limit: 版次顯示數目之最大值
   setting_openid: 允許使用 OpenID 登入與註冊
   setting_password_min_length: 密碼最小長度
+  setting_new_project_user_role_id: 管理者以外之用戶建立新專案時，將被指派的角色
   
+  permission_add_project: 建立專案
   permission_edit_project: 編輯專案
   permission_select_project_modules: 選擇專案模組
   permission_manage_members: 管理成員
@@ -777,6 +783,8 @@
   label_ascending: 遞增排序
   label_descending: 遞減排序
   label_date_from_to: 起 {{start}} 迄 {{end}}
+  label_wiki_content_added: Wiki 頁面已新增
+  label_wiki_content_updated: Wiki 頁面已更新
 
   button_login: 登入
   button_submit: 送出
@@ -859,7 +867,7 @@
   text_file_repository_writable: 可寫入附加檔案目錄
   text_plugin_assets_writable: 可寫入附加元件目錄
   text_rmagick_available: 可使用 RMagick (選配)
-  text_destroy_time_entries_question: 您即將刪除的項目已報工 %.02f 小時. 您的選擇是？
+  text_destroy_time_entries_question: 您即將刪除的項目已報工 {{hours}} 小時. 您的選擇是？
   text_destroy_time_entries: 刪除已報工的時數
   text_assign_time_entries_to_project: 指定已報工的時數至專案中
   text_reassign_time_entries: '重新指定已報工的時數至此項目：'
@@ -900,11 +908,3 @@
   enumeration_issue_priorities: 項目優先權
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  permission_add_project: Create project
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
