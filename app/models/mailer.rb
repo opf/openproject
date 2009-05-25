@@ -163,6 +163,7 @@ class Mailer < ActionMailer::Base
                     'Wiki-Page-Id' => wiki_content.page.id
     message_id wiki_content
     recipients wiki_content.project.recipients
+    cc(wiki_content.page.wiki.watcher_recipients - recipients)
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :page => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
          :wiki_content_url => url_for(:controller => 'wiki', :action => 'index', :id => wiki_content.project, :page => wiki_content.page.title)
@@ -178,6 +179,7 @@ class Mailer < ActionMailer::Base
                     'Wiki-Page-Id' => wiki_content.page.id
     message_id wiki_content
     recipients wiki_content.project.recipients
+    cc(wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients - recipients)
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_updated, :page => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
          :wiki_content_url => url_for(:controller => 'wiki', :action => 'index', :id => wiki_content.project, :page => wiki_content.page.title),

@@ -25,6 +25,7 @@ class WikiController < ApplicationController
 
   helper :attachments
   include AttachmentsHelper   
+  helper :watchers
   
   # display a page (in editing mode if it doesn't exist)
   def index

@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +23,8 @@ class WikiPage < ActiveRecord::Base
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
   acts_as_attachable :delete_permission => :delete_wiki_pages_attachments
   acts_as_tree :dependent => :nullify, :order => 'title'
-  
+
+  acts_as_watchable
   acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
                 :description => :text,
                 :datetime => :created_on,
