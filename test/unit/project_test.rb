@@ -48,6 +48,20 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal I18n.translate('activerecord.errors.messages.blank'), @ecookbook.errors.on(:name)
   end
   
+  def test_validate_identifier
+    to_test = {"abc" => true,
+               "ab12" => true,
+               "ab-12" => true,
+               "12" => false}
+               
+    to_test.each do |identifier, valid|
+      p = Project.new
+      p.identifier = identifier
+      p.valid?
+      assert_equal valid, p.errors.on('identifier').nil?
+    end
+  end
+  
   def test_archive
     user = @ecookbook.members.first.user
     @ecookbook.archive

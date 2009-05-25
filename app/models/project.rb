@@ -61,7 +61,8 @@ class Project < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..20
-  validates_format_of :identifier, :with => /^[a-z0-9\-]*$/
+  # donwcase letters, digits, dashes but not digits only
+  validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-]*$/, :if => Proc.new { |p| p.identifier_changed? }
   
   before_destroy :delete_all_members
 
@@ -390,11 +391,6 @@ class Project < ActiveRecord::Base
     rescue ActiveRecord::RecordNotFound
       return nil
     end
-  end
-  
-protected
-  def validate
-    errors.add(:identifier, :invalid) if !identifier.blank? && identifier.match(/^\d*$/)
   end
   
 private
