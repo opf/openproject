@@ -9,6 +9,7 @@
 </div>
 
 <div id="add-message" style="display:none;">
+<% if authorize_for('messages', 'new') %>
 <h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%= l(:label_message_new) %></h2>
 <% form_for :message, @message, :url => {:controller => 'messages', :action => 'new', :board_id => @board}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f} %>
@@ -23,6 +24,7 @@
   <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-message")' %></p>
 <% end %>
 <div id="preview" class="wiki"></div>
+<% end %>
 </div>
 
 <h2><%=h @board.name %></h2>
