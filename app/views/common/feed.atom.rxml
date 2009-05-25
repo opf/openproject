@@ -21,7 +21,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       author = item.event_author if item.respond_to?(:event_author)
       xml.author do
         xml.name(author)
-        xml.email(author.mail) if author.respond_to?(:mail) && !author.mail.blank?
+        xml.email(author.mail) if author.is_a?(User) && !author.mail.blank? && !author.pref.hide_mail
       end if author
       xml.content "type" => "html" do
         xml.text! textilizable(item.event_description, :only_path => false)

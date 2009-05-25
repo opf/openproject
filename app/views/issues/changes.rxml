@@ -15,7 +15,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       xml.updated change.created_on.xmlschema
       xml.author do
         xml.name change.user.name
-        xml.email(change.user.mail)
+        xml.email(change.user.mail) if change.user.is_a?(User) && !change.user.mail.blank? && !change.user.pref.hide_mail
       end
       xml.content "type" => "html" do
         xml.text! '<ul>'
