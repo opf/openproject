@@ -23,7 +23,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
           xml.text! '<li>' + show_detail(detail, false) + '</li>'
         end
         xml.text! '</ul>'
-        xml.text! textilizable(change.notes) unless change.notes.blank?
+        xml.text! textilizable(change, :notes, :only_path => false) unless change.notes.blank?
       end
     end
   end

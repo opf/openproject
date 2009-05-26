@@ -369,6 +369,14 @@ class IssuesControllerTest < Test::Unit::TestCase
                         :descendant => { :tag => 'a', :content => /#4$/ }
   end
   
+  def test_show_atom
+    get :show, :id => 2, :format => 'atom'
+    assert_response :success
+    assert_template 'changes.rxml'
+    # Inline image
+    assert @response.body.include?("&lt;img src=\"http://test.host/attachments/download/10\" alt=\"\" /&gt;")
+  end
+  
   def test_new_routing
     assert_routing(
       {:method => :get, :path => '/projects/1/issues/new'},

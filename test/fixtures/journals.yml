@@ -13,4 +13,11 @@ journals_002:
   journalized_type: Issue
   user_id: 2
   journalized_id: 1
+journals_003: 
+  created_on: <%= 1.days.ago.to_date.to_s(:db) %>
+  notes: "A comment with inline image: !picture.jpg!"
+  id: 3
+  journalized_type: Issue
+  user_id: 2
+  journalized_id: 2
   
