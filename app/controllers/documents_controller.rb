@@ -53,7 +53,7 @@ class DocumentsController < ApplicationController
   end
   
   def edit
-    @categories = Enumeration.document_categories
+    @categories = DocumentCategory.all
     if request.post? and @document.update_attributes(params[:document])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document

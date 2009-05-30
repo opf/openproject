@@ -4,7 +4,7 @@
                                 :conditions => {:assigned_to_id => User.current.id},
                                 :limit => 10, 
                                 :include => [ :status, :project, :tracker, :priority ], 
-                                :order => "#{Enumeration.table_name}.position DESC, #{Issue.table_name}.updated_on DESC") %>
+                                :order => "#{IssuePriority.table_name}.position DESC, #{Issue.table_name}.updated_on DESC") %>
 <%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %>
 <% if assigned_issues.length > 0 %>
 <p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues',

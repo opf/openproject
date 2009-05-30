@@ -2,7 +2,7 @@
 <div class="box">
 <!--[form:document]-->
 <p><label for="document_category_id"><%=l(:field_category)%></label>
-<%= select('document', 'category_id', Enumeration.document_categories.collect {|c| [c.name, c.id]}) %></p>
+<%= select('document', 'category_id', DocumentCategory.all.collect {|c| [c.name, c.id]}) %></p>
 
 <p><label for="document_title"><%=l(:field_title)%> <span class="required">*</span></label>
 <%= text_field 'document', 'title', :size => 60 %></p>

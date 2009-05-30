@@ -22,7 +22,7 @@ class Issue < ActiveRecord::Base
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
   belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
-  belongs_to :priority, :class_name => 'Enumeration', :foreign_key => 'priority_id'
+  belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
   has_many :journals, :as => :journalized, :dependent => :destroy
@@ -67,7 +67,7 @@ class Issue < ActiveRecord::Base
     if new_record?
       # set default values for new records only
       self.status ||= IssueStatus.default
-      self.priority ||= Enumeration.priorities.default
+      self.priority ||= IssuePriority.default
     end
   end
   

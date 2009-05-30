@@ -46,7 +46,7 @@ class TimelogController < ApplicationController
                                           :klass => Tracker,
                                           :label => :label_tracker},
                              'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
-                                           :klass => Enumeration,
+                                           :klass => TimeEntryActivity,
                                            :label => :label_activity},
                              'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
                                          :klass => Issue,

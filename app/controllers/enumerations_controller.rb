@@ -31,14 +31,19 @@ class EnumerationsController < ApplicationController
   end
 
   def new
-    @enumeration = Enumeration.new(:opt => params[:opt])
+    begin
+      @enumeration = params[:type].constantize.new
+    rescue NameError
+      @enumeration = Enumeration.new      
+    end
   end
 
   def create
     @enumeration = Enumeration.new(params[:enumeration])
+    @enumeration.type = params[:enumeration][:type]
     if @enumeration.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'list', :opt => @enumeration.opt
+      redirect_to :action => 'list', :type => @enumeration.type
     else
       render :action => 'new'
     end
@@ -50,9 +55,10 @@ class EnumerationsController < ApplicationController
 
   def update
     @enumeration = Enumeration.find(params[:id])
+    @enumeration.type = params[:enumeration][:type] if params[:enumeration][:type]
     if @enumeration.update_attributes(params[:enumeration])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list', :opt => @enumeration.opt
+      redirect_to :action => 'list', :type => @enumeration.type
     else
       render :action => 'edit'
     end
@@ -65,12 +71,12 @@ class EnumerationsController < ApplicationController
       @enumeration.destroy
       redirect_to :action => 'index'
     elsif params[:reassign_to_id]
-      if reassign_to = Enumeration.find_by_opt_and_id(@enumeration.opt, params[:reassign_to_id])
+      if reassign_to = Enumeration.find_by_type_and_id(@enumeration.type, params[:reassign_to_id])
         @enumeration.destroy(reassign_to)
         redirect_to :action => 'index'
       end
     end
-    @enumerations = Enumeration.values(@enumeration.opt) - [@enumeration]
+    @enumerations = Enumeration.find(:all, :conditions => ['type = (?)', @enumeration.type]) - [@enumeration]
   #rescue
   #  flash[:error] = 'Unable to delete enumeration'
   #  redirect_to :action => 'index'

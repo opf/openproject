@@ -1,9 +1,9 @@
 <h2><%=l(:label_enumerations)%></h2>
 
-<% Enumeration::OPTIONS.each do |option, params| %>
-<h3><%= l(params[:label]) %></h3>
+<% Enumeration.get_subclasses.each do |klass| %>
+<h3><%= l(klass::OptionName) %></h3>
 
-<% enumerations = Enumeration.values(option) %>
+<% enumerations = klass.all %>
 <% if enumerations.any? %>
 <table class="list">
 <% enumerations.each do |enumeration| %>
@@ -20,7 +20,7 @@
 <% reset_cycle %>
 <% end %>
 
-<p><%= link_to l(:label_enumeration_new), { :action => 'new', :opt => option } %></p>
+<p><%= link_to l(:label_enumeration_new), { :action => 'new', :type => klass.name } %></p>
 <% end %>
 
 <% html_title(l(:label_enumerations)) -%>

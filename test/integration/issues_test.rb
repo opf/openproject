@@ -41,7 +41,7 @@ class IssuesTest < ActionController::IntegrationTest
     
     post 'projects/1/issues', :tracker_id => "1",
                                  :issue => { :start_date => "2006-12-26", 
-                                             :priority_id => "3", 
+                                             :priority_id => "4", 
                                              :subject => "new test issue", 
                                              :category_id => "", 
                                              :description => "new issue", 

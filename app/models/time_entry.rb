@@ -21,7 +21,7 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :project
   belongs_to :issue
   belongs_to :user
-  belongs_to :activity, :class_name => 'Enumeration', :foreign_key => :activity_id
+  belongs_to :activity, :class_name => 'TimeEntryActivity', :foreign_key => 'activity_id'
   
   attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 
@@ -37,7 +37,7 @@ class TimeEntry < ActiveRecord::Base
 
   def after_initialize
     if new_record? && self.activity.nil?
-      if default_activity = Enumeration.activities.default
+      if default_activity = TimeEntryActivity.default
         self.activity_id = default_activity.id
       end
     end

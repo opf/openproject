@@ -37,7 +37,7 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"
     when "priority"
       @field = "priority_id"
-      @rows = Enumeration.priorities
+      @rows = IssuePriority.all
       @data = issues_by_priority
       @report_title = l(:field_priority)
       render :template => "reports/issue_report_details"   
@@ -68,7 +68,7 @@ class ReportsController < ApplicationController
     else
       @trackers = @project.trackers
       @versions = @project.versions.sort
-      @priorities = Enumeration.priorities
+      @priorities = IssuePriority.all
       @categories = @project.issue_categories
       @assignees = @project.members.collect { |m| m.user }
       @authors = @project.members.collect { |m| m.user }
@@ -130,7 +130,7 @@ private
                                                   p.id as priority_id,
                                                   count(i.id) as total 
                                                 from 
-                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{Enumeration.table_name} p
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{IssuePriority.table_name} p
                                                 where 
                                                   i.status_id=s.id 
                                                   and i.priority_id=p.id

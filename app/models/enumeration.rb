@@ -16,53 +16,77 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Enumeration < ActiveRecord::Base
-  acts_as_list :scope => 'opt = \'#{opt}\''
+  acts_as_list :scope => 'type = \'#{type}\''
 
   before_destroy :check_integrity
   
-  validates_presence_of :opt, :name
-  validates_uniqueness_of :name, :scope => [:opt]
+  validates_presence_of :name
+  validates_uniqueness_of :name, :scope => [:type]
   validates_length_of :name, :maximum => 30
-
-  # Single table inheritance would be an option
-  OPTIONS = {
-    "IPRI" => {:label => :enumeration_issue_priorities, :model => Issue, :foreign_key => :priority_id, :scope => :priorities},
-    "DCAT" => {:label => :enumeration_doc_categories, :model => Document, :foreign_key => :category_id, :scope => :document_categories},
-    "ACTI" => {:label => :enumeration_activities, :model => TimeEntry, :foreign_key => :activity_id, :scope => :activities}
-  }.freeze
   
-  # Creates a named scope for each type of value. The scope has a +default+ method
-  # that returns the default value, or nil if no value is set as default.
-  # Example:
-  #   Enumeration.priorities
-  #   Enumeration.priorities.default
-  OPTIONS.each do |k, v|
-    next unless v[:scope]
-    named_scope v[:scope], :conditions => { :opt => k }, :order => 'position' do
-      def default
-        find(:first, :conditions => { :is_default => true })
-      end
-    end
-  end
-  
-  named_scope :values, lambda {|opt| { :conditions => { :opt => opt }, :order => 'position' } } do
+  # Backwards compatiblity named_scopes.
+  # Can be removed post-0.9
+  named_scope :priorities, :conditions => { :type => "IssuePriority" }, :order => 'position' do
+    ActiveSupport::Deprecation.warn("Enumeration#priorities is deprecated, use the IssuePriority class. (#{Redmine::Info.issue(3007)})")
     def default
       find(:first, :conditions => { :is_default => true })
     end
   end
 
+  named_scope :document_categories, :conditions => { :type => "DocumentCategory" }, :order => 'position' do
+    ActiveSupport::Deprecation.warn("Enumeration#document_categories is deprecated, use the DocumentCategories class. (#{Redmine::Info.issue(3007)})")
+    def default
+      find(:first, :conditions => { :is_default => true })
+    end
+  end
+
+  named_scope :activities, :conditions => { :type => "TimeEntryActivity" }, :order => 'position' do
+    ActiveSupport::Deprecation.warn("Enumeration#activities is deprecated, use the TimeEntryActivity class. (#{Redmine::Info.issue(3007)})")
+    def default
+      find(:first, :conditions => { :is_default => true })
+    end
+  end
+  
+  named_scope :values, lambda {|type| { :conditions => { :type => type }, :order => 'position' } } do
+    def default
+      find(:first, :conditions => { :is_default => true })
+    end
+  end
+
+  named_scope :all, :order => 'position'
+
+  def self.default
+    # Creates a fake default scope so Enumeration.default will check
+    # it's type.  STI subclasses will automatically add their own
+    # types to the finder.
+    if self.descends_from_active_record?
+      find(:first, :conditions => { :is_default => true, :type => 'Enumeration' })
+    else
+      # STI classes are
+      find(:first, :conditions => { :is_default => true })
+    end
+  end
+  
+  # Overloaded on concrete classes
   def option_name
-    OPTIONS[self.opt][:label]
+    nil
+  end
+
+  # Backwards compatiblity.  Can be removed post-0.9
+  def opt
+    ActiveSupport::Deprecation.warn("Enumeration#opt is deprecated, use the STI classes now. (#{Redmine::Info.issue(3007)})")
+    return OptName
   end
 
   def before_save
     if is_default? && is_default_changed?
-      Enumeration.update_all("is_default = #{connection.quoted_false}", {:opt => opt})
+      Enumeration.update_all("is_default = #{connection.quoted_false}", {:type => type})
     end
   end
   
+  # Overloaded on concrete classes
   def objects_count
-    OPTIONS[self.opt][:model].count(:conditions => "#{OPTIONS[self.opt][:foreign_key]} = #{id}")
+    0
   end
   
   def in_use?
@@ -75,7 +99,7 @@ class Enumeration < ActiveRecord::Base
   # If a enumeration is specified, objects are reassigned
   def destroy(reassign_to = nil)
     if reassign_to && reassign_to.is_a?(Enumeration)
-      OPTIONS[self.opt][:model].update_all("#{OPTIONS[self.opt][:foreign_key]} = #{reassign_to.id}", "#{OPTIONS[self.opt][:foreign_key]} = #{id}")
+      self.transfer_relations(reassign_to)
     end
     destroy_without_reassign
   end
@@ -85,9 +109,23 @@ class Enumeration < ActiveRecord::Base
   end
   
   def to_s; name end
+
+  # Returns the Subclasses of Enumeration.  Each Subclass needs to be
+  # required in development mode.
+  #
+  # Note: subclasses is protected in ActiveRecord
+  def self.get_subclasses
+    @@subclasses[Enumeration]
+  end
   
 private
   def check_integrity
     raise "Can't delete enumeration" if self.in_use?
   end
+
 end
+
+# Force load the subclasses in development mode
+require_dependency 'time_entry_activity'
+require_dependency 'document_category'
+require_dependency 'issue_priority'

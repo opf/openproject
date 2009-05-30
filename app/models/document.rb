@@ -17,7 +17,7 @@
 
 class Document < ActiveRecord::Base
   belongs_to :project
-  belongs_to :category, :class_name => "Enumeration", :foreign_key => "category_id"
+  belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
   acts_as_attachable :delete_permission => :manage_documents
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
@@ -31,7 +31,7 @@ class Document < ActiveRecord::Base
   
   def after_initialize
     if new_record?
-      self.category ||= Enumeration.document_categories.default
+      self.category ||= DocumentCategory.default
     end
   end
 end

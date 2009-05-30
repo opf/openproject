@@ -38,40 +38,42 @@ class EnumerationTest < Test::Unit::TestCase
   end
   
   def test_default
-    e = Enumeration.priorities.default
+    e = Enumeration.default
     assert e.is_a?(Enumeration)
     assert e.is_default?
-    assert_equal 'Normal', e.name
+    assert_equal 'Default Enumeration', e.name
   end
   
   def test_create
-    e = Enumeration.new(:opt => 'IPRI', :name => 'Very urgent', :is_default => false)
+    e = Enumeration.new(:name => 'Not default', :is_default => false)
+    e.type = 'Enumeration'
     assert e.save
-    assert_equal 'Normal', Enumeration.priorities.default.name
+    assert_equal 'Default Enumeration', Enumeration.default.name
   end
   
   def test_create_as_default
-    e = Enumeration.new(:opt => 'IPRI', :name => 'Very urgent', :is_default => true)
+    e = Enumeration.new(:name => 'Very urgent', :is_default => true)
+    e.type = 'Enumeration'
     assert e.save
-    assert_equal e, Enumeration.priorities.default
+    assert_equal e, Enumeration.default
   end
   
   def test_update_default
-    e = Enumeration.priorities.default
+    e = Enumeration.default
     e.update_attributes(:name => 'Changed', :is_default => true)
-    assert_equal e, Enumeration.priorities.default
+    assert_equal e, Enumeration.default
   end
   
   def test_update_default_to_non_default
-    e = Enumeration.priorities.default
+    e = Enumeration.default
     e.update_attributes(:name => 'Changed', :is_default => false)
-    assert_nil Enumeration.priorities.default
+    assert_nil Enumeration.default
   end
   
   def test_change_default
-    e = Enumeration.find_by_name('Urgent')
-    e.update_attributes(:name => 'Urgent', :is_default => true)
-    assert_equal e, Enumeration.priorities.default
+    e = Enumeration.find_by_name('Default Enumeration')
+    e.update_attributes(:name => 'Changed Enumeration', :is_default => true)
+    assert_equal e, Enumeration.default
   end
   
   def test_destroy_with_reassign

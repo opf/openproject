@@ -91,7 +91,7 @@ class MailHandler < ActionMailer::Base
     project = target_project
     tracker = (get_keyword(:tracker) && project.trackers.find_by_name(get_keyword(:tracker))) || project.trackers.find(:first)
     category = (get_keyword(:category) && project.issue_categories.find_by_name(get_keyword(:category)))
-    priority = (get_keyword(:priority) && Enumeration.find_by_opt_and_name('IPRI', get_keyword(:priority)))
+    priority = (get_keyword(:priority) && IssuePriority.find_by_name(get_keyword(:priority)))
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
 
     # check permission

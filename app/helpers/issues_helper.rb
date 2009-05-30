@@ -68,8 +68,8 @@ module IssuesHelper
         u = User.find_by_id(detail.value) and value = u.name if detail.value
         u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
       when 'priority_id'
-        e = Enumeration.find_by_id(detail.value) and value = e.name if detail.value
-        e = Enumeration.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
+        e = IssuePriority.find_by_id(detail.value) and value = e.name if detail.value
+        e = IssuePriority.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
       when 'category_id'
         c = IssueCategory.find_by_id(detail.value) and value = c.name if detail.value
         c = IssueCategory.find_by_id(detail.old_value) and old_value = c.name if detail.old_value

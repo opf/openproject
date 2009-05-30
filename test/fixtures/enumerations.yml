@@ -3,46 +3,67 @@ enumerations_001:
   name: Uncategorized
   id: 1
   opt: DCAT
+  type: DocumentCategory
 enumerations_002: 
   name: User documentation
   id: 2
   opt: DCAT
+  type: DocumentCategory
 enumerations_003: 
   name: Technical documentation
   id: 3
   opt: DCAT
+  type: DocumentCategory
 enumerations_004: 
   name: Low
   id: 4
   opt: IPRI
+  type: IssuePriority
 enumerations_005: 
   name: Normal
   id: 5
   opt: IPRI
+  type: IssuePriority
   is_default: true
 enumerations_006: 
   name: High
   id: 6
   opt: IPRI
+  type: IssuePriority
 enumerations_007: 
   name: Urgent
   id: 7
   opt: IPRI
+  type: IssuePriority
 enumerations_008: 
   name: Immediate
   id: 8
   opt: IPRI
+  type: IssuePriority
 enumerations_009: 
   name: Design
   id: 9
   opt: ACTI
+  type: TimeEntryActivity
 enumerations_010: 
   name: Development
   id: 10
   opt: ACTI
+  type: TimeEntryActivity
   is_default: true
 enumerations_011: 
   name: QA
   id: 11
   opt: ACTI
-  
+  type: TimeEntryActivity
+enumerations_012:
+  name: Default Enumeration
+  id: 12
+  opt: ''
+  type: Enumeration
+  is_default: true
+enumerations_013:
+  name: Another Enumeration
+  id: 13
+  opt: ''
+  type: Enumeration
