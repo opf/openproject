@@ -29,6 +29,7 @@
 <% end %>
 </ul>
 <% end %>
+<%= call_hook :view_account_left_bottom, :user => @user %>
 </div>
 
 <div class="splitcontentright">
@@ -63,6 +64,7 @@
 		<%= auto_discovery_link_tag(:atom, :controller => 'projects', :action => 'activity', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
 <% end %>
 <% end %>
+<%= call_hook :view_account_right_bottom, :user => @user %>
 </div>
 
 <% html_title @user.name %>
