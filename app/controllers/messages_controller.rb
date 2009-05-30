@@ -46,6 +46,7 @@ class MessagesController < ApplicationController
       @message.sticky = params[:message]['sticky']
     end
     if request.post? && @message.save
+      call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
       attach_files(@message, params[:attachments])
       redirect_to :action => 'show', :id => @message
     end
@@ -58,6 +59,7 @@ class MessagesController < ApplicationController
     @reply.board = @board
     @topic.children << @reply
     if !@reply.new_record?
+      call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
       attach_files(@reply, params[:attachments])
     end
     redirect_to :action => 'show', :id => @topic

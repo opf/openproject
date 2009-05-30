@@ -83,6 +83,7 @@ class WikiController < ApplicationController
       @content.author = User.current
       # if page is new @page.save will also save content, but not if page isn't a new record
       if (@page.new_record? ? @page.save : @content.save)
+        call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
         redirect_to :action => 'index', :id => @project, :page => @page.title
       end
     end
