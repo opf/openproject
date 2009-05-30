@@ -1,5 +1,6 @@
 <div class="contextual">
 <%= link_to_if_authorized l(:button_edit), {:controller => 'versions', :action => 'edit', :id => @version}, :class => 'icon icon-edit' %>
+<%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
 </div>
 
 <h2><%= h(@version.name) %></h2>
