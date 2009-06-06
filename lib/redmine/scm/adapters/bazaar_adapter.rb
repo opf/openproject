@@ -89,7 +89,7 @@ module Redmine
               else
                 next unless revision
                 
-                if line =~ /^revno: (\d+)$/
+                if line =~ /^revno: (\d+)($|\s\[merge\]$)/
                   revision.identifier = $1.to_i
                 elsif line =~ /^committer: (.+)$/
                   revision.author = $1.strip
