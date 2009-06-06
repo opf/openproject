@@ -20,7 +20,7 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 class ApplicationTest < ActionController::IntegrationTest
   include Redmine::I18n
   
-  fixtures :users
+  fixtures :all
   
   def test_set_localization
     Setting.default_language = 'en'
@@ -41,5 +41,16 @@ class ApplicationTest < ActionController::IntegrationTest
     get 'projects', { }, 'Accept-Language' => 'zz'
     assert_response :success
     assert_tag :tag => 'h2', :content => 'Projects'
+  end
+  
+  def test_token_based_access_should_not_start_session
+    # issue of a private project
+    get 'issues/4.atom'
+    assert_response 302
+    
+    rss_key = User.find(2).rss_key
+    get "issues/4.atom?key=#{rss_key}"
+    assert_response 200
+    assert_nil session[:user_id]
   end
 end
