@@ -323,6 +323,7 @@ zh:
   setting_repository_log_display_limit: 在文件变更记录页面上显示的最大修订版本数量
   setting_openid: 允许使用OpenID登录和注册
   setting_password_min_length: 最短密码长度
+  setting_new_project_user_role_id: 非管理员用户新建项目时将被赋予的（在该项目中的）角色
 
   permission_add_project: 新建项目
   permission_edit_project: 编辑项目
@@ -832,4 +833,3 @@ zh:
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project

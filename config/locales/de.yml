@@ -802,31 +802,31 @@ de:
   field_editable: Editable
   label_display: Display
   button_create_and_continue: Anlegen und weiter
-  text_custom_field_possible_values_info: 'One line for each value'
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  text_custom_field_possible_values_info: 'Eine Zeile pro Wert'
+  setting_repository_log_display_limit: Maximale Anzahl angezeigter Revisionen des Datei Logs
+  setting_file_max_size_displayed: Maximale Größe der abgezeigten Textdatei 
+  field_watcher: Beobachter
+  setting_openid: Erlaube OpenID Anmeldung und Registrierung
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_login_with_open_id_option: oder anmeldung mit OpenID
+  field_content: Inhalt
+  label_descending: Absteigend
+  label_sort: Sortierung
+  label_ascending: Aufsteigend
+  label_date_from_to: Von {{start}} bis {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  text_wiki_page_destroy_question: Diese Seite hat {{descendants}} Unterseite(n). Sind Sie sicher?
+  text_wiki_page_reassign_children: Ordne Unterseite dieser Seite zu
+  text_wiki_page_nullify_children: Behalte Unterseite als Hauptseite
+  text_wiki_page_destroy_children: Lösche alle Unterseiten
+  setting_password_min_length: mindestest Länge für das Passwort
+  field_group_by: Groupiere Ergebnisse bei
+  mail_subject_wiki_content_updated: "'{{page}}' Wiki-Seite aktualisiert"
+  label_wiki_content_added: Wiki-Seite hinzugefügt
+  mail_subject_wiki_content_added: "'{{page}}' Wiki-Seite hinzugefügt"
+  mail_body_wiki_content_added: Die '{{page}}' Wiki-Seite wurde von {{author}} hinzugefügt.
+  label_wiki_content_updated: Wiki-Seite aktualisiert.
+  mail_body_wiki_content_updated: Die '{{page}}' Wiki-Seite wurde von {{author}} aktualisiert.
+  permission_add_project: Erstelle Projekt
+  setting_new_project_user_role_id: Rolle einem Nicht-Administrator zugeordnet, welcher ein Projekt erstellt
