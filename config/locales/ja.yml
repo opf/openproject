@@ -712,7 +712,7 @@ ja:
   label_sort: ソート条件
   label_ascending: 昇順
   label_descending: 降順
-  label_date_from_to: {{start}}から{{end}}まで
+  label_date_from_to: "{{start}}から{{end}}まで"
   label_wiki_content_added: Wikiページが追加されました
   label_wiki_content_updated: Wikiページが更新されました
   
