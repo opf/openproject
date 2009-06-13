@@ -8,7 +8,7 @@
 <%= check_box_tag 'settings[sequential_project_identifiers]', 1, Setting.sequential_project_identifiers? %><%= hidden_field_tag 'settings[sequential_project_identifiers]', 0 %></p>
 
 <p><label><%= l(:setting_new_project_user_role_id) %></label>
-<%= select_tag('settings[new_project_user_role_id]', options_for_select([["--- #{l(:actionview_instancetag_blank_option)} ---", '']] + Role.find_all_givable.collect {|r| [r.name, r.id]}, Setting.new_project_user_role_id)) %></p>
+<%= select_tag('settings[new_project_user_role_id]', options_for_select([["--- #{l(:actionview_instancetag_blank_option)} ---", '']] + Role.find_all_givable.collect {|r| [r.name, r.id]}, Setting.new_project_user_role_id.to_i)) %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>
