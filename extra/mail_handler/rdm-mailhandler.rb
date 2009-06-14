@@ -15,6 +15,11 @@
 #   -k, --key                      Redmine API key
 #   
 # General options:
+#       --unknown-user=ACTION      how to handle emails from an unknown user
+#                                  ACTION can be one of the following values:
+#                                  ignore: email is ignored (default)
+#                                  accept: accept as anonymous user
+#                                  create: create a user account
 #   -h, --help                     show this help
 #   -v, --verbose                  show extra information
 #   -V, --version                  show version information and exit
@@ -64,7 +69,7 @@ end
 class RedmineMailHandler
   VERSION = '0.1'
   
-  attr_accessor :verbose, :issue_attributes, :allow_override, :url, :key
+  attr_accessor :verbose, :issue_attributes, :allow_override, :uknown_user, :url, :key
 
   def initialize
     self.issue_attributes = {}
@@ -80,7 +85,8 @@ class RedmineMailHandler
       [ '--tracker',        '-t', GetoptLong::REQUIRED_ARGUMENT],
       [ '--category',             GetoptLong::REQUIRED_ARGUMENT],
       [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT]
+      [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
+      [ '--unknown-user',         GetoptLong::REQUIRED_ARGUMENT]
     )
 
     opts.each do |opt, arg|
@@ -99,6 +105,8 @@ class RedmineMailHandler
         self.issue_attributes[opt.gsub(%r{^\-\-}, '')] = arg.dup
       when '--allow-override'
         self.allow_override = arg.dup
+      when '--unknown-user'
+        self.unknown_user = arg.dup
       end
     end
     
@@ -108,7 +116,9 @@ class RedmineMailHandler
   def submit(email)
     uri = url.gsub(%r{/*$}, '') + '/mail_handler'
     
-    data = { 'key' => key, 'email' => email, 'allow_override' => allow_override }
+    data = { 'key' => key, 'email' => email, 
+                           'allow_override' => allow_override,
+                           'unknown_user' => unknown_user }
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
              
     debug "Posting to #{uri}..."

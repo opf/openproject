@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -128,6 +128,41 @@ class MailHandlerTest < Test::Unit::TestCase
     issue.reload
     assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
     assert_equal 1, issue.watchers.size
+  end
+  
+  def test_add_issue_by_unknown_user
+    assert_no_difference 'User.count' do
+      assert_equal false, submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'})
+    end
+  end
+  
+  def test_add_issue_by_anonymous_user
+    Role.anonymous.add_permission!(:add_issues)
+    assert_no_difference 'User.count' do
+      issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'accept')
+      assert issue.is_a?(Issue)
+      assert issue.author.anonymous?
+    end
+  end
+  
+  def test_add_issue_by_created_user
+    Setting.default_language = 'en'
+    assert_difference 'User.count' do
+      issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'create')
+      assert issue.is_a?(Issue)
+      assert issue.author.active?
+      assert_equal 'john.doe@somenet.foo', issue.author.mail
+      assert_equal 'John', issue.author.firstname
+      assert_equal 'Doe', issue.author.lastname
+    
+      # account information
+      email = ActionMailer::Base.deliveries.first
+      assert_not_nil email
+      assert email.subject.include?('account activation')
+      login = email.body.match(/\* Login: (.*)$/)[1]
+      password = email.body.match(/\* Password: (.*)$/)[1]
+      assert_equal issue.author, User.try_to_login(login, password)
+    end
   end
   
   def test_add_issue_without_from_header

@@ -38,14 +38,33 @@ class MailHandler < ActionMailer::Base
   end
   
   # Processes incoming emails
+  # Returns the created object (eg. an issue, a message) or false
   def receive(email)
     @email = email
-    @user = User.active.find_by_mail(email.from.to_a.first.to_s.strip)
-    unless @user
-      # Unknown user => the email is ignored
-      # TODO: ability to create the user's account
-      logger.info "MailHandler: email submitted by unknown user [#{email.from.first}]" if logger && logger.info
+    @user = User.find_by_mail(email.from.to_a.first.to_s.strip)
+    if @user && !@user.active?
+      logger.info  "MailHandler: ignoring email from non-active user [#{@user.login}]" if logger && logger.info
       return false
+    end
+    if @user.nil?
+      # Email was submitted by an unknown user
+      case @@handler_options[:unknown_user]
+      when 'accept'
+        @user = User.anonymous
+      when 'create'
+        @user = MailHandler.create_user_from_email(email)
+        if @user
+          logger.info "MailHandler: [#{@user.login}] account created" if logger && logger.info
+          Mailer.deliver_account_information(@user, @user.password)
+        else
+          logger.error "MailHandler: could not create account for [#{email.from.first}]" if logger && logger.error
+          return false
+        end
+      else
+        # Default behaviour, emails from unknown users are ignored
+        logger.info  "MailHandler: ignoring email from unknown user [#{email.from.first}]" if logger && logger.info
+        return false
+      end
     end
     User.current = @user
     dispatch
@@ -238,5 +257,24 @@ class MailHandler < ActionMailer::Base
 
   def self.full_sanitizer
     @full_sanitizer ||= HTML::FullSanitizer.new
+  end
+  
+  # Creates a user account for the +email+ sender
+  def self.create_user_from_email(email)
+    addr = email.from_addrs.to_a.first
+    if addr && !addr.spec.blank?
+      user = User.new
+      user.mail = addr.spec
+      
+      names = addr.name.blank? ? addr.spec.gsub(/@.*$/, '').split('.') : addr.name.split
+      user.firstname = names.shift
+      user.lastname = names.join(' ')
+      user.lastname = '-' if user.lastname.blank?
+      
+      user.login = user.mail
+      user.password = ActiveSupport::SecureRandom.hex(5)
+      user.language = Setting.default_language
+      user.save ? user : nil
+    end
   end
 end

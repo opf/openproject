@@ -21,6 +21,13 @@ namespace :redmine do
     desc <<-END_DESC
 Read an email from standard input.
 
+General options:
+  unknown_user=ACTION      how to handle emails from an unknown user
+                           ACTION can be one of the following values:
+                           ignore: email is ignored (default)
+                           accept: accept as anonymous user
+                           create: create a user account
+  
 Issue attributes control options:
   project=PROJECT          identifier of the target project
   status=STATUS            name of the target status
@@ -47,6 +54,7 @@ END_DESC
       options = { :issue => {} }
       %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
+      options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
       
       MailHandler.receive(STDIN.read, options)
     end
@@ -54,6 +62,13 @@ END_DESC
     desc <<-END_DESC
 Read emails from an IMAP server.
 
+General options:
+  unknown_user=ACTION      how to handle emails from an unknown user
+                           ACTION can be one of the following values:
+                           ignore: email is ignored (default)
+                           accept: accept as anonymous user
+                           create: create a user account
+  
 Available IMAP options:
   host=HOST                IMAP server host (default: 127.0.0.1)
   port=PORT                IMAP server port (default: 143)
@@ -61,7 +76,7 @@ Available IMAP options:
   username=USERNAME        IMAP account
   password=PASSWORD        IMAP password
   folder=FOLDER            IMAP folder to read (default: INBOX)
-
+  
 Issue attributes control options:
   project=PROJECT          identifier of the target project
   status=STATUS            name of the target status
@@ -107,6 +122,7 @@ END_DESC
       options = { :issue => {} }
       %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
+      options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
 
       Redmine::IMAP.check(imap_options, options)
     end
