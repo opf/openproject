@@ -66,6 +66,10 @@ class Message < ActiveRecord::Base
     board.reset_counters!
   end
   
+  def sticky=(arg)
+    write_attribute :sticky, (arg == true || arg.to_s == '1' ? 1 : 0)
+  end
+  
   def sticky?
     sticky == 1
   end

@@ -128,4 +128,19 @@ class MessageTest < Test::Unit::TestCase
     author.roles_for_project(message.project).first.remove_permission!(:delete_own_messages)
     assert !message.reload.destroyable_by?(author.reload)
   end
+  
+  def test_set_sticky
+    message = Message.new
+    assert_equal 0, message.sticky
+    message.sticky = nil
+    assert_equal 0, message.sticky
+    message.sticky = false
+    assert_equal 0, message.sticky
+    message.sticky = true
+    assert_equal 1, message.sticky
+    message.sticky = '0'
+    assert_equal 0, message.sticky
+    message.sticky = '1'
+    assert_equal 1, message.sticky
+  end
 end
