@@ -156,17 +156,17 @@ module Redmine
             }
           
             # Enumerations
-            Enumeration.create!(:opt => "DCAT", :name => l(:default_doc_category_user), :position => 1)
-            Enumeration.create!(:opt => "DCAT", :name => l(:default_doc_category_tech), :position => 2)
+            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_user), :position => 1)
+            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_tech), :position => 2)
           
-            Enumeration.create!(:opt => "IPRI", :name => l(:default_priority_low), :position => 1)
-            Enumeration.create!(:opt => "IPRI", :name => l(:default_priority_normal), :position => 2, :is_default => true)
-            Enumeration.create!(:opt => "IPRI", :name => l(:default_priority_high), :position => 3)
-            Enumeration.create!(:opt => "IPRI", :name => l(:default_priority_urgent), :position => 4)
-            Enumeration.create!(:opt => "IPRI", :name => l(:default_priority_immediate), :position => 5)
+            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_low), :position => 1)
+            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_normal), :position => 2, :is_default => true)
+            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_high), :position => 3)
+            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_urgent), :position => 4)
+            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_immediate), :position => 5)
           
-            Enumeration.create!(:opt => "ACTI", :name => l(:default_activity_design), :position => 1)
-            Enumeration.create!(:opt => "ACTI", :name => l(:default_activity_development), :position => 2)
+            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_design), :position => 1)
+            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_development), :position => 2)
           end
           true
         end
