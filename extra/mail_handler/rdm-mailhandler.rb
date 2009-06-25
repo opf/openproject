@@ -69,7 +69,7 @@ end
 class RedmineMailHandler
   VERSION = '0.1'
   
-  attr_accessor :verbose, :issue_attributes, :allow_override, :uknown_user, :url, :key
+  attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :url, :key
 
   def initialize
     self.issue_attributes = {}
