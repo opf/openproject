@@ -424,9 +424,9 @@ class Query < ActiveRecord::Base
         Time.now.at_beginning_of_week
       sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
     when "~"
-      sql = "#{db_table}.#{db_field} LIKE '%#{connection.quote_string(value.first)}%'"
+      sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
     when "!~"
-      sql = "#{db_table}.#{db_field} NOT LIKE '%#{connection.quote_string(value.first)}%'"
+      sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
     end
     
     return sql
