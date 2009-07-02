@@ -8,7 +8,7 @@ Redmine::Plugin.register :sample_plugin do
   author 'Author name'
   description 'This is a sample plugin for Redmine'
   version '0.0.1'
-  settings :default => {'sample_setting' => 'value', 'foo'=>'bar'}, :partial => 'settings/settings'
+  settings :default => {'sample_setting' => 'value', 'foo'=>'bar'}, :partial => 'settings/sample_plugin_settings'
 
   # This plugin adds a project module
   # It can be enabled/disabled at project level (Project settings -> Modules)
