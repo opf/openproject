@@ -172,12 +172,12 @@ class ProjectsController < ApplicationController
 
   def archive
     @project.archive if request.post? && @project.active?
-    redirect_to :controller => 'admin', :action => 'projects'
+    redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
   
   def unarchive
     @project.unarchive if request.post? && !@project.active?
-    redirect_to :controller => 'admin', :action => 'projects'
+    redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
   
   # Delete @project

@@ -31,8 +31,8 @@
 	<td align="center"><%= image_tag 'true.png' if project.is_public? %></td>
 	<td align="center"><%= format_date(project.created_on) %></td>
   <td class="buttons">
-    <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-lock') if project.active? %>
-    <%= link_to(l(:button_unarchive), { :controller => 'projects', :action => 'unarchive', :id => project }, :method => :post, :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+    <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project, :status => params[:status] }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-lock') if project.active? %>
+    <%= link_to(l(:button_unarchive), { :controller => 'projects', :action => 'unarchive', :id => project, :status => params[:status] }, :method => :post, :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
     <%= link_to(l(:button_copy), { :controller => 'projects', :action => 'copy', :id => project }, :class => 'icon icon-copy') %>
     <%= link_to(l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => 'icon icon-del') %>
   </td>
