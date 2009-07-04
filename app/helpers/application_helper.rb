@@ -201,12 +201,17 @@ module ApplicationHelper
   end
 
   def authoring(created, author, options={})
-    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
-                               link_to(distance_of_time_in_words(Time.now, created), 
-                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
-                                       :title => format_time(created))
     author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
-    l(options[:label] || :label_added_time_by, :author => author_tag, :age => time_tag)
+    l(options[:label] || :label_added_time_by, :author => author_tag, :age => time_tag(created))
+  end
+  
+  def time_tag(time)
+    text = distance_of_time_in_words(Time.now, time)
+    if @project
+      link_to(text, {:controller => 'projects', :action => 'activity', :id => @project, :from => time.to_date}, :title => format_time(time))
+    else
+      content_tag('acronym', text, :title => format_time(time))
+    end
   end
 
   def syntax_highlight(name, content)
