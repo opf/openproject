@@ -125,7 +125,7 @@ ca:
   notice_email_sent: "S'ha enviat un correu electrònic a {{value}}"
   notice_email_error: "S'ha produït un error en enviar el correu ({{value}})"
   notice_feeds_access_key_reseted: "S'ha reiniciat la clau d'accés del RSS."
-  notice_failed_to_save_issues: "No s'han pogut desar %s assumptes de {{count}} seleccionats: {{value}}."
+  notice_failed_to_save_issues: "No s'han pogut desar %s assumptes de {{count}} seleccionats: {{ids}}."
   notice_no_issue_selected: "No s'ha seleccionat cap assumpte. Activeu els assumptes que voleu editar."
   notice_account_pending: "S'ha creat el compte i ara està pendent de l'aprovació de l'administrador."
   notice_default_data_loaded: "S'ha carregat correctament la configuració predeterminada."

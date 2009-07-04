@@ -663,7 +663,7 @@ es:
   notice_default_data_loaded: Configuración por defecto cargada correctamente.
   notice_email_error: "Ha ocurrido un error mientras enviando el correo ({{value}})"
   notice_email_sent: "Se ha enviado un correo a {{value}}"
-  notice_failed_to_save_issues: "Imposible grabar %s peticion(es) en {{count}} seleccionado: {{value}}."
+  notice_failed_to_save_issues: "Imposible grabar %s peticion(es) en {{count}} seleccionado: {{ids}}."
   notice_feeds_access_key_reseted: Su clave de acceso para RSS ha sido reiniciada.
   notice_file_not_found: La página a la que intenta acceder no existe.
   notice_locking_conflict: Los datos han sido modificados por otro usuario.

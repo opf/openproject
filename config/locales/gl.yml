@@ -642,7 +642,7 @@ gl:
   notice_default_data_loaded: Configuración por defecto cargada correctamente.
   notice_email_error: "Ocorreu un error enviando o correo ({{value}})"
   notice_email_sent: "Enviouse un correo a {{value}}"
-  notice_failed_to_save_issues: "Imposible gravar %s petición(s) en {{count}} seleccionado: {{value}}."
+  notice_failed_to_save_issues: "Imposible gravar %s petición(s) en {{count}} seleccionado: {{ids}}."
   notice_feeds_access_key_reseted: A súa clave de acceso para RSS reiniciouse.
   notice_file_not_found: A páxina á que tenta acceder non existe.
   notice_locking_conflict: Os datos modificáronse por outro usuario.
