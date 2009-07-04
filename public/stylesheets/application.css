@@ -69,6 +69,7 @@ html>body #content { min-height: 600px; }
 #login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
 #login-form table td {padding: 6px;}
 #login-form label {font-weight: bold;}
+#login-form input#username, #login-form input#password { width: 300px; }
 
 input#openid_url { background: url(../images/openid-bg.gif) no-repeat; background-color: #fff; background-position: 0 50%; padding-left: 18px; }
 

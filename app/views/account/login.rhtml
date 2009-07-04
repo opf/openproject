@@ -4,11 +4,11 @@
 <table>
 <tr>
     <td align="right"><label for="username"><%=l(:field_login)%>:</label></td>
-    <td align="left"><p><%= text_field_tag 'username', nil, :size => 40 %></p></td>
+    <td align="left"><p><%= text_field_tag 'username', nil %></p></td>
 </tr>
 <tr>
     <td align="right"><label for="password"><%=l(:field_password)%>:</label></td>
-    <td align="left"><%= password_field_tag 'password', nil, :size => 40 %></td>
+    <td align="left"><%= password_field_tag 'password', nil %></td>
 </tr>
 <% if Setting.openid? %>
 <tr>
