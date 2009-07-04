@@ -815,18 +815,18 @@ de:
   label_ascending: Aufsteigend
   label_date_from_to: Von {{start}} bis {{end}}
   label_greater_or_equal: ">="
-  label_less_or_equal: <=
+  label_less_or_equal: "<="
   text_wiki_page_destroy_question: Diese Seite hat {{descendants}} Unterseite(n). Sind Sie sicher?
   text_wiki_page_reassign_children: Ordne Unterseite dieser Seite zu
   text_wiki_page_nullify_children: Behalte Unterseite als Hauptseite
   text_wiki_page_destroy_children: Lösche alle Unterseiten
-  setting_password_min_length: mindestest Länge für das Passwort
-  field_group_by: Groupiere Ergebnisse bei
-  mail_subject_wiki_content_updated: "'{{page}}' Wiki-Seite aktualisiert"
+  setting_password_min_length: Mindestlänge des Passworts
+  field_group_by: Gruppiere Ergebnisse nach
+  mail_subject_wiki_content_updated: "Wiki-Seite '{{page}}' aktualisiert"
   label_wiki_content_added: Wiki-Seite hinzugefügt
-  mail_subject_wiki_content_added: "'{{page}}' Wiki-Seite hinzugefügt"
-  mail_body_wiki_content_added: Die '{{page}}' Wiki-Seite wurde von {{author}} hinzugefügt.
+  mail_subject_wiki_content_added: "Wiki-Seite '{{page}}' hinzugefügt"
+  mail_body_wiki_content_added: "Die Wiki-Seite '{{page}}' wurde von {{author}} hinzugefügt."
   label_wiki_content_updated: Wiki-Seite aktualisiert.
-  mail_body_wiki_content_updated: Die '{{page}}' Wiki-Seite wurde von {{author}} aktualisiert.
+  mail_body_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde von {{author}} aktualisiert."
   permission_add_project: Erstelle Projekt
   setting_new_project_user_role_id: Rolle einem Nicht-Administrator zugeordnet, welcher ein Projekt erstellt
