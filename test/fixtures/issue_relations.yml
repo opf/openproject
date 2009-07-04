@@ -1,0 +1,7 @@
+issue_relation_001:
+  id: 1
+  issue_from_id: 10
+  issue_to_id: 9
+  relation_type: blocks
+  delay:
+  

@@ -20,7 +20,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class IssueTest < Test::Unit::TestCase
   fixtures :projects, :users, :members, :member_roles,
            :trackers, :projects_trackers,
-           :issue_statuses, :issue_categories,
+           :issue_statuses, :issue_categories, :issue_relations, :workflows, 
            :enumerations,
            :issues,
            :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
@@ -232,6 +232,32 @@ class IssueTest < Test::Unit::TestCase
     Issue.find(1).destroy
     assert_nil Issue.find_by_id(1)
     assert_nil TimeEntry.find_by_issue_id(1)
+  end
+  
+  def test_blocked
+    blocked_issue = Issue.find(9)
+    blocking_issue = Issue.find(10)
+     
+    assert blocked_issue.blocked?
+    assert !blocking_issue.blocked?
+  end
+  
+  def test_blocked_issues_dont_allow_closed_statuses
+    blocked_issue = Issue.find(9)
+  
+    allowed_statuses = blocked_issue.new_statuses_allowed_to(users(:users_002))
+    assert !allowed_statuses.empty?
+    closed_statuses = allowed_statuses.select {|st| st.is_closed?}
+    assert closed_statuses.empty?
+  end
+  
+  def test_unblocked_issues_allow_closed_statuses
+    blocking_issue = Issue.find(10)
+  
+    allowed_statuses = blocking_issue.new_statuses_allowed_to(users(:users_002))
+    assert !allowed_statuses.empty?
+    closed_statuses = allowed_statuses.select {|st| st.is_closed?}
+    assert !closed_statuses.empty?
   end
   
   def test_overdue
