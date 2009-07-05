@@ -2,7 +2,7 @@
 
 <ul>
 <% @issues.each do |issue| -%>
-    <li><%=h "#{issue.project} - #{issue.tracker} ##{issue.id}: #{issue.subject}" %></li>
+  <li><%=h issue.project %> - <%=link_to("#{issue.tracker} ##{issue.id}", :controller => 'issues', :action => 'show', :id => issue, :only_path => false)%>: <%=h issue.subject %></li>
 <% end -%>
 </ul>
 
