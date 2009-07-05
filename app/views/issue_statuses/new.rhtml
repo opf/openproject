@@ -1,4 +1,4 @@
-<h2><%=l(:label_issue_status_new)%></h2>
+<h2><%= link_to l(:label_issue_status_plural), :controller => 'issue_statuses', :action => 'index' %> &#187; <%=l(:label_issue_status_new)%></h2>
 
 <% form_tag({:action => 'create'}, :class => "tabular") do %>
   <%= render :partial => 'form' %>

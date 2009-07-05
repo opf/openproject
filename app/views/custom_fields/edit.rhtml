@@ -1,4 +1,5 @@
-<h2><%=l(:label_custom_field)%> (<%=l(@custom_field.type_name)%>)</h2>
+<h2><%= link_to l(:label_custom_field_plural), :controller => 'custom_fields', :action => 'index', :tab => @custom_field.type %> 
+  &#187; <%=h @custom_field.name %> (<%=l(@custom_field.type_name)%>)</h2>
 
 <% labelled_tabular_form_for :custom_field, @custom_field, :url => { :action => "edit", :id => @custom_field } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>

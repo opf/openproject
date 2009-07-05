@@ -1,4 +1,4 @@
-<h2><%=l(:label_tracker_new)%></h2>
+<h2><%= link_to l(:label_tracker_plural), :controller => 'trackers', :action => 'index' %> &#187; <%=l(:label_tracker_new)%></h2>
 
 <% form_for :tracker, @tracker, :url => { :action => 'new' }, :builder => TabularFormBuilder do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
