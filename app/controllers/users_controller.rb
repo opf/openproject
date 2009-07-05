@@ -79,7 +79,11 @@ class UsersController < ApplicationController
       # Was the account actived ? (do it before User#save clears the change)
       was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
       if @user.save
-        Mailer.deliver_account_activated(@user) if was_activated
+        if was_activated
+          Mailer.deliver_account_activated(@user)
+        elsif @user.active? && params[:send_information] && !params[:password].blank? && @user.auth_source_id.nil?
+          Mailer.deliver_account_information(@user, params[:password])
+        end
         flash[:notice] = l(:notice_successful_update)
         # Give a string to redirect_to otherwise it would use status param as the response code
         redirect_to(url_for(:action => 'list', :status => params[:status], :page => params[:page]))
