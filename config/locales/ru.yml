@@ -226,7 +226,7 @@ ru:
   button_list: Список
   button_lock: Заблокировать
   button_login: Вход
-  button_log_time: Время в системе
+  button_log_time: Затраченное время
   button_move: Переместить
   button_quote: Цитировать
   button_rename: Переименовать
@@ -638,7 +638,7 @@ ru:
   label_roadmap: Оперативный план
   label_roadmap_due_in: "В срок {{value}}"
   label_roadmap_no_issues: Нет задач для данной версии
-  label_roadmap_overdue: "{{value}} опоздание"
+  label_roadmap_overdue: "опоздание {{value}}"
   label_role: Роль
   label_role_and_permissions: Роли и права доступа
   label_role_new: Новая роль
@@ -927,4 +927,4 @@ ru:
   label_wiki_content_updated: Обновлена wiki-страница
   mail_body_wiki_content_updated: "{{author}} обновил(а) wiki-страницу '{{page}}'."
   permission_add_project: Создание проекта
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_new_project_user_role_id: Роль, назначаемая пользователю, создавшему проект
