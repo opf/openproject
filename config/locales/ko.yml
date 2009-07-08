@@ -164,8 +164,8 @@ ko:
   general_lang_name: 'Korean (한국어)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
-  general_csv_encoding: CP949
-  general_pdf_encoding: CP949
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: UTF-8
   general_first_day_of_week: '7'
   
   notice_account_updated: 계정이 성공적으로 변경 되었습니다.
@@ -287,7 +287,7 @@ ko:
   setting_app_subtitle: 레드마인 부제목
   setting_welcome_text: 환영 메시지
   setting_default_language: 기본 언어
-  setting_login_required: 인증이 필요함.
+  setting_login_required: 인증이 필요함
   setting_self_registration: 사용자 직접등록
   setting_attachment_max_size: 최대 첨부파일 크기
   setting_issues_export_limit: 일감 내보내기 제한 개수
@@ -314,9 +314,9 @@ ko:
   label_project_new: 새 프로젝트
   label_project_plural: 프로젝트
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  없음
+    one:   한 개의 프로젝트
+    other: "{{count}}개의 프로젝트"
   label_project_all: 모든 프로젝트
   label_project_latest: 최근 프로젝트
   label_issue: 일감
@@ -415,17 +415,17 @@ ko:
   label_closed_issues: 완료됨
   label_closed_issues_plural: 완료됨
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  "총 {{total}} 건 중 열림 없음"
+    one:   "총 {{total}} 건 중 한 건 열림"
+    other: "총 {{total}} 건 중 {{count}} 건 열림"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  열림 없음
+    one:   한 건 열림
+    other: "{{count}} 건 열림"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  닫힘 없음
+    one:   한 건 닫힘
+    other: "{{count}} 건 닫힘"
   label_total: 합계
   label_permissions: 허가권한
   label_current_status: 일감 상태
@@ -448,9 +448,9 @@ ko:
   label_comment: 댓글
   label_comment_plural: 댓글
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: 댓글 없음
+    one: 한 개의 댓글
+    other: "{{count}} 개의 댓글"
   label_comment_add: 댓글 추가
   label_comment_added: 댓글이 추가되었습니다.
   label_comment_delete: 댓글 삭제
@@ -827,18 +827,18 @@ ko:
   label_updated_time_by: "{{author}}가 {{age}} 전에 변경"
   text_diff_truncated: '... 이 차이점은 표시할 수 있는 최대 줄수를 초과해서 이 차이점은 잘렸습니다.'
   setting_diff_max_lines_displayed: 차이점보기에 표시할 최대 줄수
-  text_plugin_assets_writable: Plugin assets directory writable
+  text_plugin_assets_writable: 플러그인 전용 디렉토리가 쓰기 가능함
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  button_create_and_continue: Create and continue
+  button_create_and_continue: 생성하고 계속하기
   text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
+  label_display: 표시방식
+  field_editable: 편집가능
+  setting_repository_log_display_limit: 파일 로그에 보여줄 최대 개정판 갯수
+  setting_file_max_size_displayed: 인라인으로 보여줄 텍스트파일의 최대 크기
   field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  setting_openid: OpenID 로그인과 등록 허용
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
+  label_login_with_open_id_option: 또는 OpenID로 로그인
   field_content: Content
   label_descending: Descending
   label_sort: Sort
@@ -846,17 +846,17 @@ ko:
   label_date_from_to: From {{start}} to {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  text_wiki_page_destroy_question: 이 페이지는 {{descendants}} 개의 하위 페이지와 관련 내용이 있습니다. 이 내용을 어떻게 하시겠습니까?
+  text_wiki_page_reassign_children: 하위 페이지를 이 페이지 아래로 지정
+  text_wiki_page_nullify_children: 하위 페이지를 루트 페이지 아래로 지정
+  text_wiki_page_destroy_children: 모든 하위 페이지와 관련 내용을 삭제
+  setting_password_min_length: 암호의 최소 길이
+  field_group_by: 결과를 묶어 보여줄 기준
+  mail_subject_wiki_content_updated: "'위키페이지 {{page}}'가 고쳐졌습니다."
+  label_wiki_content_added: 위키페이지 추가됨
+  mail_subject_wiki_content_added: "위키페이지 '{{page}}'가 추가되었습니다."
+  mail_body_wiki_content_added: 위키페이지 '{{page}}'가 {{author}}에 의하여 추가되었습니다..
+  label_wiki_content_updated: 위키페이지 고쳐짐
+  mail_body_wiki_content_updated: 위키페이지 '{{page}}' 가 {{author}}에 의하여 고쳐젔습니다.
+  permission_add_project: 프로젝트 생성
+  setting_new_project_user_role_id: 프로젝트를 만든 일반사용자에게 주어질 권한

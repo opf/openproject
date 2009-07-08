@@ -783,36 +783,36 @@ it:
   label_updated_time_by: "Aggiornato da {{author}} {{age}} fa"
   text_diff_truncated: '... Le differenze sono state troncate perchè superano il limite massimo visualizzabile.'
   setting_diff_max_lines_displayed: Limite massimo di differenze (linee) mostrate
-  text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  text_plugin_assets_writable: Assets directory dei plugins scrivibile
+  warning_attachments_not_saved: "{{count}} file non possono essere salvati."
+  button_create_and_continue: Crea e continua
+  text_custom_field_possible_values_info: 'Un valore per ogni linea'
+  label_display: Mostra
+  field_editable: Modificabile
+  setting_repository_log_display_limit: Numero massimo di revisioni elencate nella cronologia file
+  setting_file_max_size_displayed: Dimensione massima dei contenuti testuali visualizzati
+  field_watcher: Osservatore
+  setting_openid: Accetta login e registrazione con OpenID
+  field_identity_url: URL OpenID
+  label_login_with_open_id_option: oppure autenticati usando OpenID
+  field_content: Contenuto
+  label_descending: Discendente
+  label_sort: Ordina
+  label_ascending: Ascendente
+  label_date_from_to: Da {{start}} a {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  text_wiki_page_destroy_question: Questa pagina ha {{descendants}} pagine figlie. Cosa ne vuoi fare?
+  text_wiki_page_reassign_children: Riassegna le pagine figlie al padre di questa pagina
+  text_wiki_page_nullify_children: Mantieni le pagine figlie come pagine radice
+  text_wiki_page_destroy_children: Elimina le pagine figlie e tutta la discendenza
+  setting_password_min_length: Minima lunghezza password
+  field_group_by: Raggruppa risultati per
+  mail_subject_wiki_content_updated: "La pagina wiki '{{page}}' è stata aggiornata"
+  label_wiki_content_added: Aggiunta pagina al wiki
+  mail_subject_wiki_content_added: "La pagina '{{page}}' è stata aggiunta al wiki"
+  mail_body_wiki_content_added: La pagina '{{page}}' è stata aggiunta al wiki da {{author}}.
+  label_wiki_content_updated: Aggiornata pagina wiki
+  mail_body_wiki_content_updated: La pagina '{{page}}' wiki è stata aggiornata da{{author}}.
+  permission_add_project: Crea progetto
+  setting_new_project_user_role_id: Ruolo assegnato agli utenti non amministratori che creano un progetto
