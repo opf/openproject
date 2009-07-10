@@ -80,7 +80,7 @@ a, a:link, a:visited{ color: #2A5685; text-decoration: none; }
 a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
 a img{ border: 0; }
 
-a.issue.closed, a.issue.closed:link, a.issue.closed:visited { text-decoration: line-through; }
+a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-decoration: line-through; }
 
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
