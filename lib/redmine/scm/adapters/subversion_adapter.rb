@@ -225,6 +225,7 @@ module Redmine
           str = ''
           str << " --username #{shell_quote(@login)}" unless @login.blank?
           str << " --password #{shell_quote(@password)}" unless @login.blank? || @password.blank?
+          str << " --no-auth-cache --non-interactive"
           str
         end
       end
