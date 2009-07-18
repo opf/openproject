@@ -52,7 +52,8 @@ class ProjectTest < Test::Unit::TestCase
     to_test = {"abc" => true,
                "ab12" => true,
                "ab-12" => true,
-               "12" => false}
+               "12" => false,
+               "new" => false}
                
     to_test.each do |identifier, valid|
       p = Project.new

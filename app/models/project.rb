@@ -63,7 +63,9 @@ class Project < ActiveRecord::Base
   validates_length_of :identifier, :in => 1..20
   # donwcase letters, digits, dashes but not digits only
   validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-]*$/, :if => Proc.new { |p| p.identifier_changed? }
-  
+  # reserved words
+  validates_exclusion_of :identifier, :in => %w( new )
+
   before_destroy :delete_all_members
 
   named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
