@@ -1,4 +1,5 @@
 <p>
+<%= link_to_if action_name != 'changes', l(:label_history), {:action => 'changes', :id => @project, :path => to_path_param(@path), :rev => @rev } %> |
 <% if @repository.supports_cat? %>
     <%= link_to_if action_name != 'entry', l(:button_view), {:action => 'entry', :id => @project, :path => to_path_param(@path), :rev => @rev } %> |
 <% end %>
