@@ -64,6 +64,7 @@ class NewsController < ApplicationController
       flash[:notice] = l(:label_comment_added)
       redirect_to :action => 'show', :id => @news
     else
+      show
       render :action => 'show'
     end
   end
