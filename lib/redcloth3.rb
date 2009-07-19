@@ -784,6 +784,7 @@ class RedCloth3 < String
     end
 
     LINK_RE = /
+            (
             ([\s\[{(]|[#{PUNCT}])?     # $pre
             "                          # start
             (#{C})                     # $atts
@@ -797,13 +798,16 @@ class RedCloth3 < String
             )               
             (\/)?                      # $slash
             ([^\w\=\/;\(\)]*?)         # $post
+            )
             (?=<|\s|$)
         /x 
 #"
     def inline_textile_link( text ) 
         text.gsub!( LINK_RE ) do |m|
-            pre,atts,text,title,url,proto,slash,post = $~[1..8]
-
+          all,pre,atts,text,title,url,proto,slash,post = $~[1..9]
+          if text.include?('<br />')
+            all
+          else
             url, url_title = check_refs( url )
             title ||= url_title
             
@@ -821,6 +825,7 @@ class RedCloth3 < String
             external = (url =~ /^https?:\/\//) ? ' class="external"' : ''
             
             "#{ pre }<a#{ atts }#{ external }>#{ text }</a>#{ post }"
+          end
         end
     end
 
