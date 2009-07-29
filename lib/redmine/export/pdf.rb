@@ -219,7 +219,7 @@ module Redmine
         pdf.Cell(60,5, format_date(issue.due_date),"RB")
         pdf.Ln
           
-        for custom_value in issue.custom_values
+        for custom_value in issue.custom_field_values
           pdf.SetFontStyle('B',9)
           pdf.Cell(35,5, custom_value.custom_field.name + ":","L")
           pdf.SetFontStyle('',9)
