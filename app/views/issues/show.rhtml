@@ -45,17 +45,7 @@
     <th class="estimated-hours"><%=l(:field_estimated_hours)%>:</th><td><%= l_hours(@issue.estimated_hours) %></td>
     <% end %>
 </tr>
-<tr>
-<% n = 0 -%>
-<% @issue.custom_field_values.each do |value| -%>
-    <th><%=h value.custom_field.name %>:</th><td><%= simple_format_without_paragraph(h(show_value(value))) %></td>
-<% n = n + 1
-   if (n > 1) 
-        n = 0 %>
-        </tr><tr>
- <%end
-end %>
-</tr>
+<%= render_custom_fields_rows(@issue) %>
 <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
 </table>
 <hr />

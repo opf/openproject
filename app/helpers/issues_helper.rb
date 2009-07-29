@@ -33,6 +33,25 @@ module IssuesHelper
       "<strong>#{@cached_label_priority}</strong>: #{issue.priority.name}"
   end
   
+  def render_custom_fields_rows(issue)
+    return if issue.custom_field_values.empty?
+    ordered_values = []
+    half = (issue.custom_field_values.size / 2.0).ceil
+    half.times do |i|
+      ordered_values << issue.custom_field_values[i]
+      ordered_values << issue.custom_field_values[i + half]
+    end
+    s = "<tr>\n"
+    n = 0
+    ordered_values.compact.each do |value|
+      s << "</tr>\n<tr>\n" if n > 0 && (n % 2) == 0
+      s << "\t<th>#{ h(value.custom_field.name) }:</th><td>#{ simple_format_without_paragraph(h(show_value(value))) }</td>\n"
+      n += 1
+    end
+    s << "</tr>\n"
+    s
+  end
+  
   def sidebar_queries
     unless @sidebar_queries
       # User can see public queries and his own queries
