@@ -8,6 +8,7 @@
 	  <th><%= l(:label_project) %></th>
 	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
+      <%= call_hook(:view_users_memberships_table_header, :user => @user )%>
 	</thead>
 	<tbody>
 	<% @user.memberships.each do |membership| %>
@@ -31,6 +32,7 @@
       																				:method => :post },
       																		  :class => 'icon icon-del' %>
   </td>
+      <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
 	</tr>
 	</tbody>
 <% end; reset_cycle %>
