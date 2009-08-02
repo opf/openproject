@@ -626,6 +626,7 @@ module ApplicationHelper
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
     if Setting.gravatar_enabled?
+      options.merge!({:ssl => Setting.protocol == 'https'})
       email = nil
       if user.respond_to?(:mail)
         email = user.mail
