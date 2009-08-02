@@ -250,7 +250,7 @@ da:
   field_spent_on: Dato
   field_identifier: Identifikator
   field_is_filter: Brugt som et filter
-  field_issue_to_id: Beslægtede sag
+  field_issue_to: Beslægtede sag
   field_delay: Udsættelse
   field_assignable: Sager kan tildeles denne rolle
   field_redirect_existing_links: Videresend eksisterende links

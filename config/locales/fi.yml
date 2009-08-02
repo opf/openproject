@@ -263,7 +263,7 @@ fi:
   field_spent_on: Päivä
   field_identifier: Tunniste
   field_is_filter: Käytetään suodattimena
-  field_issue_to_id: Liittyvä tapahtuma
+  field_issue_to: Liittyvä tapahtuma
   field_delay: Viive
   field_assignable: Tapahtumia voidaan nimetä tälle roolille
   field_redirect_existing_links: Uudelleenohjaa olemassa olevat linkit

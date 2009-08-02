@@ -266,7 +266,7 @@ lt:
   field_spent_on: Data
   field_identifier: Identifikuotojas
   field_is_filter: Panaudotas kaip filtras
-  field_issue_to_id: Susijęs darbas
+  field_issue_to: Susijęs darbas
   field_delay: Užlaikymas
   field_assignable: Darbai gali būti paskirti šiam vaidmeniui
   field_redirect_existing_links: Peradresuokite egzistuojančias sąsajas

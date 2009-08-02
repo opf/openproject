@@ -250,7 +250,7 @@ gl:
   field_is_public: Público
   field_is_required: Obrigatorio
   field_issue: Petición
-  field_issue_to_id: Petición relacionada
+  field_issue_to: Petición relacionada
   field_language: Idioma
   field_last_login_on: Última conexión
   field_lastname: Apelido

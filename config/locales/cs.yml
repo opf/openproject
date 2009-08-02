@@ -226,7 +226,7 @@ cs:
   field_spent_on: Datum
   field_identifier: Identifikátor
   field_is_filter: Použít jako filtr
-  field_issue_to_id: Související úkol
+  field_issue_to: Související úkol
   field_delay: Zpoždění
   field_assignable: Úkoly mohou být přiřazeny této roli
   field_redirect_existing_links: Přesměrovat stvávající odkazy

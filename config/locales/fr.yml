@@ -263,7 +263,7 @@ fr:
   field_spent_on: Date
   field_identifier: Identifiant
   field_is_filter: Utilisé comme filtre
-  field_issue_to_id: Demande liée
+  field_issue_to: Demande liée
   field_delay: Retard
   field_assignable: Demandes assignables à ce rôle
   field_redirect_existing_links: Rediriger les liens existants

@@ -289,7 +289,7 @@ sv:
   field_spent_on: Datum
   field_identifier: Identifierare
   field_is_filter: Använd som filter
-  field_issue_to_id: Relaterade ärenden
+  field_issue_to: Relaterade ärenden
   field_delay: Fördröjning
   field_assignable: Ärenden kan tilldelas denna roll
   field_redirect_existing_links: Omdirigera existerande länkar

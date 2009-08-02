@@ -268,7 +268,7 @@ ja:
   field_spent_on: 日付
   field_identifier: 識別子
   field_is_filter: フィルタとして使う
-  field_issue_to_id: 関連するチケット
+  field_issue_to: 関連するチケット
   field_delay: 遅延
   field_assignable: チケットはこのロールに割り当てることができます
   field_redirect_existing_links: 既存のリンクをリダイレクトする

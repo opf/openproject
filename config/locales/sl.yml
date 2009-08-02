@@ -225,7 +225,7 @@ sl:
   field_spent_on: Datum
   field_identifier: Identifikator
   field_is_filter: Uporabljen kot filter
-  field_issue_to_id: Povezan zahtevek
+  field_issue_to: Povezan zahtevek
   field_delay: Zamik
   field_assignable: Zahtevki so lahko dodeljeni tej vlogi
   field_redirect_existing_links: Preusmeri obstoječe povezave

@@ -259,7 +259,7 @@
   field_spent_on: Dátum
   field_identifier: Azonosító
   field_is_filter: Szűrőként használható
-  field_issue_to_id: Kapcsolódó feladat
+  field_issue_to: Kapcsolódó feladat
   field_delay: Késés
   field_assignable: Feladat rendelhető ehhez a szerepkörhöz
   field_redirect_existing_links: Létező linkek átirányítása

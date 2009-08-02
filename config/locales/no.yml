@@ -228,7 +228,7 @@
   field_spent_on: Dato
   field_identifier: Identifikasjon
   field_is_filter: Brukes som filter
-  field_issue_to_id: Relatert saker
+  field_issue_to: Relatert saker
   field_delay: Forsinkelse
   field_assignable: Saker kan tildeles denne rollen
   field_redirect_existing_links: Viderekoble eksisterende lenker

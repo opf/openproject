@@ -261,7 +261,7 @@ pt-BR:
   field_spent_on: Data
   field_identifier: Identificador
   field_is_filter: É um filtro
-  field_issue_to_id: Tarefa relacionada
+  field_issue_to: Tarefa relacionada
   field_delay: Atraso
   field_assignable: Tarefas podem ser atribuídos para este papel
   field_redirect_existing_links: Redirecionar links existentes

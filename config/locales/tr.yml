@@ -259,7 +259,7 @@ tr:
   field_spent_on: Tarih
   field_identifier: Tanımlayıcı
   field_is_filter: filtre olarak kullanılmış
-  field_issue_to_id: İlişkili ileti
+  field_issue_to: İlişkili ileti
   field_delay: Gecikme
   field_assignable: Bu role atanabilecek iletiler
   field_redirect_existing_links: Mevcut bağlantıları tekrar yönlendir

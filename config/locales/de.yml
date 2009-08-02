@@ -256,7 +256,7 @@ de:
   field_spent_on: Datum
   field_identifier: Kennung
   field_is_filter: Als Filter benutzen
-  field_issue_to_id: Zugehöriges Ticket
+  field_issue_to: Zugehöriges Ticket
   field_delay: Pufferzeit
   field_assignable: Tickets können dieser Rolle zugewiesen werden
   field_redirect_existing_links: Existierende Links umleiten

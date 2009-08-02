@@ -206,7 +206,7 @@ nl:
   field_is_public: Publiek
   field_is_required: Verplicht
   field_issue: Issue
-  field_issue_to_id: Gerelateerd issue
+  field_issue_to: Gerelateerd issue
   field_language: Taal
   field_last_login_on: Laatste bezoek
   field_lastname: Achternaam

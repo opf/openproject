@@ -224,7 +224,7 @@ sk:
   field_spent_on: Dátum
   field_identifier: Identifikátor
   field_is_filter: Použiť ako filter
-  field_issue_to_id: Súvisiaca úloha
+  field_issue_to: Súvisiaca úloha
   field_delay: Oneskorenie
   field_assignable: Úlohy môžu byť priradené tejto roli
   field_redirect_existing_links: Presmerovať existujúce odkazy

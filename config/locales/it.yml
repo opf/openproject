@@ -229,7 +229,7 @@ it:
   field_spent_on: Data
   field_identifier: Identificativo
   field_is_filter: Usato come filtro
-  field_issue_to_id: Segnalazioni correlate
+  field_issue_to: Segnalazioni correlate
   field_delay: Ritardo
   field_assignable: E' possibile assegnare segnalazioni a questo ruolo
   field_redirect_existing_links: Redirige i collegamenti esistenti

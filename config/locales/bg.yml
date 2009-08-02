@@ -211,7 +211,7 @@ bg:
   field_spent_on: Дата
   field_identifier: Идентификатор
   field_is_filter: Използва се за филтър
-  field_issue_to_id: Свързана задача
+  field_issue_to: Свързана задача
   field_delay: Отместване
   field_assignable: Възможно е възлагане на задачи за тази роля
   field_redirect_existing_links: Пренасочване на съществуващи линкове

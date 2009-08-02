@@ -294,7 +294,7 @@ vi:
   field_spent_on: Ngày
   field_identifier: Mã nhận dạng
   field_is_filter: Dùng như một lọc
-  field_issue_to_id: Vấn đền liên quan
+  field_issue_to: Vấn đền liên quan
   field_delay: Độ trễ
   field_assignable: Vấn đề có thể gán cho vai trò này
   field_redirect_existing_links: Chuyển hướng trang đã có

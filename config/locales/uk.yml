@@ -216,7 +216,7 @@ uk:
   field_spent_on: Дата
   field_identifier: Ідентифікатор
   field_is_filter: Використовується як фільтр
-  field_issue_to_id: Зв'язані задачі
+  field_issue_to: Зв'язані задачі
   field_delay: Відкласти
   field_assignable: Задача може бути призначена цій ролі
   field_redirect_existing_links: Перенаправити існуючі посилання

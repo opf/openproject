@@ -323,7 +323,7 @@ ru:
   field_is_in_roadmap: Задачи, отображаемые в оперативном плане
   field_is_public: Общедоступный
   field_is_required: Обязательное
-  field_issue_to_id: Связанные задачи
+  field_issue_to: Связанные задачи
   field_issue: Задача
   field_language: Язык
   field_last_login_on: Последнее подключение

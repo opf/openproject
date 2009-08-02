@@ -228,7 +228,7 @@ he:
   field_spent_on: תאריך
   field_identifier: מזהה
   field_is_filter: משמש כמסנן
-  field_issue_to_id: נושאים קשורים
+  field_issue_to: נושאים קשורים
   field_delay: עיקוב
   field_assignable: ניתן להקצות נושאים לתפקיד זה
   field_redirect_existing_links: העבר קישורים קיימים

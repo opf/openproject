@@ -222,7 +222,7 @@ th:
   field_spent_on: วันที่
   field_identifier: ชื่อเฉพาะ
   field_is_filter: ใช้เป็นตัวกรอง
-  field_issue_to_id: ปัญหาที่เกี่ยวข้อง
+  field_issue_to: ปัญหาที่เกี่ยวข้อง
   field_delay: เลื่อน
   field_assignable: ปัญหาสามารถมอบหมายให้คนที่ทำบทบาทนี้
   field_redirect_existing_links: ย้ายจุดเชื่อมโยงนี้

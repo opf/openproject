@@ -254,7 +254,7 @@ bs:
   field_spent_on: Datum
   field_identifier: Identifikator
   field_is_filter: Korišteno kao filter
-  field_issue_to_id: Povezana aktivnost
+  field_issue_to: Povezana aktivnost
   field_delay: Odgađanje
   field_assignable: Aktivnosti dodijeljene ovoj ulozi
   field_redirect_existing_links: Izvrši redirekciju postojećih linkova

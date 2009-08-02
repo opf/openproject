@@ -263,7 +263,7 @@ zh:
   field_spent_on: 日期
   field_identifier: 标识
   field_is_filter: 作为过滤条件
-  field_issue_to_id: 相关问题
+  field_issue_to: 相关问题
   field_delay: 延期
   field_assignable: 问题可指派给此角色
   field_redirect_existing_links: 重定向到现有链接

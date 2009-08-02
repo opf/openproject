@@ -240,7 +240,7 @@
   field_spent_on: Datum
   field_identifier: Identifikator
   field_is_filter: Korišćen kao filter
-  field_issue_to_id: Povezano sa karticom
+  field_issue_to: Povezano sa karticom
   field_delay: Odloženo
   field_assignable: Kartice mogu biti dodeljene ovoj ulozi
   field_redirect_existing_links: Redirekcija postojećih linkova

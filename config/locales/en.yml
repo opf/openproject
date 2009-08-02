@@ -231,7 +231,7 @@ en:
   field_spent_on: Date
   field_identifier: Identifier
   field_is_filter: Used as a filter
-  field_issue_to_id: Related issue
+  field_issue_to: Related issue
   field_delay: Delay
   field_assignable: Issues can be assigned to this role
   field_redirect_existing_links: Redirect existing links

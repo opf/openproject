@@ -338,7 +338,7 @@
   field_spent_on: 日期
   field_identifier: 代碼
   field_is_filter: 用來作為過濾器
-  field_issue_to_id: 相關項目
+  field_issue_to: 相關項目
   field_delay: 逾期
   field_assignable: 項目可被分派至此角色
   field_redirect_existing_links: 重新導向現有連結

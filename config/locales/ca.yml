@@ -227,7 +227,7 @@ ca:
   field_spent_on: Data
   field_identifier: Identificador
   field_is_filter: "S'ha utilitzat com a filtre"
-  field_issue_to_id: Assumpte relacionat
+  field_issue_to: Assumpte relacionat
   field_delay: Retard
   field_assignable: Es poden assignar assumptes a aquest rol
   field_redirect_existing_links: Redirigeix els enllaços existents

@@ -225,7 +225,7 @@ ro:
   field_spent_on: Data
   field_identifier: Identificator
   field_is_filter: Filtru
-  field_issue_to_id: Tichet asociat
+  field_issue_to: Tichet asociat
   field_delay: Intarziere
   field_assignable: Se pot atribui tichete acestui rol
   field_redirect_existing_links: Redirectioneaza legaturile existente

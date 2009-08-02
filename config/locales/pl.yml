@@ -237,7 +237,7 @@ pl:
   field_is_public: Publiczny
   field_is_required: Wymagane
   field_issue: Zagadnienie
-  field_issue_to_id: Powiązania zagadnienia
+  field_issue_to: Powiązania zagadnienia
   field_language: Język
   field_last_login_on: Ostatnie połączenie
   field_lastname: Nazwisko
