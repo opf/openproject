@@ -22,11 +22,16 @@ module GravatarHelper
     # exclude gravatars that may be out of character for your site.
     :rating => 'PG',
     
-    # The alt text to use in the img tag for the gravatar.
-    :alt => 'avatar',
+    # The alt text to use in the img tag for the gravatar.  Since it's a
+    # decorational picture, the alt text should be empty according to the
+    # XHTML specs.
+    :alt => '',
     
     # The class to assign to the img tag for the gravatar.
     :class => 'gravatar',
+    
+    # Whether or not to display the gravatars using HTTPS instead of HTTP
+    :ssl => false,
   }
   
   # The methods that will be made available to your views.
@@ -46,19 +51,32 @@ module GravatarHelper
       [:class, :alt, :size].each { |opt| options[opt] = h(options[opt]) }
       "<img class=\"#{options[:class]}\" alt=\"#{options[:alt]}\" width=\"#{options[:size]}\" height=\"#{options[:size]}\" src=\"#{src}\" />"      
     end
+    
+    # Returns the base Gravatar URL for the given email hash. If ssl evaluates to true,
+    # a secure URL will be used instead. This is required when the gravatar is to be 
+    # displayed on a HTTPS site.
+    def gravatar_api_url(hash, ssl=false)
+      if ssl
+        "https://secure.gravatar.com/avatar/#{hash}"
+      else
+        "http://www.gravatar.com/avatar/#{hash}"
+      end
+    end
 
     # Return the gravatar URL for the given email address.
     def gravatar_url(email, options={})
       email_hash = Digest::MD5.hexdigest(email)
       options = DEFAULT_OPTIONS.merge(options)
       options[:default] = CGI::escape(options[:default]) unless options[:default].nil?
-      returning "http://www.gravatar.com/avatar.php?gravatar_id=#{email_hash}" do |url| 
+      returning gravatar_api_url(email_hash, options.delete(:ssl)) do |url|
+        opts = []
         [:rating, :size, :default].each do |opt|
           unless options[opt].nil?
             value = h(options[opt])
-            url << "&#{opt}=#{value}" 
+            opts << [opt, value].join('=')
           end
         end
+        url << "?#{opts.join('&')}" unless opts.empty?
       end
     end
 

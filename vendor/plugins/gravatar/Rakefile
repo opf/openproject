@@ -6,7 +6,6 @@ task :default => :spec
 
 desc 'Run all application-specific specs'
 Spec::Rake::SpecTask.new(:spec) do |t|
-  t.warning = true
   t.rcov = true
 end
 

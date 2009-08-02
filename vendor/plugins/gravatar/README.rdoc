@@ -12,12 +12,12 @@ set up an avatar for each site that they post on.
 == Installation
 
   cd ~/myapp
-  ruby script/plugin install svn://rubyforge.org//var/svn/gravatarplugin/plugins/gravatar
+  ruby script/plugin install git://github.com/woods/gravatar-plugin.git
 
 or, if you're using piston[http://piston.rubyforge.org] (worth it!):
 
   cd ~/myapp/vendor/plugins
-  piston import svn://rubyforge.org//var/svn/gravatarplugin/plugins/gravatar
+  piston import git://github.com/woods/gravatar-plugin.git
 
 == Example
 
@@ -34,6 +34,9 @@ Other helpers are documented under GravatarHelper::PublicMethods.
 
 == Acknowledgments
 
+Thanks to Magnus Bergmark (http://github.com/Mange), who contributed the SSL
+support in this plugin, as well as a few minor fixes.
+
 The following people have also written gravatar-related Ruby libraries:
 * Seth Rasmussen created the gravatar gem[http://gravatar.rubyforge.org]
 * Matt McCray has also created a gravatar 
@@ -48,5 +51,5 @@ The following people have also written gravatar-related Ruby libraries:
 
 == TODO
 
-* Get full spec coverage
+* Add specs for ssl support
 * Finish rdoc documentation
