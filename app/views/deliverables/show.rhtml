@@ -1,0 +1,25 @@
+<div class="contextual">
+<%= link_to_if_authorized l(:button_update), {:controller => 'deliverables', :action => 'edit', :id => @deliverable}, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+<%= link_to_if_authorized l(:button_copy), {:controller => 'deliverables', :action => 'new', :project_id => @project, :copy_from => @deliverable }, :class => 'icon icon-copy' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'deliverables', :action => 'destroy', :id => @deliverable}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+</div>
+
+<h2><%= l(:label_deliverable) %> #<%= @deliverable.id %></h2>
+
+<div class="<%= @deliverable.css_classes %> details">
+  <h3><%=h @deliverable.subject %></h3>
+  <p class="author">
+    <%= authoring @deliverable.created_on, @deliverable.author %>.
+    <%= l(:label_updated_time, distance_of_time_in_words(Time.now, @deliverable.updated_on)) + '.' if @deliverable.created_on != @deliverable.updated_on %>
+  </p>
+
+<% html_title "#{l(:label_deliverable)} ##{@deliverable.id}: #{@deliverable.subject}" %>
+
+<% content_for :sidebar do %>
+    <%= render :partial => 'deliverables/sidebar' %>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'scm' %>
+    <%= stylesheet_link_tag 'costlog', :plugin => 'redmine_costs' %>
+<% end %>

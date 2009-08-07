@@ -1,0 +1,27 @@
+<% if @project.module_enabled? :costs_module %>
+  <%# Only render this partial, if the plugin is enabled for the current project %>
+  <tr>
+    <td><b><%= l(:label_deliverable) %>:</b></td>
+    <td><% if @issue.deliverable.nil? %>-<%else%><%= h(@issue.deliverable.subject) %><% end %></td>
+    <% if User.current.allowed_to?(:view_cost_entries, @project) %>
+    <td><b><%= l(:label_spent_units) %>:</b></td>
+    <td>
+      <% entries = @issue.summarized_cost_entries %>
+      <% if entries.empty? %>-<% else %>
+        <% for entry in entries do %>
+          <% options = (entry == entries.first) ? {:class => 'icon icon-box'} : {} %>
+          <%= link_to pluralize(entry.units, entry.cost_type.unit, entry.cost_type.unit_plural), {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue, :cost_type_id => entry.cost_type}, options %><%= ", " unless entry == entries.last %> 
+        <% end %>
+      <% end %>
+    </td>
+    <% end %>
+  </tr>
+  <% if User.current.allowed_to?(:view_unit_price, @project) && User.current.allowed_to?(:view_cost_entries, @project)%>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><b><%= l(:label_overall_costs) %>:</b></td>
+      <td><% if @issue.overall_costs > 0 %><%= link_to number_to_currency(@issue.overall_costs), {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue}, :class => 'icon icon-money' %><% else %>-<%end%></td>
+    </tr>
+  <% end %>
+<% end %>
