@@ -1,5 +1,11 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_add_deliverable), {:controller => 'deliverables', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
+<% if @project -%>
+  <%= link_to_if_authorized l(:button_add_deliverable), {:controller => 'deliverables', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
+<%- else -%>
+  <%if  User.current.allowed_to?(:edit_deliverables, nil, :global => true) %>
+    <%= link_to l(:button_add_deliverable), {:controller => 'deliverables', :action => 'new' }, :class => 'icon icon-add' %>
+  <% end %>
+<%- end %>
 </div>
 
 <h2><%=l(:label_deliverable_plural)%></h2>

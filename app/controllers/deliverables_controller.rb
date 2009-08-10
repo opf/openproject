@@ -3,9 +3,9 @@ class DeliverablesController < ApplicationController
 
   before_filter :find_deliverable, :only => [:show, :edit]
   before_filter :find_deliverables, :only => [:bulk_edit, :destroy]
-  before_filter :find_project, :only => [:new, :update_form, :preview]
-  before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :except => [:index, :preview, :update_form, :context_menu]
+  before_filter :find_project, :only => [:update_form, :preview]
+  before_filter :find_optional_project, :only => [:index, :new]
+  before_filter :authorize, :except => [:index, :new, :update_form, :preview, :context_menu]
   
   helper :sort
   include SortHelper
@@ -22,7 +22,7 @@ class DeliverablesController < ApplicationController
     sort_init "#{Deliverable.table_name}.id", "desc"
     sort_update 'id' => "#{Deliverable.table_name}.id"
     
-    conditions = {:project_id => @project}
+    conditions = @project ? {:project_id => @project} : {}
 
     @deliverable_count = Deliverable.count(:include => [:project], :conditions => conditions)
     @deliverable_pages = Paginator.new self, @deliverable_count, limit, params[:page]
@@ -40,11 +40,27 @@ class DeliverablesController < ApplicationController
   def show
     @edit_allowed = User.current.allowed_to?(:edit_deliverables, @project)
     respond_to do |format|
-      format.html { render :template => 'deliverables/show.rhtml' }
+      format.html { render :action => 'show', :layout => !request.xhr?  }
     end
   end
   
+  def new
+    deny_access unless User.current.allowed_to?(:edit_deliverables, @project, :global => true)
+    
+    @deliverable = Deliverable.new(params[:deliverable])
+    @deliverable.project = @project if @project
+    
+    respond_to do |format|
+      format.html { render :action => 'new', :layout => !request.xhr?  }
+    end
+  end
   
+  def preview
+    @deliverable = Deliverables.find_by_id(params[:id]) unless params[:id].blank?
+    @text = params[:notes] || (params[:deliverable] ? params[:deliverable][:description] : nil)
+    
+    render :partial => 'common/preview'
+  end
   
 private
   def find_deliverable
@@ -72,16 +88,37 @@ private
   end
 
   def find_project
-    @project = Project.find(params[:project_id])
+    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
+    @project = Project.find(params[:deliverable][:project_id]) unless @project || params[:deliverable].blank?
+    
+    # project not found, params not sufficiecent
+    render_404 unless @project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
   
   def find_optional_project
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
+    @project = Project.find(params[:deliverable][:project_id]) unless @project || params[:deliverable].blank?
+    
     allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
     allowed ? true : deny_access
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+  
+  def desired_type
+    if params[:deliverable]
+      case params[:deliverable].delete(:desired_type)
+      when "FixedDeliverable"
+        FixedDeliverable
+      when "CostBasedDeliverable"
+        CostBasedDeliverable
+      else
+        Deliverable
+      end
+    else
+      Deliverable
+    end
   end
 end

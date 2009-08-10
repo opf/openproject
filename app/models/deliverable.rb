@@ -2,7 +2,7 @@
 # contain a collection of issues.
 class Deliverable < ActiveRecord::Base
   unloadable
-  validates_presence_of :subject
+  validates_presence_of :subject, :type, :kind
   
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :project, :class_name => 'Project', :foreign_key => 'project_id'
@@ -18,7 +18,30 @@ class Deliverable < ActiveRecord::Base
   acts_as_activity_provider :find_options => {:include => [:project, :author]},
                             :timestamp => "#{table_name}.updated_on",
                             :author_key => :author_id
+                            
+  def self.new(params = {})
+    if not params
+      return super()
+    end
+    
+    case params.delete(:kind)
+    when FixedDeliverable.name
+      return FixedDeliverable.new(params)
+    when CostBasedDeliverable.name
+      return CostBasedDeliverable.new(params)
+    else
+      return super(params)
+    end
+  end
+
+  # Wrap type column to make it usable in views (especially in a select tag)
+  def kind
+    self[:type]
+  end
   
+  def kind=(type)
+    self[:type] = type
+  end
   
   # Assign all the issues with +version_id+ to this Deliverable
   def assign_issues_by_version(version_id)

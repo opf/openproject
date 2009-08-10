@@ -3,8 +3,10 @@ require 'redmine'
 # Patches to the Redmine core.
 require 'dispatcher'
 require 'issue_patch'
+require 'project_patch'
 Dispatcher.to_prepare do
   Issue.send(:include, IssuePatch)
+  Issue.send(:include, ProjectPatch)
 end
 
 # Hooks
@@ -51,6 +53,8 @@ Redmine::Plugin.register :redmine_costs do
   # Menu extensions
   menu :project_menu, :deliverables, {:controller => 'deliverables', :action => 'index'}, \
     :param => :project_id, :after => :new_issue, :caption => :deliverables_title
+  menu :application_menu, :deliverables, {:controller => 'deliverables', :action => 'index'}, \
+    :caption => :deliverables_title
   menu :top_menu, :costs, {:controller => 'costs', :action => 'index'}, \
     :caption => :costs_title
   

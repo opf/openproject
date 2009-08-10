@@ -1,0 +1,33 @@
+<% if @deliverable.new_record? %>
+  <% if !@project -%>
+  <p>
+    <%= f.select :project_id, allowed_projects_for_edit.collect {|p| [p.name, p.id]}, :required => true %>
+  </p>
+  <%- end %>
+
+  <p><%= f.select :kind, [[l(:label_fixed_deliverable), FixedDeliverable.name], [l(:label_cost_based_deliverable), CostBasedDeliverable.name]], :required => true, :prompt => "Select Type" %></p>
+  <%= observe_field :deliverable_kind, :url => { :action => :new },
+                                       :update => :content,
+                                       :with => "Form.serialize('deliverable-form')" %>
+  <hr />
+<% end %>
+
+<p><%= f.text_field :subject, :size => 80, :required => true %></p>
+<p><%= f.text_area :description,
+                   :cols => 60,
+                   :rows => (@deliverable.description.blank? ? 10 : [[10, @deliverable.description.length / 50].max, 100].min),
+                   :accesskey => accesskey(:edit),
+                   :class => 'wiki-edit' %></p>
+
+<div class="splitcontentleft">
+  <p><%= f.check_box(:project_manager_signoff) %></p>
+  <p><%= f.check_box(:client_signoff) %></p>
+</div>
+
+<div class="splitcontentright">
+  <p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('deliverable_due') %></p>
+</div>
+
+<div style="clear: both;"> </div>
+
+<%= wikitoolbar_for 'deliverable_description' %>
