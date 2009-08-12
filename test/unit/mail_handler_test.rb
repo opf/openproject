@@ -95,6 +95,21 @@ class MailHandlerTest < Test::Unit::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
   
+  def test_add_issue_with_spaces_between_attribute_and_separator
+    issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', :allow_override => 'tracker,category,priority')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'New ticket on a given project', issue.subject
+    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal Project.find(2), issue.project
+    assert_equal 'Feature request', issue.tracker.to_s
+    assert_equal 'Stock management', issue.category.to_s
+    assert_equal 'Urgent', issue.priority.to_s
+    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+  end
+
+  
   def test_add_issue_with_attachment_to_specific_project
     issue = submit_email('ticket_with_attachment.eml', :issue => {:project => 'onlinestore'})
     assert issue.is_a?(Issue)
