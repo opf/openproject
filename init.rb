@@ -23,7 +23,7 @@ Redmine::Plugin.register :redmine_costs do
   description 'The costs plugin provides basic cost management functionality for Redmine.'
   version '0.0.1'
   
-  requires_redmine :version_or_higher => '0.8.4'
+  requires_redmine :version_or_higher => '0.8'
   
   settings :default => {
     'costs_currency' => 'EUR',
