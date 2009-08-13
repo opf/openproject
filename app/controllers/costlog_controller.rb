@@ -75,11 +75,20 @@ class CostlogController < ApplicationController
   
   def edit
     render_403 and return if @cost_entry && !@cost_entry.editable_by?(User.current)
-    render_403 and return if !@cost_entry && params[:cost_entry] && params[:cost_entry][:user_id] != User.current.id.to_s && !User.current.allowed_to?(:book_costs, @project)
-    
-    @cost_entry ||= CostEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
+    if !@cost_entry
+      # creates new CostEntry
+      if params[:cost_entry].is_a?(Hash)
+        # we have a new CostEntry in our request
+        new_user = User.find_by_id(params[:cost_entry][:user_id])
+        if new_user.blank? or !new_user.allowed_to?(:book_costs, @project)
+          render_403 and return
+        end
+      end
+
+      @cost_entry = CostEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
+    end
     @cost_entry.attributes = params[:cost_entry]
-    #@cost_entry.cost_type ||= CostType.default
+    @cost_entry.cost_type ||= CostType.default
     
     if request.post? and @cost_entry.save
       flash[:notice] = l(:notice_successful_update)
@@ -102,9 +111,7 @@ class CostlogController < ApplicationController
     @cost_type = CostType.find(params[:cost_type_id]) unless params[:cost_type_id].empty?
     
     if request.xhr?
-      render :update do |page|
-        page.replace_html "cost_type_unit_plural", :partial => "cost_type_unit_plural", :locals => {:cost_type => @cost_type}
-      end
+      render :partial => "cost_type_unit_plural", :locals => {:cost_type => @cost_type}
     end
   end
   

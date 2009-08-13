@@ -1,0 +1,17 @@
+<tr class="cost-entry"  id="<%= "deliverable_costs_new_#{row_id}" %>">
+  <td class="cost_units">
+    <%= text_field_tag "deliverable_costs_new[#{row_id}][units]", nil, :size => 3, :id => "deliverable_costs_new_#{row_id}_units" %>
+    <span id="<%= "deliverable_costs_new_#{row_id}_unit_name" %>"><%=h CostType.default.unit_plural %></span>
+  </td>
+  <td>
+    <%= select nil, nil, cost_types_collection_for_select_options, {}, :name => "deliverable_costs_new[#{row_id}][cost_type_id]", :id => "deliverable_costs_new_#{row_id}_cost_type_id" %>
+    <%= observe_field( "deliverable_costs_new_#{row_id}_cost_type_id", :url => {:action => :update_deliverable_costs_row}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('deliverable_costs_new_#{row_id}_units').value) + '&element_id=deliverable_costs_new_#{row_id}'") %>
+  </td>
+  <% if User.current.allowed_to?(:view_unit_price, @project)%><td class="currency">
+    <span id="<%= "deliverable_costs_new_#{row_id}_costs" %>"></span>
+    <%= observe_field( "deliverable_costs_new_#{row_id}_units", :frequency => 1, :url => {:action => :update_deliverable_costs_row}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('deliverable_costs_new_#{row_id}_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&element_id=deliverable_costs_new_#{row_id}'") %>
+  </td><% end %>
+  <td align="center">
+    <%= image_to_function 'delete.png', "deleteDeliverableCostsEntry('deliverable_costs_new_#{row_id}')" %>
+  </td>
+</tr>

@@ -8,9 +8,8 @@ module CostlogHelper
     links << link_to_issue(@issue) if @issue
     breadcrumb links
   end
-
-
-  def cost_types_collection_for_select_options
+  
+  def cost_types_collection_for_select_options(selected_type = nil)
     cost_types = CostType.all.sort
     collection = []
     collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless cost_types.detect(&:is_default)
@@ -18,9 +17,11 @@ module CostlogHelper
     collection
   end
   
-  def user_collection_for_select_options
+  def user_collection_for_select_options(options = {})
     users = @project.assignable_users
     collection = []
+    # This is an optional extension
+    #collection << [l(:label_generic_user), 0] if options[:generic_user]
     users.each { |u| collection << [u.name, u.id] }
     collection
   end

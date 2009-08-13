@@ -1,7 +1,7 @@
 class CostType < ActiveRecord::Base
   unloadable
   
-  has_many :deliverables, :through => :deliverable_costs
+  has_many :deliverable_costs
   has_many :cost_entries, :dependent => :destroy
   
   validates_presence_of :name, :unit, :unit_plural, :unit_price, :valid_from

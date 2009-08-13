@@ -1,4 +1,5 @@
 <div class="contextual">
+<%= link_to_if_authorized l(:button_add_deliverable), {:controller => 'deliverables', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
 <%= link_to_if_authorized l(:button_update), {:controller => 'deliverables', :action => 'edit', :id => @deliverable}, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 <%= link_to_if_authorized l(:button_copy), {:controller => 'deliverables', :action => 'new', :project_id => @project, :copy_from => @deliverable }, :class => 'icon icon-copy' %>
 <%= link_to_if_authorized l(:button_delete), {:controller => 'deliverables', :action => 'destroy', :id => @deliverable}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
@@ -12,6 +13,24 @@
     <%= authoring @deliverable.created_on, @deliverable.author %>.
     <%= l(:label_updated_time, distance_of_time_in_words(Time.now, @deliverable.updated_on)) + '.' if @deliverable.created_on != @deliverable.updated_on %>
   </p>
+  
+  <table width="100%">
+    <tr>
+      <td style="width:15%" class="type"><b><%=l(:field_type)%>:</b></td><td style="width:35%" class="type"><%= @deliverable.type_label %></td>
+      <td style="width:15%" class="due-date"><b><%=l(:field_due_date)%>:</b></td><td style="width:35%"><%= format_date(@deliverable.due_date) %></td>
+    </tr>
+  </table>
+
+</div>  
+
+
+<% labelled_tabular_form_for :deliverable, @deliverable, 
+                             :html => {:multipart => true, :id => 'deliverable-form'} do |f| %>
+    <%= error_messages_for 'deliverable' %>
+    <div class="box">
+    <%= render :partial => 'form', :locals => {:f => f} %>
+    </div>
+<% end %>
 
 <% html_title "#{l(:label_deliverable)} ##{@deliverable.id}: #{@deliverable.subject}" %>
 

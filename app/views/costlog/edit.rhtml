@@ -14,7 +14,7 @@
     <p>
         <%= f.text_field :units, :size => 6, :required => true %>
         <span id="cost_type_unit_plural"><%= render :partial => "cost_type_unit_plural", :locals => {:cost_type => @cost_entry.cost_type} %></span>
-        <%= observe_field ('cost_entry_cost_type_id', :url => {:action => :get_cost_type_unit_plural}, :with => :cost_type_id) %>
+        <%= observe_field ('cost_entry_cost_type_id', :update => 'cost_type_unit_plural', :url => {:action => :get_cost_type_unit_plural}, :with => :cost_type_id) %>
     </p>
     <p><%= f.text_field :comments, :size => 100 %></p>
     </div>

@@ -22,5 +22,9 @@
 <div id="preview" class="wiki"></div>
 
 <% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
     <%= stylesheet_link_tag 'scm' %>
+    
+    <%= javascript_include_tag 'deliverables', :plugin => 'redmine_costs' %>
+        
 <% end %>

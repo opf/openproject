@@ -17,11 +17,11 @@
   </tr></thead>
   <tbody>
     <% deliverables.each do |deliverable| %>
-    <tr id="deliverable-<%= deliverable.id %>" class="hascontextmenu <%= cycle ('odd', 'even') %> <%= deliverable.css_classes %>">
+    <tr id="deliverable-<%= deliverable.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= deliverable.css_classes %>">
       <td class="checkbox"><%= check_box_tag("ids[]", deliverable.id, false, :id => nil) %></td>
       <td><%= link_to deliverable.id, :controller => 'deliverables', :action => 'show', :id => deliverable %></td>
       <%= content_tag(:td, h(deliverable.status), :class => 'status') %>
-      <%= content_tag(:td, link_to (h(deliverable.subject), :controller => 'deliverables', :action => 'show', :id => deliverable), :class => 'subject') %>
+      <%= content_tag(:td, link_to(h(deliverable.subject), :controller => 'deliverables', :action => 'show', :id => deliverable), :class => 'subject') %>
       <%= content_tag(:td, h(deliverable.score.to_i), :class => 'score') %>
       <%= content_tag(:td, number_to_currency(deliverable.budget || 0.0, :precision => 0), :class => 'budget') %>
       <%= content_tag(:td, number_to_currency(deliverable.labor_budget || 0.0, :precision => 0), :class => 'budget') %>

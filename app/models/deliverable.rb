@@ -2,15 +2,12 @@
 # contain a collection of issues.
 class Deliverable < ActiveRecord::Base
   unloadable
-  validates_presence_of :subject, :type, :kind
+  validates_presence_of :subject
   
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  belongs_to :project, :class_name => 'Project', :foreign_key => 'project_id'
+  belongs_to :project
   has_many :issues
   has_many :cost_entries
-  
-  has_many :rates, :through => :deliverable_rates
-  has_many :cost_types, :through => :deliverable_cost_types
   
   acts_as_event :title => Proc.new {|o| "#{l(:label_deliverable)} ##{o.id}: #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'deliverables', :action => 'show', :id => o.id}}                
@@ -92,6 +89,11 @@ class Deliverable < ActiveRecord::Base
   
   def status
     "TODO"
+  end
+  
+  # Label of the current type for display in GUI.  Virtual accessor that is overriden by subclasses.
+  def type_label
+    return l(:label_deliverable)
   end
   
   
