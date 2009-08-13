@@ -79,13 +79,17 @@ class CostlogController < ApplicationController
       # creates new CostEntry
       if params[:cost_entry].is_a?(Hash)
         # we have a new CostEntry in our request
-        new_user = User.find_by_id(params[:cost_entry][:user_id])
-        if new_user.blank? or !new_user.allowed_to?(:book_costs, @project)
-          render_403 and return
-        end
+        new_user = User.find_by_id(params[:cost_entry][:user_id]) rescue nil
+        new_user ||= User.current
+        
+        render_403 and return unless (
+          new_user == User.current && new_user.allowed_to?(:book_own_costs, @project) ||
+          new_user.allowed_to?(:book_costs, @project)
+        )
       end
-
-      @cost_entry = CostEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
+      
+      new_user ||= User.current
+      @cost_entry = CostEntry.new(:project => @project, :issue => @issue, :user => new_user, :spent_on => Date.today)
     end
     @cost_entry.attributes = params[:cost_entry]
     @cost_entry.cost_type ||= CostType.default

@@ -29,6 +29,8 @@ class CostEntry < ActiveRecord::Base
     errors.add :units, :activerecord_error_invalid if units && (units < 0 || units >= 1000)
     errors.add :project_id, :activerecord_error_invalid if project.nil?
     errors.add :issue_id, :activerecord_error_invalid if (issue_id && !issue) || (issue && project!=issue.project)
+    
+    errors.add :user_id, :activerecord_error_invalid unless (user == User.current) || (User.current.allowed_to? :book_costs, project)
   end
   
   def units=(u)

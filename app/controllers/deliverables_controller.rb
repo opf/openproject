@@ -61,11 +61,27 @@ class DeliverablesController < ApplicationController
   
   def new
     @deliverable = Deliverable.new(params[:deliverable])
-    @deliverable.project = @project unless params[:deliverable].is_a?(Hash) && params[:deliverable][:project_id].blank?
+    #@deliverable.project = @project unless params[:deliverable].is_a?(Hash)  && params[:deliverable][:project_id].blank?
     
-    respond_to do |format|
-      format.html { render :action => 'new', :layout => !request.xhr?  }
+    if params[:deliverable].is_a?(Hash)
+      @deliverable.attributes = params[:deliverable]
+      @deliverable.project = @project unless params[:deliverable][:project_id].blank?
+    else
+      @deliverable.project = @project
     end
+    
+    #@deliverable.author = User.current
+    
+    unless request.get? || request.xhr?
+      if @deliverable.save
+        flash[:notice] = l(:notice_successful_create)
+        redirect_to(params[:continue] ? { :action => 'new' } :
+                                        { :action => 'show', :id => @deliverable })
+        return
+      end
+    end
+    
+    render :layout => !request.xhr?
   end
   
   def preview
@@ -115,7 +131,7 @@ class DeliverablesController < ApplicationController
         if User.current.allowed_to?(:view_all_rates, @project) || (user == User.current && User.current.allowed_to?(:view_own_rate, @project))
           page.replace_html "#{element_id}_costs", number_to_currency(costs)
         else
-          page.replace_html "#{element_id}_costs", "Blub"
+          page.replace_html "#{element_id}_costs", ""
         end
       end
     end
