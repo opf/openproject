@@ -32,12 +32,10 @@ class CostEntry < ActiveRecord::Base
   end
   
   def units=(u)
-    super
     set_costs
   end
   
   def cost_type=(c)
-    super
     set_costs
   end
   
