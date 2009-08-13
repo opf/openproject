@@ -1,0 +1,33 @@
+.icon-money {
+  background-image: url(../images/money.png);
+}
+
+.icon-box {
+  background-image: url(../images/box.png);
+}
+
+table.deliverable_costs,
+table.deliverable_rates {
+  width 99%;
+}
+
+tr.cost-entry {
+  text-align: center;
+  white-space: nowrap;
+}
+
+td.currency {
+  text-align: right;
+}
+
+td.cost_units {
+  text-align: left;
+}
+
+.tabular div.p {
+  clear: left;
+  height: 1%;
+  margin: 0;
+  padding: 5px 0 8px 180px;
+}
+
