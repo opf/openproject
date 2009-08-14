@@ -4,7 +4,7 @@
     <span id="<%= "deliverable_costs_new_#{row_id}_unit_name" %>"><%=h CostType.default.unit_plural %></span>
   </td>
   <td>
-    <%= select nil, nil, cost_types_collection_for_select_options, {}, :name => "deliverable_costs_new[#{row_id}][cost_type_id]", :id => "deliverable_costs_new_#{row_id}_cost_type_id" %>
+    <%= select nil, nil, cost_types_collection_for_select_options, {:selected => CostType.default.id}, :name => "deliverable_costs_new[#{row_id}][cost_type_id]", :id => "deliverable_costs_new_#{row_id}_cost_type_id" %>
     <%= observe_field( "deliverable_costs_new_#{row_id}_cost_type_id", :url => {:action => :update_deliverable_costs_row}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('deliverable_costs_new_#{row_id}_units').value) + '&element_id=deliverable_costs_new_#{row_id}'") %>
   </td>
   <% if User.current.allowed_to?(:view_unit_price, @project)%><td class="currency">

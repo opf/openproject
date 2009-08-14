@@ -5,6 +5,8 @@ class DeliverableCost < ActiveRecord::Base
   belongs_to :cost_type
   
   def costs
-    cost_type.unit_price * units
+    # FIXME: This calculation does not use the valid_from field
+    r = cost_type.current_rate
+    r ? r.rate * units : 0.0
   end
 end

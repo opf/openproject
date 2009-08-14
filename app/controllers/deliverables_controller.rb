@@ -98,7 +98,7 @@ class DeliverablesController < ApplicationController
     render_403 and return unless element_id =~ /^deliverable_costs(_new)?_[0-9]+$/
     
     units = params[:units].strip.gsub(',', '.').to_f
-    costs = (units * cost_type.unit_price rescue 0.0)
+    costs = (units * cost_type.current_rate.rate rescue 0.0)
     
     if request.xhr?
       render :update do |page|
