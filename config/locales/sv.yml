@@ -858,3 +858,6 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
+  label_view_all_revisions: View all revisions
+  label_tag: Tag
+  label_branch: Branch

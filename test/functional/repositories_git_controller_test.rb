@@ -46,22 +46,37 @@ class RepositoriesGitControllerTest < Test::Unit::TestCase
     end
     
     def test_browse_root
-      get :browse, :id => 3
+      get :show, :id => 3
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
-      assert_equal 3, assigns(:entries).size
+      assert_equal 6, assigns(:entries).size
       assert assigns(:entries).detect {|e| e.name == 'images' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
+      assert assigns(:entries).detect {|e| e.name == 'copied_README' && e.kind == 'file'}
+      assert assigns(:entries).detect {|e| e.name == 'new_file.txt' && e.kind == 'file'}
+      assert assigns(:entries).detect {|e| e.name == 'renamed_test.txt' && e.kind == 'file'}
     end
-    
-    def test_browse_directory
-      get :browse, :id => 3, :path => ['images']
+
+    def test_browse_branch
+      get :show, :id => 3, :rev => 'test_branch'
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
-      assert_equal ['delete.png', 'edit.png'], assigns(:entries).collect(&:name)
+      assert_equal 4, assigns(:entries).size
+      assert assigns(:entries).detect {|e| e.name == 'images' && e.kind == 'dir'}
+      assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
+      assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
+      assert assigns(:entries).detect {|e| e.name == 'test.txt' && e.kind == 'file'}
+    end
+
+    def test_browse_directory
+      get :show, :id => 3, :path => ['images']
+      assert_response :success
+      assert_template 'show'
+      assert_not_nil assigns(:entries)
+      assert_equal ['edit.png'], assigns(:entries).collect(&:name)
       entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
       assert_not_nil entry
       assert_equal 'file', entry.kind
@@ -69,9 +84,9 @@ class RepositoriesGitControllerTest < Test::Unit::TestCase
     end
     
     def test_browse_at_given_revision
-      get :browse, :id => 3, :path => ['images'], :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
+      get :show, :id => 3, :path => ['images'], :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png'], assigns(:entries).collect(&:name)
     end
@@ -89,7 +104,7 @@ class RepositoriesGitControllerTest < Test::Unit::TestCase
       assert_template 'entry'
       # Line 19
       assert_tag :tag => 'th',
-                 :content => /10/,
+                 :content => /11/,
                  :attributes => { :class => /line-num/ },
                  :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
     end
@@ -104,7 +119,7 @@ class RepositoriesGitControllerTest < Test::Unit::TestCase
     def test_directory_entry
       get :entry, :id => 3, :path => ['sources']
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entry)
       assert_equal 'sources', assigns(:entry).name
     end
@@ -127,14 +142,14 @@ class RepositoriesGitControllerTest < Test::Unit::TestCase
       assert_response :success
       assert_template 'annotate'
       # Line 23, changeset 2f9c0091
-      assert_tag :tag => 'th', :content => /23/,
+      assert_tag :tag => 'th', :content => /24/,
                  :sibling => { :tag => 'td', :child => { :tag => 'a', :content => /2f9c0091/ } },
                  :sibling => { :tag => 'td', :content => /jsmith/ },
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
     
     def test_annotate_binary_file
-      get :annotate, :id => 3, :path => ['images', 'delete.png']
+      get :annotate, :id => 3, :path => ['images', 'edit.png']
       assert_response 500
       assert_tag :tag => 'div', :attributes => { :class => /error/ },
                                 :content => /can not be annotated/

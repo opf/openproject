@@ -47,18 +47,18 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
     end
     
     def test_browse_root
-      get :browse, :id => 1
+      get :show, :id => 1
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       entry = assigns(:entries).detect {|e| e.name == 'subversion_test'}
       assert_equal 'dir', entry.kind
     end
     
     def test_browse_directory
-      get :browse, :id => 1, :path => ['subversion_test']
+      get :show, :id => 1, :path => ['subversion_test']
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['folder', '.project', 'helloworld.c', 'textfile.txt'], assigns(:entries).collect(&:name)
       entry = assigns(:entries).detect {|e| e.name == 'helloworld.c'}
@@ -68,9 +68,9 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
     end
 
     def test_browse_at_given_revision
-      get :browse, :id => 1, :path => ['subversion_test'], :rev => 4
+      get :show, :id => 1, :path => ['subversion_test'], :rev => 4
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['folder', '.project', 'helloworld.c', 'helloworld.rb', 'textfile.txt'], assigns(:entries).collect(&:name)
     end
@@ -131,7 +131,7 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
     def test_directory_entry
       get :entry, :id => 1, :path => ['subversion_test', 'folder']
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entry)
       assert_equal 'folder', assigns(:entry).name
     end

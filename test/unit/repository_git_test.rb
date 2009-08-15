@@ -34,8 +34,8 @@ class RepositoryGitTest < Test::Unit::TestCase
       @repository.fetch_changesets
       @repository.reload
       
-      assert_equal 6, @repository.changesets.count
-      assert_equal 11, @repository.changes.count
+      assert_equal 12, @repository.changesets.count
+      assert_equal 20, @repository.changes.count
       
       commit = @repository.changesets.find(:first, :order => 'committed_on ASC')
       assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
@@ -57,10 +57,10 @@ class RepositoryGitTest < Test::Unit::TestCase
       # Remove the 3 latest changesets
       @repository.changesets.find(:all, :order => 'committed_on DESC', :limit => 3).each(&:destroy)
       @repository.reload
-      assert_equal 3, @repository.changesets.count
+      assert_equal 9, @repository.changesets.count
       
       @repository.fetch_changesets
-      assert_equal 6, @repository.changesets.count
+      assert_equal 12, @repository.changesets.count
     end
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"

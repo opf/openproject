@@ -1,4 +1,12 @@
-<h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => (@entry ? @entry.kind : nil), :revision => @rev } %></h2>
+<%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
+
+<div class="contextual">
+  <%= render :partial => 'navigation' %>
+</div>
+
+<h2>
+  <%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => (@entry ? @entry.kind : nil), :revision => @rev } %>
+</h2>
 
 <p><%= render :partial => 'link_to_functions' %></p>
 

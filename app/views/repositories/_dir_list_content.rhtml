@@ -4,7 +4,7 @@
 <tr id="<%= tr_id %>" class="<%= params[:parent_id] %> entry <%= entry.kind %>">
 <td style="padding-left: <%=18 * depth%>px;" class="filename">
 <% if entry.is_dir? %>
-<span class="expander" onclick="<%=  remote_function :url => {:action => 'browse', :id => @project, :path => to_path_param(entry.path), :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
+<span class="expander" onclick="<%=  remote_function :url => {:action => 'show', :id => @project, :path => to_path_param(entry.path), :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
 									:method => :get,
                   :update => { :success => tr_id },
                   :position => :after,
@@ -12,7 +12,7 @@
                   :condition => "scmEntryClick('#{tr_id}')"%>">&nbsp</span>
 <% end %>
 <%=  link_to h(entry.name),
-          {:action => (entry.is_dir? ? 'browse' : 'changes'), :id => @project, :path => to_path_param(entry.path), :rev => @rev},
+          {:action => (entry.is_dir? ? 'show' : 'changes'), :id => @project, :path => to_path_param(entry.path), :rev => @rev},
           :class => (entry.is_dir? ? 'icon icon-folder' : "icon icon-file #{Redmine::MimeType.css_class_of(entry.name)}")%>
 </td>
 <td class="size"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.is_dir? %></td>

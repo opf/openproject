@@ -1,10 +1,8 @@
 <div class="contextual">
-<% form_tag({}, :method => :get) do %>
-<%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
-<% end %>
+<%= render :partial => 'navigation' %>
 </div>
 
-<h2><%= render :partial => 'navigation', :locals => { :path => @path, :kind => 'dir', :revision => @rev } %></h2>
+<h2><%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => 'dir', :revision => @rev } %></h2>
 
 <%= render :partial => 'dir_list' %>
 <%= render_properties(@properties) %>

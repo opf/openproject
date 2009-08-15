@@ -14,7 +14,7 @@
   &#187;&nbsp;
 
   <% form_tag({:controller => 'repositories', :action => 'revision', :id => @project, :rev => nil}, :method => :get) do %>
-    <%= text_field_tag 'rev', @rev, :size => 5 %>
+    <%= text_field_tag 'rev', @rev[0,8], :size => 8 %>
     <%= submit_tag 'OK', :name => nil %>
   <% end %>
 </div>

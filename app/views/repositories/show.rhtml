@@ -1,15 +1,10 @@
-<div class="contextual">
 <%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
-<%= link_to l(:label_statistics), {:action => 'stats', :id => @project}, :class => 'icon icon-stats' %>
 
-<% if !@entries.nil? && authorize_for('repositories', 'browse') -%>
-<% form_tag({:action => 'browse', :id => @project}, :method => :get) do -%>
-| <%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 5 %>
-<% end -%>
-<% end -%>
+<div class="contextual">
+  <%= render :partial => 'navigation' %>
 </div>
 
-<h2><%= l(:label_repository) %> (<%= @repository.scm_name %>)</h2>
+<h2><%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => 'dir', :revision => @rev } %></h2>
 
 <% if !@entries.nil? && authorize_for('repositories', 'browse') %>
 <%= render :partial => 'dir_list' %>
@@ -18,7 +13,7 @@
 <% if !@changesets.empty? && authorize_for('repositories', 'revisions') %>
 <h3><%= l(:label_latest_revision_plural) %></h3>
 <%= render :partial => 'revisions', :locals => {:project => @project, :path => '', :revisions => @changesets, :entry => nil }%>
-<p><%= link_to l(:label_view_revisions), :action => 'revisions', :id => @project %></p>
+<p><%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %></p>
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :action => 'revisions', :id => @project, :page => nil, :key => User.current.rss_key})) %>
 <% end %>

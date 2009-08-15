@@ -51,9 +51,9 @@ class RepositoriesCvsControllerTest < Test::Unit::TestCase
     end
     
     def test_browse_root
-      get :browse, :id => 1
+      get :show, :id => 1
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal 3, assigns(:entries).size
       
@@ -65,9 +65,9 @@ class RepositoriesCvsControllerTest < Test::Unit::TestCase
     end
     
     def test_browse_directory
-      get :browse, :id => 1, :path => ['images']
+      get :show, :id => 1, :path => ['images']
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['add.png', 'delete.png', 'edit.png'], assigns(:entries).collect(&:name)
       entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
@@ -78,9 +78,9 @@ class RepositoriesCvsControllerTest < Test::Unit::TestCase
     
     def test_browse_at_given_revision
       Project.find(1).repository.fetch_changesets
-      get :browse, :id => 1, :path => ['images'], :rev => 1
+      get :show, :id => 1, :path => ['images'], :rev => 1
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png', 'edit.png'], assigns(:entries).collect(&:name)
     end
@@ -118,7 +118,7 @@ class RepositoriesCvsControllerTest < Test::Unit::TestCase
     def test_directory_entry
       get :entry, :id => 1, :path => ['sources']
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entry)
       assert_equal 'sources', assigns(:entry).name
     end

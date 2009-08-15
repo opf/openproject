@@ -45,9 +45,9 @@ class RepositoriesDarcsControllerTest < Test::Unit::TestCase
     end
     
     def test_browse_root
-      get :browse, :id => 3
+      get :show, :id => 3
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal 3, assigns(:entries).size
       assert assigns(:entries).detect {|e| e.name == 'images' && e.kind == 'dir'}
@@ -56,9 +56,9 @@ class RepositoriesDarcsControllerTest < Test::Unit::TestCase
     end
     
     def test_browse_directory
-      get :browse, :id => 3, :path => ['images']
+      get :show, :id => 3, :path => ['images']
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png', 'edit.png'], assigns(:entries).collect(&:name)
       entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
@@ -69,9 +69,9 @@ class RepositoriesDarcsControllerTest < Test::Unit::TestCase
     
     def test_browse_at_given_revision
       Project.find(3).repository.fetch_changesets
-      get :browse, :id => 3, :path => ['images'], :rev => 1
+      get :show, :id => 3, :path => ['images'], :rev => 1
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png'], assigns(:entries).collect(&:name)
     end

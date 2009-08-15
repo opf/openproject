@@ -64,31 +64,26 @@ class RepositoriesController < ApplicationController
     redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'repository'
   end
   
-  def show
-    # check if new revisions have been committed in the repository
-    @repository.fetch_changesets if Setting.autofetch_changesets?
-    # root entries
-    @entries = @repository.entries('', @rev)    
-    # latest changesets
-    @changesets = @repository.changesets.find(:all, :limit => 10, :order => "committed_on DESC")
-    show_error_not_found unless @entries || @changesets.any?
-  end
-  
-  def browse
+  def show 
+    @repository.fetch_changesets if Setting.autofetch_changesets? && @path.empty?
+
     @entries = @repository.entries(@path, @rev)
     if request.xhr?
       @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
     else
       show_error_not_found and return unless @entries
+      @changesets = @repository.latest_changesets(@path, @rev)
       @properties = @repository.properties(@path, @rev)
-      render :action => 'browse'
+      render :action => 'show'
     end
   end
+
+  alias_method :browse, :show
   
   def changes
     @entry = @repository.entry(@path, @rev)
     show_error_not_found and return unless @entry
-    @changesets = @repository.changesets_for_path(@path, :limit => Setting.repository_log_display_limit.to_i)
+    @changesets = @repository.latest_changesets(@path, @rev, Setting.repository_log_display_limit.to_i)
     @properties = @repository.properties(@path, @rev)
   end
   
@@ -135,7 +130,7 @@ class RepositoriesController < ApplicationController
   end
   
   def revision
-    @changeset = @repository.changesets.find_by_revision(@rev)
+    @changeset = @repository.changesets.find(:first, :conditions => ["revision LIKE ?", @rev + '%'])
     raise ChangesetNotFound unless @changeset
 
     respond_to do |format|
@@ -199,17 +194,14 @@ private
     render_404
   end
   
-  REV_PARAM_RE = %r{^[a-f0-9]*$}
-  
   def find_repository
     @project = Project.find(params[:id])
     @repository = @project.repository
     render_404 and return false unless @repository
     @path = params[:path].join('/') unless params[:path].nil?
     @path ||= ''
-    @rev = params[:rev]
+    @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].strip
     @rev_to = params[:rev_to]
-    raise InvalidRevisionParam unless @rev.to_s.match(REV_PARAM_RE) && @rev.to_s.match(REV_PARAM_RE)
   rescue ActiveRecord::RecordNotFound
     render_404
   rescue InvalidRevisionParam

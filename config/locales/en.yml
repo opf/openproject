@@ -543,6 +543,8 @@ en:
   label_browse: Browse
   label_modification: "{{count}} change"
   label_modification_plural: "{{count}} changes"
+  label_branch: Branch
+  label_tag: Tag 
   label_revision: Revision
   label_revision_plural: Revisions
   label_associated_revisions: Associated revisions
@@ -554,6 +556,7 @@ en:
   label_latest_revision: Latest revision
   label_latest_revision_plural: Latest revisions
   label_view_revisions: View revisions
+  label_view_all_revisions: View all revisions
   label_max_size: Maximum size
   label_sort_highest: Move to top
   label_sort_higher: Move up

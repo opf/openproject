@@ -44,10 +44,10 @@ class RepositoriesMercurialControllerTest < Test::Unit::TestCase
       assert_not_nil assigns(:changesets)
     end
     
-    def test_browse_root
-      get :browse, :id => 3
+    def test_show_root
+      get :show, :id => 3
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal 3, assigns(:entries).size
       assert assigns(:entries).detect {|e| e.name == 'images' && e.kind == 'dir'}
@@ -55,10 +55,10 @@ class RepositoriesMercurialControllerTest < Test::Unit::TestCase
       assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
     end
     
-    def test_browse_directory
-      get :browse, :id => 3, :path => ['images']
+    def test_show_directory
+      get :show, :id => 3, :path => ['images']
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png', 'edit.png'], assigns(:entries).collect(&:name)
       entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
@@ -67,10 +67,10 @@ class RepositoriesMercurialControllerTest < Test::Unit::TestCase
       assert_equal 'images/edit.png', entry.path
     end
     
-    def test_browse_at_given_revision
-      get :browse, :id => 3, :path => ['images'], :rev => 0
+    def test_show_at_given_revision
+      get :show, :id => 3, :path => ['images'], :rev => 0
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png'], assigns(:entries).collect(&:name)
     end
@@ -103,7 +103,7 @@ class RepositoriesMercurialControllerTest < Test::Unit::TestCase
     def test_directory_entry
       get :entry, :id => 3, :path => ['sources']
       assert_response :success
-      assert_template 'browse'
+      assert_template 'show'
       assert_not_nil assigns(:entry)
       assert_equal 'sources', assigns(:entry).name
     end

@@ -838,3 +838,6 @@ ja:
   enumeration_issue_priorities: チケットの優先度
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
+  label_view_all_revisions: View all revisions
+  label_tag: Tag
+  label_branch: Branch
