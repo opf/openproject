@@ -106,7 +106,7 @@ class Repository < ActiveRecord::Base
   end
 
   def latest_changesets(path,rev,limit=10)
-    @latest_changesets ||= changesets.find(:all, limit, :order => "committed_on DESC")
+    @latest_changesets ||= changesets.find(:all, :limit => limit, :order => "committed_on DESC")
   end
     
   def scan_changesets_for_issue_ids
