@@ -110,12 +110,20 @@ module Redmine
       # Returns a PDF string of a list of issues
       def issues_to_pdf(issues, project, query)
         pdf = IFPDF.new(current_language)
-        title = project ? "#{project} - #{l(:label_issue_plural)}" : "#{l(:label_issue_plural)}"
+        title = query.new_record? ? l(:label_issue_plural) : query.name
+        title = "#{project} - #{title}" if project
         pdf.SetTitle(title)
         pdf.AliasNbPages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage("L")
-        row_height = 7
+        
+        row_height = 6
+        col_width = []
+        unless query.columns.empty?
+          col_width = query.columns.collect {|column| column.name == :subject ? 4.0 : 1.0 }
+          ratio = 262.0 / col_width.inject(0) {|s,w| s += w}
+          col_width = col_width.collect {|w| w * ratio}
+        end
         
         # title
         pdf.SetFontStyle('B',11)    
@@ -123,44 +131,47 @@ module Redmine
         pdf.Ln
         
         # headers
-        pdf.SetFontStyle('B',10)
+        pdf.SetFontStyle('B',8)
         pdf.SetFillColor(230, 230, 230)
-        pdf.Cell(15, row_height, "#", 0, 0, 'L', 1)
-        pdf.Cell(30, row_height, l(:field_tracker), 0, 0, 'L', 1)
-        pdf.Cell(30, row_height, l(:field_status), 0, 0, 'L', 1)
-        pdf.Cell(30, row_height, l(:field_priority), 0, 0, 'L', 1)
-        pdf.Cell(40, row_height, l(:field_assigned_to), 0, 0, 'L', 1)
-        pdf.Cell(25, row_height, l(:field_updated_on), 0, 0, 'L', 1)
-        pdf.Cell(0, row_height, l(:field_subject), 0, 0, 'L', 1)
-        pdf.Line(10, pdf.GetY, 287, pdf.GetY)
+        pdf.Cell(15, row_height, "#", 1, 0, 'L', 1)
+        query.columns.each_with_index do |column, i|
+          pdf.Cell(col_width[i], row_height, column.caption, 1, 0, 'L', 1)
+        end
         pdf.Ln
-        pdf.Line(10, pdf.GetY, 287, pdf.GetY)
-        pdf.SetY(pdf.GetY() + 1)
         
         # rows
-        pdf.SetFontStyle('',9)
+        pdf.SetFontStyle('',8)
         pdf.SetFillColor(255, 255, 255)
         group = false
         issues.each do |issue|
           if query.grouped? && issue.send(query.group_by) != group
             group = issue.send(query.group_by)
-            pdf.SetFontStyle('B',10)
-            pdf.Cell(0, row_height, "#{group.blank? ? 'None' : group.to_s}", 0, 1, 'L')
-            pdf.Line(10, pdf.GetY, 287, pdf.GetY)
-            pdf.SetY(pdf.GetY() + 0.5)
-            pdf.Line(10, pdf.GetY, 287, pdf.GetY)
-            pdf.SetY(pdf.GetY() + 1)
-            pdf.SetFontStyle('',9)
+            pdf.SetFontStyle('B',9)
+            pdf.Cell(277, row_height, "#{group.blank? ? 'None' : group.to_s}", 1, 1, 'L')
+            pdf.SetFontStyle('',8)
           end
-          pdf.Cell(15, row_height, issue.id.to_s, 0, 0, 'L', 1)
-          pdf.Cell(30, row_height, issue.tracker.name, 0, 0, 'L', 1)
-          pdf.Cell(30, row_height, issue.status.name, 0, 0, 'L', 1)
-          pdf.Cell(30, row_height, issue.priority.name, 0, 0, 'L', 1)
-          pdf.Cell(40, row_height, issue.assigned_to ? issue.assigned_to.to_s : '', 0, 0, 'L', 1)
-          pdf.Cell(25, row_height, format_date(issue.updated_on), 0, 0, 'L', 1)
-          pdf.MultiCell(0, row_height, (project == issue.project ? issue.subject : "#{issue.project} - #{issue.subject}"))
-          pdf.Line(10, pdf.GetY, 287, pdf.GetY)
-          pdf.SetY(pdf.GetY() + 1)
+          pdf.Cell(15, row_height, issue.id.to_s, 1, 0, 'L', 1)
+          query.columns.each_with_index do |column, i|
+            s = if column.is_a?(QueryCustomFieldColumn)
+              cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
+              show_value(cv)
+            else
+              value = issue.send(column.name)
+              if value.is_a?(Date)
+                format_date(value)
+              elsif value.is_a?(Time)
+                format_time(value)
+              else
+                value
+              end
+            end
+            pdf.Cell(col_width[i], row_height, s.to_s, 1, 0, 'L', 1)
+          end
+          pdf.Ln
+        end
+        if issues.size == Setting.issues_export_limit.to_i
+          pdf.SetFontStyle('B',10)
+          pdf.Cell(0, row_height, '...')
         end
         pdf.Output
       end
