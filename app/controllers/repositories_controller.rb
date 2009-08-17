@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -72,7 +72,9 @@ class RepositoriesController < ApplicationController
       @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
     else
       show_error_not_found and return unless @entries
-      @changesets = @repository.latest_changesets(@path, @rev)
+      if @path.blank?
+        @changesets = @repository.latest_changesets(@path, @rev)
+      end
       @properties = @repository.properties(@path, @rev)
       render :action => 'show'
     end
@@ -108,7 +110,7 @@ class RepositoriesController < ApplicationController
     show_error_not_found and return unless @entry
     
     # If the entry is a dir, show the browser
-    browse and return if @entry.is_dir?
+    show and return if @entry.is_dir?
     
     @content = @repository.cat(@path, @rev)
     show_error_not_found and return unless @content

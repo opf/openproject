@@ -10,7 +10,9 @@
 <%= render :partial => 'dir_list' %>
 <% end %>
 
-<% if !@changesets.empty? && authorize_for('repositories', 'revisions') %>
+<%= render_properties(@properties) %>
+
+<% if @changesets && !@changesets.empty? && authorize_for('repositories', 'revisions') %>
 <h3><%= l(:label_latest_revision_plural) %></h3>
 <%= render :partial => 'revisions', :locals => {:project => @project, :path => '', :revisions => @changesets, :entry => nil }%>
 <p><%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %></p>
