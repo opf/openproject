@@ -37,16 +37,6 @@ class Repository::Git < Repository
     scm.tags
   end
 
-  def changesets_for_path(path, options={})
-    Change.find(
-      :all, 
-      :include => {:changeset => :user}, 
-      :conditions => ["repository_id = ? AND path = ?", id, path],
-      :order => "committed_on DESC, #{Changeset.table_name}.revision DESC",
-      :limit => options[:limit]
-    ).collect(&:changeset)
-  end
-
   # With SCM's that have a sequential commit numbering, redmine is able to be
   # clever and only fetch changesets going forward from the most recent one
   # it knows about.  However, with git, you never know if people have merged

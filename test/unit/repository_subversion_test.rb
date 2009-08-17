@@ -49,11 +49,17 @@ class RepositorySubversionTest < Test::Unit::TestCase
       assert_equal 8, @repository.changesets.count
     end
     
-    def test_changesets_for_path_with_limit
+    def test_latest_changesets_with_limit
       @repository.fetch_changesets
-      changesets = @repository.changesets_for_path('', :limit => 2)
+      changesets = @repository.latest_changesets('', nil, 2)
       assert_equal 2, changesets.size
-      assert_equal @repository.changesets_for_path('').slice(0,2), changesets
+      assert_equal @repository.latest_changesets('', nil).slice(0,2), changesets
+    end
+    
+    def test_latest_changesets_with_path
+      @repository.fetch_changesets
+      changesets = @repository.latest_changesets('subversion_test/folder/helloworld.rb', nil)
+      assert_equal %w(6 3 2), changesets.collect(&:revision)
     end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"

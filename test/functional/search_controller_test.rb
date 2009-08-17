@@ -41,8 +41,8 @@ class SearchControllerTest < Test::Unit::TestCase
                     :sibling => { :tag => 'dd', :content => /should be classified by categories/ }
     
     assert assigns(:results_by_type).is_a?(Hash)
-    assert_equal 4, assigns(:results_by_type)['changesets']
-    assert_tag :a, :content => 'Changesets (4)'
+    assert_equal 5, assigns(:results_by_type)['changesets']
+    assert_tag :a, :content => 'Changesets (5)'
   end
   
   def test_search_issues

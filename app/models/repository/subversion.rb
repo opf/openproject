@@ -30,8 +30,8 @@ class Repository::Subversion < Repository
     'Subversion'
   end
 
-  def changesets_for_path(path, options={})
-    revisions = scm.revisions(path, nil, nil, :limit => options[:limit])
+  def latest_changesets(path, rev, limit=10)
+    revisions = scm.revisions(path, nil, nil, :limit => limit)
     revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), :order => "committed_on DESC", :include => :user) : []
   end
   

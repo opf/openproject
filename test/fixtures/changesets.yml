@@ -39,4 +39,46 @@ changesets_004:
   repository_id: 10
   committer: dlopper
   user_id: 3
+changesets_005: 
+  commit_date: "2007-09-10"
+  comments: Modified one file in the folder.
+  committed_on: 2007-09-10 19:01:08
+  revision: "5"
+  id: 104
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
+changesets_006: 
+  commit_date: "2007-09-10"
+  comments: Moved helloworld.rb from / to /folder.
+  committed_on: 2007-09-10 19:01:47
+  revision: "6"
+  id: 105
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
+changesets_007: 
+  commit_date: "2007-09-10"
+  comments: Removed one file.
+  committed_on: 2007-09-10 19:02:16
+  revision: "7"
+  id: 106
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
+changesets_008: 
+  commit_date: "2007-09-10"
+  comments: |-
+    This commits references an issue.
+    Refs #2
+  committed_on: 2007-09-10 19:04:35
+  revision: "8"
+  id: 107
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
   
