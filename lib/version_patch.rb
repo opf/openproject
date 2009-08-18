@@ -1,5 +1,4 @@
 require_dependency 'version'
-require 'application'
 
 module Backlogs 
   module VersionPatch

@@ -1,5 +1,4 @@
 require_dependency 'issue'
-require 'application'
 
 module Backlogs 
   module IssuePatch
