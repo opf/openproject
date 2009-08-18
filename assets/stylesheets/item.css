@@ -434,9 +434,10 @@ li.item.maximized > .item_tasks {
   left: 5px;
   list-style: none;
   overflow: auto;
+  padding: 0px;
   position: absolute;
   top: 130px;
-  width: 648px;
+  width: 688px;
 }
 
 .item_tasks .no_tasks {
@@ -569,7 +570,7 @@ ul.item_tasks * {
 
 li.item.task {
   left: 0px;
-  position: absolute;
+  position: relative;
 }
 
 li.item.task div.controls {
