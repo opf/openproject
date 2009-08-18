@@ -1,0 +1,5 @@
+<div class="comment">
+  <h2><%= journal.user %></h2>
+  <div class="time_ago"><%= time_tag journal.created_on %> ago</div>
+  <%= textilizable(journal, :notes) %>
+</div>

@@ -1,0 +1,609 @@
+/*
+The MIT License
+
+Copyright (c) 2009 Mark Maglana
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+/***************************************
+  ITEM STYLES
+***************************************/
+
+li.item {
+  background-color: #ccc;
+  display: block;
+  height: 25px;
+  margin: 1px 0px 1px 0px;
+  position: relative;
+  width: 100%;
+}
+
+li.item.will_be_late {
+  background-color: #fcc;
+}
+
+li.item.closed {
+  background-color: #cfc;
+}
+
+li.item:hover {
+  background-color: #ff6;
+}
+
+li.item.maximized {
+  height: 180px;
+}
+
+li.item.discussion {
+  height: 235px;
+}
+
+li.item.maximized.discussion {
+  height: 390px;
+}
+
+.backlog.main li.item.maximized {
+  height: 63px;
+}
+
+.backlog.main li.item.maximized.discussion {
+  height: 275px;
+}
+
+li.item * {
+  display: none;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+}
+
+li.item > .body {
+  display: block;
+}
+
+li.item div.issue,
+li.item div.item {
+  background: none;
+  border: none;
+}
+
+li.item .editable:hover,
+li.item .editable .t:hover {
+  background-color: #fffffc;
+  cursor: text;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+/**** CONTROL BOX ****/
+li.item .controls {
+  display: none;
+}
+
+li.item:hover .controls {
+  background-color: #ff6;
+  display: block;
+  height: 22px;
+  left: 20px;
+  position: absolute;
+  text-align: center;
+  top: -22px;
+  width: 112px;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-radius-topright: 5px;
+}
+
+li.item .controls * {
+  background-color: #ccc;
+  border: solid 1px #777;
+  border-top-color: #eaeaea;
+  border-left-color: #eaeaea;
+  cursor: pointer;
+  display: block;
+  font-size: 11px;
+  height: 15px;
+  padding: 1px 0px 1px 0px;
+  position: absolute;
+  top: 2px;
+  width: 50px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+li.item .controls *:hover {
+  background-color: #fff;
+}
+
+li.item:hover .controls .more {
+  left: 3px;
+}
+
+li.item:hover .controls .talk {
+  left: 57px;
+}
+
+li.item.maximized .controls .more,
+li.item.discussion .controls .talk {
+  background: #aaa;
+  border: solid 1px #eaeaea;
+  border-top-color: #777;
+  border-left-color: #777;
+  padding: 2px 0px 1px 1px;
+}
+
+
+/**** CHECKBOX AND SPINNER ****/
+li.item > .body input.checkbox {
+  display: block;
+  position: absolute;
+  top: 5px;
+}
+
+li.item.saving > .body input.checkbox {
+  display: none;
+}
+
+li.item > .body .spinner {
+  display: none;
+}
+
+li.item.saving > .body .spinner {
+  background-image: url(../images/spinner.gif);
+  display: block;
+  height: 16px;
+  left: 3px;
+  position: absolute;
+  top: 5px;
+  width: 16px;
+}
+
+
+/**** ISSUE ID ****/
+li.item .issue_id_container {
+  background-color: #cfc;
+  display: block;
+  font-size: 9px;
+  height: 12px;
+  left: 20px;
+  overflow: hidden;
+  padding: 1px 3px 1px 1px;
+  position: absolute;
+  text-align: right;
+  top: 6px;
+  width: 40px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+li.item .issue_id_container * {
+  display: inline;
+  font-size: 8px;
+}
+
+
+/**** SUBJECT ****/
+li.item div.subject {
+  display: block;
+  height: 15px;
+  left: 66px;
+  overflow: hidden;
+  padding: 2px;
+  position: absolute;
+  top: 3px;
+  width: 388px;
+}
+
+li.item.editing > .body div.subject,
+li.item > .body input.subject {
+  display: none;
+}
+
+li.item.editing > .body input.subject {
+  display:block;
+  height: 15px;
+  left: 64px;
+  position: absolute;
+  top: 0px;
+  width: 388px;
+}
+
+.backlog.main .subject,
+.backlog.main li.item.editing input.subject {
+  width: 310px;
+}
+
+
+/**** ASSIGNED TO ****/
+li.item  > .body div.assigned_to_id .v {
+  display: none;
+}
+
+li.item  > .body div.assigned_to_id .t {
+  display: block;
+}
+
+li.item  > .body div.assigned_to_id {
+  display: block;
+  height: 15px;
+  left: 465px;
+  overflow: hidden;
+  padding: 2px 2px 2px 9px;
+  position: absolute;
+  width: 98px;
+  top: 3px;
+}
+
+li.item  > .body select.assigned_to_id * {
+  display: block;
+}
+
+li.item.editing  > .body div.assigned_to_id,
+li.item  > .body select.assigned_to_id {
+  display: none;
+}
+
+li.item.editing  > .body select.assigned_to_id {
+  display: block;
+  left: 465px;
+  position: absolute;
+  top: 2px;
+  width: 108px;
+}
+
+.backlog.main li.item  > .body .assigned_to_id {
+  display: none;
+}
+
+/**** STATUS ****/
+li.item  > .body div.status_id .v {
+  display: none;
+}
+
+li.item  > .body div.status_id .t {
+  display: block;
+}
+
+li.item  > .body div.status_id {
+  display: block;
+  height: 15px;
+  left: 580px;
+  overflow: hidden;
+  padding: 2px 2px 2px 9px;
+  position: absolute;
+  width: 68px;
+  top: 3px;
+}
+
+li.item  > .body select.status_id * {
+  display: block;
+}
+
+li.item.editing  > .body div.status_id,
+li.item  > .body select.status_id {
+  display: none;
+}
+
+li.item.editing  > .body select.status_id {
+  display: block;
+  left: 580px;
+  position: absolute;
+  top: 2px;
+  width: 78px;
+}
+
+.backlog.main li.item  > .body .status_id {
+  display: none;
+}
+
+.backlog.main li.item. > .body .status_id {
+  display: none;
+}
+
+/**** POINTS ****/
+li.item  > .body div.points {
+  display: block;
+  height: 15px;
+  overflow: hidden;
+  padding: 2px;
+  padding-right: 3px;
+  position: absolute;
+  right: 4px;
+  text-align: right;
+  top: 3px;
+  width: 25px;
+}
+
+li.item.editing  > .body div.points,
+li.item  > .body input.points {
+  display: none;
+}
+
+li.item.editing  > .body input.points {
+  display:block;
+  height: 15px;
+  position: absolute;
+  right: 3px;
+  text-align: right;
+  top: 0px;
+  width: 25px;
+}
+
+.backlog.main li.item > .points {
+  display: none;
+}
+
+/**** DESCRIPTION ****/
+li.item  > .body div.description,
+li.item  > .body textarea.description {
+  display: none;
+}
+
+li.item.maximized > .body div.description,
+li.item.maximized.editing > .body textarea.description {
+  display: block;
+  font-size: 10px;
+  height: 30px;
+  left: 25px;
+  overflow: auto;
+  position: absolute;
+  top: 25px;
+  width: 670px;
+}
+
+li.item.maximized > .body div.description {
+  padding: 2px;
+  width: 666px;
+}
+
+.backlog.main li.item.maximized > .body div.description,
+.backlog.main li.item.maximized.editing > .body textarea.description {
+  width: 389px;
+}
+
+/**** TASKS SECTION ****/
+li.item > .item_tasks {
+  display: none;
+}
+
+li.item > .item_tasks.loading {
+  background-image: url(../images/spinner.gif);
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+li.item > .add_task {
+  display: none;
+}
+
+li.item.maximized > .add_task {
+  border-width: 1px;
+  cursor: pointer;
+  display: block;
+  left: 25px;
+  position: absolute;
+  text-align: center;
+  top: 62px;
+  width: 25px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.backlog.main li.item > .add_task {
+  display: none;
+}
+
+li.item.maximized > .item_tasks {
+  background-color: #999;
+  border: 1px solid #999;
+  display: block;
+  height: 93px;
+  left: 25px;
+  list-style: none;
+  overflow: auto;
+  overflow-x: hidden;
+  position: absolute;
+  top: 82px;
+  width: 650px;
+}
+
+.item_tasks .no_tasks {
+  display: none;
+}
+
+.item_tasks.empty .no_tasks {
+  display: block;
+}
+
+.backlog.main li.item > .item_tasks {
+  display: none;
+}
+
+
+/**** DISCUSSION SECTION ****/
+li.item .discussion {
+  display: none;
+}
+
+li.item.discussion .discussion {
+  background-color: #999;
+  border: 1px solid #333;
+  display: block;
+  height: 200px;
+  left: 25px;
+  padding: 0px;
+  position: absolute;
+  top: 30px;
+  width: 650px;  
+}
+
+.backlog.main li.item.discussion .discussion {
+  width: 368px;
+}
+
+.backlog.main li.item.discussion.maximized .discussion {
+  top: 70px;
+}
+
+li.item.maximized.discussion .discussion {
+  top: 185px;
+}
+
+div.discussion form {
+  display: block;
+}
+
+div.discussion form textarea {
+  border: 0px;
+  color: #333;
+  display: block;
+  height: 45px;
+  left: 0px;
+  overflow: auto;
+  position: absolute;
+  top: -1px;
+  width: 100%;
+}
+
+div.discussion div.comments {
+  background-color: #ccc;
+  display: block;
+  height: 154px;
+  overflow: auto;
+  overflow-x: hidden;
+  position: absolute;
+  top: 46px;
+  width: 100%;
+}
+
+div.discussion div.comments div.comment {
+  display: block;
+  margin: 0 3px 5px 3px;
+  position: relative;
+}
+
+div.discussion div.comment * {
+  display: block;
+}
+
+div.discussion div.comment h2 {
+  display: block;
+  font-weight: bold;
+  margin: 0;
+}
+
+div.discussion div.comment h2 * {
+  display: inline;
+}
+
+div.discussion div.time_ago {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+div.discussion div.time_ago * {
+  display: inline;
+}
+
+div.discussion div.d_spinner {
+  display: none;
+}
+
+div.discussion.loading div.d_spinner {
+  background-image: url(../images/spinner.gif);
+  display: block;
+  height: 16px;
+  left: 3px;
+  position: absolute;
+  top: 3px;
+  width: 16px;
+  z-index: 1000;
+}
+
+div.discussion ul {
+  list-style-position: inside;
+  list-style-type: disc;
+}
+
+/***************************************
+  TASK-SPECIFIC STYLES
+***************************************/
+
+ul.item_tasks * {
+  display: block;
+  color: #484848;
+}
+
+li.item.task div.controls {
+  display: none;
+}
+
+li.item.task .backlog_id,
+li.item.task .id {
+  display: none;
+}
+
+li.item.task div.issue_id_container {
+  padding: 2px 3px 0px 1px;
+}
+
+li.item.task > .body div.subject {
+  height: 12px;
+  padding-top: 5px;
+}
+
+li.item.task  > .body div.subject,
+li.item.task  > .body input.subject {
+  width: 350px;
+}
+
+li.item.task > .body div.assigned_to_id {
+  height: 12px;
+  padding-top: 5px;
+}
+
+li.item.task > .body div.assigned_to_id,
+li.item.task > .body select.assigned_to_id {
+  left: 430px;
+}
+
+li.item.task > .body div.status_id {
+  height: 12px;
+  padding-top: 5px;
+}
+
+li.item.task > .body div.status_id,
+li.item.task > .body select.status_id {
+  left: 550px;
+}
+
+li.item.task > .body div.points,
+li.item.task.editing > .body input.points {
+  display: none;
+}
+
+li.item.task ul.item_tasks {
+  display: none;
+}
+
+li.item.task div.discussion {
+  display: none;
+}

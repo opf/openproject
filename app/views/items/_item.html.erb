@@ -1,0 +1,32 @@
+<li class="item <%= mark_if_closed(item) %> <%= mark_if_task(item) %>" id="<%= element_id_or_empty(item) %>">
+  <div class="controls">
+    <div class="more">more</div>
+    <div class="talk">talk</div>
+  </div>
+  <span class="body">
+    <input type="checkbox" class="checkbox"/>
+    <div class="spinner"> </div>
+    <div class="id"><%= record_id_or_empty(item) %></div>
+    <div class="issue_id_container"><%= issue_id_or_default(item) %></div>
+    <div class="subject editable" fieldname="subject" modelname="issue"><%= item.subject %></div>
+    <div class="assigned_to_id editable sel" fieldname="assigned_to_id" modelname="issue">
+      <div class="t"><%= assignee_name_or_empty(item) %></div>
+      <div class="v"><%= assigned_to_id_or_empty(item) %></div>
+    </div>
+    <div class="issue status_id editable sel" fieldname="status_id" modelname="issue">
+      <div class="t"><%= status_label_or_default(item) %></div>
+      <div class="v"><%= status_id_or_default(item) %></div>
+    </div>
+    <div class="points editable" fieldname="points" modelname="item"><%= points_or_empty(item) %></div>
+    <div class="description editable ta" fieldname="description" modelname="issue"><%= description_or_empty(item) %></div>
+  </span><!-- body -->
+  <div class="discussion">
+    <div class="d_spinner"> </div>
+    <form><textarea class="comment"> </textarea></form>
+    <div class="comments">
+    </div>
+  </div>
+  <button class="add_task">+</button>
+  <ul class="item_tasks loading">
+  </ul>
+</li>

@@ -1,0 +1,4 @@
+<h2><%= @backlog.version.name %> (<%= @backlog.version.effective_date %>)</h2>
+<table class="backlog">
+  <%= render :partial => "items", :collection => @items, :as => :item %>
+</table>

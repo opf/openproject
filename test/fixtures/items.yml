@@ -1,0 +1,26 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  backlog_id: 0
+  issue_id: 1
+  parent_id: 0
+  position: 1
+two:
+  backlog_id: 0
+  issue_id: 2
+  parent_id: 0
+  position: 2
+three:
+  backlog_id: 0
+  issue_id: 2
+  parent_id: 0
+  position: 3
+four:
+  backlog_id: 0
+  issue_id: 2
+  parent_id: 0
+  position: 4
+five:
+  backlog_id: 0
+  issue_id: 2
+  parent_id: 0
+  position: 5

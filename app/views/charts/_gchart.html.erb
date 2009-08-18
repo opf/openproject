@@ -1,0 +1,14 @@
+<span>
+<a href="#" id="regenerate_chart_<%= params[:backlog_id] %>">refresh</a><br/>
+<img src="http://chart.apis.google.com/chart?cht=lxy&chs=650x300&chd=t:<%= scale_x @data[:scope_x], @data[:scope].length %>|<%= scale_y @data[:scope] %>|<%= scale_x @data[:done_x], @data[:scope].length %>|<%= scale_y @data[:done], @data[:scope].max %>|<%= scale_x @data[:best_x], @data[:scope].length %>|<%= scale_y @data[:best], @data[:scope].max %>|<%= scale_x @data[:worst_x], @data[:scope].length %>|<%= scale_y @data[:worst], @data[:scope].max %>&chco=0000FF,FFCC00,00FF00,FF0000&chdl=scope|completed|optimistic|pessimistic&chdlp=b&chm=o,0000FF,0,-1,5.0|o,FFCC00,1,-1,5.0|o,00FF00,2,-1,5.0|o,FF0000,3,-1,5.0&chxt=x,y&chg=<%= x_step @data[:scope] %>,25,1,3&chxl=0:|<%= x_labels @data[:days] %>|1:||<%= @data[:scope].max %>&chls=1,1,0|1,1,0|1,6,3|1,6,3"/>
+</span>
+<script type="text/javascript">
+//<![CDATA[
+  function regenerate_<%= params[:backlog_id] %>(e){
+    RBL.Backlog.findByID(<%= params[:backlog_id] %>).getChart();
+    e.preventDefault();
+  }
+
+  $('regenerate_chart_<%= params[:backlog_id] %>').observe('click', regenerate_<%= params[:backlog_id] %>);
+//]]>
+</script>

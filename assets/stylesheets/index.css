@@ -1,0 +1,606 @@
+/*
+The MIT License
+
+Copyright (c) 2009 Mark Maglana
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+#ajax-indicator {
+  display: none;
+}
+
+#assigned_to_id_options,
+#is_closed_options {
+  display: none;
+}
+
+#item_template {
+  display: none;
+}
+
+
+#new_item_button {
+  color: #ccc;
+  cursor: pointer;
+  font-size: 10px;
+  /*left: 190px;*/
+  position: absolute;
+  right: 7px;
+  text-decoration: underline;
+  top: 6px;
+}
+
+#status_id_options {
+  display: none;
+}
+
+#spinner_preload {
+  background-image: url(../images/spinner.gif);
+  display: block;
+  height: 16px;
+  left: -100px;
+  position: absolute;
+  top: 1px;
+  width: 16px;
+  z-index: 1000;
+}
+
+#task_template {
+  display: none;
+}
+
+
+#users {
+  display: none;
+}
+
+.backlog_toolbar {
+  background-color: #666;
+  color: #ccc;
+  font-family: Verdana, Arial, sans-serif;  
+  font-size: 10px;
+  height: 24px;
+  margin: 3px 0px 10px 0px;
+  position: relative;
+  width: 1130px;
+}
+
+#hide_closed_backlogs_container {
+  display: block;
+  left: 190px;
+  position: absolute;
+  top: 7px;
+}
+
+#hide_closed_backlogs {
+  margin-top: -4px;
+}
+
+#backlog_body {
+  position: relative;
+  width: 1130px;
+/*  border: 1px solid #333;*/
+/*  overflow: visible;*/
+}
+
+.backlog_toolbar select {
+  position: absolute;
+  left: 5px;
+  top: 2px;
+}
+
+/***************************************
+  BACKLOG STYLES
+***************************************/
+.backlog {
+  width: 700px;
+}
+
+.backlog.main {
+  height: 100%;
+  margin: 0px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 420px;
+}
+
+.backlog ul {
+  border: 0px;
+  display: block;
+  list-style: none;
+  margin: 0px 0px 10px 0px;
+  min-height: 25px;
+  padding: 0px;
+  position: relative;
+  width: 100%;
+}
+
+.backlog ul:empty {
+  background-color: #efefef;
+}
+
+
+.backlog .header {
+  background-color: #999;
+  font-family: Verdana, Arial, sans-serif;  
+  height: 25px;
+  position: relative;
+  width: 100%;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-radius-topright: 5px;
+}
+
+.backlog.maximized .header {
+  height: 55px;
+}
+
+.backlog .header .id {
+  display: none;
+}
+
+.backlog .header > .editable:hover,
+.backlog .header > .editable .t:hover,
+.backlog .header > div .editable:hover {
+  background-color: #efefef;
+  cursor: text;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+/**** SPINNER ****/
+
+.backlog .header > .spinner {
+  display: none;
+}
+
+.backlog .header.saving > .spinner {
+  background-image: url(../images/spinner.gif);
+  display: block;
+  height: 16px;
+  left: 3px;
+  position: absolute;
+  top: 5px;
+  width: 16px;
+}
+
+/**** CONTROLS ****/
+.backlog .header .controls {
+  display: none;
+}
+
+.backlog .header:hover .controls {
+  background-color: #999;
+  display: block;
+  font-size: 11px;
+  height: 22px;
+  left: 20px;
+  position: absolute;
+  text-align: center;
+  top: -22px;
+  width: 113px;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-radius-topright: 5px;
+}
+
+.backlog .header:hover .controls * {
+  background-color: #ccc;
+  border: solid 1px #777;
+  border-top-color: #eaeaea;
+  border-left-color: #eaeaea;
+  cursor: pointer;
+  display: block;
+  font-size: 11px;
+  height: 15px;
+  padding: 1px 0px 1px 0px;
+  position: absolute;
+  top: 3px;
+  width: 50px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+.backlog .header:hover .controls .more {
+  left: 3px;
+}
+
+.backlog .header:hover .controls .chart {
+  left: 58px;
+}
+
+.backlog.maximized .header:hover .controls .more,
+.backlog.show_chart .header:hover .controls .chart {
+  background: #aaa;
+  border: solid 1px #eaeaea;
+  border-top-color: #777;
+  border-left-color: #777;
+  padding: 2px 0px 1px 1px;
+}
+
+.backlog .header:hover .controls *:hover {
+  background-color: #fff;
+}
+
+/**** NAME ****/
+
+.backlog .header div.name {
+  display: block;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  left: 21px;
+  overflow: hidden;
+  padding: 2px 1px 2px 4px;
+  position: absolute;
+  top: 3px;
+  width: 250px;
+}
+
+.backlog .header.editing .name {
+  display: none;
+}
+
+.backlog .header .name.editor {
+  display: none;
+}
+
+.backlog .header.editing .name.editor {
+  display: block;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  height: 15px;
+  left: 21px;
+  position: absolute;
+  top: 0px;
+  width: 250px;
+}
+
+/**** VELOCITY ****/
+
+.backlog .header .velocity {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;  
+  font-weight: normal;
+  left: 310px;
+  position: absolute;
+  top: 3px;
+  width: 30px;
+}
+
+.backlog .header .velocity_label {
+  display: block;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;  
+  font-weight: normal;
+  left: 290px;
+  position: absolute;
+  top: 5px;
+}
+
+
+.backlog .header div.velocity {
+  display: block;
+  overflow: hidden;
+  padding: 2px 1px 2px 4px;
+}
+
+.backlog .header.editing .velocity {
+  display: none;
+}
+
+.backlog .header .velocity.editor {
+  display: none;
+}
+
+.backlog .header.editing .velocity.editor {
+  display: block;
+  height: 15px;
+  top: 0px;
+}
+
+
+/**** START DATE ****/
+
+.backlog .header .start_date_container {
+/*  background-color: #ccc;*/
+  display: block;
+  height: 25px;
+  left: 350px;
+  position: absolute;
+  top: 0px;
+  width: 120px;
+}
+
+.start_date_container .label {
+  display: block;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;  
+  font-weight: normal;
+  left: 5px;
+  position: absolute;
+  top: 5px;
+}
+
+.backlog .header .start_date_container img.calendar-trigger {
+  display: none;
+}
+
+.backlog .header .start_date_container:hover img.calendar-trigger,
+.backlog .header.editing .start_date_container img.calendar-trigger {
+  display: block;
+  position: absolute;
+  right: 1px;
+  top: 4px;
+}
+
+.backlog .header .start_date {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;  
+  font-weight: normal;
+  right: 18px;
+  position: absolute;
+  top: 3px;
+  width: 60px;
+}
+
+.backlog .header div.start_date {
+  display: block;
+  overflow: hidden;
+  padding: 2px 2px 2px 4px;
+}
+
+.backlog .header.editing .start_date {
+  display: none;
+}
+
+.backlog .header .start_date.editor {
+  display: none;
+}
+
+.backlog .header.editing .start_date.editor {
+  display: block;
+  height: 15px;
+  top: 0px;
+}
+
+
+/**** EFFECTIVE DATE ****/
+
+.backlog .header .effective_date_container {
+/*  background-color: #ccc;*/
+  display: block;
+  height: 25px;
+  left: 471px;
+  position: absolute;
+  top: 0px;
+  width: 120px;
+}
+
+.effective_date_container .label {
+  display: block;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;  
+  font-weight: normal;
+  left: 10px;
+  position: absolute;
+  top: 5px;
+}
+
+.backlog .header .effective_date_container img.calendar-trigger {
+  display: none;
+}
+
+.backlog .header .effective_date_container:hover img.calendar-trigger,
+.backlog .header.editing .effective_date_container img.calendar-trigger {
+  display: block;
+  position: absolute;
+  right: 1px;
+  top: 4px;
+}
+
+.backlog .header .effective_date {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;  
+  font-weight: normal;
+  right: 18px;
+  position: absolute;
+  top: 3px;
+  width: 60px;
+}
+
+.backlog .header div.effective_date {
+  display: block;
+  overflow: hidden;
+  padding: 2px 2px 2px 4px;
+}
+
+.backlog .header.editing .effective_date {
+  display: none;
+}
+
+.backlog .header .effective_date.editor {
+  display: none;
+}
+
+.backlog .header.editing .effective_date.editor {
+  display: block;
+  height: 15px;
+  top: 0px;
+}
+
+
+/**** ETA ****/
+
+.backlog .header .eta {
+  background-color: #ccc;
+  display: block;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;  
+  font-weight: normal;
+  height: 15px;
+  padding: 4px 3px 2px 3px;
+  position: absolute;
+  right: 2px;
+  text-align: center;
+  top: 2px;
+  width: 95px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+
+.backlog.will_be_late .header .eta {
+  background-color: #f00;
+  color: #fff;
+}
+
+/**** DESCRIPTION ****/
+
+.backlog .header .description {
+  display: none;
+}
+
+.backlog.maximized .header .description {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;  
+  font-weight: normal;
+  height: 25px;
+  left: 21px;
+  overflow: auto;
+  position: absolute;
+  top: 25px;
+  width: 430px;
+}
+
+.backlog.maximized .header div.description {
+  display: block;
+  padding: 2px 2px 1px 2px;
+}
+
+.backlog .header.editing div.description {
+  display: none;
+}
+
+.backlog .header textarea.description {
+  display: none;
+}
+
+.backlog.maximized .header.editing textarea.description {
+  display: block;
+}
+
+
+/**** STATUS ****/
+.backlog .header .is_closed .v {
+  display: none;
+}
+
+.backlog .header .is_closed .t {
+  display: none;
+}
+
+.backlog.maximized .header .is_closed .t {
+  display: block;
+}
+
+.backlog .header div.is_closed {
+  display: block;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;  
+  font-weight: normal;
+  height: 15px;
+  left: 580px;
+  overflow: hidden;
+  padding: 2px 2px 2px 9px;
+  position: absolute;
+  width: 68px;
+  top: 33px;
+}
+
+.backlog .header select.is_closed * {
+  display: block;
+}
+
+.backlog .header.editing  div.is_closed,
+.backlog .header  select.is_closed {
+  display: none;
+}
+
+.backlog .header.editing  select.is_closed {
+  display: block;
+  display: block;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;
+  left: 580px;
+  position: absolute;
+  top: 32px;
+  width: 78px;
+}
+
+/*
+.backlog.main li.item  > .body .status_id {
+  display: none;
+}
+
+.backlog.main li.item. > .body .status_id {
+  display: none;
+}*/
+
+
+
+
+/**** CHART ****/
+.backlog .chart_area {
+  display: none;
+}
+
+.backlog.show_chart .chart_area {
+  background-color: #999;
+  display: block;
+  height: 330px;
+  text-align: center;
+  width: 700px;
+}
+
+.backlog.show_chart .chart_area span {
+  background-color: #fff;
+  display: block;
+  height: 315px;
+  margin-left: 20px;
+  padding: 5px;
+  width: 650px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+.backlog.show_chart .chart_area img {
+  height: 300px;
+  width: 650px;
+}
+
+.backlog.show_chart .chart_area a {
+  font-family: Verdana, Arial, sans-serif;  
+  font-size: 10px;
+}

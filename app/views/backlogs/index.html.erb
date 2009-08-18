@@ -1,0 +1,61 @@
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'index', 'item', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
+    <%= javascript_include_tag  'main', 'backlog', 'item', 'task', :plugin => 'redmine_backlogs' %>
+<% end %>
+<div class="backlog_toolbar">
+  <select id="move_items" class="actions">
+    <option>Move selected items to...</option>
+    <%- @backlogs.each do |backlog| %>
+    <option value="<%= backlog.id %>">&nbsp;&nbsp;&nbsp;&nbsp;<%= backlog.version.name %></option>
+    <%- end %>
+    <option value="0">&nbsp;&nbsp;&nbsp;&nbsp;Main Backlog</option>
+  </select>
+  <div id="hide_closed_backlogs_container">
+    <input type="checkbox" id="hide_closed_backlogs"/> Hide closed backlogs
+  </div>
+</div>
+
+<div id="backlog_body">
+  <%- @backlogs.each do |backlog| %>
+    <%- unless @hide_closed_backlogs && backlog.is_closed? %>
+    <div class="backlog <%= backlog.is_closed? ? "closed" : "" %>">
+      <%= render :partial => "header", :locals => { :backlog => backlog } %>
+      <ul><%= render :partial => "items/item", :collection => @items.select{|item| item.backlog_id==backlog.id} %></ul>
+    </div>
+    <%- end %>
+  <%- end %>
+
+  <div class="backlog main">
+    <%= render :partial => "header", :locals => { :backlog => nil } %>
+    <ul><%= render :partial => "items/item", :collection => @items.select{|item| item.backlog_id==0} %></ul>
+  </div>
+</div>
+
+<div id="item_template">
+  <%= render :partial => "items/item", :object => @item_template %>
+</div>
+
+<select class="status_id" id="status_id_options">
+  <%- IssueStatus.find(:all, :order => "position ASC").each do |status| %>
+  <option value="<%= status.id %>" class="<%= (status.is_closed? ? "closed" : "") %>"><%= status.name %></option>
+  <%- end %>
+</select>
+
+<select class="assigned_to_id" id="assigned_to_id_options">
+  <option value=""> </option>
+  <%- @project.users.each do |member| %>
+  <option value="<%= member.id %>"><%= "#{member.firstname} #{member.lastname}" %></option>
+  <%- end %>
+</select>
+
+<select class="is_closed" id="is_closed_options">
+  <option value="false">Open</option>
+  <option value="true">Closed</option>
+</select>
+
+
+<div id="spinner_preload"> </div>
+
+<script>
+  var projectID = '<%= @project.identifier %>';
+</script>

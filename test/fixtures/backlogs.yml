@@ -1,0 +1,12 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  version_id: 1
+  velocity: 10
+  is_closed: true
+  start_date: '2009-08-11 1:05'
+two:
+  id: 2
+  version_id: 2
+  velocity: 10
+  start_date: '2009-08-17 1:05'

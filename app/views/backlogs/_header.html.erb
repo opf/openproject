@@ -1,0 +1,36 @@
+<div class="header">
+  <div class="spinner"> </div>  
+  <%- if backlog.nil? %>
+    <div class="name">Main Backlog</div>
+    <div id="new_item_button">New</div>
+    <div class="id">0</div>
+  <%- else %>
+    <div class="controls">
+      <div class="more">more</div>
+      <div class="chart">chart</div>
+    </div>
+    <div class="name editable" fieldname="name" modelname="version"><%= backlog.version.name %></div>
+    <div class="velocity_label">Vel:</div>
+    <div class="velocity editable" fieldname="velocity" modelname="backlog"><%= backlog.velocity %></div>
+    <div class="start_date_container">
+      <div class="label">Start:</div>
+      <div class="start_date editable cal" fieldname="start_date" modelname="backlog"><%= backlog_date(backlog, "start_date") %></div>
+      <input id="backlog_<%= backlog.id %>_start_date" class="start_date editor" name="start_date"/>
+      <%= calendar_for("backlog_#{backlog.id}_start_date") %>
+    </div>
+    <div class="effective_date_container">
+      <div class="label">Due:</div>
+      <div class="effective_date editable cal" fieldname="effective_date" modelname="version"><%= backlog_date(backlog.version, "effective_date") %></div>
+      <input id="backlog_<%= backlog.id %>_effective_date" class="effective_date editor" name="effective_date"/>
+      <%= calendar_for("backlog_#{backlog.id}_effective_date") %>
+    </div>
+    <div class='eta'>ETA: <%= backlog.eta %></div>
+    <div class="description editable ta" fieldname="description" modelname="version"><%= backlog.description %></div>
+    <div class="is_closed editable sel" fieldname="is_closed" modelname="backlog">
+      <div class="t"><%= backlog.is_closed? ? "Closed" : "Open" %></div>
+      <div class="v"><%= backlog.is_closed? %></div>
+    </div>
+    <div class="id"><%= backlog.id %></div>    
+  <%- end %>
+</div>
+<div class="chart_area"> </div>
