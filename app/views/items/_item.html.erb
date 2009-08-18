@@ -18,7 +18,7 @@
       <div class="v"><%= status_id_or_default(item) %></div>
     </div>
     <div class="points editable" fieldname="points" modelname="item"><%= points_or_empty(item) %></div>
-    <div class="description editable ta" fieldname="description" modelname="issue"><%= description_or_empty(item) %></div>
+    <div class="description editable ta" fieldname="description" modelname="issue"><%= description_or_empty(item) %><span class="textile"><%= textile_description_or_empty(item) %></span></div>
   </span><!-- body -->
   <div class="discussion">
     <div class="d_spinner"> </div>

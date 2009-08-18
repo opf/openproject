@@ -48,7 +48,7 @@ li.item:hover {
 }
 
 li.item.maximized {
-  height: 180px;
+  height: 250px;
 }
 
 li.item.discussion {
@@ -56,19 +56,19 @@ li.item.discussion {
 }
 
 li.item.maximized.discussion {
-  height: 390px;
+  height: 465px;
 }
 
 .backlog.main li.item.maximized {
-  height: 63px;
+  height: 110px;
 }
 
 .backlog.main li.item.maximized.discussion {
   height: 275px;
 }
 
-li.item * {
-  display: none;
+li.item *,
+li.item textarea {
   font-family: Verdana, Arial, sans-serif;
   font-size: 11px;
 }
@@ -173,6 +173,12 @@ li.item.saving > .body .spinner {
   position: absolute;
   top: 5px;
   width: 16px;
+}
+
+/*** ITEM ID ***/
+
+li.item .id {
+  display: none;
 }
 
 
@@ -360,23 +366,33 @@ li.item.maximized > .body div.description,
 li.item.maximized.editing > .body textarea.description {
   display: block;
   font-size: 10px;
-  height: 30px;
-  left: 25px;
+  height: 75px;
+  left: 5px;
   overflow: auto;
   position: absolute;
   top: 25px;
-  width: 670px;
+  width: 689px;
 }
 
 li.item.maximized > .body div.description {
+  height: 73px;
   padding: 2px;
-  width: 666px;
+  width: 686px;
+}
+
+li.item.editing > .body div.description {
+  display: none;
 }
 
 .backlog.main li.item.maximized > .body div.description,
 .backlog.main li.item.maximized.editing > .body textarea.description {
-  width: 389px;
+  width: 407px;
 }
+
+li.item .textile {
+  display: none;
+}
+
 
 /**** TASKS SECTION ****/
 li.item > .item_tasks {
@@ -397,10 +413,10 @@ li.item.maximized > .add_task {
   border-width: 1px;
   cursor: pointer;
   display: block;
-  left: 25px;
+  left: 5px;
   position: absolute;
   text-align: center;
-  top: 62px;
+  top: 110px;
   width: 25px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -414,14 +430,13 @@ li.item.maximized > .item_tasks {
   background-color: #999;
   border: 1px solid #999;
   display: block;
-  height: 93px;
-  left: 25px;
+  height: 113px;
+  left: 5px;
   list-style: none;
   overflow: auto;
-  overflow-x: hidden;
   position: absolute;
-  top: 82px;
-  width: 650px;
+  top: 130px;
+  width: 648px;
 }
 
 .item_tasks .no_tasks {
@@ -447,11 +462,11 @@ li.item.discussion .discussion {
   border: 1px solid #333;
   display: block;
   height: 200px;
-  left: 25px;
+  left: 5px;
   padding: 0px;
   position: absolute;
   top: 30px;
-  width: 650px;  
+  width: 688px;  
 }
 
 .backlog.main li.item.discussion .discussion {
@@ -463,7 +478,7 @@ li.item.discussion .discussion {
 }
 
 li.item.maximized.discussion .discussion {
-  top: 185px;
+  top: 255px;
 }
 
 div.discussion form {
@@ -548,8 +563,13 @@ div.discussion ul {
 ***************************************/
 
 ul.item_tasks * {
-  display: block;
   color: #484848;
+  display: block;
+}
+
+li.item.task {
+  left: 0px;
+  position: absolute;
 }
 
 li.item.task div.controls {

@@ -125,7 +125,7 @@ RBL.Item = Class.create(RBL.Model, {
       }
       
       switch(inputType){
-        case 'textarea': field.update(editables[ii].innerHTML); break;
+        case 'textarea': field.update(editables[ii].select(".textile")[0].innerHTML); break;
         case 'input'   : field.value = editables[ii].innerHTML; break;
         case 'select'  : for(var jj=0; jj < field.length; jj++) { 
                            if(field[jj].value==editables[ii].select('.v')[0].innerHTML) field.selectedIndex=jj;
@@ -202,6 +202,7 @@ RBL.Item = Class.create(RBL.Model, {
   },
   
   itemCreated: function(transport){
+    // FIXME: putting this inside an Element may make the code less brittle (see itemUpdated for example)
     var item_id  = transport.responseText.match(/(?:['"]id['"]?>)([0-9]*)(?:<\/[\s\S]*>)/)[1];
     var issue_id = transport.responseText.match(/(?:['"]issue_id['"]?>)([0-9]*)(?:<\/[\s\S]*>)/)[1];
     this.setValue('.issue_id', issue_id);
@@ -213,6 +214,9 @@ RBL.Item = Class.create(RBL.Model, {
   },  
 
   itemUpdated: function(transport){
+    var el = new Element('div');
+    el.update(transport.responseText);
+    this.getChild(".description").update(el.select(".description")[0].innerHTML);
     this.markNotSaving();
     this.raiseEvent("update");
   },

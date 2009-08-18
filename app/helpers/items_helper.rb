@@ -11,7 +11,7 @@ module ItemsHelper
   end
   
   def description_or_empty(item)
-    item.new_record? ? "" : item.issue.description
+    item.new_record? ? "" : textilizable(item.issue, :description)
   end
   
   def element_id_or_empty(item)
@@ -47,5 +47,10 @@ module ItemsHelper
   def status_label_or_default(item)
     item.new_record? ? IssueStatus.find(:first, :order => "position ASC").name : item.issue.status.name
   end
+
+  def textile_description_or_empty(item)
+    item.new_record? ? "" : item.issue.description
+  end
+
   
 end

@@ -122,7 +122,7 @@ THE SOFTWARE.
   width: 420px;
 }
 
-.backlog ul {
+.backlog > ul {
   border: 0px;
   display: block;
   list-style: none;
@@ -133,7 +133,7 @@ THE SOFTWARE.
   width: 100%;
 }
 
-.backlog ul:empty {
+.backlog > ul:empty {
   background-color: #efefef;
 }
 
