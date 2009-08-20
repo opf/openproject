@@ -54,7 +54,7 @@ RBL.Item = Class.create(RBL.Model, {
   },
 
   applyEdits: function(){
-    var editors = this.getChildren('.editor');
+    var editors = this.getBody().select('.editor');
     
     for(var ii=0; ii < editors.length; ii++){
       fieldName = editors[ii].readAttribute('name');
@@ -156,7 +156,7 @@ RBL.Item = Class.create(RBL.Model, {
   getBody: function(){
     return this.getRoot().select(".body")[0];
   },
-  
+    
   getNext: function(){
     var el = this.getRoot().next();
     return el==null ? null : RBL.Item.find(el);
