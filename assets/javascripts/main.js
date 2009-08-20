@@ -98,6 +98,24 @@ RBL.storePreferences = function(){
                     "expires=" + expiration.toGMTString();
 }
 
+
+RBL.urlFor = function(options){
+  // THINKABOUTTHIS: Is it worth using Rails' routes for this instead?
+  var url = '/' + options['controller'] 
+  if(options['action']!=null && options['action'].match(/index/)==null) url += '/' + options['action'];
+  if(options['id']!=null) url += "/" + options['id'];
+  
+  var keys = Object.keys(options).select(function(key){ return key!="controller" && key!="action" && key!="id" });    
+  if(keys.length>0) url += "?";
+  
+  keys.each(function(key, index){
+    url += key + "=" + options[key];
+    if(index<keys.length-1) url += "&";
+  });
+  
+  return url;
+}
+
 /***************************************
               BASE CLASS
 ***************************************/

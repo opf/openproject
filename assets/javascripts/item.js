@@ -225,7 +225,11 @@ RBL.Item = Class.create(RBL.Model, {
   },
   
   loadComments: function(){
-    new Ajax.Request('/items/' + this.getValue('.id') + '/comments', {
+    var url = RBL.urlFor({ controller: 'comments',
+                           action    : 'index',
+                           item_id   : this.getValue('.id') });
+                           
+    new Ajax.Request(url, {
                      method    : "get",
                      onComplete: this.commentsLoaded.bind(this)
     });
@@ -234,7 +238,12 @@ RBL.Item = Class.create(RBL.Model, {
 
   loadTasks: function(){
     this.getTasksList().addClassName("loading");
-    new Ajax.Request('/items/' + this.getValue('.id') + '/tasks', {
+
+    var url = RBL.urlFor({ controller: 'tasks',
+                           action    : 'index',
+                           item_id   : this.getValue('.id') });
+
+    new Ajax.Request(url, {
                      method    : "get",
                      onComplete: this.tasksLoaded.bind(this)
     });
@@ -258,7 +267,7 @@ RBL.Item = Class.create(RBL.Model, {
 
   save: function(saveCallback){
     var params   = this.toParams();
-    var url      = '/items';
+    var url;
     var callback = null;
     
     this._saveCallback = saveCallback;
@@ -266,9 +275,13 @@ RBL.Item = Class.create(RBL.Model, {
     if(this.isNew()){
       params["project_id"] = projectID;
       callback = this.itemCreated.bind(this);
+      url = RBL.urlFor({ controller: 'items',
+                         action    : 'create' });
     } else {
       params["_method"] = "put";
-      url += '/' + this.getValue('.id');
+      url = RBL.urlFor({ controller: 'items',
+                         action    : 'update',
+                         id        : this.getValue('.id') });
       callback = this.itemUpdated.bind(this);
     }
 
@@ -280,7 +293,11 @@ RBL.Item = Class.create(RBL.Model, {
     if(event.keyCode==Event.KEY_RETURN && event.ctrlKey) {
       var params =  {};
       params["comment"] = this.getChild("textarea.comment").value;
-      new Ajax.Request('/items/' + this.getValue('.id') + '/comments', {
+      var url = RBL.urlFor({ controller: 'comments',
+                             action    : 'create',
+                             item_id   : this.getValue('.id') });
+      
+      new Ajax.Request(url, {
                        method    : 'post',
                        parameters: params,
                        onComplete: this.commentSaved.bind(this)

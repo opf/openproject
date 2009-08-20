@@ -193,10 +193,12 @@ RBL.Backlog = Class.create(RBL.Model, {
 
   getChart: function(){
     var div = this.getChild('.chart_area');
-    new Ajax.Updater(div, '/backlogs/' + this.getValue('.id') + '/chart?src=gchart', { 
-                     method: 'get', 
-                     evalScripts: true 
-                     });
+    var url = RBL.urlFor({ controller: 'charts', 
+                           action    : 'show', 
+                           backlog_id: this.getValue('.id'), 
+                           src       : 'gchart' });
+    
+    new Ajax.Updater(div, url, { method: 'get', evalScripts: true });
   },
 
   
@@ -319,8 +321,12 @@ RBL.Backlog = Class.create(RBL.Model, {
   load: function(){
     if(this.isMainBacklog()) return true;
     
+    var url = RBL.urlFor({ controller: 'backlogs',
+                           action    : 'show',
+                           id        : this.getValue('.id') });
+    
     this.showSpinner();
-    new Ajax.Request('/backlogs/' + this.getValue('.id'), {
+    new Ajax.Request(url, {
                      method    : "get",
                      onComplete: this.processDataFromServer.bind(this)
     });
@@ -365,11 +371,13 @@ RBL.Backlog = Class.create(RBL.Model, {
   
   save: function(){
     var params = this.toParams();
-    params["_method"] = "put";
+    var url = RBL.urlFor({ controller: 'backlogs',
+                           action    : 'update',
+                           id        : this.getValue('.id') });
 
     this.showSpinner();
-    new Ajax.Request('/backlogs/' + this.getValue('.id'), {
-                     method    : "post",
+    new Ajax.Request(url, {
+                     method    : "put",
                      parameters: params,
                      onComplete: this.processDataFromServer.bind(this)
     });
