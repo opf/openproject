@@ -358,6 +358,7 @@ li.item.editing  > .body input.points {
 
 /**** DESCRIPTION ****/
 li.item  > .body div.description,
+li.item  > .body div.description .textile,
 li.item  > .body textarea.description {
   display: none;
 }
@@ -388,11 +389,6 @@ li.item.editing > .body div.description {
 .backlog.main li.item.maximized.editing > .body textarea.description {
   width: 407px;
 }
-
-li.item .textile {
-  display: none;
-}
-
 
 /**** TASKS SECTION ****/
 li.item > .item_tasks {

@@ -61,6 +61,9 @@ RBL.Item = Class.create(RBL.Model, {
       if(editors[ii].type.match(/select/)){
         this.setValue('div.' + fieldName + ' .v', editors[ii].value);
         this.setValue('div.' + fieldName + ' .t', editors[ii][editors[ii].selectedIndex].text);
+      } else if(editors[ii].type.match(/textarea/)){
+        this.setValue('div.' + fieldName + ' .textile', editors[ii].value);
+        this.setValue('div.' + fieldName + ' .html', '-- will be displayed after save --');
       } else {
         this.setValue('div.' + fieldName, editors[ii].value);
       }
@@ -268,7 +271,7 @@ RBL.Item = Class.create(RBL.Model, {
       url += '/' + this.getValue('.id');
       callback = this.itemUpdated.bind(this);
     }
-             
+
     this.markSaving();
     new Ajax.Request(url, {method: "post", parameters: params, onComplete: callback});
   },
@@ -330,7 +333,8 @@ RBL.Item = Class.create(RBL.Model, {
     
     for(var ii=0; ii<fields.length; ii++){
       params[fields[ii].readAttribute('modelname') + '[' + fields[ii].readAttribute('fieldname') + ']'] =
-        (fields[ii].hasClassName('sel') ? fields[ii].select('.v')[0].innerHTML : fields[ii].innerHTML);
+        (fields[ii].hasClassName('sel') ? fields[ii].select('.v')[0].innerHTML : 
+          (fields[ii].hasClassName('ta') ? fields[ii].select('.textile')[0].innerHTML : fields[ii].innerHTML) );
     }
     
     params["item[backlog_id]"] = this.getBacklogID();
