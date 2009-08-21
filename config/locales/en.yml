@@ -136,6 +136,8 @@ en:
   error_scm_command_failed: "An error occurred when trying to access the repository: {{value}}"
   error_scm_annotate: "The entry does not exist or can not be annotated."
   error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
+  error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
+  error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
   
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   

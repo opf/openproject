@@ -172,6 +172,8 @@ pt-BR:
   error_scm_command_failed: "Ocorreu um erro ao tentar acessar o repositório: {{value}}"
   error_scm_annotate: "Esta entrada não existe ou não pode ser anotada."
   error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projeto'
+  error_no_tracker_in_project: 'Não há um tipo de tarefa associado a este projeto. favor verificar as configurações do projeto.'
+  error_no_default_issue_status: 'A situação padrão para tarefa não está definida. Favor verificar sua configuração (Vá em "Administração -> Situação da tarefa").'
 
   mail_subject_lost_password: "Sua senha do {{value}}."
   mail_body_lost_password: 'Para mudar sua senha, clique no link abaixo:'

@@ -131,7 +131,7 @@ class IssuesController < ApplicationController
     # Tracker must be set before custom field values
     @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
     if @issue.tracker.nil?
-      render_error 'No tracker is associated to this project. Please check the Project settings.'
+      render_error l(:error_no_tracker_in_project)
       return
     end
     if params[:issue].is_a?(Hash)
@@ -142,7 +142,7 @@ class IssuesController < ApplicationController
     
     default_status = IssueStatus.default
     unless default_status
-      render_error 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
+      render_error l(:error_no_default_issue_status)
       return
     end    
     @issue.status = default_status
