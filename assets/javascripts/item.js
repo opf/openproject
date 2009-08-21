@@ -219,7 +219,10 @@ RBL.Item = Class.create(RBL.Model, {
   itemUpdated: function(transport){
     var el = new Element('div');
     el.update(transport.responseText);
+
     this.getChild(".description").update(el.select(".description")[0].innerHTML);
+    this.setValue(".issue.status_id .t", el.select(".issue.status_id .t")[0].innerHTML);
+    this.setValue(".issue.status_id .v", el.select(".issue.status_id .v")[0].innerHTML);
     this.markNotSaving();
     this.raiseEvent("update");
   },
