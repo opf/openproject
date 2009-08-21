@@ -205,12 +205,12 @@ RBL.Item = Class.create(RBL.Model, {
   },
   
   itemCreated: function(transport){
-    // FIXME: putting this inside an Element may make the code less brittle (see itemUpdated for example)
-    var item_id  = transport.responseText.match(/(?:['"]id['"]?>)([0-9]*)(?:<\/[\s\S]*>)/)[1];
-    var issue_id = transport.responseText.match(/(?:['"]issue_id['"]?>)([0-9]*)(?:<\/[\s\S]*>)/)[1];
-    this.setValue('.issue_id', issue_id);
-    this.setValue('.id', item_id);
-    this.getRoot().writeAttribute('id', this._prefix + item_id);    
+    var el = new Element('div');
+    el.update(transport.responseText);
+
+    this.getChild(".issue_id_container").update(el.select(".issue_id_container")[0].innerHTML);
+    this.setValue('.id', el.select(".body .id")[0].innerHTML);
+    this.getRoot().writeAttribute('id', this._prefix + this.getValue('.id'));    
     this.register();
     this.getParentBacklog().makeSortable();
     this.markNotSaving();
