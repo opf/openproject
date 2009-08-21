@@ -20,8 +20,10 @@ class Backlog < ActiveRecord::Base
   end
   
   def is_main?
-    # Change this once bug #42 is fixed
-    false
+    # Used by generate_chart_data.rake because I'm expecting
+    # to create real backlogs in the future to represent
+    # the Main Backlogs of every project.
+    false  
   end
   
   def name
