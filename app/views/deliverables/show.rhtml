@@ -23,7 +23,6 @@
 
 </div>  
 
-
 <% labelled_tabular_form_for :deliverable, @deliverable, 
                              :html => {:multipart => true, :id => 'deliverable-form'} do |f| %>
     <%= error_messages_for 'deliverable' %>
@@ -41,4 +40,5 @@
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'scm' %>
     <%= stylesheet_link_tag 'costlog', :plugin => 'redmine_costs' %>
+    <%= javascript_include_tag 'deliverables', :plugin => 'redmine_costs' %>
 <% end %>

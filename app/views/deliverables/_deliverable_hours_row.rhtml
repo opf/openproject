@@ -1,16 +1,29 @@
-<tr class="cost-entry"  id="<%= "deliverable_hours_new_#{row_id}" %>">
+<% 
+  suffix = suffix ? "_#{suffix}" : ""
+  deliverable_hour = nil unless defined?(deliverable_hour)
+  row_id = deliverable_hour.id unless row_id || !defined?(deliverable_hour)
+%>
+<tr class="cost-entry"  id="<%= "deliverable_hours#{suffix}_#{row_id}" %>">
   <td class="cost_units">
-    <%= text_field_tag "deliverable_hours_new[#{row_id}][hours]", nil, :size => 3, :id => "deliverable_hours_new_#{row_id}_hours" %>
+    <% if deliverable_hour %>
+      <%= text_field deliverable_hour, :hours, :value => deliverable_hour.hours, :size => 3, :id => "deliverable_hours#{suffix}_#{row_id}_hours", :name => "deliverable_hours#{suffix}[#{row_id}][hours]" %>
+    <% else %>
+      <%= text_field_tag "deliverable_hours#{suffix}[#{row_id}][hours]", nil, :size => 3, :id => "deliverable_hours#{suffix}_#{row_id}_hours" %>
+    <% end %>
   </td>
   <td>
-    <%= select nil, nil, user_collection_for_select_options (:generic_user => true), {}, :name => "deliverable_hours_new[#{row_id}][user_id]", :id => "deliverable_hours_new_#{row_id}_user_id" %>
-    <%= observe_field( "deliverable_hours_new_#{row_id}_user_id", :url => {:action => :update_deliverable_hours_row}, :with => "'user_id=' + encodeURIComponent(value) + '&hours=' + encodeURIComponent(document.getElementById('deliverable_hours_new_#{row_id}_hours').value) + '&element_id=deliverable_hours_new_#{row_id}'") %>
+    <% if deliverable_hour %>
+      <%= select "deliverable_hours#{suffix}[#{row_id}]", :user_id, user_collection_for_select_options(:generic_user => true), {:object => deliverable_hour.rate} %>
+    <%- else -%>
+      <%= select "deliverable_hours#{suffix}[#{row_id}]", :user_id, user_collection_for_select_options(:generic_user => true) %>
+    <%- end %>
+    <%= observe_field( "deliverable_hours#{suffix}_#{row_id}_user_id", :url => {:action => :update_deliverable_hours_row}, :with => "'user_id=' + encodeURIComponent(value) + '&hours=' + encodeURIComponent(document.getElementById('deliverable_hours#{suffix}_#{row_id}_hours').value) + '&element_id=deliverable_hours#{suffix}_#{row_id}'") %>
   </td>
-  <% if User.current.allowed_to?(:view_rate, @project) || User.current.allowed_to?(:view_own_rate, @project) %><td class="currency">
-    <span id="<%= "deliverable_hours_new_#{row_id}_costs" %>"></span>
-    <%= observe_field( "deliverable_hours_new_#{row_id}_hours", :frequency => 1, :url => {:action => :update_deliverable_hours_row}, :with => "'user_id=' + encodeURIComponent(document.getElementById('deliverable_hours_new_#{row_id}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&element_id=deliverable_hours_new_#{row_id}'") %>
+  <% if User.current.allowed_to?(:view_all_rates, @project) || User.current.allowed_to?(:view_own_rate, @project) %><td class="currency">
+    <span id="<%= "deliverable_hours#{suffix}_#{row_id}_costs" %>"><%= number_to_currency(deliverable_hour.costs) if deliverable_hour && deliverable_hour.can_view_costs?(User.current, @project) %></span>
+    <%= observe_field( "deliverable_hours#{suffix}_#{row_id}_hours", :frequency => 1, :url => {:action => :update_deliverable_hours_row}, :with => "'user_id=' + encodeURIComponent(document.getElementById('deliverable_hours#{suffix}_#{row_id}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&element_id=deliverable_hours#{suffix}_#{row_id}'") %>
   </td><% end %>
   <td align="center">
-    <%= image_to_function 'delete.png', "deleteDeliverableHoursEntry('deliverable_hours_new_#{row_id}')" %>
+    <%= image_to_function 'delete.png', "deleteDeliverableHoursEntry('deliverable_hours#{suffix}_#{row_id}')" %>
   </td>
 </tr>

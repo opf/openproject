@@ -27,6 +27,9 @@ module CostlogHelper
   end
   
   def entries_to_csv(entries)
+    # TODO
+    raise( NotImplementedError, "entries_to_csv is not implemented yet" )
+
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
     decimal_separator = l(:general_csv_decimal_separator)
     export = StringIO.new

@@ -18,8 +18,8 @@ require_dependency 'l10n_patch'
 
 Redmine::Plugin.register :redmine_costs do
   name 'Costs Plugin'
-  author 'Holger Just'
-  author_url 'http://finn.de/team'
+  author 'Holger Just @ finnlabs'
+  author_url 'http://finn.de/team#h.just'
   description 'The costs plugin provides basic cost management functionality for Redmine.'
   version '0.0.1'
   
@@ -28,7 +28,7 @@ Redmine::Plugin.register :redmine_costs do
   settings :default => {
     'costs_currency' => 'EUR',
     'costs_currency_format' => '%n %u'
-  }, :partial => 'settings/settings'
+  }, :partial => 'settings/_redmine_costs'
 
   
   project_module :costs_module do

@@ -16,7 +16,7 @@ class CreateDeliverables < ActiveRecord::Migration
     
     create_table :deliverable_costs do |t|
       t.column :deliverable_id,           :integer, :null => false
-      t.column :cost_type_id,             :integer, :null => false
+      t.column :rate_id,                  :integer, :null => false
       t.column :units,                    :float,   :null => false
     end
     

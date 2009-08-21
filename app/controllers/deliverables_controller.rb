@@ -63,6 +63,7 @@ class DeliverablesController < ApplicationController
     @deliverable = Deliverable.new(params[:deliverable])
     #@deliverable.project = @project unless params[:deliverable].is_a?(Hash)  && params[:deliverable][:project_id].blank?
     
+
     if params[:deliverable].is_a?(Hash)
       @deliverable.attributes = params[:deliverable]
       @deliverable.project = @project unless params[:deliverable][:project_id].blank?
@@ -71,6 +72,26 @@ class DeliverablesController < ApplicationController
     end
     
     #@deliverable.author = User.current
+    
+    if params[:deliverable_costs_new].is_a?(Hash)
+      @deliverable_costs_new = []
+      params[:deliverable_costs_new].each do |k, v|
+        next if v["units"].blank?
+        @deliverable_costs_new << DeliverableCost.new(:deliverable_id => @deliverable.id, :rate => CostType.find_by_id(v[:cost_type_id]).current_rate, :units => v[:units])
+      end
+    else
+      @deliverable_costs_new = []
+    end
+    
+    if params[:deliverable_hours_new].is_a?(Hash)
+      @deliverable_hours_new = []
+      params[:deliverable_hours_new].each do |k, v|
+        next if v["hours"].blank?
+        @deliverable_hours_new << DeliverableHour.new(:deliverable => @deliverable.id, :rate => HourlyRate.current_rate(v[:user_id], @project), :hours => v[:hours])
+      end
+    else
+      @deliverable_hours_new = []
+    end
     
     unless request.get? || request.xhr?
       if @deliverable.save
@@ -103,7 +124,9 @@ class DeliverablesController < ApplicationController
     if request.xhr?
       render :update do |page|
         if User.current.allowed_to? :view_unit_price, @project
-          page.replace_html "#{element_id}_costs", costs > 0 ? number_to_currency(costs) : ""
+          page.replace_html "#{element_id}_costs", number_to_currency(costs)
+        else
+          page.replace_html "#{element_id}_costs", ""
         end
         page.replace_html "#{element_id}_unit_name", h(units == 1.0 ? cost_type.unit : cost_type.unit_plural)
       end
@@ -141,33 +164,11 @@ class DeliverablesController < ApplicationController
   
   
   def add_deliverable_costs_row
-    @row_id = params[:row_id].to_i
-    
-    unless @row_id > 0
-      render_403 unless request.xhr?
-      return
-    end
-    
-    if request.xhr?
-      render :update do |page|
-        page.insert_html :bottom, "deliverable_costs_body", :partial => 'deliverable_costs_row', :locals => {:row_id => @row_id}
-      end
-    end
+    add_deliverables_row("cost")
   end
-
+  
   def add_deliverable_hours_row
-    @row_id = params[:row_id].to_i
-    
-    unless @row_id > 0
-      render_403 unless request.xhr?
-      return
-    end
-    
-    if request.xhr?
-      render :update do |page|
-        page.insert_html :bottom, "deliverable_hours_body", :partial => 'deliverable_hours_row', :locals => {:row_id => @row_id}
-      end
-    end
+    add_deliverables_row("hour")
   end
 
 private
@@ -224,4 +225,20 @@ private
       Deliverable
     end
   end
+  
+  def add_deliverables_row(type)
+    @row_id = params[:row_id].to_i
+
+    unless @row_id > 0
+      render_403 unless request.xhr?
+      return
+    end
+
+    if request.xhr?
+      render :update do |page|
+        page.insert_html :bottom, "deliverable_#{type}s_body", :partial => "deliverable_#{type}s_row", :locals => {:row_id => @row_id, :suffix => "new"}
+      end
+    end
+  end
+    
 end

@@ -1,7 +1,7 @@
 <script type="text/javascript">
 //<![CDATA[
-  deliverableCostsNextRow = 1;
-  deliverableHoursNextRow = 1;
+  deliverableCostsRowId = <%= @deliverable_costs_new.length + 1 %>;
+  deliverableHoursRowId = <%= @deliverable_hours_new.length + 1 %>;
 //]]>
 </script>
 
@@ -32,32 +32,19 @@
     </tr></thead>
     <tbody id="deliverable_costs_body">
       <% @deliverable.deliverable_costs.each do |c| %>
-        <tr class="cost-entry" id="<%= "deliverable_costs_#{c.id}" %>">
-          <td class="cost_units">
-            <%= text_field c, :units, :value => c.units, :size => 3, :id => "deliverable_costs_#{c.id}_units", :name => "deliverable_costs[#{c.id}][units]" %>
-            <span id="<%= "deliverable_costs_#{c.id}_unit_name" %>"><%=h c.units.to_s == '1.0' ? c.cost_type.unit : c.cost_type.unit_plural %></span>
-          </td>
-          <td>
-            <%= select c.cost_type, :id, cost_types_collection_for_select_options, {}, :name => "deliverable_costs[#{c.id}][cost_type_id]", :id => "deliverable_costs_#{c.id}_cost_type_id" %>
-            <%= observe_field( "deliverable_costs_#{c.id}_cost_type_id", :url => {:action => :update_deliverable_costs_row}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('deliverable_costs_#{c.id}_units').value) + '&element_id=deliverable_costs_#{c.id}'") %>
-          </td>
-          <% if User.current.allowed_to?(:view_unit_price, @project)%><td class="currency">
-            <span id="<%= "deliverable_costs_#{c.id}_costs" %>"><%= number_to_currency(c.costs) if c.costs > 0 %></span>
-            <%= observe_field( "deliverable_costs_#{c.id}_units", :frequency => 1, :url => {:action => :update_deliverable_costs_row}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('deliverable_costs_#{c.id}_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&element_id=deliverable_costs_#{c.id}'") %>
-          </td><% end %>
-          <td align="center">
-            <%= image_to_function 'delete.png', "deleteDeliverableCostsEntry('deliverable_costs_#{c.id}')" %>
-          </td>
-        </tr>
+        <%= render :partial => 'deliverable_costs_row', :locals => {:deliverable_cost => c} %>
       <% end %>
-      <%= render :partial => 'deliverable_costs_row', :locals => {:row_id => 1} %>
+      <% @deliverable_costs_new.each_with_index do |c, i| %>
+        <%= render :partial => 'deliverable_costs_row', :locals => {:deliverable_cost => c, :row_id => i + 1, :suffix => 'new'} %>
+      <% end %>
+      <%= render :partial => 'deliverable_costs_row', :locals => {:row_id => @deliverable_costs_new.length + 1, :suffix => "new"} %>
     </tbody>
   </table>
   <div style="text-align: right"><%= link_to_remote l(:button_add_material_cost), 
                      { :url => { :controller => 'deliverables', :action => 'add_deliverable_costs_row', :project_id => @project },
                        :method => 'post',
-                       :with => "'row_id=' + deliverableCostsNextRow",
-                       :before => "deliverableCostsNextRow++"
+                       :with => "'row_id=' + deliverableCostsRowId",
+                       :before => "deliverableCostsRowId++"
                      }, :class => "icon icon-add" %>
   </div>
 </div></div>
@@ -68,38 +55,26 @@
     <thead><tr>
       <th><%= l(:field_hours)%></th>
       <th><%= l(:label_user) %></th>
-        <% if User.current.allowed_to?(:view_all_rates, @project) || (user == User.current && User.current.allowed_to?(:view_own_rate, @project)) %>
-      <th id="deliverable_hours_price"><%= l(:caption_overall_costs) %></th>
+      <% if User.current.allowed_to?(:view_all_rates, @project) || User.current.allowed_to?(:view_own_rate, @project) %>
+        <th id="deliverable_hours_price"><%= l(:caption_overall_costs) %></th>
       <% end %>
       <th></th>
     </tr></thead>
     <tbody id="deliverable_hours_body">
-      <% @deliverable.deliverable_hours.each do |c| %>
-        <tr class="cost-entry" id="<%= "deliverable_hours_#{c.id}" %>">
-          <td class="cost_units">
-            <%= text_field c, :units, :value => c.hours, :size => 3, :id => "deliverable_hours_#{c.id}_hours", :name => "deliverable_hours[#{c.id}][hours]" %>
-          </td>
-          <td>
-            <%= select c.user, :id, user_collection_for_select_options (:generic_user => true), {}, :name => "deliverable_hours[#{c.id}][user_id]", :id => "deliverable_hours_#{c.id}_user_id" %>
-            <%= observe_field( "deliverable_hours_#{c.id}_cost_type_id", :url => {:action => :update_deliverable_hours_row}, :with => "'user_id=' + encodeURIComponent(value) + '&hours=' + encodeURIComponent(document.getElementById('deliverable_hours_#{c.id}_hours').value) + '&element_id=deliverable_hours_#{c.id}'") %>
-          </td>
-          <% if User.current.allowed_to?(:view_unit_price, @project)%><td class="currency">
-            <span id="<%= "deliverable_hours_#{c.id}_costs" %>"><%= number_to_currency(c.costs) if c.costs > 0 %></span>
-            <%= observe_field( "deliverable_hours_#{c.id}_hours", :frequency => 1, :url => {:action => :update_deliverable_hours_row}, :with => "'user_id=' + encodeURIComponent(document.getElementById('deliverable_hours_#{c.id}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&element_id=deliverable_hours_#{c.id}'") %>
-          </td><% end %>
-          <td align="center">
-            <%= image_to_function 'delete.png', "deleteDeliverableHoursEntry('deliverable_hours_#{c.id}')" %>
-          </td>
-        </tr>
+      <% @deliverable.deliverable_hours.each do |h| %>
+        <%= render :partial => 'deliverable_hours_row', :locals => {:deliverable_hour => h} %>
       <% end %>
-      <%= render :partial => 'deliverable_hours_row', :locals => {:row_id => 1} %>
+      <% @deliverable_hours_new.each_with_index do |h, i| %>
+        <%= render :partial => 'deliverable_hours_row', :locals => {:deliverable_hour => h, :row_id => i + 1, :suffix => 'new'} %>
+      <% end %>
+      <%= render :partial => 'deliverable_hours_row', :locals => {:row_id => @deliverable_hours_new.length + 1, :suffix => "new"} %>
     </tbody>
   </table>
   <div style="text-align: right"><%= link_to_remote l(:button_add_labor_cost), 
                      { :url => { :controller => 'deliverables', :action => 'add_deliverable_hours_row', :project_id => @project },
                        :method => 'post',
-                       :with => "'row_id=' + deliverableHoursNextRow",
-                       :before => "deliverableHoursNextRow++"
+                       :with => "'row_id=' + deliverableHoursRowId",
+                       :before => "deliverableHoursRowId++"
                      }, :class => "icon icon-add" %>
   </div>
 </div></div>
