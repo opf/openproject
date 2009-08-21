@@ -650,6 +650,8 @@
   label_browse: 瀏覽
   label_modification: "{{count}} 變更"
   label_modification_plural: "{{count}} 變更"
+  label_branch: 分支
+  label_tag: 標籤 
   label_revision: 版次
   label_revision_plural: 版次清單
   label_associated_revisions: 相關版次

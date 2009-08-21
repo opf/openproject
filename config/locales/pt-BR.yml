@@ -836,6 +836,6 @@ pt-BR:
   mail_body_wiki_content_updated: A página wiki '{{page}}' foi atualizada por {{author}}.
   permission_add_project: Criar projeto
   setting_new_project_user_role_id: Papel dado a um usuário não administrador que crie um projeto
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
+  label_view_all_revisions: Ver todas as revisões
+  label_tag: Etiqueta
+  label_branch: Ramo
