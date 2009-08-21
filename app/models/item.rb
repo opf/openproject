@@ -42,7 +42,7 @@ class Item < ActiveRecord::Base
       params[:issue].delete(:status_id)
     end
     
-    if item.points != params[:item][:points]
+    if item.points != params[:item][:points].to_i
       journal.details << JournalDetail.new(:property => 'attr', :prop_key => 'story_points', :old_value => item.points, :value => params[:item][:points])
     end 
     
