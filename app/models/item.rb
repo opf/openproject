@@ -23,6 +23,7 @@ class Item < ActiveRecord::Base
   
   def self.update(params)
     item = find(params[:id])
+    journal = item.issue.init_journal(User.current, @notes)
     
     # Fix bug #42 to remove this condition
     if params[:item][:backlog_id].to_i != 0
@@ -40,6 +41,10 @@ class Item < ActiveRecord::Base
     unless allowed_statuses.include? requested_status
       params[:issue].delete(:status_id)
     end
+    
+    if item.points != params[:item][:points]
+      journal.details << JournalDetail.new(:property => 'attr', :prop_key => 'story_points', :old_value => item.points, :value => params[:item][:points])
+    end 
     
     item.issue.update_attributes! params[:issue]
     item.remove_from_list    
@@ -90,13 +95,17 @@ class Item < ActiveRecord::Base
     item.save 
   end  
   
-  def update_position(params)
+  def determine_new_position(params)
     if params[:prev]=="" || params[:prev].nil?
-      insert_at 1
+      1
     else
       prev = Item.find(params[:prev]).position
-      insert_at prev + 1
+      prev + 1
     end
+  end
+  
+  def update_position(params)
+    insert_at determine_new_position(params)
   end
   
 end
