@@ -31,6 +31,15 @@ class Item < ActiveRecord::Base
       params[:issue][:fixed_version_id] = ""
       params[:item].delete(:backlog_id)
     end
+
+    default_status = item.issue.status
+    allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(item.issue.project), item.issue.tracker)).uniq
+    requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
+    
+    # Check that the user is allowed to apply the requested status
+    unless allowed_statuses.include? requested_status
+      params[:issue].delete(:status_id)
+    end
     
     item.issue.update_attributes! params[:issue]
     item.remove_from_list    
@@ -52,7 +61,7 @@ class Item < ActiveRecord::Base
     end
     issue.author = User.current
     
-    default_status = IssueStatus.default || IssueStatus.find(:first)
+    default_status = IssueStatus.default
     issue.status = default_status
     allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(project), issue.tracker)).uniq
     requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
