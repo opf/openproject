@@ -64,7 +64,7 @@ li.item.maximized.discussion {
 }
 
 .backlog.main li.item.maximized.discussion {
-  height: 275px;
+  height: 320px;
 }
 
 li.item *,
@@ -352,8 +352,12 @@ li.item.editing  > .body input.points {
   width: 25px;
 }
 
-.backlog.main li.item > .points {
-  display: none;
+.backlog.main li.item > .body div.points {
+  right: 6px;
+}
+
+.backlog.main li.item.editing > .body input.points {
+  right: 5px;
 }
 
 /**** DESCRIPTION ****/
@@ -385,9 +389,12 @@ li.item.editing > .body div.description {
   display: none;
 }
 
-.backlog.main li.item.maximized > .body div.description,
+.backlog.main li.item.maximized > .body div.description {
+  width: 405px;
+}
+
 .backlog.main li.item.maximized.editing > .body textarea.description {
-  width: 407px;
+  width: 408px;
 }
 
 /**** TASKS SECTION ****/
@@ -467,11 +474,11 @@ li.item.discussion .discussion {
 }
 
 .backlog.main li.item.discussion .discussion {
-  width: 368px;
+  width: 408px;
 }
 
 .backlog.main li.item.discussion.maximized .discussion {
-  top: 70px;
+  top: 110px;
 }
 
 li.item.maximized.discussion .discussion {
