@@ -39,44 +39,28 @@ class Item < ActiveRecord::Base
     item
   end
 
-  # CLEANMEUP: Dirty dirty dirty 
   def self.create_issue(params, project)
     issue = Issue.new
-    # issue.copy_from(params[:copy_from]) if params[:copy_from]
     issue.project = project
+
     # Tracker must be set before custom field values
     issue.tracker ||= project.trackers.find(:first)
-    # @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
-    # if @issue.tracker.nil?
-    #   render_error 'No tracker is associated to this project. Please check the Project settings.'
-    #   return
-    # end
+
     if params[:issue].is_a?(Hash)
       issue.attributes = params[:issue]
       issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, project)
     end
     issue.author = User.current
     
-    default_status = IssueStatus.default
-    # unless default_status
-    #   render_error 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
-    #   return
-    # end    
-    # issue.status = default_status
-    # allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(@project), @issue.tracker)).uniq
-    
+    default_status = IssueStatus.default || IssueStatus.find(:first)
+    issue.status = default_status
+    allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(project), issue.tracker)).uniq
     requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
-    # Check that the user is allowed to apply the requested status
-    # @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
-    if issue.save
-      # attach_files(issue, params[:attachments])
-      # flash[:notice] = l(:notice_successful_create)
-      # call_hook(:controller_issues_new_after_save, { :params => params, :issue => issue})
-      # redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
-      #                                 { :action => 'show', :id => @issue })
-      # return
-    end		
     
+    # Check that the user is allowed to apply the requested status
+    issue.status = (allowed_statuses.include? requested_status) ? requested_status : default_status
+    
+    issue.save    
     issue.reload
     issue
   end
