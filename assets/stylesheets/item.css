@@ -523,20 +523,6 @@ div.discussion div.comments div.comment {
   position: relative;
 }
 
-div.discussion div.comment * {
-  display: block;
-}
-
-div.discussion div.comment h2 {
-  display: block;
-  font-weight: bold;
-  margin: 0;
-}
-
-div.discussion div.comment h2 * {
-  display: inline;
-}
-
 div.discussion div.time_ago {
   position: absolute;
   right: 0px;
