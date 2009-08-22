@@ -35,16 +35,11 @@ THE SOFTWARE.
   display: none;
 }
 
-
 #new_item_button {
-  color: #ccc;
-  cursor: pointer;
-  font-size: 10px;
-  /*left: 190px;*/
-  position: absolute;
-  right: 7px;
-  text-decoration: underline;
-  top: 6px;
+  font-size:11px;
+  position:absolute;
+  right:3px;
+  top:3px;
 }
 
 #status_id_options {

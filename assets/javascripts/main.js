@@ -31,7 +31,7 @@ RBL.init = function(){
   RBL.log("Created backlog objects.");
   
   $("move_items").observe("change", function() { RBL.moveItems(); });
-  $("new_item_button").observe("click", function() { RBL.newItem(); });
+  $("new_item_button").observe("change", function() { RBL.newItem(); });
   $("hide_closed_backlogs").checked = (document.cookie.match(/hide_closed_backlogs=true/)!=null);
   $("hide_closed_backlogs").observe("click", function() { RBL.storePreferences(); RBL.processClosedBacklogs() });
   
@@ -75,6 +75,8 @@ RBL.moveItems = function(){
 
 RBL.newItem = function(){
   var item = new RBL.Item();
+  item.setValue('div.tracker_id .v', $("new_item_button").value);
+  $("new_item_button").selectedIndex = 0;
   RBL.Backlog.findByID(0).insert(item);
   RBL.Backlog.findByID(0).makeSortable();
   item.edit();

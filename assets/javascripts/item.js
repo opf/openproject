@@ -185,7 +185,7 @@ RBL.Item = Class.create(RBL.Model, {
     var processReturnKey = (event.target.type=="textarea" && event.ctrlKey) || event.target.type!="textarea";  
     
     switch(event.keyCode){
-      case Event.KEY_ESC   : this.endEdit(); break;
+      case Event.KEY_ESC   : this.endEdit(); if(this.isNew()) this.getRoot().remove(); break;
       case Event.KEY_RETURN: if(processReturnKey) { 
                                 this.applyEdits(); 
                                 this.endEdit(); 

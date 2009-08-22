@@ -58,7 +58,7 @@ class Item < ActiveRecord::Base
     issue.project = project
 
     # Tracker must be set before custom field values
-    issue.tracker ||= project.trackers.find(:first)
+    issue.tracker ||= project.trackers.find(params[:issue][:tracker_id])
 
     if params[:issue].is_a?(Hash)
       issue.attributes = params[:issue]

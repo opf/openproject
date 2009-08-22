@@ -52,5 +52,11 @@ module ItemsHelper
     item.new_record? ? "" : item.issue.description
   end
 
-  
+  def tracker_id_or_empty(item)
+    item.new_record? ? "" : item.issue.tracker_id
+  end
+
+  def tracker_name_or_empty(item)
+    item.new_record? ? "" : item.issue.tracker.name
+  end
 end

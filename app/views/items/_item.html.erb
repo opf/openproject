@@ -22,6 +22,10 @@
       <div class="textile"><%= textile_description_or_empty(item) %></div>
       <div class="html"><%= description_or_empty(item) %></div>
     </div>
+    <div class="tracker_id editable sel" fieldname="tracker_id" modelname="issue">
+      <div class="t"><%= tracker_name_or_empty(item) %></div>
+      <div class="v"><%= tracker_id_or_empty(item) %></div>
+    </div>
   </span><!-- body -->
   <div class="discussion">
     <div class="d_spinner"> </div>

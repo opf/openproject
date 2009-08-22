@@ -149,6 +149,11 @@ li.item.discussion .controls .talk {
   padding: 2px 0px 1px 1px;
 }
 
+/**** TRACKER ID ****/
+
+.tracker_id {
+  display: none;
+}
 
 /**** CHECKBOX AND SPINNER ****/
 li.item > .body input.checkbox {
@@ -569,6 +574,10 @@ div.discussion ul {
 ul.item_tasks * {
   color: #484848;
   display: block;
+}
+
+.item_tasks .tracker_id {
+  display: none;
 }
 
 li.item.task {
