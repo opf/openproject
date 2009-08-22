@@ -233,7 +233,7 @@ RBL.Item = Class.create(RBL.Model, {
     var highlightStatus = (this.getValue(".issue.status_id .v")!=el.select(".issue.status_id .v")[0].innerHTML);
     this.setValue(".issue.status_id .t", el.select(".issue.status_id .t")[0].innerHTML);
     this.setValue(".issue.status_id .v", el.select(".issue.status_id .v")[0].innerHTML);
-    if(highlightStatus) this.getBody().select(".issue.status_id")[0].shake({ distance: 10 });
+    if(highlightStatus) this.getBody().select(".issue.status_id .t")[0].highlight({ startcolor: "#ff3333", endcolor: "#ff3333", duration: 2 }); 
     if(el.select("li.item")[0].hasClassName("closed")) { 
       this.getRoot().addClassName("closed"); 
     } else {

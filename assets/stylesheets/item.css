@@ -289,7 +289,16 @@ li.item  > .body div.status_id .v {
 }
 
 li.item  > .body div.status_id .t {
+  background-color: transparent;
   display: block;
+  height: 15px;
+  left: 0;
+  padding: 2px 2px 2px 9px;
+  position: absolute;
+  top: 0;
+  width: 68px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;  
 }
 
 li.item  > .body div.status_id {
