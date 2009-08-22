@@ -185,13 +185,22 @@ RBL.Item = Class.create(RBL.Model, {
     var processReturnKey = (event.target.type=="textarea" && event.ctrlKey) || event.target.type!="textarea";  
     
     switch(event.keyCode){
-      case Event.KEY_ESC   : this.endEdit(); if(this.isNew()) this.getRoot().remove(); break;
+      case Event.KEY_ESC   : if(this.isNew()) {
+                               this.getRoot().slideUp({ duration: 0.25 }); 
+                               var el = this.getRoot();
+                               new PeriodicalExecuter(function(pe){ el.remove(); pe.stop(); }, 1);
+                             } else {
+                               this.endEdit();
+                             }
+                             break;
+                             
       case Event.KEY_RETURN: if(processReturnKey) { 
                                 this.applyEdits(); 
                                 this.endEdit(); 
                                 this.save(); 
                              } 
                              break;
+                             
       default              : return true;
     }
   },
@@ -221,8 +230,15 @@ RBL.Item = Class.create(RBL.Model, {
     el.update(transport.responseText);
 
     this.getChild(".description").update(el.select(".description")[0].innerHTML);
+    var highlightStatus = (this.getValue(".issue.status_id .v")!=el.select(".issue.status_id .v")[0].innerHTML);
     this.setValue(".issue.status_id .t", el.select(".issue.status_id .t")[0].innerHTML);
     this.setValue(".issue.status_id .v", el.select(".issue.status_id .v")[0].innerHTML);
+    if(highlightStatus) this.getBody().select(".issue.status_id")[0].shake({ distance: 10 });
+    if(el.select("li.item")[0].hasClassName("closed")) { 
+      this.getRoot().addClassName("closed"); 
+    } else {
+      this.getRoot().removeClassName("closed");
+    }
     this.markNotSaving();
     this.raiseEvent("update");
   },
@@ -267,7 +283,7 @@ RBL.Item = Class.create(RBL.Model, {
   registerTask: function(task){
     return true;
   },
-
+  
   save: function(saveCallback){
     var params   = this.toParams();
     var url;

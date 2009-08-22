@@ -77,9 +77,11 @@ RBL.newItem = function(){
   var item = new RBL.Item();
   item.setValue('div.tracker_id .v', $("new_item_button").value);
   $("new_item_button").selectedIndex = 0;
+  item.getRoot().hide();
   RBL.Backlog.findByID(0).insert(item);
+  item.getRoot().slideDown({ duration: 0.25 });
   RBL.Backlog.findByID(0).makeSortable();
-  item.edit();
+  new PeriodicalExecuter(function(pe){ item.edit(); pe.stop() }, 0.15);
 }
 
 RBL.processClosedBacklogs = function(){
