@@ -1,6 +1,6 @@
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'index', 'item', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
-    <%= javascript_include_tag  'main', 'backlog', 'item', 'task', :plugin => 'redmine_backlogs' %>
+    <%= javascript_include_tag  'main', 'backlog', 'item', 'task', :plugin => 'redmine_backlogs', :cache => 'backlogsjs/all' %>
 <% end %>
 <div class="backlog_toolbar">
   <select id="move_items" class="actions">
