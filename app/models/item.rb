@@ -34,7 +34,11 @@ class Item < ActiveRecord::Base
     end
 
     default_status = item.issue.status
-    allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(item.issue.project), item.issue.tracker)).uniq
+    allowed_statuses = if User.new.respond_to?(:roles_for_project)
+                         ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(project), item.issue.tracker)).uniq
+                       else
+                         item.issue.new_statuses_allowed_to(User.current)
+                       end
     requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
     
     # Check that the user is allowed to apply the requested status
@@ -68,7 +72,11 @@ class Item < ActiveRecord::Base
     
     default_status = IssueStatus.default
     issue.status = default_status
-    allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(project), issue.tracker)).uniq
+    allowed_statuses = if User.new.respond_to?(:roles_for_project)
+                         ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(project), issue.tracker)).uniq
+                       else
+                         issue.new_statuses_allowed_to(User.current)
+                       end
     requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
     
     # Check that the user is allowed to apply the requested status

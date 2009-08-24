@@ -623,6 +623,19 @@ li.item.task > .body select.status_id {
   left: 550px;
 }
 
+li.item.task > .body div.status_id .t {
+  background-color: transparent;
+  display: block;
+  height: 12px;
+  left: 0;
+  padding: 5px 2px 2px 9px;
+  position: absolute;
+  top: 0;
+  width: 68px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
 li.item.task > .body div.points,
 li.item.task.editing > .body input.points {
   display: none;
