@@ -95,6 +95,10 @@ class Item < ActiveRecord::Base
     find(:all, :include => :issue, :conditions => "issues.project_id=#{project.id} and parent_id=0", :order => "position ASC")
   end
 
+  def self.remove_with_issue(issue)
+    find_by_issue_id(issue.id).destroy
+  end
+
   def self.update_from_issue(issue)
     backlog         = Backlog.find_by_version_id(issue.fixed_version_id)
     item            = find_by_issue_id(issue.id) || Item.new()

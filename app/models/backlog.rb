@@ -67,6 +67,10 @@ class Backlog < ActiveRecord::Base
     backlog
   end
   
+  def self.remove_with_version(version)
+    find_by_version_id(version.id).destroy
+  end
+  
   def self.update_from_version(version)
     backlog = find_by_version_id(version.id) || Backlog.new()
     backlog.version_id = version.id

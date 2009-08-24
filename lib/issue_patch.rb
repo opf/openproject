@@ -25,7 +25,7 @@ module Backlogs
       end
       
       def remove_item
-        Item.remove_item(self)
+        Item.remove_with_issue(self)
       end
     end  
   end

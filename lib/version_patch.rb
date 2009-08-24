@@ -25,7 +25,7 @@ module Backlogs
       end
       
       def remove_backlog
-        Backlog.delete_backlog(self)
+        Backlog.remove_with_version(self)
       end
     end
   
