@@ -62,8 +62,6 @@ class DeliverablesController < ApplicationController
   def new
     @deliverable = Deliverable.new(params[:deliverable])
     #@deliverable.project = @project unless params[:deliverable].is_a?(Hash)  && params[:deliverable][:project_id].blank?
-    
-
     if params[:deliverable].is_a?(Hash)
       @deliverable.attributes = params[:deliverable]
       @deliverable.project = @project unless params[:deliverable][:project_id].blank?
@@ -73,27 +71,26 @@ class DeliverablesController < ApplicationController
     
     #@deliverable.author = User.current
     
+    @deliverable_costs_new = []
     if params[:deliverable_costs_new].is_a?(Hash)
-      @deliverable_costs_new = []
       params[:deliverable_costs_new].each do |k, v|
         next if v["units"].blank?
         @deliverable_costs_new << DeliverableCost.new(:deliverable_id => @deliverable.id, :rate => CostType.find_by_id(v[:cost_type_id]).current_rate, :units => v[:units])
       end
-    else
-      @deliverable_costs_new = []
     end
     
+    @deliverable_hours_new = []
     if params[:deliverable_hours_new].is_a?(Hash)
-      @deliverable_hours_new = []
       params[:deliverable_hours_new].each do |k, v|
         next if v["hours"].blank?
         @deliverable_hours_new << DeliverableHour.new(:deliverable => @deliverable.id, :rate => HourlyRate.current_rate(v[:user_id], @project), :hours => v[:hours])
       end
-    else
-      @deliverable_hours_new = []
     end
     
     unless request.get? || request.xhr?
+      #@deliverable.add_deliverable_costs(@deliverable_costs_new) 
+      #@deliverable.add_deliverable_hours(@deliverable_hours_new) 
+
       if @deliverable.save
         flash[:notice] = l(:notice_successful_create)
         redirect_to(params[:continue] ? { :action => 'new' } :

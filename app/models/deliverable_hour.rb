@@ -11,12 +11,6 @@ class DeliverableHour < ActiveRecord::Base
   def can_view_costs?(usr, project)
     user = rate.user if rate
 
-    a = ((usr.allowed_to?(:view_all_rate, project)) || (user && usr == user && user.allowed_to?(:view_own_rate, project)))
-    puts "Usr: #{usr.name}"
-    puts "User: #{rate}"
-    puts "view_all_rates: #{usr.allowed_to?(:view_all_rates, project)}"
-    #puts "view_own_rate: #{user.allowed_to?(:view_own_rate, project)}" 
-    
-    a
+    a = usr.allowed_to?(:view_all_rates, project) || (user && usr == user && user.allowed_to?(:view_own_rate, project))
   end
 end

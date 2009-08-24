@@ -1,7 +1,11 @@
 <script type="text/javascript">
 //<![CDATA[
-  deliverableCostsRowId = <%= @deliverable_costs_new.length + 1 %>;
-  deliverableHoursRowId = <%= @deliverable_hours_new.length + 1 %>;
+  <%-
+    deliverable_costs_row_id = @deliverable_costs_new ? @deliverable_costs_new.length + 1 : 1
+    deliverable_hours_row_id = @deliverable_hours_new ? @deliverable_hours_new.length + 1 : 1
+  -%>
+  deliverableCostsRowId = <%= deliverable_costs_row_id %>;
+  deliverableHoursRowId = <%= deliverable_hours_row_id %>;
 //]]>
 </script>
 
@@ -34,10 +38,12 @@
       <% @deliverable.deliverable_costs.each do |c| %>
         <%= render :partial => 'deliverable_costs_row', :locals => {:deliverable_cost => c} %>
       <% end %>
-      <% @deliverable_costs_new.each_with_index do |c, i| %>
+      <% if @deliverable_costs_new
+         @deliverable_costs_new.each_with_index do |c, i| %>
         <%= render :partial => 'deliverable_costs_row', :locals => {:deliverable_cost => c, :row_id => i + 1, :suffix => 'new'} %>
-      <% end %>
-      <%= render :partial => 'deliverable_costs_row', :locals => {:row_id => @deliverable_costs_new.length + 1, :suffix => "new"} %>
+      <% end
+         end %>
+      <%= render :partial => 'deliverable_costs_row', :locals => {:row_id => deliverable_costs_row_id, :suffix => "new"} %>
     </tbody>
   </table>
   <div style="text-align: right"><%= link_to_remote l(:button_add_material_cost), 
@@ -64,10 +70,12 @@
       <% @deliverable.deliverable_hours.each do |h| %>
         <%= render :partial => 'deliverable_hours_row', :locals => {:deliverable_hour => h} %>
       <% end %>
-      <% @deliverable_hours_new.each_with_index do |h, i| %>
+      <% if @deliverable_hours_new
+         @deliverable_hours_new.each_with_index do |h, i| %>
         <%= render :partial => 'deliverable_hours_row', :locals => {:deliverable_hour => h, :row_id => i + 1, :suffix => 'new'} %>
-      <% end %>
-      <%= render :partial => 'deliverable_hours_row', :locals => {:row_id => @deliverable_hours_new.length + 1, :suffix => "new"} %>
+      <% end
+         end %>
+      <%= render :partial => 'deliverable_hours_row', :locals => {:row_id => deliverable_hours_row_id, :suffix => "new"} %>
     </tbody>
   </table>
   <div style="text-align: right"><%= link_to_remote l(:button_add_labor_cost), 
