@@ -35,7 +35,7 @@ class Item < ActiveRecord::Base
 
     default_status = item.issue.status
     allowed_statuses = if User.new.respond_to?(:roles_for_project)
-                         ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(project), item.issue.tracker)).uniq
+                         ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(item.issue.project), item.issue.tracker)).uniq
                        else
                          item.issue.new_statuses_allowed_to(User.current)
                        end
