@@ -6,8 +6,7 @@ class DeliverablesController < ApplicationController
   before_filter :find_project, :only => [
     :update_form, :preview, :new,
       
-    :update_deliverable_costs_row, :add_deliverable_costs_row,
-    :update_deliverable_hours_row, :add_deliverable_hours_row
+    :update_deliverable_cost, :update_deliverable_hour
   ]
   before_filter :find_optional_project, :only => [:index]
 
@@ -17,8 +16,7 @@ class DeliverablesController < ApplicationController
     # unrestricted actions
     :index, :update_form, :preview, :context_menu,
 
-    :update_deliverable_costs_row, :add_deliverable_costs_row,
-    :update_deliverable_hours_row, :add_deliverable_hours_row
+    :update_deliverable_cost, :update_deliverable_hour
     ]
   
   helper :sort
@@ -34,14 +32,21 @@ class DeliverablesController < ApplicationController
     # (see issues_controller.rb)
     
     limit = per_page_option
-    sort_init "#{Deliverable.table_name}.id", "desc"
-    sort_update 'id' => "#{Deliverable.table_name}.id"
+
+    sort_columns = {'id' => "#{Deliverable.table_name}.id",
+                    'subject' => "#{Deliverable.table_name}.subject",
+                    'total_budget' => "#{Deliverable.table_name}.budget",
+                    'fixed_date' => "#{Deliverable.table_name}.fixed_date"
+    }
+
+    sort_init "id", "desc"
+    sort_update sort_columns
     
     conditions = @project ? {:project_id => @project} : {}
 
     @deliverable_count = Deliverable.count(:include => [:project], :conditions => conditions)
     @deliverable_pages = Paginator.new self, @deliverable_count, limit, params[:page]
-    @deliverables = Deliverable.find :all, :order => ["id ASC", sort_clause].compact.join(', '),
+    @deliverables = Deliverable.find :all, :order => sort_clause,
                                      :include => [:project],
                                      :conditions => conditions,
                                      :limit => limit,
@@ -60,37 +65,34 @@ class DeliverablesController < ApplicationController
   end
   
   def new
-    @deliverable = Deliverable.new(params[:deliverable])
-    #@deliverable.project = @project unless params[:deliverable].is_a?(Hash)  && params[:deliverable][:project_id].blank?
-    if params[:deliverable].is_a?(Hash)
-      @deliverable.attributes = params[:deliverable]
-      @deliverable.project = @project unless params[:deliverable][:project_id].blank?
+    if params[:deliverable]
+      case params[:deliverable].delete(:kind)
+      when FixedDeliverable.name
+        @deliverable = FixedDeliverable.new
+      when CostBasedDeliverable.name
+        @deliverable = CostBasedDeliverable.new
+      end
+    end
+    @deliverable = Deliverable.new if @deliverable.nil?
+
+    @deliverable.copy_from(params[:copy_from]) if params[:copy_from]
+
+    @deliverable.project_id = @project.id unless @deliverable.project
+    @deliverable.author_id = User.current.id
+    
+    # fixed_date must be set before deliverable_costs and deliverable_hours
+    if params[:deliverable] && params[:deliverable][:fixed_date]
+      @deliverable.fixed_date = params[:deliverable].delete(:fixed_date)
     else
-      @deliverable.project = @project
+      @deliverable.fixed_date = Date.today
     end
     
-    #@deliverable.author = User.current
-    
-    @deliverable_costs_new = []
-    if params[:deliverable_costs_new].is_a?(Hash)
-      params[:deliverable_costs_new].each do |k, v|
-        next if v["units"].blank?
-        @deliverable_costs_new << DeliverableCost.new(:deliverable_id => @deliverable.id, :rate => CostType.find_by_id(v[:cost_type_id]).current_rate, :units => v[:units])
-      end
-    end
-    
-    @deliverable_hours_new = []
-    if params[:deliverable_hours_new].is_a?(Hash)
-      params[:deliverable_hours_new].each do |k, v|
-        next if v["hours"].blank?
-        @deliverable_hours_new << DeliverableHour.new(:deliverable => @deliverable.id, :rate => HourlyRate.current_rate(v[:user_id], @project), :hours => v[:hours])
-      end
-    end
+    @deliverable.attributes = params[:deliverable]
+
+    # FIXME: Put correctly calculated budget here
+    @deliverable.budget = 1
     
     unless request.get? || request.xhr?
-      #@deliverable.add_deliverable_costs(@deliverable_costs_new) 
-      #@deliverable.add_deliverable_hours(@deliverable_hours_new) 
-
       if @deliverable.save
         flash[:notice] = l(:notice_successful_create)
         redirect_to(params[:continue] ? { :action => 'new' } :
@@ -98,7 +100,9 @@ class DeliverablesController < ApplicationController
         return
       end
     end
-    
+
+    @deliverable.deliverable_costs.build
+    @deliverable.deliverable_hours.build
     render :layout => !request.xhr?
   end
   
@@ -109,11 +113,11 @@ class DeliverablesController < ApplicationController
     render :partial => 'common/preview'
   end
   
-  def update_deliverable_costs_row
+  def update_deliverable_cost
     cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
 
     element_id = params[:element_id] if params.has_key? :element_id
-    render_403 and return unless element_id =~ /^deliverable_costs(_new)?_[0-9]+$/
+    render_403 and return unless element_id =~ /^deliverable(_new)?_deliverable_cost_attributes_[0-9]+$/
     
     units = params[:units].strip.gsub(',', '.').to_f
     costs = (units * cost_type.current_rate.rate rescue 0.0)
@@ -122,8 +126,6 @@ class DeliverablesController < ApplicationController
       render :update do |page|
         if User.current.allowed_to? :view_unit_price, @project
           page.replace_html "#{element_id}_costs", number_to_currency(costs)
-        else
-          page.replace_html "#{element_id}_costs", ""
         end
         page.replace_html "#{element_id}_unit_name", h(units == 1.0 ? cost_type.unit : cost_type.unit_plural)
       end
@@ -132,7 +134,7 @@ class DeliverablesController < ApplicationController
     render_404
   end
   
-  def update_deliverable_hours_row
+  def update_deliverable_hour
     if params.has_key? :user_id && params[:user_id].to_i > 0
       user = User.find(params[:user_id]) 
     else
@@ -141,7 +143,7 @@ class DeliverablesController < ApplicationController
     end
     
     element_id = params[:element_id] if params.has_key? :element_id
-    render_403 and return unless element_id =~ /^deliverable_hours(_new)?_[0-9]+$/
+    render_403 and return unless element_id =~ /^deliverable(_new)?_deliverable_hour_attributes_[0-9]+$/
     
     hours = params[:hours].to_hours
     costs = (hours * user.rate.hourly_price rescue 0.0)
@@ -150,22 +152,11 @@ class DeliverablesController < ApplicationController
       render :update do |page|
         if User.current.allowed_to?(:view_all_rates, @project) || (user == User.current && User.current.allowed_to?(:view_own_rate, @project))
           page.replace_html "#{element_id}_costs", number_to_currency(costs)
-        else
-          page.replace_html "#{element_id}_costs", ""
         end
       end
     end
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-  
-  
-  def add_deliverable_costs_row
-    add_deliverables_row("cost")
-  end
-  
-  def add_deliverable_hours_row
-    add_deliverables_row("hour")
   end
 
 private
@@ -222,20 +213,4 @@ private
       Deliverable
     end
   end
-  
-  def add_deliverables_row(type)
-    @row_id = params[:row_id].to_i
-
-    unless @row_id > 0
-      render_403 unless request.xhr?
-      return
-    end
-
-    if request.xhr?
-      render :update do |page|
-        page.insert_html :bottom, "deliverable_#{type}s_body", :partial => "deliverable_#{type}s_row", :locals => {:row_id => @row_id, :suffix => "new"}
-      end
-    end
-  end
-    
 end

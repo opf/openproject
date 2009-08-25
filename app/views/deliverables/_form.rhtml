@@ -24,6 +24,12 @@
                    :class => 'wiki-edit' %></p>
 
 <% if @deliverable.kind == "CostBasedDeliverable" -%>
+<script type="text/javascript">
+  //<![CDATA[
+  deliverableCostsForm = new Subform('<%= escape_javascript(render(:partial => "deliverable_cost", :object => DeliverableCost.new)) %>',<%= @deliverable.deliverable_costs.length %>,'deliverable_costs_body');
+  deliverableHoursForm = new Subform('<%= escape_javascript(render(:partial => "deliverable_hour", :object => DeliverableHour.new)) %>',<%= @deliverable.deliverable_hours.length %>,'deliverable_hours_body');
+  //]]>
+</script>
 
 <div class="splitcontentleft"><div class="p">
   <label><%= l(:caption_materials_budget) %></label>
@@ -35,24 +41,12 @@
       <th></th>
     </tr></thead>
     <tbody id="deliverable_costs_body">
-      <% @deliverable.deliverable_costs.each do |c| %>
-        <%= render :partial => 'deliverable_costs_row', :locals => {:deliverable_cost => c} %>
-      <% end %>
-      <% if @deliverable_costs_new
-         @deliverable_costs_new.each_with_index do |c, i| %>
-        <%= render :partial => 'deliverable_costs_row', :locals => {:deliverable_cost => c, :row_id => i + 1, :suffix => 'new'} %>
-      <% end
-         end %>
-      <%= render :partial => 'deliverable_costs_row', :locals => {:row_id => deliverable_costs_row_id, :suffix => "new"} %>
+      <%- @deliverable.deliverable_costs.each_with_index do |deliverable_cost, index| -%>
+        <%= render :partial => 'deliverable_cost', :object => deliverable_cost, :locals => {:index => index} %>
+      <%- end -%>
     </tbody>
   </table>
-  <div style="text-align: right"><%= link_to_remote l(:button_add_material_cost), 
-                     { :url => { :controller => 'deliverables', :action => 'add_deliverable_costs_row', :project_id => @project },
-                       :method => 'post',
-                       :with => "'row_id=' + deliverableCostsRowId",
-                       :before => "deliverableCostsRowId++"
-                     }, :class => "icon icon-add" %>
-  </div>
+  <div style="text-align: right"><%= link_to_function l(:button_add_material_cost), "deliverableCostsForm.add()", {:class => "icon icon-add"} %></div>
 </div></div>
 
 <div class="splitcontentright"><div class="p">
@@ -67,25 +61,14 @@
       <th></th>
     </tr></thead>
     <tbody id="deliverable_hours_body">
-      <% @deliverable.deliverable_hours.each do |h| %>
-        <%= render :partial => 'deliverable_hours_row', :locals => {:deliverable_hour => h} %>
-      <% end %>
-      <% if @deliverable_hours_new
-         @deliverable_hours_new.each_with_index do |h, i| %>
-        <%= render :partial => 'deliverable_hours_row', :locals => {:deliverable_hour => h, :row_id => i + 1, :suffix => 'new'} %>
-      <% end
-         end %>
-      <%= render :partial => 'deliverable_hours_row', :locals => {:row_id => deliverable_hours_row_id, :suffix => "new"} %>
+      <%- @deliverable.deliverable_hours.each_with_index do |deliverable_hour, index| -%>
+        <%= render :partial => 'deliverable_hour', :object => deliverable_hour, :locals => {:index => index} %>
+      <%- end -%>
     </tbody>
   </table>
-  <div style="text-align: right"><%= link_to_remote l(:button_add_labor_cost), 
-                     { :url => { :controller => 'deliverables', :action => 'add_deliverable_hours_row', :project_id => @project },
-                       :method => 'post',
-                       :with => "'row_id=' + deliverableHoursRowId",
-                       :before => "deliverableHoursRowId++"
-                     }, :class => "icon icon-add" %>
-  </div>
+  <div style="text-align: right"><%= link_to_function l(:button_add_labor_cost), "deliverableHoursForm.add()", {:class => "icon icon-add"} %></div>
 </div></div>
+
 <%- end %>
 
 <div style="clear: both;"> </div>
@@ -96,7 +79,7 @@
 </div>
 
 <div class="splitcontentright">
-  <p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('deliverable_due') %></p>
+  <p><%= f.text_field :fixed_date, :size => 10 %><%= calendar_for('deliverable_fixed_date') %></p>
 </div>
 
 <div style="clear: both;"> </div>

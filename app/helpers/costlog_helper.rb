@@ -20,8 +20,6 @@ module CostlogHelper
   def user_collection_for_select_options(options = {})
     users = @project.assignable_users
     collection = []
-    # This is an optional extension
-    #collection << [l(:label_generic_user), 0] if options[:generic_user]
     users.each { |u| collection << [u.name, u.id] }
     collection
   end

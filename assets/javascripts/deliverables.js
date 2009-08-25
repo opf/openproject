@@ -1,4 +1,22 @@
-function deleteDeliverableCostsEntry(id) {
+var Subform = Class.create({
+  lineIndex: 1,
+  parentElement: "",
+  initialize: function(rawHTML, lineIndex, parentElement) {
+    this.rawHTML        = rawHTML;
+    this.lineIndex      = lineIndex;
+    this.parentElement  = parentElement;
+  },
+  parsedHTML: function() {
+    return this.rawHTML.replace(/INDEX/g, this.lineIndex++);
+  },
+  add: function() {
+    new Insertion.Bottom($(this.parentElement), this.parsedHTML());
+  }
+});
+
+
+
+function deleteDeliverableCost(id) {
   var row = document.getElementById(id);
   
   // de-register observers
@@ -9,7 +27,7 @@ function deleteDeliverableCostsEntry(id) {
   Element.remove(row);
 }
 
-function deleteDeliverableHoursEntry(id) {
+function deleteDeliverableHour(id) {
   var row = document.getElementById(id);
   
   // de-register observers

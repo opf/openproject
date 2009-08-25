@@ -18,21 +18,6 @@ class Deliverable < ActiveRecord::Base
                             :timestamp => "#{table_name}.updated_on",
                             :author_key => :author_id
                             
-  def self.new(params = {})
-    if not params
-      return super()
-    end
-    
-    case params.delete(:kind)
-    when FixedDeliverable.name
-      return FixedDeliverable.new(params)
-    when CostBasedDeliverable.name
-      return CostBasedDeliverable.new(params)
-    else
-      return super(params)
-    end
-  end
-
   # Wrap type column to make it usable in views (especially in a select tag)
   def kind
     self[:type]

@@ -11,7 +11,7 @@ class CreateDeliverables < ActiveRecord::Migration
       t.column :client_signoff,           :boolean, :default => false, :null => false
       
       t.column :budget,                   :decimal, :precision => 15, :scale => 2, :null => false
-      t.column :due_date,                 :date,    :null => false
+      t.column :fixed_date,               :date,    :null => false
     end
     
     create_table :deliverable_costs do |t|

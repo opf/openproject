@@ -6,6 +6,10 @@ class HourlyRate < Rate
     current_rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", user_id, project_id, Date.today], :order => "valid_from DESC")
     current_rate ||= DefaultHourlyRate.new(:user_id => user_id, :project_id => project_id)
   end
+  
+  def self.default(params = {})
+    DefaultHourlyRate.new(params)
+  end
 end
 
 class DefaultHourlyRate < HourlyRate

@@ -17,7 +17,7 @@
   <table width="100%">
     <tr>
       <td style="width:15%" class="type"><b><%=l(:field_type)%>:</b></td><td style="width:35%" class="type"><%= @deliverable.type_label %></td>
-      <td style="width:15%" class="due-date"><b><%=l(:field_due_date)%>:</b></td><td style="width:35%"><%= format_date(@deliverable.due_date) %></td>
+      <td style="width:15%" class="due-date"><b><%=l(:field_fixed_date)%>:</b></td><td style="width:35%"><%= format_date(@deliverable.fixed_date) %></td>
     </tr>
   </table>
 
@@ -40,5 +40,6 @@
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'scm' %>
     <%= stylesheet_link_tag 'costlog', :plugin => 'redmine_costs' %>
+    <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
     <%= javascript_include_tag 'deliverables', :plugin => 'redmine_costs' %>
 <% end %>
