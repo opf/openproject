@@ -6,7 +6,8 @@ require 'issue_patch'
 require 'project_patch'
 Dispatcher.to_prepare do
   Issue.send(:include, IssuePatch)
-  Issue.send(:include, ProjectPatch)
+  Project.send(:include, ProjectPatch)
+  User.send(:include, UserPatch)
 end
 
 # Hooks

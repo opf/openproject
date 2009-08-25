@@ -6,14 +6,14 @@ class DeliverableHour < ActiveRecord::Base
   
   def self.new(params={})
     unless params[:rate_id] || params[:rate]
-      new_user_id = params.delete(:user).id if params[:user]
-      new_user_id ||= params.delete(:user_id)
+      new_user = params.delete(:user) if params[:user]
+      new_user ||= User.find_by_id(params.delete(:user_id))
       
-      if new_user_id
+      if new_user
         project_id = params[:deliverable].project_id if params[:deliverable]
         project_id || Deliverable.find(params[:deliverable_id]).project_id if params[:deliverable_id]
         
-        params[:rate] = HourlyRate.current_rate(new_user_id, project_id) if project_id
+        params[:rate] = new_user.current_rate(project_id) if project_id
       end
       params[:rate] = HourlyRate.default unless params[:rate]
     end

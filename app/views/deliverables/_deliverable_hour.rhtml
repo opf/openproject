@@ -16,7 +16,7 @@
     <%= cost_form.text_field :hours, :index => id_or_index, :size => 3 %>
   </td>
   <td>
-    <%= cost_form.select :user_id, user_collection_for_select_options(:generic_user => true), {}, {:index => id_or_index} %>
+    <%= cost_form.select :user_id, @project.assignable_users.sort.select{|u| u.current_rate(@project.id)}.collect{|u| [u.name, u.id]}, {:prompt => true}, {:index => id_or_index} %>
     <%= cost_form.hidden_field :rate_id, :index => id_or_index %>
   </td>
   <% if User.current.allowed_to?(:view_all_rates, @project) || User.current.allowed_to?(:view_own_rate, @project) %>
