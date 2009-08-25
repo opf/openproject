@@ -35,14 +35,14 @@ class CostBasedDeliverable < Deliverable
   
   def new_deliverable_hour_attributes=(deliverable_hour_attributes)
     deliverable_hour_attributes.each do |index, attributes|
-      deliverable_hours.build(attributes) if attributes[:hours].to_i > 0
+      deliverable_hours.build(attributes) if attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0
     end
   end
   
   def existing_deliverable_hour_attributes=(deliverable_hour_attributes)
     deliverable_hours.reject(&:new_record?).each do |deliverable_hour|
       attributes = deliverable_hour_attributes[deliverable_hour.id.to_s]
-      if attributes && attributes[:hours].to_i > 0
+      if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0
         deliverable_hour.attributes = attributes
       else
         deliverable_hours.delete(deliverable_hour)
