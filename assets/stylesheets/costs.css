@@ -7,8 +7,13 @@
 }
 
 table.deliverable_costs,
-table.deliverable_rates {
-  width 99%;
+table.deliverable_hours {
+  width: 99%;
+}
+
+.deliverable_costs td,
+.deliverable_hours td {
+  text-align: center;
 }
 
 tr.cost-entry {
@@ -31,3 +36,4 @@ td.cost_units {
   padding: 5px 0 8px 180px;
 }
 
+table.progress td.exceeded { background: #E1B9B9 none repeat scroll 0%; }
