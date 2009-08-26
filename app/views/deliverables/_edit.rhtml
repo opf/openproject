@@ -1,13 +1,18 @@
-<h2><%=l(:label_deliverable_new)%></h2>
-
 <% labelled_tabular_form_for :deliverable, @deliverable,
-                             :html => {:multipart => true, :id => 'deliverable-form'} do |f| %>
+                             :url => {:action => 'edit', :id => @deliverable},
+                             :html => {:multipart => true,
+                                       :id => 'deliverable-form',
+                                       :class => nil} do |f| %>
     <%= error_messages_for 'deliverable' %>
     <div class="box">
-    <%= render :partial => 'form', :locals => {:f => f} %>
+    <fieldset class="tabular"><legend><%= l(:label_deliverable) %></legend>
+      <%= render :partial => 'form', :locals => {:f => f} %>
+    </fieldset>
+    <fieldset><legend><%= l(:label_attachment_plural )%></legend>
+      <p><%= render :partial => 'attachments/form' %></p>
+    </fieldset>
     </div>
-    <%= submit_tag l(:button_create) %>
-    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+    <%= submit_tag l(:button_submit) %>
     <%= link_to_remote l(:label_preview), 
                        { :url => { :controller => 'deliverables', :action => 'preview', :project_id => @project },
                          :method => 'post',
@@ -15,8 +20,6 @@
                          :with => "Form.serialize('deliverable-form')",
                          :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %>
-     
-    <%= javascript_tag "Form.Element.focus('deliverable_subject');" %>
 <% end %>
 
 <div id="preview" class="wiki"></div>
@@ -26,10 +29,3 @@
   <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
   <%= javascript_include_tag 'deliverables', :plugin => 'redmine_costs' %>
 <% end %>
-
-
-
-
-
-
-

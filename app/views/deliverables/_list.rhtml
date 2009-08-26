@@ -23,12 +23,12 @@
       <%= content_tag(:td, h(deliverable.status), :class => 'status') %>
       <%= content_tag(:td, link_to(h(deliverable.subject), :controller => 'deliverables', :action => 'show', :id => deliverable), :class => 'subject') %>
       <%= content_tag(:td, h(deliverable.score.to_i), :class => 'score') %>
-      <%= content_tag(:td, number_to_currency(deliverable.budget || 0.0, :precision => 0), :class => 'budget') %>
-      <%= content_tag(:td, number_to_currency(deliverable.labor_budget || 0.0, :precision => 0), :class => 'budget') %>
-      <%= content_tag(:td, number_to_currency(deliverable.materials_budget || 0.0, :precision => 0), :class => 'budget') %>
-      <%= content_tag(:td, number_to_currency(deliverable.spent, :precision => 0), :class => 'spent') %>
+      <%= content_tag(:td, number_to_currency(deliverable.budget || 0.0, :precision => 0), :class => 'currency') %>
+      <%= content_tag(:td, number_to_currency(deliverable.labor_budget || 0.0, :precision => 0), :class => 'currency') %>
+      <%= content_tag(:td, number_to_currency(deliverable.materials_budget || 0.0, :precision => 0), :class => 'currency') %>
+      <%= content_tag(:td, number_to_currency(deliverable.spent, :precision => 0), :class => 'currency') %>
       <%= content_tag(:td, format_date(deliverable.fixed_date), :class => 'fixed_date') %>
-      <%= content_tag(:td, progress_bar(deliverable.progress, :width => '100%', :class => 'done_ratio')) %>
+      <%= content_tag(:td, extended_progress_bar(deliverable.progress, :width => '100%')) %>
     </tr>
     <% end %>
   </tbody>

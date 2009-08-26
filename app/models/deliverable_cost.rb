@@ -34,4 +34,32 @@ class DeliverableCost < ActiveRecord::Base
   def costs
     rate && units ? rate.rate * units : 0.0
   end
+  
+  
+  def progres
+    # TODO: not yet finished
+    raise NotImplementedError.new
+
+    return 0 unless self.issues.size > 0
+    
+
+
+
+    total_hours = 
+    total_costs = self.issues.collect{|i| i.cost_entries.collect(&:cost).compact.sum || 0}.compact.sum || 0
+
+    return 0 unless total > 0
+    balance = 0.0
+
+    self.issues.each do |issue|
+      if use_issue_status_for_done_ratios?
+        balance += issue.status.default_done_ratio * issue.estimated_hours unless issue.estimated_hours.nil?
+      else
+        balance += issue.done_ratio * issue.estimated_hours unless issue.estimated_hours.nil?
+      end
+    end
+
+    return (balance / total).round
+    
+  end
 end

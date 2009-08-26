@@ -1,6 +1,5 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_add_deliverable), {:controller => 'deliverables', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
-<%= link_to_if_authorized l(:button_update), {:controller => 'deliverables', :action => 'edit', :id => @deliverable}, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+<%= link_to_if_authorized l(:button_update), {:controller => 'deliverables', :action => 'edit', :id => @deliverable}, :onclick => 'showAndScrollTo("update", "deliverable_description"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 <%= link_to_if_authorized l(:button_copy), {:controller => 'deliverables', :action => 'new', :project_id => @project, :copy_from => @deliverable }, :class => 'icon icon-copy' %>
 <%= link_to_if_authorized l(:button_delete), {:controller => 'deliverables', :action => 'destroy', :id => @deliverable}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
@@ -16,20 +15,46 @@
   
   <table width="100%">
     <tr>
-      <td style="width:15%" class="type"><b><%=l(:field_type)%>:</b></td><td style="width:35%" class="type"><%= @deliverable.type_label %></td>
-      <td style="width:15%" class="due-date"><b><%=l(:field_fixed_date)%>:</b></td><td style="width:35%"><%= format_date(@deliverable.fixed_date) %></td>
+      <td style="width:15%" class="type"><strong><%=l(:field_type)%>:</strong></td>
+      <td style="width:35%" class="type"><%= @deliverable.type_label %></td>
+      
+      <td style="width:15%" class="due-date"><strong><%=l(:field_fixed_date)%>:</strong></td>
+      <td style="width:35%"><%= format_date(@deliverable.fixed_date) %></td>
     </tr>
+    
+    <tr>
+      <td class="status"><strong><%=l(:field_status)%>:</strong></td>
+      <td class="status"><%= @deliverable.status %></td>
+      
+      <td class="progress"><strong><%=l(:field_progress)%>:</strong></td>
+      <td class="progress"><%= extended_progress_bar(@deliverable.progress, :width => '80px', :legend => "#{@deliverable.progress}%") %></td>
+    </tr>
+    
   </table>
 
+  <p><strong><%=l(:field_description)%></strong></p>
+  <div class="wiki">
+    <%= textilizable @deliverable, :description, :attachments => @deliverable.attachments %>
+  </div>
+
+  <%= link_to_attachments @deliverable %>
+  
+  <%= render :partial => "show_#{@deliverable.kind.underscore}" %>
 </div>  
 
-<% labelled_tabular_form_for :deliverable, @deliverable, 
-                             :html => {:multipart => true, :id => 'deliverable-form'} do |f| %>
-    <%= error_messages_for 'deliverable' %>
-    <div class="box">
-    <%= render :partial => 'form', :locals => {:f => f} %>
-    </div>
+<div style="clear: both;"></div>
+
+<% if authorize_for('deliverables', 'edit') %>
+  <div id="update" style="display:none;">
+  <h3><%= l(:button_update) %></h3>
+  <%= render :partial => 'edit' %>
+  </div>
 <% end %>
+
+<p class="other-formats">
+<%= l(:label_export_to) %>
+<span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
+</p>
 
 <% html_title "#{l(:label_deliverable)} ##{@deliverable.id}: #{@deliverable.subject}" %>
 

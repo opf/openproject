@@ -2,11 +2,12 @@
 # contain a collection of issues.
 class Deliverable < ActiveRecord::Base
   unloadable
-  validates_presence_of :subject
   
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :project
   has_many :issues
+  
+  acts_as_attachable :after_remove => :attachment_removed
   
   acts_as_event :title => Proc.new {|o| "#{l(:label_deliverable)} ##{o.id}: #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'deliverables', :action => 'show', :id => o.id}}                
@@ -14,7 +15,10 @@ class Deliverable < ActiveRecord::Base
   acts_as_activity_provider :find_options => {:include => [:project, :author]},
                             :timestamp => "#{table_name}.updated_on",
                             :author_key => :author_id
-                            
+  
+  validates_presence_of :subject, :project, :author
+  validates_length_of :subject, :maximum => 255
+  
   def copy_from(arg)
     deliverable = arg.is_a?(Deliverable) ? arg : Deliverable.find(arg)
     self.attributes = deliverable.attributes.dup
@@ -64,6 +68,7 @@ class Deliverable < ActiveRecord::Base
   
   # Amount spent.  Virtual accessor that is overriden by subclasses.
   def spent
+    # TODO: check rights to see rates
     0 
   end
   
@@ -93,7 +98,7 @@ class Deliverable < ActiveRecord::Base
   def progress
     return 0 unless self.issues.size > 0
     
-    total ||=  self.issues.collect(&:estimated_hours).compact.sum || 0
+    total = self.issues.collect(&:estimated_hours).compact.sum || 0
 
     return 0 unless total > 0
     balance = 0.0

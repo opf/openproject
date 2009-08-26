@@ -5,6 +5,11 @@ class CostBasedDeliverable < Deliverable
   validates_associated :deliverable_costs
   validates_associated :deliverable_hours
   
+  def before_save
+    # set budget to correct value
+    self.budget = deliverable_hours.inject(0.0) {|sum,d| sum + d.costs} + deliverable_costs.inject(0.0) {|sum, d| d.costs + sum}
+  end
+  
   def copy_from(arg)
     deliverable = arg.is_a?(CostBasedDeliverable) ? arg : CostBasedDeliverable.find(arg)
     self.attributes = deliverable.attributes.dup
@@ -15,6 +20,22 @@ class CostBasedDeliverable < Deliverable
   # Label of the current deliverable type for display in GUI.
   def type_label
     return l(:label_cost_based_deliverable)
+  end
+  
+  def materials_budget
+    if User.current.allowed_to?(:view_unit_price, project)
+      deliverable_costs.inject(0.0) {|sum, d| d.costs + sum}
+    else
+      nil
+    end
+  end
+
+  def labor_budget
+    if User.current.allowed_to?(:view_all_rates, project)
+      deliverable_hours.inject(0.0) {|sum,d| sum + d.costs}
+    else
+      nil
+    end
   end
   
   def new_deliverable_cost_attributes=(deliverable_cost_attributes)

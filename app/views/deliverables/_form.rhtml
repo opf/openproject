@@ -1,20 +1,11 @@
-<script type="text/javascript">
-//<![CDATA[
-  <%-
-    deliverable_costs_row_id = @deliverable_costs_new ? @deliverable_costs_new.length + 1 : 1
-    deliverable_hours_row_id = @deliverable_hours_new ? @deliverable_hours_new.length + 1 : 1
-  -%>
-  deliverableCostsRowId = <%= deliverable_costs_row_id %>;
-  deliverableHoursRowId = <%= deliverable_hours_row_id %>;
-//]]>
-</script>
-
+<% if @deliverable.new_record? %>
 <p><%= f.select :kind, [[l(:label_cost_based_deliverable), CostBasedDeliverable.name], [l(:label_fixed_deliverable), FixedDeliverable.name]], {:required => true, :prompt => true }, :autocomplete => 'off' %></p>
 <%= observe_field :deliverable_kind, :url => { :action => :new },
                                      :update => :content,
                                      :with => "Form.serialize('deliverable-form')" %>
 
 <hr />
+<% end %>
 
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
 <p><%= f.text_area :description,
@@ -37,7 +28,7 @@
     <thead><tr>
       <th><%= l(:caption_cost_unit_plural)%></th>
       <th><%= l(:caption_cost_type) %></th>
-      <% if User.current.allowed_to?(:view_unit_price, @project)%><th id="deliverable_costs_price"><%= l(:caption_overall_costs) %></th><%end%>
+      <% if User.current.allowed_to?(:view_unit_price, @project)%><th id="deliverable_costs_price"><%= l(:caption_budget) %></th><%end%>
       <th></th>
     </tr></thead>
     <tbody id="deliverable_costs_body">
@@ -56,7 +47,7 @@
       <th><%= l(:field_hours)%></th>
       <th><%= l(:label_user) %></th>
       <% if User.current.allowed_to?(:view_all_rates, @project) || User.current.allowed_to?(:view_own_rate, @project) %>
-        <th id="deliverable_hours_price"><%= l(:caption_overall_costs) %></th>
+        <th id="deliverable_hours_price"><%= l(:caption_budget) %></th>
       <% end %>
       <th></th>
     </tr></thead>
@@ -83,5 +74,9 @@
 </div>
 
 <div style="clear: both;"> </div>
+
+<% if @deliverable.new_record? %>
+<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
+<% end %>
 
 <%= wikitoolbar_for 'deliverable_description' %>

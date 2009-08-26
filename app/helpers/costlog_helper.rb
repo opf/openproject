@@ -69,5 +69,17 @@ module CostlogHelper
     export
   end
   
+  def extended_progress_bar(pcts, options={})
+    return progress_bar(pcts, options) unless pcts.is_a?(Numeric) && pcts > 100
+    
+    width = options[:width] || '100px;'
+    legend = options[:legend] || ''
+    content_tag('table',
+      content_tag('tr',
+        content_tag('td', '', :style => "width: 100%;", :class => 'exceeded')
+      ), :class => 'progress', :style => "width: #{width};") +
+      content_tag('p', legend, :class => 'pourcent')
+  end
+  
 end
   

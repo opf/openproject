@@ -1,0 +1,60 @@
+<%
+  show_cost_budget_col = User.current.allowed_to?(:view_unit_price, @project)
+  show_hour_budget_col = User.current.allowed_to?(:view_all_rates, @project) || User.current.allowed_to?(:view_own_rate, @project)
+-%>
+
+<table width="100%"><tr style="vertical-align: top"><td width="50%">
+  <h4><%= l(:caption_materials_budget)%></h4>
+  <% unless @deliverable.deliverable_costs.empty? %>
+  <table class="deliverable_costs">
+    <thead><tr>
+      <th><%= l(:caption_cost_unit_plural)%></th>
+      <th><%= l(:caption_cost_type) %></th>
+      <% if show_cost_budget_col %>
+        <th><%= l(:caption_budget) %></th>
+      <%end%>
+    </tr></thead>
+    <tbody>
+      <% @deliverable.deliverable_costs.each do |deliverable_cost| %>
+      <tr>
+        <td><%=h pluralize(deliverable_cost.units, deliverable_cost.cost_type.unit, deliverable_cost.cost_type.unit_plural) %></td>
+        <td><%=h deliverable_cost.cost_type.name %></td>
+        <% if show_cost_budget_col %>
+          <td class="currency"><%= number_to_currency(deliverable_cost.costs) %></td>
+        <% end %>
+      </tr>
+      <% end %>
+      <% if show_cost_budget_col %>
+      <tr><td colspan="3" class="currency"><strong><%= number_to_currency(@deliverable.materials_budget) %></strong></td></tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+</td><td width="50%">
+  <h4><%= l(:caption_labor_budget)%></h4>
+  <% unless @deliverable.deliverable_hours.empty? %>
+  <table class="deliverable_hours">
+    <thead><tr>
+      <th><%= l(:field_hours)%></th>
+      <th><%= l(:label_user) %></th>
+      <% if show_hour_budget_col %>
+        <th><%= l(:caption_budget) %></th>
+      <%end%>
+    </tr></thead>
+    <tbody>
+      <% @deliverable.deliverable_hours.each do |deliverable_hour| %>
+      <tr>
+        <td class=""><%= deliverable_hour.hours %>h</td>
+        <td><%=h deliverable_hour.user.name %></td>
+        <% if show_hour_budget_col %>
+          <td class="currency"><%= number_to_currency(deliverable_hour.costs) %></td>
+        <% end %>
+      </tr>
+      <% end %>
+      <% if User.current.allowed_to?(:view_all_rates, @project) %>
+      <tr><td colspan="3" class="currency"><strong><%= number_to_currency(@deliverable.labor_budget) %></strong></td></tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+</td></tr></table>

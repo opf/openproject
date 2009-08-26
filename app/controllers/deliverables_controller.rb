@@ -22,8 +22,11 @@ class DeliverablesController < ApplicationController
   include SortHelper
   helper :projects
   include ProjectsHelper 
+  helper :attachments
+  include AttachmentsHelper
   helper :costlog
   include CostlogHelper
+  include Redmine::Export::PDF
   
   def index
     # TODO: This is a very naiive implementation.
@@ -31,6 +34,12 @@ class DeliverablesController < ApplicationController
     # (see issues_controller.rb)
     
     limit = per_page_option
+    respond_to do |format|
+      format.html { }
+      format.csv  { limit = Setting.issues_export_limit.to_i }
+      format.pdf  { limit = Setting.issues_export_limit.to_i }
+    end
+    
 
     sort_columns = {'id' => "#{Deliverable.table_name}.id",
                     'subject' => "#{Deliverable.table_name}.subject",
@@ -53,6 +62,8 @@ class DeliverablesController < ApplicationController
 
     respond_to do |format|
       format.html { render :action => 'index', :layout => !request.xhr? }
+      format.csv  { send_data(deliverables_to_csv(@deliverables, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
+      format.pdf  { send_data(deliverables_to_pdf(@deliverables, @project), :type => 'application/pdf', :filename => 'export.pdf') }
     end
   end
   
@@ -75,7 +86,7 @@ class DeliverablesController < ApplicationController
     end
     @deliverable ||= Deliverable.new
     
-    @deliverable.project_id = @project.id unless @deliverable.project
+    @deliverable.project_id = @project.id
     @deliverable.author_id = User.current.id
     
     # fixed_date must be set before deliverable_costs and deliverable_hours
@@ -99,9 +110,35 @@ class DeliverablesController < ApplicationController
       end
     end
 
-    @deliverable.deliverable_costs.build
-    @deliverable.deliverable_hours.build
+    case @deliverable.kind
+    when CostBasedDeliverable.name
+      @deliverable.deliverable_costs.build
+      @deliverable.deliverable_hours.build
+    end
+    
     render :layout => !request.xhr?
+  end
+  
+  # Blacklist of attributes which can not be updated in edit
+  EDIT_BLACK_LIST = %w(kind type)
+  
+  def edit
+    if params[:deliverable]
+      attrs = params[:deliverable].dup
+      attrs.delete_if {|k,v| EDIT_BLACK_LIST.include?(k)}
+      
+      @deliverable.attributes = attrs
+    end
+    
+    if request.post?
+      if @deliverable.save
+        flash[:notice] = l(:notice_successful_update)
+        redirect_to(params[:back_to] || {:action => 'show', :id => @deliverable})
+      end
+    end 
+  rescue ActiveRecord::StaleObjectError
+    # Optimistic locking exception
+    flash.now[:error] = l(:notice_locking_conflict)
   end
   
   def preview
@@ -206,20 +243,5 @@ private
     allowed ? true : deny_access
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-  
-  def desired_type
-    if params[:deliverable]
-      case params[:deliverable].delete(:desired_type)
-      when "FixedDeliverable"
-        FixedDeliverable
-      when "CostBasedDeliverable"
-        CostBasedDeliverable
-      else
-        Deliverable
-      end
-    else
-      Deliverable
-    end
   end
 end
