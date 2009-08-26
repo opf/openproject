@@ -9,7 +9,7 @@
   error_messages = error_messages_for 'deliverable_cost'
 -%> 
 
-<%if error_messages %><tr><td colspan="4"><%= error_messages %></td></tr><% end %>
+<% unless error_messages.blank? %><tr><td colspan="4"><%= error_messages %></td></tr><% end %>
 <tr class="cost-entry" id="<%= id_prefix %>">
   <% fields_for prefix, deliverable_cost do |cost_form| %>
   <td class="cost_units">

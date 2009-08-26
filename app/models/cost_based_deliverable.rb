@@ -5,6 +5,13 @@ class CostBasedDeliverable < Deliverable
   validates_associated :deliverable_costs
   validates_associated :deliverable_hours
   
+  def copy_from(arg)
+    deliverable = arg.is_a?(CostBasedDeliverable) ? arg : CostBasedDeliverable.find(arg)
+    self.attributes = deliverable.attributes.dup
+    self.deliverable_costs = deliverable.deliverable_costs.collect {|v| v.clone}
+    self.deliverable_hours = deliverable.deliverable_hours.collect {|v| v.clone}
+  end
+  
   # Label of the current deliverable type for display in GUI.
   def type_label
     return l(:label_cost_based_deliverable)

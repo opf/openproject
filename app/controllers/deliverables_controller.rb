@@ -5,7 +5,6 @@ class DeliverablesController < ApplicationController
   before_filter :find_deliverables, :only => [:bulk_edit, :destroy]
   before_filter :find_project, :only => [
     :update_form, :preview, :new,
-      
     :update_deliverable_cost, :update_deliverable_hour
   ]
   before_filter :find_optional_project, :only => [:index]
@@ -66,17 +65,16 @@ class DeliverablesController < ApplicationController
   
   def new
     if params[:deliverable]
-      case params[:deliverable].delete(:kind)
-      when FixedDeliverable.name
-        @deliverable = FixedDeliverable.new
-      when CostBasedDeliverable.name
-        @deliverable = CostBasedDeliverable.new
+      @deliverable = create_deliverable(params[:deliverable].delete(:kind))
+    elsif params[:copy_from]
+      source = Deliverable.find(params[:copy_from])
+      if source
+        @deliverable = create_deliverable(source.kind)
+        @deliverable.copy_from(params[:copy_from])
       end
     end
-    @deliverable = Deliverable.new if @deliverable.nil?
-
-    @deliverable.copy_from(params[:copy_from]) if params[:copy_from]
-
+    @deliverable ||= Deliverable.new
+    
     @deliverable.project_id = @project.id unless @deliverable.project
     @deliverable.author_id = User.current.id
     
@@ -160,6 +158,17 @@ class DeliverablesController < ApplicationController
   end
 
 private
+  def create_deliverable(kind)
+    case kind
+    when FixedDeliverable.name
+      FixedDeliverable.new
+    when CostBasedDeliverable.name
+      CostBasedDeliverable.new
+    else
+      Deliverable.new
+    end
+  end
+  
   def find_deliverable
     # This function comes directly from issues_controller.rb (Redmine 0.8.4)
     @deliverable = Deliverable.find(params[:id], :include => [:project, :author])
