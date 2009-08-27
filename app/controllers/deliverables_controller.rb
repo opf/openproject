@@ -110,12 +110,6 @@ class DeliverablesController < ApplicationController
         return
       end
     end
-
-    case @deliverable.kind
-    when CostBasedDeliverable.name
-      @deliverable.deliverable_costs.build
-      @deliverable.deliverable_hours.build
-    end
     
     render :layout => !request.xhr?
   end
