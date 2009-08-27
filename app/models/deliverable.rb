@@ -110,6 +110,7 @@ class Deliverable < ActiveRecord::Base
   
   def budget_for_display
     User.current.allowed_to?(:view_all_rates, project) && User.current.allowed_to?(:view_unit_price, project) ? budget : 0.0
+  end
   
   def status
     # this just returns the symbol for I18N
