@@ -4,6 +4,6 @@ class RemoveBudgetFromDeliverable < ActiveRecord::Migration
   end
   
   def self.down
-    t.column :budget,                   :decimal, :precision => 15, :scale => 2, :null => false
+    add_column :deliverables, :budget, :decimal, :precision => 15, :scale => 2, :null => false
   end
 end
