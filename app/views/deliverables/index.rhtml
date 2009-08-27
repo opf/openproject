@@ -24,12 +24,14 @@
 </p>
 
 <% content_for :sidebar do %>
-    <%= render :partial => 'deliverables/sidebar' %>
+    <%#= render :partial => 'deliverables/sidebar' %>
 <% end %>
 
 <% content_for :header_tags do %>
     <%= javascript_include_tag 'context_menu' %>
     <%= stylesheet_link_tag 'context_menu' %>
+    <%= stylesheet_link_tag 'scm' %>
+    <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
 <% end %>
 
 <% html_title l(:label_deliverable_plural) %>

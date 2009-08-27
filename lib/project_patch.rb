@@ -1,4 +1,5 @@
-require_dependency 'project'
+# TODO: which require statement to use here? require_dependency breaks stuff
+#require 'project'
 
 # Patches Redmine's Issues dynamically.  Adds a relationship 
 # Issue +belongs_to+ to Deliverable
@@ -10,6 +11,8 @@ module ProjectPatch
 
     # Same as typing in the class 
     base.class_eval do
+      unloadable
+      
       has_many :deliverables
     end
 

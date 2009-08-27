@@ -76,7 +76,8 @@ module CostlogHelper
     legend = options[:legend] || ''
     content_tag('table',
       content_tag('tr',
-        content_tag('td', '', :style => "width: 100%;", :class => 'exceeded')
+        content_tag('td', '', :style => "width: #{(100 / pcts).round}%;", :class => 'closed') +
+        content_tag('td', '', :style => "width: #{100 - (100 / pcts).round}%;", :class => 'exceeded')
       ), :class => 'progress', :style => "width: #{width};") +
       content_tag('p', legend, :class => 'pourcent')
   end

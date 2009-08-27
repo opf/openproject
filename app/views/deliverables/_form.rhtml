@@ -17,13 +17,13 @@
 <% if @deliverable.kind == "CostBasedDeliverable" -%>
 <script type="text/javascript">
   //<![CDATA[
-  deliverableCostsForm = new Subform('<%= escape_javascript(render(:partial => "deliverable_cost", :object => DeliverableCost.new)) %>',<%= @deliverable.deliverable_costs.length %>,'deliverable_costs_body');
-  deliverableHoursForm = new Subform('<%= escape_javascript(render(:partial => "deliverable_hour", :object => DeliverableHour.new)) %>',<%= @deliverable.deliverable_hours.length %>,'deliverable_hours_body');
+  deliverableCostsForm = new Subform('<%= escape_javascript(render(:partial => "deliverable_cost", :object => @deliverable.deliverable_costs.build(:cost_type_id => CostType.default.id) )) %>',<%= @deliverable.deliverable_costs.length %>,'deliverable_costs_body');
+  deliverableHoursForm = new Subform('<%= escape_javascript(render(:partial => "deliverable_hour", :object => @deliverable.deliverable_hours.build )) %>',<%= @deliverable.deliverable_hours.length %>,'deliverable_hours_body');
   //]]>
 </script>
 
-<div class="splitcontentleft"><div class="p">
-  <label><%= l(:caption_materials_budget) %></label>
+<div class="splitcontentleft"><fieldset>
+  <legend><%= l(:caption_material_budget) %></legend>
   <table class="list deliverable_costs" id="deliverable_costs">
     <thead><tr>
       <th><%= l(:caption_cost_unit_plural)%></th>
@@ -38,10 +38,10 @@
     </tbody>
   </table>
   <div style="text-align: right"><%= link_to_function l(:button_add_material_cost), "deliverableCostsForm.add()", {:class => "icon icon-add"} %></div>
-</div></div>
+</fieldset></div>
 
-<div class="splitcontentright"><div class="p">
-  <label><%= l(:caption_labor_budget) %></label>
+<div class="splitcontentright"><fieldset>
+  <legend><%= l(:caption_labor_budget) %></legend>
   <table class="list deliverable_rates" id="deliverables_rates">
     <thead><tr>
       <th><%= l(:field_hours)%></th>
@@ -58,7 +58,7 @@
     </tbody>
   </table>
   <div style="text-align: right"><%= link_to_function l(:button_add_labor_cost), "deliverableHoursForm.add()", {:class => "icon icon-add"} %></div>
-</div></div>
+</fieldset></div>
 
 <%- end %>
 

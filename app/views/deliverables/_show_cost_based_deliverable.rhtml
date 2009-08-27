@@ -4,7 +4,7 @@
 -%>
 
 <table width="100%"><tr style="vertical-align: top"><td width="50%">
-  <h4><%= l(:caption_materials_budget)%></h4>
+  <h4><%= l(:caption_material_budget)%></h4>
   <% unless @deliverable.deliverable_costs.empty? %>
   <table class="deliverable_costs">
     <thead><tr>
@@ -17,7 +17,7 @@
     <tbody>
       <% @deliverable.deliverable_costs.each do |deliverable_cost| %>
       <tr>
-        <td><%=h pluralize(deliverable_cost.units, deliverable_cost.cost_type.unit, deliverable_cost.cost_type.unit_plural) %></td>
+        <td class="cost_units"><%=h pluralize(deliverable_cost.units, deliverable_cost.cost_type.unit, deliverable_cost.cost_type.unit_plural) %></td>
         <td><%=h deliverable_cost.cost_type.name %></td>
         <% if show_cost_budget_col %>
           <td class="currency"><%= number_to_currency(deliverable_cost.costs) %></td>
@@ -25,7 +25,7 @@
       </tr>
       <% end %>
       <% if show_cost_budget_col %>
-      <tr><td colspan="3" class="currency"><strong><%= number_to_currency(@deliverable.materials_budget) %></strong></td></tr>
+      <tr><td colspan="3" class="currency"><strong><%= number_to_currency(@deliverable.material_budget) %></strong></td></tr>
       <% end %>
     </tbody>
   </table>

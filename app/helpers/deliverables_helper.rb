@@ -1,3 +1,5 @@
+require 'csv'
+
 module DeliverablesHelper
   include ApplicationHelper
     
@@ -25,7 +27,7 @@ module DeliverablesHelper
                   l(:field_score),
                   l(:field_author),
                   l(:field_fixed_date),
-                  l(:field_materials_budget),
+                  l(:field_material_budget),
                   l(:field_labor_budget),
                   l(:field_spent),
                   l(:field_created_on),
@@ -34,15 +36,15 @@ module DeliverablesHelper
                   ]
       csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       # csv lines
-      deliverables.each do |issue|
-        fields = [issue.id,
-                  deliverable.status.name, 
+      deliverables.each do |deliverable|
+        fields = [deliverable.id,
+                  l(deliverable.status), 
                   deliverable.project.name,
                   deliverable.subject,
                   deliverable.score,
                   deliverable.author.name,
                   format_date(deliverable.fixed_date),
-                  deliverable.kind == "CostBasedDeliverable" ? number_to_currency(deliverable.materials_budget) : "",
+                  deliverable.kind == "CostBasedDeliverable" ? number_to_currency(deliverable.material_budget) : "",
                   deliverable.kind == "CostBasedDeliverable" ? number_to_currency(deliverable.labor_budget) : "",
                   deliverable.kind == "CostBasedDeliverable" ? number_to_currency(deliverable.spent) : "",
                   format_time(deliverable.created_on),  

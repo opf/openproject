@@ -16,14 +16,13 @@
     <%= cost_form.text_field :hours, :index => id_or_index, :size => 3 %>
   </td>
   <td>
-    <%= cost_form.select :user_id, @project.assignable_users.sort.select{|u| u.current_rate(@project.id)}.collect{|u| [u.name, u.id]}, {:prompt => true}, {:index => id_or_index} %>
-    <%= cost_form.hidden_field :rate_id, :index => id_or_index %>
+    <%= cost_form.select :user_id, @project.assignable_users.sort.select{|u| u.rate_at(@deliverable.fixed_date, @project)}.collect{|u| [u.name, u.id]}, {:prompt => true}, {:index => id_or_index} %>
   </td>
   <% if User.current.allowed_to?(:view_all_rates, @project) || User.current.allowed_to?(:view_own_rate, @project) %>
   <td class="currency">
     <span id="<%= "#{id_prefix}_costs" %>"><%= number_to_currency(deliverable_hour.costs) if deliverable_hour.can_view_costs?(User.current, @project) %></span>
-    <%= observe_field( "#{id_prefix}_user_id", :url => {:action => :update_deliverable_hour}, :with => "'user_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('#{id_prefix}_hours').value) + '&element_id=#{id_prefix}'") %>
-    <%= observe_field( "#{id_prefix}_hours", :frequency => 1, :url => {:action => :update_deliverable_hour}, :with => "'user_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&element_id=#{id_prefix}'") %>
+    <%= observe_field( "#{id_prefix}_user_id", :url => {:action => :update_deliverable_hour}, :with => "'user_id=' + encodeURIComponent(value) + '&hours=' + encodeURIComponent(document.getElementById('#{id_prefix}_hours').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('deliverable_fixed_date').value) + '&element_id=#{id_prefix}'") %>
+    <%= observe_field( "#{id_prefix}_hours", :frequency => 1, :url => {:action => :update_deliverable_hour}, :with => "'user_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('deliverable_fixed_date').value) + '&element_id=#{id_prefix}'") %>
   </td>
   <% end %>
   <td align="center">

@@ -25,7 +25,11 @@ class CostType < ActiveRecord::Base
   end
   
   def current_rate
-    CostRate.find(:first, :conditions => [ "cost_type_id = ? and valid_from <= ?", id, Date.today], :order => "valid_from DESC")
+    rate_at(Date.today)
+  end
+  
+  def rate_at(date)
+    CostRate.find(:first, :conditions => [ "cost_type_id = ? and valid_from <= ?", id, date], :order => "valid_from DESC")
   rescue ActiveRecord::RecordNotFound
     return nil
   end

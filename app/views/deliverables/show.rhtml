@@ -24,10 +24,10 @@
     
     <tr>
       <td class="status"><strong><%=l(:field_status)%>:</strong></td>
-      <td class="status"><%= @deliverable.status %></td>
+      <td class="status"><%= l(@deliverable.status) %></td>
       
-      <td class="progress"><strong><%=l(:field_progress)%>:</strong></td>
-      <td class="progress"><%= extended_progress_bar(@deliverable.progress, :width => '80px', :legend => "#{@deliverable.progress}%") %></td>
+      <td class="progress"><strong><%=l(:field_budget_ratio)%>:</strong></td>
+      <td class="progress"><%= extended_progress_bar(@deliverable.budget_ratio, :width => '80px', :legend => "#{@deliverable.budget_ratio}%") %></td>
     </tr>
     
   </table>

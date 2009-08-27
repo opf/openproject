@@ -1,8 +1,8 @@
 # TODO: which require statement to use here? require_dependency breaks stuff
-#require 'user'
+#require 'time_entry'
 
 # Patches Redmine's Users dynamically.
-module UserPatch
+module TimeEntryPatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
@@ -11,7 +11,6 @@ module UserPatch
     # Same as typing in the class 
     base.class_eval do
       unloadable
-      has_many :rates, :class_name => 'HourlyRate'
     end
 
   end
@@ -21,12 +20,12 @@ module UserPatch
   end
 
   module InstanceMethods
-    def current_rate(project_id)
-      rate_at(Date.today, project_id)
-    end
-    
-    def rate_at(date, project_id)
-      HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project_id, date], :order => "valid_from DESC")
+    def costs
+      unloadable
+      
+      self.hours * self.user.rate_at(self.updated_on, self.project_id).rate
+    rescue
+      nil
     end
   end
 end

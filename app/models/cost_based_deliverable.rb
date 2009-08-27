@@ -1,13 +1,16 @@
 class CostBasedDeliverable < Deliverable
-  has_many :deliverable_costs, :include => :rate, :foreign_key => 'deliverable_id', :dependent => :destroy
-  has_many :deliverable_hours, :include => :rate, :foreign_key => 'deliverable_id', :dependent => :destroy
+  has_many :deliverable_costs, :include => :cost_type, :foreign_key => 'deliverable_id', :dependent => :destroy
+  has_many :deliverable_hours, :include => :user, :foreign_key => 'deliverable_id', :dependent => :destroy
   
   validates_associated :deliverable_costs
   validates_associated :deliverable_hours
   
+  after_update :save_deliverable_costs
+  after_update :save_deliverable_hours
+  
   def before_save
     # set budget to correct value
-    self.budget = deliverable_hours.inject(0.0) {|sum,d| sum + d.costs} + deliverable_costs.inject(0.0) {|sum, d| d.costs + sum}
+    self.budget = material_budget + labor_budget
   end
   
   def copy_from(arg)
@@ -22,20 +25,20 @@ class CostBasedDeliverable < Deliverable
     return l(:label_cost_based_deliverable)
   end
   
-  def materials_budget
-    if User.current.allowed_to?(:view_unit_price, project)
-      deliverable_costs.inject(0.0) {|sum, d| d.costs + sum}
-    else
-      nil
-    end
+  def material_budget
+    deliverable_costs.inject(0.0) {|sum, d| d.costs + sum}
   end
 
   def labor_budget
-    if User.current.allowed_to?(:view_all_rates, project)
-      deliverable_hours.inject(0.0) {|sum,d| sum + d.costs}
-    else
-      nil
-    end
+    deliverable_hours.inject(0.0) {|sum,d| sum + d.costs}
+  end
+  
+  def spent
+    # FIXME: This is very ineffecient database wise. Try to consolidate the queries
+    return @spent if @spent
+    
+    return 0 unless issues.size > 0
+    issues.collect(&:overall_costs).compact.sum
   end
   
   def new_deliverable_cost_attributes=(deliverable_cost_attributes)
@@ -70,6 +73,10 @@ class CostBasedDeliverable < Deliverable
   def existing_deliverable_hour_attributes=(deliverable_hour_attributes)
     deliverable_hours.reject(&:new_record?).each do |deliverable_hour|
       attributes = deliverable_hour_attributes[deliverable_hour.id.to_s]
+
+      p attributes
+
+
       if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0
         deliverable_hour.attributes = attributes
       else
@@ -79,7 +86,11 @@ class CostBasedDeliverable < Deliverable
   end
   
   def save_deliverable_hours
+    p "---------------------------------- SAVING -----------------------------"
+
     deliverable_hours.each do |deliverable_hour|
+      p deliverable_hour
+
       deliverable_hour.save(false)
     end
   end

@@ -26,6 +26,8 @@ class DeliverablesController < ApplicationController
   include AttachmentsHelper
   helper :costlog
   include CostlogHelper
+  helper :deliverables
+  include DeliverablesHelper
   include Redmine::Export::PDF
   
   def index
@@ -87,7 +89,6 @@ class DeliverablesController < ApplicationController
     @deliverable ||= Deliverable.new
     
     @deliverable.project_id = @project.id
-    @deliverable.author_id = User.current.id
     
     # fixed_date must be set before deliverable_costs and deliverable_hours
     if params[:deliverable] && params[:deliverable][:fixed_date]
@@ -149,13 +150,13 @@ class DeliverablesController < ApplicationController
   end
   
   def update_deliverable_cost
-    cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
-
     element_id = params[:element_id] if params.has_key? :element_id
-    render_403 and return unless element_id =~ /^deliverable(_new)?_deliverable_cost_attributes_[0-9]+$/
+    render_403 and return unless element_id =~ /^deliverable_(existing|new)_deliverable_cost_attributes_[0-9]+$/
+    
+    cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
     
     units = params[:units].strip.gsub(',', '.').to_f
-    costs = (units * cost_type.current_rate.rate rescue 0.0)
+    costs = (units * cost_type.rate_at(params[:fixed_date]).rate rescue 0.0)
     
     if request.xhr?
       render :update do |page|
@@ -170,18 +171,13 @@ class DeliverablesController < ApplicationController
   end
   
   def update_deliverable_hour
-    if params.has_key? :user_id && params[:user_id].to_i > 0
-      user = User.find(params[:user_id]) 
-    else
-      # TODO: Create generic user
-      user=nil
-    end
-    
     element_id = params[:element_id] if params.has_key? :element_id
-    render_403 and return unless element_id =~ /^deliverable(_new)?_deliverable_hour_attributes_[0-9]+$/
+    render_403 and return unless element_id =~ /^deliverable_(existing|new)_deliverable_hour_attributes_[0-9]+$/
+
+    user = User.find(params[:user_id])
     
     hours = params[:hours].to_hours
-    costs = (hours * user.rate.hourly_price rescue 0.0)
+    costs = hours * user.rate_at(params[:fixed_date], @project).rate rescue 0.0
     
     if request.xhr?
       render :update do |page|
@@ -191,7 +187,9 @@ class DeliverablesController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
-    render_404
+    render :update do |page|
+        page.replace_html "#{element_id}_costs", number_to_currency(0.0)
+    end
   end
 
 private

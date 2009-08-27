@@ -20,9 +20,8 @@
   </td>
   <td>
     <%= cost_form.select :cost_type_id, cost_types_collection_for_select_options, {}, {:index => id_or_index} %>
-    <%= cost_form.hidden_field :rate_id, :index => id_or_index %>
-    <%= observe_field( "#{id_prefix}_cost_type_id", :url => {:action => :update_deliverable_cost}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('#{id_prefix}_units').value) + '&element_id=#{id_prefix}'") %>
-    <%= observe_field( "#{id_prefix}_units", :frequency => 1, :url => {:action => :update_deliverable_cost}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&element_id=#{id_prefix}'") %>
+    <%= observe_field( "#{id_prefix}_cost_type_id", :url => {:action => :update_deliverable_cost}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('#{id_prefix}_units').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('deliverable_fixed_date').value) + '&element_id=#{id_prefix}'") %>
+    <%= observe_field( "#{id_prefix}_units", :frequency => 1, :url => {:action => :update_deliverable_cost}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('deliverable_fixed_date').value) + '&element_id=#{id_prefix}'") %>
   </td>
   <% if User.current.allowed_to?(:view_unit_price, @project)%>
   <td class="currency">

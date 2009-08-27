@@ -1,5 +1,5 @@
 class CostEntry < ActiveRecord::Base
-  unloadable
+  # unloadable
   
   belongs_to :project
   belongs_to :issue
@@ -33,12 +33,10 @@ class CostEntry < ActiveRecord::Base
     errors.add :user_id, :activerecord_error_invalid unless (user == User.current) || (User.current.allowed_to? :book_costs, project)
   end
   
-  def units=(u)
-    set_costs
-  end
-  
-  def cost_type=(c)
-    set_costs
+  def costs
+    units * cost_type.rate_at(self.updated_on).rate
+  rescue
+    nil
   end
   
   # Returns true if the time entry can be edited by usr, otherwise false
@@ -52,8 +50,4 @@ class CostEntry < ActiveRecord::Base
     end
   end
   
-private
-  def set_costs
-    self.cost = (units && cost_type) ? (units * cost_type.unit_price) : nil
-  end
 end

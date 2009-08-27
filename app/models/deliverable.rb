@@ -7,6 +7,8 @@ class Deliverable < ActiveRecord::Base
   belongs_to :project
   has_many :issues
   
+  attr_protected :author
+  
   acts_as_attachable :after_remove => :attachment_removed
   
   acts_as_event :title => Proc.new {|o| "#{l(:label_deliverable)} ##{o.id}: #{o.subject}"},
@@ -19,12 +21,16 @@ class Deliverable < ActiveRecord::Base
   validates_presence_of :subject, :project, :author
   validates_length_of :subject, :maximum => 255
   
+  
+  def before_validation
+    self.author = User.current if self.new_record?
+  end
+  
   def copy_from(arg)
     deliverable = arg.is_a?(Deliverable) ? arg : Deliverable.find(arg)
     self.attributes = deliverable.attributes.dup
   end
-
-
+  
   # Wrap type column to make it usable in views (especially in a select tag)
   def kind
     self[:type]
@@ -72,18 +78,39 @@ class Deliverable < ActiveRecord::Base
     0 
   end
   
+  def spent_for_display
+    if User.current.allowed_to?(:view_all_rates, project) && User.current.allowed_to?(:view_unit_price, project)
+      spent
+    else
+      000
+    end
+  end
+  
   # Budget of labor.  Virtual accessor that is overriden by subclasses.
   def labor_budget
     0
   end
   
-  # Budget of materials, i.e. all costs besides labor costs.  Virtual accessor that is overriden by subclasses.
-  def materials_budget
+  def labor_budget_for_display
+    User.current.allowed_to?(:view_all_rates, project) ? labor_budget : 0.0
+  end
+    
+  # Budget of material, i.e. all costs besides labor costs.  Virtual accessor that is overriden by subclasses.
+  def material_budget
     0
   end
   
+  def material_budget_for_display
+    User.current.allowed_to?(:view_unit_price, project) ? material_budget : 0.0
+  end
+  
   def status
-    "TODO"
+    # this just returns the symbol for I18N
+    if project_manager_signoff
+      client_signoff ? :label_status_finished : :label_status_awaiting_client
+    else
+      client_signoff ? :label_status_awaiting_client : :label_status_in_progress
+    end
   end
   
   # Label of the current type for display in GUI.  Virtual accessor that is overriden by subclasses.
@@ -94,7 +121,6 @@ class Deliverable < ActiveRecord::Base
   
   # Percentage of the deliverable that is complete based on the progress of the
   # assigned issues.
-  # TODO:  collect issues based on costs AND estimated_hours
   def progress
     return 0 unless self.issues.size > 0
     

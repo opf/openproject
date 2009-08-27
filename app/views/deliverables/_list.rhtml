@@ -1,4 +1,10 @@
 <% form_tag({}) do -%>
+
+<%-
+  show_labor = User.current.allowed_to?(:view_all_rates?, @project)
+  show_material = User.current.allowed_to?(:view_all_rates?, @project) && User.current.allowed_to?(:view_unit_price?, @project)
+-%>
+
 <table class="list deliverables">
   <thead><tr>
     <th><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
@@ -8,27 +14,27 @@
     <%= sort_header_tag("status", :caption => l(:caption_status), :default_order => 'desc') %>
     <%= sort_header_tag("subject", :caption => l(:caption_subject)) %>
     <%= sort_header_tag("score", :caption => l(:caption_score), :default_order => 'desc') %>
-    <%= sort_header_tag("total_budget", :caption => l(:caption_budget)) %>
-    <%= sort_header_tag("labor_budget", :caption => l(:caption_labor_budget)) %>
-    <%= sort_header_tag("materials_budget", :caption => l(:caption_materials_budget)) %>
+    <%= sort_header_tag("total_budget", :caption => l(:caption_budget))  if show_labor && show_material %>
+    <%= sort_header_tag("labor_budget", :caption => l(:caption_labor_budget)) if show_labor %>
+    <%= sort_header_tag("material_budget", :caption => l(:caption_material_budget)) if show_material %>
     <%= sort_header_tag("spent", :caption => l(:caption_spent)) %>
+    <%= sort_header_tag("budget_ratio", :caption => l(:caption_budget_ratio)) %>
     <%= sort_header_tag("fixed_date", :caption => l(:caption_fixed_date)) %>
-    <%= sort_header_tag("progress", :caption => l(:caption_progress)) %>
   </tr></thead>
   <tbody>
     <% deliverables.each do |deliverable| %>
     <tr id="deliverable-<%= deliverable.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= deliverable.css_classes %>">
       <td class="checkbox"><%= check_box_tag("ids[]", deliverable.id, false, :id => nil) %></td>
       <td><%= link_to deliverable.id, :controller => 'deliverables', :action => 'show', :id => deliverable %></td>
-      <%= content_tag(:td, h(deliverable.status), :class => 'status') %>
+      <%= content_tag(:td, l(deliverable.status), :class => 'status') %>
       <%= content_tag(:td, link_to(h(deliverable.subject), :controller => 'deliverables', :action => 'show', :id => deliverable), :class => 'subject') %>
       <%= content_tag(:td, h(deliverable.score.to_i), :class => 'score') %>
-      <%= content_tag(:td, number_to_currency(deliverable.budget || 0.0, :precision => 0), :class => 'currency') %>
-      <%= content_tag(:td, number_to_currency(deliverable.labor_budget || 0.0, :precision => 0), :class => 'currency') %>
-      <%= content_tag(:td, number_to_currency(deliverable.materials_budget || 0.0, :precision => 0), :class => 'currency') %>
+      <%= content_tag(:td, number_to_currency(deliverable.budget || 0.0, :precision => 0), :class => 'currency') if show_labor && show_material %>
+      <%= content_tag(:td, number_to_currency(deliverable.labor_budget || 0.0, :precision => 0), :class => 'currency') if show_labor %>
+      <%= content_tag(:td, number_to_currency(deliverable.material_budget || 0.0, :precision => 0), :class => 'currency') if show_material %>
       <%= content_tag(:td, number_to_currency(deliverable.spent, :precision => 0), :class => 'currency') %>
+      <%= content_tag(:td, extended_progress_bar(deliverable.budget_ratio, :width => '100%')) %>
       <%= content_tag(:td, format_date(deliverable.fixed_date), :class => 'fixed_date') %>
-      <%= content_tag(:td, extended_progress_bar(deliverable.progress, :width => '100%')) %>
     </tr>
     <% end %>
   </tbody>

@@ -1,21 +1,23 @@
 require 'redmine'
 
 # Patches to the Redmine core.
+require_dependency 'l10n_patch'
+
 require 'dispatcher'
 require 'issue_patch'
 require 'project_patch'
+require 'user_patch'
+require 'time_entry_patch'
+
 Dispatcher.to_prepare do
   Issue.send(:include, IssuePatch)
   Project.send(:include, ProjectPatch)
   User.send(:include, UserPatch)
+  TimeEntry.send(:include, TimeEntryPatch)
 end
 
 # Hooks
 require_dependency 'costs_issue_hook'
-
-# monkey patches
-require_dependency 'l10n_patch'
-
 
 Redmine::Plugin.register :redmine_costs do
   name 'Costs Plugin'
