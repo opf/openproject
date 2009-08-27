@@ -8,11 +8,6 @@ class CostBasedDeliverable < Deliverable
   after_update :save_deliverable_costs
   after_update :save_deliverable_hours
   
-  def before_save
-    # set budget to correct value
-    self.budget = material_budget + labor_budget
-  end
-  
   def copy_from(arg)
     deliverable = arg.is_a?(CostBasedDeliverable) ? arg : CostBasedDeliverable.find(arg)
     self.attributes = deliverable.attributes.dup
