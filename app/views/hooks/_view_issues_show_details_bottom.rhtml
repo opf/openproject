@@ -1,3 +1,35 @@
+<%-
+def summarized_cost_entries(cost_entries)
+  last_cost_type = ""
+
+  result = cost_entries.sort_by(&:id).inject(Hash.new) do |result, entry|
+    if entry.cost_type.id.to_s == last_cost_type
+      result[last_cost_type][:units] += entry.units
+    else
+      last_cost_type = entry.cost_type.id.to_s
+
+      result[last_cost_type] = {}
+      result[last_cost_type][:units] = entry.units
+      result[last_cost_type][:unit] = entry.cost_type.unit
+      result[last_cost_type][:unit_plural] = entry.cost_type.unit_plural
+    end
+    result
+  end
+
+  return "-" if result.empty?
+
+  str_array = []
+  options = {:class => 'icon icon-box'}
+  result.each do |k, v|
+    str_array << link_to(pluralize(v[:units], v[:unit], v[:unit_plural]), {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue, :cost_type_id => k}, options)
+    options = {} # options apply only for first element
+  end
+  str_array.join(", ")
+end
+
+-%>
+
+
 <% if @project.module_enabled? :costs_module %>
   <%# Only render this partial, if the plugin is enabled for the current project %>
   <tr>
@@ -6,17 +38,11 @@
     <% if User.current.allowed_to?(:view_cost_entries, @project) %>
     <td><b><%= l(:label_spent_units) %>:</b></td>
     <td>
-      <% entries = @issue.summarized_cost_entries %>
-      <% if entries.empty? %>-<% else %>
-        <% for entry in entries do %>
-          <% options = (entry == entries.first) ? {:class => 'icon icon-box'} : {} %>
-          <%= link_to pluralize(entry.units, entry.cost_type.unit, entry.cost_type.unit_plural), {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue, :cost_type_id => entry.cost_type}, options %><%= ", " unless entry == entries.last %> 
-        <% end %>
-      <% end %>
+      <%= summarized_cost_entries(@issue.cost_entries) %>
     </td>
     <% end %>
   </tr>
-  <% if User.current.allowed_to?(:view_unit_price, @project) && User.current.allowed_to?(:view_cost_entries, @project)%>
+  <% if User.current.allowed_to?(:view_unit_price, @project) && User.current.allowed_to?(:view_all_rates, @project)%>
     <tr>
       <td>&nbsp;</td>
       <td>&nbsp;</td>

@@ -43,22 +43,8 @@ module IssuePatch
       @labor_costs || time_entries.collect(&:costs).compact.sum
     end
     
-    # Summarizes equal cost types into one object
-    def summarized_cost_entries
-      costs = cost_entries.inject(Hash.new) do |result, item|
-        result_item = result[item.cost_type.id]
-        if result_item
-          result_item.units += item.units
-          result_item.cost += item.cost
-        else
-          result[item.cost_type.id] = item
-        end
-        result
-      end
-      costs.values.sort{|a,b| a.cost_type.name.downcase <=> b.cost_type.name.downcase}
-    end
-
-  end    
+    
+  end
 end
 
 

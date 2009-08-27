@@ -21,9 +21,7 @@ module TimeEntryPatch
 
   module InstanceMethods
     def costs
-      unloadable
-      
-      self.hours * self.user.rate_at(self.updated_on, self.project_id).rate
+      self.hours * self.user.rate_at(self.spent_on, self.project_id).rate
     rescue
       nil
     end
