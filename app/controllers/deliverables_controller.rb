@@ -98,9 +98,6 @@ class DeliverablesController < ApplicationController
     
     @deliverable.attributes = params[:deliverable]
 
-    # FIXME: Put correctly calculated budget here
-    @deliverable.budget = 1
-    
     unless request.get? || request.xhr?
       if @deliverable.save
         flash[:notice] = l(:notice_successful_create)
