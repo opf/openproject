@@ -1,8 +1,8 @@
 <% form_tag({}) do -%>
 
 <%-
-  show_labor = User.current.allowed_to?(:view_all_rates?, @project)
-  show_material = User.current.allowed_to?(:view_all_rates?, @project) && User.current.allowed_to?(:view_unit_price?, @project)
+  show_labor = User.current.allowed_to?(:view_all_rates, @project)
+  show_material =  User.current.allowed_to?(:view_unit_price, @project)
 -%>
 
 <table class="list deliverables">

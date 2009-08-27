@@ -45,7 +45,6 @@ class DeliverablesController < ApplicationController
 
     sort_columns = {'id' => "#{Deliverable.table_name}.id",
                     'subject' => "#{Deliverable.table_name}.subject",
-                    'total_budget' => "#{Deliverable.table_name}.budget",
                     'fixed_date' => "#{Deliverable.table_name}.fixed_date"
     }
 
