@@ -543,8 +543,7 @@ THE SOFTWARE.
   display: none;
 }
 
-.backlog .header.editing  select.is_closed {
-  display: block;
+.backlog.maximized .header.editing  select.is_closed {
   display: block;
   font-family: Verdana, Arial, sans-serif;
   font-size: 10px;

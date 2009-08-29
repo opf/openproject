@@ -249,6 +249,9 @@ li.item  > .body div.assigned_to_id .v {
 
 li.item  > .body div.assigned_to_id .t {
   display: block;
+  overflow:hidden;
+  white-space:nowrap;
+  width:92px;  
 }
 
 li.item  > .body div.assigned_to_id {

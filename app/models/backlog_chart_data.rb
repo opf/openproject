@@ -10,7 +10,6 @@ class BacklogChartData < ActiveRecord::Base
     return nil if backlog.end_date.nil? || backlog.start_date.nil? ||
                   backlog.start_date > Date.today ||
                   backlog.is_closed?
-    
     data_today = BacklogChartData.find :first, :conditions => ["backlog_id=? AND extract(year from created_at)=? AND extract(month from created_at)=? AND extract(day from created_at)=?", backlog.id, Time.now.year, Time.now.month, Time.now.day]
 
     scope = Item.sum('points', :conditions => ["backlog_id=? AND parent_id=0", backlog.id])
@@ -31,7 +30,7 @@ class BacklogChartData < ActiveRecord::Base
     backlog = Backlog.find(options[:backlog_id])
     generate backlog
     end_date = backlog.end_date || 30.days.from_now.to_date
-    data = find_all_by_backlog_id backlog.id, :conditions => ["created_at>=? AND extract(year from created_at)<=? AND extract(month from created_at)<=? AND extract(day from created_at)<=?", backlog.start_date, end_date.year, end_date.month, end_date.day], :order => "created_at ASC"
+    data = find_all_by_backlog_id backlog.id, :conditions => ["created_at>=? AND created_at<=?", backlog.start_date.to_formatted_s(:db), end_date.to_formatted_s(:db)], :order => "created_at ASC"
     
     return nil if data.nil? || data.length==0
     
