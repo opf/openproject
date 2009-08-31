@@ -34,9 +34,9 @@ class CostEntry < ActiveRecord::Base
   end
   
   def costs
-    @costs || units * cost_type.rate_at(self.spent_on).rate
+    @costs || @costs = units * cost_type.rate_at(self.spent_on).rate
   rescue
-    nil
+    0.0
   end
   
   def costs=(value)

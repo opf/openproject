@@ -23,7 +23,7 @@ module TimeEntryPatch
     def costs
       @costs || @costs = self.hours * self.user.rate_at(self.spent_on, self.project_id).rate
     rescue
-      nil
+      0.0
     end
     
     def costs=(value)
