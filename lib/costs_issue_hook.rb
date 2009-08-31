@@ -6,21 +6,13 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
   # Renders Costs links in the issue view sidebar
   render_on :view_issues_sidebar_issues_bottom, :partial => 'hooks/view_issues_sidebar_issues_bottom'
   
-  
   # Renders a select tag with all the Deliverables
-  #
-  # Context:
-  # * :form => Edit form
-  # * :project => Current project
-  #
-  def view_issues_form_details_bottom(context = { })
-    if context[:project].module_enabled?('budget_module')
-      select = context[:form].select :deliverable_id, Deliverable.find_all_by_project_id(context[:project], :order => 'subject ASC').collect { |d| [d.subject, d.id] }, :include_blank => true 
-      return "<p>#{select}</p>"
-    else
-      return ''
-    end
-  end
+  render_on :view_issues_form_details_bottom, :partial => 'hooks/view_issues_form_details_bottom'
+  
+  # Renders a select tag with all the Deliverables for the bulk edit page
+  render_on :view_issues_bulk_edit_details_bottom, :partial => 'hooks/view_issues_bulk_edit_details_bottom'
+  
+  
   
   # Renders a select tag with all the Deliverables for the bulk edit page
   #
