@@ -13,8 +13,8 @@ module IssuePatch
     base.class_eval do
       unloadable
       
-      has_many :cost_entries, :dependent => :delete_all
       belongs_to :deliverable
+      has_many :cost_entries, :dependent => :delete_all
     end
   end
   

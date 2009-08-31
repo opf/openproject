@@ -8,12 +8,14 @@ require 'issue_patch'
 require 'project_patch'
 require 'user_patch'
 require 'time_entry_patch'
+require 'query_patch'
 
 Dispatcher.to_prepare do
   Issue.send(:include, IssuePatch)
   Project.send(:include, ProjectPatch)
   User.send(:include, UserPatch)
   TimeEntry.send(:include, TimeEntryPatch)
+  Query.send(:include, QueryPatch)
 end
 
 # Hooks
