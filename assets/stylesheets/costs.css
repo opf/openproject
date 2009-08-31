@@ -11,8 +11,8 @@ table.deliverable_hours {
   width: 100%;
 }
 
-.deliverable_costs td,
-.deliverable_hours td {
+.deliverable_costs,
+.deliverable_hours {
   text-align: center;
 }
 
@@ -25,6 +25,7 @@ th.currency,
 td.currency {
   text-align: right;
   vertical-align: middle;
+  white-space: nowrap;
 }
 
 th.units,

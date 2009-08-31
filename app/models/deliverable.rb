@@ -66,12 +66,6 @@ class Deliverable < ActiveRecord::Base
     end
   end
   
-  # Adjusted score to show the status of the Deliverable.  Will range from 100
-  # (everything done with no money spent) to -100 (nothing done, all the money spent)
-  def score
-    return self.progress - self.budget_ratio
-  end
-  
   # Amount spent.  Virtual accessor that is overriden by subclasses.
   def spent
     # TODO: check rights to see rates
@@ -126,28 +120,6 @@ class Deliverable < ActiveRecord::Base
     return l(:label_deliverable)
   end
   
-  
-  # Percentage of the deliverable that is complete based on the progress of the
-  # assigned issues.
-  def progress
-    return 0 unless self.issues.size > 0
-    
-    total = self.issues.collect(&:estimated_hours).compact.sum || 0
-
-    return 0 unless total > 0
-    balance = 0.0
-
-    self.issues.each do |issue|
-      if use_issue_status_for_done_ratios?
-        balance += issue.status.default_done_ratio * issue.estimated_hours unless issue.estimated_hours.nil?
-      else
-        balance += issue.done_ratio * issue.estimated_hours unless issue.estimated_hours.nil?
-      end
-    end
-
-    return (balance / total).round
-  end
-  
   # Amount of the budget spent.  Expressed as as a percentage whole number
   def budget_ratio
     return 0.0 if self.budget.nil? || self.budget == 0.0
@@ -157,10 +129,5 @@ class Deliverable < ActiveRecord::Base
   def css_classes
     return "issue"
   end
-  
-  def use_issue_status_for_done_ratios?
-    return defined?(Setting.issue_status_for_done_ratio?) && Setting.issue_status_for_done_ratio?
-  end
-  
   
 end
