@@ -26,9 +26,7 @@ def summarized_cost_entries(cost_entries)
   end
   str_array.join(", ")
 end
-
 -%>
-
 
 <% if @project.module_enabled? :costs_module %>
   <%# Only render this partial, if the plugin is enabled for the current project %>

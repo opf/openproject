@@ -8,7 +8,7 @@
 
 table.deliverable_costs,
 table.deliverable_hours {
-  width: 99%;
+  width: 100%;
 }
 
 .deliverable_costs td,
@@ -16,17 +16,29 @@ table.deliverable_hours {
   text-align: center;
 }
 
-tr.cost-entry {
+tr.cost_entry {
   text-align: center;
   white-space: nowrap;
 }
 
+th.currency,
 td.currency {
   text-align: right;
+  vertical-align: middle;
 }
 
-td.cost_units {
+th.units,
+td.units {
   text-align: left;
+}
+
+table.list td.delete {
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.comment input {
+  width: 100%;
 }
 
 .tabular div.p {

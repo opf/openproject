@@ -5,9 +5,9 @@
                                        :class => nil} do |f| %>
     <%= error_messages_for 'deliverable' %>
     <div class="box">
-    <fieldset class="tabular"><legend><%= l(:label_deliverable) %></legend>
+    <div class="tabular">
       <%= render :partial => 'form', :locals => {:f => f} %>
-    </fieldset>
+    </div>
     <fieldset><legend><%= l(:label_attachment_plural )%></legend>
       <p><%= render :partial => 'attachments/form' %></p>
     </fieldset>

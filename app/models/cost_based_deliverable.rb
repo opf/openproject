@@ -29,11 +29,20 @@ class CostBasedDeliverable < Deliverable
   end
   
   def spent
-    # FIXME: This is very ineffecient database wise. Try to consolidate the queries
-    return @spent if @spent
-    
+    spent_material + spent_labor
+  end
+  
+  def spent_material
+    return @spent_material if @spent_material
     return 0 unless issues.size > 0
-    issues.collect(&:overall_costs).compact.sum
+    @spent_material = issues.collect(&:material_costs).compact.sum
+  end
+
+
+  def spent_labor
+    return @spent_labor if @spent_labor
+    return 0 unless issues.size > 0
+    @spent_labor = issues.collect(&:labor_costs).compact.sum
   end
   
   def new_deliverable_cost_attributes=(deliverable_cost_attributes)

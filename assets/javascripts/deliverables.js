@@ -10,30 +10,52 @@ var Subform = Class.create({
     return this.rawHTML.replace(/INDEX/g, this.lineIndex++);
   },
   add: function() {
-    new Insertion.Bottom($(this.parentElement), this.parsedHTML());
+    var e = $(this.parentElement)
+    new Insertion.Bottom(e, this.parsedHTML());
+    recalculate_even_odd(e)
   }
 });
 
-
+function recalculate_even_odd(element) {
+  $A(element.childElements()).inject(
+    0,
+    function(acc, e)
+    {
+      e.removeClassName("even");
+      e.removeClassName("odd");
+      e.addClassName( (Math.floor(acc/2)%2==0) ? "odd" : "even"); return ++acc;
+    }
+  )
+}
 
 function deleteDeliverableCost(id) {
-  var row = document.getElementById(id);
+  var e = $(id),
+  parent = e.up();
   
   // de-register observers
   Element.stopObserving (id + '_cost_type_id')
   Element.stopObserving (id + '_units')
   
   // delete the row
-  Element.remove(row);
+  e.next().remove();
+  e.remove();
+  
+  // fix the markup classes
+  recalculate_even_odd(parent)
 }
 
 function deleteDeliverableHour(id) {
-  var row = document.getElementById(id);
-  
+  var e = $(id),
+   parent = e.up();
+   
   // de-register observers
   Element.stopObserving (id + '_user_id')
   Element.stopObserving (id + '_hours')
   
   // delete the row
-  Element.remove(row);
+  e.next().remove();
+  e.remove();
+
+  // fix the markup classes
+  recalculate_even_odd(parent)
 }

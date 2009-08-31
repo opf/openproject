@@ -22,43 +22,45 @@
   //]]>
 </script>
 
-<div class="splitcontentleft"><fieldset>
+<fieldset>
   <legend><%= l(:caption_material_budget) %></legend>
   <table class="list deliverable_costs" id="deliverable_costs">
     <thead><tr>
-      <th><%= l(:caption_cost_unit_plural)%></th>
+      <th class="cost_units"><%= l(:caption_cost_unit_plural)%></th>
       <th><%= l(:caption_cost_type) %></th>
-      <% if User.current.allowed_to?(:view_unit_price, @project)%><th id="deliverable_costs_price"><%= l(:caption_budget) %></th><%end%>
+      <th><%= l(:label_comment) %></th>
+      <% if User.current.allowed_to?(:view_unit_price, @project)%><th class="currency" id="deliverable_costs_price"><%= l(:caption_budget) %></th><%end%>
       <th></th>
     </tr></thead>
     <tbody id="deliverable_costs_body">
       <%- @deliverable.deliverable_costs.each_with_index do |deliverable_cost, index| -%>
-        <%= render :partial => 'deliverable_cost', :object => deliverable_cost, :locals => {:index => index} %>
+        <%= render :partial => 'deliverable_cost', :object => deliverable_cost, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
       <%- end -%>
     </tbody>
   </table>
   <div style="text-align: right"><%= link_to_function l(:button_add_material_cost), "deliverableCostsForm.add()", {:class => "icon icon-add"} %></div>
-</fieldset></div>
+</fieldset>
 
-<div class="splitcontentright"><fieldset>
+<fieldset>
   <legend><%= l(:caption_labor_budget) %></legend>
   <table class="list deliverable_rates" id="deliverables_rates">
     <thead><tr>
-      <th><%= l(:field_hours)%></th>
+      <th class="cost_units"><%= l(:field_hours)%></th>
       <th><%= l(:label_user) %></th>
+      <th><%= l(:label_comment) %></th>
       <% if User.current.allowed_to?(:view_all_rates, @project) || User.current.allowed_to?(:view_own_rate, @project) %>
-        <th id="deliverable_hours_price"><%= l(:caption_budget) %></th>
+        <th class="currency" id="deliverable_hours_price"><%= l(:caption_budget) %></th>
       <% end %>
       <th></th>
     </tr></thead>
     <tbody id="deliverable_hours_body">
       <%- @deliverable.deliverable_hours.each_with_index do |deliverable_hour, index| -%>
-        <%= render :partial => 'deliverable_hour', :object => deliverable_hour, :locals => {:index => index} %>
+        <%= render :partial => 'deliverable_hour', :object => deliverable_hour, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
       <%- end -%>
     </tbody>
   </table>
   <div style="text-align: right"><%= link_to_function l(:button_add_labor_cost), "deliverableHoursForm.add()", {:class => "icon icon-add"} %></div>
-</fieldset></div>
+</fieldset>
 
 <%- end %>
 

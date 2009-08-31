@@ -3,7 +3,8 @@ class DeliverableHour < ActiveRecord::Base
   
   belongs_to :deliverable
   belongs_to :user
-#  belongs_to :rate, :class_name => "HourlyRate", :foreign_key => 'rate_id'
+
+  validates_length_of :comments, :maximum => 255, :allow_nil => true
   
   def costs
     hours && user ? user.rate_at(deliverable.fixed_date, deliverable.project_id).rate * hours : 0.0

@@ -13,7 +13,7 @@ class DeliverablesController < ApplicationController
   # all other actions listed here are unrestricted
   before_filter :authorize, :except => [
     # unrestricted actions
-    :index, :update_form, :preview, :context_menu,
+    :index, :preview, :context_menu,
 
     :update_deliverable_cost, :update_deliverable_hour
     ]

@@ -33,4 +33,8 @@ class CostType < ActiveRecord::Base
   rescue ActiveRecord::RecordNotFound
     return nil
   end
+  
+  def to_s
+    name
+  end
 end
