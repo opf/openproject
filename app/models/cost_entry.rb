@@ -26,7 +26,7 @@ class CostEntry < ActiveRecord::Base
   end
   
   def validate
-    errors.add :units, :activerecord_error_invalid if units && (units < 0 || units >= 1000)
+    errors.add :units, :activerecord_error_invalid if units && (units < 0)
     errors.add :project_id, :activerecord_error_invalid if project.nil?
     errors.add :issue_id, :activerecord_error_invalid if (issue_id && !issue) || (issue && project!=issue.project)
     
