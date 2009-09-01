@@ -1,0 +1,811 @@
+# Greek translations for Ruby on Rails
+# by Vaggelis Typaldos (vtypal@gmail.com),  Spyros Raptis (spirosrap@gmail.com)
+
+el:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%m/%d/%Y"
+      short: "%b %d"
+      long: "%B %d, %Y"
+      
+    day_names: [Κυριακή, Δευτέρα, Τρίτη, Τετάρτη, Πέμπτη, Παρασκευή, Σάββατο]
+    abbr_day_names: [Κυρ, Δευ, Τρι, Τετ, Πεμ, Παρ, Σαβ]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, Ιανουάριος, Φεβρουάριος, Μάρτιος, Απρίλιος, Μάϊος, Ιούνιος, Ιούλιος, Αύγουστος, Σεπτέμβριος, Οκτώβριος, Νοέμβριος, Δεκέμβριος]
+    abbr_month_names: [~, Ιαν, Φεβ, Μαρ, Απρ, Μαϊ, Ιον, Ιολ, Αυγ, Σεπ, Οκτ, Νοε, Δεκ]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      time: "%I:%M %p"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "πμ"
+    pm: "μμ"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "μισό λεπτό"
+      less_than_x_seconds:
+        one:   "λιγότερο από 1 δευτερόλεπτο"
+        other: "λιγότερο από {{count}} δευτερόλεπτα"
+      x_seconds:
+        one:   "1 δευτερόλεπτο"
+        other: "{{count}} δευτερόλεπτα"
+      less_than_x_minutes:
+        one:   "λιγότερο από ένα λεπτό"
+        other: "λιγότερο από {{count}} λεπτά"
+      x_minutes:
+        one:   "1 λεπτό"
+        other: "{{count}} λεπτά"
+      about_x_hours:
+        one:   "περίπου 1 ώρα"
+        other: "περίπου {{count}} ώρες"
+      x_days:
+        one:   "1 ημέρα"
+        other: "{{count}} ημέρες"
+      about_x_months:
+        one:   "περίπου 1 μήνα"
+        other: "περίπου {{count}} μήνες"
+      x_months:
+        one:   "1 μήνα"
+        other: "{{count}} μήνες"
+      about_x_years:
+        one:   "περίπου 1 χρόνο"
+        other: "περίπου {{count}} χρόνια"
+      over_x_years:
+        one:   "πάνω από 1 χρόνο"
+        other: "πάνω από {{count}} χρόνια"
+        
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "and"
+      skip_last_comma: false
+      
+  activerecord:
+    errors:
+      messages:
+        inclusion: "δεν περιέχεται στη λίστα"
+        exclusion: "έχει κατοχυρωθεί"
+        invalid: "είναι άκυρο"
+        confirmation: "δεν αντιστοιχεί με την επιβεβαίωση"
+        accepted: "πρέπει να γίνει αποδοχή"
+        empty: "δε μπορεί να είναι κενό"
+        blank: "δε μπορεί να είναι κενό"
+        too_long: "έχει πολλούς (μέγ.επιτρ. {{count}} χαρακτήρες)"
+        too_short: "έχει λίγους (ελάχ.επιτρ. {{count}} χαρακτήρες)"
+        wrong_length: "δεν είναι σωστός ο αριθμός χαρακτήρων (πρέπει να έχει {{count}} χαρακτήρες)"
+        taken: "έχει ήδη κατοχυρωθεί"
+        not_a_number: "δεν είναι αριθμός"
+        not_a_date: "δεν είναι σωστή ημερομηνία"
+        greater_than: "πρέπει να είναι μεγαλύτερο από {{count}}"
+        greater_than_or_equal_to: "πρέπει να είναι μεγαλύτερο από ή ίσο με {{count}}"
+        equal_to: "πρέπει να είναι ίσον με {{count}}"
+        less_than: "πρέπει να είναι μικρότερη από {{count}}"
+        less_than_or_equal_to: "πρέπει να είναι μικρότερο από ή ίσο με  {{count}}"
+        odd: "πρέπει να είναι μονός"
+        even: "πρέπει να είναι ζυγός"
+        greater_than_start_date: "πρέπει να είναι αργότερα από την ημερομηνία έναρξης"
+        not_same_project: "δεν ανήκει στο ίδιο έργο"
+        circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλικές εξαρτήσεις"
+
+  actionview_instancetag_blank_option: Παρακαλώ επιλέξτε
+  
+  general_text_No: 'Όχι'
+  general_text_Yes: 'Ναι'
+  general_text_no: 'όχι'
+  general_text_yes: 'ναι'
+  general_lang_name: 'Ελληνικά'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: ISO-8859-7
+  general_pdf_encoding: ISO-8859-7
+  general_first_day_of_week: '7'
+  
+  notice_account_updated: Ο λογαριασμός ενημερώθηκε επιτυχώς.
+  notice_account_invalid_creditentials: Άκυρο όνομα χρήστη ή κωδικού πρόσβασης
+  notice_account_password_updated: Ο κωδικός πρόσβασης ενημερώθηκε επιτυχώς.
+  notice_account_wrong_password: Λάθος κωδικός πρόσβασης
+  notice_account_register_done: Ο λογαριασμός δημιουργήθηκε επιτυχώς. Για να ενεργοποιήσετε το λογαριασμό σας, πατήστε το σύνδεσμο που σας έχει αποσταλεί με email.
+  notice_account_unknown_email: Άγνωστος χρήστης.
+  notice_can_t_change_password: Αυτός ο λογαριασμός χρησιμοποιεί εξωτερική πηγή πιστοποίησης. Δεν είναι δυνατόν να αλλάξετε τον κωδικό πρόσβασης.
+  notice_account_lost_email_sent: Σας έχει αποσταλεί email με οδηγίες για την επιλογή νέου κωδικού πρόσβασης.
+  notice_account_activated: Ο λογαριασμός σας έχει ενεργοποιηθεί. Τώρα μπορείτε να συνδεθείτε.
+  notice_successful_create: Επιτυχής δημιουργία.
+  notice_successful_update: Επιτυχής ενημέρωση.
+  notice_successful_delete: Επιτυχής διαγραφή.
+  notice_successful_connection: Επιτυχής σύνδεση.
+  notice_file_not_found: Η σελίδα που ζητήσατε δεν υπάρχει ή έχει αφαιρεθεί. 
+  notice_locking_conflict: Τα δεδομένα έχουν ενημερωθεί από άλλο χρήστη.
+  notice_not_authorized: Δεν έχετε δικαίωμα πρόσβασης σε αυτή τη σελίδα.
+  notice_email_sent: "Ένα μήνυμα ηλεκτρονικού ταχυδρομείου εστάλη στο {{value}}"
+  notice_email_error: "Σφάλμα κατά την αποστολή του μηνύματος στο ({{value}})"
+  notice_feeds_access_key_reseted:  Έγινε επαναφορά στο κλειδί πρόσβασης RSS.
+  notice_failed_to_save_issues: "Αποτυχία αποθήκευσης {{count}} θεμα(των) από τα {{total}} επιλεγμένα: {{ids}}."
+  notice_no_issue_selected: "Κανένα θέμα δεν είναι επιλεγμένο! Παρακαλούμε, ελέγξτε τα θέματα που θέλετε να επεξεργαστείτε."
+  notice_account_pending: "Ο λογαριασμός σας έχει δημιουργηθεί και είναι σε στάδιο έγκρισης από τον διαχειριστή."
+  notice_default_data_loaded: Οι προεπιλεγμένες ρυθμίσεις φορτώθηκαν επιτυχώς.
+  notice_unable_delete_version: Αδύνατον να διαγραφεί η έκδοση.
+  
+  error_can_t_load_default_data: "Οι προεπιλεγμένες ρυθμίσεις δεν μπόρεσαν να φορτωθούν:: {{value}}"
+  error_scm_not_found: "Η εγγραφή ή η αναθεώρηση δεν βρέθηκε στο αποθετήριο."
+  error_scm_command_failed: "Παρουσιάστηκε σφάλμα κατά την προσπάθεια πρόσβασης στο αποθετήριο: {{value}}"
+  error_scm_annotate: "Η καταχώριση δεν υπάρχει ή δεν μπορεί να σχολιαστεί."
+  error_issue_not_found_in_project: 'Το θέμα δεν βρέθηκε ή δεν ανήκει σε αυτό το έργο'
+  error_no_tracker_in_project: 'Δεν υπάρχει ανιχνευτής για αυτό το έργο. Παρακαλώ ελέγξτε τις ρυθμίσεις του έργου.'
+  error_no_default_issue_status: 'Δεν έχει οριστεί η προεπιλογή  κατάστασης θεμάτων. Παρακαλώ ελέγξτε τις ρυθμίσεις σας (Μεταβείτε στην  "Διαχείριση -> Κατάσταση θεμάτων").'
+  
+  warning_attachments_not_saved: "{{count}} αρχείο(α) δε μπορούν να αποθηκευτούν."
+  
+  mail_subject_lost_password: "Ο κωδικός σας {{value}}"
+  mail_body_lost_password: 'Για να αλλάξετε τον κωδικό πρόσβασης, πατήστε τον ακόλουθο σύνδεσμο:'
+  mail_subject_register: "Ενεργοποίηση του λογαριασμού χρήστη {{value}} "
+  mail_body_register: 'Για να ενεργοποιήσετε το λογαριασμό σας, επιλέξτε τον ακόλουθο σύνδεσμο:'
+  mail_body_account_information_external: "Μπορείτε να χρησιμοποιήσετε τον λογαριασμό {{value}} για να συνδεθείτε."
+  mail_body_account_information: Πληροφορίες του λογαριασμού σας
+  mail_subject_account_activation_request: "αίτημα ενεργοποίησης λογαριασμού {{value}}"
+  mail_body_account_activation_request: "'Ένας νέος χρήστης ({{value}}) έχει εγγραφεί. Ο λογαριασμός είναι σε στάδιο αναμονής της έγκρισης σας:"
+  mail_subject_reminder: "{{count}} θέμα(τα) με προθεσμία στις επόμενες ημέρες"
+  mail_body_reminder: "{{count}}θέμα(τα)  που έχουν ανατεθεί σε σας, με προθεσμία στις επόμενες {{days}} ημέρες:"
+  mail_subject_wiki_content_added: "'προστέθηκε η σελίδα wiki {{page}}' "
+  mail_body_wiki_content_added: "Η σελίδα wiki '{{page}}' προστέθηκε από τον {{author}}."
+  mail_subject_wiki_content_updated: "'ενημερώθηκε η σελίδα wiki {{page}}' "
+  mail_body_wiki_content_updated: "Η σελίδα wiki  '{{page}}' ενημερώθηκε από τον {{author}}."
+  
+  gui_validation_error: 1 σφάλμα
+  gui_validation_error_plural: "{{count}} σφάλματα"
+  
+  field_name: Όνομα
+  field_description: Περιγραφή
+  field_summary: Συνοπτικά
+  field_is_required: Απαιτείται
+  field_firstname: Όνομα
+  field_lastname: Επώνυμο
+  field_mail: Email
+  field_filename: Αρχείο
+  field_filesize: Μέγεθος
+  field_downloads: Μεταφορτώσεις
+  field_author: Συγγραφέας
+  field_created_on: Δημιουργήθηκε
+  field_updated_on: Ενημερώθηκε
+  field_field_format: Μορφοποίηση
+  field_is_for_all: Για όλα τα έργα
+  field_possible_values: Πιθανές τιμές
+  field_regexp: Κανονική παράσταση
+  field_min_length: Ελάχιστο μήκος
+  field_max_length: Μέγιστο μήκος
+  field_value: Τιμή
+  field_category: Κατηγορία
+  field_title: Τίτλος
+  field_project: Έργο
+  field_issue: Θέμα
+  field_status: Κατάσταση
+  field_notes: Σημειώσεις
+  field_is_closed: Κλειστά θέματα
+  field_is_default: Προεπιλεγμένη τιμή
+  field_tracker: Ανιχνευτής
+  field_subject: Θέμα
+  field_due_date: Προθεσμία
+  field_assigned_to: Ανάθεση σε
+  field_priority: Προτεραιότητα
+  field_fixed_version: Στόχος έκδοσης
+  field_user: Χρήστης
+  field_role: Ρόλος
+  field_homepage: Αρχική σελίδα
+  field_is_public: Δημόσιο
+  field_parent: Επιμέρους έργο του
+  field_is_in_chlog: Προβολή θεμάτων στο ιστορικό αλλαγών
+  field_is_in_roadmap: Προβολή θεμάτων στο χάρτη πορείας
+  field_login: Όνομα χρήστη
+  field_mail_notification: Ειδοποιήσεις email
+  field_admin: Διαχειριστής
+  field_last_login_on: Τελευταία σύνδεση
+  field_language: Γλώσσα
+  field_effective_date: Ημερομηνία
+  field_password: Κωδικός πρόσβασης
+  field_new_password: Νέος κωδικός πρόσβασης
+  field_password_confirmation: Επιβεβαίωση
+  field_version: Έκδοση
+  field_type: Τύπος
+  field_host: Κόμβος
+  field_port: Θύρα
+  field_account: Λογαριασμός
+  field_base_dn: Βάση DN
+  field_attr_login: Ιδιότητα εισόδου
+  field_attr_firstname: Ιδιότητα ονόματος
+  field_attr_lastname:  Ιδιότητα επωνύμου
+  field_attr_mail: Ιδιότητα email
+  field_onthefly: Άμεση δημιουργία χρήστη
+  field_start_date: Εκκίνηση
+  field_done_ratio: % επιτεύχθη
+  field_auth_source: Τρόπος πιστοποίησης
+  field_hide_mail: Απόκρυψη διεύθυνσης email
+  field_comments: Σχόλιο
+  field_url: URL
+  field_start_page: Πρώτη σελίδα
+  field_subproject: Επιμέρους έργο
+  field_hours: Ώρες
+  field_activity: Δραστηριότητα
+  field_spent_on: Ημερομηνία
+  field_identifier: Στοιχείο αναγνώρισης
+  field_is_filter: Χρήση ως φίλτρο
+  field_issue_to: Σχετικά θέματα
+  field_delay: Καθυστέρηση
+  field_assignable: Θέματα που μπορούν να ανατεθούν σε αυτό το ρόλο
+  field_redirect_existing_links: Ανακατεύθυνση των τρεχόντων συνδέσμων
+  field_estimated_hours: Εκτιμώμενος χρόνος
+  field_column_names: Στήλες
+  field_time_zone: Ωριαία ζώνη
+  field_searchable: Ερευνήσιμο
+  field_default_value: Προκαθορισμένη τιμή
+  field_comments_sorting: Προβολή σχολίων
+  field_parent_title: Γονική σελίδα
+  field_editable: Επεξεργάσιμο
+  field_watcher: Παρατηρητής
+  field_identity_url: OpenID URL
+  field_content: Περιεχόμενο
+  field_group_by: Ομαδικά αποτελέσματα από 
+  
+  setting_app_title: Τίτλος εφαρμογής
+  setting_app_subtitle: Υπότιτλος εφαρμογής
+  setting_welcome_text: Κείμενο υποδοχής
+  setting_default_language: Προεπιλεγμένη γλώσσα
+  setting_login_required: Απαιτείται πιστοποίηση
+  setting_self_registration: Αυτο-εγγραφή
+  setting_attachment_max_size: Μέγ. μέγεθος συνημμένου
+  setting_issues_export_limit: Θέματα περιορισμού εξαγωγής
+  setting_mail_from: Μετάδοση διεύθυνσης email
+  setting_bcc_recipients: Αποδέκτες κρυφής κοινοποίησης (bcc)
+  setting_plain_text_mail: Email απλού κειμένου (όχι HTML)
+  setting_host_name: Όνομα κόμβου και διαδρομή
+  setting_text_formatting: Μορφοποίηση κειμένου
+  setting_wiki_compression: Συμπίεση ιστορικού wiki
+  setting_feeds_limit: Feed περιορισμού περιεχομένου
+  setting_default_projects_public: Τα νέα έργα έχουν προεπιλεγεί ως δημόσια 
+  setting_autofetch_changesets: Αυτόματη λήψη commits
+  setting_sys_api_enabled: Ενεργοποίηση WS για διαχείριση αποθετηρίου
+  setting_commit_ref_keywords: Αναφορά σε λέξεις-κλειδιά
+  setting_commit_fix_keywords: Καθορισμός σε λέξεις-κλειδιά
+  setting_autologin: Αυτόματη σύνδεση
+  setting_date_format: Μορφή ημερομηνίας
+  setting_time_format: Μορφή ώρας
+  setting_cross_project_issue_relations: Επιτρέψτε συσχετισμό θεμάτων σε διασταύρωση-έργων
+  setting_issue_list_default_columns: Προκαθορισμένες εμφανιζόμενες στήλες στη λίστα θεμάτων
+  setting_repositories_encodings: Κωδικοποίηση χαρακτήρων αποθετηρίου
+  setting_commit_logs_encoding: Κωδικοποίηση μηνυμάτων commit
+  setting_emails_footer: Υποσέλιδο στα email
+  setting_protocol: Πρωτόκολο
+  setting_per_page_options: Αντικείμενα ανά σελίδα επιλογών
+  setting_user_format: Μορφή εμφάνισης χρηστών
+  setting_activity_days_default: Ημέρες που εμφανίζεται στη δραστηριότητα έργου
+  setting_display_subprojects_issues: Εμφάνιση από προεπιλογή θεμάτων επιμέρους έργων στα κύρια έργα 
+  setting_enabled_scm: Ενεργοποίηση SCM
+  setting_mail_handler_api_enabled: Ενεργοποίηση WS για εισερχόμενα email
+  setting_mail_handler_api_key: κλειδί API
+  setting_sequential_project_identifiers: Δημιουργία διαδοχικών αναγνωριστικών έργου
+  setting_gravatar_enabled: Χρήση Gravatar εικονιδίων χρηστών
+  setting_diff_max_lines_displayed: Μεγ.αριθμός εμφάνισης γραμμών diff
+  setting_file_max_size_displayed: Μεγ.μέγεθος των αρχείων απλού κειμένου που εμφανίζονται σε σειρά
+  setting_repository_log_display_limit: Μέγιστος αριθμός αναθεωρήσεων που εμφανίζονται στο ιστορικό αρχείου
+  setting_openid: Επιτρέψτε συνδέσεις OpenID και εγγραφή
+  setting_password_min_length: Ελάχιστο μήκος κωδικού πρόσβασης
+  setting_new_project_user_role_id: Απόδοση ρόλου σε χρήστη μη-διαχειριστή όταν δημιουργεί ένα έργο
+  
+  permission_add_project: Δημιουργία έργου
+  permission_edit_project: Επεξεργασία έργου
+  permission_select_project_modules: Επιλογή μονάδων έργου
+  permission_manage_members: Διαχείριση μελών
+  permission_manage_versions: Διαχείριση εκδόσεων
+  permission_manage_categories: Διαχείριση κατηγοριών θεμάτων
+  permission_add_issues: Προσθήκη θεμάτων
+  permission_edit_issues: Επεξεργασία θεμάτων
+  permission_manage_issue_relations: Διαχείριση συσχετισμών θεμάτων
+  permission_add_issue_notes: Προσθήκη σημειώσεων
+  permission_edit_issue_notes: Επεξεργασία σημειώσεων
+  permission_edit_own_issue_notes: Επεξεργασία δικών μου σημειώσεων
+  permission_move_issues: Μεταφορά θεμάτων
+  permission_delete_issues: Διαγραφή θεμάτων
+  permission_manage_public_queries: Διαχείριση δημόσιων αναζητήσεων
+  permission_save_queries: Αποθήκευση αναζητήσεων
+  permission_view_gantt: Προβολή διαγράμματος gantt
+  permission_view_calendar: Προβολή ημερολογίου
+  permission_view_issue_watchers: Προβολή λίστας παρατηρητών
+  permission_add_issue_watchers: Προσθήκη παρατηρητών
+  permission_log_time: Ιστορικό δαπανημένου χρόνου
+  permission_view_time_entries: Προβολή δαπανημένου χρόνου
+  permission_edit_time_entries: Επεξεργασία ιστορικού χρόνου 
+  permission_edit_own_time_entries: Επεξεργασία δικού μου ιστορικού χρόνου
+  permission_manage_news: Διαχείριση νέων
+  permission_comment_news: Σχολιασμός νέων
+  permission_manage_documents: Διαχείριση εγγράφων
+  permission_view_documents: Προβολή εγγράφων
+  permission_manage_files: Διαχείριση αρχείων
+  permission_view_files: Προβολή αρχείων
+  permission_manage_wiki: Διαχείριση wiki
+  permission_rename_wiki_pages: Μετονομασία σελίδων wiki
+  permission_delete_wiki_pages: Διαγραφή σελίδων wiki
+  permission_view_wiki_pages: Προβολή wiki
+  permission_view_wiki_edits: Προβολή ιστορικού wiki
+  permission_edit_wiki_pages: Επεξεργασία σελίδων wiki
+  permission_delete_wiki_pages_attachments: Διαγραφή συνημμένων
+  permission_protect_wiki_pages: Προστασία σελίδων wiki
+  permission_manage_repository: Διαχείριση αποθετηρίου
+  permission_browse_repository: Διαχείριση εγγράφων
+  permission_view_changesets: Προβολή changesets
+  permission_commit_access: Πρόσβαση commit
+  permission_manage_boards: Διαχείριση πινάκων συζητήσεων
+  permission_view_messages: Προβολή μηνυμάτων
+  permission_add_messages: Αποστολή μηνυμάτων
+  permission_edit_messages: Επεξεργασία μηνυμάτων
+  permission_edit_own_messages: Επεξεργασία δικών μου μηνυμάτων
+  permission_delete_messages: Delete messages
+  permission_delete_own_messages: Διαγραφή μηνυμάτων
+  
+  project_module_issue_tracking: Ανίχνευση θεμάτων
+  project_module_time_tracking: Ανίχνευση χρόνου
+  project_module_news: Νέα
+  project_module_documents: Έγγραφα
+  project_module_files: Αρχεία
+  project_module_wiki: Wiki
+  project_module_repository: Αποθετήριο
+  project_module_boards: Πίνακες συζητήσεων
+  
+  label_user: Χρήστης
+  label_user_plural: Χρήστες
+  label_user_new: Νέος Χρήστης
+  label_project: Έργο
+  label_project_new: Νέο έργο
+  label_project_plural: Έργα
+  label_x_projects:
+    zero:  κανένα έργο
+    one:   1 έργο
+    other: "{{count}} έργα"
+  label_project_all: Όλα τα έργα
+  label_project_latest: Τελευταία έργα
+  label_issue: Θέμα
+  label_issue_new: Νέο θέμα
+  label_issue_plural: Θέματα
+  label_issue_view_all: Προβολή όλων των θεμάτων
+  label_issues_by: "Θέματα του  {{value}}"
+  label_issue_added: Το θέμα προστέθηκε
+  label_issue_updated: Το θέμα ενημερώθηκε
+  label_document: Έγγραφο
+  label_document_new: Νέο έγγραφο
+  label_document_plural: Έγγραφα
+  label_document_added: Έγγραφο προστέθηκε
+  label_role: Ρόλος
+  label_role_plural: Ρόλοι
+  label_role_new: Νέος ρόλος
+  label_role_and_permissions: Ρόλοι και άδειες
+  label_member: Μέλος
+  label_member_new: Νέο μέλος
+  label_member_plural: Μέλη
+  label_tracker: Ανιχνευτής
+  label_tracker_plural: Ανιχνευτές
+  label_tracker_new: Νέος Ανιχνευτής
+  label_workflow: Ροή εργασίας
+  label_issue_status: Κατάσταση θέματος
+  label_issue_status_plural: Κατάσταση θέματος
+  label_issue_status_new: Νέα κατάσταση
+  label_issue_category: Κατηγορία θέματος
+  label_issue_category_plural: Κατηγορίες θεμάτων
+  label_issue_category_new: Νέα κατηγορία
+  label_custom_field: Προσαρμοσμένο πεδίο
+  label_custom_field_plural: Προσαρμοσμένα πεδία
+  label_custom_field_new: Νέο προσαρμοσμένο πεδίο
+  label_enumerations: Απαριθμήσεις
+  label_enumeration_new: Νέα τιμή
+  label_information: Πληροφορία
+  label_information_plural: Πληροφορίες
+  label_please_login: Παρακαλώ συνδεθείτε
+  label_register: Εγγραφή
+  label_login_with_open_id_option: ή συνδεθείτε με OpenID
+  label_password_lost: Ανάκτηση κωδικού πρόσβασης
+  label_home: Αρχική σελίδα
+  label_my_page: Η σελίδα μου
+  label_my_account: Ο λογαριασμός μου
+  label_my_projects: Τα έργα μου
+  label_administration: Διαχείριση
+  label_login: Σύνδεση
+  label_logout: Αποσύνδεση
+  label_help: Βοήθεια
+  label_reported_issues: Εισηγμένα θέματα
+  label_assigned_to_me_issues: Θέματα που έχουν ανατεθεί σε μένα
+  label_last_login: Τελευταία σύνδεση
+  label_registered_on: Εγγράφηκε την 
+  label_activity: Δραστηριότητα
+  label_overall_activity: Συνολική δραστηριότητα
+  label_user_activity: "δραστηριότητα του {{value}}"
+  label_new: Νέο
+  label_logged_as: Σύνδεδεμένος ως
+  label_environment: Περιβάλλον
+  label_authentication: Πιστοποίηση
+  label_auth_source: Τρόπος πιστοποίησης
+  label_auth_source_new: Νέος τρόπος πιστοποίησης
+  label_auth_source_plural: Τρόποι πιστοποίησης
+  label_subproject_plural: Επιμέρους έργα
+  label_and_its_subprojects: "{{value}} και τα επιμέρους έργα του"
+  label_min_max_length: Ελάχ. - Μέγ. μήκος
+  label_list: Λίστα
+  label_date: Ημερομηνία
+  label_integer: Ακέραιος
+  label_float: Αριθμός κινητής υποδιαστολής
+  label_boolean: Λογικός
+  label_string: Κείμενο
+  label_text: Μακροσκελές κείμενο
+  label_attribute: Ιδιότητα
+  label_attribute_plural: Ιδιότητες
+  label_download: "{{count}} Μεταφόρτωση"
+  label_download_plural: "{{count}} Μεταφορτώσεις"
+  label_no_data: Δεν υπάρχουν δεδομένα
+  label_change_status: Αλλαγή κατάστασης
+  label_history: Ιστορικό
+  label_attachment: Αρχείο
+  label_attachment_new: Νέο αρχείο
+  label_attachment_delete: Διαγραφή αρχείου
+  label_attachment_plural: Αρχεία
+  label_file_added: Το αρχείο προστέθηκε
+  label_report: Αναφορά
+  label_report_plural: Αναφορές
+  label_news: Νέα
+  label_news_new: Προσθήκη νέων
+  label_news_plural: Νέα
+  label_news_latest: Τελευταία νέα
+  label_news_view_all: Προβολή όλων των νέων
+  label_news_added: Τα νέα προστέθηκαν
+  label_change_log: Αλλαγή ιστορικού
+  label_settings: Ρυθμίσεις
+  label_overview: Επισκόπηση
+  label_version: Έκδοση
+  label_version_new: Νέα έκδοση
+  label_version_plural: Εκδόσεις
+  label_confirmation: Επιβεβαίωση
+  label_export_to: 'Επίσης διαθέσιμο σε:'
+  label_read: Διάβασε...
+  label_public_projects: Δημόσια έργα
+  label_open_issues: Ανοικτό
+  label_open_issues_plural: Ανοικτά
+  label_closed_issues: Κλειστό
+  label_closed_issues_plural: Κλειστά
+  label_x_open_issues_abbr_on_total:
+    zero:  0 ανοικτά / {{total}}
+    one:   1 ανοικτό / {{total}}
+    other: "{{count}} ανοικτά / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 ανοικτά
+    one:   1 ανοικτό
+    other: "{{count}} ανοικτά"
+  label_x_closed_issues_abbr:
+    zero:  0 κλειστά
+    one:   1 κλειστό
+    other: "{{count}} κλειστά"
+  label_total: Σύνολο
+  label_permissions: Άδειες
+  label_current_status: Current status
+  label_new_statuses_allowed: Νέες καταστάσεις επιτρέπονται
+  label_all: όλα
+  label_none: κανένα
+  label_nobody: κανείς
+  label_next: Επόμενο
+  label_previous: Προηγούμενο
+  label_used_by: Χρησιμοποιήθηκε από
+  label_details: Λεπτομέρειες
+  label_add_note: Προσθήκη σημείωσης
+  label_per_page: Ανά σελίδα
+  label_calendar: Ημερολόγιο
+  label_months_from: μηνών από
+  label_gantt: Gantt
+  label_internal: Εσωτερικό
+  label_last_changes: "Τελευταίες {{count}} αλλαγές"
+  label_change_view_all: Προβολή όλων των αλλαγών
+  label_personalize_page: Προσαρμογή σελίδας
+  label_comment: Σχόλιο
+  label_comment_plural: Σχόλια
+  label_x_comments:
+    zero: δεν υπάρχουν σχόλια
+    one: 1 σχόλιο
+    other: "{{count}} σχόλια"
+  label_comment_add: Προσθήκη σχολίου
+  label_comment_added: Τα σχόλια προστέθηκαν
+  label_comment_delete: Διαγραφή σχολίων
+  label_query: Προσαρμοσμένη αναζήτηση
+  label_query_plural: Προσαρμοσμένες αναζητήσεις
+  label_query_new: Νέα αναζήτηση
+  label_filter_add: Προσθήκη φίλτρου
+  label_filter_plural: Φίλτρα
+  label_equals: είναι
+  label_not_equals: δεν είναι
+  label_in_less_than: μικρότερο από
+  label_in_more_than: περισσότερο από
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
+  label_in: σε
+  label_today: σήμερα
+  label_all_time: συνέχεια
+  label_yesterday: χθες
+  label_this_week: αυτή την εβδομάδα
+  label_last_week: την προηγούμενη εβδομάδα
+  label_last_n_days: "τελευταίες {{count}} μέρες"
+  label_this_month: αυτό το μήνα
+  label_last_month: τον προηγούμενο μήνα
+  label_this_year: αυτό το χρόνο
+  label_date_range: Χρονικό διάστημα
+  label_less_than_ago: σε λιγότερο από ημέρες πριν
+  label_more_than_ago: σε περισσότερο από ημέρες πριν
+  label_ago: ημέρες πριν
+  label_contains: περιέχει
+  label_not_contains: δεν περιέχει
+  label_day_plural: μέρες
+  label_repository: Αποθετήριο
+  label_repository_plural: Αποθετήρια
+  label_browse: Πλοήγηση
+  label_modification: "{{count}} τροποποίηση"
+  label_modification_plural: "{{count}} τροποποιήσεις"
+  label_branch: Branch
+  label_tag: Tag 
+  label_revision: Αναθεώρηση
+  label_revision_plural: Αναθεωρήσεις
+  label_associated_revisions: Συνεταιρικές αναθεωρήσεις
+  label_added: προστέθηκε
+  label_modified: τροποποιήθηκε
+  label_copied: αντιγράφηκε
+  label_renamed: μετονομάστηκε
+  label_deleted: διαγράφηκε
+  label_latest_revision: Τελευταία αναθεώριση
+  label_latest_revision_plural: Τελευταίες αναθεωρήσεις
+  label_view_revisions: Προβολή αναθεωρήσεων
+  label_view_all_revisions: Προβολή όλων των αναθεωρήσεων
+  label_max_size: Μέγιστο μέγεθος
+  label_sort_highest: Μετακίνηση στην κορυφή
+  label_sort_higher: Μετακίνηση προς τα πάνω
+  label_sort_lower: Μετακίνηση προς τα κάτω
+  label_sort_lowest: Μετακίνηση στο κατώτατο μέρος
+  label_roadmap: Χάρτης πορείας
+  label_roadmap_due_in: "Προθεσμία σε {{value}}"
+  label_roadmap_overdue: "{{value}} καθυστερημένο"
+  label_roadmap_no_issues: Δεν υπάρχουν θέματα για αυτή την έκδοση
+  label_search: Αναζήτηση
+  label_result_plural: Αποτελέσματα
+  label_all_words:  Όλες οι λέξεις
+  label_wiki: Wiki
+  label_wiki_edit: Επεξεργασία wiki
+  label_wiki_edit_plural: Επεξεργασία wiki
+  label_wiki_page: Σελίδα Wiki
+  label_wiki_page_plural: Σελίδες Wiki
+  label_index_by_title: Δείκτης ανά τίτλο
+  label_index_by_date: Δείκτης ανά ημερομηνία
+  label_current_version: Τρέχουσα έκδοση
+  label_preview: Προεπισκόπηση
+  label_feed_plural: Feeds
+  label_changes_details: Λεπτομέρειες όλων των αλλαγών
+  label_issue_tracking: Ανίχνευση θεμάτων
+  label_spent_time: Δαπανημένος χρόνος
+  label_f_hour: "{{value}} ώρα"
+  label_f_hour_plural: "{{value}} ώρες"
+  label_time_tracking: Ανίχνευση χρόνου
+  label_change_plural: Αλλαγές
+  label_statistics: Στατιστικά
+  label_commits_per_month: Commits ανά μήνα
+  label_commits_per_author: Commits ανά συγγραφέα
+  label_view_diff: Προβολή διαφορών
+  label_diff_inline: σε σειρά
+  label_diff_side_by_side: αντικρυστά
+  label_options: Επιλογές
+  label_copy_workflow_from: Αντιγραφή ροής εργασίας από
+  label_permissions_report: Συνοπτικός πίνακας αδειών
+  label_watched_issues: Θέματα υπό παρακολούθηση
+  label_related_issues: Σχετικά θέματα
+  label_applied_status: Εφαρμογή κατάστασης
+  label_loading: Φορτώνεται...
+  label_relation_new: Νέα συσχέτιση
+  label_relation_delete: Διαγραφή συσχέτισης
+  label_relates_to: σχετικό με
+  label_duplicates: αντίγραφα
+  label_duplicated_by: αντιγράφηκε από
+  label_blocks: φραγές
+  label_blocked_by: φραγή από τον
+  label_precedes: προηγείται
+  label_follows: ακολουθεί
+  label_end_to_start: από το τέλος στην αρχή
+  label_end_to_end: από το τέλος στο τέλος
+  label_start_to_start: από την αρχή στην αρχή
+  label_start_to_end: από την αρχή στο τέλος
+  label_stay_logged_in: Παραμονή σύνδεσης
+  label_disabled: απενεργοποιημένη
+  label_show_completed_versions: Προβολή ολοκληρωμένων εκδόσεων
+  label_me: εγώ
+  label_board: Φόρουμ
+  label_board_new: Νέο φόρουμ
+  label_board_plural: Φόρουμ
+  label_topic_plural: Θέματα
+  label_message_plural: Μηνύματα
+  label_message_last: Τελευταίο μήνυμα
+  label_message_new: Νέο μήνυμα
+  label_message_posted: Το μήνυμα προστέθηκε
+  label_reply_plural: Απαντήσεις
+  label_send_information: Αποστολή πληροφοριών λογαριασμού στο χρήστη
+  label_year: Έτος
+  label_month: Μήνας
+  label_week: Εβδομάδα
+  label_date_from: Από
+  label_date_to:  Έως
+  label_language_based: Με βάση τη γλώσσα του χρήστη
+  label_sort_by: "Ταξινόμηση ανά {{value}}"
+  label_send_test_email: Αποστολή δοκιμαστικού email
+  label_feeds_access_key_created_on: "το κλειδί πρόσβασης RSS δημιουργήθηκε πριν από {{value}}"
+  label_module_plural: Μονάδες
+  label_added_time_by: "Προστέθηκε από τον {{author}} πριν από {{age}}"
+  label_updated_time_by: "Ενημερώθηκε από τον {{author}} πριν από {{age}}"
+  label_updated_time: "Ενημερώθηκε πριν από {{value}}"
+  label_jump_to_a_project: Μεταβείτε σε ένα έργο...
+  label_file_plural: Αρχεία
+  label_changeset_plural: Changesets
+  label_default_columns: Προεπιλεγμένες στήλες
+  label_no_change_option: (Δεν υπάρχουν αλλαγές)
+  label_bulk_edit_selected_issues: Μαζική επεξεργασία επιλεγμένων θεμάτων
+  label_theme: Θέμα
+  label_default: Προεπιλογή
+  label_search_titles_only: Αναζήτηση τίτλων μόνο
+  label_user_mail_option_all: "Για όλες τις εξελίξεις σε όλα τα έργα μου"
+  label_user_mail_option_selected: "Για όλες τις εξελίξεις μόνο στα επιλεγμένα έργα..."
+  label_user_mail_option_none: "Μόνο για πράγματα που παρακολουθώ ή συμμετέχω ενεργά"
+  label_user_mail_no_self_notified: "Δεν θέλω να ειδοποιούμαι για τις δικές μου αλλαγές"
+  label_registration_activation_by_email: ενεργοποίηση λογαριασμού με email
+  label_registration_manual_activation: χειροκίνητη ενεργοποίηση λογαριασμού
+  label_registration_automatic_activation: αυτόματη ενεργοποίηση λογαριασμού
+  label_display_per_page: "Ανά σελίδα: {{value}}"
+  label_age: Ηλικία
+  label_change_properties: Αλλαγή ιδιοτήτων
+  label_general: Γενικά
+  label_more: Περισσότερα
+  label_scm: SCM
+  label_plugins: Plugins
+  label_ldap_authentication: Πιστοποίηση LDAP
+  label_downloads_abbr: Μ/Φ
+  label_optional_description: Προαιρετική περιγραφή
+  label_add_another_file: Προσθήκη άλλου αρχείου
+  label_preferences: Προτιμήσεις
+  label_chronological_order: Κατά χρονολογική σειρά
+  label_reverse_chronological_order: Κατά αντίστροφη χρονολογική σειρά
+  label_planning: Σχεδιασμός
+  label_incoming_emails: Εισερχόμενα email
+  label_generate_key: Δημιουργία κλειδιού
+  label_issue_watchers: Παρατηρητές
+  label_example: Παράδειγμα
+  label_display: Προβολή
+  label_sort: Ταξινόμηση
+  label_ascending: Αύξουσα
+  label_descending: Φθίνουσα
+  label_date_from_to: Από {{start}} έως {{end}}
+  label_wiki_content_added: Η σελίδα Wiki προστέθηκε
+  label_wiki_content_updated: Η σελίδα Wiki ενημερώθηκε
+  
+  button_login: Σύνδεση
+  button_submit: Αποστολή
+  button_save: Αποθήκευση
+  button_check_all: Επιλογή όλων
+  button_uncheck_all: Αποεπιλογή όλων
+  button_delete: Διαγραφή
+  button_create: Δημιουργία
+  button_create_and_continue: Δημιουργία και συνέχεια
+  button_test: Τεστ
+  button_edit: Επεξεργασία
+  button_add: Προσθήκη
+  button_change: Αλλαγή
+  button_apply: Εφαρμογή
+  button_clear: Καθαρισμός
+  button_lock: Κλείδωμα
+  button_unlock: Ξεκλείδωμα
+  button_download: Μεταφόρτωση
+  button_list: Λίστα
+  button_view: Προβολή
+  button_move: Μετακίνηση
+  button_back: Πίσω
+  button_cancel: Ακύρωση
+  button_activate: Ενεργοποίηση
+  button_sort: Ταξινόμηση
+  button_log_time: Ιστορικό χρόνου
+  button_rollback: Επαναφορά σε αυτή την έκδοση
+  button_watch: Παρακολούθηση
+  button_unwatch: Αναίρεση παρακολούθησης
+  button_reply: Απάντηση
+  button_archive: Αρχειοθέτηση
+  button_unarchive: Αναίρεση αρχειοθέτησης
+  button_reset: Επαναφορά
+  button_rename: Μετονομασία
+  button_change_password: Αλλαγή κωδικού πρόσβασης
+  button_copy: Αντιγραφή
+  button_annotate: Σχολιασμός
+  button_update: Ενημέρωση
+  button_configure: Ρύθμιση
+  button_quote: Παράθεση
+  
+  status_active: ενεργό(ς)/ή
+  status_registered: εγεγγραμμένο(ς)/η
+  status_locked: κλειδωμένο(ς)/η
+  
+  text_select_mail_notifications: Επιλογή ενεργειών για τις οποίες θα πρέπει να αποσταλεί ειδοποίηση με email.
+  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 σημαίνει ότι δεν υπάρχουν περιορισμοί
+  text_project_destroy_confirmation: Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το έργο και τα σχετικά δεδομένα του;
+  text_subprojects_destroy_warning: "Επίσης το(α) επιμέρους έργο(α): {{value}}  θα διαγραφούν."
+  text_workflow_edit: Επιλέξτε ένα ρόλο και έναν ανιχνευτή για να επεξεργαστείτε  τη ροή εργασίας
+  text_are_you_sure: Είστε σίγουρος ;
+  text_journal_changed: "άλλαξε από {{old}} σε {{new}}"
+  text_journal_set_to: "ορίστε σε {{value}}"
+  text_journal_deleted: διαγράφηκε
+  text_tip_task_begin_day: καθήκοντα που ξεκινάνε σήμερα
+  text_tip_task_end_day: καθήκοντα που τελειώνουν σήμερα
+  text_tip_task_begin_end_day: καθήκοντα που ξεκινάνε και τελειώνουν σήμερα
+  text_project_identifier_info: 'Επιτρέπονται μόνο μικρά πεζά γράμματα (a-z), αριθμοί και παύλες. <br /> Μετά την αποθήκευση, το αναγνωριστικό δεν μπορεί να αλλάξει.'
+  text_caracters_maximum: "μέγιστος αριθμός {{count}} χαρακτήρες."
+  text_caracters_minimum: "Πρέπει να περιέχει τουλάχιστον {{count}} χαρακτήρες."
+  text_length_between: "Μήκος μεταξύ {{min}} και {{max}} χαρακτήρες."
+  text_tracker_no_workflow: Δεν έχει οριστεί ροή εργασίας για αυτό τον ανιχνευτή
+  text_unallowed_characters: Μη επιτρεπόμενοι χαρακτήρες
+  text_comma_separated: Επιτρέπονται πολλαπλές τιμές (χωρισμένες με κόμμα).
+  text_issues_ref_in_commit_messages: Αναφορά και καθορισμός θεμάτων σε μηνύματα commit
+  text_issue_added: "Το θέμα {{id}} παρουσιάστηκε από τον {{author}}."
+  text_issue_updated: "Το θέμα {{id}} ενημερώθηκε από τον {{author}}."
+  text_wiki_destroy_confirmation: Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το wiki και όλο το περιεχόμενο του ;
+  text_issue_category_destroy_question: "Κάποια θέματα ({{count}}) έχουν εκχωρηθεί σε αυτή την κατηγορία. Τι θέλετε να κάνετε ;"
+  text_issue_category_destroy_assignments: Αφαίρεση εκχωρήσεων κατηγορίας
+  text_issue_category_reassign_to: Επανεκχώρηση θεμάτων σε αυτή την κατηγορία
+  text_user_mail_option: "Για μη επιλεγμένα έργα, θα λάβετε ειδοποιήσεις μόνο για πράγματα που παρακολουθείτε ή στα οποία συμμετέχω ενεργά (π.χ. θέματα των οποίων είστε συγγραφέας ή σας έχουν ανατεθεί)."
+  text_no_configuration_data: "Οι ρόλοι, οι ανιχνευτές, η κατάσταση των θεμάτων και η ροή εργασίας δεν έχουν ρυθμιστεί ακόμα.\nΣυνιστάται ιδιαίτερα να φορτώσετε τις προεπιλεγμένες ρυθμίσεις. Θα είστε σε θέση να τις τροποποιήσετε μετά τη φόρτωση τους."
+  text_load_default_configuration: Φόρτωση προεπιλεγμένων ρυθμίσεων
+  text_status_changed_by_changeset: "Εφαρμόστηκε στο changeset {{value}}."
+  text_issues_destroy_confirmation: 'Είστε σίγουρος ότι θέλετε να διαγράψετε το επιλεγμένο θέμα(τα);'
+  text_select_project_modules: 'Επιλέξτε ποιες μονάδες θα ενεργοποιήσετε για αυτό το έργο:'
+  text_default_administrator_account_changed: Ο προκαθορισμένος λογαριασμός του διαχειριστή άλλαξε
+  text_file_repository_writable: Εγγράψιμος κατάλογος συνημμένων
+  text_plugin_assets_writable: Εγγράψιμος κατάλογος plugin assets
+  text_rmagick_available: Διαθέσιμο RMagick (προαιρετικό)
+  text_destroy_time_entries_question: "{{hours}} δαπανήθηκαν σχετικά με τα θέματα που πρόκειται να διαγράψετε. Τι θέλετε να κάνετε ;"
+  text_destroy_time_entries: Διαγραφή αναφερόμενων ωρών
+  text_assign_time_entries_to_project: Ανάθεση αναφερόμενων ωρών στο έργο
+  text_reassign_time_entries: 'Ανάθεση εκ νέου των αναφερόμενων ωρών στο θέμα:'
+  text_user_wrote: "{{value}} έγραψε:"
+  text_enumeration_destroy_question: "{{count}} αντικείμενα έχουν τεθεί σε αυτή την τιμή."
+  text_enumeration_category_reassign_to: 'Επανεκχώρηση τους στην παρούσα αξία:'
+  text_email_delivery_not_configured: "Δεν έχουν γίνει ρυθμίσεις παράδοσης email, και οι ειδοποιήσεις είναι απενεργοποιημένες.\nΔηλώστε τον εξυπηρετητή SMTP στο config/email.yml και κάντε επανακκίνηση την εφαρμογή για να τις ρυθμίσεις."
+  text_repository_usernames_mapping: "Επιλέξτε ή ενημερώστε τον χρήστη Redmine που αντιστοιχεί σε κάθε όνομα χρήστη  στο ιστορικό του αποθετηρίου.\nΧρήστες με το ίδιο όνομα χρήστη ή email στο Redmine και στο αποθετηρίο αντιστοιχίζονται αυτόματα."
+  text_diff_truncated: '... Αυτό το diff εχεί κοπεί επειδή υπερβαίνει το μέγιστο μέγεθος που μπορεί να προβληθεί.'
+  text_custom_field_possible_values_info: 'Μία γραμμή για κάθε τιμή'
+  text_wiki_page_destroy_question: "Αυτή η σελίδα έχει {{descendants}} σελίδες τέκνων και απογόνων. Τι θέλετε να κάνετε ;"
+  text_wiki_page_nullify_children: "Διατηρήστε τις σελίδες τέκνων ως σελίδες root"
+  text_wiki_page_destroy_children: "Διαγράψτε όλες τις σελίδες τέκνων και των απογόνων τους"
+  text_wiki_page_reassign_children: "Επανεκχώριση των σελίδων τέκνων στη γονική σελίδα"
+  
+  default_role_manager: Manager
+  default_role_developper: Developer
+  default_role_reporter: Reporter
+  default_tracker_bug: Σφάλματα
+  default_tracker_feature: Λειτουργίες
+  default_tracker_support: Υποστήριξη
+  default_issue_status_new: Νέα
+  default_issue_status_assigned: Ανατεθειμένο
+  default_issue_status_resolved: Επιλυμένο
+  default_issue_status_feedback: Σχόλια
+  default_issue_status_closed: Κλειστό
+  default_issue_status_rejected: Απορριπτέο
+  default_doc_category_user: Τεκμηρίωση χρήστη
+  default_doc_category_tech: Τεχνική τεκμηρίωση
+  default_priority_low: Χαμηλή
+  default_priority_normal: Κανονική
+  default_priority_high: Υψηλή
+  default_priority_urgent: Επείγον
+  default_priority_immediate: Άμεση
+  default_activity_design: Σχεδιασμός
+  default_activity_development: Ανάπτυξη
+  
+  enumeration_issue_priorities: Προτεραιότητα θέματος
+  enumeration_doc_categories: Κατηγορία εγγράφων
+  enumeration_activities: Δραστηριότητες (κατακερματισμός χρόνου)
