@@ -132,6 +132,12 @@ class DeliverablesController < ApplicationController
     flash.now[:error] = l(:notice_locking_conflict)
   end
   
+  def destroy
+    @deliverables.each(&:destroy)
+    flash[:notice] = l(:notice_successful_delete)
+    redirect_to :action => 'index', :project_id => @project
+  end
+  
   def preview
     @deliverable = Deliverables.find_by_id(params[:id]) unless params[:id].blank?
     @text = params[:notes] || (params[:deliverable] ? params[:deliverable][:description] : nil)
