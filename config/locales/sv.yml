@@ -194,6 +194,8 @@ sv:
   error_scm_command_failed: "Ett fel inträffade vid försök att nå versionsarkivet: {{value}}"
   error_scm_annotate: "Inlägget existerar inte eller kan inte kommenteras."
   error_issue_not_found_in_project: 'Ärendet hittades inte eller så tillhör det inte detta projekt'
+  error_no_tracker_in_project: Ingen ärendetyp är associerad med projektet. Vänligen kontrollera projektinställningarna.
+  error_no_default_issue_status: Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (Gå till "Administration -> Ärendestatus").
   
   warning_attachments_not_saved: "{{count}} fil(er) kunde inte sparas."
   
@@ -600,6 +602,8 @@ sv:
   label_browse: Bläddra
   label_modification: "{{count}} ändring"
   label_modification_plural: "{{count}} ändringar"
+  label_branch: Branch
+  label_tag: Tag
   label_revision: Revision
   label_revision_plural: Revisioner
   label_associated_revisions: Associerade revisioner
@@ -611,6 +615,7 @@ sv:
   label_latest_revision: Senaste revisionen
   label_latest_revision_plural: Senaste revisionerna
   label_view_revisions: Visa revisioner
+  label_view_all_revisions: Visa alla revisioner
   label_max_size: Maxstorlek
   label_sort_highest: Flytta till toppen
   label_sort_higher: Flytta upp
@@ -858,8 +863,3 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").

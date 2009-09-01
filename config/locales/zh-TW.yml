@@ -243,6 +243,8 @@
   error_scm_command_failed: "嘗試存取儲存庫時發生錯誤： {{value}}"
   error_scm_annotate: "SCM 儲存庫中無此項目或此項目無法被加註。"
   error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
+  error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
+  error_no_default_issue_status: '尚未定義項目狀態的預設值。請您前往「網站管理」->「項目狀態清單」頁面，檢查相關組態設定。'
   
   warning_attachments_not_saved: "{{count}} 個附加檔案無法儲存。"
   
@@ -913,5 +915,3 @@
   label_view_all_revisions: View all revisions
   label_tag: Tag
   label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
