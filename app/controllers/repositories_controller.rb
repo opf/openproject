@@ -72,9 +72,7 @@ class RepositoriesController < ApplicationController
       @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
     else
       show_error_not_found and return unless @entries
-      if @path.blank?
-        @changesets = @repository.latest_changesets(@path, @rev)
-      end
+      @changesets = @repository.latest_changesets(@path, @rev)
       @properties = @repository.properties(@path, @rev)
       render :action => 'show'
     end

@@ -833,7 +833,7 @@ fr:
   enumeration_activities: Activités (suivi du temps)
   label_greater_or_equal: ">="
   label_less_or_equal: "<="
-  label_view_all_revisions: View all revisions
+  label_view_all_revisions: Voir toutes les révisions
   label_tag: Tag
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.

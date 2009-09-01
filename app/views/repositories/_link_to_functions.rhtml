@@ -1,3 +1,5 @@
+<% if @entry && @entry.kind == 'file' %>
+
 <p>
 <%= link_to_if action_name != 'changes', l(:label_history), {:action => 'changes', :id => @project, :path => to_path_param(@path), :rev => @rev } %> |
 <% if @repository.supports_cat? %>
@@ -9,3 +11,5 @@
 <%= link_to(l(:button_download), {:action => 'entry', :id => @project, :path => to_path_param(@path), :rev => @rev, :format => 'raw' }) if @repository.supports_cat? %>
 <%= "(#{number_to_human_size(@entry.size)})" if @entry.size %>
 </p>
+
+<% end %>

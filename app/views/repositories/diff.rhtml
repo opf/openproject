@@ -1,4 +1,4 @@
-<h2><%= l(:label_revision) %> <%= format_revision(@rev) %> <%= @path.gsub(/^.*\//, '') %></h2>
+<h2><%= l(:label_revision) %> <%= format_revision(@rev_to) + ':' if @rev_to %><%= format_revision(@rev) %> <%=h @path %></h2>
 
 <!-- Choose view type -->
 <% form_tag({}, :method => 'get') do %>

@@ -75,7 +75,7 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
       assert_equal ['folder', '.project', 'helloworld.c', 'helloworld.rb', 'textfile.txt'], assigns(:entries).collect(&:name)
     end
     
-    def test_changes
+    def test_file_changes
       get :changes, :id => 1, :path => ['subversion_test', 'folder', 'helloworld.rb' ]
       assert_response :success
       assert_template 'changes'
@@ -93,6 +93,16 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
                                :child => { :tag => 'b', :content => 'svn:eol-style' },
                                :child => { :tag => 'span', :content => 'native' } }
       end
+    end
+
+    def test_directory_changes
+      get :changes, :id => 1, :path => ['subversion_test', 'folder' ]
+      assert_response :success
+      assert_template 'changes'
+      
+      changesets = assigns(:changesets)
+      assert_not_nil changesets
+      assert_equal %w(7 6 5 2), changesets.collect(&:revision)
     end
       
     def test_entry
@@ -181,10 +191,21 @@ class RepositoriesSubversionControllerTest < Test::Unit::TestCase
                             }
     end
     
-    def test_diff
+    def test_revision_diff
       get :diff, :id => 1, :rev => 3
       assert_response :success
       assert_template 'diff'
+    end
+
+    def test_directory_diff
+      get :diff, :id => 1, :rev => 6, :rev_to => 2, :path => ['subversion_test', 'folder']
+      assert_response :success
+      assert_template 'diff'
+      
+      diff = assigns(:diff)
+      assert_not_nil diff
+      # 2 files modified
+      assert_equal 2, Redmine::UnifiedDiff.new(diff).size
     end
     
     def test_annotate

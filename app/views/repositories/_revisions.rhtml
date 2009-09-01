@@ -9,7 +9,7 @@
 <th><%= l(:field_comments) %></th>
 </tr></thead>
 <tbody>
-<% show_diff = entry && entry.is_file? && revisions.size > 1 %>
+<% show_diff = revisions.size > 1 %>
 <% line_num = 1 %>
 <% revisions.each do |changeset| %>
 <tr class="changeset <%= cycle 'odd', 'even' %>">
