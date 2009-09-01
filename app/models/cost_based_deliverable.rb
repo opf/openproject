@@ -54,6 +54,9 @@ class CostBasedDeliverable < Deliverable
   def existing_deliverable_cost_attributes=(deliverable_cost_attributes)
     deliverable_costs.reject(&:new_record?).each do |deliverable_cost|
       attributes = deliverable_cost_attributes[deliverable_cost.id.to_s]
+      
+      attributes[:budget] = clean_currency(attributes[:budget])
+      
       if attributes && attributes[:units].to_i > 0
         deliverable_cost.attributes = attributes
       else
@@ -77,10 +80,8 @@ class CostBasedDeliverable < Deliverable
   def existing_deliverable_hour_attributes=(deliverable_hour_attributes)
     deliverable_hours.reject(&:new_record?).each do |deliverable_hour|
       attributes = deliverable_hour_attributes[deliverable_hour.id.to_s]
-
-      p attributes
-
-
+      
+      attributes[:budget] = clean_currency(attributes[:budget])
       if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0
         deliverable_hour.attributes = attributes
       else
@@ -90,15 +91,19 @@ class CostBasedDeliverable < Deliverable
   end
   
   def save_deliverable_hours
-    p "---------------------------------- SAVING -----------------------------"
-
     deliverable_hours.each do |deliverable_hour|
-      p deliverable_hour
-
       deliverable_hour.save(false)
     end
   end
-  
-  
-  
+
+private
+  def clean_currency(value)
+    if value
+      value = value.strip
+      value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_seperator))
+      value.gsub(',', '.')
+    else
+      nil
+    end
+  end
 end

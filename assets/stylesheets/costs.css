@@ -22,10 +22,15 @@ tr.cost_entry {
 }
 
 th.currency,
-td.currency {
+td.currency,
+.currency {
   text-align: right;
   vertical-align: middle;
   white-space: nowrap;
+}
+
+td.currency span {
+  padding: 3px 0;
 }
 
 th.units,
@@ -47,6 +52,10 @@ td.comment input {
   height: 1%;
   margin: 0;
   padding: 5px 0 8px 180px;
+}
+
+.editable {
+  background-color: #B4D9B3;
 }
 
 table.progress td.exceeded { background: #E1B9B9 none repeat scroll 0%; }

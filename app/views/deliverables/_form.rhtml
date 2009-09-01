@@ -82,3 +82,8 @@
 <% end %>
 
 <%= wikitoolbar_for 'deliverable_description' %>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'deliverables', :plugin => 'redmine_costs' %>
+  <%= javascript_include_tag 'editinplace', :plugin => 'redmine_costs' %>
+<% end %>

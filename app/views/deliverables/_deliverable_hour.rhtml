@@ -4,6 +4,7 @@
   id_or_index = deliverable_hour.new_record? ? index : deliverable_hour.id 
   prefix = "deliverable[#{new_or_existing}_deliverable_hour_attributes][]"
   id_prefix = "deliverable_#{new_or_existing}_deliverable_hour_attributes_#{id_or_index}"
+  name_prefix = "deliverable[#{new_or_existing}_deliverable_hour_attributes][#{id_or_index}]"
   classes ||= ""
 
   @deliverable_hour = deliverable_hour
@@ -23,7 +24,11 @@
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>
   </td>
   <td class="currency">
-    <span id="<%= "#{id_prefix}_costs" %>"><%= number_to_currency(deliverable_hour.costs) if deliverable_hour.can_view_costs?(User.current, @project) %></span>
+    <span id="<%= "#{id_prefix}_costs" %>"><%= number_to_currency(deliverable_hour.calculated_costs) if deliverable_hour.can_view_costs?(User.current, @project) %></span>
+    <%= update_page_tag do |page|
+      page << "makeEditable('#{id_prefix}_costs', '#{name_prefix}[budget]');"
+      page << "edit($('#{id_prefix}_costs'), '#{name_prefix}[budget]', '#{number_to_currency(deliverable_hour.budget)}');" if deliverable_hour.budget
+    end %>
     <%= observe_field( "#{id_prefix}_user_id", :url => {:action => :update_deliverable_hour}, :with => "'user_id=' + encodeURIComponent(value) + '&hours=' + encodeURIComponent(document.getElementById('#{id_prefix}_hours').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('deliverable_fixed_date').value) + '&element_id=#{id_prefix}'") %>
     <%= observe_field( "#{id_prefix}_hours", :frequency => 1, :url => {:action => :update_deliverable_hour}, :with => "'user_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('deliverable_fixed_date').value) + '&element_id=#{id_prefix}'") %>
   </td>

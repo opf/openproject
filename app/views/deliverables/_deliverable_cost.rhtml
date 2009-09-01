@@ -4,6 +4,7 @@
   id_or_index = deliverable_cost.new_record? ? index : deliverable_cost.id 
   prefix = "deliverable[#{new_or_existing}_deliverable_cost_attributes][]"
   id_prefix = "deliverable_#{new_or_existing}_deliverable_cost_attributes_#{id_or_index}"
+  name_prefix = "deliverable[#{new_or_existing}_deliverable_cost_attributes][#{id_or_index}]"
   classes ||= ""
   
   @deliverable_cost = deliverable_cost
@@ -28,7 +29,11 @@
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>
   </td>
   <td class="currency">
-    <span id="<%= "#{id_prefix}_costs" %>"><%= number_to_currency(deliverable_cost.costs) %></span>
+    <span id="<%= "#{id_prefix}_costs" %>"><%= number_to_currency(deliverable_cost.calculated_costs) %></span>
+    <%= update_page_tag do |page|
+      page << "makeEditable('#{id_prefix}_costs', '#{name_prefix}[budget]');"
+      page << "edit($('#{id_prefix}_costs'), '#{name_prefix}[budget]', '#{number_to_currency(deliverable_cost.budget)}');" if deliverable_cost.budget
+    end %>
   </td>
   <td class="delete">
     <%= image_to_function 'delete.png', "deleteDeliverableCost('#{id_prefix}')" %>

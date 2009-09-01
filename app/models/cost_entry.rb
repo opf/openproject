@@ -34,17 +34,11 @@ class CostEntry < ActiveRecord::Base
   end
   
   def costs
-    @costs || @costs = units * cost_type.rate_at(self.spent_on).rate
+    @costs || units * cost_type.rate_at(self.spent_on).rate
   rescue
     0.0
   end
-  
-  def costs=(value)
-    # This method can be used to override the cosrts value
-    # The value is naver saved to the database
-    @costs = value
-  end
-  
+    
   # Returns true if the time entry can be edited by usr, otherwise false
   def editable_by?(usr)
     (usr == user && usr.allowed_to?(:edit_own_cost_entries, project)) || usr.allowed_to?(:edit_cost_entries, project)

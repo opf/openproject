@@ -4,7 +4,7 @@ class DeliverablesController < ApplicationController
   before_filter :find_deliverable, :only => [:show, :edit]
   before_filter :find_deliverables, :only => [:bulk_edit, :destroy]
   before_filter :find_project, :only => [
-    :update_form, :preview, :new,
+    :preview, :new,
     :update_deliverable_cost, :update_deliverable_hour
   ]
   before_filter :find_optional_project, :only => [:index]
@@ -218,7 +218,7 @@ private
       @project = projects.first
     else
       # TODO: let users bulk edit/move/destroy deliverables from different projects
-      render_error 'Can not bulk edit/move/destroy issues from different projects' and return false
+      render_error 'Can not bulk edit/move/destroy deliverables from different projects' and return false
     end
   rescue ActiveRecord::RecordNotFound
     render_404
