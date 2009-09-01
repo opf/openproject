@@ -13,7 +13,7 @@
 <%if error_messages %><tr><td colspan="4"><%= error_messages %></td></tr><% end %>
 <% fields_for prefix, deliverable_hour do |cost_form| %>
 <tr class="cost_entry <%= classes %>" id="<%= id_prefix %>">
-  <td class="cost_units">
+  <td class="units">
     <%= cost_form.text_field :hours, :index => id_or_index, :size => 3 %>
   </td>
   <td class="user">
