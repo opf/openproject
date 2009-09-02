@@ -6,8 +6,8 @@ ro:
       long: "%d %B %Y"
       only_day: "%e"
       
-    day_names: [Duminica, Luni, Marti, Miercuri, Joi, Vineri, Sambata]
-    abbr_day_names: [Dum, Lun, Mar, Mie, Joi, Vin, Sam]
+    day_names: [Duminică, Luni, Marti, Miercuri, Joi, Vineri, Sâmbătă]
+    abbr_day_names: [Dum, Lun, Mar, Mie, Joi, Vin, Sâm]
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Ianuarie, Februarie, Martie, Aprilie, Mai, Iunie, Iulie, August, Septembrie, Octombrie, Noiembrie, Decembrie]
@@ -26,27 +26,27 @@ ro:
       
   datetime:
     distance_in_words:
-      half_a_minute: "jumatate de minut"
+      half_a_minute: "jumătate de minut"
       less_than_x_seconds:
-        one:   "mai putin de o secunda"
-        other: "mai putin de{{count}} secunde"
+        one:   "mai puțin de o secundă"
+        other: "mai puțin de {{count}} secunde"
       x_seconds:
-        one:   "o secunda"
+        one:   "o secundă"
         other: "{{count}} secunde"
       less_than_x_minutes:
-        one:   "mai putin de un minut"
-        other: "mai putin de {{count}} minute"
+        one:   "mai puțin de un minut"
+        other: "mai puțin de {{count}} minute"
       x_minutes:
         one:   "un minut"
         other: "{{count}} minute"
       about_x_hours:
-        one:   "aproximativ o ora"
+        one:   "aproximativ o oră"
         other: "aproximativ {{count}} ore"
       x_days:
         one:   "o zi"
         other: "{{count}} zile"
       about_x_months:
-        one:   "aproximativ o luna"
+        one:   "aproximativ o lună"
         other: "aproximativ {{count}} luni"
       x_months:
         one:   "o luna"
@@ -61,92 +61,92 @@ ro:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "si"
+      sentence_connector: "și"
       skip_last_comma: true
       
   activerecord:
     errors:
       messages:
-        inclusion: "nu este inclus in lista"
+        inclusion: "nu este inclus în listă"
         exclusion: "este rezervat"
-        invalid: "este invalid"
-        confirmation: "nu este identica"
+        invalid: "nu este valid"
+        confirmation: "nu este identică"
         accepted: "trebuie acceptat"
         empty: "trebuie completat"
         blank: "nu poate fi gol"
         too_long: "este prea lung"
         too_short: "este prea scurt"
-        wrong_length: "nu are lungimea corecta"
+        wrong_length: "nu are lungimea corectă"
         taken: "a fost luat deja"
-        not_a_number: "nu este un numar"
-        not_a_date: "nu este o data valida"
-        greater_than: "trebuie sa fie mai mare de {{count}}"
-        greater_than_or_equal_to: "trebuie sa fie mai mare sau egal(a) cu {{count}}"
-        equal_to: "trebuie sa fie egal(a) cu {count}}"
-        less_than: "trebuie sa fie mai mic(a) decat {{count}}"
-        less_than_or_equal_to: "trebuie sa fie mai mic(a) sau egala cu {{count}}"
-        odd: "trebuie sa fie impar"
-        even: "trebuie sa fie par"
-        greater_than_start_date: "trebuie sa fie dupa data de inceput"
-        not_same_project: "trebuie sa apartina aceluiasi proiect"
-        circular_dependency: "Aceasta relatie ar creea o dependenta circulara"
+        not_a_number: "nu este un număr"
+        not_a_date: "nu este o dată validă"
+        greater_than: "trebuie să fie mai mare de {{count}}"
+        greater_than_or_equal_to: "trebuie să fie mai mare sau egal cu {{count}}"
+        equal_to: "trebuie să fie egal cu {count}}"
+        less_than: "trebuie să fie mai mic decat {{count}}"
+        less_than_or_equal_to: "trebuie să fie mai mic sau egal cu {{count}}"
+        odd: "trebuie să fie impar"
+        even: "trebuie să fie par"
+        greater_than_start_date: "trebuie să fie după data de început"
+        not_same_project: "trebuie să aparțină aceluiași proiect"
+        circular_dependency: "Această relație ar crea o dependență circulară"
 
-  actionview_instancetag_blank_option: Selectati
+  actionview_instancetag_blank_option: Selectați
   
   general_text_No: 'Nu'
   general_text_Yes: 'Da'
   general_text_no: 'nu'
   general_text_yes: 'da'
-  general_lang_name: 'Romana'
-  general_csv_separator: ','
-  general_csv_decimal_separator: '.'
-  general_csv_encoding: ISO-8859-1
-  general_pdf_encoding: ISO-8859-1
+  general_lang_name: 'Română'
+  general_csv_separator: '.'
+  general_csv_decimal_separator: ','
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: UTF-8
   general_first_day_of_week: '2'
   
   notice_account_updated: Cont actualizat.
-  notice_account_invalid_creditentials: Utilizator sau parola invalida
-  notice_account_password_updated: Parola actualizata.
-  notice_account_wrong_password: Parola gresita
-  notice_account_register_done: Contul a fost creat. Pentru activare, accesati link-ul trimis prin e-mail.
+  notice_account_invalid_creditentials: Utilizator sau parola nevalidă
+  notice_account_password_updated: Parolă actualizată.
+  notice_account_wrong_password: Parolă greșită
+  notice_account_register_done: Contul a fost creat. Pentru activare, urmați legătura trimisă prin email.
   notice_account_unknown_email: Utilizator necunoscut.
-  notice_can_t_change_password: Acest cont foloseste o sursa externa de autentificare. Nu se poate schimba parola.
-  notice_account_lost_email_sent: S-a trimis un e-mail cu instructiuni de schimbare a parolei.
-  notice_account_activated: Contul a fost activat. Va puteti autentifica acum.
+  notice_can_t_change_password: Acest cont folosește o sursă externă de autentificare. Nu se poate schimba parola.
+  notice_account_lost_email_sent: S-a trimis un email cu instrucțiuni de schimbare a parolei.
+  notice_account_activated: Contul a fost activat. Vă puteți autentifica acum.
   notice_successful_create: Creat.
   notice_successful_update: Actualizat.
-  notice_successful_delete: Sters.
+  notice_successful_delete: Șters.
   notice_successful_connection: Conectat.
-  notice_file_not_found: Pagina pe care doriti s-o accesati nu exista sau a fost stearsa.
+  notice_file_not_found: Pagina pe care doriți să o accesați nu există sau a fost ștearsă.
   notice_locking_conflict: Datele au fost actualizate de alt utilizator.
-  notice_not_authorized: Nu sunteti autorizat sa accesati aceasta pagina.
-  notice_email_sent: "S-a trimis un e-mail la {{value}}"
-  notice_email_error: "A intervenit o eroare la trimiterea e-mail-ului ({{value}})"
-  notice_feeds_access_key_reseted: Cheia de acces RSS a fost resetata.
-  notice_failed_to_save_issues: "Nu s-au putut salva {{count}} tichete din {{total}} selectate: {{ids}}."
-  notice_no_issue_selected: "Nici un tichet selectat! Va rog selectati tichetele pe care doriti sa le editati."
-  notice_account_pending: "Contul dumneavoastra a fost creat si se asteapta aprobarea administratorului."
-  notice_default_data_loaded: S-a incarcat configuratia implicita..
-  notice_unable_delete_version: Nu se poate sterge versiunea.
+  notice_not_authorized: Nu sunteți autorizat sa accesați această pagină.
+  notice_email_sent: "S-a trimis un email către {{value}}"
+  notice_email_error: "A intervenit o eroare la trimiterea de email ({{value}})"
+  notice_feeds_access_key_reseted: Cheia de acces RSS a fost resetată.
+  notice_failed_to_save_issues: "Nu s-au putut salva {{count}} tichete din cele {{total}} selectate: {{ids}}."
+  notice_no_issue_selected: "Niciun tichet selectat! Vă rugăm să selectați tichetele pe care doriți să le editați."
+  notice_account_pending: "Contul dumneavoastră a fost creat și așteaptă aprobarea administratorului."
+  notice_default_data_loaded: S-a încărcat configurația implicită.
+  notice_unable_delete_version: Nu se poate șterge versiunea.
   
-  error_can_t_load_default_data: "Nu s-a putut incarca configuratia implicita: {{value}}"
-  error_scm_not_found: "Nu s-a gasit articolul sau revizia in depozit."
+  error_can_t_load_default_data: "Nu s-a putut încărca configurația implicită: {{value}}"
+  error_scm_not_found: "Nu s-a găsit articolul sau revizia în depozit."
   error_scm_command_failed: "A intervenit o eroare la accesarea depozitului: {{value}}"
-  error_scm_annotate: "Nu exista sau nu poate fi adnotata."
-  error_issue_not_found_in_project: 'Tichetul nu a fost gasit sau nu apartine acestui proiect'
+  error_scm_annotate: "Nu există sau nu poate fi adnotată."
+  error_issue_not_found_in_project: 'Tichetul nu a fost găsit sau nu aparține acestui proiect'
   
-  warning_attachments_not_saved: "Nu s-au putut salva {{count}} fisier(e)."
+  warning_attachments_not_saved: "Nu s-au putut salva {{count}} fișiere."
   
-  mail_subject_lost_password: "Parola dumneavoastra: {{value}}"
-  mail_body_lost_password: 'Pentru a schimba parola, accesati:'
+  mail_subject_lost_password: "Parola dumneavoastră: {{value}}"
+  mail_body_lost_password: 'Pentru a schimba parola, accesați:'
   mail_subject_register: "Activarea contului {{value}}"
-  mail_body_register: 'Pentru activarea contului, accesati:'
-  mail_body_account_information_external: "Puteti folosi contul '{{value}}' pentru a va autentifica."
-  mail_body_account_information: Informatii despre contul dumneavoastra
+  mail_body_register: 'Pentru activarea contului, accesați:'
+  mail_body_account_information_external: "Puteți folosi contul „{value}}” pentru a vă autentifica."
+  mail_body_account_information: Informații despre contul dumneavoastră
   mail_subject_account_activation_request: "Cerere de activare a contului {{value}}"
-  mail_body_account_activation_request: "S-a inregistrat un nou utilizator ({{value}}). Contul asteapta aprobarea dumneavoastra:"
-  mail_subject_reminder: "{{count}} tichet(e) trebuie rezolvate in urmatoarele zile"
-  mail_body_reminder: "{{count}} tichet(e) atribuite dumneavoastra trebuie rezolvate in urmatoarele zile {{days}} zile:"
+  mail_body_account_activation_request: "S-a înregistrat un utilizator nou ({{value}}). Contul așteaptă aprobarea dumneavoastră:"
+  mail_subject_reminder: "{{count}} tichete trebuie rezolvate în următoarele zile"
+  mail_body_reminder: "{{count}} tichete atribuite dumneavoastră trebuie rezolvate în următoarele {{days}} zile:"
   
   gui_validation_error: o eroare
   gui_validation_error_plural: "{{count}} erori"
@@ -157,19 +157,19 @@ ro:
   field_is_required: Obligatoriu
   field_firstname: Prenume
   field_lastname: Nume
-  field_mail: E-mail
-  field_filename: Fisier
-  field_filesize: Marime
-  field_downloads: Descarcari
+  field_mail: Email
+  field_filename: Fișier
+  field_filesize: Mărime
+  field_downloads: Descărcări
   field_author: Autor
   field_created_on: Creat la
   field_updated_on: Actualizat la
   field_field_format: Format
   field_is_for_all: Pentru toate proiectele
   field_possible_values: Valori posibile
-  field_regexp: Expresie regulara
-  field_min_length: lungime minima
-  field_max_length: lungime maxima
+  field_regexp: Expresie regulară
+  field_min_length: lungime minimă
+  field_max_length: lungime maximă
   field_value: Valoare
   field_category: Categorie
   field_title: Titlu
@@ -179,43 +179,43 @@ ro:
   field_notes: Note
   field_is_closed: Rezolvat
   field_is_default: Implicit
-  field_tracker: Tip tichet
+  field_tracker: Tip de tichet
   field_subject: Subiect
-  field_due_date: Data finalizarii
-  field_assigned_to: Atribuit lui
+  field_due_date: Data finalizării
+  field_assigned_to: Atribuit
   field_priority: Prioritate
-  field_fixed_version: Versiune tinta
+  field_fixed_version: Versiune țintă
   field_user: Utilizator
   field_role: Rol
-  field_homepage: Pagina principala
+  field_homepage: Pagina principală
   field_is_public: Public
-  field_parent: Subproiect al
-  field_is_in_chlog: Tichete afisate in jurnal activitate
-  field_is_in_roadmap: Tichete afisate in plan
+  field_parent: Sub-proiect al
+  field_is_in_chlog: Tichete afișate în jurnalul de activitate
+  field_is_in_roadmap: Tichete afișate în plan
   field_login: Autentificare
-  field_mail_notification: Notificari prin e-mail
+  field_mail_notification: Notificări prin e-mail
   field_admin: Administrator
-  field_last_login_on: Ultima autentificare la
+  field_last_login_on: Ultima autentificare în
   field_language: Limba
   field_effective_date: Data
   field_password: Parola
-  field_new_password: Parola noua
+  field_new_password: Parola nouă
   field_password_confirmation: Confirmare
   field_version: Versiune
   field_type: Tip
-  field_host: Gazda
+  field_host: Gazdă
   field_port: Port
   field_account: Cont
   field_base_dn: Base DN
   field_attr_login: Atribut autentificare
   field_attr_firstname: Atribut prenume
   field_attr_lastname: Atribut nume
-  field_attr_mail: Atribut e-mail
+  field_attr_mail: Atribut email
   field_onthefly: Creare utilizator pe loc
-  field_start_date: Data inceperii
+  field_start_date: Data începerii
   field_done_ratio: Realizat (%)
   field_auth_source: Mod autentificare
-  field_hide_mail: Nu se afiseaza adresa de e-mail
+  field_hide_mail: Nu se afișează adresa de email
   field_comments: Comentariu
   field_url: URL
   field_start_page: Pagina de start
@@ -226,118 +226,118 @@ ro:
   field_identifier: Identificator
   field_is_filter: Filtru
   field_issue_to: Tichet asociat
-  field_delay: Intarziere
+  field_delay: Întârziere
   field_assignable: Se pot atribui tichete acestui rol
-  field_redirect_existing_links: Redirectioneaza legaturile existente
+  field_redirect_existing_links: Redirecționează legăturile existente
   field_estimated_hours: Timp estimat
   field_column_names: Coloane
   field_time_zone: Fus orar
-  field_searchable: Cautare
+  field_searchable: Căutare
   field_default_value: Valoare implicita
-  field_comments_sorting: Afiseaza comentarii
+  field_comments_sorting: Afișează comentarii
   field_parent_title: Pagina superioara
-  field_editable: Editabil
-  field_watcher: Urmareste
+  field_editable: Modificabil
+  field_watcher: Urmărește
   field_identity_url: URL OpenID
-  field_content: Continut
+  field_content: Conținut
   
-  setting_app_title: Titlu aplicatie
-  setting_app_subtitle: Subtitlu aplicatie
-  setting_welcome_text: Text de intampinare
+  setting_app_title: Titlu aplicație
+  setting_app_subtitle: Subtitlu aplicație
+  setting_welcome_text: Text de întâmpinare
   setting_default_language: Limba implicita
   setting_login_required: Necesita autentificare
-  setting_self_registration: Auto-inregistrare
-  setting_attachment_max_size: Marime maxima atasament
-  setting_issues_export_limit: Limita export tichete
-  setting_mail_from: Adresa e-mail expeditor
-  setting_bcc_recipients: Destinatari copie e-mail (BCC)
-  setting_plain_text_mail: Mesaje text (fara HTML)
-  setting_host_name: Nume si cale gazda
+  setting_self_registration: Înregistrare automată
+  setting_attachment_max_size: Mărime maxima atașament
+  setting_issues_export_limit: Limită de tichete exportate
+  setting_mail_from: Adresa de email a expeditorului
+  setting_bcc_recipients: Alți destinatari pentru email (BCC)
+  setting_plain_text_mail: Mesaje text (fără HTML)
+  setting_host_name: Numele gazdei și calea
   setting_text_formatting: Formatare text
   setting_wiki_compression: Comprimare istoric Wiki
-  setting_feeds_limit: Limita actualizari feed
+  setting_feeds_limit: Limita de actualizări din feed
   setting_default_projects_public: Proiectele noi sunt implicit publice
-  setting_autofetch_changesets: Auto-actualizare modificari depozit
-  setting_sys_api_enabled: Activeaza WS pentru management depozit
+  setting_autofetch_changesets: Preluare automată a modificărilor din depozit
+  setting_sys_api_enabled: Activare WS pentru gestionat depozitul
   setting_commit_ref_keywords: Cuvinte cheie pt. referire tichet
   setting_commit_fix_keywords: Cuvinte cheie pt. rezolvare tichet
-  setting_autologin: Auto-autentificare
-  setting_date_format: Format data
-  setting_time_format: Format timp
-  setting_cross_project_issue_relations: Permite legaturi tichete intre proiecte
-  setting_issue_list_default_columns: Coloane implicite afisate in lista de tichete
-  setting_repositories_encodings: Codificare (encoding) depozit
-  setting_commit_logs_encoding: Codificare (encoding) mesaje
-  setting_emails_footer: Subsol e-mail
+  setting_autologin: Autentificare automată
+  setting_date_format: Format dată
+  setting_time_format: Format oră
+  setting_cross_project_issue_relations: Permite legături de tichete între proiecte
+  setting_issue_list_default_columns: Coloane implicite afișate în lista de tichete
+  setting_repositories_encodings: Codare pentru depozit
+  setting_commit_logs_encoding: Codare pentru mesaje
+  setting_emails_footer: Subsol email
   setting_protocol: Protocol
-  setting_per_page_options: Numari de obiecte pe pagina
-  setting_user_format: Stil afisare utilizator
-  setting_activity_days_default: Se afiseaza zile in jurnalul proiectului
-  setting_display_subprojects_issues: Afiseaza implicit tichetele subproiectelor in proiectele principale
+  setting_per_page_options: Număr de obiecte pe pagină
+  setting_user_format: Stil de afișare pentru utilizator
+  setting_activity_days_default: Se afișează zile în jurnalul proiectului
+  setting_display_subprojects_issues: Afișează implicit tichetele sub-proiectelor în proiectele principale
   setting_enabled_scm: SCM activat
-  setting_mail_handler_api_enabled: Activeaza WS pentru e-mail-uri intrate
+  setting_mail_handler_api_enabled: Activare WS pentru email primit
   setting_mail_handler_api_key: cheie API
-  setting_sequential_project_identifiers: Genereaza secvential identificatoarele de proiect
-  setting_gravatar_enabled: Foloseste poze Gravatar pentru utilizatori
-  setting_diff_max_lines_displayed: Numar maxim de linii de diferenta afisate
-  setting_file_max_size_displayed: Numar maxim de fisiere text afisate in pagina (inline)
-  setting_repository_log_display_limit: Numar maxim de revizii afisate in istoricul fisierului
-  setting_openid: Permite inregistrare si autentificare cu OpenID
+  setting_sequential_project_identifiers: Generează secvențial identificatoarele de proiect
+  setting_gravatar_enabled: Folosește poze Gravatar pentru utilizatori
+  setting_diff_max_lines_displayed: Număr maxim de linii de diferență afișate
+  setting_file_max_size_displayed: Număr maxim de fișiere text afișate în pagină (inline)
+  setting_repository_log_display_limit: Număr maxim de revizii afișate în istoricul fișierului
+  setting_openid: Permite înregistrare și autentificare cu OpenID
   
-  permission_edit_project: Editeaza proiectul
-  permission_select_project_modules: Alege module proiect
-  permission_manage_members: Editeaza membri
-  permission_manage_versions: Editeaza versiuni
-  permission_manage_categories: Editeaza categorii
-  permission_add_issues: Adauga tichete
-  permission_edit_issues: Editeaza tichete
-  permission_manage_issue_relations: Editeaza relatii tichete
-  permission_add_issue_notes: Adauga note
-  permission_edit_issue_notes: Editeaza note
-  permission_edit_own_issue_notes: Editeaza notele proprii
-  permission_move_issues: Muta tichete
-  permission_delete_issues: Sterge tichete
-  permission_manage_public_queries: Editeaza cautarile implicite
-  permission_save_queries: Salveaza cautarile
-  permission_view_gantt: Afiseaza Gantt
-  permission_view_calendar: Afiseaza calendar
-  permission_view_issue_watchers: Afiseaza lista persoane interesate
-  permission_add_issue_watchers: Adauga persoane interesate
-  permission_log_time: Inregistreaza timpul de lucru
-  permission_view_time_entries: Afiseaza timpul de lucru
-  permission_edit_time_entries: Editeaza jurnale timp de lucru
-  permission_edit_own_time_entries: Editeaza jurnalele proprii de timp de lucru
-  permission_manage_news: Editeaza stiri
-  permission_comment_news: Comenteaza stiri
-  permission_manage_documents: Editeaza documente
-  permission_view_documents: Afiseaza documente
-  permission_manage_files: Editeaza fisiere
-  permission_view_files: Afiseaza fisiere
-  permission_manage_wiki: Editeaza wiki
-  permission_rename_wiki_pages: Redenumeste pagini wiki
-  permission_delete_wiki_pages: Sterge pagini wiki
-  permission_view_wiki_pages: Afiseaza wiki
-  permission_view_wiki_edits: Afiseaza istoric wiki
-  permission_edit_wiki_pages: Editeaza pagini wiki
-  permission_delete_wiki_pages_attachments: Sterge atasamente
-  permission_protect_wiki_pages: Blocheaza pagini wiki
-  permission_manage_repository: Gestioneaza depozit
-  permission_browse_repository: Afiseaza depozit
-  permission_view_changesets: Afiseaza modificari depozit (changesets)
+  permission_edit_project: Editează proiectul
+  permission_select_project_modules: Alege module pentru proiect
+  permission_manage_members: Editează membri
+  permission_manage_versions: Editează versiuni
+  permission_manage_categories: Editează categorii
+  permission_add_issues: Adaugă tichete
+  permission_edit_issues: Editează tichete
+  permission_manage_issue_relations: Editează relații tichete
+  permission_add_issue_notes: Adaugă note
+  permission_edit_issue_notes: Editează note
+  permission_edit_own_issue_notes: Editează notele proprii
+  permission_move_issues: Mută tichete
+  permission_delete_issues: Șterge tichete
+  permission_manage_public_queries: Editează căutările implicite
+  permission_save_queries: Salvează căutările
+  permission_view_gantt: Afișează Gantt
+  permission_view_calendar: Afișează calendarul
+  permission_view_issue_watchers: Afișează lista de persoane interesate
+  permission_add_issue_watchers: Adaugă persoane interesate
+  permission_log_time: Înregistrează timpul de lucru
+  permission_view_time_entries: Afișează timpul de lucru
+  permission_edit_time_entries: Editează jurnalele cu timp de lucru
+  permission_edit_own_time_entries: Editează jurnalele proprii cu timpul de lucru
+  permission_manage_news: Editează știri
+  permission_comment_news: Comentează știrile
+  permission_manage_documents: Editează documente
+  permission_view_documents: Afișează documente
+  permission_manage_files: Editează fișiere
+  permission_view_files: Afișează fișiere
+  permission_manage_wiki: Editează wiki
+  permission_rename_wiki_pages: Redenumește pagini wiki
+  permission_delete_wiki_pages: Șterge pagini wiki
+  permission_view_wiki_pages: Afișează wiki
+  permission_view_wiki_edits: Afișează istoricul wiki
+  permission_edit_wiki_pages: Editează pagini wiki
+  permission_delete_wiki_pages_attachments: Șterge atașamente
+  permission_protect_wiki_pages: Blochează pagini wiki
+  permission_manage_repository: Gestionează depozitul
+  permission_browse_repository: Răsfoiește depozitul
+  permission_view_changesets: Afișează modificările din depozit
   permission_commit_access: Acces commit
-  permission_manage_boards: Editeaza forum
-  permission_view_messages: Afiseaza mesaje
+  permission_manage_boards: Editează forum
+  permission_view_messages: Afișează mesaje
   permission_add_messages: Scrie mesaje
-  permission_edit_messages: Editeaza mesaje
-  permission_edit_own_messages: Editeaza mesajele proprii
-  permission_delete_messages: Sterge mesaje
-  permission_delete_own_messages: Sterge mesajele proprii
+  permission_edit_messages: Editează mesaje
+  permission_edit_own_messages: Editează mesajele proprii
+  permission_delete_messages: Șterge mesaje
+  permission_delete_own_messages: Șterge mesajele proprii
   
   project_module_issue_tracking: Tichete
   project_module_time_tracking: Timp de lucru
-  project_module_news: Stiri
+  project_module_news: Știri
   project_module_documents: Documente
-  project_module_files: Fisiere
+  project_module_files: Fișiere
   project_module_wiki: Wiki
   project_module_repository: Depozit
   project_module_boards: Forum
@@ -349,7 +349,7 @@ ro:
   label_project_new: Proiect nou
   label_project_plural: Proiecte
   label_x_projects:
-    zero:  nici un proiect
+    zero:  niciun proiect
     one:   un proiect
     other: "{{count}} proiecte"
   label_project_all: Toate proiectele
@@ -357,108 +357,108 @@ ro:
   label_issue: Tichet
   label_issue_new: Tichet nou
   label_issue_plural: Tichete
-  label_issue_view_all: Afiseaza toate tichetele
-  label_issues_by: "Sorteaza dupa {{value}}"
+  label_issue_view_all: Afișează toate tichetele
+  label_issues_by: "Sortează după {{value}}"
   label_issue_added: Adaugat
   label_issue_updated: Actualizat
   label_document: Document
   label_document_new: Document nou
   label_document_plural: Documente
-  label_document_added: Adaugat
+  label_document_added: Adăugat
   label_role: Rol
   label_role_plural: Roluri
   label_role_new: Rol nou
-  label_role_and_permissions: Roluri si permisiuni
+  label_role_and_permissions: Roluri și permisiuni
   label_member: Membru
   label_member_new: membru nou
   label_member_plural: Membri
-  label_tracker: Tip tichet
-  label_tracker_plural: Tipuri tichete
+  label_tracker: Tip de tichet
+  label_tracker_plural: Tipuri de tichete
   label_tracker_new: Tip nou de tichet
-  label_workflow: Flux
+  label_workflow: Mod de lucru
   label_issue_status: Stare tichet
   label_issue_status_plural: Stare tichete
-  label_issue_status_new: Stare noua
-  label_issue_category: Categorie tichet
-  label_issue_category_plural: Categorii tichete
-  label_issue_category_new: Categorie noua
-  label_custom_field: Camp personalizat
-  label_custom_field_plural: Campuri personalizate
-  label_custom_field_new: Camp nou personalizat
-  label_enumerations: Enumerari
-  label_enumeration_new: Valoare noua
-  label_information: Informatie
-  label_information_plural: Informatii
-  label_please_login: Va rugam sa va autentificati
-  label_register: Inregistrare
+  label_issue_status_new: Stare nouă
+  label_issue_category: Categorie de tichet
+  label_issue_category_plural: Categorii de tichete
+  label_issue_category_new: Categorie nouă
+  label_custom_field: Câmp personalizat
+  label_custom_field_plural: Câmpuri personalizate
+  label_custom_field_new: Câmp nou personalizat
+  label_enumerations: Enumerări
+  label_enumeration_new: Valoare nouă
+  label_information: Informație
+  label_information_plural: Informații
+  label_please_login: Vă rugăm să vă autentificați
+  label_register: Înregistrare
   label_login_with_open_id_option: sau autentificare cu OpenID
-  label_password_lost: Parola uitata
-  label_home: Home
+  label_password_lost: Parolă uitată
+  label_home: Acasă
   label_my_page: Pagina mea
   label_my_account: Contul meu
   label_my_projects: Proiectele mele
   label_administration: Administrare
   label_login: Autentificare
-  label_logout: Iesire din cont
+  label_logout: Ieșire din cont
   label_help: Ajutor
   label_reported_issues: Tichete
   label_assigned_to_me_issues: Tichetele mele
   label_last_login: Ultima conectare
-  label_registered_on: Inregistrat la
+  label_registered_on: Înregistrat la
   label_activity: Activitate
-  label_overall_activity: Ansamblu activitate
+  label_overall_activity: Activitate - vedere de ansamblu
   label_user_activity: "Activitate {{value}}"
   label_new: Nou
   label_logged_as: Autentificat ca
   label_environment: Mediu
   label_authentication: Autentificare
-  label_auth_source: Mod autentificare
+  label_auth_source: Mod de autentificare
   label_auth_source_new: Nou
-  label_auth_source_plural: Moduri autentificare
-  label_subproject_plural: Subproiecte
-  label_and_its_subprojects: "{{value}} si subproiecte"
-  label_min_max_length: lungime Min - Max
-  label_list: Lista
-  label_date: Data
-  label_integer: Intreg
-  label_float: Float
-  label_boolean: Boolean
+  label_auth_source_plural: Moduri de autentificare
+  label_subproject_plural: Sub-proiecte
+  label_and_its_subprojects: "{{value}} și sub-proiecte"
+  label_min_max_length: lungime min - max
+  label_list: Listă
+  label_date: Dată
+  label_integer: Întreg
+  label_float: Zecimal
+  label_boolean: Valoare logică
   label_string: Text
   label_text: Text lung
   label_attribute: Atribut
   label_attribute_plural: Atribute
-  label_download: "{{count}} descarcare"
-  label_download_plural: "{{count}} descarcari"
-  label_no_data: Nu exista date de afisat
-  label_change_status: Schimba stare
+  label_download: "{{count}} descărcare"
+  label_download_plural: "{{count}} descărcări"
+  label_no_data: Nu există date de afișat
+  label_change_status: Schimbă starea
   label_history: Istoric
-  label_attachment: Fisier
-  label_attachment_new: Fisier nou
-  label_attachment_delete: Sterge fisier
-  label_attachment_plural: Fisiere
-  label_file_added: Adaugat
+  label_attachment: Fișier
+  label_attachment_new: Fișier nou
+  label_attachment_delete: Șterge fișier
+  label_attachment_plural: Fișiere
+  label_file_added: Adăugat
   label_report: Raport
   label_report_plural: Rapoarte
-  label_news: Stiri
-  label_news_new: Adauga stire
-  label_news_plural: Stiri
-  label_news_latest: Ultimele stiri
-  label_news_view_all: Afiseaza toate stirile
-  label_news_added: Adaugat
+  label_news: Știri
+  label_news_new: Adaugă știre
+  label_news_plural: Știri
+  label_news_latest: Ultimele știri
+  label_news_view_all: Afișează toate știrile
+  label_news_added: Adăugat
   label_change_log: Istoric
-  label_settings: Setari
-  label_overview: Pagina proiect
+  label_settings: Setări
+  label_overview: Pagină proiect
   label_version: Versiune
-  label_version_new: Versiune noua
+  label_version_new: Versiune nouă
   label_version_plural: Versiuni
   label_confirmation: Confirmare
-  label_export_to: 'Disponibil si in:'
-  label_read: Citeste...
+  label_export_to: 'Disponibil și în:'
+  label_read: Citește...
   label_public_projects: Proiecte publice
   label_open_issues: deschis
   label_open_issues_plural: deschise
-  label_closed_issues: inschis
-  label_closed_issues_plural: inchise
+  label_closed_issues: închis
+  label_closed_issues_plural: închise
   label_x_open_issues_abbr_on_total:
     zero:  0 deschise / {{total}}
     one:   1 deschis / {{total}}
@@ -468,138 +468,138 @@ ro:
     one:   1 deschis
     other: "{{count}} deschise"
   label_x_closed_issues_abbr:
-    zero:  0 inchise
-    one:   1 inchis
-    other: "{{count}} inchise"
+    zero:  0 închise
+    one:   1 închis
+    other: "{{count}} închise"
   label_total: Total
   label_permissions: Permisiuni
-  label_current_status: Stare curenta
-  label_new_statuses_allowed: Stari noi permise
+  label_current_status: Stare curentă
+  label_new_statuses_allowed: Stări noi permise
   label_all: toate
-  label_none: nici unul
+  label_none: niciunul
   label_nobody: nimeni
-  label_next: Inainte
-  label_previous: Inapoi
+  label_next: Înainte
+  label_previous: Înapoi
   label_used_by: Folosit de
   label_details: Detalii
-  label_add_note: Adauga nota
-  label_per_page: pe pagina
+  label_add_note: Adaugă o notă
+  label_per_page: pe pagină
   label_calendar: Calendar
   label_months_from: luni de la
   label_gantt: Gantt
   label_internal: Intern
-  label_last_changes: "ultimele {{count}} schimbari"
-  label_change_view_all: Afiseaza toate schimbarile
-  label_personalize_page: Personalizeaza aceasta pagina
+  label_last_changes: "ultimele {{count}} schimbări"
+  label_change_view_all: Afișează toate schimbările
+  label_personalize_page: Personalizează aceasta pagina
   label_comment: Comentariu
   label_comment_plural: Comentarii
   label_x_comments:
     zero: fara comentarii
     one: 1 comentariu
     other: "{{count}} comentarii"
-  label_comment_add: Adauga comentariu
-  label_comment_added: Adaugat
-  label_comment_delete: Sterge comentariu
+  label_comment_add: Adaugă un comentariu
+  label_comment_added: Adăugat
+  label_comment_delete: Șterge comentariul
   label_query: Cautare personalizata
-  label_query_plural: Cautari personalizate
-  label_query_new: Cautare noua
-  label_filter_add: Adauga filtru
+  label_query_plural: Căutări personalizate
+  label_query_new: Căutare nouă
+  label_filter_add: Adaugă filtru
   label_filter_plural: Filtre
   label_equals: este
   label_not_equals: nu este
-  label_in_less_than: in mai putin de
-  label_in_more_than: in mai mult de
-  label_in: in
-  label_today: astazi
-  label_all_time: oricand
+  label_in_less_than: în mai puțin de
+  label_in_more_than: în mai mult de
+  label_in: în
+  label_today: astăzi
+  label_all_time: oricând
   label_yesterday: ieri
-  label_this_week: saptamana aceasta
-  label_last_week: saptamana trecuta
+  label_this_week: săptămâna aceasta
+  label_last_week: săptămâna trecută
   label_last_n_days: "ultimele {{count}} zile"
   label_this_month: luna aceasta
-  label_last_month: luna trecuta
+  label_last_month: luna trecută
   label_this_year: anul acesta
   label_date_range: Perioada
-  label_less_than_ago: mai putin de ... zile
+  label_less_than_ago: mai puțin de ... zile
   label_more_than_ago: mai mult de ... zile
-  label_ago: in urma
-  label_contains: contine
-  label_not_contains: nu contine
+  label_ago: în urma
+  label_contains: conține
+  label_not_contains: nu conține
   label_day_plural: zile
   label_repository: Depozit
   label_repository_plural: Depozite
-  label_browse: Afiseaza
+  label_browse: Afișează
   label_modification: "{{count}} schimbare"
-  label_modification_plural: "{{count}} schimbari"
+  label_modification_plural: "{{count}} schimbări"
   label_revision: Revizie
   label_revision_plural: Revizii
   label_associated_revisions: Revizii asociate
-  label_added: adaugata
-  label_modified: modificata
-  label_copied: copiata
-  label_renamed: redenumita
-  label_deleted: stearsa
+  label_added: adaugată
+  label_modified: modificată
+  label_copied: copiată
+  label_renamed: redenumită
+  label_deleted: ștearsă
   label_latest_revision: Ultima revizie
   label_latest_revision_plural: Ultimele revizii
-  label_view_revisions: Afiseaza revizii
-  label_max_size: Marime maxima
+  label_view_revisions: Afișează revizii
+  label_max_size: Mărime maximă
   label_sort_highest: Prima
-  label_sort_higher: In sus
-  label_sort_lower: In jos
+  label_sort_higher: În sus
+  label_sort_lower: În jos
   label_sort_lowest: Ultima
   label_roadmap: Planificare
-  label_roadmap_due_in: "De terminat in {{value}}"
-  label_roadmap_overdue: "Intarziat cu {{value}}"
-  label_roadmap_no_issues: Nu exista tichete pentru aceasta versiune
-  label_search: Cauta
+  label_roadmap_due_in: "De terminat în {{value}}"
+  label_roadmap_overdue: "Întârziat cu {{value}}"
+  label_roadmap_no_issues: Nu există tichete pentru această versiune
+  label_search: Caută
   label_result_plural: Rezultate
   label_all_words: toate cuvintele
   label_wiki: Wiki
   label_wiki_edit: Editare Wiki
-  label_wiki_edit_plural: Editari Wiki
-  label_wiki_page: Pagina Wiki
+  label_wiki_edit_plural: Editări Wiki
+  label_wiki_page: Pagină Wiki
   label_wiki_page_plural: Pagini Wiki
-  label_index_by_title: Sorteaza dupa titlu
-  label_index_by_date: Sorteaza dupa data
-  label_current_version: Versiunea curenta
-  label_preview: Preview
+  label_index_by_title: Sortează după titlu
+  label_index_by_date: Sortează după dată
+  label_current_version: Versiunea curentă
+  label_preview: Previzualizare
   label_feed_plural: Feed-uri
-  label_changes_details: Detaliile tuturor schimbarilor
-  label_issue_tracking: Issue tracking
+  label_changes_details: Detaliile tuturor schimbărilor
+  label_issue_tracking: Urmărire tichete
   label_spent_time: Timp alocat
-  label_f_hour: "{{value}} ora"
+  label_f_hour: "{{value}} oră"
   label_f_hour_plural: "{{value}} ore"
-  label_time_tracking: Urmarire timp de lucru
-  label_change_plural: Schimbari
+  label_time_tracking: Urmărire timp de lucru
+  label_change_plural: Schimbări
   label_statistics: Statistici
   label_commits_per_month: Commit pe luna
   label_commits_per_author: Commit per autor
-  label_view_diff: Afiseaza diferentele
-  label_diff_inline: in linie
-  label_diff_side_by_side: una langa alta
-  label_options: Optiuni
-  label_copy_workflow_from: Copiaza flux de la
+  label_view_diff: Afișează diferențele
+  label_diff_inline: în linie
+  label_diff_side_by_side: una lângă alta
+  label_options: Opțiuni
+  label_copy_workflow_from: Copiază modul de lucru de la
   label_permissions_report: Permisiuni
-  label_watched_issues: Tichete urmarite
+  label_watched_issues: Tichete urmărite
   label_related_issues: Tichete asociate
-  label_applied_status: Stare aplicata
-  label_loading: Incarca...
-  label_relation_new: Asociere noua
-  label_relation_delete: Sterge asocierea
+  label_applied_status: Stare aplicată
+  label_loading: Încarcă...
+  label_relation_new: Asociere nouă
+  label_relation_delete: Șterge asocierea
   label_relates_to: asociat cu
   label_duplicates: duplicate
-  label_duplicated_by: duplicata de
-  label_blocks: blocari
-  label_blocked_by: blocata de
+  label_duplicated_by: la fel ca
+  label_blocks: blocări
+  label_blocked_by: blocat de
   label_precedes: precede
-  label_follows: urmeaza
-  label_end_to_start: de la sfarsit la inceput
-  label_end_to_end: de la sfarsit la sfarsit
-  label_start_to_start: de la inceput la inceput
-  label_start_to_end: de la inceput la sfarsit
-  label_stay_logged_in: Pastreaza autentificarea
+  label_follows: urmează
+  label_end_to_start: de la sfârșit la început
+  label_end_to_end: de la sfârșit la sfârșit
+  label_start_to_start: de la început la început
+  label_start_to_end: de la început la sfârșit
+  label_stay_logged_in: Păstrează autentificarea
   label_disabled: dezactivat
-  label_show_completed_versions: Arata versiunile terminate
+  label_show_completed_versions: Arată versiunile terminate
   label_me: eu
   label_board: Forum
   label_board_new: Forum nou
@@ -608,183 +608,183 @@ ro:
   label_message_plural: Mesaje
   label_message_last: Ultimul mesaj
   label_message_new: Mesaj nou
-  label_message_posted: Adaugat
-  label_reply_plural: Raspunsuri
-  label_send_information: Trimite utilizatorului informatiile despre cont
+  label_message_posted: Adăugat
+  label_reply_plural: Răspunsuri
+  label_send_information: Trimite utilizatorului informațiile despre cont
   label_year: An
-  label_month: Luna
-  label_week: Saptamana
+  label_month: Lună
+  label_week: Săptămână
   label_date_from: De la
   label_date_to: La
-  label_language_based: In functie de limba de afisare a utilizatorului
-  label_sort_by: "Sorteaza dupa {{value}}"
-  label_send_test_email: Trimite e-mail de test
-  label_feeds_access_key_created_on: "Cheia de acces creata acum {{value}}"
+  label_language_based: Un funcție de limba de afișare a utilizatorului
+  label_sort_by: "Sortează după {{value}}"
+  label_send_test_email: Trimite email de test
+  label_feeds_access_key_created_on: "Cheie de acces creată acum {{value}}"
   label_module_plural: Module
-  label_added_time_by: "Adaugat de {{author}} acum {{age}}"
+  label_added_time_by: "Adăugat de {{author}} acum {{age}}"
   label_updated_time_by: "Actualizat de {{author}} acum {{age}}"
   label_updated_time: "Actualizat acum {{value}}"
   label_jump_to_a_project: Alege proiectul...
-  label_file_plural: Fisiere
-  label_changeset_plural: Schimbari
-  label_default_columns: Coloane implicita
-  label_no_change_option: (fara schimbari)
-  label_bulk_edit_selected_issues: Editeaza toate tichetele selectate
+  label_file_plural: Fișiere
+  label_changeset_plural: Schimbări
+  label_default_columns: Coloane implicite
+  label_no_change_option: (fără schimbări)
+  label_bulk_edit_selected_issues: Editează toate tichetele selectate
   label_theme: Tema
-  label_default: Implicita
-  label_search_titles_only: Cauta numai in titluri
-  label_user_mail_option_all: "Pentru orice eveniment in toate proiectele mele"
-  label_user_mail_option_selected: " Pentru orice eveniment in proiectele selectate..."
-  label_user_mail_option_none: "Doar pentru ceea ce urmaresc sau sunt implicat"
-  label_user_mail_no_self_notified: "Nu trimite notificari pentru modificarile proprii"
-  label_registration_activation_by_email: activare cont prin e-mail
-  label_registration_manual_activation: activare manuala cont
-  label_registration_automatic_activation: activare automata cont
-  label_display_per_page: "pe pagina: {{value}}"
+  label_default: Implicită
+  label_search_titles_only: Caută numai în titluri
+  label_user_mail_option_all: "Pentru orice eveniment, în toate proiectele mele"
+  label_user_mail_option_selected: " Pentru orice eveniment, în proiectele selectate..."
+  label_user_mail_option_none: "Doar cele urmărite sau cele în care sunt implicat"
+  label_user_mail_no_self_notified: "Nu trimite notificări pentru modificările mele"
+  label_registration_activation_by_email: activare cont prin email
+  label_registration_manual_activation: activare manuală a contului
+  label_registration_automatic_activation: activare automată a contului
+  label_display_per_page: "pe pagină: {{value}}"
   label_age: vechime
-  label_change_properties: Schimba proprietatile
+  label_change_properties: Schimbă proprietățile
   label_general: General
   label_more: Mai mult
   label_scm: SCM
   label_plugins: Plugin-uri
   label_ldap_authentication: autentificare LDAP
   label_downloads_abbr: D/L
-  label_optional_description: Descriere (optionala)
-  label_add_another_file: Adauga alt fisier
-  label_preferences: Preferinte
-  label_chronological_order: In ordine cronologica
-  label_reverse_chronological_order: In ordine invers cronologica
+  label_optional_description: Descriere (opțională)
+  label_add_another_file: Adaugă alt fișier
+  label_preferences: Preferințe
+  label_chronological_order: în ordine cronologică
+  label_reverse_chronological_order: În ordine invers cronologică
   label_planning: Planificare
-  label_incoming_emails: Mesaje intrate
-  label_generate_key: Genereaza cheie
-  label_issue_watchers: Cine urmareste
+  label_incoming_emails: Mesaje primite
+  label_generate_key: Generează o cheie
+  label_issue_watchers: Cine urmărește
   label_example: Exemplu
-  label_display: Afiseaza
+  label_display: Afișează
   
-  label_sort: Sorteaza
-  label_ascending: Ascendent
-  label_descending: Descendent
+  label_sort: Sortează
+  label_ascending: Crescător
+  label_descending: Descrescător
   label_date_from_to: De la {{start}} la {{end}}
 
   
-  button_login: Login
-  button_submit: Submit
-  button_save: Salveaza
-  button_check_all: Bifeaza toate
-  button_uncheck_all: Debifeaza toate
-  button_delete: Sterge
-  button_create: Creeaza
-  button_create_and_continue: Creeaza si continua
-  button_test: Testeaza
-  button_edit: Editeaza
-  button_add: Adauga
-  button_change: Modifica
-  button_apply: Aplica
-  button_clear: Sterge
-  button_lock: Blocheaza
-  button_unlock: Deblocheaza
-  button_download: Descarca
-  button_list: Listeaza
-  button_view: Afiseaza
-  button_move: Muta
-  button_back: Inapoi
-  button_cancel: Cancel
-  button_activate: Activeaza
-  button_sort: Sorteaza
-  button_log_time: Inregistreaza timpul de lucru
-  button_rollback: Revenire la aceasta versiune
-  button_watch: Urmaresc
-  button_unwatch: Nu urmaresc
-  button_reply: Raspunde
-  button_archive: Archiveaza
-  button_unarchive: Dezarhiveaza
-  button_reset: Reseteaza
-  button_rename: Redenumeste
-  button_change_password: Schimba parola
-  button_copy: Copiaza
-  button_annotate: Adnoteaza
-  button_update: Actualizeaza
-  button_configure: Configureaza
-  button_quote: Citeaza
+  button_login: Autentificare
+  button_submit: Trimite
+  button_save: Salvează
+  button_check_all: Bifează tot
+  button_uncheck_all: Debifează tot
+  button_delete: Șterge
+  button_create: Creează
+  button_create_and_continue: Creează și continua
+  button_test: Testează
+  button_edit: Editează
+  button_add: Adaugă
+  button_change: Modifică
+  button_apply: Aplică
+  button_clear: Șterge
+  button_lock: Blochează
+  button_unlock: Deblochează
+  button_download: Descarcă
+  button_list: Listează
+  button_view: Afișează
+  button_move: Mută
+  button_back: Înapoi
+  button_cancel: Anulează
+  button_activate: Activează
+  button_sort: Sortează
+  button_log_time: Înregistrează timpul de lucru
+  button_rollback: Revenire la această versiune
+  button_watch: Urmăresc
+  button_unwatch: Nu urmăresc
+  button_reply: Răspunde
+  button_archive: Arhivează
+  button_unarchive: Dezarhivează
+  button_reset: Resetează
+  button_rename: Redenumește
+  button_change_password: Schimbare parolă
+  button_copy: Copiază
+  button_annotate: Adnotează
+  button_update: Actualizează
+  button_configure: Configurează
+  button_quote: Citează
   
   status_active: activ
-  status_registered: inregistrat
+  status_registered: înregistrat
   status_locked: blocat
   
-  text_select_mail_notifications: Selectati actiunile notificate prin e-mail.
+  text_select_mail_notifications: Selectați acțiunile notificate prin email.
   text_regexp_info: ex. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 inseamna fara restrictii
-  text_project_destroy_confirmation: Sunteti sigur ca doriti sa stergeti proiectul si toate datele asociate?
-  text_subprojects_destroy_warning: "Subproiectul (subproiectele): {{value}} vor fi sterse deasemenea."
-  text_workflow_edit: Selectati un rol si un tip tichet pentru a edita fluxul
-  text_are_you_sure: Sunteti sigur?
-  text_journal_changed: "schimbat din {{old}} in {{new}}"
+  text_min_max_length_info: 0 înseamnă fără restricții
+  text_project_destroy_confirmation: Sigur doriți să ștergeți proiectul și toate datele asociate?
+  text_subprojects_destroy_warning: "Se vor șterge și sub-proiectele: {{value}}."
+  text_workflow_edit: Selectați un rol și un tip de tichet pentru a edita modul de lucru
+  text_are_you_sure: Sunteți sigur(ă)?
+  text_journal_changed: "schimbat din {{old}} în {{new}}"
   text_journal_set_to: "setat la {{value}}"
-  text_journal_deleted: sters
-  text_tip_task_begin_day: sarcina care incepe in aceasta zi
-  text_tip_task_end_day: sarcina care se termina in aceasta zi
-  text_tip_task_begin_end_day: sarcina care incepe si se termina in aceasta zi
-  text_project_identifier_info: 'Sunt permise doar litere mici (a-z), numere si linie de mijloc.<br />Odata salvat, identificatorul nu mai poate fi modificat.'
-  text_caracters_maximum: "maximum {{count}} caractere."
-  text_caracters_minimum: "Trebuie sa fie minim {{count}} caractere."
-  text_length_between: "Lungime intre {{min}} si {{max}} caractere."
-  text_tracker_no_workflow: Nu sunt fluxuri pentru acest tip de tichet
+  text_journal_deleted: șters
+  text_tip_task_begin_day: sarcină care începe în această zi
+  text_tip_task_end_day: sarcină care se termină în această zi
+  text_tip_task_begin_end_day: sarcină care începe și se termină în această zi
+  text_project_identifier_info: 'Sunt permise doar litere mici (a-z), numere și cratime.<br />Odată salvat, identificatorul nu mai poate fi modificat.'
+  text_caracters_maximum: "maxim {{count}} caractere."
+  text_caracters_minimum: "Trebuie să fie minim {{count}} caractere."
+  text_length_between: "Lungime între {{min}} și {{max}} caractere."
+  text_tracker_no_workflow: Nu sunt moduri de lucru pentru acest tip de tichet
   text_unallowed_characters: Caractere nepermise
-  text_comma_separated: Sunt permise mai multe valori (separate cu virgula).
-  text_issues_ref_in_commit_messages: Referire la tichete si rezolvare in text mesaj
-  text_issue_added: "Tichetul {{id}} a fost adaugat de {{author}}."
+  text_comma_separated: Sunt permise mai multe valori (separate cu virgulă).
+  text_issues_ref_in_commit_messages: Referire la tichete și rezolvare în textul mesajului
+  text_issue_added: "Tichetul {{id}} a fost adăugat de {{author}}."
   text_issue_updated: "Tichetul {{id}} a fost actualizat de {{author}}."
-  text_wiki_destroy_confirmation: Sunteti sigur ca doriti stergerea Wiki si tot continutul asociat?
-  text_issue_category_destroy_question: "Aceasta categorie contine ({{count}}) tichete. Ce doriti sa faceti?"
-  text_issue_category_destroy_assignments: Sterge apartenenta la categorie.
-  text_issue_category_reassign_to: Reatribuie tichetele la aceasta categorie
-  text_user_mail_option: "Pentru proiectele care nu sunt selectate, veti primi notificari doar pentru ceea ce urmariti sau sunteti implicat in (ex. tichete la care sunteti autorul sau care va sunt atribuite)."
-  text_no_configuration_data: "Nu s-au configurat inca rolurile, starile tichetelor si fluxurile.\nEste recomandat sa incarcati configuratia implicita. Veti putea sa modificati ulterior configuratia dupa ce s-a incarcat."
-  text_load_default_configuration: Incarca configuratia implicita
-  text_status_changed_by_changeset: "Aplicat in setul {{value}}."
-  text_issues_destroy_confirmation: 'Sunteti sigur ca doriti sa stergeti tichetul (tichetele) selectate?'
-  text_select_project_modules: 'Selectati modulele active pentru acest proiect:'
+  text_wiki_destroy_confirmation: Sigur doriți ștergerea Wiki și a conținutului asociat?
+  text_issue_category_destroy_question: "Această categorie conține ({{count}}) tichete. Ce doriți să faceți?"
+  text_issue_category_destroy_assignments: Șterge apartenența la categorie.
+  text_issue_category_reassign_to: Atribuie tichetele la această categorie
+  text_user_mail_option: "Pentru proiectele care nu sunt selectate, veți primi notificări doar pentru ceea ce urmăriți sau în ce sunteți implicat (ex: tichete create de dumneavoastră sau care vă sunt atribuite)."
+  text_no_configuration_data: "Nu s-au configurat încă rolurile, stările tichetelor și modurile de lucru.\nEste recomandat să încărcați configurația implicită. O veți putea modifica ulterior."
+  text_load_default_configuration: Încarcă configurația implicită
+  text_status_changed_by_changeset: "Aplicat în setul {{value}}."
+  text_issues_destroy_confirmation: 'Sigur doriți să ștergeți tichetele selectate?'
+  text_select_project_modules: 'Selectați modulele active pentru acest proiect:'
   text_default_administrator_account_changed: S-a schimbat contul administratorului implicit
-  text_file_repository_writable: Se poate scrie in directorul de atasamente
-  text_plugin_assets_writable: Se poate scrie in directorul de plugins
-  text_rmagick_available: Este disponibil RMagick (optional)
-  text_destroy_time_entries_question: "{{hours}} ore sunt inregistrate la tichetele pe care doriti sa le stergeti. Ce doriti sa faceti?"
-  text_destroy_time_entries: Sterge orele inregistrate
+  text_file_repository_writable: Se poate scrie în directorul de atașamente
+  text_plugin_assets_writable: Se poate scrie în directorul de plugin-uri
+  text_rmagick_available: Este disponibil RMagick (opțional)
+  text_destroy_time_entries_question: "{{hours}} ore sunt înregistrate la tichetele pe care doriți să le ștergeți. Ce doriți sa faceți?"
+  text_destroy_time_entries: Șterge orele înregistrate
   text_assign_time_entries_to_project: Atribuie orele la proiect
-  text_reassign_time_entries: 'Atribuie orele inregistrate la tichetul:'
+  text_reassign_time_entries: 'Atribuie orele înregistrate la tichetul:'
   text_user_wrote: "{{value}} a scris:"
-  text_enumeration_destroy_question: "Aceasta valoare are {{count}} obiecte."
-  text_enumeration_category_reassign_to: 'Atribuie la aceasta valoare:'
-  text_email_delivery_not_configured: "Trimiterea de e-mailuri nu este configurata, si notificarile sunt dezactivate.\nConfigurati serverul SMTP in config/email.yml si reporniti aplicatia pentru a le activa."
-  text_repository_usernames_mapping: "Selectati sau modificati contul Redmine echivalent contului din istoricul depozitului.\nUtilizatorii cu un cont (sau e-mail) identic in Redmine si depozit sunt echivalate automat." 
-  text_diff_truncated: '... Aceasta comparatie a fost trunchiata pentru ca depaseste lungimea maxima de text care poate fi afisat.'
+  text_enumeration_destroy_question: "Această valoare are {{count}} obiecte."
+  text_enumeration_category_reassign_to: 'Atribuie la această valoare:'
+  text_email_delivery_not_configured: "Trimiterea de emailuri nu este configurată și ca urmare, notificările sunt dezactivate.\nConfigurați serverul SMTP în config/email.yml și reporniți aplicația pentru a le activa."
+  text_repository_usernames_mapping: "Selectați sau modificați contul Redmine echivalent contului din istoricul depozitului.\nUtilizatorii cu un cont (sau e-mail) identic în Redmine și depozit sunt echivalate automat." 
+  text_diff_truncated: '... Comparația a fost trunchiată pentru ca depășește lungimea maximă de text care poate fi afișat.'
   text_custom_field_possible_values_info: 'O linie pentru fiecare valoare'
   
   default_role_manager: Manager
   default_role_developper: Dezvoltator
-  default_role_reporter: Creator rapoarte
+  default_role_reporter: Creator de rapoarte
   default_tracker_bug: Defect
-  default_tracker_feature: Functie
+  default_tracker_feature: Funcție
   default_tracker_support: Suport
   default_issue_status_new: Nou
   default_issue_status_assigned: Atribuit
   default_issue_status_resolved: Rezolvat
-  default_issue_status_feedback: Astept comentarii
-  default_issue_status_closed: Inchis
+  default_issue_status_feedback: Așteaptă reacții
+  default_issue_status_closed: Închis
   default_issue_status_rejected: Respins
-  default_doc_category_user: Documentatie
-  default_doc_category_tech: Documentatie tehnica
-  default_priority_low: mica
-  default_priority_normal: normala
+  default_doc_category_user: Documentație
+  default_doc_category_tech: Documentație tehnică
+  default_priority_low: mică
+  default_priority_normal: normală
   default_priority_high: mare
-  default_priority_urgent: urgenta
-  default_priority_immediate: imediata
+  default_priority_urgent: urgentă
+  default_priority_immediate: imediată
   default_activity_design: Design
   default_activity_development: Dezvoltare
   
-  enumeration_issue_priorities: Prioritati tichete
+  enumeration_issue_priorities: Priorități tichete
   enumeration_doc_categories: Categorii documente
-  enumeration_activities: Activitati (timp de lucru)
+  enumeration_activities: Activități (timp de lucru)
   label_greater_or_equal: ">="
   label_less_or_equal: <=
   text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
