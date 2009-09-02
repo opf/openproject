@@ -33,7 +33,7 @@ Redmine::Plugin.register :redmine_costs do
   settings :default => {
     'costs_currency' => 'EUR',
     'costs_currency_format' => '%n %u'
-  }, :partial => 'settings/_redmine_costs'
+  }, :partial => 'settings/redmine_costs'
 
   
   project_module :costs_module do
