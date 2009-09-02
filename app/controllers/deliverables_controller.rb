@@ -31,10 +31,6 @@ class DeliverablesController < ApplicationController
   include Redmine::Export::PDF
   
   def index
-    # TODO: This is a very naiive implementation.
-    # You might want to implement a more sophisticated version soon
-    # (see issues_controller.rb)
-    
     limit = per_page_option
     respond_to do |format|
       format.html { }
