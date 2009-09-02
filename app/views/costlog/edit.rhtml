@@ -20,11 +20,18 @@
     </p>
     <p>
       <label><%= l(:field_costs) %></label>
-      <span id="cost_entry_costs"><%= number_to_currency(@cost_entry.calculated_costs) %></span>
-      <%= update_page_tag do |page|
-        page << "makeEditable('cost_entry_costs', 'cost_entry[costs]');"
-        page << "edit($('cost_entry_costs'), 'cost_entry[overridden_costs]', '#{number_to_currency(@cost_entry.overridden_costs)}');" if @cost_entry.overridden_costs
-      end %>
+      <% if User.current.allowed_to? :view_unit_price, @cost_entry.project %>
+        <span id="cost_entry_costs"><%= number_to_currency(@cost_entry.calculated_costs) %></span>
+        <%= update_page_tag do |page|
+          page << "makeEditable('cost_entry_costs', 'cost_entry[costs]');"
+          page << "edit($('cost_entry_costs'), 'cost_entry[overridden_costs]', '#{number_to_currency(@cost_entry.overridden_costs)}');" if @cost_entry.overridden_costs
+        end %>
+      <% else %>
+        <span id="cost_entry_costs_editor">
+          <input class="currency" value="<%= number_to_currency(@cost_entry.overridden_costs, :unit => "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_redmine_costs['costs_currency'] %>
+        </span>
+        <br /><em><%= l(:help_override_rate) %></em>
+      <% end %>
       
     </p>
     <p><%= f.text_field :comments, :size => 100 %></p>

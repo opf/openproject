@@ -26,7 +26,7 @@
   <td class="comments"><%=h entry.comments %></td>
   <td class="units"><%= pluralize(entry.units, entry.cost_type.unit, entry.cost_type.unit_plural) %></td>
   <td class="currency">
-    <% if User.current.allowed_to?(:view_unit_price, entry.project) -%>
+    <% if User.current.allowed_to?(:view_unit_price, entry.project) || (entry.user == User.current && entry.overridden_costs ) -%>
       <%= number_to_currency entry.costs %>
     <%- else -%>-<% end -%>
   </td>
