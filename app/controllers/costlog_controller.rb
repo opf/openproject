@@ -91,8 +91,9 @@ class CostlogController < ApplicationController
       new_user ||= User.current
       @cost_entry = CostEntry.new(:project => @project, :issue => @issue, :user => new_user, :spent_on => Date.today)
     end
-    if params[:cost_entry].is_a?(Hash) && !params[:cost_entry][:costs]
-      params[:cost_entry][:costs] = nil
+
+    if params[:cost_entry].is_a?(Hash) 
+      params[:cost_entry][:overridden_costs] = clean_currency(params[:cost_entry][:overridden_costs])
     end
     @cost_entry.attributes = params[:cost_entry]
     @cost_entry.cost_type ||= CostType.default
@@ -200,6 +201,16 @@ private
     @from, @to = @to, @from if @from && @to && @from > @to
     @from ||= (CostEntry.minimum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today) - 1
     @to   ||= (CostEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today)
+  end
+  
+  def clean_currency(value)
+    if value
+      value = value.strip
+      value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_separator))
+      value.gsub(',', '.')
+    else
+      value
+    end
   end
   
   

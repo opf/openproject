@@ -40,9 +40,6 @@
           results[entry.cost_type.id.to_s] = result
         end  
         
-        p result.costs
-        p entry.costs
-        
         result.costs += entry.costs
         result.units += entry.units
         results

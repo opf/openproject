@@ -1,5 +1,5 @@
 project_module_costs_module: "Costs Management"
-costs_title: "Costs"
+cost_types_title: "Costs"
 deliverables_title: "Deliverables"
 
 currency_delimiter: ","

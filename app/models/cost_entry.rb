@@ -61,15 +61,4 @@ class CostEntry < ActiveRecord::Base
       yield
     end
   end
-  
-private
-  def clean_currency(value)
-    if value && value.is_a?(String)
-      value = value.strip
-      value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_seperator))
-      value.gsub(',', '.')
-    else
-      value
-    end
-  end
 end

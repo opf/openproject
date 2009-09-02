@@ -58,8 +58,8 @@ Redmine::Plugin.register :redmine_costs do
   # Menu extensions
   menu :project_menu, :deliverables, {:controller => 'deliverables', :action => 'index'}, \
     :param => :project_id, :after => :new_issue, :caption => :deliverables_title
-  menu :top_menu, :costs, {:controller => 'costs', :action => 'index'}, \
-    :caption => :costs_title
+  menu :top_menu, :cost_typess, {:controller => 'cost_types', :action => 'index'}, \
+    :caption => :cost_types_title
   
   # Activities
   activity_provider :deliverables
