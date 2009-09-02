@@ -60,7 +60,7 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
   # * :detail => Detail about the journal change
   #
   def helper_issues_show_detail_after_setting(context = { })
-    # TODO Later: Overwritting the caller is bad juju
+    # FIXME: Overwritting the caller is bad juju
     if context[:detail].prop_key == 'deliverable_id'
       d = Deliverable.find_by_id(context[:detail].value)
       context[:detail].value = d.subject unless d.nil? || d.subject.nil?

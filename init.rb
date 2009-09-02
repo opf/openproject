@@ -43,7 +43,7 @@ Redmine::Plugin.register :redmine_costs do
     permission :change_rates, {}
   
     # from controlling requirements 4.5
-    permission :view_unit_price, {:deliverables => [:index]}
+    permission :view_unit_price, {}
     permission :book_own_costs, {:costlog => :edit}, :require => :loggedin
     permission :book_costs, {:costlog => :edit}, :require => :member
     permission :edit_own_cost_entries, {:costlog => [:edit, :destroy]}, :require => :loggedin
