@@ -147,7 +147,6 @@ class DeliverablesController < ApplicationController
   
   def update_deliverable_cost
     element_id = params[:element_id] if params.has_key? :element_id
-    render_403 and return unless element_id =~ /^deliverable_(existing|new)_deliverable_cost_attributes_[0-9]+$/
     
     cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
     
@@ -168,8 +167,7 @@ class DeliverablesController < ApplicationController
   
   def update_deliverable_hour
     element_id = params[:element_id] if params.has_key? :element_id
-    render_403 and return unless element_id =~ /^deliverable_(existing|new)_deliverable_hour_attributes_[0-9]+$/
-
+    
     user = User.find(params[:user_id])
     
     hours = params[:hours].to_hours

@@ -33,8 +33,20 @@ class CostEntry < ActiveRecord::Base
     errors.add :user_id, :activerecord_error_invalid unless (user == User.current) || (User.current.allowed_to? :book_costs, project)
   end
   
+#  def overridden_costs=(value)
+#    self.attributes[:overridden_costs] = value
+#  end
+  
   def costs
-    @costs || units * cost_type.rate_at(self.spent_on).rate
+    self.overridden_costs || calculated_costs
+  end
+  
+  def costs=(value)
+    self.overridden_costs = value
+  end
+  
+  def calculated_costs
+    units * cost_type.rate_at(self.spent_on).rate
   rescue
     0.0
   end
@@ -50,4 +62,14 @@ class CostEntry < ActiveRecord::Base
     end
   end
   
+private
+  def clean_currency(value)
+    if value && value.is_a?(String)
+      value = value.strip
+      value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_seperator))
+      value.gsub(',', '.')
+    else
+      value
+    end
+  end
 end

@@ -36,9 +36,12 @@
       cost_entries = issue.cost_entries.inject(Hash.new)  do |results, entry|
         result = results[entry.cost_type.id.to_s]
         unless result
-          result = CostEntry.new(:cost_type => entry.cost_type, :deliverable => @deliverable, :costs => 0, :units => 0)
+          result = CostEntry.new(:cost_type => entry.cost_type, :deliverable => @deliverable, :overridden_costs => 0.0, :units => 0)
           results[entry.cost_type.id.to_s] = result
         end  
+        
+        p result.costs
+        p entry.costs
         
         result.costs += entry.costs
         result.units += entry.units

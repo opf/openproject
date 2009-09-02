@@ -91,6 +91,9 @@ class CostlogController < ApplicationController
       new_user ||= User.current
       @cost_entry = CostEntry.new(:project => @project, :issue => @issue, :user => new_user, :spent_on => Date.today)
     end
+    if params[:cost_entry].is_a?(Hash) && !params[:cost_entry][:costs]
+      params[:cost_entry][:costs] = nil
+    end
     @cost_entry.attributes = params[:cost_entry]
     @cost_entry.cost_type ||= CostType.default
     

@@ -13,11 +13,26 @@
     <p><%= f.select :cost_type_id, cost_types_collection_for_select_options, :required => true %></p>
     <p>
         <%= f.text_field :units, :size => 6, :required => true %>
-        <span id="cost_type_unit_plural"><%= render :partial => "cost_type_unit_plural", :locals => {:cost_type => @cost_entry.cost_type} %></span>
-        <%= observe_field ('cost_entry_cost_type_id', :update => 'cost_type_unit_plural', :url => {:action => :get_cost_type_unit_plural}, :with => :cost_type_id) %>
+        <span id="cost_entry_unit_name"><%= @cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural %></span>
+        <%= observe_field( "cost_entry_cost_type_id", :url => {:controller => :deliverables, :action => :update_deliverable_cost, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
+        <%= observe_field( "cost_entry_units", :frequency => 1, :url => {:controller => :deliverables, :action => :update_deliverable_cost, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
+        <%= observe_field( "cost_entry_spent_on", :frequency => 1, :url => {:controller => :deliverables, :action => :update_deliverable_cost, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(value) + '&element_id=cost_entry'") %>
+    </p>
+    <p>
+      <label><%= l(:field_costs) %></label>
+      <span id="cost_entry_costs"><%= number_to_currency(@cost_entry.calculated_costs) %></span>
+      <%= update_page_tag do |page|
+        page << "makeEditable('cost_entry_costs', 'cost_entry[costs]');"
+        page << "edit($('cost_entry_costs'), 'cost_entry[budget]', '#{number_to_currency(@cost_entry.overridden_costs)}');" if @cost_entry.overridden_costs
+      end %>
+      
     </p>
     <p><%= f.text_field :comments, :size => 100 %></p>
     </div>
 
     <%= submit_tag l(:button_save) %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'editinplace', :plugin => 'redmine_costs' %>
 <% end %>

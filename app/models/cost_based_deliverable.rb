@@ -98,12 +98,12 @@ class CostBasedDeliverable < Deliverable
 
 private
   def clean_currency(value)
-    if value
+    if value && value.is_a?(String)
       value = value.strip
       value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_seperator))
       value.gsub(',', '.')
     else
-      nil
+      value
     end
   end
 end
