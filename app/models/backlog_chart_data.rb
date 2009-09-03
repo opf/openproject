@@ -13,10 +13,10 @@ class BacklogChartData < ActiveRecord::Base
     data_today = BacklogChartData.find :first, :conditions => ["backlog_id=? AND created_at=?", backlog.id, Date.today.to_formatted_s(:db)]
 
     scope = Item.sum('points', :conditions => ["backlog_id=? AND parent_id=0", backlog.id])
-    done  = Item.sum('points', :include => {:issue => :status}, :conditions => ["parent_id=0 AND backlog_id=? AND issue_statuses.is_closed=true", backlog.id])
+    done  = Item.sum('points', :include => {:issue => :status}, :conditions => ["parent_id=0 AND backlog_id=? AND issue_statuses.is_closed=?", backlog.id, true])
     wip   = 0 
     if data_today.nil?
-      create :scope => scope, :done => done, :backlog_id => backlog.id
+      create :scope => scope, :done => done, :backlog_id => backlog.id, :created_at => Date.today.to_formatted_s(:db)
     else
       data_today.scope = scope
       data_today.done  = done
