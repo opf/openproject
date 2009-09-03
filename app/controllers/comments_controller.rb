@@ -1,8 +1,8 @@
 class CommentsController < ApplicationController
   unloadable
-  before_filter :authorize
   before_filter :find_item, :only => [:index, :create ]
-  
+  before_filter :find_project, :authorize
+    
   def index
     @journals = @item.issue.journals.find(:all, 
                                           :include => [:user, :details], 
@@ -23,4 +23,8 @@ class CommentsController < ApplicationController
   def find_item
     @item = Item.find(params[:item_id])
   end  
+  
+  def find_project
+    @project = @item.issue.project
+  end
 end

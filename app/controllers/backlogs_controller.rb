@@ -2,10 +2,9 @@ include ItemsHelper
 
 class BacklogsController < ApplicationController
   unloadable
-  before_filter :authorize
-  before_filter :find_project, :only => [:index, :show]
   before_filter :find_backlog, :only => [:show, :update]
-  
+  before_filter :find_project, :authorize
+      
   def index
     @items         = Item.find_by_project(@project)
     @item_template = Item.new

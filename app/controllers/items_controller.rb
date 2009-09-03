@@ -1,9 +1,8 @@
 class ItemsController < ApplicationController
   unloadable
-  before_filter :authorize
-  before_filter :find_project, :only => [:index, :create]
   before_filter :find_item, :only => [:edit, :update, :show, :delete]
-  
+  before_filter :find_project, :authorize
+    
   def index
     render :text => "We don't do no indexin' round this part of town."
   end
@@ -21,7 +20,11 @@ class ItemsController < ApplicationController
   private
   
   def find_project
-    @project = Project.find(params[:project_id])
+    @project = if params[:project_id].nil?
+                 @item.issue.project
+               else
+                 Project.find(params[:project_id])
+               end
   end
   
   def find_item

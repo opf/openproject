@@ -1,8 +1,7 @@
 class TasksController < ApplicationController
   unloadable
-  before_filter :authorize
   before_filter :find_item, :only => [:index, :create ]
-  before_filter :find_project, :only => [:index, :create]
+  before_filter :find_project, :authorize
   
   def index
     render :partial => "items/item", :collection => @item.children
@@ -11,10 +10,10 @@ class TasksController < ApplicationController
   private
   
   def find_project
-    @project = if params[:project_id]
-                 Project.find(params[:project_id])
+    @project = if params[:project_id].nil?
+                 @item.issue.project
                else
-                 @item.issue.project_id
+                 Project.find(params[:project_id])
                end
   end
   
