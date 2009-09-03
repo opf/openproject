@@ -4,13 +4,13 @@ This plugin provides a set of convenience capabilities for easier management of 
 
 = Installation
 
-1. Copy plugin to vendor/plugins
-2. Run rake db:migrate_plugins
-3. Restart Redmine
+1. Extract or clone the plugin to vendor/plugins as redmine_backlogs
+3. Run <tt>rake db:migrate_plugins</tt> from RAILS_ROOT
+4. Restart Redmine
 
 = Chart Data Generator
 
-You may schedule a cron job to run the rake task named redmine:backlogs_plugin:generate_chart_data. I recommend you run it a few minutes after midnight to ensure that your backlogs have data everyday even when no user views the charts.
+You may schedule a cron job to run the rake task named <tt>redmine:backlogs_plugin:generate_chart_data</tt>. I recommend you run it a few minutes after midnight to ensure that your backlogs have data everyday even when no user views the charts.
 
 = Compatibility
 
