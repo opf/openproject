@@ -89,7 +89,7 @@ class Changeset < ActiveRecord::Base
     if ref_keywords.delete('*')
       # find any issue ID in the comments
       target_issue_ids = []
-      comments.scan(%r{([\s\(,-]|^)#(\d+)(?=[[:punct:]]|\s|<|$)}).each { |m| target_issue_ids << m[1] }
+      comments.scan(%r{([\s\(\[,-]|^)#(\d+)(?=[[:punct:]]|\s|<|$)}).each { |m| target_issue_ids << m[1] }
       referenced_issues += repository.project.issues.find_all_by_id(target_issue_ids)
     end
     

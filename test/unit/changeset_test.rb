@@ -53,6 +53,28 @@ class ChangesetTest < Test::Unit::TestCase
     assert_equal [1], c.issue_ids.sort
   end
 
+  def test_ref_keywords_allow_brackets_around_a_issue_number
+    Setting.commit_ref_keywords = '*'
+
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => '[#1] Worked on this issue')
+    c.scan_comment_for_issue_ids
+
+    assert_equal [1], c.issue_ids.sort
+  end
+
+  def test_ref_keywords_allow_brackets_around_multiple_issue_numbers
+    Setting.commit_ref_keywords = '*'
+
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => '[#1 #2, #3] Worked on these')
+    c.scan_comment_for_issue_ids
+
+    assert_equal [1,2,3], c.issue_ids.sort
+  end
+
   def test_previous
     changeset = Changeset.find_by_revision('3')
     assert_equal Changeset.find_by_revision('2'), changeset.previous
