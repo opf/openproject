@@ -18,6 +18,9 @@ class DeliverablesController < ApplicationController
     :update_deliverable_cost, :update_deliverable_hour
     ]
   
+  verify :method => :post, :only => [:bulk_edit, :destroy],
+         :redirect_to => { :action => :list }
+  
   helper :sort
   include SortHelper
   helper :projects

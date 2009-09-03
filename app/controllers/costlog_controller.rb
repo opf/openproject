@@ -203,16 +203,4 @@ private
     @to   ||= (CostEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today)
   end
   
-  def clean_currency(value)
-    return nil if value == ""
-    if value
-      value = value.strip
-      value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_separator))
-      value.gsub(',', '.')
-    else
-      value
-    end
-  end
-  
-  
 end

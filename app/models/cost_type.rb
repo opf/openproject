@@ -3,8 +3,7 @@ class CostType < ActiveRecord::Base
   
   has_many :deliverable_costs
   has_many :cost_entries, :dependent => :destroy
-  
-  belongs_to :rate, :class_name => 'CostRate', :foreign_key => 'rate_id'
+  has_many :rates, :class_name => "CostRate", :foreign_key => "cost_type_id", :dependent => :destroy
   
   validates_presence_of :name, :unit, :unit_plural, :unit_price, :valid_from
   validates_uniqueness_of :name
@@ -16,7 +15,7 @@ class CostType < ActiveRecord::Base
     CostType.find(:first)
   end
   
-  def is_default
+  def is_default?
     self.default
   end
   

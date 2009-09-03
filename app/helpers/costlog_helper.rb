@@ -12,7 +12,7 @@ module CostlogHelper
   def cost_types_collection_for_select_options(selected_type = nil)
     cost_types = CostType.all.sort
     collection = []
-    collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless cost_types.detect(&:is_default)
+    collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless cost_types.detect(&:is_default?)
     cost_types.each { |t| collection << [t.name, t.id] }
     collection
   end
@@ -82,5 +82,15 @@ module CostlogHelper
       content_tag('p', legend, :class => 'pourcent')
   end
   
+  def clean_currency(value)
+    return nil if value == ""
+    if value
+      value = value.strip
+      value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_separator))
+      value.gsub(',', '.')
+    else
+      value
+    end
+  end
 end
   

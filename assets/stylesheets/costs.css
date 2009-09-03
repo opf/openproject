@@ -11,6 +11,10 @@ table.deliverable_hours {
   width: 100%;
 }
 
+table.cost_types {
+  text-align: center;
+}
+
 .deliverable_costs,
 .deliverable_hours {
   text-align: center;

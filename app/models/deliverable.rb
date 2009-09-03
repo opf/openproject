@@ -68,7 +68,6 @@ class Deliverable < ActiveRecord::Base
   
   # Amount spent.  Virtual accessor that is overriden by subclasses.
   def spent
-    # TODO: check rights to see rates
     0 
   end
   

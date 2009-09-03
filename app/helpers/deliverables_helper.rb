@@ -55,8 +55,4 @@ module DeliverablesHelper
     export.rewind
     export
   end
-
-
-
-
 end

@@ -37,8 +37,7 @@ class CostBasedDeliverable < Deliverable
     return 0 unless issues.size > 0
     @spent_material = issues.collect(&:material_costs).compact.sum
   end
-
-
+  
   def spent_labor
     return @spent_labor if @spent_labor
     return 0 unless issues.size > 0
