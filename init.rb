@@ -19,13 +19,18 @@ Redmine::Plugin.register :redmine_backlogs do
   
   
   project_module :backlogs do
-    permission :backlogs, {:backlogs => [:index, :show]}, :public => false
+    permission :backlogs, { :backlogs => [:index, :show, :update],
+                            :charts   => [:show],
+                            :comments => [:index, :create],
+                            :items    => [:index, :create, :update],
+                            :tasks    => [:index]                   
+                          }, :public => false
   end
 
   menu :project_menu, 
        :backlogs, 
        { :controller => 'backlogs', :action => :index }, 
        :caption => 'Backlogs', 
-       :after   => :activity, 
+       :after   => :roadmap, 
        :param   => :project_id
 end

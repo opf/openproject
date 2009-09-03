@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   unloadable
+  before_filter :authorize
   before_filter :find_item, :only => [:index, :create ]
   
   def index

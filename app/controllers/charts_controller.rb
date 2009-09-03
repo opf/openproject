@@ -1,5 +1,6 @@
 class ChartsController < ApplicationController
   unloadable
+  before_filter :authorize
   
   def show
     @data = BacklogChartData.fetch :backlog_id => params[:backlog_id]

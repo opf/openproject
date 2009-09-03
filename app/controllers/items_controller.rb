@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   unloadable
+  before_filter :authorize
   before_filter :find_project, :only => [:index, :create]
   before_filter :find_item, :only => [:edit, :update, :show, :delete]
   

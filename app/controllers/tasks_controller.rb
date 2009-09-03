@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   unloadable
+  before_filter :authorize
   before_filter :find_item, :only => [:index, :create ]
   before_filter :find_project, :only => [:index, :create]
   
