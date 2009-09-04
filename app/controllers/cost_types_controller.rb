@@ -29,6 +29,7 @@ class CostTypesController < ApplicationController
   def edit
     if !@cost_type
       @cost_type = CostType.new()
+      @cost_type.rates.build({:valid_from => Date.today})
     end
     
     if params[:cost_type]
