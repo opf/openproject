@@ -36,6 +36,7 @@ class MenuManagerTest < ActionController::IntegrationTest
   end
   
   def test_project_menu_with_additional_menu_items
+    Setting.default_language = 'en'
     assert_no_difference 'Redmine::MenuManager.items(:project_menu).size' do
       Redmine::MenuManager.map :project_menu do |menu|
         menu.push :foo, { :controller => 'projects', :action => 'show' }, :caption => 'Foo'
