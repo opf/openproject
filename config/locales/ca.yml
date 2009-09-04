@@ -718,9 +718,6 @@ ca:
   text_subprojects_destroy_warning: "També seran suprimits els seus subprojectes: {{value}}."
   text_workflow_edit: Seleccioneu un rol i un seguidor per a editar el flux de treball
   text_are_you_sure: Segur?
-  text_journal_changed: "canviat des de {{old}} a {{new}}"
-  text_journal_set_to: "establert a {{value}}"
-  text_journal_deleted: suprimit
   text_tip_task_begin_day: "tasca que s'inicia aquest dia"
   text_tip_task_end_day: tasca que finalitza aquest dia
   text_tip_task_begin_end_day: "tasca que s'inicia i finalitza aquest dia"
@@ -806,3 +803,6 @@ ca:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

@@ -574,9 +574,6 @@ uk:
   text_project_destroy_confirmation: Ви наполягаєте на видаленні цього проекту і всієї інформації, що відноситься до нього?
   text_workflow_edit: Виберіть роль і координатор для редагування послідовності дій
   text_are_you_sure: Ви впевнені?
-  text_journal_changed: "змінився з {{old}} на {{new}}"
-  text_journal_set_to: "параметр змінився на {{value}}"
-  text_journal_deleted: видалено
   text_tip_task_begin_day: день початку задачі
   text_tip_task_end_day: день завершення задачі
   text_tip_task_begin_end_day: початок задачі і закінчення цього дня
@@ -805,3 +802,6 @@ uk:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

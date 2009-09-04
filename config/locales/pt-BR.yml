@@ -683,9 +683,6 @@ pt-BR:
   text_subprojects_destroy_warning: "Seu(s) subprojeto(s): {{value}} também serão excluídos."
   text_workflow_edit: Selecione um papel e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Você tem certeza?
-  text_journal_changed: "alterado(a) de {{old}} para {{new}}"
-  text_journal_set_to: "alterado(a) para {{value}}"
-  text_journal_deleted: excluído
   text_tip_task_begin_day: tarefa inicia neste dia
   text_tip_task_end_day: tarefa termina neste dia
   text_tip_task_begin_end_day: tarefa inicia e termina neste dia
@@ -841,3 +838,6 @@ pt-BR:
   label_view_all_revisions: Ver todas as revisões
   label_tag: Etiqueta
   label_branch: Ramo
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

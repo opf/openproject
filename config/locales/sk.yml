@@ -630,9 +630,6 @@ sk:
   text_project_destroy_confirmation: Ste si istý, že chcete odstránit tento projekt a všetky súvisiace dáta ?
   text_workflow_edit: Vyberte rolu a frontu k úprave workflow
   text_are_you_sure: Ste si istý?
-  text_journal_changed: "zmenené z {{old}} na {{new}}"
-  text_journal_set_to: "nastavené na {{value}}"
-  text_journal_deleted: odstránené
   text_tip_task_begin_day: úloha začína v tento deň
   text_tip_task_end_day: úloha končí v tento deň
   text_tip_task_begin_end_day: úloha začína a končí v tento deň
@@ -808,3 +805,6 @@ sk:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

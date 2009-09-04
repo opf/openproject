@@ -668,9 +668,6 @@
   text_subprojects_destroy_warning: "Az alprojekt(ek): {{value}} szintén törlésre kerülnek."
   text_workflow_edit: Válasszon egy szerepkört, és egy trackert a workflow szerkesztéséhez
   text_are_you_sure: Biztos benne ?
-  text_journal_changed: "változás: {{old}} volt, {{new}} lett"
-  text_journal_set_to: "beállítva: {{value}}"
-  text_journal_deleted: törölve
   text_tip_task_begin_day: a feladat ezen a napon kezdődik
   text_tip_task_end_day: a feladat ezen a napon ér véget
   text_tip_task_begin_end_day: a feladat ezen a napon kezdődik és ér véget
@@ -841,3 +838,6 @@
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

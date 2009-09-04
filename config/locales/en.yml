@@ -735,9 +735,9 @@ en:
   text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Are you sure ?
-  text_journal_changed: "changed from {{old}} to {{new}}"
-  text_journal_set_to: "set to {{value}}"
-  text_journal_deleted: deleted
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"
   text_tip_task_begin_day: task beginning this day
   text_tip_task_end_day: task ending this day
   text_tip_task_begin_end_day: task beginning and ending this day

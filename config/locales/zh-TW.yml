@@ -841,9 +841,6 @@
   text_subprojects_destroy_warning: "下列子專案： {{value}} 將一併被刪除。"
   text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
   text_are_you_sure: 確定執行？
-  text_journal_changed: "從 {{old}} 變更為 {{new}}"
-  text_journal_set_to: "設定為 {{value}}"
-  text_journal_deleted: 已刪除
   text_tip_task_begin_day: 今天起始的工作
   text_tip_task_end_day: 今天截止的的工作
   text_tip_task_begin_end_day: 今天起始與截止的工作
@@ -915,3 +912,6 @@
   label_view_all_revisions: View all revisions
   label_tag: Tag
   label_branch: Branch
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

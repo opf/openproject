@@ -131,9 +131,9 @@ module IssuesHelper
       case detail.property
       when 'attr', 'cf'
         if !detail.old_value.blank?
-          label + " " + l(:text_journal_changed, :old => old_value, :new => value)
+          l(:text_journal_changed, :label => label, :old => old_value, :new => value)
         else
-          label + " " + l(:text_journal_set_to, value)
+          l(:text_journal_set_to, :label => label, :value => value)
         end
       when 'attachment'
         "#{label} #{value} #{l(:label_added)}"
@@ -141,7 +141,7 @@ module IssuesHelper
     else
       case detail.property
       when 'attr', 'cf'
-        label + " " + l(:text_journal_deleted) + " (#{old_value})"
+        l(:text_journal_deleted, :label => label, :old => old_value)
       when 'attachment'
         "#{label} #{old_value} #{l(:label_deleted)}"
       end

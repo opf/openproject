@@ -792,9 +792,6 @@ es:
   text_issue_updated: "La petición {{id}} ha sido actualizada por {{author}}."
   text_issues_destroy_confirmation: '¿Seguro que quiere borrar las peticiones seleccionadas?'
   text_issues_ref_in_commit_messages: Referencia y petición de corrección en los mensajes
-  text_journal_changed: "cambiado de {{old}} a {{new}}"
-  text_journal_deleted: suprimido
-  text_journal_set_to: "fijado a {{value}}"
   text_length_between: "Longitud entre {{min}} y {{max}} caracteres."
   text_load_default_configuration: Cargar la configuración por defecto
   text_min_max_length_info: 0 para ninguna restricción
@@ -856,3 +853,6 @@ es:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

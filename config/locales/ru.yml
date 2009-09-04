@@ -885,9 +885,9 @@ ru:
   text_issues_destroy_confirmation: 'Вы уверены, что хотите удалить выбранные задачи?'
   text_issues_ref_in_commit_messages: Сопоставление и изменение статуса задач исходя из текста сообщений
   text_issue_updated: "Задача {{id}} была обновлена ({{author}})."
-  text_journal_changed: "параметр изменился с {{old}} на {{new}}"
-  text_journal_deleted: удалено
-  text_journal_set_to: "параметр изменился на {{value}}"
+  text_journal_changed: "Параметр {{label}} изменился с {{old}} на {{new}}"
+  text_journal_deleted: "Значение {{old}} параметра {{label}} удалено"
+  text_journal_set_to: "Параметр {{label}} изменился на {{value}}"
   text_length_between: "Длина между {{min}} и {{max}} символов."
   text_load_default_configuration: Загрузить конфигурацию по умолчанию
   text_min_max_length_info: 0 означает отсутствие запретов

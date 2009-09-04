@@ -792,9 +792,6 @@ sv:
   text_subprojects_destroy_warning: "Alla underprojekt: {{value}} kommer också tas bort."
   text_workflow_edit: Välj en roll och en ärendetyp för att ändra arbetsflöde
   text_are_you_sure: Är du säker ?
-  text_journal_changed: "ändrad från {{old}} till {{new}}"
-  text_journal_set_to: "satt till {{value}}"
-  text_journal_deleted: borttagen
   text_tip_task_begin_day: arbetsuppgift som börjar denna dag
   text_tip_task_end_day: arbetsuppgift som slutar denna dag
   text_tip_task_begin_end_day: arbetsuppgift börjar och slutar denna dag
@@ -863,3 +860,6 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

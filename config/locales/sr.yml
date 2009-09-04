@@ -587,9 +587,6 @@
   text_project_destroy_confirmation: Da li ste sigurni da želite da izbrišete ovaj projekat i sve njegove podatke?
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Da li ste sigurni ?
-  text_journal_changed: "promenjen iz {{old}} u {{new}}"
-  text_journal_set_to: "postavi na {{value}}"
-  text_journal_deleted: izbrisano
   text_tip_task_begin_day: Zadaci koji počinju ovog dana
   text_tip_task_end_day: zadaci koji se završavaju ovog dana
   text_tip_task_begin_end_day: Zadaci koji počinju i završavaju se ovog dana
@@ -829,3 +826,6 @@
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

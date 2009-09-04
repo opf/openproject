@@ -716,9 +716,6 @@ vi:
   text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Bạn chắc chứ?
-  text_journal_changed: "đổi từ {{old}} sang {{new}}"
-  text_journal_set_to: "đặt thành {{value}}"
-  text_journal_deleted: xóa
   text_tip_task_begin_day: ngày bắt đầu
   text_tip_task_end_day: ngày kết thúc
   text_tip_task_begin_end_day: bắt đầu và kết thúc cùng ngày
@@ -875,3 +872,6 @@ vi:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

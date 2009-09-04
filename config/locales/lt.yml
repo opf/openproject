@@ -743,9 +743,6 @@ lt:
   text_subprojects_destroy_warning: "Šis(ie) subprojektas(ai): {{value}} taip pat bus ištrintas(i)."
   text_workflow_edit: Išrinkite vaidmenį ir pėdsekį, kad redaguotumėte darbų eigą
   text_are_you_sure: Ar esate įsitikinęs?
-  text_journal_changed: "pakeistas iš {{old}} į {{new}}"
-  text_journal_set_to: "nustatyta į {{value}}"
-  text_journal_deleted: ištrintas
   text_tip_task_begin_day: užduotis, prasidedanti šią dieną
   text_tip_task_end_day: užduotis, pasibaigianti šią dieną
   text_tip_task_begin_end_day: užduotis, prasidedanti ir pasibaigianti šią dieną
@@ -846,3 +843,6 @@ lt:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

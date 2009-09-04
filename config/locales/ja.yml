@@ -767,9 +767,6 @@ ja:
   text_subprojects_destroy_warning: "サブプロジェクト {{value}} も削除されます。"
   text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
   text_are_you_sure: よろしいですか？
-  text_journal_changed: "{{old}}から{{new}}に変更"
-  text_journal_set_to: "{{value}}にセット"
-  text_journal_deleted: 削除
   text_tip_task_begin_day: この日に開始するタスク
   text_tip_task_end_day: この日に終了するタスク
   text_tip_task_begin_end_day: この日のうちに開始して終了するタスク
@@ -843,3 +840,6 @@ ja:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

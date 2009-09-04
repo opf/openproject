@@ -738,9 +738,6 @@ el:
   text_subprojects_destroy_warning: "Επίσης το(α) επιμέρους έργο(α): {{value}}  θα διαγραφούν."
   text_workflow_edit: Επιλέξτε ένα ρόλο και έναν ανιχνευτή για να επεξεργαστείτε  τη ροή εργασίας
   text_are_you_sure: Είστε σίγουρος ;
-  text_journal_changed: "άλλαξε από {{old}} σε {{new}}"
-  text_journal_set_to: "ορίστε σε {{value}}"
-  text_journal_deleted: διαγράφηκε
   text_tip_task_begin_day: καθήκοντα που ξεκινάνε σήμερα
   text_tip_task_end_day: καθήκοντα που τελειώνουν σήμερα
   text_tip_task_begin_end_day: καθήκοντα που ξεκινάνε και τελειώνουν σήμερα
@@ -809,3 +806,6 @@ el:
   enumeration_issue_priorities: Προτεραιότητα θέματος
   enumeration_doc_categories: Κατηγορία εγγράφων
   enumeration_activities: Δραστηριότητες (κατακερματισμός χρόνου)
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

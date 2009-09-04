@@ -566,9 +566,6 @@ he:
   text_project_destroy_confirmation: האם אתה בטוח שברצונך למחוק את הפרויקט ואת כל המידע הקשור אליו ?
   text_workflow_edit: בחר תפקיד ועוקב כדי לערות את זרימת העבודה
   text_are_you_sure: האם אתה בטוח ?
-  text_journal_changed: "שונה מ {{old}} ל {{new}}"
-  text_journal_set_to: "שונה ל {{value}}"
-  text_journal_deleted: נמחק
   text_tip_task_begin_day: מטלה המתחילה היום
   text_tip_task_end_day: מטלה המסתיימת היום
   text_tip_task_begin_end_day: מטלה המתחילה ומסתיימת היום
@@ -818,3 +815,6 @@ he:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

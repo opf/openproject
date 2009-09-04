@@ -557,9 +557,6 @@ it:
   text_project_destroy_confirmation: Sei sicuro di voler cancellare il progetti e tutti i dati ad esso collegati?
   text_workflow_edit: Seleziona un ruolo ed un tracker per modificare il workflow
   text_are_you_sure: Sei sicuro ?
-  text_journal_changed: "cambiato da {{old}} a {{new}}"
-  text_journal_set_to: "impostato a {{value}}"
-  text_journal_deleted: cancellato
   text_tip_task_begin_day: attività che iniziano in questa giornata
   text_tip_task_end_day: attività che terminano in questa giornata
   text_tip_task_begin_end_day: attività che iniziano e terminano in questa giornata
@@ -821,3 +818,6 @@ it:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

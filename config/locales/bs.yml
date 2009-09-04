@@ -740,9 +740,6 @@ bs:
   text_subprojects_destroy_warning: "Podprojekt(i): {{value}} će takođe biti izbrisani."
   text_workflow_edit: Odaberite ulogu i područje aktivnosti za ispravku toka promjena na aktivnosti
   text_are_you_sure: Da li ste sigurni ?
-  text_journal_changed: "promjena iz {{old}} u {{new}}"
-  text_journal_set_to: "postavi na {{value}}"
-  text_journal_deleted: izbrisano
   text_tip_task_begin_day: zadatak počinje danas
   text_tip_task_end_day: zadatak završava danas
   text_tip_task_begin_end_day: zadatak započinje i završava danas
@@ -836,3 +833,6 @@ bs:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

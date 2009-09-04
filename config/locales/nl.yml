@@ -727,9 +727,6 @@ nl:
   text_issue_updated: "Issue {{id}} is gewijzigd (door {{author}})."
   text_issues_destroy_confirmation: 'Weet u zeker dat u deze issue(s) wil verwijderen?'
   text_issues_ref_in_commit_messages: Opzoeken en aanpassen van issues in commitberichten
-  text_journal_changed: "gewijzigd van {{old}} naar {{new}}"
-  text_journal_deleted: verwijderd
-  text_journal_set_to: "ingesteld op {{value}}"
   text_length_between: "Lengte tussen {{min}} en {{max}} tekens."
   text_load_default_configuration: Laad de standaardconfiguratie
   text_min_max_length_info: 0 betekent geen restrictie
@@ -791,3 +788,6 @@ nl:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

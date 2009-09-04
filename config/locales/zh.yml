@@ -762,9 +762,6 @@ zh:
   text_subprojects_destroy_warning: "以下子项目也将被同时删除：{{value}}"
   text_workflow_edit: 选择角色和跟踪标签来编辑工作流程
   text_are_you_sure: 您确定？
-  text_journal_changed: "从 {{old}} 变更为 {{new}}"
-  text_journal_set_to: "设置为 {{value}}"
-  text_journal_deleted: 已删除
   text_tip_task_begin_day: 今天开始的任务
   text_tip_task_end_day: 今天结束的任务
   text_tip_task_begin_end_day: 今天开始并结束的任务
@@ -838,3 +835,6 @@ zh:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"

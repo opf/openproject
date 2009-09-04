@@ -718,9 +718,6 @@ ro:
   text_subprojects_destroy_warning: "Se vor șterge și sub-proiectele: {{value}}."
   text_workflow_edit: Selectați un rol și un tip de tichet pentru a edita modul de lucru
   text_are_you_sure: Sunteți sigur(ă)?
-  text_journal_changed: "schimbat din {{old}} în {{new}}"
-  text_journal_set_to: "setat la {{value}}"
-  text_journal_deleted: șters
   text_tip_task_begin_day: sarcină care începe în această zi
   text_tip_task_end_day: sarcină care se termină în această zi
   text_tip_task_begin_end_day: sarcină care începe și se termină în această zi
@@ -806,3 +803,6 @@ ro:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted"
