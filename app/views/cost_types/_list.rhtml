@@ -1,3 +1,8 @@
+<% cost_types = @cost_types.reject(&:deleted_at) -%>
+
+<% if cost_types.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
 <table class="list cost_types">
   <thead><tr>
     <%= sort_header_tag "name", :caption => l(:caption_cost_type) %>
@@ -9,7 +14,7 @@
     <th></th>
   </tr></thead>
   <tbody>
-    <% @cost_types.reject(&:deleted_at).each do |cost_type| %>
+    <% cost_types.each do |cost_type| %>
     <% odd_even = cycle('odd', 'even') %>
     <tr class="<%= odd_even %>">
       <%= content_tag :td, link_to(cost_type.name, {:controller => 'cost_types', :action => 'edit', :id => cost_type}) %>
@@ -34,4 +39,4 @@
     <% end %>
   </tbody>
 </table>
-
+<% end %>
