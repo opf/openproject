@@ -10,7 +10,12 @@ module CostlogHelper
   end
   
   def cost_types_collection_for_select_options(selected_type = nil)
-    cost_types = CostType.all.sort
+    cost_types = CostType.find(:all, :conditions => {:deleted_at => nil}).sort
+
+    if selected_type && !cost_types.include?(selected_type)
+      cost_types << selected_type
+      cost_types.sort
+    end
     collection = []
     collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless cost_types.detect(&:is_default?)
     cost_types.each { |t| collection << [t.name, t.id] }

@@ -1,6 +1,5 @@
 <table class="list cost_types">
   <thead><tr>
-    <% form_tag({}) do -%> 
     <%= sort_header_tag "name", :caption => l(:caption_cost_type) %>
     <%= sort_header_tag "unit", :caption => l(:caption_cost_type_unit_name) %>
     <%= sort_header_tag "unit_plural", :caption => l(:caption_cost_type_unit_name_plural) %>
@@ -8,10 +7,9 @@
     <th><%= l(:caption_set_rate) %></th>
     <th><%= l(:caption_default) %></th>
     <th></th>
-    <% end %>
   </tr></thead>
   <tbody>
-    <% @cost_types.each do |cost_type| %>
+    <% @cost_types.reject(&:deleted_at).each do |cost_type| %>
     <% odd_even = cycle('odd', 'even') %>
     <tr class="<%= odd_even %>">
       <%= content_tag :td, link_to(cost_type.name, {:controller => 'cost_types', :action => 'edit', :id => cost_type}) %>
@@ -26,7 +24,9 @@
       </td>
       <%= content_tag :td, cost_type.is_default? ? image_tag('true.png') : "" %>
       <td>
-        <%= link_to l(:button_delete), {:controller => 'cost_types', :action => 'destroy', :id => cost_type}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+        <% form_for :cost_type, cost_type, :url => { :controller => 'cost_types', :action => 'toggle_delete', :id => cost_type }  do |f| %>
+          <%= image_submit_tag "locked.png", :onclick => "return #{confirm_javascript_function(l(:text_are_you_sure))}" %>
+        <% end %>
       </td>
     </tr>
     <tr style="display:none;" class="<%= odd_even %>">

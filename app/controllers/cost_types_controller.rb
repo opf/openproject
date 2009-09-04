@@ -3,10 +3,10 @@ class CostTypesController < ApplicationController
   
   # Allow only admins here
   before_filter :require_admin
-  before_filter :find_cost_type, :only => [:set_rate, :destroy]
+  before_filter :find_cost_type, :only => [:set_rate, :toggle_delete]
   before_filter :find_optional_cost_type, :only => [:edit]
 
-  verify :method => :post, :only => [:set_rate, :destroy], :redirect_to => { :action => :index }
+  verify :method => :post, :only => [:set_rate, :toggle_delete], :redirect_to => { :action => :index }
   
   helper :sort
   include SortHelper
@@ -21,7 +21,14 @@ class CostTypesController < ApplicationController
     sort_update sort_columns
     
     @cost_types = CostType.find :all, :order => @sort_clause
-    @fixed_date = Date.parse(params[:fixed_date]) rescue Date.today
+    
+    unless params[:clear_filter]
+      @fixed_date = Date.parse(params[:fixed_date]) rescue Date.today
+      @include_deleted = params[:include_deleted]
+    else
+      @fixed_date = Date.today
+      @include_deleted = nil
+    end
     
     render :action => 'index', :layout => !request.xhr?
   end
@@ -29,23 +36,31 @@ class CostTypesController < ApplicationController
   def edit
     if !@cost_type
       @cost_type = CostType.new()
-      @cost_type.rates.build({:valid_from => Date.today})
     end
     
     if params[:cost_type]
       @cost_type.attributes = params[:cost_type]
     end
-
+    
     if request.post? && @cost_type.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to(params[:back_to] || {:action => 'index'})
+    else
+      @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
+      render :action => "edit", :layout => !request.xhr?
     end 
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
   end
   
-  def destroy
+  def toggle_delete
+    @cost_type.deleted_at = @cost_type.deleted_at ?  nil : DateTime.now()
+    @cost_type.default = false
+    if request.post? && @cost_type.save
+      flash[:notice] = @cost_type.deleted_at ? l(:notice_successful_delete) : l(:notice_successful_restore)
+      redirect_to(params[:back_to] || {:action => 'index'})
+    end
   end
   
   def set_rate

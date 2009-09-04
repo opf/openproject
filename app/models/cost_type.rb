@@ -8,6 +8,8 @@ class CostType < ActiveRecord::Base
   validates_presence_of :name, :unit, :unit_plural
   validates_uniqueness_of :name
   
+  after_update :save_rates
+  
   def before_save
     if self.default && self.default_changed?
       CostType.update_all({:default => false})
@@ -59,6 +61,8 @@ class CostType < ActiveRecord::Base
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
         has_rate = attributes[:rate].to_f > 0
       end
+      
+      p attributes
       
       if has_rate
         rate.attributes = attributes

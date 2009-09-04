@@ -7,8 +7,12 @@
 <% form_tag({ :controller => 'cost_types', :action => 'index' }, :id => 'query_form') do %>
 <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
 <p>
-  <label><%= l(:label_fixed_date) %></label>
+  <label for="fixed_date"><%= l(:label_fixed_date) %></label>
   <%= text_field_tag :fixed_date, @fixed_date, :size => 10 %><%= calendar_for('fixed_date') %>
+</p>
+<p>
+  <%= check_box_tag :include_deleted, "1", @include_deleted, :autocomplete => "off" %>
+  <label for="include_deleted"><%= l(:label_include_deleted) %></label>
 </p>
 <p class="buttons">
 <%= link_to_remote l(:button_apply), 
@@ -17,7 +21,7 @@
                    }, :class => 'icon icon-checked' %>
                    
 <%= link_to_remote l(:button_clear),
-                   { :url => { :set_filter => 1 }, 
+                   { :url => { :clear_filter => true }, 
                      :update => "content",
                    }, :class => 'icon icon-reload'  %>
 </p>
@@ -28,6 +32,11 @@
 <div class="flash notice" id="cost_type_flash_notice"><%= l(:notice_successful_update) %></div>
 </div>
 <%= render :partial => 'list' %>
+
+<% if @include_deleted %>
+  <h3><%= l(:label_deleted_cost_types) %></h3>
+  <%= render :partial => 'list_deleted' %>
+<% end %>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>
