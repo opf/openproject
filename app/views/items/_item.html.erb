@@ -8,7 +8,7 @@
     <div class="spinner"> </div>
     <div class="id"><%= record_id_or_empty(item) %></div>
     <div class="issue_id_container"><%= issue_id_or_default(item) %></div>
-    <div class="subject editable" fieldname="subject" modelname="issue"><%= item.subject %></div>
+    <div class="subject editable" fieldname="subject" modelname="issue"><%=h item.subject %></div>
     <div class="assigned_to_id editable sel" fieldname="assigned_to_id" modelname="issue">
       <div class="t"><%= assignee_name_or_empty(item) %></div>
       <div class="v"><%= assigned_to_id_or_empty(item) %></div>
@@ -19,7 +19,7 @@
     </div>
     <div class="points editable" fieldname="points" modelname="item"><%= points_or_empty(item) %></div>
     <div class="description editable ta" fieldname="description" modelname="issue">
-      <div class="textile"><%= textile_description_or_empty(item) %></div>
+      <div class="textile"><%=h textile_description_or_empty(item) %></div>
       <div class="html"><%= description_or_empty(item) %></div>
     </div>
     <div class="tracker_id editable sel" fieldname="tracker_id" modelname="issue">
