@@ -1,6 +1,6 @@
 = Backlogs Plugin for Redmine
 
-A scrum/agile tool I created for my own use at my job. Useful for product planning, sprint planning, and daily stand-ups.
+A scrum/agile tool. Useful for product planning, sprint planning, and daily stand-ups. For a quick demo try http://bit.ly/WmIvy by loggin in as demo/demo
 
 = Installation
 
