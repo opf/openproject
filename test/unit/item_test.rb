@@ -13,7 +13,7 @@ class ItemTest < ActiveSupport::TestCase
     
     Item.update params
     
-    positions = Item.find(:all, :conditions => "parent_id=0", :order => "position ASC").map{|i| i.position}
+    positions = Item.find(:all, :conditions => "items.parent_id=0", :order => "items.position ASC").map{|i| i.position}
 
     positions.each_with_index do |position, index|
       assert_equal index + 1, position
