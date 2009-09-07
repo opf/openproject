@@ -20,7 +20,8 @@
       <%= content_tag :td, link_to(cost_type.name, {:controller => 'cost_types', :action => 'edit', :id => cost_type}) %>
       <%= content_tag :td, cost_type.unit %>
       <%= content_tag :td, cost_type.unit_plural %>
-      <%= content_tag :td, number_to_currency(cost_type.rate_at(@fixed_date).rate), :class => "currency", :id => "cost_type_#{cost_type.id}_rate"%>
+      <% rate = cost_type.rate_at(@fixed_date) %>
+      <%= content_tag :td, number_to_currency( rate ? rate.rate | 0.0), :class => "currency", :id => "cost_type_#{cost_type.id}_rate"%>
       <td>
         <% form_for :cost_type, cost_type, :url => { :controller => 'cost_types', :action => 'set_rate', :id => cost_type }  do |f| %>
           <%= f.text_field :rate, :value => "", :name => :rate, :size => 7 %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
