@@ -1,6 +1,6 @@
 project_module_costs_module: "Costs Management"
 cost_types_title: "Cost Types"
-deliverables_title: "Deliverables"
+deliverables_title: "Cost Control"
 
 currency_delimiter: ","
 currency_separator: "."

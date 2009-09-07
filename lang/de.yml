@@ -1,2 +1,8 @@
 currency_delimiter: "."
 currency_separator: ","
+
+deliverables_title: "Controlling"
+
+
+
+label_deliverable: "Liefergegenstand"
