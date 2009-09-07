@@ -217,6 +217,7 @@ RBL.Item = Class.create(RBL.Model, {
     var el = new Element('div');
     el.update(transport.responseText);
 
+    this.getChild(".description").update(el.select(".description")[0].innerHTML);
     this.getChild(".issue_id_container").update(el.select(".issue_id_container")[0].innerHTML);
     this.setValue('.id', el.select(".body .id")[0].innerHTML);
     this.getRoot().writeAttribute('id', this._prefix + this.getValue('.id'));    
