@@ -280,7 +280,7 @@
   field_created_on: 建立日期
   field_updated_on: 更新
   field_field_format: 格式
-  field_is_for_all: 給所有專案
+  field_is_for_all: 給全部的專案
   field_possible_values: 可能值
   field_regexp: 正規表示式
   field_min_length: 最小長度
@@ -476,7 +476,7 @@
   label_issue: 項目
   label_issue_new: 建立新項目
   label_issue_plural: 項目清單
-  label_issue_view_all: 檢視所有項目
+  label_issue_view_all: 檢視全部的項目
   label_issues_by: "項目按 {{value}} 分組顯示"
   label_issue_added: 項目已新增
   label_issue_updated: 項目已更新
@@ -525,7 +525,7 @@
   label_last_login: 最近一次連線
   label_registered_on: 註冊於
   label_activity: 活動
-  label_overall_activity: 檢視所有活動
+  label_overall_activity: 檢視整體活動
   label_user_activity: "{{value}} 的活動"
   label_new: 建立新的...
   label_logged_as: 目前登入
@@ -562,7 +562,7 @@
   label_news_new: 建立新聞
   label_news_plural: 新聞
   label_news_latest: 最近新聞
-  label_news_view_all: 檢視所有新聞
+  label_news_view_all: 檢視全部的新聞
   label_news_added: 新聞已新增
   label_change_log: 變更記錄
   label_settings: 設定
@@ -608,7 +608,7 @@
   label_gantt: 甘特圖
   label_internal: 內部
   label_last_changes: "最近 {{count}} 個變更"
-  label_change_view_all: 檢視所有變更
+  label_change_view_all: 檢視全部的變更
   label_personalize_page: 自訂版面
   label_comment: 註解
   label_comment_plural: 註解
@@ -632,7 +632,7 @@
   label_less_or_equal: "小於等於 (<=)"
   label_in: 在
   label_today: 今天
-  label_all_time: all time
+  label_all_time: 全部
   label_yesterday: 昨天
   label_this_week: 本週
   label_last_week: 上週
@@ -665,6 +665,7 @@
   label_latest_revision: 最新版次
   label_latest_revision_plural: 最近版次清單
   label_view_revisions: 檢視版次清單
+  label_view_all_revisions: 檢視全部的版次清單
   label_max_size: 最大長度
   label_sort_highest: 移動至開頭
   label_sort_higher: 往上移動
@@ -676,7 +677,7 @@
   label_roadmap_no_issues: 此版本尚未包含任何項目
   label_search: 搜尋
   label_result_plural: 結果
-  label_all_words: All words
+  label_all_words: 包含全部的字詞
   label_wiki: Wiki
   label_wiki_edit: Wiki 編輯
   label_wiki_edit_plural: Wiki 編輯
@@ -756,7 +757,7 @@
   label_theme: 畫面主題
   label_default: 預設
   label_search_titles_only: 僅搜尋標題
-  label_user_mail_option_all: "提醒與我的專案有關的所有事件"
+  label_user_mail_option_all: "提醒與我的專案有關的全部事件"
   label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
   label_user_mail_option_none: "只提醒我觀察中或參與中的事件"
   label_user_mail_no_self_notified: "不提醒我自己所做的變更"
@@ -825,7 +826,7 @@
   button_rename: 重新命名
   button_change_password: 變更密碼
   button_copy: 複製
-  button_annotate: 加注
+  button_annotate: 註解
   button_update: 更新
   button_configure: 設定
   button_quote: 引用
@@ -841,6 +842,9 @@
   text_subprojects_destroy_warning: "下列子專案： {{value}} 將一併被刪除。"
   text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
   text_are_you_sure: 確定執行？
+  text_journal_changed: "{{label}} 從 {{old}} 變更為 {{new}}"
+  text_journal_set_to: "{{label}} 設定為 {{value}}"
+  text_journal_deleted: "{{label}} 已刪除"
   text_tip_task_begin_day: 今天起始的工作
   text_tip_task_end_day: 今天截止的的工作
   text_tip_task_begin_end_day: 今天起始與截止的工作
@@ -909,9 +913,3 @@
   enumeration_issue_priorities: 項目優先權
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted"
