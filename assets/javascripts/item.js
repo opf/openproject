@@ -121,7 +121,7 @@ RBL.Item = Class.create(RBL.Model, {
         field = inputType=="select" ? $(fieldName + "_options").cloneNode(true) : new Element(inputType);
         field.writeAttribute('id', '');     // Remove id copied by cloneNode() above.
         field.writeAttribute('name', fieldName);
-        field.addClassName(fieldName)
+        field.addClassName(fieldName);
         field.addClassName('editor');
         this.getBody().insert(field);
         field.observe('keydown', this.handleKeyPress.bind(this));

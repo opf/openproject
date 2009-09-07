@@ -183,9 +183,9 @@ RBL.Model = Class.create({
   
   setValue: function(selector, value) {
     var oldValue = this.getValue(selector);
-    this.getChild(selector).update(value);
+    this.getChild(selector).innerHTML = value;
     
-    var observers = this.getObservers('changed')
+    var observers = this.getObservers('changed');
     for(var i=0 ; i<observers.length ; i++){
       observers[i](this);
     }
