@@ -21,7 +21,7 @@
       <%= content_tag :td, cost_type.unit %>
       <%= content_tag :td, cost_type.unit_plural %>
       <% rate = cost_type.rate_at(@fixed_date) %>
-      <%= content_tag :td, number_to_currency( rate ? rate.rate | 0.0), :class => "currency", :id => "cost_type_#{cost_type.id}_rate"%>
+      <%= content_tag :td, number_to_currency( rate ? rate.rate : 0.0), :class => "currency", :id => "cost_type_#{cost_type.id}_rate"%>
       <td>
         <% form_for :cost_type, cost_type, :url => { :controller => 'cost_types', :action => 'set_rate', :id => cost_type }  do |f| %>
           <%= f.text_field :rate, :value => "", :name => :rate, :size => 7 %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
