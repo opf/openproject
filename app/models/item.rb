@@ -2,8 +2,8 @@ class Item < ActiveRecord::Base
   unloadable
   belongs_to   :issue
   belongs_to   :backlog
-  acts_as_list :scope => 'backlog_id=#{backlog_id} AND parent_id=#{parent_id}'
-  acts_as_tree :order => "position ASC, created_at ASC"
+  acts_as_list :scope => 'items.backlog_id=#{backlog_id} AND items.parent_id=#{parent_id}'
+  acts_as_tree :order => "items.position ASC, created_at ASC"
 
   def append_comment(user, comment)
     journal = issue.init_journal(User.current, @notes)
@@ -92,7 +92,7 @@ class Item < ActiveRecord::Base
   end
 
   def self.find_by_project(project)
-    find(:all, :include => :issue, :conditions => "issues.project_id=#{project.id} and parent_id=0", :order => "position ASC")
+    find(:all, :include => :issue, :conditions => "issues.project_id=#{project.id} and items.parent_id=0", :order => "items.position ASC")
   end
 
   def self.remove_with_issue(issue)
