@@ -381,15 +381,7 @@ RBL.Item = Class.create(RBL.Model, {
     
     return params;
   },
-
-  updatePointsLabel: function(){
-    if(this.getValue(".points")==1){
-      this.setValue(".points_label", "pt");
-    } else {
-      this.setValue(".points_label", "pts");
-    }
-  },
-
+  
 });
 
 // Add class methods
