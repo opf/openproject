@@ -1,23 +1,31 @@
 = Backlogs Plugin for Redmine
 
-A scrum/agile tool. Useful for product planning, sprint planning, and daily stand-ups. For a quick demo try http://bit.ly/WmIvy by loggin in as demo/demo
+A scrum/agile tool. Useful for product planning, sprint planning, and daily stand-ups. For a quick demo try http://backlogsdemo.morphexchange.com/projects/demo/backlogs by logging in as demo/demo
 
 = Installation
 
-1. Extract or clone the plugin to vendor/plugins as redmine_backlogs
+1. Extract or clone the plugin to $REDMINE_CORE/vendor/plugins as redmine_backlogs
 3. Run <tt>rake db:migrate_plugins</tt> from RAILS_ROOT
 4. Restart Redmine
+
+= Settings
+
+You will need to enable the Backlogs module per project via Settings > Modules. Also, make check that the right roles have permission to use the module by going to Administration > Roles and Permissions > Permissions Report.
 
 = Chart Data Generator
 
 You may schedule a cron job to run the rake task named <tt>redmine:backlogs_plugin:generate_chart_data</tt>. I recommend you run it a few minutes after midnight to ensure that your backlogs have data everyday even when no user views the charts.
+
+= Reporting Bugs and Getting Help
+
+Go to the #redmine (freenode) channel in IRC for questions. Bugs and feature requests may be filed at http://backlogsplugin.morphexchange.com/projects/redmine-backlogs
 
 = Compatibility
 
 This plugin has only been tested in the following environments:
 
 * Firefox 3.5.x Mac OS X
-* Redmine 0.8.4 (including a private fork based on 0.8.0) 
+* Redmine 0.8.4
 * PostgreSQL 8.2.6 (Might work with other databases and version but I've not tested it fully yet)
 
 = License
