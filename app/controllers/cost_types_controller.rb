@@ -44,7 +44,7 @@ class CostTypesController < ApplicationController
     
     if request.post? && @cost_type.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to(params[:back_to] || {:action => 'index'})
+      redirect_back_or_default(:action => 'index')
     else
       @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
       render :action => "edit", :layout => !request.xhr?
@@ -59,7 +59,7 @@ class CostTypesController < ApplicationController
     @cost_type.default = false
     if request.post? && @cost_type.save
       flash[:notice] = @cost_type.deleted_at ? l(:notice_successful_delete) : l(:notice_successful_restore)
-      redirect_to(params[:back_to] || {:action => 'index'})
+      redirect_back_or_default(:action => 'index')
     end
   end
   
