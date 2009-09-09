@@ -55,6 +55,7 @@ button_add_labor_budget: "Add labor budget"
 button_add_rate: "Add rate"
 
 notice_successful_restore: "Successful restore."
+notice_something_wrong: "Something went wrong. Please try again."
 
 caption_cost_type: "Cost Type"
 caption_cost_type_plural: "Cost Types"

@@ -119,7 +119,7 @@ class CostlogController < ApplicationController
     @cost_type = CostType.find(params[:cost_type_id]) unless params[:cost_type_id].empty?
     
     if request.xhr?
-      render :partial => "cost_type_unit_plural", :locals => {:cost_type => @cost_type}
+      render :partial => "cost_type_unit_plural", :locals => {:cost_type => @cost_type}, :layout => false
     end
   end
   

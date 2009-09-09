@@ -66,12 +66,16 @@ class CostTypesController < ApplicationController
   def set_rate
     today = Date.today
     
-    rate = CostRate.find(:first, :conditions => {:cost_type_id => @cost_type, :valid_from => today})
+    rate = @cost_type.rate_at(today)
     rate ||= CostRate.new(:cost_type => @cost_type, :valid_from => today)
     
     rate.rate = clean_currency(params[:rate]).to_f
     if rate.save
       flash[:notice] = l(:notice_successful_update)
+      redirect_to :action => 'index'
+    else
+      # FIXME: Do some real error handling here
+      flash[:error] = l(:notice_something_wrong)
       redirect_to :action => 'index'
     end
   end

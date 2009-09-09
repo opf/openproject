@@ -19,7 +19,9 @@ Dispatcher.to_prepare do
 end
 
 # Hooks
-require_dependency 'costs_issue_hook'
+require 'costs_issue_hook'
+require 'rate_project_hook'
+
 
 Redmine::Plugin.register :redmine_costs do
   name 'Costs Plugin'
@@ -51,8 +53,8 @@ Redmine::Plugin.register :redmine_costs do
     permission :view_cost_entries, {:costlog => [:details]}
     permission :block_tickets, {}, :require => :member
     
-    permission :view_deliverables, {:deliverables => [:index, :show, :edit]}
-    permission :edit_deliverables, {:deliverables => [:edit, :destroy, :new]}
+    permission :view_deliverables, {:deliverables => [:index, :show]}
+    permission :edit_deliverables, {:deliverables => [:index, :show, :edit, :destroy, :new]}
   end
   
   # Menu extensions
