@@ -48,7 +48,7 @@ class HourlyRatesController < ApplicationController
     
     if request.post? && @user.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to(params[:back_to] || {:action => 'show', :user_id => @user, :project_id => @project})
+      redirect_to(params[:back_url] || {:action => 'show', :id => @user, :project_id => @project})
     else
       @rates = @user.rates.select{|r| r.project_id == @project.id}.sort { |a,b| b.valid_from <=> a.valid_from }
       @rates << @user.rates.build({:valid_from => Date.today, :project_id => @project}) if @rates.empty?
