@@ -62,8 +62,6 @@ class CostType < ActiveRecord::Base
         has_rate = attributes[:rate].to_f > 0
       end
       
-      p attributes
-      
       if has_rate
         rate.attributes = attributes
       else

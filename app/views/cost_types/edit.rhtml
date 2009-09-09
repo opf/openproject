@@ -11,14 +11,14 @@
     <p><%= f.check_box :default %></p>
   </div>
   
-  <h3><%= l:label_rate_plural %></h3>
+  <h3><%= l :caption_rate_history %></h3>
   <% javascript_tag do -%>
     RatesForm = new Subform('<%= escape_javascript(render(:partial => "rate", :object => CostRate.new )) %>',<%= @cost_type.rates.length %>,'rates_body');
   <% end -%>
   <table class="list" style="width:auto">
     <thead><tr>
-      <th><%= l(:label_valid_from) %></th>
-      <th class="currency"><%= l(:label_rate) %></th>
+      <th><%= l(:caption_valid_from) %></th>
+      <th class="currency"><%= l(:caption_rate) %></th>
       <th></th>
     </tr></thead>
     <tbody id="rates_body">
@@ -28,17 +28,17 @@
     </tbody>
   </table>
   <div>
+  <div>
+    <%= text_field_tag :add_rate_date, "", :size => 10, :value => Date.today %><%= calendar_for("add_rate_date") %>
+    <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "icon icon-add"} %>
+  </div>
+  <div><%= submit_tag l(:button_save) %></div>
 <% end %>
-<div>
-  <%= text_field_tag :add_rate_date, "", :size => 10, :value => Date.today %><%= calendar_for("add_rate_date") %>
-  <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "icon icon-add"} %>
-</div>
 
-<%= submit_tag l(:button_save) %>
 
 <%= javascript_tag "Form.Element.focus('cost_type_name');" %>
 
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'subform', :plugin => 'redmine_costs' %>
-  <%= javascript_include_tag 'cost_types', :plugin => 'redmine_costs' %>
+  <%= javascript_include_tag 'rates', :plugin => 'redmine_costs' %>
 <% end %>

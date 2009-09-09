@@ -11,7 +11,8 @@ table.deliverable_hours {
   width: 100%;
 }
 
-table.cost_types {
+table.cost_types,
+table.rates {
   text-align: center;
 }
 

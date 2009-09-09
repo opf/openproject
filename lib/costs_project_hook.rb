@@ -1,4 +1,4 @@
-class RateMembershipsHook < Redmine::Hook::ViewListener
+class CostsProjectHook < Redmine::Hook::ViewListener
 
   # Renders up to two additional table headers to the membership setting
   #
@@ -9,7 +9,6 @@ class RateMembershipsHook < Redmine::Hook::ViewListener
     return unless context[:project] && context[:project].module_enabled?(:costs_module)
 
     result = ""
-    
     user = User.current
     project = context[:project]
     
@@ -25,4 +24,6 @@ class RateMembershipsHook < Redmine::Hook::ViewListener
   # * :project => Current project
   # * :member => Current Member record
   render_on :view_projects_settings_members_table_row, :partial => 'hooks/view_projects_settings_members_table_row'
+
+  # TODO: implement  model_project_copy_before_save
 end

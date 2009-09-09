@@ -4,11 +4,6 @@ require 'redmine'
 require_dependency 'l10n_patch'
 
 require 'dispatcher'
-require 'issue_patch'
-require 'project_patch'
-require 'user_patch'
-require 'time_entry_patch'
-require 'query_patch'
 
 Dispatcher.to_prepare do
   Issue.send(:include, IssuePatch)
@@ -16,12 +11,12 @@ Dispatcher.to_prepare do
   User.send(:include, UserPatch)
   TimeEntry.send(:include, TimeEntryPatch)
   Query.send(:include, QueryPatch)
+  UsersHelper.send(:include, CostsUsersHelperPatch)
 end
 
 # Hooks
 require 'costs_issue_hook'
-require 'rate_project_hook'
-
+require 'costs_project_hook'
 
 Redmine::Plugin.register :redmine_costs do
   name 'Costs Plugin'
@@ -42,7 +37,7 @@ Redmine::Plugin.register :redmine_costs do
     # from controlling requirements 3.5 (3)
     permission :view_own_rate, {}
     permission :view_all_rates, {}
-    permission :change_rates, {}
+    permission :change_rates, {:hourly_rates => [:set_rate, :edit]}
   
     # from controlling requirements 4.5
     permission :view_unit_price, {}

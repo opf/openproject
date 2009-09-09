@@ -1,0 +1,22 @@
+<div class="contextual">
+<%= link_to_if_authorized l(:button_update), {:controller => 'hourly_rates', :action => 'edit', :project_id => @project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+</div>
+<h3><%=h @project.name %></h3>
+<% if @rates.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<table class="list rates" style="width:auto">
+  <thead><tr>
+    <th><%= l(:label_valid_from) %></th>
+    <th class="currency"><%= l(:label_rate) %></th>
+  </tr></thead>
+  <tbody id="rates_body">
+  <%- @rates.each do |rate| -%>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <td style="padding-right: 1em;"><%= rate.valid_from %></td>
+      <td class="currency"><%= number_to_currency(rate.rate) %></td>
+    </tr>
+  <%- end -%>
+  </tbody>
+</table>
+<% end %>
