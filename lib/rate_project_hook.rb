@@ -6,6 +6,8 @@ class RateMembershipsHook < Redmine::Hook::ViewListener
   # * :project => Current project
   #
   def view_projects_settings_members_table_header(context={})
+    return unless context[:project] && context[:project].module_enabled?(:costs_module)
+
     result = ""
     
     user = User.current

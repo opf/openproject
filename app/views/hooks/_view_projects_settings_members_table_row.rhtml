@@ -1,3 +1,4 @@
+<% if not project.nil? and project.module_enabled? :costs_module %>
 <%
   view_rates = User.current.allowed_to?(:view_all_rates, project)
   view_own_rate = User.current.allowed_to?(:view_own_rate, project)
@@ -23,4 +24,4 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
 <% end %>
-
+<% end %>
