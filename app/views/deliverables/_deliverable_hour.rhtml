@@ -24,7 +24,7 @@
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>
   </td>
   <td class="currency">
-    <span id="<%= "#{id_prefix}_costs" %>"><%= number_to_currency(deliverable_hour.calculated_costs) if deliverable_hour.can_view_costs?(User.current, @project) %></span>
+    <span id="<%= "#{id_prefix}_costs" %>"><%= number_to_currency(deliverable_hour.calculated_costs(@deliverable.fixed_date, @deliverable.project_id)) if deliverable_hour.can_view_costs?(User.current, @project) %></span>
     <%= update_page_tag do |page|
       page << "makeEditable('#{id_prefix}_costs', '#{name_prefix}[budget]');"
       page << "edit($('#{id_prefix}_costs'), '#{name_prefix}[budget]', '#{number_to_currency(deliverable_hour.budget)}');" if deliverable_hour.budget

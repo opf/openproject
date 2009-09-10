@@ -23,7 +23,13 @@ class Deliverable < ActiveRecord::Base
   
   
   def before_validation
-    self.author = User.current if self.new_record?
+    self.author_id = User.current.id if self.new_record?
+  end
+  
+  def attributes=(attrs)
+    attrs.delete_if{|k, v| !self.respond_to?("#{k}=")} if attrs.is_a?(Hash)
+    
+    super(attrs)
   end
   
   def copy_from(arg)

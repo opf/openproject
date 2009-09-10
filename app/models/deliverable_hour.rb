@@ -5,13 +5,14 @@ class DeliverableHour < ActiveRecord::Base
   belongs_to :user
 
   validates_length_of :comments, :maximum => 255, :allow_nil => true
+  validates_presence_of :user
   
   def costs
     self.budget || self.calculated_costs
   end
   
-  def calculated_costs
-    if user && hours && rate = user.rate_at(deliverable.fixed_date, deliverable.project_id)
+  def calculated_costs(fixed_date = deliverable.fixed_date, project_id = deliverable.project_id)
+    if user && hours && rate = user.rate_at(fixed_date, project_id)
       rate.rate * hours
     else 
       0.0

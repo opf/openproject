@@ -107,3 +107,5 @@ field_client_signoff: "Client signoff"
 field_deliverable: "Deliverable"
 field_deliverable_subject: "Deliverable Subject"
 field_default: "Default"
+
+text_deliverable_change_type_confirmation: "Are you sure? This operation will destroy information to the specific deliverable type."

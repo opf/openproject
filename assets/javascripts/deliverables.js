@@ -29,3 +29,14 @@ function deleteDeliverableHour(id) {
   // fix the markup classes
   recalculate_even_odd(parent)
 }
+
+function confirmChangeType(text, select, originalValue) {
+  if (originalValue == "") {
+    return true;
+  }
+  var ret = confirm(text);
+  if (!ret) {
+    select.setValue(originalValue);
+  }
+  return ret;
+}

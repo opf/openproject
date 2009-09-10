@@ -2,8 +2,8 @@
 <p><%= f.select :kind, [[l(:label_cost_based_deliverable), CostBasedDeliverable.name], [l(:label_fixed_deliverable), FixedDeliverable.name]], {:required => true, :prompt => true }, :autocomplete => 'off' %></p>
 <%= observe_field :deliverable_kind, :url => { :action => :new },
                                      :update => :content,
-                                     :with => "Form.serialize('deliverable-form')" %>
-
+                                     :with => "Form.serialize('deliverable-form')",
+                                     :before => "confirmChangeType('#{l(:text_deliverable_change_type_confirmation)}', $('deliverable_kind'), '#{@deliverable.kind.to_s}')" %>
 <hr />
 <% end %>
 
