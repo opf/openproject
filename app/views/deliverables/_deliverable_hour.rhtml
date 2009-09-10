@@ -18,7 +18,7 @@
     <%= cost_form.text_field :hours, :index => id_or_index, :size => 3 %>
   </td>
   <td class="user">
-    <%= cost_form.select :user_id, @project.assignable_users.sort.select{|u| u.rate_at(@deliverable.fixed_date, @project)}.collect{|u| [u.name, u.id]}, {:prompt => true}, {:index => id_or_index} %>
+    <%= cost_form.select :user_id, @project.assignable_users.sort.collect{|u| [u.name, u.id]}, {:prompt => true}, {:index => id_or_index} %>
   </td>
   <td class="comment">
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>

@@ -11,7 +11,11 @@ class DeliverableHour < ActiveRecord::Base
   end
   
   def calculated_costs
-    hours && user ? user.rate_at(deliverable.fixed_date, deliverable.project_id).rate * hours : 0.0
+    if user && hours && rate = user.rate_at(deliverable.fixed_date, deliverable.project_id)
+      rate.rate * hours
+    else 
+      0.0
+    end
   end
   
   def can_view_costs?(usr, project)

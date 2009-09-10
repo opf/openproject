@@ -9,6 +9,10 @@ class DeliverableCost < ActiveRecord::Base
   end
   
   def calculated_costs
-    units && cost_type ? cost_type.rate_at(deliverable.fixed_date).rate * units : 0.0
+    if units && cost_type && rate = cost_type.rate_at(deliverable.fixed_date)
+      rate.rate * units
+    else
+      0.0
+    end
   end
 end
