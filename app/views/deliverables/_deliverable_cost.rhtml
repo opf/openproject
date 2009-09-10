@@ -17,7 +17,7 @@
   <td class="units">
     <%= cost_form.text_field :units, :index => id_or_index, :size => 3 %>
     <span id="<%= "#{id_prefix}_unit_name" %>">
-      <%=h deliverable_cost.cost_type.unit_plural %>
+      <%=h deliverable_cost.cost_type.unit_plural if deliverable_cost.cost_type %>
     </span>
   </td>
   <td class="cost_type">
