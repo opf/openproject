@@ -838,6 +838,6 @@ pt-BR:
   label_view_all_revisions: Ver todas as revisões
   label_tag: Etiqueta
   label_branch: Ramo
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted"
+  text_journal_changed: "{{label}} alterado de {{old}} para {{new}}"
+  text_journal_set_to: "{{label}} ajustado para {{value}}"
+  text_journal_deleted: "{{label}} excluído"
