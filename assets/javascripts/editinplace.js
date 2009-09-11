@@ -37,9 +37,9 @@ function edit(obj, name, obj_value) {
 
 function showAsEditable(obj, clear){
   if (!clear){
-    Element.addClassName(obj, 'editable');
+    Element.addClassName(obj, 'inline_editable');
   }else{
-    Element.removeClassName(obj, 'editable');
+    Element.removeClassName(obj, 'inline_editable');
   }
 }
 
