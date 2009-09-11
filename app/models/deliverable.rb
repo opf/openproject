@@ -18,7 +18,7 @@ class Deliverable < ActiveRecord::Base
                             :timestamp => "#{table_name}.updated_on",
                             :author_key => :author_id
   
-  validates_presence_of :subject, :project, :author
+  validates_presence_of :subject, :project, :author, :kind
   validates_length_of :subject, :maximum => 255
   
   
