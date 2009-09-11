@@ -49,7 +49,7 @@ module ItemsHelper
   end
 
   def textile_description_or_empty(item)
-    item.new_record? ? "" : item.issue.description
+    item.new_record? ? "" : h(item.issue.description).gsub(/&lt;(\/?pre)&gt;/, '<\1>')
   end
 
   def tracker_id_or_empty(item)

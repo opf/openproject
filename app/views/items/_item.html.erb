@@ -19,7 +19,7 @@
     </div>
     <div class="points editable" fieldname="points" modelname="item"><%= points_or_empty(item) %></div>
     <div class="description editable ta" fieldname="description" modelname="issue">
-      <div class="textile"><%=h textile_description_or_empty(item) %></div>
+      <div class="textile"><%= textile_description_or_empty(item) %></div>
       <div class="html"><%= description_or_empty(item) %></div>
     </div>
     <div class="tracker_id editable sel" fieldname="tracker_id" modelname="issue">
