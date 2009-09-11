@@ -2,8 +2,8 @@
 <%= link_to_if_authorized l(:button_add_deliverable), {:controller => 'deliverables', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
 </div>
 
-<h2><%=l(:label_deliverable)%></h2>
-<% html_title(l(:label_deliverable)) %>
+<h2><%=l(:label_deliverable_plural)%></h2>
+<% html_title(l(:label_deliverable_plural)) %>
     
 <% if @deliverables.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
