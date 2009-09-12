@@ -63,7 +63,7 @@ class UsersController < ApplicationController
       if @user.save
         Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
         flash[:notice] = l(:notice_successful_create)
-        redirect_to :action => 'list'
+        redirect_to :controller => 'users', :action => 'edit', :id => @user
       end
     end
     @auth_sources = AuthSource.find(:all)
@@ -75,6 +75,7 @@ class UsersController < ApplicationController
       @user.admin = params[:user][:admin] if params[:user][:admin]
       @user.login = params[:user][:login] if params[:user][:login]
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless params[:password].nil? or params[:password].empty? or @user.auth_source_id
+      @user.group_ids = params[:user][:group_ids] if params[:user][:group_ids]
       @user.attributes = params[:user]
       # Was the account actived ? (do it before User#save clears the change)
       was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
@@ -85,17 +86,18 @@ class UsersController < ApplicationController
           Mailer.deliver_account_information(@user, params[:password])
         end
         flash[:notice] = l(:notice_successful_update)
-        # Give a string to redirect_to otherwise it would use status param as the response code
-        redirect_to(url_for(:action => 'list', :status => params[:status], :page => params[:page]))
+        redirect_to :back
       end
     end
     @auth_sources = AuthSource.find(:all)
     @membership ||= Member.new
+  rescue ::ActionController::RedirectBackError
+    redirect_to :controller => 'users', :action => 'edit', :id => @user
   end
   
   def edit_membership
     @user = User.find(params[:id])
-    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)
+    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:principal => @user)
     @membership.attributes = params[:membership]
     @membership.save if request.post?
     respond_to do |format|
@@ -111,7 +113,10 @@ class UsersController < ApplicationController
   
   def destroy_membership
     @user = User.find(params[:id])
-    Member.find(params[:membership_id]).destroy if request.post?
+    @membership = Member.find(params[:membership_id])
+    if request.post? && @membership.deletable?
+      @membership.destroy
+    end
     respond_to do |format|
       format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
       format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }

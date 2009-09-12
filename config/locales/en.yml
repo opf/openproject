@@ -683,6 +683,9 @@ en:
   label_date_from_to: From {{start}} to {{end}}
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
+  label_group: Group
+  label_group_plural: Groups
+  label_group_new: New group
   
   button_login: Login
   button_submit: Submit

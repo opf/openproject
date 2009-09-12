@@ -19,5 +19,21 @@ member_roles_005:
   id: 5
   role_id: 1
   member_id: 5
-  
-  
+member_roles_006: 
+  id: 6
+  role_id: 1
+  member_id: 6
+member_roles_007: 
+  id: 7
+  role_id: 2
+  member_id: 6
+member_roles_008: 
+  id: 8
+  role_id: 1
+  member_id: 7
+  inherited_from: 6
+member_roles_009: 
+  id: 9
+  role_id: 2
+  member_id: 7
+  inherited_from: 7

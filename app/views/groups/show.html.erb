@@ -1,0 +1,7 @@
+<h2><%= link_to l(:label_group_plural), groups_path %> &#187; <%=h @group %></h2>
+
+<ul>
+<% @group.users.each do |user| %>
+    <li><%=h user %></li>
+<% end %>
+</ul>

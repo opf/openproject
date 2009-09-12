@@ -63,6 +63,18 @@ class ProjectTest < Test::Unit::TestCase
     end
   end
   
+  def test_members_should_be_active_users
+    Project.all.each do |project|
+      assert_nil project.members.detect {|m| !(m.user.is_a?(User) && m.user.active?) }
+    end
+  end
+  
+  def test_users_should_be_active_users
+    Project.all.each do |project|
+      assert_nil project.users.detect {|u| !(u.is_a?(User) && u.active?) }
+    end
+  end
+  
   def test_archive
     user = @ecookbook.members.first.user
     @ecookbook.archive

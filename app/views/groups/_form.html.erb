@@ -1,0 +1,8 @@
+<%= error_messages_for :group %>
+
+<div class="box tabular">
+	<p><%= f.text_field :lastname, :label => :field_name %></p>
+	<% @group.custom_field_values.each do |value| %>
+	<p><%= custom_field_tag_with_label :group, value %></p>
+  <% end %>
+</div>

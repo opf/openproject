@@ -21,7 +21,8 @@ module CustomFieldsHelper
     tabs = [{:name => 'IssueCustomField', :label => :label_issue_plural},
             {:name => 'TimeEntryCustomField', :label => :label_spent_time},
             {:name => 'ProjectCustomField', :label => :label_project_plural},
-            {:name => 'UserCustomField', :label => :label_user_plural}
+            {:name => 'UserCustomField', :label => :label_user_plural},
+            {:name => 'GroupCustomField', :label => :label_group_plural}
             ]
   end
   

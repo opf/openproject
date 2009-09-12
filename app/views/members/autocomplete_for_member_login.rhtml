@@ -1,5 +1,0 @@
-<ul>
-<% @users.each do |user| -%>
-	<li><%= h user.login %><span class="informal"> (<%= h(user.name(:lastname_coma_firstname)) %>)</span></li>
-<% end -%>
-</ul>

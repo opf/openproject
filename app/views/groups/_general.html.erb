@@ -1,0 +1,4 @@
+<% labelled_tabular_form_for :group, @group, :url => { :controller => 'group', :action => 'update', :tab => nil } do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+<%= submit_tag l(:button_save) %>
+<% end %>

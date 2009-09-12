@@ -1,0 +1,9 @@
+<% form_for(:user, :url => { :action => 'edit' }) do %>
+<div class="box">
+<% Group.all.each do |group| %>
+<label><%= check_box_tag 'user[group_ids][]', group.id, @user.groups.include?(group) %> <%=h group %></label><br />
+<% end %>
+<%= hidden_field_tag 'user[group_ids][]', '' %>
+</div>
+<%= submit_tag l(:button_save) %>
+<% end %>

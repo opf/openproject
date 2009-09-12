@@ -1,12 +1,12 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.members.find(:all, :include => [:roles, :user]).sort %>
+   members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort %>
 
 <div class="splitcontentleft">
 <% if members.any? %>
 <table class="list members">
 	<thead>
-	  <th><%= l(:label_user) %></th>
+	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
 	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
           <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
@@ -15,7 +15,7 @@
 	<% members.each do |member| %>
 	<% next if member.new_record? %>
 	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
-	<td class="user"><%= link_to_user member.user %></td>
+	<td class="<%= member.principal.class.name.downcase %>"><%= link_to_user member.principal %></td>
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorize_for('members', 'edit') %>
@@ -23,8 +23,10 @@
       																		:method => :post,
       																		:html => { :id => "member-#{member.id}-roles-form", :style => 'display:none;' }) do |f| %>
       	<p><% roles.each do |role| %>
-        <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role) %> <%=h role %></label><br />
+        <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
+        																							 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
         <% end %></p>
+        <%= hidden_field_tag 'member[role_ids][]', '' %>
         <p><%= submit_tag l(:button_change), :class => "small" %>
         <%= link_to_function l(:button_cancel), "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;" %></p>
       <% end %>
@@ -32,10 +34,10 @@
   </td>
   <td class="buttons">
       <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-      <%= link_to_remote l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
+      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
                                               :method => :post
                                             }, :title => l(:button_delete),
-                                               :class => 'icon icon-del' %>
+                                               :class => 'icon icon-del') if member.deletable? %>
   </td>
   <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
 	</tr>
@@ -48,27 +50,30 @@
 </div>
 
 
-<% users_count = User.active.count - @project.users.count
-   users = (users_count < 300) ? User.active.find(:all, :limit => 200).sort - @project.users : [] %>
+<% principals = Principal.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.principals %>
 
 <div class="splitcontentright">
-<% if roles.any? && users_count > 0 %>
+<% if roles.any? && principals.any? %>
   <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
-		<p><%= text_field_tag 'member[user_login]', nil, :size => "40" %></p>
-		<div id="member_user_login_choices" class="autocomplete">sqd</div>
-		<%= javascript_tag "new Ajax.Autocompleter('member_user_login', 'member_user_login_choices', '#{ url_for(:controller => 'members', :action => 'autocomplete_for_member_login', :id => @project) }', { minChars: 1, frequency: 0.5, paramName: 'user' });" %>
-		<% unless users.empty? %>
-			<div>
-			<% users.each do |user| -%>
-			<label><%= check_box_tag 'member[user_ids][]', user.id, false %> <%= user %></label>
-			<% end -%>
-			</div>
-		<% end %>
+    
+		<p><%= text_field_tag 'principal_search', nil, :size => "40" %></p>
+		<%= observe_field(:principal_search,
+                 :frequency => 0.5,
+                 :update => :principals,
+                 :url => { :controller => 'members', :action => 'autocomplete_for_member', :id => @project },
+                 :with => 'q')
+                  %>
+		
+		<div id="principals">
+			<%= principals_check_box_tags 'member[user_ids][]', principals %>
+		</div>
+		
     <p><%= l(:label_role_plural) %>:
     <% roles.each do |role| %>
     	<label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
    	<% end %></p>
+   	
     <p><%= submit_tag l(:button_add) %></p>
 		</fieldset>
   <% end %>

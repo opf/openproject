@@ -47,6 +47,7 @@ module UsersHelper
   
   def user_settings_tabs
     tabs = [{:name => 'general', :partial => 'users/general', :label => :label_general},
+            {:name => 'groups', :partial => 'users/groups', :label => :label_group_plural},
             {:name => 'memberships', :partial => 'users/memberships', :label => :label_project_plural}
             ]
   end

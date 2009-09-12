@@ -342,12 +342,14 @@ p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 
 /* Project members tab */
-div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft { width: 64% }
-div#tab-content-members .splitcontentright, div#tab-content-memberships .splitcontentright { width: 34% }
-div#tab-content-members fieldset, div#tab-content-memberships fieldset { padding:1em; margin-bottom: 1em; }
-div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend { font-weight: bold; }
-div#tab-content-members fieldset label, div#tab-content-memberships fieldset label { display: block; }
-div#tab-content-members fieldset div { max-height: 400px; overflow:auto; }
+div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
+div#tab-content-members .splitcontentright, div#tab-content-memberships .splitcontentright, div#tab-content-users .splitcontentright { width: 34% }
+div#tab-content-members fieldset, div#tab-content-memberships fieldset, div#tab-content-users fieldset { padding:1em; margin-bottom: 1em; }
+div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend, div#tab-content-users fieldset legend { font-weight: bold; }
+div#tab-content-members fieldset label, div#tab-content-memberships fieldset label, div#tab-content-users fieldset label { display: block; }
+div#tab-content-members fieldset div, div#tab-content-users fieldset div { max-height: 400px; overflow:auto; }
+
+table.members td.group { padding-left: 20px; background: url(../images/users.png) no-repeat 0% 0%; }
 
 * html div#tab-content-members fieldset div { height: 450px; }
 
@@ -725,6 +727,7 @@ vertical-align: middle;
 
 .icon22-projects { background-image: url(../images/22x22/projects.png); }
 .icon22-users { background-image: url(../images/22x22/users.png); }
+.icon22-groups { background-image: url(../images/22x22/groups.png); }
 .icon22-tracker { background-image: url(../images/22x22/tracker.png); }
 .icon22-role { background-image: url(../images/22x22/role.png); }
 .icon22-workflow { background-image: url(../images/22x22/workflow.png); }

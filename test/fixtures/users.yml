@@ -144,5 +144,13 @@ users_009:
   mail_notification: false
   login: miscuser9
   type: User
+groups_010: 
+  id: 10
+  lastname: A Team
+  type: Group
+groups_011: 
+  id: 11
+  lastname: B Team
+  type: Group
 
   
