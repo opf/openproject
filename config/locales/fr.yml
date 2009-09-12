@@ -711,6 +711,7 @@ fr:
   label_group_plural: Groupes
   label_group: Groupe
   label_group_new: Nouveau groupe
+  label_time_entry_plural: Temps passé
   
   button_login: Connexion
   button_submit: Soumettre

@@ -157,6 +157,7 @@ Redmine::Activity.map do |activity|
   activity.register :files, :class_name => 'Attachment'
   activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => false
   activity.register :messages, :default => false
+  activity.register :time_entries, :default => false
 end
 
 Redmine::WikiFormatting.map do |format|
