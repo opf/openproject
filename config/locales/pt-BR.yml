@@ -841,3 +841,6 @@ pt-BR:
   text_journal_changed: "{{label}} alterado de {{old}} para {{new}}"
   text_journal_set_to: "{{label}} ajustado para {{value}}"
   text_journal_deleted: "{{label}} excluído"
+  label_group_plural: Groups
+  label_group: Group
+  label_group_new: New group

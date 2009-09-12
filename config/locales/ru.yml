@@ -933,3 +933,6 @@ ru:
   label_branch: Ветвь
   error_no_tracker_in_project: С этим проектом не ассоциирован ни один трекер. Проверьте настройки проекта.
   error_no_default_issue_status: Не определен статус задача по умолчанию. Проверьте настройки (см. "Администрирование -> Статусы задачи").
+  label_group_plural: Groups
+  label_group: Group
+  label_group_new: New group

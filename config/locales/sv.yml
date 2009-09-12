@@ -863,3 +863,6 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
+  label_group_plural: Groups
+  label_group: Group
+  label_group_new: New group

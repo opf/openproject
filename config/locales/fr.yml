@@ -708,6 +708,9 @@ fr:
   label_date_from_to: Du {{start}} au {{end}}
   label_wiki_content_added: Page wiki ajoutée
   label_wiki_content_updated: Page wiki mise à jour
+  label_group_plural: Groupes
+  label_group: Groupe
+  label_group_new: Nouveau groupe
   
   button_login: Connexion
   button_submit: Soumettre

@@ -827,3 +827,6 @@ pt:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
+  label_group_plural: Groups
+  label_group: Group
+  label_group_new: New group
