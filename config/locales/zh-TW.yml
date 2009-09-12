@@ -690,7 +690,7 @@
   label_feed_plural: Feeds
   label_changes_details: 所有變更的明細
   label_issue_tracking: 項目追蹤
-  label_spent_time: 耗用時間
+  label_spent_time: 耗用工時
   label_f_hour: "{{value}} 小時"
   label_f_hour_plural: "{{value}} 小時"
   label_time_tracking: 工時追蹤
@@ -790,6 +790,10 @@
   label_date_from_to: 起 {{start}} 迄 {{end}}
   label_wiki_content_added: Wiki 頁面已新增
   label_wiki_content_updated: Wiki 頁面已更新
+  label_group: 群組
+  label_group_plural: 群組
+  label_group_new: 建立新群組
+  label_time_entry_plural: 耗用工時
 
   button_login: 登入
   button_submit: 送出
@@ -913,7 +917,3 @@
   enumeration_issue_priorities: 項目優先權
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time

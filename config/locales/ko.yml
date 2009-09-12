@@ -875,7 +875,7 @@ ko:
   text_journal_changed: "{{label}}을(를) {{old}}에서 {{new}}(으)로 변경함"
   text_journal_set_to: "{{label}}을(를) {{value}}(으)로 정함"
   text_journal_deleted: "{{label}}을(를) 지움"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
+  label_group_plural: 그룹
+  label_group: 그룹
+  label_group_new: 새 그룹
   label_time_entry_plural: Spent time
