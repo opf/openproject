@@ -121,6 +121,9 @@ class MailHandler < ActionMailer::Base
       issue.status = status
     end
     issue.subject = email.subject.chomp.toutf8
+    if issue.subject.blank?
+      issue.subject = '(no subject)'
+    end
     issue.description = plain_text_body
     # custom fields
     issue.custom_field_values = issue.available_custom_fields.inject({}) do |h, c|
