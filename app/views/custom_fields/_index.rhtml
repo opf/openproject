@@ -1,0 +1,32 @@
+<table class="list">
+  <thead><tr>
+	<th width="30%"><%=l(:field_name)%></th>
+	<th><%=l(:field_field_format)%></th>
+	<th><%=l(:field_is_required)%></th>
+	<% if tab[:name] == 'IssueCustomField' %>
+	<th><%=l(:field_is_for_all)%></th>
+	<th><%=l(:label_used_by)%></th>
+	<% end %>
+	<th><%=l(:button_sort)%></th>
+	<th width="10%"></th>
+  </tr></thead>
+  <tbody>
+	<% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
+		<tr class="<%= cycle("odd", "even") %>">
+			<td><%= link_to custom_field.name, :action => 'edit', :id => custom_field %></td>
+			<td align="center"><%= l(CustomField::FIELD_FORMATS[custom_field.field_format][:name]) %></td>
+			<td align="center"><%= image_tag 'true.png' if custom_field.is_required? %></td>
+			<% if tab[:name] == 'IssueCustomField' %>
+			<td align="center"><%= image_tag 'true.png' if custom_field.is_for_all? %></td>
+			<td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
+			<% end %>
+		  <td align="center" style="width:15%;"><%= reorder_links('custom_field', {:action => 'edit', :id => custom_field}) %></td>
+			<td align="center">
+				<%= button_to l(:button_delete), { :action => 'destroy', :id => custom_field }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
+		  </td>
+		</tr>
+	<% end; reset_cycle %>
+  </tbody>
+</table>
+
+<p><%= link_to l(:label_custom_field_new), {:action => 'new', :type => tab[:name]}, :class => 'icon icon-add' %></p>

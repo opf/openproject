@@ -18,11 +18,11 @@
 module CustomFieldsHelper
 
   def custom_fields_tabs
-    tabs = [{:name => 'IssueCustomField', :label => :label_issue_plural},
-            {:name => 'TimeEntryCustomField', :label => :label_spent_time},
-            {:name => 'ProjectCustomField', :label => :label_project_plural},
-            {:name => 'UserCustomField', :label => :label_user_plural},
-            {:name => 'GroupCustomField', :label => :label_group_plural}
+    tabs = [{:name => 'IssueCustomField', :partial => 'custom_fields/index', :label => :label_issue_plural},
+            {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index', :label => :label_spent_time},
+            {:name => 'ProjectCustomField', :partial => 'custom_fields/index', :label => :label_project_plural},
+            {:name => 'UserCustomField', :partial => 'custom_fields/index', :label => :label_user_plural},
+            {:name => 'GroupCustomField', :partial => 'custom_fields/index', :label => :label_group_plural}
             ]
   end
   

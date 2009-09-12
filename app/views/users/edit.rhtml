@@ -4,24 +4,6 @@
 
 <h2><%= link_to l(:label_user_plural), :controller => 'users', :action => 'index' %> &#187; <%=h @user.login %></h2>
 
-<% selected_tab = params[:tab] ? params[:tab].to_s : user_settings_tabs.first[:name] %>
-
-<div class="tabs">
-<ul>
-<% user_settings_tabs.each do |tab| -%>
-    <li><%= link_to l(tab[:label]), { :tab => tab[:name] },
-                                    :id => "tab-#{tab[:name]}",
-                                    :class => (tab[:name] != selected_tab ? nil : 'selected'),
-                                    :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;" %></li>
-<% end -%>
-</ul>
-</div>
-
-<% user_settings_tabs.each do |tab| -%>
-<%= content_tag('div', render(:partial => tab[:partial]), 
-                       :id => "tab-content-#{tab[:name]}",
-                       :style => (tab[:name] != selected_tab ? 'display:none' : nil),
-                       :class => 'tab-content') %>
-<% end -%>
+<%= render_tabs user_settings_tabs %>
 
 <% html_title(l(:label_user), @user.login, l(:label_administration)) -%>
