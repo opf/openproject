@@ -70,6 +70,7 @@
     <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |
     <%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}) %></p>
     <% end %>
+    <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
 <% end %>
 
 <% content_for :header_tags do %>
