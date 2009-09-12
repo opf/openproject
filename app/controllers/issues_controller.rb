@@ -211,6 +211,8 @@ class IssuesController < ApplicationController
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
+    # Remove the previously added attachments if issue was not updated
+    attachments.each(&:destroy)
   end
 
   def reply
