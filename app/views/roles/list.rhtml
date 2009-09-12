@@ -19,8 +19,11 @@
     <%= reorder_links('role', {:action => 'edit', :id => role}) %>
   <% end %>
   </td>
-  <td align="center" style="width:10%;">
-    <%= button_to(l(:button_delete), { :action => 'destroy', :id => role }, :confirm => l(:text_are_you_sure), :class => "button-small", :disabled => role.builtin? ) %>
+  <td class="buttons">
+    <%= link_to(l(:button_delete), { :action => 'destroy', :id => role },
+    															:method => :post, 
+    															:confirm => l(:text_are_you_sure),
+    															:class => 'icon icon-del') unless role.builtin? %>
   </td>
   </tr>
 <% end %>

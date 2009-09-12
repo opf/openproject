@@ -21,8 +21,11 @@
 			<td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
 			<% end %>
 		  <td align="center" style="width:15%;"><%= reorder_links('custom_field', {:action => 'edit', :id => custom_field}) %></td>
-			<td align="center">
-				<%= button_to l(:button_delete), { :action => 'destroy', :id => custom_field }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
+			<td class="buttons">
+				<%= link_to(l(:button_delete), { :action => 'destroy', :id => custom_field },
+																			 :method => :post,
+																			 :confirm => l(:text_are_you_sure),
+																			 :class => 'icon icon-del') %>
 		  </td>
 		</tr>
 	<% end; reset_cycle %>
