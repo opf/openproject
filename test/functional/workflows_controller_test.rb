@@ -21,7 +21,7 @@ require 'workflows_controller'
 # Re-raise errors caught by the controller.
 class WorkflowsController; def rescue_action(e) raise e end; end
 
-class WorkflowsControllerTest < Test::Unit::TestCase
+class WorkflowsControllerTest < ActionController::TestCase
   fixtures :roles, :trackers, :workflows
   
   def setup

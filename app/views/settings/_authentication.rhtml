@@ -2,7 +2,9 @@
 
 <div class="box tabular settings">
 <p><label><%= l(:setting_login_required) %></label>
-<%= check_box_tag 'settings[login_required]', 1, Setting.login_required? %><%= hidden_field_tag 'settings[login_required]', 0 %></p>
+<%= hidden_field_tag 'settings[login_required]', 0 %>
+<%= check_box_tag 'settings[login_required]', 1, Setting.login_required? %>
+</p>
 
 <p><label><%= l(:setting_autologin) %></label>
 <%= select_tag 'settings[autologin]', options_for_select( [[l(:label_disabled), "0"]] + [1, 7, 30, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]}, Setting.autologin) %></p>
@@ -19,10 +21,14 @@
 <%= text_field_tag 'settings[password_min_length]', Setting.password_min_length, :size => 6 %></p>
 
 <p><label><%= l(:label_password_lost) %></label>
-<%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %><%= hidden_field_tag 'settings[lost_password]', 0 %></p>
+<%= hidden_field_tag 'settings[lost_password]', 0 %>
+<%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %>
+</p>
 
 <p><label><%= l(:setting_openid) %></label>
-<%= check_box_tag 'settings[openid]', 1, Setting.openid?, :disabled => !Object.const_defined?(:OpenID) %><%= hidden_field_tag 'settings[openid]', 0 %></p>
+<%= hidden_field_tag 'settings[openid]', 0 %>
+<%= check_box_tag 'settings[openid]', 1, Setting.openid?, :disabled => !Object.const_defined?(:OpenID) %>
+</p>
 </div>
 
 <div style="float:right;">

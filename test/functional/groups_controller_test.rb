@@ -21,7 +21,7 @@ require 'groups_controller'
 # Re-raise errors caught by the controller.
 class GroupsController; def rescue_action(e) raise e end; end
 
-class GroupsControllerTest < Test::Unit::TestCase
+class GroupsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles
   
   def setup

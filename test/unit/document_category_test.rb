@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DocumentCategoryTest < Test::Unit::TestCase
+class DocumentCategoryTest < ActiveSupport::TestCase
   fixtures :enumerations, :documents
 
   def test_should_be_an_enumeration

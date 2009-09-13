@@ -5,7 +5,7 @@ require 'issue_relations_controller'
 class IssueRelationsController; def rescue_action(e) raise e end; end
 
 
-class IssueRelationsControllerTest < Test::Unit::TestCase
+class IssueRelationsControllerTest < ActionController::TestCase
   fixtures :projects,
            :users,
            :roles,

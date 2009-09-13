@@ -21,7 +21,7 @@ require 'mail_handler_controller'
 # Re-raise errors caught by the controller.
 class MailHandlerController; def rescue_action(e) raise e end; end
 
-class MailHandlerControllerTest < Test::Unit::TestCase
+class MailHandlerControllerTest < ActionController::TestCase
   fixtures :users, :projects, :enabled_modules, :roles, :members, :member_roles, :issues, :issue_statuses, :trackers, :enumerations
   
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'

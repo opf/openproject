@@ -19,7 +19,7 @@ require 'mkmf'
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class SubversionAdapterTest < Test::Unit::TestCase
+class SubversionAdapterTest < ActiveSupport::TestCase
   
   if find_executable0('svn')
     def test_client_version

@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Mailer < ActionMailer::Base
+  layout 'mailer'
   helper :application
   helper :issues
   helper :custom_fields
@@ -45,6 +46,7 @@ class Mailer < ActionMailer::Base
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
     body :issue => issue,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+    render_multipart('issue_add', body)
   end
 
   # Builds a tmail object used to email recipients of the edited issue.
@@ -71,6 +73,8 @@ class Mailer < ActionMailer::Base
     body :issue => issue,
          :journal => journal,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+
+    render_multipart('issue_edit', body)
   end
 
   def reminder(user, issues, days)
@@ -80,6 +84,7 @@ class Mailer < ActionMailer::Base
     body :issues => issues,
          :days => days,
          :issues_url => url_for(:controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => user.id, :sort_key => 'due_date', :sort_order => 'asc')
+    render_multipart('reminder', body)
   end
 
   # Builds a tmail object used to email users belonging to the added document's project.
@@ -93,6 +98,7 @@ class Mailer < ActionMailer::Base
     subject "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
     body :document => document,
          :document_url => url_for(:controller => 'documents', :action => 'show', :id => document)
+    render_multipart('document_added', body)
   end
 
   # Builds a tmail object used to email recipients of a project when an attachements are added.
@@ -121,6 +127,7 @@ class Mailer < ActionMailer::Base
     body :attachments => attachments,
          :added_to => added_to,
          :added_to_url => added_to_url
+    render_multipart('attachments_added', body)
   end
   
   # Builds a tmail object used to email recipients of a news' project when a news item is added.
@@ -135,6 +142,7 @@ class Mailer < ActionMailer::Base
     subject "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
     body :news => news,
          :news_url => url_for(:controller => 'news', :action => 'show', :id => news)
+    render_multipart('news_added', body)
   end
 
   # Builds a tmail object used to email the specified recipients of the specified message that was posted. 
@@ -151,6 +159,7 @@ class Mailer < ActionMailer::Base
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
     body :message => message,
          :message_url => url_for(:controller => 'messages', :action => 'show', :board_id => message.board_id, :id => message.root)
+    render_multipart('message_posted', body)
   end
   
   # Builds a tmail object used to email the recipients of a project of the specified wiki content was added. 
@@ -167,6 +176,7 @@ class Mailer < ActionMailer::Base
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :page => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
          :wiki_content_url => url_for(:controller => 'wiki', :action => 'index', :id => wiki_content.project, :page => wiki_content.page.title)
+    render_multipart('wiki_content_added', body)
   end
   
   # Builds a tmail object used to email the recipients of a project of the specified wiki content was updated. 
@@ -184,6 +194,7 @@ class Mailer < ActionMailer::Base
     body :wiki_content => wiki_content,
          :wiki_content_url => url_for(:controller => 'wiki', :action => 'index', :id => wiki_content.project, :page => wiki_content.page.title),
          :wiki_diff_url => url_for(:controller => 'wiki', :action => 'diff', :id => wiki_content.project, :page => wiki_content.page.title, :version => wiki_content.version)
+    render_multipart('wiki_content_updated', body)
   end
 
   # Builds a tmail object used to email the specified user their account information.
@@ -198,6 +209,7 @@ class Mailer < ActionMailer::Base
     body :user => user,
          :password => password,
          :login_url => url_for(:controller => 'account', :action => 'login')
+    render_multipart('account_information', body)
   end
 
   # Builds a tmail object used to email all active administrators of an account activation request.
@@ -211,6 +223,7 @@ class Mailer < ActionMailer::Base
     subject l(:mail_subject_account_activation_request, Setting.app_title)
     body :user => user,
          :url => url_for(:controller => 'users', :action => 'index', :status => User::STATUS_REGISTERED, :sort_key => 'created_on', :sort_order => 'desc')
+    render_multipart('account_activation_request', body)
   end
 
   # Builds a tmail object used to email the specified user that their account was activated by an administrator.
@@ -224,6 +237,7 @@ class Mailer < ActionMailer::Base
     subject l(:mail_subject_register, Setting.app_title)
     body :user => user,
          :login_url => url_for(:controller => 'account', :action => 'login')
+    render_multipart('account_activated', body)
   end
 
   def lost_password(token)
@@ -232,6 +246,7 @@ class Mailer < ActionMailer::Base
     subject l(:mail_subject_lost_password, Setting.app_title)
     body :token => token,
          :url => url_for(:controller => 'account', :action => 'lost_password', :token => token.value)
+    render_multipart('lost_password', body)
   end
 
   def register(token)
@@ -240,6 +255,7 @@ class Mailer < ActionMailer::Base
     subject l(:mail_subject_register, Setting.app_title)
     body :token => token,
          :url => url_for(:controller => 'account', :action => 'activate', :token => token.value)
+    render_multipart('register', body)
   end
 
   def test(user)
@@ -247,6 +263,7 @@ class Mailer < ActionMailer::Base
     recipients user.mail
     subject 'Redmine test'
     body :url => url_for(:controller => 'welcome')
+    render_multipart('test', body)
   end
 
   # Overrides default deliver! method to prevent from sending an email
@@ -327,26 +344,17 @@ class Mailer < ActionMailer::Base
     super
   end
 
-  # Renders a message with the corresponding layout
-  def render_message(method_name, body)
-    layout = method_name.to_s.match(%r{text\.html\.(rhtml|rxml)}) ? 'layout.text.html.rhtml' : 'layout.text.plain.rhtml'
-    body[:content_for_layout] = render(:file => method_name, :body => body)
-    ActionView::Base.new(template_root, body, self).render(:file => "mailer/#{layout}", :use_full_path => true)
-  end
-
-  # for the case of plain text only
-  def body(*params)
-    value = super(*params)
-    if Setting.plain_text_mail?
-      templates = Dir.glob("#{template_path}/#{@template}.text.plain.{rhtml,erb}")
-      unless String === @body or templates.empty?
-        template = File.basename(templates.first)
-        @body[:content_for_layout] = render(:file => template, :body => @body)
-        @body = ActionView::Base.new(template_root, @body, self).render(:file => "mailer/layout.text.plain.rhtml", :use_full_path => true)
-        return @body
-      end
-    end
-    return value
+  # Rails 2.3 has problems rendering implicit multipart messages with
+  # layouts so this method will wrap an multipart messages with
+  # explicit parts.
+  #
+  # https://rails.lighthouseapp.com/projects/8994/tickets/2338-actionmailer-mailer-views-and-content-type
+  # https://rails.lighthouseapp.com/projects/8994/tickets/1799-actionmailer-doesnt-set-template_format-when-rendering-layouts
+  
+  def render_multipart(method_name, body)
+    content_type "multipart/alternative"
+    part :content_type => "text/plain", :body => render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.plain.erb')
+    part :content_type => "text/html", :body => render_message("#{method_name}.text.html.rhtml", body) unless Setting.plain_text_mail?
   end
 
   # Makes partial rendering work with Rails 1.2 (retro-compatibility)

@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RepositoryTest < Test::Unit::TestCase
+class RepositoryTest < ActiveSupport::TestCase
   fixtures :projects,
            :trackers,
            :projects_trackers,

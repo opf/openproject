@@ -67,10 +67,14 @@ module Engines::Testing
   # This method is called by the engines-supplied plugin testing rake tasks
   def self.setup_plugin_fixtures(plugins = Engines.plugins.by_precedence)
     
+    # First, clear the directory
+    Dir.glob("#{self.temporary_fixtures_directory}/*.yml").each{|fixture| File.delete(fixture)}
+    
     # Copy all plugin fixtures, and then the application fixtures, into this directory
     plugins.each do |plugin| 
       plugin_fixtures_directory =  File.join(plugin.directory, "test", "fixtures")
-      if File.directory?(plugin_fixtures_directory)
+      plugin_app_directory =  File.join(plugin.directory, "app")
+      if File.directory?(plugin_app_directory) && File.directory?(plugin_fixtures_directory)
         Engines.mirror_files_from(plugin_fixtures_directory, self.temporary_fixtures_directory)
       end
     end
@@ -83,5 +87,15 @@ module Engines::Testing
   def self.set_fixture_path
     ActiveSupport::TestCase.fixture_path = self.temporary_fixtures_directory
     $LOAD_PATH.unshift self.temporary_fixtures_directory
+  end
+  
+  # overridden test should be in test/{unit,functional,integration}/{plugin_name}/{test_name}
+  def self.override_tests_from_app
+    filename = caller.first.split(":").first
+    plugin_name = filename.split("/")[-4]
+    test_kind = filename.split("/")[-2]
+    override_file = File.expand_path(File.join(File.dirname(filename), "..", "..", "..", "..", "..", "test", 
+                                               test_kind, plugin_name, File.basename(filename)))
+    load(override_file) if File.exist?(override_file)
   end
 end

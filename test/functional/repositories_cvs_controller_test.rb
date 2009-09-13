@@ -21,7 +21,7 @@ require 'repositories_controller'
 # Re-raise errors caught by the controller.
 class RepositoriesController; def rescue_action(e) raise e end; end
 
-class RepositoriesCvsControllerTest < Test::Unit::TestCase
+class RepositoriesCvsControllerTest < ActionController::TestCase
 
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/cvs_repository'

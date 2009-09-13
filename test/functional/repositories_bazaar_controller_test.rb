@@ -21,7 +21,7 @@ require 'repositories_controller'
 # Re-raise errors caught by the controller.
 class RepositoriesController; def rescue_action(e) raise e end; end
 
-class RepositoriesBazaarControllerTest < Test::Unit::TestCase
+class RepositoriesBazaarControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :repositories, :enabled_modules
 
   # No '..' in the repository path

@@ -33,7 +33,7 @@ module ActiveRecord
             end
           else
             attr_name = @base.class.human_attribute_name(attr)
-            full_messages << attr_name + ' ' + message
+            full_messages << attr_name + ' ' + message.to_s
           end
         end
       end

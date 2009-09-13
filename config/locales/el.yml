@@ -63,6 +63,22 @@ el:
         one:   "πάνω από 1 χρόνο"
         other: "πάνω από {{count}} χρόνια"
         
+  number: 
+    human: 
+      format: 
+        precision: 1
+        delimiter: ""
+      storage_units: 
+        format: "%n %u"
+        units: 
+          kb: KB
+          tb: TB
+          gb: GB
+          byte: 
+            one: Byte
+            other: Bytes
+          mb: MB
+
 # Used in array.to_sentence.
   support:
     array:

@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class MessageTest < Test::Unit::TestCase
+class MessageTest < ActiveSupport::TestCase
   fixtures :projects, :roles, :members, :member_roles, :boards, :messages, :users, :watchers
 
   def setup

@@ -59,6 +59,22 @@ sl:
       over_x_years:
         one:   "over 1 year"
         other: "over {{count}} years"
+
+  number: 
+    human: 
+      format: 
+        precision: 1
+        delimiter: ""
+      storage_units: 
+        format: "%n %u"
+        units: 
+          kb: KB
+          tb: TB
+          gb: GB
+          byte: 
+            one: Byte
+            other: Bytes
+          mb: MB
         
 # Used in array.to_sentence.
   support:

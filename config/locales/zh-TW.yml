@@ -86,8 +86,9 @@
         precision: 1
         # 儲存單位輸出格式.
         # %u 是儲存單位, %n 是數值 (預設值: 2 MB)
+      storage_units:
         format: "%n %u"
-        storage_units:
+        units:
           byte:
             one: "位元組 (B)"
             other: "位元組 (B)"

@@ -21,7 +21,7 @@ require 'test_help'
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
 require File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
 
-class Test::Unit::TestCase
+class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
   # test database remains unchanged so your fixtures don't have to be reloaded
@@ -55,7 +55,7 @@ class Test::Unit::TestCase
   end
   
   def test_uploaded_file(name, mime)
-    ActionController::TestUploadedFile.new(Test::Unit::TestCase.fixture_path + "/files/#{name}", mime)
+    ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime)
   end
   
   # Use a temporary directory for attachment related tests

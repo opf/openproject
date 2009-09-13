@@ -67,6 +67,18 @@
       format:
         delimiter: ""
         precision: 4
+    human:
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
   activerecord:
     errors:
       template:

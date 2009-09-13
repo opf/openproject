@@ -76,6 +76,17 @@ he:
         unit: 'שח'
         precision: 2
         format: '%u %n'
+    human:
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
         
   support:
     array:

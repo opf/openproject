@@ -21,7 +21,7 @@ require 'messages_controller'
 # Re-raise errors caught by the controller.
 class MessagesController; def rescue_action(e) raise e end; end
 
-class MessagesControllerTest < Test::Unit::TestCase
+class MessagesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
   
   def setup

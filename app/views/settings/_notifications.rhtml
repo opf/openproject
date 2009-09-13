@@ -6,12 +6,14 @@
 <%= text_field_tag 'settings[mail_from]', Setting.mail_from, :size => 60 %></p>
 
 <p><label><%= l(:setting_bcc_recipients) %></label>
+<%= hidden_field_tag 'settings[bcc_recipients]', 0 %>
 <%= check_box_tag 'settings[bcc_recipients]', 1, Setting.bcc_recipients? %>
-<%= hidden_field_tag 'settings[bcc_recipients]', 0 %></p>
+</p>
 
 <p><label><%= l(:setting_plain_text_mail) %></label>
+<%= hidden_field_tag 'settings[plain_text_mail]', 0 %>
 <%= check_box_tag 'settings[plain_text_mail]', 1, Setting.plain_text_mail? %>
-<%= hidden_field_tag 'settings[plain_text_mail]', 0 %></p>
+</p>
 </div>
 
 <fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>

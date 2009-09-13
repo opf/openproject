@@ -21,7 +21,7 @@ require 'watchers_controller'
 # Re-raise errors caught by the controller.
 class WatchersController; def rescue_action(e) raise e end; end
 
-class WatchersControllerTest < Test::Unit::TestCase
+class WatchersControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
            :issues, :trackers, :projects_trackers, :issue_statuses, :enumerations, :watchers
   

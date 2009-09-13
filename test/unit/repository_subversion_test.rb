@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RepositorySubversionTest < Test::Unit::TestCase
+class RepositorySubversionTest < ActiveSupport::TestCase
   fixtures :projects
   
   # No '..' in the repository path for svn

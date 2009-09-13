@@ -21,7 +21,7 @@ require 'custom_fields_controller'
 # Re-raise errors caught by the controller.
 class CustomFieldsController; def rescue_action(e) raise e end; end
 
-class CustomFieldsControllerTest < Test::Unit::TestCase
+class CustomFieldsControllerTest < ActionController::TestCase
   fixtures :custom_fields, :trackers, :users
   
   def setup

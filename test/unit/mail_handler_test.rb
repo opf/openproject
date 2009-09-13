@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class MailHandlerTest < Test::Unit::TestCase
+class MailHandlerTest < ActiveSupport::TestCase
   fixtures :users, :projects, 
                    :enabled_modules,
                    :roles,

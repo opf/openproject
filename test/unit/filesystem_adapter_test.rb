@@ -2,7 +2,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 
-class FilesystemAdapterTest < Test::Unit::TestCase
+class FilesystemAdapterTest < ActiveSupport::TestCase
   
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'  
   

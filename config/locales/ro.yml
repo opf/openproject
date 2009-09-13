@@ -57,6 +57,22 @@ ro:
       over_x_years:
         one:   "peste un an"
         other: "peste {{count}} ani"
+
+  number: 
+    human: 
+      format: 
+        precision: 1
+        delimiter: ""
+      storage_units: 
+        format: "%n %u"
+        units: 
+          kb: KB
+          tb: TB
+          gb: GB
+          byte: 
+            one: Byte
+            other: Bytes
+          mb: MB
         
 # Used in array.to_sentence.
   support:

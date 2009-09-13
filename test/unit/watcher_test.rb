@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class WatcherTest < Test::Unit::TestCase
+class WatcherTest < ActiveSupport::TestCase
   fixtures :issues, :users
 
   def setup

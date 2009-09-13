@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class AttachmentTest < Test::Unit::TestCase
+class AttachmentTest < ActiveSupport::TestCase
   fixtures :issues, :users
   
   def setup

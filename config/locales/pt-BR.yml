@@ -93,6 +93,16 @@ pt-BR:
       format:
         precision: 1
         delimiter: '.'
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
   support:
     array:
       sentence_connector: "e"

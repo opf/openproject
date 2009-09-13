@@ -28,7 +28,16 @@ lt:
       format:
         delimiter: ""
         precision: 1
-      storage_units: [baitai, KB, MB, GB, TB]
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "baitai"
+            other: "baitai"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
 
   datetime:
     distance_in_words:

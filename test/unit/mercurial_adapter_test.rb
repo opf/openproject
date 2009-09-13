@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 begin
   require 'mocha'
   
-  class MercurialAdapterTest < Test::Unit::TestCase
+  class MercurialAdapterTest < ActiveSupport::TestCase
     
     TEMPLATES_DIR = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATES_DIR
     TEMPLATE_NAME = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME

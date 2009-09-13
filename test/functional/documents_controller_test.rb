@@ -21,7 +21,7 @@ require 'documents_controller'
 # Re-raise errors caught by the controller.
 class DocumentsController; def rescue_action(e) raise e end; end
 
-class DocumentsControllerTest < Test::Unit::TestCase
+class DocumentsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :documents, :enumerations
   
   def setup

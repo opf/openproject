@@ -4,7 +4,7 @@ require 'search_controller'
 # Re-raise errors caught by the controller.
 class SearchController; def rescue_action(e) raise e end; end
 
-class SearchControllerTest < Test::Unit::TestCase
+class SearchControllerTest < ActionController::TestCase
   fixtures :projects, :enabled_modules, :roles, :users, :members, :member_roles,
            :issues, :trackers, :issue_statuses,
            :custom_fields, :custom_values,

@@ -21,7 +21,7 @@ require 'trackers_controller'
 # Re-raise errors caught by the controller.
 class TrackersController; def rescue_action(e) raise e end; end
 
-class TrackersControllerTest < Test::Unit::TestCase
+class TrackersControllerTest < ActionController::TestCase
   fixtures :trackers, :projects, :projects_trackers, :users, :issues
   
   def setup

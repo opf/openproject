@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../../../test_helper'
 
-class Redmine::PluginTest < Test::Unit::TestCase
+class Redmine::PluginTest < ActiveSupport::TestCase
 
   def setup
     @klass = Redmine::Plugin

@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class CustomValueTest < Test::Unit::TestCase
+class CustomValueTest < ActiveSupport::TestCase
   fixtures :custom_fields
 
   def test_string_field_validation_with_blank_value

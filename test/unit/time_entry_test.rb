@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class TimeEntryTest < Test::Unit::TestCase
+class TimeEntryTest < ActiveSupport::TestCase
   fixtures :issues, :projects, :users, :time_entries
 
   def test_hours_format

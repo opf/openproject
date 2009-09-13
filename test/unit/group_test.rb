@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class GroupTest < Test::Unit::TestCase
+class GroupTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create

@@ -84,7 +84,16 @@ fr:
     human:
       format:
         precision: 2
-      storage_units: [ Octet, ko, Mo, Go, To ]
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Octet"
+            other: "Octet"
+          kb: "ko"
+          mb: "Mo"
+          gb: "Go"
+          tb: "To"
   
   support:
     array:

@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class EnabledModuleTest < Test::Unit::TestCase
+class EnabledModuleTest < ActiveSupport::TestCase
   fixtures :projects, :wikis
   
   def test_enabling_wiki_should_create_a_wiki

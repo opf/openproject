@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class AuthSourceLdapTest < Test::Unit::TestCase
+class AuthSourceLdapTest < ActiveSupport::TestCase
 
   def setup
   end

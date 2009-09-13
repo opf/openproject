@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class TrackerTest < Test::Unit::TestCase
+class TrackerTest < ActiveSupport::TestCase
   fixtures :trackers, :workflows
 
   def test_copy_workflows

@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class CalendarTest < Test::Unit::TestCase
+class CalendarTest < ActiveSupport::TestCase
   
   def test_monthly
     c = Redmine::Helpers::Calendar.new(Date.today, :fr, :month)

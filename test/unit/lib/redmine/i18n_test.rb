@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../../../test_helper'
 
-class Redmine::I18nTest < Test::Unit::TestCase
+class Redmine::I18nTest < ActiveSupport::TestCase
   include Redmine::I18n
   
   def setup

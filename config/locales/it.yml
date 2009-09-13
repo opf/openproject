@@ -74,6 +74,17 @@ it:
         unit: '€'
         precision: 2
         format: '%n %u'
+    human:
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
         
   support:
     array:

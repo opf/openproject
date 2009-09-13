@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class JournalTest < Test::Unit::TestCase
+class JournalTest < ActiveSupport::TestCase
   fixtures :issues, :issue_statuses, :journals, :journal_details
 
   def setup

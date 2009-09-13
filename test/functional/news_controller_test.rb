@@ -21,7 +21,7 @@ require 'news_controller'
 # Re-raise errors caught by the controller.
 class NewsController; def rescue_action(e) raise e end; end
 
-class NewsControllerTest < Test::Unit::TestCase
+class NewsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :news, :comments
   
   def setup

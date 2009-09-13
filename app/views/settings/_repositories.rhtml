@@ -2,10 +2,14 @@
 
 <div class="box tabular settings">
 <p><label><%= l(:setting_autofetch_changesets) %></label>
-<%= check_box_tag 'settings[autofetch_changesets]', 1, Setting.autofetch_changesets? %><%= hidden_field_tag 'settings[autofetch_changesets]', 0 %></p>
+<%= hidden_field_tag 'settings[autofetch_changesets]', 0 %>
+<%= check_box_tag 'settings[autofetch_changesets]', 1, Setting.autofetch_changesets? %>
+</p>
 
 <p><label><%= l(:setting_sys_api_enabled) %></label>
-<%= check_box_tag 'settings[sys_api_enabled]', 1, Setting.sys_api_enabled? %><%= hidden_field_tag 'settings[sys_api_enabled]', 0 %></p>
+<%= hidden_field_tag 'settings[sys_api_enabled]', 0 %>
+<%= check_box_tag 'settings[sys_api_enabled]', 1, Setting.sys_api_enabled? %>
+</p>
 
 <p><label><%= l(:setting_enabled_scm) %></label>
 <% REDMINE_SUPPORTED_SCM.each do |scm| -%>

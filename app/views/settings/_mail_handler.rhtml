@@ -2,9 +2,10 @@
 
 <div class="box tabular settings">
 <p><label><%= l(:setting_mail_handler_api_enabled) %></label>
+<%= hidden_field_tag 'settings[mail_handler_api_enabled]', 0 %>
 <%= check_box_tag 'settings[mail_handler_api_enabled]', 1, Setting.mail_handler_api_enabled?,
                   :onclick => "if (this.checked) { Form.Element.enable('settings_mail_handler_api_key'); } else { Form.Element.disable('settings_mail_handler_api_key'); }" %>
-<%= hidden_field_tag 'settings[mail_handler_api_enabled]', 0 %></p>
+</p>
 
 <p><label><%= l(:setting_mail_handler_api_key) %></label>
 <%= text_field_tag 'settings[mail_handler_api_key]', Setting.mail_handler_api_key, 

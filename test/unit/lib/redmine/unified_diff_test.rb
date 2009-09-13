@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../../../test_helper'
 
-class Redmine::UnifiedDiffTest < Test::Unit::TestCase
+class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
   
   def setup
   end

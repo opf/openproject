@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class VersionTest < Test::Unit::TestCase
+class VersionTest < ActiveSupport::TestCase
   fixtures :projects, :users, :issues, :issue_statuses, :trackers, :enumerations, :versions
 
   def setup

@@ -16,12 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.dirname(__FILE__) + '/../test_helper'
-require 'application'
+require 'application_controller'
 
 # Re-raise errors caught by the controller.
 class ApplicationController; def rescue_action(e) raise e end; end
 
-class ApplicationControllerTest < Test::Unit::TestCase
+class ApplicationControllerTest < ActionController::TestCase
   include Redmine::I18n
   
   def setup

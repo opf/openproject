@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DefaultDataTest < Test::Unit::TestCase
+class DefaultDataTest < ActiveSupport::TestCase
   include Redmine::I18n
   fixtures :roles
   

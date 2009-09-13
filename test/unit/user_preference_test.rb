@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserPreferenceTest < Test::Unit::TestCase
+class UserPreferenceTest < ActiveSupport::TestCase
   fixtures :users, :user_preferences
 
   def test_create

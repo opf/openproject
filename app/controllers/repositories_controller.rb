@@ -259,7 +259,7 @@ private
 
   def graph_commits_per_author(repository)
     commits_by_author = repository.changesets.count(:all, :group => :committer)
-    commits_by_author.sort! {|x, y| x.last <=> y.last}
+    commits_by_author.to_a.sort! {|x, y| x.last <=> y.last}
 
     changes_by_author = repository.changes.count(:all, :group => :committer)
     h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}

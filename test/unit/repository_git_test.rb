@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RepositoryGitTest < Test::Unit::TestCase
+class RepositoryGitTest < ActiveSupport::TestCase
   fixtures :projects
   
   # No '..' in the repository path

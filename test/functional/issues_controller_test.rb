@@ -21,7 +21,7 @@ require 'issues_controller'
 # Re-raise errors caught by the controller.
 class IssuesController; def rescue_action(e) raise e end; end
 
-class IssuesControllerTest < Test::Unit::TestCase
+class IssuesControllerTest < ActionController::TestCase
   fixtures :projects,
            :users,
            :roles,
@@ -42,7 +42,8 @@ class IssuesControllerTest < Test::Unit::TestCase
            :custom_fields_trackers,
            :time_entries,
            :journals,
-           :journal_details
+           :journal_details,
+           :queries
   
   def setup
     @controller = IssuesController.new
@@ -452,14 +453,16 @@ class IssuesControllerTest < Test::Unit::TestCase
   
   def test_post_new
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, 
-               :issue => {:tracker_id => 3,
-                          :subject => 'This is the test_new issue',
-                          :description => 'This is the description',
-                          :priority_id => 5,
-                          :estimated_hours => '',
-                          :custom_field_values => {'2' => 'Value for field 2'}}
-    assert_redirected_to :action => 'show'
+    assert_difference 'Issue.count' do
+      post :new, :project_id => 1, 
+                 :issue => {:tracker_id => 3,
+                            :subject => 'This is the test_new issue',
+                            :description => 'This is the description',
+                            :priority_id => 5,
+                            :estimated_hours => '',
+                            :custom_field_values => {'2' => 'Value for field 2'}}
+    end
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
     
     issue = Issue.find_by_subject('This is the test_new issue')
     assert_not_nil issue
@@ -483,12 +486,14 @@ class IssuesControllerTest < Test::Unit::TestCase
   
   def test_post_new_without_custom_fields_param
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, 
-               :issue => {:tracker_id => 1,
-                          :subject => 'This is the test_new issue',
-                          :description => 'This is the description',
-                          :priority_id => 5}
-    assert_redirected_to :action => 'show'
+    assert_difference 'Issue.count' do
+      post :new, :project_id => 1, 
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is the test_new issue',
+                            :description => 'This is the description',
+                            :priority_id => 5}
+    end
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
   end
 
   def test_post_new_with_required_custom_field_and_without_custom_fields_param
@@ -536,14 +541,16 @@ class IssuesControllerTest < Test::Unit::TestCase
   def test_post_new_should_send_a_notification
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, 
-               :issue => {:tracker_id => 3,
-                          :subject => 'This is the test_new issue',
-                          :description => 'This is the description',
-                          :priority_id => 5,
-                          :estimated_hours => '',
-                          :custom_field_values => {'2' => 'Value for field 2'}}
-    assert_redirected_to :action => 'show'
+    assert_difference 'Issue.count' do
+      post :new, :project_id => 1, 
+                 :issue => {:tracker_id => 3,
+                            :subject => 'This is the test_new issue',
+                            :description => 'This is the description',
+                            :priority_id => 5,
+                            :estimated_hours => '',
+                            :custom_field_values => {'2' => 'Value for field 2'}}
+    end
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
     
     assert_equal 1, ActionMailer::Base.deliveries.size
   end

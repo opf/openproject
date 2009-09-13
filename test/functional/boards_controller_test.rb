@@ -21,7 +21,7 @@ require 'boards_controller'
 # Re-raise errors caught by the controller.
 class BoardsController; def rescue_action(e) raise e end; end
 
-class BoardsControllerTest < Test::Unit::TestCase
+class BoardsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
   
   def setup

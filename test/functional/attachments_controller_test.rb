@@ -22,7 +22,7 @@ require 'attachments_controller'
 class AttachmentsController; def rescue_action(e) raise e end; end
 
 
-class AttachmentsControllerTest < Test::Unit::TestCase
+class AttachmentsControllerTest < ActionController::TestCase
   fixtures :users, :projects, :roles, :members, :member_roles, :enabled_modules, :issues, :trackers, :attachments,
            :versions, :wiki_pages, :wikis, :documents
   

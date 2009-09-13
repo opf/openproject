@@ -43,7 +43,7 @@ module Engines
   
   # List of extensions to load, can be changed in init.rb before calling Engines.init
   mattr_accessor :rails_extensions
-  self.rails_extensions = %w(action_mailer asset_helpers form_tag_helpers routing migrations dependencies)
+  self.rails_extensions = %w(asset_helpers form_tag_helpers migrations dependencies)
   
   # The name of the public directory to mirror public engine assets into.
   # Defaults to <tt>RAILS_ROOT/public/plugin_assets</tt>.
@@ -68,7 +68,7 @@ module Engines
   mattr_accessor :disable_application_code_loading
   self.disable_application_code_loading = false
   
-  # Set this ti true if code should not be mixed (i.e. it will be loaded
+  # Set this to true if code should not be mixed (i.e. it will be loaded
   # from the first valid path on $LOAD_PATH)
   mattr_accessor :disable_code_mixing
   self.disable_code_mixing = false
@@ -81,7 +81,7 @@ module Engines
   self.code_mixing_file_types = %w(controller helper)
   
   class << self
-    def init
+    def init(initializer)
       load_extensions
       Engines::Assets.initialize_base_public_directory
     end
@@ -124,9 +124,9 @@ module Engines
     # and that they are placed within plugin/app/things (the pluralized form of 'thing').
     # 
     # It's important to note that you'll also want to ensure that the "things" are
-    # on your load path in your plugin's init.rb:
+    # on your load path by including them in Rails load path mechanism, e.g. in init.rb:
     #
-    #   Rails.plugins[:my_plugin].code_paths << "app/things"
+    #  ActiveSupport::Dependencies.load_paths << File.join(File.dirname(__FILE__), 'app', 'things'))
     #
     def mix_code_from(*types)
       self.code_mixing_file_types += types.map { |x| x.to_s.singularize }

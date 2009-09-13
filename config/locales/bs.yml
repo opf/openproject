@@ -83,9 +83,16 @@ bs:
       format:
         delimiter: ""
         precision: 1
-
-
-
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
         
 # Used in array.to_sentence.
   support:

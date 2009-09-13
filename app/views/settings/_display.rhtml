@@ -17,7 +17,9 @@
 <%= select_tag 'settings[user_format]', options_for_select( @options[:user_format], Setting.user_format.to_s ) %></p>
 
 <p><label><%= l(:setting_gravatar_enabled) %></label>
-<%= check_box_tag 'settings[gravatar_enabled]', 1, Setting.gravatar_enabled? %><%= hidden_field_tag 'settings[gravatar_enabled]', 0 %></p>
+<%= hidden_field_tag 'settings[gravatar_enabled]', 0 %>
+<%= check_box_tag 'settings[gravatar_enabled]', 1, Setting.gravatar_enabled? %>
+</p>
 </div>
 
 <%= submit_tag l(:button_save) %>

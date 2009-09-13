@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BoardTest < Test::Unit::TestCase
+class BoardTest < ActiveSupport::TestCase
   fixtures :projects, :boards, :messages
 
   def setup

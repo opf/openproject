@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class WikiContentTest < Test::Unit::TestCase
+class WikiContentTest < ActiveSupport::TestCase
   fixtures :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions, :users
 
   def setup

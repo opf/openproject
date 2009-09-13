@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 require 'pp'
-class RepositoryCvsTest < Test::Unit::TestCase
+class RepositoryCvsTest < ActiveSupport::TestCase
   fixtures :projects
   
   # No '..' in the repository path

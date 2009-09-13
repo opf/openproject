@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class EnumerationTest < Test::Unit::TestCase
+class EnumerationTest < ActiveSupport::TestCase
   fixtures :enumerations, :issues
 
   def setup

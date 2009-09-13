@@ -21,7 +21,7 @@ require 'sys_controller'
 # Re-raise errors caught by the controller.
 class SysController; def rescue_action(e) raise e end; end
 
-class SysControllerTest < Test::Unit::TestCase
+class SysControllerTest < ActionController::TestCase
   fixtures :projects, :repositories
   
   def setup

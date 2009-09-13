@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class MemberTest < Test::Unit::TestCase
+class MemberTest < ActiveSupport::TestCase
   fixtures :users, :projects, :roles, :members, :member_roles
 
   def setup

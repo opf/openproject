@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class SettingTest < Test::Unit::TestCase
+class SettingTest < ActiveSupport::TestCase
   
   def test_read_default
     assert_equal "Redmine", Setting.app_title

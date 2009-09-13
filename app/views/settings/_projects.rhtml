@@ -2,10 +2,14 @@
 
 <div class="box tabular settings">
 <p><label><%= l(:setting_default_projects_public) %></label>
-<%= check_box_tag 'settings[default_projects_public]', 1, Setting.default_projects_public? %><%= hidden_field_tag 'settings[default_projects_public]', 0 %></p>
+<%= hidden_field_tag 'settings[default_projects_public]', 0 %>
+<%= check_box_tag 'settings[default_projects_public]', 1, Setting.default_projects_public? %>
+</p>
 
 <p><label><%= l(:setting_sequential_project_identifiers) %></label>
-<%= check_box_tag 'settings[sequential_project_identifiers]', 1, Setting.sequential_project_identifiers? %><%= hidden_field_tag 'settings[sequential_project_identifiers]', 0 %></p>
+<%= hidden_field_tag 'settings[sequential_project_identifiers]', 0 %>
+<%= check_box_tag 'settings[sequential_project_identifiers]', 1, Setting.sequential_project_identifiers? %>
+</p>
 
 <p><label><%= l(:setting_new_project_user_role_id) %></label>
 <%= select_tag('settings[new_project_user_role_id]', options_for_select([["--- #{l(:actionview_instancetag_blank_option)} ---", '']] + Role.find_all_givable.collect {|r| [r.name, r.id]}, Setting.new_project_user_role_id.to_i)) %></p>

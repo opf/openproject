@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class TokenTest < Test::Unit::TestCase
+class TokenTest < ActiveSupport::TestCase
   fixtures :tokens
 
   def test_create

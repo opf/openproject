@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DocumentTest < Test::Unit::TestCase
+class DocumentTest < ActiveSupport::TestCase
   fixtures :projects, :enumerations, :documents
 
   def test_create

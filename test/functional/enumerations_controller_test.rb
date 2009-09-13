@@ -21,7 +21,7 @@ require 'enumerations_controller'
 # Re-raise errors caught by the controller.
 class EnumerationsController; def rescue_action(e) raise e end; end
 
-class EnumerationsControllerTest < Test::Unit::TestCase
+class EnumerationsControllerTest < ActionController::TestCase
   fixtures :enumerations, :issues, :users
   
   def setup

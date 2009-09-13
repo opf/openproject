@@ -4,23 +4,9 @@
 #
 #   Engines.plugins[:plugin_name]
 #
-# If this plugin contains paths in directories other than <tt>app/controllers</tt>,
-# <tt>app/helpers</tt>, <tt>app/models</tt> and <tt>components</tt>, authors can
-# declare this by adding extra paths to #code_paths:
-#
-#    Rails.plugin[:my_plugin].code_paths << "app/sweepers" << "vendor/my_lib"
-#
 # Other properties of the Plugin instance can also be set.
 module Engines
   class Plugin < Rails::Plugin    
-    # Plugins can add code paths to this attribute in init.rb if they 
-    # need plugin directories to be added to the load path, i.e.
-    #
-    #   plugin.code_paths << 'app/other_classes'
-    #
-    # Defaults to ["app/controllers", "app/helpers", "app/models", "components"]
-    attr_accessor :code_paths
-
     # Plugins can add paths to this attribute in init.rb if they need
     # controllers loaded from additional locations. 
     attr_accessor :controller_paths
@@ -32,16 +18,6 @@ module Engines
     attr_accessor :public_directory   
     
     protected
-  
-      # The default set of code paths which will be added to $LOAD_PATH
-      # and Dependencies.load_paths
-      def default_code_paths
-        # lib will actually be removed from the load paths when we call
-        # uniq! in #inject_into_load_paths, but it's important to keep it
-        # around (for the documentation tasks, for instance).
-        %w(app/controllers app/helpers app/models components lib)
-      end
-    
       # The default set of code paths which will be added to the routing system
       def default_controller_paths
         %w(app/controllers components)
@@ -58,40 +34,22 @@ module Engines
   
     def initialize(directory)
       super directory
-      @code_paths = default_code_paths
       @controller_paths = default_controller_paths
       @public_directory = default_public_directory
     end
   
-    # Returns a list of paths this plugin wishes to make available in $LOAD_PATH
-    #
-    # Overwrites the correspondend method in the superclass  
-    def load_paths
-      report_nonexistant_or_empty_plugin! unless valid?
-      select_existing_paths :code_paths
-    end
-    
     # Extends the superclass' load method to additionally mirror public assets
     def load(initializer)
       return if loaded?
       super initializer
-      add_plugin_view_paths
       add_plugin_locale_paths
       Assets.mirror_files_for(self)
     end    
   
-    # for code_paths and controller_paths select those paths that actually 
-    # exist in the plugin's directory
+    # select those paths that actually exist in the plugin's directory
     def select_existing_paths(name)
       Engines.select_existing_paths(self.send(name).map { |p| File.join(directory, p) })
     end    
-
-    def add_plugin_view_paths
-      view_path = File.join(directory, 'app', 'views')
-      if File.exist?(view_path)
-        ActionController::Base.prepend_view_path(view_path) # push it just underneath the app
-      end
-    end
 
     def add_plugin_locale_paths
       locale_path = File.join(directory, 'locales')
@@ -112,11 +70,6 @@ module Engines
       "#{File.basename(Engines.public_directory)}/#{name}"
     end
     
-    # The path to this plugin's routes file
-    def routes_path
-      File.join(directory, "routes.rb")
-    end
-
     # The directory containing this plugin's migrations (<tt>plugin/db/migrate</tt>)
     def migration_directory
       File.join(self.directory, 'db', 'migrate')

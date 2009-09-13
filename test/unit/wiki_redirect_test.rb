@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class WikiRedirectTest < Test::Unit::TestCase
+class WikiRedirectTest < ActiveSupport::TestCase
   fixtures :projects, :wikis
 
   def setup

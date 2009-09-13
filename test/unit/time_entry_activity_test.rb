@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class TimeEntryActivityTest < Test::Unit::TestCase
+class TimeEntryActivityTest < ActiveSupport::TestCase
   fixtures :enumerations, :time_entries
 
   def test_should_be_an_enumeration

@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class CustomFieldTest < Test::Unit::TestCase
+class CustomFieldTest < ActiveSupport::TestCase
   fixtures :custom_fields
   
   def test_create

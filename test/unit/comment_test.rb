@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class CommentTest < Test::Unit::TestCase
+class CommentTest < ActiveSupport::TestCase
   fixtures :users, :news, :comments
 
   def setup

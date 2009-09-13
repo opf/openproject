@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../../../test_helper'
 
-class Redmine::MimeTypeTest < Test::Unit::TestCase
+class Redmine::MimeTypeTest < ActiveSupport::TestCase
   
   def test_of
     to_test = {'test.unk' => nil,

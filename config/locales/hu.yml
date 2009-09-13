@@ -90,7 +90,16 @@
       format:
         delimiter: ""
         precision: 1
-      storage_units: [bájt, KB, MB, GB, TB]
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "bájt"
+            other: "bájt"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
 
   support:
     array:

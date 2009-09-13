@@ -22,7 +22,7 @@ require 'members_controller'
 class MembersController; def rescue_action(e) raise e end; end
 
 
-class MembersControllerTest < Test::Unit::TestCase
+class MembersControllerTest < ActionController::TestCase
   fixtures :projects, :members, :member_roles, :roles, :users
   
   def setup

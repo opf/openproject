@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RoleTest < Test::Unit::TestCase
+class RoleTest < ActiveSupport::TestCase
   fixtures :roles, :workflows
 
   def test_copy_workflows

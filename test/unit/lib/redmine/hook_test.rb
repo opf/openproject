@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../../../test_helper'
 
-class Redmine::Hook::ManagerTest < Test::Unit::TestCase
+class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
 
   fixtures :issues
   

@@ -21,7 +21,7 @@ require 'queries_controller'
 # Re-raise errors caught by the controller.
 class QueriesController; def rescue_action(e) raise e end; end
 
-class QueriesControllerTest < Test::Unit::TestCase
+class QueriesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :queries
   
   def setup
@@ -70,7 +70,7 @@ class QueriesControllerTest < Test::Unit::TestCase
          :query => {"name" => "test_new_project_public_query", "is_public" => "1"}
          
     q = Query.find_by_name('test_new_project_public_query')
-    assert_redirected_to :controller => 'issues', :action => 'index', :query_id => q
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :query_id => q
     assert q.is_public?
     assert q.has_default_columns?
     assert q.valid?
@@ -88,7 +88,7 @@ class QueriesControllerTest < Test::Unit::TestCase
          :query => {"name" => "test_new_project_private_query", "is_public" => "1"}
          
     q = Query.find_by_name('test_new_project_private_query')
-    assert_redirected_to :controller => 'issues', :action => 'index', :query_id => q
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :query_id => q
     assert !q.is_public?
     assert q.has_default_columns?
     assert q.valid?
@@ -104,7 +104,7 @@ class QueriesControllerTest < Test::Unit::TestCase
          :query => {"name" => "test_new_global_private_query", "is_public" => "1", "column_names" => ["", "tracker", "subject", "priority", "category"]}
          
     q = Query.find_by_name('test_new_global_private_query')
-    assert_redirected_to :controller => 'issues', :action => 'index', :query_id => q
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => nil, :query_id => q
     assert !q.is_public?
     assert !q.has_default_columns?
     assert_equal [:tracker, :subject, :priority, :category], q.columns.collect {|c| c.name}

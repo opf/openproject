@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ActivityTest < Test::Unit::TestCase
+class ActivityTest < ActiveSupport::TestCase
   fixtures :projects, :versions, :attachments, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages
 

@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../../../test_helper'
 
-class Redmine::AccessControlTest < Test::Unit::TestCase
+class Redmine::AccessControlTest < ActiveSupport::TestCase
   
   def setup
     @access_module = Redmine::AccessControl

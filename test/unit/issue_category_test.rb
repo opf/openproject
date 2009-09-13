@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class IssueCategoryTest < Test::Unit::TestCase
+class IssueCategoryTest < ActiveSupport::TestCase
   fixtures :issue_categories, :issues
 
   def setup

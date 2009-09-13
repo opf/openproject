@@ -21,7 +21,7 @@ require 'journals_controller'
 # Re-raise errors caught by the controller.
 class JournalsController; def rescue_action(e) raise e end; end
 
-class JournalsControllerTest < Test::Unit::TestCase
+class JournalsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :issues, :journals, :journal_details, :enabled_modules
   
   def setup

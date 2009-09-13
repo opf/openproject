@@ -172,15 +172,28 @@ namespace :test do
   
   desc 'Update the plugin and tests files in the test application from the plugin'
   task :mirror_engine_files => [:test_app, :copy_engines_plugin] do
-    puts "> Modifying default config files to load engines plugin"
+    puts "> Tweaking generated application to be suitable for testing"
+    
+    # Replace the Rails plugin loader with the engines one.
     insert_line("require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')",
                 :into => 'config/environment.rb',
                 :after => "require File.join(File.dirname(__FILE__), 'boot')")
-                
-    insert_line('map.from_plugin :test_routing', :into => 'config/routes.rb', 
-                :after => /\AActionController::Routing::Routes/)
-                
+    
+    # Add the engines test helper to handle fixtures & stuff.
     insert_line("require 'engines_test_helper'", :into => 'test/test_helper.rb')
+    
+    # Run engine plugin tests when running the application 
+    insert_line("task :test => ['test:engines:all']", :into => 'Rakefile')
+    
+    # We want exceptions to be raised
+    insert_line("def rescue_action(e) raise e end;", 
+                :into => "app/controllers/application_controller.rb",
+                :after => "class ApplicationController < ActionController::Base")
+    
+    # We need this method to test where actions are being rendered from.
+    insert_line("include RenderInformation", 
+                :into => "app/controllers/application_controller.rb",
+                :after => "class ApplicationController < ActionController::Base")
     
     puts "> Mirroring test application files into #{test_app_dir}"
     mirror_test_files('app')

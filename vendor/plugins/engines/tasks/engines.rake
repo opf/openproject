@@ -118,10 +118,10 @@ namespace :db do
     end
     
     desc 'Migrate a specified plugin.'
-    task({:plugin => :environment}, :name, :version) do |task, args|
-      name = args[:name] || ENV['NAME']
+    task(:plugin => :environment) do
+      name = ENV['NAME']
       if plugin = Engines.plugins[name]
-        version = args[:version] || ENV['VERSION']
+        version = ENV['VERSION']
         puts "Migrating #{plugin.name} to " + (version ? "version #{version}" : 'latest version') + " ..."
         plugin.migrate(version ? version.to_i : nil)
       else
@@ -152,8 +152,8 @@ end
 
 # this is just a modification of the original task in railties/lib/tasks/documentation.rake, 
 # because the default task doesn't support subdirectories like <plugin>/app or
-# <plugin>/component. These tasks now include every file under a plugin's code paths (see
-# Plugin#code_paths).
+# <plugin>/component. These tasks now include every file under a plugin's load paths (see
+# Plugin#load_paths).
 namespace :doc do
 
   plugins = FileList['vendor/plugins/**'].collect { |plugin| File.basename(plugin) }
@@ -172,9 +172,9 @@ namespace :doc do
         options << '--line-numbers' << '--inline-source'
         options << '-T html'
 
-        # Include every file in the plugin's code_paths (see Plugin#code_paths)
+        # Include every file in the plugin's load_paths (see Plugin#load_paths)
         if Engines.plugins[plugin]
-          files.include("#{plugin_base}/{#{Engines.plugins[plugin].code_paths.join(",")}}/**/*.rb")
+          files.include("#{plugin_base}/{#{Engines.plugins[plugin].load_paths.join(",")}}/**/*.rb")
         end
         if File.exists?("#{plugin_base}/README")
           files.include("#{plugin_base}/README")    
@@ -215,6 +215,34 @@ or use the per-type plugin test tasks:
 Report any issues on http://dev.rails-engines.org. Thanks!
 
 -~===============( ... as you were ... )============================~-}
+  end
+  
+  namespace :engines do
+    
+    def engine_plugins
+      Dir["vendor/plugins/*"].select { |f| File.directory?(File.join(f, "app")) }.map { |f| File.basename(f) }.join(",")
+    end
+    
+    desc "Run tests from within engines plugins (plugins with an 'app' directory)"
+    task :all => [:units, :functionals, :integration]
+    
+    desc "Run unit tests from within engines plugins (plugins with an 'app' directory)"
+    Rake::TestTask.new(:units => "test:plugins:setup_plugin_fixtures") do |t|
+      t.pattern = "vendor/plugins/{#{ENV['PLUGIN'] || engine_plugins}}/test/unit/**/*_test.rb"
+      t.verbose = true
+    end
+
+    desc "Run functional tests from within engines plugins (plugins with an 'app' directory)"
+    Rake::TestTask.new(:functionals => "test:plugins:setup_plugin_fixtures") do |t|
+      t.pattern = "vendor/plugins/{#{ENV['PLUGIN'] || engine_plugins}}/test/functional/**/*_test.rb"
+      t.verbose = true
+    end
+
+    desc "Run integration tests from within engines plugins (plugins with an 'app' directory)"
+    Rake::TestTask.new(:integration => "test:plugins:setup_plugin_fixtures") do |t|
+      t.pattern = "vendor/plugins/{#{ENV['PLUGIN'] || engine_plugins}}/test/integration/**/*_test.rb"
+      t.verbose = true
+    end
   end
   
   namespace :plugins do

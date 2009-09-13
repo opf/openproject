@@ -59,6 +59,22 @@ cs:
       over_x_years:
         one:   "více než 1 rok"
         other: "více než {{count}} roky"
+
+  number: 
+    human: 
+      format: 
+        precision: 1
+        delimiter: ""
+      storage_units: 
+        format: "%n %u"
+        units: 
+          kb: KB
+          tb: TB
+          gb: GB
+          byte: 
+            one: Byte
+            other: Bytes
+          mb: MB
         
 # Used in array.to_sentence.
   support:
