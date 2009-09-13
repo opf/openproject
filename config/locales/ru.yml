@@ -503,8 +503,8 @@ ru:
   label_history: История
   label_home: Домашняя страница
   label_incoming_emails: Приём сообщений
-  label_index_by_date: Индекс по дате
-  label_index_by_title: Индекс по названию
+  label_index_by_date: История страниц
+  label_index_by_title: Оглавление
   label_information_plural: Информация
   label_information: Информация
   label_in_less_than: менее чем
@@ -914,10 +914,10 @@ ru:
   text_workflow_edit: Выберите роль и трекер для редактирования последовательности состояний
 
   warning_attachments_not_saved: "{{count}} файл(ов) невозможно сохранить."
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
+  text_wiki_page_destroy_question: Эта страница имеет {{descendants}} дочерних страниц и их потомков. Что вы хотите сделать?
+  text_wiki_page_reassign_children: Переопределить дочерние страницы на текущую страницу
+  text_wiki_page_nullify_children: Сделать дочерние страницы главными страницами
+  text_wiki_page_destroy_children: Удалить дочерние страницы и всех их потомков
   setting_password_min_length: Минимальная длина пароля
   field_group_by: Группировать результаты по
   mail_subject_wiki_content_updated: "Wiki-страница '{{page}}' была обновлена"
