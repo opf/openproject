@@ -31,7 +31,6 @@ th.currency,
 td.currency,
 .currency {
   text-align: right;
-  vertical-align: middle;
   white-space: nowrap;
 }
 
