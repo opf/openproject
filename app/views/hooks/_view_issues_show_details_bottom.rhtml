@@ -32,7 +32,7 @@ end
   <%# Only render this partial, if the plugin is enabled for the current project %>
   <tr>
     <td><b><%= l(:label_deliverable) %>:</b></td>
-    <td><% if @issue.deliverable.nil? %>-<%else%><%= link_to h(@issue.deliverable.subject), {:controller => "deliverables", :action => "show", :deliverable_id => @issue.deliverable, :project_id => @project} %><% end %></td>
+    <td><% if @issue.deliverable.nil? %>-<%else%><%= link_to h(@issue.deliverable.subject), {:controller => "deliverables", :action => "show", :id => @issue.deliverable, :project_id => @project} %><% end %></td>
     <% if User.current.allowed_to?(:view_cost_entries, @project) %>
     <td><b><%= l(:label_spent_units) %>:</b></td>
     <td>

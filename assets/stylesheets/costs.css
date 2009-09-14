@@ -16,9 +16,10 @@ table.rates {
   text-align: center;
 }
 
-.deliverable_costs,
-.deliverable_hours {
+.deliverable_costs tr,
+.deliverable_hours tr {
   text-align: center;
+  vertical-align: top;
 }
 
 tr.cost_entry {
@@ -38,14 +39,18 @@ td.currency span {
   padding: 3px 0;
 }
 
-th.units,
-td.units {
+td.units,
+td.subject {
   text-align: left;
 }
 
-table.list td.delete {
-  text-align: center;
-  vertical-align: middle;
+table.deliverable_hours td.hours {
+  font-weight: normal;
+}
+
+
+td.comments {
+  text-align: left;
 }
 
 td.comment input {
