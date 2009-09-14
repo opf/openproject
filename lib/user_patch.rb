@@ -30,15 +30,18 @@ module UserPatch
       HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project_id, date], :order => "valid_from DESC")
     end
     
-    def new_rate_attributes=(rate_attributes)
+    def add_rates(project, rate_attributes)
+      return unless rate_attributes
       rate_attributes.each do |index, attributes|
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
+        attributes[:project] = project
+        
         rates.build(attributes) if attributes[:rate].to_f > 0
       end
     end
 
-    def existing_rate_attributes=(rate_attributes)
-      rates.reject(&:new_record?).each do |rate|
+    def set_existing_rates (project, rate_attributes)
+      rates.reject(&:new_record?).reject{|r| r.project_id != project.id}.each do |rate|
         attributes = rate_attributes[rate.id.to_s]
 
         has_rate = false

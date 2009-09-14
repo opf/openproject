@@ -31,25 +31,12 @@ class HourlyRatesController < ApplicationController
   def edit
     if params[:user].is_a?(Hash)
       new_attributes = params[:user][:new_rate_attributes]
-      new_attributes.each {|a| a[1][:project_id] = @project.id} unless new_attributes.nil?
-      
       existing_attributes = params[:user][:existing_rate_attributes]
-      unless existing_attributes.nil?
-        # this selects all rate_ids for the current user and the current project
-        rate_ids = HourlyRate.count(:conditions => {:user_id => @user, :project_id => @project},
-                         :group => :id,
-                         :select => [:id]).to_hash
-        
-        existing_attributes = existing_attributes.reject{|a| rate_ids.has_key? a.id}
-      end
-    else
-      new_attributes = nil
-      existing_attributes = {}
     end
     
     if request.post?
-      @user.new_rate_attributes = new_attributes if new_attributes
-      @user.existing_rate_attributes = existing_attributes
+      @user.add_rates(@project, new_attributes)
+      @user.set_existing_rates(@project, existing_attributes)
     end
 
     if request.post? && @user.save
