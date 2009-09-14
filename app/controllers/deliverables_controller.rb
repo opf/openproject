@@ -84,7 +84,9 @@ class DeliverablesController < ApplicationController
         @deliverable.copy_from(params[:copy_from])
       end
     end
-    @deliverable ||= Deliverable.new
+    
+    # FIXME: I forcibly create a CostBasedDeliverable for now. Following Ticket #5360
+    @deliverable ||= CostBasedDeliverable.new
     
     @deliverable.project_id = @project.id
     

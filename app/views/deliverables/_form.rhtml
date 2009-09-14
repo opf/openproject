@@ -1,4 +1,7 @@
-<% if @deliverable.new_record? %>
+<%= f.hidden_field :kind %>
+
+<%# if @deliverable.new_record? %>
+<% if false %>
 <p><%= f.select :kind, [[l(:label_cost_based_deliverable), CostBasedDeliverable.name], [l(:label_fixed_deliverable), FixedDeliverable.name]], {:required => true, :prompt => true }, :autocomplete => 'off' %></p>
 <%= observe_field :deliverable_kind, :url => { :action => :new },
                                      :update => :content,
