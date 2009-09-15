@@ -51,12 +51,13 @@ class CostBasedDeliverable < Deliverable
   end
   
   def existing_deliverable_cost_attributes=(deliverable_cost_attributes)
+    p deliverable_cost_attributes
+
     deliverable_costs.reject(&:new_record?).each do |deliverable_cost|
       attributes = deliverable_cost_attributes[deliverable_cost.id.to_s]
       
-      attributes[:budget] = Rate.clean_currency(attributes[:budget])
-      
       if attributes && attributes[:units].to_i > 0
+        attributes[:budget] = Rate.clean_currency(attributes[:budget])
         deliverable_cost.attributes = attributes
       else
         deliverable_costs.delete(deliverable_cost)

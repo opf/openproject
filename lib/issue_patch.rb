@@ -15,6 +15,9 @@ module IssuePatch
       
       belongs_to :deliverable
       has_many :cost_entries, :dependent => :delete_all
+      
+      # disabled for now, implements part of ticket blocking
+      #alias_method_chain :validate, :deliverable
     end
   end
   
@@ -23,6 +26,20 @@ module IssuePatch
   end
   
   module InstanceMethods
+    def validate_with_deliverable
+      if deliverable_id_changed?
+        if deliverable_id_was.nil?
+          # formerly unassigned ticket
+          errors.add :deliverable_id, :activerecord_error_invalid if deliverable.blocked?
+        else
+          old_deliverable = Deliverable.find(deliverable_id_was)
+          errors.add :deliverable_id, :activerecord_error_invalid if old_deliverable.blocked?
+        end
+      end
+      
+      validate_without_deliverable
+    end
+    
     # Wraps the association to get the Deliverable subject.  Needed for the 
     # Query and filtering
     def deliverable_subject
