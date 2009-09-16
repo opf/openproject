@@ -31,15 +31,11 @@ th.currency,
 td.currency,
 .currency {
   text-align: right;
-  white-space: nowrap;
-}
-
-td.currency span {
-  padding: 3px 0;
 }
 
 td.units,
-td.subject {
+td.subject,
+td.comment {
   text-align: left;
 }
 
@@ -47,10 +43,6 @@ table.deliverable_hours td.hours {
   font-weight: normal;
 }
 
-
-td.comments {
-  text-align: left;
-}
 
 td.comment input {
   width: 100%;
@@ -64,7 +56,7 @@ td.comment input {
 }
 
 .inline_editable {
-  background-color: #B4D9B3;
+  cursor: pointer;
 }
 
 table.progress td.exceeded { background: #E1B9B9 none repeat scroll 0%; }

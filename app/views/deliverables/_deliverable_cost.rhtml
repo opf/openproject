@@ -29,7 +29,9 @@
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>
   </td>
   <td class="currency">
-    <span id="<%= "#{id_prefix}_costs" %>"><%= number_to_currency(deliverable_cost.calculated_costs(@deliverable.fixed_date)) %></span>
+    <span id="<%= "#{id_prefix}_costs" %>" class="icon icon-edit" title="<%= l(:help_click_to_edit) %>">
+      <%= number_to_currency(deliverable_cost.calculated_costs(@deliverable.fixed_date)) %>
+    </span>
     <%= update_page_tag do |page|
       page << "makeEditable('#{id_prefix}_costs', '#{name_prefix}[budget]');"
       page << "edit($('#{id_prefix}_costs'), '#{name_prefix}[budget]', '#{number_to_currency(deliverable_cost.budget)}');" if deliverable_cost.budget

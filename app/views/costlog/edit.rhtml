@@ -21,7 +21,9 @@
     <p>
       <label><%= l(:field_costs) %></label>
       <% if User.current.allowed_to? :view_unit_price, @cost_entry.project %>
-        <span id="cost_entry_costs"><%= number_to_currency(@cost_entry.calculated_costs) %></span>
+        <span id="cost_entry_costs" class="icon icon-edit" title="<%= l(:help_click_to_edit) %>">
+          <%= number_to_currency(@cost_entry.calculated_costs) %>
+        </span>
         <%= update_page_tag do |page|
           page << "makeEditable('cost_entry_costs', 'cost_entry[costs]');"
           page << "edit($('cost_entry_costs'), 'cost_entry[overridden_costs]', '#{number_to_currency(@cost_entry.overridden_costs)}');" if @cost_entry.overridden_costs
@@ -42,4 +44,5 @@
 
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'editinplace', :plugin => 'redmine_costs' %>
+  <%= javascript_tag "initialize_editinplace('src=\"#{image_path('cancel.png')}\" value=\"#{l(:label_cancel)}\"' )" %>
 <% end %>

@@ -1,14 +1,17 @@
+function initialize_editinplace(cancelButtonAttributes) {
+  _cancelButtonAttributes = cancelButtonAttributes;
+}
+
 function getCurrencyValue(str) {
-  var result = str.match(/^(([0-9]+[.,])+[0-9]+) (.+)/);
-  return new Array(result[1], result[3]);
+  var result = str.trim().match(/^(([0-9]+[.,])+[0-9]+) (.+)/);
+  return result ? new Array(result[1], result[3]) : new Array(str, "");
 }
 
 function makeEditable(id, name){
-  var obj = $(id)
-  
+  var obj = $(id);
+  obj.addClassName("inline_editable");
   Event.observe(id, 'click', function(){edit_and_focus(obj, name)}, false);
-  Event.observe(id, 'mouseover', function(){showAsEditable(obj)}, false);
-  Event.observe(id, 'mouseout', function(){showAsEditable(obj, true)}, false);
+  
 }
 
 function edit_and_focus(obj, name) {
@@ -27,24 +30,17 @@ function edit(obj, name, obj_value) {
   var currency = parsed[1]
   
   
-  var button = '<span id="'+obj.id+'_editor"><input id="'+obj.id+'_cancel" type="image" src="/images/cancel.png" value="CANCEL" /> ';
-  var text = '<input id="'+obj.id+'_edit" name="'+name+'" size="7" value="'+value+'" class="currency"/> '+currency+'</span>';
+  var span_in = '<span id="'+obj.id+'_editor">'
+    var text = '<input id="'+obj.id+'_edit" name="'+name+'" size="7" value="'+value+'" class="currency"/> '+currency;
+    var button = '<input id="'+obj.id+'_cancel" type="image" '+ _cancelButtonAttributes  +' /> ';
+  var span_end = '</span>';
   
-  new Insertion.After(obj, button+text);
+  new Insertion.After(obj, span_in+text+button+span_end);
 
   Event.observe(obj.id+'_cancel', 'click', function(){cleanUp(obj)}, false);
 }
 
-function showAsEditable(obj, clear){
-  if (!clear){
-    Element.addClassName(obj, 'inline_editable');
-  }else{
-    Element.removeClassName(obj, 'inline_editable');
-  }
-}
-
-function cleanUp(obj, keepEditable){
+function cleanUp(obj){
   Element.remove(obj.id+'_editor');
   Element.show(obj);
-  if (!keepEditable) showAsEditable(obj, true);
 }

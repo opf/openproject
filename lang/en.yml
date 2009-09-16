@@ -1,6 +1,7 @@
 project_module_costs_module: "Costs Management"
 cost_types_title: "Cost Types"
 deliverables_title: "Cost Control"
+cost_report_title: "Cost Report"
 
 currency_delimiter: ","
 currency_separator: "."
@@ -18,10 +19,12 @@ permission_view_cost_entries: "View booked costs"
 permission_view_deliverables: "View deliverables"
 permission_edit_deliverables: "Edit deliverables"
 
-label_currency: "Currency"
-label_currency_format: "Format of currency"
 help_currency_format: "Format of displayed currency values. %%n is replaced with the currency value, %%u ist replaced with the currency unit."
 help_override_rate: "Enter a value here to override the default rate."
+help_click_to_edit: "Click here to edit."
+
+label_currency: "Currency"
+label_currency_format: "Format of currency"
 label_deliverable: "Deliverable"
 label_deliverable_plural: "Deliverables"
 label_deliverable_new: "New Deliverable"
