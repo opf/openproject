@@ -55,12 +55,12 @@ Redmine::Plugin.register :redmine_costs do
   # Menu extensions
   menu :top_menu, :cost_types, {:controller => 'cost_types', :action => 'index'},
     :caption => :cost_types_title, :if => Proc.new { User.current.admin? }
-  menu :top_menu, :cost_report, {:controller => 'cost_report', :action => 'index'},
-    :caption => :cost_report_title,
-    :if => Proc.new {
-      User.current.allowed_to?(:view_deliverables, nil, :global => true) ||
-      User.current.allowed_to?(:edit_deliverables, nil, :global => true)
-    }
+  # menu :top_menu, :cost_report, {:controller => 'cost_report', :action => 'index'},
+  #   :caption => :cost_report_title,
+  #   :if => Proc.new {
+  #     User.current.allowed_to?(:view_deliverables, nil, :global => true) ||
+  #     User.current.allowed_to?(:edit_deliverables, nil, :global => true)
+  #   }
 
   menu :project_menu, :deliverables, {:controller => 'deliverables', :action => 'index'},
     :param => :project_id, :after => :new_issue, :caption => :deliverables_title
