@@ -1,15 +1,8 @@
-<%
-  rates = @rates unless rates
-  project = @project unless project
-%>
-
 <div class="contextual">
-<% if project && User.current.allowed_to?({:controller => 'hourly_rates', :action => 'edit'}, project) %>
-  <%= link_to l(:button_update), {:controller => 'hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
-<% end %>
+<%= link_to l(:button_update), {:controller => 'hourly_rates', :action => 'edit', :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 </div>
-<h3><%=h project.name %></h3>
-<% if rates.empty? %>
+<h3><%= l(:caption_default_rates) %></h3>
+<% if @rates_default.blank? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
 <table class="list rates">
@@ -19,8 +12,8 @@
     <th><%= l(:caption_current_rate) %></th>
   </tr></thead>
   <tbody id="rates_body">
-  <% current_rate = @user.current_rate(project, false) %>
-  <%- rates.each do |rate| -%>
+  <% current_rate = @user.current_default_rate() %>
+  <%- @rates_default.each do |rate| -%>
     <tr class="<%= cycle('odd', 'even') %>">
       <td style="padding-right: 1em;"><%= rate.valid_from %></td>
       <td class="currency"><%= number_to_currency(rate.rate) %></td>

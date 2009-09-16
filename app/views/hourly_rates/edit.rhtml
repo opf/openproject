@@ -1,4 +1,9 @@
-<h2><%= l(:caption_rate_history_for, @user.name) %></h2>
+<h2><%= @project.nil? ? l(:caption_default_rate_history_for, @user.name) :  l(:caption_rate_history_for_project, @user.name, @project.name) %></h2>
+
+<%- default_rate = @user.current_default_rate -%>
+<% if default_rate%>
+<p><strong><%= l(:label_current_default_rate) %>:</strong> <%= number_to_currency(default_rate.rate)%></p>
+<% end %>
 
 <% javascript_tag do -%>
   RatesForm = new Subform('<%= escape_javascript(render(:partial => "rate", :object => HourlyRate.new )) %>',<%= @rates.length %>,'rates_body');

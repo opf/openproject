@@ -12,6 +12,8 @@ module UserPatch
     base.class_eval do
       unloadable
       has_many :rates, :class_name => 'HourlyRate'
+      has_many :default_rates, :class_name => 'DefaultHourlyRate'
+      
       after_update :save_rates
     end
 
@@ -22,38 +24,49 @@ module UserPatch
   end
 
   module InstanceMethods
-    def current_rate(project_id)
-      rate_at(Date.today, project_id)
+    def current_rate(project_id, include_default = true)
+      rate_at(Date.today, project_id, include_default)
     end
     
-    def rate_at(date, project_id)
-      HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project_id, date], :order => "valid_from DESC")
+    def rate_at(date, project_id, include_default = true)
+      rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project_id, date], :order => "valid_from DESC")
+      rate ||= default_rate_at(date) if include_default
+      rate
+    end
+    
+    def current_default_rate()
+      default_rate_at(Date.today)
+    end
+
+    def default_rate_at(date)
+      DefaultHourlyRate.find(:first, :conditions => [ "user_id = ? and valid_from <= ?", id, date], :order => "valid_from DESC")
     end
     
     def add_rates(project, rate_attributes)
+      # set project to nil to set the default rates
+      
       return unless rate_attributes
+      
       rate_attributes.each do |index, attributes|
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
-        attributes[:project] = project
         
-        rates.build(attributes) if attributes[:rate].to_f > 0
+        if project.nil?
+          default_rates.build(attributes) if attributes[:rate].to_f > 0
+        else
+          attributes[:project] = project
+          rates.build(attributes) if attributes[:rate].to_f > 0
+        end
       end
     end
 
     def set_existing_rates (project, rate_attributes)
-      rates.reject(&:new_record?).reject{|r| r.project_id != project.id}.each do |rate|
-        attributes = rate_attributes[rate.id.to_s]
-
-        has_rate = false
-        if attributes && attributes[:rate]
-          attributes[:rate] = Rate.clean_currency(attributes[:rate])
-          has_rate = attributes[:rate].to_f > 0
+      if project.nil?
+        default_rates.reject(&:new_record?).each do |rate|
+          update_rate(rate, rate_attributes, false)
         end
-
-        if has_rate
-          rate.attributes = attributes
-        else
-          rates.delete(rate)
+      else
+        rates.reject{|r| r.new_record? || r.project_id != project.id}.each do |rate|
+          update_rate(rate, rate_attributes, true)
         end
       end
     end
@@ -64,5 +77,22 @@ module UserPatch
       end
     end
     
+    
+  private
+    def update_rate(rate, rate_attributes, project_rate = true)
+      attributes = rate_attributes[rate.id.to_s] if rate_attributes
+
+      has_rate = false
+      if attributes && attributes[:rate]
+        attributes[:rate] = Rate.clean_currency(attributes[:rate])
+        has_rate = attributes[:rate].to_f > 0
+      end
+
+      if has_rate
+        rate.attributes = attributes
+      else
+        project_rate ? rates.delete(rate) : default_rates.delete(rate)
+      end
+    end
   end
 end

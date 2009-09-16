@@ -9,11 +9,11 @@ class HourlyRatesController < ApplicationController
   
   before_filter :find_user, :only => [:show, :edit, :set_rate]
   
-  before_filter :find_optional_project, :only => [:show]
-  before_filter :find_project, :only => [:edit, :set_rate]
+  before_filter :find_optional_project, :only => [:show, :edit]
+  before_filter :find_project, :only => [:set_rate]
   
-  # #show has its own authorization
-  before_filter :authorize, :except => [:show]
+  # #show and #edit have their own authorization
+  before_filter :authorize, :except => [:show, :edit]
   
   def show
     if @project
@@ -24,11 +24,14 @@ class HourlyRatesController < ApplicationController
           :order => "#{HourlyRate.table_name}.valid_from desc")
     else
       @rates = HourlyRate.history_for_user(@user, true)
+      @rates_default = @rates.delete(nil)
       render_403 and return if @rates.empty?
     end
   end
   
   def edit
+    render_403 and return if @project && !User.current.allowed_to?(:change_rates, @project)
+
     if params[:user].is_a?(Hash)
       new_attributes = params[:user][:new_rate_attributes]
       existing_attributes = params[:user][:existing_rate_attributes]
@@ -41,10 +44,21 @@ class HourlyRatesController < ApplicationController
 
     if request.post? && @user.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default(:action => 'show', :id => @user, :project_id => @project)
+      if @project.nil?
+        redirect_back_or_default(:action => 'show', :id => @user)
+      else
+        redirect_back_or_default(:action => 'show', :id => @user, :project_id => @project)
+      end
     else
-      @rates = @user.rates.select{|r| r.project_id == @project.id}.sort { |a,b| b.valid_from <=> a.valid_from }
-      @rates << @user.rates.build({:valid_from => Date.today, :project_id => @project}) if @rates.empty?
+      if @project.nil?
+        @rates = DefaultHourlyRate.find(:all,
+          :conditions => {:user_id => @user},
+          :order => "#{DefaultHourlyRate.table_name}.valid_from desc")
+        @rates << @user.default_rates.build({:valid_from => Date.today}) if @rates.empty?
+      else
+        @rates = @user.rates.select{|r| r.project_id == @project.id}.sort { |a,b| b.valid_from <=> a.valid_from }
+        @rates << @user.rates.build({:valid_from => Date.today, :project_id => @project}) if @rates.empty?
+      end
       render :action => "edit", :layout => !request.xhr?
     end 
   end
@@ -79,7 +93,7 @@ private
   end
   
   def find_optional_project
-    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
+    @project = params[:project_id].blank? ? nil : Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

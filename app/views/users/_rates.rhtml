@@ -1,6 +1,10 @@
 <h2><%= l(:caption_rate_history) %></h2>
+<%
+  @rates = HourlyRate.history_for_user(@user)
+  @rates_default = @rates.delete(nil)
+%>
 
-<% @rates = HourlyRate.history_for_user(@user) %>
+<%= render :partial => 'hourly_rates/list_default' %>
 <%= render :partial => 'hourly_rates/list' %>
 
 <% content_for :header_tags do %>
