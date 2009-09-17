@@ -30,7 +30,7 @@ function edit(obj, name, obj_value) {
   var currency = parsed[1]
   
   var span_in = '<span id="'+obj.id+'_editor">'
-    var text = '<input id="'+obj.id+'_edit" name="'+name+'" size="7" value="'+value+'"/> '+currency;
+    var text = '<input id="'+obj.id+'_edit" name="'+name+'" size="7" value="'+value+'" class="currency" /> '+currency;
     var button = '<input id="'+obj.id+'_cancel" type="image" '+ _cancelButtonAttributes  +' /> ';
   var span_end = '</span>';
   
