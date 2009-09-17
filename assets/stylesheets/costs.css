@@ -45,7 +45,7 @@ table.deliverable_hours td.hours {
 
 
 td.comment input {
-  width: 100%;
+  width: 99%; /* not 100% for IE6 */
 }
 
 .tabular div.p {
