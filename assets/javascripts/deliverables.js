@@ -7,7 +7,6 @@ function deleteDeliverableCost(id) {
   Element.stopObserving (id + '_units')
   
   // delete the row
-  e.next().remove();
   e.remove();
   
   // fix the markup classes
@@ -16,14 +15,13 @@ function deleteDeliverableCost(id) {
 
 function deleteDeliverableHour(id) {
   var e = $(id),
-   parent = e.up();
+  parent = e.up();
    
   // de-register observers
   Element.stopObserving (id + '_user_id')
   Element.stopObserving (id + '_hours')
   
   // delete the row
-  e.next().remove();
   e.remove();
 
   // fix the markup classes

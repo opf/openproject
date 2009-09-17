@@ -38,7 +38,7 @@
     end %>
   </td>
   <td class="delete">
-    <%= image_to_function 'delete.png', "deleteDeliverableCost('#{id_prefix}')" %>
+    <%= link_to_function image_tag('delete.png'), "deleteDeliverableCost('#{id_prefix}')" %>
   </td>
 </tr>
 <% end %>
