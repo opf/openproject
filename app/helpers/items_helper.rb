@@ -19,8 +19,8 @@ module ItemsHelper
   end
   
   def issue_id_or_default(item)
-    item.new_record? ? "#<span class='issue_id'>0</span>" : 
-                       link_to("#<span class='issue_id'>#{item.issue.id}</span>", :controller => "issues", :action => "show", :id => item.issue.id)
+    item.new_record? ? "<span class='issue_id'>0</span>" : 
+                       link_to("<span class='issue_id'>#{item.issue.id}</span>", :controller => "issues", :action => "show", :id => item.issue.id)
   end
   
   def mark_if_closed(item)
