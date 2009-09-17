@@ -31,6 +31,7 @@ th.currency,
 td.currency,
 .currency {
   text-align: right;
+  white-space: nowrap;
 }
 
 td.units,
