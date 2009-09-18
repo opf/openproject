@@ -1,11 +1,11 @@
-class DeliverablesController < ApplicationController
+class CostObjectsController < ApplicationController
   unloadable
 
-  before_filter :find_deliverable, :only => [:show, :edit]
-  before_filter :find_deliverables, :only => [:bulk_edit, :destroy]
+  before_filter :find_cost_object, :only => [:show, :edit]
+  before_filter :find_cost_objects, :only => [:bulk_edit, :destroy]
   before_filter :find_project, :only => [
     :preview, :new,
-    :update_deliverable_cost, :update_deliverable_hour
+    :update_material_budget_item, :update_labor_budget_item
   ]
   before_filter :find_optional_project, :only => [:index]
 
@@ -14,8 +14,7 @@ class DeliverablesController < ApplicationController
   before_filter :authorize, :except => [
     # unrestricted actions
     :index, :preview, :context_menu,
-
-    :update_deliverable_cost, :update_deliverable_hour
+    :update_material_budget_item, :update_labor_budget_item
     ]
   
   verify :method => :post, :only => [:bulk_edit, :destroy],
@@ -29,8 +28,8 @@ class DeliverablesController < ApplicationController
   include AttachmentsHelper
   helper :costlog
   include CostlogHelper
-  helper :deliverables
-  include DeliverablesHelper
+  helper :cost_objects
+  include CostObjectsHelper
   include Redmine::Export::PDF
   
   def index
@@ -42,9 +41,9 @@ class DeliverablesController < ApplicationController
     end
     
 
-    sort_columns = {'id' => "#{Deliverable.table_name}.id",
-                    'subject' => "#{Deliverable.table_name}.subject",
-                    'fixed_date' => "#{Deliverable.table_name}.fixed_date"
+    sort_columns = {'id' => "#{CostObject.table_name}.id",
+                    'subject' => "#{CostObject.table_name}.subject",
+                    'fixed_date' => "#{CostObject.table_name}.fixed_date"
     }
 
     sort_init "id", "desc"
@@ -52,58 +51,58 @@ class DeliverablesController < ApplicationController
     
     conditions = @project ? {:project_id => @project} : {}
 
-    @deliverable_count = Deliverable.count(:include => [:project], :conditions => conditions)
-    @deliverable_pages = Paginator.new self, @deliverable_count, limit, params[:page]
-    @deliverables = Deliverable.find :all, :order => sort_clause,
+    @cost_object_count = CostObject.count(:include => [:project], :conditions => conditions)
+    @cost_object_pages = Paginator.new self, @cost_object_count, limit, params[:page]
+    @cost_objects = CostObject.find :all, :order => sort_clause,
                                      :include => [:project],
                                      :conditions => conditions,
                                      :limit => limit,
-                                     :offset => @deliverable_pages.current.offset
+                                     :offset => @cost_object_pages.current.offset
 
     respond_to do |format|
       format.html { render :action => 'index', :layout => !request.xhr? }
-      format.csv  { send_data(deliverables_to_csv(@deliverables, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
-      format.pdf  { send_data(deliverables_to_pdf(@deliverables, @project), :type => 'application/pdf', :filename => 'export.pdf') }
+      format.csv  { send_data(cost_objects_to_csv(@cost_objects, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
+      format.pdf  { send_data(cost_objects_to_pdf(@cost_objects, @project), :type => 'application/pdf', :filename => 'export.pdf') }
     end
   end
   
   def show
-    @edit_allowed = User.current.allowed_to?(:edit_deliverables, @project)
+    @edit_allowed = User.current.allowed_to?(:edit_cost_objects, @project)
     respond_to do |format|
       format.html { render :action => 'show', :layout => !request.xhr?  }
     end
   end
   
   def new
-    if params[:deliverable]
-      @deliverable = create_deliverable(params[:deliverable].delete(:kind))
+    if params[:cost_object]
+      @cost_object = create_cost_object(params[:cost_object].delete(:kind))
     elsif params[:copy_from]
-      source = Deliverable.find(params[:copy_from])
+      source = CostObject.find(params[:copy_from])
       if source
-        @deliverable = create_deliverable(source.kind)
-        @deliverable.copy_from(params[:copy_from])
+        @cost_object = create_cost_object(source.kind)
+        @cost_object.copy_from(params[:copy_from])
       end
     end
     
-    # FIXME: I forcibly create a CostBasedDeliverable for now. Following Ticket #5360
-    @deliverable ||= CostBasedDeliverable.new
+    # FIXME: I forcibly create a VariableCostObject for now. Following Ticket #5360
+    @cost_object ||= VariableCostObject.new
     
-    @deliverable.project_id = @project.id
+    @cost_object.project_id = @project.id
     
-    # fixed_date must be set before deliverable_costs and deliverable_hours
-    if params[:deliverable] && params[:deliverable][:fixed_date]
-      @deliverable.fixed_date = params[:deliverable].delete(:fixed_date)
+    # fixed_date must be set before material_budget_items and labor_budget_items
+    if params[:cost_object] && params[:cost_object][:fixed_date]
+      @cost_object.fixed_date = params[:cost_object].delete(:fixed_date)
     else
-      @deliverable.fixed_date = Date.today
+      @cost_object.fixed_date = Date.today
     end
     
-    @deliverable.attributes = params[:deliverable]
+    @cost_object.attributes = params[:cost_object]
 
     unless request.get? || request.xhr?
-      if @deliverable.save
+      if @cost_object.save
         flash[:notice] = l(:notice_successful_create)
         redirect_to(params[:continue] ? { :action => 'new' } :
-                                        { :action => 'show', :id => @deliverable })
+                                        { :action => 'show', :id => @cost_object })
         return
       end
     end
@@ -115,17 +114,17 @@ class DeliverablesController < ApplicationController
   EDIT_BLACK_LIST = %w(kind type)
   
   def edit
-    if params[:deliverable]
-      attrs = params[:deliverable].dup
+    if params[:cost_object]
+      attrs = params[:cost_object].dup
       attrs.delete_if {|k,v| EDIT_BLACK_LIST.include?(k)}
       
-      @deliverable.attributes = attrs
+      @cost_object.attributes = attrs
     end
     
     if request.post?
-      if @deliverable.save
+      if @cost_object.save
         flash[:notice] = l(:notice_successful_update)
-        redirect_to(params[:back_to] || {:action => 'show', :id => @deliverable})
+        redirect_to(params[:back_to] || {:action => 'show', :id => @cost_object})
       end
     end 
   rescue ActiveRecord::StaleObjectError
@@ -134,19 +133,19 @@ class DeliverablesController < ApplicationController
   end
   
   def destroy
-    @deliverables.each(&:destroy)
+    @cost_objects.each(&:destroy)
     flash[:notice] = l(:notice_successful_delete)
     redirect_to :action => 'index', :project_id => @project
   end
   
   def preview
-    @deliverable = Deliverables.find_by_id(params[:id]) unless params[:id].blank?
-    @text = params[:notes] || (params[:deliverable] ? params[:deliverable][:description] : nil)
+    @cost_object = CostObjects.find_by_id(params[:id]) unless params[:id].blank?
+    @text = params[:notes] || (params[:cost_object] ? params[:cost_object][:description] : nil)
     
     render :partial => 'common/preview'
   end
   
-  def update_deliverable_cost
+  def update_material_budget_item
     element_id = params[:element_id] if params.has_key? :element_id
     
     cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
@@ -166,7 +165,7 @@ class DeliverablesController < ApplicationController
     render_404
   end
   
-  def update_deliverable_hour
+  def update_labor_budget_item
     element_id = params[:element_id] if params.has_key? :element_id
     
     user = User.find(params[:user_id])
@@ -188,36 +187,36 @@ class DeliverablesController < ApplicationController
   end
 
 private
-  def create_deliverable(kind)
+  def create_cost_object(kind)
     case kind
-    when FixedDeliverable.name
-      FixedDeliverable.new
-    when CostBasedDeliverable.name
-      CostBasedDeliverable.new
+    when FixedCostObject.name
+      FixedCostObject.new
+    when VariableCostObject.name
+      VariableCostObject.new
     else
-      Deliverable.new
+      CostObject.new
     end
   end
   
-  def find_deliverable
+  def find_cost_object
     # This function comes directly from issues_controller.rb (Redmine 0.8.4)
-    @deliverable = Deliverable.find(params[:id], :include => [:project, :author])
-    @project = @deliverable.project
+    @cost_object = CostObject.find(params[:id], :include => [:project, :author])
+    @project = @cost_object.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
   
-  def find_deliverables
+  def find_cost_objects
     # This function comes directly from issues_controller.rb (Redmine 0.8.4)
     
-    @deliverables = Deliverable.find_all_by_id(params[:id] || params[:ids])
-    raise ActiveRecord::RecordNotFound if @deliverables.empty?
-    projects = @deliverables.collect(&:project).compact.uniq
+    @cost_objects = CostObject.find_all_by_id(params[:id] || params[:ids])
+    raise ActiveRecord::RecordNotFound if @cost_objects.empty?
+    projects = @cost_objects.collect(&:project).compact.uniq
     if projects.size == 1
       @project = projects.first
     else
-      # TODO: let users bulk edit/move/destroy deliverables from different projects
-      render_error 'Can not bulk edit/move/destroy deliverables from different projects' and return false
+      # TODO: let users bulk edit/move/destroy cost_objects from different projects
+      render_error 'Can not bulk edit/move/destroy cost objects from different projects' and return false
     end
   rescue ActiveRecord::RecordNotFound
     render_404

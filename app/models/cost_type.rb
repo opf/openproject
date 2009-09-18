@@ -1,7 +1,7 @@
 class CostType < ActiveRecord::Base
   unloadable
   
-  has_many :deliverable_costs
+  has_many :material_budget_items
   has_many :cost_entries, :dependent => :destroy
   has_many :rates, :class_name => "CostRate", :foreign_key => "cost_type_id", :dependent => :destroy
   
@@ -18,9 +18,11 @@ class CostType < ActiveRecord::Base
   
   # finds the default CostType
   def self.default
-    CostType.find(:first, :conditions => { :default => true})
+    result = CostType.find(:first, :conditions => { :default => true})
+    result ||= CostType.find(:first)
+    result
   rescue ActiveRecord::RecordNotFound
-    CostType.find(:first)
+    nil
   end
   
   def is_default?

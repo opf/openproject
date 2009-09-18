@@ -1,28 +1,28 @@
-<h2><%=l(:label_deliverable_new)%></h2>
+<h2><%=l(:label_cost_object_new)%></h2>
 
-<% labelled_tabular_form_for :deliverable, @deliverable,
-                             :html => {:multipart => true, :id => 'deliverable-form'} do |f| %>
-    <%= error_messages_for 'deliverable' %>
+<% labelled_tabular_form_for :cost_object, @cost_object,
+                             :html => {:multipart => true, :id => 'cost_object_form'} do |f| %>
+    <%= error_messages_for 'cost_object' %>
     <div class="box">
     <%= render :partial => 'form', :locals => {:f => f} %>
     </div>
     <%= submit_tag l(:button_create) %>
     <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
     <%= link_to_remote l(:label_preview), 
-                       { :url => { :controller => 'deliverables', :action => 'preview', :project_id => @project },
+                       { :url => { :controller => 'cost_objects', :action => 'preview', :project_id => @project },
                          :method => 'post',
                          :update => 'preview',
-                         :with => "Form.serialize('deliverable-form')",
+                         :with => "Form.serialize('cost_object_form')",
                          :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %>
      
-    <%= javascript_tag "Form.Element.focus('deliverable_subject');" %>
+    <%= javascript_tag "Form.Element.focus('cost_object_subject');" %>
 <% end %>
 
 <div id="preview" class="wiki"></div>
 
 <% content_for :sidebar do %>
-    <%= render :partial => 'deliverables/sidebar' %>
+    <%= render :partial => 'cost_objects/sidebar' %>
 <% end %>
 
 <% content_for :header_tags do %>

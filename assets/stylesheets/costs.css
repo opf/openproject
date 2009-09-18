@@ -6,8 +6,8 @@
   background-image: url(../images/box.png);
 }
 
-table.deliverable_costs,
-table.deliverable_hours {
+table.material_budget_items,
+table.labor_budget_items {
   width: 100%;
 }
 
@@ -16,8 +16,8 @@ table.rates {
   text-align: center;
 }
 
-.deliverable_costs tr,
-.deliverable_hours tr {
+.material_budget_items tr,
+.labor_budget_items tr {
   text-align: center;
   vertical-align: top;
 }
@@ -40,7 +40,7 @@ td.comment {
   text-align: left;
 }
 
-table.deliverable_hours td.hours {
+table.labor_budget_items td.hours {
   font-weight: normal;
 }
 

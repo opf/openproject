@@ -1,15 +1,15 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_add_deliverable), {:controller => 'deliverables', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
+<%= link_to_if_authorized l(:button_add_cost_object), {:controller => 'cost_objects', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
 </div>
 
-<h2><%=l(:label_deliverable_plural)%></h2>
-<% html_title(l(:label_deliverable_plural)) %>
+<h2><%=l(:label_cost_object_plural)%></h2>
+<% html_title(l(:label_cost_object_plural)) %>
     
-<% if @deliverables.empty? %>
+<% if @cost_objects.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<%= render :partial => 'list', :locals => {:deliverables => @deliverables} %>
-<p class="pagination"><%= pagination_links_full @deliverable_pages, @deliverable_count %></p>
+<%= render :partial => 'list', :locals => {:cost_objects => @cost_objects} %>
+<p class="pagination"><%= pagination_links_full @cost_object_pages, @cost_object_count %></p>
 <% end %>
 
 <p class="other-formats">
@@ -24,7 +24,7 @@
 </p>
 
 <% content_for :sidebar do %>
-    <%= render :partial => 'deliverables/sidebar' %>
+    <%= render :partial => 'cost_objects/sidebar' %>
 <% end %>
 
 <% content_for :header_tags do %>
@@ -34,7 +34,7 @@
     <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
 <% end %>
 
-<% html_title l(:label_deliverable_plural) %>
+<% html_title l(:label_cost_object_plural) %>
 
 <div id="context-menu" style="display: none;"></div>
-<%= javascript_tag "new ContextMenu('#{url_for(:controller => 'deliverables', :action => 'context_menu')}')" %>
+<%= javascript_tag "new ContextMenu('#{url_for(:controller => 'cost_objects', :action => 'context_menu')}')" %>

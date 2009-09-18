@@ -1,9 +1,9 @@
-<% labelled_tabular_form_for :deliverable, @deliverable,
-                             :url => {:action => 'edit', :id => @deliverable},
+<% labelled_tabular_form_for :cost_object, @cost_object,
+                             :url => {:action => 'edit', :id => @cost_object},
                              :html => {:multipart => true,
-                                       :id => 'deliverable-form',
+                                       :id => 'cost_object_form',
                                        :class => nil} do |f| %>
-    <%= error_messages_for 'deliverable' %>
+    <%= error_messages_for 'cost_object' %>
     <div class="box">
     <div class="tabular">
       <%= render :partial => 'form', :locals => {:f => f} %>
@@ -14,10 +14,10 @@
     </div>
     <%= submit_tag l(:button_submit) %>
     <%= link_to_remote l(:label_preview), 
-                       { :url => { :controller => 'deliverables', :action => 'preview', :project_id => @project },
+                       { :url => { :controller => 'cost_objects', :action => 'preview', :project_id => @project },
                          :method => 'post',
                          :update => 'preview',
-                         :with => "Form.serialize('deliverable-form')",
+                         :with => "Form.serialize('cost_object_form')",
                          :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %>
 <% end %>
@@ -27,5 +27,5 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>
   <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
-  <%= javascript_include_tag 'deliverables', :plugin => 'redmine_costs' %>
+  <%= javascript_include_tag 'cost_objects', :plugin => 'redmine_costs' %>
 <% end %>

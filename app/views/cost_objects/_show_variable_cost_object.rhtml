@@ -1,8 +1,8 @@
-<h3><%=  l(:caption_materials) %></h3>
+<h3><%= l(:caption_materials) %></h3>
 <div style="float: left; width: 100%">
 <div class="splitcontentleft">
   <h4><%= l(:caption_material_budget)%></h4>
-  <table class="deliverable_costs">
+  <table class="material_budget_items">
     <thead><tr>
       <th><%= l(:caption_cost_unit_plural)%></th>
       <th><%= l(:caption_cost_type) %></th>
@@ -10,21 +10,21 @@
       <th><%= l(:caption_budget) %></th>
     </tr></thead>
     <tbody>
-      <% @deliverable.deliverable_costs.each do |deliverable_cost| %>
+      <% @cost_object.material_budget_items.each do |material_budget_item| %>
       <tr>
-        <td class="units"><%=h pluralize(deliverable_cost.units, deliverable_cost.cost_type.unit, deliverable_cost.cost_type.unit_plural) %></td>
-        <td><%=h deliverable_cost.cost_type.name %></td>
-        <td class="comments"><%=h deliverable_cost.comments %></td>
-        <td class="currency"><%= number_to_currency(deliverable_cost.costs) %></td>
+        <td class="units"><%=h pluralize(material_budget_item.units, material_budget_item.cost_type.unit, material_budget_item.cost_type.unit_plural) %></td>
+        <td><%=h material_budget_item.cost_type.name %></td>
+        <td class="comments"><%=h material_budget_item.comments %></td>
+        <td class="currency"><%= number_to_currency(material_budget_item.costs) %></td>
       </tr>
       <% end %>
-      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@deliverable.material_budget) %></strong></td></tr>
+      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.material_budget) %></strong></td></tr>
     </tbody>
   </table>
 </div>
 <div class="splitcontentright">
   <h4><%= l(:caption_material_costs) %></h4>
-  <table class="deliverable_costs">
+  <table class="material_budget_items">
     <thead><tr>
       <th><%= l(:caption_issue)%></th>
       <th><%= l(:caption_cost_unit_plural) %></th>
@@ -32,11 +32,11 @@
       <th><%= l(:caption_costs) %></th>
     </tr></thead>
     <tbody>
-    <% @deliverable.issues.each do |issue|
+    <% @cost_object.issues.each do |issue|
       cost_entries = issue.cost_entries.inject(Hash.new)  do |results, entry|
         result = results[entry.cost_type.id.to_s]
         unless result
-          result = CostEntry.new(:cost_type => entry.cost_type, :deliverable => @deliverable, :overridden_costs => 0.0, :units => 0)
+          result = CostEntry.new(:cost_type => entry.cost_type, :cost_object => @cost_object, :overridden_costs => 0.0, :units => 0)
           results[entry.cost_type.id.to_s] = result
         end  
         
@@ -55,7 +55,7 @@
         </tr>
       <% end %>
     <% end %>
-      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@deliverable.spent_material) %></strong></td></tr>
+      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.spent_material) %></strong></td></tr>
     </tbody>
   </table>
 </div>
@@ -65,7 +65,7 @@
 
 <div class="splitcontentleft">
   <h4><%= l(:caption_labor_budget)%></h4>
-  <table class="deliverable_hours">
+  <table class="labor_budget_items">
     <thead><tr>
       <th><%= l(:field_hours)%></th>
       <th><%= l(:label_user) %></th>
@@ -73,16 +73,16 @@
       <th><%= l(:caption_budget) %></th>
     </tr></thead>
     <tbody>
-      <% @deliverable.deliverable_hours.each do |deliverable_hour| %>
+      <% @cost_object.labor_budget_items.each do |labor_budget_item| %>
       <tr>
-        <td class="hours"><%= deliverable_hour.hours %>h</td>
-        <td><%=h deliverable_hour.user.name %></td>
-        <td class="comments"><%=h deliverable_hour.comments %></td>
-        <td class="currency"><%= number_to_currency(deliverable_hour.costs) %></td>
+        <td class="hours"><%= labor_budget_item.hours %>h</td>
+        <td><%=h labor_budget_item.user.name %></td>
+        <td class="comments"><%=h labor_budget_item.comments %></td>
+        <td class="currency"><%= number_to_currency(labor_budget_item.costs) %></td>
       </tr>
       <% end %>
       <% if User.current.allowed_to?(:view_all_rates, @project) %>
-      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@deliverable.labor_budget) %></strong></td></tr>
+      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.labor_budget) %></strong></td></tr>
       <% end %>
     </tbody>
   </table>
@@ -90,7 +90,7 @@
 
 <div class="splitcontentright">
   <h4><%= l(:caption_labor_costs) %></h4>
-  <table class="deliverable_hours">
+  <table class="labor_budget_items">
     <thead><tr>
       <th><%= l(:caption_issue)%></th>
       <th><%= l(:field_hours)%></th>
@@ -98,7 +98,7 @@
       <th><%= l(:caption_costs) %></th>
     </tr></thead>
     <tbody>
-    <% @deliverable.issues.each do |issue|
+    <% @cost_object.issues.each do |issue|
       time_entries = issue.time_entries.inject(Hash.new)  do |results, entry|
         result = results[entry.user.id.to_s]
         unless result
@@ -121,7 +121,7 @@
         </tr>
       <% end %>
     <% end %>
-      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@deliverable.spent_labor) %></strong></td></tr>
+      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.spent_labor) %></strong></td></tr>
 
     </tbody>
   </table>

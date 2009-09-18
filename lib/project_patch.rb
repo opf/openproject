@@ -2,7 +2,7 @@
 #require 'project'
 
 # Patches Redmine's Issues dynamically.  Adds a relationship 
-# Issue +belongs_to+ to Deliverable
+# Issue +belongs_to+ to Cost Object
 module ProjectPatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
@@ -13,7 +13,7 @@ module ProjectPatch
     base.class_eval do
       unloadable
       
-      has_many :deliverables
+      has_many :cost_objects
     end
 
   end

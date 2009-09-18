@@ -1,7 +1,7 @@
-class DeliverableHour < ActiveRecord::Base
+class LaborBudgetItem < ActiveRecord::Base
   unloadable
   
-  belongs_to :deliverable
+  belongs_to :cost_object
   belongs_to :user
 
   validates_length_of :comments, :maximum => 255, :allow_nil => true
@@ -11,7 +11,7 @@ class DeliverableHour < ActiveRecord::Base
     self.budget || self.calculated_costs
   end
   
-  def calculated_costs(fixed_date = deliverable.fixed_date, project_id = deliverable.project_id)
+  def calculated_costs(fixed_date = cost_object.fixed_date, project_id = cost_object.project_id)
     if user && hours && rate = user.rate_at(fixed_date, project_id)
       rate.rate * hours
     else 

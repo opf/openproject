@@ -48,8 +48,8 @@ Redmine::Plugin.register :redmine_costs do
     permission :view_cost_entries, {:costlog => [:details]}
     permission :block_tickets, {}, :require => :member
     
-    permission :view_deliverables, {:deliverables => [:index, :show]}
-    permission :edit_deliverables, {:deliverables => [:index, :show, :edit, :destroy, :new]}
+    permission :view_cost_objects, {:cost_objects => [:index, :show]}
+    permission :edit_cost_objects, {:cost_objects => [:index, :show, :edit, :destroy, :new]}
   end
   
   # Menu extensions
@@ -58,13 +58,13 @@ Redmine::Plugin.register :redmine_costs do
   # menu :top_menu, :cost_report, {:controller => 'cost_report', :action => 'index'},
   #   :caption => :cost_report_title,
   #   :if => Proc.new {
-  #     User.current.allowed_to?(:view_deliverables, nil, :global => true) ||
-  #     User.current.allowed_to?(:edit_deliverables, nil, :global => true)
+  #     User.current.allowed_to?(:view_cost_objects, nil, :global => true) ||
+  #     User.current.allowed_to?(:edit_cost_objects, nil, :global => true)
   #   }
 
-  menu :project_menu, :deliverables, {:controller => 'deliverables', :action => 'index'},
-    :param => :project_id, :after => :new_issue, :caption => :deliverables_title
+  menu :project_menu, :cost_objects, {:controller => 'cost_objects', :action => 'index'},
+    :param => :project_id, :after => :new_issue, :caption => :cost_objects_title
   
   # Activities
-  activity_provider :deliverables
+  activity_provider :cost_objectss
 end

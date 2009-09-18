@@ -31,8 +31,8 @@ end
 <% if @project.module_enabled? :costs_module %>
   <%# Only render this partial, if the plugin is enabled for the current project %>
   <tr>
-    <td><b><%= l(:label_deliverable) %>:</b></td>
-    <td><% if @issue.deliverable.nil? %>-<%else%><%= link_to h(@issue.deliverable.subject), {:controller => "deliverables", :action => "show", :id => @issue.deliverable, :project_id => @project} %><% end %></td>
+    <td><b><%= l(:label_cost_object) %>:</b></td>
+    <td><% if @issue.cost_object.nil? %>-<%else%><%= link_to h(@issue.cost_object.subject), {:controller => "cost_objects", :action => "show", :id => @issue.cost_object, :project_id => @project} %><% end %></td>
     <% if User.current.allowed_to?(:view_cost_entries, @project) %>
     <td><b><%= l(:label_spent_units) %>:</b></td>
     <td>

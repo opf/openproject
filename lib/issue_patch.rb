@@ -13,11 +13,11 @@ module IssuePatch
     base.class_eval do
       unloadable
       
-      belongs_to :deliverable
+      belongs_to :cost_object
       has_many :cost_entries, :dependent => :delete_all
       
       # disabled for now, implements part of ticket blocking
-      #alias_method_chain :validate, :deliverable
+      #alias_method_chain :validate, :cost_object
     end
   end
   
@@ -26,25 +26,25 @@ module IssuePatch
   end
   
   module InstanceMethods
-    def validate_with_deliverable
-      if deliverable_id_changed?
-        if deliverable_id_was.nil?
+    def validate_with_cost_object
+      if cost_object_id_changed?
+        if cost_object_id_was.nil?
           # formerly unassigned ticket
-          errors.add :deliverable_id, :activerecord_error_invalid if deliverable.blocked?
+          errors.add :cost_object_id, :activerecord_error_invalid if cost_object.blocked?
         else
-          old_deliverable = Deliverable.find(deliverable_id_was)
-          errors.add :deliverable_id, :activerecord_error_invalid if old_deliverable.blocked?
+          old_cost_object = CostObject.find(cost_object_id_was)
+          errors.add :cost_object_id, :activerecord_error_invalid if old_cost_object.blocked?
         end
       end
       
-      validate_without_deliverable
+      validate_without_cost_object
     end
     
-    # Wraps the association to get the Deliverable subject.  Needed for the 
+    # Wraps the association to get the Cost Object subject.  Needed for the 
     # Query and filtering
-    def deliverable_subject
-      unless self.deliverable.nil?
-        return self.deliverable.subject
+    def cost_object_subject
+      unless self.cost_object.nil?
+        return self.cost_object.subject
       end
     end
 

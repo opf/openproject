@@ -5,7 +5,7 @@ class CostEntry < ActiveRecord::Base
   belongs_to :issue
   belongs_to :user
   belongs_to :cost_type
-  belongs_to :deliverable
+  belongs_to :cost_object
   
   attr_protected :project_id, :cost
   

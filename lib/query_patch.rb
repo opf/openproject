@@ -1,6 +1,6 @@
 require_dependency 'query'
 
-# Patches Redmine's Queries dynamically, adding the Deliverable
+# Patches Redmine's Queries dynamically, adding the Cost Object
 # to the available query columns
 module QueryPatch
   def self.included(base) # :nodoc:
@@ -11,7 +11,7 @@ module QueryPatch
     # Same as typing in the class 
     base.class_eval do
       unloadable # Send unloadable so it will not be unloaded in development
-      base.add_available_column(QueryColumn.new(:deliverable_subject))
+      base.add_available_column(QueryColumn.new(:cost_object_subject))
       base.add_available_column(QueryColumn.new(:material_costs))
       base.add_available_column(QueryColumn.new(:labor_costs))
       base.add_available_column(QueryColumn.new(:overall_costs))
@@ -36,13 +36,13 @@ module QueryPatch
   
   module InstanceMethods
     
-    # Wrapper around the +available_filters+ to add a new Deliverable filter
+    # Wrapper around the +available_filters+ to add a new Cost Object filter
     def available_filters_with_costs
       @available_filters = available_filters_without_costs
       
       if project
-        redmine_costs_filters = { "deliverable_id" => { :type => :list_optional, :order => 14,
-            :values => Deliverable.find(:all, :conditions => ["project_id IN (?)", project], :order => 'subject ASC').collect { |d| [d.subject, d.id.to_s]}
+        redmine_costs_filters = { "cost_object_id" => { :type => :list_optional, :order => 14,
+            :values => CostObject.find(:all, :conditions => ["project_id IN (?)", project], :order => 'subject ASC').collect { |d| [d.subject, d.id.to_s]}
           }}
       else
         redmine_costs_filters = { }

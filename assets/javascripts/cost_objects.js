@@ -1,4 +1,4 @@
-function deleteDeliverableCost(id) {
+function deleteMaterialBudgetItem(id) {
   var e = $(id),
   parent = e.up();
   
@@ -13,7 +13,7 @@ function deleteDeliverableCost(id) {
   recalculate_even_odd(parent)
 }
 
-function deleteDeliverableHour(id) {
+function deleteLaborBudgetItem(id) {
   var e = $(id),
   parent = e.up();
    

@@ -1,6 +1,6 @@
-# A Deliverable is an item that is created as part of the project.  These items
+# A CostObject is an item that is created as part of the project.  These items
 # contain a collection of issues.
-class Deliverable < ActiveRecord::Base
+class CostObject < ActiveRecord::Base
   unloadable
   
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
@@ -11,8 +11,8 @@ class Deliverable < ActiveRecord::Base
   
   acts_as_attachable :after_remove => :attachment_removed
   
-  acts_as_event :title => Proc.new {|o| "#{l(:label_deliverable)} ##{o.id}: #{o.subject}"},
-                :url => Proc.new {|o| {:controller => 'deliverables', :action => 'show', :id => o.id}}                
+  acts_as_event :title => Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
+                :url => Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}}                
   
   acts_as_activity_provider :find_options => {:include => [:project, :author]},
                             :timestamp => "#{table_name}.updated_on",
@@ -27,14 +27,16 @@ class Deliverable < ActiveRecord::Base
   end
   
   def attributes=(attrs)
+    # Remove any attributes which can not be assigned.
+    # This is to protect from exceptions during change of cost object type
     attrs.delete_if{|k, v| !self.respond_to?("#{k}=")} if attrs.is_a?(Hash)
     
     super(attrs)
   end
   
   def copy_from(arg)
-    deliverable = arg.is_a?(Deliverable) ? arg : Deliverable.find(arg)
-    self.attributes = deliverable.attributes.dup
+    cost_object = arg.is_a?(CostObject) ? arg : CostObject.find(arg)
+    self.attributes = cost_object.attributes.dup
   end
   
   # Wrap type column to make it usable in views (especially in a select tag)
@@ -46,27 +48,27 @@ class Deliverable < ActiveRecord::Base
     self[:type] = type
   end
   
-  # Assign all the issues with +version_id+ to this Deliverable
+  # Assign all the issues with +version_id+ to this Cost Object
   def assign_issues_by_version(version_id)
     version = Version.find_by_id(version_id)
     return 0 if version.nil? || version.fixed_issues.blank?
     
     version.fixed_issues.each do |issue|
-      issue.update_attribute(:deliverable_id, self.id)
+      issue.update_attribute(:cost_object_id, self.id)
     end
     
     return version.fixed_issues.size
   end
   
-  # Change the Deliverable type to another type. Valid types are
+  # Change the Cost Object type to another type. Valid types are
   #
-  # * FixedDeliverable
-  # * CostBasedDeliverable
+  # * FixedCostObject
+  # * VariableCostObject
   def change_type(to)
-    if [FixedDeliverable.name, CostBasedDeliverable.name].include?(to)
+    if [FixedCostObject.name, VariableCostObject.name].include?(to)
       self.type = to
       self.save!
-      return Deliverable.find(self.id)
+      return CostObject.find(self.id)
     else
       return self
     end
@@ -122,7 +124,7 @@ class Deliverable < ActiveRecord::Base
   
   # Label of the current type for display in GUI.  Virtual accessor that is overriden by subclasses.
   def type_label
-    return l(:label_deliverable)
+    return l(:label_cost_object)
   end
   
   # Amount of the budget spent.  Expressed as as a percentage whole number
