@@ -161,6 +161,16 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
   end
   
+  def test_show_should_not_fail_when_custom_values_are_nil
+    project = Project.find_by_identifier('ecookbook')
+    project.custom_values.first.update_attribute(:value, nil)
+    get :show, :id => 'ecookbook'
+    assert_response :success
+    assert_template 'show'
+    assert_not_nil assigns(:project)
+    assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
+  end
+  
   def test_private_subprojects_hidden
     get :show, :id => 'ecookbook'
     assert_response :success

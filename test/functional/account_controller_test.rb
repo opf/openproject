@@ -37,7 +37,19 @@ class AccountControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_not_nil assigns(:user)
   end
+
+  def test_show_should_not_fail_when_custom_values_are_nil
+    user = User.find(2)
+
+    # Create a custom field to illustrate the issue
+    custom_field = CustomField.create!(:name => 'Testing', :field_format => 'text')
+    custom_value = user.custom_values.build(:custom_field => custom_field).save!
+
+    get :show, :id => 2
+    assert_response :success
+  end
   
+
   def test_show_inactive
     get :show, :id => 5
     assert_response 404
