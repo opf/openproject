@@ -1,20 +1,18 @@
 <% form_tag({}, :id => 'query_form') do %>
 <% if @query.new_record? %>
-    <h2><%= l(:label_calendar) %></h2>
-    <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
+<h2><%= l(:label_calendar) %></h2>
+<fieldset id="filters" class="collapsible">
+  <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+  <div>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
-    </fieldset>
+  </div>
+</fieldset>
 <% else %>
     <h2><%=h @query.name %></h2>
     <% html_title @query.name %>
 <% end %>
 
-<fieldset id="date-range"><legend><%= l(:label_date_range) %></legend>
-    <%= select_month(@month, :prefix => "month", :discard_type => true) %>
-    <%= select_year(@year, :prefix => "year", :discard_type => true) %>
-</fieldset>
-
-<p style="float:right; margin:0px;">
+<p style="float:right;">
 <%= link_to_remote ('&#171; ' + (@month==1 ? "#{month_name(12)} #{@year-1}" : "#{month_name(@month-1)}")), 
                         {:update => "content", :url => { :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1) }},
                         {:href => url_for(:action => 'calendar', :year => (@month==1 ? @year-1 : @year), :month =>(@month==1 ? 12 : @month-1))}
@@ -26,6 +24,9 @@
 </p>
 
 <p class="buttons">
+<%= select_month(@month, :prefix => "month", :discard_type => true) %>
+<%= select_year(@year, :prefix => "year", :discard_type => true) %>
+
 <%= link_to_remote l(:button_apply), 
                    { :url => { :set_filter => (@query.new_record? ? 1 : nil) },
                      :update => "content",

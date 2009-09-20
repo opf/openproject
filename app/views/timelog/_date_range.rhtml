@@ -1,4 +1,6 @@
-<fieldset id="filters"><legend><%= l(:label_date_range) %></legend>
+<fieldset id="date-range" class="collapsible">
+<legend onclick="toggleFieldset(this);"><%= l(:label_date_range) %></legend>
+<div>
 <p>
 <%= radio_button_tag 'period_type', '1', !@free_period %>
 <%= select_tag 'period', options_for_period_select(params[:period]),
@@ -11,9 +13,16 @@
 <%= l(:label_date_from_to, :start => (text_field_tag('from', @from, :size => 10) + calendar_for('from')),
 													 :end => (text_field_tag('to', @to, :size => 10) + calendar_for('to'))) %>
 </span>
-<%= submit_tag l(:button_apply), :name => nil %>
 </p>
+</div>
 </fieldset>
+<p class="buttons">
+	<%= link_to_remote l(:button_apply), 
+	                   { :url => { },
+	                     :update => "content",
+	                     :with => "Form.serialize('query_form')"
+	                   }, :class => 'icon icon-checked' %>
+</p>
 
 <div class="tabs">
 <% url_params = @free_period ? { :from => @from, :to => @to } : { :period => params[:period] } %>

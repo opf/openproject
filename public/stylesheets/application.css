@@ -200,17 +200,16 @@ p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; } 
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
 
-#query_form_content { font-size: 0.9em; padding: 4px; background: #f6f6f6; border: 1px solid #e4e4e4; }
-#query_form_content fieldset#filters { border-left: 0; border-right: 0; }
-#query_form_content p { margin-top: 0.5em; margin-bottom: 0.5em; }
+fieldset.collapsible { border-width: 1px 0 0 0; font-size: 0.9em; }
+fieldset.collapsible legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
+fieldset.collapsible.collapsed legend { background-image: url(../images/arrow_collapsed.png); }
 
-fieldset#filters, fieldset#date-range { padding: 0.7em; margin-bottom: 8px; }
-fieldset#filters p { margin: 1.2em 0 0.8em 2px; }
+fieldset#date-range p { margin: 2px 0 2px 0; }
 fieldset#filters table { border-collapse: collapse; }
 fieldset#filters table td { padding: 0; vertical-align: middle; }
 fieldset#filters tr.filter { height: 2em; }
 fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
-.buttons { font-size: 0.9em; margin-bottom: 1.4em; }
+.buttons { font-size: 0.9em; margin-bottom: 1.4em; margin-top: 1em; }
 
 div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
 div#issue-changesets .changeset { padding: 4px;}

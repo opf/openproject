@@ -33,6 +33,12 @@ function toggleRowGroup(el) {
 	}
 }
 
+function toggleFieldset(el) {
+	var fieldset = Element.up(el, 'fieldset');
+	fieldset.toggleClassName('collapsed');
+	Effect.toggle(fieldset.down('div'), 'slide', {duration:0.2});
+}
+
 var fileFieldCount = 1;
 
 function addFileField() {

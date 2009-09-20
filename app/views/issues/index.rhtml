@@ -5,11 +5,19 @@
     <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
     <%= hidden_field_tag('project_id', @project.to_param) if @project %>
 		<div id="query_form_content">
-    <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
-    <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    <fieldset id="filters" class="collapsible">
+    	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+    	<div>
+    		<%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    	</div>
     </fieldset>
-		<p><%= l(:field_group_by) %>
-		<%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></p>
+    <fieldset class="collapsible collapsed">
+    	<legend onclick="toggleFieldset(this);">Options</legend>
+    	<div style="display: none;">
+				<%= l(:field_group_by) %>
+				<%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></p>
+			</div>
+		</fieldset>
 		</div>
     <p class="buttons">
 

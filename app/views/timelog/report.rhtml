@@ -6,7 +6,7 @@
 
 <h2><%= l(:label_spent_time) %></h2>
 
-<% form_remote_tag(:url => {}, :html => {:method => :get}, :method => :get, :update => 'content') do %>
+<% form_remote_tag(:url => {}, :html => {:method => :get, :id => 'query_form'}, :method => :get, :update => 'content') do %>
   <% @criterias.each do |criteria| %>
     <%= hidden_field_tag 'criterias[]', criteria, :id => nil %>
   <% end %>
