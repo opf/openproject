@@ -130,7 +130,7 @@ class RepositoriesController < ApplicationController
   end
   
   def revision
-    @changeset = @repository.changesets.find(:first, :conditions => ["revision LIKE ?", @rev + '%'])
+    @changeset = @repository.find_changeset_by_name(@rev)
     raise ChangesetNotFound unless @changeset
 
     respond_to do |format|

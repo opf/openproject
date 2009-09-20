@@ -33,8 +33,8 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @repository.reload
       
-      assert_equal 8, @repository.changesets.count
-      assert_equal 16, @repository.changes.count
+      assert_equal 10, @repository.changesets.count
+      assert_equal 18, @repository.changes.count
       assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
     end
     
@@ -46,7 +46,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal 5, @repository.changesets.count
       
       @repository.fetch_changesets
-      assert_equal 8, @repository.changesets.count
+      assert_equal 10, @repository.changesets.count
     end
     
     def test_latest_changesets_with_limit

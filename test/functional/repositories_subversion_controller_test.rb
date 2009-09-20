@@ -102,7 +102,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       
       changesets = assigns(:changesets)
       assert_not_nil changesets
-      assert_equal %w(7 6 5 2), changesets.collect(&:revision)
+      assert_equal %w(10 9 7 6 5 2), changesets.collect(&:revision)
     end
       
     def test_entry

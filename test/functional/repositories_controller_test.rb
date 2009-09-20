@@ -77,6 +77,13 @@ class RepositoriesControllerTest < ActionController::TestCase
     )
   end
   
+  def test_revision
+    get :revision, :id => 1, :rev => 1
+    assert_response :success
+    assert_not_nil assigns(:changeset)
+    assert_equal "1", assigns(:changeset).revision
+  end
+  
   def test_revision_with_before_nil_and_afer_normal
     get :revision, {:id => 1, :rev => 1}
     assert_response :success
