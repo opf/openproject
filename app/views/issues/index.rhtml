@@ -21,7 +21,7 @@
     	<legend onclick="toggleFieldset(this);">Options</legend>
     	<div style="display: none;">
 				<%= l(:field_group_by) %>
-				<%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></p>
+				<%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %>
 			</div>
 		</fieldset>
 		</div>
