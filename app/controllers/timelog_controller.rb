@@ -80,14 +80,22 @@ class TimelogController < ApplicationController
     unless @criterias.empty?
       sql_select = @criterias.collect{|criteria| @available_criterias[criteria][:sql] + " AS " + criteria}.join(', ')
       sql_group_by = @criterias.collect{|criteria| @available_criterias[criteria][:sql]}.join(', ')
+      sql_condition = ''
       
+      if @project.nil?
+        sql_condition = Project.allowed_to_condition(User.current, :view_time_entries)
+      elsif @issue.nil?
+        sql_condition = @project.project_condition(Setting.display_subprojects_issues?)
+      else
+        sql_condition = "#{TimeEntry.table_name}.issue_id = #{@issue.id}"
+      end
+
       sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
       sql << " FROM #{TimeEntry.table_name}"
       sql << " LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
       sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
       sql << " WHERE"
-      sql << " (%s) AND" % @project.project_condition(Setting.display_subprojects_issues?) if @project
-      sql << " (%s) AND" % Project.allowed_to_condition(User.current, :view_time_entries)
+      sql << " (%s) AND" % sql_condition
       sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from.to_time), ActiveRecord::Base.connection.quoted_date(@to.to_time)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
       

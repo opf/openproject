@@ -206,6 +206,14 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
   end
   
+  def test_report_at_issue_level
+    get :report, :project_id => 1, :issue_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criterias => ["member", "activity"]
+    assert_response :success
+    assert_template 'report'
+    assert_not_nil assigns(:total_hours)
+    assert_equal "154.25", "%.2f" % assigns(:total_hours)
+  end
+  
   def test_report_custom_field_criteria
     get :report, :project_id => 1, :criterias => ['project', 'cf_1']
     assert_response :success
