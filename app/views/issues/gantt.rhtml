@@ -1,16 +1,12 @@
+<h2><%= l(:label_gantt) %></h2>
+
 <% form_tag(params.merge(:month => nil, :year => nil, :months => nil), :id => 'query_form') do %>
-<% if @query.new_record? %>
-<h2><%=l(:label_gantt)%></h2>
 <fieldset id="filters" class="collapsible">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
 	<div>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
 </fieldset>
-<% else %>
-    <h2><%=h @query.name %></h2>
-    <% html_title @query.name %>
-<% end %>
 
 <p style="float:right;">
 <%= if @gantt.zoom < 4
