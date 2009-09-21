@@ -66,5 +66,5 @@ Redmine::Plugin.register :redmine_costs do
     :param => :project_id, :after => :new_issue, :caption => :cost_objects_title
   
   # Activities
-  activity_provider :cost_objectss
+  activity_provider :cost_objects
 end
