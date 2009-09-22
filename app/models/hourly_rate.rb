@@ -2,6 +2,8 @@ class HourlyRate < Rate
   belongs_to :user
   belongs_to :project
   
+  validates_uniqueness_of :valid_from, :scope => [:user_id, :project_id]
+  
   def self.history_for_user(usr, for_display = true)
     rates = Hash.new
     usr.projects.each do |project|
