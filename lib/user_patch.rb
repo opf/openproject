@@ -24,16 +24,18 @@ module UserPatch
   end
 
   module InstanceMethods
-    def current_rate(project, include_default = true)
+    def current_rate(project = nil, include_default = true)
       rate_at(Date.today, project, include_default)
     end
     
-    def rate_at(date, project, include_default = true)
-      project = Project.find(project) unless project.is_a?(Project)
+    def rate_at(date, project = nil, include_default = true)
+      unless project.nil?
+        project = Project.find(project) unless project.is_a?(Project)
       
-      rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project, date], :order => "valid_from DESC")
-      # TODO: this is Redmine 0.8 specific. Sort by project.lft first if using redmine 0.9!
-      rate ||= HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id in (?) and valid_from <= ?", id, project.ancestors, date], :order => "valid_from DESC")
+        rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project, date], :order => "valid_from DESC")
+        # TODO: this is Redmine 0.8 specific. Sort by project.lft first if using redmine 0.9!
+        rate ||= HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id in (?) and valid_from <= ?", id, project.ancestors, date], :order => "valid_from DESC")
+      end
       rate ||= default_rate_at(date) if include_default
       rate
     end

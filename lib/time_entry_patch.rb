@@ -29,5 +29,10 @@ module TimeEntryPatch
     def costs=(value)
       @costs = value
     end
+    
+    def update_costs!(rate)
+      @costs = self.hours && rate ? self.hours * rate.rate : 0.0
+      @costs.save!
+    end
   end
 end
