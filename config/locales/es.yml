@@ -858,15 +858,15 @@ es:
   mail_body_wiki_content_updated: La página wiki '{{page}}' ha sido actualizada por {{author}}.
   permission_add_project: Crear proyecto
   setting_new_project_user_role_id: Permiso asignado a un usuario no-administrador para crear proyectos
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
+  label_view_all_revisions: Visualizar todas las revisiones
+  label_tag: Etiqueta
+  label_branch: Rama
+  error_no_tracker_in_project: No existe un tipo de petición asociado a este proyecto. Verifique la configuración del proyecto, por favor.
+  error_no_default_issue_status: No se ha definido un estado por defecto de petición. Verifique su configuración (Vaya a "Administración -> Estados de las peticiones").
+  text_journal_changed: "{{label}} cambiada {{old}} por {{new}}"
+  text_journal_set_to: "{{label}} establecida a {{value}}"
+  text_journal_deleted: "{{label}} eliminado"
+  label_group_plural: Grupos
+  label_group: Grupo
+  label_group_new: Nuevo grupo
+  label_time_entry_plural: Tiempo dedicado
