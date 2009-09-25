@@ -20,7 +20,8 @@
 	<%= link_to_remote l(:button_apply), 
 	                   { :url => { },
 	                     :update => "content",
-	                     :with => "Form.serialize('query_form')"
+                            :with => "Form.serialize('query_form')",
+                            :method => :get
 	                   }, :class => 'icon icon-checked' %>
 </p>
 
