@@ -5,7 +5,7 @@ class DefaultHourlyRate < Rate
   validates_presence_of :user_id, :valid_from
   
   def validate
-    # Only allow change of project and user on first creation
+    # Only allow change of user on first creation
     return if self.new_record?
     
     errors.add :user_id, :activerecord_error_invalid if user_id_changed?

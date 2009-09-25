@@ -17,7 +17,7 @@ class HourlyRatesController < ApplicationController
   
   def show
     if @project
-      render_403 and return unless (User.current.allowed_to?(:view_all_rates, @project) || (@user == User.current && User.current.allowed_to?(:view_own_rate, @project)))
+      return render_403 unless (User.current.allowed_to?(:view_all_rates, @project) || (@user == User.current && User.current.allowed_to?(:view_own_rate, @project)))
 
       @rates = HourlyRate.find(:all,
           :conditions =>  { :user_id => @user, :project_id => @project },
@@ -25,13 +25,14 @@ class HourlyRatesController < ApplicationController
     else
       @rates = HourlyRate.history_for_user(@user, true)
       @rates_default = @rates.delete(nil)
-      render_403 and return if @rates.empty?
+      return render_403 if @rates.empty?
     end
   end
   
   def edit
-    render_403 and return if @project && !User.current.allowed_to?(:change_rates, @project)
-
+    return render_403 if @project && !User.current.allowed_to?(:change_rates, @project)
+    return render_403 unless @project || User.current.admin?
+    
     if params[:user].is_a?(Hash)
       new_attributes = params[:user][:new_rate_attributes]
       existing_attributes = params[:user][:existing_rate_attributes]

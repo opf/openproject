@@ -1,5 +1,4 @@
-# TODO: which require statement to use here? require_dependency breaks stuff
-#require 'project'
+require_dependency 'project'
 
 # Patches Redmine's Issues dynamically.  Adds a relationship 
 # Issue +belongs_to+ to Cost Object
@@ -14,6 +13,7 @@ module ProjectPatch
       unloadable
       
       has_many :cost_objects
+      has_many :rates, :class_name => 'HourlyRate'
     end
 
   end

@@ -15,7 +15,7 @@ class HourlyRate < Rate
   
   def previous(reference_date = self.valid_from)
     # This might return a default rate
-    self.user.rate_at(reference_date - 1)
+    self.user.rate_at(reference_date - 1, self.project)
   end
   
   def next(reference_date = self.valid_from)

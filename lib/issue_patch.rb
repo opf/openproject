@@ -1,4 +1,3 @@
-# TODO: which require statement to use here? require_dependency breaks stuff
 require_dependency 'issue'
 
 # Patches Redmine's Issues dynamically.
@@ -26,6 +25,28 @@ module IssuePatch
   end
   
   module InstanceMethods
+    def before_validation
+      self.overall_costs = self.labor_costs +  self.material_costs
+      true
+    end
+    
+    def update_costs
+      overridden_costs = CostEntry.sum(:overridden_costs, :conditions => {:issue_id => id})
+      normal_costs = CostEntry.sum(:costs, :conditions => {:overridden_costs => nil, :issue_id => id})
+      self.material_costs = overridden_costs + normal_costs
+      
+      overridden_costs = TimeEntry.sum(:overridden_costs, :conditions => {:issue_id => id})
+      normal_costs = TimeEntry.sum(:costs, :conditions => {:overridden_costs => nil, :issue_id => id})
+      self.labor_costs = overridden_costs + normal_costs
+      
+      self.overall_costs = self.labor_costs +  self.material_costs
+    end
+    
+    def update_costs!
+      self.update_costs
+      self.save!
+    end
+    
     def validate_with_cost_object
       if cost_object_id_changed?
         if cost_object_id_was.nil?
@@ -47,20 +68,6 @@ module IssuePatch
         return self.cost_object.subject
       end
     end
-
-    def overall_costs
-      @overall_costs || material_costs + labor_costs
-    end
-    
-    def material_costs
-      @material_costs || cost_entries.collect(&:costs).compact.sum
-    end
-    
-    def labor_costs
-      @labor_costs || time_entries.collect(&:costs).compact.sum
-    end
-    
-    
   end
 end
 

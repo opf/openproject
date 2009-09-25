@@ -1,5 +1,4 @@
-# TODO: which require statement to use here? require_dependency breaks stuff
-#require 'user'
+require_dependency 'user'
 
 # Patches Redmine's Users dynamically.
 module UserPatch
@@ -14,7 +13,7 @@ module UserPatch
       has_many :rates, :class_name => 'HourlyRate'
       has_many :default_rates, :class_name => 'DefaultHourlyRate'
       
-      after_update :save_rates
+      before_save :save_rates
     end
 
   end
@@ -30,11 +29,12 @@ module UserPatch
     
     def rate_at(date, project = nil, include_default = true)
       unless project.nil?
-        project = Project.find(project) unless project.is_a?(Project)
-      
         rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project, date], :order => "valid_from DESC")
         # TODO: this is Redmine 0.8 specific. Sort by project.lft first if using redmine 0.9!
-        rate ||= HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id in (?) and valid_from <= ?", id, project.ancestors, date], :order => "valid_from DESC")
+        if rate.nil?
+          project = Project.find(project) unless project.is_a?(Project)
+          rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id in (?) and valid_from <= ?", id, project.ancestors, date], :order => "valid_from DESC")
+        end
       end
       rate ||= default_rate_at(date) if include_default
       rate
@@ -78,7 +78,7 @@ module UserPatch
     end
     
     def save_rates
-      rates.each do |rate|
+      (default_rates + rates).each do |rate|
         rate.save(false)
       end
     end
@@ -87,7 +87,7 @@ module UserPatch
   private
     def update_rate(rate, rate_attributes, project_rate = true)
       attributes = rate_attributes[rate.id.to_s] if rate_attributes
-
+      
       has_rate = false
       if attributes && attributes[:rate]
         attributes[:rate] = Rate.clean_currency(attributes[:rate])

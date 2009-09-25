@@ -88,14 +88,11 @@ module CostlogHelper
   end
   
   def clean_currency(value)
-    return nil if value == ""
-    if value
-      value = value.strip
-      value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_separator))
-      value.gsub(',', '.')
-    else
-      value
-    end
+    return nil if value.nil? || value == ""
+
+    value = value.strip
+    value.gsub!(l(:currency_delimiter), '') if value.include?(l(:currency_delimiter)) && value.include?(l(:currency_separator))
+    value.gsub(',', '.')
   end
 end
   

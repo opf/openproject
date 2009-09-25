@@ -10,6 +10,6 @@ class AddFreeTextToBudgetAndEntries < ActiveRecord::Migration
     remove_column :deliverable_costs, :budget
     remove_column :deliverable_hours, :budget
     
-    remove_column :cost_entries, :overridden_cost
+    remove_column :cost_entries, :overridden_costs
   end
 end

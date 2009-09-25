@@ -41,9 +41,27 @@ module QueryPatch
       @available_filters = available_filters_without_costs
       
       if project
-        redmine_costs_filters = { "cost_object_id" => { :type => :list_optional, :order => 14,
+        redmine_costs_filters = {
+          "cost_object_id" => {
+            :type => :list_optional,
+            :order => 14,
             :values => CostObject.find(:all, :conditions => ["project_id IN (?)", project], :order => 'subject ASC').collect { |d| [d.subject, d.id.to_s]}
-          }}
+          },
+          "labor_costs" => {
+            :type => :integer,
+            :order => 15,
+          },
+          "material_costs" => {
+            :type => :integer,
+            :order => 16,
+          },
+          "overall_costs" => {
+            :type => :integer,
+            :order => 16,
+          }
+          
+        }
+          
       else
         redmine_costs_filters = { }
       end

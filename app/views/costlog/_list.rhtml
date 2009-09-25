@@ -1,4 +1,4 @@
-<table class="list cost-entries">
+<table class="list cost_entries">
 <thead>
 <tr>
   <%= sort_header_tag('spent_on', :caption => l(:label_date), :default_order => 'desc') %>
@@ -13,7 +13,7 @@
 </thead>
 <tbody>
 <% entries.each do |entry| -%>
-<tr class="cost-entry <%= cycle("odd", "even") %>">
+<tr class="cost_entry <%= cycle("odd", "even") %>">
   <td class="spent_on"><%= format_date(entry.spent_on) %></td>
   <td class="user"><%=h entry.user %></td>
   <td class="project"><%=h entry.project %></td>
@@ -27,7 +27,7 @@
   <td class="units"><%= pluralize(entry.units, entry.cost_type.unit, entry.cost_type.unit_plural) %></td>
   <td class="currency">
     <% if User.current.allowed_to?(:view_unit_price, entry.project) || (entry.user == User.current && entry.overridden_costs ) -%>
-      <%= number_to_currency entry.costs %>
+      <%= number_to_currency entry.real_costs %>
     <%- else -%>-<% end -%>
   </td>
   <td align="center">

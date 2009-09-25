@@ -1,7 +1,10 @@
+require_dependency 'users_helper'
+
 module CostsUsersHelperPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
-    base.extend InstanceMethods
+
+    # Same as typing in the class 
     base.class_eval do
       alias_method_chain :user_settings_tabs, :rate_tab
     end

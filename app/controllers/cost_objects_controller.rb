@@ -151,7 +151,7 @@ class CostObjectsController < ApplicationController
     cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
     
     units = params[:units].strip.gsub(',', '.').to_f
-    costs = (units * cost_type.rate_at(params[:fixed_date]).rate rescue 321.0)
+    costs = (units * cost_type.rate_at(params[:fixed_date]).rate rescue 0.0)
     
     if request.xhr?
       render :update do |page|

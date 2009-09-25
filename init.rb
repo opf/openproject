@@ -67,6 +67,8 @@ Redmine::Plugin.register :redmine_costs do
   
   # Activities
   activity_provider :cost_objects
-
-  ActiveRecord::Base.observers = :hourly_rate_observer
 end
+
+# Observers
+ActiveRecord::Base.observers = :rate_observer, :default_hourly_rate_observer
+
