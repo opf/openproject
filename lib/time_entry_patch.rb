@@ -24,7 +24,7 @@ module TimeEntryPatch
 
   module InstanceMethods
     def before_save
-      if @updated_rate != self.rate.id || @updated_hours != self.hours
+      if @updated_rate != self.rate_id || @updated_hours != self.hours)
         update_costs
         self.issue.save
       end
