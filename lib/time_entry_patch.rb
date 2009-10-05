@@ -71,7 +71,7 @@ module TimeEntryPatch
     end
     
     def update_costs!(rate_attr = nil)
-      self.update_rate(rate_attr)
+      self.update_costs(rate_attr)
       self.issue.save!
       self.save!
     end
