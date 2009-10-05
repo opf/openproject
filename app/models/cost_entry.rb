@@ -56,7 +56,7 @@ class CostEntry < ActiveRecord::Base
   def update_costs(rate_attr = nil)
     rate_attr ||= current_rate
     if rate_attr.nil?
-      self.costs = nil
+      self.costs = 0.0
       self.rate = nil
       return
     end

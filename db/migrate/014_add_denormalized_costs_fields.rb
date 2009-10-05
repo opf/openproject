@@ -12,6 +12,12 @@ class AddDenormalizedCostsFields < ActiveRecord::Migration
     add_column :issues, :material_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.0
     add_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.0
     
+    # create a temporary admin user
+    u = User.new(:firstname => "Automatic", :lastname => "Migration")
+    u.admin = true
+    User.current = u
+    
+    # update the new denormalized columns
     transaction do
       cache do
         CostEntry.all.each {|e| e.update_costs!}
@@ -20,6 +26,9 @@ class AddDenormalizedCostsFields < ActiveRecord::Migration
         Issue.all.each{|i| i.update_costs!}
       end
     end
+    
+    # clean up after me
+    User.current = User.anonymous
   end
   
   def self.down
