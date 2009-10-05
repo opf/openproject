@@ -44,6 +44,12 @@ module TimeEntryPatch
     
     def update_costs(rate_attr = nil)
       rate_attr ||= current_rate
+      if rate_attr.nil?
+        self.costs = nil
+        self.rate = nil
+        return
+      end
+      
       self.costs = self.calculated_costs(rate_attr)
       self.rate = rate_attr
 
