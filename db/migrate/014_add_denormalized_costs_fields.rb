@@ -31,7 +31,7 @@ class AddDenormalizedCostsFields < ActiveRecord::Migration
     remove_column :cost_entries, :costs
     remove_column :cost_entries, :rate_id
     
-    remove_column :issues :labor_costs
-    remove_column :issues :material_costs
+    remove_column :issues, :labor_costs
+    remove_column :issues, :material_costs
   end
 end
