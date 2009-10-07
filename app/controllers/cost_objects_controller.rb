@@ -1,4 +1,6 @@
 class CostObjectsController < ApplicationController
+  unloadable
+
   before_filter :find_cost_object, :only => [:show, :edit]
   before_filter :find_cost_objects, :only => [:bulk_edit, :destroy]
   before_filter :find_project, :only => [

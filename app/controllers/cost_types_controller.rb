@@ -1,4 +1,6 @@
 class CostTypesController < ApplicationController
+  unloadable
+  
   # Allow only admins here
   before_filter :require_admin
   before_filter :find_cost_type, :only => [:set_rate, :toggle_delete]

@@ -1,4 +1,6 @@
 class CostlogController < ApplicationController
+  unloadable
+  
   menu_item :issues
   before_filter :find_project, :authorize, :only => [:edit, :destroy]
   before_filter :find_optional_project, :only => [:report, :details]
