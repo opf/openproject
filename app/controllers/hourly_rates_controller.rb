@@ -1,6 +1,4 @@
 class HourlyRatesController < ApplicationController
-  unloadable
-  
   helper :users
   helper :sort
   include SortHelper

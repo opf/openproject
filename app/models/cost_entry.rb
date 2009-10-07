@@ -1,6 +1,4 @@
 class CostEntry < ActiveRecord::Base
-  # unloadable
-  
   belongs_to :project
   belongs_to :issue
   belongs_to :user

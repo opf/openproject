@@ -1,6 +1,4 @@
 class CostType < ActiveRecord::Base
-  unloadable
-  
   has_many :material_budget_items
   has_many :cost_entries, :dependent => :destroy
   has_many :rates, :class_name => "CostRate", :foreign_key => "cost_type_id", :dependent => :destroy

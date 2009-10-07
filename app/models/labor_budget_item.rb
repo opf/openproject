@@ -1,6 +1,4 @@
 class LaborBudgetItem < ActiveRecord::Base
-  unloadable
-  
   belongs_to :cost_object
   belongs_to :user
 
