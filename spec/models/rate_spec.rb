@@ -27,10 +27,12 @@ describe Rate do
       pending
     end
 
+  end
+  
+  describe "destruction" do
     it "should update all cost_entries correctly when a rate is removed" do
       pending
     end
-
   end
 
 end
