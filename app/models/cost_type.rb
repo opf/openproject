@@ -10,12 +10,6 @@ class CostType < ActiveRecord::Base
   
   after_update :save_rates
   
-  def before_save
-    if self.default && self.default_changed?
-      CostType.update_all({:default => false})
-    end
-  end
-  
   # finds the default CostType
   def self.default
     result = CostType.find(:first, :conditions => { :default => true})
