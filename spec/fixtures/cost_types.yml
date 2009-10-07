@@ -1,0 +1,6 @@
+hourly:
+  id: 1
+  name: Hourly Standard
+  unit: Hour
+  unit_plural: Houres
+  default: true
