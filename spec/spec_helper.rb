@@ -1,5 +1,5 @@
 begin
-  RAILS_ROOT = File.expand_path(".") unless defined? RAILS_ROOT
+  require "config/environment" unless defined? RAILS_ROOT
   require RAILS_ROOT + '/spec/spec_helper'
 rescue LoadError => error
   puts <<-EOS
