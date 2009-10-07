@@ -1,7 +1,5 @@
 begin
-  unless defined? RAILS_ROOT
-    RAILS_ROOT = ENV["RAILS_ROOT"].dup || File.expand_path(File.dirname(__FILE__) + "../../..")
-  end
+  RAILS_ROOT = File.expand_path(".") unless defined? RAILS_ROOT
   require RAILS_ROOT + '/spec/spec_helper'
 rescue LoadError => error
   puts <<-EOS
@@ -11,10 +9,6 @@ rescue LoadError => error
     
       gem install rspec-rails
       script/generate rspec
-    
-    Or if you have some issues due to symbolic links, try this:
-      
-      RAILS_ROOT=/path/to/rails rake
 
   EOS
   raise error
