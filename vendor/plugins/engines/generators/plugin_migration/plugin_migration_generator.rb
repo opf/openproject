@@ -48,7 +48,7 @@ class PluginMigrationGenerator < Rails::Generator::Base
         end
       end
       
-      @plugins_to_migrate.reject! { |p| p.latest_migration.nil? }
+      @plugins_to_migrate.reject! { |p| !p.respond_to?(:latest_migration) || p.latest_migration.nil? }
       
       # Then find the current versions from the database    
       @current_versions = {}
