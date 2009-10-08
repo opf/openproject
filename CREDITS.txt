@@ -3,3 +3,5 @@ Thanks to the following people for their help:
 * Mark Maglana - Project Maintainer
 * Guy Naor of Morph Labs, Inc. (http://www.mor.ph) - Project Sponsorship
 * G2iX (http://www.g2ix.com) - Project Sponsorship
+* Eric Davis - For the advice on the model patching pattern magic
+* Everyone at Redmine.org - For the pure awesomeness that is Redmine :-)
