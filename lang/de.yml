@@ -1,7 +1,7 @@
 project_module_costs_module: "Controlling"
 cost_types_title: "Kostenarten"
 cost_objects_title: "Controlling"
-cost_report_title: "Report"
+cost_reports_title: "Reports"
 
 currency_delimiter: "."
 currency_separator: ","
