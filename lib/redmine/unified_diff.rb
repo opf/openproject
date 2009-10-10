@@ -20,6 +20,7 @@ module Redmine
   class UnifiedDiff < Array  
     def initialize(diff, options={})
       options.assert_valid_keys(:type, :max_lines)
+      diff = diff.split("\n") if diff.is_a?(String)
       diff_type = options[:type] || 'inline'
       
       lines = 0
