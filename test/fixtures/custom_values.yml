@@ -12,19 +12,19 @@ custom_values_007:
   id: 7
   value: Stable
 custom_values_001: 
-  customized_type: User
+  customized_type: Principal
   custom_field_id: 4
   customized_id: 3
   id: 1
   value: ""
 custom_values_002: 
-  customized_type: User
+  customized_type: Principal
   custom_field_id: 4
   customized_id: 4
   id: 2
   value: 01 23 45 67 89
 custom_values_003: 
-  customized_type: User
+  customized_type: Principal
   custom_field_id: 4
   customized_id: 2
   id: 3

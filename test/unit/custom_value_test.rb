@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class CustomValueTest < ActiveSupport::TestCase
-  fixtures :custom_fields
+  fixtures :custom_fields, :custom_values, :users
 
   def test_string_field_validation_with_blank_value
     f = CustomField.new(:field_format => 'string')
@@ -113,5 +113,11 @@ class CustomValueTest < ActiveSupport::TestCase
 
     v = CustomValue.new(:custom_field => field, :value => 'Not empty')
     assert_equal 'Not empty', v.value
+  end
+  
+  def test_sti_polymorphic_association
+    # Rails uses top level sti class for polymorphic association. See #3978.
+    assert !User.find(4).custom_values.empty?
+    assert !CustomValue.find(2).customized.nil?
   end
 end
