@@ -36,6 +36,13 @@ module Redmine #:nodoc:
           s.gsub!(',', '.')
           begin; Kernel.Float(s); rescue; nil; end
         end
+        
+        # Object#to_a removed in ruby1.9
+        if RUBY_VERSION > '1.9'
+          def to_a
+            [self.dup]
+          end
+        end
       end
     end
   end
