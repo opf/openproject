@@ -81,7 +81,7 @@ class MailHandler < ActionMailer::Base
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
       klass, object_id = $1, $2.to_i
       method_name = "receive_#{klass}_reply"
-      if self.class.private_instance_methods.include?(method_name)
+      if self.class.private_instance_methods.collect(&:to_s).include?(method_name)
         send method_name, object_id
       else
         # ignoring it
@@ -120,7 +120,8 @@ class MailHandler < ActionMailer::Base
     if status && issue.new_statuses_allowed_to(user).include?(status)
       issue.status = status
     end
-    issue.subject = email.subject.chomp.toutf8
+    issue.subject = email.subject.chomp
+    issue.subject = issue.subject.toutf8 if issue.subject.respond_to?(:toutf8)
     if issue.subject.blank?
       issue.subject = '(no subject)'
     end
