@@ -39,9 +39,4 @@ test_pgsql:
 
 test_sqlite3:
   adapter: sqlite3
-  dbfile: db/test.db
-  
-demo:
-  adapter: sqlite3
-  dbfile: db/demo.db
-  
+  database: db/test.db
