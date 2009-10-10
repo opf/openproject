@@ -850,8 +850,9 @@ pt-BR:
   label_branch: Ramo
   text_journal_changed: "{{label}} alterado de {{old}} para {{new}}"
   text_journal_set_to: "{{label}} ajustado para {{value}}"
-  text_journal_deleted: "{{label}} excluído"
+  text_journal_deleted: "{{label}} excluído ({{old}})"
   label_group_plural: Grupos
   label_group: Grupo
   label_group_new: Novo grupo
   label_time_entry_plural: Tempos gastos
+  text_journal_added: "{{label}} {{value}} added"

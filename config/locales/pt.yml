@@ -680,9 +680,6 @@ pt:
   text_subprojects_destroy_warning: "O(s) seu(s) sub-projecto(s): {{value}} também será/serão apagado(s)."
   text_workflow_edit: Seleccione um papel e um tipo de tarefa para editar o workflow
   text_are_you_sure: Tem a certeza?
-  text_journal_changed: "mudado de {{old}} para {{new}}"
-  text_journal_set_to: "alterado para {{value}}"
-  text_journal_deleted: apagado
   text_tip_task_begin_day: tarefa a começar neste dia
   text_tip_task_end_day: tarefa a acabar neste dia
   text_tip_task_begin_end_day: tarefa a começar e acabar neste dia
@@ -841,3 +838,7 @@ pt:
   label_group: Group
   label_group_new: New group
   label_time_entry_plural: Spent time
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted ({{old}})"
+  text_journal_added: "{{label}} {{value}} added"

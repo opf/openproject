@@ -850,4 +850,5 @@ fr:
   error_no_default_issue_status: "Aucun statut de demande n'est défini par défaut. Vérifier votre configuration (Administration -> Statuts de demandes)."
   text_journal_changed: "{{label}} changé de {{old}} à {{new}}"
   text_journal_set_to: "{{label}} mis à {{value}}"
-  text_journal_deleted: "{{label}} supprimé"
+  text_journal_deleted: "{{label}} {{old}} supprimé"
+  text_journal_added: "{{label}} {{value}} ajouté"

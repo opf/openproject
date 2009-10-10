@@ -758,7 +758,8 @@ en:
   text_are_you_sure: Are you sure ?
   text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
   text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted"
+  text_journal_deleted: "{{label}} deleted ({{old}})"
+  text_journal_added: "{{label}} {{value}} added"
   text_tip_task_begin_day: task beginning this day
   text_tip_task_end_day: task ending this day
   text_tip_task_begin_end_day: task beginning and ending this day

@@ -883,8 +883,9 @@ ko:
   error_no_default_issue_status: '기본 상태가 정해져 있지 않습니다. 설정을 확인하십시오. (주 메뉴의 "관리" -> "일감 상태")'
   text_journal_changed: "{{label}}을(를) {{old}}에서 {{new}}(으)로 변경함"
   text_journal_set_to: "{{label}}을(를) {{value}}(으)로 정함"
-  text_journal_deleted: "{{label}}을(를) 지움"
+  text_journal_deleted: "{{label}}을(를) 지움 ({{old}})"
   label_group_plural: 그룹
   label_group: 그룹
   label_group_new: 새 그룹
   label_time_entry_plural: Spent time
+  text_journal_added: "{{label}} {{value}} added"

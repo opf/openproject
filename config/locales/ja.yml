@@ -789,7 +789,7 @@ ja:
   text_are_you_sure: よろしいですか？
   text_journal_changed: "{{label}} を {{old}} から {{new}} に変更"
   text_journal_set_to: "{{label}} を {{value}} にセット"
-  text_journal_deleted: "{{label}} を削除"
+  text_journal_deleted: "{{label}} を削除 ({{old}})"
   text_tip_task_begin_day: この日に開始するタスク
   text_tip_task_end_day: この日に終了するタスク
   text_tip_task_begin_end_day: この日のうちに開始して終了するタスク
@@ -858,3 +858,4 @@ ja:
   enumeration_issue_priorities: チケットの優先度
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
+  text_journal_added: "{{label}} {{value}} added"

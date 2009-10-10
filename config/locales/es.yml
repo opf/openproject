@@ -865,8 +865,9 @@ es:
   error_no_default_issue_status: No se ha definido un estado por defecto de petición. Verifique su configuración (Vaya a "Administración -> Estados de las peticiones").
   text_journal_changed: "{{label}} cambiada {{old}} por {{new}}"
   text_journal_set_to: "{{label}} establecida a {{value}}"
-  text_journal_deleted: "{{label}} eliminado"
+  text_journal_deleted: "{{label}} eliminado ({{old}})"
   label_group_plural: Grupos
   label_group: Grupo
   label_group_new: Nuevo grupo
   label_time_entry_plural: Tiempo dedicado
+  text_journal_added: "{{label}} {{value}} added"

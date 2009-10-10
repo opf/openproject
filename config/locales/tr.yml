@@ -677,9 +677,6 @@ tr:
   text_subprojects_destroy_warning: "Ayrıca {{value}} alt proje silinecek."
   text_workflow_edit: İşakışını düzenlemek için bir rol ve takipçi seçin
   text_are_you_sure: Emin misiniz ?
-  text_journal_changed: "{{old}}'den  {{new}}'e değiştirildi"
-  text_journal_set_to: "{{value}} 'e ayarlandı"
-  text_journal_deleted: Silindi
   text_tip_task_begin_day: Bugün başlayan görevler
   text_tip_task_end_day: Bugün sona eren görevler
   text_tip_task_begin_end_day: Bugün başlayan ve sona eren görevler
@@ -856,3 +853,7 @@ tr:
   label_group: Group
   label_group_new: New group
   label_time_entry_plural: Spent time
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted ({{old}})"
+  text_journal_added: "{{label}} {{value}} added"

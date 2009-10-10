@@ -937,3 +937,4 @@ ru:
   label_group: Группа
   label_group_new: Новая группа
   label_time_entry_plural: Затраченное время
+  text_journal_added: "{{label}} {{value}} added"

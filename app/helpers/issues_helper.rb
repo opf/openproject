@@ -136,15 +136,10 @@ module IssuesHelper
           l(:text_journal_set_to, :label => label, :value => value)
         end
       when 'attachment'
-        "#{label} #{value} #{l(:label_added)}"
+        l(:text_journal_added, :label => label, :value => value)
       end
     else
-      case detail.property
-      when 'attr', 'cf'
-        l(:text_journal_deleted, :label => label, :old => old_value)
-      when 'attachment'
-        "#{label} #{old_value} #{l(:label_deleted)}"
-      end
+      l(:text_journal_deleted, :label => label, :old => old_value)
     end
   end
   
