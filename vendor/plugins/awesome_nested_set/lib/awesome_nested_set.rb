@@ -166,7 +166,7 @@ module CollectiveIdea #:nodoc:
           # Don't rebuild a valid tree.
           return true if valid?
           
-          scope = lambda{}
+          scope = lambda{|node|}
           if acts_as_nested_set_options[:scope]
             scope = lambda{|node| 
               scope_column_names.inject(""){|str, column_name|
