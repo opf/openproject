@@ -71,7 +71,7 @@ class IssuesTest < ActionController::IntegrationTest
 
     post 'issues/1/edit',
          :notes => 'Some notes',
-         :attachments => {'1' => {'file' => test_uploaded_file('testfile.txt', 'text/plain'), 'description' => 'This is an attachment'}}
+         :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'This is an attachment'}}
     assert_redirected_to "issues/1"
     
     # make sure attachment was saved

@@ -54,7 +54,7 @@ class ActiveSupport::TestCase
     assert_equal login, User.find(session[:user_id]).login
   end
   
-  def test_uploaded_file(name, mime)
+  def uploaded_test_file(name, mime)
     ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime)
   end
   

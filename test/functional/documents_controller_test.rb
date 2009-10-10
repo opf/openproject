@@ -75,7 +75,7 @@ class DocumentsControllerTest < ActionController::TestCase
                :document => { :title => 'DocumentsControllerTest#test_post_new',
                               :description => 'This is a new document',
                               :category_id => 2},
-               :attachments => {'1' => {'file' => test_uploaded_file('testfile.txt', 'text/plain')}}
+               :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
                
     assert_redirected_to 'projects/ecookbook/documents'
     

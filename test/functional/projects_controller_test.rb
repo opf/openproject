@@ -272,7 +272,7 @@ class ProjectsControllerTest < ActionController::TestCase
     
     assert_difference 'Attachment.count' do
       post :add_file, :id => 1, :version_id => '',
-           :attachments => {'1' => {'file' => test_uploaded_file('testfile.txt', 'text/plain')}}
+           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
     end
     assert_redirected_to 'projects/ecookbook/files'
     a = Attachment.find(:first, :order => 'created_on DESC')
@@ -303,7 +303,7 @@ class ProjectsControllerTest < ActionController::TestCase
     
     assert_difference 'Attachment.count' do
       post :add_file, :id => 1, :version_id => '2',
-           :attachments => {'1' => {'file' => test_uploaded_file('testfile.txt', 'text/plain')}}
+           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
     end
     assert_redirected_to 'projects/ecookbook/files'
     a = Attachment.find(:first, :order => 'created_on DESC')
