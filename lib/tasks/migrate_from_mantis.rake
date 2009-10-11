@@ -314,7 +314,7 @@ task :migrate_from_mantis => :environment do
       Issue.destroy_all
       issues_map = {}
       keep_bug_ids = (Issue.count == 0)
-      MantisBug.find(:all, :order => 'id ASC').each do |bug|
+      MantisBug.find_each(:batch_size => 200) do |bug|
         next unless projects_map[bug.project_id] && users_map[bug.reporter_id]
     	i = Issue.new :project_id => projects_map[bug.project_id], 
                       :subject => encode(bug.summary),

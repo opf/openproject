@@ -458,7 +458,7 @@ namespace :redmine do
 
         # Tickets
         print "Migrating tickets"
-          TracTicket.find(:all, :order => 'id ASC').each do |ticket|
+          TracTicket.find_each(:batch_size => 200) do |ticket|
           print '.'
           STDOUT.flush
           i = Issue.new :project => @target_project,
