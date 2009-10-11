@@ -93,7 +93,7 @@ el:
         invalid: "είναι άκυρο"
         confirmation: "δεν αντιστοιχεί με την επιβεβαίωση"
         accepted: "πρέπει να γίνει αποδοχή"
-        empty: "δε μπορεί να είναι κενό"
+        empty: "δε μπορεί να είναι άδειο"
         blank: "δε μπορεί να είναι κενό"
         too_long: "έχει πολλούς (μέγ.επιτρ. {{count}} χαρακτήρες)"
         too_short: "έχει λίγους (ελάχ.επιτρ. {{count}} χαρακτήρες)"
@@ -121,8 +121,8 @@ el:
   general_lang_name: 'Ελληνικά'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
-  general_csv_encoding: ISO-8859-7
-  general_pdf_encoding: ISO-8859-7
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: UTF-8
   general_first_day_of_week: '7'
   
   notice_account_updated: Ο λογαριασμός ενημερώθηκε επιτυχώς.
@@ -334,8 +334,8 @@ el:
   permission_view_calendar: Προβολή ημερολογίου
   permission_view_issue_watchers: Προβολή λίστας παρατηρητών
   permission_add_issue_watchers: Προσθήκη παρατηρητών
-  permission_log_time: Ιστορικό δαπανημένου χρόνου
-  permission_view_time_entries: Προβολή δαπανημένου χρόνου
+  permission_log_time: Ιστορικό χρόνου που δαπανήθηκε
+  permission_view_time_entries: Προβολή χρόνου που δαπανήθηκε
   permission_edit_time_entries: Επεξεργασία ιστορικού χρόνου 
   permission_edit_own_time_entries: Επεξεργασία δικού μου ιστορικού χρόνου
   permission_manage_news: Διαχείριση νέων
@@ -361,8 +361,8 @@ el:
   permission_add_messages: Αποστολή μηνυμάτων
   permission_edit_messages: Επεξεργασία μηνυμάτων
   permission_edit_own_messages: Επεξεργασία δικών μου μηνυμάτων
-  permission_delete_messages: Delete messages
-  permission_delete_own_messages: Διαγραφή μηνυμάτων
+  permission_delete_messages: Διαγραφή μηνυμάτων
+  permission_delete_own_messages: Διαγραφή δικών μου μηνυμάτων
   
   project_module_issue_tracking: Ανίχνευση θεμάτων
   project_module_time_tracking: Ανίχνευση χρόνου
@@ -504,7 +504,7 @@ el:
     other: "{{count}} κλειστά"
   label_total: Σύνολο
   label_permissions: Άδειες
-  label_current_status: Current status
+  label_current_status: Τρέχουσα κατάσταση
   label_new_statuses_allowed: Νέες καταστάσεις επιτρέπονται
   label_all: όλα
   label_none: κανένα
@@ -822,11 +822,11 @@ el:
   enumeration_issue_priorities: Προτεραιότητα θέματος
   enumeration_doc_categories: Κατηγορία εγγράφων
   enumeration_activities: Δραστηριότητες (κατακερματισμός χρόνου)
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
+  text_journal_changed: "{{label}} άλλαξε από {{old}} σε {{new}}"
+  text_journal_set_to: "{{label}} ορίζεται σε {{value}}"
+  text_journal_deleted: "{{label}} διαγράφηκε ({{old}})"
+  label_group_plural: Ομάδες
+  label_group: Ομάδα
+  label_group_new: Νέα ομάδα
+  label_time_entry_plural: Χρόνος που δαπανήθηκε
   text_journal_added: "{{label}} {{value}} added"
