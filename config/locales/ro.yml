@@ -800,30 +800,30 @@ ro:
   enumeration_activities: Activități (timp de lucru)
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
+  text_wiki_page_destroy_question: Această pagină are {{descendants}} pagini anterioare și descendenți. Ce doriți să faceți?
+  text_wiki_page_reassign_children: Atribuie paginile la această pagină
+  text_wiki_page_nullify_children: Menține paginile ca și pagini inițiale (root)
+  text_wiki_page_destroy_children: Șterge paginile și descendenții
+  setting_password_min_length: Lungime minimă parolă
+  field_group_by: Grupează după
+  mail_subject_wiki_content_updated: "Pagina wiki '{{page}}' a fost actualizată"
+  label_wiki_content_added: Adăugat
+  mail_subject_wiki_content_added: "Pagina wiki '{{page}}' a fost adăugată"
+  mail_body_wiki_content_added: Pagina wiki '{{page}}' a fost adăugată de {{author}}.
+  label_wiki_content_updated: Actualizat
+  mail_body_wiki_content_updated: Pagina wiki '{{page}}' a fost actualizată de {{author}}.
+  permission_add_project: Crează proiect
+  setting_new_project_user_role_id: Rol atribuit utilizatorului non-admin care crează un proiect.
+  label_view_all_revisions: Arată toate reviziile
   label_tag: Tag
   label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
+  error_no_tracker_in_project: Nu există un tracker asociat cu proiectul. Verificați vă rog setările proiectului.
+  error_no_default_issue_status: Nu există un status implicit al tichetelor. Verificați vă rog configurația (Mergeți la "Administrare -> Stări tichete").
+  text_journal_changed: "{{label}} schimbat din {{old}} în {{new}}"
+  text_journal_set_to: "{{label}} setat ca {{value}}"
+  text_journal_deleted: "{{label}} șters ({{old}})"
+  label_group_plural: Grupuri
+  label_group: Grup
+  label_group_new: Grup nou
+  label_time_entry_plural: Timp alocat
   text_journal_added: "{{label}} {{value}} added"
