@@ -177,7 +177,9 @@ zh:
   error_scm_command_failed: "访问版本库时发生错误：{{value}}"
   error_scm_annotate: "该条目不存在或无法追溯。"
   error_issue_not_found_in_project: '问题不存在或不属于此项目'
-  
+  error_no_tracker_in_project: 该项目未设定跟踪标签，请检查项目配置。
+  error_no_default_issue_status: 未设置默认的问题状态。请检查系统设置（"管理" -> "问题状态"）。
+
   warning_attachments_not_saved: "{{count}} 个文件保存失败。"
   
   mail_subject_lost_password: "您的 {{value}} 密码"
@@ -584,6 +586,8 @@ zh:
   label_browse: 浏览
   label_modification: "{{count}} 个更新"
   label_modification_plural: "{{count}} 个更新"
+  label_branch: 分支
+  label_tag: 标签
   label_revision: 修订
   label_revision_plural: 修订
   label_associated_revisions: 相关修订版本
@@ -595,6 +599,7 @@ zh:
   label_latest_revision: 最近的修订版本
   label_latest_revision_plural: 最近的修订版本
   label_view_revisions: 查看修订
+  label_view_all_revisions: 查看所有修订
   label_max_size: 最大尺寸
   label_sort_highest: 置顶
   label_sort_higher: 上移
@@ -719,6 +724,10 @@ zh:
   label_date_from_to: 从 {{start}} 到 {{end}}
   label_wiki_content_added: Wiki 页面已添加
   label_wiki_content_updated: Wiki 页面已更新
+  label_group: 组
+  label_group_plural: 组
+  label_group_new: 新建组
+  label_time_entry_plural: 耗时
 
   button_login: 登录
   button_submit: 提交
@@ -771,6 +780,10 @@ zh:
   text_subprojects_destroy_warning: "以下子项目也将被同时删除：{{value}}"
   text_workflow_edit: 选择角色和跟踪标签来编辑工作流程
   text_are_you_sure: 您确定？
+  text_journal_changed: "{{label}} 从 {{old}} 变更为 {{new}}"
+  text_journal_set_to: "{{label}} 被设置为 {{value}}"
+  text_journal_deleted: "{{label}} 已删除 ({{old}})"
+  text_journal_added: "{{label}} {{value}} 已添加"
   text_tip_task_begin_day: 今天开始的任务
   text_tip_task_end_day: 今天结束的任务
   text_tip_task_begin_end_day: 今天开始并结束的任务
@@ -839,16 +852,3 @@ zh:
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
