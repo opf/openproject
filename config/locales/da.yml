@@ -111,8 +111,8 @@ da:
         accepted: "skal accepteres"
         empty: "må ikke udelades"
         blank: "skal udfyldes"
-        too_long: "er for lang (maksimum {{count}} tegn)"
-        too_short: "er for kort (minimum {{count}} tegn)"
+        too_long: "er for lang (højst {{count}} tegn)"
+        too_short: "er for kort (mindst {{count}} tegn)"
         wrong_length: "har forkert længde (skulle være {{count}} tegn)"
         taken: "er allerede anvendt"
         not_a_number: "er ikke et tal"
@@ -279,7 +279,7 @@ da:
   setting_issues_export_limit: Sagseksporteringsbegrænsning
   setting_mail_from: Afsender-email
   setting_bcc_recipients: Skjult modtager (bcc)
-  setting_host_name: Værts navn
+  setting_host_name: Værtsnavn
   setting_text_formatting: Tekstformatering
   setting_wiki_compression: Komprimering af wiki-historik
   setting_feeds_limit: Feed indholdsbegrænsning
@@ -287,7 +287,7 @@ da:
   setting_sys_api_enabled: Aktiver webservice for automatisk administration af repository
   setting_commit_ref_keywords: Referencenøgleord
   setting_commit_fix_keywords: Afslutningsnøgleord
-  setting_autologin: Autologin
+  setting_autologin: Automatisk login
   setting_date_format: Datoformat
   setting_time_format: Tidsformat
   setting_cross_project_issue_relations: Tillad sagsrelationer på tværs af projekter
@@ -347,7 +347,7 @@ da:
   label_issue_category_plural: Sagskategorier
   label_issue_category_new: Ny kategori
   label_custom_field: Brugerdefineret felt
-  label_custom_field_plural: Brugerdefineret felt
+  label_custom_field_plural: Brugerdefinerede felter
   label_custom_field_new: Nyt brugerdefineret felt
   label_enumerations: Værdier
   label_enumeration_new: Ny værdi
@@ -408,9 +408,9 @@ da:
   label_change_log: Ændringer
   label_settings: Indstillinger
   label_overview: Oversigt
-  label_version: Version
-  label_version_new: Ny version
-  label_version_plural: Versioner
+  label_version: Udgave
+  label_version_new: Ny udgave
+  label_version_plural: Udgaver
   label_confirmation: Bekræftelser
   label_export_to: Eksporter til
   label_read: Læs...
@@ -500,7 +500,7 @@ da:
   label_latest_revision: Seneste revision
   label_latest_revision_plural: Seneste revisioner
   label_view_revisions: Se revisioner
-  label_max_size: Maximal størrelse
+  label_max_size: Maksimal størrelse
   label_sort_highest: Flyt til toppen
   label_sort_higher: Flyt op
   label_sort_lower: Flyt ned
@@ -599,7 +599,7 @@ da:
   label_display_per_page: "Per side: {{value}}"
   label_age: Alder
   label_change_properties: Ændre indstillinger
-  label_general: Generalt
+  label_general: Generelt
   label_more: Mere
   label_scm: SCM
   label_plugins: Plugins
@@ -722,11 +722,11 @@ da:
   label_preferences: Preferences
   label_overall_activity: Overordnet aktivitet
   setting_default_projects_public: Nye projekter er offentlige som standard
-  error_scm_annotate: "The entry does not exist or can not be annotated."
+  error_scm_annotate: "Filen findes ikke, eller kunne ikke annoteres."
   label_planning: Planlægning
   text_subprojects_destroy_warning: "Dets underprojekter(er): {{value}} vil også blive slettet."
   permission_edit_issues: Redigér sager
-  setting_diff_max_lines_displayed: Maksimalt antal forskelle der vises
+  setting_diff_max_lines_displayed: Højeste antal forskelle der vises
   permission_edit_own_issue_notes: Redigér egne noter
   setting_enabled_scm: Aktiveret SCM
   button_quote: Citér
@@ -736,7 +736,7 @@ da:
   permission_delete_own_messages: Slet egne beskeder
   permission_manage_public_queries: Administrér offentlig forespørgsler
   permission_log_time: Registrér anvendt tid
-  label_renamed: omdømt
+  label_renamed: omdøbt
   label_incoming_emails: Indkommende emails
   permission_view_changesets: Se ændringer
   permission_manage_versions: Administrér versioner
@@ -753,9 +753,9 @@ da:
   permission_add_issue_watchers: Tilføj overvågere
   warning_attachments_not_saved: "der var {{count}} fil(er), som ikke kunne gemmes."
   permission_comment_news: Kommentér nyheder
-  text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  permission_select_project_modules: Vælg projekt moduler
-  permission_view_gantt: Se gantt diagram
+  text_enumeration_category_reassign_to: 'FLyt dem til denne værdi:'
+  permission_select_project_modules: Vælg projektmoduler
+  permission_view_gantt: Se Gantt diagram
   permission_delete_messages: Slet beskeder
   permission_move_issues: Flyt sager
   permission_edit_wiki_pages: Redigér wiki sider
@@ -766,7 +766,7 @@ da:
   notice_unable_delete_version: Kan ikke slette versionen.
   permission_view_wiki_edits: Se wiki historik
   field_editable: Redigérbar
-  label_duplicated_by: duplikeret af
+  label_duplicated_by: dubleret af
   permission_manage_boards: Administrér fora
   permission_delete_wiki_pages_attachments: Slet filer vedhæftet wiki sider
   permission_view_messages: Se beskeder
@@ -782,7 +782,7 @@ da:
   button_create_and_continue: Opret og fortsæt
   setting_gravatar_enabled: Anvend Gravatar bruger ikoner
   label_updated_time_by: "Opdateret af {{author}} for {{age}} siden"
-  text_diff_truncated: '... Listen over forskelle er bleve afkortet fordi den overstiger den maksimale størrelse der kan vises.'
+  text_diff_truncated: '... Listen over forskelle er bleve afkortet da den overstiger den maksimale størrelse der kan vises.'
   text_user_wrote: "{{value}} skrev:"
   setting_mail_handler_api_enabled: Aktiver webservice for indkomne emails
   permission_delete_issues: Slet sager
@@ -808,45 +808,45 @@ da:
   permission_edit_time_entries: Redigér tidsregistreringer
   general_csv_decimal_separator: ','
   permission_edit_own_time_entries: Redigér egne tidsregistreringer
-  setting_repository_log_display_limit: Maksimalt antal revisioner vist i fil-log
-  setting_file_max_size_displayed: Maksimal størrelse på tekstfiler vist inline
+  setting_repository_log_display_limit: Højeste antal revisioner vist i fil-log
+  setting_file_max_size_displayed: Maksimale størrelse på tekstfiler vist inline
   field_watcher: Overvåger
   setting_openid: Tillad OpenID login og registrering
   field_identity_url: OpenID URL
   label_login_with_open_id_option: eller login med OpenID
-  setting_per_page_options: Objects per page options
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  setting_per_page_options: Enheder per side muligheder
+  mail_body_reminder: "{{count}} sage(er) som er tildelt dig har deadline indenfor de næste {{days}} dage:"
+  field_content: Indhold
+  label_descending: Aftagende
+  label_sort: Sortér
+  label_ascending: Tiltagende
+  label_date_from_to: Fra {{start}} til {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
+  text_wiki_page_destroy_question: Denne side har {{descendants}} underside(r) og afledte. Hvad vil du gøre?
+  text_wiki_page_reassign_children: Flyt undersider til denne side
+  text_wiki_page_nullify_children: Behold undersider som rod-sider
+  text_wiki_page_destroy_children: Slet undersider ogalle deres afledte sider.
+  setting_password_min_length: Mindste længde på kodeord
+  field_group_by: Gruppér resultater efter
+  mail_subject_wiki_content_updated: "'{{page}}' wikisiden er blevet opdateret"
+  label_wiki_content_added: Wiki side tilføjet
+  mail_subject_wiki_content_added: "'{{page}}' wikisiden er blevet tilføjet"
+  mail_body_wiki_content_added: The '{{page}}' wikiside er blevet tilføjet af {{author}}.
+  label_wiki_content_updated: Wikiside opdateret
+  mail_body_wiki_content_updated: Wikisiden '{{page}}' er blevet opdateret af {{author}}.
+  permission_add_project: Opret projekt
+  setting_new_project_user_role_id: Denne rolle gives til en bruger, som ikke er administrator, og som opretter et projekt
+  label_view_all_revisions: Se alle revisioner
   label_tag: Tag
   label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
+  error_no_tracker_in_project: Der er ingen sagshåndtering for dette projekt. Kontrollér venligst projektindstillingerne.
+  error_no_default_issue_status: Der er ikek defineret en standardstatus. Kontrollér venligst indstillingernen (Gå til "Administration -> Sagsstatuser").
+  text_journal_changed: "{{label}} ændret fra {{old}} til {{new}}"
+  text_journal_set_to: "{{label}} sat til {{value}}"
+  text_journal_deleted: "{{label}} slettet ({{old}})"
+  label_group_plural: Grupper
+  label_group: Grupper
+  label_group_new: Ny gruppe
+  label_time_entry_plural: Anvendt tid
   text_journal_added: "{{label}} {{value}} added"
