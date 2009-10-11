@@ -284,7 +284,7 @@ task :migrate_from_mantis => :environment do
     	# Project members
     	project.members.each do |member|
           m = Member.new :user => User.find_by_id(users_map[member.user_id]),
-    	                 :role => ROLE_MAPPING[member.access_level] || DEFAULT_ROLE
+    	                   :roles => [ROLE_MAPPING[member.access_level] || DEFAULT_ROLE]
     	  m.project = p
     	  m.save
     	end	

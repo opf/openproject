@@ -263,7 +263,7 @@ namespace :redmine do
           elsif TracPermission.find_by_username_and_action(username, 'developer')
             role = ROLE_MAPPING['developer']
           end
-          Member.create(:user => u, :project => @target_project, :role => role)
+          Member.create(:user => u, :project => @target_project, :roles => [role])
           u.reload
         end
         u
