@@ -1,7 +1,8 @@
 # Korean translations for Ruby on Rails 
-# by Kihyun Yoon(ddumbugie@gmail.com)
+# by Kihyun Yoon(ddumbugie@gmail.com),http://plenum.textcube.com/
 # by John Hwang (jhwang@tavon.org),http://github.com/tavon
-# last update at 2009-09-11 by Yonghwan SO
+# by Yonghwan SO(please insert your email), last update at 2009-09-11
+# last update at 2009-09-11 by Kihyun Yoon
 ko:
   date:
     formats:
@@ -480,9 +481,9 @@ ko:
   label_login_with_open_id_option: 또는 OpenID로 로그인
   label_password_lost: 비밀번호 찾기
   label_home: 초기화면
-  label_my_page: 내페이지
-  label_my_account: 내계정
-  label_my_projects: 나의 프로젝트
+  label_my_page: 내 페이지
+  label_my_account: 내 계정
+  label_my_projects: 내 프로젝트
   label_administration: 관리
   label_login: 로그인
   label_logout: 로그아웃
@@ -513,8 +514,8 @@ ko:
   label_text: 텍스트
   label_attribute: 속성
   label_attribute_plural: 속성
-  label_download: "{{count}} 다운로드"
-  label_download_plural: "{{count}} 다운로드"
+  label_download: "{{count}}회 다운로드"
+  label_download_plural: "{{count}}회 다운로드"
   label_no_data: 표시할 데이터가 없습니다.
   label_change_status: 상태 변경
   label_history: 이력
@@ -547,8 +548,8 @@ ko:
   label_closed_issues_plural: 완료됨
   label_x_open_issues_abbr_on_total:
     zero:  "총 {{total}} 건 모두 완료"
-    one:   "총 {{total}} 건 중 한 건 진행 중"
-    other: "총 {{total}} 건 중 {{count}} 건 진행 중"
+    one:   "한 건 진행 중 / 총 {{total}} 건 중 "
+    other: "{{count}} 건 진행 중 / 총 {{total}} 건"
   label_x_open_issues_abbr:
     zero:  모두 완료
     one:   한 건 진행 중
@@ -565,7 +566,7 @@ ko:
   label_none: 없음
   label_nobody: 미지정
   label_next: 다음
-  label_previous: 이전
+  label_previous: 뒤로
   label_used_by: 사용됨
   label_details: 자세히
   label_add_note: 일감덧글 추가
@@ -698,7 +699,7 @@ ko:
   label_message_new: 새글쓰기
   label_message_posted: 글 추가
   label_reply_plural: 답글
-  label_send_information: 사용자에게 계정정보를 보냄
+  label_send_information: 사용자에게 계정정보를 보내기
   label_year: 년
   label_month: 월
   label_week: 주
@@ -768,7 +769,7 @@ ko:
   button_add: 추가
   button_change: 변경
   button_apply: 적용
-  button_clear: 초기화
+  button_clear: 지우기
   button_lock: 잠금
   button_unlock: 잠금해제
   button_download: 다운로드
@@ -780,15 +781,15 @@ ko:
   button_activate: 활성화
   button_sort: 정렬
   button_log_time: 작업시간 기록
-  button_rollback: 이 버전으로 롤백
+  button_rollback: 이 버전으로 되돌리기
   button_watch: 지켜보기
   button_unwatch: 관심끄기
   button_reply: 답글
   button_archive: 잠금보관
   button_unarchive: 잠금보관해제
-  button_reset: 리셋
-  button_rename: 이름변경
-  button_change_password: 비밀번호 변경
+  button_reset: 초기화
+  button_rename: 이름바꾸기
+  button_change_password: 비밀번호 바꾸기
   button_copy: 복사
   button_annotate: 이력해설
   button_update: 수정
@@ -815,7 +816,7 @@ ko:
   text_length_between: "{{min}} 에서 {{max}} 글자"
   text_tracker_no_workflow: 이 일감 유형에는 업무흐름이 정의되지 않았습니다.
   text_unallowed_characters: 허용되지 않는 문자열
-  text_comma_separated: 복수의 값들이 허용됩니다.(구분자 ,)
+  text_comma_separated: "구분자','를 이용해서 여러 개의 값을 입력할 수 있습니다."
   text_issues_ref_in_commit_messages: 제출 메시지에서 일감을 참조하거나 해결하기
   text_issue_added: "{{author}}이(가) 일감 {{id}}을(를) 보고하였습니다."
   text_issue_updated: "{{author}}이(가) 일감 {{id}}을(를) 수정하였습니다."
@@ -823,8 +824,8 @@ ko:
   text_issue_category_destroy_question: "일부 일감들({{count}}개)이 이 범주에 지정되어 있습니다. 어떻게 하시겠습니까?"
   text_issue_category_destroy_assignments: 범주 지정 지우기
   text_issue_category_reassign_to: 일감을 이 범주에 다시 지정하기
-  text_user_mail_option: "선택하지 않은 프로젝트에서도, 모니터링 중이거나 속해있는 사항(일감을 발행했거나 할당된 경우)이 있으면 알림메일을 받게 됩니다."
-  text_no_configuration_data: "역할, 일감 유형, 일감 상태들과 업무흐름이 아직 설정되지 않았습니다.\n기본 설정을 읽어드리는 것을 권장합니다. 읽어들인 후에 수정할 수 있습니다."
+  text_user_mail_option: "선택하지 않은 프로젝트에서도, 지켜보는 중이거나 속해있는 사항(일감을 발행했거나 할당된 경우)이 있으면 알림메일을 받게 됩니다."
+  text_no_configuration_data: "역할, 일감 유형, 일감 상태들과 업무흐름이 아직 설정되지 않았습니다.\n기본 설정을 읽어들이는 것을 권장합니다. 읽어들인 후에 수정할 수 있습니다."
   text_load_default_configuration: 기본 설정을 읽어들이기
   text_status_changed_by_changeset: "변경묶음 {{value}}에 의하여 변경됨"
   text_issues_destroy_confirmation: '선택한 일감을 정말로 삭제하시겠습니까?'
@@ -843,21 +844,21 @@ ko:
   text_email_delivery_not_configured: "이메일 전달이 설정되지 않았습니다. 그래서 알림이 비활성화되었습니다.\n SMTP서버를 config/email.yml에서 설정하고 어플리케이션을 다시 시작하십시오. 그러면 동작합니다."
   text_repository_usernames_mapping: "저장소 로그에서 발견된 각 사용자에 레드마인 사용자를 업데이트할때 선택합니다.\n레드마인과 저장소의 이름이나 이메일이 같은 사용자가 자동으로 연결됩니다."
   text_diff_truncated: '... 이 차이점은 표시할 수 있는 최대 줄수를 초과해서 이 차이점은 잘렸습니다.'
-  text_custom_field_possible_values_info: '각 값당 한 줄'
+  text_custom_field_possible_values_info: '각 값 당 한 줄'
   text_wiki_page_destroy_question: 이 페이지는 {{descendants}} 개의 하위 페이지와 관련 내용이 있습니다. 이 내용을 어떻게 하시겠습니까?
-  text_wiki_page_nullify_children: 하위 페이지를 루트 페이지 아래로 지정
+  text_wiki_page_nullify_children: 하위 페이지를 최상위 페이지 아래로 지정
   text_wiki_page_destroy_children: 모든 하위 페이지와 관련 내용을 삭제
   text_wiki_page_reassign_children: 하위 페이지를 이 페이지 아래로 지정
   
   default_role_manager: 관리자
   default_role_developper: 개발자
   default_role_reporter: 보고자
-  default_tracker_bug: 버그
-  default_tracker_feature: 기능
+  default_tracker_bug: 결함
+  default_tracker_feature: 새기능
   default_tracker_support: 지원
-  default_issue_status_new: 새로움
-  default_issue_status_assigned: 할당됨
-  default_issue_status_resolved: 해결됨
+  default_issue_status_new: 신규
+  default_issue_status_assigned: 할당
+  default_issue_status_resolved: 해결
   default_issue_status_feedback: 의견
   default_issue_status_closed: 완료
   default_issue_status_rejected: 거절
@@ -877,8 +878,8 @@ ko:
 
   field_issue_to: Related issue
   label_view_all_revisions: 모든 개정판 표시
-  label_tag: 태그
-  label_branch: 브랜치
+  label_tag: 표지(票識)저장소
+  label_branch: 분기(分岐)저장소
   error_no_tracker_in_project: 사용할 수 있도록 설정된 일감 유형이 없습니다. 프로젝트 설정을 확인하십시오.
   error_no_default_issue_status: '기본 상태가 정해져 있지 않습니다. 설정을 확인하십시오. (주 메뉴의 "관리" -> "일감 상태")'
   text_journal_changed: "{{label}}을(를) {{old}}에서 {{new}}(으)로 변경함"
@@ -887,5 +888,5 @@ ko:
   label_group_plural: 그룹
   label_group: 그룹
   label_group_new: 새 그룹
-  label_time_entry_plural: Spent time
+  label_time_entry_plural: 작업시간
   text_journal_added: "{{label}} {{value}} added"
