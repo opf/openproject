@@ -1,6 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe CostEntry do
+  
+  before do
+    User.current = users("admin")
+  end
 
   fixtures :users
   fixtures :cost_types
