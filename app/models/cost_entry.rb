@@ -33,9 +33,9 @@ class CostEntry < ActiveRecord::Base
   end
   
   def before_save
-    if @updated_rate != self.rate_id || @updated_units != self.units
+    if @updated_rate != rate_id or @updated_units != units
       update_costs
-      self.issue.save
+      issue.save
     end
     true
   end
