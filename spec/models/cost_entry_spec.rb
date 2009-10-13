@@ -1,7 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Rate do
+describe CostEntry do
 
+  fixtures :users
   fixtures :cost_types
   fixtures :rates
 
@@ -27,6 +28,13 @@ describe Rate do
       pending
     end
 
+  end 
+  
+  describe "creation" do
+    
+    it "" do
+    end
+    
   end
   
   describe "destruction" do
