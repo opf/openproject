@@ -1,6 +1,6 @@
-hourly:
+umbrella:
   id: 1
-  name: Hourly Standard
-  unit: Hour
-  unit_plural: Houres
+  name: Umbrella Standard
+  unit: Umbrella
+  unit_plural: Umbrellas
   default: true
