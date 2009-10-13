@@ -1,3 +1,9 @@
+# prevent case where we are using rubygems and test-unit 2.x is installed
+begin
+  gem "test-unit", "~> 1.2.3"
+rescue LoadError
+end
+
 begin
   require "config/environment" unless defined? RAILS_ROOT
   require RAILS_ROOT + '/spec/spec_helper'
