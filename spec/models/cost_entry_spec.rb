@@ -4,43 +4,21 @@ describe CostEntry do
 
   fixtures :users
   fixtures :cost_types
+  fixtures :cost_entries
   fixtures :rates
-
-  describe "changing valid_from" do
-
-    it "should update all cost_entries correctly when rates change without changing order" do
-      pending
-    end
-
-    it "should update all cost_entries correctly when rates change order" do
-      pending
-    end
-
-    it "should update all cost_entries correctly when a rate is added before all other rates" do
-      pending
-    end
-
-    it "should update all cost_entries correctly when a rate is added after all other rates" do
-      pending
-    end
-
-    it "should update all cost_entries correctly when a rate is added between two other rates" do
-      pending
-    end
-
-  end 
+  fixtures :projects
+  fixtures :issues
   
   describe "creation" do
     
-    it "" do
+    it "should always preffer overridden_costs" do
+      example = cost_entries "example"
+      value = rand(500)
+      example.overridden_costs = value
+      example.overridden_costs.should == value
+      example.real_costs.should == value
     end
     
-  end
-  
-  describe "destruction" do
-    it "should update all cost_entries correctly when a rate is removed" do
-      pending
-    end
   end
 
 end
