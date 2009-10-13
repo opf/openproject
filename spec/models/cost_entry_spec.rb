@@ -9,7 +9,7 @@ describe CostEntry do
   fixtures :projects
   fixtures :issues
 
-  it "should always preffer overridden_costs" do
+  it "should always prefer overridden_costs" do
     example = cost_entries "example"
     value = rand(500)
     example.overridden_costs = value
