@@ -52,4 +52,16 @@ describe CostEntry do
     end
   end
 
+  it "should update cost if a rate is removed" do
+    cheap_one = rates("cheap_one")
+    @example.spent_on = cheap_one.valid_from + 10.minutes
+    @example.units = 1
+    @example.save!
+    @example.costs.should == cheap_one.rate
+    cheap_one.destroy!
+    @example.costs.should == rates("cheap_three").rate
+    rates("cheap_three").destroy!
+    @example.costs.should == rates("cheap_five").rate
+  end
+
 end
