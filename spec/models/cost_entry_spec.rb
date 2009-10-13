@@ -15,6 +15,7 @@ describe CostEntry do
     example.overridden_costs = value
     example.overridden_costs.should == value
     example.real_costs.should == value
+    example.save!
   end
 
 end
