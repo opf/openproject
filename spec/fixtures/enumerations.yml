@@ -1,0 +1,48 @@
+--- 
+enumerations_001: 
+  name: Uncategorized
+  id: 1
+  opt: DCAT
+enumerations_002: 
+  name: User documentation
+  id: 2
+  opt: DCAT
+enumerations_003: 
+  name: Technical documentation
+  id: 3
+  opt: DCAT
+enumerations_004: 
+  name: Low
+  id: 4
+  opt: IPRI
+enumerations_005: 
+  name: Normal
+  id: 5
+  opt: IPRI
+  is_default: true
+enumerations_006: 
+  name: High
+  id: 6
+  opt: IPRI
+enumerations_007: 
+  name: Urgent
+  id: 7
+  opt: IPRI
+enumerations_008: 
+  name: Immediate
+  id: 8
+  opt: IPRI
+enumerations_009: 
+  name: Design
+  id: 9
+  opt: ACTI
+enumerations_010: 
+  name: Development
+  id: 10
+  opt: ACTI
+  is_default: true
+enumerations_011: 
+  name: QA
+  id: 11
+  opt: ACTI
+  

@@ -1,0 +1,6 @@
+--- 
+trackers_001: 
+  name: Bug
+  id: 1
+  is_in_chlog: true
+  position: 1
