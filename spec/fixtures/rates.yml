@@ -6,14 +6,14 @@ cheap_five:
   cost_type_id: 1
 
 cheap_three:
-  id: 1
+  id: 2
   valid_from: <%= 3.days.ago.to_s :db  %>
   rate: 15.0
   type: CostRate
   cost_type_id: 1
 
 cheap_one:
-  id: 1
+  id: 3
   valid_from: <%= 1.days.ago.to_s :db  %>
   rate: 50.0
   type: CostRate

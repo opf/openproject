@@ -1,15 +1,19 @@
 john:
+  id: 1
   login: john
   hashed_password: "0123456789012345678901234567890123456789" # whatever
   firstname: John
   lastname: Doe
   mail: john@doe.com
   mail_notification: false
+  type: User
 
 jane:
+  id: 2
   login: jane
   hashed_password: "0123456789012345678901234567890123456789" # whatever
   firstname: Jane
   lastname: Doe
   mail: jane@doe.com
   mail_notification: false
+  type: User

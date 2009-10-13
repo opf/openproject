@@ -1,0 +1,8 @@
+example:
+  user_id: 1
+  project_id: 1
+  cost_type_id: 1
+  issue_id: 1
+  units: 1
+  spent_on: <%= Time.now %>
+  comments: "foo bar blah"
