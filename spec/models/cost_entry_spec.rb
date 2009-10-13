@@ -8,17 +8,13 @@ describe CostEntry do
   fixtures :rates
   fixtures :projects
   fixtures :issues
-  
-  describe "creation" do
-    
-    it "should always preffer overridden_costs" do
-      example = cost_entries "example"
-      value = rand(500)
-      example.overridden_costs = value
-      example.overridden_costs.should == value
-      example.real_costs.should == value
-    end
-    
+
+  it "should always preffer overridden_costs" do
+    example = cost_entries "example"
+    value = rand(500)
+    example.overridden_costs = value
+    example.overridden_costs.should == value
+    example.real_costs.should == value
   end
 
 end
