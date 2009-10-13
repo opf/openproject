@@ -6,17 +6,10 @@ class RateObserver < ActiveRecord::Observer
       @rate = changed_rate
     end
     
-    def order_dates(date1, date2)
-      # order the dates
-
-      return date1 || date2 if date1.nil? || date2.nil?
-
-      if date2 < date1
-        date_tmp = date2
-        date2 = date1
-        date1 = date_tmp
-      end
-      [date1, date2]
+    # order the dates
+    def order_dates(*dates)
+      dates.compact!
+      dates.size == 1 ? dates.first : dates.sort
     end
     
     def conditions_after(date, date_column = :spent_on)
