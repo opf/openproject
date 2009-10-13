@@ -37,6 +37,7 @@ class CostEntry < ActiveRecord::Base
       update_costs
       self.issue.save
     end
+    true
   end
   
   def real_costs
@@ -65,7 +66,7 @@ class CostEntry < ActiveRecord::Base
     if self.overridden_costs_changed?
       if self.overridden_costs_was.nil?
         # just started to overwrite the cost
-        delta = self.overridden_costs - self.costs_was
+        delta = self.costs_was.nil? ? self.overridden_costs : self.overridden_costs - self.costs_was
       elsif self.overridden_costs.nil?
         # removed the overridden cost, use the calculated cost now
         delta = self.costs - self.overridden_costs_was
