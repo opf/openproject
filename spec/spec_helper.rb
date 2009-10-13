@@ -1,3 +1,5 @@
+RAILS_ENV = "test"
+
 # prevent case where we are using rubygems and test-unit 2.x is installed
 begin
   gem "test-unit", "~> 1.2.3"
