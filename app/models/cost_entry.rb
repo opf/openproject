@@ -34,8 +34,7 @@ class CostEntry < ActiveRecord::Base
   
   def before_save
     update_costs
-    issue.save!
-    true
+    issue.save
   end
   
   def real_costs
