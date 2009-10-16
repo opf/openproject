@@ -33,14 +33,15 @@ describe CostEntry do
     end
   end
 
-  it "should update cost if a new rate is added" do
+  it "should update cost if a new rate is added at the end" do
     @example.cost_type = cost_types("umbrella")
     @example.spent_on = Time.now
     @example.units = 1
     @example.save!
     @example.costs.should == rates("cheap_one").rate
-    cheap = CostRate.create! :valid_from => 12.hours.ago, :rate => 1.0, :cost_type => cost_types("umbrella")
-    #@example.update_costs
+    cheap = CostRate.create! :valid_from => 1.day.ago, :rate => 1.0, :cost_type => cost_types("umbrella")
+    @example.reload
+    @example.rate.should_not == rates("cheap_one")
     @example.costs.should == cheap.rate
   end
 
@@ -55,13 +56,15 @@ describe CostEntry do
 
   it "should update cost if a rate is removed" do
     cheap_one = rates("cheap_one")
-    @example.spent_on = cheap_one.valid_from + 10.minutes
+    @example.spent_on = rates("cheap_one").valid_from
     @example.units = 1
     @example.save!
     @example.costs.should == cheap_one.rate
-    cheap_one.destroy!
+    cheap_one.destroy
+    @example.reload
     @example.costs.should == rates("cheap_three").rate
-    rates("cheap_three").destroy!
+    rates("cheap_three").destroy
+    @example.reload
     @example.costs.should == rates("cheap_five").rate
   end
 

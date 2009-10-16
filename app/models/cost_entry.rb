@@ -85,7 +85,6 @@ class CostEntry < ActiveRecord::Base
   
   def update_costs!(rate_attr = nil)
     self.update_costs(rate_attr)
-    self.issue.save!
     self.save!
   end
   
