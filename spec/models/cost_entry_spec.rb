@@ -40,6 +40,7 @@ describe CostEntry do
     @example.save!
     @example.costs.should == rates("cheap_one").rate
     cheap = CostRate.create! :valid_from => 12.hours.ago, :rate => 1.0, :cost_type => cost_types("umbrella")
+    #@example.update_costs
     @example.costs.should == cheap.rate
   end
 
