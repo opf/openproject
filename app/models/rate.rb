@@ -1,6 +1,5 @@
 class Rate < ActiveRecord::Base
   validates_numericality_of :rate, :allow_nil => false, :message => :activerecord_error_invalid
-  validates_format_of :valid_from, :with => /^\d{4}-\d{2}-\d{2}/
 
   def self.clean_currency(value)
     if value && value.is_a?(String)

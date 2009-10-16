@@ -11,7 +11,7 @@ module TimeEntryPatch
     # Same as typing in the class 
     base.class_eval do
       unloadable
-      
+
       belongs_to :rate, :conditions => {:type => ["HourlyRate", "DefaultHourlyRate"]}, :class_name => "Rate"
       attr_protected :costs, :rate_id
     end
@@ -24,20 +24,18 @@ module TimeEntryPatch
 
   module InstanceMethods
     def before_save
-      if @updated_rate != self.rate_id || @updated_hours != self.hours
-        update_costs
-        self.issue.save
-      end
+      update_costs
+      issue.save
     end
     
     def real_costs
       # This methods returns the actual assigned costs of the entry
-      self.overridden_costs || self.costs || calculated_costs
+      overridden_costs || costs || calculated_costs
     end
     
     def calculated_costs(rate_attr = nil)
       rate_attr ||= current_rate
-      self.hours * rate.rate
+      hours * rate.rate
     rescue
       0.0
     end
@@ -50,19 +48,19 @@ module TimeEntryPatch
         return
       end
       
-      self.costs = self.calculated_costs(rate_attr)
+      self.costs = calculated_costs(rate_attr)
       self.rate = rate_attr
 
       if self.overridden_costs_changed?
         if self.overridden_costs_was.nil?
           # just started to overwrite the cost
-          delta = self.overridden_costs - self.costs_was
+          delta = overridden_costs - (costs_was || 0.0)
         elsif self.overridden_costs.nil?
           # removed the overridden cost, use the calculated cost now
-          delta = self.costs - self.overridden_costs_was
+          delta = costs - overridden_costs_was
         else
           # changed the overridden costs
-          delta = self.overridden_costs - self.overridden_costs_was
+          delta = overridden_costs - (overridden_costs_was || 0.0)
         end
       elsif self.costs_changed? && self.overridden_costs.nil?
         # we use the calculated costs and it has changed

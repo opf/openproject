@@ -1,0 +1,17 @@
+--- 
+example: 
+  created_on: 2007-03-23 12:54:18 +01:00
+  tweek: 12
+  tmonth: 3
+  project_id: 1
+  comments: My hours
+  updated_on: 2007-03-23 12:54:18 +01:00
+  activity_id: 9
+  spent_on: <%= Time.now %>
+  issue_id: 1
+  id: 1
+  hours: 1.0
+  user_id: 1
+  tyear: 2007
+  rate_id: 4
+  costs: 0.0
