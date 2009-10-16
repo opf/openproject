@@ -42,7 +42,7 @@ describe TimeEntry do
       @example.save!
       @example.costs.should == rates("hourly_one").rate
       hourly = HourlyRate.create! :valid_from => 1.day.ago, :rate => 1.0,
-      :user => User.current, :project => rates("hourly_one").project
+        :user => User.current, :project => rates("hourly_one").project
       @example.reload
       @example.rate.should_not == rates("hourly_one")
       @example.costs.should == hourly.rate
@@ -55,7 +55,7 @@ describe TimeEntry do
       @example.save!
       @example.costs.should == rates("hourly_three").rate
       hourly = HourlyRate.create! :valid_from => 3.days.ago.to_date, :rate => 1.0,
-      :user => User.current, :project => rates("hourly_one").project
+        :user => User.current, :project => rates("hourly_one").project
       @example.reload
       @example.rate.should_not == rates("hourly_three")
       @example.costs.should == hourly.rate
@@ -141,6 +141,18 @@ describe TimeEntry do
       rates("default_hourly_three").destroy
       @default_example.reload
       @default_example.costs.should == rates("default_hourly_five").rate
+    end
+    
+    it "shoud be able to switch between default hourly rate and hourly rate" do
+      user = users("john")
+      @default_example.rate.should == rates("default_hourly_one")
+      rate = HourlyRate.create! :valid_from => 10.days.ago.to_date, :rate => 1337.0, :user => user,
+        :project => rates("hourly_one").project
+      @default_example.reload
+      @default_example.rate.should == rate
+      rate.destroy
+      @default_example.reload
+      @default_example.rate.should == rates("default_hourly_one")
     end
 
   end
