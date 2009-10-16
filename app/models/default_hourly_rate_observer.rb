@@ -36,7 +36,7 @@ class DefaultHourlyRateObserver < ActiveRecord::Observer
         # we have two dates, query between
         conditions = [
           "user_id = ? AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?",
-          @rate.user_id, default_rates, date1, date2
+          @rate.user_id, default_rates, date1, date2 - 1
         ]
       end
       
@@ -60,9 +60,6 @@ class DefaultHourlyRateObserver < ActiveRecord::Observer
     next_rate = rate.next
     # and entries from all projects that need updating
     entries = o.orphaned_child_entries(rate.valid_from, (next_rate.valid_from if next_rate))
-    
-    
-    puts "UPDATING TIME ENTRIES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     
     o.update_entries(entries)
   end

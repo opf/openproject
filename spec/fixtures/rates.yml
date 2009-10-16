@@ -42,3 +42,27 @@ hourly_five:
   user_id: 1
   project_id: 1
   type: HourlyRate
+  
+default_hourly_one:
+  id: 7
+  valid_from: <%= 2.days.ago.to_date.to_s :db %>
+  rate: 42.0
+  user_id: 2
+  project_id: 1
+  type: DefaultHourlyRate
+
+default_hourly_three:
+  id: 8
+  valid_from: <%= 4.days.ago.to_date.to_s :db %>
+  rate: 42.0
+  user_id: 2
+  project_id: 1
+  type: DefaultHourlyRate
+
+default_hourly_five:
+  id: 9
+  valid_from: <%= 6.days.ago.to_date.to_s :db %>
+  rate: 42.0
+  user_id: 2
+  project_id: 1
+  type: DefaultHourlyRate    
