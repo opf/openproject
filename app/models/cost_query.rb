@@ -1,11 +1,66 @@
 require_dependency 'query'
 
 class CostQueryColumn < QueryColumn
-  attr_accessor :name, :sortable, :groupable, :default_order
+  attr_reader :scope
   
   def initialize(name, options={})
-    self.type = (optione.delete(:type) || 'issue')
+    self.scope = (optione.delete(:scope) || :issues)
     super
+  end
+end
+
+class CostQueryCustomFieldColumn < QueryCustomFieldColumn
+  attr_accessor :scope
+  
+  def initialize(custom_field)
+    self.reader = :issues
+    super
+  end
+end
+
+class Filter
+  def initialize(scope, column_name, column)
+    @scope = scope
+    @column_name = column_name
+    @column = column
+    
+    @enabled = true
+  end
+  attr_reader :scope, :column_name, :column
+  
+  attr_reader :values
+  def values=(v)
+    if available_values
+      v.each do |value|
+        raise ArgumentError("Forbidden value") unless available_values.include? value
+      end
+    end
+    
+    @values = v
+  end
+  
+  attr_reader :operator
+  def operator=(o)
+    raise ArgumentException("Forbidden operator") unless available_operators.include? o
+    @operator = o
+  end
+  
+  attr_accessor :name, :enabled
+  
+  def type_name
+    @column[:type]
+  end
+  
+  def available_operators
+    CostQuery.filter_types[filter_type]
+  end
+  
+  def available_values
+    @column[:values]
+  end
+  
+  def new_record?
+    return true
   end
 end
 
@@ -17,14 +72,49 @@ class CostQuery < ActiveRecord::Base
   serialize :group_by
   
   attr_protected :user_id, :project_id, :created_at, :updated_at
+
+  def after_initialize
+    display_time_entries = true if display_time_entries.nil?
+    display_cost_entries = true if display_cost_entries.nil?
+  end
   
   def self.operators
-    Query.operators
+    # These are the operators used by filter types.
+    
+    operators = {}
+    issue_operators = Query.operators
+    
+    issue_operators.each_pair do |op, label|
+      simple = (["!*", "*", "t", "w", "o", "c"].include? op)
+      operators[op] = {:label => label, :simple => simple}
+      
+    end
+    
+    operators.merge(
+      {
+        "0" => {:label => :label_zero, :simple => true},
+        "y" => {:label => :label_yes, :simple => true},
+        "n" => {:label => :label_no, :simple => true}
+      }
+    )
   end
   
-  def operators_by_filter_type
-    Query.operators_by_filter_type
+  def self.filter_types
+    return @filter_types if @filter_types
+
+    filter_types = Query.operators_by_filter_type.inject({}) do |r, f|
+      multiple = !([:list, :list_status, :list_optional, :list_subproject].include? f[0])
+      r[f[0]] = {:operators => f[1], :multiple => multiple}
+      r
+    end
+    @filter_types = filter_types.merge( 
+      {
+        :integer_zero => {:operators => [ "=", ">=", "<=", "0", "*" ], :multiple => true},
+        :boolean => {:operators => [ "y", "n" ], :multiple => false}
+      }
+    )
   end
+  
   
   def available_filters
     # This available_filters is different from the Redmine one
@@ -38,24 +128,106 @@ class CostQuery < ActiveRecord::Base
     @available_filters = {
       :costs => {
         "cost_type_id" => { :type => :list_optional, :order => 2, :applies => [:cost_entries], :values => CostType.find(:all, :order => 'name').collect{|s| [s.name, s.id.to_s] }},
+        # FIXME: this has to be changed for Redmine 0.9 as r2777 of Redmine introduces STI for enumerations
         "activity" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :values => Enumeration.find(:all, :conditions => ['opt=?','ACTI'], :order => 'position').collect{|s| [s.name, s.id.to_s] }},
         "created_on" => { :type => :date_past, :applies => [:time_entries, :cost_entries], :order => 4 },                        
         "updated_on" => { :type => :date_past, :applies => [:time_entries, :cost_entries], :order => 5 },
-        "spent_on" => { :type => :date, :applies => [:time_entries, :cost_entries], :order => 6 }
-        "overridden" => { :type => }
-      },
+        "spent_on" => { :type => :date, :applies => [:time_entries, :cost_entries], :order => 6 },
+        "overridden" => { :type => :boolean, :applies => [:time_entries, :cost_entries], :order => 7 },
+      }
     }
     
-    tmp_query = Query.new(:project => project)
+    tmp_query = Query.new(:project => project, :name => "_")
     @available_filters[:issues] = tmp_query.available_filters
+    # flag columns that contain filters for user columns
+    @available_filters[:issues].each_pair do |k,v|
+      v[:flags] = []
+      v[:flags] << :user if %w(assigned_to_id author_id watcher_id).include?(k)
+      if k =~ /^cf_(\d+)$/
+        # custom field
+        v[:db_table] = CustomValue.table_name
+        v[:db_field] = value
+        v[:flags] << :custom_field
+      elsif k == "watcher_id"
+        v[:db_table] = Watcher.table_name
+        v[:db_field] = 'user_id'
+        v[:flags] << :watcher
+      else
+        v[:db_table] = Issue.table_name
+        v[:db_field] = k
+      end
+    end
     
     if @available_filters[:issues]["author_id"]
       # add a filter on cost entries for user_id if it is available
       user_values = @available_filters[:issues]["author_id"][:values]
-      @available_filters[:costs]["user_id"] = {:type => :list_optional, :order => 1, :applies => [:time_entries, :cost_entries], :values => user_values}
+      @available_filters[:costs]["user_id"] = {:type => :list_optional, :order => 1, :applies => [:time_entries, :cost_entries], :values => user_values, :flags => [:user]}
     end
     
     @available_filters
   end
+  
+  def create_filter(scope, column_name)
+    Filter.new(scope, column_name, available_filters[scope][column_name])
+  end
+  
+  
+  
+  
+  
+  
+  def sort_criteria=(arg)
+    c = []
+    if arg.is_a?(Hash)
+      arg = arg.keys.sort.collect {|k| arg[k]}
+    end
+    c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, o == 'desc' ? o : 'asc']}
+    write_attribute(:sort_criteria, c)
+  end
+
+  def sort_criteria
+    read_attribute(:sort_criteria) || []
+  end
+
+  def sort_criteria_key(arg)
+    sort_criteria && sort_criteria[arg] && sort_criteria[arg].first
+  end
+
+  def sort_criteria_order(arg)
+    sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
+  end
+
+
+
+  def statement(applies_type)
+    # applies_type can currently be one of :cost_entries, :time:entries
+    
+    filters_clauses = []
+    if filters and valid?
+      filters.each do |filter|
+        v = filter[:values].clone
+        operator = filter[:operator]
+        
+        if available_filter[filter[:scope]][filter[:column_name]][:flags].include? :user
+          v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
+        end
+        
+        sql = ''
+        case applies_type
+        when :issues
+
+        when :costs
+        end
+        
+        filter_clasues << sql
+      end
+    end
+    
+    (filter_clauses << project_statement).join(' AND ')
+  end
+
+
+
+
   
 end

@@ -69,8 +69,8 @@ class RateObserver < ActiveRecord::Observer
     end
     
     def orphaned_child_entries(date1, date2 = nil)
-      # This method returns all entries in child projects without an explicit rate
-      # between date1 and date2
+      # This method returns all entries in child projects without an explicit
+      # rate or with a rate id of rate_id between date1 and date2
       # i.e. the ones with an assigned default rate or without a rate
       return [] unless @rate.is_a?(HourlyRate)
       
@@ -90,6 +90,31 @@ class RateObserver < ActiveRecord::Observer
         conditions = [
           "user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?",
           @rate.user_id, @rate.project.descendants, default_rates, date1, date2
+        ]
+      end
+      
+      TimeEntry.find(:all, :conditions => conditions, :include => :rate)
+    end
+    
+    def child_entries(date1, date2 = nil)
+      # This method returns all entries in child projects without an explicit
+      # rate or with a rate id of rate_id between date1 and date2
+      # i.e. the ones with an assigned default rate or without a rate
+      return [] unless @rate.is_a?(HourlyRate)
+      
+      (date1, date2) = order_dates(date1, date2)
+
+      if date1.nil? || date2.nil?
+        # we have only one date, query >=
+        conditions = [
+          "user_id = ? AND project_id IN (?) AND rate_id = ? AND spent_on >= ?",
+          @rate.user_id, @rate.project.descendants, @rate.id, date1 || date2
+        ]
+      else
+        # we have two dates, query between
+        conditions = [
+          "user_id = ? AND project_id IN (?) AND rate_id  = ? AND spent_on BETWEEN ? AND ?",
+          @rate.user_id, @rate.project.descendants, @rate.id, date1, date2
         ]
       end
       
@@ -136,8 +161,11 @@ class RateObserver < ActiveRecord::Observer
       # So we have to either assign some entries to our previous rate (if moved forwards)
       # or assign some entries to self (if moved backwards)
       
-      # FIXME: Update entries of child projects too!
+      # get entries from the current project
       entries = o.find_entries(rate.valid_from_was, rate.valid_from)
+      # and entries from subprojects that need updating (only applies to hourly_rates)
+      entries += o.child_entries(rate.valid_from_was, rate.valid_from)
+            
       o.update_entries(entries, (rate.valid_from_was < rate.valid_from) ? rate.previous : rate)
     end
   end

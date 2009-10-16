@@ -36,7 +36,6 @@ function recalculate_even_odd(element) {
     {
       e.removeClassName("even");
       e.removeClassName("odd");
-      // e.addClassName( (Math.floor(acc/2)%2==0) ? "odd" : "even"); return ++acc;
       e.addClassName( (acc%2==0) ? "odd" : "even"); return ++acc;
     }
   )

@@ -1,0 +1,22 @@
+<table class="cost_entries">
+  <thead><tr>
+    <th><%= l(:caption_issue)%></th>
+    <th><%= l(:caption_cost_unit_plural) %></th>
+    <th><%= l(:caption_cost_type) %></th>
+    <th><%= l(:caption_spent_on) %></th>
+    <th><%= l(:caption_user) %></th>
+    <th><%= l(:caption_costs) %></th>
+  </tr></thead>
+  <tbody>
+  <% @entries.each do |entry| %>
+    <tr class="<%=  cycle('odd', 'even') %>">
+      <td class="subject"><%= link_to_issue entry.issue %>: <%= h(truncate(entry.issue.subject, 50)) -%></td>
+      <td><%= link_to pluralize(entry.units, entry.cost_type.unit, entry.cost_type.unit_plural), {:controller => "costlog", :action => "details", :cost_type_id => entry.cost_type, :issue_id => entry.issue} %></td>
+      <td><%= entry.cost_type %></td>
+      <td><%= format_date entry.spent_on %></td>
+      <td><%= link_to_user entry.user %></td>
+      <td class="currency"><%= number_to_currency(entry.real_costs) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

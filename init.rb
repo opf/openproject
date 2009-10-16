@@ -36,11 +36,11 @@ Redmine::Plugin.register :redmine_costs do
   project_module :costs_module do
     # from controlling requirements 3.5 (3)
     permission :view_own_rate, {}
-    permission :view_all_rates, {}
+    permission :view_all_rates, {:cost_reports => :index}
     permission :change_rates, {:hourly_rates => [:set_rate, :edit]}
   
     # from controlling requirements 4.5
-    permission :view_unit_price, {}
+    permission :view_unit_price, {:cost_reports => :index}
     permission :book_own_costs, {:costlog => :edit}, :require => :loggedin
     permission :book_costs, {:costlog => :edit}, :require => :member
     permission :edit_own_cost_entries, {:costlog => [:edit, :destroy]}, :require => :loggedin
@@ -56,10 +56,11 @@ Redmine::Plugin.register :redmine_costs do
   menu :top_menu, :cost_types, {:controller => 'cost_types', :action => 'index'},
     :caption => :cost_types_title, :if => Proc.new { User.current.admin? }
   menu :top_menu, :cost_reports, {:controller => 'cost_reports', :action => 'index'},
-    :caption => :cost_report_title,
+    :caption => :cost_reports_title,
     :if => Proc.new {
-      User.current.allowed_to?(:view_cost_objects, nil, :global => true) ||
-      User.current.allowed_to?(:edit_cost_objects, nil, :global => true)
+      ( User.current.allowed_to?(:view_cost_objects, nil, :global => true) ||
+        User.current.allowed_to?(:edit_cost_objects, nil, :global => true)
+      )
     }
 
   menu :project_menu, :cost_objects, {:controller => 'cost_objects', :action => 'index'},

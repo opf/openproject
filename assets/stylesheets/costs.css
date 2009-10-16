@@ -1,10 +1,32 @@
+.wide-icon {
+  background-position: 0% 40%;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+  
+}
+
+.single-wide-icon {
+  background-position: 20px 40%;
+}
+
 .icon-money {
   background-image: url(../images/money.png);
+}
+
+.icon-money-time {
+  background-image: url(../images/money-time.png);
 }
 
 .icon-box {
   background-image: url(../images/box.png);
 }
+
+.icon-ticket {
+  background-image: url(../../../images/ticket.png);
+}
+
 
 table.material_budget_items,
 table.labor_budget_items,
