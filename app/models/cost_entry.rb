@@ -30,9 +30,15 @@ class CostEntry < ActiveRecord::Base
     errors.add :issue_id, :activerecord_error_invalid if (issue_id && !issue) || (issue && project!=issue.project)
     
     errors.add :user_id, :activerecord_error_invalid unless (user == User.current) || (User.current.allowed_to? :book_costs, project)
+    begin
+      spent_on.to_date
+    rescue Exception
+      errors.add :spent_on, :activerecord_error_invalid
+    end
   end
   
   def before_save
+    self.spent_on &&= spent_on.to_date
     update_costs
     issue.save
   end

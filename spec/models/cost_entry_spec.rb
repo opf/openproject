@@ -44,6 +44,18 @@ describe CostEntry do
     @example.rate.should_not == rates("cheap_one")
     @example.costs.should == cheap.rate
   end
+  
+  it "should update cost if a new rate is added in between" do
+    @example.cost_type = cost_types("umbrella")
+    @example.spent_on = 3.days.ago
+    @example.units = 1
+    @example.save!
+    @example.costs.should == rates("cheap_three").rate
+    cheap = CostRate.create! :valid_from => 3.days.ago.to_date, :rate => 1.0, :cost_type => cost_types("umbrella")
+    @example.reload
+    @example.rate.should_not == rates("cheap_three")
+    @example.costs.should == cheap.rate
+  end
 
   it "should update cost if a spent_on changes" do
     @example.units = 1
