@@ -1,3 +1,9 @@
+Installing gems for testing
+===========================
+
+Run `rake gems RAILS_ENV=test` to list the required gems.  Run 
+`rake gems:install RAILS_ENV=test` to install any missing gems.
+
 Running Tests
 =============
 
