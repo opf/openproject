@@ -20,7 +20,7 @@
 <% if @cost_object.kind == "VariableCostObject" -%>
 <script type="text/javascript">
   //<![CDATA[
-  materialBudgetItemsForm = new Subform('<%= escape_javascript(render(:partial => "material_budget_item", :object => @cost_object.material_budget_items.build(:cost_type_id => CostType.default.id) )) %>',<%= @cost_object.material_budget_items.length %>,'material_budget_items_body');
+  materialBudgetItemsForm = new Subform('<%= escape_javascript(render(:partial => "material_budget_item", :object => @cost_object.material_budget_items.build(:cost_type => CostType.default) )) %>',<%= @cost_object.material_budget_items.length %>,'material_budget_items_body');
   laborBudgetItemsForm = new Subform('<%= escape_javascript(render(:partial => "labor_budget_item", :object => @cost_object.labor_budget_items.build )) %>',<%= @cost_object.labor_budget_items.length %>,'labor_budget_items_body');
   //]]>
 </script>
