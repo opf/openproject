@@ -25,7 +25,7 @@
           <%= number_to_currency(@cost_entry.calculated_costs) %>
         </span>
         <%= update_page_tag do |page|
-          page << "makeEditable('cost_entry_costs', 'cost_entry[costs]');"
+          page << "makeEditable('cost_entry_costs', 'cost_entry[overridden_costs]');"
           page << "edit($('cost_entry_costs'), 'cost_entry[overridden_costs]', '#{number_to_currency(@cost_entry.overridden_costs)}');" if @cost_entry.overridden_costs
         end %>
       <% else %>

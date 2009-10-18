@@ -93,7 +93,7 @@ class CostlogController < ApplicationController
     end
 
     if params[:cost_entry].is_a?(Hash) 
-      params[:cost_entry][:overridden_costs] = clean_currency(params[:cost_entry][:overridden_costs])
+      params[:cost_entry][:overridden_costs] = CostRate.clean_currency(params[:cost_entry][:overridden_costs])
     end
     @cost_entry.attributes = params[:cost_entry]
     @cost_entry.cost_type ||= CostType.default
