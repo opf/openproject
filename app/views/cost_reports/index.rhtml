@@ -22,9 +22,9 @@
     <div><%= render :partial => 'group_by', :locals => {:query_form => query_form} %></div>
   </fieldset>
   
-  <fieldset id="filter_options" class="collapsible collapsed">
+  <fieldset id="filter_options" class="collapsible">
     <legend onclick="toggleFieldset(this):"><%= l(:label_option_plural) %></legend>
-    <div style="display: none;"><%= render :partial => 'options', :locals => {:query_form => query_form} %></div>
+    <div><%= render :partial => 'options', :locals => {:query_form => query_form} %></div>
   </fieldset>
 
   <p class="buttons">

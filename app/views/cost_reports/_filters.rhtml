@@ -105,21 +105,21 @@
   IssueFilterTypes = new Hash();
   <% 
   @query.available_filters[:issues].sort_by{|c| c[1][:order]}.each do |e|
-    name = e[0]
-    filter = @query.create_filter(:issues, name)
-    add_issue_filter_select << [filter.name || l(("field_"+filter.column_name.gsub(/\_id$/, "")).to_sym), name]
+    column_name = e[0]
+    filter = @query.create_filter(:issues, column_name)
+    add_issue_filter_select << [filter.label, column_name]
   %>
-    IssueFilterTypes.set('<%= escape_javascript(name) %>', '<%= escape_javascript( render(:partial => "filter", :object => filter) )  %>');
+    IssueFilterTypes.set('<%= escape_javascript(column_name) %>', '<%= escape_javascript( render(:partial => "filter", :object => filter) )  %>');
   <% end %>  
   
   CostEntryFilterTypes = new Hash()
   <%
   @query.available_filters[:costs].sort_by{|c| c[1][:order]}.each do |e|
-    name = e[0]
-    filter = @query.create_filter(:costs, name)
-    add_cost_filter_select << [filter.name || l(("field_"+filter.column_name.gsub(/\_id$/, "")).to_sym), name]
+    column_name = e[0]
+    filter = @query.create_filter(:costs, column_name)
+    add_cost_filter_select << [filter.label, column_name]
   %>
-    CostEntryFilterTypes.set('<%= escape_javascript(name) %>', '<%= escape_javascript( render(:partial => "filter", :object => filter) )  %>');
+    CostEntryFilterTypes.set('<%= escape_javascript(column_name) %>', '<%= escape_javascript( render(:partial => "filter", :object => filter) )  %>');
   <% end %>  
   
   filterform = new Filterform($H({issues: IssueFilterTypes, costs: CostEntryFilterTypes}), <%= @query.filters ? @query.filters.length : 0 %>, 'filter_table');
@@ -128,7 +128,11 @@
 
 <table width="100%">
   <tbody><tr>
-    <td><table id="filter_table"></table></td>
+    <td><table id="filter_table">
+      <% @query.filters.each_with_index do |filter, index| %>
+        <%= render(:partial => "filter", :object => @query.create_filter_from_hash(filter), :locals => {:index => index}) %>
+      <% end if @query.filters %>
+    </table></td>
     <td class="add-filter">
       <%= l(:label_issue_filter_add) %>: <%= select_tag 'add_issue_filter_select', options_for_select(add_issue_filter_select),
         :onchange => "add_filter(this, 'issues');",
