@@ -49,7 +49,7 @@
       var column_name = select.value;
       
       var filter_id = filterform.add(scope, column_name);
-      var new_filter = $('filter_' + filter_id);
+      var new_filter = $('filters_' + filter_id);
       if (!new_filter) { return; }
       
       new_filter.down("input[type=checkbox]").checked = true;

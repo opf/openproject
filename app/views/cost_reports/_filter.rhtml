@@ -31,7 +31,7 @@
       simple_operator = CostQuery.operators.select{|k,v| v[:simple]}.include? filter.operator
     -%>
     
-    <div class="filter_values" <%= 'style="display_none"' unless simple_operator %>>
+    <div class="filter_values" <%= 'style="display: none"' unless simple_operator %>>
       <%= render :partial => "cost_reports/filter_types/#{filter.type_name}", :locals => {:f => f, :filter => filter, :index => index, :id_prefix => id_prefix, :name_prefix => name_prefix} %>
     </div>
   </td>
