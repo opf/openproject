@@ -855,4 +855,4 @@ pt-BR:
   label_group: Grupo
   label_group_new: Novo grupo
   label_time_entry_plural: Tempos gastos
-  text_journal_added: "{{label}} {{value}} added"
+  text_journal_added: "{{label}} {{value}} adicionado"
