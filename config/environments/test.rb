@@ -22,3 +22,4 @@ config.action_controller.session = {
 }
 
 config.gem "thoughtbot-shoulda", :lib => "shoulda", :source => "http://gems.github.com"
+config.gem "nofxx-object_daddy", :lib => "object_daddy", :source => "http://gems.github.com"

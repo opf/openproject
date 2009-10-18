@@ -27,6 +27,12 @@ class TestingTest < ActiveSupport::TestCase
     assert true
   end
 
+  test "Generating with object_daddy" do
+    assert_difference "IssueStatus.count" do
+      IssueStatus.generate!
+    end
+  end
+
   should "work with shoulda" do
     assert true
   end
