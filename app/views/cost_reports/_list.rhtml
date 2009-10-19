@@ -1,12 +1,12 @@
 <table class="cost_entries">
   <thead><tr>
-    <%= sort_header_tag("issue_id", :caption => l(:caption_issue), :default_order => 'desc') %>
+    <%= sort_header_tag("entry__issue_id", :caption => l(:caption_issue), :default_order => 'desc') %>
     <th><%= l(:caption_cost_unit_plural) %></th>
-    <th><%= l(:caption_cost_type) %></th>
+    <%= sort_header_tag("issue__cost_type_id", :caption => l(:caption_cost_type), :default_order => 'asc') %>
     <th><%= l(:caption_activity) %></th>
-    <%= sort_header_tag("spent_on", :caption => l(:caption_spent_on), :default_order => 'desc') %>
-    <th><%= l(:caption_user) %></th>
-    <th><%= l(:caption_costs) %></th>
+    <%= sort_header_tag("entry__spent_on", :caption => l(:caption_spent_on), :default_order => 'desc') %>
+    <%= sort_header_tag("entry__user_id", :caption => l(:caption_user), :default_order => 'asc') %>
+    <%= sort_header_tag("entry__costs", :caption => l(:caption_costs), :default_order => 'asc') %>
   </tr></thead>
   <tbody>
   <% @entries.each do |entry| %>

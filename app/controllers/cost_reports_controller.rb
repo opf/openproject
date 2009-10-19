@@ -10,11 +10,14 @@ class CostReportsController < ApplicationController
   include SortHelper
   
   def index
-#    @sort_criteria = @query.sort_criteria.empty? ? [['issue_id', 'desc']] : @query.sort_criteria
-#    sort_init(@sort_criteria)
-
-    sort_init "issue_id", "desc"
-    sortable_columns = {"issue_id" => "#{Issue.table_name}.id", "spent_on" => "spent_on"}
+    sort_init(@query.sort_criteria.empty? ? [['issue_id', 'desc']] : @query.sort_criteria)
+    sortable_columns = {
+      "issue__issue_id" => "#{Issue.table_name}.id",
+      "entry__spent_on" => "spent_on",
+      "entry__user_id" => "#{User.table_name}.id",
+      "entry__cost_type_id" => "#{CostType.table_name}.id",
+      "entry__costs" => "real_costs"
+    }
     sort_update(sortable_columns)
     
     if @query.valid?
@@ -28,16 +31,6 @@ class CostReportsController < ApplicationController
       
       get_entries(limit)
       
-      
-#      @entry_count = CostEntry.count(:conditions => @query.statement(:cost_entries))
-#      @entry_pages = Paginator.new self, @entry_count, limit, params['page']
-#    
-#      @entries = CostEntry.find :all, {:order => sort_clause,
-#                                :include => [:issue, :cost_type, :user],
-#                                :conditions => @query.statement(:cost_entries),
-#                                :limit => limit,
-#                                :offset => @entry_pages.current.offset}
-
       respond_to do |format|
         format.html { render :layout => !request.xhr? }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
@@ -122,19 +115,24 @@ private
     unless sort_clause.nil?
       (sort_column, sort_order) = sort_clause.split(" ")
       
-      p sort_clause
-      p sort_column
-      p sort_order
-
-
+      case sort_column
+      when "real_costs"
+        cost_sort_column = sort_column
+        cost_sort_column_sql = "costs, overridden_costs,"
+        
+        time_sort_column = sort_column
+        time_sort_column_sql = "costs, overridden_costs,"
+        
+        sort_clause = "overridden_costs #{sort_order}, costs #{sort_order}"
+      else
+        cost_sort_column = (CostEntry.new.respond_to? sort_column) ? sort_column : nil
+        cost_sort_column_sql = cost_sort_column  || "NULL as #{sort_column}"
+        cost_sort_column_sql += ","
       
-      cost_sort_column = (CostEntry.new.respond_to? sort_column) ? sort_column : nil
-      cost_sort_column_sql = cost_sort_column  || "NULL as #{sort_column}"
-      cost_sort_column_sql += ","
-      
-      time_sort_column = (TimeEntry.new.respond_to? sort_column) ? sort_column : nil
-      time_sort_column_sql  = time_sort_column || "NULL as #{sort_column}"
-      time_sort_column_sql += ","
+        time_sort_column = (TimeEntry.new.respond_to? sort_column) ? sort_column : nil
+        time_sort_column_sql  = time_sort_column || "NULL as #{sort_column}"
+        time_sort_column_sql += ","
+      end
     end
     
     
