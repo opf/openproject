@@ -291,65 +291,49 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   context "#copy" do
+    setup do
+      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
+      Project.destroy_all :identifier => "copy-test"
+      @source_project = Project.find(2)
+      @project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
+      @project.trackers = @source_project.trackers
+      @project.enabled_modules = @source_project.enabled_modules
+    end
 
     should "copy issues" do
-      # Setup
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      source_project = Project.find(2)
-      Project.destroy_all :identifier => "copy-test"
-      project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
-      project.trackers = source_project.trackers
-      assert project.valid?
-      
-      assert project.issues.empty?
-      assert project.copy(source_project)
+      assert @project.valid?
+      assert @project.issues.empty?
+      assert @project.copy(@source_project)
 
-      # Tests
-      assert_equal source_project.issues.size, project.issues.size
-      project.issues.each do |issue|
+      assert_equal @source_project.issues.size, @project.issues.size
+      @project.issues.each do |issue|
         assert issue.valid?
         assert ! issue.assigned_to.blank?
-        assert_equal project, issue.project
+        assert_equal @project, issue.project
       end
     end
 
     should "copy members" do
-      # Setup
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      source_project = Project.find(2)
-      project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
-      project.trackers = source_project.trackers
-      project.enabled_modules = source_project.enabled_modules
-      assert project.valid?
+      assert @project.valid?
+      assert @project.members.empty?
+      assert @project.copy(@source_project)
 
-      assert project.members.empty?
-      assert project.copy(source_project)
-
-      # Tests
-      assert_equal source_project.members.size, project.members.size
-      project.members.each do |member|
+      assert_equal @source_project.members.size, @project.members.size
+      @project.members.each do |member|
         assert member
-        assert_equal project, member.project
+        assert_equal @project, member.project
       end
     end
 
     should "copy project specific queries" do
-      # Setup
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      source_project = Project.find(2)
-      project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
-      project.trackers = source_project.trackers
-      project.enabled_modules = source_project.enabled_modules
-      assert project.valid?
+      assert @project.valid?
+      assert @project.queries.empty?
+      assert @project.copy(@source_project)
 
-      assert project.queries.empty?
-      assert project.copy(source_project)
-
-      # Tests
-      assert_equal source_project.queries.size, project.queries.size
-      project.queries.each do |query|
+      assert_equal @source_project.queries.size, @project.queries.size
+      @project.queries.each do |query|
         assert query
-        assert_equal project, query.project
+        assert_equal @project, query.project
       end
     end
 
