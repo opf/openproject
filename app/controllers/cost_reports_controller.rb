@@ -10,8 +10,11 @@ class CostReportsController < ApplicationController
   include SortHelper
   
   def index
-    sort_init(@query.sort_criteria.empty? ? [['issue_id', 'desc']] : @query.sort_criteria)
-    sortable_columns = {"issue_id" => "#{Issue.table_name}.id"}
+#    @sort_criteria = @query.sort_criteria.empty? ? [['issue_id', 'desc']] : @query.sort_criteria
+#    sort_init(@sort_criteria)
+
+    sort_init "issue_id", "desc"
+    sortable_columns = {"issue_id" => "#{Issue.table_name}.id", "spent_on" => "spent_on"}
     sort_update(sortable_columns)
     
     if @query.valid?
@@ -23,14 +26,17 @@ class CostReportsController < ApplicationController
         format.pdf  { limit = Setting.issues_export_limit.to_i }
       end
       
-      @entry_count = CostEntry.count(:conditions => @query.statement(:cost_entries))
-      @entry_pages = Paginator.new self, @entry_count, limit, params['page']
-    
-      @entries = CostEntry.find :all, {:order => sort_clause,
-                                :include => [:issue, :cost_type, :user],
-                                :conditions => @query.statement(:cost_entries),
-                                :limit => limit,
-                                :offset => @entry_pages.current.offset}
+      get_entries(limit)
+      
+      
+#      @entry_count = CostEntry.count(:conditions => @query.statement(:cost_entries))
+#      @entry_pages = Paginator.new self, @entry_count, limit, params['page']
+#    
+#      @entries = CostEntry.find :all, {:order => sort_clause,
+#                                :include => [:issue, :cost_type, :user],
+#                                :conditions => @query.statement(:cost_entries),
+#                                :limit => limit,
+#                                :offset => @entry_pages.current.offset}
 
       respond_to do |format|
         format.html { render :layout => !request.xhr? }
@@ -104,7 +110,80 @@ private
   end
   
   
-  def get_entries
-    # (SELECT c.id, c.spent_on,  'cost_entry' as entry_type from cost_entries as c) union (SELECT t.id, t.spent_on, 'time_entry' as entry_type from time_entries as t) order by spent_on
+  def get_entries(limit)
+    cost_statement = @query.statement(:cost_entries)
+    time_statement = @query.statement(:time_entries)
+    
+    @entry_count = CostEntry.count(:conditions => cost_statement) + 
+                   TimeEntry.count(:conditions => time_statement)
+    @entry_pages = Paginator.new self, @entry_count, limit, params['page']
+    
+    # at first get the entry ids to match the current query
+    unless sort_clause.nil?
+      (sort_column, sort_order) = sort_clause.split(" ")
+      
+      p sort_clause
+      p sort_column
+      p sort_order
+
+
+      
+      cost_sort_column = (CostEntry.new.respond_to? sort_column) ? sort_column : nil
+      cost_sort_column_sql = cost_sort_column  || "NULL as #{sort_column}"
+      cost_sort_column_sql += ","
+      
+      time_sort_column = (TimeEntry.new.respond_to? sort_column) ? sort_column : nil
+      time_sort_column_sql  = time_sort_column || "NULL as #{sort_column}"
+      time_sort_column_sql += ","
+    end
+    
+    
+    # TAKE extra care for SQL injection here!!!
+    sql =  "   SELECT id, #{cost_sort_column_sql} 'cost_entry' AS entry_type"
+    sql << "     FROM #{CostEntry.table_name}"
+    sql << "     WHERE #{cost_statement}"
+    sql << " UNION"
+    sql << "   SELECT id, #{time_sort_column_sql} 'time_entry' as entry_type"
+    sql << "     FROM #{TimeEntry.table_name}"
+    sql << "     WHERE #{time_statement}"
+    sql << " ORDER BY #{sort_clause}" if sort_clause
+    sql << " LIMIT #{limit} OFFSET #{@entry_pages.current.offset}"
+    
+    raw_ids = ActiveRecord::Base.connection.select_all(sql)
+    
+    cost_entry_ids = []
+    time_entry_ids = []
+    
+    raw_ids.each do |row|
+      case row["entry_type"]
+      when "cost_entry"
+        cost_entry_ids << row["id"]
+      when "time_entry"
+        time_entry_ids << row["id"]
+      else
+        raise "Unknown entry type in SQL. Should never happen."
+      end
+    end
+    
+    
+    cost_entries = CostEntry.find :all, {:order => (sort_clause if cost_sort_column),
+                              :include => [:issue, :cost_type, :user],
+                              :conditions => {:id => cost_entry_ids}}
+    
+    time_entries = TimeEntry.find :all, {:order => (sort_clause if time_sort_column),
+                              :include => [:issue, :user],
+                              :conditions => {:id => time_entry_ids}}
+                              
+    
+    # now we merge the both entry types
+    if cost_sort_column && time_sort_column
+      @entries = cost_entries + time_entries
+      @entries.sort!{|a,b| a.send(sort_column) <=> b.send(sort_column)}
+      @entries.reverse! if sort_order && sort_order == "DESC"
+    elsif cost_sort_column
+      @entries = cost_entries + time_entries
+    else
+      @entries = time_entries + cost_entries
+    end
   end
 end

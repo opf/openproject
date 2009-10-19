@@ -48,7 +48,7 @@
 <%= error_messages_for 'query' %>
 
 <% if @query.valid? %>
-  <% if @entries.empty? %>
+  <% if @entries.blank? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
   <% else %>
     <%= render :partial => 'list', :locals => {:entries => @entries, :query => @query} %>
