@@ -289,67 +289,70 @@ class ProjectTest < ActiveSupport::TestCase
     # Default attributes
     assert_equal 1, copied_project.status
   end
-  
-  # Context: Project#copy
-  def test_copy_should_copy_issues
-    # Setup
-    ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-    source_project = Project.find(2)
-    Project.destroy_all :identifier => "copy-test"
-    project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
-    project.trackers = source_project.trackers
-    assert project.valid?
-    
-    assert project.issues.empty?
-    assert project.copy(source_project)
 
-    # Tests
-    assert_equal source_project.issues.size, project.issues.size
-    project.issues.each do |issue|
-      assert issue.valid?
-      assert ! issue.assigned_to.blank?
-      assert_equal project, issue.project
+  context "#copy" do
+
+    should "copy issues" do
+      # Setup
+      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
+      source_project = Project.find(2)
+      Project.destroy_all :identifier => "copy-test"
+      project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
+      project.trackers = source_project.trackers
+      assert project.valid?
+      
+      assert project.issues.empty?
+      assert project.copy(source_project)
+
+      # Tests
+      assert_equal source_project.issues.size, project.issues.size
+      project.issues.each do |issue|
+        assert issue.valid?
+        assert ! issue.assigned_to.blank?
+        assert_equal project, issue.project
+      end
     end
-  end
-  
-  def test_copy_should_copy_members
-    # Setup
-    ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-    source_project = Project.find(2)
-    project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
-    project.trackers = source_project.trackers
-    project.enabled_modules = source_project.enabled_modules
-    assert project.valid?
 
-    assert project.members.empty?
-    assert project.copy(source_project)
+    should "copy members" do
+      # Setup
+      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
+      source_project = Project.find(2)
+      project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
+      project.trackers = source_project.trackers
+      project.enabled_modules = source_project.enabled_modules
+      assert project.valid?
 
-    # Tests
-    assert_equal source_project.members.size, project.members.size
-    project.members.each do |member|
-      assert member
-      assert_equal project, member.project
+      assert project.members.empty?
+      assert project.copy(source_project)
+
+      # Tests
+      assert_equal source_project.members.size, project.members.size
+      project.members.each do |member|
+        assert member
+        assert_equal project, member.project
+      end
     end
-  end
 
-  def test_copy_should_copy_project_level_queries
-    # Setup
-    ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-    source_project = Project.find(2)
-    project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
-    project.trackers = source_project.trackers
-    project.enabled_modules = source_project.enabled_modules
-    assert project.valid?
+    should "copy project specific queries" do
+      # Setup
+      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
+      source_project = Project.find(2)
+      project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
+      project.trackers = source_project.trackers
+      project.enabled_modules = source_project.enabled_modules
+      assert project.valid?
 
-    assert project.queries.empty?
-    assert project.copy(source_project)
+      assert project.queries.empty?
+      assert project.copy(source_project)
 
-    # Tests
-    assert_equal source_project.queries.size, project.queries.size
-    project.queries.each do |query|
-      assert query
-      assert_equal project, query.project
+      # Tests
+      assert_equal source_project.queries.size, project.queries.size
+      project.queries.each do |query|
+        assert query
+        assert_equal project, query.project
+      end
     end
+
   end
 
 end
