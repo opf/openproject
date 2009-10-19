@@ -34,6 +34,30 @@ class ProjectTest < ActiveSupport::TestCase
   should_validate_uniqueness_of :name
   should_validate_uniqueness_of :identifier
 
+  context "associations" do
+    should_have_many :members
+    should_have_many :users, :through => :members
+    should_have_many :member_principals
+    should_have_many :principals, :through => :member_principals
+    should_have_many :enabled_modules
+    should_have_many :issues
+    should_have_many :issue_changes, :through => :issues
+    should_have_many :versions
+    should_have_many :time_entries
+    should_have_many :queries
+    should_have_many :documents
+    should_have_many :news
+    should_have_many :issue_categories
+    should_have_many :boards
+    should_have_many :changesets, :through => :repository
+
+    should_have_one :repository
+    should_have_one :wiki
+
+    should_have_and_belong_to_many :trackers
+    should_have_and_belong_to_many :issue_custom_fields
+  end
+
   def test_truth
     assert_kind_of Project, @ecookbook
     assert_equal "eCookbook", @ecookbook.name
