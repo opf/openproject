@@ -139,7 +139,7 @@ class CostQuery < ActiveRecord::Base
       :costs => {
         "cost_type_id" => { :type => :list_optional, :order => 2, :applies => [:cost_entries], :flags => [], :values => CostType.find(:all, :order => 'name').collect{|s| [s.name, s.id.to_s] }},
         # FIXME: this has to be changed for Redmine 0.9 as r2777 of Redmine introduces STI for enumerations
-        "activity" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :values => Enumeration.find(:all, :conditions => ['opt=?','ACTI'], :order => 'position').collect{|s| [s.name, s.id.to_s] }},
+        "activity" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :values => Enumeration.find(:all, :conditions => {:opt => 'ACTI'}, :order => 'position').collect{|s| [s.name, s.id.to_s] }},
         "created_on" => { :type => :date_past, :applies => [:time_entries, :cost_entries], :flags => [], :order => 4 },                        
         "updated_on" => { :type => :date_past, :applies => [:time_entries, :cost_entries], :flags => [], :order => 5 },
         "spent_on" => { :type => :date, :applies => [:time_entries, :cost_entries], :flags => [], :order => 6 },

@@ -12,10 +12,11 @@ class CostReportsController < ApplicationController
   def index
     sort_init(@query.sort_criteria.empty? ? [['issue_id', 'desc']] : @query.sort_criteria)
     sortable_columns = {
-      "issue__issue_id" => "#{Issue.table_name}.id",
+      "issue__issue_id" => "issue_id",
       "entry__spent_on" => "spent_on",
-      "entry__user_id" => "#{User.table_name}.id",
-      "entry__cost_type_id" => "#{CostType.table_name}.id",
+      "entry__user_id" => "user_id",
+      "entry__cost_type_id" => "cost_type_id",
+      "entry__activity_id" => "activity_id",
       "entry__costs" => "real_costs"
     }
     sort_update(sortable_columns)
@@ -111,6 +112,8 @@ private
     unless sort_clause.nil?
       (sort_column, sort_order) = sort_clause.split(" ")
       
+      sort_column.gsub!(/\./, "__")
+      
       case sort_column
       when "real_costs"
         cost_sort_column = sort_column
@@ -128,6 +131,8 @@ private
         time_sort_column = (TimeEntry.new.respond_to? sort_column) ? sort_column : nil
         time_sort_column_sql  = time_sort_column || "NULL as #{sort_column}"
         time_sort_column_sql += ","
+        
+        sort_clause = self.sort_clause
       end
     end
 
