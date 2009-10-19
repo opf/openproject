@@ -391,6 +391,7 @@ class Project < ActiveRecord::Base
         copy.enabled_modules = project.enabled_modules
         copy.trackers = project.trackers
         copy.custom_values = project.custom_values.collect {|v| v.clone}
+        copy.issue_custom_fields = project.issue_custom_fields
         return copy
       else
         return nil
