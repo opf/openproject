@@ -76,7 +76,7 @@ private
         # Give it a name, required to be valid
         @query = CostQuery.new(:name => "_")
         @query.project = @project
-        @query.filters = params[:filters].collect {|f| f[1]}.select{|f| f[:enabled] != "0"}
+        @query.filters = params[:filters].collect {|f| f[1]}.select{|f| f[:enabled] != "0"} if params[:filters]
 
         if params[:cost_query]
           @query.display_cost_entries = params[:cost_query][:display_cost_entries]
