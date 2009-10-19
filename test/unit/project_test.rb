@@ -28,6 +28,12 @@ class ProjectTest < ActiveSupport::TestCase
     @ecookbook_sub1 = Project.find(3)
   end
   
+  should_validate_presence_of :name
+  should_validate_presence_of :identifier
+
+  should_validate_uniqueness_of :name
+  should_validate_uniqueness_of :identifier
+
   def test_truth
     assert_kind_of Project, @ecookbook
     assert_equal "eCookbook", @ecookbook.name
@@ -39,13 +45,6 @@ class ProjectTest < ActiveSupport::TestCase
     assert @ecookbook.save, @ecookbook.errors.full_messages.join("; ")
     @ecookbook.reload
     assert_equal "eCook", @ecookbook.name
-  end
-  
-  def test_validate
-    @ecookbook.name = ""
-    assert !@ecookbook.save
-    assert_equal 1, @ecookbook.errors.count
-    assert_equal I18n.translate('activerecord.errors.messages.blank'), @ecookbook.errors.on(:name)
   end
   
   def test_validate_identifier
@@ -62,7 +61,7 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal valid, p.errors.on('identifier').nil?
     end
   end
-  
+
   def test_members_should_be_active_users
     Project.all.each do |project|
       assert_nil project.members.detect {|m| !(m.user.is_a?(User) && m.user.active?) }
