@@ -21,6 +21,19 @@ require 'test_help'
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
 require File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
 
+# TODO: The gem or official version of ObjectDaddy doesn't set
+# protected attributes so they need to be wrapped.
+def User.generate_with_protected!(attributes={})
+  user = User.spawn(attributes) do |user|
+    user.login = User.next_login
+    attributes.each do |attr,v|
+      user.send("#{attr}=", v)
+    end
+  end
+  user.save!
+  user
+end
+
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the

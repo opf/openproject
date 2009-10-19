@@ -348,10 +348,44 @@ class Project < ActiveRecord::Base
     project = project.is_a?(Project) ? project : Project.find(project)
 
     Project.transaction do
+      # Wikis
+      self.wiki = Wiki.new(project.wiki.attributes.dup.except("project_id"))
+      project.wiki.pages.each do |page|
+        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("page_id"))
+        new_wiki_page = WikiPage.new(page.attributes.dup.except("wiki_id"))
+        new_wiki_page.content = new_wiki_content
+
+        self.wiki.pages << new_wiki_page
+      end
+      
+      # Versions
+      project.versions.each do |version|
+        new_version = Version.new
+        new_version.attributes = version.attributes.dup.except("project_id")
+        self.versions << new_version
+      end
+
+      project.issue_categories.each do |issue_category|
+        new_issue_category = IssueCategory.new
+        new_issue_category.attributes = issue_category.attributes.dup.except("project_id")
+        self.issue_categories << new_issue_category
+      end
+      
       # Issues
       project.issues.each do |issue|
         new_issue = Issue.new
         new_issue.copy_from(issue)
+        # Reassign fixed_versions by name, since names are unique per
+        # project and the versions for self are not yet saved
+        if issue.fixed_version
+          new_issue.fixed_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
+        end
+        # Reassign the category by name, since names are unique per
+        # project and the categories for self are not yet saved
+        if issue.category
+          new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
+        end
+        
         self.issues << new_issue
       end
     

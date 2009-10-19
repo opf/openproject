@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < Principal
   generator_for :login, :method => :next_email
   generator_for :mail, :method => :next_email
   generator_for :firstname, :method => :next_firstname

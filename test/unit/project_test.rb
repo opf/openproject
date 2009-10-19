@@ -290,7 +290,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 1, copied_project.status
   end
 
-  context "#copy" do
+  context "Project#copy" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       Project.destroy_all :identifier => "copy-test"
@@ -311,6 +311,25 @@ class ProjectTest < ActiveSupport::TestCase
         assert ! issue.assigned_to.blank?
         assert_equal @project, issue.project
       end
+    end
+
+    should "change the new issues to use the copied version" do
+      assigned_version = Version.generate!(:name => "Assigned Issues")
+      @source_project.versions << assigned_version
+      assert_equal 1, @source_project.versions.size
+      @source_project.issues << Issue.generate!(:fixed_version_id => assigned_version.id,
+                                                :subject => "change the new issues to use the copied version",
+                                                :tracker_id => 1,
+                                                :project_id => @source_project.id)
+      
+      assert @project.copy(@source_project)
+      @project.reload
+      copied_issue = @project.issues.first(:conditions => {:subject => "change the new issues to use the copied version"})
+
+      assert copied_issue
+      assert copied_issue.fixed_version
+      assert_equal "Assigned Issues", copied_issue.fixed_version.name # Same name
+      assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
     end
 
     should "copy members" do
@@ -336,6 +355,67 @@ class ProjectTest < ActiveSupport::TestCase
         assert_equal @project, query.project
       end
     end
+
+    should "copy versions" do
+      @source_project.versions << Version.generate!
+      @source_project.versions << Version.generate!
+
+      assert @project.versions.empty?
+      assert @project.copy(@source_project)
+
+      assert_equal @source_project.versions.size, @project.versions.size
+      @project.versions.each do |version|
+        assert version
+        assert_equal @project, version.project
+      end
+    end
+
+    should "copy wiki" do
+      assert @project.copy(@source_project)
+
+      assert @project.wiki
+      assert_not_equal @source_project.wiki, @project.wiki
+      assert_equal "Start page", @project.wiki.start_page
+    end
+
+    should "copy wiki pages and content" do
+      assert @project.copy(@source_project)
+
+      assert @project.wiki
+      assert_equal 1, @project.wiki.pages.length
+
+      @project.wiki.pages.each do |wiki_page|
+        assert wiki_page.content
+        assert !@source_project.wiki.pages.include?(wiki_page)
+      end
+    end
+
+    should "copy custom fields"
+
+    should "copy issue categories" do
+      assert @project.copy(@source_project)
+
+      assert_equal 2, @project.issue_categories.size
+      @project.issue_categories.each do |issue_category|
+        assert !@source_project.issue_categories.include?(issue_category)
+      end
+    end
+
+    should "change the new issues to use the copied issue categories" do
+      issue = Issue.find(4)
+      issue.update_attribute(:category_id, 3)
+
+      assert @project.copy(@source_project)
+
+      @project.issues.each do |issue|
+        assert issue.category
+        assert_equal "Stock management", issue.category.name # Same name
+        assert_not_equal IssueCategory.find(3), issue.category # Different record
+      end
+    end
+    
+    should "copy issue relations"
+    should "link issue relations if cross project issue relations are valid"
 
   end
 
