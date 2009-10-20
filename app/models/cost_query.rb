@@ -38,7 +38,7 @@ class Filter
     if available_values
       available_value_keys = available_values.collect {|o| o[1]}
       v.each do |value|
-        raise ArgumentException("Forbidden value") unless available_value_keys.include? value
+        raise ArgumentError.new("Forbidden value") unless available_value_keys.include? value
       end
     end
     
@@ -47,7 +47,7 @@ class Filter
   
   attr_reader :operator
   def operator=(o)
-    raise ArgumentException("Forbidden operator") unless available_operators.include? o
+    raise ArgumentError.new("Forbidden operator #{o}") unless available_operators.include? o
     @operator = o
   end
   
@@ -104,7 +104,8 @@ class CostQuery < ActiveRecord::Base
     
     operators.merge(
       {
-        "0" => {:label => :label_zero, :simple => true},
+        "n=" => {:label => :label_equals, :simple => false},
+        "0" => {:label => :label_none, :simple => true},
         "y" => {:label => :label_yes, :simple => true},
         "n" => {:label => :label_no, :simple => true}
       }
@@ -121,7 +122,7 @@ class CostQuery < ActiveRecord::Base
     end
     @filter_types = filter_types.merge( 
       {
-        :integer_zero => {:operators => [ "=", ">=", "<=", "0", "*" ], :multiple => true},
+        :integer_zero => {:operators => [ "n=", ">=", "<=", "0", "*" ], :multiple => true},
         :boolean => {:operators => [ "y", "n" ], :multiple => false}
       }
     )
@@ -166,10 +167,18 @@ class CostQuery < ActiveRecord::Base
         v[:db_field] = 'user_id'
         v[:flags] << :watcher
       else
+        if ["labor_costs", "material_costs", "overall_costs"].include? k
+          v[:type] = :integer_zero
+        end
         v[:db_table] = Issue.table_name
         v[:db_field] = k
       end
     end
+    
+    @available_filters[:issues].each_pair do |k,v|
+    puts "#{k}: #{v[:type]}, #{v[:db_table]}"
+    end
+    
     
     if @available_filters[:issues]["author_id"]
       # add a filter on cost entries for user_id if it is available
@@ -378,7 +387,7 @@ private
     #  filter.column_name, filter.operator, filter.values, db_table, db_field, string_as_null)
 
     sql = sql_for_field(filter.column_name, filter.operator, filter.values, db_table, db_field, string_as_null)
-    return sql unless sql.blank?
+    return sql unless sql == "1=1"
     
     # We have an operator that was added by us. So we provide the logic here
     case filter.operator
@@ -388,6 +397,8 @@ private
       sql = "#{db_table}.#{db_field} IS NOT NULL"
     when "n"
       sql = "#{db_table}.#{db_field} IS NULL"
+    when "n="
+      sql = "#{db_table}.#{db_field} = #{CostRate.clean_currency(filter.values).to_f.to_s}"
     end
     
     return sql
@@ -399,7 +410,7 @@ private
     sql = ''
     case operator
     when "="
-      sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
+      sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")" unless value.blank?
     when "!"
       sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
     when "!*"
@@ -443,7 +454,7 @@ private
       sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
     end
     
-    return sql
+    return sql.blank? ? "1=1" : sql
   end
   
   # Returns a SQL clause for a date or datetime field.

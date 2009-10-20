@@ -139,18 +139,18 @@ private
 
 
     if @query.display_time_entries && !@query.display_cost_entries
-      @entry_count = TimeEntry.count(cost_statement)
+      @entry_count = TimeEntry.count(:conditions => time_statement)
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
       @entries = TimeEntry.find :all, {:order => (sort_clause if time_sort_column),
                                       :include => [:issue, :activity, :user],
-                                      :conditions => cost_statement,
+                                      :conditions => time_statement,
                                       :limit => limit,
                                       :offset => @entry_pages.current.offset}
 
       return
     elsif @query.display_cost_entries && !@query.display_time_entries
-      @entry_count = CostEntry.count(cost_statement)
+      @entry_count = CostEntry.count(:conditions => cost_statement)
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
       @entries = CostEntry.find :all, {:order => (sort_clause if cost_sort_column),
