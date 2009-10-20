@@ -27,11 +27,8 @@
     <%= f.select :operator, operators_for_select(filter.type_name), {}, :index => index, :onchange => "toggle_operator($('#{id_prefix}'))", :class => "select-small filter_operator", :style => "vertical-align: top;" %>
   </td>
   <td>
-    <%
-      simple_operator = CostQuery.operators.select{|k,v| v[:simple]}.include? filter.operator
-    -%>
-    
-    <div class="filter_values" <%= 'style="display: none"' unless simple_operator %>>
+    <% simple_operator = CostQuery.operators[filter.operator] ? CostQuery.operators[filter.operator][:simple] : false -%>
+    <div class="filter_values" <%= 'style="display: none"' if simple_operator %>>
       <%= render :partial => "cost_reports/filter_types/#{filter.type_name}", :locals => {:f => f, :filter => filter, :index => index, :id_prefix => id_prefix, :name_prefix => name_prefix} %>
     </div>
   </td>
