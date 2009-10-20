@@ -21,36 +21,8 @@ require 'test_help'
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
 require File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
 
-# TODO: The gem or official version of ObjectDaddy doesn't set
-# protected attributes so they need to be wrapped.
-def User.generate_with_protected!(attributes={})
-  user = User.spawn(attributes) do |user|
-    user.login = User.next_login
-    attributes.each do |attr,v|
-      user.send("#{attr}=", v)
-    end
-  end
-  user.save!
-  user
-end
-
-# Generate the default Query
-def Query.generate_default!(attributes={})
-  query = Query.spawn(attributes)
-  query.name ||= '_'
-  query.save!
-  query
-end
-
-# Generate an issue for a project, using it's trackers
-def Issue.generate_for_project!(project, attributes={})
-  issue = Issue.spawn(attributes) do |issue|
-    issue.project = project
-  end
-  issue.tracker = project.trackers.first unless project.trackers.empty?
-  issue.save!
-  issue
-end
+require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers')
+include ObjectDaddyHelpers
 
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
