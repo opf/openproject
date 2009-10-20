@@ -95,9 +95,16 @@ class GroupsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_new_membership_with_multiple_projects
+    assert_difference 'Group.find(10).members.count', 3 do
+      post :edit_membership, :id => 10, :project_ids => [1,2,3], :membership => { :role_ids => ['1', '2']}
+    end
+  end
+
   def test_destroy_membership
     assert_difference 'Group.find(10).members.count', -1 do
       post :destroy_membership, :id => 10, :membership_id => 6
     end
   end
+
 end

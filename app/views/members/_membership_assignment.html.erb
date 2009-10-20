@@ -1,8 +1,18 @@
 <% if projects.any? %>
 <fieldset><legend><%=l(:label_project_new)%></legend>
 <% remote_form_for(:membership, :url => { :action => 'edit_membership', :id => principal }) do %>
-<%= label_tag "membership_project_id", l(:description_choose_project), :class => "hidden-for-sighted" %>
-<%= select_tag 'membership[project_id]', options_for_membership_project_select(principal, projects) %>
+  <p><%= text_field_tag 'project_search', nil, :size => "40" %></p>
+  <%= observe_field(:project_search,
+                   :frequency => 0.5,
+                   :update => :projects,
+                   :url => { :controller => 'auto_completes', :action => 'projects', :id => principal },
+                   :with => 'q')
+  %>
+		
+  <div id="projects">
+    <%= principals_check_box_tags 'project_ids[]', projects %>
+  </div>
+
 <p><%= l(:label_role_plural) %>:
 <% roles.each do |role| %>
   <label><%= check_box_tag 'membership[role_ids][]', role.id %> <%=h role %></label>

@@ -41,5 +41,5 @@
 </div>
 
 <div class="splitcontentright">
-<%= render :partial => 'members/membership_assignment', :locals => {:principal => @group, :projects => projects, :roles => roles } %>
+<%= render :partial => 'members/membership_assignment', :locals => {:principal => @group, :projects => projects - @group.projects, :roles => roles } %>
 </div>

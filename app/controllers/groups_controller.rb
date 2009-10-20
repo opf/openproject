@@ -128,8 +128,17 @@ class GroupsController < ApplicationController
 
   def edit_membership
     @group = Group.find(params[:id])
-    @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
-    @membership.save if request.post?
+
+    if params[:project_ids] # Multiple memberships, one per project
+      params[:project_ids].each do |project_id|
+        @membership = Member.edit_membership(params[:membership_id], params[:membership].merge(:project_id => project_id), @group)
+        @membership.save if request.post?
+      end
+    else # Single membership
+      @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
+      @membership.save if request.post?
+    end
+    
     respond_to do |format|
       if @membership.valid?
         format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }

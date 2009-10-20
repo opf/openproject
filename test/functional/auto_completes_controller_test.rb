@@ -142,4 +142,59 @@ class AutoCompletesControllerTest < ActionController::TestCase
       end
     end
   end
+
+  context "POST to #projects" do
+    setup do
+      # Clear out some fixtures
+      Project.delete_all
+      ProjectCustomField.delete_all
+    end
+
+    should 'require admin' do
+      @request.session[:user_id] = 2
+      post :projects, {}
+
+      assert_response 403
+    end
+    
+    context 'with a valid search' do
+      setup do
+        @user = User.generate_with_protected!
+        @projects = [
+                     Project.generate!(:name => "Test"),
+                     Project.generate!(:name => "This is a Test")
+                    ]
+        Project.generate!(:name => "No match")
+        
+        @request.session[:user_id] = 1
+        post :projects, {
+          :id => @user.id,
+          :q => 'TeST'
+        }
+        
+      end
+      
+      should_assign_to(:principal) { @user }
+      should_assign_to(:projects) { @projects }
+      should_render_template :projects
+    end
+
+    context 'with an invalid search' do
+      setup do
+        @user = User.generate_with_protected!
+        Project.generate!(:name => "Test")
+        
+        @request.session[:user_id] = 1
+        post :projects, {
+          :id => @user.id,
+          :q => 'nothing'
+        }
+        
+      end
+      should_assign_to(:principal) { @user }
+      should_assign_to(:projects) { [] }
+      should_render_template :projects
+      
+    end
+  end
 end

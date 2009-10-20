@@ -290,6 +290,14 @@ module ApplicationHelper
     s
   end
 
+  def projects_check_box_tags(name, projects)
+    s = ''
+    projects.each do |project|
+      s << "<label>#{ check_box_tag name, project.id, false } #{h project}</label>\n"
+    end
+    s 
+  end
+
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)
     truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
