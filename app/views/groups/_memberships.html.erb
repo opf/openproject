@@ -41,17 +41,5 @@
 </div>
 
 <div class="splitcontentright">
-<% if projects.any? %>
-<fieldset><legend><%=l(:label_project_new)%></legend>
-<% remote_form_for(:membership, :url => { :action => 'edit_membership', :id => @group }) do %>
-<%= label_tag "membership_project_id", l(:description_choose_project), :class => "hidden-for-sighted" %>
-<%= select_tag 'membership[project_id]', options_for_membership_project_select(@group, projects) %>
-<p><%= l(:label_role_plural) %>:
-<% roles.each do |role| %>
-  <label><%= check_box_tag 'membership[role_ids][]', role.id %> <%=h role %></label>
-<% end %></p>
-<p><%= submit_tag l(:button_add) %></p>
-<% end %>
-</fieldset>
-<% end %>
+<%= render :partial => 'members/membership_assignment', :locals => {:principal => @group, :projects => projects, :roles => roles } %>
 </div>
