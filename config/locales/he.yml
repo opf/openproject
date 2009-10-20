@@ -601,7 +601,7 @@ he:
   default_tracker_feature: פיצ'ר
   default_tracker_support: תמיכה
   default_issue_status_new: חדש
-  default_issue_status_assigned: מוצב
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: פתור
   default_issue_status_feedback: משוב
   default_issue_status_closed: סגור

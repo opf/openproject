@@ -686,7 +686,7 @@ th:
   default_tracker_feature: ลักษณะเด่น
   default_tracker_support: สนับสนุน
   default_issue_status_new: เกิดขึ้น
-  default_issue_status_assigned: รับมอบหมาย
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: ดำเนินการ
   default_issue_status_feedback: รอคำตอบ
   default_issue_status_closed: จบ

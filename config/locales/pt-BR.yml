@@ -735,7 +735,7 @@ pt-BR:
   default_tracker_feature: Funcionalidade
   default_tracker_support: Suporte
   default_issue_status_new: Nova
-  default_issue_status_assigned: Atribuída
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Resolvida
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Fechada

@@ -715,7 +715,7 @@
   default_tracker_feature: Fejlesztés
   default_tracker_support: Support
   default_issue_status_new: Új
-  default_issue_status_assigned: Kiosztva
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Megoldva
   default_issue_status_feedback: Visszajelzés
   default_issue_status_closed: Lezárt

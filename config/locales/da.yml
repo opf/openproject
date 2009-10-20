@@ -688,7 +688,7 @@ da:
   default_tracker_feature: Feature
   default_tracker_support: Support
   default_issue_status_new: Ny
-  default_issue_status_assigned: Tildelt
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Løst
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Lukket

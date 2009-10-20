@@ -793,7 +793,7 @@ bs:
   default_tracker_feature: Nova funkcija
   default_tracker_support: Podrška
   default_issue_status_new: Novi
-  default_issue_status_assigned: Dodjeljen
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Riješen
   default_issue_status_feedback: Čeka se povratna informacija
   default_issue_status_closed: Zatvoren

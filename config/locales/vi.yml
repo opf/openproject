@@ -767,7 +767,7 @@ vi:
   default_tracker_feature: Tính năng
   default_tracker_support: Hỗ trợ
   default_issue_status_new: Mới
-  default_issue_status_assigned: Đã gán
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Quyết tâm
   default_issue_status_feedback: Phản hồi
   default_issue_status_closed: Đóng

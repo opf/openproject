@@ -579,7 +579,7 @@ bg:
   default_tracker_feature: Функционалност
   default_tracker_support: Поддръжка
   default_issue_status_new: Нова
-  default_issue_status_assigned: Възложена
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Приключена
   default_issue_status_feedback: Обратна връзка
   default_issue_status_closed: Затворена

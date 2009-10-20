@@ -715,7 +715,7 @@ tr:
   default_tracker_feature: ÖZellik
   default_tracker_support: Destek
   default_issue_status_new: Yeni
-  default_issue_status_assigned: Atandı
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Çözüldü
   default_issue_status_feedback: Geribildirim
   default_issue_status_closed: Kapatıldı

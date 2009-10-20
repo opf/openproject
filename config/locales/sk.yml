@@ -684,7 +684,7 @@ sk:
   default_tracker_feature: Rozšírenie
   default_tracker_support: Podpora
   default_issue_status_new: Nový
-  default_issue_status_assigned: Priradený
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Vyriešený
   default_issue_status_feedback: Čaká sa
   default_issue_status_closed: Uzavrený

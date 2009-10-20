@@ -212,7 +212,7 @@ es:
   default_activity_development: Desarrollo
   default_doc_category_tech: Documentación técnica
   default_doc_category_user: Documentación de usuario
-  default_issue_status_assigned: Asignada
+  default_issue_status_in_progress: In Progress
   default_issue_status_closed: Cerrada
   default_issue_status_feedback: Comentarios
   default_issue_status_new: Nueva

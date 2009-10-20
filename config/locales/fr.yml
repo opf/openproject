@@ -823,7 +823,7 @@ fr:
   default_tracker_feature: Evolution
   default_tracker_support: Assistance
   default_issue_status_new: Nouveau
-  default_issue_status_assigned: Assigné
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Résolu
   default_issue_status_feedback: Commentaire
   default_issue_status_closed: Fermé

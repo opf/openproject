@@ -804,7 +804,7 @@ el:
   default_tracker_feature: Λειτουργίες
   default_tracker_support: Υποστήριξη
   default_issue_status_new: Νέα
-  default_issue_status_assigned: Ανατεθειμένο
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Επιλυμένο
   default_issue_status_feedback: Σχόλια
   default_issue_status_closed: Κλειστό

@@ -796,7 +796,7 @@ lt:
   default_tracker_feature: Ypatybė
   default_tracker_support: Palaikymas
   default_issue_status_new: Nauja
-  default_issue_status_assigned: Priskirta
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Išspręsta
   default_issue_status_feedback: Grįžtamasis ryšys
   default_issue_status_closed: Uždaryta

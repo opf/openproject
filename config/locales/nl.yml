@@ -153,7 +153,7 @@ nl:
   default_activity_development: Ontwikkeling
   default_doc_category_tech: Technische documentatie
   default_doc_category_user: Gebruikersdocumentatie
-  default_issue_status_assigned: Toegewezen
+  default_issue_status_in_progress: In Progress
   default_issue_status_closed: Gesloten
   default_issue_status_feedback: Terugkoppeling
   default_issue_status_new: Nieuw

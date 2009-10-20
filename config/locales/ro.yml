@@ -780,7 +780,7 @@ ro:
   default_tracker_feature: Funcție
   default_tracker_support: Suport
   default_issue_status_new: Nou
-  default_issue_status_assigned: Atribuit
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Rezolvat
   default_issue_status_feedback: Așteaptă reacții
   default_issue_status_closed: Închis

@@ -854,7 +854,7 @@ sv:
   default_tracker_feature: Funktionalitet
   default_tracker_support: Support
   default_issue_status_new: Ny
-  default_issue_status_assigned: Tilldelad
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Löst
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Stängd

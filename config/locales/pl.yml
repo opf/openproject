@@ -177,7 +177,7 @@ pl:
   default_activity_development: Rozwój
   default_doc_category_tech: Dokumentacja techniczna
   default_doc_category_user: Dokumentacja użytkownika
-  default_issue_status_assigned: Przypisany
+  default_issue_status_in_progress: In Progress
   default_issue_status_closed: Zamknięty
   default_issue_status_feedback: Odpowiedź
   default_issue_status_new: Nowy

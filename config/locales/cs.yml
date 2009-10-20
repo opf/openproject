@@ -686,7 +686,7 @@ cs:
   default_tracker_feature: Požadavek
   default_tracker_support: Podpora
   default_issue_status_new: Nový
-  default_issue_status_assigned: Přiřazený
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Vyřešený
   default_issue_status_feedback: Čeká se
   default_issue_status_closed: Uzavřený

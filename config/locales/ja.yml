@@ -840,7 +840,7 @@ ja:
   default_tracker_feature: 機能
   default_tracker_support: サポート
   default_issue_status_new: 新規
-  default_issue_status_assigned: 担当
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: 解決
   default_issue_status_feedback: フィードバック
   default_issue_status_closed: 終了

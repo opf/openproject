@@ -623,7 +623,7 @@
   default_tracker_feature: Nova osobina
   default_tracker_support: Podrška
   default_issue_status_new: Novo
-  default_issue_status_assigned: Dodeljeno
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Rešeno
   default_issue_status_feedback: Povratna informacija
   default_issue_status_closed: Zatvoreno

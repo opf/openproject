@@ -662,7 +662,7 @@ fi:
   default_tracker_feature: Ominaisuus
   default_tracker_support: Tuki
   default_issue_status_new: Uusi
-  default_issue_status_assigned: Nimetty
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Hyväksytty
   default_issue_status_feedback: Palaute
   default_issue_status_closed: Suljettu

@@ -834,7 +834,7 @@ zh:
   default_tracker_feature: 功能
   default_tracker_support: 支持
   default_issue_status_new: 新建
-  default_issue_status_assigned: 已指派
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: 已解决
   default_issue_status_feedback: 反馈
   default_issue_status_closed: 已关闭

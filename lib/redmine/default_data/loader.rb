@@ -123,7 +123,7 @@ module Redmine
             
             # Issue statuses
             new       = IssueStatus.create!(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :position => 1)
-            assigned  = IssueStatus.create!(:name => l(:default_issue_status_assigned), :is_closed => false, :is_default => false, :position => 2)
+            in_progress  = IssueStatus.create!(:name => l(:default_issue_status_in_progress), :is_closed => false, :is_default => false, :position => 2)
             resolved  = IssueStatus.create!(:name => l(:default_issue_status_resolved), :is_closed => false, :is_default => false, :position => 3)
             feedback  = IssueStatus.create!(:name => l(:default_issue_status_feedback), :is_closed => false, :is_default => false, :position => 4)
             closed    = IssueStatus.create!(:name => l(:default_issue_status_closed), :is_closed => true, :is_default => false, :position => 5)
@@ -139,15 +139,15 @@ module Redmine
             }
             
             Tracker.find(:all).each { |t|
-              [new, assigned, resolved, feedback].each { |os|
-                [assigned, resolved, feedback, closed].each { |ns|
+              [new, in_progress, resolved, feedback].each { |os|
+                [in_progress, resolved, feedback, closed].each { |ns|
                   Workflow.create!(:tracker_id => t.id, :role_id => developper.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }        
               }      
             }
             
             Tracker.find(:all).each { |t|
-              [new, assigned, resolved, feedback].each { |os|
+              [new, in_progress, resolved, feedback].each { |os|
                 [closed].each { |ns|
                   Workflow.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }        

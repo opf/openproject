@@ -788,7 +788,7 @@ de:
   default_tracker_feature: Feature
   default_tracker_support: Unterstützung
   default_issue_status_new: Neu
-  default_issue_status_assigned: Zugewiesen
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Gelöst
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Erledigt

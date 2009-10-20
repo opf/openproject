@@ -616,7 +616,7 @@ uk:
   default_tracker_feature: Властивість 
   default_tracker_support: Підтримка
   default_issue_status_new: Новий
-  default_issue_status_assigned: Призначено
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Вирішено
   default_issue_status_feedback: Зворотний зв'язок
   default_issue_status_closed: Зачинено

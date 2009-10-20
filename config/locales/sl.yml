@@ -762,7 +762,7 @@ sl:
   default_tracker_feature: Funkcija
   default_tracker_support: Podpora
   default_issue_status_new: Nov
-  default_issue_status_assigned: Dodeljen
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Rešen
   default_issue_status_feedback: Povratna informacija
   default_issue_status_closed: Zaključen
