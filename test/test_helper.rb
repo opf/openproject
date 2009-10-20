@@ -34,6 +34,24 @@ def User.generate_with_protected!(attributes={})
   user
 end
 
+# Generate the default Query
+def Query.generate_default!(attributes={})
+  query = Query.spawn(attributes)
+  query.name ||= '_'
+  query.save!
+  query
+end
+
+# Generate an issue for a project, using it's trackers
+def Issue.generate_for_project!(project, attributes={})
+  issue = Issue.spawn(attributes) do |issue|
+    issue.project = project
+  end
+  issue.tracker = project.trackers.first unless project.trackers.empty?
+  issue.save!
+  issue
+end
+
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
