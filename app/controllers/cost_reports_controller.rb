@@ -77,7 +77,8 @@ private
         @query = CostQuery.new(:name => "_")
         @query.project = @project
         @query.filters = params[:filters].collect {|f| f[1]}.select{|f| f[:enabled] != "0"} if params[:filters]
-
+        @query.group_by = params[:group_by]
+        
         if params[:cost_query]
           @query.display_cost_entries = params[:cost_query][:display_cost_entries]
           @query.display_time_entries = params[:cost_query][:display_time_entries]

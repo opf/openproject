@@ -85,3 +85,8 @@ td.comment input {
 }
 
 table.progress td.exceeded { background: #E1B9B9 none repeat scroll 0%; }
+
+fieldset#group-by table { border-collapse: collapse; }
+fieldset#group-by table td { padding: 0; vertical-align: middle; }
+fieldset#group-by tr.filter { height: 2em; }
+fieldset#group-by td.add-group-by { text-align: right; vertical-align: top; }

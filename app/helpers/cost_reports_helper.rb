@@ -25,4 +25,10 @@ module CostReportsHelper
     end
   end
   
+  def js_reorder_links(name, function)
+    link_to_function(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), "#{function}('#{escape_javascript(name)}', 'highest')", :title => l(:label_sort_highest)) +
+    link_to_function(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  "#{function}('#{escape_javascript(name)}', 'higher')", :title => l(:label_sort_higher)) +
+    link_to_function(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),   "#{function}('#{escape_javascript(name)}', 'lower')", :title => l(:label_sort_lower)) +
+    link_to_function(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),  "#{function}('#{escape_javascript(name)}', 'lowest')", :title => l(:label_sort_lowest))
+  end
 end

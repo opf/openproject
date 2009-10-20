@@ -1,0 +1,79 @@
+<script type="text/javascript">
+  //<![CDATA[
+  
+  <% group_by_columns = [["", ""]] %>
+  columns = new Hash();
+  
+  <% @query.group_by_columns[:issues].each do |g| -%>
+    columns.set('<%= "issues__" + g[:name] %>', '<%= escape_javascript(g[:label]) %>');
+    <%- group_by_columns << [g[:label], "issues__" + g[:name]] -%>
+  <%- end %>
+  <% @query.group_by_columns[:costs].each do |g| -%>
+    columns.set('<%= "costs__" + g[:name] %>', '<%= escape_javascript(g[:label]) %>');
+    <%- group_by_columns << [g[:label], "costs__" + g[:name]] -%>
+  <%- end %>
+
+  function add_group_by() {
+    var select = $('add_group_by_select');
+    var name = select.value;
+    
+    if (name == "") {return;}
+    
+    var template = '<%= escape_javascript( render(:partial => "group_by_item", :locals => {:label => "---LABEL---", :name => "---NAME---"}) )  %>';
+    template = template.replace(/---LABEL---/g, columns.get(name));
+    template = template.replace(/---NAME---/g, name)
+    
+    var e = $("group_table");
+    Element.insert(e, { bottom: template });
+    select.selectedIndex = 0;
+    
+    toggle_options(select, name, "disable");
+  }
+  
+  function reorder_group_by(name, direction) {
+    var e = $(name);
+    var parent = e.up();
+    
+    switch (direction) {
+      case "highest":
+        e.remove();
+        parent.insert({top: e})
+        break;
+      case "higher":
+        var prevSibling = e.previous();
+        e.remove();
+        prevSibling.insert({before: e})
+        break;
+      case "lower":
+        var nextSibling = e.next();
+        e.remove()
+        nextSibling.insert({after: e})
+        break;
+      case "lowest":
+        e.remove();
+        parent.insert({bottom: e})
+        break;
+    }
+  }
+  
+  //]]>
+</script>
+
+<table width="100%">
+  <tbody><tr>
+    <td><table id="group_table">
+      <% @query.group_by.each do |group_by| %>
+        <% label = group_by_columns.select{|c| c[1] == group_by} %>
+        <%= render(:partial => "group_by_item", :locals => {:label => label[0][0], :name => group_by}) if label %>
+      <% end unless @query.group_by.blank? %>
+    </table></td>
+    <td class="add-group-by">
+      <%= l(:label_group_by_add) %>: <%= select_tag 'add_group_by_select', options_for_select(group_by_columns),
+        :onchange => "add_group_by();",
+        :class => "select-small",
+        :name => nil %>
+    </td>
+  </tr></tbody>
+</table>
+
+<%= javascript_tag "toggle_options($('add_group_by_select'), ['#{@query.group_by.join("', '")}'], 'disable')"  unless @query.group_by.blank?%>

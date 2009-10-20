@@ -8,6 +8,24 @@
 <h2><%= @query.new_record? ? l(:label_cost_report) : h(@query.name) %></h2>
 <% html_title( @query.new_record? ? l(:label_cost_report) : @query.name ) %>
   
+<script type="text/javascript">
+  //<![CDATA[
+    function toggle_options(select, options, state) {
+      for (i=0; i<select.options.length; i++) {
+        var option = select.options[i];
+        if (options.indexOf(option.value) >= 0) {
+          if (state == "disable") {
+            option.writeAttribute("disabled", "disabled");
+          } else {
+            option.writeAttribute("disabled", null);
+          }
+        }
+      }
+    }
+  //]]>
+</script>
+
+
 
 
 <% form_for @query, :url => {:controller => 'cost_report', :action => 'new' }, :html => {:id => 'query_form', :method => :post} do |query_form| %>
@@ -17,12 +35,12 @@
     <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:query_form => query_form} %></div>
   </fieldset>
 
-  <fieldset id="group_by" class="collapsible">
+  <fieldset id="group-by" class="collapsible">
     <legend onclick="toggleFieldset(this);"><%= l(:label_group_by) %></legend>
     <div><%= render :partial => 'group_by', :locals => {:query_form => query_form} %></div>
   </fieldset>
   
-  <fieldset id="filter_options" class="collapsible">
+  <fieldset id="filter-options" class="collapsible">
     <legend onclick="toggleFieldset(this):"><%= l(:label_option_plural) %></legend>
     <div><%= render :partial => 'options', :locals => {:query_form => query_form} %></div>
   </fieldset>

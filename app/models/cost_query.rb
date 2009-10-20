@@ -86,6 +86,8 @@ class CostQuery < ActiveRecord::Base
   def after_initialize
     display_time_entries = true if display_time_entries.nil?
     display_cost_entries = true if display_cost_entries.nil?
+    
+    #self.group_by = ["issues__project_id", "costs__user_id", "costs__cost_type_id", "issues__version_id"]
   end
   
   def self.operators
@@ -202,6 +204,27 @@ class CostQuery < ActiveRecord::Base
     match = filters.select {|f| f.scope == scope && f.column_name = column_name}
     return match.blank? ? nil : match[0]
   end
+  
+  def group_by_columns
+    return {
+      :issues => [
+         {:name => "project_id", :label => "Issue – Project"},
+         {:name => "tracker_id", :label => "Issue – Tracker"},
+         {:name => "version_id", :label => "Issue – Milestone"},
+         {:name => "category_id", :label => "Issue – Category"}
+        
+      ],
+      :costs => [
+        {:name => "issue_id", :label => "Entry – Issue"},
+        {:name => "user_id", :label => "Entry – Member"},
+        {:name => "cost_type_id", :label => "Entry – Cost Type"},
+        {:name => "activity_id", :label => "Entry – Activity"},
+      ]
+    }
+  end
+
+
+
 
 
   def project_statement
@@ -303,6 +326,31 @@ class CostQuery < ActiveRecord::Base
     entry_filter_clauses.join(' AND ')
   end
   
+
+
+  def sort_criteria=(arg)
+    c = []
+    if arg.is_a?(Hash)
+      arg = arg.keys.sort.collect {|k| arg[k]}
+    end
+    c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, o == 'desc' ? o : 'asc']}
+    write_attribute(:sort_criteria, c)
+  end
+
+  def sort_criteria
+    read_attribute(:sort_criteria) || []
+  end
+
+  def sort_criteria_key(arg)
+    sort_criteria && sort_criteria[arg] && sort_criteria[arg].first
+  end
+
+  def sort_criteria_order(arg)
+    sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
+  end
+
+
+private
   def sql_for_filter(filter, entry_scope = nil, string_as_null = false)
     db_table = filter.column[:db_table]
     if filter.scope == :costs && !db_table
@@ -344,12 +392,7 @@ class CostQuery < ActiveRecord::Base
     
     return sql
   end
-
-
-
-
-
-
+  
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
   # FIXME: This methods comes from redmine trunk. Delete this one and call the one from redmine instead!
   def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)
@@ -434,24 +477,4 @@ class CostQuery < ActiveRecord::Base
 
 
 
-  def sort_criteria=(arg)
-    c = []
-    if arg.is_a?(Hash)
-      arg = arg.keys.sort.collect {|k| arg[k]}
-    end
-    c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, o == 'desc' ? o : 'asc']}
-    write_attribute(:sort_criteria, c)
-  end
-
-  def sort_criteria
-    read_attribute(:sort_criteria) || []
-  end
-
-  def sort_criteria_key(arg)
-    sort_criteria && sort_criteria[arg] && sort_criteria[arg].first
-  end
-
-  def sort_criteria_order(arg)
-    sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
-  end
 end
