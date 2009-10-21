@@ -46,6 +46,7 @@ roles_001:
     - :browse_repository
     - :manage_repository
     - :view_changesets
+    - :manage_project_activities
 
   position: 1
 roles_002: 
@@ -174,4 +175,4 @@ roles_005:
     - :view_changesets
 
   position: 5
-  
+

@@ -200,6 +200,11 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects/:id/files/new', :action => 'add_file'
       project_actions.connect 'projects/:id/versions/new', :action => 'add_version'
       project_actions.connect 'projects/:id/categories/new', :action => 'add_issue_category'
+      project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
+    end
+
+    projects.with_options :conditions => {:method => :delete} do |project_actions|
+      project_actions.conditions 'projects/:id/reset_activities', :action => 'reset_activities'
     end
   end
   

@@ -344,10 +344,17 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_activities_should_handle_nils
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(1), :parent => TimeEntryActivity.find(:first)})
     TimeEntryActivity.delete_all
 
+    # No activities
     project = Project.find(1)
     assert project.activities.empty?
+
+    # No system, one overridden
+    assert overridden_activity.save!
+    project.reload
+    assert_equal [overridden_activity], project.activities
   end
 
   def test_activities_should_override_system_activities_with_project_activities
@@ -358,6 +365,14 @@ class ProjectTest < ActiveSupport::TestCase
 
     assert project.activities.include?(overridden_activity), "Project specific Activity not found"
     assert !project.activities.include?(parent_activity), "System Activity found when it should have been overridden"
+  end
+
+  def test_activities_should_include_inactive_activities_if_specified
+    project = Project.find(1)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
+    assert overridden_activity.save!
+
+    assert project.activities(true).include?(overridden_activity), "Inactive Project specific Activity not found"
   end
 
   context "Project#copy" do

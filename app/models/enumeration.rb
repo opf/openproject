@@ -25,7 +25,7 @@ class Enumeration < ActiveRecord::Base
   before_destroy :check_integrity
   
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [:type]
+  validates_uniqueness_of :name, :scope => [:type, :project_id]
   validates_length_of :name, :maximum => 30
   
   # Backwards compatiblity named_scopes.
@@ -58,7 +58,7 @@ class Enumeration < ActiveRecord::Base
   end
   # End backwards compatiblity named_scopes
 
-  named_scope :all, :order => 'position'
+  named_scope :all, :order => 'position', :conditions => { :project_id => nil }
 
   named_scope :active, lambda {
     {
@@ -133,6 +133,32 @@ class Enumeration < ActiveRecord::Base
   # Note: subclasses is protected in ActiveRecord
   def self.get_subclasses
     @@subclasses[Enumeration]
+  end
+
+  # Does the +new+ Hash override the previous Enumeration?
+  def self.overridding_change?(new, previous)
+    if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new,previous)
+      return false
+    else
+      return true
+    end
+  end
+
+  # Does the +new+ Hash have the same custom values as the previous Enumeration?
+  def self.same_custom_values?(new, previous)
+    previous.custom_field_values.each do |custom_value|
+      if custom_value.value != new["custom_field_values"][custom_value.custom_field_id.to_s]
+        return false
+      end
+    end
+
+    return true
+  end
+  
+  # Are the new and previous fields equal?
+  def self.same_active_state?(new, previous)
+    new = (new == "1" ? true : false)
+    return new == previous
   end
   
 private

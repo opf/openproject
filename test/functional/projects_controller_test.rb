@@ -24,7 +24,7 @@ class ProjectsController; def rescue_action(e) raise e end; end
 class ProjectsControllerTest < ActionController::TestCase
   fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages,
-           :attachments
+           :attachments, :custom_fields, :custom_values
 
   def setup
     @controller = ProjectsController.new
@@ -555,7 +555,134 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
   end
+
+  def test_reset_activities_routing
+    assert_routing({:method => :delete, :path => 'projects/64/reset_activities'},
+                   :controller => 'projects', :action => 'reset_activities', :id => '64')
+  end
+
+  def test_reset_activities
+    @request.session[:user_id] = 2 # manager
+    project_activity = TimeEntryActivity.new({
+                                               :name => 'Project Specific',
+                                               :parent => TimeEntryActivity.find(:first),
+                                               :project => Project.find(1),
+                                               :active => true
+                                             })
+    assert project_activity.save
+    project_activity_two = TimeEntryActivity.new({
+                                                   :name => 'Project Specific Two',
+                                                   :parent => TimeEntryActivity.find(:last),
+                                                   :project => Project.find(1),
+                                                   :active => true
+                                                 })
+    assert project_activity_two.save
+
+    delete :reset_activities, :id => 1
+    assert_response :redirect
+    assert_redirected_to 'projects/ecookbook/settings/activities'
+
+    assert_nil TimeEntryActivity.find_by_id(project_activity.id)
+    assert_nil TimeEntryActivity.find_by_id(project_activity_two.id)
+  end
   
+  def test_save_activities_routing
+    assert_routing({:method => :post, :path => 'projects/64/activities/save'},
+                   :controller => 'projects', :action => 'save_activities', :id => '64')
+  end
+
+  def test_save_activities_to_override_system_activities
+    @request.session[:user_id] = 2 # manager
+    billable_field = TimeEntryActivityCustomField.find_by_name("Billable")
+
+    post :save_activities, :id => 1, :enumerations => {
+      "9"=> {"parent_id"=>"9", "custom_field_values"=>{"7" => "1"}, "active"=>"0"}, # Design, De-activate
+      "10"=> {"parent_id"=>"10", "custom_field_values"=>{"7"=>"0"}, "active"=>"1"}, # Development, Change custom value
+      "14"=>{"parent_id"=>"14", "custom_field_values"=>{"7"=>"1"}, "active"=>"1"}, # Inactive Activity, Activate with custom value
+      "11"=>{"parent_id"=>"11", "custom_field_values"=>{"7"=>"1"}, "active"=>"1"} # QA, no changes
+    }
+
+    assert_response :redirect
+    assert_redirected_to 'projects/ecookbook/settings/activities'
+
+    # Created project specific activities...
+    project = Project.find('ecookbook')
+
+    # ... Design
+    design = project.time_entry_activities.find_by_name("Design")
+    assert design, "Project activity not found"
+
+    assert_equal 9, design.parent_id # Relate to the system activity
+    assert_not_equal design.parent.id, design.id # Different records
+    assert_equal design.parent.name, design.name # Same name
+    assert !design.active?
+
+    # ... Development
+    development = project.time_entry_activities.find_by_name("Development")
+    assert development, "Project activity not found"
+
+    assert_equal 10, development.parent_id # Relate to the system activity
+    assert_not_equal development.parent.id, development.id # Different records
+    assert_equal development.parent.name, development.name # Same name
+    assert development.active?
+    assert_equal "0", development.custom_value_for(billable_field).value
+
+    # ... Inactive Activity
+    previously_inactive = project.time_entry_activities.find_by_name("Inactive Activity")
+    assert previously_inactive, "Project activity not found"
+
+    assert_equal 14, previously_inactive.parent_id # Relate to the system activity
+    assert_not_equal previously_inactive.parent.id, previously_inactive.id # Different records
+    assert_equal previously_inactive.parent.name, previously_inactive.name # Same name
+    assert previously_inactive.active?
+    assert_equal "1", previously_inactive.custom_value_for(billable_field).value
+
+    # ... QA
+    assert_equal nil, project.time_entry_activities.find_by_name("QA"), "Custom QA activity created when it wasn't modified"
+  end
+
+  def test_save_activities_will_update_project_specific_activities
+    @request.session[:user_id] = 2 # manager
+
+    project_activity = TimeEntryActivity.new({
+                                               :name => 'Project Specific',
+                                               :parent => TimeEntryActivity.find(:first),
+                                               :project => Project.find(1),
+                                               :active => true
+                                             })
+    assert project_activity.save
+    project_activity_two = TimeEntryActivity.new({
+                                                   :name => 'Project Specific Two',
+                                                   :parent => TimeEntryActivity.find(:last),
+                                                   :project => Project.find(1),
+                                                   :active => true
+                                                 })
+    assert project_activity_two.save
+
+    
+    post :save_activities, :id => 1, :enumerations => {
+      project_activity.id => {"custom_field_values"=>{"7" => "1"}, "active"=>"0"}, # De-activate
+      project_activity_two.id => {"custom_field_values"=>{"7" => "1"}, "active"=>"0"} # De-activate
+    }
+
+    assert_response :redirect
+    assert_redirected_to 'projects/ecookbook/settings/activities'
+
+    # Created project specific activities...
+    project = Project.find('ecookbook')
+    assert_equal 2, project.time_entry_activities.count
+
+    activity_one = project.time_entry_activities.find_by_name(project_activity.name)
+    assert activity_one, "Project activity not found"
+    assert_equal project_activity.id, activity_one.id
+    assert !activity_one.active?
+
+    activity_two = project.time_entry_activities.find_by_name(project_activity_two.name)
+    assert activity_two, "Project activity not found"
+    assert_equal project_activity_two.id, activity_two.id
+    assert !activity_two.active?
+  end
+
   # A hook that is manually registered later
   class ProjectBasedTemplate < Redmine::Hook::ViewListener
     def view_layouts_base_html_head(context)
