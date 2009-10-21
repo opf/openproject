@@ -25,11 +25,18 @@ module TimelogHelper
     links << link_to_issue(@issue) if @issue
     breadcrumb links
   end
-  
-  def activity_collection_for_select_options
-    activities = TimeEntryActivity.all
+
+  # Returns a collection of activities for a select field.  time_entry
+  # is optional and will be used to check if the selected TimeEntryActivity
+  # is active.
+  def activity_collection_for_select_options(time_entry=nil)
+    activities = TimeEntryActivity.active
     collection = []
-    collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless activities.detect(&:is_default)
+    if time_entry && !time_entry.activity.active?
+      collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ]
+    else
+      collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless activities.detect(&:is_default)
+    end
     activities.each { |a| collection << [a.name, a.id] }
     collection
   end

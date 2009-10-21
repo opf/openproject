@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # redMine - project management software
 # Copyright (C) 2006-2007  Jean-Philippe Lang
 #
@@ -69,6 +70,28 @@ class TimelogControllerTest < ActionController::TestCase
     assert_template 'edit'
     # Default activity selected
     assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/timelog/edit/2' }
+  end
+  
+  def test_get_edit_should_only_show_active_time_entry_activities
+    @request.session[:user_id] = 3
+    get :edit, :project_id => 1
+    assert_response :success
+    assert_template 'edit'
+    assert_no_tag :tag => 'option', :content => 'Inactive Activity'
+                                    
+  end
+
+  def test_get_edit_with_an_existing_time_entry_with_inactive_activity
+    te = TimeEntry.find(1)
+    te.activity = TimeEntryActivity.find_by_name("Inactive Activity")
+    te.save!
+
+    @request.session[:user_id] = 1
+    get :edit, :project_id => 1, :id => 1
+    assert_response :success
+    assert_template 'edit'
+    # Blank option since nothing is pre-selected
+    assert_tag :tag => 'option', :content => '--- Please select ---'
   end
   
   def test_post_edit

@@ -53,8 +53,16 @@ class Enumeration < ActiveRecord::Base
       find(:first, :conditions => { :is_default => true })
     end
   end
+  # End backwards compatiblity named_scopes
 
   named_scope :all, :order => 'position'
+
+  named_scope :active, lambda {
+    {
+      :conditions => {:active => true},
+      :order => 'position'
+    }
+  }
 
   def self.default
     # Creates a fake default scope so Enumeration.default will check

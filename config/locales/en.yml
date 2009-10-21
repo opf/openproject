@@ -748,6 +748,8 @@ en:
   status_active: active
   status_registered: registered
   status_locked: locked
+
+  field_active: Active
   
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$

@@ -6,10 +6,18 @@
 <% enumerations = klass.all %>
 <% if enumerations.any? %>
 <table class="list">
+<tr>
+    <th><%= l(:field_name) %></th>
+    <th style="width:15%;"><%= l(:field_is_default) %></th>
+    <th style="width:15%;"><%= l(:field_active) %></th>
+    <th style="width:15%;"></th>
+    <th align="center" style="width:10%;"> </th>
+</tr>
 <% enumerations.each do |enumeration| %>
 <tr class="<%= cycle('odd', 'even') %>">
     <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
     <td style="width:15%;"><%= image_tag('true.png') if enumeration.is_default? %></td>
+    <td style="width:15%;"><%= image_tag('true.png') if enumeration.active? %></td>
     <td style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}) %></td>
     <td class="buttons">
     <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration }, 

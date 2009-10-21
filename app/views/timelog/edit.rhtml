@@ -9,7 +9,7 @@
 <p><%= f.text_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
 <p><%= f.text_field :hours, :size => 6, :required => true %></p>
 <p><%= f.text_field :comments, :size => 100 %></p>
-<p><%= f.select :activity_id, activity_collection_for_select_options, :required => true %></p>
+<p><%= f.select :activity_id, activity_collection_for_select_options(@time_entry), :required => true %></p>
 <% @time_entry.custom_field_values.each do |value| %>
 	<p><%= custom_field_tag_with_label :time_entry, value %></p>
 <% end %>
