@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class BoardsController < ApplicationController
+  default_search_scope :messages
   before_filter :find_project, :authorize
 
   helper :messages

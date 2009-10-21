@@ -17,6 +17,7 @@
 
 class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
+  default_search_scope :issues
   
   before_filter :find_issue, :only => [:show, :edit, :reply]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
