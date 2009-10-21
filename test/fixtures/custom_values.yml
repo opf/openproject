@@ -84,7 +84,7 @@ custom_values_014:
   id: 14
   value: "-7.6"
 custom_values_015: 
-  customized_type: TimeEntryActivity
+  customized_type: Enumeration
   custom_field_id: 7
   customized_id: 10
   id: 15
@@ -94,4 +94,4 @@ custom_values_016:
   custom_field_id: 7
   customized_id: 11
   id: 16
-  value: true
+  value: '1'

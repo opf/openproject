@@ -23,9 +23,9 @@ module CustomFieldsHelper
             {:name => 'ProjectCustomField', :partial => 'custom_fields/index', :label => :label_project_plural},
             {:name => 'UserCustomField', :partial => 'custom_fields/index', :label => :label_user_plural},
             {:name => 'GroupCustomField', :partial => 'custom_fields/index', :label => :label_group_plural},
-            {:name => 'TimeEntryActivityCustomField', :label => TimeEntryActivity::OptionName},
-            {:name => 'IssuePriorityCustomField', :label => IssuePriority::OptionName},
-            {:name => 'DocumentCategoryCustomField', :label => DocumentCategory::OptionName}
+            {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index', :label => TimeEntryActivity::OptionName},
+            {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index', :label => IssuePriority::OptionName},
+            {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index', :label => DocumentCategory::OptionName}
             ]
   end
   

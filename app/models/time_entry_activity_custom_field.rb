@@ -17,7 +17,7 @@
 
 class TimeEntryActivityCustomField < CustomField
   def type_name
-    :enumeration_time_entry_activities
+    :enumeration_activities
   end
 end
 
