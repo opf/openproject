@@ -62,7 +62,7 @@ class Enumeration < ActiveRecord::Base
 
   named_scope :active, lambda {
     {
-      :conditions => {:active => true},
+      :conditions => {:active => true, :project_id => nil},
       :order => 'position'
     }
   }

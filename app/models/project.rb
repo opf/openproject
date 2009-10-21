@@ -20,6 +20,7 @@ class Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
   
+  has_many :time_entry_activities, :conditions => {:active => true } # Specific overidden Activities
   has_many :members, :include => :user, :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :member_principals, :class_name => 'Member', 
                                :include => :principal,
@@ -153,6 +154,17 @@ class Project < ActiveRecord::Base
       end
     end
     statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
+  end
+
+  # Returns all the Systemwide and project specific activities
+  def activities
+    overridden_activity_ids = self.time_entry_activities.collect(&:parent_id)
+
+    if overridden_activity_ids.empty?
+      return TimeEntryActivity.active
+    else
+      return system_activities_and_project_overrides
+    end
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.
@@ -445,5 +457,13 @@ private
 
   def allowed_actions
     @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
+  end
+
+  # Returns the systemwide activities merged with the project specific overrides
+  def system_activities_and_project_overrides
+    return TimeEntryActivity.active.
+      find(:all,
+           :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
+      self.time_entry_activities
   end
 end

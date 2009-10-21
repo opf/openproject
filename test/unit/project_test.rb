@@ -313,6 +313,53 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 1, copied_project.status
   end
 
+  def test_activities_should_use_the_system_activities
+    project = Project.find(1)
+    assert_equal project.activities, TimeEntryActivity.find(:all, :conditions => {:active => true} )
+  end
+
+
+  def test_activities_should_use_the_project_specific_activities
+    project = Project.find(1)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project})
+    assert overridden_activity.save!
+
+    assert project.activities.include?(overridden_activity), "Project specific Activity not found"
+  end
+
+  def test_activities_should_not_include_the_inactive_project_specific_activities
+    project = Project.find(1)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
+    assert overridden_activity.save!
+
+    assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity found"
+  end
+
+  def test_activities_should_not_include_project_specific_activities_from_other_projects
+    project = Project.find(1)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(2)})
+    assert overridden_activity.save!
+
+    assert !project.activities.include?(overridden_activity), "Project specific Activity found on a different project"
+  end
+
+  def test_activities_should_handle_nils
+    TimeEntryActivity.delete_all
+
+    project = Project.find(1)
+    assert project.activities.empty?
+  end
+
+  def test_activities_should_override_system_activities_with_project_activities
+    project = Project.find(1)
+    parent_activity = TimeEntryActivity.find(:first)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => parent_activity})
+    assert overridden_activity.save!
+
+    assert project.activities.include?(overridden_activity), "Project specific Activity not found"
+    assert !project.activities.include?(parent_activity), "System Activity found when it should have been overridden"
+  end
+
   context "Project#copy" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
