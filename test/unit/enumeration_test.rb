@@ -86,4 +86,26 @@ class EnumerationTest < ActiveSupport::TestCase
     assert Enumeration.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
   end
 
+  def test_should_belong_to_a_project
+    association = Enumeration.reflect_on_association(:project)
+    assert association, "No Project association found"
+    assert_equal :belongs_to, association.macro
+  end
+
+  def test_should_act_as_tree
+    enumeration = Enumeration.find(4)
+
+    assert enumeration.respond_to?(:parent)
+    assert enumeration.respond_to?(:children)
+  end
+
+  def test_is_override
+    # Defaults to off
+    enumeration = Enumeration.find(4)
+    assert !enumeration.is_override?
+
+    # Setup as an override
+    enumeration.parent = Enumeration.find(5)
+    assert enumeration.is_override?
+  end
 end

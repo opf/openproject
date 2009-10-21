@@ -16,8 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Enumeration < ActiveRecord::Base
+  belongs_to :project
+  
   acts_as_list :scope => 'type = \'#{type}\''
   acts_as_customizable
+  acts_as_tree :order => 'position ASC'
 
   before_destroy :check_integrity
   
@@ -100,6 +103,11 @@ class Enumeration < ActiveRecord::Base
   
   def in_use?
     self.objects_count != 0
+  end
+
+  # Is this enumeration overiding a system level enumeration?
+  def is_override?
+    !self.parent.nil?
   end
   
   alias :destroy_without_reassign :destroy
