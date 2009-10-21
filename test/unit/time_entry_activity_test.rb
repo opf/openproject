@@ -32,5 +32,54 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
   def test_option_name
     assert_equal :enumeration_activities, TimeEntryActivity.new.option_name
   end
+
+  def test_create_with_custom_field
+    field = TimeEntryActivityCustomField.find_by_name('Billable')
+    e = TimeEntryActivity.new(:name => 'Custom Data')
+    e.custom_field_values = {field.id => "1"}
+    assert e.save
+
+    e.reload
+    assert_equal "1", e.custom_value_for(field).value
+  end
+
+  def test_create_without_required_custom_field_should_fail
+    field = TimeEntryActivityCustomField.find_by_name('Billable')
+    field.update_attribute(:is_required, true)
+
+    e = TimeEntryActivity.new(:name => 'Custom Data')
+    assert !e.save
+    assert_equal I18n.translate('activerecord.errors.messages.invalid'), e.errors.on(:custom_values)
+  end
+
+  def test_create_with_required_custom_field_should_succeed
+    field = TimeEntryActivityCustomField.find_by_name('Billable')
+    field.update_attribute(:is_required, true)
+
+    e = TimeEntryActivity.new(:name => 'Custom Data')
+    e.custom_field_values = {field.id => "1"}
+    assert e.save
+  end
+
+  def test_update_issue_with_required_custom_field_change
+    field = TimeEntryActivityCustomField.find_by_name('Billable')
+    field.update_attribute(:is_required, true)
+
+    e = TimeEntryActivity.find(10)
+    assert e.available_custom_fields.include?(field)
+    # No change to custom field, record can be saved
+    assert e.save
+    # Blanking custom field, save should fail
+    e.custom_field_values = {field.id => ""}
+    assert !e.save
+    assert e.errors.on(:custom_values)
+    
+    # Update custom field to valid value, save should succeed
+    e.custom_field_values = {field.id => "0"}
+    assert e.save
+    e.reload
+    assert_equal "0", e.custom_value_for(field).value
+  end
+
 end
 

@@ -17,6 +17,7 @@
 
 class Enumeration < ActiveRecord::Base
   acts_as_list :scope => 'type = \'#{type}\''
+  acts_as_customizable
 
   before_destroy :check_integrity
   

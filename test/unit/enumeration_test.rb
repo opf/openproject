@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class EnumerationTest < ActiveSupport::TestCase
-  fixtures :enumerations, :issues
+  fixtures :enumerations, :issues, :custom_fields, :custom_values
 
   def setup
   end
@@ -81,4 +81,9 @@ class EnumerationTest < ActiveSupport::TestCase
     assert_nil Issue.find(:first, :conditions => {:priority_id => 4})
     assert_equal 5, Enumeration.find(6).objects_count
   end
+
+  def test_should_be_customizable
+    assert Enumeration.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
+  end
+
 end

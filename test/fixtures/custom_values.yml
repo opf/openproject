@@ -83,4 +83,9 @@ custom_values_014:
   customized_id: 5
   id: 14
   value: "-7.6"
-  
+custom_values_015: 
+  customized_type: TimeEntryActivity
+  custom_field_id: 7
+  customized_id: 10
+  id: 15
+  value: true

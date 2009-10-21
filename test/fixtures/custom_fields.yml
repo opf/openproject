@@ -87,4 +87,17 @@ custom_fields_006:
   field_format: float
   default_value: ""
   editable: true
-  
+custom_fields_007: 
+  name: Billable
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: TimeEntryActivityCustomField
+  max_length: 0
+  possible_values: ""
+  id: 7
+  is_required: false
+  field_format: bool
+  default_value: ""
+  editable: true

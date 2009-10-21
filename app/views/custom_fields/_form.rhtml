@@ -94,6 +94,9 @@ when "IssueCustomField" %>
 <% when "TimeEntryCustomField" %>
     <p><%= f.check_box :is_required %></p>
 
+<% else %>
+    <p><%= f.check_box :is_required %></p>
+    
 <% end %>
 <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
 </div>

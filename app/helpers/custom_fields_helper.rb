@@ -22,7 +22,10 @@ module CustomFieldsHelper
             {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index', :label => :label_spent_time},
             {:name => 'ProjectCustomField', :partial => 'custom_fields/index', :label => :label_project_plural},
             {:name => 'UserCustomField', :partial => 'custom_fields/index', :label => :label_user_plural},
-            {:name => 'GroupCustomField', :partial => 'custom_fields/index', :label => :label_group_plural}
+            {:name => 'GroupCustomField', :partial => 'custom_fields/index', :label => :label_group_plural},
+            {:name => 'TimeEntryActivityCustomField', :label => TimeEntryActivity::OptionName},
+            {:name => 'IssuePriorityCustomField', :label => IssuePriority::OptionName},
+            {:name => 'DocumentCategoryCustomField', :label => DocumentCategory::OptionName}
             ]
   end
   
