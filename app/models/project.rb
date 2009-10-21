@@ -170,19 +170,24 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Will build a new Project specific Activity or update an existing one
-  def update_or_build_time_entry_activity(id, activity_hash)
+  # Will create a new Project specific Activity or update an existing one
+  #
+  # This will raise a ActiveRecord::Rollback if the TimeEntryActivity
+  # does not successfully save.
+  def update_or_create_time_entry_activity(id, activity_hash)
     if activity_hash.respond_to?(:has_key?) && activity_hash.has_key?('parent_id')
-      self.build_time_entry_activity_if_needed(activity_hash)
+      self.create_time_entry_activity_if_needed(activity_hash)
     else
       activity = project.time_entry_activities.find_by_id(id.to_i)
       activity.update_attributes(activity_hash) if activity
     end
   end
   
-  # Builds new activity
-  def build_time_entry_activity_if_needed(activity)
-    # Only new override activities are built
+  # Create a new TimeEntryActivity if it overrides a system TimeEntryActivity
+  #
+  # This will raise a ActiveRecord::Rollback if the TimeEntryActivity
+  # does not successfully save.
+  def create_time_entry_activity_if_needed(activity)
     if activity['parent_id']
     
       parent_activity = TimeEntryActivity.find(activity['parent_id'])
@@ -190,7 +195,13 @@ class Project < ActiveRecord::Base
       activity['position'] = parent_activity.position
 
       if Enumeration.overridding_change?(activity, parent_activity)
-        self.time_entry_activities.build(activity)
+        project_activity = self.time_entry_activities.create(activity)
+
+        if project_activity.new_record?
+          raise ActiveRecord::Rollback, "Overridding TimeEntryActivity was not successfully saved"
+        else
+          self.time_entries.update_all("activity_id = #{project_activity.id}", ["activity_id = ?", parent_activity.id])
+        end
       end
     end
   end
