@@ -104,10 +104,14 @@ class CostQuery < ActiveRecord::Base
     
     operators.merge(
       {
-        "n=" => {:label => :label_equals, :simple => false},
+        "=n" => {:label => :label_equals, :simple => false},
         "0" => {:label => :label_none, :simple => true},
         "y" => {:label => :label_yes, :simple => true},
-        "n" => {:label => :label_no, :simple => true}
+        "n" => {:label => :label_no, :simple => true},
+        "<d" => {:label => :label_less_or_equal, :simple => false},
+        ">d" => {:label => :label_greater_or_equal, :simple => false},
+        "<>d" => {:label => :label_between, :simple => false},
+        "=d" => {:label => :label_date_on, :simple => false}
       }
     )
   end
@@ -122,8 +126,9 @@ class CostQuery < ActiveRecord::Base
     end
     @filter_types = filter_types.merge( 
       {
-        :integer_zero => {:operators => [ "n=", ">=", "<=", "0", "*" ], :multiple => true},
-        :boolean => {:operators => [ "y", "n" ], :multiple => false}
+        :integer_zero => {:operators => [ "=n", ">=", "<=", "0", "*" ], :multiple => true},
+        :boolean => {:operators => [ "y", "n" ], :multiple => false},
+        :date_exact => {:operators => [ "<d", ">d", "<>d", "=d", "t", "w"], :multiple => true}
       }
     )
   end
@@ -142,10 +147,10 @@ class CostQuery < ActiveRecord::Base
         "cost_type_id" => { :type => :list_optional, :order => 2, :applies => [:cost_entries], :flags => [], :db_table => CostType.table_name, :db_field => "id", :values => CostType.find(:all, :order => 'name').collect{|s| [s.name, s.id.to_s] }},
         # FIXME: this has to be changed for Redmine 0.9 as r2777 of Redmine introduces STI for enumerations
         "activity" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :db_table => Enumeration.table_name, :db_field => "id", :values => Enumeration.find(:all, :conditions => {:opt => 'ACTI'}, :order => 'position').collect{|s| [s.name, s.id.to_s] }},
-        "created_on" => { :type => :date_past, :applies => [:time_entries, :cost_entries], :flags => [], :order => 4 },                        
-        "updated_on" => { :type => :date_past, :applies => [:time_entries, :cost_entries], :flags => [], :order => 5 },
-        "spent_on" => { :type => :date, :applies => [:time_entries, :cost_entries], :flags => [], :order => 6 },
-        "overridden" => { :type => :boolean, :applies => [:time_entries, :cost_entries], :flags => [], :order => 7 },
+        "created_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 4 },                        
+        "updated_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 5 },
+        "spent_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 6 },
+        "overridden_costs" => { :type => :boolean, :applies => [:time_entries, :cost_entries], :flags => [], :order => 7 },
       }
     }
     
@@ -169,15 +174,13 @@ class CostQuery < ActiveRecord::Base
         if ["labor_costs", "material_costs", "overall_costs"].include? k
           v[:type] = :integer_zero
         end
+        if [:date_past, :date].include? v[:type]
+          v[:type] = :date_exact
+        end
         v[:db_table] = Issue.table_name
         v[:db_field] = k
       end
     end
-    
-    @available_filters[:issues].each_pair do |k,v|
-    puts "#{k}: #{v[:type]}, #{v[:db_table]}"
-    end
-    
     
     if @available_filters[:issues]["author_id"]
       # add a filter on cost entries for user_id if it is available
@@ -413,8 +416,33 @@ private
       sql = "#{db_table}.#{db_field} IS NOT NULL"
     when "n"
       sql = "#{db_table}.#{db_field} IS NULL"
-    when "n="
+    when "=n"
       sql = "#{db_table}.#{db_field} = #{CostRate.clean_currency(filter.values).to_f.to_s}"
+    when "<>d"
+      begin
+        date1 = filter.values.first.to_date
+        date2 = filter.values.last.to_date
+        sql = "#{db_table}.#{db_field} BETWEEN '#{connection.quoted_date(date1)}' AND '#{connection.quoted_date(date2)}'"
+      rescue
+      end
+    when ">d"
+      begin
+        date = filter.values.first.to_date
+        sql = "#{db_table}.#{db_field} >= '#{connection.quoted_date(date)}'"
+      rescue
+      end
+    when "<d"
+      begin
+        date = filter.values.first.to_date
+        sql = "#{db_table}.#{db_field} <= '#{connection.quoted_date(date)}'"
+      rescue
+      end
+    when "=d"
+      begin
+        date = filter.values.first.to_date
+        sql = "#{db_table}.#{db_field} = '#{connection.quoted_date(date)}'"
+      rescue
+      end
     end
     
     return sql
