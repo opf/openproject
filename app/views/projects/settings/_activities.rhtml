@@ -31,7 +31,12 @@
   <% end %>
 </table>
 
+<div class="contextual">
+<%= link_to(l(:button_reset), {:controller => 'projects', :action => 'reset_activities', :id => @project},
+						:method => :delete,
+						:confirm => l(:text_are_you_sure),
+            :class => 'icon icon-del') %>
+</div>
+
 <%= submit_tag l(:button_save) %>
 <% end %>
-<%= button_to l(:button_reset), {:controller => 'projects', :action => 'reset_activities', :id => @project}, :method => :delete, :confirm => l(:text_are_you_sure), :style => "position: relative; top: -20px; left: 60px;" %>
-
