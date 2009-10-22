@@ -79,5 +79,17 @@ describe CostEntry do
     @example.reload
     @example.costs.should == rates("cheap_five").rate
   end
+  
+  it "should be able to change order of rates (sorted by valid_from)" do
+    cheap_one = rates("cheap_one")
+    cheap_three = rates("cheap_three")
+    @example.spent_on = cheap_one.valid_from
+    @example.save!
+    @example.rate.should == cheap_one
+    cheap_one.valid_from = cheap_three.valid_from - 1.day
+    cheap_one.save!
+    @example.reload
+    @example.rate.should == cheap_three
+  end
 
 end

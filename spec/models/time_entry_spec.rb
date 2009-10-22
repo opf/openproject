@@ -42,7 +42,7 @@ describe TimeEntry do
       @example.save!
       @example.costs.should == rates("hourly_one").rate
       hourly = HourlyRate.create! :valid_from => 1.day.ago, :rate => 1.0,
-        :user => User.current, :project => rates("hourly_one").project
+      :user => User.current, :project => rates("hourly_one").project
       @example.reload
       @example.rate.should_not == rates("hourly_one")
       @example.costs.should == hourly.rate
@@ -55,7 +55,7 @@ describe TimeEntry do
       @example.save!
       @example.costs.should == rates("hourly_three").rate
       hourly = HourlyRate.create! :valid_from => 3.days.ago.to_date, :rate => 1.0,
-        :user => User.current, :project => rates("hourly_one").project
+      :user => User.current, :project => rates("hourly_one").project
       @example.reload
       @example.rate.should_not == rates("hourly_three")
       @example.costs.should == hourly.rate
@@ -82,6 +82,18 @@ describe TimeEntry do
       rates("hourly_three").destroy
       @example.reload
       @example.costs.should == rates("hourly_five").rate
+    end
+
+    it "should be able to change order of rates (sorted by valid_from)" do
+      hourly_one = rates("hourly_one")
+      hourly_three = rates("hourly_three")
+      @example.spent_on = hourly_one.valid_from
+      @example.save!
+      @example.rate.should == hourly_one
+      hourly_one.valid_from = hourly_three.valid_from - 1.day
+      hourly_one.save!
+      @example.reload
+      @example.rate.should == hourly_three
     end
 
   end
@@ -142,12 +154,12 @@ describe TimeEntry do
       @default_example.reload
       @default_example.costs.should == rates("default_hourly_five").rate
     end
-    
+
     it "shoud be able to switch between default hourly rate and hourly rate" do
       user = users("john")
       @default_example.rate.should == rates("default_hourly_one")
       rate = HourlyRate.create! :valid_from => 10.days.ago.to_date, :rate => 1337.0, :user => user,
-        :project => rates("hourly_one").project
+      :project => rates("hourly_one").project
       @default_example.reload
       @default_example.rate.should == rate
       rate.destroy
