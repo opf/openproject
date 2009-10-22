@@ -9,6 +9,7 @@
 
 <h2><%=h @news.title %></h2>
 
+<% if authorize_for('news', 'edit') %>
 <div id="edit-news" style="display:none;">
 <% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news },
                                            :html => { :id => 'news-form' } do |f| %>
@@ -20,10 +21,11 @@
                      :update => 'preview',
                      :with => "Form.serialize('news-form')"
                    }, :accesskey => accesskey(:preview) %> |
-<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news")' %>
+<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;' %>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>
+<% end %>
 
 <p><em><% unless @news.summary.blank? %><%=h @news.summary %><br /><% end %>
 <span class="author"><%= authoring @news.created_on, @news.author %></span></em></p>
