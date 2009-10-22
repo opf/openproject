@@ -87,7 +87,7 @@ class CostQuery < ActiveRecord::Base
     self.display_time_entries = true if display_time_entries.nil?
     self.display_cost_entries = true if display_cost_entries.nil?
     
-    self.group_by = {} if group_by.blank?
+    self.group_by ||= {}
   end
   
   def self.operators

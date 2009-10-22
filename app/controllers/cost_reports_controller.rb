@@ -84,8 +84,6 @@ private
           @query.display_time_entries = params[:cost_query][:display_time_entries]
         end
         
-        
-        @query.group_by = params[:group_by]
         session[:cost_query] = {:project_id => @query.project_id,
                                 :filters => @query.filters,
                                 :group_by => @query.group_by,
