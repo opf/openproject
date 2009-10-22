@@ -43,6 +43,13 @@ class CostEntry < ActiveRecord::Base
     issue.save
   end
   
+  def spent_on=(date)
+    super
+    self.tyear = spent_on ? spent_on.year : nil
+    self.tmonth = spent_on ? spent_on.month : nil
+    self.tweek = spent_on ? Date.civil(spent_on.year, spent_on.month, spent_on.day).cweek : nil
+  end
+  
   def real_costs
     # This methods returns the actual assigned costs of the entry
     self.overridden_costs || self.costs || self.calculated_costs

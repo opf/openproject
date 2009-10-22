@@ -243,6 +243,7 @@ class CostQuery < ActiveRecord::Base
   end
   
   def time_groups
+    # returns an array of group_by names where time == true
     group_by_columns.inject([]) do |list, (type, columns)|
       list + columns.find_all { |e| e[:time] }.map { |e| "#{type}__#{e[:name]}" }
     end

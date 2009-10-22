@@ -13,6 +13,6 @@
     :class => "select-small", :onchange => "group_by_changed();"
 %>
 <%=
-  select_tag "group_by[granulatrity]", options_for_select(@query.time_options, @query.group_by["granulatrity"]),
-    :class => "select-small", :onload => "group_by_changed();"
+  select_tag("group_by[granulatrity]", options_for_select(@query.time_options, @query.group_by["granulatrity"]),
+    :class => "select-small", :onload => "group_by_changed();", :style => ("display: none" unless @query.time_groups.include? @query.group_by["name"])) 
 %>
