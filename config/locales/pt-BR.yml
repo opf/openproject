@@ -856,3 +856,5 @@ pt-BR:
   label_group_new: Novo grupo
   label_time_entry_plural: Tempos gastos
   text_journal_added: "{{label}} {{value}} adicionado"
+  field_active: Active
+  enumeration_system_activity: System Activity

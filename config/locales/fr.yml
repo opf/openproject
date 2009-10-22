@@ -852,3 +852,5 @@ fr:
   text_journal_set_to: "{{label}} mis à {{value}}"
   text_journal_deleted: "{{label}} {{old}} supprimé"
   text_journal_added: "{{label}} {{value}} ajouté"
+  field_active: Actif
+  enumeration_system_activity: Activité système

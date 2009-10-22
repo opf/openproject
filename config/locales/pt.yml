@@ -842,3 +842,5 @@ pt:
   text_journal_set_to: "{{label}} set to {{value}}"
   text_journal_deleted: "{{label}} deleted ({{old}})"
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity

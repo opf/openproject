@@ -830,3 +830,5 @@ el:
   label_group_new: Νέα ομάδα
   label_time_entry_plural: Χρόνος που δαπανήθηκε
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity

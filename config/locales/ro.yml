@@ -827,3 +827,5 @@ ro:
   label_group_new: Grup nou
   label_time_entry_plural: Timp alocat
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity

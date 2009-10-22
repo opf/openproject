@@ -850,3 +850,5 @@ da:
   label_group_new: Ny gruppe
   label_time_entry_plural: Anvendt tid
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity

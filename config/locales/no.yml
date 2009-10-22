@@ -825,3 +825,5 @@
   label_group_new: New group
   label_time_entry_plural: Spent time
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity

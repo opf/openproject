@@ -890,3 +890,5 @@ ko:
   label_group_new: 새 그룹
   label_time_entry_plural: 작업시간
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity

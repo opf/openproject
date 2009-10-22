@@ -938,3 +938,5 @@ ru:
   label_group_new: Новая группа
   label_time_entry_plural: Затраченное время
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
