@@ -59,7 +59,7 @@ private
   
   def retrieve_query
     # tries to find a active query in the session or loads the default one
-    
+
     unless params[:query_id].blank?
       # The user provided an explicit query_id
       cond = "project_id IS NULL"

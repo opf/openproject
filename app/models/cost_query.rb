@@ -87,7 +87,7 @@ class CostQuery < ActiveRecord::Base
     display_time_entries = true if display_time_entries.nil?
     display_cost_entries = true if display_cost_entries.nil?
     
-    #self.group_by = ["issues__project_id", "costs__user_id", "costs__cost_type_id", "issues__version_id"]
+    self.group_by ||= {}
   end
   
   def self.operators
@@ -127,7 +127,6 @@ class CostQuery < ActiveRecord::Base
       }
     )
   end
-  
   
   def available_filters
     # This available_filters is different from the Redmine one
@@ -220,8 +219,8 @@ class CostQuery < ActiveRecord::Base
          {:name => "project_id", :label => "Issue – Project"},
          {:name => "tracker_id", :label => "Issue – Tracker"},
          {:name => "version_id", :label => "Issue – Milestone"},
-         {:name => "category_id", :label => "Issue – Category"}
-        
+         {:name => "category_id", :label => "Issue – Category"},
+         {:name => "created_on", :label => "Issue – Created On", :time => true}
       ],
       :costs => [
         {:name => "issue_id", :label => "Entry – Issue"},
@@ -232,9 +231,26 @@ class CostQuery < ActiveRecord::Base
     }
   end
 
-
-
-
+  def group_by_columns_for_select
+    group_by_columns.inject([["", ""]]) do |list, (type, columns)|
+      columns.inject(list) do |list, entry|
+        list << [entry[:label], "#{type}__#{entry[:name]}"]
+      end
+    end
+  end
+  
+  def time_groups
+    group_by_columns.inject([]) do |list, (type, columns)|
+      list << columns.find_all { |e| e[:time] }.map { |e| "#{type}__#{e[:name]}" }
+    end
+  end
+  
+  def time_options
+    [ (1..5).map { |i| i.days   },
+      (1..3).map { |i| i.weeks  },
+      (1..6).map { |i| i.months },
+      1.year ].flatten.map { |e| [e.inspect, e.to_i] }
+  end
 
   def project_statement
     project_clauses = []
