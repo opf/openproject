@@ -43,6 +43,8 @@ class CostEntry < ActiveRecord::Base
     issue.save
   end
   
+  # tyear, tmonth, tweek assigned where setting spent_on attributes
+  # these attributes make time aggregations easier
   def spent_on=(date)
     super
     self.tyear = spent_on ? spent_on.year : nil

@@ -84,10 +84,10 @@ class CostQuery < ActiveRecord::Base
   attr_protected :user_id, :project_id, :created_at, :updated_at
 
   def after_initialize
-    display_time_entries = true if display_time_entries.nil?
-    display_cost_entries = true if display_cost_entries.nil?
+    self.display_time_entries = true if display_time_entries.nil?
+    self.display_cost_entries = true if display_cost_entries.nil?
     
-    self.group_by ||= {}
+    self.group_by = {} if group_by.blank?
   end
   
   def self.operators
