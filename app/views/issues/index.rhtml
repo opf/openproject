@@ -18,7 +18,7 @@
     	</div>
     </fieldset>
     <fieldset class="collapsible collapsed">
-    	<legend onclick="toggleFieldset(this);">Options</legend>
+    	<legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
     	<div style="display: none;">
 				<%= l(:field_group_by) %>
 				<%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %>
