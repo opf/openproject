@@ -3,7 +3,7 @@
     function group_by_changed()
     {
       $('group_by[granulatrity]').setStyle({
-        'display': <%= @query.time_groups.flatten.inspect %>.include($("group_by[name]").value) ? 'inline' : 'none'});
+        'display': <%= @query.time_groups.inspect %>.include($("group_by[name]").value) ? 'inline' : 'none'});
     }
   //]]>
 </script>

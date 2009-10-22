@@ -241,7 +241,7 @@ class CostQuery < ActiveRecord::Base
   
   def time_groups
     group_by_columns.inject([]) do |list, (type, columns)|
-      list << columns.find_all { |e| e[:time] }.map { |e| "#{type}__#{e[:name]}" }
+      list + columns.find_all { |e| e[:time] }.map { |e| "#{type}__#{e[:name]}" }
     end
   end
   
@@ -249,7 +249,7 @@ class CostQuery < ActiveRecord::Base
     [ (1..5).map { |i| i.days   },
       (1..3).map { |i| i.weeks  },
       (1..6).map { |i| i.months },
-      1.year ].flatten.map { |e| [e.inspect, e.to_i] }
+      1.year ].flatten.map { |e| [e.inspect, e.to_i.to_s] }
   end
 
   def project_statement
