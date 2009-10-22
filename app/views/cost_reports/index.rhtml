@@ -32,7 +32,7 @@
 <div id="query_from_content">
   <fieldset id="filters" class="collapsible <%= "collapsed" unless @query.new_record? %>">
     <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:query_form => query_form} %></div>
+    <div <%= 'style="display:none;"' unless @query.new_record? %>><%#= render :partial => 'filters', :locals => {:query_form => query_form} %></div>
   </fieldset>
 
   <fieldset id="group-by" class="collapsible">

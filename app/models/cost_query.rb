@@ -141,16 +141,17 @@ class CostQuery < ActiveRecord::Base
     #    --> filters on cost and time entries
     
     return @available_filters if @available_filters
-    
+
     @available_filters = {
       :costs => {
         "cost_type_id" => { :type => :list_optional, :order => 2, :applies => [:cost_entries], :flags => [], :db_table => CostType.table_name, :db_field => "id", :values => CostType.find(:all, :order => 'name').collect{|s| [s.name, s.id.to_s] }},
         # FIXME: this has to be changed for Redmine 0.9 as r2777 of Redmine introduces STI for enumerations
-        "activity" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :db_table => Enumeration.table_name, :db_field => "id", :values => Enumeration.find(:all, :conditions => {:opt => 'ACTI'}, :order => 'position').collect{|s| [s.name, s.id.to_s] }},
+        "activity_id" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :db_table => Enumeration.table_name, :db_field => "id", :values => Enumeration.find(:all, :conditions => {:opt => 'ACTI'}, :order => 'position').collect{|s| [s.name, s.id.to_s] }},
         "created_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 4 },                        
         "updated_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 5 },
         "spent_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 6 },
         "overridden_costs" => { :type => :boolean, :applies => [:time_entries, :cost_entries], :flags => [], :order => 7 },
+        "issue_id" => { :type => :list_optional, :order => 8, :applies => [:cost_entries, :time_entries], :flags => [], :db_table => Issue.table_name, :db_field => "id", :values => Issue.find(:all, :order => :id).collect{|s| [s.subject, s.id.to_s] }},
       }
     }
     
@@ -216,46 +217,93 @@ class CostQuery < ActiveRecord::Base
     return match.blank? ? nil : match[0]
   end
   
-  def group_by_columns
-    return {
-      :issues => [
-         {:name => "project_id", :label => "Issue – Project"},
-         {:name => "tracker_id", :label => "Issue – Tracker"},
-         {:name => "version_id", :label => "Issue – Milestone"},
-         {:name => "category_id", :label => "Issue – Category"},
-         {:name => "created_on", :label => "Issue – Created On", :time => true}
-      ],
-      :costs => [
-        {:name => "issue_id", :label => "Entry – Issue"},
-        {:name => "user_id", :label => "Entry – Member"},
-        {:name => "cost_type_id", :label => "Entry – Cost Type"},
-        {:name => "activity_id", :label => "Entry – Activity"},
-      ]
-    }
+  def self.grouping_column(*names, &block)
+    options = names.extract_options!
+    names.each do |name|
+      group_by_columns[name] = options.merge(
+        :block => block,
+        :scope => grouping_scope
+      )
+    end
+  end
+  
+  def self.grouping_scope(type = nil)
+    @grouping_scope = type || @grouping_scope
+    yield if block_given?
+    @grouping_scope
+  end
+  
+  def self.group_by_columns
+    @group_by_columns ||= {}
   end
 
-  def group_by_columns_for_select
-    group_by_columns.inject([["", ""]]) do |list, (type, columns)|
-      columns.inject(list) do |list, entry|
-        list << [entry[:label], "#{type}__#{entry[:name]}"]
+  grouping_scope(:issues) do
+    # TODO: subproject_id
+    grouping_column(:tracker_id, :fixed_version_id)
+  end
+  
+  grouping_scope(:costs) do
+    grouping_column(:user_id, :issue_id, :cost_type_id, :activity_id)
+    grouping_column(:spent_on, :time => true) do |column, fields|
+      values = []
+      if fields[:spent_on]
+        values = [fields[:spent_on].to_date] * 2
+      elsif fields[:tyear]
+        if fields[:tmonth]
+          start_of_month = Date.civil(fields[:tyear].to_i, fields[:tmonth].to_i , 1)
+          values = [start_of_month.to_s, start_of_month.end_of_month.to_s]
+        elsif fields[:tweek]
+          start_of_week = Date.commercial(fields[:tyear], fields[:tweek], 1)
+          values = [start_of_week.to_s, start_of_week.end_of_week.to_s]
+        end
       end
+      
+      raise "Invalid group by values" if values.blank?
+
+      {
+       :operator => "<>d",
+       :values => values
+      }
+
+    end
+  end
+  
+  def filter_from_group_by(fields)
+    column_name = group_by[:name]
+    data = self.class.group_by_columns[column_name].dup
+    block = data.delete(:block) || Proc.new { {} }
+    {
+      :enabled => 1,
+      :operator => "=",
+      :column_name => column_name,
+      :values => fields[column_name],
+    }.merge(data).merge(block.call(column_name, fields))    
+  end
+  
+
+  def group_by_columns_for_select
+    self.class.group_by_columns.inject([["", ""]]) do |list, (column_name, values)|
+      #column = available_filters[values[:scope]][column_name.to_s]      
+      #label = column[:name] || l(("field_"+column_name.to_s.gsub(/\_id$/, "")).to_sym)
+      #a = available_filters[values[:scope]]
+      #label = "blub"
+      
+      #list << [label, "#{values[:scope]}__#{column_name}"]
+      
+      
+      filter = create_filter(values[:scope], column_name.to_s)
+      list << [filter.label, "#{values[:scope]}__#{column_name}"]
     end
   end
   
   def time_groups
     # returns an array of group_by names where time == true
-    group_by_columns.inject([]) do |list, (type, columns)|
-      list + columns.find_all { |e| e[:time] }.map { |e| "#{type}__#{e[:name]}" }
+    self.class.group_by_columns.inject([]) do |list, (column_name, values)|
+      list << "#{values[:scope]}__#{column_name}" if values[:time]
+      list
     end
   end
   
-  def time_options
-    [ (1..5).map { |i| i.days   },
-      (1..3).map { |i| i.weeks  },
-      (1..6).map { |i| i.months },
-      1.year ].flatten.map { |e| [e.inspect, e.to_i.to_s] }
-  end
-
   def project_statement
     project_clauses = []
     

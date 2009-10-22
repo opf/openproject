@@ -13,6 +13,6 @@
     :class => "select-small", :onchange => "group_by_changed();"
 %>
 <%=
-  select_tag("group_by[granulatrity]", options_for_select(@query.time_options, @query.group_by["granulatrity"]),
+  select_tag("group_by[granulatrity]", options_for_select([[l(:label_year), "year"], [l(:label_month), "month"], [l(:label_week), "week"], [l(:label_day), "day"]], @query.group_by["granulatrity"]),
     :class => "select-small", :onload => "group_by_changed();", :style => ("display: none" unless @query.time_groups.include? @query.group_by["name"])) 
 %>
