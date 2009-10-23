@@ -193,7 +193,8 @@ class CostQuery < ActiveRecord::Base
   end
   
   def create_filter(scope, column_name)
-    Filter.new(scope, column_name, available_filters[scope][column_name])
+    column = available_filters[scope][column_name]
+    column ? Filter.new(scope, column_name, column) : nil
   end
   
   def create_filter_from_hash(filter_hash = {})
@@ -238,8 +239,7 @@ class CostQuery < ActiveRecord::Base
   end
 
   grouping_scope(:issues) do
-    # TODO: subproject_id
-    grouping_column(:tracker_id, :fixed_version_id)
+    grouping_column(:tracker_id, :fixed_version_id, :subproject_id)
   end
   
   grouping_scope(:costs) do
@@ -283,16 +283,9 @@ class CostQuery < ActiveRecord::Base
 
   def group_by_columns_for_select
     self.class.group_by_columns.inject([["", ""]]) do |list, (column_name, values)|
-      #column = available_filters[values[:scope]][column_name.to_s]      
-      #label = column[:name] || l(("field_"+column_name.to_s.gsub(/\_id$/, "")).to_sym)
-      #a = available_filters[values[:scope]]
-      #label = "blub"
-      
-      #list << [label, "#{values[:scope]}__#{column_name}"]
-      
-      
       filter = create_filter(values[:scope], column_name.to_s)
-      list << [filter.label, "#{values[:scope]}__#{column_name}"]
+      list << [filter.label, "#{values[:scope]}__#{column_name}"] if filter
+      list
     end
   end
   

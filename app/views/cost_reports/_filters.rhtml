@@ -134,14 +134,13 @@
       <% end if @query.filters %>
     </table></td>
     <td class="add-filter">
-      <%= l(:label_issue_filter_add) %>: <%= select_tag 'add_issue_filter_select', options_for_select(add_issue_filter_select),
-        :onchange => "add_filter(this, 'issues');",
-        :class => "select-small",
-        :name => nil %><br />
-
-
       <%= l(:label_cost_filter_add) %>: <%= select_tag 'add_cost_filter_select', options_for_select(add_cost_filter_select),
         :onchange => "add_filter(this, 'costs');",
+        :class => "select-small",
+        :name => nil %><br />
+      
+      <%= l(:label_issue_filter_add) %>: <%= select_tag 'add_issue_filter_select', options_for_select(add_issue_filter_select),
+        :onchange => "add_filter(this, 'issues');",
         :class => "select-small",
         :name => nil %>
     </td>
