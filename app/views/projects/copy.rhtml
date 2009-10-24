@@ -12,5 +12,15 @@
 <% end %>
 </fieldset>
 
+<fieldset class="box"><legend><%= l(:button_copy) %></legend>
+  <label class="floating"><%= check_box_tag 'only[]', 'members', true %> <%= l(:label_member_plural) %></label>
+  <label class="floating"><%= check_box_tag 'only[]', 'versions', true %> <%= l(:label_version_plural) %></label>
+  <label class="floating"><%= check_box_tag 'only[]', 'issue_categories', true %> <%= l(:label_issue_category_plural) %></label>
+  <label class="floating"><%= check_box_tag 'only[]', 'issues', true %> <%= l(:label_issue_plural) %></label>
+  <label class="floating"><%= check_box_tag 'only[]', 'queries', true %> <%= l(:label_query_plural) %></label>
+  <label class="floating"><%= check_box_tag 'only[]', 'wiki', true %> <%= l(:label_wiki) %></label>
+  <%= hidden_field_tag 'only[]', '' %>
+</fieldset>
+
 <%= submit_tag l(:button_copy) %>
 <% end %>

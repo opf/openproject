@@ -104,7 +104,7 @@ class ProjectsController < ApplicationController
     else
       @project = Project.new(params[:project])
       @project.enabled_module_names = params[:enabled_modules]
-      if @project.copy(params[:id])
+      if @project.copy(params[:id], :only => params[:only])
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
       end		

@@ -499,6 +499,18 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
     
+    should "limit copy with :only option" do
+      assert @project.members.empty?
+      assert @project.issue_categories.empty?
+      assert @source_project.issues.any?
+    
+      assert @project.copy(@source_project, :only => ['members', 'issue_categories'])
+
+      assert @project.members.any?
+      assert @project.issue_categories.any?
+      assert @project.issues.empty?
+    end
+    
     should "copy issue relations"
     should "link issue relations if cross project issue relations are valid"
 

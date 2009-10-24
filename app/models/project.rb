@@ -391,73 +391,30 @@ class Project < ActiveRecord::Base
   end
 
   # Copies and saves the Project instance based on the +project+.
-  # Will duplicate the source project's:
+  # Duplicates the source project's:
+  # * Wiki
+  # * Versions
+  # * Categories
   # * Issues
   # * Members
   # * Queries
-  def copy(project)
+  #
+  # Accepts an +options+ argument to specify what to copy
+  #
+  # Examples:
+  #   project.copy(1)                                    # => copies everything
+  #   project.copy(1, :only => 'members')                # => copies members only
+  #   project.copy(1, :only => ['members', 'versions'])  # => copies members and versions
+  def copy(project, options={})
     project = project.is_a?(Project) ? project : Project.find(project)
-
-    Project.transaction do
-      # Wikis
-      self.wiki = Wiki.new(project.wiki.attributes.dup.except("project_id"))
-      project.wiki.pages.each do |page|
-        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("page_id"))
-        new_wiki_page = WikiPage.new(page.attributes.dup.except("wiki_id"))
-        new_wiki_page.content = new_wiki_content
-
-        self.wiki.pages << new_wiki_page
-      end
-      
-      # Versions
-      project.versions.each do |version|
-        new_version = Version.new
-        new_version.attributes = version.attributes.dup.except("project_id")
-        self.versions << new_version
-      end
-
-      project.issue_categories.each do |issue_category|
-        new_issue_category = IssueCategory.new
-        new_issue_category.attributes = issue_category.attributes.dup.except("project_id")
-        self.issue_categories << new_issue_category
-      end
-      
-      # Issues
-      project.issues.each do |issue|
-        new_issue = Issue.new
-        new_issue.copy_from(issue)
-        # Reassign fixed_versions by name, since names are unique per
-        # project and the versions for self are not yet saved
-        if issue.fixed_version
-          new_issue.fixed_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
-        end
-        # Reassign the category by name, since names are unique per
-        # project and the categories for self are not yet saved
-        if issue.category
-          new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
-        end
-        
-        self.issues << new_issue
-      end
     
-      # Members
-      project.members.each do |member|
-        new_member = Member.new
-        new_member.attributes = member.attributes.dup.except("project_id")
-        new_member.role_ids = member.role_ids.dup
-        new_member.project = self
-        self.members << new_member
+    to_be_copied = %w(wiki versions issue_categories issues members queries)
+    to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
+    
+    Project.transaction do
+      to_be_copied.each do |name|
+        send "copy_#{name}", project
       end
-      
-      # Queries
-      project.queries.each do |query|
-        new_query = Query.new
-        new_query.attributes = query.attributes.dup.except("project_id", "sort_criteria")
-        new_query.sort_criteria = query.sort_criteria if query.sort_criteria
-        new_query.project = self
-        self.queries << new_query
-      end
-
       Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
       self.save
     end
@@ -486,7 +443,78 @@ class Project < ActiveRecord::Base
     end
   end
   
-private
+  private
+  
+  # Copies wiki from +project+
+  def copy_wiki(project)
+    self.wiki = Wiki.new(project.wiki.attributes.dup.except("project_id"))
+    project.wiki.pages.each do |page|
+      new_wiki_content = WikiContent.new(page.content.attributes.dup.except("page_id"))
+      new_wiki_page = WikiPage.new(page.attributes.dup.except("wiki_id"))
+      new_wiki_page.content = new_wiki_content
+      self.wiki.pages << new_wiki_page
+    end
+  end
+
+  # Copies versions from +project+
+  def copy_versions(project)
+    project.versions.each do |version|
+      new_version = Version.new
+      new_version.attributes = version.attributes.dup.except("project_id")
+      self.versions << new_version
+    end
+  end
+
+  # Copies issue categories from +project+
+  def copy_issue_categories(project)
+    project.issue_categories.each do |issue_category|
+      new_issue_category = IssueCategory.new
+      new_issue_category.attributes = issue_category.attributes.dup.except("project_id")
+      self.issue_categories << new_issue_category
+    end
+  end
+  
+  # Copies issues from +project+
+  def copy_issues(project)
+    project.issues.each do |issue|
+      new_issue = Issue.new
+      new_issue.copy_from(issue)
+      # Reassign fixed_versions by name, since names are unique per
+      # project and the versions for self are not yet saved
+      if issue.fixed_version
+        new_issue.fixed_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
+      end
+      # Reassign the category by name, since names are unique per
+      # project and the categories for self are not yet saved
+      if issue.category
+        new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
+      end
+      self.issues << new_issue
+    end
+  end
+
+  # Copies members from +project+
+  def copy_members(project)
+    project.members.each do |member|
+      new_member = Member.new
+      new_member.attributes = member.attributes.dup.except("project_id")
+      new_member.role_ids = member.role_ids.dup
+      new_member.project = self
+      self.members << new_member
+    end
+  end
+
+  # Copies queries from +project+
+  def copy_queries(project)
+    project.queries.each do |query|
+      new_query = Query.new
+      new_query.attributes = query.attributes.dup.except("project_id", "sort_criteria")
+      new_query.sort_criteria = query.sort_criteria if query.sort_criteria
+      new_query.project = self
+      self.queries << new_query
+    end
+  end
+  
   def allowed_permissions
     @allowed_permissions ||= begin
       module_names = enabled_modules.collect {|m| m.name}
