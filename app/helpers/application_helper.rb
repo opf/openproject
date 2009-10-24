@@ -325,7 +325,6 @@ module ApplicationHelper
   end
 
   def html_title(*args)
-    puts "HTML_TITLE #{args.join(',')}"
     if args.empty?
       title = []
       title << @project.name if @project
