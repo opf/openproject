@@ -103,7 +103,8 @@ class MailerTest < ActiveSupport::TestCase
     journal = Journal.find(2)
     Mailer.deliver_issue_edit(journal)
     mail = ActionMailer::Base.deliveries.last
-    assert_equal 1, mail.parts.size
+    assert_equal "text/plain", mail.content_type
+    assert_equal 0, mail.parts.size
     assert !mail.encoded.include?('href')
   end
 

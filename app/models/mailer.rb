@@ -352,9 +352,14 @@ class Mailer < ActionMailer::Base
   # https://rails.lighthouseapp.com/projects/8994/tickets/1799-actionmailer-doesnt-set-template_format-when-rendering-layouts
   
   def render_multipart(method_name, body)
-    content_type "multipart/alternative"
-    part :content_type => "text/plain", :body => render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.plain.erb')
-    part :content_type => "text/html", :body => render_message("#{method_name}.text.html.rhtml", body) unless Setting.plain_text_mail?
+    if Setting.plain_text_mail?
+      content_type "text/plain"
+      body render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.plain.erb')
+    else
+      content_type "multipart/alternative"
+      part :content_type => "text/plain", :body => render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.plain.erb')
+      part :content_type => "text/html", :body => render_message("#{method_name}.text.html.rhtml", body)
+    end
   end
 
   # Makes partial rendering work with Rails 1.2 (retro-compatibility)
