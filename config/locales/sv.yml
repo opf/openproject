@@ -804,6 +804,7 @@ sv:
   text_journal_changed: "{{label}} ändrad från {{old}} till {{new}}"
   text_journal_set_to: "{{label}} satt till {{value}}"
   text_journal_deleted: "{{label}} borttagen ({{old}})"
+  text_journal_added: "{{label}} {{value}} tillagd"
   text_tip_task_begin_day: arbetsuppgift som börjar denna dag
   text_tip_task_end_day: arbetsuppgift som slutar denna dag
   text_tip_task_begin_end_day: arbetsuppgift börjar och slutar denna dag
@@ -876,6 +877,5 @@ sv:
   label_group: Group
   label_group_new: New group
   label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
   field_active: Active
   enumeration_system_activity: System Activity

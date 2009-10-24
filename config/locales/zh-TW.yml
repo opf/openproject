@@ -901,7 +901,7 @@
   default_tracker_feature: 功能
   default_tracker_support: 支援
   default_issue_status_new: 新建立
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: 實作中
   default_issue_status_resolved: 已解決
   default_issue_status_feedback: 已回應
   default_issue_status_closed: 已結束

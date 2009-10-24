@@ -177,7 +177,7 @@ pl:
   default_activity_development: Rozwój
   default_doc_category_tech: Dokumentacja techniczna
   default_doc_category_user: Dokumentacja użytkownika
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: W Toku
   default_issue_status_closed: Zamknięty
   default_issue_status_feedback: Odpowiedź
   default_issue_status_new: Nowy
@@ -435,7 +435,7 @@ pl:
   label_in_less_than: mniejsze niż
   label_in_more_than: większe niż
   label_incoming_emails: Przychodząca poczta elektroniczna
-  label_index_by_date: Index by date
+  label_index_by_date: Indeks wg daty
   label_index_by_title: Indeks
   label_information: Informacja
   label_information_plural: Informacje
@@ -830,28 +830,28 @@ pl:
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
+  setting_password_min_length: Minimalna długość hasła
+  field_group_by: Grupuj wyniki wg
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
   mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
   mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
   label_wiki_content_updated: Wiki page updated
   mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
+  permission_add_project: Tworzenie projektu
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
+  label_view_all_revisions: Pokaż wszystkie rewizje
   label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
+  label_branch: Gałąź
+  error_no_tracker_in_project: Projekt nie posiada powiązanych typów zagadnień. Sprawdź ustawienia projektu.
+  error_no_default_issue_status: Nie zdefiniowano domyślnego statusu zagadnień. Sprawdź konfigurację (Przejdź do "Administracja -> Statusy zagadnień).
+  text_journal_changed: "Zmieniono {{label}} z {{old}} na {{new}}"
+  text_journal_set_to: "Ustawiono {{label}} na {{value}}"
+  text_journal_deleted: "Usunięto {{label}} ({{old}})"
+  label_group_plural: Grupy
+  label_group: Grupa
+  label_group_new: Nowa grupa
+  label_time_entry_plural: Spędzony czas
+  text_journal_added: "Dodano {{label}} {{value}}"
   field_active: Active
   enumeration_system_activity: System Activity
