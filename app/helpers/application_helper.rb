@@ -147,9 +147,9 @@ module ApplicationHelper
     projects = User.current.projects.all
     if projects.any?
       s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
-            "<option value='' selected='selected'>#{ l(:label_jump_to_a_project) }</option>" +
+            "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
             '<option value="" disabled="disabled">---</option>'
-      s << project_tree_options_for_select(projects) do |p|
+      s << project_tree_options_for_select(projects, :selected => @project) do |p|
         { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
       end
       s << '</select>'
