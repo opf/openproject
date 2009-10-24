@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"
-      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", name, name, name]
+      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
     end
     
     @user_count = User.count(:conditions => c.conditions)
