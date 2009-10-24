@@ -375,7 +375,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'changes.rxml'
     # Inline image
-    assert @response.body.include?("&lt;img src=&quot;http://test.host/attachments/download/10&quot; alt=&quot;&quot; /&gt;")
+    assert @response.body.include?("&lt;img src=\"http://test.host/attachments/download/10\" alt=\"\" /&gt;")
   end
   
   def test_new_routing
