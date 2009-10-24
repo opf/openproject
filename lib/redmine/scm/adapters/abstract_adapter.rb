@@ -215,7 +215,7 @@ module Redmine
         def sort_by_name
           sort {|x,y| 
             if x.kind == y.kind
-              x.name <=> y.name
+              x.name.to_s <=> y.name.to_s
             else
               x.kind <=> y.kind
             end
