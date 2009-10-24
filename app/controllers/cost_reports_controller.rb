@@ -111,10 +111,6 @@ private
         @query.project = @project
       end
     end
-    
-    
-    p @query
-    
   end
   
   
