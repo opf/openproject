@@ -325,12 +325,13 @@ module ApplicationHelper
   end
 
   def html_title(*args)
+    puts "HTML_TITLE #{args.join(',')}"
     if args.empty?
       title = []
       title << @project.name if @project
       title += @html_title if @html_title
       title << Setting.app_title
-      title.compact.join(' - ')
+      title.select {|t| !t.blank? }.join(' - ')
     else
       @html_title ||= []
       @html_title += args
