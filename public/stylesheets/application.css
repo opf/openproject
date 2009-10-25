@@ -321,6 +321,15 @@ text-align: left;
 width: 270px;
 }
 
+.tabular label.block{
+font-weight: normal;
+margin-left: 0px;
+text-align: left;
+float: none;
+display: block;
+width: auto;
+}
+
 input#time_entry_comments { width: 90%;}
 
 #preview fieldset {margin-top: 1em; background: url(../images/draft.png)}
