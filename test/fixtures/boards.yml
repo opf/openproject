@@ -17,3 +17,12 @@ boards_002:
   position: 2
   last_message_id: 
   messages_count: 0
+boards_003: 
+  name: Discussion
+  project_id: 2
+  topics_count: 0
+  id: 3
+  description: Discussion board
+  position: 1
+  last_message_id: 
+  messages_count: 0

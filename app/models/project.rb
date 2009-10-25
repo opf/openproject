@@ -408,7 +408,7 @@ class Project < ActiveRecord::Base
   def copy(project, options={})
     project = project.is_a?(Project) ? project : Project.find(project)
     
-    to_be_copied = %w(wiki versions issue_categories issues members queries)
+    to_be_copied = %w(wiki versions issue_categories issues members queries boards)
     to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
     
     Project.transaction do
@@ -519,6 +519,16 @@ class Project < ActiveRecord::Base
       new_query.sort_criteria = query.sort_criteria if query.sort_criteria
       new_query.project = self
       self.queries << new_query
+    end
+  end
+
+  # Copies boards from +project+
+  def copy_boards(project)
+    project.boards.each do |board|
+      new_board = Board.new
+      new_board.attributes = board.attributes.dup.except("id", "project_id", "topics_count", "messages_count", "last_message_id")
+      new_board.project = self
+      self.boards << new_board
     end
   end
   

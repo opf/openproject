@@ -488,6 +488,15 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
 
+    should "copy boards" do
+      assert @project.copy(@source_project)
+
+      assert_equal 1, @project.boards.size
+      @project.boards.each do |board|
+        assert !@source_project.boards.include?(board)
+      end
+    end
+
     should "change the new issues to use the copied issue categories" do
       issue = Issue.find(4)
       issue.update_attribute(:category_id, 3)
