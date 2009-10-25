@@ -453,10 +453,10 @@ class Project < ActiveRecord::Base
     # Check that the source project has a wiki first
     unless project.wiki.nil?
       self.wiki ||= Wiki.new
-      wiki.attributes = project.wiki.attributes.dup.except("project_id")
+      wiki.attributes = project.wiki.attributes.dup.except("id", "project_id")
       project.wiki.pages.each do |page|
-        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("page_id"))
-        new_wiki_page = WikiPage.new(page.attributes.dup.except("wiki_id"))
+        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id"))
+        new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id"))
         new_wiki_page.content = new_wiki_content
         wiki.pages << new_wiki_page
       end
@@ -467,7 +467,7 @@ class Project < ActiveRecord::Base
   def copy_versions(project)
     project.versions.each do |version|
       new_version = Version.new
-      new_version.attributes = version.attributes.dup.except("project_id")
+      new_version.attributes = version.attributes.dup.except("id", "project_id")
       self.versions << new_version
     end
   end
@@ -476,7 +476,7 @@ class Project < ActiveRecord::Base
   def copy_issue_categories(project)
     project.issue_categories.each do |issue_category|
       new_issue_category = IssueCategory.new
-      new_issue_category.attributes = issue_category.attributes.dup.except("project_id")
+      new_issue_category.attributes = issue_category.attributes.dup.except("id", "project_id")
       self.issue_categories << new_issue_category
     end
   end
@@ -504,7 +504,7 @@ class Project < ActiveRecord::Base
   def copy_members(project)
     project.members.each do |member|
       new_member = Member.new
-      new_member.attributes = member.attributes.dup.except("project_id")
+      new_member.attributes = member.attributes.dup.except("id", "project_id")
       new_member.role_ids = member.role_ids.dup
       new_member.project = self
       self.members << new_member
@@ -515,7 +515,7 @@ class Project < ActiveRecord::Base
   def copy_queries(project)
     project.queries.each do |query|
       new_query = Query.new
-      new_query.attributes = query.attributes.dup.except("project_id", "sort_criteria")
+      new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
       new_query.sort_criteria = query.sort_criteria if query.sort_criteria
       new_query.project = self
       self.queries << new_query
