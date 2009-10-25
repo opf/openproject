@@ -832,3 +832,4 @@ cs:
   text_journal_added: "{{label}} {{value}} added"
   field_active: Active
   enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

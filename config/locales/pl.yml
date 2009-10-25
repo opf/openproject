@@ -855,3 +855,4 @@ pl:
   text_journal_added: "Dodano {{label}} {{value}}"
   field_active: Active
   enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

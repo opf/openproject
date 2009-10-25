@@ -854,3 +854,4 @@ zh:
   enumeration_activities: 活动（时间跟踪）
   field_active: Active
   enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

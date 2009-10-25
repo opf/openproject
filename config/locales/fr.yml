@@ -354,6 +354,7 @@ fr:
   permission_view_calendar: Voir le calendrier
   permission_view_issue_watchers: Voir la liste des observateurs
   permission_add_issue_watchers: Ajouter des observateurs
+  permission_delete_issue_watchers: Supprimer des observateurs
   permission_log_time: Saisir le temps passé
   permission_view_time_entries: Voir le temps passé
   permission_edit_time_entries: Modifier les temps passés
