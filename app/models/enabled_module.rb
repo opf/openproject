@@ -31,7 +31,8 @@ class EnabledModule < ActiveRecord::Base
     when 'wiki'
       # Create a wiki with a default start page
       if project && project.wiki.nil?
-        #Wiki.create(:project => project, :start_page => 'Wiki')
+        logger.debug("after_create module_enabled")
+        Wiki.create(:project => project, :start_page => 'Wiki')
       end
     end
   end

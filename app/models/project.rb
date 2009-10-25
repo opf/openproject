@@ -412,11 +412,14 @@ class Project < ActiveRecord::Base
     to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
     
     Project.transaction do
-      to_be_copied.each do |name|
-        send "copy_#{name}", project
+      if save
+        reload
+        to_be_copied.each do |name|
+          send "copy_#{name}", project
+        end
+        Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
+        save
       end
-      Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
-      self.save
     end
   end
 
@@ -447,12 +450,16 @@ class Project < ActiveRecord::Base
   
   # Copies wiki from +project+
   def copy_wiki(project)
-    self.wiki = Wiki.new(project.wiki.attributes.dup.except("project_id"))
-    project.wiki.pages.each do |page|
-      new_wiki_content = WikiContent.new(page.content.attributes.dup.except("page_id"))
-      new_wiki_page = WikiPage.new(page.attributes.dup.except("wiki_id"))
-      new_wiki_page.content = new_wiki_content
-      self.wiki.pages << new_wiki_page
+    # Check that the source project has a wiki first
+    unless project.wiki.nil?
+      self.wiki ||= Wiki.new
+      wiki.attributes = project.wiki.attributes.dup.except("project_id")
+      project.wiki.pages.each do |page|
+        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("page_id"))
+        new_wiki_page = WikiPage.new(page.attributes.dup.except("wiki_id"))
+        new_wiki_page.content = new_wiki_content
+        wiki.pages << new_wiki_page
+      end
     end
   end
 
