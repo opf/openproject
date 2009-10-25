@@ -105,6 +105,7 @@ class ProjectsController < ApplicationController
       @project = Project.new(params[:project])
       @project.enabled_module_names = params[:enabled_modules]
       if @project.copy(params[:id], :only => params[:only])
+        @project.set_parent!(params[:project]['parent_id']) if User.current.admin? && params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
       end		
