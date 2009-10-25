@@ -382,7 +382,7 @@ class ProjectTest < ActiveSupport::TestCase
       @source_project = Project.find(2)
       @project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
       @project.trackers = @source_project.trackers
-      @project.enabled_modules = @source_project.enabled_modules
+      @project.enabled_module_names = @source_project.enabled_modules.collect(&:name)
     end
 
     should "copy issues" do
@@ -456,7 +456,9 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     should "copy wiki" do
-      assert @project.copy(@source_project)
+      assert_difference 'Wiki.count' do
+        assert @project.copy(@source_project)
+      end
 
       assert @project.wiki
       assert_not_equal @source_project.wiki, @project.wiki

@@ -55,4 +55,7 @@ enabled_modules_014:
   name: issue_tracking
   project_id: 5
   id: 14
-  
+enabled_modules_015: 
+  name: wiki
+  project_id: 2
+  id: 15
