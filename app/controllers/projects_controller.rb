@@ -299,20 +299,22 @@ class ProjectsController < ApplicationController
 
     events = @activity.events(@date_from, @date_to)
     
-    respond_to do |format|
-      format.html { 
-        @events_by_day = events.group_by(&:event_date)
-        render :layout => false if request.xhr?
-      }
-      format.atom {
-        title = l(:label_activity)
-        if @author
-          title = @author.name
-        elsif @activity.scope.size == 1
-          title = l("label_#{@activity.scope.first.singularize}_plural")
-        end
-        render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
-      }
+    if events.empty? || stale?(:etag => [events.first, User.current])
+      respond_to do |format|
+        format.html { 
+          @events_by_day = events.group_by(&:event_date)
+          render :layout => false if request.xhr?
+        }
+        format.atom {
+          title = l(:label_activity)
+          if @author
+            title = @author.name
+          elsif @activity.scope.size == 1
+            title = l("label_#{@activity.scope.first.singularize}_plural")
+          end
+          render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
+        }
+      end
     end
     
   rescue ActiveRecord::RecordNotFound
