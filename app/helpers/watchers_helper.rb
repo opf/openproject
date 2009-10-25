@@ -36,6 +36,21 @@ module WatchersHelper
   
   # Returns a comma separated list of users watching the given object
   def watchers_list(object)
-    object.watcher_users.collect {|u| content_tag('span', link_to_user(u), :class => 'user') }.join(",\n")
+    remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
+    object.watcher_users.collect do |user|
+      s = content_tag('span', link_to_user(user), :class => 'user')
+      if remove_allowed
+        url = {:controller => 'watchers',
+               :action => 'destroy',
+               :object_type => object.class.to_s.underscore,
+               :object_id => object.id,
+               :user_id => user}
+        s += ' ' + link_to_remote(image_tag('delete.png'),
+                                  {:url => url},
+                                  :href => url_for(url),
+                                  :style => "vertical-align: middle")
+      end
+      s
+    end.join(",\n")
   end
 end

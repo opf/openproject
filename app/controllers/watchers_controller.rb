@@ -18,7 +18,7 @@
 class WatchersController < ApplicationController
   before_filter :find_project
   before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
-  before_filter :authorize, :only => :new
+  before_filter :authorize, :only => [:new, :destroy]
   
   verify :method => :post,
          :only => [ :watch, :unwatch ],
@@ -46,6 +46,18 @@ class WatchersController < ApplicationController
     end
   rescue ::ActionController::RedirectBackError
     render :text => 'Watcher added.', :layout => true
+  end
+  
+  def destroy
+    @watched.set_watcher(User.find(params[:user_id]), false) if request.post?
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js do
+        render :update do |page|
+          page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
+        end
+      end
+    end
   end
   
 private
