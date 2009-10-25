@@ -44,6 +44,10 @@ class IssuesController < ApplicationController
   helper :timelog
   include Redmine::Export::PDF
 
+  verify :method => :post,
+         :only => :destroy,
+         :render => { :nothing => true, :status => :method_not_allowed }
+           
   def index
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
