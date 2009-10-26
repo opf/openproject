@@ -114,9 +114,15 @@ private
   end
   
   
+  def get_aggregation
+  end
+  
+  def get_items
+  end
+  
   def get_entries(limit)
-    cost_statement = @query.statement(:cost_entries)
-    time_statement = @query.statement(:time_entries)
+    cost_where = @query.statement(:cost_entries)
+    time_where = @query.statement(:time_entries)
 
     # at first get the entry ids to match the current query
     unless sort_clause.nil?
@@ -148,40 +154,51 @@ private
 
 
     if @query.display_time_entries && !@query.display_cost_entries
-      @entry_count = TimeEntry.count(:conditions => time_statement, :include => [:issue, :activity, :user] )
+      @entry_count = TimeEntry.count(:conditions => time_where, :include => [:issue, :activity, :user] )
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
       @entries = TimeEntry.find :all, {:order => (sort_clause if time_sort_column),
                                       :include => [:issue, :activity, :user],
-                                      :conditions => time_statement,
+                                      :conditions => time_where,
                                       :limit => limit,
                                       :offset => @entry_pages.current.offset}
 
       return
     elsif @query.display_cost_entries && !@query.display_time_entries
-      @entry_count = CostEntry.count(:conditions => cost_statement, :include => [:issue, :cost_type, :user])
+      @entry_count = CostEntry.count(:conditions => cost_where, :include => [:issue, :cost_type, :user])
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
       @entries = CostEntry.find :all, {:order => (sort_clause if cost_sort_column),
                                       :include => [:issue, :cost_type, :user],
-                                      :conditions => cost_statement,
+                                      :conditions => cost_where,
                                       :limit => limit,
                                       :offset => @entry_pages.current.offset}
       return
     end
     
-    @entry_count = CostEntry.count(:conditions => cost_statement) + 
-                   TimeEntry.count(:conditions => time_statement)
+    @entry_count = CostEntry.count(:conditions => cost_where, :include => [:issue, :cost_type, :user]) + 
+                   TimeEntry.count(:conditions => time_where, :include => [:issue, :activity, :user])
     @entry_pages = Paginator.new self, @entry_count, limit, params['page']
     
+    
+    cost_from =  "#{CostEntry.table_name}"
+    cost_from << " LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{CostEntry.table_name}.issue_id"
+    cost_from << " LEFT OUTER JOIN #{CostType.table_name} ON #{CostType.table_name}.id = #{CostEntry.table_name}.cost_type_id"
+    cost_from << " LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{CostEntry.table_name}.user_id"
+
+    time_from =  "#{TimeEntry.table_name}"
+    time_from << " LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id"
+    time_from << " LEFT OUTER JOIN #{Enumeration.table_name} ON #{Enumeration.table_name}.id = #{TimeEntry.table_name}.activity_id"
+    time_from << " LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{TimeEntry.table_name}.user_id"
+    
     # TAKE extra care for SQL injection here!!!
-    sql =  "   SELECT id, #{cost_sort_column_sql} 'cost_entry' AS entry_type"
-    sql << "     FROM #{CostEntry.table_name}"
-    sql << "     WHERE #{cost_statement}"
+    sql =  "   SELECT #{CostEntry.table_name}.id AS id, #{cost_sort_column_sql} 'cost_entry' AS entry_type"
+    sql << "     FROM #{cost_from}"
+    sql << "     WHERE #{cost_where}"
     sql << " UNION"
-    sql << "   SELECT id, #{time_sort_column_sql} 'time_entry' as entry_type"
-    sql << "     FROM #{TimeEntry.table_name}"
-    sql << "     WHERE #{time_statement}"
+    sql << "   SELECT #{TimeEntry.table_name}.id AS id, #{time_sort_column_sql} 'time_entry' as entry_type"
+    sql << "     FROM #{time_from}"
+    sql << "     WHERE #{time_where}"
     sql << " ORDER BY #{sort_clause}" if sort_clause
     sql << " LIMIT #{limit} OFFSET #{@entry_pages.current.offset}"
     
