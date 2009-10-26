@@ -243,18 +243,23 @@ class CostQuery < ActiveRecord::Base
   end
   
   grouping_scope(:costs) do
-    grouping_column(:user_id, :issue_id, :cost_type_id, :activity_id)
-    grouping_column(:spent_on, :time => true) do |column, fields|
+    grouping_column(:user_id, :issue_id, :cost_type_id)
+    grouping_column(:activity_id, :display => Proc.new {|id|a = Enumeration.find_by_id(id); a ? a.name : id })
+    grouping_column(:spent_on, :tyear, :tmonth, :tweek, :time => true) do |column, fields|
       values = []
-      if fields[:spent_on]
-        values = [fields[:spent_on].to_date] * 2
-      elsif fields[:tyear]
-        if fields[:tmonth]
-          start_of_month = Date.civil(fields[:tyear].to_i, fields[:tmonth].to_i , 1)
+      
+      if fields["spent_on"]
+        values = [fields["spent_on"].to_date] * 2
+      elsif fields["tyear"]
+        if fields["tmonth"]
+          start_of_month = Date.civil(fields["tyear"].to_i, fields["tmonth"].to_i , 1)
           values = [start_of_month.to_s, start_of_month.end_of_month.to_s]
-        elsif fields[:tweek]
-          start_of_week = Date.commercial(fields[:tyear], fields[:tweek], 1)
+        elsif fields["tweek"]
+          start_of_week = Date.commercial(fields["tyear"].to_i, fields["tweek"].to_i, 1)
           values = [start_of_week.to_s, start_of_week.end_of_week.to_s]
+        else
+          start_of_year = Date.civil(fields["tyear"].to_i, 1, 1)
+          values = [start_of_year.to_s, start_of_year.end_of_year.to_s]
         end
       end
       
@@ -262,21 +267,23 @@ class CostQuery < ActiveRecord::Base
 
       {
        :operator => "<>d",
-       :values => values
+       :values => values,
+       :column_name => :spent_on
       }
 
     end
   end
   
   def filter_from_group_by(fields)
-    column_name = group_by[:name]
+    column_name = group_by[:name].to_sym
     data = self.class.group_by_columns[column_name].dup
+    data.delete(:display)
     block = data.delete(:block) || Proc.new { {} }
     {
       :enabled => 1,
       :operator => "=",
       :column_name => column_name,
-      :values => fields[column_name],
+      :values => fields[column_name.to_s],
     }.merge(data).merge(block.call(column_name, fields))    
   end
   
@@ -284,7 +291,7 @@ class CostQuery < ActiveRecord::Base
   def group_by_columns_for_select
     self.class.group_by_columns.inject([["", ""]]) do |list, (column_name, values)|
       filter = create_filter(values[:scope], column_name.to_s)
-      list << [filter.label, "#{values[:scope]}__#{column_name}"] if filter
+      list << [filter.label, column_name] if filter
       list
     end
   end
@@ -292,7 +299,7 @@ class CostQuery < ActiveRecord::Base
   def time_groups
     # returns an array of group_by names where time == true
     self.class.group_by_columns.inject([]) do |list, (column_name, values)|
-      list << "#{values[:scope]}__#{column_name}" if values[:time]
+      list << column_name if values[:time]
       list
     end
   end
@@ -326,6 +333,64 @@ class CostQuery < ActiveRecord::Base
     project_clauses.join( 'AND ')
   end
   
+  def group_by_fields()
+    return [] unless !group_by[:name].blank? && (data = group_by_columns[group_by[:name].to_sym])
+    
+    if data[:time]
+      # We have a group_by_time
+      return case group_by[:granularity]
+               when "year" then ["tyear"]
+               when "month" then ["tyear", "tmonth"]
+               when "week" then ["tyear", "tweek"]
+               else ["spent_on"]
+             end
+    else
+      [group_by[:name]]
+    end
+  end
+  
+  def group_by_columns
+    self.class.group_by_columns
+  end
+  
+  def sql_data_for(entry_scope)
+    case entry_scope
+      when :cost_entries
+        model = CostEntry
+      when :time_entries
+        model = TimeEntry
+      end
+      
+      select_fields = group_by_fields.dup
+      
+      my_fields, nil_fields = select_fields.partition { |f| model.column_names.include? f.to_s }
+
+      group_by = "GROUP BY #{my_fields.join(", ")}" unless my_fields.blank?
+
+      my_fields.map! { |f| "#{model.table_name}.#{f} as #{f}" }
+      nil_fields.map! { |f| "NULL as #{f}" }
+      
+      [model, (my_fields + nil_fields).join(", "), from_statement(entry_scope), statement(entry_scope), group_by]
+  end
+  
+  def from_statement(entry_scope)
+    case entry_scope
+    when :cost_entries
+      <<-EOS
+        #{CostEntry.table_name}
+        LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{CostEntry.table_name}.issue_id
+        LEFT OUTER JOIN #{CostType.table_name} ON #{CostType.table_name}.id = #{CostEntry.table_name}.cost_type_id
+        LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{CostEntry.table_name}.user_id
+      EOS
+    when :time_entries
+      from = <<-EOS
+        #{TimeEntry.table_name}
+        LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id
+        LEFT OUTER JOIN #{Enumeration.table_name} ON #{Enumeration.table_name}.id = #{TimeEntry.table_name}.activity_id
+        LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{TimeEntry.table_name}.user_id
+      EOS
+    end
+  end
   
   def statement(entry_scope)
     # entry_scope can currently be one of :cost_entries, :time_entries
@@ -554,24 +619,4 @@ private
     end
     s.join(' AND ')
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end

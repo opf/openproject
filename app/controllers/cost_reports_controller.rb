@@ -30,12 +30,21 @@ class CostReportsController < ApplicationController
         format.pdf  { limit = Setting.issues_export_limit.to_i }
       end
       
-      get_entries(limit)
-      
-      respond_to do |format|
-        format.html { render :layout => !request.xhr? }
-        format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
-        format.csv  { send_data(entries_to_csv(@entries, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
+      unless @query.group_by_fields.empty?
+        get_aggregation
+        
+        respond_to do |format|
+          format.html { render :layout => !request.xhr? }
+          # TODO: ATOM and CSV
+        end
+      else
+        get_entries(limit)
+
+        respond_to do |format|
+          format.html { render :layout => !request.xhr? }
+          format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
+          format.csv  { send_data(entries_to_csv(@entries, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
+        end
       end
     else
       render :layout => !request.xhr?
@@ -76,7 +85,10 @@ private
         # Give it a name, required to be valid
         @query = CostQuery.new(:name => "_")
         @query.project = @project
-        if params[:filters].blank?
+
+        @query.filters = params[:filters].collect {|f| f[1]}.select{|f| f[:enabled] != "0"} unless params[:filters].blank?
+
+        if @query.filters.blank? && (params[:group_by].blank? || params[:group_by][:name].blank?)
           # we create a default filter
           @query.filters = [{
             :column_name => "spent_on",
@@ -85,8 +97,6 @@ private
             :enabled => "1",
             :values => [""]
           }]
-        else
-          @query.filters = params[:filters].collect {|f| f[1]}.select{|f| f[:enabled] != "0"}
         end
         @query.group_by = params[:group_by] || {}
         
@@ -115,9 +125,36 @@ private
   
   
   def get_aggregation
-  end
-  
-  def get_items
+    fields = @query.group_by_fields.join(", ")
+    
+    scopes = []
+    scopes << :cost_entries if @query.display_cost_entries
+    scopes << :time_entries if @query.display_time_entries
+    return @grouped_entries = [] if scopes.blank?
+    
+    subselect = scopes.map do |type|
+      model, select_statement, from, where_statement, group_by_statement = @query.sql_data_for type
+      table = model.table_name
+      <<-EOS
+        SELECT
+          #{select_statement},
+          SUM(
+            CASE WHEN #{table}.overridden_costs IS NULL THEN #{table}.costs
+            ELSE #{table}.overridden_costs END) AS sum,
+          COUNT(*) AS count
+        FROM #{from}
+        WHERE #{where_statement}
+        #{group_by_statement}
+      EOS
+    end.join(" UNION ")
+    
+    if scopes.length == 2
+      sql = "SELECT #{fields}, SUM(sum) as sum, SUM(count) AS count FROM (#{subselect}) AS entries GROUP BY #{fields}"
+    else
+      sql = subselect
+    end
+      
+    @grouped_entries = ActiveRecord::Base.connection.select_all(sql)
   end
   
   def get_entries(limit)
@@ -180,16 +217,8 @@ private
                    TimeEntry.count(:conditions => time_where, :include => [:issue, :activity, :user])
     @entry_pages = Paginator.new self, @entry_count, limit, params['page']
     
-    
-    cost_from =  "#{CostEntry.table_name}"
-    cost_from << " LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{CostEntry.table_name}.issue_id"
-    cost_from << " LEFT OUTER JOIN #{CostType.table_name} ON #{CostType.table_name}.id = #{CostEntry.table_name}.cost_type_id"
-    cost_from << " LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{CostEntry.table_name}.user_id"
-
-    time_from =  "#{TimeEntry.table_name}"
-    time_from << " LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id"
-    time_from << " LEFT OUTER JOIN #{Enumeration.table_name} ON #{Enumeration.table_name}.id = #{TimeEntry.table_name}.activity_id"
-    time_from << " LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{TimeEntry.table_name}.user_id"
+    cost_from = @query.from_statement(:cost_entries)
+    time_from = @query.from_statement(:time_entries)
     
     # TAKE extra care for SQL injection here!!!
     sql =  "   SELECT #{CostEntry.table_name}.id AS id, #{cost_sort_column_sql} 'cost_entry' AS entry_type"

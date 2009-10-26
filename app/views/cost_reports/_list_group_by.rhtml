@@ -1,0 +1,46 @@
+<table class="list">
+  <thead>
+    <th>Group By</th>
+    <th>Count</th>
+    <th>Sum</th>
+    <th>Drill Down</th>
+  </thead>
+  <tbody>
+    <%
+      is_cost_group = CostEntry.column_names.include? @query.group_by[:name].to_s
+      is_time_group = TimeEntry.column_names.include? @query.group_by[:name].to_s
+    
+      if is_cost_group && is_time_group
+        display_js = "Form.serialize('filter-options')"
+      elsif is_cost_group
+        display_js = "'cost_query[display_cost_entries]=1&cost_query[display_time_entries]=0'"
+      elsif is_time_group
+        display_js = "'cost_query[display_cost_entries]=0&cost_query[display_time_entries]=1'"
+      end
+    %>
+
+    <% @grouped_entries.each do |entry| %>
+      <%
+        filter = @query.filter_from_group_by(entry)
+        
+        filter = {:filters => {(@query.filters ? @query.filters.length : 0) => filter}}
+        group_by = {:group_by=>{:name=>"", :granularity=>"year"}}
+      %>
+
+      <tr>
+        <td>
+          <%= entry.map { |k, v| v unless %w[count sum].include? k.to_s }.join(" ") %>
+        </td>
+        <td><%= entry["count"] %> Entries</td>
+        <td class="currency"><%= number_to_currency(entry["sum"]) %></td>
+        <td>
+          <%= link_to_remote "Drill Down", {
+              :url => { :set_filter => 1 },
+              :update => "content",
+              :with => "original_filters + '&#{filter.to_query}&#{group_by.to_query}&' + #{display_js}"
+           } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
