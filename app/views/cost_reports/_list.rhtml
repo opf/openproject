@@ -1,28 +1,34 @@
-<table class="list cost_entries">
-  <thead><tr>
-    <th></th>
-    <%= sort_header_tag("entry__issue_id", :caption => l(:caption_issue), :default_order => 'desc') %>
-    <th><%= l(:caption_cost_unit_plural) %></th>
-    <th><%= l(:field_hours) %></th>
-    <%= sort_header_tag("entry__cost_type_id", :caption => l(:caption_cost_type), :default_order => 'asc') %>
-    <%= sort_header_tag("entry__activity_id", :caption => l(:label_activity), :default_order => 'asc') %>
-    <%= sort_header_tag("entry__spent_on", :caption => l(:caption_spent), :default_order => 'desc') %>
-    <%= sort_header_tag("entry__user_id", :caption => l(:label_user), :default_order => 'asc') %>
-    <%= sort_header_tag("entry__costs", :caption => l(:caption_costs), :default_order => 'asc') %>
-  </tr></thead>
-  <tbody>
-  <% @entries.each do |entry| %>
-    <tr class="<%=  cycle('odd', 'even') %>">
-      <td><span class="<%= entry.is_a?(CostEntry) ? "icon-money" : "icon-time" %> icon">&nbsp;</span></td>
-      <td class="subject"><%= link_to_issue entry.issue %>: <%= h(truncate(entry.issue.subject, 50)) -%></td>
-      <td><%= (link_to pluralize(entry.units, entry.cost_type.unit, entry.cost_type.unit_plural), {:controller => "costlog", :action => "details", :cost_type_id => entry.cost_type, :issue_id => entry.issue}) if entry.is_a?(CostEntry) %></td>
-      <td><%= entry.hours.to_s + "h" if entry.is_a?(TimeEntry)%></td>
-      <td><%= entry.cost_type if entry.is_a?(CostEntry)%></td>
-      <td><%= entry.activity if entry.is_a?(TimeEntry)%></td>
-      <td><%= format_date entry.spent_on %></td>
-      <td><%= link_to_user entry.user %></td>
-      <td class="currency"><%= number_to_currency(entry.real_costs) %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<% if @entries.blank? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+  <table class="list cost_entries">
+    <thead><tr>
+      <th></th>
+      <%= sort_header_tag("entry__issue_id", :caption => l(:caption_issue), :default_order => 'desc') %>
+      <th><%= l(:caption_cost_unit_plural) %></th>
+      <th><%= l(:field_hours) %></th>
+      <%= sort_header_tag("entry__cost_type_id", :caption => l(:caption_cost_type), :default_order => 'asc') %>
+      <%= sort_header_tag("entry__activity_id", :caption => l(:label_activity), :default_order => 'asc') %>
+      <%= sort_header_tag("entry__spent_on", :caption => l(:caption_spent), :default_order => 'desc') %>
+      <%= sort_header_tag("entry__user_id", :caption => l(:label_user), :default_order => 'asc') %>
+      <%= sort_header_tag("entry__costs", :caption => l(:caption_costs), :default_order => 'asc') %>
+    </tr></thead>
+    <tbody>
+    <% @entries.each do |entry| %>
+      <tr class="<%=  cycle('odd', 'even') %>">
+        <td><span class="<%= entry.is_a?(CostEntry) ? "icon-money" : "icon-time" %> icon">&nbsp;</span></td>
+        <td class="subject"><%= link_to_issue entry.issue %>: <%= h(truncate(entry.issue.subject, 50)) -%></td>
+        <td><%= (link_to pluralize(entry.units, entry.cost_type.unit, entry.cost_type.unit_plural), {:controller => "costlog", :action => "details", :cost_type_id => entry.cost_type, :issue_id => entry.issue}) if entry.is_a?(CostEntry) %></td>
+        <td><%= entry.hours.to_s + "h" if entry.is_a?(TimeEntry)%></td>
+        <td><%= entry.cost_type if entry.is_a?(CostEntry)%></td>
+        <td><%= entry.activity if entry.is_a?(TimeEntry)%></td>
+        <td><%= format_date entry.spent_on %></td>
+        <td><%= link_to_user entry.user %></td>
+        <td class="currency"><%= number_to_currency(entry.real_costs) %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
+<% end %>

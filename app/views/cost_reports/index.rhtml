@@ -22,10 +22,9 @@
         }
       }
     }
+    
   //]]>
 </script>
-
-
 
 
 <% form_for @query, :url => {:controller => 'cost_report', :action => 'new' }, :html => {:id => 'query_form', :method => :post} do |query_form| %>
@@ -44,7 +43,7 @@
     <legend onclick="toggleFieldset(this):"><%= l(:label_option_plural) %></legend>
     <div><%= render :partial => 'options', :locals => {:query_form => query_form} %></div>
   </fieldset>
-
+  
   <p class="buttons">
   <%= link_to_remote l(:button_apply), 
                      { :url => { :set_filter => 1 },
@@ -63,15 +62,12 @@
 </div>
 <% end %>
 
+<%= javascript_tag "original_query = Form.serialize('query_form');" %>
+
 <%= error_messages_for 'query' %>
 
 <% if @query.valid? %>
-  <% if @entries.blank? %>
-    <p class="nodata"><%= l(:label_no_data) %></p>
-  <% else %>
-    <%= render :partial => 'list', :locals => {:entries => @entries, :query => @query} %>
-    <p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
-  <% end %>
+  <%= render :partial => 'list', :locals => {:entries => @entries, :query => @query} %>
 <% end %>
 
 <% content_for :sidebar do %>
