@@ -403,6 +403,7 @@ class CostQuery < ActiveRecord::Base
         filter = create_filter_from_hash(filter)
         
         if filter.column[:flags].include? :user
+          filter.values = [filter.values] unless filter.values.is_a? Array
           filter.values.push(User.current.logged? ? User.current.id.to_s : "0") if filter.values.delete("me")
         end
         
