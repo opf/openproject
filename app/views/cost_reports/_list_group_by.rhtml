@@ -1,3 +1,23 @@
+<%
+  def display_js(invert=false)
+    display_costs = ((CostEntry.column_names.include? @query.group_by[:name].to_s) && @query.display_cost_entries)
+    display_time = ((TimeEntry.column_names.include? @query.group_by[:name].to_s) && @query.display_time_entries)
+    
+    if invert
+      display_costs = !display_costs
+      display_time = !display_time
+    end
+    
+    if display_costs && !display_time
+      "'cost_query[display_cost_entries]=1&cost_query[display_time_entries]=0'"
+    elsif !display_costs && display_time
+      "'cost_query[display_cost_entries]=0&cost_query[display_time_entries]=1'"
+    else
+      "Form.serialize('filter-options')"
+    end
+  end
+%>
+
 <table class="list">
   <thead>
     <th>Group By</th>
@@ -6,24 +26,17 @@
     <th>Drill Down</th>
   </thead>
   <tbody>
-    <%
-      is_cost_group = CostEntry.column_names.include? @query.group_by[:name].to_s
-      is_time_group = TimeEntry.column_names.include? @query.group_by[:name].to_s
-    
-      if is_cost_group && !is_time_group
-        display_js = "'cost_query[display_cost_entries]=1&cost_query[display_time_entries]=0'"
-      elsif !is_cost_group && is_time_group
-        display_js = "'cost_query[display_cost_entries]=0&cost_query[display_time_entries]=1'"
-      else
-        display_js = "Form.serialize('filter-options')"
-      end
-    %>
-
     <% @grouped_entries.each do |entry| %>
       <%
         filter = @query.filter_from_group_by(entry)
         
-        filter = {:filters => {(@query.filters ? @query.filters.length : 0) => filter}}
+        if filter[:values].nil?
+          display_js = display_js(true)
+          filter_js = ""
+        else
+          display_js = display_js(false)
+          filter_js = {:filters => {(@query.filters ? @query.filters.length : 0) => filter}}.to_query
+        end
         group_by = {:group_by=>{:name=>"", :granularity=>"year"}}
       %>
 
@@ -37,7 +50,7 @@
           <%= link_to_remote "Drill Down", {
               :url => { :set_filter => 1 },
               :update => "content",
-              :with => "original_filters + '&#{filter.to_query}&#{group_by.to_query}&' + #{display_js}"
+              :with => "original_filters + '&#{filter_js}&#{group_by.to_query}&' + #{display_js}"
            } %>
         </td>
       </tr>
