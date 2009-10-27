@@ -10,12 +10,12 @@
       is_cost_group = CostEntry.column_names.include? @query.group_by[:name].to_s
       is_time_group = TimeEntry.column_names.include? @query.group_by[:name].to_s
     
-      if is_cost_group && is_time_group
-        display_js = "Form.serialize('filter-options')"
-      elsif is_cost_group
+      if is_cost_group && !is_time_group
         display_js = "'cost_query[display_cost_entries]=1&cost_query[display_time_entries]=0'"
-      elsif is_time_group
+      elsif !is_cost_group && is_time_group
         display_js = "'cost_query[display_cost_entries]=0&cost_query[display_time_entries]=1'"
+      else
+        display_js = "Form.serialize('filter-options')"
       end
     %>
 

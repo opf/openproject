@@ -1,9 +1,0 @@
-<% id = "group_by_" + name -%>
-<tr id="<%= id %>">
-  <td style="width: 200px">
-    <%= link_to_function(image_tag('delete.png'), "$('#{id}').remove(); toggle_options($('add_group_by_select'), '#{name}', 'enable')") %>
-    <%= label %>
-    <input type="hidden" name="group_by[]" value="<%= name %>" />
-  </td>
-  <td><%= js_reorder_links(id, "reorder_group_by") %></td>
-</tr>
