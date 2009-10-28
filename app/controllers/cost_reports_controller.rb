@@ -155,11 +155,29 @@ private
     end
       
     @grouped_entries = ActiveRecord::Base.connection.select_all(sql)
+    @entry_count, @entry_sum = @grouped_entries.inject([0, 0.0]) do |r,i|
+      r[0] += i["count"].to_i
+      r[1] +=i ["sum"].to_f
+      r
+    end
   end
   
   def get_entries(limit)
     cost_where = @query.statement(:cost_entries)
     time_where = @query.statement(:time_entries)
+    
+    aggregate_select = [TimeEntry.table_name, CostEntry.table_name].inject({}) do |r,table|
+      r[table] =  <<-EOS
+        COUNT(#{table}.id) as count,
+        SUM(CASE
+          WHEN #{table}.overridden_costs IS NULL
+          THEN #{table}.costs
+          ELSE #{table}.overridden_costs
+          END
+        ) as sum
+        EOS
+      r
+    end
 
     # at first get the entry ids to match the current query
     unless sort_clause.nil?
@@ -188,10 +206,29 @@ private
         sort_clause = self.sort_clause
       end
     end
-
+    
+    if @query.display_time_entries
+      time_entry_sum, time_entry_count = TimeEntry.all(
+        :select => aggregate_select[TimeEntry.table_name],
+        :conditions => time_where,
+        :from => @query.from_statement(:time_entries)
+      ).map {|i| [i.sum.to_f, i.count.to_i] }[0]
+    end
+    
+    if @query.display_cost_entries
+      cost_entry_sum, cost_entry_count = CostEntry.all(
+        :select => aggregate_select[CostEntry.table_name],
+        :conditions => cost_where,
+        :from => @query.from_statement(:cost_entries)
+      ).map {|i| [i.sum.to_f, i.count.to_i] }[0]
+    end
+    
+    
+      
+    
 
     if @query.display_time_entries && !@query.display_cost_entries
-      @entry_count = TimeEntry.count(:conditions => time_where, :include => [:issue, :activity, :user] )
+      @entry_sum, @entry_count = [time_entry_sum, time_entry_count]
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
       @entries = TimeEntry.find :all, {:order => (sort_clause if time_sort_column),
@@ -202,7 +239,7 @@ private
 
       return
     elsif @query.display_cost_entries && !@query.display_time_entries
-      @entry_count = CostEntry.count(:conditions => cost_where, :include => [:issue, :cost_type, :user])
+      @entry_sum, @entry_count = [cost_entry_sum, cost_entry_count]
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
       @entries = CostEntry.find :all, {:order => (sort_clause if cost_sort_column),
@@ -213,8 +250,8 @@ private
       return
     end
     
-    @entry_count = CostEntry.count(:conditions => cost_where, :include => [:issue, :cost_type, :user]) + 
-                   TimeEntry.count(:conditions => time_where, :include => [:issue, :activity, :user])
+    @entry_count = time_entry_count + cost_entry_count
+    @entry_sum = time_entry_sum + cost_entry_sum 
     @entry_pages = Paginator.new self, @entry_count, limit, params['page']
     
     cost_from = @query.from_statement(:cost_entries)

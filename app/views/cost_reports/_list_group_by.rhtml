@@ -16,11 +16,6 @@
       "Form.serialize('filter-options')"
     end
   end
-  
-  
-  overall_sum = 0
-  overall_count = 0
-  
 %>
 
 <table class="list">
@@ -43,9 +38,6 @@
           filter_js = {:filters => {(@query.filters ? @query.filters.length : 0) => filter}}.to_query
         end
         group_by = {:group_by=>{:name=>"", :granularity=>"year"}}
-        
-        overall_count += entry["count"].to_i
-        overall_sum += entry["sum"].to_i
       %>
 
       <tr>
@@ -65,8 +57,8 @@
     <% end %>
     <tr>
       <td>&nbsp;</td>
-      <td><strong><%= overall_count %> Entries</strong></td>
-      <td class="currency"><strong><%= number_to_currency overall_sum %></strong></td>
+      <td><strong><%= @entry_count %> Entries</strong></td>
+      <td class="currency"><strong><%= number_to_currency @entry_sum %></strong></td>
       <td>&nbsp;</td>
     </tr>
   </tbody>
