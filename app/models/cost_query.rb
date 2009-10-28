@@ -330,7 +330,11 @@ class CostQuery < ActiveRecord::Base
     
     # FIXME: Implement rights model here
     #project_clauses <<  Project.allowed_to_condition(User.current, :view_issues)
-    project_clauses.join( 'AND ')
+    if project_clauses.blank?
+      "1=1"
+    else
+      project_clauses.join( 'AND ')
+    end
   end
   
   def group_by_fields()
