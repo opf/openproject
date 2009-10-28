@@ -1,6 +1,7 @@
 <% if @entries.blank? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
+  <% overall_costs = 0 %>
   <table class="list cost_entries">
     <thead><tr>
       <th></th>
@@ -15,6 +16,7 @@
     </tr></thead>
     <tbody>
     <% @entries.each do |entry| %>
+      <% overall_costs += entry.real_costs %>
       <tr class="<%=  cycle('odd', 'even') %>">
         <td><span class="<%= entry.is_a?(CostEntry) ? "icon-money" : "icon-time" %> icon">&nbsp;</span></td>
         <td class="subject"><%= link_to_issue entry.issue %>: <%= h(truncate(entry.issue.subject, 50)) -%></td>
@@ -27,6 +29,10 @@
         <td class="currency"><%= number_to_currency(entry.real_costs) %></td>
       </tr>
     <% end %>
+      <tr>
+        <td colspan="8">&nbsp;</td>
+        <td class="currency"><strong><%= number_to_currency overall_costs %></strong></td>
+      </tr>
     </tbody>
   </table>
 
