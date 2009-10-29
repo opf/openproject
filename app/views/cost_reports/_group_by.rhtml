@@ -14,5 +14,5 @@
 %>
 <%=
   select_tag("group_by[granularity]", options_for_select([[l(:label_year), "year"], [l(:label_month), "month"], [l(:label_week), "week"], [l(:label_day_plural), "day"]], @query.group_by[:granularity]),
-    :class => "select-small", :onload => "group_by_changed();", :style => ("display: none" if @query.group_by["name"].blank? || !@query.time_groups.include?(@query.group_by["name"].to_sym))) 
+    :class => "select-small", :onload => "group_by_changed();", :style => ("display: none" if @query.group_by["name"].blank? || !@query.time_groups.include?(@query.group_by["name"].to_s))) 
 %>
