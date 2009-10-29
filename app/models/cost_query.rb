@@ -82,6 +82,10 @@ class Filter
 end
 
 class CostQuery < ActiveRecord::Base
+  # FIXME: this is redmine 0.8 specific
+  # current trunk uses the I18n module instead of GLoc
+  include GLoc
+
   belongs_to :user
   belongs_to :project
   
@@ -156,7 +160,7 @@ class CostQuery < ActiveRecord::Base
         "activity_id" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :db_table => Enumeration.table_name, :db_field => "id", :values => Enumeration.find(:all, :conditions => {:opt => 'ACTI'}, :order => 'position').collect{|s| [s.name, s.id.to_s] }},
         "created_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 4 },                        
         "updated_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 5 },
-        "spent_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 6 },
+        "spent_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 6},
         "overridden_costs" => { :type => :boolean, :applies => [:time_entries, :cost_entries], :flags => [], :order => 7 },
         "issue_id" => { :type => :list_optional, :order => 8, :applies => [:cost_entries, :time_entries], :flags => [], :db_table => Issue.table_name, :db_field => "id", :values => Issue.find(:all, :order => :id).collect{|s| [s.subject, s.id.to_s] }},
       }
