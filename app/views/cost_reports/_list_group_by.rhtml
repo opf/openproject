@@ -28,6 +28,7 @@
   <tbody>
     <% @grouped_entries.each do |entry| %>
       <%
+        entry &&= entry.with_indifferent_access
         filter = @query.filter_from_group_by(entry)
         
         if filter[:values].nil?
@@ -39,6 +40,12 @@
         end
         group_by = {:group_by=>{:name=>"", :granularity=>"year"}}
         
+        fields = entry.keys - %w[count sum]
+        fields.sort!
+        name = case fields
+               when %[tyear tmonth] then 
+               else fields.map { |k| CostQuery.get_name(k, entry[k]) }.join " "
+               end
         name = entry.map { |k, v| CostQuery.get_name(k, v) unless %w[count sum].include? k.to_s }.join(" ")
         name.strip!
         name = "<i>Not part of any group</i>" if entry.all? { |k,v| v.nil? or %w[count sum].include? k.to_s } # FIXME

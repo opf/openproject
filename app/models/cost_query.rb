@@ -36,9 +36,13 @@ class Filter
   attr_reader :values
   def values=(v)
     if available_values
-      available_value_keys = available_values.collect {|o| o[1]}
+      available_value_keys = available_values.collect {|o| o[1].to_s }
+      # FIXME: HACK
+      available_value_keys << User.current.id.to_s if available_value_keys.include? "me"
       v.each do |value|
-        raise ArgumentError.new("Forbidden value") unless available_value_keys.include? value
+        unless available_value_keys.include? value.to_s
+          raise ArgumentError.new("Forbidden value (#{value.inspect} not in #{available_value_keys.inspect})")
+        end
       end
     end
     
@@ -258,7 +262,7 @@ class CostQuery < ActiveRecord::Base
   
   grouping_scope(:costs) do
     grouping_column :user_id, :display => from_field(User, :name)
-    grouping_column :issue_id, :display => from_field(Issue, :id)
+    grouping_column :issue_id, :display => from_field(Issue, :subject)
     grouping_column :cost_type_id, :diplay => from_field(CostType, :name)
     grouping_column :activity_id, :display => from_field(Enumeration, :name)
     grouping_column(:spent_on, :tyear, :tmonth, :tweek, :time => true) do |column, fields|
