@@ -56,7 +56,9 @@
                        :update => "content",
                      }, :class => 'icon icon-reload'  %>
   <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
-  <%= link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save' %>
+  <%
+    #link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save'
+  %>
   <% end %>
   </p>
 </div>
