@@ -67,7 +67,7 @@ label_date_on: "on"
 label_yes: "Yes"
 label_no: "No"
 
-button_log_costs: "Log costs"
+button_log_costs: "Log material costs"
 button_add_cost_object: "Add Cost Object"
 button_add_cost_type: "Add cost type"
 button_add_budget_item: "Add budget item"
