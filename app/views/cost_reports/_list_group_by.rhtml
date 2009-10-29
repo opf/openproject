@@ -2,10 +2,10 @@
   def display_js(invert=false)
     group_by_column = CostQuery.group_by_columns[@query.group_by[:name]]
     
-    return "Form.serialize('filter-options')" unless group_by_column[:scope] == :costs
+    return "'' + Form.serialize('filter-options')" unless group_by_column[:scope] == :costs
 
-    display_costs = (CostEntry.column_names.include? group_by_column[:db_field].to_s && @query.display_cost_entries)
-    display_time = (TimeEntry.column_names.include? group_by_column[:db_field].to_s && @query.display_time_entries)
+    display_costs = ((CostEntry.column_names.include? group_by_column[:db_field].to_s) && @query.display_cost_entries)
+    display_time = ((TimeEntry.column_names.include? group_by_column[:db_field].to_s) && @query.display_time_entries)
 
     if invert
       display_costs = !display_costs

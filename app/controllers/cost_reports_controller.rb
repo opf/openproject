@@ -242,6 +242,11 @@ private
                                       :limit => limit,
                                       :offset => @entry_pages.current.offset}
       return
+    elsif !@query.display_time_entries && !@query.display_time_entries
+      @entry_sum, @entry_count = [0 , 0]
+      @entry_pages = Paginator.new self, @entry_count, limit, params['page']
+      @entries = []
+      return
     end
     
     @entry_count = time_entry_count + cost_entry_count
