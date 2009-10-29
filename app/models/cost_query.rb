@@ -240,8 +240,7 @@ class CostQuery < ActiveRecord::Base
   
   def self.get_name(key, value)
     data = group_by_columns[key.to_sym]
-    return value unless data
-    data[:display] ||= from_field($1.classify, :name) if key.to_s =~ /^(.+)_id$/
+    return value unless data and data[:display]
     data[:display].call value
   end
   
@@ -254,10 +253,13 @@ class CostQuery < ActiveRecord::Base
 
   grouping_scope(:issues) do
     grouping_column(:tracker_id, :fixed_version_id, :subproject_id)
+    grouping_column(:cost_object_id, :display => from_field(CostObject, :subject))
   end
   
   grouping_scope(:costs) do
-    grouping_column :user_id, :issue_id, :cost_type_id
+    grouping_column :user_id, :display => from_field(User, :name)
+    grouping_column :issue_id, :display => from_field(Issue, :id)
+    grouping_column :cost_type_id, :diplay => from_field(CostType, :name)
     grouping_column :activity_id, :display => from_field(Enumeration, :name)
     grouping_column(:spent_on, :tyear, :tmonth, :tweek, :time => true) do |column, fields|
       values = []

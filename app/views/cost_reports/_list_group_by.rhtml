@@ -41,7 +41,7 @@
         
         name = entry.map { |k, v| CostQuery.get_name(k, v) unless %w[count sum].include? k.to_s }.join(" ")
         name.strip!
-        name = "<i>Not part of any group</i>" # FIXME
+        name = "<i>Not part of any group</i>" if entry.all? { |k,v| v.nil? or %w[count sum].include? k.to_s } # FIXME
       %>
 
       <tr>
