@@ -69,7 +69,7 @@ label_date_on: "am"
 label_yes: "Ja"
 label_no: "Nein"
 
-button_log_costs: "Kosten buchen"
+button_log_costs: "Materialkosten buchen"
 button_add_cost_object: "Liefergegenstand anlegen"
 button_add_cost_type: "Kostenart anlegen"
 button_add_budget_item: "Budgetposition hinzufügen"
