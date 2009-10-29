@@ -229,6 +229,8 @@ class CostQuery < ActiveRecord::Base
     return match.blank? ? nil : match[0]
   end
   
+  MAGIC_GROUP_KEYS = [:block, :time, :display, :db_field]
+  
   def self.grouping_column(*names, &block)
     options = names.extract_options!
     names.each do |name|
@@ -236,6 +238,7 @@ class CostQuery < ActiveRecord::Base
         :block => block,
         :scope => grouping_scope
       )
+      group_by_columns[name][:db_field] ||= name
     end
   end
   
@@ -303,9 +306,12 @@ class CostQuery < ActiveRecord::Base
   
   def filter_from_group_by(fields)
     column_name = group_by[:name].to_sym
-    data = self.class.group_by_columns[column_name].dup
-    data.delete(:display)
-    block = data.delete(:block) || Proc.new { {} }
+    data = self.class.group_by_columns[column_name]
+    options = {}
+    MAGIC_GROUP_KEYS.each do |key|
+      options[key] = data.delete key
+    end
+    block = options[:block] || Proc.new { {} }
     {
       :enabled => 1,
       :operator => "=",
@@ -376,7 +382,7 @@ class CostQuery < ActiveRecord::Base
                else ["spent_on"]
              end
     else
-      [group_by[:name]]
+      [data[:db_field]].flatten
     end
   end
   
