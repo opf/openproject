@@ -47,7 +47,7 @@ module ApplicationHelper
   # Display a link to user's account page
   def link_to_user(user, options={})
     if user.is_a?(User)
-      !user.anonymous? ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
+      !user.anonymous? ? link_to(user.name(options[:format]), :controller => 'users', :action => 'show', :id => user) : 'Anonymous'
     else
       user.to_s
     end
@@ -222,8 +222,7 @@ module ApplicationHelper
   end
 
   def authoring(created, author, options={})
-    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
-    l(options[:label] || :label_added_time_by, :author => author_tag, :age => time_tag(created))
+    l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created))
   end
   
   def time_tag(time)

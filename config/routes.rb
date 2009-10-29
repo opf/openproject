@@ -159,6 +159,7 @@ ActionController::Routing::Routes.draw do |map|
     users.with_options :conditions => {:method => :get} do |user_views|
       user_views.connect 'users', :action => 'list'
       user_views.connect 'users', :action => 'index'
+      user_views.connect 'users/:id', :action => 'show', :id => /\d+/
       user_views.connect 'users/new', :action => 'add'
       user_views.connect 'users/:id/edit/:tab', :action => 'edit', :tab => nil
     end

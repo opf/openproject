@@ -74,6 +74,49 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal 1, users.size
     assert_equal 'John', users.first.firstname
   end
+  
+  def test_show_routing
+    assert_routing(
+      {:method => :get, :path => '/users/44'},
+      :controller => 'users', :action => 'show', :id => '44'
+    )
+    assert_recognizes(
+      {:controller => 'users', :action => 'show', :id => '44'},
+      {:method => :get, :path => '/users/44'}
+    )
+  end
+  
+  def test_show
+    @request.session[:user_id] = nil
+    get :show, :id => 2
+    assert_response :success
+    assert_template 'show'
+    assert_not_nil assigns(:user)
+  end
+
+  def test_show_should_not_fail_when_custom_values_are_nil
+    user = User.find(2)
+
+    # Create a custom field to illustrate the issue
+    custom_field = CustomField.create!(:name => 'Testing', :field_format => 'text')
+    custom_value = user.custom_values.build(:custom_field => custom_field).save!
+
+    get :show, :id => 2
+    assert_response :success
+  end
+  
+
+  def test_show_inactive
+    get :show, :id => 5
+    assert_response 404
+    assert_nil assigns(:user)
+  end
+  
+  def test_show_should_not_reveal_users_with_no_visible_activity_or_project
+    @request.session[:user_id] = nil
+    get :show, :id => 9
+    assert_response 404
+  end
 
   def test_add_routing
     assert_routing(
