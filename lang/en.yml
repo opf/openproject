@@ -1,3 +1,5 @@
+week: "week"
+group_by_others: "not in any group"
 project_module_costs_module: "Cost Control"
 cost_types_title: "Cost Types"
 cost_objects_title: "Cost Control"

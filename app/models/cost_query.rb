@@ -234,12 +234,13 @@ class CostQuery < ActiveRecord::Base
   def self.grouping_column(*names, &block)
     options = names.extract_options!
     names.each do |name|
-      group_by_columns[name] = options.merge(
+      group_by_columns[name] = options.with_indifferent_access.merge(
         :block => block,
         :scope => grouping_scope
       )
       group_by_columns[name][:db_field] ||= name
       group_by_columns[name][:display] ||= Proc.new { |e| e }
+      group_by_columns[name][:other_group] ||= "<i>#{l :group_by_others}</i>"
     end
   end
   
@@ -254,6 +255,7 @@ class CostQuery < ActiveRecord::Base
   end
   
   def self.get_name(key, value)
+    return group_by_columns[key][:other_group] unless value
     group_by_columns[key][:display].call value
   end
   
@@ -272,7 +274,7 @@ class CostQuery < ActiveRecord::Base
   grouping_scope(:costs) do
     grouping_column :user_id, :display => from_field(User, :name)
     grouping_column :issue_id, :display => from_field(Issue, :subject)
-    grouping_column :cost_type_id, :diplay => from_field(CostType, :name)
+    grouping_column :cost_type_id, :diplay => from_field(CostType, :name), :other_group => l(:caption_labor_costs)
     grouping_column :activity_id, :display => from_field(Enumeration, :name)
     grouping_column(:spent_on, :tyear, :tmonth, :tweek, :time => true) do |column, fields|
       values = []
