@@ -329,7 +329,7 @@ en:
   permission_manage_public_queries: Manage public queries
   permission_save_queries: Save queries
   permission_view_gantt: View gantt chart
-  permission_view_calendar: View calender
+  permission_view_calendar: View calendar
   permission_view_issue_watchers: View watchers list
   permission_add_issue_watchers: Add watchers
   permission_delete_issue_watchers: Delete watchers
