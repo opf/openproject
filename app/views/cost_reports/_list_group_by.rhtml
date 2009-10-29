@@ -45,13 +45,13 @@
         group_by = {:group_by=>{:name=>"", :granularity=>"year"}}
         
         fields = entry.keys - %w[count sum]
-        fields.sort!
-        name = case fields
-               when %[tyear tmonth] then "#{entry[:tyear]} #{month_name(entry[tmonth])}"
-               when %[tyear tweek] then "#{entry[:tyear]}, #{l(:week)} \##{month_name(entry[tweek])}"
-               else fields.map { |k| CostQuery.get_name(k, entry[k]) }.join " "
-               end
-        name = entry.map { |k, v| CostQuery.get_name(k, v) unless %w[count sum].include? k.to_s }.join(" ")
+        if fields.include? "tmonth"
+          name = "#{entry[:tyear]}, #{month_name(entry["tmonth"].to_i)}"
+        elsif fields.include? "tweek"
+          name = "#{entry[:tyear]}, #{l(:week)} \##{entry["tweek"]}"
+        else
+          name = fields.map { |k| CostQuery.get_name(k, entry[k]) }.join " "
+        end
         name.strip!
       %>
 
