@@ -239,6 +239,7 @@ class CostQuery < ActiveRecord::Base
         :scope => grouping_scope
       )
       group_by_columns[name][:db_field] ||= name
+      group_by_columns[name][:display] ||= Proc.new { |e| e }
     end
   end
   
@@ -249,13 +250,11 @@ class CostQuery < ActiveRecord::Base
   end
   
   def self.group_by_columns
-    @group_by_columns ||= {}
+    @group_by_columns ||= {}.with_indifferent_access
   end
   
   def self.get_name(key, value)
-    data = group_by_columns[key.to_sym]
-    return value unless data and data[:display]
-    data[:display].call value
+    group_by_columns[key][:display].call value
   end
   
   def self.from_field(klass, field)
@@ -306,7 +305,7 @@ class CostQuery < ActiveRecord::Base
   
   def filter_from_group_by(fields)
     column_name = group_by[:name].to_sym
-    data = self.class.group_by_columns[column_name]
+    data = self.class.group_by_columns[column_name].dup
     options = {}
     MAGIC_GROUP_KEYS.each do |key|
       options[key] = data.delete key
@@ -371,6 +370,8 @@ class CostQuery < ActiveRecord::Base
   end
   
   def group_by_fields()
+    # returns the db_fields of the current group by query
+    
     return [] unless !group_by[:name].blank? && (data = group_by_columns[group_by[:name].to_sym])
     
     if data[:time]
@@ -392,39 +393,44 @@ class CostQuery < ActiveRecord::Base
   
   def sql_data_for(entry_scope)
     case entry_scope
-      when :cost_entries
-        model = CostEntry
-      when :time_entries
-        model = TimeEntry
+    when :cost_entries
+      model = CostEntry
+    when :time_entries
+      model = TimeEntry
+      from_include_issue = false
+    end
+    
+    my_fields, nil_fields, grouping_fields = [], [], []
+    
+    group_by_fields.each do |field|
+      klass = group_by_columns[field.to_sym][:scope] == :issues ? Issue : model
+      if klass.column_names.include? field.to_s
+        grouping_fields << field
+        my_fields << "#{klass.table_name}.#{field} as #{field}"
+      else
+        nil_fields << "NULL as #{field}"
       end
-      
-      select_fields = group_by_fields.dup
-      
-      my_fields, nil_fields = select_fields.partition { |f| model.column_names.include? f.to_s }
+    end
 
-      group_by = "GROUP BY #{my_fields.join(", ")}" unless my_fields.blank?
-
-      my_fields.map! { |f| "#{model.table_name}.#{f} as #{f}" }
-      nil_fields.map! { |f| "NULL as #{f}" }
-      
-      [model, (my_fields + nil_fields).join(", "), from_statement(entry_scope), statement(entry_scope), group_by]
+    group_by = "GROUP BY #{grouping_fields.join(", ")}" unless grouping_fields.blank?
+    [model, (my_fields + nil_fields).join(", "), from_statement(entry_scope), statement(entry_scope), group_by]
   end
   
-  def from_statement(entry_scope)
+  def from_statement(entry_scope, include_issue = false)
     case entry_scope
     when :cost_entries
-      <<-EOS
+      from = <<-EOS
         #{CostEntry.table_name}
-        LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{CostEntry.table_name}.issue_id
         LEFT OUTER JOIN #{CostType.table_name} ON #{CostType.table_name}.id = #{CostEntry.table_name}.cost_type_id
         LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{CostEntry.table_name}.user_id
+        LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{CostEntry.table_name}.issue_id
       EOS
     when :time_entries
       from = <<-EOS
         #{TimeEntry.table_name}
-        LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id
         LEFT OUTER JOIN #{Enumeration.table_name} ON #{Enumeration.table_name}.id = #{TimeEntry.table_name}.activity_id
         LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{TimeEntry.table_name}.user_id
+        LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id
       EOS
     end
   end
