@@ -38,11 +38,15 @@
           filter_js = {:filters => {(@query.filters ? @query.filters.length : 0) => filter}}.to_query
         end
         group_by = {:group_by=>{:name=>"", :granularity=>"year"}}
+        
+        name = entry.map { |k, v| CostQuery.get_name(k, v) unless %w[count sum].include? k.to_s }.join(" ")
+        name.strip!
+        name = "<i>Not part of any group</i>" # FIXME
       %>
 
       <tr>
         <td>
-          <%= entry.map { |k, v| v unless %w[count sum].include? k.to_s }.join(" ") %>
+          <%= name %>
         </td>
         <td><%= entry["count"] %> Entries</td>
         <td class="currency"><%= number_to_currency(entry["sum"]) %></td>

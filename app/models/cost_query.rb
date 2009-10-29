@@ -237,14 +237,28 @@ class CostQuery < ActiveRecord::Base
   def self.group_by_columns
     @group_by_columns ||= {}
   end
+  
+  def self.get_name(key, value)
+    data = group_by_columns[key.to_sym]
+    return value unless data
+    data[:display] ||= from_field($1.classify, :name) if key.to_s =~ /^(.+)_id$/
+    data[:display].call value
+  end
+  
+  def self.from_field(klass, field)
+    Proc.new do |id|
+      a = klass.find_by_id(id)
+      (a ? a.send(field) : id).to_s
+    end
+  end
 
   grouping_scope(:issues) do
     grouping_column(:tracker_id, :fixed_version_id, :subproject_id)
   end
   
   grouping_scope(:costs) do
-    grouping_column(:user_id, :issue_id, :cost_type_id)
-    grouping_column(:activity_id, :display => Proc.new {|id|a = Enumeration.find_by_id(id); a ? a.name : id })
+    grouping_column :user_id, :issue_id, :cost_type_id
+    grouping_column :activity_id, :display => from_field(Enumeration, :name)
     grouping_column(:spent_on, :tyear, :tmonth, :tweek, :time => true) do |column, fields|
       values = []
       
