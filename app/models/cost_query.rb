@@ -240,7 +240,7 @@ class CostQuery < ActiveRecord::Base
       )
       group_by_columns[name][:db_field] ||= name
       group_by_columns[name][:display] ||= Proc.new { |e| e }
-      group_by_columns[name][:other_group] ||= "<i>#{l :group_by_others}</i>"
+      group_by_columns[name][:other_group] ||= "<em>#{l :group_by_others}</em>"
     end
   end
   
