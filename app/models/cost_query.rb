@@ -30,6 +30,9 @@ class Filter
     @column = column
     
     @enabled = true
+    
+    default_operator = CostQuery.filter_types[@column[:type]][:default]
+    @operator = default_operator if default_operator
   end
   attr_reader :scope, :column_name, :column
   
@@ -132,7 +135,7 @@ class CostQuery < ActiveRecord::Base
       {
         :integer_zero => {:operators => [ "=n", ">=", "<=", "0", "*" ], :multiple => true},
         :boolean => {:operators => [ "y", "n" ], :multiple => false},
-        :date_exact => {:operators => [ "<d", ">d", "<>d", "=d", "t", "w"], :multiple => true}
+        :date_exact => {:operators => [ "<d", ">d", "<>d", "=d", "t", "w"], :multiple => true, :default => "w"}
       }
     )
   end
