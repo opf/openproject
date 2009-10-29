@@ -56,6 +56,11 @@ class AccountControllerTest < ActionController::TestCase
     assert_nil assigns(:user)
   end
   
+  def test_show_should_not_reveal_users_with_no_visible_activity_or_project
+    get :show, :id => 9
+    assert_response 404
+  end
+  
   def test_login_should_redirect_to_back_url_param
     # request.uri is "test.host" in test environment
     post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http%3A%2F%2Ftest.host%2Fissues%2Fshow%2F1'

@@ -35,6 +35,10 @@ class AccountController < ApplicationController
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_date)
     
+    if @user != User.current && !User.current.admin? && @memberships.empty? && events.empty?
+      render_404 and return
+    end
+    
   rescue ActiveRecord::RecordNotFound
     render_404
   end
