@@ -7,7 +7,6 @@
       <th></th>
       <%= sort_header_tag("entry__issue_id", :caption => l(:caption_issue), :default_order => 'desc') %>
       <th><%= l(:caption_cost_unit_plural) %></th>
-      <!-- <th><%= l(:field_hours) %></th> -->
       <%= sort_header_tag("entry__cost_type_id", :caption => l(:caption_cost_type), :default_order => 'asc') %>
       <%= sort_header_tag("entry__activity_id", :caption => l(:label_activity), :default_order => 'asc') %>
       <%= sort_header_tag("entry__spent_on", :caption => l(:caption_spent), :default_order => 'desc') %>
@@ -33,14 +32,10 @@
         <td class="currency"><%= number_to_currency(entry.real_costs) %></td>
       </tr>
     <% end %>
-      <tr>
-        <td colspan="7">&nbsp;</td>
-        <td class="currency"><strong><%= number_to_currency page_costs %></strong></td>
-      </tr>
     </tbody>
   </table>
+  <p class="pagination  splitcontentleft"><%= pagination_links_full @entry_pages, @entry_count %></p>
 
-  <p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
-  
-  <p><%=l :label_overall_costs %>: <%= number_to_currency @entry_sum %></p>
+  <div class="currency"><%= l(:label_costs_per_page)%>: <%= number_to_currency page_costs %></div>
+  <div class="currency" style="clear: left"><strong><%=l :label_overall_costs %>: <%= number_to_currency @entry_sum %></strong></div>
 <% end %>

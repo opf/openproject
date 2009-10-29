@@ -267,8 +267,10 @@ class CostQuery < ActiveRecord::Base
   end
 
   grouping_scope(:issues) do
-    grouping_column(:tracker_id, :fixed_version_id, :subproject_id)
+    grouping_column :tracker_id, :display => from_field(Tracker, :name)
+    grouping_column :fixed_version_id, :display => from_field(Version, :name)
     grouping_column(:cost_object_id, :display => from_field(CostObject, :subject))
+    grouping_column :subproject_id, :display => from_field(Project, :name)
   end
   
   grouping_scope(:costs) do
