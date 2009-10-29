@@ -35,40 +35,39 @@ class UsersControllerTest < ActionController::TestCase
   end
   
   def test_index_routing
-    #TODO: unify with list
     assert_generates(
       '/users',
       :controller => 'users', :action => 'index'
+    )
+    assert_routing(
+      {:method => :get, :path => '/users'},
+      :controller => 'users', :action => 'index'
+    )
+    assert_recognizes(
+      {:controller => 'users', :action => 'index'},
+      {:method => :get, :path => '/users'}
     )
   end
   
   def test_index
     get :index
     assert_response :success
-    assert_template 'list'
-  end
-  
-  def test_list_routing
-    #TODO: rename action to index
-    assert_routing(
-      {:method => :get, :path => '/users'},
-      :controller => 'users', :action => 'list'
-    )
+    assert_template 'index'
   end
 
-  def test_list
-    get :list
+  def test_index
+    get :index
     assert_response :success
-    assert_template 'list'
+    assert_template 'index'
     assert_not_nil assigns(:users)
     # active users only
     assert_nil assigns(:users).detect {|u| !u.active?}
   end
   
-  def test_list_with_name_filter
-    get :list, :name => 'john'
+  def test_index_with_name_filter
+    get :index, :name => 'john'
     assert_response :success
-    assert_template 'list'
+    assert_template 'index'
     users = assigns(:users)
     assert_not_nil users
     assert_equal 1, users.size

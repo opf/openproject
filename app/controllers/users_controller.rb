@@ -24,11 +24,6 @@ class UsersController < ApplicationController
   include CustomFieldsHelper   
 
   def index
-    list
-    render :action => 'list' unless request.xhr?
-  end
-
-  def list
     sort_init 'login', 'asc'
     sort_update %w(login firstname lastname mail admin created_on last_login_on)
     
@@ -49,7 +44,7 @@ class UsersController < ApplicationController
 						:limit  =>  @user_pages.items_per_page,
 						:offset =>  @user_pages.current.offset
 
-    render :action => "list", :layout => false if request.xhr?	
+    render :layout => !request.xhr?	
   end
   
   def show
