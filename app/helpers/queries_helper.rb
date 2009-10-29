@@ -45,9 +45,9 @@ module QueriesHelper
         when :project
           link_to(h(value), :controller => 'projects', :action => 'show', :id => value)
         when :assigned_to
-          link_to(h(value), :controller => 'account', :action => 'show', :id => value)
+          link_to_user value
         when :author
-          link_to(h(value), :controller => 'account', :action => 'show', :id => value)
+          link_to_user value
         when :done_ratio
           progress_bar(value, :width => '80px')
         when :fixed_version
