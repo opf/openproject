@@ -214,7 +214,7 @@ module ApplicationHelper
 
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)
-    truncate(string, *args).gsub(%r{[\r\n]+}m, ' ')
+    truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
   end
 
   def html_hours(text)
