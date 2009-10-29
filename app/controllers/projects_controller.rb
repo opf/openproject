@@ -110,9 +110,10 @@ class ProjectsController < ApplicationController
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
       end		
-    end	
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to :controller => 'admin', :action => 'projects'
   end
-
 	
   # Show @project
   def show
