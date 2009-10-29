@@ -86,18 +86,12 @@ private
         @query = CostQuery.new(:name => "_")
         @query.project = @project
 
-        @query.filters = params[:filters].collect {|f| f[1]}.select{|f| f[:enabled] != "0"} unless params[:filters].blank?
-
-        if @query.filters.blank? && (params[:group_by].blank? || params[:group_by][:name].blank?)
-          # we create a default filter
-          @query.filters = [{
-            :column_name => "spent_on",
-            :scope => "costs",
-            :operator => "w",
-            :enabled => "1",
-            :values => [""]
-          }]
+        if params[:filters].blank?
+          @query.filters = []
+        else
+          @query.filters = params[:filters].collect {|f| f[1]}.select{|f| f[:enabled] != "0"}
         end
+
         @query.group_by = params[:group_by] || {}
         
         if params[:cost_query]
