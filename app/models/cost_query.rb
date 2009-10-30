@@ -231,7 +231,7 @@ class CostQuery < ActiveRecord::Base
     # returns the first matching filter or nil
     return nil unless filters
     
-    match = filters.select {|f| f.scope == scope && f.column_name = column_name}
+    match = filters.select {|f| f[:scope] == scope && f[:column_name] == column_name}
     return match.blank? ? nil : match[0]
   end
   
@@ -276,7 +276,7 @@ class CostQuery < ActiveRecord::Base
     grouping_column :tracker_id, :display => from_field(Tracker, :name)
     grouping_column :fixed_version_id, :display => from_field(Version, :name)
     grouping_column :cost_object_id, :display => from_field(CostObject, :subject)
-    grouping_column :subproject_id, :display => from_field(Project, :name)
+    grouping_column :subproject_id, :display => from_field(Project, :name), :db_field => :project_id
   end
   
   grouping_scope(:costs) do
@@ -380,7 +380,8 @@ class CostQuery < ActiveRecord::Base
   end
   
   def group_by_fields()
-    # returns the db_fields of the current group by query
+    # returns the group_by of the current group by query
+    # These fields are one of the keys of group_by_columns
     
     return [] unless !group_by[:name].blank? && (data = group_by_columns[group_by[:name].to_sym])
     
@@ -393,7 +394,7 @@ class CostQuery < ActiveRecord::Base
                else ["spent_on"]
              end
     else
-      [data[:db_field]].flatten
+      [group_by[:name]]
     end
   end
   
@@ -413,10 +414,13 @@ class CostQuery < ActiveRecord::Base
     my_fields, nil_fields, grouping_fields = [], [], []
     
     group_by_fields.each do |field|
-      klass = group_by_columns[field.to_sym][:scope] == :issues ? Issue : model
-      if klass.column_names.include? field.to_s
-        grouping_fields << field
-        my_fields << "#{klass.table_name}.#{field} as #{field}"
+      group_by_column = group_by_columns[field.to_sym]
+      klass = group_by_column[:scope] == :issues ? Issue : model
+      db_field = group_by_column[:db_field]
+
+      if klass.column_names.include? db_field.to_s
+        grouping_fields << "#{klass.table_name}.#{db_field}"
+        my_fields << "#{klass.table_name}.#{db_field} as #{field}"
       else
         nil_fields << "NULL as #{field}"
       end
