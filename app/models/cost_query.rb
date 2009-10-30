@@ -36,20 +36,26 @@ class Filter
   end
   attr_reader :scope, :column_name, :column
   
-  attr_reader :values
+  attr_reader :values, :sql_values
   def values=(v)
+    values = v.is_a?(Array) ? v : [v]
+    sql_values = values.dup
+
+    if column[:flags].include? :user
+      sql_values.push(User.current.logged? ? User.current.id.to_s : "0") if sql_values.delete("me")
+    end
+    
     if available_values
       available_value_keys = available_values.collect {|o| o[1].to_s }
-      # FIXME: HACK
-      available_value_keys << User.current.id.to_s if available_value_keys.include? "me"
-      v.each do |value|
+      sql_values.each do |value|
         unless available_value_keys.include? value.to_s
           raise ArgumentError.new("Forbidden value (#{value.inspect} not in #{available_value_keys.inspect})")
         end
       end
     end
     
-    @values = v
+    @values = values
+    @sql_values = sql_values
   end
   
   attr_reader :operator
@@ -449,11 +455,6 @@ class CostQuery < ActiveRecord::Base
       filters.each do |filter|
         filter = create_filter_from_hash(filter)
         
-        if filter.column[:flags].include? :user
-          filter.values = [filter.values] unless filter.values.is_a? Array
-          filter.values.push(User.current.logged? ? User.current.id.to_s : "0") if filter.values.delete("me")
-        end
-        
         sql = ''
         
         case filter.scope
@@ -558,9 +559,9 @@ private
     #@sql_for_filter_query = Query.new(:name => "_") unless @sql_for_filter_query
     #sql = @sql_for_filter_query.send(
     #  :sql_for_field,
-    #  filter.column_name, filter.operator, filter.values, db_table, db_field, string_as_null)
+    #  filter.column_name, filter.operator, filter.sql_values, db_table, db_field, string_as_null)
 
-    sql = sql_for_field(filter.column_name, filter.operator, filter.values, db_table, db_field, string_as_null)
+    sql = sql_for_field(filter.column_name, filter.operator, filter.sql_values, db_table, db_field, string_as_null)
     return sql unless sql == "1=1"
     
     # We have an operator that was added by us. So we provide the logic here
@@ -572,29 +573,29 @@ private
     when "n"
       sql = "#{db_table}.#{db_field} IS NULL"
     when "=n"
-      sql = "#{db_table}.#{db_field} = #{CostRate.clean_currency(filter.values).to_f.to_s}"
+      sql = "#{db_table}.#{db_field} = #{CostRate.clean_currency(filter.sql_values).to_f.to_s}"
     when "<>d"
       begin
-        date1 = filter.values.first.to_date
-        date2 = filter.values.last.to_date
+        date1 = filter.sql_values.first.to_date
+        date2 = filter.sql_values.last.to_date
         sql = "#{db_table}.#{db_field} BETWEEN '#{connection.quoted_date(date1)}' AND '#{connection.quoted_date(date2)}'"
       rescue
       end
     when ">d"
       begin
-        date = filter.values.first.to_date
+        date = filter.sql_values.first.to_date
         sql = "#{db_table}.#{db_field} >= '#{connection.quoted_date(date)}'"
       rescue
       end
     when "<d"
       begin
-        date = filter.values.first.to_date
+        date = filter.sql_values.first.to_date
         sql = "#{db_table}.#{db_field} <= '#{connection.quoted_date(date)}'"
       rescue
       end
     when "=d"
       begin
-        date = filter.values.first.to_date
+        date = filter.sql_values.first.to_date
         sql = "#{db_table}.#{db_field} = '#{connection.quoted_date(date)}'"
       rescue
       end
