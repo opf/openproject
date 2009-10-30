@@ -269,14 +269,14 @@ class CostQuery < ActiveRecord::Base
   grouping_scope(:issues) do
     grouping_column :tracker_id, :display => from_field(Tracker, :name)
     grouping_column :fixed_version_id, :display => from_field(Version, :name)
-    grouping_column(:cost_object_id, :display => from_field(CostObject, :subject))
+    grouping_column :cost_object_id, :display => from_field(CostObject, :subject)
     grouping_column :subproject_id, :display => from_field(Project, :name)
   end
   
   grouping_scope(:costs) do
     grouping_column :user_id, :display => from_field(User, :name)
     grouping_column :issue_id, :display => from_field(Issue, :subject)
-    grouping_column :cost_type_id, :diplay => from_field(CostType, :name), :other_group => l(:caption_labor_costs)
+    grouping_column :cost_type_id, :display => from_field(CostType, :name), :other_group => l(:caption_labor_costs)
     grouping_column :activity_id, :display => from_field(Enumeration, :name)
     grouping_column(:spent_on, :tyear, :tmonth, :tweek, :time => true) do |column, fields|
       values = []
