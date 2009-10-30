@@ -8,7 +8,7 @@ module TimeEntryPatch
 
     base.send(:include, InstanceMethods)
 
-    # Same as typing in the class 
+    # Same as typing in the class t.update_costs
     base.class_eval do
       unloadable
 
@@ -35,7 +35,7 @@ module TimeEntryPatch
     
     def calculated_costs(rate_attr = nil)
       rate_attr ||= current_rate
-      hours * rate.rate
+      hours * rate_attr.rate
     rescue
       0.0
     end
