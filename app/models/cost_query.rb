@@ -231,7 +231,7 @@ class CostQuery < ActiveRecord::Base
     # returns the first matching filter or nil
     return nil unless filters
     
-    match = filters.select {|f| f[:scope] == scope && f[:column_name] == column_name}
+    match = filters.select {|f| f[:scope] == scope.to_s && f[:column_name] == column_name.to_s}
     return match.blank? ? nil : match[0]
   end
   
@@ -352,6 +352,8 @@ class CostQuery < ActiveRecord::Base
     if project && !project.active_children.empty?
       ids = [project.id]
       if subprojects = has_filter?(:issues, "subproject_id")
+        subprojects = create_filter_from_hash(subprojects)
+
         case subprojects.operator
         when "="
           # include the selected subprojects
@@ -458,6 +460,7 @@ class CostQuery < ActiveRecord::Base
     if filters and valid?
       filters.each do |filter|
         filter = create_filter_from_hash(filter)
+        next if filter.column_name == "subproject_id"
         
         sql = ''
         
