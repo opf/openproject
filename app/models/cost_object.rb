@@ -24,6 +24,13 @@ class CostObject < ActiveRecord::Base
     self.author_id = User.current.id if self.new_record?
   end
   
+  def before_destroy
+    issues.all.each do |i|
+      result = i.update_attributes({:cost_object => nil})
+      return false unless result
+    end
+  end
+  
   def attributes=(attrs)
     # Remove any attributes which can not be assigned.
     # This is to protect from exceptions during change of cost object type
