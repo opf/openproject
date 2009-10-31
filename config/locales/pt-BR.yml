@@ -160,7 +160,7 @@ pt-BR:
   notice_account_register_done: Conta criada com sucesso. Para ativar sua conta, clique no link que lhe foi enviado por e-mail.
   notice_account_unknown_email: Usuário desconhecido.
   notice_can_t_change_password: Esta conta utiliza autenticação externa. Não é possível alterar a senha.
-  notice_account_lost_email_sent: Um email com instruções para escolher uma nova senha foi enviado para você.
+  notice_account_lost_email_sent: Um e-mail com instruções para escolher uma nova senha foi enviado para você.
   notice_account_activated: Sua conta foi ativada. Você pode acessá-la agora.
   notice_successful_create: Criado com sucesso.
   notice_successful_update: Alterado com sucesso.
@@ -169,7 +169,7 @@ pt-BR:
   notice_file_not_found: A página que você está tentando acessar não existe ou foi excluída.
   notice_locking_conflict: Os dados foram atualizados por outro usuário.
   notice_not_authorized: Você não está autorizado a acessar esta página.
-  notice_email_sent: "Um email foi enviado para {{value}}"
+  notice_email_sent: "Um e-mail foi enviado para {{value}}"
   notice_email_error: "Ocorreu um erro ao enviar o e-mail ({{value}})"
   notice_feeds_access_key_reseted: Sua chave RSS foi reconfigurada.
   notice_failed_to_save_issues: "Problema ao salvar {{count}} tarefa(s) de {{total}} selecionadas: {{ids}}."
@@ -177,7 +177,7 @@ pt-BR:
   notice_account_pending: "Sua conta foi criada e está aguardando aprovação do administrador."
   notice_default_data_loaded: Configuração padrão carregada com sucesso.
 
-  error_can_t_load_default_data: "Configuração padrão não pode ser carregada: {{value}}"
+  error_can_t_load_default_data: "A configuração padrão não pode ser carregada: {{value}}"
   error_scm_not_found: "A entrada e/ou a revisão não existe no repositório."
   error_scm_command_failed: "Ocorreu um erro ao tentar acessar o repositório: {{value}}"
   error_scm_annotate: "Esta entrada não existe ou não pode ser anotada."
@@ -205,7 +205,7 @@ pt-BR:
   field_is_required: Obrigatório
   field_firstname: Nome
   field_lastname: Sobrenome
-  field_mail: Email
+  field_mail: E-mail
   field_filename: Arquivo
   field_filesize: Tamanho
   field_downloads: Downloads
@@ -234,14 +234,14 @@ pt-BR:
   field_priority: Prioridade
   field_fixed_version: Versão
   field_user: Usuário
-  field_role: Papel
+  field_role: Cargo
   field_homepage: Página inicial
   field_is_public: Público
   field_parent: Sub-projeto de
   field_is_in_chlog: Exibir na lista de alterações
   field_is_in_roadmap: Exibir no planejamento
   field_login: Usuário
-  field_mail_notification: Notificações por email
+  field_mail_notification: Notificações por e-mail
   field_admin: Administrador
   field_last_login_on: Última conexão
   field_language: Idioma
@@ -258,12 +258,12 @@ pt-BR:
   field_attr_login: Atributo para nome de usuário
   field_attr_firstname: Atributo para nome
   field_attr_lastname: Atributo para sobrenome
-  field_attr_mail: Atributo para email
+  field_attr_mail: Atributo para e-mail
   field_onthefly: Criar usuários dinamicamente ("on-the-fly")
   field_start_date: Início
   field_done_ratio: % Terminado
   field_auth_source: Modo de autenticação
-  field_hide_mail: Ocultar meu email
+  field_hide_mail: Ocultar meu e-mail
   field_comments: Comentário
   field_url: URL
   field_start_page: Página inicial
@@ -275,7 +275,7 @@ pt-BR:
   field_is_filter: É um filtro
   field_issue_to: Tarefa relacionada
   field_delay: Atraso
-  field_assignable: Tarefas podem ser atribuídos para este papel
+  field_assignable: Tarefas podem ser atribuídas a esta função
   field_redirect_existing_links: Redirecionar links existentes
   field_estimated_hours: Tempo estimado
   field_column_names: Colunas
@@ -293,7 +293,7 @@ pt-BR:
   setting_self_registration: Permitido Auto-registro
   setting_attachment_max_size: Tamanho máximo do anexo
   setting_issues_export_limit: Limite de exportação das tarefas
-  setting_mail_from: Email enviado de
+  setting_mail_from: E-mail enviado de
   setting_bcc_recipients: Destinatários com cópia oculta (cco)
   setting_host_name: Servidor
   setting_text_formatting: Formato do texto
@@ -306,19 +306,19 @@ pt-BR:
   setting_commit_fix_keywords: Palavras de fechamento
   setting_autologin: Auto-login
   setting_date_format: Formato da data
-  setting_time_format: Formato de data
+  setting_time_format: Formato de hora
   setting_cross_project_issue_relations: Permitir relacionar tarefas entre projetos
   setting_issue_list_default_columns: Colunas padrão visíveis na lista de tarefas
   setting_repositories_encodings: Codificação dos repositórios
   setting_commit_logs_encoding: Codificação das mensagens de commit
-  setting_emails_footer: Rodapé dos emails
+  setting_emails_footer: Rodapé dos e-mails
   setting_protocol: Protocolo
   setting_per_page_options: Opções de itens por página
   setting_user_format: Formato de visualização dos usuários
   setting_activity_days_default: Dias visualizados na atividade do projeto
   setting_display_subprojects_issues: Visualizar tarefas dos subprojetos nos projetos principais por padrão
   setting_enabled_scm: Habilitar SCM
-  setting_mail_handler_api_enabled: Habilitar WS para emails de entrada
+  setting_mail_handler_api_enabled: Habilitar WS para e-mails de entrada
   setting_mail_handler_api_key: Chave de API
   setting_sequential_project_identifiers: Gerar identificadores de projeto sequenciais
 
@@ -354,10 +354,10 @@ pt-BR:
   label_document_new: Novo documento
   label_document_plural: Documentos
   label_document_added: Documento adicionado
-  label_role: Papel
-  label_role_plural: Papéis
-  label_role_new: Novo papel
-  label_role_and_permissions: Papéis e permissões
+  label_role: Cargo
+  label_role_plural: Cargos
+  label_role_new: Novo cargo
+  label_role_and_permissions: Cargos e permissões
   label_member: Membro
   label_member_new: Novo membro
   label_member_plural: Membros
@@ -603,7 +603,7 @@ pt-BR:
   label_date_to: Para
   label_language_based: Com base no idioma do usuário
   label_sort_by: "Ordenar por {{value}}"
-  label_send_test_email: Enviar um email de teste
+  label_send_test_email: Enviar um e-mail de teste
   label_feeds_access_key_created_on: "chave de acesso RSS criada {{value}} atrás"
   label_module_plural: Módulos
   label_added_time_by: "Adicionado por {{author}} {{age}} atrás"
@@ -639,7 +639,7 @@ pt-BR:
   label_chronological_order: Em ordem cronológica
   label_reverse_chronological_order: Em ordem cronológica inversa
   label_planning: Planejamento
-  label_incoming_emails: Emails de entrada
+  label_incoming_emails: E-mail de entrada
   label_generate_key: Gerar uma chave
   label_issue_watchers: Monitorando
 
@@ -658,7 +658,7 @@ pt-BR:
   button_clear: Limpar
   button_lock: Bloquear
   button_unlock: Desbloquear
-  button_download: Download
+  button_download: Baixar
   button_list: Listar
   button_view: Ver
   button_move: Mover
@@ -686,12 +686,12 @@ pt-BR:
   status_registered: registrado
   status_locked: bloqueado
 
-  text_select_mail_notifications: Selecionar ações para ser enviado uma notificação por email
+  text_select_mail_notifications: Selecionar ações para ser enviado uma notificação por e-mail
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 = sem restrição
   text_project_destroy_confirmation: Você tem certeza que deseja excluir este projeto e todos os dados relacionados?
   text_subprojects_destroy_warning: "Seu(s) subprojeto(s): {{value}} também serão excluídos."
-  text_workflow_edit: Selecione um papel e um tipo de tarefa para editar o fluxo de trabalho
+  text_workflow_edit: Selecione um cargo e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Você tem certeza?
   text_tip_task_begin_day: tarefa inicia neste dia
   text_tip_task_end_day: tarefa termina neste dia
@@ -703,7 +703,7 @@ pt-BR:
   text_tracker_no_workflow: Sem fluxo de trabalho definido para este tipo.
   text_unallowed_characters: Caracteres não permitidos
   text_comma_separated: Múltiplos valores são permitidos (separados por vírgula).
-  text_issues_ref_in_commit_messages: Referenciando tarefas nas mensagens de commit
+  text_issues_ref_in_commit_messages: Referenciar tarefas nas mensagens de commit
   text_issue_added: "Tarefa {{id}} incluída (por {{author}})."
   text_issue_updated: "Tarefa {{id}} alterada (por {{author}})."
   text_wiki_destroy_confirmation: Você tem certeza que deseja excluir este wiki e TODO o seu conteúdo?
@@ -726,7 +726,7 @@ pt-BR:
   text_user_wrote: "{{value}} escreveu:"
   text_enumeration_destroy_question: "{{count}} objetos estão atribuídos a este valor."
   text_enumeration_category_reassign_to: 'Reatribuí-los ao valor:'
-  text_email_delivery_not_configured: "O envio de email não está configurado, e as notificações estão inativas.\nConfigure seu servidor SMTP no arquivo config/email.yml e reinicie a aplicação para ativá-las."
+  text_email_delivery_not_configured: "O envio de e-mail não está configurado, e as notificações estão inativas.\nConfigure seu servidor SMTP no arquivo config/email.yml e reinicie a aplicação para ativá-las."
 
   default_role_manager: Gerente
   default_role_developper: Desenvolvedor
@@ -735,7 +735,7 @@ pt-BR:
   default_tracker_feature: Funcionalidade
   default_tracker_support: Suporte
   default_issue_status_new: Nova
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: Em andamento
   default_issue_status_resolved: Resolvida
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Fechada
@@ -756,12 +756,12 @@ pt-BR:
   notice_unable_delete_version: Não foi possível excluir a versão
   label_renamed: renomeado
   label_copied: copiado
-  setting_plain_text_mail: texto plano apenas (sem HTML)
-  permission_view_files: Ver Arquivos
+  setting_plain_text_mail: apenas texto sem formatação (sem HTML)
+  permission_view_files: Ver arquivos
   permission_edit_issues: Editar tarefas
   permission_edit_own_time_entries: Editar o próprio tempo de trabalho
   permission_manage_public_queries: Gerenciar consultas publicas
-  permission_add_issues: Adicionar Tarefas
+  permission_add_issues: Adicionar tarefas
   permission_log_time: Adicionar tempo gasto
   permission_view_changesets: Ver changesets
   permission_view_time_entries: Ver tempo gasto
@@ -794,7 +794,7 @@ pt-BR:
   permission_view_issue_watchers: Ver lista de monitores
   permission_manage_repository: Gerenciar repositório
   permission_commit_access: Acesso de commit
-  permission_browse_repository: Pesquisar repositorio
+  permission_browse_repository: Pesquisar repositório
   permission_view_documents: Ver documentos
   permission_edit_project: Editar projeto
   permission_add_issue_notes: Adicionar notas
@@ -802,14 +802,14 @@ pt-BR:
   permission_view_wiki_pages: Ver wiki
   permission_rename_wiki_pages: Renomear páginas wiki
   permission_edit_time_entries: Editar tempo gasto
-  permission_edit_own_issue_notes: Editar próprias notas
+  permission_edit_own_issue_notes: Editar suas próprias notas
   setting_gravatar_enabled: Usar ícones do Gravatar
   label_example: Exemplo
-  text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmine mapeando para cada usuário encontrado no log do repositório.\nUsuários com o mesmo login ou email no Redmine e no repositório serão mapeados automaticamente."
+  text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmine mapeando para cada usuário encontrado no log do repositório.\nUsuários com o mesmo login ou e-mail no Redmine e no repositório serão mapeados automaticamente."
   permission_edit_own_messages: Editar próprias mensagens
   permission_delete_own_messages: Excluir próprias mensagens
   label_user_activity: "Atividade de {{value}}"
-  label_updated_time_by: "Atualizado por {{author}} em {{age}}"
+  label_updated_time_by: "Atualizado por {{author}} há {{age}}"
   text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser exibido.'
   setting_diff_max_lines_displayed: Número máximo de linhas exibidas no diff
   text_plugin_assets_writable: Diretório de plugins gravável
@@ -844,7 +844,7 @@ pt-BR:
   label_wiki_content_updated: Página wiki atualizada
   mail_body_wiki_content_updated: A página wiki '{{page}}' foi atualizada por {{author}}.
   permission_add_project: Criar projeto
-  setting_new_project_user_role_id: Papel dado a um usuário não administrador que crie um projeto
+  setting_new_project_user_role_id: Cargo dado a um usuário não administrador que crie um projeto
   label_view_all_revisions: Ver todas as revisões
   label_tag: Etiqueta
   label_branch: Ramo
@@ -856,6 +856,6 @@ pt-BR:
   label_group_new: Novo grupo
   label_time_entry_plural: Tempos gastos
   text_journal_added: "{{label}} {{value}} adicionado"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
+  field_active: Ativo
+  enumeration_system_activity: Atividade do sistema
+  permission_delete_issue_watchers: Deletar observadores

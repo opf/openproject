@@ -422,7 +422,8 @@
   permission_view_gantt: 檢視甘特圖
   permission_view_calendar: 檢視日曆
   permission_view_issue_watchers: 檢視觀察者清單
-  permission_add_issue_watchers: 增加觀察者
+  permission_add_issue_watchers: 新增觀察者
+  permission_delete_issue_watchers: 刪除觀察者
   permission_log_time: 紀錄耗用工時
   permission_view_time_entries: 檢視耗用工時
   permission_edit_time_entries: 編輯工時紀錄
@@ -673,8 +674,8 @@
   label_sort_lower: 往下移動
   label_sort_lowest: 移動至結尾
   label_roadmap: 版本藍圖
-  label_roadmap_due_in: 倒數天數： 
-  label_roadmap_overdue: "{{value}} 逾期"
+  label_roadmap_due_in: "剩餘 {{value}} 天"
+  label_roadmap_overdue: "逾期 {{value}} 天"
   label_roadmap_no_issues: 此版本尚未包含任何項目
   label_search: 搜尋
   label_result_plural: 結果
@@ -839,7 +840,9 @@
   status_active: 活動中
   status_registered: 註冊完成
   status_locked: 鎖定中
-  
+
+  field_active: 活動中
+
   text_select_mail_notifications: 選擇欲寄送提醒通知郵件之動作
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 代表「不限制」
@@ -919,6 +922,4 @@
   enumeration_issue_priorities: 項目優先權
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
+  enumeration_system_activity: 系統活動
