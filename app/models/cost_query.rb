@@ -48,7 +48,7 @@ class Filter
     if available_values
       available_value_keys = available_values.collect {|o| o[1].to_s }
       sql_values.each do |value|
-        unless available_value_keys.include? value.to_s
+        unless (available_value_keys.include? value.to_s) or (value.to_s == "")
           raise ArgumentError.new("Forbidden value (#{value.inspect} not in #{available_value_keys.inspect})")
         end
       end
@@ -168,7 +168,8 @@ class CostQuery < ActiveRecord::Base
         "updated_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 5 },
         "spent_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 6},
         "overridden_costs" => { :type => :boolean, :applies => [:time_entries, :cost_entries], :flags => [], :order => 7 },
-        "issue_id" => { :type => :list_optional, :order => 8, :applies => [:cost_entries, :time_entries], :flags => [], :db_table => Issue.table_name, :db_field => "id", :values => Issue.find(:all, :order => :id).collect{|s| [s.subject, s.id.to_s] }},
+        # FIXME: Issues are not selected properly according to project selection
+        "issue_id" => { :type => :list_optional, :order => 8, :applies => [:cost_entries, :time_entries], :flags => [], :db_table => Issue.table_name, :db_field => "id", :values => Issue.find(:all, :order => :id, :include => :tracker).collect{|s| ["#{s.tracker} ##{s.id}: #{s.subject}", s.id.to_s] }},
       }
     }
     
@@ -321,12 +322,23 @@ class CostQuery < ActiveRecord::Base
       options[key] = data.delete key
     end
     block = options[:block] || Proc.new { {} }
-    {
+    equals_hash = {
       :enabled => 1,
       :operator => "=",
       :column_name => column_name,
       :values => fields[column_name.to_s],
-    }.merge(data).merge(block.call(column_name, fields))    
+    }
+    
+    # TODO: not all filters have this filter operator. We have to always select the correct operator
+    none_hash = {
+      :enabled => 1,
+      :operator => "!*",
+      :column_name => column_name,
+      :values => nil,
+    }
+    
+    hash = fields[column_name.to_s].nil? ? none_hash : equals_hash
+    hash.merge(data).merge(block.call(column_name, fields))    
   end
   
 
