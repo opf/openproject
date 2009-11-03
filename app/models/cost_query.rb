@@ -235,7 +235,7 @@ class CostQuery < ActiveRecord::Base
     return match.blank? ? nil : match[0]
   end
   
-  MAGIC_GROUP_KEYS = [:block, :time, :display, :db_field]
+  MAGIC_GROUP_KEYS = [:block, :time, :display, :db_field, :other_group]
   
   def self.grouping_column(*names, &block)
     options = names.extract_options!
