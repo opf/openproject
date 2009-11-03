@@ -674,8 +674,8 @@
   label_sort_lower: 往下移動
   label_sort_lowest: 移動至結尾
   label_roadmap: 版本藍圖
-  label_roadmap_due_in: "剩餘 {{value}} 天"
-  label_roadmap_overdue: "逾期 {{value}} 天"
+  label_roadmap_due_in: "剩餘 {{value}}"
+  label_roadmap_overdue: "逾期 {{value}}"
   label_roadmap_no_issues: 此版本尚未包含任何項目
   label_search: 搜尋
   label_result_plural: 結果

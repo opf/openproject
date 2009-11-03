@@ -382,6 +382,7 @@ sv:
   permission_view_calendar: Visa kalender
   permission_view_issue_watchers: Visa bevakarlista
   permission_add_issue_watchers: Lägga till bevakare
+  permission_delete_issue_watchers: Ta bort bevakare
   permission_log_time: Logga spenderad tid
   permission_view_time_entries: Visa spenderad tid
   permission_edit_time_entries: Ändra tidloggningar
@@ -749,6 +750,10 @@ sv:
   label_date_from_to: Från {{start}} till {{end}}
   label_wiki_content_added: Wikisida tillagd
   label_wiki_content_updated: Wikisida uppdaterad
+  label_group: Grupp
+  label_group_plural: Grupper
+  label_group_new: Ny grupp
+  label_time_entry_plural: Spenderad tid
   
   button_login: Logga in
   button_submit: Spara
@@ -793,6 +798,8 @@ sv:
   status_active: aktiv
   status_registered: registrerad
   status_locked: låst
+  
+  field_active: Aktiv
   
   text_select_mail_notifications: Välj för vilka händelser mail ska skickas.
   text_regexp_info: eg. ^[A-Z0-9]+$
@@ -873,10 +880,4 @@ sv:
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
+  enumeration_system_activity: Systemaktivitet
