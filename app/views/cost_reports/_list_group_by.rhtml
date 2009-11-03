@@ -1,6 +1,10 @@
 <%
+  def get_column
+    CostQuery.group_by_columns[@query.group_by[:name]]
+  end
+  
   def display_js(invert=false)
-    group_by_column = CostQuery.group_by_columns[@query.group_by[:name]]
+    group_by_column = get_column
     
     return "'' + Form.serialize('filter-options')" unless group_by_column[:scope] == :costs
 
@@ -20,6 +24,17 @@
       "Form.serialize('filter-options')"
     end
   end
+  
+  
+  def filter_js(filter_hash)
+    group_by_column = get_column
+    
+    if group_by_column[:scope] == :costs && filter_hash[:values].nil?
+      return ""
+    end
+    
+    {:filters => {(@query.filters ? @query.filters.length : 0) => filter_hash}}.to_query
+  end
 %>
 
 <table class="list">
@@ -30,18 +45,17 @@
     <th>Drill Down</th>
   </thead>
   <tbody>
-    <% @grouped_entries.each do |entry| %>
-      <%
+    <% 
+      @grouped_entries.each do |entry|
         entry &&= entry.with_indifferent_access
         filter = @query.filter_from_group_by(entry)
         
         if filter[:values].nil?
           display_js = display_js(true)
-          filter_js = ""
         else
           display_js = display_js(false)
-          filter_js = {:filters => {(@query.filters ? @query.filters.length : 0) => filter}}.to_query
         end
+        filter_js = filter_js(filter)
         group_by = {:group_by=>{:name=>"", :granularity=>"year"}}
         
         fields = entry.keys - %w[count sum]
