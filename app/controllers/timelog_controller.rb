@@ -147,7 +147,7 @@ class TimelogController < ApplicationController
     
     respond_to do |format|
       format.html { render :layout => !request.xhr? }
-      format.csv  { send_data(report_to_csv(@criterias, @periods, @hours).read, :type => 'text/csv; header=present', :filename => 'timelog.csv') }
+      format.csv  { send_data(report_to_csv(@criterias, @periods, @hours), :type => 'text/csv; header=present', :filename => 'timelog.csv') }
     end
   end
   
@@ -202,7 +202,7 @@ class TimelogController < ApplicationController
                                     :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
                                     :conditions => cond.conditions,
                                     :order => sort_clause)
-          send_data(entries_to_csv(@entries).read, :type => 'text/csv; header=present', :filename => 'timelog.csv')
+          send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
         }
       end
     end
