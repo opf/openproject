@@ -103,7 +103,7 @@ class TimelogController < ApplicationController
       sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
       sql << " WHERE"
       sql << " (%s) AND" % sql_condition
-      sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from.to_time), ActiveRecord::Base.connection.quoted_date(@to.to_time)]
+      sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from), ActiveRecord::Base.connection.quoted_date(@to)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
       
       @hours = ActiveRecord::Base.connection.select_all(sql)
