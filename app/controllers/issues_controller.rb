@@ -57,7 +57,7 @@ class IssuesController < ApplicationController
       limit = per_page_option
       respond_to do |format|
         format.html { }
-        format.atom { }
+        format.atom { limit = Setting.feeds_limit.to_i }
         format.csv  { limit = Setting.issues_export_limit.to_i }
         format.pdf  { limit = Setting.issues_export_limit.to_i }
       end
