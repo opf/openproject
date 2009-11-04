@@ -912,7 +912,7 @@ class RedCloth3 < String
     end
 
     IMAGE_RE = /
-            (<p>|\s|^)           # start of line?
+            (>|\s|^)           # start of line?
             \!                   # opening
             (\<|\=|\>)?          # optional alignment atts
             (#{C})               # optional style,class atts
