@@ -1,5 +1,5 @@
 class User < Principal
-  generator_for :login, :method => :next_email
+  generator_for :login, :method => :next_login
   generator_for :mail, :method => :next_email
   generator_for :firstname, :method => :next_firstname
   generator_for :lastname, :method => :next_lastname

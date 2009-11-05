@@ -25,6 +25,12 @@ class UserTest < ActiveSupport::TestCase
     @jsmith = User.find(2)
     @dlopper = User.find(3)
   end
+
+  test 'object_daddy creation' do
+    User.generate_with_protected!(:firstname => 'Testing connection')
+    User.generate_with_protected!(:firstname => 'Testing connection')
+    assert_equal 2, User.count(:all, :conditions => {:firstname => 'Testing connection'})
+  end
   
   def test_truth
     assert_kind_of User, @jsmith
