@@ -6,12 +6,10 @@ namespace :gloc_to_i18n do
       Dir.glob("lang/*.yml") do |file|
         lang = file[5..-5]
         target = "config/locales/#{lang}.yml"
-        locales = YAML.load_file(target) if File.exist? target
-        locales ||= {}
-        (locales[lang] ||= {}).merge! YAML.load_file(target)
         mkdir_p File.dirname(target)
-        File.open(target, "w") { |f| f << locales.to_yaml }
-        File.open(file, "w") { |f| f << locales[lang].to_yaml }
+        File.open(target, "w") do |f| 
+          f << ({lang => YAML.load_file(file)}.to_yaml)
+        end
       end
     end
   end
