@@ -210,7 +210,7 @@ class TimelogController < ApplicationController
   
   def edit
     render_403 and return if @time_entry && !@time_entry.editable_by?(User.current)
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.attributes = params[:time_entry]
     
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
