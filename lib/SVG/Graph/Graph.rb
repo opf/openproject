@@ -150,7 +150,7 @@ module SVG
           :add_popups           =>false,
         })
 
-				set_defaults if methods.include? "set_defaults"
+				set_defaults if respond_to? :set_defaults
 
         init_with config
       end
@@ -195,7 +195,7 @@ module SVG
       def burn
         raise "No data available" unless @data.size > 0
         
-        calculations if methods.include? 'calculations'
+        calculations if respond_to? :calculations
 
         start_svg
         calculate_graph_dimensions
@@ -355,7 +355,7 @@ module SVG
       # by subclasses.
       def init_with config
         config.each { |key, value|
-          self.send( key.to_s+"=", value ) if methods.include? key.to_s
+          self.send((key.to_s+"=").to_sym, value ) if respond_to? key.to_sym
         }
       end
 
