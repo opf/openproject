@@ -577,7 +577,7 @@ class RedCloth3 < String
         end
     end
     
-    QUOTES_RE = /(^>+([^\n]*?)\n?)+/m
+    QUOTES_RE = /(^>+([^\n]*?)(\n|$))+/m
     QUOTES_CONTENT_RE = /^([> ]+)(.*)$/m
     
     def block_textile_quotes( text )
