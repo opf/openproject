@@ -461,10 +461,10 @@ EXPECTED
     to_test = { Date.today => 'Due in 0 days',
                 Date.today + 1 => 'Due in 1 day',
                 Date.today + 100 => 'Due in about 3 months',
-                Date.today + 20000 => 'Due in over 55 years',
+                Date.today + 20000 => 'Due in over 54 years',
                 Date.today - 1 => '1 day late',
                 Date.today - 100 => 'about 3 months late',
-                Date.today - 20000 => 'over 55 years late',
+                Date.today - 20000 => 'over 54 years late',
                }
     to_test.each do |date, expected|
       assert_equal expected, due_date_distance_in_words(date)
