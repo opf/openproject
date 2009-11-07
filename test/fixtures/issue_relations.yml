@@ -4,4 +4,10 @@ issue_relation_001:
   issue_to_id: 9
   relation_type: blocks
   delay:
+issue_relation_002:
+  id: 2
+  issue_from_id: 2
+  issue_to_id: 3
+  relation_type: relates
+  delay:
   

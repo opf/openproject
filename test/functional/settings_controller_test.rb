@@ -32,6 +32,12 @@ class SettingsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
   end
   
+  def test_index
+    get :index
+    assert_response :success
+    assert_template 'edit'
+  end
+  
   def test_get_edit
     get :edit
     assert_response :success
