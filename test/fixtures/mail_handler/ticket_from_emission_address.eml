@@ -1,0 +1,19 @@
+Return-Path: <redmine@somenet.foo>
+Received: from osiris ([127.0.0.1])
+	by OSIRIS
+	with hMailServer ; Sun, 22 Jun 2008 12:28:07 +0200
+Message-ID: <000501c8d452$a95cd7e0$0a00a8c0@osiris>
+From: "John Doe" <Redmine@example.net>
+To: <redmine@somenet.foo>
+Subject: Ticket with the Redmine emission address
+Date: Sun, 22 Jun 2008 12:28:07 +0200
+MIME-Version: 1.0
+Content-Type: text/plain;
+	format=flowed;
+	charset="iso-8859-1";
+	reply-type=original
+Content-Transfer-Encoding: 7bit
+
+This is a ticket submitted with the Redmine emission address.
+It should be ignored.
+

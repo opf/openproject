@@ -185,6 +185,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
 
+  def test_should_ignore_emails_from_emission_address
+    Role.anonymous.add_permission!(:add_issues)
+    assert_no_difference 'User.count' do
+      assert_equal false, submit_email('ticket_from_emission_address.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'create')
+    end
+  end
+
   def test_add_issue_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
