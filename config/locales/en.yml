@@ -155,6 +155,7 @@ en:
   error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
   error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
+  error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version can not be reopened'
   
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   
@@ -749,6 +750,10 @@ en:
   status_active: active
   status_registered: registered
   status_locked: locked
+  
+  version_status_open: open
+  version_status_locked: locked
+  version_status_closed: closed
 
   field_active: Active
   

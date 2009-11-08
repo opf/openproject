@@ -143,6 +143,14 @@ class Issue < ActiveRecord::Base
     if start_date && soonest_start && start_date < soonest_start
       errors.add :start_date, :invalid
     end
+    
+    if fixed_version
+      if !assignable_versions.include?(fixed_version)
+        errors.add :fixed_version_id, :inclusion
+      elsif reopened? && fixed_version.closed?
+        errors.add_to_base I18n.t(:error_can_not_reopen_issue_on_closed_version)
+      end
+    end
   end
   
   def validate_on_create
@@ -193,6 +201,18 @@ class Issue < ActiveRecord::Base
     self.status.is_closed?
   end
   
+  # Return true if the issue is being reopened
+  def reopened?
+    if !new_record? && status_id_changed?
+      status_was = IssueStatus.find_by_id(status_id_was)
+      status_new = IssueStatus.find_by_id(status_id)
+      if status_was && status_new && status_was.is_closed? && !status_new.is_closed?
+        return true
+      end
+    end
+    false
+  end
+  
   # Returns true if the issue is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !status.is_closed?
@@ -201,6 +221,11 @@ class Issue < ActiveRecord::Base
   # Users the issue can be assigned to
   def assignable_users
     project.assignable_users
+  end
+  
+  # Versions that the issue can be assigned to
+  def assignable_versions
+    @assignable_versions ||= (project.versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
   
   # Returns true if this issue is blocked by another issue that is still open

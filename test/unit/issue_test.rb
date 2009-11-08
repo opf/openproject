@@ -20,6 +20,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class IssueTest < ActiveSupport::TestCase
   fixtures :projects, :users, :members, :member_roles,
            :trackers, :projects_trackers,
+           :versions,
            :issue_statuses, :issue_categories, :issue_relations, :workflows, 
            :enumerations,
            :issues,
@@ -182,6 +183,56 @@ class IssueTest < ActiveSupport::TestCase
     assert issue2.save
     # 1 should not be also closed
     assert !issue1.reload.closed?
+  end
+  
+  def test_assignable_versions
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :fixed_version_id => 1, :subject => 'New issue')
+    assert_equal ['open'], issue.assignable_versions.collect(&:status).uniq
+  end
+  
+  def test_should_not_be_able_to_assign_a_new_issue_to_a_closed_version
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :fixed_version_id => 1, :subject => 'New issue')
+    assert !issue.save
+    assert_not_nil issue.errors.on(:fixed_version_id)
+  end
+  
+  def test_should_not_be_able_to_assign_a_new_issue_to_a_locked_version
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :fixed_version_id => 2, :subject => 'New issue')
+    assert !issue.save
+    assert_not_nil issue.errors.on(:fixed_version_id)
+  end
+  
+  def test_should_be_able_to_assign_a_new_issue_to_an_open_version
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :fixed_version_id => 3, :subject => 'New issue')
+    assert issue.save
+  end
+  
+  def test_should_be_able_to_update_an_issue_assigned_to_a_closed_version
+    issue = Issue.find(11)
+    assert_equal 'closed', issue.fixed_version.status
+    issue.subject = 'Subject changed'
+    assert issue.save
+  end
+  
+  def test_should_not_be_able_to_reopen_an_issue_assigned_to_a_closed_version
+    issue = Issue.find(11)
+    issue.status_id = 1
+    assert !issue.save
+    assert_not_nil issue.errors.on_base
+  end
+  
+  def test_should_be_able_to_reopen_and_reassign_an_issue_assigned_to_a_closed_version
+    issue = Issue.find(11)
+    issue.status_id = 1
+    issue.fixed_version_id = 3
+    assert issue.save
+  end
+  
+  def test_should_be_able_to_reopen_an_issue_assigned_to_a_locked_version
+    issue = Issue.find(12)
+    assert_equal 'locked', issue.fixed_version.status
+    issue.status_id = 1
+    assert issue.save
   end
   
   def test_move_to_another_project_with_same_category

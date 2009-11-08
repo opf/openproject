@@ -32,9 +32,9 @@
                      {:controller => 'projects', :action => 'add_issue_category', :id => @project},
                      :class => 'small', :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
 <% end %>
-<%= content_tag('p', f.select(:fixed_version_id, 
-                              (@project.versions.sort.collect {|v| [v.name, v.id]}),
-                              { :include_blank => true })) unless @project.versions.empty? %>
+<% unless @issue.assignable_versions.empty? %>
+<p><%= f.select :fixed_version_id, (@issue.assignable_versions.collect {|v| [v.name, v.id]}), :include_blank => true %></p>
+<% end %>
 </div>
 
 <div class="splitcontentright">

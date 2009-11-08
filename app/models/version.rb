@@ -22,11 +22,16 @@ class Version < ActiveRecord::Base
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
 
+  VERSION_STATUSES = %w(open locked closed)
+  
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
   validates_length_of :name, :maximum => 60
   validates_format_of :effective_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :not_a_date, :allow_nil => true
-  
+  validates_inclusion_of :status, :in => VERSION_STATUSES
+
+  named_scope :open, :conditions => {:status => 'open'}
+    
   def start_date
     effective_date
   end
@@ -43,6 +48,10 @@ class Version < ActiveRecord::Base
   # Returns the total reported time for this version
   def spent_hours
     @spent_hours ||= TimeEntry.sum(:hours, :include => :issue, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
+  end
+  
+  def closed?
+    status == 'closed'
   end
   
   # Returns true if the version is completed: due date reached and no open issues

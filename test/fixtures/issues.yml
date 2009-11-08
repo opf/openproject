@@ -157,3 +157,35 @@ issues_010:
   status_id: 1
   start_date: <%= Date.today.to_s(:db) %>
   due_date: <%= 1.days.from_now.to_date.to_s(:db) %>
+issues_011: 
+  created_on: <%= 3.days.ago.to_date.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_date.to_s(:db) %>
+  priority_id: 5
+  subject: Closed issue on a closed version
+  id: 11
+  fixed_version_id: 1 
+  category_id: 1
+  description:
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 5
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date:
+issues_012: 
+  created_on: <%= 3.days.ago.to_date.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_date.to_s(:db) %>
+  priority_id: 5
+  subject: Closed issue on a locked version
+  id: 12
+  fixed_version_id: 2 
+  category_id: 1
+  description:
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 5
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date:
