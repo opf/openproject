@@ -49,4 +49,10 @@ Rails::Initializer.run do |config|
   # Define your email configuration in email.yml instead.
   # It will automatically turn deliveries on
   config.action_mailer.perform_deliveries = false
+
+  # Load any local configuration that is kept out of source control
+  # (e.g. gems, patches).
+  if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+    instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+  end
 end
