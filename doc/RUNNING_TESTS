@@ -10,6 +10,8 @@ Running Tests
 Run `rake --tasks test` to see available tests.
 `rake test` will run the entire testsuite.
 
+Before running `rake test` you need to configure both development
+and test databases.
 
 Creating test repositories
 ===================
