@@ -47,6 +47,14 @@ class VersionsControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
   
+  def test_close_completed
+    Version.update_all("status = 'open'")
+    @request.session[:user_id] = 2
+    post :close_completed, :project_id => 'ecookbook'
+    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+    assert_not_nil Version.find_by_status('closed')
+  end
+  
   def test_post_edit
     @request.session[:user_id] = 2
     post :edit, :id => 2, 

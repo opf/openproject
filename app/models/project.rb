@@ -304,6 +304,17 @@ class Project < ActiveRecord::Base
                          :order => "#{Tracker.table_name}.position")
   end
   
+  # Closes open and locked project versions that are completed
+  def close_completed_versions
+    Version.transaction do
+      versions.find(:all, :conditions => {:status => %w(open locked)}).each do |version|
+        if version.completed?
+          version.update_attribute(:status, 'closed')
+        end
+      end
+    end
+  end
+  
   # Returns a hash of project users grouped by role
   def users_by_role
     members.find(:all, :include => [:user, :roles]).inject({}) do |h, m|

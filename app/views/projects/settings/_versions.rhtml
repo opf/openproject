@@ -28,4 +28,10 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 
+<div class="contextual">
+<% if @project.versions.any? %>
+	<%= link_to 'Close completed versions', {:controller => 'versions', :action => 'close_completed', :project_id => @project}, :method => :post %>
+<% end %>
+</div>
+
 <p><%= link_to_if_authorized l(:label_version_new), :controller => 'projects', :action => 'add_version', :id => @project %></p>

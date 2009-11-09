@@ -208,6 +208,12 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
+  map.with_options :controller => 'versions' do |versions|
+    versions.with_options :conditions => {:method => :post} do |version_actions|
+      version_actions.connect 'projects/:project_id/versions/close_completed', :action => 'close_completed'
+    end
+  end
+  
   map.with_options :controller => 'repositories' do |repositories|
     repositories.with_options :conditions => {:method => :get} do |repository_views|
       repository_views.connect 'projects/:id/repository', :action => 'show'

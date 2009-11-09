@@ -374,6 +374,17 @@ class ProjectTest < ActiveSupport::TestCase
 
     assert project.activities(true).include?(overridden_activity), "Inactive Project specific Activity not found"
   end
+  
+  def test_close_completed_versions
+    Version.update_all("status = 'open'")
+    project = Project.find(1)
+    assert_not_nil project.versions.detect {|v| v.completed? && v.status == 'open'}
+    assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
+    project.close_completed_versions
+    project.reload
+    assert_nil project.versions.detect {|v| v.completed? && v.status != 'closed'}
+    assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
+  end
 
   context "Project#copy" do
     setup do
