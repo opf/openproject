@@ -35,12 +35,13 @@ Redmine::Plugin.register :redmine_costs do
   }, :partial => 'settings/redmine_costs'
 
   
+  # register our custom permissions
   project_module :costs_module do
     # from controlling requirements 3.5 (3)
     permission :view_own_rate, {}
     permission :view_all_rates, {:cost_reports => :index}
     permission :change_rates, {:hourly_rates => [:set_rate, :edit]}
-  
+
     # from controlling requirements 4.5
     permission :view_unit_price, {:cost_reports => :index}
     permission :book_own_costs, {:costlog => :edit}, :require => :loggedin
@@ -49,7 +50,7 @@ Redmine::Plugin.register :redmine_costs do
     permission :edit_cost_entries, {:costlog => [:edit, :destroy]}, :require => :member
     permission :view_cost_entries, {:costlog => [:details]}
     permission :block_tickets, {}, :require => :member
-    
+
     permission :view_cost_objects, {:cost_objects => [:index, :show]}
     permission :edit_cost_objects, {:cost_objects => [:index, :show, :edit, :destroy, :new]}
   end

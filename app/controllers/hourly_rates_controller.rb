@@ -7,6 +7,8 @@ class HourlyRatesController < ApplicationController
   helper :hourly_rates
   include HourlyRatesHelper
   
+  include PermissionsHelper
+  
   before_filter :find_user, :only => [:show, :edit, :set_rate]
   
   before_filter :find_optional_project, :only => [:show, :edit]
@@ -17,7 +19,7 @@ class HourlyRatesController < ApplicationController
   
   def show
     if @project
-      return render_403 unless (User.current.allowed_to?(:view_all_rates, @project) || (@user == User.current && User.current.allowed_to?(:view_own_rate, @project)))
+      return deny_access unless user_allowed_to?(:view_all_rates, @user)
 
       @rates = HourlyRate.find(:all,
           :conditions =>  { :user_id => @user, :project_id => @project },
