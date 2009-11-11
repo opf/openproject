@@ -27,11 +27,10 @@ module Redmine
       @truncated = false
       diff_table = DiffTable.new(diff_type)
       diff.each do |line|
-        if line =~ /^(---|\+\+\+) (.*)$/
+        unless diff_table.add_line line
           self << diff_table if diff_table.length > 1
           diff_table = DiffTable.new(diff_type)
         end
-        diff_table.add_line line
         lines += 1
         if options[:max_lines] && lines > options[:max_lines]
           @truncated = true
@@ -61,11 +60,11 @@ module Redmine
     end
 
     # Function for add a line of this Diff
+    # Returns false when the diff ends
     def add_line(line)
       unless @parsing
         if line =~ /^(---|\+\+\+) (.*)$/
           @file_name = $2
-          return false
         elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
           @line_num_l = $2.to_i
           @line_num_r = $5.to_i
