@@ -398,6 +398,7 @@ fr:
   label_user: Utilisateur
   label_user_plural: Utilisateurs
   label_user_new: Nouvel utilisateur
+  label_user_anonymous: Anonyme
   label_project: Projet
   label_project_new: Nouveau projet
   label_project_plural: Projets

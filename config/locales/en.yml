@@ -376,6 +376,7 @@ en:
   label_user: User
   label_user_plural: Users
   label_user_new: New user
+  label_user_anonymous: Anonymous
   label_project: Project
   label_project_new: New project
   label_project_plural: Projects
