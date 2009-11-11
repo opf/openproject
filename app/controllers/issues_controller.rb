@@ -424,7 +424,7 @@ class IssuesController < ApplicationController
     
     @priorities = IssuePriority.all.reverse
     @statuses = IssueStatus.find(:all, :order => 'position')
-    @back = request.env['HTTP_REFERER']
+    @back = params[:back_url] || request.env['HTTP_REFERER']
     
     render :layout => false
   end

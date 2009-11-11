@@ -1,4 +1,5 @@
 <% form_tag({}) do -%>	
+<%= hidden_field_tag 'back_url', url_for(params) %>
 <table class="list issues">
     <thead><tr>
         <th><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
