@@ -29,7 +29,7 @@ module Redmine
       
           javascript_include_tag('jstoolbar/jstoolbar') +
             javascript_include_tag('jstoolbar/textile') +
-            javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language}") +
+            javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
           javascript_tag("var wikiToolbar = new jsToolBar($('#{field_id}')); wikiToolbar.setHelpLink('#{help_link}'); wikiToolbar.draw();")
         end
       
