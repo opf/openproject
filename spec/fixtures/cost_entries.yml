@@ -1,8 +1,13 @@
+---
 example:
+  id: 1
   user_id: 1
   project_id: 1
   cost_type_id: 1
   issue_id: 1
   units: 1
-  spent_on: <%= Time.now %>
+  spent_on: <%= Date.today %>
+  tyear: <%= Time.now.year %>
+  tmonth: <%= Time.now.month %>
+  tweek: <%= Date.today.cweek %>
   comments: "foo bar blah"

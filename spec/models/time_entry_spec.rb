@@ -159,7 +159,7 @@ describe TimeEntry do
       user = users("john")
       @default_example.rate.should == rates("default_hourly_one")
       rate = HourlyRate.create! :valid_from => 10.days.ago.to_date, :rate => 1337.0, :user => user,
-      :project => rates("hourly_one").project
+              :project => rates("hourly_one").project
       @default_example.reload
       @default_example.rate.should == rate
       rate.destroy
