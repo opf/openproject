@@ -61,9 +61,9 @@ input[type="button"], input[type="submit"], input[type="reset"] { background-col
 input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover { background-color: #ccccbb; }
 
 /* Fields */
-input[type="text"], textarea, select { padding: 2px; border: 1px solid #d7d7d7; }
-input[type="text"] { padding: 3px; }
-input[type="text"]:focus, textarea:focus, select:focus { border: 1px solid #888866; }
+input[type="text"], input[type="password"], textarea, select { padding: 2px; border: 1px solid #d7d7d7; }
+input[type="text"], input[type="password"] { padding: 3px; }
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus { border: 1px solid #888866; }
 option { border-bottom: 1px dotted #d7d7d7; }
 
 /* Misc */
