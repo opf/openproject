@@ -163,7 +163,7 @@ class CostQuery < ActiveRecord::Base
       :costs => {
         "cost_type_id" => { :type => :list_optional, :order => 2, :applies => [:cost_entries], :flags => [], :db_table => CostType.table_name, :db_field => "id", :values => CostType.find(:all, :order => 'name').collect{|s| [s.name, s.id.to_s] }},
         # FIXME: this has to be changed for Redmine 0.9 as r2777 of Redmine introduces STI for enumerations
-        "activity_id" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :db_table => Activity.table_name, :db_field => "id", :values => Activity.find(:all, :conditions => {:opt => 'ACTI'}, :order => 'position').collect{|s| [s.name, s.id.to_s] }},
+        "activity_id" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :db_table => Enumeration.table_name, :db_field => "id", :values => Enumeration.find(:all, :conditions => {:opt => 'ACTI'}, :order => 'position').collect{|s| [s.name, s.id.to_s] }},
         "created_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 4 },                        
         "updated_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 5 },
         "spent_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 6},
@@ -284,7 +284,7 @@ class CostQuery < ActiveRecord::Base
     grouping_column :user_id, :display => from_field(User, :name)
     grouping_column :issue_id, :display => from_field(Issue, :subject)
     grouping_column :cost_type_id, :display => from_field(CostType, :name), :other_group => l(:caption_labor_costs)
-    grouping_column :activity_id, :display => from_field(Activity, :name)
+    grouping_column :activity_id, :display => from_field(Enumeration, :name)
     grouping_column(:spent_on, :tyear, :tmonth, :tweek, :time => true) do |column, fields|
       values = []
       
@@ -456,7 +456,7 @@ class CostQuery < ActiveRecord::Base
     when :time_entries
       from = <<-EOS
         #{TimeEntry.table_name}
-        LEFT OUTER JOIN #{Activity.table_name} ON #{Activity.table_name}.id = #{TimeEntry.table_name}.activity_id
+        LEFT OUTER JOIN #{Enumeration.table_name} ON #{Enumeration.table_name}.id = #{TimeEntry.table_name}.activity_id
         LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{TimeEntry.table_name}.user_id
         LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id
       EOS
@@ -508,7 +508,7 @@ class CostQuery < ActiveRecord::Base
     from << " LEFT OUTER JOIN #{IssueStatus.table_name} ON #{IssueStatus.table_name}.id = #{Issue.table_name}.status_id"
     from << " LEFT OUTER JOIN #{Tracker.table_name} ON #{Tracker.table_name}.id = #{Issue.table_name}.tracker_id"
     from << " LEFT OUTER JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Issue.table_name}.project_id"
-    from << " LEFT OUTER JOIN #{Activity.table_name} ON #{Activity.table_name}.id = #{Issue.table_name}.priority_id"
+    from << " LEFT OUTER JOIN #{Enumeration.table_name} ON #{Enumeration.table_name}.id = #{Issue.table_name}.priority_id"
     from << " LEFT OUTER JOIN #{IssueCategory.table_name} ON #{IssueCategory.table_name}.id = #{Issue.table_name}.category_id"
     from << " LEFT OUTER JOIN #{Version.table_name} ON #{Version.table_name}.id = #{Issue.table_name}.fixed_version_id"
     

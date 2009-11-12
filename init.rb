@@ -1,6 +1,12 @@
 require 'redmine'
 
-::GLoc = I18n unless defined? GLoc
+unless defined? GLoc
+  module ::GLoc
+    def l(*args)
+      I18n.t(*args)
+    end
+  end
+end
 
 # Patches to the Redmine core.
 require_dependency 'l10n_patch'

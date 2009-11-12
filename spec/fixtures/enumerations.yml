@@ -81,7 +81,7 @@ enumerations_013:
   type: Enumeration
   active: true
 enumerations_014: 
-  name: Inactive Activity
+  name: Inactive TimeEntryActivity
   id: 14
   opt: ACTI
   type: TimeEntryActivity
