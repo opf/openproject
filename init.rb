@@ -17,6 +17,7 @@ Dispatcher.to_prepare do
   Issue.send(:include, IssuePatch)
   Project.send(:include, ProjectPatch)
   User.send(:include, UserPatch)
+  Role.send(:include, RolePatch)
   TimeEntry.send(:include, TimeEntryPatch)
   Query.send(:include, QueryPatch)
   UsersHelper.send(:include, CostsUsersHelperPatch)

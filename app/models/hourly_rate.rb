@@ -27,19 +27,17 @@ class HourlyRate < Rate
     )
   end
 
-  def self.history_for_user(usr, for_display = true)
+  def self.history_for_user(usr, check_permissions = true)
     rates = Hash.new
-    usr.projects.each do |project|
-      next unless (!for_display ||
-                   User.current.allowed_to?(:view_all_rates, project) ||
-                   usr == User.current && User.current.allowed_to?(:view_own_rate, project)
-                  )
+    Projects.has_module(:costs_plugin).active.visible.each do |project|
+      next if (check_permissions && !User.current.allowed_to?(:view_hourly_rates, project, {:for_user => usr}))
 
       rates[project] = HourlyRate.find(:all,
           :conditions => { :user_id => usr, :project_id => project },
           :order => "#{HourlyRate.table_name}.valid_from desc")
     end
     
+    # FIXME: What permissions to apply here?
     rates[nil] = DefaultHourlyRate.find(:all,
       :conditions => { :user_id => usr},
       :order => "#{DefaultHourlyRate.table_name}.valid_from desc")

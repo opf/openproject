@@ -19,10 +19,41 @@ module UserPatch
   end
 
   module ClassMethods
-
   end
 
   module InstanceMethods
+    # Return true if the user is allowed to do the specified action on project
+    # action can be:
+    # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
+    # * a permission Symbol (eg. :edit_project)
+    def allowed_to?(action, project, options={})
+      # we just added to user parameter to the calls to role.allowed_to?
+      
+      if project
+        # No action allowed on archived projects
+        return false unless project.active?
+        # No action allowed on disabled modules
+        return false unless project.allows_to?(action)
+        # Admin users are authorized for anything else
+        return true if admin?
+
+        roles = roles_for_project(project)
+        return false unless roles
+        roles.detect {|role| (project.is_public? || role.member?) && role.allowed_to?(action, options[:for_user])}
+
+      elsif options[:global]
+        # Admin users are always authorized
+        return true if admin?
+
+        # authorize if user has at least one role that has this permission
+        roles = memberships.collect {|m| m.roles}.flatten.uniq
+        roles.detect {|r| r.allowed_to?(action, options[:for_user])} || (self.logged? ? Role.non_member.allowed_to?(action, options[:for_user]) : Role.anonymous.allowed_to?(action, options[:for_user]))
+      else
+        false
+      end
+    end
+
+
     def current_rate(project = nil, include_default = true)
       rate_at(Date.today, project, include_default)
     end

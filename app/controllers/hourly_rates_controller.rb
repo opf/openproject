@@ -7,8 +7,6 @@ class HourlyRatesController < ApplicationController
   helper :hourly_rates
   include HourlyRatesHelper
   
-  include PermissionsHelper
-  
   before_filter :find_user, :only => [:show, :edit, :set_rate]
   
   before_filter :find_optional_project, :only => [:show, :edit]
@@ -19,28 +17,30 @@ class HourlyRatesController < ApplicationController
   
   def show
     if @project
-      return deny_access unless user_allowed_to?(:view_all_rates, @user)
-
+      return deny_access unless user_allowed_to?(:view_hourly_rates, {:for_user => @user})
+      
       @rates = HourlyRate.find(:all,
           :conditions =>  { :user_id => @user, :project_id => @project },
           :order => "#{HourlyRate.table_name}.valid_from desc")
     else
       @rates = HourlyRate.history_for_user(@user, true)
       @rates_default = @rates.delete(nil)
-      return render_403 if @rates.empty?
     end
   end
   
   def edit
-    return render_403 if @project && !User.current.allowed_to?(:change_rates, @project)
-    return render_403 unless @project || User.current.admin?
-    
-    if params[:user].is_a?(Hash)
-      new_attributes = params[:user][:new_rate_attributes]
-      existing_attributes = params[:user][:existing_rate_attributes]
+    if @project
+      return deny_access unless user_allowed_to?(:change_hourly_rates, {:for_user => @user})
+    else
+      return deny_access unless User.current.admin?
     end
     
     if request.post?
+      if params[:user].is_a?(Hash)
+        new_attributes = params[:user][:new_rate_attributes]
+        existing_attributes = params[:user][:existing_rate_attributes]
+      end
+
       @user.add_rates(@project, new_attributes)
       @user.set_existing_rates(@project, existing_attributes)
     end
