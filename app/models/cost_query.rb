@@ -19,8 +19,6 @@ class CostQueryCustomFieldColumn < QueryCustomFieldColumn
 end
 
 class Filter
-  # FIXME: this is redmine 0.8 specific
-  # current trunk uses the I18n module instead of GLoc
   include GLoc
 
 
@@ -88,8 +86,6 @@ class Filter
 end
 
 class CostQuery < ActiveRecord::Base
-  # FIXME: this is redmine 0.8 specific
-  # current trunk uses the I18n module instead of GLoc
   include GLoc
 
   belongs_to :user
@@ -162,7 +158,6 @@ class CostQuery < ActiveRecord::Base
     @available_filters = {
       :costs => {
         "cost_type_id" => { :type => :list_optional, :order => 2, :applies => [:cost_entries], :flags => [], :db_table => CostType.table_name, :db_field => "id", :values => CostType.find(:all, :order => 'name').collect{|s| [s.name, s.id.to_s] }},
-        # FIXME: this has to be changed for Redmine 0.9 as r2777 of Redmine introduces STI for enumerations
         "activity_id" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :db_table => Enumeration.table_name, :db_field => "id", :values => Enumeration.find(:all, :conditions => {:opt => 'ACTI'}, :order => 'position').collect{|s| [s.name, s.id.to_s] }},
         "created_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 4 },                        
         "updated_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 5 },

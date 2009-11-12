@@ -1,6 +1,4 @@
 module ActionView::Helpers::NumberHelper
-  # FIXME: this is redmine 0.8 specific
-  # current trunk uses the I18n module instead of GLoc
   include GLoc
   
   def number_to_currency_with_l10n(number, options = {})
