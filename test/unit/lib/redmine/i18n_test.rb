@@ -19,6 +19,7 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 
 class Redmine::I18nTest < ActiveSupport::TestCase
   include Redmine::I18n
+  include ActionView::Helpers::NumberHelper
   
   def setup
     @hook_module = Redmine::Hook
@@ -82,6 +83,15 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     Setting.time_format = '%H %M'
     assert_equal Time.now.strftime('%d %m %Y %H %M'), format_time(now)
     assert_equal Time.now.strftime('%H %M'), format_time(now, false)
+  end
+  
+  def test_number_to_human_size_for_each_language
+    valid_languages.each do |lang|
+      set_language_if_valid lang
+      assert_nothing_raised "#{lang} failure" do
+        number_to_human_size(1024*1024*4)
+      end
+    end
   end
   
   def test_valid_languages
