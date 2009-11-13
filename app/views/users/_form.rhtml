@@ -1,7 +1,7 @@
 <%= error_messages_for 'user' %>
 
 <!--[form:user]-->
-<div class="box">
+<div class="box tabular">
 <p><%= f.text_field :login, :required => true, :size => 25  %></p>
 <p><%= f.text_field :firstname, :required => true %></p>
 <p><%= f.text_field :lastname, :required => true %></p>
@@ -19,7 +19,7 @@
 <%= call_hook(:view_users_form, :user => @user, :form => f) %>
 </div>
 
-<div class="box">
+<div class="box tabular">
 <h3><%=l(:label_authentication)%></h3>
 <% unless @auth_sources.empty? %>
 <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {Element.show('password_fields');} else {Element.hide('password_fields');}" %></p>
