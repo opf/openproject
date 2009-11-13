@@ -94,10 +94,11 @@ class MessagesController < ApplicationController
     user = @message.author
     text = @message.content
     subject = @message.subject.gsub('"', '\"')
+    subject = "RE: #{subject}" unless subject.starts_with?('RE:')
     content = "#{ll(Setting.default_language, :text_user_wrote, user)}\\n> "
     content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\\n> ") + "\\n\\n"
     render(:update) { |page|
-      page << "$('reply_subject').value = \"RE: #{subject}\";"
+      page << "$('reply_subject').value = \"#{subject}\";"
       page.<< "$('message_content').value = \"#{content}\";"
       page.show 'reply'
       page << "Form.Element.focus('message_content');"
