@@ -389,7 +389,7 @@ class Project < ActiveRecord::Base
       # remove disabled modules
       enabled_modules.each {|mod| mod.destroy unless module_names.include?(mod.name)}
       # add new modules
-      module_names.each {|name| enabled_modules << EnabledModule.new(:name => name)}
+      module_names.reject {|name| module_enabled?(name)}.each {|name| enabled_modules << EnabledModule.new(:name => name)}
     else
       enabled_modules.clear
     end
