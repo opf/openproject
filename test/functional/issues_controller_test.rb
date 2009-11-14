@@ -358,6 +358,26 @@ class IssuesControllerTest < ActionController::TestCase
                                             :content => /Notes/ } }
   end
   
+  def test_show_should_deny_anonymous_access_without_permission
+    Role.anonymous.remove_permission!(:view_issues)
+    get :show, :id => 1
+    assert_response :redirect
+  end
+  
+  def test_show_should_deny_non_member_access_without_permission
+    Role.non_member.remove_permission!(:view_issues)
+    @request.session[:user_id] = 9
+    get :show, :id => 1
+    assert_response 403
+  end
+  
+  def test_show_should_deny_member_access_without_permission
+    Role.find(1).remove_permission!(:view_issues)
+    @request.session[:user_id] = 2
+    get :show, :id => 1
+    assert_response 403
+  end
+  
   def test_show_should_not_disclose_relations_to_invisible_issues
     Setting.cross_project_issue_relations = '1'
     IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => 'relates')

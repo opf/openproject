@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IssueTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :members, :member_roles,
+  fixtures :projects, :users, :members, :member_roles, :roles,
            :trackers, :projects_trackers,
            :versions,
            :issue_statuses, :issue_categories, :issue_relations, :workflows, 
@@ -62,6 +62,47 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.save
     issue.reload
     assert_equal 'PostgreSQL', issue.custom_value_for(field).value
+  end
+  
+  def test_visible_scope_for_anonymous
+    # Anonymous user should see issues of public projects only
+    issues = Issue.visible(User.anonymous).all
+    assert issues.any?
+    assert_nil issues.detect {|issue| !issue.project.is_public?}
+    # Anonymous user should not see issues without permission
+    Role.anonymous.remove_permission!(:view_issues)
+    issues = Issue.visible(User.anonymous).all
+    assert issues.empty?
+  end
+  
+  def test_visible_scope_for_user
+    user = User.find(9)
+    assert user.projects.empty?
+    # Non member user should see issues of public projects only
+    issues = Issue.visible(user).all
+    assert issues.any?
+    assert_nil issues.detect {|issue| !issue.project.is_public?}
+    # Non member user should not see issues without permission
+    Role.non_member.remove_permission!(:view_issues)
+    user.reload
+    issues = Issue.visible(user).all
+    assert issues.empty?
+    # User should see issues of projects for which he has view_issues permissions only
+    Member.create!(:principal => user, :project_id => 2, :role_ids => [1])
+    user.reload
+    issues = Issue.visible(user).all
+    assert issues.any?
+    assert_nil issues.detect {|issue| issue.project_id != 2}
+  end
+  
+  def test_visible_scope_for_admin
+    user = User.find(1)
+    user.members.each(&:destroy)
+    assert user.projects.empty?
+    issues = Issue.visible(user).all
+    assert issues.any?
+    # Admin should see issues on private projects that he does not belong to
+    assert issues.detect {|issue| !issue.project.is_public?}
   end
   
   def test_errors_full_messages_should_include_custom_fields_errors

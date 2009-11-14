@@ -10,6 +10,7 @@ roles_001:
     - :manage_members
     - :manage_versions
     - :manage_categories
+    - :view_issues
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -60,6 +61,7 @@ roles_002:
     - :manage_members
     - :manage_versions
     - :manage_categories
+    - :view_issues
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -102,6 +104,7 @@ roles_003:
     - :manage_members
     - :manage_versions
     - :manage_categories
+    - :view_issues
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -135,6 +138,7 @@ roles_004:
   builtin: 1
   permissions: |
     --- 
+    - :view_issues
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -164,6 +168,7 @@ roles_005:
   builtin: 2
   permissions: |
     --- 
+    - :view_issues
     - :add_issue_notes
     - :view_gantt
     - :view_calendar

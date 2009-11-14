@@ -43,7 +43,7 @@ class SearchController < ApplicationController
     begin; offset = params[:offset].to_time if params[:offset]; rescue; end
     
     # quick jump to an issue
-    if @question.match(/^#?(\d+)$/) && Issue.find_by_id($1, :include => :project, :conditions => Project.visible_by(User.current))
+    if @question.match(/^#?(\d+)$/) && Issue.visible.find_by_id($1)
       redirect_to :controller => "issues", :action => "show", :id => $1
       return
     end

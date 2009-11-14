@@ -49,6 +49,7 @@ module Redmine
                                       :position => 2, 
                                       :permissions => [:manage_versions, 
                                                       :manage_categories,
+                                                      :view_issues,
                                                       :add_issues,
                                                       :edit_issues,
                                                       :manage_issue_relations,
@@ -74,7 +75,8 @@ module Redmine
             
             reporter = Role.create! :name => l(:default_role_reporter),
                                     :position => 3,
-                                    :permissions => [:add_issues,
+                                    :permissions => [:view_issues,
+                                                    :add_issues,
                                                     :add_issue_notes,
                                                     :save_queries,
                                                     :view_gantt,
@@ -91,7 +93,8 @@ module Redmine
                                                     :browse_repository,
                                                     :view_changesets]
                         
-            Role.non_member.update_attribute :permissions, [:add_issues,
+            Role.non_member.update_attribute :permissions, [:view_issues,
+                                                            :add_issues,
                                                             :add_issue_notes,
                                                             :save_queries,
                                                             :view_gantt,
@@ -106,7 +109,8 @@ module Redmine
                                                             :browse_repository,
                                                             :view_changesets]
           
-            Role.anonymous.update_attribute :permissions, [:view_gantt,
+            Role.anonymous.update_attribute :permissions, [:view_issues,
+                                                           :view_gantt,
                                                            :view_calendar,
                                                            :view_time_entries,
                                                            :view_documents,
