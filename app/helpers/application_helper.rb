@@ -502,9 +502,8 @@ module ApplicationHelper
           when nil
             if issue = Issue.visible.find_by_id(oid, :include => :status)
               link = link_to("##{oid}", {:only_path => only_path, :controller => 'issues', :action => 'show', :id => oid},
-                                        :class => (issue.closed? ? 'issue closed' : 'issue'),
+                                        :class => issue.css_classes,
                                         :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
-              link = content_tag('del', link) if issue.closed?
             end
           when 'document'
             if document = Document.find_by_id(oid, :include => [:project], :conditions => Project.visible_by(User.current))
