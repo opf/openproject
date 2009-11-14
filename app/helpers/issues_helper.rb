@@ -24,7 +24,7 @@ module IssuesHelper
     @cached_label_assigned_to ||= l(:field_assigned_to)
     @cached_label_priority ||= l(:field_priority)
     
-    link_to_issue(issue) + ": #{h(issue.subject)}<br /><br />" +
+    link_to_issue(issue) + "<br /><br />" +
       "<strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />" +
       "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />" +
       "<strong>#{@cached_label_assigned_to}</strong>: #{issue.assigned_to}<br />" +

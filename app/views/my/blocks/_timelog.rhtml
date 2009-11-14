@@ -31,7 +31,7 @@ entries_by_day = entries.group_by(&:spent_on)
     <% entries_by_day[day].each do |entry| -%>
     <tr class="time-entry" style="border-bottom: 1px solid #f5f5f5;">
     <td class="activity"><%=h entry.activity %></td>
-    <td class="subject"><%=h entry.project %> <%= ' - ' + link_to_issue(entry.issue, :title => h("#{entry.issue.subject} (#{entry.issue.status})")) if entry.issue %></td>
+    <td class="subject"><%=h entry.project %> <%= ' - ' + link_to_issue(entry.issue, :truncate => 50) if entry.issue %></td>
     <td class="comments"><%=h entry.comments %></td>
     <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
     <td align="center">

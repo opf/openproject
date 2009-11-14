@@ -30,7 +30,7 @@
 <h3><%= l(:label_related_issues) %></h3>
 <ul>
 <% @changeset.issues.visible.each do |issue| %>
-  <li><%= link_to_issue issue %>: <%=h issue.subject %></li>
+  <li><%= link_to_issue issue %></li>
 <% end %>
 </ul>
 <% end %>

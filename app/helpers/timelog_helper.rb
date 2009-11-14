@@ -22,7 +22,7 @@ module TimelogHelper
     links = []
     links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
     links << link_to(h(@project), {:project_id => @project, :issue_id => nil}) if @project
-    links << link_to_issue(@issue) if @issue
+    links << link_to_issue(@issue, :subject => false) if @issue
     breadcrumb links
   end
 

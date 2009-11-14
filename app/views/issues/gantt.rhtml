@@ -83,7 +83,7 @@ top = headers_height + 8
     <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:4px;overflow:hidden;"><small>    
     <% if i.is_a? Issue %>
       	<%= h("#{i.project} -") unless @project && @project == i.project %>
-      	<%= link_to_issue i %>:	<%=h i.subject %>
+      	<%= link_to_issue i %>
   	<% else %>
 		<span class="icon icon-package">
 	      	<%= h("#{i.project} -") unless @project && @project == i.project %>

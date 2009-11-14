@@ -19,7 +19,7 @@
     <% if !issues.empty? %>
     <ul>
       <% issues.each do |issue| %>
-        <li><%= link_to_issue(issue) %>: <%=h issue.subject %></li>
+        <li><%= link_to_issue(issue) %></li>
       <% end %>
     </ul>
     <% end %>
