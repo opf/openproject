@@ -40,4 +40,10 @@ class AdminTest < ActionController::IntegrationTest
     locked_user = User.try_to_login("psmith", "psmith09")
     assert_equal nil, locked_user
   end
+
+  test "Add a user as an anonymous user should fail" do
+    post '/users/add', :user => { :login => 'psmith', :firstname => 'Paul'}, :password => "psmith09", :password_confirmation => "psmith09"
+    assert_response :redirect
+    assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fusers%2Fnew"
+  end
 end
