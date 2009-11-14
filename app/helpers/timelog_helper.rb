@@ -22,7 +22,13 @@ module TimelogHelper
     links = []
     links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
     links << link_to(h(@project), {:project_id => @project, :issue_id => nil}) if @project
-    links << link_to_issue(@issue, :subject => false) if @issue
+    if @issue
+      if @issue.visible?
+        links << link_to_issue(@issue, :subject => false)
+      else
+        links << "##{@issue.id}"
+      end
+    end
     breadcrumb links
   end
 
@@ -118,7 +124,18 @@ module TimelogHelper
   end
   
   def format_criteria_value(criteria, value)
-    value.blank? ? l(:label_none) : ((k = @available_criterias[criteria][:klass]) ? k.find_by_id(value.to_i) : format_value(value, @available_criterias[criteria][:format]))
+    if value.blank?
+      l(:label_none)
+    elsif k = @available_criterias[criteria][:klass]
+      obj = k.find_by_id(value.to_i)
+      if obj.is_a?(Issue)
+        obj.visible? ? "#{obj.tracker} ##{obj.id}: #{obj.subject}" : "##{obj.id}"
+      else
+        obj
+      end
+    else
+      format_value(value, @available_criterias[criteria][:format])
+    end
   end
   
   def report_to_csv(criterias, periods, hours)
