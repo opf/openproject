@@ -19,6 +19,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
+  include ActionController::Assertions::SelectorAssertions
   fixtures :projects, :issues, :users, :members, :member_roles, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
   
   def test_generated_links_in_emails
@@ -31,13 +32,15 @@ class MailerTest < ActiveSupport::TestCase
     
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
-    # link to the main ticket
-    assert mail.body.include?('<a href="https://mydomain.foo/issues/1">Bug #1: Can\'t print recipes</a>')
     
-    # link to a referenced ticket
-    assert mail.body.include?('<a href="https://mydomain.foo/issues/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
-    # link to a changeset
-    assert mail.body.include?('<a href="https://mydomain.foo/projects/ecookbook/repository/revisions/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+    assert_select_email do
+      # link to the main ticket
+      assert_select "a[href=?]", "https://mydomain.foo/issues/1", :text => "Bug #1: Can't print recipes"
+      # link to a referenced ticket
+      assert_select "a[href=?][title=?]", "https://mydomain.foo/issues/2", "Add ingredients categories (Assigned)", :text => "#2"
+      # link to a changeset
+      assert_select "a[href=?][title=?]", "https://mydomain.foo/projects/ecookbook/repository/revisions/2", "This commit fixes #1, #2 and references #1 &amp; #3", :text => "r2"
+    end
   end
   
   def test_generated_links_with_prefix
@@ -52,13 +55,15 @@ class MailerTest < ActiveSupport::TestCase
     
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
-    # link to the main ticket
-    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/1">Bug #1: Can\'t print recipes</a>')
- 
-    # link to a referenced ticket
-    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
-    # link to a changeset
-    assert mail.body.include?('<a href="http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+
+    assert_select_email do
+      # link to the main ticket
+      assert_select "a[href=?]", "http://mydomain.foo/rdm/issues/1", :text => "Bug #1: Can't print recipes"
+      # link to a referenced ticket
+      assert_select "a[href=?][title=?]", "http://mydomain.foo/rdm/issues/2", "Add ingredients categories (Assigned)", :text => "#2"
+      # link to a changeset
+      assert_select "a[href=?][title=?]", "http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2", "This commit fixes #1, #2 and references #1 &amp; #3", :text => "r2"
+    end
   ensure
     # restore it
     Redmine::Utils.relative_url_root = relative_url_root
@@ -76,13 +81,15 @@ class MailerTest < ActiveSupport::TestCase
     
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
-    # link to the main ticket
-    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/1">Bug #1: Can\'t print recipes</a>')
- 
-    # link to a referenced ticket
-    assert mail.body.include?('<a href="http://mydomain.foo/rdm/issues/2" class="issue" title="Add ingredients categories (Assigned)">#2</a>')
-    # link to a changeset
-    assert mail.body.include?('<a href="http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2" class="changeset" title="This commit fixes #1, #2 and references #1 &amp; #3">r2</a>')
+
+    assert_select_email do
+      # link to the main ticket
+      assert_select "a[href=?]", "http://mydomain.foo/rdm/issues/1", :text => "Bug #1: Can't print recipes"
+      # link to a referenced ticket
+      assert_select "a[href=?][title=?]", "http://mydomain.foo/rdm/issues/2", "Add ingredients categories (Assigned)", :text => "#2"
+      # link to a changeset
+      assert_select "a[href=?][title=?]", "http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2", "This commit fixes #1, #2 and references #1 &amp; #3", :text => "r2"
+    end
   ensure
     # restore it
     Redmine::Utils.relative_url_root = relative_url_root
