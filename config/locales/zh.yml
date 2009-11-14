@@ -179,6 +179,7 @@ zh:
   error_issue_not_found_in_project: '问题不存在或不属于此项目'
   error_no_tracker_in_project: 该项目未设定跟踪标签，请检查项目配置。
   error_no_default_issue_status: 未设置默认的问题状态。请检查系统设置（"管理" -> "问题状态"）。
+  error_can_not_reopen_issue_on_closed_version: 该问题被关联到一个已经关闭的版本，因此无法重新打开。
 
   warning_attachments_not_saved: "{{count}} 个文件保存失败。"
   
@@ -356,6 +357,7 @@ zh:
   permission_view_calendar: 查看日历
   permission_view_issue_watchers: 查看跟踪者列表
   permission_add_issue_watchers: 添加跟踪者
+  permission_delete_issue_watchers: 删除跟踪者
   permission_log_time: 登记工时
   permission_view_time_entries: 查看耗时
   permission_edit_time_entries: 编辑耗时
@@ -398,6 +400,7 @@ zh:
   label_user: 用户
   label_user_plural: 用户
   label_user_new: 新建用户
+  label_user_anonymous: 匿名用户
   label_project: 项目
   label_project_new: 新建项目
   label_project_plural: 项目
@@ -772,7 +775,13 @@ zh:
   status_active: 活动的
   status_registered: 已注册
   status_locked: 已锁定
-  
+
+  version_status_open: 打开
+  version_status_locked: 锁定
+  version_status_closed: 关闭
+
+  field_active: 活动
+
   text_select_mail_notifications: 选择需要发送邮件通知的动作
   text_regexp_info: 例如：^[A-Z0-9]+$
   text_min_max_length_info: 0 表示没有限制
@@ -852,11 +861,4 @@ zh:
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
+  enumeration_system_activity: 系统活动

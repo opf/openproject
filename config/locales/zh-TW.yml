@@ -246,6 +246,7 @@
   error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
   error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
   error_no_default_issue_status: '尚未定義項目狀態的預設值。請您前往「網站管理」->「項目狀態清單」頁面，檢查相關組態設定。'
+  error_can_not_reopen_issue_on_closed_version: '指派給「已結束」版本的項目，無法再將其狀態變更為「進行中」'
   
   warning_attachments_not_saved: "{{count}} 個附加檔案無法儲存。"
   
@@ -466,6 +467,7 @@
   label_user: 用戶
   label_user_plural: 用戶清單
   label_user_new: 建立新用戶
+  label_user_anonymous: 匿名用戶
   label_project: 專案
   label_project_new: 建立新專案
   label_project_plural: 專案清單
@@ -840,9 +842,13 @@
   status_active: 活動中
   status_registered: 註冊完成
   status_locked: 鎖定中
-
+  
+  version_status_open: 進行中
+  version_status_locked: 已鎖定
+  version_status_closed: 已結束
+  
   field_active: 活動中
-
+  
   text_select_mail_notifications: 選擇欲寄送提醒通知郵件之動作
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 代表「不限制」
@@ -923,8 +929,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous

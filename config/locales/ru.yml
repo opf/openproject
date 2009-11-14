@@ -937,12 +937,12 @@ ru:
   label_group: Группа
   label_group_new: Новая группа
   label_time_entry_plural: Затраченное время
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
+  text_journal_added: "{{label}} {{value}} добавлен"
+  field_active: Активно
+  enumeration_system_activity: Системная активность
+  permission_delete_issue_watchers: Удалить наблюдателей
+  version_status_closed: закрыт
+  version_status_locked: заблокирован
+  version_status_open: открыт
+  error_can_not_reopen_issue_on_closed_version: Задача, назначенная к закрытой версии, не сможет быть открыта снова
+  label_user_anonymous: Аноним
