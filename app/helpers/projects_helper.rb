@@ -36,7 +36,7 @@ module ProjectsHelper
   end
   
   def parent_project_select_tag(project)
-    options = '<option></option>' + project_tree_options_for_select(project.possible_parents, :selected => project.parent)
+    options = '<option></option>' + project_tree_options_for_select(project.allowed_parents, :selected => project.parent)
     content_tag('select', options, :name => 'project[parent_id]')
   end
   

@@ -26,6 +26,7 @@ class ProjectTest < ActiveSupport::TestCase
   def setup
     @ecookbook = Project.find(1)
     @ecookbook_sub1 = Project.find(3)
+    User.current = nil
   end
   
   should_validate_presence_of :name
@@ -234,6 +235,14 @@ class ProjectTest < ActiveSupport::TestCase
     d = Project.find(1).descendants
     assert d.first.is_a?(Project)
     assert_equal [5, 6, 3, 4], d.collect(&:id)
+  end
+  
+  def test_allowed_parents_should_be_empty_for_non_member_user
+    Role.non_member.add_permission!(:add_project)
+    user = User.find(9)
+    assert user.memberships.empty?
+    User.current = user
+    assert Project.new.allowed_parents.empty?
   end
   
   def test_users_by_role

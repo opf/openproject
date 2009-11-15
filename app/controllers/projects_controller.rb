@@ -75,7 +75,7 @@ class ProjectsController < ApplicationController
     else
       @project.enabled_module_names = params[:enabled_modules]
       if @project.save
-        @project.set_parent!(params[:project]['parent_id']) if User.current.admin? && params[:project].has_key?('parent_id')
+        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         # Add current user as a project member if he is not admin
         unless User.current.admin?
           r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
@@ -106,7 +106,7 @@ class ProjectsController < ApplicationController
       @project = Project.new(params[:project])
       @project.enabled_module_names = params[:enabled_modules]
       if @project.copy(@source_project, :only => params[:only])
-        @project.set_parent!(params[:project]['parent_id']) if User.current.admin? && params[:project].has_key?('parent_id')
+        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
       end		
@@ -158,7 +158,7 @@ class ProjectsController < ApplicationController
     if request.post?
       @project.attributes = params[:project]
       if @project.save
-        @project.set_parent!(params[:project]['parent_id']) if User.current.admin? && params[:project].has_key?('parent_id')
+        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else

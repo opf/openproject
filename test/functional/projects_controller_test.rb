@@ -117,6 +117,23 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_kind_of Project, project
     assert_equal 'weblog', project.description 
     assert_equal true, project.is_public?
+    assert_nil project.parent
+  end
+  
+  def test_post_add_subproject
+    @request.session[:user_id] = 1
+    post :add, :project => { :name => "blog", 
+                             :description => "weblog",
+                             :identifier => "blog",
+                             :is_public => 1,
+                             :custom_field_values => { '3' => 'Beta' },
+                             :parent_id => 1
+                            }
+    assert_redirected_to '/projects/blog/settings'
+    
+    project = Project.find_by_name('blog')
+    assert_kind_of Project, project
+    assert_equal Project.find(1), project.parent
   end
   
   def test_post_add_by_non_admin

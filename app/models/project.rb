@@ -148,14 +148,16 @@ class Project < ActiveRecord::Base
     else
       statements << "1=0"
       if user.logged?
-        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.non_member.allowed_to?(permission)
+        if Role.non_member.allowed_to?(permission) && !options[:member]
+          statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
+        end
         allowed_project_ids = user.memberships.select {|m| m.roles.detect {|role| role.allowed_to?(permission)}}.collect {|m| m.project_id}
         statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
-      elsif Role.anonymous.allowed_to?(permission)
-        # anonymous user allowed on public project
-        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" 
       else
-        # anonymous user is not authorized
+        if Role.anonymous.allowed_to?(permission) && !options[:member]
+          # anonymous user allowed on public project
+          statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
+        end 
       end
     end
     statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
@@ -253,8 +255,34 @@ class Project < ActiveRecord::Base
   end
   
   # Returns an array of projects the project can be moved to
-  def possible_parents
-    @possible_parents ||= (Project.active.find(:all) - self_and_descendants)
+  # by the current user
+  def allowed_parents
+    return @allowed_parents if @allowed_parents
+    @allowed_parents = (Project.find(:all, :conditions => Project.allowed_to_condition(User.current, :add_project, :member => true)) - self_and_descendants)
+    unless parent.nil? || @allowed_parents.empty? || @allowed_parents.include?(parent)
+      @allowed_parents << parent
+    end
+    @allowed_parents
+  end
+  
+  # Sets the parent of the project with authorization check
+  def set_allowed_parent!(p)
+    unless p.nil? || p.is_a?(Project)
+      if p.to_s.blank?
+        p = nil
+      else
+        p = Project.find_by_id(p)
+        return false unless p
+      end
+    end
+    if p.nil?
+      if !new_record? && allowed_parents.empty?
+        return false
+      end
+    elsif !allowed_parents.include?(p)
+      return false
+    end
+    set_parent!(p)
   end
   
   # Sets the parent of the project
