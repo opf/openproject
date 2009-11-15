@@ -968,6 +968,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, Issue.find(1).project_id
   end
 
+  def test_move_one_issue_to_another_project_should_follow_when_needed
+    @request.session[:user_id] = 2
+    post :move, :id => 1, :new_project_id => 2, :follow => '1'
+    assert_redirected_to '/issues/1'
+  end
+
   def test_bulk_move_to_another_project
     @request.session[:user_id] = 2
     post :move, :ids => [1, 2], :new_project_id => 2
@@ -996,6 +1002,13 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
     assert_redirected_to 'projects/ecookbook/issues'
+  end
+
+  def test_copy_to_another_project_should_follow_when_needed
+    @request.session[:user_id] = 2
+    post :move, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :follow => '1'
+    issue = Issue.first(:order => 'id DESC')
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
   end
   
   def test_context_menu_one_issue

@@ -728,6 +728,7 @@ en:
   button_list: List
   button_view: View
   button_move: Move
+  button_move_and_follow: Move and follow
   button_back: Back
   button_cancel: Cancel
   button_activate: Activate

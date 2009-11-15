@@ -299,9 +299,14 @@ class IssuesController < ApplicationController
     if request.post?
       new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
       unsaved_issue_ids = []
+      moved_issues = []
       @issues.each do |issue|
         issue.init_journal(User.current)
-        unsaved_issue_ids << issue.id unless issue.move_to(@target_project, new_tracker, params[:copy_options])
+        if r = issue.move_to(@target_project, new_tracker, params[:copy_options])
+          moved_issues << r
+        else
+          unsaved_issue_ids << issue.id
+        end
       end
       if unsaved_issue_ids.empty?
         flash[:notice] = l(:notice_successful_update) unless @issues.empty?
@@ -310,7 +315,15 @@ class IssuesController < ApplicationController
                                                          :total => @issues.size,
                                                          :ids => '#' + unsaved_issue_ids.join(', #'))
       end
-      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+      if params[:follow]
+        if @issues.size == 1 && moved_issues.size == 1
+          redirect_to :controller => 'issues', :action => 'show', :id => moved_issues.first
+        else
+          redirect_to :controller => 'issues', :action => 'index', :project_id => (@target_project || @project)
+        end
+      else
+        redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+      end
       return
     end
     render :layout => false if request.xhr?
