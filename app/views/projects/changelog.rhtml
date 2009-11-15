@@ -5,7 +5,8 @@
 <% end %>
 
 <% @versions.each do |version| %>   
-    <a name="<%= version.name %>"><h3 class="icon22 icon22-package"><%= version.name %></h3></a>
+    <%= tag 'a', :name => version.name %>
+    <h3 class="icon22 icon22-package"><%= link_to h(version.name), :controller => 'versions', :action => 'show', :id => version %></h3>
     <% if version.effective_date %>
       <p><%= format_date(version.effective_date) %></p>
     <% end %>
