@@ -19,6 +19,7 @@ class Version < ActiveRecord::Base
   before_destroy :check_integrity
   belongs_to :project
   has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id'
+  acts_as_customizable
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
 

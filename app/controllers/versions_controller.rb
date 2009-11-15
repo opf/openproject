@@ -21,6 +21,8 @@ class VersionsController < ApplicationController
   before_filter :find_project, :only => :close_completed
   before_filter :authorize
 
+  helper :custom_fields
+  
   def show
   end
   

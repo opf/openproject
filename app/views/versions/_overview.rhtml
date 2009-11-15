@@ -5,6 +5,13 @@
 <% end %>
 
 <p><%=h version.description %></p>
+<ul>
+	<% version.custom_values.each do |custom_value| %>
+		<% if !custom_value.value.blank? %>
+		   <li><%=h custom_value.custom_field.name %>: <%=h show_value(custom_value) %></li>
+		<% end %>
+	<% end %>
+</ul>
 
 <% if version.fixed_issues.count > 0 %>
     <%= progress_bar([version.closed_pourcent, version.completed_pourcent], :width => '40em', :legend => ('%0.0f%' % version.completed_pourcent)) %>

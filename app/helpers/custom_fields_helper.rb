@@ -21,6 +21,7 @@ module CustomFieldsHelper
     tabs = [{:name => 'IssueCustomField', :partial => 'custom_fields/index', :label => :label_issue_plural},
             {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index', :label => :label_spent_time},
             {:name => 'ProjectCustomField', :partial => 'custom_fields/index', :label => :label_project_plural},
+            {:name => 'VersionCustomField', :partial => 'custom_fields/index', :label => :label_version_plural},
             {:name => 'UserCustomField', :partial => 'custom_fields/index', :label => :label_user_plural},
             {:name => 'GroupCustomField', :partial => 'custom_fields/index', :label => :label_group_plural},
             {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index', :label => TimeEntryActivity::OptionName},
