@@ -5,10 +5,9 @@ namespace :test do
   task :coverage do
     rm_f "coverage"
     rm_f "coverage.data"
-    rcov = "rcov --rails --aggregate coverage.data --text-summary -Ilib"
-    system("#{rcov} --no-html test/unit/*_test.rb")
-    system("#{rcov} --no-html test/functional/*_test.rb")
-    system("#{rcov} --html test/integration/*_test.rb")
+    rcov = "rcov --rails --aggregate coverage.data --text-summary -Ilib --html"
+    files = Dir.glob("test/**/*_test.rb").join(" ")
+    system("#{rcov} #{files}")
     system("open coverage/index.html") if PLATFORM['darwin']
   end
 
