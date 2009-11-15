@@ -6,6 +6,16 @@
 <%= check_box_tag 'settings[default_projects_public]', 1, Setting.default_projects_public? %>
 </p>
 
+<p><label><%= l(:setting_default_projects_modules) %></label>
+<%= hidden_field_tag 'settings[default_projects_modules][]', '' %>
+<% Redmine::AccessControl.available_project_modules.each do |m| %>
+	<label class="block">
+		<%= check_box_tag 'settings[default_projects_modules][]', m, Setting.default_projects_modules.include?(m.to_s) %>
+		<%= l_or_humanize(m, :prefix => "project_module_") %>
+	</label>
+<% end %>
+</p>
+
 <p><label><%= l(:setting_sequential_project_identifiers) %></label>
 <%= hidden_field_tag 'settings[sequential_project_identifiers]', 0 %>
 <%= check_box_tag 'settings[sequential_project_identifiers]', 1, Setting.sequential_project_identifiers? %>

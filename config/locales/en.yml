@@ -312,6 +312,7 @@ en:
   setting_openid: Allow OpenID login and registration
   setting_password_min_length: Minimum password length
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_default_projects_modules: Default enabled modules for new projects
   
   permission_add_project: Create project
   permission_edit_project: Edit project

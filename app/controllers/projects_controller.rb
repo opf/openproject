@@ -71,7 +71,7 @@ class ProjectsController < ApplicationController
       @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
       @project.trackers = Tracker.all
       @project.is_public = Setting.default_projects_public?
-      @project.enabled_module_names = Redmine::AccessControl.available_project_modules
+      @project.enabled_module_names = Setting.default_projects_modules
     else
       @project.enabled_module_names = params[:enabled_modules]
       if @project.save

@@ -865,3 +865,4 @@ pt-BR:
   error_can_not_reopen_issue_on_closed_version: Uma tarefa atribuída a uma versão fechada não pode ser reaberta
   label_user_anonymous: Anônimo
   button_move_and_follow: Move and follow
+  setting_default_projects_modules: Default enabled modules for new projects

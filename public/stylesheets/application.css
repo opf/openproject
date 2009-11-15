@@ -325,7 +325,7 @@ width: 270px;
 
 .tabular label.block{
 font-weight: normal;
-margin-left: 0px;
+margin-left: 0px !important;
 text-align: left;
 float: none;
 display: block;
