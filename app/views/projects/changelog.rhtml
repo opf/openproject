@@ -11,7 +11,7 @@
     <% end %>
     <p><%=h version.description %></p>
     <% issues = version.fixed_issues.find(:all,
-                                 :include => [:status, :tracker],
+                                 :include => [:status, :tracker, :priority],
                                  :conditions => ["#{IssueStatus.table_name}.is_closed=? AND #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", true],
                                  :order => "#{Tracker.table_name}.position") unless @selected_tracker_ids.empty?
        issues ||= []

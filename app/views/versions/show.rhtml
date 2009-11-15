@@ -33,7 +33,7 @@
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
 
 <% issues = @version.fixed_issues.find(:all,
-                                       :include => [:status, :tracker],
+                                       :include => [:status, :tracker, :priority],
                                        :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id") %>
 <% if issues.size > 0 %>
 <fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
