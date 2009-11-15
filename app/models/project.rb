@@ -91,21 +91,6 @@ class Project < ActiveRecord::Base
   def identifier_frozen?
     errors[:identifier].nil? && !(new_record? || identifier.blank?)
   end
-  
-  def issues_with_subprojects(include_subprojects=false)
-    conditions = nil
-    if include_subprojects
-      ids = [id] + descendants.collect(&:id)
-      conditions = ["#{Project.table_name}.id IN (#{ids.join(',')}) AND #{Project.visible_by}"]
-    end
-    conditions ||= ["#{Project.table_name}.id = ?", id]
-    # Quick and dirty fix for Rails 2 compatibility
-    Issue.send(:with_scope, :find => { :conditions => conditions }) do 
-      Version.send(:with_scope, :find => { :conditions => conditions }) do
-        yield
-      end
-    end 
-  end
 
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
