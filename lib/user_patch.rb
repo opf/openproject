@@ -14,6 +14,10 @@ module UserPatch
       has_many :default_rates, :class_name => 'DefaultHourlyRate'
       
       before_save :save_rates
+      
+      unless instance_methods.include? "allowed_to_without_inheritance?"
+        alias_method_chain :allowed_to?, :inheritance
+      end
     end
 
   end
@@ -26,7 +30,7 @@ module UserPatch
     # action can be:
     # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
     # * a permission Symbol (eg. :edit_project)
-    def allowed_to?(action, project, options={})
+    def allowed_to_with_inheritance?(action, project, options={})
       # we just added to user parameter to the calls to role.allowed_to?
       
       if project
@@ -52,7 +56,45 @@ module UserPatch
         false
       end
     end
+    
+    def for_permission(permission, project, return_type=:hash)
+      # return the user which match the given permission set
 
+      case return_type.to_sym
+      when :list
+        # Return a list of User objects
+        return [] unless self.allowed_to?(permission, project)
+        
+        if Role.personal_permissions.values.include? permission
+          top_permission = Role.personal_permissions.invert[permission]
+          if self.allowed_to?(top_permission, project)
+            project.users
+          else
+            groups = project.groups.select{|g| g.users.include?(self) && g.allowed_to?(permission, project) }
+            (groups.collect(&:users).flatten << self).uniq
+          end
+        else
+          project.users
+        end
+      when :string
+        # return a string suitable for and-appending to a conditions string of
+        # an ActiveRecord find
+        
+        users = self.for_permission(permission, project, :list)
+        return "0=1" if users.blank?
+        
+        "(#{User.table_name}.id IN (#{users.collect(&:id).join(", ")}))"
+      else # default is :hash
+        # return a hash suitable for merging with a conditions hash of an
+        # ActiveRecord find
+        
+        users = self.for_permission(permission, project, :list)
+        return {1 => 2} if users.blank?
+        
+        {"#{User.table_name}.id" => users.collect(&:id)}
+      end
+    end
+    
 
     def current_rate(project = nil, include_default = true)
       rate_at(Date.today, project, include_default)

@@ -33,6 +33,8 @@ module RolePatch
       }
       cattr_reader :permission_tree
 
+      # personal permissions are expected to be a subset of its respective
+      # parent permissions
       @@personal_permissions = {
         :view_time_entries => :view_own_time_entries,
         :view_cost_entries => :view_own_cost_entries,
@@ -86,8 +88,6 @@ module RolePatch
         # included permissions
         allowed_inherited_actions.include? "#{action[:controller]}/#{action[:action]}"
       else
-        # action is a permission name
-        
         # check, if the role has one of the parent permissions granted
         if parents = self.class.permission_tree[action]
           parents = [parents] unless parents.is_a? Array
