@@ -202,6 +202,15 @@ class QueryTest < ActiveSupport::TestCase
     assert q.groupable_columns.detect {|c| c.is_a? QueryCustomFieldColumn}
   end
   
+  def test_include_options
+    q = Query.new
+    q.column_names = %w(subject tracker)
+    assert_equal [:tracker], q.include_options
+    
+    q.group_by = 'category'
+    assert_equal [:tracker, :category], q.include_options
+  end
+  
   def test_default_sort
     q = Query.new
     assert_equal [], q.sort_criteria
