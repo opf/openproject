@@ -946,5 +946,5 @@ ru:
   version_status_open: открыт
   error_can_not_reopen_issue_on_closed_version: Задача, назначенная к закрытой версии, не сможет быть открыта снова
   label_user_anonymous: Аноним
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
+  button_move_and_follow: Переместить и перейти
+  setting_default_projects_modules: Включенные по умолчанию модули для новых проектов
