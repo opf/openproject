@@ -197,6 +197,11 @@ class QueryTest < ActiveSupport::TestCase
     assert q.has_column?(c)
   end
   
+  def test_groupable_columns_should_include_custom_fields
+    q = Query.new
+    assert q.groupable_columns.detect {|c| c.is_a? QueryCustomFieldColumn}
+  end
+  
   def test_default_sort
     q = Query.new
     assert_equal [], q.sort_criteria

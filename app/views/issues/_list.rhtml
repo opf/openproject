@@ -10,11 +10,10 @@
           <%= column_header(column) %>
         <% end %>
 	</tr></thead>
-	<% group = false %>
+	<% previous_group = false %>
 	<tbody>
 	<% issues.each do |issue| -%>
-  <% if @query.grouped? && issue.send(@query.group_by) != group %>
-    <% group = issue.send(@query.group_by) %>
+  <% if @query.grouped? && (group = column_value(@query.group_by_column, issue) || '') != previous_group %>
     <% reset_cycle %>
     <tr class="group open">
     	<td colspan="<%= query.columns.size + 2 %>">
@@ -22,6 +21,7 @@
       	<%= group.blank? ? 'None' : group %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
     	</td>
 		</tr>
+		<% previous_group = group %>
   <% end %>
 	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
 	    <td class="checkbox"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>

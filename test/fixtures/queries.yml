@@ -134,4 +134,23 @@ queries_008:
 
   user_id: 2
   column_names: 
+queries_009: 
+  id: 9
+  project_id: 
+  is_public: true
+  name: Open issues grouped by list custom field
+  filters: |
+    --- 
+    status_id: 
+      :values: 
+      - "1"
+      :operator: o
+
+  user_id: 1
+  column_names: 
+  group_by: cf_1
+  sort_criteria: |
+    --- 
+    - - priority
+      - desc
 

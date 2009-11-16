@@ -27,6 +27,15 @@ module QueriesHelper
                       content_tag('th', column.caption)
   end
   
+  def column_value(column, issue)
+    if column.is_a?(QueryCustomFieldColumn)
+      cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
+      show_value(cv)
+    else
+      value = issue.send(column.name)
+    end
+  end
+  
   def column_content(column, issue)
     if column.is_a?(QueryCustomFieldColumn)
       cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}

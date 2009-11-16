@@ -64,7 +64,7 @@ class IssuesController < ApplicationController
       @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
       @issues = Issue.find :all, :order => [@query.group_by_sort_order, sort_clause].compact.join(','),
-                           :include => [ :assigned_to, :status, :tracker, :project, :priority, :category, :fixed_version ],
+      :include => [ :assigned_to, :status, :tracker, :project, :priority, :category, :fixed_version ],
                            :conditions => @query.statement,
                            :limit  =>  limit,
                            :offset =>  @issue_pages.current.offset
@@ -73,7 +73,7 @@ class IssuesController < ApplicationController
           if @query.grouped?
             # Retrieve the issue count by group
             @issue_count_by_group = begin
-              Issue.count(:group => @query.group_by, :include => [:status, :project], :conditions => @query.statement)
+              Issue.count(:group => @query.group_by_statement, :include => [:status, :project], :conditions => @query.statement)
             # Rails will raise an (unexpected) error if there's only a nil group value
             rescue ActiveRecord::RecordNotFound
               {nil => @issue_count}

@@ -23,6 +23,9 @@ class QueryColumn
     self.name = name
     self.sortable = options[:sortable]
     self.groupable = options[:groupable] || false
+    if groupable == true
+      self.groupable = name.to_s
+    end
     self.default_order = options[:default_order]
   end
   
@@ -41,6 +44,10 @@ class QueryCustomFieldColumn < QueryColumn
   def initialize(custom_field)
     self.name = "cf_#{custom_field.id}".to_sym
     self.sortable = custom_field.order_statement || false
+    if %w(list date bool int).include?(custom_field.field_format)
+      self.groupable = custom_field.order_statement
+    end
+    self.groupable ||= false
     @cf = custom_field
   end
   
@@ -310,6 +317,10 @@ class Query < ActiveRecord::Base
   
   def group_by_column
     groupable_columns.detect {|c| c.name.to_s == group_by}
+  end
+  
+  def group_by_statement
+    group_by_column.groupable
   end
   
   def project_statement
