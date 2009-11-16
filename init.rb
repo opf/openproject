@@ -32,7 +32,7 @@ Redmine::Plugin.register :redmine_costs do
   author 'Holger Just @ finnlabs'
   author_url 'http://finn.de/team#h.just'
   description 'The costs plugin provides basic cost management functionality for Redmine.'
-  version '0.2'
+  version '0.3'
   
   requires_redmine :version_or_higher => '0.8'
   
@@ -44,17 +44,29 @@ Redmine::Plugin.register :redmine_costs do
   
   # register our custom permissions
   project_module :costs_module do
+    
+    a = {
+    :view_own_rate => :view_own_hourly_rate,
+    :view_all_rates => :view_hourly_rates,
+    :change_rates => :edit_hourly_rates,
+    
+    :view_unit_price => :view_cost_rates,
+    :book_own_costs => :log_own_costs,
+    :book_costs => :log_costs
+    }
+    
     # from controlling requirements 3.5 (3)
-    permission :view_own_rate, {}
-    permission :view_all_rates, {:cost_reports => :index}
-    permission :change_rates, {:hourly_rates => [:set_rate, :edit]}
+    permission :view_own_hourly_rate, {}
+    permission :view_hourly_rates, {:cost_reports => :index}
+    permission :edit_hourly_rates, {:hourly_rates => [:set_rate, :edit]}
 
     # from controlling requirements 4.5
-    permission :view_unit_price, {:cost_reports => :index}
+    permission :view_cost_rates, {:cost_reports => :index}
     permission :book_own_costs, {:costlog => :edit}, :require => :loggedin
     permission :book_costs, {:costlog => :edit}, :require => :member
     permission :edit_own_cost_entries, {:costlog => [:edit, :destroy]}, :require => :loggedin
     permission :edit_cost_entries, {:costlog => [:edit, :destroy]}, :require => :member
+    permission :view_own_cost_entries, {:costlog => [:details]}
     permission :view_cost_entries, {:costlog => [:details]}
     permission :block_tickets, {}, :require => :member
 
