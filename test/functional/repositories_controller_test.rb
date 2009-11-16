@@ -144,6 +144,20 @@ class RepositoriesControllerTest < ActionController::TestCase
       :controller => 'repositories', :action => 'entry', :id => 'restmine', :path => %w[path to file.c], :rev => '2'
     )
   end
+
+  def test_raw_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/raw/path/to/file.c'},
+      :controller => 'repositories', :action => 'entry', :id => 'restmine', :path => %w[path to file.c], :format => 'raw'
+    )
+  end
+
+  def test_raw_routing_with_revision
+    assert_routing(
+      {:method => :get, :path => '/projects/restmine/repository/revisions/2/raw/path/to/file.c'},
+      :controller => 'repositories', :action => 'entry', :id => 'restmine', :path => %w[path to file.c], :format => 'raw', :rev => '2'
+    )
+  end
   
   def test_annotate_routing
     assert_routing(
