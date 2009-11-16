@@ -24,8 +24,8 @@ module TimeEntryPatch
 
   module InstanceMethods
     def before_save
-      update_costs
-      issue.save
+      result = update_costs
+      return issue.changed? ? result : issue.save
     end
     
     def real_costs

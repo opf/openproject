@@ -39,8 +39,8 @@ class CostEntry < ActiveRecord::Base
   
   def before_save
     self.spent_on &&= spent_on.to_date
-    update_costs
-    issue.save
+    result = update_costs
+    return issue.changed? ? result : issue.save
   end
   
   # tyear, tmonth, tweek assigned where setting spent_on attributes
