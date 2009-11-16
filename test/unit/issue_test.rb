@@ -178,6 +178,16 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal orig.tracker, issue.tracker
     assert_equal orig.custom_values.first.value, issue.custom_values.first.value
   end
+
+  def test_copy_should_copy_status
+    orig = Issue.find(8)
+    assert orig.status != IssueStatus.default
+    
+    issue = Issue.new.copy_from(orig)
+    assert issue.save
+    issue.reload
+    assert_equal orig.status, issue.status
+  end
   
   def test_should_close_duplicates
     # Create 3 issues

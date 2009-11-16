@@ -406,6 +406,11 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     should "copy issues" do
+      @source_project.issues << Issue.generate!(:status_id => 5,
+                                                :subject => "copy issue status",
+                                                :tracker_id => 1,
+                                                :assigned_to_id => 2,
+                                                :project_id => @source_project.id)
       assert @project.valid?
       assert @project.issues.empty?
       assert @project.copy(@source_project)
@@ -416,6 +421,11 @@ class ProjectTest < ActiveSupport::TestCase
         assert ! issue.assigned_to.blank?
         assert_equal @project, issue.project
       end
+      
+      copied_issue = @project.issues.first(:conditions => {:subject => "copy issue status"})
+      assert copied_issue
+      assert copied_issue.status
+      assert_equal "Closed", copied_issue.status.name
     end
 
     should "change the new issues to use the copied version" do
