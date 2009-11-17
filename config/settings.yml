@@ -168,3 +168,5 @@ gravatar_enabled:
   default: 0
 openid:
   default: 0
+gravatar_default:
+  default: ''

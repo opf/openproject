@@ -834,3 +834,4 @@ bg:
   label_user_anonymous: Anonymous
   button_move_and_follow: Move and follow
   setting_default_projects_modules: Default enabled modules for new projects
+  setting_gravatar_default: Default Gravatar image

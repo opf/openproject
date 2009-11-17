@@ -20,6 +20,10 @@
 <%= hidden_field_tag 'settings[gravatar_enabled]', 0 %>
 <%= check_box_tag 'settings[gravatar_enabled]', 1, Setting.gravatar_enabled? %>
 </p>
+
+<p><label><%= l(:setting_gravatar_default) %></label>
+<%= select_tag 'settings[gravatar_default]', options_for_select([[l(:label_none),  ''], ["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid']], Setting.gravatar_default) %></p>
+</p>
 </div>
 
 <%= submit_tag l(:button_save) %>

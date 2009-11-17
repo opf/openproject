@@ -863,3 +863,4 @@ fr:
   text_journal_added: "{{label}} {{value}} ajouté"
   field_active: Actif
   enumeration_system_activity: Activité système
+  setting_gravatar_default: Default Gravatar image
