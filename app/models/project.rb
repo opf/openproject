@@ -21,11 +21,7 @@ class Project < ActiveRecord::Base
   STATUS_ARCHIVED   = 9
   
   # Specific overidden Activities
-  has_many :time_entry_activities do
-    def active
-      find(:all, :conditions => {:active => true})
-    end
-  end
+  has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :member_principals, :class_name => 'Member', 
                                :include => :principal,
@@ -572,7 +568,7 @@ class Project < ActiveRecord::Base
     overridden_activity_ids = self.time_entry_activities.active.collect(&:parent_id)
 
     if overridden_activity_ids.empty?
-      return TimeEntryActivity.active
+      return TimeEntryActivity.shared.active
     else
       return system_activities_and_project_overrides
     end
@@ -584,7 +580,7 @@ class Project < ActiveRecord::Base
     overridden_activity_ids = self.time_entry_activities.collect(&:parent_id)
 
     if overridden_activity_ids.empty?
-      return TimeEntryActivity.all
+      return TimeEntryActivity.shared
     else
       return system_activities_and_project_overrides(true)
     end
@@ -593,12 +589,12 @@ class Project < ActiveRecord::Base
   # Returns the systemwide active activities merged with the project specific overrides
   def system_activities_and_project_overrides(include_inactive=false)
     if include_inactive
-      return TimeEntryActivity.all.
+      return TimeEntryActivity.shared.
         find(:all,
              :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
         self.time_entry_activities
     else
-      return TimeEntryActivity.active.
+      return TimeEntryActivity.shared.active.
         find(:all,
              :conditions => ["id NOT IN (?)", self.time_entry_activities.active.collect(&:parent_id)]) +
         self.time_entry_activities.active

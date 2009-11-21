@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Enumeration < ActiveRecord::Base
+  default_scope :order => "#{Enumeration.table_name}.position ASC"
+  
   belongs_to :project
   
   acts_as_list :scope => 'type = \'#{type}\''
@@ -58,14 +60,8 @@ class Enumeration < ActiveRecord::Base
   end
   # End backwards compatiblity named_scopes
 
-  named_scope :all, :order => 'position', :conditions => { :project_id => nil }
-
-  named_scope :active, lambda {
-    {
-      :conditions => {:active => true, :project_id => nil},
-      :order => 'position'
-    }
-  }
+  named_scope :shared, :conditions => { :project_id => nil }
+  named_scope :active, :conditions => { :active => true }
 
   def self.default
     # Creates a fake default scope so Enumeration.default will check

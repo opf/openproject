@@ -3,7 +3,7 @@
 <% Enumeration.get_subclasses.each do |klass| %>
 <h3><%= l(klass::OptionName) %></h3>
 
-<% enumerations = klass.all %>
+<% enumerations = klass.shared %>
 <% if enumerations.any? %>
 <table class="list">
 <tr>
