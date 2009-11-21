@@ -609,15 +609,16 @@ module ApplicationHelper
 
   def progress_bar(pcts, options={})
     pcts = [pcts, pcts] unless pcts.is_a?(Array)
+    pcts = pcts.collect(&:round)
     pcts[1] = pcts[1] - pcts[0]
     pcts << (100 - pcts[1] - pcts[0])
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
     content_tag('table',
       content_tag('tr',
-        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0].floor}%;", :class => 'closed') : '') +
-        (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1].floor}%;", :class => 'done') : '') +
-        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2].floor}%;", :class => 'todo') : '')
+        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : '') +
+        (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : '') +
+        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')
       ), :class => 'progress', :style => "width: #{width};") +
       content_tag('p', legend, :class => 'pourcent')
   end
