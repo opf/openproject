@@ -30,4 +30,4 @@ This plugin has only been tested in the following environments:
 
 = License
 
-This plugin is released under the MIT license. See LICENSE for more information.
+This plugin is released under the GPL v2 license. See LICENSE for more information.
