@@ -23,6 +23,17 @@ class ApplicationController < ActionController::Base
 
   layout 'base'
   
+  # Remove broken cookie after upgrade from 0.8.x (#4292)
+  # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
+  # TODO: remove it when Rails is fixed
+  before_filter :delete_broken_cookies
+  def delete_broken_cookies
+    if cookies['_redmine_session'] && cookies['_redmine_session'] !~ /--/
+      cookies.delete '_redmine_session'    
+      redirect_to home_path and return false
+    end
+  end
+  
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
   protect_from_forgery
@@ -34,7 +45,7 @@ class ApplicationController < ActionController::Base
   REDMINE_SUPPORTED_SCM.each do |scm|
     require_dependency "repository/#{scm.underscore}"
   end
-  
+
   def user_setup
     # Check the settings cache for each request
     Setting.check_cache
