@@ -38,6 +38,8 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password
   protect_from_forgery
   
+  rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
+  
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
@@ -187,6 +189,10 @@ class ApplicationController < ActionController::Base
   def render_error(msg)
     flash.now[:error] = msg
     render :text => '', :layout => !request.xhr?, :status => 500
+  end
+  
+  def invalid_authenticity_token
+    render_error "Invalid form authenticity token."
   end
   
   def render_feed(items, options={})    
