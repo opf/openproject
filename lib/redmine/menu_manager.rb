@@ -95,6 +95,9 @@ Tree::TreeNode.send(:include, TreeNodePatch)
 
 module Redmine
   module MenuManager
+    class MenuError < StandardError #:nodoc:
+    end
+    
     module MenuController
       def self.included(base)
         base.extend(ClassMethods)
@@ -164,26 +167,70 @@ module Redmine
       end
 
       def render_menu_node(node, project=nil)
-        caption, url, selected = extract_node_details(node, project)
-        if node.hasChildren?
-          html = []
-          html << '<li>'
-          html << render_single_menu_node(node, caption, url, selected) # parent
-          html << '  <ul>'
-          node.children.each do |child|
-            html << render_menu_node(child, project)
-          end
-          html << '  </ul>'
-          html << '</li>'
-          return html.join("\n")
+        if node.hasChildren? || !node.child_menus.nil?
+          return render_menu_node_with_children(node, project)
         else
+          caption, url, selected = extract_node_details(node, project)
           return content_tag('li',
                                render_single_menu_node(node, caption, url, selected))
         end
       end
 
+      def render_menu_node_with_children(node, project=nil)
+        caption, url, selected = extract_node_details(node, project)
+
+        html = returning [] do |html|
+          html << '<li>'
+          # Parent
+          html << render_single_menu_node(node, caption, url, selected)
+
+          # Standard children
+          standard_children_list = returning "" do |child_html|
+            node.children.each do |child|
+              child_html << render_menu_node(child, project)
+            end
+          end
+
+          html << content_tag(:ul, standard_children_list, :class => 'menu-children') unless standard_children_list.empty?
+
+          # Unattached children
+          unattached_children_list = render_unattached_children_menu(node, project)
+          html << content_tag(:ul, unattached_children_list, :class => 'menu-children unattached') unless unattached_children_list.blank?
+
+          html << '</li>'
+        end
+        return html.join("\n")
+      end
+
+      # Returns a list of unattached children menu items
+      def render_unattached_children_menu(node, project)
+        return nil unless node.child_menus
+
+        returning "" do |child_html|
+          unattached_children = node.child_menus.call(project)
+          # Tree nodes support #each so we need to do object detection
+          if unattached_children.is_a? Array
+            unattached_children.each do |child|
+              child_html << content_tag(:li, render_unattached_menu_item(child, project)) 
+            end
+          else
+            raise MenuError, ":child_menus must be an array of MenuItems"
+          end
+        end
+      end
+
       def render_single_menu_node(item, caption, url, selected)
         link_to(h(caption), url, item.html_options(:selected => selected))
+      end
+
+      def render_unattached_menu_item(menu_item, project)
+        raise MenuError, ":child_menus must be an array of MenuItems" unless menu_item.is_a? MenuItem
+
+        if User.current.allowed_to?(menu_item.url, project)
+          link_to(h(menu_item.caption),
+                  menu_item.url,
+                  menu_item.html_options)
+        end
       end
       
       def menu_items_for(menu, project=nil)
@@ -336,12 +383,13 @@ module Redmine
     
     class MenuItem < Tree::TreeNode
       include Redmine::I18n
-      attr_reader :name, :url, :param, :condition, :parent_menu
+      attr_reader :name, :url, :param, :condition, :parent_menu, :child_menus
       
       def initialize(name, url, options)
         raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
         raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
         raise ArgumentError, "Cannot set the :parent_menu to be the same as this item" if options[:parent_menu] == name.to_sym
+        raise ArgumentError, "Invalid option :child_menus for menu item '#{name}'" if options[:child_menus] && !options[:child_menus].respond_to?(:call)
         @name = name
         @url = url
         @condition = options[:if]
@@ -351,6 +399,7 @@ module Redmine
         # Adds a unique class to each menu item based on its name
         @html_options[:class] = [@html_options[:class], @name.to_s.dasherize].compact.join(' ')
         @parent_menu = options[:parent_menu]
+        @child_menus = options[:child_menus]
         super @name.to_sym
       end
       

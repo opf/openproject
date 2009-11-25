@@ -92,6 +92,20 @@ class Redmine::MenuManager::MenuItemTest < Test::Unit::TestCase
                                               })
   end
 
+  def test_new_menu_item_should_require_a_proc_to_use_the_child_menus_option
+    assert_raises ArgumentError do
+      Redmine::MenuManager::MenuItem.new(:test_error, '/test',
+                                         {
+                                           :child_menus => ['not_a_proc']
+                                         })
+    end
+
+    assert Redmine::MenuManager::MenuItem.new(:test_good_child_menus, '/test',
+                                              {
+                                                :child_menus => Proc.new{}
+                                              })
+  end
+
   def test_new_should_not_allow_setting_the_parent_menu_item_to_the_current_item
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test', { :parent_menu => :test_error })

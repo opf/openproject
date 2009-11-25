@@ -25,4 +25,8 @@ class Redmine::MenuManagerTest < Test::Unit::TestCase
   context "MenuManager#items" do
     should "be tested"
   end
+
+  should "be tested" do
+    assert true
+  end
 end

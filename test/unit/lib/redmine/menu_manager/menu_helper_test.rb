@@ -101,6 +101,107 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     
   end
 
+  def test_render_menu_node_with_child_menus
+    User.current = User.find(2)
+    
+    parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
+                                                     '/test',
+                                                     {
+                                                       :child_menus => Proc.new {|p|
+                                                         child_menus = []
+                                                         3.times do |time|
+                                                           child_menus << Redmine::MenuManager::MenuItem.new("test_child_#{time}",
+                                                                                                             {:controller => 'issues', :action => 'index'},
+                                                                                                             {})
+                                                         end
+                                                         child_menus
+                                                       }
+                                                     })
+    @response.body = render_menu_node(parent_node, Project.find(1))
+
+    assert_select("li") do
+      assert_select("a.parent-node", "Parent node")
+      assert_select("ul") do
+        assert_select("li a.test-child-0", "Test child 0")
+        assert_select("li a.test-child-1", "Test child 1")
+        assert_select("li a.test-child-2", "Test child 2")
+      end
+    end
+  end
+
+  def test_render_menu_node_with_nested_items_and_child_menus
+    User.current = User.find(2)
+
+    parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
+                                                     '/test',
+                                                     {
+                                                       :child_menus => Proc.new {|p|
+                                                         child_menus = []
+                                                         3.times do |time|
+                                                           child_menus << Redmine::MenuManager::MenuItem.new("test_child_#{time}", {:controller => 'issues', :action => 'index'}, {})
+                                                         end
+                                                         child_menus
+                                                       }
+                                                     })
+
+    parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
+                                                     '/test',
+                                                     {
+                                                       :child_menus => Proc.new {|p|
+                                                         child_menus = []
+                                                         6.times do |time|
+                                                            child_menus << Redmine::MenuManager::MenuItem.new("test_dynamic_child_#{time}", {:controller => 'issues', :action => 'index'}, {})
+                                                         end
+                                                         child_menus
+                                                       }
+                                                     })
+
+    @response.body = render_menu_node(parent_node, Project.find(1))
+
+    assert_select("li") do
+      assert_select("a.parent-node", "Parent node")
+      assert_select("ul") do
+        assert_select("li a.child-node", "Child node")
+        assert_select("ul") do
+          assert_select("li a.test-dynamic-child-0", "Test dynamic child 0")
+          assert_select("li a.test-dynamic-child-1", "Test dynamic child 1")
+          assert_select("li a.test-dynamic-child-2", "Test dynamic child 2")
+          assert_select("li a.test-dynamic-child-3", "Test dynamic child 3")
+          assert_select("li a.test-dynamic-child-4", "Test dynamic child 4")
+          assert_select("li a.test-dynamic-child-5", "Test dynamic child 5")
+        end
+        assert_select("li a.test-child-0", "Test child 0")
+        assert_select("li a.test-child-1", "Test child 1")
+        assert_select("li a.test-child-2", "Test child 2")
+      end
+    end
+  end
+
+  def test_render_menu_node_with_child_menus_without_an_array
+    parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
+                                                     '/test',
+                                                     {
+                                                       :child_menus => Proc.new {|p| Redmine::MenuManager::MenuItem.new("test_child", "/testing", {})}
+                                                     })
+
+    assert_raises Redmine::MenuManager::MenuError, ":child_menus must be an array of MenuItems" do
+      @response.body = render_menu_node(parent_node, Project.find(1))
+    end
+  end
+    
+  def test_render_menu_node_with_incorrect_child_menus
+    parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
+                                                     '/test',
+                                                     {
+                                                       :child_menus => Proc.new {|p| ["a string"] }
+                                                     })
+
+    assert_raises Redmine::MenuManager::MenuError, ":child_menus must be an array of MenuItems" do
+      @response.body = render_menu_node(parent_node, Project.find(1))
+    end
+
+  end
+
   def test_menu_items_for_should_yield_all_items_if_passed_a_block
     menu_name = :test_menu_items_for_should_yield_all_items_if_passed_a_block
     Redmine::MenuManager.map menu_name do |menu|
