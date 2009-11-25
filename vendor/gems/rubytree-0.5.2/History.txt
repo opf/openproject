@@ -1,0 +1,20 @@
+= 0.5.2 / 2007-12-21
+
+* Added more test cases and enabled ZenTest compatibility for the test case
+  names.
+
+= 0.5.1 / 2007-12-20
+
+* Minor code refactoring.
+
+= 0.5.0 / 2007-12-18
+
+* Fixed the marshalling code to correctly handle non-string content.
+
+= 0.4.3 / 2007-10-09
+
+* Changes to the build mechanism (now uses Hoe).
+
+= 0.4.2 / 2007-10-01
+
+* Minor code refactoring. Changes in the Rakefile.

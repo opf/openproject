@@ -1,0 +1,7 @@
+# -*- mode: outline; coding: utf-8-unix; -*-
+
+* Add logic in Rakefile to read the file list from Manifest.txt file.
+
+* Add a YAML export method to the TreeNode class.
+
+

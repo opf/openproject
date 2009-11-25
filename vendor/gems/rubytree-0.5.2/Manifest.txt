@@ -1,0 +1,12 @@
+COPYING
+ChangeLog
+History.txt
+Manifest.txt
+README
+Rakefile
+TODO
+lib/tree.rb
+lib/tree/binarytree.rb
+setup.rb
+test/test_binarytree.rb
+test/test_tree.rb

@@ -1,0 +1,163 @@
+2007-12-21  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* Rakefile: Added the rcov option to exclude rcov itself from
+	coverage reports.
+
+	* lib/tree.rb: Minor comment changes.
+
+	* test/test_tree.rb: Added the TestTree enclosing module, and
+	renamed tests to meet ZenTest requirements. Also added a few
+	missing test cases.
+
+	* test/test_binarytree.rb: Added the TestTree enclosing Module,
+	and renamed the tests to meet ZenTest requirements.
+
+2007-12-19  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* README (Module): Modified the install instructions from source.
+
+	* lib/tree.rb (Tree::TreeNode::initialize): Removed the
+	unnecessary self_initialize method.
+	(Tree::TreeNode): Removed the spurious self_initialize from the
+	protected list.
+	(Module): Updated the minor version number.
+
+	* Rakefile: Fixed a problem with reading the Tree::VERSION for the
+	gem packaging, if any prior version of the gem is already installed.
+
+2007-12-18  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* lib/tree.rb: Updated the marshalling logic to correctly handle
+	non-string content.
+	(Tree::TreeNode::createDumpRep): Minor code change to use symbols
+	instead of string key names.
+	(Tree): Version number change to 0.5.0
+	(Tree::TreeNode::hasContent): Minor fix to the comments.
+
+	* test/test_tree.rb (TC_TreeTest::test_breadth_each): Updated test
+	cases for the marshalling logic.
+
+2007-11-12  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* test/test_binarytree.rb: Minor documentation correction.
+
+	* lib/tree/binarytree.rb (Tree::BinaryTreeNode::isRightChild):
+	Minor documentation change.
+
+2007-10-10  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* README: Restructured the format.
+
+	* Rakefile: Added Hoe related logic. If not present, the Rakefile
+	will default to old behavior.
+
+2007-10-09  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* Rakefile: Added setup.rb related tasks. Also added the setup.rb in the PKG_FILES list.
+
+2007-10-01  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* Rakefile: Added an optional task for rcov code coverage.
+	  Added a dependency for rake in the Gem Specification.
+
+	* test/test_binarytree.rb: Removed the unnecessary dependency on "Person" class.
+
+	* test/test_tree.rb: Removed dependency on the redundant "Person" class.
+	(TC_TreeTest::test_comparator): Added a new test for the spaceship operator.
+	(TC_TreeTest::test_hasContent): Added tests for hasContent? and length methods.
+
+2007-08-30  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* test/test_tree.rb (TC_TreeTest::test_preordered_each, TC_TreeTest::test_breadth_each, TC_TreeTest::test_detached_copy):
+	Added new tests for the new functions added to tree.rb.
+
+	* lib/tree.rb (Tree::TreeNode::detached_copy, Tree::TreeNode::preordered_each, Tree::TreeNode::breadth_each):
+	Added new functions for returning a detached copy of the node and
+	for performing breadth first traversal. Also added the pre-ordered
+	traversal function which is an alias of the existing 'each' method.
+
+	* test/test_binarytree.rb (TC_BinaryTreeTest::test_swap_children):
+	Added a test case for the children swap function.
+
+	* lib/tree/binarytree.rb (Tree::BinaryTreeNode::swap_children):
+	Added new function to swap the children. Other minor changes in
+	comments and code.
+
+2007-07-18  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* lib/tree/binarytree.rb (Tree::BinaryTreeNode::leftChild /
+	rightChild): Minor cosmetic change on the parameter name.
+
+	* test/testbinarytree.rb (TC_BinaryTreeTest::test_isLeftChild):
+	Minor syntax correction.
+
+	* lib/tree.rb (Tree::TreeNode::depth): Added a tree depth
+	computation method.
+	(Tree::TreeNode::breadth): Added a tree breadth method.
+
+	* test/testtree.rb (TC_TreeTest::test_depth/test_breadth): Added a
+	test for the depth and breadth method.
+
+	* lib/tree/binarytree.rb (Tree::BinaryTreeNode::is*Child):
+	Added tests for determining whether a node is a left or right
+	child.
+
+	* test/testbinarytree.rb: Added the test cases for the binary tree
+	implementation.
+	(TC_BinaryTreeTest::test_is*Child): Added tests for right or left
+	childs.
+
+	* lib/tree/binarytree.rb: Added the binary tree implementation.
+
+2007-07-17  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* lib/tree.rb (Tree::TreeNode::parentage): Renamed 'ancestors'
+	method to 'parentage' to avoid clobbering Module.ancestors
+
+2007-07-16  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* Rakefile: Added an optional rtags task to generate TAGS file for
+	Emacs.
+
+	* lib/tree.rb (Tree::TreeNode): Added navigation methods for
+	siblings and children. Also added some convenience methods.
+
+2007-07-08  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* Rakefile: Added a developer target for generating rdoc for the
+	website.
+
+2007-06-24  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* test/testtree.rb, lib/tree.rb: Added the each_leaf traversal method.
+
+	* README: Replaced all occurrances of LICENSE with COPYING
+	and lowercased all instances of the word 'RubyTree'.
+
+	* Rakefile: Replaced all occurrances of LICENSE with COPYING
+
+2007-06-23  Anupam Sengupta  <anupamsg@gmail.com>
+
+	* lib/tree.rb (Tree::TreeNode::isLeaf): Added a isLeaf? method.
+
+	* test/testtree.rb (TC_TreeTest::test_removeFromParent): Added
+	test for isLeaf? method
+
+	* Rakefile: Added the LICENSE and ChangeLog to the extra RDoc files.
+
+	* lib/tree.rb: Minor updates to the comments.
+
+	* test/testtree.rb: Added the Copyright and License header.
+
+	* test/person.rb: Added the Copyright and License header.
+
+	* lib/tree.rb: Added the Copyright and License header.
+
+	* Rakefile: Added the LICENSE and Changelog to be part of the RDoc task.
+
+	* README: Added documentation in the README, including install
+	instructions and an example.
+
+	* LICENSE: Added the BSD LICENSE file.
+
+	* Changelog: Added the Changelog file.

@@ -1,0 +1,80 @@
+--- !ruby/object:Gem::Specification 
+name: rubytree
+version: !ruby/object:Gem::Version 
+  version: 0.5.2
+platform: ruby
+authors: 
+- Anupam Sengupta
+autorequire: tree
+bindir: bin
+cert_chain: []
+
+date: 2007-12-20 00:00:00 -08:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: hoe
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 1.3.0
+    version: 
+description: "Provides a generic tree data-structure with ability to store keyed node-elements in the tree. The implementation mixes in the Enumerable module.  Website:  http://rubytree.rubyforge.org/"
+email: anupamsg@gmail.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- README
+- COPYING
+- ChangeLog
+- History.txt
+files: 
+- COPYING
+- ChangeLog
+- History.txt
+- Manifest.txt
+- README
+- Rakefile
+- TODO
+- lib/tree.rb
+- lib/tree/binarytree.rb
+- setup.rb
+- test/test_binarytree.rb
+- test/test_tree.rb
+has_rdoc: true
+homepage: http://rubytree.rubyforge.org/
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --main
+- README
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: rubytree
+rubygems_version: 1.3.5
+signing_key: 
+specification_version: 2
+summary: Ruby implementation of the Tree data structure.
+test_files: 
+- test/test_binarytree.rb
+- test/test_tree.rb

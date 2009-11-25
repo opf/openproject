@@ -15,6 +15,84 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'tree' # gem install rubytree
+
+# Monkey patch the TreeNode to add on a few more methods :nodoc:
+module TreeNodePatch
+  def self.included(base)
+    base.class_eval do
+      attr_reader :last_items_count
+      
+      alias :old_initilize :initialize
+      def initialize(name, content = nil)
+        old_initilize(name, content)
+        @last_items_count = 0
+        extend(InstanceMethods)
+      end
+    end
+  end
+  
+  module InstanceMethods
+    # Adds the specified child node to the receiver node.  The child node's
+    # parent is set to be the receiver.  The child is added as the first child in
+    # the current list of children for the receiver node.
+    def prepend(child)
+      raise "Child already added" if @childrenHash.has_key?(child.name)
+
+      @childrenHash[child.name]  = child
+      @children = [child] + @children
+      child.parent = self
+      return child
+
+    end
+
+    # Adds the specified child node to the receiver node.  The child node's
+    # parent is set to be the receiver.  The child is added at the position
+    # into the current list of children for the receiver node.
+    def add_at(child, position)
+      raise "Child already added" if @childrenHash.has_key?(child.name)
+
+      @childrenHash[child.name]  = child
+      @children = @children.insert(position, child)
+      child.parent = self
+      return child
+
+    end
+
+    def add_last(child)
+      raise "Child already added" if @childrenHash.has_key?(child.name)
+
+      @childrenHash[child.name]  = child
+      @children <<  child
+      @last_items_count += 1
+      child.parent = self
+      return child
+
+    end
+
+    # Adds the specified child node to the receiver node.  The child node's
+    # parent is set to be the receiver.  The child is added as the last child in
+    # the current list of children for the receiver node.
+    def add(child)
+      raise "Child already added" if @childrenHash.has_key?(child.name)
+
+      @childrenHash[child.name]  = child
+      position = @children.size - @last_items_count
+      @children.insert(position, child)
+      child.parent = self
+      return child
+
+    end
+
+    # Will return the position (zero-based) of the current child in
+    # it's parent
+    def position
+      self.parent.children.index(self)
+    end
+  end
+end
+Tree::TreeNode.send(:include, TreeNodePatch)
+
 module Redmine
   module MenuManager
     module MenuController
@@ -79,34 +157,79 @@ module Redmine
       
       def render_menu(menu, project=nil)
         links = []
-        menu_items_for(menu, project) do |item, caption, url, selected|
-          links << content_tag('li', 
-            link_to(h(caption), url, item.html_options(:selected => selected)))
+        menu_items_for(menu, project) do |node|
+          links << render_menu_node(node, project)
         end
         links.empty? ? nil : content_tag('ul', links.join("\n"))
       end
 
+      def render_menu_node(node, project=nil)
+        caption, url, selected = extract_node_details(node, project)
+        if node.hasChildren?
+          html = []
+          html << '<li>'
+          html << render_single_menu_node(node, caption, url, selected) # parent
+          html << '  <ul>'
+          node.children.each do |child|
+            html << render_menu_node(child, project)
+          end
+          html << '  </ul>'
+          html << '</li>'
+          return html.join("\n")
+        else
+          return content_tag('li',
+                               render_single_menu_node(node, caption, url, selected))
+        end
+      end
+
+      def render_single_menu_node(item, caption, url, selected)
+        link_to(h(caption), url, item.html_options(:selected => selected))
+      end
+      
       def menu_items_for(menu, project=nil)
         items = []
-        Redmine::MenuManager.allowed_items(menu, User.current, project).each do |item|
-          unless item.condition && !item.condition.call(project)
-            url = case item.url
-            when Hash
-              project.nil? ? item.url : {item.param => project}.merge(item.url)
-            when Symbol
-              send(item.url)
-            else
-              item.url
-            end
-            caption = item.caption(project)
+        Redmine::MenuManager.items(menu).root.children.each do |node|
+          if allowed_node?(node, User.current, project)
             if block_given?
-              yield item, caption, url, (current_menu_item == item.name)
+              yield node
             else
-              items << [item, caption, url, (current_menu_item == item.name)]
+              items << node  # TODO: not used?
             end
           end
         end
         return block_given? ? nil : items
+      end
+
+      def extract_node_details(node, project=nil)
+        item = node
+        url = case item.url
+        when Hash
+          project.nil? ? item.url : {item.param => project}.merge(item.url)
+        when Symbol
+          send(item.url)
+        else
+          item.url
+        end
+        caption = item.caption(project)
+        return [caption, url, (current_menu_item == item.name)]
+      end
+
+      # Checks if a user is allowed to access the menu item by:
+      #
+      # * Checking the conditions of the item
+      # * Checking the url target (project only)
+      def allowed_node?(node, user, project)
+        if node.condition && !node.condition.call(project)
+          # Condition that doesn't pass
+          return false
+        end
+
+        if project
+          return user && user.allowed_to?(node.url, project)
+        else
+          # outside a project, all menu items allowed
+          return true
+        end
       end
     end
     
@@ -122,17 +245,13 @@ module Redmine
       end
       
       def items(menu_name)
-        @items[menu_name.to_sym] || []
-      end
-      
-      def allowed_items(menu_name, user, project)
-        project ? items(menu_name).select {|item| user && user.allowed_to?(item.url, project)} : items(menu_name)
+        @items[menu_name.to_sym] || Tree::TreeNode.new(:root, {})
       end
     end
     
     class Mapper
       def initialize(menu, items)
-        items[menu] ||= []
+        items[menu] ||= Tree::TreeNode.new(:root, {})
         @menu = menu
         @menu_items = items[menu]
       end
@@ -151,36 +270,78 @@ module Redmine
       # * html_options: a hash of html options that are passed to link_to
       def push(name, url, options={})
         options = options.dup
-        
-        # menu item position
-        if before = options.delete(:before)
-          position = @menu_items.collect(&:name).index(before)
-        elsif after = options.delete(:after)
-          position = @menu_items.collect(&:name).index(after)
-          position += 1 unless position.nil?
-        elsif options.delete(:last)
-          position = @menu_items.size
-          @@last_items_count[@menu] += 1
+
+        if options[:parent_menu]
+          subtree = self.find(options[:parent_menu])
+          if subtree
+            target_root = subtree
+          else
+            target_root = @menu_items.root
+          end
+
+        else
+          target_root = @menu_items.root
         end
-        # default position
-        position ||= @menu_items.size - @@last_items_count[@menu]
-        
-        @menu_items.insert(position, MenuItem.new(name, url, options))
+
+        # menu item position
+        if first = options.delete(:first)
+          target_root.prepend(MenuItem.new(name, url, options))
+        elsif before = options.delete(:before)
+
+          if exists?(before)
+            target_root.add_at(MenuItem.new(name, url, options), position_of(before))
+          else
+            target_root.add(MenuItem.new(name, url, options))
+          end
+
+        elsif after = options.delete(:after)
+
+          if exists?(after)
+            target_root.add_at(MenuItem.new(name, url, options), position_of(after) + 1)
+          else
+            target_root.add(MenuItem.new(name, url, options))
+          end
+          
+        elsif options.delete(:last)
+          target_root.add_last(MenuItem.new(name, url, options))
+        else
+          target_root.add(MenuItem.new(name, url, options))
+        end
       end
       
       # Removes a menu item
       def delete(name)
-        @menu_items.delete_if {|i| i.name == name}
+        if found = self.find(name)
+          @menu_items.remove!(found)
+        end
+      end
+
+      # Checks if a menu item exists
+      def exists?(name)
+        @menu_items.any? {|node| node.name == name}
+      end
+
+      def find(name)
+        @menu_items.find {|node| node.name == name}
+      end
+
+      def position_of(name)
+        @menu_items.each do |node|
+          if node.name == name
+            return node.position
+          end
+        end
       end
     end
     
-    class MenuItem
+    class MenuItem < Tree::TreeNode
       include Redmine::I18n
-      attr_reader :name, :url, :param, :condition
+      attr_reader :name, :url, :param, :condition, :parent_menu
       
       def initialize(name, url, options)
-        raise "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
-        raise "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
+        raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
+        raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
+        raise ArgumentError, "Cannot set the :parent_menu to be the same as this item" if options[:parent_menu] == name.to_sym
         @name = name
         @url = url
         @condition = options[:if]
@@ -189,6 +350,8 @@ module Redmine
         @html_options = options[:html] || {}
         # Adds a unique class to each menu item based on its name
         @html_options[:class] = [@html_options[:class], @name.to_s.dasherize].compact.join(' ')
+        @parent_menu = options[:parent_menu]
+        super @name.to_sym
       end
       
       def caption(project=nil)
