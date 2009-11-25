@@ -28,9 +28,9 @@ class Redmine::MenuManager::MenuItemTest < Test::Unit::TestCase
   include RedmineMenuTestHelper
 
   Redmine::MenuManager.map :test_menu do |menu|
-    menu.push(:parent_menu, '/test', { })
-    menu.push(:child_menu, '/test', { :parent_menu => :parent_menu})
-    menu.push(:child2_menu, '/test', { :parent_menu => :parent_menu})
+    menu.push(:parent, '/test', { })
+    menu.push(:child_menu, '/test', { :parent => :parent})
+    menu.push(:child2_menu, '/test', { :parent => :parent})
   end
   
   context "MenuItem#caption" do
@@ -92,28 +92,28 @@ class Redmine::MenuManager::MenuItemTest < Test::Unit::TestCase
                                               })
   end
 
-  def test_new_menu_item_should_require_a_proc_to_use_the_child_menus_option
+  def test_new_menu_item_should_require_a_proc_to_use_the_children_option
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
                                          {
-                                           :child_menus => ['not_a_proc']
+                                           :children => ['not_a_proc']
                                          })
     end
 
-    assert Redmine::MenuManager::MenuItem.new(:test_good_child_menus, '/test',
+    assert Redmine::MenuManager::MenuItem.new(:test_good_children, '/test',
                                               {
-                                                :child_menus => Proc.new{}
+                                                :children => Proc.new{}
                                               })
   end
 
-  def test_new_should_not_allow_setting_the_parent_menu_item_to_the_current_item
+  def test_new_should_not_allow_setting_the_parent_item_to_the_current_item
     assert_raises ArgumentError do
-      Redmine::MenuManager::MenuItem.new(:test_error, '/test', { :parent_menu => :test_error })
+      Redmine::MenuManager::MenuItem.new(:test_error, '/test', { :parent => :test_error })
     end
   end
 
   def test_has_children
-    parent_item = get_menu_item(:test_menu, :parent_menu)
+    parent_item = get_menu_item(:test_menu, :parent)
     assert parent_item.hasChildren?
     assert_equal 2, parent_item.children.size
     assert_equal get_menu_item(:test_menu, :child_menu), parent_item.children[0]

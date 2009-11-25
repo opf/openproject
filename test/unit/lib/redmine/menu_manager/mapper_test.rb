@@ -32,7 +32,7 @@ class Redmine::MenuManager::MapperTest < Test::Unit::TestCase
   def test_push_onto_parent
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
-    menu_mapper.push :test_child, { :controller => 'projects', :action => 'show'}, {:parent_menu => :test_overview}
+    menu_mapper.push :test_child, { :controller => 'projects', :action => 'show'}, {:parent => :test_overview}
 
     assert menu_mapper.exists?(:test_child)
     assert_equal :test_child, menu_mapper.find(:test_child).name
@@ -41,13 +41,13 @@ class Redmine::MenuManager::MapperTest < Test::Unit::TestCase
   def test_push_onto_grandparent
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
-    menu_mapper.push :test_child, { :controller => 'projects', :action => 'show'}, {:parent_menu => :test_overview}
-    menu_mapper.push :test_grandchild, { :controller => 'projects', :action => 'show'}, {:parent_menu => :test_child}
+    menu_mapper.push :test_child, { :controller => 'projects', :action => 'show'}, {:parent => :test_overview}
+    menu_mapper.push :test_grandchild, { :controller => 'projects', :action => 'show'}, {:parent => :test_child}
 
     assert menu_mapper.exists?(:test_grandchild)
     grandchild = menu_mapper.find(:test_grandchild)
     assert_equal :test_grandchild, grandchild.name
-    assert_equal :test_child, grandchild.parent_menu
+    assert_equal :test_child, grandchild.parent.name
   end
 
   def test_push_first
@@ -122,7 +122,7 @@ class Redmine::MenuManager::MapperTest < Test::Unit::TestCase
   def test_exists_for_child_node
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
-    menu_mapper.push :test_child, { :controller => 'projects', :action => 'show'}, {:parent_menu => :test_overview }
+    menu_mapper.push :test_child, { :controller => 'projects', :action => 'show'}, {:parent => :test_overview }
 
     assert menu_mapper.exists?(:test_child)
   end

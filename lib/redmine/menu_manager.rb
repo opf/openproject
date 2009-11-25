@@ -313,13 +313,16 @@ module Redmine
       #   * a String
       #   * a Proc that can take the project as argument
       # * before, after: specify where the menu item should be inserted (eg. :after => :activity)
+      # * parent: menu item will be added as a child of another named menu (eg. :parent => :issues)
+      # * children: a Proc that is called before rendering the item. The Proc should return an array of MenuItems, which will be added as children to this item.
+      #   eg. :children => Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
       # * last: menu item will stay at the end (eg. :last => true)
       # * html_options: a hash of html options that are passed to link_to
       def push(name, url, options={})
         options = options.dup
 
-        if options[:parent_menu]
-          subtree = self.find(options[:parent_menu])
+        if options[:parent]
+          subtree = self.find(options[:parent])
           if subtree
             target_root = subtree
           else
@@ -383,13 +386,13 @@ module Redmine
     
     class MenuItem < Tree::TreeNode
       include Redmine::I18n
-      attr_reader :name, :url, :param, :condition, :parent_menu, :child_menus
+      attr_reader :name, :url, :param, :condition, :parent, :child_menus
       
       def initialize(name, url, options)
         raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
         raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
-        raise ArgumentError, "Cannot set the :parent_menu to be the same as this item" if options[:parent_menu] == name.to_sym
-        raise ArgumentError, "Invalid option :child_menus for menu item '#{name}'" if options[:child_menus] && !options[:child_menus].respond_to?(:call)
+        raise ArgumentError, "Cannot set the :parent to be the same as this item" if options[:parent] == name.to_sym
+        raise ArgumentError, "Invalid option :children for menu item '#{name}'" if options[:children] && !options[:children].respond_to?(:call)
         @name = name
         @url = url
         @condition = options[:if]
@@ -398,8 +401,8 @@ module Redmine
         @html_options = options[:html] || {}
         # Adds a unique class to each menu item based on its name
         @html_options[:class] = [@html_options[:class], @name.to_s.dasherize].compact.join(' ')
-        @parent_menu = options[:parent_menu]
-        @child_menus = options[:child_menus]
+        @parent = options[:parent]
+        @child_menus = options[:children]
         super @name.to_sym
       end
       
