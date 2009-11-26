@@ -31,9 +31,12 @@ class CostlogController < ApplicationController
       cond << ["#{CostEntry.table_name}.issue_id = ?", @issue.id]
     end
     
+    cond << User.current.allowed_for(:view_cost_entries, @project)
+    
     if @cost_type
       cond << ["#{CostEntry.table_name}.cost_type_id = ?", @cost_type.id ]
     end
+    
     
     retrieve_date_range
     cond << ['spent_on BETWEEN ? AND ?', @from, @to]
@@ -42,7 +45,7 @@ class CostlogController < ApplicationController
       respond_to do |format|
         format.html {
           # Paginate results
-          @entry_count = CostEntry.count(:include => :project, :conditions => cond.conditions)
+          @entry_count = CostEntry.count(:include => [:project, :user], :conditions => cond.conditions)
           @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
           @entries = CostEntry.find(:all, 
                                     :include => [:project, :cost_type, :user, {:issue => :tracker}],
@@ -153,8 +156,6 @@ private
     if !params[:cost_type_id].blank?
       @cost_type = CostType.find(params[:cost_type_id])
     end
-
-    deny_access unless User.current.allowed_to?(:view_cost_entries, @project, :global => true)
   end
   
   def retrieve_date_range

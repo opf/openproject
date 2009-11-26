@@ -108,13 +108,22 @@ class CostEntry < ActiveRecord::Base
   end
   
     
-  # Returns true if the time entry can be edited by usr, otherwise false
+  # Returns true if the cost entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    (usr == user && usr.allowed_to?(:edit_own_cost_entries, project)) || usr.allowed_to?(:edit_cost_entries, project)
+    usr.allowed_to?(:edit_cost_entries, project, :for => user)
+  end
+  
+  # Returns true if the time entry can be edited by usr, otherwise false
+  def visible_by?(usr)
+    usr.allowed_to?(:view_cost_entries, project, :for => user)
+  end
+  
+  def costs_visible_by?(usr)
+    usr.allowed_to?(:view_cost_rates, project, :for => user) || (usr == user && !overridden_costs.nil?)
   end
   
   def self.visible_by(usr)
-    with_scope(:find => { :conditions => Project.allowed_to_condition(usr, :view_cost_entries) }) do
+    with_scope(:find => { :conditions => usr.allowed_for(:view_cost_entries), :include => [:project, :user]}) do
       yield
     end
   end

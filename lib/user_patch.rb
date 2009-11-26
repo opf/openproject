@@ -10,6 +10,16 @@ module UserPatch
     # Same as typing in the class 
     base.class_eval do
       unloadable
+
+      has_many :groups_users, :class_name => 'GroupUser', :dependent => :destroy,
+        :after_add => Proc.new {|user, group_user| group_user.group.user_added(user)},
+        :after_remove => Proc.new {|user, group_user| group_user.group.user_removed(user)}
+
+      has_many :groups, :through => :groups_users,
+        :after_add => Proc.new {|user, group| group.user_added(user)},
+        :after_remove => Proc.new {|user, group| group.user_removed(user)}
+
+
       has_many :rates, :class_name => 'HourlyRate'
       has_many :default_rates, :class_name => 'DefaultHourlyRate'
       
@@ -26,74 +36,129 @@ module UserPatch
   end
 
   module InstanceMethods
+    def allowed_for_role(action, project, role, users, options={})
+      allowed = role.allowed_to?(action)
+      
+      if action.is_a? Symbol
+        perm = Redmine::AccessControl.permission(action)
+        if perm.granular_for
+          allowed && users.include?(options[:for] || self)
+        elsif !allowed && options[:for] && granulars = Redmine::AccessControl.permissions.select{|p| p.granular_for == perm}
+          granulars.detect{|p| self.allowed_to? p.name, project, options}
+        else
+          allowed
+        end
+      else
+        allowed
+      end
+    end
+
+    def granular_roles_for_project(project)
+      roles = {}
+      # No role on archived projects
+      return roles unless project && project.active?
+      if logged?
+        # Find project membership
+        membership = memberships.detect {|m| m.project_id == project.id}
+        if membership
+          roles = granular_roles(membership.member_roles)
+        else
+          @role_non_member ||= Role.non_member
+          roles[@role_non_member] = [self]
+        end
+      else
+        @role_anonymous ||= Role.anonymous
+        roles[@role_anonymous] = [self]
+      end
+      roles
+    end
+    
+    
+    
     # Return true if the user is allowed to do the specified action on project
     # action can be:
     # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
     # * a permission Symbol (eg. :edit_project)
     def allowed_to_with_inheritance?(action, project, options={})
-      # we just added to user parameter to the calls to role.allowed_to?
+      allowed_for_role = Proc.new do |role, users|
+        self.allowed_for_role(action, project, role, users, options)
+      end
       
       if project
         # No action allowed on archived projects
         return false unless project.active?
         # No action allowed on disabled modules
+
         return false unless project.allows_to?(action)
         # Admin users are authorized for anything else
         return true if admin?
 
-        roles = roles_for_project(project)
+        roles = granular_roles_for_project(project)
         return false unless roles
-        roles.detect {|role| (project.is_public? || role.member?) && role.allowed_to?(action, options[:for_user])}
-
+        roles.detect do |role, users|
+          if (project.is_public? || role.member?)
+            allowed_for_role.call(role, users)
+          else
+            false
+          end
+        end
       elsif options[:global]
         # Admin users are always authorized
         return true if admin?
 
         # authorize if user has at least one role that has this permission
-        roles = memberships.collect {|m| m.roles}.flatten.uniq
-        roles.detect {|r| r.allowed_to?(action, options[:for_user])} || (self.logged? ? Role.non_member.allowed_to?(action, options[:for_user]) : Role.anonymous.allowed_to?(action, options[:for_user]))
+        roles = memberships.inject({}) do |roles, m|
+          granular_roles(m.member_roles).each_pair do |role, users|
+            if roles[role]
+              roles[role] |= users unless users.nil?
+            else
+              roles[role] = users
+            end
+            roles
+          end
+        end
+        
+        roles.detect(&allowed_for_role) || (self.logged? ? allowed_for_role.call(Role.non_member, [self]) : allowed_for_role.call(Role.anonymous, [self]))
       else
         false
       end
     end
     
-    def for_permission(permission, project, return_type=:hash)
-      # return the user which match the given permission set
-
-      case return_type.to_sym
-      when :list
-        # Return a list of User objects
-        return [] unless self.allowed_to?(permission, project)
-        
-        if Role.personal_permissions.values.include? permission
-          top_permission = Role.personal_permissions.invert[permission]
-          if self.allowed_to?(top_permission, project)
-            project.users
-          else
-            groups = project.groups.select{|g| g.users.include?(self) && g.allowed_to?(permission, project) }
-            (groups.collect(&:users).flatten << self).uniq
-          end
-        else
-          project.users
-        end
-      when :string
-        # return a string suitable for and-appending to a conditions string of
-        # an ActiveRecord find
-        
-        users = self.for_permission(permission, project, :list)
-        return "0=1" if users.blank?
-        
-        "(#{User.table_name}.id IN (#{users.collect(&:id).join(", ")}))"
-      else # default is :hash
-        # return a hash suitable for merging with a conditions hash of an
-        # ActiveRecord find
-        
-        users = self.for_permission(permission, project, :list)
-        return {1 => 2} if users.blank?
-        
-        {"#{User.table_name}.id" => users.collect(&:id)}
+    def allowed_for(permission, projects = nil)
+      if projects
+        projects = [projects] unless projects.is_a? Array
+        projects, ids = projects.partition{|p| p.is_a?(Project)}
+        projects += Project.find_all_by_id(ids)
+      else
+        projects = Project.find(:all, :conditions => Project.visible_by(self), :include => [:enabled_modules])
       end
+      
+      user_list = projects.inject({}) do |user_list, project|
+        roles = granular_roles_for_project(project)
+        
+        if roles
+          users_for_project = []
+          roles.each_pair do |role, users|
+            if (project.is_public? || role.member?) && self.allowed_for_role(permission, project, role, users, :for => self)
+              users_for_project += users.collect(&:id)
+            end
+          end
+          unless users_for_project.blank?
+            users_for_project.sort!.uniq!
+            user_list[users_for_project] ||= []
+            user_list[users_for_project] << project.id
+          end
+        end
+        user_list
+      end
+      
+      cond = []
+      user_list.each_pair do |users, projects|
+        cond << "(#{Project.table_name}.id in (#{projects.join(", ")}) AND #{User.table_name}.id IN (#{users.join(", ")}))"
+      end
+      cond.blank? ? "(0=1)" : "(#{cond.join " OR "})"
     end
+
     
 
     def current_rate(project = nil, include_default = true)
@@ -158,6 +223,29 @@ module UserPatch
     
     
   private
+    def granular_roles(member_roles)
+      roles = {}
+      member_roles.each do |r|
+        roles[r.role] = [self]
+        
+        if r.inherited_from
+          # the role was inherited from a group
+          case r.membership_type
+          when :controller
+            inherited = MemberRole.find_by_id(r.inherited_from)
+            users = [self]
+            users += inherited.member.users# if inherited.member.principal.is_a? Group
+            
+            roles[r.role] = users
+          else # :default
+            #nothing
+          end
+        end
+        
+      end
+      roles
+    end
+
     def update_rate(rate, rate_attributes, project_rate = true)
       attributes = rate_attributes[rate.id.to_s] if rate_attributes
       

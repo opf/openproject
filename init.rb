@@ -11,8 +11,10 @@ end
 # Patches to the Redmine core.
 require_dependency 'l10n_patch'
 
-require 'dispatcher'
+# defined here because it is needed during init
+Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
 
+require 'dispatcher'
 Dispatcher.to_prepare do
   Issue.send(:include, IssuePatch)
   Project.send(:include, ProjectPatch)
@@ -22,6 +24,9 @@ Dispatcher.to_prepare do
   TimeEntry.send(:include, TimeEntryPatch)
   Query.send(:include, QueryPatch)
   UsersHelper.send(:include, CostsUsersHelperPatch)
+  
+  Redmine::AccessControl.send(:include, AccessControlPatch)
+#  Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
 end
 
 # Hooks
@@ -46,35 +51,88 @@ Redmine::Plugin.register :redmine_costs do
   # register our custom permissions
   project_module :costs_module do
     
-    a = {
-    :view_own_rate => :view_own_hourly_rate,
-    :view_all_rates => :view_hourly_rates,
-    :change_rates => :edit_hourly_rates,
+    # rename_schema = {
+    # :view_own_rate => :view_own_hourly_rate,
+    # :view_all_rates => :view_hourly_rates,
+    # :change_rates => :edit_hourly_rates,
+    # 
+    # :view_unit_price => :view_cost_rates,
+    # :book_own_costs => :log_own_costs,
+    # :book_costs => :log_costs
+    # }
     
-    :view_unit_price => :view_cost_rates,
-    :book_own_costs => :log_own_costs,
-    :book_costs => :log_costs
-    }
+    
+    # @@permission_tree = {
+    #   :view_own_time_entries => [:view_time_entries, :edit_own_time_entries], 
+    #   :view_time_entries => [:edit_time_entries, :view_cost_objects],
+    #   :edit_own_time_entries => :edit_time_entries,
+    # 
+    #   :log_own_time => :log_time,
+    #   :log_own_costs => :log_costs,
+    # 
+    #   :view_own_hourly_rates => [:view_hourly_rates, :edit_own_hourly_rate],
+    #   :view_hourly_rates => [:edit_hourly_rates, :view_cost_objects],
+    #   :edit_own_hourly_rate => :edit_hourly_rates,
+    # 
+    #   :view_own_cost_entries => [:view_cost_entries, :edit_own_cost_entries],
+    #   :view_cost_entries => [:edit_cost_entries, :view_cost_objects],
+    #   :edit_own_cost_entries => :edit_cost_entries,
+    # 
+    #   :view_cost_rates => :view_cost_objects,
+    # 
+    #   :view_cost_objects => :edit_cost_objects,
+    # }
     
     # from controlling requirements 3.5 (3)
-    permission :view_own_hourly_rate, {}
+    permission :view_own_hourly_rate, {},
+      :granular_for => :view_hourly_rate
+
     permission :view_hourly_rates, {:cost_reports => :index}
-    permission :edit_hourly_rates, {:hourly_rates => [:set_rate, :edit]}
+    permission :edit_own_hourly_rate, {:hourly_rates => [:set_rate, :edit]},
+      :require => :member,
+      :granular_for => :edit_hourly_rate,
+      :inherits => :view_own_hourly_rate
+    permission :edit_hourly_rates, {:hourly_rates => [:set_rate, :edit]},
+      :require => :member,
+      :inherits => :view_hourly_rates
 
     # from controlling requirements 4.5
     permission :view_cost_rates, {:cost_reports => :index}
-    permission :book_own_costs, {:costlog => :edit}, :require => :loggedin
-    permission :book_costs, {:costlog => :edit}, :require => :member
-    permission :edit_own_cost_entries, {:costlog => [:edit, :destroy]}, :require => :loggedin
-    permission :edit_cost_entries, {:costlog => [:edit, :destroy]}, :require => :member
-    permission :view_own_cost_entries, {:costlog => [:details]}
+    permission :book_own_costs, {:costlog => :edit},
+      :require => :loggedin,
+      :granular_for => :book_costs
+    permission :book_costs, {:costlog => :edit},
+      :require => :member
+    permission :edit_own_cost_entries, {:costlog => [:edit, :destroy]},
+      :require => :loggedin,
+      :granular_for => :edit_cost_entries,
+      :inherits => :view_own_cost_entries
+    permission :edit_cost_entries, {:costlog => [:edit, :destroy]},
+      :require => :member,
+      :inherits => :view_cost_entries
+    permission :view_own_cost_entries, {:costlog => [:details]},
+      :granular_for => :view_cost_entries
     permission :view_cost_entries, {:costlog => [:details]}
     permission :block_tickets, {}, :require => :member
 
     permission :view_cost_objects, {:cost_objects => [:index, :show]}
-    permission :edit_cost_objects, {:cost_objects => [:index, :show, :edit, :destroy, :new]}
+    permission :edit_cost_objects, {:cost_objects => [:index, :show, :edit, :destroy, :new]},
+      :inherits => :view_cost_objects
   end
   
+  # register additional permissions for the time log
+  project_module :time_tracking do
+    permission :view_own_time_entries, {:timelog => [:details, :report]},
+      :granular_for => :view_time_entries
+  end
+  
+  edit_time_entries = Redmine::AccessControl.permission(:edit_time_entries)
+  edit_time_entries.instance_variable_set("@inherits", [:view_time_entries])
+
+  edit_own_time_entries = Redmine::AccessControl.permission(:edit_own_time_entries)
+  edit_own_time_entries.instance_variable_set("@inherits", [:view_own_time_entries])
+  edit_own_time_entries.instance_variable_set("@granular_for", :edit_time_entries)
+
   # Menu extensions
   menu :top_menu, :cost_types, {:controller => 'cost_types', :action => 'index'},
     :caption => :cost_types_title, :if => Proc.new { User.current.admin? }

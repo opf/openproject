@@ -1,4 +1,3 @@
-# TODO: which require statement to use here? require_dependency breaks stuff
 require_dependency 'time_entry'
 
 # Patches Redmine's Users dynamically.
@@ -14,12 +13,24 @@ module TimeEntryPatch
 
       belongs_to :rate, :conditions => {:type => ["HourlyRate", "DefaultHourlyRate"]}, :class_name => "Rate"
       attr_protected :costs, :rate_id
+      
+      unless singleton_methods.include? "visible_by_without_inheritance"
+        class << self
+          alias_method_chain :visible_by, :inheritance
+        end
+        
+        alias_method_chain :editable_by?, :inheritance
+      end
     end
 
   end
 
   module ClassMethods
-
+    def visible_by_with_inheritance(usr)
+      with_scope(:find => { :conditions => usr.allowed_for(:view_time_entries), :include => [:project, :user]}) do
+        yield
+      end
+    end
   end
 
   module InstanceMethods
@@ -84,5 +95,17 @@ module TimeEntryPatch
       self.user.rate_at(self.spent_on, self.project_id)
     end
     
+    # Returns true if the time entry can be edited by usr, otherwise false
+    def editable_by_with_inheritance?(usr)
+      usr.allowed_to?(:edit_time_entries, project, :for => user)
+    end
+
+    def visible_by?(usr)
+      usr.allowed_to?(:view_time_entries, project, :for => user)
+    end
+
+    def costs_visible_by?(usr)
+      usr.allowed_to?(:view_hourly_rates, project, :for => user)
+    end
   end
 end

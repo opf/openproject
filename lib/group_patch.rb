@@ -10,6 +10,14 @@ module GroupPatch
     # Same as typing in the class 
     base.class_eval do
       unloadable
+      
+      has_many :groups_users, :class_name => 'GroupUser', :dependent => :destroy, 
+        :after_add => :group_user_added,
+        :after_remove => :group_user_removed
+
+      has_many :users, :through => :group_users,
+        :after_add => :user_added,
+        :after_remove => :user_removed
     end
 
   end
@@ -18,47 +26,36 @@ module GroupPatch
   end
 
   module InstanceMethods
-    # Return group's roles for project
-    def roles_for_project(project)
-      roles = []
-      # No role on archived projects
-      return roles unless project && project.active?
-
-      # Find project membership
-      membership = memberships.detect {|m| m.project_id == project.id}
-      if membership
-        roles = membership.roles
-      else
-        @role_non_member ||= Role.non_member
-        roles << @role_non_member
-      end
-      roles
-    end
-  
-  
-    def allowed_to?(action, project, options={})
-      # we just added to user parameter to the calls to role.allowed_to?
+    def change_membership_type(user, membership_type)
+      group_user = groups_users.detect{|gu| gu.user_id == user.id}
+      raise ArgumentError("#{user.name} is not a member of group #{self}") unless group_user
       
-      if project
-        # No action allowed on archived projects
-        return false unless project.active?
-        # No action allowed on disabled modules
-        return false unless project.allows_to?(action)
-
-        roles = roles_for_project(project)
-        return false unless roles
-        roles.detect {|role| (project.is_public? || role.member?) && role.allowed_to?(action, options[:for_user])}
-
-      elsif options[:global]
-        # authorize if group has at least one role that has this permission
-        roles = memberships.collect {|m| m.roles}.flatten.uniq
-        roles.detect {|r| r.allowed_to?(action, options[:for_user])} || (self.logged? ? Role.non_member.allowed_to?(action, options[:for_user]) : Role.anonymous.allowed_to?(action, options[:for_user]))
-      else
-        false
+      group_user.update_attributes!(:membership_type => membership_type)
+      
+      members.each do |member|
+        MemberRole.find(:all,
+          :include => :member,
+          :conditions => ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids]).each do |role|
+            role.update_attributes!(:membership_type => membership_type)
+          end
       end
     end
-  
-  
-  
+    
+    def group_user_added(group_user)
+      user = group_user.user
+      membership_type = group_user.membership_type
+      
+      members.each do |member|
+        user_member = Member.find_by_project_id_and_user_id(member.project_id, user.id) || Member.new(:project_id => member.project_id, :user_id => user.id)
+        member.member_roles.each do |member_role|
+          user_member.member_roles << MemberRole.new(:role => member_role.role, :inherited_from => member_role.id, :membership_type => membership_type)
+        end
+        user_member.save!
+      end
+    end
+    
+    def group_user_removed(group_user)
+      user_removed(group_user.user)
+    end
   end
 end
