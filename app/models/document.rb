@@ -34,4 +34,12 @@ class Document < ActiveRecord::Base
       self.category ||= DocumentCategory.default
     end
   end
+  
+  def updated_on
+    unless @updated_on
+      a = attachments.find(:first, :order => 'created_on DESC')
+      @updated_on = (a && a.created_on) || created_on
+    end
+    @updated_on
+  end
 end
