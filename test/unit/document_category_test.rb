@@ -25,7 +25,7 @@ class DocumentCategoryTest < ActiveSupport::TestCase
   end
   
   def test_objects_count
-    assert_equal 1, DocumentCategory.find_by_name("Uncategorized").objects_count
+    assert_equal 2, DocumentCategory.find_by_name("Uncategorized").objects_count
     assert_equal 0, DocumentCategory.find_by_name("User documentation").objects_count
   end
 
