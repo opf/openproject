@@ -39,6 +39,7 @@ class IssuesControllerTest < ActionController::TestCase
            :workflows,
            :custom_fields,
            :custom_values,
+           :custom_fields_projects,
            :custom_fields_trackers,
            :time_entries,
            :journals,
