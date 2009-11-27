@@ -193,6 +193,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil count_by_group['MySQL']
   end
   
+  def test_index_sort_by_field_not_included_in_columns
+    Setting.issue_list_default_columns = %w(subject author)
+    get :index, :sort => 'tracker'
+  end
+  
   def test_index_csv_with_project
     Setting.default_language = 'en'
     
