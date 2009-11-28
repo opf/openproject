@@ -389,6 +389,55 @@ class Query < ActiveRecord::Base
     (filters_clauses << project_statement).join(' AND ')
   end
   
+  # Returns the issue count
+  def issue_count
+    Issue.count(:include => [:status, :project], :conditions => statement)
+  end
+  
+  # Returns the issue count by group or nil if query is not grouped
+  def issue_count_by_group
+    if grouped?
+      begin
+        # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
+        Issue.count(:group => group_by_statement, :include => [:status, :project], :conditions => statement)
+      rescue ActiveRecord::RecordNotFound
+        {nil => issue_count}
+      end
+    else
+      nil
+    end
+  end
+  
+  # Returns the issues
+  # Valid options are :order, :offset, :limit, :include, :conditions
+  def issues(options={})
+    order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
+    order_option = nil if order_option.blank?
+    
+    Issue.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
+                     :conditions => Query.merge_conditions(statement, options[:conditions]),
+                     :order => order_option,
+                     :limit  => options[:limit],
+                     :offset => options[:offset]
+  end
+
+  # Returns the journals
+  # Valid options are :order, :offset, :limit
+  def journals(options={})
+    Journal.find :all, :include => [:details, :user, {:issue => [:project, :author, :tracker, :status]}],
+                       :conditions => statement,
+                       :order => options[:order],
+                       :limit => options[:limit],
+                       :offset => options[:offset]
+  end
+  
+  # Returns the versions
+  # Valid options are :conditions
+  def versions(options={})
+    Version.find :all, :include => :project,
+                       :conditions => Query.merge_conditions(project_statement, options[:conditions])
+  end
+  
   private
   
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+

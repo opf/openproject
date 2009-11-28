@@ -61,26 +61,17 @@ class IssuesController < ApplicationController
         format.csv  { limit = Setting.issues_export_limit.to_i }
         format.pdf  { limit = Setting.issues_export_limit.to_i }
       end
-      @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)
+      
+      @issue_count = @query.issue_count
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
-      @issues = Issue.find :all, :order => [@query.group_by_sort_order, sort_clause].compact.join(','),
-      :include => [ :assigned_to, :status, :tracker, :project, :priority, :category, :fixed_version ],
-                           :conditions => @query.statement,
-                           :limit  =>  limit,
-                           :offset =>  @issue_pages.current.offset
+      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+                              :order => sort_clause, 
+                              :offset => @issue_pages.current.offset, 
+                              :limit => limit)
+      @issue_count_by_group = @query.issue_count_by_group
+      
       respond_to do |format|
-        format.html { 
-          if @query.grouped?
-            # Retrieve the issue count by group
-            @issue_count_by_group = begin
-              Issue.count(:group => @query.group_by_statement, :include => [:status, :project], :conditions => @query.statement)
-            # Rails will raise an (unexpected) error if there's only a nil group value
-            rescue ActiveRecord::RecordNotFound
-              {nil => @issue_count}
-            end
-          end
-          render :template => 'issues/index.rhtml', :layout => !request.xhr?
-        }
+        format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
@@ -99,10 +90,8 @@ class IssuesController < ApplicationController
     sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
     
     if @query.valid?
-      @journals = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status]} ],
-                                     :conditions => @query.statement,
-                                     :limit => 25,
-                                     :order => "#{Journal.table_name}.created_on DESC"
+      @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 
+                                  :limit => 25)
     end
     @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
     render :layout => false, :content_type => 'application/atom+xml'
@@ -360,20 +349,17 @@ class IssuesController < ApplicationController
     if @query.valid?
       events = []
       # Issues that have start and due dates
-      events += Issue.find(:all, 
-                           :order => "start_date, due_date",
-                           :include => [:tracker, :status, :assigned_to, :priority, :project], 
-                           :conditions => ["(#{@query.statement}) AND (((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
-                           )
+      events += @query.issues(:include => [:tracker, :assigned_to, :priority],
+                              :order => "start_date, due_date",
+                              :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
+                              )
       # Issues that don't have a due date but that are assigned to a version with a date
-      events += Issue.find(:all, 
-                           :order => "start_date, effective_date",
-                           :include => [:tracker, :status, :assigned_to, :priority, :project, :fixed_version], 
-                           :conditions => ["(#{@query.statement}) AND (((start_date>=? and start_date<=?) or (effective_date>=? and effective_date<=?) or (start_date<? and effective_date>?)) and start_date is not null and due_date is null and effective_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
-                           )
+      events += @query.issues(:include => [:tracker, :assigned_to, :priority, :fixed_version],
+                              :order => "start_date, effective_date",
+                              :conditions => ["(((start_date>=? and start_date<=?) or (effective_date>=? and effective_date<=?) or (start_date<? and effective_date>?)) and start_date is not null and due_date is null and effective_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
+                              )
       # Versions
-      events += Version.find(:all, :include => :project,
-                                   :conditions => ["(#{@query.project_statement}) AND effective_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to])
+      events += @query.versions(:conditions => ["effective_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to])
                                    
       @gantt.events = events
     end
@@ -401,12 +387,10 @@ class IssuesController < ApplicationController
     retrieve_query
     if @query.valid?
       events = []
-      events += Issue.find(:all, 
-                           :include => [:tracker, :status, :assigned_to, :priority, :project], 
-                           :conditions => ["(#{@query.statement}) AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
-                           )
-      events += Version.find(:all, :include => :project,
-                                   :conditions => ["(#{@query.project_statement}) AND effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
+      events += @query.issues(:include => [:tracker, :assigned_to, :priority],
+                              :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
+                              )
+      events += @query.versions(:conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
                                      
       @calendar.events = events
     end
