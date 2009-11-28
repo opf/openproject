@@ -26,6 +26,8 @@ class IssuesController < ApplicationController
   before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   accept_key_auth :index, :show, :changes
 
+  rescue_from Query::StatementInvalid, :with => :query_statement_invalid
+  
   helper :journals
   helper :projects
   include ProjectsHelper   
@@ -506,5 +508,13 @@ private
         @query.project = @project
       end
     end
+  end
+  
+  # Rescues an invalid query statement. Just in case...
+  def query_statement_invalid(exception)
+    logger.error "Query::StatementInvalid: #{exception.message}" if logger
+    session.delete(:query)
+    sort_clear
+    render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
   end
 end

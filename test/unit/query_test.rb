@@ -269,6 +269,13 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal values.sort, values
   end
   
+  def test_invalid_query_should_raise_query_statement_invalid_error
+    q = Query.new
+    assert_raise Query::StatementInvalid do
+      q.issues(:conditions => "foo = 1")
+    end
+  end
+  
   def test_label_for
     q = Query.new
     assert_equal 'assigned_to', q.label_for('assigned_to_id')

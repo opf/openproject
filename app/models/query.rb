@@ -61,6 +61,9 @@ class QueryCustomFieldColumn < QueryColumn
 end
 
 class Query < ActiveRecord::Base
+  class StatementInvalid < ::ActiveRecord::StatementInvalid
+  end
+  
   belongs_to :project
   belongs_to :user
   serialize :filters
@@ -392,6 +395,8 @@ class Query < ActiveRecord::Base
   # Returns the issue count
   def issue_count
     Issue.count(:include => [:status, :project], :conditions => statement)
+  rescue ::ActiveRecord::StatementInvalid => e
+    raise StatementInvalid.new(e.message)
   end
   
   # Returns the issue count by group or nil if query is not grouped
@@ -406,6 +411,8 @@ class Query < ActiveRecord::Base
     else
       nil
     end
+  rescue ::ActiveRecord::StatementInvalid => e
+    raise StatementInvalid.new(e.message)
   end
   
   # Returns the issues
@@ -419,6 +426,8 @@ class Query < ActiveRecord::Base
                      :order => order_option,
                      :limit  => options[:limit],
                      :offset => options[:offset]
+  rescue ::ActiveRecord::StatementInvalid => e
+    raise StatementInvalid.new(e.message)
   end
 
   # Returns the journals
@@ -429,6 +438,8 @@ class Query < ActiveRecord::Base
                        :order => options[:order],
                        :limit => options[:limit],
                        :offset => options[:offset]
+  rescue ::ActiveRecord::StatementInvalid => e
+    raise StatementInvalid.new(e.message)
   end
   
   # Returns the versions
@@ -436,6 +447,8 @@ class Query < ActiveRecord::Base
   def versions(options={})
     Version.find :all, :include => :project,
                        :conditions => Query.merge_conditions(project_statement, options[:conditions])
+  rescue ::ActiveRecord::StatementInvalid => e
+    raise StatementInvalid.new(e.message)
   end
   
   private
