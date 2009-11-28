@@ -37,6 +37,23 @@ class SysController < ActionController::Base
       end
     end
   end
+  
+  def fetch_changesets
+    projects = []
+    if params[:id]
+      projects << Project.active.has_module(:repository).find(params[:id])
+    else
+      projects = Project.active.has_module(:repository).find(:all, :include => :repository)
+    end
+    projects.each do |project|
+      if project.repository
+        project.repository.fetch_changesets
+      end
+    end
+    render :nothing => true, :status => 200
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => 404
+  end
 
   protected
 

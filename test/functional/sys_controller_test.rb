@@ -53,4 +53,19 @@ class SysControllerTest < ActionController::TestCase
     assert r.is_a?(Repository::Subversion)
     assert_equal 'file:///create/project/repository/subproject2', r.url
   end
+  
+  def test_fetch_changesets
+    get :fetch_changesets
+    assert_response :success
+  end
+  
+  def test_fetch_changesets_one_project
+    get :fetch_changesets, :id => 'ecookbook'
+    assert_response :success
+  end
+  
+  def test_fetch_changesets_unknown_project
+    get :fetch_changesets, :id => 'unknown'
+    assert_response 404
+  end
 end
