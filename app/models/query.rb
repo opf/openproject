@@ -270,8 +270,14 @@ class Query < ActiveRecord::Base
   end
   
   def column_names=(names)
-    names = names.select {|n| n.is_a?(Symbol) || !n.blank? } if names
-    names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym } if names
+    if names
+      names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
+      names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym }
+      # Set column_names to nil if default columns
+      if names.map(&:to_s) == Setting.issue_list_default_columns
+        names = nil
+      end
+    end
     write_attribute(:column_names, names)
   end
   

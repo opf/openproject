@@ -255,6 +255,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert !issues.empty?
     assert_equal issues.sort {|a,b| a.tracker == b.tracker ? b.id <=> a.id : a.tracker <=> b.tracker }.collect(&:id), issues.collect(&:id)
   end
+  
+  def test_index_with_columns
+    columns = ['tracker', 'subject', 'assigned_to']
+    get :index, :set_filter => 1, :query => { 'column_names' => columns}
+    assert_response :success
+    
+    # query should use specified columns
+    query = assigns(:query)
+    assert_kind_of Query, query
+    assert_equal columns, query.column_names.map(&:to_s)
+    
+    # columns should be stored in session
+    assert_kind_of Hash, session[:query]
+    assert_kind_of Array, session[:query][:column_names]
+    assert_equal columns, session[:query][:column_names].map(&:to_s)
+  end
 
   def test_gantt
     get :gantt, :project_id => 1

@@ -501,10 +501,11 @@ private
           end
         end
         @query.group_by = params[:group_by]
-        session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by}
+        @query.column_names = params[:query] && params[:query][:column_names]
+        session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names}
       else
         @query = Query.find_by_id(session[:query][:id]) if session[:query][:id]
-        @query ||= Query.new(:name => "_", :project => @project, :filters => session[:query][:filters], :group_by => session[:query][:group_by])
+        @query ||= Query.new(:name => "_", :project => @project, :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
         @query.project = @project
       end
     end
