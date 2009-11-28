@@ -5,14 +5,18 @@
 		          :multiple => true, :size => 10, :style => "width:150px" %>
 		</td>
 		<td align="center" valign="middle">
-			<input type="button" value="--&gt;"
+			<input type="button" value="&#8594;"
 			 onclick="moveOptions(this.form.available_columns, this.form.selected_columns);" /><br />
-			<input type="button" value="&lt;--"
+			<input type="button" value="&#8592;"
 			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
 		</td>
 		<td><%= select_tag 'query[column_names][]',
 		          options_for_select(query.columns.collect {|column| [column.caption, column.name]}),
 		          :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
+		</td>
+		<td align="center" valign="middle">
+			<input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);" /><br />
+			<input type="button" value="&#8595;" onclick="moveOptionDown(this.form.selected_columns);" />
 		</td>
 	</tr>
 </table>
