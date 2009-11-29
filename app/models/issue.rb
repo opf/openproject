@@ -166,10 +166,6 @@ class Issue < ActiveRecord::Base
     end
   end
   
-  def validate_on_create
-    errors.add :tracker_id, :invalid unless project.trackers.include?(tracker)
-  end
-  
   def before_create
     # default assignment based on category
     if assigned_to.nil? && category && category.assigned_to
