@@ -164,6 +164,29 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal custom_value.id, issue.custom_value_for(field).id
   end
   
+  def test_should_update_issue_with_disabled_tracker
+    p = Project.find(1)
+    issue = Issue.find(1)
+    
+    p.trackers.delete(issue.tracker)
+    assert !p.trackers.include?(issue.tracker)
+    
+    issue.reload
+    issue.subject = 'New subject'
+    assert issue.save
+  end
+  
+  def test_should_not_set_a_disabled_tracker
+    p = Project.find(1)
+    p.trackers.delete(Tracker.find(2))
+      
+    issue = Issue.find(1)
+    issue.tracker_id = 2
+    issue.subject = 'New subject'
+    assert !issue.save
+    assert_not_nil issue.errors.on(:tracker_id)
+  end
+  
   def test_category_based_assignment
     issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3, :status_id => 1, :priority => IssuePriority.all.first, :subject => 'Assignment test', :description => 'Assignment test', :category_id => 1)
     assert_equal IssueCategory.find(1).assigned_to, issue.assigned_to

@@ -501,14 +501,20 @@ class IssuesControllerTest < ActionController::TestCase
   
   def test_update_new_form
     @request.session[:user_id] = 2
-    xhr :post, :new, :project_id => 1,
+    xhr :post, :update_form, :project_id => 1,
                      :issue => {:tracker_id => 2, 
                                 :subject => 'This is the test_new issue',
                                 :description => 'This is the description',
                                 :priority_id => 5}
     assert_response :success
-    assert_template 'new'
-  end 
+    assert_template 'attributes'
+    
+    issue = assigns(:issue)
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.project_id
+    assert_equal 2, issue.tracker_id
+    assert_equal 'This is the test_new issue', issue.subject
+  end
   
   def test_post_new
     @request.session[:user_id] = 2
@@ -697,6 +703,25 @@ class IssuesControllerTest < ActionController::TestCase
                         :child => { :tag => 'option', 
                                     :content => 'Urgent',
                                     :attributes => { :selected => 'selected' } }
+  end
+
+  def test_update_edit_form
+    @request.session[:user_id] = 2
+    xhr :post, :update_form, :project_id => 1,
+                             :id => 1,
+                             :issue => {:tracker_id => 2, 
+                                        :subject => 'This is the test_new issue',
+                                        :description => 'This is the description',
+                                        :priority_id => 5}
+    assert_response :success
+    assert_template 'attributes'
+    
+    issue = assigns(:issue)
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.id
+    assert_equal 1, issue.project_id
+    assert_equal 2, issue.tracker_id
+    assert_equal 'This is the test_new issue', issue.subject
   end
   
   def test_reply_routing

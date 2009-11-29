@@ -1,0 +1,34 @@
+<% fields_for :issue, @issue, :builder => TabularFormBuilder do |f| %>
+
+<div class="splitcontentleft">
+<% if @issue.new_record? || @allowed_statuses.any? %>
+<p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
+<% else %>
+<p><label><%= l(:field_status) %></label> <%= @issue.status.name %></p>
+<% end %>
+
+<p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
+<p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
+<% unless @project.issue_categories.empty? %>
+<p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
+<%= prompt_to_remote(l(:label_issue_category_new),
+                     l(:label_issue_category_new), 'category[name]', 
+                     {:controller => 'projects', :action => 'add_issue_category', :id => @project},
+                     :class => 'small', :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
+<% end %>
+<% unless @issue.assignable_versions.empty? %>
+<p><%= f.select :fixed_version_id, (@issue.assignable_versions.collect {|v| [v.name, v.id]}), :include_blank => true %></p>
+<% end %>
+</div>
+
+<div class="splitcontentright">
+<p><%= f.text_field :start_date, :size => 10 %><%= calendar_for('issue_start_date') %></p>
+<p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('issue_due_date') %></p>
+<p><%= f.text_field :estimated_hours, :size => 3 %> <%= l(:field_hours) %></p>
+<p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
+</div>
+
+<div style="clear:both;"> </div>
+<%= render :partial => 'form_custom_fields' %>
+
+<% end %>

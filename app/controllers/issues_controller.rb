@@ -22,7 +22,7 @@ class IssuesController < ApplicationController
   before_filter :find_issue, :only => [:show, :edit, :reply]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
-  before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :update_form, :context_menu]
+  before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   accept_key_auth :index, :show, :changes
 
@@ -429,8 +429,17 @@ class IssuesController < ApplicationController
   end
 
   def update_form
-    @issue = Issue.new(params[:issue])
-    render :action => :new, :layout => false
+    if params[:id]
+      @issue = @project.issues.visible.find(params[:id])
+    else
+      @issue = Issue.new
+      @issue.project = @project
+    end
+    @issue.attributes = params[:issue]
+    @allowed_statuses = ([@issue.status] + @issue.status.find_new_statuses_allowed_to(User.current.roles_for_project(@project), @issue.tracker)).uniq
+    @priorities = IssuePriority.all
+    
+    render :partial => 'attributes'
   end
   
   def preview
