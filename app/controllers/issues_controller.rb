@@ -234,6 +234,7 @@ class IssuesController < ApplicationController
   # Bulk edit a set of issues
   def bulk_edit
     if request.post?
+      tracker = params[:tracker_id].blank? ? nil : @project.trackers.find_by_id(params[:tracker_id])
       status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
       priority = params[:priority_id].blank? ? nil : IssuePriority.find_by_id(params[:priority_id])
       assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
@@ -244,6 +245,7 @@ class IssuesController < ApplicationController
       unsaved_issue_ids = []      
       @issues.each do |issue|
         journal = issue.init_journal(User.current, params[:notes])
+        issue.tracker = tracker if tracker
         issue.priority = priority if priority
         issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
         issue.category = category if category || params[:category_id] == 'none'
@@ -421,6 +423,7 @@ class IssuesController < ApplicationController
       @assignables << @issue.assigned_to if @issue && @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
     end
     
+    @trackers = @project.trackers
     @priorities = IssuePriority.all.reverse
     @statuses = IssueStatus.find(:all, :order => 'position')
     @back = params[:back_url] || request.env['HTTP_REFERER']

@@ -19,6 +19,15 @@
 <% end %>
 
 	<li class="folder">			
+		<a href="#" class="submenu"><%= l(:field_tracker) %></a>
+		<ul>
+		<% @trackers.each do |t| -%>
+		    <li><%= context_menu_link t.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'tracker_id' => t, :back_to => @back}, :method => :post,
+		                              :selected => (@issue && t == @issue.tracker), :disabled => !@can[:edit] %></li>
+		<% end -%>
+		</ul>
+	</li>
+	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_priority) %></a>
 		<ul>
 		<% @priorities.each do |p| -%>

@@ -8,10 +8,14 @@
 <fieldset>
 <legend><%= l(:label_change_properties) %></legend>
 <p>
+<label><%= l(:field_tracker) %>: 
+<%= select_tag('tracker_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@project.trackers, :id, :name)) %></label>
 <% if @available_statuses.any? %>
 <label><%= l(:field_status) %>: 
 <%= select_tag('status_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@available_statuses, :id, :name)) %></label>
 <% end %>
+</p>
+<p>
 <label><%= l(:field_priority) %>: 
 <%= select_tag('priority_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(IssuePriority.all, :id, :name)) %></label>
 <label><%= l(:field_category) %>: 
