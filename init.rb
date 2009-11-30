@@ -1,12 +1,12 @@
 require 'redmine'
 
-begin
-  require 'rubygems'
-  require 'composite_primary_keys'
-rescue LoadError
-  raise Exception.new("ERROR: Please install Composite Primary Keys gem via \"gem install composite_primary_keys\"")
-end
-
+# begin
+#   require 'rubygems'
+#   require 'composite_primary_keys'
+# rescue LoadError
+#   raise Exception.new("ERROR: Please install Composite Primary Keys gem via \"gem install composite_primary_keys\"")
+# end
+# 
 unless defined? GLoc
   module ::GLoc
     def l(*args)
@@ -30,6 +30,7 @@ Dispatcher.to_prepare do
   Query.send(:include, QueryPatch)
   UsersHelper.send(:include, CostsUsersHelperPatch)
 
+  ApplicationController.send(:include, ApplicationControllerPatch)
   GroupsController.send(:include, GroupsControllerPatch)
   
   Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
