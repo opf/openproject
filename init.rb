@@ -11,10 +11,8 @@ end
 # Patches to the Redmine core.
 require_dependency 'l10n_patch'
 
-# defined here because it is needed during init
-Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
-
 require 'dispatcher'
+
 Dispatcher.to_prepare do
   Issue.send(:include, IssuePatch)
   Project.send(:include, ProjectPatch)
@@ -25,8 +23,8 @@ Dispatcher.to_prepare do
   Query.send(:include, QueryPatch)
   UsersHelper.send(:include, CostsUsersHelperPatch)
   
+  Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
   Redmine::AccessControl.send(:include, AccessControlPatch)
-#  Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
 end
 
 # Hooks
@@ -34,6 +32,7 @@ require 'costs_issue_hook'
 require 'costs_project_hook'
 
 Redmine::Plugin.register :redmine_costs do
+
   name 'Costs Plugin'
   author 'Holger Just @ finnlabs'
   author_url 'http://finn.de/team#h.just'
@@ -84,6 +83,9 @@ Redmine::Plugin.register :redmine_costs do
     # }
     
     # from controlling requirements 3.5 (3)
+
+    Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
+
     permission :view_own_hourly_rate, {},
       :granular_for => :view_hourly_rate
 
@@ -149,8 +151,6 @@ Redmine::Plugin.register :redmine_costs do
 
   menu :project_menu, :cost_reports, {:controller => 'cost_reports', :action => 'index'},
     :param => :project_id, :after => :cost_objects, :caption => :cost_reports_title
-
-
   
   # Activities
   activity_provider :cost_objects

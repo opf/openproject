@@ -4,8 +4,6 @@ module AccessControlPatch
     
     # Same as typing in the class
     base.class_eval do
-      unloadable
-      
       unless singleton_methods.include? "allowed_actions_without_inheritance"
         class << self
           alias_method_chain :allowed_actions, :inheritance
