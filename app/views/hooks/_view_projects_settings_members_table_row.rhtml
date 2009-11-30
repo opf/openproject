@@ -16,7 +16,7 @@
 
 <% if change_rates %>
   <td align="center" style="white-space: nowrap;">
-    <% remote_form_for :rate, :url => { :controller => 'hourly_rates', :action => 'set_rate', :id => member.user, :project_id => project}  do |f| %>
+    <% remote_form_for :rate, :url => { :controller => 'hourly_rates', :action => 'set_rate', :id => member.user, :project_id => project}, :method => :posts  do |f| %>
       <%= f.text_field :rate, :value => "", :name => :rate, :size => 7 %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
       <%= image_submit_tag "save.png" %>
     <% end %>
