@@ -18,6 +18,7 @@
 	        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
 <% end %>
 
+	<% unless @tracker.nil? %>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_tracker) %></a>
 		<ul>
@@ -27,6 +28,7 @@
 		<% end -%>
 		</ul>
 	</li>
+	<% end %>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_priority) %></a>
 		<ul>

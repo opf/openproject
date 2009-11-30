@@ -421,9 +421,9 @@ class IssuesController < ApplicationController
     if @project
       @assignables = @project.assignable_users
       @assignables << @issue.assigned_to if @issue && @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
+      @trackers = @project.trackers
     end
     
-    @trackers = @project.trackers
     @priorities = IssuePriority.all.reverse
     @statuses = IssueStatus.find(:all, :order => 'position')
     @back = params[:back_url] || request.env['HTTP_REFERER']
