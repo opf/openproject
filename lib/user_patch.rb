@@ -73,8 +73,6 @@ module UserPatch
       roles
     end
     
-    
-    
     # Return true if the user is allowed to do the specified action on project
     # action can be:
     # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
