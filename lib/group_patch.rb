@@ -1,5 +1,3 @@
-require_dependency 'group'
-
 # Patches Redmine's Groups dynamically.
 module GroupPatch
   def self.included(base) # :nodoc:
@@ -11,11 +9,11 @@ module GroupPatch
     base.class_eval do
       unloadable
       
-      has_many :groups_users, :class_name => 'GroupUser', :dependent => :destroy, 
+      has_many :groups_users, :class_name => 'GroupUser', :dependent => :destroy,
         :after_add => :group_user_added,
         :after_remove => :group_user_removed
 
-      has_many :users, :through => :group_users,
+      has_many :users, :through => :groups_users,
         :after_add => :user_added,
         :after_remove => :user_removed
     end
@@ -29,7 +27,7 @@ module GroupPatch
     def change_membership_type(user, membership_type)
       group_user = groups_users.detect{|gu| gu.user_id == user.id}
       raise ArgumentError("#{user.name} is not a member of group #{self}") unless group_user
-      
+
       group_user.update_attributes!(:membership_type => membership_type)
       
       members.each do |member|
@@ -42,6 +40,8 @@ module GroupPatch
     end
     
     def group_user_added(group_user)
+      puts "------- USER ADDED #{group_user.user_id}"
+
       user = group_user.user
       membership_type = group_user.membership_type
       

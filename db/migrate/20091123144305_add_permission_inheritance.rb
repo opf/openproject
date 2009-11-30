@@ -1,10 +1,10 @@
 class AddPermissionInheritance < ActiveRecord::Migration
   def self.up
-    add_column :groups_users, :membership_type, :string, :default => 'default'
-    add_column :member_roles, :membership_type, :string, :default => 'default'
+    add_column :groups_users, :membership_type, :string, :null => false, :default => 'controller'
+    add_column :member_roles, :membership_type, :string, :null => false, :default => 'controller'
     
-    GroupUser.all.update_attribute!(:membership_type => "controller")
-    MemberRole.all.update_attribute!(:membership_type => "controller")
+    change_column :groups_users, :membership_type, :string, :null => false, :default => 'default'
+    change_column :member_roles, :membership_type, :string, :null => false, :default => 'default'
   end
   
   def self.down
