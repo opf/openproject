@@ -17,7 +17,7 @@ class HourlyRatesController < ApplicationController
   
   def show
     if @project
-      return deny_access unless user_allowed_to?(:view_hourly_rates, {:for_user => @user})
+      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, :for => @user)
       
       @rates = HourlyRate.find(:all,
           :conditions =>  { :user_id => @user, :project_id => @project },
@@ -30,7 +30,7 @@ class HourlyRatesController < ApplicationController
   
   def edit
     if @project
-      return deny_access unless user_allowed_to?(:change_hourly_rates, {:for_user => @user})
+      return deny_access unless User.allowed_to?(:change_hourly_rates, @project, :for => @user})
     else
       return deny_access unless User.current.admin?
     end
