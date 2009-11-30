@@ -152,11 +152,11 @@ module UserPatch
         user_list
       end
       
-      cond = []
+      cond = ["0=1"]
       user_list.each_pair do |users, projects|
         cond << "(#{Project.table_name}.id in (#{projects.join(", ")}) AND #{User.table_name}.id IN (#{users.join(", ")}))"
       end
-      cond.blank? ? "(0=1)" : "(#{cond.join " OR "})"
+      "(#{cond.join " OR "})"
     end
 
     
