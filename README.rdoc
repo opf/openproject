@@ -1,3 +1,14 @@
-= costs
+= Cost Control Plugin
 
-Description goes here
+This plugin ads the ability to book costs and reports on them.
+
+= Requirements
+
+== Gems
+
+=== Composite Primary Keys
+
+URL: http://compositekeys.rubyforge.org/
+
+Install with
+sudo gem install composite_primary_keys
