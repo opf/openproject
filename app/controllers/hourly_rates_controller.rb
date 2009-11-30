@@ -12,7 +12,7 @@ class HourlyRatesController < ApplicationController
   before_filter :find_optional_project, :only => [:show, :edit]
   before_filter :find_project, :only => [:set_rate]
   
-  # #show and #edit have their own authorization
+  # #show, #edit have their own authorization
   before_filter :authorize, :except => [:show, :edit]
   
   def show
@@ -76,7 +76,8 @@ class HourlyRatesController < ApplicationController
     if rate.save
       if request.xhr?
         render :update do |page|
-          if User.current.allowed_to?(:change_rates, @project) || User.current.allowed_to?(:view_all_rates, @project) || User.current = @user && User.current.allowed_to?(:view_own_rate, @project)
+          # TODO: Check, if this also passes if @user has the right :edit_own_hourly_rates???
+          if User.current.allowed_to?(:view_hourly_rates, @project, @user) 
             page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), :action => User.current.allowed_to?(:change_rates, @project) ? 'edit' : 'show', :id => @user, :project_id => @project)
           end
         end
