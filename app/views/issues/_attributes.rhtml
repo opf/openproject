@@ -11,10 +11,13 @@
 <p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
 <% unless @project.issue_categories.empty? %>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
-<%= prompt_to_remote(l(:label_issue_category_new),
-                     l(:label_issue_category_new), 'category[name]', 
+<%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
+                     l(:label_issue_category_new),
+                     'category[name]', 
                      {:controller => 'projects', :action => 'add_issue_category', :id => @project},
-                     :class => 'small', :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
+                     :class => 'small', 
+                     :title => l(:label_issue_category_new), 
+                     :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
 <% end %>
 <% unless @issue.assignable_versions.empty? %>
 <p><%= f.select :fixed_version_id, (@issue.assignable_versions.collect {|v| [v.name, v.id]}), :include_blank => true %></p>
