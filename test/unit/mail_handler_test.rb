@@ -42,6 +42,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
   
   def test_add_issue
+    ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(Issue)
@@ -55,6 +56,10 @@ class MailHandlerTest < ActiveSupport::TestCase
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
+    # Email notification should be sent
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert mail.subject.include?('New ticket on a given project')
   end
 
   def test_add_issue_with_status
