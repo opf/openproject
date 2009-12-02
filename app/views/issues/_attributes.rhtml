@@ -15,7 +15,6 @@
                      l(:label_issue_category_new),
                      'category[name]', 
                      {:controller => 'projects', :action => 'add_issue_category', :id => @project},
-                     :class => 'small', 
                      :title => l(:label_issue_category_new), 
                      :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
 <% end %>
