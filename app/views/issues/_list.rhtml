@@ -13,12 +13,12 @@
 	<% previous_group = false %>
 	<tbody>
 	<% issues.each do |issue| -%>
-  <% if @query.grouped? && (group = column_value(@query.group_by_column, issue) || '') != previous_group %>
+  <% if @query.grouped? && (group = @query.group_by_column.value(issue)) != previous_group %>
     <% reset_cycle %>
     <tr class="group open">
     	<td colspan="<%= query.columns.size + 2 %>">
     		<span class="expander" onclick="toggleRowGroup(this); return false;">&nbsp;</span>
-      	<%= group.blank? ? 'None' : group %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
+      	<%= group.blank? ? 'None' : column_content(@query.group_by_column, issue) %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
     	</td>
 		</tr>
 		<% previous_group = group %>

@@ -177,10 +177,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
-    count_by_group = assigns(:issue_count_by_group)
-    assert_kind_of Hash, count_by_group
-    assert_kind_of Tracker, count_by_group.keys.first
-    assert_not_nil count_by_group[Tracker.find(1)]
+    assert_not_nil assigns(:issue_count_by_group)
   end
   
   def test_index_with_query_grouped_by_list_custom_field
@@ -188,10 +185,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
-    count_by_group = assigns(:issue_count_by_group)
-    assert_kind_of Hash, count_by_group
-    assert_kind_of String, count_by_group.keys.first
-    assert_not_nil count_by_group['MySQL']
+    assert_not_nil assigns(:issue_count_by_group)
   end
   
   def test_index_sort_by_field_not_included_in_columns

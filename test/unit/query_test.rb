@@ -276,6 +276,32 @@ class QueryTest < ActiveSupport::TestCase
     end
   end
   
+  def test_issue_count_by_association_group
+    q = Query.new(:name => '_', :group_by => 'assigned_to')
+    count_by_group = q.issue_count_by_group
+    assert_kind_of Hash, count_by_group
+    assert_equal %w(NilClass User), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
+    assert_equal %w(Fixnum), count_by_group.values.collect {|k| k.class.name}.uniq
+    assert count_by_group.has_key?(User.find(3))
+  end
+
+  def test_issue_count_by_list_custom_field_group
+    q = Query.new(:name => '_', :group_by => 'cf_1')
+    count_by_group = q.issue_count_by_group
+    assert_kind_of Hash, count_by_group
+    assert_equal %w(NilClass String), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
+    assert_equal %w(Fixnum), count_by_group.values.collect {|k| k.class.name}.uniq
+    assert count_by_group.has_key?('MySQL')
+  end
+  
+  def test_issue_count_by_date_custom_field_group
+    q = Query.new(:name => '_', :group_by => 'cf_8')
+    count_by_group = q.issue_count_by_group
+    assert_kind_of Hash, count_by_group
+    assert_equal %w(Date NilClass), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
+    assert_equal %w(Fixnum), count_by_group.values.collect {|k| k.class.name}.uniq
+  end
+  
   def test_label_for
     q = Query.new
     assert_equal 'assigned_to', q.label_for('assigned_to_id')

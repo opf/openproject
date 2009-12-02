@@ -101,3 +101,17 @@ custom_fields_007:
   field_format: bool
   default_value: ""
   editable: true
+custom_fields_008: 
+  name: Custom date
+  min_length: 0
+  regexp: ""
+  is_for_all: true
+  is_filter: false
+  type: IssueCustomField
+  max_length: 0
+  possible_values: ""
+  id: 8
+  is_required: false
+  field_format: date
+  default_value: ""
+  editable: true

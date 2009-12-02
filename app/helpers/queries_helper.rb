@@ -27,44 +27,38 @@ module QueriesHelper
                       content_tag('th', column.caption)
   end
   
-  def column_value(column, issue)
-    if column.is_a?(QueryCustomFieldColumn)
-      cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
-      show_value(cv)
-    else
-      value = issue.send(column.name)
-    end
-  end
-  
   def column_content(column, issue)
-    if column.is_a?(QueryCustomFieldColumn)
-      cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
-      show_value(cv)
-    else
-      value = issue.send(column.name)
-      if value.is_a?(Date)
-        format_date(value)
-      elsif value.is_a?(Time)
-        format_time(value)
+    value = column.value(issue)
+    
+    case value.class.name
+    when 'String'
+      if column.name == :subject
+        link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
       else
-        case column.name
-        when :subject
-        h((!@project.nil? && @project != issue.project) ? "#{issue.project.name} - " : '') +
-          link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
-        when :project
-          link_to(h(value), :controller => 'projects', :action => 'show', :id => value)
-        when :assigned_to
-          link_to_user value
-        when :author
-          link_to_user value
-        when :done_ratio
-          progress_bar(value, :width => '80px')
-        when :fixed_version
-          link_to(h(value), { :controller => 'versions', :action => 'show', :id => issue.fixed_version_id })
-        else
-          h(value)
-        end
+        h(value)
       end
+    when 'Time'
+      format_time(value)
+    when 'Date'
+      format_date(value)
+    when 'Fixnum', 'Float'
+      if column.name == :done_ratio
+        progress_bar(value, :width => '80px')
+      else
+        value.to_s
+      end
+    when 'User'
+      link_to_user value
+    when 'Project'
+      link_to(h(value), :controller => 'projects', :action => 'show', :id => value)
+    when 'Version'
+      link_to(h(value), :controller => 'versions', :action => 'show', :id => value)
+    when 'TrueClass'
+      l(:general_text_Yes)
+    when 'FalseClass'
+      l(:general_text_No)
+    else
+      h(value)
     end
   end
 end

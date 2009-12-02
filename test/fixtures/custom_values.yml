@@ -95,3 +95,9 @@ custom_values_016:
   customized_id: 11
   id: 16
   value: '1'
+custom_values_017: 
+  customized_type: Issue
+  custom_field_id: 8
+  customized_id: 1
+  id: 17
+  value: '2009-12-01'

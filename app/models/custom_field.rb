@@ -67,6 +67,25 @@ class CustomField < ActiveRecord::Base
     end
   end
   
+  def cast_value(value)
+    casted = nil
+    unless value.blank?
+      case field_format
+      when 'string', 'text', 'list'
+        casted = value
+      when 'date'
+        casted = begin; value.to_date; rescue; nil end
+      when 'bool'
+        casted = (value == '1' ? true : false)
+      when 'int'
+        casted = value.to_i
+      when 'float'
+        casted = value.to_f
+      end
+    end
+    casted
+  end
+  
   # Returns a ORDER BY clause that can used to sort customized
   # objects by their value of the custom field.
   # Returns false, if the custom field can not be used for sorting.
