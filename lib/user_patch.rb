@@ -85,9 +85,10 @@ module UserPatch
       if project
         # No action allowed on archived projects
         return false unless project.active?
-        # No action allowed on disabled modules
 
+        # No action allowed on disabled modules
         return false unless project.allows_to?(action)
+
         # Admin users are authorized for anything else
         return true if admin?
 
@@ -130,6 +131,8 @@ module UserPatch
       else
         projects = Project.find(:all, :conditions => Project.visible_by(self), :include => [:enabled_modules])
       end
+      
+      return "(#{Project.table_name}.id in (#{projects.collect(&:id).join(", ")}))" if self.admin?
       
       user_list = projects.inject({}) do |user_list, project|
         roles = granular_roles_for_project(project)
