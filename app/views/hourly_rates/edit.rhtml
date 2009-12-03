@@ -1,4 +1,4 @@
-<h2><%= @project.nil? ? l(:caption_default_rate_history_for, :user => @user.name) :  l(:caption_rate_history_for_project, :user => @user.name, :user => @project.name) %></h2>
+<h2><%= @project.nil? ? l(:caption_default_rate_history_for, :user => @user.name) :  l(:caption_rate_history_for_project, :user => @user.name, :project => @project.name) %></h2>
 
 <%- default_rate = @user.current_default_rate -%>
 <% if default_rate%>
