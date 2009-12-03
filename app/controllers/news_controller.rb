@@ -26,7 +26,7 @@ class NewsController < ApplicationController
   def index
     @news_pages, @newss = paginate :news,
                                    :per_page => 10,
-                                   :conditions => (@project ? {:project_id => @project.id} : Project.visible_by(User.current)),
+                                   :conditions => Project.allowed_to_condition(User.current, :view_news, :project => @project),
                                    :include => [:author, :project],
                                    :order => "#{News.table_name}.created_on DESC"    
     respond_to do |format|
