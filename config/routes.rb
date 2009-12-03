@@ -40,15 +40,16 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'hourly_rates' do |hourly_rates|
     hourly_rates.with_options :conditions => {:method => :get} do |hr_views|
-      hr_views.connect 'users/:id/default_rates', :action => 'show'
-      hr_views.connect 'users/:id/default_rates/:action', :action => 'edit'
+      hr_views.connect 'users/:id/default_rates', :action => 'show', :id => /\d+/
+      hr_views.connect 'users/:id/default_rates/:action', :action => /edit/, :id => /\d+/
 
-      hr_views.connect 'projects/:project_id/hourly_rates/:id', :action => 'show'
-      hr_views.connect 'projects/:project_id/hourly_rates/:id/:action', :action => 'edit'
+      hr_views.connect 'projects/:project_id/hourly_rates', :action => 'show'
+      hr_views.connect 'projects/:project_id/hourly_rates/:id', :action => 'show', :id => /\d+/
+      hr_views.connect 'projects/:project_id/hourly_rates/:id/:action', :action => /edit/, :id => /\d+/
     end
     hourly_rates.with_options :conditions => {:method => :post} do |hr_actions|
-      hr_actions.connect 'users/:id/default_rates/:action', :action => 'edit'
-      hr_actions.connect 'projects/:project_id/hourly_rates/:id/:action', :action => 'edit'
+      hr_actions.connect 'users/:id/default_rates/:action', :action => 'edit', :id => /\d+/
+      hr_actions.connect 'projects/:project_id/hourly_rates/:id/:action', :action => /edit/, :id => /\d+/
     end
   end
   
