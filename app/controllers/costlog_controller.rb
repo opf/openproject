@@ -37,7 +37,6 @@ class CostlogController < ApplicationController
       cond << ["#{CostEntry.table_name}.cost_type_id = ?", @cost_type.id ]
     end
     
-    
     retrieve_date_range
     cond << ['spent_on BETWEEN ? AND ?', @from, @to]
 
@@ -122,7 +121,7 @@ class CostlogController < ApplicationController
     @cost_type = CostType.find(params[:cost_type_id]) unless params[:cost_type_id].empty?
     
     if request.xhr?
-      render :partial => "cost_type_unit_plural", :locals => {:cost_type => @cost_type}, :layout => false
+      render :partial => "cost_type_unit_plural", :layout => false
     end
   end
   
@@ -200,8 +199,8 @@ private
     end
     
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (CostEntry.minimum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today) - 1
-    @to   ||= (CostEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today)
+    @from ||= (CostEntry.minimum(:spent_on, :include => [:project, :user], :conditions => User.current.allowed_for(:view_cost_entries)) || Date.today) - 1
+    @to   ||= (CostEntry.maximum(:spent_on, :include => [:project, :user], :conditions => User.current.allowed_for(:view_cost_entries)) || Date.today)
   end
   
 end

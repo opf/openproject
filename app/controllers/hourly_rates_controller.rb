@@ -30,8 +30,10 @@ class HourlyRatesController < ApplicationController
   
   def edit
     if @project
-      return deny_access unless User.allowed_to?(:change_hourly_rates, @project, :for => @user})
+      # Hourly Rate
+      return deny_access unless User.current.allowed_to?(:edit_hourly_rates, @project, :for => @user)
     else
+      # Default Hourly Rate
       return deny_access unless User.current.admin?
     end
     
@@ -76,10 +78,7 @@ class HourlyRatesController < ApplicationController
     if rate.save
       if request.xhr?
         render :update do |page|
-          # TODO: Check, if this also passes if @user has the right :edit_own_hourly_rates???
-          if User.current.allowed_to?(:view_hourly_rates, @project, @user) 
-            page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), :action => User.current.allowed_to?(:change_rates, @project) ? 'edit' : 'show', :id => @user, :project_id => @project)
-          end
+          page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), :action => 'edit', :id => @user, :project_id => @project)
         end
       else
         flash[:notice] = l(:notice_successful_update)
@@ -103,7 +102,10 @@ private
   end
 
   def find_user
-    @user = User.find(params[:id])
+    @user = params[:id] ? User.find(params[:id]) : User.current
+    
+    p @user.allowed_to?(:view_hourly_rates, nil, :for => @user, :global => true)
+    
   rescue ActiveRecord::RecordNotFound
     render_404
   end
