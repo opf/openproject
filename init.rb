@@ -31,6 +31,7 @@ Dispatcher.to_prepare do
   UsersHelper.send(:include, CostsUsersHelperPatch)
 
   ApplicationController.send(:include, ApplicationControllerPatch)
+  IssuesController.send(:include, IssuesControllerPatch)
   GroupsController.send(:include, GroupsControllerPatch)
   
   Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
@@ -97,8 +98,7 @@ Redmine::Plugin.register :redmine_costs do
     Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
 
     permission :view_own_hourly_rate, {},
-      :granular_for => :view_hourly_rate
-
+      :granular_for => :view_hourly_rates
     permission :view_hourly_rates, {:cost_reports => :index}
     permission :edit_own_hourly_rate, {:hourly_rates => [:set_rate, :edit]},
       :require => :member,
