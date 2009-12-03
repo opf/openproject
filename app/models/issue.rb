@@ -250,13 +250,23 @@ class Issue < ActiveRecord::Base
     blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
   
-  # Returns the mail adresses of users that should be notified for the issue
+  # Returns the mail adresses of users that should be notified
   def recipients
-    recipients = project.recipients
+    notified = project.notified_users
     # Author and assignee are always notified unless they have been locked
-    recipients << author.mail if author && author.active?
-    recipients << assigned_to.mail if assigned_to && assigned_to.active?
-    recipients.compact.uniq
+    notified << author if author && author.active?
+    notified << assigned_to if assigned_to && assigned_to.active?
+    notified.uniq!
+    # Remove users that can not view the issue
+    notified.reject! {|user| !visible?(user)}
+    notified.collect(&:mail)
+  end
+  
+  # Returns the mail adresses of watchers that should be notified
+  def watcher_recipients
+    notified = watcher_users
+    notified.reject! {|user| !user.active? || !visible?(user)}
+    notified.collect(&:mail)
   end
   
   # Returns the total number of hours spent on this issue.

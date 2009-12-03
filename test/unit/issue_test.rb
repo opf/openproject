@@ -353,6 +353,23 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil copy.custom_value_for(2)
   end
   
+  def test_recipients_should_not_include_users_that_cannot_view_the_issue
+    issue = Issue.find(12)
+    assert issue.recipients.include?(issue.author.mail)
+    # move the issue to a private project
+    copy  = issue.move_to(Project.find(5), Tracker.find(2), :copy => true)
+    # author is not a member of project anymore
+    assert !copy.recipients.include?(copy.author.mail)
+  end
+
+  def test_watcher_recipients_should_not_include_users_that_cannot_view_the_issue
+    user = User.find(3)
+    issue = Issue.find(9)
+    Watcher.create!(:user => user, :watchable => issue)
+    assert issue.watched_by?(user)
+    assert !issue.watcher_recipients.include?(user.mail)
+  end
+  
   def test_issue_destroy
     Issue.find(1).destroy
     assert_nil Issue.find_by_id(1)

@@ -185,7 +185,7 @@ issues_012:
   description:
   tracker_id: 1
   assigned_to_id: 
-  author_id: 2
+  author_id: 3
   status_id: 5
   start_date: <%= 1.day.ago.to_date.to_s(:db) %>
   due_date:
