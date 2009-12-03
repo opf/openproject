@@ -1,26 +1,27 @@
-<% if not project.nil? and project.module_enabled? :costs_module %>
+<% if not project.nil? and project.module_enabled? :costs_module and User.current.allowed_to?(:view_hourly_rates, project, :for => User.current) %>
 <%
-  view_rates = User.current.allowed_to?(:view_all_rates, project)
-  view_own_rate = User.current.allowed_to?(:view_own_rate, project)
-  change_rates = User.current.allowed_to?(:change_rates, project)
+  allow_view = member.user && User.current.allowed_to?(:view_hourly_rates, project, :for => member.user)
+  allow_edit = member.user && User.current.allowed_to?(:edit_hourly_rates, project, :for => member.user)
 -%>
   
-<%- if member.user && (change_rates || view_rates || (member.user == User.current && view_own_rate)) -%>
+<%- if allow_view -%>
   <% rate = member.user.current_rate(project) -%>
   <td class="currency" id="rate_for_<%= member.user.id %>">
-    <%= link_to number_to_currency( rate ? rate.rate : 0.0), :controller => 'hourly_rates', :action => change_rates ? 'edit' : 'show', :id => member.user, :project_id => project %>
+    <%= link_to number_to_currency( rate ? rate.rate : 0.0), :controller => 'hourly_rates', :action => (allow_edit ? 'edit' : 'show'), :id => member.user, :project_id => project %>
   </td>
-<%- elsif view_own_rate -%>
+<%- else -%>
   <td id="rate_for_<%= member.user.id %>" class="currency"></td>
 <%- end -%>
 
-<% if change_rates %>
+<% if allow_edit %>
   <td align="center" style="white-space: nowrap;">
     <% remote_form_for :rate, :url => { :controller => 'hourly_rates', :action => 'set_rate', :id => member.user, :project_id => project}, :method => :posts  do |f| %>
       <%= f.text_field :rate, :value => "", :name => :rate, :size => 7 %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
       <%= image_submit_tag "save.png" %>
     <% end %>
   </td>
+<% else %>
+  <td align="center" style="white-space: nowrap;"></td>
 <% end %>
 
 <% content_for :header_tags do %>
