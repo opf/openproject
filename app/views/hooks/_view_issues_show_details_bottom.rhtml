@@ -33,19 +33,27 @@ end
   <tr>
     <td><b><%= l(:label_cost_object) %>:</b></td>
     <td><% if @issue.cost_object.nil? %>-<%else%><%= link_to h(@issue.cost_object.subject), {:controller => "cost_objects", :action => "show", :id => @issue.cost_object} %><% end %></td>
-    <% if User.current.allowed_to?(:view_cost_entries, @project) %>
+    <% if User.current.allowed_to?(:view_cost_entries, @project, :for => User.current) %>
     <td><b><%= l(:label_spent_units) %>:</b></td>
     <td>
-      <%= summarized_cost_entries(@issue.cost_entries) %>
+      <%= summarized_cost_entries(@cost_entries) %>
     </td>
     <% end %>
   </tr>
-  <% if User.current.allowed_to?(:view_unit_price, @project) && User.current.allowed_to?(:view_all_rates, @project)%>
+  <% unless @overall_costs.nil? %>
+    <%
+      if @material_costs.nil?
+        label = :field_labor_costs
+      elsif @labor_costs.nil?
+        label = :field_material_costs
+      else
+        label = :field_overall_costs
+      end %>
     <tr>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td><b><%= l(:label_overall_costs) %>:</b></td>
-      <td><% if @issue.overall_costs > 0 %><%= link_to number_to_currency(@issue.overall_costs), {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue}, :class => 'icon icon-money' %><% else %>-<%end%></td>
+      <td><b><%= l(label) %>:</b></td>
+      <td><%= number_to_currency(@overall_costs) %></td>
     </tr>
   <% end %>
 <% end %>
