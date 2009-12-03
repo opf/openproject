@@ -16,8 +16,8 @@ de:
   label_current_default_rate: Aktueller Standardsatz
   notice_successful_restore: Erfolgreich wiederhergestellt.
   label_no: Nein
-  caption_default_rate_history_for: "Standardsatz-Historie f\xC3\xBCr  %s"
-  label_cost_object_id: "Liefergegenstand #%s"
+  caption_default_rate_history_for: "Standardsatz-Historie f\xC3\xBCr {{user}}"
+  label_cost_object_id: "Liefergegenstand #{{id}}"
   label_currency: "W\xC3\xA4hrung"
   label_overall_costs: Gesamtkosten
   label_status_in_progress: In  Bearbeitung
@@ -98,7 +98,7 @@ de:
   label_cost_plural: Kosten
   caption_overall_costs: Gesamtkosten
   caption_progress: Fortschritt
-  caption_rate_history_for_project: "Studensatz-Historie f\xC3\xBCr %s in Projekt %s"
+  caption_rate_history_for_project: "Studensatz-Historie f\xC3\xBCr {{user}} in Projekt {{project}}"
   label_variable_cost_object: Variables Budget
   cost_reports_title: Reports
   caption_subject: Thema
@@ -125,7 +125,7 @@ de:
   label_include_deleted: "Gel\xC3\xB6schte anzeigen"
   field_labor_costs: Personaleinzelkosten
   label_rate: Satz
-  caption_rate_history_for: "Stundensatz-Historie f\xC3\xBCr %s"
+  caption_rate_history_for: "Stundensatz-Historie f\xC3\xBCr {{user}}"
   label_fixed_cost_object: Festes Budget
   field_cost_object_subject: Thema des Liefergegenstands
   currency_separator: ","

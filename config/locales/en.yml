@@ -17,8 +17,8 @@ en:
   label_current_default_rate: Current default rate
   notice_successful_restore: Successful restore.
   label_no: "No"
-  caption_default_rate_history_for: Default Rate History for %s
-  label_cost_object_id: "Cost Object #%s"
+  caption_default_rate_history_for: Default Rate History for {{user}}
+  label_cost_object_id: "Cost Object #{{id}}"
   label_currency: Currency
   label_overall_costs: Overall costs
   label_status_in_progress: In progress
@@ -96,7 +96,7 @@ en:
   label_cost_plural: Costs
   caption_overall_costs: Overall Costs
   caption_progress: Progress
-  caption_rate_history_for_project: Rate History for %s in Project %s
+  caption_rate_history_for_project: Rate History for {{user}} in Project {{project}}
   label_variable_cost_object: Variable rate based budget
   cost_reports_title: Cost Reports
   caption_subject: Subject
@@ -121,7 +121,7 @@ en:
   permission_block_tickets: Block tickets
   label_include_deleted: Include deleted
   label_rate: Rate
-  caption_rate_history_for: Rate History for %s
+  caption_rate_history_for: Rate History for {{user}}
   label_fixed_cost_object: Fixed budget
   field_labor_costs: Labor costs
   field_cost_object_subject: Cost Object Subject
