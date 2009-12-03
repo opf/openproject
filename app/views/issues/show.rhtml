@@ -1,11 +1,4 @@
-<div class="contextual">
-<%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time-add' %>
-<%= watcher_tag(@issue, User.current) %>
-<%= link_to_if_authorized l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-copy' %>
-<%= link_to_if_authorized l(:button_move), {:controller => 'issues', :action => 'move', :id => @issue }, :class => 'icon icon-move' %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
-</div>
+<%= render :partial => 'action_menu' %>
 
 <h2><%= @issue.tracker.name %> #<%= @issue.id %></h2>
 
@@ -93,6 +86,9 @@
 <%= render :partial => 'history', :locals => { :journals => @journals } %>
 </div>
 <% end %>
+
+<%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
+
 <div style="clear: both;"></div>
 
 <% if authorize_for('issues', 'edit') %>

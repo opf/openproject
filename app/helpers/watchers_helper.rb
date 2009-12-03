@@ -16,17 +16,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module WatchersHelper
-  def watcher_tag(object, user)
-    content_tag("span", watcher_link(object, user), :id => 'watcher')
+
+  # Valid options
+  # * :id - the element id
+  # * :replace - a string or array of element ids that will be
+  #   replaced
+  def watcher_tag(object, user, options={:replace => 'watcher'})
+    id = options[:id]
+    id ||= options[:replace] if options[:replace].is_a? String
+    content_tag("span", watcher_link(object, user, options), :id => id)
   end
   
-  def watcher_link(object, user)
+  # Valid options
+  # * :replace - a string or array of element ids that will be
+  #   replaced
+  def watcher_link(object, user, options={:replace => 'watcher'})
     return '' unless user && user.logged? && object.respond_to?('watched_by?')
     watched = object.watched_by?(user)
     url = {:controller => 'watchers',
            :action => (watched ? 'unwatch' : 'watch'),
            :object_type => object.class.to_s.underscore,
-           :object_id => object.id}           
+           :object_id => object.id,
+           :replace => options[:replace]}
     link_to_remote((watched ? l(:button_unwatch) : l(:button_watch)),
                    {:url => url},
                    :href => url_for(url),

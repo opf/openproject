@@ -47,6 +47,16 @@ class WatchersControllerTest < ActionController::TestCase
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
+
+  def test_watch_with_multiple_replacements
+    @request.session[:user_id] = 3
+    assert_difference('Watcher.count') do
+      xhr :post, :watch, :object_type => 'issue', :object_id => '1', :replace => ['watch_item_1','watch_item_2']
+      assert_response :success
+      assert_select_rjs :replace_html, 'watch_item_1'
+      assert_select_rjs :replace_html, 'watch_item_2'
+    end
+  end
   
   def test_unwatch
     @request.session[:user_id] = 3
@@ -57,7 +67,18 @@ class WatchersControllerTest < ActionController::TestCase
     end
     assert !Issue.find(1).watched_by?(User.find(3))
   end
-  
+
+  def test_unwatch_with_multiple_replacements
+    @request.session[:user_id] = 3
+    assert_difference('Watcher.count', -1) do
+      xhr :post, :unwatch, :object_type => 'issue', :object_id => '2', :replace => ['watch_item_1', 'watch_item_2']
+      assert_response :success
+      assert_select_rjs :replace_html, 'watch_item_1'
+      assert_select_rjs :replace_html, 'watch_item_2'
+    end
+    assert !Issue.find(1).watched_by?(User.find(3))
+  end
+
   def test_new_watcher
     @request.session[:user_id] = 2
     assert_difference('Watcher.count') do
