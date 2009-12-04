@@ -35,8 +35,7 @@ module TimeEntryPatch
 
   module InstanceMethods
     def before_save
-      result = update_costs
-      return issue.changed? ? result : issue.save
+      update_costs
     end
     
     def real_costs
@@ -61,33 +60,10 @@ module TimeEntryPatch
       
       self.costs = calculated_costs(rate_attr)
       self.rate = rate_attr
-
-      if self.overridden_costs_changed?
-        if self.overridden_costs_was.nil?
-          # just started to overwrite the cost
-          delta = overridden_costs - (costs_was || 0.0)
-        elsif self.overridden_costs.nil?
-          # removed the overridden cost, use the calculated cost now
-          delta = costs - overridden_costs_was
-        else
-          # changed the overridden costs
-          delta = overridden_costs - (overridden_costs_was || 0.0)
-        end
-      elsif self.costs_changed? && self.overridden_costs.nil?
-        # we use the calculated costs and it has changed
-        delta = self.costs - (self.costs_was || 0.0)
-      end
-      
-      self.issue.labor_costs += delta if delta
-      
-      # save the current rate
-      @updated_rate = rate_attr.id
-      @updated_hours = self.hours
     end
     
     def update_costs!(rate_attr = nil)
       self.update_costs(rate_attr)
-      self.issue.save!
       self.save!
     end
 

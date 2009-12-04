@@ -25,28 +25,6 @@ module IssuePatch
   end
   
   module InstanceMethods
-    def before_validation
-      self.overall_costs = self.labor_costs +  self.material_costs
-      true
-    end
-    
-    def update_costs
-      overridden_costs = CostEntry.sum(:overridden_costs, :conditions => {:issue_id => id})
-      normal_costs = CostEntry.sum(:costs, :conditions => {:overridden_costs => nil, :issue_id => id})
-      self.material_costs = overridden_costs + normal_costs
-      
-      overridden_costs = TimeEntry.sum(:overridden_costs, :conditions => {:issue_id => id})
-      normal_costs = TimeEntry.sum(:costs, :conditions => {:overridden_costs => nil, :issue_id => id})
-      self.labor_costs = overridden_costs + normal_costs
-      
-      self.overall_costs = self.labor_costs +  self.material_costs
-    end
-    
-    def update_costs!
-      self.update_costs
-      self.save!
-    end
-    
     def validate_with_cost_object
       if cost_object_id_changed?
         if cost_object_id_was.nil?

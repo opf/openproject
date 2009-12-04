@@ -39,8 +39,7 @@ class CostEntry < ActiveRecord::Base
   
   def before_save
     self.spent_on &&= spent_on.to_date
-    result = update_costs
-    return issue.changed? ? result : issue.save
+    update_costs
   end
   
   # tyear, tmonth, tweek assigned where setting spent_on attributes
@@ -74,28 +73,6 @@ class CostEntry < ActiveRecord::Base
 
     self.costs = self.calculated_costs(rate_attr)
     self.rate = rate_attr
-    
-    if self.overridden_costs_changed?
-      if self.overridden_costs_was.nil?
-        # just started to overwrite the cost
-        delta = self.costs_was.nil? ? self.overridden_costs : self.overridden_costs - self.costs_was
-      elsif self.overridden_costs.nil?
-        # removed the overridden cost, use the calculated cost now
-        delta = self.costs - self.overridden_costs_was
-      else
-        # changed the overridden costs
-        delta = self.overridden_costs - self.overridden_costs_was
-      end
-    elsif self.costs_changed? && self.overridden_costs.nil?
-      # we use the calculated costs and it has changed
-      delta = self.costs - (self.costs_was || 0.0)
-    end
-    
-    self.issue.material_costs += delta if delta
-    
-    # save the current rate
-    @updated_rate = rate_attr.id
-    @updated_units = self.units
   end
   
   def update_costs!(rate_attr = nil)
