@@ -88,8 +88,6 @@
 	</li>
 	
 <% if !@issue.nil? %>
-	<li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
-	        :class => 'icon-copy', :disabled => !@can[:copy] %></li>
 	<% if @can[:log_time] -%>
 	<li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue},
 	        :class => 'icon-time-add' %></li>
@@ -97,6 +95,14 @@
 	<% if User.current.logged? %>
 	<li><%= watcher_link(@issue, User.current) %></li>
 	<% end %>
+<% end %>
+
+<% if @issue.present? %>
+  <li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
+	        :class => 'icon-copy', :disabled => !@can[:copy] %></li>
+<% else %>
+  <li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id), :copy_options => {:copy => 't'}},
+	                        :class => 'icon-copy', :disabled => !@can[:move]  %></li>
 <% end %>
 
   <li><%= context_menu_link l(:button_move), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id)},

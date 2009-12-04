@@ -1059,6 +1059,27 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to 'projects/ecookbook/issues'
   end
 
+  context "#move via bulk copy" do
+    should "allow changing the issue's attributes" do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count', 2 do
+        assert_no_difference 'Project.find(1).issues.count' do
+          post :move, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}, :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
+        end
+      end
+
+      copied_issues = Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2})
+      assert_equal 2, copied_issues.size
+      copied_issues.each do |issue|
+        assert_equal 2, issue.project_id, "Project is incorrect"
+        assert_equal 4, issue.assigned_to_id, "Assigned to is incorrect"
+        assert_equal 3, issue.status_id, "Status is incorrect"
+        assert_equal '2009-12-01', issue.start_date.to_s, "Start date is incorrect"
+        assert_equal '2009-12-31', issue.due_date.to_s, "Due date is incorrect"
+      end
+    end
+  end
+  
   def test_copy_to_another_project_should_follow_when_needed
     @request.session[:user_id] = 2
     post :move, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :follow => '1'
@@ -1117,6 +1138,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :tag => 'a', :content => 'Dave Lopper',
                             :attributes => { :href => '/issues/bulk_edit?assigned_to_id=3&amp;ids%5B%5D=1&amp;ids%5B%5D=2',
                                              :class => '' }
+    assert_tag :tag => 'a', :content => 'Copy',
+                            :attributes => { :href => '/issues/move?copy_options%5Bcopy%5D=t&amp;ids%5B%5D=1&amp;ids%5B%5D=2',
+                                             :class => 'icon-copy' }
     assert_tag :tag => 'a', :content => 'Move',
                             :attributes => { :href => '/issues/move?ids%5B%5D=1&amp;ids%5B%5D=2',
                                              :class => 'icon-move' }

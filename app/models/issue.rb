@@ -108,7 +108,15 @@ class Issue < ActiveRecord::Base
       end
       if options[:copy]
         issue.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
-        issue.status = self.status
+        issue.status = if options[:attributes] && options[:attributes][:status_id]
+                         IssueStatus.find_by_id(options[:attributes][:status_id])
+                       else
+                         self.status
+                       end
+      end
+      # Allow bulk setting of attributes on the issue
+      if options[:attributes]
+        issue.attributes = options[:attributes]
       end
       if issue.save
         unless options[:copy]

@@ -271,13 +271,12 @@ class IssuesController < ApplicationController
       redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index', :project_id => @project})
       return
     end
-    # Find potential statuses the user could be allowed to switch issues to
-    @available_statuses = Workflow.find(:all, :include => :new_status,
-                                              :conditions => {:role_id => User.current.roles_for_project(@project).collect(&:id)}).collect(&:new_status).compact.uniq.sort
+    @available_statuses = Workflow.available_statuses(@project)
     @custom_fields = @project.issue_custom_fields.select {|f| f.field_format == 'list'}
   end
 
   def move
+    @copy = params[:copy_options] && params[:copy_options][:copy]
     @allowed_projects = []
     # find projects to which the user is allowed to move the issue
     if User.current.admin?
@@ -289,13 +288,18 @@ class IssuesController < ApplicationController
     @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
     @target_project ||= @project    
     @trackers = @target_project.trackers
+    @available_statuses = Workflow.available_statuses(@project)
     if request.post?
       new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
       unsaved_issue_ids = []
       moved_issues = []
       @issues.each do |issue|
+        changed_attributes = {}
+        [:assigned_to_id, :status_id, :start_date, :due_date].each do |valid_attribute|
+          changed_attributes[valid_attribute] = params[valid_attribute] if params[valid_attribute]
+        end
         issue.init_journal(User.current)
-        if r = issue.move_to(@target_project, new_tracker, params[:copy_options])
+        if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
           moved_issues << r
         else
           unsaved_issue_ids << issue.id

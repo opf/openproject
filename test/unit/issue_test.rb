@@ -352,6 +352,38 @@ class IssueTest < ActiveSupport::TestCase
     # Custom field #2 is not associated with target tracker
     assert_nil copy.custom_value_for(2)
   end
+
+  context "#move_to" do
+    context "as a copy" do
+      setup do
+        @issue = Issue.find(1)
+        @copy = nil
+      end
+
+      should "allow assigned_to changes" do
+        @copy = @issue.move_to(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:assigned_to_id => 3}})
+        assert_equal 3, @copy.assigned_to_id
+      end
+
+      should "allow status changes" do
+        @copy = @issue.move_to(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:status_id => 2}})
+        assert_equal 2, @copy.status_id
+      end
+
+      should "allow start date changes" do
+        date = Date.today
+        @copy = @issue.move_to(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:start_date => date}})
+        assert_equal date, @copy.start_date
+      end
+
+      should "allow due date changes" do
+        date = Date.today
+        @copy = @issue.move_to(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:due_date => date}})
+
+        assert_equal date, @copy.due_date
+      end
+    end
+  end
   
   def test_recipients_should_not_include_users_that_cannot_view_the_issue
     issue = Issue.find(12)
