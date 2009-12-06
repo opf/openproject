@@ -868,26 +868,26 @@ es:
   text_journal_deleted: "{{label}} eliminado ({{old}})"
   label_group_plural: Grupos
   label_group: Grupo
-  label_group_new: Nuevo grupo
+  label_group_new: Grupo nuevo
   label_time_entry_plural: Tiempo dedicado
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
+  text_journal_added: "Añadido {{label}} {{value}}"
+  field_active: Activo
+  enumeration_system_activity: Actividad del sistema
+  permission_delete_issue_watchers: Borrar seguidores
+  version_status_closed: cerrado
+  version_status_locked: bloqueado
+  version_status_open: abierto
+  error_can_not_reopen_issue_on_closed_version: Una tarea asignada a una versión cerrada no puede ser reabierta
+  label_user_anonymous: Anónimo
+  button_move_and_follow: Mover y seguir
+  setting_default_projects_modules: Módulos habilitados por defecto en proyectos nuevos
+  setting_gravatar_default: Imagen Gravatar por defecto
   field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
   button_copy_and_follow: Copy and follow
+  label_version_sharing_hierarchy: With project hierarchy
+  label_version_sharing_tree: With project tree
+  label_version_sharing_descendants: With subprojects
+  label_version_sharing_system: With all projects
+  label_version_sharing_none: Not shared
+  button_duplicate: Duplicate
+  error_can_not_archive_project: This project can not be archived

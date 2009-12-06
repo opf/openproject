@@ -205,6 +205,7 @@ sv:
   error_issue_not_found_in_project: 'Ärendet hittades inte eller så tillhör det inte detta projekt'
   error_no_tracker_in_project: Ingen ärendetyp är associerad med projektet. Vänligen kontrollera projektinställningarna.
   error_no_default_issue_status: Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (Gå till "Administration -> Ärendestatus").
+  error_can_not_reopen_issue_on_closed_version: Ett ärende tilldelat en stängd version kan inte öppnas på nytt
   
   warning_attachments_not_saved: "{{count}} fil(er) kunde inte sparas."
   
@@ -355,12 +356,14 @@ sv:
   setting_mail_handler_api_key: API-nyckel
   setting_sequential_project_identifiers: Generera projektidentifierare sekventiellt
   setting_gravatar_enabled: Använd Gravatar-avatarer
+  setting_gravatar_default: Förvald Gravatar-bild
   setting_diff_max_lines_displayed: Maximalt antal synliga rader i diff
   setting_file_max_size_displayed: Maxstorlek på textfiler som visas inline
   setting_repository_log_display_limit: Maximalt antal revisioner i filloggen
   setting_openid: Tillåt inloggning och registrering med OpenID
   setting_password_min_length: Minsta tillåtna lösenordslängd
   setting_new_project_user_role_id: Tilldelad roll för en icke-administratör som skapar ett projekt
+  setting_default_projects_modules: Standardaktiverade moduler för nya projekt
   
   permission_add_project: Skapa projekt
   permission_edit_project: Ändra projekt
@@ -424,6 +427,7 @@ sv:
   label_user: Användare
   label_user_plural: Användare
   label_user_new: Ny användare
+  label_user_anonymous: Anonym
   label_project: Projekt
   label_project_new: Nytt projekt
   label_project_plural: Projekt
@@ -775,6 +779,7 @@ sv:
   button_list: Lista
   button_view: Visa
   button_move: Flytta
+  button_move_and_follow: Flytta och följ efter
   button_back: Tillbaka
   button_cancel: Avbryt
   button_activate: Aktivera
@@ -798,6 +803,10 @@ sv:
   status_active: aktiv
   status_registered: registrerad
   status_locked: låst
+  
+  version_status_open: öppen
+  version_status_locked: låst
+  version_status_closed: stängd
   
   field_active: Aktiv
   
@@ -881,20 +890,12 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
   field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
   button_copy_and_follow: Copy and follow
+  label_version_sharing_hierarchy: With project hierarchy
+  label_version_sharing_tree: With project tree
+  label_version_sharing_descendants: With subprojects
+  label_version_sharing_system: With all projects
+  label_version_sharing_none: Not shared
+  button_duplicate: Duplicate
+  error_can_not_archive_project: This project can not be archived
