@@ -823,3 +823,10 @@ nl:
   button_move_and_follow: Move and follow
   setting_default_projects_modules: Default enabled modules for new projects
   setting_gravatar_default: Default Gravatar image
+  field_sharing: Sharing
+  label_version_sharing_hierarchy: With project hierarchy
+  label_version_sharing_system: With all projects
+  label_version_sharing_descendants: With subprojects
+  label_version_sharing_tree: With project tree
+  label_version_sharing_none: Not shared
+  error_can_not_archive_project: This project can not be archived
