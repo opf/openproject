@@ -769,10 +769,12 @@ fr:
   button_rename: Renommer
   button_change_password: Changer de mot de passe
   button_copy: Copier
+  button_copy_and_follow: Copier et suivre
   button_annotate: Annoter
   button_update: Mettre à jour
   button_configure: Configurer
   button_quote: Citer
+  button_duplicate: Dupliquer
   
   status_active: actif
   status_registered: enregistré

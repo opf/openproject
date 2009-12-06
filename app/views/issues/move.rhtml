@@ -1,4 +1,4 @@
-<h2><%= l(:button_move) %></h2>
+<h2><%= @copy ? l(:button_copy) : l(:button_move) %></h2>
 
 <ul>
 <% @issues.each do |issue| -%>
@@ -42,11 +42,14 @@
   <label><%= l(:field_due_date) %></label>
   <%= text_field_tag 'due_date', '', :size => 10 %><%= calendar_for('due_date') %>
 </p>
-
-<p><label for="copy_options_copy"><%= l(:button_copy)%></label>
-<%= check_box_tag "copy_options[copy]", "1", @copy %></p>
 </div>
 
-<%= submit_tag l(:button_move) %> 
-<%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
+<% if @copy %>
+	<%= hidden_field_tag("copy_options[copy]", "1") %>
+	<%= submit_tag l(:button_copy) %>
+	<%= submit_tag l(:button_copy_and_follow), :name => 'follow' %>
+<% else %>
+	<%= submit_tag l(:button_move) %>
+	<%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
+<% end %>
 <% end %>

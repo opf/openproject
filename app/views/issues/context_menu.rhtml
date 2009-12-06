@@ -98,13 +98,11 @@
 <% end %>
 
 <% if @issue.present? %>
-  <li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
-	        :class => 'icon-copy', :disabled => !@can[:copy] %></li>
-<% else %>
+  <li><%= context_menu_link l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
+	        :class => 'icon-duplicate', :disabled => !@can[:copy] %></li>
+<% end %>
   <li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id), :copy_options => {:copy => 't'}},
 	                        :class => 'icon-copy', :disabled => !@can[:move]  %></li>
-<% end %>
-
   <li><%= context_menu_link l(:button_move), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id)},
 	                        :class => 'icon-move', :disabled => !@can[:move]  %></li>
   <li><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :ids => @issues.collect(&:id)},
