@@ -436,11 +436,11 @@ class IssuesController < ApplicationController
   end
 
   def update_form
-    if params[:id]
-      @issue = @project.issues.visible.find(params[:id])
-    else
+    if params[:id].blank?
       @issue = Issue.new
       @issue.project = @project
+    else
+      @issue = @project.issues.visible.find(params[:id])
     end
     @issue.attributes = params[:issue]
     @allowed_statuses = ([@issue.status] + @issue.status.find_new_statuses_allowed_to(User.current.roles_for_project(@project), @issue.tracker)).uniq
