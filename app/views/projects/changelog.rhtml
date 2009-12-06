@@ -6,15 +6,15 @@
 
 <% @versions.each do |version| %>   
     <%= tag 'a', :name => version.name %>
-    <h3 class="icon22 icon22-package"><%= link_to h(version.name), :controller => 'versions', :action => 'show', :id => version %></h3>
+    <h3 class="icon22 icon22-package"><%= link_to_version version %></h3>
     <% if version.effective_date %>
       <p><%= format_date(version.effective_date) %></p>
     <% end %>
     <p><%=h version.description %></p>
-    <% issues = version.fixed_issues.find(:all,
-                                 :include => [:status, :tracker, :priority],
-                                 :conditions => ["#{IssueStatus.table_name}.is_closed=? AND #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", true],
-                                 :order => "#{Tracker.table_name}.position") unless @selected_tracker_ids.empty?
+    <% issues = version.fixed_issues.visible.find(:all,
+         :include => [:status, :tracker, :priority],
+         :conditions => ["#{Issue.table_name}.project_id = ? AND #{IssueStatus.table_name}.is_closed=? AND #{Issue.table_name}.tracker_id in (?)", @project.id, true, @selected_tracker_ids],
+         :order => "#{Tracker.table_name}.position") unless @selected_tracker_ids.empty?
        issues ||= []
     %>
     <% if !issues.empty? %>
@@ -33,11 +33,15 @@
   <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
   <%= tracker.name %></label><br />
 <% end %>
+<% if @project.descendants.active.any? %>
+	<%= hidden_field_tag 'with_subprojects', 0 %>
+  <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
+<% end %>
 <p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
 <% end %>
 
 <h3><%= l(:label_version_plural) %></h3>
 <% @versions.each do |version| %>
-<%= link_to version.name, :anchor => version.name %><br />
+<%= link_to format_version_name(version), :anchor => version.name %><br />
 <% end %>
 <% end %>

@@ -49,6 +49,7 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   
   def log_user(login, password)
+    User.anonymous
     get "/login"
     assert_equal nil, session[:user_id]
     assert_response :success

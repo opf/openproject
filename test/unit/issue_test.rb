@@ -329,6 +329,46 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil issue.category_id
   end
   
+  def test_move_to_another_project_should_clear_fixed_version_when_not_shared
+    issue = Issue.find(1)
+    issue.update_attribute(:fixed_version_id, 1)
+    assert issue.move_to(Project.find(2))
+    issue.reload
+    assert_equal 2, issue.project_id
+    # Cleared fixed_version
+    assert_equal nil, issue.fixed_version
+  end
+  
+  def test_move_to_another_project_should_keep_fixed_version_when_shared_with_the_target_project
+    issue = Issue.find(1)
+    issue.update_attribute(:fixed_version_id, 4)
+    assert issue.move_to(Project.find(5))
+    issue.reload
+    assert_equal 5, issue.project_id
+    # Keep fixed_version
+    assert_equal 4, issue.fixed_version_id
+  end
+  
+  def test_move_to_another_project_should_clear_fixed_version_when_not_shared_with_the_target_project
+    issue = Issue.find(1)
+    issue.update_attribute(:fixed_version_id, 1)
+    assert issue.move_to(Project.find(5))
+    issue.reload
+    assert_equal 5, issue.project_id
+    # Cleared fixed_version
+    assert_equal nil, issue.fixed_version
+  end
+  
+  def test_move_to_another_project_should_keep_fixed_version_when_shared_systemwide
+    issue = Issue.find(1)
+    issue.update_attribute(:fixed_version_id, 7)
+    assert issue.move_to(Project.find(2))
+    issue.reload
+    assert_equal 2, issue.project_id
+    # Keep fixed_version
+    assert_equal 7, issue.fixed_version_id
+  end
+  
   def test_copy_to_the_same_project
     issue = Issue.find(1)
     copy = nil

@@ -156,6 +156,7 @@ en:
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
   error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
   error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version can not be reopened'
+  error_can_not_archive_project: This project can not be archived
   
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   
@@ -267,6 +268,7 @@ en:
   field_identity_url: OpenID URL
   field_content: Content
   field_group_by: Group results by
+  field_sharing: Sharing
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -709,6 +711,11 @@ en:
   label_group_plural: Groups
   label_group_new: New group
   label_time_entry_plural: Spent time
+  label_version_sharing_none: Not shared
+  label_version_sharing_descendants: With subprojects
+  label_version_sharing_hierarchy: With project hierarchy
+  label_version_sharing_tree: With project tree
+  label_version_sharing_system: With all projects
   
   button_login: Login
   button_submit: Submit

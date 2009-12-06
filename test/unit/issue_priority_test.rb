@@ -26,7 +26,7 @@ class IssuePriorityTest < ActiveSupport::TestCase
   
   def test_objects_count
     # low priority
-    assert_equal 5, IssuePriority.find(4).objects_count
+    assert_equal 6, IssuePriority.find(4).objects_count
     # urgent
     assert_equal 0, IssuePriority.find(7).objects_count
   end

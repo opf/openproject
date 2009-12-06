@@ -31,6 +31,14 @@ class QueryTest < ActiveSupport::TestCase
       :include => [ :assigned_to, :status, :tracker, :project, :priority ], 
       :conditions => query.statement
   end
+
+  def test_query_should_allow_shared_versions_for_a_project_query
+    subproject_version = Version.find(4)
+    query = Query.new(:project => Project.find(1), :name => '_')
+    query.add_filter('fixed_version_id', '=', [subproject_version.id.to_s])
+
+    assert query.statement.include?("#{Issue.table_name}.fixed_version_id IN ('4')")
+  end
   
   def test_query_with_multiple_custom_fields
     query = Query.find(1)

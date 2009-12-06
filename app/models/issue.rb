@@ -100,7 +100,10 @@ class Issue < ActiveRecord::Base
         # reassign to the category with same name if any
         new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
         issue.category = new_category
-        issue.fixed_version = nil
+        # Keep the fixed_version if it's still valid in the new_project
+        unless new_project.shared_versions.include?(issue.fixed_version)
+          issue.fixed_version = nil
+        end
         issue.project = new_project
       end
       if new_tracker
@@ -242,7 +245,7 @@ class Issue < ActiveRecord::Base
   
   # Versions that the issue can be assigned to
   def assignable_versions
-    @assignable_versions ||= (project.versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
+    @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
   
   # Returns true if this issue is blocked by another issue that is still open
@@ -335,6 +338,23 @@ class Issue < ActiveRecord::Base
     s << ' created-by-me' if User.current.logged? && author_id == User.current.id
     s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
     s
+  end
+
+  # Update all issues so their versions are not pointing to a
+  # fixed_version that is outside of the issue's project hierarchy.
+  #
+  # OPTIMIZE: does a full table scan of Issues with a fixed_version.
+  def self.update_fixed_versions_from_project_hierarchy_change
+    Issue.all(:conditions => ['fixed_version_id IS NOT NULL'],
+              :include => [:project, :fixed_version]
+              ).each do |issue|
+      next if issue.project.nil? || issue.fixed_version.nil?
+      unless issue.project.shared_versions.include?(issue.fixed_version)
+        issue.init_journal(User.current)
+        issue.fixed_version = nil
+        issue.save
+      end
+    end
   end
   
   private

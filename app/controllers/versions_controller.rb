@@ -22,14 +22,19 @@ class VersionsController < ApplicationController
   before_filter :authorize
 
   helper :custom_fields
+  helper :projects
   
   def show
   end
   
   def edit
-    if request.post? and @version.update_attributes(params[:version])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+    if request.post? && params[:version]
+      attributes = params[:version].dup
+      attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
+      if @version.update_attributes(attributes)
+        flash[:notice] = l(:notice_successful_update)
+        redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+      end
     end
   end
   

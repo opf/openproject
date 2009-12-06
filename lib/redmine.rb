@@ -142,7 +142,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
   menu.push :activity, { :controller => 'projects', :action => 'activity' }
   menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, 
-              :if => Proc.new { |p| p.versions.any? }
+              :if => Proc.new { |p| p.shared_versions.any? }
   menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
   menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }

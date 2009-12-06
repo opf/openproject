@@ -219,13 +219,20 @@ class Project < ActiveRecord::Base
     self.status == STATUS_ACTIVE
   end
   
-  # Archives the project and its descendants recursively
+  # Archives the project and its descendants
   def archive
-    # Archive subprojects if any
-    children.each do |subproject|
-      subproject.archive
+    # Check that there is no issue of a non descendant project that is assigned
+    # to one of the project or descendant versions
+    v_ids = self_and_descendants.collect {|p| p.version_ids}.flatten
+    if v_ids.any? && Issue.find(:first, :include => :project,
+                                        :conditions => ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
+                                                        " AND #{Issue.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
+      return false
     end
-    update_attribute :status, STATUS_ARCHIVED
+    Project.transaction do
+      archive!
+    end
+    true
   end
   
   # Unarchives the project
@@ -297,6 +304,7 @@ class Project < ActiveRecord::Base
         # move_to_child_of adds the project in last (ie.right) position
         move_to_child_of(p)
       end
+      Issue.update_fixed_versions_from_project_hierarchy_change
       true
     else
       # Can not move to the given target
@@ -324,6 +332,19 @@ class Project < ActiveRecord::Base
     end
   end
   
+  # Returns a scope of the Versions used by the project
+  def shared_versions
+    @shared_versions ||= 
+      Version.scoped(:include => :project,
+                     :conditions => "#{Project.table_name}.id = #{id}" +
+                                    " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
+                                          " #{Version.table_name}.sharing = 'system'" +
+                                          " OR (#{Project.table_name}.lft >= #{root.lft} AND #{Project.table_name}.rgt <= #{root.rgt} AND #{Version.table_name}.sharing = 'tree')" +
+                                          " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
+                                          " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
+                                          "))")
+  end
+
   # Returns a hash of project users grouped by role
   def users_by_role
     members.find(:all, :include => [:user, :roles]).inject({}) do |h, m|
@@ -604,5 +625,13 @@ class Project < ActiveRecord::Base
              :conditions => ["id NOT IN (?)", self.time_entry_activities.active.collect(&:parent_id)]) +
         self.time_entry_activities.active
     end
+  end
+  
+  # Archives subprojects recursively
+  def archive!
+    children.each do |subproject|
+      subproject.send :archive!
+    end
+    update_attribute :status, STATUS_ARCHIVED
   end
 end

@@ -104,6 +104,41 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_pourcent
     assert_progress_equal 25.0/100.0*100, v.closed_pourcent
   end
+
+  test "should update all issue's fixed_version associations in case the hierarchy changed XXX" do
+    User.current = User.find(1) # Need the admin's permissions
+    
+    @version = Version.find(7)
+    # Separate hierarchy
+    project_1_issue = Issue.find(1)
+    project_1_issue.fixed_version = @version
+    assert project_1_issue.save, project_1_issue.errors.full_messages
+    
+    project_5_issue = Issue.find(6)
+    project_5_issue.fixed_version = @version
+    assert project_5_issue.save
+    
+    # Project
+    project_2_issue = Issue.find(4)
+    project_2_issue.fixed_version = @version
+    assert project_2_issue.save
+
+    # Update the sharing
+    @version.sharing = 'none'
+    assert @version.save
+
+    # Project 1 now out of the shared scope
+    project_1_issue.reload
+    assert_equal nil, project_1_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
+    
+    # Project 5 now out of the shared scope
+    project_5_issue.reload
+    assert_equal nil, project_5_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
+
+    # Project 2 issue remains
+    project_2_issue.reload
+    assert_equal @version, project_2_issue.fixed_version
+  end
   
   private
   

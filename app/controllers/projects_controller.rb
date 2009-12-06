@@ -174,7 +174,11 @@ class ProjectsController < ApplicationController
   end
 
   def archive
-    @project.archive if request.post? && @project.active?
+    if request.post?
+      unless @project.archive
+        flash[:error] = l(:error_can_not_archive_project)
+      end
+    end
     redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
   
@@ -224,7 +228,12 @@ class ProjectsController < ApplicationController
 	
   # Add a new version to @project
   def add_version
-  	@version = @project.versions.build(params[:version])
+    @version = @project.versions.build
+    if params[:version]
+      attributes = params[:version].dup
+      attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
+      @version.attributes = attributes
+    end
   	if request.post? and @version.save
   	  flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'settings', :tab => 'versions', :id => @project
@@ -278,15 +287,53 @@ class ProjectsController < ApplicationController
   # Show changelog for @project
   def changelog
     @trackers = @project.trackers.find(:all, :conditions => ["is_in_chlog=?", true], :order => 'position')
-    retrieve_selected_tracker_ids(@trackers)    
-    @versions = @project.versions.sort
+    retrieve_selected_tracker_ids(@trackers)
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+    project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
+    
+    @versions = @project.shared_versions.sort
+    
+    @issues_by_version = {}
+    unless @selected_tracker_ids.empty?
+      @versions.each do |version|
+        conditions = {:tracker_id => @selected_tracker_ids, "#{IssueStatus.table_name}.is_closed" => true}
+        if !@project.versions.include?(version)
+          conditions.merge!(:project_id => project_ids)
+        end
+        issues = version.fixed_issues.visible.find(:all,
+                                                   :include => [:status, :tracker, :priority],
+                                                   :conditions => conditions,
+                                                   :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
+        @issues_by_version[version] = issues
+      end
+    end
+    @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].empty?}
   end
 
   def roadmap
-    @trackers = @project.trackers.find(:all, :conditions => ["is_in_roadmap=?", true])
+    @trackers = @project.trackers.find(:all, :conditions => ["is_in_roadmap=?", true], :order => 'position')
     retrieve_selected_tracker_ids(@trackers)
-    @versions = @project.versions.sort
-    @versions = @versions.select {|v| !v.completed? } unless params[:completed]
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+    project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
+    
+    @versions = @project.shared_versions.sort
+    @versions.reject! {|version| version.closed? || version.completed? } unless params[:completed]
+    
+    @issues_by_version = {}
+    unless @selected_tracker_ids.empty?
+      @versions.each do |version|
+        conditions = {:tracker_id => @selected_tracker_ids}
+        if !@project.versions.include?(version)
+          conditions.merge!(:project_id => project_ids)
+        end
+        issues = version.fixed_issues.visible.find(:all,
+                                                   :include => [:status, :tracker, :priority],
+                                                   :conditions => conditions,
+                                                   :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
+        @issues_by_version[version] = issues
+      end
+    end
+    @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].empty?}
   end
   
   def activity

@@ -5,6 +5,7 @@
     <th><%= l(:field_effective_date) %></th>
     <th><%= l(:field_description) %></th>
     <th><%= l(:field_status) %></th>
+    <th><%= l(:field_sharing) %></th>
     <th><%= l(:label_wiki_page) unless @project.wiki.nil? %></th>
     <th style="width:15%"></th>
     </thead>
@@ -15,6 +16,7 @@
     <td align="center"><%= format_date(version.effective_date) %></td>
     <td><%=h version.description %></td>
     <td><%= l("version_status_#{version.status}") %></td>
+    <td><%=h format_version_sharing(version.sharing) %></td>
     <td><%= link_to(h(version.wiki_page_title), :controller => 'wiki', :page => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %></td>
     <td class="buttons">
     	<%= link_to_if_authorized l(:button_edit),   {:controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>

@@ -24,7 +24,7 @@ rescue
 end
 
 class AccountTest < ActionController::IntegrationTest
-  fixtures :users
+  fixtures :users, :roles
 
   # Replace this with your real tests.
   def test_login

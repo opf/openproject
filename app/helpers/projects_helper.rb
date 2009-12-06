@@ -18,7 +18,7 @@
 module ProjectsHelper
   def link_to_version(version, options = {})
     return '' unless version && version.is_a?(Version)
-    link_to h(version.name), { :controller => 'versions', :action => 'show', :id => version }, options
+    link_to_if version.visible?, format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, options
   end
   
   def project_settings_tabs
@@ -68,5 +68,28 @@ module ProjectsHelper
       s << ("</li></ul>\n" * ancestors.size)
     end
     s
+  end
+
+  # Returns a set of options for a select field, grouped by project.
+  def version_options_for_select(versions, selected=nil)
+    grouped = Hash.new {|h,k| h[k] = []}
+    versions.each do |version|
+      grouped[version.project.name] << [h(version.name), version.id]
+    end
+    # Add in the selected
+    if selected && !versions.include?(selected)
+      grouped[selected.project.name] << [h(selected.name), selected.id]
+    end
+    
+    if grouped.keys.size > 1
+      grouped_options_for_select(grouped, selected && selected.id)
+    else
+      options_for_select(grouped.values.first, selected && selected.id)
+    end
+  end
+
+  def format_version_sharing(sharing)
+    sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
+    l("label_version_sharing_#{sharing}")
   end
 end

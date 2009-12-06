@@ -19,7 +19,7 @@
                      :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
 <% end %>
 <% unless @issue.assignable_versions.empty? %>
-<p><%= f.select :fixed_version_id, (@issue.assignable_versions.collect {|v| [v.name, v.id]}), :include_blank => true %></p>
+<p><%= f.select :fixed_version_id, version_options_for_select(@issue.assignable_versions, @issue.fixed_version), :include_blank => true %></p>
 <% end %>
 </div>
 

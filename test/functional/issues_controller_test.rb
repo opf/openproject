@@ -925,6 +925,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
   
+  def test_post_edit_should_allow_fixed_version_to_be_set_to_a_subproject
+    issue = Issue.find(2)
+    @request.session[:user_id] = 2
+
+    post :edit,
+         :id => issue.id,
+         :issue => {
+           :fixed_version_id => 4
+         }
+
+    assert_response :redirect
+    issue.reload
+    assert_equal 4, issue.fixed_version_id
+    assert_not_equal issue.project_id, issue.fixed_version.project_id
+  end
+  
   def test_get_bulk_edit
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]
@@ -1005,6 +1021,21 @@ class IssuesControllerTest < ActionController::TestCase
     assert_nil Issue.find(2).assigned_to
   end
   
+  def test_post_bulk_edit_should_allow_fixed_version_to_be_set_to_a_subproject
+    @request.session[:user_id] = 2
+
+    post :bulk_edit,
+         :ids => [1,2],
+         :fixed_version_id => 4
+
+    assert_response :redirect
+    issues = Issue.find([1,2])
+    issues.each do |issue|
+      assert_equal 4, issue.fixed_version_id
+      assert_not_equal issue.project_id, issue.fixed_version.project_id
+    end
+  end
+
   def test_move_routing
     assert_routing(
       {:method => :get, :path => '/issues/1/move'},
@@ -1101,6 +1132,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :tag => 'a', :content => 'Immediate',
                             :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;priority_id=8',
                                              :class => '' }
+    # Versions
+    assert_tag :tag => 'a', :content => '2.0',
+                            :attributes => { :href => '/issues/bulk_edit?fixed_version_id=3&amp;ids%5B%5D=1',
+                                             :class => '' }
+    assert_tag :tag => 'a', :content => 'eCookbook Subproject 1 - 2.0',
+                            :attributes => { :href => '/issues/bulk_edit?fixed_version_id=4&amp;ids%5B%5D=1',
+                                             :class => '' }
+
     assert_tag :tag => 'a', :content => 'Dave Lopper',
                             :attributes => { :href => '/issues/bulk_edit?assigned_to_id=3&amp;ids%5B%5D=1',
                                              :class => '' }

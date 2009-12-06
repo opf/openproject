@@ -17,6 +17,7 @@
 
 class Version < ActiveRecord::Base
   before_destroy :check_integrity
+  after_update :update_issue_versions
   belongs_to :project
   has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id'
   acts_as_customizable
@@ -24,15 +25,24 @@ class Version < ActiveRecord::Base
                      :delete_permission => :manage_files
 
   VERSION_STATUSES = %w(open locked closed)
+  VERSION_SHARINGS = %w(none descendants hierarchy tree system)
   
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
   validates_length_of :name, :maximum => 60
   validates_format_of :effective_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :not_a_date, :allow_nil => true
   validates_inclusion_of :status, :in => VERSION_STATUSES
+  validates_inclusion_of :sharing, :in => VERSION_SHARINGS
 
   named_scope :open, :conditions => {:status => 'open'}
-    
+  named_scope :visible, lambda {|*args| { :include => :project,
+                                          :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+
+  # Returns true if +user+ or current user is allowed to view the version
+  def visible?(user=User.current)
+    user.allowed_to?(:view_issues, self.project)
+  end
+  
   def start_date
     effective_date
   end
@@ -53,6 +63,10 @@ class Version < ActiveRecord::Base
   
   def closed?
     status == 'closed'
+  end
+
+  def open?
+    status == 'open'
   end
   
   # Returns true if the version is completed: due date reached and no open issues
@@ -120,9 +134,37 @@ class Version < ActiveRecord::Base
     end
   end
   
+  # Returns the sharings that +user+ can set the version to
+  def allowed_sharings(user = User.current)
+    VERSION_SHARINGS.select do |s|
+      if sharing == s
+        true
+      else
+        case s
+        when 'system'
+          # Only admin users can set a systemwide sharing
+          user.admin?
+        when 'hierarchy', 'tree'
+          # Only users allowed to manage versions of the root project can
+          # set sharing to hierarchy or tree
+          project.nil? || user.allowed_to?(:manage_versions, project.root)
+        else
+          true
+        end
+      end
+    end
+  end
+  
 private
   def check_integrity
     raise "Can't delete version" if self.fixed_issues.find(:first)
+  end
+
+  # Update the issue's fixed versions. Used if a version's sharing changes.
+  def update_issue_versions
+    if sharing_changed?
+      Issue.update_fixed_versions_from_project_hierarchy_change
+    end
   end
   
   # Returns the average estimated time of assigned issues

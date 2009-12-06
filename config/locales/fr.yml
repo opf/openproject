@@ -178,6 +178,7 @@ fr:
   error_scm_annotate: "L'entrée n'existe pas ou ne peut pas être annotée."
   error_issue_not_found_in_project: "La demande n'existe pas ou n'appartient pas à ce projet"
   error_can_not_reopen_issue_on_closed_version: 'Une demande assignée à une version fermée ne peut pas être réouverte'
+  error_can_not_archive_project: "Ce projet ne peut pas être archivé"
   
   warning_attachments_not_saved: "{{count}} fichier(s) n'ont pas pu être sauvegardés."
   
@@ -289,6 +290,7 @@ fr:
   field_identity_url: URL OpenID
   field_content: Contenu
   field_group_by: Grouper par
+  field_sharing: Partage
   
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -725,6 +727,11 @@ fr:
   label_group: Groupe
   label_group_new: Nouveau groupe
   label_time_entry_plural: Temps passé
+  label_version_sharing_none: Non partagé
+  label_version_sharing_descendants: Avec les sous-projets
+  label_version_sharing_hierarchy: Avec toute la hiérarchie
+  label_version_sharing_tree: Avec tout l'arbre
+  label_version_sharing_system: Avec tous les projets
   
   button_login: Connexion
   button_submit: Soumettre
