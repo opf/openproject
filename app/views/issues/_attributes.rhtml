@@ -19,7 +19,14 @@
                      :tabindex => 199) if authorize_for('projects', 'add_issue_category') %></p>
 <% end %>
 <% unless @issue.assignable_versions.empty? %>
-<p><%= f.select :fixed_version_id, version_options_for_select(@issue.assignable_versions, @issue.fixed_version), :include_blank => true %></p>
+<p><%= f.select :fixed_version_id, version_options_for_select(@issue.assignable_versions, @issue.fixed_version), :include_blank => true %>
+<%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
+                     l(:label_version_new),
+                     'version[name]', 
+                     {:controller => 'projects', :action => 'add_version', :id => @project},
+                     :title => l(:label_version_new), 
+                     :tabindex => 200) if authorize_for('projects', 'add_version') %>
+</p>
 <% end %>
 </div>
 
