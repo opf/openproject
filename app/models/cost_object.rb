@@ -5,6 +5,9 @@ class CostObject < ActiveRecord::Base
   belongs_to :project
   has_many :issues
   
+  has_many :cost_entries, :through => :issues
+  has_many :time_entries, :through => :issues
+  
   attr_protected :author
   
   acts_as_attachable :after_remove => :attachment_removed
