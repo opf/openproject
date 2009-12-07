@@ -12,6 +12,12 @@ class CostEntry < ActiveRecord::Base
   validates_numericality_of :units, :allow_nil => false, :message => :activerecord_error_invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
   
+  named_scope :visible, lambda{|*args|
+    { :include => [:project, :user],
+      :conditions => (args.first || User.current).allowed_for(:view_cost_entries, args[1])
+    }
+  }
+  
   def after_initialize
     if new_record? && self.cost_type.nil?
       if default_cost_type = CostType.default
