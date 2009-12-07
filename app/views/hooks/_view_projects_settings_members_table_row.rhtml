@@ -1,4 +1,4 @@
-<% if not project.nil? and project.module_enabled? :costs_module and User.current.allowed_to?(:view_hourly_rates, project, :for => User.current) %>
+<% if not project.nil? and project.module_enabled? :costs_module and User.current.allowed_to?(:view_hourly_rates, project) %>
 <%
   allow_view = member.user && User.current.allowed_to?(:view_hourly_rates, project, :for => member.user)
   allow_edit = member.user && User.current.allowed_to?(:edit_hourly_rates, project, :for => member.user)
