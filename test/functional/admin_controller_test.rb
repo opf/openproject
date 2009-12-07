@@ -120,6 +120,21 @@ class AdminControllerTest < ActionController::TestCase
     assert_template 'info'
   end
   
+  def test_admin_menu_plugin_extension
+    Redmine::MenuManager.map :admin_menu do |menu|
+      menu.push :test_admin_menu_plugin_extension, '/foo/bar', :caption => 'Test'
+    end
+    
+    get :index
+    assert_response :success
+    assert_tag :a, :attributes => { :href => '/foo/bar' },
+                   :content => 'Test'
+    
+    Redmine::MenuManager.map :admin_menu do |menu|
+      menu.delete :test_admin_menu_plugin_extension
+    end
+  end
+  
   private
   
   def delete_configuration_data
