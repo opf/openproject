@@ -28,6 +28,8 @@ Dispatcher.to_prepare do
   Role.send(:include, RolePatch)
   TimeEntry.send(:include, TimeEntryPatch)
   Query.send(:include, QueryPatch)
+  Version.send(:include, VersionPatch)
+
   UsersHelper.send(:include, CostsUsersHelperPatch)
 
   ApplicationController.send(:include, ApplicationControllerPatch)
