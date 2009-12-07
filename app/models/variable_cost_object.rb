@@ -21,11 +21,11 @@ class VariableCostObject < CostObject
   end
   
   def material_budget
-    material_budget_items.inject(0.0) {|sum, d| d.costs + sum}
+    @material_budget ||= material_budget_items.inject(0.0){|sum, i| sum += i.costs}
   end
 
   def labor_budget
-    labor_budget_items.inject(0.0) {|sum,d| sum + d.costs}
+    @labor_budget ||= labor_budget_items.inject(0.0){|sum, i| sum += i.costs}
   end
   
   def spent
@@ -33,15 +33,19 @@ class VariableCostObject < CostObject
   end
   
   def spent_material
-    return @spent_material if @spent_material
-    return 0 unless issues.size > 0
-    @spent_material = issues.collect(&:material_costs).compact.sum
+    @spent_material ||= cost_entries.visible(User.current, self.project).sum("CASE
+      WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
+        #{CostEntry.table_name}.costs
+      ELSE
+        #{CostEntry.table_name}.overridden_costs END").to_f
   end
   
   def spent_labor
-    return @spent_labor if @spent_labor
-    return 0 unless issues.size > 0
-    @spent_labor = issues.collect(&:labor_costs).compact.sum
+    @spent_labor ||= time_entries.visible(User.current, self.project).sum("CASE
+      WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
+        #{TimeEntry.table_name}.costs
+      ELSE
+        #{TimeEntry.table_name}.overridden_costs END").to_f
   end
   
   def new_material_budget_item_attributes=(material_budget_item_attributes)
