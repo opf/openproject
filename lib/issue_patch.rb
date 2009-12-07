@@ -44,6 +44,26 @@ module IssuePatch
       validate_without_cost_object
     end
     
+    def material_costs
+      @material_costs ||= cost_entries.visible(User.current, self.project).sum("CASE
+        WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
+          #{CostEntry.table_name}.costs
+        ELSE
+          #{CostEntry.table_name}.overridden_costs END")
+    end
+    
+    def labor_costs
+      @labor_costs ||= time_entries.visible(User.current, self.project).sum("CASE
+        WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
+          #{TimeEntry.table_name}.costs
+        ELSE
+          #{TimeEntry.table_name}.overridden_costs END")
+    end
+    
+    def overall_costs
+      labor_costs + material_costs
+    end
+    
     # Wraps the association to get the Cost Object subject.  Needed for the 
     # Query and filtering
     def cost_object_subject
