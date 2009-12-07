@@ -317,6 +317,56 @@ class ProjectTest < ActiveSupport::TestCase
     
     assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
   end
+  
+  def test_shared_versions_none_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'none_sharing', :project => p, :sharing => 'none')
+    assert p.shared_versions.include?(v)
+    assert !p.children.first.shared_versions.include?(v)
+    assert !p.root.shared_versions.include?(v)
+    assert !p.siblings.first.shared_versions.include?(v)
+    assert !p.root.siblings.first.shared_versions.include?(v)
+  end
+
+  def test_shared_versions_descendants_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'descendants_sharing', :project => p, :sharing => 'descendants')
+    assert p.shared_versions.include?(v)
+    assert p.children.first.shared_versions.include?(v)
+    assert !p.root.shared_versions.include?(v)
+    assert !p.siblings.first.shared_versions.include?(v)
+    assert !p.root.siblings.first.shared_versions.include?(v)
+  end
+  
+  def test_shared_versions_hierarchy_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'hierarchy_sharing', :project => p, :sharing => 'hierarchy')
+    assert p.shared_versions.include?(v)
+    assert p.children.first.shared_versions.include?(v)
+    assert p.root.shared_versions.include?(v)
+    assert !p.siblings.first.shared_versions.include?(v)
+    assert !p.root.siblings.first.shared_versions.include?(v)
+  end
+
+  def test_shared_versions_tree_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'tree_sharing', :project => p, :sharing => 'tree')
+    assert p.shared_versions.include?(v)
+    assert p.children.first.shared_versions.include?(v)
+    assert p.root.shared_versions.include?(v)
+    assert p.siblings.first.shared_versions.include?(v)
+    assert !p.root.siblings.first.shared_versions.include?(v)
+  end
+
+  def test_shared_versions_system_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'system_sharing', :project => p, :sharing => 'system')
+    assert p.shared_versions.include?(v)
+    assert p.children.first.shared_versions.include?(v)
+    assert p.root.shared_versions.include?(v)
+    assert p.siblings.first.shared_versions.include?(v)
+    assert p.root.siblings.first.shared_versions.include?(v)
+  end
 
   def test_shared_versions
     parent = Project.find(1)
