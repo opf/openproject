@@ -13,14 +13,14 @@ module IssuesControllerPatch
   module InstanceMethods
     # Authorize the user for the requested action
     def show_with_entries
-      @cost_entries = []
-      CostEntry.visible_by(User.current) do
-        @cost_entries += CostEntry.all(:include => [:user, :project], :conditions => {:issue_id => @issue.id})
-      end
+      @cost_entries = @issue.cost_entries.visible(User.current, @issue.project)
+      # CostEntry.visible_by(User.current) do
+      #   @cost_entries += CostEntry.all(:include => [:user, :project], :conditions => {:issue_id => @issue.id})
+      # end
       cost_entries_with_rate = @cost_entries.select{|c| c.costs_visible_by?(User.current)}
       @material_costs = cost_entries_with_rate.blank? ? nil : cost_entries_with_rate.collect(&:real_costs).sum
       
-      @time_entries = []
+      @cost_entries = @issue.time_entries.visible(User.current, @issue.project)
       TimeEntry.visible_by(User.current) do
         @time_entries += TimeEntry.all(:include => [:user, :project], :conditions => {:issue_id => @issue.id})
       end

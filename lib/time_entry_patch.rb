@@ -14,6 +14,12 @@ module TimeEntryPatch
       belongs_to :rate, :conditions => {:type => ["HourlyRate", "DefaultHourlyRate"]}, :class_name => "Rate"
       attr_protected :costs, :rate_id
       
+      named_scope :visible, lambda{|*args|
+        { :include => [:project, :user],
+          :conditions => (args.first || User.current).allowed_for(:view_time_entries, args[1])
+        }
+      }
+      
       unless singleton_methods.include? "visible_by_without_inheritance"
         class << self
           alias_method_chain :visible_by, :inheritance

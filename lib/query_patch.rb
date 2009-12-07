@@ -12,13 +12,10 @@ module QueryPatch
     base.class_eval do
       unloadable # Send unloadable so it will not be unloaded in development
       
-      base.add_available_column(QueryColumn.new(:cost_object_subject))
-
       unless instance_methods.include? "available_filters_without_costs"
         alias_method_chain :available_filters, :costs
       end
     end
-
   end
   
   module ClassMethods
@@ -53,6 +50,7 @@ module QueryPatch
       end
       return @available_filters.merge(redmine_costs_filters)
     end
+  end    
 end
 
 

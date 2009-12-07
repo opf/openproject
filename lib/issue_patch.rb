@@ -14,9 +14,14 @@ module IssuePatch
       
       belongs_to :cost_object
       has_many :cost_entries, :dependent => :delete_all
-      
+
       # disabled for now, implements part of ticket blocking
       #alias_method_chain :validate, :cost_object
+
+      def spent_hours
+        # overwritten method
+        @spent_hours ||= self.time_entries.visible(User.current).sum(:hours) || 0
+      end
     end
   end
   

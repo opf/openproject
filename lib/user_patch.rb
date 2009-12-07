@@ -82,6 +82,8 @@ module UserPatch
         self.allowed_for_role(action, project, role, users, options)
       end
       
+      options[:for] = self unless options.has_key?(:for)
+      
       if project
         # No action allowed on archived projects
         return false unless project.active?

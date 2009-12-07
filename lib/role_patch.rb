@@ -1,6 +1,3 @@
-require_dependency 'user'
-
-# Patches Redmine's Users dynamically.
 module RolePatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
