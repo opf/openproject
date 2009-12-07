@@ -353,38 +353,37 @@ class CostQuery < ActiveRecord::Base
     end
   end
   
-  def project_statement
-    project_clauses = []
-    
+  def project_statement(entry_type)
     if project && !project.children.active.empty?
-      ids = [project.id]
+      projects = [project]
       if subprojects = has_filter?(:issues, "subproject_id")
         subprojects = create_filter_from_hash(subprojects)
 
         case subprojects.operator
         when "="
           # include the selected subprojects
-          ids += subprojects.values.each(&:to_i)
+          projects += Project.find_by_id(subprojects.values.each(&:to_i))
         when "!*"
           # main project only
         else
           # all subprojects
-          ids += project.descendants.collect(&:id)
+          projects += project.descendants
         end
       elsif Setting.display_subprojects_issues?
-        ids += project.descendants.collect(&:id)
+        projects += project.descendants
       end
-      project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
     elsif project
-      project_clauses << "#{Project.table_name}.id = %d" % project.id
+      # show only the current project
+    else
+      ids = []
     end
     
     # FIXME: Implement rights model here
     #project_clauses <<  Project.allowed_to_condition(User.current, :view_issues)
-    if project_clauses.blank?
+    if ids.blank?
       "1=1"
     else
-      project_clauses.join( 'AND ')
+      User.current.allowed_for("view_#{entry_type}".to_sym, projects)
     end
   end
   
@@ -512,7 +511,7 @@ class CostQuery < ActiveRecord::Base
                     :select => "#{Issue.table_name}.id",
                     #:include => [ :assigned_to, :status, :tracker, :project, :priority, :category, :fixed_version ],
                     :from => from,
-                    :conditions => (issue_filter_clauses << project_statement).join(' AND '))
+                    :conditions => (issue_filter_clauses << project_statement(entry_scope)).join(' AND '))
 
     case entry_scope
     when :cost_entries
