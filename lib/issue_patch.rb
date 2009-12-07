@@ -49,7 +49,7 @@ module IssuePatch
         WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
           #{CostEntry.table_name}.costs
         ELSE
-          #{CostEntry.table_name}.overridden_costs END")
+          #{CostEntry.table_name}.overridden_costs END").to_f
     end
     
     def labor_costs
@@ -57,7 +57,7 @@ module IssuePatch
         WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
           #{TimeEntry.table_name}.costs
         ELSE
-          #{TimeEntry.table_name}.overridden_costs END")
+          #{TimeEntry.table_name}.overridden_costs END").to_f
     end
     
     def overall_costs
