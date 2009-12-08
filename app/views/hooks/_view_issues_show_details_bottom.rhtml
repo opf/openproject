@@ -2,6 +2,7 @@
 def summarized_cost_entries(cost_entries)
   last_cost_type = ""
 
+  return "-" if cost_entries.blank?
   result = cost_entries.sort_by(&:id).inject(Hash.new) do |result, entry|
     if entry.cost_type.id.to_s == last_cost_type
       result[last_cost_type][:units] += entry.units
@@ -15,8 +16,6 @@ def summarized_cost_entries(cost_entries)
     end
     result
   end
-
-  return "-" if result.empty?
 
   str_array = []
   options = {:class => 'icon icon-box'}
