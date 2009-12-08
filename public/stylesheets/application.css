@@ -125,6 +125,9 @@ tr.message.locked td.subject a { background-image: url(../images/locked.png); }
 tr.message.sticky td.subject a { background-image: url(../images/sticky.png); font-weight: bold; }
 
 tr.version.closed, tr.version.closed a { color: #999; }
+tr.version td.name { padding-left: 20px; }
+tr.version.shared td.name { background: url(../images/link.png) no-repeat 0% 70%; }
+tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; }
 
 tr.user td { width:13%; }
 tr.user td.email { width:18%; }

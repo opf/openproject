@@ -1,4 +1,4 @@
-<% if @project.versions.any? %>
+<% if @project.shared_versions.any? %>
 <table class="list versions">
 	<thead>
     <th><%= l(:label_version) %></th>
@@ -10,17 +10,19 @@
     <th style="width:15%"></th>
     </thead>
 	<tbody>
-<% for version in @project.versions.sort %>
-    <tr class="version <%= cycle 'odd', 'even' %> <%=h version.status %>">
-    <td><%= link_to h(version.name), :controller => 'versions', :action => 'show', :id => version %></td>
-    <td align="center"><%= format_date(version.effective_date) %></td>
-    <td><%=h version.description %></td>
-    <td><%= l("version_status_#{version.status}") %></td>
-    <td><%=h format_version_sharing(version.sharing) %></td>
+<% for version in @project.shared_versions.sort %>
+    <tr class="version <%= cycle 'odd', 'even' %> <%=h version.status %> <%= 'shared' if version.project != @project %>">
+    <td class="name"><%= link_to_version version %></td>
+    <td class="date"><%= format_date(version.effective_date) %></td>
+    <td class="description"><%=h version.description %></td>
+    <td class="status"><%= l("version_status_#{version.status}") %></td>
+    <td class="sharing"><%=h format_version_sharing(version.sharing) %></td>
     <td><%= link_to(h(version.wiki_page_title), :controller => 'wiki', :page => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %></td>
     <td class="buttons">
-    	<%= link_to_if_authorized l(:button_edit),   {:controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>
-    	<%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+    	<% if version.project == @project %>
+    		<%= link_to_if_authorized l(:button_edit),   {:controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>
+    		<%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+    	<% end %>
    	</td>
     </tr>
 <% end; reset_cycle %>
