@@ -166,7 +166,7 @@ private
       if VERSION_SHARINGS.index(sharing_was).nil? ||
           VERSION_SHARINGS.index(sharing).nil? ||
           VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
-        Issue.update_fixed_versions_from_sharing_change ["fixed_version_id = ? AND #{Issue.table_name}.project_id <> ?", id, project_id]
+        Issue.update_versions_from_sharing_change self
       end
     end
   end

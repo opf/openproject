@@ -340,12 +340,31 @@ class Issue < ActiveRecord::Base
     s
   end
 
-  # Update all issues so their versions are not pointing to a
-  # fixed_version that is outside of the issue's project hierarchy.
-  #
-  # OPTIMIZE: does a full table scan of Issues with a fixed_version.
-  def self.update_fixed_versions_from_sharing_change(conditions=nil)
-    Issue.all(:conditions => merge_conditions('fixed_version_id IS NOT NULL', conditions),
+  # Unassigns issues from +version+ if it's no longer shared with issue's project
+  def self.update_versions_from_sharing_change(version)
+    # Update issues assigned to the version
+    update_versions(["#{Issue.table_name}.fixed_version_id = ?", version.id])
+  end
+  
+  # Unassigns issues from versions that are no longer shared
+  # after +project+ was moved
+  def self.update_versions_from_hierarchy_change(project)
+    moved_project_ids = project.self_and_descendants.reload.collect(&:id)
+    # Update issues of the moved projects and issues assigned to a version of a moved project
+    Issue.update_versions(["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
+  end
+
+  private
+  
+  # Update issues so their versions are not pointing to a
+  # fixed_version that is not shared with the issue's project
+  def self.update_versions(conditions=nil)
+    # Only need to update issues with a fixed_version from
+    # a different project and that is not systemwide shared
+    Issue.all(:conditions => merge_conditions("#{Issue.table_name}.fixed_version_id IS NOT NULL" +
+                                                " AND #{Issue.table_name}.project_id <> #{Version.table_name}.project_id" +
+                                                " AND #{Version.table_name}.sharing <> 'system'",
+                                                conditions),
               :include => [:project, :fixed_version]
               ).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
@@ -356,8 +375,6 @@ class Issue < ActiveRecord::Base
       end
     end
   end
-  
-  private
   
   # Callback on attachment deletion
   def attachment_removed(obj)
