@@ -41,7 +41,7 @@ module AccessControlPermissionPatch
       found += granulars
       
       result = found
-      while (found.count > 0) && recursive
+      while (found.length > 0) && recursive
         found = found.collect{|p| p.inherits(false)}.flatten - result
         result += found
       end
@@ -54,7 +54,7 @@ module AccessControlPermissionPatch
       end
       
       result = found = parent_perms(self)
-      while (found.count > 0) && recursive
+      while (found.length > 0) && recursive
         found = found.collect{|p| parent_perms(p)}.flatten - result
         result += found
       end
