@@ -29,7 +29,7 @@ class HourlyRate < Rate
 
   def self.history_for_user(usr, check_permissions = true)
     rates = Hash.new
-    Projects.has_module(:costs_plugin).active.visible.each do |project|
+    Project.has_module(:costs_plugin).active.visible.each do |project|
       next if (check_permissions && !User.current.allowed_to?(:view_hourly_rates, project, {:for_user => usr}))
 
       rates[project] = HourlyRate.find(:all,
