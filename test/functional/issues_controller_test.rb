@@ -1143,8 +1143,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :tag => 'a', :content => 'Dave Lopper',
                             :attributes => { :href => '/issues/bulk_edit?assigned_to_id=3&amp;ids%5B%5D=1',
                                              :class => '' }
-    assert_tag :tag => 'a', :content => 'Copy',
+    assert_tag :tag => 'a', :content => 'Duplicate',
                             :attributes => { :href => '/projects/ecookbook/issues/1/copy',
+                                             :class => 'icon-duplicate' }
+    assert_tag :tag => 'a', :content => 'Copy',
+                            :attributes => { :href => '/issues/move?copy_options%5Bcopy%5D=t&amp;ids%5B%5D=1',
                                              :class => 'icon-copy' }
     assert_tag :tag => 'a', :content => 'Move',
                             :attributes => { :href => '/issues/move?ids%5B%5D=1',
