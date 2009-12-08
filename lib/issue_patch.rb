@@ -71,6 +71,11 @@ module IssuePatch
         return self.cost_object.subject
       end
     end
+    
+    def update_costs!
+      # This methods ist referenced from some migrations but does nothing
+      # anymore.
+    end
   end
 end
 
