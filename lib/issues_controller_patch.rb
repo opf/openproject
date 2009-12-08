@@ -21,9 +21,9 @@ module IssuesControllerPatch
       @material_costs = cost_entries_with_rate.blank? ? nil : cost_entries_with_rate.collect(&:real_costs).sum
       
       @time_entries = @issue.time_entries.visible(User.current, @issue.project)
-      TimeEntry.visible_by(User.current) do
-        @time_entries += TimeEntry.all(:include => [:user, :project], :conditions => {:issue_id => @issue.id})
-      end
+      # TimeEntry.visible_by(User.current) do
+      #   @time_entries += TimeEntry.all(:include => [:user, :project], :conditions => {:issue_id => @issue.id})
+      # end
       time_entries_with_rate = @time_entries.select{|c| c.costs_visible_by?(User.current)}
       @labor_costs = time_entries_with_rate.blank? ? nil : time_entries_with_rate.collect(&:real_costs).sum
       
