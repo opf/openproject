@@ -304,7 +304,7 @@ class Project < ActiveRecord::Base
         # move_to_child_of adds the project in last (ie.right) position
         move_to_child_of(p)
       end
-      Issue.update_fixed_versions_from_project_hierarchy_change
+      Issue.update_fixed_versions_from_sharing_change
       true
     else
       # Can not move to the given target

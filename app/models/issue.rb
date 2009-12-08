@@ -344,8 +344,8 @@ class Issue < ActiveRecord::Base
   # fixed_version that is outside of the issue's project hierarchy.
   #
   # OPTIMIZE: does a full table scan of Issues with a fixed_version.
-  def self.update_fixed_versions_from_project_hierarchy_change
-    Issue.all(:conditions => ['fixed_version_id IS NOT NULL'],
+  def self.update_fixed_versions_from_sharing_change(conditions=nil)
+    Issue.all(:conditions => merge_conditions('fixed_version_id IS NOT NULL', conditions),
               :include => [:project, :fixed_version]
               ).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?

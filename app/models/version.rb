@@ -17,7 +17,7 @@
 
 class Version < ActiveRecord::Base
   before_destroy :check_integrity
-  after_update :update_issue_versions
+  after_update :update_issues_from_sharing_change
   belongs_to :project
   has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id'
   acts_as_customizable
@@ -161,9 +161,13 @@ private
   end
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
-  def update_issue_versions
+  def update_issues_from_sharing_change
     if sharing_changed?
-      Issue.update_fixed_versions_from_project_hierarchy_change
+      if VERSION_SHARINGS.index(sharing_was).nil? ||
+          VERSION_SHARINGS.index(sharing).nil? ||
+          VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
+        Issue.update_fixed_versions_from_sharing_change ['fixed_version_id = ?', id]
+      end
     end
   end
   
