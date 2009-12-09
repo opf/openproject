@@ -2,5 +2,4 @@
 
 <% form_for :tracker, @tracker, :url => { :action => 'edit' }, :builder => TabularFormBuilder do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
 <% end %>
