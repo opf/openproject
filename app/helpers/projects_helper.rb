@@ -84,7 +84,7 @@ module ProjectsHelper
     if grouped.keys.size > 1
       grouped_options_for_select(grouped, selected && selected.id)
     else
-      options_for_select(grouped.values.first, selected && selected.id)
+      options_for_select((grouped.values.first || []), selected && selected.id)
     end
   end
 
