@@ -270,7 +270,7 @@ class RedCloth3 < String
         
         @urlrefs = {}
         @shelf = []
-        textile_rules = [:refs_textile, :block_textile_table, :block_textile_lists,
+        textile_rules = [:block_textile_table, :block_textile_lists,
                          :block_textile_prefix, :inline_textile_image, :inline_textile_link,
                          :inline_textile_code, :inline_textile_span, :glyphs_textile]
         markdown_rules = [:refs_markdown, :block_markdown_setext, :block_markdown_atx, :block_markdown_rule,
