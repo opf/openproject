@@ -164,6 +164,23 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal custom_value.id, issue.custom_value_for(field).id
   end
   
+  def test_assigning_tracker_id_should_reload_custom_fields_values
+    issue = Issue.new(:project => Project.find(1))
+    assert issue.custom_field_values.empty?
+    issue.tracker_id = 1
+    assert issue.custom_field_values.any?
+  end
+  
+  def test_assigning_attributes_should_assign_tracker_id_first
+    attributes = ActiveSupport::OrderedHash.new
+    attributes['custom_field_values'] = { '1' => 'MySQL' }
+    attributes['tracker_id'] = '1'
+    issue = Issue.new(:project => Project.find(1))
+    issue.attributes = attributes
+    assert_not_nil issue.custom_value_for(1)
+    assert_equal 'MySQL', issue.custom_value_for(1).value
+  end
+  
   def test_should_update_issue_with_disabled_tracker
     p = Project.find(1)
     issue = Issue.find(1)

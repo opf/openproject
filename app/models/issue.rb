@@ -142,7 +142,21 @@ class Issue < ActiveRecord::Base
   def tracker_id=(tid)
     self.tracker = nil
     write_attribute(:tracker_id, tid)
+    result = write_attribute(:tracker_id, tid)
+    @custom_field_values = nil
+    result
   end
+  
+  # Overrides attributes= so that tracker_id gets assigned first
+  def attributes_with_tracker_first=(new_attributes, *args)
+    return if new_attributes.nil?
+    new_tracker_id = new_attributes['tracker_id'] || new_attributes[:tracker_id]
+    if new_tracker_id
+      self.tracker_id = new_tracker_id
+    end
+    self.attributes_without_tracker_first = new_attributes, *args
+  end
+  alias_method_chain :attributes=, :tracker_first
   
   def estimated_hours=(h)
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
