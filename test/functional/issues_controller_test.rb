@@ -1049,7 +1049,7 @@ class IssuesControllerTest < ActionController::TestCase
   
   def test_move_one_issue_to_another_project
     @request.session[:user_id] = 2
-    post :move, :id => 1, :new_project_id => 2
+    post :move, :id => 1, :new_project_id => 2, :tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal 2, Issue.find(1).project_id
   end
@@ -1091,11 +1091,25 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   context "#move via bulk copy" do
+    should "allow not changing the issue's attributes" do
+      @request.session[:user_id] = 2
+      issue_before_move = Issue.find(1)
+      assert_difference 'Issue.count', 1 do
+        assert_no_difference 'Project.find(1).issues.count' do
+          post :move, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
+        end
+      end
+      issue_after_move = Issue.first(:order => 'id desc', :conditions => {:project_id => 2})
+      assert_equal issue_before_move.tracker_id, issue_after_move.tracker_id
+      assert_equal issue_before_move.status_id, issue_after_move.status_id
+      assert_equal issue_before_move.assigned_to_id, issue_after_move.assigned_to_id
+    end
+    
     should "allow changing the issue's attributes" do
       @request.session[:user_id] = 2
       assert_difference 'Issue.count', 2 do
         assert_no_difference 'Project.find(1).issues.count' do
-          post :move, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}, :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
+          post :move, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
         end
       end
 

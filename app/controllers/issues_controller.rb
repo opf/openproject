@@ -296,7 +296,9 @@ class IssuesController < ApplicationController
       @issues.each do |issue|
         changed_attributes = {}
         [:assigned_to_id, :status_id, :start_date, :due_date].each do |valid_attribute|
-          changed_attributes[valid_attribute] = params[valid_attribute] if params[valid_attribute]
+          unless params[valid_attribute].blank?
+            changed_attributes[valid_attribute] = (params[valid_attribute] == 'none' ? nil : params[valid_attribute])
+          end 
         end
         issue.init_journal(User.current)
         if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
