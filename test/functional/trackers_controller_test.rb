@@ -22,7 +22,7 @@ require 'trackers_controller'
 class TrackersController; def rescue_action(e) raise e end; end
 
 class TrackersControllerTest < ActionController::TestCase
-  fixtures :trackers, :projects, :projects_trackers, :users, :issues
+  fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields
   
   def setup
     @controller = TrackersController.new
@@ -45,10 +45,11 @@ class TrackersControllerTest < ActionController::TestCase
   end
 
   def test_post_new
-    post :new, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''] }
+    post :new, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
     assert_redirected_to '/trackers/list'
     tracker = Tracker.find_by_name('New tracker')
     assert_equal [1], tracker.project_ids.sort
+    assert_equal [1, 6], tracker.custom_field_ids
     assert_equal 0, tracker.workflows.count
   end
 

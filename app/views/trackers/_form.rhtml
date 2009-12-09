@@ -6,6 +6,20 @@
 <p><%= f.text_field :name, :required => true %></p>
 <p><%= f.check_box :is_in_chlog %></p>
 <p><%= f.check_box :is_in_roadmap %></p>
+
+<% if IssueCustomField.all.any? %>
+<p>
+	<label><%= l(:label_custom_field_plural) %></label>
+	<% IssueCustomField.all.each do |field| %>
+		<label class="block">
+			<%= check_box_tag 'tracker[custom_field_ids][]',field.id, @tracker.custom_fields.include?(field) %>
+			<%=h field.name %>
+		</label>
+	<% end %>
+</p>
+<%= hidden_field_tag 'tracker[custom_field_ids][]', '' %>
+<% end %>
+
 <% if @tracker.new_record? && @trackers.any? %>
 <p><label><%= l(:label_copy_workflow_from) %></label>
 <%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@trackers, :id, :name)) %></p>
