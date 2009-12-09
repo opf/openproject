@@ -472,6 +472,10 @@ EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
   end
   
+  def test_textile_should_not_mangle_brackets
+    assert_equal '<p>[msg1][msg2]</p>', textilizable('[msg1][msg2]')
+  end
+  
   def test_default_formatter
     Setting.text_formatting = 'unknown'
     text = 'a *link*: http://www.example.net/'
