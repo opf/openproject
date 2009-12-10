@@ -1,3 +1,8 @@
+<% if @custom_error %>
+  <div class="flash error"><%= @custom_error %></div>
+<% end %>
+
+
 <div class="contextual">
   <% if !@query.new_record? && @query.editable_by?(User.current) %>
     <%= link_to l(:button_edit), {:controller => 'cost_report', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>

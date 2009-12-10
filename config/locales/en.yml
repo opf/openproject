@@ -123,6 +123,8 @@ en:
   text_cost_object_change_type_confirmation: Are you sure? This operation will destroy information of the specific cost object type.
   notice_successful_restore: Successful restore.
   notice_something_wrong: Something went wrong. Please try again.
+  
+  error_generic: "An error occurred while executing the query. It has been resetted. Please report this error to your Redmine administrator."
 
   permission_edit_rates: Edit rates
   permission_view_cost_entries: View booked costs
