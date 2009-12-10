@@ -132,4 +132,4 @@ de:
   caption_default_rates: "Standards\xC3\xA4tze"
   currency_delimiter: .
   
-  error_generic: "Bei der Anfrage ist ein Fehler aufgetreten und wurde protokolliert. Bitte melden Sie das Problem Ihrem Redmine Administrator"
+  error_generic: "Bei der Anfrage ist ein Fehler aufgetreten. Sie wurde zurückgesetzt. Bitte melden Sie das Problem Ihrem Redmine Administrator"

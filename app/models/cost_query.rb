@@ -353,9 +353,9 @@ class CostQuery < ActiveRecord::Base
     end
   end
   
-  def project_statement(entry_type)
+  def projects
+    projects = [project]
     if project && !project.children.active.empty?
-      projects = [project]
       if subprojects = has_filter?(:issues, "subproject_id")
         subprojects = create_filter_from_hash(subprojects)
 
@@ -375,16 +375,14 @@ class CostQuery < ActiveRecord::Base
     elsif project
       # show only the current project
     else
-      ids = []
+      projects = []
     end
     
-    # FIXME: Implement rights model here
-    #project_clauses <<  Project.allowed_to_condition(User.current, :view_issues)
-    if ids.blank?
-      "1=1"
-    else
-      User.current.allowed_for("view_#{entry_type}".to_sym, projects)
-    end
+    projects
+  end
+    
+  def project_statement
+    "#{Project.table_name}.id IN (#{projects.collect(&:id).join(',')})"
   end
   
   def group_by_fields()
@@ -446,6 +444,7 @@ class CostQuery < ActiveRecord::Base
         LEFT OUTER JOIN #{CostType.table_name} ON #{CostType.table_name}.id = #{CostEntry.table_name}.cost_type_id
         LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{CostEntry.table_name}.user_id
         LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{CostEntry.table_name}.issue_id
+        LEFT OUTER JOIN #{Project.table_name} ON #{Project.table_name}.id = #{CostEntry.table_name}.project_id
       EOS
     when :time_entries
       from = <<-EOS
@@ -453,6 +452,7 @@ class CostQuery < ActiveRecord::Base
         LEFT OUTER JOIN #{Enumeration.table_name} ON #{Enumeration.table_name}.id = #{TimeEntry.table_name}.activity_id
         LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{TimeEntry.table_name}.user_id
         LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id
+        LEFT OUTER JOIN #{Project.table_name} ON #{Project.table_name}.id = #{TimeEntry.table_name}.project_id
       EOS
     end
   end
@@ -511,7 +511,7 @@ class CostQuery < ActiveRecord::Base
                     :select => "#{Issue.table_name}.id",
                     #:include => [ :assigned_to, :status, :tracker, :project, :priority, :category, :fixed_version ],
                     :from => from,
-                    :conditions => (issue_filter_clauses << project_statement(entry_scope)).join(' AND '))
+                    :conditions => (issue_filter_clauses << project_statement).join(' AND '))
 
     case entry_scope
     when :cost_entries
@@ -519,6 +519,8 @@ class CostQuery < ActiveRecord::Base
     when :time_entries
       entry_filter_clauses << "#{TimeEntry.table_name}.issue_id IN (#{issue_ids})"
     end
+    
+    entry_filter_clauses << User.current.allowed_for("view_#{entry_scope}".to_sym, projects)
     
     entry_filter_clauses.join(' AND ')
   end

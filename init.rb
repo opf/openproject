@@ -15,8 +15,8 @@ unless defined? GLoc
   end
 end
 
-# Patches to the Redmine core.
-require_dependency 'costs_i18n_patch'
+
+require 'costs_i18n_patch'
 
 require 'dispatcher'
 
@@ -40,11 +40,8 @@ Dispatcher.to_prepare do
   require_dependency 'costs_users_helper_patch'
   
   # Library Patches
-  require_dependency 'costs_access_control_permission_patch'
+  require_or_load 'costs_access_control_permission_patch'
   require_dependency 'costs_access_control_patch'
-  require_dependency 'costs_i18n_patch'
-
-
 
   # Issue.send(:include, CostsIssuePatch)
   # Project.send(:include, CostsProjectPatch)
@@ -129,8 +126,8 @@ Redmine::Plugin.register :redmine_costs do
     
     # from controlling requirements 3.5 (3)
 
-    #Redmine::AccessControl::Permission.send(:include, CostsAccessControlPermissionPatch)
-
+    require_or_load 'costs_access_control_permission_patch'
+    
     permission :view_own_hourly_rate, {},
       :granular_for => :view_hourly_rates
     permission :view_hourly_rates, {:cost_reports => :index}
@@ -143,7 +140,7 @@ Redmine::Plugin.register :redmine_costs do
       :inherits => :view_hourly_rates
 
     # from controlling requirements 4.5
-    permission :view_cost_rates, {:cost_reports => :index}
+    permission :view_cost_rates, {}
     permission :book_own_costs, {:costlog => :edit},
       :require => :loggedin,
       :granular_for => :book_costs
@@ -156,9 +153,9 @@ Redmine::Plugin.register :redmine_costs do
     permission :edit_cost_entries, {:costlog => [:edit, :destroy]},
       :require => :member,
       :inherits => :view_cost_entries
-    permission :view_own_cost_entries, {:costlog => [:details], :cost_report => [:index]},
-      :granular_for => :view_cost_entries
     permission :view_cost_entries, {:costlog => [:details], :cost_report => [:index]}
+    permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => [:index]},
+      :granular_for => :view_cost_entries
     permission :block_tickets, {}, :require => :member
 
     permission :view_cost_objects, {:cost_objects => [:index, :show]}
@@ -168,12 +165,12 @@ Redmine::Plugin.register :redmine_costs do
   
   # register additional permissions for the time log
   project_module :time_tracking do
-    permission :view_own_time_entries, {:timelog => [:details, :report], :cost_report => [:index]},
+    permission :view_own_time_entries, {:timelog => [:details, :report], :cost_reports => [:index]},
       :granular_for => :view_time_entries
   end
   
   view_time_entries = Redmine::AccessControl.permission(:view_time_entries)
-  view_time_entries.actions << "cost_report/index"
+  view_time_entries.actions << "cost_reports/index"
   
   edit_time_entries = Redmine::AccessControl.permission(:edit_time_entries)
   edit_time_entries.instance_variable_set("@inherits", [:view_time_entries])

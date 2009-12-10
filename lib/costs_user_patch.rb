@@ -120,7 +120,7 @@ module CostsUserPatch
     end
     
     def allowed_for(permission, projects = nil)
-      if projects
+      unless projects.blank?
         projects = [projects] unless projects.is_a? Array
         projects, ids = projects.partition{|p| p.is_a?(Project)}
         projects += Project.find_all_by_id(ids)
@@ -219,7 +219,7 @@ module CostsUserPatch
     end
     
     
-  private
+  #private
     def granular_roles(member_roles)
       roles = {}
       member_roles.each do |r|
