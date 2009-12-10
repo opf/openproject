@@ -1,8 +1,6 @@
 require_dependency 'query'
 
-# Patches Redmine's Queries dynamically, adding the Cost Object
-# to the available query columns
-module QueryPatch
+module CostsQueryPatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
@@ -12,14 +10,12 @@ module QueryPatch
     base.class_eval do
       unloadable # Send unloadable so it will not be unloaded in development
       
-      base.add_available_column(QueryColumn.new(:cost_object_subject))
-      base.add_available_column(QueryColumn.new(:material_costs))
-      base.add_available_column(QueryColumn.new(:labor_costs))
-      base.add_available_column(QueryColumn.new(:overall_costs))
+      add_available_column(QueryColumn.new(:cost_object_subject))
+      add_available_column(QueryColumn.new(:material_costs))
+      add_available_column(QueryColumn.new(:labor_costs))
+      add_available_column(QueryColumn.new(:overall_costs))
       
-      unless instance_methods.include? "available_filters_without_costs"
-        alias_method_chain :available_filters, :costs
-      end
+      alias_method_chain :available_filters, :costs
     end
   end
   
@@ -55,7 +51,7 @@ module QueryPatch
       end
       return @available_filters.merge(redmine_costs_filters)
     end
-  end    
+  end
 end
 
-
+Query.send(:include, CostsQueryPatch)

@@ -20,3 +20,5 @@ module CostsUsersHelperPatch
     end
   end
 end
+
+UsersHelper.send(:include, CostsUsersHelperPatch)

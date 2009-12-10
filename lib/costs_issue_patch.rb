@@ -1,8 +1,6 @@
 require_dependency 'issue'
 
-# Patches Redmine's Issues dynamically.
-
-module IssuePatch
+module CostsIssuePatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
@@ -79,4 +77,4 @@ module IssuePatch
   end
 end
 
-
+Issue.send(:include, CostsIssuePatch)

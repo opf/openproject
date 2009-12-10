@@ -1,12 +1,8 @@
 require_dependency 'project'
 
-# Patches Redmine's Issues dynamically.  Adds a relationship 
-# Issue +belongs_to+ to Cost Object
-module ProjectPatch
+module CostsProjectPatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
-
-    base.send(:include, InstanceMethods)
 
     # Same as typing in the class 
     base.class_eval do
@@ -20,12 +16,9 @@ module ProjectPatch
                                :conditions => "#{Principal.table_name}.type='Group'"
       has_many :groups, :through => :member_groups, :source => :principal
       
-      unless singleton_methods.include? "allowed_to_condition_without_inheritance"
-        class << self
-          alias_method_chain :allowed_to_condition, :inheritance
-        end
+      class << self
+        alias_method_chain :allowed_to_condition, :inheritance
       end
-      
     end
 
   end
@@ -67,7 +60,6 @@ module ProjectPatch
       statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
     end
   end
-
-  module InstanceMethods
-  end
 end
+
+Project.send(:include, CostsProjectPatch)

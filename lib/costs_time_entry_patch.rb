@@ -1,7 +1,7 @@
 require_dependency 'time_entry'
 
 # Patches Redmine's Users dynamically.
-module TimeEntryPatch
+module CostsTimeEntryPatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
@@ -20,13 +20,10 @@ module TimeEntryPatch
         }
       }
       
-      unless singleton_methods.include? "visible_by_without_inheritance"
-        class << self
-          alias_method_chain :visible_by, :inheritance
-        end
-        
-        alias_method_chain :editable_by?, :inheritance
+      class << self
+        alias_method_chain :visible_by, :inheritance
       end
+      alias_method_chain :editable_by?, :inheritance
     end
 
   end
@@ -91,3 +88,5 @@ module TimeEntryPatch
     end
   end
 end
+
+TimeEntry.send(:include, CostsTimeEntryPatch)

@@ -93,7 +93,8 @@ class CostEntry < ActiveRecord::Base
     
   # Returns true if the cost entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    usr.allowed_to?(:edit_cost_entries, project, :for => user)
+    # FIXME 111 THIS IS A BAAAAAAAAD HACK !!! Fix the loading of Project
+    usr.allowed_to?(:edit_cost_entries, Project.find(project_id), :for => user)
   end
   
   # Returns true if the time entry can be edited by usr, otherwise false

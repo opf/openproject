@@ -1,13 +1,12 @@
+require_dependency 'project'
+
+require_dependency 'principal'
 require_dependency 'user'
 
-# Patches Redmine's Users dynamically.
-module UserPatch
+module CostsUserPatch
   def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
-
     base.send(:include, InstanceMethods)
 
-    # Same as typing in the class 
     base.class_eval do
       unloadable
 
@@ -25,14 +24,9 @@ module UserPatch
       
       before_save :save_rates
       
-      unless instance_methods.include? "allowed_to_without_inheritance?"
-        alias_method_chain :allowed_to?, :inheritance
-      end
+      alias_method_chain :allowed_to?, :inheritance
     end
 
-  end
-
-  module ClassMethods
   end
 
   module InstanceMethods
@@ -266,3 +260,5 @@ module UserPatch
     end
   end
 end
+
+User.send(:include, CostsUserPatch)

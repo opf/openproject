@@ -1,24 +1,16 @@
-module GroupsControllerPatch
+require_dependency 'groups_controller'
+
+module CostsGroupsControllerPatch
   def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
-
     base.send(:include, InstanceMethods)
-
-    # Same as typing in the class 
+    
     base.class_eval do
       unloadable
-
-      unless instance_methods.include? "add_users_without_membership_type"
-        alias_method_chain :add_users, :membership_type
-      end
-
+      
+      alias_method_chain :add_users, :membership_type
     end
-
   end
-
-  module ClassMethods
-  end
-
+  
   module InstanceMethods
     def add_users_with_membership_type
       @group = Group.find(params[:id])
@@ -53,3 +45,5 @@ module GroupsControllerPatch
     end
   end
 end
+
+GroupsController.send(:include, CostsGroupsControllerPatch)

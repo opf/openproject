@@ -16,28 +16,60 @@ unless defined? GLoc
 end
 
 # Patches to the Redmine core.
-require_dependency 'l10n_patch'
+require_dependency 'costs_i18n_patch'
 
 require 'dispatcher'
 
 Dispatcher.to_prepare do
-  Issue.send(:include, IssuePatch)
-  Project.send(:include, ProjectPatch)
-  User.send(:include, UserPatch)
-  Group.send(:include, GroupPatch)
-  Role.send(:include, RolePatch)
-  TimeEntry.send(:include, TimeEntryPatch)
-  Query.send(:include, QueryPatch)
-  Version.send(:include, VersionPatch)
-
-  UsersHelper.send(:include, CostsUsersHelperPatch)
-
-  ApplicationController.send(:include, ApplicationControllerPatch)
-  IssuesController.send(:include, IssuesControllerPatch)
-  GroupsController.send(:include, GroupsControllerPatch)
+  # Model Patches
+  require_dependency 'costs_group_patch'
+  require_dependency 'costs_issue_patch'
+  require_dependency 'costs_project_patch'
+  require_dependency 'costs_role_patch'
+  require_dependency 'costs_query_patch'
+  require_dependency 'costs_user_patch'
+  require_dependency 'costs_time_entry_patch'
+  require_dependency 'costs_version_patch'
   
-  Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
-  Redmine::AccessControl.send(:include, AccessControlPatch)
+  # # Controller Patches
+  require_dependency 'costs_application_controller_patch'
+  require_dependency 'costs_groups_controller_patch'
+  require_dependency 'costs_issues_controller_patch'
+  
+  # Helper Patches
+  require_dependency 'costs_users_helper_patch'
+  
+  # Library Patches
+  require_dependency 'costs_access_control_permission_patch'
+  require_dependency 'costs_access_control_patch'
+  require_dependency 'costs_i18n_patch'
+
+
+
+  # Issue.send(:include, CostsIssuePatch)
+  # Project.send(:include, CostsProjectPatch)
+  # User.send(:include, CostsUserPatch)
+  # Group.send(:include, CostsGroupPatch)
+  # Role.send(:include, CostsRolePatch)
+  # TimeEntry.send(:include, CostsTimeEntryPatch)
+  # Query.send(:include, CostsQueryPatch)
+  # Version.send(:include, CostsVersionPatch)
+  # 
+  # UsersHelper.send(:include, CostsUsersHelperPatch)
+  # 
+  # ApplicationController.send(:include, CostsApplicationControllerPatch)
+  # IssuesController.send(:include, CostsIssuesControllerPatch)
+  # GroupsController.send(:include, CostsGroupsControllerPatch)
+  # 
+  # require_dependency 'costs_access_control_patch'
+  # require_dependency "costs_access_control_permission_patch"
+  # 
+  # 
+  # #Redmine::AccessControl::Permission.send(:include, CostsAccessControlPermissionPatch)
+  # #Redmine::AccessControl.send(:include, CostsAccessControlPatch)
+  # 
+  # 
+  # 
 end
 
 # Hooks
@@ -97,7 +129,7 @@ Redmine::Plugin.register :redmine_costs do
     
     # from controlling requirements 3.5 (3)
 
-    Redmine::AccessControl::Permission.send(:include, AccessControlPermissionPatch)
+    #Redmine::AccessControl::Permission.send(:include, CostsAccessControlPermissionPatch)
 
     permission :view_own_hourly_rate, {},
       :granular_for => :view_hourly_rates

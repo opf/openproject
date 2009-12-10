@@ -1,12 +1,11 @@
-module IssuesControllerPatch
+require_dependency 'issues_controller'
+
+module CostsIssuesControllerPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
-    # Same as typing in the class 
     base.class_eval do
-      unless instance_methods.include? "show_without_entries"
-        alias_method_chain :show, :entries
-      end
+      alias_method_chain :show, :entries
     end
   end
 
@@ -40,9 +39,4 @@ module IssuesControllerPatch
   end
 end
 
-
-
-
-
-
-
+IssuesController.send(:include, CostsIssuesControllerPatch)

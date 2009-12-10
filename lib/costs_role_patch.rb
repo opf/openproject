@@ -1,35 +1,15 @@
-module RolePatch
+module CostsRolePatch
   def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
-
     base.send(:include, InstanceMethods)
-
+    
     # Same as typing in the class 
     base.class_eval do
       unloadable
-
-      unless instance_methods.include? "allowed_to_without_inheritance?"
-        alias_method_chain :allowed_to?, :inheritance
-      end
-    end
-
-  end
-
-  module ClassMethods
-    def self.enclosed_permissions(permission_name)
-      # FIXME: Remove me!
-      sub_permissions = [permission_name]
       
-      permission_tree.each_pair do |k, v|
-        if (v == permission_name) || (v.is_a?(Array) && v.include?(permission_name))
-          sub_permissions << enclosed_permissions(k)
-        end
-      end
-      
-      sub_permissions.flatten.uniq
+      alias_method_chain :allowed_to?, :inheritance
     end
   end
-
+  
   module InstanceMethods
     # Return true if the user is allowed to do the specified action on project
     # action can be:
@@ -79,3 +59,5 @@ module RolePatch
     end
   end
 end
+
+Role.send(:include, CostsRolePatch)

@@ -1,18 +1,16 @@
-#require 'redmine/access_control'
+require_dependency 'redmine/access_control'
 
-module AccessControlPermissionPatch
+module CostsAccessControlPermissionPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
     
-    unless base.instance_methods.include? "initialize"
+    base.class_eval do
+      unloadable
+      
       # fancy alias_method_chain
-      base.__send__( :alias_method, :initialize_without_inheritance, :initialize )
-      base.__send__( :alias_method, :initialize, :initialize_with_inheritance )
+      alias_method :initialize_without_inheritance, :initialize
+      alias_method :initialize, :initialize_with_inheritance
     end
-
-    # Same as typing in the class
-    # base.class_eval do
-    # end
   end
 
   module InstanceMethods
@@ -69,3 +67,5 @@ module AccessControlPermissionPatch
 
   end
 end
+
+Redmine::AccessControl::Permission.send(:include, CostsAccessControlPermissionPatch)

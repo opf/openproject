@@ -1,8 +1,8 @@
-# Patches Redmine's Groups dynamically.
-module GroupPatch
-  def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
+require_dependency 'principal'
+require_dependency 'group'
 
+module CostsGroupPatch
+  def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
     # Same as typing in the class 
@@ -18,9 +18,6 @@ module GroupPatch
         :after_remove => :user_removed
     end
 
-  end
-
-  module ClassMethods
   end
 
   module InstanceMethods
@@ -40,8 +37,6 @@ module GroupPatch
     end
     
     def group_user_added(group_user)
-      puts "------- USER ADDED #{group_user.user_id}"
-
       user = group_user.user
       membership_type = group_user.membership_type
       
@@ -59,3 +54,5 @@ module GroupPatch
     end
   end
 end
+
+Group.send(:include, CostsGroupPatch)
