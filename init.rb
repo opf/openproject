@@ -156,9 +156,9 @@ Redmine::Plugin.register :redmine_costs do
     permission :edit_cost_entries, {:costlog => [:edit, :destroy]},
       :require => :member,
       :inherits => :view_cost_entries
-    permission :view_own_cost_entries, {:costlog => [:details]},
+    permission :view_own_cost_entries, {:costlog => [:details], :cost_report => [:index]},
       :granular_for => :view_cost_entries
-    permission :view_cost_entries, {:costlog => [:details]}
+    permission :view_cost_entries, {:costlog => [:details], :cost_report => [:index]}
     permission :block_tickets, {}, :require => :member
 
     permission :view_cost_objects, {:cost_objects => [:index, :show]}
@@ -168,13 +168,16 @@ Redmine::Plugin.register :redmine_costs do
   
   # register additional permissions for the time log
   project_module :time_tracking do
-    permission :view_own_time_entries, {:timelog => [:details, :report]},
+    permission :view_own_time_entries, {:timelog => [:details, :report], :cost_report => [:index]},
       :granular_for => :view_time_entries
   end
   
+  view_time_entries = Redmine::AccessControl.permission(:view_time_entries)
+  view_time_entries.actions << "cost_report/index"
+  
   edit_time_entries = Redmine::AccessControl.permission(:edit_time_entries)
   edit_time_entries.instance_variable_set("@inherits", [:view_time_entries])
-
+  
   edit_own_time_entries = Redmine::AccessControl.permission(:edit_own_time_entries)
   edit_own_time_entries.instance_variable_set("@inherits", [:view_own_time_entries])
   edit_own_time_entries.instance_variable_set("@granular_for", :edit_time_entries)
