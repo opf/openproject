@@ -49,8 +49,10 @@ class CostReportsController < ApplicationController
     else
       render :layout => !request.xhr?
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
+  rescue Exception => e
+    logger.error "#{e.class.name}: #{e.message}\n#{e.backtrace.join "\n"}" if logger
+    session.delete :cost_query
+    render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
   end
   
   def new
