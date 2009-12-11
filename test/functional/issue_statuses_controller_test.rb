@@ -70,4 +70,27 @@ class IssueStatusesControllerTest < ActionController::TestCase
     assert_redirected_to 'issue_statuses/list'
     assert_not_nil IssueStatus.find_by_id(1)
   end
+
+  context "on POST to :update_issue_done_ratio" do
+    context "with Setting.issue_done_ratio using the issue_field" do
+      setup do
+        Setting.issue_done_ratio = 'issue_field'
+        post :update_issue_done_ratio
+      end
+
+      should_set_the_flash_to /not updated/
+      should_redirect_to('the list') { '/issue_statuses/list' }
+    end
+
+    context "with Setting.issue_done_ratio using the issue_status" do
+      setup do
+        Setting.issue_done_ratio = 'issue_status'
+        post :update_issue_done_ratio
+      end
+
+      should_set_the_flash_to /Issue done ratios updated/
+      should_redirect_to('the list') { '/issue_statuses/list' }
+    end
+  end
+  
 end

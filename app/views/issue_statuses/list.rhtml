@@ -1,5 +1,6 @@
 <div class="contextual">
 <%= link_to l(:label_issue_status_new), {:action => 'new'}, :class => 'icon icon-add' %>
+<%= link_to(l(:label_update_issue_done_ratios), {:action => 'update_issue_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if Issue.use_status_for_done_ratio? %>
 </div>
 
 <h2><%=l(:label_issue_status_plural)%></h2>
@@ -7,6 +8,9 @@
 <table class="list">
   <thead><tr>
   <th><%=l(:field_status)%></th>
+  <% if Issue.use_status_for_done_ratio? %>
+  <th><%=l(:field_done_ratio)%></th>
+  <% end %>
   <th><%=l(:field_is_default)%></th>
   <th><%=l(:field_is_closed)%></th>
   <th><%=l(:button_sort)%></th>
@@ -16,6 +20,9 @@
 <% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to status.name, :action => 'edit', :id => status %></td>
+  <% if Issue.use_status_for_done_ratio? %>
+  <td align="center"><%= h status.default_done_ratio %></td>
+  <% end %>
   <td align="center"><%= image_tag 'true.png' if status.is_default? %></td>
   <td align="center"><%= image_tag 'true.png' if status.is_closed? %></td>
   <td align="center" style="width:15%;"><%= reorder_links('issue_status', {:action => 'update', :id => status}) %></td>

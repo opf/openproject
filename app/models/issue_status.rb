@@ -33,6 +33,18 @@ class IssueStatus < ActiveRecord::Base
   def self.default
     find(:first, :conditions =>["is_default=?", true])
   end
+  
+  # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
+  def self.update_issue_done_ratios
+    if Issue.use_status_for_done_ratio?
+      IssueStatus.find(:all, :conditions => ["default_done_ratio >= 0"]).each do |status|
+        Issue.update_all(["done_ratio = ?", status.default_done_ratio],
+                         ["status_id = ?", status.id])
+      end
+    end
+
+    return Issue.use_status_for_done_ratio?
+  end
 
   # Returns an array of all statuses the given role can switch to
   # Uses association cache when called more than one time

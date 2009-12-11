@@ -147,6 +147,7 @@ en:
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_default_data_loaded: Default configuration successfully loaded.
   notice_unable_delete_version: Unable to delete version.
+  notice_issue_done_ratios_updated: Issue done ratios updated.
   
   error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -157,7 +158,8 @@ en:
   error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
   error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version can not be reopened'
   error_can_not_archive_project: This project can not be archived
-  
+  error_issue_done_ratios_not_updated: "Issue done ratios not updated."
+
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   
   mail_subject_lost_password: "Your {{value}} password"
@@ -309,6 +311,7 @@ en:
   setting_sequential_project_identifiers: Generate sequential project identifiers
   setting_gravatar_enabled: Use Gravatar user icons
   setting_gravatar_default: Default Gravatar image
+  setting_issue_done_ratio: Calculate the issue done ratio with
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
@@ -716,6 +719,7 @@ en:
   label_version_sharing_hierarchy: With project hierarchy
   label_version_sharing_tree: With project tree
   label_version_sharing_system: With all projects
+  label_update_issue_done_ratios: Update issue done ratios
   
   button_login: Login
   button_submit: Submit
@@ -850,3 +854,6 @@ en:
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
+
+  issue_field: Use the issue field
+  issue_status: Use the issue status

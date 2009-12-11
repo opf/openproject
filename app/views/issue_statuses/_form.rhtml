@@ -5,6 +5,11 @@
 <p><label for="issue_status_name"><%=l(:field_name)%><span class="required"> *</span></label>
 <%= text_field 'issue_status', 'name'  %></p>
 
+<% if Issue.use_status_for_done_ratio? %>
+<p><label for="issue_done_ratio"><%=l(:field_done_ratio)%></label>
+<%= select 'issue_status', :default_done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
+<% end %>
+
 <p><label for="issue_status_is_closed"><%=l(:field_is_closed)%></label>
 <%= check_box 'issue_status', 'is_closed' %></p>
 
