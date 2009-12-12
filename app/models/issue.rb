@@ -220,8 +220,8 @@ class Issue < ActiveRecord::Base
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_issue_status
-    if Issue.use_status_for_done_ratio? && !self.status.default_done_ratio.blank?
-      self.done_ratio = self.status.default_done_ratio
+    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
+      self.done_ratio = status.default_done_ratio
     end
   end
   
