@@ -12,7 +12,8 @@
 </p>
 
 <p><label><%= l(:setting_issue_done_ratio) %></label>
-<%= select_tag 'settings[issue_done_ratio]', options_for_select(Issue::DONE_RATIO_OPTIONS.collect {|i| [l(i.to_sym), i]}, Setting.issue_done_ratio) %></p>
+<%= select_tag 'settings[issue_done_ratio]',
+								options_for_select(Issue::DONE_RATIO_OPTIONS.collect {|i| [l("setting_issue_done_ratio_#{i}"), i]}, Setting.issue_done_ratio) %></p>
 
 <p><label><%= l(:setting_issues_export_limit) %></label>
 <%= text_field_tag 'settings[issues_export_limit]', Setting.issues_export_limit, :size => 6 %></p>
