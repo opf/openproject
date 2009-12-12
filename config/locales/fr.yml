@@ -342,8 +342,8 @@ fr:
   setting_new_project_user_role_id: Rôle donné à un utilisateur non-administrateur qui crée un projet
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   setting_issue_done_ratio: Calcul de l'avancement des demandes
-  setting_issue_done_ratio_issue_status: 'Utiliser le champ % effectué'
-  setting_issue_done_ratio_issue_field: Utiliser le statut
+  setting_issue_done_ratio_issue_status: Utiliser le statut
+  setting_issue_done_ratio_issue_field: 'Utiliser le champ % effectué'
   
   permission_add_project: Créer un projet
   permission_edit_project: Modifier le projet
