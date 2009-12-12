@@ -64,6 +64,7 @@ module ApplicationHelper
   #   link_to_issue(issue)                        # => Defect #6: This is the subject
   #   link_to_issue(issue, :truncate => 6)        # => Defect #6: This i...
   #   link_to_issue(issue, :subject => false)     # => Defect #6
+  #   link_to_issue(issue, :project => true)      # => Foo - Defect #6
   #
   def link_to_issue(issue, options={})
     title = nil
@@ -80,6 +81,7 @@ module ApplicationHelper
                                                  :class => issue.css_classes,
                                                  :title => title
     s << ": #{h subject}" if subject
+    s = "#{h issue.project} - " + s if options[:project]
     s
   end
 

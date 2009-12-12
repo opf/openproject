@@ -319,9 +319,9 @@ class ProjectsController < ApplicationController
           conditions.merge!(:project_id => project_ids)
         end
         issues = version.fixed_issues.visible.find(:all,
-                                                   :include => [:status, :tracker, :priority],
+                                                   :include => [:project, :status, :tracker, :priority],
                                                    :conditions => conditions,
-                                                   :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
+                                                   :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
         @issues_by_version[version] = issues
       end
     end

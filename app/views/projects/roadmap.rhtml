@@ -14,7 +14,7 @@
     <fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
     <ul>
     <%- issues.each do |issue| -%>
-        <li><%= link_to_issue(issue) %></li>
+        <li><%= link_to_issue(issue, :project => (@project != issue.project)) %></li>
     <%- end -%>
     </ul>
     </fieldset>
@@ -29,7 +29,7 @@
 <h3><%= l(:label_roadmap) %></h3>
 <% @trackers.each do |tracker| %>
   <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s), :id => nil %>
-  <%= tracker.name %></label><br />
+  <%=h tracker.name %></label><br />
 <% end %>
 <br />
 <label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
