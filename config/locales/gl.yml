@@ -255,7 +255,6 @@ gl:
   field_is_default: Estado por defecto
   field_is_filter: Usado como filtro
   field_is_for_all: Para todos os proxectos
-  field_is_in_chlog: Consultar as peticións no histórico
   field_is_in_roadmap: Consultar as peticións na planificación
   field_is_public: Público
   field_is_required: Obrigatorio
@@ -347,7 +346,6 @@ gl:
   label_browse: Ollar
   label_bulk_edit_selected_issues: Editar as peticións seleccionadas
   label_calendar: Calendario
-  label_change_log: Cambios
   label_change_plural: Cambios
   label_change_properties: Cambiar propiedades
   label_change_status: Cambiar o estado

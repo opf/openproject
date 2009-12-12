@@ -216,7 +216,6 @@
   field_homepage: Homepage
   field_is_public: Javni
   field_parent: Potprojekat od
-  field_is_in_chlog: Kartice se prikazuju u dnevniku promena
   field_is_in_roadmap: Kartice se prikazuju u Redosledu
   field_login: Korisnik
   field_mail_notification: Obaveštavanje putem mail-a
@@ -376,7 +375,6 @@
   label_news_plural: Novosti
   label_news_latest: Poslednje novosti
   label_news_view_all: Pregled svih novosti
-  label_change_log: Dnevnik promena
   label_settings: Podešavanja
   label_overview: Pregled
   label_version: Verzija

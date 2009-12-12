@@ -372,29 +372,6 @@ class ProjectsControllerTest < ActionController::TestCase
       :controller => 'projects', :action => 'list_files', :id => '33'
     )
   end
-  
-  def test_changelog_routing
-    assert_routing(
-      {:method => :get, :path => '/projects/44/changelog'},
-      :controller => 'projects', :action => 'changelog', :id => '44'
-    )
-  end
-  
-  def test_changelog
-    get :changelog, :id => 1
-    assert_response :success
-    assert_template 'changelog'
-    assert_not_nil assigns(:versions)
-  end
-  
-  def test_changelog_showing_subprojects_versions
-    get :changelog, :id => 1, :with_subprojects => 1
-    assert_response :success
-    assert_template 'changelog'
-    assert_not_nil assigns(:versions)
-    # Version on subproject appears
-    assert assigns(:versions).include?(Version.find(4))
-  end
 
   def test_roadmap_routing
     assert_routing(

@@ -234,7 +234,6 @@ tr:
   field_homepage: Anasayfa
   field_is_public: Genel
   field_parent: 'Üst proje: '
-  field_is_in_chlog: Değişim günlüğünde gösterilen iletiler
   field_is_in_roadmap: Yol haritasında gösterilen iletiler
   field_login: Giriş
   field_mail_notification: E-posta uyarıları
@@ -421,7 +420,6 @@ tr:
   label_news_latest: Son Haberler
   label_news_view_all: Tüm haberleri oku
   label_news_added: Haber eklendi
-  label_change_log: Değişim Günlüğü
   label_settings: Ayarlar
   label_overview: Genel
   label_version: Versiyon

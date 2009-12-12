@@ -203,7 +203,6 @@ th:
   field_homepage: หน้าแรก
   field_is_public: สาธารณะ
   field_parent: โครงการย่อยของ
-  field_is_in_chlog: ปัญหาแสดงใน รายกาเปลี่ยนแปลง
   field_is_in_roadmap: ปัญหาแสดงใน แผนงาน
   field_login: ชื่อที่ใช้เข้าระบบ
   field_mail_notification: การแจ้งเตือนทางอีเมล์
@@ -392,7 +391,6 @@ th:
   label_news_latest: ข่าวล่าสุด
   label_news_view_all: ดูข่าวทั้งหมด
   label_news_added: ข่าวถูกเพิ่ม
-  label_change_log: บันทึกการเปลี่ยนแปลง
   label_settings: ปรับแต่ง
   label_overview: ภาพรวม
   label_version: รุ่น

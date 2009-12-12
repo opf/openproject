@@ -208,7 +208,6 @@ ca:
   field_homepage: Pàgina web
   field_is_public: Públic
   field_parent: Subprojecte de
-  field_is_in_chlog: Assumptes mostrats en el registre de canvis
   field_is_in_roadmap: Assumptes mostrats en la planificació
   field_login: Entrada
   field_mail_notification: Notificacions per correu electrònic
@@ -463,7 +462,6 @@ ca:
   label_news_latest: Últimes noticies
   label_news_view_all: Visualitza totes les noticies
   label_news_added: Noticies afegides
-  label_change_log: Registre de canvis
   label_settings: Paràmetres
   label_overview: Resum
   label_version: Versió

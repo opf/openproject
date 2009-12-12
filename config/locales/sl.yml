@@ -206,7 +206,6 @@ sl:
   field_homepage: Domača stran
   field_is_public: Javno
   field_parent: Podprojekt projekta
-  field_is_in_chlog: Zahtevki prikazani v zapisu sprememb
   field_is_in_roadmap: Zahtevki prikazani na zemljevidu
   field_login: Prijava
   field_mail_notification: E-poštna oznanila
@@ -453,7 +452,6 @@ sl:
   label_news_latest: Zadnje novice
   label_news_view_all: Poglej vse novice
   label_news_added: Dodane novice
-  label_change_log: Zapisnik spremeb
   label_settings: Nastavitve
   label_overview: Pregled
   label_version: Verzija

@@ -217,7 +217,6 @@ nl:
   field_is_default: Standaard
   field_is_filter: Gebruikt als een filter
   field_is_for_all: Voor alle projecten
-  field_is_in_chlog: Issues weergegeven in wijzigingslog
   field_is_in_roadmap: Issues weergegeven in roadmap
   field_is_public: Publiek
   field_is_required: Verplicht
@@ -309,7 +308,6 @@ nl:
   label_browse: Blader
   label_bulk_edit_selected_issues: Bewerk geselecteerde issues in bulk
   label_calendar: Kalender
-  label_change_log: Wijzigingslog
   label_change_plural: Wijzigingen
   label_change_properties: Eigenschappen wijzigen
   label_change_status: Wijzig status

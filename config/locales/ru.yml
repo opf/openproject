@@ -319,7 +319,6 @@ ru:
   field_is_default: Значение по умолчанию
   field_is_filter: Используется в качестве фильтра
   field_is_for_all: Для всех проектов
-  field_is_in_chlog: Задачи, отображаемые в журнале изменений
   field_is_in_roadmap: Задачи, отображаемые в оперативном плане
   field_is_public: Общедоступный
   field_is_required: Обязательное
@@ -420,7 +419,6 @@ ru:
   label_calendar: Календарь
   label_calendar_filter: Включая
   label_calendar_no_assigned: не мои
-  label_change_log: Журнал изменений
   label_change_plural: Правки
   label_change_properties: Изменить свойства
   label_change_status: Изменить статус

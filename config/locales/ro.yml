@@ -206,7 +206,6 @@ ro:
   field_homepage: Pagina principală
   field_is_public: Public
   field_parent: Sub-proiect al
-  field_is_in_chlog: Tichete afișate în jurnalul de activitate
   field_is_in_roadmap: Tichete afișate în plan
   field_login: Autentificare
   field_mail_notification: Notificări prin e-mail
@@ -461,7 +460,6 @@ ro:
   label_news_latest: Ultimele știri
   label_news_view_all: Afișează toate știrile
   label_news_added: Adăugat
-  label_change_log: Istoric
   label_settings: Setări
   label_overview: Pagină proiect
   label_version: Versiune

@@ -197,7 +197,6 @@ uk:
   field_homepage: Домашня сторінка
   field_is_public: Публічний
   field_parent: Підпроект
-  field_is_in_chlog: Питання, що відображаються в журналі змін
   field_is_in_roadmap: Питання, що відображаються в оперативному плані
   field_login: Вхід 
   field_mail_notification: Повідомлення за електронною поштою
@@ -362,7 +361,6 @@ uk:
   label_news_plural: Новини
   label_news_latest: Останні новини
   label_news_view_all: Подивитися всі новини
-  label_change_log: Журнал змін
   label_settings: Налаштування
   label_overview: Перегляд
   label_version: Версія

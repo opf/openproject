@@ -192,7 +192,6 @@ bg:
   field_homepage: Начална страница
   field_is_public: Публичен
   field_parent: Подпроект на
-  field_is_in_chlog: Да се вижда ли в Изменения
   field_is_in_roadmap: Да се вижда ли в Пътна карта
   field_login: Потребител
   field_mail_notification: Известия по пощата
@@ -347,7 +346,6 @@ bg:
   label_news_plural: Новини
   label_news_latest: Последни новини
   label_news_view_all: Виж всички
-  label_change_log: Изменения
   label_settings: Настройки
   label_overview: Общ изглед
   label_version: Версия

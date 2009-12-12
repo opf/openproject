@@ -241,7 +241,6 @@ pl:
   field_is_default: Domyślny status
   field_is_filter: Atrybut filtrowania
   field_is_for_all: Dla wszystkich projektów
-  field_is_in_chlog: Zagadnienie pokazywane w zapisie zmian
   field_is_in_roadmap: Zagadnienie pokazywane na mapie
   field_is_public: Publiczny
   field_is_required: Wymagane
@@ -337,7 +336,6 @@ pl:
   label_browse: Przegląd
   label_bulk_edit_selected_issues: Zbiorowa edycja zagadnień
   label_calendar: Kalendarz
-  label_change_log: Lista zmian
   label_change_plural: Zmiany
   label_change_properties: Zmień właściwości
   label_change_status: Status zmian

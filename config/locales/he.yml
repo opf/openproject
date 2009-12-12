@@ -204,7 +204,6 @@ he:
   field_homepage: דף הבית
   field_is_public: פומבי
   field_parent: תת פרויקט של
-  field_is_in_chlog: נושאים המוצגים בדו"ח השינויים
   field_is_in_roadmap: נושאים המוצגים במפת הדרכים
   field_login: שם משתמש
   field_mail_notification: הודעות דוא"ל
@@ -362,7 +361,6 @@ he:
   label_news_plural: חדשות
   label_news_latest: חדשות אחרונות
   label_news_view_all: צפה בכל החדשות
-  label_change_log: דו"ח שינויים
   label_settings: הגדרות
   label_overview: מבט רחב
   label_version: גירסא

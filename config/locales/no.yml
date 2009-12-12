@@ -205,7 +205,6 @@
   field_homepage: Hjemmeside
   field_is_public: Offentlig
   field_parent: Underprosjekt til
-  field_is_in_chlog: Vises i endringslogg
   field_is_in_roadmap: Vises i veikart
   field_login: Brukernavn
   field_mail_notification: E-post-varsling
@@ -394,7 +393,6 @@
   label_news_latest: Siste nyheter
   label_news_view_all: Vis alle nyheter
   label_news_added: Nyhet lagt til
-  label_change_log: Endringslogg
   label_settings: Innstillinger
   label_overview: Oversikt
   label_version: Versjon

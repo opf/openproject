@@ -224,7 +224,6 @@ da:
   field_homepage: Hjemmeside
   field_is_public: Offentlig
   field_parent: Underprojekt af
-  field_is_in_chlog: Sager vist i ændringer
   field_is_in_roadmap: Sager vist i roadmap
   field_login: Login
   field_mail_notification: Email-påmindelser
@@ -405,7 +404,6 @@ da:
   label_news_latest: Seneste nyheder
   label_news_view_all: Vis alle nyheder
   label_news_added: Nyhed tilføjet
-  label_change_log: Ændringer
   label_settings: Indstillinger
   label_overview: Oversigt
   label_version: Udgave

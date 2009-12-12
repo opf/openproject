@@ -178,7 +178,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects.:format', :action => 'index'
       project_views.connect 'projects/new', :action => 'add'
       project_views.connect 'projects/:id', :action => 'show'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings/
+      project_views.connect 'projects/:id/:action', :action => /roadmap|destroy|settings/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/versions/new', :action => 'add_version'

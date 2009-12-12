@@ -221,7 +221,6 @@ en:
   field_homepage: Homepage
   field_is_public: Public
   field_parent: Subproject of
-  field_is_in_chlog: Issues displayed in changelog
   field_is_in_roadmap: Issues displayed in roadmap
   field_login: Login
   field_mail_notification: Email notifications
@@ -488,7 +487,6 @@ en:
   label_news_latest: Latest news
   label_news_view_all: View all news
   label_news_added: News added
-  label_change_log: Change log
   label_settings: Settings
   label_overview: Overview
   label_version: Version

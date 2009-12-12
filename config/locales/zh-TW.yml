@@ -307,7 +307,6 @@
   field_homepage: 網站首頁
   field_is_public: 公開
   field_parent: 父專案
-  field_is_in_chlog: 項目顯示於變更記錄中
   field_is_in_roadmap: 項目顯示於版本藍圖中
   field_login: 帳戶名稱
   field_mail_notification: 電子郵件提醒選項
@@ -570,7 +569,6 @@
   label_news_latest: 最近新聞
   label_news_view_all: 檢視全部的新聞
   label_news_added: 新聞已新增
-  label_change_log: 變更記錄
   label_settings: 設定
   label_overview: 概觀
   label_version: 版本

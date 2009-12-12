@@ -231,7 +231,6 @@ de:
   field_homepage: Projekt-Homepage
   field_is_public: Öffentlich
   field_parent: Unterprojekt von
-  field_is_in_chlog: Im Change-Log anzeigen
   field_is_in_roadmap: In der Roadmap anzeigen
   field_login: Mitgliedsname
   field_mail_notification: Mailbenachrichtigung
@@ -478,7 +477,6 @@ de:
   label_news_latest: Letzte News
   label_news_view_all: Alle News anzeigen
   label_news_added: News hinzugefügt
-  label_change_log: Change-Log
   label_settings: Konfiguration
   label_overview: Übersicht
   label_version: Version

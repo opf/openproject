@@ -268,7 +268,6 @@ vi:
   field_homepage: Trang chủ
   field_is_public: Công cộng
   field_parent: Dự án con của
-  field_is_in_chlog: Có thể thấy trong Thay đổi
   field_is_in_roadmap: Có thể thấy trong Kế hoạch
   field_login: Đăng nhập
   field_mail_notification: Thông báo qua email
@@ -462,7 +461,6 @@ vi:
   label_news_latest: Tin mới
   label_news_view_all: Xem mọi tin
   label_news_added: Đã thêm tin
-  label_change_log: Nhật ký thay đổi
   label_settings: Thiết lập
   label_overview: Tóm tắt
   label_version: Phiên bản

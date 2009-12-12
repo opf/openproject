@@ -266,7 +266,6 @@ sv:
   field_homepage: Hemsida
   field_is_public: Publik
   field_parent: Underprojekt till
-  field_is_in_chlog: Visa ärenden i ändringslogg
   field_is_in_roadmap: Visa ärenden i roadmap
   field_login: Användarnamn
   field_mail_notification: Mailnotifieringar
@@ -528,7 +527,6 @@ sv:
   label_news_latest: Senaste nyheterna
   label_news_view_all: Visa alla nyheter
   label_news_added: Nyhet tillagd
-  label_change_log: Ändringslogg
   label_settings: Inställningar
   label_overview: Överblick
   label_version: Version

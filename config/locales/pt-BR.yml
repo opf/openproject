@@ -238,7 +238,6 @@ pt-BR:
   field_homepage: Página inicial
   field_is_public: Público
   field_parent: Sub-projeto de
-  field_is_in_chlog: Exibir na lista de alterações
   field_is_in_roadmap: Exibir no planejamento
   field_login: Usuário
   field_mail_notification: Notificações por e-mail
@@ -432,7 +431,6 @@ pt-BR:
   label_news_latest: Últimas notícias
   label_news_view_all: Ver todas as notícias
   label_news_added: Notícia adicionada
-  label_change_log: Registro de alterações
   label_settings: Configurações
   label_overview: Visão geral
   label_version: Versão

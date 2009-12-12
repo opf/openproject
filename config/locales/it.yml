@@ -205,7 +205,6 @@ it:
   field_homepage: Homepage
   field_is_public: Pubblico
   field_parent: Sottoprogetto di
-  field_is_in_chlog: Segnalazioni mostrate nel changelog
   field_is_in_roadmap: Segnalazioni mostrate nel roadmap
   field_login: Login
   field_mail_notification: Notifiche via e-mail
@@ -360,7 +359,6 @@ it:
   label_news_plural: Notizie
   label_news_latest: Utime notizie
   label_news_view_all: Tutte le notizie
-  label_change_log: Elenco modifiche
   label_settings: Impostazioni
   label_overview: Panoramica
   label_version: Versione

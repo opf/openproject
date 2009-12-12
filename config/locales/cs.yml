@@ -207,7 +207,6 @@ cs:
   field_homepage: Homepage
   field_is_public: Veřejný
   field_parent: Nadřazený projekt
-  field_is_in_chlog: Úkoly zobrazené v změnovém logu
   field_is_in_roadmap: Úkoly zobrazené v plánu
   field_login: Přihlášení
   field_mail_notification: Emailová oznámení
@@ -394,7 +393,6 @@ cs:
   label_news_latest: Poslední novinky
   label_news_view_all: Zobrazit všechny novinky
   label_news_added: Novinka přidána
-  label_change_log: Protokol změn
   label_settings: Nastavení
   label_overview: Přehled
   label_version: Verze

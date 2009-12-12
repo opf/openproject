@@ -273,7 +273,6 @@ ko:
   field_homepage: 홈페이지
   field_is_public: 공개
   field_parent: 상위 프로젝트
-  field_is_in_chlog: 일감 변경이력에 표시
   field_is_in_roadmap: 로드맵에 표시
   field_login: 로그인
   field_mail_notification: 메일 알림
@@ -532,7 +531,6 @@ ko:
   label_news_latest: 최근 뉴스
   label_news_view_all: 모든 뉴스
   label_news_added: 뉴스 추가
-  label_change_log: 변경 이력
   label_settings: 설정
   label_overview: 개요
   label_version: 버전

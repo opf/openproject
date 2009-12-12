@@ -237,7 +237,6 @@ fi:
   field_homepage: Kotisivu
   field_is_public: Julkinen
   field_parent: Aliprojekti
-  field_is_in_chlog: Tapahtumat näytetään muutoslokissa
   field_is_in_roadmap: Tapahtumat näytetään roadmap näkymässä
   field_login: Kirjautuminen
   field_mail_notification: Sähköposti muistutukset
@@ -404,7 +403,6 @@ fi:
   label_news_plural: Uutiset
   label_news_latest: Viimeisimmät uutiset
   label_news_view_all: Näytä kaikki uutiset
-  label_change_log: Muutosloki
   label_settings: Asetukset
   label_overview: Yleiskatsaus
   label_version: Versio

@@ -21,7 +21,6 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :files, :only => [:list_files, :add_file]
   menu_item :settings, :only => :settings
-  menu_item :issues, :only => [:changelog]
   
   before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
   before_filter :find_optional_project, :only => :activity
@@ -302,36 +301,10 @@ class ProjectsController < ApplicationController
     @containers += @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
     render :layout => !request.xhr?
   end
-  
-  # Show changelog for @project
-  def changelog
-    @trackers = @project.trackers.find(:all, :conditions => ["is_in_chlog=?", true], :order => 'position')
-    retrieve_selected_tracker_ids(@trackers)
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-    project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
-    
-    @versions = @project.shared_versions.sort
-    
-    @issues_by_version = {}
-    unless @selected_tracker_ids.empty?
-      @versions.each do |version|
-        conditions = {:tracker_id => @selected_tracker_ids, "#{IssueStatus.table_name}.is_closed" => true}
-        if !@project.versions.include?(version)
-          conditions.merge!(:project_id => project_ids)
-        end
-        issues = version.fixed_issues.visible.find(:all,
-                                                   :include => [:status, :tracker, :priority],
-                                                   :conditions => conditions,
-                                                   :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
-        @issues_by_version[version] = issues
-      end
-    end
-    @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].empty?}
-  end
 
   def roadmap
-    @trackers = @project.trackers.find(:all, :conditions => ["is_in_roadmap=?", true], :order => 'position')
-    retrieve_selected_tracker_ids(@trackers)
+    @trackers = @project.trackers.find(:all, :order => 'position')
+    retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
     project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
     
@@ -415,11 +388,11 @@ private
     render_404
   end
 
-  def retrieve_selected_tracker_ids(selectable_trackers)
+  def retrieve_selected_tracker_ids(selectable_trackers, default_trackers=nil)
     if ids = params[:tracker_ids]
       @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
     else
-      @selected_tracker_ids = selectable_trackers.collect {|t| t.id.to_s }
+      @selected_tracker_ids = (default_trackers || selectable_trackers).collect {|t| t.id.to_s }
     end
   end
 end

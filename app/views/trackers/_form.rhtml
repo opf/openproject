@@ -4,7 +4,6 @@
 <div class="box tabular">
 <!--[form:tracker]-->
 <p><%= f.text_field :name, :required => true %></p>
-<p><%= f.check_box :is_in_chlog %></p>
 <p><%= f.check_box :is_in_roadmap %></p>
 
 <% if IssueCustomField.all.any? %>

@@ -233,7 +233,6 @@
   field_homepage: Weboldal
   field_is_public: Nyilvános
   field_parent: Szülő projekt
-  field_is_in_chlog: Feladatok látszanak a változás naplóban
   field_is_in_roadmap: Feladatok látszanak az életútban
   field_login: Azonosító
   field_mail_notification: E-mail értesítések
@@ -421,7 +420,6 @@
   label_news_latest: Legutóbbi hírek
   label_news_view_all: Minden hír megtekintése
   label_news_added: Hír hozzáadva
-  label_change_log: Változás napló
   label_settings: Beállítások
   label_overview: Áttekintés
   label_version: Verzió

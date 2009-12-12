@@ -243,7 +243,6 @@ fr:
   field_homepage: Site web
   field_is_public: Public
   field_parent: Sous-projet de
-  field_is_in_chlog: Demandes affichées dans l'historique
   field_is_in_roadmap: Demandes affichées dans la roadmap
   field_login: Identifiant
   field_mail_notification: Notifications par mail
@@ -509,7 +508,6 @@ fr:
   label_news_latest: Dernières annonces
   label_news_view_all: Voir toutes les annonces
   label_news_added: Annonce ajoutée
-  label_change_log: Historique
   label_settings: Configuration
   label_overview: Aperçu
   label_version: Version

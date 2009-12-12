@@ -246,7 +246,6 @@ ja:
   field_homepage: ホームページ
   field_is_public: 公開
   field_parent: 親プロジェクト名
-  field_is_in_chlog: 変更履歴に表示されているチケット
   field_is_in_roadmap: ロードマップに表示されているチケット
   field_login: ログイン
   field_mail_notification: メール通知
@@ -505,7 +504,6 @@ ja:
   label_news_latest: 最新ニュース
   label_news_view_all: 全てのニュースを見る
   label_news_added: ニュースが追加されました
-  label_change_log: 変更履歴
   label_settings: 設定
   label_overview: 概要
   label_version: バージョン

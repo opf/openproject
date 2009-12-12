@@ -240,7 +240,6 @@ zh:
   field_homepage: 主页
   field_is_public: 公开
   field_parent: 上级项目
-  field_is_in_chlog: 在更新日志中显示问题
   field_is_in_roadmap: 在路线图中显示问题
   field_login: 登录名
   field_mail_notification: 邮件通知
@@ -501,7 +500,6 @@ zh:
   label_news_latest: 最近的新闻
   label_news_view_all: 查看所有新闻
   label_news_added: 新闻已添加
-  label_change_log: 更新日志
   label_settings: 配置
   label_overview: 概述
   label_version: 版本

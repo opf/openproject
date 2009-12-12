@@ -240,7 +240,6 @@ lt:
   field_homepage: Pagrindinis puslapis
   field_is_public: Viešas
   field_parent: Priklauso projektui
-  field_is_in_chlog: Darbai rodomi pokyčių žurnale
   field_is_in_roadmap: Darbai rodomi veiklos grafike
   field_login: Registracijos vardas
   field_mail_notification: Elektroninio pašto pranešimai
@@ -487,7 +486,6 @@ lt:
   label_news_latest: Paskutinės naujienos
   label_news_view_all: Peržiūrėti visas žinias
   label_news_added: Naujiena pridėta
-  label_change_log: Pakeitimų žurnalas
   label_settings: Nustatymai
   label_overview: Apžvalga
   label_version: Versija

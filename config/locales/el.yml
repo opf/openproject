@@ -217,7 +217,6 @@ el:
   field_homepage: Αρχική σελίδα
   field_is_public: Δημόσιο
   field_parent: Επιμέρους έργο του
-  field_is_in_chlog: Προβολή θεμάτων στο ιστορικό αλλαγών
   field_is_in_roadmap: Προβολή θεμάτων στο χάρτη πορείας
   field_login: Όνομα χρήστη
   field_mail_notification: Ειδοποιήσεις email
@@ -476,7 +475,6 @@ el:
   label_news_latest: Τελευταία νέα
   label_news_view_all: Προβολή όλων των νέων
   label_news_added: Τα νέα προστέθηκαν
-  label_change_log: Αλλαγή ιστορικού
   label_settings: Ρυθμίσεις
   label_overview: Επισκόπηση
   label_version: Έκδοση
