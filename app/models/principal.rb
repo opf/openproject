@@ -27,8 +27,8 @@ class Principal < ActiveRecord::Base
   
   named_scope :like, lambda {|q| 
     s = "%#{q.to_s.strip.downcase}%"
-    {:conditions => ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", s, s, s],
-     :order => 'type, login, lastname, firstname'
+    {:conditions => ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", s, s, s, s],
+     :order => 'type, login, lastname, firstname, mail'
     }
   }
   
