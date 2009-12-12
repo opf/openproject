@@ -166,8 +166,8 @@ class Issue < ActiveRecord::Base
   end
   
   def done_ratio
-    if Issue.use_status_for_done_ratio? && !self.status.default_done_ratio.blank?
-      self.status.default_done_ratio
+    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
+      status.default_done_ratio
     else
       read_attribute(:done_ratio)
     end
