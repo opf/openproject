@@ -1,0 +1,33 @@
+<%= render :partial => 'action_menu' %>
+
+<h2><%=l(:label_workflow)%></h2>
+
+<% form_tag({}, :id => 'workflow_copy_form') do %>
+<div class="tabular box">
+<p>
+	<label><%= l(:label_copy_source) %></label>
+	<%= l(:label_tracker) %><br />
+	<%= select_tag('source_tracker_id', 
+									"<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +
+									"<option value=\"any\">--- #{ l(:label_copy_same_as_target) } ---</option>" + 
+									options_from_collection_for_select(@trackers, 'id', 'name', @source_tracker && @source_tracker.id)) %><br />
+	<%= l(:label_role) %><br />
+	<%= select_tag('source_role_id',
+									"<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +
+									"<option value=\"any\">--- #{ l(:label_copy_same_as_target) } ---</option>" + 
+									options_from_collection_for_select(@roles, 'id', 'name', @source_role && @source_role.id)) %>
+</p>
+<p>
+	<label><%= l(:label_copy_target) %></label>
+	<%= l(:label_tracker) %><br />
+	<%= select_tag 'target_tracker_ids',
+									"<option value=\"\" disabled=\"disabled\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +
+									options_from_collection_for_select(@trackers, 'id', 'name', @target_trackers && @target_trackers.map(&:id)), :multiple => true %><br />
+	<%= l(:label_role) %><br />
+	<%= select_tag 'target_role_ids',
+									"<option value=\"\" disabled=\"disabled\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +
+									options_from_collection_for_select(@roles, 'id', 'name', @target_roles && @target_roles.map(&:id)), :multiple => true %>
+</p>
+</div>
+<%= submit_tag l(:button_copy) %>
+<% end %>

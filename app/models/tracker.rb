@@ -19,14 +19,8 @@ class Tracker < ActiveRecord::Base
   before_destroy :check_integrity  
   has_many :issues
   has_many :workflows, :dependent => :delete_all do
-    def copy(tracker)
-      raise "Can not copy workflow from a #{tracker.class}" unless tracker.is_a?(Tracker)
-      raise "Can not copy workflow from/to an unsaved tracker" if proxy_owner.new_record? || tracker.new_record?
-      clear
-      connection.insert "INSERT INTO #{Workflow.table_name} (tracker_id, old_status_id, new_status_id, role_id)" +
-                        " SELECT #{proxy_owner.id}, old_status_id, new_status_id, role_id" +
-                        " FROM #{Workflow.table_name}" +
-                        " WHERE tracker_id = #{tracker.id}"
+    def copy(source_tracker)
+      Workflow.copy(source_tracker, nil, proxy_owner, nil)
     end
   end
   

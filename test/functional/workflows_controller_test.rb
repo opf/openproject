@@ -22,7 +22,7 @@ require 'workflows_controller'
 class WorkflowsController; def rescue_action(e) raise e end; end
 
 class WorkflowsControllerTest < ActionController::TestCase
-  fixtures :roles, :trackers, :workflows
+  fixtures :roles, :trackers, :workflows, :users
   
   def setup
     @controller = WorkflowsController.new
@@ -80,5 +80,51 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     post :edit, :role_id => 2, :tracker_id => 1
     assert_equal 0, Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2})
+  end
+  
+  def test_get_copy
+    get :copy
+    assert_response :success
+    assert_template 'copy'
+  end
+  
+  def test_post_copy_one_to_one
+    source_transitions = status_transitions(:tracker_id => 1, :role_id => 2)
+    
+    post :copy, :source_tracker_id => '1', :source_role_id => '2',
+                :target_tracker_ids => ['3'], :target_role_ids => ['1']
+    assert_response 302
+    assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 1)
+  end
+  
+  def test_post_copy_one_to_many
+    source_transitions = status_transitions(:tracker_id => 1, :role_id => 2)
+    
+    post :copy, :source_tracker_id => '1', :source_role_id => '2',
+                :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+    assert_response 302
+    assert_equal source_transitions, status_transitions(:tracker_id => 2, :role_id => 1)
+    assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 1)
+    assert_equal source_transitions, status_transitions(:tracker_id => 2, :role_id => 3)
+    assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 3)
+  end
+  
+  def test_post_copy_many_to_many
+    source_t2 = status_transitions(:tracker_id => 2, :role_id => 2)
+    source_t3 = status_transitions(:tracker_id => 3, :role_id => 2)
+    
+    post :copy, :source_tracker_id => 'any', :source_role_id => '2',
+                :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+    assert_response 302
+    assert_equal source_t2, status_transitions(:tracker_id => 2, :role_id => 1)
+    assert_equal source_t3, status_transitions(:tracker_id => 3, :role_id => 1)
+    assert_equal source_t2, status_transitions(:tracker_id => 2, :role_id => 3)
+    assert_equal source_t3, status_transitions(:tracker_id => 3, :role_id => 3)
+  end
+  
+  # Returns an array of status transitions that can be compared
+  def status_transitions(conditions)
+    Workflow.find(:all, :conditions => conditions,
+                        :order => 'tracker_id, role_id, old_status_id, new_status_id').collect {|w| [w.old_status, w.new_status_id]}
   end
 end

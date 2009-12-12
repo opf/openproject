@@ -297,6 +297,8 @@ ul.properties li span {font-style:italic;}
 .autoscroll {overflow-x: auto; padding:1px; margin-bottom: 1.2em;}
 #user_firstname, #user_lastname, #user_mail, #my_account_form select { width: 90%; }
 
+#workflow_copy_form select { width: 200px; }
+
 .pagination {font-size: 90%}
 p.pagination {margin-top:8px;}
 
@@ -728,6 +730,7 @@ vertical-align: middle;
 .icon-details  { background-image: url(../images/zoom_in.png); }
 .icon-report  { background-image: url(../images/report.png); }
 .icon-comment  { background-image: url(../images/comment.png); }
+.icon-summary  { background-image: url(../images/lightning.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }

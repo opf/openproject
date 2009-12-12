@@ -159,7 +159,9 @@ en:
   error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version can not be reopened'
   error_can_not_archive_project: This project can not be archived
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
-
+  error_workflow_copy_source: 'Please select a source tracker or role'
+  error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
+  
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   
   mail_subject_lost_password: "Your {{value}} password"
@@ -720,6 +722,9 @@ en:
   label_version_sharing_tree: With project tree
   label_version_sharing_system: With all projects
   label_update_issue_done_ratios: Update issue done ratios
+  label_copy_source: Source
+  label_copy_target: Target
+  label_copy_same_as_target: Same as target
   
   button_login: Login
   button_submit: Submit
