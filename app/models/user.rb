@@ -214,11 +214,6 @@ class User < Principal
   def self.find_by_mail(mail)
     find(:first, :conditions => ["LOWER(mail) = ?", mail.to_s.downcase])
   end
-
-  # Sort users by their display names
-  def <=>(user)
-    self.to_s.downcase <=> user.to_s.downcase
-  end
   
   def to_s
     name

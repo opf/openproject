@@ -33,6 +33,11 @@ class Principal < ActiveRecord::Base
   }
   
   def <=>(principal)
-    self.to_s.downcase <=> principal.to_s.downcase
+    if self.class.name == principal.class.name
+      self.to_s.downcase <=> principal.to_s.downcase
+    else
+      # groups after users
+      principal.class.name <=> self.class.name
+    end
   end
 end
