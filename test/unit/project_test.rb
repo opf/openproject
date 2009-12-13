@@ -682,8 +682,6 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
 
-    should "copy custom fields"
-
     should "copy issue categories" do
       assert @project.copy(@source_project)
 
