@@ -29,6 +29,10 @@ class Document < ActiveRecord::Base
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60
   
+  def visible?(user=User.current)
+    !user.nil? && user.allowed_to?(:view_documents, project)
+  end
+  
   def after_initialize
     if new_record?
       self.category ||= DocumentCategory.default
@@ -41,5 +45,12 @@ class Document < ActiveRecord::Base
       @updated_on = (a && a.created_on) || created_on
     end
     @updated_on
+  end
+  
+  # Returns the mail adresses of users that should be notified
+  def recipients
+    notified = project.notified_users
+    notified.reject! {|user| !visible?(user)}
+    notified.collect(&:mail)
   end
 end

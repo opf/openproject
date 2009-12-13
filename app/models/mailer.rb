@@ -94,7 +94,7 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_document_added(document) => sends an email to the document's project recipients
   def document_added(document)
     redmine_headers 'Project' => document.project.identifier
-    recipients document.project.recipients
+    recipients document.recipients
     subject "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
     body :document => document,
          :document_url => url_for(:controller => 'documents', :action => 'show', :id => document)
@@ -114,15 +114,17 @@ class Mailer < ActionMailer::Base
     when 'Project'
       added_to_url = url_for(:controller => 'projects', :action => 'list_files', :id => container)
       added_to = "#{l(:label_project)}: #{container}"
+      recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}
     when 'Version'
       added_to_url = url_for(:controller => 'projects', :action => 'list_files', :id => container.project_id)
       added_to = "#{l(:label_version)}: #{container.name}"
+      recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}
     when 'Document'
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
+      recipients container.recipients
     end
     redmine_headers 'Project' => container.project.identifier
-    recipients container.project.recipients
     subject "[#{container.project.name}] #{l(:label_attachment_new)}"
     body :attachments => attachments,
          :added_to => added_to,
@@ -138,24 +140,25 @@ class Mailer < ActionMailer::Base
   def news_added(news)
     redmine_headers 'Project' => news.project.identifier
     message_id news
-    recipients news.project.recipients
+    recipients news.recipients
     subject "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
     body :news => news,
          :news_url => url_for(:controller => 'news', :action => 'show', :id => news)
     render_multipart('news_added', body)
   end
 
-  # Builds a tmail object used to email the specified recipients of the specified message that was posted. 
+  # Builds a tmail object used to email the recipients of the specified message that was posted. 
   #
   # Example:
-  #   message_posted(message, recipients) => tmail object
-  #   Mailer.deliver_message_posted(message, recipients) => sends an email to the recipients
-  def message_posted(message, recipients)
+  #   message_posted(message) => tmail object
+  #   Mailer.deliver_message_posted(message) => sends an email to the recipients
+  def message_posted(message)
     redmine_headers 'Project' => message.project.identifier,
                     'Topic-Id' => (message.parent_id || message.id)
     message_id message
     references message.parent unless message.parent.nil?
-    recipients(recipients)
+    recipients(message.recipients)
+    cc((message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients)
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
     body :message => message,
          :message_url => url_for(:controller => 'messages', :action => 'show', :board_id => message.board_id, :id => message.root)
@@ -171,7 +174,7 @@ class Mailer < ActionMailer::Base
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
     message_id wiki_content
-    recipients wiki_content.project.recipients
+    recipients wiki_content.recipients
     cc(wiki_content.page.wiki.watcher_recipients - recipients)
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :page => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
@@ -188,7 +191,7 @@ class Mailer < ActionMailer::Base
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
     message_id wiki_content
-    recipients wiki_content.project.recipients
+    recipients wiki_content.recipients
     cc(wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients - recipients)
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_updated, :page => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
