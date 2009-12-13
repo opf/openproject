@@ -42,6 +42,10 @@ class Message < ActiveRecord::Base
   
   after_create :add_author_as_watcher
   
+  def visible?(user=User.current)
+    !user.nil? && user.allowed_to?(:view_messages, project)
+  end
+  
   def validate_on_create
     # Can not reply to a locked topic
     errors.add_to_base 'Topic is locked' if root.locked? && self != root

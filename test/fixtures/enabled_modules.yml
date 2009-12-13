@@ -59,3 +59,7 @@ enabled_modules_015:
   name: wiki
   project_id: 2
   id: 15
+enabled_modules_016: 
+  name: boards
+  project_id: 2
+  id: 16

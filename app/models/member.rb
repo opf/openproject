@@ -24,6 +24,8 @@ class Member < ActiveRecord::Base
 
   validates_presence_of :principal, :project
   validates_uniqueness_of :user_id, :scope => :project_id
+
+  after_destroy :unwatch_from_permission_change
   
   def name
     self.user.name
@@ -39,7 +41,11 @@ class Member < ActiveRecord::Base
     # Add new roles
     new_role_ids.each {|id| member_roles << MemberRole.new(:role_id => id) }
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
-    member_roles.select {|mr| !ids.include?(mr.role_id)}.each(&:destroy)
+    member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
+    if member_roles_to_destroy.any?
+      member_roles_to_destroy.each(&:destroy)
+      unwatch_from_permission_change
+    end
   end
   
   def <=>(member)
@@ -62,5 +68,14 @@ class Member < ActiveRecord::Base
   
   def validate
     errors.add_to_base "Role can't be blank" if member_roles.empty? && roles.empty?
+  end
+  
+  private
+  
+  # Unwatch things that the user is no longer allowed to view inside project
+  def unwatch_from_permission_change
+    if user
+      Watcher.prune(:user => user, :project => project)
+    end
   end
 end

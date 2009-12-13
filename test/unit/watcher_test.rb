@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,11 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class WatcherTest < ActiveSupport::TestCase
-  fixtures :issues, :users
+  fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules,
+           :issues,
+           :boards, :messages,
+           :wikis, :wiki_pages,
+           :watchers
 
   def setup
     @user = User.find(1)
@@ -65,5 +69,37 @@ class WatcherTest < ActiveSupport::TestCase
     assert @issue.add_watcher(@user)
     @issue.reload
     assert_equal 1, @issue.remove_watcher(@user)  
+  end
+  
+  def test_prune
+    Watcher.delete_all("user_id = 9")
+    user = User.find(9)
+    
+    # public
+    Watcher.create!(:watchable => Issue.find(1), :user => user)
+    Watcher.create!(:watchable => Issue.find(2), :user => user)
+    Watcher.create!(:watchable => Message.find(1), :user => user)
+    Watcher.create!(:watchable => Wiki.find(1), :user => user)
+    Watcher.create!(:watchable => WikiPage.find(2), :user => user)
+    
+    # private project (id: 2)
+    Member.create!(:project => Project.find(2), :principal => user, :role_ids => [1])
+    Watcher.create!(:watchable => Issue.find(4), :user => user)
+    Watcher.create!(:watchable => Message.find(7), :user => user)
+    Watcher.create!(:watchable => Wiki.find(2), :user => user)
+    Watcher.create!(:watchable => WikiPage.find(3), :user => user)
+    
+    assert_no_difference 'Watcher.count' do
+      Watcher.prune(:user => User.find(9))
+    end
+    
+    Member.delete_all
+    
+    assert_difference 'Watcher.count', -4 do
+      Watcher.prune(:user => User.find(9))
+    end
+    
+    assert Issue.find(1).watched_by?(user)
+    assert !Issue.find(4).watched_by?(user)
   end
 end

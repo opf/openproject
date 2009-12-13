@@ -25,6 +25,10 @@ class Wiki < ActiveRecord::Base
   validates_presence_of :start_page
   validates_format_of :start_page, :with => /^[^,\.\/\?\;\|\:]*$/
   
+  def visible?(user=User.current)
+    !user.nil? && user.allowed_to?(:view_wiki_pages, project)
+  end
+  
   # find the page with the given title
   # if page doesn't exist, return a new page
   def find_or_new_page(title)

@@ -40,6 +40,10 @@ class WikiPage < ActiveRecord::Base
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\s]*$/
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
+  
+  def visible?(user=User.current)
+    !user.nil? && user.allowed_to?(:view_wiki_pages, project)
+  end
 
   def title=(value)
     value = Wiki.titleize(value)

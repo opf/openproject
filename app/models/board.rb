@@ -27,6 +27,10 @@ class Board < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
   
+  def visible?(user=User.current)
+    !user.nil? && user.allowed_to?(:view_messages, project)
+  end
+  
   def to_s
     name
   end
