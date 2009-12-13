@@ -47,6 +47,15 @@ class WatchersControllerTest < ActionController::TestCase
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
+  
+  def test_watch_should_be_denied_without_permission
+    Role.find(2).remove_permission! :view_issues
+    @request.session[:user_id] = 3
+    assert_no_difference('Watcher.count') do
+      xhr :post, :watch, :object_type => 'issue', :object_id => '1'
+      assert_response 403
+    end
+  end
 
   def test_watch_with_multiple_replacements
     @request.session[:user_id] = 3
