@@ -172,3 +172,5 @@ openid:
   default: 0
 gravatar_default:
   default: ''
+start_of_week:
+  default: ''

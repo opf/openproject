@@ -856,3 +856,4 @@ ca:
   notice_issue_done_ratios_updated: Issue done ratios updated.
   error_workflow_copy_source: Please select a source tracker or role
   label_update_issue_done_ratios: Update issue done ratios
+  setting_start_of_week: Start calendars on

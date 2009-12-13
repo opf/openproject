@@ -7,6 +7,9 @@
 <p><label><%= l(:setting_default_language) %></label>
 <%= select_tag 'settings[default_language]', options_for_select( lang_options_for_select(false), Setting.default_language) %></p>
 
+<p><label><%= l(:setting_start_of_week) %></label>
+<%= select_tag 'settings[start_of_week]', options_for_select( [[l(:label_language_based), ''], [day_name(1),'1'], [day_name(7),'7']] , Setting.start_of_week) %></p>
+
 <p><label><%= l(:setting_date_format) %></label>
 <%= select_tag 'settings[date_format]', options_for_select( [[l(:label_language_based), '']] + Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, Setting.date_format) %></p>
 

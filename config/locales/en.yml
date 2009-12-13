@@ -322,6 +322,7 @@ en:
   setting_issue_done_ratio: Calculate the issue done ratio with
   setting_issue_done_ratio_issue_field: Use the issue field
   setting_issue_done_ratio_issue_status: Use the issue status
+  setting_start_of_week: Start calendars on
   
   permission_add_project: Create project
   permission_edit_project: Edit project

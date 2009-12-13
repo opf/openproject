@@ -659,8 +659,18 @@ module ApplicationHelper
     unless @calendar_headers_tags_included
       @calendar_headers_tags_included = true
       content_for :header_tags do
+        start_of_week = case Setting.start_of_week.to_i
+        when 1
+          'Calendar._FD = 1;' # Monday
+        when 7
+          'Calendar._FD = 0;' # Sunday
+        else
+          '' # use language
+        end
+        
         javascript_include_tag('calendar/calendar') +
         javascript_include_tag("calendar/lang/calendar-#{current_language.to_s.downcase}.js") +
+        javascript_tag(start_of_week) +  
         javascript_include_tag('calendar/calendar-setup') +
         stylesheet_link_tag('calendar')
       end
