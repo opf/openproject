@@ -529,6 +529,10 @@ class Project < ActiveRecord::Base
   
   # Copies issues from +project+
   def copy_issues(project)
+    # Stores the source issue id as a key and the copied issues as the
+    # value.  Used to map the two togeather for issue relations.
+    issues_map = {}
+    
     project.issues.each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue)
@@ -543,6 +547,33 @@ class Project < ActiveRecord::Base
         new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
       end
       self.issues << new_issue
+      issues_map[issue.id] = new_issue
+    end
+
+    # Relations after in case issues related each other
+    project.issues.each do |issue|
+      new_issue = issues_map[issue.id]
+      
+      # Relations
+      issue.relations_from.each do |source_relation|
+        new_issue_relation = IssueRelation.new
+        new_issue_relation.attributes = source_relation.attributes.dup.except("id", "issue_from_id", "issue_to_id")
+        new_issue_relation.issue_to = issues_map[source_relation.issue_to_id]
+        if new_issue_relation.issue_to.nil? && Setting.cross_project_issue_relations?
+          new_issue_relation.issue_to = source_relation.issue_to
+        end
+        new_issue.relations_from << new_issue_relation
+      end
+      
+      issue.relations_to.each do |source_relation|
+        new_issue_relation = IssueRelation.new
+        new_issue_relation.attributes = source_relation.attributes.dup.except("id", "issue_from_id", "issue_to_id")
+        new_issue_relation.issue_from = issues_map[source_relation.issue_from_id]
+        if new_issue_relation.issue_from.nil? && Setting.cross_project_issue_relations?
+          new_issue_relation.issue_from = source_relation.issue_from
+        end
+        new_issue.relations_to << new_issue_relation
+      end
     end
   end
 
