@@ -314,13 +314,6 @@ class Issue < ActiveRecord::Base
     notified.collect(&:mail)
   end
   
-  # Returns the mail adresses of watchers that should be notified
-  def watcher_recipients
-    notified = watcher_users
-    notified.reject! {|user| !user.active? || !visible?(user)}
-    notified.collect(&:mail)
-  end
-  
   # Returns the total number of hours spent on this issue.
   #
   # Example:
