@@ -170,6 +170,7 @@ Redmine::Plugin.register :redmine_costs do
   end
   
   view_time_entries = Redmine::AccessControl.permission(:view_time_entries)
+  view_time_entries.instance_variable_set("@inherits", [:view_own_time_entries])
   view_time_entries.actions << "cost_reports/index"
   
   edit_time_entries = Redmine::AccessControl.permission(:edit_time_entries)
