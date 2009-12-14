@@ -486,8 +486,8 @@ p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
 /***** Tabs *****/
-#content .tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative;}
-#content .tabs ul {margin:0; position:absolute; bottom:-2px; padding-left:1em;}
+#content .tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative; overflow:hidden;}
+#content .tabs ul {margin:0; position:absolute; bottom:-2px; padding-left:1em; width: 2000px;}
 #content .tabs>ul { bottom:-1px; } /* others */
 #content .tabs ul li {
 float:left;
@@ -522,6 +522,31 @@ border-bottom: 1px solid #fff;
 
 #content .tabs ul li a.selected:hover {
 background-color: #fff;
+}
+
+div.tabs-buttons { position:absolute; right: 0; width: 48px; height: 24px; background: white; bottom: -1px;  }
+
+button.tab-left, button.tab-right {
+	font-size: 0.9em;
+	cursor: pointer;
+	height:24px;
+	border: 1px solid #ccc;
+	border-bottom: 1px solid #bbbbbb;
+	position:absolute;
+	padding:4px;
+	width: 20px;
+}
+
+button.tab-left {
+	right: 20px;
+	bottom: 0;
+	background: #eeeeee url(../images/bullet_arrow_left.png) no-repeat 50% 50%;
+}
+
+button.tab-right {
+	right: 0;
+	bottom: 0;
+	background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;}
 }
 
 /***** Auto-complete *****/
