@@ -947,24 +947,24 @@ ru:
   button_move_and_follow: Переместить и перейти
   setting_default_projects_modules: Включенные по умолчанию модули для новых проектов
   setting_gravatar_default: Изображение Gravatar по умолчанию
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
+  field_sharing: Совместное использование
+  label_version_sharing_hierarchy: С иерархией проектов
+  label_version_sharing_system: Со всеми проектами
+  label_version_sharing_descendants: С подпроектами
+  label_version_sharing_tree: С деревом проектов
+  label_version_sharing_none: Без совместного использования
+  error_can_not_archive_project: Этот проект не может быть архивирован
+  button_duplicate: Дублировать
+  button_copy_and_follow: Копировать и продолжить
+  label_copy_source: Источник
   setting_issue_done_ratio: Calculate the issue done ratio with
   setting_issue_done_ratio_issue_status: Use the issue status
   error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
+  error_workflow_copy_target: Выберите целевые трекеры и роли
   setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
+  label_copy_same_as_target: То же, что и у цели
+  label_copy_target: Цель
   notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
+  error_workflow_copy_source: Выберите исходный трекер или роль
   label_update_issue_done_ratios: Update issue done ratios
   setting_start_of_week: Start calendars on

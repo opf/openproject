@@ -182,7 +182,7 @@ pt-BR:
   error_scm_command_failed: "Ocorreu um erro ao tentar acessar o repositório: {{value}}"
   error_scm_annotate: "Esta entrada não existe ou não pode ser anotada."
   error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projeto'
-  error_no_tracker_in_project: 'Não há um tipo de tarefa associado a este projeto. favor verificar as configurações do projeto.'
+  error_no_tracker_in_project: 'Não há um tipo de tarefa associado a este projeto. Favor verificar as configurações do projeto.'
   error_no_default_issue_status: 'A situação padrão para tarefa não está definida. Favor verificar sua configuração (Vá em "Administração -> Situação da tarefa").'
 
   mail_subject_lost_password: "Sua senha do {{value}}."
@@ -274,7 +274,7 @@ pt-BR:
   field_is_filter: É um filtro
   field_issue_to: Tarefa relacionada
   field_delay: Atraso
-  field_assignable: Tarefas podem ser atribuídas a esta função
+  field_assignable: Tarefas podem ser atribuídas a este papel
   field_redirect_existing_links: Redirecionar links existentes
   field_estimated_hours: Tempo estimado
   field_column_names: Colunas
@@ -353,10 +353,10 @@ pt-BR:
   label_document_new: Novo documento
   label_document_plural: Documentos
   label_document_added: Documento adicionado
-  label_role: Cargo
-  label_role_plural: Cargos
-  label_role_new: Novo cargo
-  label_role_and_permissions: Cargos e permissões
+  label_role: Papel
+  label_role_plural: Papéis
+  label_role_new: Novo papel
+  label_role_and_permissions: Papéis e permissões
   label_member: Membro
   label_member_new: Novo membro
   label_member_plural: Membros
@@ -563,7 +563,7 @@ pt-BR:
   label_options: Opções
   label_copy_workflow_from: Copiar fluxo de trabalho de
   label_permissions_report: Relatório de permissões
-  label_watched_issues: Tarefas monitoradas
+  label_watched_issues: Tarefas observadas
   label_related_issues: Tarefas relacionadas
   label_applied_status: Situação alterada
   label_loading: Carregando...
@@ -639,7 +639,7 @@ pt-BR:
   label_planning: Planejamento
   label_incoming_emails: E-mail de entrada
   label_generate_key: Gerar uma chave
-  label_issue_watchers: Monitorando
+  label_issue_watchers: Observadores
 
   button_login: Entrar
   button_submit: Enviar
@@ -666,8 +666,8 @@ pt-BR:
   button_sort: Ordenar
   button_log_time: Tempo de trabalho
   button_rollback: Voltar para esta versão
-  button_watch: Monitorar
-  button_unwatch: Parar de Monitorar
+  button_watch: Observar
+  button_unwatch: Parar de observar
   button_reply: Responder
   button_archive: Arquivar
   button_unarchive: Desarquivar
@@ -689,7 +689,7 @@ pt-BR:
   text_min_max_length_info: 0 = sem restrição
   text_project_destroy_confirmation: Você tem certeza que deseja excluir este projeto e todos os dados relacionados?
   text_subprojects_destroy_warning: "Seu(s) subprojeto(s): {{value}} também serão excluídos."
-  text_workflow_edit: Selecione um cargo e um tipo de tarefa para editar o fluxo de trabalho
+  text_workflow_edit: Selecione um papel e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Você tem certeza?
   text_tip_task_begin_day: tarefa inicia neste dia
   text_tip_task_end_day: tarefa termina neste dia
@@ -708,7 +708,7 @@ pt-BR:
   text_issue_category_destroy_question: "Algumas tarefas ({{count}}) estão atribuídas a esta categoria. O que você deseja fazer?"
   text_issue_category_destroy_assignments: Remover atribuições da categoria
   text_issue_category_reassign_to: Redefinir tarefas para esta categoria
-  text_user_mail_option: "Para projetos (não selecionados), você somente receberá notificações sobre o que você monitora ou está envolvido (ex. tarefas das quais você é o autor ou que estão atribuídas a você)"
+  text_user_mail_option: "Para projetos (não selecionados), você somente receberá notificações sobre o que você está observando ou está envolvido (ex. tarefas das quais você é o autor ou que estão atribuídas a você)"
   text_no_configuration_data: "Os Papéis, tipos de tarefas, situação de tarefas e fluxos de trabalho não foram configurados ainda.\nÉ altamente recomendado carregar as configurações padrão. Você poderá modificar estas configurações assim que carregadas."
   text_load_default_configuration: Carregar a configuração padrão
   text_status_changed_by_changeset: "Aplicado no changeset {{value}}."
@@ -772,7 +772,7 @@ pt-BR:
   permission_select_project_modules: Selecionar módulos de projeto
   permission_manage_documents: Gerenciar documentos
   permission_edit_wiki_pages: Editar páginas wiki
-  permission_add_issue_watchers: Adicionar monitores
+  permission_add_issue_watchers: Adicionar observadores
   permission_view_gantt: Ver gráfico gantt
   permission_move_issues: Mover tarefas
   permission_manage_issue_relations: Gerenciar relacionamentos de tarefas
@@ -789,7 +789,7 @@ pt-BR:
   permission_manage_members: Gerenciar membros
   permission_edit_messages: Editar mensagens
   permission_delete_issues: Excluir tarefas
-  permission_view_issue_watchers: Ver lista de monitores
+  permission_view_issue_watchers: Ver lista de observadores
   permission_manage_repository: Gerenciar repositório
   permission_commit_access: Acesso de commit
   permission_browse_repository: Pesquisar repositório
@@ -818,7 +818,7 @@ pt-BR:
   field_editable: Editável
   setting_repository_log_display_limit: Número máximo de revisões exibidas no arquivo de log
   setting_file_max_size_displayed: Tamanho máximo dos arquivos textos exibidos inline
-  field_watcher: Observador
+  field_identity_urler: Observador
   setting_openid: Permitir Login e Registro via OpenID
   field_identity_url: OpenID URL
   label_login_with_open_id_option: ou use o OpenID
@@ -842,7 +842,7 @@ pt-BR:
   label_wiki_content_updated: Página wiki atualizada
   mail_body_wiki_content_updated: A página wiki '{{page}}' foi atualizada por {{author}}.
   permission_add_project: Criar projeto
-  setting_new_project_user_role_id: Cargo dado a um usuário não administrador que crie um projeto
+  setting_new_project_user_role_id: Papel atribuído a um usuário não administrador que possa criar novos projetos
   label_view_all_revisions: Ver todas as revisões
   label_tag: Etiqueta
   label_branch: Ramo
@@ -865,24 +865,26 @@ pt-BR:
   button_move_and_follow: Mover e seguir
   setting_default_projects_modules: Módulos habilitados por padrão para novos projetos
   setting_gravatar_default: Imagem Gravatar padrão
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
+  field_sharing: Compartilhamento
+  label_version_sharing_hierarchy: Com a hierarquia do projeto
+  label_version_sharing_system: Com todos os projetos
+  label_version_sharing_descendants: Com sub-projetos
+  label_version_sharing_tree: Com a árvore do projeto
+  label_version_sharing_none: Sem compartilhamento
+  error_can_not_archive_project: Este projeto não pode ser arquivado
+  button_duplicate: Duplicado
+  button_copy_and_follow: Copiar e seguir
+  label_copy_source: Origem
+  setting_issue_done_ratio: Calcular o percentual de conclusão da tarefa
+  setting_issue_done_ratio_issue_status: Usar a situação da tarefa
+  error_issue_done_ratios_not_updated: O pecentual de conclusão das tarefas não foi atualizado.
+  error_workflow_copy_target: Por favor, selecione os tipos de tarefa e os papéis alvo
   setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
+  label_copy_same_as_target: Mesmo alvo
+  label_copy_target: Alvo
+  notice_issue_done_ratios_updated: Percentual de conslusão atualizados.
+  error_workflow_copy_source: Por favor, selecione um tipo de tarefa e papel de origem
+  label_update_issue_done_ratios: Atualizar percentual de conclusão das tarefas
+  setting_start_of_week: Início da semana
+  field_watcher: Watcher
+

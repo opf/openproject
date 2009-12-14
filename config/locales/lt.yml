@@ -1,52 +1,49 @@
 # Lithuanian translations for Ruby on Rails
 # by Laurynas Butkus (laurynas.butkus@gmail.com)
-
+# Redmine translation by Gediminas Muižis gediminas.muizis@gmail.com
+#                      and Sergej Jegorov sergej.jegorov@gmail.com
+#					   and Gytis Gurklys gytis.gurklys@gmail.com
 lt:
-  number:
-    format:
-      separator: ","
-      delimiter: " "
-      precision: 3
-      
-    currency:
-      format:
-        format: "%n %u"
-        unit: "Lt"
-        separator: ","
-        delimiter: " "
-        precision: 2
-        
-    percentage:
-      format:
-        delimiter: ""
-        
-    precision:
-      format:
-        delimiter: ""
-        
-    human:
-      format:
-        delimiter: ""
-        precision: 1
-      storage_units:
-        format: "%n %u"
-        units:
-          byte:
-            one: "baitai"
-            other: "baitai"
-          kb: "KB"
-          mb: "MB"
-          gb: "GB"
-          tb: "TB"
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+
+    day_names: [sekmadienis, pirmadienis, antradienis, trečiadienis, ketvirtadienis, penktadienis, šeštadienis]
+#    standalone_day_names: [Sekmadienis, Pirmadienis, Antradienis, Trečiadienis, Ketvirtadienis, Penktadienis, Šeštadienis]
+    abbr_day_names: [Sek, Pir, Ant, Tre, Ket, Pen, Šeš]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, sausio, vasario, kovo, balandžio, gegužės, birželio, liepos, rugpjūčio, rugsėjo, spalio, lapkričio, gruodžio]
+    abbr_month_names: [~, Sau, Vas, Kov, Bal, Geg, Bir, Lie, Rgp, Rgs, Spa, Lap, Grd]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      time: "%H:%M"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "ryto"
+    pm: "vakaro"
 
   datetime:
     distance_in_words:
       half_a_minute: "pusė minutės"
       less_than_x_seconds:
-        one:   "mažiau nei 1 sekundė"
+        one:   "mažiau nei {{count}} sekundė"
+        few:   "mažiau nei {{count}} sekundžių"
+        many:  "mažiau nei {{count}} sekundžių"
         other: "mažiau nei {{count}} sekundės"
       x_seconds:
-        one:   "1 sekundė"
+        one:   "{{count}} sekundė"
+        few:   "{{count}} sekundžių"
+        many:  "{{count}} sekundžių"
         other: "{{count}} sekundės"
       less_than_x_minutes:
         one:   "mažiau nei minutė"
@@ -80,15 +77,69 @@ lt:
       minute: "Minutė"
       second: "Sekundės"
 
+  number:
+    format:
+      separator: ","
+      delimiter: " "
+      precision: 3
+      
+    currency:
+      format:
+        format: "%n %u"
+        unit: "Lt"
+        separator: ","
+        delimiter: " "
+        precision: 2
+        
+    percentage:
+      format:
+        delimiter: ""
+        
+    precision:
+      format:
+        delimiter: ""
+        
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        # Storage units output formatting.
+        # %u is the storage unit, %n is the number (default: 2 MB)
+        format: "%n %u"
+        units:
+          byte:
+            one:   "baitas"
+            few:   "baitų"
+            many:  "baitų"
+            other: "baitai"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+# Used in array.to_sentence.
+  support:
+    array:
+      # Rails 2.2
+      sentence_connector: "ir"
+      skip_last_comma: true
+      # Rails 2.3
+      words_connector: ", "
+      two_words_connector: " ir "
+      last_word_connector: " ir "
+
   activerecord:
     errors:
       template:
         header:
-          one:    "Išsaugant objektą {{model}} rasta klaida"
+          one:    "Išsaugant objektą {{model}} rasta {{count}} klaida"
+          few:    "Išsaugant objektą {{model}} rasta {{count}} klaidų"
+          many:   "Išsaugant objektą {{model}} rasta {{count}} klaidų"
           other:  "Išsaugant objektą {{model}} rastos {{count}} klaidos"
         body: "Šiuose laukuose yra klaidų:"
 
-      messages:
+      pranešimus:
         inclusion: "nenumatyta reikšmė"
         exclusion: "užimtas"
         invalid: "neteisingas"
@@ -96,11 +147,24 @@ lt:
         accepted: "turi būti patvirtintas"
         empty: "negali būti tuščias"
         blank: "negali būti tuščias"
-        too_long: "per ilgas (daugiausiai {{count}} simboliai)"
-        too_short: "per trumpas (mažiausiai {{count}} simboliai)"
-        wrong_length: "neteisingo ilgio (turi būti {{count}} simboliai)"
+        too_long:
+          one:   "per ilgas (daugiausiai {{count}} simbolius)"
+          few:   "per ilgas (daugiausiai {{count}} simboliu)"
+          many:  "per ilgas (daugiausiai {{count}} simboliu)"
+          other: "per ilgas (daugiausiai {{count}} simboliai)"
+        too_short:
+          one:   "per trumpas (mažiausiai {{count}} simbolius)"
+          few:   "per trumpas (mažiausiai {{count}} simboliu)"
+          many:  "per trumpas (mažiausiai {{count}} simboliu)"
+          other: "per trumpas (mažiausiai {{count}} simboliai)"
+        wrong_length:
+          one:   "neteisingo ilgio (turi būti lygiai {{count}} simbolius)"
+          few:   "neteisingo ilgio (turi būti lygiai {{count}} simboliu)"
+          many:  "neteisingo ilgio (turi būti lygiai {{count}} simboliu)"
+          other: "neteisingo ilgio (turi būti lygiai {{count}} simboliai)"
         taken: "jau užimtas"
         not_a_number: "ne skaičius"
+        not_a_date: "is not a valid date"
         greater_than: "turi būti didesnis už {{count}}"
         greater_than_or_equal_to: "turi būti didesnis arba lygus {{count}}"
         equal_to: "turi būti lygus {{count}}"
@@ -112,38 +176,7 @@ lt:
         not_same_project: "nepriklauso tam pačiam projektui"
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę"
     
-      models:
-
-  date:
-    formats:
-      default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
-      
-    day_names: [sekmadienis, pirmadienis, antradienis, trečiadienis, ketvirtadienis, penktadienis, šeštadienis]
-    abbr_day_names: [Sek, Pir, Ant, Tre, Ket, Pen, Šeš]
-      
-    month_names: [~, sausio, vasario, kovo, balandžio, gegužės, birželio, liepos, rugpjūčio, rugsėjo, spalio, lapkričio, gruodžio]
-    abbr_month_names: [~, Sau, Vas, Kov, Bal, Geg, Bir, Lie, Rgp, Rgs, Spa, Lap, Grd]
-    order: [ :year, :month, :day ]
-
-  time:
-    formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      time: "%H:%M"
-      short: "%d %b %H:%M"
-      long: "%B %d, %Y %H:%M"
-    am: "am"
-    pm: "pm"
-      
-  support:
-    array:
-      words_connector: ", "
-      two_words_connector: " ir "
-      last_word_connector: " ir "
-
-  
-  actionview_instancetag_blank_option: prašom išrinkti
+  actionview_instancetag_blank_option: prašom parinkti
   
   general_text_No: 'Ne'
   general_text_Yes: 'Taip'
@@ -163,33 +196,39 @@ lt:
   notice_account_register_done: Paskyra buvo sėkmingai sukurta. Kad aktyvintumėte savo paskyrą, paspauskite sąsają, kuri jums buvo siųsta elektroniniu paštu.
   notice_account_unknown_email: Nežinomas vartotojas.
   notice_can_t_change_password: Šis pranešimas naudoja išorinį autentiškumo nustatymo šaltinį. Neįmanoma pakeisti slaptažodį.
-  notice_account_lost_email_sent: Į Jūsų pašą išsiūstas laiškas su naujo slaptažodžio pasirinkimo instrukcija.
+  notice_account_lost_email_sent: Į Jūsų paštą išsiųstas laiškas su naujo slaptažodžio pasirinkimo instrukcija.
   notice_account_activated: Jūsų paskyra aktyvuota. Galite prisijungti.
   notice_successful_create: Sėkmingas sukūrimas.
   notice_successful_update: Sėkmingas atnaujinimas.
   notice_successful_delete: Sėkmingas panaikinimas.
   notice_successful_connection: Sėkmingas susijungimas.
-  notice_file_not_found: Puslapis, į kurį ketinate įeiti, neegzistuoja arba pašalintas.
+  notice_file_not_found: Puslapis, į kurį ketinate įeiti, neegzistuoja arba yra pašalintas.
   notice_locking_conflict: Duomenys atnaujinti kito vartotojo.
   notice_not_authorized: Jūs neturite teisių gauti prieigą prie šio puslapio.
   notice_email_sent: "Laiškas išsiųstas {{value}}"
-  notice_email_error: "Laiško siųntimo metu įvyko klaida ({{value}})"
+  notice_email_error: "Laiško siuntimo metu įvyko klaida ({{value}})"
   notice_feeds_access_key_reseted: Jūsų RSS raktas buvo atnaujintas.
   notice_failed_to_save_issues: "Nepavyko išsaugoti {{count}} problemos(ų) iš {{total}} pasirinkto: {{ids}}."
   notice_no_issue_selected: "Nepasirinkta nė viena problema! Prašom pažymėti problemą, kurią norite redaguoti."
-  notice_account_pending: "Jūsų paskyra buvo sukūrta ir dabar laukiama administratoriaus patvirtinimo."
+  notice_account_pending: "Jūsų paskyra buvo sukurta ir dabar laukiama administratoriaus patvirtinimo."
   notice_default_data_loaded: Numatytoji konfiguracija sėkmingai užkrauta.
-  notice_unable_delete_version: Neimanoma panaikinti versiją
+  notice_unable_delete_version: Neįmanoma panaikinti versiją
   
   error_can_t_load_default_data: "Numatytoji konfiguracija negali būti užkrauta: {{value}}"
   error_scm_not_found: "Duomenys ir/ar pakeitimai saugykloje(repozitorojoje) neegzistuoja."
   error_scm_command_failed: "Įvyko klaida jungiantis prie saugyklos: {{value}}"
-  error_scm_annotate: "Įrašas neegzituoja arba negalima jo atvaizduoti."
+  error_scm_annotate: "Įrašas neegzistuoja arba negalima jo atvaizduoti."
   error_issue_not_found_in_project: 'Darbas nerastas arba nesurištas su šiuo projektu'
-  
+  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
+  error_no_default_issue_status: Nenustatyta numatytoji darbų būsena. Prašome patikrinti konfigūravimą ("Administravimas -> Darbų būsenos").
+  error_can_not_reopen_issue_on_closed_version: Uždarytai versijai priskirtas darbas negali būti atnaujintas.
+  error_can_not_archive_project: Šio projekto negalima suarchyvuoti
+
+  warning_attachments_not_saved: "{{count}} byla(ų) negali būti išsaugota."
+
   mail_subject_lost_password: "Jūsų {{value}} slaptažodis"
   mail_body_lost_password: 'Norėdami pakeisti slaptažodį, spauskite nuorodą:'
-  mail_subject_register: "{{value}} paskyros aktyvavymas"
+  mail_subject_register: "Jūsų {{value}} paskyros aktyvavimas"
   mail_body_register: 'Norėdami aktyvuoti paskyrą, spauskite nuorodą:'
   mail_body_account_information_external: "Jūs galite naudoti Jūsų {{value}} paskyrą, norėdami prisijungti."
   mail_body_account_information: Informacija apie Jūsų paskyrą
@@ -197,7 +236,11 @@ lt:
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas ({{value}}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_subject_reminder: "{{count}} darbas(ai) po kelių dienų"
   mail_body_reminder: "{{count}} darbas(ai), kurie yra jums priskirti, baigiasi po {{days}} dienų(os):"
-  
+  mail_subject_wiki_content_added: "'{{page}}' pridėtas wiki puslapis"
+  mail_body_wiki_content_added: "The '{{page}}' wiki puslapi pridėjo {{author}}."
+  mail_subject_wiki_content_updated: "'{{page}}' atnaujintas wiki puslapis"
+  mail_body_wiki_content_updated: "The '{{page}}' wiki puslapį atnaujino {{author}}."
+
   gui_validation_error: 1 klaida
   gui_validation_error_plural: "{{count}} klaidų(os)"
   
@@ -207,12 +250,12 @@ lt:
   field_is_required: Reikalaujama
   field_firstname: Vardas
   field_lastname: Pavardė
-  field_mail: Email
+  field_mail: El.paštas
   field_filename: Byla
   field_filesize: Dydis
   field_downloads: Atsiuntimai
   field_author: Autorius
-  field_created_on: Sukūrta
+  field_created_on: Sukurta
   field_updated_on: Atnaujinta
   field_field_format: Formatas
   field_is_for_all: Visiems projektams
@@ -240,6 +283,7 @@ lt:
   field_homepage: Pagrindinis puslapis
   field_is_public: Viešas
   field_parent: Priklauso projektui
+  field_is_in_chlog: Darbai rodomi pokyčių žurnale
   field_is_in_roadmap: Darbai rodomi veiklos grafike
   field_login: Registracijos vardas
   field_mail_notification: Elektroninio pašto pranešimai
@@ -253,23 +297,23 @@ lt:
   field_version: Versija
   field_type: Tipas
   field_host: Pagrindinis kompiuteris
-  field_port: Portas
+  field_port: Prievadas
   field_account: Paskyra
-  field_base_dn: Bazinis skiriamasis vardas
-  field_attr_login: Registracijos vardo požymis
+  field_base_dn: Bazinis skiriamasis vardas (base DN)
+  field_attr_login: Registracijos vardo požymis (login)
   field_attr_firstname: Vardo priskiria
   field_attr_lastname: Pavardės priskiria
   field_attr_mail: Elektroninio pašto požymis
   field_onthefly: Automatinis vartotojų registravimas
   field_start_date: Pradėti
-  field_done_ratio: % Atlikta
+  field_done_ratio: % atlikta
   field_auth_source: Autentiškumo nustatymo būdas
   field_hide_mail: Paslėpkite mano elektroninio pašto adresą
   field_comments: Komentaras
   field_url: URL
   field_start_page: Pradžios puslapis
   field_subproject: Subprojektas
-  field_hours: Valandos
+  field_hours: valandos
   field_activity: Veikla
   field_spent_on: Data
   field_identifier: Identifikuotojas
@@ -285,7 +329,14 @@ lt:
   field_default_value: Numatytoji vertė
   field_comments_sorting: rodyti komentarus
   field_parent_title: Aukštesnio lygio puslapis
-  
+  field_editable: Redaguojamas
+  field_watcher: Stebėtojas
+  field_identity_url: OpenID URL
+  field_content: Turinys
+  field_group_by: Sugrupuoti pagal
+  field_active: Activis
+  field_sharing: Dalijimasis (Sharing)
+
   setting_app_title: Programos pavadinimas
   setting_app_subtitle: Programos paantraštė
   setting_welcome_text: Pasveikinimas
@@ -296,7 +347,7 @@ lt:
   setting_issues_export_limit: Darbų eksportavimo riba
   setting_mail_from: Emisijos elektroninio pašto adresas
   setting_bcc_recipients: Akli tikslios kopijos gavėjai (bcc)
-  setting_plain_text_mail: tik grinas tekstas (be HTML)
+  setting_plain_text_mail: tik tekstas (be HTML)
   setting_host_name: Pagrindinio kompiuterio vardas
   setting_text_formatting: Teksto apipavidalinimas
   setting_wiki_compression: Wiki istorijos suspaudimas
@@ -312,7 +363,7 @@ lt:
   setting_cross_project_issue_relations: Leisti tarprojektinius darbų ryšius
   setting_issue_list_default_columns: Numatytosios skiltys darbų sąraše
   setting_repositories_encodings: Saugyklos koduotė
-  setting_commit_logs_encoding: Commit pranėšimų koduotė
+  setting_commit_logs_encoding: Commit pranešimų koduotė
   setting_emails_footer: elektroninio pašto puslapinė poraštė
   setting_protocol: Protokolas
   setting_per_page_options: Įrašų puslapyje nustatimas
@@ -322,62 +373,72 @@ lt:
   setting_enabled_scm: Įgalintas SCM
   setting_mail_handler_api_enabled: Įgalinti WS įeinantiems laiškams
   setting_mail_handler_api_key: API raktas
-  setting_sequential_project_identifiers: Generuoti nuoseklus projekto identifikatorius
-  setting_gravatar_enabled: Naudoti Gravatar vartotojo ikonkės
+  setting_sequential_project_identifiers: Generuoti nuoseklius projekto identifikatorius
+  setting_gravatar_enabled: Naudoti Gravatar vartotojo paveiksliukus
+  setting_gravatar_default: Gravatar paveiksliukas pagal nutylėjimą
   setting_diff_max_lines_displayed: Maksimalus rodomas eilučiu skaičius diff\'e
-  
-  permission_edit_project: Edit project
-  permission_select_project_modules: Select project modules
-  permission_manage_members: Manage members
-  permission_manage_versions: Manage versions
-  permission_manage_categories: Manage issue categories
-  permission_add_issues: Add issues
-  permission_edit_issues: Edit issues
-  permission_manage_issue_relations: Manage issue relations
-  permission_add_issue_notes: Add notes
-  permission_edit_issue_notes: Edit notes
-  permission_edit_own_issue_notes: Edit own notes
-  permission_move_issues: Move issues
-  permission_delete_issues: Delete issues
-  permission_manage_public_queries: Manage public queries
-  permission_save_queries: Save queries
-  permission_view_gantt: View gantt chart
-  permission_view_calendar: View calendar
-  permission_view_issue_watchers: View watchers list
-  permission_add_issue_watchers: Add watchers
-  permission_log_time: Log spent time
-  permission_view_time_entries: View spent time
-  permission_edit_time_entries: Edit time logs
-  permission_edit_own_time_entries: Edit own time logs
-  permission_manage_news: Manage news
-  permission_comment_news: Comment news
-  permission_manage_documents: Manage documents
-  permission_view_documents: View documents
-  permission_manage_files: Manage files
-  permission_view_files: View files
-  permission_manage_wiki: Manage wiki
-  permission_rename_wiki_pages: Rename wiki pages
-  permission_delete_wiki_pages: Delete wiki pages
-  permission_view_wiki_pages: View wiki
-  permission_view_wiki_edits: View wiki history
-  permission_edit_wiki_pages: Edit wiki pages
-  permission_delete_wiki_pages_attachments: Delete attachments
-  permission_protect_wiki_pages: Protect wiki pages
-  permission_manage_repository: Manage repository
-  permission_browse_repository: Browse repository
-  permission_view_changesets: View changesets
+  setting_file_max_size_displayed: Max size of text files displayed inline
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+  setting_openid: Leisti OpenID prisijungimą ir registraciją
+  setting_password_min_length: Minimalus slaptažodžio ilgis
+  setting_new_project_user_role_id: Vaidmuo, suteikiamas vartotojui (non-admin), kuris sukuria projektą
+  setting_default_projects_modules: Nustatytieji naujam projektui priskirti moduliai
+
+  permission_add_project: Sukurti projektą
+  permission_edit_project: Taisyti projektą
+  permission_select_project_modules: Parinkti projekto modulius
+  permission_manage_members: Valdyti narius
+  permission_manage_versions: Valdyti versijas
+  permission_manage_categories: Valdyti darbų kategorijas
+  permission_add_issues: Sukurti darbus
+  permission_edit_issues: Redaguoti darbus
+  permission_manage_issue_relations: Valdyti darbų ryšius
+  permission_add_issue_notes: Sukurti pastabas
+  permission_edit_issue_notes: Redaguoti pastabas
+  permission_edit_own_issue_notes: Redaguoti savo pastabas
+  permission_move_issues: Perkelti darbus
+  permission_delete_issues: Pašalinti darbus
+  permission_manage_public_queries: Valdyti viešas užklausas
+  permission_save_queries: Išsaugoti užklausas
+  permission_view_gantt: Matyti Gantt grafiką
+  permission_view_calendar: Matyti kalendorių
+  permission_view_issue_watchers: Matyti stebėtojų sąrašą
+  permission_add_issue_watchers: Pridėti stebėtojus
+  permission_delete_issue_watchers: Pašalinti stebėtojus
+  permission_log_time: Regsitruoti dirbtą laiką
+  permission_view_time_entries: Matyti dirbtą laiką
+  permission_edit_time_entries: Redaguoti laiko įrašus
+  permission_edit_own_time_entries: Redguoti savo laiko įrašus
+  permission_manage_news: Valdyti naujienas
+  permission_comment_news: Komentuoti naujienas
+  permission_manage_documents: Valdyti dokumentus
+  permission_view_documents: Matyti dokumentus
+  permission_manage_files: Valdyti bylas
+  permission_view_files: Matyti bylas
+  permission_manage_wiki: Valdyti wiki
+  permission_rename_wiki_pages: Pevadinti wiki puslapius
+  permission_delete_wiki_pages: Pašalinti wiki puslapius
+  permission_view_wiki_pages: Matyti wiki
+  permission_view_wiki_edits: Matyti wiki istoriją
+  permission_edit_wiki_pages: Redaguoti wiki puslapius
+  permission_delete_wiki_pages_attachments: Pašalinti priedus
+  permission_protect_wiki_pages: Apsaugoti wiki puslapius
+  permission_manage_repository: Pašalinti repository
+  permission_browse_repository: Peržiūrėti repository
+  permission_view_changesets: Matyti pakeitimus
   permission_commit_access: Commit access
-  permission_manage_boards: Manage boards
-  permission_view_messages: View messages
-  permission_add_messages: Post messages
-  permission_edit_messages: Edit messages
-  permission_edit_own_messages: Edit own messages
-  permission_delete_messages: Delete messages
-  permission_delete_own_messages: Delete own messages
-  
+  permission_manage_boards: Valdyti boards
+  permission_view_messages: Matyti pranešimus
+  permission_add_messages: Post pranešimus
+  permission_edit_messages: Redaguoti pranešimus
+  permission_edit_own_messages: Redaguoti savo pranešimus
+  permission_delete_messages: Pašalinti pranešimus
+  permission_delete_own_messages: Pašalinti savo pranešimus
+  permission_delete_issue_watchers: Pašalinti stebėtojus
+
   project_module_issue_tracking: Darbu pėdsekys
   project_module_time_tracking: Laiko pėdsekys
-  project_module_news: Žinios
+  project_module_news: Naujienos
   project_module_documents: Dokumentai
   project_module_files: Rinkmenos
   project_module_wiki: Wiki
@@ -391,9 +452,9 @@ lt:
   label_project_new: Naujas projektas
   label_project_plural: Projektai
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  nėra projektų
+    one:   1 projektas
+    other: "{{count}} projektų"
   label_project_all: Visi Projektai
   label_project_latest: Paskutiniai projektai
   label_issue: Darbas
@@ -418,9 +479,9 @@ lt:
   label_tracker_plural: Pėdsekiai
   label_tracker_new: Naujas pėdsekys
   label_workflow: Darbų eiga
-  label_issue_status: Darbo padėtis
-  label_issue_status_plural: Darbų padėtys
-  label_issue_status_new: Nauja padėtis
+  label_issue_status: Darbo būsena
+  label_issue_status_plural: Darbų būsenos
+  label_issue_status_new: Nauja būsena
   label_issue_category: Darbo kategorija
   label_issue_category_plural: Darbo kategorijos
   label_issue_category_new: Nauja kategorija
@@ -468,10 +529,10 @@ lt:
   label_text: Ilgas tekstas
   label_attribute: Požymis
   label_attribute_plural: Požymiai
-  label_download: "{{count}} Persiuntimas"
-  label_download_plural: "{{count}} Persiuntimai"
+  label_download: "{{count}} persiuntimas"
+  label_download_plural: "{{count}} persiuntimai"
   label_no_data: Nėra ką atvaizduoti
-  label_change_status: Pakeitimo padėtis
+  label_change_status: Pakeitimo būsena
   label_history: Istorija
   label_attachment: Rinkmena
   label_attachment_new: Nauja rinkmena
@@ -480,12 +541,13 @@ lt:
   label_file_added: Byla pridėta
   label_report: Ataskaita
   label_report_plural: Ataskaitos
-  label_news: Žinia
-  label_news_new: Pridėkite žinią
-  label_news_plural: Žinios
+  label_news: Naujiena
+  label_news_new: Pridėkite naujieną
+  label_news_plural: Naujienos
   label_news_latest: Paskutinės naujienos
-  label_news_view_all: Peržiūrėti visas žinias
+  label_news_view_all: Peržiūrėti visas naujienas
   label_news_added: Naujiena pridėta
+  label_change_log: Pakeitimų žurnalas
   label_settings: Nustatymai
   label_overview: Apžvalga
   label_version: Versija
@@ -496,9 +558,9 @@ lt:
   label_read: Skaitykite...
   label_public_projects: Vieši projektai
   label_open_issues: atidaryta
-  label_open_issues_plural: atidarytos
+  label_open_issues_plural: atidaryti
   label_closed_issues: uždaryta
-  label_closed_issues_plural: uždarytos
+  label_closed_issues_plural: uždaryti
   label_x_open_issues_abbr_on_total:
     zero:  0 open / {{total}}
     one:   1 open / {{total}}
@@ -508,13 +570,13 @@ lt:
     one:   1 open
     other: "{{count}} open"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 uždarytu
+    one:   1 uždarytas
+    other: "{{count}} uždarytu"
   label_total: Bendra suma
   label_permissions: Leidimai
-  label_current_status: Einamoji padėtis
-  label_new_statuses_allowed: Naujos padėtys galimos
+  label_current_status: Einamoji būsena
+  label_new_statuses_allowed: Naujos būsenos galimos
   label_all: visi
   label_none: niekas
   label_nobody: niekas
@@ -534,9 +596,9 @@ lt:
   label_comment: Komentaras
   label_comment_plural: Komentarai
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: nėra komentarų
+    one: 1 komentaras
+    other: "{{count}} komentarų"
   label_comment_add: Pridėkite komentarą
   label_comment_added: Komentaras pridėtas
   label_comment_delete: Pašalinkite komentarus
@@ -567,7 +629,7 @@ lt:
   label_not_contains: neturi savyje
   label_day_plural: dienos
   label_repository: Saugykla
-  label_repository_plural: Saugiklos
+  label_repository_plural: Saugyklos
   label_browse: Naršyti
   label_modification: "{{count}} pakeitimas"
   label_modification_plural: "{{count}} pakeitimai"
@@ -606,7 +668,7 @@ lt:
   label_feed_plural: Įeitys(Feeds)
   label_changes_details: Visų pakeitimų detalės
   label_issue_tracking: Darbų sekimas
-  label_spent_time: Sugaištas laikas
+  label_spent_time: Dirbtas laikas
   label_f_hour: "{{value}} valanda"
   label_f_hour_plural: "{{value}} valandų"
   label_time_tracking: Laiko sekimas
@@ -622,7 +684,7 @@ lt:
   label_permissions_report: Leidimų pranešimas
   label_watched_issues: Stebimi darbai
   label_related_issues: Susiję darbai
-  label_applied_status: Taikomoji padėtis
+  label_applied_status: Taikomoji būsena
   label_loading: Kraunama...
   label_relation_new: Naujas ryšys
   label_relation_delete: Pašalinkite ryšį
@@ -659,7 +721,7 @@ lt:
   label_language_based: Pagrįsta vartotojo kalba
   label_sort_by: "Rūšiuoti pagal {{value}}"
   label_send_test_email: Nusiųsti bandomąjį elektroninį laišką
-  label_feeds_access_key_created_on: "RSS prieigos raktas sukūrtas prieš {{value}}"
+  label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš {{value}}"
   label_module_plural: Moduliai
   label_added_time_by: "Pridėjo {{author}} prieš {{age}}"
   label_updated_time_by: "Atnaujino {{author}} {{age}} atgal"
@@ -686,7 +748,7 @@ lt:
   label_general: Bendri
   label_more: Daugiau
   label_scm: SCM
-  label_plugins: Plugins
+  label_plugins: Įskiepiai
   label_ldap_authentication: LDAP autentifikacija
   label_downloads_abbr: siunt.
   label_optional_description: Apibūdinimas (laisvai pasirenkamas)
@@ -698,15 +760,39 @@ lt:
   label_incoming_emails: Įeinantys laiškai
   label_generate_key: Generuoti raktą
   label_issue_watchers: Stebėtojai
-  label_example: Pavizdys
-  
+  label_example: Pavyzdys
+  label_display: Display
+  label_login_with_open_id_option: arba prisijunkite su OpenID
+  label_descending: Descending
+  label_sort: Rūšiuoti
+  label_ascending: Ascending
+  label_date_from_to: From {{start}} to {{end}}
+  label_greater_or_equal: ">="
+  label_less_or_equal: <=
+  label_wiki_content_added: Wiki puslapis pridėtas
+  label_wiki_content_updated: Wiki puslapis atnaujintas
+  label_view_all_revisions: Rodyti visos revizijas
+  label_tag: Tag'as
+  label_branch: Branch'as
+  label_group_plural: Grupės
+  label_group: Grupė
+  label_group_new: Nauja grupė
+  label_time_entry_plural: Sprendimo laikas
+  label_user_anonymous: Anonimas
+  label_version_sharing_hierarchy: Su projekto hierarchija
+  label_version_sharing_system: Su visais projektais
+  label_version_sharing_descendants: Su subprojektais
+  label_version_sharing_tree: Su projekto medžiu
+  label_version_sharing_none: Nesidalinama
+
   button_login: Registruotis
   button_submit: Pateikti
   button_save: Išsaugoti
   button_check_all: Žymėti visus
   button_uncheck_all: Atžymėti visus
-  button_delete: Trinti
+  button_delete: Pašalinti
   button_create: Sukurti
+  button_create_and_continue: Sukurti ir tęsti
   button_test: Testas
   button_edit: Redaguoti
   button_add: Pridėti
@@ -719,18 +805,19 @@ lt:
   button_list: Sąrašas
   button_view: Žiūrėti
   button_move: Perkelti
+  button_move_and_follow: Perkelti ir sekti
   button_back: Atgal
   button_cancel: Atšaukti
   button_activate: Aktyvinti
   button_sort: Rūšiuoti
-  button_log_time: Praleistas laikas
+  button_log_time: Dirbtas laikas
   button_rollback: Grįžti į šią versiją
   button_watch: Stebėti
   button_unwatch: Nestebėti
   button_reply: Atsakyti
   button_archive: Archyvuoti
   button_unarchive: Išpakuoti
-  button_reset: Reset
+  button_reset: Atstatyti
   button_rename: Pervadinti
   button_change_password: Pakeisti slaptažodį
   button_copy: Kopijuoti
@@ -738,11 +825,17 @@ lt:
   button_update: Atnaujinti
   button_configure: Konfigūruoti
   button_quote: Cituoti
-  
+  button_duplicate: Dubliuoti
+  button_copy_and_follow: Kopijuoti ir laikytis
+
   status_active: aktyvus
   status_registered: užregistruotas
   status_locked: užrakintas
-  
+
+  version_status_open: atidaryta
+  version_status_locked: užrakinta
+  version_status_closed: uždaryta
+
   text_select_mail_notifications: Išrinkite veiksmus, apie kuriuos būtų pranešta elektroniniu paštu.
   text_regexp_info: pvz. ^[A-Z0-9]+$
   text_min_max_length_info: 0 reiškia jokių apribojimų
@@ -750,6 +843,10 @@ lt:
   text_subprojects_destroy_warning: "Šis(ie) subprojektas(ai): {{value}} taip pat bus ištrintas(i)."
   text_workflow_edit: Išrinkite vaidmenį ir pėdsekį, kad redaguotumėte darbų eigą
   text_are_you_sure: Ar esate įsitikinęs?
+  text_journal_changed: "{{label}} pakeista iš {{old}} į {{new}}"
+  text_journal_set_to: "{{label}} pakeista į {{value}}"
+  text_journal_deleted: "{{label}} ištrintas ({{old}})"
+  text_journal_added: "{{label}} {{value}} pridėtas"
   text_tip_task_begin_day: užduotis, prasidedanti šią dieną
   text_tip_task_end_day: užduotis, pasibaigianti šią dieną
   text_tip_task_begin_end_day: užduotis, prasidedanti ir pasibaigianti šią dieną
@@ -770,37 +867,43 @@ lt:
   text_user_mail_option: "neišrinktiems projektams, jūs tiktai gausite pranešimus apie įvykius, kuriuos jūs stebite, arba į kuriuos esate įtrauktas (pvz. darbai, jūs esate autorius ar įgaliotinis)."
   text_no_configuration_data: "Vaidmenys, pėdsekiai, darbų būsenos ir darbų eiga dar nebuvo konfigūruoti.\nGriežtai rekomenduojam užkrauti numatytąją(default)konfiguraciją. Užkrovus, galėsite ją modifikuoti."
   text_load_default_configuration: Užkrauti numatytąj konfiguraciją
-  text_status_changed_by_changeset: "Pakeista {{value}} revizijoi."
-  text_issues_destroy_confirmation: 'Ar jūs tikrai norite panaikinti pažimėtą(us) darbą(us)?'
+  text_status_changed_by_changeset: "Pakeista {{value}} revizijoje."
+  text_issues_destroy_confirmation: 'Ar jūs tikrai norite sunaikinti pažymėtą(us) darbą(us)?'
   text_select_project_modules: 'Parinkite modulius, kuriuos norite naudoti šiame projekte:'
   text_default_administrator_account_changed: Administratoriaus numatyta paskyra pakeista
   text_file_repository_writable: Į rinkmenu saugyklą galima saugoti (RW)
+  text_plugin_assets_writable: Įskiepių 'assets' katalogas įrašomas
   text_rmagick_available: RMagick pasiekiamas (pasirinktinai)
-  text_destroy_time_entries_question: Naikinamam darbui paskelbta {{hours}} valandų. Ką jūs noryte su jomis daryti?
+  text_destroy_time_entries_question: Naikinamam darbui priskirta {{hours}} valandų. Ką jūs noryte su jomis daryti?
   text_destroy_time_entries: Ištrinti paskelbtas valandas
   text_assign_time_entries_to_project: Priskirti valandas prie projekto
   text_reassign_time_entries: 'Priskirti paskelbtas valandas šiam darbui:'
   text_user_wrote: "{{value}} parašė:"
   text_enumeration_destroy_question: "{{count}} objektai priskirti šiai reikšmei."
   text_enumeration_category_reassign_to: 'Priskirti juos šiai reikšmei:'
-  text_email_delivery_not_configured: "Email pristatymas nesukonfigūruotas , ir perspėjimai neaktyvus.\nSukonfigūruokyte savo SMTP serverį byloje config/email.yml ir perleiskyte programą kad pritaikyti pakeitymus."
-  text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-  text_diff_truncated: "... Šis diff'as nukarpitas, todėl kad jis viršijo maksimalu rodoma eilučiu skaičiu."
-  
+  text_email_delivery_not_configured: "El.pašto siuntimas nesukonfigūruotas, ir perspėjimai neaktyvus.\nSukonfigūruokite savo SMTP serverį byloje config/email.yml ir perleiskite programą norėdami pritaikyti pakeitimus."
+  text_repository_usernames_mapping: "Parinkite  ar atnaujinkite Redmine vartotojo vardą kiekvienam saugyklos vardui, kuris paminėtas saugyklos log'e.\nVartotojai, turintys tą patį Redmine ir saugyklos vardą ar el.paštą automatiškai surišti."
+  text_diff_truncated: "... Šis diff'as nukarpytas, nes jis viršijo maksimalų rodomą eilučių skaičių."
+  text_custom_field_possible_values_info: 'Po vieną eilutę kiekvienai reikšmei'
+  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_reassign_children: Priskirkite iš naujo 'child' puslapius šiam puslapiui
+  text_wiki_page_nullify_children: Laikyti child puslapius as root puslapius
+  text_wiki_page_destroy_children: Pašalinti child puslapius ir jų sekinius
+
   default_role_manager: Vadovas
   default_role_developper: Projektuotojas
   default_role_reporter: Pranešėjas
   default_tracker_bug: Klaida
   default_tracker_feature: Ypatybė
   default_tracker_support: Palaikymas
-  default_issue_status_new: Nauja
-  default_issue_status_in_progress: In Progress
-  default_issue_status_resolved: Išspręsta
+  default_issue_status_new: Naujas
+  default_issue_status_in_progress: Vykdomas
+  default_issue_status_resolved: Išspręstas
   default_issue_status_feedback: Grįžtamasis ryšys
-  default_issue_status_closed: Uždaryta
-  default_issue_status_rejected: Atmesta
+  default_issue_status_closed: Uždarytas
+  default_issue_status_rejected: Atmestas
   default_doc_category_user: Vartotojo dokumentacija
-  default_doc_category_tech: Techniniai dokumentacija
+  default_doc_category_tech: Techninė dokumentacija
   default_priority_low: Žemas
   default_priority_normal: Normalus
   default_priority_high: Aukštas
@@ -812,72 +915,7 @@ lt:
   enumeration_issue_priorities: Darbo prioritetai
   enumeration_doc_categories: Dokumento kategorijos
   enumeration_activities: Veiklos (laiko sekimas)
-  text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
-  label_greater_or_equal: ">="
-  label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
+  enumeration_system_activity: Sistemos veikla
   label_copy_source: Source
   setting_issue_done_ratio: Calculate the issue done ratio with
   setting_issue_done_ratio_issue_status: Use the issue status
@@ -887,6 +925,6 @@ lt:
   label_copy_same_as_target: Same as target
   label_copy_target: Target
   notice_issue_done_ratios_updated: Issue done ratios updated.
+  setting_start_of_week: Start calendars on
   error_workflow_copy_source: Please select a source tracker or role
   label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on

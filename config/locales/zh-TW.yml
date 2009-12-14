@@ -247,6 +247,7 @@
   error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
   error_no_default_issue_status: '尚未定義項目狀態的預設值。請您前往「網站管理」->「項目狀態清單」頁面，檢查相關組態設定。'
   error_can_not_reopen_issue_on_closed_version: '指派給「已結束」版本的項目，無法再將其狀態變更為「進行中」'
+  error_can_not_archive_project: 此專案無法被歸檔
   
   warning_attachments_not_saved: "{{count}} 個附加檔案無法儲存。"
   
@@ -307,6 +308,7 @@
   field_homepage: 網站首頁
   field_is_public: 公開
   field_parent: 父專案
+  field_is_in_chlog: 項目顯示於變更記錄中
   field_is_in_roadmap: 項目顯示於版本藍圖中
   field_login: 帳戶名稱
   field_mail_notification: 電子郵件提醒選項
@@ -357,6 +359,7 @@
   field_identity_url: OpenID 網址
   field_content: 內容
   field_group_by: 結果分組方式
+  field_sharing: 共用
   
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -569,6 +572,7 @@
   label_news_latest: 最近新聞
   label_news_view_all: 檢視全部的新聞
   label_news_added: 新聞已新增
+  label_change_log: 變更記錄
   label_settings: 設定
   label_overview: 概觀
   label_version: 版本
@@ -798,6 +802,11 @@
   label_group_plural: 群組清單
   label_group_new: 建立新群組
   label_time_entry_plural: 耗用工時
+  label_version_sharing_none: 不共用
+  label_version_sharing_descendants: 與子專案共用
+  label_version_sharing_hierarchy: 與專案階層架構共用
+  label_version_sharing_tree: 與專案樹共用
+  label_version_sharing_system: 與全部的專案共用
 
   button_login: 登入
   button_submit: 送出
@@ -835,10 +844,12 @@
   button_rename: 重新命名
   button_change_password: 變更密碼
   button_copy: 複製
+  button_copy_and_follow: 複製後跟隨
   button_annotate: 註解
   button_update: 更新
   button_configure: 設定
   button_quote: 引用
+  button_duplicate: 重製
   
   status_active: 活動中
   status_registered: 註冊完成
@@ -930,15 +941,6 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
   label_copy_source: Source
   setting_issue_done_ratio: Calculate the issue done ratio with
   setting_issue_done_ratio_issue_status: Use the issue status
@@ -948,6 +950,6 @@
   label_copy_same_as_target: Same as target
   label_copy_target: Target
   notice_issue_done_ratios_updated: Issue done ratios updated.
+  setting_start_of_week: Start calendars on
   error_workflow_copy_source: Please select a source tracker or role
   label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
