@@ -35,8 +35,8 @@ module CostsUserPatch
       
       if action.is_a? Symbol
         perm = Redmine::AccessControl.permission(action)
-        if allowed && perm.granular_for
-          users.include?(options[:for] || self)
+        if perm.granular_for
+          allowed && users.include?(options[:for] || self)
         elsif !allowed && options[:for] && granulars = Redmine::AccessControl.permissions.select{|p| p.granular_for == perm}
           granulars.detect{|p| self.allowed_to? p.name, project, options}
         else
@@ -137,12 +137,12 @@ module CostsUserPatch
           users_for_project = []
           full_access = false
           roles.each_pair do |role, users|
-            if (project.is_public? || role.member?) && self.allowed_for_role(permission, project, role, users, :for => self)
-              if Redmine::AccessControl.permission(permission).granular_for
-                users_for_project += users.collect(&:id)
-              else
+            if (project.is_public? || role.member?)
+              if !Redmine::AccessControl.permission(permission).granular_for && self.allowed_for_role(permission, project, role, users)
                 users_for_project = nil
                 break
+              elsif self.allowed_for_role(permission, project, role, users, :for => self)
+                users_for_project += users.collect(&:id)
               end
             end
           end
