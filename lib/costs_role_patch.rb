@@ -27,7 +27,7 @@ module CostsRolePatch
       else
         # check, if the role has one of the parent permissions granted
         permission = Redmine::AccessControl.permission(action)
-        permission.inherited_by.detect {|parent| allowed_inherited_permissions.include? parent}
+        (permission.inherited_by + [permission]).map(&:name).detect {|parent| allowed_inherited_permissions.include? parent}
 
         # if parents = self.class.permission_tree[action]
         #   parents = [parents] unless parents.is_a? Array
@@ -41,7 +41,7 @@ module CostsRolePatch
       end
     end
     
-  private
+  #private
     def allowed_inherited_permissions
       @allowed_inherited_permissions ||= begin
         all_permissions = allowed_permissions || []

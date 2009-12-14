@@ -43,20 +43,20 @@ module CostsAccessControlPermissionPatch
         found = found.collect{|p| p.inherits(false)}.flatten - result
         result += found
       end
-      @inherits_result[recursive] = result
+      @inherits_result[recursive] = result.uniq
     end
     
     def inherited_by(recursive = true)
-      def parent_perms(perm)
-        Redmine::AccessControl.permissions.collect{|p| p if p.inherits(false).detect{|i| i.name == name}}
+      parent_perms = lambda do |perm|
+        Redmine::AccessControl.permissions.select{|p| p.inherits(false).detect{|i| i.name == perm.name}}
       end
       
-      result = found = parent_perms(self)
+      result = found = parent_perms.call(self)
       while (found.length > 0) && recursive
-        found = found.collect{|p| parent_perms(p)}.flatten - result
+        found = found.collect{|p| parent_perms.call(p)}.flatten.uniq - result
         result += found
       end
-      result
+      result.uniq
     end
     
     def granular_for

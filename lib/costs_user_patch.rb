@@ -35,8 +35,8 @@ module CostsUserPatch
       
       if action.is_a? Symbol
         perm = Redmine::AccessControl.permission(action)
-        if perm.granular_for
-          allowed && users.include?(options[:for] || self)
+        if allowed && perm.granular_for
+          users.include?(options[:for] || self)
         elsif !allowed && options[:for] && granulars = Redmine::AccessControl.permissions.select{|p| p.granular_for == perm}
           granulars.detect{|p| self.allowed_to? p.name, project, options}
         else
@@ -135,13 +135,19 @@ module CostsUserPatch
         
         if roles
           users_for_project = []
+          full_access = false
           roles.each_pair do |role, users|
             if (project.is_public? || role.member?) && self.allowed_for_role(permission, project, role, users, :for => self)
-              users_for_project += users.collect(&:id)
+              if Redmine::AccessControl.permission(permission).granular_for
+                users_for_project += users.collect(&:id)
+              else
+                users_for_project = nil
+                break
+              end
             end
           end
-          unless users_for_project.blank?
-            users_for_project.sort!.uniq!
+          if users_for_project.nil? || !users_for_project.empty?
+            users_for_project.sort!.uniq! unless users_for_project.nil?
             user_list[users_for_project] ||= []
             user_list[users_for_project] << project.id
           end
@@ -151,7 +157,11 @@ module CostsUserPatch
       
       cond = ["0=1"]
       user_list.each_pair do |users, projects|
-        cond << "(#{Project.table_name}.id in (#{projects.join(", ")}) AND #{User.table_name}.id IN (#{users.join(", ")}))"
+        if users
+          cond << "(#{Project.table_name}.id in (#{projects.join(", ")}) AND #{User.table_name}.id IN (#{users.join(", ")}))"
+        else
+          cond << "(#{Project.table_name}.id in (#{projects.join(", ")}))"
+        end
       end
       "(#{cond.join " OR "})"
     end
@@ -219,7 +229,7 @@ module CostsUserPatch
     end
     
     
-  #private
+  private
     def granular_roles(member_roles)
       roles = {}
       member_roles.each do |r|
@@ -238,7 +248,6 @@ module CostsUserPatch
             #nothing
           end
         end
-        
       end
       roles
     end
