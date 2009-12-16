@@ -11,7 +11,7 @@
   error_messages = error_messages_for 'material_budget_item'
 -%> 
 
-<% unless error_messages.blank? %><tr><td colspan="4"><%= error_messages %></td></tr><% end %>
+<% unless error_messages.blank? %><tr><td colspan="5"><%= error_messages %></td></tr><% end %>
 <% fields_for prefix, material_budget_item do |cost_form| %>
 <tr class="cost_entry <%= classes %>" id="<%= id_prefix %>">
   <td class="units">

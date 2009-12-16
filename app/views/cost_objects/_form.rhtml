@@ -34,6 +34,7 @@
       <th><%= l(:label_comment) %></th>
       <% if User.current.allowed_to?(:view_unit_price, @project)%><th class="currency" id="material_budget_items_price"><%= l(:caption_budget) %></th><%end%>
       <th></th>
+      <th></th>
     </tr></thead>
     <tbody id="material_budget_items_body">
       <%- @cost_object.material_budget_items.each_with_index do |material_budget_item, index| -%>
@@ -54,6 +55,7 @@
       <% if User.current.allowed_to?(:view_all_rates, @project) || User.current.allowed_to?(:view_own_rate, @project) %>
         <th class="currency" id="labor_budget_items_price"><%= l(:caption_budget) %></th>
       <% end %>
+      <th></th>
       <th></th>
     </tr></thead>
     <tbody id="labor_budget_items_body">
