@@ -2,6 +2,7 @@ require_dependency 'query'
 
 module CostsQueryPatch
   class CurrencyQueryColumn < QueryColumn
+    unloadable
     include ActionView::Helpers::NumberHelper
 
     def value(issue)
