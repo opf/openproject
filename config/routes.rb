@@ -15,6 +15,12 @@ ActionController::Routing::Routes.draw do |map|
       cost_details.connect 'projects/:project_id/issues/:issue_id/cost_entries'
       cost_details.connect 'projects/:project_id/issues/:issue_id/cost_entries.:format'
     end
+    
+    costlog.with_options :action => 'edit', :conditions => {:method => :get} do |cost_edit|
+      cost_edit.connect 'issues/:issue_id/cost_entries/new'
+    end
+      
+    costlog.connect 'cost_entries/:id/destroy', :action => 'destroy', :conditions => {:method => :post}
   end
   
   map.with_options :controller => 'cost_objects' do |cost_objects|
