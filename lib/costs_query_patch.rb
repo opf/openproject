@@ -1,6 +1,14 @@
 require_dependency 'query'
 
 module CostsQueryPatch
+  class CurrencyQueryColumn < QueryColumn
+    include ActionView::Helpers::NumberHelper
+
+    def value(issue)
+      number_to_currency(issue.send name)
+    end
+  end
+
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
@@ -11,9 +19,9 @@ module CostsQueryPatch
       unloadable # Send unloadable so it will not be unloaded in development
       
       add_available_column(QueryColumn.new(:cost_object_subject))
-      add_available_column(QueryColumn.new(:material_costs))
-      add_available_column(QueryColumn.new(:labor_costs))
-      add_available_column(QueryColumn.new(:overall_costs))
+      add_available_column(CurrencyQueryColumn.new(:material_costs))
+      add_available_column(CurrencyQueryColumn.new(:labor_costs))
+      add_available_column(CurrencyQueryColumn.new(:overall_costs))
       
       alias_method_chain :available_filters, :costs
     end

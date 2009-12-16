@@ -19,6 +19,14 @@ module CostsTimeEntryPatch
           :conditions => (args.first || User.current).allowed_for(:view_time_entries, args[1])
         }
       }
+      named_scope :visible_costs, lambda{|*args|
+        view_hourly_rates = (args.first || User.current).allowed_for(:view_hourly_rates, args[1])
+        view_time_entries = (args.first || User.current).allowed_for(:view_time_entries, args[1])
+
+        { :include => [:project, :user],
+          :conditions => [view_time_entries, view_hourly_rates].join(" AND ")
+        }
+      }
       
       class << self
         alias_method_chain :visible_by, :inheritance

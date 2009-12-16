@@ -20,6 +20,15 @@ class CostEntry < ActiveRecord::Base
     }
   }
   
+  named_scope :visible_costs, lambda{|*args|
+    view_cost_rates = (args.first || User.current).allowed_for(:view_cost_rates, args[1])
+    view_cost_entries = (args.first || User.current).allowed_for(:view_cost_entries, args[1])
+
+    { :include => [:project, :user],
+      :conditions => [view_cost_entries, view_cost_rates].join(" AND ")
+    }
+  }
+  
   def after_initialize
     if new_record? && self.cost_type.nil?
       if default_cost_type = CostType.default

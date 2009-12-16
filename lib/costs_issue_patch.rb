@@ -43,7 +43,7 @@ module CostsIssuePatch
     end
     
     def material_costs
-      @material_costs ||= cost_entries.visible(User.current, self.project).sum("CASE
+      @material_costs ||= cost_entries.visible_costs(User.current, self.project).sum("CASE
         WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
           #{CostEntry.table_name}.costs
         ELSE
@@ -51,7 +51,7 @@ module CostsIssuePatch
     end
     
     def labor_costs
-      @labor_costs ||= time_entries.visible(User.current, self.project).sum("CASE
+      @labor_costs ||= time_entries.visible_costs(User.current, self.project).sum("CASE
         WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
           #{TimeEntry.table_name}.costs
         ELSE
