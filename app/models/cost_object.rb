@@ -88,7 +88,7 @@ class CostObject < ActiveRecord::Base
   end
   
   def spent_for_display
-    if User.current.allowed_to?(:view_all_rates, project) && User.current.allowed_to?(:view_unit_price, project)
+    if User.current.allowed_to?(:view_all_rates, project) && User.current.allowed_to?(:view_cost_rates, project)
       spent
     else
       000
@@ -110,7 +110,7 @@ class CostObject < ActiveRecord::Base
   end
   
   def material_budget_for_display
-    User.current.allowed_to?(:view_unit_price, project) ? material_budget : 0.0
+    User.current.allowed_to?(:view_cost_rates, project) ? material_budget : 0.0
   end
   
   def budget
@@ -118,7 +118,7 @@ class CostObject < ActiveRecord::Base
   end
   
   def budget_for_display
-    User.current.allowed_to?(:view_all_rates, project) && User.current.allowed_to?(:view_unit_price, project) ? budget : 0.0
+    User.current.allowed_to?(:view_all_rates, project) && User.current.allowed_to?(:view_cost_rates, project) ? budget : 0.0
   end
   
   def status

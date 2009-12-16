@@ -62,9 +62,9 @@ module CostlogHelper
                   (entry.issue ? entry.issue.subject : nil),
                   entry.comments,
                   entry.cost_type.name,
-                  User.current.allowed_to?(:view_unit_price, entry.project) ? entry.cost_type.unit_price.to_s.gsub('.', decimal_separator): "-",
+                  User.current.allowed_to?(:view_cost_rates, entry.project) ? entry.cost_type.unit_price.to_s.gsub('.', decimal_separator): "-",
                   entry.units.to_s.gsub('.', decimal_separator),
-                  User.current.allowed_to?(:view_unit_price, entry.project) ? entry.cost.to_s.gsub('.', decimal_separator): "-"
+                  User.current.allowed_to?(:view_cost_rates, entry.project) ? entry.cost.to_s.gsub('.', decimal_separator): "-"
                   ]
 
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }

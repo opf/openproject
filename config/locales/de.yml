@@ -108,7 +108,7 @@ de:
   label_spent_units: Gebuchte Einheiten
   caption_labor_budget: Arbeitszeitbudget
   field_project_manager_signoff: Genehmigt vom Projektmanager
-  permission_view_unit_price: Anzeigen von Materialeinzelpreisen
+  permission_view_cost_rates: Anzeigen von Materialeinzelpreisen
   field_material_costs: Materialeinzelkosten
   label_group_by: Gruppiere Ergebnisse
   field_cost_object: Liefergegenstand

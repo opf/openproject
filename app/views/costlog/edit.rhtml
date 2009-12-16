@@ -20,7 +20,7 @@
     </p>
     <p>
       <label><%= l(:field_costs) %></label>
-      <% if User.current.allowed_to? :view_unit_price, @cost_entry.project %>
+      <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
         <span id="cost_entry_costs" class="icon icon-edit" title="<%= l(:help_click_to_edit) %>">
           <%= number_to_currency(@cost_entry.calculated_costs) %>
         </span>

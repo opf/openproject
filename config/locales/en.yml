@@ -131,7 +131,7 @@ en:
   permission_view_cost_objects: View Cost Objects
   permission_book_own_costs: Book material costs for oneself
   permission_edit_cost_entries: Edit booked material costs
-  permission_view_unit_price: View unit price
+  permission_view_cost_rates: View cost rates
   permission_view_own_rate: View own rate
   permission_view_all_rates: View all rates
   permission_block_tickets: Block tickets

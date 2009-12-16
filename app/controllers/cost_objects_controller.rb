@@ -150,12 +150,12 @@ class CostObjectsController < ApplicationController
     
     cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
     
-    units = params[:units].strip.gsub(',', '.').to_f
+    units = BigDecimal.new(Rate.clean_currency(params[:units]))
     costs = (units * cost_type.rate_at(params[:fixed_date]).rate rescue 0.0)
     
     if request.xhr?
       render :update do |page|
-        if User.current.allowed_to? :view_unit_price, @project
+        if User.current.allowed_to? :view_cost_rates, @project
           page.replace_html "#{element_id}_costs", number_to_currency(costs)
         end
         page.replace_html "#{element_id}_unit_name", h(units == 1.0 ? cost_type.unit : cost_type.unit_plural)
