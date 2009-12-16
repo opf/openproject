@@ -142,14 +142,19 @@ private
     return @grouped_entries = [] if scopes.blank?
     
     subselect = scopes.map do |type|
-      model, select_statement, from, where_statement, group_by_statement = @query.sql_data_for type
+      model, select_statement, rate_permission_statement, from, where_statement, group_by_statement = @query.sql_data_for type
       table = model.table_name
       <<-EOS
         SELECT
           #{select_statement},
           SUM(
-            CASE WHEN #{table}.overridden_costs IS NULL THEN #{table}.costs
-            ELSE #{table}.overridden_costs END) AS sum,
+            CASE WHEN #{rate_permission_statement} THEN
+              CASE WHEN #{table}.overridden_costs IS NULL THEN #{table}.costs
+              ELSE #{table}.overridden_costs END
+            ELSE
+              0.0000
+            END
+          ) AS sum,
           COUNT(*) AS count
         FROM #{from}
         WHERE #{where_statement}
@@ -166,7 +171,7 @@ private
     @grouped_entries = ActiveRecord::Base.connection.select_all(sql)
     @entry_count, @entry_sum = @grouped_entries.inject([0, 0.0]) do |r,i|
       r[0] += i["count"].to_i
-      r[1] +=i ["sum"].to_f
+      r[1] += i["sum"].to_f
       r
     end
   end
@@ -176,14 +181,18 @@ private
     time_where = @query.statement(:time_entries)
     
     aggregate_select = [TimeEntry.table_name, CostEntry.table_name].inject({}) do |r,table|
+      rate_permission_statement = @query.rate_permission_statement(table.to_sym)
+      
       r[table] =  <<-EOS
         COUNT(#{table}.id) as count,
-        SUM(CASE
-          WHEN #{table}.overridden_costs IS NULL
-          THEN #{table}.costs
-          ELSE #{table}.overridden_costs
+        SUM(
+          CASE WHEN #{rate_permission_statement} THEN
+            CASE WHEN #{table}.overridden_costs IS NULL THEN #{table}.costs
+            ELSE #{table}.overridden_costs END
+          ELSE
+            0.0000
           END
-        ) as sum
+        ) AS sum
         EOS
       r
     end

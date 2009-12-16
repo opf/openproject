@@ -354,6 +354,8 @@ class CostQuery < ActiveRecord::Base
   end
   
   def projects
+    return @projects unless @projects.blank?
+    
     projects = [project]
     if project && !project.children.active.empty?
       if subprojects = has_filter?(:issues, "subproject_id")
@@ -378,7 +380,7 @@ class CostQuery < ActiveRecord::Base
       projects = []
     end
     
-    projects
+    @projects = projects
   end
     
   def project_statement
@@ -433,7 +435,16 @@ class CostQuery < ActiveRecord::Base
     end
 
     group_by = "GROUP BY #{grouping_fields.join(", ")}" unless grouping_fields.blank?
-    [model, (my_fields + nil_fields).join(", "), from_statement(entry_scope), statement(entry_scope), group_by]
+    [model, (my_fields + nil_fields).join(", "), rate_permission_statement(entry_scope), from_statement(entry_scope), statement(entry_scope), group_by]
+  end
+  
+  def rate_permission_statement(entry_scope)
+    case entry_scope
+    when :cost_entries
+      statement = User.current.allowed_for(:view_cost_rates, projects)
+    when :time_entries
+      statement = User.current.allowed_for(:view_hourly_rates, projects)
+    end
   end
   
   def from_statement(entry_scope, include_issue = false)
