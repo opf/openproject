@@ -132,6 +132,42 @@ module Redmine #:nodoc:
       true
     end
 
+    # Sets a requirement on a Redmine plugin version
+    # Raises a PluginRequirementError exception if the requirement is not met
+    #
+    # Examples
+    #   # Requires a plugin named :foo version 0.7.3 or higher
+    #   requires_redmine_plugin :foo, :version_or_higher => '0.7.3'
+    #   requires_redmine_plugin :foo, '0.7.3'
+    #
+    #   # Requires a specific version of a Redmine plugin
+    #   requires_redmine_plugin :foo, :version => '0.7.3'              # 0.7.3 only
+    #   requires_redmine_plugin :foo, :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
+    def requires_redmine_plugin(plugin_name, arg)
+      arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
+      arg.assert_valid_keys(:version, :version_or_higher)
+
+      plugin = Plugin.find(plugin_name)
+      current = plugin.version.split('.').collect(&:to_i)
+
+      arg.each do |k, v|
+        v = [] << v unless v.is_a?(Array)
+        versions = v.collect {|s| s.split('.').collect(&:to_i)}
+        case k
+        when :version_or_higher
+          raise ArgumentError.new("wrong number of versions (#{versions.size} for 1)") unless versions.size == 1
+          unless (current <=> versions.first) >= 0
+            raise PluginRequirementError.new("#{id} plugin requires the #{plugin_name} plugin #{v} or higher but current is #{current.join('.')}")
+          end
+        when :version
+          unless versions.include?(current.slice(0,3))
+            raise PluginRequirementError.new("#{id} plugin requires one the following versions of #{plugin_name}: #{v.join(', ')} but current is #{current.join('.')}")
+          end
+        end
+      end
+      true
+    end
+
     # Adds an item to the given +menu+.
     # The +id+ parameter (equals to the project id) is automatically added to the url.
     #   menu :project_menu, :plugin_example, { :controller => 'example', :action => 'say_hello' }, :caption => 'Sample'
