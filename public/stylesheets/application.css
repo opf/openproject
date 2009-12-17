@@ -48,6 +48,23 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #main-menu li a:hover {background:#759FCF; color:#fff;}
 #main-menu li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
 
+#admin-menu ul {margin: 0;  padding: 0;}
+#admin-menu li {margin: 0;  padding: 0 0 12px 0; list-style-type:none;}
+
+#admin-menu a { background-position: 0% 40%; background-repeat: no-repeat; padding-left: 20px; padding-top: 2px; padding-bottom: 3px;}
+#admin-menu a.projects { background-image: url(../images/projects.png); }
+#admin-menu a.users { background-image: url(../images/user.png); }
+#admin-menu a.groups { background-image: url(../images/group.png); }
+#admin-menu a.roles { background-image: url(../images/database_key.png); }
+#admin-menu a.trackers { background-image: url(../images/ticket.png); }
+#admin-menu a.issue_statuses { background-image: url(../images/ticket_edit.png); }
+#admin-menu a.workflows { background-image: url(../images/ticket_go.png); }
+#admin-menu a.custom_fields { background-image: url(../images/textfield.png); }
+#admin-menu a.enumerations { background-image: url(../images/text_list_bullets.png); }
+#admin-menu a.settings { background-image: url(../images/changeset.png); }
+#admin-menu a.plugins { background-image: url(../images/plugin.png); }
+#admin-menu a.info { background-image: url(../images/help.png); }
+
 #main {background-color:#EEEEEE;}
 
 #sidebar{ float: right; width: 17%; position: relative; z-index: 9; min-height: 600px; padding: 0; margin: 0;}

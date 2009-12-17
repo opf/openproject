@@ -1,0 +1,8 @@
+<% unless controller_name == 'admin' && action_name == 'index' %>
+	<% content_for :sidebar do %>
+		<h3><%=l(:label_administration)%></h3>
+	  <%= render :partial => 'admin/menu' %>
+	<% end %>
+<% end %>
+
+<%= render :file => "layouts/base" %>

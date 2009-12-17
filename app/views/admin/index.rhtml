@@ -1,56 +1,8 @@
 <h2><%=l(:label_administration)%></h2>
 
-<%= render :partial => 'no_data' if @no_configuration_data %>
-
-<p class="icon22 icon22-projects">
-<%= link_to l(:label_project_plural), :controller => 'admin', :action => 'projects' %> |
-<%= link_to l(:label_new), :controller => 'projects', :action => 'add' %>
-</p>
-
-<p class="icon22 icon22-users">
-<%= link_to l(:label_user_plural), :controller => 'users' %> |
-<%= link_to l(:label_new), :controller => 'users', :action => 'add' %>
-</p>
-
-<p class="icon22 icon22-groups">
-<%= link_to l(:label_group_plural), :controller => 'groups' %> |
-<%= link_to l(:label_new), :controller => 'groups', :action => 'new' %>
-</p>
-
-<p class="icon22 icon22-role">
-<%= link_to l(:label_role_and_permissions), :controller => 'roles' %>
-</p>
-
-<p class="icon22 icon22-tracker">
-<%= link_to l(:label_tracker_plural), :controller => 'trackers' %> |
-<%= link_to l(:label_issue_status_plural), :controller => 'issue_statuses' %> |
-<%= link_to l(:label_workflow), :controller => 'workflows', :action => 'edit' %>
-</p>
-
-<p class="icon22 icon22-workflow">
-<%= link_to l(:label_custom_field_plural), :controller => 'custom_fields' %>
-</p>
-
-<p class="icon22 icon22-options">
-<%= link_to l(:label_enumerations), :controller => 'enumerations' %>
-</p>
-
-<p class="icon22 icon22-settings">
-<%= link_to l(:label_settings), :controller => 'settings' %>
-</p>
-
-<% menu_items_for(:admin_menu) do |item| -%>
-  <%= content_tag 'p',
-    link_to(h(item.caption), item.url, item.html_options),
-    :class => ["icon22", "icon22-#{item.name}"].join(' ') %>
-<% end -%>
-
-<p class="icon22 icon22-plugin">
-<%= link_to l(:label_plugins), :controller => 'admin', :action => 'plugins' %>
-</p>
-
-<p class="icon22 icon22-info">
-<%= link_to l(:label_information_plural), :controller => 'admin', :action => 'info' %>
-</p>
+<div id="admin-index">
+	<%= render :partial => 'no_data' if @no_configuration_data %>
+	<%= render :partial => 'menu' %>
+</div>
 
 <% html_title(l(:label_administration)) -%>

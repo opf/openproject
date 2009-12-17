@@ -177,7 +177,7 @@ class ApplicationController < ActionController::Base
   
   def render_403
     @project = nil
-    render :template => "common/403", :layout => !request.xhr?, :status => 403
+    render :template => "common/403", :layout => (request.xhr? ? false : 'base'), :status => 403
     return false
   end
     
