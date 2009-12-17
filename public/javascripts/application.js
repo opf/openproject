@@ -114,7 +114,7 @@ function displayTabsButtons() {
 				tabsWidth += lis[i].getWidth() + 6;
 			}
 		}
-		if (tabsWidth < el.getWidth() - 60) {
+		if ((tabsWidth < el.getWidth() - 60) && (lis[0].visible())) {
 			el.down('div.tabs-buttons').hide();
 		} else {
 			el.down('div.tabs-buttons').show();
