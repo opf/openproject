@@ -350,6 +350,7 @@ fr:
   permission_manage_members: Gérer les members
   permission_manage_versions: Gérer les versions
   permission_manage_categories: Gérer les catégories de demandes
+  permission_view_issues: Voir les demandes
   permission_add_issues: Créer des demandes
   permission_edit_issues: Modifier les demandes
   permission_manage_issue_relations: Gérer les relations

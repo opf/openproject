@@ -330,6 +330,7 @@ en:
   permission_manage_members: Manage members
   permission_manage_versions: Manage versions
   permission_manage_categories: Manage issue categories
+  permission_view_issues: View Issues
   permission_add_issues: Add issues
   permission_edit_issues: Edit issues
   permission_manage_issue_relations: Manage issue relations
