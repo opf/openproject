@@ -181,7 +181,16 @@ table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
 
+table.boards a.board, h3.comments { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
+
 td.center {text-align:center;}
+
+h3.version { background: url(../images/package.png) no-repeat 0% 50%; padding-left: 20px; }
+
+div.issues h3 { background: url(../images/ticket.png) no-repeat 0% 50%; padding-left: 20px; }
+div.members h3 { background: url(../images/group.png) no-repeat 0% 50%; padding-left: 20px; }
+div.news h3 { background: url(../images/news.png) no-repeat 0% 50%; padding-left: 20px; }
+div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padding-left: 20px; }
 
 .highlight { background-color: #FCFD8D;}
 .highlight.token-1 { background-color: #faa;}
@@ -730,14 +739,6 @@ padding-top: 2px;
 padding-bottom: 3px;
 }
 
-.icon22 {
-background-position: 0% 40%;
-background-repeat: no-repeat;
-padding-left: 26px;
-line-height: 22px;
-vertical-align: middle;
-}
-
 .icon-add { background-image: url(../images/add.png); }
 .icon-edit { background-image: url(../images/edit.png); }
 .icon-copy { background-image: url(../images/copy.png); }
@@ -788,21 +789,6 @@ vertical-align: middle;
 .icon-file.application-pdf { background-image: url(../images/files/pdf.png); }
 .icon-file.application-zip { background-image: url(../images/files/zip.png); }
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
-
-.icon22-projects { background-image: url(../images/22x22/projects.png); }
-.icon22-users { background-image: url(../images/22x22/users.png); }
-.icon22-groups { background-image: url(../images/22x22/groups.png); }
-.icon22-tracker { background-image: url(../images/22x22/tracker.png); }
-.icon22-role { background-image: url(../images/22x22/role.png); }
-.icon22-workflow { background-image: url(../images/22x22/workflow.png); }
-.icon22-options { background-image: url(../images/22x22/options.png); }
-.icon22-notifications { background-image: url(../images/22x22/notifications.png); }
-.icon22-authent { background-image: url(../images/22x22/authent.png); }
-.icon22-info { background-image: url(../images/22x22/info.png); }
-.icon22-comment { background-image: url(../images/22x22/comment.png); }
-.icon22-package { background-image: url(../images/22x22/package.png); }
-.icon22-settings { background-image: url(../images/22x22/settings.png); }
-.icon22-plugin { background-image: url(../images/22x22/plugin.png); }
 
 img.gravatar { 
 	padding: 2px;

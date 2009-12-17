@@ -35,7 +35,7 @@
 <br />
 
 <div id="comments" style="margin-bottom:16px;">
-<h3 class="icon22 icon22-comment"><%= l(:label_comment_plural) %></h3>
+<h3 class="comments"><%= l(:label_comment_plural) %></h3>
 <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
     <div class="contextual">

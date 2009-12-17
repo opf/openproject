@@ -20,7 +20,7 @@
 <br />
 
 <% unless @replies.empty? %>
-<h3 class="icon22 icon22-comment"><%= l(:label_reply_plural) %></h3>
+<h3 class="comments"><%= l(:label_reply_plural) %></h3>
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <div class="contextual">

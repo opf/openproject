@@ -11,7 +11,7 @@
 <% for board in @boards %>
   <tr class="<%= cycle 'odd', 'even' %>">
     <td>
-      <%= link_to h(board.name), {:action => 'show', :id => board}, :class => "icon22 icon22-comment"  %><br />
+      <%= link_to h(board.name), {:action => 'show', :id => board}, :class => "board"  %><br />
       <%=h board.description %>
     </td>
     <td align="center"><%= board.topics_count %></td>
