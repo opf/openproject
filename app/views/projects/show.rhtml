@@ -28,7 +28,15 @@
 			</li>
     <% end %>
     </ul>
-    <p><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 %></p>
+    <p>
+    	<%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 %>
+	    <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
+				| <%= link_to(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project) %>
+			<% end %>
+			<% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
+				| <%= link_to(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project) %>
+			<% end %>
+		</p>
   </div>
   <% end %>
   <%= call_hook(:view_projects_show_left, :project => @project) %>
@@ -55,15 +63,6 @@
 </div>
 
 <% content_for :sidebar do %>
-    <% planning_links = []
-      planning_links << link_to_if_authorized(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project)
-      planning_links << link_to_if_authorized(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project)
-      planning_links.compact!
-      unless planning_links.empty? %>
-    <h3><%= l(:label_planning) %></h3>
-    <p><%= planning_links.join(' | ') %></p>
-    <% end %>
-    
     <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
     <h3><%= l(:label_spent_time) %></h3>
     <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>

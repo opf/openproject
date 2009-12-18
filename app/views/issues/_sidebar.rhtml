@@ -5,15 +5,13 @@
 <% end %>
 <%= call_hook(:view_issues_sidebar_issues_bottom) %>
 
-<% planning_links = []
-  planning_links << link_to(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project) if User.current.allowed_to?(:view_calendar, @project, :global => true)
-  planning_links << link_to(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project) if User.current.allowed_to?(:view_gantt, @project, :global => true)
-%>
-<% unless planning_links.empty? %>
-<h3><%= l(:label_planning) %></h3>
-<p><%= planning_links.join(' | ') %></p>
-<%= call_hook(:view_issues_sidebar_planning_bottom) %>
+<% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
+	<%= link_to(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project) %><br />
 <% end %>
+<% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
+	<%= link_to(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project) %><br />
+<% end %>
+<%= call_hook(:view_issues_sidebar_planning_bottom) %>
 
 <% unless sidebar_queries.empty? -%>
 <h3><%= l(:label_query_plural) %></h3>
