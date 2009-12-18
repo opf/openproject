@@ -23,19 +23,23 @@ class IssueRelation < ActiveRecord::Base
   TYPE_DUPLICATES   = "duplicates"
   TYPE_BLOCKS       = "blocks"
   TYPE_PRECEDES     = "precedes"
+  TYPE_FOLLOWS      = "follows"
   
   TYPES = { TYPE_RELATES =>     { :name => :label_relates_to, :sym_name => :label_relates_to, :order => 1 },
             TYPE_DUPLICATES =>  { :name => :label_duplicates, :sym_name => :label_duplicated_by, :order => 2 },
             TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by, :order => 3 },
             TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows, :order => 4 },
+            TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes, :order => 5 }
           }.freeze
   
   validates_presence_of :issue_from, :issue_to, :relation_type
-  validates_inclusion_of :relation_type, :in => TYPES.keys
+  validates_inclusion_of :relation_type, :in => [TYPE_RELATES, TYPE_DUPLICATES, TYPE_BLOCKS, TYPE_PRECEDES]
   validates_numericality_of :delay, :allow_nil => true
   validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
   
   attr_protected :issue_from_id, :issue_to_id
+  
+  before_validation :reverse_if_needed
   
   def validate
     if issue_from && issue_to
@@ -77,5 +81,16 @@ class IssueRelation < ActiveRecord::Base
   
   def <=>(relation)
     TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
+  end
+  
+  private
+  
+  def reverse_if_needed
+    if (TYPE_FOLLOWS == relation_type)
+      issue_tmp = issue_to
+      self.issue_to = issue_from
+      self.issue_from = issue_tmp
+      self.relation_type = TYPE_PRECEDES
+    end
   end
 end

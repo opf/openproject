@@ -124,7 +124,7 @@ function displayTabsButtons() {
 
 function setPredecessorFieldsVisibility() {
     relationType = $('relation_relation_type');
-    if (relationType && relationType.value == "precedes") {
+    if (relationType && (relationType.value == "precedes" || relationType.value == "follows")) {
         Element.show('predecessor_fields');
     } else {
         Element.hide('predecessor_fields');
