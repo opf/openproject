@@ -742,6 +742,7 @@ fr:
   label_copy_target: Cible
   label_copy_same_as_target: Comme la cible
   label_update_issue_done_ratios: Mettre à jour l'avancement des demandes
+  label_display_used_statuses_only: N'afficher que les statuts utilisés dans ce tracker
   
   button_login: Connexion
   button_submit: Soumettre

@@ -727,6 +727,7 @@ en:
   label_copy_source: Source
   label_copy_target: Target
   label_copy_same_as_target: Same as target
+  label_display_used_statuses_only: Only display statuses that are used by this tracker
   
   button_login: Login
   button_submit: Submit

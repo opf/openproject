@@ -42,7 +42,12 @@ class WorkflowsController < ApplicationController
     end
     @roles = Role.find(:all, :order => 'builtin, position')
     @trackers = Tracker.find(:all, :order => 'position')
-    @statuses = IssueStatus.find(:all, :order => 'position')
+    
+    @used_statuses_only = (params[:used_statuses_only] == '0' ? false : true)
+    if @tracker && @used_statuses_only && @tracker.issue_statuses.any?
+      @statuses = @tracker.issue_statuses
+    end
+    @statuses ||= IssueStatus.find(:all, :order => 'position')
   end
   
   def copy

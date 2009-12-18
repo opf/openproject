@@ -22,7 +22,7 @@ require 'workflows_controller'
 class WorkflowsController; def rescue_action(e) raise e end; end
 
 class WorkflowsControllerTest < ActionController::TestCase
-  fixtures :roles, :trackers, :workflows, :users
+  fixtures :roles, :trackers, :workflows, :users, :issue_statuses
   
   def setup
     @controller = WorkflowsController.new
@@ -51,18 +51,46 @@ class WorkflowsControllerTest < ActionController::TestCase
   end
   
   def test_get_edit_with_role_and_tracker
+    Workflow.delete_all
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
+    Workflow.create!(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 5)
+    
     get :edit, :role_id => 2, :tracker_id => 1
     assert_response :success
     assert_template 'edit'
+    
+    # used status only
+    assert_not_nil assigns(:statuses)
+    assert_equal [2, 3, 5], assigns(:statuses).collect(&:id)
+    
     # allowed transitions
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[2][]',
-                                                 :value => '1',
+                                                 :name => 'issue_status[3][]',
+                                                 :value => '5',
                                                  :checked => 'checked' }
     # not allowed
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[2][]',
-                                                 :value => '3',
+                                                 :name => 'issue_status[3][]',
+                                                 :value => '2',
+                                                 :checked => nil }
+    # unused
+    assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                    :name => 'issue_status[4][]' }
+  end
+  
+  def test_get_edit_with_role_and_tracker_and_all_statuses
+    Workflow.delete_all
+    
+    get :edit, :role_id => 2, :tracker_id => 1, :used_statuses_only => '0'
+    assert_response :success
+    assert_template 'edit'
+    
+    assert_not_nil assigns(:statuses)
+    assert_equal IssueStatus.count, assigns(:statuses).size
+    
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'issue_status[1][]',
+                                                 :value => '1',
                                                  :checked => nil }
   end
   

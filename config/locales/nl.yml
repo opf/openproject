@@ -843,3 +843,4 @@ nl:
   label_update_issue_done_ratios: Update issue done ratios
   setting_start_of_week: Start calendars on
   permission_view_issues: View Issues
+  label_display_used_statuses_only: Only display statuses that are used by this tracker

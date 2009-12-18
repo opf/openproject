@@ -43,6 +43,23 @@ class Tracker < ActiveRecord::Base
     find(:all, :order => 'position')
   end
   
+  # Returns an array of IssueStatus that are used
+  # in the tracker's workflows
+  def issue_statuses
+    if @issue_statuses
+      return @issue_statuses 
+    elsif new_record?
+      return []
+    end
+    
+    ids = Workflow.
+            connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{Workflow.table_name} WHERE tracker_id = #{id}").
+            flatten.
+            uniq
+    
+    @issue_statuses = IssueStatus.find_all_by_id(ids).sort
+  end
+  
 private
   def check_integrity
     raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])
