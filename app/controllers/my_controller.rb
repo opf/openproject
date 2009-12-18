@@ -78,7 +78,11 @@ class MyController < ApplicationController
   # Manage user's password
   def password
     @user = User.current
-    flash[:error] = l(:notice_can_t_change_password) and redirect_to :action => 'account' and return if @user.auth_source_id
+    if @user.auth_source_id
+      flash[:error] = l(:notice_can_t_change_password)
+      redirect_to :action => 'account'
+      return
+    end
     if request.post?
       if @user.check_password?(params[:password])
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
@@ -116,7 +120,7 @@ class MyController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     block = params[:block].to_s.underscore
-    render(:nothing => true) and return unless block && (BLOCKS.keys.include? block)
+    (render :nothing => true; return) unless block && (BLOCKS.keys.include? block)
     @user = User.current
     # remove if already present in a group
     %w(top left right).each {|f| (session[:page_layout][f] ||= []).delete block }

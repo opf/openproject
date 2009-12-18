@@ -209,7 +209,7 @@ class TimelogController < ApplicationController
   end
   
   def edit
-    render_403 and return if @time_entry && !@time_entry.editable_by?(User.current)
+    (render_403; return) if @time_entry && !@time_entry.editable_by?(User.current)
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.attributes = params[:time_entry]
     
@@ -223,8 +223,8 @@ class TimelogController < ApplicationController
   end
   
   def destroy
-    render_404 and return unless @time_entry
-    render_403 and return unless @time_entry.editable_by?(User.current)
+    (render_404; return) unless @time_entry
+    (render_403; return) unless @time_entry.editable_by?(User.current)
     @time_entry.destroy
     flash[:notice] = l(:notice_successful_delete)
     redirect_to :back

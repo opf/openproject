@@ -183,7 +183,8 @@ class WikiController < ApplicationController
       return      
     else
       # requested special page doesn't exist, redirect to default page
-      redirect_to :action => 'index', :id => @project, :page => nil and return
+      redirect_to :action => 'index', :id => @project, :page => nil
+      return
     end
     render :action => "special_#{page_title}"
   end

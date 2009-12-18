@@ -30,7 +30,8 @@ class ApplicationController < ActionController::Base
   def delete_broken_cookies
     if cookies['_redmine_session'] && cookies['_redmine_session'] !~ /--/
       cookies.delete '_redmine_session'    
-      redirect_to home_path and return false
+      redirect_to home_path
+      return false
     end
   end
   
@@ -166,7 +167,8 @@ class ApplicationController < ActionController::Base
         uri = URI.parse(back_url)
         # do not redirect user to another host or to the login or register page
         if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
-          redirect_to(back_url) and return
+          redirect_to(back_url)
+          return
         end
       rescue URI::InvalidURIError
         # redirect to default

@@ -68,7 +68,7 @@ class MessagesController < ApplicationController
 
   # Edit a message
   def edit
-    render_403 and return false unless @message.editable_by?(User.current)
+    (render_403; return false) unless @message.editable_by?(User.current)
     if params[:message]
       @message.locked = params[:message]['locked']
       @message.sticky = params[:message]['sticky']
@@ -83,7 +83,7 @@ class MessagesController < ApplicationController
   
   # Delete a messages
   def destroy
-    render_403 and return false unless @message.destroyable_by?(User.current)
+    (render_403; return false) unless @message.destroyable_by?(User.current)
     @message.destroy
     redirect_to @message.parent.nil? ?
       { :controller => 'boards', :action => 'show', :project_id => @project, :id => @board } :

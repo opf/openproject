@@ -73,7 +73,7 @@ class RepositoriesController < ApplicationController
     if request.xhr?
       @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
     else
-      show_error_not_found and return unless @entries
+      (show_error_not_found; return) unless @entries
       @changesets = @repository.latest_changesets(@path, @rev)
       @properties = @repository.properties(@path, @rev)
       render :action => 'show'
@@ -84,7 +84,7 @@ class RepositoriesController < ApplicationController
   
   def changes
     @entry = @repository.entry(@path, @rev)
-    show_error_not_found and return unless @entry
+    (show_error_not_found; return) unless @entry
     @changesets = @repository.latest_changesets(@path, @rev, Setting.repository_log_display_limit.to_i)
     @properties = @repository.properties(@path, @rev)
   end
@@ -107,13 +107,13 @@ class RepositoriesController < ApplicationController
   
   def entry
     @entry = @repository.entry(@path, @rev)
-    show_error_not_found and return unless @entry
-    
+    (show_error_not_found; return) unless @entry
+
     # If the entry is a dir, show the browser
-    show and return if @entry.is_dir?
-    
+    (show; return) if @entry.is_dir?
+
     @content = @repository.cat(@path, @rev)
-    show_error_not_found and return unless @content
+    (show_error_not_found; return) unless @content
     if 'raw' == params[:format] || @content.is_binary_data? || (@entry.size && @entry.size > Setting.file_max_size_displayed.to_i.kilobyte)
       # Force the download
       send_data @content, :filename => @path.split('/').last
@@ -125,10 +125,10 @@ class RepositoriesController < ApplicationController
   
   def annotate
     @entry = @repository.entry(@path, @rev)
-    show_error_not_found and return unless @entry
+    (show_error_not_found; return) unless @entry
     
     @annotate = @repository.scm.annotate(@path, @rev)
-    render_error l(:error_scm_annotate) and return if @annotate.nil? || @annotate.empty?
+    (render_error l(:error_scm_annotate); return) if @annotate.nil? || @annotate.empty?
   end
   
   def revision
@@ -146,7 +146,7 @@ class RepositoriesController < ApplicationController
   def diff
     if params[:format] == 'diff'
       @diff = @repository.diff(@path, @rev, @rev_to)
-      show_error_not_found and return unless @diff
+      (show_error_not_found; return) unless @diff
       filename = "changeset_r#{@rev}"
       filename << "_r#{@rev_to}" if @rev_to
       send_data @diff.join, :filename => "#{filename}.diff",
@@ -199,7 +199,7 @@ private
   def find_repository
     @project = Project.find(params[:id])
     @repository = @project.repository
-    render_404 and return false unless @repository
+    (render_404; return false) unless @repository
     @path = params[:path].join('/') unless params[:path].nil?
     @path ||= ''
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].strip
