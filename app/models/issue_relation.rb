@@ -33,13 +33,11 @@ class IssueRelation < ActiveRecord::Base
           }.freeze
   
   validates_presence_of :issue_from, :issue_to, :relation_type
-  validates_inclusion_of :relation_type, :in => [TYPE_RELATES, TYPE_DUPLICATES, TYPE_BLOCKS, TYPE_PRECEDES]
+  validates_inclusion_of :relation_type, :in => TYPES.keys
   validates_numericality_of :delay, :allow_nil => true
   validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
   
   attr_protected :issue_from_id, :issue_to_id
-  
-  before_validation :reverse_if_needed
   
   def validate
     if issue_from && issue_to
@@ -58,6 +56,8 @@ class IssueRelation < ActiveRecord::Base
   end
   
   def before_save
+    reverse_if_needed
+    
     if TYPE_PRECEDES == relation_type
       self.delay ||= 0
     else

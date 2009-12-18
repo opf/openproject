@@ -43,4 +43,15 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal to, relation.issue_from
     assert_equal from, relation.issue_to
   end
+  
+  def test_follows_relation_should_not_be_reversed_if_validation_fails
+    from = Issue.find(1)
+    to = Issue.find(2)
+    
+    relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_FOLLOWS, :delay => 'xx'
+    assert !relation.save
+    assert_equal IssueRelation::TYPE_FOLLOWS, relation.relation_type
+    assert_equal from, relation.issue_from
+    assert_equal to, relation.issue_to
+  end
 end
