@@ -62,7 +62,8 @@ class UsersController < ApplicationController
     @events_by_day = events.group_by(&:event_date)
     
     if @user != User.current && !User.current.admin? && @memberships.empty? && events.empty?
-      render_404 and return
+      render_404
+      return
     end
     render :layout => 'base'
 
