@@ -732,7 +732,7 @@ background-image:url('../images/close_hl.png');
 
 /***** Icons *****/
 .icon {
-background-position: 0% 40%;
+background-position: 0% 50%;
 background-repeat: no-repeat;
 padding-left: 20px;
 padding-top: 2px;
@@ -758,7 +758,6 @@ padding-bottom: 3px;
 .icon-projects { background-image: url(../images/projects.png); }
 .icon-help { background-image: url(../images/help.png); }
 .icon-attachment  { background-image: url(../images/attachment.png); }
-.icon-index  { background-image: url(../images/index.png); }
 .icon-history  { background-image: url(../images/history.png); }
 .icon-time  { background-image: url(../images/time.png); }
 .icon-time-add  { background-image: url(../images/time_add.png); }

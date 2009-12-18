@@ -34,8 +34,8 @@ h4 { border-bottom: dotted 1px #c0c0c0; }
     padding-bottom: 3px;
 }
 
-#top-menu a.home { background-image: url(../../../images/home.png); }
-#top-menu a.my-page { background-image: url(../../../images/user_page.png); }
+#top-menu a.home { background-image: url(../images/home.png); }
+#top-menu a.my-page { background-image: url(../../../images/user.png); }
 #top-menu a.projects { background-image: url(../../../images/projects.png); }
-#top-menu a.administration { background-image: url(../../../images/admin.png); }
+#top-menu a.administration { background-image: url(../images/wrench.png); }
 #top-menu a.help { background-image: url(../../../images/help.png); }
