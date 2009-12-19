@@ -238,7 +238,8 @@
   notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
   notice_default_data_loaded: 預設組態已載入成功。
   notice_unable_delete_version: 無法刪除版本。
-  
+  notice_issue_done_ratios_updated: 項目完成百分比已更新。
+
   error_can_t_load_default_data: "無法載入預設組態： {{value}}"
   error_scm_not_found: SCM 儲存庫中找不到這個專案或版本。
   error_scm_command_failed: "嘗試存取儲存庫時發生錯誤： {{value}}"
@@ -248,7 +249,10 @@
   error_no_default_issue_status: '尚未定義項目狀態的預設值。請您前往「網站管理」->「項目狀態清單」頁面，檢查相關組態設定。'
   error_can_not_reopen_issue_on_closed_version: '指派給「已結束」版本的項目，無法再將其狀態變更為「進行中」'
   error_can_not_archive_project: 此專案無法被歸檔
-  
+  error_issue_done_ratios_not_updated: "項目完成百分比未更新。"
+  error_workflow_copy_source: '請選擇一個項目追蹤器或角色'
+  error_workflow_copy_target: '請選擇項目追蹤器或角色'
+
   warning_attachments_not_saved: "{{count}} 個附加檔案無法儲存。"
   
   mail_subject_lost_password: 您的 Redmine 網站密碼
@@ -407,6 +411,10 @@
   setting_password_min_length: 密碼最小長度
   setting_new_project_user_role_id: 管理者以外之用戶建立新專案時，將被指派的角色
   setting_default_projects_modules: 新專案預設啟用的模組
+  setting_issue_done_ratio: 計算項目完成百分比之方式
+  setting_issue_done_ratio_issue_field: 依據項目完成百分比欄位
+  setting_issue_done_ratio_issue_status: 依據項目狀態
+  setting_start_of_week: 週的第一天
 
   permission_add_project: 建立專案
   permission_edit_project: 編輯專案
@@ -414,6 +422,7 @@
   permission_manage_members: 管理成員
   permission_manage_versions: 管理版本
   permission_manage_categories: 管理項目分類
+  permission_view_issues: 檢視項目
   permission_add_issues: 新增項目
   permission_edit_issues: 編輯項目
   permission_manage_issue_relations: 管理項目關聯
@@ -807,6 +816,11 @@
   label_version_sharing_hierarchy: 與專案階層架構共用
   label_version_sharing_tree: 與專案樹共用
   label_version_sharing_system: 與全部的專案共用
+  label_update_issue_done_ratios: 更新項目完成百分比
+  label_copy_source: 來源
+  label_copy_target: 目的地
+  label_copy_same_as_target: 與目的地相同
+  label_display_used_statuses_only: 僅顯示此追蹤器所使用之狀態
 
   button_login: 登入
   button_submit: 送出
@@ -941,17 +955,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  setting_start_of_week: Start calendars on
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
