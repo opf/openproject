@@ -165,6 +165,26 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
   
+  def test_add_issue_by_anonymous_user_on_private_project
+    Role.anonymous.add_permission!(:add_issues)
+    assert_no_difference 'User.count' do
+      assert_no_difference 'Issue.count' do
+        assert_equal false, submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :unknown_user => 'accept')
+      end
+    end
+  end
+  
+  def test_add_issue_by_anonymous_user_on_private_project_without_permission_check
+    assert_no_difference 'User.count' do
+      assert_difference 'Issue.count' do
+        issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :no_permission_check => '1', :unknown_user => 'accept')
+        assert issue.is_a?(Issue)
+        assert issue.author.anonymous?
+        assert !issue.project.is_public?
+      end
+    end
+  end
+  
   def test_add_issue_by_created_user
     Setting.default_language = 'en'
     assert_difference 'User.count' do

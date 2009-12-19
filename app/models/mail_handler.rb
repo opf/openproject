@@ -34,6 +34,8 @@ class MailHandler < ActionMailer::Base
     @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
     # Status overridable by default
     @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)    
+    
+    @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
     super email
   end
   
@@ -120,7 +122,10 @@ class MailHandler < ActionMailer::Base
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
 
     # check permission
-    raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
+    unless @@handler_options[:no_permission_check]
+      raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
+    end
+    
     issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
@@ -163,8 +168,10 @@ class MailHandler < ActionMailer::Base
     issue = Issue.find_by_id(issue_id)
     return unless issue
     # check permission
-    raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
-    raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
+    unless @@handler_options[:no_permission_check]
+      raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
+      raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
+    end
 
     # add the note
     journal = issue.init_journal(user, plain_text_body)
@@ -191,7 +198,12 @@ class MailHandler < ActionMailer::Base
     message = Message.find_by_id(message_id)
     if message
       message = message.root
-      if user.allowed_to?(:add_messages, message.project) && !message.locked?
+      
+      unless @@handler_options[:no_permission_check]
+        raise UnauthorizedAction unless user.allowed_to?(:add_messages, message.project)
+      end
+      
+      if !message.locked?
         reply = Message.new(:subject => email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             :content => plain_text_body)
         reply.author = user
@@ -200,7 +212,7 @@ class MailHandler < ActionMailer::Base
         add_attachments(reply)
         reply
       else
-        raise UnauthorizedAction
+        logger.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic" if logger && logger.info
       end
     end
   end
