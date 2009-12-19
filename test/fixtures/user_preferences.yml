@@ -4,11 +4,10 @@ user_preferences_001:
     --- 
     :my_page_layout: 
       left: 
-      - latest_news
+      - latestnews
       - documents
       right: 
-      - issues_assigned_to_me
-      - issues_reported_by_me
+      - issuesassignedtome
       top: 
       - calendar
 
@@ -16,9 +15,17 @@ user_preferences_001:
   user_id: 1
   hide_mail: true
 user_preferences_002: 
-  others: |+
-    --- {}
-    
+  others: |
+    --- 
+    :my_page_layout: 
+      left: 
+      - latestnews
+      - documents
+      right: 
+      - issuesassignedtome
+      top: 
+      - calendar
+  
   id: 2
   user_id: 3
   hide_mail: false

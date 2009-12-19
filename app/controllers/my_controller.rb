@@ -35,7 +35,6 @@ class MyController < ApplicationController
                    }.freeze
 
   verify :xhr => true,
-         :session => :page_layout,
          :only => [:add_block, :remove_block, :order_blocks]
 
   def index
@@ -109,8 +108,6 @@ class MyController < ApplicationController
   def page_layout
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
-    session[:page_layout] = @blocks
-    %w(top left right).each {|f| session[:page_layout][f] ||= [] }
     @block_options = []
     BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
   end
@@ -122,10 +119,13 @@ class MyController < ApplicationController
     block = params[:block].to_s.underscore
     (render :nothing => true; return) unless block && (BLOCKS.keys.include? block)
     @user = User.current
+    layout = @user.pref[:my_page_layout] || {}
     # remove if already present in a group
-    %w(top left right).each {|f| (session[:page_layout][f] ||= []).delete block }
+    %w(top left right).each {|f| (layout[f] ||= []).delete block }
     # add it on top
-    session[:page_layout]['top'].unshift block
+    layout['top'].unshift block
+    @user.pref[:my_page_layout] = layout
+    @user.pref.save 
     render :partial => "block", :locals => {:user => @user, :block_name => block}
   end
   
@@ -133,8 +133,12 @@ class MyController < ApplicationController
   # params[:block] : id of the block to remove
   def remove_block
     block = params[:block].to_s.underscore
+    @user = User.current
     # remove block in all groups
-    %w(top left right).each {|f| (session[:page_layout][f] ||= []).delete block }
+    layout = @user.pref[:my_page_layout] || {}
+    %w(top left right).each {|f| (layout[f] ||= []).delete block }
+    @user.pref[:my_page_layout] = layout
+    @user.pref.save 
     render :nothing => true
   end
 
@@ -143,25 +147,20 @@ class MyController < ApplicationController
   # params[:list-(top|left|right)] : array of block ids of the group
   def order_blocks
     group = params[:group]
+    @user = User.current
     if group.is_a?(String)
       group_items = (params["list-#{group}"] || []).collect(&:underscore)
       if group_items and group_items.is_a? Array
+        layout = @user.pref[:my_page_layout] || {}
         # remove group blocks if they are presents in other groups
         %w(top left right).each {|f|
-          session[:page_layout][f] = (session[:page_layout][f] || []) - group_items
+          layout[f] = (layout[f] || []) - group_items
         }
-        session[:page_layout][group] = group_items    
+        layout[group] = group_items
+        @user.pref[:my_page_layout] = layout
+        @user.pref.save 
       end
     end
     render :nothing => true
-  end
-  
-  # Save user's page layout  
-  def page_layout_save
-    @user = User.current
-    @user.pref[:my_page_layout] = session[:page_layout] if session[:page_layout]
-    @user.pref.save
-    session[:page_layout] = nil
-    redirect_to :action => 'page'
   end
 end
