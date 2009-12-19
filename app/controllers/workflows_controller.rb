@@ -54,8 +54,16 @@ class WorkflowsController < ApplicationController
     @trackers = Tracker.find(:all, :order => 'position')
     @roles = Role.find(:all, :order => 'builtin, position')
     
-    @source_tracker = params[:source_tracker_id].blank? ? nil : Tracker.find_by_id(params[:source_tracker_id])
-    @source_role = params[:source_role_id].blank? ? nil : Role.find_by_id(params[:source_role_id])
+    if params[:source_tracker_id].blank? || params[:source_tracker_id] == 'any'
+      @source_tracker = nil
+    else
+      @source_tracker = Tracker.find_by_id(params[:source_tracker_id].to_i)
+    end
+    if params[:source_role_id].blank? || params[:source_role_id] == 'any'
+      @source_role = nil
+    else
+      @source_role = Role.find_by_id(params[:source_role_id].to_i)
+    end
     
     @target_trackers = params[:target_tracker_ids].blank? ? nil : Tracker.find_all_by_id(params[:target_tracker_ids])
     @target_roles = params[:target_role_ids].blank? ? nil : Role.find_all_by_id(params[:target_role_ids])
