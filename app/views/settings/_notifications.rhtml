@@ -2,31 +2,22 @@
 <% form_tag({:action => 'edit', :tab => 'notifications'}) do %>
 
 <div class="box tabular settings">
-<p><label><%= l(:setting_mail_from) %></label>
-<%= text_field_tag 'settings[mail_from]', Setting.mail_from, :size => 60 %></p>
+<p><%= setting_text_field :mail_from, :size => 60 %></p>
 
-<p><label><%= l(:setting_bcc_recipients) %></label>
-<%= hidden_field_tag 'settings[bcc_recipients]', 0 %>
-<%= check_box_tag 'settings[bcc_recipients]', 1, Setting.bcc_recipients? %>
-</p>
+<p><%= setting_check_box :bcc_recipients %></p>
 
-<p><label><%= l(:setting_plain_text_mail) %></label>
-<%= hidden_field_tag 'settings[plain_text_mail]', 0 %>
-<%= check_box_tag 'settings[plain_text_mail]', 1, Setting.plain_text_mail? %>
-</p>
+<p><%= setting_check_box :plain_text_mail %></p>
 </div>
 
-<fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
-<% @notifiables.each do |notifiable| %>
-  <label><%= check_box_tag 'settings[notified_events][]', notifiable, Setting.notified_events.include?(notifiable) %>
-  <%= l_or_humanize(notifiable, :prefix => 'label_') %></label><br />
-<% end %>
-<%= hidden_field_tag 'settings[notified_events][]', '' %>
-<p><%= check_all_links('notified_events') %></p>
+<fieldset class="box settings" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
+	<%= setting_multiselect(:notified_events, 
+        @notifiables.collect {|notifiable| [l_or_humanize(notifiable, :prefix => 'label_'), notifiable]}, :label => false) %>
+
+	<p><%= check_all_links('notified_events') %></p>
 </fieldset>
 
 <fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>
-<%= text_area_tag 'settings[emails_footer]', Setting.emails_footer, :class => 'wiki-edit', :rows => 5 %>
+<%= setting_text_area :emails_footer, :label => false, :class => 'wiki-edit', :rows => 5 %>
 </fieldset>
 
 <div style="float:right;">

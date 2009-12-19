@@ -1,43 +1,32 @@
 <% form_tag({:action => 'edit'}) do %>
 
 <div class="box tabular settings">
-<p><label><%= l(:setting_app_title) %></label>
-<%= text_field_tag 'settings[app_title]', Setting.app_title, :size => 30 %></p>
+<p><%= setting_text_field :app_title, :size => 30 %></p>
 
-<p><label><%= l(:setting_welcome_text) %></label>
-<%= text_area_tag 'settings[welcome_text]', Setting.welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit' %></p>
-<%= wikitoolbar_for 'settings[welcome_text]' %>
+<p><%= setting_text_area :welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit' %></p>
+<%= wikitoolbar_for 'settings_welcome_text' %>
 
-<p><label><%= l(:setting_attachment_max_size) %></label>
-<%= text_field_tag 'settings[attachment_max_size]', Setting.attachment_max_size, :size => 6 %> KB</p>
+<p><%= setting_text_field :attachment_max_size, :size => 6 %> KB</p>
 
-<p><label><%= l(:setting_per_page_options) %></label>
-<%= text_field_tag 'settings[per_page_options]', Setting.per_page_options_array.join(', '), :size => 20 %><br /><em><%= l(:text_comma_separated) %></em></p>
+<p><%= setting_text_field :per_page_options, :size => 20 %><br />
+<em><%= l(:text_comma_separated) %></em></p>
 
-<p><label><%= l(:setting_activity_days_default) %></label>
-<%= text_field_tag 'settings[activity_days_default]', Setting.activity_days_default, :size => 6 %> <%= l(:label_day_plural) %></p>
+<p><%= setting_text_field :activity_days_default, :size => 6 %> <%= l(:label_day_plural) %></p>
 
-<p><label><%= l(:setting_host_name) %></label>
-<%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %><br />
+<p><%= setting_text_field :host_name, :size => 60 %><br />
 <em><%= l(:label_example) %>: <%= @guessed_host_and_path %></em></p>
 
-<p><label><%= l(:setting_protocol) %></label>
-<%= select_tag 'settings[protocol]', options_for_select(['http', 'https'], Setting.protocol) %></p>
+<p><%= setting_select :protocol, [['HTTP', 'http'], ['HTTPS', 'https']] %></p>
 
-<p><label><%= l(:setting_text_formatting) %></label>
-<%= select_tag 'settings[text_formatting]', options_for_select([[l(:label_none), "0"], *Redmine::WikiFormatting.format_names.collect{|name| [name, name]} ], Setting.text_formatting.to_sym) %></p>
+<p><%= setting_select :text_formatting, Redmine::WikiFormatting.format_names.collect{|name| [name, name.to_s]}, :blank => :label_none %></p>
 
-<p><label><%= l(:setting_wiki_compression) %></label>
-<%= select_tag 'settings[wiki_compression]', options_for_select( [[l(:label_none), 0], ["gzip", "gzip"]], Setting.wiki_compression) %></p>
+<p><%= setting_select :wiki_compression, [['Gzip', 'gzip']], :blank => :label_none %></p>
 
-<p><label><%= l(:setting_feeds_limit) %></label>
-<%= text_field_tag 'settings[feeds_limit]', Setting.feeds_limit, :size => 6 %></p>
+<p><%= setting_text_field :feeds_limit, :size => 6 %></p>
 
-<p><label><%= l(:setting_file_max_size_displayed) %></label>
-<%= text_field_tag 'settings[file_max_size_displayed]', Setting.file_max_size_displayed, :size => 6 %> KB</p>
+<p><%= setting_text_field :file_max_size_displayed, :size => 6 %> KB</p>
 
-<p><label><%= l(:setting_diff_max_lines_displayed) %></label>
-<%= text_field_tag 'settings[diff_max_lines_displayed]', Setting.diff_max_lines_displayed, :size => 6 %></p>
+<p><%= setting_text_field :diff_max_lines_displayed, :size => 6 %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>

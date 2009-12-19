@@ -1,34 +1,20 @@
 <% form_tag({:action => 'edit', :tab => 'authentication'}) do %>
 
 <div class="box tabular settings">
-<p><label><%= l(:setting_login_required) %></label>
-<%= hidden_field_tag 'settings[login_required]', 0 %>
-<%= check_box_tag 'settings[login_required]', 1, Setting.login_required? %>
-</p>
+<p><%= setting_check_box :login_required %></p>
 
-<p><label><%= l(:setting_autologin) %></label>
-<%= select_tag 'settings[autologin]', options_for_select( [[l(:label_disabled), "0"]] + [1, 7, 30, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]}, Setting.autologin) %></p>
+<p><%= setting_select :autologin, [1, 7, 30, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]}, :blank => :label_disabled %></p>
 
-<p><label><%= l(:setting_self_registration) %></label>
-<%= select_tag 'settings[self_registration]',
-      options_for_select( [[l(:label_disabled), "0"],
-                           [l(:label_registration_activation_by_email), "1"],
-                           [l(:label_registration_manual_activation), "2"],
-                           [l(:label_registration_automatic_activation), "3"]
-                          ], Setting.self_registration ) %></p>
+<p><%= setting_select :self_registration, [[l(:label_disabled), "0"],
+							                             [l(:label_registration_activation_by_email), "1"],
+							                             [l(:label_registration_manual_activation), "2"],
+							                             [l(:label_registration_automatic_activation), "3"]] %></p>
 
-<p><label><%= l(:setting_password_min_length) %></label>
-<%= text_field_tag 'settings[password_min_length]', Setting.password_min_length, :size => 6 %></p>
+<p><%= setting_text_field :password_min_length, :size => 6 %></p>
 
-<p><label><%= l(:label_password_lost) %></label>
-<%= hidden_field_tag 'settings[lost_password]', 0 %>
-<%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %>
-</p>
+<p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
 
-<p><label><%= l(:setting_openid) %></label>
-<%= hidden_field_tag 'settings[openid]', 0 %>
-<%= check_box_tag 'settings[openid]', 1, Setting.openid?, :disabled => !Object.const_defined?(:OpenID) %>
-</p>
+<p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>
 </div>
 
 <div style="float:right;">

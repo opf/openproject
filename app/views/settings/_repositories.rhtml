@@ -1,41 +1,27 @@
 <% form_tag({:action => 'edit', :tab => 'repositories'}) do %>
 
 <div class="box tabular settings">
-<p><label><%= l(:setting_autofetch_changesets) %></label>
-<%= hidden_field_tag 'settings[autofetch_changesets]', 0 %>
-<%= check_box_tag 'settings[autofetch_changesets]', 1, Setting.autofetch_changesets? %>
-</p>
+<p><%= setting_check_box :autofetch_changesets %></p>
 
-<p><label><%= l(:setting_sys_api_enabled) %></label>
-<%= hidden_field_tag 'settings[sys_api_enabled]', 0 %>
-<%= check_box_tag 'settings[sys_api_enabled]', 1, Setting.sys_api_enabled? %>
-</p>
+<p><%= setting_check_box :sys_api_enabled %></p>
 
-<p><label><%= l(:setting_enabled_scm) %></label>
-<% REDMINE_SUPPORTED_SCM.each do |scm| -%>
-<%= check_box_tag 'settings[enabled_scm][]', scm, Setting.enabled_scm.include?(scm) %> <%= scm %>
-<% end -%>
-<%= hidden_field_tag 'settings[enabled_scm][]', '' %>
-</p>
+<p><%= setting_multiselect(:enabled_scm, REDMINE_SUPPORTED_SCM) %></p>
 
-<p><label><%= l(:setting_repositories_encodings) %></label>
-<%= text_field_tag 'settings[repositories_encodings]', Setting.repositories_encodings, :size => 60 %><br /><em><%= l(:text_comma_separated) %></em></p>
+<p><%= setting_text_field :repositories_encodings, :size => 60 %><br />
+<em><%= l(:text_comma_separated) %></em></p>
 
-<p><label><%= l(:setting_commit_logs_encoding) %></label>
-<%= select_tag 'settings[commit_logs_encoding]', options_for_select(Setting::ENCODINGS, Setting.commit_logs_encoding) %></p>
+<p><%= setting_select :commit_logs_encoding, Setting::ENCODINGS %></p>
 
-<p><label><%= l(:setting_repository_log_display_limit) %></label>
-<%= text_field_tag 'settings[repository_log_display_limit]', Setting.repository_log_display_limit, :size => 6 %></p>
+<p><%= setting_text_field :repository_log_display_limit, :size => 6 %></p>
 </div>
 
 <fieldset class="box tabular settings"><legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
-<p><label><%= l(:setting_commit_ref_keywords) %></label>
-<%= text_field_tag 'settings[commit_ref_keywords]', Setting.commit_ref_keywords, :size => 30 %><br /><em><%= l(:text_comma_separated) %></em></p>
+<p><%= setting_text_field :commit_ref_keywords, :size => 30 %><br />
+<em><%= l(:text_comma_separated) %></em></p>
 
-<p><label><%= l(:setting_commit_fix_keywords) %></label>
-<%= text_field_tag 'settings[commit_fix_keywords]', Setting.commit_fix_keywords, :size => 30 %>
-&nbsp;<%= l(:label_applied_status) %>: <%= select_tag 'settings[commit_fix_status_id]', options_for_select( [["", 0]] + IssueStatus.find(:all).collect{|status| [status.name, status.id.to_s]}, Setting.commit_fix_status_id) %>
-&nbsp;<%= l(:field_done_ratio) %>: <%= select_tag 'settings[commit_fix_done_ratio]', options_for_select( [[l(:label_no_change_option), '']] + ((0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }), Setting.commit_fix_done_ratio) %>
+<p><%= setting_text_field :commit_fix_keywords, :size => 30 %>
+&nbsp;<%= l(:label_applied_status) %>: <%= setting_select :commit_fix_status_id, [["", 0]] + IssueStatus.find(:all).collect{|status| [status.name, status.id.to_s]}, :label => false %>
+&nbsp;<%= l(:field_done_ratio) %>: <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, :blank => :label_no_change_option, :label => false %>
 <br /><em><%= l(:text_comma_separated) %></em></p>
 </fieldset>
 

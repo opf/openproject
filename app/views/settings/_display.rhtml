@@ -1,32 +1,21 @@
 <% form_tag({:action => 'edit', :tab => 'display'}) do %>
 
 <div class="box tabular settings">
-<p><label><%= l(:label_theme) %></label>
-<%= select_tag 'settings[ui_theme]', options_for_select( ([[l(:label_default), '']] + Redmine::Themes.themes.collect {|t| [t.name, t.id]}), Setting.ui_theme) %></p>
+<p><%= setting_select :ui_theme, Redmine::Themes.themes.collect {|t| [t.name, t.id]}, :blank => :label_default, :label => :label_theme %></p>
 
-<p><label><%= l(:setting_default_language) %></label>
-<%= select_tag 'settings[default_language]', options_for_select( lang_options_for_select(false), Setting.default_language) %></p>
+<p><%= setting_select :default_language, lang_options_for_select(false) %></p>
 
-<p><label><%= l(:setting_start_of_week) %></label>
-<%= select_tag 'settings[start_of_week]', options_for_select( [[l(:label_language_based), ''], [day_name(1),'1'], [day_name(7),'7']] , Setting.start_of_week) %></p>
+<p><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(7),'7']], :blank => :label_language_based %></p>
 
-<p><label><%= l(:setting_date_format) %></label>
-<%= select_tag 'settings[date_format]', options_for_select( [[l(:label_language_based), '']] + Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, Setting.date_format) %></p>
+<p><%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, :blank => :label_language_based %></p>
 
-<p><label><%= l(:setting_time_format) %></label>
-<%= select_tag 'settings[time_format]', options_for_select( [[l(:label_language_based), '']] + Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, Setting.time_format) %></p>
+<p><%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, :blank => :label_language_based %></p>
 
-<p><label><%= l(:setting_user_format) %></label>
-<%= select_tag 'settings[user_format]', options_for_select( @options[:user_format], Setting.user_format.to_s ) %></p>
+<p><%= setting_select :user_format, @options[:user_format] %></p>
 
-<p><label><%= l(:setting_gravatar_enabled) %></label>
-<%= hidden_field_tag 'settings[gravatar_enabled]', 0 %>
-<%= check_box_tag 'settings[gravatar_enabled]', 1, Setting.gravatar_enabled? %>
-</p>
+<p><%= setting_check_box :gravatar_enabled %></p>
 
-<p><label><%= l(:setting_gravatar_default) %></label>
-<%= select_tag 'settings[gravatar_default]', options_for_select([[l(:label_none),  ''], ["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid']], Setting.gravatar_default) %></p>
-</p>
+<p><%= setting_select :gravatar_default, [["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid']], :blank => :label_none %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>

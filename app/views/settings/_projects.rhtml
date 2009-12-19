@@ -1,28 +1,16 @@
 <% form_tag({:action => 'edit', :tab => 'projects'}) do %>
 
 <div class="box tabular settings">
-<p><label><%= l(:setting_default_projects_public) %></label>
-<%= hidden_field_tag 'settings[default_projects_public]', 0 %>
-<%= check_box_tag 'settings[default_projects_public]', 1, Setting.default_projects_public? %>
-</p>
+<p><%= setting_check_box :default_projects_public %></p>
 
-<p><label><%= l(:setting_default_projects_modules) %></label>
-<%= hidden_field_tag 'settings[default_projects_modules][]', '' %>
-<% Redmine::AccessControl.available_project_modules.each do |m| %>
-	<label class="block">
-		<%= check_box_tag 'settings[default_projects_modules][]', m, Setting.default_projects_modules.include?(m.to_s) %>
-		<%= l_or_humanize(m, :prefix => "project_module_") %>
-	</label>
-<% end %>
-</p>
+<p><%= setting_multiselect(:default_projects_modules, 
+        Redmine::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, :prefix => "project_module_"), m.to_s]}) %></p>
 
-<p><label><%= l(:setting_sequential_project_identifiers) %></label>
-<%= hidden_field_tag 'settings[sequential_project_identifiers]', 0 %>
-<%= check_box_tag 'settings[sequential_project_identifiers]', 1, Setting.sequential_project_identifiers? %>
-</p>
+<p><%= setting_check_box :sequential_project_identifiers %></p>
 
-<p><label><%= l(:setting_new_project_user_role_id) %></label>
-<%= select_tag('settings[new_project_user_role_id]', options_for_select([["--- #{l(:actionview_instancetag_blank_option)} ---", '']] + Role.find_all_givable.collect {|r| [r.name, r.id]}, Setting.new_project_user_role_id.to_i)) %></p>
+<p><%= setting_select :new_project_user_role_id,
+											Role.find_all_givable.collect {|r| [r.name, r.id.to_s]}, 
+											:blank => "--- #{l(:actionview_instancetag_blank_option)} ---" %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>
