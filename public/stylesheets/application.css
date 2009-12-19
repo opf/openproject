@@ -411,10 +411,10 @@ table.members td.group { padding-left: 20px; background: url(../images/group.png
 div.flash {margin-top: 8px;}
 
 div.flash.error, #errorExplanation {
-    background: url(../images/false.png) 8px 5px no-repeat;
+	background: url(../images/exclamation.png) 8px 50% no-repeat;
 	background-color: #ffe3e3;
 	border-color: #dd0000;
-	color: #550000;
+	color: #880000;
 }
 
 div.flash.notice {
