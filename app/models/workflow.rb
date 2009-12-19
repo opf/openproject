@@ -55,7 +55,7 @@ class Workflow < ActiveRecord::Base
   # Copies workflows from source to targets
   def self.copy(source_tracker, source_role, target_trackers, target_roles)
     unless source_tracker.is_a?(Tracker) || source_role.is_a?(Role)
-      raise ArgumentError.new "source_tracker or source_role must be specified"
+      raise ArgumentError.new("source_tracker or source_role must be specified")
     end
     
     target_trackers = [target_trackers].flatten.compact
