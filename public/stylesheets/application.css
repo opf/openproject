@@ -836,6 +836,7 @@ td.username img.gravatar {
 
 h2 img { vertical-align:middle; }
 
+.hascontextmenu { cursor: context-menu; }
 
 /***** Media print specific styles *****/
 @media print {
