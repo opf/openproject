@@ -19,18 +19,21 @@
 #                             -r redmine.example.net
 #                             -r http://redmine.example.net
 #                             -r https://example.net/redmine
+#   -k, --key=KEY             use KEY as the Redmine API key
 #
 # == Options
 #
 #   -o, --owner=OWNER         owner of the repository. using the rails login
 #                             allow user to browse the repository within
-#                             Redmine even for private project. If you want to share repositories
-#                             through Redmine.pm, you need to use the apache owner.
+#                             Redmine even for private project. If you want to
+#                             share repositories through Redmine.pm, you need
+#                             to use the apache owner.
 #   -g, --group=GROUP         group of the repository. (default: root)
-#   --scm=SCM                 the kind of SCM repository you want to create (and register) in
-#                             Redmine (default: Subversion). reposman is able to create Git 
-#                             and Subversion repositories. For all other kind (Bazaar,
-#                             Darcs, Filesystem, Mercurial) you must specify a --command option
+#   --scm=SCM                 the kind of SCM repository you want to create (and
+#                             register) in Redmine (default: Subversion).
+#                             reposman is able to create Git and Subversion
+#                             repositories. For all other kind, you must specify
+#                             a --command option
 #   -u, --url=URL             the base url Redmine will use to access your
 #                             repositories. This option is used to automatically
 #                             register the repositories in Redmine. The project
@@ -41,8 +44,10 @@
 #                             the repositories in Redmine
 #   -c, --command=COMMAND     use this command instead of "svnadmin create" to
 #                             create a repository. This option can be used to
-#                             create repositories other than subversion and git kind.
-#                             This command override the default creation for git and subversion.
+#                             create repositories other than subversion and git
+#                             kind.
+#                             This command override the default creation for git
+#                             and subversion.
 #   -f, --force               force repository creation even if the project
 #                             repository is already declared in Redmine
 #   -t, --test                only show what should be done
@@ -67,6 +72,7 @@ SUPPORTED_SCM = %w( Subversion Darcs Mercurial Bazaar Git Filesystem )
 opts = GetoptLong.new(
                       ['--svn-dir',      '-s', GetoptLong::REQUIRED_ARGUMENT],
                       ['--redmine-host', '-r', GetoptLong::REQUIRED_ARGUMENT],
+                      ['--key',          '-k', GetoptLong::REQUIRED_ARGUMENT],
                       ['--owner',        '-o', GetoptLong::REQUIRED_ARGUMENT],
                       ['--group',        '-g', GetoptLong::REQUIRED_ARGUMENT],
                       ['--url',          '-u', GetoptLong::REQUIRED_ARGUMENT],
@@ -127,6 +133,7 @@ begin
     case opt
     when '--svn-dir';        $repos_base   = arg.dup
     when '--redmine-host';   $redmine_host = arg.dup
+    when '--key';            $api_key      = arg.dup
     when '--owner';          $svn_owner    = arg.dup; $use_groupid = false;
     when '--group';          $svn_group    = arg.dup; $use_groupid = false;
     when '--url';            $svn_url      = arg.dup
@@ -184,7 +191,7 @@ Project.site = "#{$redmine_host}/sys";
 
 begin
   # Get all active projects that have the Repository module enabled
-  projects = Project.find(:all)
+  projects = Project.find(:all, :params => {:key => $api_key})
 rescue => e
   log("Unable to connect to #{Project.site}: #{e}", :exit => true)
 end
@@ -285,7 +292,7 @@ projects.each do |project|
 
     if $svn_url
       begin
-        project.post(:repository, :vendor => $scm, :repository => {:url => "#{$svn_url}#{project.identifier}"})
+        project.post(:repository, :vendor => $scm, :repository => {:url => "#{$svn_url}#{project.identifier}"}, :key => $api_key)
         log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project.identifier}");
       rescue => e
         log("\trepository #{repos_path} not registered in Redmine: #{e.message}");

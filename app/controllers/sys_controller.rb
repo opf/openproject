@@ -59,8 +59,8 @@ class SysController < ActionController::Base
 
   def check_enabled
     User.current = nil
-    unless Setting.sys_api_enabled?
-      render :nothing => 'Access denied. Repository management WS is disabled.', :status => 403
+    unless Setting.sys_api_enabled? && params[:key].to_s == Setting.sys_api_key
+      render :text => 'Access denied. Repository management WS is disabled or key is invalid.', :status => 403
       return false
     end
   end

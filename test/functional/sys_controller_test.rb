@@ -68,4 +68,25 @@ class SysControllerTest < ActionController::TestCase
     get :fetch_changesets, :id => 'unknown'
     assert_response 404
   end
+  
+  def test_disabled_ws_should_respond_with_403_error
+    with_settings :sys_api_enabled => '0' do
+      get :projects
+      assert_response 403
+    end
+  end
+  
+  def test_api_key
+    with_settings :sys_api_key => 'my_secret_key' do
+      get :projects, :key => 'my_secret_key'
+      assert_response :success
+    end
+  end
+  
+  def test_wrong_key_should_respond_with_403_error
+    with_settings :sys_api_enabled => 'my_secret_key' do
+      get :projects, :key => 'wrong_key'
+      assert_response 403
+    end
+  end
 end
