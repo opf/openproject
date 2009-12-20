@@ -82,7 +82,9 @@ class UsersController < ApplicationController
       if @user.save
         Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
         flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'users', :action => 'edit', :id => @user
+        redirect_to(params[:continue] ? {:controller => 'users', :action => 'add'} : 
+                                        {:controller => 'users', :action => 'edit', :id => @user})
+        return
       end
     end
     @auth_sources = AuthSource.find(:all)
