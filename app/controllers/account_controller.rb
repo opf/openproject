@@ -141,10 +141,7 @@ class AccountController < ApplicationController
       # Invalid credentials
       flash.now[:error] = l(:notice_account_invalid_creditentials)
     elsif user.new_record?
-      # Onthefly creation failed, display the registration form to fill/fix attributes
-      @user = user
-      session[:auth_source_registration] = {:login => user.login, :auth_source_id => user.auth_source_id }
-      render :action => 'register'
+      onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
     else
       # Valid user
       successful_authentication(user)
