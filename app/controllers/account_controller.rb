@@ -137,9 +137,9 @@ class AccountController < ApplicationController
 
   def password_authentication
     user = User.try_to_login(params[:username], params[:password])
+
     if user.nil?
-      # Invalid credentials
-      flash.now[:error] = l(:notice_account_invalid_creditentials)
+      invalid_credentials
     elsif user.new_record?
       onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
     else
@@ -207,6 +207,10 @@ class AccountController < ApplicationController
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
     render :action => 'register'
+  end
+
+  def invalid_credentials
+    flash.now[:error] = l(:notice_account_invalid_creditentials)
   end
 
   # Register a user for email activation.
