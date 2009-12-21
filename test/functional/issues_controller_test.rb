@@ -805,7 +805,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
     assert_equal 2, issue.status_id
-    j = issue.journals.find(:first, :order => 'id DESC')
+    j = Journal.find(:first, :order => 'id DESC')
     assert_equal 'Assigned to dlopper', j.notes
     assert_equal 2, j.details.size
     
@@ -822,7 +822,7 @@ class IssuesControllerTest < ActionController::TestCase
          :id => 1,
          :notes => notes
     assert_redirected_to :action => 'show', :id => '1'
-    j = Issue.find(1).journals.find(:first, :order => 'id DESC')
+    j = Journal.find(:first, :order => 'id DESC')
     assert_equal notes, j.notes
     assert_equal 0, j.details.size
     assert_equal User.anonymous, j.user
@@ -844,7 +844,7 @@ class IssuesControllerTest < ActionController::TestCase
     
     issue = Issue.find(1)
     
-    j = issue.journals.find(:first, :order => 'id DESC')
+    j = Journal.find(:first, :order => 'id DESC')
     assert_equal '2.5 hours added', j.notes
     assert_equal 0, j.details.size
     
