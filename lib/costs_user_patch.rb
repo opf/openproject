@@ -132,25 +132,23 @@ module CostsUserPatch
       
       user_list = projects.inject({}) do |user_list, project|
         roles = granular_roles_for_project(project)
-        
-        if roles
-          users_for_project = []
-          full_access = false
-          roles.each_pair do |role, users|
-            if (project.is_public? || role.member?)
-              if !Redmine::AccessControl.permission(permission).granular_for && self.allowed_for_role(permission, project, role, users)
-                users_for_project = nil
-                break
-              elsif self.allowed_for_role(permission, project, role, users, :for => self)
-                users_for_project += users.collect(&:id)
-              end
+        return user_list unless roles
+
+        users_for_project = []
+        roles.each_pair do |role, users|
+          if (project.is_public? || role.member?)
+            if !Redmine::AccessControl.permission(permission).granular_for && self.allowed_for_role(permission, project, role, users)
+              users_for_project = nil
+              break
+            elsif self.allowed_for_role(permission, project, role, users, :for => self)
+              users_for_project += users.collect(&:id)
             end
           end
-          if users_for_project.nil? || !users_for_project.empty?
-            users_for_project.sort!.uniq! unless users_for_project.nil?
-            user_list[users_for_project] ||= []
-            user_list[users_for_project] << project.id
-          end
+        end
+        if users_for_project.nil? || !users_for_project.empty?
+          users_for_project.sort!.uniq! unless users_for_project.nil?
+          user_list[users_for_project] ||= []
+          user_list[users_for_project] << project.id
         end
         user_list
       end
@@ -165,9 +163,8 @@ module CostsUserPatch
       end
       "(#{cond.join " OR "})"
     end
-
     
-
+    
     def current_rate(project = nil, include_default = true)
       rate_at(Date.today, project, include_default)
     end
