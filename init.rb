@@ -158,7 +158,8 @@ Redmine::Plugin.register :redmine_costs do
       :granular_for => :view_cost_entries
     permission :block_tickets, {}, :require => :member
 
-    permission :view_cost_objects, {:cost_objects => [:index, :show]}
+    permission :view_cost_objects, {:cost_objects => [:index, :show]},
+      :inherits => [:view_cost_entries, :view_time_entries, :view_cost_rates, :view_hourly_rates]
     permission :edit_cost_objects, {:cost_objects => [:index, :show, :edit, :destroy, :new]},
       :inherits => :view_cost_objects
   end
