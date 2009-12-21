@@ -166,7 +166,7 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
   end
 
   def view_hook_helper
-    @view_hook_helper ||= TestHookHelperView.new(RAILS_ROOT + '/log')
+    @view_hook_helper ||= TestHookHelperView.new(RAILS_ROOT + '/app/views')
   end
 end
 
