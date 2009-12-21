@@ -129,4 +129,38 @@ class MyControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal ['documents', 'calendar', 'latestnews'], User.find(2).pref[:my_page_layout]['left']
   end
+
+  context "POST to reset_rss_key" do
+    context "with an existing rss_token" do
+      setup do
+        @previous_token_value = User.find(2).rss_key # Will generate one if it's missing
+        post :reset_rss_key
+      end
+
+      should "destroy the existing token" do
+        assert_not_equal @previous_token_value, User.find(2).rss_key
+      end
+
+      should "create a new token" do
+        assert User.find(2).rss_token
+      end
+
+      should_set_the_flash_to /reset/
+      should_redirect_to('my account') {'/my/account' }
+    end
+    
+    context "with no rss_token" do
+      setup do
+        assert_nil User.find(2).rss_token
+        post :reset_rss_key
+      end
+
+      should "create a new token" do
+        assert User.find(2).rss_token
+      end
+
+      should_set_the_flash_to /reset/
+      should_redirect_to('my account') {'/my/account' }
+    end
+  end
 end

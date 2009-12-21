@@ -97,8 +97,12 @@ class MyController < ApplicationController
   
   # Create a new feeds key
   def reset_rss_key
-    if request.post? && User.current.rss_token
-      User.current.rss_token.destroy
+    if request.post?
+      if User.current.rss_token
+        User.current.rss_token.destroy
+        User.current.reload
+      end
+      User.current.rss_key
       flash[:notice] = l(:notice_feeds_access_key_reseted)
     end
     redirect_to :action => 'account'
