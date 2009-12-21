@@ -52,7 +52,7 @@
       <th class="cost_units"><%= l(:field_hours)%></th>
       <th><%= l(:label_user) %></th>
       <th><%= l(:label_comment) %></th>
-      <% if User.current.allowed_to?(:view_all_rates, @project) || User.current.allowed_to?(:view_own_rate, @project) %>
+      <% if User.current.allowed_to?(:view_hourly_rates, @project) %>
         <th class="currency" id="labor_budget_items_price"><%= l(:caption_budget) %></th>
       <% end %>
       <th></th>

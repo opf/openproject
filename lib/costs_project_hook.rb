@@ -12,8 +12,8 @@ class CostsProjectHook < Redmine::Hook::ViewListener
     user = User.current
     project = context[:project]
     
-    result += content_tag(:th, l(:caption_current_rate)) if (user.allowed_to?(:view_all_rates, project) || user.allowed_to?(:view_own_rate, project))
-    result += content_tag(:th, l(:caption_set_rate)) if user.allowed_to?(:change_rates, project)
+    result += content_tag(:th, l(:caption_current_rate)) if user.allowed_to?(:view_hourly_rates, project)
+    result += content_tag(:th, l(:caption_set_rate)) if user.allowed_to?(:edit_hourly_rates, project)
     
     result
   end

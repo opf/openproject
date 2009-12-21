@@ -62,7 +62,7 @@ de:
   label_generic_user: Generischer Benutzer
   caption_status: Status
   text_cost_object_change_type_confirmation: "Sind Sie sicher? Diese Operation wird einige Informationen des aktuellen Liefergegenstands l\xC3\xB6schen."
-  permission_book_own_costs: Eigene Materialkosten buchen
+  permission_log_own_costs: Eigene Materialkosten buchen
   label_cost_filter_add: "Kostenfilter hinzuf\xC3\xBCgen"
   label_valid_from: "G\xC3\xBCltig ab"
   label_issue_filter_add: "Ticketfilter hinzuf\xC3\xBCgen"
@@ -84,7 +84,7 @@ de:
   label_cost_object_new: Neuer Liefergegenstand
   project_module_costs_module: Controlling
   field_unit: Einheit
-  permission_book_costs: Materialkosten buchen
+  permission_log_costs: Materialkosten buchen
   caption_material_budget: Materialbudget
   permission_edit_own_cost_entries: Bearbeiten eigener gebuchter Materialkosten
   label_deleted_cost_types: "Gel\xC3\xB6schte Kostenarten"
@@ -118,11 +118,11 @@ de:
   label_group_by: Gruppiere Ergebnisse
   field_cost_object: Liefergegenstand
   week: Woche
-  permission_view_own_rate: "Eigene Stundens\xC3\xA4tze ansehen"
+  permission_view_own_hourly_rate: "Eigene Stundens\xC3\xA4tze ansehen"
   field_overridden_costs: "\xC3\x9Cberschriebene Kosten"
   field_material_budget: Materialbudget
   caption_rate_history: Stundensatz-Historie
-  permission_view_all_rates: "Alle Stundens\xC3\xA4tze ansehen"
+  permission_view_hourly_rates: "Alle Stundens\xC3\xA4tze ansehen"
   field_unit_plural: Einheit Plural
   label_yes: Ja
   permission_block_tickets: Tickets blockieren

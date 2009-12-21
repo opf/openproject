@@ -141,10 +141,10 @@ Redmine::Plugin.register :redmine_costs do
 
     # from controlling requirements 4.5
     permission :view_cost_rates, {}
-    permission :book_own_costs, {:costlog => :edit},
+    permission :log_own_costs, {:costlog => :edit},
       :require => :loggedin,
-      :granular_for => :book_costs
-    permission :book_costs, {:costlog => :edit},
+      :granular_for => :log_costs
+    permission :log_costs, {:costlog => :edit},
       :require => :member
     permission :edit_own_cost_entries, {:costlog => [:edit, :destroy]},
       :require => :loggedin,

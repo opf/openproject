@@ -84,10 +84,10 @@ class CostlogController < ApplicationController
         new_user = User.find_by_id(params[:cost_entry][:user_id]) rescue nil
         new_user ||= User.current
         
-        render_403 and return unless (
-          new_user == User.current && new_user.allowed_to?(:book_own_costs, @project) ||
-          new_user.allowed_to?(:book_costs, @project)
-        )
+        unless User.current.allowed_to?(:log_own_costs, @project, :for => new_user)
+          render_403
+          return
+        end
       end
       
       new_user ||= User.current

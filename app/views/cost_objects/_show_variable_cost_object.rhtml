@@ -81,7 +81,7 @@
         <td class="currency"><%= number_to_currency(labor_budget_item.costs) %></td>
       </tr>
       <% end %>
-      <% if User.current.allowed_to?(:view_all_rates, @project) %>
+      <% if User.current.allowed_to?(:view_hourly_rates, @project) %>
       <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.labor_budget) %></strong></td></tr>
       <% end %>
     </tbody>

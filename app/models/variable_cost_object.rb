@@ -1,4 +1,6 @@
 class VariableCostObject < CostObject
+  unloadable
+
   has_many :material_budget_items, :include => :cost_type, :foreign_key => 'cost_object_id', :dependent => :destroy
   has_many :labor_budget_items, :include => :user, :foreign_key => 'cost_object_id', :dependent => :destroy
   

@@ -134,13 +134,13 @@ en:
   permission_edit_rates: Edit rates
   permission_view_cost_entries: View booked costs
   permission_view_cost_objects: View Cost Objects
-  permission_book_own_costs: Book material costs for oneself
+  permission_log_own_costs: Book material costs for oneself
   permission_edit_cost_entries: Edit booked material costs
   permission_view_cost_rates: View cost rates
-  permission_view_own_rate: View own rate
-  permission_view_all_rates: View all rates
+  permission_view_own_hourly_rate: View own hourly rate
+  permission_view_hourly_rates: View all hourly rates
   permission_block_tickets: Block tickets
-  permission_book_costs: Book material costs
+  permission_log_costs: Book material costs
   permission_edit_own_cost_entries: Edit own booked material costs
   permission_edit_cost_objects: Edit Cost Objects
 

@@ -18,6 +18,6 @@ class LaborBudgetItem < ActiveRecord::Base
   end
   
   def can_view_costs?(usr, project)
-    usr.allowed_to?(:view_all_rates, project) || (user && usr == user && user.allowed_to?(:view_own_rate, project))
+    usr.allowed_to?(:view_hourly_rates, project, :for => user)
   end
 end

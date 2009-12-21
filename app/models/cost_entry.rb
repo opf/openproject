@@ -46,7 +46,7 @@ class CostEntry < ActiveRecord::Base
     errors.add :project_id, :activerecord_error_invalid if project.nil?
     errors.add :issue_id, :activerecord_error_invalid if (issue_id && !issue) || (issue && project!=issue.project)
     
-    errors.add :user_id, :activerecord_error_invalid unless (user == User.current) || (User.current.allowed_to? :book_costs, project)
+    errors.add :user_id, :activerecord_error_invalid unless User.current.allowed_to? :log_costs, project, :for => user
     begin
       spent_on.to_date
     rescue Exception
