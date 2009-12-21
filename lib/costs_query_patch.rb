@@ -6,7 +6,7 @@ module CostsQueryPatch
     include ActionView::Helpers::NumberHelper
 
     def value(issue)
-      number_to_currency(issue.send name)
+      number_to_currency(issue.send(name))
     end
   end
 
