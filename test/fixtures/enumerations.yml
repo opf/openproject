@@ -53,12 +53,14 @@ enumerations_009:
   id: 9
   opt: ACTI
   type: TimeEntryActivity
+  position: 1
   active: true
 enumerations_010: 
   name: Development
   id: 10
   opt: ACTI
   type: TimeEntryActivity
+  position: 2
   is_default: true
   active: true
 enumerations_011: 
@@ -66,6 +68,7 @@ enumerations_011:
   id: 11
   opt: ACTI
   type: TimeEntryActivity
+  position: 3
   active: true
 enumerations_012:
   name: Default Enumeration
@@ -85,4 +88,5 @@ enumerations_014:
   id: 14
   opt: ACTI
   type: TimeEntryActivity
+  position: 4
   active: false
