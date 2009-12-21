@@ -216,7 +216,7 @@ class IssueTest < ActiveSupport::TestCase
     orig = Issue.find(1)
     assert_equal orig.subject, issue.subject
     assert_equal orig.tracker, issue.tracker
-    assert_equal orig.custom_values.first.value, issue.custom_values.first.value
+    assert_equal "125", issue.custom_value_for(2).value
   end
 
   def test_copy_should_copy_status
