@@ -33,7 +33,7 @@ class VariableCostObject < CostObject
   end
   
   def spent_material
-    @spent_material ||= cost_entries.visible(User.current, self.project).sum("CASE
+    @spent_material ||= cost_entries.visible_costs(User.current, self.project).sum("CASE
       WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
         #{CostEntry.table_name}.costs
       ELSE
@@ -41,7 +41,7 @@ class VariableCostObject < CostObject
   end
   
   def spent_labor
-    @spent_labor ||= time_entries.visible(User.current, self.project).sum("CASE
+    @spent_labor ||= time_entries.visible_costs(User.current, self.project).sum("CASE
       WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
         #{TimeEntry.table_name}.costs
       ELSE
