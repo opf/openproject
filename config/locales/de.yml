@@ -1,5 +1,10 @@
 --- 
 de: 
+  x_entries:
+    one: "1 Eintrag"
+    other: "{{count}} Einträge"
+
+
   field_labor_budget: Arbeitszeitbudget
   caption_budget_ratio: Verbrauchtes Budget
   button_add_cost_object: Liefergegenstand anlegen

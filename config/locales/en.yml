@@ -7,6 +7,10 @@ en:
 
   currency_separator: .
   currency_delimiter: ","
+  
+  x_entries:
+    one: "1 Entry"
+    other: "{{count}} Entries"
 
   week: week
   group_by_others: not in any group

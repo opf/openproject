@@ -474,6 +474,10 @@ class CostQuery < ActiveRecord::Base
     
     issue_filter_clauses = []
     entry_filter_clauses = []
+    
+    # allow blank issue_ids if true
+    issue_nil_filter = true
+    
     if filters and valid?
       filters.each do |filter|
         filter = create_filter_from_hash(filter)
@@ -498,6 +502,7 @@ class CostQuery < ActiveRecord::Base
           end
           issue_filter_clauses << sql
         when :costs
+          issue_nil_filter = false if filter.column_name == "issue_id"
           sql << '(' + sql_for_filter(filter, entry_scope) + ')'
           entry_filter_clauses << sql
         end
@@ -526,9 +531,13 @@ class CostQuery < ActiveRecord::Base
 
     case entry_scope
     when :cost_entries
-      entry_filter_clauses << "#{CostEntry.table_name}.issue_id IN (#{issue_ids})"
+      clause = ["#{CostEntry.table_name}.issue_id IN (#{issue_ids})"]
+      clause << "#{CostEntry.table_name}.issue_id IS NULL" if issue_nil_filter
+      entry_filter_clauses << "(#{clause.join(" OR ")})"
     when :time_entries
-      entry_filter_clauses << "#{TimeEntry.table_name}.issue_id IN (#{issue_ids})"
+      clause = ["#{TimeEntry.table_name}.issue_id IN (#{issue_ids})"]
+      clause << "#{TimeEntry.table_name}.issue_id IS NULL" if issue_nil_filter
+      entry_filter_clauses << "(#{clause.join(" OR ")})"
     end
     
     entry_filter_clauses << User.current.allowed_for("view_#{entry_scope}".to_sym, projects)
