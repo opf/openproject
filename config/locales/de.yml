@@ -4,6 +4,7 @@ de:
     one: "1 Eintrag"
     other: "{{count}} Einträge"
 
+  caption_booked_on_project: "Auf das Projekt gebucht"
 
   field_labor_budget: Arbeitszeitbudget
   caption_budget_ratio: Verbrauchtes Budget
@@ -49,8 +50,7 @@ de:
   label_kind: Art
   permission_view_cost_entries: Gebuchte Kosten ansehen
   label_cost_report: Report
-  label_rate_plural: !binary |
-    U8OkdHpl
+  label_rate_plural: Sätze
 
   field_kind: Typ
   help_override_rate: "Hier einen Wert eingeben um den Standardwert zu \xC3\xBCberschreiben."

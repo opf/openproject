@@ -70,6 +70,7 @@ en:
   caption_cost_type_unit_name: Unit Name
   caption_material_budget: Material Budget
   caption_rate: Rate
+  caption_booked_on_project: "Booked on Project"
 
   button_add_cost_object: Add Cost Object
   button_add_budget_item: Add budget item
