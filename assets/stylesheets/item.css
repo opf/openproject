@@ -11,6 +11,10 @@ li.item {
   width: 100%;
 }
 
+li.item_double {
+  height: 35px;
+}
+
 li.item.will_be_late {
   background-color: #fcc;
 }
@@ -198,6 +202,10 @@ li.item div.subject {
   width: 388px;
 }
 
+li.item_double div.subject {
+  height: 25px;
+}
+
 li.item.editing > .body div.subject,
 li.item > .body input.subject {
   display: none;
@@ -227,7 +235,7 @@ li.item  > .body div.assigned_to_id .t {
   display: block;
   overflow:hidden;
   white-space:nowrap;
-  width:92px;  
+  width:92px;
 }
 
 li.item  > .body div.assigned_to_id {
@@ -277,7 +285,7 @@ li.item  > .body div.status_id .t {
   top: 0;
   width: 68px;
   -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;  
+  -webkit-border-radius: 4px;
 }
 
 li.item  > .body div.status_id {
@@ -463,7 +471,7 @@ li.item.discussion .discussion {
   padding: 0px;
   position: absolute;
   top: 30px;
-  width: 688px;  
+  width: 688px;
 }
 
 .backlog.main li.item.discussion .discussion {
