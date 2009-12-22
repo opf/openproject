@@ -284,7 +284,7 @@ sub is_member {
 
       unless ($auth_source_id) {
 	  my $method = $r->method;
-          if ($hashed_password eq $pass_digest && (defined $read_only_methods{$method} || $permissions =~ /:commit_access/) ) {
+          if ($hashed_password eq $pass_digest && ((defined $read_only_methods{$method} && $permissions =~ /:browse_repository/) || $permissions =~ /:commit_access/) ) {
               $ret = 1;
               last;
           }
