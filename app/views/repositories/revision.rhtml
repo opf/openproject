@@ -1,13 +1,13 @@
 <div class="contextual">
   &#171;
   <% unless @changeset.previous.nil? -%>
-    <%= link_to l(:label_previous), :controller => 'repositories', :action => 'revision', :id => @project, :rev => @changeset.previous.revision %>
+    <%= link_to_revision(@changeset.previous.revision, @project, :text => l(:label_previous)) %>
   <% else -%>
     <%= l(:label_previous) %>
   <% end -%>
 |
   <% unless @changeset.next.nil? -%>
-    <%= link_to l(:label_next), :controller => 'repositories', :action => 'revision', :id => @project, :rev => @changeset.next.revision %>
+    <%= link_to_revision(@changeset.next.revision, @project, :text => l(:label_next)) %>
   <% else -%>
     <%= l(:label_next) %>
   <% end -%>

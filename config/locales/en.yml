@@ -580,6 +580,7 @@ en:
   label_tag: Tag 
   label_revision: Revision
   label_revision_plural: Revisions
+  label_revision_id: "Revision {{value}}"
   label_associated_revisions: Associated revisions
   label_added: added
   label_modified: modified

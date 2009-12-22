@@ -96,6 +96,15 @@ module ApplicationHelper
     link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
   end
 
+  # Generates a link to a SCM revision
+  # Options:
+  # * :text - Link text (default to the formatted revision)
+  def link_to_revision(revision, project, options={})
+    text = options.delete(:text) || format_revision(revision)
+
+    link_to(text, {:controller => 'repositories', :action => 'revision', :id => project, :rev => revision}, :title => l(:label_revision_id, revision))
+  end
+
   def toggle_link(name, id, options={})
     onclick = "Element.toggle('#{id}'); "
     onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
