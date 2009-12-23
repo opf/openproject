@@ -70,11 +70,19 @@ class ApplicationController < ActionController::Base
     elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
-    elsif ['xml', 'json'].include?(params[:format]) && params[:key] && accept_key_auth_actions.include?(params[:action])
-      User.find_by_api_key(params[:key])
+    elsif ['xml', 'json'].include?(params[:format]) && accept_key_auth_actions.include?(params[:action])
+      if params[:key].present?
+        # Use API key
+        User.find_by_api_key(params[:key])
+      else
+        # HTTP Basic, either username/password or API key/random
+        authenticate_with_http_basic do |username, password|
+          User.try_to_login(username, password) || User.find_by_api_key(username)
+        end
+      end
     end
   end
-  
+
   # Sets the logged in user
   def logged_user=(user)
     reset_session
@@ -118,6 +126,7 @@ class ApplicationController < ActionController::Base
       end
       respond_to do |format|
         format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
+        format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.xml { head :unauthorized }
         format.json { head :unauthorized }
       end

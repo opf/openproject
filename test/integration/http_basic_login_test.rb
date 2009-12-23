@@ -1,6 +1,6 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
-class ApiTokenLoginTest < ActionController::IntegrationTest
+class HttpBasicLoginTest < ActionController::IntegrationTest
   fixtures :all
 
   def setup
@@ -15,11 +15,11 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
   context "get /news" do
 
     context "in :xml format" do
-      context "with a valid api token" do
+      context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
-          get "/news.xml?key=#{@token.value}"
+          @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password')
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'my_password')
+          get "/news.xml", nil, :authorization => @authorization
         end
         
         should_respond_with :success
@@ -29,11 +29,11 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
         end
       end
 
-      context "with an invalid api token" do
+      context "with an invalid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'feeds')
-          get "/news.xml?key=#{@token.value}"
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'wrong_password')
+          get "/news.xml", nil, :authorization => @authorization
         end
         
         should_respond_with :unauthorized
@@ -45,11 +45,11 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
     end
 
     context "in :json format" do
-      context "with a valid api token" do
+      context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
-          get "/news.json?key=#{@token.value}"
+          @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password')
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'my_password')
+          get "/news.json", nil, :authorization => @authorization
         end
         
         should_respond_with :success
@@ -59,11 +59,11 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
         end
       end
 
-      context "with an invalid api token" do
+      context "with an invalid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'feeds')
-          get "/news.json?key=#{@token.value}"
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'wrong_password')
+          get "/news.json", nil, :authorization => @authorization
         end
         
         should_respond_with :unauthorized
