@@ -1,0 +1,887 @@
+# Indonesian translations 
+# by Raden Prabowo (cakbowo@gmail.com)
+
+id:
+  date:
+    formats:
+      default: "%d-%m-%Y"
+      short: "%d %b"
+      long: "%d %B %Y"
+      
+    day_names: [Minggu, Senin, Selasa, Rabu, Kamis, Jumat, Sabtu]
+    abbr_day_names: [Ming, Sen, Sel, Rab, Kam, Jum, Sab]
+      
+    month_names: [~, Januari, Februari, Maret, April, Mei, Juni, Juli, Agustus, September, Oktober, November, Desember]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, Mei, Jun, Jul, Agu, Sep, Okt, Nov, Des]
+    order: [ :day, :month, :year ]
+
+  time:
+    formats:
+      default: "%a %d %b %Y, %H:%M:%S"
+      time: "%H:%M"
+      short: "%d %b %H:%M"
+      long: "%d %B %Y %H:%M"
+    am: "am"
+    pm: "pm"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "setengah menit"
+      less_than_x_seconds:
+        one:   "kurang dari sedetik"
+        other: "kurang dari {{count}} detik"
+      x_seconds:
+        one:   "sedetik"
+        other: "{{count}} detik"
+      less_than_x_minutes:
+        one:   "kurang dari semenit"
+        other: "kurang dari {{count}} menit"
+      x_minutes:
+        one:   "semenit"
+        other: "{{count}} menit"
+      about_x_hours:
+        one:   "sekitar sejam"
+        other: "sekitar {{count}} jam"
+      x_days:
+        one:   "sehari"
+        other: "{{count}} hari"
+      about_x_months:
+        one:   "sekitar sebulan"
+        other: "sekitar {{count}} bulan"
+      x_months:
+        one:   "sebulan"
+        other: "{{count}} bulan"
+      about_x_years:
+        one:   "sekitar setahun"
+        other: "sekitar {{count}} tahun"
+      over_x_years:
+        one:   "lebih dari setahun"
+        other: "lebih dari {{count}} tahun"
+
+  number:
+    format:
+      precision: 3
+      separator: ','
+      delimiter: '.'
+    currency:
+      format:
+        unit: 'Rp'
+        precision: 2
+        format: '%n %u'
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+        
+  support:
+    array:
+      sentence_connector: "dan"
+      skip_last_comma: false
+      
+  activerecord:
+    errors:
+      messages:
+        inclusion: "tidak termasuk dalam daftar"
+        exclusion: "sudah dicadangkan"
+        invalid: "salah"
+        confirmation: "tidak sesuai konfirmasi"
+        accepted: "harus disetujui"
+        empty: "tidak boleh kosong"
+        blank: "tidak boleh kosong"
+        too_long: "terlalu panjang (maksimum {{count}} karakter)"
+        too_short: "terlalu pendek (minimum {{count}} karakter)"
+        wrong_length: "panjangnya salah (seharusnya {{count}} karakter)"
+        taken: "sudah diambil"
+        not_a_number: "bukan angka"
+        not_a_date: "bukan tanggal"
+        greater_than: "harus lebih besar dari {{count}}"
+        greater_than_or_equal_to: "harus lebih besar atau sama dengan {{count}}"
+        equal_to: "harus sama dengan {{count}}"
+        less_than: "harus kurang dari {{count}}"
+        less_than_or_equal_to: "harus kurang atau sama dengan {{count}}"
+        odd: "harus ganjil"
+        even: "harus genap"
+        greater_than_start_date: "harus lebih besar dari tanggal mulai"
+        not_same_project: "tidak tergabung dalam proyek yang sama"
+        circular_dependency: "kaitan ini akan menghasilkan circular dependency"
+
+  actionview_instancetag_blank_option: Silakan pilih
+  
+  general_text_No: 'Tidak'
+  general_text_Yes: 'Ya'
+  general_text_no: 'tidak'
+  general_text_yes: 'ya'
+  general_lang_name: 'Indonesia'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: ISO-8859-1
+  general_pdf_encoding: ISO-8859-1
+  general_first_day_of_week: '7'
+  
+  notice_account_updated: Akun sudah berhasil diperbarui.
+  notice_account_invalid_creditentials: Pengguna atau kata sandi salah
+  notice_account_password_updated: Kata sandi sudah berhasil diperbarui.
+  notice_account_wrong_password: Kata sandi salah.
+  notice_account_register_done: Akun sudah berhasil dibuat. Untuk mengaktifkan akun anda, silakan klik tautan (link) yang dikirim kepada anda melalui e-mail.
+  notice_account_unknown_email: Pengguna tidak dikenal.
+  notice_can_t_change_password: Akun ini menggunakan sumber otentikasi eksternal yang tidak dikenal. Kata sandi tidak bisa diubah.
+  notice_account_lost_email_sent: Email berisi instruksi untuk memilih kata sandi baru sudah dikirimkan kepada anda.
+  notice_account_activated: Akun anda sudah diaktifasi. Sekarang anda bisa login.
+  notice_successful_create: Berhasil dibuat.
+  notice_successful_update: Berhasil diperbarui.
+  notice_successful_delete: Berhasil dihapus.
+  notice_successful_connection: Berhasil terhubung.
+  notice_file_not_found: Berkas yang anda buka tidak ada atau sudah dihapus.
+  notice_locking_conflict: Data sudah diubah oleh pengguna lain.
+  notice_not_authorized: Anda tidak memiliki akses ke halaman ini.
+  notice_email_sent: "Email sudah dikirim ke {{value}}"
+  notice_email_error: "Terjadi kesalahan pada saat pengiriman email ({{value}})"
+  notice_feeds_access_key_reseted: RSS access key anda sudah direset.
+  notice_failed_to_save_issues: "Gagal menyimpan {{count}} masalah dari {{total}} yang dipilih: {{ids}}."
+  notice_no_issue_selected: "Tidak ada masalah yang dipilih! Silakan pilih masalah yang akan anda sunting."
+  notice_account_pending: "Akun anda sudah dibuat dan sekarang sedang menunggu persetujuan administrator."
+  notice_default_data_loaded: Konfigurasi default sudah berhasil dimuat.
+  notice_unable_delete_version: Tidak bisa menghapus versi.
+  
+  error_can_t_load_default_data: "Konfigurasi default tidak bisa dimuat: {{value}}"
+  error_scm_not_found: "Entri atau revisi tidak terdapat pada repositori."
+  error_scm_command_failed: "Terjadi kesalahan pada saat mengakses repositori: {{value}}"
+  error_scm_annotate: "Entri tidak ada, atau tidak dapat di anotasi."
+  error_issue_not_found_in_project: 'Masalah tidak ada atau tidak tergabung dalam proyek ini.'
+  error_no_tracker_in_project: 'Tidak ada pelacak yang diasosiasikan pada proyek ini. Silakan pilih Pengaturan Proyek.'
+  error_no_default_issue_status: 'Nilai default untuk Status masalah belum didefinisikan. Periksa kembali konfigurasi anda (Pilih "Administrasi --> Status masalah").'
+  error_can_not_reopen_issue_on_closed_version: 'Masalah yang ditujukan pada versi tertutup tidak bisa dibuka kembali'
+  error_can_not_archive_project: Proyek ini tidak bisa diarsipkan
+  
+  warning_attachments_not_saved: "{{count}} berkas tidak bisa disimpan."
+  
+  mail_subject_lost_password: "Kata sandi {{value}} anda"
+  mail_body_lost_password: 'Untuk mengubah kata sandi anda, klik tautan berikut::'
+  mail_subject_register: "Aktivasi akun {{value}} anda"
+  mail_body_register: 'Untuk mengaktifkan akun anda, klik tautan berikut:'
+  mail_body_account_information_external: "Anda dapat menggunakan akun {{value}} anda untuk login."
+  mail_body_account_information: Informasi akun anda
+  mail_subject_account_activation_request: "Permintaan aktivasi akun {{value}} "
+  mail_body_account_activation_request: "Pengguna baru ({{value}}) sudan didaftarkan. Akun tersebut menunggu persetujuan anda:"
+  mail_subject_reminder: "{{count}} masalah harus selesai pada hari berikutnya"
+  mail_body_reminder: "{{count}} masalah yang ditugaskan pada anda harus selesai dalam {{days}} hari kedepan:"
+  mail_subject_wiki_content_added: "'{{page}}' halaman wiki sudah ditambahkan"
+  mail_body_wiki_content_added: "The '{{page}}' halaman wiki sudah ditambahkan oleh {{author}}."
+  mail_subject_wiki_content_updated: "'{{page}}' halaman wiki sudah diperbarui"
+  mail_body_wiki_content_updated: "The '{{page}}' halaman wiki sudah diperbarui oleh {{author}}."
+  
+  gui_validation_error: 1 kesalahan
+  gui_validation_error_plural: "{{count}} kesalahan"
+
+  
+  field_name: Nama
+  field_description: Deskripsi
+  field_summary: Ringkasan
+  field_is_required: Dibutuhkan
+  field_firstname: Nama depan
+  field_lastname: Nama belakang
+  field_mail: Email
+  field_filename: Berkas
+  field_filesize: Ukuran
+  field_downloads: Unduhan
+  field_author: Pengarang
+  field_created_on: Dibuat
+  field_updated_on: Diperbarui
+  field_field_format: Format
+  field_is_for_all: Untuk semua proyek
+  field_possible_values: Nilai yang mungkin
+  field_regexp: Regular expression
+  field_min_length: Panjang minimum 
+  field_max_length: Panjang maksimum
+  field_value: Nilai
+  field_category: Kategori
+  field_title: Judul
+  field_project: Proyek
+  field_issue: Masalah
+  field_status: Status
+  field_notes: Catatan
+  field_is_closed: Masalah ditutup
+  field_is_default: Nilai default
+  field_tracker: Pelacak
+  field_subject: Perihal
+  field_due_date: Harus selesai
+  field_assigned_to: Ditugaskan ke
+  field_priority: Prioritas
+  field_fixed_version: Versi target
+  field_user: Pengguna
+  field_role: Peran
+  field_homepage: Halaman web
+  field_is_public: Publik
+  field_parent: Subproyek dari
+  field_is_in_chlog: Masalah ditampilkan di log perubahan
+  field_is_in_roadmap: Masalah ditampilkan di rencana kerja
+  field_login: Login
+  field_mail_notification: Notifikasi email
+  field_admin: Administrator
+  field_last_login_on: Terakhir login
+  field_language: Bahasa
+  field_effective_date: Tanggal
+  field_password: Kata sandi
+  field_new_password: Kata sandi baru
+  field_password_confirmation: Konfirmasi
+  field_version: Versi
+  field_type: Tipe
+  field_host: Host
+  field_port: Port
+  field_account: Akun
+  field_base_dn: Base DN
+  field_attr_login: Atribut login
+  field_attr_firstname: Atribut nama depan
+  field_attr_lastname: Atribut nama belakang
+  field_attr_mail: Atribut email
+  field_onthefly: Pembuatan pengguna seketika
+  field_start_date: Mulai
+  field_done_ratio: % Selesai
+  field_auth_source: Mode otentikasi
+  field_hide_mail: Sembunyikan email saya
+  field_comments: Komentar
+  field_url: URL
+  field_start_page: Halaman awal
+  field_subproject: Subproyek
+  field_hours: Jam
+  field_activity: Kegiatan
+  field_spent_on: Tanggal
+  field_identifier: Pengenal
+  field_is_filter: Digunakan sebagai penyaring
+  field_issue_to: Masalah terkait
+  field_delay: Tertunday
+  field_assignable: Masalah dapat ditugaskan pada peran ini
+  field_redirect_existing_links: Alihkan tautan yang ada
+  field_estimated_hours: Perkiraan waktu
+  field_column_names: Kolom
+  field_time_zone: Zona waktu
+  field_searchable: Dapat dicari
+  field_default_value: Nilai default
+  field_comments_sorting: Tampilkan komentar
+  field_parent_title: Halaman induk
+  field_editable: Dapat disunting
+  field_watcher: Pemantau
+  field_identity_url: OpenID URL
+  field_content: Isi
+  field_group_by: Dikelompokkan berdasar 
+  field_sharing: Berbagi
+  
+  setting_app_title: Judul aplikasi
+  setting_app_subtitle: Subjudul aplikasi
+  setting_welcome_text: Teks sambutan
+  setting_default_language: Bahasa Default
+  setting_login_required: Butuhkan otentikasi
+  setting_self_registration: Swa-pendaftaran
+  setting_attachment_max_size: Ukuran maksimum untuk lampiran
+  setting_issues_export_limit: Batasan ukuran export masalah
+  setting_mail_from: Emisi alamat email
+  setting_bcc_recipients: Blind carbon copy recipients (bcc)
+  setting_plain_text_mail: Plain text mail (no HTML)
+  setting_host_name: Nama host dan path
+  setting_text_formatting: Format teks
+  setting_wiki_compression: Kompresi untuk riwayat wiki
+  setting_feeds_limit: Batasan isi feed
+  setting_default_projects_public: Proyek baru defaultnya adalah publik
+  setting_autofetch_changesets: Autofetch commits
+  setting_sys_api_enabled: Aktifkan WS untuk pengaturan repositori
+  setting_commit_ref_keywords: Referensi kaca kunci
+  setting_commit_fix_keywords: Pembetulan kaca kunci
+  setting_autologin: Autologin
+  setting_date_format: Format tanggal
+  setting_time_format: Format waktu
+  setting_cross_project_issue_relations: Perbolehkan kaitan masalah proyek berbeda
+  setting_issue_list_default_columns: Kolom default ditampilkan di daftar masalah
+  setting_repositories_encodings: Repositories encodings
+  setting_commit_logs_encoding: Commit messages encoding
+  setting_emails_footer: Footer untuk email
+  setting_protocol: Protokol
+  setting_per_page_options: Pilihan obyek per halaman
+  setting_user_format: Format tampilan untuk pengguna
+  setting_activity_days_default: Hari tertampil pada kegiatan proyek
+  setting_display_subprojects_issues: Secara default, tampilkan masalah subproyek pada proyek utama
+  setting_enabled_scm: Enabled SCM
+  setting_mail_handler_api_enabled: Enable WS for incoming emails
+  setting_mail_handler_api_key: API key
+  setting_sequential_project_identifiers: Buat pengenal proyek terurut
+  setting_gravatar_enabled: Gunakan icon pengguna dari Gravatar 
+  setting_gravatar_default: Gambar default untuk Gravatar 
+  setting_diff_max_lines_displayed: Maksimum perbedaan baris tertampil
+  setting_file_max_size_displayed: Maksimum berkas tertampil secara inline
+  setting_repository_log_display_limit: Nilai maksimum dari revisi ditampilkan di log berkas
+  setting_openid: Perbolehkan Login dan pendaftaran melalui OpenID
+  setting_password_min_length: Panjang minimum untuk kata sandi
+  setting_new_project_user_role_id: Peran diberikan pada pengguna non-admin yang membuat proyek
+  setting_default_projects_modules: Modul yang diaktifkan pada proyek baru
+  
+  permission_add_project: Tambahkan proyek
+  permission_edit_project: Sunting proyek
+  permission_select_project_modules: Pilih modul proyek
+  permission_manage_members: Atur anggota
+  permission_manage_versions: Atur versi
+  permission_manage_categories: Atur kategori masalah
+  permission_add_issues: Tambahkan masalah
+  permission_edit_issues: Sunting masalah
+  permission_manage_issue_relations: Atur kaitan masalah
+  permission_add_issue_notes: Tambahkan catatan
+  permission_edit_issue_notes: Sunting catatan
+  permission_edit_own_issue_notes: Sunting catatan saya
+  permission_move_issues: Pindahkan masalah
+  permission_delete_issues: Hapus masalah
+  permission_manage_public_queries: Atur query publik
+  permission_save_queries: Simpan query
+  permission_view_gantt: Tampilkan gantt chart
+  permission_view_calendar: Tampilkan kalender
+  permission_view_issue_watchers: Tampilkan daftar pemantau
+  permission_add_issue_watchers: Tambahkan pemantau
+  permission_delete_issue_watchers: Hapus pemantau
+  permission_log_time: Log waktu terpakai
+  permission_view_time_entries: Tampilkan waktu terpakai
+  permission_edit_time_entries: Sunting catatan waktu
+  permission_edit_own_time_entries: Sunting catatan waktu saya
+  permission_manage_news: Atur berita
+  permission_comment_news: Komentari berita
+  permission_manage_documents: Atur dokumen
+  permission_view_documents: Tampilkan dokumen
+  permission_manage_files: Atur berkas
+  permission_view_files: Tampilkan berkas
+  permission_manage_wiki: Atur wiki
+  permission_rename_wiki_pages: Ganti nama halaman wiki
+  permission_delete_wiki_pages: Hapus halaman wiki
+  permission_view_wiki_pages: Tampilkan wiki
+  permission_view_wiki_edits: Tampilkan riwayat wiki
+  permission_edit_wiki_pages: Sunting halaman wiki
+  permission_delete_wiki_pages_attachments: Hapus lampiran
+  permission_protect_wiki_pages: Proteksi halaman wiki
+  permission_manage_repository: Atur repositori
+  permission_browse_repository: Jelajah repositori
+  permission_view_changesets: Tampilkan set perubahan
+  permission_commit_access: Commit akses
+  permission_manage_boards: Atur forum
+  permission_view_messages: Tampilkan pesan
+  permission_add_messages: Tambahkan pesan
+  permission_edit_messages: Sunting pesan
+  permission_edit_own_messages: Sunting pesan saya
+  permission_delete_messages: Hapus pesan
+  permission_delete_own_messages: Hapus pesan saya
+  
+  project_module_issue_tracking: Pelacak masalah
+  project_module_time_tracking: Pelacak waktu
+  project_module_news: Berita
+  project_module_documents: Dokumen
+  project_module_files: Berkas
+  project_module_wiki: Wiki
+  project_module_repository: Repositori
+  project_module_boards: Forum
+  
+  label_user: Pengguna
+  label_user_plural: Pengguna
+  label_user_new: Pengguna baru
+  label_user_anonymous: Anonymous
+  label_project: Proyek
+  label_project_new: Proyek baru
+  label_project_plural: Proyek 
+  label_x_projects:
+    zero:  tidak ada proyek 
+    one:   1 proyek 
+    other: "{{count}} proyek"
+  label_project_all: Semua Proyek 
+  label_project_latest: Proyek terakhir
+  label_issue: Masalah
+  label_issue_new: Masalah baru
+  label_issue_plural: Masalah
+  label_issue_view_all: tampilkan semua masalah
+  label_issues_by: "Masalah ditambahkan oleh {{value}}"
+  label_issue_added: Masalah ditambahan
+  label_issue_updated: Masalah diperbarui
+  label_document: Dokumen
+  label_document_new: Dokumen baru
+  label_document_plural: Dokumen
+  label_document_added: Dokumen ditambahkan
+  label_role: Peran
+  label_role_plural: Peran
+  label_role_new: Peran baru
+  label_role_and_permissions: Peran dan perijinan
+  label_member: Anggota
+  label_member_new: Anggota baru
+  label_member_plural: Anggota
+  label_tracker: Pelacak
+  label_tracker_plural: Pelacak
+  label_tracker_new: Pelacak baru
+  label_workflow: Alur kerja
+  label_issue_status: Status masalah
+  label_issue_status_plural: Status masalah
+  label_issue_status_new: Status baru
+  label_issue_category: Kategori masalah
+  label_issue_category_plural: Kategori masalah
+  label_issue_category_new: Kategori baru
+  label_custom_field: Field kustom
+  label_custom_field_plural: Field kustom
+  label_custom_field_new: Field kustom
+  label_enumerations: Enumerasi
+  label_enumeration_new: Buat baru
+  label_information: Informasi
+  label_information_plural: Informasi
+  label_please_login: Silakan login
+  label_register: mendaftar
+  label_login_with_open_id_option: atau login menggunakan OpenID
+  label_password_lost: Lupa password
+  label_home: Halaman depan
+  label_my_page: Beranda
+  label_my_account: Akun saya
+  label_my_projects: Proyek saya
+  label_administration: Administrasi
+  label_login: Login
+  label_logout: Keluar
+  label_help: Bantuan
+  label_reported_issues: Masalah terlapor
+  label_assigned_to_me_issues: Masalah yang ditugaskan pada saya
+  label_last_login: Terakhir login
+  label_registered_on: Terdaftar pada
+  label_activity: Kegiatan
+  label_overall_activity: Kegiatan umum
+  label_user_activity: "kegiatan {{value}}"
+  label_new: Baru
+  label_logged_as: Login sebagai
+  label_environment: Lingkungan
+  label_authentication: Otentikasi
+  label_auth_source: Mode Otentikasi
+  label_auth_source_new: Mode otentikasi baru
+  label_auth_source_plural: Mode Otentikasi
+  label_subproject_plural: Subproyek
+  label_and_its_subprojects: "{{value}} dan subproyeknya"
+  label_min_max_length: Panjang Min - Maks
+  label_list: Daftar
+  label_date: Tanggal
+  label_integer: Integer
+  label_float: Float
+  label_boolean: Boolean
+  label_string: Text
+  label_text: Long text
+  label_attribute: Atribut
+  label_attribute_plural: Atribut
+  label_download: "{{count}} Unduhan"
+  label_download_plural: "{{count}} Unduhan"
+  label_no_data: Tidak ada data untuk ditampilkan
+  label_change_status: Status perubahan
+  label_history: Riwayat
+  label_attachment: Berkas
+  label_attachment_new: Berkas baru
+  label_attachment_delete: Hapus Berkas
+  label_attachment_plural: Berkas
+  label_file_added: Berkas ditambahkan
+  label_report: Laporan
+  label_report_plural: Laporan
+  label_news: Berita
+  label_news_new: Tambahkan berita
+  label_news_plural: Berita
+  label_news_latest: Berita terakhir
+  label_news_view_all: Tampilkan semua berita
+  label_news_added: Berita ditambahkan
+  label_change_log: Log perubahan
+  label_settings: Pengaturan
+  label_overview: Umum
+  label_version: Versi
+  label_version_new: Versi baru
+  label_version_plural: Versi
+  label_confirmation: Konfirmasi
+  label_export_to: 'Juga tersedia dalam:'
+  label_read: Baca...
+  label_public_projects: Proyek publik
+  label_open_issues: belum selesai
+  label_open_issues_plural: belum selesai
+  label_closed_issues: selesai
+  label_closed_issues_plural: selesai
+  label_x_open_issues_abbr_on_total:
+    zero:  0 belum selesai / {{total}}
+    one:   1 belum selesai / {{total}}
+    other: "{{count}} terbuka / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 belum selesai
+    one:   1 belum selesai
+    other: "{{count}} belum selesai"
+  label_x_closed_issues_abbr:
+    zero:  0 selesai
+    one:   1 selesai
+    other: "{{count}} selesai"
+  label_total: Total
+  label_permissions: Perijinan
+  label_current_status: Status sekarang
+  label_new_statuses_allowed: Status baru yang diijinkan
+  label_all: semua
+  label_none: tidak ada
+  label_nobody: tidak ada
+  label_next: Berikut
+  label_previous: Sebelum
+  label_used_by: Digunakan oleh
+  label_details: Rincian
+  label_add_note: Tambahkan catatan
+  label_per_page: Per halaman
+  label_calendar: Kalender
+  label_months_from: dari bulan
+  label_gantt: Gantt
+  label_internal: Internal
+  label_last_changes: "{{count}} perubahan terakhir"
+  label_change_view_all: Tampilkan semua perubahan
+  label_personalize_page: Personalkan halaman ini
+  label_comment: Komentar
+  label_comment_plural: Komentar
+  label_x_comments:
+    zero: tak ada komentar
+    one: 1 komentar
+    other: "{{count}} komentar"
+  label_comment_add: Tambahkan komentar
+  label_comment_added: Komentar ditambahkan
+  label_comment_delete: Hapus komentar
+  label_query: Custom query
+  label_query_plural: Custom queries
+  label_query_new: Query baru
+  label_filter_add: Tambahkan filter
+  label_filter_plural: Filter
+  label_equals: sama dengan
+  label_not_equals: tidak sama dengan
+  label_in_less_than: kurang dari
+  label_in_more_than: lebih dari
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
+  label_in: pada
+  label_today: hari ini
+  label_all_time: semua waktu
+  label_yesterday: kemarin
+  label_this_week: minggu ini
+  label_last_week: minggu lalu
+  label_last_n_days: "{{count}} hari terakhir"
+  label_this_month: bulan ini
+  label_last_month: bulan lalu
+  label_this_year: this year
+  label_date_range: Jangkauan tanggal
+  label_less_than_ago: kurang dari hari yang lalu
+  label_more_than_ago: lebih dari hari yang lalu
+  label_ago: hari yang lalu
+  label_contains: berisi
+  label_not_contains: tidak berisi
+  label_day_plural: hari
+  label_repository: Repositori
+  label_repository_plural: Repositori
+  label_browse: Jelajah
+  label_modification: "{{count}} perubahan"
+  label_modification_plural: "{{count}} perubahan"
+  label_branch: Cabang
+  label_tag: Tag 
+  label_revision: Revisi
+  label_revision_plural: Revisi
+  label_associated_revisions: Revisi terkait
+  label_added: ditambahkan
+  label_modified: diubah
+  label_copied: disalin
+  label_renamed: diganti nama
+  label_deleted: dihapus
+  label_latest_revision: Revisi terakhir
+  label_latest_revision_plural: Revisi terakhir
+  label_view_revisions: Tampilkan revisi
+  label_view_all_revisions: Tampilkan semua revisi
+  label_max_size: Ukuran maksimum
+  label_sort_highest: Ke paling atas
+  label_sort_higher: Ke atas
+  label_sort_lower: Ke bawah
+  label_sort_lowest: Ke paling bawah
+  label_roadmap: Rencana kerja
+  label_roadmap_due_in: "Harus selesai dalam {{value}}"
+  label_roadmap_overdue: "{{value}} terlambat"
+  label_roadmap_no_issues: Tak ada masalah pada versi ini
+  label_search: Cari
+  label_result_plural: Hasil
+  label_all_words: Semua kata
+  label_wiki: Wiki
+  label_wiki_edit: Sunting wiki 
+  label_wiki_edit_plural: Sunting wiki 
+  label_wiki_page: Halaman wiki 
+  label_wiki_page_plural: Halaman wiki
+  label_index_by_title: Indeks menurut judul
+  label_index_by_date: Indeks menurut tanggal
+  label_current_version: Versi sekarang
+  label_preview: Tinjauan
+  label_feed_plural: Feeds
+  label_changes_details: Rincian semua perubahan
+  label_issue_tracking: Pelacak masalah
+  label_spent_time: Waktu terpakai
+  label_f_hour: "{{value}} jam"
+  label_f_hour_plural: "{{value}} jam"
+  label_time_tracking: Pelacak waktu
+  label_change_plural: Perubahan
+  label_statistics: Statistik
+  label_commits_per_month: Komit per bulan
+  label_commits_per_author: Komit per pengarang
+  label_view_diff: Tampilkan perbedaan
+  label_diff_inline: inline
+  label_diff_side_by_side: berdampingan
+  label_options: Pilihan
+  label_copy_workflow_from: Salin alur kerja dari
+  label_permissions_report: Laporan perijinan
+  label_watched_issues: Masalah terpantau
+  label_related_issues: Masalah terkait
+  label_applied_status: Status teraplikasi
+  label_loading: Memuat...
+  label_relation_new: Kaitan baru
+  label_relation_delete: Hapus kaitan
+  label_relates_to: terkait pada
+  label_duplicates: salinan
+  label_duplicated_by: disalin oleh
+  label_blocks: blok
+  label_blocked_by: diblok oleh
+  label_precedes: mendahului
+  label_follows: mengikuti
+  label_end_to_start: akhir ke awal
+  label_end_to_end: akhir ke akhir
+  label_start_to_start: awal ke awal
+  label_start_to_end: awal ke akhir
+  label_stay_logged_in: Tetap login
+  label_disabled: tidak diaktifkan
+  label_show_completed_versions: Tampilkan versi lengkap
+  label_me: saya
+  label_board: Forum
+  label_board_new: Forum baru
+  label_board_plural: Forum
+  label_topic_plural: Topik
+  label_message_plural: Pesan
+  label_message_last: Pesan terakhir
+  label_message_new: Pesan baru
+  label_message_posted: Pesan ditambahkan
+  label_reply_plural: Balasan
+  label_send_information: Kirim informasi akun ke pengguna
+  label_year: Tahun
+  label_month: Bulan
+  label_week: Minggu
+  label_date_from: Dari
+  label_date_to: Sampai
+  label_language_based: Berdasarkan bahasa pengguna
+  label_sort_by: "Urut berdasarkan {{value}}"
+  label_send_test_email: Kirim email percobaan
+  label_feeds_access_key_created_on: "RSS access key dibuat {{value}} yang lalu"
+  label_module_plural: Modul
+  label_added_time_by: "Ditambahkan oleh {{author}} {{age}} yang lalu"
+  label_updated_time_by: "Diperbarui oleh {{author}} {{age}} yang lalu"
+  label_updated_time: "Diperbarui oleh {{value}} yang lalu"
+  label_jump_to_a_project: Pilih proyek...
+  label_file_plural: Berkas
+  label_changeset_plural: Set perubahan
+  label_default_columns: Kolom default 
+  label_no_change_option: (Tak ada perubahan)
+  label_bulk_edit_selected_issues: Ubah masalah terpilih secara masal
+  label_theme: Tema
+  label_default: Default
+  label_search_titles_only: Cari judul saja
+  label_user_mail_option_all: "Untuk semua kejadian pada semua proyek saya"
+  label_user_mail_option_selected: "Hanya untuk semua kejadian pada proyek yang saya pilih ..."
+  label_user_mail_option_none: "Hanya pada hal-hal yang saya pantau atau saya terlibat di dalamnya"
+  label_user_mail_no_self_notified: "Saya tak ingin diberitahu untuk perubahan yang saya buat sendiri"
+  label_user_mail_assigned_only_mail_notification: "Kirim email hanya bila saya ditugaskan untuk masalah terkait"
+  label_user_mail_block_mail_notification: "Saya tidak ingin menerima email. Terima kasih."  
+  label_registration_activation_by_email: aktivasi akun melalui email
+  label_registration_manual_activation: aktivasi akun secara manual
+  label_registration_automatic_activation: aktivasi akun secara otomatis
+  label_display_per_page: "Per halaman: {{value}}"
+  label_age: Umur
+  label_change_properties: Rincian perubahan
+  label_general: Umum
+  label_more: Lanjut
+  label_scm: SCM
+  label_plugins: Plugin
+  label_ldap_authentication: Otentikasi LDAP
+  label_downloads_abbr: Unduh
+  label_optional_description: Deskripsi optional
+  label_add_another_file: Tambahkan berkas lain
+  label_preferences: Preferensi
+  label_chronological_order: Urut sesuai kronologis
+  label_reverse_chronological_order: Urut dari yang terbaru
+  label_planning: Perencanaan
+  label_incoming_emails: Email masuk
+  label_generate_key: Buat kunci
+  label_issue_watchers: Pemantau
+  label_example: Contoh
+  label_display: Tampilan
+  label_sort: Urut
+  label_ascending: Menaik
+  label_descending: Menurun
+  label_date_from_to: Dari {{start}} sampai {{end}}
+  label_wiki_content_added: Halaman wiki ditambahkan
+  label_wiki_content_updated: Halaman wiki diperbarui
+  label_group: Kelompok
+  label_group_plural: Kelompok
+  label_group_new: Kelompok baru
+  label_time_entry_plural: Waktu terpakai
+  label_version_sharing_none: Tidak dibagi
+  label_version_sharing_descendants: Dengan subproyek
+  label_version_sharing_hierarchy: Dengan hirarki proyek
+  label_version_sharing_tree: Dengan pohon proyek
+  label_version_sharing_system: Dengan semua proyek
+
+
+  button_login: Login
+  button_submit: Kirim
+  button_save: Simpan
+  button_check_all: Contreng semua
+  button_uncheck_all: Hilangkan semua contreng
+  button_delete: Hapus
+  button_create: Buat
+  button_create_and_continue: Buat dan lanjutkan
+  button_test: Test
+  button_edit: Sunting
+  button_add: Tambahkan
+  button_change: Ubah
+  button_apply: Terapkan
+  button_clear: Bersihkan
+  button_lock: Kunci
+  button_unlock: Buka kunci
+  button_download: Unduh
+  button_list: Daftar
+  button_view: Tampilkan
+  button_move: Pindah
+  button_move_and_follow: Pindah dan ikuti
+  button_back: Kembali
+  button_cancel: Batal
+  button_activate: Aktifkan
+  button_sort: Urut
+  button_log_time: Rekam waktu
+  button_rollback: Kembali ke versi ini
+  button_watch: Pantau
+  button_unwatch: Tidak Memantau
+  button_reply: Balas
+  button_archive: Arsip
+  button_unarchive: Batalkan arsip
+  button_reset: Reset
+  button_rename: Ganti nama
+  button_change_password: Ubah kata sandi
+  button_copy: Salin
+  button_copy_and_follow: Salin dan ikuti
+  button_annotate: Anotasi
+  button_update: Perbarui
+  button_configure: Konfigur
+  button_quote: Kutip
+  button_duplicate: Duplikat
+  
+  status_active: aktif
+  status_registered: terdaftar
+  status_locked: terkunci
+  
+  version_status_open: terbuka
+  version_status_locked: terkunci
+  version_status_closed: tertutup
+
+  field_active: Aktif
+  
+  text_select_mail_notifications: Pilih aksi dimana email notifikasi akan dikirimkan.
+  text_regexp_info: mis. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 berarti tidak ada pembatasan
+  text_project_destroy_confirmation: Apakah anda benar-benar akan menghapus proyek ini beserta data terkait ?
+  text_subprojects_destroy_warning: "Subproyek: {{value}} juga akan dihapus."
+  text_workflow_edit: Pilih peran dan pelacak untuk menyunting alur kerja
+  text_are_you_sure: Anda yakin ?
+  text_journal_changed: "{{label}} berubah dari {{old}} menjadi {{new}}"
+  text_journal_set_to: "{{label}} di set ke {{value}}"
+  text_journal_deleted: "{{label}} dihapus ({{old}})"
+  text_journal_added: "{{label}} {{value}} ditambahkan"
+  text_tip_task_begin_day: tugas dimulai hari itu
+  text_tip_task_end_day: tugas berakhir hari itu
+  text_tip_task_begin_end_day: tugas dimulai dan berakhir hari itu
+  text_project_identifier_info: 'Yang diijinkan hanya huruf kecil (a-z), angka dan tanda minus.<br />Sekali disimpan, pengenal tidak bisa diubah.'
+  text_caracters_maximum: "maximum {{count}} karakter."
+  text_caracters_minimum: "Setidaknya harus sepanjang {{count}} karakter."
+  text_length_between: "Panjang diantara {{min}} dan {{max}} karakter."
+  text_tracker_no_workflow: Tidak ada alur kerja untuk pelacak ini
+  text_unallowed_characters: Karakter tidak diperbolehkan
+  text_comma_separated: Beberapa nilai diperbolehkan (dipisahkan koma).
+  text_issues_ref_in_commit_messages: Mereferensikan dan membetulkan masalah pada pesan komit
+  text_issue_added: "Masalah {{id}} sudah dilaporkan oleh {{author}}."
+  text_issue_updated: "Masalah {{id}} sudah diperbarui oleh {{author}}."
+  text_wiki_destroy_confirmation: Apakah anda benar-benar akan menghapus wiki ini beserta semua isinya ?
+  text_issue_category_destroy_question: "Beberapa masalah ({{count}}) ditugaskan pada kategori ini. Apa yang anda lakukan ?"
+  text_issue_category_destroy_assignments: Hapus kategori penugasan
+  text_issue_category_reassign_to: Tugaskan kembali masalah untuk kategori ini
+  text_user_mail_option: "Untuk proyek yang tidak dipilih, anda hanya akan menerima notifikasi hal-hal yang anda pantau atau anda terlibat di dalamnya (misalnya masalah yang anda tulis atau ditugaskan pada anda)."
+  text_no_configuration_data: "Peran, pelacak, status masalah dan alur kerja belum dikonfigur.\nSangat disarankan untuk memuat konfigurasi default. Anda akan bisa mengubahnya setelah konfigurasi dimuat."
+  text_load_default_configuration: Muat konfigurasi default
+  text_status_changed_by_changeset: "Diterapkan di set perubahan {{value}}."
+  text_issues_destroy_confirmation: 'Apakah anda yakin untuk menghapus masalah terpilih ?'
+  text_select_project_modules: 'Pilih modul untuk diaktifkan pada proyek ini:'
+  text_default_administrator_account_changed: Akun administrator default sudah berubah
+  text_file_repository_writable: Direktori yang bisa ditulisi untuk lampiran
+  text_plugin_assets_writable: Direktori yang bisa ditulisi untuk plugin asset
+  text_rmagick_available: RMagick tersedia (optional)
+  text_destroy_time_entries_question: "{{hours}} jam sudah dilaporkan pada masalah yang akan anda hapus. Apa yang akan anda lakukan ?"
+  text_destroy_time_entries: Hapus jam yang terlapor
+  text_assign_time_entries_to_project: Tugaskan jam terlapor pada proyek
+  text_reassign_time_entries: 'Tugaskan kembali jam terlapor pada masalah ini:'
+  text_user_wrote: "{{value}} menulis:"
+  text_enumeration_destroy_question: "{{count}} obyek ditugaskan untuk nilai ini."
+  text_enumeration_category_reassign_to: 'Tugaskan kembali untuk nilai ini:'
+  text_email_delivery_not_configured: "Pengiriman email belum dikonfigurasi, notifikasi tidak diaktifkan.\nAnda harus mengkonfigur SMTP server anda pada config/email.yml dan restart kembali aplikasi untuk mengaktifkan."
+  text_repository_usernames_mapping: "Pilih atau perbarui pengguna Redmine yang terpetakan ke setiap nama pengguna yang ditemukan di log repositori.\nPengguna dengan nama pengguna dan repositori atau email yang sama  secara otomasit akan dipetakan."
+  text_diff_truncated: '... Perbedaan terpotong karena melebihi batas maksimum yang bisa ditampilkan.'
+  text_custom_field_possible_values_info: 'Satu baris untuk setiap nilai'
+  text_wiki_page_destroy_question: "Halaman ini mempunyai {{descendants}} halaman anak dan turunannya. Apa yang akan anda lakukan ?"
+  text_wiki_page_nullify_children: "Biarkan halaman anak sebagai halaman teratas (root)"
+  text_wiki_page_destroy_children: "Hapus halaman anak dan semua turunannya"
+  text_wiki_page_reassign_children: "Tujukan halaman anak ke halaman induk yang ini"
+  
+  default_role_manager: Manager
+  default_role_developper: Pengembang
+  default_role_reporter: Pelapor
+  default_tracker_bug: Bug
+  default_tracker_feature: Fitur
+  default_tracker_support: Dukungan
+  default_issue_status_new: Baru
+  default_issue_status_in_progress: Dalam proses
+  default_issue_status_resolved: Resolved
+  default_issue_status_feedback: Umpan balik
+  default_issue_status_closed: Ditutup
+  default_issue_status_rejected: Ditolak
+  default_doc_category_user: Dokumentasi pengguna
+  default_doc_category_tech: Dokumentasi teknis
+  default_priority_low: Rendah
+  default_priority_normal: Normal
+  default_priority_high: Tinggi
+  default_priority_urgent: Penting
+  default_priority_immediate: Segera
+  default_activity_design: Rancangan
+  default_activity_development: Pengembangan
+  
+  enumeration_issue_priorities: Prioritas masalah
+  enumeration_doc_categories: Kategori dokumen
+  enumeration_activities: Kegiatan
+  enumeration_system_activity: Kegiatan Sistem
+  label_copy_source: Source
+  label_update_issue_done_ratios: Update issue done ratios
+  setting_issue_done_ratio: Calculate the issue done ratio with
+  label_api_access_key: API access key
+  text_line_separated: Multiple values allowed (one line for each value).
+  label_revision_id: Revision {{value}}
+  permission_view_issues: View Issues
+  setting_issue_done_ratio_issue_status: Use the issue status
+  error_issue_done_ratios_not_updated: Issue done ratios not updated.
+  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  error_workflow_copy_target: Please select target tracker(s) and role(s)
+  label_api_access_key_created_on: API access key created {{value}} ago
+  label_feeds_access_key: RSS access key
+  notice_api_access_key_reseted: Your API access key was reset.
+  setting_rest_api_enabled: Enable REST web service
+  label_copy_same_as_target: Same as target
+  button_show: Show
+  setting_issue_done_ratio_issue_field: Use the issue field
+  label_missing_api_access_key: Missing an API access key
+  label_copy_target: Target
+  label_missing_feeds_access_key: Missing a RSS access key
+  notice_issue_done_ratios_updated: Issue done ratios updated.
+  error_workflow_copy_source: Please select a source tracker or role
+  setting_start_of_week: Start calendars on
+  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
