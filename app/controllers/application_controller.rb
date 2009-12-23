@@ -70,6 +70,8 @@ class ApplicationController < ActionController::Base
     elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
+    elsif ['xml', 'json'].include?(params[:format]) && params[:key] && accept_key_auth_actions.include?(params[:action])
+      User.find_by_api_key(params[:key])
     end
   end
   
@@ -114,7 +116,11 @@ class ApplicationController < ActionController::Base
       else
         url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
       end
-      redirect_to :controller => "account", :action => "login", :back_url => url
+      respond_to do |format|
+        format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
+        format.xml { head :unauthorized }
+        format.json { head :unauthorized }
+      end
       return false
     end
     true

@@ -31,6 +31,8 @@ class NewsController < ApplicationController
                                    :order => "#{News.table_name}.created_on DESC"    
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
+      format.xml { render :xml => @newss.to_xml }
+      format.json { render :json => @newss.to_json }
       format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end
