@@ -15,6 +15,7 @@
 (<%= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>)
 </p>
 
+<% if Setting.rest_api_enabled? %>
 <h4><%= l(:label_api_access_key) %></h4>
 <p>
 <% if @user.api_token %>
@@ -24,3 +25,4 @@
 <% end %>
 (<%= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>)
 </p>
+<% end %>

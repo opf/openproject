@@ -52,7 +52,7 @@
 <% end %>
 </div>
 
-<% if @user.api_token %>
+<% if Setting.rest_api_enabled? && @user.api_token %>
 <h3><%=l(:label_api_access_key) %></h3>
 <div class="box">
   <p>
