@@ -901,3 +901,5 @@ fi:
   label_missing_api_access_key: Missing an API access key
   label_missing_feeds_access_key: Missing a RSS access key
   button_show: Show
+  text_line_separated: Multiple values allowed (one line for each value).
+  setting_mail_handler_body_delimiters: Truncate emails after one of these lines

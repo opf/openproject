@@ -370,6 +370,7 @@ input#time_entry_comments { width: 90%;}
 
 .tabular.settings p{ padding-left: 300px; }
 .tabular.settings label{ margin-left: -300px; width: 295px; }
+.tabular.settings textarea { width: 99%; }
 
 fieldset.settings label { display: block; }
 

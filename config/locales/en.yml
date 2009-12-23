@@ -308,6 +308,7 @@ en:
   setting_activity_days_default: Days displayed on project activity
   setting_display_subprojects_issues: Display subprojects issues on main projects by default
   setting_enabled_scm: Enabled SCM
+  setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: API key
   setting_sequential_project_identifiers: Generate sequential project identifiers
@@ -812,6 +813,7 @@ en:
   text_tracker_no_workflow: No workflow defined for this tracker
   text_unallowed_characters: Unallowed characters
   text_comma_separated: Multiple values allowed (comma separated).
+  text_line_separated: Multiple values allowed (one line for each value).
   text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
   text_issue_added: "Issue {{id}} has been reported by {{author}}."
   text_issue_updated: "Issue {{id}} has been updated by {{author}}."

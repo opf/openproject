@@ -136,7 +136,6 @@ class MailHandler < ActionMailer::Base
     if issue.subject.blank?
       issue.subject = '(no subject)'
     end
-    issue.description = plain_text_body
     # custom fields
     issue.custom_field_values = issue.available_custom_fields.inject({}) do |h, c|
       if value = get_keyword(c.name, :override => true)
@@ -144,6 +143,7 @@ class MailHandler < ActionMailer::Base
       end
       h
     end
+    issue.description = cleaned_up_text_body
     # add To and Cc as watchers before saving so the watchers can reply to Redmine
     add_watchers(issue)
     issue.save!
@@ -174,7 +174,7 @@ class MailHandler < ActionMailer::Base
     end
 
     # add the note
-    journal = issue.init_journal(user, plain_text_body)
+    journal = issue.init_journal(user, cleaned_up_text_body)
     add_attachments(issue)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
@@ -205,7 +205,7 @@ class MailHandler < ActionMailer::Base
       
       if !message.locked?
         reply = Message.new(:subject => email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
-                            :content => plain_text_body)
+                            :content => cleaned_up_text_body)
         reply.author = user
         reply.board = message.board
         message.children << reply
@@ -276,6 +276,9 @@ class MailHandler < ActionMailer::Base
     @plain_text_body
   end
   
+  def cleaned_up_text_body
+    cleanup_body(plain_text_body)
+  end
 
   def self.full_sanitizer
     @full_sanitizer ||= HTML::FullSanitizer.new
@@ -298,5 +301,17 @@ class MailHandler < ActionMailer::Base
       user.language = Setting.default_language
       user.save ? user : nil
     end
+  end
+
+  private
+  
+  # Removes the email body of text after the truncation configurations.
+  def cleanup_body(body)
+    delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}
+    unless delimiters.empty?
+      regex = Regexp.new("^(#{ delimiters.join('|') })\s*$.*", Regexp::MULTILINE)
+      body = body.gsub(regex, '')
+    end
+    body.strip
   end
 end

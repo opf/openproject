@@ -279,10 +279,62 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'This is a html-only email.', issue.description
   end
 
+  context "truncate emails based on the Setting" do
+    context "with no setting" do
+      setup do
+        Setting.mail_handler_body_delimiters = ''
+      end
+
+      should "add the entire email into the issue" do
+        issue = submit_email('ticket_on_given_project.eml')
+        assert_issue_created(issue)
+        assert issue.description.include?('---')
+        assert issue.description.include?('This paragraph is after the delimiter')
+      end
+    end
+
+    context "with a single string" do
+      setup do
+        Setting.mail_handler_body_delimiters = '---'
+      end
+
+      should "truncate the email at the delimiter for the issue" do
+        issue = submit_email('ticket_on_given_project.eml')
+        assert_issue_created(issue)
+        assert issue.description.include?('This paragraph is before delimiters')
+        assert issue.description.include?('--- This line starts with a delimiter')
+        assert !issue.description.match(/^---$/)
+        assert !issue.description.include?('This paragraph is after the delimiter')
+      end
+    end
+
+    context "with multiple strings" do
+      setup do
+        Setting.mail_handler_body_delimiters = "---\nBREAK"
+      end
+
+      should "truncate the email at the first delimiter found (BREAK)" do
+        issue = submit_email('ticket_on_given_project.eml')
+        assert_issue_created(issue)
+        assert issue.description.include?('This paragraph is before delimiters')
+        assert !issue.description.include?('BREAK')
+        assert !issue.description.include?('This paragraph is between delimiters')
+        assert !issue.description.match(/^---$/)
+        assert !issue.description.include?('This paragraph is after the delimiter')
+      end
+    end
+  end
+
   private
   
   def submit_email(filename, options={})
     raw = IO.read(File.join(FIXTURES_PATH, filename))
     MailHandler.receive(raw, options)
+  end
+
+  def assert_issue_created(issue)
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
   end
 end

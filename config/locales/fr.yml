@@ -330,6 +330,7 @@ fr:
   setting_activity_days_default: Nombre de jours affichés sur l'activité des projets
   setting_display_subprojects_issues: Afficher par défaut les demandes des sous-projets sur les projets principaux
   setting_enabled_scm: SCM activés
+  setting_mail_handler_body_delimiters: "Tronquer les emails après l'une de ces lignes"
   setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
   setting_mail_handler_api_key: Clé de protection de l'API
   setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
@@ -820,6 +821,7 @@ fr:
   text_tracker_no_workflow: Aucun worflow n'est défini pour ce tracker
   text_unallowed_characters: Caractères non autorisés
   text_comma_separated: Plusieurs valeurs possibles (séparées par des virgules).
+  text_line_separated: Plusieurs valeurs possibles (une valeur par ligne).
   text_issues_ref_in_commit_messages: Référencement et résolution des demandes dans les commentaires de commits
   text_issue_added: "La demande {{id}} a été soumise par {{author}}."
   text_issue_updated: "La demande {{id}} a été mise à jour par {{author}}."
