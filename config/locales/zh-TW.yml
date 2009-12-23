@@ -956,3 +956,11 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
   label_revision_id: Revision {{value}}
+  label_api_access_key: API access key
+  text_show: Show
+  label_api_access_key_created_on: API access key created {{value}} ago
+  label_feeds_access_key: RSS access key
+  notice_api_access_key_reseted: Your API access key was reset.
+  setting_rest_api_enabled: Enable REST web service
+  label_missing_api_access_key: Missing an API access key
+  label_missing_feeds_access_key: Missing a RSS access key

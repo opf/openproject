@@ -343,6 +343,7 @@ fr:
   setting_issue_done_ratio: Calcul de l'avancement des demandes
   setting_issue_done_ratio_issue_status: Utiliser le statut
   setting_issue_done_ratio_issue_field: 'Utiliser le champ % effectué'
+  setting_rest_api_enabled: Activer l'API REST
   
   permission_add_project: Créer un projet
   permission_edit_project: Modifier le projet
@@ -886,3 +887,10 @@ fr:
   setting_gravatar_default: Default Gravatar image
   setting_start_of_week: Start calendars on
   label_revision_id: Revision {{value}}
+  label_api_access_key: API access key
+  text_show: Show
+  label_api_access_key_created_on: API access key created {{value}} ago
+  label_feeds_access_key: RSS access key
+  notice_api_access_key_reseted: Your API access key was reset.
+  label_missing_api_access_key: Missing an API access key
+  label_missing_feeds_access_key: Missing a RSS access key
