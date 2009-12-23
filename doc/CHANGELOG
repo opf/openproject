@@ -4,6 +4,118 @@ Redmine - project management software
 Copyright (C) 2006-2009  Jean-Philippe Lang
 http://www.redmine.org/
 
+== v0.9.0
+
+* Unlimited subproject nesting
+* Multiple roles per user per project
+* User groups
+* Inheritence of versions
+* OpenID login
+* "Watched by me" issue filter
+* Project copy
+* Project creation by non admin users
+* Accept emails from anyone on a private project
+* Add email notification on Wiki changes
+* Make issue description non-required field
+* Custom fields for Versions
+* Being able to sort the issue list by custom fields
+* Ability to close versions
+* User display/editing of custom fields attached to their user profile
+* Add "follows" issue relation
+* Copy workflows between trackers and roles
+* Defaults enabled modules list for project creation
+* Weighted version completion percentage on the roadmap
+* Autocreate user account when user submits email that creates new issue
+* CSS class on overdue issues on the issue list
+* Enable tracker update on issue edit form
+* Remove issue watchers
+* Ability to move threads between project forums
+* Changed custom field "Possible values" to a textarea
+* Adds projects association on tracker form
+* Set session store to cookie store by default
+* Set a default wiki page on project creation
+* Roadmap for main project should see Roadmaps for sub projects
+* Ticket grouping on the issue list
+* Hierarchical Project links in the page header
+* Allow My Page blocks to be added to from a plugin
+* Sort issues by multiple columns
+* Filters of saved query are now visible and be adjusted without editing the query
+* Saving "sort order" in custom queries
+* Url to fetch changesets for a repository
+* Managers able to create subprojects
+* Issue Totals on My Page Modules
+* Convert Enumerations to single table inheritance (STI)
+* Allow custom my_page blocks to define drop-down names
+* "View Issues" user permission added
+* Ask user what to do with child pages when deleting a parent wiki page
+* Contextual quick search
+* Allow resending of password by email
+* Change reply subject to be a link to the reply itself
+* Include Logged Time as part of the project's Activity history
+* REST API for authentication
+* Browse through Git branches
+* Setup Object Daddy to replace test fixtures
+* Setup shoulda to make it easier to test
+* Custom fields and overrides on Enumerations
+* Add or remove columns from the issue list
+* Ability to add new version from issues screen
+* Setting to choose which day calendars start
+* Asynchronous email delivery method
+* RESTful URLs for (almost) everything
+* Include issue status in search results and activity pages
+* Add email to admin user search filter
+* Proper content type for plain text mails
+* Default value of project jump box
+* Tree based menus
+* Ability to use issue status to update percent done
+* Second set of issue "Action Links" at the bottom of an issue page
+* Proper exist status code for rdm-mailhandler.rb
+* Remove incoming email body via a delimiter
+* Fixed: Custom querry 'Export to PDF' ignores field selection
+* Fixed: Related e-mail notifications aren't threaded
+* Fixed: No warning when the creation of a categories from the issue form fails
+* Fixed: Actually block issues from closing when relation 'blocked by' isn't closed
+* Fixed: Include both first and last name when sorting by users
+* Fixed: Table cell with multiple line text
+* Fixed: Project overview page shows disabled trackers
+* Fixed: Cross project issue relations and user permissions
+* Fixed: My page shows tickets the user doesn't have access to
+* Fixed: TOC does not parse wiki page reference links with description
+* Fixed: Target version-list on bulk edit form is incorrectly sorted
+* Fixed: Cannot modify/delete project named "Documents"
+* Fixed: Email address in brackets breaks html
+* Fixed: Timelog detail loose issue filter passing to report tab
+* Fixed: Inform about custom field's name maximum length
+* Fixed: Activity page and Atom feed links contain project id instead of identifier
+* Fixed: no Atom key for forums with only 1 forum
+* Fixed: When reading RSS feed in MS Outlook, the inline links are broken.
+* Fixed: Sometimes new posts don't show up in the topic list of a forum.
+* Fixed: The all/active filter selection in the project view does not stick.
+* Fixed: Login box has Different width
+* Fixed: User removed from project - still getting project update emails
+* Fixed: Project with the identifier of 'new' cannot be viewed
+* Fixed: Artefacts in search view (Cyrillic)
+* Fixed: Allow [#id] as subject to reply by email
+* Fixed: Wrong language used when closing an issue via a commit message
+* Fixed: email handler drops emails for new issues with no subject
+* Fixed: Calendar misspelled under Roles/Permissions
+* Fixed: Emails from no-reply redmine's address hell cycle
+* Fixed: child_pages macro fails on wiki page history
+* Fixed: Pre-filled time tracking date ignores timezone
+* Fixed: Links on locked users lead to 404 page
+* Fixed: Page changes in issue-list when using context menu
+* Fixed: diff parser removes lines starting with multiple dashes
+* Fixed: Quoting in forums resets message subject
+* Fixed: Editing issue comment removes quote link
+* Fixed: Redmine.pm ignore browse_repository permission
+* Fixed: text formatting breaks on [msg1][msg2]
+* Fixed: Spent Time Default Value of 0.0
+* Fixed: Wiki pages in search results are referenced by project number, not by project identifier.
+* Fixed: When logging in via an autologin cookie the user's last_login_on should be updated
+* Fixed: 50k users cause problems in project->settings->members screen
+* Fixed: Document timestamp needs to show updated timestamps
+* Fixed: Users getting notifications for issues they are no longer allowed to view
+
 
 == 2009-02-15 v0.8.1
 
