@@ -52,17 +52,6 @@
 <% end %>
 </div>
 
-<% if Setting.rest_api_enabled? && @user.api_token %>
-<h3><%=l(:label_api_access_key) %></h3>
-<div class="box">
-  <p>
-    <%= link_to_function(l(:button_show), "$('api-access-key').show();")%>
-    <pre id='api-access-key'><%= @user.api_key %></pre>
-  </p>
-  <%= javascript_tag("$('api-access-key').hide();") %>
-</div>
-<% end %>
-
 </div>
 <% end %>
 
