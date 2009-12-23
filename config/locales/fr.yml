@@ -172,6 +172,7 @@ fr:
   notice_default_data_loaded: Paramétrage par défaut chargé avec succès.
   notice_unable_delete_version: Impossible de supprimer cette version.
   notice_issue_done_ratios_updated: L'avancement des demandes a été mis à jour.
+  notice_api_access_key_reseted: Votre clé d'accès API a été réinitialisée.
   
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage: {{value}}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
@@ -744,6 +745,11 @@ fr:
   label_copy_same_as_target: Comme la cible
   label_update_issue_done_ratios: Mettre à jour l'avancement des demandes
   label_display_used_statuses_only: N'afficher que les statuts utilisés dans ce tracker
+  label_api_access_key: Clé d'accès API
+  label_api_access_key_created_on: Clé d'accès API créée il y a {{value}}
+  label_feeds_access_key: Clé d'accès RSS
+  label_missing_api_access_key: Clé d'accès API manquante
+  label_missing_feeds_access_key: Clé d'accès RSS manquante
   
   button_login: Connexion
   button_submit: Soumettre
@@ -787,6 +793,7 @@ fr:
   button_configure: Configurer
   button_quote: Citer
   button_duplicate: Dupliquer
+  button_show: Afficher
   
   status_active: actif
   status_registered: enregistré
@@ -887,10 +894,3 @@ fr:
   setting_gravatar_default: Default Gravatar image
   setting_start_of_week: Start calendars on
   label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  text_show: Show
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key

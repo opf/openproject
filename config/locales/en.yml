@@ -779,6 +779,7 @@ en:
   button_configure: Configure
   button_quote: Quote
   button_duplicate: Duplicate
+  button_show: Show
   
   status_active: active
   status_registered: registered
@@ -843,7 +844,6 @@ en:
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
-  text_show: Show
   
   default_role_manager: Manager
   default_role_developper: Developer

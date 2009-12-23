@@ -861,10 +861,10 @@ th:
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   label_revision_id: Revision {{value}}
   label_api_access_key: API access key
-  text_show: Show
   label_api_access_key_created_on: API access key created {{value}} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
   label_missing_feeds_access_key: Missing a RSS access key
+  button_show: Show
