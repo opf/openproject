@@ -24,7 +24,8 @@ module SettingsHelper
             {:name => 'issues', :partial => 'settings/issues', :label => :label_issue_tracking},
             {:name => 'notifications', :partial => 'settings/notifications', :label => :field_mail_notification},
             {:name => 'mail_handler', :partial => 'settings/mail_handler', :label => :label_incoming_emails},
-            {:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
+            {:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural},
+            {:name => 'integration', :partial => 'settings/integration', :label => :label_integration}
             ]
   end
   

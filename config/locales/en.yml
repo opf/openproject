@@ -324,6 +324,7 @@ en:
   setting_issue_done_ratio_issue_field: Use the issue field
   setting_issue_done_ratio_issue_status: Use the issue status
   setting_start_of_week: Start calendars on
+  setting_rest_api_enabled: Enable REST web service
   
   permission_add_project: Create project
   permission_edit_project: Edit project
@@ -735,6 +736,7 @@ en:
   label_api_access_key: API access key
   label_missing_api_access_key: Missing an API access key
   label_api_access_key_created_on: "API access key created {{value}} ago"
+  label_integration: Integration
   
   button_login: Login
   button_submit: Submit

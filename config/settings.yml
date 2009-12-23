@@ -176,3 +176,5 @@ gravatar_default:
   default: ''
 start_of_week:
   default: ''
+rest_api_enabled:
+  default: 0
