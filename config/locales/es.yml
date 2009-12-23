@@ -1,5 +1,7 @@
 # Spanish translations for Rails
 # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
+# Redmine spanish translation: 
+# by J. Cayetano Delgado (jcdelgado _at_ ingenia.es)
 
 es:
   number:
@@ -880,27 +882,27 @@ es:
   button_move_and_follow: Mover y seguir
   setting_default_projects_modules: Módulos habilitados por defecto en proyectos nuevos
   setting_gravatar_default: Imagen Gravatar por defecto
-  field_sharing: Sharing
-  button_copy_and_follow: Copy and follow
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_tree: With project tree
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_system: With all projects
-  label_version_sharing_none: Not shared
-  button_duplicate: Duplicate
-  error_can_not_archive_project: This project can not be archived
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
+  field_sharing: Compartir
+  button_copy_and_follow: Copiar y seguir
+  label_version_sharing_hierarchy: Con la jerarquía del proyecto
+  label_version_sharing_tree: Con el árbol del proyecto
+  label_version_sharing_descendants: Con proyectos hijo
+  label_version_sharing_system: Con todos los proyectos
+  label_version_sharing_none: No compartir
+  button_duplicate: Duplicar
+  error_can_not_archive_project: Este proyecto no puede ser archivado
+  label_copy_source: Fuente
+  setting_issue_done_ratio: Calcular el ratio de tareas realizadas
+  setting_issue_done_ratio_issue_status: Usar el estado de tareas
+  error_issue_done_ratios_not_updated: Ratios de tareas realizadas no actualizado.
+  error_workflow_copy_target: Por favor, elija categoría(s) y perfil(es) destino
+  setting_issue_done_ratio_issue_field: Utilizar el campo tarea
+  label_copy_same_as_target: El mismo que el destino
+  label_copy_target: Destino
+  notice_issue_done_ratios_updated: Ratios de tareas realizadas actualizado.
+  error_workflow_copy_source: Por favor, elija una categoría o rol de origen
+  label_update_issue_done_ratios: Actualizar ratios de tareas realizadas
+  setting_start_of_week: Comenzar calendarios en
   permission_view_issues: View Issues
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   label_revision_id: Revision {{value}}

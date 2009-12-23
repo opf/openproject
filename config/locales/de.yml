@@ -804,8 +804,8 @@ de:
   enumeration_issue_priorities: Ticket-Prioritäten
   enumeration_doc_categories: Dokumentenkategorien
   enumeration_activities: Aktivitäten (Zeiterfassung)
-  field_editable: Editable
-  label_display: Display
+  field_editable: Änderbar
+  label_display: Anzeigen
   button_create_and_continue: Anlegen und weiter
   text_custom_field_possible_values_info: 'Eine Zeile pro Wert'
   setting_repository_log_display_limit: Maximale Anzahl angezeigter Revisionen des Datei Logs
@@ -835,61 +835,61 @@ de:
   mail_body_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde von {{author}} aktualisiert."
   permission_add_project: Erstelle Projekt
   setting_new_project_user_role_id: Rolle einem Nicht-Administrator zugeordnet, welcher ein Projekt erstellt
-  label_view_all_revisions: View all revisions
+  label_view_all_revisions: Alle Revisionen anschauen
   label_tag: Tag
   label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
+  error_no_tracker_in_project: Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
+  error_no_default_issue_status: Es wurde kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Ticket-Status").
+  text_journal_changed: "{{label}} geändert von {{old}} zu {{new}}"
+  text_journal_set_to: "{{label}} gesetzt zu {{value}}"
+  text_journal_deleted: "{{label}} gelöscht ({{old}})"
+  label_group_plural: Gruppen
+  label_group: Gruppe
+  label_group_new: Neue Gruppe
+  label_time_entry_plural: Benötigte Zeit
+  text_journal_added: "{{label}} {{value}} hinzugefügt"
+  field_active: Aktiv
+  enumeration_system_activity: System Aktivität
+  permission_delete_issue_watchers: Beobachter löschen
+  version_status_closed: geschlossen
+  version_status_locked: gesperrt
+  version_status_open: offen
+  error_can_not_reopen_issue_on_closed_version: Ein Ticket, welches einer abgeschlossenen Version zugeordnet ist, kann nicht wieder geöffnet werden
+  label_user_anonymous: Anonym
+  button_move_and_follow: Verschieben und beobachten
+  setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
+  setting_gravatar_default: Standard Gravatar-Bild
+  field_sharing: gemeinsam verwenden
+  label_version_sharing_hierarchy: Mit Projekthierarchie
+  label_version_sharing_system: Mit allen Projekten
+  label_version_sharing_descendants: Mit Unterprojekten
+  label_version_sharing_tree: Mit Projektbaum
+  label_version_sharing_none: Nicht geteilt
+  error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden
+  button_duplicate: Duplikat
+  button_copy_and_follow: Kopieren und beobachten
+  label_copy_source: Quelle
+  setting_issue_done_ratio: Berechne den Ticket-Fortschritt durch
+  setting_issue_done_ratio_issue_status: Verwende den Ticketstatus
+  error_issue_done_ratios_not_updated: Ticket-Fortschritt wurde nicht geändert.
+  error_workflow_copy_target: Bitte wählen Sie Ziel-Tracker und Rolle(n)
+  setting_issue_done_ratio_issue_field: Benutze das Ticket-Feld
+  label_copy_same_as_target: So wie Ziel
+  label_copy_target: Ziel
+  notice_issue_done_ratios_updated: Ticketfortschritt aktualisiert.
+  error_workflow_copy_source: Bitte wählen Sie einen Quell-Tracker oder eine Quell-Rolle
+  label_update_issue_done_ratios: Aktualisiere Ticketfortschritt
+  setting_start_of_week: Wochenanfang
+  permission_view_issues: Tickets anzeigen
+  label_display_used_statuses_only: Zeige nur Status an, die von diesem Tracker verwendet werden
   label_api_access_key: API access key
+  text_line_separated: Multiple values allowed (one line for each value).
+  label_revision_id: Revision {{value}}
   label_api_access_key_created_on: API access key created {{value}} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
+  button_show: Show
   label_missing_api_access_key: Missing an API access key
   label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines

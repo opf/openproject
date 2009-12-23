@@ -336,7 +336,7 @@ ko:
   setting_bcc_recipients: 참조자들을 bcc로 숨기기
   setting_plain_text_mail: 텍스트만 (HTML 없이)
   setting_host_name: 호스트 이름과 경로
-  setting_text_formatting: 편집 방식
+  setting_text_formatting: 본문 형식
   setting_wiki_compression: 위키 이력 압축
   setting_feeds_limit: 피드에 포함할 항목의 수
   setting_default_projects_public: 새 프로젝트를 공개로 설정
@@ -615,7 +615,7 @@ ko:
   label_day_plural: 일
   label_repository: 저장소
   label_repository_plural: 저장소
-  label_browse: 저장소 살피기
+  label_browse: 저장소 둘러보기
   label_modification: "{{count}} 변경"
   label_modification_plural: "{{count}} 변경"
   label_revision: 개정판
@@ -727,7 +727,7 @@ ko:
   label_registration_activation_by_email: 메일로 계정을 활성화하기
   label_registration_automatic_activation: 자동 계정 활성화
   label_registration_manual_activation: 수동 계정 활성화
-  label_display_per_page: "페이지당: {{value}}"
+  label_display_per_page: "페이지당 줄수: {{value}}"
   label_age: 마지막 수정일
   label_change_properties: 속성 변경
   label_general: 일반
@@ -855,7 +855,7 @@ ko:
   default_tracker_feature: 새기능
   default_tracker_support: 지원
   default_issue_status_new: 신규
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: 진행
   default_issue_status_resolved: 해결
   default_issue_status_feedback: 의견
   default_issue_status_closed: 완료
@@ -874,54 +874,54 @@ ko:
   enumeration_doc_categories: 문서 범주
   enumeration_activities: 작업분류(시간추적)
 
-  field_issue_to: Related issue
+  field_issue_to: 관련 일감
   label_view_all_revisions: 모든 개정판 표시
   label_tag: 표지(票識)저장소
   label_branch: 분기(分岐)저장소
   error_no_tracker_in_project: 사용할 수 있도록 설정된 일감 유형이 없습니다. 프로젝트 설정을 확인하십시오.
   error_no_default_issue_status: '기본 상태가 정해져 있지 않습니다. 설정을 확인하십시오. (주 메뉴의 "관리" -> "일감 상태")'
-  text_journal_changed: "{{label}}을(를) {{old}}에서 {{new}}(으)로 변경함"
-  text_journal_set_to: "{{label}}을(를) {{value}}(으)로 정함"
-  text_journal_deleted: "{{label}}을(를) 지움 ({{old}})"
+  text_journal_changed: "{{label}}을(를) {{old}}에서 {{new}}(으)로 변경되었습니다."
+  text_journal_set_to: "{{label}}을(를) {{value}}(으)로 지정되었습니다."
+  text_journal_deleted: "{{label}} 값이 지워졌습니다. ({{old}})"
   label_group_plural: 그룹
   label_group: 그룹
   label_group_new: 새 그룹
   label_time_entry_plural: 작업시간
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  text_journal_added: "{{label}}에 {{value}}이(가) 추가되었습니다."
+  field_active: 사용중
+  enumeration_system_activity: 시스템 작업
+  permission_delete_issue_watchers: 일감지킴이 지우기
+  version_status_closed: 닫힘
+  version_status_locked: 잠김
+  version_status_open: 진행
+  error_can_not_reopen_issue_on_closed_version: 닫힌 버전에 할당된 일감은 다시 재발생시킬 수 없습니다.
+  label_user_anonymous: 이름없음
+  button_move_and_follow: 이동하고 따라가기
+  setting_default_projects_modules: 새 프로젝트에 기본적으로 활성화될 모듈
+  setting_gravatar_default: 기본 그라바타 이미지
+  field_sharing: 공유
+  label_version_sharing_hierarchy: 상위 및 하위 프로젝트
+  label_version_sharing_system: 모든 프로젝트
+  label_version_sharing_descendants: 하위 프로젝트
+  label_version_sharing_tree: 최상위 및 모든 하위 프로젝트
+  label_version_sharing_none: 공유없음
+  error_can_not_archive_project: 이 프로젝트를 잠금보관할 수 없습니다.
+  button_duplicate: 복제
+  button_copy_and_follow: 복사하고 따라가기
+  label_copy_source: 원본
+  setting_issue_done_ratio: 일감의 진척도 계산방법
+  setting_issue_done_ratio_issue_status: 일감 상태를 사용하기
+  error_issue_done_ratios_not_updated: 일감 진척도가 수정되지 않았습니다.
+  error_workflow_copy_target: 대상 일감유형과 역할을 선택하세요.
+  setting_issue_done_ratio_issue_field: 일감 수정에서 진척도 입력하기
+  label_copy_same_as_target: 대상과 같음.
+  label_copy_target: 대상
+  notice_issue_done_ratios_updated: 일감 진척도가 수정되었습니다.
+  error_workflow_copy_source: 원본 일감유형이나 역할을 선택하세요.
+  label_update_issue_done_ratios: 모든 일감 진척도 갱신하기
+  setting_start_of_week: 달력 시작 요일
+  permission_view_issues: 일감 보기
+  label_display_used_statuses_only: 이 일감유형에서 사용되는 상태만 보여주기
   label_revision_id: Revision {{value}}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created {{value}} ago

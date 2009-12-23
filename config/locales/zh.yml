@@ -171,7 +171,8 @@ zh:
   notice_account_pending: "您的帐号已被成功创建，正在等待管理员的审核。"
   notice_default_data_loaded: 成功载入默认设置。
   notice_unable_delete_version: 无法删除版本
-  
+  notice_issue_done_ratios_updated: 问题完成度已更新。
+
   error_can_t_load_default_data: "无法载入默认设置：{{value}}"
   error_scm_not_found: "版本库中不存在该条目和（或）其修订版本。"
   error_scm_command_failed: "访问版本库时发生错误：{{value}}"
@@ -180,6 +181,10 @@ zh:
   error_no_tracker_in_project: 该项目未设定跟踪标签，请检查项目配置。
   error_no_default_issue_status: 未设置默认的问题状态。请检查系统设置（"管理" -> "问题状态"）。
   error_can_not_reopen_issue_on_closed_version: 该问题被关联到一个已经关闭的版本，因此无法重新打开。
+  error_can_not_archive_project: 该项目无法被存档
+  error_issue_done_ratios_not_updated: 问题完成度未能被更新。
+  error_workflow_copy_source: 请选择一个源跟踪标签或者角色
+  error_workflow_copy_target: 请选择目标跟踪标签和角色
 
   warning_attachments_not_saved: "{{count}} 个文件保存失败。"
   
@@ -290,6 +295,7 @@ zh:
   field_identity_url: OpenID URL
   field_content: 内容
   field_group_by: 根据此条件分组
+  field_sharing: 共享
 
   setting_app_title: 应用程序标题
   setting_app_subtitle: 应用程序子标题
@@ -329,12 +335,18 @@ zh:
   setting_mail_handler_api_key: API key
   setting_sequential_project_identifiers: 顺序产生项目标识
   setting_gravatar_enabled: 使用Gravatar用户头像
+  setting_gravatar_default: 默认的Gravatar头像
   setting_diff_max_lines_displayed: 查看差别页面上显示的最大行数
   setting_file_max_size_displayed: 允许直接显示的最大文本文件
   setting_repository_log_display_limit: 在文件变更记录页面上显示的最大修订版本数量
   setting_openid: 允许使用OpenID登录和注册
   setting_password_min_length: 最短密码长度
   setting_new_project_user_role_id: 非管理员用户新建项目时将被赋予的（在该项目中的）角色
+  setting_default_projects_modules: 新建项目默认启用的模块
+  setting_issue_done_ratio: 计算问题完成度：
+  setting_issue_done_ratio_issue_field: 使用问题（的完成度）属性
+  setting_issue_done_ratio_issue_status: 使用问题状态
+  setting_start_of_week: 日历开始于
 
   permission_add_project: 新建项目
   permission_edit_project: 编辑项目
@@ -342,6 +354,7 @@ zh:
   permission_manage_members: 管理成员
   permission_manage_versions: 管理版本
   permission_manage_categories: 管理问题类别
+  permission_view_issues: 查看问题
   permission_add_issues: 新建问题
   permission_edit_issues: 更新问题
   permission_manage_issue_relations: 管理问题关联
@@ -729,7 +742,17 @@ zh:
   label_group_plural: 组
   label_group_new: 新建组
   label_time_entry_plural: 耗时
-
+  label_version_sharing_none: 不共享
+  label_version_sharing_descendants: 与子项目共享
+  label_version_sharing_hierarchy: 与项目继承层次共享
+  label_version_sharing_tree: 与项目树共享
+  label_version_sharing_system: 与所有项目共享
+  label_update_issue_done_ratios: 更新问题的完成度
+  label_copy_source: 源
+  label_copy_target: 目标
+  label_copy_same_as_target: 与目标一致
+  label_display_used_statuses_only: 只显示被此跟踪标签使用的状态
+  
   button_login: 登录
   button_submit: 提交
   button_save: 保存
@@ -750,6 +773,7 @@ zh:
   button_list: 列表
   button_view: 查看
   button_move: 移动
+  button_move_and_follow: 移动并转到新问题
   button_back: 返回
   button_cancel: 取消
   button_activate: 激活
@@ -765,10 +789,12 @@ zh:
   button_rename: 重命名
   button_change_password: 修改密码
   button_copy: 复制
+  button_copy_and_follow: 复制并转到新问题
   button_annotate: 追溯
   button_update: 更新
   button_configure: 配置
   button_quote: 引用
+  button_duplicate: 副本
   
   status_active: 活动的
   status_registered: 已注册
@@ -860,40 +886,14 @@ zh:
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
   enumeration_system_activity: 系统活动
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
   label_api_access_key: API access key
+  text_line_separated: Multiple values allowed (one line for each value).
+  label_revision_id: Revision {{value}}
   label_api_access_key_created_on: API access key created {{value}} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
+  button_show: Show
   label_missing_api_access_key: Missing an API access key
   label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines

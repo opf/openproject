@@ -1,5 +1,6 @@
-# Swedish translation, by Johan Lundström (johanlunds@gmail.com), with parts taken
-# from http://github.com/daniel/swe_rails
+# Swedish translation for Ruby on Rails
+# by Johan Lundström (johanlunds@gmail.com),
+# with parts taken from http://github.com/daniel/swe_rails
 
 sv:
   number:
@@ -197,6 +198,7 @@ sv:
   notice_account_pending: "Ditt konto skapades och avvaktar nu administratörens godkännande."
   notice_default_data_loaded: Standardkonfiguration inläst.
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.
+  notice_issue_done_ratios_updated: % klart uppdaterade.
   
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: {{value}}"
   error_scm_not_found: "Inlägg och/eller revision finns inte i detta versionsarkiv."
@@ -206,6 +208,10 @@ sv:
   error_no_tracker_in_project: Ingen ärendetyp är associerad med projektet. Vänligen kontrollera projektinställningarna.
   error_no_default_issue_status: Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (Gå till "Administration -> Ärendestatus").
   error_can_not_reopen_issue_on_closed_version: Ett ärende tilldelat en stängd version kan inte öppnas på nytt
+  error_can_not_archive_project: Detta projekt kan inte arkiveras
+  error_issue_done_ratios_not_updated: % klart inte uppdaterade.
+  error_workflow_copy_source: Vänligen välj källans ärendetyp eller roll
+  error_workflow_copy_target: Vänligen välj ärendetyp(er) och roll(er) för mål
   
   warning_attachments_not_saved: "{{count}} fil(er) kunde inte sparas."
   
@@ -316,6 +322,7 @@ sv:
   field_identity_url: OpenID URL
   field_content: Innehåll
   field_group_by: Gruppera resultat efter
+  field_sharing: Delning
   
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -363,6 +370,10 @@ sv:
   setting_password_min_length: Minsta tillåtna lösenordslängd
   setting_new_project_user_role_id: Tilldelad roll för en icke-administratör som skapar ett projekt
   setting_default_projects_modules: Standardaktiverade moduler för nya projekt
+  setting_issue_done_ratio: Beräkna % klart med
+  setting_issue_done_ratio_issue_field: Använd ärendefältet
+  setting_issue_done_ratio_issue_status: Använd ärendestatus
+  setting_start_of_week: Första dagen i veckan
   
   permission_add_project: Skapa projekt
   permission_edit_project: Ändra projekt
@@ -370,8 +381,9 @@ sv:
   permission_manage_members: Hantera medlemmar
   permission_manage_versions: Hantera versioner
   permission_manage_categories: Hantera ärendekategorier
-  permission_add_issues: Lägga till ärende
-  permission_edit_issues: Ändra ärende
+  permission_add_issues: Lägga till ärenden
+  permission_edit_issues: Ändra ärenden
+  permission_view_issues: Visa ärenden
   permission_manage_issue_relations: Hantera ärenderelationer
   permission_add_issue_notes: Lägga till ärendenotering
   permission_edit_issue_notes: Ändra ärendenoteringar
@@ -756,6 +768,16 @@ sv:
   label_group_plural: Grupper
   label_group_new: Ny grupp
   label_time_entry_plural: Spenderad tid
+  label_version_sharing_none: Inte delad
+  label_version_sharing_descendants: Med underprojekt
+  label_version_sharing_hierarchy: Med projekthierarki
+  label_version_sharing_tree: Med projektträd
+  label_version_sharing_system: Med alla projekt
+  label_update_issue_done_ratios: Uppdatera % klart
+  label_copy_source: Källa
+  label_copy_target: Mål
+  label_copy_same_as_target: Samma som mål
+  label_display_used_statuses_only: Visa endast status som används av denna ärendetyp
   
   button_login: Logga in
   button_submit: Spara
@@ -793,10 +815,12 @@ sv:
   button_rename: Byt namn
   button_change_password: Ändra lösenord
   button_copy: Kopiera
+  button_copy_and_follow: Kopiera och följ efter
   button_annotate: Kommentera
   button_update: Uppdatera
   button_configure: Konfigurera
   button_quote: Citera
+  button_duplicate: Duplisera
   
   status_active: aktiv
   status_registered: registrerad
@@ -888,29 +912,6 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  field_sharing: Sharing
-  button_copy_and_follow: Copy and follow
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_tree: With project tree
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_system: With all projects
-  label_version_sharing_none: Not shared
-  button_duplicate: Duplicate
-  error_can_not_archive_project: This project can not be archived
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
   label_revision_id: Revision {{value}}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created {{value}} ago

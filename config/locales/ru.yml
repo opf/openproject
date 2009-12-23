@@ -957,27 +957,27 @@ ru:
   button_duplicate: Дублировать
   button_copy_and_follow: Копировать и продолжить
   label_copy_source: Источник
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
+  setting_issue_done_ratio:  Рассчитывать готовность задачи с помощью поля
+  setting_issue_done_ratio_issue_status: Статус задачи
+  error_issue_done_ratios_not_updated: Параметр готовность задач не обновлен
   error_workflow_copy_target: Выберите целевые трекеры и роли
-  setting_issue_done_ratio_issue_field: Use the issue field
+  setting_issue_done_ratio_issue_field: Готовность задачи
   label_copy_same_as_target: То же, что и у цели
   label_copy_target: Цель
-  notice_issue_done_ratios_updated: Issue done ratios updated.
+  notice_issue_done_ratios_updated: Параметр готовность задач обновлен.
   error_workflow_copy_source: Выберите исходный трекер или роль
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
+  label_update_issue_done_ratios: Обновить готовность задач
+  setting_start_of_week: День начала недели
+  label_api_access_key: API access key
+  text_line_separated: Multiple values allowed (one line for each value).
+  label_revision_id: Revision {{value}}
   permission_view_issues: View Issues
   label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
   label_api_access_key_created_on: API access key created {{value}} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
+  button_show: Show
   label_missing_api_access_key: Missing an API access key
   label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
