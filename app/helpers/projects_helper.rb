@@ -74,11 +74,11 @@ module ProjectsHelper
   def version_options_for_select(versions, selected=nil)
     grouped = Hash.new {|h,k| h[k] = []}
     versions.each do |version|
-      grouped[version.project.name] << [h(version.name), version.id]
+      grouped[version.project.name] << [version.name, version.id]
     end
     # Add in the selected
     if selected && !versions.include?(selected)
-      grouped[selected.project.name] << [h(selected.name), selected.id]
+      grouped[selected.project.name] << [selected.name, selected.id]
     end
     
     if grouped.keys.size > 1
