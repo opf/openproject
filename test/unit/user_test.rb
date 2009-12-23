@@ -126,7 +126,9 @@ class UserTest < ActiveSupport::TestCase
     assert !anon.new_record?
     assert_kind_of AnonymousUser, anon
   end
-  
+
+  should_have_one :rss_token
+
   def test_rss_key
     assert_nil @jsmith.rss_token
     key = @jsmith.rss_key
@@ -135,7 +137,55 @@ class UserTest < ActiveSupport::TestCase
     @jsmith.reload
     assert_equal key, @jsmith.rss_key
   end
+
   
+  should_have_one :api_token
+
+  context "User#api_key" do
+    should "generate a new one if the user doesn't have one" do
+      user = User.generate_with_protected!(:api_token => nil)
+      assert_nil user.api_token
+
+      key = user.api_key
+      assert_equal 40, key.length
+      user.reload
+      assert_equal key, user.api_key
+    end
+
+    should "return the existing api token value" do
+      user = User.generate_with_protected!
+      token = Token.generate!(:action => 'api')
+      user.api_token = token
+      assert user.save
+      
+      assert_equal token.value, user.api_key
+    end
+  end
+
+  context "User#find_by_api_key" do
+    should "return nil if no matching key is found" do
+      assert_nil User.find_by_api_key('zzzzzzzzz')
+    end
+
+    should "return nil if the key is found for an inactive user" do
+      user = User.generate_with_protected!(:status => User::STATUS_LOCKED)
+      token = Token.generate!(:action => 'api')
+      user.api_token = token
+      user.save
+
+      assert_nil User.find_by_api_key(token.value)
+    end
+
+    should "return the user if the key is found for an active user" do
+      user = User.generate_with_protected!(:status => User::STATUS_ACTIVE)
+      token = Token.generate!(:action => 'api')
+      user.api_token = token
+      user.save
+      
+      assert_equal user, User.find_by_api_key(token.value)
+    end
+  end
+
   def test_roles_for_project
     # user with a role
     roles = @jsmith.roles_for_project(Project.find(1))

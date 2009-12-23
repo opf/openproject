@@ -108,6 +108,19 @@ class MyController < ApplicationController
     redirect_to :action => 'account'
   end
 
+  # Create a new API key
+  def reset_api_key
+    if request.post?
+      if User.current.api_token
+        User.current.api_token.destroy
+        User.current.reload
+      end
+      User.current.api_key
+      flash[:notice] = l(:notice_api_access_key_reseted)
+    end
+    redirect_to :action => 'account'
+  end
+
   # User's page layout configuration
   def page_layout
     @user = User.current

@@ -163,4 +163,38 @@ class MyControllerTest < ActionController::TestCase
       should_redirect_to('my account') {'/my/account' }
     end
   end
+
+  context "POST to reset_api_key" do
+    context "with an existing api_token" do
+      setup do
+        @previous_token_value = User.find(2).api_key # Will generate one if it's missing
+        post :reset_api_key
+      end
+
+      should "destroy the existing token" do
+        assert_not_equal @previous_token_value, User.find(2).api_key
+      end
+
+      should "create a new token" do
+        assert User.find(2).api_token
+      end
+
+      should_set_the_flash_to /reset/
+      should_redirect_to('my account') {'/my/account' }
+    end
+    
+    context "with no api_token" do
+      setup do
+        assert_nil User.find(2).api_token
+        post :reset_api_key
+      end
+
+      should "create a new token" do
+        assert User.find(2).api_token
+      end
+
+      should_set_the_flash_to /reset/
+      should_redirect_to('my account') {'/my/account' }
+    end
+  end
 end

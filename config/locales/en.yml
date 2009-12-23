@@ -142,6 +142,7 @@ en:
   notice_email_sent: "An email was sent to {{value}}"
   notice_email_error: "An error occurred while sending mail ({{value}})"
   notice_feeds_access_key_reseted: Your RSS access key was reset.
+  notice_api_access_key_reseted: Your API access key was reset.
   notice_failed_to_save_issues: "Failed to save {{count}} issue(s) on {{total}} selected: {{ids}}."
   notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
   notice_account_pending: "Your account was created and is now pending administrator approval."
@@ -668,6 +669,8 @@ en:
   label_language_based: Based on user's language
   label_sort_by: "Sort by {{value}}"
   label_send_test_email: Send a test email
+  label_feeds_access_key: RSS access key
+  label_missing_feeds_access_key: Missing a RSS access key
   label_feeds_access_key_created_on: "RSS access key created {{value}} ago"
   label_module_plural: Modules
   label_added_time_by: "Added by {{author}} {{age}} ago"
@@ -729,6 +732,9 @@ en:
   label_copy_target: Target
   label_copy_same_as_target: Same as target
   label_display_used_statuses_only: Only display statuses that are used by this tracker
+  label_api_access_key: API access key
+  label_missing_api_access_key: Missing an API access key
+  label_api_access_key_created_on: "API access key created {{value}} ago"
   
   button_login: Login
   button_submit: Submit
@@ -836,6 +842,7 @@ en:
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
+  text_show: Show
   
   default_role_manager: Manager
   default_role_developper: Developer
