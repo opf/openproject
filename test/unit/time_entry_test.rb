@@ -44,4 +44,8 @@ class TimeEntryTest < ActiveSupport::TestCase
       assert_equal v, t.hours, "Converting #{k} failed:"
     end
   end
+  
+  def test_hours_should_default_to_nil
+    assert_nil TimeEntry.new.hours
+  end
 end

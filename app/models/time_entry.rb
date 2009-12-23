@@ -44,6 +44,7 @@ class TimeEntry < ActiveRecord::Base
       if default_activity = TimeEntryActivity.default
         self.activity_id = default_activity.id
       end
+      self.hours = nil if hours == 0
     end
   end
   
