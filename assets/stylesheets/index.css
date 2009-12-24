@@ -45,9 +45,9 @@
 .backlog_toolbar {
   background-color: #666;
   color: #ccc;
-  font-family: Verdana, Arial, sans-serif;  
+  font-family: Verdana, Arial, sans-serif;
   font-size: 10px;
-  height: 24px;
+  height: 28px;
   margin: 3px 0px 10px 0px;
   position: relative;
   width: 1130px;
@@ -111,8 +111,8 @@
 
 .backlog .header {
   background-color: #999;
-  font-family: Verdana, Arial, sans-serif;  
-  height: 25px;
+  font-family: Verdana, Arial, sans-serif;
+  height: 28px;
   position: relative;
   width: 100%;
   -moz-border-radius-topleft: 5px;
@@ -252,7 +252,7 @@
 
 .backlog .header .velocity {
   font-family: Verdana, Arial, sans-serif;
-  font-size: 10px;  
+  font-size: 10px;
   font-weight: normal;
   left: 310px;
   position: absolute;
@@ -263,7 +263,7 @@
 .backlog .header .velocity_label {
   display: block;
   font-family: Verdana, Arial, sans-serif;
-  font-size: 10px;  
+  font-size: 10px;
   font-weight: normal;
   left: 290px;
   position: absolute;
@@ -307,7 +307,7 @@
 .start_date_container .label {
   display: block;
   font-family: Verdana, Arial, sans-serif;
-  font-size: 10px;  
+  font-size: 10px;
   font-weight: normal;
   left: 5px;
   position: absolute;
@@ -328,7 +328,7 @@
 
 .backlog .header .start_date {
   font-family: Verdana, Arial, sans-serif;
-  font-size: 10px;  
+  font-size: 10px;
   font-weight: normal;
   right: 18px;
   position: absolute;
@@ -372,7 +372,7 @@
 .effective_date_container .label {
   display: block;
   font-family: Verdana, Arial, sans-serif;
-  font-size: 10px;  
+  font-size: 10px;
   font-weight: normal;
   left: 10px;
   position: absolute;
@@ -393,7 +393,7 @@
 
 .backlog .header .effective_date {
   font-family: Verdana, Arial, sans-serif;
-  font-size: 10px;  
+  font-size: 10px;
   font-weight: normal;
   right: 18px;
   position: absolute;
@@ -428,7 +428,7 @@
   background-color: #ccc;
   display: block;
   font-family: Verdana, Arial, sans-serif;
-  font-size: 10px;  
+  font-size: 9px;
   font-weight: normal;
   height: 15px;
   padding: 4px 3px 2px 3px;
@@ -455,7 +455,7 @@
 
 .backlog.maximized .header .description {
   font-family: Verdana, Arial, sans-serif;
-  font-size: 10px;  
+  font-size: 10px;
   font-weight: normal;
   height: 25px;
   left: 21px;
@@ -499,7 +499,7 @@
 .backlog .header div.is_closed {
   display: block;
   font-family: Verdana, Arial, sans-serif;
-  font-size: 10px;  
+  font-size: 10px;
   font-weight: normal;
   height: 15px;
   left: 580px;
@@ -571,6 +571,6 @@
 }
 
 .backlog.show_chart .chart_area a {
-  font-family: Verdana, Arial, sans-serif;  
+  font-family: Verdana, Arial, sans-serif;
   font-size: 10px;
 }
