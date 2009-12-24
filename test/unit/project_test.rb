@@ -282,7 +282,7 @@ class ProjectTest < ActiveSupport::TestCase
     user = User.find(9)
     assert user.memberships.empty?
     User.current = user
-    assert Project.new.allowed_parents.empty?
+    assert Project.new.allowed_parents.compact.empty?
   end
   
   def test_users_by_role

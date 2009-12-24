@@ -885,3 +885,5 @@ id:
   error_workflow_copy_source: Please select a source tracker or role
   setting_start_of_week: Start calendars on
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
+  permission_add_subprojects: Create subprojects
+  label_subproject_new: New subproject

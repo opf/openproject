@@ -73,7 +73,7 @@ class ProjectsController < ApplicationController
       @project.enabled_module_names = Setting.default_projects_modules
     else
       @project.enabled_module_names = params[:enabled_modules]
-      if @project.save
+      if validate_parent_id && @project.save
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         # Add current user as a project member if he is not admin
         unless User.current.admin?
@@ -104,7 +104,7 @@ class ProjectsController < ApplicationController
     else
       @project = Project.new(params[:project])
       @project.enabled_module_names = params[:enabled_modules]
-      if @project.copy(@source_project, :only => params[:only])
+      if validate_parent_id && @project.copy(@source_project, :only => params[:only])
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
@@ -156,7 +156,7 @@ class ProjectsController < ApplicationController
   def edit
     if request.post?
       @project.attributes = params[:project]
-      if @project.save
+      if validate_parent_id && @project.save
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
@@ -394,5 +394,20 @@ private
     else
       @selected_tracker_ids = (default_trackers || selectable_trackers).collect {|t| t.id.to_s }
     end
+  end
+  
+  # Validates parent_id param according to user's permissions
+  # TODO: move it to Project model in a validation that depends on User.current
+  def validate_parent_id
+    return true if User.current.admin?
+    parent_id = params[:project] && params[:project][:parent_id]
+    if parent_id || @project.new_record?
+      parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)
+      unless @project.allowed_parents.include?(parent)
+        @project.errors.add :parent_id, :invalid
+        return false
+      end
+    end
+    true
   end
 end

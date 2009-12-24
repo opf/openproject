@@ -328,6 +328,7 @@ en:
   setting_rest_api_enabled: Enable REST web service
   
   permission_add_project: Create project
+  permission_add_subprojects: Create subprojects
   permission_edit_project: Edit project
   permission_select_project_modules: Select project modules
   permission_manage_members: Manage members
@@ -463,6 +464,7 @@ en:
   label_auth_source_new: New authentication mode
   label_auth_source_plural: Authentication modes
   label_subproject_plural: Subprojects
+  label_subproject_new: New subproject
   label_and_its_subprojects: "{{value}} and its subprojects"
   label_min_max_length: Min - Max length
   label_list: List

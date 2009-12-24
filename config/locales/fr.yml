@@ -348,6 +348,7 @@ fr:
   setting_rest_api_enabled: Activer l'API REST
   
   permission_add_project: Créer un projet
+  permission_add_subprojects: Créer des sous-projets
   permission_edit_project: Modifier le projet
   permission_select_project_modules: Choisir les modules
   permission_manage_members: Gérer les members
@@ -483,6 +484,7 @@ fr:
   label_auth_source_new: Nouveau mode d'authentification
   label_auth_source_plural: Modes d'authentification
   label_subproject_plural: Sous-projets
+  label_subproject_new: Nouveau sous-projet
   label_and_its_subprojects: "{{value}} et ses sous-projets"
   label_min_max_length: Longueurs mini - maxi
   label_list: Liste

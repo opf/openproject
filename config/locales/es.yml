@@ -917,3 +917,5 @@ es:
   button_show: Mostrar
   text_line_separated: Múltiples valores permitidos (un valor en cada línea).
   setting_mail_handler_body_delimiters: Truncar correos tras una de estas líneas
+  permission_add_subprojects: Create subprojects
+  label_subproject_new: New subproject

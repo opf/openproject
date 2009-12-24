@@ -36,7 +36,16 @@ module ProjectsHelper
   end
   
   def parent_project_select_tag(project)
-    options = '<option></option>' + project_tree_options_for_select(project.allowed_parents, :selected => project.parent)
+    selected = project.parent
+    # retrieve the requested parent project
+    parent_id = (params[:project] && params[:project][:parent_id]) || params[:parent_id]
+    if parent_id
+      selected = (parent_id.blank? ? nil : Project.find(parent_id))
+    end
+    
+    options = ''
+    options << "<option value=''></option>" if project.allowed_parents.include?(nil)
+    options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
     content_tag('select', options, :name => 'project[parent_id]')
   end
   

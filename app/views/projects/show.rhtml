@@ -1,3 +1,9 @@
+<div class="contextual">
+	<% if User.current.allowed_to?(:add_subprojects, @project) %>
+		<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project}, :class => 'icon icon-add' %>
+	<% end %>
+</div>
+
 <h2><%=l(:label_overview)%></h2> 
 	
 <div class="splitcontentleft">
