@@ -626,8 +626,8 @@ class Project < ActiveRecord::Base
 
   # Returns all the active Systemwide and project specific activities
   def active_activities
-    overridden_activity_ids = self.time_entry_activities.active.collect(&:parent_id)
-
+    overridden_activity_ids = self.time_entry_activities.collect(&:parent_id)
+    
     if overridden_activity_ids.empty?
       return TimeEntryActivity.shared.active
     else
@@ -657,7 +657,7 @@ class Project < ActiveRecord::Base
     else
       return TimeEntryActivity.shared.active.
         find(:all,
-             :conditions => ["id NOT IN (?)", self.time_entry_activities.active.collect(&:parent_id)]) +
+             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
         self.time_entry_activities.active
     end
   end
