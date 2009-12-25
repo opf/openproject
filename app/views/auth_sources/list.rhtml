@@ -11,7 +11,6 @@
 	  <th><%=l(:field_host)%></th>
 	  <th><%=l(:label_user_plural)%></th>
 	  <th></th>
-	  <th></th>
   </tr></thead>
   <tbody>
 <% for source in @auth_sources %>
@@ -20,11 +19,13 @@
     <td align="center"><%= source.auth_method_name %></td>
     <td align="center"><%= source.host %></td>    
     <td align="center"><%= source.users.count %></td>
-    <td align="center"><%= link_to l(:button_test), :action => 'test_connection', :id => source %></td>
-    <td align="center"><%= button_to l(:button_delete), { :action => 'destroy', :id => source },
+    <td class="buttons">
+    	<%= link_to l(:button_test), :action => 'test_connection', :id => source %>
+    	<%= link_to l(:button_delete), { :action => 'destroy', :id => source },
                                                         :confirm => l(:text_are_you_sure),
-                                                        :class => "button-small",
-                                                        :disabled => source.users.any? %></td>
+                                                        :class => 'icon icon-del',
+                                                        :disabled => source.users.any? %>
+    </td>
   </tr>
 <% end %>
   </tbody>
