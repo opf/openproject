@@ -19,8 +19,6 @@ class IssuePriority < Enumeration
   has_many :issues, :foreign_key => 'priority_id'
 
   OptionName = :enumeration_issue_priorities
-  # Backwards compatiblity.  Can be removed post-0.9
-  OptName = 'IPRI'
 
   def option_name
     OptionName

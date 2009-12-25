@@ -19,8 +19,6 @@ class DocumentCategory < Enumeration
   has_many :documents, :foreign_key => 'category_id'
 
   OptionName = :enumeration_doc_categories
-  # Backwards compatiblity.  Can be removed post-0.9
-  OptName = 'DCAT'
 
   def option_name
     OptionName

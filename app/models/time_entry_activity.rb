@@ -19,8 +19,6 @@ class TimeEntryActivity < Enumeration
   has_many :time_entries, :foreign_key => 'activity_id'
 
   OptionName = :enumeration_activities
-  # Backwards compatiblity.  Can be removed post-0.9
-  OptName = 'ACTI'
   
   def option_name
     OptionName

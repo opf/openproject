@@ -40,7 +40,7 @@ task :migrate_from_mantis => :environment do
                         90 => closed_status    # closed
                         }
                         
-      priorities = Enumeration.priorities
+      priorities = IssuePriority.all
       DEFAULT_PRIORITY = priorities[2]
       PRIORITY_MAPPING = {10 => priorities[1], # none
                           20 => priorities[1], # low

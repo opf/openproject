@@ -160,17 +160,17 @@ module Redmine
             }
           
             # Enumerations
-            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_user), :position => 1)
-            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_tech), :position => 2)
+            DocumentCategory.create!(:name => l(:default_doc_category_user), :position => 1)
+            DocumentCategory.create!(:name => l(:default_doc_category_tech), :position => 2)
           
-            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_low), :position => 1)
-            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_normal), :position => 2, :is_default => true)
-            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_high), :position => 3)
-            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_urgent), :position => 4)
-            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_immediate), :position => 5)
+            IssuePriority.create!(:name => l(:default_priority_low), :position => 1)
+            IssuePriority.create!(:name => l(:default_priority_normal), :position => 2, :is_default => true)
+            IssuePriority.create!(:name => l(:default_priority_high), :position => 3)
+            IssuePriority.create!(:name => l(:default_priority_urgent), :position => 4)
+            IssuePriority.create!(:name => l(:default_priority_immediate), :position => 5)
           
-            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_design), :position => 1)
-            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_development), :position => 2)
+            TimeEntryActivity.create!(:name => l(:default_activity_design), :position => 1)
+            TimeEntryActivity.create!(:name => l(:default_activity_development), :position => 2)
           end
           true
         end
