@@ -190,7 +190,7 @@ Calendar.setup = function (params) {
 			cal.create();
 		cal.refresh();
 		if (!params.position)
-			cal.showAtElement(params.button || params.displayArea || params.inputField, params.align);
+			cal.showAtElement(params.button || params.displayArea || params.inputField);
 		else
 			cal.showAt(params.position[0], params.position[1]);
 		return false;
