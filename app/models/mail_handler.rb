@@ -132,7 +132,6 @@ class MailHandler < ActionMailer::Base
       issue.status = status
     end
     issue.subject = email.subject.chomp
-    issue.subject = issue.subject.toutf8 if issue.subject.respond_to?(:toutf8)
     if issue.subject.blank?
       issue.subject = '(no subject)'
     end
