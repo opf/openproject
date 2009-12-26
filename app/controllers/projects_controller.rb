@@ -108,7 +108,13 @@ class ProjectsController < ApplicationController
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
-      end		
+      elsif !@project.new_record?
+        # Project was created
+        # But some objects were not copied due to validation failures
+        # (eg. issues from disabled trackers)
+        # TODO: inform about that
+        redirect_to :controller => 'admin', :action => 'projects'
+      end
     end
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => 'admin', :action => 'projects'
