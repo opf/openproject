@@ -233,11 +233,16 @@ sub is_public_project {
 
     my $dbh = connect_database($r);
     my $sth = $dbh->prepare(
-        "SELECT * FROM projects WHERE projects.identifier=? and projects.is_public=true;"
+        "SELECT is_public FROM projects WHERE projects.identifier = ?;"
     );
 
     $sth->execute($project_id);
-    my $ret = $sth->fetchrow_array ? 1 : 0;
+    my $ret = 0;
+    if (my @row = $sth->fetchrow_array) {
+    	if ($row[0] eq "1" || $row[0] eq "t") {
+    		$ret = 1;
+    	}
+    }
     $sth->finish();
     $dbh->disconnect();
 
@@ -295,7 +300,7 @@ sub is_member {
           $sthldap->execute($auth_source_id);
           while (my @rowldap = $sthldap->fetchrow_array) {
             my $ldap = Authen::Simple::LDAP->new(
-                host    =>      ($rowldap[2] == 1 || $rowldap[2] eq "t") ? "ldaps://$rowldap[0]" : $rowldap[0],
+                host    =>      ($rowldap[2] eq "1" || $rowldap[2] eq "t") ? "ldaps://$rowldap[0]" : $rowldap[0],
                 port    =>      $rowldap[1],
                 basedn  =>      $rowldap[5],
                 binddn  =>      $rowldap[3] ? $rowldap[3] : "",
