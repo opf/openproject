@@ -117,6 +117,97 @@ http://www.redmine.org/
 * Fixed: Users getting notifications for issues they are no longer allowed to view
 
 
+== 2009-11-15 v0.8.7
+
+* Fixed: Hide paragraph terminator at the end of headings on html export
+* Fixed: pre tags containing "<pre*"
+* Fixed: First date of the date range not included in the time report with SQLite
+* Fixed: Password field not styled correctly on alternative stylesheet
+* Fixed: Error when sumbitting a POST request that requires a login
+* Fixed: CSRF vulnerabilities
+
+
+== 2009-11-04 v0.8.6
+
+* Change links to closed issues to be a grey color
+* Change subversion adapter to not cache authentication and run non interactively
+* Fixed: Custom Values with a nil value cause HTTP error 500
+* Fixed: Failure to convert HTML entities when editing an Issue reply
+* Fixed: Error trying to show repository when there are no comments in a changeset
+* Fixed: account/show/:user_id should not be accessible for other users not in your projects
+* Fixed: XSS vulnerabilities
+* Fixed: IssuesController#destroy should accept POST only
+* Fixed: Inline images in wiki headings
+
+
+== 2009-09-13 v0.8.5
+
+* Incoming mail handler : Allow spaces between keywords and colon
+* Do not require a non-word character after a comma in Redmine links
+* Include issue hyperlinks in reminder emails
+* Prevent nil error when retrieving svn version
+* Various plugin hooks added
+* Add plugins information to script/about
+* Fixed: 500 Internal Server Error is raised if add an empty comment to the news
+* Fixed: Atom links for wiki pages are not correct
+* Fixed: Atom feeds leak email address
+* Fixed: Case sensitivity in Issue filtering
+* Fixed: When reading RSS feed, the inline-embedded images are not properly shown
+
+
+== 2009-05-17 v0.8.4
+
+* Allow textile mailto links
+* Fixed: memory consumption when uploading file
+* Fixed: Mercurial integration doesn't work if Redmine is installed in folder path containing space
+* Fixed: an error is raised when no tab is available on project settings
+* Fixed: insert image macro corrupts urls with excalamation marks
+* Fixed: error on cross-project gantt PNG export
+* Fixed: self and alternate links in atom feeds do not respect Atom specs
+* Fixed: accept any svn tunnel scheme in repository URL
+* Fixed: issues/show should accept user's rss key
+* Fixed: consistency of custom fields display on the issue detail view
+* Fixed: wiki comments length validation is missing
+* Fixed: weak autologin token generation algorithm causes duplicate tokens
+
+
+== 2009-04-05 v0.8.3
+
+* Separate project field and subject in cross-project issue view
+* Ability to set language for redmine:load_default_data task using REDMINE_LANG environment variable
+* Rescue Redmine::DefaultData::DataAlreadyLoaded in redmine:load_default_data task
+* CSS classes to highlight own and assigned issues
+* Hide "New file" link on wiki pages from printing
+* Flush buffer when asking for language in redmine:load_default_data task
+* Minimum project identifier length set to 1
+* Include headers so that emails don't trigger vacation auto-responders
+* Fixed: Time entries csv export links for all projects are malformed
+* Fixed: Files without Version aren't visible in the Activity page
+* Fixed: Commit logs are centered in the repo browser
+* Fixed: News summary field content is not searchable
+* Fixed: Journal#save has a wrong signature
+* Fixed: Email footer signature convention
+* Fixed: Timelog report do not show time for non-versioned issues
+
+
+== 2009-03-07 v0.8.2
+
+* Send an email to the user when an administrator activates a registered user
+* Strip keywords from received email body
+* Footer updated to 2009
+* Show RSS-link even when no issues is found
+* One click filter action in activity view
+* Clickable/linkable line #'s while browsing the repo or viewing a file
+* Links to versions on files list
+* Added request and controller objects to the hooks by default
+* Fixed: exporting an issue with attachments to PDF raises an error
+* Fixed: "too few arguments" error may occur on activerecord error translation
+* Fixed: "Default columns Displayed on the Issues list" setting is not easy to read
+* Fixed: visited links to closed tickets are not striked through with IE6
+* Fixed: MailHandler#plain_text_body returns nil if there was nothing to strip
+* Fixed: MailHandler raises an error when processing an email without From header
+
+
 == 2009-02-15 v0.8.1
 
 * Select watchers on new issue form
