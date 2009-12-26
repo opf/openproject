@@ -856,6 +856,7 @@ fr:
   text_wiki_page_nullify_children: "Conserver les sous-pages en tant que pages racines"
   text_wiki_page_destroy_children: "Supprimer les sous-pages et toutes leurs descedantes"
   text_wiki_page_reassign_children: "Réaffecter les sous-pages à cette page"
+  text_own_membership_delete_confirmation: "Vous allez supprimer tout ou partie de vos permissions sur ce projet et ne serez peut-être plus autorisé à modifier ce projet.\nEtes-vous sûr de vouloir continuer ?"
   
   default_role_manager: Manager
   default_role_developper: Développeur

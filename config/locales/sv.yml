@@ -925,3 +925,6 @@ sv:
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   permission_add_subprojects: Create subprojects
   label_subproject_new: New subproject
+  text_own_membership_delete_confirmation: |-
+    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
+    Are you sure you want to continue?

@@ -57,6 +57,14 @@ class Member < ActiveRecord::Base
     member_roles.detect {|mr| mr.inherited_from}.nil?
   end
   
+  def include?(user)
+    if principal.is_a?(Group)
+      !user.nil? && user.groups.include?(principal)
+    else
+      self.user == user
+    end
+  end
+  
   def before_destroy
     if user
       # remove category based auto assignments for this member
