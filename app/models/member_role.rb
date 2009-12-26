@@ -30,6 +30,10 @@ class MemberRole < ActiveRecord::Base
     errors.add :role_id, :invalid if role && !role.member?
   end
   
+  def inherited?
+    !inherited_from.nil?
+  end
+  
   private
   
   def remove_member_if_empty

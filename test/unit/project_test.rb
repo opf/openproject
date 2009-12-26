@@ -633,15 +633,15 @@ class ProjectTest < ActiveSupport::TestCase
       assert_not_equal source_relation_cross_project.id, copied_relation.id
     end
 
-    should "copy members" do
+    should "copy memberships" do
       assert @project.valid?
       assert @project.members.empty?
       assert @project.copy(@source_project)
 
-      assert_equal @source_project.members.size, @project.members.size
-      @project.members.each do |member|
-        assert member
-        assert_equal @project, member.project
+      assert_equal @source_project.memberships.size, @project.memberships.size
+      @project.memberships.each do |membership|
+        assert membership
+        assert_equal @project, membership.project
       end
     end
 

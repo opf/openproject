@@ -23,6 +23,7 @@ class Project < ActiveRecord::Base
   # Specific overidden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member', 
                                :include => :principal,
                                :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
@@ -583,10 +584,14 @@ class Project < ActiveRecord::Base
 
   # Copies members from +project+
   def copy_members(project)
-    project.members.each do |member|
+    project.memberships.each do |member|
       new_member = Member.new
       new_member.attributes = member.attributes.dup.except("id", "project_id", "created_on")
-      new_member.role_ids = member.role_ids.dup
+      # only copy non inherited roles
+      # inherited roles will be added when copying the group membership
+      role_ids = member.member_roles.reject(&:inherited?).collect(&:role_id)
+      next if role_ids.empty?
+      new_member.role_ids = role_ids
       new_member.project = self
       self.members << new_member
     end
