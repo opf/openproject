@@ -77,4 +77,12 @@ class WikiContentTest < ActiveSupport::TestCase
       assert_kind_of String, version.text
     end
   end
+  
+  def test_large_text_should_not_be_truncated_to_64k
+    page = WikiPage.new(:wiki => @wiki, :title => "Big page")  
+    page.content = WikiContent.new(:text => "a" * 500.kilobyte, :author => User.find(1))
+    assert page.save
+    page.reload
+    assert_equal 500.kilobyte, page.content.text.size
+  end
 end
