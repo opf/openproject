@@ -17,12 +17,11 @@ RBL.Item = Class.create(RBL.Model, {
     this.getChild('.discussion').observe('mousedown', this.preventDrag.bind(this));
     this.getChild('.add_task').observe('mouseup', this.addTask.bind(this));
     this.getChild('textarea.comment').observe('keydown', this.saveComment.bind(this));
-
+    
     var editables = this.getChildren('.editable');
     for(var ii=0; ii < editables.length; ii++){
       editables[ii].observe('click', this.edit.bind(this));
     }
-    this.setLineHeight();
   },
 
   addTask: function(event){
@@ -34,7 +33,7 @@ RBL.Item = Class.create(RBL.Model, {
 
   applyEdits: function(){
     var editors = this.getBody().select('.editor');
-
+    
     for(var ii=0; ii < editors.length; ii++){
       fieldName = editors[ii].readAttribute('name');
       if(editors[ii].type.match(/select/)){
@@ -60,27 +59,27 @@ RBL.Item = Class.create(RBL.Model, {
   clearTasks: function(){
     this.getTasksList().update();
   },
-
+  
   commentsLoaded: function(transport){
     this.getChild("div.comments").update(transport.responseText);
     this.getChild("div.discussion").removeClassName("loading");
   },
-
+  
   commentSaved: function(transport){
     this.getChild("div.comments").insert({ 'top': transport.responseText });
     this.getChild("textarea.comment").value = '';
     this.getChild("div.discussion").removeClassName("loading");
   },
-
+  
   edit: function(event){
     if(event!=null && event.shiftKey) return true;
-
-    if (Element.viewportOffset(this.getRoot())[1] > document.viewport.getDimensions().height)
+    
+    if (Element.viewportOffset(this.getRoot())[1] > document.viewport.getDimensions().height) 
       Element.scrollTo(this.getRoot());
 
-    this.getRoot().addClassName("editing");
-
-    var editables = this.getBody().select(".editable");
+    this.getRoot().addClassName("editing");    
+    
+    var editables = this.getBody().select(".editable"); 
     var field = null;
     var inputyType = null
 
@@ -92,9 +91,9 @@ RBL.Item = Class.create(RBL.Model, {
       } else {
         inputType = 'input';
       }
-
+      
       fieldName = editables[ii].readAttribute('fieldname');
-
+      
       field = this.getBody().select(inputType + '.' + fieldName)[0];
       if(field==null){
         field = inputType=="select" ? $(fieldName + "_options").cloneNode(true) : new Element(inputType);
@@ -105,19 +104,19 @@ RBL.Item = Class.create(RBL.Model, {
         this.getBody().insert(field);
         field.observe('keydown', this.handleKeyPress.bind(this));
       }
-
+      
       switch(inputType){
         case 'textarea': field.update(editables[ii].select(".textile")[0].innerHTML); break;
         case 'input'   : field.value = editables[ii].innerHTML; break;
-        case 'select'  : for(var jj=0; jj < field.length; jj++) {
+        case 'select'  : for(var jj=0; jj < field.length; jj++) { 
                            if(field[jj].value==editables[ii].select('.v')[0].innerHTML) field.selectedIndex=jj;
                          }
       }
-
+      
       if(event!=null && ($(event.target)==editables[ii] || $(event.target).up()==editables[ii])) field.activate();
     }
-
-    if(event!=null){
+    
+    if(event!=null){ 
       event.stop();
     } else {
       this.getChildren('.editor')[0].activate();
@@ -127,71 +126,71 @@ RBL.Item = Class.create(RBL.Model, {
   endEdit: function(){
     this.getRoot().removeClassName('editing');
   },
-
+  
   getBacklogID: function(){
     return this.getParentBacklog().getValue('.id');
   },
-
+  
   getBody: function(){
     return this.getRoot().select(".body")[0];
   },
-
+    
   getNext: function(){
     var el = this.getRoot().next();
     return el==null ? null : RBL.Item.find(el);
   },
-
+  
   getParentBacklog: function(){
     var id = this.getRoot().up(".backlog").down(".header").down(".id").innerHTML;
     return RBL.Backlog.findByID(id);
   },
-
+  
   getParentID: function(){
     return 0;
   },
-
+  
   getPrevious: function(){
     var el = this.getRoot().previous();
     return el==null ? null : RBL.Item.find(el);
   },
-
+  
   getTasksList: function(){
     return this.getChild('.item_tasks');
   },
-
+  
   handleKeyPress: function(event){
     // Special treatment for textareas
-    var processReturnKey = (event.target.type=="textarea" && event.ctrlKey) || event.target.type!="textarea";
-
+    var processReturnKey = (event.target.type=="textarea" && event.ctrlKey) || event.target.type!="textarea";  
+    
     switch(event.keyCode){
       case Event.KEY_ESC   : if(this.isNew()) {
-                               this.getRoot().slideUp({ duration: 0.25 });
+                               this.getRoot().slideUp({ duration: 0.25 }); 
                                var el = this.getRoot();
                                new PeriodicalExecuter(function(pe){ el.remove(); pe.stop(); }, 1);
                              } else {
                                this.endEdit();
                              }
                              break;
-
-      case Event.KEY_RETURN: if(processReturnKey) {
-                                this.applyEdits();
-                                this.endEdit();
-                                this.save();
-                             }
+                             
+      case Event.KEY_RETURN: if(processReturnKey) { 
+                                this.applyEdits(); 
+                                this.endEdit(); 
+                                this.save(); 
+                             } 
                              break;
-
+                             
       default              : return true;
     }
   },
-
+  
   isClosed: function(){
     return this.getRoot().hasClassName("closed");
   },
-
+  
   isNew: function(){
     return this.getValue(".id")=='';
   },
-
+  
   itemCreated: function(transport){
     var el = new Element('div');
     el.update(transport.responseText);
@@ -199,11 +198,11 @@ RBL.Item = Class.create(RBL.Model, {
     this.getChild(".description").update(el.select(".description")[0].innerHTML);
     this.getChild(".issue_id_container").update(el.select(".issue_id_container")[0].innerHTML);
     this.setValue('.id', el.select(".body .id")[0].innerHTML);
-    this.getRoot().writeAttribute('id', this._prefix + this.getValue('.id'));
+    this.getRoot().writeAttribute('id', this._prefix + this.getValue('.id'));    
     this.register();
     this.getParentBacklog().makeSortable();
     this.markNotSaving();
-  },
+  },  
 
   itemUpdated: function(transport){
     var el = new Element('div');
@@ -213,22 +212,21 @@ RBL.Item = Class.create(RBL.Model, {
     var highlightStatus = (this.getValue(".issue.status_id .v")!=el.select(".issue.status_id .v")[0].innerHTML);
     this.setValue(".issue.status_id .t", el.select(".issue.status_id .t")[0].innerHTML);
     this.setValue(".issue.status_id .v", el.select(".issue.status_id .v")[0].innerHTML);
-    if(highlightStatus) this.getBody().select(".issue.status_id .t")[0].highlight({ startcolor: "#ff3333", endcolor: "#ff3333", duration: 2 });
-    if(el.select("li.item")[0].hasClassName("closed")) {
-      this.getRoot().addClassName("closed");
+    if(highlightStatus) this.getBody().select(".issue.status_id .t")[0].highlight({ startcolor: "#ff3333", endcolor: "#ff3333", duration: 2 }); 
+    if(el.select("li.item")[0].hasClassName("closed")) { 
+      this.getRoot().addClassName("closed"); 
     } else {
       this.getRoot().removeClassName("closed");
     }
     this.markNotSaving();
     this.raiseEvent("update");
-    this.setLineHeight();
   },
-
+  
   loadComments: function(){
     var url = RBL.urlFor({ controller: 'comments',
                            action    : 'index',
                            item_id   : this.getValue('.id') });
-
+                           
     new Ajax.Request(url, {
                      method    : "get",
                      onComplete: this.commentsLoaded.bind(this)
@@ -256,7 +254,7 @@ RBL.Item = Class.create(RBL.Model, {
   markSaving: function(){
     this.getRoot().addClassName("saving");
   },
-
+  
   preventDrag: function(event){
     event.stopPropagation();
   },
@@ -264,14 +262,14 @@ RBL.Item = Class.create(RBL.Model, {
   registerTask: function(task){
     return true;
   },
-
+  
   save: function(saveCallback){
     var params   = this.toParams();
     var url;
     var callback = null;
-
+    
     this._saveCallback = saveCallback;
-
+    
     if(this.isNew()){
       params["project_id"] = projectID;
       callback = this.itemCreated.bind(this);
@@ -288,7 +286,7 @@ RBL.Item = Class.create(RBL.Model, {
     this.markSaving();
     new Ajax.Request(url, {method: "post", parameters: params, onComplete: callback});
   },
-
+  
   saveComment: function(event){
     if(event.keyCode==Event.KEY_RETURN && event.ctrlKey) {
       var params =  {};
@@ -296,7 +294,7 @@ RBL.Item = Class.create(RBL.Model, {
       var url = RBL.urlFor({ controller: 'comments',
                              action    : 'create',
                              item_id   : this.getValue('.id') });
-
+      
       new Ajax.Request(url, {
                        method    : 'post',
                        parameters: params,
@@ -309,7 +307,7 @@ RBL.Item = Class.create(RBL.Model, {
       event.stop();
     }
   },
-
+  
   tasksLoaded: function(transport){
     this.getTasksList().update(transport.responseText);
     if (this.getChildren('li.item.task').length==0){
@@ -320,12 +318,12 @@ RBL.Item = Class.create(RBL.Model, {
       this.getChildren('li.item.task').each(function(element){
         var task = new RBL.Task(element, myself);
         task.getRoot().removeClassName("maximized");
-        myself.registerTask(task);
+        myself.registerTask(task);       
       });
     }
     this.getTasksList().removeClassName("loading");
   },
-
+  
   toggleDiscussion: function(event){
     this.getRoot().toggleClassName("discussion");
     if(this.getRoot().hasClassName("discussion")){
@@ -334,7 +332,7 @@ RBL.Item = Class.create(RBL.Model, {
       this.getChild("textarea.comment").activate();
     }
   },
-
+    
   toggleHeight: function(event){
     this.getRoot().toggleClassName("maximized");
     if(this.getRoot().hasClassName("maximized")) {
@@ -344,38 +342,24 @@ RBL.Item = Class.create(RBL.Model, {
     }
   },
 
-  setLineHeight: function(){
-    var maxLength = 50;
-    if (!this.getParentBacklog().getRoot().hasClassName("main")) {
-      maxLength = 65;
-    }
-
-    if (this.getChild("div.subject").innerHTML.length > maxLength) {
-      this.getRoot().addClassName("item_double");
-    } else {
-      this.getRoot().removeClassName("item_double");
-    }
-  },
-
-
   toParams: function(){
     var params = {};
     var fields = this.getBody().select('.editable');
-
+    
     for(var ii=0; ii<fields.length; ii++){
       params[fields[ii].readAttribute('modelname') + '[' + fields[ii].readAttribute('fieldname') + ']'] =
-        (fields[ii].hasClassName('sel') ? fields[ii].select('.v')[0].innerHTML :
+        (fields[ii].hasClassName('sel') ? fields[ii].select('.v')[0].innerHTML : 
           (fields[ii].hasClassName('ta') ? fields[ii].select('.textile')[0].innerHTML : fields[ii].innerHTML) );
     }
-
+    
     params["item[backlog_id]"] = this.getBacklogID();
     params["item[parent_id]"]  = this.getParentID();
     params["prev"]             = this.getPrevious()==null ? null : this.getPrevious().getValue('.id');
     params["next"]             = this.getNext()==null ? null : this.getNext().getValue('.id');
-
+    
     return params;
   },
-
+  
 });
 
 // Add class methods
