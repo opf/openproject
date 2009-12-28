@@ -31,6 +31,15 @@ module ItemsHelper
     item.parent_id == 0 ? "" : "task"
   end
 
+  def one_or_two_line_height(item)
+    if item.backlog_id.nil? || item.backlog_id == 0
+      maxLength = 50
+    else
+      maxLength = 65
+    end
+    item.subject.length > maxLength ? "item_double" : ""
+  end
+
   def points_or_empty(item)
     item.points.nil? ? 0 : item.points
   end
