@@ -128,7 +128,7 @@ namespace :redmine do
         end
 
         def content_type
-          Redmine::MimeType.of(filename) || ''
+          ''
         end
 
         def exist?

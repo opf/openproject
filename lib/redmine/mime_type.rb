@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2009  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,6 +36,7 @@ module Redmine
       'text/x-sh' => 'sh',
       'text/xml' => 'xml,xsd,mxml',
       'text/yaml' => 'yml,yaml',
+      'text/csv' => 'csv',
       'image/gif' => 'gif',
       'image/jpeg' => 'jpg,jpeg,jpe',
       'image/png' => 'png',
@@ -43,6 +44,20 @@ module Redmine
       'image/x-ms-bmp' => 'bmp',
       'image/x-xpixmap' => 'xpm',
       'application/pdf' => 'pdf',
+      'application/rtf' => 'rtf',
+      'application/msword' => 'doc',
+      'application/vnd.ms-excel' => 'xls',
+      'application/vnd.ms-powerpoint' => 'ppt,pps',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
+      'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'ppsx',
+      'application/vnd.oasis.opendocument.spreadsheet' => 'ods',
+      'application/vnd.oasis.opendocument.text' => 'odt',
+      'application/vnd.oasis.opendocument.presentation' => 'odp',
+      'application/x-7z-compressed' => '7z',
+      'application/x-rar-compressed' => 'rar',
+      'application/x-tar' => 'tar',
       'application/zip' => 'zip',
       'application/x-gzip' => 'gz',
     }.freeze

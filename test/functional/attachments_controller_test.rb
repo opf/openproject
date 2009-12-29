@@ -84,6 +84,14 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'application/x-ruby', @response.content_type
   end
   
+  def test_download_should_assign_content_type_if_blank
+    Attachment.find(4).update_attribute(:content_type, '')
+    
+    get :download, :id => 4
+    assert_response :success
+    assert_equal 'text/x-ruby', @response.content_type
+  end
+  
   def test_download_missing_file
     get :download, :id => 2
     assert_response 404

@@ -41,7 +41,7 @@ class AttachmentsController < ApplicationController
     
     # images are sent inline
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-                                    :type => @attachment.content_type, 
+                                    :type => detect_content_type(@attachment), 
                                     :disposition => (@attachment.image? ? 'inline' : 'attachment')
    
   end
@@ -75,5 +75,13 @@ private
   
   def delete_authorize
     @attachment.deletable? ? true : deny_access
+  end
+  
+  def detect_content_type(attachment)
+    content_type = attachment.content_type
+    if content_type.blank?
+      content_type = Redmine::MimeType.of(attachment.filename)
+    end
+    content_type
   end
 end

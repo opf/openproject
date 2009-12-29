@@ -38,6 +38,14 @@ class AttachmentTest < ActiveSupport::TestCase
     assert File.exist?(a.diskfile)
   end
   
+  def test_create_should_auto_assign_content_type
+    a = Attachment.new(:container => Issue.find(1),
+                       :file => uploaded_test_file("testfile.txt", ""),
+                       :author => User.find(1))
+    assert a.save
+    assert_equal 'text/plain', a.content_type
+  end
+  
   def test_diskfilename
     assert Attachment.disk_filename("test_file.txt") =~ /^\d{12}_test_file.txt$/
     assert_equal 'test_file.txt', Attachment.disk_filename("test_file.txt")[13..-1]
