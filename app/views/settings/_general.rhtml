@@ -27,6 +27,8 @@
 <p><%= setting_text_field :file_max_size_displayed, :size => 6 %> KB</p>
 
 <p><%= setting_text_field :diff_max_lines_displayed, :size => 6 %></p>
+
+<%= call_hook(:view_settings_general_form) %>
 </div>
 
 <%= submit_tag l(:button_save) %>
