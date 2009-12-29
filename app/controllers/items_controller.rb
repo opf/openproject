@@ -2,7 +2,9 @@ class ItemsController < ApplicationController
   unloadable
   before_filter :find_item, :only => [:edit, :update, :show, :delete]
   before_filter :find_project, :authorize
-    
+
+  protect_from_forgery :only => []
+  
   def index
     render :text => "We don't do no indexin' round this part of town."
   end

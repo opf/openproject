@@ -4,7 +4,9 @@ class BacklogsController < ApplicationController
   unloadable
   before_filter :find_backlog, :only => [:show, :update]
   before_filter :find_project, :authorize
-      
+
+  protect_from_forgery :only => []
+
   def index
     @items         = Item.find_by_project(@project)
     @item_template = Item.new

@@ -1,7 +1,9 @@
 class ChartsController < ApplicationController
   unloadable
   before_filter :find_project, :authorize
-  
+
+  protect_from_forgery :only => []
+    
   def show
     @data = BacklogChartData.fetch :backlog_id => params[:backlog_id]
     

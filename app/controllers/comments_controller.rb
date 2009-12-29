@@ -2,7 +2,9 @@ class CommentsController < ApplicationController
   unloadable
   before_filter :find_item, :only => [:index, :create ]
   before_filter :find_project, :authorize
-    
+
+  protect_from_forgery :only => []
+  
   def index
     @journals = @item.issue.journals.find(:all, 
                                           :include => [:user, :details], 

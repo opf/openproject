@@ -2,6 +2,8 @@ class TasksController < ApplicationController
   unloadable
   before_filter :find_item, :only => [:index, :create ]
   before_filter :find_project, :authorize
+
+  protect_from_forgery :only => []
   
   def index
     render :partial => "items/item", :collection => @item.children
