@@ -22,3 +22,6 @@ ActionController::Base.session = {
 EOF
   end
 end
+
+desc 'Generates a configuration file for cookie store sessions.'
+task :generate_session_store => ['config/initializers/session_store.rb']
