@@ -196,7 +196,7 @@ class User < Principal
 
   # Return user's API key (a 40 chars long string), used to access the API
   def api_key
-    token = self.api_token || Token.create(:user => self, :action => 'api')
+    token = self.api_token || self.create_api_token(:action => 'api')
     token.value
   end
   
