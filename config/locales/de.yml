@@ -13,7 +13,7 @@ de:
     abbr_day_names: [So, Mo, Di, Mi, Do, Fr, Sa]
     month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
     abbr_month_names: [~, Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
-    order: [ :day, :month, :year ]
+    order: [ :Tag, :Monat, :Jahr]
   
   time:
     formats:
@@ -259,7 +259,7 @@ de:
   field_comments: Kommentar
   field_url: URL
   field_start_page: Hauptseite
-  field_subproject: Subprojekt von
+  field_subproject: Unterprojekt von
   field_hours: Stunden
   field_activity: Aktivität
   field_spent_on: Datum
@@ -281,7 +281,7 @@ de:
   setting_app_subtitle: Applikations-Untertitel
   setting_welcome_text: Willkommenstext
   setting_default_language: Default-Sprache
-  setting_login_required: Authentisierung erforderlich
+  setting_login_required: Authentifizierung erforderlich
   setting_self_registration: Anmeldung ermöglicht
   setting_attachment_max_size: Max. Dateigröße
   setting_issues_export_limit: Max. Anzahl Tickets bei CSV/PDF-Export
@@ -382,9 +382,9 @@ de:
   label_project_new: Neues Projekt
   label_project_plural: Projekte
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  keine Projekte
+    one:   1 Projekt
+    other: "{{count}} Projekte"
   label_project_all: Alle Projekte
   label_project_latest: Neueste Projekte
   label_issue: Ticket
@@ -491,17 +491,17 @@ de:
   label_closed_issues: geschlossen
   label_closed_issues_plural: geschlossen
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 offen / {{total}}
+    one:   1 offen / {{total}}
+    other: "{{count}} offen / {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 offen
+    one:   1 offen
+    other: "{{count}} offen"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 geschlossen
+    one:   1 geschlossen
+    other: "{{count}} geschlossen"
   label_total: Gesamtzahl
   label_permissions: Berechtigungen
   label_current_status: Gegenwärtiger Status
@@ -525,9 +525,9 @@ de:
   label_comment: Kommentar
   label_comment_plural: Kommentare
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: kein Kommentar
+    one: ein Kommentar
+    other: "{{count}} Kommentare"
   label_comment_add: Kommentar hinzufügen
   label_comment_added: Kommentar hinzugefügt
   label_comment_delete: Kommentar löschen
@@ -606,7 +606,7 @@ de:
   label_commits_per_month: Übertragungen pro Monat
   label_commits_per_author: Übertragungen pro Autor
   label_view_diff: Unterschiede anzeigen
-  label_diff_inline: inline
+  label_diff_inline: kombiniert
   label_diff_side_by_side: nebeneinander
   label_options: Optionen
   label_copy_workflow_from: Workflow kopieren von
@@ -658,11 +658,11 @@ de:
   label_jump_to_a_project: Zu einem Projekt springen...
   label_file_plural: Dateien
   label_changeset_plural: Changesets
-  label_default_columns: Default-Spalten
+  label_default_columns: Standard-Spalten
   label_no_change_option: (Keine Änderung)
   label_bulk_edit_selected_issues: Alle ausgewählten Tickets bearbeiten
   label_theme: Stil
-  label_default: Default
+  label_default: Standard
   label_search_titles_only: Nur Titel durchsuchen
   label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
   label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
@@ -734,7 +734,7 @@ de:
   status_registered: angemeldet
   status_locked: gesperrt
   
-  text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll
+  text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll.
   text_regexp_info: z. B. ^[A-Z0-9]+$
   text_min_max_length_info: 0 heißt keine Beschränkung
   text_project_destroy_confirmation: Sind Sie sicher, dass sie das Projekt löschen wollen?
@@ -786,7 +786,7 @@ de:
   default_tracker_feature: Feature
   default_tracker_support: Unterstützung
   default_issue_status_new: Neu
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: In Bearbeitung
   default_issue_status_resolved: Gelöst
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Erledigt
@@ -804,8 +804,8 @@ de:
   enumeration_issue_priorities: Ticket-Prioritäten
   enumeration_doc_categories: Dokumentenkategorien
   enumeration_activities: Aktivitäten (Zeiterfassung)
-  field_editable: Änderbar
-  label_display: Anzeigen
+  field_editable: Bearbeitbar
+  label_display: Anzeige
   button_create_and_continue: Anlegen und weiter
   text_custom_field_possible_values_info: 'Eine Zeile pro Wert'
   setting_repository_log_display_limit: Maximale Anzahl angezeigter Revisionen des Datei Logs
@@ -813,12 +813,12 @@ de:
   field_watcher: Beobachter
   setting_openid: Erlaube OpenID Anmeldung und Registrierung
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: oder anmeldung mit OpenID
+  label_login_with_open_id_option: oder Anmeldung mit OpenID
   field_content: Inhalt
   label_descending: Absteigend
   label_sort: Sortierung
   label_ascending: Aufsteigend
-  label_date_from_to: Von {{start}} bis {{end}}
+  label_date_from_to: von {{start}} bis {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: "<="
   text_wiki_page_destroy_question: Diese Seite hat {{descendants}} Unterseite(n). Sind Sie sicher?
@@ -827,22 +827,22 @@ de:
   text_wiki_page_destroy_children: Lösche alle Unterseiten
   setting_password_min_length: Mindestlänge des Passworts
   field_group_by: Gruppiere Ergebnisse nach
-  mail_subject_wiki_content_updated: "Wiki-Seite '{{page}}' aktualisiert"
-  label_wiki_content_added: Wiki-Seite hinzugefügt
+  mail_subject_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde erfolgreich aktualisiert."
+  label_wiki_content_added: Die Wiki-Seite wurde erfolgreich hinzugefügt.
   mail_subject_wiki_content_added: "Wiki-Seite '{{page}}' hinzugefügt"
   mail_body_wiki_content_added: "Die Wiki-Seite '{{page}}' wurde von {{author}} hinzugefügt."
-  label_wiki_content_updated: Wiki-Seite aktualisiert.
+  label_wiki_content_updated: Die Wiki-Seite wurde erfolgreich aktualisiert.
   mail_body_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde von {{author}} aktualisiert."
-  permission_add_project: Erstelle Projekt
-  setting_new_project_user_role_id: Rolle einem Nicht-Administrator zugeordnet, welcher ein Projekt erstellt
-  label_view_all_revisions: Alle Revisionen anschauen
+  permission_add_project: Projekt erstellen.
+  setting_new_project_user_role_id: Die Rolle ist einem Nicht-Administrator zugeordnet, der ein Projekt erstellt.
+  label_view_all_revisions: Alle Revisionen anschauen.
   label_tag: Tag
   label_branch: Branch
   error_no_tracker_in_project: Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
-  error_no_default_issue_status: Es wurde kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Ticket-Status").
-  text_journal_changed: "{{label}} geändert von {{old}} zu {{new}}"
-  text_journal_set_to: "{{label}} gesetzt zu {{value}}"
-  text_journal_deleted: "{{label}} gelöscht ({{old}})"
+  error_no_default_issue_status: Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Ticket-Status").
+  text_journal_changed: "{{label}} wurde geändert von {{old}} zu {{new}}."
+  text_journal_set_to: "{{label}} wurde gesetzt auf {{value}}."
+  text_journal_deleted: "{{label}} wurde gelöscht (Wert: {{old}})."
   label_group_plural: Gruppen
   label_group: Gruppe
   label_group_new: Neue Gruppe
@@ -854,7 +854,7 @@ de:
   version_status_closed: geschlossen
   version_status_locked: gesperrt
   version_status_open: offen
-  error_can_not_reopen_issue_on_closed_version: Ein Ticket, welches einer abgeschlossenen Version zugeordnet ist, kann nicht wieder geöffnet werden
+  error_can_not_reopen_issue_on_closed_version: Das Ticket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden.
   label_user_anonymous: Anonym
   button_move_and_follow: Verschieben und beobachten
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
@@ -865,36 +865,36 @@ de:
   label_version_sharing_descendants: Mit Unterprojekten
   label_version_sharing_tree: Mit Projektbaum
   label_version_sharing_none: Nicht geteilt
-  error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden
+  error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden.
   button_duplicate: Duplikat
   button_copy_and_follow: Kopieren und beobachten
   label_copy_source: Quelle
   setting_issue_done_ratio: Berechne den Ticket-Fortschritt durch
-  setting_issue_done_ratio_issue_status: Verwende den Ticketstatus
+  setting_issue_done_ratio_issue_status: Verwende den Ticketstatus.
   error_issue_done_ratios_not_updated: Ticket-Fortschritt wurde nicht geändert.
-  error_workflow_copy_target: Bitte wählen Sie Ziel-Tracker und Rolle(n)
-  setting_issue_done_ratio_issue_field: Benutze das Ticket-Feld
+  error_workflow_copy_target: Bitte wählen Sie Ziel-Tracker und Rolle(n).
+  setting_issue_done_ratio_issue_field: Benutze das Ticket-Feld.
   label_copy_same_as_target: So wie Ziel
   label_copy_target: Ziel
   notice_issue_done_ratios_updated: Ticketfortschritt aktualisiert.
-  error_workflow_copy_source: Bitte wählen Sie einen Quell-Tracker oder eine Quell-Rolle
+  error_workflow_copy_source: Bitte wählen Sie einen Quell-Tracker oder eine Quell-Rolle.
   label_update_issue_done_ratios: Aktualisiere Ticketfortschritt
   setting_start_of_week: Wochenanfang
   permission_view_issues: Tickets anzeigen
-  label_display_used_statuses_only: Zeige nur Status an, die von diesem Tracker verwendet werden
-  label_api_access_key: API access key
-  text_line_separated: Multiple values allowed (one line for each value).
+  label_display_used_statuses_only: Zeige nur Stati an, die von diesem Tracker verwendet werden.
+  label_api_access_key: API-Zugriffsschlüssel
+  text_line_separated: Mehrere Werte sind erlaubt (eine Zeile pro Wert).
   label_revision_id: Revision {{value}}
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  button_show: Show
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  label_api_access_key_created_on: Der API-Zugriffsschlüssel wurde vor {{value}} erstellt.
+  label_feeds_access_key: RSS-Zugriffsschlüssel
+  notice_api_access_key_reseted: Ihr API-Zugriffsschlüssel wurde zurückgesetzt.
+  setting_rest_api_enabled: REST Schnittstelle aktivieren.
+  button_show: Anzeigen
+  label_missing_api_access_key: Der API-Zugriffsschlüssel fehlt.
+  label_missing_feeds_access_key: Der RSS-Zugriffsschlüssel fehlt.
+  setting_mail_handler_body_delimiters: Schneide E-Mails nach einer der folgenden Zeile ab.
+  permission_add_subprojects: Unterprojekte erstellen.
+  label_subproject_new: Neues Unterprojekt
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
+    Sie sind dabei, einige oder alle ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr sehen oder editiren dürfen. 
+    Sind sie wirklich sicher, dass Sie dies tun möchten?
