@@ -899,3 +899,4 @@ fr:
   setting_gravatar_default: Default Gravatar image
   setting_start_of_week: Start calendars on
   label_revision_id: Revision {{value}}
+  label_close_versions: Close completed versions

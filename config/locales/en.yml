@@ -499,6 +499,7 @@ en:
   label_version: Version
   label_version_new: New version
   label_version_plural: Versions
+  label_close_versions: Close completed versions
   label_confirmation: Confirmation
   label_export_to: 'Also available in:'
   label_read: Read...

@@ -898,3 +898,4 @@ de:
   text_own_membership_delete_confirmation: |-
     Sie sind dabei, einige oder alle ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr sehen oder editiren dürfen. 
     Sind sie wirklich sicher, dass Sie dies tun möchten?
+  label_close_versions: Close completed versions
