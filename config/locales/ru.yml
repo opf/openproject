@@ -968,21 +968,21 @@ ru:
   error_workflow_copy_source: Выберите исходный трекер или роль
   label_update_issue_done_ratios: Обновить готовность задач
   setting_start_of_week: День начала недели
-  label_api_access_key: API access key
-  text_line_separated: Multiple values allowed (one line for each value).
-  label_revision_id: Revision {{value}}
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  button_show: Show
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  label_api_access_key: Ключ доступа к API
+  text_line_separated: Разрешено несколько значений (по одному значению в строку).
+  label_revision_id: Ревизия {{value}}
+  permission_view_issues: Показать проблемы
+  label_display_used_statuses_only: Отображать только те статусы, которые используются в этом трекере
+  label_api_access_key_created_on: Ключ доступ к API был создан {{value}} назад
+  label_feeds_access_key: Ключ доступа к RSS
+  notice_api_access_key_reseted: Ваш ключ доступа к API был сброшен.
+  setting_rest_api_enabled: Включить веб-сервис REST
+  button_show: Показать
+  label_missing_api_access_key: Отсутствует ключ доступа к API
+  label_missing_feeds_access_key: Отсутствует ключ доступа к RSS
+  setting_mail_handler_body_delimiters: Урезать письмо после одной из этих строк
+  permission_add_subprojects: Создать подпроекты
+  label_subproject_new: Новый подпроект
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
+    Вы собираетесь удалить некоторые или все права, из-за чего могут пропасть права на редактирование этого проекта.
+    Продолжить?

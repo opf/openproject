@@ -166,6 +166,7 @@ zh:
   notice_email_sent: "邮件已成功发送到 {{value}}"
   notice_email_error: "发送邮件时发生错误 ({{value}})"
   notice_feeds_access_key_reseted: 您的RSS存取键已被重置。
+  notice_api_access_key_reseted: 您的API访问键已被重置。
   notice_failed_to_save_issues: "{{count}} 个问题保存失败（共选择 {{total}} 个问题）：{{ids}}."
   notice_no_issue_selected: "未选择任何问题！请选择您要编辑的问题。"
   notice_account_pending: "您的帐号已被成功创建，正在等待管理员的审核。"
@@ -331,6 +332,7 @@ zh:
   setting_activity_days_default: 在项目活动中显示的天数
   setting_display_subprojects_issues: 在项目页面上默认显示子项目的问题
   setting_enabled_scm: 启用 SCM
+  setting_mail_handler_body_delimiters: 在这些行之后截断邮件
   setting_mail_handler_api_enabled: 启用用于接收邮件的服务
   setting_mail_handler_api_key: API key
   setting_sequential_project_identifiers: 顺序产生项目标识
@@ -347,6 +349,7 @@ zh:
   setting_issue_done_ratio_issue_field: 使用问题（的完成度）属性
   setting_issue_done_ratio_issue_status: 使用问题状态
   setting_start_of_week: 日历开始于
+  setting_rest_api_enabled: 启用REST web service
 
   permission_add_project: 新建项目
   permission_edit_project: 编辑项目
@@ -604,6 +607,7 @@ zh:
   label_tag: 标签
   label_revision: 修订
   label_revision_plural: 修订
+  label_revision_id: 修订 {{value}}
   label_associated_revisions: 相关修订版本
   label_added: 已添加
   label_modified: 已修改
@@ -691,7 +695,9 @@ zh:
   label_language_based: 根据用户的语言
   label_sort_by: "根据 {{value}} 排序"
   label_send_test_email: 发送测试邮件
-  label_feeds_access_key_created_on: "RSS 存取键是在 {{value}} 之前建立的"
+  label_feeds_access_key: RSS存取键
+  label_missing_feeds_access_key: 缺少RSS存取键
+  label_feeds_access_key_created_on: "RSS存取键是在 {{value}} 之前建立的"
   label_module_plural: 模块
   label_added_time_by: "由 {{author}} 在 {{age}} 之前添加"
   label_updated_time: " 更新于 {{value}} 之前"
@@ -752,6 +758,9 @@ zh:
   label_copy_target: 目标
   label_copy_same_as_target: 与目标一致
   label_display_used_statuses_only: 只显示被此跟踪标签使用的状态
+  label_api_access_key: API访问键
+  label_missing_api_access_key: 缺少API访问键
+  label_api_access_key_created_on: API访问键是在 {{value}} 之前建立的
   
   button_login: 登录
   button_submit: 提交
@@ -795,7 +804,8 @@ zh:
   button_configure: 配置
   button_quote: 引用
   button_duplicate: 副本
-  
+  button_show: 显示
+
   status_active: 活动的
   status_registered: 已注册
   status_locked: 已锁定
@@ -827,6 +837,7 @@ zh:
   text_tracker_no_workflow: 此跟踪标签未定义工作流程
   text_unallowed_characters: 非法字符
   text_comma_separated: 可以使用多个值（用逗号,分开）。
+  text_line_separated: 可以使用多个值（每行一个值）。
   text_issues_ref_in_commit_messages: 在提交信息中引用和解决问题
   text_issue_added: "问题 {{id}} 已由 {{author}} 提交。"
   text_issue_updated: "问题 {{id}} 已由 {{author}} 更新。"
@@ -867,7 +878,7 @@ zh:
   default_tracker_feature: 功能
   default_tracker_support: 支持
   default_issue_status_new: 新建
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: 进行中
   default_issue_status_resolved: 已解决
   default_issue_status_feedback: 反馈
   default_issue_status_closed: 已关闭
@@ -886,17 +897,6 @@ zh:
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
   enumeration_system_activity: 系统活动
-  label_api_access_key: API access key
-  text_line_separated: Multiple values allowed (one line for each value).
-  label_revision_id: Revision {{value}}
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  button_show: Show
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   permission_add_subprojects: Create subprojects
   label_subproject_new: New subproject
   text_own_membership_delete_confirmation: |-
