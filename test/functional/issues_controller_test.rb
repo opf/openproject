@@ -946,6 +946,8 @@ class IssuesControllerTest < ActionController::TestCase
     get :bulk_edit, :ids => [1, 2]
     assert_response :success
     assert_template 'bulk_edit'
+    # System wide custom field
+    assert_tag :select, :attributes => {:name => 'custom_field_values[1]'}
   end
 
   def test_bulk_edit

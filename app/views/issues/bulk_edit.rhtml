@@ -46,7 +46,7 @@
 </p>
 
 <% @custom_fields.each do |custom_field| %>
-<p><label><%= h(custom_field.name) %></label>
+<p><label><%= h(custom_field.name) %>
 <%= select_tag "custom_field_values[#{custom_field.id}]", options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values) %></label>
 </p>
 <% end %>
@@ -60,5 +60,5 @@
 </fieldset>
 </div>
 
-<p><%= submit_tag l(:button_submit) %>
+<p><%= submit_tag l(:button_submit) %></p>
 <% end %>

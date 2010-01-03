@@ -273,7 +273,7 @@ class IssuesController < ApplicationController
       return
     end
     @available_statuses = Workflow.available_statuses(@project)
-    @custom_fields = @project.issue_custom_fields.select {|f| f.field_format == 'list'}
+    @custom_fields = @project.all_issue_custom_fields.select {|f| f.field_format == 'list'}
   end
 
   def move
