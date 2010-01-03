@@ -46,9 +46,7 @@
 </p>
 
 <% @custom_fields.each do |custom_field| %>
-<p><label><%= h(custom_field.name) %>
-<%= select_tag "custom_field_values[#{custom_field.id}]", options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values) %></label>
-</p>
+<p><label><%= h(custom_field.name) %> <%= custom_field_tag_for_bulk_edit(custom_field) %></label></p>
 <% end %>
 
 <%= call_hook(:view_issues_bulk_edit_details_bottom, { :issues => @issues }) %>

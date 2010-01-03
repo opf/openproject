@@ -946,7 +946,15 @@ class IssuesControllerTest < ActionController::TestCase
     get :bulk_edit, :ids => [1, 2]
     assert_response :success
     assert_template 'bulk_edit'
+    
+    # Project specific custom field, date type
+    field = CustomField.find(9)
+    assert !field.is_for_all?
+    assert_equal 'date', field.field_format
+    assert_tag :input, :attributes => {:name => 'custom_field_values[9]'}
+    
     # System wide custom field
+    assert CustomField.find(1).is_for_all?
     assert_tag :select, :attributes => {:name => 'custom_field_values[1]'}
   end
 

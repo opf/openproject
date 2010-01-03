@@ -115,3 +115,17 @@ custom_fields_008:
   field_format: date
   default_value: ""
   editable: true
+custom_fields_009: 
+  name: Project 1 cf
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: IssueCustomField
+  max_length: 0
+  possible_values: ""
+  id: 9
+  is_required: false
+  field_format: date
+  default_value: ""
+  editable: true
