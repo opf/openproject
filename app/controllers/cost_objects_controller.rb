@@ -175,7 +175,7 @@ class CostObjectsController < ApplicationController
     
     if request.xhr?
       render :update do |page|
-        if User.current.allowed_to?(:view_all_rates, @project) || (user == User.current && User.current.allowed_to?(:view_own_rate, @project))
+        if User.current.allowed_to?(:view_hourly_rates, @project, :for => user)
           page.replace_html "#{element_id}_costs", number_to_currency(costs)
         end
       end
