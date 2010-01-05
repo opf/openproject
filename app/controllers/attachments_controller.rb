@@ -82,6 +82,6 @@ private
     if content_type.blank?
       content_type = Redmine::MimeType.of(attachment.filename)
     end
-    content_type
+    content_type.to_s
   end
 end
