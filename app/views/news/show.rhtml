@@ -7,7 +7,7 @@
 <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
-<h2><%=h @news.title %></h2>
+<h2><%= avatar(@news.author, :size => "24") %><%=h @news.title %></h2>
 
 <% if authorize_for('news', 'edit') %>
 <div id="edit-news" style="display:none;">
@@ -42,7 +42,7 @@
     <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
                                                        :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
     </div>
-    <h4><%= authoring comment.created_on, comment.author %></h4>
+    <h4><%= avatar(comment.author, :size => "24") %><%= authoring comment.created_on, comment.author %></h4>
     <%= textilizable(comment.comments) %>
 <% end if @comments.any? %>
 </div>

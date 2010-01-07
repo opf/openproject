@@ -32,7 +32,6 @@ module JournalsHelper
     content << textilizable(journal, :notes)
     css_classes = "wiki"
     css_classes << " editable" if editable
-    css_classes << " gravatar-margin" if Setting.gravatar_enabled?
     content_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
   end
   

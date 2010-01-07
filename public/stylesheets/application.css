@@ -810,9 +810,15 @@ div.issue table img.gravatar {
 	margin: 0 0.5em 0 0;
 }
 
-#history img.gravatar {
+h2 img.gravatar {
 	padding: 3px;
-	margin: 0 1.5em 1em 0;
+	margin: -2px 4px 0 0;
+	float: left;
+}
+
+h4 img.gravatar {
+	padding: 3px;
+	margin: -6px 4px 0 0;
 	float: left;
 }
 
@@ -829,10 +835,6 @@ td.username img.gravatar {
 #activity dt,
 .journal {
 	clear: left;
-}
-
-.gravatar-margin {
-  margin-left: 40px;
 }
 
 h2 img { vertical-align:middle; }
