@@ -232,7 +232,7 @@ class Query < ActiveRecord::Base
   
   def add_short_filter(field, expression)
     return unless expression
-    parms = expression.scan(/^(o|c|\!|\*)?(.*)$/).first
+    parms = expression.scan(/^(o|c|!\*|!|\*)?(.*)$/).first
     add_filter field, (parms[0] || "="), [parms[1] || ""]
   end
   
