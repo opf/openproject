@@ -69,6 +69,9 @@ pt-BR:
       over_x_years:
         one: 'mais de 1 ano'
         other: 'mais de {{count}} anos'
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
 
   # numeros
   number:

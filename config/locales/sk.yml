@@ -59,6 +59,9 @@ sk:
       over_x_years:
         one:   "cez 1 rok"
         other: "cez {{count}} roky/ov"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
 
   number: 
     human: 

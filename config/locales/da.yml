@@ -62,6 +62,9 @@ da:
       over_x_years:
         one:  "mere end et år"
         other: "mere end {{count}} år"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
 
   number:
     format:

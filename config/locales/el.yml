@@ -62,6 +62,9 @@ el:
       over_x_years:
         one:   "πάνω από 1 χρόνο"
         other: "πάνω από {{count}} χρόνια"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
         
   number: 
     human: 

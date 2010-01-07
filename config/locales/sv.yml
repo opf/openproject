@@ -93,6 +93,9 @@ sv:
       over_x_years:
         one:   "mer än ett år"
         other: "mer än {{count}} år"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
         
   activerecord:
     errors:

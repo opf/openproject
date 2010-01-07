@@ -56,6 +56,9 @@ zh:
       over_x_years:
         one: "一年以上"
         other: "{{count}} 年以上"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
     prompts:
       year:   "年"
       month:  "月"

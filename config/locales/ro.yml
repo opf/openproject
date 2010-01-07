@@ -57,6 +57,9 @@ ro:
       over_x_years:
         one:   "peste un an"
         other: "peste {{count}} ani"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
 
   number: 
     human: 

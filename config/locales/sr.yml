@@ -70,6 +70,9 @@
       over_x_years:
         one: 'преко 1 године'
         other: 'преко {{count}} године'
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
 
   number:
     format:

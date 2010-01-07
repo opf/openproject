@@ -94,6 +94,9 @@ es:
       over_x_years:
         one:  "más de 1 año" 
         other: "más de {{count}} años" 
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
 
   activerecord:
     errors:

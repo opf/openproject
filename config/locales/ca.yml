@@ -59,6 +59,9 @@ ca:
       over_x_years:
         one:   "més d'un any"
         other: "més de {{count}} anys"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
 
   number:
     human:

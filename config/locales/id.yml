@@ -57,6 +57,9 @@ id:
       over_x_years:
         one:   "lebih dari setahun"
         other: "lebih dari {{count}} tahun"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
 
   number:
     format:

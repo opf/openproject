@@ -65,6 +65,9 @@ tr:
       over_x_years:
         one: '1 yıldan fazla'
         other: '{{count}} yıldan fazla'
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
       
   number:
     format:

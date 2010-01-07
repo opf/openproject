@@ -105,6 +105,9 @@ fi:
       over_x_years:
         one:   "yli vuosi"
         other: "yli {{count}} vuotta"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
     prompts:
       year:   "Vuosi"
       month:  "Kuukausi"

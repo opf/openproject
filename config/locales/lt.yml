@@ -69,6 +69,9 @@ lt:
       over_x_years:
         one:   "virš 1 metų"
         other: "virš {{count}} metų"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
     prompts:
       year:   "Metai"
       month:  "Mėnuo"

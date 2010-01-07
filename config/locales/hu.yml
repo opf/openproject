@@ -60,6 +60,9 @@
       over_x_years:
         one: 'több, mint 1 év'
         other: 'több, mint {{count}} év'
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
     prompts:
       year:   "Év"
       month:  "Hónap"

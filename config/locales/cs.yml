@@ -59,6 +59,9 @@ cs:
       over_x_years:
         one:   "více než 1 rok"
         other: "více než {{count}} roky"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
 
   number: 
     human: 

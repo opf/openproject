@@ -137,6 +137,9 @@ ru:
         few:   "больше {{count}} лет"
         many:  "больше {{count}} лет"
         other: "больше {{count}} лет"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
     prompts:
       year: "Год"
       month: "Месяц"

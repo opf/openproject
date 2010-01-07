@@ -64,6 +64,9 @@ ko:
       over_x_years:
         one:   "일년 이상"
         other: "{{count}}년 이상"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
     prompts:
       year:   "년"
       month:  "월"

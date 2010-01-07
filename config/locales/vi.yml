@@ -94,6 +94,9 @@ vi:
       over_x_years:
         one:   "hơn 1 năm"
         other: "hơn {{count}} năm"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost {{count}} years"
     prompts:
       year:   "Năm"
       month:  "Tháng"
