@@ -1,7 +1,7 @@
 == Redmine upgrade procedure
 
 Redmine - project management software
-Copyright (C) 2006-2008  Jean-Philippe Lang
+Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
 
@@ -9,20 +9,25 @@ http://www.redmine.org/
 
 1. Uncompress the program archive in a new directory
    
-3. Copy your database settings (RAILS_ROOT/config/database.yml)
+2. Copy your database settings (RAILS_ROOT/config/database.yml)
    and SMTP settings (RAILS_ROOT/config/email.yml)
    into the new config directory
+   DO NOT REPLACE ANY OTHERS FILES.
    
-4. Migrate your database (please make a backup before doing this):
+3. Migrate your database (please make a backup before doing this):
    rake db:migrate RAILS_ENV="production"
 
-5. Copy the RAILS_ROOT/files directory content into your new installation
+4. Copy the RAILS_ROOT/files directory content into your new installation
    This directory contains all the attached files
 
+5. Generate a session store secret
+   Redmine stores session data in cookies by default, which requires
+   a secret to be generated. Run:
+   rake config/initializers/session_store.rb
 
 == Notes
 
-1. Rails 2.1.2 is required for version 0.8.
+1. Rails 2.3.5 is required for version 0.9.
 
 2. When upgrading your code with svn update, don't forget to clear
    the application cache (RAILS_ROOT/tmp/cache) before restarting.

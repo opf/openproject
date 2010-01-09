@@ -1,13 +1,13 @@
 == Redmine installation
 
 Redmine - project management software
-Copyright (C) 2006-2008  Jean-Philippe Lang
+Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
 
 == Requirements
 
-* Ruby on Rails 2.2.2
+* Ruby on Rails 2.3.5
 * A database:
   * MySQL (tested with MySQL 5)
   * PostgreSQL (tested with PostgreSQL 8.1)
