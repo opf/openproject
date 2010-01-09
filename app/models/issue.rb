@@ -157,7 +157,7 @@ class Issue < ActiveRecord::Base
     if new_tracker_id
       self.tracker_id = new_tracker_id
     end
-    self.attributes_without_tracker_first = new_attributes, *args
+    send :attributes_without_tracker_first=, new_attributes, *args
   end
   alias_method_chain :attributes=, :tracker_first
   
