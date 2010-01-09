@@ -94,8 +94,8 @@ sv:
         one:   "mer än ett år"
         other: "mer än {{count}} år"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "nästan 1 år"
+        other: "nästan {{count}} år"
         
   activerecord:
     errors:
@@ -196,6 +196,7 @@ sv:
   notice_email_sent: "Ett mail skickades till {{value}}"
   notice_email_error: "Ett fel inträffade när mail skickades ({{value}})"
   notice_feeds_access_key_reseted: Din RSS-nyckel återställdes.
+  notice_api_access_key_reseted: Din API-nyckel återställdes.
   notice_failed_to_save_issues: "Misslyckades att spara {{count}} ärende(n) på {{total}} valt: {{ids}}."
   notice_no_issue_selected: "Inget ärende är markerat! Var vänlig, markera de ärenden du vill ändra."
   notice_account_pending: "Ditt konto skapades och avvaktar nu administratörens godkännande."
@@ -361,6 +362,7 @@ sv:
   setting_activity_days_default: Dagar som visas på projektaktivitet
   setting_display_subprojects_issues: Visa ärenden från underprojekt i huvudprojekt som standard
   setting_enabled_scm: Aktivera SCM
+  setting_mail_handler_body_delimiters: Trunkera mail efter en av följande rader
   setting_mail_handler_api_enabled: Aktivera WS för inkommande mail
   setting_mail_handler_api_key: API-nyckel
   setting_sequential_project_identifiers: Generera projektidentifierare sekventiellt
@@ -377,8 +379,10 @@ sv:
   setting_issue_done_ratio_issue_field: Använd ärendefältet
   setting_issue_done_ratio_issue_status: Använd ärendestatus
   setting_start_of_week: Första dagen i veckan
+  setting_rest_api_enabled: Aktivera REST webbtjänst
   
   permission_add_project: Skapa projekt
+  permission_add_subprojects: Skapa underprojekt
   permission_edit_project: Ändra projekt
   permission_select_project_modules: Välja projektmoduler
   permission_manage_members: Hantera medlemmar
@@ -429,6 +433,7 @@ sv:
   permission_edit_own_messages: Ändra egna meddelanden
   permission_delete_messages: Ta bort meddelanden
   permission_delete_own_messages: Ta bort egna meddelanden
+  
   project_module_issue_tracking: Ärendeuppföljning
   project_module_time_tracking: Tidsuppföljning
   project_module_news: Nyheter
@@ -513,6 +518,7 @@ sv:
   label_auth_source_new: Nytt autentiseringsläge
   label_auth_source_plural: Autentiseringslägen
   label_subproject_plural: Underprojekt
+  label_subproject_new: Nytt underprojekt
   label_and_its_subprojects: "{{value}} och dess underprojekt"
   label_min_max_length: Min./Max.-längd
   label_list: Lista
@@ -547,6 +553,7 @@ sv:
   label_version: Version
   label_version_new: Ny version
   label_version_plural: Versioner
+  label_close_versions: Stäng klara versioner
   label_confirmation: Bekräftelse
   label_export_to: Exportera till
   label_read: Läs...
@@ -633,6 +640,7 @@ sv:
   label_tag: Tag
   label_revision: Revision
   label_revision_plural: Revisioner
+  label_revision_id: Revision {{value}}
   label_associated_revisions: Associerade revisioner
   label_added: tillagd
   label_modified: modifierad
@@ -720,6 +728,8 @@ sv:
   label_language_based: Språkbaserad
   label_sort_by: "Sortera på {{value}}"
   label_send_test_email: Skicka testmail
+  label_feeds_access_key: RSS-nyckel
+  label_missing_feeds_access_key: Saknar en RSS-nyckel
   label_feeds_access_key_created_on: "RSS-nyckel skapad för {{value}} sedan"
   label_module_plural: Moduler
   label_added_time_by: "Tillagd av {{author}} för {{age}} sedan"
@@ -781,6 +791,9 @@ sv:
   label_copy_target: Mål
   label_copy_same_as_target: Samma som mål
   label_display_used_statuses_only: Visa endast status som används av denna ärendetyp
+  label_api_access_key: API-nyckel
+  label_missing_api_access_key: Saknar en API-nyckel
+  label_api_access_key_created_on: API-nyckel skapad för {{value}} sedan
   
   button_login: Logga in
   button_submit: Spara
@@ -824,6 +837,7 @@ sv:
   button_configure: Konfigurera
   button_quote: Citera
   button_duplicate: Duplisera
+  button_show: Visa
   
   status_active: aktiv
   status_registered: registrerad
@@ -856,6 +870,7 @@ sv:
   text_tracker_no_workflow: Inget arbetsflöde definerat för denna ärendetyp
   text_unallowed_characters: Otillåtna tecken
   text_comma_separated: Flera värden tillåtna (kommaseparerade).
+  text_line_separated: Flera värden tillåtna (ett värde per rad).
   text_issues_ref_in_commit_messages: Referera och fixa ärenden i commit-meddelanden
   text_issue_added: "Ärende {{id}} har rapporterats (av {{author}})."
   text_issue_updated: "Ärende {{id}} har uppdaterats (av {{author}})."
@@ -888,6 +903,7 @@ sv:
   text_wiki_page_nullify_children: Behåll undersidor som rotsidor
   text_wiki_page_destroy_children: Ta bort alla underliggande sidor
   text_wiki_page_reassign_children: Flytta undersidor till denna föräldersida
+  text_own_membership_delete_confirmation: "Några av, eller alla, dina behörigheter kommer att tas bort och du kanske inte längre kommer kunna göra ändringar i det här projektet.\nVill du verkligen fortsätta?"
   
   default_role_manager: Projektledare
   default_role_developper: Utvecklare
@@ -915,20 +931,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
-  text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions

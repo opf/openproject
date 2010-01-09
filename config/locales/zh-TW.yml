@@ -132,8 +132,8 @@
         one: "超過 1 年"
         other: "超過 {{count}} 年"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "將近 1 年"
+        other: "將近 {{count}} 年"
     prompts:
       year:   "年"
       month:  "月"

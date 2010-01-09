@@ -1,5 +1,6 @@
 # Polish translations for Ruby on Rails
 # by Jacek Becela (jacek.becela@gmail.com, http://github.com/ncr)
+# by Krzysztof Podejma (kpodejma@customprojects.pl, http://www.customprojects.pl)
 
 pl:
   number:
@@ -840,7 +841,7 @@ pl:
   label_wiki_content_updated: Uaktualniono stronę wiki
   mail_body_wiki_content_updated: Strona wiki '{{page}}' została uaktualniona przez {{author}}.
   permission_add_project: Tworzenie projektu
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_new_project_user_role_id: Rola nadawana twórcom projektów, którzy nie posiadają uprawnień administatora
   label_view_all_revisions: Pokaż wszystkie rewizje
   label_tag: Tag
   label_branch: Gałąź
@@ -856,52 +857,53 @@ pl:
   text_journal_added: "Dodano {{label}} {{value}}"
   field_active: Aktywne
   enumeration_system_activity: Aktywność Systemowa
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  button_copy_and_follow: Kopiuj i przejdź do kopii zagadnienia
+  button_duplicate: Duplikuj
+  button_move_and_follow: Przenieś i przejdź do zagadnienia
+  button_show: Pokaż
+  error_can_not_archive_project: Ten projekt nie może zostać zarchiwizowany
+  error_can_not_reopen_issue_on_closed_version: Zagadnienie przydzielone do zakończonej wersji nie może zostać ponownie otwarte
+  error_issue_done_ratios_not_updated: % wykonania zagadnienia nie został uaktualniony.
+  error_workflow_copy_source: Proszę wybrać źródłowy typ zagadnienia lub rolę
+  error_workflow_copy_target: Proszę wybrać docelowe typ(y) zagadnień i rolę(e)
+  field_sharing: Współdzielenie
+  label_api_access_key: Klucz dostępu do API
+  label_api_access_key_created_on: Klucz dostępu do API został utworzony {{value}} temu
+  label_close_versions: Zamknij ukończone wersje
+  label_copy_same_as_target: Jak cel
+  label_copy_source: Źródło
+  label_copy_target: Cel
+  label_display_used_statuses_only: Wyświetlaj tylko statusy używane przez ten typ zagadnienia
+  label_feeds_access_key: Klucz dostępu do RSS
+  label_missing_api_access_key: Brakuje klucza dostępu do API
+  label_missing_feeds_access_key: Brakuje klucza dostępu do RSS
+  label_revision_id: Rewizja {{value}}
+  label_subproject_new: Nowy podprojekt
+  label_update_issue_done_ratios: Uaktualnij % wykonania
+  label_user_anonymous: Anonimowy
+  label_version_sharing_descendants: Z podprojektami
+  label_version_sharing_hierarchy: Z hierarchią projektów
+  label_version_sharing_none: Brak współdzielenia
+  label_version_sharing_system: Ze wszystkimi projektami
+  label_version_sharing_tree: Z drzewem projektów
+  notice_api_access_key_reseted: Twój klucz dostępu do API został zresetowany.
+  notice_issue_done_ratios_updated: Uaktualnienie % wykonania zakończone sukcesem.
+  permission_add_subprojects: Tworzenie podprojektów
+  permission_delete_issue_watchers: Usuń obserwatorów
+  permission_view_issues: Przeglądanie zagadnień
+  setting_default_projects_modules: Domyślnie włączone moduły dla nowo tworzonych projektów
+  setting_gravatar_default: Domyślny obraz Gravatar
+  setting_issue_done_ratio: Obliczaj postęp realizacji zagadnień za pomocą
+  setting_issue_done_ratio_issue_field: % Wykonania zagadnienia
+  setting_issue_done_ratio_issue_status: Statusu zagadnienia
+  setting_mail_handler_body_delimiters: Przycinaj e-maile po jednej z tych linii
+  setting_rest_api_enabled: Uaktywnij usługę sieciową REST
+  setting_start_of_week: Pierwszy dzień tygodnia
+  text_line_separated: Dozwolone jest wiele wartości (każda wartość w osobnej linii).
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
+    Masz zamiar usunąć niektóre lub wszystkie swoje uprawnienia. Po wykonaniu tej czynności możesz utracić możliwości edycji tego projektu.
+    Czy na pewno chcesz kontynuować?
+  version_status_closed: zamknięta
+  version_status_locked: zablokowana
+  version_status_open: otwarta
+  
