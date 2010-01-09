@@ -17,7 +17,7 @@ de:
   
   time:
     formats:
-      default: "%A, %e. %B %Y, %H:%M Uhr"
+      default: "%a, %d.%m.%Y, %H:%M Uhr"
       short: "%e. %B, %H:%M Uhr"
       long: "%A, %e. %B %Y, %H:%M Uhr"
       time: "%H:%M"
@@ -884,7 +884,7 @@ de:
   label_update_issue_done_ratios: Aktualisiere Ticketfortschritt
   setting_start_of_week: Wochenanfang
   permission_view_issues: Tickets anzeigen
-  label_display_used_statuses_only: Zeige nur Stati an, die von diesem Tracker verwendet werden.
+  label_display_used_statuses_only: Zeige nur Status an, die von diesem Tracker verwendet werden.
   label_api_access_key: API-Zugriffsschlüssel
   text_line_separated: Mehrere Werte sind erlaubt (eine Zeile pro Wert).
   label_revision_id: Revision {{value}}
@@ -899,6 +899,6 @@ de:
   permission_add_subprojects: Unterprojekte erstellen.
   label_subproject_new: Neues Unterprojekt
   text_own_membership_delete_confirmation: |-
-    Sie sind dabei, einige oder alle ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr sehen oder editiren dürfen. 
-    Sind sie wirklich sicher, dass Sie dies tun möchten?
-  label_close_versions: Close completed versions
+    Sie sind dabei, einige oder alle ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr sehen oder editieren dürfen. 
+    Sind Sie wirklich sicher, dass Sie dies tun möchten?
+  label_close_versions: Vollständige Versionen schließen
