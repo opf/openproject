@@ -1,10 +1,10 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2009  Jean-Philippe Lang
+Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
-== v0.9.0
+== 2010-01-09 v0.9.0 (Release candidate)
 
 * Unlimited subproject nesting
 * Multiple roles per user per project
@@ -115,6 +115,8 @@ http://www.redmine.org/
 * Fixed: 50k users cause problems in project->settings->members screen
 * Fixed: Document timestamp needs to show updated timestamps
 * Fixed: Users getting notifications for issues they are no longer allowed to view
+* Fixed: issue summary counts should link to the issue list without subprojects
+* Fixed: 'Delete' link on LDAP list has no effect
 
 
 == 2009-11-15 v0.8.7
