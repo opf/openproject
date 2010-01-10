@@ -6,6 +6,7 @@ http://www.redmine.org/
 
 == 0.9.1
 
+* Vertical alignment for inline images in formatted text set to 'middle'
 * Fixed: Redmine.pm error "closing dbh with active statement handles at /usr/lib/perl5/Apache/Redmine.pm"
 * Fixed: copyright year in footer set to 2010
 
