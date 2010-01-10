@@ -244,7 +244,9 @@ sub is_public_project {
     	}
     }
     $sth->finish();
+    undef $sth;
     $dbh->disconnect();
+    undef $dbh;
 
     $ret;
 }
@@ -310,10 +312,13 @@ sub is_member {
             $ret = 1 if ($ldap->authenticate($redmine_user, $redmine_pass));
           }
           $sthldap->finish();
+          undef $sthldap;
       }
   }
   $sth->finish();
+  undef $sth;
   $dbh->disconnect();
+  undef $dbh;
 
   if ($cfg->{RedmineCacheCredsMax} and $ret) {
     if (defined $usrprojpass) {
