@@ -272,6 +272,7 @@ class Mailer < ActionMailer::Base
   # Overrides default deliver! method to prevent from sending an email
   # with no recipient, cc or bcc
   def deliver!(mail = @mail)
+    set_language_if_valid @initial_language
     return false if (recipients.nil? || recipients.empty?) &&
                     (cc.nil? || cc.empty?) &&
                     (bcc.nil? || bcc.empty?)
@@ -313,6 +314,7 @@ class Mailer < ActionMailer::Base
   private
   def initialize_defaults(method_name)
     super
+    @initial_language = current_language
     set_language_if_valid Setting.default_language
     from Setting.mail_from
     
