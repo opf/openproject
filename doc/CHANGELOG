@@ -4,6 +4,12 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 0.9.1
+
+* Fixed: Redmine.pm error "closing dbh with active statement handles at /usr/lib/perl5/Apache/Redmine.pm"
+* Fixed: copyright year in footer set to 2010
+
+
 == 2010-01-09 v0.9.0 (Release candidate)
 
 * Unlimited subproject nesting
