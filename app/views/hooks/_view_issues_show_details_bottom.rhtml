@@ -18,7 +18,7 @@ def summarized_cost_entries(cost_entries)
   end
 
   str_array = []
-  options = {:class => 'icon icon-box'}
+  options = {:class => 'icon icon-pieces'}
   result.each do |k, v|
     str_array << link_to(pluralize(v[:units], v[:unit], v[:unit_plural]), {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue, :cost_type_id => k}, options)
     options = {} # options apply only for first element
