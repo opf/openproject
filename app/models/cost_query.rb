@@ -460,7 +460,7 @@ class CostQuery < ActiveRecord::Base
     when :time_entries
       from = <<-EOS
         #{TimeEntry.table_name}
-        LEFT OUTER JOIN #{TineEntryActivity.table_name} ON #{TimeEntryActivity.table_name}.id = #{TimeEntry.table_name}.activity_id
+        LEFT OUTER JOIN #{TimeEntryActivity.table_name} ON #{TimeEntryActivity.table_name}.id = #{TimeEntry.table_name}.activity_id
         LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{TimeEntry.table_name}.user_id
         LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id
         LEFT OUTER JOIN #{Project.table_name} ON #{Project.table_name}.id = #{TimeEntry.table_name}.project_id
