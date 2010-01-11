@@ -460,7 +460,7 @@ class CostQuery < ActiveRecord::Base
     when :time_entries
       from = <<-EOS
         #{TimeEntry.table_name}
-        LEFT OUTER JOIN #{Enumeration.table_name} ON #{Enumeration.table_name}.id = #{TimeEntry.table_name}.activity_id
+        LEFT OUTER JOIN #{TineEntryActivity.table_name} ON #{TimeEntryActivity.table_name}.id = #{TimeEntry.table_name}.activity_id
         LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{TimeEntry.table_name}.user_id
         LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id
         LEFT OUTER JOIN #{Project.table_name} ON #{Project.table_name}.id = #{TimeEntry.table_name}.project_id
@@ -518,7 +518,7 @@ class CostQuery < ActiveRecord::Base
     from << " LEFT OUTER JOIN #{IssueStatus.table_name} ON #{IssueStatus.table_name}.id = #{Issue.table_name}.status_id"
     from << " LEFT OUTER JOIN #{Tracker.table_name} ON #{Tracker.table_name}.id = #{Issue.table_name}.tracker_id"
     from << " LEFT OUTER JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Issue.table_name}.project_id"
-    from << " LEFT OUTER JOIN #{Enumeration.table_name} ON #{Enumeration.table_name}.id = #{Issue.table_name}.priority_id"
+    from << " LEFT OUTER JOIN #{IssuePriority.table_name} ON #{IssuePriority.table_name}.id = #{Issue.table_name}.priority_id"
     from << " LEFT OUTER JOIN #{IssueCategory.table_name} ON #{IssueCategory.table_name}.id = #{Issue.table_name}.category_id"
     from << " LEFT OUTER JOIN #{Version.table_name} ON #{Version.table_name}.id = #{Issue.table_name}.fixed_version_id"
     
