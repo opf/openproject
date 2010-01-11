@@ -203,5 +203,5 @@ Redmine::Plugin.register :redmine_costs do
 end
 
 # Observers
-ActiveRecord::Base.observers = :rate_observer, :default_hourly_rate_observer
+ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer
 
