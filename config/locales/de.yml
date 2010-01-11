@@ -12,6 +12,7 @@ de:
   caption_deleted_at: "Gel\xC3\xB6scht am"
   label_awaiting_manager: Warten auf Managerantwort
   caption_cost_unit_plural: Einheiten
+  label_deliverable: Liefergegenstand
   label_cost_object: Liefergegenstand
   label_fixed_date: Referenzdatum
   label_option_plural: Optionen

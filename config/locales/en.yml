@@ -81,6 +81,7 @@ en:
   label_yes: "Yes"
   label_no: "No"
   label_awaiting_manager: Awaiting manager response
+  label_deliverable: Cost Object
   label_cost_object: Cost Object
   label_fixed_date: Fixed date
   label_option_plural: Options
