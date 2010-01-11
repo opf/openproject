@@ -13,13 +13,13 @@ module CostReportsHelper
       applies =  @query.available_filters[filter.scope][filter.column_name][:applies]
       return "wide-icon" if applies.nil? || applies.empty?
       if applies.length > 1
-        "wide-icon icon-money-time"
+        "wide-icon icon-pieces-time"
       else
         case applies[0]
         when :time_entries
           "wide-icon single-wide-icon icon-time"
         when :cost_entries
-          "wide-icon single-wide-icon icon-money"
+          "wide-icon single-wide-icon icon-pieces"
         end
       end
     end
