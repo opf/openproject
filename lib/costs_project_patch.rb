@@ -46,8 +46,9 @@ module CostsProjectPatch
           if Role.non_member.allowed_to?(permission) && !options[:member]
             statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
           end
+          user_options = options.reject{|k,v| k!=:for}
           allowed_project_ids = Project.all(:conditions => Project.visible_by(user), :include => :enabled_modules).select do |p|
-            user.allowed_to?(permission, p, :for => options[:for])
+            user.allowed_to?(permission, p, user_options)
           end.collect(&:id)
           statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
         else
