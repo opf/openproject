@@ -117,6 +117,7 @@ de:
   permission_view_cost_rates: Anzeigen von Materialeinzelpreisen
   field_material_costs: Materialeinzelkosten
   label_group_by: Gruppiere Ergebnisse
+  field_deliverable: Liefergegenstand
   field_cost_object: Liefergegenstand
   week: Woche
   permission_view_own_hourly_rate: "Eigene Stundens\xC3\xA4tze ansehen"

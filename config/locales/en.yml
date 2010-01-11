@@ -27,6 +27,7 @@ en:
   field_material_budget: Material budget
   field_labor_costs: Labor costs
   field_cost_object_subject: Cost Object Subject
+  field_deliverable: Cost Object
   field_cost_object: Cost Object
   field_costs: Costs
   field_fixed_date: Fixed Date
