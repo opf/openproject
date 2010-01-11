@@ -102,7 +102,8 @@
       time_entries = issue.time_entries.inject(Hash.new)  do |results, entry|
         result = results[entry.user.id.to_s]
         unless result
-          result = TimeEntry.new(:user => entry.user, :overridden_costs => 0, :hours => 0)
+          result = TimeEntry.new(:user => entry.user, :overridden_costs => 0)
+          result.hours = 0
           results[entry.user.id.to_s] = result
         end  
 
