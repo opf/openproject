@@ -641,6 +641,13 @@ class IssuesControllerTest < ActionController::TestCase
                                         :value => 'Value for field 2'}
   end
   
+  def test_post_new_should_ignore_non_safe_attributes
+    @request.session[:user_id] = 2
+    assert_nothing_raised do
+      post :new, :project_id => 1, :issue => { :tracker => "A param can not be a Tracker" }
+    end
+  end
+  
   def test_copy_routing
     assert_routing(
       {:method => :get, :path => '/projects/world_domination/issues/567/copy'},

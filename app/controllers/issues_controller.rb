@@ -131,7 +131,7 @@ class IssuesController < ApplicationController
       return
     end
     if params[:issue].is_a?(Hash)
-      @issue.attributes = params[:issue]
+      @issue.safe_attributes = params[:issue]
       @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
     end
     @issue.author = User.current
@@ -181,7 +181,7 @@ class IssuesController < ApplicationController
       attrs = params[:issue].dup
       attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
       attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
-      @issue.attributes = attrs
+      @issue.safe_attributes = attrs
     end
 
     if request.post?

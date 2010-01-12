@@ -165,6 +165,32 @@ class Issue < ActiveRecord::Base
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
   end
   
+  SAFE_ATTRIBUTES = %w(
+    tracker_id
+    status_id
+    category_id
+    assigned_to_id
+    priority_id
+    fixed_version_id
+    subject
+    description
+    start_date
+    due_date
+    done_ratio
+    estimated_hours
+    custom_field_values
+  ) unless const_defined?(:SAFE_ATTRIBUTES)
+  
+  # Safely sets attributes
+  # Should be called from controllers instead of #attributes=
+  # attr_accessible is too rough because we still want things like
+  # Issue.new(:project => foo) to work
+  # TODO: move workflow/permission checks from controllers to here
+  def safe_attributes=(attrs, user=User.current)
+    return if attrs.nil?
+    self.attributes = attrs.reject {|k,v| !SAFE_ATTRIBUTES.include?(k)}
+  end
+  
   def done_ratio
     if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
       status.default_done_ratio
