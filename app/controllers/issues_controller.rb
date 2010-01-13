@@ -46,7 +46,7 @@ class IssuesController < ApplicationController
   helper :timelog
   include Redmine::Export::PDF
 
-  verify :method => :post,
+  verify :method => [:post, :delete],
          :only => :destroy,
          :render => { :nothing => true, :status => :method_not_allowed }
            
@@ -59,6 +59,7 @@ class IssuesController < ApplicationController
       limit = per_page_option
       respond_to do |format|
         format.html { }
+        format.xml { }
         format.atom { limit = Setting.feeds_limit.to_i }
         format.csv  { limit = Setting.issues_export_limit.to_i }
         format.pdf  { limit = Setting.issues_export_limit.to_i }
@@ -74,6 +75,7 @@ class IssuesController < ApplicationController
       
       respond_to do |format|
         format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
+        format.xml  { render :layout => false }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
@@ -113,6 +115,7 @@ class IssuesController < ApplicationController
     @time_entry = TimeEntry.new
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml' }
+      format.xml  { render :layout => false }
       format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
@@ -155,10 +158,20 @@ class IssuesController < ApplicationController
         attach_files(@issue, params[:attachments])
         flash[:notice] = l(:notice_successful_create)
         call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
-        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
-                                        { :action => 'show', :id => @issue })
+        respond_to do |format|
+          format.html {
+            redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
+                                            { :action => 'show', :id => @issue })
+          }
+          format.xml  { render :action => 'show', :status => :created, :location => url_for(:controller => 'issues', :action => 'show', :id => @issue) }
+        end
         return
-      end		
+      else
+        respond_to do |format|
+          format.html { }
+          format.xml  { render(:xml => @issue.errors, :status => :unprocessable_entity); return }
+        end
+      end
     end	
     @priorities = IssuePriority.all
     render :layout => !request.xhr?
@@ -184,7 +197,9 @@ class IssuesController < ApplicationController
       @issue.safe_attributes = attrs
     end
 
-    if request.post?
+    if request.get?
+      # nop
+    else
       @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
       @time_entry.attributes = params[:time_entry]
       if (@time_entry.hours.nil? || @time_entry.valid?) && @issue.valid?
@@ -201,8 +216,17 @@ class IssuesController < ApplicationController
             flash[:notice] = l(:notice_successful_update)
           end
           call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
-          redirect_to(params[:back_to] || {:action => 'show', :id => @issue})
+          respond_to do |format|
+            format.html { redirect_to(params[:back_to] || {:action => 'show', :id => @issue}) }
+            format.xml  { head :ok }
+          end
+          return
         end
+      end
+      # failure
+      respond_to do |format|
+        format.html { }
+        format.xml  { render :xml => @issue.errors, :status => :unprocessable_entity }
       end
     end
   rescue ActiveRecord::StaleObjectError
@@ -346,12 +370,17 @@ class IssuesController < ApplicationController
           TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
         end
       else
-        # display the destroy form
-        return
+        unless params[:format] == 'xml'
+          # display the destroy form if it's a user request
+          return
+        end
       end
     end
     @issues.each(&:destroy)
-    redirect_to :action => 'index', :project_id => @project
+    respond_to do |format|
+      format.html { redirect_to :action => 'index', :project_id => @project }
+      format.xml  { head :ok }
+    end
   end
   
   def gantt
@@ -484,7 +513,8 @@ private
   end
   
   def find_project
-    @project = Project.find(params[:project_id])
+    project_id = (params[:issue] && params[:issue][:project_id]) || params[:project_id]
+    @project = Project.find(project_id)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

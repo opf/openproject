@@ -119,9 +119,17 @@ ActionController::Routing::Routes.draw do |map|
       issues_views.connect 'issues/:id/move', :action => 'move', :id => /\d+/
     end
     issues_routes.with_options :conditions => {:method => :post} do |issues_actions|
+      issues_actions.connect 'issues', :action => 'index'
       issues_actions.connect 'projects/:project_id/issues', :action => 'new'
       issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
       issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy/, :id => /\d+/
+      issues_actions.connect 'issues.:format', :action => 'new', :format => /xml/
+    end
+    issues_routes.with_options :conditions => {:method => :put} do |issues_actions|
+      issues_actions.connect 'issues/:id.:format', :action => 'edit', :id => /\d+/, :format => /xml/
+    end
+    issues_routes.with_options :conditions => {:method => :delete} do |issues_actions|
+      issues_actions.connect 'issues/:id.:format', :action => 'destroy', :id => /\d+/, :format => /xml/
     end
     issues_routes.connect 'issues/:action'
   end

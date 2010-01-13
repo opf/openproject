@@ -70,8 +70,8 @@ class ApplicationController < ActionController::Base
     elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
-    elsif Setting.rest_api_enabled? && ['xml', 'json'].include?(params[:format]) && accept_key_auth_actions.include?(params[:action])
-      if params[:key].present?
+    elsif Setting.rest_api_enabled? && ['xml', 'json'].include?(params[:format])
+      if params[:key].present? && accept_key_auth_actions.include?(params[:action])
         # Use API key
         User.find_by_api_key(params[:key])
       else
@@ -194,18 +194,35 @@ class ApplicationController < ActionController::Base
   
   def render_403
     @project = nil
-    render :template => "common/403", :layout => (request.xhr? ? false : 'base'), :status => 403
+    respond_to do |format|
+      format.html { render :template => "common/403", :layout => (request.xhr? ? false : 'base'), :status => 403 }
+      format.atom { head 403 }
+      format.xml { head 403 }
+      format.json { head 403 }
+    end
     return false
   end
     
   def render_404
-    render :template => "common/404", :layout => !request.xhr?, :status => 404
+    respond_to do |format|
+      format.html { render :template => "common/404", :layout => !request.xhr?, :status => 404 }
+      format.atom { head 404 }
+      format.xml { head 404 }
+      format.json { head 404 }
+    end
     return false
   end
   
   def render_error(msg)
-    flash.now[:error] = msg
-    render :text => '', :layout => !request.xhr?, :status => 500
+    respond_to do |format|
+      format.html { 
+        flash.now[:error] = msg
+        render :text => '', :layout => !request.xhr?, :status => 500
+      }
+      format.atom { head 500 }
+      format.xml { head 500 }
+      format.json { head 500 }
+    end
   end
   
   def invalid_authenticity_token
