@@ -1,7 +1,7 @@
 <% @entries.each do |entry| %>
 <% tr_id = Digest::MD5.hexdigest(entry.path)
    depth = params[:depth].to_i %>
-<tr id="<%= tr_id %>" class="<%= params[:parent_id] %> entry <%= entry.kind %>">
+<tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= entry.kind %>">
 <td style="padding-left: <%=18 * depth%>px;" class="filename">
 <% if entry.is_dir? %>
 <span class="expander" onclick="<%=  remote_function :url => {:action => 'show', :id => @project, :path => to_path_param(entry.path), :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
