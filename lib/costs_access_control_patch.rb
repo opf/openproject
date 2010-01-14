@@ -8,7 +8,12 @@ module CostsAccessControlPatch
       class << self
         def allowed_actions_with_inheritance(permission_name)
           my_actions = allowed_actions_without_inheritance(permission_name)
-          my_actions | permission(permission_name).inherits.collect(&:actions)
+          perm = permission(permission_name)
+          if perm.respond_to? :inherits
+            my_actions | permission(permission_name).inherits.collect(&:actions)
+          else
+            my_actions
+          end
         end
 
         alias_method_chain :allowed_actions, :inheritance
