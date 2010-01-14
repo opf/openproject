@@ -38,7 +38,7 @@ ActionController::Routing::Routes.draw do |map|
       co_views.connect 'cost_objects/:id/move', :action => 'move', :id => /\d+/
     end
     cost_objects.with_options :conditions => {:method => :post} do |co_actions|
-      co_actions.connect 'projects/:project_id/cost_objects/new', :action => 'new'
+      co_actions.connect 'projects/:project_id/cost_objects/:action', :action => /new|preview|update_(labor|material)_budget_item/
       co_actions.connect 'cost_objects/:id/:action', :action => /edit|move|destroy/, :id => /\d+/
     end
     cost_objects.connect 'cost_objects/:action'
