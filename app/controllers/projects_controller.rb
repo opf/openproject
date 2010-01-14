@@ -53,6 +53,9 @@ class ProjectsController < ApplicationController
       format.html { 
         @projects = Project.visible.find(:all, :order => 'lft') 
       }
+      format.xml  {
+        @projects = Project.visible.find(:all, :order => 'lft')
+      }
       format.atom {
         projects = Project.visible.find(:all, :order => 'created_on DESC',
                                               :limit => Setting.feeds_limit.to_i)
@@ -81,8 +84,18 @@ class ProjectsController < ApplicationController
           m = Member.new(:user => User.current, :roles => [r])
           @project.members << m
         end
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'projects', :action => 'settings', :id => @project
+        respond_to do |format|
+          format.html { 
+            flash[:notice] = l(:notice_successful_create)
+            redirect_to :controller => 'projects', :action => 'settings', :id => @project
+          }
+          format.xml  { head :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
+        end
+      else
+        respond_to do |format|
+          format.html
+          format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
+        end
       end
     end	
   end
@@ -147,6 +160,11 @@ class ProjectsController < ApplicationController
                                    :conditions => cond).to_f
     end
     @key = User.current.rss_key
+    
+    respond_to do |format|
+      format.html
+      format.xml
+    end
   end
 
   def settings
@@ -160,15 +178,26 @@ class ProjectsController < ApplicationController
   
   # Edit @project
   def edit
-    if request.post?
+    if request.get?
+    else
       @project.attributes = params[:project]
       if validate_parent_id && @project.save
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => 'settings', :id => @project
+        respond_to do |format|
+          format.html { 
+            flash[:notice] = l(:notice_successful_update)
+            redirect_to :action => 'settings', :id => @project
+          }
+          format.xml  { head :ok }
+        end
       else
-        settings
-        render :action => 'settings'
+        respond_to do |format|
+          format.html { 
+            settings
+            render :action => 'settings'
+          }
+          format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end
@@ -195,9 +224,16 @@ class ProjectsController < ApplicationController
   # Delete @project
   def destroy
     @project_to_destroy = @project
-    if request.post? and params[:confirm]
-      @project_to_destroy.destroy
-      redirect_to :controller => 'admin', :action => 'projects'
+    if request.get?
+      # display confirmation view
+    else
+      if params[:format] == 'xml' || params[:confirm]
+        @project_to_destroy.destroy
+        respond_to do |format|
+          format.html { redirect_to :controller => 'admin', :action => 'projects' }
+          format.xml  { head :ok }
+        end
+      end
     end
     # hide project in layout
     @project = nil

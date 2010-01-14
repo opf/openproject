@@ -1,0 +1,134 @@
+# Redmine - project management software
+# Copyright (C) 2006-2010  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+require "#{File.dirname(__FILE__)}/../test_helper"
+
+class ProjectsApiTest < ActionController::IntegrationTest
+  fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
+           :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages,
+           :attachments, :custom_fields, :custom_values, :time_entries
+
+  def setup
+    Setting.rest_api_enabled = '1'
+  end
+    
+  def test_index_routing
+    assert_routing(
+      {:method => :get, :path => '/projects.xml'},
+      :controller => 'projects', :action => 'index', :format => 'xml'
+    )
+  end
+  
+  def test_index
+    get '/projects.xml'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+  end
+    
+  def test_show_routing
+    assert_routing(
+      {:method => :get, :path => '/projects/1.xml'},
+      :controller => 'projects', :action => 'show', :id => '1', :format => 'xml'
+    )
+  end
+  
+  def test_show
+    get '/projects/1.xml'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+  end
+    
+  def test_create_routing
+    assert_routing(
+      {:method => :post, :path => '/projects.xml'},
+      :controller => 'projects', :action => 'add', :format => 'xml'
+    )
+  end
+  
+  def test_create
+    attributes = {:name => 'API test', :identifier => 'api-test'}
+    assert_difference 'Project.count' do
+      post '/projects.xml', {:project => attributes}, :authorization => credentials('admin')
+    end
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
+    project = Project.first(:order => 'id DESC')
+    attributes.each do |attribute, value|
+      assert_equal value, project.send(attribute)
+    end
+  end
+  
+  def test_create_failure
+    attributes = {:name => 'API test'}
+    assert_no_difference 'Project.count' do
+      post '/projects.xml', {:project => attributes}, :authorization => credentials('admin')
+    end
+    assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
+    assert_tag :errors, :child => {:tag => 'error', :content => "Identifier can't be blank"}
+  end
+    
+  def test_update_routing
+    assert_routing(
+      {:method => :put, :path => '/projects/1.xml'},
+      :controller => 'projects', :action => 'edit', :id => '1', :format => 'xml'
+    )
+  end
+  
+  def test_update
+    attributes = {:name => 'API update'}
+    assert_no_difference 'Project.count' do
+      put '/projects/1.xml', {:project => attributes}, :authorization => credentials('jsmith')
+    end
+    assert_response :ok
+    assert_equal 'application/xml', @response.content_type
+    project = Project.find(1)
+    attributes.each do |attribute, value|
+      assert_equal value, project.send(attribute)
+    end
+  end
+  
+  def test_update_failure
+    attributes = {:name => ''}
+    assert_no_difference 'Project.count' do
+      put '/projects/1.xml', {:project => attributes}, :authorization => credentials('jsmith')
+    end
+    assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
+    assert_tag :errors, :child => {:tag => 'error', :content => "Name can't be blank"}
+  end
+    
+  def test_destroy_routing
+    assert_routing(
+      {:method => :delete, :path => '/projects/1.xml'},
+      :controller => 'projects', :action => 'destroy', :id => '1', :format => 'xml'
+    )
+  end
+  
+  def test_destroy
+    assert_difference 'Project.count', -1 do
+      delete '/projects/2.xml', {}, :authorization => credentials('admin')
+    end
+    assert_response :ok
+    assert_equal 'application/xml', @response.content_type
+    assert_nil Project.find_by_id(2)
+  end
+  
+  def credentials(user, password=nil)
+    ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)
+  end
+end

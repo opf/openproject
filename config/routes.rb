@@ -186,6 +186,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects.:format', :action => 'index'
       project_views.connect 'projects/new', :action => 'add'
       project_views.connect 'projects/:id', :action => 'show'
+      project_views.connect 'projects/:id.:format', :action => 'show'
       project_views.connect 'projects/:id/:action', :action => /roadmap|destroy|settings/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
@@ -204,6 +205,7 @@ ActionController::Routing::Routes.draw do |map|
     projects.with_options :conditions => {:method => :post} do |project_actions|
       project_actions.connect 'projects/new', :action => 'add'
       project_actions.connect 'projects', :action => 'add'
+      project_actions.connect 'projects.:format', :action => 'add', :format => /xml/
       project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive/
       project_actions.connect 'projects/:id/files/new', :action => 'add_file'
       project_actions.connect 'projects/:id/versions/new', :action => 'add_version'
@@ -211,7 +213,12 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
     end
 
+    projects.with_options :conditions => {:method => :put} do |project_actions|
+      project_actions.conditions 'projects/:id.:format', :action => 'edit', :format => /xml/
+    end
+
     projects.with_options :conditions => {:method => :delete} do |project_actions|
+      project_actions.conditions 'projects/:id.:format', :action => 'destroy', :format => /xml/
       project_actions.conditions 'projects/:id/reset_activities', :action => 'reset_activities'
     end
   end

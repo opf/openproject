@@ -44,7 +44,7 @@ custom_fields_003:
   - Alpha
   - Planning
   id: 3
-  is_required: true
+  is_required: false
   field_format: list
   default_value: ""
   editable: true
