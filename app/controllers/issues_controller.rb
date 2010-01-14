@@ -217,7 +217,7 @@ class IssuesController < ApplicationController
           end
           call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
           respond_to do |format|
-            format.html { redirect_to(params[:back_to] || {:action => 'show', :id => @issue}) }
+            format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
             format.xml  { head :ok }
           end
           return
@@ -293,7 +293,7 @@ class IssuesController < ApplicationController
                                                          :total => @issues.size,
                                                          :ids => '#' + unsaved_issue_ids.join(', #'))
       end
-      redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index', :project_id => @project})
+      redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
       return
     end
     @available_statuses = Workflow.available_statuses(@project)
