@@ -17,9 +17,9 @@ module CostsGroupsControllerPatch
       users = User.find_all_by_id(params[:user_ids])
 
       # following three lines added/changed to original function
-      membership_type = params[:membership_type]
+      membership_type = params[:membership_type] || "default"
       groups_users = users.each do |u|
-        @group.groups_users.create(:user_id => u.id, :membership_type => membership_type)
+        @group.groups_users.create!(:user_id => u.id, :membership_type => membership_type)
       end
 
       respond_to do |format|
