@@ -313,6 +313,13 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'settings'
   end
   
+  def test_edit_routing
+    assert_routing(
+      {:method => :post, :path => '/projects/4223/edit'},
+      :controller => 'projects', :action => 'edit', :id => '4223'
+    )
+  end
+  
   def test_edit
     @request.session[:user_id] = 2 # manager
     post :edit, :id => 1, :project => {:name => 'Test changed name',

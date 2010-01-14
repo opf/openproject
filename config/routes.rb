@@ -206,7 +206,7 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects/new', :action => 'add'
       project_actions.connect 'projects', :action => 'add'
       project_actions.connect 'projects.:format', :action => 'add', :format => /xml/
-      project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive/
+      project_actions.connect 'projects/:id/:action', :action => /edit|destroy|archive|unarchive/
       project_actions.connect 'projects/:id/files/new', :action => 'add_file'
       project_actions.connect 'projects/:id/versions/new', :action => 'add_version'
       project_actions.connect 'projects/:id/categories/new', :action => 'add_issue_category'
