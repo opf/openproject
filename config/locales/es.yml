@@ -95,8 +95,8 @@ es:
         one:  "más de 1 año" 
         other: "más de {{count}} años" 
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "casi 1 año"
+        other: "casi {{count}} años"
 
   activerecord:
     errors:
@@ -920,9 +920,9 @@ es:
   button_show: Mostrar
   text_line_separated: Múltiples valores permitidos (un valor en cada línea).
   setting_mail_handler_body_delimiters: Truncar correos tras una de estas líneas
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  permission_add_subprojects: Crear subproyectos
+  label_subproject_new: Nuevo subproyecto
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
+    Está a punto de eliminar algún o todos sus permisos y podría perder la posibilidad de modificar este proyecto tras hacerlo.
+    ¿Está seguro de querer continuar?
+  label_close_versions: Cerrar versiones completadas

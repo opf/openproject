@@ -355,6 +355,7 @@ zh:
   setting_rest_api_enabled: 启用REST web service
 
   permission_add_project: 新建项目
+  permission_add_subprojects: 新建子项目
   permission_edit_project: 编辑项目
   permission_select_project_modules: 选择项目模块
   permission_manage_members: 管理成员
@@ -490,6 +491,7 @@ zh:
   label_auth_source_new: 新建认证模式
   label_auth_source_plural: 认证模式
   label_subproject_plural: 子项目
+  label_subproject_new: 新建子项目
   label_and_its_subprojects: "{{value}} 及其子项目"
   label_min_max_length: 最小 - 最大 长度
   label_list: 列表
@@ -524,6 +526,7 @@ zh:
   label_version: 版本
   label_version_new: 新建版本
   label_version_plural: 版本
+  label_close_versions: 关闭已完成的版本
   label_confirmation: 确认
   label_export_to: 导出
   label_read: 读取...
@@ -873,6 +876,7 @@ zh:
   text_wiki_page_reassign_children: 将子页面的上级页面设置为
   text_wiki_page_nullify_children: 将子页面保留为根页面
   text_wiki_page_destroy_children: 删除子页面及其所有下级页面
+  text_own_membership_delete_confirmation: 你正在删除你现有的某些或全部权限，如果这样做了你可能将会再也无法编辑该项目了。你确定要继续吗？
 
   default_role_manager: 管理人员
   default_role_developper: 开发人员
@@ -900,9 +904,3 @@ zh:
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
   enumeration_system_activity: 系统活动
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
-  text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
