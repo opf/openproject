@@ -3,7 +3,7 @@
 ***************************************/
 
 li.item {
-  background-color: #ccc;
+  background-color: #bbf;
   display: block;
   height: 25px;
   margin: 1px 0px 1px 0px;
@@ -235,7 +235,7 @@ li.item  > .body div.assigned_to_id .t {
   display: block;
   overflow:hidden;
   white-space:nowrap;
-  width:92px;
+  width:100px;
 }
 
 li.item  > .body div.assigned_to_id {

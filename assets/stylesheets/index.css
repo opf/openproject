@@ -43,8 +43,8 @@
 }
 
 .backlog_toolbar {
-  background-color: #666;
-  color: #ccc;
+  background-color: #fff;
+  color: #000;
   font-family: Verdana, Arial, sans-serif;
   font-size: 10px;
   height: 28px;
@@ -81,6 +81,7 @@
   BACKLOG STYLES
 ***************************************/
 .backlog {
+  color: #000;
   width: 700px;
 }
 
@@ -110,7 +111,7 @@
 
 
 .backlog .header {
-  background-color: #999;
+  background-color: #507AAA;
   font-family: Verdana, Arial, sans-serif;
   height: 28px;
   position: relative;
