@@ -54,10 +54,10 @@
 }
 
 #hide_closed_backlogs_container {
+  margin-top: 7px;
+  margin-right: 5px;
   display: block;
-  left: 190px;
-  position: absolute;
-  top: 7px;
+  float: right;
 }
 
 #hide_closed_backlogs {
