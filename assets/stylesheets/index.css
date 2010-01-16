@@ -53,7 +53,7 @@
   width: 1130px;
 }
 
-#hide_closed_backlogs_container {
+.backlog_settings {
   margin-top: 7px;
   margin-right: 5px;
   display: block;

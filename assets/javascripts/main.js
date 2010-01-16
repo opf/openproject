@@ -12,6 +12,8 @@ RBL.init = function(){
   $("new_item_button").observe("change", function() { RBL.newItem(); });
   $("hide_closed_backlogs").checked = (document.cookie.match(/hide_closed_backlogs=true/)!=null);
   $("hide_closed_backlogs").observe("click", function() { RBL.storePreferences(); RBL.processClosedBacklogs() });
+  $("hide_tasks").checked = (document.cookie.match(/hide_tasks=true/)!=null);
+  $("hide_tasks").observe("click", function() { RBL.storePreferences(); });
   
   RBL.log("Backlogs Plugin initialized.");
 }
@@ -77,6 +79,7 @@ RBL.storePreferences = function(){
   var expiration = new Date(dateToday.setYear(dateToday.getFullYear() + 1));
 
   document.cookie = "hide_closed_backlogs=" + ($("hide_closed_backlogs").checked ? "true" : "false") + "; " +
+					"hide_tasks=" + ($("hide_tasks").checked ? "true" : "false") + "; " +
                     "expires=" + expiration.toGMTString();
 }
 

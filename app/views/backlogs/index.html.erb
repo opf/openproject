@@ -3,8 +3,9 @@
     <%= javascript_include_tag  'main', 'backlog', 'item', 'task', :plugin => 'redmine_backlogs', :cache => 'backlogsjs/all' %>
 <% end %>
 <div class="backlog_toolbar">
-	<div id="hide_closed_backlogs_container">
-	  <input type="checkbox" id="hide_closed_backlogs"/> Hide closed backlogs
+	<div class="backlog_settings">
+	  <input type="checkbox" id="hide_closed_backlogs">Hide closed backlogs</input>
+		<input type="checkbox" id="hide_tasks">Hide tasks</input>
 	</div>	
   <select id="move_items" class="actions">
     <option>Move selected items to...</option>
