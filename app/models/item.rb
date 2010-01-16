@@ -91,8 +91,8 @@ class Item < ActiveRecord::Base
     find_by_issue_id(issue.id).destroy
   end
 
-  def self.find_by_project(project, hide_closed = false)
-    find(:all, :include => [ :issue, :backlog ], :conditions => "issues.project_id=#{project.id} AND items.parent_id=0 #{"AND backlogs.is_closed = false" if hide_closed}", :order => "items.position ASC")
+  def self.find_by_project(project)
+    find(:all, :include => :issue, :conditions => "issues.project_id=#{project.id} and items.parent_id=0", :order => "items.position ASC")
   end
 
   def self.remove_with_issue(issue)
