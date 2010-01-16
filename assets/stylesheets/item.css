@@ -31,6 +31,10 @@ li.item.maximized {
   height: 250px;
 }
 
+li.item.maximized_without_tasks {
+  height: 130px;
+}
+
 li.item.discussion {
   height: 235px;
 }
@@ -420,7 +424,7 @@ li.item.maximized > .add_task {
   left: 5px;
   position: absolute;
   text-align: center;
-  top: 110px;
+  top: 125px;
   width: 25px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -440,7 +444,7 @@ li.item.maximized > .item_tasks {
   overflow: auto;
   padding: 0px;
   position: absolute;
-  top: 130px;
+  top: 145px;
   width: 688px;
 }
 

@@ -335,10 +335,18 @@ RBL.Item = Class.create(RBL.Model, {
     
   toggleHeight: function(event){
     this.getRoot().toggleClassName("maximized");
-    if(this.getRoot().hasClassName("maximized")) {
-      if(!this.getParentBacklog().getRoot().hasClassName("main")) this.loadTasks();
+    if(this.getRoot().hasClassName("maximized")) {	
+			if(!this.getParentBacklog().getRoot().hasClassName("main")) {
+				if($("hide_tasks").checked) {
+					this.getRoot().addClassName("maximized_without_tasks");
+				}
+				else {
+					this.loadTasks();
+				}
+			}
     } else {
       this.clearTasks();
+			this.getRoot().removeClassName("maximized_without_tasks");
     }
   },
 

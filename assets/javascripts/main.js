@@ -13,8 +13,10 @@ RBL.init = function(){
   $("hide_closed_backlogs").checked = (document.cookie.match(/hide_closed_backlogs=true/)!=null);
   $("hide_closed_backlogs").observe("click", function() { RBL.storePreferences(); RBL.processClosedBacklogs() });
   $("hide_tasks").checked = (document.cookie.match(/hide_tasks=true/)!=null);
-  $("hide_tasks").observe("click", function() { RBL.storePreferences(); });
+  $("hide_tasks").observe("click", function() { RBL.storePreferences(); RBL.hideOrShowTasks(); });
   
+	RBL.hideOrShowTasks();
+
   RBL.log("Backlogs Plugin initialized.");
 }
 
@@ -64,6 +66,18 @@ RBL.newItem = function(){
   new PeriodicalExecuter(function(pe){ item.edit(); pe.stop() }, 0.15);
 }
 
+RBL.hideOrShowTasks = function() {
+	console.log($("hide_tasks").checked);
+  if($("hide_tasks").checked) {
+		$$(".item_tasks").each(function(e) { e.hide() });
+		$$(".add_task").each(function(e) { e.hide() });
+	}
+	else {
+		$$(".item_tasks").each(function(e) { e.show() });
+		$$(".add_task").each(function(e) { e.show() });		
+	}
+}
+
 RBL.processClosedBacklogs = function(){
   if(document.cookie.match(/hide_closed_backlogs=true/)!=null){
     RBL.Backlog.findAll().each(function(backlog){
@@ -79,8 +93,9 @@ RBL.storePreferences = function(){
   var expiration = new Date(dateToday.setYear(dateToday.getFullYear() + 1));
 
   document.cookie = "hide_closed_backlogs=" + ($("hide_closed_backlogs").checked ? "true" : "false") + "; " +
-					"hide_tasks=" + ($("hide_tasks").checked ? "true" : "false") + "; " +
                     "expires=" + expiration.toGMTString();
+	document.cookie =  "hide_tasks=" + ($("hide_tasks").checked ? "true" : "false") + "; " +
+	                 	 "expires=" + expiration.toGMTString();
 }
 
 
