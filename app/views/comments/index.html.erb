@@ -1,0 +1,3 @@
+<%- @journals.each do |journal| -%>
+  <%= render :partial => "comment", :locals => { :journal => journal } %>
+<%- end -%>
