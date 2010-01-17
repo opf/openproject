@@ -209,6 +209,14 @@ class MailHandlerTest < ActiveSupport::TestCase
     Role.anonymous.add_permission!(:add_issues)
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
+  
+  def test_add_issue_with_japanese_keywords
+    tracker = Tracker.create!(:name => '開発')
+    Project.find(1).trackers << tracker
+    issue = submit_email('japanese_keywords_iso_2022_jp.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'tracker')
+    assert_kind_of Issue, issue
+    assert_equal tracker, issue.tracker
+  end
 
   def test_should_ignore_emails_from_emission_address
     Role.anonymous.add_permission!(:add_issues)
