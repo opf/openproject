@@ -184,6 +184,12 @@ class MailerTest < ActiveSupport::TestCase
     
     should "notify issue watchers" do
       user = User.find(9)
+      # minimal email notification options
+      user.pref[:no_self_notified] = '1'
+      user.pref.save
+      user.mail_notification = false
+      user.save
+      
       Watcher.create!(:watchable => @issue, :user => user)
       assert Mailer.deliver_issue_add(@issue)
       assert last_email.bcc.include?(user.mail)
