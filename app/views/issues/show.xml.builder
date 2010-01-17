@@ -1,5 +1,6 @@
 xml.instruct!
-xml.issue :id => @issue.id do
+xml.issue do
+  xml.id					@issue.id
 	xml.project(:id => @issue.project_id, :name => @issue.project.name) unless @issue.project.nil?
 	xml.tracker(:id => @issue.tracker_id, :name => @issue.tracker.name) unless @issue.tracker.nil?
 	xml.status(:id => @issue.status_id, :name => @issue.status.name) unless @issue.status.nil?

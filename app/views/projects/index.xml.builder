@@ -1,7 +1,8 @@
 xml.instruct!
 xml.projects :type => 'array' do
   @projects.each do |project|
-	  xml.project :id => project.id do
+	  xml.project do
+	    xml.id					project.id
 			xml.name				project.name
 			xml.identifier	project.identifier
 			xml.description project.description
