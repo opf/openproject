@@ -676,6 +676,7 @@ namespace :redmine do
           puts
           puts "This project already exists in your Redmine database."
           print "Are you sure you want to append data to this project ? [Y/n] "
+          STDOUT.flush
           exit if STDIN.gets.match(/^n$/i)
         end
         project.trackers << TRACKER_BUG unless project.trackers.include?(TRACKER_BUG)
@@ -726,6 +727,7 @@ namespace :redmine do
 
     puts "WARNING: a new project will be added to Redmine during this process."
     print "Are you sure you want to continue ? [y/N] "
+    STDOUT.flush
     break unless STDIN.gets.match(/^y$/i)
     puts
 
@@ -733,6 +735,7 @@ namespace :redmine do
       default = options[:default] || ''
       while true
         print "#{text} [#{default}]: "
+        STDOUT.flush
         value = STDIN.gets.chomp!
         value = default if value.blank?
         break if yield value
