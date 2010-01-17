@@ -4,6 +4,8 @@ class Item < ActiveRecord::Base
   belongs_to   :backlog
   acts_as_list :scope => 'items.backlog_id=#{backlog_id} AND items.parent_id=#{parent_id}'
   acts_as_tree :order => "items.position ASC, created_at ASC"
+  
+  after_save :update_issue_points
 
   def append_comment(user, comment)
     journal = issue.init_journal(User.current, @notes)
@@ -99,14 +101,19 @@ class Item < ActiveRecord::Base
     find_by_issue_id(issue.id).destroy
   end
 
+  def update_issue_points
+    Item.custom_points(issue).update_attribute(:value, points) if Item.custom_points(issue)
+  end
+
   def self.update_from_issue(issue)
     backlog         = Backlog.find_by_version_id(issue.fixed_version_id)
     item            = find_by_issue_id(issue.id) || Item.new()
     item.issue_id   = issue.id
     item.backlog_id = (backlog.nil? ? 0 : backlog.id)
-    item.save 
-  end  
-  
+    item.points     = custom_points(issue).value if custom_points(issue)
+    item.save
+  end
+    
   def determine_new_position(params)
     if params[:prev]=="" || params[:prev].nil?
       1
@@ -118,6 +125,12 @@ class Item < ActiveRecord::Base
   
   def update_position(params)
     insert_at determine_new_position(params)
+  end
+  
+  private
+  
+  def self.custom_points(issue)
+    issue.custom_values.to_a.find { |value| value.custom_field.name == "Points" }
   end
   
 end

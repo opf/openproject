@@ -12,6 +12,10 @@ A scrum/agile tool. Useful for product planning, sprint planning, and daily stan
 
 You will need to enable the Backlogs module per project via Settings > Modules. Also, make check that the right roles have permission to use the module by going to Administration > Roles and Permissions > Permissions Report.
 
+= Points sync
+
+If you have a custom field called "Points" on the issues, that value will be kept in sync with the corresponding Backlog issue points.
+
 = Chart Data Generator
 
 You may schedule a cron job to run the rake task named <tt>redmine:backlogs_plugin:generate_chart_data</tt>. I recommend you run it a few minutes after midnight to ensure that your backlogs have data everyday even when no user views the charts.
