@@ -236,6 +236,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'application/pdf', @response.content_type
   end
   
+  def test_index_pdf_with_query_grouped_by_list_custom_field
+    get :index, :project_id => 1, :query_id => 9, :format => 'pdf'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert_not_nil assigns(:issue_count_by_group)
+    assert_equal 'application/pdf', @response.content_type
+  end
+  
   def test_index_sort
     get :index, :sort => 'tracker,id:desc'
     assert_response :success

@@ -40,6 +40,7 @@ class IssuesController < ApplicationController
   helper :attachments
   include AttachmentsHelper
   helper :queries
+  include QueriesHelper
   helper :sort
   include SortHelper
   include IssuesHelper
