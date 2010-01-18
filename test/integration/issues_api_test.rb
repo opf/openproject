@@ -58,6 +58,15 @@ class IssuesApiTest < ActionController::IntegrationTest
     assert_response :success
     assert_equal 'application/xml', @response.content_type
   end
+  
+  def test_index_with_filter
+    get '/issues.xml?status_id=5'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_tag :tag => 'issues',
+               :children => { :count => Issue.visible.count(:conditions => {:status_id => 5}), 
+                              :only => { :tag => 'issue' } }
+  end
     
   def test_show_routing
     assert_routing(

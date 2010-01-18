@@ -538,7 +538,7 @@ private
       session[:query] = {:id => @query.id, :project_id => @query.project_id}
       sort_clear
     else
-      if params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)
+      if api_request? || params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)
         # Give it a name, required to be valid
         @query = Query.new(:name => "_")
         @query.project = @project
