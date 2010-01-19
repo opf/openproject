@@ -199,7 +199,7 @@ class UsersController < ApplicationController
   def edit_membership
     if params[:project_ids] # Multiple memberships, one per project
       params[:project_ids].each do |project_id|
-        @membership = Member.edit_membership(params[:membership_id], params[:membership].merge(:project_id => project_id), @user)
+        @membership = Member.edit_membership(params[:membership_id], (params[:membership] || {}).merge(:project_id => project_id), @user)
         @membership.save if request.post?
       end
     else # Single membership

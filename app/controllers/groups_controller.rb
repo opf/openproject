@@ -131,7 +131,7 @@ class GroupsController < ApplicationController
 
     if params[:project_ids] # Multiple memberships, one per project
       params[:project_ids].each do |project_id|
-        @membership = Member.edit_membership(params[:membership_id], params[:membership].merge(:project_id => project_id), @group)
+        @membership = Member.edit_membership(params[:membership_id], (params[:membership]|| {}).merge(:project_id => project_id), @group)
         @membership.save if request.post?
       end
     else # Single membership
