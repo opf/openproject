@@ -6,7 +6,7 @@
 <%= error_messages_for 'repository' %>
 
 <div class="box tabular">
-<p><label><%= l(:label_scm) %></label><%= scm_select_tag(@repository) %></p>
+<p><%= label_tag('repository_scm', l(:label_scm)) %><%= scm_select_tag(@repository) %></p>
 <%= repository_field_tags(f, @repository) if @repository %>
 </div>
 

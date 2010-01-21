@@ -46,7 +46,7 @@ module ProjectsHelper
     options = ''
     options << "<option value=''></option>" if project.allowed_parents.include?(nil)
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
-    content_tag('select', options, :name => 'project[parent_id]')
+    content_tag('select', options, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
   
   # Renders a tree of projects as a nested set of unordered lists

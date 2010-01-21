@@ -5,7 +5,7 @@
 <p><%= f.text_field :name, :required => true %><br /><em><%= l(:text_caracters_maximum, 30) %></em></p>
 
 <% unless @project.allowed_parents.compact.empty? %>
-    <p><label><%= l(:field_parent) %></label><%= parent_project_select_tag(@project) %></p>
+    <p><%= label(:project, :parent_id, l(:field_parent)) %><%= parent_project_select_tag(@project) %></p>
 <% end %>
 
 <p><%= f.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>

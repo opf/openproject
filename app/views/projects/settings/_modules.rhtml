@@ -2,13 +2,15 @@
             :url => { :action => 'modules', :id => @project },
             :html => {:id => 'modules-form'} do |f| %>
             
-<div class=box>
-<strong><%= l(:text_select_project_modules) %></strong>
+<div class="box">
+<fieldset>
+<legend><%= l(:text_select_project_modules) %></legend>
 
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
 <p><label><%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) -%>
  <%= l_or_humanize(m, :prefix => "project_module_") %></label></p>
 <% end %>
+</fieldset>
 </div>
 
 <p><%= check_all_links 'modules-form' %></p>
