@@ -1,0 +1,888 @@
+# Redmine EU language
+# Author: Ales Zabala Alava (Shagi), <shagi@gisa-elkartea.org>
+# 2010-01-25
+# Distributed under the same terms as the Redmine itself.
+eu:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y/%m/%d"
+      short: "%b %d"
+      long: "%Y %B %d"
+      
+    day_names: [Igandea, Astelehena, Asteartea, Asteazkena, Osteguna, Ostirala, Larunbata]
+    abbr_day_names: [Ig., Al., Ar., Az., Og., Or., La.]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, Urtarrila, Otsaila, Martxoa, Apirila, Maiatza, Ekaina, Uztaila, Abuztua, Iraila, Urria, Azaroa, Abendua]
+    abbr_month_names: [~, Urt, Ots, Mar, Api, Mai, Eka, Uzt, Abu, Ira, Urr, Aza, Abe]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M"
+      time: "%H:%M"
+      short: "%b %d %H:%M"
+      long: "%Y %B %d %H:%M"
+    am: "am"
+    pm: "pm"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "minutu erdi"
+      less_than_x_seconds:
+        one:   "segundu bat baino gutxiago"
+        other: "{{count}} segundu baino gutxiago"
+      x_seconds:
+        one:   "segundu 1"
+        other: "{{count}} segundu"
+      less_than_x_minutes:
+        one:   "minutu bat baino gutxiago"
+        other: "{{count}} minutu baino gutxiago"
+      x_minutes:
+        one:   "minutu 1"
+        other: "{{count}} minutu"
+      about_x_hours:
+        one:   "ordu 1 inguru"
+        other: "{{count}} ordu inguru"
+      x_days:
+        one:   "egun 1"
+        other: "{{count}} egun"
+      about_x_months:
+        one:   "hilabete 1 inguru"
+        other: "{{count}} hilabete inguru"
+      x_months:
+        one:   "hilabete 1"
+        other: "{{count}} hilabete"
+      about_x_years:
+        one:   "urte 1 inguru"
+        other: "{{count}} urte inguru"
+      over_x_years:
+        one:   "urte 1 baino gehiago"
+        other: "{{count}} urte baino gehiago"
+      almost_x_years:
+        one:   "ia urte 1"
+        other: "ia {{count}} urte"
+
+  number:
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Byte"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+        
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "eta"
+      skip_last_comma: false
+      
+  activerecord:
+    errors:
+      messages:
+        inclusion: "ez dago zerrendan"
+        exclusion: "erreserbatuta dago"
+        invalid: "baliogabea da"
+        confirmation: "ez du berrespenarekin bat egiten"
+        accepted: "onartu behar da"
+        empty: "ezin da hutsik egon"
+        blank: "ezin da hutsik egon"
+        too_long: "luzeegia da (maximoa {{count}} karaktere dira)"
+        too_short: "laburregia da (minimoa {{count}} karaktere dira)"
+        wrong_length: "luzera ezegokia da ({{count}} karakter izan beharko litzake)"
+        taken: "dagoeneko hartuta dago"
+        not_a_number: "ez da zenbaki bat"
+        not_a_date: "ez da baliozko data"
+        greater_than: "{{count}} baino handiagoa izan behar du"
+        greater_than_or_equal_to: "{{count}} edo handiagoa izan behar du"
+        equal_to: "{{count}} izan behar du"
+        less_than: "{{count}} baino gutxiago izan behar du"
+        less_than_or_equal_to: "{{count}} edo gutxiago izan behar du"
+        odd: "bakoitia izan behar du"
+        even: "bikoitia izan behar du"
+        greater_than_start_date: "hasiera data baino handiagoa izan behar du"
+        not_same_project: "ez dago proiektu berdinean"
+        circular_dependency: "Erlazio honek mendekotasun zirkular bat sortuko luke"
+
+  actionview_instancetag_blank_option: Hautatu mesedez
+  
+  general_text_No: 'Ez'
+  general_text_Yes: 'Bai'
+  general_text_no: 'ez'
+  general_text_yes: 'bai'
+  general_lang_name: 'Euskara'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: UTF-8
+  general_first_day_of_week: '1'
+  
+  notice_account_updated: Kontua ongi eguneratu da.
+  notice_account_invalid_creditentials: Erabiltzaile edo pasahitz ezegokia
+  notice_account_password_updated: Pasahitza ongi eguneratu da.
+  notice_account_wrong_password: Pasahitz ezegokia.
+  notice_account_register_done: Kontua ongi sortu da. Kontua gaitzeko klikatu epostan adierazi zaizun estekan.
+  notice_account_unknown_email: Erabiltzaile ezezaguna.
+  notice_can_t_change_password: Kontu honek kanpoko autentikazio bat erabiltzen du. Ezinezkoa da pasahitza aldatzea.
+  notice_account_lost_email_sent: Pasahitz berria aukeratzeko jarraibideak dituen eposta bat bidali zaizu.
+  notice_account_activated: Zure kontua gaituta dago. Orain saioa has dezakezu
+  notice_successful_create: Sortze arrakastatsua.
+  notice_successful_update: Eguneratze arrakastatsua.
+  notice_successful_delete: Ezabaketa arrakastatsua.
+  notice_successful_connection: Konexio arrakastatsua.
+  notice_file_not_found: Atzitu nahi duzun orria ez da exisitzen edo ezabatua izan da.
+  notice_locking_conflict: Beste erabiltzaile batek datuak eguneratu ditu.
+  notice_not_authorized: Ez duzu orri hau atzitzeko baimenik.
+  notice_email_sent: "{{value}} helbidera eposta bat bidali da"
+  notice_email_error: "Errorea eposta bidaltzean ({{value}})"
+  notice_feeds_access_key_reseted: Zure RSS atzipen giltza berrezarri da.
+  notice_api_access_key_reseted: Zure API atzipen giltza berrezarri da.
+  notice_failed_to_save_issues: "Hautatutako {{total}} zereginetatik {{count}} ezin izan dira konpondu: {{ids}}."
+  notice_no_issue_selected: "Ez da zereginik hautatu! Mesedez, editatu nahi dituzun arazoak markatu."
+  notice_account_pending: "Zure kontua sortu da, orain kudeatzailearen onarpenaren zain dago."
+  notice_default_data_loaded: Lehenetsitako konfigurazioa ongi kargatu da.
+  notice_unable_delete_version: Ezin da bertsioa ezabatu.
+  notice_issue_done_ratios_updated: Burututako zereginen erlazioa eguneratu da.
+  
+  error_can_t_load_default_data: "Ezin izan da lehenetsitako konfigurazioa kargatu: {{value}}"
+  error_scm_not_found: "Sarrera edo berrikuspena ez da biltegian topatu."
+  error_scm_command_failed: "Errorea gertatu da biltegia atzitzean: {{value}}"
+  error_scm_annotate: "Sarrera ez da existitzen edo ezin da anotatu."
+  error_issue_not_found_in_project: 'Zeregina ez da topatu edo ez da proiektu honetakoa'
+  error_no_tracker_in_project: 'Proiektu honek ez du aztarnaririk esleituta. Mesedez egiaztatu Proiektuaren ezarpenak.'
+  error_no_default_issue_status: 'Zereginek ez dute lehenetsitako egoerarik.  Mesedez egiaztatu zure konfigurazioa ("Kudeaketa -> Arazoen egoerak" atalera joan).'
+  error_can_not_reopen_issue_on_closed_version: 'Itxitako bertsio batera esleitutako zereginak ezin dira berrireki'
+  error_can_not_archive_project: Proiektu hau ezin da artxibatu
+  error_issue_done_ratios_not_updated: "Burututako zereginen erlazioa ez da eguneratu."
+  error_workflow_copy_source: 'Mesedez hautatu iturburuko aztarnari edo rola'
+  error_workflow_copy_target: 'Mesedez hautatu helburuko aztarnari(ak) edo rola(k)'
+  
+  warning_attachments_not_saved: "{{count}} fitxategi ezin izan d(ir)a gorde."
+  
+  mail_subject_lost_password: "Zure {{value}} pasahitza"
+  mail_body_lost_password: 'Zure pasahitza aldatzeko hurrengo estekan klikatu:'
+  mail_subject_register: "Zure {{value}} kontuaren gaitzea"
+  mail_body_register: 'Zure kontua gaitzeko hurrengo estekan klikatu:'
+  mail_body_account_information_external: "Zure {{value}} kontua erabil dezakezu saioa hasteko."
+  mail_body_account_information: Zure kontuaren informazioa
+  mail_subject_account_activation_request: "{{value}} kontu gaitzeko eskaera"
+  mail_body_account_activation_request: "Erabiltzaile berri bat ({{value}}) erregistratu da. Kontua zure onarpenaren zain dago:"
+  mail_subject_reminder: "{{count}} arazo hurrengo egunetan amaitzen d(ir)a"
+  mail_body_reminder: "Zuri esleituta dauden {{count}} arazo hurrengo {{days}} egunetan amaitzen d(ir)a:"
+  mail_subject_wiki_content_added: "'{{page}}' wiki orria gehitu da"
+  mail_body_wiki_content_added: "{{author}}-(e)k '{{page}}' wiki orria gehitu du."
+  mail_subject_wiki_content_updated: "'{{page}}' wiki orria eguneratu da"
+  mail_body_wiki_content_updated: "{{author}}-(e)k '{{page}}' wiki orria eguneratu du."
+  
+  gui_validation_error: akats 1
+  gui_validation_error_plural: "{{count}} akats"
+  
+  field_name: Izena
+  field_description: Deskribapena
+  field_summary: Laburpena
+  field_is_required: Beharrezkoa
+  field_firstname: Izena
+  field_lastname: Abizenak
+  field_mail: Eposta
+  field_filename: Fitxategia
+  field_filesize: Tamaina
+  field_downloads: Deskargak
+  field_author: Egilea
+  field_created_on: Sortuta
+  field_updated_on: Eguneratuta
+  field_field_format: Formatua
+  field_is_for_all: Proiektu guztietarako
+  field_possible_values: Balio posibleak
+  field_regexp: Expresio erregularra
+  field_min_length: Luzera minimoa
+  field_max_length: Luzera maxioma
+  field_value: Balioa
+  field_category: Kategoria
+  field_title: Izenburua
+  field_project: Proiektua
+  field_issue: Zeregina
+  field_status: Egoera
+  field_notes: Oharrak
+  field_is_closed: Itxitako arazoa
+  field_is_default: Lehenetsitako balioa
+  field_tracker: Aztarnaria
+  field_subject: Gaia
+  field_due_date: Amaiera data
+  field_assigned_to: Esleituta
+  field_priority: Lehentasuna
+  field_fixed_version: Helburuko bertsioa
+  field_user: Erabiltzilea
+  field_role: Rola
+  field_homepage: Orri nagusia
+  field_is_public: Publikoa
+  field_parent: "Honen azpiproiektua:"
+  field_is_in_chlog: Zereginak aldaketa egunkarian ikusten dira
+  field_is_in_roadmap: Arazoak ibilbide-mapan erakutsi
+  field_login: Erabiltzaile izena
+  field_mail_notification: Eposta jakinarazpenak
+  field_admin: Kudeatzailea
+  field_last_login_on: Azken konexioa
+  field_language: Hizkuntza
+  field_effective_date: Data
+  field_password: Pasahitza
+  field_new_password: Pasahitz berria
+  field_password_confirmation: Berrespena
+  field_version: Bertsioa
+  field_type: Mota
+  field_host: Ostalaria
+  field_port: Portua
+  field_account: Kontua
+  field_base_dn: Base DN
+  field_attr_login: Erabiltzaile atributua
+  field_attr_firstname: Izena atributua
+  field_attr_lastname: Abizenak atributua
+  field_attr_mail: Eposta atributua
+  field_onthefly: Zuzeneko erabiltzaile sorrera
+  field_start_date: Hasiera
+  field_done_ratio: Egindako %
+  field_auth_source: Autentikazio modua
+  field_hide_mail: Nire eposta helbidea ezkutatu
+  field_comments: Iruzkina
+  field_url: URL
+  field_start_page: Hasierako orria
+  field_subproject: Azpiproiektua
+  field_hours: Ordu
+  field_activity: Jarduera
+  field_spent_on: Data
+  field_identifier: Identifikatzailea
+  field_is_filter: Iragazki moduan erabilita
+  field_issue_to: Erlazionatutako zereginak
+  field_delay: Atzerapena
+  field_assignable: Arazoak rol honetara esleitu daitezke
+  field_redirect_existing_links: Existitzen diren estelak berbideratu
+  field_estimated_hours: Estimatutako denbora
+  field_column_names: Zutabeak
+  field_time_zone: Ordu zonaldea
+  field_searchable: Bilagarria
+  field_default_value: Lehenetsitako balioa
+  field_comments_sorting: Iruzkinak erakutsi
+  field_parent_title: Orri gurasoa
+  field_editable: Editagarria
+  field_watcher: Behatzailea
+  field_identity_url: OpenID URLa
+  field_content: Edukia
+  field_group_by: Emaitzak honegatik taldekatu
+  field_sharing: Partekatzea
+
+  setting_app_title: Aplikazioaren izenburua
+  setting_app_subtitle: Aplikazioaren azpizenburua
+  setting_welcome_text: Ongietorriko testua
+  setting_default_language: Lehenetsitako hizkuntza
+  setting_login_required: Autentikazioa derrigorrezkoa
+  setting_self_registration: Norberak erregistratu
+  setting_attachment_max_size: Eranskinen tamaina max.
+  setting_issues_export_limit: Zereginen esportatze limitea
+  setting_mail_from: Igorlearen eposta helbidea
+  setting_bcc_recipients: Hartzaileak ezkutuko kopian (bcc)
+  setting_plain_text_mail: Testu soileko epostak (HTML-rik ez)
+  setting_host_name: Ostalari izena eta bidea
+  setting_text_formatting: Testu formatua
+  setting_wiki_compression: Wikiaren historia konprimitu
+  setting_feeds_limit: Jarioaren edukiera limitea
+  setting_default_projects_public: Proiektu berriak defektuz publikoak dira
+  setting_autofetch_changesets: Commit-ak automatikoki hartu
+  setting_sys_api_enabled: Biltegien kudeaketarako WS gaitu
+  setting_commit_ref_keywords: Erreferentzien gako-hitzak
+  setting_commit_fix_keywords: Konpontze gako-hitzak
+  setting_autologin: Saioa automatikoki hasi
+  setting_date_format: Data formatua
+  setting_time_format: Ordu formatua
+  setting_cross_project_issue_relations: Zereginak proiektuen artean erlazionatzea baimendu
+  setting_issue_list_default_columns: Zereginen zerrendan defektuz ikusten diren zutabeak
+  setting_repositories_encodings: Biltegien kodeketak
+  setting_commit_logs_encoding: Commit-en mezuen kodetzea
+  setting_emails_footer: Eposten oina
+  setting_protocol: Protokoloa
+  setting_per_page_options: Orriko objektuen aukerak
+  setting_user_format: Erabiltzaileak erakusteko formatua
+  setting_activity_days_default: Proiektuen jardueran erakusteko egunak
+  setting_display_subprojects_issues: Azpiproiektuen zereginak proiektu nagusian erakutsi defektuz
+  setting_enabled_scm: Gaitutako IKKak
+  setting_mail_handler_body_delimiters: "Lerro hauteko baten ondoren epostak moztu"
+  setting_mail_handler_api_enabled: Sarrerako epostentzako WS gaitu
+  setting_mail_handler_api_key: API giltza
+  setting_sequential_project_identifiers: Proiektuen identifikadore sekuentzialak sortu
+  setting_gravatar_enabled: Erabili Gravatar erabiltzaile ikonoak
+  setting_gravatar_default: Lehenetsitako Gravatar irudia
+  setting_diff_max_lines_displayed: Erakutsiko diren diff lerro kopuru maximoa
+  setting_file_max_size_displayed: Barnean erakuzten diren testu fitxategien tamaina maximoa
+  setting_repository_log_display_limit: Egunkari fitxategian erakutsiko diren berrikuspen kopuru maximoa.
+  setting_openid: Baimendu OpenID saio hasiera eta erregistatzea
+  setting_password_min_length: Pasahitzen luzera minimoa
+  setting_new_project_user_role_id: Proiektu berriak sortzerakoan kudeatzaile ez diren erabiltzaileei esleitutako rola
+  setting_default_projects_modules: Proiektu berrientzako defektuz gaitutako moduluak
+  setting_issue_done_ratio: "Zereginen burututako tasa kalkulatzean erabili:"
+  setting_issue_done_ratio_issue_field: Zeregin eremua erabili
+  setting_issue_done_ratio_issue_status: Zeregin egoera erabili
+  setting_start_of_week: "Egutegiak noiz hasi:"
+  setting_rest_api_enabled: Gaitu REST web zerbitzua
+  
+  permission_add_project: Proiektua sortu
+  permission_add_subprojects: Azpiproiektuak sortu
+  permission_edit_project: Proiektua editatu
+  permission_select_project_modules: Proiektuaren moduluak hautatu
+  permission_manage_members: Kideak kudeatu
+  permission_manage_versions: Bertsioak kudeatu
+  permission_manage_categories: Arazoen kategoriak kudeatu
+  permission_view_issues: Zereginak ikusi
+  permission_add_issues: Zereginak gehitu
+  permission_edit_issues: Zereginak aldatu
+  permission_manage_issue_relations: Zereginen erlazioak kudeatu
+  permission_add_issue_notes: Oharrak gehitu
+  permission_edit_issue_notes: Oharrak aldatu
+  permission_edit_own_issue_notes: Nork bere oharrak aldatu
+  permission_move_issues: Zereginak mugitu
+  permission_delete_issues: Zereginak ezabatu
+  permission_manage_public_queries: Galdera publikoak kudeatu
+  permission_save_queries: Galderak gorde
+  permission_view_gantt: Gantt diagrama ikusi
+  permission_view_calendar: Egutegia ikusi
+  permission_view_issue_watchers: Behatzaileen zerrenda ikusi
+  permission_add_issue_watchers: Behatzaileak gehitu
+  permission_delete_issue_watchers: Behatzaileak ezabatu
+  permission_log_time: Igarotako denbora erregistratu
+  permission_view_time_entries: Igarotako denbora ikusi
+  permission_edit_time_entries: Denbora egunkariak editatu
+  permission_edit_own_time_entries: Nork bere denbora egunkariak editatu
+  permission_manage_news: Berriak kudeatu
+  permission_comment_news: Berrien iruzkinak egin
+  permission_manage_documents: Dokumentuak kudeatu
+  permission_view_documents: Dokumentuak ikusi
+  permission_manage_files: Fitxategiak kudeatu
+  permission_view_files: Fitxategiak ikusi
+  permission_manage_wiki: Wikia kudeatu
+  permission_rename_wiki_pages: Wiki orriak berrizendatu
+  permission_delete_wiki_pages: Wiki orriak ezabatu
+  permission_view_wiki_pages: Wikia ikusi
+  permission_view_wiki_edits: Wikiaren historia ikusi
+  permission_edit_wiki_pages: Wiki orriak editatu
+  permission_delete_wiki_pages_attachments: Eranskinak ezabatu
+  permission_protect_wiki_pages: Wiki orriak babestu
+  permission_manage_repository: Biltegiak kudeatu
+  permission_browse_repository: Biltegia arakatu
+  permission_view_changesets: Aldaketak ikusi
+  permission_commit_access: Commit atzipena
+  permission_manage_boards: Foroak kudeatu
+  permission_view_messages: Mezuak ikusi
+  permission_add_messages: Mezuak bidali
+  permission_edit_messages: Mezuak aldatu
+  permission_edit_own_messages: Nork bere mezuak aldatu
+  permission_delete_messages: Mezuak ezabatu
+  permission_delete_own_messages: Nork bere mezuak ezabatu
+  
+  project_module_issue_tracking: Zereginen jarraipena
+  project_module_time_tracking: Denbora jarraipena
+  project_module_news: Berriak
+  project_module_documents: Dokumentuak
+  project_module_files: Fitxategiak
+  project_module_wiki: Wiki
+  project_module_repository: Biltegia
+  project_module_boards: Foroak
+  
+  label_user: Erabiltzailea
+  label_user_plural: Erabiltzaileak
+  label_user_new: Erabiltzaile berria
+  label_user_anonymous: Ezezaguna
+  label_project: Proiektua
+  label_project_new: Proiektu berria
+  label_project_plural: Proiektuak
+  label_x_projects:
+    zero:  proiekturik ez
+    one:   proiektu bat
+    other: "{{count}} proiektu"
+  label_project_all: Proiektu guztiak
+  label_project_latest: Azken proiektuak
+  label_issue: Zeregina
+  label_issue_new: Zeregin berria
+  label_issue_plural: Zereginak
+  label_issue_view_all: Zeregin guztiak ikusi
+  label_issues_by: "Zereginak honengatik: {{value}}"
+  label_issue_added: Zeregina gehituta
+  label_issue_updated: Zeregina eguneratuta
+  label_document: Dokumentua
+  label_document_new: Dokumentu berria
+  label_document_plural: Dokumentuak
+  label_document_added: Dokumentua gehituta
+  label_role: Rola
+  label_role_plural: Rolak
+  label_role_new: Rol berria
+  label_role_and_permissions: Rolak eta baimenak
+  label_member: Kidea
+  label_member_new: Kide berria
+  label_member_plural: Kideak
+  label_tracker: Aztarnaria
+  label_tracker_plural: Aztarnariak
+  label_tracker_new: Aztarnari berria
+  label_workflow: Workflow
+  label_issue_status: Zeregin egoera
+  label_issue_status_plural: Zeregin egoerak
+  label_issue_status_new: Egoera berria
+  label_issue_category: Zeregin kategoria
+  label_issue_category_plural: Zeregin kategoriak
+  label_issue_category_new: Kategoria berria
+  label_custom_field: Eremu pertsonalizatua
+  label_custom_field_plural: Eremu pertsonalizatuak
+  label_custom_field_new: Eremu pertsonalizatu berria
+  label_enumerations: Enumerazioak
+  label_enumeration_new: Balio berria
+  label_information: Informazioa
+  label_information_plural: Informazioa
+  label_please_login: Saioa hasi mesedez
+  label_register: Erregistratu
+  label_login_with_open_id_option: edo OpenID-rekin saioa hasi
+  label_password_lost: Pasahitza galduta
+  label_home: Hasiera
+  label_my_page: Nire orria
+  label_my_account: Nire kontua
+  label_my_projects: Nire proiektuak
+  label_administration: Kudeaketa
+  label_login: Saioa hasi
+  label_logout: Saioa bukatu
+  label_help: Laguntza
+  label_reported_issues: Berri emandako zereginak
+  label_assigned_to_me_issues: Niri esleitutako arazoak
+  label_last_login: Azken konexioa
+  label_registered_on: Noiz erregistratuta
+  label_activity: Jarduerak
+  label_overall_activity: Jarduera guztiak
+  label_user_activity: "{{value}}-(r)en jarduerak"
+  label_new: Berria
+  label_logged_as: "Sartutako erabiltzailea:"
+  label_environment: Ingurune
+  label_authentication: Autentikazioa
+  label_auth_source: Autentikazio modua
+  label_auth_source_new: Autentikazio modu berria
+  label_auth_source_plural: Autentikazio moduak
+  label_subproject_plural: Azpiproiektuak
+  label_subproject_new: Azpiproiektu berria
+  label_and_its_subprojects: "{{value}} eta bere azpiproiektuak"
+  label_min_max_length: Luzera min - max
+  label_list: Zerrenda
+  label_date: Data
+  label_integer: Osokoa
+  label_float: Koma higikorrekoa
+  label_boolean: Boolearra
+  label_string: Testua
+  label_text: Testu luzea
+  label_attribute: Atributua
+  label_attribute_plural: Atributuak
+  label_download: "Deskarga {{count}}"
+  label_download_plural: "{{count}} Deskarga"
+  label_no_data: Ez dago erakusteko daturik
+  label_change_status: Egoera aldatu
+  label_history: Historikoa
+  label_attachment: Fitxategia
+  label_attachment_new: Fitxategi berria
+  label_attachment_delete: Fitxategia ezabatu
+  label_attachment_plural: Fitxategiak
+  label_file_added: Fitxategia gehituta
+  label_report: Berri ematea
+  label_report_plural: Berri emateak
+  label_news: Beria
+  label_news_new: Berria gehitu
+  label_news_plural: Berriak
+  label_news_latest: Azken berriak
+  label_news_view_all: Berri guztiak ikusi
+  label_news_added: Berria gehituta
+  label_change_log: Aldaketa egunkaria
+  label_settings: Ezarpenak
+  label_overview: Gainbegirada
+  label_version: Bertsioa
+  label_version_new: Bertsio berria
+  label_version_plural: Bertsioak
+  label_close_versions: Burututako bertsioak itxi
+  label_confirmation: Baieztapena
+  label_export_to: 'Eskuragarri baita:'
+  label_read: Irakurri...
+  label_public_projects: Proiektu publikoak
+  label_open_issues: irekita
+  label_open_issues_plural: irekiak
+  label_closed_issues: itxita
+  label_closed_issues_plural: itxiak
+  label_x_open_issues_abbr_on_total:
+    zero:  0 irekita / {{total}}
+    one:   1 irekita / {{total}}
+    other: "{{count}} irekiak / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 irekita
+    one:   1 irekita
+    other: "{{count}} irekiak"
+  label_x_closed_issues_abbr:
+    zero:  0 itxita
+    one:   1 itxita
+    other: "{{count}} itxiak"
+  label_total: Guztira
+  label_permissions: Baimenak
+  label_current_status: Uneko egoera
+  label_new_statuses_allowed: Baimendutako egoera berriak
+  label_all: guztiak
+  label_none: ezer
+  label_nobody: inor
+  label_next: Hurrengoa
+  label_previous: Aurrekoak
+  label_used_by: Erabilita
+  label_details: Xehetasunak
+  label_add_note: Oharra gehitu
+  label_per_page: Orriko
+  label_calendar: Egutegia
+  label_months_from: months from
+  label_gantt: Gantt
+  label_internal: Barnekoa
+  label_last_changes: "azken {{count}} aldaketak"
+  label_change_view_all: Aldaketa guztiak ikusi
+  label_personalize_page: Orri hau pertsonalizatu
+  label_comment: Iruzkin
+  label_comment_plural: Iruzkinak
+  label_x_comments:
+    zero: iruzkinik ez
+    one: iruzkin 1
+    other: "{{count}} iruzkin"
+  label_comment_add: Iruzkina gehitu
+  label_comment_added: Iruzkina gehituta
+  label_comment_delete: Iruzkinak ezabatu
+  label_query: Galdera pertsonalizatua
+  label_query_plural: Pertsonalizatutako galderak
+  label_query_new: Galdera berria
+  label_filter_add: Iragazkia gehitu
+  label_filter_plural: Iragazkiak
+  label_equals: da
+  label_not_equals: ez da
+  label_in_less_than: baino gutxiagotan
+  label_in_more_than: baino gehiagotan
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
+  label_in: hauetan
+  label_today: gaur
+  label_all_time: denbora guztia
+  label_yesterday: atzo
+  label_this_week: aste honetan
+  label_last_week: pasadan astean
+  label_last_n_days: "azken {{count}} egunetan"
+  label_this_month: hilabete hau
+  label_last_month: pasadan hilabetea
+  label_this_year: urte hau
+  label_date_range: Data tartea
+  label_less_than_ago: egun hauek baino gutxiago
+  label_more_than_ago: egun hauek baino gehiago
+  label_ago: orain dela
+  label_contains: dauka
+  label_not_contains: ez dauka
+  label_day_plural: egun
+  label_repository: Biltegia
+  label_repository_plural: Biltegiak
+  label_browse: Arakatu
+  label_modification: "aldaketa {{count}}"
+  label_modification_plural: "{{count}} aldaketa"
+  label_branch: Adarra
+  label_tag: Etiketa 
+  label_revision: Berrikuspena
+  label_revision_plural: Berrikuspenak
+  label_revision_id: "{{value}} berrikuspen"
+  label_associated_revisions: Elkartutako berrikuspenak
+  label_added: gehituta
+  label_modified: aldatuta
+  label_copied: kopiatuta
+  label_renamed: berrizendatuta
+  label_deleted: ezabatuta
+  label_latest_revision: Azken berrikuspena
+  label_latest_revision_plural: Azken berrikuspenak
+  label_view_revisions: Berrikuspenak ikusi
+  label_view_all_revisions: Berrikuspen guztiak ikusi
+  label_max_size: Tamaina maximoa
+  label_sort_highest: Goraino mugitu
+  label_sort_higher: Gora mugitu
+  label_sort_lower: Behera mugitu
+  label_sort_lowest: Beheraino mugitu
+  label_roadmap: Ibilbide-mapa
+  label_roadmap_due_in: "Epea: {{value}}"
+  label_roadmap_overdue: "{{value}} berandu"
+  label_roadmap_no_issues: Ez dago zereginik bertsio honetan
+  label_search: Bilatu
+  label_result_plural: Emaitzak
+  label_all_words: hitz guztiak
+  label_wiki: Wikia
+  label_wiki_edit: Wiki edizioa
+  label_wiki_edit_plural: Wiki edizioak
+  label_wiki_page: Wiki orria
+  label_wiki_page_plural: Wiki orriak
+  label_index_by_title: Izenburuaren araberako indizea
+  label_index_by_date: Dataren araberako indizea
+  label_current_version: Uneko bertsioa
+  label_preview: Aurreikusi
+  label_feed_plural: Jarioak
+  label_changes_details: Aldaketa guztien xehetasunak
+  label_issue_tracking: Zeregin jarraipena
+  label_spent_time: Igarotako denbora
+  label_f_hour: "ordu {{value}}"
+  label_f_hour_plural: "{{value}} ordu"
+  label_time_tracking: Denbora jarraipena
+  label_change_plural: Aldaketak
+  label_statistics: Estatistikak
+  label_commits_per_month: Commit-ak hilabeteka
+  label_commits_per_author: Commit-ak egileka
+  label_view_diff: Ezberdintasunak ikusi
+  label_diff_inline: barnean
+  label_diff_side_by_side: aldez alde
+  label_options: Aukerak
+  label_copy_workflow_from: Kopiatu workflow-a hemendik
+  label_permissions_report: Baimenen txostena
+  label_watched_issues: Behatutako zereginak
+  label_related_issues: Erlazionatutako zereginak
+  label_applied_status: Aplikatutako egoera
+  label_loading: Kargatzen...
+  label_relation_new: Erlazio berria
+  label_relation_delete: Erlazioa ezabatu
+  label_relates_to: erlazionatuta dago
+  label_duplicates: bikoizten du
+  label_duplicated_by: honek bikoiztuta
+  label_blocks: blokeatzen du
+  label_blocked_by: honek blokeatuta
+  label_precedes: aurretik doa
+  label_follows: jarraitzen du
+  label_end_to_start: bukaeratik hasierara
+  label_end_to_end: bukaeratik bukaerara
+  label_start_to_start: hasieratik hasierhasieratik bukaerara
+  label_start_to_end: hasieratik bukaerara
+  label_stay_logged_in: Saioa mantendu
+  label_disabled: ezgaituta
+  label_show_completed_versions: Bukatutako bertsioak ikusi
+  label_me: ni
+  label_board: Foroa
+  label_board_new: Foro berria
+  label_board_plural: Foroak
+  label_topic_plural: Gaiak
+  label_message_plural: Mezuak
+  label_message_last: Azken mezua
+  label_message_new: Mezu berria
+  label_message_posted: Mesua gehituta
+  label_reply_plural: Erantzunak
+  label_send_information: Erabiltzaileai kontuaren informazioa bidali
+  label_year: Urtea
+  label_month: Hilabetea
+  label_week: Astea
+  label_date_from: Nork
+  label_date_to: Nori
+  label_language_based: Erabiltzailearen hizkuntzaren arabera
+  label_sort_by: "Ordenazioa: {{value}}"
+  label_send_test_email: Frogako mezua bidali
+  label_feeds_access_key: RSS atzipen giltza
+  label_missing_feeds_access_key: RSS atzipen giltza falta da
+  label_feeds_access_key_created_on: "RSS atzipen giltza orain dela {{value}} sortuta"
+  label_module_plural: Moduluak
+  label_added_time_by: "{{author}}, orain dela {{age}} gehituta"
+  label_updated_time_by: "{{author}}, orain dela {{age}} eguneratuta"
+  label_updated_time: "Orain dela {{value}} eguneratuta"
+  label_jump_to_a_project: Joan proiektura...
+  label_file_plural: Fitxategiak
+  label_changeset_plural: Aldaketak
+  label_default_columns: Lehenetsitako zutabeak
+  label_no_change_option: (Aldaketarik ez)
+  label_bulk_edit_selected_issues: Hautatutako zereginak batera editatu
+  label_theme: Itxura
+  label_default: Lehenetsia
+  label_search_titles_only: Izenburuetan bakarrik bilatu
+  label_user_mail_option_all: "Nire proiektu guztietako gertakari guztientzat"
+  label_user_mail_option_selected: "Hautatutako proiektuetako edozein gertakarientzat..."
+  label_user_mail_option_none: "Nik behatu edo parte hartze dudan gauzetarako bakarrik"
+  label_user_mail_no_self_notified: "Ez dut nik egiten ditudan aldeketen jakinarazpenik jaso nahi"
+  label_registration_activation_by_email: kontuak epostaz gaitu
+  label_registration_manual_activation: kontuak eskuz gaitu
+  label_registration_automatic_activation: kontuak automatikoki gaitu
+  label_display_per_page: "Orriko: {{value}}"
+  label_age: Adina
+  label_change_properties: Propietateak aldatu
+  label_general: Orokorra
+  label_more: Gehiago
+  label_scm: IKK
+  label_plugins: Pluginak
+  label_ldap_authentication: LDAP autentikazioa
+  label_downloads_abbr: Desk.
+  label_optional_description: Aukerako deskribapena
+  label_add_another_file: Beste fitxategia gehitu
+  label_preferences: Hobespenak
+  label_chronological_order: Orden kronologikoan
+  label_reverse_chronological_order: Alderantzizko orden kronologikoan
+  label_planning: Planifikazioa
+  label_incoming_emails: Sarrerako epostak
+  label_generate_key: Giltza sortu
+  label_issue_watchers: Behatzaileak
+  label_example: Adibidea
+  label_display: Bistaratzea
+  label_sort: Ordenatu
+  label_ascending: Gorantz
+  label_descending: Beherantz
+  label_date_from_to: "{{start}}-tik {{end}}-ra"
+  label_wiki_content_added: Wiki orria gehituta
+  label_wiki_content_updated: Wiki orria eguneratuta
+  label_group: Taldea
+  label_group_plural: Taldeak
+  label_group_new: Talde berria
+  label_time_entry_plural: Igarotako denbora
+  label_version_sharing_none: Ez partekatuta
+  label_version_sharing_descendants: Azpiproiektuekin
+  label_version_sharing_hierarchy: Proiektu Hierarkiarekin
+  label_version_sharing_tree: Proiektu zuhaitzarekin
+  label_version_sharing_system: Proiektu guztiekin
+  label_update_issue_done_ratios: Zereginen burututako erlazioa eguneratu
+  label_copy_source: Iturburua
+  label_copy_target: Helburua
+  label_copy_same_as_target: Helburuaren berdina
+  label_display_used_statuses_only: Aztarnari honetan erabiltzen diren egoerak bakarrik erakutsi
+  label_api_access_key: API atzipen giltza
+  label_missing_api_access_key: API atzipen giltza falta da
+  label_api_access_key_created_on: "API atzipen giltza sortuta orain dela {{value}}"
+  
+  button_login: Saioa hasi
+  button_submit: Bidali
+  button_save: Gorde
+  button_check_all: Guztiak markatu
+  button_uncheck_all: Guztiak desmarkatu
+  button_delete: Ezabatu
+  button_create: Sortu
+  button_create_and_continue: Sortu eta jarraitu
+  button_test: Frogatu
+  button_edit: Editatu
+  button_add: Gehitu
+  button_change: Aldatu
+  button_apply: Aplikatu
+  button_clear: Garbitu
+  button_lock: Blokeatu
+  button_unlock: Desblokeatu
+  button_download: Deskargatu
+  button_list: Zerrenda
+  button_view: Ikusi
+  button_move: Mugitu
+  button_move_and_follow: Mugitu eta jarraitu
+  button_back: Atzera
+  button_cancel: Ezeztatu
+  button_activate: Gahitu
+  button_sort: Ordenatu
+  button_log_time: Denbora apuntatu
+  button_rollback: Itzuli bertsio honetara
+  button_watch: Behatu
+  button_unwatch: Behatzen utzi
+  button_reply: Erantzun
+  button_archive: Artxibatu
+  button_unarchive: Desartxibatu
+  button_reset: Berrezarri
+  button_rename: Berrizendatu
+  button_change_password: Pasahitza aldatu
+  button_copy: Kopiatu
+  button_copy_and_follow: Kopiatu eta jarraitu
+  button_annotate: Anotatu
+  button_update: Eguneratu
+  button_configure: Konfiguratu
+  button_quote: Aipatu
+  button_duplicate: Bikoiztu
+  button_show: Ikusi
+  
+  status_active: gaituta
+  status_registered: izena emanda
+  status_locked: blokeatuta
+  
+  version_status_open: irekita
+  version_status_locked: blokeatuta
+  version_status_closed: itxita
+
+  field_active: Gaituta
+  
+  text_select_mail_notifications: Jakinarazpenak zein ekintzetarako bidaliko diren hautatu.
+  text_regexp_info: adib. ^[A-Z0-9]+$
+  text_min_max_length_info: 0k mugarik gabe esan nahi du
+  text_project_destroy_confirmation: Ziur zaude proiektu hau eta erlazionatutako datu guztiak ezabatu nahi dituzula?
+  text_subprojects_destroy_warning: "{{value}} azpiproiektuak ere ezabatuko dira."
+  text_workflow_edit: Hautatu rola eta aztarnaria workflow-a editatzeko
+  text_are_you_sure: Ziur zaude?
+  text_journal_changed: "{{label}} {{old}}-(e)tik {{new}}-(e)ra aldatuta"
+  text_journal_set_to: "{{label}}-k {{value}} balioa hartu du"
+  text_journal_deleted: "{{label}} ezabatuta ({{old}})"
+  text_journal_added: "{{label}} {{value}} gehituta"
+  text_tip_task_begin_day: gaur hasten diren atazak
+  text_tip_task_end_day: gaur bukatzen diren atazak
+  text_tip_task_begin_end_day: gaur hasi eta bukatzen diren atazak
+  text_project_identifier_info: 'Letra xeheak (a-z), zenbakiak eta marrak erabil daitezke bakarrik.<br />Gorde eta gero identifikadorea ezin da aldatu.'
+  text_caracters_maximum: "{{count}} karaktere gehienez."
+  text_caracters_minimum: "Gutxienez {{count}} karaktereetako luzerakoa izan behar du."
+  text_length_between: "Luzera {{min}} eta {{max}} karaktereen artekoa."
+  text_tracker_no_workflow: Ez da workflow-rik definitu aztarnari honentzako
+  text_unallowed_characters: Debekatutako karaktereak
+  text_comma_separated: Balio anitz izan daitezke (komaz banatuta).
+  text_line_separated: Balio anitz izan daitezke (balio bakoitza lerro batean).
+  text_issues_ref_in_commit_messages: Commit-en mezuetan zereginak erlazionatu eta konpontzen
+  text_issue_added: "{{id}} zeregina {{author}}-(e)k jakinarazi du."
+  text_issue_updated: "{{id}} zeregina {{author}}-(e)k eguneratu du."
+  text_wiki_destroy_confirmation: Ziur zaude wiki hau eta bere eduki guztiak ezabatu nahi dituzula?
+  text_issue_category_destroy_question: "Zeregin batzuk ({{count}}) kategoria honetara esleituta daude. Zer egin nahi duzu?"
+  text_issue_category_destroy_assignments: Kategoria esleipenak kendu
+  text_issue_category_reassign_to: Zereginak kategoria honetara esleitu
+  text_user_mail_option: "Hautatu gabeko proiektuetan, behatzen edo parte hartzen duzun gauzei buruzko jakinarazpenak jasoko dituzu (adib. zu egile zaren edo esleituta dituzun zereginak)."
+  text_no_configuration_data: "Rolak, aztarnariak, zeregin egoerak eta workflow-ak ez dira oraindik konfiguratu.\nOso gomendagarria de lehenetsitako kkonfigurazioa kargatzea. Kargatu eta gero aldatu ahalko duzu."
+  text_load_default_configuration: Lehenetsitako konfigurazioa kargatu
+  text_status_changed_by_changeset: "{{value}} aldaketan aplikatuta."
+  text_issues_destroy_confirmation: 'Ziur zaude hautatutako zeregina(k) ezabatu nahi dituzula?'
+  text_select_project_modules: 'Hautatu proiektu honetan gaitu behar diren moduluak:'
+  text_default_administrator_account_changed: Lehenetsitako kudeatzaile kontua aldatuta
+  text_file_repository_writable: Eranskinen direktorioan idatz daiteke
+  text_plugin_assets_writable: Pluginen baliabideen direktorioan idatz daiteke
+  text_rmagick_available: RMagick eskuragarri (aukerazkoa)
+  text_destroy_time_entries_question: "{{hours}} orduei buruz berri eman zen zuk ezabatzera zoazen zereginean. Zer egin nahi duzu?"
+  text_destroy_time_entries: Ezabatu berri emandako orduak
+  text_assign_time_entries_to_project: Berri emandako orduak proiektura esleitu
+  text_reassign_time_entries: 'Berri emandako orduak zeregin honetara esleitu:'
+  text_user_wrote: "{{value}}-(e)k idatzi zuen:"
+  text_enumeration_destroy_question: "{{count}} objetu balio honetara esleituta daude."
+  text_enumeration_category_reassign_to: 'Beste balio honetara esleitu:'
+  text_email_delivery_not_configured: "Eposta bidalketa ez dago konfiguratuta eta jakinarazpenak ezgaituta daude.\nKonfiguratu zure SMTP zerbitzaria config/email.yml-n eta aplikazioa berrabiarazi hauek gaitzeko."
+  text_repository_usernames_mapping: "Hautatu edo eguneratu Redmineko erabiltzailea biltegiko egunkarietan topatzen diren erabiltzaile izenekin erlazionatzeko.\nRedmine-n eta biltegian erabiltzaile izen edo eposta berdina duten erabiltzaileak automatikoki erlazionatzen dira."
+  text_diff_truncated: '... Diff hau moztua izan da erakus daitekeen tamaina maximoa gainditu duelako.'
+  text_custom_field_possible_values_info: 'Lerro bat balio bakoitzeko'
+  text_wiki_page_destroy_question: "Orri honek {{descendants}} orri seme eta ondorengo ditu. Zer egin nahi duzu?"
+  text_wiki_page_nullify_children: "Orri semeak erro orri moduan mantendu"
+  text_wiki_page_destroy_children: "Orri semeak eta beraien ondorengo guztiak ezabatu"
+  text_wiki_page_reassign_children: "Orri semeak orri guraso honetara esleitu"
+  text_own_membership_delete_confirmation: "Zure baimen batzuk (edo guztiak) kentzera zoaz eta baliteke horren ondoren proiektu hau ezin editatzea.\n Ziur zaude jarraitu nahi duzula?"
+  
+  default_role_manager: Kudeatzailea
+  default_role_developper: Garatzailea
+  default_role_reporter: Berriemailea
+  default_tracker_bug: Errorea
+  default_tracker_feature: Eginbidea
+  default_tracker_support: Laguntza
+  default_issue_status_new: Berria
+  default_issue_status_in_progress: Lanean
+  default_issue_status_resolved: Ebatzita
+  default_issue_status_feedback: Berrelikadura
+  default_issue_status_closed: Itxita
+  default_issue_status_rejected: Baztertua
+  default_doc_category_user: Erabiltzaile dokumentazioa
+  default_doc_category_tech: Dokumentazio teknikoa
+  default_priority_low: Baxua
+  default_priority_normal: Normala
+  default_priority_high: Altua
+  default_priority_urgent: Larria
+  default_priority_immediate: Berehalakoa
+  default_activity_design: Diseinua
+  default_activity_development: Garapena
+  
+  enumeration_issue_priorities: Zeregin lehentasunak
+  enumeration_doc_categories: Dokumentu kategoriak
+  enumeration_activities: Jarduerak (denbora kontrola))
+  enumeration_system_activity: Sistemako Jarduera
