@@ -662,6 +662,8 @@ en:
   label_board: Forum
   label_board_new: New forum
   label_board_plural: Forums
+  label_board_locked: Locked
+  label_board_sticky: Sticky
   label_topic_plural: Topics
   label_message_plural: Messages
   label_message_last: Last message

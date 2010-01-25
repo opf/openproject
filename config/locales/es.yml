@@ -926,3 +926,5 @@ es:
     Está a punto de eliminar algún o todos sus permisos y podría perder la posibilidad de modificar este proyecto tras hacerlo.
     ¿Está seguro de querer continuar?
   label_close_versions: Cerrar versiones completadas
+  label_board_sticky: Sticky
+  label_board_locked: Locked

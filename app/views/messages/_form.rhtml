@@ -7,8 +7,8 @@
 <%= f.text_field :subject, :size => 120 %>
 
 <% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
-    <label><%= f.check_box :sticky %> Sticky</label>
-    <label><%= f.check_box :locked %> Locked</label>
+    <label><%= f.check_box :sticky %><%= l(:label_board_sticky) %></label>
+    <label><%= f.check_box :locked %><%= l(:label_board_locked) %></label>
 <% end %>
 </p>
 

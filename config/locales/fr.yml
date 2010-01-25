@@ -903,3 +903,5 @@ fr:
   text_journal_deleted: "{{label}} {{old}} supprimé"
   text_journal_added: "{{label}} {{value}} ajouté"
   enumeration_system_activity: Activité système
+  label_board_sticky: Sticky
+  label_board_locked: Locked

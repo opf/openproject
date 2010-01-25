@@ -902,3 +902,5 @@ de:
     Sie sind dabei, einige oder alle ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr sehen oder editieren dürfen. 
     Sind Sie wirklich sicher, dass Sie dies tun möchten?
   label_close_versions: Vollständige Versionen schließen
+  label_board_sticky: Sticky
+  label_board_locked: Locked

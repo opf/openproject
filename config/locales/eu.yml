@@ -886,3 +886,5 @@ eu:
   enumeration_doc_categories: Dokumentu kategoriak
   enumeration_activities: Jarduerak (denbora kontrola))
   enumeration_system_activity: Sistemako Jarduera
+  label_board_sticky: Sticky
+  label_board_locked: Locked

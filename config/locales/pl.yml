@@ -907,3 +907,5 @@ pl:
   version_status_locked: zablokowana
   version_status_open: otwarta
   
+  label_board_sticky: Sticky
+  label_board_locked: Locked
