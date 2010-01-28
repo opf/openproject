@@ -76,6 +76,11 @@ module CostsUserPatch
         self.allowed_for_role(action, project, role, users, options)
       end
       
+      require 'ruby-debug'
+      if action == :view_issues && self.id == 9 && !Role.non_member.permissions.include?(:view_issues)
+        debugger
+      end
+      
       options[:for] = self unless options.has_key?(:for)
       
       if project

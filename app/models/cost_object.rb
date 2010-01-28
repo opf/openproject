@@ -144,7 +144,7 @@ class CostObject < ActiveRecord::Base
   end
   
   def css_classes
-    return "issue"
+    return "issue cost_object"
   end
   
 end
