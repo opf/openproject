@@ -54,14 +54,16 @@ td.currency,
   white-space: nowrap;
 }
 
-td.units,
 td.subject,
 td.comment {
   text-align: left;
 }
 
-table.labor_budget_items td.hours {
+table.labor_budget_items td.hours,
+td.units {
   font-weight: normal;
+  padding-right: .5em;
+  text-align: right;
 }
 
 

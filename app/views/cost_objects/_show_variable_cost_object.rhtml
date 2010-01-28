@@ -7,7 +7,7 @@
       <th><%= l(:caption_cost_unit_plural)%></th>
       <th><%= l(:caption_cost_type) %></th>
       <th><%= l(:caption_comment) %></th>
-      <th><%= l(:caption_budget) %></th>
+      <th class="currency"><%= l(:caption_budget) %></th>
     </tr></thead>
     <tbody>
       <% @cost_object.material_budget_items.each do |material_budget_item| %>
@@ -29,7 +29,7 @@
       <th><%= l(:caption_issue)%></th>
       <th><%= l(:caption_cost_unit_plural) %></th>
       <th><%= l(:caption_cost_type) %></th>
-      <th><%= l(:caption_costs) %></th>
+      <th class="currency"><%= l(:caption_costs) %></th>
     </tr></thead>
     <tbody>
     <% @cost_object.issues.each do |issue|
@@ -70,7 +70,7 @@
       <th><%= l(:field_hours)%></th>
       <th><%= l(:label_user) %></th>
       <th><%= l(:caption_comment) %></th>
-      <th><%= l(:caption_budget) %></th>
+      <th class="currency"><%= l(:caption_budget) %></th>
     </tr></thead>
     <tbody>
       <% @cost_object.labor_budget_items.each do |labor_budget_item| %>
@@ -95,7 +95,7 @@
       <th><%= l(:caption_issue)%></th>
       <th><%= l(:field_hours)%></th>
       <th><%= l(:label_user) %></th>
-      <th><%= l(:caption_costs) %></th>
+      <th class="currency"><%= l(:caption_costs) %></th>
     </tr></thead>
     <tbody>
     <% @cost_object.issues.each do |issue|

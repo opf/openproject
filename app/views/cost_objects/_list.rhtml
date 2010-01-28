@@ -9,10 +9,10 @@
     <%= sort_header_tag("status", :caption => l(:caption_status), :default_order => 'desc') %>
     <%= sort_header_tag("subject", :caption => l(:caption_subject)) %>
     <%= sort_header_tag("fixed_date", :caption => l(:caption_fixed_date)) %>
-    <th><%= l(:caption_spent) %></th>
-    <th><%= l(:caption_budget) %></th>
-    <th><%= l(:caption_labor_budget) %></th>
-    <th><%= l(:caption_material_budget) %></th>
+    <th class="currency"><%= l(:caption_spent) %></th>
+    <th class="currency"><%= l(:caption_budget) %></th>
+    <th class="currency"><%= l(:caption_labor_budget) %></th>
+    <th class="currency"><%= l(:caption_material_budget) %></th>
     <th><%= l(:caption_budget_ratio) %></th>
   </tr></thead>
   <tbody>

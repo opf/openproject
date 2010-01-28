@@ -40,8 +40,8 @@
 <table class="list">
   <thead>
     <th>Group By</th>
-    <th>Count</th>
-    <th>Sum</th>
+    <th class="units">Count</th>
+    <th class="currency">Sum</th>
     <th>Drill Down</th>
   </thead>
   <tbody>
@@ -73,7 +73,7 @@
         <td>
           <%= name %>
         </td>
-        <td><%=l :x_entries, :count => entry["count"].to_i %></td>
+        <td class="units"><%=l :x_entries, :count => entry["count"].to_i %></td>
         <td class="currency"><%= number_to_currency(entry["sum"]) %></td>
         <td>
           <%= link_to_remote "Drill Down", {
