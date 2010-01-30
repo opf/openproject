@@ -32,6 +32,8 @@ class Principal < ActiveRecord::Base
     }
   }
   
+  before_create :set_default_empty_values
+  
   def <=>(principal)
     if self.class.name == principal.class.name
       self.to_s.downcase <=> principal.to_s.downcase
@@ -39,5 +41,17 @@ class Principal < ActiveRecord::Base
       # groups after users
       principal.class.name <=> self.class.name
     end
+  end
+  
+  protected
+  
+  # Make sure we don't try to insert NULL values (see #4632)
+  def set_default_empty_values
+    self.login ||= ''
+    self.hashed_password ||= ''
+    self.firstname ||= ''
+    self.lastname ||= ''
+    self.mail ||= ''
+    true
   end
 end
