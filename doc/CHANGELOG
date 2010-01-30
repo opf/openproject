@@ -9,6 +9,16 @@ http://www.redmine.org/
 * Vertical alignment for inline images in formatted text set to 'middle'
 * Fixed: Redmine.pm error "closing dbh with active statement handles at /usr/lib/perl5/Apache/Redmine.pm"
 * Fixed: copyright year in footer set to 2010
+* Fixed: Trac migration script may not output query lines
+* Fixed: Email notifications may affect language of notice messages on the UI
+* Fixed: Can not search for 2 letters word
+* Fixed: Attachments get saved on issue update even if validation fails
+* Fixed: Tab's 'border-bottom' not absent when selected
+* Fixed: Issue summary tables that list by user are not sorted
+* Fixed: Issue pdf export fails if target version is set
+* Fixed: Issue list export to PDF breaks when issues are sorted by a custom field
+* Fixed: SQL error when adding a group
+* Fixes: Min password length during password reset always displays as 4 chars
 
 
 == 2010-01-09 v0.9.0 (Release candidate)
