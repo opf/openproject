@@ -284,7 +284,21 @@ class Mailer < ActionMailer::Base
     if @references_objects
       mail.references = @references_objects.collect {|o| self.class.message_id_for(o)}
     end
-    super(mail)
+    
+    # Log errors when raise_delivery_errors is set to false, Rails does not
+    raise_errors = self.class.raise_delivery_errors
+    self.class.raise_delivery_errors = true
+    begin
+      return super(mail)
+    rescue Exception => e
+      if raise_errors
+        raise e
+      elsif mylogger
+        mylogger.error "The following error occured while sending email notification: \"#{e.message}\". Check your configuration in config/email.yml."
+      end
+    ensure
+      self.class.raise_delivery_errors = raise_errors
+    end
   end
 
   # Sends reminders to issue assignees
