@@ -73,7 +73,7 @@
 
 </div>
 
-<% if @changesets.any? && User.current.allowed_to?(:view_changesets, @project) %>
+<% if @changesets.any? %>
 <div id="issue-changesets">
 <h3><%=l(:label_associated_revisions)%></h3>
 <%= render :partial => 'changesets', :locals => { :changesets => @changesets} %>

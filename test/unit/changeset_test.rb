@@ -74,6 +74,29 @@ class ChangesetTest < ActiveSupport::TestCase
 
     assert_equal [1,2,3], c.issue_ids.sort
   end
+  
+  def test_commit_referencing_a_subproject_issue
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => 'refs #5, a subproject issue')
+    c.scan_comment_for_issue_ids
+    
+    assert_equal [5], c.issue_ids.sort
+    assert c.issues.first.project != c.project
+  end
+
+  def test_commit_referencing_a_parent_project_issue
+    # repository of child project
+    r = Repository::Subversion.create!(:project => Project.find(3), :url => 'svn://localhost/test')
+      
+    c = Changeset.new(:repository => r,
+                      :committed_on => Time.now,
+                      :comments => 'refs #2, an issue of a parent project')
+    c.scan_comment_for_issue_ids
+    
+    assert_equal [2], c.issue_ids.sort
+    assert c.issues.first.project != c.project
+  end
 
   def test_previous
     changeset = Changeset.find_by_revision('3')
