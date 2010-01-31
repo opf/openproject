@@ -755,6 +755,8 @@
   label_board: 論壇
   label_board_new: 建立新論壇
   label_board_plural: 論壇
+  label_board_locked: 鎖定
+  label_board_sticky: 置頂
   label_topic_plural: 討論主題
   label_message_plural: 訊息
   label_message_last: 上一封訊息
@@ -973,5 +975,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  label_board_sticky: Sticky
-  label_board_locked: Locked

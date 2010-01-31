@@ -901,13 +901,14 @@ pt-BR:
   setting_rest_api_enabled: Habilitdar REST web service
   label_missing_api_access_key: Chave de acesso a API faltando
   label_missing_feeds_access_key: Chave de acesso ao RSS faltando
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  text_line_separated: Múltiplos valores permitidos (uma linha para cada valor).
+  setting_mail_handler_body_delimiters: Truncar e-mails após uma destas linhas
+  permission_add_subprojects: Criar subprojetos
+  label_subproject_new: Novo subprojeto
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
-  label_board_sticky: Sticky
-  label_board_locked: Locked
+    Você está para remover algumas de suas próprias permissões e pode não mais estar apto a editar este projeto após esta operação.
+    Você tem certeza que deseja continuar?
+  label_close_versions: Fechar versões concluídas
+  label_board_sticky: Marcado
+  label_board_locked: Travado
+  label_change_log: Registro de alterações
