@@ -53,7 +53,7 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
     return ''
   end
   
-  # Cost Object changes for the journal use the Deliverable subject
+  # Cost Object changes for the journal use the Cost Object subject
   # instead of the id
   #
   # Context:
@@ -61,12 +61,16 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
   #
   def helper_issues_show_detail_after_setting(context = { })
     # FIXME: Overwritting the caller is bad juju
-    if context[:detail].prop_key == 'cost_object_id'
-      d = CostObject.find_by_id(context[:detail].value)
-      context[:detail].value = d.subject unless d.nil? || d.subject.nil?
+    if (context[:detail].prop_key == 'cost_object_id')
+      if context[:detail].value.to_i.to_s == context[:detail].value.to_s
+        d = CostObject.find_by_id(context[:detail].value)
+        context[:detail].value = d.subject unless d.nil? || d.subject.nil?
+      end
 
-      d = CostObject.find_by_id(context[:detail].old_value)
-      context[:detail].old_value = d.subject unless d.nil? || d.subject.nil?      
+      if context[:detail].old_value.to_i.to_s == context[:detail].old_value.to_s
+        d = CostObject.find_by_id(context[:detail].old_value)
+        context[:detail].old_value = d.subject unless d.nil? || d.subject.nil?
+      end
     end
     ''
   end
