@@ -77,5 +77,5 @@ module CostsIssuePatch
   end
 end
 
-Issue::SAFE_ATTRIBUTES << "cost_object_id"
+Issue::SAFE_ATTRIBUTES << "cost_object_id" if Issue.const_defined? "SAFE_ATTRIBUTES"
 Issue.send(:include, CostsIssuePatch)
