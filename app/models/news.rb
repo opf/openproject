@@ -33,13 +33,6 @@ class News < ActiveRecord::Base
     !user.nil? && user.allowed_to?(:view_news, project)
   end
   
-  # Returns the mail adresses of users that should be notified
-  def recipients
-    notified = project.notified_users
-    notified.reject! {|user| !visible?(user)}
-    notified.collect(&:mail)
-  end
-  
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
     find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")	

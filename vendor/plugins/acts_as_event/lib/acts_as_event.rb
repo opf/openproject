@@ -68,6 +68,13 @@ module Redmine
           (option.is_a?(Proc) ? option.call(self) : send(option)).merge(options)
         end
 
+        # Returns the mail adresses of users that should be notified
+        def recipients
+          notified = project.notified_users
+          notified.reject! {|user| !visible?(user)}
+          notified.collect(&:mail)
+        end
+
         module ClassMethods
         end
       end

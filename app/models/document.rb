@@ -46,11 +46,4 @@ class Document < ActiveRecord::Base
     end
     @updated_on
   end
-  
-  # Returns the mail adresses of users that should be notified
-  def recipients
-    notified = project.notified_users
-    notified.reject! {|user| !visible?(user)}
-    notified.collect(&:mail)
-  end
 end

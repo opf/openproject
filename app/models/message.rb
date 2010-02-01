@@ -90,13 +90,6 @@ class Message < ActiveRecord::Base
     usr && usr.logged? && (usr.allowed_to?(:delete_messages, project) || (self.author == usr && usr.allowed_to?(:delete_own_messages, project)))
   end
   
-  # Returns the mail adresses of users that should be notified
-  def recipients
-    notified = project.notified_users
-    notified.reject! {|user| !visible?(user)}
-    notified.collect(&:mail)
-  end
-  
   private
   
   def add_author_as_watcher
