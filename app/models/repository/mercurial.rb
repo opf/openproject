@@ -78,11 +78,7 @@ class Repository::Mercurial < Repository
                                            :comments => revision.message)
               
               revision.paths.each do |change|
-                Change.create(:changeset => changeset,
-                              :action => change[:action],
-                              :path => change[:path],
-                              :from_path => change[:from_path],
-                              :from_revision => change[:from_revision])
+                changeset.create_change(change)
               end
             end
           end unless revisions.nil?

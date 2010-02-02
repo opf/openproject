@@ -148,6 +148,15 @@ class Changeset < ActiveRecord::Base
   def self.normalize_comments(str)
     to_utf8(str.to_s.strip)
   end
+
+  # Creates a new Change from it's common parameters
+  def create_change(change)
+    Change.create(:changeset => self,
+                  :action => change[:action],
+                  :path => change[:path],
+                  :from_path => change[:from_path],
+                  :from_revision => change[:from_revision])
+  end
   
   private
 
