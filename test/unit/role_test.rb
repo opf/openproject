@@ -50,4 +50,55 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal size - 2, role.permissions.size
   end
 
+  context "#anonymous" do
+    should "return the anonymous role" do
+      role = Role.anonymous
+      assert role.builtin?
+      assert_equal Role::BUILTIN_ANONYMOUS, role.builtin
+    end
+
+    context "with a missing anonymous role" do
+      setup do
+        Role.delete_all("builtin = #{Role::BUILTIN_ANONYMOUS}")
+      end
+
+      should "create a new anonymous role" do
+        assert_difference('Role.count') do
+          Role.anonymous
+        end
+      end
+
+      should "return the anonymous role" do
+        role = Role.anonymous
+        assert role.builtin?
+        assert_equal Role::BUILTIN_ANONYMOUS, role.builtin
+      end
+    end
+  end
+
+  context "#non_member" do
+    should "return the non-member role" do
+      role = Role.non_member
+      assert role.builtin?
+      assert_equal Role::BUILTIN_NON_MEMBER, role.builtin
+    end
+
+    context "with a missing non-member role" do
+      setup do
+        Role.delete_all("builtin = #{Role::BUILTIN_NON_MEMBER}")
+      end
+
+      should "create a new non-member role" do
+        assert_difference('Role.count') do
+          Role.non_member
+        end
+      end
+
+      should "return the non-member role" do
+        role = Role.non_member
+        assert role.builtin?
+        assert_equal Role::BUILTIN_NON_MEMBER, role.builtin
+      end
+    end
+  end
 end

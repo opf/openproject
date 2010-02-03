@@ -120,14 +120,30 @@ class Role < ActiveRecord::Base
     find(:all, :conditions => {:builtin => 0}, :order => 'position')
   end
 
-  # Return the builtin 'non member' role
+  # Return the builtin 'non member' role.  If the role doesn't exist,
+  # it will be created on the fly.
   def self.non_member
-    find(:first, :conditions => {:builtin => BUILTIN_NON_MEMBER}) || raise('Missing non-member builtin role.')
+    non_member_role = find(:first, :conditions => {:builtin => BUILTIN_NON_MEMBER})
+    if non_member_role.nil?
+      non_member_role = create(:name => 'Non member', :position => 0) do |role|
+        role.builtin = BUILTIN_NON_MEMBER
+      end
+      raise 'Unable to create the non-member role.' if non_member_role.new_record?
+    end
+    non_member_role
   end
 
-  # Return the builtin 'anonymous' role 
+  # Return the builtin 'anonymous' role.  If the role doesn't exist,
+  # it will be created on the fly.
   def self.anonymous
-    find(:first, :conditions => {:builtin => BUILTIN_ANONYMOUS}) || raise('Missing anonymous builtin role.')
+    anonymous_role = find(:first, :conditions => {:builtin => BUILTIN_ANONYMOUS})
+    if anonymous_role.nil?
+      anonymous_role = create(:name => 'Anonymous', :position => 0) do |role|
+        role.builtin = BUILTIN_ANONYMOUS
+      end
+      raise 'Unable to create the anonymous role.' if anonymous_role.new_record?
+    end
+    anonymous_role
   end
 
   
