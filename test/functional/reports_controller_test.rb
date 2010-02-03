@@ -44,10 +44,21 @@ class ReportsControllerTest < ActionController::TestCase
     
   end
   
-  def test_issue_report
-    get :issue_report, :id => 1
-    assert_response :success
-    assert_template 'issue_report'
+  context "GET :issue_report without details" do
+    setup do
+      get :issue_report, :id => 1
+    end
+
+    should_respond_with :success
+    should_render_template :issue_report
+
+    [:issues_by_tracker, :issues_by_version, :issues_by_category, :issues_by_assigned_to,
+     :issues_by_author, :issues_by_subproject].each do |ivar|
+      should_assign_to ivar
+      should "set a value for #{ivar}" do
+        assert assigns[ivar.to_s].present?
+      end
+    end
   end
   
   def test_issue_report_details
