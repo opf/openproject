@@ -589,4 +589,46 @@ class IssueTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "#by_tracker" do
+    groups = Issue.by_tracker(Project.find(1))
+    assert_equal 3, groups.size
+    assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+  end
+
+  test "#by_version" do
+    groups = Issue.by_version(Project.find(1))
+    assert_equal 3, groups.size
+    assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+  end
+
+  test "#by_priority" do
+    groups = Issue.by_priority(Project.find(1))
+    assert_equal 4, groups.size
+    assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+  end
+
+  test "#by_category" do
+    groups = Issue.by_category(Project.find(1))
+    assert_equal 2, groups.size
+    assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+  end
+
+  test "#by_assigned_to" do
+    groups = Issue.by_assigned_to(Project.find(1))
+    assert_equal 2, groups.size
+    assert_equal 2, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+  end
+
+  test "#by_author" do
+    groups = Issue.by_author(Project.find(1))
+    assert_equal 4, groups.size
+    assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+  end
+
+  test "#by_subproject" do
+    groups = Issue.by_subproject(Project.find(1))
+    assert_equal 2, groups.size
+    assert_equal 5, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+  end
 end
