@@ -2,8 +2,8 @@
   //<![CDATA[
     function group_by_changed()
     {
-      $('group_by[granularity]').setStyle({
-        'display': <%= @query.time_groups.inject([]){|r,t| r<<t.to_s}.inspect %>.include($("group_by[name]").value) ? 'inline' : 'none'});
+      $('group_by_granularity').setStyle({
+        'display': <%= @query.time_groups.inject([]){|r,t| r<<t.to_s}.inspect %>.include($("group_by_name").value) ? 'inline' : 'none'});
     }
   //]]>
 </script>
