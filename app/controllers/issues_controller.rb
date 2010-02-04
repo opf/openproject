@@ -57,13 +57,13 @@ class IssuesController < ApplicationController
     sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
     
     if @query.valid?
-      limit = case params[:format]
-      when 'csv', 'pdf'
-        Setting.issues_export_limit.to_i
-      when 'atom'
-        Setting.feeds_limit.to_i
-      else
-        per_page_option
+      limit = per_page_option
+      respond_to do |format|
+        format.html { }
+        format.xml { }
+        format.atom { limit = Setting.feeds_limit.to_i }
+        format.csv  { limit = Setting.issues_export_limit.to_i }
+        format.pdf  { limit = Setting.issues_export_limit.to_i }
       end
       
       @issue_count = @query.issue_count
@@ -157,12 +157,10 @@ class IssuesController < ApplicationController
       call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
       if @issue.save
         attach_files(@issue, params[:attachments])
+        flash[:notice] = l(:notice_successful_create)
         call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
         respond_to do |format|
           format.html {
-            # Displays a link to the newly created issue in the flash message
-            link = @template.link_to("##{@issue.id}", {:controller => 'issues', :action => 'show', :id => @issue})
-            flash[:notice] = l(:notice_issue_created, :value => link)
             redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
                                             { :action => 'show', :id => @issue })
           }
@@ -175,7 +173,7 @@ class IssuesController < ApplicationController
           format.xml  { render(:xml => @issue.errors, :status => :unprocessable_entity); return }
         end
       end
-    end	
+    end 
     @priorities = IssuePriority.all
     render :layout => !request.xhr?
   end
