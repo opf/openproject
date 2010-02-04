@@ -57,13 +57,13 @@ class IssuesController < ApplicationController
     sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
     
     if @query.valid?
-      limit = per_page_option
-      respond_to do |format|
-        format.html { }
-        format.xml { }
-        format.atom { limit = Setting.feeds_limit.to_i }
-        format.csv  { limit = Setting.issues_export_limit.to_i }
-        format.pdf  { limit = Setting.issues_export_limit.to_i }
+      limit = case params[:format]
+      when 'csv', 'pdf'
+        Setting.issues_export_limit.to_i
+      when 'atom'
+        Setting.feeds_limit.to_i
+      else
+        per_page_option
       end
       
       @issue_count = @query.issue_count
