@@ -692,6 +692,8 @@ ja:
   label_board: フォーラム
   label_board_new: 新しいフォーラム
   label_board_plural: フォーラム
+  label_board_sticky: スティッキー
+  label_board_locked: ロック
   label_topic_plural: トピック
   label_message_plural: メッセージ
   label_message_last: 最新のメッセージ
@@ -765,6 +767,7 @@ ja:
   label_version_sharing_hierarchy: プロジェクト階層単位
   label_version_sharing_tree: プロジェクトツリー単位
   label_version_sharing_system: すべてのプロジェクト
+  label_close_versions: 完了したバージョンを終了にする
   label_update_issue_done_ratios: 進捗の更新
   label_copy_source: コピー元
   label_copy_target: コピー先
@@ -910,6 +913,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  label_close_versions: Close completed versions
-  label_board_sticky: Sticky
-  label_board_locked: Locked

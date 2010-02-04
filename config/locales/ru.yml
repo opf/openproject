@@ -650,7 +650,7 @@ ru:
   label_send_information: Отправить пользователю информацию по учетной записи
   label_send_test_email: Послать email для проверки
   label_settings: Настройки
-  label_show_completed_versions: Показать завершенную версию
+  label_show_completed_versions: Показывать завершенные версии
   label_sort: Сортировать
   label_sort_by: "Сортировать по {{value}}"
   label_sort_higher: Вверх
@@ -941,7 +941,7 @@ ru:
   text_journal_added: "{{label}} {{value}} добавлен"
   field_active: Активно
   enumeration_system_activity: Системная активность
-  permission_delete_issue_watchers: Удалить наблюдателей
+  permission_delete_issue_watchers: Удаление наблюдателей
   version_status_closed: закрыт
   version_status_locked: заблокирован
   version_status_open: открыт
@@ -974,7 +974,7 @@ ru:
   label_api_access_key: Ключ доступа к API
   text_line_separated: Разрешено несколько значений (по одному значению в строку).
   label_revision_id: Ревизия {{value}}
-  permission_view_issues: Показать проблемы
+  permission_view_issues: Просмотр задач
   label_display_used_statuses_only: Отображать только те статусы, которые используются в этом трекере
   label_api_access_key_created_on: Ключ доступ к API был создан {{value}} назад
   label_feeds_access_key: Ключ доступа к RSS
@@ -984,7 +984,7 @@ ru:
   label_missing_api_access_key: Отсутствует ключ доступа к API
   label_missing_feeds_access_key: Отсутствует ключ доступа к RSS
   setting_mail_handler_body_delimiters: Урезать письмо после одной из этих строк
-  permission_add_subprojects: Создать подпроекты
+  permission_add_subprojects: Создание подпроектов
   label_subproject_new: Новый подпроект
   text_own_membership_delete_confirmation: |-
     Вы собираетесь удалить некоторые или все права, из-за чего могут пропасть права на редактирование этого проекта.
