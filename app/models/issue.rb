@@ -415,89 +415,40 @@ class Issue < ActiveRecord::Base
   end
 
   # Extracted from the ReportsController.
-  # TODO: refactor into a common factory or named scopes
   def self.by_tracker(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
-                                                t.id as tracker_id,
-                                                count(i.id) as total 
-                                              from 
-                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{Tracker.table_name} t
-                                              where 
-                                                i.status_id=s.id 
-                                                and i.tracker_id=t.id
-                                                and i.project_id=#{project.id}
-                                              group by s.id, s.is_closed, t.id")
+    count_and_group_by(:project => project,
+                       :field => 'tracker_id',
+                       :joins => Tracker.table_name)
   end
 
   def self.by_version(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
-                                                v.id as fixed_version_id,
-                                                count(i.id) as total 
-                                              from 
-                                                #{Issue.table_name} i, #{IssueStatus.table_name} s, #{Version.table_name} v
-                                              where 
-                                                i.status_id=s.id 
-                                                and i.fixed_version_id=v.id
-                                                and i.project_id=#{project.id}
-                                              group by s.id, s.is_closed, v.id")
+    count_and_group_by(:project => project,
+                       :field => 'fixed_version_id',
+                       :joins => Version.table_name)
   end
 
   def self.by_priority(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
-                                                p.id as priority_id,
-                                                count(i.id) as total 
-                                              from 
-                                                #{Issue.table_name} i, #{IssueStatus.table_name} s, #{IssuePriority.table_name} p
-                                              where 
-                                                i.status_id=s.id 
-                                                and i.priority_id=p.id
-                                                and i.project_id=#{project.id}
-                                              group by s.id, s.is_closed, p.id")
+    count_and_group_by(:project => project,
+                       :field => 'priority_id',
+                       :joins => IssuePriority.table_name)
   end
 
   def self.by_category(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
-                                                c.id as category_id,
-                                                count(i.id) as total 
-                                              from 
-                                                #{Issue.table_name} i, #{IssueStatus.table_name} s, #{IssueCategory.table_name} c
-                                              where 
-                                                i.status_id=s.id 
-                                                and i.category_id=c.id
-                                                and i.project_id=#{project.id}
-                                              group by s.id, s.is_closed, c.id")
+    count_and_group_by(:project => project,
+                       :field => 'category_id',
+                       :joins => IssueCategory.table_name)
   end
 
   def self.by_assigned_to(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
-                                                a.id as assigned_to_id,
-                                                count(i.id) as total 
-                                              from 
-                                                #{Issue.table_name} i, #{IssueStatus.table_name} s, #{User.table_name} a
-                                              where 
-                                                i.status_id=s.id 
-                                                and i.assigned_to_id=a.id
-                                                and i.project_id=#{project.id}
-                                              group by s.id, s.is_closed, a.id")
+    count_and_group_by(:project => project,
+                       :field => 'assigned_to_id',
+                       :joins => User.table_name)
   end
 
   def self.by_author(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
-                                                a.id as author_id,
-                                                count(i.id) as total 
-                                              from 
-                                                #{Issue.table_name} i, #{IssueStatus.table_name} s, #{User.table_name} a
-                                              where 
-                                                i.status_id=s.id 
-                                                and i.author_id=a.id
-                                                and i.project_id=#{project.id}
-                                              group by s.id, s.is_closed, a.id")	
+    count_and_group_by(:project => project,
+                       :field => 'author_id',
+                       :joins => User.table_name)
   end
 
   def self.by_subproject(project)
@@ -568,4 +519,33 @@ class Issue < ActiveRecord::Base
       @current_journal.save
     end
   end
+
+  # Query generator for selecting groups of issue counts for a project
+  # based on specific criteria
+  #
+  # Options
+  # * project - Project to search in.
+  # * field - String. Issue field to key off of in the grouping.
+  # * joins - String. The table name to join against.
+  def self.count_and_group_by(options)
+    project = options.delete(:project)
+    select_field = options.delete(:field)
+    joins = options.delete(:joins)
+
+    where = "i.#{select_field}=j.id"
+    
+    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
+                                                s.is_closed as closed, 
+                                                j.id as #{select_field},
+                                                count(i.id) as total 
+                                              from 
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{joins} as j
+                                              where 
+                                                i.status_id=s.id 
+                                                and #{where}
+                                                and i.project_id=#{project.id}
+                                              group by s.id, s.is_closed, j.id")
+  end
+  
+
 end
