@@ -413,15 +413,6 @@ class ProjectsController < ApplicationController
   end
   
 private
-  # Find project of id params[:id]
-  # if not found, redirect to project list
-  # Used as a before_filter
-  def find_project
-    @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
   def find_optional_project
     return true unless params[:id]
     @project = Project.find(params[:id])

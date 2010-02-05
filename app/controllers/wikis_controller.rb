@@ -34,11 +34,4 @@ class WikisController < ApplicationController
       redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'wiki'
     end    
   end
-  
-private
-  def find_project
-    @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
 end

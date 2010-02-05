@@ -74,12 +74,6 @@ class MembersController < ApplicationController
   end
 
 private
-  def find_project
-    @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
   def find_member
     @member = Member.find(params[:id]) 
     @project = @member.project

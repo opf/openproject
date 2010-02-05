@@ -190,12 +190,6 @@ class RepositoriesController < ApplicationController
   end
   
 private
-  def find_project
-    @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
   def find_repository
     @project = Project.find(params[:id])
     @repository = @project.repository
