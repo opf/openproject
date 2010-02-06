@@ -15,6 +15,7 @@
 <% end %>
 &nbsp;
 
+<div class="autoscroll">
 <table class="list">		
   <thead><tr>
 	<%= sort_header_tag('login', :caption => l(:field_login)) %>
@@ -41,7 +42,7 @@
 <% end -%>
   </tbody>
 </table>
-
+</div>
 <p class="pagination"><%= pagination_links_full @user_pages, @user_count %></p>
 
 <% html_title(l(:label_user_plural)) -%>

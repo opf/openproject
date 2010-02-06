@@ -25,6 +25,7 @@
 <% form_tag({}, :id => 'workflow_form' ) do %>
 <%= hidden_field_tag 'tracker_id', @tracker.id %>
 <%= hidden_field_tag 'role_id', @role.id %>
+<div class="autoscroll">
 <table class="list">
 <thead>
 	<tr>
@@ -52,6 +53,7 @@
 	<% end %>
 </tbody>
 </table>
+</div>
 <p><%= check_all_links 'workflow_form' %></p>
 
 <%= submit_tag l(:button_save) %>
