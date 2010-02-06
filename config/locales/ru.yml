@@ -992,3 +992,4 @@ ru:
   label_close_versions: Закрыть завершенные версии
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
+  permission_export_wiki_pages: Export wiki pages

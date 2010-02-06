@@ -891,3 +891,4 @@ hr:
     Are you sure you want to continue?
   label_board_sticky: Sticky
   label_board_locked: Locked
+  permission_export_wiki_pages: Export wiki pages

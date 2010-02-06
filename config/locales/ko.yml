@@ -944,3 +944,4 @@ ko:
   label_close_versions: Close completed versions
   label_board_sticky: Sticky
   label_board_locked: Locked
+  permission_export_wiki_pages: Export wiki pages

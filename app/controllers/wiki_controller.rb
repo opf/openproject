@@ -47,15 +47,17 @@ class WikiController < ApplicationController
       return
     end
     @content = @page.content_for_version(params[:version])
-    if params[:format] == 'html'
-      export = render_to_string :action => 'export', :layout => false
-      send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
-      return
-    elsif params[:format] == 'txt'
-      send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
-      return
+    if User.current.allowed_to?(:export_wiki_pages, @project)
+      if params[:format] == 'html'
+        export = render_to_string :action => 'export', :layout => false
+        send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
+        return
+      elsif params[:format] == 'txt'
+        send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
+        return
+      end
     end
-	@editable = editable?
+    @editable = editable?
     render :action => 'show'
   end
   
@@ -177,9 +179,13 @@ class WikiController < ApplicationController
       @pages_by_parent_id = @pages.group_by(&:parent_id)
     # export wiki to a single html file
     when 'export'
-      @pages = @wiki.pages.find :all, :order => 'title'
-      export = render_to_string :action => 'export_multiple', :layout => false
-      send_data(export, :type => 'text/html', :filename => "wiki.html")
+      if User.current.allowed_to?(:export_wiki_pages, @project)
+        @pages = @wiki.pages.find :all, :order => 'title'
+        export = render_to_string :action => 'export_multiple', :layout => false
+        send_data(export, :type => 'text/html', :filename => "wiki.html")
+      else
+        redirect_to :action => 'index', :id => @project, :page => nil
+      end
       return      
     else
       # requested special page doesn't exist, redirect to default page

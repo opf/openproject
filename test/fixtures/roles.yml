@@ -33,6 +33,7 @@ roles_001:
     - :view_documents
     - :manage_documents
     - :view_wiki_pages
+    - :export_wiki_pages
     - :view_wiki_edits
     - :edit_wiki_pages
     - :delete_wiki_pages_attachments

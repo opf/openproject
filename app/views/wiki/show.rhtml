@@ -48,7 +48,7 @@
 <% other_formats_links do |f| %>
 	<%= f.link_to 'HTML', :url => {:page => @page.title, :version => @content.version} %>
 	<%= f.link_to 'TXT', :url => {:page => @page.title, :version => @content.version} %>
-<% end %>
+<% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>

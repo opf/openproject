@@ -928,3 +928,4 @@ es:
   label_close_versions: Cerrar versiones completadas
   label_board_sticky: Sticky
   label_board_locked: Locked
+  permission_export_wiki_pages: Export wiki pages
