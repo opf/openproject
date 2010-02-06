@@ -387,6 +387,7 @@ class IssuesController < ApplicationController
   def gantt
     @gantt = Redmine::Helpers::Gantt.new(params)
     retrieve_query
+    @query.group_by = nil
     if @query.valid?
       events = []
       # Issues that have start and due dates
@@ -426,6 +427,7 @@ class IssuesController < ApplicationController
     
     @calendar = Redmine::Helpers::Calendar.new(Date.civil(@year, @month, 1), current_language, :month)
     retrieve_query
+    @query.group_by = nil
     if @query.valid?
       events = []
       events += @query.issues(:include => [:tracker, :assigned_to, :priority],
