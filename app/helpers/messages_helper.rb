@@ -23,6 +23,7 @@ module MessagesHelper
                                            :action => 'show',
                                            :board_id => message.board_id,
                                            :id => message.root,
+                                           :r => (message.parent_id && message.id),
                                            :anchor => (message.parent_id ? "message-#{message.id}" : nil)
   end
 end

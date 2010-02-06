@@ -47,6 +47,22 @@ class MessagesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topic)
   end
   
+  def test_show_with_pagination
+    message = Message.find(1)
+    assert_difference 'Message.count', 30 do
+      30.times do 
+        message.children << Message.new(:subject => 'Reply', :content => 'Reply body', :author_id => 2, :board_id => 1)
+      end
+    end
+    get :show, :board_id => 1, :id => 1, :r => message.children.last(:order => 'id').id
+    assert_response :success
+    assert_template 'show'
+    replies = assigns(:replies)
+    assert_not_nil replies
+    assert !replies.include?(message.children.first(:order => 'id'))
+    assert replies.include?(message.children.last(:order => 'id'))
+  end
+  
   def test_show_with_reply_permission
     @request.session[:user_id] = 2
     get :show, :board_id => 1, :id => 1
@@ -143,7 +159,8 @@ class MessagesControllerTest < ActionController::TestCase
   def test_reply
     @request.session[:user_id] = 2
     post :reply, :board_id => 1, :id => 1, :reply => { :content => 'This is a test reply', :subject => 'Test reply' }
-    assert_redirected_to 'boards/1/topics/1'
+    reply = Message.find(:first, :order => 'id DESC')
+    assert_redirected_to "boards/1/topics/1?r=#{reply.id}"
     assert Message.find_by_subject('Test reply')
   end
   

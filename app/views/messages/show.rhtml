@@ -20,7 +20,7 @@
 <br />
 
 <% unless @replies.empty? %>
-<h3 class="comments"><%= l(:label_reply_plural) %></h3>
+<h3 class="comments"><%= l(:label_reply_plural) %> (<%= @reply_count %>)</h3>
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <div class="contextual">
@@ -38,6 +38,7 @@
   <%= link_to_attachments message, :author => false %>
   </div>
 <% end %>
+<p class="pagination"><%= pagination_links_full @reply_pages, @reply_count, :per_page_links => false %></p>
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>

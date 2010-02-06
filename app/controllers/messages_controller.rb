@@ -29,10 +29,24 @@ class MessagesController < ApplicationController
   helper :attachments
   include AttachmentsHelper   
 
+  REPLIES_PER_PAGE = 25 unless const_defined?(:REPLIES_PER_PAGE)
+  
   # Show a topic and its replies
   def show
-    @replies = @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}])
-    @replies.reverse! if User.current.wants_comments_in_reverse_order?
+    page = params[:page]
+    # Find the page of the requested reply
+    if params[:r] && page.nil?
+      offset = @topic.children.count(:conditions => ["#{Message.table_name}.id < ?", params[:r].to_i])
+      page = 1 + offset / REPLIES_PER_PAGE
+    end
+    
+    @reply_count = @topic.children.count
+    @reply_pages = Paginator.new self, @reply_count, REPLIES_PER_PAGE, page
+    @replies =  @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}],
+                                           :order => "#{Message.table_name}.created_on ASC",
+                                           :limit => @reply_pages.items_per_page,
+                                           :offset => @reply_pages.current.offset)
+    
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?
   end
@@ -63,7 +77,7 @@ class MessagesController < ApplicationController
       call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
       attach_files(@reply, params[:attachments])
     end
-    redirect_to :action => 'show', :id => @topic
+    redirect_to :action => 'show', :id => @topic, :r => @reply
   end
 
   # Edit a message
@@ -77,7 +91,7 @@ class MessagesController < ApplicationController
       attach_files(@message, params[:attachments])
       flash[:notice] = l(:notice_successful_update)
       @message.reload
-      redirect_to :action => 'show', :board_id => @message.board, :id => @message.root
+      redirect_to :action => 'show', :board_id => @message.board, :id => @message.root, :r => (@message.parent_id && @message.id)
     end
   end
   
@@ -87,7 +101,7 @@ class MessagesController < ApplicationController
     @message.destroy
     redirect_to @message.parent.nil? ?
       { :controller => 'boards', :action => 'show', :project_id => @project, :id => @board } :
-      { :action => 'show', :id => @message.parent }
+      { :action => 'show', :id => @message.parent, :r => @message }
   end
   
   def quote

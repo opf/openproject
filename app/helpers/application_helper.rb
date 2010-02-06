@@ -289,6 +289,7 @@ module ApplicationHelper
 
   def pagination_links_full(paginator, count=nil, options={})
     page_param = options.delete(:page_param) || :page
+    per_page_links = options.delete(:per_page_links)
     url_param = params.dup
     # don't reuse query params if filters are present
     url_param.merge!(:fields => nil, :values => nil, :operators => nil) if url_param.delete(:set_filter)
@@ -307,10 +308,10 @@ module ApplicationHelper
     end
 
     unless count.nil?
-      html << [
-        " (#{paginator.current.first_item}-#{paginator.current.last_item}/#{count})",
-        per_page_links(paginator.items_per_page)
-      ].compact.join(' | ')
+      html << " (#{paginator.current.first_item}-#{paginator.current.last_item}/#{count})"
+      if per_page_links != false && links = per_page_links(paginator.items_per_page)
+	      html << " | #{links}"
+      end
     end
 
     html
