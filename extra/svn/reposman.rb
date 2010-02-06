@@ -175,7 +175,7 @@ unless File.directory?($repos_base)
 end
 
 begin
-  require 'activeresource'
+  require 'active_resource'
 rescue LoadError
   log("This script requires activeresource.\nRun 'gem install activeresource' to install it.", :exit => true)
 end
