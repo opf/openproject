@@ -352,6 +352,7 @@ fr:
   setting_rest_api_enabled: Activer l'API REST
   setting_gravatar_default: Image Gravatar par défaut
   setting_start_of_week: Jour de début des calendriers
+  setting_cache_formatted_text: Mettre en cache le texte formaté
   
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

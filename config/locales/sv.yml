@@ -934,3 +934,4 @@ sv:
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
   permission_export_wiki_pages: Export wiki pages
+  setting_cache_formatted_text: Cache formatted text

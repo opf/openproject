@@ -329,6 +329,7 @@ en:
   setting_issue_done_ratio_issue_status: Use the issue status
   setting_start_of_week: Start calendars on
   setting_rest_api_enabled: Enable REST web service
+  setting_cache_formatted_text: Cache formatted text
   
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

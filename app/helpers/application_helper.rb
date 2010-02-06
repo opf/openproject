@@ -396,13 +396,14 @@ module ApplicationHelper
       text = args.shift
     when 2
       obj = args.shift
-      text = obj.send(args.shift).to_s
+      attr = args.shift
+      text = obj.send(attr).to_s
     else
       raise ArgumentError, 'invalid arguments to textilizable'
     end
     return '' if text.blank?
 
-    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text) { |macro, args| exec_macro(macro, obj, args) }
+    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
     
     only_path = options.delete(:only_path) == false ? false : true
 

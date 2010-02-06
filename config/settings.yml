@@ -53,6 +53,8 @@ plain_text_mail:
   default: 0
 text_formatting:
   default: textile
+cache_formatted_text:
+  default: 0
 wiki_compression:
   default: ""
 default_language:

@@ -993,3 +993,4 @@ ru:
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
   permission_export_wiki_pages: Export wiki pages
+  setting_cache_formatted_text: Cache formatted text

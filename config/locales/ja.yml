@@ -914,3 +914,4 @@ ja:
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
   permission_export_wiki_pages: Export wiki pages
+  setting_cache_formatted_text: Cache formatted text

@@ -20,6 +20,8 @@
 
 <p><%= setting_select :text_formatting, Redmine::WikiFormatting.format_names.collect{|name| [name, name.to_s]}, :blank => :label_none %></p>
 
+<p><%= setting_check_box :cache_formatted_text %></p>
+
 <p><%= setting_select :wiki_compression, [['Gzip', 'gzip']], :blank => :label_none %></p>
 
 <p><%= setting_text_field :feeds_limit, :size => 6 %></p>
