@@ -35,6 +35,11 @@ module Redmine
           super()
           set_language_if_valid lang
           case current_language.to_s.downcase
+          when 'ko'
+            extend(PDF_Korean)
+            AddUHCFont()
+            @font_for_content = 'UHC'
+            @font_for_footer = 'UHC'
           when 'ja'
             extend(PDF_Japanese)
             AddSJISFont()
