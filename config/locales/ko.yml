@@ -2,7 +2,7 @@
 # by Kihyun Yoon(ddumbugie@gmail.com),http://plenum.textcube.com/
 # by John Hwang (jhwang@tavon.org),http://github.com/tavon
 # by Yonghwan SO(please insert your email), last update at 2009-09-11
-# last update at 2009-09-11 by Kihyun Yoon
+# last update at 2010-01-23 by Kihyun Yoon
 ko:
   date:
     formats:
@@ -65,8 +65,8 @@ ko:
         one:   "일년 이상"
         other: "{{count}}년 이상"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "약 1년"
+        other: "약 {{count}}년"
     prompts:
       year:   "년"
       month:  "월"
@@ -182,8 +182,8 @@ ko:
   general_lang_name: '한국어(Korean)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
-  general_csv_encoding: UTF-8
-  general_pdf_encoding: UTF-8
+  general_csv_encoding: CP949
+  general_pdf_encoding: CP949
   general_first_day_of_week: '7'
   
   notice_account_updated: 계정이 성공적으로 변경되었습니다.
@@ -709,7 +709,7 @@ ko:
   label_language_based: 언어설정에 따름
   label_sort_by: "{{value}}(으)로 정렬"
   label_send_test_email: 테스트 메일 보내기
-  label_feeds_access_key_created_on: "피드 접근 키가 {{value}} 이전에 생성됨 "
+  label_feeds_access_key_created_on: "피드 접근 키가 {{value}} 이전에 생성되었습니다."
   label_module_plural: 모듈
   label_added_time_by: "{{author}}이(가) {{age}} 전에 추가함"
   label_updated_time_by: "{{author}}이(가) {{age}} 전에 변경"
@@ -925,24 +925,25 @@ ko:
   setting_start_of_week: 달력 시작 요일
   permission_view_issues: 일감 보기
   label_display_used_statuses_only: 이 일감유형에서 사용되는 상태만 보여주기
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  label_revision_id: 개정판 {{value}}
+  label_api_access_key: API 접근키
+  label_api_access_key_created_on: API 접근키가 {{value}} 전에 생성되었습니다.
+  label_feeds_access_key: RSS 접근키
+  notice_api_access_key_reseted: API 접근키가 초기화되었습니다.
+  setting_rest_api_enabled: REST 웹서비스 활성화
+  label_missing_api_access_key: API 접근키가 없습니다.
+  label_missing_feeds_access_key: RSS 접근키가 없습니다.
+  button_show: 보기
+  text_line_separated: 여러 값이 허용됨(값 마다 한 줄씩)
+  setting_mail_handler_body_delimiters: 메일 본문 구분자
+  permission_add_subprojects: 하위 프로젝트 만들기
+  label_subproject_new: 새 하위 프로젝트
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
+    권한들 일부 또는 전부를 막 삭제하려고 하고 있습니다. 그렇게 되면 이 프로젝트를 더이상 수정할 수 없게 됩니다.
+    계속하시겠습니까?
+  label_close_versions: 완료된 버전 닫기
   label_board_sticky: Sticky
   label_board_locked: Locked
   permission_export_wiki_pages: Export wiki pages
   setting_cache_formatted_text: Cache formatted text
+  permission_manage_project_activities: Manage project activities

@@ -935,3 +935,4 @@ sv:
   enumeration_system_activity: Systemaktivitet
   permission_export_wiki_pages: Export wiki pages
   setting_cache_formatted_text: Cache formatted text
+  permission_manage_project_activities: Manage project activities

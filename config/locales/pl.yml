@@ -907,7 +907,8 @@ pl:
   version_status_locked: zablokowana
   version_status_open: otwarta
   
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
+  label_board_sticky: Przyklejona
+  label_board_locked: Zamknięta
+  permission_export_wiki_pages: Eksport stron wiki
+  permission_manage_project_activities: Zarządzanie aktywnościami projektu
   setting_cache_formatted_text: Cache formatted text

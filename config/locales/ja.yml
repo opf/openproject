@@ -64,8 +64,8 @@ ja:
         one:   "1年以上"
         other: "{{count}}年以上"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "ほぼ1年"
+        other: "ほぼ{{count}}年"
 
   number:
     format:
@@ -321,6 +321,7 @@ ja:
   setting_plain_text_mail: プレインテキストのみ(HTMLなし)
   setting_host_name: ホスト名
   setting_text_formatting: テキストの書式
+  setting_cache_formatted_text: 書式化されたテキストをキャッシュする
   setting_wiki_compression: Wiki履歴を圧縮する
   setting_feeds_limit: フィード内容の上限
   setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
@@ -398,6 +399,7 @@ ja:
   permission_rename_wiki_pages: Wikiページ名の変更
   permission_delete_wiki_pages: Wikiページの削除
   permission_view_wiki_pages: Wikiの閲覧
+  permission_export_wiki_pages: Wikiページを他の形式に出力
   permission_view_wiki_edits: Wiki履歴の閲覧
   permission_edit_wiki_pages: Wikiページの編集
   permission_delete_wiki_pages_attachments: 添付ファイルの削除
@@ -534,6 +536,7 @@ ja:
   label_version_new: 新しいバージョン
   label_version_plural: バージョン
   label_confirmation: 確認
+  label_close_versions: 完了したバージョンを終了にする
   label_export_to: '他の形式に出力:'
   label_read: 読む...
   label_public_projects: 公開プロジェクト
@@ -587,8 +590,8 @@ ja:
   label_query_new: 新しいクエリ
   label_filter_add: フィルタ追加
   label_filter_plural: フィルタ
-  label_equals: 含む
-  label_not_equals: 含まない
+  label_equals: 等しい
+  label_not_equals: 等しくない
   label_in_less_than: が今日から○日後以前
   label_in_more_than: が今日から○日後以降
   label_greater_or_equal: 以上
@@ -767,7 +770,6 @@ ja:
   label_version_sharing_hierarchy: プロジェクト階層単位
   label_version_sharing_tree: プロジェクトツリー単位
   label_version_sharing_system: すべてのプロジェクト
-  label_close_versions: 完了したバージョンを終了にする
   label_update_issue_done_ratios: 進捗の更新
   label_copy_source: コピー元
   label_copy_target: コピー先
@@ -913,5 +915,4 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
+  permission_manage_project_activities: Manage project activities

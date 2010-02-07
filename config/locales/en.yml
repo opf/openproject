@@ -336,6 +336,7 @@ en:
   permission_edit_project: Edit project
   permission_select_project_modules: Select project modules
   permission_manage_members: Manage members
+  permission_manage_project_activities: Manage project activities
   permission_manage_versions: Manage versions
   permission_manage_categories: Manage issue categories
   permission_view_issues: View Issues
@@ -884,3 +885,4 @@ en:
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
+
