@@ -555,7 +555,7 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     should "copy issues" do
-      @source_project.issues << Issue.generate!(:status_id => 5,
+      @source_project.issues << Issue.generate!(:status => IssueStatus.find_by_name('Closed'),
                                                 :subject => "copy issue status",
                                                 :tracker_id => 1,
                                                 :assigned_to_id => 2,
