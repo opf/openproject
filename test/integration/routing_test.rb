@@ -20,7 +20,7 @@ require "test_helper"
 class RoutingTest < ActionController::IntegrationTest
   context "issue reports" do
     should_route :get, "/projects/567/issues/report", :controller => 'reports', :action => 'issue_report', :id => '567'
-    should_route :get, "/projects/567/issues/report/assigned_to", :controller => 'reports', :action => 'issue_report', :id => '567', :detail => 'assigned_to'
+    should_route :get, "/projects/567/issues/report/assigned_to", :controller => 'reports', :action => 'issue_report_details', :id => '567', :detail => 'assigned_to'
   end
   
 end

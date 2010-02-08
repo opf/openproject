@@ -139,9 +139,9 @@ ActionController::Routing::Routes.draw do |map|
     relations.connect 'issues/:issue_id/relations/:id/destroy', :action => 'destroy'
   end
   
-  map.with_options :controller => 'reports', :action => 'issue_report', :conditions => {:method => :get} do |reports|
-    reports.connect 'projects/:id/issues/report'
-    reports.connect 'projects/:id/issues/report/:detail'
+  map.with_options :controller => 'reports', :conditions => {:method => :get} do |reports|
+    reports.connect 'projects/:id/issues/report', :action => 'issue_report'
+    reports.connect 'projects/:id/issues/report/:detail', :action => 'issue_report_details'
   end
   
   map.with_options :controller => 'news' do |news_routes|
