@@ -39,11 +39,14 @@
   end
 %>
 
+<% if @grouped_entries.blank? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
 <table class="list">
   <thead>
     <th>Group By</th>
     <th class="units">Count</th>
-    <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs && display_time) %><th><%= l(:caption_cost_unit_plural) %></th><% end %>
+    <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs) %><th><%= l(:caption_cost_unit_plural) %></th><% end %>
     <th class="currency">Sum</th>
     <th>Drill Down</th>
   </thead>
@@ -106,3 +109,4 @@
     </tr>
   </tbody>
 </table>
+<% end %>
