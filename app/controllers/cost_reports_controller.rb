@@ -49,23 +49,23 @@ class CostReportsController < ApplicationController
     else
       render :layout => !request.xhr?
     end
-  rescue Exception => e
-    logger.error "#{e.class.name}: #{e.message}" if logger
-    session.delete :cost_query
-    
-    # Give it a name, required to be valid
-    @query = CostQuery.new(:name => "_")
-    @query.project = @project
-
-    get_entries(limit)
-    respond_to do |format|
-      format.html do
-        @custom_error = l(:error_generic)
-        render :layout => !request.xhr?
-      end
-      format.atom {render_500(l(:error_generic))}
-      format.csv {render_500(l(:error_generic))}
-    end
+  # rescue Exception => e
+  #   logger.error "#{e.class.name}: #{e.message}" if logger
+  #   session.delete :cost_query
+  #   
+  #   # Give it a name, required to be valid
+  #   @query = CostQuery.new(:name => "_")
+  #   @query.project = @project
+  # 
+  #   get_entries(limit)
+  #   respond_to do |format|
+  #     format.html do
+  #       @custom_error = l(:error_generic)
+  #       render :layout => !request.xhr?
+  #     end
+  #     format.atom {render_500(l(:error_generic))}
+  #     format.csv {render_500(l(:error_generic))}
+  #   end
   end
   
   def new
@@ -155,6 +155,7 @@ private
               0.0000
             END
           ) AS sum,
+          SUM(#{table == "time_entries" ? "hours" : "units"}) as unit_sum,
           COUNT(*) AS count
         FROM #{from}
         WHERE #{where_statement}
@@ -163,15 +164,15 @@ private
     end.join(" UNION ")
     
     if scopes.length == 2
-      sql = "SELECT #{fields}, SUM(sum) as sum, SUM(count) AS count FROM (#{subselect}) AS entries GROUP BY #{fields}"
+      sql = "SELECT #{fields}, SUM(sum) as sum, SUM(unit_sum) as unit_sum, SUM(count) AS count FROM (#{subselect}) AS entries GROUP BY #{fields}"
     else
       sql = subselect
     end
       
     @grouped_entries = ActiveRecord::Base.connection.select_all(sql)
-    @entry_count, @entry_sum = @grouped_entries.inject([0, 0.0]) do |r,i|
-      r[0] += i["count"].to_i
-      r[1] += i["sum"].to_f
+    @entry_sum, @entry_count  = @grouped_entries.inject([0, 0.0]) do |r,i|
+      r[0] += i["sum"].to_f
+      r[1] += i["count"].to_i
       r
     end
   end
@@ -250,7 +251,7 @@ private
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
       @entries = TimeEntry.find :all, {:order => (sort_clause if time_sort_column),
-                                      :include => [:issue, :activity, :user],
+                                      :include => [:issue, :activity, :user, :project],
                                       :conditions => time_where,
                                       :limit => limit,
                                       :offset => @entry_pages.current.offset}
@@ -261,7 +262,7 @@ private
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
       @entries = CostEntry.find :all, {:order => (sort_clause if cost_sort_column),
-                                      :include => [:issue, :cost_type, :user],
+                                      :include => [:issue, :cost_type, :user, :project],
                                       :conditions => cost_where,
                                       :limit => limit,
                                       :offset => @entry_pages.current.offset}

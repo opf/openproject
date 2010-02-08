@@ -1,15 +1,19 @@
 <%
-  def get_column
+  def group_by_column
     CostQuery.group_by_columns[@query.group_by[:name]]
   end
   
-  def display_js(invert=false)
-    group_by_column = get_column
-    
-    return "'' + Form.serialize('filter-options')" unless group_by_column[:scope] == :costs
+  def display_costs
+    CostEntry.column_names.include?(get_column[:db_field].to_s) && @query.display_cost_entries
+  end
+  
+  def display_time
+    TimeEntry.column_names.include?(get_column[:db_field].to_s) && @query.display_time_entries
+  end
 
-    display_costs = ((CostEntry.column_names.include? group_by_column[:db_field].to_s) && @query.display_cost_entries)
-    display_time = ((TimeEntry.column_names.include? group_by_column[:db_field].to_s) && @query.display_time_entries)
+
+  def display_js(invert=false)
+    return "'' + Form.serialize('filter-options')" unless group_by_column[:scope] == :costs
 
     if invert
       display_costs = !display_costs
@@ -27,8 +31,6 @@
   
   
   def filter_js(filter_hash)
-    group_by_column = get_column
-    
     if group_by_column[:scope] == :costs && filter_hash[:values].nil?
       return ""
     end
@@ -41,6 +43,7 @@
   <thead>
     <th>Group By</th>
     <th class="units">Count</th>
+    <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs && display_time) %><th><%= l(:caption_cost_unit_plural) %></th><% end %>
     <th class="currency">Sum</th>
     <th>Drill Down</th>
   </thead>
@@ -58,7 +61,7 @@
         filter_js = filter_js(filter)
         group_by = {:group_by=>{:name=>"", :granularity=>"year"}}
         
-        fields = entry.keys - %w[count sum]
+        fields = entry.keys - %w[count sum unit_sum]
         if fields.include? "tmonth"
           name = "#{entry[:tyear]}, #{month_name(entry["tmonth"].to_i)}"
         elsif fields.include? "tweek"
@@ -74,6 +77,17 @@
           <%= name %>
         </td>
         <td class="units"><%=l :x_entries, :count => entry["count"].to_i %></td>
+
+        <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs && display_time) %>
+        <% cost_type = CostType.find_by_id(entry["cost_type_id"]) %>
+        <td class="units">
+          <% if cost_type %>
+            <%= pluralize(entry["unit_sum"], cost_type.unit, cost_type.unit_plural)  %>
+          <%- else -%>
+            <%= entry["unit_sum"] + "h" %>
+          <%- end %>
+        </td>
+        <%- end %>
         <td class="currency"><%= number_to_currency(entry["sum"]) %></td>
         <td>
           <%= link_to_remote "Drill Down", {
