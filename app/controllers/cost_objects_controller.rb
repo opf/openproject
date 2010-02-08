@@ -9,11 +9,11 @@ class CostObjectsController < ApplicationController
   ]
   before_filter :find_optional_project, :only => [:index]
 
-  # :new action is authorized in the action itself
-  # all other actions listed here are unrestricted
   before_filter :authorize, :except => [
+    # authorization in find_optional_project
+    :index,
     # unrestricted actions
-    :index, :preview, :context_menu,
+    :preview, :context_menu,
     :update_material_budget_item, :update_labor_budget_item
     ]
   
