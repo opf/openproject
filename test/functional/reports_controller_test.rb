@@ -32,18 +32,6 @@ class ReportsControllerTest < ActionController::TestCase
     User.current = nil
   end
   
-  def test_issue_report_routing
-    assert_routing(
-      {:method => :get, :path => '/projects/567/issues/report'},
-      :controller => 'reports', :action => 'issue_report', :id => '567'
-    )
-    assert_routing(
-      {:method => :get, :path => '/projects/567/issues/report/assigned_to'},
-      :controller => 'reports', :action => 'issue_report', :id => '567', :detail => 'assigned_to'
-    )
-    
-  end
-  
   context "GET :issue_report without details" do
     setup do
       get :issue_report, :id => 1
