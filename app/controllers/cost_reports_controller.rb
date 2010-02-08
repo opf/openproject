@@ -49,23 +49,23 @@ class CostReportsController < ApplicationController
     else
       render :layout => !request.xhr?
     end
-  # rescue Exception => e
-  #   logger.error "#{e.class.name}: #{e.message}" if logger
-  #   session.delete :cost_query
-  #   
-  #   # Give it a name, required to be valid
-  #   @query = CostQuery.new(:name => "_")
-  #   @query.project = @project
-  # 
-  #   get_entries(limit)
-  #   respond_to do |format|
-  #     format.html do
-  #       @custom_error = l(:error_generic)
-  #       render :layout => !request.xhr?
-  #     end
-  #     format.atom {render_500(l(:error_generic))}
-  #     format.csv {render_500(l(:error_generic))}
-  #   end
+  rescue Exception => e
+    logger.error "#{e.class.name}: #{e.message}" if logger
+    session.delete :cost_query
+    
+    # Give it a name, required to be valid
+    @query = CostQuery.new(:name => "_")
+    @query.project = @project
+  
+    get_entries(limit)
+    respond_to do |format|
+      format.html do
+        @custom_error = l(:error_generic)
+        render :layout => !request.xhr?
+      end
+      format.atom {render_500(l(:error_generic))}
+      format.csv {render_500(l(:error_generic))}
+    end
   end
   
   def new
