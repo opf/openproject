@@ -31,7 +31,7 @@ Dispatcher.to_prepare do
   require_dependency 'costs_time_entry_patch'
   require_dependency 'costs_version_patch'
   
-  # # Controller Patches
+  # Controller Patches
   require_dependency 'costs_application_controller_patch'
   require_dependency 'costs_groups_controller_patch'
   require_dependency 'costs_issues_controller_patch'
@@ -91,41 +91,6 @@ Redmine::Plugin.register :redmine_costs do
   
   # register our custom permissions
   project_module :costs_module do
-    
-    # rename_schema = {
-    # :view_own_rate => :view_own_hourly_rate,
-    # :view_all_rates => :view_hourly_rates,
-    # :change_rates => :edit_hourly_rates,
-    # 
-    # :view_unit_price => :view_cost_rates,
-    # :book_own_costs => :log_own_costs,
-    # :book_costs => :log_costs
-    # }
-    
-    
-    # @@permission_tree = {
-    #   :view_own_time_entries => [:view_time_entries, :edit_own_time_entries], 
-    #   :view_time_entries => [:edit_time_entries, :view_cost_objects],
-    #   :edit_own_time_entries => :edit_time_entries,
-    # 
-    #   :log_own_time => :log_time,
-    #   :log_own_costs => :log_costs,
-    # 
-    #   :view_own_hourly_rates => [:view_hourly_rates, :edit_own_hourly_rate],
-    #   :view_hourly_rates => [:edit_hourly_rates, :view_cost_objects],
-    #   :edit_own_hourly_rate => :edit_hourly_rates,
-    # 
-    #   :view_own_cost_entries => [:view_cost_entries, :edit_own_cost_entries],
-    #   :view_cost_entries => [:edit_cost_entries, :view_cost_objects],
-    #   :edit_own_cost_entries => :edit_cost_entries,
-    # 
-    #   :view_cost_rates => :view_cost_objects,
-    # 
-    #   :view_cost_objects => :edit_cost_objects,
-    # }
-    
-    # from controlling requirements 3.5 (3)
-
     require_or_load 'costs_access_control_permission_patch'
     
     permission :view_own_hourly_rate, {},
@@ -138,8 +103,7 @@ Redmine::Plugin.register :redmine_costs do
     permission :edit_hourly_rates, {:hourly_rates => [:set_rate, :edit]},
       :require => :member,
       :inherits => :view_hourly_rates
-
-    # from controlling requirements 4.5
+    
     permission :view_cost_rates, {}
     permission :log_own_costs, {:costlog => :edit},
       :require => :loggedin,
