@@ -4,11 +4,11 @@
   end
   
   def display_costs
-    CostEntry.column_names.include?(get_column[:db_field].to_s) && @query.display_cost_entries
+    CostEntry.column_names.include?(group_by_column[:db_field].to_s) && @query.display_cost_entries
   end
   
   def display_time
-    TimeEntry.column_names.include?(get_column[:db_field].to_s) && @query.display_time_entries
+    TimeEntry.column_names.include?(group_by_column[:db_field].to_s) && @query.display_time_entries
   end
 
 
