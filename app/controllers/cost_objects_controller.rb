@@ -18,7 +18,7 @@ class CostObjectsController < ApplicationController
     ]
   
   verify :method => :post, :only => [:bulk_edit, :destroy],
-         :redirect_to => { :action => :list }
+         :redirect_to => { :action => :index }
   
   helper :sort
   include SortHelper
