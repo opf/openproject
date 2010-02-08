@@ -781,9 +781,11 @@ ru:
   permission_edit_project: Редактирование проектов
   permission_edit_time_entries: Редактирование учета времени
   permission_edit_wiki_pages: Редактирование wiki-страниц
+  permission_export_wiki_pages: Экспорт wiki-страниц
   permission_log_time: Учет затраченного времени
   permission_view_changesets: Просмотр изменений хранилища
   permission_view_time_entries: Просмотр затраченного времени
+  permission_manage_project_activities: Управление активностью проекта
   permission_manage_boards: Управление форумами
   permission_manage_categories: Управление категориями задач
   permission_manage_documents: Управление документами
@@ -825,6 +827,7 @@ ru:
   setting_autofetch_changesets: Автоматически следить за изменениями хранилища
   setting_autologin: Автоматический вход
   setting_bcc_recipients: Использовать скрытые списки (bcc)
+  setting_cache_formatted_text: Кешировать форматированный текст
   setting_commit_fix_keywords: Назначение ключевых слов
   setting_commit_logs_encoding: Кодировка комментариев в хранилище
   setting_commit_ref_keywords: Ключевые слова для поиска
@@ -992,6 +995,5 @@ ru:
   label_close_versions: Закрыть завершенные версии
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
+  permission_export_wiki_pages: Экспорт wiki-страниц
+
