@@ -49,47 +49,45 @@ class ReportsController < ApplicationController
       @rows = @project.trackers
       @data = issues_by_tracker
       @report_title = l(:field_tracker)
-      render :template => "reports/issue_report_details"
     when "version"
       @field = "fixed_version_id"
       @rows = @project.shared_versions.sort
       @data = issues_by_version
       @report_title = l(:field_version)
-      render :template => "reports/issue_report_details"
     when "priority"
       @field = "priority_id"
       @rows = IssuePriority.all
       @data = issues_by_priority
       @report_title = l(:field_priority)
-      render :template => "reports/issue_report_details"   
     when "category"
       @field = "category_id"
       @rows = @project.issue_categories
       @data = issues_by_category
       @report_title = l(:field_category)
-      render :template => "reports/issue_report_details"   
     when "assigned_to"
       @field = "assigned_to_id"
       @rows = @project.members.collect { |m| m.user }.sort
       @data = issues_by_assigned_to
       @report_title = l(:field_assigned_to)
-      render :template => "reports/issue_report_details"
     when "author"
       @field = "author_id"
       @rows = @project.members.collect { |m| m.user }.sort
       @data = issues_by_author
       @report_title = l(:field_author)
-      render :template => "reports/issue_report_details"  
     when "subproject"
       @field = "project_id"
       @rows = @project.descendants.active
       @data = issues_by_subproject
       @report_title = l(:field_subproject)
-      render :template => "reports/issue_report_details"  
-    else
-      redirect_to :action => 'issue_report', :id => @project
     end
 
+    respond_to do |format|
+      if @field
+        format.html {}
+      else
+        format.html { redirect_to :action => 'issue_report', :id => @project }
+      end
+    end
   end
 private
   def issues_by_tracker
