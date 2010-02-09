@@ -159,11 +159,15 @@ class Repository < ActiveRecord::Base
     end
   end
   
-  # fetch new changesets for all repositories
-  # can be called periodically by an external script
+  # Fetches new changesets for all repositories of active projects
+  # Can be called periodically by an external script
   # eg. ruby script/runner "Repository.fetch_changesets"
   def self.fetch_changesets
-    find(:all).each(&:fetch_changesets)
+    Project.active.has_module(:repository).find(:all, :include => :repository).each do |project|
+      if project.repository
+        project.repository.fetch_changesets
+      end
+    end
   end
   
   # scan changeset comments to find related and fixed issues for all repositories
