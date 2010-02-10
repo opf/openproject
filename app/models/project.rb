@@ -249,7 +249,7 @@ class Project < ActiveRecord::Base
     return @allowed_parents if @allowed_parents
     @allowed_parents = Project.find(:all, :conditions => Project.allowed_to_condition(User.current, :add_subprojects))
     @allowed_parents = @allowed_parents - self_and_descendants
-    if User.current.allowed_to?(:add_project, nil, :global => true)
+    if User.current.allowed_to?(:add_project, nil, :global => true) || (!new_record? && parent.nil?)
       @allowed_parents << nil
     end
     unless parent.nil? || @allowed_parents.empty? || @allowed_parents.include?(parent)

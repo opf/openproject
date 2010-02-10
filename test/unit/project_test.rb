@@ -285,6 +285,48 @@ class ProjectTest < ActiveSupport::TestCase
     assert Project.new.allowed_parents.compact.empty?
   end
   
+  def test_allowed_parents_with_add_subprojects_permission
+    Role.find(1).remove_permission!(:add_project)
+    Role.find(1).add_permission!(:add_subprojects)
+    User.current = User.find(2)
+    # new project
+    assert !Project.new.allowed_parents.include?(nil)
+    assert Project.new.allowed_parents.include?(Project.find(1))
+    # existing root project
+    assert Project.find(1).allowed_parents.include?(nil)
+    # existing child
+    assert Project.find(3).allowed_parents.include?(Project.find(1))
+    assert !Project.find(3).allowed_parents.include?(nil)
+  end
+
+  def test_allowed_parents_with_add_project_permission
+    Role.find(1).add_permission!(:add_project)
+    Role.find(1).remove_permission!(:add_subprojects)
+    User.current = User.find(2)
+    # new project
+    assert Project.new.allowed_parents.include?(nil)
+    assert !Project.new.allowed_parents.include?(Project.find(1))
+    # existing root project
+    assert Project.find(1).allowed_parents.include?(nil)
+    # existing child
+    assert Project.find(3).allowed_parents.include?(Project.find(1))
+    assert Project.find(3).allowed_parents.include?(nil)
+  end
+
+  def test_allowed_parents_with_add_project_and_subprojects_permission
+    Role.find(1).add_permission!(:add_project)
+    Role.find(1).add_permission!(:add_subprojects)
+    User.current = User.find(2)
+    # new project
+    assert Project.new.allowed_parents.include?(nil)
+    assert Project.new.allowed_parents.include?(Project.find(1))
+    # existing root project
+    assert Project.find(1).allowed_parents.include?(nil)
+    # existing child
+    assert Project.find(3).allowed_parents.include?(Project.find(1))
+    assert Project.find(3).allowed_parents.include?(nil)
+  end
+  
   def test_users_by_role
     users_by_role = Project.find(1).users_by_role
     assert_kind_of Hash, users_by_role
