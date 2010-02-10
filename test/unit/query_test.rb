@@ -26,6 +26,13 @@ class QueryTest < ActiveSupport::TestCase
     assert !query.available_filters.has_key?('cf_3')
   end
   
+  def test_system_shared_versions_should_be_available_in_global_queries
+    Version.find(2).update_attribute :sharing, 'system'
+    query = Query.new(:project => nil, :name => '_')
+    assert query.available_filters.has_key?('fixed_version_id')
+    assert query.available_filters['fixed_version_id'][:values].detect {|v| v.last == '2'}
+  end
+  
   def find_issues_with_query(query)
     Issue.find :all,
       :include => [ :assigned_to, :status, :tracker, :project, :priority ], 

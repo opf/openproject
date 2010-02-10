@@ -210,6 +210,10 @@ class Query < ActiveRecord::Base
       add_custom_fields_filters(@project.all_issue_custom_fields)
     else
       # global filters for cross project issue list
+      system_shared_versions = Version.visible.find_all_by_sharing('system')
+      unless system_shared_versions.empty?
+        @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => system_shared_versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
+      end
       add_custom_fields_filters(IssueCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
     end
     @available_filters
