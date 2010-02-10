@@ -210,8 +210,7 @@ top = headers_height + 10
     %>
     <div style="top:<%= top %>px;left:<%= i_left %>px;width:15px;" class="task milestone">&nbsp;</div>
 	<div style="top:<%= top %>px;left:<%= i_left + 12 %>px;background:#fff;" class="task">
-		<%= h("#{i.project} -") unless @project && @project == i.project %>
-		<strong><%=h i %></strong>
+		<strong><%= format_version_name i %></strong>
 	</div>
 <% end %>
 	<% top = top + 20
