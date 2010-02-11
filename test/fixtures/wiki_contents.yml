@@ -71,4 +71,28 @@ wiki_contents_006:
   version: 1
   author_id: 1
   comments: 
+wiki_contents_007: 
+  text: This is a child page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 7
+  id: 7
+  version: 1
+  author_id: 1
+  comments: 
+wiki_contents_008: 
+  text: This is a parent page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 8
+  id: 8
+  version: 1
+  author_id: 1
+  comments: 
+wiki_contents_009: 
+  text: This is a child page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 9
+  id: 9
+  version: 1
+  author_id: 1
+  comments: 
   

@@ -723,16 +723,24 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal "Start page", @project.wiki.start_page
     end
 
-    should "copy wiki pages and content" do
-      assert @project.copy(@source_project)
-
+    should "copy wiki pages and content with hierarchy" do
+      assert_difference 'WikiPage.count', @source_project.wiki.pages.size do
+        assert @project.copy(@source_project)
+      end
+      
       assert @project.wiki
-      assert_equal 1, @project.wiki.pages.length
+      assert_equal @source_project.wiki.pages.size, @project.wiki.pages.size
 
       @project.wiki.pages.each do |wiki_page|
         assert wiki_page.content
         assert !@source_project.wiki.pages.include?(wiki_page)
       end
+      
+      parent = @project.wiki.find_page('Parent_page')
+      child1 = @project.wiki.find_page('Child_page_1')
+      child2 = @project.wiki.find_page('Child_page_2')
+      assert_equal parent, child1.parent
+      assert_equal parent, child2.parent
     end
 
     should "copy issue categories" do
