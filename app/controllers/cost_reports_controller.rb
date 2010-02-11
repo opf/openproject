@@ -10,7 +10,7 @@ class CostReportsController < ApplicationController
   include SortHelper
   
   def index
-    sort_init(@query.sort_criteria.empty? ? [['spent_on', 'desc']] : @query.sort_criteria)
+    sort_init(@query.sort_criteria.empty? ? [['entry__spent_on', 'desc']] : @query.sort_criteria)
     sortable_columns = {
       "issue__issue_id" => "issue_id",
       "entry__spent_on" => "spent_on",
