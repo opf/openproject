@@ -17,11 +17,9 @@
 
 class ReportsController < ApplicationController
   menu_item :issues
-  before_filter :find_project, :authorize
+  before_filter :find_project, :authorize, :find_issue_statuses
 
   def issue_report
-    @statuses = IssueStatus.find(:all, :order => 'position')
-    
     @trackers = @project.trackers
     @versions = @project.shared_versions.sort
     @priorities = IssuePriority.all
@@ -42,8 +40,6 @@ class ReportsController < ApplicationController
   end  
 
   def issue_report_details
-    @statuses = IssueStatus.find(:all, :order => 'position')
-
     case params[:detail]
     when "tracker"
       @field = "tracker_id"
@@ -91,4 +87,9 @@ class ReportsController < ApplicationController
     end
   end
 
+  private
+
+  def find_issue_statuses
+    @statuses = IssueStatus.find(:all, :order => 'position')
+  end
 end
