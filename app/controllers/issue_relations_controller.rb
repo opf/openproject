@@ -21,8 +21,8 @@ class IssueRelationsController < ApplicationController
   def new
     @relation = IssueRelation.new(params[:relation])
     @relation.issue_from = @issue
-    if params[:relation] && !params[:relation][:issue_to_id].blank?
-      @relation.issue_to = Issue.visible.find_by_id(params[:relation][:issue_to_id])
+    if params[:relation] && m = params[:relation][:issue_to_id].to_s.match(/^#?(\d+)$/)
+      @relation.issue_to = Issue.visible.find_by_id(m[1].to_i)
     end
     @relation.save if request.post?
     respond_to do |format|

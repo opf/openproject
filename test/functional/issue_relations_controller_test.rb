@@ -40,6 +40,24 @@ class IssueRelationsControllerTest < ActionController::TestCase
     end
   end
   
+  def test_new_should_accept_id_with_hash
+    assert_difference 'IssueRelation.count' do
+      @request.session[:user_id] = 3
+      post :new, :issue_id => 1, 
+                 :relation => {:issue_to_id => '#2', :relation_type => 'relates', :delay => ''}
+    end
+  end
+  
+  def test_new_should_not_break_with_non_numerical_id
+    assert_no_difference 'IssueRelation.count' do
+      assert_nothing_raised do
+        @request.session[:user_id] = 3
+        post :new, :issue_id => 1, 
+                   :relation => {:issue_to_id => 'foo', :relation_type => 'relates', :delay => ''}
+      end
+    end
+  end
+  
   def test_should_create_relations_with_visible_issues_only
     Setting.cross_project_issue_relations = '1'
     assert_nil Issue.visible(User.find(3)).find_by_id(4)
