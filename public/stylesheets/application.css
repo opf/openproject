@@ -728,6 +728,7 @@ background-image:url('../images/close_hl.png');
   padding:0;
   margin:0;
   line-height:0.8em;
+  white-space:nowrap;
 }
 
 .task_late { background:#f66 url(../images/task_late.png); border: 1px solid #f66; }
