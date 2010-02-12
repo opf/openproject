@@ -21,16 +21,11 @@ class IssueStatusesController < ApplicationController
   before_filter :require_admin
 
   verify :method => :post, :only => [ :destroy, :create, :update, :move, :update_issue_done_ratio ],
-         :redirect_to => { :action => :list }
+         :redirect_to => { :action => :index }
          
   def index
-    list
-    render :action => 'list' unless request.xhr?
-  end
-
-  def list
     @issue_status_pages, @issue_statuses = paginate :issue_statuses, :per_page => 25, :order => "position"
-    render :action => "list", :layout => false if request.xhr?
+    render :action => "index", :layout => false if request.xhr?
   end
 
   def new
@@ -41,7 +36,7 @@ class IssueStatusesController < ApplicationController
     @issue_status = IssueStatus.new(params[:issue_status])
     if @issue_status.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
     else
       render :action => 'new'
     end
@@ -55,7 +50,7 @@ class IssueStatusesController < ApplicationController
     @issue_status = IssueStatus.find(params[:id])
     if @issue_status.update_attributes(params[:issue_status])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
     else
       render :action => 'edit'
     end
@@ -63,10 +58,10 @@ class IssueStatusesController < ApplicationController
 
   def destroy
     IssueStatus.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    redirect_to :action => 'index'
   rescue
     flash[:error] = "Unable to delete issue status"
-    redirect_to :action => 'list'
+    redirect_to :action => 'index'
   end  	
   
   def update_issue_done_ratio
@@ -75,6 +70,6 @@ class IssueStatusesController < ApplicationController
     else
       flash[:error] =  l(:error_issue_done_ratios_not_updated)
     end
-    redirect_to :action => 'list'
+    redirect_to :action => 'index'
   end
 end

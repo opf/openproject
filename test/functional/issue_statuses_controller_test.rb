@@ -17,10 +17,9 @@ class IssueStatusesControllerTest < ActionController::TestCase
   end
   
   def test_index
-    # TODO: unify with #list
     get :index
     assert_response :success
-    assert_template 'list'
+    assert_template 'index'
   end
   
   def test_new
@@ -33,7 +32,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
     assert_difference 'IssueStatus.count' do
       post :create, :issue_status => {:name => 'New status'}
     end
-    assert_redirected_to 'issue_statuses/list'
+    assert_redirected_to :action => 'index'
     status = IssueStatus.find(:first, :order => 'id DESC')
     assert_equal 'New status', status.name
   end
@@ -46,7 +45,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
   
   def test_update
     post :update, :id => '3', :issue_status => {:name => 'Renamed status'}
-    assert_redirected_to 'issue_statuses/list'
+    assert_redirected_to :action => 'index'
     status = IssueStatus.find(3)
     assert_equal 'Renamed status', status.name
   end
@@ -57,7 +56,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
     assert_difference 'IssueStatus.count', -1 do
       post :destroy, :id => '1'
     end
-    assert_redirected_to 'issue_statuses/list'
+    assert_redirected_to :action => 'index'
     assert_nil IssueStatus.find_by_id(1)
   end
   
@@ -67,7 +66,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
     assert_no_difference 'IssueStatus.count' do
       post :destroy, :id => '1'
     end
-    assert_redirected_to 'issue_statuses/list'
+    assert_redirected_to :action => 'index'
     assert_not_nil IssueStatus.find_by_id(1)
   end
 
@@ -79,7 +78,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
       end
 
       should_set_the_flash_to /not updated/
-      should_redirect_to('the list') { '/issue_statuses/list' }
+      should_redirect_to('the index') { '/issue_statuses' }
     end
 
     context "with Setting.issue_done_ratio using the issue_status" do
@@ -89,7 +88,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
       end
 
       should_set_the_flash_to /Issue done ratios updated/
-      should_redirect_to('the list') { '/issue_statuses/list' }
+      should_redirect_to('the index') { '/issue_statuses' }
     end
   end
   
