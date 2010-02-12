@@ -997,3 +997,4 @@ ru:
   label_board_locked: Заблокирована
   permission_export_wiki_pages: Экспорт wiki-страниц
 
+  error_unable_delete_issue_status: Unable to delete issue status

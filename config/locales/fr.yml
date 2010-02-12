@@ -908,3 +908,4 @@ fr:
   enumeration_system_activity: Activité système
   label_board_sticky: Sticky
   label_board_locked: Verrouillé
+  error_unable_delete_issue_status: Unable to delete issue status

@@ -165,6 +165,7 @@ en:
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
+  error_unable_delete_issue_status: 'Unable to delete issue status'
   
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   

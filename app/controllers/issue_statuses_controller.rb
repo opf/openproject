@@ -60,7 +60,7 @@ class IssueStatusesController < ApplicationController
     IssueStatus.find(params[:id]).destroy
     redirect_to :action => 'index'
   rescue
-    flash[:error] = "Unable to delete issue status"
+    flash[:error] = l(:error_unable_delete_issue_status)
     redirect_to :action => 'index'
   end  	
   
