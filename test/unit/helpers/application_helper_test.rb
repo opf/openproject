@@ -27,7 +27,8 @@ class ApplicationHelperTest < HelperTestCase
                       :trackers, :issue_statuses, :issues, :versions, :documents,
                       :wikis, :wiki_pages, :wiki_contents,
                       :boards, :messages,
-                      :attachments
+                      :attachments,
+                      :enumerations
 
   def setup
     super
@@ -150,6 +151,8 @@ RAW
 
     message_url = {:controller => 'messages', :action => 'show', :board_id => 1, :id => 4}
     
+    project_url = {:controller => 'projects', :action => 'show', :id => 'subproject1'}
+    
     source_url = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}
     source_url_with_ext = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file.ext']}
     
@@ -184,6 +187,10 @@ RAW
       # message
       'message#4'                   => link_to('Post 2', message_url, :class => 'message'),
       'message#5'                   => link_to('RE: post 2', message_url.merge(:anchor => 'message-5'), :class => 'message'),
+      # project
+      'project#3'                   => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
+      'project:subproject1'         => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
+      'project:"eCookbook subProject 1"'        => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
       # escaping
       '!#3.'                        => '#3.',
       '!r1'                         => 'r1',
@@ -199,7 +206,7 @@ RAW
       "http://foo.bar/FAQ#3"       => '<a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a>',
     }
     @project = Project.find(1)
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
   end
   
   def test_wiki_links

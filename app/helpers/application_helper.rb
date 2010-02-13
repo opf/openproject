@@ -510,7 +510,7 @@ module ApplicationHelper
     #     export:some/file -> Force the download of the file
     #  Forum messages:
     #     message#1218 -> Link to message with id 1218
-    text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
+    text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message|project)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
       leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
       link = nil
       if esc.nil?
@@ -549,6 +549,11 @@ module ApplicationHelper
                                                                 :anchor => (message.parent ? "message-#{message.id}" : nil)},
                                                  :class => 'message'
             end
+          when 'project'
+            if p = Project.visible.find_by_id(oid)
+              link = link_to h(p.name), {:only_path => only_path, :controller => 'projects', :action => 'show', :id => p},
+                                              :class => 'project'
+            end
           end
         elsif sep == ':'
           # removes the double quotes if any
@@ -585,6 +590,11 @@ module ApplicationHelper
             if attachments && attachment = attachments.detect {|a| a.filename == name }
               link = link_to h(attachment.filename), {:only_path => only_path, :controller => 'attachments', :action => 'download', :id => attachment},
                                                      :class => 'attachment'
+            end
+          when 'project'
+            if p = Project.visible.find(:first, :conditions => ["identifier = :s OR LOWER(name) = :s", {:s => name.downcase}])
+              link = link_to h(p.name), {:only_path => only_path, :controller => 'projects', :action => 'show', :id => p},
+                                              :class => 'project'
             end
           end
         end
