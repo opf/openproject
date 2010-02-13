@@ -7,7 +7,11 @@ http://www.redmine.org/
 
 == Requirements
 
-* Ruby on Rails 2.3.5
+* Ruby 1.8.6 or 1.8.7
+
+* Ruby on Rails 2.3.5 (official downloadable Redmine releases are packaged with
+  the appropriate Rails version)
+  
 * A database:
   * MySQL (tested with MySQL 5)
   * PostgreSQL (tested with PostgreSQL 8.1)
