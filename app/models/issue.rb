@@ -144,7 +144,6 @@ class Issue < ActiveRecord::Base
 
   def tracker_id=(tid)
     self.tracker = nil
-    write_attribute(:tracker_id, tid)
     result = write_attribute(:tracker_id, tid)
     @custom_field_values = nil
     result
