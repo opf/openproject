@@ -27,8 +27,8 @@
 </div>
 <% end %>
 
-<p><em><% unless @news.summary.blank? %><%=h @news.summary %><br /><% end %>
-<span class="author"><%= authoring @news.created_on, @news.author %></span></em></p>
+<p><% unless @news.summary.blank? %><em><%=h @news.summary %></em><br /><% end %>
+<span class="author"><%= authoring @news.created_on, @news.author %></span></p>
 <div class="wiki">
 <%= textilizable(@news.description) %>
 </div>
