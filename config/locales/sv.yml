@@ -380,12 +380,14 @@ sv:
   setting_issue_done_ratio_issue_status: Använd ärendestatus
   setting_start_of_week: Första dagen i veckan
   setting_rest_api_enabled: Aktivera REST webbtjänst
+  setting_cache_formatted_text: Cacha formaterad text
   
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt
   permission_edit_project: Ändra projekt
   permission_select_project_modules: Välja projektmoduler
   permission_manage_members: Hantera medlemmar
+  permission_manage_project_activities: Hantera projektaktiviteter
   permission_manage_versions: Hantera versioner
   permission_manage_categories: Hantera ärendekategorier
   permission_add_issues: Lägga till ärenden
@@ -433,6 +435,7 @@ sv:
   permission_edit_own_messages: Ändra egna meddelanden
   permission_delete_messages: Ta bort meddelanden
   permission_delete_own_messages: Ta bort egna meddelanden
+  permission_export_wiki_pages: Exportera wikisidor
   
   project_module_issue_tracking: Ärendeuppföljning
   project_module_time_tracking: Tidsuppföljning
@@ -714,7 +717,7 @@ sv:
   label_board_new: Nytt forum
   label_board_plural: Forum
   label_board_locked: Låst
-  label_board_sticky: Sticky  
+  label_board_sticky: Sticky
   label_topic_plural: Ämnen
   label_message_plural: Meddelanden
   label_message_last: Senaste meddelande
@@ -933,7 +936,4 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
   error_unable_delete_issue_status: Unable to delete issue status

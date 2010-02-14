@@ -279,6 +279,7 @@ ru:
   error_scm_annotate: "Данные отсутствуют или не могут быть подписаны."
   error_scm_command_failed: "Ошибка доступа к хранилищу: {{value}}"
   error_scm_not_found: Хранилище не содержит записи и/или исправления.
+  error_unable_delete_issue_status: Невозможно удалить статус задачи
 
   field_account: Учетная запись
   field_activity: Деятельность
@@ -995,6 +996,4 @@ ru:
   label_close_versions: Закрыть завершенные версии
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
-  permission_export_wiki_pages: Экспорт wiki-страниц
 
-  error_unable_delete_issue_status: Unable to delete issue status

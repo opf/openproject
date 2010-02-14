@@ -256,6 +256,7 @@
   error_issue_done_ratios_not_updated: "項目完成百分比未更新。"
   error_workflow_copy_source: '請選擇一個項目追蹤器或角色'
   error_workflow_copy_target: '請選擇項目追蹤器或角色'
+  error_unable_delete_issue_status: '無法刪除項目狀態'
 
   warning_attachments_not_saved: "{{count}} 個附加檔案無法儲存。"
   
@@ -421,12 +422,14 @@
   setting_issue_done_ratio_issue_status: 依據項目狀態
   setting_start_of_week: 週的第一天
   setting_rest_api_enabled: 啟用 REST 網路服務技術（Web Service）
+  setting_cache_formatted_text: 快取已格式化文字
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
   permission_edit_project: 編輯專案
   permission_select_project_modules: 選擇專案模組
   permission_manage_members: 管理成員
+  permission_manage_project_activities: 管理專案活動
   permission_manage_versions: 管理版本
   permission_manage_categories: 管理項目分類
   permission_view_issues: 檢視項目
@@ -474,6 +477,7 @@
   permission_edit_own_messages: 編輯自己的訊息
   permission_delete_messages: 刪除訊息
   permission_delete_own_messages: 刪除自己的訊息
+  permission_export_wiki_pages: 匯出 wiki 頁面
   
   project_module_issue_tracking: 項目追蹤
   project_module_time_tracking: 工時追蹤
@@ -975,7 +979,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
