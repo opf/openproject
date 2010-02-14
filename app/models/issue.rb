@@ -159,7 +159,8 @@ class Issue < ActiveRecord::Base
     end
     send :attributes_without_tracker_first=, new_attributes, *args
   end
-  alias_method_chain :attributes=, :tracker_first
+  # Do not redefine alias chain on reload (see #4838)
+  alias_method_chain(:attributes=, :tracker_first) unless method_defined?(:attributes_without_tracker_first=)
   
   def estimated_hours=(h)
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
