@@ -10,7 +10,7 @@ class CostEntry < ActiveRecord::Base
   
   attr_protected :project_id, :costs, :rate_id
   
-  validates_presence_of :project_id, :issue_id, :user_id, :cost_type_id, :units, :spent_on
+  validates_presence_of :project_id, :user_id, :cost_type_id, :units, :spent_on
   validates_numericality_of :units, :allow_nil => false, :message => :activerecord_error_invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
   
