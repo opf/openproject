@@ -6,7 +6,11 @@ module CostsIssuesControllerPatch
 
     base.class_eval do
       alias_method_chain :show, :entries
+      alias_method_chain :destroy, :entries
+      
+      helper :issues
     end
+    
   end
 
   module InstanceMethods
@@ -35,6 +39,39 @@ module CostsIssuesControllerPatch
       end
       
       show_without_entries
+    end
+    
+    def destroy_with_entries
+      @entries = CostEntry.all(:conditions => ['issue_id IN (?)', @issues])
+      @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
+      unless @units.blank? && @hours == 0
+        case params[:todo]
+        when 'destroy'
+          # nothing to do
+        when 'nullify'
+          TimeEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
+          CostEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
+        when 'reassign'
+          reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
+          if reassign_to.nil?
+            flash.now[:error] = l(:error_issue_not_found_in_project)
+            return
+          else
+            TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
+            CostEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
+          end
+        else
+          unless params[:format] == 'xml'
+            # display the destroy form if it's a user request
+            return
+          end
+        end
+      end
+      @issues.each(&:destroy)
+      respond_to do |format|
+        format.html { redirect_to :action => 'index', :project_id => @project }
+        format.xml  { head :ok }
+      end
     end
   end
 end
