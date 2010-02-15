@@ -35,7 +35,7 @@ class RolesControllerTest < ActionController::TestCase
   def test_get_index
     get :index
     assert_response :success
-    assert_template 'list'
+    assert_template 'index'
 
     assert_not_nil assigns(:roles)
     assert_equal Role.find(:all, :order => 'builtin, position'), assigns(:roles)
