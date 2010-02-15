@@ -2,7 +2,7 @@
   <%# Only render this partial, if the plugin is enabled for the current project %>
   <tr>
     <td><b><%= l(:label_cost_object) %>:</b></td>
-    <td><% if @issue.cost_object.nil? %>-<%else%><%= link_to h(@issue.cost_object.subject), {:controller => "cost_objects", :action => "show", :id => @issue.cost_object} %><% end %></td>
+    <td><% if @issue.cost_object.nil? %>-<%else%><%= link_to_cost_object(@issue.cost_object) %><% end %></td>
     <% if User.current.allowed_to?(:view_cost_entries, @project) %>
     <td><b><%= l(:label_spent_units) %>:</b></td>
     <td>
