@@ -20,16 +20,11 @@ class TrackersController < ApplicationController
   
   before_filter :require_admin
 
-  def index
-    list
-    render :action => 'list' unless request.xhr?
-  end
-  
-  verify :method => :post, :only => :destroy, :redirect_to => { :action => :list }
+  verify :method => :post, :only => :destroy, :redirect_to => { :action => :index }
 
-  def list
+  def index
     @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
-    render :action => "list", :layout => false if request.xhr?
+    render :action => "index", :layout => false if request.xhr?
   end
 
   def new
@@ -40,7 +35,7 @@ class TrackersController < ApplicationController
         @tracker.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
       return
     end
     @trackers = Tracker.find :all, :order => 'position'
@@ -51,7 +46,7 @@ class TrackersController < ApplicationController
     @tracker = Tracker.find(params[:id])
     if request.post? and @tracker.update_attributes(params[:tracker])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
       return
     end
     @projects = Project.find(:all)
@@ -64,6 +59,6 @@ class TrackersController < ApplicationController
     else
       @tracker.destroy
     end
-    redirect_to :action => 'list'
+    redirect_to :action => 'index'
   end  
 end

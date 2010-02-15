@@ -35,7 +35,7 @@ class TrackersControllerTest < ActionController::TestCase
   def test_index
     get :index
     assert_response :success
-    assert_template 'list'
+    assert_template 'index'
   end
   
   def test_get_new
@@ -46,7 +46,7 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_post_new
     post :new, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
-    assert_redirected_to '/trackers/list'
+    assert_redirected_to :action => 'index'
     tracker = Tracker.find_by_name('New tracker')
     assert_equal [1], tracker.project_ids.sort
     assert_equal [1, 6], tracker.custom_field_ids
@@ -55,7 +55,7 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_post_new_with_workflow_copy
     post :new, :tracker => { :name => 'New tracker' }, :copy_workflow_from => 1
-    assert_redirected_to '/trackers/list'
+    assert_redirected_to :action => 'index'
     tracker = Tracker.find_by_name('New tracker')
     assert_equal 0, tracker.projects.count
     assert_equal Tracker.find(1).workflows.count, tracker.workflows.count
@@ -84,14 +84,14 @@ class TrackersControllerTest < ActionController::TestCase
   def test_post_edit
     post :edit, :id => 1, :tracker => { :name => 'Renamed',
                                         :project_ids => ['1', '2', ''] }
-    assert_redirected_to '/trackers/list'
+    assert_redirected_to :action => 'index'
     assert_equal [1, 2], Tracker.find(1).project_ids.sort
   end
 
   def test_post_edit_without_projects
     post :edit, :id => 1, :tracker => { :name => 'Renamed',
                                         :project_ids => [''] }
-    assert_redirected_to '/trackers/list'
+    assert_redirected_to :action => 'index'
     assert Tracker.find(1).project_ids.empty?
   end
   
@@ -106,7 +106,7 @@ class TrackersControllerTest < ActionController::TestCase
     assert_difference 'Tracker.count', -1 do
       post :destroy, :id => tracker.id
     end
-    assert_redirected_to '/trackers/list'
+    assert_redirected_to :action => 'index'
     assert_nil flash[:error]
   end
   
@@ -114,7 +114,7 @@ class TrackersControllerTest < ActionController::TestCase
     assert_no_difference 'Tracker.count' do
       post :destroy, :id => 1
     end
-    assert_redirected_to '/trackers/list'
+    assert_redirected_to :action => 'index'
     assert_not_nil flash[:error]
   end
 end
