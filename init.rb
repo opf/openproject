@@ -37,6 +37,7 @@ Dispatcher.to_prepare do
   require_dependency 'costs_issues_controller_patch'
   
   # Helper Patches
+  require_dependency 'costs_application_helper_patch'
   require_dependency 'costs_users_helper_patch'
   require_dependency 'costs_issues_helper_patch'
   
