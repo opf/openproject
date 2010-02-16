@@ -33,4 +33,62 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert a.save
     assert_equal 'givenName', a.reload.attr_firstname
   end
+
+  if ldap_configured?
+    context '#authenticate' do
+      setup do
+        @auth = AuthSourceLdap.generate!(:name => 'on the fly',
+                                         :host => '127.0.0.1',
+                                         :port => 389,
+                                         :base_dn => 'OU=Person,DC=redmine,DC=org',
+                                         :attr_login => 'uid',
+                                         :attr_firstname => 'givenName',
+                                         :attr_lastname => 'sn',
+                                         :attr_mail => 'mail',
+                                         :onthefly_register => true)
+
+      end
+
+      context 'with a valid LDAP user' do
+        should 'return the firstname user attributes' do
+          response =  @auth.authenticate('example1','123456')
+          assert response
+          assert_equal 'Example', response.first[:firstname]
+        end
+
+        should 'return the lastname user attributes' do
+          response =  @auth.authenticate('example1','123456')
+          assert response
+          assert_equal 'One', response.first[:lastname]
+        end
+
+        should 'return mail user attributes' do
+          response =  @auth.authenticate('example1','123456')
+          assert response
+          assert_equal 'example1@redmine.org', response.first[:mail]
+        end
+      end
+
+      context 'with an invalid LDAP user' do
+        should 'return nil' do
+          assert_equal nil, @auth.authenticate('nouser','123456')
+        end
+      end
+
+      context 'without a login' do
+        should 'return nil' do
+          assert_equal nil, @auth.authenticate('','123456')
+        end
+      end
+
+      context 'without a password' do
+        should 'return nil' do
+          assert_equal nil, @auth.authenticate('edavis','')
+        end
+      end
+      
+    end
+  else
+    puts '(Test LDAP server not configured)'
+  end
 end
