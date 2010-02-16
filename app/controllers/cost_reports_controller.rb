@@ -155,7 +155,7 @@ private
               0.0000
             END
           ) AS sum,
-          ROUND(SUM(#{table == "time_entries" ? "hours" : "units"}), 2) as unit_sum,
+          SUM(#{table == "time_entries" ? "hours" : "units"}) as unit_sum,
           COUNT(*) AS count
         FROM #{from}
         WHERE #{where_statement}

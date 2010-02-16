@@ -87,7 +87,7 @@
           <% if cost_type %>
             <%= pluralize(entry["unit_sum"], cost_type.unit, cost_type.unit_plural)  %>
           <%- else -%>
-            <%= (entry["unit_sum"] || "0") + " h" %>
+            <%= l_hours(entry["unit_sum"] || "0") %>
           <%- end %>
         </td>
         <%- end %>
