@@ -87,7 +87,7 @@
           <% if cost_type %>
             <%= pluralize(entry["unit_sum"], cost_type.unit, cost_type.unit_plural)  %>
           <%- else -%>
-            <%= (entry["unit_sum"] || "0") + "h" %>
+            <%= (entry["unit_sum"] || "0") + " h" %>
           <%- end %>
         </td>
         <%- end %>
@@ -104,6 +104,7 @@
     <tr>
       <td>&nbsp;</td>
       <td style="white-space: nowrap;"><strong><%=l :x_entries, :count => @entry_count %></strong></td>
+      <td>&nbsp;</td>
       <td class="currency"><strong><%= number_to_currency @entry_sum %></strong></td>
       <td>&nbsp;</td>
     </tr>

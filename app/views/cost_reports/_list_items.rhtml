@@ -24,7 +24,7 @@
           <%= (link_to pluralize(entry.units, entry.cost_type.unit, entry.cost_type.unit_plural),
                 {:controller => "costlog", :action => "details",
                  :cost_type_id => entry.cost_type, :issue_id => entry.issue}) if entry.is_a?(CostEntry) %>
-          <%= entry.hours.to_s + "h" if entry.is_a?(TimeEntry)%>
+          <%= entry.hours.to_s + " h" if entry.is_a?(TimeEntry)%>
         </td>
         <td><%= entry.is_a?(CostEntry) ? entry.cost_type : l(:caption_labor_costs) %></td>
         <td><%= entry.activity if entry.is_a?(TimeEntry) %></td>
