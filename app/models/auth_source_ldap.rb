@@ -44,10 +44,8 @@ class AuthSourceLdap < AuthSource
                      # only ask for the DN if on-the-fly registration is disabled
                      :attributes=> (onthefly_register? ? ['dn', self.attr_firstname, self.attr_lastname, self.attr_mail] : ['dn'])) do |entry|
       dn = entry.dn
-      attrs = [:firstname => AuthSourceLdap.get_attr(entry, self.attr_firstname),
-               :lastname => AuthSourceLdap.get_attr(entry, self.attr_lastname),
-               :mail => AuthSourceLdap.get_attr(entry, self.attr_mail),
-               :auth_source_id => self.id ] if onthefly_register?
+      attrs = get_user_attributes_from_ldap_entry(entry) if onthefly_register?
+
     end
     return nil if dn.empty?
     logger.debug "DN found for #{login}: #{dn}" if logger && logger.debug?
@@ -88,6 +86,15 @@ class AuthSourceLdap < AuthSource
               }
     options.merge!(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
     Net::LDAP.new options
+  end
+
+  def get_user_attributes_from_ldap_entry(entry)
+    [
+     :firstname => AuthSourceLdap.get_attr(entry, self.attr_firstname),
+     :lastname => AuthSourceLdap.get_attr(entry, self.attr_lastname),
+     :mail => AuthSourceLdap.get_attr(entry, self.attr_mail),
+     :auth_source_id => self.id
+    ]
   end
   
   def self.get_attr(entry, attr_name)

@@ -52,19 +52,22 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       context 'with a valid LDAP user' do
         should 'return the firstname user attributes' do
           response =  @auth.authenticate('example1','123456')
-          assert response
+          assert response.is_a?(Array), "An array was not returned"
+          assert response.first.present?, "No user data returned"
           assert_equal 'Example', response.first[:firstname]
         end
 
         should 'return the lastname user attributes' do
           response =  @auth.authenticate('example1','123456')
-          assert response
+          assert response.is_a?(Array), "An array was not returned"
+          assert response.first.present?, "No user data returned"
           assert_equal 'One', response.first[:lastname]
         end
 
         should 'return mail user attributes' do
           response =  @auth.authenticate('example1','123456')
-          assert response
+          assert response.is_a?(Array), "An array was not returned"
+          assert response.first.present?, "No user data returned"
           assert_equal 'example1@redmine.org', response.first[:mail]
         end
       end
