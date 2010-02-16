@@ -13,7 +13,7 @@
   <%= link_to_function l(:label_generate_key), "if ($('settings_sys_api_key').disabled == false) { $('settings_sys_api_key').value = randomKey(20) }" %>
 </p>
 
-<p><%= setting_multiselect(:enabled_scm, REDMINE_SUPPORTED_SCM) %></p>
+<p><%= setting_multiselect(:enabled_scm, Redmine::Scm::Base.all) %></p>
 
 <p><%= setting_text_field :repositories_encodings, :size => 60 %><br />
 <em><%= l(:text_comma_separated) %></em></p>

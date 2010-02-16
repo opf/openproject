@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
   
-  REDMINE_SUPPORTED_SCM.each do |scm|
+  Redmine::Scm::Base.all.each do |scm|
     require_dependency "repository/#{scm.underscore}"
   end
 

@@ -126,7 +126,7 @@ module RepositoriesHelper
   
   def scm_select_tag(repository)
     scm_options = [["--- #{l(:actionview_instancetag_blank_option)} ---", '']]
-    REDMINE_SUPPORTED_SCM.each do |scm|
+    Redmine::Scm::Base.all.each do |scm|
       scm_options << ["Repository::#{scm}".constantize.scm_name, scm] if Setting.enabled_scm.include?(scm) || (repository && repository.class.name.demodulize == scm)
     end
     
