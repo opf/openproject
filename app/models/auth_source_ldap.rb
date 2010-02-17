@@ -49,12 +49,13 @@ class AuthSourceLdap < AuthSource
     end
     return nil if dn.empty?
     logger.debug "DN found for #{login}: #{dn}" if logger && logger.debug?
-    # authenticate user
-    ldap_con = initialize_ldap_con(dn, password)
-    return nil unless ldap_con.bind
-    # return user's attributes
-    logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
-    attrs    
+
+    if authenticate_dn(dn, password)
+      logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
+      return attrs
+    else
+      return nil
+    end
   rescue  Net::LDAP::LdapError => text
     raise "LdapError: " + text
   end
@@ -95,6 +96,12 @@ class AuthSourceLdap < AuthSource
      :mail => AuthSourceLdap.get_attr(entry, self.attr_mail),
      :auth_source_id => self.id
     ]
+  end
+
+  # Check if a DN (user record) authenticates with the password
+  def authenticate_dn(dn, password)
+    ldap_con = initialize_ldap_con(dn, password)
+    return ldap_con.bind
   end
   
   def self.get_attr(entry, attr_name)
