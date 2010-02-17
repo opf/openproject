@@ -67,16 +67,14 @@ class SearchController < ApplicationController
     
     if !@tokens.empty?
       # no more than 5 tokens to search for
-      @tokens.slice! 5..-1 if @tokens.size > 5
-      # strings used in sql like statement
-      like_tokens = @tokens.collect {|w| "%#{w.downcase}%"}      
+      @tokens.slice! 5..-1 if @tokens.size > 5  
       
       @results = []
       @results_by_type = Hash.new {|h,k| h[k] = 0}
       
       limit = 10
       @scope.each do |s|
-        r, c = s.singularize.camelcase.constantize.search(like_tokens, projects_to_search,
+        r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
           :all_words => @all_words,
           :titles_only => @titles_only,
           :limit => (limit+1),

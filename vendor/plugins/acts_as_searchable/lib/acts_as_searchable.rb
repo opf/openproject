@@ -97,7 +97,7 @@ module Redmine
             
             sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
             
-            find_options[:conditions] = [sql, * (tokens * token_clauses.size).sort]
+            find_options[:conditions] = [sql, * (tokens.collect {|w| "%#{w.downcase}%"} * token_clauses.size).sort]
             
             project_conditions = []
             project_conditions << (searchable_options[:permission].nil? ? Project.visible_by(User.current) :
