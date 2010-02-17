@@ -123,6 +123,16 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal 2, mail.parts.size
     assert mail.encoded.include?('href')
   end
+  
+  def test_mail_from_with_phrase
+    ActionMailer::Base.deliveries.clear
+    with_settings :mail_from => 'Redmine app <redmine@example.net>' do
+      Mailer.deliver_test(User.find(1))
+    end
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal 'Redmine app', mail.from_addrs.first.name
+  end
 
   def test_issue_add_message_id
     ActionMailer::Base.deliveries.clear
