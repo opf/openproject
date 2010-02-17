@@ -17,6 +17,23 @@
 
 module Redmine
   module Search
+  
+    mattr_accessor :available_search_types
+    
+    @@available_search_types = []
+
+    class << self
+      def map(&block)
+        yield self
+      end
+      
+      # Registers a search provider
+      def register(search_type, options={})
+        search_type = search_type.to_s
+        @@available_search_types << search_type unless @@available_search_types.include?(search_type)
+      end
+    end
+    
     module Controller
       def self.included(base)
         base.extend(ClassMethods)

@@ -48,7 +48,7 @@ class SearchController < ApplicationController
       return
     end
     
-    @object_types = %w(issues news documents changesets wiki_pages messages projects)
+    @object_types = Redmine::Search.available_search_types.dup
     if projects_to_search.is_a? Project
       # don't search projects
       @object_types.delete('projects')
