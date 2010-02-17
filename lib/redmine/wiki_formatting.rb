@@ -25,17 +25,17 @@ module Redmine
       end
       
       def register(name, formatter, helper)
-        raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name.to_sym]
-        @@formatters[name.to_sym] = {:formatter => formatter, :helper => helper}
+        raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name.to_s]
+        @@formatters[name.to_s] = {:formatter => formatter, :helper => helper}
       end
       
       def formatter_for(name)
-        entry = @@formatters[name.to_sym]
+        entry = @@formatters[name.to_s]
         (entry && entry[:formatter]) || Redmine::WikiFormatting::NullFormatter::Formatter
       end
       
       def helper_for(name)
-        entry = @@formatters[name.to_sym]
+        entry = @@formatters[name.to_s]
         (entry && entry[:helper]) || Redmine::WikiFormatting::NullFormatter::Helper
       end
       
