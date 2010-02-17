@@ -69,6 +69,32 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
         end
       end
 
+      context "using a valid custom filter" do
+        setup do
+          @auth.update_attributes(:custom_filter => "(& (homeDirectory=*) (sn=O*))")
+        end
+
+        should "find a user who authenticates and matches the custom filter" do
+          assert_not_nil @auth.authenticate('example1', '123456')
+        end
+
+        should "be nil for users who don't match the custom filter" do
+          assert_nil @auth.authenticate('edavis', '123456')
+        end
+      end
+
+      context "using an invalid custom filter" do
+        setup do
+          # missing )) at the end
+          @auth.update_attributes(:custom_filter => "(& (homeDirectory=*) (sn=O*")
+        end
+
+        should "skip the custom filter" do
+          assert_not_nil @auth.authenticate('example1', '123456')
+          assert_not_nil @auth.authenticate('edavis', '123456')
+        end
+      end
+
     end
   else
     puts '(Test LDAP server not configured)'
