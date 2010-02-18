@@ -17,7 +17,7 @@
 
 require File.dirname(__FILE__) + '/../../../../test_helper'
 
-class Redmine::MenuManager::MapperTest < Test::Unit::TestCase
+class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
   context "Mapper#initialize" do
     should "be tested"
   end
@@ -162,5 +162,22 @@ class Redmine::MenuManager::MapperTest < Test::Unit::TestCase
   def test_delete_missing
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     assert_nil menu_mapper.delete(:test_missing)
+  end
+
+  test 'deleting all items' do
+    # Exposed by deleting :last items
+    Redmine::MenuManager.map :test_menu do |menu|
+      menu.push :not_last, Redmine::Info.help_url
+      menu.push :administration, { :controller => 'projects', :action => 'show'}, {:last => true}
+      menu.push :help, Redmine::Info.help_url, :last => true
+    end
+
+    assert_nothing_raised do
+      Redmine::MenuManager.map :test_menu do |menu|
+        menu.delete(:administration)
+        menu.delete(:help)
+        menu.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
+     end
+    end
   end
 end
