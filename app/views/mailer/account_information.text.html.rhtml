@@ -1,10 +1,10 @@
 <% if @user.auth_source %>
-<p><%= l(:mail_body_account_information_external, @user.auth_source.name) %></p>
+<p><%= l(:mail_body_account_information_external, h(@user.auth_source.name)) %></p>
 <% else %>
 <p><%= l(:mail_body_account_information) %>:</p>
 <ul>
-    <li><%= l(:field_login) %>: <%= @user.login %></li>
-    <li><%= l(:field_password) %>: <%= @password %></li>
+    <li><%= l(:field_login) %>: <%=h @user.login %></li>
+    <li><%= l(:field_password) %>: <%=h @password %></li>
 </ul>
 <% end %>
 
