@@ -52,8 +52,6 @@ class AuthSourceLdap < AuthSource
     if authenticate_dn(dn, password)
       logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
       return attrs
-    else
-      return nil
     end
   rescue  Net::LDAP::LdapError => text
     raise "LdapError: " + text
@@ -99,10 +97,9 @@ class AuthSourceLdap < AuthSource
 
   # Check if a DN (user record) authenticates with the password
   def authenticate_dn(dn, password)
-    return nil if dn.empty?
-
-    ldap_con = initialize_ldap_con(dn, password)
-    return ldap_con.bind
+    if dn.present? && password.present?
+      initialize_ldap_con(dn, password).bind
+    end
   end
   
   def self.get_attr(entry, attr_name)
