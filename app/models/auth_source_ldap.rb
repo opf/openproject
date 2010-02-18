@@ -45,10 +45,9 @@ class AuthSourceLdap < AuthSource
                      :attributes=> (onthefly_register? ? ['dn', self.attr_firstname, self.attr_lastname, self.attr_mail] : ['dn'])) do |entry|
       dn = entry.dn
       attrs = get_user_attributes_from_ldap_entry(entry) if onthefly_register?
+      logger.debug "DN found for #{login}: #{dn}" if logger && logger.debug?
 
     end
-    return nil if dn.empty?
-    logger.debug "DN found for #{login}: #{dn}" if logger && logger.debug?
 
     if authenticate_dn(dn, password)
       logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
@@ -100,6 +99,8 @@ class AuthSourceLdap < AuthSource
 
   # Check if a DN (user record) authenticates with the password
   def authenticate_dn(dn, password)
+    return nil if dn.empty?
+
     ldap_con = initialize_ldap_con(dn, password)
     return ldap_con.bind
   end
