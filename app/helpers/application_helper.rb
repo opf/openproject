@@ -511,17 +511,17 @@ module ApplicationHelper
     #  Forum messages:
     #     message#1218 -> Link to message with id 1218
     text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message|project)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
-      leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
+      leading, esc, prefix, sep, identifier = $1, $2, $3, $5 || $7, $6 || $8
       link = nil
       if esc.nil?
         if prefix.nil? && sep == 'r'
-          if project && (changeset = project.changesets.find_by_revision(oid))
-            link = link_to("r#{oid}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => oid},
+          if project && (changeset = project.changesets.find_by_revision(identifier))
+            link = link_to("r#{identifier}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
                                       :class => 'changeset',
                                       :title => truncate_single_line(changeset.comments, :length => 100))
           end
         elsif sep == '#'
-          oid = oid.to_i
+          oid = identifier.to_i
           case prefix
           when nil
             if issue = Issue.visible.find_by_id(oid, :include => :status)
@@ -557,7 +557,7 @@ module ApplicationHelper
           end
         elsif sep == ':'
           # removes the double quotes if any
-          name = oid.gsub(%r{^"(.*)"$}, "\\1")
+          name = identifier.gsub(%r{^"(.*)"$}, "\\1")
           case prefix
           when 'document'
             if project && document = project.documents.find_by_title(name)
@@ -599,7 +599,7 @@ module ApplicationHelper
           end
         end
       end
-      leading + (link || "#{prefix}#{sep}#{oid}")
+      leading + (link || "#{prefix}#{sep}#{identifier}")
     end
 
     text

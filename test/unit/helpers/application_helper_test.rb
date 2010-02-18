@@ -200,6 +200,8 @@ RAW
       '!version:1.0'                => 'version:1.0',
       '!version:"1.0"'              => 'version:"1.0"',
       '!source:/some/file'          => 'source:/some/file',
+      # not found
+      '#0123456789'                 => '#0123456789',
       # invalid expressions
       'source:'                     => 'source:',
       # url hash
