@@ -41,8 +41,7 @@ class AuthSourceLdap < AuthSource
     dn = String.new
     ldap_con.search( :base => self.base_dn, 
                      :filter => object_filter & login_filter, 
-                     # only ask for the DN if on-the-fly registration is disabled
-                     :attributes=> (onthefly_register? ? ['dn', self.attr_firstname, self.attr_lastname, self.attr_mail] : ['dn'])) do |entry|
+                     :attributes=> search_attributes) do |entry|
       dn = entry.dn
       attrs = get_user_attributes_from_ldap_entry(entry) if onthefly_register?
       logger.debug "DN found for #{login}: #{dn}" if logger && logger.debug?
@@ -93,6 +92,16 @@ class AuthSourceLdap < AuthSource
      :mail => AuthSourceLdap.get_attr(entry, self.attr_mail),
      :auth_source_id => self.id
     ]
+  end
+
+  # Return the attributes needed for the LDAP search.  It will only
+  # include the user attributes if on-the-fly registration is enabled
+  def search_attributes
+    if onthefly_register?
+      ['dn', self.attr_firstname, self.attr_lastname, self.attr_mail]
+    else
+      ['dn']
+    end
   end
 
   # Check if a DN (user record) authenticates with the password
