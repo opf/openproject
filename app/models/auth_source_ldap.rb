@@ -33,22 +33,9 @@ class AuthSourceLdap < AuthSource
   
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
-    attrs = []
-    # get user's DN
-    ldap_con = initialize_ldap_con(self.account, self.account_password)
-    login_filter = Net::LDAP::Filter.eq( self.attr_login, login ) 
-    object_filter = Net::LDAP::Filter.eq( "objectClass", "*" ) 
-    dn = String.new
-    ldap_con.search( :base => self.base_dn, 
-                     :filter => object_filter & login_filter, 
-                     :attributes=> search_attributes) do |entry|
-      dn = entry.dn
-      attrs = get_user_attributes_from_ldap_entry(entry) if onthefly_register?
-      logger.debug "DN found for #{login}: #{dn}" if logger && logger.debug?
-
-    end
-
-    if authenticate_dn(dn, password)
+    attrs = get_user_dn(login)
+    
+    if attrs.first && attrs.first[:dn] && authenticate_dn(attrs.first[:dn], password)
       logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
       return attrs
     end
@@ -87,6 +74,7 @@ class AuthSourceLdap < AuthSource
 
   def get_user_attributes_from_ldap_entry(entry)
     [
+     :dn => entry.dn,
      :firstname => AuthSourceLdap.get_attr(entry, self.attr_firstname),
      :lastname => AuthSourceLdap.get_attr(entry, self.attr_lastname),
      :mail => AuthSourceLdap.get_attr(entry, self.attr_mail),
@@ -109,6 +97,29 @@ class AuthSourceLdap < AuthSource
     if dn.present? && password.present?
       initialize_ldap_con(dn, password).bind
     end
+  end
+
+  # Get the user's dn and any attributes for them, given their login
+  def get_user_dn(login)
+    ldap_con = initialize_ldap_con(self.account, self.account_password)
+    login_filter = Net::LDAP::Filter.eq( self.attr_login, login ) 
+    object_filter = Net::LDAP::Filter.eq( "objectClass", "*" ) 
+    attrs = []
+    
+    ldap_con.search( :base => self.base_dn, 
+                     :filter => object_filter & login_filter, 
+                     :attributes=> search_attributes) do |entry|
+
+      if onthefly_register?
+        attrs = get_user_attributes_from_ldap_entry(entry)
+      else
+        attrs = [:dn => entry.dn]
+      end
+
+      logger.debug "DN found for #{login}: #{attrs.first[:dn]}" if logger && logger.debug?
+    end
+
+    attrs
   end
   
   def self.get_attr(entry, attr_name)
