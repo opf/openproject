@@ -327,6 +327,7 @@ class IssuesController < ApplicationController
           end 
         end
         issue.init_journal(User.current)
+        call_hook(:controller_issues_move_before_save, { :params => params, :issue => issue, :target_project => @target_project, :copy => !!@copy })
         if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
           moved_issues << r
         else
