@@ -13,17 +13,17 @@ http://www.redmine.org/
    and SMTP settings (RAILS_ROOT/config/email.yml)
    into the new config directory
    DO NOT REPLACE ANY OTHERS FILES.
-   
-3. Migrate your database (please make a backup before doing this):
-   rake db:migrate RAILS_ENV="production"
 
-4. Copy the RAILS_ROOT/files directory content into your new installation
-   This directory contains all the attached files
-
-5. Generate a session store secret
+3. Generate a session store secret
    Redmine stores session data in cookies by default, which requires
    a secret to be generated. Run:
    rake config/initializers/session_store.rb
+      
+4. Migrate your database (please make a backup before doing this):
+   rake db:migrate RAILS_ENV="production"
+
+5. Copy the RAILS_ROOT/files directory content into your new installation
+   This directory contains all the attached files
 
 == Notes
 
