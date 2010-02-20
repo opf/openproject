@@ -29,7 +29,6 @@ class MailerTest < ActiveSupport::TestCase
   end
   
   def test_generated_links_in_emails
-    ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
     
@@ -51,7 +50,6 @@ class MailerTest < ActiveSupport::TestCase
   
   def test_generated_links_with_prefix
     relative_url_root = Redmine::Utils.relative_url_root
-    ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
     Redmine::Utils.relative_url_root = '/rdm'
@@ -77,7 +75,6 @@ class MailerTest < ActiveSupport::TestCase
   
   def test_generated_links_with_prefix_and_no_relative_url_root
     relative_url_root = Redmine::Utils.relative_url_root
-    ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
     Redmine::Utils.relative_url_root = nil
@@ -102,7 +99,6 @@ class MailerTest < ActiveSupport::TestCase
   end
   
   def test_email_headers
-    ActionMailer::Base.deliveries.clear
     issue = Issue.find(1)
     Mailer.deliver_issue_add(issue)
     mail = ActionMailer::Base.deliveries.last
@@ -131,7 +127,6 @@ class MailerTest < ActiveSupport::TestCase
   end
   
   def test_mail_from_with_phrase
-    ActionMailer::Base.deliveries.clear
     with_settings :mail_from => 'Redmine app <redmine@example.net>' do
       Mailer.deliver_test(User.find(1))
     end
@@ -141,7 +136,6 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_issue_add_message_id
-    ActionMailer::Base.deliveries.clear
     issue = Issue.find(1)
     Mailer.deliver_issue_add(issue)
     mail = ActionMailer::Base.deliveries.last
@@ -151,7 +145,6 @@ class MailerTest < ActiveSupport::TestCase
   end
   
   def test_issue_edit_message_id
-    ActionMailer::Base.deliveries.clear
     journal = Journal.find(1)
     Mailer.deliver_issue_edit(journal)
     mail = ActionMailer::Base.deliveries.last
@@ -311,7 +304,6 @@ class MailerTest < ActiveSupport::TestCase
   end
   
   def test_reminders
-    ActionMailer::Base.deliveries.clear
     Mailer.reminders(:days => 42)
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.last
