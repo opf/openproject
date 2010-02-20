@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2010  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -57,6 +57,10 @@ class Changeset < ActiveRecord::Base
     super
   end
   
+  def committer=(arg)
+    write_attribute(:committer, self.class.to_utf8(arg.to_s))
+  end
+
   def project
     repository.project
   end
@@ -180,11 +184,12 @@ class Changeset < ActiveRecord::Base
     encoding = Setting.commit_logs_encoding.to_s.strip
     unless encoding.blank? || encoding == 'UTF-8'
       begin
-        return Iconv.conv('UTF-8', encoding, str)
+        str = Iconv.conv('UTF-8', encoding, str)
       rescue Iconv::Failure
         # do nothing here
       end
     end
-    str
+    # removes invalid UTF8 sequences
+    Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
   end
 end
