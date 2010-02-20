@@ -22,6 +22,12 @@ class MailerTest < ActiveSupport::TestCase
   include ActionController::Assertions::SelectorAssertions
   fixtures :projects, :enabled_modules, :issues, :users, :members, :member_roles, :roles, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
   
+  def setup
+    ActionMailer::Base.deliveries.clear
+    Setting.host_name = 'mydomain.foo'
+    Setting.protocol = 'http'
+  end
+  
   def test_generated_links_in_emails
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo'
@@ -155,23 +161,29 @@ class MailerTest < ActiveSupport::TestCase
   end
   
   def test_message_posted_message_id
-    ActionMailer::Base.deliveries.clear
     message = Message.find(1)
     Mailer.deliver_message_posted(message)
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal Mailer.message_id_for(message), mail.message_id
     assert_nil mail.references
+    assert_select_email do
+      # link to the message
+      assert_select "a[href=?]", "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.id}", :text => message.subject
+    end
   end
   
   def test_reply_posted_message_id
-    ActionMailer::Base.deliveries.clear
     message = Message.find(3)
     Mailer.deliver_message_posted(message)
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal Mailer.message_id_for(message), mail.message_id
     assert_equal Mailer.message_id_for(message.parent), mail.references.first.to_s
+    assert_select_email do
+      # link to the reply
+      assert_select "a[href=?]", "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", :text => message.subject
+    end
   end
   
   context("#issue_add") do
