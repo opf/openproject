@@ -84,9 +84,6 @@ class Changeset < ActiveRecord::Base
     ref_keywords = Setting.commit_ref_keywords.downcase.split(",").collect(&:strip)
     # keywords used to fix issues
     fix_keywords = Setting.commit_fix_keywords.downcase.split(",").collect(&:strip)
-    # status and optional done ratio applied
-    fix_status = IssueStatus.find_by_id(Setting.commit_fix_status_id)
-    done_ratio = Setting.commit_fix_done_ratio.blank? ? nil : Setting.commit_fix_done_ratio.to_i
     
     kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw)}.join("|")
     return if kw_regexp.blank?
@@ -104,7 +101,7 @@ class Changeset < ActiveRecord::Base
       action = match[0]
       target_issue_ids = match[1].scan(/\d+/)
       target_issues = find_referenced_issues_by_id(target_issue_ids)
-      if fix_status && fix_keywords.include?(action.downcase)
+      if fix_keywords.include?(action.downcase) && fix_status = IssueStatus.find_by_id(Setting.commit_fix_status_id)
         # update status of issues
         logger.debug "Issues fixed by changeset #{self.revision}: #{issue_ids.join(', ')}." if logger && logger.debug?
         target_issues.each do |issue|
@@ -118,7 +115,9 @@ class Changeset < ActiveRecord::Base
           end
           journal = issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, csettext))
           issue.status = fix_status
-          issue.done_ratio = done_ratio if done_ratio
+          unless Setting.commit_fix_done_ratio.blank?
+            issue.done_ratio = Setting.commit_fix_done_ratio.to_i
+          end
           Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
                                   { :changeset => self, :issue => issue })
           issue.save
@@ -127,7 +126,8 @@ class Changeset < ActiveRecord::Base
       referenced_issues += target_issues
     end
     
-    self.issues = referenced_issues.uniq
+    referenced_issues.uniq!
+    self.issues = referenced_issues unless referenced_issues.empty?
   end
   
   def short_comments
@@ -167,6 +167,7 @@ class Changeset < ActiveRecord::Base
   # Finds issues that can be referenced by the commit message
   # i.e. issues that belong to the repository project, a subproject or a parent project
   def find_referenced_issues_by_id(ids)
+    return [] if ids.compact.empty?
     Issue.find_all_by_id(ids, :include => :project).select {|issue|
       project == issue.project || project.is_ancestor_of?(issue.project) || project.is_descendant_of?(issue.project)
     }
