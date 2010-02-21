@@ -209,13 +209,14 @@ sv:
   error_scm_command_failed: "Ett fel inträffade vid försök att nå versionsarkivet: {{value}}"
   error_scm_annotate: "Inlägget existerar inte eller kan inte kommenteras."
   error_issue_not_found_in_project: 'Ärendet hittades inte eller så tillhör det inte detta projekt'
-  error_no_tracker_in_project: Ingen ärendetyp är associerad med projektet. Vänligen kontrollera projektinställningarna.
-  error_no_default_issue_status: Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (Gå till "Administration -> Ärendestatus").
-  error_can_not_reopen_issue_on_closed_version: Ett ärende tilldelat en stängd version kan inte öppnas på nytt
+  error_no_tracker_in_project: 'Ingen ärendetyp är associerad med projektet. Vänligen kontrollera projektinställningarna.'
+  error_no_default_issue_status: 'Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (Gå till "Administration -> Ärendestatus").'
+  error_can_not_reopen_issue_on_closed_version: 'Ett ärende tilldelat en stängd version kan inte öppnas på nytt'
   error_can_not_archive_project: Detta projekt kan inte arkiveras
-  error_issue_done_ratios_not_updated: % klart inte uppdaterade.
-  error_workflow_copy_source: Vänligen välj källans ärendetyp eller roll
-  error_workflow_copy_target: Vänligen välj ärendetyp(er) och roll(er) för mål
+  error_issue_done_ratios_not_updated: "% klart inte uppdaterade."
+  error_workflow_copy_source: 'Vänligen välj källans ärendetyp eller roll'
+  error_workflow_copy_target: 'Vänligen välj ärendetyp(er) och roll(er) för mål'
+  error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort'
   
   warning_attachments_not_saved: "{{count}} fil(er) kunde inte sparas."
   
@@ -801,7 +802,7 @@ sv:
   label_api_access_key_created_on: API-nyckel skapad för {{value}} sedan
   
   button_login: Logga in
-  button_submit: Spara
+  button_submit: Skicka
   button_save: Spara
   button_check_all: Markera alla
   button_uncheck_all: Avmarkera alla
@@ -936,4 +937,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  error_unable_delete_issue_status: Unable to delete issue status

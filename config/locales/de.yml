@@ -1,43 +1,45 @@
-# German translations for Ruby on Rails 
+# German translations for Ruby on Rails
 # by Clemens Kofler (clemens@railway.at)
 
 de:
   date:
     formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
       default: "%d.%m.%Y"
       short: "%e. %b"
       long: "%e. %B %Y"
-      only_day: "%e"
 
     day_names: [Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]
     abbr_day_names: [So, Mo, Di, Mi, Do, Fr, Sa]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
     abbr_month_names: [~, Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
-    order: [ :Tag, :Monat, :Jahr]
-  
+    # Used in date_select and datime_select.
+    order: [:day, :month, :year]
+
   time:
     formats:
-      default: "%a, %d.%m.%Y, %H:%M Uhr"
-      short: "%e. %B, %H:%M Uhr"
-      long: "%A, %e. %B %Y, %H:%M Uhr"
+      default: "%d.%m.%Y %H:%M"
       time: "%H:%M"
-
+      short: "%e. %b %H:%M"
+      long: "%A, %e. %B %Y, %H:%M Uhr"
     am: "vormittags"
     pm: "nachmittags"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: 'eine halbe Minute'
       less_than_x_seconds:
-        zero: 'weniger als 1 Sekunde'
         one: 'weniger als 1 Sekunde'
         other: 'weniger als {{count}} Sekunden'
       x_seconds:
         one: '1 Sekunde'
         other: '{{count}} Sekunden'
       less_than_x_minutes:
-        zero: 'weniger als 1 Minute'
-        one: 'weniger als eine Minute'
+        one: 'weniger als 1 Minute'
         other: 'weniger als {{count}} Minuten'
       x_minutes:
         one: '1 Minute'
@@ -47,23 +49,23 @@ de:
         other: 'etwa {{count}} Stunden'
       x_days:
         one: '1 Tag'
-        other: '{{count}} Tage'
+        other: '{{count}} Tagen'
       about_x_months:
         one: 'etwa 1 Monat'
-        other: 'etwa {{count}} Monate'
+        other: 'etwa {{count}} Monaten'
       x_months:
         one: '1 Monat'
-        other: '{{count}} Monate'
+        other: '{{count}} Monaten'
       about_x_years:
         one: 'etwa 1 Jahr'
-        other: 'etwa {{count}} Jahre'
+        other: 'etwa {{count}} Jahren'
       over_x_years:
         one: 'mehr als 1 Jahr'
-        other: 'mehr als {{count}} Jahre'
+        other: 'mehr als {{count}} Jahren'
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
-      
+        one:   "fast 1 Jahr"
+        other: "fast {{count}} Jahren"
+
   number:
     format:
       precision: 2
@@ -72,10 +74,10 @@ de:
     currency:
       format:
         unit: '€'
-        format: '%n%u'
-        separator: 
-        delimiter: 
-        precision: 
+        format: '%n %u'
+        separator:
+        delimiter:
+        precision:
     percentage:
       format:
         delimiter: ""
@@ -97,17 +99,17 @@ de:
           gb: "GB"
           tb: "TB"
 
+
+# Used in array.to_sentence.
   support:
     array:
       sentence_connector: "und"
       skip_last_comma: true
-        
+
   activerecord:
     errors:
       template:
-        header:
-          one:    "Konnte dieses {{model}} Objekt nicht speichern: 1 Fehler."
-          other:  "Konnte dieses {{model}} Objekt nicht speichern: {{count}} Fehler."
+        header: "Dieses {{model}}-Objekt konnte nicht gespeichert werden: {{count}} Fehler."
         body: "Bitte überprüfen Sie die folgenden Felder:"
 
       messages:
@@ -123,6 +125,7 @@ de:
         wrong_length: "hat die falsche Länge (muss genau {{count}} Zeichen haben)"
         taken: "ist bereits vergeben"
         not_a_number: "ist keine Zahl"
+        not_a_date: "is kein gültiges Datum"
         greater_than: "muss größer als {{count}} sein"
         greater_than_or_equal_to: "muss größer oder gleich {{count}} sein"
         equal_to: "muss genau {{count}} sein"
@@ -133,10 +136,9 @@ de:
         greater_than_start_date: "muss größer als Anfangsdatum sein"
         not_same_project: "gehört nicht zum selben Projekt"
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
-      models:
-  
+
   actionview_instancetag_blank_option: Bitte auswählen
-  
+
   general_text_No: 'Nein'
   general_text_Yes: 'Ja'
   general_text_no: 'nein'
@@ -147,17 +149,17 @@ de:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Konto wurde erfolgreich aktualisiert.
-  notice_account_invalid_creditentials: Benutzer oder Kennwort unzulässig
+  notice_account_invalid_creditentials: Benutzer oder Kennwort ist ungültig.
   notice_account_password_updated: Kennwort wurde erfolgreich aktualisiert.
-  notice_account_wrong_password: Falsches Kennwort
+  notice_account_wrong_password: Falsches Kennwort.
   notice_account_register_done: Konto wurde erfolgreich angelegt.
   notice_account_unknown_email: Unbekannter Benutzer.
   notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs-Quelle. Unmöglich, das Kennwort zu ändern.
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt.
   notice_account_activated: Ihr Konto ist aktiviert. Sie können sich jetzt anmelden.
-  notice_successful_create: Erfolgreich angelegt 
+  notice_successful_create: Erfolgreich angelegt
   notice_successful_update: Erfolgreich aktualisiert.
   notice_successful_delete: Erfolgreich gelöscht.
   notice_successful_connection: Verbindung erfolgreich.
@@ -167,20 +169,32 @@ de:
   notice_email_sent: "Eine E-Mail wurde an {{value}} gesendet."
   notice_email_error: "Beim Senden einer E-Mail ist ein Fehler aufgetreten ({{value}})."
   notice_feeds_access_key_reseted: Ihr Atom-Zugriffsschlüssel wurde zurückgesetzt.
+  notice_api_access_key_reseted: Ihr API-Zugriffsschlüssel wurde zurückgesetzt.
   notice_failed_to_save_issues: "{{count}} von {{total}} ausgewählten Tickets konnte(n) nicht gespeichert werden: {{ids}}."
   notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
   notice_default_data_loaded: Die Standard-Konfiguration wurde erfolgreich geladen.
-  notice_unable_delete_version: Die Version konnte nicht gelöscht werden
-  
+  notice_unable_delete_version: Die Version konnte nicht gelöscht werden.
+  notice_issue_done_ratios_updated: Der Ticket-Fortschritt wurde aktualisiert.
+
   error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: {{value}}"
   error_scm_not_found: Eintrag und/oder Revision existiert nicht im Projektarchiv.
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: {{value}}"
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_issue_not_found_in_project: 'Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt.'
-  
-  warning_attachments_not_saved: "{{count}} Datei(en) konnten nicht gespeichert werden."
-  
+  error_no_tracker_in_project: Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
+  error_no_default_issue_status: Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Ticket-Status").
+  error_can_not_reopen_issue_on_closed_version: Das Ticket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden.
+  error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden.
+  error_issue_done_ratios_not_updated: Der Ticket-Fortschritt wurde nicht aktualisiert.
+  error_workflow_copy_source: Bitte wählen Sie einen Quell-Tracker und eine Quell-Rolle.
+  error_workflow_copy_target: Bitte wählen Sie die Ziel-Tracker und -Rollen.
+  error_unable_delete_issue_status: "Der Ticket-Status konnte nicht gelöscht werden."
+
+  warning_attachments_not_saved:
+    one: "1 Datei konnte nicht gespeichert werden."
+    other: "{{count}} Dateien konnten nicht gespeichert werden."
+
   mail_subject_lost_password: "Ihr {{value}} Kennwort"
   mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
   mail_subject_register: "{{value}} Kontoaktivierung"
@@ -191,10 +205,14 @@ de:
   mail_body_account_activation_request: "Ein neuer Benutzer ({{value}}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_subject_reminder: "{{count}} Tickets müssen in den nächsten Tagen abgegeben werden"
   mail_body_reminder: "{{count}} Tickets, die Ihnen zugewiesen sind, müssen in den nächsten {{days}} Tagen abgegeben werden:"
-  
+  mail_subject_wiki_content_added: "Wiki-Seite '{{page}}' hinzugefügt"
+  mail_body_wiki_content_added: "Die Wiki-Seite '{{page}}' wurde von {{author}} hinzugefügt."
+  mail_subject_wiki_content_updated: "Wiki-Seite '{{page}}' erfolgreich aktualisiert"
+  mail_body_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde von {{author}} aktualisiert."
+
   gui_validation_error: 1 Fehler
   gui_validation_error_plural: "{{count}} Fehler"
-  
+
   field_name: Name
   field_description: Beschreibung
   field_summary: Zusammenfassung
@@ -279,7 +297,13 @@ de:
   field_default_value: Standardwert
   field_comments_sorting: Kommentare anzeigen
   field_parent_title: Übergeordnete Seite
-  
+  field_editable: Bearbeitbar
+  field_watcher: Beobachter
+  field_identity_url: OpenID-URL
+  field_content: Inhalt
+  field_group_by: Gruppiere Ergebnisse nach
+  field_sharing: Gemeinsame Verwendung
+
   setting_app_title: Applikations-Titel
   setting_app_subtitle: Applikations-Untertitel
   setting_welcome_text: Willkommenstext
@@ -314,17 +338,35 @@ de:
   setting_activity_days_default: Anzahl Tage pro Seite der Projekt-Aktivität
   setting_display_subprojects_issues: Tickets von Unterprojekten im Hauptprojekt anzeigen
   setting_enabled_scm: Aktivierte Versionskontrollsysteme
+  setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
   setting_mail_handler_api_key: API-Schlüssel
   setting_sequential_project_identifiers: Fortlaufende Projektkennungen generieren
-  setting_gravatar_enabled: Gravatar Benutzerbilder benutzen
+  setting_gravatar_enabled: Gravatar-Benutzerbilder benutzen
+  setting_gravatar_default: Standard-Gravatar-Bild
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
-  
+  setting_file_max_size_displayed: Maximale Größe inline angezeigter Textdateien
+  setting_repository_log_display_limit: Maximale Anzahl anzuzeigender Revisionen in der Historie einer Datei
+  setting_openid: Erlaube OpenID-Anmeldung und -Registrierung
+  setting_password_min_length: Mindestlänge des Kennworts
+  setting_new_project_user_role_id: Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt
+  setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
+  setting_issue_done_ratio: Berechne den Ticket-Fortschritt mittels
+  setting_issue_done_ratio_issue_field: Ticket-Feld %-erledigt
+  setting_issue_done_ratio_issue_status: Ticket-Status
+  setting_start_of_week: Wochenanfang
+  setting_rest_api_enabled: REST-Schnittstelle aktivieren
+  setting_cache_formatted_text: Formatierten Text im Cache speichern
+
+  permission_add_project: Projekt erstellen
+  permission_add_subprojects: Unterprojekte erstellen
   permission_edit_project: Projekt bearbeiten
   permission_select_project_modules: Projektmodule auswählen
   permission_manage_members: Mitglieder verwalten
+  permission_manage_project_activities: Aktivitäten (Zeiterfassung) verwalten
   permission_manage_versions: Versionen verwalten
   permission_manage_categories: Ticket-Kategorien verwalten
+  permission_view_issues: Tickets anzeigen
   permission_add_issues: Tickets hinzufügen
   permission_edit_issues: Tickets bearbeiten
   permission_manage_issue_relations: Ticket-Beziehungen verwalten
@@ -339,6 +381,7 @@ de:
   permission_view_calendar: Kalender ansehen
   permission_view_issue_watchers: Liste der Beobachter ansehen
   permission_add_issue_watchers: Beobachter hinzufügen
+  permission_delete_issue_watchers: Beobachter löschen
   permission_log_time: Aufwände buchen
   permission_view_time_entries: Gebuchte Aufwände ansehen
   permission_edit_time_entries: Gebuchte Aufwände bearbeiten
@@ -368,7 +411,8 @@ de:
   permission_edit_own_messages: Eigene Forenbeiträge bearbeiten
   permission_delete_messages: Forenbeiträge löschen
   permission_delete_own_messages: Eigene Forenbeiträge löschen
-  
+  permission_export_wiki_pages: Wiki-Seiten exportieren
+
   project_module_issue_tracking: Ticket-Verfolgung
   project_module_time_tracking: Zeiterfassung
   project_module_news: News
@@ -377,10 +421,11 @@ de:
   project_module_wiki: Wiki
   project_module_repository: Projektarchiv
   project_module_boards: Foren
-  
+
   label_user: Benutzer
   label_user_plural: Benutzer
   label_user_new: Neuer Benutzer
+  label_user_anonymous: Anonym
   label_project: Projekt
   label_project_new: Neues Projekt
   label_project_plural: Projekte
@@ -427,6 +472,7 @@ de:
   label_information_plural: Informationen
   label_please_login: Anmelden
   label_register: Registrieren
+  label_login_with_open_id_option: oder mit OpenID anmelden
   label_password_lost: Kennwort vergessen
   label_home: Hauptseite
   label_my_page: Meine Seite
@@ -451,6 +497,7 @@ de:
   label_auth_source_new: Neuer Authentifizierungs-Modus
   label_auth_source_plural: Authentifizierungs-Arten
   label_subproject_plural: Unterprojekte
+  label_subproject_new: Neues Unterprojekt
   label_and_its_subprojects: "{{value}} und dessen Unterprojekte"
   label_min_max_length: Länge (Min. - Max.)
   label_list: Liste
@@ -485,6 +532,7 @@ de:
   label_version: Version
   label_version_new: Neue Version
   label_version_plural: Versionen
+  label_close_versions: Vollständige Versionen schließen
   label_confirmation: Bestätigung
   label_export_to: "Auch abrufbar als:"
   label_read: Lesen...
@@ -493,18 +541,9 @@ de:
   label_open_issues_plural: offen
   label_closed_issues: geschlossen
   label_closed_issues_plural: geschlossen
-  label_x_open_issues_abbr_on_total:
-    zero:  0 offen / {{total}}
-    one:   1 offen / {{total}}
-    other: "{{count}} offen / {{total}}"
-  label_x_open_issues_abbr:
-    zero:  0 offen
-    one:   1 offen
-    other: "{{count}} offen"
-  label_x_closed_issues_abbr:
-    zero:  0 geschlossen
-    one:   1 geschlossen
-    other: "{{count}} geschlossen"
+  label_x_open_issues_abbr_on_total: "{{count}} offen / {{total}}"
+  label_x_open_issues_abbr: "{{count}} offen"
+  label_x_closed_issues_abbr: "{{count}} geschlossen"
   label_total: Gesamtzahl
   label_permissions: Berechtigungen
   label_current_status: Gegenwärtiger Status
@@ -528,8 +567,8 @@ de:
   label_comment: Kommentar
   label_comment_plural: Kommentare
   label_x_comments:
-    zero: kein Kommentar
-    one: ein Kommentar
+    zero: keine Kommentare
+    one: 1 Kommentar
     other: "{{count}} Kommentare"
   label_comment_add: Kommentar hinzufügen
   label_comment_added: Kommentar hinzugefügt
@@ -543,6 +582,8 @@ de:
   label_not_equals: ist nicht
   label_in_less_than: in weniger als
   label_in_more_than: in mehr als
+  label_greater_or_equal: ">="
+  label_less_or_equal: "<="
   label_in: an
   label_today: heute
   label_all_time: gesamter Zeitraum
@@ -565,8 +606,11 @@ de:
   label_browse: Codebrowser
   label_modification: "{{count}} Änderung"
   label_modification_plural: "{{count}} Änderungen"
+  label_branch: Zweig
+  label_tag: Markierung
   label_revision: Revision
   label_revision_plural: Revisionen
+  label_revision_id: Revision {{value}}
   label_associated_revisions: Zugehörige Revisionen
   label_added: hinzugefügt
   label_modified: geändert
@@ -576,6 +620,7 @@ de:
   label_latest_revision: Aktuellste Revision
   label_latest_revision_plural: Aktuellste Revisionen
   label_view_revisions: Revisionen anzeigen
+  label_view_all_revisions: Alle Revisionen anzeigen
   label_max_size: Maximale Größe
   label_sort_highest: An den Anfang
   label_sort_higher: Eins höher
@@ -609,7 +654,7 @@ de:
   label_commits_per_month: Übertragungen pro Monat
   label_commits_per_author: Übertragungen pro Autor
   label_view_diff: Unterschiede anzeigen
-  label_diff_inline: kombiniert
+  label_diff_inline: einspaltig
   label_diff_side_by_side: nebeneinander
   label_options: Optionen
   label_copy_workflow_from: Workflow kopieren von
@@ -638,6 +683,8 @@ de:
   label_board: Forum
   label_board_new: Neues Forum
   label_board_plural: Foren
+  label_board_locked: Gesperrt
+  label_board_sticky: Wichtig (immer oben)
   label_topic_plural: Themen
   label_message_plural: Forenbeiträge
   label_message_last: Letzter Forenbeitrag
@@ -653,6 +700,8 @@ de:
   label_language_based: Sprachabhängig
   label_sort_by: "Sortiert nach {{value}}"
   label_send_test_email: Test-E-Mail senden
+  label_feeds_access_key: RSS-Zugriffsschlüssel
+  label_missing_feeds_access_key: Der RSS-Zugriffsschlüssel fehlt.
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor {{value}} erstellt"
   label_module_plural: Module
   label_added_time_by: "Von {{author}} vor {{age}} hinzugefügt"
@@ -693,7 +742,31 @@ de:
   label_generate_key: Generieren
   label_issue_watchers: Beobachter
   label_example: Beispiel
-  
+  label_display: Anzeige
+  label_sort: Sortierung
+  label_ascending: Aufsteigend
+  label_descending: Absteigend
+  label_date_from_to: von {{start}} bis {{end}}
+  label_wiki_content_added: Die Wiki-Seite wurde erfolgreich hinzugefügt.
+  label_wiki_content_updated: Die Wiki-Seite wurde erfolgreich aktualisiert.
+  label_group: Gruppe
+  label_group_plural: Gruppen
+  label_group_new: Neue Gruppe
+  label_time_entry_plural: Benötigte Zeit
+  label_version_sharing_none: Nicht gemeinsam verwenden
+  label_version_sharing_descendants: Mit Unterprojekten
+  label_version_sharing_hierarchy: Mit Projekthierarchie
+  label_version_sharing_tree: Mit Projektbaum
+  label_version_sharing_system: Mit allen Projekten
+  label_update_issue_done_ratios: Ticket-Fortschritt aktualisieren
+  label_copy_source: Quelle
+  label_copy_target: Ziel
+  label_copy_same_as_target: So wie das Ziel
+  label_display_used_statuses_only: Zeige nur Status an, die von diesem Tracker verwendet werden
+  label_api_access_key: API-Zugriffsschlüssel
+  label_missing_api_access_key: Der API-Zugriffsschlüssel fehlt.
+  label_api_access_key_created_on: Der API-Zugriffsschlüssel wurde vor {{value}} erstellt
+
   button_login: Anmelden
   button_submit: OK
   button_save: Speichern
@@ -701,6 +774,7 @@ de:
   button_uncheck_all: Alles abwählen
   button_delete: Löschen
   button_create: Anlegen
+  button_create_and_continue: Anlegen + nächstes Ticket
   button_test: Testen
   button_edit: Bearbeiten
   button_add: Hinzufügen
@@ -713,6 +787,7 @@ de:
   button_list: Liste
   button_view: Anzeigen
   button_move: Verschieben
+  button_move_and_follow: Verschieben und Ticket anzeigen
   button_back: Zurück
   button_cancel: Abbrechen
   button_activate: Aktivieren
@@ -728,15 +803,24 @@ de:
   button_rename: Umbenennen
   button_change_password: Kennwort ändern
   button_copy: Kopieren
+  button_copy_and_follow: Kopieren und Ticket anzeigen
   button_annotate: Annotieren
   button_update: Aktualisieren
   button_configure: Konfigurieren
   button_quote: Zitieren
-  
+  button_duplicate: Duplizieren
+  button_show: Anzeigen
+
   status_active: aktiv
   status_registered: angemeldet
   status_locked: gesperrt
-  
+
+  version_status_closed: abgeschlossen
+  version_status_locked: gesperrt
+  version_status_open: offen
+
+  field_active: Aktiv
+
   text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll.
   text_regexp_info: z. B. ^[A-Z0-9]+$
   text_min_max_length_info: 0 heißt keine Beschränkung
@@ -744,6 +828,10 @@ de:
   text_subprojects_destroy_warning: "Dessen Unterprojekte ({{value}}) werden ebenfalls gelöscht."
   text_workflow_edit: Workflow zum Bearbeiten auswählen
   text_are_you_sure: Sind Sie sicher?
+  text_journal_changed: "{{label}} wurde von {{old}} zu {{new}} geändert"
+  text_journal_set_to: "{{label}} wurde auf {{value}} gesetzt"
+  text_journal_deleted: "{{label}} {{old}} wurde gelöscht"
+  text_journal_added: "{{label}} {{value}} wurde hinzugefügt"
   text_tip_task_begin_day: Aufgabe, die an diesem Tag beginnt
   text_tip_task_end_day: Aufgabe, die an diesem Tag endet
   text_tip_task_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
@@ -754,6 +842,7 @@ de:
   text_tracker_no_workflow: Kein Workflow für diesen Tracker definiert.
   text_unallowed_characters: Nicht erlaubte Zeichen
   text_comma_separated: Mehrere Werte erlaubt (durch Komma getrennt).
+  text_line_separated: Mehrere Werte sind erlaubt (eine Zeile pro Wert).
   text_issues_ref_in_commit_messages: Ticket-Beziehungen und -Status in Commit-Log-Meldungen
   text_issue_added: "Ticket {{id}} wurde erstellt von {{author}}."
   text_issue_updated: "Ticket {{id}} wurde aktualisiert von {{author}}."
@@ -776,12 +865,20 @@ de:
   text_assign_time_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_user_wrote: "{{value}} schrieb:"
-  text_enumeration_destroy_question: "{{count}} Objekte sind diesem Wert zugeordnet."
+  text_enumeration_destroy_question: "{{count}} Objekt(e) sind diesem Wert zugeordnet."
   text_enumeration_category_reassign_to: 'Die Objekte stattdessen diesem Wert zuordnen:'
   text_email_delivery_not_configured: "Der SMTP-Server ist nicht konfiguriert und Mailbenachrichtigungen sind ausgeschaltet.\nNehmen Sie die Einstellungen für Ihren SMTP-Server in config/email.yml vor und starten Sie die Applikation neu."
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen Redmine- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
   text_diff_truncated: '... Dieser Diff wurde abgeschnitten, weil er die maximale Anzahl anzuzeigender Zeilen überschreitet.'
-  
+  text_custom_field_possible_values_info: 'Eine Zeile pro Wert'
+  text_wiki_page_destroy_question: "Diese Seite hat {{descendants}} Unterseite(n). Was möchten Sie tun?"
+  text_wiki_page_nullify_children: Verschiebe die Unterseiten auf die oberste Ebene
+  text_wiki_page_destroy_children: Lösche alle Unterseiten
+  text_wiki_page_reassign_children: Ordne die Unterseiten dieser Seite zu
+  text_own_membership_delete_confirmation: |-
+    Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.
+    Sind Sie sicher, dass Sie dies tun möchten?
+
   default_role_manager: Manager
   default_role_developper: Entwickler
   default_role_reporter: Reporter
@@ -803,108 +900,8 @@ de:
   default_priority_immediate: Sofort
   default_activity_design: Design
   default_activity_development: Entwicklung
-  
+
   enumeration_issue_priorities: Ticket-Prioritäten
   enumeration_doc_categories: Dokumentenkategorien
   enumeration_activities: Aktivitäten (Zeiterfassung)
-  field_editable: Bearbeitbar
-  label_display: Anzeige
-  button_create_and_continue: Anlegen und weiter
-  text_custom_field_possible_values_info: 'Eine Zeile pro Wert'
-  setting_repository_log_display_limit: Maximale Anzahl angezeigter Revisionen des Datei Logs
-  setting_file_max_size_displayed: Maximale Größe der abgezeigten Textdatei 
-  field_watcher: Beobachter
-  setting_openid: Erlaube OpenID Anmeldung und Registrierung
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: oder Anmeldung mit OpenID
-  field_content: Inhalt
-  label_descending: Absteigend
-  label_sort: Sortierung
-  label_ascending: Aufsteigend
-  label_date_from_to: von {{start}} bis {{end}}
-  label_greater_or_equal: ">="
-  label_less_or_equal: "<="
-  text_wiki_page_destroy_question: Diese Seite hat {{descendants}} Unterseite(n). Sind Sie sicher?
-  text_wiki_page_reassign_children: Ordne Unterseite dieser Seite zu
-  text_wiki_page_nullify_children: Behalte Unterseite als Hauptseite
-  text_wiki_page_destroy_children: Lösche alle Unterseiten
-  setting_password_min_length: Mindestlänge des Passworts
-  field_group_by: Gruppiere Ergebnisse nach
-  mail_subject_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde erfolgreich aktualisiert."
-  label_wiki_content_added: Die Wiki-Seite wurde erfolgreich hinzugefügt.
-  mail_subject_wiki_content_added: "Wiki-Seite '{{page}}' hinzugefügt"
-  mail_body_wiki_content_added: "Die Wiki-Seite '{{page}}' wurde von {{author}} hinzugefügt."
-  label_wiki_content_updated: Die Wiki-Seite wurde erfolgreich aktualisiert.
-  mail_body_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde von {{author}} aktualisiert."
-  permission_add_project: Projekt erstellen.
-  setting_new_project_user_role_id: Die Rolle ist einem Nicht-Administrator zugeordnet, der ein Projekt erstellt.
-  label_view_all_revisions: Alle Revisionen anschauen.
-  label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
-  error_no_default_issue_status: Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Ticket-Status").
-  text_journal_changed: "{{label}} wurde geändert von {{old}} zu {{new}}."
-  text_journal_set_to: "{{label}} wurde gesetzt auf {{value}}."
-  text_journal_deleted: "{{label}} wurde gelöscht (Wert: {{old}})."
-  label_group_plural: Gruppen
-  label_group: Gruppe
-  label_group_new: Neue Gruppe
-  label_time_entry_plural: Benötigte Zeit
-  text_journal_added: "{{label}} {{value}} hinzugefügt"
-  field_active: Aktiv
-  enumeration_system_activity: System Aktivität
-  permission_delete_issue_watchers: Beobachter löschen
-  version_status_closed: geschlossen
-  version_status_locked: gesperrt
-  version_status_open: offen
-  error_can_not_reopen_issue_on_closed_version: Das Ticket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden.
-  label_user_anonymous: Anonym
-  button_move_and_follow: Verschieben und beobachten
-  setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
-  setting_gravatar_default: Standard Gravatar-Bild
-  field_sharing: gemeinsam verwenden
-  label_version_sharing_hierarchy: Mit Projekthierarchie
-  label_version_sharing_system: Mit allen Projekten
-  label_version_sharing_descendants: Mit Unterprojekten
-  label_version_sharing_tree: Mit Projektbaum
-  label_version_sharing_none: Nicht geteilt
-  error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden.
-  button_duplicate: Duplikat
-  button_copy_and_follow: Kopieren und beobachten
-  label_copy_source: Quelle
-  setting_issue_done_ratio: Berechne den Ticket-Fortschritt durch
-  setting_issue_done_ratio_issue_status: Verwende den Ticketstatus.
-  error_issue_done_ratios_not_updated: Ticket-Fortschritt wurde nicht geändert.
-  error_workflow_copy_target: Bitte wählen Sie Ziel-Tracker und Rolle(n).
-  setting_issue_done_ratio_issue_field: Benutze das Ticket-Feld.
-  label_copy_same_as_target: So wie Ziel
-  label_copy_target: Ziel
-  notice_issue_done_ratios_updated: Ticketfortschritt aktualisiert.
-  error_workflow_copy_source: Bitte wählen Sie einen Quell-Tracker oder eine Quell-Rolle.
-  label_update_issue_done_ratios: Aktualisiere Ticketfortschritt
-  setting_start_of_week: Wochenanfang
-  permission_view_issues: Tickets anzeigen
-  label_display_used_statuses_only: Zeige nur Status an, die von diesem Tracker verwendet werden.
-  label_api_access_key: API-Zugriffsschlüssel
-  text_line_separated: Mehrere Werte sind erlaubt (eine Zeile pro Wert).
-  label_revision_id: Revision {{value}}
-  label_api_access_key_created_on: Der API-Zugriffsschlüssel wurde vor {{value}} erstellt.
-  label_feeds_access_key: RSS-Zugriffsschlüssel
-  notice_api_access_key_reseted: Ihr API-Zugriffsschlüssel wurde zurückgesetzt.
-  setting_rest_api_enabled: REST Schnittstelle aktivieren.
-  button_show: Anzeigen
-  label_missing_api_access_key: Der API-Zugriffsschlüssel fehlt.
-  label_missing_feeds_access_key: Der RSS-Zugriffsschlüssel fehlt.
-  setting_mail_handler_body_delimiters: Schneide E-Mails nach einer der folgenden Zeile ab.
-  permission_add_subprojects: Unterprojekte erstellen.
-  label_subproject_new: Neues Unterprojekt
-  text_own_membership_delete_confirmation: |-
-    Sie sind dabei, einige oder alle ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr sehen oder editieren dürfen. 
-    Sind Sie wirklich sicher, dass Sie dies tun möchten?
-  label_close_versions: Vollständige Versionen schließen
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
+  enumeration_system_activity: System-Aktivität
