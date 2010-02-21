@@ -114,7 +114,7 @@ module Redmine
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
 
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --find-copies-harder --raw --date=iso --pretty=fuller"
+          cmd = "#{GIT_BIN} --git-dir #{target('')} log --raw --date=iso --pretty=fuller"
           cmd << " --reverse" if options[:reverse]
           cmd << " --all" if options[:all]
           cmd << " -n #{options[:limit]} " if options[:limit]

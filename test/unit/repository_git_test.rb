@@ -35,7 +35,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.reload
       
       assert_equal 12, @repository.changesets.count
-      assert_equal 20, @repository.changes.count
+      assert_equal 21, @repository.changes.count
       
       commit = @repository.changesets.find(:first, :order => 'committed_on ASC')
       assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
