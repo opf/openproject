@@ -286,21 +286,23 @@ module Redmine
         end
 
         def save(repo)
-          if repo.changesets.find_by_scmid(scmid.to_s).nil?
-            changeset = Changeset.create!(
+          Changeset.transaction do
+            changeset = Changeset.new(
               :repository => repo,
               :revision => identifier,
               :scmid => scmid,
               :committer => author, 
               :committed_on => time,
               :comments => message)
-
-            paths.each do |file|
-              Change.create!(
-                :changeset => changeset,
-                :action => file[:action],
-                :path => file[:path])
-            end   
+            
+            if changeset.save
+              paths.each do |file|
+                Change.create(
+                  :changeset => changeset,
+                  :action => file[:action],
+                  :path => file[:path])
+              end
+            end
           end
         end
       end
