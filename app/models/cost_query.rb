@@ -103,6 +103,28 @@ class CostQuery < ActiveRecord::Base
     self.group_by ||= {}
   end
   
+  def display_time_entries
+#    read_attribute("display_time_entries") && (
+      !self.filters || !self.filters.any? do |f|
+        f["enabled"] == "1" && f["scope"] == "costs" && f["column_name"] == "cost_type_id" && (
+          (f["operator"] == "!" &&  f["values"].include?("")) ||
+          (f["operator"] == "=" && !f["values"].include?(""))
+        )
+      end
+#    )
+  end
+  
+  def display_cost_entries
+#    read_attribute("display_cost_entries") && (
+      !self.filters || !self.filters.any? do |f|
+        f["enabled"] == "1" && f["scope"] == "costs" && f["column_name"] == "cost_type_id" && (
+          (f["operator"] == "=" && f["values"].all? {|v| v == ""})
+        )
+      end
+#    )
+  end
+  
+  
   def self.operators
     # These are the operators used by filter types.
     
@@ -157,7 +179,7 @@ class CostQuery < ActiveRecord::Base
 
     @available_filters = {
       :costs => {
-        "cost_type_id" => { :type => :list_optional, :order => 2, :applies => [:cost_entries], :flags => [], :db_table => CostType.table_name, :db_field => "id", :values => CostType.find(:all, :order => 'name').collect{|s| [s.name, s.id.to_s] }},
+        "cost_type_id" => { :type => :list, :order => 2, :applies => [:cost_entries], :flags => [], :db_table => CostType.table_name, :db_field => "id", :values => [[l(:field_labor_costs), ""]] + CostType.find(:all, :order => 'name').collect{|s| [s.name, s.id.to_s] }},
         "activity_id" => { :type => :list_optional, :order => 3, :applies => [:time_entries], :flags => [], :db_table => TimeEntryActivity.table_name, :db_field => "id", :values => TimeEntryActivity.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] }},
         "created_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 4 },                        
         "updated_on" => { :type => :date_exact, :applies => [:time_entries, :cost_entries], :flags => [], :order => 5 },
@@ -229,6 +251,10 @@ class CostQuery < ActiveRecord::Base
     
     match = filters.select {|f| f[:scope] == scope.to_s && f[:column_name] == column_name.to_s}
     return match.blank? ? nil : match[0]
+  end
+  
+  def clean_filters
+    
   end
   
   MAGIC_GROUP_KEYS = [:block, :time, :display, :db_field, :other_group]
@@ -645,9 +671,9 @@ private
     sql = ''
     case operator
     when "="
-      sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")" unless value.blank?
+      sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| val.present? ? "'#{connection.quote_string(val)}'" : "NULL"}.join(",") + ")" unless value.blank?
     when "!"
-      sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
+      sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| val.present? ? "'#{connection.quote_string(val)}'" : "NULL"}.join(",") + "))"
     when "!*"
       sql = "#{db_table}.#{db_field} IS NULL"
       sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter

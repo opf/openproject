@@ -14,8 +14,8 @@ module CostsIssuePatch
       has_many :cost_entries, :dependent => :delete_all
 
       # disabled for now, implements part of ticket blocking
-      #alias_method_chain :validate, :cost_object
-
+      alias_method_chain :validate, :cost_object
+      
       def spent_hours
         # overwritten method
         @spent_hours ||= self.time_entries.visible(User.current).sum(:hours) || 0
@@ -30,13 +30,16 @@ module CostsIssuePatch
   module InstanceMethods
     def validate_with_cost_object
       if cost_object_id_changed?
-        if cost_object_id_was.nil?
-          # formerly unassigned ticket
-          errors.add :cost_object_id, :activerecord_error_invalid if cost_object.blocked?
-        else
-          old_cost_object = CostObject.find(cost_object_id_was)
-          errors.add :cost_object_id, :activerecord_error_invalid if old_cost_object.blocked?
-        end
+        errors.add :cost_object_id, :activerecord_error_invalid unless project.cost_object_ids.include? cost_object_id
+        
+        ## disabled for now, implements part of ticket blocking
+        # if cost_object_id_was.nil?
+        #   # formerly unassigned ticket
+        #   errors.add :cost_object_id, :activerecord_error_invalid if cost_object.blocked?
+        # else
+        #   old_cost_object = CostObject.find(cost_object_id_was)
+        #   errors.add :cost_object_id, :activerecord_error_invalid if old_cost_object.blocked?
+        # end
       end
       
       validate_without_cost_object

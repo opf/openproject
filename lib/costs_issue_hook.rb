@@ -12,7 +12,31 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
   # Renders a select tag with all the Cost Objects for the bulk edit page
   render_on :view_issues_bulk_edit_details_bottom, :partial => 'hooks/view_issues_bulk_edit_details_bottom'
   
+  render_on :view_issues_move_bottom, :partial => 'hooks/view_issues_move_bottom'
   
+  
+  # Updates the cost object after a move
+  # 
+  # Context:
+  # * params => Request parameters
+  # * issue => Issue to move
+  # * target_project => Target of the move
+  # * copy => true, if the issues are copied rather than moved
+  def controller_issues_move_before_save(context={})
+    # FIXME: In case of copy==true, this will break stuff if the original issue is saved
+
+    case params[:cost_object_id]
+    when "" # a.k.a "(No change)"
+      # cost objects HAVE to be changed if move is performed across project boundaries
+      # as the are project specific
+      issue.cost_object_id = nil unless issue.project == context[:target_project]
+    when "none"
+      issue.cost_object_id = nil
+    else
+      issue.cost_object_id = params[:cost_object_id]
+    end
+  end
+
   
   # Renders a select tag with all the Cost Objects for the bulk edit page
   #
