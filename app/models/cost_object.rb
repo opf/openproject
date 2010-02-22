@@ -5,7 +5,7 @@ class CostObject < ActiveRecord::Base
 
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :project
-  has_many :issues
+  has_many :issues, :dependent => :nullify
   
   has_many :cost_entries, :through => :issues
   has_many :time_entries, :through => :issues
