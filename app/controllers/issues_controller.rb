@@ -260,29 +260,16 @@ class IssuesController < ApplicationController
   # Bulk edit a set of issues
   def bulk_edit
     if request.post?
-      tracker = params[:tracker_id].blank? ? nil : @project.trackers.find_by_id(params[:tracker_id])
-      status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
-      priority = params[:priority_id].blank? ? nil : IssuePriority.find_by_id(params[:priority_id])
-      assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
-      category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
-      fixed_version = (params[:fixed_version_id].blank? || params[:fixed_version_id] == 'none') ? nil : @project.shared_versions.find_by_id(params[:fixed_version_id])
-      custom_field_values = params[:custom_field_values] ? params[:custom_field_values].reject {|k,v| v.blank?} : nil
-
-      # Need to merge in the records found above for Issue#bulk_edit.
-      # Assuming this is done so the associations are only looked up once.
-      merged_params = params.merge({
-                                     :tracker => tracker,
-                                     :status => status,
-                                     :priority => priority,
-                                     :assigned_to => assigned_to,
-                                     :category => category,
-                                     :fixed_version => fixed_version,
-                                     :custom_field_values => custom_field_values
-                                   })
+      attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
+      attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
+      attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
       
-      unsaved_issue_ids = []      
+      unsaved_issue_ids = []
       @issues.each do |issue|
-        unless issue.bulk_edit(merged_params)
+        journal = issue.init_journal(User.current, params[:notes])
+        issue.safe_attributes = attributes
+        call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
+        unless issue.save
           # Keep unsaved issue ids to display them in flash error
           unsaved_issue_ids << issue.id
         end

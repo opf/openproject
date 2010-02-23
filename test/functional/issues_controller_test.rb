@@ -899,20 +899,21 @@ class IssuesControllerTest < ActionController::TestCase
     field = CustomField.find(9)
     assert !field.is_for_all?
     assert_equal 'date', field.field_format
-    assert_tag :input, :attributes => {:name => 'custom_field_values[9]'}
+    assert_tag :input, :attributes => {:name => 'issue[custom_field_values][9]'}
     
     # System wide custom field
     assert CustomField.find(1).is_for_all?
-    assert_tag :select, :attributes => {:name => 'custom_field_values[1]'}
+    assert_tag :select, :attributes => {:name => 'issue[custom_field_values][1]'}
   end
 
   def test_bulk_edit
     @request.session[:user_id] = 2
     # update issues priority
-    post :bulk_edit, :ids => [1, 2], :priority_id => 7,
-                                     :assigned_to_id => '',
-                                     :custom_field_values => {'2' => ''},
-                                     :notes => 'Bulk editing'
+    post :bulk_edit, :ids => [1, 2], :notes => 'Bulk editing',
+                                     :issue => {:priority_id => 7,
+                                                :assigned_to_id => '',
+                                                :custom_field_values => {'2' => ''}}
+                                     
     assert_response 302
     # check that the issues were updated
     assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
@@ -930,10 +931,12 @@ class IssuesControllerTest < ActionController::TestCase
     post(:bulk_edit,
          {
            :ids => [1, 2],
-           :priority_id => 7,
-           :assigned_to_id => '',
-           :custom_field_values => {'2' => ''},
-           :notes => 'Bulk editing'
+           :notes => 'Bulk editing',
+           :issue => {
+             :priority_id => 7,
+             :assigned_to_id => '',
+             :custom_field_values => {'2' => ''}
+           }
          })
 
     assert_response 302
@@ -943,10 +946,11 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bulk_edit_status
     @request.session[:user_id] = 2
     # update issues priority
-    post :bulk_edit, :ids => [1, 2], :priority_id => '',
-                                     :assigned_to_id => '',
-                                     :status_id => '5',
-                                     :notes => 'Bulk editing status'
+    post :bulk_edit, :ids => [1, 2], :notes => 'Bulk editing status',
+                                     :issue => {:priority_id => '',
+                                                :assigned_to_id => '',
+                                                :status_id => '5'}
+                                     
     assert_response 302
     issue = Issue.find(1)
     assert issue.closed?
@@ -955,10 +959,11 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bulk_edit_custom_field
     @request.session[:user_id] = 2
     # update issues priority
-    post :bulk_edit, :ids => [1, 2], :priority_id => '',
-                                     :assigned_to_id => '',
-                                     :custom_field_values => {'2' => '777'},
-                                     :notes => 'Bulk editing custom field'
+    post :bulk_edit, :ids => [1, 2], :notes => 'Bulk editing custom field',
+                                     :issue => {:priority_id => '',
+                                                :assigned_to_id => '',
+                                                :custom_field_values => {'2' => '777'}}
+                                     
     assert_response 302
     
     issue = Issue.find(1)
@@ -973,7 +978,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil Issue.find(2).assigned_to
     @request.session[:user_id] = 2
     # unassign issues
-    post :bulk_edit, :ids => [1, 2], :notes => 'Bulk unassigning', :assigned_to_id => 'none'
+  post :bulk_edit, :ids => [1, 2], :notes => 'Bulk unassigning', :issue => {:assigned_to_id => 'none'}
     assert_response 302
     # check that the issues were updated
     assert_nil Issue.find(2).assigned_to
@@ -982,9 +987,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_post_bulk_edit_should_allow_fixed_version_to_be_set_to_a_subproject
     @request.session[:user_id] = 2
 
-    post :bulk_edit,
-         :ids => [1,2],
-         :fixed_version_id => 4
+    post :bulk_edit, :ids => [1,2], :issue => {:fixed_version_id => 4}
 
     assert_response :redirect
     issues = Issue.find([1,2])

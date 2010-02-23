@@ -67,9 +67,9 @@ module CustomFieldsHelper
     custom_field_label_tag(name, custom_value) + custom_field_tag(name, custom_value)
   end
   
-  def custom_field_tag_for_bulk_edit(custom_field)
-    field_name = "custom_field_values[#{custom_field.id}]"
-    field_id = "custom_field_values_#{custom_field.id}"
+  def custom_field_tag_for_bulk_edit(name, custom_field)
+    field_name = "#{name}[custom_field_values][#{custom_field.id}]"
+    field_id = "#{name}_custom_field_values_#{custom_field.id}"
     case custom_field.field_format
       when "date"
         text_field_tag(field_name, '', :id => field_id, :size => 10) + 
