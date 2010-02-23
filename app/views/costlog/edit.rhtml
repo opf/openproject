@@ -1,6 +1,6 @@
 <h2><%= l(:label_spent_costs) %></h2>
 
-<% labelled_tabular_form_for :cost_entry, @cost_entry, :url => {:action => 'edit', :project_id => @cost_entry.project} do |f| %>
+<% labelled_tabular_form_for :cost_entry, @cost_entry, :url => {:action => 'edit', :id => @cost_entry, :project_id => @cost_entry.project} do |f| %>
     <%= error_messages_for 'cost_entry' %>
     <%= back_url_hidden_field_tag %>
 
