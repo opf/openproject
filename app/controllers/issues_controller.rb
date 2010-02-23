@@ -267,22 +267,22 @@ class IssuesController < ApplicationController
       category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
       fixed_version = (params[:fixed_version_id].blank? || params[:fixed_version_id] == 'none') ? nil : @project.shared_versions.find_by_id(params[:fixed_version_id])
       custom_field_values = params[:custom_field_values] ? params[:custom_field_values].reject {|k,v| v.blank?} : nil
+
+      # Need to merge in the records found above for Issue#bulk_edit.
+      # Assuming this is done so the associations are only looked up once.
+      merged_params = params.merge({
+                                     :tracker => tracker,
+                                     :status => status,
+                                     :priority => priority,
+                                     :assigned_to => assigned_to,
+                                     :category => category,
+                                     :fixed_version => fixed_version,
+                                     :custom_field_values => custom_field_values
+                                   })
       
       unsaved_issue_ids = []      
       @issues.each do |issue|
-        journal = issue.init_journal(User.current, params[:notes])
-        issue.tracker = tracker if tracker
-        issue.priority = priority if priority
-        issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
-        issue.category = category if category || params[:category_id] == 'none'
-        issue.fixed_version = fixed_version if fixed_version || params[:fixed_version_id] == 'none'
-        issue.start_date = params[:start_date] unless params[:start_date].blank?
-        issue.due_date = params[:due_date] unless params[:due_date].blank?
-        issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
-        issue.custom_field_values = custom_field_values if custom_field_values && !custom_field_values.empty?
-        call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
-        # Don't save any change to the issue if the user is not authorized to apply the requested status
-        unless (status.nil? || (issue.new_statuses_allowed_to(User.current).include?(status) && issue.status = status)) && issue.save
+        unless issue.bulk_edit(merged_params)
           # Keep unsaved issue ids to display them in flash error
           unsaved_issue_ids << issue.id
         end

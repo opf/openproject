@@ -136,6 +136,24 @@ class Issue < ActiveRecord::Base
     end
     return issue
   end
+
+  def bulk_edit(params)
+    journal = init_journal(User.current, params[:notes])
+    self.tracker = params[:tracker] if params[:tracker]
+    self.priority = params[:priority] if params[:priority]
+    self.assigned_to = params[:assigned_to] if params[:assigned_to] || params[:assigned_to_id] == 'none'
+    self.category = params[:category] if params[:category] || params[:category_id] == 'none'
+    self.fixed_version = params[:fixed_version] if params[:fixed_version] || params[:fixed_version_id] == 'none'
+    self.start_date = params[:start_date] unless params[:start_date].blank?
+    self.due_date = params[:due_date] unless params[:due_date].blank?
+    self.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
+    self.custom_field_values = params[:custom_field_values] if params[:custom_field_values] && !params[:custom_field_values].empty?
+    # TODO: Edit hook name
+    Redmine::Hook.call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => self })
+
+    # Don't save any change to the issue if the user is not authorized to apply the requested status
+    return (params[:status].nil? || (new_statuses_allowed_to(User.current).include?(params[:status]) && self.status = params[:status])) && save
+  end
   
   def priority_id=(pid)
     self.priority = nil
