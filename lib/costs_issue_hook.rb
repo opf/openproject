@@ -30,11 +30,11 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
     when "" # a.k.a "(No change)"
       # cost objects HAVE to be changed if move is performed across project boundaries
       # as the are project specific
-      issue.cost_object_id = nil unless (context[:issue] && (context[:issue].project == context[:target_project]))
+      context[:issue].cost_object_id = nil unless (context[:issue].project == context[:target_project])
     when "none"
-      issue.cost_object_id = nil
+      context[:issue].cost_object_id = nil
     else
-      issue.cost_object_id = cost_object_id
+      context[:issue].cost_object_id = cost_object_id
     end
   end
 
