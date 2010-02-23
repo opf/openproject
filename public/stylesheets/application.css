@@ -299,9 +299,9 @@ table#time-report tbody tr.last-level { font-style: normal; color: #555; }
 table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
 table#time-report .hours-dec { font-size: 0.9em; }
 
-form#issue-form .attributes { margin-bottom: 8px; }
-form#issue-form .attributes p { padding-top: 1px; padding-bottom: 2px; }
-form#issue-form .attributes select { min-width: 30%; }
+form .attributes { margin-bottom: 8px; }
+form .attributes p { padding-top: 1px; padding-bottom: 2px; }
+form .attributes select { min-width: 50%; }
 
 ul.projects { margin: 0; padding-left: 1em; }
 ul.projects.root { margin: 0;  padding: 0; }

@@ -5,7 +5,7 @@
 <% form_tag() do %>
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
 <div class="box tabular">
-<fieldset>
+<fieldset class="attributes">
 <legend><%= l(:label_change_properties) %></legend>
 
 <div class="splitcontentleft">
