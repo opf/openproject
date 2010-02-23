@@ -25,7 +25,8 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
   def controller_issues_move_before_save(context={})
     # FIXME: In case of copy==true, this will break stuff if the original issue is saved
 
-    case params[:cost_object_id]
+    cost_object_id = context[:params] && context[:params][:cost_object_id]
+    case cost_object_id
     when "" # a.k.a "(No change)"
       # cost objects HAVE to be changed if move is performed across project boundaries
       # as the are project specific
@@ -33,7 +34,7 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
     when "none"
       issue.cost_object_id = nil
     else
-      issue.cost_object_id = params[:cost_object_id]
+      issue.cost_object_id = cost_object_id
     end
   end
 
