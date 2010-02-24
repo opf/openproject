@@ -21,7 +21,7 @@
     <% if authorize_for('members', 'edit') %>
       <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member},
       																		:method => :post,
-      																		:html => { :id => "member-#{member.id}-roles-form", :style => 'display:none;' }) do |f| %>
+      																		:html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }) do |f| %>
       	<p><% roles.each do |role| %>
         <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
         																							 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />

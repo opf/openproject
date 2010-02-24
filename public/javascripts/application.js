@@ -207,3 +207,9 @@ Ajax.Responders.register({
         }
     }
 });
+
+Event.observe(window, 'load', function() {
+  $$('.hol').each(function(el) {
+  	el.hide();
+	});
+});
