@@ -1,7 +1,8 @@
 <% labelled_tabular_form_for :issue, @issue,
-                             :url => {:action => 'edit', :id => @issue},
+                             :url => {:action => 'update', :id => @issue},
                              :html => {:id => 'issue-form',
                                        :class => nil,
+                                       :method => :put,
                                        :multipart => true} do |f| %>
     <%= error_messages_for 'issue' %>
     <%= error_messages_for 'time_entry' %>

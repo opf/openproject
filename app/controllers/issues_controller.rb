@@ -19,7 +19,7 @@ class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
   
-  before_filter :find_issue, :only => [:show, :edit, :reply]
+  before_filter :find_issue, :only => [:show, :edit, :update, :reply]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
@@ -226,7 +226,7 @@ class IssuesController < ApplicationController
       end
       # failure
       respond_to do |format|
-        format.html { }
+        format.html { render :action => 'edit' }
         format.xml  { render :xml => @issue.errors, :status => :unprocessable_entity }
       end
     end
@@ -235,6 +235,13 @@ class IssuesController < ApplicationController
     flash.now[:error] = l(:notice_locking_conflict)
     # Remove the previously added attachments if issue was not updated
     attachments.each(&:destroy)
+  end
+
+  #--
+  # Start converting to the Rails REST controllers
+  #++
+  def update
+    edit
   end
 
   def reply

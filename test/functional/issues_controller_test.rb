@@ -657,7 +657,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select_rjs :show, "update"
   end
 
-  def test_post_edit_without_custom_fields_param
+  def test_put_update_without_custom_fields_param
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     
@@ -668,7 +668,7 @@ class IssuesControllerTest < ActionController::TestCase
     
     assert_difference('Journal.count') do
       assert_difference('JournalDetail.count', 2) do
-        post :edit, :id => 1, :issue => {:subject => new_subject,
+        put :update, :id => 1, :issue => {:subject => new_subject,
                                          :priority_id => '6',
                                          :category_id => '1' # no change
                                         }
@@ -686,14 +686,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert mail.body.include?("Subject changed from #{old_subject} to #{new_subject}")
   end
   
-  def test_post_edit_with_custom_field_change
+  def test_put_update_with_custom_field_change
     @request.session[:user_id] = 2
     issue = Issue.find(1)
     assert_equal '125', issue.custom_value_for(2).value
     
     assert_difference('Journal.count') do
       assert_difference('JournalDetail.count', 3) do
-        post :edit, :id => 1, :issue => {:subject => 'Custom field change',
+        put :update, :id => 1, :issue => {:subject => 'Custom field change',
                                          :priority_id => '6',
                                          :category_id => '1', # no change
                                          :custom_field_values => { '2' => 'New custom value' }
@@ -709,12 +709,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert mail.body.include?("Searchable field changed from 125 to New custom value")
   end
   
-  def test_post_edit_with_status_and_assignee_change
+  def test_put_update_with_status_and_assignee_change
     issue = Issue.find(1)
     assert_equal 1, issue.status_id
     @request.session[:user_id] = 2
     assert_difference('TimeEntry.count', 0) do
-      post :edit,
+      put :update,
            :id => 1,
            :issue => { :status_id => 2, :assigned_to_id => 3 },
            :notes => 'Assigned to dlopper',
@@ -733,10 +733,10 @@ class IssuesControllerTest < ActionController::TestCase
     assert mail.subject.include?("(#{ IssueStatus.find(2).name })")
   end
   
-  def test_post_edit_with_note_only
+  def test_put_update_with_note_only
     notes = 'Note added by IssuesControllerTest#test_update_with_note_only'
     # anonymous user
-    post :edit,
+    put :update,
          :id => 1,
          :notes => notes
     assert_redirected_to :action => 'show', :id => '1'
@@ -749,11 +749,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert mail.body.include?(notes)
   end
   
-  def test_post_edit_with_note_and_spent_time
+  def test_put_update_with_note_and_spent_time
     @request.session[:user_id] = 2
     spent_hours_before = Issue.find(1).spent_hours
     assert_difference('TimeEntry.count') do
-      post :edit,
+      put :update,
            :id => 1,
            :notes => '2.5 hours added',
            :time_entry => { :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first }
@@ -772,7 +772,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal spent_hours_before + 2.5, issue.spent_hours
   end
   
-  def test_post_edit_with_attachment_only
+  def test_put_update_with_attachment_only
     set_tmp_attachments_directory
     
     # Delete all fixtured journals, a race condition can occur causing the wrong
@@ -780,7 +780,7 @@ class IssuesControllerTest < ActionController::TestCase
     Journal.delete_all
 
     # anonymous user
-    post :edit,
+    put :update,
          :id => 1,
          :notes => '',
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
@@ -795,12 +795,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert mail.body.include?('testfile.txt')
   end
   
-  def test_post_edit_with_no_change
+  def test_put_update_with_no_change
     issue = Issue.find(1)
     issue.journals.clear
     ActionMailer::Base.deliveries.clear
     
-    post :edit,
+    put :update,
          :id => 1,
          :notes => ''
     assert_redirected_to :action => 'show', :id => '1'
@@ -811,26 +811,26 @@ class IssuesControllerTest < ActionController::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
 
-  def test_post_edit_should_send_a_notification
+  def test_put_update_should_send_a_notification
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(1)
     old_subject = issue.subject
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
     
-    post :edit, :id => 1, :issue => {:subject => new_subject,
+    put :update, :id => 1, :issue => {:subject => new_subject,
                                      :priority_id => '6',
                                      :category_id => '1' # no change
                                     }
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
-  def test_post_edit_with_invalid_spent_time
+  def test_put_update_with_invalid_spent_time
     @request.session[:user_id] = 2
     notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
     
     assert_no_difference('Journal.count') do
-      post :edit,
+      put :update,
            :id => 1,
            :notes => notes,
            :time_entry => {"comments"=>"", "activity_id"=>"", "hours"=>"2z"}
@@ -843,11 +843,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
   
-  def test_post_edit_should_allow_fixed_version_to_be_set_to_a_subproject
+  def test_put_update_should_allow_fixed_version_to_be_set_to_a_subproject
     issue = Issue.find(2)
     @request.session[:user_id] = 2
 
-    post :edit,
+    put :update,
          :id => issue.id,
          :issue => {
            :fixed_version_id => 4
@@ -859,11 +859,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_equal issue.project_id, issue.fixed_version.project_id
   end
 
-  def test_post_edit_should_redirect_back_using_the_back_url_parameter
+  def test_put_update_should_redirect_back_using_the_back_url_parameter
     issue = Issue.find(2)
     @request.session[:user_id] = 2
 
-    post :edit,
+    put :update,
          :id => issue.id,
          :issue => {
            :fixed_version_id => 4
@@ -874,11 +874,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to '/issues'
   end
   
-  def test_post_edit_should_not_redirect_back_using_the_back_url_parameter_off_the_host
+  def test_put_update_should_not_redirect_back_using_the_back_url_parameter_off_the_host
     issue = Issue.find(2)
     @request.session[:user_id] = 2
 
-    post :edit,
+    put :update,
          :id => issue.id,
          :issue => {
            :fixed_version_id => 4
