@@ -44,7 +44,7 @@ module CostsIssuesControllerPatch
     def destroy_with_entries
       @entries = CostEntry.all(:conditions => ['issue_id IN (?)', @issues])
       @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
-      unless @units.blank? && @hours == 0
+      unless @entries.blank? && @hours == 0
         case params[:todo]
         when 'destroy'
           # nothing to do
