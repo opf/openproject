@@ -42,6 +42,8 @@
 <% if @grouped_entries.blank? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
+
+<%= element_hidden_warning %>
 <table class="list">
   <thead>
     <th>Group By</th>
@@ -103,7 +105,7 @@
     <% end %>
     <tr>
       <td>&nbsp;</td>
-      <td style="white-space: nowrap;"><strong><%=l :x_entries, :count => @entry_count %></strong></td>
+      <td class="units"><strong><%=l :x_entries, :count => @entry_count %></strong></td>
       <td>&nbsp;</td>
       <td class="currency"><strong><%= number_to_currency @entry_sum %></strong></td>
       <td>&nbsp;</td>

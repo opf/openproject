@@ -152,3 +152,4 @@ en:
   text_destroy_time_and_cost_entries_question: "{{hours}} hours, {{cost_entries}} were reported on the issues you are about to delete. What do you want to do ?"
   text_destroy_cost_entries_question: "{{cost_entries}} were reported on the issues you are about to delete. What do you want to do ?"
 
+  text_warning_hidden_elements: "Some entries may be excluded from the aggregation."

@@ -31,4 +31,16 @@ module CostReportsHelper
     link_to_function(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),   "#{function}('#{escape_javascript(name)}', 'lower')", :title => l(:label_sort_lower)) +
     link_to_function(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),  "#{function}('#{escape_javascript(name)}', 'lowest')", :title => l(:label_sort_lowest))
   end
+  
+  
+  def element_hidden_warning()
+    unless User.current.allowed_to?(:view_cost_entries, @project, :for => nil) && 
+      User.current.allowed_to?(:view_time_entries, @project, :for => nil) &&
+      User.current.allowed_to?(:view_cost_rates, @project, :for => nil) &&
+      User.current.allowed_to?(:view_hourly_rates, @project, :for => nil)
+      classes = "flash warning"
+      title = l(:text_warning_hidden_elements)
+    end
+    content_tag :div, title, :class => classes
+  end
 end
