@@ -25,15 +25,13 @@ module CostsIssuesHelperPatch
         end
 
         str_array = []
-        options = {:class => 'icon icon-pieces'}
         result.each do |k, v|
           txt = pluralize(v[:units], v[:unit], v[:unit_plural])
           if create_link
-            str_array << link_to(txt, {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue, :cost_type_id => k}, options)
+            str_array << link_to(txt, {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue, :cost_type_id => k})
           else
             str_array << txt
           end
-          options = {} # options apply only for first element
         end
         str_array.join(", ")
       end
