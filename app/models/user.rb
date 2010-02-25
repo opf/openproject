@@ -111,7 +111,8 @@ class User < Principal
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
       if attrs
-        user = new(*attrs)
+        attributes = *attrs
+        user = new(attributes.symbolize_keys.except(:dn))
         user.login = login
         user.language = Setting.default_language
         if user.save

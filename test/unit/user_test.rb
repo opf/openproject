@@ -120,6 +120,36 @@ class UserTest < ActiveSupport::TestCase
     assert_equal nil, user  
   end
   
+  if ldap_configured?
+    context "#try_to_login using LDAP" do
+      context "on the fly registration" do
+        setup do
+          @auth_source = AuthSourceLdap.generate!(:name => 'localhost',
+                                                  :host => '127.0.0.1',
+                                                  :port => 389,
+                                                  :base_dn => 'OU=Person,DC=redmine,DC=org',
+                                                  :attr_login => 'uid',
+                                                  :attr_firstname => 'givenName',
+                                                  :attr_lastname => 'sn',
+                                                  :attr_mail => 'mail',
+                                                  :onthefly_register => true)
+
+        end
+
+        context "with a successful authentication" do
+          should "create a new user account" do
+            assert_difference('User.count') do
+              User.try_to_login('edavis', '123456')
+            end
+          end
+        end
+      end
+    end
+
+  else
+    puts "Skipping LDAP tests."
+  end
+  
   def test_create_anonymous
     AnonymousUser.delete_all
     anon = User.anonymous
