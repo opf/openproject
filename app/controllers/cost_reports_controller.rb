@@ -181,20 +181,30 @@ private
     cost_where = @query.statement(:cost_entries)
     time_where = @query.statement(:time_entries)
     
-    aggregate_select = [TimeEntry.table_name, CostEntry.table_name].inject({}) do |r,table|
-      rate_permission_statement = @query.rate_permission_statement(table.to_sym)
+    aggregate_select, display_costs = [TimeEntry, CostEntry].inject([{}, {}]) do |r,table|
+      table_name = table.table_name
+      rate_permission_statement = @query.rate_permission_statement(table_name.to_sym)
       
-      r[table] =  <<-EOS
-        COUNT(#{table}.id) as count,
+      r[0][table_name] =  <<-EOS
+        COUNT(#{table_name}.id) as count,
         SUM(
           CASE WHEN #{rate_permission_statement} THEN
-            CASE WHEN #{table}.overridden_costs IS NULL THEN #{table}.costs
-            ELSE #{table}.overridden_costs END
+            CASE WHEN #{table_name}.overridden_costs IS NULL THEN #{table_name}.costs
+            ELSE #{table_name}.overridden_costs END
           ELSE
             0.0000
           END
         ) AS sum
         EOS
+
+      r[1][table_name] = table.column_names.collect{|n| "#{table_name}.#{n}"}.join(", ") + <<-EOS
+        , CASE WHEN #{rate_permission_statement} THEN
+          1
+        ELSE
+          NULL
+        END AS display_costs
+      EOS
+      
       r
     end
 
@@ -242,30 +252,28 @@ private
       ).map {|i| [i.sum.to_f, i.count.to_i] }[0]
     end
     
-    
-      
-    
-
     if @query.display_time_entries && !@query.display_cost_entries
       @entry_sum, @entry_count = [time_entry_sum, time_entry_count]
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
-      @entries = TimeEntry.find :all, {:order => (sort_clause if time_sort_column),
-                                      :include => [:issue, :activity, :user, :project],
+      @entries = TimeEntry.all({ :select => costs_where[TimeEntry.table_name],
+                                      :order => (sort_clause if time_sort_column),
+                                      :joins => [:issue, :activity, :user, :project],
                                       :conditions => time_where,
                                       :limit => limit,
-                                      :offset => @entry_pages.current.offset}
+                                      :offset => @entry_pages.current.offset})
 
       return
     elsif @query.display_cost_entries && !@query.display_time_entries
       @entry_sum, @entry_count = [cost_entry_sum, cost_entry_count]
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
-      @entries = CostEntry.find :all, {:order => (sort_clause if cost_sort_column),
-                                      :include => [:issue, :cost_type, :user, :project],
+      @entries = CostEntry.all ({ :select => costs_where[CostEntry.table_name],
+                                      :order => (sort_clause if cost_sort_column),
+                                      :joins => [:issue, :cost_type, :user, :project],
                                       :conditions => cost_where,
                                       :limit => limit,
-                                      :offset => @entry_pages.current.offset}
+                                      :offset => @entry_pages.current.offset})
       return
     elsif !@query.display_time_entries && !@query.display_time_entries
       @entry_sum, @entry_count = [0 , 0]
@@ -309,14 +317,15 @@ private
     end
     
     
-    cost_entries = CostEntry.find :all, {:order => (sort_clause if cost_sort_column),
-                              :include => [:issue, :cost_type, :user],
+    cost_entries = CostEntry.find :all, {:select => display_costs[CostEntry.table_name],
+                              :order => (sort_clause if cost_sort_column),
+                              :joins => [:project, :issue, :cost_type, :user],
                               :conditions => {:id => cost_entry_ids}}
     
-    time_entries = TimeEntry.find :all, {:order => (sort_clause if time_sort_column),
-                              :include => [:issue, :activity, :user],
+    time_entries = TimeEntry.find :all, {:select => display_costs[TimeEntry.table_name],
+                              :order => (sort_clause if time_sort_column),
+                              :joins => [:project, :issue, :activity, :user],
                               :conditions => {:id => time_entry_ids}}
-                              
     
     # now we merge the both entry types
     if cost_sort_column && time_sort_column
