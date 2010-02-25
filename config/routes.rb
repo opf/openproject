@@ -126,7 +126,8 @@ ActionController::Routing::Routes.draw do |map|
       issues_actions.connect 'issues.:format', :action => 'new', :format => /xml/
     end
     issues_routes.with_options :conditions => {:method => :put} do |issues_actions|
-      issues_actions.connect 'issues/:id.:format', :action => 'edit', :id => /\d+/, :format => /xml/
+      issues_actions.connect 'issues/:id/edit', :action => 'update', :id => /\d+/
+      issues_actions.connect 'issues/:id.:format', :action => 'update', :id => /\d+/, :format => /xml/
     end
     issues_routes.with_options :conditions => {:method => :delete} do |issues_actions|
       issues_actions.connect 'issues/:id.:format', :action => 'destroy', :id => /\d+/, :format => /xml/

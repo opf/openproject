@@ -198,6 +198,31 @@ class IssuesController < ApplicationController
       @issue.safe_attributes = attrs
     end
 
+    respond_to do |format|
+      format.html { }
+      format.xml  { }
+    end
+  end
+
+  #--
+  # Start converting to the Rails REST controllers
+  #++
+  def update
+    @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+    @priorities = IssuePriority.all
+    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+    @time_entry = TimeEntry.new
+    
+    @notes = params[:notes]
+    journal = @issue.init_journal(User.current, @notes)
+    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
+    if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
+      attrs = params[:issue].dup
+      attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
+      attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
+      @issue.safe_attributes = attrs
+    end
+
     if request.get?
       # nop
     else
@@ -235,13 +260,6 @@ class IssuesController < ApplicationController
     flash.now[:error] = l(:notice_locking_conflict)
     # Remove the previously added attachments if issue was not updated
     attachments.each(&:destroy)
-  end
-
-  #--
-  # Start converting to the Rails REST controllers
-  #++
-  def update
-    edit
   end
 
   def reply

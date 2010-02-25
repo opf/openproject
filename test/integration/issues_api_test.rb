@@ -114,7 +114,7 @@ class IssuesApiTest < ActionController::IntegrationTest
   def test_update_routing
     assert_routing(
       {:method => :put, :path => '/issues/1.xml'},
-      :controller => 'issues', :action => 'edit', :id => '1', :format => 'xml'
+      :controller => 'issues', :action => 'update', :id => '1', :format => 'xml'
     )
   end
   
