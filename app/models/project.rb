@@ -639,7 +639,7 @@ class Project < ActiveRecord::Base
   
   def allowed_permissions
     @allowed_permissions ||= begin
-      module_names = enabled_modules.collect {|m| m.name}
+      module_names = enabled_modules.all(:select => :name).collect {|m| m.name}
       Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
     end
   end
