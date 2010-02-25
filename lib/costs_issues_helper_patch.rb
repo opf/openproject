@@ -11,10 +11,10 @@ module CostsIssuesHelperPatch
 
         return "-" if cost_entries.blank?
         result = cost_entries.sort_by(&:id).inject(Hash.new) do |result, entry|
-          if entry.cost_type.id.to_s == last_cost_type
+          if entry.cost_type == last_cost_type
             result[last_cost_type][:units] += entry.units
           else
-            last_cost_type = entry.cost_type.id.to_s
+            last_cost_type = entry.cost_type
 
             result[last_cost_type] = {}
             result[last_cost_type][:units] = entry.units
@@ -28,9 +28,9 @@ module CostsIssuesHelperPatch
         result.each do |k, v|
           txt = pluralize(v[:units], v[:unit], v[:unit_plural])
           if create_link
-            str_array << link_to(txt, {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue, :cost_type_id => k})
+            str_array << link_to(txt, {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue, :cost_type_id => k}, {:title => k.name})
           else
-            str_array << txt
+            str_array << "<span title=\"#{h(k.name)}\">#{txt}</span>"
           end
         end
         str_array.join(", ")
