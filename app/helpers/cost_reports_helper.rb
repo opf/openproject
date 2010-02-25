@@ -38,9 +38,7 @@ module CostReportsHelper
       User.current.allowed_to?(:view_time_entries, @project, :for => nil) &&
       User.current.allowed_to?(:view_cost_rates, @project, :for => nil) &&
       User.current.allowed_to?(:view_hourly_rates, @project, :for => nil)
-      classes = "flash warning"
-      title = l(:text_warning_hidden_elements)
+      content_tag :div, l(:text_warning_hidden_elements), :class => "flash warning"
     end
-    content_tag :div, title, :class => classes
   end
 end
