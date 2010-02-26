@@ -310,7 +310,7 @@ namespace :redmine do
         # Ticket number re-writing
         text = text.gsub(/#(\d+)/) do |s|
           if $1.length < 10
-            TICKET_MAP[$1.to_i] ||= $1
+#            TICKET_MAP[$1.to_i] ||= $1
             "\##{TICKET_MAP[$1.to_i] || $1}"
           else
             s
