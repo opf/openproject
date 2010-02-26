@@ -764,6 +764,7 @@ fr:
   label_missing_feeds_access_key: Clé d'accès RSS manquante
   label_close_versions: Fermer les versions terminées
   label_revision_id: Revision {{value}}
+  label_profile: Profil
   
   button_login: Connexion
   button_submit: Soumettre

@@ -749,6 +749,7 @@ en:
   label_api_access_key: API access key
   label_missing_api_access_key: Missing an API access key
   label_api_access_key_created_on: "API access key created {{value}} ago"
+  label_profile: Profile
   
   button_login: Login
   button_submit: Submit

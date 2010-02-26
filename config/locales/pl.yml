@@ -913,3 +913,4 @@ pl:
   permission_manage_project_activities: Zarządzanie aktywnościami projektu
   setting_cache_formatted_text: Cache formatted text
   error_unable_delete_issue_status: Unable to delete issue status
+  label_profile: Profile
