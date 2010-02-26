@@ -103,18 +103,24 @@ class UsersControllerTest < ActionController::TestCase
     get :show, :id => 2
     assert_response :success
   end
-  
 
   def test_show_inactive
+    @request.session[:user_id] = nil
     get :show, :id => 5
     assert_response 404
-    assert_nil assigns(:user)
   end
   
   def test_show_should_not_reveal_users_with_no_visible_activity_or_project
     @request.session[:user_id] = nil
     get :show, :id => 9
     assert_response 404
+  end
+  
+  def test_show_inactive_by_admin
+    @request.session[:user_id] = 1
+    get :show, :id => 5
+    assert_response 200
+    assert_not_nil assigns(:user)
   end
 
   def test_add_routing
