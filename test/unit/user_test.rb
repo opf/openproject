@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :members, :projects, :roles, :member_roles
+  fixtures :users, :members, :projects, :roles, :member_roles, :auth_sources
 
   def setup
     @admin = User.find(1)
@@ -124,16 +124,7 @@ class UserTest < ActiveSupport::TestCase
     context "#try_to_login using LDAP" do
       context "on the fly registration" do
         setup do
-          @auth_source = AuthSourceLdap.generate!(:name => 'localhost',
-                                                  :host => '127.0.0.1',
-                                                  :port => 389,
-                                                  :base_dn => 'OU=Person,DC=redmine,DC=org',
-                                                  :attr_login => 'uid',
-                                                  :attr_firstname => 'givenName',
-                                                  :attr_lastname => 'sn',
-                                                  :attr_mail => 'mail',
-                                                  :onthefly_register => true)
-
+          @auth_source = AuthSourceLdap.find(1)
         end
 
         context "with a successful authentication" do

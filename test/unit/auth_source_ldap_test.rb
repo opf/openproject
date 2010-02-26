@@ -18,7 +18,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class AuthSourceLdapTest < ActiveSupport::TestCase
-
+  fixtures :auth_sources
+  
   def setup
   end
   
@@ -37,16 +38,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   if ldap_configured?
     context '#authenticate' do
       setup do
-        @auth = AuthSourceLdap.generate!(:name => 'on the fly',
-                                         :host => '127.0.0.1',
-                                         :port => 389,
-                                         :base_dn => 'OU=Person,DC=redmine,DC=org',
-                                         :attr_login => 'uid',
-                                         :attr_firstname => 'givenName',
-                                         :attr_lastname => 'sn',
-                                         :attr_mail => 'mail',
-                                         :onthefly_register => true)
-
+        @auth = AuthSourceLdap.find(1)
       end
 
       context 'with a valid LDAP user' do
