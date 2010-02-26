@@ -149,7 +149,7 @@ class AccountTest < ActionController::IntegrationTest
   def test_onthefly_registration
     # disable registration
     Setting.self_registration = '0'
-    AuthSource.expects(:authenticate).returns([:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66])
+    AuthSource.expects(:authenticate).returns({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
   
     post 'account/login', :username => 'foo', :password => 'bar'
     assert_redirected_to 'my/page'
@@ -163,7 +163,7 @@ class AccountTest < ActionController::IntegrationTest
   def test_onthefly_registration_with_invalid_attributes
     # disable registration
     Setting.self_registration = '0'
-    AuthSource.expects(:authenticate).returns([:login => 'foo', :lastname => 'Smith', :auth_source_id => 66])
+    AuthSource.expects(:authenticate).returns({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
     
     post 'account/login', :username => 'foo', :password => 'bar'
     assert_response :success

@@ -35,9 +35,9 @@ class AuthSourceLdap < AuthSource
     return nil if login.blank? || password.blank?
     attrs = get_user_dn(login)
     
-    if attrs.first && attrs.first[:dn] && authenticate_dn(attrs.first[:dn], password)
+    if attrs && attrs[:dn] && authenticate_dn(attrs[:dn], password)
       logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
-      return [] << attrs.first.except(:dn)
+      return attrs.except(:dn)
     end
   rescue  Net::LDAP::LdapError => text
     raise "LdapError: " + text
@@ -73,13 +73,13 @@ class AuthSourceLdap < AuthSource
   end
 
   def get_user_attributes_from_ldap_entry(entry)
-    [
+    {
      :dn => entry.dn,
      :firstname => AuthSourceLdap.get_attr(entry, self.attr_firstname),
      :lastname => AuthSourceLdap.get_attr(entry, self.attr_lastname),
      :mail => AuthSourceLdap.get_attr(entry, self.attr_mail),
      :auth_source_id => self.id
-    ]
+    }
   end
 
   # Return the attributes needed for the LDAP search.  It will only
@@ -104,7 +104,7 @@ class AuthSourceLdap < AuthSource
     ldap_con = initialize_ldap_con(self.account, self.account_password)
     login_filter = Net::LDAP::Filter.eq( self.attr_login, login ) 
     object_filter = Net::LDAP::Filter.eq( "objectClass", "*" ) 
-    attrs = []
+    attrs = {}
     
     ldap_con.search( :base => self.base_dn, 
                      :filter => object_filter & login_filter, 
@@ -113,10 +113,10 @@ class AuthSourceLdap < AuthSource
       if onthefly_register?
         attrs = get_user_attributes_from_ldap_entry(entry)
       else
-        attrs = [:dn => entry.dn]
+        attrs = {:dn => entry.dn}
       end
 
-      logger.debug "DN found for #{login}: #{attrs.first[:dn]}" if logger && logger.debug?
+      logger.debug "DN found for #{login}: #{attrs[:dn]}" if logger && logger.debug?
     end
 
     attrs
