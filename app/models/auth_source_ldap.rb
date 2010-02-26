@@ -37,7 +37,7 @@ class AuthSourceLdap < AuthSource
     
     if attrs.first && attrs.first[:dn] && authenticate_dn(attrs.first[:dn], password)
       logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
-      return attrs
+      return [] << attrs.first.except(:dn)
     end
   rescue  Net::LDAP::LdapError => text
     raise "LdapError: " + text
