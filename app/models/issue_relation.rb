@@ -21,15 +21,19 @@ class IssueRelation < ActiveRecord::Base
   
   TYPE_RELATES      = "relates"
   TYPE_DUPLICATES   = "duplicates"
+  TYPE_DUPLICATED   = "duplicated"
   TYPE_BLOCKS       = "blocks"
+  TYPE_BLOCKED      = "blocked"
   TYPE_PRECEDES     = "precedes"
   TYPE_FOLLOWS      = "follows"
   
   TYPES = { TYPE_RELATES =>     { :name => :label_relates_to, :sym_name => :label_relates_to, :order => 1 },
             TYPE_DUPLICATES =>  { :name => :label_duplicates, :sym_name => :label_duplicated_by, :order => 2 },
-            TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by, :order => 3 },
-            TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows, :order => 4 },
-            TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes, :order => 5 }
+            TYPE_DUPLICATED =>  { :name => :label_duplicated_by, :sym_name => :label_duplicates, :order => 3, :reverse => TYPE_DUPLICATES },
+            TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by, :order => 4 },
+            TYPE_BLOCKED =>     { :name => :label_blocked_by, :sym_name => :label_blocks, :order => 5, :reverse => TYPE_BLOCKS },
+            TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows, :order => 6 },
+            TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes, :order => 7, :reverse => TYPE_PRECEDES }
           }.freeze
   
   validates_presence_of :issue_from, :issue_to, :relation_type
@@ -85,12 +89,13 @@ class IssueRelation < ActiveRecord::Base
   
   private
   
+  # Reverses the relation if needed so that it gets stored in the proper way
   def reverse_if_needed
-    if (TYPE_FOLLOWS == relation_type)
+    if TYPES.has_key?(relation_type) && TYPES[relation_type][:reverse]
       issue_tmp = issue_to
       self.issue_to = issue_from
       self.issue_from = issue_tmp
-      self.relation_type = TYPE_PRECEDES
+      self.relation_type = TYPES[relation_type][:reverse]
     end
   end
 end
