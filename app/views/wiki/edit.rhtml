@@ -1,11 +1,13 @@
 <h2><%=h @page.pretty_title %></h2>
 
-<% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:id => 'wiki_form'} do |f| %>
+<% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:multipart => true, :id => 'wiki_form'} do |f| %>
 <%= f.hidden_field :version %>
 <%= error_messages_for 'content' %>
 
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
 <p><label><%= l(:field_comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
+<p><label><%=l(:label_attachment_plural)%></label><br /><%= render :partial => 'attachments/form' %></p>
+
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview), 
                        { :url => { :controller => 'wiki', :action => 'preview', :id => @project, :page => @page.title },

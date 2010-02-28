@@ -107,6 +107,23 @@ class WikiControllerTest < ActionController::TestCase
     assert_equal 'Created the page', page.content.comments
   end
   
+  def test_create_page_with_attachments
+    @request.session[:user_id] = 2
+    assert_difference 'WikiPage.count' do
+      assert_difference 'Attachment.count' do
+        post :edit, :id => 1,
+                    :page => 'New page',
+                    :content => {:comments => 'Created the page',
+                                 :text => "h1. New page\n\nThis is a new page",
+                                 :version => 0},
+                    :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+      end
+    end
+    page = Project.find(1).wiki.find_page('New page')
+    assert_equal 1, page.attachments.count
+    assert_equal 'testfile.txt', page.attachments.first.filename
+  end
+  
   def test_preview_routing
     assert_routing(
       {:method => :post, :path => '/projects/567/wiki/CookBook_documentation/preview'},
