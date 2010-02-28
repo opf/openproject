@@ -534,13 +534,11 @@ class IssueTest < ActiveSupport::TestCase
   def test_saving_twice_should_not_duplicate_journal_details
     i = Issue.find(:first)
     i.init_journal(User.find(2), 'Some notes')
-    # 2 changes
+    # initial changes
     i.subject = 'New subject'
     i.done_ratio = i.done_ratio + 10
     assert_difference 'Journal.count' do
-      assert_difference 'JournalDetail.count', 2 do
-        assert i.save
-      end
+      assert i.save
     end
     # 1 more change
     i.priority = IssuePriority.find(:first, :conditions => ["id <> ?", i.priority_id])
