@@ -682,6 +682,7 @@ namespace :redmine do
         project.trackers << TRACKER_BUG unless project.trackers.include?(TRACKER_BUG)
         project.trackers << TRACKER_FEATURE unless project.trackers.include?(TRACKER_FEATURE)
         @target_project = project.new_record? ? nil : project
+        @target_project.reload
       end
 
       def self.connection_params
