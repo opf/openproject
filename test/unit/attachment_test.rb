@@ -46,6 +46,16 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'text/plain', a.content_type
   end
   
+  def test_identical_attachments_at_the_same_time_should_not_overwrite
+    a1 = Attachment.create!(:container => Issue.find(1),
+                            :file => uploaded_test_file("testfile.txt", ""),
+                            :author => User.find(1))
+    a2 = Attachment.create!(:container => Issue.find(1),
+                            :file => uploaded_test_file("testfile.txt", ""),
+                            :author => User.find(1))
+    assert a1.disk_filename != a2.disk_filename
+  end
+  
   def test_diskfilename
     assert Attachment.disk_filename("test_file.txt") =~ /^\d{12}_test_file.txt$/
     assert_equal 'test_file.txt', Attachment.disk_filename("test_file.txt")[13..-1]

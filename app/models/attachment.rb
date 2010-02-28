@@ -147,14 +147,18 @@ private
   
   # Returns an ASCII or hashed filename
   def self.disk_filename(filename)
-    df = DateTime.now.strftime("%y%m%d%H%M%S") + "_"
+    timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
+    ascii = ''
     if filename =~ %r{^[a-zA-Z0-9_\.\-]*$}
-      df << filename
+      ascii = filename
     else
-      df << Digest::MD5.hexdigest(filename)
+      ascii = Digest::MD5.hexdigest(filename)
       # keep the extension if any
-      df << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
+      ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
     end
-    df
+    while File.exist?(File.join(@@storage_path, "#{timestamp}_#{ascii}"))
+      timestamp.succ!
+    end
+    "#{timestamp}_#{ascii}"
   end
 end
