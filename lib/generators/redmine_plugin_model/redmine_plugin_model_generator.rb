@@ -6,6 +6,7 @@ class RedminePluginModelGenerator < ModelGenerator
   
   def initialize(runtime_args, runtime_options = {})
     runtime_args = runtime_args.dup
+    usage if runtime_args.empty?
     @plugin_name = "redmine_" + runtime_args.shift.underscore
     @plugin_pretty_name = plugin_name.titleize
     @plugin_path = "vendor/plugins/#{plugin_name}"
