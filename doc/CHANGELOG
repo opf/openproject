@@ -4,6 +4,26 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2010-02-28 v0.9.3
+
+Adds filter for system shared versions on the cross project issue list
+Makes project identifiers searchable
+Remove invalid utf8 sequences from commit comments and author name
+Fixed: Wrong link when "http" not included in project "Homepage" link
+Fixed: Escaping in html email templates
+Fixed: Pound (#) followed by number with leading zero (0) removes leading zero when rendered in wiki
+Fixed: Deselecting textile text formatting causes interning empty string errors
+Fixed: error with postgres when entering a non-numeric id for an issue relation
+Fixed: div.task incorrectly wrapping on Gantt Chart
+Fixed: Project copy loses wiki pages hierarchy
+Fixed: parent project field doesn't include blank value when a member with 'add subproject' permission edits a child project
+Fixed: Repository.fetch_changesets tries to fetch changesets for archived projects
+Fixed: Duplicated project name for subproject version on gantt chart
+Fixed: roadmap shows subprojects issues even if subprojects is unchecked
+Fixed: IndexError if all the :last menu items are deleted from a menu
+Fixed: Very high CPU usage for a long time when fetching commits from a large Git repository
+
+
 == 2010-02-07 v0.9.2
 
 * Fixed: Sub-project repository commits not displayed on parent project issues
