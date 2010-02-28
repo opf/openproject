@@ -67,7 +67,7 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 
 #main {background-color:#EEEEEE;}
 
-#sidebar{ float: right; width: 17%; position: relative; z-index: 9; min-height: 600px; padding: 0; margin: 0;}
+#sidebar{ float: right; width: 17%; position: relative; z-index: 9; padding: 0; margin: 0;}
 * html #sidebar{ width: 17%; }
 #sidebar h3{ font-size: 14px; margin-top:14px; color: #666;  }
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }

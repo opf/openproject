@@ -87,10 +87,11 @@
 </div>
 <% end %>
 
+
+<div style="clear: both;"></div>
 <%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
 
 <div style="clear: both;"></div>
-
 <% if authorize_for('issues', 'edit') %>
   <div id="update" style="display:none;">
   <h3><%= l(:button_update) %></h3>
