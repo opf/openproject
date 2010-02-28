@@ -134,6 +134,27 @@ class MailerTest < ActiveSupport::TestCase
     assert_not_nil mail
     assert_equal 'Redmine app', mail.from_addrs.first.name
   end
+  
+  def test_should_not_send_email_without_recipient
+    news = News.find(:first)
+    user = news.author
+    # Remove members except news author
+    news.project.memberships.each {|m| m.destroy unless m.user == user}
+    
+    user.pref[:no_self_notified] = false
+    user.pref.save
+    User.current = user
+    Mailer.deliver_news_added(news.reload)
+    assert_equal 1, last_email.bcc.size
+
+    # nobody to notify
+    user.pref[:no_self_notified] = true
+    user.pref.save
+    User.current = user
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_news_added(news.reload)
+    assert ActionMailer::Base.deliveries.empty?
+  end
 
   def test_issue_add_message_id
     issue = Issue.find(1)
