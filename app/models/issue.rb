@@ -58,7 +58,8 @@ class Issue < ActiveRecord::Base
   
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  before_save :update_done_ratio_from_issue_status
+  before_create :default_assign
+  before_save :reschedule_following_issues, :close_duplicates, :update_done_ratio_from_issue_status
   after_save :create_journal
   
   # Returns true if usr or current user is allowed to view the issue
@@ -242,39 +243,11 @@ class Issue < ActiveRecord::Base
     end
   end
   
-  def before_create
-    # default assignment based on category
-    if assigned_to.nil? && category && category.assigned_to
-      self.assigned_to = category.assigned_to
-    end
-  end
-  
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_issue_status
     if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
       self.done_ratio = status.default_done_ratio
-    end
-  end
-  
-  def after_save
-    # Reload is needed in order to get the right status
-    reload
-    
-    # Update start/due dates of following issues
-    relations_from.each(&:set_issue_to_dates)
-    
-    # Close duplicates if the issue was closed
-    if @issue_before_change && !@issue_before_change.closed? && self.closed?
-      duplicates.each do |duplicate|
-        # Reload is need in case the duplicate was updated by a previous duplicate
-        duplicate.reload
-        # Don't re-close it if it's already closed
-        next if duplicate.closed?
-        # Same user and notes
-        duplicate.init_journal(@current_journal.user, @current_journal.notes)
-        duplicate.update_attribute :status, self.status
-      end
     end
   end
   
@@ -300,6 +273,18 @@ class Issue < ActiveRecord::Base
       status_was = IssueStatus.find_by_id(status_id_was)
       status_new = IssueStatus.find_by_id(status_id)
       if status_was && status_new && status_was.is_closed? && !status_new.is_closed?
+        return true
+      end
+    end
+    false
+  end
+
+  # Return true if the issue is being closed
+  def closing?
+    if !new_record? && status_id_changed?
+      status_was = IssueStatus.find_by_id(status_id_was)
+      status_new = IssueStatus.find_by_id(status_id)
+      if status_was && status_new && !status_was.is_closed? && status_new.is_closed?
         return true
       end
     end
@@ -502,6 +487,39 @@ class Issue < ActiveRecord::Base
     journal.save
   end
   
+  # Default assignment based on category
+  def default_assign
+    if assigned_to.nil? && category && category.assigned_to
+      self.assigned_to = category.assigned_to
+    end
+  end
+
+  # Updates start/due dates of following issues
+  def reschedule_following_issues
+    if start_date_changed? || due_date_changed?
+      relations_from.each do |relation|
+        relation.set_issue_to_dates
+      end
+    end
+  end
+
+  # Closes duplicates if the issue is being closed
+  def close_duplicates
+    if closing?
+      duplicates.each do |duplicate|
+        # Reload is need in case the duplicate was updated by a previous duplicate
+        duplicate.reload
+        # Don't re-close it if it's already closed
+        next if duplicate.closed?
+        # Same user and notes
+        if @current_journal
+          duplicate.init_journal(@current_journal.user, @current_journal.notes)
+        end
+        duplicate.update_attribute :status, self.status
+      end
+    end
+  end
+  
   # Saves the changes in a Journal
   # Called after_save
   def create_journal
@@ -523,6 +541,8 @@ class Issue < ActiveRecord::Base
                                                       :value => c.value)
       }      
       @current_journal.save
+      # reset current journal
+      init_journal @current_journal.user, @current_journal.notes
     end
   end
 
