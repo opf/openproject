@@ -256,7 +256,7 @@ private
       @entry_sum, @entry_count = [time_entry_sum, time_entry_count]
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
-      @entries = TimeEntry.all({ :select => costs_where[TimeEntry.table_name],
+      @entries = TimeEntry.all({ :select => display_costs[TimeEntry.table_name],
                                       :order => (sort_clause if time_sort_column),
                                       :joins => [:issue, :activity, :user, :project],
                                       :conditions => time_where,
@@ -268,7 +268,7 @@ private
       @entry_sum, @entry_count = [cost_entry_sum, cost_entry_count]
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
-      @entries = CostEntry.all ({ :select => costs_where[CostEntry.table_name],
+      @entries = CostEntry.all ({ :select => display_costs[CostEntry.table_name],
                                       :order => (sort_clause if cost_sort_column),
                                       :joins => [:issue, :cost_type, :user, :project],
                                       :conditions => cost_where,
