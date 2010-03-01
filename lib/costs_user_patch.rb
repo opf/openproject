@@ -172,10 +172,9 @@ module CostsUserPatch
     def rate_at(date, project = nil, include_default = true)
       unless project.nil?
         rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project, date], :order => "valid_from DESC")
-        # TODO: this is Redmine 0.8 specific. Sort by project.lft first if using redmine 0.9!
         if rate.nil?
           project = Project.find(project) unless project.is_a?(Project)
-          rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id in (?) and valid_from <= ?", id, project.ancestors, date], :order => "valid_from DESC")
+          rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id in (?) and valid_from <= ?", id, project.ancestors, date], :include => :project, :order => "projects.lft DESC, valid_from DESC")
         end
       end
       rate ||= default_rate_at(date) if include_default
