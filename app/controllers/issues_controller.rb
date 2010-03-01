@@ -562,17 +562,17 @@ private
   # TODO: move attach_files to the model so this can be moved to the
   # model also
   def issue_update
-    @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
-    @time_entry.attributes = params[:time_entry]
-    if (@time_entry.hours.nil? || @time_entry.valid?) && @issue.valid?
+    if params[:time_entry] && params[:time_entry][:hours].present? && User.current.allowed_to?(:log_time, @project)
+      @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
+      @time_entry.attributes = params[:time_entry]
+      @issue.time_entries << @time_entry
+    end
+
+    if @issue.valid?
       attachments = attach_files(@issue, params[:attachments])
       attachments.each {|a| @journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
       call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => @journal})
       if @issue.save
-        # Log spend time
-        if User.current.allowed_to?(:log_time, @project)
-          @time_entry.save
-        end
         if !@journal.new_record?
           # Only send notification if something was actually changed
           flash[:notice] = l(:notice_successful_update)
