@@ -42,7 +42,7 @@ class CostType < ActiveRecord::Base
   def new_rate_attributes=(rate_attributes)
     rate_attributes.each do |index, attributes|
       attributes[:rate] = Rate.clean_currency(attributes[:rate])
-      rates.build(attributes) if attributes[:rate].to_f > 0
+      rates.build(attributes)
     end
   end
   
@@ -53,7 +53,7 @@ class CostType < ActiveRecord::Base
       has_rate = false
       if attributes && attributes[:rate]
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
-        has_rate = attributes[:rate].to_f > 0
+        has_rate = true
       end
       
       if has_rate

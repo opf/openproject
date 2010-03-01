@@ -198,10 +198,10 @@ module CostsUserPatch
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
         
         if project.nil?
-          default_rates.build(attributes) if attributes[:rate].to_f > 0
+          default_rates.build(attributes)
         else
           attributes[:project] = project
-          rates.build(attributes) if attributes[:rate].to_f > 0
+          rates.build(attributes)
         end
       end
     end
@@ -254,7 +254,7 @@ module CostsUserPatch
       has_rate = false
       if attributes && attributes[:rate]
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
-        has_rate = attributes[:rate].to_f > 0
+        has_rate = true
       end
 
       if has_rate
