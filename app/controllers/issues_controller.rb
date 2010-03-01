@@ -50,7 +50,9 @@ class IssuesController < ApplicationController
   verify :method => [:post, :delete],
          :only => :destroy,
          :render => { :nothing => true, :status => :method_not_allowed }
-           
+
+  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+  
   def index
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)

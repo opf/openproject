@@ -657,6 +657,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select_rjs :show, "update"
   end
 
+  def test_update_using_invalid_http_verbs
+    @request.session[:user_id] = 2
+    subject = 'Updated by an invalid http verb'
+
+    get :update, :id => 1, :issue => {:subject => subject}
+    assert_not_equal subject, Issue.find(1).subject
+
+    post :update, :id => 1, :issue => {:subject => subject}
+    assert_not_equal subject, Issue.find(1).subject
+
+    delete :update, :id => 1, :issue => {:subject => subject}
+    assert_not_equal subject, Issue.find(1).subject
+  end
+
   def test_put_update_without_custom_fields_param
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
