@@ -8,7 +8,7 @@
   <%= link_to l(:button_update), {:controller => 'hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 <% end %>
 </div>
-<h3><%=h project.name %></h3>
+<h3><%=h project.name %> - <%= number_to_currencs(@user.current_rate(project)) %></h3>
 <% if rates.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
