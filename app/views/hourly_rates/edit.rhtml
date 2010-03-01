@@ -9,7 +9,7 @@
   RatesForm = new Subform('<%= escape_javascript(render(:partial => "rate", :object => HourlyRate.new )) %>',<%= @rates.length %>,'rates_body');
 <% end -%>
 
-<% labelled_tabular_form_for :user, @user, :url => {:action => 'edit'} do |f| %>
+<% labelled_tabular_form_for :user, @user, :url => {:action => 'edit', :project_id => @project} do |f| %>
 <%= back_url_hidden_field_tag %>
 <%= error_messages_for 'user' %>
 <table class="list" style="width:auto">
