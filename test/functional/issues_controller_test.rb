@@ -1124,18 +1124,18 @@ class IssuesControllerTest < ActionController::TestCase
                             :attributes => { :href => '/issues/1/edit?issue%5Bstatus_id%5D=5',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
-                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;priority_id=8',
+                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bpriority_id%5D=8',
                                              :class => '' }
     # Versions
     assert_tag :tag => 'a', :content => '2.0',
-                            :attributes => { :href => '/issues/bulk_edit?fixed_version_id=3&amp;ids%5B%5D=1',
+                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=3',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'eCookbook Subproject 1 - 2.0',
-                            :attributes => { :href => '/issues/bulk_edit?fixed_version_id=4&amp;ids%5B%5D=1',
+                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=4',
                                              :class => '' }
 
     assert_tag :tag => 'a', :content => 'Dave Lopper',
-                            :attributes => { :href => '/issues/bulk_edit?assigned_to_id=3&amp;ids%5B%5D=1',
+                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bassigned_to_id%5D=3',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Duplicate',
                             :attributes => { :href => '/projects/ecookbook/issues/1/copy',
@@ -1169,10 +1169,10 @@ class IssuesControllerTest < ActionController::TestCase
                             :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;ids%5B%5D=2',
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Immediate',
-                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;ids%5B%5D=2&amp;priority_id=8',
+                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;ids%5B%5D=2&amp;issue%5Bpriority_id%5D=8',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Dave Lopper',
-                            :attributes => { :href => '/issues/bulk_edit?assigned_to_id=3&amp;ids%5B%5D=1&amp;ids%5B%5D=2',
+                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;ids%5B%5D=2&amp;issue%5Bassigned_to_id%5D=3',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Copy',
                             :attributes => { :href => '/issues/move?copy_options%5Bcopy%5D=t&amp;ids%5B%5D=1&amp;ids%5B%5D=2',
