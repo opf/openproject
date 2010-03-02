@@ -158,7 +158,8 @@ class IssuesController < ApplicationController
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
       call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
       if @issue.save
-        attach_files(@issue, params[:attachments])
+        attachments = Attachment.attach_files(@issue, params[:attachments])
+        flash[:warning] = attachments[:flash] if attachments[:flash]
         flash[:notice] = l(:notice_successful_create)
         call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
         respond_to do |format|
@@ -561,8 +562,6 @@ private
 
   # TODO: Temporary utility method for #update.  Should be split off
   # and moved to the Issue model (accepts_nested_attributes_for maybe?)
-  # TODO: move attach_files to the model so this can be moved to the
-  # model also
   def issue_update
     if params[:time_entry] && params[:time_entry][:hours].present? && User.current.allowed_to?(:log_time, @project)
       @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
@@ -571,8 +570,9 @@ private
     end
 
     if @issue.valid?
-      attachments = attach_files(@issue, params[:attachments])
-      attachments.each {|a| @journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
+      attachments = Attachment.attach_files(@issue, params[:attachments])
+      flash[:warning] = attachments[:flash] if attachments[:flash]
+      attachments[:files].each {|a| @journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
       call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => @journal})
       if @issue.save
         if !@journal.new_record?

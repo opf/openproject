@@ -133,6 +133,33 @@ class Attachment < ActiveRecord::Base
   def readable?
     File.readable?(diskfile)
   end
+
+  # Bulk attaches a set of files to an object
+  #
+  # Returns a Hash of the results:
+  # :files => array of the attached files
+  # :unsaved => array of the files that could not be attached
+  # :flash => warning message
+  def self.attach_files(obj, attachments)
+    attached = []
+    unsaved = []
+    flash = nil
+    if attachments && attachments.is_a?(Hash)
+      attachments.each_value do |attachment|
+        file = attachment['file']
+        next unless file && file.size > 0
+        a = Attachment.create(:container => obj, 
+                              :file => file,
+                              :description => attachment['description'].to_s.strip,
+                              :author => User.current)
+        a.new_record? ? (unsaved << a) : (attached << a)
+      end
+      if unsaved.any?
+        flash = l(:warning_attachments_not_saved, unsaved.size)
+      end
+    end
+    {:files => attached, :flash => flash, :unsaved => unsaved}
+  end
   
 private
   def sanitize_filename(value)

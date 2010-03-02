@@ -257,27 +257,6 @@ class ApplicationController < ActionController::Base
     self.class.read_inheritable_attribute('accept_key_auth_actions') || []
   end
   
-  # TODO: move to model
-  def attach_files(obj, attachments)
-    attached = []
-    unsaved = []
-    if attachments && attachments.is_a?(Hash)
-      attachments.each_value do |attachment|
-        file = attachment['file']
-        next unless file && file.size > 0
-        a = Attachment.create(:container => obj, 
-                              :file => file,
-                              :description => attachment['description'].to_s.strip,
-                              :author => User.current)
-        a.new_record? ? (unsaved << a) : (attached << a)
-      end
-      if unsaved.any?
-        flash[:warning] = l(:warning_attachments_not_saved, unsaved.size)
-      end
-    end
-    attached
-  end
-
   # Returns the number of objects that should be displayed
   # on the paginated list
   def per_page_option

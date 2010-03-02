@@ -62,7 +62,8 @@ class MessagesController < ApplicationController
     end
     if request.post? && @message.save
       call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
-      attach_files(@message, params[:attachments])
+      attachments = Attachment.attach_files(@message, params[:attachments])
+      flash[:warning] = attachments[:flash] if attachments[:flash]
       redirect_to :action => 'show', :id => @message
     end
   end
@@ -75,7 +76,8 @@ class MessagesController < ApplicationController
     @topic.children << @reply
     if !@reply.new_record?
       call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
-      attach_files(@reply, params[:attachments])
+      attachments = Attachment.attach_files(@reply, params[:attachments])
+      flash[:warning] = attachments[:flash] if attachments[:flash]
     end
     redirect_to :action => 'show', :id => @topic, :r => @reply
   end
@@ -88,7 +90,8 @@ class MessagesController < ApplicationController
       @message.sticky = params[:message]['sticky']
     end
     if request.post? && @message.update_attributes(params[:message])
-      attach_files(@message, params[:attachments])
+      attachments = Attachment.attach_files(@message, params[:attachments])
+      flash[:warning] = attachments[:flash] if attachments[:flash]
       flash[:notice] = l(:notice_successful_update)
       @message.reload
       redirect_to :action => 'show', :board_id => @message.board, :id => @message.root, :r => (@message.parent_id && @message.id)
