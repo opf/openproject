@@ -205,7 +205,12 @@ module ApplicationHelper
     s = ''
     project_tree(projects) do |project, level|
       name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
-      tag_options = {:value => project.id, :selected => ((project == options[:selected]) ? 'selected' : nil)}
+      tag_options = {:value => project.id}
+      if project == options[:selected] || (options[:selected].respond_to?(:include?) && options[:selected].include?(project))
+        tag_options[:selected] = 'selected'
+      else
+        tag_options[:selected] = nil
+      end
       tag_options.merge!(yield(project)) if block_given?
       s << content_tag('option', name_prefix + h(project), tag_options)
     end
