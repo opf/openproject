@@ -11,9 +11,9 @@
 <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
     <%= hidden_field_tag('project_id', @project.to_param) if @project %>
 		<div id="query_form_content">
-    <fieldset id="filters" class="collapsible">
+    <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-    	<div>
+    	<div style="<%= @query.new_record? ? "" : "display: none;" %>">
     		<%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     	</div>
     </fieldset>
