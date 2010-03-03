@@ -1,3 +1,4 @@
+<%= call_hook :view_account_login_top %>
 <div id="login-form">
 <% form_tag({:action=> "login"}) do %>
 <%= back_url_hidden_field_tag %>
@@ -38,3 +39,4 @@
 <%= javascript_tag "Form.Element.focus('username');" %>
 <% end %>
 </div>
+<%= call_hook :view_account_login_bottom %>
