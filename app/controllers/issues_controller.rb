@@ -213,7 +213,7 @@ class IssuesController < ApplicationController
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
     # Remove the previously added attachments if issue was not updated
-    attachments.each(&:destroy)
+    attachments[:files].each(&:destroy) if attachments[:files]
   end
 
   def reply
