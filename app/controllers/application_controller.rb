@@ -301,4 +301,9 @@ class ApplicationController < ActionController::Base
   def api_request?
     %w(xml json).include? params[:format]
   end
+
+  # Renders a warning flash if obj has unsaved attachments
+  def render_attachment_warning_if_needed(obj)
+    flash[:warning] = l(:warning_attachments_not_saved, obj.unsaved_attachments.size) if obj.unsaved_attachments.present?
+  end
 end

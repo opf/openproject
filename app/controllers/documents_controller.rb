@@ -48,7 +48,7 @@ class DocumentsController < ApplicationController
     @document = @project.documents.build(params[:document])    
     if request.post? and @document.save	
       attachments = Attachment.attach_files(@document, params[:attachments])
-      flash[:warning] = attachments[:flash] if attachments[:flash]
+      render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index', :project_id => @project
     end
@@ -69,7 +69,7 @@ class DocumentsController < ApplicationController
   
   def add_attachment
     attachments = Attachment.attach_files(@document, params[:attachments])
-    flash[:warning] = attachments[:flash] if attachments[:flash]
+    render_attachment_warning_if_needed(@document)
 
     Mailer.deliver_attachments_added(attachments[:files]) if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
     redirect_to :action => 'show', :id => @document

@@ -63,7 +63,7 @@ class MessagesController < ApplicationController
     if request.post? && @message.save
       call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
       attachments = Attachment.attach_files(@message, params[:attachments])
-      flash[:warning] = attachments[:flash] if attachments[:flash]
+      render_attachment_warning_if_needed(@message)
       redirect_to :action => 'show', :id => @message
     end
   end
@@ -77,7 +77,7 @@ class MessagesController < ApplicationController
     if !@reply.new_record?
       call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
       attachments = Attachment.attach_files(@reply, params[:attachments])
-      flash[:warning] = attachments[:flash] if attachments[:flash]
+      render_attachment_warning_if_needed(@reply)
     end
     redirect_to :action => 'show', :id => @topic, :r => @reply
   end
@@ -91,7 +91,7 @@ class MessagesController < ApplicationController
     end
     if request.post? && @message.update_attributes(params[:message])
       attachments = Attachment.attach_files(@message, params[:attachments])
-      flash[:warning] = attachments[:flash] if attachments[:flash]
+      render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
       @message.reload
       redirect_to :action => 'show', :board_id => @message.board, :id => @message.root, :r => (@message.parent_id && @message.id)
