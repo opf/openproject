@@ -20,14 +20,15 @@ class GitAdapterTest < ActiveSupport::TestCase
       annotate = @adapter.annotate('sources/watchers_controller.rb')
       assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
       assert_equal 41, annotate.lines.size
+      assert_equal "# This program is free software; you can redistribute it and/or", annotate.lines[4].strip
+      assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518", annotate.revisions[4].identifier
+      assert_equal "jsmith", annotate.revisions[4].author
     end
     
     def test_annotate_moved_file
       annotate = @adapter.annotate('renamed_test.txt')
       assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
       assert_equal 2, annotate.lines.size
-      assert_equal "Let's pretend I'm adding a new feature!", annotate.lines.second
-      assert_equal "7e61ac704deecde634b51e59daa8110435dcb3da", annotate.revisions.second.identifier
     end
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"

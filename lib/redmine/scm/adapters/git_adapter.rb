@@ -235,14 +235,15 @@ module Redmine
           # git annotates binary files
           return nil if content.is_binary_data?
           identifier = ''
-          author = ''
+          # git shows commit author on the first occurrence only
+          authors_by_commit = {}
           content.split("\n").each do |line|
             if line =~ /^([0-9a-f]{39,40})\s.*/
               identifier = $1
             elsif line =~ /^author (.+)/
-              author = $1.strip
+              authors_by_commit[identifier] = $1.strip
             elsif line =~ /^\t(.*)/
-              blame.add_line($1, Revision.new(:identifier => identifier, :author => author))
+              blame.add_line($1, Revision.new(:identifier => identifier, :author => authors_by_commit[identifier]))
               identifier = ''
               author = ''
             end
