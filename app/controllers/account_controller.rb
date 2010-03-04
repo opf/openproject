@@ -27,12 +27,7 @@ class AccountController < ApplicationController
     if request.get?
       logout_user
     else
-      # Authenticate user
-      if Setting.openid? && using_open_id?
-        open_id_authenticate(params[:openid_url])
-      else
-        password_authentication
-      end
+      authenticate_user
     end
   end
 
@@ -138,6 +133,14 @@ class AccountController < ApplicationController
     self.logged_user = nil
   end
   
+  def authenticate_user
+    if Setting.openid? && using_open_id?
+      open_id_authenticate(params[:openid_url])
+    else
+      password_authentication
+    end
+  end
+
   def password_authentication
     user = User.try_to_login(params[:username], params[:password])
 
