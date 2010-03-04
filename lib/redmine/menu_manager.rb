@@ -166,6 +166,11 @@ module Redmine
         render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
       end
       
+      def display_main_menu?(project)
+        menu_name = project && !project.new_record? ? :project_menu : :application_menu
+        Redmine::MenuManager.items(menu_name).size > 1 # 1 element is the root
+      end
+
       def render_menu(menu, project=nil)
         links = []
         menu_items_for(menu, project) do |node|

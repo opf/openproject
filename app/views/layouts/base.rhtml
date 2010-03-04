@@ -41,9 +41,11 @@
     
     <h1><%= page_header_title %></h1>
     
+    <% if display_main_menu?(@project) %>
     <div id="main-menu">
         <%= render_main_menu(@project) %>
     </div>
+    <% end %>
 </div>
 
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
