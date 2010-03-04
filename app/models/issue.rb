@@ -47,6 +47,8 @@ class Issue < ActiveRecord::Base
                             :author_key => :author_id
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
+
+  attr_reader :current_journal
   
   validates_presence_of :subject, :priority, :project, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255

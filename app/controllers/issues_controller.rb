@@ -188,6 +188,8 @@ class IssuesController < ApplicationController
   def edit
     update_issue_from_params
 
+    @journal = @issue.current_journal
+
     respond_to do |format|
       format.html { }
       format.xml  { }
@@ -203,6 +205,7 @@ class IssuesController < ApplicationController
         format.xml  { head :ok }
       end
     else
+      @journal = @issue.current_journal
       respond_to do |format|
         format.html { render :action => 'edit' }
         format.xml  { render :xml => @issue.errors, :status => :unprocessable_entity }
@@ -549,7 +552,7 @@ private
     @time_entry = TimeEntry.new
     
     @notes = params[:notes]
-    @journal = @issue.init_journal(User.current, @notes)
+    @issue.init_journal(User.current, @notes)
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
       attrs = params[:issue].dup
@@ -573,14 +576,14 @@ private
       attachments = Attachment.attach_files(@issue, params[:attachments])
       render_attachment_warning_if_needed(@issue)
 
-      attachments[:files].each {|a| @journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
-      call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => @journal})
+      attachments[:files].each {|a| @issue.current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
+      call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => @issue.current_journal})
       if @issue.save
-        if !@journal.new_record?
+        if !@issue.current_journal.new_record?
           # Only send notification if something was actually changed
           flash[:notice] = l(:notice_successful_update)
         end
-        call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => @journal})
+        call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => @issue.current_journal})
         return true
       end
     end
