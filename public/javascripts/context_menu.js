@@ -8,13 +8,6 @@ ContextMenu.prototype = {
 	initialize: function (url) {
 	this.url = url;
 	this.createMenu();
-	
-	// prevent text selection in the issue list
-	var tables = $$('table.issues');
-	for (i=0; i<tables.length; i++) {
-		tables[i].onselectstart = function () { return false; } // ie
-		tables[i].onmousedown = function () { return false; } // mozilla
-	}
 
 	if (!observingContextMenuClick) {
 		Event.observe(document, 'click', this.Click.bindAsEventListener(this));
@@ -167,6 +160,7 @@ ContextMenu.prototype = {
   addSelection: function(tr) {
     tr.addClassName('context-menu-selection');
     this.checkSelectionBox(tr, true);
+    this.clearDocumentSelection();
   },
   
   toggleSelection: function(tr) {
@@ -196,6 +190,14 @@ ContextMenu.prototype = {
   
   isSelected: function(tr) {
     return Element.hasClassName(tr, 'context-menu-selection');
+  },
+  
+  clearDocumentSelection: function() {
+    if (document.selection) {
+      document.selection.clear(); // IE
+    } else {
+      window.getSelection().removeAllRanges();
+    }
   }
 }
 
