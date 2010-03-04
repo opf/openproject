@@ -17,7 +17,7 @@
                             :object_id => watched},
                    :method => :post,
                    :html => {:id => 'new-watcher-form'}) do |f| %>
-<p><%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => true %>
+<p><%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
 
 <%= submit_tag l(:button_add) %>
 <%= toggle_link l(:button_cancel), 'new-watcher-form'%></p>
