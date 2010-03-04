@@ -8,8 +8,8 @@ rescue LoadError
 end
 
 begin
-  require "config/environment" unless defined? RAILS_ROOT
-  require RAILS_ROOT + '/spec/spec_helper'
+  #require "config/environment" unless defined? RAILS_ROOT
+  require 'spec/spec_helper'
 rescue LoadError => error
   puts <<-EOS
 

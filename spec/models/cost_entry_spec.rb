@@ -15,6 +15,7 @@ describe CostEntry do
   fixtures :issues
   fixtures :trackers
   fixtures :enumerations
+  fixtures :enabled_modules
   fixtures :issue_statuses
 
   it "should always prefer overridden_costs" do

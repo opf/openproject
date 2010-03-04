@@ -13,7 +13,6 @@ admin:
   login: rhill
   type: User
 
-
 john:
   id: 2
   login: john
@@ -33,3 +32,4 @@ jane:
   mail: jane@doe.com
   mail_notification: false
   type: User
+
