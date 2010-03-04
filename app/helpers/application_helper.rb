@@ -661,6 +661,17 @@ module ApplicationHelper
       ), :class => 'progress', :style => "width: #{width};") +
       content_tag('p', legend, :class => 'pourcent')
   end
+  
+  def context_menu(url)
+    unless @context_menu_included
+      content_for :header_tags do
+        javascript_include_tag('context_menu') +
+          stylesheet_link_tag('context_menu')
+      end
+      @context_menu_included = true
+    end
+    javascript_tag "new ContextMenu('#{ url_for(url) }')"
+  end
 
   def context_menu_link(name, url, options={})
     options[:class] ||= ''

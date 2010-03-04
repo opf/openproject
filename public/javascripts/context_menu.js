@@ -7,7 +7,8 @@ ContextMenu = Class.create();
 ContextMenu.prototype = {
 	initialize: function (url) {
 	this.url = url;
-
+	this.createMenu();
+	
 	// prevent text selection in the issue list
 	var tables = $$('table.issues');
 	for (i=0; i<tables.length; i++) {
@@ -92,6 +93,15 @@ ContextMenu.prototype = {
     }
     else{
       this.RightClick(e);
+    }
+  },
+  
+  createMenu: function() {
+    if (!$('context-menu')) {
+      var menu = document.createElement("div");
+      menu.setAttribute("id", "context-menu");
+      menu.setAttribute("style", "display:none;");
+      document.getElementById("content").appendChild(menu);
     }
   },
   
