@@ -79,8 +79,12 @@ ContextMenu.prototype = {
       } else {
         // click is outside the rows
         var t = Event.findElement(e, 'a');
-        if ((t != document) && (Element.hasClassName(t, 'disabled') || Element.hasClassName(t, 'submenu'))) {
-          Event.stop(e);
+        if (t == document || t == undefined) {
+          this.unselectAll();
+        } else {
+          if (Element.hasClassName(t, 'disabled') || Element.hasClassName(t, 'submenu')) {
+            Event.stop(e);
+          }
         }
       }
     }
