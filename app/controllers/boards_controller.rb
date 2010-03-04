@@ -17,7 +17,7 @@
 
 class BoardsController < ApplicationController
   default_search_scope :messages
-  before_filter :find_project, :authorize
+  before_filter :find_project, :find_board_if_available, :authorize
 
   helper :messages
   include MessagesHelper
@@ -90,6 +90,11 @@ private
 
   def find_project
     @project = Project.find(params[:project_id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def find_board_if_available
     @board = @project.boards.find(params[:id]) if params[:id]
   rescue ActiveRecord::RecordNotFound
     render_404
