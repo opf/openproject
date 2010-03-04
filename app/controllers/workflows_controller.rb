@@ -19,7 +19,9 @@ class WorkflowsController < ApplicationController
   layout 'admin'
   
   before_filter :require_admin
-
+  before_filter :find_roles
+  before_filter :find_trackers
+  
   def index
     @workflow_counts = Workflow.count_by_tracker_and_role
   end
@@ -40,8 +42,6 @@ class WorkflowsController < ApplicationController
         redirect_to :action => 'edit', :role_id => @role, :tracker_id => @tracker
       end
     end
-    @roles = Role.find(:all, :order => 'builtin, position')
-    @trackers = Tracker.find(:all, :order => 'position')
     
     @used_statuses_only = (params[:used_statuses_only] == '0' ? false : true)
     if @tracker && @used_statuses_only && @tracker.issue_statuses.any?
@@ -51,8 +51,6 @@ class WorkflowsController < ApplicationController
   end
   
   def copy
-    @trackers = Tracker.find(:all, :order => 'position')
-    @roles = Role.find(:all, :order => 'builtin, position')
     
     if params[:source_tracker_id].blank? || params[:source_tracker_id] == 'any'
       @source_tracker = nil
@@ -79,5 +77,15 @@ class WorkflowsController < ApplicationController
         redirect_to :action => 'copy', :source_tracker_id => @source_tracker, :source_role_id => @source_role
       end
     end
+  end
+
+  private
+
+  def find_roles
+    @roles = Role.find(:all, :order => 'builtin, position')
+  end
+  
+  def find_trackers
+    @trackers = Tracker.find(:all, :order => 'position')
   end
 end
