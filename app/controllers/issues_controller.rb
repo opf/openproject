@@ -201,10 +201,7 @@ class IssuesController < ApplicationController
 
     if @issue.save_issue_with_child_records(params, @time_entry)
       render_attachment_warning_if_needed(@issue)
-      if !@issue.current_journal.new_record?
-        # Only send notification if something was actually changed
-        flash[:notice] = l(:notice_successful_update)
-      end
+      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
 
       respond_to do |format|
         format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
@@ -212,10 +209,7 @@ class IssuesController < ApplicationController
       end
     else
       render_attachment_warning_if_needed(@issue)
-      if !@issue.current_journal.new_record?
-        # Only send notification if something was actually changed
-        flash[:notice] = l(:notice_successful_update)
-      end
+      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
       @journal = @issue.current_journal
 
       respond_to do |format|
