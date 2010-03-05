@@ -199,13 +199,25 @@ class IssuesController < ApplicationController
   def update
     update_issue_from_params
 
-    if issue_update
+    if @issue.save_issue_with_child_records(params, @time_entry)
+      render_attachment_warning_if_needed(@issue)
+      if !@issue.current_journal.new_record?
+        # Only send notification if something was actually changed
+        flash[:notice] = l(:notice_successful_update)
+      end
+
       respond_to do |format|
         format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
         format.xml  { head :ok }
       end
     else
+      render_attachment_warning_if_needed(@issue)
+      if !@issue.current_journal.new_record?
+        # Only send notification if something was actually changed
+        flash[:notice] = l(:notice_successful_update)
+      end
       @journal = @issue.current_journal
+
       respond_to do |format|
         format.html { render :action => 'edit' }
         format.xml  { render :xml => @issue.errors, :status => :unprocessable_entity }
@@ -560,34 +572,6 @@ private
       attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
       @issue.safe_attributes = attrs
     end
-
-  end
-
-  # TODO: Temporary utility method for #update.  Should be split off
-  # and moved to the Issue model (accepts_nested_attributes_for maybe?)
-  def issue_update
-    if params[:time_entry] && params[:time_entry][:hours].present? && User.current.allowed_to?(:log_time, @project)
-      @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
-      @time_entry.attributes = params[:time_entry]
-      @issue.time_entries << @time_entry
-    end
-
-    if @issue.valid?
-      attachments = Attachment.attach_files(@issue, params[:attachments])
-      render_attachment_warning_if_needed(@issue)
-
-      attachments[:files].each {|a| @issue.current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
-      call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => @issue.current_journal})
-      if @issue.save
-        if !@issue.current_journal.new_record?
-          # Only send notification if something was actually changed
-          flash[:notice] = l(:notice_successful_update)
-        end
-        call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => @issue.current_journal})
-        return true
-      end
-    end
-    # failure, returns false
 
   end
 end

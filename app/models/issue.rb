@@ -394,6 +394,34 @@ class Issue < ActiveRecord::Base
     s
   end
 
+  # Saves an issue, time_entry, attachments, and a journal from the parameters
+  def save_issue_with_child_records(params, existing_time_entry=nil)
+    if params[:time_entry] && params[:time_entry][:hours].present? && User.current.allowed_to?(:log_time, project)
+      @time_entry = existing_time_entry || TimeEntry.new
+      @time_entry.project = project
+      @time_entry.issue = self
+      @time_entry.user = User.current
+      @time_entry.spent_on = Date.today
+      @time_entry.attributes = params[:time_entry]
+      self.time_entries << @time_entry
+    end
+
+    if valid?
+      attachments = Attachment.attach_files(self, params[:attachments])
+
+      attachments[:files].each {|a| @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
+      # TODO: Rename hook
+      Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
+      if save
+        # TODO: Rename hook
+        Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
+        return true
+      end
+    end
+    # failure, returns false
+
+  end
+
   # Unassigns issues from +version+ if it's no longer shared with issue's project
   def self.update_versions_from_sharing_change(version)
     # Update issues assigned to the version
