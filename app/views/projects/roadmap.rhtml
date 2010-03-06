@@ -10,13 +10,17 @@
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-    <fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
-    <ul>
+    <% form_tag({}) do -%>	
+    <table class="list related-issues">
+    <caption><%= l(:label_related_issues) %></caption>
     <%- issues.each do |issue| -%>
-        <li><%= link_to_issue(issue, :project => (@project != issue.project)) %></li>
+      <tr class="hascontextmenu">
+        <td class="checkbox"><%= check_box_tag 'ids[]', issue.id %></td>
+        <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+      </tr>
     <%- end -%>
-    </ul>
-    </fieldset>
+    </table>
+    <% end %>
     <% end %>
     <%= call_hook :view_projects_roadmap_version_bottom, :version => version %>
 <% end %>
@@ -46,3 +50,5 @@
 <% end %>
 
 <% html_title(l(:label_roadmap)) %>
+
+<%= context_menu :controller => 'issues', :action => 'context_menu' %>

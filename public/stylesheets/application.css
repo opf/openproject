@@ -107,7 +107,8 @@ table.list td.id { width: 2%; text-align: center;}
 table.list td.checkbox { width: 15px; padding: 0px;}
 table.list td.buttons { width: 15%; white-space:nowrap; text-align: right; }
 table.list td.buttons a { padding-right: 0.6em; }
- 
+table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
+
 tr.project td.name a { padding-left: 16px; white-space:nowrap; }
 tr.project.parent td.name a { background: url('../images/bullet_toggle_minus.png') no-repeat; }
 
@@ -283,8 +284,8 @@ dt.time-entry { background-image: url(../images/time.png); }
 
 #search-results dt.issue.closed { background-image: url(../images/ticket_checked.png); }
 
-div#roadmap fieldset.related-issues { margin-bottom: 1em; }
-div#roadmap fieldset.related-issues ul { margin-top: 0.3em; margin-bottom: 0.3em; }
+div#roadmap .related-issues { margin-bottom: 1em; }
+div#roadmap .related-issues td.checkbox { display: none; }
 div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
 div#roadmap .wiki h2 { font-size: 110%; }

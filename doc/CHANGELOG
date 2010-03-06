@@ -4,6 +4,11 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
+== v1.0.0
+
+Adds context menu to the roadmap issue lists
+
+
 == 2010-02-28 v0.9.3
 
 Adds filter for system shared versions on the cross project issue list
