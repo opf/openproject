@@ -329,41 +329,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal 'Test changed name', project.name
   end
   
-  def test_add_version_routing
-    assert_routing(
-      {:method => :get, :path => 'projects/64/versions/new'},
-      :controller => 'projects', :action => 'add_version', :id => '64'
-    )
-    assert_routing(
-    #TODO: use PUT
-      {:method => :post, :path => 'projects/64/versions/new'},
-      :controller => 'projects', :action => 'add_version', :id => '64'
-    )
-  end
-  
-  def test_add_version
-    @request.session[:user_id] = 2 # manager
-    assert_difference 'Version.count' do
-      post :add_version, :id => '1', :version => {:name => 'test_add_version'}
-    end
-    assert_redirected_to '/projects/ecookbook/settings/versions'
-    version = Version.find_by_name('test_add_version')
-    assert_not_nil version
-    assert_equal 1, version.project_id
-  end
-  
-  def test_add_version_from_issue_form
-    @request.session[:user_id] = 2 # manager
-    assert_difference 'Version.count' do
-      xhr :post, :add_version, :id => '1', :version => {:name => 'test_add_version_from_issue_form'}
-    end
-    assert_response :success
-    assert_select_rjs :replace, 'issue_fixed_version_id'
-    version = Version.find_by_name('test_add_version_from_issue_form')
-    assert_not_nil version
-    assert_equal 1, version.project_id
-  end
-  
   def test_add_issue_category_routing
     assert_routing(
       {:method => :get, :path => 'projects/test/categories/new'},

@@ -40,6 +40,40 @@ class VersionsControllerTest < ActionController::TestCase
     assert_tag :tag => 'h2', :content => /1.0/
   end
   
+  def test_new_routing
+    assert_routing(
+      {:method => :get, :path => 'projects/foo/versions/new'},
+      :controller => 'versions', :action => 'new', :project_id => 'foo'
+    )
+    assert_routing(
+      {:method => :post, :path => 'projects/foo/versions/new'},
+      :controller => 'versions', :action => 'new', :project_id => 'foo'
+    )
+  end
+  
+  def test_new
+    @request.session[:user_id] = 2 # manager
+    assert_difference 'Version.count' do
+      post :new, :project_id => '1', :version => {:name => 'test_add_version'}
+    end
+    assert_redirected_to '/projects/ecookbook/settings/versions'
+    version = Version.find_by_name('test_add_version')
+    assert_not_nil version
+    assert_equal 1, version.project_id
+  end
+  
+  def test_new_from_issue_form
+    @request.session[:user_id] = 2 # manager
+    assert_difference 'Version.count' do
+      xhr :post, :new, :project_id => '1', :version => {:name => 'test_add_version_from_issue_form'}
+    end
+    assert_response :success
+    assert_select_rjs :replace, 'issue_fixed_version_id'
+    version = Version.find_by_name('test_add_version_from_issue_form')
+    assert_not_nil version
+    assert_equal 1, version.project_id
+  end
+  
   def test_get_edit
     @request.session[:user_id] = 2
     get :edit, :id => 2

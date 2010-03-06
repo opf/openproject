@@ -38,4 +38,4 @@
 <% end %>
 </div>
 
-<p><%= link_to_if_authorized l(:label_version_new), :controller => 'projects', :action => 'add_version', :id => @project %></p>
+<p><%= link_to_if_authorized l(:label_version_new), :controller => 'versions', :action => 'new', :project_id => @project %></p>

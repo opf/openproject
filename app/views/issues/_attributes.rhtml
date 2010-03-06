@@ -23,9 +23,9 @@
 <%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
                      l(:label_version_new),
                      'version[name]', 
-                     {:controller => 'projects', :action => 'add_version', :id => @project},
+                     {:controller => 'versions', :action => 'new', :project_id => @project},
                      :title => l(:label_version_new), 
-                     :tabindex => 200) if authorize_for('projects', 'add_version') %>
+                     :tabindex => 200) if authorize_for('versions', 'new') %>
 </p>
 <% end %>
 </div>
