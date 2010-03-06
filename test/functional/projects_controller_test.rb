@@ -329,18 +329,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal 'Test changed name', project.name
   end
   
-  def test_add_issue_category_routing
-    assert_routing(
-      {:method => :get, :path => 'projects/test/categories/new'},
-      :controller => 'projects', :action => 'add_issue_category', :id => 'test'
-    )
-    assert_routing(
-    #TODO: use PUT and update form
-      {:method => :post, :path => 'projects/64/categories/new'},
-      :controller => 'projects', :action => 'add_issue_category', :id => '64'
-    )
-  end
-  
   def test_destroy_routing
     assert_routing(
       {:method => :get, :path => '/projects/567/destroy'},
