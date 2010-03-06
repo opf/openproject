@@ -56,14 +56,14 @@ module Redmine
           shellout(cmd) do |io|
             prefix = "#{url}/#{path}".gsub('\\', '/')
             logger.debug "PREFIX: #{prefix}"
-            re = %r{^V\s+#{Regexp.escape(prefix)}(\/?)([^\/]+)(\/?)\s+(\S+)$}
+            re = %r{^V\s+(#{Regexp.escape(prefix)})?(\/?)([^\/]+)(\/?)\s+(\S+)$}
             io.each_line do |line|
               next unless line =~ re
-              entries << Entry.new({:name => $2.strip,
-                                    :path => ((path.empty? ? "" : "#{path}/") + $2.strip),
-                                    :kind => ($3.blank? ? 'file' : 'dir'),
+              entries << Entry.new({:name => $3.strip,
+                                    :path => ((path.empty? ? "" : "#{path}/") + $3.strip),
+                                    :kind => ($4.blank? ? 'file' : 'dir'),
                                     :size => nil,
-                                    :lastrev => Revision.new(:revision => $4.strip)
+                                    :lastrev => Revision.new(:revision => $5.strip)
                                   })
             end
           end
