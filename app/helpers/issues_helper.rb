@@ -69,32 +69,16 @@ module IssuesHelper
     when 'attr'
       field = detail.prop_key.to_s.gsub(/\_id$/, "")
       label = l(("field_" + field).to_sym)
-      case detail.prop_key
-      when 'due_date', 'start_date'
+      case
+      when ['due_date', 'start_date'].include?(detail.prop_key)
         value = format_date(detail.value.to_date) if detail.value
         old_value = format_date(detail.old_value.to_date) if detail.old_value
-      when 'project_id'
+
+      when ['project_id', 'status_id', 'tracker_id', 'assigned_to_id', 'priority_id', 'category_id', 'fixed_version_id'].include?(detail.prop_key)
         value = find_name_by_reflection(field, detail.value)
         old_value = find_name_by_reflection(field, detail.old_value)
-      when 'status_id'
-        value = find_name_by_reflection(field, detail.value)
-        old_value = find_name_by_reflection(field, detail.old_value)
-      when 'tracker_id'
-        value = find_name_by_reflection(field, detail.value)
-        old_value = find_name_by_reflection(field, detail.old_value)
-      when 'assigned_to_id'
-        value = find_name_by_reflection(field, detail.value)
-        old_value = find_name_by_reflection(field, detail.old_value)
-      when 'priority_id'
-        value = find_name_by_reflection(field, detail.value)
-        old_value = find_name_by_reflection(field, detail.old_value)
-      when 'category_id'
-        value = find_name_by_reflection(field, detail.value)
-        old_value = find_name_by_reflection(field, detail.old_value)
-      when 'fixed_version_id'
-        value = find_name_by_reflection(field, detail.value)
-        old_value = find_name_by_reflection(field, detail.old_value)
-      when 'estimated_hours'
+
+      when detail.prop_key == 'estimated_hours'
         value = "%0.02f" % detail.value.to_f unless detail.value.blank?
         old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
       end
