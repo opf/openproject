@@ -304,7 +304,7 @@ class ProjectsController < ApplicationController
         @issues_by_version[version] = issues
       end
     end
-    @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].empty?}
+    @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
   end
   
   def activity
