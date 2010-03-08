@@ -67,32 +67,33 @@ module IssuesHelper
   def show_detail(detail, no_html=false)
     case detail.property
     when 'attr'
-      label = l(("field_" + detail.prop_key.to_s.gsub(/\_id$/, "")).to_sym)   
+      field = detail.prop_key.to_s.gsub(/\_id$/, "")
+      label = l(("field_" + field).to_sym)
       case detail.prop_key
       when 'due_date', 'start_date'
         value = format_date(detail.value.to_date) if detail.value
         old_value = format_date(detail.old_value.to_date) if detail.old_value
       when 'project_id'
-        p = Project.find_by_id(detail.value) and value = p.name if detail.value
-        p = Project.find_by_id(detail.old_value) and old_value = p.name if detail.old_value
+        value = find_name_by_reflection(field, detail.value)
+        old_value = find_name_by_reflection(field, detail.old_value)
       when 'status_id'
-        s = IssueStatus.find_by_id(detail.value) and value = s.name if detail.value
-        s = IssueStatus.find_by_id(detail.old_value) and old_value = s.name if detail.old_value
+        value = find_name_by_reflection(field, detail.value)
+        old_value = find_name_by_reflection(field, detail.old_value)
       when 'tracker_id'
-        t = Tracker.find_by_id(detail.value) and value = t.name if detail.value
-        t = Tracker.find_by_id(detail.old_value) and old_value = t.name if detail.old_value
+        value = find_name_by_reflection(field, detail.value)
+        old_value = find_name_by_reflection(field, detail.old_value)
       when 'assigned_to_id'
-        u = User.find_by_id(detail.value) and value = u.name if detail.value
-        u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
+        value = find_name_by_reflection(field, detail.value)
+        old_value = find_name_by_reflection(field, detail.old_value)
       when 'priority_id'
-        e = IssuePriority.find_by_id(detail.value) and value = e.name if detail.value
-        e = IssuePriority.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
+        value = find_name_by_reflection(field, detail.value)
+        old_value = find_name_by_reflection(field, detail.old_value)
       when 'category_id'
-        c = IssueCategory.find_by_id(detail.value) and value = c.name if detail.value
-        c = IssueCategory.find_by_id(detail.old_value) and old_value = c.name if detail.old_value
+        value = find_name_by_reflection(field, detail.value)
+        old_value = find_name_by_reflection(field, detail.old_value)
       when 'fixed_version_id'
-        v = Version.find_by_id(detail.value) and value = v.name if detail.value
-        v = Version.find_by_id(detail.old_value) and old_value = v.name if detail.old_value
+        value = find_name_by_reflection(field, detail.value)
+        old_value = find_name_by_reflection(field, detail.old_value)
       when 'estimated_hours'
         value = "%0.02f" % detail.value.to_f unless detail.value.blank?
         old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
@@ -138,6 +139,15 @@ module IssuesHelper
       end
     else
       l(:text_journal_deleted, :label => label, :old => old_value)
+    end
+  end
+
+  # Find the name of an associated record stored in the field attribute
+  def find_name_by_reflection(field, id)
+    association = Issue.reflect_on_association(field.to_sym)
+    if association
+      record = association.class_name.constantize.find_by_id(id)
+      return record.name if record
     end
   end
   
