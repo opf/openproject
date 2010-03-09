@@ -431,6 +431,7 @@ ja:
   label_user_plural: ユーザ
   label_user_new: 新しいユーザ
   label_user_anonymous: 匿名ユーザ
+  label_profile: プロフィール
   label_project: プロジェクト
   label_project_new: 新しいプロジェクト
   label_project_plural: プロジェクト
@@ -917,4 +918,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  label_profile: Profile

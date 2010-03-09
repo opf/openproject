@@ -607,6 +607,7 @@ ru:
   label_preferences: Предпочтения
   label_preview: Предварительный просмотр
   label_previous: Предыдущий
+  label_profile: Профиль
   label_project: проект
   label_project_all: Все проекты
   label_project_latest: Последние проекты
@@ -1009,4 +1010,3 @@ ru:
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
 
-  label_profile: Profile

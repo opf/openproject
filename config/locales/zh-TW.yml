@@ -842,7 +842,8 @@
   label_api_access_key: API 存取金鑰
   label_missing_api_access_key: 找不到 API 存取金鑰
   label_api_access_key_created_on: "API 存取金鑰建立於 {{value}} 之前"
-  
+  label_profile: 配置概況
+
   button_login: 登入
   button_submit: 送出
   button_save: 儲存
@@ -979,4 +980,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  label_profile: Profile
