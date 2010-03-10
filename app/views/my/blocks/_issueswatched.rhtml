@@ -1,10 +1,5 @@
-<h3><%=l(:label_watched_issues)%> (<%= Issue.visible.count(:include => :watchers,
-												 																	 :conditions => ["#{Watcher.table_name}.user_id = ?", user.id]) %>)</h3>
-<% watched_issues = Issue.visible.find(:all, 
-                               :include => [:status, :project, :tracker, :watchers],
-                               :limit => 10, 
-                               :conditions => ["#{Watcher.table_name}.user_id = ?", user.id],
-                               :order => "#{Issue.table_name}.updated_on DESC") %>
+<h3><%=l(:label_watched_issues)%> (<%= Issue.visible.watched_by(user.id).count %>)</h3>
+<% watched_issues = Issue.visible.on_active_project.watched_by(user.id).recently_updated.with_limit(10) %>
 
 <%= render :partial => 'issues/list_simple', :locals => { :issues => watched_issues } %>
 <% if watched_issues.length > 0 %>

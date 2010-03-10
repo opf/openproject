@@ -49,8 +49,9 @@ class Issue < ActiveRecord::Base
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
 
   attr_reader :current_journal
-  
+
   validates_presence_of :subject, :priority, :project, :tracker, :author, :status
+
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
@@ -59,6 +60,11 @@ class Issue < ActiveRecord::Base
                                           :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
   
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
+
+  named_scope :recently_updated, :order => "#{self.table_name}.updated_on DESC"
+  named_scope :with_limit, lambda { |limit| { :limit => limit} }
+  named_scope :on_active_project, :include => [:status, :project, :tracker],
+                                  :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
 
   before_create :default_assign
   before_save :reschedule_following_issues, :close_duplicates, :update_done_ratio_from_issue_status

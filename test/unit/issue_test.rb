@@ -656,4 +656,24 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 2, groups.size
     assert_equal 5, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
+
+  def test_recently_updated_with_limit_scopes
+    #should return the last updated issue
+    assert_equal 1, Issue.recently_updated.with_limit(1).length
+    assert_equal Issue.find(:first, :order => "updated_on DESC"), Issue.recently_updated.with_limit(1).first
+  end
+
+  def test_on_active_projects_scope
+    assert Project.find(2).archive
+    
+    before = Issue.on_active_project.length
+    # test inclusion to results
+    issue = Issue.generate_for_project!(Project.find(1), :tracker => Project.find(2).trackers.first)
+    assert_equal before + 1, Issue.on_active_project.length
+
+    # Move to an archived project
+    issue.project = Project.find(2)
+    assert issue.save
+    assert_equal before, Issue.on_active_project.length
+  end
 end
