@@ -262,13 +262,7 @@ class IssuesController < ApplicationController
           unsaved_issue_ids << issue.id
         end
       end
-      if unsaved_issue_ids.empty?
-        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
-      else
-        flash[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
-                                                         :total => @issues.size,
-                                                         :ids => '#' + unsaved_issue_ids.join(', #'))
-      end
+      set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
       redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
       return
     end
@@ -309,13 +303,8 @@ class IssuesController < ApplicationController
           unsaved_issue_ids << issue.id
         end
       end
-      if unsaved_issue_ids.empty?
-        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
-      else
-        flash[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
-                                                         :total => @issues.size,
-                                                         :ids => '#' + unsaved_issue_ids.join(', #'))
-      end
+      set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
+
       if params[:follow]
         if @issues.size == 1 && moved_issues.size == 1
           redirect_to :controller => 'issues', :action => 'show', :id => moved_issues.first
@@ -567,5 +556,16 @@ private
       @issue.safe_attributes = attrs
     end
 
+  end
+
+  def set_flash_from_bulk_issue_save(issues, unsaved_issue_ids)
+    if unsaved_issue_ids.empty?
+      flash[:notice] = l(:notice_successful_update) unless issues.empty?
+    else
+      flash[:error] = l(:notice_failed_to_save_issues,
+                        :count => unsaved_issue_ids.size,
+                        :total => issues.size,
+                        :ids => '#' + unsaved_issue_ids.join(', #'))
+    end
   end
 end
