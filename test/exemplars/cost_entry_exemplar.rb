@@ -2,7 +2,7 @@ CostEntry.class_eval do
   generator_for :project, :method => :next_project
   generator_for :user, :method => :next_user
   generator_for :cost_type, :method => :next_cost_type
-  generator_for :cost_rate, :method => :next_cost_rate
+  generator_for :rate, :method => :next_cost_rate
   generator_for :units, rand(1000)
   generator_for :spent_on, 1.year.ago
   generator_for :comments, "Some comment"
