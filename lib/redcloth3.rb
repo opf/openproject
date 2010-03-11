@@ -373,17 +373,21 @@ class RedCloth3 < String
         ['^', 'sup', :limit],
         ['~', 'sub', :limit]
     ] 
+    QTAGS_JOIN = QTAGS.map {|rc, ht, rtype| Regexp::quote rc}.join('|')
+    
     QTAGS.collect! do |rc, ht, rtype|
         rcq = Regexp::quote rc
         re =
             case rtype
             when :limit
                 /(^|[>\s\(])
+                (#{QTAGS_JOIN}|)
                 (#{rcq})
                 (#{C})
                 (?::(\S+?))?
-                (\w|[^\s\-].*?[^\s\-])
+                (\w|[^\s].*?[^\s])
                 #{rcq}
+                (#{QTAGS_JOIN}|)
                 (?=[[:punct:]]|\s|\)|$)/x
             else
                 /(#{rcq})
@@ -768,7 +772,7 @@ class RedCloth3 < String
              
                 case rtype
                 when :limit
-                    sta,qtag,atts,cite,content = $~[1..5]
+                    sta,oqs,qtag,atts,cite,content,oqa = $~[1..7]
                 else
                     qtag,atts,cite,content = $~[1..4]
                     sta = ''
@@ -777,7 +781,7 @@ class RedCloth3 < String
                 atts << " cite=\"#{ cite }\"" if cite
                 atts = shelve( atts ) if atts
 
-                "#{ sta }<#{ ht }#{ atts }>#{ content }</#{ ht }>"
+                "#{ sta }#{ oqs }<#{ ht }#{ atts }>#{ content }</#{ ht }>#{ oqa }"
 
             end
         end
