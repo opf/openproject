@@ -32,7 +32,7 @@ Feature: Cost Reports
       | Lastname | Bobbit |
     And the user "Bob" is a "Developer" in the project "Test"
     And the role "Developer" may have the following rights in project "Test":
-      | view_own_costs |
+      | View own cost entries |
     And there is only one cost type with the following:
       | name | Translation |
     And the user with login "Bob" has one cost entry
