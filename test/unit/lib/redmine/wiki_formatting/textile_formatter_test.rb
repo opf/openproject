@@ -60,4 +60,23 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
       end
     end
   end
+  
+  def test_inline_code
+    to_test = {
+      'this is @some code@'      => 'this is <code>some code</code>',
+      '@<Location /redmine>@'    => '<code>&lt;Location /redmine&gt;</code>',
+    }
+    to_test.each do |text, expected|
+      assert_equal "<p>#{expected}</p>", @formatter.new(text).to_html
+    end
+  end
+  
+  def test_escaping
+    to_test = {
+      'this is a <script>'      => 'this is a &lt;script&gt;',
+    }
+    to_test.each do |text, expected|
+      assert_equal "<p>#{expected}</p>", @formatter.new(text).to_html
+    end
+  end
 end

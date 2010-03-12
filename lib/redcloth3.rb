@@ -613,7 +613,7 @@ class RedCloth3 < String
         text.gsub!( CODE_RE ) do |m|
             before,lang,code,after = $~[1..4]
             lang = " lang=\"#{ lang }\"" if lang
-            rip_offtags( "#{ before }<code#{ lang }>#{ code }</code>#{ after }" )
+            rip_offtags( "#{ before }<code#{ lang }>#{ code }</code>#{ after }", false )
         end
     end
 
@@ -1054,7 +1054,7 @@ class RedCloth3 < String
         end
     end
 
-    def rip_offtags( text )
+    def rip_offtags( text, escape_aftertag=true )
         if text =~ /<.*>/
             ## strip and encode <pre> content
             codepre, used_offtags = 0, {}
@@ -1068,7 +1068,7 @@ class RedCloth3 < String
                         @pre_list.last << line
                         line = ""
                     else
-                        htmlesc( aftertag, :NoQuotes ) if aftertag
+                        htmlesc( aftertag, :NoQuotes ) if aftertag && escape_aftertag
                         line = "<redpre##{ @pre_list.length }>"
                         $3.match(/<#{ OFFTAGS }([^>]*)>/)
                         tag = $1
