@@ -268,7 +268,7 @@ private
       @entry_sum, @entry_count = [cost_entry_sum, cost_entry_count]
       @entry_pages = Paginator.new self, @entry_count, limit, params['page']
 
-      @entries = CostEntry.all ({ :select => display_costs[CostEntry.table_name],
+      @entries = CostEntry.all({ :select => display_costs[CostEntry.table_name],
                                       :order => (sort_clause if cost_sort_column),
                                       :joins => [:issue, :cost_type, :user, :project],
                                       :conditions => cost_where,
