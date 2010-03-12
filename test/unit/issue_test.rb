@@ -387,6 +387,16 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 7, issue.fixed_version_id
   end
   
+  def test_move_to_another_project_with_disabled_tracker
+    issue = Issue.find(1)
+    target = Project.find(2)
+    target.tracker_ids = [3]
+    target.save
+    assert_equal false, issue.move_to(target)
+    issue.reload
+    assert_equal 1, issue.project_id
+  end
+  
   def test_copy_to_the_same_project
     issue = Issue.find(1)
     copy = nil

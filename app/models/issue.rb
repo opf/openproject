@@ -101,7 +101,7 @@ class Issue < ActiveRecord::Base
   def move_to(new_project, new_tracker = nil, options = {})
     options ||= {}
     issue = options[:copy] ? self.clone : self
-    transaction do
+    ret = Issue.transaction do
       if new_project && issue.project_id != new_project.id
         # delete issue relations
         unless Setting.cross_project_issue_relations?
@@ -138,12 +138,12 @@ class Issue < ActiveRecord::Base
           # Manually update project_id on related time entries
           TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
         end
+        true
       else
-        Issue.connection.rollback_db_transaction
-        return false
+        raise ActiveRecord::Rollback
       end
     end
-    return issue
+    ret ? issue : false
   end
   
   def priority_id=(pid)
