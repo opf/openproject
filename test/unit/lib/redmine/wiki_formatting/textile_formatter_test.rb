@@ -33,7 +33,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
   }
   
   def test_modifiers
-    to_test = {
+    assert_html_output(
       '*bold*'                => '<strong>bold</strong>',
       'before *bold*'         => 'before <strong>bold</strong>',
       '*bold* after'          => '<strong>bold</strong> after',
@@ -43,11 +43,8 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
       '*two* *words*'         => '<strong>two</strong> <strong>words</strong>',
       '*(two)* *(words)*'     => '<strong>(two)</strong> <strong>(words)</strong>',
       # with class
-      '*(foo)two words*'      => '<strong class="foo">two words</strong>',
-    }
-    to_test.each do |text, expected|
-      assert_equal "<p>#{expected}</p>", @formatter.new(text).to_html
-    end
+      '*(foo)two words*'      => '<strong class="foo">two words</strong>'
+    )
   end
   
   def test_modifiers_combination
@@ -56,25 +53,27 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
         next if m1 == m2
         text = "#{m2}#{m1}Phrase modifiers#{m1}#{m2}"
         html = "<p><#{tag2}><#{tag1}>Phrase modifiers</#{tag1}></#{tag2}></p>"
-        assert_equal html, @formatter.new(text).to_html
+        assert_html_output text => html
       end
     end
   end
   
   def test_inline_code
-    to_test = {
+    assert_html_output(
       'this is @some code@'      => 'this is <code>some code</code>',
-      '@<Location /redmine>@'    => '<code>&lt;Location /redmine&gt;</code>',
-    }
-    to_test.each do |text, expected|
-      assert_equal "<p>#{expected}</p>", @formatter.new(text).to_html
-    end
+      '@<Location /redmine>@'    => '<code>&lt;Location /redmine&gt;</code>'
+    )
   end
   
   def test_escaping
-    to_test = {
-      'this is a <script>'      => 'this is a &lt;script&gt;',
-    }
+    assert_html_output(
+      'this is a <script>'      => 'this is a &lt;script&gt;'
+    )
+  end
+  
+  private
+  
+  def assert_html_output(to_test)
     to_test.each do |text, expected|
       assert_equal "<p>#{expected}</p>", @formatter.new(text).to_html
     end
