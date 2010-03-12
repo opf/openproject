@@ -128,9 +128,11 @@ class AccountController < ApplicationController
   private
   
   def logout_user
-    cookies.delete :autologin
-    Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin']) if User.current.logged?
-    self.logged_user = nil
+    if User.current.logged?
+      cookies.delete :autologin
+      Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
+      self.logged_user = nil
+    end
   end
   
   def authenticate_user
