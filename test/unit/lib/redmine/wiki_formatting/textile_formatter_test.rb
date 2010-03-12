@@ -75,7 +75,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
   
   def assert_html_output(to_test)
     to_test.each do |text, expected|
-      assert_equal "<p>#{expected}</p>", @formatter.new(text).to_html
+      assert_equal "<p>#{expected}</p>", @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n"
     end
   end
 end
