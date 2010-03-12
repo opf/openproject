@@ -204,6 +204,7 @@ class ProjectsController < ApplicationController
   
   def modules
     @project.enabled_module_names = params[:enabled_modules]
+    flash[:notice] = l(:notice_successful_update)
     redirect_to :action => 'settings', :id => @project, :tab => 'modules'
   end
 
@@ -261,6 +262,7 @@ class ProjectsController < ApplicationController
           @project.update_or_create_time_entry_activity(id, activity)
         end
       end
+      flash[:notice] = l(:notice_successful_update)
     end
     
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'activities', :id => @project
@@ -270,6 +272,7 @@ class ProjectsController < ApplicationController
     @project.time_entry_activities.each do |time_entry_activity|
       time_entry_activity.destroy(time_entry_activity.parent)
     end
+    flash[:notice] = l(:notice_successful_update)
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'activities', :id => @project
   end
   
