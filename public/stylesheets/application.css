@@ -822,14 +822,14 @@ div.issue table img.gravatar {
 
 h2 img.gravatar {
 	padding: 3px;
-	margin: -2px 4px 0 0;
-	float: left;
+	margin: -2px 4px -4px 0;
+	vertical-align: top;
 }
 
 h4 img.gravatar {
 	padding: 3px;
-	margin: -6px 4px 0 0;
-	float: left;
+	margin: -6px 0 -4px 0;
+	vertical-align: top;
 }
 
 td.username img.gravatar {
