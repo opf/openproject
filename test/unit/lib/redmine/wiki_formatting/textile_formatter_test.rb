@@ -32,6 +32,24 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
     "~" => 'sub'     # subscript
   }
   
+  def test_modifiers
+    to_test = {
+      '*bold*'                => '<strong>bold</strong>',
+      'before *bold*'         => 'before <strong>bold</strong>',
+      '*bold* after'          => '<strong>bold</strong> after',
+      '*two words*'           => '<strong>two words</strong>',
+      '*two*words*'           => '<strong>two*words</strong>',
+      '*two * words*'         => '<strong>two * words</strong>',
+      '*two* *words*'         => '<strong>two</strong> <strong>words</strong>',
+      '*(two)* *(words)*'     => '<strong>(two)</strong> <strong>(words)</strong>',
+      # with class
+      '*(foo)two words*'      => '<strong class="foo">two words</strong>',
+    }
+    to_test.each do |text, expected|
+      assert_equal "<p>#{expected}</p>", @formatter.new(text).to_html
+    end
+  end
+  
   def test_modifiers_combination
     MODIFIERS.each do |m1, tag1|
       MODIFIERS.each do |m2, tag2|

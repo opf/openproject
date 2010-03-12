@@ -380,14 +380,12 @@ class RedCloth3 < String
         re =
             case rtype
             when :limit
-                /(^|[>\s\(])
-                (#{QTAGS_JOIN}|)
-                (#{rcq})
-                (#{C})
-                (?::(\S+?))?
-                (\w|[^\s].*?[^\s])
+                /(^|[>\s\(])          # sta
+                (#{QTAGS_JOIN}|)      # oqs
+                (#{rcq})              # qtag
+                (\w|[^\s].*?[^\s])    # content
                 #{rcq}
-                (#{QTAGS_JOIN}|)
+                (#{QTAGS_JOIN}|)      # oqa
                 (?=[[:punct:]]|\s|\)|$)/x
             else
                 /(#{rcq})
@@ -772,13 +770,16 @@ class RedCloth3 < String
              
                 case rtype
                 when :limit
-                    sta,oqs,qtag,atts,cite,content,oqa = $~[1..7]
+                    sta,oqs,qtag,content,oqa = $~[1..6]
+                    atts = nil
+                    if content =~ /^(#{C})(.+)$/
+                      atts, content = $~[1..2]
+                    end
                 else
                     qtag,atts,cite,content = $~[1..4]
                     sta = ''
                 end
                 atts = pba( atts )
-                atts << " cite=\"#{ cite }\"" if cite
                 atts = shelve( atts ) if atts
 
                 "#{ sta }#{ oqs }<#{ ht }#{ atts }>#{ content }</#{ ht }>#{ oqa }"
