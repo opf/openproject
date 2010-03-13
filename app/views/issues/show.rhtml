@@ -65,7 +65,7 @@
 <div class="contextual">
   <%= link_to(l(:button_add), {:controller => 'issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>
 </div>
-<p><strong><%=l(:label_subtask_pural)%></strong></p>
+<p><strong><%=l(:label_subtask_plural)%></strong></p>
 <%= render_descendants_tree(@issue) unless @issue.leaf? %>
 </div>
 <% end %>

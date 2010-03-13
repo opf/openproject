@@ -243,6 +243,7 @@ div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 
 #issue_tree table.issues { border: 0; }
+#issue_tree td.checkbox {display:none;}
 
 fieldset.collapsible { border-width: 1px 0 0 0; font-size: 0.9em; }
 fieldset.collapsible legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }

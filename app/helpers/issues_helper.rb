@@ -47,9 +47,9 @@ module IssuesHelper
     issue.descendants.sort_by(&:lft).each do |child|
       level = child.level - issue.level - 1
       s << content_tag('tr',
-             content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil)) +
-             content_tag('td', link_to_issue(child), :class => 'subject',
-                                                     :style => "padding-left: #{level * 20}px") +
+             content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
+             content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject',
+                                                                      :style => "padding-left: #{level * 20}px") +
              content_tag('td', h(child.status)) +
              content_tag('td', link_to_user(child.assigned_to)) +
              content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
