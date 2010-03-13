@@ -911,3 +911,6 @@ zh:
   permission_manage_project_activities: 管理项目活动
   error_unable_delete_issue_status: 无法删除问题状态
   label_profile: 配置概况
+  permission_manage_subtasks: Manage subtasks
+  field_parent_issue: Parent task
+  label_subtask_plural: Subtasks

@@ -949,3 +949,6 @@ ko:
   permission_manage_project_activities: 프로젝트 작업내역 관리
   error_unable_delete_issue_status: 일감 상태를 지울 수 없습니다.
   label_profile: 사용자정보
+  permission_manage_subtasks: Manage subtasks
+  field_parent_issue: Parent task
+  label_subtask_plural: Subtasks

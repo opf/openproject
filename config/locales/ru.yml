@@ -1010,3 +1010,6 @@ ru:
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
 
+  permission_manage_subtasks: Manage subtasks
+  field_parent_issue: Parent task
+  label_subtask_plural: Subtasks

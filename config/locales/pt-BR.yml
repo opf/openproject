@@ -917,3 +917,6 @@ pt-BR:
   permission_manage_project_activities: Gerenciar atividades do projeto
   error_unable_delete_issue_status: Impossível excluir estado da tarefa
   label_profile: Perfil
+  permission_manage_subtasks: Manage subtasks
+  field_parent_issue: Parent task
+  label_subtask_plural: Subtasks

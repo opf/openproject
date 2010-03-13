@@ -768,7 +768,7 @@ fr:
   label_close_versions: Fermer les versions terminées
   label_revision_id: Revision {{value}}
   label_profile: Profil
-  label_subtask_pural: Sous-tâches
+  label_subtask_plural: Sous-tâches
   
   button_login: Connexion
   button_submit: Soumettre

@@ -901,3 +901,6 @@ id:
   permission_manage_project_activities: Manage project activities
   error_unable_delete_issue_status: Unable to delete issue status
   label_profile: Profile
+  permission_manage_subtasks: Manage subtasks
+  field_parent_issue: Parent task
+  label_subtask_plural: Subtasks
