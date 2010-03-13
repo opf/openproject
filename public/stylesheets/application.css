@@ -195,6 +195,13 @@ div.members h3 { background: url(../images/group.png) no-repeat 0% 50%; padding-
 div.news h3 { background: url(../images/news.png) no-repeat 0% 50%; padding-left: 20px; }
 div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padding-left: 20px; }
 
+#watchers ul {margin: 0;  padding: 0;}
+#watchers li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
+#watchers select {width: 95%; display: block;}
+#watchers a.delete {opacity: 0.4;}
+#watchers a.delete:hover {opacity: 1;}
+#watchers img.gravatar {vertical-align: middle;margin-right: 4px;}
+
 .highlight { background-color: #FCFD8D;}
 .highlight.token-1 { background-color: #faa;}
 .highlight.token-2 { background-color: #afa;}
