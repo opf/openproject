@@ -942,10 +942,10 @@ ko:
     권한들 일부 또는 전부를 막 삭제하려고 하고 있습니다. 그렇게 되면 이 프로젝트를 더이상 수정할 수 없게 됩니다.
     계속하시겠습니까?
   label_close_versions: 완료된 버전 닫기
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
+  label_board_sticky: 붙박이
+  label_board_locked: 잠금
+  permission_export_wiki_pages: 위키 페이지 내보내기
+  setting_cache_formatted_text: 형식을 가진 텍스트 빠른 임시 기억
+  permission_manage_project_activities: 프로젝트 작업내역 관리
+  error_unable_delete_issue_status: 일감 상태를 지울 수 없습니다.
+  label_profile: 사용자정보

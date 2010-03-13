@@ -57,8 +57,8 @@ zh:
         one: "一年以上"
         other: "{{count}} 年以上"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "将近 1 年"
+        other: "将近 {{count}} 年"
     prompts:
       year:   "年"
       month:  "月"
@@ -904,10 +904,10 @@ zh:
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
   enumeration_system_activity: 系统活动
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
+  label_board_sticky: 置顶
+  label_board_locked: 锁定
+  permission_export_wiki_pages: 导出 wiki 页面
+  setting_cache_formatted_text: 缓存已格式化文字
+  permission_manage_project_activities: 管理项目活动
+  error_unable_delete_issue_status: 无法删除问题状态
+  label_profile: 配置概况
