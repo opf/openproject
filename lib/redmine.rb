@@ -47,13 +47,14 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :edit, :destroy]}, :require => :member
     # Issues
     map.permission :view_issues, {:projects => :roadmap, 
-                                  :issues => [:index, :changes, :show, :context_menu],
+                                  :issues => [:index, :changes, :show, :context_menu, :auto_complete],
                                   :versions => [:show, :status_by],
                                   :queries => :index,
                                   :reports => [:issue_report, :issue_report_details]}
     map.permission :add_issues, {:issues => [:new, :update_form]}
     map.permission :edit_issues, {:issues => [:edit, :update, :reply, :bulk_edit, :update_form]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
+    map.permission :manage_subtasks, {}
     map.permission :add_issue_notes, {:issues => [:edit, :update, :reply]}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :edit_own_issue_notes, {:journals => :edit}, :require => :loggedin

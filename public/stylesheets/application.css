@@ -237,6 +237,13 @@ p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; } 
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
 
+div.issue div.subject div div { padding-left: 16px; }
+div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color: #999;}
+div.issue div.subject>div>p { margin-top: 0.5em; }
+div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
+
+#issue_tree table.issues { border: 0; }
+
 fieldset.collapsible { border-width: 1px 0 0 0; font-size: 0.9em; }
 fieldset.collapsible legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
 fieldset.collapsible.collapsed legend { background-image: url(../images/arrow_collapsed.png); }
@@ -588,8 +595,7 @@ button.tab-right {
 /***** Auto-complete *****/
 div.autocomplete {
   position:absolute;
-  width:250px;
-  background-color:white;
+  width:400px;
   margin:0;
   padding:0;
 }
@@ -598,22 +604,25 @@ div.autocomplete ul {
   margin:0;
   padding:0;
 }
-div.autocomplete ul li.selected { background-color: #ffb;}
 div.autocomplete ul li {
   list-style-type:none;
   display:block;
-  margin:0;
+  margin:-1px 0 0 0;
   padding:2px;
   cursor:pointer;
   font-size: 90%;
-  border-bottom: 1px solid #ccc;
+  border: 1px solid #ccc;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
+  background-color:white;
 }
+div.autocomplete ul li.selected { background-color: #ffb;}
 div.autocomplete ul li span.informal {
   font-size: 80%;
   color: #aaa;
 }
+
+#parent_issue_candidates ul li {width: 500px;}
 
 /***** Diff *****/
 .diff_out { background: #fcc; }
@@ -741,6 +750,12 @@ background-image:url('../images/close_hl.png');
 .task_late { background:#f66 url(../images/task_late.png); border: 1px solid #f66; }
 .task_done { background:#66f url(../images/task_done.png); border: 1px solid #66f; }  
 .task_todo { background:#aaa url(../images/task_todo.png); border: 1px solid #aaa; }
+
+.task_todo.parent { background: #888; border: 1px solid #888; height: 6px;}
+.task_late.parent, .task_done.parent { height: 3px;}
+.task_todo.parent .left  { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-left: -5px; left: 0px; top: -1px;}
+.task_todo.parent .right { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-right: -5px; right: 0px; top: -1px;}
+
 .milestone { background-image:url(../images/milestone.png); background-repeat: no-repeat; border: 0; }
 
 /***** Icons *****/

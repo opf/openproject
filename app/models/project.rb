@@ -557,9 +557,12 @@ class Project < ActiveRecord::Base
     # value.  Used to map the two togeather for issue relations.
     issues_map = {}
     
-    project.issues.each do |issue|
+    # Get issues sorted by root_id, lft so that parent issues
+    # get copied before their children
+    project.issues.find(:all, :order => 'root_id, lft').each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue)
+      new_issue.project = self
       # Reassign fixed_versions by name, since names are unique per
       # project and the versions for self are not yet saved
       if issue.fixed_version
@@ -570,6 +573,13 @@ class Project < ActiveRecord::Base
       if issue.category
         new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
       end
+      # Parent issue
+      if issue.parent_id
+        if copied_parent = issues_map[issue.parent_id]
+          new_issue.parent_issue_id = copied_parent.id
+        end
+      end
+      
       self.issues << new_issue
       issues_map[issue.id] = new_issue
     end

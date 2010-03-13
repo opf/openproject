@@ -53,6 +53,7 @@ module Redmine
                                                       :add_issues,
                                                       :edit_issues,
                                                       :manage_issue_relations,
+                                                      :manage_subtasks,
                                                       :add_issue_notes,
                                                       :save_queries,
                                                       :view_gantt,

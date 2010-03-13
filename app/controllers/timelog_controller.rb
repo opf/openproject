@@ -94,7 +94,7 @@ class TimelogController < ApplicationController
       elsif @issue.nil?
         sql_condition = @project.project_condition(Setting.display_subprojects_issues?)
       else
-        sql_condition = "#{TimeEntry.table_name}.issue_id = #{@issue.id}"
+        sql_condition = "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
       end
 
       sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
@@ -166,7 +166,7 @@ class TimelogController < ApplicationController
     elsif @issue.nil?
       cond << @project.project_condition(Setting.display_subprojects_issues?)
     else
-      cond << ["#{TimeEntry.table_name}.issue_id = ?", @issue.id]
+      cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
     end
     
     retrieve_date_range
@@ -176,7 +176,7 @@ class TimelogController < ApplicationController
       respond_to do |format|
         format.html {
           # Paginate results
-          @entry_count = TimeEntry.count(:include => :project, :conditions => cond.conditions)
+          @entry_count = TimeEntry.count(:include => [:project, :issue], :conditions => cond.conditions)
           @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
           @entries = TimeEntry.find(:all, 
                                     :include => [:project, :activity, :user, {:issue => :tracker}],
@@ -184,7 +184,7 @@ class TimelogController < ApplicationController
                                     :order => sort_clause,
                                     :limit  =>  @entry_pages.items_per_page,
                                     :offset =>  @entry_pages.current.offset)
-          @total_hours = TimeEntry.sum(:hours, :include => :project, :conditions => cond.conditions).to_f
+          @total_hours = TimeEntry.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
 
           render :layout => !request.xhr?
         }

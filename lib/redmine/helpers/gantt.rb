@@ -52,8 +52,29 @@ module Redmine
         @date_to = (@date_from >> @months) - 1
       end
       
+      
       def events=(e)
-        @events = e.sort {|x,y| x.start_date <=> y.start_date }
+        @events = e
+        # Adds all ancestors
+        root_ids = e.select {|i| i.is_a?(Issue) && i.parent_id? }.collect(&:root_id).uniq
+        if root_ids.any?
+          # Retrieves all nodes
+          parents = Issue.find_all_by_root_id(root_ids, :conditions => ["rgt - lft > 1"])
+          # Only add ancestors
+          @events += parents.select {|p| @events.detect {|i| i.is_a?(Issue) && p.is_ancestor_of?(i)}}
+        end
+        @events.uniq!
+        # Sort issues by hierarchy and start dates
+        @events.sort! {|x,y| 
+          if x.is_a?(Issue) && y.is_a?(Issue)
+            gantt_issue_compare(x, y, @events)
+          else
+            gantt_start_compare(x, y)
+          end
+        }
+        # Removes issues that have no start or end date
+        @events.reject! {|i| i.is_a?(Issue) && (i.start_date.nil? || i.due_before.nil?) }
+        @events
       end
       
       def params
@@ -218,6 +239,36 @@ module Redmine
         imgl.format = format
         imgl.to_blob
       end if Object.const_defined?(:Magick)
+      
+      private
+      
+      def gantt_issue_compare(x, y, issues)
+        if x.parent_id == y.parent_id
+          gantt_start_compare(x, y)
+        elsif x.is_ancestor_of?(y)
+          -1
+        elsif y.is_ancestor_of?(x)
+          1
+        else
+          ax = issues.select {|i| i.is_a?(Issue) && i.is_ancestor_of?(x) && !i.is_ancestor_of?(y) }.sort_by(&:lft).first
+          ay = issues.select {|i| i.is_a?(Issue) && i.is_ancestor_of?(y) && !i.is_ancestor_of?(x) }.sort_by(&:lft).first
+          if ax.nil? && ay.nil?
+            gantt_start_compare(x, y)
+          else
+            gantt_issue_compare(ax || x, ay || y, issues)
+          end
+        end
+      end
+      
+      def gantt_start_compare(x, y)
+        if x.start_date.nil?
+          -1
+        elsif y.start_date.nil?
+          1
+        else
+          x.start_date <=> y.start_date
+        end
+      end
     end
   end
 end

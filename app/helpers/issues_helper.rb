@@ -30,6 +30,34 @@ module IssuesHelper
       "<strong>#{@cached_label_assigned_to}</strong>: #{issue.assigned_to}<br />" +
       "<strong>#{@cached_label_priority}</strong>: #{issue.priority.name}"
   end
+    
+  def render_issue_subject_with_tree(issue)
+    s = ''
+    issue.ancestors.each do |ancestor|
+      s << '<div>' + content_tag('p', link_to_issue(ancestor))
+    end
+    s << '<div>' + content_tag('h3', h(issue.subject))
+    s << '</div>' * (issue.ancestors.size + 1)
+    s
+  end
+  
+  def render_descendants_tree(issue)
+    s = '<form><table class="list issues">'
+    ancestors = []
+    issue.descendants.sort_by(&:lft).each do |child|
+      level = child.level - issue.level - 1
+      s << content_tag('tr',
+             content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil)) +
+             content_tag('td', link_to_issue(child), :class => 'subject',
+                                                     :style => "padding-left: #{level * 20}px") +
+             content_tag('td', h(child.status)) +
+             content_tag('td', link_to_user(child.assigned_to)) +
+             content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
+             :class => "issue-#{child.id} hascontextmenu")
+    end
+    s << '</form></table>'
+    s
+  end
   
   def render_custom_fields_rows(issue)
     return if issue.custom_field_values.empty?

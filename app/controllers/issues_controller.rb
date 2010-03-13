@@ -21,7 +21,7 @@ class IssuesController < ApplicationController
   
   before_filter :find_issue, :only => [:show, :edit, :update, :reply]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
-  before_filter :find_project, :only => [:new, :update_form, :preview]
+  before_filter :find_project, :only => [:new, :update_form, :preview, :auto_complete]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   accept_key_auth :index, :show, :changes
@@ -164,7 +164,8 @@ class IssuesController < ApplicationController
         call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
         respond_to do |format|
           format.html {
-            redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
+            redirect_to(params[:continue] ? { :action => 'new', :issue => {:tracker_id => @issue.tracker, 
+                                                                           :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
                                             { :action => 'show', :id => @issue })
           }
           format.xml  { render :action => 'show', :status => :created, :location => url_for(:controller => 'issues', :action => 'show', :id => @issue) }
@@ -247,6 +248,7 @@ class IssuesController < ApplicationController
   
   # Bulk edit a set of issues
   def bulk_edit
+    @issues.sort!
     if request.post?
       attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
       attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
@@ -254,6 +256,7 @@ class IssuesController < ApplicationController
       
       unsaved_issue_ids = []
       @issues.each do |issue|
+        issue.reload
         journal = issue.init_journal(User.current, params[:notes])
         issue.safe_attributes = attributes
         call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
@@ -271,6 +274,7 @@ class IssuesController < ApplicationController
   end
 
   def move
+    @issues.sort!
     @copy = params[:copy_options] && params[:copy_options][:copy]
     @allowed_projects = []
     # find projects to which the user is allowed to move the issue
@@ -289,6 +293,7 @@ class IssuesController < ApplicationController
       unsaved_issue_ids = []
       moved_issues = []
       @issues.each do |issue|
+        issue.reload
         changed_attributes = {}
         [:assigned_to_id, :status_id, :start_date, :due_date].each do |valid_attribute|
           unless params[valid_attribute].blank?
@@ -297,7 +302,7 @@ class IssuesController < ApplicationController
         end
         issue.init_journal(User.current)
         call_hook(:controller_issues_move_before_save, { :params => params, :issue => issue, :target_project => @target_project, :copy => !!@copy })
-        if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
+        if r = issue.move_to_project(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
           moved_issues << r
         else
           unsaved_issue_ids << issue.id
@@ -454,6 +459,18 @@ class IssuesController < ApplicationController
     @attachements = @issue.attachments if @issue
     @text = params[:notes] || (params[:issue] ? params[:issue][:description] : nil)
     render :partial => 'common/preview'
+  end
+  
+  def auto_complete
+    @issues = []
+    q = params[:q].to_s
+    if q.match(/^\d+$/)
+      @issues << @project.issues.visible.find_by_id(q.to_i)
+    end
+    unless q.blank?
+      @issues += @project.issues.visible.find(:all, :conditions => ["LOWER(#{Issue.table_name}.subject) LIKE ?", "%#{q.downcase}%"], :limit => 10)
+    end
+    render :layout => false
   end
   
 private

@@ -136,6 +136,7 @@ fr:
         greater_than_start_date: "doit être postérieure à la date de début"
         not_same_project: "n'appartient pas au même projet"
         circular_dependency: "Cette relation créerait une dépendance circulaire"
+        cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
 
   actionview_instancetag_blank_option: Choisir
   
@@ -299,6 +300,7 @@ fr:
   field_group_by: Grouper par
   field_sharing: Partage
   field_active: Actif
+  field_parent_issue: Tâche parente
   
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -408,6 +410,7 @@ fr:
   permission_delete_own_messages: Supprimer ses propres messages
   permission_export_wiki_pages: Exporter les pages
   permission_manage_project_activities: Gérer les activités
+  permission_manage_subtasks: Gérer les sous-tâches
   
   project_module_issue_tracking: Suivi des demandes
   project_module_time_tracking: Suivi du temps passé
@@ -765,6 +768,7 @@ fr:
   label_close_versions: Fermer les versions terminées
   label_revision_id: Revision {{value}}
   label_profile: Profil
+  label_subtask_pural: Sous-tâches
   
   button_login: Connexion
   button_submit: Soumettre

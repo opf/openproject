@@ -1,0 +1,9 @@
+<ul>
+<% if @issues.any? -%>
+  <% @issues.each do |issue| -%>
+    <%= content_tag 'li', h("#{issue.tracker} ##{issue.id}: #{issue.subject}"), :id => issue.id %>
+  <% end -%>
+<% else -%>
+  <%= content_tag("li", l(:label_none), :style => 'display:none') %>
+<% end -%>
+</ul>

@@ -476,7 +476,7 @@ class IssuesControllerTest < ActionController::TestCase
                           :subject => 'This is first issue',
                           :priority_id => 5},
                :continue => ''
-    assert_redirected_to :controller => 'issues', :action => 'new', :tracker_id => 3
+    assert_redirected_to :controller => 'issues', :action => 'new', :issue => {:tracker_id => 3}
   end
   
   def test_post_new_without_custom_fields_param
@@ -531,6 +531,20 @@ class IssuesControllerTest < ActionController::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
     assert [mail.bcc, mail.cc].flatten.include?(User.find(3).mail)
+  end
+  
+  def test_post_new_subissue
+    @request.session[:user_id] = 2
+    
+    assert_difference 'Issue.count' do
+      post :new, :project_id => 1, 
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is a child issue',
+                            :parent_issue_id => 2}
+    end
+    issue = Issue.find_by_subject('This is a child issue')
+    assert_not_nil issue
+    assert_equal Issue.find(2), issue.parent
   end
   
   def test_post_new_should_send_a_notification
@@ -1213,6 +1227,34 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :tag => 'a', :content => 'Delete',
                             :attributes => { :href => '#',
                                              :class => 'icon-del disabled' }
+  end
+
+  def test_auto_complete_routing
+    assert_routing(
+      {:method => :get, :path => '/issues/auto_complete'},
+      :controller => 'issues', :action => 'auto_complete'
+    )
+  end
+  
+  def test_auto_complete_should_not_be_case_sensitive
+    get :auto_complete, :project_id => 'ecookbook', :q => 'ReCiPe'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert assigns(:issues).detect {|issue| issue.subject.match /recipe/}
+  end
+  
+  def test_auto_complete_should_return_issue_with_given_id
+    get :auto_complete, :project_id => 'subproject1', :q => '13'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert assigns(:issues).include?(Issue.find(13))
+  end
+  
+  def test_destroy_routing
+    assert_recognizes( #TODO: use DELETE on issue URI (need to change forms)
+      {:controller => 'issues', :action => 'destroy', :id => '1'},
+      {:method => :post, :path => '/issues/1/destroy'}
+    )
   end
   
   def test_destroy_issue_with_no_time_entries

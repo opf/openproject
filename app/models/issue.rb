@@ -32,6 +32,7 @@ class Issue < ActiveRecord::Base
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
+  acts_as_nested_set :scope => 'root_id'
   acts_as_attachable :after_remove => :attachment_removed
   acts_as_customizable
   acts_as_watchable
@@ -68,7 +69,9 @@ class Issue < ActiveRecord::Base
 
   before_create :default_assign
   before_save :reschedule_following_issues, :close_duplicates, :update_done_ratio_from_issue_status
-  after_save :create_journal
+  after_save :update_nested_set_attributes, :update_parent_attributes, :create_journal
+  after_destroy :destroy_children
+  after_destroy :update_parent_attributes
   
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
@@ -90,60 +93,75 @@ class Issue < ActiveRecord::Base
   
   def copy_from(arg)
     issue = arg.is_a?(Issue) ? arg : Issue.find(arg)
-    self.attributes = issue.attributes.dup.except("id", "created_on", "updated_on")
-    self.custom_values = issue.custom_values.collect {|v| v.clone}
+    self.attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
+    self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = issue.status
     self
   end
   
   # Moves/copies an issue to a new project and tracker
   # Returns the moved/copied issue on success, false on failure
-  def move_to(new_project, new_tracker = nil, options = {})
-    options ||= {}
-    issue = options[:copy] ? self.clone : self
+  def move_to_project(*args)
     ret = Issue.transaction do
-      if new_project && issue.project_id != new_project.id
-        # delete issue relations
-        unless Setting.cross_project_issue_relations?
-          issue.relations_from.clear
-          issue.relations_to.clear
-        end
-        # issue is moved to another project
-        # reassign to the category with same name if any
-        new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
-        issue.category = new_category
-        # Keep the fixed_version if it's still valid in the new_project
-        unless new_project.shared_versions.include?(issue.fixed_version)
-          issue.fixed_version = nil
-        end
-        issue.project = new_project
+      move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
+    end || false
+  end
+  
+  def move_to_project_without_transaction(new_project, new_tracker = nil, options = {})
+    options ||= {}
+    issue = options[:copy] ? self.class.new.copy_from(self) : self
+    
+    if new_project && issue.project_id != new_project.id
+      # delete issue relations
+      unless Setting.cross_project_issue_relations?
+        issue.relations_from.clear
+        issue.relations_to.clear
       end
-      if new_tracker
-        issue.tracker = new_tracker
+      # issue is moved to another project
+      # reassign to the category with same name if any
+      new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
+      issue.category = new_category
+      # Keep the fixed_version if it's still valid in the new_project
+      unless new_project.shared_versions.include?(issue.fixed_version)
+        issue.fixed_version = nil
       end
-      if options[:copy]
-        issue.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
-        issue.status = if options[:attributes] && options[:attributes][:status_id]
-                         IssueStatus.find_by_id(options[:attributes][:status_id])
-                       else
-                         self.status
-                       end
-      end
-      # Allow bulk setting of attributes on the issue
-      if options[:attributes]
-        issue.attributes = options[:attributes]
-      end
-      if issue.save
-        unless options[:copy]
-          # Manually update project_id on related time entries
-          TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
-        end
-        true
-      else
-        raise ActiveRecord::Rollback
+      issue.project = new_project
+      if issue.parent && issue.parent.project_id != issue.project_id
+        issue.parent_issue_id = nil
       end
     end
-    ret ? issue : false
+    if new_tracker
+      issue.tracker = new_tracker
+      issue.reset_custom_values!
+    end
+    if options[:copy]
+      issue.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+      issue.status = if options[:attributes] && options[:attributes][:status_id]
+                       IssueStatus.find_by_id(options[:attributes][:status_id])
+                     else
+                       self.status
+                     end
+    end
+    # Allow bulk setting of attributes on the issue
+    if options[:attributes]
+      issue.attributes = options[:attributes]
+    end
+    if issue.save
+      unless options[:copy]
+        # Manually update project_id on related time entries
+        TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
+        
+        issue.children.each do |child|
+          unless child.move_to_project_without_transaction(new_project)
+            # Move failed and transaction was rollback'd
+            return false
+          end
+        end
+      end
+    else
+      return false
+    end
+    issue
   end
   
   def priority_id=(pid)
@@ -177,6 +195,7 @@ class Issue < ActiveRecord::Base
   SAFE_ATTRIBUTES = %w(
     tracker_id
     status_id
+    parent_issue_id
     category_id
     assigned_to_id
     priority_id
@@ -203,6 +222,19 @@ class Issue < ActiveRecord::Base
         attrs.delete('status_id')
       end
     end
+    
+    unless leaf?
+      attrs.reject! {|k,v| %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)}
+    end
+    
+    if attrs.has_key?('parent_issue_id')
+      if !user.allowed_to?(:manage_subtasks, project)
+        attrs.delete('parent_issue_id')
+      elsif !attrs['parent_issue_id'].blank?
+        attrs.delete('parent_issue_id') unless Issue.visible(user).exists?(attrs['parent_issue_id'])
+      end
+    end
+    
     self.attributes = attrs
   end
   
@@ -247,6 +279,22 @@ class Issue < ActiveRecord::Base
     if project && (tracker_id_changed? || project_id_changed?)
       unless project.trackers.include?(tracker)
         errors.add :tracker_id, :inclusion
+      end
+    end
+    
+    # Checks parent issue assignment
+    if @parent_issue
+      if @parent_issue.project_id != project_id
+        errors.add :parent_issue_id, :not_same_project
+      elsif !new_record?
+        # moving an existing issue
+        if @parent_issue.root_id != root_id
+          # we can always move to another tree
+        elsif move_possible?(@parent_issue)
+          # move accepted inside tree
+        else
+          errors.add :parent_issue_id, :not_a_valid_parent
+        end
       end
     end
   end
@@ -340,13 +388,13 @@ class Issue < ActiveRecord::Base
     notified.collect(&:mail)
   end
   
-  # Returns the total number of hours spent on this issue.
+  # Returns the total number of hours spent on this issue and its descendants
   #
   # Example:
-  #   spent_hours => 0
-  #   spent_hours => 50
+  #   spent_hours => 0.0
+  #   spent_hours => 50.2
   def spent_hours
-    @spent_hours ||= time_entries.sum(:hours) || 0
+    @spent_hours ||= self_and_descendants.sum("#{TimeEntry.table_name}.hours", :include => :time_entries).to_f || 0.0
   end
   
   def relations
@@ -384,6 +432,16 @@ class Issue < ActiveRecord::Base
   
   def soonest_start
     @soonest_start ||= relations_to.collect{|relation| relation.successor_soonest_start}.compact.min
+  end
+  
+  def <=>(issue)
+    if issue.nil?
+      -1
+    elsif root_id != issue.root_id
+      (root_id || 0) <=> (issue.root_id || 0)
+    else
+      (lft || 0) <=> (issue.lft || 0)
+    end
   end
   
   def to_s
@@ -442,6 +500,24 @@ class Issue < ActiveRecord::Base
     Issue.update_versions(["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
 
+  def parent_issue_id=(arg)
+    parent_issue_id = arg.blank? ? nil : arg.to_i
+    if parent_issue_id && @parent_issue = Issue.find_by_id(parent_issue_id)
+      @parent_issue.id
+    else
+      @parent_issue = nil
+      nil
+    end
+  end
+  
+  def parent_issue_id
+    if instance_variable_defined? :@parent_issue
+      @parent_issue.nil? ? nil : @parent_issue.id
+    else
+      parent_id
+    end
+  end
+
   # Extracted from the ReportsController.
   def self.by_tracker(project)
     count_and_group_by(:project => project,
@@ -494,6 +570,95 @@ class Issue < ActiveRecord::Base
   # End ReportsController extraction
   
   private
+  
+  def update_nested_set_attributes
+    if root_id.nil?
+      # issue was just created
+      self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
+      set_default_left_and_right
+      Issue.update_all("root_id = #{root_id}, lft = #{lft}, rgt = #{rgt}", ["id = ?", id])
+      if @parent_issue
+        move_to_child_of(@parent_issue)
+      end
+      reload
+    elsif parent_issue_id != parent_id
+      # moving an existing issue
+      if @parent_issue && @parent_issue.root_id == root_id
+        # inside the same tree
+        move_to_child_of(@parent_issue)
+      else
+        # to another tree
+        unless root?
+          move_to_right_of(root)
+          reload
+        end
+        old_root_id = root_id
+        self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id )
+        target_maxright = nested_set_scope.maximum(right_column_name) || 0
+        offset = target_maxright + 1 - lft
+        Issue.update_all("root_id = #{root_id}, lft = lft + #{offset}, rgt = rgt + #{offset}",
+                          ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
+        self[left_column_name] = lft + offset
+        self[right_column_name] = rgt + offset
+        if @parent_issue
+          move_to_child_of(@parent_issue)
+        end
+      end
+      reload
+      # delete invalid relations of all descendants
+      self_and_descendants.each do |issue|
+        issue.relations.each do |relation|
+          relation.destroy unless relation.valid?
+        end
+      end
+    end
+    remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
+  end
+  
+  def update_parent_attributes
+    if parent_id && p = Issue.find_by_id(parent_id)
+      # priority = highest priority of children
+      if priority_position = p.children.maximum("#{IssuePriority.table_name}.position", :include => :priority)
+        p.priority = IssuePriority.find_by_position(priority_position)
+      end
+      
+      # start/due dates = lowest/highest dates of children
+      p.start_date = p.children.minimum(:start_date)
+      p.due_date = p.children.maximum(:due_date)
+      if p.start_date && p.due_date && p.due_date < p.start_date
+        p.start_date, p.due_date = p.due_date, p.start_date
+      end
+      
+      # done ratio = weighted average ratio of leaves
+      unless Issue.use_status_for_done_ratio? && p.status && p.status.default_done_ratio?
+        leaves_count = p.leaves.count
+        if leaves_count > 0
+          average = p.leaves.average(:estimated_hours).to_f
+          if average == 0
+            average = 1
+          end
+          done = p.leaves.sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)", :include => :status).to_f
+          progress = done / (average * leaves_count)
+          p.done_ratio = progress.round
+        end
+      end
+      
+      # estimate = sum of leaves estimates
+      p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
+      p.estimated_hours = nil if p.estimated_hours == 0.0
+      
+      # ancestors will be recursively updated
+      p.save(false)
+    end
+  end
+  
+  def destroy_children
+    unless leaf?
+      children.each do |child|
+        child.destroy
+      end
+    end
+  end
   
   # Update issues so their versions are not pointing to a
   # fixed_version that is not shared with the issue's project
@@ -562,7 +727,7 @@ class Issue < ActiveRecord::Base
   def create_journal
     if @current_journal
       # attributes changes
-      (Issue.column_names - %w(id description lock_version created_on updated_on)).each {|c|
+      (Issue.column_names - %w(id description root_id lft rgt lock_version created_on updated_on)).each {|c|
         @current_journal.details << JournalDetail.new(:property => 'attr',
                                                       :prop_key => c,
                                                       :old_value => @issue_before_change.send(c),

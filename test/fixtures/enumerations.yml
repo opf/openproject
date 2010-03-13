@@ -19,27 +19,32 @@ enumerations_004:
   id: 4
   type: IssuePriority
   active: true
+  position: 1
 enumerations_005: 
   name: Normal
   id: 5
   type: IssuePriority
   is_default: true
   active: true
+  position: 2
 enumerations_006: 
   name: High
   id: 6
   type: IssuePriority
   active: true
+  position: 3
 enumerations_007: 
   name: Urgent
   id: 7
   type: IssuePriority
   active: true
+  position: 4
 enumerations_008: 
   name: Immediate
   id: 8
   type: IssuePriority
   active: true
+  position: 5
 enumerations_009: 
   name: Design
   id: 9

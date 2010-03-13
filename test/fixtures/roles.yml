@@ -14,6 +14,7 @@ roles_001:
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
+    - :manage_subtasks
     - :add_issue_notes
     - :move_issues
     - :delete_issues
@@ -66,6 +67,7 @@ roles_002:
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
+    - :manage_subtasks
     - :add_issue_notes
     - :move_issues
     - :delete_issues

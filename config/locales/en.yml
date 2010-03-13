@@ -112,6 +112,7 @@ en:
         greater_than_start_date: "must be greater than start date"
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Please select
   
@@ -277,6 +278,7 @@ en:
   field_content: Content
   field_group_by: Group results by
   field_sharing: Sharing
+  field_parent_issue: Parent task
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -386,6 +388,7 @@ en:
   permission_delete_messages: Delete messages
   permission_delete_own_messages: Delete own messages
   permission_export_wiki_pages: Export wiki pages
+  permission_manage_subtasks: Manage subtasks
   
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
@@ -750,6 +753,7 @@ en:
   label_missing_api_access_key: Missing an API access key
   label_api_access_key_created_on: "API access key created {{value}} ago"
   label_profile: Profile
+  label_subtask_plural: Subtasks
   
   button_login: Login
   button_submit: Submit
