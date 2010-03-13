@@ -431,7 +431,24 @@ class Issue < ActiveRecord::Base
   end
   
   def soonest_start
-    @soonest_start ||= relations_to.collect{|relation| relation.successor_soonest_start}.compact.min
+    @soonest_start ||= (
+        relations_to.collect{|relation| relation.successor_soonest_start} +
+        ancestors.collect(&:soonest_start)
+      ).compact.max
+  end
+  
+  def reschedule_after(date)
+    return if date.nil?
+    if leaf?
+      if start_date.nil? || start_date < date
+        self.start_date, self.due_date = date, date + duration
+        save
+      end
+    else
+      leaves.each do |leaf|
+        leaf.reschedule_after(date)
+      end
+    end
   end
   
   def <=>(issue)
