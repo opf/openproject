@@ -122,7 +122,7 @@ module Scanners
           end
 
         when :include_expected
-          if scan(/[^\n]+/)
+          if scan(/<[^>\n]+>?|"[^"\n\\]*(?:\\.[^"\n\\]*)*"?/)
             kind = :include
             state = :initial
 
