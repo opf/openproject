@@ -662,7 +662,7 @@ div.wiki a.new {
 
 div.wiki pre {
     margin: 1em 1em 1em 1.6em;
-    padding: 2px;
+    padding: 2px 2px 2px 0;
     background-color: #fafafa;
     border: 1px solid #dadada;
     width:95%;
