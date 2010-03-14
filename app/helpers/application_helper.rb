@@ -414,13 +414,11 @@ module ApplicationHelper
     only_path = options.delete(:only_path) == false ? false : true
 
     # when using an image link, try to use an attachment, if possible
-    attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
-
-    if attachments
-      attachments = attachments.sort_by(&:created_on).reverse
+    if options[:attachments] || (obj && obj.respond_to?(:attachments))
+      attachments = nil
       text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
         filename, ext, alt, alttext = $1.downcase, $2, $3, $4 
-        
+        attachments ||= (options[:attachments] || obj.attachments).sort_by(&:created_on).reverse
         # search for the picture in attachments
         if found = attachments.detect { |att| att.filename.downcase == filename }
           image_url = url_for :only_path => only_path, :controller => 'attachments', :action => 'download', :id => found
@@ -592,6 +590,7 @@ module ApplicationHelper
                                                      :class => (prefix == 'export' ? 'source download' : 'source')
             end
           when 'attachment'
+            attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
             if attachments && attachment = attachments.detect {|a| a.filename == name }
               link = link_to h(attachment.filename), {:only_path => only_path, :controller => 'attachments', :action => 'download', :id => attachment},
                                                      :class => 'attachment'

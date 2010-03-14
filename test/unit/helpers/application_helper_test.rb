@@ -211,6 +211,14 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
   end
   
+  def test_attachment_links
+    attachment_link = link_to('error281.txt', {:controller => 'attachments', :action => 'download', :id => '1'}, :class => 'attachment')
+    to_test = {
+      'attachment:error281.txt'      => attachment_link
+    }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => Issue.find(3).attachments), "#{text} failed" }
+  end
+  
   def test_wiki_links
     to_test = {
       '[[CookBook documentation]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
