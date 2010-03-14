@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'redcloth3'
-require 'coderay'
 
 module Redmine
   module WikiFormatting
@@ -54,7 +53,7 @@ module Redmine
               content = @pre_list[$1.to_i]
               if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
                 content = "<code class=\"#{$1} CodeRay\">" + 
-                  CodeRay.scan($2, $1.downcase).html(:line_numbers => :inline)
+                  Redmine::SyntaxHighlighting.highlight_by_language($2, $1)
               end
               content
             end
