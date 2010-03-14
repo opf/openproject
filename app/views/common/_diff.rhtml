@@ -2,7 +2,7 @@
 <% diff.each do |table_file| -%>
 <div class="autoscroll">
 <% if diff_type == 'sbs' -%>
-<table class="filecontent CodeRay">
+<table class="filecontent">
 <thead>
 <tr><th colspan="4" class="filename"><%= table_file.file_name %></th></tr>
 </thead>
@@ -29,7 +29,7 @@
 </table>
 
 <% else -%>
-<table class="filecontent CodeRay">
+<table class="filecontent syntaxhl">
 <thead>
 <tr><th colspan="3" class="filename"><%= table_file.file_name %></th></tr>
 </thead>

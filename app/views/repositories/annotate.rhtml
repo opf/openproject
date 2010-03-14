@@ -11,7 +11,7 @@
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
 
 <div class="autoscroll">
-<table class="filecontent annotate CodeRay">
+<table class="filecontent annotate syntaxhl">
   <tbody>
     <% line_num = 1 %>
     <% syntax_highlight(@path, to_utf8(@annotate.content)).each_line do |line| %>
