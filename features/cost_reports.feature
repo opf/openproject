@@ -38,7 +38,7 @@ Feature: Cost Reports
     And the user with login "Bob" has one cost entry
     And there is 1 cost type with the following:
       | name | Hidden Costs |
-    And there are 2 cost entries with the following:
+    And the project "Test" has 2 cost entries with the following:
       | units | 128128 |
     And I am logged in as "bob"
     And I am on the Cost Reports page for the project called Test
