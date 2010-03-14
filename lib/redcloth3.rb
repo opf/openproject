@@ -1060,7 +1060,7 @@ class RedCloth3 < String
             codepre, used_offtags = 0, {}
             text.gsub!( OFFTAG_MATCH ) do |line|
                 if $3
-                    offtag, aftertag = $4, $5
+                    first, offtag, aftertag = $3, $4, $5
                     codepre += 1
                     used_offtags[offtag] = true
                     if codepre - used_offtags.length > 0
@@ -1068,9 +1068,13 @@ class RedCloth3 < String
                         @pre_list.last << line
                         line = ""
                     else
-                        htmlesc( aftertag, :NoQuotes ) if aftertag && escape_aftertag
+                        ### htmlesc is disabled between CODE tags which will be parsed with highlighter
+                        ### Regexp in formatter.rb is : /<code\s+class="(\w+)">\s?(.+)/m
+                        ### NB: some changes were made not to use $N variables, because we use "match"
+                        ###   and it breaks following lines
+                        htmlesc( aftertag, :NoQuotes ) if aftertag && escape_aftertag && !first.match(/<code\s+class="(\w+)">/)
                         line = "<redpre##{ @pre_list.length }>"
-                        $3.match(/<#{ OFFTAGS }([^>]*)>/)
+                        first.match(/<#{ OFFTAGS }([^>]*)>/)
                         tag = $1
                         $2.to_s.match(/(class\=\S+)/i)
                         tag << " #{$1}" if $1
