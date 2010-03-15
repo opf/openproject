@@ -48,7 +48,7 @@
       cost_entries.each do |c|
       %>
         <tr>
-          <td class="subject"><%= link_to_issue issue %>: <%= h(truncate(issue.subject, 50)) -%></td>
+          <td class="subject"><%= link_to_issue issue %></td>
           <td><%= link_to pluralize(c.units, c.cost_type.unit, c.cost_type.unit_plural), {:controller => "costlog", :action => "details", :cost_type_id => c.cost_type, :issue_id => issue} %></td>
           <td><%= c.cost_type %></td>
           <td class="currency"><%= number_to_currency(c.real_costs) %></td>
@@ -115,7 +115,7 @@
       time_entries.each do |t|
       %>
         <tr>
-          <td class="subject"><%= link_to_issue issue %>: <%= h(truncate(issue.subject, 50)) -%></td>
+          <td class="subject"><%= link_to_issue issue %></td>
           <td class="hours"><%= link_to "#{t.hours}h", {:controller => "timelog", :action => "details", :issue_id => issue} %></td>
           <td><%=h t.user.name %></td>
           <td class="currency"><%= number_to_currency(t.real_costs) %></td>
