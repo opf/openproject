@@ -409,12 +409,37 @@ module ApplicationHelper
     only_path = options.delete(:only_path) == false ? false : true
 
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
-    
-    [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links].each do |method_name|
-      send method_name, text, project, obj, attr, only_path, options
+      
+    parse_non_pre_blocks(text) do |text|
+      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links].each do |method_name|
+        send method_name, text, project, obj, attr, only_path, options
+      end
     end
-    
-    text
+  end
+  
+  def parse_non_pre_blocks(text)
+    s = StringScanner.new(text)
+    tags = []
+    parsed = ''
+    while !s.eos?
+      s.scan(/(.*?)(<(\/)?(pre|code)(.*?)>|\z)/im)
+      text, full_tag, closing, tag = s[1], s[2], s[3], s[4]
+      if tags.empty?
+        yield text
+      end
+      parsed << text
+      if tag
+        if closing
+          if tags.last == tag.downcase
+            tags.pop
+          end
+        else
+          tags << tag.downcase
+        end
+        parsed << full_tag
+      end
+    end
+    parsed
   end
   
   def parse_inline_attachments(text, project, obj, attr, only_path, options)

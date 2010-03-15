@@ -297,6 +297,33 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
   
+  def test_pre_content_should_not_parse_wiki_and_redmine_links
+    raw = <<-RAW
+[[CookBook documentation]]
+  
+#1
+
+<pre>
+[[CookBook documentation]]
+  
+#1
+</pre>
+RAW
+
+    expected = <<-EXPECTED
+<p><a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
+<p><a href="/issues/1" class="issue status-1 priority-1" title="Can't print recipes (New)">#1</a></p>
+<pre>
+[[CookBook documentation]]
+
+#1
+</pre>
+EXPECTED
+                                 
+    @project = Project.find(1)
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+  end
+  
   def test_syntax_highlight
     raw = <<-RAW
 <pre><code class="ruby">
