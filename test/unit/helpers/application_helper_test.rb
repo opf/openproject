@@ -301,12 +301,12 @@ EXPECTED
     raw = <<-RAW
 <pre><code class="ruby">
 # Some ruby code here
-</pre></code>
+</code></pre>
 RAW
 
     expected = <<-EXPECTED
 <pre><code class="ruby syntaxhl"><span class="no">1</span> <span class="c"># Some ruby code here</span>
-</pre></code>
+</code></pre>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
