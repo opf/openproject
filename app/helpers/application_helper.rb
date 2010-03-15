@@ -439,6 +439,10 @@ module ApplicationHelper
         parsed << full_tag
       end
     end
+    # Close any non closing tags
+    while tag = tags.pop
+      parsed << "</#{tag}>"
+    end
     parsed
   end
   
