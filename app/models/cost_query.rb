@@ -67,13 +67,17 @@ class Filter
   def type_name
     @column[:type]
   end
+
+  def filter_type
+    CostQuery.filter_types[type_name]
+  end
   
   def label
     @column[:name] || l(("field_"+@column_name.gsub(/\_id$/, "")).to_sym)
   end
   
   def available_operators
-    CostQuery.filter_types[@column[:type]][:operators]
+    filter_type[:operators]
   end
   
   def available_values

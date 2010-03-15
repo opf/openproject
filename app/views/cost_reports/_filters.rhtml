@@ -9,33 +9,27 @@
   var Filterform = Class.create({
     lineIndex: 1,
     parentElement: "",
-    initialize: function(Filters, lineIndex, parentElement) {
-      this.Filters        = Filters;
+    initialize: function(filters, lineIndex, parentElement) {
+      this.filters        = filters;
       this.lineIndex      = lineIndex;
       this.parentElement  = parentElement;
     },
 
-    parsedHTML: function(scope, key) {
-      var html = this.Filters.get(scope).get(key);
-      if (html) {
-        return html.replace(/---INDEX---/g, this.lineIndex++);
-      }
+    add_html: function(e, scope, key, insertion) {
+      new Ajax.Updater({ success: e.identify() }, '<%= url_for(:action => :get_filter) %>', {
+        parameters: {
+          scope: scope,
+          column_name: key,
+          line_index: this.lineIndex++
+        },
+        insertion: insertion,
+        evalScripts: true
+      });
     },
-    
+
     add: function(scope, key) {
       var e = $(this.parentElement);
-      Element.insert(e, { bottom: this.parsedHTML(scope, key)});
-      return this.lineIndex-1;
-    },
-
-    add_after: function(e, scope, key) {
-      Element.insert(e, { after: this.parsedHTML(scope, key)});
-      return this.lineIndex-1;
-    },
-
-    add_on_top: function(scope, key) {
-      var e = $(this.parentElement);
-      Element.insert(e, { top: this.parsedHTML(scope, key)});
+      this.add_html(e, scope, key, "bottom")
       return this.lineIndex-1;
     }
   });
@@ -45,26 +39,19 @@
     multiFilters.set('<%= scope %>', [<%= available_filters.select{|k,v| CostQuery.filter_types[v[:type]][:multiple]}.collect{|k,v| "'#{k}'"}.join(", ") %>]);
   <%- end %>
   
+  
+  function reset_select(select) {
+    select.selectedIndex = 0;
+  }
+  
   function add_filter(select, scope) {
-      var column_name = select.value;
-      
-      var filter_id = filterform.add(scope, column_name);
-      var new_filter = $('filters_' + filter_id);
-      if (!new_filter) { return; }
-      
-      new_filter.down("input[type=checkbox]").checked = true;
-      toggle_filter(new_filter);
-      select.selectedIndex = 0;
-      
-      if (!multiFilters.get(scope).include(column_name)) {
-        // the current filter can only be applied once
-        for (i=0; i<select.options.length; i++) {
-          var option = select.options[i];
-          if (option.value == column_name) {
-            option.disabled = true;
-          }
-        }
-      }
+    var column_name = select.value;
+    if (!column_name) {
+      return reset_select(select);
+    }
+    
+    var filter_id = filterform.add(scope, column_name);
+    select.selectedIndex = 0;
   }
   
   function toggle_filter(filter) {
@@ -102,24 +89,24 @@
   }
   
   
-  IssueFilterTypes = new Hash();
+  IssueFilterTypes = new Array();
   <% 
   @query.available_filters[:issues].sort_by{|c| c[1][:order]}.each do |e|
     column_name = e[0]
     filter = @query.create_filter(:issues, column_name)
     add_issue_filter_select << [filter.label, column_name]
-  %>
-    IssueFilterTypes.set('<%= escape_javascript(column_name) %>', '<%= escape_javascript( render(:partial => "filter", :object => filter) )  %>');
+  -%>
+    IssueFilterTypes.push('<%= escape_javascript(column_name) %>');
   <% end %>  
   
-  CostEntryFilterTypes = new Hash()
+  CostEntryFilterTypes = new Array()
   <%
   @query.available_filters[:costs].sort_by{|c| c[1][:order]}.each do |e|
     column_name = e[0]
     filter = @query.create_filter(:costs, column_name)
     add_cost_filter_select << [filter.label, column_name]
   %>
-    CostEntryFilterTypes.set('<%= escape_javascript(column_name) %>', '<%= escape_javascript( render(:partial => "filter", :object => filter) )  %>');
+    CostEntryFilterTypes.push('<%= escape_javascript(column_name) %>');
   <% end %>  
   
   filterform = new Filterform($H({issues: IssueFilterTypes, costs: CostEntryFilterTypes}), <%= @query.filters ? @query.filters.length : 0 %>, 'filter_table');

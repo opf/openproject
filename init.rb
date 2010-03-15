@@ -97,7 +97,7 @@ Redmine::Plugin.register :redmine_costs do
     
     permission :view_own_hourly_rate, {},
       :granular_for => :view_hourly_rates
-    permission :view_hourly_rates, {:cost_reports => :index}
+    permission :view_hourly_rates, {}
     permission :edit_own_hourly_rate, {:hourly_rates => [:set_rate, :edit]},
       :require => :member,
       :granular_for => :edit_hourly_rate,
@@ -119,8 +119,8 @@ Redmine::Plugin.register :redmine_costs do
     permission :edit_cost_entries, {:costlog => [:edit, :destroy]},
       :require => :member,
       :inherits => :view_cost_entries
-    permission :view_cost_entries, {:costlog => [:details], :cost_report => [:index]}
-    permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => [:index]},
+    permission :view_cost_entries, {:costlog => [:details], :cost_reports => [:index, :get_filter]}
+    permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => [:index, :get_filter]},
       :granular_for => :view_cost_entries
     permission :block_tickets, {}, :require => :member
 
@@ -132,7 +132,7 @@ Redmine::Plugin.register :redmine_costs do
   
   # register additional permissions for the time log
   project_module :time_tracking do
-    permission :view_own_time_entries, {:timelog => [:details, :report], :cost_reports => [:index]},
+    permission :view_own_time_entries, {:timelog => [:details, :report], :cost_reports => [:index, :get_filter]},
       :granular_for => :view_time_entries
   end
   

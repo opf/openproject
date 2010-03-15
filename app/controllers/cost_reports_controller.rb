@@ -1,13 +1,28 @@
 class CostReportsController < ApplicationController
   unloadable
   
-  before_filter :find_optional_project, :only => [:index]
+  before_filter :find_optional_project, :only => [:index, :get_filter]
   before_filter :retrieve_query
   
   before_filter :authorize
   
   helper :sort
   include SortHelper
+  
+  def get_filter
+    scope = params[:scope].to_sym if params[:scope]
+    column_name = params[:column_name] if params[:column_name]
+    
+    unless scope || column_name
+      render_404
+      return
+    end
+
+    @line_index = params[:line_index] || "---INDEX---"
+
+    filter = @query.create_filter(scope, column_name)
+    render :partial => "filter", :object => filter, :layout => !request.xhr?
+  end
   
   def index
     sort_init(@query.sort_criteria.empty? ? [['entry__spent_on', 'desc']] : @query.sort_criteria)
