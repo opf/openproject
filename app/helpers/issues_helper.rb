@@ -109,6 +109,11 @@ module IssuesHelper
       when detail.prop_key == 'estimated_hours'
         value = "%0.02f" % detail.value.to_f unless detail.value.blank?
         old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
+
+      when detail.prop_key == 'parent_id'
+        label = l(:field_parent_issue)
+        value = "##{detail.value}" unless detail.value.blank?
+        old_value = "##{detail.old_value}" unless detail.old_value.blank?
       end
     when 'cf'
       custom_field = CustomField.find_by_id(detail.prop_key)
