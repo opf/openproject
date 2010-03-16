@@ -511,7 +511,7 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   # Retrieve query from session or build a new query
   def retrieve_query
     if !params[:query_id].blank?

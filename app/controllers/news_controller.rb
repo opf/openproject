@@ -18,6 +18,7 @@
 class NewsController < ApplicationController
   default_search_scope :news
   before_filter :find_news, :except => [:new, :index, :preview]
+  before_filter :find_project_from_association, :except => [:new, :index, :preview]
   before_filter :find_project, :only => [:new, :preview]
   before_filter :authorize, :except => [:index, :preview]
   before_filter :find_optional_project, :only => :index
@@ -89,8 +90,7 @@ class NewsController < ApplicationController
   
 private
   def find_news
-    @news = News.find(params[:id])
-    @project = @news.project
+    @news = @object = News.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

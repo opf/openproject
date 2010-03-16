@@ -17,6 +17,7 @@
 
 class MembersController < ApplicationController
   before_filter :find_member, :except => [:new, :autocomplete_for_member]
+  before_filter :find_project_from_association, :except => [:new, :autocomplete_for_member]
   before_filter :find_project, :only => [:new, :autocomplete_for_member]
   before_filter :authorize
 
@@ -75,8 +76,7 @@ class MembersController < ApplicationController
 
 private
   def find_member
-    @member = Member.find(params[:id]) 
-    @project = @member.project
+    @member = @object = Member.find(params[:id]) 
   rescue ActiveRecord::RecordNotFound
     render_404
   end

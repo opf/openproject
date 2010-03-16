@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueRelationsController < ApplicationController
-  before_filter :find_project, :authorize
+  before_filter :find_issue, :find_project_from_association, :authorize
   
   def new
     @relation = IssueRelation.new(params[:relation])
@@ -52,9 +52,8 @@ class IssueRelationsController < ApplicationController
   end
   
 private
-  def find_project
-    @issue = Issue.find(params[:issue_id])
-    @project = @issue.project
+  def find_issue
+    @issue = @object = Issue.find(params[:issue_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

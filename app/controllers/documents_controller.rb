@@ -19,6 +19,7 @@ class DocumentsController < ApplicationController
   default_search_scope :documents
   before_filter :find_project, :only => [:index, :new]
   before_filter :find_document, :except => [:index, :new]
+  before_filter :find_project_from_association, :except => [:index, :new]
   before_filter :authorize
   
   helper :attachments
@@ -83,8 +84,7 @@ private
   end
 
   def find_document
-    @document = Document.find(params[:id])
-    @project = @document.project
+    @document = @object = Document.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
