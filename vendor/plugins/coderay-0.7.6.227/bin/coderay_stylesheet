@@ -1,4 +1,0 @@
-#!/usr/bin/env ruby
-require 'coderay'
-
-puts CodeRay::Encoders[:html]::CSS.new.stylesheet
