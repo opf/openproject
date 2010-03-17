@@ -158,7 +158,7 @@ RAW
     
     to_test = {
       # tickets
-      '#3, #3 and #3.'              => "#{issue_link}, #{issue_link} and #{issue_link}.",
+      '#3, [#3], (#3) and #3.'      => "#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.",
       # changesets
       'r1'                          => changeset_link,
       'r1.'                         => "#{changeset_link}.",
