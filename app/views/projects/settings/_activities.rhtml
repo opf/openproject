@@ -17,7 +17,7 @@
       <%= ff.hidden_field :parent_id, :value => enumeration.id unless enumeration.project %>
       <%= h(enumeration) %>
     </td>
-    <td align="center" style="width:15%;"><%= image_tag('true.png') unless enumeration.project %></td>
+    <td align="center" style="width:15%;"><%= checked_image !enumeration.project %></td>
     <% enumeration.custom_field_values.each do |value| %>
 	<td align="center">
       <%= custom_field_tag "enumerations[#{enumeration.id}]", value %>

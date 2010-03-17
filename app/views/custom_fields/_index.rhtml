@@ -15,9 +15,9 @@
 		<tr class="<%= cycle("odd", "even") %>">
 			<td><%= link_to custom_field.name, :action => 'edit', :id => custom_field %></td>
 			<td align="center"><%= l(CustomField::FIELD_FORMATS[custom_field.field_format][:name]) %></td>
-			<td align="center"><%= image_tag 'true.png' if custom_field.is_required? %></td>
+			<td align="center"><%= checked_image custom_field.is_required? %></td>
 			<% if tab[:name] == 'IssueCustomField' %>
-			<td align="center"><%= image_tag 'true.png' if custom_field.is_for_all? %></td>
+			<td align="center"><%= checked_image custom_field.is_for_all? %></td>
 			<td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
 			<% end %>
 		  <td align="center" style="width:15%;"><%= reorder_links('custom_field', {:action => 'edit', :id => custom_field}) %></td>

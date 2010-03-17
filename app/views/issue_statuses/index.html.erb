@@ -23,8 +23,8 @@
   <% if Issue.use_status_for_done_ratio? %>
   <td align="center"><%= h status.default_done_ratio %></td>
   <% end %>
-  <td align="center"><%= image_tag 'true.png' if status.is_default? %></td>
-  <td align="center"><%= image_tag 'true.png' if status.is_closed? %></td>
+  <td align="center"><%= checked_image status.is_default? %></td>
+  <td align="center"><%= checked_image status.is_closed? %></td>
   <td align="center" style="width:15%;"><%= reorder_links('issue_status', {:action => 'update', :id => status}) %></td>
   <td class="buttons">
     <%= link_to(l(:button_delete), { :action => 'destroy', :id => status },
