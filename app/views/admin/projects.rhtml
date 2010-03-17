@@ -25,9 +25,9 @@
   <th></th>
   </tr></thead>
   <tbody>
-<% for project in @projects %>
+<% project_tree(@projects) do |project, level| %>
   <tr class="<%= cycle("odd", "even") %> <%= css_project_classes(project) %>">
-	<td class="name" style="padding-left: <%= project.level %>em;"><%= project.active? ? link_to(h(project.name), :controller => 'projects', :action => 'settings', :id => project) : h(project.name) %></td>
+	<td class="name" style="padding-left: <%= level %>em;"><%= project.active? ? link_to(h(project.name), :controller => 'projects', :action => 'settings', :id => project) : h(project.name) %></td>
 	<td><%= textilizable project.short_description, :project => project %></td>
 	<td align="center"><%= image_tag 'true.png' if project.is_public? %></td>
 	<td align="center"><%= format_date(project.created_on) %></td>
