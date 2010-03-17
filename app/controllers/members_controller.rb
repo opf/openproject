@@ -16,7 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MembersController < ApplicationController
-  before_filter :find_member, :except => [:new, :autocomplete_for_member]
+  model_object Member
+  before_filter :find_model_object, :except => [:new, :autocomplete_for_member]
   before_filter :find_project_from_association, :except => [:new, :autocomplete_for_member]
   before_filter :find_project, :only => [:new, :autocomplete_for_member]
   before_filter :authorize
@@ -74,10 +75,4 @@ class MembersController < ApplicationController
     render :layout => false
   end
 
-private
-  def find_member
-    @member = @object = Member.find(params[:id]) 
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
 end

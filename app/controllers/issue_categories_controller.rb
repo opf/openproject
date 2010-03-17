@@ -17,7 +17,8 @@
 
 class IssueCategoriesController < ApplicationController
   menu_item :settings
-  before_filter :find_category, :except => :new
+  model_object IssueCategory
+  before_filter :find_model_object, :except => :new
   before_filter :find_project_from_association, :except => :new
   before_filter :find_project, :only => :new
   before_filter :authorize
@@ -73,10 +74,11 @@ class IssueCategoriesController < ApplicationController
   end
 
 private
-  def find_category
-    @category = @object = IssueCategory.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
+  # Wrap ApplicationController's find_model_object method to set
+  # @category instead of just @issue_category
+  def find_model_object
+    super
+    @category = @object
   end    
   
   def find_project

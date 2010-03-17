@@ -176,6 +176,20 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
+  def find_model_object
+    model = self.class.read_inheritable_attribute('model_object')
+    if model
+      @object = model.find(params[:id])
+      self.instance_variable_set('@' + controller_name.singularize, @object) if @object
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def self.model_object(model)
+    write_inheritable_attribute('model_object', model)
+  end
+    
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy

@@ -17,7 +17,8 @@
 
 class VersionsController < ApplicationController
   menu_item :roadmap
-  before_filter :find_version, :except => [:new, :close_completed]
+  model_object Version
+  before_filter :find_model_object, :except => [:new, :close_completed]
   before_filter :find_project_from_association, :except => [:new, :close_completed]
   before_filter :find_project, :only => [:new, :close_completed]
   before_filter :authorize
@@ -94,12 +95,6 @@ class VersionsController < ApplicationController
   end
 
 private
-  def find_version
-    @version = @object = Version.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound

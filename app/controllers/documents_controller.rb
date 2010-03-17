@@ -17,8 +17,9 @@
 
 class DocumentsController < ApplicationController
   default_search_scope :documents
+  model_object Document
   before_filter :find_project, :only => [:index, :new]
-  before_filter :find_document, :except => [:index, :new]
+  before_filter :find_model_object, :except => [:index, :new]
   before_filter :find_project_from_association, :except => [:index, :new]
   before_filter :authorize
   
@@ -79,12 +80,6 @@ class DocumentsController < ApplicationController
 private
   def find_project
     @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def find_document
-    @document = @object = Document.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
