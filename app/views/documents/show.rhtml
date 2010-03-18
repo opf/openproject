@@ -26,3 +26,7 @@
 <% end %>
 
 <% html_title @document.title -%>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'scm' %>
+<% end %>
