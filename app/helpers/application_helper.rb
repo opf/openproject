@@ -263,6 +263,16 @@ module ApplicationHelper
   def truncate_single_line(string, *args)
     truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
   end
+  
+  # Truncates at line break after 250 characters or options[:length]
+  def truncate_lines(string, options={})
+    length = options[:length] || 250
+    if string.to_s =~ /\A(.{#{length}}.*?)$/m
+      "#{$1}..."
+    else
+      string
+    end
+  end
 
   def html_hours(text)
     text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
