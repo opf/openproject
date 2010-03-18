@@ -71,6 +71,13 @@ class Member < ActiveRecord::Base
       IssueCategory.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project.id, user.id]
     end
   end
+
+  # Find or initilize a Member with an id, attributes, and for a Principal
+  def self.edit_membership(id, new_attributes, principal=nil)
+    @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
+    @membership.attributes = new_attributes
+    @membership
+  end
   
   protected
   

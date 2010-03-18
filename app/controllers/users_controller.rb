@@ -120,8 +120,7 @@ class UsersController < ApplicationController
   
   def edit_membership
     @user = User.find(params[:id])
-    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:principal => @user)
-    @membership.attributes = params[:membership]
+    @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
     @membership.save if request.post?
     respond_to do |format|
        format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
