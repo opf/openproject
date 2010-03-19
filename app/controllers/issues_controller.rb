@@ -56,7 +56,7 @@ class IssuesController < ApplicationController
   def index
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
-    sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
+    sort_update(@query.sortable_columns)
     
     if @query.valid?
       limit = case params[:format]
@@ -94,7 +94,7 @@ class IssuesController < ApplicationController
   def changes
     retrieve_query
     sort_init 'id', 'desc'
-    sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
+    sort_update(@query.sortable_columns)
     
     if @query.valid?
       @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 

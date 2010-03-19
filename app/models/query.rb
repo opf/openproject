@@ -270,6 +270,14 @@ class Query < ActiveRecord::Base
   def groupable_columns
     available_columns.select {|c| c.groupable}
   end
+
+  # Returns a Hash of columns and the key for sorting
+  def sortable_columns
+    {'id' => "#{Issue.table_name}.id"}.merge(available_columns.inject({}) {|h, column|
+                                               h[column.name.to_s] = column.sortable
+                                               h
+                                             })
+  end
   
   def columns
     if has_default_columns?
