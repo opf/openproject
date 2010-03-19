@@ -1,0 +1,127 @@
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'smoothness/jquery-ui-1.8rc3.custom.css', :plugin => 'redmine_backlogs' %>
+    <%= stylesheet_link_tag 'backlog.css', :plugin => 'redmine_backlogs' %>
+
+    <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
+    <%= javascript_include_tag 'jquery-ui-1.8rc3.custom.min.js', :plugin => 'redmine_backlogs' %>
+    <%= javascript_include_tag 'jquery.jeditable.mini.js', :plugin => 'redmine_backlogs' %>
+
+    <script type="text/javascript">
+        function recolor(backlog)
+        {
+            $(backlog + " li:odd").addClass('odd').removeClass('even');
+            $(backlog + " li:even").removeClass('odd').addClass('even');
+        }
+
+        $(document).ajaxSend(function(event, request, settings) {
+            settings.data = settings.data || "";
+            settings.data += (settings.data ? "&" : "") + "project_id=<%= @project.id %>";
+
+            <% if protect_against_forgery? %>
+                settings.data += "&<%= request_forgery_protection_token %>=" + encodeURIComponent('<%= form_authenticity_token %>');
+            <% end %>
+        });
+
+        $().ready(function() {
+            $(".backlog").each(function(i) {
+                recolor('#' + $(this).attr('id'));
+            });
+
+            $(".datepicker").datepicker({
+                firstDay: 1,
+                dateFormat: 'yy-mm-dd',
+                /* buttonImage: '<%= image_path('calendar.png') %>',
+                buttonImageOnly: true, 
+                showOn: 'both', */
+                changeMonth: true,
+                changeYear: true,
+                autoSize: true,
+                onSelect: function(dateText, inst) {
+                    parts = $(this).attr('id').split('-');
+                    part = parts[1];
+                    id = parts[2];
+
+                    date = $.datepicker.formatDate('yy-mm-dd', $(this).datepicker('getDate'));
+
+                    $.ajax({
+                        type: "POST",
+                        url: "<%= url_for(:action => 'sprint_date') %>",
+                        data: 'date=' + date + '&sprint=' + id + '&type=' + part
+                    });
+                }
+            });
+
+            $(".backlog .drag-handle").disableSelection();
+
+            $(".backlog").sortable({
+                connectWith: '.backlog',
+                forcePlaceholderSize: true,
+                placeholder: 'ui-state-highlight',
+                handle: '.drag-handle',
+                update: function(event, ui) {
+                    recolor('#' + $(event.target).attr('id'));
+
+                    serialized = $(event.target).sortable('serialize');
+                    dropped = '&dropped=' + ui.item.attr('id');
+
+                    if (ui.sender) {
+                        moveto = '&backlog=' + $(event.target).attr('id');
+                    } else {
+                        moveto = '';
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "<%= url_for(:action => 'reorder') %>",
+                        data: serialized + moveto + dropped,
+                    });
+                }
+            });
+
+            $(".editable").editable('<%= url_for(:action => 'rename') %>', {
+                indicator: '<%= image_tag('indicator.gif', :plugin => 'redmine_backlogs') %>',
+                tooltip:    'Click to edit...'
+            });
+    })
+  </script>
+<% end %>
+
+<h2>Backlog manager</h2>
+
+<% if @settings[:story_tracker].nil? %>
+    You have not set up the story tracker for the backlogs plugin.
+<% else %>
+    <div id="sprints">
+        <% @sprints.each do |sprint| %>
+            <div class="sprint">
+                <h3>
+                    <span id="sprint-name-<%= sprint.id %>" class="editable"><%= sprint.name %></span>
+                    <span class="sprint-dates">
+                        <input id="sprint-start-<%= sprint.id %>"
+                            type="text"
+                            class="datepicker"
+                            value="<%= sprint.start_date.nil? ? '' : sprint.start_date.strftime('%Y-%m-%d') %>" />
+                        -
+                        <input id="sprint-end-<%= sprint.id %>"
+                            type="text"
+                            class="datepicker"
+                            value="<%= sprint.effective_date.nil? ? '' : sprint.effective_date.strftime('%Y-%m-%d') %>" />
+                    </span>
+                </h3>
+                <ul id="sprint-<%= sprint.id %>" class="backlog">
+                    <% sprint.stories.each do |story| %>
+                        <li id="story-<%= story.id %>"><span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span><%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: <%= story.abbreviated_subject %></li>
+                    <% end %>
+                </ul>
+            </div>
+        <% end %>
+    </div>
+    <div id="product-backlog-display"
+        <h3>Product backlog</h3>
+        <ul id="product-backlog" class="backlog">
+            <% @backlog.each do |story| %>
+                <li id="story-<%= story.id %>"><span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span><%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: <%= story.abbreviated_subject %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>

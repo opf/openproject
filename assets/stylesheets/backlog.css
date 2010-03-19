@@ -1,0 +1,45 @@
+#sprints, #product-backlog-display {
+    float: left;
+    width: 40%;
+}
+
+.backlog {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-right: 10px;
+
+    min-height:20px;
+    /*IE doesn't understand min-height, but this will fix that*/
+    height:auto !important;
+    height:20px;
+}
+
+.backlog li {
+    margin: 0 3px 3px 3px;
+    padding: 0.4em;
+    padding-left: 1.5em;
+}
+
+.backlog .even {
+    background-color: #eee;
+}
+.backlog .odd {
+    background-color: #fff;
+}
+
+.backlog .drag-handle {
+    position: absolute;
+    margin-left: -1.3em;
+    cursor: move;
+}
+
+input.datepicker {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.sprint-dates {
+    float: right;
+}

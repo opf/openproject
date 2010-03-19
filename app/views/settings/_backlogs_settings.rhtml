@@ -1,0 +1,4 @@
+    <p>
+        <%= content_tag(:label, l(:backlogs_story_tracker)) %>
+        <%= select_tag("settings[story_tracker]", options_from_collection_for_select(Tracker.all, :id, :name, @settings[:story_tracker].to_i)) %>
+    </p>

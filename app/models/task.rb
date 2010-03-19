@@ -1,0 +1,2 @@
+class Task < Issue
+end
