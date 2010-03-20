@@ -71,6 +71,13 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
     )
   end
   
+  def test_double_dashes_should_not_strikethrough
+    assert_html_output(
+      'double -- dashes -- test'  => 'double -- dashes -- test',
+      'double -- *dashes* -- test'  => 'double -- <strong>dashes</strong> -- test'
+    )
+  end
+  
   private
   
   def assert_html_output(to_test)

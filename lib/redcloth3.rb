@@ -381,9 +381,11 @@ class RedCloth3 < String
             case rtype
             when :limit
                 /(^|[>\s\(])          # sta
+                (?!\-\-)
                 (#{QTAGS_JOIN}|)      # oqs
                 (#{rcq})              # qtag
                 (\w|[^\s].*?[^\s])    # content
+                (?!\-\-)
                 #{rcq}
                 (#{QTAGS_JOIN}|)      # oqa
                 (?=[[:punct:]]|\s|\)|$)/x
