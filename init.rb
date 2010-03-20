@@ -1,5 +1,12 @@
 require 'redmine'
 
+require 'dispatcher'
+ 
+Dispatcher.to_prepare do
+    require_dependency 'version'
+    require_dependency 'issue'
+end
+
 require_dependency 'backlogs_layout_hooks'
 
 Redmine::Plugin.register :redmine_backlogs do
@@ -16,3 +23,5 @@ Redmine::Plugin.register :redmine_backlogs do
 
     menu :project_menu, :backlogs, { :controller => 'backlogs', :action => 'index' }, :caption => 'Backlog', :after => :issues, :param => :project_id
 end
+
+

@@ -1,4 +1,5 @@
 class Sprint < Version
+    unloadable
 
     named_scope :open_sprints, lambda { |project|
         {

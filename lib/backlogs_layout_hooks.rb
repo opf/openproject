@@ -11,7 +11,7 @@ module BacklogsPlugin
                                         :controller => 'backlogs',
                                         :action => 'select_sprint',
                                         :project_id => project_id,
-                                        :sprint_id => 1 # sprint.id
+                                        :sprint_id => sprint.id
                                     })
                     links += content_tag(:br)
                 }
