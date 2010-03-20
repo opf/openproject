@@ -451,6 +451,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_difference 'Issue.count' do
       post :new, :project_id => 1, 
                  :issue => {:tracker_id => 3,
+                            :status_id => 2,
                             :subject => 'This is the test_new issue',
                             :description => 'This is the description',
                             :priority_id => 5,
@@ -463,6 +464,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil issue
     assert_equal 2, issue.author_id
     assert_equal 3, issue.tracker_id
+    assert_equal 2, issue.status_id
     assert_nil issue.estimated_hours
     v = issue.custom_values.find(:first, :conditions => {:custom_field_id => 2})
     assert_not_nil v
@@ -595,6 +597,47 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_nothing_raised do
       post :new, :project_id => 1, :issue => { :tracker => "A param can not be a Tracker" }
+    end
+  end
+  
+  context "without workflow privilege" do
+    setup do
+      Workflow.delete_all(["role_id = ?", Role.anonymous.id])
+      Role.anonymous.add_permission! :add_issues
+    end
+    
+    context "#new" do
+      should "propose default status only" do
+        get :new, :project_id => 1
+        assert_response :success
+        assert_template 'new'
+        assert_tag :tag => 'select',
+          :attributes => {:name => 'issue[status_id]'},
+          :children => {:count => 1},
+          :child => {:tag => 'option', :attributes => {:value => IssueStatus.default.id.to_s}}
+      end
+      
+      should "accept default status" do
+        assert_difference 'Issue.count' do
+          post :new, :project_id => 1, 
+                     :issue => {:tracker_id => 1,
+                                :subject => 'This is an issue',
+                                :status_id => 1}
+        end
+        issue = Issue.last(:order => 'id')
+        assert_equal IssueStatus.default, issue.status
+      end
+      
+      should "ignore unauthorized status" do
+        assert_difference 'Issue.count' do
+          post :new, :project_id => 1, 
+                     :issue => {:tracker_id => 1,
+                                :subject => 'This is an issue',
+                                :status_id => 3}
+        end
+        issue = Issue.last(:order => 'id')
+        assert_equal IssueStatus.default, issue.status
+      end
     end
   end
   

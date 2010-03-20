@@ -136,26 +136,19 @@ class IssuesController < ApplicationController
       render_error l(:error_no_tracker_in_project)
       return
     end
+    if @issue.status.nil?
+      render_error l(:error_no_default_issue_status)
+      return
+    end
     if params[:issue].is_a?(Hash)
       @issue.safe_attributes = params[:issue]
       @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
     end
     @issue.author = User.current
     
-    default_status = IssueStatus.default
-    unless default_status
-      render_error l(:error_no_default_issue_status)
-      return
-    end    
-    @issue.status = default_status
-    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
-    
     if request.get? || request.xhr?
       @issue.start_date ||= Date.today
     else
-      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
-      # Check that the user is allowed to apply the requested status
-      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
       call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
       if @issue.save
         attachments = Attachment.attach_files(@issue, params[:attachments])
@@ -179,6 +172,7 @@ class IssuesController < ApplicationController
       end
     end 
     @priorities = IssuePriority.all
+    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
     render :layout => !request.xhr?
   end
   

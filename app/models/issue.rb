@@ -163,6 +163,11 @@ class Issue < ActiveRecord::Base
     end
     issue
   end
+
+  def status_id=(sid)
+    self.status = nil
+    write_attribute(:status_id, sid)
+  end
   
   def priority_id=(pid)
     self.priority = nil
