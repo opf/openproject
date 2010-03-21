@@ -82,6 +82,23 @@
                 indicator: '<%= image_tag('indicator.gif', :plugin => 'redmine_backlogs') %>',
                 tooltip:    'Click to edit...'
             });
+            $(".story-points").editable('<%= url_for(:action => 'story_points') %>', {
+                indicator: '<%= image_tag('indicator.gif', :plugin => 'redmine_backlogs') %>',
+                tooltip:    'Click to edit...',
+                callback:   function(value, settings) {
+                    parts = $(this).attr('id').split('-');
+                    sprint = parts[2];
+                    story = parts[3];
+
+                    if (sprint != 'backlog') {
+                        points = 0;
+                        $("#sprint-" + sprint + " .story-points").each(function(i) {
+                            points += parseInt($(this).text());
+                        });
+                        $("#sprint-points-" + sprint).text("" + points);
+                    }
+                }
+            });
     })
   </script>
 <% end %>
@@ -93,10 +110,11 @@
 <% else %>
     <div id="sprints">
         <% @sprints.each do |sprint| %>
-            <div class="sprint">
+            <div id="sprint-<%= sprint.id %>" class="sprint">
                 <h3>
                     <span id="sprint-name-<%= sprint.id %>" class="editable"><%= sprint.name %></span>
                     <span class="sprint-dates">
+                        <span id="sprint-points-<%= sprint.id %>"><%= sprint.points %></span>
                         <input id="sprint-start-<%= sprint.id %>"
                             type="text"
                             class="datepicker"
@@ -115,7 +133,12 @@
                 </h3>
                 <ul id="sprint-<%= sprint.id %>" class="backlog">
                     <% sprint.stories.each do |story| %>
-                        <li id="story-<%= story.id %>"><span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span><%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: <%= story.abbreviated_subject %></li>
+                        <li id="story-<%= story.id %>">
+                            <span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span>
+                            <%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: 
+                            <%= story.abbreviated_subject %>
+                            <span id="story-points-<%= sprint.id %>-<%= story.id %>" class="story-points"><%= story.points %></span>
+                        </li>
                     <% end %>
                 </ul>
             </div>
@@ -125,7 +148,12 @@
         <h3>Product backlog</h3>
         <ul id="product-backlog" class="backlog">
             <% @backlog.each do |story| %>
-                <li id="story-<%= story.id %>"><span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span><%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: <%= story.abbreviated_subject %></li>
+                <li id="story-<%= story.id %>">
+                    <span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span>
+                    <%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: 
+                    <%= story.abbreviated_subject %>
+                    <span id="story-points-backlog-<%= story.id %>" class="story-points"><%= story.points %></span>
+                </li>
             <% end %>
         </ul>
     </div>

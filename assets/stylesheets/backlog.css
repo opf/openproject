@@ -43,3 +43,8 @@ input.datepicker {
 .sprint-dates {
     float: right;
 }
+
+.story-points {
+    float: right;
+    width: 2em;
+}

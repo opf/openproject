@@ -83,6 +83,19 @@ class BacklogsController < ApplicationController
     render :text => date, :status => 200
   end
 
+  def story_points
+    points, sprint, story, id = params[:id].split('-')
+    story = Story.first(:conditions => { :project_id => @project.id, :id => id})
+
+    begin
+        story.update_attribute(:points, Integer(params[:value]))
+    rescue
+        # ignore non-integer values
+    end
+
+    render :text => story.points, :status => 200
+  end
+
   def select_sprint
     @query = Query.new(:name => "_")
     @query.project = @project

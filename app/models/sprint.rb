@@ -11,5 +11,9 @@ class Sprint < Version
     def stories
         return Story.sprint_backlog(self)
     end
+
+    def points
+        return stories.sum('points')
+    end
    
 end
