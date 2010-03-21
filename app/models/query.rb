@@ -185,9 +185,11 @@ class Query < ActiveRecord::Base
     if project
       user_values += project.users.sort.collect{|s| [s.name, s.id.to_s] }
     else
-      # members of the user's projects
-      # OPTIMIZE: Is selecting from users per project (N+1)
-      user_values += User.current.projects.collect(&:users).flatten.uniq.sort.collect{|s| [s.name, s.id.to_s] }
+      project_ids = User.current.projects.collect(&:id)
+      if project_ids.any?
+        # members of the user's projects
+        user_values += User.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", project_ids]).sort.collect{|s| [s.name, s.id.to_s] }
+      end
     end
     @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values } unless user_values.empty?
     @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
