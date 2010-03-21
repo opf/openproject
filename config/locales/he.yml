@@ -896,3 +896,4 @@ he:
   permission_manage_subtasks: Manage subtasks
   field_parent_issue: Parent task
   label_subtask_plural: Subtasks
+  label_project_copy_notifications: Send email notifications during the project copy

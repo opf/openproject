@@ -324,6 +324,15 @@ class Mailer < ActionMailer::Base
       deliver_reminder(assignee, issues, days) unless assignee.nil?
     end
   end
+  
+  # Activates/desactivates email deliveries during +block+
+  def self.with_deliveries(enabled = true, &block)
+    was_enabled = ActionMailer::Base.perform_deliveries
+    ActionMailer::Base.perform_deliveries = !!enabled
+    yield
+  ensure
+    ActionMailer::Base.perform_deliveries = was_enabled
+  end
 
   private
   def initialize_defaults(method_name)

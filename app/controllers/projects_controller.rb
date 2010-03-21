@@ -115,18 +115,20 @@ class ProjectsController < ApplicationController
         redirect_to :controller => 'admin', :action => 'projects'
       end  
     else
-      @project = Project.new(params[:project])
-      @project.enabled_module_names = params[:enabled_modules]
-      if validate_parent_id && @project.copy(@source_project, :only => params[:only])
-        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'admin', :action => 'projects'
-      elsif !@project.new_record?
-        # Project was created
-        # But some objects were not copied due to validation failures
-        # (eg. issues from disabled trackers)
-        # TODO: inform about that
-        redirect_to :controller => 'admin', :action => 'projects'
+      Mailer.with_deliveries(params[:notifications] == '1') do
+        @project = Project.new(params[:project])
+        @project.enabled_module_names = params[:enabled_modules]
+        if validate_parent_id && @project.copy(@source_project, :only => params[:only])
+          @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+          flash[:notice] = l(:notice_successful_create)
+          redirect_to :controller => 'admin', :action => 'projects'
+        elsif !@project.new_record?
+          # Project was created
+          # But some objects were not copied due to validation failures
+          # (eg. issues from disabled trackers)
+          # TODO: inform about that
+          redirect_to :controller => 'admin', :action => 'projects'
+        end
       end
     end
   rescue ActiveRecord::RecordNotFound

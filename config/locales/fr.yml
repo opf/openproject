@@ -769,6 +769,7 @@ fr:
   label_revision_id: Revision {{value}}
   label_profile: Profil
   label_subtask_plural: Sous-tâches
+  label_project_copy_notifications: Envoyer les notifications durant la copie du projet
   
   button_login: Connexion
   button_submit: Soumettre
