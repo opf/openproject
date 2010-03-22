@@ -24,6 +24,10 @@
 }
 
 
+.filter_values select {
+  width: 200px;
+}
+
 table.material_budget_items,
 table.labor_budget_items,
 table.cost_entries {
