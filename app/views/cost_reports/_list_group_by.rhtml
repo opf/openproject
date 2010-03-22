@@ -83,7 +83,7 @@
         </td>
         <td class="units"><%=l :x_entries, :count => entry["count"].to_i %></td>
 
-        <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs && display_time) %>
+        <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs) %>
         <% cost_type = CostType.find_by_id(entry["cost_type_id"]) %>
         <td class="units">
           <% if cost_type %>
@@ -106,7 +106,7 @@
     <tr>
       <td>&nbsp;</td>
       <td class="units"><strong><%=l :x_entries, :count => @entry_count %></strong></td>
-      <td>&nbsp;</td>
+      <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs) %><td>&nbsp;</td><% end %>
       <td class="currency"><strong><%= number_to_currency @entry_sum %></strong></td>
       <td>&nbsp;</td>
     </tr>
