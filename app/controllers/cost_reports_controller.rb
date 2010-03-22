@@ -273,7 +273,7 @@ private
 
       @entries = TimeEntry.all({ :select => display_costs[TimeEntry.table_name],
                                       :order => (sort_clause if time_sort_column),
-                                      :joins => [:issue, :activity, :user, :project],
+                                      :from => @query.from_statement(:time_entries),
                                       :conditions => time_where,
                                       :limit => limit,
                                       :offset => @entry_pages.current.offset})
@@ -285,7 +285,7 @@ private
 
       @entries = CostEntry.all({ :select => display_costs[CostEntry.table_name],
                                       :order => (sort_clause if cost_sort_column),
-                                      :joins => [:issue, :cost_type, :user, :project],
+                                      :from => @query.from_statement(:cost_entries),
                                       :conditions => cost_where,
                                       :limit => limit,
                                       :offset => @entry_pages.current.offset})
@@ -332,15 +332,15 @@ private
     end
     
     
-    cost_entries = CostEntry.find :all, {:select => display_costs[CostEntry.table_name],
+    cost_entries = CostEntry.all({:select => display_costs[CostEntry.table_name],
                               :order => (sort_clause if cost_sort_column),
-                              :joins => [:project, :issue, :cost_type, :user],
-                              :conditions => {:id => cost_entry_ids}}
+                              :from => @query.from_statement(:cost_entries),
+                              :conditions => {:id => cost_entry_ids}})
     
-    time_entries = TimeEntry.find :all, {:select => display_costs[TimeEntry.table_name],
+    time_entries = TimeEntry.all({:select => display_costs[TimeEntry.table_name],
                               :order => (sort_clause if time_sort_column),
-                              :joins => [:project, :issue, :activity, :user],
-                              :conditions => {:id => time_entry_ids}}
+                              :from => @query.from_statement(:time_entries),
+                              :conditions => {:id => time_entry_ids}})
     
     # now we merge the both entry types
     if cost_sort_column && time_sort_column
