@@ -1,6 +1,11 @@
-#sprints, #product-backlog-display {
+#product-backlog-display {
     float: left;
     width: 40%;
+}
+
+#sprints {
+    float: left;
+    width: 50%;
 }
 
 .backlog {
