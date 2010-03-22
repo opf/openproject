@@ -77,10 +77,6 @@
   <%= render :partial => 'list', :locals => {:entries => @entries, :query => @query} %>
 <% end %>
 
-<% content_for :sidebar do %>
-    <%= render :partial => 'sidebar' %>
-<% end %>
-
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'scm' %>
     <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
