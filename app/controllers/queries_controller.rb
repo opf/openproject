@@ -74,7 +74,7 @@ private
   
   def find_optional_project
     @project = Project.find(params[:project_id]) if params[:project_id]
-    User.current.allowed_to?(:save_queries, @project, :global => true)
+    render_403 unless User.current.allowed_to?(:save_queries, @project, :global => true)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
