@@ -825,7 +825,7 @@ class RedCloth3 < String
               post = ")"+post # add closing parenth to post
             end
             atts = pba( atts )
-            atts = " href=\"#{ url }#{ slash }\"#{ atts }"
+            atts = " href=\"#{ htmlesc url }#{ slash }\"#{ atts }"
             atts << " title=\"#{ htmlesc title }\"" if title
             atts = shelve( atts ) if atts
             

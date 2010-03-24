@@ -60,12 +60,14 @@ class ApplicationHelperTest < HelperTestCase
       'sftp://foo.bar' => '<a class="external" href="sftp://foo.bar">sftp://foo.bar</a>',
       # two exclamation marks
       'http://example.net/path!602815048C7B5C20!302.html' => '<a class="external" href="http://example.net/path!602815048C7B5C20!302.html">http://example.net/path!602815048C7B5C20!302.html</a>',
+      # escaping
+      'http://foo"bar' => '<a class="external" href="http://foo&quot;bar">http://foo"bar</a>',
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
   
   def test_auto_mailto
-    assert_equal '<p><a href="mailto:test@foo.bar" class="email">test@foo.bar</a></p>', 
+    assert_equal '<p><a class="email" href="mailto:test@foo.bar">test@foo.bar</a></p>', 
       textilizable('test@foo.bar')
   end
   
@@ -130,6 +132,8 @@ RAW
       "\"system administrator\":mailto:sysadmin@example.com?subject=redmine%20permissions" => "<a href=\"mailto:sysadmin@example.com?subject=redmine%20permissions\">system administrator</a>",
       # two exclamation marks
       '"a link":http://example.net/path!602815048C7B5C20!302.html' => '<a href="http://example.net/path!602815048C7B5C20!302.html" class="external">a link</a>',
+      # escaping
+      '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>',
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end

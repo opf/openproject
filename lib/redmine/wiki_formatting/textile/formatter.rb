@@ -21,6 +21,7 @@ module Redmine
   module WikiFormatting
     module Textile
       class Formatter < RedCloth3
+        include ActionView::Helpers::TagHelper
         
         # auto_link rule after textile rules so that it doesn't break !image_url! tags
         RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto, :inline_toc]
@@ -134,7 +135,8 @@ module Redmine
                 url=url[0..-2] # discard closing parenth from url
                 post = ")"+post # add closing parenth to post
               end
-              %(#{leading}<a class="external" href="#{proto=="www."?"http://www.":proto}#{url}">#{proto + url}</a>#{post})
+              tag = content_tag('a', proto + url, :href => "#{proto=="www."?"http://www.":proto}#{url}", :class => 'external')
+              %(#{leading}#{tag}#{post})
             end
           end
         end
@@ -146,7 +148,7 @@ module Redmine
             if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
               mail
             else
-              %{<a href="mailto:#{mail}" class="email">#{mail}</a>}
+              content_tag('a', mail, :href => "mailto:#{mail}", :class => "email")
             end
           end
         end
