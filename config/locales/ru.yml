@@ -344,6 +344,7 @@ ru:
   field_onthefly: Создание пользователя на лету
   field_parent_title: Родительская страница
   field_parent: Родительский проект
+  field_parent_issue: Родительская задача
   field_password_confirmation: Подтверждение
   field_password: Пароль
   field_port: Порт
@@ -610,6 +611,7 @@ ru:
   label_profile: Профиль
   label_project: проект
   label_project_all: Все проекты
+  label_project_copy_notifications: Отправлять уведомления по электронной почте при копировании проекта
   label_project_latest: Последние проекты
   label_project_new: Новый проект
   label_project_plural: Проекты
@@ -668,6 +670,7 @@ ru:
   label_stay_logged_in: Оставаться в системе
   label_string: Текст
   label_subproject_plural: Подпроекты
+  label_subtask_plural: Подзадачи
   label_text: Длинный текст
   label_theme: Тема
   label_this_month: этот месяц
@@ -720,8 +723,8 @@ ru:
   label_x_open_issues_abbr:
     zero:  "0 открыто"
     one:   "1 открыт"
-    few:   "{{count} открыто"
-    many:  "{{count} открыто"
+    few:   "{{count}} открыто"
+    many:  "{{count}} открыто"
     other: "{{count}} открыто"
   label_x_open_issues_abbr_on_total:
     zero:  "0 открыто / {{total}}"
@@ -809,6 +812,7 @@ ru:
   permission_manage_news: Управление новостями
   permission_manage_public_queries: Управление общими запросами
   permission_manage_repository: Управление хранилищем
+  permission_manage_subtasks: Управление подзадачами
   permission_manage_versions: Управление версиями
   permission_manage_wiki: Управление Wiki
   permission_move_issues: Перенос задач
@@ -1010,7 +1014,5 @@ ru:
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
 
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
+
+  
