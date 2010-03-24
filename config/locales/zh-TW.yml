@@ -369,6 +369,7 @@
   field_content: 內容
   field_group_by: 結果分組方式
   field_sharing: 共用
+  field_parent_issue: 父工作項目
   
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -478,6 +479,7 @@
   permission_delete_messages: 刪除訊息
   permission_delete_own_messages: 刪除自己的訊息
   permission_export_wiki_pages: 匯出 wiki 頁面
+  permission_manage_subtasks: 管理子工作項目
   
   project_module_issue_tracking: 項目追蹤
   project_module_time_tracking: 工時追蹤
@@ -843,6 +845,8 @@
   label_missing_api_access_key: 找不到 API 存取金鑰
   label_api_access_key_created_on: "API 存取金鑰建立於 {{value}} 之前"
   label_profile: 配置概況
+  label_subtask_plural: 子工作項目
+  label_project_copy_notifications: 在複製專案的過程中，傳送通知郵件
 
   button_login: 登入
   button_submit: 送出
@@ -980,7 +984,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy

@@ -64,6 +64,9 @@ sl:
         other: "almost {{count}} years"
 
   number: 
+    format:
+      separator: ','
+      delimiter: '.'
     human: 
       format: 
         precision: 1
@@ -121,8 +124,8 @@ sl:
   general_lang_name: 'Slovenščina'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
-  general_csv_encoding: ISO-8859-1
-  general_pdf_encoding: ISO-8859-1
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: UFT-8
   general_first_day_of_week: '1'
   
   notice_account_updated: Račun je bil uspešno posodobljen.

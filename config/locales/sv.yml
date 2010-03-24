@@ -328,6 +328,7 @@ sv:
   field_content: Innehåll
   field_group_by: Gruppera resultat efter
   field_sharing: Delning
+  field_parent_issue: Förälderaktivitet
   
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -437,6 +438,7 @@ sv:
   permission_delete_messages: Ta bort meddelanden
   permission_delete_own_messages: Ta bort egna meddelanden
   permission_export_wiki_pages: Exportera wikisidor
+  permission_manage_subtasks: Hantera underaktiviteter
   
   project_module_issue_tracking: Ärendeuppföljning
   project_module_time_tracking: Tidsuppföljning
@@ -800,6 +802,9 @@ sv:
   label_api_access_key: API-nyckel
   label_missing_api_access_key: Saknar en API-nyckel
   label_api_access_key_created_on: API-nyckel skapad för {{value}} sedan
+  label_profile: Profil
+  label_subtask_plural: Underaktiviteter
+  label_project_copy_notifications: Skicka mailnotifieringar när projektet kopieras
   
   button_login: Logga in
   button_submit: Skicka
@@ -937,8 +942,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  label_profile: Profil
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy

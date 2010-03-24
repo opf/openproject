@@ -308,6 +308,7 @@ ja:
   field_content: 内容
   field_group_by: グループ条件
   field_sharing: 共有
+  field_parent_issue: 親チケット
   
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
@@ -417,6 +418,7 @@ ja:
   permission_edit_own_messages: 自身が記入したメッセージの編集
   permission_delete_messages: メッセージの削除
   permission_delete_own_messages: 自身が記入したメッセージの削除
+  permission_manage_subtasks: 子チケットの管理
   
   project_module_issue_tracking: チケットトラッキング
   project_module_time_tracking: 時間トラッキング
@@ -781,6 +783,8 @@ ja:
   label_api_access_key: APIアクセスキー
   label_missing_api_access_key: APIアクセスキーが見つかりません
   label_api_access_key_created_on: "APIアクセスキーは{{value}}前に作成されました"
+  label_subtask_plural: 子チケット
+  label_project_copy_notifications: コピーしたチケットのメール通知を送信する
   
   button_login: ログイン
   button_submit: 変更
@@ -918,7 +922,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
