@@ -131,6 +131,7 @@ de:
   label_view_all_cost_objects: "Alle Liefergegenst\xC3\xA4nde anzeigen"
   label_yes: Ja
 
+  notice_cost_object_conflict: "Tickets müssen im gleichen Projekt sein."
   notice_something_wrong: Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
   notice_successful_restore: Erfolgreich wiederhergestellt.
 

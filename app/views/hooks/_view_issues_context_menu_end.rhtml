@@ -2,15 +2,19 @@
 possible_cost_objects = issues.inject(issues.first.project.cost_objects) do |intersect, issue|
   issue.project.cost_objects & intersect
 end
-unless possible_cost_objects.empty?
 %>
-	<li class="folder">			
-		<a href="#" class="submenu"><%= l(:cost_objects_title) %></a>
-		<ul>
+  <li class="folder">
+	<a href="#" class="submenu"><%= l(:cost_objects_title) %></a>
+	<ul>
+	<% unless possible_cost_objects.empty? -%>
 		<% possible_cost_objects.each do |co| -%>
-		    <li><%= context_menu_link co.subject, {:controller => 'issues', :action => 'bulk_edit', :ids => issues.collect(&:id), 'cost_object_id' => co, :back_url => back}, :method => :post,
-		                              :selected => (@issue && co == @issue.cost_object), :disabled => !can[:edit] %></li>
+		    <li>  
+		      <%= context_menu_link co.subject, {:controller => 'issues', :action => 'bulk_edit', :ids => issues.collect(&:id), 'cost_object_id' => co, :back_url => back}, :method => :post,
+		                              :selected => (@issue && co == @issue.cost_object), :disabled => !can[:edit] %>
+		    </li>
 		<% end -%>
-		</ul>
-	</li>
-<% end %>
+	<% else -%>
+	  <li><%= l(:notice_cost_object_conflict)%></li>
+	<% end -%>
+	</ul>
+</li>

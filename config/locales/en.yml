@@ -128,6 +128,8 @@ en:
   help_currency_format: Format of displayed currency values. %%n is replaced with the currency value, %%u ist replaced with the currency unit.
   help_click_to_edit: Click here to edit.
   text_cost_object_change_type_confirmation: Are you sure? This operation will destroy information of the specific cost object type.
+  
+  notice_cost_object_conflict: "Issues must be of the same project."
   notice_successful_restore: Successful restore.
   notice_something_wrong: Something went wrong. Please try again.
   
