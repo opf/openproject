@@ -71,3 +71,16 @@ Feature: Cost Reports
     And I should not see "11"
     And I should not see "220.0"
     And I should not see "Redmine Admin"
+    
+  Scenario: Editing a cost entry does not duplicate, but update it
+    Given there is a standard cost control project named "CostProject"
+    And the project "Test" has only 1 cost entry with the following:
+      | units | 1234.0 |
+    And I am admin
+    When I am on the Cost Reports page for the project called "CostProject"
+    When I click on "Edit"
+    When I fill in "4321.0" for "cost_entry_units"
+    When I click on "Save"
+    Then I should see "4321.0"
+    And I should not see "1234.0"
+    
