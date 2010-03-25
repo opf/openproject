@@ -33,3 +33,34 @@ Given /^the (?:project|Project)(?: named| with(?: the)? name| called)? "([^\"]*)
       | |
   }
 end
+
+Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
+  steps %Q{
+    Given there is one project with the following:
+      | Name | #{name} |
+    And there is 1 subproject for the project #{name}
+    And the role "Manager" may have the following rights in project "#{name}":
+      |  |
+    And the role "Controller" may have the following rights in project "#{name}":
+      |  |
+    And the role "Developer" may have the following rights in project "#{name}":
+      |  |
+    And the role "Reporter" may have the following rights in project "#{name}":
+      |  |
+    And there is one user with the following:
+      | Login | manager |
+		And the user "manager" is a "Manager" in the project called "#{name}"
+		And there is one user with the following:
+      | Login | controller |
+		And the user "controller" is a "Controller" in the project called "#{name}"
+		And there is one user with the following:
+      | Login | developer |
+		And the user "developer" is a "Developer" in the project called "#{name}"
+		And there is one user with the following:
+      | Login | reporter |
+		And the user "reporter" is a "Reporter" in the project called "#{name}"
+		And there are 2..5 cost types in project "#{name}"
+		And there are 2..5 cost types in project "#{name} Sub"
+		And there are 5..10 issues in project "#{name}"
+  }
+end
