@@ -14,6 +14,8 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
   
   render_on :view_issues_move_bottom, :partial => 'hooks/view_issues_move_bottom'
   
+  render_on :view_issues_context_menu_end, :partial => 'hooks/view_issues_context_menu_end'
+  
   
   # Updates the cost object after a move
   # 
