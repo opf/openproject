@@ -35,6 +35,7 @@ Dispatcher.to_prepare do
   require_dependency 'costs_application_controller_patch'
   require_dependency 'costs_groups_controller_patch'
   require_dependency 'costs_issues_controller_patch'
+  require_dependency 'costs_timelog_controller_patch'
   
   # Helper Patches
   require_dependency 'costs_application_helper_patch'
@@ -45,30 +46,6 @@ Dispatcher.to_prepare do
   require_or_load 'costs_access_control_permission_patch'
   require_dependency 'costs_access_control_patch'
 
-  # Issue.send(:include, CostsIssuePatch)
-  # Project.send(:include, CostsProjectPatch)
-  # User.send(:include, CostsUserPatch)
-  # Group.send(:include, CostsGroupPatch)
-  # Role.send(:include, CostsRolePatch)
-  # TimeEntry.send(:include, CostsTimeEntryPatch)
-  # Query.send(:include, CostsQueryPatch)
-  # Version.send(:include, CostsVersionPatch)
-  # 
-  # UsersHelper.send(:include, CostsUsersHelperPatch)
-  # 
-  # ApplicationController.send(:include, CostsApplicationControllerPatch)
-  # IssuesController.send(:include, CostsIssuesControllerPatch)
-  # GroupsController.send(:include, CostsGroupsControllerPatch)
-  # 
-  # require_dependency 'costs_access_control_patch'
-  # require_dependency "costs_access_control_permission_patch"
-  # 
-  # 
-  # #Redmine::AccessControl::Permission.send(:include, CostsAccessControlPermissionPatch)
-  # #Redmine::AccessControl.send(:include, CostsAccessControlPatch)
-  # 
-  # 
-  # 
 end
 
 # Hooks

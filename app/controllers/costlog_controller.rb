@@ -13,6 +13,50 @@ class CostlogController < ApplicationController
   include CostlogHelper
 
   def details
+    unless @project.nil?
+      filters = []
+      
+      if @issue
+        if @issue.respond_to?("lft")
+          issue_ids = Issue.all(:select => :id, :conditions => ["root_id = ? AND lft >= ? AND rgt <= ?", @issue.root_id, @issue.lft, @issue.rgt]).collect{|i| i.id.to_s}
+        else
+          issue_ids = [@issue.id.to_s]
+        end
+
+        filters << {
+          :column_name => "issue_id",
+          :enabled => "1",
+          :operator => "=",
+          :scope => "costs",
+          :values => issue_ids
+        }
+      end
+    
+      if @cost_type
+        filters << {
+          :column_name => "cost_type_id",
+          :enabled => "1",
+          :operator => "=",
+          :scope => "costs",
+          :values => @cost_type.id.to_s
+        }
+      end
+      
+      respond_to do |format|
+        format.html {
+          session[:cost_query] = {:project_id => @project.id,
+                                  :filters => filters || {},
+                                  :group_by => {},
+                                  :display_cost_entries => "1",
+                                  :display_time_entries => "0"
+                                 }
+          
+          redirect_to :controller => "cost_reports", :action => "index", :project_id => @project
+          return
+        }
+      end
+    end
+
     sort_init 'spent_on', 'desc'
     sort_update 'spent_on' => 'spent_on',
                 'user' => 'user_id',
@@ -22,13 +66,14 @@ class CostlogController < ApplicationController
                 'units' => 'units',
                 'costs' => 'costs'
     
+
     cond = ARCondition.new
     if @project.nil?
       cond << Project.allowed_to_condition(User.current, :view_cost_entries)
     elsif @issue.nil?
       cond << @project.project_condition(Setting.display_subprojects_issues?)
     else
-      cond << ["#{CostEntry.table_name}.issue_id = ?", @issue.id]
+      cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
     end
     
     cond << User.current.allowed_for(:view_cost_entries, @project)
