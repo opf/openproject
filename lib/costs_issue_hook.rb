@@ -37,25 +37,6 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
       context[:issue].cost_object_id = cost_object_id
     end
   end
-
-  
-  # Renders a select tag with all the Cost Objects for the bulk edit page
-  #
-  # Context:
-  # * :project => Current project
-  #
-  def view_issues_bulk_edit_details_bottom(context = { })
-    if context[:project].module_enabled?('cost_module')
-      select = select_tag('cost_object_id',
-                               content_tag('option', l(:label_no_change_option), :value => '') +
-                               content_tag('option', l(:label_none), :value => 'none') +
-                               options_from_collection_for_select(CostObject.find_all_by_project_id(context[:project].id, :order => 'subject ASC'), :id, :subject))
-    
-      return content_tag(:p, "<label>#{l(:field_cost_object)}: " + select + "</label>")
-    else
-      return ''
-    end
-  end
   
   # Saves the Cost Object assignment to the issue
   #
