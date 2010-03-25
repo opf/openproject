@@ -235,29 +235,6 @@ class CostQuery < ActiveRecord::Base
     return match.blank? ? nil : match[0]
   end
   
-  def to_session
-    session[:cost_query] = {:project_id => project_id,
-                            :filters => filters,
-                            :group_by => group_by,
-                            :display_cost_entries => display_cost_entries,
-                            :display_time_entries => display_time_entries}
-  end
-  
-  def self.retrieve (id=nil)
-    return CostQuery.find_by_id(id) if id
-    
-    # fIXme: Handle the project_id here, not in a controller
-    if session[:cost_query]
-      CostQuery.new(:name => "_",
-                    :filters => session[:cost_query][:filters],
-                    :group_by => session[:cost_query][:group_by],
-                    :display_cost_entries => session[:cost_query][:display_cost_entries],
-                    :display_time_entries => session[:cost_query][:display_time_entries])
-    else
-      CostQuery.new(:name => "_")
-    end
-  end
-  
   MAGIC_GROUP_KEYS = [:block, :time, :display, :db_field, :other_group]
   
   def self.grouping_column(*names, &block)
