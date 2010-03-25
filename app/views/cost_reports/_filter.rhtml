@@ -40,15 +40,9 @@
   toggle_filter($('<%= id_prefix %>'));
 
   <% if !filter.filter_type[:multiple] %>
-    select = $('<%= (filter.scope == :issues) ? "add_issue_filter_select" : "add_cost_filter_select" %>')
-    // the current filter can only be applied once
-    for (i=0; i<select.options.length; i++) {
-      var option = select.options[i];
-      if (option.value == '<%= filter.column_name %>') {
-        option.disabled = true;
-      }
-    }
+    disable_select('<%= filter.column_name %>', '<%= (filter.scope == :issues) ? "add_issue_filter_select" : "add_cost_filter_select" %>');
   <% end %>
   //]]>
 </script>
+
 <% end %>

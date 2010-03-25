@@ -88,6 +88,29 @@
     }
   }
   
+  finished_loading = false;
+  deferred_disable_select = new Array();
+  function disable_select(filter_name, select_id) {
+    if (finished_loading) {
+      select = $(select_id)
+      // the current filter can only be applied once
+      for (i=0; i<select.options.length; i++) {
+        var option = select.options[i];
+        if (option.value == filter_name) {
+          option.disabled = true;
+        }
+      }
+    } else {
+      deferred_disable_select.push([filter_name, select_id]);
+    }
+  }
+  
+  Event.observe(window, 'load', function() {
+    finished_loading = true;
+    deferred_disable_select.each(function(item) {
+      disable_select(item[0], item[1]);
+    });
+  });
   
   IssueFilterTypes = new Array();
   <% 
@@ -117,7 +140,8 @@
   <tbody><tr>
     <td><table id="filter_table">
       <% @query.filters.each_with_index do |filter, index| %>
-        <%= render(:partial => "filter", :object => @query.create_filter_from_hash(filter), :locals => {:index => index}) %>
+        <% @line_index = index %>
+        <%= render(:partial => "filter", :object => @query.create_filter_from_hash(filter)) %>
       <% end if @query.filters %>
     </table></td>
     <td class="add-filter">
