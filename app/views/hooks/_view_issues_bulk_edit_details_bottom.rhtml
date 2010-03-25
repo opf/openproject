@@ -4,5 +4,5 @@
         content_tag('option', l(:label_none), :value => 'none') +
         options_from_collection_for_select(CostObject.find_all_by_project_id(@project.id, :order => 'subject ASC'), :id, :subject))
   %>
-  <%= content_tag(:p, "<label>#{l(:field_cost_object)}: " + myselect + "</label>")%>
+  <%= content_tag(:p, "<label>#{l(:field_cost_object)}</label>" + myselect)%>
 <% end %>
