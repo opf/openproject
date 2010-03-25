@@ -244,14 +244,19 @@ class CostQuery < ActiveRecord::Base
   end
   
   def self.retrieve (id=nil)
-    query = CostQuery.find_by_id(id) if id
-    query ||= CostQuery.new(:name => "_",
-                            :filters => session[:cost_query][:filters],
-                            :group_by => session[:cost_query][:group_by],
-                            :display_cost_entries => session[:cost_query][:display_cost_entries],
-                            :display_time_entries => session[:cost_query][:display_time_entries])
-  end
+    return CostQuery.find_by_id(id) if id
     
+    # fIXme: Handle the project_id here, not in a controller
+    if session[:cost_query]
+      CostQuery.new(:name => "_",
+                    :filters => session[:cost_query][:filters],
+                    :group_by => session[:cost_query][:group_by],
+                    :display_cost_entries => session[:cost_query][:display_cost_entries],
+                    :display_time_entries => session[:cost_query][:display_time_entries])
+    else
+      CostQuery.new(:name => "_")
+    end
+  end
   
   MAGIC_GROUP_KEYS = [:block, :time, :display, :db_field, :other_group]
   
