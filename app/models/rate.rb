@@ -1,5 +1,7 @@
 class Rate < ActiveRecord::Base
   validates_numericality_of :rate, :allow_nil => false, :message => :activerecord_error_invalid
+  belongs_to :user
+  belongs_to :project
 
   def self.clean_currency(value)
     if value && value.is_a?(String)
