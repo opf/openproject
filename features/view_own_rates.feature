@@ -1,11 +1,12 @@
 Feature: Permission View Own hourly and cost rates
 
   Scenario: Users that by set permission are only allowed to see their own rates, can not see the rates of others.
-    Given I am "Supplier" # I am allowed to see my own hourly and cost rates.
+    Given there is a standard cost control project named "Standard Project"
+    And I am "Supplier" # I am allowed to see my own hourly and cost rates.
     And I am member of "Standard Project":
 			| hourly rate | 10.00 |
-    And the project called "Standard Project" has an issue with the following:
-      | Identifier  | "test_issue"  |
+    And the project with name "Standard Project" has 1 issue with the following:
+      | subject  | "test_issue" |
     And this issue has one time entry with the following:
       | hours | 1.00  |
       | user  | me    |

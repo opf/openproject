@@ -31,7 +31,7 @@ Feature: Cost Reports
       | Firstname | Bob |
       | Lastname | Bobbit |
     And the user "Bob" is a "Developer" in the project "Test"
-    And the role "Developer" may have the following rights in project "Test":
+    And the role "Developer" may have the following rights:
       | View own cost entries |
     And there is only one cost type with the following:
       | name | Translation |
@@ -59,7 +59,7 @@ Feature: Cost Reports
       | Lastname 			| Bobbit 	|
       | default rate  | 20.0    |
     And the user "Bob" is a "Developer" in the project "Test"
-    And the role "Developer" may have the following rights in project "Test":
+    And the role "Developer" may have the following rights:
       | View own time entries |
     And the user with login "Bob" has one time entry
     And the project with name "Test" has 2 time entries with the following:
