@@ -66,6 +66,8 @@ class CostReportsController < ApplicationController
     end
   rescue Exception => e
     logger.error "#{e.class.name}: #{e.message}" if logger
+    $@.each {|line| logger.error line} if logger
+    
     session.delete :cost_query
     
     # Give it a name, required to be valid
