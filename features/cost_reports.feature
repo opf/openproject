@@ -57,12 +57,12 @@ Feature: Cost Reports
       | Login 				| bob 		|
       | Firstname 		| Bob 		|
       | Lastname 			| Bobbit 	|
-			| default_rate	| 20.0		|
+      | default rate  | 20.0    |
     And the user "Bob" is a "Developer" in the project "Test"
     And the role "Developer" may have the following rights in project "Test":
       | View own time entries |
     And the user with login "Bob" has one time entry
-    And the project "Test" has 2 time entries with the following:
+    And the project with name "Test" has 2 time entries with the following:
       | hours | 11 |
     And I am logged in as "bob"
     And I am on the Cost Reports page for the project called Test
