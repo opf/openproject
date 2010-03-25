@@ -108,7 +108,7 @@ private
       session[:cost_query] = {:id => @query.id, :project_id => @query.project_id}
       sort_clear
     else
-      if params[:set_filter] || session[:cost_query].nil? || session[:cost_query][:project_id] != (@project ? @project.id : nil)
+      if params[:set_filter] || session[:cost_query].blank? || session[:cost_query][:project_id] != (@project ? @project.id : nil)
         # We have no current query or the query was reseted explicitly
         # So generate a new query
     
@@ -129,19 +129,9 @@ private
           @query.display_time_entries = params[:cost_query][:display_time_entries]
         end
         
-        session[:cost_query] = {:project_id => @query.project_id,
-                                :filters => @query.filters,
-                                :group_by => @query.group_by,
-                                :display_cost_entries => @query.display_cost_entries,
-                                :display_time_entries => @query.display_time_entries}
+        @query.to_session
       else
-        @query = CostQuery.find_by_id(session[:cost_query][:id]) if session[:cost_query][:id]
-        @query ||= CostQuery.new(:name => "_",
-                                 :project => @project,
-                                 :filters => session[:cost_query][:filters],
-                                 :group_by => session[:cost_query][:group_by],
-                                 :display_cost_entries => session[:cost_query][:display_cost_entries],
-                                 :display_time_entries => session[:cost_query][:display_time_entries])
+        @query = CostQuery.retrieve(session[:cost_query][:id])
         @query.project = @project
       end
     end
