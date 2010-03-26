@@ -16,4 +16,15 @@ class Sprint < Version
         return stories.sum('points')
     end
    
+    def wiki_page
+        if ! project.wiki
+            return ''
+        end
+
+        if wiki_page_title.nil? || wiki_page_title.blank?
+            self.update_attribute(:wiki_page_title, name.gsub(/\s+/, '_').gsub(/[^_a-zA-Z0-9]/, ''))
+        end
+
+        return wiki_page_title
+  end
 end

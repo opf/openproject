@@ -1,6 +1,7 @@
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'smoothness/jquery-ui-1.8rc3.custom.css', :plugin => 'redmine_backlogs' %>
     <%= stylesheet_link_tag 'backlog.css', :plugin => 'redmine_backlogs' %>
+    <%= stylesheet_link_tag 'purecssmenu.css', :plugin => 'redmine_backlogs' %>
 
     <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
     <%= javascript_include_tag 'jquery-ui-1.8rc3.custom.min.js', :plugin => 'redmine_backlogs' %>
@@ -22,11 +23,22 @@
             <% end %>
         });
 
+        function recalc_points(sprint)
+        {
+            total = 0;
+            $("#sprint-" + sprint + " .story-points").each(function(i) {
+                points = parseInt($(this).text());
+                if (!isNaN(points)) { total += points; }
+             });
+             $("#sprint-points-" + sprint).text("" + total);
+        }
+
         $().ready(function() {
             $(".backlog").each(function(i) {
                 recolor('#' + $(this).attr('id'));
             });
 
+            
             $(".datepicker").datepicker({
                 firstDay: 1,
                 dateFormat: 'yy-mm-dd',
@@ -61,11 +73,21 @@
                 update: function(event, ui) {
                     recolor('#' + $(event.target).attr('id'));
 
+                    parts = $(event.target).attr('id').split('-');
+                    if (parts[0] == 'sprint') {
+                        recalc_points(parts[1]);
+                    }
+
                     serialized = $(event.target).sortable('serialize');
                     dropped = '&dropped=' + ui.item.attr('id');
 
                     if (ui.sender) {
                         moveto = '&backlog=' + $(event.target).attr('id');
+
+                        parts = $(ui.sender).attr('id').split('-');
+                        if (parts[0] == 'sprint') {
+                            recalc_points(parts[1]);
+                        }
                     } else {
                         moveto = '';
                     }
@@ -91,11 +113,7 @@
                     story = parts[3];
 
                     if (sprint != 'backlog') {
-                        points = 0;
-                        $("#sprint-" + sprint + " .story-points").each(function(i) {
-                            points += parseInt($(this).text());
-                        });
-                        $("#sprint-points-" + sprint).text("" + points);
+                        recalc_points(sprint);
                     }
                 }
             });
@@ -108,35 +126,59 @@
 <% if @settings[:story_tracker].nil? %>
     You have not set up the story tracker for the backlogs plugin.
 <% else %>
-    <div id="sprints">
+    <div class="backlogs" id="sprints">
         <% @sprints.each do |sprint| %>
-            <div id="sprint-<%= sprint.id %>" class="sprint">
-                <h3>
+            <div class="sprint">
+                <div id="sprint-<%= sprint.id %>" class="sprint-header">
                     <span id="sprint-name-<%= sprint.id %>" class="editable"><%= sprint.name %></span>
-                    <span class="sprint-dates">
+                    <span class="sprint-data">
+                        <span>
+                            <input id="sprint-start-<%= sprint.id %>"
+                                type="text"
+                                class="datepicker"
+                                value="<%= sprint.start_date.nil? ? '' : sprint.start_date.strftime('%Y-%m-%d') %>" />
+                            -
+                            <input id="sprint-end-<%= sprint.id %>"
+                                type="text"
+                                class="datepicker"
+                                value="<%= sprint.effective_date.nil? ? '' : sprint.effective_date.strftime('%Y-%m-%d') %>" />
+                        </span>
+
                         <span id="sprint-points-<%= sprint.id %>"><%= sprint.points %></span>
-                        <input id="sprint-start-<%= sprint.id %>"
-                            type="text"
-                            class="datepicker"
-                            value="<%= sprint.start_date.nil? ? '' : sprint.start_date.strftime('%Y-%m-%d') %>" />
-                        -
-                        <input id="sprint-end-<%= sprint.id %>"
-                            type="text"
-                            class="datepicker"
-                            value="<%= sprint.effective_date.nil? ? '' : sprint.effective_date.strftime('%Y-%m-%d') %>" />
-                        <%= link_to(image_tag('tasks.png', :plugin => 'redmine_backlogs'), {
-                                        :controller => 'backlogs',
-                                        :action => 'select_sprint',
-                                        :project_id => @project.id,
-                                        :sprint_id => sprint.id }) %>
+
+                        <ul class="sprint-actions pureCssMenu pureCssMenum">
+                            <li class="pureCssMenui">
+                                <a class="pureCssMenui" href="#"><span class="ui-icon ui-icon-triangle-1-s"></span></a>
+                                <ul class="pureCssMenum">
+                                    <li class="pureCssMenui">
+                                        <%= link_to('Stories/Tasks', {
+                                                    :controller => 'backlogs',
+                                                    :action => 'select_sprint',
+                                                    :project_id => @project.id,
+                                                    :sprint_id => sprint.id },
+                                                    :class => "pureCssMenui") %>
+                                    </li>
+                                    <% if @project.wiki %>
+                                        <li class="pureCssMenui">
+                                            <%= link_to('Wiki', {
+                                                        :controller => 'backlogs',
+                                                        :action => 'wiki_page',
+                                                        :project_id => @project.id,
+                                                        :sprint_id => sprint.id },
+                                                        :class => "pureCssMenui") %>
+                                        </li>
+                                    <% end %>
+                                </ul>
+                            </li>
+                        </ul>
                     </span>
-                </h3>
+                </div>
                 <ul id="sprint-<%= sprint.id %>" class="backlog">
                     <% sprint.stories.each do |story| %>
                         <li id="story-<%= story.id %>">
                             <span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span>
                             <%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: 
-                            <%= story.abbreviated_subject %>
+                            <span><%= story.abbreviated_subject %></span>
                             <span id="story-points-<%= sprint.id %>-<%= story.id %>" class="story-points"><%= story.points %></span>
                         </li>
                     <% end %>
@@ -144,14 +186,14 @@
             </div>
         <% end %>
     </div>
-    <div id="product-backlog-display"
-        <h3>Product backlog</h3>
+    <div class="backlogs" id="product-backlog-display">
+        <div class="sprint-header">Product backlog</div>
         <ul id="product-backlog" class="backlog">
             <% @backlog.each do |story| %>
                 <li id="story-<%= story.id %>">
                     <span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span>
                     <%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: 
-                    <%= story.abbreviated_subject %>
+                    <span><%= story.abbreviated_subject %></span>
                     <span id="story-points-backlog-<%= story.id %>" class="story-points"><%= story.points %></span>
                 </li>
             <% end %>

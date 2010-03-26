@@ -88,7 +88,10 @@ class BacklogsController < ApplicationController
     story = Story.first(:conditions => { :project_id => @project.id, :id => id})
 
     begin
-        story.update_attribute(:points, Integer(params[:value]))
+        points = Integer(params[:value])
+        if points >= 0
+            story.update_attribute(:points, Integer(params[:value]))
+        end
     rescue
         # ignore non-integer values
     end
@@ -106,6 +109,11 @@ class BacklogsController < ApplicationController
     session[:query] = {:project_id => @query.project_id, :filters => @query.filters}
 
     redirect_to :controller => 'issues', :action => 'index', :project_id => @project.id
+  end
+
+  def wiki_page
+    sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => params[:sprint_id]})
+    redirect_to :controller => 'wiki', :action => 'index', :id => @project.id, :page => sprint.wiki_page
   end
 
   def find_project
