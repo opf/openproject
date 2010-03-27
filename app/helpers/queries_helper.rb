@@ -57,6 +57,8 @@ module QueriesHelper
       l(:general_text_Yes)
     when 'FalseClass'
       l(:general_text_No)
+    when 'Issue'
+      link_to_issue(value, :subject => false)
     else
       h(value)
     end

@@ -118,6 +118,17 @@ tr.issue td.subject, tr.issue td.category, td.assigned_to { white-space: normal;
 tr.issue td.subject { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 
+tr.issue.idnt td.subject a {background: url(../images/bullet_arrow_right.png) no-repeat 0 50%; padding-left: 16px;}
+tr.issue.idnt-1 td.subject {padding-left: 0.5em;}
+tr.issue.idnt-2 td.subject {padding-left: 2em;}
+tr.issue.idnt-3 td.subject {padding-left: 3.5em;}
+tr.issue.idnt-4 td.subject {padding-left: 5em;}
+tr.issue.idnt-5 td.subject {padding-left: 6.5em;}
+tr.issue.idnt-6 td.subject {padding-left: 8em;}
+tr.issue.idnt-7 td.subject {padding-left: 9.5em;}
+tr.issue.idnt-8 td.subject {padding-left: 11em;}
+tr.issue.idnt-9 td.subject {padding-left: 12.5em;}
+
 tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
 tr.entry td.filename { width: 30%; }

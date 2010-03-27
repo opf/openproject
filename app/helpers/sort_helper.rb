@@ -81,7 +81,7 @@ module SortHelper
     def to_sql
       sql = @criteria.collect do |k,o|
         if s = @available_criteria[k]
-          (o ? s.to_a : s.to_a.collect {|c| "#{c} DESC"}).join(', ')
+          (o ? s.to_a : s.to_a.collect {|c| append_desc(c)}).join(', ')
         end
       end.compact.join(', ')
       sql.blank? ? nil : sql
@@ -119,6 +119,15 @@ module SortHelper
       @criteria = @criteria.select {|k,o| @available_criteria.has_key?(k)} if @available_criteria
       @criteria.slice!(3)
       self
+    end
+    
+    # Appends DESC to the sort criterion unless it has a fixed order
+    def append_desc(criterion)
+      if criterion =~ / (asc|desc)$/i
+        criterion
+      else
+        "#{criterion} DESC"
+      end
     end
   end
   

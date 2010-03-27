@@ -18,6 +18,17 @@
 module IssuesHelper
   include ApplicationHelper
 
+  def issue_list(issues, &block)
+    ancestors = []
+    issues.each do |issue|
+      while (ancestors.any? && !issue.is_descendant_of?(ancestors.last))
+        ancestors.pop
+      end
+      yield issue, ancestors.size
+      ancestors << issue
+    end
+  end
+  
   def render_issue_tooltip(issue)
     @cached_label_start_date ||= l(:field_start_date)
     @cached_label_due_date ||= l(:field_due_date)
@@ -43,17 +54,14 @@ module IssuesHelper
   
   def render_descendants_tree(issue)
     s = '<form><table class="list issues">'
-    ancestors = []
-    issue.descendants.sort_by(&:lft).each do |child|
-      level = child.level - issue.level - 1
+    issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
       s << content_tag('tr',
              content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
-             content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject',
-                                                                      :style => "padding-left: #{level * 20}px") +
+             content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') +
              content_tag('td', h(child.status)) +
              content_tag('td', link_to_user(child.assigned_to)) +
              content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
-             :class => "issue-#{child.id} hascontextmenu")
+             :class => "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
     end
     s << '</form></table>'
     s
