@@ -187,6 +187,7 @@ module IssuesHelper
                   l(:field_due_date),
                   l(:field_done_ratio),
                   l(:field_estimated_hours),
+                  l(:field_parent_issue),
                   l(:field_created_on),
                   l(:field_updated_on)
                   ]
@@ -213,6 +214,7 @@ module IssuesHelper
                   format_date(issue.due_date),
                   issue.done_ratio,
                   issue.estimated_hours.to_s.gsub('.', decimal_separator),
+                  issue.parent_id,
                   format_time(issue.created_on),  
                   format_time(issue.updated_on)
                   ]
