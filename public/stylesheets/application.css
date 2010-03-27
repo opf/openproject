@@ -665,7 +665,7 @@ div.wiki pre {
     padding: 2px 2px 2px 0;
     background-color: #fafafa;
     border: 1px solid #dadada;
-    width:95%;
+    width:auto;
     overflow-x: auto;
 }
 
