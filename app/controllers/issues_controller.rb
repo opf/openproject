@@ -229,10 +229,13 @@ class IssuesController < ApplicationController
       user = @issue.author
       text = @issue.description
     end
-    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\\n> "
-    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\\n> ") + "\\n\\n"
+    # Replaces pre blocks with [...]
+    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
+    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+    content << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+      
     render(:update) { |page|
-      page.<< "$('notes').value = \"#{content}\";"
+      page.<< "$('notes').value = \"#{escape_javascript content}\";"
       page.show 'update'
       page << "Form.Element.focus('notes');"
       page << "Element.scrollTo('update');"
