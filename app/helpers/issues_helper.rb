@@ -25,7 +25,7 @@ module IssuesHelper
         ancestors.pop
       end
       yield issue, ancestors.size
-      ancestors << issue
+      ancestors << issue unless issue.leaf?
     end
   end
   
