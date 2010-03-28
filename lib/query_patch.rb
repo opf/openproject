@@ -8,6 +8,7 @@ module QueryPatch
         base.class_eval do
             unloadable # Send unloadable so it will not be unloaded in development
             base.add_available_column(QueryColumn.new(:story_points, :sortable => "#{Issue.table_name}.story_points"))
+            base.add_available_column(QueryColumn.new(:remaining_hours, :sortable => "#{Issue.table_name}.remaining_hours"))
         end
 
     end

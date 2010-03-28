@@ -9,6 +9,7 @@ Dispatcher.to_prepare do
     require_dependency 'issue'
     Issue::SAFE_ATTRIBUTES << "story_points" if Issue.const_defined? "SAFE_ATTRIBUTES"
     Issue::SAFE_ATTRIBUTES << "position" if Issue.const_defined? "SAFE_ATTRIBUTES"
+    Issue::SAFE_ATTRIBUTES << "remaining_hours" if Issue.const_defined? "SAFE_ATTRIBUTES"
 
     Query.send(:include, QueryPatch) unless Query.included_modules.include? QueryPatch
 end

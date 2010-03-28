@@ -4,3 +4,4 @@ en:
   backlogs_task_tracker: "Task tracker"
   backlogs_sprints: "Sprints"
   field_story_points: "Story points"
+  field_remaining_hours: "Remaining hours"
