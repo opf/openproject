@@ -80,6 +80,31 @@ module BacklogsPlugin
                 return snippet
             end
 
+            def view_versions_show_bottom(context={ })
+                version = context[:version]
+                project = version.project
+
+                snippet = ''
+
+                if User.current.allowed_to?(:edit_wiki_pages, project)
+                    snippet += '<span id="edit_wiki_page_action">'
+                    snippet += link_to l(:button_edit_wiki), {:controller => 'backlogs', :action => 'wiki_page_edit', :project_id => project.id, :sprint_id => version.id }, :class => 'icon icon-edit'
+                    snippet += '</span>'
+
+                    # this wouldn't be necesary if the schedules plugin
+                    # didn't disable the contextual hook
+                    snippet += javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs'
+                    snippet += <<-generatedscript
+
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#edit_wiki_page_action').detach().appendTo("div.contextual");
+                            });
+                        </script>
+                    generatedscript
+                end
+            end
+
         end
     end
 end

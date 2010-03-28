@@ -26,5 +26,6 @@ class Sprint < Version
         end
 
         return wiki_page_title
-  end
+    end
+
 end

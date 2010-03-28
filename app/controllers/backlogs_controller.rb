@@ -113,6 +113,13 @@ class BacklogsController < ApplicationController
     redirect_to :controller => 'wiki', :action => 'index', :id => @project.id, :page => sprint.wiki_page
   end
 
+  def wiki_page_edit
+    sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => params[:sprint_id]})
+    redirect_to :controller => 'wiki', :action => 'edit', :id => @project.id, :page => sprint.wiki_page
+  end
+
+  private
+
   def find_project
     @project = Project.find(params[:project_id])
   end
