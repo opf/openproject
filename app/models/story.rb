@@ -27,6 +27,38 @@ class Story < Issue
         return ! Story.find(:id => id, parent_id => nil, tracker_id => Setting.plugin_redmine_backlogs[:story_tracker]).nil?
     end
 
+    def set_points(p)
+        self.init_journal(User.current)
+
+        if p.nil? || p == '' || p == '-'
+            self.update_attribute(:story_points, nil)
+            return
+        end
+
+        if p.downcase == 's'
+            self.update_attribute(:story_points, 0)
+            return
+        end
+
+        p = Integer(p)
+        if p >= 0
+            self.update_attribute(:story_points, p)
+            return
+        end
+    end
+
+    def points_display(notsized='-')
+        if story_points.nil?
+            return notsized
+        end
+
+        if story_points == 0
+            return 'S'
+        end
+
+        return story_points.to_s
+    end
+
     def abbreviated_subject
         cap = 60
         subject = read_attribute(:subject)

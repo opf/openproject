@@ -10,8 +10,17 @@
     <script type="text/javascript">
         function recolor(backlog)
         {
-            $(backlog + " li:odd").addClass('odd').removeClass('even');
-            $(backlog + " li:even").removeClass('odd').addClass('even');
+            // I have *no* idea why this happens
+            if (backlog == '#product-backlog') {
+                even = 'even';
+                odd = 'odd';
+            } else {
+                even = 'odd';
+                odd = 'even';
+            }
+
+            $(backlog + " li:even").removeClass(odd).addClass(even);
+            $(backlog + " li:odd").removeClass(even).addClass(odd);
         }
 
         $(document).ajaxSend(function(event, request, settings) {
@@ -33,7 +42,7 @@
              $("#sprint-points-" + sprint).text("" + total);
         }
 
-        $().ready(function() {
+        $(document).ready(function() {
             $(".backlog").each(function(i) {
                 recolor('#' + $(this).attr('id'));
             });
@@ -178,8 +187,7 @@
                         <li id="story-<%= story.id %>">
                             <span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span>
                             <%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: 
-                            <span><%= story.abbreviated_subject %></span>
-                            <span id="story-points-<%= sprint.id %>-<%= story.id %>" class="story-points"><%= story.points %></span>
+                            <span><%= story.abbreviated_subject %></span> <span id="story-points-<%= sprint.id %>-<%= story.id %>" class="story-points"><%= story.points_display %></span>
                         </li>
                     <% end %>
                 </ul>
@@ -194,7 +202,7 @@
                     <span class="ui-icon ui-icon-carat-2-n-s drag-handle"></span>
                     <%= link_to(story.id, :controller => "issues", :action => "show", :id => story.id) %>: 
                     <span><%= story.abbreviated_subject %></span>
-                    <span id="story-points-backlog-<%= story.id %>" class="story-points"><%= story.points %></span>
+                    <span id="story-points-backlog-<%= story.id %>" class="story-points"><%= story.points_display %></span>
                 </li>
             <% end %>
         </ul>

@@ -13,7 +13,7 @@ class Sprint < Version
     end
 
     def points
-        return stories.sum('points')
+        return stories.sum('story_points')
     end
    
     def wiki_page

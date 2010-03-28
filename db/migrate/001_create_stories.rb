@@ -1,8 +1,8 @@
 class CreateStories < ActiveRecord::Migration
   def self.up
     add_column :issues, :position, :integer
-    add_column :issues, :points, :integer, :default => 0
-    add_column :issues, :remaining, :float, :default => 0
+    add_column :issues, :story_points, :integer
+    add_column :issues, :remaining_hours, :float
 
     add_column :versions, :start_date, :datetime, :null => true
 

@@ -88,15 +88,12 @@ class BacklogsController < ApplicationController
     story = Story.first(:conditions => { :project_id => @project.id, :id => id})
 
     begin
-        points = Integer(params[:value])
-        if points >= 0
-            story.update_attribute(:points, Integer(params[:value]))
-        end
+        story.set_points(params[:value])
     rescue
         # ignore non-integer values
     end
 
-    render :text => story.points, :status => 200
+    render :text => story.points_display, :status => 200
   end
 
   def select_sprint
