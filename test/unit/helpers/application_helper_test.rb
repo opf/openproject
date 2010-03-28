@@ -350,7 +350,7 @@ EXPECTED
 RAW
 
     expected = <<-EXPECTED
-<pre><code class="ruby syntaxhl"><span class="no">1</span> <span class="c"># Some ruby code here</span>
+<pre><code class="ruby syntaxhl"><span class=\"CodeRay\"><span class="no">1</span> <span class="c"># Some ruby code here</span></span>
 </code></pre>
 EXPECTED
 
