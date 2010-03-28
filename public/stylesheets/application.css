@@ -110,8 +110,18 @@ table.list td.buttons { width: 15%; white-space:nowrap; text-align: right; }
 table.list td.buttons a { padding-right: 0.6em; }
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 
-tr.project td.name a { padding-left: 16px; white-space:nowrap; }
-tr.project.parent td.name a { background: url('../images/bullet_toggle_minus.png') no-repeat; }
+tr.project td.name a { white-space:nowrap; }
+
+tr.project.idnt td.name a {background: url(../images/bullet_arrow_right.png) no-repeat 0 50%; padding-left: 16px;}
+tr.project.idnt-1 td.name {padding-left: 0.5em;}
+tr.project.idnt-2 td.name {padding-left: 2em;}
+tr.project.idnt-3 td.name {padding-left: 3.5em;}
+tr.project.idnt-4 td.name {padding-left: 5em;}
+tr.project.idnt-5 td.name {padding-left: 6.5em;}
+tr.project.idnt-6 td.name {padding-left: 8em;}
+tr.project.idnt-7 td.name {padding-left: 9.5em;}
+tr.project.idnt-8 td.name {padding-left: 11em;}
+tr.project.idnt-9 td.name {padding-left: 12.5em;}
 
 tr.issue { text-align: center; white-space: nowrap; }
 tr.issue td.subject, tr.issue td.category, td.assigned_to { white-space: normal; }
