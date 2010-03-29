@@ -23,6 +23,7 @@ de:
 
   caption_booked_on_project: "Auf das Projekt gebucht"
   caption_budget: Budget
+  caption_budget_available: Verfügbares Budget
   caption_budget_ratio: Verbrauchtes Budget
   caption_comment: Kommentar
   caption_cost_type: Kostenart
