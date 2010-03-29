@@ -1,10 +1,12 @@
 <% 
+cost_objects_any = false
 possible_cost_objects = issues.inject(issues.first.project.cost_objects) do |intersect, issue|
+  cost_objects_any |= issue.project.cost_objects.any?
   issue.project.cost_objects & intersect
 end
 %>
   <li class="folder">
-	<a href="#" class="submenu"><%= l(:cost_objects_title) %></a>
+	<a href="#" class="submenu"><%= l(:label_cost_object) %></a>
 	<ul>
 	<% unless possible_cost_objects.empty? -%>
 		<% possible_cost_objects.each do |co| -%>
@@ -14,7 +16,7 @@ end
 		    </li>
 		<% end -%>
 	<% else -%>
-	  <li><%= l(:notice_cost_object_conflict)%></li>
+	  <li><%= l(cost_objects_any ? :notice_cost_object_conflict : :notice_no_cost_objects_available)%></li>
 	<% end -%>
 	</ul>
 </li>

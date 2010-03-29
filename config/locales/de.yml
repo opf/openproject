@@ -133,6 +133,7 @@ de:
   label_yes: Ja
 
   notice_cost_object_conflict: "Tickets müssen im gleichen Projekt sein."
+  notice_no_cost_objects_available: "Kein Liefergegenstand verfügbar."
   notice_something_wrong: Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
   notice_successful_restore: Erfolgreich wiederhergestellt.
 
