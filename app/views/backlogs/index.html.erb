@@ -8,6 +8,8 @@
     <%= javascript_include_tag 'jquery.jeditable.mini.js', :plugin => 'redmine_backlogs' %>
 
     <script type="text/javascript">
+        var $j = jQuery.noConflict();
+
         function recolor(backlog)
         {
             // I have *no* idea why this happens
@@ -19,11 +21,11 @@
                 odd = 'even';
             }
 
-            $(backlog + " li:even").removeClass(odd).addClass(even);
-            $(backlog + " li:odd").removeClass(even).addClass(odd);
+            $j(backlog + " li:even").removeClass(odd).addClass(even);
+            $j(backlog + " li:odd").removeClass(even).addClass(odd);
         }
 
-        $(document).ajaxSend(function(event, request, settings) {
+        $j(document).ajaxSend(function(event, request, settings) {
             settings.data = settings.data || "";
             settings.data += (settings.data ? "&" : "") + "project_id=<%= @project.id %>";
 
@@ -35,20 +37,20 @@
         function recalc_points(sprint)
         {
             total = 0;
-            $("#sprint-" + sprint + " .story-points").each(function(i) {
-                points = parseInt($(this).text());
+            $j("#sprint-" + sprint + " .story-points").each(function(i) {
+                points = parseInt($j(this).text());
                 if (!isNaN(points)) { total += points; }
              });
-             $("#sprint-points-" + sprint).text("" + total);
+             $j("#sprint-points-" + sprint).text("" + total);
         }
 
-        $(document).ready(function() {
-            $(".backlog").each(function(i) {
-                recolor('#' + $(this).attr('id'));
+        $j(document).ready(function() {
+            $j(".backlog").each(function(i) {
+                recolor('#' + $j(this).attr('id'));
             });
 
             
-            $(".datepicker").datepicker({
+            $j(".datepicker").datepicker({
                 firstDay: 1,
                 dateFormat: 'yy-mm-dd',
                 /* buttonImage: '<%= image_path('calendar.png') %>',
@@ -58,13 +60,13 @@
                 changeYear: true,
                 autoSize: true,
                 onSelect: function(dateText, inst) {
-                    parts = $(this).attr('id').split('-');
+                    parts = $j(this).attr('id').split('-');
                     part = parts[1];
                     id = parts[2];
 
-                    date = $.datepicker.formatDate('yy-mm-dd', $(this).datepicker('getDate'));
+                    date = $j.datepicker.formatDate('yy-mm-dd', $j(this).datepicker('getDate'));
 
-                    $.ajax({
+                    $j.ajax({
                         type: "POST",
                         url: "<%= url_for(:action => 'sprint_date') %>",
                         data: 'date=' + date + '&sprint=' + id + '&type=' + part
@@ -72,28 +74,28 @@
                 }
             });
 
-            $(".backlog .drag-handle").disableSelection();
+            $j(".backlog .drag-handle").disableSelection();
 
-            $(".backlog").sortable({
+            $j(".backlog").sortable({
                 connectWith: '.backlog',
                 forcePlaceholderSize: true,
                 placeholder: 'ui-state-highlight',
                 handle: '.drag-handle',
                 update: function(event, ui) {
-                    recolor('#' + $(event.target).attr('id'));
+                    recolor('#' + $j(event.target).attr('id'));
 
-                    parts = $(event.target).attr('id').split('-');
+                    parts = $j(event.target).attr('id').split('-');
                     if (parts[0] == 'sprint') {
                         recalc_points(parts[1]);
                     }
 
-                    serialized = $(event.target).sortable('serialize');
+                    serialized = $j(event.target).sortable('serialize');
                     dropped = '&dropped=' + ui.item.attr('id');
 
                     if (ui.sender) {
-                        moveto = '&backlog=' + $(event.target).attr('id');
+                        moveto = '&backlog=' + $j(event.target).attr('id');
 
-                        parts = $(ui.sender).attr('id').split('-');
+                        parts = $j(ui.sender).attr('id').split('-');
                         if (parts[0] == 'sprint') {
                             recalc_points(parts[1]);
                         }
@@ -101,7 +103,7 @@
                         moveto = '';
                     }
 
-                    $.ajax({
+                    $j.ajax({
                         type: "POST",
                         url: "<%= url_for(:action => 'reorder') %>",
                         data: serialized + moveto + dropped,
@@ -109,15 +111,15 @@
                 }
             });
 
-            $(".editable").editable('<%= url_for(:action => 'rename') %>', {
+            $j(".editable").editable('<%= url_for(:action => 'rename') %>', {
                 indicator: '<%= image_tag('indicator.gif', :plugin => 'redmine_backlogs') %>',
                 tooltip:    'Click to edit...'
             });
-            $(".story-points").editable('<%= url_for(:action => 'story_points') %>', {
+            $j(".story-points").editable('<%= url_for(:action => 'story_points') %>', {
                 indicator: '<%= image_tag('indicator.gif', :plugin => 'redmine_backlogs') %>',
                 tooltip:    'Click to edit...',
                 callback:   function(value, settings) {
-                    parts = $(this).attr('id').split('-');
+                    parts = $j(this).attr('id').split('-');
                     sprint = parts[2];
                     story = parts[3];
 

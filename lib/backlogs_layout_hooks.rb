@@ -53,17 +53,18 @@ module BacklogsPlugin
                     snippet += context[:form].text_field(:story_points, :size => 3)
                     snippet += '</p>'
 
-                    snippet += javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs'
-
                     if issue.descendants.length != 0
+                        snippet += javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs'
                         snippet += <<-generatedscript
 
                             <script type="text/javascript">
-                                $(document).ready(function() {
-                                    $('#issue_estimated_hours').attr('disabled', 'disabled');
-                                    $('#issue_done_ratio').attr('disabled', 'disabled');
-                                    $('#issue_start_date').parent().hide();
-                                    $('#issue_due_date').parent().hide();
+                                var $j = jQuery.noConflict();
+
+                                $j(document).ready(function() {
+                                    $j('#issue_estimated_hours').attr('disabled', 'disabled');
+                                    $j('#issue_done_ratio').attr('disabled', 'disabled');
+                                    $j('#issue_start_date').parent().hide();
+                                    $j('#issue_due_date').parent().hide();
                                 });
                             </script>
                         generatedscript
@@ -97,8 +98,9 @@ module BacklogsPlugin
                     snippet += <<-generatedscript
 
                         <script type="text/javascript">
-                            $(document).ready(function() {
-                                $('#edit_wiki_page_action').detach().appendTo("div.contextual");
+                                var $j = jQuery.noConflict();
+                            $j(document).ready(function() {
+                                $j('#edit_wiki_page_action').detach().appendTo("div.contextual");
                             });
                         </script>
                     generatedscript
