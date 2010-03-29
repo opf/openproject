@@ -9,6 +9,7 @@ module IssuePatch
             unloadable
 
             alias_method_chain :move_to_project_without_transaction, :autolink
+            after_save    :set_task_tracker
         end
     end
 
@@ -25,6 +26,23 @@ module IssuePatch
                 relation.issue_from = self
                 relation.issue_to = newissue
                 relation.save
+            end
+        end
+
+        def set_task_tracker
+            ## automatically sets the tracker to the task tracker for
+            ## any descendant of story
+            ## Normally one of the _before_save hooks ought to take
+            ## care of this, but appearantly neither root_id nor
+            ## parent_id are set at that point
+            story_tracker = Integer(Setting.plugin_redmine_backlogs[:story_tracker])
+            task_tracker = Integer(Setting.plugin_redmine_backlogs[:task_tracker])
+
+            if self.root_id != self.id and self.tracker_id != task_tracker
+                story = Issue.find(self.root_id)
+                if story.tracker_id == story_tracker 
+                    self.update_attribute(:tracker_id, task_tracker)
+                end
             end
         end
     end
