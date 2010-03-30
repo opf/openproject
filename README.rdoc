@@ -1,3 +1,13 @@
 = backlogs
 
 Description goes here
+
+TODO:
+
+Impediments (= blocks/blocked by)
+Task follows version
+Log on behalf of
+card printing
+Sizing accy
+Burndown
+task board

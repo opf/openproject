@@ -9,7 +9,7 @@ module IssuePatch
             unloadable
 
             alias_method_chain :move_to_project_without_transaction, :autolink
-            after_save    :set_task_tracker
+            after_save    :task_follows_story
         end
     end
 
@@ -27,23 +27,38 @@ module IssuePatch
                 relation.issue_to = newissue
                 relation.save
             end
+
+            return newissue
         end
 
-        def set_task_tracker
+        def task_follows_story
             ## automatically sets the tracker to the task tracker for
-            ## any descendant of story
+            ## any descendant of story, and follow the version_id
             ## Normally one of the _before_save hooks ought to take
             ## care of this, but appearantly neither root_id nor
             ## parent_id are set at that point
+
             story_tracker = Integer(Setting.plugin_redmine_backlogs[:story_tracker])
             task_tracker = Integer(Setting.plugin_redmine_backlogs[:task_tracker])
 
-            if self.root_id != self.id and self.tracker_id != task_tracker
-                story = Issue.find(self.root_id)
-                if story.tracker_id == story_tracker 
-                    self.update_attribute(:tracker_id, task_tracker)
+            if self.parent_id.nil?
+                if self.tracker_id == story_tracker
+                    # raw sql here because it's efficient and not
+                    # doing so causes an update loop when Issue calls
+                    # update_parent
+                    version = self.fixed_version_id.nil? ? 'NULL' : self.fixed_version_id.nil
+                    sql = ActiveRecord::Base.connection()
+                    sql.execute "update issues set tracker_id = #{task_tracker}, fixed_version_id = #{version} where lft > #{self.lft} and lft < #{self.rgt} and rgt > #{self.lft} and rgt < #{self.rgt}"
+                end
+            else
+                story = Issue.find(:id => self.root_id, :tracker_id => story_tracker)
+                if not story.nil?
+                    version = story.fixed_version_id.nil? ? 'NULL' : story.fixed_version_id.nil
+                    sql = ActiveRecord::Base.connection()
+                    sql.execute "update issues set tracker_id = #{task_tracker}, fixed_version_id = #{version} where id = #{self.id}"
                 end
             end
         end
+
     end
 end
