@@ -38,7 +38,7 @@ class CreateStoriesTasksAndSprints < ActiveRecord::Migration
             end
         }
     rescue
-        pass
+        #pass
     end
 
     begin
@@ -53,7 +53,7 @@ class CreateStoriesTasksAndSprints < ActiveRecord::Migration
             execute "update versions set status = '#{status}' where id = #{version}"
         }
     rescue
-        pass
+        #pass
     end
 
     Issue.rebuild!
