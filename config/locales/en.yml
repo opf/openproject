@@ -6,3 +6,6 @@ en:
   field_story_points: "Story points"
   field_remaining_hours: "Remaining hours"
   button_edit_wiki: "Edit wiki page"
+  field_backlogs_issue_type: "Backlog type"
+  backlogs_story: Story
+  backlogs_task: Task
