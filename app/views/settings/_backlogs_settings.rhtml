@@ -1,8 +1,39 @@
+    <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
+
+    <script type="text/javascript">
+        var $j = jQuery.noConflict();
+
+        function enable_apply()
+        {
+            tasktracker = $j("#settings_task_tracker").val();
+            submit = $j('input[type=submit]')
+
+
+            disable = false;
+            log = tasktracker + '::'
+            $j("#settings_story_trackers :selected").each(function(i, selected){
+                disable = disable || ($j(selected).attr('value') == tasktracker);
+            });
+            if (disable) {
+                submit.attr('disabled', 'disabled');
+            } else {
+                submit.removeAttr('disabled');
+            }
+        }
+
+        $j(document).ready(function() {
+            $j("#settings_task_tracker").change(function() { enable_apply(); });
+            $j("#settings_story_trackers").change(function() { enable_apply(); });
+
+            enable_apply();
+        });
+    </script>
+
     <p>
         <%= content_tag(:label, l(:backlogs_story_tracker)) %>
-        <%= select_tag("settings[story_tracker]", options_from_collection_for_select(Tracker.all, :id, :name, @settings[:story_tracker].to_i)) %>
+        <%= select_tag("settings[story_trackers]", options_from_collection_for_select(Tracker.all, :id, :name, Story.trackers), :multiple => true) %>
     </p>
     <p>
         <%= content_tag(:label, l(:backlogs_task_tracker)) %>
-        <%= select_tag("settings[task_tracker]", options_from_collection_for_select(Tracker.all, :id, :name, @settings[:task_tracker].to_i)) %>
+        <%= select_tag("settings[task_tracker]", options_from_collection_for_select(Tracker.all, :id, :name, Task.tracker)) %>
     </p>

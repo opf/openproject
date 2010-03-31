@@ -7,8 +7,8 @@ class Story < Issue
         {
             :order => 'position ASC',
             :conditions => [
-                "parent_id is NULL and project_id = ? and tracker_id = ? and fixed_version_id is NULL",
-                project.id, Setting.plugin_redmine_backlogs[:story_tracker]
+                "parent_id is NULL and project_id = ? and tracker_id in ? and fixed_version_id is NULL",
+                project.id, Story.trackers
                 ]
         }
     }
@@ -17,14 +17,17 @@ class Story < Issue
         {
             :order => 'position ASC',
             :conditions => [
-                "parent_id is NULL and tracker_id = ? and fixed_version_id = ?",
-                Setting.plugin_redmine_backlogs[:story_tracker], sprint.id
+                "parent_id is NULL and tracker_id in ? and fixed_version_id = ?",
+                Story.trackers, sprint.id
                 ]
         }
     }
 
-    def self.is_story(id)
-        return ! Story.find(:id => id, parent_id => nil, tracker_id => Setting.plugin_redmine_backlogs[:story_tracker]).nil?
+    def self.trackers
+        trackers = Setting.plugin_redmine_backlogs[:story_trackers]
+        return [] if trackers == '' or trackers.nil?
+
+        return trackers.map { |tracker| Integer(tracker) }
     end
 
     def set_points(p)
