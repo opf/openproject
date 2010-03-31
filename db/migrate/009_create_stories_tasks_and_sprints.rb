@@ -18,7 +18,17 @@ class CreateStoriesTasksAndSprints < ActiveRecord::Migration
         story.update_attribute(:position, pos + 1)
     }
 
+    # close existing transactions and turn on autocommit
+    ActiveRecord::Base.connection.commit_db_transaction
+
     begin
+        execute "select count(*) from backlogs"
+        backlogs_present = true
+    rescue
+        backlogs_present = false
+    end
+
+    if backlogs_present
         res = execute "select issue_id, version_id, position, version_id, parent_id, points from items left join backlogs on backlog_id = backlogs.id"
         res.each { |row|
             issue, version, position, parent, points = row
@@ -37,11 +47,7 @@ class CreateStoriesTasksAndSprints < ActiveRecord::Migration
                 execute "update issues set parent_id = (select issue_id from items where id = #{parent})"
             end
         }
-    rescue
-        #pass
-    end
 
-    begin
         res = execute "select version_id, start_date, is_closed from backlogs"
         res.each { |row|
             version, start_date, is_closed = row
@@ -52,10 +58,11 @@ class CreateStoriesTasksAndSprints < ActiveRecord::Migration
             end
             execute "update versions set status = '#{status}' where id = #{version}"
         }
-    rescue
-        #pass
     end
 
+    # force rebuild
+    execute "update issues set lft = NULL, rgt = NULL"
+    Issue.reset_column_information
     Issue.rebuild!
   end
 
