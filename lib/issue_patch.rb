@@ -9,6 +9,7 @@ module IssuePatch
             unloadable
 
             alias_method_chain :move_to_project_without_transaction, :autolink
+            alias_method_chain :update_parent_attributes, :remaining_hours
             after_save    :task_follows_story
         end
     end
@@ -35,7 +36,28 @@ module IssuePatch
         end
 
         def is_task?
-            return (self.tracker_id.class != NilClass and self.tracker_id == Task.tracker and not self.root?)
+            # a "true" task
+            return true if self.tracker_id.class != NilClass and self.tracker_id == Task.tracker
+
+            # a story that doubles as its only task
+            return true if self.is_story? and self.descendants.length == 0
+
+            # not a task
+            return false
+        end
+
+        def story
+            return Issue.find(:first,
+                :conditions => [ "id = ? and tracker_id in (?)", self.root_id, Story.trackers.map { |t| t.to_s }.join(',') ])
+        end
+
+        def update_parent_attributes_with_remaining_hours
+            update_parent_attributes_without_remaining_hours
+
+            if parent_id && p = Issue.find_by_id(parent_id) 
+                p.remaining_hours = p.leaves.sum(:remaining_hours).to_f
+                p.save
+            end
         end
 
         def task_follows_story
@@ -55,8 +77,8 @@ module IssuePatch
                 end
             elsif not Task.tracker.nil?
                 begin
-                    story = Issue.find(self.root_id)
-                    if story.is_story?
+                    story = self.story
+                    if not story.nil?
                         version = story.fixed_version_id.nil? ? 'NULL' : story.fixed_version_id.nil
                         connection.execute "update issues set tracker_id = #{Task.tracker}, fixed_version_id = #{version} where id = #{self.id}"
                     end
