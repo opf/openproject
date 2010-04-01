@@ -46,6 +46,8 @@ Dispatcher.to_prepare do
   require_or_load 'costs_access_control_permission_patch'
   require_dependency 'costs_access_control_patch'
 
+  require_dependency 'costs_issue_observer'
+
 end
 
 # Hooks
@@ -146,5 +148,5 @@ Redmine::Plugin.register :redmine_costs do
 end
 
 # Observers
-ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer, :costs_issue_observer
+ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer#, :costs_issue_observer
 
