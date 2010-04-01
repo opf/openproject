@@ -2,20 +2,20 @@ Feature: Cost Reports
 
   Scenario: Anonymous user sees no costs
     Given I am not logged in
-    And there is one Project with the following:
+    And there is 1 Project with the following:
       | Name      | Test |
-    And there is one cost entry    
+    And there is 1 cost entry    
     And I am on the Cost Reports page for the project called Test
     Then I should see "Login:"
     And I should see "Password:"
     
   Scenario: Admin user sees everything
     Given I am admin
-    And there is only one project with the following:
+    And there is only 1 project with the following:
       | Name | Test |
-    And there is one cost type with the following:
+    And there is 1 cost type with the following:
       | name | Translation |
-    And there is one cost entry with the following:
+    And there is 1 cost entry with the following:
       | units | 4242 |
     And I am on the Cost Reports page for the project called Test
     Then I should not see "No data to display"
@@ -24,18 +24,18 @@ Feature: Cost Reports
 
   Scenario: User who can see own costs, ONLY sees own costs
     Given I am not logged in
-    And there is only one project with the following:
+    And there is only 1 project with the following:
       | Name | Test |
-    And there is one User with the following:
+    And there is 1 User with:
       | Login | bob |
       | Firstname | Bob |
       | Lastname | Bobbit |
-    And the user "Bob" is a "Developer" in the project "Test"
+    And the user "bob" is a "Developer" in the project "Test"
     And the role "Developer" may have the following rights:
       | View own cost entries |
-    And there is only one cost type with the following:
+    And there is only 1 cost type with the following:
       | name | Translation |
-    And the user with login "Bob" has one cost entry
+    And the user "bob" has one cost entry
     And there is 1 cost type with the following:
       | name | Hidden Costs |
     And the project "Test" has 2 cost entries with the following:
@@ -51,9 +51,9 @@ Feature: Cost Reports
 
   Scenario: User who can see own time entries, ONLY sees own time entries
     Given I am not logged in
-    And there is only one project with the following:
+    And there is only 1 project with the following:
       | Name | Test |
-    And there is one User with the following:
+    And there is only 1 User with:
       | Login 				| bob 		|
       | Firstname 		| Bob 		|
       | Lastname 			| Bobbit 	|
@@ -61,7 +61,7 @@ Feature: Cost Reports
     And the user "Bob" is a "Developer" in the project "Test"
     And the role "Developer" may have the following rights:
       | View own time entries |
-    And the user with login "Bob" has one time entry
+    And the user with login "Bob" has 1 time entry
     And the project with name "Test" has 2 time entries with the following:
       | hours | 11 |
     And I am logged in as "bob"

@@ -16,22 +16,22 @@ CostEntry.class_eval do
   generator_for :tweek, 10
   
   def self.next_project
-    Project.last || Project.generate!
+    Project.last or Project.generate!
   end
   
   def self.next_cost_rate
-    CostRate.generate!
+    CostRate.last or CostRate.generate!
   end
 
   def self.next_user
-    User.generate_with_protected!
+    User.find_by_login("admin")
   end
   
   def self.next_cost_type
-    CostType.last || CostType.generate!
+    CostType.last or CostType.generate!
   end
   
   def self.next_issue
-    self.next_project.issues.last || Issue.generate_for_project!(next_project)
+    self.next_project.issues.last or Issue.generate_for_project!(next_project)
   end
 end
