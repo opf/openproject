@@ -4,7 +4,7 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
   render_on :view_issues_show_details_bottom, :partial => 'hooks/view_issues_show_details_bottom'
   
   # Renders Costs links in the issue view sidebar
-  render_on :view_issues_sidebar_issues_bottom, :partial => 'hooks/view_issues_sidebar_issues_bottom'
+  render_on :view_issues_sidebar_planning_bottom, :partial => 'hooks/view_issues_sidebar_planning_bottom'
   
   # Renders a select tag with all the Cost Objects
   render_on :view_issues_form_details_bottom, :partial => 'hooks/view_issues_form_details_bottom'
