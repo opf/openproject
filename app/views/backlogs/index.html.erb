@@ -134,7 +134,7 @@
 
 <h2>Backlog manager</h2>
 
-<% if @settings[:story_trackers].nil? || @settings[:task_tracker] %>
+<% if @settings[:story_trackers].nil? || @settings[:task_tracker].nil? %>
     You have not set up the story tracker for the backlogs plugin.
 <% else %>
     <div class="backlogs" id="sprints">

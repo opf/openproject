@@ -7,7 +7,7 @@ class Story < Issue
         {
             :order => 'position ASC',
             :conditions => [
-                "parent_id is NULL and project_id = ? and tracker_id in ? and fixed_version_id is NULL",
+                "parent_id is NULL and project_id = ? and tracker_id in (?) and fixed_version_id is NULL",
                 project.id, Story.trackers
                 ]
         }
@@ -17,7 +17,7 @@ class Story < Issue
         {
             :order => 'position ASC',
             :conditions => [
-                "parent_id is NULL and tracker_id in ? and fixed_version_id = ?",
+                "parent_id is NULL and tracker_id in (?) and fixed_version_id = ?",
                 Story.trackers, sprint.id
                 ]
         }
