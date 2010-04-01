@@ -148,7 +148,7 @@ end
 
 Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
   steps %Q{
-    Given there is one project with the following:
+    Given there is 1 project with the following:
       | Name | #{name} |
     And the project "#{name}" has 1 subproject
     And the role "Manager" may have the following rights:
@@ -162,20 +162,17 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
     And the role "Supplier" may have the following rights:
       | View own hourly rate |
       | View own cost entries |
-    And there is one user with the following:
+    And there is 1 user with:
       | Login | manager |
 		And the user "manager" is a "Manager" in the project called "#{name}"
-		And there is one user with the following:
+		And there is 1 user with:
       | Login | controller |
 		And the user "controller" is a "Controller" in the project called "#{name}"
-		And there is one user with the following:
+		And there is 1 user with:
       | Login | developer |
 		And the user "developer" is a "Developer" in the project called "#{name}"
-		And there is one user with the following:
+		And there is 1 user with:
       | Login | reporter |
 		And the user "reporter" is a "Reporter" in the project called "#{name}"
-		And there are 2..5 cost types in project "#{name}"
-		And there are 2..5 cost types in project "#{name} Sub"
-		And there are 5..10 issues in project "#{name}"
   }
 end
