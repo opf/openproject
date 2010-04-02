@@ -13,25 +13,12 @@ module StoriesHelper
     story.new_record? ? "" : textilizable(story, :description)
   end
 
-  def element_id_or_empty(story)
-    story.new_record? ? "" : "story_#{story.id}"
+  def story_html_id_or_empty(story)
+    story.new_record? ? "" : "story-#{story.id}"
   end
 
   def mark_if_closed(story)
     !story.new_record? && story.issue.status.is_closed? ? "closed" : ""
-  end
-
-  def mark_if_task(story)
-    story.parent_id == 0 ? "" : "task"
-  end
-
-  def one_or_two_line_height(story)
-    if story.backlog_id.nil? || story.backlog_id == 0
-      maxLength = 50
-    else
-      maxLength = 65
-    end
-    story.subject.length > maxLength ? "story_double" : ""
   end
 
   def points_or_empty(story)
