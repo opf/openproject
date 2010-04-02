@@ -17,8 +17,9 @@ RB.Backlog = Object.create(RB.Model, {
                     placeholder: 'placeholder',
                     forcePlaceholderSize: true,
                     dropOnEmpty: true,
-                    start: function(event, ui){ ui.item.addClass("dragging")     },
-                    stop : function(event, ui){ ui.item.removeClass("dragging")  } 
+                    start: this.dragStart,
+                    stop: this.dragStop,
+                    update: this.dragComplete
                     });
     list.disableSelection();
     
@@ -28,12 +29,57 @@ RB.Backlog = Object.create(RB.Model, {
     });
   },
   
+  dragComplete: function(event, ui) {
+    me = $(this).parent('.backlog').data('this'); // Because 'this' represents the sortable ul element
+    
+    if(me.isSprint()) me.recalcPoints();
+
+    stories = $(event.target).sortable('serialize');    
+    dropped = '&dropped=' + ui.item.data('this').getID();
+    
+    if(ui.sender){
+      moveto = '&moveto=' + $(event.target).parent('.backlog').data('this').getID();
+    } else {
+      moveto = '';
+    }
+
+    $.ajax({
+        type: "POST",
+        url: RB.urlFor['reorder'],
+        data: stories + moveto + dropped,
+    });
+  },
+  
+  dragStart: function(event, ui){ 
+    ui.item.addClass("dragging");
+  },
+  
+  dragStop: function(event, ui){ 
+    ui.item.removeClass("dragging");  
+  },
+  
+  getID: function(){
+    return this.isSprint() ? this.$.attr('id').split('-')[1] : this.$.attr('id');
+  },
+  
   getStories: function(){
     return this.getList().children(".story");
   },
 
   getList: function(){
     return $(this.el).children(".stories").first();
+  },
+  
+  isSprint: function(){
+    return $(this.el).hasClass('sprint');
+  },
+  
+  recalcPoints: function(){
+    total = 0;
+    this.getStories().each(function(index){
+      total += $(this).data('this').getPoints();
+    });
+    this.$.children('.header').children('.points').text(total);
   }
   
 });

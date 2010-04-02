@@ -71,10 +71,10 @@
   top:2px;
   width:350px;
 }
-.story  > .body div.status_id .v {
+.story  > div.status_id .v {
   display:none;
 }
-.story  > .body div.status_id .t {
+.story  > div.status_id .t {
   background-color:transparent;
   display:block;
   height:15px;
@@ -91,7 +91,7 @@
   position:absolute;
   top:4px;
 }
-.story  > .body div.status_id {
+.story  > div.status_id {
   display:block;
   height:15px;
   left:427px;
@@ -101,7 +101,7 @@
   width:68px;
   top:4px;
 }
-.story  > .body div.points {
+.story  > div.points {
   display:block;
   height:15px;
   overflow:hidden;

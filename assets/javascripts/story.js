@@ -48,6 +48,15 @@ RB.Story = Object.create(RB.Model, {
     this.$.removeClass('editing');
   },
   
+  getID: function(){
+    return this.$.children('.id').text();
+  },
+  
+  getPoints: function(){
+    points = parseInt(this.$.children('.points').text());
+    return ( isNaN(points) ? 0 : points );
+  },
+  
   handleKeyup: function(event){
     j = $(this).parents('.story').first();
     that = j.data('this');
