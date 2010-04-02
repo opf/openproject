@@ -8,7 +8,7 @@ class Story < Issue
             :order => 'position ASC',
             :conditions => [
                 "parent_id is NULL and project_id = ? and tracker_id in (?) and fixed_version_id is NULL",
-                project.id, Story.trackers.map { |t| t.to_s }.join(',')
+                project.id, Story.trackers
                 ]
         }
     }
@@ -18,7 +18,7 @@ class Story < Issue
             :order => 'position ASC',
             :conditions => [
                 "parent_id is NULL and tracker_id in (?) and fixed_version_id = ?",
-                Story.trackers.map { |t| t.to_s }.join(','), sprint.id
+                Story.trackers, sprint.id
                 ]
         }
     }
