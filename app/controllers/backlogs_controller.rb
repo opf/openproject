@@ -1,3 +1,5 @@
+include StoriesHelper
+
 class BacklogsController < ApplicationController
   unloadable
 
@@ -5,8 +7,18 @@ class BacklogsController < ApplicationController
 
   def index
     @settings = Setting.plugin_redmine_backlogs
-    @backlog = Story.product_backlog(@project)
+    @product_backlog_stories = Story.product_backlog(@project)
     @sprints = Sprint.open_sprints(@project)
+    
+    if @settings[:story_trackers].nil? || @settings[:task_tracker].nil?
+      render :action => "noconfig", :layout => "backlogs"
+    else
+      render :action => "index", :layout => "backlogs"
+    end
+  end
+  
+  def jsvariables
+    render :action => "jsvariables.js", :content_type => 'text/javascript', :layout => false
   end
 
   def reorder

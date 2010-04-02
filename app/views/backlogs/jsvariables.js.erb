@@ -1,0 +1,22 @@
+if(RB==null){
+  var RB = {};
+}
+
+RB.constants = {
+  project_id: <%= @project.id %>,
+  protect_against_forgery: <%= protect_against_forgery? ? "true" : "false" %>,
+  request_forgery_protection_token: '<%= request_forgery_protection_token %>',
+  form_authenticity_token: '<%= form_authenticity_token %>'
+}
+
+RB.build_img = function(name){
+  return "<img src='<%= Engines::RailsExtensions::AssetHelpers.plugin_asset_path('redmine_backlogs', 'images', nil) %>" + name + "'/>"
+}
+
+RB.url_for = {
+  rename: '<%= url_for(:action => 'rename') %>',
+  sprint_date: '<%= url_for(:action => 'sprint_date') %>',
+  story_points: '<%= url_for(:action => 'story_points') %>'
+}
+
+console.log('*** jsvariables loaded ***');

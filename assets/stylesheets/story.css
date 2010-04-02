@@ -1,0 +1,123 @@
+/*  STORY STYLES  */
+.story{
+/*  background-color:#bbf;*/
+  display:block;
+  height:26px;
+  margin:0;
+  overflow:hidden;
+  position:relative;
+  width:100%;
+}
+.story *{
+  font-family: Verdana, sans-serif;
+  font-size:11px;
+}
+.placeholder{
+  background-color:#ECECEC;
+}
+.story:hover{
+  background-color:rgb(254,248,168);
+}
+.story .spinner,
+.story .tracker_id,
+.story .description,
+.story .editor{
+  display:none;
+}
+.story.editing .editor{
+  display:block;
+}
+.story .checkbox{
+  display:block;
+  margin:0;
+  left:10px;
+  position:absolute;
+  top:7px;
+}
+.story .id{
+  background-color:#cfc;
+  display:block;
+  font-size:9px;
+  height:12px;
+  left:27px;
+  overflow:hidden;
+  padding:0px 3px 0px 1px;
+  position:absolute;
+  text-align:right;
+  top:8px;
+  width:35px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+}
+.story .id * {
+  display:inline;
+  font-size:8px;
+  text-decoration:none;
+}
+.story div.subject {
+  display:block;
+  height:15px;
+  left:72px;
+  overflow:hidden;
+  padding:2px;
+  position:absolute;
+  top:4px;
+  width:350px;
+}
+.story.editing .subject.editor{
+  height:14px;
+  left:70px;
+  position:absolute;
+  top:2px;
+  width:350px;
+}
+.story  > .body div.status_id .v {
+  display:none;
+}
+.story  > .body div.status_id .t {
+  background-color:transparent;
+  display:block;
+  height:15px;
+  left:0;
+  padding:2px 2px 2px 9px;
+  position:absolute;
+  top:0px;
+  width:68px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+}
+.story.editing .status_id.editor{
+  left:530px;
+  position:absolute;
+  top:4px;
+}
+.story  > .body div.status_id {
+  display:block;
+  height:15px;
+  left:427px;
+  overflow:hidden;
+  padding:2px 2px 2px 9px;
+  position:absolute;
+  width:68px;
+  top:4px;
+}
+.story  > .body div.points {
+  display:block;
+  height:15px;
+  overflow:hidden;
+  padding:2px;
+  padding-right:3px;
+  position:absolute;
+  right:11px;
+  text-align:right;
+  top:4px;
+  width:25px;
+}
+.story.editing input.points.editor{
+  height:14px;
+  position:absolute;
+  right:10px;
+  text-align:right;
+  top:2px;
+  width:25px;
+}

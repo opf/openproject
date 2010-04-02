@@ -1,0 +1,21 @@
+<li class="story" id="<%= element_id_or_empty(story) %>">
+  <span class="body">
+    <input type="checkbox" class="checkbox"/>
+    <div class="spinner"> </div>
+    <div class="id"><%= record_id_or_empty(story) %></div>
+    <div class="subject editable" fieldname="subject" modelname="issue"><%=h story.subject %></div>
+    <div class="status_id editable" fieldtype="select" fieldname="status_id" modelname="issue">
+      <div class="t"><%= status_label_or_default(story) %></div>
+      <div class="v"><%= status_id_or_default(story) %></div>
+    </div>
+    <div class="points editable" fieldname="points" modelname="story"><%= points_or_empty(story) %></div>
+    <!--div class="description editable" fieldtype="textarea" fieldname="description" modelname="issue">
+      <div class="textile"><%= textile_description_or_empty(story) %></div>
+      <div class="html"><%= description_or_empty(story) %></div>
+    </div-->
+    <!--div class="tracker_id editable" fieldtype="textarea" fieldname="tracker_id" modelname="issue">
+      <div class="t"><%= tracker_name_or_empty(story) %></div>
+      <div class="v"><%= tracker_id_or_empty(story) %></div>
+    </div-->
+  </span><!-- body -->
+</li>
