@@ -74,3 +74,6 @@
 #dialogs .move select{
   max-width:175px;
 }
+.template{
+  display:none;
+}

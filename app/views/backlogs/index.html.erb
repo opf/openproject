@@ -13,3 +13,11 @@
 </div>
 
 <%= render :partial => "backlog", :object => { :name => "Product Backlog", :stories => @product_backlog_stories }%>
+
+<!-- form field templates -->
+<select class="status_id template" id="status_id_options">
+  <%- IssueStatus.find(:all, :order => "position ASC").each do |status| %>
+  <option value="<%= status.id %>" class="<%= (status.is_closed? ? "closed" : "") %>"><%= status.name %></option>
+  <%- end %>
+</select>
+<!-- end of form field templates -->

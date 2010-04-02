@@ -62,14 +62,14 @@
   padding:2px;
   position:absolute;
   top:4px;
-  width:350px;
+  width:345px;
 }
 .story.editing .subject.editor{
   height:14px;
   left:70px;
   position:absolute;
   top:2px;
-  width:350px;
+  width:345px;
 }
 .story  > div.status_id .v {
   display:none;
@@ -87,9 +87,10 @@
   -webkit-border-radius:4px;
 }
 .story.editing .status_id.editor{
-  left:530px;
+  left:427px;
   position:absolute;
   top:4px;
+  width:75px;
 }
 .story  > div.status_id {
   display:block;
