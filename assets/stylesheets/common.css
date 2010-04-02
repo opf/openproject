@@ -1,0 +1,46 @@
+body{
+  background-color:rgb(215, 210, 208);
+  background-image:url('/plugin_assets/redmine_backlogs/images/bg.png');
+  background-repeat:repeat-x;
+  font-family:Verdana, Arial, sans-serif;
+  font-size:12px;
+}
+a{
+  color:#CC0000;
+  text-decoration:none;
+}
+a:hover{
+  text-decoration:underline !important;
+}
+/* HEADER */
+#header {
+/*  background-color:#EFEFEF;*/
+/*  border:1px solid #CCCCCC;*/
+  clear:both;
+  float:left;
+  height:30px;
+  position:relative;
+  width:100%;
+}
+#header .breadcrumbs {
+  bottom:5px;
+  font-size:14px;
+  font-weight:bold;
+  left:8px;
+  position:absolute;
+}
+#header .links {
+  bottom:7px;
+  font-size:11px;
+  position:absolute;
+  right:10px;
+}
+#header .links a {
+  margin:0 0 0 10px;
+}
+
+/* CONTENT */
+#content {
+  clear:both;
+  float:left;
+}

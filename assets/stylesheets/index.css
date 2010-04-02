@@ -1,0 +1,76 @@
+/* BACKLOGS */
+#sprints{
+  float:left;
+  margin-top:10px;
+  width:550px;
+}
+.backlog{
+  background-color:#FCFCFC;
+  border:1px solid #CCCCCC;
+  margin:0 0 10px 0;
+}
+.backlog .header{
+  height:22px;
+  padding:8px 10px 0 10px;
+}
+.backlog .header .name{
+  font-size:13px;
+  font-weight:bold;
+}
+.backlog .header .end-date{
+  font-size:10px;
+  color:#666666;
+  float:right;
+}
+.backlog .header .actions{
+  display:none; /* I'll fix this later */
+}
+.backlog .header .datepicker{
+  display:none; /* I'll fix this later */
+}
+.backlog .header .points{
+  display:none; /* I'll fix this later */
+}
+.backlog .stories{
+  list-style:none;
+  margin:0;
+  padding:0 0 4px 0;
+}
+#status-id-options{
+  display:none;
+}
+/*PRODUCT BACKLOG SPECIFIC*/
+#product-backlog{
+  float:right;
+  margin-left:10px;
+  margin-top:10px;
+  width:550px;
+}
+.product.backlog{
+  background-color: #edefec;
+}
+/*DIALOGS*/
+#dialogs{
+  height:30px;
+  left:0;
+  position:absolute;
+  top:-50px;
+  width:100%;
+}
+#dialogs .move{
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-bottomright: 10px;
+  background-color:rgb(255,191,86);
+  border-bottom:2px solid #AEAEAE;
+  border-right:2px solid #AEAEAE;
+  height:100%;
+  font-size:12px;
+  margin-left:auto;
+  margin-right:auto;
+  padding-top:10px;
+  text-align:center;
+  width:350px;
+}
+#dialogs .move select{
+  max-width:175px;
+}

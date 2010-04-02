@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title><%=h html_title %></title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="description" content="<%= Redmine::Info.app_name %>" />
+<meta name="keywords" content="issue,bug,tracker" />
+<%= stylesheet_link_tag 'smoothness/jquery-ui-1.8rc3.custom.css', 'common.css', 'purecssmenu.css', :plugin => 'redmine_backlogs', :cache => 'backlogscss/all' %>
+
+<%= javascript_include_tag 'jquery-1.4.2.min.js', 'jquery-ui-1.8rc3.custom.min.js', 'jquery.jeditable.mini.js', 'common.js', :plugin => 'redmine_backlogs', :cache => 'backlogsjs/all' %>
+<%= call_hook :view_layouts_base_html_head %>
+<%= yield :header_tags -%>
+</head>
+<body>
+<%= render :partial => "header" -%>
+<div id="content">
+		<%= render_flash_messages %>
+    <%= yield %>
+    <%= call_hook :view_layouts_base_content %>
+</div>
+<%= call_hook :view_layouts_base_body_bottom %>
+</body>
+</html>
