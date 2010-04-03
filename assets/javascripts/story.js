@@ -112,6 +112,7 @@ RB.Story = Object.create(RB.Model, {
       complete: function(xhr, textStatus){ me.unmarkSaving(); RB.dialog.msg(xhr.responseText) }
     });
     me.endEdit();
+    j.parents('.sprint.backlog').data('this').recalcPoints();
   },
   
   triggerEdit: function(event){
