@@ -922,3 +922,7 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
+  error_can_not_delete_custom_field: Unable to delete custom field
+  error_unable_to_connect: Unable to connect ({{value}})
+  error_can_not_remove_role: This role is in use and can not be deleted.
+  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.

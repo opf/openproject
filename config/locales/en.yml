@@ -161,13 +161,16 @@ en:
   error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
   error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
+  error_can_not_delete_custom_field: Unable to delete custom field
+  error_can_not_delete_tracker: "This tracker contains issues and can't be deleted."
+  error_can_not_remove_role: "This role is in use and can not be deleted."
   error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version can not be reopened'
   error_can_not_archive_project: This project can not be archived
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
   error_unable_delete_issue_status: 'Unable to delete issue status'
-  
+  error_unable_to_connect: "Unable to connect ({{value}})"
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   
   mail_subject_lost_password: "Your {{value}} password"

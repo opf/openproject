@@ -55,7 +55,7 @@ class TrackersController < ApplicationController
   def destroy
     @tracker = Tracker.find(params[:id])
     unless @tracker.issues.empty?
-      flash[:error] = "This tracker contains issues and can\'t be deleted."
+      flash[:error] = l(:error_can_not_delete_tracker)
     else
       @tracker.destroy
     end

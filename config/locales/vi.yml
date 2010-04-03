@@ -952,3 +952,7 @@ vi:
   field_parent_issue: Parent task
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
+  error_can_not_delete_custom_field: Unable to delete custom field
+  error_unable_to_connect: Unable to connect ({{value}})
+  error_can_not_remove_role: This role is in use and can not be deleted.
+  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
