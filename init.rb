@@ -23,7 +23,7 @@ Redmine::Plugin.register :redmine_backlogs do
     name 'Redmine Scrum Plugin'
     author 'Mark Maglana, friflaj'
     description 'Scrum plugin for Redmine'
-    version '0.0.1'
+    version '2.1 unstable'
 
     settings :default => { :story_trackers => nil, :task_tracker => nil }, :partial => 'settings/backlogs_settings'
 
