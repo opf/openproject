@@ -1,0 +1,896 @@
+mn:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y/%m/%d"
+      short: "%b %d"
+      long: "%Y, %B %d"
+      
+    day_names: [Даваа, Мягмар, Лхагва, Пүрэв, Баасан, Бямба, Ням]
+    abbr_day_names: [Дав, Мяг, Лха, Пүр, Бсн, Бям, Ням]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, 1-р сар, 2-р сар, 3-р сар, 4-р сар, 5-р сар, 6-р сар, 7-р сар, 8-р сар, 9-р сар, 10-р сар, 11-р сар, 12-р сар]
+    abbr_month_names: [~, 1сар, 2сар, 3сар, 4сар, 5сар, 6сар, 7сар, 8сар, 9сар, 10сар, 11сар, 12сар]
+    # Used in date_select and datime_select.
+    order: [ :day, :month, :year ]
+
+  time:
+    formats:
+      default: "%Y/%m/%d %I:%M %p"
+      time: "%I:%M %p"
+      short: "%d %b %H:%M"
+      long: "%Y, %B %d %H:%M"
+    am: "am"
+    pm: "pm"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "хагас минут"
+      less_than_x_seconds:
+        one:   "секунд орчим"
+        other: "{{count}} секундээс бага хугацаа"
+      x_seconds:
+        one:   "1 секунд"
+        other: "{{count}} секунд"
+      less_than_x_minutes:
+        one:   "минутаас бага хугацаа"
+        other: "{{count}} минутаас бага хугацаа"
+      x_minutes:
+        one:   "1 минут"
+        other: "{{count}} минут"
+      about_x_hours:
+        one:   "1 цаг орчим"
+        other: "ойролцоогоор {{count}} цаг"
+      x_days:
+        one:   "1 өдөр"
+        other: "{{count}} өдөр"
+      about_x_months:
+        one:   "1 сар орчим"
+        other: "ойролцоогоор {{count}} сар"
+      x_months:
+        one:   "1 сар"
+        other: "{{count}} сар"
+      about_x_years:
+        one:   "ойролцоогоор 1 жил"
+        other: "ойролцоогоор {{count}} жил"
+      over_x_years:
+        one:   "1 жилээс их"
+        other: "{{count}} жилээс их"
+      almost_x_years:
+        one:   "бараг 1 жил"
+        other: "бараг {{count}} жил"
+
+  number:
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Байт"
+            other: "Байт"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+        
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "бас"
+      skip_last_comma: false
+      
+  activerecord:
+    errors:
+      messages:
+        inclusion: "жагсаалтад заагдаагүй байна"
+        exclusion: "нөөцлөгдсөн"
+        invalid: "буруу"
+        confirmation: "баталгаажсан өгөгдөлтэй таарахгүй байна"
+        accepted: "хүлээж авах ёстой"
+        empty: "хоосон байж болохгүй"
+        blank: "бланк байж болохгүй"
+        too_long: "дэндүү урт байна (хамгийн ихдээ {{count}} тэмдэгт)"
+        too_short: "дэндүү богино байна (хамгийн багадаа {{count}} тэмдэгт)"
+        wrong_length: "буруу урттай байна (заавал {{count}} тэмдэгт)"
+        taken: "аль хэдийнэ авсан байна"
+        not_a_number: "тоо биш байна"
+        not_a_date: "зөв огноо биш байна"
+        greater_than: "{{count}} их байх ёстой"
+        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
+        equal_to: "must be equal to {{count}}"
+        less_than: "must be less than {{count}}"
+        less_than_or_equal_to: "must be less than or equal to {{count}}"
+        odd: "заавал сондгой"
+        even: "заавал тэгш"
+        greater_than_start_date: "must be greater than start date"
+        not_same_project: "нэг ижил төсөлд хамаарахгүй байна"
+        circular_dependency: "Энэ харьцаа нь гинжин(рекурсив) харьцаа үүсгэх юм байна"
+
+  actionview_instancetag_blank_option: Сонгоно уу
+  
+  general_text_No: 'Үгүй'
+  general_text_Yes: 'Тийм'
+  general_text_no: 'үгүй'
+  general_text_yes: 'тийм'
+  general_lang_name: 'Mongolian (Монгол)'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: UTF-8
+  general_first_day_of_week: '7'
+  
+  notice_account_updated: Дансыг амжилттай өөрчиллөө.
+  notice_account_invalid_creditentials: Хэрэглэгчийн нэр эсвэл нууц үг буруу байна
+  notice_account_password_updated: Нууц үгийг амжилттай өөрчиллөө.
+  notice_account_wrong_password: Буруу нууц үг
+  notice_account_register_done: Шинэ хэрэглэгч амжилттай үүсгэлээ. Идэвхжүүлэхийн тулд, бидний тань луу илгээсэн мэйл дотор байгаа холбоос дээр дараарай.
+  notice_account_unknown_email: Үл мэдэгдэх хэрэглэгч.
+  notice_can_t_change_password: Энэ эрх гадаад нэвтрэлтэд ашигладаг учраас нууц үгийг өөрчлөх боломжгүй.
+  notice_account_lost_email_sent: Бид таньд мэйлээр нууц үгээ өөрчлөх зааврыг илгээсэн байгаа.
+  notice_account_activated: Таны данс идэвхжлээ. Одоо нэвтэрч орж болно.
+  notice_successful_create: Амжилттай үүсгэлээ.
+  notice_successful_update: Амжилттай өөрчиллөө.
+  notice_successful_delete: Амжилттай устгалаа.
+  notice_successful_connection: Амжилттай холбогдлоо.
+  notice_file_not_found: Таны үзэх гэсэн хуудас байхгүй юмуу устгагдсан байна.
+  notice_locking_conflict: Өгөгдлийг өөр хүн өөрчилсөн байна.
+  notice_not_authorized: Танд энэ хуудсыг үзэх эрх байхгүй байна.
+  notice_email_sent: "{{value}} - руу мэйл илгээлээ"
+  notice_email_error: "Мэйл илгээхэд алдаа гарлаа ({{value}})"
+  notice_feeds_access_key_reseted: Таны RSS хандалтын түлхүүрийг дахин эхлүүллээ.
+  notice_api_access_key_reseted: Your API access key was reset.
+  notice_failed_to_save_issues: "{{total}} асуудал сонгогдсоноос {{count}} асуудлыг нь хадгалахад алдаа гарлаа: {{ids}}."
+  notice_no_issue_selected: "Ямар ч асуудал сонгогдоогүй байна! Засварлах асуудлуудаа сонгоно уу."
+  notice_account_pending: "Таны дансыг үүсгэж дууслаа, администратор баталгаажуулах хүртэл хүлээнэ үү."
+  notice_default_data_loaded: Стандарт тохиргоог амжилттай ачааллаа.
+  notice_unable_delete_version: Хувилбарыг устгах боломжгүй.
+  notice_issue_done_ratios_updated: Issue done ratios updated.
+  
+  error_can_t_load_default_data: "Стандарт тохиргоог ачаалж чадсангүй: {{value}}"
+  error_scm_not_found: "Repository дотор тухайн бичлэг эсвэл хувилбарыг олсонгүй."
+  error_scm_command_failed: "Repository-д хандахад алдаа гарлаа:  {{value}}"
+  error_scm_annotate: "Бичлэг байхгүй байна, эсвэл бичлэгт тайлбар хавсаргаж болохгүй."
+  error_issue_not_found_in_project: 'Сонгосон асуудал энэ төсөлд хамаардаггүй юм уу эсвэл системд байхгүй байна.'
+  error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
+  error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
+  error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version can not be reopened'
+  error_can_not_archive_project: This project can not be archived
+  error_issue_done_ratios_not_updated: "Issue done ratios not updated."
+  error_workflow_copy_source: 'Please select a source tracker or role'
+  error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
+  
+  warning_attachments_not_saved: "{{count}} file(s) файлыг хадгалж чадсангүй."
+  
+  mail_subject_lost_password: "Таны {{value}} нууц үг"
+  mail_body_lost_password: 'Нууц үгээ өөрчлөхийн тулд доорх холбоос дээр дарна уу:'
+  mail_subject_register: "Таны {{value}} дансыг идэвхжүүлэх"
+  mail_body_register: 'Дансаа идэвхжүүлэхийн тулд доорх холбоос дээр дарна уу:'
+  mail_body_account_information_external: "Та өөрийнхөө {{value}} дансыг ашиглаж холбогдож болно."
+  mail_body_account_information: Таны дансны тухай мэдээлэл
+  mail_subject_account_activation_request: "{{value}} дансыг идэвхжүүлэх хүсэлт"
+  mail_body_account_activation_request: "Шинэ хэрэглэгч ({{value}}) бүртгүүлсэн байна. Таны баталгаажуулахыг хүлээж байна:"
+  mail_subject_reminder: "Дараагийн өдрүүдэд {{count}} асуудлыг шийдэх хэрэгтэй"
+  mail_body_reminder: "Танд оноогдсон {{count}} асуудлуудыг дараагийн {{days}} өдрүүдэд шийдэх хэрэгтэй:"
+  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
+  mail_body_wiki_content_added: "The '{{page}}' wiki page has been added by {{author}}."
+  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '{{page}}' wiki page has been updated by {{author}}."
+  
+  gui_validation_error: 1 алдаа
+  gui_validation_error_plural: "{{count}} алдаа"
+  
+  field_name: Нэр
+  field_description: Тайлбар
+  field_summary: Дүгнэлт
+  field_is_required: Зайлшгүй
+  field_firstname: Таны нэр
+  field_lastname: Овог
+  field_mail: Имэйл
+  field_filename: Файл
+  field_filesize: Хэмжээ
+  field_downloads: Татаж авах зүйлс
+  field_author: Зохиогч
+  field_created_on: Үүссэн
+  field_updated_on: Өөрчилсөн
+  field_field_format: Формат
+  field_is_for_all: Бүх төслийн хувьд
+  field_possible_values: Боломжтой утгууд
+  field_regexp: Энгийн илэрхийлэл
+  field_min_length: Минимум урт
+  field_max_length: Максимум урт
+  field_value: Утга
+  field_category: Төрөл
+  field_title: Гарчиг
+  field_project: Төсөл
+  field_issue: Асуудал
+  field_status: Төлөв
+  field_notes: Тэмдэглэлүүд
+  field_is_closed: Асуудал хаагдсан
+  field_is_default: Стандарт утга
+  field_tracker: Чиглэл
+  field_subject: Гарчиг
+  field_due_date: Дуусах огноо
+  field_assigned_to: Оноогдсон
+  field_priority: Зэрэглэл
+  field_fixed_version: Хувилбар
+  field_user: Хэрэглэгч
+  field_role: Хандалтын эрх
+  field_homepage: Нүүр хуудас
+  field_is_public: Олон нийтийн
+  field_parent: Эцэг төсөл нь
+  field_is_in_roadmap: Асуудлуудыг явцын зураг дээр харуулах
+  field_login: Нэвтрэх нэр
+  field_mail_notification: Имэйл мэдэгдлүүд
+  field_admin: Администратор
+  field_last_login_on: Сүүлийн холбоо
+  field_language: Хэл
+  field_effective_date: Огноо
+  field_password: Нууц үг
+  field_new_password: Шннэ нууц үг
+  field_password_confirmation: Баталгаажуулах
+  field_version: Хувилбар
+  field_type: Төрөл
+  field_host: Хост
+  field_port: Порт
+  field_account: Данс
+  field_base_dn: Үндсэн ДН
+  field_attr_login: Нэвтрэх аттрибут
+  field_attr_firstname: Таны нэр аттрибут
+  field_attr_lastname: Овог аттрибут
+  field_attr_mail: Имэйл аттрибут
+  field_onthefly: Хүссэн үедээ хэрэглэгч үүсгэх
+  field_start_date: Эхлэл
+  field_done_ratio: %% Гүйцэтгэсэн
+  field_auth_source: Нэвтрэх арга
+  field_hide_mail: Миний имэйл хаягийг нуу
+  field_comments: Тайлбар
+  field_url: URL Хаяг
+  field_start_page: Тэргүүн хуудас
+  field_subproject: Дэд төсөл
+  field_hours: Цаг
+  field_activity: Үйл ажиллагаа
+  field_spent_on: Огноо
+  field_identifier: Төслийн глобал нэр
+  field_is_filter: Шүүлтүүр болгон хэрэглэгддэг
+  field_issue_to: Хамаатай асуудал
+  field_delay: Хоцролт
+  field_assignable: Энэ хандалтын эрхэд асуудлуудыг оноож өгч болно
+  field_redirect_existing_links: Байгаа холбоосуудыг дахин чиглүүлэх
+  field_estimated_hours: Барагцаалсан цаг
+  field_column_names: Баганууд
+  field_time_zone: Цагын бүс
+  field_searchable: Хайж болох
+  field_default_value: Стандарт утга
+  field_comments_sorting: Тайлбаруудыг харуул
+  field_parent_title: Эцэг хуудас
+  field_editable: Засварлагдана
+  field_watcher: Харна
+  field_identity_url: OpenID URL
+  field_content: Агуулга
+  field_group_by: Үр дүнгээр бүлэглэх
+  field_sharing: Sharing
+  
+  setting_app_title: Программын гарчиг
+  setting_app_subtitle: Программын дэд гарчиг
+  setting_welcome_text: Мэндчилгээ
+  setting_default_language: Стандарт хэл
+  setting_login_required: Нэвтрэх шаардлагатай
+  setting_self_registration: Өөрийгөө бүртгүүлэх
+  setting_attachment_max_size: Хавсралт файлын дээд хэмжээ
+  setting_issues_export_limit: Асуудал экспортлох хязгаар
+  setting_mail_from: Ямар имэйл хаяг үүсгэх
+  setting_bcc_recipients: BCC талбарын хаягууд (bcc)
+  setting_plain_text_mail: дан текст мэйл (HTML биш)
+  setting_host_name: Хостын нэр болон зам
+  setting_text_formatting: Текст хэлбэржүүлэлт
+  setting_wiki_compression: Вики хуудсуудын түүх дээр шахалт хийх
+  setting_feeds_limit: Фийд агуулгын хязгаар
+  setting_default_projects_public: Шинэ төслүүд автоматаар олон нийтийнх байна
+  setting_autofetch_changesets: Комитуудыг автоматаар татаж авах
+  setting_sys_api_enabled: Репозитори менежментэд зориулан WS-ийг идэвхжүүлэх
+  setting_commit_ref_keywords: Хамааруулах түлхүүр үгс
+  setting_commit_fix_keywords: Зоолттой түлхүүр үгс
+  setting_autologin: Компьютер дээр санах
+  setting_date_format: Огнооны формат
+  setting_time_format: Цагийн формат
+  setting_cross_project_issue_relations: Төсөл хооронд асуудал хамааруулахыг зөвшөөрөх
+  setting_issue_list_default_columns: Асуудлуудыг харуулах стандарт баганууд
+  setting_repositories_encodings: Репозиторийн энкодинг
+  setting_commit_logs_encoding: Коммит хийх үед харуулах текстүүдийн энкодинг
+  setting_emails_footer: Имэйлүүдийн хөл хэсэг
+  setting_protocol: Протокол
+  setting_per_page_options: Нэг хуудсанд байх обьектуудын тохиргоо
+  setting_user_format: Хэрэглэгчдийг харуулах формат
+  setting_activity_days_default: Төслийн үйл ажиллагаа хэсэгт үзүүлэх өдрийн тоо
+  setting_display_subprojects_issues: Дэд төслүүдийн асуудлуудыг автоматаар гол төсөл дээр харуулах
+  setting_enabled_scm: SCM - ийг идэвхжүүлэх
+  setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
+  setting_mail_handler_api_enabled: Ирсэн мэйлүүдийн хувьд WS-ийг идэвхжүүлэх
+  setting_mail_handler_api_key: API түлхүүр
+  setting_sequential_project_identifiers: Дэс дараалсан төслийн глобал нэр үүсгэж байх
+  setting_gravatar_enabled: Gravatar дүрсүүдийг хэрэглэгчдэд хэрэглэж байх
+  setting_gravatar_default: Default Gravatar image
+  setting_diff_max_lines_displayed: Ялгаатай мөрүүдийн тоо (дээд тал нь)
+  setting_file_max_size_displayed: Max size of text files displayed inline
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
+  setting_openid: Allow OpenID login and registration
+  setting_password_min_length: Minimum password length
+  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_default_projects_modules: Default enabled modules for new projects
+  setting_issue_done_ratio: Calculate the issue done ratio with
+  setting_issue_done_ratio_issue_field: Use the issue field
+  setting_issue_done_ratio_issue_status: Use the issue status
+  setting_start_of_week: Start calendars on
+  setting_rest_api_enabled: Enable REST web service
+  setting_cache_formatted_text: Cache formatted text
+  
+  permission_add_project: Create project
+  permission_add_subprojects: Create subprojects
+  permission_edit_project: Төслийг засварлах
+  permission_select_project_modules: Төслийн модулуудийг сонгоно уу
+  permission_manage_members: Системийн хэрэглэгчид
+  permission_manage_project_activities: Manage project activities
+  permission_manage_versions: Хувилбарууд
+  permission_manage_categories: Асуудлын ангиллууд
+  permission_view_issues: Асуудлуудыг харах
+  permission_add_issues: Асуудлууд нэмэх
+  permission_edit_issues: Асуудлуудыг засварлах
+  permission_manage_issue_relations: Асуудлын хамаарлыг зохицуулах
+  permission_add_issue_notes: Тэмдэглэл нэмэх
+  permission_edit_issue_notes: Тэмдэглэлүүд засварлах
+  permission_edit_own_issue_notes: Өөрийн үлдээсэн тэмдэглэлүүдийг засварлах
+  permission_move_issues: Асуудлуудыг зөөх
+  permission_delete_issues: Асуудлуудыг устгах
+  permission_manage_public_queries: Олон нийтийн асуултууд
+  permission_save_queries: Асуултуудыг хадгалах
+  permission_view_gantt: Гант диаграмыг үзэх
+  permission_view_calendar: Календарь үзэх
+  permission_view_issue_watchers: Ажиглагчдын жагсаалтыг харах
+  permission_add_issue_watchers: Ажиглагчид нэмэх
+  permission_delete_issue_watchers: Ажиглагчдыг устгах
+  permission_log_time: Зарцуулсан хугацааг лог хийх
+  permission_view_time_entries: Зарцуулсан хугацааг харах
+  permission_edit_time_entries: Хугацааны логуудыг засварлах
+  permission_edit_own_time_entries: Өөрийн хугацааны логуудыг засварлах
+  permission_manage_news: Мэдээ мэдээллүүд
+  permission_comment_news: Мэдээнд тайлбар үлдээх
+  permission_manage_documents: Бичиг баримтууд
+  permission_view_documents: Бичиг баримтуудыг харах
+  permission_manage_files: Файлууд
+  permission_view_files: Файлуудыг харах
+  permission_manage_wiki: Вики удирдах
+  permission_rename_wiki_pages: Вики хуудсуудыг дахиж нэрлэх
+  permission_delete_wiki_pages: Вики хуудсуудыг устгах
+  permission_view_wiki_pages: Вики үзэх
+  permission_view_wiki_edits: Вики түүх үзэх
+  permission_edit_wiki_pages: Вики хуудсуудыг засварлах
+  permission_delete_wiki_pages_attachments: Хавсралтуудыг устгах
+  permission_protect_wiki_pages: Вики хуудсуудыг хамгаалах
+  permission_manage_repository: Репозитори
+  permission_browse_repository: Репозиторийг үзэх
+  permission_view_changesets: Өөрчлөлтүүдийг харах
+  permission_commit_access: Коммит хандалт
+  permission_manage_boards: Самбарууд
+  permission_view_messages: Зурвасуудыг харах
+  permission_add_messages: Зурвас илгээх
+  permission_edit_messages: Зурвасуудыг засварлах
+  permission_edit_own_messages: Өөрийн зурвасуудыг засварлах
+  permission_delete_messages: Зурвасуудыг устгах
+  permission_delete_own_messages: Өөрийн зурвасуудыг устгах
+  permission_export_wiki_pages: Вики хуудсуудыг экспорт хийх
+  
+  project_module_issue_tracking: Асуудал хянах
+  project_module_time_tracking: Хугацаа хянах
+  project_module_news: Мэдээ мэдээллүүд
+  project_module_documents: Бичиг баримтууд
+  project_module_files: Файлууд
+  project_module_wiki: Вики
+  project_module_repository: Репозитори
+  project_module_boards: Самбарууд
+  
+  label_user: Хэрэглэгч
+  label_user_plural: Хэрэглэгчид
+  label_user_new: Шинэ хэрэглэгч
+  label_user_anonymous: Хамаагүй хэрэглэгч
+  label_project: Төсөл
+  label_project_new: Шинэ төсөл
+  label_project_plural: Төслүүд
+  label_x_projects:
+    zero:  төсөл байхгүй
+    one:   1 төсөл
+    other: "{{count}} төслүүд"
+  label_project_all: Бүх Төслүүд
+  label_project_latest: Сүүлийн үеийн төслүүд
+  label_issue: Асуудал
+  label_issue_new: Шинэ асуудал
+  label_issue_plural: Асуудлууд
+  label_issue_view_all: Бүх асуудлуудыг харах
+  label_issues_by: "{{value}} - н асуудлууд"
+  label_issue_added: Асуудал нэмэгдлээ
+  label_issue_updated: Асуудал өөрчлөгдлөө
+  label_document: Бичиг баримт
+  label_document_new: Шинэ бичиг баримт
+  label_document_plural: Бичиг баримтууд
+  label_document_added: Бичиг баримт нэмэгдлээ
+  label_role: Хандалтын эрх
+  label_role_plural: Хандалтын эрхүүд
+  label_role_new: Шинэ хандалтын эрх
+  label_role_and_permissions: Хандалтын эрхүүд болон зөвшөөрлүүд
+  label_member: Гишүүн
+  label_member_new: Шинэ гишүүн
+  label_member_plural: Гишүүд
+  label_tracker: Чиглэл
+  label_tracker_plural: Чиглэлүүд
+  label_tracker_new: Шинэ чиглэл
+  label_workflow: Ажлын дараалал
+  label_issue_status: Асуудлын төлөв
+  label_issue_status_plural: Асуудлын төлвүүд
+  label_issue_status_new: Шинэ төлөв
+  label_issue_category: Асуудлын ангилал
+  label_issue_category_plural: Асуудлын ангиллууд
+  label_issue_category_new: Шинэ ангилал
+  label_custom_field: Хэрэглэгчийн тодорхойлсон талбар
+  label_custom_field_plural: Хэрэглэгчийн тодорхойлсон талбарууд
+  label_custom_field_new: Шинээр хэрэглэгчийн тодорхойлсон талбар үүсгэх
+  label_enumerations: Ангиллууд
+  label_enumeration_new: Шинэ утга
+  label_information: Мэдээлэл
+  label_information_plural: Мэдээллүүд
+  label_please_login: Нэвтэрч орно уу
+  label_register: Бүртгүүлэх
+  label_login_with_open_id_option: or login with OpenID
+  label_password_lost: Нууц үгээ алдсан
+  label_home: Нүүр
+  label_my_page: Миний хуудас
+  label_my_account: Миний данс
+  label_my_projects: Миний төслүүд
+  label_administration: Админ хэсэг
+  label_login: Нэвтрэх
+  label_logout: Гарах
+  label_help: Тусламж
+  label_reported_issues: Мэдэгдсэн асуудлууд
+  label_assigned_to_me_issues: Надад оноогдсон асуудлууд
+  label_last_login: Сүүлийн холболт
+  label_registered_on: Бүртгүүлсэн огноо
+  label_activity: Үйл ажиллагаа
+  label_overall_activity: Ерөнхий үйл ажиллагаа
+  label_user_activity: "{{value}}-ийн үйл ажиллагаа"
+  label_new: Шинэ
+  label_logged_as: Холбогдсон нэр
+  label_environment: Орчин
+  label_authentication: Нэвтрэх
+  label_auth_source: Нэвтрэх арга
+  label_auth_source_new: Шинэ нэвтрэх арга
+  label_auth_source_plural: Нэвтрэх аргууд
+  label_subproject_plural: Дэд төслүүд
+  label_subproject_new: Шинэ дэд төсөл
+  label_and_its_subprojects: "{{value}} болон холбогдох дэд төслүүд"
+  label_min_max_length: Дээд - Доод урт
+  label_list: Жагсаалт
+  label_date: Огноо
+  label_integer: Бүхэл тоо
+  label_float: Бутархай тоо
+  label_boolean: Үнэн худал утга
+  label_string: Текст
+  label_text: Урт текст
+  label_attribute: Аттрибут
+  label_attribute_plural: Аттрибутууд
+  label_download: "{{count}} Татаж авсан зүйл"
+  label_download_plural: "{{count}} Татаж авсан зүйлс"
+  label_no_data: Үзүүлэх өгөгдөл байхгүй байна
+  label_change_status: Төлвийг өөрчлөх
+  label_history: Түүх
+  label_attachment: Файл
+  label_attachment_new: Шинэ файл
+  label_attachment_delete: Файл устгах
+  label_attachment_plural: Файлууд
+  label_file_added: Файл нэмэгдлээ
+  label_report: Тайлан
+  label_report_plural: Тайлангууд 
+  label_news: Мэдээ
+  label_news_new: Шинэ мэдээ
+  label_news_plural: Мэдээ
+  label_news_latest: Сүүлийн үеийн мэдээнүүд
+  label_news_view_all: Бүх мэдээг харах
+  label_news_added: Мэдээ нэмэгдлээ
+  label_change_log: Өөрчлөлтийн лог
+  label_settings: Тохиргоо
+  label_overview: Эхлэл
+  label_version: Хувилбар
+  label_version_new: Шинэ хувилбар
+  label_version_plural: Хувилбарууд
+  label_close_versions: Гүйцэт хувилбаруудыг хаалаа
+  label_confirmation: Баталгаажуулах
+  label_export_to: 'Өөр авч болох формат:'
+  label_read: Унших...
+  label_public_projects: Олон нийтийн төслүүд
+  label_open_issues: нээлттэй
+  label_open_issues_plural: нээлттэй
+  label_closed_issues: хаалттай
+  label_closed_issues_plural: хаалттай
+  label_x_open_issues_abbr_on_total:
+    zero:  0 нээлттэй / {{total}}
+    one:   1 нээлттэй / {{total}}
+    other: "{{count}} нээлттэй / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 нээлттэй
+    one:   1 нээлттэй
+    other: "{{count}} нээлттэй"
+  label_x_closed_issues_abbr:
+    zero:  0 хаалттай
+    one:   1 хаалттай
+    other: "{{count}} хаалттай"
+  label_total: Нийт
+  label_permissions: Зөвшөөрлүүд
+  label_current_status: Одоогийн төлөв
+  label_new_statuses_allowed: Шинээр олгож болох төлвүүд
+  label_all: бүгд
+  label_none: хоосон
+  label_nobody: хэн ч биш
+  label_next: Дараагийн
+  label_previous: Өмнөх
+  label_used_by: Хэрэглэгддэг
+  label_details: Дэлгэрэнгүй
+  label_add_note: Тэмдэглэл нэмэх
+  label_per_page: Нэг хуудсанд
+  label_calendar: Календарь
+  label_months_from: Саруудыг хаанаас
+  label_gantt: Гант диаграм
+  label_internal: Дотоод
+  label_last_changes: "сүүлийн {{count}} өөрчлөлтүүд"
+  label_change_view_all: Бүх өөрчлөлтүүдийг харах
+  label_personalize_page: Энэ хуудсыг өөрт зориулан өөрчлөх
+  label_comment: Тайлбар
+  label_comment_plural: Тайлбарууд
+  label_x_comments:
+    zero: сэтгэгдэл байхгүй
+    one: 1 сэтгэгдэлтэй
+    other: "{{count}} сэтгэгдэлтэй"
+  label_comment_add: Тайлбар нэмэх
+  label_comment_added: Тайлбар нэмэгдлээ
+  label_comment_delete: Тайлбарууд устгах
+  label_query: Хэрэглэгчийн тодорхойлсон асуулт
+  label_query_plural: Хэрэглэгчийн тодорхойлсон асуултууд
+  label_query_new: Шинээр хэрэглэгчийн тодорхойлсон асуулт үүсгэх
+  label_filter_add: Шүүлтүүр нэмэх
+  label_filter_plural: Шүүлтүүрүүд
+  label_equals: бол
+  label_not_equals: биш
+  label_in_less_than: аас бага
+  label_in_more_than: аас их
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
+  label_in: дотор
+  label_today: өнөөдөр
+  label_all_time: бүх хугацаа
+  label_yesterday: өчигдөр
+  label_this_week: энэ долоо хоног
+  label_last_week: өнгөрсөн долоо хоног
+  label_last_n_days: "сүүлийн {{count}} өдрүүд"
+  label_this_month: энэ сар
+  label_last_month: сүүлийн сар
+  label_this_year: энэ жил
+  label_date_range: Хязгаар огноо
+  label_less_than_ago: бага өдрийн дотор
+  label_more_than_ago: их өдрийн дотор
+  label_ago: өдрийн өмнө
+  label_contains: агуулж байгаа
+  label_not_contains: агуулаагүй
+  label_day_plural: өдрүүд
+  label_repository: Репозитори
+  label_repository_plural: Репозиторууд
+  label_browse: Үзэх
+  label_modification: "{{count}} өөрчлөлт"
+  label_modification_plural: "{{count}} өөрчлөлтүүд"
+  label_branch: Салбар
+  label_tag: Шошго 
+  label_revision: Хувилбар
+  label_revision_plural: Хувилбарууд
+  label_revision_id: "{{value}} Хувилбар"
+  label_associated_revisions: Хамааралтай хувилбарууд
+  label_added: нэмэгдсэн
+  label_modified: өөрчлөгдсөн
+  label_copied: хуулсан
+  label_renamed: нэрийг нь өөрчилсөн
+  label_deleted: устгасан
+  label_latest_revision: Сүүлийн үеийн хувилбар
+  label_latest_revision_plural: Сүүлийн үеийн хувилбарууд
+  label_view_revisions: Хувилбаруудыг харах
+  label_view_all_revisions: Бүх хувилбаруудыг харах
+  label_max_size: Maximum size
+  label_sort_highest: Хамгийн дээр
+  label_sort_higher: Дээш нь
+  label_sort_lower: Доош нь
+  label_sort_lowest: Хамгийн доор
+  label_roadmap: Хөтөч
+  label_roadmap_due_in: "{{value}} дотор дуусгах"
+  label_roadmap_overdue: "{{value}} оройтсон"
+  label_roadmap_no_issues: Энэ хувилбарт асуудал байхгүй байна
+  label_search: Хайх
+  label_result_plural: Үр дүн
+  label_all_words: Бүх үгс
+  label_wiki: Вики
+  label_wiki_edit: Вики засвар
+  label_wiki_edit_plural: Вики засварууд
+  label_wiki_page: Вики хуудас
+  label_wiki_page_plural: Вики хуудас
+  label_index_by_title: Гарчгаар эрэмбэлэх
+  label_index_by_date: Огноогоор эрэмбэлэх
+  label_current_version: Одоогийн хувилбар
+  label_preview: Ямар харагдахыг шалгах
+  label_feed_plural: Feeds
+  label_changes_details: Бүх өөрчлөлтүүдийн дэлгэрэнгүй
+  label_issue_tracking: Асуудал хянах
+  label_spent_time: Зарцуулсан хугацаа
+  label_f_hour: "{{value}} цаг"
+  label_f_hour_plural: "{{value}} цаг"
+  label_time_tracking: Хугацааг хянах
+  label_change_plural: Өөрчлөлтүүд
+  label_statistics: Статистик
+  label_commits_per_month: Сард хийсэн коммитын тоо
+  label_commits_per_author: Зохиогч бүрийн хувьд коммитын тоо
+  label_view_diff: Ялгаануудыг харах
+  label_diff_inline: дотор нь
+  label_diff_side_by_side: зэрэгцүүлж
+  label_options: Тохиргоо
+  label_copy_workflow_from: Ажлын дарааллыг хуулах
+  label_permissions_report: Зөвшөөрлүүдийн таблиц
+  label_watched_issues: Ажиглагдаж байгаа асуудлууд
+  label_related_issues: Хамааралтай асуудлууд
+  label_applied_status: Олгосон төлөв
+  label_loading: Ачаалж байна...
+  label_relation_new: Шинэ хамаарал
+  label_relation_delete: Хамаарлыг устгах
+  label_relates_to: энгийн хамааралтай
+  label_duplicates: хос хамааралтай
+  label_duplicated_by: давхардуулсан эзэн
+  label_blocks: шаардах хамааралтай
+  label_blocked_by: блоколсон эзэн
+  label_precedes: урьдчилах хамааралтай
+  label_follows: дагаж
+  label_end_to_start: хойноос нь урагшаа
+  label_end_to_end: хойноос нь хойшоо
+  label_start_to_start: урдаас нь урагаа
+  label_start_to_end: урдаас нь хойшоо
+  label_stay_logged_in: Энэ комьютер дээр санах
+  label_disabled: идэвхгүй болсон
+  label_show_completed_versions: Гүйцэд хувилбаруудыг харуулах
+  label_me: би
+  label_board: Форум
+  label_board_new: Шинэ форум
+  label_board_plural: Форумууд
+  label_board_locked: Түгжээтэй
+  label_board_sticky: Sticky
+  label_topic_plural: Сэдвүүд
+  label_message_plural: Зурвасууд
+  label_message_last: Сүүлийн зурвас
+  label_message_new: Шинэ зурвас
+  label_message_posted: Зурвас нэмэгдлээ
+  label_reply_plural: Хариултууд
+  label_send_information: Дансны мэдээллийг хэрэглэгчид илгээх
+  label_year: Жил
+  label_month: Сар
+  label_week: Долоо хоног
+  label_date_from: Хэзээнээс
+  label_date_to: Хэдий хүртэл
+  label_language_based: Хэрэглэгчийн хэлнас шалтгаалан
+  label_sort_by: "{{value}} талбараар нь эрэмбэлэх"
+  label_send_test_email: Турших мэйл илгээх
+  label_feeds_access_key: RSS хандах түлхүүр
+  label_missing_feeds_access_key: RSS хандах түлхүүр алга
+  label_feeds_access_key_created_on: "RSS хандалтын түлхүүр {{value}}-ийн өмнө үүссэн"
+  label_module_plural: Модулууд
+  label_added_time_by: "{{author}} {{age}}-ийн өмнө нэмсэн"
+  label_updated_time_by: "{{author}} {{age}}-ийн өмнө өөрчилсөн"
+  label_updated_time: "{{value}} -ийн өмнө өөрчлөгдсөн"
+  label_jump_to_a_project: Төсөл рүү очих...
+  label_file_plural: Файлууд
+  label_changeset_plural: Өөрчлөлтүүд
+  label_default_columns: Стандарт баганууд
+  label_no_change_option: (Өөрчлөлт байхгүй)
+  label_bulk_edit_selected_issues: Сонгогдсон асуудлуудыг бөөнөөр засварлах
+  label_theme: Системийн Дизайн
+  label_default: Стандарт
+  label_search_titles_only: Зөвхөн гарчиг хайх
+  label_user_mail_option_all: "Миний бүх төсөл дээрх бүх үзэгдлүүдийн хувьд"
+  label_user_mail_option_selected: "Сонгогдсон төслүүдийн хувьд бүх үзэгдэл дээр..."
+  label_user_mail_option_none: "Зөвхөн миний ажиглаж байгаа зүйлс юмуу надад хамаатай бол"
+  label_user_mail_no_self_notified: "Миний өөрийн хийсэн өөрчлөлтүүдийн тухай надад мэдэгдэх хэрэггүй"
+  label_registration_activation_by_email: дансыг имэйлээр идэвхжүүлэх
+  label_registration_manual_activation: дансыг гараар идэвхжүүлэх
+  label_registration_automatic_activation: дансыг автоматаар идэвхжүүлэх
+  label_display_per_page: 'Нэг хуудсанд: {{value}}'
+  label_age: Нас
+  label_change_properties: Тохиргоог өөрчлөх
+  label_general: Ерөнхий
+  label_more: Цааш нь
+  label_scm: SCM
+  label_plugins: Модулууд
+  label_ldap_authentication: LDAP нэвтрэх горим
+  label_downloads_abbr: D/L
+  label_optional_description: Дурын тайлбар
+  label_add_another_file: Дахин файл нэмэх
+  label_preferences: Тохиргоо
+  label_chronological_order: Цагаан толгойн үсгийн дарааллаар
+  label_reverse_chronological_order: Урвуу цагаан толгойн үсгийн дарааллаар
+  label_planning: Төлөвлөлт
+  label_incoming_emails: Ирсэн мэйлүүд
+  label_generate_key: Түлхүүр үүсгэх
+  label_issue_watchers: Ажиглагчид
+  label_example: Жишээ
+  label_display: Display
+  label_sort: Sort
+  label_ascending: Ascending
+  label_descending: Descending
+  label_date_from_to: From {{start}} to {{end}}
+  label_wiki_content_added: Wiki page added
+  label_wiki_content_updated: Wiki page updated
+  label_group: Group
+  label_group_plural: Groups
+  label_group_new: New group
+  label_time_entry_plural: Spent time
+  label_version_sharing_none: Not shared
+  label_version_sharing_descendants: With subprojects
+  label_version_sharing_hierarchy: With project hierarchy
+  label_version_sharing_tree: With project tree
+  label_version_sharing_system: With all projects
+  label_update_issue_done_ratios: Update issue done ratios
+  label_copy_source: Source
+  label_copy_target: Target
+  label_copy_same_as_target: Same as target
+  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  label_api_access_key: API access key
+  label_missing_api_access_key: Missing an API access key
+  label_api_access_key_created_on: "API access key created {{value}} ago"
+  
+  button_login: Нэвтрэх
+  button_submit: Илгээх
+  button_save: Хадгалах
+  button_check_all: Бүгдийг сонго
+  button_uncheck_all: Бүгдийг үл сонго
+  button_delete: Устгах
+  button_create: Үүсгэх
+  button_create_and_continue: Үүсгээд цааш үргэлжлүүлэх
+  button_test: Турших
+  button_edit: Засварлах
+  button_add: Нэмэх
+  button_change: Өөрчлөх
+  button_apply: Өөрчлөлтийг хадгалах
+  button_clear: Цэвэрлэх
+  button_lock: Түгжих
+  button_unlock: Түгжээг тайлах
+  button_download: Татах
+  button_list: Жагсаалт
+  button_view: Харах
+  button_move: Зөөх
+  button_move_and_follow: Зөө бас дага
+  button_back: Буцах
+  button_cancel: Болих
+  button_activate: Идэвхжүүлэх
+  button_sort: Эрэмбэлэх
+  button_log_time: Лог хийсэн хугацаа
+  button_rollback: Энэ хувилбар руу буцах
+  button_watch: Ажиглах
+  button_unwatch: Ажиглахаа болих
+  button_reply: Хариулах
+  button_archive: Архивлах
+  button_unarchive: Архивыг задлах
+  button_reset: Анхны утгууд
+  button_rename: Нэрийг нь солих
+  button_change_password: Нууц үгээ өөрчлөх
+  button_copy: Хуулах
+  button_copy_and_follow: Зөө бас дага
+  button_annotate: Тайлбар хавсаргах
+  button_update: Шинэчлэх
+  button_configure: Тохируулах
+  button_quote: Ишлэл
+  button_duplicate: Хуулбар
+  button_show: Үзэх
+  
+  status_active: идэвхтэй
+  status_registered: бүртгүүлсэн
+  status_locked: түгжээтэй
+  
+  version_status_open: нээлттэй
+  version_status_locked: түгжээтэй
+  version_status_closed: хаалттай
+
+  field_active: идэвхтэй
+  
+  text_select_mail_notifications: Ямар үед имэйлээр мэдэгдэл илгээхийг сонгоно уу.
+  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 гэвэл ямар ч хязгааргүй гэсэн үг
+  text_project_destroy_confirmation: Та энэ төсөл болоод бусад мэдээллийг нь үнэхээр устгамаар байна уу ?
+  text_subprojects_destroy_warning: "Уг төслийн дэд төслүүд : {{value}} нь бас устгагдах болно."
+  text_workflow_edit: Ажлын дарааллыг өөрчлөхийн тулд хандалтын эрх болон асуудлын чиглэлийг сонгоно уу
+  text_are_you_sure: Та итгэлтэй байна уу ?
+  text_journal_changed: "{{label}} {{old}} байсан нь {{new}} болов"
+  text_journal_set_to: "{{label}} {{value}} болгож өөрчиллөө"
+  text_journal_deleted: "{{label}} устсан ({{old}})"
+  text_journal_added: "{{label}} {{value}} нэмэгдсэн"
+  text_tip_task_begin_day: энэ өдөр эхлэх ажил
+  text_tip_task_end_day: энэ өдөр дуусах ажил
+  text_tip_task_begin_end_day: энэ өдөр эхлээд мөн дуусч байгаа ажил
+  text_project_identifier_info: 'Зөвхөн жижиг үсгүүд болон (a-z), тоо and дундуур зураас ашиглаж болно.<br />Нэгэнт хадгалсан хойно, төслийн глобал нэрийг өөрлчөх боломжгүй.'
+  text_caracters_maximum: "дээд тал нь {{count}} үсэг."
+  text_caracters_minimum: "Хамгийн багадаа ядаж {{count}} тэмдэгт байх."
+  text_length_between: "Урт нь багадаа {{min}}, ихдээ {{max}} тэмдэгт."
+  text_tracker_no_workflow: Энэхүү асуудлын чиглэлд ямар ч ажлын дараалал тодорхойлогдоогүй байна
+  text_unallowed_characters: Хэрэглэж болохгүй тэмдэгтүүд
+  text_comma_separated: Таслалаар зааглан олон утга оруулж болно.
+  text_line_separated: Multiple values allowed (one line for each value).
+  text_issues_ref_in_commit_messages: Коммитийн зурвасуудад хамааруулсан болон байнгын асуудлууд
+  text_issue_added: "Асуудал {{id}} - ийг хэрэглэгч {{author}} мэдэгдсэн байна."
+  text_issue_updated: "Асуудал {{id}} - ийг хэрэглэгч {{author}} өөрчилсөн байна."
+  text_wiki_destroy_confirmation: Та энэ вики болон холбогдох бүх мэдээллийг үнэхээр устгамаар байна уу ?
+  text_issue_category_destroy_question: "Энэ ангилалд зарим асуудлууд ({{count}})  орсон байна. Та яах вэ ?"
+  text_issue_category_destroy_assignments: Асуудлуудыг энэ ангиллаас авах
+  text_issue_category_reassign_to: Асуудлуудыг энэ ангилалд дахин оноох
+  text_user_mail_option: "Сонгогдоогүй төслүүдийн хувьд, та зөвхөн өөрийнхөө ажиглаж байгаа зүйлс юмуу танд хамаатай зүйлсийн талаар мэдэгдэл авах болно (Таны оруулсан асуудал, эсвэл танд оноосон гэх мэт)."
+  text_no_configuration_data: "Хандалтын эрхүүд, чиглэлүүд, асуудлын төлвүүд болон ажлын дарааллын тухай мэдээллийг хараахан оруулаагүй байна.\nТа стандарт өгөгдлүүдийг даруйхан оруулахыг зөвлөж байна, оруулсан хойно та засварлаж болно."
+  text_load_default_configuration: Стандарт өгөгдлийг ачаалах
+  text_status_changed_by_changeset: "{{value}} өөрчлөлтөд хийгдсэн."
+  text_issues_destroy_confirmation: 'Та сонгогдсон асуудлуудыг үнэхээр устгамаар байна уу ?'
+  text_select_project_modules:  'Энэ төслийн хувьд идэвхжүүлэх модулуудаа сонгоно уу:'
+  text_default_administrator_account_changed: Стандарт администраторын бүртгэл өөрчлөгдлөө
+  text_file_repository_writable: Хавсралт файл хадгалах хавтас руу бичих эрхтэй
+  text_plugin_assets_writable: Плагин модулийн ассет хавтас руу бичих эрхтэй
+  text_rmagick_available: RMagick суулгагдсан (заавал биш)
+  text_destroy_time_entries_question: "Таны устгах гэж байгаа асуудлууд дээр нийт {{hours}} цаг зарцуулсан юм байна, та яах вэ ?"
+  text_destroy_time_entries: Мэдэгдсэн цагуудыг устгах
+  text_assign_time_entries_to_project: Мэдэгдсэн асуудлуудыг төсөлд оноох
+  text_reassign_time_entries: 'Мэдэгдсэн асуудлуудыг энэ асуудалд дахин оноо:'
+  text_user_wrote: "{{value}} бичихдээ:"
+  text_enumeration_destroy_question: "Энэ утгад {{count}} обьект оноогдсон байна."
+  text_enumeration_category_reassign_to: 'Тэдгээрийг энэ утгад дахин оноо:'
+  text_email_delivery_not_configured: "Имэйлийн тохиргоог хараахан тохируулаагүй байна, тиймээс имэйл мэдэгдэл явуулах боломжгүй байна.\nSMTP сервэрээ config/email.yml файл дотор тохируулаад төслийн менежерээ дахиад эхлүүлээрэй."
+  text_repository_usernames_mapping: "Репозиторийн логд байгаа бүх хэрэглэгчийн нэрүүдэд харгалзсан Төслийн Менежер системд бүртгэлтэй хэрэглэгчдийг Сонгох юмуу шинэчилнэ үү.\nТөслийн менежер болон репозиторид байгаа ижилхэн нэр юмуу имэйлтэй хэрэглэгчид харилцан харгалзна."
+  text_diff_truncated: '... Файлын ялгаврын хэмжээ үзүүлэхэд дэндүү урт байгаа учраас төгсгөлөөс нь хасч үзүүлэв.'
+  text_custom_field_possible_values_info: 'One line for each value'
+  text_wiki_page_destroy_question: "This page has {{descendants}} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_nullify_children: "Keep child pages as root pages"
+  text_wiki_page_destroy_children: "Delete child pages and all their descendants"
+  text_wiki_page_reassign_children: "Reassign child pages to this parent page"
+  text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
+  
+  default_role_manager: Менежер
+  default_role_developper: Хөгжүүлэгч
+  default_role_reporter: Мэдэгдэгч
+  default_tracker_bug: Алдаа
+  default_tracker_feature: Онцлог
+  default_tracker_support: Тусламж
+  default_issue_status_new: Шинэ
+  default_issue_status_in_progress: Ахицтай
+  default_issue_status_assigned: Оноогдсон
+  default_issue_status_resolved: Шийдвэрлэгдсэн
+  default_issue_status_feedback: Feedback
+  default_issue_status_closed: Хаагдсан
+  default_issue_status_rejected: Хүлээж аваагүй
+  default_doc_category_user: Хэрэглэгчийн бичиг баримт
+  default_doc_category_tech: Техникийн бичиг баримт
+  default_priority_low: Бага
+  default_priority_normal: Хэвийн
+  default_priority_high: Өндөр
+  default_priority_urgent: Нэн яаралтай
+  default_priority_immediate: Нэн даруй
+  default_activity_design: Дизайн
+  default_activity_development: Хөгжүүлэлт
+  
+  enumeration_issue_priorities: Асуудлын зэрэглэлүүд
+  enumeration_doc_categories: Бичиг баримтын ангиллууд
+  enumeration_activities: Үйл ажиллагаанууд (хугацааг хянах)
+  enumeration_system_activity: Системийн үйл ажиллагаа
+
+  permission_manage_subtasks: Manage subtasks
+  label_profile: Profile
+  field_parent_issue: Parent task
+  error_unable_delete_issue_status: Unable to delete issue status
+  label_subtask_plural: Subtasks
+  label_project_copy_notifications: Send email notifications during the project copy

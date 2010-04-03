@@ -660,7 +660,7 @@ zh:
   label_diff_inline: 直列
   label_diff_side_by_side: 并排
   label_options: 选项
-  label_copy_workflow_from: 从以下项目复制工作流程
+  label_copy_workflow_from: 从以下选项复制工作流程
   label_permissions_report: 权限报表
   label_watched_issues: 跟踪的问题
   label_related_issues: 相关的问题

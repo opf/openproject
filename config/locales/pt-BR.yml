@@ -906,7 +906,7 @@ pt-BR:
   permission_add_subprojects: Criar subprojetos
   label_subproject_new: Novo subprojeto
   text_own_membership_delete_confirmation: |-
-    Você está para remover algumas de suas próprias permissões e pode não mais estar apto a editar este projeto após esta operação.
+    Você está para excluir algumas de suas próprias permissões e pode não mais estar apto a editar este projeto após esta operação.
     Você tem certeza que deseja continuar?
   label_close_versions: Fechar versões concluídas
   label_board_sticky: Marcado
@@ -915,9 +915,9 @@ pt-BR:
   permission_export_wiki_pages: Exportar páginas wiki
   setting_cache_formatted_text: Realizar cache de texto formatado
   permission_manage_project_activities: Gerenciar atividades do projeto
-  error_unable_delete_issue_status: Impossível excluir estado da tarefa
+  error_unable_delete_issue_status: Impossível excluir situação da tarefa
   label_profile: Perfil
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
+  permission_manage_subtasks: Gerenciar subtarefas
+  field_parent_issue: Tarefa pai
+  label_subtask_plural: Subtarefas
+  label_project_copy_notifications: Enviar notificações por e-mail ao copiar projeto

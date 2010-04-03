@@ -63,8 +63,8 @@ da:
         one:  "mere end et år"
         other: "mere end {{count}} år"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "næsten 1 år"
+        other: "næsten {{count}} år"
 
   number:
     format:
@@ -315,9 +315,9 @@ da:
   label_project_new: Nyt projekt
   label_project_plural: Projekter
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  Ingen projekter
+    one:   1 projekt
+    other: "{{count}} projekter"
   label_project_all: Alle projekter
   label_project_latest: Seneste projekter
   label_issue: Sag
@@ -689,7 +689,7 @@ da:
   default_tracker_feature: Feature
   default_tracker_support: Support
   default_issue_status_new: Ny
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: Igangværende
   default_issue_status_resolved: Løst
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Lukket
@@ -850,66 +850,67 @@ da:
   label_group: Grupper
   label_group_new: Ny gruppe
   label_time_entry_plural: Anvendt tid
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  text_journal_added: "{{label}} {{value}} tilføjet"
+  field_active: Aktiv
+  enumeration_system_activity: System Aktivitet
+  permission_delete_issue_watchers: Slet overvågere
+  version_status_closed: lukket
+  version_status_locked: låst
+  version_status_open: åben
+  error_can_not_reopen_issue_on_closed_version: En sag tildelt en lukket version, kan ikke genåbnes
+  label_user_anonymous: Anonym
+  button_move_and_follow: Flyt og overvåg
+  setting_default_projects_modules: Standard moduler, aktiveret for nye projekter
+  setting_gravatar_default: Standard Gravatar billede
+  field_sharing: Delning
+  label_version_sharing_hierarchy: Med projekt hierarki
+  label_version_sharing_system: Med alle projekter
+  label_version_sharing_descendants: Med under projekter
+  label_version_sharing_tree: Med projekt træ
+  label_version_sharing_none: Ikke delt
+  error_can_not_archive_project: Dette projekt kan ikke arkiveres
+  button_duplicate: Kopier
+  button_copy_and_follow: Kopier og overvåg
+  label_copy_source: Kilde
+  setting_issue_done_ratio: Beregn sagsløsning ratio
+  setting_issue_done_ratio_issue_status: Benyt sags status
+  error_issue_done_ratios_not_updated: Sagsløsnings ratio, ikke opdateret.
+  error_workflow_copy_target: Vælg venligst mål tracker og rolle(r)
+  setting_issue_done_ratio_issue_field: Benyt sags felt
+  label_copy_same_as_target: Samme som mål
+  label_copy_target: Mål
+  notice_issue_done_ratios_updated: Sagsløsnings ratio opdateret.
+  error_workflow_copy_source: Vælg venligst en kilde tracker eller rolle
+  label_update_issue_done_ratios: Opdater sagsløsnings ratio
+  setting_start_of_week: Start kalendre på
+  permission_view_issues: Vis sager
+  label_display_used_statuses_only: Vis kun statuser der er benyttet af denne tracker
   label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  label_api_access_key: API nøgle
+  label_api_access_key_created_on: API nøgle genereret {{value}} siden
+  label_feeds_access_key: RSS nøgle
+  notice_api_access_key_reseted: Din API nøgle er nulstillet.
+  setting_rest_api_enabled: Aktiver REST web service
+  label_missing_api_access_key: Mangler en API nøgle
+  label_missing_feeds_access_key: Mangler en RSS nøgle
+  button_show: Vis
+  text_line_separated: Flere væredier tilladt (en linje for hver værdi).
+  setting_mail_handler_body_delimiters: Trunker emails efter en af disse linjer
+  permission_add_subprojects: Lav underprojekter
+  label_subproject_new: Nyt underprojekt
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
+    Du er ved at fjerne en eller flere af dine rettigheder, og kan muligvis ikke redigere projektet bagefter.
+    Er du sikker på du ønsker at fortsætte?
+  label_close_versions: Luk færdige versioner
   label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
+  label_board_locked: Låst
+  permission_export_wiki_pages: Eksporter wiki sider
+  setting_cache_formatted_text: Cache formatteret tekst
+  permission_manage_project_activities: Administrer projekt aktiviteter
+  error_unable_delete_issue_status: Det var ikke muligt at slette sags status
+  label_profile: Profil
+  permission_manage_subtasks: Administrer under opgaver
+  field_parent_issue: Hoved opgave
+  label_subtask_plural: Under opgaver
+  label_project_copy_notifications: Send email notifikationer, mens projektet kopieres
+  
