@@ -1,6 +1,6 @@
 body{
   background-color:rgb(215, 210, 208);
-  background-image:url('/plugin_assets/redmine_backlogs/images/bg.png');
+  background-image:url('../images/bg.png');
   background-repeat:repeat-x;
   font-family:Verdana, Arial, sans-serif;
   font-size:12px;
