@@ -192,11 +192,15 @@ ja:
   error_unable_delete_issue_status: "チケットのステータスを削除できませんでした。"
   error_no_tracker_in_project: 'このプロジェクトにはトラッカーが登録されていません。プロジェクト設定を確認してください。'
   error_no_default_issue_status: 'デフォルトのチケットステータスが定義されていません。設定を確認してください（管理→チケットのステータス）。'
+  error_can_not_delete_custom_field: 'カスタムフィールドを削除できません。'
+  error_unable_to_connect: "接続できません。 ({{value}})"
+  error_can_not_remove_role: 'このロールは使用されています。削除できません。'
   error_can_not_reopen_issue_on_closed_version: '終了したバージョンにひも付けされたチケットの再オープンはできません。'
   error_can_not_archive_project: このプロジェクトは書庫に保存できません
   error_issue_done_ratios_not_updated: "チケットの進捗が更新できません。"
   error_workflow_copy_source: 'コピー元となるトラッカーまたはロールを選択してください'
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
+  error_can_not_delete_tracker: 'このトラッカーは使用されています。削除できません。'
   
   warning_attachments_not_saved: "{{count}}個の添付ファイルが保存できませんでした。"
   
@@ -922,7 +926,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
