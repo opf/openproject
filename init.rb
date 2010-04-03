@@ -28,7 +28,21 @@ Redmine::Plugin.register :redmine_backlogs do
     settings :default => { :story_trackers => nil, :task_tracker => nil }, :partial => 'settings/backlogs_settings'
 
     project_module :backlogs do
-        permission :manage_backlog, :backlogs => [:wiki_page, :wiki_page_edit, :story_points, :rename, :noconfig, :jsvariables, :index, :reorder, :sprint_date, :select_sprint]
+        permission :manage_backlog,
+                   { :backlogs => [ :wiki_page,
+                                    :wiki_page_edit,
+                                    :story_points,
+                                    :rename,
+                                    :noconfig,
+                                    :jsvariables,
+                                    :index,
+                                    :reorder,
+                                    :sprint_date,
+                                    :select_sprint ],
+                    :stories => [ :index,
+                                  :create,
+                                  :update ]
+                  }
     end
 
     menu :project_menu, :backlogs, { :controller => 'backlogs', :action => 'index' }, :caption => 'Backlog', :after => :issues, :param => :project_id

@@ -30,6 +30,18 @@ RB.Factory = Object.create({
 // Common methods for models
 RB.Model = Object.create({});
 
+// Utilities
+RB.dialog = Object.create({
+  msg: function(msg){
+    dialog = $('#msgBox').size()==0 ? $(document.createElement('div')).attr('id', 'msgBox').appendTo('#content') : $('#msgBox');
+    dialog.text(msg);
+    dialog.dialog({ title: 'Backlog Plugin',
+                    buttons: { "Ok": function() { $(this).dialog("close"); } },
+                    modal: true
+                 });
+  }
+});
+
 // Modify the ajax request before being sent to the server
 $(document).ajaxSend(function(event, request, settings) {
   var c = RB.constants;

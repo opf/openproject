@@ -70,34 +70,48 @@ RB.Story = Object.create(RB.Model, {
     }
   },
   
+  isNew: function(){
+    // TODO: You, complete me!
+    return false;
+  },
+  
   markSaving: function(){
     this.$.addClass('saving');
   },
   
   saveEdits: function(){
     j = this.$;
+    me = j.data('this');
     editors = j.find('.editor');
     
     editors.each(function(index){
-      fieldName = $(this).attr('name');
+      editor = $(this);
+      fieldName = editor.attr('name');
       if(this.type.match(/select/)){
-      //   this.setValue('div.' + fieldName + ' .v', editors[ii].value);
-      //   this.setValue('div.' + fieldName + ' .t', editors[ii][editors[ii].selectedIndex].text);
-      } else if(this.editors[ii].type.match(/textarea/)){
+        j.children('div.' + fieldName).children('.v').text(editor.val())
+        j.children('div.' + fieldName).children('.t').text(editor.children(':selected').text());
+      } else if(this.type.match(/textarea/)){
       //   this.setValue('div.' + fieldName + ' .textile', editors[ii].value);
       //   this.setValue('div.' + fieldName + ' .html', '-- will be displayed after save --');
       } else {
-      //   this.setValue('div.' + fieldName, editors[ii].value);
+        j.children('div.' + fieldName).text(editor.val());
       }
     });
 
-    // var status   = this.getChild("select.status_id");
-    // var selected = $(status[status.selectedIndex]);
-    // if(selected.hasClassName("closed")) {
-    //   this.getRoot().addClassName("closed");
-    // } else {
-    //   this.getRoot().removeClassName("closed");
-    // }
+    if(j.children("select.status_id").children(":selected").hasClass('closed')){
+      j.addClass('closed');
+    } else {
+      j.removeClass('closed');
+    }
+
+    $.ajax({
+      type: "POST",
+      url: RB.urlFor[(me.isNew() ? 'create_story' : 'update_story')],
+      data: editors.serialize() + "&id=" + j.children('.id').text(),
+      beforeSend: function(xhr){ me.markSaving() },
+      complete: function(xhr, textStatus){ me.unmarkSaving(); RB.dialog.msg(xhr.responseText) }
+    });
+    me.endEdit();
   },
   
   triggerEdit: function(event){

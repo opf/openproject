@@ -12,6 +12,9 @@
   font-family: Verdana, sans-serif;
   font-size:11px;
 }
+.story.closed .subject{
+  text-decoration:line-through;
+}
 .placeholder{
   background-color:#ECECEC;
 }
