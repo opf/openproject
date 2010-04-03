@@ -21,7 +21,7 @@ require_dependency 'backlogs_layout_hooks'
 
 Redmine::Plugin.register :redmine_backlogs do
     name 'Redmine Scrum Plugin'
-    author 'friflaj'
+    author 'Mark Maglana, friflaj'
     description 'Scrum plugin for Redmine'
     version '0.0.1'
 
