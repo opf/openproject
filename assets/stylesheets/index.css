@@ -33,8 +33,9 @@
 }
 .backlog .stories{
   list-style:none;
+  min-height:26px;
   margin:0;
-  padding:0 0 4px 0;
+  padding:0 0 0px 0;
 }
 /*PRODUCT BACKLOG SPECIFIC*/
 #product_backlog{
@@ -42,7 +43,7 @@
   margin-left:10px;
   margin-top:10px;
   width:550px;
-  background-color: #edefec;
+  background-color: #dcffdc;
 }
 /*DIALOGS*/
 #dialogs{
