@@ -47,6 +47,8 @@ RB.Backlog = Object.create(RB.Model, {
         type: "POST",
         url: RB.urlFor['reorder'],
         data: stories + moveto + dropped,
+        beforeSend: function(xhr){ ui.item.data('this').markSaving() },
+        complete: function(xhr, textStatus){ ui.item.data('this').unmarkSaving() }
     });
   },
   

@@ -70,6 +70,10 @@ RB.Story = Object.create(RB.Model, {
     }
   },
   
+  markSaving: function(){
+    this.$.addClass('saving');
+  },
+  
   saveEdits: function(){
     j = this.$;
     editors = j.find('.editor');
@@ -106,6 +110,10 @@ RB.Story = Object.create(RB.Model, {
       // Focus on the input corresponding to the field clicked
       j.find( '.' + $(event.currentTarget).attr('fieldname') + '.editor' ).focus();
     }
+  },
+  
+  unmarkSaving: function(){
+    this.$.removeClass('saving');
   }
   
 });

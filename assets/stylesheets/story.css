@@ -34,6 +34,19 @@
   position:absolute;
   top:7px;
 }
+.story.saving .checkbox{
+  display:none;
+}
+.story.saving .spinner,
+.story.updating .spinner{
+  background-image:url('../images/indicator.gif');
+  display:block;
+  height:16px;
+  left:9px;
+  position:absolute;
+  top:6px;
+  width:16px;
+}
 .story .id{
   background-color:#cfc;
   display:block;
