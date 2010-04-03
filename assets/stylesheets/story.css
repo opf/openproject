@@ -15,6 +15,9 @@
 .story.closed .subject{
   text-decoration:line-through;
 }
+.story:nth-child(even){
+  background-color:#DEDEDE;
+}
 .placeholder{
   background-color:#ECECEC;
 }
