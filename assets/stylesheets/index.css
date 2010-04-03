@@ -22,21 +22,33 @@
 .backlog.product .header .name{
   padding-left:0;
 }
-.backlog .header .end_date{
-  font-size:10px;
-  color:#666666;
-  float:right;
-}
 .backlog .header .actions{
   display:block;
   position:absolute;
   left:7px;
   top:6px;
 }
-.backlog .header .datepicker{
-  display:none; /* I'll fix this later */
+.backlog .header .dates{
+  color:#999999;
+  display:block;
+  height:15px;
+  overflow:hidden;
+  padding:2px;
+  padding-left:3px;
+  position:absolute;
+  right:45px;
+  top:7px;
+  width:160px;
+}
+.backlog .header .dates .datepicker{
+  top:2px;
+}
+.backlog .header .dates .end_date{
+  position:absolute;
+  right:3px;
 }
 .backlog .header .points{
+  color:#999999;
   display:block;
   height:15px;
   overflow:hidden;
