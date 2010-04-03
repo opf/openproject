@@ -59,7 +59,7 @@ RB.Backlog = Object.create(RB.Model, {
   },
   
   getID: function(){
-    return this.isSprint() ? this.$.attr('id').split('-')[1] : this.$.attr('id');
+    return this.isSprint() ? this.$.attr('id').split('_')[1] : this.$.attr('id');
   },
   
   getStories: function(){

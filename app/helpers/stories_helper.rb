@@ -13,10 +13,6 @@ module StoriesHelper
     story.new_record? ? "" : textilizable(story, :description)
   end
 
-  def story_html_id_or_empty(story)
-    story.new_record? ? "" : "story-#{story.id}"
-  end
-
   def mark_if_closed(story)
     !story.new_record? && story.issue.status.is_closed? ? "closed" : ""
   end
@@ -35,6 +31,10 @@ module StoriesHelper
 
   def status_label_or_default(story)
     story.new_record? ? IssueStatus.find(:first, :order => "position ASC").name : story.status.name
+  end
+
+  def story_html_id_or_empty(story)
+    story.new_record? ? "" : "story_#{story.id}"
   end
 
   def textile_description_or_empty(story)

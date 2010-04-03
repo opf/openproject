@@ -3,8 +3,8 @@
     <div class="name <%= editable_if_sprint(backlog) %>"><%= backlog[:name] %></div>
     <%- if is_sprint(backlog) %>
     <div class="dates">
-      <input class="start-date datepicker" type="text" value="<%= date_or_nil(backlog.start_date) %>" />
-      <input class="end-date datepicker" type="text"value="<%= date_or_nil(backlog.effective_date) %>" />
+      <input class="start_date datepicker" type="text" value="<%= date_or_nil(backlog.start_date) %>" />
+      <input class="end_date datepicker" type="text"value="<%= date_or_nil(backlog.effective_date) %>" />
     </div>
     <div class="points"><%= backlog.points %></div>
     <ul class="actions pureCssMenu pureCssMenum">

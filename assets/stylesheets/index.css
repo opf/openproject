@@ -17,7 +17,7 @@
   font-size:13px;
   font-weight:bold;
 }
-.backlog .header .end-date{
+.backlog .header .end_date{
   font-size:10px;
   color:#666666;
   float:right;
@@ -36,17 +36,12 @@
   margin:0;
   padding:0 0 4px 0;
 }
-#status-id-options{
-  display:none;
-}
 /*PRODUCT BACKLOG SPECIFIC*/
-#product-backlog{
+#product_backlog{
   float:right;
   margin-left:10px;
   margin-top:10px;
   width:550px;
-}
-.product.backlog{
   background-color: #edefec;
 }
 /*DIALOGS*/

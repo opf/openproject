@@ -40,7 +40,7 @@ class BacklogsController < ApplicationController
         story = Story.find(dropped)
 
         if params[:moveto]
-            if params[:moveto] == 'product-backlog'
+            if params[:moveto] == 'product_backlog'
                 story.update_attribute(:fixed_version_id, nil)
             else
                 sprint = params[:moveto]

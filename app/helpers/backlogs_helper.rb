@@ -5,7 +5,7 @@ module BacklogsHelper
   end
   
   def backlog_html_id(backlog)
-    is_sprint(backlog) ? "sprint-#{backlog.id}" : "product-backlog"
+    is_sprint(backlog) ? "sprint_#{backlog.id}" : "product_backlog"
   end
   
   def date_or_nil(date)
