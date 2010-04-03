@@ -37,7 +37,16 @@
   display:none; /* I'll fix this later */
 }
 .backlog .header .points{
-  display:none; /* I'll fix this later */
+  display:block;
+  height:15px;
+  overflow:hidden;
+  padding:2px;
+  padding-right:3px;
+  position:absolute;
+  right:11px;
+  text-align:right;
+  top:7px;
+  width:25px;
 }
 .backlog .stories{
   list-style:none;
