@@ -19,13 +19,10 @@
   font-weight:bold;
   padding-left:15px;
 }
-.backlog.product .header .name{
-  padding-left:0;
-}
 .backlog .header .actions{
   display:block;
   position:absolute;
-  left:7px;
+  left:6px;
   top:6px;
 }
 .backlog .header .dates{

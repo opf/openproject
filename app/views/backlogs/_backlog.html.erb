@@ -7,32 +7,36 @@
       <div class="end_date datepicker"><%= date_or_nil(backlog.effective_date) %></div>
     </div>
     <div class="points"><%= backlog.points %></div>
-    <ul class="actions pureCssMenu pureCssMenum">
-        <li class="pureCssMenui">
-            <a class="pureCssMenui" href="#"><span class="ui-icon ui-icon-triangle-1-s"></span></a>
-            <ul class="pureCssMenum">
-                <li class="pureCssMenui">
-                    <%= link_to('Stories/Tasks', {
-                                :controller => 'backlogs',
-                                :action => 'select_sprint',
-                                :project_id => @project.id,
-                                :sprint_id => backlog.id },
-                                :class => "pureCssMenui") %>
-                </li>
-                <% if @project.wiki %>
-                    <li class="pureCssMenui">
-                        <%= link_to('Wiki', {
-                                    :controller => 'backlogs',
-                                    :action => 'wiki_page',
-                                    :project_id => @project.id,
-                                    :sprint_id => backlog.id },
-                                    :class => "pureCssMenui") %>
-                    </li>
-                <% end %>
-            </ul>
-        </li>
-    </ul>
     <%- end %>
+    <%= backlog_menu is_sprint(backlog),
+        [
+          {
+            :item => "<a>New story</a>",
+            :for => :both
+          },
+          {
+            :item => menu_link('Stories/Tasks', {
+                               :controller => 'backlogs',
+                               :action => 'select_sprint',
+                               :project_id => @project,
+                               :sprint_id => backlog }),
+            :for => :sprint
+          },
+          {
+            :item => menu_link('Wiki', {
+                               :controller => 'backlogs',
+                               :action => 'wiki_page',
+                               :project_id => @project.id,
+                               :sprint_id => backlog.id }),
+            :for => :sprint,
+            :condition => @project.enabled_modules.any? {|m| m.name=="wiki" }
+          },
+          {
+            :item => "<a>Select All</a>",
+            :for => :both
+          }
+        ]
+    %>
   </div><!-- class="header" -->
   <ul class="stories">
     <%= render :partial => "stories/story", :collection => stories(backlog) %>
