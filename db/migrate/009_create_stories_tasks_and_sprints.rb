@@ -4,7 +4,7 @@ class CreateStoriesTasksAndSprints < ActiveRecord::Migration
     add_column :issues, :story_points, :integer
     add_column :issues, :remaining_hours, :float
 
-    add_column :versions, :start_date, :datetime, :null => true
+    add_column :versions, :sprint_start_date, :date, :null => true
 
     Story.reset_column_information
 
@@ -30,34 +30,31 @@ class CreateStoriesTasksAndSprints < ActiveRecord::Migration
 
     if backlogs_present
         say_with_time "Migrating Backlogs data..." do
+            connection = ActiveRecord::Base.connection
+
             res = execute "select issue_id, version_id, position, version_id, parent_id, points from items left join backlogs on backlog_id = backlogs.id"
             res.each { |row|
                 issue, version, position, parent, points = row
+                issue = connection.quote(issue)
+                version = connection.quote(version == 0 ? nil : version)
+                position = connection.quote(position)
+                parent = connection.quote(parent == 0 ? nil : parent)
+                points = connection.quote(points == 0 ? nil : points)
 
-                if not version.nil? and version != 0
-                    execute "update issues set fixed_version_id = #{version} where id = #{issue}"
-                end
-
+                execute "update issues set fixed_version_id = #{version} where id = #{issue}"
                 execute "update issues set position = #{position} where id = #{issue}"
-
-                if not points.nil? and points != 0
-                    execute "update issues set story_points = #{points} where id = #{issue}"
-                end
-
-                if not parent.nil? and parent != 0
-                    execute "update issues set parent_id = (select issue_id from items where id = #{parent})"
-                end
+                execute "update issues set story_points = #{points} where id = #{issue}"
+                execute "update issues set parent_id = (select issue_id from items where id = #{parent})"
             }
 
             res = execute "select version_id, start_date, is_closed from backlogs"
             res.each { |row|
                 version, start_date, is_closed = row
-                status = is_closed ? 'closed' : 'open'
+                status = connection.quote(is_closed ? 'closed' : 'open')
+                version = connection.quote(version == 0 ? nil : version)
+                start_date = connection.quote(start_date)
 
-                if not start_date.nil?
-                    execute "update versions set start_date = '#{start_date}' where id = #{version}"
-                end
-                execute "update versions set status = '#{status}' where id = #{version}"
+                execute "update versions set status = #{status}, sprint_start_date = #{start_date} where id = #{version}"
             }
         end
     end
