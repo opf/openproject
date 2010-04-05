@@ -71,6 +71,8 @@ class Sprint < Version
             else
                 if day == self.sprint_start_date or day == end_date
                     backlog = backlog.nil? ? self.stories : backlog
+
+                    # no stories, nothing to do
                     break if backlog.length == 0
 
                     datapoint = {
@@ -82,7 +84,7 @@ class Sprint < Version
                     if day == self.sprint_start_date
                         datapoint[:remaining_hours] = backlog.inject(0) {|sum, story| sum + story.estimated_hours.to_f } 
                     else
-                        datapoint[:remaining_hours] = backlog.select {|s| not s.closed? || s.done_ratio != 100 }.inject(0) {|sum, story| sum + story.remaining_hours.to_f } 
+                        datapoint[:remaining_hours] = backlog.select {|s| not s.closed? && s.done_ratio != 100 }.inject(0) {|sum, story| sum + story.remaining_hours.to_f } 
                     end
 
                     bdd = BurndownDay.new datapoint.merge(:created_at => day, :updated_at => day, :version_id => self.id)
