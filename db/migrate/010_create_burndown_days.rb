@@ -3,8 +3,8 @@ class CreateBurndownDays < ActiveRecord::Migration
         create_table :burndown_days do |t|
             t.column :points_committed, :integer, :null => false
             t.column :points_accepted, :integer, :null => false
-            t.column :points_resolved, :integer, :null => true
-            t.column :remaining_hours, :float, :null => true
+            t.column :points_resolved, :integer, :null => false
+            t.column :remaining_hours, :float, :null => false
             t.column :version_id, :integer, :null => false
             t.timestamps
         end
