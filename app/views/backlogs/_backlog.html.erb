@@ -7,13 +7,11 @@
       <div class="effective_date datepicker editable" fieldname="effective_date"><%= date_or_nil(backlog.effective_date) %></div>
     </div>
     <div class="points"><%= backlog.points %></div>
+    <%- else %>
+    <a class='new_story'>New story</a>
     <%- end %>
     <%= backlog_menu is_sprint(backlog),
         [
-          {
-            :item => "<a>New story</a>",
-            :for => :both
-          },
           {
             :item => menu_link('Stories/Tasks', {
                                :controller => 'backlogs',

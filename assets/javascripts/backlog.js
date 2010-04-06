@@ -12,7 +12,7 @@ RB.Backlog = Object.create(RB.Model, {
     
     // Associate this object with the element for later retrieval
     j.data('this', this);
-    
+
     // Make the list sortable
     list = this.getList();
     list.sortable({ connectWith: '.stories',
@@ -23,7 +23,12 @@ RB.Backlog = Object.create(RB.Model, {
                     stop: this.dragStop,
                     update: this.dragComplete
                     });
-    
+
+    list.disableSelection();
+
+    // Observe menu items
+    j.find('.new_story').bind('mouseup', this.handleMenuClick);
+
     // Initialize each item in the backlog
     this.getStories().each(function(index){
       story = RB.Factory.initialize(RB.Story, this); // 'this' refers to an element with class="story"
@@ -155,6 +160,13 @@ RB.Backlog = Object.create(RB.Model, {
       j.find( '.' + $(event.currentTarget).attr('fieldname') + '.editor' ).focus();
     }
   },
+
+  handleMenuClick: function(event){
+    item = $(this);
+    if(item.hasClass('new_story')){
+      $(this).parents('.backlog').data('this').newStory();
+    }
+  },
   
   isSprint: function(){
     return $(this.el).hasClass('sprint');
@@ -162,6 +174,30 @@ RB.Backlog = Object.create(RB.Model, {
   
   markSaving: function(){
     this.$.addClass('saving');
+  },
+
+  loadStoryTemplate: function(){
+    $.ajax({
+        type: "POST",
+        async: false,
+        data: "s=s",  // I don't quite understand why the server balks without any data supplied
+        url: RB.urlFor['new_story'],
+        complete: function(xhr, textStatus){ $(xhr.responseText).appendTo("#content").wrap("<div id='story_template'/>") }
+    });
+  },
+    
+  newStory: function(){
+    if($('#story_template').size()==0){
+      this.loadStoryTemplate();
+    }
+    
+    story = $('#story_template').children().first().clone();
+    this.getList().prepend(story);
+    o = RB.Factory.initialize(RB.Story, story[0]); // 'this' refers to an element with class="story"
+    o.edit();
+
+    //Focus on the input corresponding to the field clicked
+    story.find('.editor' ).first().focus();
   },
   
   recalcPoints: function(){

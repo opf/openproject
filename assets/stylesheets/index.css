@@ -4,6 +4,9 @@
   margin-top:10px;
   width:550px;
 }
+#story_template{
+  display:none;
+}
 .backlog{
   background-color:#FCFCFC;
   border:1px solid #CCCCCC;
@@ -37,6 +40,13 @@
 }
 .backlog .header div.name{
   padding:4px;
+}
+.backlog .header a.new_story{
+  cursor:pointer;
+  font-size:11px;
+  position:absolute;
+  right:12px;
+  top:11px;
 }
 .backlog .header input{
   display:none;
@@ -126,7 +136,7 @@
   margin-left:10px;
   margin-top:10px;
   width:550px;
-  background-color: #dcffdc;
+/*  background-color: #dcffdc;*/
 }
 /*DIALOGS*/
 #dialogs{

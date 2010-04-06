@@ -12,10 +12,18 @@ RB.Story = Object.create(RB.Model, {
     // Associate this object with the element for later retrieval
     j.data('this', this);
 
-    // Observe double-click events in certain fields
+    // Observe click events in certain fields
     j.find('.editable').bind('mouseup', this.triggerEdit);
     
     this.checkSubjectLength();
+  },
+
+  cancelEdit: function(){
+    this.$.removeClass('editing');
+    this.checkSubjectLength();
+    if(this.isNew()){
+      this.$.hide('blind');
+    }
   },
 
   checkSubjectLength: function(){
@@ -78,15 +86,14 @@ RB.Story = Object.create(RB.Model, {
     switch(event.which){
       case 13   : that.saveEdits();   // Enter
                   break;
-      case 27   : that.endEdit();     // ESC
+      case 27   : that.cancelEdit();     // ESC
                   break;
       default   : return true;
     }
   },
   
   isNew: function(){
-    // TODO: You, complete me!
-    return false;
+    return this.$.children('.id').text()=="";
   },
   
   markSaving: function(){
@@ -121,12 +128,24 @@ RB.Story = Object.create(RB.Model, {
     $.ajax({
       type: "POST",
       url: RB.urlFor[(me.isNew() ? 'create_story' : 'update_story')],
-      data: editors.serialize() + "&id=" + j.children('.id').text(),
+      data: editors.serialize() + (me.isNew() ? "" : "&id=" + j.children('.id').text()),
       beforeSend: function(xhr){ me.markSaving() },
-      complete: function(xhr, textStatus){ me.unmarkSaving(); RB.dialog.notice(xhr.responseText) }
+      complete: (me.isNew() ? this.storyCreated : this.storyUpdated) 
     });
     me.endEdit();
-    j.parents('.sprint.backlog').data('this').recalcPoints();
+    
+    var sprint = j.parents('.sprint.backlog');
+    if(sprint.size()>0) sprint.data('this').recalcPoints();
+  },
+  
+  storyCreated: function(xhr, textStatus){
+    me.unmarkSaving();
+    me.$.find('.id').text(xhr.responseText);
+  },
+  
+  storyUpdated: function(xhr, textStatus){
+    me.unmarkSaving(); 
+    RB.dialog.notice(xhr.responseText) 
   },
   
   triggerEdit: function(event){

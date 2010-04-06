@@ -40,6 +40,9 @@
   position:absolute;
   top:7px;
 }
+.story.editing .checkbox{
+  display:none;
+}
 .story.saving .checkbox{
   display:none;
 }
@@ -139,4 +142,10 @@
   text-align:right;
   top:2px;
   width:25px;
+}
+.story.editing .tracker_id.editor{
+  left:10px;
+  position:absolute;
+  top:4px;
+  width:55px;
 }
