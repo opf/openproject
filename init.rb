@@ -41,7 +41,8 @@ Redmine::Plugin.register :redmine_backlogs do
                                     :index,
                                     :reorder,
                                     :sprint_date,
-                                    :select_sprint ],
+                                    :select_sprint,
+                                    :burndown ],
                     :stories => [ :index,
                                   :create,
                                   :update ]
