@@ -120,6 +120,14 @@ class BacklogsController < ApplicationController
 
     redirect_to :controller => 'issues', :action => 'index', :project_id => @project.id
   end
+  
+  def update
+    sprint = Sprint.find(params[:id])
+    attribs = params.select{|k,v| ['effective_date', 'name', 'project_id', 'start_date'].include? k }
+    attribs = Hash[*attribs.flatten]
+    result = sprint.update_attributes attribs
+    render :text => result
+  end
 
   def wiki_page
     sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => params[:sprint_id]})

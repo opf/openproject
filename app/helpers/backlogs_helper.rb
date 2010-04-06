@@ -7,6 +7,10 @@ module BacklogsHelper
   def backlog_html_id(backlog)
     is_sprint(backlog) ? "sprint_#{backlog.id}" : "product_backlog"
   end
+
+  def backlog_id_or_empty(backlog)
+    is_sprint(backlog) ? backlog.id : ""
+  end
   
   def date_or_nil(date)
     date.nil? ? '' : date.strftime('%Y-%m-%d')

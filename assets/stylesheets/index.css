@@ -14,10 +14,39 @@
   padding:8px 10px 0 10px;
   position:relative;
 }
+.backlog.saving .header .spinner,
+.backlog.updating .header .spinner{
+  background-image:url('../images/indicator.gif');
+  display:block;
+  height:16px;
+  left:8px;
+  position:absolute;
+  top:8px;
+  width:16px;
+}
+.backlog.saving .header .pureCssMenu{
+  display:none;
+}
 .backlog .header .name{
   font-size:13px;
   font-weight:bold;
   padding-left:15px;
+  width:310px;
+}
+.backlog .header input{
+  display:none;
+}
+.backlog.editing .header input{
+  font-family:Verdana,sans-serif;
+  display:block;
+}
+.backlog.editing .header input.name{
+  font-weight:bold;
+  left:21px;
+  padding-left:0;
+  position:absolute;
+  top:4px;
+  width:305px;
 }
 .backlog .header .actions{
   display:block;
@@ -28,6 +57,7 @@
 .backlog .header .dates{
   color:#999999;
   display:block;
+  font-size:11px;
   height:15px;
   overflow:hidden;
   padding:2px;
@@ -40,13 +70,26 @@
 .backlog .header .dates .datepicker{
   top:2px;
 }
-.backlog .header .dates .end_date{
+.backlog.editing .header input.start_date{
+  left:337px;
+  position:absolute;
+  top:5px;
+  width:70px;
+}
+.backlog .header .dates .effective_date{
   position:absolute;
   right:3px;
+}
+.backlog.editing .header input.effective_date{
+  left:430px;
+  position:absolute;
+  top:5px;
+  width:70px;
 }
 .backlog .header .points{
   color:#999999;
   display:block;
+  font-size:11px;
   height:15px;
   overflow:hidden;
   padding:2px;
@@ -62,6 +105,9 @@
   min-height:26px;
   margin:0;
   padding:0 0 0px 0;
+}
+.backlog .id{
+  display:none;
 }
 /*PRODUCT BACKLOG SPECIFIC*/
 #product_backlog{

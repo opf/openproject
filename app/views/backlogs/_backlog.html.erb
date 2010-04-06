@@ -1,10 +1,10 @@
 <div class="<%= backlog_html_class(backlog)%>" id="<%= backlog_html_id(backlog) %>">
   <div class="header">
-    <div class="name <%= editable_if_sprint(backlog) %>"><%= backlog[:name] %></div>
+    <div class="name <%= editable_if_sprint(backlog) %>" fieldname="name"><%= backlog[:name] %></div>
     <%- if is_sprint(backlog) %>
     <div class="dates">
-      <div class="start_date datepicker"><%= date_or_nil(backlog.start_date) %></div>
-      <div class="end_date datepicker"><%= date_or_nil(backlog.effective_date) %></div>
+      <div class="start_date datepicker editable" fieldname="start_date"><%= date_or_nil(backlog.start_date) %></div>
+      <div class="effective_date datepicker editable" fieldname="effective_date"><%= date_or_nil(backlog.effective_date) %></div>
     </div>
     <div class="points"><%= backlog.points %></div>
     <%- end %>
@@ -37,6 +37,8 @@
           }
         ]
     %>
+    <div class="id"><%= backlog_id_or_empty(backlog) %></div>
+    <div class="spinner"> </div>
   </div><!-- class="header" -->
   <ul class="stories">
     <%= render :partial => "stories/story", :collection => stories(backlog) %>
