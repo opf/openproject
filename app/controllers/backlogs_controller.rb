@@ -17,6 +17,12 @@ class BacklogsController < ApplicationController
       render :action => "index", :layout => "backlogs"
     end
   end
+
+  def burndown
+    sprint = Sprint.find_by_id(params[:sprint_id])
+    @burndown = sprint.burndown
+    render :action => "burndown", :layout => "backlogs"
+  end
   
   def jsvariables
     render :action => "jsvariables.js", :content_type => 'text/javascript', :layout => false

@@ -67,22 +67,32 @@ module IssuePatch
             ## care of this, but appearantly neither root_id nor
             ## parent_id are set at that point
 
+            touched_sprint = nil
+
             if self.is_story?
                 # raw sql here because it's efficient and not
                 # doing so causes an update loop when Issue calls
                 # update_parent
                 if not Task.tracker.nil?
-                    version = self.fixed_version_id.nil? ? 'NULL' : self.fixed_version_id
-                    connection.execute "update issues set tracker_id = #{Task.tracker}, fixed_version_id = #{version} where lft > #{self.lft} and lft < #{self.rgt} and rgt > #{self.lft} and rgt < #{self.rgt}"
+                    tasks = self.descendants.collect{|t| connection.quote(t.id)}.join(",")
+                    if tasks != ""
+                        connection.execute("update issues set tracker_id=#{connection.quote(Task.tracker)}, fixed_version_id=#{connection.quote(self.fixed_version_id)} where id in (#{tasks})")
+                    end
                 end
+                touched_sprint = self.fixed_version
+
             elsif not Task.tracker.nil?
                 begin
                     story = self.story
                     if not story.nil?
-                        version = story.fixed_version_id.nil? ? 'NULL' : story.fixed_version_id.nil
-                        connection.execute "update issues set tracker_id = #{Task.tracker}, fixed_version_id = #{version} where id = #{self.id}"
+                        connection.execute "update issues set tracker_id = #{connection.quote(Task.tracker)}, fixed_version_id = #{connection.quote(story.fixed_version_id)} where id = #{connection.quote(self.id)}"
+                        touched_sprint = story.fixed_version
                     end
                 end
+            end
+
+            if not touched_sprint.nil?
+                touched_sprint.touch_burndown
             end
         end
     end
