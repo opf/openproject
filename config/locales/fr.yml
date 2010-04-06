@@ -1,6 +1,7 @@
 # French translations for Ruby on Rails 
 # by Christian Lescuyer (christian@flyingcoders.com)
 # contributor: Sebastien Grosjean - ZenCocoon.com
+# contributor: Thibaut Cuvelier - Developpez.com
 
 fr:
   date:
@@ -110,8 +111,8 @@ fr:
     errors:
       template:
         header: 
-          one: "Impossible d'enregistrer {{model}}: 1 erreur"
-          other: "Impossible d'enregistrer {{model}}: {{count}} erreurs."
+          one: "Impossible d'enregistrer {{model}} : 1 erreur"
+          other: "Impossible d'enregistrer {{model}} : {{count}} erreurs."
         body: "Veuillez vérifier les champs suivants :"
       messages:
         inclusion: "n'est pas inclus(e) dans la liste"
@@ -170,7 +171,7 @@ fr:
   notice_email_sent: "Un email a été envoyé à {{value}}"
   notice_email_error: "Erreur lors de l'envoi de l'email ({{value}})"
   notice_feeds_access_key_reseted: "Votre clé d'accès aux flux RSS a été réinitialisée."
-  notice_failed_to_save_issues: "{{count}} demande(s) sur les {{total}} sélectionnées n'ont pas pu être mise(s) à jour: {{ids}}."
+  notice_failed_to_save_issues: "{{count}} demande(s) sur les {{total}} sélectionnées n'ont pas pu être mise(s) à jour : {{ids}}."
   notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
   notice_account_pending: "Votre compte a été créé et attend l'approbation de l'administrateur."
   notice_default_data_loaded: Paramétrage par défaut chargé avec succès.
@@ -178,9 +179,9 @@ fr:
   notice_issue_done_ratios_updated: L'avancement des demandes a été mis à jour.
   notice_api_access_key_reseted: Votre clé d'accès API a été réinitialisée.
   
-  error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage: {{value}}"
+  error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : {{value}}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
-  error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt: {{value}}"
+  error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt : {{value}}"
   error_scm_annotate: "L'entrée n'existe pas ou ne peut pas être annotée."
   error_issue_not_found_in_project: "La demande n'existe pas ou n'appartient pas à ce projet"
   error_can_not_reopen_issue_on_closed_version: 'Une demande assignée à une version fermée ne peut pas être réouverte'
@@ -192,15 +193,15 @@ fr:
   warning_attachments_not_saved: "{{count}} fichier(s) n'ont pas pu être sauvegardés."
   
   mail_subject_lost_password: "Votre mot de passe {{value}}"
-  mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant:'
+  mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
   mail_subject_register: "Activation de votre compte {{value}}"
-  mail_body_register: 'Pour activer votre compte, cliquez sur le lien suivant:'
+  mail_body_register: 'Pour activer votre compte, cliquez sur le lien suivant :'
   mail_body_account_information_external: "Vous pouvez utiliser votre compte {{value}} pour vous connecter."
   mail_body_account_information: Paramètres de connexion de votre compte
   mail_subject_account_activation_request: "Demande d'activation d'un compte {{value}}"
-  mail_body_account_activation_request: "Un nouvel utilisateur ({{value}}) s'est inscrit. Son compte nécessite votre approbation:"
+  mail_body_account_activation_request: "Un nouvel utilisateur ({{value}}) s'est inscrit. Son compte nécessite votre approbation :"
   mail_subject_reminder: "{{count}} demande(s) arrivent à échéance"
-  mail_body_reminder: "{{count}} demande(s) qui vous sont assignées arrivent à échéance dans les {{days}} prochains jours:"
+  mail_body_reminder: "{{count}} demande(s) qui vous sont assignées arrivent à échéance dans les {{days}} prochains jours :"
   mail_subject_wiki_content_added: "Page wiki '{{page}}' ajoutée"
   mail_body_wiki_content_added: "La page wiki '{{page}}' a été ajoutée par {{author}}."
   mail_subject_wiki_content_updated: "Page wiki '{{page}}' mise à jour"
@@ -270,7 +271,7 @@ fr:
   field_attr_mail: Attribut Email
   field_onthefly: Création des utilisateurs à la volée
   field_start_date: Début
-  field_done_ratio: % Réalisé
+  field_done_ratio: % réalisé
   field_auth_source: Mode d'authentification
   field_hide_mail: Cacher mon adresse mail
   field_comments: Commentaire
@@ -532,7 +533,7 @@ fr:
   label_version_new: Nouvelle version
   label_version_plural: Versions
   label_confirmation: Confirmation
-  label_export_to: 'Formats disponibles:'
+  label_export_to: 'Formats disponibles :'
   label_read: Lire...
   label_public_projects: Projets publics
   label_open_issues: ouvert
@@ -628,7 +629,7 @@ fr:
   label_sort_lower: Descendre
   label_sort_lowest: Descendre en dernier
   label_roadmap: Roadmap
-  label_roadmap_due_in: "Echéance dans {{value}}"
+  label_roadmap_due_in: "Échéance dans {{value}}"
   label_roadmap_overdue: "En retard de {{value}}"
   label_roadmap_no_issues: Aucune demande pour cette version
   label_search: Recherche
@@ -826,10 +827,10 @@ fr:
   text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 pour aucune restriction
-  text_project_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce projet et toutes ses données ?
-  text_subprojects_destroy_warning: "Ses sous-projets: {{value}} seront également supprimés."
+  text_project_destroy_confirmation: Êtes-vous sûr de vouloir supprimer ce projet et toutes ses données ?
+  text_subprojects_destroy_warning: "Ses sous-projets : {{value}} seront également supprimés."
   text_workflow_edit: Sélectionner un tracker et un rôle pour éditer le workflow
-  text_are_you_sure: Etes-vous sûr ?
+  text_are_you_sure: Êtes-vous sûr ?
   text_tip_task_begin_day: tâche commençant ce jour
   text_tip_task_end_day: tâche finissant ce jour
   text_tip_task_begin_end_day: tâche commençant et finissant ce jour
@@ -852,7 +853,7 @@ fr:
   text_no_configuration_data: "Les rôles, trackers, statuts et le workflow ne sont pas encore paramétrés.\nIl est vivement recommandé de charger le paramétrage par defaut. Vous pourrez le modifier une fois chargé."
   text_load_default_configuration: Charger le paramétrage par défaut
   text_status_changed_by_changeset: "Appliqué par commit {{value}}."
-  text_issues_destroy_confirmation: 'Etes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
+  text_issues_destroy_confirmation: 'Êtes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
   text_select_project_modules: 'Selectionner les modules à activer pour ce project:'
   text_default_administrator_account_changed: Compte administrateur par défaut changé
   text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
@@ -862,7 +863,7 @@ fr:
   text_destroy_time_entries: Supprimer les heures
   text_assign_time_entries_to_project: Reporter les heures sur le projet
   text_reassign_time_entries: 'Reporter les heures sur cette demande:'
-  text_user_wrote: "{{value}} a écrit:"
+  text_user_wrote: "{{value}} a écrit :"
   text_enumeration_destroy_question: "Cette valeur est affectée à {{count}} objets."
   text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
   text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/email.yml et redémarrez l'application pour les activer."
