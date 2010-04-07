@@ -22,7 +22,7 @@ module IssuePatch
             newissue = move_to_project_without_transaction_without_autolink(new_project, new_tracker, options)
 
             if self.project_id == newissue.project_id and self.is_story? and newissue.is_story? and self.id != newissue.id
-                relation = IssueRelation.new :relation_type => IssueRelation::TYPE_RELATES
+                relation = IssueRelation.new :relation_type => IssueRelation::TYPE_DUPLICATES
                 relation.issue_from = self
                 relation.issue_to = newissue
                 relation.save

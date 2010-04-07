@@ -119,8 +119,7 @@ class Sprint < Version
         }
 
         datasets = {}
-        [       [:points_committed, :points],
-                [:points_resolved, :points],
+        [       [:points_resolved, :points],
                 [:points_accepted, :points],
                 [:remaining_hours, :hours],
                 [:required_burn_rate_points, :points],
@@ -130,6 +129,15 @@ class Sprint < Version
                 datasets[series] = { :units => units, :series => data }
             end
         }
+
+        data = datapoints.collect {|d| d[:points_committed]}
+        if not data.select{|d| d != data[0]}.empty?
+            datasets[:points_committed] = { :units => :points, :series => data }
+        end
+
+        if datasets.has_key?(:points_resolved) and datasets.has_key?(:points_accepted) and datasets[:points_resolved][:series] == datasets[:points_accepted][:series]
+            datasets.delete(:points_resolved)
+        end
 
         return { :dates => self.days, :series => datasets, :max => {:points => max_points, :hours => max_hours} }
     end
