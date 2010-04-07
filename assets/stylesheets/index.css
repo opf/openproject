@@ -70,7 +70,7 @@
 .backlog .header .dates .datepicker{
   top:2px;
 }
-.backlog.editing .header input.start_date{
+.backlog.editing .header input.sprint_start_date{
   left:337px;
   position:absolute;
   top:5px;

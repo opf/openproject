@@ -3,7 +3,7 @@
     <div class="name <%= editable_if_sprint(backlog) %>" fieldname="name"><%= backlog[:name] %></div>
     <%- if is_sprint(backlog) %>
     <div class="dates">
-      <div class="start_date datepicker editable" fieldname="start_date"><%= date_or_nil(backlog.start_date) %></div>
+      <div class="sprint_start_date datepicker editable" fieldname="sprint_start_date"><%= date_or_nil(backlog.sprint_start_date) %></div>
       <div class="effective_date datepicker editable" fieldname="effective_date"><%= date_or_nil(backlog.effective_date) %></div>
     </div>
     <div class="points"><%= backlog.points %></div>
