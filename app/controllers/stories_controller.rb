@@ -12,8 +12,17 @@ class StoriesController < ApplicationController
   end
 
   def update
-    # TODO
-    render :text => "StoriesController#update says: Implement me!", :status => 501
+    if params.has_key? :points
+      params[:story_points] = params[:points]
+      params.delete(:points)
+    end
+    story = Story.find(params[:id])
+    attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
+    logger.info '----------------------------------------'
+    logger.info (Hash[*attribs.flatten]).inspect
+    attribs = Hash[*attribs.flatten]
+    result = story.update_attributes! attribs
+    render :text => result
   end
 
   private

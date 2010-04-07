@@ -129,7 +129,7 @@ class BacklogsController < ApplicationController
   
   def update
     sprint = Sprint.find(params[:id])
-    attribs = params.select{|k,v| Sprint.column_names.include? k }
+    attribs = params.select{|k,v| k != 'id' and Sprint.column_names.include? k }
     attribs = Hash[*attribs.flatten]
     result = sprint.update_attributes attribs
     render :text => result
