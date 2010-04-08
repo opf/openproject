@@ -23,7 +23,6 @@ RB.Backlog = Object.create(RB.Model, {
                     stop: this.dragStop,
                     update: this.dragComplete
                     });
-    list.disableSelection();
     
     // Initialize each item in the backlog
     this.getStories().each(function(index){
