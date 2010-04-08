@@ -37,13 +37,14 @@ class CostReportsController < ApplicationController
     sort_update(sortable_columns)
     
     if @query.valid?
-      limit = per_page_option
-      respond_to do |format|
-        format.html { }
-        format.atom { }
-        format.csv  { limit = Setting.issues_export_limit.to_i }
-        format.pdf  { limit = Setting.issues_export_limit.to_i }
-      end
+      limit = case params[:format]
+              when 'html'
+                per_page_option
+              when 'atom'
+                Setting.feeds_limit.to_i
+              else
+                Setting.issues_export_limit.to_i
+              end
       
       unless @query.group_by_fields.empty?
         get_aggregation
