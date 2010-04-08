@@ -156,4 +156,4 @@ de:
   text_destroy_time_and_cost_entries:  Gebuchte Aufwände löschen
   text_destroy_time_and_cost_entries_question: Es wurden bereits {{hours}} Stunden sowie {{cost_entries}} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_reassign_time_and_cost_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
-  text_warning_hidden_elements: "Es werden möglicherweise nicht alle Einträge berücksichtigt."
+  text_warning_hidden_elements: "Es wurden möglicherweise nicht alle Einträge berücksichtigt."
