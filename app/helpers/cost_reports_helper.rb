@@ -34,6 +34,7 @@ module CostReportsHelper
   
   
   def element_hidden_warning()
+    # FIXME: Wanring has also to be generated if right is not granted in one of the subprojects only
     unless User.current.allowed_to?(:view_cost_entries, @project, :for => nil) && 
       User.current.allowed_to?(:view_time_entries, @project, :for => nil) &&
       User.current.allowed_to?(:view_cost_rates, @project, :for => nil) &&
