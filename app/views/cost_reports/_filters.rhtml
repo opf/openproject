@@ -66,7 +66,7 @@
     }
   }
   
-  function toggle_operator(filter) {
+  function toggle_operator(filter, filter_type) {
     var operator = filter.down("select.filter_operator");
     var simple_operators = [<%= CostQuery.operators.select{|k,v| v[:simple]}.collect{|k,v| "'#{k}'"}.join(", ") %>]
     
@@ -76,6 +76,15 @@
       values_field.hide();
     } else {
       values_field.show();
+    }
+
+    if (filter_type == 'date_exact') {
+      var between_tags = filter.down("span.between_tags");
+      if (operator.value == '<>d') {
+        between_tags.show();
+      } else {
+        between_tags.hide();
+      }
     }
   }
   
@@ -157,3 +166,5 @@
     </td>
   </tr></tbody>
 </table>
+
+<% include_calendar_headers_tags %>
