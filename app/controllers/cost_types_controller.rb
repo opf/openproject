@@ -69,7 +69,7 @@ class CostTypesController < ApplicationController
     rate = @cost_type.rate_at(today)
     rate ||= CostRate.new(:cost_type => @cost_type, :valid_from => today)
     
-    rate.rate = clean_currency(params[:rate]).to_f
+    rate.rate = clean_currency(params[:rate])
     if rate.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'

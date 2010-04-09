@@ -74,7 +74,7 @@ class HourlyRatesController < ApplicationController
     rate = @user.rate_at(today, @project)
     rate ||= HourlyRate.new(:project => @project, :user => @user, :valid_from => today)
     
-    rate.rate = clean_currency(params[:rate]).to_f
+    rate.rate = clean_currency(params[:rate])
     if rate.save
       if request.xhr?
         render :update do |page|
