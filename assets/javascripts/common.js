@@ -39,6 +39,10 @@ RB.dialog = Object.create({
                     buttons: { "Ok": function() { $(this).dialog("close"); } },
                     modal: true
                  });
+  },
+  
+  notice: function(msg){
+    if(console!=null) console.log(msg);
   }
 });
 
