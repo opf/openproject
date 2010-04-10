@@ -21,7 +21,7 @@ module QueryPatch
         def available_filters_with_backlogs_issue_type
             @available_filters = available_filters_without_backlogs_issue_type
 
-            if Story.trackers.length == 0 and not Task.tracker.nil?
+            if Story.trackers.length == 0 or Task.tracker.nil?
                 backlogs_filters = { }
             else
                 backlogs_filters = { "backlogs_issue_type" => { :type => :list, :values => [[l(:backlogs_story), "story"], [l(:backlogs_task), "task"]], :order => 20 } }

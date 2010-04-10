@@ -37,3 +37,11 @@
         <%= content_tag(:label, l(:backlogs_task_tracker)) %>
         <%= select_tag("settings[task_tracker]", options_from_collection_for_select(Tracker.all, :id, :name, Task.tracker)) %>
     </p>
+    <p>
+        <%= content_tag(:label, l(:backlogs_points_burn_direction)) %>
+        <%= select_tag("settings[points_burn_direction]",
+            options_for_select([
+                    [l(:label_points_burn_up), 'up'],
+                    [l(:label_points_burn_down), 'down']
+                ], Setting.plugin_redmine_backlogs[:backlog_points_burn_direction])) %>
+    </p>
