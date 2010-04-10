@@ -82,6 +82,19 @@
   position:absolute;
   top:1px;
   width:345px;
+  white-space:nowrap;
+}
+.story.subject_over_sixty div.subject{
+  width:333px;
+}
+.story.subject_over_sixty .elipses{
+  display:block;
+  left:409px;
+  position:absolute;
+  top:4px;
+}
+.story.editing .elipses{
+  display:none;
 }
 .story.editing .subject.editor{
   height:14px;
