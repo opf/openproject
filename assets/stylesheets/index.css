@@ -93,6 +93,9 @@
 .backlog.editing .header input.effective_date{
   left:422px;
 }
+.backlog .header .ui-datepicker-trigger{
+  display:none;
+}
 .backlog .header .points{
   color:#999999;
   display:block;
