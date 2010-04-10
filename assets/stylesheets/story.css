@@ -78,10 +78,23 @@
   height:15px;
   left:72px;
   overflow:hidden;
-  padding:2px;
+  padding:5px 2px 4px 2px;
+  position:absolute;
+  top:1px;
+  width:345px;
+  white-space:nowrap;
+}
+.story.subject_over_sixty div.subject{
+  width:333px;
+}
+.story.subject_over_sixty .elipses{
+  display:block;
+  left:409px;
   position:absolute;
   top:4px;
-  width:345px;
+}
+.story.editing .elipses{
+  display:none;
 }
 .story.editing .subject.editor{
   height:14px;
@@ -90,20 +103,17 @@
   top:2px;
   width:345px;
 }
-.story  > div.status_id .v {
-  display:none;
-}
-.story  > div.status_id .t {
-  background-color:transparent;
+.story  > div.status_id {
   display:block;
   height:15px;
-  left:0;
-  padding:2px 2px 2px 9px;
+  left:427px;
+  padding:5px 2px 4px 9px;
   position:absolute;
-  top:0px;
+  top:1px;
   width:68px;
-  -moz-border-radius:4px;
-  -webkit-border-radius:4px;
+}
+.story  > div.status_id .v {
+  display:none;
 }
 .story.editing .status_id.editor{
   left:427px;
@@ -111,27 +121,16 @@
   top:4px;
   width:75px;
 }
-.story  > div.status_id {
-  display:block;
-  height:15px;
-  left:427px;
-  overflow:hidden;
-  padding:2px 2px 2px 9px;
-  position:absolute;
-  width:68px;
-  top:4px;
-}
 .story  > div.points {
   display:block;
   height:15px;
-  overflow:hidden;
-  padding:2px;
-  padding-right:3px;
-  position:absolute;
   right:11px;
+  overflow:hidden;
+  padding:5px 3px 4px 9px;
+  position:absolute;
   text-align:right;
-  top:4px;
-  width:25px;
+  top:1px;
+  width:19px;
 }
 .story.editing input.points.editor{
   height:14px;

@@ -28,10 +28,15 @@
   display:none;
 }
 .backlog .header .name{
-  font-size:13px;
+  font-size:14px;
   font-weight:bold;
-  padding-left:15px;
-  width:310px;
+  width:300px;
+  position:absolute;
+  top:5px;
+  left:25px;
+}
+.backlog .header div.name{
+  padding:4px;
 }
 .backlog .header input{
   display:none;
@@ -42,63 +47,69 @@
 }
 .backlog.editing .header input.name{
   font-weight:bold;
-  left:21px;
   padding-left:0;
-  position:absolute;
-  top:4px;
-  width:305px;
 }
 .backlog .header .actions{
   display:block;
   position:absolute;
-  left:6px;
-  top:6px;
+  left:7px;
+  top:7px;
 }
 .backlog .header .dates{
   color:#999999;
   display:block;
   font-size:11px;
-  height:15px;
+  height:26px;
+  left:340px;
   overflow:hidden;
-  padding:2px;
-  padding-left:3px;
   position:absolute;
-  right:45px;
-  top:7px;
+  top:5px;
   width:160px;
 }
-.backlog .header .dates .datepicker{
-  top:2px;
+.backlog .header .dates div.datepicker{
+  height:100%;
+  padding-top:7px;
+  position:absolute;
+  text-align:center;
+  top:0px;
+  width:75px;
+}
+.backlog .header .dates div.sprint_start_date{
+  left:0px;
+}
+.backlog .header .dates div.effective_date{
+  left:82px;
+}
+.backlog.editing .header input.datepicker{
+  height:19px;
+  padding:2px 0 0 1px;
+  position:absolute;
+  top:5px;
+  width:68px;
 }
 .backlog.editing .header input.sprint_start_date{
-  left:337px;
-  position:absolute;
-  top:5px;
-  width:70px;
-}
-.backlog .header .dates .effective_date{
-  position:absolute;
-  right:3px;
+  left:340px;
 }
 .backlog.editing .header input.effective_date{
-  left:430px;
-  position:absolute;
-  top:5px;
-  width:70px;
+  left:422px;
+}
+.backlog .header .ui-datepicker-trigger{
+  display:none;
 }
 .backlog .header .points{
   color:#999999;
   display:block;
   font-size:11px;
-  height:15px;
+  height:17px;
   overflow:hidden;
   padding:2px;
   padding-right:3px;
+  padding-top:7px;
   position:absolute;
   right:11px;
   text-align:right;
-  top:7px;
-  width:25px;
+  top:5px;
+  width:28px;
 }
 .backlog .stories{
   list-style:none;

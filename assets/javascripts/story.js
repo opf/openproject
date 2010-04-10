@@ -14,8 +14,19 @@ RB.Story = Object.create(RB.Model, {
 
     // Observe double-click events in certain fields
     j.find('.editable').bind('mouseup', this.triggerEdit);
+    
+    this.checkSubjectLength();
   },
-  
+
+  checkSubjectLength: function(){
+    if(this.$.find('div.subject').text().length>=60){
+      this.$.addClass('subject_over_sixty');
+      $("<div class='elipses'>...</div>").appendTo(this.$);
+    }else{
+      this.$.removeClass('subject_over_sixty');
+    }
+  },
+
   edit: function(){
     j = this.$;
       
@@ -48,6 +59,7 @@ RB.Story = Object.create(RB.Model, {
   
   endEdit: function(){
     this.$.removeClass('editing');
+    this.checkSubjectLength();
   },
   
   getID: function(){

@@ -22,7 +22,14 @@ class StoriesController < ApplicationController
     logger.info (Hash[*attribs.flatten]).inspect
     attribs = Hash[*attribs.flatten]
     result = story.update_attributes! attribs
-    render :text => result
+    if result
+      text = "Story updated successfully."
+      status = 200
+    else
+      text = "ERROR: Story could not be saved."
+      status = 500
+    end
+    render :text => text, :status => status
   end
 
   private

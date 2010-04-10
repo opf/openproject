@@ -23,7 +23,6 @@ RB.Backlog = Object.create(RB.Model, {
                     stop: this.dragStop,
                     update: this.dragComplete
                     });
-    list.disableSelection();
     
     // Initialize each item in the backlog
     this.getStories().each(function(index){
@@ -96,6 +95,23 @@ RB.Backlog = Object.create(RB.Model, {
       // Copy the value in the field to the input element
       value = ( fieldType=='select' ? field.children('.v').first().text() : field.text() );
       input.val(value);
+    });
+    
+    // Show the datepicker for date fields
+    j.find('.header').find('input.datepicker').each(function(index){
+      $(this).datepicker({ changeMonth: true,
+      			               changeYear: true,
+      			               closeText: 'Close',
+                           dateFormat: 'yy-mm-dd', 
+                           firstDay: 1,
+                           onClose: function(){ $(this).focus() },
+                           selectOtherMonths: true,
+                           showAnim:'',
+                           showButtonPanel: true,
+                           showOtherMonths: true
+                        });
+      // So that we won't need a datepicker button to re-show it
+      $(this).bind('mouseup', function(event){ $(this).datepicker("show") });
     });
   },
   
