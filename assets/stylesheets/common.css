@@ -44,3 +44,8 @@ a:hover{
   clear:both;
   float:left;
 }
+
+/* MISC */
+.editable:hover{
+  background-color:#CCCCCC;
+}
