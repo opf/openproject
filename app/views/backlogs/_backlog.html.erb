@@ -23,6 +23,14 @@
             :for => :sprint
           },
           {
+            :item => menu_link('Burndown', {
+                               :controller => 'backlogs',
+                               :action => 'burndown',
+                               :project_id => @project,
+                               :sprint_id => backlog }),
+            :for => :sprint
+          },
+          {
             :item => menu_link('Wiki', {
                                :controller => 'backlogs',
                                :action => 'wiki_page',

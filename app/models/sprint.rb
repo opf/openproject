@@ -119,25 +119,40 @@ class Sprint < Version
         }
 
         datasets = {}
-        [       [:points_resolved, :points],
+        [       [:points_committed, :points],
+                [:points_resolved, :points],
                 [:points_accepted, :points],
                 [:remaining_hours, :hours],
                 [:required_burn_rate_points, :points],
                 [:required_burn_rate_hours, :hours]].each { |series, units|
             data = datapoints.collect {|d| d[series]}
-            if not data.select{|d| d != 0}.empty?
+            if not data.select{|d| d != 0 and not d.class == NilClass }.empty?
                 datasets[series] = { :units => units, :series => data }
             end
         }
 
-        data = datapoints.collect {|d| d[:points_committed]}
-        if not data.select{|d| d != data[0]}.empty?
-            datasets[:points_committed] = { :units => :points, :series => data }
+        if Setting.plugin_redmine_backlogs[:points_burn_direction] == 'down'
+            if datasets[:points_committed]
+                [[:points_accepted, :points_to_accept], [:points_resolved, :points_to_resolve]].each{|src, tgt|
+                    continue if not datasets.include? src
+
+                    datasets[tgt] = { :units => :points, :series => [] }
+                    datasets[src][:series].each_with_index {|d, i|
+                        datasets[tgt][:series] << (datasets[:points_committed][:series][i] - d)
+                    }
+                }
+            end
+
+            # only show points committed if they're not constant
+            datasets.delete(:points_committed) if datasets[:points_committed] and datasets[:points_committed][:series].collect{|d| d != datasets[:points_committed][:series][0]}.empty?
+            datasets.delete(:points_resolved)
+            datasets.delete(:points_accepted)
         end
 
-        if datasets.has_key?(:points_resolved) and datasets.has_key?(:points_accepted) and datasets[:points_resolved][:series] == datasets[:points_accepted][:series]
-            datasets.delete(:points_resolved)
-        end
+        # clear overlap between accepted/resolved
+        [[:points_resolved, :points_accepted], [:points_to_resolve, :points_to_accept]].each{|r, a|
+            datasets.delete(r) if datasets.has_key? r and datasets.has_key? a and datasets[a][:series] == datasets[r][:series]
+        }
 
         return { :dates => self.days, :series => datasets, :max => {:points => max_points, :hours => max_hours} }
     end

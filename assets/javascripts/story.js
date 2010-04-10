@@ -111,7 +111,7 @@ RB.Story = Object.create(RB.Model, {
       url: RB.urlFor[(me.isNew() ? 'create_story' : 'update_story')],
       data: editors.serialize() + "&id=" + j.children('.id').text(),
       beforeSend: function(xhr){ me.markSaving() },
-      complete: function(xhr, textStatus){ me.unmarkSaving(); RB.dialog.msg(xhr.responseText) }
+      complete: function(xhr, textStatus){ me.unmarkSaving(); /* RB.dialog.msg(xhr.responseText) */ }
     });
     me.endEdit();
     j.parents('.sprint.backlog').data('this').recalcPoints();
