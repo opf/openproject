@@ -13,7 +13,7 @@ class StoriesController < ApplicationController
   end
 
   def create
-    params[:story_points] = params.delete(:points) || nil
+    params[:story_points] = params.delete(:points)
     attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
     logger.info '----------------------------------------'
     logger.info (Hash[*attribs.flatten]).inspect
@@ -32,7 +32,7 @@ class StoriesController < ApplicationController
   end
 
   def update
-    params[:story_points] = params.delete(:points) if not params[:points].nil?
+    params[:story_points] = params.delete(:points) if params.has_key(:points)
     story = Story.find(params[:id])
     attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
     logger.info '----------------------------------------'
