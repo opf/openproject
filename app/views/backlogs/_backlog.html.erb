@@ -26,7 +26,8 @@
                                :action => 'burndown',
                                :project_id => @project,
                                :sprint_id => backlog }),
-            :for => :sprint
+            :for => :sprint,
+            :condition => (backlog.respond_to?(:has_burndown) and backlog.has_burndown)
           },
           {
             :item => menu_link('Wiki', {

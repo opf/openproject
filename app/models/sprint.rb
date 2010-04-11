@@ -37,8 +37,12 @@ class Sprint < Version
         return (self.sprint_start_date .. self.effective_date).select {|d| (d.wday > 0 and d.wday < 6) }
     end
 
+    def has_burndown
+        return !!(self.effective_date and self.sprint_start_date)
+    end
+
     def burndown
-        return nil if self.effective_date.nil? or self.sprint_start_date.nil?
+        return nil if not self.has_burndown
 
         end_date = self.effective_date > Date.today ? Date.today : self.effective_date
 
