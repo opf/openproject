@@ -272,6 +272,12 @@ class Changeset < ActiveRecord::Base
       end
       str = txtar
     end
-    str
+    # removes invalid UTF8 sequences
+    begin
+      Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
+    rescue Iconv::InvalidEncoding
+      # "UTF-8//IGNORE" is not supported on some OS
+      str
+    end
   end
 end
