@@ -980,6 +980,29 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue.id
   end
   
+  def test_put_update_stale_issue
+    issue = Issue.find(2)
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Journal.count' do
+      assert_no_difference 'Attachment.count' do
+        put :update,
+              :id => issue.id,
+              :issue => {
+                :fixed_version_id => 4,
+                :lock_version => (issue.lock_version - 1)
+              },
+              :notes => '',
+              :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+      end
+    end
+    
+    assert_response :success
+    assert_template 'edit'
+    assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
+                              :content => /Data has been updated by another user/
+  end
+  
   def test_get_bulk_edit
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]

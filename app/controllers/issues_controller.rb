@@ -212,12 +212,6 @@ class IssuesController < ApplicationController
         format.xml  { render :xml => @issue.errors, :status => :unprocessable_entity }
       end
     end
-    
-  rescue ActiveRecord::StaleObjectError
-    # Optimistic locking exception
-    flash.now[:error] = l(:notice_locking_conflict)
-    # Remove the previously added attachments if issue was not updated
-    attachments[:files].each(&:destroy) if attachments[:files]
   end
 
   def reply

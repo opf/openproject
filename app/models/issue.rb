@@ -212,6 +212,7 @@ class Issue < ActiveRecord::Base
     done_ratio
     estimated_hours
     custom_field_values
+    lock_version
   ) unless const_defined?(:SAFE_ATTRIBUTES)
   
   # Safely sets attributes
@@ -481,6 +482,7 @@ class Issue < ActiveRecord::Base
   end
 
   # Saves an issue, time_entry, attachments, and a journal from the parameters
+  # Returns false if save fails
   def save_issue_with_child_records(params, existing_time_entry=nil)
     if params[:time_entry] && params[:time_entry][:hours].present? && User.current.allowed_to?(:log_time, project)
       @time_entry = existing_time_entry || TimeEntry.new
@@ -498,14 +500,20 @@ class Issue < ActiveRecord::Base
       attachments[:files].each {|a| @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
       # TODO: Rename hook
       Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
-      if save
-        # TODO: Rename hook
-        Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
-        return true
+      begin
+        if save
+          # TODO: Rename hook
+          Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
+          return true
+        else
+          return false
+        end
+      rescue ActiveRecord::StaleObjectError
+        attachments[:files].each(&:destroy)
+        errors.add_to_base l(:notice_locking_conflict)
+        return false
       end
     end
-    # failure, returns false
-
   end
 
   # Unassigns issues from +version+ if it's no longer shared with issue's project

@@ -37,6 +37,7 @@ issues_002:
   root_id: 2
   lft: 1
   rgt: 2
+  lock_version: 3
 issues_003: 
   created_on: 2006-07-19 21:07:27 +02:00
   project_id: 1
