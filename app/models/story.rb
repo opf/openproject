@@ -61,14 +61,4 @@ class Story < Issue
 
         return story_points.to_s
     end
-
-    def abbreviated_subject
-        cap = 60
-        subject = read_attribute(:subject)
-        if subject.length > cap
-            return subject[0,cap - 3] + '...'
-        else
-            return subject
-        end
-    end
 end
