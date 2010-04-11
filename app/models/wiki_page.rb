@@ -41,6 +41,15 @@ class WikiPage < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
   
+  # Wiki pages that are protected by default
+  DEFAULT_PROTECTED_PAGES = %w(sidebar)
+  
+  def after_initialize
+    if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
+      self.protected = true
+    end
+  end
+  
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
   end

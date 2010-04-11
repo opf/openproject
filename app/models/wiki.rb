@@ -29,6 +29,12 @@ class Wiki < ActiveRecord::Base
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
   end
   
+  # Returns the wiki page that acts as the sidebar content
+  # or nil if no such page exists
+  def sidebar
+    @sidebar ||= find_page('Sidebar', :with_redirect => false)
+  end
+  
   # find the page with the given title
   # if page doesn't exist, return a new page
   def find_or_new_page(title)

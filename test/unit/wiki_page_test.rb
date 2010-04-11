@@ -33,9 +33,16 @@ class WikiPageTest < ActiveSupport::TestCase
     page.title = "Page"
     assert page.save
     page.reload
+    assert !page.protected?
     
     @wiki.reload
     assert @wiki.pages.include?(page)
+  end
+  
+  def test_sidebar_should_be_protected_by_default
+    page = @wiki.find_or_new_page('sidebar')
+    assert page.new_record?
+    assert page.protected?
   end
   
   def test_find_or_new_page

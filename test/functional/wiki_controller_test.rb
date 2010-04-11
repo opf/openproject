@@ -70,6 +70,17 @@ class WikiControllerTest < ActionController::TestCase
                                                :alt => 'This is a logo' }
   end
   
+  def test_show_with_sidebar
+    page = Project.find(1).wiki.pages.new(:title => 'Sidebar')
+    page.content = WikiContent.new(:text => 'Side bar content for test_show_with_sidebar')
+    page.save!
+    
+    get :index, :id => 1, :page => 'Another_page'
+    assert_response :success
+    assert_tag :tag => 'div', :attributes => {:id => 'sidebar'},
+                              :content => /Side bar content for test_show_with_sidebar/
+  end
+  
   def test_show_unexistent_page_without_edit_right
     get :index, :id => 1, :page => 'Unexistent page'
     assert_response 404

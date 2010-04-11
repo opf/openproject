@@ -33,7 +33,7 @@ class WikiController < ApplicationController
     page_title = params[:page]
     @page = @wiki.find_or_new_page(page_title)
     if @page.new_record?
-      if User.current.allowed_to?(:edit_wiki_pages, @project)
+      if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
         edit
         render :action => 'edit'
       else
