@@ -128,9 +128,21 @@ class UserTest < ActiveSupport::TestCase
         end
 
         context "with a successful authentication" do
-          should "create a new user account" do
+          should "create a new user account if it doesn't exist" do
             assert_difference('User.count') do
-              User.try_to_login('edavis', '123456')
+              user = User.try_to_login('edavis', '123456')
+              assert !user.admin?
+            end
+          end
+          
+          should "retrieve existing user" do
+            user = User.try_to_login('edavis', '123456')
+            user.admin = true
+            user.save!
+            
+            assert_no_difference('User.count') do
+              user = User.try_to_login('edavis', '123456')
+              assert user.admin?
             end
           end
         end
