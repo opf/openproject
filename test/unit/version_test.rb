@@ -104,6 +104,34 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_pourcent
     assert_progress_equal 25.0/100.0*100, v.closed_pourcent
   end
+  
+  context "#estimated_hours" do
+    setup do
+      @version = Version.create!(:project_id => 1, :name => '#estimated_hours')
+    end
+    
+    should "return 0 with no assigned issues" do
+      assert_equal 0, @version.estimated_hours
+    end
+    
+    should "return 0 with no estimated hours" do
+      add_issue(@version)
+      assert_equal 0, @version.estimated_hours
+    end
+    
+    should "return the sum of estimated hours" do
+      add_issue(@version, :estimated_hours => 2.5)
+      add_issue(@version, :estimated_hours => 5)
+      assert_equal 7.5, @version.estimated_hours
+    end
+    
+    should "return the sum of leaves estimated hours" do
+      parent = add_issue(@version)
+      add_issue(@version, :estimated_hours => 2.5, :parent_issue_id => parent.id)
+      add_issue(@version, :estimated_hours => 5, :parent_issue_id => parent.id)
+      assert_equal 7.5, @version.estimated_hours
+    end
+  end
 
   test "should update all issue's fixed_version associations in case the hierarchy changed XXX" do
     User.current = User.find(1) # Need the admin's permissions
