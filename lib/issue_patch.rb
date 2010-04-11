@@ -31,6 +31,21 @@ module IssuePatch
             return newissue
         end
 
+        def journalized_update_attributes!(attribs)
+            self.init_journal(User.current)
+            return self.update_attributes! attribs
+        end
+
+        def journalized_update_attributes(attribs)
+            self.init_journal(User.current)
+            return self.update_attributes attribs
+        end
+
+        def journalized_update_attribute(attrib, v)
+            self.init_journal(User.current)
+            self.update_attribute(attrib, v)
+        end
+
         def is_story?
             return (Story.trackers.include?(self.tracker_id) and self.root?)
         end

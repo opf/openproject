@@ -48,11 +48,11 @@ class BacklogsController < ApplicationController
 
         if params[:moveto]
             if params[:moveto] == 'product_backlog'
-                story.update_attribute(:fixed_version_id, nil)
+                story.journalized_update_attribute(:fixed_version_id, nil)
             else
                 sprint = params[:moveto]
                 sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => sprint})
-                story.update_attribute(:fixed_version_id, sprint.id)
+                story.journalized_update_attribute(:fixed_version_id, sprint.id)
             end
         end
 
@@ -76,7 +76,7 @@ class BacklogsController < ApplicationController
         sprint.update_attribute(:name, value)
     elsif type == 'story'
         story = Story.first(:conditions => { :project_id => @project.id, :id => id})
-        story.update_attribute(:subject, value)
+        story.journalized_update_attribute(:subject, value)
     else
         render :nothing => true, :status => 500
     end

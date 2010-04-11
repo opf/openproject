@@ -41,7 +41,7 @@ class StoriesController < ApplicationController
     logger.info '----------------------------------------'
     logger.info (Hash[*attribs.flatten]).inspect
     attribs = Hash[*attribs.flatten]
-    result = story.update_attributes! attribs
+    result = story.journalized_update_attributes! attribs
     if result
       text = "Story updated successfully."
       status = 200
