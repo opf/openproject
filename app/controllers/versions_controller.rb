@@ -80,11 +80,13 @@ class VersionsController < ApplicationController
   end
 
   def destroy
-    @version.destroy
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
-  rescue
-    flash[:error] = l(:notice_unable_delete_version)
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+    if @version.fixed_issues.empty?
+      @version.destroy
+      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+    else
+      flash[:error] = l(:notice_unable_delete_version)
+      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+    end
   end
   
   def status_by

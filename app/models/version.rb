@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2010  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,10 +16,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Version < ActiveRecord::Base
-  before_destroy :check_integrity
   after_update :update_issues_from_sharing_change
   belongs_to :project
-  has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id'
+  has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id', :dependent => :nullify
   acts_as_customizable
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
@@ -156,10 +155,7 @@ class Version < ActiveRecord::Base
     end
   end
   
-private
-  def check_integrity
-    raise "Can't delete version" if self.fixed_issues.find(:first)
-  end
+  private
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
   def update_issues_from_sharing_change
