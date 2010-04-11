@@ -52,17 +52,19 @@ module RepositoriesHelper
       else
         change
       end
-    end.compact
+   end.compact
     
     tree = { }
     changes.each do |change|
       p = tree
       dirs = change.path.to_s.split('/').select {|d| !d.blank?}
+      path = ''
       dirs.each do |dir|
+        path += '/' + dir
         p[:s] ||= {}
         p = p[:s]
-        p[dir] ||= {}
-        p = p[dir]
+        p[path] ||= {}
+        p = p[path]
       end
       p[:c] = change
     end
@@ -76,21 +78,26 @@ module RepositoriesHelper
     output = ''
     output << '<ul>'
     tree.keys.sort.each do |file|
-      s = !tree[file][:s].nil?
-      c = tree[file][:c]
-      
       style = 'change'
-      style << ' folder' if s
-      style << " change-#{c.action}" if c
-      
-      text = h(file)
-      unless c.nil?
+      text = File.basename(h(file))
+      if s = tree[file][:s]
+        style << ' folder'
+        path_param = to_path_param(@repository.relative_path(file))
+        text = link_to(text, :controller => 'repositories',
+                             :action => 'show',
+                             :id => @project,
+                             :path => path_param,
+                             :rev => @changeset.revision)
+        output << "<li class='#{style}'>#{text}</li>"
+        output << render_changes_tree(s)
+      elsif c = tree[file][:c]
+        style << " change-#{c.action}"
         path_param = to_path_param(@repository.relative_path(c.path))
         text = link_to(text, :controller => 'repositories',
                              :action => 'entry',
                              :id => @project,
                              :path => path_param,
-                             :rev => @changeset.revision) unless s || c.action == 'D'
+                             :rev => @changeset.revision) unless c.action == 'D'
         text << " - #{c.revision}" unless c.revision.blank?
         text << ' (' + link_to('diff', :controller => 'repositories',
                                        :action => 'diff',
@@ -98,9 +105,8 @@ module RepositoriesHelper
                                        :path => path_param,
                                        :rev => @changeset.revision) + ') ' if c.action == 'M'
         text << ' ' + content_tag('span', c.from_path, :class => 'copied-from') unless c.from_path.blank?
+        output << "<li class='#{style}'>#{text}</li>"
       end
-      output << "<li class='#{style}'>#{text}</li>"
-      output << render_changes_tree(tree[file][:s]) if s
     end
     output << '</ul>'
     output
