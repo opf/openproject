@@ -11,7 +11,7 @@
     <div class="t"><%= status_label_or_default(story) %></div>
     <div class="v"><%= status_id_or_default(story) %></div>
   </div>
-  <div class="points editable" fieldname="points" modelname="story"><%= points_or_empty(story) %></div>
+  <div class="story_points editable" fieldname="story_points"><%= story_points_or_empty(story) %></div>
   <!--div class="description editable" fieldtype="textarea" fieldname="description">
     <div class="textile"><%= textile_description_or_empty(story) %></div>
     <div class="html"><%= description_or_empty(story) %></div>

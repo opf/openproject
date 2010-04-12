@@ -75,7 +75,7 @@ RB.Story = Object.create(RB.Model, {
   },
   
   getPoints: function(){
-    points = parseInt(this.$.children('.points').text());
+    points = parseInt(this.$.children('.story_points').text());
     return ( isNaN(points) ? 0 : points );
   },
   

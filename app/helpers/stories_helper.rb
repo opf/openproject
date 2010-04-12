@@ -17,8 +17,8 @@ module StoriesHelper
     !story.new_record? && story.issue.status.is_closed? ? "closed" : ""
   end
 
-  def points_or_empty(story)
-    story.story_points.nil? ? 0 : story.story_points
+  def story_points_or_empty(story)
+    story.story_points.nil? ? "" : story.story_points
   end
 
   def record_id_or_empty(story)
