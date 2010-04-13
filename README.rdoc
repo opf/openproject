@@ -35,3 +35,8 @@ This plugin has only been tested in the following environments:
 = License
 
 This plugin is released under the GPL v2 license. See LICENSE for more information.
+
+= Note
+An unstable branch (2.1) is under active development. You are welcome
+to use it (we do), but much may change before we declare it stable.
+Patches/feedback very much welcome.
