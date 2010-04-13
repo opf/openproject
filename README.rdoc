@@ -23,10 +23,16 @@ Go to the #redmine (freenode) channel in IRC for questions. Bugs and feature req
 This plugin has only been tested in the following environments:
 
 * Firefox 3.5.x Mac OS X
-* Redmine 0.8.4
+* Redmine trunk (will probable become Redmine 1.x)
 * PostgreSQL 8.2.6 (Might work with other databases and version but I've not tested it fully yet)
 * MySQL 5.0.83
 
 = License
 
 This plugin is released under the GPL v2 license. See LICENSE for more information.
+
+= Chart Data Generator
+
+You may schedule a cron job to run the rake task named
+<tt>redmine:backlogs_plugin:generate_chart_data</tt>. I recommend you
+run it a few minutes before midnight to ensure that your backlogs have data everyday even when no user views the charts.
