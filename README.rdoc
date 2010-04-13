@@ -25,6 +25,7 @@ This plugin has only been tested in the following environments:
 * Firefox 3.5.x Mac OS X
 * Redmine 0.8.4
 * PostgreSQL 8.2.6 (Might work with other databases and version but I've not tested it fully yet)
+* MySQL 5.0.83
 
 = License
 
