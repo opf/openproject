@@ -86,6 +86,7 @@ de:
   help_override_rate: "Hier einen Wert eingeben um den Standardwert zu \xC3\xBCberschreiben."
 
   label_awaiting_client: Warten auf Kundenantwort
+  label_status_awaiting_client: Warten auf Kundenantwort
   label_awaiting_manager: Warten auf Managerantwort
   label_between: zwischen
   label_cost_filter_add: "Kostenfilter hinzuf\xC3\xBCgen"

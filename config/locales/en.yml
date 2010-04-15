@@ -87,6 +87,7 @@ en:
   help_override_rate: Enter a value here to override the default rate.
   
   label_awaiting_client: Awaiting client response
+  label_status_awaiting_client: Awaiting client response
   label_awaiting_manager: Awaiting manager response
   label_between: between
   label_cost_filter_add: Add cost entry filter
