@@ -41,7 +41,7 @@ class CostReportsController < ApplicationController
     
     if @query.valid?
       limit = case params[:format]
-              when 'html'
+              when 'html', nil
                 per_page_option
               when 'atom'
                 Setting.feeds_limit.to_i
