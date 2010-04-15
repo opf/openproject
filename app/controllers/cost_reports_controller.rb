@@ -8,6 +8,9 @@ class CostReportsController < ApplicationController
   
   helper :sort
   include SortHelper
+  include ActionView::Helpers::NumberHelper
+  include ActionView::Helpers::TextHelper
+
   
   def get_filter
     scope = params[:scope].to_sym if params[:scope]
