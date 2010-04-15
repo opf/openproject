@@ -121,6 +121,7 @@ class BacklogsController < ApplicationController
 
     @query.add_filter("status_id", '*', ['']) # All statuses
     @query.add_filter("fixed_version_id", '=', [params[:sprint_id]])
+    @query.add_filter("backlogs_issue_type", '=', ['any'])
 
     session[:query] = {:project_id => @query.project_id, :filters => @query.filters}
 

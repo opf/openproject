@@ -9,6 +9,7 @@ en:
   field_backlogs_issue_type: "Backlog type"
   backlogs_story: Story
   backlogs_task: Task
+  backlogs_any: any
   backlogs_points_burn_direction: "Points burn up/down"
   label_points_burn_up: Up
   label_points_burn_down: Down

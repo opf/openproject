@@ -13,6 +13,7 @@ module QueryPatch
 
             alias_method_chain :available_filters, :backlogs_issue_type
             alias_method_chain :sql_for_field, :backlogs_issue_type
+            alias_method_chain :columns, :backlogs_story_columns
         end
 
     end
@@ -24,10 +25,27 @@ module QueryPatch
             if Story.trackers.length == 0 or Task.tracker.nil?
                 backlogs_filters = { }
             else
-                backlogs_filters = { "backlogs_issue_type" => { :type => :list, :values => [[l(:backlogs_story), "story"], [l(:backlogs_task), "task"]], :order => 20 } }
+                backlogs_filters = {
+                        "backlogs_issue_type" => {  :type => :list,
+                                                    :values => [[l(:backlogs_story), "story"], [l(:backlogs_task), "task"], [l(:backlogs_any), "any"]],
+                                                    :order => 20 } 
+                    }
             end
 
             return @available_filters.merge(backlogs_filters)
+        end
+
+        def columns_with_backlogs_story_columns
+            cols = columns_without_backlogs_story_columns
+
+            return cols if not has_default_columns?
+
+            parentcol = available_columns.select{|c| c.name == :parent}[0]
+            return cols if cols.include?(parentcol)
+
+            return [parentcol] + cols if self.filters.has_key?("backlogs_issue_type")
+
+            return cols
         end
 
         def sql_for_field_with_backlogs_issue_type(field, operator, v, db_table, db_field, is_custom_filter=false)
@@ -42,6 +60,8 @@ module QueryPatch
                             sql << "(#{db_table}.tracker_id in (" + Story.trackers.collect{|val| "#{val}"}.join(",") + ") and #{db_table}.parent_id is NULL)"
                         when "task"
                             sql << "(#{db_table}.tracker_id = #{Task.tracker} and not #{db_table}.parent_id is NULL)"
+                        when "any"
+                            sql << "1 = 1"
                     end
                 }
 
