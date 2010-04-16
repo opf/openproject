@@ -30,6 +30,24 @@ module Redmine
       self.order = options[:order]
     end
 
+    def format(value)
+      send "format_as_#{name}", value
+    end
+
+    def format_as_date(value)
+      begin; format_date(value.to_date); rescue; value end
+    end
+
+    def format_as_bool(value)
+      l(value == "1" ? :general_text_Yes : :general_text_No)
+    end
+
+    ['string','text','int','float','list'].each do |name|
+      define_method("format_as_#{name}") {|value|
+        return value
+      }
+    end
+
     class << self
       def map(&block)
         yield self
@@ -64,11 +82,9 @@ module Redmine
 
       def format_value(value, field_format)
         return "" unless value && !value.empty?
-        case field_format
-        when "date"
-          begin; format_date(value.to_date); rescue; value end
-        when "bool"
-          l(value == "1" ? :general_text_Yes : :general_text_No)
+
+        if format_type = find_by_name(field_format)
+          format_type.format(value)
         else
           value
         end
