@@ -4,6 +4,7 @@ body{
   background-repeat:repeat-x;
   font-family:Verdana, Arial, sans-serif;
   font-size:12px;
+  width:1120px;
 }
 a{
   color:#CC0000;
@@ -43,6 +44,7 @@ a:hover{
 #content {
   clear:both;
   float:left;
+  width:1120px;
 }
 
 /* MISC */
