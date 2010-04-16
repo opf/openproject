@@ -95,15 +95,7 @@ module CustomFieldsHelper
   
   # Return a string used to display a custom value
   def format_value(value, field_format)
-    return "" unless value && !value.empty?
-    case field_format
-    when "date"
-      begin; format_date(value.to_date); rescue; value end
-    when "bool"
-      l(value == "1" ? :general_text_Yes : :general_text_No)
-    else
-      value
-    end
+    Redmine::CustomFieldFormat.format_value(value, field_format) # Proxy
   end
 
   # Return an array of custom field formats which can be used in select_tag
