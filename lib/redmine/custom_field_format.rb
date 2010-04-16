@@ -48,6 +48,13 @@ module Redmine
       }
     end
 
+    # Allow displaying the edit type of another field_format
+    #
+    # Example: display a custom field as a list
+    def edit_as
+      name
+    end
+
     class << self
       def map(&block)
         yield self
