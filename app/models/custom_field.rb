@@ -20,20 +20,11 @@ class CustomField < ActiveRecord::Base
   acts_as_list :scope => 'type = \'#{self.class}\''
   serialize :possible_values
   
-  FIELD_FORMATS = { "string" => { :name => :label_string, :order => 1 },
-                    "text" => { :name => :label_text, :order => 2 },
-                    "int" => { :name => :label_integer, :order => 3 },
-                    "float" => { :name => :label_float, :order => 4 },
-                    "list" => { :name => :label_list, :order => 5 },
-			        "date" => { :name => :label_date, :order => 6 },
-			        "bool" => { :name => :label_boolean, :order => 7 }
-  }.freeze
-
   validates_presence_of :name, :field_format
   validates_uniqueness_of :name, :scope => :type
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\.\'\-]*$/i
-  validates_inclusion_of :field_format, :in => FIELD_FORMATS.keys
+  validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
   def initialize(attributes = nil)
     super

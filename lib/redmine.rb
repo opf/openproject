@@ -2,6 +2,7 @@ require 'redmine/access_control'
 require 'redmine/menu_manager'
 require 'redmine/activity'
 require 'redmine/search'
+require 'redmine/custom_field_format'
 require 'redmine/mime_type'
 require 'redmine/core_ext'
 require 'redmine/themes'
@@ -30,6 +31,16 @@ Redmine::Scm::Base.add "Cvs"
 Redmine::Scm::Base.add "Bazaar"
 Redmine::Scm::Base.add "Git"
 Redmine::Scm::Base.add "Filesystem"
+
+Redmine::CustomFieldFormat.map do |fields|
+  fields.register Redmine::CustomFieldFormat.new('string', :label => :label_string, :order => 1)
+  fields.register Redmine::CustomFieldFormat.new('text', :label => :label_text, :order => 2)
+  fields.register Redmine::CustomFieldFormat.new('int', :label => :label_integer, :order => 3)
+  fields.register Redmine::CustomFieldFormat.new('float', :label => :label_float, :order => 4)
+  fields.register Redmine::CustomFieldFormat.new('list', :label => :label_list, :order => 5)
+  fields.register Redmine::CustomFieldFormat.new('date', :label => :label_date, :order => 6)
+  fields.register Redmine::CustomFieldFormat.new('bool', :label => :label_boolean, :order => 7)
+end
 
 # Permissions
 Redmine::AccessControl.map do |map|
