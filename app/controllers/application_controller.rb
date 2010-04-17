@@ -128,8 +128,8 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
-        format.xml { head :unauthorized }
-        format.json { head :unauthorized }
+        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
+        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
       end
       return false
     end

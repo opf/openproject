@@ -44,6 +44,18 @@ class HttpBasicLoginTest < ActionController::IntegrationTest
           assert_equal User.anonymous, User.current
         end
       end
+      
+      context "without credentials" do
+        setup do
+          get "/projects/onlinestore/news.xml"
+        end
+
+        should_respond_with :unauthorized
+        should_respond_with_content_type :xml
+        should "include_www_authenticate_header" do
+          assert @controller.response.headers.has_key?('WWW-Authenticate')
+        end
+      end
     end
 
     context "in :json format" do
@@ -76,5 +88,16 @@ class HttpBasicLoginTest < ActionController::IntegrationTest
       end
     end
     
+    context "without credentials" do
+      setup do
+        get "/projects/onlinestore/news.json"
+      end
+
+      should_respond_with :unauthorized
+      should_respond_with_content_type :json
+      should "include_www_authenticate_header" do
+        assert @controller.response.headers.has_key?('WWW-Authenticate')
+      end
+    end
   end
 end
