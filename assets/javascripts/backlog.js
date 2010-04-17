@@ -24,8 +24,6 @@ RB.Backlog = Object.create(RB.Model, {
                     update: this.dragComplete
                     });
 
-    list.disableSelection();
-
     // Observe menu items
     j.find('.new_story').bind('mouseup', this.handleMenuClick);
 
