@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Principal < ActiveRecord::Base
-  set_table_name 'users'
+  set_table_name "#{table_name_prefix}users#{table_name_suffix}"
 
   has_many :members, :foreign_key => 'user_id', :dependent => :destroy
   has_many :memberships, :class_name => 'Member', :foreign_key => 'user_id', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name"
