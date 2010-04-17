@@ -886,18 +886,18 @@ eu:
   enumeration_doc_categories: Dokumentu kategoriak
   enumeration_activities: Jarduerak (denbora kontrola))
   enumeration_system_activity: Sistemako Jarduera
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  label_board_sticky: Itxaskorra
+  label_board_locked: Blokeatuta
+  permission_export_wiki_pages: Wiki orriak esportatu
+  setting_cache_formatted_text: Formatudun testua katxeatu
+  permission_manage_project_activities: Proiektuaren jarduerak kudeatu
+  error_unable_delete_issue_status: Ezine da zereginaren egoera ezabatu
+  label_profile: Profila
+  permission_manage_subtasks: Azpiatazak kudeatu
+  field_parent_issue: Guraso ataza
+  label_subtask_plural: Azpiatazak
+  label_project_copy_notifications: Proiektua kopiatzen den bitartean eposta jakinarazpenak bidali
+  error_can_not_delete_custom_field: Ezin da eremu pertsonallizatua ezabatu
+  error_unable_to_connect: Ezin da konektatu ({{value}})
+  error_can_not_remove_role: Rol hau erabiltzen hari da eta ezin da ezabatu.
+  error_can_not_delete_tracker: Aztarnari honek zereginak ditu eta ezin da ezabatu.
