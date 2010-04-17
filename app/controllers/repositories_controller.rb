@@ -24,6 +24,7 @@ class InvalidRevisionParam < Exception; end
 
 class RepositoriesController < ApplicationController
   menu_item :repository
+  menu_item :settings, :only => :edit
   default_search_scope :changesets
   
   before_filter :find_repository, :except => :edit
@@ -43,7 +44,13 @@ class RepositoriesController < ApplicationController
       @repository.attributes = params[:repository]
       @repository.save
     end
-    render(:update) {|page| page.replace_html "tab-content-repository", :partial => 'projects/settings/repository'}
+    render(:update) do |page|
+      page.replace_html "tab-content-repository", :partial => 'projects/settings/repository'
+      if @repository && !@project.repository
+        @project.reload #needed to reload association
+        page.replace_html "main-menu", render_main_menu(@project)
+      end
+    end
   end
   
   def committers
