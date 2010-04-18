@@ -667,6 +667,23 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 2, groups.size
     assert_equal 5, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
+  
+  
+  context ".allowed_target_projects_on_move" do
+    should "return all active projects for admin users" do
+      User.current = User.find(1)
+      assert_equal Project.active.count, Issue.allowed_target_projects_on_move.size
+    end
+    
+    should "return allowed projects for non admin users" do
+      User.current = User.find(2)
+      Role.non_member.remove_permission! :move_issues
+      assert_equal 3, Issue.allowed_target_projects_on_move.size
+      
+      Role.non_member.add_permission! :move_issues
+      assert_equal Project.active.count, Issue.allowed_target_projects_on_move.size
+    end
+  end
 
   def test_recently_updated_with_limit_scopes
     #should return the last updated issue
