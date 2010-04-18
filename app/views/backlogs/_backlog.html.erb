@@ -21,6 +21,13 @@
             :for => :sprint
           },
           {
+            :item => menu_link('Stories', {
+                               :controller => 'backlogs',
+                               :action => 'select_project_backlog',
+                               :project_id => @project }),
+            :for => :product
+          },
+          {
             :item => menu_link('Burndown', {
                                :controller => 'backlogs',
                                :action => 'burndown',
