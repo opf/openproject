@@ -25,6 +25,10 @@ module StoriesHelper
     story.new_record? ? "" : story.id
   end
 
+  def issue_link_or_empty(story)
+    story.new_record? ? "" : link_to(story.id, {:controller => "issues", :action => "show", :id => story}, {:target => "_blank"})
+  end
+
   def status_id_or_default(story)
     story.new_record? ? IssueStatus.find(:first, :order => "position ASC").id : story.status.id
   end
