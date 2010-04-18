@@ -65,7 +65,15 @@ module Redmine
         
         def event_url(options = {})
           option = event_options[:url]
-          (option.is_a?(Proc) ? option.call(self) : send(option)).merge(options)
+          if option.is_a?(Proc)
+            option.call(self)
+          elsif option.is_a?(Hash)
+            option.merge(options)
+          elsif option.is_a?(Symbol)
+            send(option)
+          else
+            option
+          end
         end
 
         # Returns the mail adresses of users that should be notified
