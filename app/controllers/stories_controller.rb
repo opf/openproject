@@ -23,11 +23,12 @@ class StoriesController < ApplicationController
       story.insert_at 1
       text = story.id
       status = 200
+      render :partial => "story", :object => story
     else
       text = "ERROR"
       status = 500
+      render :text => text, :status => status
     end
-    render :text => text, :status => status
   end
 
   def update

@@ -98,6 +98,10 @@ RB.Story = Object.create(RB.Model, {
     return this.$.children('.id').text()=="";
   },
   
+  markError: function(){
+    this.$.addClass('error');
+  },
+  
   markSaving: function(){
     this.$.addClass('saving');
   },
@@ -142,17 +146,28 @@ RB.Story = Object.create(RB.Model, {
   
   storyCreated: function(xhr, textStatus){
     me.unmarkSaving();
-    me.$.find('.id').text(xhr.responseText);
+    
+    if(xhr.status!=200){
+      me.markError();
+    } else {
+      var response = $(xhr.responseText);
+      me.$.find('.id').html(response.find('.id').html());
+      me.unmarkError();
+    }
   },
   
   storyUpdated: function(xhr, textStatus){
     me.unmarkSaving(); 
-    RB.dialog.notice(xhr.responseText) 
+    if(xhr.status!=200){
+      me.markError();
+    } else {
+      me.unmarkError();
+    }
   },
   
   triggerEdit: function(event){
     // Get the story since what was clicked was a field
-    j = $(this).parents('.story').first();
+    var j = $(this).parents('.story').first();
     
     if(!j.hasClass('editing') && !j.hasClass('dragging')){
       j.data('this').edit();
@@ -160,6 +175,10 @@ RB.Story = Object.create(RB.Model, {
       // Focus on the input corresponding to the field clicked
       j.find( '.' + $(event.currentTarget).attr('fieldname') + '.editor' ).focus();
     }
+  },
+  
+  unmarkError: function(){
+    this.$.removeClass('error');
   },
   
   unmarkSaving: function(){

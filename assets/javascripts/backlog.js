@@ -188,7 +188,7 @@ RB.Backlog = Object.create(RB.Model, {
     if($('#story_template').size()==0){
       this.loadStoryTemplate();
     }
-    
+
     story = $('#story_template').children().first().clone();
     this.getList().prepend(story);
     o = RB.Factory.initialize(RB.Story, story[0]); // 'this' refers to an element with class="story"

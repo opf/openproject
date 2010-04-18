@@ -24,7 +24,7 @@
 .story:hover{
   background-color:rgb(254,248,168);
 }
-.story .spinner,
+.story .indicator,
 .story .tracker_id,
 .story .description,
 .story .editor{
@@ -40,14 +40,14 @@
   position:absolute;
   top:7px;
 }
-.story.editing .checkbox{
+.story.editing .checkbox,
+.story.saving .checkbox,
+.story.error .checkbox{
   display:none;
 }
-.story.saving .checkbox{
-  display:none;
-}
-.story.saving .spinner,
-.story.updating .spinner{
+.story.saving .indicator,
+.story.updating .indicator,
+.story.error .indicator{
   background-image:url('../images/indicator.gif');
   display:block;
   height:16px;
@@ -55,6 +55,9 @@
   position:absolute;
   top:6px;
   width:16px;
+}
+.story.error .indicator{
+  background-image:url('/images/warning.png');
 }
 .story .id{
   background-color:#cfc;
