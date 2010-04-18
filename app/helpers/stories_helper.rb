@@ -14,7 +14,7 @@ module StoriesHelper
   end
 
   def mark_if_closed(story)
-    !story.new_record? && story.issue.status.is_closed? ? "closed" : ""
+    !story.new_record? && story.status.is_closed? ? "closed" : ""
   end
 
   def story_points_or_empty(story)

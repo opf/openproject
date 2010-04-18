@@ -1,4 +1,4 @@
-<li class="story" id="<%= story_html_id_or_empty(story) %>">
+<li class="story <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
   <input type="checkbox" class="checkbox"/>
   <div class="spinner"> </div>
   <div class="id"><%= record_id_or_empty(story) %></div>
