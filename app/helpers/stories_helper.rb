@@ -14,7 +14,7 @@ module StoriesHelper
   end
 
   def mark_if_closed(story)
-    !story.new_record? && story.issue.status.is_closed? ? "closed" : ""
+    !story.new_record? && story.status.is_closed? ? "closed" : ""
   end
 
   def story_points_or_empty(story)
@@ -23,6 +23,10 @@ module StoriesHelper
 
   def record_id_or_empty(story)
     story.new_record? ? "" : story.id
+  end
+
+  def issue_link_or_empty(story)
+    story.new_record? ? "" : link_to(story.id, {:controller => "issues", :action => "show", :id => story}, {:target => "_blank"})
   end
 
   def status_id_or_default(story)

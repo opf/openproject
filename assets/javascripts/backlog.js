@@ -24,8 +24,6 @@ RB.Backlog = Object.create(RB.Model, {
                     update: this.dragComplete
                     });
 
-    list.disableSelection();
-
     // Observe menu items
     j.find('.new_story').bind('mouseup', this.handleMenuClick);
 
@@ -182,7 +180,7 @@ RB.Backlog = Object.create(RB.Model, {
         async: false,
         data: "s=s",  // I don't quite understand why the server balks without any data supplied
         url: RB.urlFor['new_story'],
-        complete: function(xhr, textStatus){ $(xhr.responseText).appendTo("#content").wrap("<div id='story_template'/>") }
+        complete: function(xhr, textStatus){ $(xhr.responseText).removeClass("story").appendTo("#content").wrap("<div id='story_template'/>") } // removeClass() ensures that $(".story") will not include this node
     });
   },
     

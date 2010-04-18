@@ -90,6 +90,9 @@
 .story.subject_over_sixty div.subject{
   width:333px;
 }
+.story .elipses{
+  display:none;
+}
 .story.subject_over_sixty .elipses{
   display:block;
   left:409px;

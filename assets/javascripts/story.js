@@ -9,6 +9,8 @@ RB.Story = Object.create(RB.Model, {
     this.$ = j = $(el);
     this.el = el;
     
+    j.addClass("story"); // If node is based on #story_template, it doesn't have the story class yet
+
     // Associate this object with the element for later retrieval
     j.data('this', this);
 
@@ -71,7 +73,7 @@ RB.Story = Object.create(RB.Model, {
   },
   
   getID: function(){
-    return this.$.children('.id').text();
+    return this.$.children('.id').children().first().text();
   },
   
   getPoints: function(){

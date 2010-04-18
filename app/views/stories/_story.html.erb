@@ -1,7 +1,7 @@
-<li class="story" id="<%= story_html_id_or_empty(story) %>">
+<li class="story <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
   <input type="checkbox" class="checkbox"/>
   <div class="spinner"> </div>
-  <div class="id"><%= record_id_or_empty(story) %></div>
+  <div class="id"><%= issue_link_or_empty(story) %></div>
   <div class="tracker_id editable" fieldtype="select" fieldname="tracker_id">
     <div class="t"><%= tracker_name_or_empty(story) %></div>
     <div class="v"><%= tracker_id_or_empty(story) %></div>
