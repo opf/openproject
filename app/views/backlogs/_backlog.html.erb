@@ -1,7 +1,7 @@
 <div class="<%= backlog_html_class(backlog)%>" id="<%= backlog_html_id(backlog) %>">
   <div class="header">
     <div class="name <%= editable_if_sprint(backlog) %>" fieldname="name"><%= backlog[:name] %></div>
-    <%- if is_sprint(backlog) %>
+    <%- if is_sprint?(backlog) %>
     <div class="dates">
       <div class="sprint_start_date datepicker editable" fieldname="sprint_start_date"><%= date_or_nil(backlog.sprint_start_date) %></div>
       <div class="effective_date datepicker editable" fieldname="effective_date"><%= date_or_nil(backlog.effective_date) %></div>
@@ -10,7 +10,7 @@
     <%- else %>
     <a class='new_story'>New story</a>
     <%- end %>
-    <%= backlog_menu is_sprint(backlog),
+    <%= backlog_menu is_sprint?(backlog),
         [
           {
             :item => menu_link('Stories/Tasks', {
