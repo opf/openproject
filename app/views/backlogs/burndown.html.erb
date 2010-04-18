@@ -23,7 +23,7 @@
                     <%= series.to_s %> = [ <%= @burndown[:series][series][:series].collect {|d| "#{d}"}.join(',') %>];
             <%  end %>
 
-            xticks = [ <%= @burndown[:dates].each_with_index.collect {|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %> ];
+            xticks = [ <%= @burndown[:dates].enum_with_index.collect {|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %> ];
             datasets = [ <%= dataseries.collect{|series| series.to_s}.join(',') %> ];
             series = [
                 <% dataseries.each_with_index do |series, i| %>
