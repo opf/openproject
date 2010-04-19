@@ -2,21 +2,26 @@ module BacklogsPlugin
     module Hooks
         class LayoutHook < Redmine::Hook::ViewListener
             def view_issues_sidebar_queries_bottom(context={ })
-                links = ''
+                sprints = content_tag(:h3, l(:backlogs_sprints))
                 project = context[:project]
                 project_id = project.id
 
                 Sprint.open_sprints(project).each { |sprint|
-                    links += link_to(sprint.name, {
+                    sprints += link_to(sprint.name, {
                                         :controller => 'backlogs',
-                                        :action => 'select_sprint',
+                                        :action => 'select_issues',
                                         :project_id => project_id,
                                         :sprint_id => sprint.id
                                     })
-                    links += content_tag(:br)
+                    sprints += content_tag(:br)
                 }
 
-                return content_tag(:div, content_tag(:h3, l(:backlogs_sprints)) + links)
+                pbl = content_tag(:h3, l(:backlogs_product_backlog)) + link_to(l(:backlogs_product_backlog), {
+                                                                                :controller => 'backlogs',
+                                                                                :action => 'select_issues',
+                                                                                :project_id => project_id }) + content_tag(:br)
+
+                return content_tag(:div, pbl + sprints)
             end
 
             def view_issues_show_details_bottom(context={ })
