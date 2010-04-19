@@ -243,6 +243,13 @@ class Query < ActiveRecord::Base
     parms = expression.scan(/^(o|c|!\*|!|\*)?(.*)$/).first
     add_filter field, (parms[0] || "="), [parms[1] || ""]
   end
+
+  # Add multiple filters using +add_filter+
+  def add_filters(fields, operators, values)
+    fields.each do |field|
+      add_filter(field, operators[field], values[field])
+    end
+  end
   
   def has_filter?(field)
     filters and filters[field]
