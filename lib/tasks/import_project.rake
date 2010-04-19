@@ -260,6 +260,16 @@ class Importer
             sprint.save! if @commit
             @sprints[id] = sprint
 
+            if s['wiki']
+                sprint_wiki = Sprint.find_by_id(sprint.id)
+                page_tag = sprint_wiki.wiki_page
+                if wiki_page
+                    wiki = @project.wiki
+                    page = wiki.find_or_new_page(page_tag)
+                    page.content.text = s['wiki']
+                end
+            end
+
             if s['burndown']
                 s['burndown'].each {|bd|
                     bdd = BurndownDay.new
