@@ -115,13 +115,19 @@ class BacklogsController < ApplicationController
     render :text => story.points_display, :status => 200
   end
 
-  def select_sprint
+  def select_issues
     @query = Query.new(:name => "_")
     @query.project = @project
 
-    @query.add_filter("status_id", '*', ['']) # All statuses
-    @query.add_filter("fixed_version_id", '=', [params[:sprint_id]])
-    @query.add_filter("backlogs_issue_type", '=', ['any'])
+    if params[:sprint_id]
+        @query.add_filter("status_id", '*', ['']) # All statuses
+        @query.add_filter("fixed_version_id", '=', [params[:sprint_id]])
+        @query.add_filter("backlogs_issue_type", '=', ['any'])
+    else
+        @query.add_filter("status_id", 'o', ['']) # only open
+        @query.add_filter("fixed_version_id", '!*', ['']) # only unassigned
+        @query.add_filter("backlogs_issue_type", '=', ['story'])
+    end
 
     session[:query] = {:project_id => @query.project_id, :filters => @query.filters}
 
@@ -157,6 +163,17 @@ class BacklogsController < ApplicationController
   def wiki_page_edit
     sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => params[:sprint_id]})
     redirect_to :controller => 'wiki', :action => 'edit', :id => @project.id, :page => sprint.wiki_page
+  end
+
+  def taskboard_cards
+    sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => params[:sprint_id]})
+    cards = TaskboardCards.new
+
+    sprint.stories.each {|story|
+        cards.add(story)
+    }
+
+    send_data(cards.pdf.render, :filename => 'cards.pdf', :disposition => 'attachment', :type => 'application/pdf')
   end
 
   private

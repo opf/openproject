@@ -133,6 +133,8 @@ class TaskboardCards
 
         @pdf.start_new_page if row == 1 and col == 1 and @cards != 1
 
+        parent_story = issue.story
+
         # card bounds
         @pdf.bounding_box self.top_left(row, col), :width => @width, :height => @height do
             @pdf.line_width = 0.5
@@ -140,27 +142,51 @@ class TaskboardCards
                 @pdf.stroke_bounds
                 
                 # card margin
-                @pdf.bounding_box [@inner_margin, @height - @inner_margin], :width => @width - (2 * @inner_margin), :height => @height - (2 * @inner_margin) do
-                    if cardtype == 'task':
-                        @pdf.font_size(8) do
-                            @pdf.text story_header(issue.story)
-                        end
-                        @pdf.text task_header(issue)
-                    else
-                        @pdf.text story_header(issue)
+                @pdf.bounding_box [@inner_margin, @height - @inner_margin],
+                                    :width => @width - (2 * @inner_margin),
+                                    :height => @height - (2 * @inner_margin) do
+                    @pdf.font_size(6) do
+                        @pdf.text((issue.self_and_ancestors.reverse.collect{|i| "#{i.tracker.name} ##{i.id}"}.join(" : ")) + " (#{parent_story.position})")
                     end
+                    if cardtype == 'task':
+                        @pdf.font_size(6) do
+                            @pdf.text parent_story.subject
+                        end
+                    else
+                        @pdf.font_size(6) do
+                            if issue.fixed_version
+                                @pdf.text issue.fixed_version.name
+                            else
+                                @pdf.text l(:backlogs_product_backlog)
+                            end
+                        end
+                    end
+
+                    @pdf.text issue.subject
+
+                    # sprint name
+                    # tracker
+                    # subject
+                    # category
+                    # assigned_to ?
+                    # author ?
+                    # estimated_hours
+                    # position
+                    # points
                 end
             end
         end
     end
 
-    def add(story)
-        if story.is_task?
-            card(story, 'task')
-        else
-            story.descendants.each {|task|
-                card(task, 'task')
-            }
+    def add(story, add_tasks = true)
+        if add_tasks
+            if story.is_task?
+                card(story, 'task')
+            else
+                story.descendants.each {|task|
+                    card(task, 'task')
+                }
+            end
         end
 
         card(story, 'story')
@@ -181,11 +207,3 @@ class TaskboardCards
         return [left, top]
     end
 end
-
-cards = TaskboardCards.new
-
-sprint = Sprint.find_by_id(647)
-sprint.stories.each {|story|
-    cards.add(story)
-}
-cards.pdf.render_file('/var/www/auto/media-update/prawn.pdf')
