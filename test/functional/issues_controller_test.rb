@@ -1288,13 +1288,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:notes)
   end
 
-  def test_auto_complete_routing
-    assert_routing(
-      {:method => :get, :path => '/issues/auto_complete'},
-      :controller => 'issues', :action => 'auto_complete'
-    )
-  end
-  
   def test_auto_complete_should_not_be_case_sensitive
     get :auto_complete, :project_id => 'ecookbook', :q => 'ReCiPe'
     assert_response :success
@@ -1307,13 +1300,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:issues)
     assert assigns(:issues).include?(Issue.find(13))
-  end
-  
-  def test_destroy_routing
-    assert_recognizes( #TODO: use DELETE on issue URI (need to change forms)
-      {:controller => 'issues', :action => 'destroy', :id => '1'},
-      {:method => :post, :path => '/issues/1/destroy'}
-    )
   end
   
   def test_destroy_issue_with_no_time_entries

@@ -40,17 +40,6 @@ class VersionsControllerTest < ActionController::TestCase
     assert_tag :tag => 'h2', :content => /1.0/
   end
   
-  def test_new_routing
-    assert_routing(
-      {:method => :get, :path => 'projects/foo/versions/new'},
-      :controller => 'versions', :action => 'new', :project_id => 'foo'
-    )
-    assert_routing(
-      {:method => :post, :path => 'projects/foo/versions/new'},
-      :controller => 'versions', :action => 'new', :project_id => 'foo'
-    )
-  end
-  
   def test_new
     @request.session[:user_id] = 2 # manager
     assert_difference 'Version.count' do

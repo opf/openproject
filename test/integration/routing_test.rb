@@ -59,10 +59,56 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/issues/gantt", :controller => 'issues', :action => 'gantt'
     should_route :get, "/projects/project-name/issues/gantt", :controller => 'issues', :action => 'gantt', :project_id => 'project-name'
     should_route :post, "/projects/project-name/issues/gantt", :controller => 'issues', :action => 'gantt', :project_id => 'project-name'
+
+    should_route :get, "/issues/auto_complete", :controller => 'issues', :action => 'auto_complete'
   end
   
   context "issue reports" do
     should_route :get, "/projects/567/issues/report", :controller => 'reports', :action => 'issue_report', :id => '567'
     should_route :get, "/projects/567/issues/report/assigned_to", :controller => 'reports', :action => 'issue_report_details', :id => '567', :detail => 'assigned_to'
+  end
+
+  context "users" do
+    should_route :get, "/users", :controller => 'users', :action => 'index'
+    should_route :get, "/users/44", :controller => 'users', :action => 'show', :id => '44'
+    should_route :get, "/users/new", :controller => 'users', :action => 'add'
+    should_route :get, "/users/444/edit", :controller => 'users', :action => 'edit', :id => '444'
+    should_route :get, "/users/222/edit/membership", :controller => 'users', :action => 'edit', :id => '222', :tab => 'membership'
+
+    should_route :post, "/users/new", :controller => 'users', :action => 'add'
+    should_route :post, "/users/444/edit", :controller => 'users', :action => 'edit', :id => '444'
+    should_route :post, "/users/123/memberships", :controller => 'users', :action => 'edit_membership', :id => '123'
+    should_route :post, "/users/123/memberships/55", :controller => 'users', :action => 'edit_membership', :id => '123', :membership_id => '55'
+    should_route :post, "/users/567/memberships/12/destroy", :controller => 'users', :action => 'destroy_membership', :id => '567', :membership_id => '12'
+  end
+
+  context "versions" do
+    should_route :get, "/projects/foo/versions/new", :controller => 'versions', :action => 'new', :project_id => 'foo'
+
+    should_route :post, "/projects/foo/versions/new", :controller => 'versions', :action => 'new', :project_id => 'foo'
+  end
+
+  context "wikis" do
+    should_route :get, "/projects/567/wiki", :controller => 'wiki', :action => 'index', :id => '567'
+    should_route :get, "/projects/567/wiki/lalala", :controller => 'wiki', :action => 'index', :id => '567', :page => 'lalala'
+    should_route :get, "/projects/567/wiki/my_page/edit", :controller => 'wiki', :action => 'edit', :id => '567', :page => 'my_page'
+    should_route :get, "/projects/1/wiki/CookBook_documentation/history", :controller => 'wiki', :action => 'history', :id => '1', :page => 'CookBook_documentation'
+    should_route :get, "/projects/1/wiki/CookBook_documentation/diff/2/vs/1", :controller => 'wiki', :action => 'diff', :id => '1', :page => 'CookBook_documentation', :version => '2', :version_from => '1'
+    should_route :get, "/projects/1/wiki/CookBook_documentation/annotate/2", :controller => 'wiki', :action => 'annotate', :id => '1', :page => 'CookBook_documentation', :version => '2'
+    should_route :get, "/projects/22/wiki/ladida/rename", :controller => 'wiki', :action => 'rename', :id => '22', :page => 'ladida'
+    should_route :get, "/projects/567/wiki/page_index", :controller => 'wiki', :action => 'special', :id => '567', :page => 'page_index'
+    should_route :get, "/projects/567/wiki/Page_Index", :controller => 'wiki', :action => 'special', :id => '567', :page => 'Page_Index'
+    should_route :get, "/projects/567/wiki/date_index", :controller => 'wiki', :action => 'special', :id => '567', :page => 'date_index'
+    should_route :get, "/projects/567/wiki/export", :controller => 'wiki', :action => 'special', :id => '567', :page => 'export'
+    
+    should_route :post, "/projects/567/wiki/my_page/edit", :controller => 'wiki', :action => 'edit', :id => '567', :page => 'my_page'
+    should_route :post, "/projects/567/wiki/CookBook_documentation/preview", :controller => 'wiki', :action => 'preview', :id => '567', :page => 'CookBook_documentation'
+    should_route :post, "/projects/22/wiki/ladida/rename", :controller => 'wiki', :action => 'rename', :id => '22', :page => 'ladida'
+    should_route :post, "/projects/22/wiki/ladida/destroy", :controller => 'wiki', :action => 'destroy', :id => '22', :page => 'ladida'
+    should_route :post, "/projects/22/wiki/ladida/protect", :controller => 'wiki', :action => 'protect', :id => '22', :page => 'ladida'
+  end
+
+  context "administration panel" do
+    should_route :get, "/admin/projects", :controller => 'admin', :action => 'projects'
   end
 end
