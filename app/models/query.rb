@@ -276,6 +276,14 @@ class Query < ActiveRecord::Base
                             IssueCustomField.find(:all)
                            ).collect {|cf| QueryCustomFieldColumn.new(cf) }      
   end
+
+  def self.available_columns=(v)
+    self.available_columns = (v)
+  end
+  
+  def self.add_available_column(column)
+    self.available_columns << (column) if column.is_a?(QueryColumn)
+  end
   
   # Returns an array of columns that can be used to group the results
   def groupable_columns
