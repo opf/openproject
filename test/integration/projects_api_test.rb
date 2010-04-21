@@ -26,39 +26,18 @@ class ProjectsApiTest < ActionController::IntegrationTest
     Setting.rest_api_enabled = '1'
   end
     
-  def test_index_routing
-    assert_routing(
-      {:method => :get, :path => '/projects.xml'},
-      :controller => 'projects', :action => 'index', :format => 'xml'
-    )
-  end
-  
   def test_index
     get '/projects.xml'
     assert_response :success
     assert_equal 'application/xml', @response.content_type
   end
     
-  def test_show_routing
-    assert_routing(
-      {:method => :get, :path => '/projects/1.xml'},
-      :controller => 'projects', :action => 'show', :id => '1', :format => 'xml'
-    )
-  end
-  
   def test_show
     get '/projects/1.xml'
     assert_response :success
     assert_equal 'application/xml', @response.content_type
   end
     
-  def test_create_routing
-    assert_routing(
-      {:method => :post, :path => '/projects.xml'},
-      :controller => 'projects', :action => 'add', :format => 'xml'
-    )
-  end
-  
   def test_create
     attributes = {:name => 'API test', :identifier => 'api-test'}
     assert_difference 'Project.count' do
@@ -82,13 +61,6 @@ class ProjectsApiTest < ActionController::IntegrationTest
     assert_tag :errors, :child => {:tag => 'error', :content => "Identifier can't be blank"}
   end
     
-  def test_update_routing
-    assert_routing(
-      {:method => :put, :path => '/projects/1.xml'},
-      :controller => 'projects', :action => 'edit', :id => '1', :format => 'xml'
-    )
-  end
-  
   def test_update
     attributes = {:name => 'API update'}
     assert_no_difference 'Project.count' do
@@ -112,13 +84,6 @@ class ProjectsApiTest < ActionController::IntegrationTest
     assert_tag :errors, :child => {:tag => 'error', :content => "Name can't be blank"}
   end
     
-  def test_destroy_routing
-    assert_routing(
-      {:method => :delete, :path => '/projects/1.xml'},
-      :controller => 'projects', :action => 'destroy', :id => '1', :format => 'xml'
-    )
-  end
-  
   def test_destroy
     assert_difference 'Project.count', -1 do
       delete '/projects/2.xml', {}, :authorization => credentials('admin')

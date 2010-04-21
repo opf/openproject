@@ -25,13 +25,6 @@ class IssueRelationsControllerTest < ActionController::TestCase
     User.current = nil
   end
   
-  def test_new_routing
-    assert_routing(
-      {:method => :post, :path => '/issues/1/relations'},
-      {:controller => 'issue_relations', :action => 'new', :issue_id => '1'}
-    )
-  end
-  
   def test_new
     assert_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
@@ -67,13 +60,6 @@ class IssueRelationsControllerTest < ActionController::TestCase
       post :new, :issue_id => 1, 
                  :relation => {:issue_to_id => '4', :relation_type => 'relates', :delay => ''}
     end
-  end
-  
-  def test_destroy_routing
-    assert_recognizes( #TODO: use DELETE on issue URI
-      {:controller => 'issue_relations', :action => 'destroy', :issue_id => '1', :id => '23'},
-      {:method => :post, :path => '/issues/1/relations/23/destroy'}
-    )
   end
   
   def test_destroy

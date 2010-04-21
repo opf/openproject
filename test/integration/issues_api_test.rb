@@ -46,13 +46,6 @@ class IssuesApiTest < ActionController::IntegrationTest
     Setting.rest_api_enabled = '1'
   end
     
-  def test_index_routing
-    assert_routing(
-      {:method => :get, :path => '/issues.xml'},
-      :controller => 'issues', :action => 'index', :format => 'xml'
-    )
-  end
-  
   def test_index
     get '/issues.xml'
     assert_response :success
@@ -68,26 +61,12 @@ class IssuesApiTest < ActionController::IntegrationTest
                               :only => { :tag => 'issue' } }
   end
     
-  def test_show_routing
-    assert_routing(
-      {:method => :get, :path => '/issues/1.xml'},
-      :controller => 'issues', :action => 'show', :id => '1', :format => 'xml'
-    )
-  end
-  
   def test_show
     get '/issues/1.xml'
     assert_response :success
     assert_equal 'application/xml', @response.content_type
   end
     
-  def test_create_routing
-    assert_routing(
-      {:method => :post, :path => '/issues.xml'},
-      :controller => 'issues', :action => 'new', :format => 'xml'
-    )
-  end
-  
   def test_create
     attributes = {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}
     assert_difference 'Issue.count' do
@@ -111,13 +90,6 @@ class IssuesApiTest < ActionController::IntegrationTest
     assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
   end
     
-  def test_update_routing
-    assert_routing(
-      {:method => :put, :path => '/issues/1.xml'},
-      :controller => 'issues', :action => 'update', :id => '1', :format => 'xml'
-    )
-  end
-  
   def test_update
     attributes = {:subject => 'API update'}
     assert_no_difference 'Issue.count' do
@@ -145,13 +117,6 @@ class IssuesApiTest < ActionController::IntegrationTest
     assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
   end
     
-  def test_destroy_routing
-    assert_routing(
-      {:method => :delete, :path => '/issues/1.xml'},
-      :controller => 'issues', :action => 'destroy', :id => '1', :format => 'xml'
-    )
-  end
-  
   def test_destroy
     assert_difference 'Issue.count', -1 do
       delete '/issues/1.xml', {}, :authorization => credentials('jsmith')

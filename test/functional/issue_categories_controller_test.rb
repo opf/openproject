@@ -32,17 +32,6 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
   end
   
-  def test_new_routing
-    assert_routing(
-      {:method => :get, :path => 'projects/test/issue_categories/new'},
-      :controller => 'issue_categories', :action => 'new', :project_id => 'test'
-    )
-    assert_routing(
-      {:method => :post, :path => 'projects/test/issue_categories/new'},
-      :controller => 'issue_categories', :action => 'new', :project_id => 'test'
-    )
-  end
-  
   def test_get_new
     @request.session[:user_id] = 2 # manager
     get :new, :project_id => '1'

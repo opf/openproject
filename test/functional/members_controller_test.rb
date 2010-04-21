@@ -33,13 +33,6 @@ class MembersControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
   end
   
-  def test_members_routing
-    assert_routing(
-      {:method => :post, :path => 'projects/5234/members/new'},
-      :controller => 'members', :action => 'new', :id => '5234'
-    )
-  end
-  
   def test_create
     assert_difference 'Member.count' do
       post :new, :id => 1, :member => {:role_ids => [1], :user_id => 7}
