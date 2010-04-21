@@ -28,7 +28,7 @@ Redmine::Plugin.register :redmine_backlogs do
     description 'Scrum plugin for Redmine'
     version '2.1 unstable'
 
-    settings :default => { :story_trackers => nil, :task_tracker => nil }, :partial => 'settings/backlogs_settings'
+    settings :default => { :story_trackers => nil, :task_tracker => nil, :card_spec => nil }, :partial => 'settings/backlogs_settings'
 
     project_module :backlogs do
         permission :manage_backlog,
@@ -42,6 +42,7 @@ Redmine::Plugin.register :redmine_backlogs do
                                     :reorder,
                                     :sprint_date,
                                     :select_issues,
+                                    :taskboard_cards,
                                     :update,
                                     :burndown ],
                     :stories => [ :index,

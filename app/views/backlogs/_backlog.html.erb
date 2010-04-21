@@ -37,6 +37,15 @@
             :condition => (backlog.respond_to?(:has_burndown) and backlog.has_burndown)
           },
           {
+            :item => menu_link('Printable cards', {
+                               :controller => 'backlogs',
+                               :action => 'taskboard_cards',
+                               :project_id => @project,
+                               :sprint_id => backlog }),
+            :for => :sprint,
+            :condition => backlog.respond_to?(:has_burndown)
+          },
+          {
             :item => menu_link('Wiki', {
                                :controller => 'backlogs',
                                :action => 'wiki_page',

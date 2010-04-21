@@ -45,3 +45,7 @@
                     [l(:label_points_burn_down), 'down']
                 ], Setting.plugin_redmine_backlogs[:backlog_points_burn_direction])) %>
     </p>
+    <p>
+        <%= content_tag(:label, l(:backlogs_card_specification)) %>
+        <%= select_tag("settings[card_spec]", options_for_select(TaskboardCards::LABELS.keys.sort.collect{|label| [label, label]}, Setting.plugin_redmine_backlogs[:card_spec])) %>
+    </p>
