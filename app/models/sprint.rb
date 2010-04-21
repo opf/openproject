@@ -24,7 +24,17 @@ class Sprint < Version
         end
 
         if wiki_page_title.nil? || wiki_page_title.blank?
-            self.update_attribute(:wiki_page_title, name.gsub(/\s+/, '_').gsub(/[^_a-zA-Z0-9]/, ''))
+            self.update_attribute(:wiki_page_title, Wiki.titleize(self.name))
+        end
+
+        page = project.wiki.find_page(self.wiki_page_title)
+        template = project.wiki.find_page(Setting.plugin_redmine_backlogs[:wiki_template])
+
+        if template and not page
+            page = WikiPage.new(:wiki => project.wiki, :title => self.wiki_page_title)
+            page.content = WikiContent.new
+            page.content.text = "h1. #{self.name}\n\n#{template.text}"
+            page.save!
         end
 
         return wiki_page_title
