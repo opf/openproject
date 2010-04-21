@@ -126,7 +126,7 @@ class TaskboardCards
         return "#{pos} / #{s.id}: #{s.subject}"
     end
 
-    def card(issue, cardtype)
+    def card(issue, type)
         row = (@cards % @down) + 1
         col = ((@cards / @down) % @across) + 1
         @cards += 1
@@ -145,34 +145,62 @@ class TaskboardCards
                 @pdf.bounding_box [@inner_margin, @height - @inner_margin],
                                     :width => @width - (2 * @inner_margin),
                                     :height => @height - (2 * @inner_margin) do
+
+                    scoresize = 0
+                    @y = @pdf.bounds.height
+                    @pdf.font_size(12) do
+                        score = (type == :task ? issue.estimated_hours : issue.story_points)
+                        score ||= '?'
+                        score = "#{score} #{type == :task ? 'hours' : 'points'}"
+                        scoresize = @pdf.width_of(" #{score} ")
+
+                        text_box(score, {
+                                :width => scoresize,
+                                :height => @pdf.font.height
+                            }, pdf.bounds.width - scoresize)
+                    end
+
+                    @y = @pdf.bounds.height
+                    trail = (issue.self_and_ancestors.reverse.collect{|i| "#{i.tracker.name} ##{i.id}"}.join(" : ")) + " (#{parent_story.position})"
                     @pdf.font_size(6) do
-                        @pdf.text((issue.self_and_ancestors.reverse.collect{|i| "#{i.tracker.name} ##{i.id}"}.join(" : ")) + " (#{parent_story.position})")
-                    end
-                    if cardtype == 'task':
-                        @pdf.font_size(6) do
-                            @pdf.text parent_story.subject
-                        end
-                    else
-                        @pdf.font_size(6) do
-                            if issue.fixed_version
-                                @pdf.text issue.fixed_version.name
-                            else
-                                @pdf.text l(:backlogs_product_backlog)
-                            end
-                        end
+                        text_box(trail, {
+                                :width => pdf.bounds.width - scoresize,
+                                :height => @pdf.font.height,
+                                :style => :italic
+                            })
                     end
 
-                    @pdf.text issue.subject
 
-                    # sprint name
-                    # tracker
-                    # subject
-                    # category
-                    # assigned_to ?
-                    # author ?
-                    # estimated_hours
-                    # position
-                    # points
+                    @pdf.font_size(6) do
+                        parent = (type == :task ? parent_story.subject : (issue.fixed_version ? issue.fixed_version.name : l(:backlogs_product_backlog)))
+                        text_box parent, {
+                                :width => pdf.bounds.width - scoresize,
+                                :height => @pdf.font.height
+                        }
+                    end
+
+                    text_box issue.subject, {
+                            :width => pdf.bounds.width,
+                            :height => @pdf.font.height * 2
+                        }
+                    @pdf.line [0, @y], [pdf.bounds.width, @y]
+                    @y -= 2
+
+                    @pdf.font_size(8) do
+                        text_box issue.description || issue.subject , {
+                                :width => pdf.bounds.width,
+                                :height => @y - 8
+                            }
+                    end
+
+                    @pdf.font_size(6) do
+                        category = issue.category ?  "Category: #{issue.category.name}" : ''
+                        catsize = @pdf.width_of(" #{category} ")
+                        text_box(category, {
+                                :width => catsize,
+                                :height => @pdf.font.height
+                            }, pdf.bounds.width - catsize)
+                    end
                 end
             end
         end
@@ -181,15 +209,22 @@ class TaskboardCards
     def add(story, add_tasks = true)
         if add_tasks
             if story.is_task?
-                card(story, 'task')
+                card(story, :task)
             else
                 story.descendants.each {|task|
-                    card(task, 'task')
+                    card(task, :task)
                 }
             end
         end
 
-        card(story, 'story')
+        card(story, :story)
+    end
+
+    def text_box(s, options, x = 0)
+        box = Prawn::Text::Box.new(s, options.merge(:overflow => :ellipses, :at => [x, @y], :document => @pdf))
+        box.render
+        @y -= (options[:height] + (options[:size] || @pdf.font_size) / 2)
+        return box
     end
 
     def topts(m)
