@@ -266,7 +266,9 @@ class Importer
                 if wiki_page
                     wiki = @project.wiki
                     page = wiki.find_or_new_page(page_tag)
+                    page.content = WikiContent.new
                     page.content.text = s['wiki']
+                    page.save!
                 end
             end
 
