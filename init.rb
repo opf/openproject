@@ -11,6 +11,7 @@ Dispatcher.to_prepare do
     require_dependency 'issue'
     require_dependency 'issue_relation'
     require_dependency 'version'
+    require_dependency 'project'
 
     Issue::SAFE_ATTRIBUTES << "story_points" if Issue.const_defined? "SAFE_ATTRIBUTES"
     Issue::SAFE_ATTRIBUTES << "remaining_hours" if Issue.const_defined? "SAFE_ATTRIBUTES"
@@ -18,6 +19,7 @@ Dispatcher.to_prepare do
     Query.send(:include, QueryPatch) unless Query.included_modules.include? QueryPatch
     Issue.send(:include, IssuePatch) unless Issue.included_modules.include? IssuePatch
     Version.send(:include, VersionPatch) unless Version.included_modules.include? VersionPatch
+    Project.send(:include, ProjectPatch) unless Project.included_modules.include? ProjectPatch
 end
 
 require_dependency 'backlogs_layout_hooks'

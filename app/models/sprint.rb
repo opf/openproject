@@ -44,7 +44,7 @@ class Sprint < Version
         # assumes mon-fri are working days, sat-sun are not. this
         # assumption is not globally right, we need to make this configurable.
         cutoff = self.effective_date if cutoff.nil?
-        return (self.sprint_start_date .. self.effective_date).select {|d| (d.wday > 0 and d.wday < 6) }
+        return (self.sprint_start_date .. cutoff).select {|d| (d.wday > 0 and d.wday < 6) }
     end
 
     def has_burndown
