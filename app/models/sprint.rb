@@ -79,6 +79,13 @@ class Sprint < Version
         max_points = 0
         max_hours = 0
 
+        if remaining_days > 1
+            ideal_delta = (1.0 / (remaining_days - 1))
+        else
+            ideal_delta = 0
+        end
+        ideal_factor = 0
+
         so_far.each { |day|
             if cached.has_key?(day)
                 datapoint = cached[day]
@@ -128,14 +135,19 @@ class Sprint < Version
                 datapoint[:required_burn_rate_hours] = datapoint[:remaining_hours] / remaining_days
             end
 
+            datapoint[:ideal] = datapoint[:points_committed] * ideal_factor
+
             datapoints << datapoint
+
             remaining_days -= 1
+            ideal_factor += ideal_delta
         }
 
         datasets = {}
         [       [:points_committed, :points],
                 [:points_resolved, :points],
                 [:points_accepted, :points],
+                [:ideal, :points],
                 [:remaining_hours, :hours],
                 [:required_burn_rate_points, :points],
                 [:required_burn_rate_hours, :hours]].each { |series, units|
@@ -147,6 +159,12 @@ class Sprint < Version
 
         if Setting.plugin_redmine_backlogs[:points_burn_direction] == 'down'
             if datasets[:points_committed]
+                if datasets.include? :ideal
+                    datasets[:ideal][:series].each_with_index {|d, i|
+                        datasets[:ideal][:series][i] = datasets[:points_committed][:series][i] - d
+                    }
+                end
+
                 [[:points_accepted, :points_to_accept], [:points_resolved, :points_to_resolve]].each{|src, tgt|
                     continue if not datasets.include? src
 
