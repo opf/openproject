@@ -120,10 +120,10 @@ ActionController::Routing::Routes.draw do |map|
     end
     issues_routes.with_options :conditions => {:method => :post} do |issues_actions|
       issues_actions.connect 'issues', :action => 'index'
-      issues_actions.connect 'projects/:project_id/issues', :action => 'new'
+      issues_actions.connect 'projects/:project_id/issues', :action => 'create'
       issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
       issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy/, :id => /\d+/
-      issues_actions.connect 'issues.:format', :action => 'new', :format => /xml/
+      issues_actions.connect 'issues.:format', :action => 'create', :format => /xml/
     end
     issues_routes.with_options :conditions => {:method => :put} do |issues_actions|
       issues_actions.connect 'issues/:id/edit', :action => 'update', :id => /\d+/

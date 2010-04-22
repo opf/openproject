@@ -446,10 +446,10 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'This is the test_new issue', issue.subject
   end
   
-  def test_post_new
+  def test_post_create
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
-      post :new, :project_id => 1, 
+      post :create, :project_id => 1, 
                  :issue => {:tracker_id => 3,
                             :status_id => 2,
                             :subject => 'This is the test_new issue',
@@ -471,9 +471,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Value for field 2', v.value
   end
   
-  def test_post_new_and_continue
+  def test_post_create_and_continue
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, 
+    post :create, :project_id => 1, 
                :issue => {:tracker_id => 3,
                           :subject => 'This is first issue',
                           :priority_id => 5},
@@ -481,10 +481,10 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'new', :issue => {:tracker_id => 3}
   end
   
-  def test_post_new_without_custom_fields_param
+  def test_post_create_without_custom_fields_param
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
-      post :new, :project_id => 1, 
+      post :create, :project_id => 1, 
                  :issue => {:tracker_id => 1,
                             :subject => 'This is the test_new issue',
                             :description => 'This is the description',
@@ -493,12 +493,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
   end
 
-  def test_post_new_with_required_custom_field_and_without_custom_fields_param
+  def test_post_create_with_required_custom_field_and_without_custom_fields_param
     field = IssueCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
 
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, 
+    post :create, :project_id => 1, 
                :issue => {:tracker_id => 1,
                           :subject => 'This is the test_new issue',
                           :description => 'This is the description',
@@ -510,12 +510,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal I18n.translate('activerecord.errors.messages.invalid'), issue.errors.on(:custom_values)
   end
   
-  def test_post_new_with_watchers
+  def test_post_create_with_watchers
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     
     assert_difference 'Watcher.count', 2 do
-      post :new, :project_id => 1, 
+      post :create, :project_id => 1, 
                  :issue => {:tracker_id => 1,
                             :subject => 'This is a new issue with watchers',
                             :description => 'This is the description',
@@ -535,11 +535,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert [mail.bcc, mail.cc].flatten.include?(User.find(3).mail)
   end
   
-  def test_post_new_subissue
+  def test_post_create_subissue
     @request.session[:user_id] = 2
     
     assert_difference 'Issue.count' do
-      post :new, :project_id => 1, 
+      post :create, :project_id => 1, 
                  :issue => {:tracker_id => 1,
                             :subject => 'This is a child issue',
                             :parent_issue_id => 2}
@@ -549,11 +549,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal Issue.find(2), issue.parent
   end
   
-  def test_post_new_should_send_a_notification
+  def test_post_create_should_send_a_notification
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
-      post :new, :project_id => 1, 
+      post :create, :project_id => 1, 
                  :issue => {:tracker_id => 3,
                             :subject => 'This is the test_new issue',
                             :description => 'This is the description',
@@ -566,9 +566,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
-  def test_post_should_preserve_fields_values_on_validation_failure
+  def test_post_create_should_preserve_fields_values_on_validation_failure
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, 
+    post :create, :project_id => 1, 
                :issue => {:tracker_id => 1,
                           # empty subject
                           :subject => '',
@@ -593,10 +593,10 @@ class IssuesControllerTest < ActionController::TestCase
                                         :value => 'Value for field 2'}
   end
   
-  def test_post_new_should_ignore_non_safe_attributes
+  def test_post_create_should_ignore_non_safe_attributes
     @request.session[:user_id] = 2
     assert_nothing_raised do
-      post :new, :project_id => 1, :issue => { :tracker => "A param can not be a Tracker" }
+      post :create, :project_id => 1, :issue => { :tracker => "A param can not be a Tracker" }
     end
   end
   
@@ -619,7 +619,7 @@ class IssuesControllerTest < ActionController::TestCase
       
       should "accept default status" do
         assert_difference 'Issue.count' do
-          post :new, :project_id => 1, 
+          post :create, :project_id => 1, 
                      :issue => {:tracker_id => 1,
                                 :subject => 'This is an issue',
                                 :status_id => 1}
@@ -630,7 +630,7 @@ class IssuesControllerTest < ActionController::TestCase
       
       should "ignore unauthorized status" do
         assert_difference 'Issue.count' do
-          post :new, :project_id => 1, 
+          post :create, :project_id => 1, 
                      :issue => {:tracker_id => 1,
                                 :subject => 'This is an issue',
                                 :status_id => 3}

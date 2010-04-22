@@ -21,7 +21,7 @@ class IssuesController < ApplicationController
   
   before_filter :find_issue, :only => [:show, :edit, :update, :reply]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
-  before_filter :find_project, :only => [:new, :update_form, :preview, :auto_complete]
+  before_filter :find_project, :only => [:new, :create, :update_form, :preview, :auto_complete]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   accept_key_auth :index, :show, :changes
@@ -51,6 +51,7 @@ class IssuesController < ApplicationController
          :only => :destroy,
          :render => { :nothing => true, :status => :method_not_allowed }
 
+  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   
   def index
@@ -145,35 +146,55 @@ class IssuesController < ApplicationController
       @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
     end
     @issue.author = User.current
-    
-    if request.get? || request.xhr?
-      @issue.start_date ||= Date.today
-    else
-      call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
-      if @issue.save
-        attachments = Attachment.attach_files(@issue, params[:attachments])
-        render_attachment_warning_if_needed(@issue)
-        flash[:notice] = l(:notice_successful_create)
-        call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
-        respond_to do |format|
-          format.html {
-            redirect_to(params[:continue] ? { :action => 'new', :issue => {:tracker_id => @issue.tracker, 
-                                                                           :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
-                                            { :action => 'show', :id => @issue })
-          }
-          format.xml  { render :action => 'show', :status => :created, :location => url_for(:controller => 'issues', :action => 'show', :id => @issue) }
-        end
-        return
-      else
-        respond_to do |format|
-          format.html { }
-          format.xml  { render(:xml => @issue.errors, :status => :unprocessable_entity); return }
-        end
-      end
-    end 
+    @issue.start_date ||= Date.today
     @priorities = IssuePriority.all
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
-    render :layout => !request.xhr?
+    render :action => 'new', :layout => !request.xhr?
+  end
+
+  def create
+    @issue = Issue.new
+    @issue.copy_from(params[:copy_from]) if params[:copy_from]
+    @issue.project = @project
+    # Tracker must be set before custom field values
+    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
+    if @issue.tracker.nil?
+      render_error l(:error_no_tracker_in_project)
+      return
+    end
+    if @issue.status.nil?
+      render_error l(:error_no_default_issue_status)
+      return
+    end
+    if params[:issue].is_a?(Hash)
+      @issue.safe_attributes = params[:issue]
+      @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
+    end
+    @issue.author = User.current
+
+    @priorities = IssuePriority.all
+    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
+
+    call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
+    if @issue.save
+      attachments = Attachment.attach_files(@issue, params[:attachments])
+      render_attachment_warning_if_needed(@issue)
+      flash[:notice] = l(:notice_successful_create)
+      call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
+      respond_to do |format|
+        format.html {
+          redirect_to(params[:continue] ? { :action => 'new', :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
+                      { :action => 'show', :id => @issue })
+        }
+        format.xml  { render :action => 'show', :status => :created, :location => url_for(:controller => 'issues', :action => 'show', :id => @issue) }
+      end
+      return
+    else
+      respond_to do |format|
+        format.html { render :action => 'new' }
+        format.xml  { render(:xml => @issue.errors, :status => :unprocessable_entity); return }
+      end
+    end
   end
   
   # Attributes that can be updated on workflow transition (without :edit permission)
