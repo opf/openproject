@@ -17,3 +17,10 @@ en:
   field_position: Position
   backlogs_product_backlog: "Product backlog"
   backlogs_wiki_template: "Template for sprint wiki page"
+  points_committed: "points committed"
+  required_burn_rate_points: "required burn rate (points)"
+  required_burn_rate_hours: "required burn rate (hours)"
+  points_to_accept: "points not accepted"
+  ideal: "ideal"
+  points_to_resolve: "points not resolved"
+  remaining_hours: "remaining hours"
