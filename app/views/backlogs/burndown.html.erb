@@ -1,4 +1,4 @@
-<%- dataseries = @burndown[:series].keys %>
+<%- dataseries = @burndown[:series].keys.sort{|a, b| l(a) <=> l(b) } %>
 <%- content_for :header_tags do %>
     <%= stylesheet_link_tag 'jquery.jqplot.min.css', :plugin => 'redmine_backlogs' %>
     <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
