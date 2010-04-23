@@ -24,6 +24,7 @@ class IssuesController < ApplicationController
   before_filter :find_project, :only => [:new, :create, :update_form, :preview, :auto_complete]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
+  before_filter :build_new_issue_from_params, :only => [:new, :create]
   accept_key_auth :index, :show, :changes
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
@@ -128,53 +129,10 @@ class IssuesController < ApplicationController
   # Add a new issue
   # The new issue will be created from an existing one if copy_from parameter is given
   def new
-    @issue = Issue.new
-    @issue.copy_from(params[:copy_from]) if params[:copy_from]
-    @issue.project = @project
-    # Tracker must be set before custom field values
-    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
-    if @issue.tracker.nil?
-      render_error l(:error_no_tracker_in_project)
-      return
-    end
-    if @issue.status.nil?
-      render_error l(:error_no_default_issue_status)
-      return
-    end
-    if params[:issue].is_a?(Hash)
-      @issue.safe_attributes = params[:issue]
-      @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
-    end
-    @issue.author = User.current
-    @issue.start_date ||= Date.today
-    @priorities = IssuePriority.all
-    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
     render :action => 'new', :layout => !request.xhr?
   end
 
   def create
-    @issue = Issue.new
-    @issue.copy_from(params[:copy_from]) if params[:copy_from]
-    @issue.project = @project
-    # Tracker must be set before custom field values
-    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
-    if @issue.tracker.nil?
-      render_error l(:error_no_tracker_in_project)
-      return
-    end
-    if @issue.status.nil?
-      render_error l(:error_no_default_issue_status)
-      return
-    end
-    if params[:issue].is_a?(Hash)
-      @issue.safe_attributes = params[:issue]
-      @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
-    end
-    @issue.author = User.current
-
-    @priorities = IssuePriority.all
-    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
-
     call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
     if @issue.save
       attachments = Attachment.attach_files(@issue, params[:attachments])
@@ -586,6 +544,31 @@ private
       @issue.safe_attributes = attrs
     end
 
+  end
+
+  # TODO: Refactor, lots of extra code in here
+  def build_new_issue_from_params
+    @issue = Issue.new
+    @issue.copy_from(params[:copy_from]) if params[:copy_from]
+    @issue.project = @project
+    # Tracker must be set before custom field values
+    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
+    if @issue.tracker.nil?
+      render_error l(:error_no_tracker_in_project)
+      return false
+    end
+    if @issue.status.nil?
+      render_error l(:error_no_default_issue_status)
+      return false
+    end
+    if params[:issue].is_a?(Hash)
+      @issue.safe_attributes = params[:issue]
+      @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
+    end
+    @issue.author = User.current
+    @issue.start_date ||= Date.today
+    @priorities = IssuePriority.all
+    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
   end
 
   def set_flash_from_bulk_issue_save(issues, unsaved_issue_ids)
