@@ -42,8 +42,14 @@
                                :action => 'taskboard_cards',
                                :project_id => @project,
                                :sprint_id => backlog }),
-            :for => :sprint,
-            :condition => backlog.respond_to?(:has_burndown)
+            :for => :sprint
+          },
+          {
+            :item => menu_link('Printable cards', {
+                               :controller => 'backlogs',
+                               :action => 'product_backlog_cards',
+                               :project_id => @project}),
+            :for => :product
           },
           {
             :item => menu_link('Wiki', {

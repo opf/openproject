@@ -45,6 +45,7 @@ Redmine::Plugin.register :redmine_backlogs do
                                     :sprint_date,
                                     :select_issues,
                                     :taskboard_cards,
+                                    :product_backlog_cards,
                                     :update,
                                     :burndown ],
                     :stories => [ :index,

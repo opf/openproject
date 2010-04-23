@@ -166,6 +166,16 @@ class BacklogsController < ApplicationController
     redirect_to :controller => 'wiki', :action => 'edit', :id => @project.id, :page => sprint.wiki_page
   end
 
+  def product_backlog_cards
+    cards = TaskboardCards.new
+
+    Story.product_backlog(@project).each {|story|
+        cards.add(story, false)
+    }
+
+    send_data(cards.pdf.render, :filename => 'cards.pdf', :disposition => 'attachment', :type => 'application/pdf')
+  end
+
   def taskboard_cards
     sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => params[:sprint_id]})
     cards = TaskboardCards.new
