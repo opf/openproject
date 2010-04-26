@@ -24,6 +24,7 @@ class IssuesController < ApplicationController
   before_filter :find_project, :only => [:new, :create, :update_form, :preview, :auto_complete]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
+  before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
   accept_key_auth :index, :show, :changes
 
@@ -557,10 +558,6 @@ private
       render_error l(:error_no_tracker_in_project)
       return false
     end
-    if @issue.status.nil?
-      render_error l(:error_no_default_issue_status)
-      return false
-    end
     if params[:issue].is_a?(Hash)
       @issue.safe_attributes = params[:issue]
       @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
@@ -579,6 +576,13 @@ private
                         :count => unsaved_issue_ids.size,
                         :total => issues.size,
                         :ids => '#' + unsaved_issue_ids.join(', #'))
+    end
+  end
+
+  def check_for_default_issue_status
+    if IssueStatus.default.nil?
+      render_error l(:error_no_default_issue_status)
+      return false
     end
   end
 end
