@@ -26,7 +26,7 @@ class ReportsController < ApplicationController
     @categories = @project.issue_categories
     @assignees = @project.members.collect { |m| m.user }.sort
     @authors = @project.members.collect { |m| m.user }.sort
-    @subprojects = @project.descendants.active
+    @subprojects = @project.descendants.visible
 
     @issues_by_tracker = Issue.by_tracker(@project)
     @issues_by_version = Issue.by_version(@project)
@@ -73,7 +73,7 @@ class ReportsController < ApplicationController
       @report_title = l(:field_author)
     when "subproject"
       @field = "project_id"
-      @rows = @project.descendants.active
+      @rows = @project.descendants.visible
       @data = Issue.by_subproject(@project) || []
       @report_title = l(:field_subproject)
     end
