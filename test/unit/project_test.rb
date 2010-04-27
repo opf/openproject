@@ -147,8 +147,9 @@ class ProjectTest < ActiveSupport::TestCase
     # make sure that the project non longer exists
     assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
     # make sure related data was removed
-    assert Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
-    assert Board.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
+    assert_nil Member.first(:conditions => {:project_id => @ecookbook.id})
+    assert_nil Board.first(:conditions => {:project_id => @ecookbook.id})
+    assert_nil Issue.first(:conditions => {:project_id => @ecookbook.id})
   end
   
   def test_move_an_orphan_project_to_a_root_project
