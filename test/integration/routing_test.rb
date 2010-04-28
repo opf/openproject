@@ -95,10 +95,10 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/project-name/issues/calendar", :controller => 'issues', :action => 'calendar', :project_id => 'project-name'
     should_route :post, "/projects/project-name/issues/calendar", :controller => 'issues', :action => 'calendar', :project_id => 'project-name'
 
-    should_route :get, "/issues/gantt", :controller => 'issues', :action => 'gantt'
-    should_route :post, "/issues/gantt", :controller => 'issues', :action => 'gantt'
-    should_route :get, "/projects/project-name/issues/gantt", :controller => 'issues', :action => 'gantt', :project_id => 'project-name'
-    should_route :post, "/projects/project-name/issues/gantt", :controller => 'issues', :action => 'gantt', :project_id => 'project-name'
+    should_route :get, "/issues/gantt", :controller => 'gantts', :action => 'show'
+    should_route :post, "/issues/gantt", :controller => 'gantts', :action => 'show'
+    should_route :get, "/projects/project-name/issues/gantt", :controller => 'gantts', :action => 'show', :project_id => 'project-name'
+    should_route :post, "/projects/project-name/issues/gantt", :controller => 'gantts', :action => 'show', :project_id => 'project-name'
 
     should_route :get, "/issues/auto_complete", :controller => 'issues', :action => 'auto_complete'
   end

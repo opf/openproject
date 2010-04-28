@@ -9,7 +9,7 @@
 	<%= link_to(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project) %><br />
 <% end %>
 <% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-	<%= link_to(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project) %><br />
+	<%= link_to(l(:label_gantt), :controller => 'gantts', :action => 'show', :project_id => @project) %><br />
 <% end %>
 <%= call_hook(:view_issues_sidebar_planning_bottom) %>
 
