@@ -260,7 +260,7 @@ class Importer
             sprint.save! if @commit
             @sprints[id] = sprint
 
-            if s['wiki']
+            if s['wiki'] and @commit
                 sprint_wiki = Sprint.find_by_id(sprint.id)
                 page_tag = sprint_wiki.wiki_page
                 if wiki_page
