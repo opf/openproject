@@ -263,7 +263,7 @@ class Importer
             if s['wiki'] and @commit
                 sprint_wiki = Sprint.find_by_id(sprint.id)
                 page_tag = sprint_wiki.wiki_page
-                if wiki_page
+                if page_tag
                     wiki = @project.wiki
                     page = wiki.find_or_new_page(page_tag)
                     page.content = WikiContent.new
