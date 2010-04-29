@@ -99,7 +99,7 @@ class SpreadsheetBuilder
       value = if ['Time', 'Date', 'Fixnum', 'Float', 'Integer'].include?(c.class.name)
         c
       else
-        c.to_s.gsub('_', ' ').gsub("\n", "\r\n").gsub("\r", "\r\n")
+        c.to_s.gsub('_', ' ').gsub("\r\n", "\n").gsub("\r", "\n")
       end
       column_array << value
       @column_widths[i] = 0 if @column_widths[i].nil?

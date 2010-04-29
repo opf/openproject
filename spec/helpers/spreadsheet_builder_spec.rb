@@ -81,9 +81,12 @@ describe "SpreadsheetBuilder" do
     @sheet.last_row.format(0).should == @sheet.last_row.format(1)
   end
   
-  it "should always use windows newlines" do
-    @spreadsheet.add_row(["Some text including a unix newline (\n)", "And an old-style mac os newline (\r)"])
-    @spreadsheet.send("raw_sheet").last_row[0].should include("\r\n")
-    @spreadsheet.send("raw_sheet").last_row[1].should include("\r\n")
+  it "should always use unix newlines" do
+    @spreadsheet.add_row(["Some text including a windows newline (\r\n)", "And an old-style mac os newline (\r)"])
+    2.times do |i|
+      @spreadsheet.send("raw_sheet").last_row[i].should_not include("\r")
+      @spreadsheet.send("raw_sheet").last_row[i].should_not include("\r\n")
+      @spreadsheet.send("raw_sheet").last_row[i].should include("\n")
+    end
   end
 end
