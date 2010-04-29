@@ -54,6 +54,7 @@
   </thead>
   <tbody>
     <% 
+      unit_sum = Hash.new(0)
       @grouped_entries.each do |entry|
         entry &&= entry.with_indifferent_access
         filter = @query.filter_from_group_by(entry)
@@ -83,12 +84,15 @@
         </td>
         <td class="units"><%=l :x_entries, :count => entry["count"].to_i %></td>
 
-        <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs) %>
-        <% cost_type = CostType.find_by_id(entry["cost_type_id"]) %>
+        <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs)
+              cost_type = CostType.find_by_id(entry["cost_type_id"])
+        -%>
         <td class="units">
           <% if cost_type %>
+            <%- unit_sum[cost_type] += entry["unit_sum"].to_f -%>
             <%= pluralize(entry["unit_sum"], cost_type.unit, cost_type.unit_plural)  %>
-          <%- else -%>
+          <%- elsif display_costs || entry[group_by_column[:db_field]] -%>
+            <%- unit_sum[cost_type] += entry["unit_sum"].to_f -%>
             <%= l_hours(entry["unit_sum"] || "0") %>
           <%- end %>
         </td>
@@ -105,8 +109,21 @@
     <% end %>
     <tr>
       <td>&nbsp;</td>
-      <td class="units"><strong><%=l :x_entries, :count => @entry_count %></strong></td>
-      <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs) %><td>&nbsp;</td><% end %>
+      <td class="units"><strong><%=l :x_entries, :count => @entry_count.to_i %></strong></td>
+      <% if (@query.group_by["name"] == "cost_type_id") || (!display_costs) %><td class="units">
+        <% if unit_sum.count == 1 
+          cost_type = unit_sum.keys[0]
+          sum = unit_sum[cost_type]
+        -%>
+          <%- if cost_type -%>
+            <%= pluralize(sum, cost_type.unit, cost_type.unit_plural)  %>
+          <%- else -%>
+            <%= l_hours(sum || "0") %>
+          <%- end %>
+        <%- else -%>
+        &nbsp;
+        <%- end %>
+        </td><% end %>
       <td class="currency"><strong><%= number_to_currency @entry_sum %></strong></td>
       <td>&nbsp;</td>
     </tr>
