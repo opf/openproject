@@ -283,7 +283,7 @@ class CostQuery < ActiveRecord::Base
     grouping_column :user_id, :display => from_field(User, :name)
     grouping_column :issue_id, :display => from_field(Issue, :subject), :other_group => "<em>#{l(:caption_booked_on_project)}</em>"
     grouping_column :cost_type_id, :display => from_field(CostType, :name), :other_group => l(:caption_labor_costs)
-    grouping_column :activity_id, :display => from_field(Enumeration, :name)
+    grouping_column :activity_id, :display => from_field(TimeEntryActivity, :name)
     grouping_column(:spent_on, :tyear, :tmonth, :tweek, :time => true) do |column, fields|
       values = []
       
