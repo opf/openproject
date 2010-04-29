@@ -7,6 +7,8 @@ class GanttsController < ApplicationController
   helper :projects
   helper :queries
   include QueriesHelper
+  helper :sort
+  include SortHelper
   include Redmine::Export::PDF
   
   def show
@@ -41,15 +43,6 @@ class GanttsController < ApplicationController
   end
 
   private
-
-  # Rescues an invalid query statement. Just in case...
-  # TODO: Refactor, move to ApplicationController with IssuesController
-  def query_statement_invalid(exception)
-    logger.error "Query::StatementInvalid: #{exception.message}" if logger
-    session.delete(:query)
-    sort_clear
-    render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
-  end
 
   # TODO: Refactor, duplicates IssuesController
   def find_optional_project

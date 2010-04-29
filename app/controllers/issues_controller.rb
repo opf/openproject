@@ -453,14 +453,6 @@ private
     render_404
   end
 
-  # Rescues an invalid query statement. Just in case...
-  def query_statement_invalid(exception)
-    logger.error "Query::StatementInvalid: #{exception.message}" if logger
-    session.delete(:query)
-    sort_clear
-    render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
-  end
-
   # Used by #edit and #update to set some common instance variables
   # from the params
   # TODO: Refactor, not everything in here is needed by #edit
