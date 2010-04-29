@@ -1,0 +1,130 @@
+--- 
+en: 
+  field_labor_budget: Labor budget
+  caption_budget_ratio: Spent Budget
+  button_add_cost_object: Add Cost Object
+  caption_deleted_at: Deleted on
+  label_awaiting_manager: Awaiting manager response
+  caption_cost_unit_plural: Units
+  label_cost_object: Cost Object
+  label_fixed_date: Fixed date
+  label_option_plural: Options
+  field_client_signoff: Client signoff
+  field_spent: Spent
+  cost_objects_title: Cost Control
+  button_add_budget_item: Add budget item
+  caption_valid_from: Valid from
+  label_current_default_rate: Current default rate
+  notice_successful_restore: Successful restore.
+  label_no: "No"
+  caption_default_rate_history_for: Default Rate History for %s
+  label_cost_object_id: "Cost Object #%s"
+  label_currency: Currency
+  label_overall_costs: Overall costs
+  label_status_in_progress: In progress
+  field_units: Units
+  field_default: Default
+  caption_material_costs: Material Costs
+  label_cost_object_plural: Cost Objects
+  caption_cost_type_unit_name_plural: Pluralized Unit Name
+  caption_materials: Materials
+  label_currency_format: Format of currency
+  caption_issue: Issue
+  field_budget_ratio: Spent budget
+  field_unit_price: Unit price
+  label_costs_per_page: Costs per page
+  permission_edit_rates: Edit rates
+  caption_set_rate: Set Current Rate
+  field_cost_type: Cost type
+  group_by_others: not in any group
+  label_spent_costs: Spent costs
+  caption_costs: Costs
+  caption_budget: Budget
+  label_less_or_equal: <=
+  button_log_costs: Log material costs
+  label_kind: Type
+  permission_view_cost_entries: View booked costs
+  label_cost_report: Cost Report
+  label_rate_plural: Rates
+  field_kind: Type
+  help_override_rate: Enter a value here to override the default rate.
+  label_edit: Edit
+  permission_view_cost_objects: View Cost Objects
+  caption_current_rate: Current Rate
+  label_display_types: Display types
+  label_generic_user: Generic User
+  caption_status: Status
+  text_cost_object_change_type_confirmation: Are you sure? This operation will destroy information of the specific cost object type.
+  permission_book_own_costs: Book material costs for oneself
+  label_cost_filter_add: Add cost entry filter
+  label_valid_from: Valid from
+  label_issue_filter_add: Add issue filter
+  permission_edit_cost_entries: Edit booked material costs
+  label_date_on: "on"
+  caption_rate: Rate
+  field_overall_costs: Overall costs
+  help_currency_format: Format of displayed currency values. %%n is replaced with the currency value, %%u ist replaced with the currency unit.
+  label_greater_or_equal: ">="
+  caption_cost_type_plural: Cost Types
+  caption_spent: Spent
+  button_add_cost_type: Add cost type
+  label_until: until
+  button_add_rate: Add rate
+  help_click_to_edit: Click here to edit.
+  caption_cost_type_unit_name: Unit Name
+  label_awaiting_client: Awaiting client response
+  label_between: between
+  label_cost_object_new: New Cost Object
+  project_module_costs_module: Cost Control
+  field_unit: Unit name
+  permission_book_costs: Book material costs
+  caption_material_budget: Material Budget
+  permission_edit_own_cost_entries: Edit own booked material costs
+  label_deleted_cost_types: Deleted Cost Types
+  field_costs: Costs
+  label_units: Cost units
+  label_group_by_add: Add grouping field
+  caption_cost_type: Cost Type
+  field_fixed_date: Fixed Date
+  caption_comment: Comment
+  caption_fixed_date: Fixed Date
+  label_status_finished: Finished
+  label_view_all_cost_objects: View all Cost Objects
+  caption_labor_costs: Labor Costs
+  notice_something_wrong: Something went wrong. Please try again.
+  permission_edit_cost_objects: Edit Cost Objects
+  label_cost_plural: Costs
+  caption_overall_costs: Overall Costs
+  caption_progress: Progress
+  caption_rate_history_for_project: Rate History for %s in Project %s
+  label_variable_cost_object: Variable rate based budget
+  cost_reports_title: Cost Reports
+  caption_subject: Subject
+  caption_labor: Labor
+  caption_default: Default
+  cost_types_title: Cost Types
+  label_spent_units: Spent units
+  caption_labor_budget: Labor Budget
+  field_project_manager_signoff: Project manager signoff
+  permission_view_unit_price: View unit price
+  field_material_costs: Material costs
+  label_group_by: Group by
+  field_cost_object: Cost Object
+  week: week
+  permission_view_own_rate: View own rate
+  field_overridden_costs: Overridden Costs
+  field_material_budget: Material budget
+  caption_rate_history: Rate History
+  permission_view_all_rates: View all rates
+  field_unit_plural: Pluralized unit name
+  label_yes: "Yes"
+  permission_block_tickets: Block tickets
+  label_include_deleted: Include deleted
+  label_rate: Rate
+  caption_rate_history_for: Rate History for %s
+  label_fixed_cost_object: Fixed budget
+  field_labor_costs: Labor costs
+  field_cost_object_subject: Cost Object Subject
+  currency_separator: .
+  caption_default_rates: Default Rates
+  currency_delimiter: ","

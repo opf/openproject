@@ -1,0 +1,29 @@
+<% if not project.nil? and project.module_enabled? :costs_module %>
+<%
+  view_rates = User.current.allowed_to?(:view_all_rates, project)
+  view_own_rate = User.current.allowed_to?(:view_own_rate, project)
+  change_rates = User.current.allowed_to?(:change_rates, project)
+-%>
+  
+<%- if member.user && (change_rates || view_rates || (member.user == User.current && view_own_rate)) -%>
+  <% rate = member.user.current_rate(project) -%>
+  <td class="currency" id="rate_for_<%= member.user.id %>">
+    <%= link_to number_to_currency( rate ? rate.rate : 0.0), :controller => 'hourly_rates', :action => change_rates ? 'edit' : 'show', :id => member.user, :project_id => project %>
+  </td>
+<%- elsif view_own_rate -%>
+  <td id="rate_for_<%= member.user.id %>" class="currency"></td>
+<%- end -%>
+
+<% if change_rates %>
+  <td align="center" style="white-space: nowrap;">
+    <% remote_form_for :rate, :url => { :controller => 'hourly_rates', :action => 'set_rate', :id => member.user, :project_id => project}  do |f| %>
+      <%= f.text_field :rate, :value => "", :name => :rate, :size => 7 %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
+      <%= image_submit_tag "save.png" %>
+    <% end %>
+  </td>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
+<% end %>
+<% end %>

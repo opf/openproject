@@ -1,0 +1,148 @@
+<%
+  add_issue_filter_select = [["", ""]]
+  add_cost_filter_select = [["", ""]]
+%>
+
+<script type="text/javascript">
+  //<![CDATA[
+  
+  var Filterform = Class.create({
+    lineIndex: 1,
+    parentElement: "",
+    initialize: function(Filters, lineIndex, parentElement) {
+      this.Filters        = Filters;
+      this.lineIndex      = lineIndex;
+      this.parentElement  = parentElement;
+    },
+
+    parsedHTML: function(scope, key) {
+      var html = this.Filters.get(scope).get(key);
+      if (html) {
+        return html.replace(/---INDEX---/g, this.lineIndex++);
+      }
+    },
+    
+    add: function(scope, key) {
+      var e = $(this.parentElement);
+      Element.insert(e, { bottom: this.parsedHTML(scope, key)});
+      return this.lineIndex-1;
+    },
+
+    add_after: function(e, scope, key) {
+      Element.insert(e, { after: this.parsedHTML(scope, key)});
+      return this.lineIndex-1;
+    },
+
+    add_on_top: function(scope, key) {
+      var e = $(this.parentElement);
+      Element.insert(e, { top: this.parsedHTML(scope, key)});
+      return this.lineIndex-1;
+    }
+  });
+  
+  multiFilters = new Hash();
+  <% @query.available_filters.each_pair do |scope, available_filters| -%>
+    multiFilters.set('<%= scope %>', [<%= available_filters.select{|k,v| CostQuery.filter_types[v[:type]][:multiple]}.collect{|k,v| "'#{k}'"}.join(", ") %>]);
+  <%- end %>
+  
+  function add_filter(select, scope) {
+      var column_name = select.value;
+      
+      var filter_id = filterform.add(scope, column_name);
+      var new_filter = $('filters_' + filter_id);
+      if (!new_filter) { return; }
+      
+      new_filter.down("input[type=checkbox]").checked = true;
+      toggle_filter(new_filter);
+      select.selectedIndex = 0;
+      
+      if (!multiFilters.get(scope).include(column_name)) {
+        // the current filter can only be applied once
+        for (i=0; i<select.options.length; i++) {
+          var option = select.options[i];
+          if (option.value == column_name) {
+            option.disabled = true;
+          }
+        }
+      }
+  }
+  
+  function toggle_filter(filter) {
+      var check_box = filter.down("input[type=checkbox]")
+
+      if (check_box.checked) {
+        filter.down("select.filter_operator").show();
+        toggle_operator(filter);
+      } else {
+        filter.down("select.filter_operator").hide();
+        filter.down("div.filter_values").hide();
+    }
+  }
+  
+  function toggle_operator(filter) {
+    var operator = filter.down("select.filter_operator");
+    var simple_operators = [<%= CostQuery.operators.select{|k,v| v[:simple]}.collect{|k,v| "'#{k}'"}.join(", ") %>]
+    
+    var values_field = filter.down("div.filter_values");
+    
+    if (simple_operators.include(operator.value)) {
+      values_field.hide();
+    } else {
+      values_field.show();
+    }
+  }
+  
+  function toggle_multi_select(filter) {
+    var select = filter.down("div.filter_values").down("select");
+    if (select.readAttribute("multiple")) {
+      select.writeAttribute("multiple", null);
+    } else {
+      select.writeAttribute("multiple", "multiple");
+    }
+  }
+  
+  
+  IssueFilterTypes = new Hash();
+  <% 
+  @query.available_filters[:issues].sort_by{|c| c[1][:order]}.each do |e|
+    column_name = e[0]
+    filter = @query.create_filter(:issues, column_name)
+    add_issue_filter_select << [filter.label, column_name]
+  %>
+    IssueFilterTypes.set('<%= escape_javascript(column_name) %>', '<%= escape_javascript( render(:partial => "filter", :object => filter) )  %>');
+  <% end %>  
+  
+  CostEntryFilterTypes = new Hash()
+  <%
+  @query.available_filters[:costs].sort_by{|c| c[1][:order]}.each do |e|
+    column_name = e[0]
+    filter = @query.create_filter(:costs, column_name)
+    add_cost_filter_select << [filter.label, column_name]
+  %>
+    CostEntryFilterTypes.set('<%= escape_javascript(column_name) %>', '<%= escape_javascript( render(:partial => "filter", :object => filter) )  %>');
+  <% end %>  
+  
+  filterform = new Filterform($H({issues: IssueFilterTypes, costs: CostEntryFilterTypes}), <%= @query.filters ? @query.filters.length : 0 %>, 'filter_table');
+  //]]>
+</script>
+
+<table width="100%">
+  <tbody><tr>
+    <td><table id="filter_table">
+      <% @query.filters.each_with_index do |filter, index| %>
+        <%= render(:partial => "filter", :object => @query.create_filter_from_hash(filter), :locals => {:index => index}) %>
+      <% end if @query.filters %>
+    </table></td>
+    <td class="add-filter">
+      <%= l(:label_cost_filter_add) %>: <%= select_tag 'add_cost_filter_select', options_for_select(add_cost_filter_select),
+        :onchange => "add_filter(this, 'costs');",
+        :class => "select-small",
+        :name => nil %><br />
+      
+      <%= l(:label_issue_filter_add) %>: <%= select_tag 'add_issue_filter_select', options_for_select(add_issue_filter_select),
+        :onchange => "add_filter(this, 'issues');",
+        :class => "select-small",
+        :name => nil %>
+    </td>
+  </tr></tbody>
+</table>
