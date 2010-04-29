@@ -1,7 +1,6 @@
 require_dependency "entry"
 
 class CostQuery < ActiveRecord::Base
-  #include GLoc
   #belongs_to :user
   #belongs_to :project
   #attr_protected :user_id, :project_id, :created_at, :updated_at
