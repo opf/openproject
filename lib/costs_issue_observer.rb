@@ -5,7 +5,8 @@ class CostsIssueObserver < ActiveRecord::Observer
   observe :issue
 
   def after_update(issue)
-    if issue.project_id_changed? 
+    if issue.project_id_changed?
+      # TODO: This only works with the global cost_rates
       CostEntry.update_all({:project_id => issue.project_id}, {:issue_id => issue.id})
     end
     
