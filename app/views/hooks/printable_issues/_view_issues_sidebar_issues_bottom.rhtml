@@ -1,0 +1,3 @@
+<% if params[:action] == "index" %>
+<%= link_to l(:print_with_description), :controller => 'issues', :action => 'printable', :project_id => @project %><br />
+<% end %>

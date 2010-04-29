@@ -1,0 +1,15 @@
+<h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
+<% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
+
+<%= error_messages_for 'query' %>
+<% if @query.valid? %>
+  <% if @issues.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <%= render :partial => 'issues/list_printable', :locals => {:issues => @issues, :query => @query} %>
+  <% end %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'issues_printable', :plugin => 'redmine_additional_formats', :media => "all" %>
+<% end %>
