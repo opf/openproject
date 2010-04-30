@@ -57,7 +57,7 @@ module TimelogHelper
   	if value.to_s.empty?
   		data.select {|row| row[criteria].blank? }
     else 
-    	data.select {|row| row[criteria] == value}
+    	data.select {|row| row[criteria].to_s == value.to_s}
     end
   end
   
