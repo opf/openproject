@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssuesController < ApplicationController
-  menu_item :new_issue, :only => :new
+  menu_item :new_issue, :only => [:new, :create]
   default_search_scope :issues
   
   before_filter :find_issue, :only => [:show, :edit, :update, :reply]
