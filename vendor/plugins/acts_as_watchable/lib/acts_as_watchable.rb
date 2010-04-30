@@ -50,9 +50,9 @@ module Redmine
           watching ? add_watcher(user) : remove_watcher(user)
         end
         
-        # Returns true if object is watched by user
+        # Returns true if object is watched by +user+
         def watched_by?(user)
-          !!(user && self.watchers.detect {|w| w.user_id == user.id })
+          !!(user && self.watcher_user_ids.detect {|uid| uid == user.id })
         end
         
         # Returns an array of watchers' email addresses

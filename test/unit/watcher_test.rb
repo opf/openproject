@@ -47,6 +47,12 @@ class WatcherTest < ActiveSupport::TestCase
     assert Issue.watched_by(@user).include?(@issue)
   end
   
+  def test_watcher_user_ids
+    issue = Issue.new
+    issue.watcher_user_ids = ['1', '3']
+    assert issue.watched_by?(User.find(1))
+  end
+  
   def test_recipients
     @issue.watchers.delete_all
     @issue.reload
