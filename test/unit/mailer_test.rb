@@ -306,7 +306,7 @@ class MailerTest < ActiveSupport::TestCase
   end
   
   def test_account_information
-    user = User.find(:first)
+    user = User.find(2)
     valid_languages.each do |lang|
       user.update_attribute :language, lang.to_s
       user.reload
