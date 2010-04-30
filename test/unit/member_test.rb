@@ -74,7 +74,7 @@ class MemberTest < ActiveSupport::TestCase
       Watcher.delete_all("user_id = 9")
       user = User.find(9)
       # public
-      Watcher.create!(:watchable => Issue.find(1), :user_id => user)
+      Watcher.create!(:watchable => Issue.find(1), :user => user)
       # private
       Watcher.create!(:watchable => Issue.find(4), :user => user)
       Watcher.create!(:watchable => Message.find(7), :user => user)
