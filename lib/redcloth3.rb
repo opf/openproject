@@ -388,7 +388,7 @@ class RedCloth3 < String
                 (?!\-\-)
                 #{rcq}
                 (#{QTAGS_JOIN}|)      # oqa
-                (?=[[:punct:]]|\s|\)|$)/x
+                (?=[[:punct:]]|<|\s|\)|$)/x
             else
                 /(#{rcq})
                 (#{C})
