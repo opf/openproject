@@ -66,11 +66,11 @@ module Redmine
         def event_url(options = {})
           option = event_options[:url]
           if option.is_a?(Proc)
-            option.call(self)
+            option.call(self).merge(options)
           elsif option.is_a?(Hash)
             option.merge(options)
           elsif option.is_a?(Symbol)
-            send(option)
+            send(option).merge(options)
           else
             option
           end

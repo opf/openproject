@@ -447,6 +447,9 @@ class ProjectsControllerTest < ActionController::TestCase
     get :activity, :format => 'atom'
     assert_response :success
     assert_template 'common/feed.atom.rxml'
+    assert_tag :tag => 'entry', :child => {
+      :tag => 'link',
+      :attributes => {:href => 'http://test.host/issues/11'}}
   end
   
   def test_archive
