@@ -97,8 +97,8 @@ class VariableCostObject < CostObject
     labor_budget_items.reject(&:new_record?).each do |labor_budget_item|
       attributes = labor_budget_item_attributes[labor_budget_item.id.to_s]
       
-      attributes[:budget] = Rate.clean_currency(attributes[:budget])
       if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0
+        attributes[:budget] = Rate.clean_currency(attributes[:budget])
         labor_budget_item.attributes = attributes
       else
         labor_budget_items.delete(labor_budget_item)
