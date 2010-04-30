@@ -65,6 +65,6 @@ class WelcomeControllerTest < ActionController::TestCase
     get :robots
     assert_response :success
     assert_equal 'text/plain', @response.content_type
-    assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues$})
+    assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
   end
 end
