@@ -775,7 +775,7 @@ class IssuesControllerTest < ActionController::TestCase
       put :update,
            :id => 1,
            :notes => '2.5 hours added',
-           :time_entry => { :hours => '2.5', :comments => 'test_put_update_with_note_and_spent_time', :activity_id => TimeEntryActivity.first }
+           :time_entry => { :hours => '2.5', :comments => 'test_put_update_with_note_and_spent_time', :activity_id => TimeEntryActivity.first.id }
     end
     assert_redirected_to :action => 'show', :id => '1'
     
