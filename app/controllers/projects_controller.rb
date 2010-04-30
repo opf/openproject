@@ -40,7 +40,6 @@ class ProjectsController < ApplicationController
   helper :custom_fields
   include CustomFieldsHelper   
   helper :issues
-  helper IssuesHelper
   helper :queries
   include QueriesHelper
   helper :repositories
