@@ -22,8 +22,8 @@
   </td>
   <td class="cost_type">
     <%= cost_form.select :cost_type_id, cost_types_collection_for_select_options(material_budget_item.cost_type), {}, {:index => id_or_index} %>
-    <%= observe_field( "#{id_prefix}_cost_type_id", :url => {:action => :update_material_budget_item}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('#{id_prefix}_units').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
-    <%= observe_field( "#{id_prefix}_units", :frequency => 1, :url => {:action => :update_material_budget_item}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
+    <%= observe_field( "#{id_prefix}_cost_type_id", :url => {:action => :update_material_budget_item, :project_id => @project.id}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('#{id_prefix}_units').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
+    <%= observe_field( "#{id_prefix}_units", :frequency => 1, :url => {:action => :update_material_budget_item, :project_id => @project.id}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
   </td>
   <td class="comment">
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>

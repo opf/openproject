@@ -31,8 +31,8 @@
       page << "makeEditable('#{id_prefix}_costs', '#{name_prefix}[budget]');"
       page << "edit($('#{id_prefix}_costs'), '#{name_prefix}[budget]', '#{number_to_currency(labor_budget_item.budget)}');" if labor_budget_item.budget
     end %>
-    <%= observe_field( "#{id_prefix}_user_id", :url => {:action => :update_labor_budget_item}, :with => "'user_id=' + encodeURIComponent(value) + '&hours=' + encodeURIComponent(document.getElementById('#{id_prefix}_hours').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
-    <%= observe_field( "#{id_prefix}_hours", :frequency => 1, :url => {:action => :update_labor_budget_item}, :with => "'user_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
+    <%= observe_field( "#{id_prefix}_user_id", :url => {:action => :update_labor_budget_item, :project_id => @project.id}, :with => "'user_id=' + encodeURIComponent(value) + '&hours=' + encodeURIComponent(document.getElementById('#{id_prefix}_hours').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
+    <%= observe_field( "#{id_prefix}_hours", :frequency => 1, :url => {:action => :update_labor_budget_item, :project_id => @project.id}, :with => "'user_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
   </td>
   <td class="delete">
     <%= link_to_function image_tag('delete.png'), "deleteLaborBudgetItem('#{id_prefix}')" %>
