@@ -30,6 +30,12 @@ xml.issue do
   xml.created_on @issue.created_on
   xml.updated_on @issue.updated_on
   
+  xml.relations do
+  	@issue.relations.select {|r| r.other_issue(@issue).visible? }.each do |relation|
+  		xml.relation(:id => relation.id, :issue_id => relation.other_issue(@issue).id, :relation_type => relation.relation_type_for(@issue), :delay => relation.delay)
+  	end
+  end
+  
   xml.changesets do
   	@issue.changesets.each do |changeset|
   		xml.changeset :revision => changeset.revision do

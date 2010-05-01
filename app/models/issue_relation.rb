@@ -27,13 +27,13 @@ class IssueRelation < ActiveRecord::Base
   TYPE_PRECEDES     = "precedes"
   TYPE_FOLLOWS      = "follows"
   
-  TYPES = { TYPE_RELATES =>     { :name => :label_relates_to, :sym_name => :label_relates_to, :order => 1 },
-            TYPE_DUPLICATES =>  { :name => :label_duplicates, :sym_name => :label_duplicated_by, :order => 2 },
-            TYPE_DUPLICATED =>  { :name => :label_duplicated_by, :sym_name => :label_duplicates, :order => 3, :reverse => TYPE_DUPLICATES },
-            TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by, :order => 4 },
-            TYPE_BLOCKED =>     { :name => :label_blocked_by, :sym_name => :label_blocks, :order => 5, :reverse => TYPE_BLOCKS },
-            TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows, :order => 6 },
-            TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes, :order => 7, :reverse => TYPE_PRECEDES }
+  TYPES = { TYPE_RELATES =>     { :name => :label_relates_to, :sym_name => :label_relates_to, :order => 1, :sym => TYPE_RELATES },
+            TYPE_DUPLICATES =>  { :name => :label_duplicates, :sym_name => :label_duplicated_by, :order => 2, :sym => TYPE_DUPLICATED },
+            TYPE_DUPLICATED =>  { :name => :label_duplicated_by, :sym_name => :label_duplicates, :order => 3, :sym => TYPE_DUPLICATES, :reverse => TYPE_DUPLICATES },
+            TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by, :order => 4, :sym => TYPE_BLOCKED },
+            TYPE_BLOCKED =>     { :name => :label_blocked_by, :sym_name => :label_blocks, :order => 5, :sym => TYPE_BLOCKS, :reverse => TYPE_BLOCKS },
+            TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows, :order => 6, :sym => TYPE_FOLLOWS },
+            TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes, :order => 7, :sym => TYPE_PRECEDES, :reverse => TYPE_PRECEDES }
           }.freeze
   
   validates_presence_of :issue_from, :issue_to, :relation_type
@@ -54,6 +54,17 @@ class IssueRelation < ActiveRecord::Base
   
   def other_issue(issue)
     (self.issue_from_id == issue.id) ? issue_to : issue_from
+  end
+  
+  # Returns the relation type for +issue+
+  def relation_type_for(issue)
+    if TYPES[relation_type]
+      if self.issue_from_id == issue.id
+        relation_type
+      else
+        TYPES[relation_type][:sym]
+      end
+    end
   end
   
   def label_for(issue)

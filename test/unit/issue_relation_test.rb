@@ -54,4 +54,13 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal from, relation.issue_from
     assert_equal to, relation.issue_to
   end
+  
+  def test_relation_type_for
+    from = Issue.find(1)
+    to = Issue.find(2)
+    
+    relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_PRECEDES
+    assert_equal IssueRelation::TYPE_PRECEDES, relation.relation_type_for(from)
+    assert_equal IssueRelation::TYPE_FOLLOWS, relation.relation_type_for(to)
+  end
 end
