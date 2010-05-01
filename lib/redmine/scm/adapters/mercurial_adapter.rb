@@ -65,7 +65,7 @@ module Redmine
           cmd = "#{HG_BIN} -R #{target('')} root"
           root_url = nil
           shellout(cmd) do |io|
-            root_url = io.gets
+            root_url = io.read
           end
           return nil if $? && $?.exitstatus != 0
           info = Info.new({:root_url => root_url.chomp,
