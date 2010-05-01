@@ -30,7 +30,7 @@ module Redmine
           cmd = "#{BZR_BIN} revno #{target('')}"
           info = nil
           shellout(cmd) do |io|
-            if io.read =~ %r{^(\d+)$}
+            if io.read =~ %r{^(\d+)\r?$}
               info = Info.new({:root_url => url,
                                :lastrev => Revision.new({
                                  :identifier => $1
@@ -56,7 +56,7 @@ module Redmine
           shellout(cmd) do |io|
             prefix = "#{url}/#{path}".gsub('\\', '/')
             logger.debug "PREFIX: #{prefix}"
-            re = %r{^V\s+(#{Regexp.escape(prefix)})?(\/?)([^\/]+)(\/?)\s+(\S+)$}
+            re = %r{^V\s+(#{Regexp.escape(prefix)})?(\/?)([^\/]+)(\/?)\s+(\S+)\r?$}
             io.each_line do |line|
               next unless line =~ re
               entries << Entry.new({:name => $3.strip,
