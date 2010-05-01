@@ -1111,6 +1111,10 @@ class IssuesControllerTest < ActionController::TestCase
     end
     
     should "allow changing the issue's attributes" do
+      # Fixes random test failure with Mysql
+      # where Issue.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => 2}) doesn't return the expected results
+      Issue.delete_all("project_id=2")
+      
       @request.session[:user_id] = 2
       assert_difference 'Issue.count', 2 do
         assert_no_difference 'Project.find(1).issues.count' do
