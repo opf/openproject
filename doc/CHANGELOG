@@ -8,6 +8,40 @@ http://www.redmine.org/
 
 Adds context menu to the roadmap issue lists
 
+== 2010-05-01 v0.9.4
+
+Filters collapsed by default on issues index page for a saved query
+Fixed: When categories list is too big the popup menu doesn't adjust (ex. in the issue list)
+Fixed: remove "main-menu" div when the menu is empty
+Fixed: Code syntax highlighting not working in Document page
+Fixed: Git blame/annotate fails on moved files
+Fixed: Failing test in test_show_atom
+Fixed: Migrate from trac - not displayed Wikis
+Fixed: Email notifications on file upload sent to empty recipient list
+Fixed: Migrating from trac is not possible, fails to allocate memory
+Fixed: Lost password no longer flashes a confirmation message
+Fixed: Crash while deleting in-use enumeration
+Fixed: Hard coded English string at the selection of issue watchers
+Fixed: Bazaar v2.1.0 changed behaviour
+Fixed: Roadmap display can raise an exception if no trackers are selected
+Fixed: Gravatar breaks layout of "logged in" page
+Fixed: Reposman.rb on Windows
+Fixed: Possible error 500 while moving an issue to another project with SQLite
+Fixed: backslashes in issue description/note should be escaped when quoted
+Fixed: Long text in <pre> disrupts Associated revisions
+Fixed: Links to missing wiki pages not red on project overview page
+Fixed: Cannot delete a project with subprojects that shares versions
+Fixed: Update of Subversion changesets broken under Solaris
+Fixed: "Move issues" permission not working for Non member
+Fixed: Sidebar overlap on Users tab of Group editor
+Fixed: Error on db:migrate with table prefix set (hardcoded name in principal.rb)
+Fixed: Report shows sub-projects for non-members
+Fixed: 500 internal error when browsing any Redmine page in epiphany
+Fixed: Watchers selection lost when issue creation fails
+Fixed: When copying projects, redmine should not generate an email to people who created issues
+Fixed: Issue "#" table cells should have a class attribute to enable fine-grained CSS theme
+Fixed: Plugin generators should display help if no parameter is given
+
 
 == 2010-02-28 v0.9.3
 
