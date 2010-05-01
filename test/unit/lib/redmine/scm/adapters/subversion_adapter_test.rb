@@ -15,19 +15,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'mkmf'
-
 require File.dirname(__FILE__) + '/../../../../../test_helper'
 
 class SubversionAdapterTest < ActiveSupport::TestCase
   
-  if find_executable0('svn')
+  if repository_configured?('subversion')
     def test_client_version
       v = Redmine::Scm::Adapters::SubversionAdapter.client_version
       assert v.is_a?(Array)
     end
   else
-    puts "Subversion binary NOT FOUND. Skipping unit tests !!!"
+    puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
   end
 end

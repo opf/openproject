@@ -83,6 +83,16 @@ class ActiveSupport::TestCase
     # LDAP is not listening
     return nil
   end
+  
+  # Returns the path to the test +vendor+ repository
+  def self.repository_path(vendor)
+    File.join(RAILS_ROOT.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
+  end
+  
+  # Returns true if the +vendor+ test repository is configured
+  def self.repository_configured?(vendor)
+    File.directory?(repository_path(vendor))
+  end
 
   # Shoulda macros
   def self.should_render_404

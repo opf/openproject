@@ -20,15 +20,12 @@ require File.dirname(__FILE__) + '/../test_helper'
 class RepositorySubversionTest < ActiveSupport::TestCase
   fixtures :projects
   
-  # No '..' in the repository path for svn
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/subversion_repository'
-  
   def setup
     @project = Project.find(1)
-    assert @repository = Repository::Subversion.create(:project => @project, :url => "file:///#{REPOSITORY_PATH}")
+    assert @repository = Repository::Subversion.create(:project => @project, :url => "file:///#{self.class.repository_path('subversion')}")
   end
   
-  if File.directory?(REPOSITORY_PATH)  
+  if repository_configured?('subversion')
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
