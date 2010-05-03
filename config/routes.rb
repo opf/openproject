@@ -111,7 +111,7 @@ ActionController::Routing::Routes.draw do |map|
       issues_views.connect 'projects/:project_id/issues.:format', :action => 'index'
       issues_views.connect 'projects/:project_id/issues/new', :action => 'new'
       issues_views.connect 'projects/:project_id/issues/gantt', :controller => 'gantts', :action => 'show'
-      issues_views.connect 'projects/:project_id/issues/calendar', :action => 'calendar'
+      issues_views.connect 'projects/:project_id/issues/calendar', :controller => 'calendars', :action => 'show'
       issues_views.connect 'projects/:project_id/issues/:copy_from/copy', :action => 'new'
       issues_views.connect 'issues/:id', :action => 'show', :id => /\d+/
       issues_views.connect 'issues/:id.:format', :action => 'show', :id => /\d+/
@@ -122,6 +122,7 @@ ActionController::Routing::Routes.draw do |map|
       issues_actions.connect 'issues', :action => 'index'
       issues_actions.connect 'projects/:project_id/issues', :action => 'create'
       issues_actions.connect 'projects/:project_id/issues/gantt', :controller => 'gantts', :action => 'show'
+      issues_actions.connect 'projects/:project_id/issues/calendar', :controller => 'calendars', :action => 'show'
       issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
       issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy/, :id => /\d+/
       issues_actions.connect 'issues.:format', :action => 'create', :format => /xml/
@@ -134,6 +135,7 @@ ActionController::Routing::Routes.draw do |map|
       issues_actions.connect 'issues/:id.:format', :action => 'destroy', :id => /\d+/, :format => /xml/
     end
     issues_routes.connect 'issues/gantt', :controller => 'gantts', :action => 'show'
+    issues_routes.connect 'issues/calendar', :controller => 'calendars', :action => 'show'
     issues_routes.connect 'issues/:action'
   end
   

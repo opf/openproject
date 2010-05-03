@@ -231,20 +231,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal columns, session[:query][:column_names].map(&:to_s)
   end
 
-  def test_calendar
-    get :calendar, :project_id => 1
-    assert_response :success
-    assert_template 'calendar'
-    assert_not_nil assigns(:calendar)
-  end
-  
-  def test_cross_project_calendar
-    get :calendar
-    assert_response :success
-    assert_template 'calendar'
-    assert_not_nil assigns(:calendar)
-  end
-  
   def test_changes
     get :changes, :project_id => 1
     assert_response :success

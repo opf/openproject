@@ -90,10 +90,10 @@ class RoutingTest < ActionController::IntegrationTest
     
     should_route :post, "/issues/1/quoted", :controller => 'issues', :action => 'reply', :id => '1'
 
-    should_route :get, "/issues/calendar", :controller => 'issues', :action => 'calendar'
-    should_route :post, "/issues/calendar", :controller => 'issues', :action => 'calendar'
-    should_route :get, "/projects/project-name/issues/calendar", :controller => 'issues', :action => 'calendar', :project_id => 'project-name'
-    should_route :post, "/projects/project-name/issues/calendar", :controller => 'issues', :action => 'calendar', :project_id => 'project-name'
+    should_route :get, "/issues/calendar", :controller => 'calendars', :action => 'show'
+    should_route :post, "/issues/calendar", :controller => 'calendars', :action => 'show'
+    should_route :get, "/projects/project-name/issues/calendar", :controller => 'calendars', :action => 'show', :project_id => 'project-name'
+    should_route :post, "/projects/project-name/issues/calendar", :controller => 'calendars', :action => 'show', :project_id => 'project-name'
 
     should_route :get, "/issues/gantt", :controller => 'gantts', :action => 'show'
     should_route :post, "/issues/gantt", :controller => 'gantts', :action => 'show'
