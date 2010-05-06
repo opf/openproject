@@ -1,8 +1,0 @@
-<% if not @project.nil? and @project.module_enabled? :costs_module %>
-  <% myselect = select_tag('cost_object_id',
-        content_tag('option', l(:label_no_change_option), :value => '') +
-        content_tag('option', l(:label_none), :value => 'none') +
-        options_from_collection_for_select(CostObject.find_all_by_project_id(@project.id, :order => 'subject ASC'), :id, :subject))
-  %>
-  <%= content_tag(:p, "<label>#{l(:field_cost_object)}</label>" + myselect)%>
-<% end %>

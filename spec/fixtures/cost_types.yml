@@ -1,6 +1,0 @@
-umbrella:
-  id: 1
-  name: Umbrella Standard
-  unit: Umbrella
-  unit_plural: Umbrellas
-  default: true
