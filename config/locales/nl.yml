@@ -1,5 +1,5 @@
 # English strings go here for Rails i18n
-en:
+nl:
   backlogs_story_tracker: "Story trackers"
   backlogs_task_tracker: "Task tracker"
   backlogs_card_specification: "Label type voor kaartjes"
