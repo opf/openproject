@@ -1,8 +1,0 @@
-<%= text_field_tag "#{name_prefix}[values][]", (filter.values.first if filter.values), :size => 10, :class => "select-small", :id => "#{id_prefix}_date1"%> <%= calendar_for("#{id_prefix}_date1") %>
-<span id="<%= id_prefix %>_between_tags" class="between_tags" <%= 'style="display:none"' unless filter.operator == "<>d" %>>
-<%=
-  l(:label_until)
-  text_field_tag("#{name_prefix}[values][]", (filter.values.last if filter.values), :size => 10, :class => "select-small", :id => "#{id_prefix}_date2") + " " +
-  calendar_for("#{id_prefix}_date2")
-%>
-</span>
