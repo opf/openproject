@@ -23,6 +23,5 @@ rescue LoadError => error
 end
 
 Fixtures.create_fixtures File.join(File.dirname(__FILE__), "fixtures"), ActiveRecord::Base.connection.tables
-require File.join(File.dirname(__FILE__), "..", "init.rb")
 require File.join(RAILS_ROOT, "test", "object_daddy_helpers.rb")
 Dir.glob(File.expand_path("#{__FILE__}/../../test/exemplars/*.rb")) { |e| require e }
