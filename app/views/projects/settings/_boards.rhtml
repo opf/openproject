@@ -1,11 +1,11 @@
 <% if @project.boards.any? %>
 <table class="list">
-	<thead>
+	<thead><tr>
 		<th><%= l(:label_board) %></th>
 		<th><%= l(:field_description) %></th>
 		<th></th>
 		<th></th>
-	</thead>
+	</tr></thead>
 	<tbody>
 <% @project.boards.each do |board|
 	next if board.new_record? %>

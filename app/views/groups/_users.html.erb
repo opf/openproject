@@ -1,10 +1,10 @@
 <div class="splitcontentleft">
 <% if @group.users.any? %>
 	<table class="list users">
-		<thead>
+		<thead><tr>
 		  <th><%= l(:label_user) %></th>
 		  <th style="width:15%"></th>
-		</thead>
+		</tr></thead>
 		<tbody>
 		<% @group.users.sort.each do |user| %>
 			<tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">

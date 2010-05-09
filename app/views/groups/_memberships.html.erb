@@ -4,11 +4,11 @@
 <div class="splitcontentleft">
 <% if @group.memberships.any? %>
 <table class="list memberships">
-	<thead>
+	<thead><tr>
 	  <th><%= l(:label_project) %></th>
 	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
-	</thead>
+	</tr></thead>
 	<tbody>
 	<% @group.memberships.each do |membership| %>
 	<% next if membership.new_record? %>

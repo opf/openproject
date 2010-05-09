@@ -5,12 +5,12 @@
 <div class="splitcontentleft">
 <% if members.any? %>
 <table class="list members">
-	<thead>
+	<thead><tr>
 	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
 	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
           <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
-	</thead>
+	</tr></thead>
 	<tbody>
 	<% members.each do |member| %>
 	<% next if member.new_record? %>

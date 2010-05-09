@@ -1,10 +1,10 @@
 <% if @project.issue_categories.any? %>
 <table class="list">
-	<thead>
+	<thead><tr>
 	<th><%= l(:label_issue_category) %></th>
 	<th><%= l(:field_assigned_to) %></th>
 	<th></th>
-	</thead>
+	</tr></thead>
 	<tbody>
 <% for category in @project.issue_categories %>
 	<% unless category.new_record? %>

@@ -4,12 +4,12 @@
 <div class="splitcontentleft">
 <% if @user.memberships.any? %>
 <table class="list memberships">
-	<thead>
+	<thead><tr>
 	  <th><%= l(:label_project) %></th>
 	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
       <%= call_hook(:view_users_memberships_table_header, :user => @user )%>
-	</thead>
+	</tr></thead>
 	<tbody>
 	<% @user.memberships.each do |membership| %>
 	<% next if membership.new_record? %>

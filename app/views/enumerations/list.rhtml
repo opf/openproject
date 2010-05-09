@@ -5,14 +5,14 @@
 
 <% enumerations = klass.shared %>
 <% if enumerations.any? %>
-<table class="list">
+<table class="list"><thead>
 <tr>
     <th><%= l(:field_name) %></th>
     <th style="width:15%;"><%= l(:field_is_default) %></th>
     <th style="width:15%;"><%= l(:field_active) %></th>
     <th style="width:15%;"></th>
     <th align="center" style="width:10%;"> </th>
-</tr>
+</tr></thead>
 <% enumerations.each do |enumeration| %>
 <tr class="<%= cycle('odd', 'even') %>">
     <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>

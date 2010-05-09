@@ -1,14 +1,14 @@
 <% form_tag({:controller => 'projects', :action => 'save_activities', :id => @project}, :class => "tabular") do %>
 
 <table class="list">
-  <tr>
+  <thead><tr>
     <th><%= l(:field_name) %></th>
     <th><%= l(:enumeration_system_activity) %></th>
     <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
 	<th><%= h value.name %></th>
     <% end %>
     <th style="width:15%;"><%= l(:field_active) %></th>
-  </tr>
+  </tr></thead>
 
   <% @project.activities(true).each do |enumeration| %>
   <% fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>

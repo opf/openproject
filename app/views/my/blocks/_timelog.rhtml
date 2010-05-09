@@ -13,13 +13,13 @@ entries_by_day = entries.group_by(&:spent_on)
 
 <% if entries.any? %>
 <table class="list time-entries">
-<thead>
+<thead><tr>
 <th><%= l(:label_activity) %></th>
 <th><%= l(:label_project) %></th>
 <th><%= l(:field_comments) %></th>
 <th><%= l(:field_hours) %></th>
 <th></th>
-</thead>
+</tr></thead>
 <tbody>
 <% entries_by_day.keys.sort.reverse.each do |day| %>
     <tr class="odd">
