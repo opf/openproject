@@ -24,7 +24,7 @@ module ProjectPatch
             sprints.each {|sprint|
                 most_recent ||= sprint.days[-1] 
                 days += sprint.days.length
-                accepted += sprint.stories.select{|s| s.status.is_closed}.inject(0){|sum, s| sum + s.story_points}
+                accepted += (sprint.stories.select{|s| s.status.is_closed && s.story_points}.inject(0){|sum, s| sum + s.story_points}) || 0
             }
             return {:date => most_recent, :sprints => sprints.length, :days => days / sprints.length, :velocity => accepted / sprints.length }
         end
