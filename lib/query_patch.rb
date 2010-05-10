@@ -43,7 +43,7 @@ module QueryPatch
             parentcol = available_columns.select{|c| c.name == :parent}[0]
             return cols if cols.include?(parentcol)
 
-            return [parentcol] + cols if self.filters.has_key?("backlogs_issue_type")
+            return [parentcol] + cols if self.filters["backlogs_issue_type"] and self.filters["backlogs_issue_type"][:values] == ['any']
 
             return cols
         end

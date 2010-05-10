@@ -1,9 +1,12 @@
+<%- dataseries = @burndown[:series].keys.sort{|a, b| l(a) <=> l(b) } %>
 <%- content_for :header_tags do %>
     <%= stylesheet_link_tag 'jquery.jqplot.min.css', :plugin => 'redmine_backlogs' %>
     <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
     <!--[if IE]><%= javascript_include_tag 'jquery.jqplot/excanvas.js', :plugin => 'redmine_backlogs' %><![endif]-->
     <%= javascript_include_tag 'jquery.jqplot/jquery.jqplot.min.js', :plugin => 'redmine_backlogs' %>
     <%= javascript_include_tag 'jquery.jqplot/plugins/jqplot.highlighter.js', :plugin => 'redmine_backlogs' %>
+    <%= javascript_include_tag 'jquery.cookies.2.2.0.min.js', :plugin => 'redmine_backlogs' %>
+
     <style type="text/css" media="screen">
         .jqplot-axis {
             font-size: 0.85em;
@@ -16,19 +19,21 @@
         }
   </style>
     <script type="text/javascript" language="javascript">
-        function burndown(div) {
-            <%  dataseries = @burndown[:series].keys
+        chart = null;
+        series_no = {}
 
-                dataseries.each do |series| %>
+        function burndown(div) {
+            <%  dataseries.each_with_index do |series, i| %>
                     <%= series.to_s %> = [ <%= @burndown[:series][series][:series].collect {|d| "#{d}"}.join(',') %>];
+                    series_no['<%= series.to_s %>'] = <%= i %>;
             <%  end %>
 
             xticks = [ <%= @burndown[:dates].enum_with_index.collect {|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %> ];
-            datasets = [ <%= dataseries.collect{|series| series.to_s}.join(',') %> ];
+            datasets = [ <%= dataseries.collect{|s| s.to_s}.join(',') %> ];
             series = [
                 <% dataseries.each_with_index do |series, i| %>
                     {
-                        label: '<%= escape_javascript(series.to_s) %>',
+                        label: '<%= escape_javascript(l(series)) %>',
                         yaxis: '<%= @burndown[:series][series][:units] == :points ?  'yaxis' : 'y2axis' %>'
                     }<% if i != dataseries.length - 1 %>,<% end %>
                 <% end %>
@@ -38,7 +43,7 @@
             max_points = <%= @burndown[:max][:points] == 0 ? 1 : 1.01 * @burndown[:max][:points] %>;
             max_hours = <%= @burndown[:max][:hours] == 0 ? 1 : 1.01 * @burndown[:max][:hours] %>;
 
-            plot1 = $.jqplot(div, datasets, {
+            plot = $.jqplot(div, datasets, {
                 legend: {show:true, location:'sw'},
                 grid: {shadow:false},
                 seriesDefault: {shadow:false},
@@ -53,12 +58,57 @@
                     formatString: '%s'
                 }
             });
+
+            return plot;
+        }
+
+
+        function configure(cb)
+        {
+            if (chart == null) { return; }
+
+            disabled = ('' + $.cookies.get('burndown_series')).split('|');
+
+            if (!(cb == undefined)) {
+                v = cb.value;
+                _disabled = [];
+                for (d in disabled) {
+                    if (disabled[d] != cb.value) {
+                        _disabled.push(disabled[d]);
+                    }
+                }
+                if (!cb.checked) {
+                    _disabled.push(cb.value);
+                }
+                disabled = _disabled;
+                $.cookies.set('burndown_series', disabled.join('|'));
+            }
+
+            /* enable all */
+            $('.series_enabled').attr('checked', true);
+            for (s in series_no) { chart.series[series_no[s]].show = true; }
+
+            disabled = ('' + $.cookies.get('burndown_series')).split('|');
+            for (d in disabled) {
+                if (series_no[disabled[d]] == undefined) { continue; }
+
+                chart.series[series_no[disabled[d]]].show = false;
+                $('#' + disabled[d] + '_enabled').attr('checked', false);
+            }
+            chart.replot();
         }
 
         $(document).ready(function(){
-            burndown('burndown');
+            chart = burndown('burndown');
+            configure();
         });
     </script>
 <%- end %>
 
     <div id="burndown" style="margin-top:20px; margin-left:20px; width:640px; height:480px;"></div>
+    <fieldset>
+        <legend>Series</legend>
+        <% dataseries.each do |series| %>
+            <input class="series_enabled" type="checkbox" onclick="configure(this)" id="<%= series %>_enabled" name="<%= series %>_enabled" value="<%= series %>"><%= l(series) %><br/>
+        <% end %>
+    </fieldset>

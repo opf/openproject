@@ -8,6 +8,21 @@
 <%= stylesheet_link_tag 'smoothness/jquery-ui-1.8rc3.custom.css', 'common.css', 'purecssmenu.css', :plugin => 'redmine_backlogs', :cache => 'backlogscss/all' %>
 
 <%= javascript_include_tag 'jquery-1.4.2.min.js', 'jquery-ui-1.8rc3.custom.min.js', 'jquery.jeditable.mini.js', 'common.js', :plugin => 'redmine_backlogs', :cache => 'backlogsjs/all' %>
+
+<!--[if lte IE 7]>
+<script type="text/javascript">
+    // and when it all appears to work beautifully on every browser,
+    // it fails on IE
+    $(document).ready(function() {
+        var zIndex = 10000;
+        $('div, ul, li, span').each(function() {
+            $(this).css('zIndex', zIndex);
+            zIndex -= 10;
+        });
+    });
+</script>
+<![endif]-->
+
 <%= call_hook :view_layouts_base_html_head %>
 <%= yield :header_tags -%>
 </head>

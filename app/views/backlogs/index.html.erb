@@ -5,7 +5,13 @@
 <%- end %>
 
 <%- content_for :breadcrumbs do %>
-  <%= @project.name %>
+  <%= @project.name %>,
+  <% if @velocity %>
+    velocity <%= @velocity[:velocity] %>,
+    based on <%= @velocity[:sprints] %> sprints with an average <%= @velocity[:days] %> days, last sprint <%= @velocity[:date] %>
+  <% else %>
+    No velocity
+  <% end %>
 <%- end %>
 
 <div id="sprints">

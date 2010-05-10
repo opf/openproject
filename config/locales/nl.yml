@@ -1,0 +1,26 @@
+# English strings go here for Rails i18n
+nl:
+  backlogs_story_tracker: "Story trackers"
+  backlogs_task_tracker: "Task tracker"
+  backlogs_card_specification: "Label type voor kaartjes"
+  backlogs_sprints: "Sprints"
+  field_story_points: "Story points"
+  field_remaining_hours: "Resterende uren"
+  button_edit_wiki: "Wijzig wiki page"
+  field_backlogs_issue_type: "Backlog type"
+  backlogs_story: Story
+  backlogs_task: Task
+  backlogs_any: alle
+  backlogs_points_burn_direction: "Points burn omhoog/omlaag"
+  label_points_burn_up: Omhoog
+  label_points_burn_down: Omlaag
+  field_position: Positie
+  backlogs_product_backlog: "Product backlog"
+  backlogs_wiki_template: "Template voor sprint wiki pagina"
+  points_committed: "points toegezegd"
+  required_burn_rate_points: "benodigde burn rate (points)"
+  required_burn_rate_hours: "benodigde burn rate (hours)"
+  points_to_accept: "points niet geaccepteerd"
+  ideal: "ideaal"
+  points_to_resolve: "points niet opgelost"
+  remaining_hours: "resterende uren"

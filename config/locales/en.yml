@@ -2,6 +2,7 @@
 en:
   backlogs_story_tracker: "Story trackers"
   backlogs_task_tracker: "Task tracker"
+  backlogs_card_specification: "Label types for card printing"
   backlogs_sprints: "Sprints"
   field_story_points: "Story points"
   field_remaining_hours: "Remaining hours"
@@ -14,3 +15,12 @@ en:
   label_points_burn_up: Up
   label_points_burn_down: Down
   field_position: Position
+  backlogs_product_backlog: "Product backlog"
+  backlogs_wiki_template: "Template for sprint wiki page"
+  points_committed: "points committed"
+  required_burn_rate_points: "required burn rate (points)"
+  required_burn_rate_hours: "required burn rate (hours)"
+  points_to_accept: "points not accepted"
+  ideal: "ideal"
+  points_to_resolve: "points not resolved"
+  remaining_hours: "remaining hours"

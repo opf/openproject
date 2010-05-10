@@ -10,6 +10,7 @@ class BacklogsController < ApplicationController
     @settings = Setting.plugin_redmine_backlogs
     @product_backlog_stories = Story.product_backlog(@project)
     @sprints = Sprint.open_sprints(@project)
+    @velocity = @project.velocity
     
     if @settings[:story_trackers].nil? || @settings[:task_tracker].nil?
       render :action => "noconfig", :layout => "backlogs"
@@ -115,13 +116,32 @@ class BacklogsController < ApplicationController
     render :text => story.points_display, :status => 200
   end
 
-  def select_sprint
+  def select_issues
     @query = Query.new(:name => "_")
     @query.project = @project
 
-    @query.add_filter("status_id", '*', ['']) # All statuses
-    @query.add_filter("fixed_version_id", '=', [params[:sprint_id]])
-    @query.add_filter("backlogs_issue_type", '=', ['any'])
+    if params[:sprint_id]
+        @query.add_filter("status_id", '*', ['']) # All statuses
+        @query.add_filter("fixed_version_id", '=', [params[:sprint_id]])
+        @query.add_filter("backlogs_issue_type", '=', ['any'])
+    else
+        @query.add_filter("status_id", 'o', ['']) # only open
+        @query.add_filter("fixed_version_id", '!*', ['']) # only unassigned
+        @query.add_filter("backlogs_issue_type", '=', ['story'])
+    end
+
+    session[:query] = {:project_id => @query.project_id, :filters => @query.filters}
+
+    redirect_to :controller => 'issues', :action => 'index', :project_id => @project.id
+  end
+
+  def select_product_backlog
+    @query = Query.new(:name => "_")
+    @query.project = @project
+
+    @query.add_filter("status_id", 'o', ['']) # only open
+    @query.add_filter("fixed_version_id", '!*', ['']) # only unassigned
+    @query.add_filter("backlogs_issue_type", '=', ['story'])
 
     session[:query] = {:project_id => @query.project_id, :filters => @query.filters}
 
@@ -144,6 +164,27 @@ class BacklogsController < ApplicationController
   def wiki_page_edit
     sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => params[:sprint_id]})
     redirect_to :controller => 'wiki', :action => 'edit', :id => @project.id, :page => sprint.wiki_page
+  end
+
+  def product_backlog_cards
+    cards = TaskboardCards.new
+
+    Story.product_backlog(@project).each {|story|
+        cards.add(story, false)
+    }
+
+    send_data(cards.pdf.render, :filename => 'cards.pdf', :disposition => 'attachment', :type => 'application/pdf')
+  end
+
+  def taskboard_cards
+    sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => params[:sprint_id]})
+    cards = TaskboardCards.new
+
+    sprint.stories.each {|story|
+        cards.add(story)
+    }
+
+    send_data(cards.pdf.render, :filename => 'cards.pdf', :disposition => 'attachment', :type => 'application/pdf')
   end
 
   private
