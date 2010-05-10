@@ -1,0 +1,26 @@
+/* TASK */
+.task{
+  
+}
+.task .id{
+  display:inline;
+  float:left;
+  padding-right:5px;
+}
+.task .editor{
+  display:none;
+}
+.task.editing .subject.editor{
+  display:block;
+  font-family:inherit;
+  font-size:10px;
+  height:70px;
+  left:2px;
+  line-height:12px;
+  position:absolute;
+  top:2px;
+  width:150px;
+}
+.task .assigned_to_id{
+  display:none;
+}

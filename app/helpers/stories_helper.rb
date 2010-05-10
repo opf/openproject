@@ -1,7 +1,7 @@
 module StoriesHelper
   unloadable
   
-  def assigned_to_id_or_empty(story)
+  def assignee_id_or_empty(story)
     story.new_record? ? "" : story.assigned_to_id
   end
 

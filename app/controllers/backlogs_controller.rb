@@ -4,6 +4,7 @@ include BacklogMenuHelper
 class BacklogsController < ApplicationController
   unloadable
 
+  before_filter :find_sprint, :only => [:show]
   before_filter :find_project, :authorize
 
   def index
@@ -17,6 +18,10 @@ class BacklogsController < ApplicationController
     else
       render :action => "index", :layout => "backlogs"
     end
+  end
+  
+  def show
+    @statuses = IssueStatus.find(:all)
   end
 
   def burndown
@@ -190,6 +195,14 @@ class BacklogsController < ApplicationController
   private
 
   def find_project
-    @project = Project.find(params[:project_id])
+    @project = if params[:project_id]
+                 Project.find(params[:project_id])
+               else
+                 @sprint.project
+               end
+  end
+  
+  def find_sprint
+    @sprint = Sprint.find(params[:id])
   end
 end

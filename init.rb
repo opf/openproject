@@ -42,6 +42,7 @@ Redmine::Plugin.register :redmine_backlogs do
                                     :jsvariables,
                                     :index,
                                     :reorder,
+                                    :show,
                                     :sprint_date,
                                     :select_issues,
                                     :taskboard_cards,
