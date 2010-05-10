@@ -63,11 +63,7 @@ module IssuePatch
 
         def story
             return Issue.find(:first,
-<<<<<<< HEAD
-                :conditions => [ "id = ? and tracker_id in (?)", self.root_id, Story.trackers])
-=======
                 :conditions => [ "id = ? and tracker_id in (?)", self.root_id, Story.trackers ])
->>>>>>> 27fb49b44d980e48922fc624aceda4e883db3851
         end
 
         def update_parent_attributes_with_remaining_hours
