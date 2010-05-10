@@ -166,7 +166,7 @@ class Sprint < Version
                 end
 
                 [[:points_accepted, :points_to_accept], [:points_resolved, :points_to_resolve]].each{|src, tgt|
-                    continue if not datasets.include? src
+                    next if not datasets.include? src
 
                     datasets[tgt] = { :units => :points, :series => [] }
                     datasets[src][:series].each_with_index {|d, i|
