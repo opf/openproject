@@ -126,8 +126,8 @@ class Sprint < Version
                 datapoint[:required_burn_rate_points] = (datapoint[:points_committed] - datapoint[:points_resolved]) / remaining_days
             end
 
-            max_points = [max_points, datapoint[:points_committed]].max
-            max_hours = [max_hours, datapoint[:remaining_hours]].max
+            max_points = [max_points, datapoint[:points_committed]].compact.max
+            max_hours = [max_hours, datapoint[:remaining_hours]].compact.max
 
             if datapoint[:remaining_hours].class == NilClass
                 datapoint[:required_burn_rate_hours] = nil
@@ -135,7 +135,7 @@ class Sprint < Version
                 datapoint[:required_burn_rate_hours] = datapoint[:remaining_hours] / remaining_days
             end
 
-            datapoint[:ideal] = datapoint[:points_committed] * ideal_factor
+            datapoint[:ideal] = datapoint[:points_committed] * ideal_factor if datapoint[:points_committed]
 
             datapoints << datapoint
 
