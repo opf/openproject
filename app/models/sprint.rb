@@ -116,7 +116,7 @@ class Sprint < Version
                     # the specified day, return the last known values
                     # I don't save these because they're a) cheap to
                     # regenerate, and b) not actual measurements
-                    datapoint = (datapoints.length > 0 : datapoints[-1].dup ? {})
+                    datapoint = (datapoints.length > 0 ? datapoints[-1].dup : {})
                 end
             end
 
