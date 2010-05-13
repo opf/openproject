@@ -18,13 +18,36 @@ RB.Taskboard = Object.create(RB.Model, {
       connectWith: '.list', 
       placeholder: 'placeholder',
       start: this.dragStart,
-      stop: this.dragStop
+      stop: this.dragStop,
+      update: this.dragComplete
     });
 
     // Initialize each task in the board
     $('.task').each(function(index){
       task = RB.Factory.initialize(RB.Task, this); // 'this' refers to an element with class="task"
     });
+  },
+  
+  dragComplete: function(event, ui) {
+    var isDropTarget = (ui.sender==null); // Handler is triggered for source and target. Thus the need to check.
+
+    if(isDropTarget){
+      var cellID = event.target.id.split("_");
+      
+      var data = {
+        id: ui.item.data('this').getID(),
+        story_id: cellID[0],
+        status_id: cellID[1]
+      }
+
+      $.ajax({
+          type: "POST",
+          url: RB.urlFor['update_task'],
+          data: data,
+          beforeSend: function(xhr){ ui.item.data('this').markSaving() },
+          complete: function(xhr, textStatus){ ui.item.data('this').unmarkSaving() }
+      });
+    }    
   },
   
   dragStart: function(event, ui){ 

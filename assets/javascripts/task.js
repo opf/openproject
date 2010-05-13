@@ -31,6 +31,10 @@ RB.Task = Object.create(RB.Story, {
       default   : return true;
     }
   },
+
+  markSaving: function(){
+    this.$.addClass('saving');
+  },
   
   triggerEdit: function(event){
     // Get the task since what was clicked was a field
@@ -42,6 +46,10 @@ RB.Task = Object.create(RB.Story, {
       // Focus on the input corresponding to the field clicked
       j.find( '.' + $(event.currentTarget).attr('fieldname') + '.editor' ).focus();
     }
-  }
+  },
+
+  unmarkSaving: function(){
+    this.$.removeClass('saving');
+  }  
   
 });
