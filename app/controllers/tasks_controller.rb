@@ -11,7 +11,6 @@ class TasksController < ApplicationController
   def update
     attribs = params.select{|k,v| k != 'id' and k != 'project_id' and Task.column_names.include? k }
     attribs = Hash[*attribs.flatten]
-    RAILS_DEFAULT_LOGGER.info "@@@@ #{attribs.inspect}"
     result = @task.journalized_update_attributes! attribs
     if result
       text = "Task updated successfully."

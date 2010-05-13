@@ -14,8 +14,6 @@ class StoriesController < ApplicationController
 
   def create
     attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
-    logger.info '----------------------------------------'
-    logger.info (Hash[*attribs.flatten]).inspect
     attribs = Hash[*attribs.flatten]
     attribs['author_id'] = User.current.id
     story = Story.new(attribs)
@@ -34,8 +32,6 @@ class StoriesController < ApplicationController
   def update
     story = Story.find(params[:id])
     attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
-    logger.info '----------------------------------------'
-    logger.info (Hash[*attribs.flatten]).inspect
     attribs = Hash[*attribs.flatten]
     result = story.journalized_update_attributes! attribs
     if result
