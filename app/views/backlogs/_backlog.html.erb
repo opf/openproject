@@ -20,6 +20,14 @@
             :for => :sprint
           },
           {
+            :item => menu_link('Stories/Tasks', {
+                               :controller => 'backlogs',
+                               :action => 'select_issues',
+                               :project_id => @project,
+                               :sprint_id => backlog }),
+            :for => :sprint
+          },
+          {
             :item => menu_link('Stories', {
                                :controller => 'backlogs',
                                :action => 'select_issues',
