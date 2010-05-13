@@ -21,7 +21,7 @@ class BacklogsController < ApplicationController
   end
   
   def show
-    @statuses = IssueStatus.find(:all)
+    @statuses = Tracker.find_by_id(Task.tracker).issue_statuses
   end
 
   def burndown
