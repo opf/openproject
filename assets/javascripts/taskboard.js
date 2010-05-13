@@ -32,8 +32,8 @@ RB.Taskboard = Object.create(RB.Model, {
     var isDropTarget = (ui.sender==null); // Handler is triggered for source and target. Thus the need to check.
 
     if(isDropTarget){
-      var cellID = event.target.id.split("_");
-      
+      var cellID = $(ui.item).parent('td').first().attr('id').split("_");
+
       var data = {
         id: ui.item.data('this').getID(),
         story_id: cellID[0],
