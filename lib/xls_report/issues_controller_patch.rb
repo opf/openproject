@@ -40,6 +40,13 @@ module XlsReport
         headers = (columns.collect(&:caption) << l(:field_description)).unshift("#")
         sb.add_headers(headers)
         
+        issues.each do |issue|
+          sb.add_row((columns.collect do |column|
+            cv = column.value(issue)
+            (cv.respond_to? :name) ? cv.name : cv
+          end << issue.description).unshift(issue.id))
+        end
+        
         headers.each_with_index do |h,idx|
           h = h.to_s.downcase
           if (h =~ /.*hours.*/ or h == "spent_time")
@@ -49,12 +56,6 @@ module XlsReport
           end
         end
         
-        issues.each do |issue|
-          sb.add_row((columns.collect do |column|
-            cv = column.value(issue)
-            (cv.respond_to? :name) ? cv.name : cv
-          end << issue.description).unshift(issue.id))
-        end
         sb
       end
             
