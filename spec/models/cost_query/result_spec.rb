@@ -44,6 +44,48 @@ describe CostQuery do
       end
     end
 
+    it "should travel recursively width-first" do
+      #build a tree of wrapped and direct results
+      w1 = wrapped_result((direct_results 5), 3)
+      w2 = wrapped_result wrapped_result((direct_results 3), 2)
+      w = wrapped_result [w1, w2]
+
+      previous_depth = -1
+      w.recursive_each_with_level 0, false do |level, result|
+        #width first, so we should get only deeper into the hole without ever coming up again
+        previous_depth.should <= level
+        previous_depth=level          
+      end
+    end
+
+    it "should travel to all results width-first" do
+      #build a tree of wrapped and direct results
+      w1 = wrapped_result((direct_results 5), 3)
+      w2 = wrapped_result wrapped_result((direct_results 3), 2)
+      w = wrapped_result [w1, w2]
+
+      count = 0
+      w.recursive_each_with_level 0, false do |level, result|
+        #width first       
+        count = count + 1 if result.is_a? CostQuery::Result::DirectResult        
+      end
+      w.count.should ==  count
+    end
+
+    it "should travel to all results width-first" do
+      #build a tree of wrapped and direct results
+      w1 = wrapped_result((direct_results 5), 3)
+      w2 = wrapped_result wrapped_result((direct_results 3), 2)
+      w = wrapped_result [w1, w2]
+
+      count = 0
+      w.recursive_each_with_level do |level, result|
+        #depth first
+          count = count + 1 if result.is_a? CostQuery::Result::DirectResult        
+        end
+      w.count.should ==  count
+    end
+
     it "should compute count correctly" do
       @query.result.count.should == Entry.count
     end
