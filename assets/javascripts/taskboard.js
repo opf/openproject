@@ -36,7 +36,7 @@ RB.Taskboard = RB.Object.create(RB.Model, {
 
       var data = {
         id: ui.item.data('this').getID(),
-        story_id: cellID[0],
+        parent_issue_id: cellID[0],
         status_id: cellID[1]
       }
 

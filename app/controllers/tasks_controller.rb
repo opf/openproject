@@ -9,7 +9,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    attribs = params.select{|k,v| k != 'id' and k != 'project_id' and Task.column_names.include? k }
+    attribs = params.select{|k,v| Task::SAFE_ATTRIBUTES.include? k }
     attribs = Hash[*attribs.flatten]
     result = @task.journalized_update_attributes! attribs
     if result
