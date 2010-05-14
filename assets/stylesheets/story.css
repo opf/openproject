@@ -57,7 +57,7 @@
   width:16px;
 }
 .story.error .indicator{
-  background-image:url('/images/warning.png');
+  background-image:url('../images/warning.png');
 }
 .story .id{
   background-color:#cfc;

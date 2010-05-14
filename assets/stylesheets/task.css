@@ -80,3 +80,15 @@
   top:81px;
   width:108px;
 }
+.task.saving .indicator{
+  background-image:url('../images/indicator.gif');
+  display:block;
+  height:16px;
+  left:3px;
+  position:absolute;
+  top:1px;
+  width:16px;
+}
+.task.error .indicator{
+  background-image:url('../images/warning.png');
+}

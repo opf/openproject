@@ -32,7 +32,7 @@
 
 <!-- form field templates -->
 <select class="assigned_to_id template" id="assigned_to_id_options">
-  <option value="">None</option>
+  <option value=""> </option>
   <%- @project.members.each do |member| %>
   <option value="<%= member.user_id %>"><%= member.name %></option>
   <%- end %>
