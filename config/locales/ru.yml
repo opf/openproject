@@ -255,11 +255,11 @@ ru:
   default_doc_category_tech: Техническая документация
   default_doc_category_user: Документация пользователя
   default_issue_status_in_progress: В работе
-  default_issue_status_closed: Закрыт
+  default_issue_status_closed: Закрыта
   default_issue_status_feedback: Обратная связь
-  default_issue_status_new: Новый
+  default_issue_status_new: Новая
   default_issue_status_rejected: Отказ
-  default_issue_status_resolved: Решено
+  default_issue_status_resolved: Решена
   default_priority_high: Высокий
   default_priority_immediate: Немедленный
   default_priority_low: Низкий
@@ -360,7 +360,7 @@ ru:
   field_role: Роль
   field_searchable: Доступно для поиска
   field_spent_on: Дата
-  field_start_date: Начало
+  field_start_date: Начата
   field_start_page: Стартовая страница
   field_status: Статус
   field_subject: Тема
@@ -419,7 +419,7 @@ ru:
   label_auth_source: Режим аутентификации
   label_auth_source_new: Новый режим аутентификации
   label_auth_source_plural: Режимы аутентификации
-  label_blocked_by: заблокировано
+  label_blocked_by: блокируется
   label_blocks: блокирует
   label_board: Форум
   label_board_new: Новый форум
@@ -503,7 +503,7 @@ ru:
   label_filter_add: Добавить фильтр
   label_filter_plural: Фильтры
   label_float: С плавающей точкой
-  label_follows: следующий
+  label_follows: следующая
   label_gantt: Диаграмма Ганта
   label_general: Общее
   label_generate_key: Сгенерировать ключ
@@ -608,7 +608,7 @@ ru:
   label_planning: Планирование
   label_please_login: Пожалуйста, войдите.
   label_plugins: Модули
-  label_precedes: предшествует
+  label_precedes: предыдущая
   label_preferences: Предпочтения
   label_preview: Предварительный просмотр
   label_previous: Предыдущий

@@ -817,82 +817,82 @@ sk:
   mail_body_wiki_content_updated: Wiki stránka '{{page}}' bola aktualizovaná užívateľom {{author}}.
   setting_repositories_encodings: Kódovanie repozitára
   setting_new_project_user_role_id: Rola dána non-admin užívateľovi, ktorý vytvorí projekt
-  label_view_all_revisions: View all revisions
+  label_view_all_revisions: Zobraziť všetkz revízie
   label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  label_branch: Vetva
+  error_no_tracker_in_project: K tomuto projektu nieje priradená žiadna fronta. Prosím skontrolujte nastavenie projektu.
+  error_no_default_issue_status: Nieje definovaný východzí stav úlohy. Prosím skontrolujte vase nastavenie (Choďte na "Administrácia -> Stavz úloh").
+  text_journal_changed: "{{label}} zmenené z {{old}} na {{new}}"
+  text_journal_set_to: "{{label}} nastavené na {{value}}"
+  text_journal_deleted: "{{label}} zmazané ({{old}})"
+  label_group_plural: Skupiny
+  label_group: Skupina
+  label_group_new: Nová skupina
+  label_time_entry_plural: Strávený čas
+  text_journal_added: "{{label}} {{value}} pridané"
+  field_active: Aktívne
+  enumeration_system_activity: Aktivita systému
+  permission_delete_issue_watchers: Odstrániť pozorovateľov
+  version_status_closed: zavreté
+  version_status_locked: uzavreté
+  version_status_open: otvorené
+  error_can_not_reopen_issue_on_closed_version: Úloha priradená uzavretej verzií nemôže byť znovu-otvorená
+  label_user_anonymous: Anonym
+  button_move_and_follow: Presunúť a následovať
+  setting_default_projects_modules: Prednastavené aktívne moduly pre nové projekty
+  setting_gravatar_default: Východzí Gravatar obrázok
+  field_sharing: Zdieľanie
+  label_version_sharing_hierarchy: S hierarchiou projektu
+  label_version_sharing_system: So všetkými projektami
+  label_version_sharing_descendants: S podprojektami
+  label_version_sharing_tree: S projektovým stromom
+  label_version_sharing_none: Nezdielané
+  error_can_not_archive_project: Tento projekt nemôže byť archivovaný
+  button_duplicate: Duplikovať
+  button_copy_and_follow: Kopírovať a následovať
+  label_copy_source: Zdroj
+  setting_issue_done_ratio: Vyrátať pomer vypracovania úlohy s
+  setting_issue_done_ratio_issue_status: Použiť stav úlohy
+  error_issue_done_ratios_not_updated: Stav vypracovania úlohy neaktualizovaný.
+  error_workflow_copy_target: Prosím zvoľte cieľovú frontu(y) a rolu(e)
+  setting_issue_done_ratio_issue_field: Použiť pole úlohy
+  label_copy_same_as_target: Rovnaké ako cieľ
+  label_copy_target: Cieľ
+  notice_issue_done_ratios_updated: Stav vypracovania úlohy aktualizovaný.
+  error_workflow_copy_source: Prosím zvoľte zdrojovú frontu alebo rolu
+  label_update_issue_done_ratios: Aktualizácia stavu úloh
+  setting_start_of_week: Štart pracovného týždňa v
+  permission_view_issues: Zobraziť úlohy
+  label_display_used_statuses_only: Zobraziť len stavy, ktoré sú priradené k tejto fronte
+  label_revision_id: Revízia {{value}}
+  label_api_access_key: API prístupový kľúč
+  label_api_access_key_created_on: API prístupový kľúč vytvorený pred {{value}}
+  label_feeds_access_key: RSS prístupový kľúč
+  notice_api_access_key_reseted: Váš API prístupový kľúč bol resetovaný.
+  setting_rest_api_enabled: Zapnúť REST web službu
+  label_missing_api_access_key: API prístupový kľuč nenájdený
+  label_missing_feeds_access_key: RSS prístupový kľúč nenájdený
+  button_show: Zobraziť
+  text_line_separated: Možnosť viacerých hodnôt (jeden riadok pre každú hodnotu).
+  setting_mail_handler_body_delimiters: Orezať emaily po následujúcich riadkoch
+  permission_add_subprojects: Vytváranie podprojektov
+  label_subproject_new: Nový podprojekt
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
+    Práve sa pokúšate o odstránenie niektorých alebo všetkých prístupových práv a možno nebudete mať možnost naďalej upravovať tento projekt.
+    Ste si istý(á), že chcete pokračovat? 
+  label_close_versions: Uzavrieť ukončené verzie
   label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
+  label_board_locked: Uzamknuté
+  permission_export_wiki_pages: Exportovať WiKi stránky
   setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  permission_manage_project_activities: Nastavovať aktivity projektu
+  error_unable_delete_issue_status: Nieje možné zmeniť stav úlohy
+  label_profile: Profil
+  permission_manage_subtasks: Nastavovať podúlohy
+  field_parent_issue: Nadradená úloha
+  label_subtask_plural: Podúlohy
+  label_project_copy_notifications: Zaslať emailové upozornenie behom kopírovania projektu
+  error_can_not_delete_custom_field: Nieje možné vymazať užívateľské pole
+  error_unable_to_connect: Nieje možné vymazať ({{value}})
+  error_can_not_remove_role: Táto roľa sa používa a nemôže byť vymazaná.
+  error_can_not_delete_tracker: Táto fronta obsahuje úlohy a nemôže byť vymazaná.

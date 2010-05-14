@@ -3,6 +3,7 @@
 # thanks to KKata, replaced and #hup.hu
 # Cleaned up by László Bácsi (http://lackac.hu)
 # updated by kfl62 kfl62g@gmail.com
+# updated by Gábor Takács (taky77@gmail.com)
 
 "hu":
   date:
@@ -18,7 +19,7 @@
 
   time:
     formats:
-      default: "%Y. %b %e., %H:%M"
+      default: "%Y. %b %d., %H:%M"
       time: "%H:%M"
       short: "%b %e., %H:%M"
       long: "%Y. %B %e., %A, %H:%M"
@@ -61,8 +62,8 @@
         one: 'több, mint 1 év'
         other: 'több, mint {{count}} év'
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "közel 1 év"
+        other: "közel {{count}} év"
     prompts:
       year:   "Év"
       month:  "Hónap"
@@ -81,7 +82,7 @@
         unit: 'Ft'
         precision: 0
         format: '%n %u'
-        separator: ""
+        separator: ","
         delimiter: ""
     percentage:
       format:
@@ -189,7 +190,7 @@
   mail_body_lost_password: 'A Redmine jelszó megváltoztatásához, kattintson a következő linkre:'
   mail_subject_register: Redmine azonosító aktiválása
   mail_body_register: 'A Redmine azonosítója aktiválásához, kattintson a következő linkre:'
-  mail_body_account_information_external: "A {{value}} azonosító használatával bejelentkezhet a Redmineba."
+  mail_body_account_information_external: "A {{value}} azonosító használatával bejelentkezhet a Redmine-ba."
   mail_body_account_information: Az Ön Redmine azonosítójának információi
   mail_subject_account_activation_request: Redmine azonosító aktiválási kérelem
   mail_body_account_activation_request: "Egy új felhasználó ({{value}}) regisztrált, azonosítója jóváhasgyásra várakozik:"
@@ -253,8 +254,8 @@
   field_account: Felhasználói fiók
   field_base_dn: Base DN
   field_attr_login: Bejelentkezési tulajdonság
-  field_attr_firstname: Családnév
-  field_attr_lastname: Utónév
+  field_attr_firstname: Keresztnév
+  field_attr_lastname: Vezetéknév
   field_attr_mail: E-mail
   field_onthefly: On-the-fly felhasználó létrehozás
   field_start_date: Kezdés dátuma
@@ -312,6 +313,7 @@
   setting_user_format: Felhasználók megjelenítésének formája
   setting_activity_days_default: Napok megjelenítése a project aktivitásnál
   setting_display_subprojects_issues: Alapértelmezettként mutassa az alprojektek feladatait is a projekteken
+  setting_start_of_week: A hét első napja
   
   project_module_issue_tracking: Feladat követés
   project_module_time_tracking: Idő rögzítés
@@ -329,15 +331,15 @@
   label_project_new: Új projekt
   label_project_plural: Projektek
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  nincsenek projektek
+    one:   1 projekt
+    other: "{{count}} projekt"
   label_project_all: Az összes projekt
   label_project_latest: Legutóbbi projektek
   label_issue: Feladat
   label_issue_new: Új feladat
   label_issue_plural: Feladatok
-  label_issue_view_all: Minden feladat megtekintése
+  label_issue_view_all: Minden feladat
   label_issues_by: "{{value}} feladatai"
   label_issue_added: Feladat hozzáadva
   label_issue_updated: Feladat frissítve
@@ -406,7 +408,7 @@
   label_attribute: Tulajdonság
   label_attribute_plural: Tulajdonságok
   label_download: "{{count}} Letöltés"
-  label_download_plural: "{{count}} Letöltések"
+  label_download_plural: "{{count}} Letöltés"
   label_no_data: Nincs megjeleníthető adat
   label_change_status: Státusz módosítása
   label_history: Történet
@@ -437,17 +439,17 @@
   label_closed_issues: lezárt
   label_closed_issues_plural: lezárt
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  nyitott 0 / {{total}}
+    one:   nyitott 1 / {{total}}
+    other: "nyitott {{count}} / {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 nyitott
+    one:   1 nyitott
+    other: "{{count}} nyitott"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 lezárt
+    one:   1 lezárt
+    other: "{{count}} lezárt"
   label_total: Összesen
   label_permissions: Jogosultságok
   label_current_status: Jelenlegi státusz
@@ -471,9 +473,9 @@
   label_comment: Megjegyzés
   label_comment_plural: Megjegyzés
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: nincs megjegyzés
+    one: 1 megjegyzés
+    other: "{{count}} megjegyzés"
   label_comment_add: Megjegyzés hozzáadása
   label_comment_added: Megjegyzés hozzáadva
   label_comment_delete: Megjegyzések törlése
@@ -507,7 +509,7 @@
   label_repository_plural: Tárolók
   label_browse: Tallóz
   label_modification: "{{count}} változás"
-  label_modification_plural: "{{count}} változások"
+  label_modification_plural: "{{count}} változás"
   label_revision: Revízió
   label_revision_plural: Revíziók
   label_associated_revisions: Kapcsolt revíziók
@@ -544,11 +546,11 @@
   label_spent_time: Ráfordított idő
   label_f_hour: "{{value}} óra"
   label_f_hour_plural: "{{value}} óra"
-  label_time_tracking: Idő követés
+  label_time_tracking: Idő rögzítés
   label_change_plural: Változások
   label_statistics: Statisztikák
-  label_commits_per_month: Commits havonta
-  label_commits_per_author: Commits szerzőnként
+  label_commits_per_month: Commitok havonta
+  label_commits_per_author: Commitok szerzőnként
   label_view_diff: Különbségek megtekintése
   label_diff_inline: soronként
   label_diff_side_by_side: egymás mellett
@@ -672,11 +674,11 @@
   status_locked: zárolt
   
   text_select_mail_notifications: Válasszon eseményeket, amelyekről e-mail értesítést kell küldeni.
-  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_regexp_info: pl. ^[A-Z0-9]+$
   text_min_max_length_info: 0 = nincs korlátozás
   text_project_destroy_confirmation: Biztosan törölni szeretné a projektet és vele együtt minden kapcsolódó adatot ?
   text_subprojects_destroy_warning: "Az alprojekt(ek): {{value}} szintén törlésre kerülnek."
-  text_workflow_edit: Válasszon egy szerepkört, és egy trackert a workflow szerkesztéséhez
+  text_workflow_edit: Válasszon egy szerepkört, és egy feladat típust a workflow szerkesztéséhez
   text_are_you_sure: Biztos benne ?
   text_tip_task_begin_day: a feladat ezen a napon kezdődik
   text_tip_task_end_day: a feladat ezen a napon ér véget
@@ -685,18 +687,18 @@
   text_caracters_maximum: "maximum {{count}} karakter."
   text_caracters_minimum: "Legkevesebb {{count}} karakter hosszúnek kell lennie."
   text_length_between: "Legalább {{min}} és legfeljebb {{max}} hosszú karakter."
-  text_tracker_no_workflow: Nincs workflow definiálva ehhez a tracker-hez
+  text_tracker_no_workflow: Nincs workflow definiálva ehhez a feladat típushoz
   text_unallowed_characters: Tiltott karakterek
   text_comma_separated: Több érték megengedett (vesszővel elválasztva)
   text_issues_ref_in_commit_messages: Hivatkozás feladatokra, feladatok javítása a commit üzenetekben
-  text_issue_added: "Issue {{id}} has been reported by {{author}}."
-  text_issue_updated: "Issue {{id}} has been updated by {{author}}."
+  text_issue_added: "A feladatot {{id}} bejelentette: {{author}}."
+  text_issue_updated: "A feladatot {{id}} módosította: {{author}}."
   text_wiki_destroy_confirmation: Biztosan törölni szeretné ezt a wiki-t minden tartalmával együtt ?
   text_issue_category_destroy_question: "Néhány feladat ({{count}}) hozzá van rendelve ehhez a kategóriához. Mit szeretne tenni ?"
   text_issue_category_destroy_assignments: Kategória hozzárendelés megszűntetése
-  text_issue_category_reassign_to: Feladatok újra hozzárendelése a kategóriához
+  text_issue_category_reassign_to: Feladatok újra hozzárendelése másik kategóriához
   text_user_mail_option: "A nem kiválasztott projektekről csak akkor kap értesítést, ha figyelést kér rá, vagy részt vesz benne (pl. Ön a létrehozó, vagy a hozzárendelő)"
-  text_no_configuration_data: "Szerepkörök, trackerek, feladat státuszok, és workflow adatok még nincsenek konfigurálva.\nErősen ajánlott, az alapértelmezett konfiguráció betöltése, és utána módosíthatja azt."
+  text_no_configuration_data: "Szerepkörök, feladat típusok, feladat státuszok, és workflow adatok még nincsenek konfigurálva.\nErősen ajánlott, az alapértelmezett konfiguráció betöltése, és utána módosíthatja azt."
   text_load_default_configuration: Alapértelmezett konfiguráció betöltése
   text_status_changed_by_changeset: "Applied in changeset {{value}}."
   text_issues_destroy_confirmation: 'Biztos benne, hogy törölni szeretné a kijelölt feladato(ka)t ?'
@@ -707,7 +709,7 @@
   text_destroy_time_entries_question: "{{hours}} órányi munka van rögzítve a feladatokon, amiket törölni szeretne. Mit szeretne tenni ?"
   text_destroy_time_entries: A rögzített órák törlése
   text_assign_time_entries_to_project: A rögzített órák hozzárendelése a projekthez
-  text_reassign_time_entries: 'A rögzített órák újra hozzárendelése ehhez a feladathoz:'
+  text_reassign_time_entries: 'A rögzített órák újra hozzárendelése másik feladathoz:'
   
   default_role_manager: Vezető
   default_role_developper: Fejlesztő
@@ -716,7 +718,7 @@
   default_tracker_feature: Fejlesztés
   default_tracker_support: Support
   default_issue_status_new: Új
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: Folyamatban
   default_issue_status_resolved: Megoldva
   default_issue_status_feedback: Visszajelzés
   default_issue_status_closed: Lezárt
@@ -749,7 +751,7 @@
   field_parent_title: Szülő oldal
   label_issue_watchers: Megfigyelők
   setting_commit_logs_encoding: Commit üzenetek kódlapja
-  button_quote: Hozzászólás / Idézet / Kérdés
+  button_quote: Hozzászólás / Idézet
   setting_sequential_project_identifiers: Szekvenciális projekt azonosítók generálása
   notice_unable_delete_version: A verziót nem lehet törölni
   label_renamed: átnevezve
@@ -814,7 +816,7 @@
   warning_attachments_not_saved: "{{count}} fájl mentése nem sikerült."
   button_create_and_continue: Létrehozás és folytatás
   text_custom_field_possible_values_info: 'Értékenként egy sor'
-  label_display: Megmutat
+  label_display: Megjelenés
   field_editable: Szerkeszthető
   setting_repository_log_display_limit: Maximum hány revíziót mutasson meg a log megjelenítésekor
   setting_file_max_size_displayed: Maximum mekkora szövegfájlokat jelenítsen meg soronkénti összehasonlításnál
@@ -836,89 +838,89 @@
   setting_password_min_length: Minimum jelszó hosszúság
   field_group_by: Szerint csoportosítva
   mail_subject_wiki_content_updated: "'{{page}}' wiki oldal frissítve"
-  label_wiki_content_added: Wiki oldal hozzáadve
+  label_wiki_content_added: Wiki oldal hozzáadva
   mail_subject_wiki_content_added: "Új wiki oldal: '{{page}}'"
   mail_body_wiki_content_added: A '{{page}}' wiki oldalt {{author}} hozta létre.
   label_wiki_content_updated: Wiki oldal frissítve
   mail_body_wiki_content_updated: A '{{page}}' wiki oldalt {{author}} frissítette.
   permission_add_project: Projekt létrehozása
   setting_new_project_user_role_id: Projekt létrehozási jog nem adminisztrátor felhasználóknak
-  label_view_all_revisions: View all revisions
+  label_view_all_revisions: Minden revízió megtekintése
   label_tag: Tag
   label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
+  error_no_tracker_in_project: Nincs feladat típus hozzárendelve ehhez a projekthez. Kérem ellenőrizze a projekt beállításait.
+  error_no_default_issue_status: Nincs alapértelmezett feladat státusz beállítva. Kérem ellenőrizze a beállításokat (Itt találja "Adminisztráció -> Feladat státuszok").
+  text_journal_changed: "{{label}} változott erről: {{old}} erre: {{new}}"
+  text_journal_set_to: "{{label}} új értéke: {{value}}"
+  text_journal_deleted: "{{label}} törölve ({{old}})"
+  label_group_plural: Csoportok
+  label_group: Csoport
+  label_group_new: Új csoport
+  label_time_entry_plural: Rögzített idő
+  text_journal_added: "{{label}} {{value}} hozzáadva"
+  field_active: Aktív
+  enumeration_system_activity: Rendszer Tevékenység
+  permission_delete_issue_watchers: Megfigyelők törlése
+  version_status_closed: lezárt
+  version_status_locked: zárolt
+  version_status_open: nyitott
+  error_can_not_reopen_issue_on_closed_version: Lezárt verzióhoz rendelt feladatot nem lehet újranyitni
   label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  button_move_and_follow: Mozgatás és követés
+  setting_default_projects_modules: Alapértelmezett modulok az új projektekhez
+  setting_gravatar_default: Alapértelmezett Gravatar kép
+  field_sharing: Megosztás
+  label_version_sharing_hierarchy: Projekt hierarchiával
+  label_version_sharing_system: Minden projekttel
+  label_version_sharing_descendants: Alprojektekkel
+  label_version_sharing_tree: Projekt fával
+  label_version_sharing_none: Nincs megosztva
+  error_can_not_archive_project: A projektet nem lehet archiválni
+  button_duplicate: Duplikálás
+  button_copy_and_follow: Másolás és követés
+  label_copy_source: Forrás
+  setting_issue_done_ratio: Feladat készültségi szint számolása a következő alapján
+  setting_issue_done_ratio_issue_status: Feladat státusz alapján
+  error_issue_done_ratios_not_updated: A feladat készültségi szintek nem lettek frissítve.
+  error_workflow_copy_target: Kérem válasszon cél feladat típus(oka)t és szerepkör(öke)t.
+  setting_issue_done_ratio_issue_field: A feladat mező alapján
+  label_copy_same_as_target: A céllal egyező
+  label_copy_target: Cél
+  notice_issue_done_ratios_updated: Feladat készültségi szintek frissítve.
+  error_workflow_copy_source: Kérem válasszon forrás feladat típust vagy szerepkört
+  label_update_issue_done_ratios: Feladat készültségi szintek frissítése
+  setting_start_of_week: A hét első napja
+  permission_view_issues: Feladatok megtekintése
+  label_display_used_statuses_only: Csak olyan feladat státuszok megjelenítése, amit ez a feladat típus használ
+  label_revision_id: Revízió {{value}}
+  label_api_access_key: API hozzáférési kulcs
+  label_api_access_key_created_on: API hozzáférési kulcs létrehozva {{value}} ezelőtt
+  label_feeds_access_key: RSS hozzáférési kulcs
+  notice_api_access_key_reseted: Az API hozzáférési kulcsa újragenerálva.
+  setting_rest_api_enabled: REST web service engedélyezése
+  label_missing_api_access_key: Egy API hozzáférési kulcs hiányzik
+  label_missing_feeds_access_key: RSS hozzáférési kulcs hiányzik
+  button_show: Megmutat
+  text_line_separated: Több érték megadása lehetséges (soronként 1 érték).
+  setting_mail_handler_body_delimiters: E-mailek levágása a következő sorok valamelyike esetén
+  permission_add_subprojects: Alprojektek létrehozása
+  label_subproject_new: Új alprojekt
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
+    Arra készül, hogy eltávolítja egyes vagy minden jogosultságát! Ezt követően lehetséges, hogy nem fogja tudni szerkeszteni ezt a projektet!
+    Biztosan folyatni szeretné?
+  label_close_versions: Kész verziók lezárása
   label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
+  setting_cache_formatted_text: Formázott szöveg gyorsítótárazása (Cache)
+  permission_export_wiki_pages: Wiki oldalak exportálása
+  permission_manage_project_activities: Projekt tevékenységek kezelése
+  label_board_locked: Zárolt
   error_can_not_delete_custom_field: Unable to delete custom field
+  permission_manage_subtasks: Manage subtasks
+  label_profile: Profile
   error_unable_to_connect: Unable to connect ({{value}})
   error_can_not_remove_role: This role is in use and can not be deleted.
+  field_parent_issue: Parent task
+  error_unable_delete_issue_status: Unable to delete issue status
+  label_subtask_plural: Subtasks
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  label_project_copy_notifications: Send email notifications during the project copy

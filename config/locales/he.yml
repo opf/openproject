@@ -4,20 +4,20 @@
 he:
   date:
     formats:
-      default: "%Y-%m-%d"
-      short: "%e %b"
-      long: "%B %e, %Y"
+      default: "%d/%m/%Y"
+      short: "%d/%m"
+      long: "%d/%m/%Y"
       only_day: "%e"
 
     day_names: [ראשון, שני, שלישי, רביעי, חמישי, שישי, שבת]
-    abbr_day_names: [רא, שנ, של, רב, חמ, שי, שב]
+    abbr_day_names: ["א'", "ב'", "ג'", "ד'", "ה'", "ו'", "ש'"]
     month_names: [~, ינואר, פברואר, מרץ, אפריל, מאי, יוני, יולי, אוגוסט, ספטמבר, אוקטובר, נובמבר, דצמבר]
-    abbr_month_names: [~, יאנ, פב, מרץ, אפר, מאי, יונ, יול, אוג, ספט, אוק, נוב, דצ]
+    abbr_month_names: [~, יאנ, פבר, מרץ, אפר, מאי, יונ, יול, אוג, ספט, אוק, נוב, דצמ]
     order: [ :day, :month, :year ]
   
   time:
     formats:
-      default: "%a %b %d %H:%M:%S %Z %Y"
+      default: "%a %d/%m/%Y %H:%M:%S"
       time: "%H:%M"
       short: "%d %b %H:%M"
       long: "%B %d, %Y %H:%M"
@@ -196,7 +196,7 @@ he:
   field_notes: הערות
   field_is_closed: נושא סגור
   field_is_default: ערך ברירת מחדל
-  field_tracker: עוקב
+  field_tracker: סיווג
   field_subject: שם נושא
   field_due_date: תאריך סיום
   field_assigned_to: מוצב ל
@@ -210,7 +210,7 @@ he:
   field_is_in_roadmap: נושאים המוצגים במפת הדרכים
   field_login: שם משתמש
   field_mail_notification: הודעות דוא"ל
-  field_admin: אדמיניסטרציה
+  field_admin: ניהול
   field_last_login_on: חיבור אחרון
   field_language: שפה
   field_effective_date: תאריך
@@ -228,7 +228,7 @@ he:
   field_attr_lastname: תכונת שם משפחה
   field_attr_mail: תכונת דוא"ל
   field_onthefly: יצירת משתמשים זריזה
-  field_start_date: התחל
+  field_start_date: תאריך התחלה
   field_done_ratio: % גמור
   field_auth_source: מצב אימות
   field_hide_mail: החבא את כתובת הדוא"ל שלי
@@ -298,9 +298,9 @@ he:
   label_member: חבר
   label_member_new: חבר חדש
   label_member_plural: חברים
-  label_tracker: עוקב
-  label_tracker_plural: עוקבים
-  label_tracker_new: עוקב חדש
+  label_tracker: סיווג
+  label_tracker_plural: סיווגים
+  label_tracker_new: סיווג חדש
   label_workflow: זרימת עבודה
   label_issue_status: מצב נושא
   label_issue_status_plural: מצבי נושא
@@ -322,7 +322,7 @@ he:
   label_my_page: הדף שלי
   label_my_account: החשבון שלי
   label_my_projects: הפרויקטים שלי
-  label_administration: אדמיניסטרציה
+  label_administration: ניהול
   label_login: התחבר
   label_logout: התנתק
   label_help: עזרה
@@ -378,17 +378,17 @@ he:
   label_closed_issues: סגור
   label_closed_issues_plural: סגורים
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 פתוחים / {{total}}
+    one:   1 פתוח / {{total}}
+    other: "{{count}} פתוחים / {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 פתוחים
+    one:   1 פתוח
+    other: "{{count}} פתוחים"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 סגורים
+    one:   1 סגור
+    other: "{{count}} סגורים"
   label_total: סה"כ
   label_permissions: הרשאות
   label_current_status: מצב נוכחי
@@ -407,13 +407,13 @@ he:
   label_internal: פנימי
   label_last_changes: "{{count}} שינוים אחרונים"
   label_change_view_all: צפה בכל השינוים
-  label_personalize_page: הפוך דף זה לשלך
+  label_personalize_page: התאם אישית דף זה
   label_comment: תגובה
   label_comment_plural: תגובות
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: אין הערות
+    one: הערה אחת
+    other: "{{count}} הערות"
   label_comment_add: הוסף תגובה
   label_comment_added: תגובה הוספה
   label_comment_delete: מחק תגובות
@@ -429,9 +429,9 @@ he:
   label_in: ב
   label_today: היום
   label_this_week: השבוע
-  label_less_than_ago: פחות ממספר ימים
-  label_more_than_ago: יותר ממספר ימים
-  label_ago: מספר ימים
+  label_less_than_ago: פחות מ
+  label_more_than_ago: יותר מ
+  label_ago: לפני
   label_contains: מכיל
   label_not_contains: לא מכיל
   label_day_plural: ימים
@@ -441,7 +441,7 @@ he:
   label_modification_plural: "{{count}} שינויים"
   label_revision: גירסא
   label_revision_plural: גירסאות
-  label_added: הוסף
+  label_added: נוסף
   label_modified: שונה
   label_deleted: נמחק
   label_latest_revision: גירסא אחרונה
@@ -471,7 +471,7 @@ he:
   label_feed_plural: הזנות
   label_changes_details: פירוט כל השינויים
   label_issue_tracking: מעקב אחר נושאים
-  label_spent_time: זמן שבוזבז
+  label_spent_time: זמן שהושקע
   label_f_hour: "{{value}} שעה"
   label_f_hour_plural: "{{value}} שעות"
   label_time_tracking: מעקב זמנים
@@ -503,7 +503,7 @@ he:
   label_start_to_end: מהתחלה לסוף
   label_stay_logged_in: השאר מחובר
   label_disabled: מבוטל
-  label_show_completed_versions: הצג גירזאות גמורות
+  label_show_completed_versions: הצג גירסאות גמורות
   label_me: אני
   label_board: פורום
   label_board_new: פורום חדש
@@ -521,10 +521,10 @@ he:
   label_date_to: עד
   label_language_based: מבוסס שפה
   label_sort_by: "מין לפי {{value}}"
-  label_send_test_email: שלח דו"ל בדיקה
+  label_send_test_email: שלח דוא"ל בדיקה
   label_feeds_access_key_created_on: "מפתח הזנת RSS נוצר לפני{{value}}"
   label_module_plural: מודולים
-  label_added_time_by: "הוסף על ידי {{author}} לפני {{age}} "
+  label_added_time_by: "נוסף על ידי {{author}} לפני {{age}} "
   label_updated_time: "עודכן לפני {{value}} "
   label_jump_to_a_project: קפוץ לפרויקט...
   label_file_plural: קבצים
@@ -533,10 +533,10 @@ he:
   label_no_change_option: (אין שינוים)
   label_bulk_edit_selected_issues: ערוך את הנושאים המסומנים
   label_theme: ערכת נושא
-  label_default: ברירת מחדש
+  label_default: ברירת מחדל
   
   button_login: התחבר
-  button_submit: הגש
+  button_submit: אשר
   button_save: שמור
   button_check_all: בחר הכל
   button_uncheck_all: בחר כלום
@@ -546,7 +546,7 @@ he:
   button_edit: ערוך
   button_add: הוסף
   button_change: שנה
-  button_apply: הוצא לפועל
+  button_apply: החל
   button_clear: נקה
   button_lock: נעל
   button_unlock: בטל נעילה
@@ -555,7 +555,7 @@ he:
   button_view: צפה
   button_move: הזז
   button_back: הקודם
-  button_cancel: בטח
+  button_cancel: בטל
   button_activate: הפעל
   button_sort: מיין
   button_log_time: זמן לוג
@@ -584,7 +584,7 @@ he:
   text_project_identifier_info: 'אותיות לטיניות (a-z), מספרים ומקפים.<br />ברגע שנשמר, לא ניתן לשנות את המזהה.'
   text_caracters_maximum: "מקסימום {{count}} תווים."
   text_length_between: "אורך בין {{min}} ל {{max}} תווים."
-  text_tracker_no_workflow: זרימת עבודה לא הוגדרה עבור עוקב זה
+  text_tracker_no_workflow: זרימת עבודה לא הוגדרה עבור סיווג זה
   text_unallowed_characters: תווים לא מורשים
   text_comma_separated: הכנסת ערכים מרובים מותרת (מופרדים בפסיקים).
   text_issues_ref_in_commit_messages: קישור ותיקום נושאים בהודעות הפקדות
@@ -645,9 +645,9 @@ he:
   text_caracters_minimum: "חייב להיות לפחות באורך של {{count}} תווים."
   setting_bcc_recipients: מוסתר (bcc)
   button_annotate: הוסף תיאור מסגרת
-  label_issues_by: "נושאים של {{value}}"
+  label_issues_by: "נושאים לפי {{value}}"
   field_searchable: ניתן לחיפוש
-  label_display_per_page: "לכל דף: {{value}}"
+  label_display_per_page: "בכל דף: {{value}} תוצאות"
   setting_per_page_options: אפשרויות אוביקטים לפי דף
   label_age: גיל
   notice_default_data_loaded: אפשרויות ברירת מחדל מופעלות.
@@ -665,11 +665,11 @@ he:
   text_issues_destroy_confirmation: 'האם את\ה בטוח שברצונך למחוק את הנושא\ים ?'
   label_scm: SCM
   text_select_project_modules: 'בחר מודולים להחיל על פקרויקט זה:'
-  label_issue_added: נושא הוסף
+  label_issue_added: נושא נוסף
   label_issue_updated: נושא עודכן
-  label_document_added: מוסמך הוסף
+  label_document_added: מוסמך נוסף
   label_message_posted: הודעה הוספה
-  label_file_added: קובץ הוסף
+  label_file_added: קובץ נוסף
   label_news_added: חדשות הוספו
   project_module_boards: לוחות
   project_module_issue_tracking: מעקב נושאים
@@ -683,7 +683,7 @@ he:
   text_default_administrator_account_changed: מנהל המערכת ברירת המחדל שונה
   text_rmagick_available: RMagick available (optional)
   button_configure: אפשרויות
-  label_plugins: פלאגינים
+  label_plugins: תוספים
   label_ldap_authentication: אימות LDAP
   label_downloads_abbr: D/L
   label_this_month: החודש
@@ -791,13 +791,13 @@ he:
   text_plugin_assets_writable: Plugin assets directory writable
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  button_create_and_continue: Create and continue
+  button_create_and_continue: צור ופתח חדש
   text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
+  label_display: תצוגה
+  field_editable: ניתן לעריכה
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
+  field_watcher: צופה
   setting_openid: Allow OpenID login and registration
   field_identity_url: OpenID URL
   label_login_with_open_id_option: or login with OpenID
@@ -805,14 +805,14 @@ he:
   label_descending: Descending
   label_sort: Sort
   label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_date_from_to: מתאריך {{start}} ועד תאריך {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
   text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
+  setting_password_min_length: אורך סיסמא מינימאלי
   field_group_by: Group results by
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
@@ -827,20 +827,20 @@ he:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
+  text_journal_changed: "{{label}} השתנה מ{{old}} ל{{new}}"
+  text_journal_set_to: "{{label}} נקבע ל{{value}}"
+  text_journal_deleted: "{{label}} נמחק ({{old}})"
+  label_group_plural: קבוצות
+  label_group: קבוצה
+  label_group_new: קבוצה חדשה
+  label_time_entry_plural: זמן שהושקע
+  text_journal_added: "{{label}} {{value}} נוסף"
   field_active: Active
   enumeration_system_activity: System Activity
   permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
+  version_status_closed: סגור
+  version_status_locked: נעול
+  version_status_open: פתוח
   error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
   label_user_anonymous: Anonymous
   button_move_and_follow: Move and follow
@@ -853,7 +853,7 @@ he:
   label_version_sharing_tree: With project tree
   label_version_sharing_none: Not shared
   error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
+  button_duplicate: שכפל
   button_copy_and_follow: Copy and follow
   label_copy_source: Source
   setting_issue_done_ratio: Calculate the issue done ratio with
@@ -866,7 +866,7 @@ he:
   notice_issue_done_ratios_updated: Issue done ratios updated.
   error_workflow_copy_source: Please select a source tracker or role
   label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
+  setting_start_of_week: התחל יומנים לפי
   permission_view_issues: View Issues
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   label_revision_id: Revision {{value}}
@@ -881,7 +881,7 @@ he:
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  label_subproject_new: תת-פרויקט חדש
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?
@@ -891,13 +891,13 @@ he:
   permission_export_wiki_pages: Export wiki pages
   setting_cache_formatted_text: Cache formatted text
   permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field
+  permission_manage_subtasks: Manage subtasks
+  label_profile: Profile
   error_unable_to_connect: Unable to connect ({{value}})
   error_can_not_remove_role: This role is in use and can not be deleted.
+  field_parent_issue: Parent task
+  error_unable_delete_issue_status: Unable to delete issue status
+  label_subtask_plural: Subtasks
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  label_project_copy_notifications: Send email notifications during the project copy

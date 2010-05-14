@@ -737,9 +737,9 @@ ja:
   label_theme: テーマ
   label_default: 既定
   label_search_titles_only: タイトルのみ
-  label_user_mail_option_all: "参加しているプロジェクトの全てのチケット"
-  label_user_mail_option_selected: "選択したプロジェクト..."
-  label_user_mail_option_none: "ウォッチまたは関係しているチケットのみ"
+  label_user_mail_option_all: "参加しているプロジェクトの全ての通知"
+  label_user_mail_option_selected: "選択したプロジェクトの全ての通知..."
+  label_user_mail_option_none: "ウォッチまたは関係している事柄のみ"
   label_user_mail_no_self_notified: 自分自身による変更の通知は不要
   label_registration_activation_by_email: メールでアカウントを有効化
   label_registration_manual_activation: 手動でアカウントを有効化
@@ -873,7 +873,7 @@ ja:
   text_issue_category_destroy_question: "{{count}}件のチケットがこのカテゴリに割り当てられています。"
   text_issue_category_destroy_assignments: カテゴリの割り当てを削除する
   text_issue_category_reassign_to: チケットをこのカテゴリに再割り当てする
-  text_user_mail_option: "未選択のプロジェクトでは、ウォッチまたは関係しているチケット(例: 自分が報告者もしくは担当者であるチケット)のみメールが送信されます。"
+  text_user_mail_option: "未選択のプロジェクトでは、ウォッチまたは関係している事柄(例: 自分が報告者もしくは担当者であるチケット)のみメールが送信されます。"
   text_no_configuration_data: "ロール、トラッカー、チケットのステータス、ワークフローがまだ設定されていません。\nデフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。"
   text_load_default_configuration: デフォルト設定をロード
   text_status_changed_by_changeset: "更新履歴 {{value}} で適用されました。"

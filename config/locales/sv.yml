@@ -211,12 +211,16 @@ sv:
   error_issue_not_found_in_project: 'Ärendet hittades inte eller så tillhör det inte detta projekt'
   error_no_tracker_in_project: 'Ingen ärendetyp är associerad med projektet. Vänligen kontrollera projektinställningarna.'
   error_no_default_issue_status: 'Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (Gå till "Administration -> Ärendestatus").'
+  error_can_not_delete_custom_field: Kan inte ta bort användardefinerat fält
+  error_can_not_delete_tracker: Det finns ärenden av denna typ och den är därför inte möjlig att ta bort.
+  error_can_not_remove_role: "Denna roll används och den är därför inte möjlig att ta bort."
   error_can_not_reopen_issue_on_closed_version: 'Ett ärende tilldelat en stängd version kan inte öppnas på nytt'
   error_can_not_archive_project: Detta projekt kan inte arkiveras
   error_issue_done_ratios_not_updated: "% klart inte uppdaterade."
   error_workflow_copy_source: 'Vänligen välj källans ärendetyp eller roll'
   error_workflow_copy_target: 'Vänligen välj ärendetyp(er) och roll(er) för mål'
   error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort'
+  error_unable_to_connect: Kan inte ansluta ({{value}})
   
   warning_attachments_not_saved: "{{count}} fil(er) kunde inte sparas."
   
@@ -942,7 +946,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
