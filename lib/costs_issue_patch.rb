@@ -30,7 +30,7 @@ module CostsIssuePatch
   module InstanceMethods
     def validate_with_cost_object
       if cost_object_id_changed?
-        unless cost_object_id.blank? || project.cost_object_ids.include? cost_object_id
+        unless (cost_object_id.blank? || project.cost_object_ids.include?(cost_object_id))
           errors.add :cost_object_id, :activerecord_error_invalid
         end
         
