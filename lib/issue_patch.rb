@@ -10,7 +10,9 @@ module IssuePatch
 
             alias_method_chain :move_to_project_without_transaction, :autolink
             alias_method_chain :update_parent_attributes, :remaining_hours
+            before_save   :store_parent
             after_save    :task_follows_story
+            after_save    :fix_old_parent
         end
     end
 
@@ -72,6 +74,26 @@ module IssuePatch
             if parent_id && p = Issue.find_by_id(parent_id) 
                 p.remaining_hours = p.leaves.sum(:remaining_hours).to_f
                 p.save
+            end
+        end
+
+        def store_parent
+            if self.parent_id_was && !(self.parent_id_was == self.parent_issue_id)
+                @old_parent = self.parent_id_was
+            else
+                @old_parent = nil
+            end
+        end
+
+        def fix_old_parent
+            if @old_parent
+                p = Issue.find_by_id(@old_parent)
+                c = p.children
+                if c.length == 0
+                    p.update_attribute(:estimated_hours, 0)
+                else
+                    p.children[0].instance_eval{ update_parent_attributes }
+                end
             end
         end
 
