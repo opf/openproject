@@ -70,7 +70,7 @@
 </div>
 <% end %>
 
-<% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
+<% if authorize_for('issue_relations', 'new') || @issue.relations.present? %>
 <hr />
 <div id="relations">
 <%= render :partial => 'relations' %>
@@ -79,14 +79,14 @@
 
 </div>
 
-<% if @changesets.any? %>
+<% if @changesets.present? %>
 <div id="issue-changesets">
 <h3><%=l(:label_associated_revisions)%></h3>
 <%= render :partial => 'changesets', :locals => { :changesets => @changesets} %>
 </div>
 <% end %>
 
-<% if @journals.any? %>
+<% if @journals.present? %>
 <div id="history">
 <h3><%=l(:label_history)%></h3>
 <%= render :partial => 'history', :locals => { :issue => @issue, :journals => @journals } %>
@@ -116,7 +116,7 @@
   <%= render :partial => 'issues/sidebar' %>
 
   <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
-    (@issue.watchers.any? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
+    (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
     <div id="watchers">
       <%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
     </div>
