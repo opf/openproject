@@ -22,7 +22,8 @@ module XlsReport
               @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
                                       :order => sort_clause)
               unless @issues.empty?
-                send_data(issues_to_xls, :type => "application/vnd.ms-excel", :filename => 'export.xls')
+                send_data(issues_to_xls, :type => "application/vnd.ms-excel", 
+                  :filename => FilenameHelper.sane_filename("(#{I18n.l(DateTime.now)}) Issue Report#{" " + @project.name if @project}.xls"))
               end
             end
           end

@@ -20,7 +20,8 @@ if require_dependency 'cost_reports_controller'
             super do |format|
               yield format
               format.xls do
-                send_data(report_to_xls, :type => :xls, :filename => 'export.xls')
+                send_data(report_to_xls, :type => :xls, 
+                  :filename => FilenameHelper.sane_filename("(#{I18n.l(DateTime.now)}) Cost Report#{" " + @project.name if @project}.xls"))
               end
             end
           else
