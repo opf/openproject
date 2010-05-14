@@ -1,0 +1,27 @@
+<% if @custom_error %>
+  <div class="flash error"><%= @custom_error %></div>
+<% end %>
+
+<div style="border-width: 1; background-color: #BBB; padding: 5px">
+  <% @query = CostQuery.new
+     @query.group_by :project_id
+     @query.group_by :user_id
+     @result = @query.result %>
+    
+  Query: <br />
+  <ul>
+  <% @chain = @query.chain
+  while @chain %>
+    <li><%= @chain.class.to_s %></li>
+  <% @chain = @chain.child
+    end %>
+  </ul>
+  
+  Result:
+  <pre><% @result.recursive_each_with_level do |l, r| %>
+    <%= "#{'|  '*l}#{r.class} (#{r.fields}) # size:#{r.size}" %><% end %>
+  </pre>
+  
+  SQL statement: <br />
+  <pre><%= @query.sql_statement.to_s %></pre>
+</div>
