@@ -55,12 +55,12 @@ if require_dependency 'cost_reports_controller'
                               entry.issue ? entry.issue_id : "",
                               entry.comments,
                               if entry.is_a?(CostEntry)
-                                "#{entry.units} #{entry.cost_type.unit_plural}"
+                                entry.units
                               elsif entry.is_a?(TimeEntry)
-                                "#{entry.hours} h"
+                                entry.hours
                               end,
                               entry.is_a?(CostEntry) ? entry.cost_type.name : l(:caption_labor_costs),
-                              entry.display_costs ? entry.real_costs : ""]
+                              entry.display_costs ? entry.real_costs.to_f : ""]
               sb.add_row entry_fields
             end
           else
@@ -74,10 +74,10 @@ if require_dependency 'cost_reports_controller'
                             end,
                             "Sum"].compact
             sb.add_format_option_to_column 1, :number_format => "0"
+            sb.add_format_option_to_column 2, :number_format => "0#{t(:number)[:format][:separator]}00"
+            sb.add_format_option_to_column 3, :number_format => "0#{t(:number)[:format][:separator]}00"
             if (@query.group_by["name"] == "cost_type_id") || (!display_costs)
-              sb.add_format_option_to_column 3, :number_format => number_to_currency(0.00)
-            else
-              sb.add_format_option_to_column 2, :number_format => number_to_currency(0.00)
+              sb.add_format_option_to_column 4, :number_format => "0#{t(:number)[:format][:separator]}00"
             end
             
             @grouped_entries.each do |entry|
@@ -97,13 +97,9 @@ if require_dependency 'cost_reports_controller'
                           entry["count"].to_i,
                           if (@query.group_by["name"] == "cost_type_id") || (!display_costs)
                             cost_type = CostType.find_by_id(entry["cost_type_id"])
-                            if cost_type
-                              pluralize(entry["unit_sum"], cost_type.unit, cost_type.unit_plural)
-                            else
-                              l_hours(entry["unit_sum"] || "0")
-                            end
+                            (entry["unit_sum"] || 0).to_f
                           end,
-                          entry["sum"]].compact
+                          entry["sum"].to_f].compact
             end
           end
           sb.xls
