@@ -10,7 +10,7 @@ module CostQuery::Result
       @value = value
     end
 
-    def recursive_each_with_level(level = 0, &block)
+    def recursive_each_with_level(level = 0, depth_first = true, &block)      
       block.call(level, self)
     end
 
@@ -73,9 +73,25 @@ module CostQuery::Result
       @sum_for[field] ||= inject(0) { |a,v| a + v.send(field) }
     end
 
-    def recursive_each_with_level(level = 0, &block)
-      super
-      each { |c| c.recursive_each_with_level(level + 1, &block) }
+    def recursive_each_with_level(level = 0, depth_first = true, &block)
+      if depth_first
+        super
+        each { |c| c.recursive_each_with_level(level + 1, depth_first, &block) }
+      else #width-first
+        to_evaluate = [self]
+        lvl = level
+        while !to_evaluate.empty? do
+          # evaluate all stored results and find the results we need to evaluate soon
+          to_evaluate_soon = []
+          to_evaluate.each do |r|
+            block.call(lvl,r)
+            to_evaluate_soon.concat r.values if r.size > 0
+          end
+          # take new results to evaluate
+          lvl = lvl +1
+          to_evaluate = to_evaluate_soon
+        end
+      end
     end
 
     def each(&block)
