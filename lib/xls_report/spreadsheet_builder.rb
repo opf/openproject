@@ -84,7 +84,7 @@ class SpreadsheetBuilder
   # optional parameter. The format is automatically set to bold font
   def add_headers(arr, idx = 1)
     header_format = Spreadsheet::Format.new(:weight => :bold)
-    arr.size.times { |i| @sheet.row(idx).set_format(i, header_format) }
+    (arr.size + 1).times { |i| @sheet.row(idx).set_format(i, header_format) }
     idx = [idx, 1].max
     add_row(arr, idx)
   end
