@@ -44,7 +44,7 @@ module XlsReport
           h = h.to_s.downcase
           if (h =~ /.*hours.*/ or h == "spent_time")
             sb.add_format_option_to_column idx, :number_format => "0.0 h"
-          elsif ((h =~ /.*cost.*/) and ['Fixnum', 'Float', 'Integer'].include?(columns[idx].value(issues.first).class.name))
+          elsif (h =~ /.*cost.*/)
             sb.add_format_option_to_column idx, :number_format => number_to_currency(0.00)
           end
         end
