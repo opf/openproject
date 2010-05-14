@@ -55,6 +55,7 @@ RB.Story = RB.Object.create(RB.Model, {
         input.attr('name', fieldName);
         input.addClass(fieldName);
         input.addClass('editor');
+        input.removeClass('template');
         input.appendTo(j);
         input.bind('keyup', j.data('this').handleKeyup);
       } else {
@@ -117,7 +118,7 @@ RB.Story = RB.Object.create(RB.Model, {
       if(this.type.match(/select/)){
         j.children('div.' + fieldName).children('.v').text(editor.val())
         j.children('div.' + fieldName).children('.t').text(editor.children(':selected').text());
-      } else if(this.type.match(/textarea/)){
+      // } else if(this.type.match(/textarea/)){
       //   this.setValue('div.' + fieldName + ' .textile', editors[ii].value);
       //   this.setValue('div.' + fieldName + ' .html', '-- will be displayed after save --');
       } else {

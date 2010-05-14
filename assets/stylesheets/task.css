@@ -10,17 +10,6 @@
 .task .editor{
   display:none;
 }
-.task.editing .subject.editor{
-  display:block;
-  font-family:inherit;
-  font-size:10px;
-  height:70px;
-  left:2px;
-  line-height:12px;
-  position:absolute;
-  top:2px;
-  width:150px;
-}
 .task .id{
   -moz-border-radius:4px 4px 4px 4px;
   background-color:#EEEE99;
@@ -60,14 +49,34 @@
 .task.blank{
   cursor:pointer;
 }
-.task .assigned_to_id{
+.task .assigned_to_id.editable{
   display:block;
   height:16px;
   margin:0;
   overflow:hidden;
-  padding-top:3px;
-  text-align:center;
+  padding:3px 0 0 8px;
 }
 .task .assigned_to_id .v{
   display:none;
+}
+.task.editing .subject.editor{
+  display:block;
+  font-family:inherit;
+  font-size:10px;
+  height:57px;
+  left:1px;
+  overflow:hidden;
+  padding:3px 0 0 1px;
+  position:absolute;
+  top:0;
+  width:105px;
+}
+.task.editing .assigned_to_id.editor{
+  display:block;
+  font-family:inherit;
+  font-size:10px;
+  left:1px;
+  position:absolute;
+  top:81px;
+  width:108px;
 }

@@ -16,7 +16,7 @@ RB.Task = RB.Object.create(RB.Story, {
     j.data('this', this);
 
     // Observe click events in certain fields
-    // j.find('.editable').bind('mouseup', this.triggerEdit);
+    j.find('.editable').bind('mouseup', this.triggerEdit);
   },
   
   handleKeyup: function(event){
