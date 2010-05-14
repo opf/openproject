@@ -1,7 +1,7 @@
 /**************************************
   STORY
 ***************************************/
-RB.Story = Object.create(RB.Model, {
+RB.Story = RB.Object.create(RB.Model, {
   
   initialize: function(el){
     var j;  // This ensures that we use a local 'j' variable, not a global one.

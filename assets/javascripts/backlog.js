@@ -2,7 +2,7 @@
   BACKLOG
 ***************************************/
 
-RB.Backlog = Object.create(RB.Model, {
+RB.Backlog = RB.Object.create(RB.Model, {
     
   initialize: function(el){
     var j;  // This ensures that we use a local 'j' variable, not a global one.

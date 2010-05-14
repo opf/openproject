@@ -2,7 +2,7 @@
   TASKBOARD
 ***************************************/
 
-RB.Taskboard = Object.create(RB.Model, {
+RB.Taskboard = RB.Object.create(RB.Model, {
     
   initialize: function(el){
     var j;  // This ensures that we use a local 'j' variable, not a global one.

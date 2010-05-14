@@ -2,7 +2,7 @@
   TASK
 ***************************************/
 
-RB.Task = Object.create(RB.Story, {
+RB.Task = RB.Object.create(RB.Story, {
   
   initialize: function(el){
     var j;  // This ensures that we use a local 'j' variable, not a global one.

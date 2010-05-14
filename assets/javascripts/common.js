@@ -2,25 +2,26 @@ if(RB==null){
   var RB = {};
 }
 
-// Douglas Crockford's technique for object extension
-// http://javascript.crockford.com/prototypal.html
-if(typeof Object.create !== 'function'){
-    Object.create = function(o, methods){
-        function F(){}
-        F.prototype = o;
-        obj = new F();
-        if(typeof methods == 'object'){
-          for(methodName in methods) obj[methodName] = methods[methodName];
-        }
-        return obj;
-    };
+RB.Object = {
+  // Douglas Crockford's technique for object extension
+  // http://javascript.crockford.com/prototypal.html
+  create: function(o, methods){
+      function F(){}
+      F.prototype = o;
+      obj = new F();
+      if(typeof methods == 'object'){
+        for(methodName in methods) obj[methodName] = methods[methodName];
+      }
+      return obj;
+  }  
 }
 
+
 // Object factory for redmine_backlogs
-RB.Factory = Object.create({
+RB.Factory = RB.Object.create({
   
   initialize: function(objType, el){
-    obj = Object.create(objType);
+    obj = RB.Object.create(objType);
     obj.initialize(el);
     return obj;
   }  
@@ -28,10 +29,10 @@ RB.Factory = Object.create({
 });
 
 // Common methods for models
-RB.Model = Object.create({});
+RB.Model = RB.Object.create({});
 
 // Utilities
-RB.dialog = Object.create({
+RB.dialog = RB.Object.create({
   msg: function(msg){
     dialog = $('#msgBox').size()==0 ? $(document.createElement('div')).attr('id', 'msgBox').appendTo('#content') : $('#msgBox');
     dialog.text(msg);
