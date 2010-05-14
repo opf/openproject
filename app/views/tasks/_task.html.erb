@@ -1,5 +1,5 @@
 <div class="task" id="task_<%= task.id %>">
-  <div class="id"><%= link_to task.id, :controller => 'issues', :action => 'show', :id => task.id %></div>
+  <div class="id"><%= link_to task.id, { :controller => 'issues', :action => 'show', :id => task.id }, { :target => "_blank" } %></div>
   <div class="subject editable" fieldtype="textarea" fieldname="subject"><%= task.subject %></div>
   <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id">
     <div class="t"><%= assignee_name_or_empty(task) %></div>

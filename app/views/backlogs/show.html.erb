@@ -1,6 +1,6 @@
 <% content_for :header_tags do %>
 <%= javascript_include_tag  'show', 'taskboard', 'story', 'task', :plugin => 'redmine_backlogs' %>
-<%= stylesheet_link_tag 'common', 'show', 'taskboard', 'task', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
+<%= stylesheet_link_tag 'show', 'taskboard', 'task', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
 <script type="text/javascript" src="<%= url_for(:action => 'jsvariables', :project_id => @project.id) %>"></script>
 <% end %>
 
@@ -17,11 +17,12 @@
   </tr>
   <%- @sprint.stories.each_with_index do |story, i| %>
   <tr>
-    <td class="story"><%= "#{link_to story.id, :controller => 'issues', :action => 'show', :id => story.id} #{story.subject}" %></td>
+    <td class="story <%= mark_if_closed(story) %>"><%= link_to story.id, {:controller => 'issues', :action => 'show', :id => story.id}, { :class => "story_id", :target => "_blank" } %>
+                     <span class="subject"><%= story.subject %></span></td>
     <%- @statuses.each do |status| %>
     <td class="list" id="<%= story.id %>_<%= status.id %>">
       <%- story.children.select{|task| task.status.id==status.id}.each do |task| %>
-      <%= render :partial => "stories/task", :object => task %>
+      <%= render :partial => "tasks/task", :object => task %>
       <%- end %>
     </td>
     <%- end %>

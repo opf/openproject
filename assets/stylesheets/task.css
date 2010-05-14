@@ -21,6 +21,53 @@
   top:2px;
   width:150px;
 }
+.task .id{
+  -moz-border-radius:4px 4px 4px 4px;
+  background-color:#EEEE99;
+  font-size:9px;
+  height:14px;
+  left:2px;
+  overflow:hidden;
+  position:absolute;
+  text-align:right;
+  top:2px;
+  width:101px;
+}
+.task, .placeholder{
+  background-color:rgb(255,253,200);
+  border:1px solid #CCCCCC;
+  cursor:move;
+  display:block;
+  float:left;
+  font-size:10px;
+  height:97px;
+  margin:10px 0 0 10px;
+  padding:2px;
+  position:relative;
+  width:106px;
+}
+.task .subject{
+  height:57px;
+  margin:17px 0 0 0px;
+  overflow:hidden;
+  padding:2px;
+  width:102px;
+}
+.placeholder{
+  background-color:#FFFF00;
+  border:1px dashed #333300;
+}
+.task.blank{
+  cursor:pointer;
+}
 .task .assigned_to_id{
+  display:block;
+  height:16px;
+  margin:0;
+  overflow:hidden;
+  padding-top:3px;
+  text-align:center;
+}
+.task .assigned_to_id .v{
   display:none;
 }
