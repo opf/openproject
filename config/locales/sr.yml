@@ -414,7 +414,7 @@ sr:
   label_issue_new: Novi problem
   label_issue_plural: Problemi
   label_issue_view_all: Prikaz svih problema
-  label_issues_by: "Problemi od {{value}}"
+  label_issues_by: "Problemi - {{value}}"
   label_issue_added: Problem je dodat
   label_issue_updated: Problem je ažuriran
   label_document: Dokument
@@ -530,7 +530,7 @@ sr:
     other: "{{count}} zatvorenih"
   label_total: Ukupno
   label_permissions: Ovlašćenja
-  label_current_status: Trentuni status
+  label_current_status: Trenutni status
   label_new_statuses_allowed: Novi statusi dozvoljeni
   label_all: svi
   label_none: nijedan
@@ -558,7 +558,7 @@ sr:
   label_comment_added: Komentar dodat
   label_comment_delete: Obriši komentare
   label_query: Prilagođen upit
-  label_query_plural: Prilagoćeni upiti
+  label_query_plural: Prilagođeni upiti
   label_query_new: Novi upit
   label_filter_add: Dodaj filter
   label_filter_plural: Filteri
@@ -750,6 +750,7 @@ sr:
   label_api_access_key: API pristupni ključ
   label_missing_api_access_key: API pristupni ključ nedostaje
   label_api_access_key_created_on: "API pristupni ključ je kreiran pre {{value}}"
+  label_project_copy_notifications: Pošalji email poruku sa obaveštenjem prilikom kopiranja projekta 
   
   button_login: Prijava
   button_submit: Pošalji
@@ -818,7 +819,7 @@ sr:
   text_journal_added: "{{label}} {{value}} dodato"
   text_tip_task_begin_day: zadatak počinje ovog dana
   text_tip_task_end_day: zadatak se završava ovog dana
-  text_tip_task_begin_end_day: zadatak počinje i završava ovog dana
+  text_tip_task_begin_end_day: zadatak počinje i završava istog dana
   text_project_identifier_info: 'Dozvoljena su samo mala slova (a-š), brojevi i crtice.<br />Jednom snimljen, identifikator se ne može promeniti.'
   text_caracters_maximum: "{{count}} znak(ova) najviše."
   text_caracters_minimum: "Broj znakova mora biti najmanje {{count}}."
@@ -888,13 +889,3 @@ sr:
   enumeration_activities: Aktivnosti (vremenski praćene)
   enumeration_system_activity: Sistemska aktivnost
 
-  error_can_not_delete_custom_field: Unable to delete custom field
-  permission_manage_subtasks: Manage subtasks
-  label_profile: Profile
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  field_parent_issue: Parent task
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_subtask_plural: Subtasks
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
-  label_project_copy_notifications: Send email notifications during the project copy
