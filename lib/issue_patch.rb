@@ -53,19 +53,24 @@ module IssuePatch
         end
 
         def is_task?
-            # a "true" task
-            return true if self.tracker_id.class != NilClass and self.tracker_id == Task.tracker
-
-            # a story that doubles as its only task
-            return true if self.is_story? and self.descendants.length == 0
-
-            # not a task
-            return false
+            return (self.parent_id && self.tracker_id == Task.tracker)
         end
 
         def story
             return Issue.find(:first,
                 :conditions => [ "id = ? and tracker_id in (?)", self.root_id, Story.trackers ])
+        end
+
+        def blocks
+            # return issues that I block that aren't closed
+            return [] if closed?
+            relations_from.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_to.closed? ? ir.issue_to : nil}.compact
+        end
+
+        def blockers
+            # return issues that block me
+            return [] if closed?
+            relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed? ? ir.issue_from : nil}.compact
         end
 
         def update_parent_attributes_with_remaining_hours
@@ -90,9 +95,10 @@ module IssuePatch
                 p = Issue.find_by_id(@old_parent)
                 c = p.children
                 if c.length == 0
-                    p.update_attribute(:estimated_hours, 0)
+                    p.update_attribute(:estimated_hours, nil)
+                    p.update_attribute(:remaining_hours, nil)
                 else
-                    p.children[0].instance_eval{ update_parent_attributes }
+                    c[0].instance_eval{ update_parent_attributes }
                 end
             end
         end

@@ -22,7 +22,7 @@ Dispatcher.to_prepare do
     Project.send(:include, ProjectPatch) unless Project.included_modules.include? ProjectPatch
 end
 
-require_dependency 'backlogs_layout_hooks'
+require_dependency 'backlogs_hooks'
 
 Redmine::Plugin.register :redmine_backlogs do
     name 'Redmine Scrum Plugin'

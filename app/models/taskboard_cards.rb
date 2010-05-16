@@ -208,13 +208,9 @@ class TaskboardCards
 
     def add(story, add_tasks = true)
         if add_tasks
-            if story.is_task?
-                card(story, :task)
-            else
-                story.descendants.each {|task|
-                    card(task, :task)
-                }
-            end
+            story.descendants.each {|task|
+                card(task, :task)
+            }
         end
 
         card(story, :story)
