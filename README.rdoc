@@ -8,6 +8,10 @@ A scrum/agile tool. Useful for product planning, sprint planning, and daily stan
 3. Run <tt>rake db:migrate_plugins</tt> from RAILS_ROOT
 4. Restart Redmine
 
+= Documentation
+
+Documentation is available at http://relaxdiego.github.com/redmine_backlogs/
+
 = Settings
 
 Configure the plugin via Administration > Plugins
