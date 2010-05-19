@@ -1,7 +1,10 @@
 module BacklogsPlugin
     module Hooks
         class LayoutHook < Redmine::Hook::ViewListener
-            def view_issues_sidebar_queries_bottom(context={ })
+            # this ought to be view_issues_sidebar_queries_bottom, but
+            # the entire queries toolbar is disabled if you don't have
+            # custom queries
+            def view_issues_sidebar_planning_bottom(context={ })
                 sprints = content_tag(:h3, l(:backlogs_sprints))
                 project = context[:project]
                 project_id = project.id
