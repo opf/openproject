@@ -19,8 +19,11 @@ module CostQuery::GroupBy
       child.filter?
     end
 
-    def all_group_fields
-      (parent ? parent.all_group_fields : []) + with_table(group_fields)
+    ##
+    # @param [FalseClass, TrueClass] prefix Whether or not add a table prefix the field names
+    # @return [Array<String,Symbol>] List of group by fields corresponding to self and all parents'
+    def all_group_fields(prefix = true)
+      (parent ? parent.all_group_fields : []) + (prefix ? with_table(group_fields) : group_fields)
     end
 
     def aggregation_mixin
