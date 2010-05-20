@@ -47,6 +47,16 @@ class Sprint < Version
         return (self.sprint_start_date .. cutoff).select {|d| (d.wday > 0 and d.wday < 6) }
     end
 
+    def eta
+        return nil if ! self.start_date
+
+        v = self.project.velocity
+        return nil if ! v or ! v[:days_per_point]
+
+        # assume 5 out of 7 are working days
+        return self.start_date + Integer(self.points * v[:days_per_point] * 7.0/5)
+    end
+
     def has_burndown
         return !!(self.effective_date and self.sprint_start_date)
     end

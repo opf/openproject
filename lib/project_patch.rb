@@ -26,7 +26,14 @@ module ProjectPatch
                 days += sprint.days.length
                 accepted += (sprint.stories.select{|s| s.status.is_closed && s.story_points}.inject(0){|sum, s| sum + s.story_points}) || 0
             }
-            return {:date => most_recent, :sprints => sprints.length, :days => days / sprints.length, :velocity => accepted / sprints.length }
+            velo = {:date => most_recent,
+                    :sprints => sprints.length,
+                    :days => days / sprints.length,
+                    :velocity => accepted / sprints.length}
+            if velo[:velocity] and velo[:velocity] >= 0
+                velo[:days_per_point] = (velo[:days] * 1.0) / velo[:velocity]
+            end
+            return velo
         end
 
     end

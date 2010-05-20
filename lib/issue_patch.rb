@@ -77,9 +77,9 @@ module IssuePatch
             return nil if !self.is_story? || ! self.story_points || self.story_points <= 0
 
             v = self.project.velocity
-            return nil if ! v or ! v[:velocity] or v[:velocity] <= 0
+            return nil if ! v or ! v[:days_per_point]
 
-            return self.story_points * (v[:days] / v[:velocity])
+            return Integer(self.story_points * v[:days_per_point])
         end
 
         def update_parent_attributes_with_remaining_hours
