@@ -161,7 +161,8 @@ class TaskboardCards
                     end
 
                     @y = @pdf.bounds.height
-                    trail = (issue.self_and_ancestors.reverse.collect{|i| "#{i.tracker.name} ##{i.id}"}.join(" : ")) + " (#{parent_story.position})"
+                    pos = parent_story.position ? parent_story.position : "not prioritized"
+                    trail = (issue.self_and_ancestors.reverse.collect{|i| "#{i.tracker.name} ##{i.id}"}.join(" : ")) + " (#{pos})"
                     @pdf.font_size(6) do
                         text_box(trail, {
                                 :width => pdf.bounds.width - scoresize,
