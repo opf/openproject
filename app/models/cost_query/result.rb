@@ -2,7 +2,7 @@ require 'big_decimal_patch'
 
 module CostQuery::Result
   class Base
-    attr_accessor :parent
+    attr_accessor :parent, :type
     attr_reader :value
     alias values value
 
@@ -22,7 +22,7 @@ module CostQuery::Result
       fields[key]
     end
 
-    def grouped_by(fields)
+    def grouped_by(fields, type)
       # sub results, have fields
       # i.e. grouping by foo, bar
       data = group_by do |entry|
@@ -33,7 +33,7 @@ module CostQuery::Result
       # map group back to array, all fields with same key get grouped into one list
       list = data.keys.map { |f| CostQuery::Result.new data[f], f }
       # create a single result from that list
-      CostQuery::Result.new list
+      CostQuery::Result.new(list).tap { |r| r.type = type }
     end
   end
 

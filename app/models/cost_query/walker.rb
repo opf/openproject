@@ -1,6 +1,36 @@
 class CostQuery::Walker
+  attr_reader :query
+
   def initialize(query)
     @query = query
+  end
+
+  def row_first
+    @row_first ||= query.result
+  end
+
+  def column_first
+    @column_first ||= begin
+      list, all_fields = restructured.reverse, []
+      result = list.inject(@ungrouped) do |aggregate, (current_fields, type)|
+        aggregate.grouped_by all_fields.push(*current_fields), type
+      end
+      result or current.result
+    end
+  end
+
+  def restructured
+    rows, columns, current = [], [], @query.chain
+    until current.filter?
+      if current.responsible_for_sql?
+        @ungrouped = current.result
+      else
+        list = current.row? ? rows : columns
+        list << [current.group_fields, list.type]
+      end
+      current = current.child
+    end
+    columns + rows
   end
 
   # ##
