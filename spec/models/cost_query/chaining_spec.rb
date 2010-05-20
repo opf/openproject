@@ -27,6 +27,64 @@ describe CostQuery do
       @query.chain.bottom.should be_a(CostQuery::Filter::NoFilter)
       @query.chain.top.should_not be_a(CostQuery::Filter::NoFilter)
     end
+
+    it "should not remember it's correct parent" do
+      @query.group_by :project_id
+      @query.filter :project_id
+      @query.chain.top.child.child.parent.should == @query.chain.top.child
+    end
+
+    it "should place filter after a group_by" do
+      @query.group_by :project_id
+      @query.chain.bottom.parent.should be_a(CostQuery::GroupBy::ProjectId)
+      @query.chain.top.should be_a(CostQuery::GroupBy::ProjectId)
+
+      @query.filter :project_id
+      @query.chain.bottom.parent.should be_a(CostQuery::Filter::ProjectId)
+      @query.chain.top.should be_a(CostQuery::GroupBy::ProjectId)
+    end
+
+    it "should place rows in front of columns when adding a column first" do
+      @query.column :project_id
+      @query.chain.bottom.parent.type.should == :column
+      @query.chain.top.type.should == :column
+
+      @query.row :project_id
+      @query.chain.bottom.parent.type.should == :column
+      @query.chain.top.type.should == :row
+    end
+
+    it "should place rows in front of columns when adding a row first" do
+      @query.row :project_id
+      @query.chain.bottom.parent.type.should == :row
+      @query.chain.top.type.should == :row
+
+      @query.column :project_id
+      @query.chain.bottom.parent.type.should == :column
+      @query.chain.top.type.should == :row
+    end
+
+    it "should place rows in front of filters" do
+      @query.row :project_id
+      @query.chain.bottom.parent.type.should == :row
+      @query.chain.top.type.should == :row
+
+      @query.filter :project_id
+      @query.chain.bottom.parent.should be_a(CostQuery::Filter::ProjectId)
+      @query.chain.top.should be_a(CostQuery::GroupBy::ProjectId)
+      @query.chain.top.type.should == :row
+    end
+
+    it "should place columns in front of filters" do
+      @query.column :project_id
+      @query.chain.bottom.parent.type.should == :column
+      @query.chain.top.type.should == :column
+
+      @query.filter :project_id
+      @query.chain.bottom.parent.should be_a(CostQuery::Filter::ProjectId)
+      @query.chain.top.should be_a(CostQuery::GroupBy)
+      @query.chain.top.type.should == :column
+    end
   end
 
   describe CostQuery::Chainable do
