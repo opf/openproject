@@ -19,6 +19,7 @@ describe CostQuery do
 
   describe CostQuery::Walker do
     it "should walk down row_first" do
+      @query.group_by :issue_id
       @query.column :tweek
       @query.row :project_id
       @query.row :user_id
@@ -31,6 +32,7 @@ describe CostQuery do
     end
 
     it "should walk down column_first" do
+      @query.group_by :issue_id
       @query.column :tweek
       @query.row :project_id
       @query.row :user_id

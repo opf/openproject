@@ -38,7 +38,7 @@ class CostQuery::Walker
         @ungrouped = current.result
       else
         list = current.row? ? rows : columns
-        list << [current.group_fields, list.type]
+        list << [current.group_fields, current.type]
       end
       current = current.child
     end
