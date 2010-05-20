@@ -38,5 +38,5 @@ class CostQuery::Walker
   #       to_aggregate
   #     end
   #   end
-  # end
+  # end  
 end
