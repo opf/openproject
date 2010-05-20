@@ -98,11 +98,15 @@ class CostQuery < ActiveRecord::Base
       alias accepts_properties accepts_property
     end
 
-    attr_accessor :parent
-    attr_reader :child
+    attr_accessor :parent, :child, :type
+    accepts_property :type
 
-    def child=(obj)
-      @child = obj
+    def row?
+      type == :row
+    end
+
+    def column?
+      type == :column
     end
 
     def to_a

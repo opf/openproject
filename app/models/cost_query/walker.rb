@@ -1,6 +1,5 @@
 class CostQuery::Walker
-  def initialize(result)
-    @result = result
+  def initialize(query)
   end
 
   ##

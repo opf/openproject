@@ -7,6 +7,10 @@ module CostQuery::GroupBy
       super
     end
 
+    def correct_position?
+      type == :row or !child.is_a?(CostQuery::GroupBy::Base) or child.type = :column
+    end
+
     def filter?
       false
     end
@@ -14,7 +18,7 @@ module CostQuery::GroupBy
     def sql_aggregation?
       child.filter?
     end
-    
+
     def all_group_fields
       (parent ? parent.all_group_fields : []) + with_table(group_fields)
     end

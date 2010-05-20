@@ -29,11 +29,19 @@ class CostQuery < ActiveRecord::Base
   end
 
   def group_by(name, options = {})
-    add_chain GroupBy, name, options
+    add_chain GroupBy, name, options.reverse_merge(:type => :column)
+  end
+
+  def column(name, options = {})
+    group_by name, options.merge(:type => :column)
+  end
+
+  def row(name, options = {})
+    group_by name, options.merge(:type => :row)
   end
 
   def method_missing(*a, &b)
     chain.send(*a, &b)
   end
 
-end
+end;
