@@ -13,6 +13,10 @@ class CostQuery < ActiveRecord::Base
     chain.results
   end
 
+  def walker
+    Walker.new self
+  end
+
   def add_chain(type, name, options)
     chain type.const_get(name.to_s.camelcase), options
   end
