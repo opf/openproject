@@ -132,18 +132,32 @@ class CostQuery < ActiveRecord::Base
     end
 
     def initialize(child = nil, options = {})
-      @child, child.parent = child, self if child
       options.each do |key, value|
         raise ArgumentError, "may not set #{key}" unless CostQuery.accepted_properties.include? key.to_s
         send "#{key}=", value
       end
-      until correct_position?
-        child_was = child
-        child_was.parent, self.parent = parent, child_was
-        child_was.child, self.child = self, child.child
-      end
+      self.child, child.parent = child, self if child
+      move_down until correct_position?
     end
 
+    def move_down
+      reorder parent, child, self, child.child
+    end
+
+    ##
+    # Reorder given elements of a doubly linked list to follow the lists order.
+    # Don't use this for evil. Assumes there are no elements inbetween, does
+    # not touch the first element's parent and the last element's child.
+    # Does not touch elements not part of the list.
+    #
+    # @param [Array] *list Part of the linked list
+    def reorder(*list)
+      list.each_with_index do |entry, index|
+        next_entry = list[index + 1]
+        entry.try(:child=, next_entry) if index < list.size - 1
+        next_entry.try(:parent=, entry)
+      end
+    end
 
     def chain_collect(name, *args, &block)
       top.subchain_collect(name, *args, &block)

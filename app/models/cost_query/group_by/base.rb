@@ -8,7 +8,7 @@ module CostQuery::GroupBy
     end
 
     def correct_position?
-      type == :row or !child.is_a?(CostQuery::GroupBy::Base) or child.type = :column
+      type == :row or !child.is_a?(CostQuery::GroupBy::Base) or child.type == :column
     end
 
     def filter?
