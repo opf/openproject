@@ -159,7 +159,7 @@ describe CostQuery do
     end
 
     it "should aggregate a third group_by which owns at least 2 sub results" do
-      "validate preconditions"
+      #validate preconditions
       Entry.all.map { |e| e.user_id }.uniq.size.should > 1 #we should test with more than one subresult for the first wrapped result
 
       @query.group_by :tweek
