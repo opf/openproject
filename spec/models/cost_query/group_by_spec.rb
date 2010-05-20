@@ -133,5 +133,20 @@ describe CostQuery do
       sql_result = @query.result
       sql_result.count.should == Entry.all.size
     end
+
+    it "should accept row as a specialised group_by" do
+      @query.row :project_id
+      @query.chain.type.should == :row
+    end
+
+    it "should accept column as a specialised group_by" do
+      @query.column :project_id
+      @query.chain.type.should == :column
+    end
+
+    it "should have type :column as a default" do
+      @query.group_by :project_id
+      @query.chain.type.should == :column
+    end
   end
 end
