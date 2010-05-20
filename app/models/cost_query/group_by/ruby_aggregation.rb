@@ -12,7 +12,7 @@ module CostQuery::GroupBy
       data = child.result.group_by do |entry|
         # index for group is a hash
         # i.e. { :foo => 10, :bar => 20 }
-        group_fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
+        all_group_fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
       end
       # map group back to array, all fields with same key get grouped into one list
       list = data.keys.map { |fields| CostQuery::Result.new data[fields], fields }

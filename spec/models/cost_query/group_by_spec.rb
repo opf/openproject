@@ -23,6 +23,15 @@ describe CostQuery do
       @query.result.size.should == Entry.all.group_by { |e| e.project }.size
     end
 
+    it "should keep own and all parents' group fields in all_group_fields" do
+      @query.group_by :project_id
+      @query.group_by :issue_id
+      @query.group_by :cost_type_id
+      @query.all_group_fields.should == %w[entries.cost_type_id]
+      @query.child.all_group_fields.should == %w[entries.cost_type_id entries.issue_id]
+      @query.child.child.all_group_fields.should == %w[entries.cost_type_id entries.issue_id entries.project_id]
+    end
+
     it "should compute group_by Issue" do
       @query.group_by :issue_id
       @query.result.size.should == Entry.all.group_by { |e| e.issue }.size
