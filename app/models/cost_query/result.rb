@@ -10,7 +10,7 @@ module CostQuery::Result
       @value = value
     end
 
-    def recursive_each_with_level(level = 0, depth_first = true, &block)      
+    def recursive_each_with_level(level = 0, depth_first = true, &block)
       block.call(level, self)
     end
 
@@ -20,6 +20,20 @@ module CostQuery::Result
 
     def [](key)
       fields[key]
+    end
+
+    def grouped_by(fields)
+      # sub results, have fields
+      # i.e. grouping by foo, bar
+      data = group_by do |entry|
+        # index for group is a hash
+        # i.e. { :foo => 10, :bar => 20 } <= this is just the KEY!!!!
+        fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
+      end
+      # map group back to array, all fields with same key get grouped into one list
+      list = data.keys.map { |f| CostQuery::Result.new data[f], f }
+      # create a single result from that list
+      CostQuery::Result.new list
     end
   end
 
