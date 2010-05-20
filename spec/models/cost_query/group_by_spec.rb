@@ -148,5 +148,48 @@ describe CostQuery do
       @query.group_by :project_id
       @query.chain.type.should == :column
     end
+
+    it "should aggregate a third group_by which owns at least 2 sub results" do
+      "validate preconditions"
+      Entry.all.map { |e| e.user_id }.uniq.size.should > 1 #we should test with more than one subresult for the first wrapped result
+
+      @query.group_by :tweek
+      @query.group_by :project_id
+      @query.group_by :user_id
+      sql_result = @query.result
+      ruby_result = Entry.all.group_by { |e| e.user_id }
+
+      sql_result.size.should == ruby_result.size
+      #for each user the number of projects should be correct
+      sql_sizes = []
+      sub_sql_sizes = []
+      sql_result.each do |sub_result|
+        #user should be the outmost group_by
+        sub_result.fields.should include(:user_id)
+        sql_sizes.push sub_result.size
+
+        sub_result.each do |sub_sub_result|
+          sub_sub_result.fields.should include(:project_id)
+          sub_sql_sizes.push sub_sub_result.size
+
+          sub_sub_result.each do |sub_sub_sub_result|
+            sub_sub_sub_result.fields.should include(:tweek)
+          end
+        end
+      end
+      ruby_sizes = []
+      sub_ruby_sizes = []
+      ruby_result.each do |sub_result_array|
+        sub_group = sub_result_array.second.group_by { |e| e.project_id }
+        ruby_sizes.push sub_group.size
+        sub_group.each do |sub_sub_result_array|
+          sub_sub_group = sub_sub_result_array.second.group_by { |e| e.tweek }
+          sub_ruby_sizes.push sub_sub_group.size
+        end
+      end
+
+      sql_sizes.sort.should == ruby_sizes.sort
+      sub_sql_sizes.sort.should == sub_ruby_sizes.sort
+    end
   end
 end
