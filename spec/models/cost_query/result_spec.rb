@@ -32,15 +32,12 @@ describe CostQuery do
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
       w = wrapped_result [w1, w2]
 
-      found_direct_result = false
       previous_depth = -1
       w.recursive_each_with_level do |level, result|
         #depth first, so we should get deeper into the hole, until we find a direct_result
-        unless found_direct_result
-          previous_depth.should == level - 1
-          previous_depth=level
-        end
-        found_direct_result = true if result.is_a? CostQuery::Result::DirectResult
+        previous_depth.should == level - 1
+        previous_depth=level
+        break if result.is_a? CostQuery::Result::DirectResult
       end
     end
 
