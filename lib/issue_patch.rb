@@ -73,6 +73,15 @@ module IssuePatch
             relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed? ? ir.issue_from : nil}.compact
         end
 
+        def velocity_based_estimate
+            return nil if !self.is_story? || ! self.story_points || self.story_points <= 0
+
+            v = self.project.velocity
+            return nil if ! v or ! v[:velocity] or v[:velocity] <= 0
+
+            return self.story_points * (v[:days] / v[:velocity])
+        end
+
         def update_parent_attributes_with_remaining_hours
             update_parent_attributes_without_remaining_hours
 

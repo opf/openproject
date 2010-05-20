@@ -124,6 +124,7 @@ class BacklogsController < ApplicationController
   def select_issues
     @query = Query.new(:name => "_")
     @query.project = @project
+    @query.sort_criteria = [['parent_id', 'desc']]
 
     if params[:sprint_id]
         @query.add_filter("status_id", '*', ['']) # All statuses
