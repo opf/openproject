@@ -31,7 +31,7 @@ Backlogs needs the following gems to be installed:
 * prawn
 * nokogiri
 
-2.1 works against Redmine trunk, *stable will not work*, so check out
+master works against Redmine trunk, *stable will not work*, so check out
 redmine from svn or git and follow the trunk installation
 manual found at http://www.redmine.org/wiki/redmine/RedmineInstall and
 http://www.redmine.org/wiki/redmine/HowTo_configure_Apache_to_run_Redmine
