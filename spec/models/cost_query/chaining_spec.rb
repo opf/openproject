@@ -84,7 +84,7 @@ describe CostQuery do
 
       @query.filter :project_id
       @query.chain.bottom.parent.should be_a(CostQuery::Filter::ProjectId)
-      @query.chain.top.should be_a(CostQuery::GroupBy)
+      @query.chain.top.should be_a(CostQuery::GroupBy::Base)
       @query.chain.top.type.should == :column
     end
   end
