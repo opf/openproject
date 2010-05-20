@@ -94,3 +94,19 @@ example6:
   costs: 0.0
   created_on: <%= Time.now.strftime("%Y-%m-%d %H:%M") %>
   updated_on: <%= Time.now.strftime("%Y-%m-%d %H:%M") %>
+
+example7:
+  id: 7
+  user_id: 2
+  project_id: 2
+  cost_type_id: 1
+  issue_id: 3
+  units: 2
+  spent_on: <%= 2.weeks.ago.to_date %>
+  tyear: <%= 2.weeks.ago.to_time.year %>
+  tmonth: <%= 2.weeks.ago.to_time.month %>
+  tweek: <%= 2.weeks.ago.to_date.cweek %>
+  comments: "foo bar blah2"
+  costs: 0.0
+  created_on: <%= 2.weeks.ago.to_time.strftime("%Y-%m-%d %H:%M") %>
+  updated_on: <%= Time.now.strftime("%Y-%m-%d %H:%M") %>
