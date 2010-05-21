@@ -2,28 +2,32 @@ Feature: Permission View Own hourly and cost rates
 
   Scenario: Users that by set permission are only allowed to see their own rates, can not see the rates of others.
     Given there is a standard cost control project named "Standard Project"
-    And I am "Supplier" 
-    # I am allowed to see my own hourly and cost rates.
-    And I am member of "Standard Project":
-			| hourly rate | 10.00 |
-    And the project with name "Standard Project" has 1 issue with the following:
+    And the role "Supplier" may have the following rights:
+      | view_own_hourly_rate |
+    And there is 1 user with:
+      | name | bob |
+      | default rate | 10.00 |
+    And the user "bob" is a "Supplier" in the project "Standard Project"
+    And the project "Standard Project" has 1 issue with the following:
       | subject  | "test_issue" |
-    And this issue has 1 time entry with the following:
+    And the issue "test_issue" has 1 time entry with the following:
       | hours | 1.00  |
-      | user  | me    |
-    And this issue has 1 material cost entry with the following:
+      | user  | bob   |
+    And there is 1 cost type with the following:
+      | name | Translation |
+      | cost rate | 7.00   |
+    And the issue "test_issue" has 1 cost entry with the following:
       | units | 2.00  |
-      | user  | me    |
-			| cost type | Translation | 
-			# One translation costs 7.00 €
-		And the user "manager" is member of "Standard Project":
+      | user  | bob   |
+			| cost type | Translation |
+    And the user "manager" has:
 			| hourly rate | 11.00 |
 		And the issue "test_issue" has 1 time entry with the following:
 			| hours | 3.00 |
-			| user | Manager |
+			| user | manager |
 		And the issue "test_issue" has 1 cost entry with the following:
 			| units | 5.00 |
-			| user | Manager |
+			| user | manager |
 			| cost type | Translation |
     And I am on the page for the issue "test_issue"
     Then I should see "1.00 h"
