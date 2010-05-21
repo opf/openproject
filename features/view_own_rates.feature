@@ -4,10 +4,12 @@ Feature: Permission View Own hourly and cost rates
     Given there is a standard cost control project named "Standard Project"
     And the role "Supplier" may have the following rights:
       | view_own_hourly_rate |
-    And there is 1 user with:
-      | name | bob |
+    And there is 1 User with:
+    | Login 				  | testuser |
+      | Firstname 		| Bob 		|
+      | Lastname 			| Bobbit 	|
       | default rate | 10.00 |
-    And the user "bob" is a "Supplier" in the project "Standard Project"
+    And the user "testuser" is a "Supplier" in the project "Standard Project"
     And the project "Standard Project" has 1 issue with the following:
       | subject  | "test_issue" |
     And the issue "test_issue" has 1 time entry with the following:

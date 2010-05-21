@@ -74,7 +74,7 @@ Feature: Cost Reports
     
   Scenario: Editing a cost entry does not duplicate, but update it
     Given there is a standard cost control project named "CostProject"
-    And the project "Test" has 1 cost entry with the following:
+    And the project "CostProject" has 1 cost entry with the following:
       | units | 1234.0 |
     And I am admin
     When I am on the Cost Reports page for the project called "CostProject"

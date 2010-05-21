@@ -17,10 +17,10 @@ Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |use
   u = User.find_by_login user
   p = u.projects.last
   i = Issue.generate_for_project!(p)
-  as_admin count do
+  as_admin count do    
     ce = CostEntry.spawn
-    ce.user_id = u.id
-    ce.project_id = p.id
+    ce.user = u
+    ce.project = p
     ce.issue = i
     ce.save!
   end
@@ -28,9 +28,11 @@ end
 
 Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |project, count, table|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
+  i = Issue.generate_for_project!(p)
   as_admin count do
     ce = CostEntry.generate
     ce.project = p
+    ce.issue = i
     send_table_to_object(ce, table)
     ce.save!
   end
