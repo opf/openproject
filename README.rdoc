@@ -22,6 +22,8 @@ You will need to enable the Backlogs module per project via Settings > Modules. 
 
 Go to the #redmine (freenode) channel in IRC for questions. Bugs and feature requests may be filed at http://backlogsplugin.morphexchange.com/projects/redmine-backlogs
 
+You may also follow @redminebacklogs on Twitter for various announcements.
+
 = Installation requirements
 
 Backlogs needs the following gems to be installed:
