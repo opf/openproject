@@ -47,7 +47,7 @@ module CostsQueryPatch
     def available_filters_with_costs
       @available_filters = available_filters_without_costs
       
-      if project
+      if project && project.module_enabled?(:costs_module)
         redmine_costs_filters = {
           "cost_object_id" => {
             :type => :list_optional,
