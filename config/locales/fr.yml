@@ -818,7 +818,7 @@ fr:
   
   status_active: actif
   status_registered: enregistré
-  status_locked: vérouillé
+  status_locked: verrouillé
   
   version_status_open: ouvert
   version_status_locked: vérouillé
