@@ -821,7 +821,7 @@ fr:
   status_locked: verrouillé
   
   version_status_open: ouvert
-  version_status_locked: vérouillé
+  version_status_locked: verrouillé
   version_status_closed: fermé
   
   text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
