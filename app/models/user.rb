@@ -116,7 +116,7 @@ class User < Principal
         user.language = Setting.default_language
         if user.save
           user.reload
-          logger.info("User '#{user.login}' created from the LDAP") if logger
+          logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger
         end
       end
     end    
