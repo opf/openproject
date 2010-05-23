@@ -273,6 +273,32 @@ class UserTest < ActiveSupport::TestCase
     assert !u.password.blank?
     assert !u.password_confirmation.blank?
   end
+
+  context "#change_password_allowed?" do
+    should "be allowed if no auth source is set" do
+      user = User.generate_with_protected!
+      assert user.change_password_allowed?
+    end
+
+    should "delegate to the auth source" do
+      user = User.generate_with_protected!
+      
+      allowed_auth_source = AuthSource.generate!
+      def allowed_auth_source.allow_password_changes?; true; end
+
+      denied_auth_source = AuthSource.generate!
+      def denied_auth_source.allow_password_changes?; false; end
+
+      assert user.change_password_allowed?
+
+      user.auth_source = allowed_auth_source
+      assert user.change_password_allowed?, "User not allowed to change password, though auth source does"
+
+      user.auth_source = denied_auth_source
+      assert !user.change_password_allowed?, "User allowed to change password, though auth source does not"
+    end
+
+  end
   
   if Object.const_defined?(:OpenID)
     

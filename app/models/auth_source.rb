@@ -32,6 +32,15 @@ class AuthSource < ActiveRecord::Base
     "Abstract"
   end
 
+  def allow_password_changes?
+    self.class.allow_password_changes?
+  end
+
+  # Does this auth source backend allow password changes?
+  def self.allow_password_changes?
+    false
+  end
+
   # Try to authenticate a user not yet registered against available sources
   def self.authenticate(login, password)
     AuthSource.find(:all, :conditions => ["onthefly_register=?", true]).each do |source|

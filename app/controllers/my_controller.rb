@@ -77,7 +77,7 @@ class MyController < ApplicationController
   # Manage user's password
   def password
     @user = User.current
-    if @user.auth_source_id
+    unless @user.change_password_allowed?
       flash[:error] = l(:notice_can_t_change_password)
       redirect_to :action => 'account'
       return

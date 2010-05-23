@@ -71,7 +71,7 @@ class User < Principal
   
   def before_save
     # update hashed_password if password was set
-    self.hashed_password = User.hash_password(self.password) if self.password
+    self.hashed_password = User.hash_password(self.password) if self.password && self.auth_source_id.blank?
   end
   
   def reload(*args)
@@ -116,7 +116,7 @@ class User < Principal
         user.language = Setting.default_language
         if user.save
           user.reload
-          logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger
+          logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
         end
       end
     end    
@@ -161,7 +161,17 @@ class User < Principal
   end
 
   def check_password?(clear_password)
-    User.hash_password(clear_password) == self.hashed_password
+    if auth_source_id.present?
+      auth_source.authenticate(self.login, clear_password)
+    else
+      User.hash_password(clear_password) == self.hashed_password
+    end
+  end
+
+  # Does the backend storage allow this user to change their password?
+  def change_password_allowed?
+    return true if auth_source_id.blank?
+    return auth_source.allow_password_changes?
   end
 
   # Generate and set a random password.  Useful for automated user creation
