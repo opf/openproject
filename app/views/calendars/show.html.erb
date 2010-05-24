@@ -20,7 +20,9 @@
 </p>
 
 <p class="buttons">
+<%= label_tag('month', l(:label_month)) %>
 <%= select_month(@month, :prefix => "month", :discard_type => true) %>
+<%= label_tag('year', l(:label_year)) %>
 <%= select_year(@year, :prefix => "year", :discard_type => true) %>
 
 <%= link_to_remote l(:button_apply), 
