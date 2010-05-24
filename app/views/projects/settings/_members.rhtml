@@ -42,8 +42,8 @@
   </td>
   <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
 	</tr>
-	</tbody>
 <% end; reset_cycle %>
+	</tbody>
 </table>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
