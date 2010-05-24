@@ -48,6 +48,40 @@ class MembersControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook/settings/members'
     assert User.find(7).member_of?(Project.find(1))
   end
+
+  context "post :new in JS format" do
+    context "with successful saves" do
+      should "add membership for each user" do
+        post :new, :format => "js", :id => 1, :member => {:role_ids => [1], :user_ids => [7, 8, 9]}
+
+        assert User.find(7).member_of?(Project.find(1))
+        assert User.find(8).member_of?(Project.find(1))
+        assert User.find(9).member_of?(Project.find(1))
+      end
+      
+      should "replace the tab with RJS" do
+        post :new, :format => "js", :id => 1, :member => {:role_ids => [1], :user_ids => [7, 8, 9]}
+
+        assert_select_rjs :replace_html, 'tab-content-members'
+      end
+      
+    end
+
+    context "with a failed save" do
+      should "not replace the tab with RJS" do
+        post :new, :format => "js", :id => 1, :member => {:role_ids => [], :user_ids => [7, 8, 9]}
+
+        assert_select '#tab-content-members', 0
+      end
+      
+      should "open an error message" do
+        post :new, :format => "js", :id => 1, :member => {:role_ids => [], :user_ids => [7, 8, 9]}
+
+        assert @response.body.match(/alert/i), "Alert message not sent"
+      end
+    end
+
+  end
   
   def test_edit
     assert_no_difference 'Member.count' do
