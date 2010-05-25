@@ -404,6 +404,12 @@ display: block;
 width: auto;
 }
 
+.tabular label.inline{
+float:none;
+margin-left: 5px !important;
+width: auto;
+}
+
 input#time_entry_comments { width: 90%;}
 
 #preview fieldset {margin-top: 1em; background: url(../images/draft.png)}
