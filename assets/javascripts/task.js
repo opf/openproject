@@ -19,12 +19,6 @@ RB.Task = RB.Object.create(RB.Story, {
     j.find('.editable').bind('mouseup', this.triggerEdit);
   },
 
-  additionalInfo: function(){
-    var cellID = this.$.parent('td').first().attr('id').split("_");
-    return "&parent_issue_id=" + cellID[0];
-
-  },
-
   checkSubjectLength: function(){
   },
   
@@ -44,12 +38,23 @@ RB.Task = RB.Object.create(RB.Story, {
   markSaving: function(){
     this.$.addClass('saving');
   },
-  
-  saveURL: function(){
-    console.log(RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')]);
-    return RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')];
-  },
+
+  // Override saveDirectives of RB.Story
+  saveDirectives: function(){
+    var j = this.$;
+    var cellID = j.parent('td').first().attr('id').split("_");
+
+    var data = j.find('.editor').serialize() +
+               "&parent_issue_id=" + cellID[0] +
+               (this.isNew() ? "" : "&id=" + j.children('.id').text());
+    var url = RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')];
     
+    return {
+      url: url,
+      data: data
+    }
+  },
+
   triggerEdit: function(event){
     // Get the task since what was clicked was a field
     var j = $(this).parents('.task').first();

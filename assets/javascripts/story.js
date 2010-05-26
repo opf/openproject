@@ -20,10 +20,6 @@ RB.Story = RB.Object.create(RB.Model, {
     this.checkSubjectLength();
   },
 
-  additionalInfo: function(){
-    // Empty. For children objects to override.
-  },
-
   cancelEdit: function(){
     this.$.removeClass('editing');
     this.checkSubjectLength();
@@ -110,12 +106,26 @@ RB.Story = RB.Object.create(RB.Model, {
   markSaving: function(){
     this.$.addClass('saving');
   },
+
+  // To be overriden by children objects such as RB.Task
+  saveDirectives: function(){
+    var j = this.$;
+    var data = j.find('.editor').serialize() +
+               (this.isNew() ? "" : "&id=" + j.children('.id').text());
+    var url = RB.urlFor[(this.isNew() ? 'create_story' : 'update_story')];
+
+    return {
+      url: url,
+      data: data
+    }
+  },
   
   saveEdits: function(){
     j = this.$;
     me = j.data('this');
     editors = j.find('.editor');
     
+    // Copy the values from the fields to the proper html elements
     editors.each(function(index){
       editor = $(this);
       fieldName = editor.attr('name');
@@ -130,16 +140,20 @@ RB.Story = RB.Object.create(RB.Model, {
       }
     });
 
+    // Mark the story as closed if so
     if(j.children("select.status_id").children(":selected").hasClass('closed')){
       j.addClass('closed');
     } else {
       j.removeClass('closed');
     }
 
+    // Get the save directives. This should be overriden by descendant objects of RB.Story
+    var saveDir = this.saveDirectives();
+
     $.ajax({
       type: "POST",
-      url: me.saveURL(),
-      data: editors.serialize()  + me.additionalInfo() + (me.isNew() ? "" : "&id=" + j.children('.id').text()),
+      url: saveDir.url,
+      data: saveDir.data,
       beforeSend: function(xhr){ me.markSaving() },
       complete: (me.isNew() ? this.storyCreated : this.storyUpdated) 
     });
@@ -148,11 +162,7 @@ RB.Story = RB.Object.create(RB.Model, {
     var sprint = j.parents('.sprint.backlog');
     if(sprint.size()>0) sprint.data('this').recalcPoints();
   },
-  
-  saveURL: function(){
-    return RB.urlFor[(this.isNew() ? 'create_story' : 'update_story')]
-  },
-  
+
   storyCreated: function(xhr, textStatus){
     me.unmarkSaving();
     
