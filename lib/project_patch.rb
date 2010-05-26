@@ -30,7 +30,7 @@ module ProjectPatch
                     :sprints => sprints.length,
                     :days => days / sprints.length,
                     :velocity => accepted / sprints.length}
-            if velo[:velocity] and velo[:velocity] >= 0
+            if velo[:velocity] and velo[:velocity] > 0
                 velo[:days_per_point] = (velo[:days] * 1.0) / velo[:velocity]
             end
             return velo
