@@ -22,7 +22,7 @@
                      <span class="subject"><%= story.subject %></span></td>
     <td class="new_task_button" id="newtaskrow_<%= i + 1 %>">+</td>
     <%- @statuses.each do |status| %>
-    <td class="list" id="<%= story.id %>_<%= status.id %>">
+    <td class="list <%= status.is_closed? ? 'closed ' : '' %>" id="<%= story.id %>_<%= status.id %>">
       <%- story.children.select{|task| task.status.id==status.id}.each do |task| %>
       <%= render :partial => "tasks/task", :object => task %>
       <%- end %>

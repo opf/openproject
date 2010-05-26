@@ -103,6 +103,16 @@ RB.Story = RB.Object.create(RB.Model, {
     this.$.addClass('error');
   },
   
+  markIfClosed: function(){
+    var j = this.$;
+    
+    if(j.children("select.status_id").children(":selected").hasClass('closed')){
+      j.addClass('closed');
+    } else {
+      j.removeClass('closed');
+    }
+  },
+  
   markSaving: function(){
     this.$.addClass('saving');
   },
@@ -141,11 +151,7 @@ RB.Story = RB.Object.create(RB.Model, {
     });
 
     // Mark the story as closed if so
-    if(j.children("select.status_id").children(":selected").hasClass('closed')){
-      j.addClass('closed');
-    } else {
-      j.removeClass('closed');
-    }
+    me.markIfClosed();
 
     // Get the save directives. This should be overriden by descendant objects of RB.Story
     var saveDir = this.saveDirectives();

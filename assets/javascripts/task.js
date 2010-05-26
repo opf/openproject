@@ -35,6 +35,14 @@ RB.Task = RB.Object.create(RB.Story, {
     }
   },
 
+  markIfClosed: function(){
+    if(this.$.parent('td').first().hasClass('closed')){
+      this.$.addClass('closed');
+    } else {
+      this.$.removeClass('closed');
+    }
+  },
+
   markSaving: function(){
     this.$.addClass('saving');
   },
@@ -46,6 +54,7 @@ RB.Task = RB.Object.create(RB.Story, {
 
     var data = j.find('.editor').serialize() +
                "&parent_issue_id=" + cellID[0] +
+               "&status_id=" + cellID[1] +
                (this.isNew() ? "" : "&id=" + j.children('.id').text());
     var url = RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')];
     
@@ -53,6 +62,10 @@ RB.Task = RB.Object.create(RB.Story, {
       url: url,
       data: data
     }
+  },
+
+  saveDragResult: function(){
+    this.saveEdits();
   },
 
   triggerEdit: function(event){

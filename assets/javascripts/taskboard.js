@@ -35,21 +35,7 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     var isDropTarget = (ui.sender==null); // Handler is triggered for source and target. Thus the need to check.
 
     if(isDropTarget){
-      var cellID = $(ui.item).parent('td').first().attr('id').split("_");
-
-      var data = {
-        id: ui.item.data('this').getID(),
-        parent_issue_id: cellID[0],
-        status_id: cellID[1]
-      }
-
-      $.ajax({
-          type: "POST",
-          url: RB.urlFor['update_task'],
-          data: data,
-          beforeSend: function(xhr){ ui.item.data('this').markSaving() },
-          complete: function(xhr, textStatus){ ui.item.data('this').unmarkSaving() }
-      });
+      ui.item.data('this').saveDragResult();
     }    
   },
   
