@@ -13,7 +13,8 @@ class TasksController < ApplicationController
 
     task = Task.new(attribs)
     if task.save!
-      task.insert_at 1
+      c = task.parent.children
+      task.move_to_left_of c[0] if c[0].id != task.id
       render :partial => "task", :object => task
     else
       text = "ERROR"
