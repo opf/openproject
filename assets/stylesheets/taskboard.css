@@ -57,3 +57,18 @@
 #taskboard td.story.closed .subject{
   text-decoration:line-through;
 }
+#taskboard td.new_task_button{
+  margin:0;
+  min-width:30px;
+  padding:0;
+  text-align:center;
+  vertical-align:middle;
+  width:30px;
+}
+#taskboard td.new_task_button:hover{
+  cursor:pointer;
+  background-color:#ffffcc;
+}
+#taskboard tr:hover{
+  background-color:#ffffff;
+}

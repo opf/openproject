@@ -11,6 +11,7 @@
 <table id="taskboard" cellspacing="0">
   <tr>
     <td class="story">Story</td>
+    <td class="new_task_button"> </td>
     <%- @statuses.each do |status| %>
     <td id="status_<%= status.id %>"><%= status.name %></td>
     <%- end %>
@@ -19,6 +20,7 @@
   <tr>
     <td class="story <%= mark_if_closed(story) %>"><%= link_to story.id, {:controller => 'issues', :action => 'show', :id => story.id}, { :class => "story_id", :target => "_blank" } %>
                      <span class="subject"><%= story.subject %></span></td>
+    <td class="new_task_button" id="newtaskrow_<%= i + 1 %>">+</td>
     <%- @statuses.each do |status| %>
     <td class="list" id="<%= story.id %>_<%= status.id %>">
       <%- story.children.select{|task| task.status.id==status.id}.each do |task| %>

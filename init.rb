@@ -54,7 +54,9 @@ Redmine::Plugin.register :redmine_backlogs do
                                   :create,
                                   :update ],
                     :tasks => [   :index,
-                                  :update ],
+                                  :update,
+                                  :new,
+                                  :create ],
                   }
     end
 

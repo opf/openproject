@@ -19,6 +19,12 @@ RB.Task = RB.Object.create(RB.Story, {
     j.find('.editable').bind('mouseup', this.triggerEdit);
   },
 
+  additionalInfo: function(){
+    var cellID = this.$.parent('td').first().attr('id').split("_");
+    return "&parent_issue_id=" + cellID[0];
+
+  },
+
   checkSubjectLength: function(){
   },
   
@@ -39,6 +45,11 @@ RB.Task = RB.Object.create(RB.Story, {
     this.$.addClass('saving');
   },
   
+  saveURL: function(){
+    console.log(RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')]);
+    return RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')];
+  },
+    
   triggerEdit: function(event){
     // Get the task since what was clicked was a field
     var j = $(this).parents('.task').first();

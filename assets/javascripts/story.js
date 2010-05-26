@@ -20,6 +20,10 @@ RB.Story = RB.Object.create(RB.Model, {
     this.checkSubjectLength();
   },
 
+  additionalInfo: function(){
+    // Empty. For children objects to override.
+  },
+
   cancelEdit: function(){
     this.$.removeClass('editing');
     this.checkSubjectLength();
@@ -134,8 +138,8 @@ RB.Story = RB.Object.create(RB.Model, {
 
     $.ajax({
       type: "POST",
-      url: RB.urlFor[(me.isNew() ? 'create_story' : 'update_story')],
-      data: editors.serialize() + (me.isNew() ? "" : "&id=" + j.children('.id').text()),
+      url: me.saveURL(),
+      data: editors.serialize()  + me.additionalInfo() + (me.isNew() ? "" : "&id=" + j.children('.id').text()),
       beforeSend: function(xhr){ me.markSaving() },
       complete: (me.isNew() ? this.storyCreated : this.storyUpdated) 
     });
@@ -143,6 +147,10 @@ RB.Story = RB.Object.create(RB.Model, {
     
     var sprint = j.parents('.sprint.backlog');
     if(sprint.size()>0) sprint.data('this').recalcPoints();
+  },
+  
+  saveURL: function(){
+    return RB.urlFor[(this.isNew() ? 'create_story' : 'update_story')]
   },
   
   storyCreated: function(xhr, textStatus){
