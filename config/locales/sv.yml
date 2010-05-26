@@ -946,3 +946,6 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
+  field_principal: Principal
+  label_my_page_block: My page block
+  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."

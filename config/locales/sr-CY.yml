@@ -898,3 +898,6 @@ sr-CY:
   error_unable_delete_issue_status: Unable to delete issue status
   label_subtask_plural: Subtasks
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  field_principal: Principal
+  label_my_page_block: My page block
+  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."

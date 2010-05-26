@@ -919,3 +919,6 @@ zh:
   error_unable_to_connect: 不能连接到 ({{value}})
   error_can_not_remove_role: 该角色正在使用中, 不能删除.
   error_can_not_delete_tracker: 该跟踪标签包含问题, 不能删除.
+  field_principal: Principal
+  label_my_page_block: My page block
+  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."

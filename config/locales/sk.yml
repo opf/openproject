@@ -896,3 +896,6 @@ sk:
   error_unable_to_connect: Nieje možné vymazať ({{value}})
   error_can_not_remove_role: Táto roľa sa používa a nemôže byť vymazaná.
   error_can_not_delete_tracker: Táto fronta obsahuje úlohy a nemôže byť vymazaná.
+  field_principal: Principal
+  label_my_page_block: My page block
+  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."

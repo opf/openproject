@@ -901,3 +901,6 @@ eu:
   error_unable_to_connect: Ezin da konektatu ({{value}})
   error_can_not_remove_role: Rol hau erabiltzen hari da eta ezin da ezabatu.
   error_can_not_delete_tracker: Aztarnari honek zereginak ditu eta ezin da ezabatu.
+  field_principal: Principal
+  label_my_page_block: My page block
+  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."

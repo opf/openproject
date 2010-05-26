@@ -957,3 +957,6 @@ ko:
   error_unable_to_connect: 연결할 수 없습니다(({{value}})
   error_can_not_remove_role: 이 역할은 현재 사용 중이이서 삭제할 수 없습니다.
   error_can_not_delete_tracker: 이 유형의 일감들이 있에서 삭제할 수 없습니다.
+  field_principal: Principal
+  label_my_page_block: My page block
+  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."

@@ -1017,3 +1017,6 @@ ru:
   label_close_versions: Закрыть завершенные версии
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
+  field_principal: Principal
+  label_my_page_block: My page block
+  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."

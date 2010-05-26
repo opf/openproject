@@ -925,3 +925,6 @@ pt-BR:
   error_unable_to_connect: Não foi possível conectar ({{value}})
   error_can_not_remove_role: Este papel está em uso e não pode ser excluído.
   error_can_not_delete_tracker: Este tipo de tarefa está atribuído a alguma(s) tarefa(s) e não pode ser excluído.
+  field_principal: Principal
+  label_my_page_block: My page block
+  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
