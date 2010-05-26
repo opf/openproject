@@ -233,4 +233,26 @@ module IssuesHelper
     end
     export
   end
+
+  def gantt_zoom_link(gantt, in_or_out)
+    case in_or_out
+    when :in
+      if gantt.zoom < 4
+        link_to_remote(image_tag('zoom_in.png'),
+                       {:url => gantt.params.merge(:zoom => (gantt.zoom+1)), :update => 'content'},
+                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom+1)))})
+      else
+        image_tag('zoom_in_g.png')
+      end
+      
+    when :out
+      if gantt.zoom > 1
+        link_to_remote(image_tag('zoom_out.png'),
+                       {:url => gantt.params.merge(:zoom => (gantt.zoom-1)), :update => 'content'},
+                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom-1)))})
+      else
+        image_tag('zoom_out_g.png')
+      end
+    end
+  end
 end

@@ -9,16 +9,8 @@
 </fieldset>
 
 <p style="float:right;">
-<%= if @gantt.zoom < 4
-    link_to_remote image_tag('zoom_in.png'), {:url => @gantt.params.merge(:zoom => (@gantt.zoom+1)), :update => 'content'}, {:href => url_for(@gantt.params.merge(:zoom => (@gantt.zoom+1)))}
-  else
-    image_tag 'zoom_in_g.png'
-  end %>
-<%= if @gantt.zoom > 1
-    link_to_remote image_tag('zoom_out.png'), {:url => @gantt.params.merge(:zoom => (@gantt.zoom-1)), :update => 'content'}, {:href => url_for(@gantt.params.merge(:zoom => (@gantt.zoom-1)))}
-  else
-    image_tag 'zoom_out_g.png'
-  end %>
+  <%= gantt_zoom_link(@gantt, :in) %>
+  <%= gantt_zoom_link(@gantt, :out) %>
 </p>
 
 <p class="buttons">
