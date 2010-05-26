@@ -238,6 +238,7 @@
   notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
   notice_api_access_key_reseted: 您的 API 存取金鑰已被重新設定。
   notice_failed_to_save_issues: " {{count}} 個項目儲存失敗（總共選取 {{total}} 個項目）： {{ids}} 。"
+  notice_failed_to_save_members: "成員儲存失敗: {{errors}}."
   notice_no_issue_selected: "未選擇任何項目！請勾選您想要編輯的項目。"
   notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
   notice_default_data_loaded: 預設組態已載入成功。
@@ -316,6 +317,7 @@
   field_priority: 優先權
   field_fixed_version: 版本
   field_user: 用戶
+  field_principal: 原則
   field_role: 角色
   field_homepage: 網站首頁
   field_is_public: 公開
@@ -549,6 +551,7 @@
   label_my_page: 帳戶首頁
   label_my_account: 我的帳戶
   label_my_projects: 我的專案
+  label_my_page_block: 帳戶首頁區塊
   label_administration: 網站管理
   label_login: 登入
   label_logout: 登出
@@ -598,7 +601,6 @@
   label_news_latest: 最近新聞
   label_news_view_all: 檢視全部的新聞
   label_news_added: 新聞已新增
-  label_change_log: 變更記錄
   label_settings: 設定
   label_overview: 概觀
   label_version: 版本
@@ -987,6 +989,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
