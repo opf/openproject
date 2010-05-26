@@ -10,7 +10,7 @@ class TasksController < ApplicationController
     attribs['author_id'] = User.current.id
     attribs['tracker_id'] = Task.tracker
     attribs['project_id'] = @project.id
-        
+
     task = Task.new(attribs)
     if task.save!
       task.insert_at 1
@@ -33,7 +33,7 @@ class TasksController < ApplicationController
   def update
     attribs = params.select{|k,v| Task::SAFE_ATTRIBUTES.include? k }
     attribs = Hash[*attribs.flatten]
-    
+
     if IssueStatus.find(params[:status_id]).is_closed?
       attribs['remaining_hours'] = 0
     end

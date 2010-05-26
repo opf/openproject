@@ -65,7 +65,7 @@ RB.Task = RB.Object.create(RB.Story, {
   },
 
   saveDragResult: function(){
-    
+
     if(this.$.parent('td').first().hasClass('closed')){
       // This is only for the purpose of making the Remaining Hours reset
       // instantaneously after dragging to a closed status. The server should
@@ -73,7 +73,7 @@ RB.Task = RB.Object.create(RB.Story, {
       this.$.children('.remaining_hours.editor').val('0.0');
       this.$.children('.remaining_hours.editable').text('0.0');
     }
-    
+
     this.saveEdits();
   },
 

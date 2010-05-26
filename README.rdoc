@@ -18,11 +18,25 @@ Configure the plugin via Administration > Plugins
 
 You will need to enable the Backlogs module per project via Settings > Modules. Also, make check that the right roles have permission to use the module by going to Administration > Roles and Permissions > Permissions Report.
 
-= Reporting Bugs and Getting Help
+= Chart Data Generator
+
+You may schedule a cron job to run the rake task named
+<tt>redmine:backlogs_plugin:generate_chart_data</tt>. I recommend you
+run it a few minutes before midnight to ensure that your backlogs have data everyday even when no user views the charts.
+
+= Getting Help
+
+A *mailing list* is available for you to send your questions and concerns to:
+
+* Homepage: http://groups.google.com/group/backlogs-plugin
+* Group email: backlogs-plugin@googlegroups.com
+
+You may also follow @redminebacklogs on *Twitter* for various announcements.
+
+= Reporting Bugs
 
 Go to the #redmine (freenode) channel in IRC for questions. Bugs and feature requests may be filed at http://backlogsplugin.morphexchange.com/projects/redmine-backlogs
 
-You may also follow @redminebacklogs on Twitter for various announcements.
 
 = Installation requirements
 
@@ -50,9 +64,3 @@ This plugin has only been tested in the following environments:
 = License
 
 This plugin is released under the GPL v2 license. See LICENSE for more information.
-
-= Chart Data Generator
-
-You may schedule a cron job to run the rake task named
-<tt>redmine:backlogs_plugin:generate_chart_data</tt>. I recommend you
-run it a few minutes before midnight to ensure that your backlogs have data everyday even when no user views the charts.
