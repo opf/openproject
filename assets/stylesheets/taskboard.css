@@ -72,3 +72,6 @@
 #taskboard tr:hover{
   background-color:#ffffff;
 }
+#task_template{
+  display:none;
+}
