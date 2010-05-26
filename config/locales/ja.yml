@@ -178,6 +178,7 @@ ja:
   notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
   notice_api_access_key_reseted: APIアクセスキーを初期化しました。
   notice_failed_to_save_issues: "{{total}}件のうち{{count}}件のチケットが保存できませんでした: {{ids}}."
+  notice_failed_to_save_members: "メンバーの保存に失敗しました: {{errors}}."
   notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
   notice_account_pending: アカウントは作成済みで、管理者の承認待ちです。
   notice_default_data_loaded: デフォルト設定をロードしました。
@@ -257,6 +258,7 @@ ja:
   field_priority: 優先度
   field_fixed_version: 対象バージョン
   field_user: ユーザ
+  field_principal: 主体
   field_role: ロール
   field_homepage: ホームページ
   field_is_public: 公開
@@ -490,6 +492,7 @@ ja:
   label_my_page: マイページ
   label_my_account: 個人設定
   label_my_projects: マイプロジェクト
+  label_my_page_block: マイページパーツ
   label_administration: 管理
   label_login: ログイン
   label_logout: ログアウト
@@ -926,6 +929,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
