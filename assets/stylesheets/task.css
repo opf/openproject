@@ -10,6 +10,9 @@
 .task .editor{
   display:none;
 }
+.task.editing .editable{
+  display:none;
+}
 .task .id{
   -moz-border-radius:4px 4px 4px 4px;
   background-color:#EEEE99;
@@ -29,18 +32,18 @@
   display:block;
   float:left;
   font-size:10px;
-  height:97px;
+  height:94px;
   margin:10px 0 0 10px;
   padding:2px;
   position:relative;
   width:106px;
 }
 .task .subject{
-  height:57px;
-  margin:17px 0 0 0px;
+  height:28px;
+  margin:17px 0 0 3px;
   overflow:hidden;
-  padding:2px;
-  width:102px;
+  padding:2px 5px 2px 2px;
+  width:94px;
 }
 .placeholder{
   background-color:#FFFF00;
@@ -49,12 +52,29 @@
 .task.blank{
   cursor:pointer;
 }
-.task .assigned_to_id.editable{
-  display:block;
-  height:16px;
-  margin:0;
+.task .remaining_hours.editable{
+  height:15px;
+  margin:3px 0 0 3px;
   overflow:hidden;
-  padding:3px 0 0 8px;
+  padding:1px 2px 2px 3px;
+  width:96px;
+}
+.task.editing .remaining_hours.editor{
+  display:block;
+  font-family:inherit;
+  font-size:10px;
+  height:10px;
+  left:4px;
+  position:absolute;
+  top:53px;
+  width:96px;
+}
+.task .assigned_to_id.editable{
+  height:14px;
+  margin:3px 0 0 3px;
+  overflow:hidden;
+  padding:2px 2px 2px 3px;
+  width:96px;
 }
 .task .assigned_to_id .v{
   display:none;
@@ -63,22 +83,22 @@
   display:block;
   font-family:inherit;
   font-size:10px;
-  height:57px;
+  height:28px;
   left:1px;
   overflow:hidden;
   padding:3px 0 0 1px;
   position:absolute;
   top:0;
-  width:105px;
+  width:99px;
 }
-.task.editing .assigned_to_id.editor{
+.task.editing select.assigned_to_id.editor{
   display:block;
   font-family:inherit;
   font-size:10px;
-  left:1px;
+  left:4px;
   position:absolute;
-  top:81px;
-  width:108px;
+  top:74px;
+  width:102px;
 }
 .task.saving .indicator{
   background-image:url('../images/indicator.gif');
