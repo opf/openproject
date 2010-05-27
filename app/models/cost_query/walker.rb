@@ -44,4 +44,7 @@ class CostQuery::Walker
     columns + rows
   end
 
+  def walk
+    raise NotImplementedError, "done"
+  end
 end

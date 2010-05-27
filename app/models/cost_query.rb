@@ -14,7 +14,11 @@ class CostQuery < ActiveRecord::Base
   end
 
   def walker
-    Walker.new self
+    CostQuery::Walker.new self
+  end
+
+  def walk(&block)
+    walker.walk(&block)
   end
 
   def add_chain(type, name, options)
