@@ -4,16 +4,20 @@
 
 <div style="border-width: 1; background-color: #BBB; padding: 5px">
   <% @query = CostQuery.new
-     @query.group_by :project_id
-     @query.group_by :user_id
-     @result = @query.result %>
-    
-  Query: <br />
+     @query.group_by :issue_id
+     @query.column :tweek
+     @query.row :project_id
+     @query.row :user_id
+     @walker = @query.walker
+     @row = @walker.row_first
+     @column = @walker.column_first %>
+
+  query chain: <br />
   <ul>
-  <% @chain = @query.chain
-  while @chain %>
-    <li><%= @chain.class.to_s %></li>
-  <% @chain = @chain.child
+  <% chain = @query.chain
+  while chain %>
+    <li><%= chain.class.to_s %></li>
+  <% chain = chain.child
     end %>
   </ul>
   
