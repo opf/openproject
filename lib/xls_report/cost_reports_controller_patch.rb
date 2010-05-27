@@ -52,7 +52,7 @@ if require_dependency 'cost_reports_controller'
             @entries.each do |entry|
               entry_fields = [entry.spent_on,
                               entry.user.name, 
-                              entry.is_a?(TimeEntry) ? entry.activity.name : "",
+                              entry.is_a?(TimeEntry) ? (entry.activity && entry.activity.name) : "",
                               entry.issue ? entry.issue_id : "",
                               entry.comments,
                               if entry.is_a?(CostEntry)
