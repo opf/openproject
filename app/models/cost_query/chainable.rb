@@ -180,7 +180,7 @@ class CostQuery < ActiveRecord::Base
     end
 
     def result
-      Result.new ActiveRecord::Base.connection.select_all(sql_statement.to_s)
+      Result.new ActiveRecord::Base.connection.select_all(sql_statement.to_s), {}, type
     end
 
     def table_joins
