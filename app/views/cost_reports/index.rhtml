@@ -2,8 +2,7 @@
   <div class="flash error"><%= @custom_error %></div>
 <% end %>
 
-<div style="border-width: 1; background-color: #BBB; padding: 5px">
-  <% @query = CostQuery.new
+<% @query = CostQuery.new
      @query.group_by :issue_id
      @query.column :tweek
      @query.row :project_id
@@ -12,6 +11,20 @@
      @row = @walker.row_first
      @column = @walker.column_first %>
 
+<h1>Die sch&ouml;ne Tabelle:</h1>
+<table>
+<%=debug(@query.walk(:column_first) do |current, subgregation|
+ if subgregation.nil?
+   ["<td>#{current.inspect}</td>"]
+ elsif current.type == :column
+   subgregation.first.unshift "<td rowspan='#{subgregation.size}'>#{current.fields.inspect}</td>"
+ else
+   subgregation.flatten
+ end
+end) %>
+</table>
+
+<div style="border-width: 1; background-color: #BBB; padding: 5px">
   query chain: <br />
   <ul>
   <% chain = @query.chain
