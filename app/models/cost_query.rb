@@ -14,7 +14,7 @@ class CostQuery < ActiveRecord::Base
   end
 
   def walker
-    CostQuery::Walker.new self
+    @walker ||= CostQuery::Walker.new self
   end
 
   def walk(&block)
