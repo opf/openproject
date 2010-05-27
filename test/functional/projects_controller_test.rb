@@ -364,12 +364,14 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   def test_roadmap_showing_subprojects_versions
+    @subproject_version = Version.generate!(:project => Project.find(3))
     get :roadmap, :id => 1, :with_subprojects => 1
     assert_response :success
     assert_template 'roadmap'
     assert_not_nil assigns(:versions)
-    # Version on subproject appears
-    assert assigns(:versions).include?(Version.find(4))
+
+    assert assigns(:versions).include?(Version.find(4)), "Shared version not found"
+    assert assigns(:versions).include?(@subproject_version), "Subproject version not found"
   end
   def test_project_activity
     get :activity, :id => 1, :with_subprojects => 0

@@ -336,6 +336,13 @@ class Project < ActiveRecord::Base
       end
     end
   end
+
+  # Returns a scope of the Versions on subprojects
+  def rolled_up_versions
+    @rolled_up_versions ||=
+      Version.scoped(:include => :project,
+                     :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
+  end
   
   # Returns a scope of the Versions used by the project
   def shared_versions
