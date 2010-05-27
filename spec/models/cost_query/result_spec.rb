@@ -133,13 +133,5 @@ describe CostQuery do
       @query.result.first.type.should == :direct
     end
 
-    it "should have a type, which is not :column or :row, when created with plain CostQuery.group_by" do
-      @query.group_by :project_id
-      @query.result.type.should_not == :column
-      @query.result.type.should_not == :row
-      @query.result.type.should_not == nil
-      pp @query.result.type
-    end
-
   end
 end
