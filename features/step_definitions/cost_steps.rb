@@ -10,7 +10,19 @@ end
 
 Given /^there is 1 cost type with the following:$/ do |table|
   ct = CostType.generate
-  send_table_to_object(ct, table)
+  send_table_to_object(ct, table, {
+    :cost_rate => Proc.new do |o,v|
+      CostRate.generate.tap do |cr|
+        cr.rate = v
+        cr.cost_type = o
+      end.save!
+    end,
+    :name => Proc.new do |o,v|
+      o.name = v
+      o.unit = v
+      o.unit_plural = "#{v}s"
+      o.save!
+    end})
 end
 
 Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |user, count|  
@@ -38,12 +50,21 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the 
   end
 end
 
-Given /^the issue "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |project, count, table|
-  i = Issue.find(:last, :condition => ["subject = #{issue}"])
+Given /^the issue "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |issue, count, table|
+  i = Issue.find(:last, :conditions => ["subject = '#{issue}'"])
   as_admin count do
     ce = CostEntry.generate
-    ce.project = p
-    send_table_to_object(ce, table)
+    ce.project = i.project
+    ce.issue = i
+    send_table_to_object(ce, table, {
+      :user => Proc.new do |o,v|
+        o.user = User.find_by_login(v)
+        o.save!
+      end,
+      :cost_type => Proc.new do |o,v|
+        o.cost_type = CostType.find_by_name(v)
+        o.save!
+      end})
     ce.save!
   end
 end
