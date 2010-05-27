@@ -8,7 +8,7 @@ module CostsProjectPatch
     base.class_eval do
       unloadable
       
-      has_many :cost_objects
+      has_many :cost_objects, :dependent => :destroy
       has_many :rates, :class_name => 'HourlyRate'
       
       has_many :member_groups, :class_name => 'Member', 
