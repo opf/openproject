@@ -4,8 +4,8 @@ class CostQuery::Walker
 
   def initialize(query)
     @query = query
-
   end
+
   ##
   # @return [CostQuery::Result::Base] Result tree with row group bys at the top
   # @see CostQuery::Chainable#result
@@ -19,25 +19,28 @@ class CostQuery::Walker
   def column_first
     @column_first ||= begin
       # reverse since we fake recursion ↓↓↓
-      list, all_fields = restructured.reverse, []
+      list, all_fields = restructured.reverse, @all_fields.dup
       result = list.inject(@ungrouped) do |aggregate, (current_fields, type)|
-        aggregate.grouped_by all_fields.push(*current_fields), type
+        fields, all_fields = all_fields, all_fields - current_fields
+        aggregate.grouped_by fields, type
       end
       result or current.result
     end
   end
 
   ##
-  # Important side effect: it sets @ungrouped.
+  # Important side effect: it sets @ungrouped, @all_fields.
   # @return [Array<Array<Array<String,Symbol>, Symbol>>] Group by fields + types (:row or :column)
   def restructured
     rows, columns, current = [], [], @query.chain
+    @all_fields = []
     until current.filter?
       if current.responsible_for_sql?
         @ungrouped = current.result
       else
         list = current.row? ? rows : columns
         list << [current.group_fields, current.type]
+        @all_fields.push(*current.group_fields)
       end
       current = current.child
     end

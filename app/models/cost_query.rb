@@ -1,6 +1,8 @@
 require_dependency "entry"
+require 'forwardable'
 
 class CostQuery < ActiveRecord::Base
+  extend Forwardable
   #belongs_to :user
   #belongs_to :project
   #attr_protected :user_id, :project_id, :created_at, :updated_at
@@ -9,22 +11,18 @@ class CostQuery < ActiveRecord::Base
     @accepted_properties ||= []
   end
 
-  def results
-    chain.results
+  # FIXME: (RE)MOVE ME
+  def self.example
+    @example ||= CostQuery.new.group_by(:issue_id).column(:tweek).row(:project_id).row(:user_id)
   end
 
   def walker
     @walker ||= CostQuery::Walker.new self
   end
 
-  ##
-  # @see CostQuery::Walker#walk
-  def walk(*args, &block)
-    walker.walk(*args, &block)
-  end
-
   def add_chain(type, name, options)
     chain type.const_get(name.to_s.camelcase), options
+    self
   end
 
   def chain(klass = nil, options = {})
@@ -51,8 +49,7 @@ class CostQuery < ActiveRecord::Base
     group_by name, options.merge(:type => :row)
   end
 
-  def method_missing(*a, &b)
-    chain.send(*a, &b)
-  end
+  def_delegators :walker, :walk, :column_first, :row_first
+  def_delegators :chain, :result, :top, :bottom, :chain_collect, :sql_statement
 
 end;

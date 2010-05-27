@@ -31,9 +31,26 @@ module CostQuery::Result
         fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
       end
       # map group back to array, all fields with same key get grouped into one list
-      list = data.keys.map { |f| CostQuery::Result.new data[f], f }
+      list = data.keys.map { |f| CostQuery::Result.new data[f], f, type }
       # create a single result from that list
-      CostQuery::Result.new(list).tap { |r| r.type = type }
+      CostQuery::Result.new list, {}, type
+    end
+
+    def inspect
+      "<##{self.class}: @fields=#{fields.inspect} @type=#{type.inspect} " \
+      "@size=#{size} @count=#{count} @units=#{units} @real_costs=#{real_costs}>"
+    end
+
+    def row?
+      type == :row
+    end
+
+    def column?
+      type == :column
+    end
+
+    def direct?
+      type == :direct
     end
   end
 
@@ -53,13 +70,17 @@ module CostQuery::Result
     end
 
     def real_costs
-      self["real_costs"].to_d
+      (self["real_costs"] || 0).to_d # FIXME: default value here?
     end
 
     ##
     # @return [Integer] Number of child results
     def size
       0
+    end
+
+    def type
+      :direct
     end
   end
 
@@ -123,7 +144,7 @@ module CostQuery::Result
     end
   end
 
-  def self.new(value, fields = {})
+  def self.new(value, fields = {}, type = nil)
     result = begin
       case value
       when Array then WrappedResult.new value.map { |e| new e }
@@ -133,6 +154,7 @@ module CostQuery::Result
       end
     end
     result.fields.merge! fields
+    result.type = type if type
     result
   end
 end

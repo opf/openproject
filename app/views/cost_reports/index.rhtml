@@ -12,17 +12,17 @@
      @column = @walker.column_first %>
 
 <h1>Die sch&ouml;ne Tabelle:</h1>
-<table>
-<%=debug(@query.walk(:column_first) do |current, subgregation|
- if subgregation.nil?
-   ["<td>#{current.inspect}</td>"]
- elsif current.type == :column
-   subgregation.first.unshift "<td rowspan='#{subgregation.size}'>#{current.fields.inspect}</td>"
- else
-   subgregation.flatten
- end
-end) %>
-</table>
+<%
+
+data = @query.walk(:column_first) do |current, sub|
+  list = [current.inspect]
+  list.push(*sub.map { |e| "&gt;#{e}"  }) if sub
+  list
+end
+
+%>
+
+<pre><%= data.join "\n" %></pre>
 
 <div style="border-width: 1; background-color: #BBB; padding: 5px">
   query chain: <br />
