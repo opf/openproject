@@ -968,3 +968,5 @@ lt:
   field_principal: Principal
   label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  text_zoom_out: Zoom out
+  text_zoom_in: Zoom in

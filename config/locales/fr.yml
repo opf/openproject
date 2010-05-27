@@ -923,3 +923,5 @@ fr:
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   field_principal: Principal
   notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  text_zoom_out: Zoom out
+  text_zoom_in: Zoom in

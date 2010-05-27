@@ -576,6 +576,7 @@ ru:
   label_more: Больше
   label_my_account: Моя учетная запись
   label_my_page: Моя страница
+  label_my_page_block: Блок моей страницы
   label_my_projects: Мои проекты
   label_new: Новый
   label_new_statuses_allowed: Разрешены новые статусы
@@ -770,6 +771,7 @@ ru:
   notice_email_error: "Во время отправки письма произошла ошибка ({{value}})"
   notice_email_sent: "Отправлено письмо {{value}}"
   notice_failed_to_save_issues: "Не удалось сохранить {{count}} пункт(ов) из {{total}} выбранных: {{ids}}."
+  notice_failed_to_save_members: "Не удалось сохранить участника(ов): {{errors}}."
   notice_feeds_access_key_reseted: Ваш ключ доступа RSS был перезапущен.
   notice_file_not_found: Страница, на которую Вы пытаетесь зайти, не существует или удалена.
   notice_locking_conflict: Информация обновлена другим пользователем.
@@ -1017,6 +1019,6 @@ ru:
   label_close_versions: Закрыть завершенные версии
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  field_principal: Глава
+  text_zoom_out: Отдалить
+  text_zoom_in: Приблизить

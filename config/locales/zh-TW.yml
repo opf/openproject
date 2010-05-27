@@ -962,6 +962,8 @@
   text_wiki_page_destroy_children: "刪除所有子頁面及其延伸頁面"
   text_wiki_page_reassign_children: "重新指定所有的子頁面之父頁面至此頁面"
   text_own_membership_delete_confirmation: "您在專案中，所擁有的部分或全部權限即將被移除，在這之後可能無法再次編輯此專案。\n您確定要繼續執行這個動作？"
+  text_zoom_in: 放大
+  text_zoom_out: 縮小
   
   default_role_manager: 管理人員
   default_role_developper: 開發人員
