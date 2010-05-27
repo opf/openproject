@@ -61,4 +61,17 @@ class Story < Issue
 
         return story_points.to_s
     end
+
+    def task_status
+        closed = 0
+        open = 0
+        self.descendants.each {|task|
+            if task.closed?
+                closed += 1
+            else
+                open += 1
+            end
+        }
+        return {:open => open, :closed => closed}
+    end
 end
