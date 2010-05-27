@@ -10,12 +10,14 @@ class CostObjectsController < ApplicationController
   before_filter :find_optional_project, :only => [:index]
 
   before_filter :authorize, :except => [
-    # authorization in find_optional_project
     :index,
+    
     # unrestricted actions
     :preview, :context_menu,
     :update_material_budget_item, :update_labor_budget_item
     ]
+  
+  before_filter :authorize, :only => :index, :if => @project
   
   verify :method => :post, :only => [:bulk_edit, :destroy],
          :redirect_to => { :action => :index }
@@ -229,10 +231,12 @@ private
   end
   
   def find_optional_project
-    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-
-    allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
-    allowed ? true : deny_access
+    if params[:project_id]
+      @project = Project.find(params[:project_id])
+    else
+      allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, nil, :global => true)
+      allowed ? true : deny_access
+    end
   rescue ActiveRecord::RecordNotFound
     render_404
   end
