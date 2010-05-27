@@ -124,13 +124,25 @@ class Version < ActiveRecord::Base
   
   def to_s; name end
   
-  # Versions are sorted by effective_date and name
-  # Those with no effective_date are at the end, sorted by name
+  # Versions are sorted by effective_date and "Project Name - Version name"
+  # Those with no effective_date are at the end, sorted by "Project Name - Version name"
   def <=>(version)
     if self.effective_date
-      version.effective_date ? (self.effective_date == version.effective_date ? self.name <=> version.name : self.effective_date <=> version.effective_date) : -1
+      if version.effective_date
+        if self.effective_date == version.effective_date
+          "#{self.project.name} - #{self.name}" <=> "#{version.project.name} - #{version.name}"
+        else
+          self.effective_date <=> version.effective_date
+        end
+      else
+        -1
+      end
     else
-      version.effective_date ? 1 : (self.name <=> version.name)
+      if version.effective_date
+        1
+      else
+        "#{self.project.name} - #{self.name}" <=> "#{version.project.name} - #{version.name}"
+      end
     end
   end
   
