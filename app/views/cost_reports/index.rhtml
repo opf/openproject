@@ -20,10 +20,19 @@
   <% chain = chain.child
     end %>
   </ul>
-  
-  Result:
-  <pre><% @result.recursive_each_with_level do |l, r| %>
-    <%= "#{'|  '*l}#{r.class} (#{r.fields}) # size:#{r.size}" %><% end %>
+
+  <% max = 20 %>
+  Result (row):
+  <pre><% @row.recursive_each_with_level do |l, r| %>
+    <%= "#{'|  '*l}#{r.class} (#{r.fields}) # size:#{r.size}" %><% max -=1; break if max <= 0; end %>
+    ...
+  </pre>
+
+  <% max = 20 %>
+  Result (column):
+  <pre><% @column.recursive_each_with_level do |l, r| %>
+    <%= "#{'|  '*l}#{r.class} (#{r.fields}) # size:#{r.size}" %><% max -=1; break if max <= 0; end %>
+    ...
   </pre>
   
   SQL statement: <br />
