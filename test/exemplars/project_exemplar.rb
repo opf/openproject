@@ -12,7 +12,7 @@ class Project < ActiveRecord::Base
 
   # Project#next_identifier is defined on Redmine
   def self.next_identifier_from_object_daddy
-    @last_identifier ||= 'project0'
+    @last_identifier ||= 'project-0000'
     @last_identifier.succ!
     @last_identifier
   end
