@@ -26,6 +26,7 @@ class CostQuery < ActiveRecord::Base
   end
 
   def chain(klass = nil, options = {})
+    @walker = nil
     @chain ||= Filter::NoFilter.new
     @chain = klass.new @chain, options if klass
     @chain = @chain.parent until @chain.top?
