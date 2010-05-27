@@ -3,6 +3,19 @@
 
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
+  <table>
+    <tr>
+      <td><strong><%= l(:label_filter_plural) %>:</strong></td>
+      <td><%=  FilterSettingsHelper.filter_settings(@query).join(", ") %></td>
+    </tr>
+    <% if group_by_settings = FilterSettingsHelper.group_by_setting(@query) %>        
+      <tr>
+        <td><strong><%= l(:field_group_by) %>:</strong></td>
+        <td><%= group_by_settings %></td>
+      </tr>
+    <% end %>
+  </table>
+  
   <% if @issues.empty? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
   <% else %>

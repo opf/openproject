@@ -82,11 +82,11 @@ class SpreadsheetBuilder
   # Add headers. This is usually used for adding a table header to the 
   # second row in the document, but the row can be set using the second
   # optional parameter. The format is automatically set to bold font
-  def add_headers(arr, idx = 1)
+  def add_headers(arr, idx = nil)
     header_format = Spreadsheet::Format.new(:weight => :bold)
-    (arr.size + 1).times { |i| @sheet.row(idx).set_format(i, header_format) }
-    idx = [idx, 1].max
     add_row(arr, idx)
+    idx ||= @sheet.last_row_index
+    (arr.size + 1).times { |i| @sheet.row(idx).set_format(i, header_format) }
   end
   
   # Add a simple row. This will default to the next row in the sequence.
