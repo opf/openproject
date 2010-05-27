@@ -1,4 +1,5 @@
-<% 
+<% if not project.nil? and project.module_enabled? :costs_module %>
+<%
 cost_objects_any = false
 possible_cost_objects = issues.inject(issues.first.project.cost_objects) do |intersect, issue|
   cost_objects_any |= issue.project.cost_objects.any?
@@ -20,3 +21,4 @@ end
 	<% end -%>
 	</ul>
 </li>
+<% end %>
