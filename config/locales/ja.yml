@@ -902,6 +902,8 @@ ja:
   text_wiki_page_destroy_children: "配下の子孫ページも削除する"
   text_wiki_page_reassign_children: "子ページを次の親ページの配下に移動する"
   text_own_membership_delete_confirmation: "いくつかまたはすべての権限をあなた自身から剥奪しようとしているため、このプロジェクトを編集できなくなるかもしれません。\n本当に続けてもよろしいですか？"
+  text_zoom_in: 拡大
+  text_zoom_out: 縮小
   
   default_role_manager: 管理者
   default_role_developper: 開発者
@@ -929,5 +931,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in

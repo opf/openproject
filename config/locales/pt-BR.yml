@@ -926,7 +926,7 @@ pt-BR:
   error_can_not_remove_role: Este papel está em uso e não pode ser excluído.
   error_can_not_delete_tracker: Este tipo de tarefa está atribuído a alguma(s) tarefa(s) e não pode ser excluído.
   field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
+  label_my_page_block: Meu bloco de página
+  notice_failed_to_save_members: "Falha ao gravar membro(s): {{errors}}."
+  text_zoom_out: Afastar zoom
+  text_zoom_in: Aproximar zoom
