@@ -120,13 +120,15 @@ class MailHandler < ActionMailer::Base
     category = (get_keyword(:category) && project.issue_categories.find_by_name(get_keyword(:category)))
     priority = (get_keyword(:priority) && IssuePriority.find_by_name(get_keyword(:priority)))
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
+    due_date = get_keyword(:due_date, :override => true)
+    start_date = get_keyword(:start_date, :override => true)
 
     # check permission
     unless @@handler_options[:no_permission_check]
       raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
     end
-    
-    issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority)
+
+    issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority, :due_date => due_date, :start_date => start_date)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
       issue.status = status
@@ -163,6 +165,8 @@ class MailHandler < ActionMailer::Base
   # Adds a note to an existing issue
   def receive_issue_reply(issue_id)
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
+    due_date = get_keyword(:due_date, :override => true)
+    start_date = get_keyword(:start_date, :override => true)
     
     issue = Issue.find_by_id(issue_id)
     return unless issue
@@ -179,6 +183,9 @@ class MailHandler < ActionMailer::Base
     if status && issue.new_statuses_allowed_to(user).include?(status)
       issue.status = status
     end
+    issue.start_date = start_date if start_date
+    issue.due_date = due_date if due_date
+    
     issue.save!
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
     journal
@@ -245,7 +252,7 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && plain_text_body.gsub!(/^#{attr}[ \t]*:[ \t]*(.+)\s*$/i, '')
+        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && plain_text_body.gsub!(/^#{attr.to_s.humanize}[ \t]*:[ \t]*(.+)\s*$/i, '')
           $1.strip
         elsif !@@handler_options[:issue][attr].blank?
           @@handler_options[:issue][attr]
