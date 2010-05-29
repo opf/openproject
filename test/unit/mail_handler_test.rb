@@ -57,6 +57,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
+    assert_equal User.find_by_login('jsmith'), issue.assigned_to
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
@@ -256,6 +257,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
+    assert_equal User.find_by_login('jsmith'), issue.assigned_to
   end
 
   def test_add_issue_note_should_send_email_notification

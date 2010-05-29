@@ -120,6 +120,7 @@ class MailHandler < ActionMailer::Base
     category = (get_keyword(:category) && project.issue_categories.find_by_name(get_keyword(:category)))
     priority = (get_keyword(:priority) && IssuePriority.find_by_name(get_keyword(:priority)))
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
+    assigned_to = (get_keyword(:assigned_to, :override => true) && find_user_from_keyword(get_keyword(:assigned_to, :override => true)))
     due_date = get_keyword(:due_date, :override => true)
     start_date = get_keyword(:start_date, :override => true)
 
@@ -128,7 +129,7 @@ class MailHandler < ActionMailer::Base
       raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
     end
 
-    issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority, :due_date => due_date, :start_date => start_date)
+    issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority, :due_date => due_date, :start_date => start_date, :assigned_to => assigned_to)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
       issue.status = status
@@ -167,6 +168,7 @@ class MailHandler < ActionMailer::Base
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
     due_date = get_keyword(:due_date, :override => true)
     start_date = get_keyword(:start_date, :override => true)
+    assigned_to = (get_keyword(:assigned_to, :override => true) && find_user_from_keyword(get_keyword(:assigned_to, :override => true)))
     
     issue = Issue.find_by_id(issue_id)
     return unless issue
@@ -185,6 +187,7 @@ class MailHandler < ActionMailer::Base
     end
     issue.start_date = start_date if start_date
     issue.due_date = due_date if due_date
+    issue.assigned_to = assigned_to if assigned_to
     
     issue.save!
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
@@ -319,5 +322,15 @@ class MailHandler < ActionMailer::Base
       body = body.gsub(regex, '')
     end
     body.strip
+  end
+
+  def find_user_from_keyword(keyword)
+    user ||= User.find_by_mail(keyword)
+    user ||= User.find_by_login(keyword)
+    if user.nil? && keyword.match(/ /)
+      firstname, lastname = *(keyword.split) # "First Last Throwaway"
+      user ||= User.find_by_firstname_and_lastname(firstname, lastname)
+    end
+    user
   end
 end
