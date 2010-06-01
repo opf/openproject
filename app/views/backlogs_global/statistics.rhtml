@@ -7,7 +7,7 @@
     var $j = jQuery.noConflict();
              
     $j(document).ready(function(){
-        $j("#projects").accordion({ header: 'h3'});
+        $j("#projects").accordion({ collapsible: true, header: 'h3'});
     });
 </script>
 
@@ -16,10 +16,28 @@
         <% stats = project.scrum_statistics %>
         <h3><a href="#"><span class="score score_<%= stats[:score][:score] %>"><%= stats[:score][:score] %></span> <%= project.name %></a> </h3>
         <div>
+            <h4><%= l(:backlogs_product_backlog) %></h4>
+            <%= link_to(l(:backlogs_product_backlog), { :controller => 'backlogs', :action => 'select_issues', :project_id => project }) %><br/>
+            <% if stats[:active_sprint] || stats[:sprints] %>
+                <h4><%= l(:backlogs_sprints) %></h4>
+                <% if stats[:active_sprint] %>
+                    <%= link_to(stats[:active_sprint].name, {
+                        :controller => 'backlogs',
+                        :action => 'select_issues',
+                        :project_id => project,
+                        :sprint_id => stats[:active_sprint].id }) %> (<%= l(:backlogs_active) %>)<br/>
+                <% end %>
+                <% if stats[:sprints] %>
+                    <% stats[:sprints].each do |sprint| %>
+                        <%= link_to(sprint.name, { :controller => 'backlogs', :action => 'select_issues', :project_id => project, :sprint_id => sprint.id }) %><br/>
+                    <% end %>
+                <% end %>
+            <% end %>
+
             <% stats[:score][:errors].each do |e| %>
-                <div>
-                    <%= e %>
-                </div>
+                <ul>
+                    <li><%= e %></li>
+                </ul>
             <% end %>
         </div>
     <% end %>

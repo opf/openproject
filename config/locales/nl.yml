@@ -29,10 +29,13 @@ nl:
   product_backlog_empty: "Product backlog is leeg"
   product_backlog_unsized: "De top van de product backlog heeft stories zonder sizes"
   unsized_stories: "De laatste {{sprints}} sprints hebben stories zonder sizes"
+  active_sprint_unsized_stories: "De lopende sprint heeft stories zonder size"
   unestimated_tasks: "De laatste {{sprints}} sprints hebben taken zonder urenschatting"
+  active_sprint_unestimated_tasks: "De lopende sprint heeft taken zonder urenschatting"
   size_accuracy: "Story size estimates vary by {{pct}}%"
   sprint_notes_missing: "De laatste sprint heeft geen notities"
   project_dormant: "Project vertoont geen activiteit"
   no_velocity: "Project heeft geen velocity"
   optimistic_velocity: "Project plant {{pct}}% te optimistisch"
   pessimistic_velocity: "Project plant {{pct}}% te pessimistisch"
+  backlogs_active: lopend

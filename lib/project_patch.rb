@@ -27,13 +27,22 @@ module ProjectPatch
 
             if backlog.length == 0
                 score << l(:product_backlog_empty)
-            elsif backlog.inject(true) {|unprep, story| unprep && !story.story_points.nil? }
+            elsif backlog.inject(true) {|unsized, story| unsized && story.story_points.nil? }
                 score << l(:product_backlog_unsized)
             else
                 score << nil
             end
 
             active = self.active_sprint
+            if active
+                stats[:active_sprint] = active
+                score <<
+                    (Issue.exists?(["id <> root_id and estimated_hours is NULL and fixed_version_id =? and tracker_id = ?", active.id, Task.tracker]) ?
+                    l(:active_sprint_unsized_stories) : nil)
+                score << (
+                    Issue.exists?(["id <> root_id and estimated_hours is NULL and fixed_version_id = ? and tracker_id = ?", active.id, Task.tracker]) ?
+                    l(:active_sprint_unestimated_tasks) : nil)
+            end
             active = active && active.activity 
 
             ## base sprint stats on the last 5 closed sprints
