@@ -14,51 +14,11 @@
 <div id="projects">
     <% @projects.each do |project| %>
         <% stats = project.scrum_statistics %>
-        <h3><a href="#"><span class="score score_<%= stats[:score] %>"><%= stats[:score] %></span> <%= project.name %></a> </h3>
+        <h3><a href="#"><span class="score score_<%= stats[:score][:score] %>"><%= stats[:score][:score] %></span> <%= project.name %></a> </h3>
         <div>
-            <% if ! stats[:backlog_ready] %>
+            <% stats[:score][:errors].each do |e| %>
                 <div>
-                    <%= l(:product_backlog_unprepared) %>
-                </div>
-            <% end %>
-            <% if ! stats[:active] %>
-                <div>
-                    <%= l(:project_dormant) %>
-                </div>
-            <% end %>
-            <% if stats[:has_unsized] %>
-                <div>
-                    <%= l(:unsized_stories, {:sprints => stats[:sprints].length}) %>
-                </div>
-            <% end %>
-            <% if stats[:has_unestimated] %>
-                <div>
-                    <%= l(:unestimated_tasks, {:sprints => stats[:sprints].length}) %>
-                </div>
-            <% end %>
-            <% if ! stats[:velocity_predictable] %>
-                <div>
-                    <%= l(:velocity_varies, {:variance => Integer((stats[:velocity_mismatch] || 0) * 100)}) %>
-                </div>
-            <% end %>
-            <% if ! stats[:stable_sizes] %>
-                <div>
-                    <%= l(:size_accuracy, {:variance => Integer((stats[:points_per_hour_variance] || 0) * 100)}) %>
-                </div>
-            <% end %>
-            <% if stats[:sprint_notes_missing] %>
-                <div>
-                    <%= l(:sprint_notes_missing) %>
-                </div>
-            <% end %>
-            <% if stats[:velocity] == 0 %>
-                <div>
-                    <%= l(:no_velocity) %>
-                </div>
-            <% end %>
-            <% if stats[:planned_velocity] == 0 %>
-                <div>
-                    <%= l(:no_planned_velocity) %>
+                    <%= e %>
                 </div>
             <% end %>
         </div>

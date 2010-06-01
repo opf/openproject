@@ -21,25 +21,40 @@ module ProjectPatch
             return @scrum_statistics if @scrum_statistics
 
             stats = {}
+            score = []
 
             backlog = Story.product_backlog(self)[0,10]
-            stats[:backlog_ready] = (backlog.length) > 0 && (backlog.inject(true) {|unprep, story| unprep && !story.story_points.nil? })
+
+            if backlog.length == 0
+                score << l(:product_backlog_empty)
+            elsif backlog.inject(true) {|unprep, story| unprep && !story.story_points.nil? }
+                score << l(:product_backlog_unsized)
+            else
+                score << nil
+            end
 
             active = self.active_sprint
-            stats[:active] = !!active && active.activity
+            active = active && active.activity 
 
             ## base sprint stats on the last 5 closed sprints
             sprints = Sprint.find(:all,
                 :conditions => ["project_id = ? and status in ('closed', 'locked') and not(effective_date is null or sprint_start_date is null)", self.id],
                 :order => "effective_date desc",
                 :limit => 5)
+            planned_velocity = nil
             if sprints.length != 0
                 stats[:sprints] = sprints
 
                 sprint_ids = sprints.collect{|s| "#{s.id}"}.join(',')
                 story_trackers = Story.trackers.collect{|s| "#{s.object_id}"}.join(',')
-                stats[:has_unsized] = Issue.exists? ["id = root_id and story_points is NULL and fixed_version_id in (#{sprint_ids}) and tracker_id in (?)", Story.trackers]
-                stats[:has_unestimated] = Issue.exists? ["id <> root_id and estimated_hours is NULL and fixed_version_id in (#{sprint_ids}) and tracker_id = ?", Task.tracker]
+
+                score << (
+                    Issue.exists?(["id = root_id and story_points is NULL and fixed_version_id in (#{sprint_ids}) and tracker_id in (?)", Story.trackers]) ?
+                    l(:unsized_stories, {:sprints => sprints.length}) : nil)
+
+                score << (
+                    Issue.exists?(["id <> root_id and estimated_hours is NULL and fixed_version_id in (#{sprint_ids}) and tracker_id = ?", Task.tracker]) ?
+                    l(:unestimated_tasks, {:sprints => sprints.length}) : nil)
 
                 ## average points per hour over the selected sprints
                 points_per_hour = nil
@@ -80,34 +95,42 @@ module ProjectPatch
                     end
                 }
                 if points_per_hour and pph_count > 0
-                    stats[:points_per_hour_variance] = (pph_diff / pph_count)
+                    pph_variance = (Integer(100 * (pph_diff / pph_count)) - 100).abs
+                    score << (pph_variance > 10 ? l(:size_accuracy, {:pct => pph_variance}) : nil)
                 end
 
                 last_sprint = sprints[-1]
-                stats[:active] |= (last_sprint.effective_date > -7.days.from_now.to_date)
-                stats[:sprint_notes_missing] = !last_sprint.has_wiki_page
+                active |= (last_sprint.effective_date > -7.days.from_now.to_date)
+
+                score << (!last_sprint.has_wiki_page ?  l(:sprint_notes_missing) : nil)
+
                 stats[:average_days_per_sprint] = days / sprints.length
                 stats[:velocity] = accepted / sprints.length
-                stats[:planned_velocity] = committed / sprints.length
+                planned_velocity = committed / sprints.length
                 stats[:days_per_point] = (stats[:average_days_per_sprint] * 1.0) / stats[:velocity] if stats[:velocity] > 0
             end
 
+            score << (!active ? l(:project_dormant) : nil)
+
             stats[:velocity] ||= 0
-            stats[:planned_velocity] ||= 0
-            stats[:velocity_mismatch] = (1 - (stats[:velocity] / stats[:planned_velocity])) if stats[:planned_velocity] > 0
+            score << (stats[:velocity] == 0 ? l(:no_velocity) : nil)
 
-            score = {}
-            score[:backlog_ready]           = stats[:backlog_ready]
-            score[:has_velocity]            = stats[:velocity] != 0
-            score[:plans_velocity]          = stats[:planned_velocity] != 0
-            score[:is_active]               = stats[:active]
-            score[:all_sized]               = !stats[:has_unsized]
-            score[:all_estimated]           = !stats[:has_unestimated]
-            score[:stable_sizes]            = stats[:points_per_hour_variance] && stats[:points_per_hour_variance] < 0.1
-            score[:has_sprint_notes]        = !stats[:sprint_notes_missing]
-            score[:velocity_predictable]    = stats[:planned_velocity] > 0 && stats[:velocity_mismatch].abs < 0.1
-            stats[:score] = (10 * score.values.inject(0){|sum, v| sum + (v ?  1 : 0)}) / score.keys.length
+            if stats[:velocity] > 0
+                planned_velocity ||= 0
+                mood = Integer((100.0 * planned_velocity) / stats[:velocity]) - 100
+                if mood > 10
+                    score << l(:optimistic_velocity, {:pct => mood})
+                elsif mood < -10
+                    score << l(:pessimistic_velocity, {:pct => mood})
+                else
+                    score << nil
+                end
+            end
 
+            stats[:score] = {
+                :score => (10 * (score.size - score.compact.size)) / score.size,
+                :errors => score.compact
+            }
             @scrum_statistics = stats
             return @scrum_statistics
         end
