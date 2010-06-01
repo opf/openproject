@@ -60,9 +60,11 @@ Redmine::Plugin.register :redmine_backlogs do
                     :stories => [ :index ],
                     :tasks => [   :index ],
                   }
+        permission :view_statistics, { :backlogs_global => [ :statistics ] }
     end
 
     menu :project_menu, :backlogs, { :controller => 'backlogs', :action => 'index' }, :caption => 'Backlog', :after => :issues, :param => :project_id
+    menu :application_menu, :backlogs, { :controller => 'backlogs_global', :action => 'statistics'}, :caption => 'Scrum Statistics'
 end
 
 

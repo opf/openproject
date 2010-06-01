@@ -18,6 +18,18 @@ class Sprint < Version
         return stories.sum('story_points')
     end
    
+    def has_wiki_page
+        return false if wiki_page_title.nil? || wiki_page_title.blank?
+
+        page = project.wiki.find_page(self.wiki_page_title)
+        return false if !page
+
+        template = project.wiki.find_page(Setting.plugin_redmine_backlogs[:wiki_template])
+        return false if template && page.text == template.text
+
+        return true
+    end
+
     def wiki_page
         if ! project.wiki
             return ''
@@ -61,7 +73,17 @@ class Sprint < Version
         return !!(self.effective_date and self.sprint_start_date)
     end
 
-    def burndown
+    def activity
+        bd = self.burndown('up')
+        return false if !bd || !bd[:remaining_hours]
+
+        # assume a sprint is active if it's only 2 days old
+        return true if bd[:remaining_hours].size <= 2
+
+        return Issue.exists?(['fixed_version_id = ? and ((updated_on between ? and ?) or (created_on between ? and ?))', self.id, -2.days.from_now, Time.now, -2.days.from_now, Time.now])
+    end
+
+    def burndown(burn_direction = nil)
         return nil if not self.has_burndown
 
         end_date = self.effective_date > Date.today ? Date.today : self.effective_date
@@ -153,50 +175,55 @@ class Sprint < Version
             ideal_factor += ideal_delta
         }
 
+        units = {
+            :points_committed => :points,
+            :points_resolved => :points,
+            :points_accepted => :points,
+            :points_to_accept => :points,
+            :points_to_resolve => :points,
+            :ideal => :points,
+            :remaining_hours => :hours,
+            :required_burn_rate_points => :points,
+            :required_burn_rate_hours => :hours
+        }
         datasets = {}
-        [       [:points_committed, :points],
-                [:points_resolved, :points],
-                [:points_accepted, :points],
-                [:ideal, :points],
-                [:remaining_hours, :hours],
-                [:required_burn_rate_points, :points],
-                [:required_burn_rate_hours, :hours]].each { |series, units|
+        [:points_committed, :points_resolved, :points_accepted, :ideal, :remaining_hours, :required_burn_rate_points, :required_burn_rate_hours].each {|series|
             data = datapoints.collect {|d| d[series]}
             if not data.select{|d| d != 0 and not d.class == NilClass }.empty?
-                datasets[series] = { :units => units, :series => data }
+                datasets[series] = data
             end
         }
 
-        if Setting.plugin_redmine_backlogs[:points_burn_direction] == 'down'
+        burn_direction ||= Setting.plugin_redmine_backlogs[:points_burn_direction]
+        if burn_direction == 'down'
             if datasets[:points_committed]
                 if datasets.include? :ideal
-                    datasets[:ideal][:series].each_with_index {|d, i|
-                        datasets[:ideal][:series][i] = datasets[:points_committed][:series][i] - d
-                    }
+                    if datasets[:points_committed]
+                        datasets[:ideal] = datasets[:ideal].zip(datasets[:points_committed]).collect{|d, c| c - d}
+                    else
+                        datasets.delete(:ideal)
+                    end
                 end
 
                 [[:points_accepted, :points_to_accept], [:points_resolved, :points_to_resolve]].each{|src, tgt|
                     next if not datasets.include? src
 
-                    datasets[tgt] = { :units => :points, :series => [] }
-                    datasets[src][:series].each_with_index {|d, i|
-                        datasets[tgt][:series] << (datasets[:points_committed][:series][i] - d)
-                    }
+                    datasets[tgt] = datasets[src].zip(datasets[:points_committed]).collect{|d, c| c - d} if datasets[:points_committed]
                 }
             end
 
             # only show points committed if they're not constant
-            datasets.delete(:points_committed) if datasets[:points_committed] and datasets[:points_committed][:series].collect{|d| d != datasets[:points_committed][:series][0]}.empty?
+            datasets.delete(:points_committed) if datasets[:points_committed] and datasets[:points_committed].collect{|d| d != datasets[:points_committed][0]}.empty?
             datasets.delete(:points_resolved)
             datasets.delete(:points_accepted)
         end
 
         # clear overlap between accepted/resolved
         [[:points_resolved, :points_accepted], [:points_to_resolve, :points_to_accept]].each{|r, a|
-            datasets.delete(r) if datasets.has_key? r and datasets.has_key? a and datasets[a][:series] == datasets[r][:series]
+            datasets.delete(r) if datasets.has_key? r and datasets.has_key? a and datasets[a] == datasets[r]
         }
 
-        return { :dates => self.days, :series => datasets, :max => {:points => max_points, :hours => max_hours} }
+        return { :dates => self.days, :series => datasets, :units => units, :max => {:points => max_points, :hours => max_hours} }
     end
 
     def self.generate_burndown(only_current = true)

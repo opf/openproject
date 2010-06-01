@@ -25,3 +25,13 @@ nl:
   points_to_resolve: "points niet opgelost"
   remaining_hours: "resterende uren"
   field_velocity_based_estimate: "Schatting obv velocity"
+
+  product_backlog_unprepared: "Product backlog is kort of heeft unsized stories bovenaan"
+  project_dormant: "Project vertoont geen activiteit"
+  unsized_stories: "De laatste {{sprints}} sprints hebben unsized stories"
+  unestimated_tasks: "De laatste last {{sprints}} sprints hebben taken zonder schattingen"
+  velocity_varies: "Velocity varieert {{variance}}%"
+  size_accuracy: "Story size varieert {{variance}}% t.o.v. uren schattingen"
+  sprint_notes_missing: "Laatste sprint heeft geen notities"
+  no_velocity: "Project heeft geen velocity"
+  no_planned_velocity: "Project heeft geen geplande velocity"

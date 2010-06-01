@@ -1,0 +1,12 @@
+.score { text-align: center; width: 1.5em; font-size: large; display: inline-block; }
+.score_0 { background-color: #FF0000; }
+.score_1 { background-color: #FF5300; }
+.score_2 { background-color: #FF8100; }
+.score_3 { background-color: #FFA100; }
+.score_4 { background-color: #FFBB00; }
+.score_5 { background-color: #FFD300; }
+.score_6 { background-color: #FFEC00; }
+.score_7 { background-color: #E9FB00; }
+.score_8 { background-color: #B1F100; }
+.score_9 { background-color: #74E600; }
+.score_10 { background-color: #00CC00; }

@@ -25,3 +25,13 @@ en:
   points_to_resolve: "points not resolved"
   remaining_hours: "remaining hours"
   field_velocity_based_estimate: "Velocity based estimate"
+
+  product_backlog_unprepared: "Product backlog is short or has unsized stories at the top"
+  project_dormant: "Project shows no activity"
+  unsized_stories: "The last {{sprints}} sprints have unsized stories"
+  unestimated_tasks: "The last {{sprints}} sprints have unestimated tasks"
+  velocity_varies: "Velocity varies by {{variance}}%"
+  size_accuracy: "Story size estimates vary by {{variance}}%"
+  sprint_notes_missing: "Last sprint doesn't have sprint notes"
+  no_velocity: "Project has no velocity"
+  no_planned_velocity: "Project has no planned velocity"

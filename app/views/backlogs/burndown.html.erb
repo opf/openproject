@@ -24,7 +24,7 @@
 
         function burndown(div) {
             <%  dataseries.each_with_index do |series, i| %>
-                    <%= series.to_s %> = [ <%= @burndown[:series][series][:series].collect {|d| "#{d}"}.join(',') %>];
+                    <%= series.to_s %> = [ <%= @burndown[:series][series].collect {|d| "#{d}"}.join(',') %>];
                     series_no['<%= series.to_s %>'] = <%= i %>;
             <%  end %>
 
@@ -34,7 +34,7 @@
                 <% dataseries.each_with_index do |series, i| %>
                     {
                         label: '<%= escape_javascript(l(series)) %>',
-                        yaxis: '<%= @burndown[:series][series][:units] == :points ?  'yaxis' : 'y2axis' %>'
+                        yaxis: '<%= @burndown[:units][series] == :points ?  'yaxis' : 'y2axis' %>'
                     }<% if i != dataseries.length - 1 %>,<% end %>
                 <% end %>
             ];

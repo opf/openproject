@@ -11,7 +11,7 @@ class BacklogsController < ApplicationController
     @settings = Setting.plugin_redmine_backlogs
     @product_backlog_stories = Story.product_backlog(@project)
     @sprints = Sprint.open_sprints(@project)
-    @velocity = @project.velocity
+    @velocity = @project.scrum_statistics
     
     if @settings[:story_trackers].nil? || @settings[:task_tracker].nil?
       render :action => "noconfig", :layout => "backlogs"
