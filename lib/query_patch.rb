@@ -41,10 +41,22 @@ module QueryPatch
 
             return cols if not has_default_columns?
 
-            parentcol = available_columns.select{|c| c.name == :parent}[0]
-            return cols if cols.include?(parentcol)
+            return cols if ! self.filters["backlogs_issue_type"]
 
-            return [parentcol] + cols if self.filters["backlogs_issue_type"] and self.filters["backlogs_issue_type"][:values] == ['any']
+            [   [:parent,           :before,    (self.filters["backlogs_issue_type"][:values] == ['any'])],
+                [:story_points,     :after,     true],
+                [:estimated_hours,  :after,     true]]. each {|col, pos, use|
+
+                next if !use
+                col = available_columns.select{|c| c.name == col}[0]
+                if cols.include? col
+                    # pass
+                elsif pos == :before
+                    cols = [col] + cols
+                else
+                    cols = cols + [col]
+                end
+            }
 
             return cols
         end
