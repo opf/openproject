@@ -35,6 +35,7 @@ en:
   size_accuracy: "Story size estimates vary by {{pct}}%"
   sprint_notes_missing: "Last sprint doesn't have sprint notes"
   project_dormant: "Project shows no activity"
+  active_sprint_dormant: "Active sprint shows no activity"
   no_velocity: "Project has no velocity"
   optimistic_velocity: "Project plans too optimistically by {{pct}}%"
   pessimistic_velocity: "Project plans too pessimistically by {{pct}}%"

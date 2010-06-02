@@ -42,8 +42,8 @@ module ProjectPatch
                 score << (
                     Issue.exists?(["id <> root_id and estimated_hours is NULL and fixed_version_id = ? and tracker_id = ?", active.id, Task.tracker]) ?
                     l(:active_sprint_unestimated_tasks) : nil)
+                score << (!active.activity ? l(:active_sprint_dormant) : nil)
             end
-            active = active && active.activity 
 
             ## base sprint stats on the last 5 closed sprints
             sprints = Sprint.find(:all,
@@ -109,8 +109,7 @@ module ProjectPatch
                 end
 
                 last_sprint = sprints[-1]
-                active |= (last_sprint.effective_date > -7.days.from_now.to_date)
-
+                score << (last_sprint.effective_date < -7.days.from_now.to_date ? l(:project_dormant) : nil) if !active
                 score << (!last_sprint.has_wiki_page ?  l(:sprint_notes_missing) : nil)
 
                 stats[:average_days_per_sprint] = days / sprints.length
@@ -118,8 +117,6 @@ module ProjectPatch
                 planned_velocity = committed / sprints.length
                 stats[:days_per_point] = (stats[:average_days_per_sprint] * 1.0) / stats[:velocity] if stats[:velocity] > 0
             end
-
-            score << (!active ? l(:project_dormant) : nil)
 
             stats[:velocity] ||= 0
             score << (stats[:velocity] == 0 ? l(:no_velocity) : nil)

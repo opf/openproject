@@ -35,6 +35,7 @@ nl:
   size_accuracy: "Story size estimates vary by {{pct}}%"
   sprint_notes_missing: "De laatste sprint heeft geen notities"
   project_dormant: "Project vertoont geen activiteit"
+  active_sprint_dormant: "Lopende sprint vertoont geen activiteit"
   no_velocity: "Project heeft geen velocity"
   optimistic_velocity: "Project plant {{pct}}% te optimistisch"
   pessimistic_velocity: "Project plant {{pct}}% te pessimistisch"
