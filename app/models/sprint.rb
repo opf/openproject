@@ -62,7 +62,7 @@ class Sprint < Version
     def eta
         return nil if ! self.start_date
 
-        v = self.project.velocity
+        v = self.project.scrum_statistics
         return nil if ! v or ! v[:days_per_point]
 
         # assume 5 out of 7 are working days
