@@ -46,7 +46,7 @@ describe CostQuery do
           object = model.first
           @query.filter field, :value => object.id
           @query.result.each do |result|
-            result[field].should == object.id.to_s
+            result[field].to_s.should == object.id.to_s
           end
         end
 
@@ -55,7 +55,7 @@ describe CostQuery do
           @query.filter field, :value => object.id
           @query.filter field, :value => object.id
           @query.result.each do |result|
-            result[field].should == object.id.to_s
+            result[field].to_s.should == object.id.to_s
           end
         end
 
