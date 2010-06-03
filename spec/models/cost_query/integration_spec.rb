@@ -17,7 +17,7 @@ describe CostQuery do
   fixtures :issue_categories
   fixtures :versions
 
-  describe "Integration tests" do
+  describe "the reporting system" do
     it "should compute group_by and a filter" do
       @query.group_by :project_id
       @query.filter :status_id, :operator => 'o'
@@ -68,6 +68,40 @@ describe CostQuery do
       sql_result = @query.result
       ruby_result = Entry.all.select { |e| e.project_id == 1 || e.project_id == 3 || e.project_id == 4 }
       sql_result.count.should == ruby_result.size
+    end
+
+    it "should process only _one_ SQL query for any operations on a valid CostQuery" do
+      #hook the point where we generate the SQL query
+      class CostQuery::SqlStatement
+        alias_method :original_to_s, :to_s
+
+        def self.on_generate(&block)
+          @@on_generate = block || proc{}
+        end
+
+        def to_s
+          @@on_generate.call self if @@on_generate
+          original_to_s
+        end
+      end
+      # create a random query
+      @query.group_by :issue_id
+      @query.column :tweek
+      @query.row :project_id
+      @query.row :user_id
+      #count how often a sql query was created
+      number_of_sql_queries = 0
+      CostQuery::SqlStatement.on_generate do |sql_statement|
+        number_of_sql_queries += 1
+      end
+      # do some random things on it
+      walker = @query.walker
+      walker.row_first
+      walker.column_first
+      @query.walk(:column_first) { |current, sub| }
+      @query.walk(:row_first) { |current, sub| }
+      CostQuery::SqlStatement.on_generate # do nothing
+      number_of_sql_queries.should == 1
     end
   end
 end
