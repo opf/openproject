@@ -17,14 +17,11 @@
             :action => 'select_issues',
             :project_id => project.id
             }) %><br/>
-    <% if product_backlog %>
-        <%= link_to('Printable cards', {
-                :controller => 'backlogs',
-                :action => 'product_backlog_cards',
-                :project_id => project.id
-                }) %><br/>
-    
-    <% end %>
+    <%= link_to('Printable cards', {
+            :controller => 'backlogs',
+            :action => 'product_backlog_cards',
+            :project_id => project.id
+            }) %><br/>
 
     <% if sprint && sprint.has_burndown %>
         <h3>Sprint "<%= sprint.name %>"</h3>

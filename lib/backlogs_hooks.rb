@@ -17,12 +17,9 @@ module BacklogsPlugin
                     RAILS_DEFAULT_LOGGER.info "#### #{bit.inspect}"
 
                     locals[:sprint] = nil
-                    locals[:product_backlog] = nil
 
                     if sprint && sprint[:operator] == '=' && sprint[:values].size == 1
                         locals[:sprint] = Sprint.find_by_id(sprint[:values][0])
-                    elsif sprint && sprint[:operator] == '!*' && sprint[:values] == [''] && bit && bit[:operator] == '=' && bit[:values] == ['story']
-                        locals[:product_backlog] = true
                     end
                 end
 
