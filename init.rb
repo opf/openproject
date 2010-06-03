@@ -16,15 +16,14 @@ Redmine::Plugin.register :redmine_reporting do
   project_module :reporting_module do #todo: refactor this to be the reporting_module
     #require_or_load 'costs_access_control_permission_patch'
 
-    permission :view_cost_entries, {:costlog => [:details], :cost_reports => [:index, :get_filter]}
-    permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => [:index, :get_filter]},
+    permission :view_cost_entries, {:costlog => [:details], :cost_reports => [:index]}
+    permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => [:index]},
       :granular_for => :view_cost_entries
   end
 
   # register additional permissions for the time log
   project_module :time_tracking do
-    permission :view_own_time_entries, {:timelog => [:details, :report], :cost_reports => [:index, :get_filter]},
-      :granular_for => :view_time_entries
+    permission :view_own_time_entries, {:cost_reports => [:index]}, :granular_for => :view_time_entries
   end
 
   #menu extensions
