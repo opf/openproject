@@ -252,7 +252,7 @@ module CostsUserPatch
       attributes = rate_attributes[rate.id.to_s] if rate_attributes
       
       has_rate = false
-      if attributes && attributes[:rate]
+      if attributes && attributes[:rate].present?
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
         has_rate = true
       end

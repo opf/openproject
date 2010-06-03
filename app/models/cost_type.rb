@@ -51,7 +51,7 @@ class CostType < ActiveRecord::Base
       attributes = rate_attributes[rate.id.to_s]
       
       has_rate = false
-      if attributes && attributes[:rate]
+      if attributes && attributes[:rate].present?
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
         has_rate = true
       end
