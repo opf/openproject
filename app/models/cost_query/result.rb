@@ -23,15 +23,20 @@ module CostQuery::Result
     end
 
     def grouped_by(fields, type)
-      # sub results, have fields
-      # i.e. grouping by foo, bar
-      data = group_by do |entry|
-        # index for group is a hash
-        # i.e. { :foo => 10, :bar => 20 } <= this is just the KEY!!!!
-        fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
+      @grouped_by ||= {}
+      list = begin
+        @grouped_by[fields] ||= begin
+          # sub results, have fields
+          # i.e. grouping by foo, bar
+          data = group_by do |entry|
+            # index for group is a hash
+            # i.e. { :foo => 10, :bar => 20 } <= this is just the KEY!!!!
+            fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
+          end
+          # map group back to array, all fields with same key get grouped into one list
+          data.keys.map { |f| CostQuery::Result.new data[f], f, type }
+        end
       end
-      # map group back to array, all fields with same key get grouped into one list
-      list = data.keys.map { |f| CostQuery::Result.new data[f], f, type }
       # create a single result from that list
       CostQuery::Result.new list, {}, type
     end

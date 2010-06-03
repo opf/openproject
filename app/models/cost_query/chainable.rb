@@ -181,12 +181,12 @@ class CostQuery < ActiveRecord::Base
     end
 
     def clear
-      @result = nil
+      @cached = nil
       child.try :clear
     end
 
     def result
-      @result ||= compute_result
+      cached(:compute_result)
     end
 
     def compute_result
@@ -197,9 +197,16 @@ class CostQuery < ActiveRecord::Base
       self.class.table_joins
     end
 
+    def cached(*args)
+      @cached ||= {}
+      @cached[args] ||= send(*args)
+    end
+
     def sql_statement
       raise "should not get here (#{inspect})" if bottom?
-      child.sql_statement.tap { |q| chain_collect(:table_joins).each { |args| q.join(*args) } if responsible_for_sql? }
+      child.cached(:sql_statement).tap do |q|
+        chain_collect(:table_joins).each { |args| q.join(*args) } if responsible_for_sql?
+      end
     end
 
     inherited_attributes :db_field, :display
