@@ -27,7 +27,7 @@ Redmine::Plugin.register :redmine_reporting do
   end
 
   #menu extensions
-  menu :top_menu, :cost_reports, {:controller => 'cost_reports', :action => 'index'},
+  menu :top_menu, :cost_reports_global, {:controller => 'cost_reports', :action => 'index'},
     :caption => :cost_reports_title,
     :if => Proc.new {
       ( User.current.allowed_to?(:view_cost_objects, nil, :global => true) ||
@@ -35,6 +35,6 @@ Redmine::Plugin.register :redmine_reporting do
       )
     }
 
-  menu :project_menu, :cost_reports, {:controller => 'cost_reports', :action => 'index'},
+  menu :project_menu, :cost_reports_local, {:controller => 'cost_reports', :action => 'index'},
     :param => :project_id, :after => :cost_objects, :caption => :cost_reports_title
 end
