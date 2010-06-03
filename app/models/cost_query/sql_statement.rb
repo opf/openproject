@@ -84,7 +84,7 @@ class CostQuery::SqlStatement
   #
   # @return [CostQuery::SqlStatement] Generated statement
   def self.for_entries
-    new unified_entry(TimeEntry).union(unified_entry(CostEntry), "entries")
+    new(@for_entries ||= unified_entry(TimeEntry).union(unified_entry(CostEntry), "entries"))
   end
 
   ##
@@ -102,6 +102,7 @@ class CostQuery::SqlStatement
   # @param [#to_s] field Name of the field to aggregate on
   # @param [#to_s] name Name of the result (defaults to sum)
   def sum(field, name = :sum, type = :sum)
+    @sql = nil
     return sum({ name => field }, nil, type) unless field.respond_to? :to_hash
     field.each { |k,v| field[k] = "#{type}(#{v})" }
     select field
@@ -123,12 +124,14 @@ class CostQuery::SqlStatement
   # @return [String] The query
   def to_s
     # FIXME I'm ugly
-    sql = "\nSELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
-    "\nFROM\n\t#{from.gsub("\n", "\n\t")}" \
-    "\n#{joins.map { |e| "\t#{e}" }.join "\n"}" \
-    "\nWHERE #{where.join " AND "}\n"
-    sql << "GROUP BY #{group_by.join ', '}\n" if group_by?
-    sql
+    @sql ||= begin
+      sql = "\nSELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
+      "\nFROM\n\t#{from.gsub("\n", "\n\t")}" \
+      "\n#{joins.map { |e| "\t#{e}" }.join "\n"}" \
+      "\nWHERE #{where.join " AND "}\n"
+      sql << "GROUP BY #{group_by.join ', '}\n" if group_by?
+      sql
+    end
   end
 
   ##
@@ -140,7 +143,9 @@ class CostQuery::SqlStatement
   #   @param [#to_s] table
   #   @param [#to_s] From part
   def from(table = nil)
-    table ? @from = table : @from
+    return @from unless table
+    @sql = nil
+    @from = table
   end
 
   ##
@@ -155,7 +160,10 @@ class CostQuery::SqlStatement
   # @see CostQuery::QueryUtils#sanitize_sql_for_conditions
   def where(fields = nil)
     @where ||= ["1=1"]
-    @where << sanitize_sql_for_conditions(fields) unless fields.nil?
+    unless fields.nil?
+      @where << sanitize_sql_for_conditions(fields)
+      @sql = nil
+    end
     @where
   end
 
@@ -178,6 +186,7 @@ class CostQuery::SqlStatement
   #   @param [Array<String,Symbol,Array>] list Will generate join entries (according to guessings described above)
   # @see #joins
   def join(*list)
+    @sql = nil
     join_syntax = "LEFT OUTER JOIN %1$s ON %1$s.id = %2$s_id"
     list.each do |e|
       case e
@@ -207,6 +216,7 @@ class CostQuery::SqlStatement
   def select(*fields)
     return(@select || ["*"]) if fields.empty?
     returning(@select ||= []) do
+      @sql = nil
       fields.each do |f|
         case f
         when Array
@@ -233,6 +243,7 @@ class CostQuery::SqlStatement
   #   Adds fields to group by query
   #   @param [Array, String, Symbol] fields Fields to add
   def group_by(*fields)
+    @sql = nil unless fields.empty?
     returning(@group_by ||= []) do
       fields.each do |e|
         if e.is_a? Array and (e.size != 2 or !e.first.respond_to? :table_name)
