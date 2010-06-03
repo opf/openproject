@@ -92,7 +92,7 @@ describe CostQuery do
       #count how often a sql query was created
       number_of_sql_queries = 0
       CostQuery::SqlStatement.on_generate do |sql_statement|
-        number_of_sql_queries += 1
+        number_of_sql_queries += 1 unless caller.third.include? 'sql_statement.rb'
       end
       # do some random things on it
       walker = @query.walker
