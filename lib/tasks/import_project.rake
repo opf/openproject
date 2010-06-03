@@ -5,84 +5,66 @@ require 'yaml'
 class Importer
     def initialize(project, config, commit)
         @yaml_project = project
+
         @config = config
+        @config['roles'] ||= {}
+        @config['activities'] ||= {}
+        @config['issue_types'] ||= {}
+        @config['priorities'] ||= {}
 
         @commit = commit
 
         @project = Project.find_by_name(project['name'])
         raise "Project #{project['name']} does not exist" if @project.nil?
 
-        @tracker = {}
-        self.prime_trackers
-        @default_tracker = nil
+        @trackers = Hash.new { |hash, key| raise "Tracker '#{key}' not available" }
+        Tracker.find(:all).each {|t|
+            @trackers[t.name] = t
+        }
 
-        @role = {}
-        @rolemap = config['roles'] || {}
-        @sprint = {}
-        @priority = {}
-        @time_entry_activity = config['activity'] || {}
+        @roles = Hash.new { |hash, key| raise "Role '#{key}' not available" }
+        Role.find(:all).each {|r|
+            next if r.builtin?
+            @roles[r.name] = r
+        }
+
+        @priorities = Hash.new { |hash, key| raise "Priority '#{key}' not available" }
+        @priorities[nil] = IssuePriority.default
+        IssuePriority.find(:all).each {|p|
+            @priorities[p.name] = p
+        }
+        @priorities[nil] = IssuePriority.default
+
+        @activities = Hash.new { |hash, key| raise "Activity '#{key}' not available" }
+        TimeEntryActivity.find(:all).each {|a|
+            @activities[a.name] = a
+        }
+        #@activities[nil] = @time_entry_activity['default']}
+
+        @statuses = Hash.new { |hash, key| raise "Status '#{key}' not available" }
+        IssueStatus.find(:all).each {|s|
+            @statuses[s.name] = s
+        }
+
         @users = {}
     end
 
-    def prime_trackers
-        @config['trackers'].each_pair {|name, data|
-            self.prime_tracker(name, data['tracker'], data['states'])
-            @default_tracker = name if data['default']
-        }
+    def remap(value, remap)
+        return remap[value] || value
     end
 
-    def prime_tracker(issuetype, trackername, statusmap)
-        return if @tracker.include? issuetype and @tracker.include? trackername
-
-        if issuetype == '_task_':
-            tracker = Tracker.find_by_id(Task.tracker)
-            trackername = tracker.name
-        else
-            tracker = Tracker.find_by_name(trackername)
+    def issuetype_remap(type)
+        if @config['issue_types'][type]
+            return @config['issue_types'][type]['tracker']
         end
-        raise "Cannot find tracker #{issuetype}/#{trackername}, available trackers: #{@tracker.keys.join(', ')}" if tracker.nil?
-
-        statusmap ||= {}
-
-        foreign = {}
-        redmine = {}
-        tracker.workflows.each {|wf|
-            statusmap.each_pair {|f, r|
-                foreign[f] = wf.old_status if not foreign[f] and wf.old_status.name == r
-                foreign[f] = wf.new_status if not foreign[f] and wf.new_status.name == r
-            }
-            redmine[wf.old_status.name] = wf.old_status
-            redmine[wf.new_status.name] = wf.new_status
-        }
-        redmine.each_pair {|name, status|
-            foreign[name] = status if foreign[name]
-        }
-
-        @tracker[issuetype] = {'tracker' => tracker, 'status' => foreign}
+        return type
     end
 
-    def tracker(name, status = nil)
-        name = @default_tracker if not name
-        self.prime_tracker(name, name, nil) if not @tracker.include? name
-
-        t = @tracker[name]
-        raise "Tracker #{name} not found, available trackers: #{@tracker.keys.join(', ')}" if t.nil?
-
-        return t['tracker'] if status.nil?
-
-        s = t['status'][status]
-        raise "Status '#{status}' not found on tracker '#{name}', available: #{t['status'].keys.join(', ')}" if s.nil?
-
-        return t['status'][status]
-    end
-
-    def role(name)
-        role = @role[name] || Role.find_by_name(@rolemap[name]) || Role.find_by_name(name)
-        raise "Role '#{name}'/'#{@rolemap[name]}' not found, available: #{Role.find(:all).collect{|r| r.name}.join(', ')}" if role.nil?
-
-        @role[name] = role
-
-        return role
+    def status_remap(type, status)
+        if @config['issue_types'][type] && @config['issue_types'][type]['states'][status]
+            return @config['issue_types'][type]['states'][status]
+        end
+        return status
     end
 
     def self.newpass
@@ -120,41 +102,21 @@ class Importer
             end
 
             membership = Member.find(:first, :conditions=> { :user_id => user.id, :project_id => @project.id })
+            role = @roles[remap(data['role'], @config['roles'])]
             if membership.nil?
                 membership = Member.new
                 membership.user = user
                 membership.project = @project
-                membership.roles << self.role(data['role'])
+                membership.roles << role
                 membership.save! if @commit
             else
-                membership.roles << self.role(data['role'])
+                membership.roles << role
                 membership.save! if @commit
             end
         }
     end
 
-    def priority(p)
-        return IssuePriority.default if p.nil?
-
-        return @priority[p] if not @priority[p].nil?
-
-        prio = nil
-        if not @config['priority'].nil?
-            if not @config['priority'][p].nil?
-                prio = IssuePriority.find_by_name(@config['priority'][p])
-                @priority[p] = prio
-                @priority[@config['priority'][p]] = prio
-            end
-        else
-            prio = IssuePriority.find_by_name(p)
-            @priority[p] = prio
-        end
-
-        raise "No priority '#{p}'" if prio.nil?
-        return prio
-    end
-
-    def history(issue, j)
+    def history(issue, issue_type, j)
         journal = Journal.new(:journalized => issue, :user => self.user(j['username']), :created_on => j['timestamp'])
 
         activity = j['activity'] || {}
@@ -164,8 +126,8 @@ class Importer
                 journal.details << JournalDetail.new(
                     :property => 'attr',
                     :prop_key => 'status',
-                    :old_value => self.tracker(issue.tracker.name, changes['old']),
-                    :value => self.tracker(issue.tracker.name, changes['new']))
+                    :old_value => @statuses[status_remap(issue_type, changes['old'])],
+                    :value => @statuses[status_remap(issue_type, changes['new'])])
 
             elsif prop == 'remaining_hours'
                 journal.details << JournalDetail.new(
@@ -191,12 +153,12 @@ class Importer
 
             issue.subject = i['name']
             issue.project = @project
-            issue.tracker = self.tracker(i['type'])
-            issue.status = self.tracker(i['type'], i['status'])
+            issue.tracker = @trackers[issuetype_remap(i['type'])]
+            issue.status = @statuses[status_remap(i['type'], i['status'])]
             issue.author = self.user(i['author'])
             issue.assigned_to = self.user(i['assigned_to']) if i['assigned_to']
             issue.description = i['description']
-            issue.priority = self.priority(i['priority'])
+            issue.priority = @priorities[remap(i['priority'], @config['priorities'])]
             issue.fixed_version = @sprints[i['sprint']]
             issue.estimated_hours = i['estimated_hours']
             issue.remaining_hours = i['remaining_hours']
@@ -218,7 +180,7 @@ class Importer
 
             if i['history']
                 i['history'].each{|j|
-                    self.history(issue, j)
+                    self.history(issue, i['type'], j)
                 }
             end
         }
@@ -302,12 +264,6 @@ class Importer
         }
     end
 
-    def time_entry_activity(activity)
-        act = TimeEntryActivity.find_by_name(@time_entry_activity[activity] || activity || @time_entry_activity['default'])
-        raise "Unknown activity #{activity}, available: #{TimeEntryActivity.find(:all).collect{|a| a.name}.join(', ')}" if not act
-        return act
-    end
-
     def time_entries
         return if @yaml_project['time_entries'].nil?
 
@@ -319,7 +275,7 @@ class Importer
                 :spent_on => te['timestamp'],
                 :hours => te['hours'],
                 :comments => te['comments'],
-                :activity => self.time_entry_activity(te['activity']))
+                :activity => @activities[remap(te['activity'], @config['activities'])])
             tl.save if @commit
         }
     end
