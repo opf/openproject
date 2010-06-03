@@ -1,7 +1,3 @@
-<% if @custom_error %>
-  <div class="flash error"><%= @custom_error %></div>
-<% end %>
-
 <% @query = CostQuery.new
     @query.filter :project_id, :value => [1,2]
      @query.group_by :tweek
@@ -9,7 +5,16 @@
      @query.row :user_id
      @query.row :project_id %>
 
-<h1>Die (sch&ouml;ne) "Tabelle":</h1>
+<%# things above this line should be deleted or go into the controler %>
+
+<% if @custom_error %>
+  <div class="flash error"><%= @custom_error %></div>
+<% end %>
+
+<h2><%= l(:label_cost_report) %></h2>
+<% html_title( l(:label_cost_report) ) %>
+
+<h1>Die sch&ouml;ne Tabelle:</h1>
 <%
 
 data = @query.walk(:row_first) do |current, sub|
@@ -72,3 +77,8 @@ end
   SQL statement: <br />
   <pre><%= @query.sql_statement.to_s %></pre>
 </div>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'scm' %>
+    <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
+<% end %>

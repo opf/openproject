@@ -1,25 +1,10 @@
 class CostReportsController < ApplicationController
-  def list
-  end
-
-  def show
-  end
-
-  def new
-  end
-
-  def create
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def delete
-  end
-
-  def index
+  private
+  def find_optional_project
+    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
+    allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
+    allowed ? true : deny_access
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end
