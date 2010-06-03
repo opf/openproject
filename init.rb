@@ -106,6 +106,11 @@ Redmine::Plugin.register :redmine_costs do
       :inherits => :view_cost_objects
   end
 
+  # register additional permissions for the time log
+  project_module :time_tracking do
+    permission :view_own_time_entries, {:timelog => [:details, :report]}, :granular_for => :view_time_entries
+  end
+
   view_time_entries = Redmine::AccessControl.permission(:view_time_entries)
   view_time_entries.instance_variable_set("@inherits", [:view_own_time_entries])
   view_time_entries.actions << "cost_reports/index"
