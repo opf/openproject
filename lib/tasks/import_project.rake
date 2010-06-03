@@ -160,8 +160,8 @@ class Importer
             issue.description = i['description']
             issue.priority = @priorities[remap(i['priority'], @config['priorities'])]
             issue.fixed_version = @sprints[i['sprint']]
-            issue.estimated_hours = i['estimated_hours']
-            issue.remaining_hours = i['remaining_hours']
+            issue.estimated_hours = i['estimate']
+            issue.remaining_hours = i['remaining']
 
             issue.created_on = i['created']
             if i['history']
