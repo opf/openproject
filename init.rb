@@ -13,7 +13,7 @@ Redmine::Plugin.register :redmine_reporting do
   requires_redmine_plugin :redmine_costs, :version_or_higher => '0.3'
 
   #register reporting_module including permissions
-  project_module :reporting_module do #todo: refactor this to be the reporting_module
+  project_module :reporting_module do
     #require_or_load 'costs_access_control_permission_patch'
 
     permission :view_cost_entries, {:costlog => [:details], :cost_reports => [:index]}
