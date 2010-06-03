@@ -49,13 +49,15 @@ class CostQuery::SqlStatement
   # @return [CostQuery::SqlStatement] Generated statement
   def self.unified_entry(model)
     table = table_name_for model
-    new(table).tap do |query|
-      query.select COMMON_FIELDS
-      query.select({
-        :type => model.model_name.inspect, :count => 1, :id => [model, :id],
-        :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs])
-       })
-      send("unify_#{table}", query)
+    Rails.cache.fetch("unified_#{table}") do
+      new(table).tap do |query|
+        query.select COMMON_FIELDS
+        query.select({
+          :type => model.model_name.inspect, :count => 1, :id => [model, :id],
+          :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs])
+        })
+        send("unify_#{table}", query)
+      end
     end
   end
 
@@ -84,7 +86,7 @@ class CostQuery::SqlStatement
   #
   # @return [CostQuery::SqlStatement] Generated statement
   def self.for_entries
-    new(@for_entries ||= unified_entry(TimeEntry).union(unified_entry(CostEntry), "entries"))
+    new Rails.cache.fetch('entries') { unified_entry(TimeEntry).union(unified_entry(CostEntry), "entries") }
   end
 
   ##

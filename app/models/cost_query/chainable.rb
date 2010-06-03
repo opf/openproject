@@ -132,6 +132,7 @@ class CostQuery < ActiveRecord::Base
     end
 
     def initialize(child = nil, options = {})
+      @options = options
       options.each do |key, value|
         raise ArgumentError, "may not set #{key}" unless CostQuery.accepted_properties.include? key.to_s
         send "#{key}=", value
@@ -139,6 +140,18 @@ class CostQuery < ActiveRecord::Base
       self.child, child.parent = child, self if child
       move_down until correct_position?
       clear
+    end
+
+    def to_a
+      cached :compute_to_a
+    end
+
+    def compute_to_a
+      [[self.class.field, @options], *child.try(:to_a)].compact
+    end
+
+    def to_s
+      URI.escape to_a.map(&:join).join(',')
     end
 
     def move_down

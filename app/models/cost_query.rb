@@ -50,6 +50,18 @@ class CostQuery < ActiveRecord::Base
   end
 
   def_delegators :walker, :walk, :column_first, :row_first
-  def_delegators :chain, :result, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear
+  def_delegators :chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear
+
+  def to_a
+    chain.to_a
+  end
+
+  def to_s
+    chain.to_s
+  end
+
+  def result
+    Rails.cache.fetch(to_s, :expires_in => 30.minutes) { chain.result }
+  end
 
 end
