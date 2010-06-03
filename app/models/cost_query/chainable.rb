@@ -138,6 +138,7 @@ class CostQuery < ActiveRecord::Base
       end
       self.child, child.parent = child, self if child
       move_down until correct_position?
+      clear
     end
 
     def move_down
@@ -179,7 +180,16 @@ class CostQuery < ActiveRecord::Base
       true
     end
 
+    def clear
+      @result = nil
+      child.try :clear
+    end
+
     def result
+      @result ||= compute_result
+    end
+
+    def compute_result
       Result.new ActiveRecord::Base.connection.select_all(sql_statement.to_s), {}, type
     end
 

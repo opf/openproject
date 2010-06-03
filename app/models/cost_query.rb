@@ -22,11 +22,11 @@ class CostQuery < ActiveRecord::Base
 
   def add_chain(type, name, options)
     chain type.const_get(name.to_s.camelcase), options
+    @walker = nil
     self
   end
 
   def chain(klass = nil, options = {})
-    @walker = nil
     @chain ||= Filter::NoFilter.new
     @chain = klass.new @chain, options if klass
     @chain = @chain.parent until @chain.top?

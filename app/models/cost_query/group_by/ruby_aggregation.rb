@@ -6,7 +6,7 @@ module CostQuery::GroupBy
 
     ##
     # @return [CostQuery::Result] aggregation
-    def result
+    def compute_result
       child.result.grouped_by all_group_fields(false), type
     end
   end
