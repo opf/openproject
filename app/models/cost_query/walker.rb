@@ -48,6 +48,7 @@ class CostQuery::Walker
   end
 
   ##
+  # FIXME: Example is outdated
   # @example
   #   query.walk(:column_first) do |current, subgregation|
   #     if subgregation.nil?

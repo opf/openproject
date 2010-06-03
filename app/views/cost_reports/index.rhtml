@@ -3,26 +3,47 @@
 <% end %>
 
 <% @query = CostQuery.new
-     @query.group_by :issue_id
+    @query.filter :project_id, :value => [1,2]
+     @query.group_by :tweek
      @query.column :tweek
-     @query.row :project_id
      @query.row :user_id
-     @walker = @query.walker
-     @row = @walker.row_first
-     @column = @walker.column_first %>
+     @query.row :project_id %>
 
-<h1>Die sch&ouml;ne Tabelle:</h1>
+<h1>Die (sch&ouml;ne) "Tabelle":</h1>
 <%
 
-data = @query.walk(:column_first) do |current, sub|
-  list = [current.inspect]
-  list.push(*sub.map { |e| "&gt;#{e}"  }) if sub
-  list
+data = @query.walk(:row_first) do |current, sub|
+  if current.column?
+    if @was_column
+      next sub.join
+    else
+      @was_column = true
+      next sub
+    end
+  end
+  field = "<td rowspan='%d'>#{current.type}, #{@was_column.inspect}: #{current.fields.inspect}</td>"
+  if sub.blank?
+    [field % 1]
+  else
+    if @was_column
+      @was_column = false
+      [(field % 1) << sub.join]
+    else
+      first, *rest = sub.flatten
+      size = rest.size + 1
+      first = (field % size) << first
+      [first, *rest]
+    end
+  end
 end
 
 %>
 
-<pre><%= data.join "\n" %></pre>
+<table border='1'>
+  <% data.flatten.each do |line| %>
+    <tr><%= line %></tr>
+  <% end %>
+</table>
 
 <div style="border-width: 1; background-color: #BBB; padding: 5px">
   query chain: <br />

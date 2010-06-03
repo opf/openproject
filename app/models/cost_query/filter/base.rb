@@ -25,7 +25,7 @@ module CostQuery::Filter
     end
 
     def self.time_operators
-      available_operators :t, :w, "t-", "t+", ">t-", "<t-", ">t+", "<t+"
+      available_operators "t", "w", "t-", "t+", ">t-", "<t-", ">t+", "<t+"
     end
     
     def self.string_operators
