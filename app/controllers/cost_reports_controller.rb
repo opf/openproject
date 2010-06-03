@@ -1,4 +1,6 @@
 class CostReportsController < ApplicationController
+  before_filter :find_optional_project, :only => [:index]
+
   private
   def find_optional_project
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
