@@ -5,26 +5,31 @@ module BacklogsPlugin
             # the entire queries toolbar is disabled if you don't have
             # custom queries
             def view_issues_sidebar_planning_bottom(context={ })
-                sprints = content_tag(:h3, l(:backlogs_sprints))
-                project = context[:project]
-                project_id = project.id
+                locals = {}
+                locals[:sprints] = Sprint.open_sprints(context[:project])
+                locals[:project] = context[:project]
 
-                Sprint.open_sprints(project).each { |sprint|
-                    sprints += link_to(sprint.name, {
-                                        :controller => 'backlogs',
-                                        :action => 'select_issues',
-                                        :project_id => project_id,
-                                        :sprint_id => sprint.id
-                                    })
-                    sprints += content_tag(:br)
-                }
+                q = context[:request].session[:query]
+                if q
+                    sprint = q[:filters]['fixed_version_id']
+                    bit = q[:filters]['backlogs_issue_type']
+                    RAILS_DEFAULT_LOGGER.info "#### #{sprint.inspect}"
+                    RAILS_DEFAULT_LOGGER.info "#### #{bit.inspect}"
 
-                pbl = content_tag(:h3, l(:backlogs_product_backlog)) + link_to(l(:backlogs_product_backlog), {
-                                                                                :controller => 'backlogs',
-                                                                                :action => 'select_issues',
-                                                                                :project_id => project_id }) + content_tag(:br)
+                    locals[:sprint] = nil
+                    locals[:product_backlog] = nil
 
-                return content_tag(:div, pbl + sprints)
+                    if sprint && sprint[:operator] == '=' && sprint[:values].size == 1
+                        locals[:sprint] = Sprint.find_by_id(sprint[:values][0])
+                    elsif sprint && sprint[:operator] == '!*' && sprint[:values] == [''] && bit && bit[:operator] == '=' && bit[:values] == ['story']
+                        locals[:product_backlog] = true
+                    end
+                end
+
+                return context[:controller].send(:render_to_string, {
+                        :partial => 'backlogs/view_issues_sidebar',
+                        :locals => locals
+                    })
             end
 
             def view_issues_show_details_bottom(context={ })

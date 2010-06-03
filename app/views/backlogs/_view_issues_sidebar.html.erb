@@ -1,0 +1,66 @@
+<div>
+    <% if sprints && sprints.size > 0 %>
+        <h3><%= l(:backlogs_sprints) %></h3>
+        <% sprints.each do |sprint| %>
+            <%= link_to(sprint.name, {
+                    :controller => 'backlogs',
+                    :action => 'select_issues',
+                    :project_id => project.id,
+                    :sprint_id => sprint.id
+                    }) %><br/>
+        <% end %>
+    <% end %>
+
+    <h3><%= l(:backlogs_product_backlog) %></h3>
+    <%= link_to(l(:backlogs_product_backlog), {
+            :controller => 'backlogs',
+            :action => 'select_issues',
+            :project_id => project.id
+            }) %><br/>
+    <% if product_backlog %>
+        <%= link_to('Printable cards', {
+                :controller => 'backlogs',
+                :action => 'product_backlog_cards',
+                :project_id => project.id
+                }) %><br/>
+    
+    <% end %>
+
+    <% if sprint && sprint.has_burndown %>
+        <h3>Sprint "<%= sprint.name %>"</h3>
+        <%= link_to('Taskboard', {
+                :controller => 'backlogs',
+                :action => 'show',
+                :id => sprint.id
+                })
+        %><br/>
+
+        <%= link_to('Burndown', {
+                :controller => 'backlogs',
+                :action => 'burndown',
+                :project_id => project.id,
+                :sprint_id => sprint.id
+                })
+        %><br/>
+
+        <%= link_to('Printable cards', {
+                :controller => 'backlogs',
+                :action => 'taskboard_cards',
+                :project_id => project.id,
+                :sprint_id => sprint.id
+                })
+        %><br/>
+        <% if project.enabled_modules.any? {|m| m.name=="wiki"} %>
+            <%= link_to('Wiki', {
+                    :controller => 'backlogs',
+                    :action => 'wiki_page',
+                    :project_id => project.id,
+                    :sprint_id => sprint.id
+                    })
+            %><br/>
+        <% end %>
+
+        <div id="burndown" class="minimal" style="margin-top:20px; margin-left:20px; width:256px; height:192px;"></div>
+        <%= render :partial => "backlogs/burndown", :object => sprint.burndown %>
+    <% end %>
+</div>

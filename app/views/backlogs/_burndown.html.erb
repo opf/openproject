@@ -1,0 +1,78 @@
+<%- dataseries = burndown[:series].keys.sort{|a, b| l(a) <=> l(b) } %>
+<%- content_for :header_tags do %>
+    <%= stylesheet_link_tag 'jquery.jqplot.min.css', :plugin => 'redmine_backlogs' %>
+    <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
+    <!--[if IE]><%= javascript_include_tag 'jquery.jqplot/excanvas.js', :plugin => 'redmine_backlogs' %><![endif]-->
+    <%= javascript_include_tag 'jquery.jqplot/jquery.jqplot.min.js', :plugin => 'redmine_backlogs' %>
+    <%= javascript_include_tag 'jquery.jqplot/plugins/jqplot.highlighter.js', :plugin => 'redmine_backlogs' %>
+    <%= javascript_include_tag 'jquery.cookies.2.2.0.min.js', :plugin => 'redmine_backlogs' %>
+
+    <style type="text/css" media="screen">
+        .jqplot-axis {
+            font-size: 0.85em;
+        }
+        .jqplot-title {
+            font-size: 1.1em;
+        }
+        .jqplot-y6axis-tick {
+            padding-right: 0px;
+        }
+  </style>
+    <script type="text/javascript" language="javascript">
+        chart = null;
+        series_no = {}
+
+        $j = jQuery.noConflict();
+
+        function burndown(div) {
+            <%  dataseries.each_with_index do |series, i| %>
+                    <%= series.to_s %> = [ <%= burndown[:series][series].collect {|d| "#{d}"}.join(',') %>];
+                    series_no['<%= series.to_s %>'] = <%= i %>;
+            <%  end %>
+
+            if ($j("#" + div).hasClass('minimal')) {
+                decoration = false;
+            } else {
+                decoration = true;
+            }
+
+            xticks = [ <%= burndown[:dates].enum_with_index.collect {|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %> ];
+            datasets = [ <%= dataseries.collect{|s| s.to_s}.join(',') %> ];
+            series = [
+                <% dataseries.each_with_index do |series, i| %>
+                    {
+                        label: '<%= escape_javascript(l(series)) %>',
+                        yaxis: '<%= burndown[:units][series] == :points ?  'yaxis' : 'y2axis' %>'
+                    }<% if i != dataseries.length - 1 %>,<% end %>
+                <% end %>
+            ];
+
+            // add a little clearance to the chart
+            max_points = <%= burndown[:max][:points] == 0 ? 1 : 1.01 * burndown[:max][:points] %>;
+            max_hours = <%= burndown[:max][:hours] == 0 ? 1 : 1.01 * burndown[:max][:hours] %>;
+
+            plot = $j.jqplot(div, datasets, {
+                legend: {show: decoration, location: 'sw'},
+                grid: {shadow:false},
+                seriesDefaults: {showMarker: decoration, shadow:false},
+                axesDefaults: {showTick: decoration},
+                series: series,
+                axes:{
+                    xaxis:{min:1, max:<%= burndown[:dates].length %>, tickInterval:1, ticks:xticks}, 
+                    yaxis:{min:0, max: max_points, tickOptions:{formatString:'%d'}},
+                    y2axis:{min:0, max: max_hours, tickOptions:{formatString:'%d'}}
+                    },
+                highlighter:{
+                    tooltipAxes: 'y',
+                    formatString: '%s'
+                }
+            });
+
+            return plot;
+        }
+
+        $j(document).ready(function(){
+            chart = burndown('burndown');
+        });
+    </script>
+<%- end %>
