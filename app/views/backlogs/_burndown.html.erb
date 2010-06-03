@@ -71,8 +71,50 @@
             return plot;
         }
 
+        function configure(cb)
+        {
+            if (chart == null) { return; }
+
+            disabled = ('' + $j.cookies.get('burndown_series')).split('|');
+
+            if (!(cb == undefined)) {
+                v = cb.value;
+                _disabled = [];
+                for (d in disabled) {
+                    if (disabled[d] != cb.value) {
+                        _disabled.push(disabled[d]);
+                    }
+                }
+                if (!cb.checked) {
+                    _disabled.push(cb.value);
+                }
+                disabled = _disabled;
+                $j.cookies.set('burndown_series', disabled.join('|'), { expiresAt: new Date((new Date()).getFullYear + 100, 1, 1)});
+            }
+
+            /* enable all */
+            checkboxes = $('.series_enabled');
+            if (checkboxes) {
+                checkboxes.attr('checked', true);
+            }
+            for (s in series_no) { chart.series[series_no[s]].show = true; }
+
+            disabled = ('' + $j.cookies.get('burndown_series')).split('|');
+            for (d in disabled) {
+                if (series_no[disabled[d]] == undefined) { continue; }
+
+                chart.series[series_no[disabled[d]]].show = false;
+                checkbox = $('#' + disabled[d] + '_enabled');
+                if (checkbox) {
+                    checkbox.attr('checked', false);
+                }
+            }
+            chart.replot();
+        }
+
         $j(document).ready(function(){
             chart = burndown('burndown');
+            configure();
         });
     </script>
 <%- end %>

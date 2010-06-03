@@ -81,7 +81,7 @@
                     _disabled.push(cb.value);
                 }
                 disabled = _disabled;
-                $.cookies.set('burndown_series', disabled.join('|'));
+                $.cookies.set('burndown_series', disabled.join('|'), { expiresAt: new Date((new Date()).getFullYear + 100, 1, 1)});
             }
 
             /* enable all */

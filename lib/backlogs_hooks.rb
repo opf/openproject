@@ -8,16 +8,11 @@ module BacklogsPlugin
                 locals = {}
                 locals[:sprints] = Sprint.open_sprints(context[:project])
                 locals[:project] = context[:project]
+                locals[:sprint] = nil
 
                 q = context[:request].session[:query]
                 if q
                     sprint = q[:filters]['fixed_version_id']
-                    bit = q[:filters]['backlogs_issue_type']
-                    RAILS_DEFAULT_LOGGER.info "#### #{sprint.inspect}"
-                    RAILS_DEFAULT_LOGGER.info "#### #{bit.inspect}"
-
-                    locals[:sprint] = nil
-
                     if sprint && sprint[:operator] == '=' && sprint[:values].size == 1
                         locals[:sprint] = Sprint.find_by_id(sprint[:values][0])
                     end
