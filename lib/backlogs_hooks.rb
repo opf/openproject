@@ -29,13 +29,13 @@ module BacklogsPlugin
                 snippet = ''
 
                 if issue.is_story?
-                    snippet += "<tr><th>Story points</th><td>#{Story.find(issue.id).points_display}</td></tr>"
+                    snippet += "<tr><th>#{l(:field_story_points)}</th><td>#{Story.find(issue.id).points_display}</td></tr>"
                     vbe = issue.velocity_based_estimate
                     snippet += "<tr><th>#{l(:field_velocity_based_estimate)}</th><td>#{vbe} days</td></tr>"
                 end
 
                 if issue.is_task? || (issue.is_story? && issue.descendants.length == 0)
-                    snippet += "<tr><th>Remaining hours</th><td>#{issue.remaining_hours}</td></tr>"
+                    snippet += "<tr><th>#{l(:field_remaining_hours)}</th><td>#{issue.remaining_hours}</td></tr>"
                 end
 
                 return snippet

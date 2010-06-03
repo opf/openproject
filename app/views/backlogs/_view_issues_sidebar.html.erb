@@ -17,22 +17,22 @@
             :action => 'select_issues',
             :project_id => project.id
             }) %><br/>
-    <%= link_to('Printable cards', {
+    <%= link_to(l(:label_printable_cards), {
             :controller => 'backlogs',
             :action => 'product_backlog_cards',
             :project_id => project.id
             }) %><br/>
 
     <% if sprint && sprint.has_burndown %>
-        <h3>Sprint "<%= sprint.name %>"</h3>
-        <%= link_to('Taskboard', {
+        <h3><%= l(:label_sprint_name, {:name => sprint.name}) %></h3>
+        <%= link_to(l(:label_task_board), {
                 :controller => 'backlogs',
                 :action => 'show',
                 :id => sprint.id
                 })
         %><br/>
 
-        <%= link_to('Burndown', {
+        <%= link_to(l(:label_burndown), {
                 :controller => 'backlogs',
                 :action => 'burndown',
                 :project_id => project.id,
@@ -40,7 +40,7 @@
                 })
         %><br/>
 
-        <%= link_to('Printable cards', {
+        <%= link_to(l(:label_printable_cards), {
                 :controller => 'backlogs',
                 :action => 'taskboard_cards',
                 :project_id => project.id,
@@ -48,7 +48,7 @@
                 })
         %><br/>
         <% if project.enabled_modules.any? {|m| m.name=="wiki"} %>
-            <%= link_to('Wiki', {
+            <%= link_to(l(:label_wiki), {
                     :controller => 'backlogs',
                     :action => 'wiki_page',
                     :project_id => project.id,

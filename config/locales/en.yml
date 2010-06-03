@@ -40,3 +40,25 @@ en:
   optimistic_velocity: "Project plans too optimistically by {{pct}}%"
   pessimistic_velocity: "Project plans too pessimistically by {{pct}}%"
   backlogs_active: active
+
+  label_task_board: "Task board"
+  label_stories_tasks: "Stories/Tasks"
+  label_stories: "Stories"
+  label_burndown: "Burndown"
+  label_printable_cards: "Printable cards"
+  label_select_all: "Select all"
+
+  label_back_to_project: "Back to project page"
+  label_sprint_name: "Sprint \"{{name}}\""
+  label_backlogs: Backlogs
+  label_scrum_statistics: "Scrum statistics"
+
+  label_sprint_backlog: "sprint backlog"
+  label_product_backlog: "product backlog"
+  label_Product_backlog: "Product backlog"
+
+  label_hours: hours
+  label_points: points
+  label_not_prioritized: "not prioritized"
+
+  label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to {{administration}} > {{plugins}}, then click on the {{configure}} link for this plugin. Once you have set the fields, come back to this page to start using the tool."

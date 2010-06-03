@@ -1,42 +1,58 @@
-# English strings go here for Rails i18n
-nl:
-  backlogs_story_tracker: "Story trackers"
-  backlogs_task_tracker: "Task tracker"
-  backlogs_card_specification: "Label type voor kaartjes"
-  backlogs_sprints: "Sprints"
-  field_story_points: "Story points"
-  field_remaining_hours: "Resterende uren"
-  button_edit_wiki: "Wijzig wiki page"
-  field_backlogs_issue_type: "Backlog type"
-  backlogs_story: Story
+--- 
+nl: 
+  backlogs_card_specification: Label type voor kaartjes
+  unestimated_tasks: De laatste {{sprints}} sprints hebben taken zonder urenschatting
+  label_select_all: Selecteer alles
+  label_points_burn_down: Omlaag
+  unsized_stories: De laatste {{sprints}} sprints hebben stories zonder sizes
+  active_sprint_dormant: Lopende sprint vertoont geen activiteit
+  label_task_board: Taakbord
+  button_edit_wiki: Wijzig wiki page
+  backlogs_points_burn_direction: Points burn omhoog/omlaag
+  backlogs_wiki_template: Template voor sprint wiki pagina
+  required_burn_rate_hours: benodigde burn rate (hours)
+  label_printable_cards: Print kaarten
+  field_remaining_hours: Resterende uren
+  size_accuracy: Story size estimates vary by {{pct}}%
+  label_not_prioritized: geen prioriteit
+  points_committed: points toegezegd
+  label_hours: uren
+  label_Product_backlog: Product backlog
+  label_product_backlog: product backlog
+  label_back_to_project: Terug naar het project
+  backlogs_story_tracker: Story trackers
   backlogs_task: Task
   backlogs_any: alle
-  backlogs_points_burn_direction: "Points burn omhoog/omlaag"
+  sprint_notes_missing: De laatste sprint heeft geen notities
+  project_dormant: Project vertoont geen activiteit
+  label_points: points
+  label_sprint_backlog: sprint backlog
+  label_backlogs: Backlogs
+  label_stories_tasks: Stories/Taken
+  field_backlogs_issue_type: Backlog type
   label_points_burn_up: Omhoog
-  label_points_burn_down: Omlaag
-  field_position: Positie
-  backlogs_product_backlog: "Product backlog"
-  backlogs_wiki_template: "Template voor sprint wiki pagina"
-  points_committed: "points toegezegd"
-  required_burn_rate_points: "benodigde burn rate (points)"
-  required_burn_rate_hours: "benodigde burn rate (hours)"
-  points_to_accept: "points niet geaccepteerd"
-  ideal: "ideaal"
-  points_to_resolve: "points niet opgelost"
-  remaining_hours: "resterende uren"
-  field_velocity_based_estimate: "Schatting obv velocity"
-
-  product_backlog_empty: "Product backlog is leeg"
-  product_backlog_unsized: "De top van de product backlog heeft stories zonder sizes"
-  unsized_stories: "De laatste {{sprints}} sprints hebben stories zonder sizes"
-  active_sprint_unsized_stories: "De lopende sprint heeft stories zonder size"
-  unestimated_tasks: "De laatste {{sprints}} sprints hebben taken zonder urenschatting"
-  active_sprint_unestimated_tasks: "De lopende sprint heeft taken zonder urenschatting"
-  size_accuracy: "Story size estimates vary by {{pct}}%"
-  sprint_notes_missing: "De laatste sprint heeft geen notities"
-  project_dormant: "Project vertoont geen activiteit"
-  active_sprint_dormant: "Lopende sprint vertoont geen activiteit"
-  no_velocity: "Project heeft geen velocity"
-  optimistic_velocity: "Project plant {{pct}}% te optimistisch"
-  pessimistic_velocity: "Project plant {{pct}}% te pessimistisch"
+  points_to_resolve: points niet opgelost
+  product_backlog_unsized: De top van de product backlog heeft stories zonder sizes
+  active_sprint_unestimated_tasks: De lopende sprint heeft taken zonder urenschatting
+  pessimistic_velocity: Project plant {{pct}}% te pessimistisch
   backlogs_active: lopend
+  label_burndown: Burndown
+  field_story_points: Story points
+  field_position: Positie
+  required_burn_rate_points: benodigde burn rate (points)
+  points_to_accept: points niet geaccepteerd
+  label_sprint_name: Sprint "{{name}}"
+  backlogs_product_backlog: Product backlog
+  remaining_hours: resterende uren
+  optimistic_velocity: Project plant {{pct}}% te optimistisch
+  backlogs_task_tracker: Task tracker
+  backlogs_sprints: Sprints
+  product_backlog_empty: Product backlog is leeg
+  active_sprint_unsized_stories: De lopende sprint heeft stories zonder size
+  no_velocity: Project heeft geen velocity
+  backlogs_story: Story
+  ideal: ideaal
+  field_velocity_based_estimate: Schatting obv velocity
+  label_backlogs_unconfigured: U heeft Backlogs nog niet geconfigureerd. Gaat u asltublieft naar {{administration}} > {{plugins}}, en klik dan op de {{configure}} link voor deze plugin. Nadat u de configuratie hebt opgeslagen kunt u teruggaan naar deze pagina om de plugin in gebruik te nemen.
+  label_scrum_statistics: Scrum statistieken
+  label_stories: Stories

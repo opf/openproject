@@ -4,6 +4,6 @@
   </div>
   <div class="links">
     <%= yield :page_specific_links -%>
-    <%= link_to "Back to Project Page", :controller => :projects, :action => 'show', :id => @project %>
+    <%= link_to l(:label_back_to_project), :controller => :projects, :action => 'show', :id => @project %>
   </div>
 </div>

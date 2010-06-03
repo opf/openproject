@@ -13,14 +13,14 @@
     <%= backlog_menu is_sprint?(backlog),
         [
           {
-            :item => menu_link('Taskboard', {
+            :item => menu_link(l(:label_task_board), {
                                :controller => 'backlogs',
                                :action => 'show',
                                :id => backlog }),
             :for => :sprint
           },
           {
-            :item => menu_link('Stories/Tasks', {
+            :item => menu_link(l(:label_stories_tasks), {
                                :controller => 'backlogs',
                                :action => 'select_issues',
                                :project_id => @project,
@@ -28,14 +28,14 @@
             :for => :sprint
           },
           {
-            :item => menu_link('Stories', {
+            :item => menu_link(l(:label_stories), {
                                :controller => 'backlogs',
                                :action => 'select_issues',
                                :project_id => @project }),
             :for => :product
           },
           {
-            :item => menu_link('Burndown', {
+            :item => menu_link(l(:label_burndown), {
                                :controller => 'backlogs',
                                :action => 'burndown',
                                :project_id => @project,
@@ -44,7 +44,7 @@
             :condition => (backlog.respond_to?(:has_burndown) and backlog.has_burndown)
           },
           {
-            :item => menu_link('Printable cards', {
+            :item => menu_link(l(:label_printable_cards), {
                                :controller => 'backlogs',
                                :action => 'taskboard_cards',
                                :project_id => @project,
@@ -52,14 +52,14 @@
             :for => :sprint
           },
           {
-            :item => menu_link('Printable cards', {
+            :item => menu_link(l(:label_printable_cards), {
                                :controller => 'backlogs',
                                :action => 'product_backlog_cards',
                                :project_id => @project}),
             :for => :product
           },
           {
-            :item => menu_link('Wiki', {
+            :item => menu_link(l(:label_wiki), {
                                :controller => 'backlogs',
                                :action => 'wiki_page',
                                :project_id => @project.id,
@@ -68,7 +68,7 @@
             :condition => @project.enabled_modules.any? {|m| m.name=="wiki" }
           },
           {
-            :item => "<a>Select All</a>",
+            :item => "<a>#{l(:label_select_all)}</a>",
             :for => :both
           }
         ]

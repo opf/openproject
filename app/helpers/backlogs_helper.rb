@@ -1,7 +1,7 @@
 module BacklogsHelper
   
   def backlog_html_class(backlog)
-    is_sprint?(backlog) ? "sprint backlog" : "product backlog"
+    is_sprint?(backlog) ? l(:label_sprint_backlog) : l(:label_product_backlog)
   end
   
   def backlog_html_id(backlog)
@@ -25,7 +25,7 @@ module BacklogsHelper
   end
   
   def name_or_default(backlog)
-    is_sprint?(backlog) ? backlog.name : "Product Backlog"
+    is_sprint?(backlog) ? backlog.name : l(:label_Product_backlog)
   end
   
   def stories(backlog)

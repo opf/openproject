@@ -151,7 +151,7 @@ class TaskboardCards
                     @pdf.font_size(12) do
                         score = (type == :task ? issue.estimated_hours : issue.story_points)
                         score ||= '?'
-                        score = "#{score} #{type == :task ? 'hours' : 'points'}"
+                        score = "#{score} #{type == :task ? l(:label_hours) : l(:label_points)}"
                         scoresize = @pdf.width_of(" #{score} ")
 
                         text_box(score, {
@@ -161,7 +161,7 @@ class TaskboardCards
                     end
 
                     @y = @pdf.bounds.height
-                    pos = parent_story.position ? parent_story.position : "not prioritized"
+                    pos = parent_story.position ? parent_story.position : l(:label_not_prioritized)
                     trail = (issue.self_and_ancestors.reverse.collect{|i| "#{i.tracker.name} ##{i.id}"}.join(" : ")) + " (#{pos})"
                     @pdf.font_size(6) do
                         text_box(trail, {
@@ -195,7 +195,7 @@ class TaskboardCards
                     end
 
                     @pdf.font_size(6) do
-                        category = issue.category ?  "Category: #{issue.category.name}" : ''
+                        category = issue.category ? "#{l(:field_category)}: #{issue.category.name}" : ''
                         catsize = @pdf.width_of(" #{category} ")
                         text_box(category, {
                                 :width => catsize,

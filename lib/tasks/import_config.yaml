@@ -1,15 +1,13 @@
-activity: {Other: Development, Undefined: Development}
+activities: {Other: Development, Undefined: Development}
 clear: true
 roles: {member: Teamlid}
-trackers:
+issue_types:
   Impediment:
-    states: {closed: Gesloten, open: Nieuw}
+    states: {closed: Closed, open: New}
     tracker: Impediment
   Story:
-    states: {Accepted: Gesloten, Completed: Opgelost, Defined: Nieuw, Failed: Review
-        niet akkoord, In Progress: Toegewezen, Specified: Nieuw}
+    states: {Accepted: Accepted, Completed: RFI, Defined: New, Failed: Failed, In Progress: RFI, Specified: RFI}
     tracker: Story
   Task:
-    default: true
-    states: {Completed: Gesloten, Defined: Nieuw, In Progress: Toegewezen}
+    states: {Done: Done, Defined: New, In Progress: In Progress}
     tracker: Task

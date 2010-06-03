@@ -1,3 +1,8 @@
 <div id="noconfig">
-You have not configured Backlogs yet. Please go to Administration > Plugins, then click on the Configure link for this plugin. Once you have set the fields, come back to this page to start using the tool.
+    <%= l(:label_backlogs_unconfigured, {
+                :administration => l(:label_administration),
+                :plugins => l(:label_plugins),
+                :configure => l(:button_configure)
+            }
+    %>
 </div>
