@@ -52,4 +52,4 @@ class CostQuery < ActiveRecord::Base
   def_delegators :walker, :walk, :column_first, :row_first
   def_delegators :chain, :result, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear
 
-end;
+end
