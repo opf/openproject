@@ -1,9 +1,14 @@
 <% @query = CostQuery.new
     @query.filter :project_id, :value => [1,2]
-     @query.group_by :tweek
-     @query.column :tweek
-     @query.row :user_id
-     @query.row :project_id %>
+    @query.group_by :tweek
+    @query.column :tweek
+    @query.row :user_id
+    @query.row :project_id
+    
+    @walker = @query.walker
+    @row = @walker.row_first
+    @column = @walker.column_first
+%>
 
 <%# things above this line should be deleted or go into the controler %>
 
