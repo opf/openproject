@@ -1,4 +1,4 @@
-<%- dataseries = burndown[:series].keys.sort{|a, b| l(a) <=> l(b) } %>
+<%- dataseries = charts.map{|c| c[:burndown][:series].keys}.flatten.uniq.sort{|a, b| l(a) <=> l(b) } %>
 <%- content_for :header_tags do %>
     <%= stylesheet_link_tag 'jquery.jqplot.min.css', :plugin => 'redmine_backlogs' %>
     <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
@@ -19,101 +19,118 @@
         }
   </style>
     <script type="text/javascript" language="javascript">
-        chart = null;
-        series_no = {}
-
         $j = jQuery.noConflict();
 
-        function burndown(div) {
-            <%  dataseries.each_with_index do |series, i| %>
-                    <%= series.to_s %> = [ <%= burndown[:series][series].collect {|d| "#{d}"}.join(',') %>];
-                    series_no['<%= series.to_s %>'] = <%= i %>;
-            <%  end %>
+        <% charts.each do |chart| %>
+            chart_<%= chart[:div] %> = null;
+        <% end %>
 
-            if ($j("#" + div).hasClass('minimal')) {
-                decoration = false;
-            } else {
-                decoration = true;
-            }
+        <% charts.each do |chart| %>
+            series_no_<%= chart[:div] %> = {}
+            <%  no = -1
+                dataseries.each do |series|
+                    next if ! chart[:burndown][:series].include? series
+                    no += 1
+            %>
+                    series_no_<%= chart[:div] %>['<%= series.to_s %>'] = <%= no %>;
+            <% end %>
+        <% end %>
 
-            xticks = [ <%= burndown[:dates].enum_with_index.collect {|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %> ];
-            datasets = [ <%= dataseries.collect{|s| s.to_s}.join(',') %> ];
-            series = [
-                <% dataseries.each_with_index do |series, i| %>
-                    {
-                        label: '<%= escape_javascript(l(series)) %>',
-                        yaxis: '<%= burndown[:units][series] == :points ?  'yaxis' : 'y2axis' %>'
-                    }<% if i != dataseries.length - 1 %>,<% end %>
-                <% end %>
-            ];
-
-            // add a little clearance to the chart
-            max_points = <%= burndown[:max][:points] == 0 ? 1 : 1.01 * burndown[:max][:points] %>;
-            max_hours = <%= burndown[:max][:hours] == 0 ? 1 : 1.01 * burndown[:max][:hours] %>;
-
-            plot = $j.jqplot(div, datasets, {
-                legend: {show: decoration, location: 'sw'},
-                grid: {shadow:false},
-                seriesDefaults: {showMarker: decoration, shadow:false},
-                axesDefaults: {showTick: decoration},
-                series: series,
-                axes:{
-                    xaxis:{min:1, max:<%= burndown[:dates].length %>, tickInterval:1, ticks:xticks}, 
-                    yaxis:{min:0, max: max_points, tickOptions:{formatString:'%d'}},
-                    y2axis:{min:0, max: max_hours, tickOptions:{formatString:'%d'}}
-                    },
-                highlighter:{
-                    tooltipAxes: 'y',
-                    formatString: '%s'
+        <% charts.each do |chart| %>
+            <%- burndown = chart[:burndown] %>
+            <%- div = chart[:div] %>
+            function burndown_<%= div %>() {
+                <%  burndown[:series].keys.each do |series| %>
+                        <%= series.to_s %> = [ <%= burndown[:series][series].collect {|d| "#{d}"}.join(',') %>];
+                <%  end %>
+    
+                if ($j("#<%= div %>").hasClass('minimal')) {
+                    decoration = false;
+                } else {
+                    decoration = true;
                 }
-            });
-
-            return plot;
-        }
+    
+                xticks = [ <%= burndown[:dates].enum_with_index.collect {|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %> ];
+                datasets = [ <%= dataseries.collect{|s| s.to_s}.join(',') %> ];
+                series = [
+                    <% dataseries.each_with_index do |series, i| %>
+                        {
+                            label: '<%= escape_javascript(l(series)) %>',
+                            yaxis: '<%= burndown[:units][series] == :points ?  'yaxis' : 'y2axis' %>'
+                        }<% if i != dataseries.length - 1 %>,<% end %>
+                    <% end %>
+                ];
+    
+                // add a little clearance to the chart
+                max_points = <%= burndown[:max][:points] == 0 ? 1 : 1.01 * burndown[:max][:points] %>;
+                max_hours = <%= burndown[:max][:hours] == 0 ? 1 : 1.01 * burndown[:max][:hours] %>;
+    
+                chart_<%= div %> = $j.jqplot('<%= div %>', datasets, {
+                    legend: {show: decoration, location: 'sw'},
+                    grid: {shadow:false},
+                    seriesDefaults: {showMarker: decoration, shadow:false},
+                    axesDefaults: {showTick: decoration},
+                    series: series,
+                    axes:{
+                        xaxis:{min:1, max:<%= burndown[:dates].length %>, tickInterval:1, ticks:xticks}, 
+                        yaxis:{min:0, max: max_points, tickOptions:{formatString:'%d'}},
+                        y2axis:{min:0, max: max_hours, tickOptions:{formatString:'%d'}}
+                        },
+                    highlighter:{
+                        tooltipAxes: 'y',
+                        formatString: '%s'
+                    }
+                });
+            }
+        <% end %>
 
         function configure(cb)
         {
-            if (chart == null) { return; }
-
-            disabled = ('' + $j.cookies.get('burndown_series')).split('|');
+            disabled = '|' + $j.cookies.get('burndown_series') + '|';
 
             if (!(cb == undefined)) {
-                v = cb.value;
                 _disabled = [];
-                for (d in disabled) {
-                    if (disabled[d] != cb.value) {
-                        _disabled.push(disabled[d]);
+                <% dataseries.each do |series| %>
+                    if (disabled.indexOf('|<%= series.to_s %>|') != -1 && cb.value != '<%= series.to_s %>') {
+                        _disabled.push('<%= series.to_s %>');
                     }
-                }
+                <% end %>
                 if (!cb.checked) {
                     _disabled.push(cb.value);
                 }
-                disabled = _disabled;
-                $j.cookies.set('burndown_series', disabled.join('|'), { expiresAt: new Date((new Date()).getFullYear + 100, 1, 1)});
+                disabled = _disabled.join('|');
+                $j.cookies.set('burndown_series', disabled, { expiresAt: new Date((new Date()).getFullYear + 100, 1, 1)});
+                disabled = '|' + disabled + '|';
             }
 
             /* enable all */
-            checkboxes = $('.series_enabled');
+            checkboxes = $j('.series_enabled');
             if (checkboxes) {
                 checkboxes.attr('checked', true);
             }
-            for (s in series_no) { chart.series[series_no[s]].show = true; }
 
-            disabled = ('' + $j.cookies.get('burndown_series')).split('|');
-            for (d in disabled) {
-                if (series_no[disabled[d]] == undefined) { continue; }
+            <% dataseries.each do |series| %>
+                checkbox = $j('#<%= series.to_s %>_enabled');
+                if (checkbox && -1 != disabled.indexOf('|<%= series.to_s %>|')) { checkbox.attr('checked', false); }
+            <% end %>
 
-                chart.series[series_no[disabled[d]]].show = false;
-                checkbox = $('#' + disabled[d] + '_enabled');
-                if (checkbox) {
-                    checkbox.attr('checked', false);
+            <% charts.each do |chart| %>
+                if (chart_<%= chart[:div] %>) {
+                    <% dataseries.each do |series| %>
+                        if (!(series_no_<%= chart[:div] %>['<%= series.to_s %>'] == undefined)) {
+                            chart_<%= chart[:div] %>.series[series_no_<%= chart[:div] %>['<%= series.to_s %>']].show = (disabled.indexOf('|<%= series.to_s %>|') == -1);
+                        }
+                    <% end %>
                 }
-            }
-            chart.replot();
+
+                chart_<%= chart[:div] %>.replot();
+            <% end %>
         }
 
         $j(document).ready(function(){
-            chart = burndown('burndown');
+            <% charts.each do |chart| %>
+                burndown_<%= chart[:div] %>();
+            <% end %>
             configure();
         });
     </script>

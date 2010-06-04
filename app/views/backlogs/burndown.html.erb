@@ -1,4 +1,4 @@
-<%= render :partial => 'burndown', :object => @burndown %>
+<%= render :partial => 'burndown', :locals => {:charts => [{:div => 'burndown', :burndown => @burndown }]} %>
 <div id="burndown" style="margin-top:20px; margin-left:20px; width:640px; height:480px;"></div>
 
 <%- dataseries = @burndown[:series].keys.sort{|a, b| l(a) <=> l(b) } %>
