@@ -51,7 +51,9 @@ module ProjectPatch
                 :order => "effective_date desc",
                 :limit => 5)
             planned_velocity = nil
-            if sprints.length != 0
+            if sprints.length == 0
+                stats[:sprints] = []
+            else
                 stats[:sprints] = sprints
 
                 sprint_ids = sprints.collect{|s| "#{s.id}"}.join(',')
