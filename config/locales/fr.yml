@@ -34,14 +34,14 @@ fr:
       half_a_minute: "30 secondes"
       less_than_x_seconds:
         zero:  "moins d'une seconde"
-        one:   "moins de 1 seconde"
+        one:   "moins d'une seconde"
         other: "moins de {{count}} secondes"
       x_seconds:
         one:   "1 seconde"
         other: "{{count}} secondes"
       less_than_x_minutes:
         zero:  "moins d'une minute"
-        one:   "moins de 1 minute"
+        one:   "moins d'une minute"
         other: "moins de {{count}} minutes"
       x_minutes:
         one:   "1 minute"
@@ -50,13 +50,13 @@ fr:
         one:   "environ une heure"
         other: "environ {{count}} heures"
       x_days:
-        one:   "1 jour"
+        one:   "un jour"
         other: "{{count}} jours"
       about_x_months:
         one:   "environ un mois"
         other: "environ {{count}} mois"
       x_months:
-        one:   "1 mois"
+        one:   "un mois"
         other: "{{count}} mois"
       about_x_years:
         one:   "environ un an"
@@ -92,8 +92,8 @@ fr:
         format: "%n %u"
         units:
           byte:
-            one: "Octet"
-            other: "Octet"
+            one: "octet"
+            other: "octet"
           kb: "ko"
           mb: "Mo"
           gb: "Go"
@@ -111,7 +111,7 @@ fr:
     errors:
       template:
         header: 
-          one: "Impossible d'enregistrer {{model}} : 1 erreur"
+          one: "Impossible d'enregistrer {{model}} : une erreur"
           other: "Impossible d'enregistrer {{model}} : {{count}} erreurs."
         body: "Veuillez vérifier les champs suivants :"
       messages:
@@ -216,13 +216,13 @@ fr:
   field_is_required: Obligatoire
   field_firstname: Prénom
   field_lastname: Nom
-  field_mail: Email
+  field_mail: "Email "
   field_filename: Fichier
   field_filesize: Taille
   field_downloads: Téléchargements
   field_author: Auteur
-  field_created_on: Créé
-  field_updated_on: Mis à jour
+  field_created_on: "Créé "
+  field_updated_on: "Mis-à-jour "
   field_field_format: Format
   field_is_for_all: Pour tous les projets
   field_possible_values: Valeurs possibles
@@ -246,14 +246,14 @@ fr:
   field_fixed_version: Version cible
   field_user: Utilisateur
   field_role: Rôle
-  field_homepage: Site web
+  field_homepage: "Site web "
   field_is_public: Public
   field_parent: Sous-projet de
   field_is_in_roadmap: Demandes affichées dans la roadmap
-  field_login: Identifiant
+  field_login: "Identifiant "
   field_mail_notification: Notifications par mail
   field_admin: Administrateur
-  field_last_login_on: Dernière connexion
+  field_last_login_on: "Dernière connexion "
   field_language: Langue
   field_effective_date: Date
   field_password: Mot de passe
@@ -431,7 +431,7 @@ fr:
   label_project_plural: Projets
   label_x_projects:
     zero:  aucun projet
-    one:   1 projet
+    one:   un projet
     other: "{{count}} projets"
   label_project_all: Tous les projets
   label_project_latest: Derniers projets
@@ -483,10 +483,10 @@ fr:
   label_login: Connexion
   label_logout: Déconnexion
   label_help: Aide
-  label_reported_issues: Demandes soumises
+  label_reported_issues: "Demandes soumises "
   label_assigned_to_me_issues: Demandes qui me sont assignées
-  label_last_login: Dernière connexion
-  label_registered_on: Inscrit le
+  label_last_login: "Dernière connexion "
+  label_registered_on: "Inscrit le "
   label_activity: Activité
   label_overall_activity: Activité globale
   label_user_activity: "Activité de {{value}}"
@@ -510,8 +510,8 @@ fr:
   label_text: Texte long
   label_attribute: Attribut
   label_attribute_plural: Attributs
-  label_download: "{{count}} Téléchargement"
-  label_download_plural: "{{count}} Téléchargements"
+  label_download: "{{count}} téléchargement"
+  label_download_plural: "{{count}} téléchargements"
   label_no_data: Aucune donnée à afficher
   label_change_status: Changer le statut
   label_history: Historique
@@ -542,16 +542,16 @@ fr:
   label_closed_issues: fermé
   label_closed_issues_plural: fermés
   label_x_open_issues_abbr_on_total:
-    zero:  0 ouvert sur {{total}}
-    one:   1 ouvert sur {{total}}
+    zero:  zéro ouvert sur {{total}}
+    one:   un ouvert sur {{total}}
     other: "{{count}} ouverts sur {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 ouvert
-    one:   1 ouvert
+    zero:  zéro ouvert
+    one:   un ouvert
     other: "{{count}} ouverts"
   label_x_closed_issues_abbr:
-    zero:  0 fermé
-    one:   1 fermé
+    zero:  zéro fermé
+    one:   un fermé
     other: "{{count}} fermés"
   label_total: Total
   label_permissions: Permissions
@@ -577,7 +577,7 @@ fr:
   label_comment_plural: Commentaires
   label_x_comments:
     zero: aucun commentaire
-    one: 1 commentaire
+    one: un commentaire
     other: "{{count}} commentaires"
   label_comment_add: Ajouter un commentaire
   label_comment_added: Commentaire ajouté
@@ -585,7 +585,7 @@ fr:
   label_query: Rapport personnalisé
   label_query_plural: Rapports personnalisés
   label_query_new: Nouveau rapport
-  label_filter_add: Ajouter le filtre
+  label_filter_add: "Ajouter le filtre "
   label_filter_plural: Filtres
   label_equals: égal
   label_not_equals: différent
@@ -613,7 +613,7 @@ fr:
   label_browse: Parcourir
   label_modification: "{{count}} modification"
   label_modification_plural: "{{count}} modifications"
-  label_revision: Révision
+  label_revision: "Révision "
   label_revision_plural: Révisions
   label_associated_revisions: Révisions associées
   label_added: ajouté
@@ -633,7 +633,7 @@ fr:
   label_roadmap_due_in: "Échéance dans {{value}}"
   label_roadmap_overdue: "En retard de {{value}}"
   label_roadmap_no_issues: Aucune demande pour cette version
-  label_search: Recherche
+  label_search: "Recherche "
   label_result_plural: Résultats
   label_all_words: Tous les mots
   label_wiki: Wiki
@@ -722,8 +722,8 @@ fr:
   label_registration_activation_by_email: activation du compte par email
   label_registration_manual_activation: activation manuelle du compte
   label_registration_automatic_activation: activation automatique du compte
-  label_display_per_page: "Par page: {{value}}"
-  label_age: Age
+  label_display_per_page: "Par page : {{value}}"
+  label_age: Âge
   label_change_properties: Changer les propriétés
   label_general: Général
   label_more: Plus
@@ -855,7 +855,7 @@ fr:
   text_load_default_configuration: Charger le paramétrage par défaut
   text_status_changed_by_changeset: "Appliqué par commit {{value}}."
   text_issues_destroy_confirmation: 'Êtes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
-  text_select_project_modules: 'Selectionner les modules à activer pour ce project:'
+  text_select_project_modules: 'Sélectionner les modules à activer pour ce projet :'
   text_default_administrator_account_changed: Compte administrateur par défaut changé
   text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
   text_plugin_assets_writable: Répertoire public des plugins accessible en écriture
@@ -877,14 +877,14 @@ fr:
   text_wiki_page_reassign_children: "Réaffecter les sous-pages à cette page"
   text_own_membership_delete_confirmation: "Vous allez supprimer tout ou partie de vos permissions sur ce projet et ne serez peut-être plus autorisé à modifier ce projet.\nEtes-vous sûr de vouloir continuer ?"
   
-  default_role_manager: Manager
-  default_role_developper: Développeur
-  default_role_reporter: Rapporteur
+  default_role_manager: "Manager "
+  default_role_developper: "Développeur "
+  default_role_reporter: "Rapporteur "
   default_tracker_bug: Anomalie
   default_tracker_feature: Evolution
   default_tracker_support: Assistance
   default_issue_status_new: Nouveau
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: En cours
   default_issue_status_resolved: Résolu
   default_issue_status_feedback: Commentaire
   default_issue_status_closed: Fermé
