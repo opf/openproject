@@ -349,4 +349,11 @@ class ApplicationController < ActionController::Base
     render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
   end
 
+  # Converts the errors on an ActiveRecord object into a common JSON format
+  def object_errors_to_json(object)
+    object.errors.collect do |attribute, error|
+      { attribute => error }
+    end.to_json
+  end
+  
 end
