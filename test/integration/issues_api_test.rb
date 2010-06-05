@@ -45,85 +45,140 @@ class IssuesApiTest < ActionController::IntegrationTest
   def setup
     Setting.rest_api_enabled = '1'
   end
-    
-  def test_index
-    get '/issues.xml'
-    assert_response :success
-    assert_equal 'application/xml', @response.content_type
+
+  context "/index.xml" do
+    setup do
+      get '/issues.xml'
+    end
+
+    should_respond_with :success
+    should_respond_with_content_type 'application/xml'
   end
   
-  def test_index_with_filter
-    get '/issues.xml?status_id=5'
-    assert_response :success
-    assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'issues',
-               :children => { :count => Issue.visible.count(:conditions => {:status_id => 5}), 
-                              :only => { :tag => 'issue' } }
-  end
-    
-  def test_show
-    get '/issues/1.xml'
-    assert_response :success
-    assert_equal 'application/xml', @response.content_type
-  end
-    
-  def test_create
-    attributes = {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}
-    assert_difference 'Issue.count' do
-      post '/issues.xml', {:issue => attributes}, :authorization => credentials('jsmith')
+  context "/index.xml with filter" do
+    setup do
+      get '/issues.xml?status_id=5'
     end
-    assert_response :created
-    assert_equal 'application/xml', @response.content_type
-    issue = Issue.first(:order => 'id DESC')
-    attributes.each do |attribute, value|
-      assert_equal value, issue.send(attribute)
+    
+    should_respond_with :success
+    should_respond_with_content_type 'application/xml'
+    should "show only issues with the status_id" do
+      assert_tag :tag => 'issues',
+                 :children => { :count => Issue.visible.count(:conditions => {:status_id => 5}), 
+                                :only => { :tag => 'issue' } }
     end
   end
-  
-  def test_create_failure
-    attributes = {:project_id => 1}
-    assert_no_difference 'Issue.count' do
-      post '/issues.xml', {:issue => attributes}, :authorization => credentials('jsmith')
+
+  context "/issues/1.xml" do
+    setup do
+      get '/issues/1.xml'
     end
-    assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
-    assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
-  end
     
-  def test_update
-    attributes = {:subject => 'API update'}
-    assert_no_difference 'Issue.count' do
-      assert_difference 'Journal.count' do
-        put '/issues/1.xml', {:issue => attributes}, :authorization => credentials('jsmith')
+    should_respond_with :success
+    should_respond_with_content_type 'application/xml'
+  end
+
+  context "POST /issues.xml" do
+    setup do
+      @issue_count = Issue.count
+      @attributes = {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}
+      post '/issues.xml', {:issue => @attributes}, :authorization => credentials('jsmith')
+    end
+
+    should_respond_with :created
+    should_respond_with_content_type 'application/xml'
+
+    should "create an issue with the attributes" do
+      assert_equal Issue.count, @issue_count + 1
+
+      issue = Issue.first(:order => 'id DESC')
+      @attributes.each do |attribute, value|
+        assert_equal value, issue.send(attribute)
       end
     end
-    assert_response :ok
-    assert_equal 'application/xml', @response.content_type
-    issue = Issue.find(1)
-    attributes.each do |attribute, value|
-      assert_equal value, issue.send(attribute)
-    end
   end
   
-  def test_update_failure
-    attributes = {:subject => ''}
-    assert_no_difference 'Issue.count' do
-      assert_no_difference 'Journal.count' do
-        put '/issues/1.xml', {:issue => attributes}, :authorization => credentials('jsmith')
-      end
+  context "POST /issues.xml with failure" do
+    setup do
+      @attributes = {:project_id => 1}
+      post '/issues.xml', {:issue => @attributes}, :authorization => credentials('jsmith')
     end
-    assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
-    assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
+
+    should_respond_with :unprocessable_entity
+    should_respond_with_content_type 'application/xml'
+
+    should "have an errors tag" do
+      assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
+    end
   end
     
-  def test_destroy
-    assert_difference 'Issue.count', -1 do
+  context "PUT /issues/1.xml" do
+    setup do
+      @issue_count = Issue.count
+      @journal_count = Journal.count
+      @attributes = {:subject => 'API update'}
+
+      put '/issues/1.xml', {:issue => @attributes}, :authorization => credentials('jsmith')
+    end
+    
+    should_respond_with :ok
+    should_respond_with_content_type 'application/xml'
+
+    should "not create a new issue" do
+      assert_equal Issue.count, @issue_count
+    end
+
+    should "create a new journal" do
+      assert_equal Journal.count, @journal_count + 1
+    end
+
+    should "update the issue" do
+      issue = Issue.find(1)
+      @attributes.each do |attribute, value|
+        assert_equal value, issue.send(attribute)
+      end
+    end
+    
+  end
+  
+  context "PUT /issues/1.xml with failed update" do
+    setup do
+      @attributes = {:subject => ''}
+      @issue_count = Issue.count
+      @journal_count = Journal.count
+
+      put '/issues/1.xml', {:issue => @attributes}, :authorization => credentials('jsmith')
+    end
+    
+    should_respond_with :unprocessable_entity
+    should_respond_with_content_type 'application/xml'
+  
+    should "not create a new issue" do
+      assert_equal Issue.count, @issue_count
+    end
+
+    should "not create a new journal" do
+      assert_equal Journal.count, @journal_count
+    end
+
+    should "have an errors tag" do
+      assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
+    end
+  end
+
+  context "DELETE /issues/1.xml" do
+    setup do
+      @issue_count = Issue.count
       delete '/issues/1.xml', {}, :authorization => credentials('jsmith')
     end
-    assert_response :ok
-    assert_equal 'application/xml', @response.content_type
-    assert_nil Issue.find_by_id(1)
+
+    should_respond_with :ok
+    should_respond_with_content_type 'application/xml'
+
+    should "delete the issue" do
+      assert_equal Issue.count, @issue_count -1
+      assert_nil Issue.find_by_id(1)
+    end
   end
   
   def credentials(user, password=nil)
