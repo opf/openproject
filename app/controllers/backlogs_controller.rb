@@ -1,5 +1,6 @@
 include StoriesHelper
 include BacklogMenuHelper
+include CardsHelper
 
 class BacklogsController < ApplicationController
   unloadable
