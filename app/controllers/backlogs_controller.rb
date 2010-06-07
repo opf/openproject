@@ -1,9 +1,10 @@
 include StoriesHelper
 include BacklogMenuHelper
-include CardsHelper
 
 class BacklogsController < ApplicationController
   unloadable
+
+  include Cards
 
   before_filter :find_sprint, :only => [:show]
   before_filter :find_project, :authorize
@@ -174,7 +175,7 @@ class BacklogsController < ApplicationController
   end
 
   def product_backlog_cards
-    cards = TaskboardCards.new
+    cards = TaskboardCards.new(current_language)
 
     Story.product_backlog(@project).each {|story|
         cards.add(story, false)
@@ -185,7 +186,7 @@ class BacklogsController < ApplicationController
 
   def taskboard_cards
     sprint = Sprint.first(:conditions => { :project_id => @project.id, :id => params[:sprint_id]})
-    cards = TaskboardCards.new
+    cards = TaskboardCards.new(current_language)
 
     sprint.stories.each {|story|
         cards.add(story)

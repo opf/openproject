@@ -6,10 +6,9 @@ require 'rexml/document'
 
 require 'yaml'
 
-module CardsHelper
-    include Redmine::I18n
-
+module Cards
     class TaskboardCards
+        include Redmine::I18n
         LABELS = YAML::load_file(File.dirname(__FILE__) + '/labels.yaml')
     
         def self.selected_label
@@ -17,7 +16,9 @@ module CardsHelper
             return LABELS[Setting.plugin_redmine_backlogs[:card_spec]]
         end
     
-        def initialize
+        def initialize(lang)
+            set_language_if_valid lang
+
             label = TaskboardCards.selected_label
             raise "No label spec selected" if label.nil?
     

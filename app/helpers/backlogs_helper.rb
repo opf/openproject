@@ -1,7 +1,8 @@
 module BacklogsHelper
+  include Redmine::I18n
   
   def backlog_html_class(backlog)
-    is_sprint?(backlog) ? l(:label_sprint_backlog) : l(:label_product_backlog)
+    is_sprint?(backlog) ? "sprint backlog" : "product backlog"
   end
   
   def backlog_html_id(backlog)
