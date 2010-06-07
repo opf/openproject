@@ -56,3 +56,4 @@ nl:
   label_backlogs_unconfigured: U heeft Backlogs nog niet geconfigureerd. Gaat u asltublieft naar {{administration}} > {{plugins}}, en klik dan op de {{configure}} link voor deze plugin. Nadat u de configuratie hebt opgeslagen kunt u teruggaan naar deze pagina om de plugin in gebruik te nemen.
   label_scrum_statistics: Scrum statistieken
   label_stories: Stories
+  label_sprint_velocity: "Velocity {{velocity}}, berekend over {{sprints}} sprints met gemiddeld {{days}} dagen"

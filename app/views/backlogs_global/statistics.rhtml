@@ -16,6 +16,9 @@
         <% stats = project.scrum_statistics %>
         <h3><a href="#"><span class="score score_<%= stats[:score][:score] %>"><%= stats[:score][:score] %></span> <%= project.name %></a> </h3>
         <div>
+            <% if stats[:velocity] %>
+                <%= l(:label_sprint_velocity, { :velocity => stats[:velocity], :sprints => stats[:sprints].length, :days => stats[:average_days_per_sprint]}) %><br/>
+            <% end %>
             <h4><%= l(:backlogs_product_backlog) %></h4>
             <%= link_to(l(:backlogs_product_backlog), { :controller => 'backlogs', :action => 'select_issues', :project_id => project }) %><br/>
             <% if stats[:active_sprint] || stats[:sprints] %>

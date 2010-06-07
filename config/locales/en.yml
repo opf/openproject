@@ -62,3 +62,5 @@ en:
   label_not_prioritized: "not prioritized"
 
   label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to {{administration}} > {{plugins}}, then click on the {{configure}} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
+
+  label_sprint_velocity: "Velocity {{velocity}}, based on {{sprints}} sprints with an average {{days}} days"
