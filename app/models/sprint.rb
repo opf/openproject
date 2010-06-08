@@ -106,7 +106,7 @@ class Sprint < Version
         }
 
         backlog = nil
-        remaining_days = so_far.length
+        remaining_days = self.days.length
         datapoints = []
         max_points = 0
         max_hours = 0
