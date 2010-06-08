@@ -57,3 +57,7 @@ nl:
   label_scrum_statistics: Scrum statistieken
   label_stories: Stories
   label_sprint_velocity: "Velocity {{velocity}}, berekend over {{sprints}} sprints met gemiddeld {{days}} dagen"
+  event_sprint_summary: "{{project}}: {{summary}}"
+  event_sprint_description: "{{summary}}: {{url}}\n{{description}}"
+  todo_issue_summary: "{{type}}: {{summary}}"
+  todo_issue_description: "{{summary}}: {{url}}\n{{description}}"

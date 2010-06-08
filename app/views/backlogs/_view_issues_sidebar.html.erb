@@ -11,7 +11,7 @@
         <% end %>
     <% end %>
 
-    <h3><%= l(:backlogs_product_backlog) %></h3>
+    <h3><%= project.name %></h3>
     <%= link_to(l(:backlogs_product_backlog), {
             :controller => 'backlogs',
             :action => 'select_issues',
@@ -22,6 +22,7 @@
             :action => 'product_backlog_cards',
             :project_id => project.id
             }) %><br/>
+    <a href="<%= url_for({ :controller => 'backlogs', :only_path => false, :protocol => webcal, :action => 'calendar'}) %>"><%= l(:label_calendar) %></a><br>
 
     <% if sprint && sprint.has_burndown %>
         <h3><%= l(:label_sprint_name, {:name => sprint.name}) %></h3>

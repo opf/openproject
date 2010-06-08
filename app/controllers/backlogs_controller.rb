@@ -1,6 +1,8 @@
 include StoriesHelper
 include BacklogMenuHelper
 
+require 'icalendar'
+
 class BacklogsController < ApplicationController
   unloadable
 
@@ -194,6 +196,100 @@ class BacklogsController < ApplicationController
     }
 
     send_data(cards.pdf.render, :filename => 'cards.pdf', :disposition => 'attachment', :type => 'application/pdf')
+  end
+
+  def calendar
+    cal = Icalendar::Calendar.new
+
+    # current + future sprints
+    Sprint.find(:all, :conditions => ["not sprint_start_date is null and not effective_date is null and project_id = ? and effective_date >= ?", @project.id, Date.today]).each {|sprint|
+      cal.event do
+        dtstart     sprint.sprint_start_date
+        dtend       sprint.effective_date
+        summary     l(:event_sprint_summary, { :project => @project.name, :summary => sprint.name } )
+        description l(:event_sprint_description, {
+                      :summary => sprint.name,
+                      :description => sprint.description,
+                      :url => url_for({
+                        :controller => 'backlogs',
+                        :only_path => false,
+                        :action => 'select_issues',
+                        :project_id => @project.id,
+                        :sprint_id => sprint.id
+                        })
+                      })
+        klass       'PRIVATE'
+        transp      'TRANSPARENT'
+      end
+    }
+
+    open_issues = "
+        #{IssueStatus.table_name}.is_closed = ?
+        and tracker_id in (?)
+        and fixed_version_id in (
+          select id
+          from versions
+          where project_id = ?
+            and status = 'open'
+            and not sprint_start_date is null
+            and effective_date >= ?
+        )
+    "
+    open_issues_and_impediments = "
+      (assigned_to_id is null or assigned_to_id = ?)
+      and
+      (
+        (#{open_issues})
+        or
+        ( #{IssueStatus.table_name}.is_closed = ?
+          and #{Issue.table_name}.id in (
+            select issue_from_id
+            from issue_relations
+            join issues on issues.id = issue_to_id and relation_type = 'blocks'
+            where #{open_issues})
+        )
+      )
+    "
+
+    conditions = [open_issues_and_impediments]
+    # me or none
+    conditions << User.current.id
+
+    # open stories/tasks
+    conditions << false
+    conditions << Story.trackers + [Task.tracker]
+    conditions << @project.id
+    conditions << Date.today
+
+    # open impediments...
+    conditions << false
+
+    # ... for open stories/tasks
+    conditions << false
+    conditions << Story.trackers + [Task.tracker]
+    conditions << @project.id
+    conditions << Date.today
+
+    issues = Issue.find(:all, :include => :status, :conditions => conditions).each {|issue|
+      cal.todo do
+        summary     l(:todo_issue_summary, { :type => issue.tracker.name, :summary => issue.subject } )
+        description l(:todo_issue_description, {
+                      :summary => issue.subject,
+                      :description => issue.description,
+                      :url => url_for({
+                        :controller => 'issues',
+                        :only_path => false,
+                        :action => 'show',
+                        :id => issue.id
+                        })
+                      })
+        klass       'PRIVATE'
+        category    issue.tracker.name
+        transp      'TRANSPARENT'
+      end
+    }
+
+    send_data(cal.to_ical, :filename => "#{@project.identifier}.ics", :disposition => 'attachment', :type => 'text/calendar')
   end
 
   private

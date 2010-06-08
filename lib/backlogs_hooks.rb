@@ -9,6 +9,7 @@ module BacklogsPlugin
                 locals[:sprints] = Sprint.open_sprints(context[:project])
                 locals[:project] = context[:project]
                 locals[:sprint] = nil
+                locals[:webcal] = (context[:request].ssl? ? 'webcals' : 'webcal')
 
                 q = context[:request].session[:query]
                 if q
