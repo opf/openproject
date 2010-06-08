@@ -126,16 +126,17 @@ class BacklogsController < ApplicationController
   def select_issues
     @query = Query.new(:name => "_")
     @query.project = @project
-    @query.sort_criteria = [['parent_id', 'desc']]
 
     if params[:sprint_id]
         @query.add_filter("status_id", '*', ['']) # All statuses
         @query.add_filter("fixed_version_id", '=', [params[:sprint_id]])
         @query.add_filter("backlogs_issue_type", '=', ['any'])
+        @query.sort_criteria = [['parent_id', 'desc']]
     else
         @query.add_filter("status_id", 'o', ['']) # only open
         @query.add_filter("fixed_version_id", '!*', ['']) # only unassigned
         @query.add_filter("backlogs_issue_type", '=', ['story'])
+        @query.sort_criteria = [['position', 'asc']]
     end
 
     session[:query] = {:project_id => @query.project_id, :filters => @query.filters}

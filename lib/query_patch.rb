@@ -10,6 +10,7 @@ module QueryPatch
             unloadable # Send unloadable so it will not be unloaded in development
             base.add_available_column(QueryColumn.new(:story_points, :sortable => "#{Issue.table_name}.story_points"))
             base.add_available_column(QueryColumn.new(:remaining_hours, :sortable => "#{Issue.table_name}.remaining_hours"))
+            base.add_available_column(QueryColumn.new(:position, :sortable => "#{Issue.table_name}.position"))
             base.add_available_column(QueryColumn.new(:velocity_based_estimate))
 
             alias_method_chain :available_filters, :backlogs_issue_type
@@ -45,6 +46,7 @@ module QueryPatch
 
             [   [:parent,           :before,    (self.filters["backlogs_issue_type"][:values] == ['any'])],
                 [:story_points,     :after,     true],
+                [:position,         :after,     true],
                 [:estimated_hours,  :after,     true]]. each {|col, pos, use|
 
                 next if !use
