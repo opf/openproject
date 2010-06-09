@@ -47,7 +47,7 @@
     </p>
     <p>
         <%= content_tag(:label, l(:backlogs_card_specification)) %>
-        <%= select_tag("settings[card_spec]", options_for_select(TaskboardCards::LABELS.keys.sort.collect{|label| [label, label]}, Setting.plugin_redmine_backlogs[:card_spec])) %>
+        <%= select_tag("settings[card_spec]", options_for_select(Cards::TaskboardCards::LABELS.keys.sort.collect{|label| [label, label]}, Setting.plugin_redmine_backlogs[:card_spec])) %>
     </p>
     <p>
         <%= content_tag(:label, l(:backlogs_wiki_template)) %>
