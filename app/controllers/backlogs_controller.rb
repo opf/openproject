@@ -203,21 +203,23 @@ class BacklogsController < ApplicationController
 
     # current + future sprints
     Sprint.find(:all, :conditions => ["not sprint_start_date is null and not effective_date is null and project_id = ? and effective_date >= ?", @project.id, Date.today]).each {|sprint|
+      summary_text = l(:event_sprint_summary, { :project => @project.name, :summary => sprint.name } )
+      description_text = l(:event_sprint_description, {
+                            :summary => sprint.name,
+                            :description => sprint.description,
+                            :url => url_for({
+                              :controller => 'backlogs',
+                              :only_path => false,
+                              :action => 'select_issues',
+                              :project_id => @project.id,
+                              :sprint_id => sprint.id
+                              })
+                            })
       cal.event do
         dtstart     sprint.sprint_start_date
         dtend       sprint.effective_date
-        summary     l(:event_sprint_summary, { :project => @project.name, :summary => sprint.name } )
-        description l(:event_sprint_description, {
-                      :summary => sprint.name,
-                      :description => sprint.description,
-                      :url => url_for({
-                        :controller => 'backlogs',
-                        :only_path => false,
-                        :action => 'select_issues',
-                        :project_id => @project.id,
-                        :sprint_id => sprint.id
-                        })
-                      })
+        summary     summary_text
+        description description_text
         klass       'PRIVATE'
         transp      'TRANSPARENT'
       end
@@ -271,21 +273,20 @@ class BacklogsController < ApplicationController
     conditions << Date.today
 
     issues = Issue.find(:all, :include => :status, :conditions => conditions).each {|issue|
+      summary_text = l(:todo_issue_summary, { :type => issue.tracker.name, :summary => issue.subject } )
+      description_text = l(:todo_issue_description, {
+                            :summary => issue.subject,
+                            :description => issue.description,
+                            :url => url_for({
+                              :controller => 'issues',
+                              :only_path => false,
+                              :action => 'show',
+                              :id => issue.id
+                              })
+                            })
       cal.todo do
-        summary     l(:todo_issue_summary, { :type => issue.tracker.name, :summary => issue.subject } )
-        description l(:todo_issue_description, {
-                      :summary => issue.subject,
-                      :description => issue.description,
-                      :url => url_for({
-                        :controller => 'issues',
-                        :only_path => false,
-                        :action => 'show',
-                        :id => issue.id
-                        })
-                      })
-        klass       'PRIVATE'
-        category    issue.tracker.name
-        transp      'TRANSPARENT'
+        summary     summary_text
+        description description_text
       end
     }
 
@@ -295,11 +296,7 @@ class BacklogsController < ApplicationController
   private
 
   def find_project
-    @project = if params[:project_id]
-                 Project.find(params[:project_id])
-               else
-                 @sprint.project
-               end
+    @project = (params[:project_id] ? Project.find(params[:project_id]) : @sprint.project)
   end
   
   def find_sprint
