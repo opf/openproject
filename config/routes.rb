@@ -5,6 +5,6 @@ ActionController::Routing::Routes.draw do |map|
     map.connect 'backlogs/:project_id/:sprint_id/wiki', :controller => 'backlogs', :action => 'wiki'
     map.connect 'backlogs/:project_id/:sprint_id/cards', :controller => 'backlogs', :action => 'taskboard_cards'
     map.connect 'backlogs/:project_id/cards', :controller => 'backlogs', :action => 'product_backlog_cards'
-    map.connect 'backlogs/:project_id/calendar', :controller => 'backlogs', :action => 'calendar'
+    map.connect 'backlogs/:project_id/:format/:key/calendar.xml', :controller => 'backlogs', :action => 'calendar'
 end
 

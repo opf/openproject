@@ -8,6 +8,7 @@ class BacklogsController < ApplicationController
 
   include Cards
 
+  accept_key_auth :calendar
   before_filter :find_sprint, :only => [:show]
   before_filter :find_project, :authorize
 
@@ -284,9 +285,15 @@ class BacklogsController < ApplicationController
                               :id => issue.id
                               })
                             })
-      cal.todo do
+      # I know this should be "cal.todo do", but outlook in it's
+      # infinite stupidity doesn't support VTODO
+      cal.event do
         summary     summary_text
         description description_text
+        dtstart     Date.today
+        dtend       (Date.today + 1)
+        klass       'PRIVATE'
+        transp      'TRANSPARENT'
       end
     }
 

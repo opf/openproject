@@ -22,7 +22,15 @@
             :action => 'product_backlog_cards',
             :project_id => project.id
             }) %><br/>
-    <a href="<%= url_for({ :controller => 'backlogs', :only_path => false, :protocol => webcal, :action => 'calendar'}) %>"><%= l(:label_calendar) %></a><br>
+    <% if Setting.rest_api_enabled? %>
+      <a href="<%= url_for({
+                    :key => key,
+                    :controller => 'backlogs',
+                    :only_path => false,
+                    :protocol => webcal,
+                    :action => 'calendar',
+                    :format => 'xml' }) %>"><%= l(:label_calendar) %></a><br>
+    <% end %>
 
     <% if sprint && sprint.has_burndown %>
         <h3><%= l(:label_sprint_name, {:name => sprint.name}) %></h3>
