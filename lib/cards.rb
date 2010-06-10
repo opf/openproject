@@ -21,9 +21,11 @@ module Cards
 
             label = TaskboardCards.selected_label
             raise "No label spec selected" if label.nil?
+
+            label['papersize'].upcase!
     
             geom = Prawn::Document::PageGeometry::SIZES[label['papersize']]
-            raise "Paper size '#{label['papersize']} not supported" if geom.nil?
+            raise "Paper size '#{label['papersize']}' not supported" if geom.nil?
     
             @paper_width = geom[0]
             @paper_height = geom[1]
@@ -228,11 +230,11 @@ module Cards
     
         def topts(m)
             return nil if m.class == NilClass
-            return Integer(m[0..-3]).mm if m =~ /mm$/
-            return Integer(m[0..-3]).cm if m =~ /cm$/
-            return Integer(m[0..-3]).in if m =~ /in$/
-            return Integer(m[0..-3]).pt if m =~ /pt$/
-            return Integer(m)
+            return Float(m[0..-3]).mm if m =~ /mm$/
+            return Float(m[0..-3]).cm if m =~ /cm$/
+            return Float(m[0..-3]).in if m =~ /in$/
+            return Float(m[0..-3]).pt if m =~ /pt$/
+            return Float(m)
         end
     
         def top_left(row, col)
