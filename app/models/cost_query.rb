@@ -14,7 +14,7 @@ class CostQuery < ActiveRecord::Base
 
   # FIXME: (RE)MOVE ME
   def self.example
-    @example ||= CostQuery.new.group_by(:issue_id).column(:tweek).row(:project_id).row(:user_id)
+    @example ||= CostQuery.new.filter(:user_id, :values => (1..3).to_a).filter(:tweek, :operator => '<=', :value => '12').column(:tweek).row(:project_id).row(:user_id)
   end
 
   def transformer
@@ -56,7 +56,7 @@ class CostQuery < ActiveRecord::Base
 
   def_delegators :transformer, :column_first, :row_first
   def_delegators :chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result
-  def_delegators :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :count, :units, :real_costs, :size
+  def_delegators :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :each_row, :count, :units, :real_costs, :size
   def_delegators :table, :row_index, :colum_index
 
   def to_a

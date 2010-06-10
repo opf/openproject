@@ -1,7 +1,0 @@
-= Dependencies
-
-* Algorithms - http://algorithms.rubyforge.org/
-
-To sum it up:
-
-  gem install algorithms

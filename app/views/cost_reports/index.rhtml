@@ -1,16 +1,26 @@
-<% @query = CostQuery.new
-    @query.filter :project_id, :value => [1,2]
-    @query.group_by :tweek
-    @query.column :tweek
-    @query.row :user_id
-    @query.row :project_id
-    
-    @walker = @query.walker
-    @row = @walker.row_first
-    @column = @walker.column_first
+<%
+@query  = CostQuery.example
+@walker = CostQuery::Walker.new @query
+
+@walker.for_final_row do |row, cells|
+  "<td>#{row.fields.inspect}</td>" << cells.join
+end
+
+@walker.for_row do |row, subrows|
+  subrows.flatten!
+  subrows[0] = "<td rowspan='#{subrows.size}'>#{row.fields.inspect}</td>#{subrows[0]}"
+  subrows
+end
+
+@walker.for_empty_cell { "<td>:)</td>" }
+
+@walker.for_cell do |result|
+  "<td>#{result.try(:fields).inspect}</td>"
+end
+
 %>
 
-<%# things above this line should be deleted or go into the controler %>
+<%# things above this line should be deleted or go into the controller %>
 
 <% if @custom_error %>
   <div class="flash error"><%= @custom_error %></div>
@@ -52,70 +62,8 @@
 <% end %>
 
 <h1>Die sch&ouml;ne Tabelle:</h1>
-<%
-
-data = @query.walk(:row_first) do |current, sub|
-  if current.column?
-    if @was_column
-      next sub.join
-    else
-      @was_column = true
-      next sub
-    end
-  end
-  field = "<td rowspan='%d'>#{current.type}, #{@was_column.inspect}: #{current.fields.inspect}</td>"
-  if sub.blank?
-    [field % 1]
-  else
-    if @was_column
-      @was_column = false
-      [(field % 1) << sub.join]
-    else
-      first, *rest = sub.flatten
-      size = rest.size + 1
-      first = (field % size) << first
-      [first, *rest]
-    end
-  end
-end
-
-%>
-
 <table border='1'>
-  <% data.flatten.each do |line| %>
+  <% @walker.walk.each do |line| %>
     <tr><%= line %></tr>
   <% end %>
 </table>
-
-<div style="border-width: 1; background-color: #BBB; padding: 5px">
-  query chain: <br />
-  <ul>
-  <% chain = @query.chain
-  while chain %>
-    <li><%= chain.class.to_s %></li>
-  <% chain = chain.child
-    end %>
-  </ul>
-
-  <% max = 20 %>
-  Result (row):
-  <pre><% @row.recursive_each_with_level do |l, r| %>
-    <%= "#{'|  '*l}#{r.class} (#{r.fields}) # size:#{r.size}" %><% max -=1; break if max <= 0; end %>
-    ...
-  </pre>
-
-  <% max = 20 %>
-  Result (column):
-  <pre><% @column.recursive_each_with_level do |l, r| %>
-    <%= "#{'|  '*l}#{r.class} (#{r.fields}) # size:#{r.size}" %><% max -=1; break if max <= 0; end %>
-    ...
-  </pre>
-  
-  SQL statement: <br />
-  <pre><%= @query.sql_statement.to_s %></pre>
-</div>
-
-<% content_for :header_tags do %>
-    <%= stylesheet_link_tag 'scm' %>
-    <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
-<% end %>

@@ -1,18 +1,11 @@
 # encoding: UTF-8
 require 'enumerator'
 
-##
-# @example
-#   CostQuery::Table.new query, :rows => [:project_id, :user_id], :columns => [:tweak, :spent_on]
 class CostQuery::Table
   attr_accessor :query
 
-  def initialize(query, options = {})
-    options = options.with_indifferent_access.merge :query => query
-    options.each do |k,v|
-      k = "#{k}=" if respond_to? "#{k}="
-      send(k, *v)
-    end
+  def initialize(query)
+    @query = query
   end
 
   def row_index
@@ -35,7 +28,8 @@ class CostQuery::Table
   def columns_for(result) fields_for result, :column end
 
   def fields_from(result, type)
-    fields_for(type).map { |k| result[k] }
+    #fields_for(type).map { |k| result[k] }
+    result.fields.values_at(*fields_for(type))
   end
 
   ##
@@ -43,7 +37,7 @@ class CostQuery::Table
   # @param [Array,Hash,Resul] given Fields/result to be tested
   # @return [TrueClass,FalseClass]
   def satisfies?(type, expected, given)
-    given  = fields_from(result, type) if given.respond_to? :to_hash
+    given  = fields_from(given, type) if given.respond_to? :to_hash
     zipped = expected.zip given
     zipped.all? { |a,b| a == b or b.nil? }
   end
@@ -51,7 +45,11 @@ class CostQuery::Table
   def fields_for(type)
     @fields_for ||= begin
       child, fields = query.chain, Hash.new { |h,k| h[k] = [] }
-      fields[child.type].push(*child.group_fields) until child.filter?
+      until child.filter?
+        fields[child.type].push(*child.group_fields)
+        child = child.child
+      end
+      fields
     end
     @fields_for[type]
   end
@@ -64,33 +62,31 @@ class CostQuery::Table
   def with_gaps_for(type, result)
     return enum_for(:with_gaps_for, type, result) unless block_given?
     stack = get_index(type).dup
-    result.each do |subresult|
-      yield nil until satisfies? type, stack.shift, subresult
+    result.each_direct_result do |subresult|
+      yield nil until stack.empty? or satisfies? type, stack.shift, subresult
       yield subresult
     end
+    stack.size.times { yield nil }
   end
 
   def [](x,y)
     get_row(row_index[y]).first(x).last
   end
 
-  def all_types(&block)
-    return [:row, :column] unless block
-    all_types.each(&block)
-  end
-
   def get_index(type)
     @indexes ||= begin
-      indexes = Hash.new(&method(:compare_fields))
-      query.each_direct_result { |result| all_types { |t| indexes[t] = fields_from result, t }
-      indexes.keys.each { |k| indexes[k] = indexes[k].to_a.uniq }
+      indexes = Hash.new { |h,k| h[k] = Set.new }
+      query.each_direct_result { |result| [:row, :column].each { |t| indexes[t] << fields_from(result, t) } }
+      indexes.keys.each { |k| indexes[k] = indexes[k].sort { |x, y| compare_fields x, y } }
+      indexes
     end
     @indexes[type]
   end
 
   def compare_fields(a, b)
-    a.zip(b).each { |x,y| return x > y unless x == y }
-    true
+    # FIXME: proper type casts, please
+    a.zip(b).each { |x,y| return x.to_i <=> y.to_i unless x.to_i == y.to_i }
+    0
   end
 
 end

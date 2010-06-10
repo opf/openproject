@@ -31,8 +31,6 @@ describe CostQuery do
     it "should not remember it's correct parent" do
       @query.group_by :project_id
       @query.filter :project_id
-      #require 'ruby-debug'
-      #debugger
       @query.chain.top.child.child.parent.should == @query.chain.top.child
     end
 

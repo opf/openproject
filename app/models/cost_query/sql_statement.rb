@@ -84,7 +84,7 @@ class CostQuery::SqlStatement
   #
   # @return [CostQuery::SqlStatement] Generated statement
   def self.for_entries
-    new Rails.cache.fetch('entries') { unified_entry(TimeEntry).union(unified_entry(CostEntry), "entries") }
+    new unified_entry(TimeEntry).union(unified_entry(CostEntry), "entries")
   end
 
   ##
@@ -130,7 +130,7 @@ class CostQuery::SqlStatement
       "\n#{joins.map { |e| "\t#{e}" }.join "\n"}" \
       "\nWHERE #{where.join " AND "}\n"
       sql << "GROUP BY #{group_by.join ', '}\n" if group_by?
-      sql
+      sql # << " LIMIT 100"
     end
   end
 

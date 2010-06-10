@@ -62,6 +62,13 @@ module CostQuery::Result
     def direct?
       type == :direct
     end
+
+    def each_row
+    end
+
+    def final_row?
+      row? and not first.row?
+    end
   end
 
   class DirectResult < Base
@@ -94,10 +101,14 @@ module CostQuery::Result
     end
 
     def each
+      return enum_for(__method__) unless block_given?
       yield self
     end
 
-    alias each_direct_result each
+    def each_direct_result(cached = false)
+      return enum_for(__method__) unless block_given?
+      yield self
+    end
   end
 
   class WrappedResult < Base
@@ -143,6 +154,13 @@ module CostQuery::Result
           to_evaluate = to_evaluate_soon
         end
       end
+
+      def each_row
+        return enum_for(:each_row) unless block_given?
+        if final_row? then yield self
+        else each { |c| c.each_row(&Proc.new) }
+        end
+      end
     end
 
     def to_a
@@ -153,8 +171,18 @@ module CostQuery::Result
       values.each(&block)
     end
 
-    def each_direct_result(&block)
-      values.each {  |v| v.each_direct_result(&block) }
+    def each_direct_result(cached = true)
+      return enum_for(__method__) unless block_given?
+      if @direct_results
+        @direct_results.each { |r| yield(r) }
+      else
+        values.each do |value|
+          value.each_direct_result(false) do |result|
+            (@direct_results ||= []) << result if cached
+            yield result
+          end
+        end
+      end
     end
 
     def fields

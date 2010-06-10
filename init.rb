@@ -1,10 +1,7 @@
 require 'redmine'
 
 fail "upgrade ruby version, ruby < 1.8.7 suffers from Hash#hash bug" if {:a => 10}.hash != {:a => 10}.hash
-
-Rails.configuration.after_initialize do
-  Rails.configuration.gem 'algorithms'
-end
+require "hwia_rails"
 
 Redmine::Plugin.register :redmine_reporting do
   name 'Reporting Plugin'
