@@ -95,11 +95,10 @@ describe CostQuery do
         number_of_sql_queries += 1 unless caller.third.include? 'sql_statement.rb'
       end
       # do some random things on it
-      walker = @query.walker
+      walker = @query.transformer
       walker.row_first
       walker.column_first
-      @query.walk(:column_first) { |current, sub| }
-      @query.walk(:row_first) { |current, sub| }
+      # TODO - to do something
       CostQuery::SqlStatement.on_generate # do nothing
       number_of_sql_queries.should == 1
     end

@@ -5,6 +5,7 @@ module CostQuery::Result
     attr_accessor :parent, :type
     attr_reader :value
     alias values value
+    include Enumerable
 
     def initialize(value)
       @value = value
@@ -16,6 +17,10 @@ module CostQuery::Result
 
     def recursive_each
       recursive_each_with_level { |level, result| yield result }
+    end
+
+    def to_hash
+      fields.dup
     end
 
     def [](key)
@@ -87,6 +92,12 @@ module CostQuery::Result
     def type
       :direct
     end
+
+    def each
+      yield self
+    end
+
+    alias each_direct_result each
   end
 
   class WrappedResult < Base
@@ -134,8 +145,16 @@ module CostQuery::Result
       end
     end
 
+    def to_a
+      values
+    end
+
     def each(&block)
       values.each(&block)
+    end
+
+    def each_direct_result(&block)
+      values.each {  |v| v.each_direct_result(&block) }
     end
 
     def fields

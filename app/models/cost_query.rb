@@ -3,6 +3,7 @@ require 'forwardable'
 
 class CostQuery < ActiveRecord::Base
   extend Forwardable
+  include Enumerable
   #belongs_to :user
   #belongs_to :project
   #attr_protected :user_id, :project_id, :created_at, :updated_at
@@ -16,13 +17,13 @@ class CostQuery < ActiveRecord::Base
     @example ||= CostQuery.new.group_by(:issue_id).column(:tweek).row(:project_id).row(:user_id)
   end
 
-  def walker
-    @walker ||= CostQuery::Walker.new self
+  def transformer
+    @transformer ||= CostQuery::Transformer.new self
   end
 
   def add_chain(type, name, options)
     chain type.const_get(name.to_s.camelcase), options
-    @walker = nil
+    @transformer, @table = nil, nil
     self
   end
 
@@ -49,8 +50,14 @@ class CostQuery < ActiveRecord::Base
     group_by name, options.merge(:type => :row)
   end
 
-  def_delegators :walker, :walk, :column_first, :row_first
+  def table
+    @table = Table.new(self)
+  end
+
+  def_delegators :transformer, :column_first, :row_first
   def_delegators :chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result
+  def_delegators :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :count, :units, :real_costs, :size
+  def_delegators :table, :row_index, :colum_index
 
   def to_a
     chain.to_a

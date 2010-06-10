@@ -17,14 +17,14 @@ describe CostQuery do
   fixtures :issue_categories
   fixtures :versions
 
-  describe CostQuery::Walker do
+  describe CostQuery::Transformer do
     it "should walk down row_first" do
       @query.group_by :issue_id
       @query.column :tweek
       @query.row :project_id
       @query.row :user_id
 
-      result = @query.walker.row_first.values.first
+      result = @query.transformer.row_first.values.first
       [:user_id, :project_id, :tweek].each do |field|
         result.fields.should include(field)
         result = result.values.first
@@ -37,7 +37,7 @@ describe CostQuery do
       @query.row :project_id
       @query.row :user_id
 
-      result = @query.walker.column_first.values.first
+      result = @query.transformer.column_first.values.first
       [:tweek, :user_id, :project_id].each do |field|
         result.fields.should include(field)
         result = result.values.first

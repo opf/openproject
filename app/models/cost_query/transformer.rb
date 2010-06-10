@@ -1,5 +1,5 @@
 # encoding: UTF-8
-class CostQuery::Walker
+class CostQuery::Transformer
   attr_reader :query
 
   def initialize(query)
@@ -45,24 +45,5 @@ class CostQuery::Walker
       current = current.child
     end
     columns + rows
-  end
-
-  ##
-  # FIXME: Example is outdated
-  # @example
-  #   query.walk(:column_first) do |current, subgregation|
-  #     if subgregation.nil?
-  #       ["<td>#{current.count}</td>"]
-  #     elsif current.type == :column
-  #       subgregation.first.unshift "<td rowspan='#{subgregation.size}'>#{current.group_fields}</td>"
-  #     else
-  #       subgregation.flatten
-  #     end
-  #   end
-  def walk(result = nil, &block)
-    result ||= row_first
-    result = send result if result.is_a? Symbol
-    return block.call(result, nil) unless result.has_children?
-    block.call result, result.map { |r| walk(r, &block) }
   end
 end

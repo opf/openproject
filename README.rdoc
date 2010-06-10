@@ -1,3 +1,7 @@
-= costs
+= Dependencies
 
-Description goes here
+* Algorithms - http://algorithms.rubyforge.org/
+
+To sum it up:
+
+  gem install algorithms
