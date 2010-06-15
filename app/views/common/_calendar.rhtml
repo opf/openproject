@@ -1,12 +1,12 @@
 <table class="cal">
 <thead>
-<tr><td></td><% 7.times do |i| %><th><%= day_name( (calendar.first_wday+i)%7 ) %></th><% end %></tr>
+<tr><th scope="col" title="<%= l(:label_week) %>" class="week-number"></th><% 7.times do |i| %><th scope="col"><%= day_name( (calendar.first_wday+i)%7 ) %></th><% end %></tr>
 </thead>
 <tbody>
 <tr>
 <% day = calendar.startdt
 while day <= calendar.enddt %>
-<%= "<th>#{day.cweek}</th>" if day.cwday == calendar.first_wday %>
+<%= "<td class='week-number' title='#{ l(:label_week) }'>#{day.cweek}</td>" if day.cwday == calendar.first_wday %>
 <td class="<%= day.month==calendar.month ? 'even' : 'odd' %><%= ' today' if Date.today == day %>">
 <p class="day-num"><%= day.day %></p>	
 <% calendar.events_on(day).each do |i| %>
