@@ -48,20 +48,14 @@ describe "SpreadsheetBuilder" do
     @sheet.last_row_index.should == 1
   end
   
-  it "should never add headers in the first line, but move them to the second" do
+  it "should allow adding headers in the first line" do
     @spreadsheet.add_headers((1..3).to_a, 0)
-    @sheet.last_row_index.should == 1
-  end
-  
-  it "should not advance headers beyond the second row per default" do
-    @spreadsheet.add_headers((1..3).to_a)
-    @spreadsheet.add_headers((1..3).to_a)
-    @sheet.last_row_index.should == 1
+    @sheet.last_row_index.should == 0
   end
   
   it "should add headers with some formatting" do
-    @spreadsheet.add_headers([1])
-    @sheet.last_row.format(0).should_not == @sheet.last_row.format(1)
+    @spreadsheet.add_headers([1], 0)
+    @sheet.last_row.format(0).should_not == @sheet.last_row.format(2)
   end
   
   it "should start adding rows in the first line" do
