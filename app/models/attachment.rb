@@ -150,7 +150,13 @@ class Attachment < ActiveRecord::Base
                               :file => file,
                               :description => attachment['description'].to_s.strip,
                               :author => User.current)
-        a.new_record? ? (obj.unsaved_attachments << a) : (attached << a)
+
+        if a.new_record?
+          obj.unsaved_attachments ||= []
+          obj.unsaved_attachments << a
+        else
+          attached << a
+        end
       end
     end
     {:files => attached, :unsaved => obj.unsaved_attachments}
