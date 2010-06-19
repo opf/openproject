@@ -1694,15 +1694,27 @@ Date.prototype.getDayOfYear = function() {
 	return Math.floor(time / Date.DAY);
 };
 
-/** Returns the number of the week in year, as defined in ISO 8601. */
+/** Returns the number of the week in year, as defined in ISO 8601.
+    This function is only correct if `this` is the first day of the week. */
 Date.prototype.getWeekNumber = function() {
-	var d = new Date(this.getFullYear(), this.getMonth(), this.getDate(), 0, 0, 0);
-	var DoW = d.getDay();
-	d.setDate(d.getDate() - (DoW + 6) % 7 + 3); // Nearest Thu
-	var ms = d.valueOf(); // GMT
-	d.setMonth(0);
-	d.setDate(4); // Thu in Week 1
-	return Math.round((ms - d.valueOf()) / (7 * 864e5)) + 1;
+	var d =  new Date(this.getFullYear(), this.getMonth(), this.getDate());
+	var days = 1000*60*60*24; // one day in milliseconds
+	
+	// get the thursday of the current week
+	var this_thursday = new Date(
+		d.valueOf() // selected date
+		- (d.getDay() % 7)*days   // previous sunday
+		+ 4*days                  // + 4 days
+	).valueOf();
+	
+	// the thursday in the first week of the year
+	var first_thursday = new Date(
+		new Date(this.getFullYear(), 0, 4).valueOf() // January 4 is in the first week by definition
+		- (d.getDay() % 7)*days   // previous sunday
+		+ 4*days                  // + 4 days
+	).valueOf();
+	
+	return Math.round((this_thursday - first_thursday) / (7*days)) + 1;
 };
 
 /** Checks date and time equality */
