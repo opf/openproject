@@ -68,17 +68,10 @@ class AttachmentTest < ActiveSupport::TestCase
     should "add unsaved files to the object as unsaved attachments" do
       # Max size of 0 to force Attachment creation failures
       with_settings(:attachment_max_size => 0) do
-        # Mock out a file
-        @file = 'a_file.png'
-        @file.stubs(:size).returns(32)
-        @file.stubs(:original_filename).returns('a_file.png')
-        @file.stubs(:content_type).returns('image/png')
-        @file.stubs(:read).returns(false)
-        
         @project = Project.generate!
         response = Attachment.attach_files(@project, {
-                                             '1' => {'file' => @file, 'description' => 'test'},
-                                             '2' => {'file' => @file, 'description' => 'test'}
+                                             '1' => {'file' => mock_file, 'description' => 'test'},
+                                             '2' => {'file' => mock_file, 'description' => 'test'}
                                            })
 
         assert response[:unsaved].present?
