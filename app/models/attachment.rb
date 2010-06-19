@@ -141,7 +141,6 @@ class Attachment < ActiveRecord::Base
   # :unsaved => array of the files that could not be attached
   def self.attach_files(obj, attachments)
     attached = []
-    unsaved = []
     if attachments && attachments.is_a?(Hash)
       attachments.each_value do |attachment|
         file = attachment['file']
