@@ -169,6 +169,15 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert issue.author.anonymous?
     end
   end
+
+  def test_add_issue_by_anonymous_user_with_no_from_address
+    Role.anonymous.add_permission!(:add_issues)
+    assert_no_difference 'User.count' do
+      issue = submit_email('ticket_by_empty_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'accept')
+      assert issue.is_a?(Issue)
+      assert issue.author.anonymous?
+    end
+  end
   
   def test_add_issue_by_anonymous_user_on_private_project
     Role.anonymous.add_permission!(:add_issues)
