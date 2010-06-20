@@ -134,7 +134,7 @@ class MailHandler < ActionMailer::Base
     if status && issue.new_statuses_allowed_to(user).include?(status)
       issue.status = status
     end
-    issue.subject = email.subject.chomp
+    issue.subject = email.subject.chomp[0,255]
     if issue.subject.blank?
       issue.subject = '(no subject)'
     end

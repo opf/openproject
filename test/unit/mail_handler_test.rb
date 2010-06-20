@@ -349,6 +349,12 @@ class MailHandlerTest < ActiveSupport::TestCase
       end
     end
   end
+  
+  def test_email_with_long_subject_line
+    issue = submit_email('ticket_with_long_subject.eml')
+    assert issue.is_a?(Issue)
+    assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0,255]
+  end
 
   private
   
