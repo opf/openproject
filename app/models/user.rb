@@ -53,7 +53,7 @@ class User < Principal
   attr_protected :login, :admin, :password, :password_confirmation, :hashed_password, :group_ids
 	
   validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
-  validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
+  validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
   validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }, :case_sensitive => false
   # Login must contain lettres, numbers, underscores only
   validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
@@ -96,7 +96,7 @@ class User < Principal
   def self.try_to_login(login, password)
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
-    user = find(:first, :conditions => ["login=?", login])
+    user = find_by_login(login)
     if user
       # user is already in local database
       return nil if !user.active?
@@ -222,6 +222,15 @@ class User < Principal
     notified_projects_ids
   end
   
+  # case-insensitive fall-over
+  def self.find_by_login(login)
+    # First look for an exact match
+    user = find(:first, :conditions => ["login = ?", login])
+    # Fail over to case-insensitive if none was found
+    user = find(:first, :conditions => ["LOWER(login) = ?", login.to_s.downcase]) if user.nil?
+    return user
+  end
+
   def self.find_by_rss_key(key)
     token = Token.find_by_value(key)
     token && token.user.active? ? token.user : nil

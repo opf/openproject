@@ -55,6 +55,21 @@ class UserTest < ActiveSupport::TestCase
     assert user.save
   end
   
+  context "User.login" do
+    should "be case-insensitive." do
+      u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+      u.login = 'newuser'
+      u.password, u.password_confirmation = "password", "password"
+      assert u.save
+      
+      u = User.new(:firstname => "Similar", :lastname => "User", :mail => "similaruser@somenet.foo")
+      u.login = 'NewUser'
+      u.password, u.password_confirmation = "password", "password"
+      assert !u.save
+      assert_equal I18n.translate('activerecord.errors.messages.taken'), u.errors.on(:login)
+    end
+  end
+
   def test_mail_uniqueness_should_not_be_case_sensitive
     u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     u.login = 'newuser1'
@@ -88,6 +103,25 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, @admin.errors.count
   end
   
+  context "User#try_to_login" do
+    should "fall-back to case-insensitive if user login is not found as-typed." do
+      user = User.try_to_login("AdMin", "admin")
+      assert_kind_of User, user
+      assert_equal "admin", user.login
+    end
+
+    should "select the exact matching user first" do
+      case_sensitive_user = User.generate_with_protected!(:login => 'changed', :password => 'admin', :password_confirmation => 'admin')
+      # bypass validations to make it appear like existing data
+      case_sensitive_user.update_attribute(:login, 'ADMIN')
+
+      user = User.try_to_login("ADMIN", "admin")
+      assert_kind_of User, user
+      assert_equal "ADMIN", user.login
+
+    end
+  end
+
   def test_password
     user = User.try_to_login("admin", "admin")
     assert_kind_of User, user
