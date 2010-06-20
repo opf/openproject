@@ -18,7 +18,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class RepositorySubversionTest < ActiveSupport::TestCase
-  fixtures :projects
+  fixtures :projects, :repositories
   
   def setup
     @project = Project.find(1)
@@ -30,8 +30,8 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @repository.reload
       
-      assert_equal 10, @repository.changesets.count
-      assert_equal 18, @repository.changes.count
+      assert_equal 11, @repository.changesets.count
+      assert_equal 20, @repository.changes.count
       assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
     end
     
@@ -43,7 +43,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal 5, @repository.changesets.count
       
       @repository.fetch_changesets
-      assert_equal 10, @repository.changesets.count
+      assert_equal 11, @repository.changesets.count
     end
     
     def test_latest_changesets
@@ -61,6 +61,32 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       # with path and revision
       changesets = @repository.latest_changesets('subversion_test/folder', 8)
       assert_equal ["7", "6", "5", "2"], changesets.collect(&:revision)
+    end
+
+    def test_directory_listing_with_square_brackets_in_path
+      @repository.fetch_changesets
+      @repository.reload
+      
+      entries = @repository.entries('subversion_test/[folder_with_brackets]')
+      assert_not_nil entries, 'Expect to find entries in folder_with_brackets'
+      assert_equal 1, entries.size, 'Expect one entry in folder_with_brackets'
+      assert_equal 'README.txt', entries.first.name
+    end
+
+    def test_directory_listing_with_square_brackets_in_base
+      @project = Project.find(1)
+      @repository = Repository::Subversion.create(:project => @project, :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
+
+      @repository.fetch_changesets
+      @repository.reload
+
+      assert_equal 1, @repository.changesets.count, 'Expected to see 1 revision'
+      assert_equal 2, @repository.changes.count, 'Expected to see 2 changes, dir add and file add'
+
+      entries = @repository.entries('')
+      assert_not_nil entries, 'Expect to find entries'
+      assert_equal 1, entries.size, 'Expect a single entry'
+      assert_equal 'README.txt', entries.first.name
     end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
