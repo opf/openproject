@@ -133,6 +133,12 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
   end
+
+  def test_large_integer
+    get :index, :q => '4615713488'
+    assert_response :success
+    assert_template 'index'
+  end
   
   def test_tokens_with_quotes
     get :index, :id => 1, :q => '"good bye" hello "bye bye"'
