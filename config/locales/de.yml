@@ -646,6 +646,7 @@ de:
   label_changes_details: Details aller Änderungen
   label_issue_tracking: Tickets
   label_spent_time: Aufgewendete Zeit
+  label_overall_spent_time: Aufgewendete Zeit aller Projekte anzeigen
   label_f_hour: "{{value}} Stunde"
   label_f_hour_plural: "{{value}} Stunden"
   label_time_tracking: Zeiterfassung

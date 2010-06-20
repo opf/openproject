@@ -60,6 +60,33 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select 'feed>entry', :count => Project.count(:conditions => Project.visible_by(User.current))
   end
   
+  context "#index" do
+    context "by non-admin user with view_time_entries permission" do
+      setup do
+        @request.session[:user_id] = 3
+      end
+      should "show overall spent time link" do
+        get :index
+        assert_template 'index'
+        assert_tag :a, :attributes => {:href => '/time_entries'}
+      end
+    end
+    
+    context "by non-admin user without view_time_entries permission" do
+      setup do
+        Role.find(2).remove_permission! :view_time_entries
+        Role.non_member.remove_permission! :view_time_entries
+        Role.anonymous.remove_permission! :view_time_entries
+        @request.session[:user_id] = 3
+      end
+      should "not show overall spent time link" do
+        get :index
+        assert_template 'index'
+        assert_no_tag :a, :attributes => {:href => '/time_entries'}
+      end
+    end 
+  end
+  
   context "#add" do
     context "by admin user" do
       setup do
