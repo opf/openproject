@@ -57,7 +57,8 @@ module Redmine
         
         # Returns an array of watchers' email addresses
         def watcher_recipients
-          notified = watchers.collect(&:user).select(&:active?)
+          notified = watcher_users.active
+
           if respond_to?(:visible?)
             notified.reject! {|user| !visible?(user)}
           end
