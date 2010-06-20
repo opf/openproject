@@ -13,6 +13,7 @@
 <h3><%=l(:field_author)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :action => 'issue_report_details', :detail => 'author' %></h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_author, :field_name => "author_id", :rows => @authors } %>
 <br />
+<%= call_hook(:view_reports_issue_report_split_content_left, :project => @project) %>
 </div>
 
 <div class="splitcontentright">
@@ -27,5 +28,6 @@
 <h3><%=l(:field_category)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :action => 'issue_report_details', :detail => 'category' %></h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_category, :field_name => "category_id", :rows => @categories } %>
 <br />
+<%= call_hook(:view_reports_issue_report_split_content_right, :project => @project) %>
 </div>
 
