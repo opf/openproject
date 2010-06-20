@@ -175,6 +175,7 @@ de:
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
   notice_default_data_loaded: Die Standard-Konfiguration wurde erfolgreich geladen.
   notice_unable_delete_version: Die Version konnte nicht gelöscht werden.
+  notice_unable_delete_time_entry: Der Zeiterfassungseintrag konnte nicht gelöscht werden.
   notice_issue_done_ratios_updated: Der Ticket-Fortschritt wurde aktualisiert.
 
   error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: {{value}}"
