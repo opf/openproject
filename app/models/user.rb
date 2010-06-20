@@ -221,14 +221,14 @@ class User < Principal
     @notified_projects_ids = nil
     notified_projects_ids
   end
-  
-  # case-insensitive fall-over
+
+  # Find a user account by matching the exact login and then a case-insensitive
+  # version.  Exact matches will be given priority.
   def self.find_by_login(login)
     # First look for an exact match
-    user = find(:first, :conditions => ["login = ?", login])
+    user = first(:conditions => {:login => login})
     # Fail over to case-insensitive if none was found
-    user = find(:first, :conditions => ["LOWER(login) = ?", login.to_s.downcase]) if user.nil?
-    return user
+    user ||= first(:conditions => ["LOWER(login) = ?", login.to_s.downcase])
   end
 
   def self.find_by_rss_key(key)
