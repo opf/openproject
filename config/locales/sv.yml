@@ -951,3 +951,5 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
+  notice_unable_delete_time_entry: Unable to delete time log entry.
+  label_overall_spent_time: Overall spent time
