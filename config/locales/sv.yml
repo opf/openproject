@@ -197,7 +197,8 @@ sv:
   notice_email_error: "Ett fel inträffade när mail skickades ({{value}})"
   notice_feeds_access_key_reseted: Din RSS-nyckel återställdes.
   notice_api_access_key_reseted: Din API-nyckel återställdes.
-  notice_failed_to_save_issues: "Misslyckades att spara {{count}} ärende(n) på {{total}} valt: {{ids}}."
+  notice_failed_to_save_issues: "Misslyckades med att spara {{count}} ärende(n) på {{total}} valt: {{ids}}."
+  notice_failed_to_save_members: "Misslyckades med att spara medlem(mar): {{errors}}."
   notice_no_issue_selected: "Inget ärende är markerat! Var vänlig, markera de ärenden du vill ändra."
   notice_account_pending: "Ditt konto skapades och avvaktar nu administratörens godkännande."
   notice_default_data_loaded: Standardkonfiguration inläst.
@@ -277,6 +278,7 @@ sv:
   field_priority: Prioritet
   field_fixed_version: Versionsmål
   field_user: Användare
+  field_principal: Principal
   field_role: Roll
   field_homepage: Hemsida
   field_is_public: Publik
@@ -509,6 +511,7 @@ sv:
   label_my_page: Min sida
   label_my_account: Mitt konto
   label_my_projects: Mina projekt
+  label_my_page_block: '"Min sida"-block'
   label_administration: Administration
   label_login: Logga in
   label_logout: Logga ut
@@ -919,6 +922,8 @@ sv:
   text_wiki_page_destroy_children: Ta bort alla underliggande sidor
   text_wiki_page_reassign_children: Flytta undersidor till denna föräldersida
   text_own_membership_delete_confirmation: "Några av, eller alla, dina behörigheter kommer att tas bort och du kanske inte längre kommer kunna göra ändringar i det här projektet.\nVill du verkligen fortsätta?"
+  text_zoom_out: Zooma ut
+  text_zoom_in: Zooma in
   
   default_role_manager: Projektledare
   default_role_developper: Utvecklare
@@ -946,8 +951,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
