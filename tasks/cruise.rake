@@ -18,12 +18,17 @@ namespace :redmine_additional_formats do
     run_integration_tests('redmine_additional_formats')
   end
   
-  task :cruise_testing => :'dev:setup' do
-    run_cruise_task_in_testing_env('redmine_additional_formats')
+  desc 'Run cruise task for redmine_picockpit_privacy'
+  task :cruise do
+    run_cruise_task('redmine_picockpit_privacy')
   end
   
-  desc 'Run cruise task for redmine_additional_formats'
-  task :cruise do
-    run_cruise_task('redmine_additional_formats')
+  task :'cruise:unit:internal' do
+    unit_tests('redmine_picockpit_privacy')
+  end
+  
+  task :'cruise:integration:internal' do
+    integration_tests('redmine_picockpit_privacy')
   end
 end
+
