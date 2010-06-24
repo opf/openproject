@@ -225,10 +225,13 @@ class User < Principal
   # Find a user account by matching the exact login and then a case-insensitive
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
+    # force string comparison to be case sensitive on MySQL
+    type_cast = (ActiveRecord::Base.connection.adapter_name == 'MySQL') ? 'BINARY' : ''
+    
     # First look for an exact match
-    user = first(:conditions => {:login => login})
+    user = first(:conditions => ["#{type_cast} login = ?", login])
     # Fail over to case-insensitive if none was found
-    user ||= first(:conditions => ["LOWER(login) = ?", login.to_s.downcase])
+    user ||= first(:conditions => ["#{type_cast} LOWER(login) = ?", login.to_s.downcase])
   end
 
   def self.find_by_rss_key(key)
