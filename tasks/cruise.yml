@@ -1,0 +1,14 @@
+
+--- 
+:unit_tests: 
+  :required_plugins:
+  - dev_tools
+  - redmine_cucumber
+  - redmine_costs
+  :tasks:
+  - spec:plugins:redmine_additional_formats
+:integration_sets: 
+  :telekom: 
+  - :redmine_picockpit_privacy  
+  :siemens: 
+  - :redmine_siemens_customizing
