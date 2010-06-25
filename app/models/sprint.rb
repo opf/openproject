@@ -75,7 +75,7 @@ class Sprint < Version
 
     def activity
         bd = self.burndown('up')
-        return false if !bd || |bd[:series] || !bd[:series][:remaining_hours]
+        return false if !bd || !bd[:series] || !bd[:series][:remaining_hours]
 
         # assume a sprint is active if it's only 2 days old
         return true if bd[:series][:remaining_hours].size <= 2
