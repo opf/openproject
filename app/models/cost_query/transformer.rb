@@ -22,7 +22,7 @@ class CostQuery::Transformer
       list, all_fields = restructured.reverse, @all_fields.dup
       result = list.inject(@ungrouped) do |aggregate, (current_fields, type)|
         fields, all_fields = all_fields, all_fields - current_fields
-        aggregate.grouped_by fields, type
+        aggregate.grouped_by fields, type, current_fields
       end
       result or current.result
     end
@@ -35,13 +35,10 @@ class CostQuery::Transformer
     rows, columns, current = [], [], @query.chain
     @all_fields = []
     until current.filter?
-      if current.responsible_for_sql?
-        @ungrouped = current.result
-      else
-        list = current.row? ? rows : columns
-        list << [current.group_fields, current.type]
-        @all_fields.push(*current.group_fields)
-      end
+      @ungrouped = current.result if current.responsible_for_sql?
+      list = current.row? ? rows : columns
+      list << [current.group_fields, current.type]
+      @all_fields.push(*current.group_fields)
       current = current.child
     end
     columns + rows

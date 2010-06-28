@@ -4,6 +4,10 @@ module CostQuery::GroupBy
       true
     end
 
+    def compute_result
+      super.tap { |r| r.important_fields = group_fields }
+    end
+
     def sql_statement
       super.tap do |sql|
         define_group sql

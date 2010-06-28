@@ -2,12 +2,13 @@ require 'big_decimal_patch'
 
 module CostQuery::Result
   class Base
-    attr_accessor :parent, :type
+    attr_accessor :parent, :type, :important_fields
     attr_reader :value
     alias values value
     include Enumerable
 
     def initialize(value)
+      @type = :direct
       @value = value
     end
 
@@ -27,7 +28,7 @@ module CostQuery::Result
       fields[key]
     end
 
-    def grouped_by(fields, type)
+    def grouped_by(fields, type, important_fields = [])
       @grouped_by ||= {}
       list = begin
         @grouped_by[fields] ||= begin
@@ -39,11 +40,11 @@ module CostQuery::Result
             fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
           end
           # map group back to array, all fields with same key get grouped into one list
-          data.keys.map { |f| CostQuery::Result.new data[f], f, type }
+          data.keys.map { |f| CostQuery::Result.new data[f], f, type, important_fields }
         end
       end
       # create a single result from that list
-      CostQuery::Result.new list, {}, type
+      CostQuery::Result.new list, {}, type, important_fields
     end
 
     def inspect
@@ -66,8 +67,37 @@ module CostQuery::Result
     def each_row
     end
 
+    def final?(type)
+      type? type and (direct? or first.type != type)
+    end
+
+    def type?(type)
+      self.type == type
+    end
+
+    def depth_of(type)
+      if type? type or (type == :column and direct?) then 1
+      else 0
+      end
+    end
+
+    def final_number(type)
+      return 1 if final? type
+      return 0 if direct?
+      @final_number ||= {}
+      @final_number[type] ||= sum { |v| v.final_number type }
+    end
+
     def final_row?
-      row? and not first.row?
+      final? :row
+    end
+
+    def final_column?
+      final? :column
+    end
+
+    def render(keys = important_fields)
+      fields.map { |k,v| yield(k,v) if keys.include? k }.join
     end
   end
 
@@ -96,10 +126,6 @@ module CostQuery::Result
       0
     end
 
-    def type
-      :direct
-    end
-
     def each
       return enum_for(__method__) unless block_given?
       yield self
@@ -113,6 +139,10 @@ module CostQuery::Result
 
   class WrappedResult < Base
     include Enumerable
+
+    def depth_of(type)
+      super + first.depth_of(type)
+    end
 
     def has_children?
       true
@@ -132,7 +162,7 @@ module CostQuery::Result
 
     def sum_for(field)
       @sum_for ||= {}
-      @sum_for[field] ||= inject(0) { |a,v| a + v.send(field) }
+      @sum_for[field] ||= sum { |v| v.send(field) }
     end
 
     def recursive_each_with_level(level = 0, depth_first = true, &block)
@@ -196,10 +226,10 @@ module CostQuery::Result
     end
   end
 
-  def self.new(value, fields = {}, type = nil)
+  def self.new(value, fields = {}, type = nil, important_fields = [])
     result = begin
       case value
-      when Array then WrappedResult.new value.map { |e| new e }
+      when Array then WrappedResult.new value.map { |e| new e, {}, nil, important_fields }
       when Hash  then DirectResult.new value.with_indifferent_access
       when Base  then value
       else raise ArgumentError, "Cannot create Result from #{value.inspect}"
@@ -207,6 +237,8 @@ module CostQuery::Result
     end
     result.fields.merge! fields
     result.type = type if type
+    result.important_fields = important_fields unless result == value
+    p important_fields
     result
   end
 end

@@ -43,6 +43,17 @@ module CostQuery::GroupBy
       extend aggregation_mixin
     end
 
+    def result
+      super
+    end
+
+    def compute_result
+      super.tap do |r|
+        r.type = type
+        r.important_fields = group_fields
+      end
+    end
+
     def define_group(sql)
       fields = all_group_fields
       sql.group_by fields
