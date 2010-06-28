@@ -8,6 +8,18 @@ http://www.redmine.org/
 
 Adds context menu to the roadmap issue lists
 
+== 2010-06-24 v0.9.5
+Linkify folder names on revision view
+"fiters" and "options" should be hidden in print view via css
+Fixed: NoMethodError when no issue params are submitted
+Fixed: projects.atom with required authentication
+Fixed: External links not correctly displayed in Wiki TOC
+Fixed: Member role forms in project settings are not hidden after member added
+Fixed: pre can't be inside p
+Fixed: session cookie path does not respect RAILS_RELATIVE_URL_ROOT
+Fixed: mail handler fails when the from address is empty
+
+
 == 2010-05-01 v0.9.4
 
 Filters collapsed by default on issues index page for a saved query

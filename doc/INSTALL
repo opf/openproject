@@ -33,7 +33,7 @@ Optional:
 4. Generate a session store secret
    Redmine stores session data in cookies by default, which requires
    a secret to be generated. Run:
-   rake config/initializers/session_store.rb
+   rake generate_session_store
    
 5. Create the database structure. Under the application main directory:
    rake db:migrate RAILS_ENV="production"
