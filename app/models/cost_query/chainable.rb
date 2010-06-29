@@ -3,48 +3,10 @@
 class CostQuery < ActiveRecord::Base
   class Chainable
     include CostQuery::QueryUtils
+    extend CostQuery::InheritedAttribute
 
     def self.accepts_property(*list)
       CostQuery.accepted_properties.push(*list.map(&:to_s))
-    end
-
-    def self.inherited_attribute(*attributes, &block)
-      options = attributes.extract_options!
-      list    = options[:list]
-      default = options[:default]
-      uniq    = options[:uniq]
-      map     = options[:map] || proc { |e| e }
-      default ||= [] if list
-      attributes.each do |name|
-        define_singleton_method(name) do |*values|
-          return get_inherited_attribute(name, default, list, uniq) if values.empty?
-          return set_inherited_attribute(name, values.map(&map)) if list
-          raise ArgumentError, "wrong number of arguments (#{values.size} for 1)" if values.size > 1
-          set_inherited_attribute name, map.call(values.first)
-        end
-        define_method(name) { |*values| self.class.send(name, *values) }
-      end
-    end
-
-    def self.define_singleton_method(name, &block)
-      attr_writer name
-      metaclass.class_eval { define_method(name, &block) }
-      define_method(name) { instance_variable_get("@#{name}") or metaclass.send(name) }
-    end
-
-    def self.get_inherited_attribute(name, default = nil, list = false, uniq = false)
-      return get_inherited_attribute(name, default, list, false).uniq if list and uniq
-      result       = instance_variable_get("@#{name}")
-      super_result = superclass.get_inherited_attribute(name, default, list) if superclass.respond_to? :get_inherited_attribute
-      if result
-        list && super_result ? result + super_result : result
-      else
-        super_result || default
-      end
-    end
-
-    def self.set_inherited_attribute(name, value)
-      instance_variable_set "@#{name}", value
     end
 
     def self.chain_list(*list)
