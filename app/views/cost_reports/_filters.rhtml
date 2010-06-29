@@ -11,7 +11,7 @@
   <% html_elements(filter).each do |element| %>
     <%=
       partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
-      render :partial => File.join(partial_prefix, element[:name]), :locals => {:element => element, :f => f}
+      render :partial => File.join(partial_prefix, element[:name].to_s), :locals => {:element => element, :f => f}
     %>
   <% end %>
   </tr>
