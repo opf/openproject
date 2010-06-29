@@ -1,0 +1,33 @@
+<%#
+  This partial requires the following locals:
+    f    An ActionView::Helpers::FormBuilder
+%>
+
+<script type="text/javascript">
+//<![CDATA[
+function toggle_filter(field) {
+    check_box = $('cb_' + field);
+    
+    if (check_box.checked) {
+        Element.show("operators_" + field);
+        toggle_operator(field);
+    } else {
+        Element.hide("operators_" + field);
+        Element.hide("div_values_" + field);
+  }
+}
+//]]>
+</script>
+
+<table>
+<% CostQuery::Filter.all.each do |filter| %>
+  <tr style="display:block;" id="tr_<%=  f.to_s.demodulize.underscore %>" class="filter">
+  <% html_elements(filter).each do |element| %>
+    <%=
+      partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
+      render :partial => File.join(partial_prefix, element[:name]), :locals => {:element => element, :f => f}
+    %>
+  <% end %>
+  </tr>
+<% end %>
+</table>
