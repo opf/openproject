@@ -4,8 +4,9 @@
       - :name => 'text'
       - :text => String: The text that should be displayed
       - :width => Integer (optional): The width this partial may consume. If not given, a standard width will be applied
+      - :hide => Boolean (optional, default = true): whether the content of this partial is hidden or not
 %>
 
-<td width="<%= element[:width] || 100 %>">
+<td width="<%= element[:width] || 100 %>" <%= style="display:none" if element[:hide] %>>
   <%= element[:text] || '' %>
 </td>
