@@ -48,7 +48,6 @@ module CostQuery::Filter
 
     def self.inherited(klass)
       if base?
-        CostQuery::Filter.all << klass
         self.dont_display!
         klass.display!
       end

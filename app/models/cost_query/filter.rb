@@ -2,7 +2,8 @@ require "set"
 
 module CostQuery::Filter
   def self.all
-    @all ||= Set.new
+    @all ||= Set[
+      CostQuery::Filter::ActivityId]
   end
 
   def self.from_hash
