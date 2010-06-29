@@ -225,6 +225,10 @@ class CostQuery::Operator
     self
   end
 
+  def to_s
+    name
+  end
+
   def inspect
     "#<#{self.class.name}:#{name.inspect}>"
   end
