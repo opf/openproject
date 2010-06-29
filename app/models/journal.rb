@@ -12,4 +12,12 @@ class Journal < ActiveRecord::Base
     # Do not save an empty journal
     !(details.empty? && notes.blank?)
   end
+  
+  def journalized
+    nil
+  end
+  
+  def project
+    journalized.respond_to?('project') ? journalized.project: nil
+  end
 end
