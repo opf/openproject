@@ -7,7 +7,7 @@
 
 <table>
 <% CostQuery::Filter.all.each do |filter| %>
-  <tr style="display:block;" id="tr_<%=  f.to_s.demodulize.underscore %>" class="filter">
+  <tr style="display:block;" id="tr_<%= filter.short_name %>" class="filter">
   <% html_elements(filter).each do |element| %>
     <%=
       partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
