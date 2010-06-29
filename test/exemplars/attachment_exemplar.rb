@@ -12,10 +12,6 @@ class Attachment < ActiveRecord::Base
   end
 
   def self.generate_file
-    @file = 'a_file.png'
-    @file.stubs(:original_filename).returns('a_file.png')
-    @file.stubs(:content_type).returns('image/png')
-    @file.stubs(:read).returns(false)
-    @file
+    @file = mock_file
   end
 end

@@ -17,4 +17,48 @@ class CalendarsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:calendar)
   end
   
+  def test_week_number_calculation
+    Setting.start_of_week = 7
+    
+    get :show, :month => '1', :year => '2010'
+    assert_response :success
+    
+    assert_tag :tag => 'tr',
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'week-number'}, :content => '53'},
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'odd'}, :content => '27'},
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'even'}, :content => '2'}
+
+    assert_tag :tag => 'tr',
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'week-number'}, :content => '1'},
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'odd'}, :content => '3'},
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'even'}, :content => '9'}
+
+
+    Setting.start_of_week = 1
+    get :show, :month => '1', :year => '2010'
+    assert_response :success
+
+    assert_tag :tag => 'tr',
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'week-number'}, :content => '53'},
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'even'}, :content => '28'},
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'even'}, :content => '3'}
+
+    assert_tag :tag => 'tr',
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'week-number'}, :content => '1'},
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'even'}, :content => '4'},
+      :descendant => {:tag => 'td',
+                      :attributes => {:class => 'even'}, :content => '10'}
+
+  end
 end

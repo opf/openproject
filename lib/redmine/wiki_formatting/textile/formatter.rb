@@ -65,6 +65,11 @@ module Redmine
         def textile_p_withtoc(tag, atts, cite, content)
           # removes wiki links from the item
           toc_item = content.gsub(/(\[\[([^\]\|]*)(\|([^\]]*))?\]\])/) { $4 || $2 }
+          # sanitizes titles from links
+          # see redcloth3.rb, same as "#{pre}#{text}#{post}"
+          toc_item.gsub!(LINK_RE) { [$2, $4, $9].join }
+          # sanitizes image links from titles
+          toc_item.gsub!(IMAGE_RE) { [$5].join }
           # removes styles
           # eg. %{color:red}Triggers% => Triggers
           toc_item.gsub! %r[%\{[^\}]*\}([^%]+)%], '\\1'

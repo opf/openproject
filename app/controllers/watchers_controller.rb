@@ -83,7 +83,7 @@ private
         replace_ids = [params[:replace]]
       end
     else
-      replace_ids = 'watcher'
+      replace_ids = ['watcher']
     end
     respond_to do |format|
       format.html { redirect_to :back }

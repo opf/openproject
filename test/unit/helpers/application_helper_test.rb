@@ -420,6 +420,10 @@ h2. Subtitle with %{color:red}red text%
 
 h1. Another title
 
+h2. An "Internet link":http://www.redmine.org/ inside subtitle
+
+h2. "Project Name !/attachments/1234/logo_small.gif! !/attachments/5678/logo_2.png!":/projects/projectname/issues
+
 RAW
 
     expected = '<ul class="toc">' +
@@ -428,8 +432,10 @@ RAW
                '<li class="heading2"><a href="#Subtitle-with-another-Wiki-link">Subtitle with another Wiki link</a></li>' + 
                '<li class="heading2"><a href="#Subtitle-with-red-text">Subtitle with red text</a></li>' +
                '<li class="heading1"><a href="#Another-title">Another title</a></li>' +
+               '<li class="heading2"><a href="#An-Internet-link-inside-subtitle">An Internet link inside subtitle</a></li>' +
+               '<li class="heading2"><a href="#Project-Name">Project Name</a></li>' +
                '</ul>'
-               
+
     assert textilizable(raw).gsub("\n", "").include?(expected)
   end
   

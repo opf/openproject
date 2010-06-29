@@ -225,8 +225,11 @@ class TimelogController < ApplicationController
   def destroy
     (render_404; return) unless @time_entry
     (render_403; return) unless @time_entry.editable_by?(User.current)
-    @time_entry.destroy
-    flash[:notice] = l(:notice_successful_delete)
+    if @time_entry.destroy && @time_entry.destroyed?
+      flash[:notice] = l(:notice_successful_delete)
+    else
+      flash[:error] = l(:notice_unable_delete_time_entry)
+    end
     redirect_to :back
   rescue ::ActionController::RedirectBackError
     redirect_to :action => 'details', :project_id => @time_entry.project

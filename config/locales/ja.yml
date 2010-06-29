@@ -183,6 +183,7 @@ ja:
   notice_account_pending: アカウントは作成済みで、管理者の承認待ちです。
   notice_default_data_loaded: デフォルト設定をロードしました。
   notice_unable_delete_version: バージョンを削除できません
+  notice_unable_delete_time_entry: 作業時間を削除できません
   notice_issue_done_ratios_updated: チケットの進捗が更新されました。
   
   error_can_t_load_default_data: "デフォルト設定がロードできませんでした: {{value}}"
@@ -670,6 +671,7 @@ ja:
   label_changes_details: 全変更の詳細
   label_issue_tracking: チケットトラッキング
   label_spent_time: 作業時間の記録
+  label_overall_spent_time: 全ての作業時間の記録
   label_f_hour: "{{value}}時間"
   label_f_hour_plural: "{{value}}時間"
   label_time_tracking: 時間トラッキング

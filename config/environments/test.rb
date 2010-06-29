@@ -24,6 +24,6 @@ config.action_controller.session = {
 # Skip protect_from_forgery in requests http://m.onkey.org/2007/9/28/csrf-protection-for-your-existing-rails-application
 config.action_controller.allow_forgery_protection  = false
 
-config.gem "shoulda"
+config.gem "shoulda", :version => "~> 2.10.3"
 config.gem "edavis10-object_daddy", :lib => "object_daddy"
 config.gem "mocha"

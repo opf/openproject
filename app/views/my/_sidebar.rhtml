@@ -17,10 +17,10 @@
 
 <% if Setting.rest_api_enabled? %>
 <h4><%= l(:label_api_access_key) %></h4>
-<p>
+<div>
   <%= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
   <pre id='api-access-key' class='autoscroll'><%= @user.api_key %></pre>
-</p>
+</div>
 <%= javascript_tag("$('api-access-key').hide();") %>
 <p>
 <% if @user.api_token %>

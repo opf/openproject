@@ -226,8 +226,10 @@ Ajax.Responders.register({
     }
 });
 
-Event.observe(window, 'load', function() {
+function hideOnLoad() {
   $$('.hol').each(function(el) {
   	el.hide();
 	});
-});
+}
+
+Event.observe(window, 'load', hideOnLoad);

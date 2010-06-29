@@ -47,7 +47,7 @@ module Redmine
         
         # Get info about the svn repository
         def info
-          cmd = "#{SVN_BIN} info --xml #{target('')}"
+          cmd = "#{SVN_BIN} info --xml #{target}"
           cmd << credentials_string
           info = nil
           shellout(cmd) do |io|
@@ -77,7 +77,7 @@ module Redmine
           path ||= ''
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
           entries = Entries.new
-          cmd = "#{SVN_BIN} list --xml #{target(URI.escape(path))}@#{identifier}"
+          cmd = "#{SVN_BIN} list --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
           shellout(cmd) do |io|
             output = io.read
@@ -116,7 +116,7 @@ module Redmine
           return nil unless self.class.client_version_above?([1, 5, 0])
           
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
-          cmd = "#{SVN_BIN} proplist --verbose --xml #{target(URI.escape(path))}@#{identifier}"
+          cmd = "#{SVN_BIN} proplist --verbose --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
           properties = {}
           shellout(cmd) do |io|
@@ -142,7 +142,7 @@ module Redmine
           cmd << credentials_string
           cmd << " --verbose " if  options[:with_paths]
           cmd << " --limit #{options[:limit].to_i}" if options[:limit]
-          cmd << ' ' + target(URI.escape(path))
+          cmd << ' ' + target(path)
           shellout(cmd) do |io|
             output = io.read
             begin
@@ -180,7 +180,7 @@ module Redmine
           cmd = "#{SVN_BIN} diff -r "
           cmd << "#{identifier_to}:"
           cmd << "#{identifier_from}"
-          cmd << " #{target(URI.escape(path))}@#{identifier_from}"
+          cmd << " #{target(path)}@#{identifier_from}"
           cmd << credentials_string
           diff = []
           shellout(cmd) do |io|
@@ -194,7 +194,7 @@ module Redmine
         
         def cat(path, identifier=nil)
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
-          cmd = "#{SVN_BIN} cat #{target(URI.escape(path))}@#{identifier}"
+          cmd = "#{SVN_BIN} cat #{target(path)}@#{identifier}"
           cmd << credentials_string
           cat = nil
           shellout(cmd) do |io|
@@ -207,7 +207,7 @@ module Redmine
         
         def annotate(path, identifier=nil)
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
-          cmd = "#{SVN_BIN} blame #{target(URI.escape(path))}@#{identifier}"
+          cmd = "#{SVN_BIN} blame #{target(path)}@#{identifier}"
           cmd << credentials_string
           blame = Annotate.new
           shellout(cmd) do |io|
@@ -242,6 +242,13 @@ module Redmine
               end
             end
           end
+        end
+
+        def target(path = '')
+          base = path.match(/^\//) ? root_url : url
+          uri = "#{base}/#{path}"
+          uri = URI.escape(URI.escape(uri), '[]')
+          shell_quote(uri.gsub(/[?<>\*]/, ''))
         end
       end
     end

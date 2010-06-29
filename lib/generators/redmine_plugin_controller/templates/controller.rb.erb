@@ -1,4 +1,6 @@
 class <%= class_name %>Controller < ApplicationController
+  unloadable
+
 <% actions.each do |action| -%>
 
   def <%= action %>

@@ -10,7 +10,7 @@
 
 <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
     <%= hidden_field_tag('project_id', @project.to_param) if @project %>
-		<div id="query_form_content">
+		<div id="query_form_content" class="hide-when-print">
     <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
     	<div style="<%= @query.new_record? ? "" : "display: none;" %>">
@@ -33,7 +33,7 @@
 			</div>
 		</fieldset>
 		</div>
-    <p class="buttons">
+    <p class="buttons hide-when-print">
 
     <%= link_to_remote l(:button_apply), 
                        { :url => { :set_filter => 1 },

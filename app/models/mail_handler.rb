@@ -49,7 +49,7 @@ class MailHandler < ActionMailer::Base
       logger.info  "MailHandler: ignoring email from Redmine emission address [#{sender_email}]" if logger && logger.info
       return false
     end
-    @user = User.find_by_mail(sender_email)
+    @user = User.find_by_mail(sender_email) if sender_email.present?
     if @user && !@user.active?
       logger.info  "MailHandler: ignoring email from non-active user [#{@user.login}]" if logger && logger.info
       return false
@@ -134,7 +134,7 @@ class MailHandler < ActionMailer::Base
     if status && issue.new_statuses_allowed_to(user).include?(status)
       issue.status = status
     end
-    issue.subject = email.subject.chomp
+    issue.subject = email.subject.chomp[0,255]
     if issue.subject.blank?
       issue.subject = '(no subject)'
     end

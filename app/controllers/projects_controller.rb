@@ -27,7 +27,7 @@ class ProjectsController < ApplicationController
   before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
-  accept_key_auth :activity
+  accept_key_auth :activity, :index
   
   after_filter :only => [:add, :edit, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?

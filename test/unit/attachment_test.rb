@@ -63,4 +63,23 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'f8139524ebb8f32e51976982cd20a85d', Attachment.disk_filename("test_accentué")[13..-1]
     assert_equal 'cbb5b0f30978ba03731d61f9f6d10011', Attachment.disk_filename("test_accentué.ça")[13..-1]
   end
+
+  context "Attachmnet#attach_files" do
+    should "add unsaved files to the object as unsaved attachments" do
+      # Max size of 0 to force Attachment creation failures
+      with_settings(:attachment_max_size => 0) do
+        @project = Project.generate!
+        response = Attachment.attach_files(@project, {
+                                             '1' => {'file' => mock_file, 'description' => 'test'},
+                                             '2' => {'file' => mock_file, 'description' => 'test'}
+                                           })
+
+        assert response[:unsaved].present?
+        assert_equal 2, response[:unsaved].length
+        assert response[:unsaved].first.new_record?
+        assert response[:unsaved].second.new_record?
+        assert_equal response[:unsaved], @project.unsaved_attachments
+      end
+    end
+  end
 end
