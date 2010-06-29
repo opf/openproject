@@ -3,21 +3,7 @@
     f    An ActionView::Helpers::FormBuilder
 %>
 
-<script type="text/javascript">
-//<![CDATA[
-function toggle_filter(field) {
-    check_box = $('cb_' + field);
-    
-    if (check_box.checked) {
-        Element.show("operators_" + field);
-        toggle_operator(field);
-    } else {
-        Element.hide("operators_" + field);
-        Element.hide("div_values_" + field);
-  }
-}
-//]]>
-</script>
+<%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
 
 <table>
 <% CostQuery::Filter.all.each do |filter| %>
