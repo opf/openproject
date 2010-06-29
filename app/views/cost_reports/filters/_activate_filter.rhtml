@@ -8,7 +8,7 @@
 %>
 
 <td width="<%= element[:width] || 200 %>">
-  <input id="cb_<%= element[:filter] %>" name="fields[]" onclick="toggle_filter('<%= element[:filter] %>');"
-         type="checkbox" value="<%= element[:filter] %>" />
-  <label for="cb_<%= element[:filter] %>"><%= element[:label] %></label>
+  <input id="cb_<%= element[:filter_name] %>" name="fields[]" onclick="toggle_filter('<%= element[:filter_name] %>');"
+         type="checkbox" value="<%= element[:filter_name] %>" />
+  <label for="cb_<%= element[:filter_name] %>"><%= element[:label] %></label>
 </td>
