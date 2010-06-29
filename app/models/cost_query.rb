@@ -21,6 +21,10 @@ class CostQuery < ActiveRecord::Base
       row(:project_id).row(:user_id)
   end
 
+  def available_filters
+    CostQuery::Filter.all
+  end
+
   def transformer
     @transformer ||= CostQuery::Transformer.new self
   end
