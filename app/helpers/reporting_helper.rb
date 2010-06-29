@@ -6,7 +6,8 @@ module ReportingHelper
   # @param [CostQuery::Filter] the filter we want to render
   def html_elements(filter)
     [
-      {:name=>'activate_filter'},
-      {:name=>'text', :text=>'foo'}]
+      {:name => :activate_filter, :filter_name => filter.short_name, :label => l(:field_activity)}, #FIXME: change label not to be activity only
+      {:name => :operators, :filter_name => filter.short_name, :operators => filter.available_operators},
+      {:name => :multi_values, :filter_name => filter.short_name, :values => filter.available_values}]
   end
 end
