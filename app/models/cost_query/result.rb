@@ -238,7 +238,6 @@ module CostQuery::Result
     result.fields.merge! fields
     result.type = type if type
     result.important_fields = important_fields unless result == value
-    p important_fields
     result
   end
 end
