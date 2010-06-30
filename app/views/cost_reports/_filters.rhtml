@@ -24,7 +24,7 @@
   </td>
   <td class="add-filter">
     <%= l(:label_filter_add) %>:
-    <select onchange="add_filter(this, 'costs');" id="add_filter_select" class="select-small">
+    <select onchange="add_filter(this);" id="add_filter_select" class="select-small">
       <option value=""></option>
       <% filters = CostQuery::Filter.all.group_by { |f| f.applies_for } %>
       <% filters.each do |label, filter_ary| %>
