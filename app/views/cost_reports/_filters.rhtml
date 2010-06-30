@@ -4,17 +4,18 @@
 %>
 
 <%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
+<% active_filters = query.filters.collect {|f| f.class} %>
 
 <table width="100%">
 <tr>
   <td>
     <table id="filter_table">
     <% CostQuery::Filter.all.each do |filter| %>
-      <tr id="tr_<%= filter.underscore_name %>" class="filter" style="display:none">
+      <tr id="tr_<%= filter.underscore_name %>" class="filter" <%= 'style="display:none"' unless active_filters.include? filter %>>
       <% html_elements(filter).each do |element| %>
         <%=
           partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
-          render :partial => File.join(partial_prefix, element[:name].to_s), :locals => {:element => element, :f => f}
+          render :partial => File.join(partial_prefix, element[:name].to_s), :locals => {:element => element, :f => f, :query => query}
         %>
       <% end %>
       </tr>
