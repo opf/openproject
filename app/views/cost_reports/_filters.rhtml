@@ -10,7 +10,7 @@
   <td>
     <table id="filter_table">
     <% CostQuery::Filter.all.each do |filter| %>
-      <tr id="tr_<%= filter.underscore_name %>" class="filter">
+      <tr id="tr_<%= filter.underscore_name %>" class="filter" style="display:none">
       <% html_elements(filter).each do |element| %>
         <%=
           partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
@@ -23,7 +23,7 @@
   </td>
   <td class="add-filter">
     <%= l(:label_filter_add) %>:
-    <select onchange="add_filter(this, 'costs');" id="add_cost_filter_select" class="select-small">
+    <select onchange="add_filter(this, 'costs');" id="add_filter_select" class="select-small">
       <option value=""></option>
       <% CostQuery::Filter.all.each do |filter| %>
         <option value="<%= filter.underscore_name %>"><%= l(filter.label) %></option>
