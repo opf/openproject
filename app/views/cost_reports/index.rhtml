@@ -9,7 +9,7 @@
 <% html_title( l(:label_cost_report) ) %>
 
 <% form_for @query, :url => {:controller => 'cost_report', :action => 'new' }, :html => {:id => 'query_form', :method => :post} do |query_form| %>
-<div id="query_from_content">
+<div id="query_form_content">
   <fieldset id="filters" class="collapsible <%= "collapsed" unless @query.new_record? %>">
     <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
     <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:f => query_form} %></div>
