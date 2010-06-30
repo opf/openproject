@@ -4,7 +4,21 @@
 %>
 
 <%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
-<% active_filters = query.filters.collect {|f| f.class} %>
+<% active_filters = query.filters.select {|f| f.class.display?} %>
+<script type="text/javascript">
+//<![CDATA[
+document.observe("dom:loaded", function() {
+  // Activate recent filters on loading
+  <% active_filters.each do |f| %>
+    show_filter("<%= f.class.underscore_name %>");
+    disable_select_option($('add_filter_select'), "<%= f.class.underscore_name %>");
+    <% if f.values && (f.values.size > 1) %>
+      toggle_multi_select("<%= f.class.underscore_name %>");
+    <% end %>
+  <% end %>
+});
+//]]>
+</script>
 
 <table width="100%">
 <tr>
@@ -17,7 +31,8 @@
         <% html_elements(filter).each do |element| %>
           <%=
             partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
-            render :partial => File.join(partial_prefix, element[:name].to_s), :locals => {:element => element, :f => f, :query => query}
+            render :partial => File.join(partial_prefix, element[:name].to_s), 
+            :locals => {:element => element, :f => f, :filter => (active_filters.detect {|f| f.class == filter})}
           %>
         <% end %>
         </tr>

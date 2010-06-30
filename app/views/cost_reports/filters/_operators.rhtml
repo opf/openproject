@@ -17,7 +17,9 @@
           id="operators_<%= element[:filter_name] %>"
           class="select-small">
     <% element[:operators].each do |operator| %>
-      <option value="<%= h(operator.to_s) %>"><%= l(operator.label) %></option>
+      <option value="<%= h(operator.to_s) %>" <%= 'selected="selected"' if filter and (filter.operator.to_s == operator.to_s) %>>
+        <%= l(operator.label) %>
+      </option>
     <% end %>
   </select>
 </td>

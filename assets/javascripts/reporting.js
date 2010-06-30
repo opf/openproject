@@ -1,6 +1,6 @@
 function toggle_filter(field) {
     check_box = $('cb_' + field);
-    to_toggle = check_box.up().nextSiblings()
+    to_toggle = check_box.up().siblings();
     
     if (check_box.checked)
       to_toggle.invoke('show');
@@ -22,10 +22,12 @@ function operator_changed(field) {
 }
 
 function show_filter(field) {
-  Element.show('tr_' +  field);
-  check_box = $('cb_' + field);
-  check_box.checked = true;
-  toggle_filter(field);
+  if ((field_el = $('tr_' +  field)) != null) {
+    field_el.show();
+    check_box = $('cb_' + field);
+    check_box.checked = true;
+    toggle_filter(field);
+  }
 }
 
 function disable_select_option(select, field) {

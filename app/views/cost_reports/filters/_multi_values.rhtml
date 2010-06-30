@@ -14,7 +14,7 @@
             id="values_<%= element[:filter_name] %>"
             class="select-small">
       <% element[:values].each do |pair| %><%# pair=[String, Integer] %>
-        <option value="<%= h(pair.second) %>">
+        <option value="<%= h(pair.second) %>" <%= 'selected="selected"' if filter and (filter.values.include? pair.second) %>>
           <%= pair.first %>
         </option>
       <% end %>
