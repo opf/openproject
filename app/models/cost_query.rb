@@ -19,6 +19,10 @@ class CostQuery < ActiveRecord::Base
   def transformer
     @transformer ||= CostQuery::Transformer.new self
   end
+  
+  def walker
+    @walker ||= CostQuery::Walker.new self
+  end
 
   def add_chain(type, name, options)
     chain type.const_get(name.to_s.camelcase), options
