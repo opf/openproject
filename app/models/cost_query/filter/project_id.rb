@@ -1,4 +1,5 @@
 class CostQuery::Filter::ProjectId < CostQuery::Filter::Base
+  db_field "entries.project_id"
   label :field_project
 
   def self.available_values
