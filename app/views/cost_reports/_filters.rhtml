@@ -10,8 +10,8 @@
 <tr>
   <td>
     <table id="filter_table">
-    <% CostQuery::Filter.all.each do |filter| %>
-      <tr id="tr_<%= filter.underscore_name %>" class="filter" <%= 'style="display:none"' unless active_filters.include? filter %>>
+    <% CostQuery::Filter.all.sort { |f1,f2| f1.applies_for.to_s <=> f2.applies_for.to_s }.each do |filter| %>
+      <tr id="tr_<%= filter.underscore_name %>" class="filter" style="display:none">
       <% html_elements(filter).each do |element| %>
         <%=
           partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
