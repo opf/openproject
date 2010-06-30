@@ -20,14 +20,13 @@ class CostReportsController < ApplicationController
   def query_parameters    
     filters = http_query_parameters if set_filter?
     filters ||= session[:cost_query]
-    filters ||= default_query_parameters
-    session[:cost_query] = filters
+    filters ||= default_query_parameters    
   end
   
   ##
   # Extract active filters from the http params
   def http_query_parameters    
-    params[:fields].inject({:operators => {}, :values => {}}) do |hash, field|      
+    (params[:fields] || []).inject({:operators => {}, :values => {}}) do |hash, field|      
       hash[:operators][field.to_sym] = params[:operators][field]
       hash[:values][field.to_sym] = params[:values][field]
       hash
@@ -50,12 +49,14 @@ class CostReportsController < ApplicationController
   # Build the query from the current request and save it to 
   # the session.
   def query
-    filters = query_parameters
-    @query = CostQuery.new.tap do |q|
-      filters[:operators].each do |filter, operator|        
+    cost_query = query_parameters
+    session[:cost_query] = cost_query
+    @query = CostQuery.new
+    @query.tap do |q|
+      cost_query[:operators].each do |filter, operator|
         q.filter(filter.to_sym,
         :operator => operator,
-        :values => filters[:values][filter])          
+        :values => cost_query[:values][filter])
       end
     end.
     column(:tweek).column(:tyear).
