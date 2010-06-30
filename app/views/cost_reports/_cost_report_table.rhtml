@@ -1,0 +1,70 @@
+<% # FIXME: Move this somewhere safe
+
+  ##
+  # For a given row, determine how to render it's contents according to usability and 
+  # localization rules  
+  def show_row(row)
+    row.render do |key, value|
+      case key.to_sym
+      when :project_id then "Project ##{value}: #{Project.find(value.to_i).name}"
+      when :user_id then link_to_user User.find(value)
+      when :tyear then value
+      when :tweek then 
+        if value.to_i == Date.today.cweek
+          l(:label_this_week).capitalize      
+        elsif value.to_i == (Date.today.cweek - 1)
+          l(:label_last_week).capitalize
+        else
+          "#{l(:label_week)} ##{value}"
+        end
+      else "#{key}: #{value}"
+      end
+    end
+  end
+
+  walker.for_final_row do |row, cells|
+    "<td>#{show_row row}</td>" << cells.join << "<td>#{row.real_costs} €</td>"
+  end
+
+  walker.for_row do |row, subrows|
+    subrows.flatten!
+    unless row.fields.empty?
+      subrows[0] = "<td rowspan='#{subrows.size}'>#{show_row row}</td>"
+      "#{subrows[0]}<td rowspan='#{subrows.size}'>#{row.real_costs} €</td>"
+    end
+    subrows
+  end
+
+  walker.for_empty_cell { "<td></td>" }
+
+  walker.for_cell do |result|
+    "<td>#{result.real_costs} €</td>"
+  end
+  
+%>
+
+<table style='text-align: center' border='1'>
+  <% walker.headers do |list, first| %>
+    <tr>
+      <%= "<td rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row) - 1}'></td>" if first %>
+      <% list.each do |column| %>
+        <td colspan="<%= column.final_number(:column) %>"><%= show_row column %></td>
+      <% end %>
+      <%= "<td rowspan='#{@query.depth_of(:column)}' colspan='#{query.depth_of(:row) - 1}'></td>" if first %>
+    </tr>
+  <% end %>
+  <% walker.body do |line| %>
+    <tr><%= line %></tr>
+  <% end %>
+  
+  <% walker.headers(:reverse) do |list, final| %>
+    <% first = list.first.final_column? %>
+    <tr>
+      <%= "<td rowspan='#{query.depth_of(:column) - 1}' colspan='#{query.depth_of(:row) - 1}'></td>"  if first %>
+      <% if !final then list.each do |column| %>
+        <td colspan="<%= column.final_number(:column) %>"><%= column.real_costs %> €</td>
+      <% end end %>
+      <%= "<td rowspan='#{query.depth_of(:column) - 1}' colspan='#{query.depth_of(:row) - 1}'>#{query.real_costs} €</td>" if first %>
+    </tr>
+  <% end %>
+</table>
