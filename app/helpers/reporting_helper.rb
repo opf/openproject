@@ -10,4 +10,26 @@ module ReportingHelper
       {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
       {:name => :multi_values, :filter_name => filter.underscore_name, :values => filter.available_values}]
   end
+  
+  ##
+  # For a given row, determine how to render it's contents according to usability and 
+  # localization rules  
+  def show_row(row)
+    row.render do |key, value|
+      case key.to_sym
+      when :project_id then "Project ##{value}: #{Project.find(value.to_i).name}"
+      when :user_id then link_to_user User.find(value)
+      when :tyear then value
+      when :tweek then 
+        if value.to_i == Date.today.cweek
+          l(:label_this_week)
+        elsif value.to_i == (Date.today.cweek - 1)
+          l(:label_last_week)
+        else
+          "#{l(:label_week)} ##{value}"
+        end
+      else "#{key}: #{value}"
+      end
+    end
+  end
 end
