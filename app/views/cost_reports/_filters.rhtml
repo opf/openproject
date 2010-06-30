@@ -26,8 +26,13 @@
     <%= l(:label_filter_add) %>:
     <select onchange="add_filter(this, 'costs');" id="add_filter_select" class="select-small">
       <option value=""></option>
-      <% CostQuery::Filter.all.each do |filter| %>
-        <option value="<%= filter.underscore_name %>"><%= l(filter.label) %></option>
+      <% filters = CostQuery::Filter.all.group_by { |f| f.applies_for } %>
+      <% filters.each do |label, filter_ary| %>
+        <optgroup label="<%= l(label) %>">
+        <% filter_ary.each do |filter| %>
+          <option value="<%= filter.underscore_name %>"><%= l(filter.label) %></option>
+        <% end %>
+        </optgroup>
       <% end %>
     </select>
   </td>
