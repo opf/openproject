@@ -1105,7 +1105,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 	var day1 = (date.getDay() - this.firstDayOfWeek) % 7;
 	if (day1 < 0)
 		day1 += 7;
-	date.setDate(-day1);
+	date.setDate(0-day1);
 	date.setDate(date.getDate() + 1);
 
 	var row = this.tbody.firstChild;
