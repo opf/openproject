@@ -27,9 +27,10 @@ class CostReportsController < ApplicationController
   ##
   # Extract active filters from the http params
   def http_query_parameters    
-    params[:fields].inject({}) do |hash, field|
-      hash[:operators][field] = params[:operators][field]
-      hash[:values][field] = params[:values][field]
+    params[:fields].inject({:operators => {}, :values => {}}) do |hash, field|      
+      hash[:operators][field.to_sym] = params[:operators][field]
+      hash[:values][field.to_sym] = params[:values][field]
+      hash
     end
   end
   
