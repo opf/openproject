@@ -7,7 +7,7 @@
     subrows.flatten!
     unless row.fields.empty?
       subrows[0] = "<td rowspan='#{subrows.size}'>#{show_row row}</td>"
-      "#{subrows[0]}<td rowspan='#{subrows.size}'>#{number_to_currency(row.real_costs)} €</td>"
+      "#{subrows[0]}<td rowspan='#{subrows.size}'>#{number_to_currency(row.real_costs)}</td>"
     end
     subrows
   end
@@ -15,7 +15,7 @@
   walker.for_empty_cell { "<td></td>" }
 
   walker.for_cell do |result|
-    "<td>#{result.real_costs} €</td>"
+    "<td>#{number_to_currency result.real_costs} €</td>"
   end
 %>
 
@@ -38,9 +38,9 @@
     <tr>
       <%= "<td rowspan='#{query.depth_of(:column) - 1}' colspan='#{query.depth_of(:row) - 1}'></td>"  if first %>
       <% if !final then list.each do |column| %>
-        <td colspan="<%= column.final_number(:column) %>"><%= column.real_costs %> €</td>
+        <td colspan="<%= column.final_number(:column) %>"><%= number_to_currency column.real_costs %> €</td>
       <% end end %>
-      <%= "<td rowspan='#{query.depth_of(:column) - 1}' colspan='#{query.depth_of(:row) - 1}'>#{query.real_costs} €</td>" if first %>
+      <%= "<td rowspan='#{query.depth_of(:column) - 1}' colspan='#{query.depth_of(:row) - 1}'>#{number_to_currency query.real_costs}</td>" if first %>
     </tr>
   <% end %>
 </table>
