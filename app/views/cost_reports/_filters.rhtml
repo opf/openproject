@@ -8,7 +8,7 @@
 <table width="100%">
 <tr>
   <td>
-    <table>
+    <table id="filter_table">
     <% CostQuery::Filter.all.each do |filter| %>
       <tr id="tr_<%= filter.underscore_name %>" class="filter">
       <% html_elements(filter).each do |element| %>
@@ -23,10 +23,12 @@
   </td>
   <td class="add-filter">
     <%= l(:label_filter_add) %>:
-    <%#= select_tag 'add_filter_select', options_for_select([["",""]] + query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact),
-        :onchange => "add_filter();",
-        :class => "select-small",
-        :name => nil %>
+    <select onchange="add_filter(this, 'costs');" id="add_cost_filter_select" class="select-small">
+      <option value=""></option>
+      <% CostQuery::Filter.all.each do |filter| %>
+        <option value="<%= filter.underscore_name %>"><%= l(filter.label) %></option>
+      <% end %>
+    </select>
   </td>
 </tr>
 </table>
