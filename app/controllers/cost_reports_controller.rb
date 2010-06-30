@@ -1,8 +1,18 @@
 class CostReportsController < ApplicationController
   before_filter :find_optional_project, :only => [:index]
+  before_filter :set_query, :only => [:index]
 
   helper :reporting
-  include ReportingHelper  
+  include ReportingHelper
+  
+  def index    
+    render :layout => !request.xhr?
+  end
+  
+  def set_query
+    @query = query
+    @walker = walker(@query)
+  end
   
   ##
   # Determines if the request contains filters to set
@@ -23,30 +33,33 @@ class CostReportsController < ApplicationController
   end
 
   ##
-  # Find a query to search on
+  # Find a query to search on and put it in the session
   def query_params
     filters = session[:cost_query] if session_query?
     if set_filter?
       filters = {}
-      filters[:operators] = params[:operators]
+      filters[:operators] = Hash[*params[:operators].select do |filter, op|
+        params[:fields].include? filter.to_s
+      end.flatten]
       filters[:values] = params[:values]
     end
     filters ||= {:operators => {:user_id => "=", :tweek => "="},
-      :values => {:user_id => [User.current.id], :tweek => [Date.today.cweek]}}      
+      :values => {:user_id => [User.current.id], :tweek => [Date.today.cweek]}}
+    session[:cost_query] = filters    
+    filters
   end
 
   ##
   # Build the query from the current request and save it to 
   # the session.
   def query
-    session[:cost_query] = query_params
+    filters = query_params
     CostQuery.new.tap do |q|
-      (session[:cost_query][:operators] || []).each do |filter, operator|
-        unless (session[:cost_query][:values] || {})[filter].nil?
-          require 'ruby-debug'; debugger
+      filters[:operators].each do |filter, operator|
+        unless filters[:values][filter].nil?
           q.filter(filter.to_sym,
           :operator => operator,
-          :values => session[:cost_query][:values][filter])
+          :values => filters[:values][filter])
         end
       end
     end.
@@ -54,12 +67,6 @@ class CostReportsController < ApplicationController
     row(:project_id).row(:user_id)
   end
   
-  def index
-    @query = query
-    @walker = walker(@query)
-    render :layout => !request.xhr?
-  end
-
   private
   def find_optional_project
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
