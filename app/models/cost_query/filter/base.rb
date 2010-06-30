@@ -70,7 +70,7 @@ module CostQuery::Filter
       raise NotImplementedError, "subclass responsibility"
     end
 
-    def self.short_name #FIXME: you might rename me - I'd like to be self.name but was not sure if overwriting this method is safe'
+    def self.underscore_name
       name.demodulize.underscore
     end
 
