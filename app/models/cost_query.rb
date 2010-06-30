@@ -12,15 +12,6 @@ class CostQuery < ActiveRecord::Base
     @accepted_properties ||= []
   end
 
-  # FIXME: (RE)MOVE ME
-  def self.example
-    @example ||= CostQuery.new.
-      filter(:user_id, :values => (1..3).to_a).
-      filter(:tweek, :operator => '<=', :value => '12').
-      column(:tweek).column(:tyear).
-      row(:project_id).row(:user_id)
-  end
-
   def available_filters
     CostQuery::Filter.all
   end
