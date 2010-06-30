@@ -343,10 +343,9 @@ form .attributes select { min-width: 50%; }
 
 ul.projects { margin: 0; padding-left: 1em; }
 ul.projects.root { margin: 0;  padding: 0; }
-ul.projects ul { border-left: 3px solid #e0e0e0; }
-ul.projects li { list-style-type:none; } 
-ul.projects li.root { margin-bottom: 1em; }
-ul.projects li.child { margin-top: 1em;}
+ul.projects ul.projects { border-left: 3px solid #e0e0e0; }
+ul.projects li.root { list-style-type:none; margin-bottom: 1em; }
+ul.projects li.child { list-style-type:none; margin-top: 1em;}
 ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
 .my-project { padding-left: 18px; background: url(../images/fav.png) no-repeat 0 50%; }
 
