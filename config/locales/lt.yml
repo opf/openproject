@@ -894,7 +894,7 @@ lt:
   text_wiki_page_destroy_children: Pašalinti child puslapius ir jų sekinius
 
   default_role_manager: Vadovas
-  default_role_developper: Projektuotojas
+  default_role_developer: Projektuotojas
   default_role_reporter: Pranešėjas
   default_tracker_bug: Klaida
   default_tracker_feature: Ypatybė

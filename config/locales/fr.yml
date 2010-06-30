@@ -878,7 +878,7 @@ fr:
   text_own_membership_delete_confirmation: "Vous allez supprimer tout ou partie de vos permissions sur ce projet et ne serez peut-être plus autorisé à modifier ce projet.\nEtes-vous sûr de vouloir continuer ?"
   
   default_role_manager: "Manager "
-  default_role_developper: "Développeur "
+  default_role_developer: "Développeur "
   default_role_reporter: "Rapporteur "
   default_tracker_bug: Anomalie
   default_tracker_feature: Evolution

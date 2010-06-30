@@ -265,7 +265,7 @@ ru:
   default_priority_low: Низкий
   default_priority_normal: Нормальный
   default_priority_urgent: Срочный
-  default_role_developper: Разработчик
+  default_role_developer: Разработчик
   default_role_manager: Менеджер
   default_role_reporter: Генератор отчетов
   default_tracker_bug: Ошибка

@@ -788,7 +788,7 @@ bs:
   text_custom_field_possible_values_info: 'Jedna linija za svaku vrijednost'
   
   default_role_manager: Menadžer
-  default_role_developper: Programer
+  default_role_developer: Programer
   default_role_reporter: Reporter
   default_tracker_bug: Greška
   default_tracker_feature: Nova funkcija

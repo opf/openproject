@@ -228,7 +228,7 @@ es:
   default_priority_low: Baja
   default_priority_normal: Normal
   default_priority_urgent: Urgente
-  default_role_developper: Desarrollador
+  default_role_developer: Desarrollador
   default_role_manager: Jefe de proyecto
   default_role_reporter: Informador
   default_tracker_bug: Errores

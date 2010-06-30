@@ -710,7 +710,7 @@ tr:
   text_reassign_time_entries: 'Raporlanmış saatleri bu iletiye tekrar ata:'
   
   default_role_manager: Yönetici
-  default_role_developper: Geliştirici
+  default_role_developer: Geliştirici
   default_role_reporter: Raporlayıcı
   default_tracker_bug: Hata
   default_tracker_feature: ÖZellik

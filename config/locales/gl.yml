@@ -205,7 +205,7 @@ gl:
   default_priority_low: Baixa
   default_priority_normal: Normal
   default_priority_urgent: Urxente
-  default_role_developper: Desenvolvedor
+  default_role_developer: Desenvolvedor
   default_role_manager: Xefe de proxecto
   default_role_reporter: Informador
   default_tracker_bug: Erros

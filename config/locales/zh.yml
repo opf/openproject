@@ -879,7 +879,7 @@ zh:
   text_own_membership_delete_confirmation: 你正在删除你现有的某些或全部权限，如果这样做了你可能将会再也无法编辑该项目了。你确定要继续吗？
 
   default_role_manager: 管理人员
-  default_role_developper: 开发人员
+  default_role_developer: 开发人员
   default_role_reporter: 报告人员
   default_tracker_bug: 错误
   default_tracker_feature: 功能

@@ -167,7 +167,7 @@ nl:
   default_priority_low: Laag
   default_priority_normal: Normaal
   default_priority_urgent: Spoed
-  default_role_developper: Ontwikkelaar
+  default_role_developer: Ontwikkelaar
   default_role_manager: Manager
   default_role_reporter: Rapporteur
   default_tracker_bug: Bug

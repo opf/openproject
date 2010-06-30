@@ -611,7 +611,7 @@ uk:
   text_user_mail_option: "Для невибраних проектів ви отримуватимете повідомлення тільки про те, що проглядаєте або в чому берете участь (наприклад, питання автором яких ви є або які вам призначені)."
   
   default_role_manager: Менеджер
-  default_role_developper: Розробник
+  default_role_developer: Розробник
   default_role_reporter: Репортер
   звітів default_tracker_bug: Помилка
   default_tracker_feature: Властивість 

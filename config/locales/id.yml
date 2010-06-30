@@ -838,7 +838,7 @@ id:
   text_wiki_page_reassign_children: "Tujukan halaman anak ke halaman induk yang ini"
   
   default_role_manager: Manager
-  default_role_developper: Pengembang
+  default_role_developer: Pengembang
   default_role_reporter: Pelapor
   default_tracker_bug: Bug
   default_tracker_feature: Fitur

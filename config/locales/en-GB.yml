@@ -864,7 +864,7 @@ en-GB:
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
   
   default_role_manager: Manager
-  default_role_developper: Developer
+  default_role_developer: Developer
   default_role_reporter: Reporter
   default_tracker_bug: Bug
   default_tracker_feature: Feature

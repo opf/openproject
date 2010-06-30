@@ -192,7 +192,7 @@ pl:
   default_priority_low: Niski
   default_priority_normal: Normalny
   default_priority_urgent: Pilny
-  default_role_developper: Programista
+  default_role_developer: Programista
   default_role_manager: Kierownik
   default_role_reporter: Wprowadzajacy
   default_tracker_bug: Błąd

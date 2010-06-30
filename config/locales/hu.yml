@@ -712,7 +712,7 @@
   text_reassign_time_entries: 'A rögzített órák újra hozzárendelése másik feladathoz:'
   
   default_role_manager: Vezető
-  default_role_developper: Fejlesztő
+  default_role_developer: Fejlesztő
   default_role_reporter: Bejelentő
   default_tracker_bug: Hiba
   default_tracker_feature: Fejlesztés

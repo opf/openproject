@@ -854,7 +854,7 @@ hr:
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
   default_role_manager: Upravitelj
-  default_role_developper: Razvojni inženjer
+  default_role_developer: Razvojni inženjer
   default_role_reporter: Korisnik
   default_tracker_bug: Pogreška
   default_tracker_feature: Funkcionalnost

@@ -863,7 +863,7 @@ sr-CY:
   text_own_membership_delete_confirmation: "Уклањањем појединих или свих ваших дозвола нећете више моћи за уређујете овај пројекат након тога.\nЖелите ли да наставите?"
   
   default_role_manager: Менаџер
-  default_role_developper: Програмер
+  default_role_developer: Програмер
   default_role_reporter: Извештач
   default_tracker_bug: Грешка
   default_tracker_feature: Функционалност

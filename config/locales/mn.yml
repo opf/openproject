@@ -861,7 +861,7 @@ mn:
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
   
   default_role_manager: Менежер
-  default_role_developper: Хөгжүүлэгч
+  default_role_developer: Хөгжүүлэгч
   default_role_reporter: Мэдэгдэгч
   default_tracker_bug: Алдаа
   default_tracker_feature: Онцлог
