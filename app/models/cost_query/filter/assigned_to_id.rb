@@ -4,6 +4,6 @@ class CostQuery::Filter::AssignedToId < CostQuery::Filter::Base
   label :field_assigned_to
 
   def self.available_values
-    User.all.map { |u| [u.name, u.id] }
+    CostQuery::Filter::UserId.available_values
   end
 end
