@@ -10,15 +10,18 @@
 <tr>
   <td>
     <table id="filter_table">
-    <% CostQuery::Filter.all.sort { |f1,f2| f1.applies_for.to_s <=> f2.applies_for.to_s }.each do |filter| %>
-      <tr id="tr_<%= filter.underscore_name %>" class="filter" style="display:none">
-      <% html_elements(filter).each do |element| %>
-        <%=
-          partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
-          render :partial => File.join(partial_prefix, element[:name].to_s), :locals => {:element => element, :f => f, :query => query}
-        %>
+    <% CostQuery::Filter.all_grouped.each do |label, filter_ary| %>
+      <tr id="tr_<%= label.to_s %>"><td><h3><%= l(label) %></h3></td></tr>
+      <% filter_ary.each do |filter| %>
+        <tr id="tr_<%= filter.underscore_name %>" class="filter" style="display:none">
+        <% html_elements(filter).each do |element| %>
+          <%=
+            partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
+            render :partial => File.join(partial_prefix, element[:name].to_s), :locals => {:element => element, :f => f, :query => query}
+          %>
+        <% end %>
+        </tr>
       <% end %>
-      </tr>
     <% end %>
     </table>
   </td>
