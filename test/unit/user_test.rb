@@ -156,6 +156,21 @@ class UserTest < ActiveSupport::TestCase
   
   if ldap_configured?
     context "#try_to_login using LDAP" do
+      context "with failed connection to the LDAP server" do
+        should "return nil" do
+          @auth_source = AuthSourceLdap.find(1)
+          AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::LdapError, 'Cannot connect')
+          
+          assert_equal nil, User.try_to_login('edavis', 'wrong')
+        end
+      end
+
+      context "with an unsuccessful authentication" do
+        should "return nil" do
+          assert_equal nil, User.try_to_login('edavis', 'wrong')
+        end
+      end
+      
       context "on the fly registration" do
         setup do
           @auth_source = AuthSourceLdap.find(1)
