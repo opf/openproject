@@ -85,6 +85,20 @@ describe CostQuery do
       @query.chain.top.should be_a(CostQuery::GroupBy::Base)
       @query.chain.top.type.should == :column
     end
+    
+    it "should return all filters, including the NoFilter" do
+      @query.filter :project_id
+      @query.group_by :project_id
+      @query.filters.size.should == 2
+      @query.filters.collect {|f| f.class.underscore_name}.should include "project_id"
+    end
+    
+    it "should return all group_bys" do
+      @query.filter :project_id
+      @query.group_by :project_id
+      @query.group_bys.size.should == 1
+      @query.group_bys.collect {|g| g.class.underscore_name}.should include "project_id"
+    end
   end
 
   describe CostQuery::Chainable do

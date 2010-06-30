@@ -70,10 +70,6 @@ module CostQuery::Filter
       raise NotImplementedError, "subclass responsibility"
     end
 
-    def self.underscore_name
-      name.demodulize.underscore
-    end
-
     def correct_position?
       child.nil? or child.is_a? CostQuery::Filter::Base
     end

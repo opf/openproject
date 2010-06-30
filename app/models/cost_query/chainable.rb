@@ -51,6 +51,10 @@ class CostQuery < ActiveRecord::Base
       @last_table = table_from(args.last)
       table_joins << args
     end
+    
+    def self.underscore_name
+      name.demodulize.underscore
+    end
 
     inherited_attribute :label
     inherited_attribute :properties, :list => true
