@@ -629,6 +629,7 @@ class Issue < ActiveRecord::Base
       end
       reload
     elsif parent_issue_id != parent_id
+      former_parent_id = parent_id
       # moving an existing issue
       if @parent_issue && @parent_issue.root_id == root_id
         # inside the same tree
@@ -658,12 +659,18 @@ class Issue < ActiveRecord::Base
           relation.destroy unless relation.valid?
         end
       end
+      # update former parent
+      recalculate_attributes_for(former_parent_id) if former_parent_id
     end
     remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
   end
   
   def update_parent_attributes
-    if parent_id && p = Issue.find_by_id(parent_id)
+    recalculate_attributes_for(parent_id) if parent_id
+  end
+
+  def recalculate_attributes_for(issue_id)
+    if issue_id && p = Issue.find_by_id(issue_id)
       # priority = highest priority of children
       if priority_position = p.children.maximum("#{IssuePriority.table_name}.position", :include => :priority)
         p.priority = IssuePriority.find_by_position(priority_position)

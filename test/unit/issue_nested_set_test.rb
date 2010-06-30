@@ -273,6 +273,15 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal 12, parent.reload.estimated_hours
   end
 
+  def test_move_parent_updates_old_parent_attributes
+    first_parent = create_issue!
+    second_parent = create_issue!
+    child = create_issue!(:estimated_hours => 5, :parent_issue_id => first_parent.id)
+    assert_equal 5, first_parent.reload.estimated_hours
+    child.update_attributes(:estimated_hours => 7, :parent_issue_id => second_parent.id)
+    assert_equal 7, second_parent.reload.estimated_hours
+    assert_nil first_parent.reload.estimated_hours
+  end
 
   def test_reschuling_a_parent_should_reschedule_subtasks
     parent = create_issue!
