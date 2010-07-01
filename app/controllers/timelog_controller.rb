@@ -311,6 +311,7 @@ private
                                              :label => cf.name}
     end
 
+    call_hook(:controller_timelog_available_criterias, { :available_criterias => @available_criterias, :project => @project })
     @available_criterias
   end
 end
