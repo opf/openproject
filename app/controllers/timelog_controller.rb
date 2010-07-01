@@ -19,6 +19,7 @@ class TimelogController < ApplicationController
   menu_item :issues
   before_filter :find_project, :authorize, :only => [:edit, :destroy]
   before_filter :find_optional_project, :only => [:report, :details]
+  before_filter :load_available_criterias, :only => [:report]
 
   verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
   
@@ -30,51 +31,6 @@ class TimelogController < ApplicationController
   include CustomFieldsHelper
   
   def report
-    @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
-                                          :klass => Project,
-                                          :label => :label_project},
-                             'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
-                                          :klass => Version,
-                                          :label => :label_version},
-                             'category' => {:sql => "#{Issue.table_name}.category_id",
-                                            :klass => IssueCategory,
-                                            :label => :field_category},
-                             'member' => {:sql => "#{TimeEntry.table_name}.user_id",
-                                         :klass => User,
-                                         :label => :label_member},
-                             'tracker' => {:sql => "#{Issue.table_name}.tracker_id",
-                                          :klass => Tracker,
-                                          :label => :label_tracker},
-                             'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
-                                           :klass => TimeEntryActivity,
-                                           :label => :label_activity},
-                             'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
-                                         :klass => Issue,
-                                         :label => :label_issue}
-                           }
-    
-    # Add list and boolean custom fields as available criterias
-    custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
-    custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id)",
-                                             :format => cf.field_format,
-                                             :label => cf.name}
-    end if @project
-    
-    # Add list and boolean time entry custom fields
-    TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
-                                             :format => cf.field_format,
-                                             :label => cf.name}
-    end
-
-    # Add list and boolean time entry activity custom fields
-    TimeEntryActivityCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
-                                             :format => cf.field_format,
-                                             :label => cf.name}
-    end
-
     @criterias = params[:criterias] || []
     @criterias = @criterias.select{|criteria| @available_criterias.has_key? criteria}
     @criterias.uniq!
@@ -307,5 +263,54 @@ private
     @from, @to = @to, @from if @from && @to && @from > @to
     @from ||= (TimeEntry.minimum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today) - 1
     @to   ||= (TimeEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today)
+  end
+
+  def load_available_criterias
+    @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
+                                          :klass => Project,
+                                          :label => :label_project},
+                             'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
+                                          :klass => Version,
+                                          :label => :label_version},
+                             'category' => {:sql => "#{Issue.table_name}.category_id",
+                                            :klass => IssueCategory,
+                                            :label => :field_category},
+                             'member' => {:sql => "#{TimeEntry.table_name}.user_id",
+                                         :klass => User,
+                                         :label => :label_member},
+                             'tracker' => {:sql => "#{Issue.table_name}.tracker_id",
+                                          :klass => Tracker,
+                                          :label => :label_tracker},
+                             'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
+                                           :klass => TimeEntryActivity,
+                                           :label => :label_activity},
+                             'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
+                                         :klass => Issue,
+                                         :label => :label_issue}
+                           }
+    
+    # Add list and boolean custom fields as available criterias
+    custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
+    custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id)",
+                                             :format => cf.field_format,
+                                             :label => cf.name}
+    end if @project
+    
+    # Add list and boolean time entry custom fields
+    TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
+                                             :format => cf.field_format,
+                                             :label => cf.name}
+    end
+
+    # Add list and boolean time entry activity custom fields
+    TimeEntryActivityCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
+                                             :format => cf.field_format,
+                                             :label => cf.name}
+    end
+
+    @available_criterias
   end
 end
