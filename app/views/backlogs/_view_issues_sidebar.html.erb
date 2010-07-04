@@ -11,17 +11,20 @@
         <% end %>
     <% end %>
 
-    <h3><%= project.name %></h3>
-    <%= link_to(l(:backlogs_product_backlog), {
-            :controller => 'backlogs',
-            :action => 'select_issues',
-            :project_id => project.id
-            }) %><br/>
-    <%= link_to(l(:label_printable_cards), {
-            :controller => 'backlogs',
-            :action => 'product_backlog_cards',
-            :project_id => project.id
-            }) %><br/>
+    <% if project %>
+      <h3><%= project.name %></h3>
+      <%= link_to(l(:backlogs_product_backlog), {
+              :controller => 'backlogs',
+              :action => 'select_issues',
+              :project_id => project.id
+              }) %><br/>
+      <%= link_to(l(:label_printable_cards), {
+              :controller => 'backlogs',
+              :action => 'product_backlog_cards',
+              :project_id => project.id
+              }) %><br/>
+    <% end %>
+
     <% if Setting.rest_api_enabled? %>
       <a href="<%= url_for({
                     :key => key,
