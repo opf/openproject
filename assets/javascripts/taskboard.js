@@ -75,4 +75,4 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     o.edit();
     
     task.find('.editor' ).first().focus();
-  },});
+  }});
