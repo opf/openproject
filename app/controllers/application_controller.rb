@@ -130,6 +130,7 @@ class ApplicationController < ActionController::Base
         format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
+        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
         format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
       end
       return false
@@ -240,6 +241,7 @@ class ApplicationController < ActionController::Base
       format.html { render :template => "common/403", :layout => (request.xhr? ? false : 'base'), :status => 403 }
       format.atom { head 403 }
       format.xml { head 403 }
+      format.js { head 403 }
       format.json { head 403 }
     end
     return false
@@ -250,6 +252,7 @@ class ApplicationController < ActionController::Base
       format.html { render :template => "common/404", :layout => !request.xhr?, :status => 404 }
       format.atom { head 404 }
       format.xml { head 404 }
+      format.js { head 404 }
       format.json { head 404 }
     end
     return false
@@ -263,6 +266,7 @@ class ApplicationController < ActionController::Base
       }
       format.atom { head 500 }
       format.xml { head 500 }
+      format.js { head 500 }
       format.json { head 500 }
     end
   end
