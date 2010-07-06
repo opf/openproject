@@ -38,7 +38,7 @@ module Redmine
         return @event_types unless @event_types.nil?
         
         @event_types = Redmine::Activity.available_event_types
-        @event_types = @event_types.select {|o| @user.allowed_to?("view_#{o}".to_sym, @project)} if @project
+        @event_types = @event_types.select {|o| @project.self_and_descendants.detect {|p| @user.allowed_to?("view_#{o}".to_sym, p)}} if @project
         @event_types
       end
       
