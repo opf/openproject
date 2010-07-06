@@ -23,4 +23,8 @@ class Change < ActiveRecord::Base
   def relative_path
     changeset.repository.relative_path(path)
   end
+  
+  def before_save
+    path ||= ""
+  end
 end
