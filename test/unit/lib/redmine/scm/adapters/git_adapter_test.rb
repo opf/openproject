@@ -13,7 +13,7 @@ class GitAdapterTest < ActiveSupport::TestCase
     end
 
     def test_getting_all_revisions
-      assert_equal 12, @adapter.revisions('',nil,nil,:all => true).length
+      assert_equal 13, @adapter.revisions('',nil,nil,:all => true).length
     end
     
     def test_annotate
