@@ -7,12 +7,20 @@ module CostQuery::Filter
       CostQuery::Filter::AssignedToId,
       CostQuery::Filter::CategoryId,
       CostQuery::Filter::CostTypeId,
+      CostQuery::Filter::CreatedOn,
+      CostQuery::Filter::DueDate,
       CostQuery::Filter::FixedVersionId,
       CostQuery::Filter::IssueId,
+      #CostQuery::Filter::OverridenCosts, #FIXME: include me to this list
       CostQuery::Filter::PriorityId,
       CostQuery::Filter::ProjectId,
+      #CostQuery::Filter::SpentOn, #FIXME: include me to this list
+      CostQuery::Filter::StartDate,
       CostQuery::Filter::StatusId,
+      #CostQuery::Filter::Subject, #FIXME: include me to this list
       CostQuery::Filter::TrackerId,
+      #CostQuery::Filter::Tweek, #FIXME: include me to this list
+      CostQuery::Filter::UpdatedOn,
       CostQuery::Filter::UserId
       ]
   end
