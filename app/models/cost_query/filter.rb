@@ -17,7 +17,7 @@ module CostQuery::Filter
       #CostQuery::Filter::SpentOn, #FIXME: include me to this list
       CostQuery::Filter::StartDate,
       CostQuery::Filter::StatusId,
-      #CostQuery::Filter::Subject, #FIXME: include me to this list
+      CostQuery::Filter::Subject,
       CostQuery::Filter::TrackerId,
       #CostQuery::Filter::Tweek, #FIXME: include me to this list
       CostQuery::Filter::UpdatedOn,
