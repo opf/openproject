@@ -17,8 +17,21 @@ function toggle_multi_select(field) {
     }
 }
 
-function operator_changed(field) {
-  //TODO: this method should update the fields after the id="operator_field"-element depending on the selected operator
+function operator_changed(field, select) {
+  option_tag = select.options[select.selectedIndex]
+  arg_count = option_tag.getAttribute("data-arg_count");
+  change_argument_visibility(field, arg_count)
+}
+
+function change_argument_visibility(field, arg_nr) {
+  arg1 = $(field + '_arg_1')
+  arg2 = $(field + '_arg_2')
+  if (arg1 != null)
+    if(arg_nr == 0) arg1.hide();
+    else            arg1.show();
+  if (arg1 != null)
+    if(arg_nr == 2) arg2.show();
+    else            arg2.hide();
 }
 
 function show_filter(field) {
@@ -27,6 +40,7 @@ function show_filter(field) {
     check_box = $('cb_' + field);
     check_box.checked = true;
     toggle_filter(field);
+    operator_changed(field, $("operators_" + field))
   }
 }
 
@@ -45,3 +59,4 @@ function add_filter(select) {
   select.selectedIndex = 0;
   disable_select_option(select,field);
 }
+

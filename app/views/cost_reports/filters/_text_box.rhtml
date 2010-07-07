@@ -8,7 +8,7 @@
 %>
 
 <td <%= style="display:none" if element[:hide] %>>
-  <div style="" id="div_values_<%= element[:filter_name] %>" class="filter_values">
+  <div style="" id="<%= element[:filter_name] %>_arg_1" class="filter_values">
     <%= text_field_tag("values[#{element[:filter_name]}]", "",
         :size => element[:size],
         :class => "select-small",

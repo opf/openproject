@@ -9,12 +9,11 @@
    id_prefix = "#{element[:filter_name]}_" %>
 
 <td <%= style="display:none" if element[:hide] %>>
-  <div style="" id="div_values_<%= element[:filter_name] %>" class="filter_values">
+  <div style="" id="<%= id_prefix %>arg_1" class="filter_values">
     <%= text_field_tag "#{name}", "", :size => 10, :class => "select-small", :id => "#{id_prefix}_date1"%>
     <%= calendar_for("#{id_prefix}_date1") %>
-    <span id="<%= id_prefix %>_between_tags" class="between_tags">
+    <span id="<%= id_prefix %>arg_2" class="between_tags">
     <%=
-      l(:label_until)
       text_field_tag("#{name}", "", :size => 10, :class => "select-small", :id => "#{id_prefix}_date2") + " " +
       calendar_for("#{id_prefix}_date2")
     %>

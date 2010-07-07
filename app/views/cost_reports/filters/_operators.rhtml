@@ -12,12 +12,14 @@
 
 <td width="<%= element[:width] || 100 %>" <%= style="display:none" if element[:hide] %>>
   <select style="vertical-align: top;"
-          onchange="operator_changed('<%= element[:filter_name] %>');"
+          onchange="operator_changed('<%= element[:filter_name] %>', this);"
           name="operators[<%= element[:filter_name] %>]"
           id="operators_<%= element[:filter_name] %>"
           class="select-small">
     <% element[:operators].each do |operator| %>
-      <option value="<%= h(operator.to_s) %>" <%= 'selected="selected"' if filter and (filter.operator.to_s == operator.to_s) %>>
+      <option value="<%= h(operator.to_s) %>"
+              data-arg_count="<%= operator.arg_count %>"
+              <%= 'selected="selected"' if filter and (filter.operator.to_s == operator.to_s) %>>
         <%= l(operator.label) %>
       </option>
     <% end %>
