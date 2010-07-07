@@ -5,12 +5,32 @@ module ReportingHelper
   # parameters.
   # @param [CostQuery::Filter] the filter we want to render
   def html_elements(filter)
+    return text_elements filter if CostQuery::Operator.string_operators.all? { |o| filter.available_operators.include? o }
+    return date_elements filter if CostQuery::Operator.date_operators.all?   { |o| filter.available_operators.include? o }
+    object_elements filter
+  end
+
+  def object_elements(filter)
     [
       {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
       {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
       {:name => :multi_values, :filter_name => filter.underscore_name, :values => filter.available_values}]
   end
-  
+
+  def date_elements(filter)
+    [
+      {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
+      {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
+      {:name => :date, :filter_name => filter.underscore_name}]
+  end
+
+  def text_elements(filter)
+    [
+      {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
+      {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
+      {:name => :text_box, :filter_name => filter.underscore_name}]
+  end
+
   ##
   # For a given row, determine how to render it's contents according to usability and 
   # localization rules  
