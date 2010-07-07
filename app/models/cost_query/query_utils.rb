@@ -1,9 +1,6 @@
-require 'forwardable'
-
 module CostQuery::QueryUtils
   include Redmine::I18n
-  extend Forwardable
-  def_delegators "ActiveRecord::Base.connection", :quoted_false, :quoted_true, :quoted_date
+  delegate :quoted_false, :quoted_true, :to => "ActiveRecord::Base.connection"
 
   ##
   # Graceful string quoting.
@@ -33,6 +30,10 @@ module CostQuery::QueryUtils
   # @return [String] SQL collection
   def collection(*values)
     "(#{values.flatten.map { |v| "'#{quote_string(v)}'" }.join ", "})"
+  end
+
+  def quoted_date(date)
+    ActiveRecord::Base.connection.quoted_date date.to_date
   end
 
   ##

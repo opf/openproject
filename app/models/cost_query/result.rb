@@ -1,5 +1,3 @@
-require 'big_decimal_patch'
-
 module CostQuery::Result
   class Base
     attr_accessor :parent, :type, :important_fields
