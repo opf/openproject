@@ -21,8 +21,10 @@ en:
   required_burn_rate_points: "required burn rate (points)"
   required_burn_rate_hours: "required burn rate (hours)"
   points_to_accept: "points not accepted"
+  points_accepted: "points accepted"
   ideal: "ideal"
   points_to_resolve: "points not resolved"
+  points_resolved: "points resolved"
   remaining_hours: "remaining hours"
   field_velocity_based_estimate: "Velocity based estimate"
 

@@ -32,6 +32,7 @@ nl:
   field_backlogs_issue_type: Backlog type
   label_points_burn_up: Omhoog
   points_to_resolve: points niet opgelost
+  points_resolved: points opgelost
   product_backlog_unsized: De top van de product backlog heeft stories zonder sizes
   active_sprint_unestimated_tasks: De lopende sprint heeft taken zonder urenschatting
   pessimistic_velocity: Project plant {{pct}}% te pessimistisch
@@ -41,6 +42,7 @@ nl:
   field_position: Positie
   required_burn_rate_points: benodigde burn rate (points)
   points_to_accept: points niet geaccepteerd
+  points_accepted: points geaccepteerd
   label_sprint_name: Sprint "{{name}}"
   backlogs_product_backlog: Product backlog
   remaining_hours: resterende uren

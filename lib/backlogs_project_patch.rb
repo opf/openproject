@@ -92,15 +92,15 @@ module Backlogs
                     bd = sprint.burndown('up')
   
                     if bd
-                        bd[:series][:points_accepted] ||= [0]
-                        bd[:series][:points_committed] ||= [0]
-                        bd[:series][:remaining_hours] ||= [0]
+                        _accepted = bd.points_accepted || [0]
+                        _committed = bd.points_committed || [0]
+                        _remaining = bd.remaining_hours || [0]
   
-                        accepted += bd[:series][:points_accepted][-1]
-                        committed += bd[:series][:points_committed][0]
+                        accepted += _accepted[-1]
+                        committed += _committed[0]
   
-                        if points_per_hour && bd[:series][:remaining_hours][0] > 0
-                            pph = (1.0 * bd[:series][:points_committed]) / bd[:series][:remaining_hours][0]
+                        if points_per_hour && _remaining[0] > 0
+                            pph = (1.0 * _committed[0]) / _remaining[0]
                             pph_count += 1
                             pph_diff += (pph - points_per_hour).abs
                         end

@@ -1,137 +1,116 @@
-<%- dataseries = charts.map{|c| c[:burndown][:series].keys}.flatten.uniq.sort{|a, b| l(a) <=> l(b) } %>
+<%- charts = (burndown.is_a?(Array) ? burndown : [burndown]) %>
+<%- dataseries = charts[0].series(:all).collect{|series| series.name } %>
 <%- content_for :header_tags do %>
-    <%= stylesheet_link_tag 'jquery.jqplot.min.css', :plugin => 'redmine_backlogs' %>
-    <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
-    <!--[if IE]><%= javascript_include_tag 'jquery.jqplot/excanvas.js', :plugin => 'redmine_backlogs' %><![endif]-->
-    <%= javascript_include_tag 'jquery.jqplot/jquery.jqplot.min.js', :plugin => 'redmine_backlogs' %>
-    <%= javascript_include_tag 'jquery.jqplot/plugins/jqplot.highlighter.js', :plugin => 'redmine_backlogs' %>
-    <%= javascript_include_tag 'jquery.cookies.2.2.0.min.js', :plugin => 'redmine_backlogs' %>
 
-    <style type="text/css" media="screen">
-        .jqplot-axis {
-            font-size: 0.85em;
-        }
-        .jqplot-title {
-            font-size: 1.1em;
-        }
-        .jqplot-y6axis-tick {
-            padding-right: 0px;
-        }
+  <%= stylesheet_link_tag 'jquery.jqplot.min.css', :plugin => 'redmine_backlogs' %>
+
+  <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
+  <!--[if IE]><%= javascript_include_tag 'jquery.jqplot/excanvas.js', :plugin => 'redmine_backlogs' %><![endif]-->
+  <%= javascript_include_tag 'jquery.jqplot/jquery.jqplot.js', :plugin => 'redmine_backlogs' %>
+  <%= javascript_include_tag 'jquery.jqplot/plugins/jqplot.highlighter.js', :plugin => 'redmine_backlogs' %>
+  <%= javascript_include_tag 'jquery.cookies.2.2.0.min.js', :plugin => 'redmine_backlogs' %>
+
+  <style type="text/css" media="screen">
+    .jqplot-axis {
+      font-size: 0.85em;
+    }
+    .jqplot-title {
+      font-size: 1.1em;
+    }
+    .jqplot-y6axis-tick {
+      padding-right: 0px;
+    }
   </style>
-    <script type="text/javascript" language="javascript">
-        $j = jQuery.noConflict();
+  <script type="text/javascript" language="javascript">
+    // chart objects
+    burndown_charts = new Object();
+    // TODO: I have no idea why plain 'jQuery' doesn't work
+    burndown_charts.jquery = jQuery.noConflict();
 
-        <% charts.each do |chart| %>
-            chart_<%= chart[:div] %> = null;
-        <% end %>
+    <%- charts.each do |chart| %>
+      burndown_charts[<%= chart.sprint_id%>] = {
+        chart: null,
+        dataset_position: {<%= chart.series.enum_for(:each_with_index).collect{|s, i| "#{s.name}: #{i}"}.join(', ') %>},
+        datasets: [<%= chart.series.collect{|s| "[#{s.join(',')}]"}.join(', ') %>],
+        series: [<%= chart.series.collect{|s| "{ label: '#{escape_javascript(l(s.name))}', yaxis: 'y#{s.units == :points ? '' : '2'}axis' }"}.join(',') %>],
+        xticks: [<%= chart.days.each_with_index.collect{|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %>],
 
-        <% charts.each do |chart| %>
-            series_no_<%= chart[:div] %> = {}
-            <%  no = -1
-                dataseries.each do |series|
-                    next if ! chart[:burndown][:series].include? series
-                    no += 1
-            %>
-                    series_no_<%= chart[:div] %>['<%= series.to_s %>'] = <%= no %>;
-            <% end %>
-        <% end %>
+        // add a little clearance to the chart
+        max_y: <%= chart.max[:points] == 0 ? 1 : 1.01 * chart.max[:points] %>,
+        max_y2: <%= chart.max[:hours] == 0 ? 1 : 1.01 * chart.max[:hours] %>,
 
-        <% charts.each do |chart| %>
-            <%- burndown = chart[:burndown] %>
-            <%- div = chart[:div] %>
-            function burndown_<%= div %>() {
-                <%  burndown[:series].keys.each do |series| %>
-                        <%= series.to_s %> = [ <%= burndown[:series][series].collect {|d| "#{d}"}.join(',') %>];
-                <%  end %>
-    
-                if ($j("#<%= div %>").hasClass('minimal')) {
-                    decoration = false;
-                } else {
-                    decoration = true;
-                }
-    
-                xticks = [ <%= burndown[:dates].enum_with_index.collect {|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %> ];
-                datasets = [ <%= dataseries.collect{|s| s.to_s}.join(',') %> ];
-                series = [
-                    <% dataseries.each_with_index do |series, i| %>
-                        {
-                            label: '<%= escape_javascript(l(series)) %>',
-                            yaxis: '<%= burndown[:units][series] == :points ?  'yaxis' : 'y2axis' %>'
-                        }<% if i != dataseries.length - 1 %>,<% end %>
-                    <% end %>
-                ];
-    
-                // add a little clearance to the chart
-                max_points = <%= burndown[:max][:points] == 0 ? 1 : 1.01 * burndown[:max][:points] %>;
-                max_hours = <%= burndown[:max][:hours] == 0 ? 1 : 1.01 * burndown[:max][:hours] %>;
-    
-                chart_<%= div %> = $j.jqplot('<%= div %>', datasets, {
-                    legend: {show: decoration, location: 'sw'},
-                    grid: {shadow:false},
-                    seriesDefaults: {showMarker: decoration, shadow:false},
-                    axesDefaults: {showTick: decoration},
-                    series: series,
-                    axes:{
-                        xaxis:{min:1, max:<%= burndown[:dates].length %>, tickInterval:1, ticks:xticks}, 
-                        yaxis:{min:0, max: max_points, tickOptions:{formatString:'%d'}},
-                        y2axis:{min:0, max: max_hours, tickOptions:{formatString:'%d'}}
-                        },
-                    highlighter:{
-                        tooltipAxes: 'y',
-                        formatString: '%s'
-                    }
-                });
+        initialize: function() {
+          decoration = !(burndown_charts.jquery('#<%= "#{div}#{chart.sprint_id}" %>').hasClass('minimal'));
+
+          this.chart = burndown_charts.jquery.jqplot('<%= "#{div}#{chart.sprint_id}" %>', this.datasets, {
+            legend: {show: decoration, location: 'sw'},
+            grid: {shadow:false},
+            seriesDefaults: {showMarker: decoration, shadow:false},
+            axesDefaults: {showTick: decoration},
+            series: this.series,
+            axes:{
+              xaxis:{min:1, max:<%= chart.days.length %>, tickInterval:1, ticks: this.xticks}, 
+              yaxis:{min:0, max: this.max_y, tickOptions:{formatString:'%d'}},
+              y2axis:{min:0, max: this.max_y2, tickOptions:{formatString:'%d'}}
+              },
+            highlighter:{
+              tooltipAxes: 'y',
+              formatString: '%s'
             }
-        <% end %>
+          });
+        },
 
-        function configure(cb)
-        {
-            disabled = '|' + $j.cookies.get('burndown_series') + '|';
-
-            if (!(cb == undefined)) {
-                _disabled = [];
-                <% dataseries.each do |series| %>
-                    if (disabled.indexOf('|<%= series.to_s %>|') != -1 && cb.value != '<%= series.to_s %>') {
-                        _disabled.push('<%= series.to_s %>');
-                    }
-                <% end %>
-                if (!cb.checked) {
-                    _disabled.push(cb.value);
-                }
-                disabled = _disabled.join('|');
-                $j.cookies.set('burndown_series', disabled, { expiresAt: new Date((new Date()).getFullYear + 100, 1, 1)});
-                disabled = '|' + disabled + '|';
-            }
-
-            /* enable all */
-            checkboxes = $j('.series_enabled');
-            if (checkboxes) {
-                checkboxes.attr('checked', true);
-            }
-
-            <% dataseries.each do |series| %>
-                checkbox = $j('#<%= series.to_s %>_enabled');
-                if (checkbox && -1 != disabled.indexOf('|<%= series.to_s %>|')) { checkbox.attr('checked', false); }
-            <% end %>
-
-            <% charts.each do |chart| %>
-                if (chart_<%= chart[:div] %>) {
-                    <% dataseries.each do |series| %>
-                        if (!(series_no_<%= chart[:div] %>['<%= series.to_s %>'] == undefined)) {
-                            chart_<%= chart[:div] %>.series[series_no_<%= chart[:div] %>['<%= series.to_s %>']].show = (disabled.indexOf('|<%= series.to_s %>|') == -1);
-                        }
-                    <% end %>
-                }
-
-                chart_<%= chart[:div] %>.replot();
-            <% end %>
+        reconfigure: function(disabled) {
+          if (this.chart) {
+            <%- dataseries.each do |series| %>
+              p = this.dataset_position['<%= "#{series}" %>'];
+              if (!(p == undefined)) { this.chart.series[p].show = (disabled.indexOf('|<%= "#{series}" %>|') == -1); };
+            <%- end %>
+            this.chart.replot();
+          }
         }
+      };
+    <%- end %>
 
-        $j(document).ready(function(){
-            <% charts.each do |chart| %>
-                burndown_<%= chart[:div] %>();
-            <% end %>
-            configure();
-        });
-    </script>
+    function burndown_configure(cb)
+    {
+      disabled = '|' + burndown_charts.jquery.cookies.get('burndown_series') + '|';
+
+      if (!(cb == undefined)) {
+        _disabled = [];
+        <%- dataseries.each do |series| %>
+          if (disabled.indexOf('|<%= "#{series}" %>|') != -1 && cb.value != '<%= "#{series}" %>') {
+            _disabled.push('<%= "#{series}" %>');
+          }
+        <%- end %>
+        if (!cb.checked) {
+          _disabled.push(cb.value);
+        }
+        disabled = _disabled.join('|');
+        burndown_charts.jquery.cookies.set('burndown_series', disabled, { expiresAt: new Date((new Date()).getFullYear + 100, 1, 1)});
+        disabled = '|' + disabled + '|';
+      }
+
+      checkboxes = burndown_charts.jquery('.series_enabled');
+      if (checkboxes) {
+        /* enable all, then reset */
+        checkboxes.attr('checked', true);
+        <%- dataseries.each do |series| %>
+          checkbox = burndown_charts.jquery('#<%= "#{series}" %>_enabled');
+          if (checkbox && -1 != disabled.indexOf('|<%= "#{series}" %>|')) { checkbox.attr('checked', false); }
+        <%- end %>
+      }
+
+      <%- charts.each do |chart| %>
+        burndown_charts[<%= chart.sprint_id %>].reconfigure(disabled);
+      <%- end %>
+    }
+
+    burndown_charts.jquery(document).ready(function(){
+      <%- charts.each do |chart| %>
+        burndown_charts[<%= chart.sprint_id%>].initialize();
+      <%- end %>
+      burndown_configure();
+    });
+  </script>
 <%- end %>

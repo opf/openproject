@@ -1,11 +1,10 @@
-<%= render :partial => 'burndown', :locals => {:charts => [{:div => 'burndown', :burndown => @burndown }]} %>
-<div id="burndown" style="margin-top:20px; margin-left:20px; width:640px; height:480px;"></div>
+<%= render :partial => 'burndown', :locals => {:div => 'burndown_', :burndown => @burndown } %>
+<div id="burndown_<%= @burndown.sprint_id %>" style="margin-top:20px; margin-left:20px; width:640px; height:480px;"></div>
 
-<%- dataseries = @burndown[:series].keys.sort{|a, b| l(a) <=> l(b) } %>
 <fieldset>
     <legend><%= l(:label_series) %></legend>
 
-    <% dataseries.each do |series| %>
-        <input class="series_enabled" type="checkbox" onclick="configure(this)" id="<%= series %>_enabled" name="<%= series %>_enabled" value="<%= series %>"><%= l(series) %><br/>
+    <% @burndown.series(:all).each do |series| %>
+        <input class="series_enabled" type="checkbox" onclick="burndown_configure(this)" id="<%= series.name %>_enabled" name="<%= series.name %>_enabled" value="<%= series.name %>"><%= l(series.name) %><br/>
     <% end %>
 </fieldset>
