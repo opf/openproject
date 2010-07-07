@@ -23,6 +23,12 @@ class CostQuery::Operator
       def label
         @label ||= Query.operators[name]
       end
+
+      ##
+      # returns the number of arguments the user should give to use this operator
+      def arg_count
+        1
+      end
     end
 
     # Operators from Redmine
@@ -100,14 +106,14 @@ class CostQuery::Operator
       end
     end
 
-    new "<t+" do
+    new "<t+", :arg_count => 0 do
       include DateRange
       def modify(query, field, value)
         super query, field, 0, value.to_i
       end
     end
 
-    new "t" do
+    new "t", :arg_count => 0 do
       include DateRange
       def modify(query, field, value=nil)
         super query, field, 0, 0
@@ -145,9 +151,9 @@ class CostQuery::Operator
       end
     end
 
-    new "0", :label => :label_none, :where_clause => "%s = 0"
-    new "y", :label => :label_yes, :where_clause => "%s IS NOT NULL"
-    new "n", :label => :label_no, :where_clause => "%s IS NULL"
+    new "0", :label => :label_none, :where_clause => "%s = 0", :arg_count => 0
+    new "y", :label => :label_yes, :where_clause => "%s IS NOT NULL", :arg_count => 0
+    new "n", :label => :label_no, :where_clause => "%s IS NULL", :arg_count => 0
 
     new "<d", :label => :label_less_or_equal do
       def modify(query, field, value)
@@ -161,7 +167,7 @@ class CostQuery::Operator
       end
     end
 
-    new "<>d", :label => :label_between do
+    new "<>d", :label => :label_between, :arg_count => 2 do
       def modify(query, field, from, to)
         query.where "#{field} BETWEEN '#{quoted_date from}' AND '#{quoted_date to}'"
         query
