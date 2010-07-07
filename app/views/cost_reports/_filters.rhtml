@@ -8,7 +8,7 @@
 <% active_filters = query.filters.select {|f| f.class.display?} %>
 <script type="text/javascript">
 //<![CDATA[
-document.observe("dom:loaded", function() {
+function set_filters() {
   // Activate recent filters on loading
   <% active_filters.each do |f| %>
     show_filter("<%= f.class.underscore_name %>");
@@ -17,7 +17,9 @@ document.observe("dom:loaded", function() {
       toggle_multi_select("<%= f.class.underscore_name %>");
     <% end %>
   <% end %>
-});
+}
+
+document.observe("dom:loaded", set_filters());
 //]]>
 </script>
 
