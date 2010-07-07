@@ -211,6 +211,30 @@ class CostQuery::Operator
     find "="
   end
 
+  def self.integer_operators
+    ["<", ">", "<=", ">="].map { |s| s.to_operator}
+  end
+
+  def self.null_operators
+    ["*", "!*"].map { |s| s.to_operator}
+  end
+
+  def self.string_operators
+    ["!~", "~"].map { |s| s.to_operator}
+  end
+
+  def self.time_operators
+    ["t", "w", "t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator}
+  end
+
+  def self.date_operators
+    ["<>d", ">d", "<d", "=d"].map { |s| s.to_operator}
+  end
+
+  def self.default_operators
+    ["=", "!"].map { |s| s.to_operator}
+  end
+
   attr_reader :name
 
   def initialize(name, values = {}, &block)
