@@ -111,9 +111,9 @@ module Backlogs
                     score << (pph_variance > 10 ? l(:size_accuracy, {:pct => pph_variance}) : nil)
                 end
   
-                last_sprint = sprints[-1]
-                score << (last_sprint.effective_date < -7.days.from_now.to_date ? l(:project_dormant) : nil) if !active
-                score << (!last_sprint.has_wiki_page ?  l(:sprint_notes_missing) : nil)
+                last_sprint = sprints[0]
+                score << (last_sprint.effective_date < -14.days.from_now.to_date ? l(:project_dormant) : nil) if !active
+                score << (!last_sprint.has_wiki_page ? l(:sprint_notes_missing) : nil)
   
                 stats[:average_days_per_sprint] = days / sprints.length
                 stats[:velocity] = accepted / sprints.length
