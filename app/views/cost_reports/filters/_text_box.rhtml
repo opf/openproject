@@ -9,10 +9,9 @@
 
 <td <%= style="display:none" if element[:hide] %>>
   <div style="" id="div_values_<%= element[:filter_name] %>" class="filter_values">
-    <input type="text"
-           size="<% element[:size] %>"
-           name="values[<%= element[:filter_name] %>]"
-           id="values_<%= element[:filter_name] %>"
-           class="select-small">
+    <%= text_field_tag("values[#{element[:filter_name]}]", "",
+        :size => element[:size],
+        :class => "select-small",
+        :id => "values_#{element[:filter_name]}") %>
   </div>
 </td>
