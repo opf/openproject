@@ -15,29 +15,29 @@ module CostQuery::Filter
       self.values = [val]
     end
 
-    def self.default_operators
-      available_operators "=", "!"
+    def self.use_default_operators
+      available_operators *CostQuery::Operator.default_operators
     end
-    default_operators
+    use_default_operators
 
-    def self.date_operators
-      available_operators "<>d", ">d", "<d", "=d"
+    def self.use_date_operators
+      available_operators *CostQuery::Operator.date_operators
     end
 
-    def self.time_operators
-      available_operators "t", "w", "t-", "t+", ">t-", "<t-", ">t+", "<t+"
+    def self.use_time_operators
+      available_operators *CostQuery::Operator.time_operators
     end
-    
-    def self.string_operators
-      available_operators "!~", "~"
+
+    def self.use_string_operators
+      available_operators *CostQuery::Operator.string_operators
     end
-    
-    def self.null_operators
-      available_operators "*", "!*"
+
+    def self.use_null_operators
+      available_operators *CostQuery::Operator.null_operators
     end
-    
-    def self.integer_operators
-      available_operators "<", ">", "<=", ">="
+
+    def self.use_integer_operators
+      available_operators *CostQuery::Operator.integer_operators
     end
 
     def self.new(*args, &block) # :nodoc:
