@@ -42,14 +42,7 @@ module ReportingHelper
         when :project_id then "Project ##{value}: #{Project.find(value.to_i).name}"
         when :user_id then link_to_user User.find(value)
         when :tyear then value
-        when :tweek then 
-          if value.to_i == Date.today.cweek
-            l(:label_this_week)
-          elsif value.to_i == (Date.today.cweek - 1)
-            l(:label_last_week)
-          else
-            "#{l(:label_week)} ##{value}"
-          end
+        when :tweek then "#{l(:label_week)} ##{value}"
         else "#{key}: #{value}"
         end
       end
