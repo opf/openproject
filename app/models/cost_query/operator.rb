@@ -39,7 +39,7 @@ class CostQuery::Operator
       end
     end
 
-    new "w" do
+    new "w", :arg_count => 0 do
       def modify(query, field, offset = nil)
         offset ||= 0
         from = Time.now.at_beginning_of_week - ((l(:general_first_day_of_week).to_i % 7) + 1).days
@@ -106,7 +106,7 @@ class CostQuery::Operator
       end
     end
 
-    new "<t+", :arg_count => 0 do
+    new "<t+" do
       include DateRange
       def modify(query, field, value)
         super query, field, 0, value.to_i
