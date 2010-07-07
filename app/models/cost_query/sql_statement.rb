@@ -52,7 +52,7 @@ class CostQuery::SqlStatement
     new(table).tap do |query|
       query.select COMMON_FIELDS
       query.select({
-        :type => model.model_name.inspect, :count => 1, :id => [model, :id],
+        :type => "'#{model.model_name}'", :count => 1, :id => [model, :id],
         :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs])
       })
       send("unify_#{table}", query)
