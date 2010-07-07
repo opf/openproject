@@ -9,7 +9,7 @@ module CostQuery::InheritedAttribute
       attributes.each do |name|
         define_singleton_method(name) do |*values|
           return get_inherited_attribute(name, default, list, uniq) if values.empty?
-          return set_inherited_attribute(name, values.map(&map)) if list
+          return set_inherited_attribute(name, values.map(&map) + (instance_variable_get("@#{name}") || [])) if list
           raise ArgumentError, "wrong number of arguments (#{values.size} for 1)" if values.size > 1
           set_inherited_attribute name, map.call(values.first)
         end
