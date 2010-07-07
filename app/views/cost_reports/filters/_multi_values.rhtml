@@ -8,14 +8,14 @@
 %>
 
 <td <%= style="display:none" if element[:hide] %>>
-  <div style="" id="div_values_<%= element[:filter_name] %>">
+  <div style="" id="div_values_<%= element[:filter_name] %>" class="filter_values">
     <select style="vertical-align: top;"
             name="values[<%= element[:filter_name] %>][]"
             id="values_<%= element[:filter_name] %>"
             class="select-small">
-      <% element[:values].each do |pair| %><%# pair=[String, Integer] %>
-        <option value="<%= h(pair.second) %>" <%= 'selected="selected"' if filter and (filter.values.include? pair.second) %>>
-          <%= pair.first %>
+      <% element[:values].each do |name, id| %>
+        <option value="<%= id %>" <%= 'selected="selected"' if filter and (filter.values.include? id) %>>
+          <%= h(name) %>
         </option>
       <% end %>
     </select>
