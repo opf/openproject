@@ -11,7 +11,7 @@ module CostQuery::Filter
       CostQuery::Filter::DueDate,
       CostQuery::Filter::FixedVersionId,
       CostQuery::Filter::IssueId,
-      #CostQuery::Filter::OverridenCosts, #FIXME: include me to this list
+      CostQuery::Filter::OverriddenCosts,
       CostQuery::Filter::PriorityId,
       CostQuery::Filter::ProjectId,
       CostQuery::Filter::SpentOn,
