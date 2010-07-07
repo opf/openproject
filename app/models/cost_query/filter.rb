@@ -14,7 +14,7 @@ module CostQuery::Filter
       #CostQuery::Filter::OverridenCosts, #FIXME: include me to this list
       CostQuery::Filter::PriorityId,
       CostQuery::Filter::ProjectId,
-      #CostQuery::Filter::SpentOn, #FIXME: include me to this list
+      CostQuery::Filter::SpentOn,
       CostQuery::Filter::StartDate,
       CostQuery::Filter::StatusId,
       CostQuery::Filter::Subject,
