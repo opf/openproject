@@ -162,11 +162,11 @@ describe CostQuery do
       describe :list do
         it "merges lists" do
           @a.inherited_attribute :bar, :list => true
-          @a.bar 1; @b.bar 1; @d.bar 1, 1
+          @a.bar 1; @b.bar 2; @d.bar 3, 4
           @a.bar.should == [1]
-          @b.bar.should == [1, 1]
-          @c.bar.should == [1]
-          @d.bar.should == [1, 1, 1, 1]
+          @b.bar.sort.should == [1, 2]
+          @c.bar.sort.should == [1]
+          @d.bar.sort.should == [1, 2, 3, 4]
         end
         
         it "is able to map lists" do
