@@ -114,7 +114,7 @@ class CostQuery::Operator
       end
     end
 
-    new ">=" # done
+    new ">="
 
     new "!*", :where_clause => "%s IS NULL"
 

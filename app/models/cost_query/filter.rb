@@ -19,7 +19,7 @@ module CostQuery::Filter
       CostQuery::Filter::StatusId,
       CostQuery::Filter::Subject,
       CostQuery::Filter::TrackerId,
-      #CostQuery::Filter::Tweek, #FIXME: include me to this list
+      CostQuery::Filter::Tweek,
       CostQuery::Filter::UpdatedOn,
       CostQuery::Filter::UserId
       ]

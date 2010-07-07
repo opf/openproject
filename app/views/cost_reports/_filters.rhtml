@@ -47,7 +47,7 @@ document.observe("dom:loaded", function() {
       <% CostQuery::Filter.all_grouped.each do |label, filter_ary| %>
         <optgroup label="<%= l(label) %>">
         <% filter_ary.each do |filter| %>
-          <option value="<%= filter.underscore_name %>"><%= l(filter.label) %></option>
+          <option value="<%= filter.underscore_name %>"><%= l(filter.label).capitalize %></option>
         <% end %>
         </optgroup>
       <% end %>
