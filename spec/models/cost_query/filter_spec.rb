@@ -156,7 +156,7 @@ describe CostQuery do
       CostQuery::Filter::TrackerId
     ].each do |filter|
       it "should only allow default operators for #{filter}" do
-        filter.new.available_operators.uniq.sort.should == filter.default_operators.uniq.sort
+        filter.new.available_operators.uniq.sort.should == CostQuery::Operator.default_operators.uniq.sort
       end
     end
 
@@ -167,28 +167,22 @@ describe CostQuery do
       CostQuery::Filter::FixedVersionId
     ].each do |filter|
       it "should only allow default+null operators for #{filter}" do
-        filter.new.available_operators.uniq.sort.should == (filter.default_operators + filter.null_operators).sort
+        filter.new.available_operators.uniq.sort.should == (CostQuery::Operator.default_operators + CostQuery::Operator.null_operators).sort
       end
     end
 
-    #filter for time
+    #filter for time/date
     [
       CostQuery::Filter::CreatedOn,
       CostQuery::Filter::UpdatedOn,
-      CostQuery::Filter::SpentOn
-    ].each do |filter|
-      it "should only allow time operators for #{filter}" do
-        filter.new.available_operators.uniq.sort.should == (filter.default_operators + filter.time_operators).sort
-      end
-    end
-
-    #filter for date
-    [
+      CostQuery::Filter::SpentOn,
       CostQuery::Filter::StartDate,
       CostQuery::Filter::DueDate
     ].each do |filter|
-      it "should only allow date operators for #{filter}" do
-        filter.new.available_operators.uniq.sort.should == (filter.default_operators + filter.date_operators).sort
+      it "should only allow time operators for #{filter}" do
+        filter.new.available_operators.uniq.sort.should == (CostQuery::Operator.default_operators +
+                                                            CostQuery::Operator.time_operators +
+                                                            CostQuery::Operator.date_operators).sort
       end
     end
   end
