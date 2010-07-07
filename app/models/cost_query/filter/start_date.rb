@@ -1,6 +1,5 @@
 class CostQuery::Filter::StartDate < CostQuery::Filter::Base
-  use_date_operators
-  use_time_operators
+  use :time_operators
   join_table Issue
   applies_for :label_issue
   label :field_start_date

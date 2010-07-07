@@ -4,8 +4,8 @@ class CostReportsController < ApplicationController
 
   helper :reporting
   include ReportingHelper
-  
-  def index    
+
+  def index
     render :layout => !request.xhr?
   end
 
@@ -17,27 +17,27 @@ class CostReportsController < ApplicationController
 
   ##
   # Find a query to search on and put it in the session
-  def query_parameters    
+  def query_parameters
     filters = http_query_parameters if set_filter?
     filters ||= session[:cost_query]
-    filters ||= default_query_parameters    
+    filters ||= default_query_parameters
   end
-  
+
   ##
   # Extract active filters from the http params
-  def http_query_parameters    
-    (params[:fields] || []).inject({:operators => {}, :values => {}}) do |hash, field|      
+  def http_query_parameters
+    (params[:fields] || []).inject({:operators => {}, :values => {}}) do |hash, field|
       hash[:operators][field.to_sym] = params[:operators][field]
       hash[:values][field.to_sym] = params[:values][field]
       hash
     end
   end
-  
+
   ##
   # Set a default query to cut down initial load time
   def default_query_parameters
     hash = {:operators => {:user_id => "=", :tweek => "="},
-      :values => {:user_id => [User.current.id], :tweek => [Date.today.cweek]}}
+    :values => {:user_id => [User.current.id], :tweek => [Date.today.cweek]}}
     if @project
       hash[:operators].merge! :project_id => "="
       hash[:values].merge! :project_id => [@project.id]
@@ -62,7 +62,7 @@ class CostReportsController < ApplicationController
     column(:tweek).column(:tyear).
     row(:project_id).row(:user_id)
   end
-  
+
   private
   ## FIXME: Remove this once we moved to Redmine 1.0
   def find_optional_project

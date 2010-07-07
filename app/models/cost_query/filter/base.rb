@@ -9,36 +9,29 @@ module CostQuery::Filter
 
     accepts_property :values, :value, :operator
 
+    mattr_accessor :skip_inherited_operators
+    self.skip_inherited_operators = [:time_operators, "y", "n"]
+
     attr_accessor :values
 
     def value=(val)
       self.values = [val]
     end
 
-    def self.use_default_operators
-      available_operators *CostQuery::Operator.default_operators
-    end
-    use_default_operators
-
-    def self.use_date_operators
-      available_operators *CostQuery::Operator.date_operators
-    end
-
-    def self.use_time_operators
-      available_operators *CostQuery::Operator.time_operators
-    end
-
-    def self.use_string_operators
-      available_operators *CostQuery::Operator.string_operators
+    def self.use(*names)
+      operators = []
+      names.each do |name|
+        dont_inherit :available_operators if skip_inherited_operators.include? name
+        case name
+        when String, CostQuery::Operator then operators << name.to_operator
+        when Symbol then operators.push(*CostQuery::Operator.send(name))
+        else fail "dunno what to do with #{name.inspect}"
+        end
+      end
+      available_operators *operators
     end
 
-    def self.use_null_operators
-      available_operators *CostQuery::Operator.null_operators
-    end
-
-    def self.use_integer_operators
-      available_operators *CostQuery::Operator.integer_operators
-    end
+    use :default_operators
 
     def self.new(*args, &block) # :nodoc:
       # this class is abstract. instances are only allowed from child classes

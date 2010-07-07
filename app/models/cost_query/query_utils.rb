@@ -33,7 +33,7 @@ module CostQuery::QueryUtils
   end
 
   def quoted_date(date)
-    ActiveRecord::Base.connection.quoted_date date.to_date
+    ActiveRecord::Base.connection.quoted_date date.to_dateish
   end
 
   ##

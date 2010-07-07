@@ -6,7 +6,7 @@ module ReportingHelper
   # @param [CostQuery::Filter] the filter we want to render
   def html_elements(filter)
     return text_elements filter if CostQuery::Operator.string_operators.all? { |o| filter.available_operators.include? o }
-    return date_elements filter if CostQuery::Operator.date_operators.all?   { |o| filter.available_operators.include? o }
+    return date_elements filter if CostQuery::Operator.time_operators.all?   { |o| filter.available_operators.include? o }
     object_elements filter
   end
 
@@ -35,20 +35,23 @@ module ReportingHelper
   # For a given row, determine how to render it's contents according to usability and 
   # localization rules  
   def show_row(row)
-    row.render do |key, value|
-      case key.to_sym
-      when :project_id then "Project ##{value}: #{Project.find(value.to_i).name}"
-      when :user_id then link_to_user User.find(value)
-      when :tyear then value
-      when :tweek then 
-        if value.to_i == Date.today.cweek
-          l(:label_this_week)
-        elsif value.to_i == (Date.today.cweek - 1)
-          l(:label_last_week)
-        else
-          "#{l(:label_week)} ##{value}"
+    @show_row ||= {}
+    @show_row[row] ||= begin
+      row.render do |key, value|
+        case key.to_sym
+        when :project_id then "Project ##{value}: #{Project.find(value.to_i).name}"
+        when :user_id then link_to_user User.find(value)
+        when :tyear then value
+        when :tweek then 
+          if value.to_i == Date.today.cweek
+            l(:label_this_week)
+          elsif value.to_i == (Date.today.cweek - 1)
+            l(:label_last_week)
+          else
+            "#{l(:label_week)} ##{value}"
+          end
+        else "#{key}: #{value}"
         end
-      else "#{key}: #{value}"
       end
     end
   end

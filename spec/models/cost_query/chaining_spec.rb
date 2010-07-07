@@ -184,6 +184,13 @@ describe CostQuery do
           @b.bar 2, 3
           @b.bar.sort.should == [1, 2, 3]
         end
+
+        it "keeps old entries" do
+          @a.inherited_attribute :bar, :list => true
+          @a.bar 1
+          @a.bar 2
+          @a.bar.sort.should == [1, 2]
+        end
       end
     end
   end

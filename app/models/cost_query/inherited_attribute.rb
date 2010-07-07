@@ -1,3 +1,5 @@
+require 'set'
+
 module CostQuery::InheritedAttribute
   def inherited_attribute(*attributes, &block)
       options = attributes.extract_options!
@@ -25,13 +27,25 @@ module CostQuery::InheritedAttribute
 
     def get_inherited_attribute(name, default = nil, list = false, uniq = false)
       return get_inherited_attribute(name, default, list, false).uniq if list and uniq
-      result       = instance_variable_get("@#{name}")
-      super_result = superclass.get_inherited_attribute(name, default, list) if superclass.respond_to? :get_inherited_attribute
+      result = instance_variable_get("@#{name}")
+      super_result = superclass.get_inherited_attribute(name, default, list) if inherit? name
       if result.nil?
         super_result || default
       else
         list && super_result ? result + super_result : result
       end
+    end
+
+    def inherit?(name)
+      superclass.respond_to? :get_inherited_attribute and not not_inherited.include? name
+    end
+
+    def not_inherited
+      @not_inherited ||= Set.new
+    end
+
+    def dont_inherit(*attributes)
+      not_inherited.merge attributes
     end
 
     def set_inherited_attribute(name, value)

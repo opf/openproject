@@ -86,9 +86,9 @@ describe CostQuery do
     end
 
     it "filters updated_on" do
-      @query.filter :updated_on, :value => 20 * 356, :operator => '>t-'
+      @query.filter :updated_on, :value => Date.today.years_ago(20), :operator => '>d'
       # we assume that our were updated in the last 20 years
-      @query.result.count.should == Entry.all.select { |e| e.updated_on.to_date >= Date.today.years_ago(20) }.count
+      @query.result.count.should == Entry.all.select { |e| e.updated_on.to_date > Date.today.years_ago(20) }.count
     end
 
     it "filters overridden_costs" do
@@ -180,9 +180,7 @@ describe CostQuery do
       CostQuery::Filter::DueDate
     ].each do |filter|
       it "should only allow time operators for #{filter}" do
-        filter.new.available_operators.uniq.sort.should == (CostQuery::Operator.default_operators +
-                                                            CostQuery::Operator.time_operators +
-                                                            CostQuery::Operator.date_operators).sort
+        filter.new.available_operators.uniq.sort.should == CostQuery::Operator.time_operators.sort
       end
     end
   end

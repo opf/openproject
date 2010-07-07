@@ -224,11 +224,8 @@ class CostQuery::Operator
   end
 
   def self.time_operators
-    ["t", "w", "t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator}
-  end
-
-  def self.date_operators
-    ["<>d", ">d", "<d", "=d"].map { |s| s.to_operator}
+    #["t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator}
+    ["t", "w", "<>d", ">d", "<d", "=d"].map { |s| s.to_operator}
   end
 
   def self.default_operators

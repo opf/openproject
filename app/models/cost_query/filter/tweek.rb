@@ -1,5 +1,5 @@
 class CostQuery::Filter::Tweek < CostQuery::Filter::Base
-  use_integer_operators
+  use :integer_operators
   label :week
 
   def self.available_values
