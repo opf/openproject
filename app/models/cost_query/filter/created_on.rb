@@ -1,4 +1,4 @@
 class CostQuery::Filter::CreatedOn < CostQuery::Filter::Base
-  time_operators
+  use_time_operators
   label :field_created_on
 end

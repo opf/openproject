@@ -1,4 +1,4 @@
 class CostQuery::Filter::Tweek < CostQuery::Filter::Base
-  integer_operators
+  use_integer_operators
   label :week
 end
