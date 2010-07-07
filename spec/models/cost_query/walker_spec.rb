@@ -38,7 +38,7 @@ describe CostQuery do
       @query.row :user_id
 
       result = @query.transformer.column_first.values.first
-      [:tweek, :user_id, :project_id].each do |field|
+      [:tweek, :issue_id].each do |field|
         result.fields.should include(field)
         result = result.values.first
       end
