@@ -29,7 +29,7 @@ function change_argument_visibility(field, arg_nr) {
   if (arg1 != null)
     if(arg_nr == 0) arg1.hide();
     else            arg1.show();
-  if (arg1 != null)
+  if (arg2 != null)
     if(arg_nr == 2) arg2.show();
     else            arg2.hide();
 }
@@ -41,7 +41,13 @@ function show_filter(field) {
     check_box.checked = true;
     toggle_filter(field);
     operator_changed(field, $("operators_" + field))
+    display_category(field_el)
   }
+}
+
+function display_category(tr_field) {
+  if ((label = $(tr_field.getAttribute("data-label"))) != null)
+    label.show();
 }
 
 function disable_select_option(select, field) {
