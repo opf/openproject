@@ -1,3 +1,5 @@
 ---
 de:
   label_entry: "Eintrag"
+  label_less: "<"
+  label_greater: ">"
