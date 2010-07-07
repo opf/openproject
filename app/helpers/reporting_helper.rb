@@ -35,9 +35,9 @@ module ReportingHelper
   # For a given row, determine how to render it's contents according to usability and 
   # localization rules  
   def show_row(row)
-    @show_row ||= {}
-    @show_row[row] ||= begin
-      row.render do |key, value|
+    @show_row ||= Hash.new { |h,k| h[k] = {}}
+    row.render do |key, value|
+      @show_row[key][value] ||= begin
         case key.to_sym
         when :project_id then "Project ##{value}: #{Project.find(value.to_i).name}"
         when :user_id then link_to_user User.find(value)
