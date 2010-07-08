@@ -5,9 +5,10 @@
 %>
 
 <%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
-<% active_filters = query.filters.select {|f| f.class.display?} %>
+<% active_filters = query.filters.select {|f| f.class.display? } %>
 <script type="text/javascript">
 //<![CDATA[
+document.stopObserving("dom:loaded");
 function set_filters() {
   // Activate recent filters on loading
   <% active_filters.each do |f| %>
@@ -18,7 +19,7 @@ function set_filters() {
     <% end %>
   <% end %>
 }
-document.observe("dom:loaded", set_filters());
+document.observe("dom:loaded", set_filters);
 //]]>
 </script>
 

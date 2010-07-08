@@ -2,6 +2,7 @@
 # Implements a dubble linked list (FIXME: is that the correct term?).
 class CostQuery < ActiveRecord::Base
   class Chainable
+    include Enumerable
     include CostQuery::QueryUtils
     extend CostQuery::InheritedAttribute
 
@@ -69,6 +70,11 @@ class CostQuery < ActiveRecord::Base
 
     attr_accessor :parent, :child, :type
     accepts_property :type
+
+    def each(&block)
+      yield self
+      child.try(:each, &block)
+    end
 
     def row?
       type == :row

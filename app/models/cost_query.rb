@@ -56,26 +56,13 @@ class CostQuery < ActiveRecord::Base
   def table
     @table = Table.new(self)
   end
-  
+
   def group_bys
-    return [] if chain.nil?
-    
-    [chain].tap do |ary|
-      while !(ary.last.bottom? || ary.last.child.filter?)
-        ary << ary.last.child
-      end
-    end
+    chain.select { |c| c.group_by? }
   end
-  
-  def filters    
-    last_group_by = group_bys.last
-    return [] if last_group_by.nil? || last_group_by.bottom?
-    
-    [last_group_by.child].tap do |ary|
-      while !ary.last.bottom?
-        ary << ary.last.child
-      end
-    end
+
+  def filters
+    chain.select { |c| c.filter? }
   end
 
   def_delegators  :transformer, :column_first, :row_first
