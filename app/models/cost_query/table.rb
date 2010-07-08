@@ -3,6 +3,7 @@ require 'enumerator'
 
 class CostQuery::Table
   attr_accessor :query
+  include CostQuery::QueryUtils
 
   def initialize(query)
     @query = query
@@ -29,7 +30,7 @@ class CostQuery::Table
 
   def fields_from(result, type)
     #fields_for(type).map { |k| result[k] }
-    result.fields.values_at(*fields_for(type))
+    fields_for(type).map { |k| map_field k, result.fields[k] }
   end
 
   ##
@@ -77,16 +78,9 @@ class CostQuery::Table
     @indexes ||= begin
       indexes = Hash.new { |h,k| h[k] = Set.new }
       query.each_direct_result { |result| [:row, :column].each { |t| indexes[t] << fields_from(result, t) } }
-      indexes.keys.each { |k| indexes[k] = indexes[k].sort { |x, y| compare_fields x, y } }
+      indexes.keys.each { |k| indexes[k] = indexes[k].sort { |x, y| x <=> y } }
       indexes
     end
     @indexes[type]
   end
-
-  def compare_fields(a, b)
-    # FIXME: proper type casts, please
-    a.zip(b).each { |x,y| return x.to_i <=> y.to_i unless x.to_i == y.to_i }
-    0
-  end
-
 end

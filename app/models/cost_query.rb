@@ -26,7 +26,7 @@ class CostQuery < ActiveRecord::Base
 
   def add_chain(type, name, options)
     chain type.const_get(name.to_s.camelcase), options
-    @transformer, @table = nil, nil
+    @transformer, @table, @depths = nil, nil, nil
     self
   end
 
@@ -65,10 +65,15 @@ class CostQuery < ActiveRecord::Base
     chain.select { |c| c.filter? }
   end
 
+  def depth_of(name)
+    @depths ||= {}
+    @depths[name] ||= chain.inject(0) { |sum, child| child.type == name ? sum + 1 : sum }
+  end
+
   def_delegators  :transformer, :column_first, :row_first
   def_delegators  :chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result
   def_delegators  :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :each_row, :count,
-                    :units, :real_costs, :size, :depth_of, :final_number
+                    :units, :real_costs, :size, :final_number
   def_delegators  :table, :row_index, :colum_index
 
   def to_a

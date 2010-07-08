@@ -114,6 +114,14 @@ module CostQuery::QueryUtils
     "CASE #{options.map { |k,v| "WHEN #{field_name_for k} THEN #{field_name_for v}" }} ELSE #{field_name_for else_part} END"
   end
 
+  def map_field(key, value)
+    case key.to_s
+    when "tweek", "tyear", "tmonth", /_id$/ then value.to_i
+    when /_(on|at)$/ then value ? Time.parse(value) : Time.at(0)
+    else fail "add mapping for  #{key}"
+    end
+  end
+
   def self.included(klass)
     super
     klass.extend self

@@ -1,9 +1,11 @@
 module CostQuery::Result
   class Base
     attr_accessor :parent, :type, :important_fields
+    attr_accessor :key
     attr_reader :value
     alias values value
     include Enumerable
+    include CostQuery::QueryUtils
 
     def initialize(value)
       @type = :direct
@@ -97,6 +99,10 @@ module CostQuery::Result
     def render(keys = important_fields)
       fields.map { |k,v| yield(k,v) if keys.include? k }.join
     end
+
+    def set_key(index)
+      self.key = index.map { |k| map_field(k, fields[k]) }
+    end
   end
 
   class DirectResult < Base
@@ -133,13 +139,25 @@ module CostQuery::Result
       return enum_for(__method__) unless block_given?
       yield self
     end
+
+    def sort!(force = false)
+      force
+    end
   end
 
   class WrappedResult < Base
     include Enumerable
 
-    def initialize(values)
-      super values.sort_by { |v| v.important_fields.map { |f| v[f] } }
+    def set_key(index = [])
+      values.each { |v| v.set_key index }
+      super
+    end
+
+    def sort!(force = false)
+      return false if @sorted and not force
+      values.sort! { |a,b| a.key <=> b.key }
+      values.each { |e| e.sort! force }
+      @sorted = true
     end
 
     def depth_of(type)

@@ -30,22 +30,63 @@ class CostQuery::Walker
     cell ? for_cell[cell] : for_empty_cell[nil] 
   end
 
-  def headers(result = nil, first_in_col = true, last_in_col = true, &block)
-    result, wrapper = nil, wrapper if result.respond_to? "%"
-    result = nil if reverse = (result == :reverse)
-    first = result.nil?
+  # def headers(result = nil, first_in_col = true, last_in_col = true, &block)
+  #     result, wrapper = nil, wrapper if result.respond_to? "%"
+  #     result = nil if reverse = (result == :reverse)
+  #     first = result.nil?
+  #     result ||= query.column_first
+  #     return unless result.column? and not result.final_column?
+  #     
+  #     yield result, first, first_in_col, last_in_col unless reverse
+  #     size = result.size - 1
+  #     result.each_with_index { |r,i| headers(r, first, (first_in_col && i == 0), (last_in_col && i == size), &block) }
+  #     yield result, first, first_in_col, last_in_col if reverse
+  #   end
+
+  def headers(result = nil, &block)
+    @header_stack = []
     result ||= query.column_first
-    return unless result.column? and not result.final_column?
-    
-    yield result, first, first_in_col, last_in_col unless reverse
-    size = result.size - 1
-    result.each_with_index { |r,i| headers(r, (first_in_col && i == 0), (last_in_col && i == size), &block) }
-    yield result, first, first_in_col, last_in_col if reverse
+    result.set_key
+    result.sort!
+    last_level = -1
+    num_in_col = 0
+    level_size = 1
+    sublevel   = 0
+    result.recursive_each_with_level(0, false) do |level, result|
+      break if result.final_column?
+      if first_in_col = (last_level < level)
+        list        = []
+        last_level  = level
+        num_in_col  = 0
+        level_size  = sublevel
+        sublevel    = 0
+        @header_stack << list
+      end
+      num_in_col  += 1
+      sublevel    += result.size
+      last_in_col  = (num_in_col == level_size)
+      @header_stack.last << [result, first_in_col, last_in_col]
+      yield(result, level == 0, first_in_col, last_in_col)
+    end
+  end
+
+  def reverse_headers
+    fail "call header first" unless @header_stack
+    first = true
+    @header_stack.reverse_each do |list|
+      list.each do |result, first_in_col, last_in_col|
+        yield(result, first, first_in_col, last_in_col)
+      end
+      first = false
+    end
   end
 
   def body(result = nil)
     return [*body(result)].each { |a| yield a } if block_given?
-    result ||= query.result
+    result ||= query.result.tap do |r|
+      r.set_key query.chain.map { |c| c.group_fields.map(&:to_s) if c.group_by? }.compact.flatten
+      r.sort! true
+    end
     if result.row?
       if result.final_row?
         subresults = query.table.with_gaps_for(:column, result).map(&method(:walk_cell))
