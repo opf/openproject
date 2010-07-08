@@ -1,3 +1,8 @@
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "select_list_move_optgroup", :plugin => "redmine_reporting" %>
+  <%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
+<% end %>
+
 <% if @custom_error %>
   <div class="flash error"><%= @custom_error %></div>
 <% end %>
@@ -14,7 +19,7 @@
 
   <fieldset id="group-by" class="collapsible">
     <legend onclick="toggleFieldset(this);"><%= l(:label_group_by) %></legend>
-    <div><%#= render :partial => 'group_by', :locals => {:query_form => query_form} %></div>
+    <div><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
   </fieldset>
 
   <p class="buttons">

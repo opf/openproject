@@ -1,0 +1,74 @@
+<%#
+  This partial requires the following locals:
+    f       An ActionView::Helpers::FormBuilder
+    query   A CostQuery object
+%>
+
+<table style="border-collapse: collapse; border: 0pt none;" id="group_by_table">
+  <tbody><tr>
+    <td colspan="2">
+      <select style="width: 150px;" size="9" multiple="multiple" id="group_by_container">
+        <optgroup label="Entries">
+          <option value="tracker_id">Tracker</option>
+          <option value="activity_id">Activity</option>
+          <option value="cost_object_id">Cost object</option>
+          <option value="cost_type_id">Cost type</option>
+          <option value="issue_id">Issue</option>
+        </optgroup>
+        <optgroup label="Issues">
+          <option value="spent_on">Spent on</option>
+          <option value="tmonth">Month</option>
+        </optgroup>
+      </select>
+    </td>
+    <td align="center" valign="middle">
+      <input type="button" onclick="moveOptions(this.form.group_by_container, this.form.group_by_columns);" value="→"><br>
+      <input type="button" onclick="moveOptions(this.form.group_by_columns, this.form.group_by_container);" value="←">
+    </td>
+   <td style="padding-left: 0pt;" valign="middle">
+    <h3>Columns</h3>
+      <select style="width: 150px;" size="4" name="groups[columns][]" multiple="multiple" id="group_by_columns">
+        <option value="tyear">Year</option>
+        <option value="tweek">Week</option>
+      </select>
+    </td>
+    <td align="center" valign="middle">
+      <input type="button" onclick="moveOptionUp(this.form.group_by_columns);" value="↑"><br>
+      <input type="button" onclick="moveOptionDown(this.form.group_by_columns);" value="↓">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" colspan="2">
+      <input type="button" onclick="moveOptions(this.form.group_by_container, this.form.group_by_rows);" value="↓">
+      <input type="button" onclick="moveOptions(this.form.group_by_rows, this.form.group_by_container);" value="↑">
+    </td>
+    <td colspan="3" rowspan="2" align="center" valign="middle">
+      <table border="1" style="border-collapse: collapse">
+        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
+        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
+        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
+        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding-left: 0pt;" valign="middle">
+      <h3>Rows</h3>
+      <select style="width: 150px;" size="4" name="groups[rows][]" multiple="multiple" id="group_by_rows">
+        <option value="project_id">Project</option>
+        <option value="user_id">User</option>
+      </select>
+    </td>
+    <td align="center" valign="middle">
+      <input type="button" onclick="moveOptionUp(this.form.group_by_rows);" value="↑"><br>
+      <input type="button" onclick="moveOptionDown(this.form.group_by_rows);" value="↓">
+    </td>
+  </tr></tbody>
+</table>
+
+<%#
+up     &#8593;
+down   &#8595;
+left   &#8592;
+right  &#8594;
+%>

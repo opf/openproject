@@ -4,8 +4,7 @@
     query   A CostQuery object
 %>
 
-<%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
-<% active_filters = query.filters.select {|f| f.class.display? } %>
+<% active_filters = query.filters.select {|f| f.class.display?} %>
 <script type="text/javascript">
 //<![CDATA[
 document.stopObserving("dom:loaded");
