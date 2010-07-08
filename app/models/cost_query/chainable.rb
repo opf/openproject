@@ -84,6 +84,10 @@ class CostQuery < ActiveRecord::Base
       type == :column
     end
 
+    def group_by?
+      !filter?
+    end
+
     def to_a
       returning([to_hash]) { |a| a.unshift(*child.to_a) unless bottom? }
     end
