@@ -18,7 +18,7 @@
   walker.for_empty_cell { "<td>&nbsp;</td>" }
 
   walker.for_cell do |result|
-    "<td>#{number_to_currency result.real_costs}, #{result.fields.inspect}</td>"
+    "<td>#{number_to_currency result.real_costs}#{"," << result.fields.inspect if params[:debug]}</td>"
   end
 %>
 
@@ -51,18 +51,20 @@
   <% end %>
 </table>
 
-<pre>
+<% if params[:debug] %>
+  <pre>
   
-  [ Query ]
-  <% query.chain.each do |child| %>
-    - <%= h child.class.inspect %>, <%= h child.type %>
-  <% end %>
+    [ Query ]
+    <% query.chain.each do |child| %>
+      - <%= h child.class.inspect %>, <%= h child.type %>
+    <% end %>
   
-  [ RESULT ]
+    [ RESULT ]
   
-  <% query.result.recursive_each_with_level do |level, result| %>
-    <%= ">>> " * (level+1) %><%= h result.inspect %>,
-       <%= "   " * (level+1) %><%= h result.type.inspect %>,
-       <%= "   " * (level+1) %><%= h result.fields.inspect %>
-  <% end %>
-</pre>
+    <% query.result.recursive_each_with_level do |level, result| %>
+      <%= ">>> " * (level+1) %><%= h result.inspect %>,
+         <%= "   " * (level+1) %><%= h result.type.inspect %>,
+         <%= "   " * (level+1) %><%= h result.fields.inspect %>
+    <% end %>
+  </pre>
+<% end %>
