@@ -23,12 +23,6 @@ class CostQuery::Operator
       def label
         @label ||= Query.operators[name]
       end
-
-      ##
-      # returns the number of arguments the user should give to use this operator
-      def arg_count
-        1
-      end
     end
 
     # Operators from Redmine
@@ -39,7 +33,7 @@ class CostQuery::Operator
       end
     end
 
-    new "w", :arg_count => 0 do
+    new "w" do
       def modify(query, field, offset = nil)
         offset ||= 0
         from = Time.now.at_beginning_of_week - ((l(:general_first_day_of_week).to_i % 7) + 1).days
@@ -113,9 +107,9 @@ class CostQuery::Operator
       end
     end
 
-    new "t", :arg_count => 0 do
+    new "t" do
       include DateRange
-      def modify(query, field, *value)
+      def modify(query, field)
         super query, field, 0, 0
       end
     end
@@ -151,9 +145,9 @@ class CostQuery::Operator
       end
     end
 
-    new "0", :label => :label_none, :where_clause => "%s = 0", :arg_count => 0
-    new "y", :label => :label_yes, :where_clause => "%s IS NOT NULL", :arg_count => 0
-    new "n", :label => :label_no, :where_clause => "%s IS NULL", :arg_count => 0
+    new "0", :label => :label_none, :where_clause => "%s = 0"
+    new "y", :label => :label_yes, :where_clause => "%s IS NOT NULL"
+    new "n", :label => :label_no, :where_clause => "%s IS NULL"
 
     new "<d", :label => :label_less_or_equal do
       def modify(query, field, value)
@@ -167,7 +161,7 @@ class CostQuery::Operator
       end
     end
 
-    new "<>d", :label => :label_between, :arg_count => 2 do
+    new "<>d", :label => :label_between do
       def modify(query, field, from, to)
         query.where "#{field} BETWEEN '#{quoted_date from}' AND '#{quoted_date to}'"
         query
@@ -254,6 +248,13 @@ class CostQuery::Operator
 
   def to_s
     name
+  end
+
+  def arity
+    @arity ||= begin
+      num = method(:modify).arity
+      num < 0 ? num + 2 : num - 2
+    end
   end
 
   def inspect

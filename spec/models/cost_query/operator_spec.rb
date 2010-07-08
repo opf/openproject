@@ -181,5 +181,12 @@ describe CostQuery do
       query('projects', 'created_on', '>d', Time.now).size.should == 0
     end
 
+    describe 'arity' do
+      arities = {'t' => 0}
+      arities.each do |o,a|
+        it("#{o} should take #{a} values") { o.to_operator.arity.should == a }
+      end
+    end
+
   end
 end

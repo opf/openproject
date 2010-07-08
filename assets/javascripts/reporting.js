@@ -19,8 +19,8 @@ function toggle_multi_select(field) {
 
 function operator_changed(field, select) {
   option_tag = select.options[select.selectedIndex]
-  arg_count = option_tag.getAttribute("data-arg_count");
-  change_argument_visibility(field, arg_count)
+  arity = option_tag.getAttribute("data-arity");
+  change_argument_visibility(field, arity)
 }
 
 function change_argument_visibility(field, arg_nr) {
@@ -28,10 +28,10 @@ function change_argument_visibility(field, arg_nr) {
   arg2 = $(field + '_arg_2')
   if (arg1 != null)
     if(arg_nr == 0) arg1.hide();
-    else            arg1.show();
+    else arg1.show();
   if (arg2 != null)
-    if(arg_nr == 2) arg2.show();
-    else            arg2.hide();
+    if(arg_nr >= 2 || arg_nr <= -2) arg2.show();
+    else arg2.hide();
 }
 
 function show_filter(field) {
