@@ -115,7 +115,7 @@ class CostQuery::Operator
 
     new "t", :arg_count => 0 do
       include DateRange
-      def modify(query, field, value=nil)
+      def modify(query, field, *value)
         super query, field, 0, 0
       end
     end
