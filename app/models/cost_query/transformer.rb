@@ -24,7 +24,7 @@ class CostQuery::Transformer
         fields, all_fields = all_fields, all_fields - current_fields
         aggregate.grouped_by fields, type, current_fields
       end
-      result or current.result
+      result or query.result
     end
   end
 
@@ -32,7 +32,7 @@ class CostQuery::Transformer
   # Important side effect: it sets @ungrouped, @all_fields.
   # @return [Array<Array<Array<String,Symbol>, Symbol>>] Group by fields + types (:row or :column)
   def restructured
-    rows, columns, current = [], [], @query.chain
+    rows, columns, current = [], [], query.chain
     @all_fields = []
     until current.filter?
       @ungrouped = current.result if current.responsible_for_sql?
