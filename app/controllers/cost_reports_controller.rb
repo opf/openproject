@@ -11,7 +11,7 @@ class CostReportsController < ApplicationController
 
   ##
   # Determines if the request contains filters to set
-  def set_filter?
+  def set_filter? #FIXME: rename to set_query?
     params[:set_filter].to_i == 1
   end
 
@@ -59,7 +59,9 @@ class CostReportsController < ApplicationController
       end
     end
   end
-  
+
+  ##
+  # Set a default query to cut down initial load time
   def default_group_parameters
     {:columns => [:tweek], :rows => []}.tap do |h|
       h[:rows] << :project_id unless @project
@@ -67,7 +69,7 @@ class CostReportsController < ApplicationController
   end
 
   ##
-  # Build the query from the current request and save it to 
+  # Build the query from the current request and save it to
   # the session.
   def query
     filters = filter_params
