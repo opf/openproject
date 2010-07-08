@@ -22,7 +22,7 @@
   end
 %>
 
-<table style='text-align: center' border='1'>
+<table style="text-align: center; border-collapse: collapse" border="1">
   <% walker.headers do |list, first, first_in_col, last_in_col| %>
     <%= '<tr>' if first_in_col %>
       <%= "<td rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row) - 1}'></td>" if first %>
