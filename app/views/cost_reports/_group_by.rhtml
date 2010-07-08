@@ -4,50 +4,46 @@
     query   A CostQuery object
 %>
 
+<%#TODO: replace me with a drag&drop group_by selector %>
+
 <table style="border-collapse: collapse; border: 0pt none;" id="group_by_table">
   <tbody><tr>
     <td colspan="2">
       <select style="width: 150px;" size="9" multiple="multiple" id="group_by_container">
-        <optgroup label="Entries">
-          <option value="tracker_id">Tracker</option>
-          <option value="activity_id">Activity</option>
-          <option value="cost_object_id">Cost object</option>
-          <option value="cost_type_id">Cost type</option>
-          <option value="issue_id">Issue</option>
+      <% CostQuery::GroupBy.all_grouped.each do |label, group_by_ary| %>
+        <optgroup label="<%= l(label) %>" data-category="<%= label.to_s %>">
+        <% group_by_ary.each do |group_by| %>
+          <option value="<%= group_by.underscore_name %>" data-category="<%= label.to_s %>"><%= l(group_by.label) %></option>
+        <% end %>
         </optgroup>
-        <optgroup label="Issues">
-          <option value="spent_on">Spent on</option>
-          <option value="tmonth">Month</option>
-        </optgroup>
+      <% end %>
       </select>
     </td>
     <td align="center" valign="middle">
-      <input type="button" onclick="moveOptions(this.form.group_by_container, this.form.group_by_columns);" value="→"><br>
-      <input type="button" onclick="moveOptions(this.form.group_by_columns, this.form.group_by_container);" value="←">
+      <input type="button" onclick="moveOptions(this.form.group_by_container, this.form.group_by_columns);" value="&#8594;"><br>
+      <input type="button" onclick="moveOptions(this.form.group_by_columns, this.form.group_by_container);" value="&#8592;">
     </td>
    <td style="padding-left: 0pt;" valign="middle">
     <h3>Columns</h3>
       <select style="width: 150px;" size="4" name="groups[columns][]" multiple="multiple" id="group_by_columns">
-        <option value="tyear">Year</option>
-        <option value="tweek">Week</option>
       </select>
     </td>
     <td align="center" valign="middle">
-      <input type="button" onclick="moveOptionUp(this.form.group_by_columns);" value="↑"><br>
-      <input type="button" onclick="moveOptionDown(this.form.group_by_columns);" value="↓">
+      <input type="button" onclick="moveOptionUp(this.form.group_by_columns);" value="&#8593;"><br>
+      <input type="button" onclick="moveOptionDown(this.form.group_by_columns);" value="&#8595;">
     </td>
   </tr>
   <tr>
     <td align="center" valign="middle" colspan="2">
-      <input type="button" onclick="moveOptions(this.form.group_by_container, this.form.group_by_rows);" value="↓">
-      <input type="button" onclick="moveOptions(this.form.group_by_rows, this.form.group_by_container);" value="↑">
+      <input type="button" onclick="moveOptions(this.form.group_by_container, this.form.group_by_rows);" value="&#8595;">
+      <input type="button" onclick="moveOptions(this.form.group_by_rows, this.form.group_by_container);" value="&#8593;">
     </td>
     <td colspan="3" rowspan="2" align="center" valign="middle">
       <table border="1" style="border-collapse: collapse">
-        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
-        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
-        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
-        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
+        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
+        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
+        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
+        <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -55,13 +51,11 @@
     <td style="padding-left: 0pt;" valign="middle">
       <h3>Rows</h3>
       <select style="width: 150px;" size="4" name="groups[rows][]" multiple="multiple" id="group_by_rows">
-        <option value="project_id">Project</option>
-        <option value="user_id">User</option>
       </select>
     </td>
     <td align="center" valign="middle">
-      <input type="button" onclick="moveOptionUp(this.form.group_by_rows);" value="↑"><br>
-      <input type="button" onclick="moveOptionDown(this.form.group_by_rows);" value="↓">
+      <input type="button" onclick="moveOptionUp(this.form.group_by_rows);" value="&#8593;"><br>
+      <input type="button" onclick="moveOptionDown(this.form.group_by_rows);" value="&#8595;">
     </td>
   </tr></tbody>
 </table>
