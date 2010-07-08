@@ -109,6 +109,9 @@ module CostQuery::Filter
 
     def sql_statement
       super.tap do |query|
+        arity   = operator.method(:modify).arity - 2
+        values  = [*values]
+        values  = values[0, arity] if arity >= 0 and arity != values.size
         operator.modify(query, field, *values)
       end
     end
