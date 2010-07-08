@@ -17,50 +17,75 @@ class CostReportsController < ApplicationController
 
   ##
   # Find a query to search on and put it in the session
-  def query_parameters
-    filters = http_query_parameters if set_filter?
-    filters ||= session[:cost_query]
-    filters ||= default_query_parameters
+  def filter_params
+    filters = http_filter_parameters if set_filter?
+    filters ||= session[:cost_query].try(:[], :filters)
+    filters ||= default_filter_parameters
+  end
+  
+  def group_params
+    groups = http_group_parameters if set_filter?
+    groups ||= session[:cost_query].try(:[], :groups)
+    groups ||= default_group_parameters
   end
 
   ##
   # Extract active filters from the http params
-  def http_query_parameters
+  def http_filter_parameters
     (params[:fields] || []).inject({:operators => {}, :values => {}}) do |hash, field|
       hash[:operators][field.to_sym] = params[:operators][field]
       hash[:values][field.to_sym] = params[:values][field]
       hash
     end
   end
+  
+  def http_group_parameters
+    if params[:groups]
+      rows = params[:groups][:rows]
+      columns = params[:groups][:columns]
+    end
+    {:rows => (rows || []), :columns => (columns || [])}
+  end
 
   ##
   # Set a default query to cut down initial load time
-  def default_query_parameters
-    hash = {:operators => {:user_id => "=", :tweek => "="},
-    :values => {:user_id => [User.current.id], :tweek => [Date.today.cweek]}}
-    if @project
-      hash[:operators].merge! :project_id => "="
-      hash[:values].merge! :project_id => [@project.id]
+  def default_filter_parameters
+    {:operators => {:user_id => "=", :created_on => ">d"},
+      :values => {:user_id => [User.current.id], :created_on => [30.days.ago]}
+    }.tap do |hash|
+      if @project
+        hash[:operators].merge! :project_id => "="
+        hash[:values].merge! :project_id => [@project.id]
+      end
     end
-    hash
+  end
+  
+  def default_group_parameters
+    {:columns => [:tweek], :rows => [:issue_id]}.tap do |h|
+      h[:rows] << :project_id unless @project
+    end
   end
 
   ##
   # Build the query from the current request and save it to 
   # the session.
   def query
-    cost_query = query_parameters
-    session[:cost_query] = cost_query
+    filters = filter_params
+    groups  = group_params
+
+    session[:cost_query] = {:filters => filters, :groups => groups}
+    
     @query = CostQuery.new
     @query.tap do |q|
-      cost_query[:operators].each do |filter, operator|
+      filters[:operators].each do |filter, operator|
         q.filter(filter.to_sym,
         :operator => operator,
-        :values => cost_query[:values][filter])
+        :values => filters[:values][filter])
       end
-    end.
-    column(:tweek).column(:tyear).
-    row(:project_id).row(:user_id)
+    end
+    groups[:rows].each {|r| @query.row(r) }
+    groups[:columns].each {|c| @query.column(c) }
+    @query
   end
 
   private
