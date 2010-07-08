@@ -31,7 +31,7 @@ class Burndown
     _series = ([nil] * days.size)
 
     # load cache
-    day_index = to_h(days, 0.upto(days.size - 1).collect{|d| d})
+    day_index = to_h(days, (0..(days.size - 1)).to_a)
     starts = sprint.sprint_start_date
     BurndownDay.find(:all, :order=>'created_at', :conditions => ["version_id = ?", sprint.id]).each {|data|
       day = day_index[data.created_at.to_date]
