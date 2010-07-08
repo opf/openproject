@@ -4,23 +4,8 @@
     query   A CostQuery object
 %>
 
-<% active_filters = query.filters.select {|f| f.class.display?} %>
-<script type="text/javascript">
-//<![CDATA[
-document.stopObserving("dom:loaded");
-function set_filters() {
-  // Activate recent filters on loading
-  <% active_filters.each do |f| %>
-    show_filter("<%= f.class.underscore_name %>");
-    disable_select_option($('add_filter_select'), "<%= f.class.underscore_name %>");
-    <% if f.values && (f.values.size > 1) %>
-      toggle_multi_select("<%= f.class.underscore_name %>");
-    <% end %>
-  <% end %>
-}
-document.observe("dom:loaded", set_filters);
-//]]>
-</script>
+<%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
+<% active_filters = query.filters.select {|f| f.class.display? } %>
 
 <table width="100%">
 <tr>
@@ -57,3 +42,22 @@ document.observe("dom:loaded", set_filters);
   </td>
 </tr>
 </table>
+
+<script type="text/javascript">
+//<![CDATA[
+document.stopObserving("dom:loaded");
+function set_filters() {
+  // Activate recent filters on loading
+  <% active_filters.each do |f| %>
+    show_filter("<%= f.class.underscore_name %>");
+    disable_select_option($('add_filter_select'), "<%= f.class.underscore_name %>");
+    <% if f.values && (f.values.size > 1) %>
+      toggle_multi_select("<%= f.class.underscore_name %>");
+    <% end %>
+  <% end %>
+}
+
+document.observe("dom:loaded", set_filters);
+set_filters();
+//]]>
+</script>
