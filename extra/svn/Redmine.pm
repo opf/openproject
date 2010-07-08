@@ -338,7 +338,9 @@ sub is_member {
                 bindpw  =>      $rowldap[4] ? $rowldap[4] : "",
                 filter  =>      "(".$rowldap[6]."=%s)"
             );
-            $ret = 1 if ($ldap->authenticate($redmine_user, $redmine_pass));
+            my $method = $r->method;
+            $ret = 1 if ($ldap->authenticate($redmine_user, $redmine_pass) && ((defined $read_only_methods{$method} && $permissions =~ /:browse_repository/) || $permissions =~ /:commit_access/));
+
           }
           $sthldap->finish();
           undef $sthldap;
