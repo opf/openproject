@@ -85,8 +85,8 @@ class CostReportsController < ApplicationController
         :values => filters[:values][filter])
       end
     end
-    groups[:rows].each {|r| @query.row(r) }
-    groups[:columns].each {|c| @query.column(c) }
+    groups[:rows].reverse_each {|r| @query.row(r) }
+    groups[:columns].reverse_each {|c| @query.column(c) }
     @query
   end
 
