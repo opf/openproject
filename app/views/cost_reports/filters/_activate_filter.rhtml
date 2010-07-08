@@ -10,5 +10,5 @@
 <td width="<%= element[:width] || 200 %>">
   <input id="cb_<%= element[:filter_name] %>" name="fields[]" onclick="toggle_filter('<%= element[:filter_name] %>');"
          type="checkbox" value="<%= element[:filter_name] %>" />
-  <label for="cb_<%= element[:filter_name] %>"><%= element[:label].capitalize %></label>
+  <label for="cb_<%= element[:filter_name] %>"><%= element[:label] %></label>
 </td>
