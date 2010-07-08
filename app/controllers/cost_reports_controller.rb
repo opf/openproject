@@ -61,7 +61,7 @@ class CostReportsController < ApplicationController
   end
   
   def default_group_parameters
-    {:columns => [:tweek], :rows => [:issue_id]}.tap do |h|
+    {:columns => [:tweek], :rows => []}.tap do |h|
       h[:rows] << :project_id unless @project
     end
   end

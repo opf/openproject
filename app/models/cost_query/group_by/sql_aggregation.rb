@@ -5,7 +5,7 @@ module CostQuery::GroupBy
     end
 
     def compute_result
-      super.tap { |r| r.important_fields = group_fields }
+      super.tap { |r| r.important_fields = group_fields }.grouped_by(all_group_fields(false), type, group_fields)
     end
 
     def sql_statement
