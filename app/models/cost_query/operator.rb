@@ -33,7 +33,7 @@ class CostQuery::Operator
       end
     end
 
-    new "w" do
+    new "w", :arity => 0 do
       def modify(query, field, offset = nil)
         offset ||= 0
         from = Time.now.at_beginning_of_week - ((l(:general_first_day_of_week).to_i % 7) + 1).days
@@ -253,6 +253,7 @@ class CostQuery::Operator
   def arity
     @arity ||= begin
       num = method(:modify).arity
+      # modify takes two more arguments before the values
       num < 0 ? num + 2 : num - 2
     end
   end

@@ -129,7 +129,7 @@ class CostQuery::SqlStatement
       "\nFROM\n\t#{from.gsub("\n", "\n\t")}" \
       "\n#{joins.map { |e| "\t#{e}" }.join "\n"}" \
       "\nWHERE #{where.join " AND "}\n"
-      sql << "GROUP BY #{group_by.join ', '}\n" if group_by?
+      sql << "GROUP BY #{group_by.join ', '}\nORDER BY #{group_by.join ', '}\n" if group_by?
       sql # << " LIMIT 100"
     end
   end

@@ -138,6 +138,10 @@ module CostQuery::Result
   class WrappedResult < Base
     include Enumerable
 
+    def initialize(values)
+      super values.sort_by { |v| v.important_fields.map { |f| v[f] } }
+    end
+
     def depth_of(type)
       super + first.depth_of(type)
     end

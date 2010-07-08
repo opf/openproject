@@ -18,7 +18,7 @@
   walker.for_empty_cell { "<td>&nbsp;</td>" }
 
   walker.for_cell do |result|
-    "<td>#{number_to_currency result.real_costs}</td>"
+    "<td>#{number_to_currency result.real_costs}, #{result.fields.inspect}</td>"
   end
 %>
 
