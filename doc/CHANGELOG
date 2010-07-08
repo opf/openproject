@@ -8,7 +8,12 @@ http://www.redmine.org/
 
 Adds context menu to the roadmap issue lists
 
+== 2010-07-07 v0.9.6
+
+Fixed: Redmine.pm access by unauthorized users
+
 == 2010-06-24 v0.9.5
+
 Linkify folder names on revision view
 "fiters" and "options" should be hidden in print view via css
 Fixed: NoMethodError when no issue params are submitted
