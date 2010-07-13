@@ -130,7 +130,7 @@ describe CostQuery do
 
     it "should show the type :direct for its direct results" do
       @query.column :project_id
-      @query.result.first.type.should == :direct
+      @query.result.first.first.type.should == :direct
     end
 
   end
