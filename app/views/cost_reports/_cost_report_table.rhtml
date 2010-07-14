@@ -27,7 +27,28 @@ walker.for_cell do |result|
 end
 %>
 
-<table class='list' style="text-align: center; border-collapse: collapse" border="1">
+<style type="text/css">
+<!--
+/* move somewhere else */
+
+.report {
+  text-align:       center;
+  border-collapse:  collapse;
+  font-size:        95%;
+  border:           solid 1px #E8E8E8;
+  width:            auto !important; }
+.report td, .report th {
+  border:           solid 1px #E8E8E8; }
+.report th {
+  font-size:        80%; }
+.report td, .report th {
+  min-width:        90px;
+  white-space:      nowrap; }
+
+-->
+</style>
+
+<table class='list report'>
   <theader>
     <% walker.headers do |list, first, first_in_col, last_in_col| %>
       <%= '<tr>' if first_in_col %>
