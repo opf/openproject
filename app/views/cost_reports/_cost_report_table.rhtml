@@ -1,25 +1,30 @@
 <%
-  walker.for_final_row do |row, cells|
-    "<th>#{show_row row}</th>" << cells.join << "<th>#{number_to_currency(row.real_costs)}</th>"
-  end
 
-  walker.for_row do |row, subrows|
-    subrows.flatten!
-    unless row.fields.empty?
-      subrows[0] = <<-HTML
-        <th rowspan='#{subrows.size}'>#{show_row row}</th>
-        #{subrows[0]}
-        <th rowspan='#{subrows.size}'>#{number_to_currency(row.real_costs)}</th>
-      HTML
-    end
-    subrows
-  end
+def debug_fields(result, prefix = ", ")
+  prefix << result.fields.inspect << ", " << result.key.inspect if params[:debug]
+end
 
-  walker.for_empty_cell { "<td>&nbsp;</td>" }
+walker.for_final_row do |row, cells|
+  "<th>#{show_row row}#{debug_fields(row)}</th>" << cells.join << "<th>#{number_to_currency(row.real_costs)}#{debug_fields(row)}</th>"
+end
 
-  walker.for_cell do |result|
-    "<td>#{number_to_currency result.real_costs}#{", " << result.fields.inspect << ", " << result.key.inspect if params[:debug]}</td>"
+walker.for_row do |row, subrows|
+  subrows.flatten!
+  unless row.fields.empty?
+    subrows[0] = <<-HTML
+    <th rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
+    #{subrows[0]}
+    <th rowspan='#{subrows.size}'>#{number_to_currency(row.real_costs)}#{debug_fields(row )}</th>
+    HTML
   end
+  subrows
+end
+
+walker.for_empty_cell { "<td>&nbsp;</td>" }
+
+walker.for_cell do |result|
+  "<td>#{number_to_currency result.real_costs}#{debug_fields(result)}</td>"
+end
 %>
 
 <table class='list' style="text-align: center; border-collapse: collapse" border="1">
@@ -48,10 +53,16 @@
         <%= "<th rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'></th>" if first %>
       <% end %>
       <% list.each do |column| %>
-        <th colspan="<%= column.final_number(:column) %>"><%= number_to_currency column.real_costs %></th>
+        <th colspan="<%= column.final_number(:column) %>">
+          <%= number_to_currency column.real_costs %><%= debug_fields(column) %>
+        </th>
       <% end %>
       <% if last_in_col %>
-        <%= "<th rowspan='#{@query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'>#{number_to_currency query.real_costs}</th>" if first %>
+        <% if first %>
+          <th rowspan='<%= @query.depth_of(:column) %>' colspan='<%= query.depth_of(:row) %>'>
+            <%= number_to_currency query.real_costs %>
+          </th>
+        <% end %>
         </tr>
       <% end %>
     <% end %>

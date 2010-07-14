@@ -1,5 +1,5 @@
 class CostQuery::Walker
-  attr_accessor :query
+  attr_accessor :query, :header_stack
   def initialize(query)
     @query = query
   end
@@ -46,8 +46,7 @@ class CostQuery::Walker
   def headers(result = nil, &block)
     @header_stack = []
     result ||= query.column_first
-    result.set_key
-    result.sort!
+    sort result
     last_level = -1
     num_in_col = 0
     level_size = 1
@@ -81,12 +80,18 @@ class CostQuery::Walker
     end
   end
 
+  def sort_keys
+    @sort_keys ||= query.chain.map { |c| c.group_fields.map(&:to_s) if c.group_by? }.compact.flatten
+  end
+
+  def sort(result)
+    result.set_key sort_keys
+    result.sort!
+  end
+
   def body(result = nil)
     return [*body(result)].each { |a| yield a } if block_given?
-    result ||= query.result.tap do |r|
-      r.set_key query.chain.map { |c| c.group_fields.map(&:to_s) if c.group_by? }.compact.flatten
-      r.sort! true
-    end
+    result ||= query.result.tap { |r| sort(r) }
     if result.row?
       if result.final_row?
         subresults = query.table.with_gaps_for(:column, result).map(&method(:walk_cell))

@@ -8,6 +8,7 @@ module CostQuery::Result
     include CostQuery::QueryUtils
 
     def initialize(value)
+      @important_fields ||=
       @type = :direct
       @value = value
     end
@@ -100,7 +101,7 @@ module CostQuery::Result
       fields.map { |k,v| yield(k,v) if keys.include? k }.join
     end
 
-    def set_key(index)
+    def set_key(index = [])
       self.key = index.map { |k| map_field(k, fields[k]) }
     end
   end
