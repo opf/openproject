@@ -1,12 +1,11 @@
 <script type="text/javascript">
 //<![CDATA[
-document.stopObserving("dom:loaded");
-function restore_query_inputs() {
+restore_query_inputs =function() {
   set_filters();
   set_group_bys();
 }
 
-function set_filters() {
+set_filters = function() {
   // Activate recent filters on loading
   <% active_filters = query.filters.select {|f| f.class.display? } %>
   <% active_filters.each do |f| %>
@@ -18,7 +17,7 @@ function set_filters() {
   <% end %>
 }
 
-function set_group_bys() {
+set_group_bys = function() {
   // Activate recent group_bys on loading
   <% query.group_bys.each do |group_by| %>
     <%= "show_group_by_column('#{group_by.class.underscore_name}');" if group_by.column? %>
@@ -26,7 +25,6 @@ function set_group_bys() {
   <% end %>
 }
 
-document.observe("dom:loaded", restore_query_inputs);
 restore_query_inputs();
 //]]>
 </script>
