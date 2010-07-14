@@ -6,6 +6,7 @@ class CostReportsController < ApplicationController
   include ReportingHelper
 
   def index
+    CostQuery::QueryUtils.cache.clear
     render :layout => !request.xhr?
   end
 

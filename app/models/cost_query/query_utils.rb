@@ -116,10 +116,24 @@ module CostQuery::QueryUtils
 
   def map_field(key, value)
     case key.to_s
+    when "user_id" then value ? user_name(value.to_i) : ''
     when "tweek", "tyear", "tmonth", /_id$/ then value.to_i
     when /_(on|at)$/ then value ? Time.parse(value) : Time.at(0)
     else fail "add mapping for  #{key}"
     end
+  end
+
+  def user_name(id)
+    # we have no identity map... :(
+    cache[:user_name][id] ||= User.find(id).name
+  end
+
+  def cache
+    CostQuery::QueryUtils.cache
+  end
+
+  def self.cache
+    @cache ||= Hash.new { |h,k| h[k] = {} }
   end
 
   def self.included(klass)
