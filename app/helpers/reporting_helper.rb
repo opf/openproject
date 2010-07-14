@@ -35,6 +35,12 @@ module ReportingHelper
     link_to project.name, :controller => 'projects', :action => 'show', :id => project
   end
 
+  def cost_type(value)
+    id = value.to_i
+    return l(:caption_labor) if id < 0
+    CostType.find(id).name
+  end
+
   ##
   # For a given row, determine how to render it's contents according to usability and 
   # localization rules  
@@ -51,7 +57,7 @@ module ReportingHelper
         when :tweek                     then "#{l(:label_week)} ##{value}"
         when :tmonth                    then month_name(value.to_i)
         when :category_id               then IssueCategory.find(value.to_i).name
-        when :cost_type_id              then CostType.find(value.to_i).name
+        when :cost_type_id              then cost_type(value)
         when :cost_object               then CostObject.find(value.to_i).subject
         when :issue_id                  then link_to_issue Issue.find(value.to_i)
         when :spent_on                  then format_date(value.to_date)
