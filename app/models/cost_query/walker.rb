@@ -63,7 +63,7 @@ class CostQuery::Walker
       end
       num_in_col  += 1
       sublevel    += result.size
-      last_in_col  = (num_in_col == level_size)
+      last_in_col  = (num_in_col >= level_size)
       @header_stack.last << [result, first_in_col, last_in_col]
       yield(result, level == 0, first_in_col, last_in_col)
     end

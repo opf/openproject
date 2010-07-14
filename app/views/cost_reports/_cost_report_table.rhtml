@@ -78,11 +78,16 @@ end
     <% end %>
   
     [ RESULT ]
-  
     <% query.result.recursive_each_with_level do |level, result| %>
       <%= ">>> " * (level+1) %><%= h result.inspect %>,
          <%= "   " * (level+1) %><%= h result.type.inspect %>,
          <%= "   " * (level+1) %><%= h result.fields.inspect %>
     <% end %>
+
+    [ HEADER STACK ]
+    <% walker.header_stack.each do |l| %>
+      <%= ">>> #{l.inspect}" %>
+    <% end %>
+    
   </pre>
 <% end %>
