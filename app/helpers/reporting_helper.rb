@@ -54,7 +54,8 @@ module ReportingHelper
         when :cost_type_id              then CostType.find(value.to_i).name
         when :cost_object               then CostObject.find(value.to_i).subject
         when :issue_id                  then link_to_issue Issue.find(value.to_i)
-        when :spent_on                  then format_date(value.to_date)
+        when :spent_on                  then format_date(value.to_date  
+        when :tracker_id                then Tracker.find(value.to_id)
         else "??? #{key}: #{value.inspect} ???"
         end
       end
