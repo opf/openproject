@@ -26,16 +26,22 @@ RB.Backlog = RB.Object.create(RB.Model, {
 
     // Observe menu items
     j.find('.new_story').bind('mouseup', this.handleMenuClick);
+    j.find('.select_all').bind('mouseup', this.handleSelectAll);
+    j.find('.unselect_all').bind('mouseup', this.handleSelectAll);
+    j.find('.unselect_all').hide();
 
     // Initialize each item in the backlog
     this.getStories().each(function(index){
       story = RB.Factory.initialize(RB.Story, this); // 'this' refers to an element with class="story"
     });
 
-    // Observe double-click events in certain fields
+    // Observe click events in certain fields
     if(this.isSprint()){
       j.find('.header').first().find('.editable').bind('mouseup', this.handleMouseup);
     }
+
+    // Observe click event on any part of a story
+    j.find('.story').bind('mouseup', this.handleStorySelect);
   },
   
   dragComplete: function(event, ui) {
@@ -166,6 +172,24 @@ RB.Backlog = RB.Object.create(RB.Model, {
     }
   },
   
+  handleSelectAll: function(event){
+    var t = $(event.target);
+    var b = $(this).parents('.backlog').first();
+    var select = t.hasClass('select_all');
+
+    b.find('.checkbox').attr('checked', select);
+    b.find('.select_all').toggle();
+    b.find('.unselect_all').toggle();
+  },
+
+  handleStorySelect: function(event){
+    if(!$(event.target).hasClass('editable') && !$(event.target).hasClass('checkbox')){
+      var j = $(this);
+      var checkbox = j.find('.checkbox')
+      checkbox.attr('checked', !checkbox.attr('checked'));
+    }
+  },
+
   isSprint: function(){
     return $(this.el).hasClass('sprint');
   },

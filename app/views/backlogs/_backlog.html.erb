@@ -68,7 +68,11 @@
             :condition => @project.enabled_modules.any? {|m| m.name=="wiki" }
           },
           {
-            :item => "<a>#{l(:label_select_all)}</a>",
+            :item => "<a class='select_all'>#{l(:label_select_all)}</a>",
+            :for => :both
+          },
+          {
+            :item => "<a class='unselect_all'>Unselect All</a>",
             :for => :both
           }
         ]
