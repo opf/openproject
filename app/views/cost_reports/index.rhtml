@@ -28,7 +28,6 @@
   <%= link_to_remote l(:button_apply),
                      { :url => { :set_filter => 1 },
                        :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
-                       #:complete => "restore_query_inputs()",
                        :update => "content",
                        :with => "Form.serialize('query_form')",
                        :eval_scripts => true
@@ -36,7 +35,6 @@
 
   <%= link_to_remote l(:button_clear),
                      { :url => { :set_filter => 1 },
-                       #:complete => "restore_query_inputs()",
                        :update => "content",
                        :eval_scripts => true
                      }, :class => 'icon icon-reload'  %>
