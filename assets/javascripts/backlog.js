@@ -39,9 +39,6 @@ RB.Backlog = RB.Object.create(RB.Model, {
     if(this.isSprint()){
       j.find('.header').first().find('.editable').bind('mouseup', this.handleMouseup);
     }
-
-    // Observe click event on any part of a story
-    j.find('.story').bind('mouseup', this.handleStorySelect);
   },
   
   dragComplete: function(event, ui) {
@@ -177,17 +174,12 @@ RB.Backlog = RB.Object.create(RB.Model, {
     var b = $(this).parents('.backlog').first();
     var select = t.hasClass('select_all');
 
-    b.find('.checkbox').attr('checked', select);
+    // This is in the name of modularization and abstraction. But I'm not too
+    // happy about code readability. 
+    b.find('.story').each(function(index){ $(this).data('this').setSelection(select) });
+
     b.find('.select_all').toggle();
     b.find('.unselect_all').toggle();
-  },
-
-  handleStorySelect: function(event){
-    if(!$(event.target).hasClass('editable') && !$(event.target).hasClass('checkbox')){
-      var j = $(this);
-      var checkbox = j.find('.checkbox')
-      checkbox.attr('checked', !checkbox.attr('checked'));
-    }
   },
 
   isSprint: function(){

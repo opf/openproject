@@ -16,7 +16,10 @@ RB.Story = RB.Object.create(RB.Model, {
 
     // Observe click events in certain fields
     j.find('.editable').bind('mouseup', this.triggerEdit);
-    
+
+    // Observe click event on any part of a story
+    j.bind('mouseup', this.handleSelect);
+        
     this.checkSubjectLength();
   },
 
@@ -94,6 +97,16 @@ RB.Story = RB.Object.create(RB.Model, {
       default   : return true;
     }
   },
+
+  handleSelect: function(event){
+    var j = $(this);
+    if(!$(event.target).hasClass('editable') && 
+       !$(event.target).hasClass('checkbox') &&
+       !j.hasClass('dragging')){
+      var checkbox = j.find('.checkbox')
+      checkbox.attr('checked', !checkbox.attr('checked'));
+    }
+  },
   
   isNew: function(){
     return this.$.children('.id').text()=="";
@@ -169,6 +182,10 @@ RB.Story = RB.Object.create(RB.Model, {
     if(sprint.size()>0) sprint.data('this').recalcPoints();
   },
 
+  setSelection: function(select){
+    this.$.find('.checkbox').attr('checked', select);
+  },
+
   storyCreated: function(xhr, textStatus){
     me.unmarkSaving();
     
@@ -189,7 +206,7 @@ RB.Story = RB.Object.create(RB.Model, {
       me.unmarkError();
     }
   },
-  
+
   triggerEdit: function(event){
     // Get the story since what was clicked was a field
     var j = $(this).parents('.story').first();
