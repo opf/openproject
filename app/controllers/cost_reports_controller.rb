@@ -69,12 +69,16 @@ class CostReportsController < ApplicationController
     end
   end
 
+  def force_default?
+    params[:default].to_i == 1
+  end
+
   ##
   # Build the query from the current request and save it to
   # the session.
   def query
-    filters = filter_params
-    groups  = group_params
+    filters = force_default? ? default_filter_parameters : filter_params
+    groups  = force_default? ? default_group_parameters  : group_params
 
     session[:cost_query] = {:filters => filters, :groups => groups}
     
