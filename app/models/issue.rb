@@ -25,10 +25,9 @@ class Issue < ActiveRecord::Base
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
-  has_many :journals, :as => :journalized, :dependent => :destroy
   has_many :time_entries, :dependent => :delete_all
   has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
-  
+
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
@@ -36,16 +35,15 @@ class Issue < ActiveRecord::Base
   acts_as_attachable :after_remove => :attachment_removed
   acts_as_customizable
   acts_as_watchable
+
+  acts_as_journalized :event_title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
+                      :event_type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') },
+                      :activity_find_options => {:include => [:project, :author, :tracker]}
+
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
-                     :include => [:project, :journals],
+                     :include => [:project, :changes],
                      # sort by id so that limited eager loading doesn't break with postgresql
-                     :order_column => "#{table_name}.id"
-  acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
-                :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
-  
-  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
-                            :author_key => :author_id
+                    :order_column => "#{table_name}.id"
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
 
