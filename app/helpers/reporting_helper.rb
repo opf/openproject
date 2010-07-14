@@ -52,6 +52,7 @@ module ReportingHelper
         when :tmonth                    then month_name(value.to_i)
         when :category_id               then IssueCategory.find(value.to_i).name
         when :cost_type_id              then CostType.find(value.to_i).name
+        when :cost_object               then CostObject.find(value.to_i).subject
         else "??? #{key}: #{value.inspect} ???"
         end
       end
