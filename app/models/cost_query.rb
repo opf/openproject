@@ -26,7 +26,7 @@ class CostQuery < ActiveRecord::Base
 
   def add_chain(type, name, options)
     chain type.const_get(name.to_s.camelcase), options
-    @transformer, @table, @depths = nil, nil, nil
+    @transformer, @table, @depths, @walker = nil, nil, nil, nil
     self
   end
 
