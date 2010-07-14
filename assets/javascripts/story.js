@@ -100,11 +100,11 @@ RB.Story = RB.Object.create(RB.Model, {
 
   handleSelect: function(event){
     var j = $(this);
+    var me = j.data('this');
     if(!$(event.target).hasClass('editable') && 
        !$(event.target).hasClass('checkbox') &&
        !j.hasClass('dragging')){
-      var checkbox = j.find('.checkbox')
-      checkbox.attr('checked', !checkbox.attr('checked'));
+      me.setSelection(!me.isSelected());
     }
   },
   
@@ -112,6 +112,12 @@ RB.Story = RB.Object.create(RB.Model, {
     return this.$.children('.id').text()=="";
   },
   
+  isSelected: function(){
+    var j = this.$;
+    var checkbox = j.find('.checkbox')
+    return checkbox.attr('checked');
+  },
+
   markError: function(){
     this.$.addClass('error');
   },
