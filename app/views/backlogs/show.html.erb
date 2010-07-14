@@ -1,5 +1,5 @@
 <% content_for :header_tags do %>
-<%= javascript_include_tag  'show', 'taskboard', 'story', 'task', :plugin => 'redmine_backlogs' %>
+<%= javascript_include_tag  'show_main', 'taskboard', 'story', 'task', :plugin => 'redmine_backlogs' %>
 <%= stylesheet_link_tag 'show', 'taskboard', 'task', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
 <script type="text/javascript" src="<%= url_for(:action => 'jsvariables', :project_id => @project.id) %>"></script>
 <% end %>
