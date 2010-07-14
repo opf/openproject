@@ -17,9 +17,9 @@
     <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:f => query_form, :query => @query} %></div>
   </fieldset>
 
-  <fieldset id="group-by" class="collapsible">
+  <fieldset id="group-by" class="collapsible <%= "collapsed" unless @query.new_record? %>">
     <legend onclick="toggleFieldset(this);"><%= l(:label_group_by) %></legend>
-    <div><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
+    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
   </fieldset>
 
   <%= render :partial => 'restore_query', :locals => {:f => query_form, :query => @query} %>
