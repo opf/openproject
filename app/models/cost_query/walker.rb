@@ -30,19 +30,6 @@ class CostQuery::Walker
     cell ? for_cell[cell] : for_empty_cell[nil] 
   end
 
-  # def headers(result = nil, first_in_col = true, last_in_col = true, &block)
-  #     result, wrapper = nil, wrapper if result.respond_to? "%"
-  #     result = nil if reverse = (result == :reverse)
-  #     first = result.nil?
-  #     result ||= query.column_first
-  #     return unless result.column? and not result.final_column?
-  #     
-  #     yield result, first, first_in_col, last_in_col unless reverse
-  #     size = result.size - 1
-  #     result.each_with_index { |r,i| headers(r, first, (first_in_col && i == 0), (last_in_col && i == size), &block) }
-  #     yield result, first, first_in_col, last_in_col if reverse
-  #   end
-
   def headers(result = nil, &block)
     @header_stack = []
     result ||= query.column_first
