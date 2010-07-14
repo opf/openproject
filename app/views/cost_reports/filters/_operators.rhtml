@@ -20,7 +20,7 @@
       <option value="<%= h(operator.to_s) %>"
               data-arity="<%= operator.arity %>"
               <%= 'selected="selected"' if filter and (filter.operator.to_s == operator.to_s) %>>
-        <%= l(operator.label) %>
+        <%= h(l(operator.label)) %>
       </option>
     <% end %>
   </select>
