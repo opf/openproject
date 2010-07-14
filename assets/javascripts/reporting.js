@@ -66,3 +66,28 @@ function add_filter(select) {
   disable_select_option(select,field);
 }
 
+function show_group_by(group_by, target) {
+  source = $("group_by_container");
+  group_option = null;
+  // find group_by option-tag in target select-box
+  for (var i=0; i<source.options.length; i++) {
+    if (source.options[i].value == group_by) {
+      group_option = source.options[i];
+      source.options[i] = null;
+      break;
+    }
+  }
+  // die if the appropriate option-tag can not be found
+  if (group_option == null)
+    return;
+  // move the option-tag to the taget select-box while keepings its data
+  target.options[target.length] = group_option;
+}
+
+function show_group_by_column(group_by) {
+  show_group_by(group_by, $('group_by_columns'));
+}
+
+function show_group_by_row(group_by) {
+  show_group_by(group_by, $('group_by_rows'));
+}
