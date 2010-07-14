@@ -5,18 +5,18 @@ def debug_fields(result, prefix = ", ")
 end
 
 walker.for_final_row do |row, cells|
-  html = "<th class='normal inner'>#{show_row row}#{debug_fields(row)}</th>"
+  html = "<th class='normal inner left'>#{show_row row}#{debug_fields(row)}</th>"
   html << cells.join
-  html << "<th class='normal inner'>#{number_to_currency(row.real_costs)}#{debug_fields(row)}</th>"
+  html << "<th class='normal inner right'>#{number_to_currency(row.real_costs)}#{debug_fields(row)}</th>"
 end
 
 walker.for_row do |row, subrows|
   subrows.flatten!
   unless row.fields.empty?
     subrows[0] = <<-HTML
-    <th class='top' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
+    <th class='top left' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
     #{subrows[0].gsub("class='normal", "class='top")}
-    <th class='top' rowspan='#{subrows.size}'>#{number_to_currency(row.real_costs)}#{debug_fields(row )}</th>
+    <th class='top right' rowspan='#{subrows.size}'>#{number_to_currency(row.real_costs)}#{debug_fields(row )}</th>
     HTML
   end
   subrows.last.gsub!("class='normal", "class='bottom")
@@ -38,20 +38,21 @@ end
 .report {
   text-align:       center;
   border-collapse:  collapse;
-  font-size:        95%;
-  border:           solid 1px #ccc !important;
+  font-size:        85%;
+  border:           solid 1px #ddd !important;
   width:            auto !important; }
 .report th {
-  border:           solid 1px #e8e8e8;
-  font-size:        80%; }
+  border:           dotted 1px #ddd }
 
 .report td, .report th {
   min-width:        90px;
   white-space:      nowrap; }
 
 .report td {
-    border-right: solid 1px #E8E8E8;
+    border: dotted 1px #ddd;
     color: #666;
+    text-align: right;
+    padding-right: 5px;
 }
 
 .report td:hover {
@@ -59,11 +60,17 @@ end
 }
 
 .report th {
-  background-color: #ebebeb !important
+  border: solid 1px #ccc;
+  background-color: #e3e3e3 !important;
 }
 
 .report th.inner {
-  background-color: #efefef !important
+  border: dotted 1px #ddd;
+  background-color: #efefef !important;
+}
+
+.report .odd th.inner {
+  background-color: #e8e8e8 !important;
 }
 
 .report tr:hover .inner {
@@ -71,11 +78,40 @@ end
 }
 
 .report .top {
-  border-top: solid 1px #e8e8e8 !important;
+  border-top: solid 1px #ccc !important;
+}
+
+.report .bottom {
+  border-bottom: solid 1px #ccc !important;
+}
+
+.report thead .inner {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.report tfoot th {
+  padding-right: 5px;
+  text-align: right;
 }
 
 .report .result {
-  font-size: 120%
+  font-size: 120%;
+  vertical-align: bottom;
+}
+
+.report thead tr:hover .inner, .report tfoot tr:hover .inner {
+  background-color: #efefef !important;
+}
+
+.report .left {
+  text-align: left;
+  padding-left: 5px;
+}
+
+.report .right {
+  text-align: right;
+  padding-right: 5px;
 }
 
 -->
@@ -87,7 +123,9 @@ end
       <%= '<tr>' if first_in_col %>
         <%= "<th rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'></th>" if first %>
         <% list.each do |column| %>
-          <th colspan="<%= column.final_number(:column) %>"><%= show_row column %></th>
+          <th colspan="<%= column.final_number(:column) %>" class="<%= "inner" if column.final? :column %>">
+            <%= show_row column %>
+          </th>
         <% end %>
         <%= "<th rowspan='#{@query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'></th>" if first %>
       <%= '</tr>' if last_in_col %>
@@ -101,7 +139,7 @@ end
         <%= "<th rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'></th>" if first %>
       <% end %>
       <% list.each do |column| %>
-        <th colspan="<%= column.final_number(:column) %>">
+        <th colspan="<%= column.final_number(:column) %>" class="<%= "inner" if first %>">
           <%= number_to_currency column.real_costs %><%= debug_fields(column) %>
         </th>
       <% end %>
