@@ -53,6 +53,7 @@ module ReportingHelper
         when :category_id               then IssueCategory.find(value.to_i).name
         when :cost_type_id              then CostType.find(value.to_i).name
         when :cost_object               then CostObject.find(value.to_i).subject
+        when :issue_id                  then link_to_issue Issue.find(value.to_i)
         else "??? #{key}: #{value.inspect} ???"
         end
       end
