@@ -8,7 +8,7 @@
 
 <table style="border-collapse: collapse; border: 0pt none;" id="group_by_table">
   <tbody><tr>
-    <td colspan="2">
+    <td>
       <select style="width: 150px;" size="9" multiple="multiple" id="group_by_container">
       <% CostQuery::GroupBy.all_grouped.each do |label, group_by_ary| %>
         <optgroup label="<%= l(label) %>" data-category="<%= label.to_s %>">
