@@ -111,8 +111,8 @@ class IssuesController < ApplicationController
   end
   
   def show
-    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
-    @journals.each_with_index {|j,i| j.indice = i+1}
+    @journals = @issue.journals.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
+    @journals.each_with_index {|j,i| j.number = i+1}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
@@ -234,7 +234,7 @@ class IssuesController < ApplicationController
       unsaved_issue_ids = []
       @issues.each do |issue|
         issue.reload
-        journal = issue.init_journal(User.current, params[:notes])
+        journal = issue.init_journal(params[:notes])
         issue.safe_attributes = attributes
         call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
         unless issue.save
@@ -270,7 +270,7 @@ class IssuesController < ApplicationController
             changed_attributes[valid_attribute] = (params[valid_attribute] == 'none' ? nil : params[valid_attribute])
           end 
         end
-        issue.init_journal(User.current)
+        issue.init_journal
         call_hook(:controller_issues_move_before_save, { :params => params, :issue => issue, :target_project => @target_project, :copy => !!@copy })
         if r = issue.move_to_project(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
           moved_issues << r
@@ -436,7 +436,7 @@ private
     @time_entry = TimeEntry.new
     
     @notes = params[:notes]
-    @issue.init_journal(User.current, @notes)
+    @issue.init_journal(@notes)
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
       attrs = params[:issue].dup
