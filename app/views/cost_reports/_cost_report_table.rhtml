@@ -5,25 +5,29 @@ def debug_fields(result, prefix = ", ")
 end
 
 walker.for_final_row do |row, cells|
-  "<th>#{show_row row}#{debug_fields(row)}</th>" << cells.join << "<th>#{number_to_currency(row.real_costs)}#{debug_fields(row)}</th>"
+  html = "<th class='normal inner'>#{show_row row}#{debug_fields(row)}</th>"
+  html << cells.join
+  html << "<th class='normal inner'>#{number_to_currency(row.real_costs)}#{debug_fields(row)}</th>"
 end
 
 walker.for_row do |row, subrows|
   subrows.flatten!
   unless row.fields.empty?
     subrows[0] = <<-HTML
-    <th rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
-    #{subrows[0]}
-    <th rowspan='#{subrows.size}'>#{number_to_currency(row.real_costs)}#{debug_fields(row )}</th>
+    <th class='top' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
+    #{subrows[0].gsub("class='normal", "class='top")}
+    <th class='top' rowspan='#{subrows.size}'>#{number_to_currency(row.real_costs)}#{debug_fields(row )}</th>
     HTML
   end
+  subrows.last.gsub!("class='normal", "class='bottom")
+  subrows.last.gsub!("class='top", "class='bottom top")
   subrows
 end
 
-walker.for_empty_cell { "<td>&nbsp;</td>" }
+walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>" }
 
 walker.for_cell do |result|
-  "<td>#{number_to_currency result.real_costs}#{debug_fields(result)}</td>"
+  "<td class='normal'>#{number_to_currency result.real_costs}#{debug_fields(result)}</td>"
 end
 %>
 
@@ -35,21 +39,50 @@ end
   text-align:       center;
   border-collapse:  collapse;
   font-size:        95%;
-  border:           solid 1px #E8E8E8;
+  border:           solid 1px #ccc !important;
   width:            auto !important; }
-.report td, .report th {
-  border:           solid 1px #E8E8E8; }
 .report th {
+  border:           solid 1px #e8e8e8;
   font-size:        80%; }
+
 .report td, .report th {
   min-width:        90px;
   white-space:      nowrap; }
+
+.report td {
+    border-right: solid 1px #E8E8E8;
+    color: #666;
+}
+
+.report td:hover {
+  color: #000;
+}
+
+.report th {
+  background-color: #ebebeb !important
+}
+
+.report th.inner {
+  background-color: #efefef !important
+}
+
+.report tr:hover .inner {
+  background-color: #f5f5c5 !important;
+}
+
+.report .top {
+  border-top: solid 1px #e8e8e8 !important;
+}
+
+.report .result {
+  font-size: 120%
+}
 
 -->
 </style>
 
 <table class='list report'>
-  <theader>
+  <thead>
     <% walker.headers do |list, first, first_in_col, last_in_col| %>
       <%= '<tr>' if first_in_col %>
         <%= "<th rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'></th>" if first %>
@@ -59,15 +92,9 @@ end
         <%= "<th rowspan='#{@query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'></th>" if first %>
       <%= '</tr>' if last_in_col %>
     <% end %>
-  <theader>
+  </thead>
 
-  <tbody>
-    <% walker.body do |line| %>
-      <tr class='<%= cycle("odd", "even") %>'><%= line %></tr>
-    <% end %>
-  </tbody>
-  
-  <theader>
+  <tfoot>
     <% walker.reverse_headers do |list, first, first_in_col, last_in_col| %>
       <% if first_in_col %>
         <tr>
@@ -80,14 +107,20 @@ end
       <% end %>
       <% if last_in_col %>
         <% if first %>
-          <th rowspan='<%= @query.depth_of(:column) %>' colspan='<%= query.depth_of(:row) %>'>
+          <th rowspan='<%= @query.depth_of(:column) %>' colspan='<%= query.depth_of(:row) %>' class='result'>
             <%= number_to_currency query.real_costs %>
           </th>
         <% end %>
         </tr>
       <% end %>
     <% end %>
-  </theader>
+  </tfoot>
+
+  <tbody>
+    <% walker.body do |line| %>
+      <tr class='<%= cycle("odd", "even") %>'><%= line %></tr>
+    <% end %>
+  </tbody>
 </table>
 
 <% if params[:debug] %>
