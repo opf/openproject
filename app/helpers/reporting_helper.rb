@@ -45,6 +45,7 @@ module ReportingHelper
         when :tyear                     then value
         when :tweek                     then "#{l(:label_week)} ##{value}"
         when :tmonth                    then month_name(value.to_i)
+        when :category_id               then IssueCategory.find(value.to_i).name
         else "#{key}: #{value}"
         end
       end
