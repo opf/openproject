@@ -31,6 +31,10 @@ module ReportingHelper
       {:name => :text_box, :filter_name => filter.underscore_name}]
   end
 
+  def link_to_project(project)
+    link_to project.name, :controller => 'projects', :action => 'show', :id => project
+  end
+
   ##
   # For a given row, determine how to render it's contents according to usability and 
   # localization rules  
@@ -38,6 +42,7 @@ module ReportingHelper
     @show_row ||= Hash.new { |h,k| h[k] = {}}
     row.render do |key, value|
       @show_row[key][value] ||= begin
+        return "" if value.blank?
         case key.to_sym
         when :activity_id               then Enumeration.find(value.to_i).name
         when :project_id                then link_to_project Project.find(value.to_i)
