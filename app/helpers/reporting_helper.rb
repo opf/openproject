@@ -39,7 +39,8 @@ module ReportingHelper
     row.render do |key, value|
       @show_row[key][value] ||= begin
         case key.to_sym
-        when :project_id  then Project.find(value.to_i).name
+        when :activity_id then Enumeration.find(value.to_i).name
+        when :project_id  then link_to_project Project.find(value.to_i)
         when :user_id     then link_to_user User.find(value.to_i)
         when :tyear       then value
         when :tweek       then "#{l(:label_week)} ##{value}"
