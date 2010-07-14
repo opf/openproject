@@ -42,8 +42,8 @@ module ReportingHelper
   end
 
   ##
-  # For a given row, determine how to render it's contents according to usability and 
-  # localization rules  
+  # For a given row, determine how to render it's contents according to usability and
+  # localization rules
   def show_row(row)
     @show_row ||= Hash.new { |h,k| h[k] = {}}
     row.render do |key, value|
