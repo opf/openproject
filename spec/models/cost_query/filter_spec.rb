@@ -28,9 +28,9 @@ describe CostQuery do
       end
     end
 
-    it "sets activity_id to nil for time entries" do
+    it "sets activity_id to -1 for time entries" do
       @query.result.each do |result|
-        result["activity_id"].should be_nil if result["type"] != "TimeEntry"
+        result["activity_id"].to_i.should == -1 if result["type"] != "TimeEntry"
       end
     end
 
