@@ -54,7 +54,7 @@ end
     <% walker.reverse_headers do |list, first, first_in_col, last_in_col| %>
       <% if first_in_col %>
         <tr>
-        <%= "<th rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'></th>" if first %>
+        <%= "<th rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row)}' class='top'>&nbsp;</th>" if first %>
       <% end %>
       <% list.each do |column| %>
         <th colspan="<%= column.final_number(:column) %>" class="<%= "inner" if first %>">
@@ -63,7 +63,7 @@ end
       <% end %>
       <% if last_in_col %>
         <% if first %>
-          <th rowspan='<%= @query.depth_of(:column) %>' colspan='<%= query.depth_of(:row) %>' class='result'>
+          <th rowspan='<%= @query.depth_of(:column) %>' colspan='<%= query.depth_of(:row) %>' class='top result'>
             <%= number_to_currency query.real_costs %>
           </th>
         <% end %>

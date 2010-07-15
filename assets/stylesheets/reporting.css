@@ -41,11 +41,11 @@
 }
 
 .report .top {
-  border-top: solid 1px #ccc !important;
+  border-top: solid 2px #ccc !important;
 }
 
 .report .bottom {
-  border-bottom: solid 1px #ccc !important;
+  border-bottom: solid 2px #ccc !important;
 }
 
 .report thead .inner, .report tfoot .inner {
