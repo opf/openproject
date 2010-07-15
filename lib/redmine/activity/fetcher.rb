@@ -68,10 +68,9 @@ module Redmine
       # Returns an array of events for the given date range
       # sorted in reverse chronological order
       def events(from = nil, to = nil, options={})
-        require 'ruby-debug'; debugger
         e = []
         @options[:limit] = options[:limit]
-        
+
         @scope.each do |event_type|
           constantized_providers(event_type).each do |provider|
             e += provider.find_events(event_type, @user, from, to, @options)

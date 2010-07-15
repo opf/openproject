@@ -54,7 +54,7 @@ module Redmine
           def find_events(event_type, user, from, to, options)
             provider_options = activity_provider_options[event_type]
             raise "#{self.name} can not provide #{event_type} events." if provider_options.nil?
-            
+
             scope_options = {}
             cond = ARCondition.new
             if from && to
