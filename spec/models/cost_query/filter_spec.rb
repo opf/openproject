@@ -39,6 +39,7 @@ describe CostQuery do
       [CostQuery::Filter::UserId,     User,               "user_id"       ],
       [CostQuery::Filter::CostTypeId, CostType,           "cost_type_id"  ],
       [CostQuery::Filter::IssueId,    Issue,              "issue_id"      ],
+      [CostQuery::Filter::AuthorId,    User,              "author_id"     ],
       [CostQuery::Filter::ActivityId, TimeEntryActivity,  "activity_id"   ]
     ].each do |filter, model, field|
       describe filter do
@@ -106,6 +107,11 @@ describe CostQuery do
       @query.result.count.should == Entry.all.select { |e| e.issue.tracker == Tracker.all.first}.count
     end
 
+    it "filters issue authors" do
+      @query.filter :author_id, :operator => '=', :value => User.all.first.id
+      @query.result.count.should == Entry.all.select { |e| e.issue.author == User.all.first}.count
+    end
+
     it "filters priority" do
       @query.filter :priority_id, :operator => '=', :value => IssuePriority.all.first.id
       @query.result.count.should == Entry.all.select { |e| e.issue.priority == IssuePriority.all.first}.count
@@ -151,6 +157,7 @@ describe CostQuery do
       CostQuery::Filter::UserId,
       CostQuery::Filter::CostTypeId,
       CostQuery::Filter::IssueId,
+      CostQuery::Filter::AuthorId,
       CostQuery::Filter::ActivityId,
       CostQuery::Filter::PriorityId,
       CostQuery::Filter::TrackerId
