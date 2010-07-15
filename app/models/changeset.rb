@@ -28,7 +28,7 @@ class Changeset < ActiveRecord::Base
                 :event_datetime => :committed_on,
                 :event_url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :rev => o.revision}},
                 :activity_timestamp => "#{table_name}.committed_on",
-                :activity_author_key => :user_id
+                :activity_find_options => {:include => [:user, {:repository => :project}]}
 
   acts_as_searchable :columns => 'comments',
                      :include => {:repository => :project},

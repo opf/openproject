@@ -37,9 +37,7 @@ class Issue < ActiveRecord::Base
   acts_as_watchable
 
   acts_as_journalized :event_title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
-                      :event_type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') },
-                      :activity_find_options => {:include => [:project, :author, :tracker]},
-                      :activity_author_key => :author_id
+                      :event_type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
 
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
                      :include => [:project, :journals],

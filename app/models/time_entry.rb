@@ -29,8 +29,7 @@ class TimeEntry < ActiveRecord::Base
   acts_as_journalized :event_title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.issue || o.project).event_title})"},
                 :event_url => Proc.new {|o| {:controller => 'timelog', :action => 'details', :project_id => o.project, :issue_id => o.issue}},
                 :event_author => :user,
-                :event_description => :comments,
-                :activity_timestamp => "#{table_name}.created_on"
+                :event_description => :comments
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
