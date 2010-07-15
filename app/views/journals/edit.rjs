@@ -1,3 +1,0 @@
-page.hide "journal-#{@journal.id}-notes"
-page.insert_html :after, "journal-#{@journal.id}-notes",
-                 :partial => 'notes_form'

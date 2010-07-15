@@ -179,8 +179,7 @@ class IssuesController < ApplicationController
 
     if @issue.save_issue_with_child_records(params, @time_entry)
       render_attachment_warning_if_needed(@issue)
-      # FIXME: current_journal.new_record? won't work no more
-      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
+      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
 
       respond_to do |format|
         format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
@@ -189,8 +188,7 @@ class IssuesController < ApplicationController
       end
     else
       render_attachment_warning_if_needed(@issue)
-      # FIXME: current_journal.new_record? won't work no more
-      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
+      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
       @journal = @issue.current_journal
 
       respond_to do |format|
@@ -445,7 +443,7 @@ private
       attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
       @issue.safe_attributes = attrs
     end
-
+    @journal = @issue.current_journal
   end
 
   # TODO: Refactor, lots of extra code in here
