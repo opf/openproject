@@ -73,7 +73,14 @@ end
   </tfoot>
 
   <tbody>
+    <% first = true %>
     <% walker.body do |line| %>
+      <%
+        if first
+          line.gsub!("class='normal", "class='top")
+          first = false
+        end
+      %>
       <tr class='<%= cycle("odd", "even") %>'><%= line %></tr>
     <% end %>
   </tbody>
