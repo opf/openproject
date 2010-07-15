@@ -59,6 +59,16 @@ class CostEntry < ActiveRecord::Base
     update_costs
   end
   
+  def overwritten_costs=(costs)
+    write_attribute(:overwritten_costs, CostRate.clean_currency(costs))
+  end
+  
+  def units=(units)
+    write_attribute(:units, CostRate.clean_currency(units))
+  end
+  
+  
+  
   # tyear, tmonth, tweek assigned where setting spent_on attributes
   # these attributes make time aggregations easier
   def spent_on=(date)
