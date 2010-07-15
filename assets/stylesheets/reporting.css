@@ -55,7 +55,6 @@
 
 .report .result {
   font-size: 120%;
-  vertical-align: bottom;
 }
 
 .report thead tr:hover .inner, .report tfoot tr:hover .inner {
