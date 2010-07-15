@@ -2,14 +2,14 @@
   text-align:       center;
   border-collapse:  collapse;
   font-size:        85%;
-  border:           solid 1px #ddd !important;
-  width:            auto !important; }
-.report th {
-  border:           dotted 1px #ddd }
+  border:           solid 1px #ccc !important;
+  width:            auto !important;
+}
 
 .report td, .report th {
   min-width:        90px;
-  white-space:      nowrap; }
+  white-space:      nowrap;
+}
 
 .report td {
     border: dotted 1px #ddd;
@@ -23,12 +23,12 @@
 }
 
 .report th {
-  border: solid 1px #ccc;
+  border: dotted 1px #ccc;
   background-color: #e3e3e3 !important;
 }
 
 .report th.inner {
-  border: dotted 1px #ddd;
+  border: solid 1px #ccc;
   background-color: #efefef !important;
 }
 
