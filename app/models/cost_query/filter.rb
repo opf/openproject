@@ -5,6 +5,7 @@ module CostQuery::Filter
     @all ||= Set[
       CostQuery::Filter::ActivityId,
       CostQuery::Filter::AssignedToId,
+      CostQuery::Filter::AuthorId,
       CostQuery::Filter::CategoryId,
       CostQuery::Filter::CostTypeId,
       CostQuery::Filter::CreatedOn,
