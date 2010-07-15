@@ -37,7 +37,7 @@ class CostQuery::SqlStatement
   #   costs                     | costs                    | costs
   #   overridden_costs          | overridden_costs         | overridden_costs
   #   units                     | hours                    | units
-  #   activity_id               | activity_id              | NULL
+  #   activity_id               | activity_id              | -1
   #   cost_type_id              | -1                       | cost_type_id
   #   type                      | "TimeEntry"              | "CostEntry"
   #   count                     | 1                        | 1
@@ -73,7 +73,7 @@ class CostQuery::SqlStatement
   #
   # @param [CostQuery::SqlStatement] query The statement to adjust
   def self.unify_cost_entries(query)
-    query.select :units, :cost_type_id, :activity_id => nil
+    query.select :units, :cost_type_id, :activity_id => -1
     query.select :cost_type => "cost_types.name"
     query.join CostType
   end
