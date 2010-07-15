@@ -1,3 +1,7 @@
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'reporting', :plugin => 'redmine_reporting' %>
+<% end %>
+
 <%
 
 def debug_fields(result, prefix = ", ")
@@ -30,87 +34,6 @@ walker.for_cell do |result|
   "<td class='normal'>#{number_to_currency result.real_costs}#{debug_fields(result)}</td>"
 end
 %>
-
-<style type="text/css">
-<!--
-/* move somewhere else */
-
-.report {
-  text-align:       center;
-  border-collapse:  collapse;
-  font-size:        85%;
-  border:           solid 1px #ddd !important;
-  width:            auto !important; }
-.report th {
-  border:           dotted 1px #ddd }
-
-.report td, .report th {
-  min-width:        90px;
-  white-space:      nowrap; }
-
-.report td {
-    border: dotted 1px #ddd;
-    color: #666;
-    text-align: right;
-    padding-right: 5px;
-}
-
-.report td:hover {
-  color: #000;
-}
-
-.report th {
-  border: solid 1px #ccc;
-  background-color: #e3e3e3 !important;
-}
-
-.report th.inner {
-  border: dotted 1px #ddd;
-  background-color: #efefef !important;
-}
-
-.report .odd th.inner {
-  background-color: #e8e8e8 !important;
-}
-
-.report tr:hover .inner {
-  background-color: #f5f5c5 !important;
-}
-
-.report .top {
-  border-top: solid 1px #ccc !important;
-}
-
-.report .bottom {
-  border-bottom: solid 1px #ccc !important;
-}
-
-.report thead .inner, .report tfoot .inner {
-  text-align: right;
-  padding-right: 5px;
-}
-
-.report .result {
-  font-size: 120%;
-  vertical-align: bottom;
-}
-
-.report thead tr:hover .inner, .report tfoot tr:hover .inner {
-  background-color: #efefef !important;
-}
-
-.report .left {
-  text-align: left;
-  padding-left: 5px;
-}
-
-.report .right {
-  text-align: right;
-  padding-right: 5px;
-}
-
--->
-</style>
 
 <table class='list report'>
   <thead>
