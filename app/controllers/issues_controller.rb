@@ -109,10 +109,9 @@ class IssuesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def show
     @journals = @issue.journals.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
-    @journals.each_with_index {|j,i| j.number = i+1}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
@@ -180,6 +179,7 @@ class IssuesController < ApplicationController
 
     if @issue.save_issue_with_child_records(params, @time_entry)
       render_attachment_warning_if_needed(@issue)
+      # FIXME: current_journal.new_record? won't work no more
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
 
       respond_to do |format|
@@ -189,6 +189,7 @@ class IssuesController < ApplicationController
       end
     else
       render_attachment_warning_if_needed(@issue)
+      # FIXME: current_journal.new_record? won't work no more
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
       @journal = @issue.current_journal
 
@@ -234,7 +235,7 @@ class IssuesController < ApplicationController
       unsaved_issue_ids = []
       @issues.each do |issue|
         issue.reload
-        journal = issue.init_journal(params[:notes])
+        journal = issue.init_journal(User.current, params[:notes])
         issue.safe_attributes = attributes
         call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
         unless issue.save
@@ -268,9 +269,9 @@ class IssuesController < ApplicationController
         [:assigned_to_id, :status_id, :start_date, :due_date].each do |valid_attribute|
           unless params[valid_attribute].blank?
             changed_attributes[valid_attribute] = (params[valid_attribute] == 'none' ? nil : params[valid_attribute])
-          end 
+          end
         end
-        issue.init_journal
+        issue.init_journal(User.current)
         call_hook(:controller_issues_move_before_save, { :params => params, :issue => issue, :target_project => @target_project, :copy => !!@copy })
         if r = issue.move_to_project(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
           moved_issues << r
@@ -434,9 +435,9 @@ private
     @priorities = IssuePriority.all
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @time_entry = TimeEntry.new
-    
+
     @notes = params[:notes]
-    @issue.init_journal(@notes)
+    @issue.init_journal(User.current, @notes)
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
       attrs = params[:issue].dup
